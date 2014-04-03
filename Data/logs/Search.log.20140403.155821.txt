@@ -1,0 +1,23 @@
+6076 15:58:26 INFO  Warming and Caching your search indexes
+6076 15:58:26 INFO  /******* Warming Queries ********/
+6076 15:58:26 INFO  /*************************/
+4472 16:37:38 INFO  ExecuteQueryAgainstLucene : +_datasource:sitecore +(+_path:3d6658d8a0bf4e75b3e2d050fabcf4e1 +_latestversion:1) - Filter : 
+4472 16:37:38 INFO  Search Query : +_datasource:sitecore +(+_path:3d6658d8a0bf4e75b3e2d050fabcf4e1 +_latestversion:1)
+4472 16:37:38 INFO  Search Index : sitecore_master_index
+4472 16:37:38 INFO  ExecuteQueryAgainstLucene : is_displayed_in_search_results:1 - Filter : 
+4472 16:37:39 INFO  Search Took : 973ms
+1940 16:37:40 INFO  Facet Search Query : +_datasource:sitecore +(+_path:3d6658d8a0bf4e75b3e2d050fabcf4e1 +_latestversion:1)
+1940 16:37:40 INFO  Facet Search Index : sitecore_master_index
+1940 16:37:40 INFO  GetFacets : parsedlanguage : +_datasource:sitecore +(+_path:3d6658d8a0bf4e75b3e2d050fabcf4e1 +_latestversion:1)
+1940 16:37:40 INFO  GetFacets : __workflow_state : +_datasource:sitecore +(+_path:3d6658d8a0bf4e75b3e2d050fabcf4e1 +_latestversion:1)
+1940 16:37:40 INFO  GetFacets : _templatename : +_datasource:sitecore +(+_path:3d6658d8a0bf4e75b3e2d050fabcf4e1 +_latestversion:1)
+1940 16:37:40 INFO  GetFacets : calculateddimension : +_datasource:sitecore +(+_path:3d6658d8a0bf4e75b3e2d050fabcf4e1 +_latestversion:1)
+1940 16:37:40 INFO  GetFacets : extension : +_datasource:sitecore +(+_path:3d6658d8a0bf4e75b3e2d050fabcf4e1 +_latestversion:1)
+1940 16:37:40 INFO  GetFacets : sizerange : +_datasource:sitecore +(+_path:3d6658d8a0bf4e75b3e2d050fabcf4e1 +_latestversion:1)
+1940 16:37:40 INFO  GetFacets : parsedcreatedby : +_datasource:sitecore +(+_path:3d6658d8a0bf4e75b3e2d050fabcf4e1 +_latestversion:1)
+1940 16:37:40 INFO  GetFacets : __smallcreateddate : +_datasource:sitecore +(+_path:3d6658d8a0bf4e75b3e2d050fabcf4e1 +_latestversion:1)
+1940 16:37:40 INFO  GetFacets : daterange_week : +_datasource:sitecore +(+_path:3d6658d8a0bf4e75b3e2d050fabcf4e1 +_latestversion:1)
+1940 16:37:40 INFO  GetFacets : daterange_month : +_datasource:sitecore +(+_path:3d6658d8a0bf4e75b3e2d050fabcf4e1 +_latestversion:1)
+1940 16:37:40 INFO  GetFacets : daterange_year : +_datasource:sitecore +(+_path:3d6658d8a0bf4e75b3e2d050fabcf4e1 +_latestversion:1)
+1940 16:37:40 INFO  Facet Search returned results for facet __workflow_state which was not requested.
+1940 16:37:40 INFO  Facet Search Took : 240ms

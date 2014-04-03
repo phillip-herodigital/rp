@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <Aliases>
+    <FormDialog Icon="Network/24x24/spy.png" Header="Aliases" Text="Add or remove URL aliases for the current item." OKButton="Close" CancelButton="false">
+      
+      <CodeBeside Type="Sitecore.Shell.Applications.ContentManager.Dialogs.Aliases.AliasesForm,Sitecore.Client"/>
+
+      <Script>
+        function scCreateAlias(id, header, value) {
+        var list = $("List");
+
+        var option = document.createElement("option");
+        list.options.add(option);
+
+        option.setAttribute("id", id);
+        option.setAttribute("value", value);
+        option.innerHTML = header;
+        }
+
+        function scRemoveAlias(id) {
+          var list = $("List");
+          var option = $(id);
+
+          for (var n = list.length - 1; n >= 0; n--) {
+            var option = list.options[n];
+            
+            if (option.id == id) {
+             list.options.remove(n);
+            }
+          }
+        }
+      </Script>
+
+      <GridPanel Columns="2" CellPadding="4" Width="100%" Height="100%">
+
+        <Border GridPanel.Width="100%">
+          <Edit ID="NewAlias" Width="100%"/>
+        </Border>
+
+        <Border>
+          <Button ID="Add" Header="Add" Click="Add_Click"/>
+        </Border>
+
+        <Border ID="ListHolder" Height="100%" GridPanel.Height="100%" GridPanel.VAlign="top" GridPanel.Width="100%">
+          <Listbox ID="List" Class="scFixSize" Height="100%" Width="100%" Size="8" Multiple="true"/>
+        </Border>
+
+        <Border Height="100%" GridPanel.Height="100%" GridPanel.VAlign="top">
+          <Button ID="Remove" Header="Remove" Click="Remove_Click"/>
+        </Border>
+
+      </GridPanel>
+      
+    </FormDialog>
+  </Aliases>
+</control>

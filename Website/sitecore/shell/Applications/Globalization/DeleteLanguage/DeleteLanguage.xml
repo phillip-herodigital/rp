@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <DeleteLanguage>
+    <WizardForm CodeBeside="Sitecore.Shell.Applications.Globalization.DeleteLanguage.DeleteLanguageForm,Sitecore.Client">
+
+      <WizardFormFirstPage ID="FirstPage" Icon="Network/32x32/Earth_Delete.png">
+        <Border Class="scWizardWelcomeTitle"><Literal ID="Welcome" Text="Welcome to the Delete Language Wizard."/></Border>
+        <Literal Text="This wizard helps you:"/>
+        <ul>
+          <li class="scWizardBullet"><Literal Text="Select a language."/></li>
+          <li class="scWizardBullet"><Literal Text="Delete the language."/></li>
+        </ul>
+      </WizardFormFirstPage>
+      
+      <WizardFormPage ID="Languages" Header="Select Language" Text="Select the language that you want to delete. You can delete more than one. Click Next to continue." Icon="Network/32x32/Earth_Delete.png">
+        <WizardFormIndent>
+        
+          <Groupbox ID="LanguagesPanel" Header="Language" Margin="0px 0px 16px 0px">
+            <Border Padding="4" ID="LanguageList"/>
+          </Groupbox>
+          
+        </WizardFormIndent>
+      </WizardFormPage>
+    
+      <WizardFormPage ID="Confirm" Header="Confirm Language Deletion" Text="You are about to delete a language. Are you sure that you want to delete this language? Click Delete to delete the language." Icon="Network/32x32/Earth_Delete.png">
+        <WizardFormIndent>
+          <Literal Text="You are about to delete:"/>
+
+          <Border ID="ConfirmLanguages" Padding="8px 0px 16px 16px"/>
+
+          <Literal Text="Note: All the data in these languages will also be deleted." Style="font-weight:bold; color:maroon"/>
+        </WizardFormIndent>
+      </WizardFormPage>
+    
+      <WizardFormPage ID="Deleting" Header="Deleting" Text="Please wait while deleting..." Icon="Network/32x32/Earth_Delete.png">
+        <GridPanel Width="100%">
+          
+          <Space Height="64"/>
+          
+          <ThemedImage Src="Network/48x48/Earth_Delete.png" Width="48" Height="48" GridPanel.Align="center"/>
+
+          <Space Height="16"/>
+          
+          <Border Align="center">
+            <ThemedImage Src="Images/progress.gif" Width="94" Height="17"/>
+          </Border>
+          
+          <Space Height="16"/>
+          
+          <Border ID="Text" Align="center" GridPanel.Align="center" GridPanel.Style="font-weight:bold">
+            <Literal Text="Deleting..."/>
+          </Border>
+          <Space Height="16"/>
+          <Border ID="Status" Align="center" GridPanel.Align="center">
+            &#160;
+          </Border>
+          
+        </GridPanel>
+      </WizardFormPage>
+
+      <WizardFormPage ID="Retry" Header="Error" Text="An error occurred while deleting the languages." Icon="Network/32x32/Earth_Delete.png">
+        <WizardFormPadding>
+          <GridPanel Width="100%" Height="100%" Fixed="true">
+            <Memo ID="ErrorText" ReadOnly="true" Width="100%" Height="100%"/>
+          </GridPanel>
+        </WizardFormPadding>
+      </WizardFormPage>
+
+      <WizardFormLastPage ID="LastPage" Icon="Network/32x32/Earth_Delete.png">
+        <GridPanel Cellpadding="2" Width="100%" Height="100%" Fixed="true">
+
+          <Border GridPanel.Style="padding:0px 0px 16px 0px; font-weight:bold">
+            <Literal Text="The wizard has completed. Click Finish to close the wizard."/>
+          </Border>
+
+          <Border ID="ShowResultPane" GridPanel.Style="padding:8px 0px 2px 0px" Click="ShowResult" RollOver="true" Class="scRollOver">
+            <Literal Text="Click here to view additional information."/>
+          </Border>
+
+          <Border ID="ResultLabel" GridPanel.Style="padding:8px 0px 2px 0px" Visible="false">
+            <Literal Text="Result:"/>
+          </Border>
+
+          <Memo ID="ResultText" ReadOnly="true" Width="100%" Height="100%" GridPanel.Height="100%" Visible="false"/>
+
+        </GridPanel>
+      </WizardFormLastPage>
+
+    </WizardForm>
+  </DeleteLanguage>
+</control>

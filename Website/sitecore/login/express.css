@@ -1,0 +1,159 @@
+html {
+  background:#fce016;
+}
+
+body
+{
+	font: 8pt Tahoma;
+	color:#333a4a;
+  margin:32px;
+  height:250px;
+  background: url("/sitecore/login/scxlogo.gif") no-repeat;
+}
+
+form {
+}
+
+a, td
+{
+	font: 9pt Verdana;
+	color:#666666;
+  text-decoration:none;
+}
+
+.scCloseButton {
+  position:absolute;
+  left:694px;
+}
+
+.scBody {
+}
+
+.scBox {
+  height:250px;
+}
+
+.scBoxFrame {
+  color:black; 
+}
+
+.scBoxInput {
+  width:300px; 
+  position:absolute;
+  left:416px;
+  top:100px;
+}
+
+#UserIcon {
+  display:none;
+}
+
+.scBoxOptions {
+  position:absolute;
+  left:446px;
+  top:268px;
+  width:316px; 
+  color:#333333;
+  text-align:left;
+}
+
+.scBoxOptionsCell {
+  padding: 0px 8px 0px 8px;
+}
+
+.scErrorText {
+  color:red; 
+  font:10pt verdana;
+  padding:16px 16px 0px 16px; 
+}
+
+.scHeadline
+{
+  font: 18pt verdana;
+}
+
+.scWelcomeTitle
+{
+  color:#666666;
+  font: 10pt verdana;
+  position:absolute;
+  left:34px;
+  top:144px;
+  width:170px;  
+  text-align:left;
+}
+
+.scTasks
+{
+  font: 14pt verdana;
+}
+
+.scInputField
+{
+  font:bold 10pt verdana; 
+  width:260px;
+}
+
+.scInputLabel
+{
+  color:#333333;
+  font:10pt verdana;
+}
+
+.scInputButton
+{
+  background:transparent;
+  border:none; 
+  cursor:hand;
+}
+
+.scPopup
+{
+  background: white;
+  border:1px solid #333333;
+  color:black;
+  font:9pt verdana;
+  position: absolute;
+  width:300px; 
+}
+
+.scPopupCaption
+{
+  background:#6487DC;
+  color: white;
+  font: bold 10pt verdana;
+  padding:3px 4px 3px 4px;
+  margin: 0px 0px 8px 0px;
+  border-bottom: 1px solid #999999;
+}
+
+.scPopupFrame
+{
+  border-top:1px solid #dddddd; 
+  border-left:1px solid #dddddd; 
+  border-right:1px solid #999999; 
+  border-bottom:1px solid #999999; 
+  height:100%; 
+  width:298px; 
+}
+
+.scInput
+{
+  color:Black;
+  font:10pt verdana;
+  padding:0px 4px 8px 4px;
+}
+
+.scOKButton
+{
+  background:#f0f0f0;
+  border-top:1px solid #999999;
+  color:Black;
+  font:8pt tahoma;
+  padding:2px 4px 2px 0px;
+  margin:4px 0px 0px 0px;
+}
+
+button {
+  font:8pt tahoma;
+}

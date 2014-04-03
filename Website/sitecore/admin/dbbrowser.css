@@ -1,0 +1,323 @@
+body
+{
+  font: 8pt tahoma;
+  margin: 0px;
+}
+
+table
+{ 
+  border-collapse: collapse;
+}
+
+td 
+{
+  font: 8pt tahoma;
+  padding: 2px;
+}
+
+input
+{
+  font: 8pt tahoma;
+}
+
+select
+{
+  font: 8pt tahoma;
+}
+
+a, a:visited
+{
+  color: blue;
+  text-decoration: none;
+}
+
+a:active, a:hover 
+{
+  color: blue;
+  text-decoration: underline;
+}
+
+a.TreeNode, a:visited.TreeNode
+{
+  color: windowtext;
+  padding: 2px 4px 2px 4px;
+  text-decoration: none;
+  white-space:nowrap;
+}
+
+a:active.TreeNode, a:hover.TreeNode
+{
+  color: windowtext;
+  padding: 2px 4px 2px 4px;
+  text-decoration: underline;
+  white-space:nowrap;
+}
+  
+a.TreeNodeSelected, a:visited.TreeNodeSelected
+{
+  background: highlight;
+  color: highlighttext;
+  padding: 2px 4px 2px 4px;
+  text-decoration: none;
+  white-space:nowrap;
+}
+
+a:active.TreeNodeSelected, a:hover.TreeNodeSelected
+{
+  background: highlight;
+  color: highlighttext;
+  padding: 2px 4px 2px 4px;
+  text-decoration: underline;
+  white-space:nowrap;
+}
+
+.TreeNodeRow
+{
+  padding:1px 0px 2px 0px;
+  white-space:nowrap;
+}
+  
+.Caption
+{
+  background: activecaption;
+  color: captiontext;
+  font: bold 10pt tahoma;
+  padding:8px 4px 8px 4px;
+}
+
+.Tree
+{
+  background:threedface;
+  padding:4px;
+}
+
+a.TreeNodeSelected 
+{
+  color: highlighttext;
+  background: highlight;
+  padding:2px;
+}
+
+.TreeNode
+{
+  padding:2px;
+}
+
+.ContentEditor
+{
+  background: threedface;
+}
+
+.Scroller
+{
+  border:1px inset;
+  background:window;  
+  width:100%;
+  height:100%;
+  overflow:auto;
+}
+
+.FieldsScroller
+{
+  width:100%;
+  height:100%;
+  overflow:auto;
+  background:#666666;
+}
+
+.Fields
+{
+  border: none;
+  border-collapse: collapse;
+}
+
+.FieldLabel
+{
+  background: threedface;
+  border-bottom: 1px solid threedshadow;
+  border-right: 1px solid threedshadow;
+  padding: 0px 0px 0px 12px;
+}
+
+.FieldInput
+{
+  background: window;
+  border-bottom: 1px solid threedshadow;
+  border-left: 1px solid threedshadow;
+  padding: 0px 0px 0px 4px;
+}
+
+.FieldSection
+{
+  background:threedface;
+  padding: 2px 0px 2px 4px;
+  border-bottom: 1px solid threedshadow;
+  font: bold 8pt tahoma;
+}
+
+.FieldTextbox
+{
+  border: none;
+}
+
+.FieldReadOnlyLabel
+{
+  background: threedface;
+  border-bottom: 1px solid threedshadow;
+  border-right: 1px solid threedshadow;
+  padding: 2px 0px 2px 12px;
+}
+
+.FieldReadOnlyInput
+{
+  background: window;
+  color: #666666;
+  border-bottom: 1px solid threedshadow;
+  border-left: 1px solid threedshadow;
+  padding: 3px 0px 3px 4px;
+}
+
+.ItemPath
+{
+  background: threedface;
+  padding: 2px;
+}
+
+.ItemPathDivider
+{
+}
+
+.Edge
+{
+  background: white;
+  border-top:1px solid threedshadow;
+  height: 1px;
+}
+
+.Anchor
+{
+  color: #666666;
+  font:bold 8pt tahoma;
+  padding: 0px 0px 0px 4px;
+}
+
+.AnchorSelected 
+{
+  color: black; 
+  font:bold 8pt tahoma;
+  padding: 0px 0px 0px 4px;
+}
+
+.ToolButton
+{
+  border:none;
+  vertical-align: middle;
+  padding:3px;
+  margin: 0px 2px 0px 0px;
+}
+
+a.ItemPathFragment, a:visited.ItemPathFragment
+{
+	font:bold 8pt Tahoma;	
+  color:threeddarkshadow; 
+  text-decoration: none;
+}
+
+a.ItemPathTemplate, a:visited.ItemPathTemplate
+{
+	font:bold 8pt Tahoma;	
+  color:#6375D6; 
+  text-decoration: none;
+}
+
+a:hover.ItemPathFragment, a:active.ItemPathFragment
+{
+	font:bold 8pt Tahoma;	
+  color:threeddarkshadow; 
+}
+
+.Tasks
+{
+  border:1px inset;
+  color:White;
+  background: #6375D6;
+}
+
+.Taskbox
+{
+  background: #D6DFF7;
+  width:100%;
+  margin: 8px 8px 8px 8px;
+}
+
+.TaskScroller
+{
+  width:100%;
+  height:100%;
+  overflow:auto;
+}
+
+.TaskCaption
+{
+  border-top:1px solid white;
+  border-left:1px solid white;
+  border-right:1px solid white;
+  color:#215DC6;
+  background:white;
+  padding:3px;
+  font:bold 8pt tahoma;
+}
+
+.TaskBody
+{
+  background: #D6DFF7;
+  border-left:1px solid white;
+  border-right:1px solid white;
+  color:#4B76DF;
+}
+
+.TaskFooter
+{
+  border-left:1px solid white;
+  border-right:1px solid white;
+  border-bottom:1px solid white;
+}
+
+.TaskInput
+{
+  width:100%;
+}
+
+.TaskButton
+{
+  padding:2px;
+}
+
+a.DatabaseLink, a:visited.DatabaseLink
+{
+  color: silver;
+  text-decoration: none;
+  margin: 0px 16px 0px 0px;
+}
+
+a:active.DatabaseLink, a:hover.DatabaseLink
+{
+  color: silver;
+  text-decoration: underline;
+  margin: 0px 16px 0px 0px;
+}
+  
+a.DatabaseLinkSelected, a:visited.DatabaseLinkSelected
+{
+  color: white;
+  text-decoration: none;
+  margin: 0px 16px 0px 0px;
+}
+
+a:active.DatabaseLinkSelected, a:hover.DatabaseLinkSelected
+{
+  color: white;
+  text-decoration: underline;
+  margin: 0px 16px 0px 0px;
+}
+  

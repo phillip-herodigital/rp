@@ -1,0 +1,63 @@
+﻿#InstantResults {
+  position: absolute;
+  border: solid 1px #868686;
+  background: #fafafa;
+  z-index: 999999;
+}
+
+#InstantResults .sidebar {
+  width: 37%;
+  background: #efefef;
+  border-right: #c5c5c5;
+}
+
+#InstantResults .results {
+}
+
+#InstantResults ul { 
+  padding: 2px 0px 0px 0px;
+  margin: 0;
+  list-style-type: none;
+  position: relative;
+}
+
+#InstantResults .category {
+  position: absolute;
+  top: 4px;
+  color: #666666;
+}
+
+#InstantResults li {
+  clear: left;
+  padding: 2px 0px 2px 4px;
+  height: 16px;
+  line-height: 16px;
+  border: solid 1px #fafafa;
+  cursor: pointer;
+}
+
+#InstantResults .noresults li {
+  cursor: auto !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+#InstantResults li.active {
+  background: #d5effc url(/sitecore/shell/themes/standard/Images/Tree/TreeNodeActiveBackground.png) repeat-x;
+  border: 1px solid #99defd;
+}
+
+#InstantResults li img {
+  float: left;
+  margin-right:  4px;
+}
+
+#InstantResults li h2 {
+  font-size: 8pt;
+  font-weight: normal;
+  display: inline;
+}
+
+#InstantResults a:hover {
+  text-decoration: none;
+}

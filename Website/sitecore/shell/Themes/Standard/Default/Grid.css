@@ -1,0 +1,128 @@
+.Grid {
+  font-family: tahoma;
+  font-size: 8pt;
+  cursor: pointer;
+}
+
+.GridHeader {
+  /* background-image: url(/sitecore/shell/themes/standard/componentart/grid/grid_headerBg.gif); */
+  background: #ededed url("/sitecore/shell/themes/standard/images/Content Editor/Pager.png") repeat-x;
+  padding: 0px 0px 0px 4px;
+  height:23px;
+  width:99999px;
+  cursor: default;
+}
+
+.GridHeaderText {
+  color: #c9c9c9;
+  font-family: tahoma;
+  font-size: 8pt;
+}
+
+.GroupByText {
+  color: #c9c9c9;
+}
+
+.HeadingRow {
+  background: #ededed url("/sitecore/shell/themes/standard/images/Content Editor/SectionBackground.png") repeat-x;
+}
+
+.HeadingCell {
+  padding:4px;
+  border-bottom:1px solid #c9c9c9;
+}
+
+.HeadingRow td.FirstHeadingCell {
+}
+
+.HeadingCellText {
+  font-family: tahoma;
+  font-size: 8pt;
+  text-align: left;
+}
+
+.Row {
+  background-color: #FFFFFF;
+}
+
+.Row td.DataCell {
+  cursor: default;
+  padding: 3px 4px 2px 4px;
+  border-bottom: 1px solid #EAE9E1;
+  font-family: tahoma;
+  font-size: 8pt;
+}
+
+.SortedDataCell {
+  background-color: #F5F5F5;
+}
+
+
+.Row td.LastDataCell {
+  background-color: #EFEFF4;
+}
+
+.SelectedRow {
+}
+
+.SelectedRow td.DataCell {
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+  border-color: #ddcf9b #c1a877 #dfd8bd #c1a877;
+  background: #ffb70b url(/sitecore/shell/Themes/Standard/Images/RibbonSmallButtonHover.png) repeat-x;
+  padding: 2px 4px 2px 4px;
+  font-family: tahoma;
+  font-size: 8pt;
+}
+
+.SelectedRow td.FirstDataCell {
+}
+
+.SelectedRow td.LastDataCell {
+}
+
+.GroupHeading {
+  color: #706F91;
+  background-color: #FFFFFF;
+  font-family: tahoma;
+  font-size: 8pt;
+  border-bottom: 2px solid #A5A4BD;
+  padding-top: 10px;
+  padding-bottom: 3px;
+}
+
+.SliderPopup {
+  border: 1px solid #4B4B6F;
+  border-top-color: #9495A2;
+  border-left-color: #9495A2;
+  width: 288px;
+  height: 40px;
+}
+
+.GridFooter {
+  cursor: default;
+  background:#ebebeb;
+  border-top:1px solid #666666;
+  height:1px;
+  padding: 5px;
+}
+
+.GridFooterText {
+  color: black;
+}
+
+.SearchBox {
+  border:1px solid #f9f9f9;
+  background:#e9e9e9;
+  font:8pt tahoma;
+  color:black;
+  margin:0px 4px 0px 0px;
+}
+
+.single-page table table {
+  /*display: none;*/
+}
+
+.no-pages .GridFooterText {
+  display: none;
+}

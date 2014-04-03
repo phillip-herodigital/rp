@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <LicenseOverview>
+    <FormPage Application="Licenses/LicenseOverview" Background="#e9e9e9">
+      <CodeBeside Type="Sitecore.Shell.Applications.Licenses.LicenseOverview.LicenseOverviewForm,Sitecore.Client"/>
+
+      <GridPanel Width="100%" Height="100%" Style="table-layout:fixed">
+        <Border Background="white" Padding="8px">
+          <Literal Text="Here is a list of all the licenses that are contained in your license file. To view the terms of a license, click it."/>
+        </Border>
+        
+        <Space GridPanel.Class="scBottomEdge"/>
+        <Space GridPanel.Class="scTopEdge"/>
+          
+        <GridPanel Width="100%" Height="100%" CellSpacing="8" Background="#e9e9e9" GridPanel.Height="100%">
+                                                                                                                                      
+          <Scrollbox Class="scScrollbox scFixSize" ID="Licenses" Height="100%" Click="#" Padding="0px" GridPanel.Height="100%" Border="none" GridPanel.Style="border:1px inset">
+
+            <GridPanel ID="LicenseList" Columns="2" Cellpadding="2" Width="100%">
+              <Literal Text="Module" GridPanel.Class="scTreeHeaderItem"/>
+              <Literal Text="Expiration" GridPanel.Class="scTreeHeaderItem"/>
+            </GridPanel>
+          
+          </Scrollbox>
+          
+        </GridPanel>
+        
+        <Border Align="right" Padding="0px 8px 4px 8px" NoWrap="NoWrap" Height="34">
+            <Button ID="OK" Width="80" Height="25" Click="Close"><Literal Text="Close"/></Button>
+          </Border>
+          
+      </GridPanel>
+      
+    </FormPage>
+  </LicenseOverview>
+</control>

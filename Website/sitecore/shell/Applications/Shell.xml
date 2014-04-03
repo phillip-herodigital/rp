@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <Shell>
+    <Stylesheet Src="Shell.css" DeviceDependant="true"/>
+    <Stylesheet Src="Startbar.css" DeviceDependant="true"/>
+    <Script type="text/JavaScript" language="javascript" src="/sitecore/shell/controls/SitecoreObjects.js" />
+    <Script type="text/JavaScript" language="javascript" src="/sitecore/shell/controls/SitecoreWindowManager.js" />
+    <Script type="text/JavaScript" language="javascript" src="/sitecore/shell/controls/lib/scriptaculous/scriptaculous.js?load=effects" />
+    <Stylesheet>
+      .ff {
+      overflow:hidden;
+      }
+      
+      .wk {
+      overflow:hidden;
+      }
+      
+      .ff .DesktopArea {
+      position:absolute;
+      left:0px;
+      top:0px;
+      bottom:29px;
+      right:0px:
+      width:auto;
+      height:auto !important;
+      }
+    </Stylesheet>
+    <Script type="text/JavaScript" language="javascript" key="TrackModified">
+      scSitecore.prototype.setModified = function(value) {
+        this.modified = false;
+      }
+    </Script>
+
+    <FormPage Submittable="false" TrackModified="false">
+      <CodeBeside Type="Sitecore.Shell.Applications.ShellForm,Sitecore.Client" FrameName="Shell"/>
+      <img ID="Wallpaper" src="/sitecore/shell/Themes/Backgrounds/working.jpg" alt="" border="0"/>
+      
+      <Border KeyDown="ShowStartMenu" KeyFilter="c91" Height="100%">
+        <GridPanel Class="scFill scFixed">
+
+          <Border Class="DesktopArea" ID="Desktop" ContextMenu="ShowContextMenu">
+            <Border ID="Links" Click="ClosePopups" DblClick="Launch"/>
+          </Border>
+
+          <Startbar GridPanel.Class="scStartbar" GridPanel.Height="29"/>
+        </GridPanel>
+      </Border>
+    </FormPage>
+  </Shell>
+</control>

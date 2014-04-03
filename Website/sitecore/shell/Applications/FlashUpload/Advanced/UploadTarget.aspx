@@ -1,0 +1,2 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="UploadTarget.aspx.cs" Inherits="Sitecore.Shell.Applications.FlashUpload.Advanced.UploadTarget" %>
+<meta http-equiv="X-UA-Compatible" content="IE=5"/>

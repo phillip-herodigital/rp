@@ -1,0 +1,747 @@
+html {
+  background:#ececec;
+}
+
+body {
+  font-family: Tahoma, Arial, sans-serif;
+  font-size:small;
+  margin:0px;
+  padding:0px;
+  text-align:center;
+  width:100%;
+}
+
+#Body {
+  text-align:left;
+  margin:auto;
+  width:800px;
+}
+
+.SmallDivider {
+  background:#e7e7e7;
+  border-top:1px solid #bfbfbf;
+}
+
+/* Banner */
+
+#Banner {
+}
+
+#BannerPartnerLogo {
+  float:right;
+  margin:0px 8px 0px 0px;
+}
+
+#BannerLogo {
+  width:146px;
+  height:38px;
+  margin:11px 0px 0px 16px;
+}
+
+/* Menu */
+
+#Menu {
+  margin:4px 0px 0px 0px;
+  border-left:1px solid #bf3417;
+  border-right:1px solid #bf3417;
+  background:#e33327 url(banner.png) repeat-x;
+  height:31px;
+}
+
+#Menu > div{
+  border-right: 1px solid #d94c30;
+  width: 560px;
+  height: 31px;
+}
+
+#Menu > div > div {
+  border-right: 1px solid #a11f03;
+  width: 559px;
+  height: 31px;
+}
+
+#Menu > div > div > div {
+  border-right: 1px solid #d94c30;
+  width: 558px;
+  height: 31px;
+}
+
+#Left {
+  width:560px;
+  border-right:1px solid #adadad;
+}
+
+/* Login */
+
+#LoginPanelOuter {           
+  background: white url(background.png) no-repeat bottom left;
+  border-bottom:4px solid #bfbfbf;
+  height: 619px;
+}
+
+#LoginPanel {
+  width:560px;
+  height: 619px;
+  text-align:center;
+}
+
+#LoginPanelBox {
+  padding: 16px 0px 8px 0px;
+  margin:0px 32px 0px 32px;
+  background:#ededed;
+  border:1px solid #cccccc;
+}
+
+#LoginTitle {
+  font-family: Tahoma, Verdana, Arial, Sans-Serif;
+  font-size:24pt;
+  font-weight:bold;
+  color:#333333;
+  padding:16px 0px 16px 0px;
+}
+
+#LoginBox {
+  text-align:left;
+  font-size:small;
+}
+
+#LoginLabel1 {
+  color:#666666;
+  font-size:small;
+  font-weight:bold;
+  font-family: Tahoma, Verdana, Arial, Sans-Serif;
+  padding:0px 0px 1px 0px;
+}
+
+#LoginLabel2 {
+  color:#666666;
+  font-size:small;
+  font-weight:bold;
+  font-family: Tahoma, Verdana, Arial, Sans-Serif;
+  padding:6px 0px 0px 0px;
+}
+
+#UserNameLabel {
+  font:9pt verdana;
+}
+
+#PasswordLabel {
+  font:9pt verdana;
+}
+
+#Remember {
+  font:9pt verdana;
+}
+
+#Login {
+  font:9pt  verdana;
+}
+
+#LoginText {
+  color:Red;
+  font: 9pt  verdana;
+}
+
+#LoginOptions {
+  border-top:1px solid #d8d8d8;
+  margin:8px 0px 0px 0px;
+  padding:8px 0px 0px 0px;
+}
+
+a.LoginOption, 
+a.LoginOption:link,
+a.LoginOption:visited,
+a.LoginOption:hover,
+a.LoginOption:active {
+  font:bold 8pt arial;
+  color:#c73318;
+  padding:2px 6px 4px 6px;
+  text-decoration:none;
+  white-space:nowrap;
+}
+
+a.LoginOption:hover,
+a.LoginOption:active {
+  text-decoration:underline;
+}
+
+#Login_UserName {
+  font:bold 9pt verdana;
+  width:180px;
+  height:16px;
+}
+
+#Login_Password {
+  font:bold 9pt verdana;
+  width:180px;
+  margin:1px 0px 0px 0px;
+  height:16px;
+}
+
+#BasicMoreOptions {
+  margin:8px 32px 0px 32px;
+  padding:8px;
+  border:1px solid #e0e0e0;
+  background:#fbfbfb;
+}
+
+#BasicMoreOptions a {
+  color:#c73318;
+  font:bold 9pt arial, verdana, sans-serif;
+  text-decoration:none;
+}
+
+#BasicMoreOptions a:hover, #BasicMoreOptions a:active {
+  text-decoration:underline;
+}
+
+
+.UIPanel {
+  padding:8px 0px 16px 0px;
+}
+
+#SitecoreLink {
+  border-top:1px solid #bfbfbf;
+  padding:16px 0px 16px 0px;
+  text-align:center;
+  font:bold 15px Arial, Verdana, Sans-Serif;
+}
+
+#SitecoreLink a {
+  text-decoration:none;
+  color:#c73318;
+}
+
+#SitecoreLink a:hover {
+  text-decoration:underline;
+}
+
+/* Content area */
+
+#MainPanel {
+  background:white;
+  margin:10px 0px 0px 0px;
+  border-bottom:4px solid #bfbfbf;
+  height:400px;
+}
+
+#Right {
+  float:right;
+  width:239px;
+  background:#f5f5f5;
+}
+
+#SystemInformation {
+  font:8pt arial, verdana, sans-serif;
+  background:white;
+  color:#333333;
+  height:195px;
+  margin:8px 6px 0px 8px;
+  padding:0px 4px 4px 4px;
+  border:1px solid #d5d5d5;
+}
+
+#SystemInformation div {
+  padding:8px 0px 8px 0px;
+}
+
+.SystemInformationDivider {
+  border-top:1px dotted #cccccc;
+}
+
+#SDN {
+  margin:0px 0px 0px 0px;
+  border-bottom:4px solid #bfbfbf;
+  background:#f5f5f5;
+  height:410px;
+  width:239px;
+}
+
+#StartPage {
+  border:1px solid #d5d5d5;
+  height:392px;
+  width:223px;
+  margin:8px;
+  background:white;
+}
+
+/* Options */
+
+.OptionBox {
+  text-align:center;
+  padding:8px 0px 4px 0px;
+}
+
+.OptionBoxTitle {
+  font-size:x-large;
+  padding:16px 0px 16px 0px; 
+}
+
+.OptionBoxHelp {
+  color:#666666;
+  padding:0px 16px 16px 16px; 
+}
+
+.OptionBoxOptions {
+  font-size:x-large;
+}
+
+.OptionBoxOptions button {
+  background:transparent;
+  border:1px solid #cccccc;
+}
+
+.OptionBoxOptions button.OptionBoxOptionsActive {
+  background:#E6F4FF;
+  border:1px solid #80C9FF;
+}
+
+#BasicOptions img {
+  width:225px;
+  height:140px;
+  display:block;
+}
+
+#BasicOptions button {
+  width:250px;
+  height:180px;
+  margin:8px;
+}
+
+#AdvancedOptions button {
+  font:10pt tahoma;
+  color:#333333;
+  width:130px;
+  padding:0px;
+  height:40px;
+  margin:0px 8px 0px 8px;
+}
+
+.OptionLabel {
+  font:8pt tahoma;
+  color:#666666;
+}
+
+.OptionBoxOptions button:hover {
+  background:#BFE4FF;
+  border:1px solid #6096BF;
+}
+
+#AdvancedOptions img {
+  width:24px;
+  height:24px;
+  margin:2px 0px 2px 4px;
+  vertical-align:middle;
+}
+
+/* Login Options */
+
+#LanguagePanel {
+  padding:16px 0px 0px 0px;
+  font:8pt tahoma;
+  text-align:center;
+}
+
+#Language {
+  font:10pt tahoma;
+}
+
+/* Full Panel */
+
+#FullPanel {
+  width:800px;
+}
+
+#FullTopPanel {
+  height:186px;
+  background:white;
+  border-bottom:4px solid #bfbfbf;
+  text-align:center;
+}
+
+.FullTitle {
+  font-size:x-large;
+  padding:16px 0px 0px 0px; 
+}
+
+.FullText {
+  font-size:Medium;
+  color:#666666;
+  padding:16px 0px 16px 0px; 
+}
+
+.Button {
+  border:1px solid #999999;
+  background:transparent;
+  display:block;
+  text-align:left;
+  margin:16px 0px 16px 0px;
+  width:260px;
+}
+
+#FullPanel img {
+  width:32px;
+  height:32px;
+  margin:0px 4px 0px 4px;
+  float:left;
+}
+
+#FullPanel button:hover {
+  background:#BFE4FF;
+  border:1px solid #6096BF;
+}
+
+.FullButtonHeader {
+  font-size:Medium;
+  color:#6096BF;
+}
+
+.FullButtonText {
+  font-size:smaller;
+  color:#999999;
+}
+
+.Centered {
+  text-align:center;
+}
+
+/* Error */
+
+#ErrorPanel {
+  background:white;
+  margin:10px 0px 0px 0px;
+  border-bottom:4px solid #bfbfbf;
+  height:400px;
+  color:#666666;
+  font-size:small;
+  padding:16px;
+}
+
+#ErrorTopPanel {
+  background:white;
+  border-bottom:1px solid #bfbfbf;
+}
+
+.ErrorTitle {
+  font-size:x-large;
+  padding:16px; 
+  height:48px;
+}
+
+.ErrorOptions {
+  padding:8px 0px 8px 0px;
+}
+
+.ErrorOption {
+  text-decoration:none;
+  color:#0066B3;
+}
+
+.ErrorOption:hover {
+  text-decoration:underline;
+}
+
+.ErrorMoreOptionPanel {
+  margin:32px 0px 0px 0px;
+}
+
+#ErrorMorePanel {
+  padding:0px 0px 0px 28px;
+}
+
+#ErrorMorePanel div {
+  padding:8px 0px 8px 0px;
+}
+
+/* Single Panel */
+
+#SinglePanel {
+  background:white;
+  border-bottom:4px solid #bfbfbf;
+  height:400px;
+  padding:0px 16px 0px 16px;
+}
+
+#DialogButtons {
+  padding:16px 0px 0px 0px;
+  text-align:right;
+}
+
+#DialogButtons button{
+  font:8pt tahoma;
+  width:75px;
+  height:25px;
+  margin:0px 0px 0px 8px;
+}
+
+.DialogTitle {
+  font-size:x-large;
+  padding:8px 0px 16px 0px; 
+  height:48px;
+}
+
+.close-options {
+  font: 8pt tahoma;
+  height: 25px;
+  background: transparent;
+  border: 1px solid #e0e0e0;
+  color: #666666;
+}
+
+/* Japanese language support*/
+.lang_ja_jp,
+.lang_ja_jp #Body,
+.lang_ja_jp #LoginTitle,
+.lang_ja_jp #LoginLabel1,
+.lang_ja_jp #LoginLabel2,
+.lang_ja_jp #UserNameLabel,
+.lang_ja_jp #PasswordLabel,
+.lang_ja_jp #Remember,
+.lang_ja_jp #Login,
+.lang_ja_jp #LoginText,
+.lang_ja_jp #Login_UserName,
+.lang_ja_jp #Login_Password,
+.lang_ja_jp #BasicMoreOptions a,
+.lang_ja_jp #SitecoreLink,
+.lang_ja_jp #SystemInformation,
+.lang_ja_jp #AdvancedOptions button,
+.lang_ja_jp .OptionLabel,
+.lang_ja_jp a.LoginOption,
+.lang_ja_jp #LanguagePanel,
+.lang_ja_jp #Language,
+.lang_ja_jp #DialogButtons button,
+.lang_ja_jp .close-options {
+  font-family: ????, Meiryo, Microsoft YaHei, tahoma, sans-serif;
+}
+
+.lang_ja_jp #Body {
+  width:927px;
+}
+
+.lang_ja_jp #Menu > div{
+  width: 687px;
+}
+
+.lang_ja_jp #Menu > div > div {
+  width: 686px;
+}
+
+.lang_ja_jp #Menu > div > div > div {
+  width: 685px;
+}
+
+.lang_ja_jp  #LoginPanel, .lang_ja_jp  #Left {
+  width:687px;
+}
+
+.lang_ja_jp #AdvancedOptions button {
+  width:179px;
+}
+
+.ie.ie7.lang_ja_jp .login_button {
+  height:24px;
+}
+
+.lang_ja_jp #DialogButtons button {
+  width: 80px;
+}
+
+.lang_ja_jp #FullTopPanel {
+  height: auto;
+}
+
+/* Danish language support */
+.lang_da_dk #Body, .lang_da #Body {
+  width:855px;
+}
+
+.lang_da_dk #Menu > div, .lang_da #Menu > div{
+  width: 615px;
+}
+
+.lang_da_dk #Menu > div > div, .lang_da #Menu > div > div {
+  width: 614px;
+}
+
+.lang_da_dk #Menu > div > div > div, .lang_da #Menu > div > div > div {
+  width: 613px;
+}
+
+.lang_da_dk  #LoginPanel, .lang_da_dk  #Left, .lang_da  #LoginPanel, .lang_da  #Left {
+  width:615px;
+}
+
+.lang_da_dk #AdvancedOptions button, .lang_da #AdvancedOptions button {
+  width:156px;
+}
+
+/* password recovery page */
+.password-recovery #PasswordRecovery {
+  width: 320px;
+  margin: auto;
+}
+
+.password-recovery .instructions,
+.password-recovery .titleText {
+  font: 9pt verdana;
+  color: black;
+}
+
+.password-recovery .titleText {
+  padding-top: 16px;
+}
+
+.password-recovery .Centered {
+  padding: 16px 0 32px 0;
+}
+
+.password-recovery .password-recovery-control {
+  font-family: verdana;
+}
+
+.password-recovery .success-text {
+  color: #1C5E55;
+  font-weight: bold;
+}
+
+.password-recovery .label,
+.password-recovery .failure-text {
+  font: 9pt verdana;
+}
+
+.password-recovery .textbox {
+  font: bold 9pt verdana;
+}
+
+.password-recovery .submit-button {
+  background-color: #FFFBFF;
+  border: 1px solid #ccc;
+  color: #284775;
+  font-family: tahoma;
+}
+
+/*support Japanese */
+.password-recovery .lang_ja_jp .password-recovery-control,
+.password-recovery .lang_ja_jp .instructions,
+.password-recovery .lang_ja_jp .titleText,
+.password-recovery .lang_ja_jp .label,
+.password-recovery .lang_ja_jp .failure-text,
+.password-recovery .lang_ja_jp .textbox,
+.password-recovery .lang_ja_jp .submit-button {
+  font-family: ????, Meiryo, Microsoft YaHei, tahoma, sans-serif;
+}
+
+.password-recovery .lang_ja_jp .label {
+  white-space: nowrap;
+}
+
+.password-recovery .lang_ja_jp #Body {
+  width: 800px;
+}
+
+.password-recovery .lang_ja_jp #PasswordRecovery {
+  width: 520px;
+}
+/* end of password recovery page */
+
+/* change password page */
+.change-password #ChangePassword {
+  width:350px;
+  margin:auto;
+}
+
+.change-password,
+.change-password .text,
+.change-password-control,
+.change-password-control .instruction-text,
+.change-password-control .label,
+.change-password-control .textbox {
+  font: 9pt verdana;
+}
+
+.change-password .titleText {
+  padding-top:16px;
+}
+
+.change-password-control .cancel-button,
+.change-password-control .submit-button {
+  border: 1px  solid #ccc;
+  background-color: #FFFBFF;
+  color: #284775;
+}
+
+.change-password-control .submit-button {
+  font-family: verdana;
+}
+
+.change-password-control .cancel-button {
+  font-family: tahoma;
+}
+
+.change-password-control .password-hint {
+  font-style: italic;
+  color: #888;
+}
+
+.change-password-control .instruction-text {
+  color: black;
+}
+
+.change-password-control .textbox {
+  font-weight: bold;
+}
+
+/* support Japanese */
+.change-password .lang_ja_jp #Body {
+  width: 800px;
+}
+
+.change-password .lang_ja_jp #ChangePassword {
+  width: 450px;
+}
+
+.change-password .lang_ja_jp,
+.change-password .lang_ja_jp table,
+.change-password .lang_ja_jp button,
+.change-password .lang_ja_jp th,
+.change-password .lang_ja_jp .text,
+.change-password .lang_ja_jp .titleText,
+.lang_ja_jp .change-password-control,
+.lang_ja_jp .change-password-control .instruction-text,
+.lang_ja_jp .change-password-control .label,
+.lang_ja_jp .change-password-control .textbox,
+.lang_ja_jp .change-password-control .submit-button,
+.lang_ja_jp .change-password-control .cancel-button {
+  font-family: ????, Meiryo, Microsoft YaHei, tahoma, sans-serif;
+}
+
+.change-password .lang_ja_jp .label {
+  white-space: nowrap;
+}
+/* end of change password page */
+
+/* kick user page */
+.kick-user .lang_ja_jp #Body{
+  width: 800px;
+}
+
+.kick-user .lang_ja_jp .DialogTitle {
+  font-size: 24px;
+}
+/* kick user page */
+
+/* boost users page */
+.lang_ja_jp .Button {
+  width: 280px;
+}
+
+.lang_ja_jp .FullText,
+.lang_ja_jp .FullButtonHeader,
+.lang_ja_jp .FullButtonText {
+  font-family: ????, Meiryo, Microsoft YaHei, tahoma, sans-serif;
+}
+
+.boost-users .lang_ja_jp #Body {
+  width: 800px;
+}
+/* end  of boost users page */

@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control xmlns:def="Definition">
+  <Installer.FilesFilterEditor def:inherits="Sitecore.Shell.Applications.Install.Controls.FilesFilterEditor,Sitecore.Client">
+    <Border Height="100%" Padding="$Padding" Style="$Style" Class="$Class">
+      <GridPanel Width="100%" Columns="1" Height="100%">
+        <Scrollbox Height="100%" GridPanel.Height="100%" GridPanel.Width="100%" Class="scScrollbox scFixSize4 scFixSize12 scFixSizeInitialized" Background="transparent" Border="none" Padding="0">
+          <GridPanel Width="100%" Columns="1" Height="50">
+            <Border Padding="0px 0px 20px 0px">
+              <Literal Text="File name filter" />
+              <Groupbox Padding="5px 0px 5px 0px">
+                <Installer.FileNameFilterEditor def:ID="NameFilter"/>
+              </Groupbox>
+            </Border>
+          </GridPanel>
+
+          <GridPanel Width="100%" Columns="1" Height="80">
+            <Border Padding="0px 0px 20px 0px">
+              <Literal Text="Creation date filter" />
+              <Groupbox Padding="5px 0px 5px 0px">
+                <Installer.FileDateFilterEditor def:ID="CreationDateFilter" DateFilterType="CreatedFilter"/>
+              </Groupbox>
+            </Border>
+          </GridPanel>
+
+          <GridPanel Width="100%" Columns="1" Height="80">
+            <Border Padding="0px 0px 20px 0px">
+              <Literal Text="Modification date filter" />
+              <Groupbox Padding="5px 0px 5px 0px">
+                <Installer.FileDateFilterEditor def:ID="ModificationDateFilter" DateFilterType="ModifiedFilter"/>
+              </Groupbox>
+            </Border>
+          </GridPanel>
+        </Scrollbox>
+      </GridPanel>
+    </Border>
+  </Installer.FilesFilterEditor>
+</control>

@@ -1,0 +1,31 @@
+﻿BODY {
+	background: #4E4E4E url(/sitecore/shell/themes/standard/gradients/gray1.gif) 50% 0 repeat-y;
+  height:100%;
+}
+
+.scWindowOuterFrame
+{
+  border:1px solid black;
+  height:100%;
+}  
+
+.scWindowFrame {
+	background: #4E4E4E url(/sitecore/shell/themes/standard/gradients/gray1.gif) 50% 0 repeat-y;
+  border:1px solid #a0a0a0;
+  border-top:none;
+  height:100%;
+}
+
+.scWindowFrameTop {
+	background: #a0a0a0 url(/sitecore/shell/themes/standard/gradients/gray3.gif) 50% 0 repeat-y;
+	height:1px;
+}
+
+.scWindowCaption {
+  font: bold 9pt tahoma;
+  background:transparent;
+  color:White;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis
+}

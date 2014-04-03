@@ -1,0 +1,1037 @@
+@import url(reset.css);
+
+div.dark_square .pp_close
+{
+    width: 85px;
+}
+
+.margin25px
+{
+    margin: 0px 25px;
+}
+
+.mainmargin
+{
+    margin: 25px 0 25px 0;
+    overflow: hidden;
+}
+
+.rounded
+{
+    float: left;
+    margin: 20px;
+    width: 200px;
+}
+
+li
+{
+    list-style-image: circle;
+    margin: 0 0 5px 0;
+}
+
+.ui-autocomplete
+{
+    text-align: left;
+    max-width: 571px;
+}
+
+.search form
+{
+    width: auto !important;
+    padding: 0 !important;
+    margin: -21px 0 0 4px !important;
+    height: auto !important;
+}
+
+.search input
+{
+    margin-bottom: 8px;
+}
+
+.search .field
+{
+    background: transparent url(../images/search_bar.png) no-repeat 0 0;
+    font: 11px "Lucida Sans Unicode","Lucida Grande",Garuda,sans-serif;
+    line-height: 22px;
+    width: 152px;
+    height: 20px;
+    color: #fff;
+    float: left;
+    padding: 2px 3px 3px 6px;
+    border: 0;
+}
+
+.search .button
+{
+    background: transparent url(../images/search_btn.png) no-repeat;
+    width: 60px;
+    height: 20px;
+    color: #313131;
+    font: 12px "Lucida Sans Unicode","Lucida Grande",Garuda,sans-serif;
+    float: left;
+    border: 0;
+}
+
+/* --------------------------------------------------------------------- */
+/* GRID CONTAINER STYLING ---------------------------------------------- */
+/* --------------------------------------------------------------------- */
+
+#grid-content .post_float
+{
+    width: 172px;
+    height: 257px;
+    padding: 10px;
+    background-color: #ffffff;
+    margin: 20px;
+    float: left;
+    border: 1px solid #e1e1e1;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    -moz-box-shadow: 1px 1px 8px #EEE;
+    -webkit-box-shadow: 1px 1px 8px #EEE;
+    box-shadow: 1px 1px 8px #EEE;
+    cursor: pointer;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    vertical-align: top;
+    display: inline-block;
+    *display: inline;
+    text-align: left;
+    behavior: url('/sitecore/shell/Applications/Buckets/Scripts/PIE.htc');
+}
+
+.languageLink
+{
+    display: block;
+    float: left;
+    width: 20px;
+    height: 20px;
+}
+
+
+#grid-content .post_float:hover, #grid-content .pie_hover
+{
+    background-color: rgba(165, 165, 165, 0.1);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#19a5a5a5,endColorstr=#19a5a5a5);
+}
+
+
+#grid-content .highlight
+{
+    background-color: gainsboro;
+}
+
+.BlogPostArea .highlight
+{
+    background-color: gainsboro;
+}
+
+.highlight
+{
+    background-color: gainsboro;
+}
+
+.ceebox.imgcontainer
+{
+    display: inline-block;
+    float: left;
+    border: 1px solid #e1e1e1;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#19a5a5a5,endColorstr=#19a5a5a5);
+}
+
+.ceebox
+{
+    display: inline-block;
+    text-overflow: ellipsis;
+    max-width: 148px;
+    overflow: hidden;
+     white-space: nowrap; 
+}
+
+.post_float div.ceebox img
+{
+    margin-bottom: -6px !important;
+}
+
+#grid-content .post_tags a span
+{
+    Font-weight: normal;
+}
+
+#grid-content .post_tags
+{
+    overflow: hidden;
+}
+
+    #grid-content .post_tags a
+    {
+        color: #999;
+        font-size: 10px;
+    }
+
+        #grid-content .post_tags a:hover
+        {
+            color: #666;
+        }
+
+.post_float img
+{
+    margin: 2px;
+    border: 1px solid #e8e8e8;
+}
+
+.post_float h2
+{
+    margin: 14px 0 0 0;
+}
+
+html, body
+{
+    text-align: center;
+    overflow: hidden;
+    *overflow: auto;
+}
+
+body
+{
+    color: #333;
+    background-color: white;
+    font: 11px verdana, arial, helvetica, sans-serif;
+}
+
+h1
+{
+    margin: 0px 0px 15px 0px;
+    padding: 0px;
+    font-size: 28px;
+    font-weight: 900;
+    color: #ccc;
+}
+
+h2
+{
+    font: bold 12px/14px verdana, arial, helvetica, sans-serif;
+    margin: 0px 0px 5px 0px;
+    padding: 0px;
+}
+
+
+.Content > p
+{
+    margin: 0px;
+}
+
+    .Content > p + p
+    {
+        text-indent: 30px;
+    }
+
+a
+{
+    color: #09c;
+    font-size: 11px;
+    font-family: verdana, arial, helvetica, sans-serif;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+    a:link
+    {
+        color: #09c;
+    }
+
+    a:visited
+    {
+        color: #07a;
+    }
+
+    a:hover
+    {
+        background-color: #eee;
+    }
+
+#MainPanel
+{
+    width: auto;
+    zoom: 1;
+    position: relative;
+    overflow-x: hidden;
+    *overflow-x: inherit;
+    margin: 0 auto;
+    height: 100%;
+}
+
+/* All the content boxes belong to the content class. */
+.content
+{
+    position: relative; /* Position is declared "relative" to gain control of stacking order (z-index). */
+    margin: 0 auto;
+    background-color: white;
+    z-index: 3; /* This allows the content to overlap the right menu in narrow windows in good browsers. */
+    width: auto;
+    height: 100%;
+    top: 0;
+    overflow: auto;
+    *overflow: inherit;
+}
+
+.navAlpha
+{
+    position: absolute;
+    width: 150px;
+    right: 0px;
+    padding: 10px;
+    /*z-index: 7;*/
+    margin: 0px 10px 10px -3px;
+}
+
+body > .navAlpha
+{
+    width: 128px;
+}
+
+#navBeta
+{
+    top: 0;
+    z-index: 7;
+}
+
+#navBeta
+{
+    /*right: -230px;*/
+    padding: 0 31px;
+    voice-family: "\"}\"";
+    voice-family: inherit;
+    /*float: right;*/
+    margin: 0 0 10px;
+}
+
+body > #navBeta
+{
+    width: 168px;
+}
+
+.left
+{
+    left: 0;
+    top: 110px;
+    position: absolute;
+    z-index: 0;
+}
+
+
+.sb_wrapper
+{
+    top: 0;
+}
+
+.contentAreaWrapper {
+  display: table;
+  width: 100%;
+  position: relative;
+  *position: inherit;
+}
+
+/* pagination */
+.pagination
+{
+    padding: 0 30px 3px;
+    text-align: center;
+    z-index: 0;
+    padding: 10px;
+    position: relative;
+}
+
+    .pagination span, .pagination a
+    {
+        margin-right: 5px;
+    }
+
+    .pagination .link-prev, .pagination .link-next
+    {
+        position: absolute;
+        top: 6px;
+        left: 10px;
+        background: url(/images/arrows.png) no-repeat;
+        width: 23px;
+        height: 37px;
+        text-indent: -9999px;
+        overflow: hidden;
+    }
+
+    .pagination .link-next
+    {
+        right: 10px;
+        left: auto;
+        background-position: 0 100%;
+    }
+
+    .pagination ul
+    {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: inline-block;
+        line-height: 24px;
+        font-weight: bold;
+        position: relative;
+    }
+
+    .pagination li
+    {
+        float: left;
+        margin: 0 2px 0 1px;
+        display: inline;
+    }
+
+        .pagination li a
+        {
+            display: block;
+            width: 19px;
+            /* background: #e9e9e9; */
+            border: 3px solid #e9e9e9;
+            color: #000;
+        }
+
+.pageLink.pageClickLoad
+{
+    background: url('../images/load.gif') no-repeat center center;
+    color: white;
+}
+
+    .pageLink.pageClickLoad li a:hover
+    {
+        background: url('images/load.gif') no-repeat center center;
+        color: white;
+    }
+
+.pagination li a:hover
+{
+    /* background: #e9e9e9; */
+    border-color: #000;
+    text-decoration: none;
+}
+
+.pagination li.active a
+{
+    border-color: #000;
+    /* background: #e9e9e9; */
+}
+
+.tip
+{
+    list-style: none outside none;
+    padding: 6px 5px;
+}
+
+.side
+{
+    border: 1px solid #fff;
+    background: -webkit-gradient(linear, left top, left bottom, from(#f2f2f2), to(#fafafa));
+    background: -moz-linear-gradient(top, #f2f2f2, #fafafa);
+    -pie-background: linear-gradient(top, #f2f2f2, #fafafa);
+    font-size: 24px;
+    font-family: "Myriad Pro", "Trebuchet MS", sans-serif;
+    -moz-box-shadow: 1px 1px 3px #555;
+    -webkit-box-shadow: 1px 1px 3px #555;
+    box-shadow: 1px 1px 3px #555;
+    outline: none;
+    padding: 6px 5px;
+    text-shadow: 1px 1px 1px #fff;
+    width: 177px;
+    float: left;
+    margin: 4px 0px;
+    list-style: none;
+    -moz-border-radius: 0 0 10px 10px;
+    -webkit-border-radius: 0 0 10px 10px;
+    border-radius: 0 0 10px 10px;
+    text-align: left;
+    behavior: url('/sitecore/shell/Applications/Buckets/Scripts/PIE.htc');
+}
+
+    .side li
+    {
+        font-size: 16px;
+        width: 100%;
+        float: left;
+        padding-bottom: 2px;
+    }
+
+    .side p
+    {
+        font-size: 12px;
+        letter-spacing: 1px;
+        line-height: 16px;
+        padding: 5px;
+    }
+
+    .side li input[type="checkbox"]
+    {
+        float: left;
+        margin: 10px 4px 0 5px;
+    }
+
+    .side .sb_filter
+    {
+        cursor: pointer;
+        margin-bottom: 5px;
+        border: 1px solid #f9f9f9;
+        clear: both;
+        background: #ddd;
+        font-size: 12px;
+        letter-spacing: 1px;
+        color: #444;
+        height: 16px;
+        line-height: 16px;
+        width: 166px;
+        padding: 5px;
+        behavior: expression(runtimeStyle.behavior = 'none', onmouseover = function() {this.className += ' hover'}, onmouseout = function() {this.className = this.className.replace(/ hover/g, '')});
+    }
+
+        /* Hide from CSS3PIE*/
+        html > body .side .sb_filter.toggleoff
+        {
+            background: #ccc url('~/icon/Applications/16x16/zoom_in.png') no-repeat right center;
+            -moz-box-shadow: 0 0 2px #777;
+            -webkit-box-shadow: 0 0 3px #555 inset;
+            box-shadow: 0 0 3px #555 inset;
+        }
+
+        html > body .side .sb_filter.toggleon
+        {
+            background: #ccc url('~/icon/Applications/16x16/zoom_out.png') no-repeat right center;
+            -moz-box-shadow: 0 0 2px #777;
+            -webkit-box-shadow: 0 0 3px #555 inset;
+            box-shadow: 0 0 3px #555 inset;
+        }
+
+        .side .sb_filter:hover, .side .hover
+        {
+            -moz-box-shadow: 0 0 2px #444;
+            -webkit-box-shadow: 0 0 3px #222 inset;
+            box-shadow: 0 0 3px #333 inset;
+        }
+
+    .side .tip
+    {
+        border: 1px solid #f9f9f9;
+        clear: both;
+        background: #ddd;
+        font-size: 12px;
+        letter-spacing: 1px;
+        color: #444;
+        height: 16px;
+        line-height: 16px;
+        padding: 5px;
+        -moz-box-shadow: 0px 0px 2px #777;
+        -webkit-box-shadow: 0px 0px 3px #555 inset;
+        -box-shadow: 0px 0px 3px #555 inset;
+        background: url('../images/star.png') no-repeat right;
+    }
+
+#views
+{
+    float: right;
+    margin-right: -160px;
+    width: 141px;
+}
+
+    #views a
+    {
+        margin-left: 3px;
+        margin-right: 3px;
+    }
+
+.scView
+{
+    float: left;
+    width: 28px;
+    height: 28px;
+    position: relative;
+    z-index: 1;
+    margin: auto;
+    margin-top: 12px;
+    cursor: pointer;
+    background: url("../images/profile_selected.png");
+}
+
+    .scView:hover, .scView.active
+    {
+        float: left;
+        width: 28px;
+        height: 28px;
+        position: relative;
+        z-index: 1;
+        margin: auto;
+        margin-top: 12px;
+        cursor: pointer;
+        background: url("../images/profile.png");
+    }
+
+.PreviewView
+{
+    float: left;
+    width: 28px;
+    height: 28px;
+    position: relative;
+    z-index: 1;
+    margin: auto;
+    margin-top: 12px;
+    cursor: pointer;
+    background: url("../images/preview.png");
+}
+
+    .PreviewView:hover, .PreviewView.active
+    {
+        float: left;
+        width: 28px;
+        height: 28px;
+        position: relative;
+        z-index: 1;
+        margin: auto;
+        margin-top: 12px;
+        cursor: pointer;
+        background: url("../images/preview_selected.png");
+    }
+
+
+
+
+.grid
+{
+    float: left;
+    width: 28px;
+    height: 28px;
+    position: relative;
+    z-index: 1;
+    margin: auto;
+    margin-top: 12px;
+    cursor: pointer;
+    background: url("../images/view_grid.png");
+}
+
+    .grid:hover, .grid.active
+    {
+        float: left;
+        width: 28px;
+        height: 28px;
+        position: relative;
+        z-index: 1;
+        margin: auto;
+        margin-top: 12px;
+        cursor: pointer;
+        background: url("../images/view_grid_selected.png");
+    }
+
+.MediaView
+{
+    float: left;
+    width: 28px;
+    height: 28px;
+    position: relative;
+    z-index: 1;
+    margin: auto;
+    margin-top: 12px;
+    cursor: pointer;
+    background: url("../images/infinitescroll.png");
+}
+
+    .MediaView:hover, .MediaView.active
+    {
+        float: left;
+        width: 28px;
+        height: 28px;
+        position: relative;
+        z-index: 1;
+        margin: auto;
+        margin-top: 12px;
+        cursor: pointer;
+        background: url("../images/infinitescroll_selected.png");
+    }
+
+.LockView
+{
+    float: left;
+    width: 28px;
+    height: 28px;
+    position: relative;
+    z-index: 1;
+    margin: auto;
+    margin-top: 12px;
+    cursor: pointer;
+    background: url("../images/lock.png");
+}
+
+    .LockView:hover, .LockView.active
+    {
+        float: left;
+        width: 28px;
+        height: 28px;
+        position: relative;
+        z-index: 1;
+        margin: auto;
+        margin-top: 12px;
+        cursor: pointer;
+        background: url("../images/lock_selected.png");
+    }
+
+
+.ImageView
+{
+    float: left;
+    width: 28px;
+    height: 28px;
+    position: relative;
+    z-index: 1;
+    margin: auto;
+    margin-top: 12px;
+    cursor: pointer;
+    background: url("../images/image.png");
+}
+
+    .ImageView:hover, .ImageView.active
+    {
+        float: left;
+        width: 28px;
+        height: 28px;
+        position: relative;
+        z-index: 1;
+        margin: auto;
+        margin-top: 12px;
+        cursor: pointer;
+        background: url("../images/image_selected.png");
+    }
+
+.TagView
+{
+    float: left;
+    width: 28px;
+    height: 28px;
+    position: relative;
+    z-index: 1;
+    margin: auto;
+    margin-top: 12px;
+    cursor: pointer;
+    background: url("../images/tagview.png");
+}
+
+    .TagView:hover, .TagView.active
+    {
+        float: left;
+        width: 28px;
+        height: 28px;
+        position: relative;
+        z-index: 1;
+        margin: auto;
+        margin-top: 12px;
+        cursor: pointer;
+        background: url("../images/tagview_selected.png");
+    }
+
+.TableView
+{
+    float: left;
+    width: 28px;
+    height: 28px;
+    position: relative;
+    z-index: 1;
+    margin: auto;
+    margin-top: 12px;
+    cursor: pointer;
+    background: url("../images/table.png");
+}
+
+    .TableView:hover, .TableView.active
+    {
+        float: left;
+        width: 28px;
+        height: 28px;
+        position: relative;
+        z-index: 1;
+        margin: auto;
+        margin-top: 12px;
+        cursor: pointer;
+        background: url("../images/table_selected.png");
+    }
+
+/*
+Table Style - This is what you want
+------------------------------------------------------------------ */
+#results
+{
+    padding: 0px 0px 0 70px;
+    position: relative;
+    *z-index: -1;
+    margin-left: -56px;
+    margin-right: 220px;
+}
+
+    #results table a:link
+    {
+        color: #666;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    #results table a:visited
+    {
+        color: #999999;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    #results table a:active,
+    #results table a:hover
+    {
+        color: #bd5a35;
+        text-decoration: underline;
+    }
+
+    #results table
+    {
+        font-family: Arial, Helvetica, sans-serif;
+        color: #666;
+        font-size: 12px;
+        text-shadow: 1px 1px 0px #fff;
+        background: #eaebec;
+        margin-bottom: 20px;
+        border: #ccc 1px solid;
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+        margin: 0 auto;
+        -moz-box-shadow: 0 1px 2px #d1d1d1;
+        -webkit-box-shadow: 0 1px 2px #d1d1d1;
+        box-shadow: 0 1px 2px #d1d1d1;
+    }
+
+        #results table th
+        {
+            padding: 7px 25px 7px 25px;
+            border-top: 1px solid #fafafa;
+            border-bottom: 1px solid #e0e0e0;
+            background: #ededed;
+            background: -webkit-gradient(linear, left top, left bottom, from(#ededed), to(#ebebeb));
+            background: -moz-linear-gradient(top, #ededed, #ebebeb);
+        }
+
+            #results table th:first-child
+            {
+                text-align: left;
+                padding-left: 20px;
+            }
+
+        #results table tr:first-child th:first-child
+        {
+            -moz-border-radius-topleft: 3px;
+            -webkit-border-top-left-radius: 3px;
+            border-top-left-radius: 3px;
+        }
+
+        #results table tr:first-child th:last-child
+        {
+            -moz-border-radius-topright: 3px;
+            -webkit-border-top-right-radius: 3px;
+            border-top-right-radius: 3px;
+        }
+
+        #results table tr
+        {
+            text-align: left;
+            padding-left: 20px;
+            cursor: pointer;
+            /*PIE pie_hover not works here*/
+            behavior: expression(runtimeStyle.behavior = 'none', onmouseover = function() {this.className += ' hover'}, onmouseout = function() {this.className = this.className.replace(/ hover/g, '')});
+        }
+
+            #results table tr td:first-child
+            {
+                text-align: left;
+                padding-left: 20px;
+                border-left: 0;
+            }
+
+            #results table tr td
+            {
+                padding: 7px;
+                border-top: 1px solid #ffffff;
+                border-bottom: 1px solid #e0e0e0;
+                border-left: 1px solid #e0e0e0;
+                background: #fafafa;
+            }
+
+            #results table tr.even td
+            {
+                background: #f6f6f6;
+                background: -webkit-gradient(linear, left top, left bottom, from(#f8f8f8), to(#f6f6f6));
+                background: -moz-linear-gradient(top, #f8f8f8, #f6f6f6);
+            }
+
+            #results table tr:last-child td
+            {
+                border-bottom: 0;
+            }
+
+                #results table tr:last-child td:first-child
+                {
+                    -moz-border-radius-bottomleft: 3px;
+                    -webkit-border-bottom-left-radius: 3px;
+                    border-bottom-left-radius: 3px;
+                }
+
+                #results table tr:last-child td:last-child
+                {
+                    -moz-border-radius-bottomright: 3px;
+                    -webkit-border-bottom-right-radius: 3px;
+                    border-bottom-right-radius: 3px;
+                }
+
+            #results table tr:hover td, #results table tr.hover td
+            {
+                background: -webkit-gradient(linear, left top, left bottom, from(#f2f2f2), to(#f0f0f0));
+                background: -moz-linear-gradient(top, #f2f2f2, #f0f0f0);
+                background: gradient(linear, top, bottom, #F2F2F2, #f0f0f0);
+                behavior: url('/sitecore/shell/Applications/Buckets/Scripts/PIE.htc');
+            }
+
+.list
+{
+    float: left;
+    width: 28px;
+    height: 28px;
+    position: relative;
+    z-index: 1;
+    margin: auto;
+    margin-top: 12px;
+    cursor: pointer;
+    background: url("../images/view_list.png");
+}
+
+    .list.active
+    {
+        float: left;
+        width: 28px;
+        height: 28px;
+        position: relative;
+        z-index: 1;
+        margin: auto;
+        margin-top: 12px;
+        cursor: pointer;
+        background: url("../images/view_list_selected.png");
+    }
+
+
+    .list:hover
+    {
+        float: left;
+        width: 28px;
+        height: 28px;
+        position: relative;
+        z-index: 1;
+        margin: auto;
+        margin-top: 12px;
+        cursor: pointer;
+        background: url("../images/view_list_selected.png");
+    }
+
+.ui-slider-horizontal
+{
+    margin-top: 15px;
+    margin-left: 10px;
+    height: 0.3em;
+}
+
+.boxgrid h3
+{
+    margin: 10px 10px 0 10px;
+    color: #FFF;
+    font: 18pt Arial, sans-serif;
+    letter-spacing: -1px;
+    font-weight: bold;
+}
+
+.boxgrid
+{
+    width: 285px;
+    height: 240px;
+    margin: 10px;
+    float: none;
+    background: #161613;
+    border: solid 2px #8399AF;
+    overflow: hidden;
+    position: relative;
+    vertical-align: top;
+    text-align: left;
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+}
+
+    .boxgrid img
+    {
+        position: absolute;
+        top: 0;
+        left: 0;
+        border: 0;
+    }
+
+    .boxgrid p
+    {
+        padding: 0 10px;
+        color: #afafaf;
+        font-weight: bold;
+        font: 10pt "Lucida Grande", Arial, sans-serif;
+    }
+
+.boxcaption
+{
+    float: left;
+    position: absolute;
+    background: #000;
+    height: 100px;
+    width: 100%;
+    opacity: .8;
+    /* For IE 5-7 */
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+    /* For IE 8 */
+    -MS-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+}
+
+.captionfull .boxcaption
+{
+    top: 260;
+    left: 0;
+}
+
+.caption .boxcaption
+{
+    top: 220;
+    left: 0;
+}
+
+.slide-out-div
+{
+    padding: 30px 20px 0 20px;
+    width: 180px;
+    /*z-index: 9999999;*/
+}
+
+.slide-out-div2
+{
+    /*padding: 0 20px;*/
+    width: 180px;
+    /*z-index: 9999999;*/
+}
+
+.scrolling
+{
+    height: 450px;
+    overflow: scroll;
+}
+
+#resultInfoMessage
+{
+    margin-top: 100px;
+}

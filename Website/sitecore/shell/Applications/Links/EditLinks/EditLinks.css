@@ -1,0 +1,55 @@
+.scLink {
+  border-bottom:1px solid #999999;
+  margin:8px 4px 8px 16px;
+  padding:2px 8px 8px 8px;
+}
+
+.scLinkTable {
+}
+
+.scLinkTable td {
+  vertical-align:top;
+}
+
+.scLinkIcon {
+  width:24px;
+  height:24px;
+  margin:0px 4px 0px 0px;
+}
+
+.scLinkHeader {
+  font-weight:bold;
+  color:#072D6B
+}
+
+.scLinkDetails {
+  padding:2px 0px 0px 0px;
+  color:#999999;
+}
+
+.scLinkField {
+  padding:1px 0px 1px 0px;
+}
+
+.scLinkDivider {
+  background:#dddddd;
+  margin:4px 0px 4px 0px;
+}
+
+.scLinkCommand {
+ padding:0px 8px 0px 0px
+}
+
+.scLinkCommandIcon {
+  width:16px;
+  height:16px;
+  margin:0px 4px 0px 4px;
+  vertical-align:middle;
+}
+
+.scLinkCommandIcon_Hover {
+  width:16px;
+  height:16px;
+  margin:0px 4px 0px 4px;
+  vertical-align:middle;
+}

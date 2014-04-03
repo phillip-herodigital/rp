@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control xmlns:def="Definition"
+         xmlns:x="http://www.sitecore.net/xaml">
+  <Installer.Designer>
+    <FormPage Application="Tools/Installer/Designer">
+      <Script Src="/sitecore/shell/Applications/Content Manager/Content Editor.js"/>
+      <Script Src="/sitecore/shell/Controls/SitecoreKeyboard.js"/>
+      <Script Src="/sitecore/shell/Controls/Sitecore.Runtime.js"/>
+      <Script Src="/sitecore/shell/Controls/TreeviewEx/TreeviewEx.js"/>
+      <Script Src="/sitecore/shell/Applications/Install/Designer.js"/>
+
+      <Stylesheet Src="Content Manager.css" DeviceDependant="true" runat="server" x:placeholder="stylesheets" />
+      <Stylesheet  Src="Ribbon.css" DeviceDependant="true" runat="server" x:placeholder="Stylesheets" />
+
+      <CodeBeside Type="Sitecore.Shell.Applications.Install.Designer, Sitecore.Client"/>
+
+      <input type="hidden" id="__ActiveRibbonStrip" name="__ActiveRibbonStrip" />
+      <Literal ID="FrameName" />
+      <Border ID="Internals" />
+
+      <GridPanel Width="100%" Height="100%" Background="white" CellPadding="0" CellSpacing="0">
+
+        <Border GridPanel.Row.Height="20px" ID="RibbonFrame" GridPanel.Height="0px" Class="scCaption"/>
+
+        <Border ID="ViewFrame" GridPanel.Style="padding:1px" Height="100%" GridPanel.Height="100%">
+          <Installer.ProjectView ID="View" />
+        </Border>
+
+        <GridPanel ID="StatusBar" Width="100%" GridPanel.Row.Height="24px" Background="#ededed" Columns="2" CellPadding="1">
+          <Border Border="1px solid silver" Background="White" Margin="2px" Padding="2px" >
+            <Literal ID="StatusText" Text="&#160;"/>
+          </Border>
+        </GridPanel>
+        
+      </GridPanel>  
+      
+    </FormPage>
+  </Installer.Designer>
+</control>

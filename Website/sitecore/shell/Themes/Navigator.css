@@ -1,0 +1,24 @@
+.scNavigator
+{
+  cursor:default;
+  margin-left:18px;
+  padding:2px;
+  padding-left:4px;
+  padding-right:4px;
+  text-align:right;
+  white-space: nowrap;
+}
+
+.scNavigatorPrevious, .scNavigatorItem, .scNavigatorNext
+{
+  cursor:default;
+  font-weight:bold;
+}
+
+.scNavigatorActiveItem
+{
+  cursor:default;
+  color:activecaption;
+}
+
+

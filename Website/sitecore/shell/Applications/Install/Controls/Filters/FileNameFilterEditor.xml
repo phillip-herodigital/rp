@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control xmlns:def="Definition">
+   <Installer.FileNameFilterEditor def:inherits="Sitecore.Shell.Applications.Install.Controls.FileNameFilterEditor,Sitecore.Client">
+      <GridPanel Width="100%" Columns="1"  Height="100%">
+         <Literal Text="All or part of the file name:"/>
+         <GridPanel Width="100%" Columns="2"  Height="100%" GridPanel.Valign="Top">
+            <Edit def:ID="MaskFile" Width="100%" GridPanel.Width="100%"/>
+            <Button def:ID="ClearButton" Header="Clear Filter" />
+
+            <Checkbox def:ID="IncludeAllDirectories" Header="Ignore filter for directory entries" GridPanel.Colspan="2"/>
+         </GridPanel>
+      </GridPanel>
+   </Installer.FileNameFilterEditor>
+</control>

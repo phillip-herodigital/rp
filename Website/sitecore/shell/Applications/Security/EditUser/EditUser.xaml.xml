@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xamlControls 
+  xmlns:x="http://www.sitecore.net/xaml"
+  xmlns:ajax="http://www.sitecore.net/ajax"
+  xmlns:rest="http://www.sitecore.net/rest"
+  xmlns:r="http://www.sitecore.net/renderings"
+  xmlns:xmlcontrol="http://www.sitecore.net/xmlcontrols"
+  xmlns:p="http://schemas.sitecore.net/Visual-Studio-Intellisense"
+  xmlns:asp="http://www.sitecore.net/microsoft/webcontrols"
+  xmlns:html="http://www.sitecore.net/microsoft/htmlcontrols"
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+  
+  <Sitecore.Shell.Applications.Security.EditUser Application="Security/Edit User" x:inherits="Sitecore.Shell.Applications.Security.EditUser.EditUserPage,Sitecore.Client">
+    <x:register assembly="ComponentArt.Web.UI" namespace="ComponentArt.Web.UI" />
+
+    <Sitecore.Controls.DialogPage Header="Edit User" Icon="People/32x32/user1.png" Text="Edit the information about the user." runat="server">
+      <AjaxScriptManager runat="server"/>
+      <ContinuationManager runat="server" />     
+      <Style runat="server" x:placeholder="Stylesheets">
+        .EntryGrid {
+        padding:0px 8px 2px 8px;
+        }
+
+        .ff .EntryGrid.RolesGrid {
+        border-spacing: 1px 1px;
+        }
+
+        .ff .EntryGrid {
+        border-spacing: 8px 4px;
+        width: 100%;
+        }
+
+        .EntryGrid td {
+        white-space:nowrap;
+        }
+
+        .TabStrip {
+        position:relative;
+        top:2px;
+        z-index:1;
+        }
+
+        .DefaultTab {
+        color:black;
+        background-image: url(/sitecore/shell/themes/standard/ComponentArt/Tabstrip/tab_bg.gif);
+        font-family:Tahoma;
+        font-size:8pt;
+        cursor:default;
+        }
+
+        .ie.lang_ja_jp .DefaultTab {
+        background-image: url(/sitecore/shell/themes/standard/ComponentArt/Tabstrip/tab_bg_jp.gif);
+        }
+
+        .DefaultTabHover {
+        color:black;
+        background-image: url(/sitecore/shell/themes/standard/ComponentArt/Tabstrip/hover_tab_bg.gif);
+        font-family:Tahoma;
+        font-size:8pt;
+        cursor:default;
+        }
+
+        .ie.lang_ja_jp .DefaultTabHover {
+        background-image: url(/sitecore/shell/themes/standard/ComponentArt/Tabstrip/hover_tab_bg_jp.gif);
+        }
+
+        .SelectedTab {
+        color:black;
+        background-image: url(/sitecore/shell/themes/standard/ComponentArt/Tabstrip/selected_tab_bg.gif);
+        font-family:Tahoma;
+        font-size:8pt;
+        cursor:default;
+        }
+
+        .ie.lang_ja_jp .SelectedTab {
+          background-image: url(/sitecore/shell/themes/standard/ComponentArt/Tabstrip/selected_tab_bg_jp.gif);
+        }
+
+        .MultiPage {
+        background-color:White;
+        border: 1px solid #919B9C;
+        width:100%;
+        height:100%;
+        }
+
+        .PageContent {
+        background:#fbfbfb;
+        }
+
+
+        .scText,
+        .scPassword,
+        .scLookup,
+        .scChecklist {
+        width:100%;
+        }
+
+        .scMemo {
+        width:100%;
+        height:100%;
+        }
+
+        .scCheckbox {
+        }
+
+        .scFieldLabel {
+        color:#6487DC;
+        padding:4px 0px 2px 0px;
+        background:white;
+        border:none;
+        }
+
+        .ff .hLine
+        {
+        margin-top: 8px;
+        }
+
+        table#PropertiesGrid td
+        {
+        padding-right: 4px;
+        padding-left: 4px;
+        }
+
+        .Language
+        {
+        width: 100%;
+        }
+
+        /*Chrome stretches the select's width as well as its containers's width to the longest option width*/
+        .wk .Language
+        {
+        width: 300px;
+        }
+      </Style>
+
+      <table width="100%" height="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td>
+            <TabStrip id="TabStrip"
+              CssClass="TabStrip" 
+              DefaultItemLookId="DefaultTabLook"
+              DefaultSelectedItemLookId="SelectedTabLook"
+              DefaultDisabledItemLookId="DisabledTabLook"
+              DefaultGroupTabSpacing="0"
+              ImagesBaseUrl="/sitecore/shell/themes/standard/ComponentArt/TabStrip/"
+              MultiPageId="MultiPage"
+              runat="server">
+              <ItemLooks>
+                <ItemLook LookId="DefaultTabLook" CssClass="DefaultTab" HoverCssClass="DefaultTabHover" LabelPaddingLeft="10" LabelPaddingRight="10" LabelPaddingTop="5" LabelPaddingBottom="4" LeftIconUrl="tab_left_icon.gif" RightIconUrl="tab_right_icon.gif" HoverLeftIconUrl="hover_tab_left_icon.gif" HoverRightIconUrl="hover_tab_right_icon.gif" LeftIconWidth="3" LeftIconHeight="21" RightIconWidth="3" RightIconHeight="21" runat="server" />
+                <ItemLook LookId="SelectedTabLook" CssClass="SelectedTab" LabelPaddingLeft="10" LabelPaddingRight="10" LabelPaddingTop="4" LabelPaddingBottom="4" LeftIconUrl="selected_tab_left_icon.gif" RightIconUrl="selected_tab_right_icon.gif" LeftIconWidth="3" LeftIconHeight="21" RightIconWidth="3" RightIconHeight="21" runat="server" />
+              </ItemLooks>
+              <Tabs>
+                <TabStripTab Text="General" runat="server" />
+                <TabStripTab Text="Member Of" runat="server" />
+                <TabStripTab Text="Profile" runat="server" />
+                <TabStripTab Text="Language Settings" runat="server" />
+                <TabStripTab Text="Information" runat="server" />
+              </Tabs>
+            </TabStrip>
+          </td>
+        </tr>
+
+        <tr>
+          <td height="100%">
+            <MultiPage id="MultiPage" CssClass="MultiPage" runat="server">
+              <PageViews>
+                <PageView CssClass="PageContent" runat="server">
+
+                  <div style="padding:8px 4px 0px 4px">
+                    <ThemedImage ID="Icon" Src="People/32x32/user1.png" Width="32" Height="32" runat="server" Align="middle" Float="left" Margin="0px 4px 0px 4px"/>
+                    <div style="font:bold 9pt tahoma">
+                      <asp:Label ID="UserName" runat="server"/>
+                    </div>
+                    <div>
+                      <asp:Label ID="DomainName" runat="server"/>
+                    </div>
+                    <hr class="hLine" style="clear:left"/>
+                  </div>
+
+                  <GridPanel Class="EntryGrid" Columns="2" runat="server">
+
+                    <Literal Text="Full Name:" runat="server" GridPanel.Align="right"/>
+                    <asp:TextBox ID="FullName" runat="server" Width="100%" GridPanel.Width="100%"/>
+
+                    <Literal Text="Comment:" runat="server" GridPanel.Align="right"/>
+                    <asp:TextBox ID="Description" runat="server" Width="100%" GridPanel.Width="100%"/>
+
+                    <Literal Text="E-mail:" runat="server" GridPanel.Align="right"/>
+                    <asp:TextBox ID="Email" runat="server" Width="100%" GridPanel.Width="100%"/>
+
+                    <Border runat="server" />
+                    <Checkbox ID="IsAdministrator" Header="User is administrator" runat="server" />
+
+                    <Border GridPanel.ColSpan="2" runat="server">
+                      <hr />
+                    </Border>
+
+                    <Literal Text="Portrait:" runat="server" GridPanel.Align="right" GridPanel.VAlign="top"/>
+                    <GridPanel Columns="2" Width="100%" runat="server">
+
+                      <Border GridPanel.ColSpan="2" Padding="0px 0px 4px 0px"  runat="server">
+                        <asp:TextBox ID="Portrait" runat="server" Width="100%" Text="People/48x48/User1.png" ajax:Change="Portrait_Change"/>
+                      </Border>
+
+                      <Border Border="1px inset" Margin="0px 16px 0px 0px" GridPanel.VAlign="top" runat="server">
+                        <Border Padding="4px" runat="server">
+                          <ThemedImage ID="PortraitImage" Src="People/48x48/User1.png" Height="48" Width="48" runat="server"/>
+                        </Border>
+                      </Border>
+
+                      <asp:DropDownList ID="Portraits" Width="100%" Size="8" GridPanel.VAlign="top" GridPanel.Width="100%" ajax:Change="Portraits_Change" runat="server"/>
+                    </GridPanel>
+
+                  </GridPanel>
+
+                </PageView>
+
+                <PageView CssClass="PageContent" runat="server">
+
+                  <GridPanel Class="EntryGrid RolesGrid" runat="server" Height="100%" Width="100%">
+                    <div style="padding:8px 0px 0px 0px" runat="server">
+                      <Literal Text="Roles:" runat="server" />
+                    </div>
+                    
+                    <html:HtmlInputHidden ID="RolesValue" runat="server" />
+                    <html:HtmlInputHidden ID="ManagedDomainsValue" runat="server" />
+                    
+                    <html:HtmlSelect ID="Roles" runat="server" style="height:100%;width:100%" Size="8" GridPanel.Height="100%"/>
+
+                    <Border Padding="0px 0px 4px 0px" runat="server">
+                      <asp:Button ID="Add" Text="Edit" Font-Names="tahoma" Font-Size="8pt" Width="75px" Height="25px" ajax:Click="Add_Click" runat="server" />
+                      <asp:Button ID="ManagedDomains" Text="Domains" Font-Names="tahoma" Font-Size="8pt" Width="75px" Height="25px" Margin="0px 0px 0px 8px" ajax:Click="ManagedDomains_Click" runat="server" />
+                    </Border>
+
+                  </GridPanel>
+
+                </PageView>
+
+                <PageView CssClass="PageContent" runat="server">
+                  <GridPanel Width="100%" Height="100%" Padding="8px" runat="server">
+
+                    <fieldset runat="server">
+                      <legend>
+                        <Literal Text="User Profile" runat="server" />
+                      </legend>
+
+                      <GridPanel Width="100%" Columns="2" runat="server">
+                        <Literal Text="Start Url:" GridPanel.Align="right" GridPanel.VAlign="top" runat="server" GridPanel.Style="white-space:nowrap;padding:4px 0px 0px 4px"/>
+
+                        <div runat="server" GridPanel.Width="100%">
+                          <input id="StartDefault" runat="server" name="StartUrlSelector" type="radio" value="Default" />
+                          <label for="StartDefault">
+                            <Literal Text="Default" runat="server"/>
+                          </label>
+                          <br/>
+
+                          <input id="StartContentEditor" runat="server"  name="StartUrlSelector" type="radio" value="/sitecore/shell/applications/clientusesoswindows.aspx"/>
+                          <label for="StartContentEditor">
+                            <Literal Text="Content Editor" runat="server"/>
+                          </label>
+                          <br/>
+
+                          <input id="StartWebEdit" runat="server" name="StartUrlSelector" type="radio" value="/sitecore/shell/applications/webedit.aspx" />
+                          <label for="StartWebEdit">
+                            <Literal Text="Page Editor"  runat="server"/>
+                          </label>
+                          <br/>
+
+                          <input id="StartPreview" runat="server" name="StartUrlSelector" type="radio" value="/sitecore/shell/applications/preview.aspx" />
+                          <label for="StartPreview">
+                            <Literal Text="Preview" runat="server"/>
+                          </label>
+                          <br/>
+
+                          <input id="StartDesktop" runat="server" name="StartUrlSelector" type="radio" value="/sitecore/shell/default.aspx" />
+                          <label for="StartDesktop">
+                            <Literal Text="Desktop" runat="server"/>
+                          </label>
+                          <br/>
+
+                          <input id="StartCustom" runat="server" name="StartUrlSelector" type="radio" value="Custom" />
+                          <label for="StartUrl">
+                            <Literal Text="URL:" runat="server"/>
+                          </label>
+                          <br/>
+                          <asp:TextBox ID="StartUrl" Width="300px" Style="margin:0px 0px 0px 20px"  runat="server"/>
+                          <br/>
+                        </div>
+                        
+                      </GridPanel>
+                    </fieldset>
+                    
+                    <Border runat="server" GridPanel.Style="padding:8px 4px 2px 4px">
+                      <Literal Text="Additional Properties:" runat="server"/>
+                    </Border>
+
+                    <Border Height="100%" GridPanel.Style="padding:0px 4px 0px 4px" GridPanel.Height="100%" runat="server">
+                      <Scrollbox ID="Properties" Height="100%" runat="server" Class="scScrollbox scFixSize" Padding="0px">
+                        <Frame ID="PropertiesFrame" Width="100%" runat="server" />
+                      </Scrollbox>
+                    </Border>
+                    
+
+                    <Border GridPanel.Style="padding: 4px" runat="server">
+                      <asp:Button ID="EditProfile" Text="Edit" Font-Names="tahoma" Font-Size="8pt" Width="75px" Height="25px" ajax:Click="EditProfile_Click" runat="server" />
+                      <asp:Button ID="ChangeProfile" Text="Change" Font-Names="tahoma" Font-Size="8pt" Width="75px" Height="25px" ajax:Click="ChangeProfile_Click" runat="server" />
+                    </Border>
+                  </GridPanel>
+                </PageView>
+                
+                <PageView CssClass="PageContent" runat="server">
+                  <div style="padding:8px 8px 0px 8px">
+
+                    <fieldset>
+                      <legend>
+                        <Literal Text="Sitecore Client" runat="server" />
+                      </legend>
+
+                      <GridPanel Class="EntryGrid" Columns="2" runat="server">
+                        <Literal Text="Client Language:" GridPanel.Align="right" runat="server" />
+                        <asp:DropDownList ID="ClientLanguage" CssClass="Language" GridPanel.Width="100%" runat="server"/>
+                        
+                        <Literal Text="Regional ISO Code:"  GridPanel.Align="right" runat="server" />
+                        <asp:DropDownList ID="RegionalISOCode" CssClass="Language" GridPanel.Width="100%" runat="server"/>
+                      </GridPanel>
+                    </fieldset>
+
+                    <fieldset style="padding:8px 0px 0px 0px">
+                      <legend>
+                        <Literal Text="Content" runat="server" />
+                      </legend>
+
+                      <GridPanel Class="EntryGrid" Columns="2" runat="server">
+                        <Literal Text="Default Content Language:" GridPanel.Align="right" runat="server" />
+                        <asp:DropDownList ID="ContentLanguage" CssClass="Language" GridPanel.Width="100%" runat="server"/>
+                      </GridPanel>
+                    </fieldset>
+                  </div>
+                </PageView>
+
+                <PageView CssClass="PageContent" runat="server">
+                  <div style="padding:8px 8px 0px 8px">
+                    <GridPanel Columns="2" CellPadding="4" runat="server">
+                      <Literal Text="Last Login:" GridPanel.Align="right" runat="server" />
+                      <asp:Label ID="LastLoginDate" runat="server"/>
+
+                      <Literal Text="Created:" GridPanel.Align="right" runat="server" />
+                      <asp:Label ID="CreationDate" runat="server"/>
+
+                      <Literal Text="Last Activity:" GridPanel.Align="right" runat="server" />
+                      <asp:Label ID="LastActivityDate" runat="server"/>
+
+                      <Literal Text="Last Password Changed:" GridPanel.Align="right" runat="server" />
+                      <asp:Label ID="LastPasswordChangedDate" runat="server"/>
+
+                      <Literal Text="Last Lockout:" GridPanel.Align="right" runat="server" />
+                      <asp:Label ID="LastLockoutDate" runat="server"/>
+                    </GridPanel>
+                  </div>
+                </PageView>
+
+              </PageViews>
+            </MultiPage>
+          </td>
+        </tr>
+      </table>        
+        
+    </Sitecore.Controls.DialogPage>
+  </Sitecore.Shell.Applications.Security.EditUser>
+
+</xamlControls>

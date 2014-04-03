@@ -1,0 +1,276 @@
+.scStartbar {
+  height: 29px;
+  overflow: hidden;
+}
+
+.scStartMenu {
+  background: #999999;
+}
+
+/* --- Top --- */
+
+.scStartMenuTop {
+  background: url(/sitecore/shell/themes/Standard/Images/Startbar/top.png);
+  height: 65px;
+  width: 380px;
+}
+
+.scStartMenuTopIcon {
+  float: left;
+  height: 32px;
+  margin: 17px 16px 16px 16px;
+  width: 32px;
+}
+
+.scStartMenuTopNames {
+  color: white;
+  padding: 14px 0px 0px 0px;
+  height: 65px;
+}
+
+.scStartMenuTopUserName {
+  font: 14pt Franklin Gothic Medium;
+}
+
+.scStartMenuTopFullName {
+}
+
+/* --- Bottom -- */
+
+.scStartMenuBottom {
+  background: url(/sitecore/shell/themes/standard/Images/Startbar/Bottom.png);
+  color: white;
+  height: 41px;
+  text-align: right;
+  width: 380px;
+}
+
+.scStartMenuBottomInner {
+  padding: 8px 6px 0px 0px;
+}
+
+/* --- Content --- */
+
+.scStartMenuContent {
+  border-left: 1px solid #485052;
+  border-right: 1px solid #485052;
+}
+
+.scStartMenuContentColumns {
+  border: none;
+  border-left: 1px solid #9EA6A8;
+  border-right: 1px solid #5E6668;
+  width: 378px;
+  table-layout: fixed;
+}
+
+/* --- Left --- */
+
+.scStartMenuLeft {
+  width: 187px;
+  background: #FFFFFF;
+  vertical-align: top;
+}
+
+.scStartMenuLeftDivider {
+  text-align: center;
+  padding: 2px;
+}
+
+.scStartMenuLeftDividerIcon {
+  height: 1px;
+  width: 128px;
+}
+
+.scStartMenuLeftOption, .scStartMenuLeftOption:link, .scStartMenuLeftOption:visited, .scStartMenuLeftOption:hover, .scStartMenuLeftOption:active {
+  cursor: default;
+  display: block;
+  height: 36px;
+  margin: 3px 0px 3px 0px;
+  padding: 2px 1px 2px 3px;
+  text-decoration: none;
+}
+
+.ff .scStartMenuLeftOption, .ff .scStartMenuLeftOption:link, .ff .scStartMenuLeftOption:visited, .ff .scStartMenuLeftOption:hover, .ff .scStartMenuLeftOption:active {
+  height: auto;
+  min-height: 36px;
+}
+
+.scStartMenuLeftOption:hover {
+  border-top: 1px solid #ddcf9b;
+  border-bottom: 1px solid #dfd8bd;
+  background: #ffe695 url(/sitecore/shell/Themes/Standard/Images/RibbonLargeButtonHover.png) repeat-x;
+  padding: 1px 1px 1px 3px;
+}
+
+.scStartMenuLeftOptionIcon {
+  border: none;
+  float: left;
+  height: 32px;
+  margin: 0px 8px 0px 0px;
+  vertical-align: middle;
+  width: 32px;
+}
+
+.scStartMenuLeftOptionDisplayName {
+  padding: 2px 0px 0px 0px;
+  font-weight: bold;
+}
+
+.scStartMenuLeftOptionToolTip {
+}
+
+/* --- Middle --- */
+.scStartMenuMiddle {
+  width: 1px;
+  background: #FEE9CA;
+}
+
+/* --- Right --- */
+
+.scStartMenuRight {
+  background: #FFF8E5;
+  vertical-align: top;
+  width: 188px;
+}
+
+.scStartMenuRightDivider {
+  text-align: center;
+  padding: 2px;
+}
+
+.scStartMenuRightDividerIcon {
+  height: 1px;
+  width: 128px;
+}
+
+.scStartMenuRightOption, .scStartMenuRightOption:link, .scStartMenuRightOption:visited, .scStartMenuRightOption:hover, .scStartMenuRightOption:active {
+  cursor: default;
+  display: block;
+  height: 24px;
+  padding: 2px;
+  text-decoration: none;
+}
+
+.scStartMenuRightOption:hover {
+  border-top: 1px solid #ddcf9b;
+  border-bottom: 1px solid #dfd8bd;
+  background: #ffe695 url(/sitecore/shell/Themes/Standard/Images/RibbonLargeButtonHover.png) repeat-x;
+  padding: 1px 2px 1px 2px;
+}
+
+.scStartMenuRightOptionIcon {
+  border: none;
+  float: left;
+  height: 24px;
+  margin: 0px 4px 0px 0px;
+  vertical-align: middle;
+  width: 24px;
+}
+
+.scStartMenuRightOptionDisplayName {
+  padding: 5px 0px 0px 0px;
+}
+
+.scStartMenuRightFolder, .scStartMenuRightFolder:link, .scStartMenuRightFolder:visited, .scStartMenuRightFolder:hover, .scStartMenuRightFolder:active {
+  cursor: default;
+  display: block;
+  height: 24px;
+  padding: 2px;
+  text-decoration: none;
+}
+
+.scStartMenuRightFolder:hover {
+  border-top: 1px solid #ddcf9b;
+  border-bottom: 1px solid #dfd8bd;
+  background: #ffe695 url(/sitecore/shell/Themes/Standard/Images/RibbonLargeButtonHover.png) repeat-x;
+  padding: 1px 2px 1px 2px;
+}
+
+.scStartMenuRightFolderIcon {
+  border: none;
+  float: left;
+  height: 24px;
+  margin: 0px 4px 0px 0px;
+  vertical-align: middle;
+  width: 24px;
+}
+
+.scStartMenuRightFolderDisplayName {
+  padding: 5px 0px 0px 0px;
+}
+
+.scStartMenuRightFolderGlyph {
+  border: none;
+  float: right;
+  height: 16px;
+  margin: 5px 0px 0px 4px;
+  vertical-align: middle;
+  width: 16px;
+}
+
+/* --- Programs --- */
+
+.scStartMenuPrograms {
+  background: white;
+  vertical-align: bottom;
+}
+
+.scStartMenuProgramsMenu, .scStartMenuProgramsMenu:link, .scStartMenuProgramsMenu:visited, .scStartMenuProgramsMenu:hover, .scStartMenuProgramsMenu:active {
+  cursor: default;
+  display: block;
+  font-weight: bold;
+  height: 24px;
+  padding: 6px 6px 6px 30px;
+  text-decoration: none;
+}
+
+.scStartMenuProgramsMenu:hover {
+  border-top: 1px solid #ddcf9b;
+  border-bottom: 1px solid #dfd8bd;
+  background: #ffe695 url(/sitecore/shell/Themes/Standard/Images/RibbonLargeButtonHover.png) repeat-x;
+  padding: 5px 6px 5px 30px;
+}
+
+.scStartMenuProgramsGlyph {
+  border: none;
+  height: 24px;
+  margin: 0px 0px 0px 8px;
+  vertical-align: middle;
+  width: 24px;
+}
+
+.scStartBarApplication span img {
+  vertical-align: middle;
+}
+
+/* support for Japanese */
+.scStartMenu.lang_ja_jp table, table.scMenu.lang_ja_jp {
+  font-size: 9pt;
+}
+
+.lang_ja_jp .scStartMenuTop {
+  width: 400px;
+  background: url(/sitecore/shell/themes/Standard/Images/Startbar/ja/top.png);
+}
+
+.lang_ja_jp .scStartMenuBottom {
+  width: 400px;
+  background: url(/sitecore/shell/themes/Standard/Images/Startbar/ja/bottom.png);
+}
+
+.lang_ja_jp .scStartMenuContentColumns {
+  width: 398px;
+}
+
+.lang_ja_jp .scStartMenuLeft {
+  width: 230px;
+}
+
+.lang_ja_jp .scStartMenuRight {
+  width: 165px;
+}
+
+.lang_ja_jp .scStartMenuRightFolderIcon {
+  margin-right: 2px;
+}

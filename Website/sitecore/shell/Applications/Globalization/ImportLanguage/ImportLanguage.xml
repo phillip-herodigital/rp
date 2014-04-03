@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <ImportLanguage>
+    <WizardForm CodeBeside="Sitecore.Shell.Applications.GLobalization.ImportLanguage.ImportLanguageForm,Sitecore.Client" Submittable="false">
+
+      <WizardFormFirstPage ID="FirstPage" Icon="Network/32x32/Earth_Location.png">
+        <Border Class="scWizardWelcomeTitle"><Literal ID="Welcome" Text="Welcome to the Import Language Wizard."/></Border>
+        <Literal Text="This wizard helps you:"/>
+        <ul>
+          <li class="scWizardBullet"><Literal Text="Select a language file."/></li>
+          <li class="scWizardBullet"><Literal Text="Select languages to import."/></li>
+          <li class="scWizardBullet"><Literal Text="Import the language file."/></li>
+        </ul>
+      </WizardFormFirstPage>
+      
+      <WizardFormPage ID="File" Header="Select Language File" Text="Enter the name of the language file to import. Click Next to continue." Icon="Network/32x32/Earth_Location.png">
+        <WizardFormIndent>
+          <Border Padding="0px 0px 2px 0px">
+            <Literal Text="Enter the name of the language file:"/>
+          </Border>
+          
+          <Border Padding="0px 0px 16px 0px">
+            <Edit ID="LanguageFile" Width="100%"/>
+          </Border>
+
+          <Border Padding="0px 0px 2px 0px">
+            <Literal Text="Click Browse to locate a language file."/>
+          </Border>
+          
+          <Border>
+            <Button ID="Browse" Header="Browse" Click="import:browse"/>
+          </Border>
+          
+        </WizardFormIndent>
+      </WizardFormPage>
+
+      <WizardFormPage ID="Languages" Header="Select Languages to Import" Text="Please the languages in the language file that you want to import. When ready, click Next to continue." Icon="Network/32x32/Earth_Location.png">
+        <WizardFormIndent>
+          <Border Padding="0px 0px 8px 0px">
+            <Literal Text="Choose the languages to import:"/>
+          </Border>
+
+          <Scrollbox ID="LanguageList" Width="100%" Height="200px" />
+
+        </WizardFormIndent>
+      </WizardFormPage>
+
+      <WizardFormPage ID="Ready" Header="Ready to Import" Text="Please verify the settings below, then click Next to start the import." Icon="Network/32x32/Earth_Location.png">
+        <WizardFormIndent>
+          <GridPanel Columns="2" CellPadding="4">
+            <Literal Text="File:"/>
+            <Literal ID="LanguageFileInfo" />
+            
+            <Literal Text="Languages:" GridPanel.Valign="top"/>
+            <Border ID="SelectedLanguages" />
+          </GridPanel>
+        </WizardFormIndent>
+      </WizardFormPage>
+
+      <WizardFormPage ID="Importing" Header="Importing" Text="Please wait while importing..." Icon="Network/32x32/Earth_Location.png">
+        <GridPanel Width="100%">
+          
+          <Space Height="64"/>
+          
+          <ThemedImage Src="Network/48x48/Earth_Location.png" Width="48" Height="48" GridPanel.Align="center"/>
+
+          <Space Height="16"/>
+          
+          <Border Align="center">
+            <ThemedImage Src="Images/progress.gif" Width="94" Height="17"/>
+          </Border>
+          
+          <Space Height="16"/>
+          
+          <Border ID="Text" Align="center" GridPanel.Align="center" GridPanel.Style="font-weight:bold">
+            <Literal Text="Importing..."/>
+          </Border>
+          <Space Height="16"/>
+          <Border ID="Status" Align="center" GridPanel.Align="center">
+            &#160;
+          </Border>
+          
+        </GridPanel>
+      </WizardFormPage>
+
+      <WizardFormPage ID="Retry" Header="An error occurred" Text="An error occurred while importing the language file. You can review the error text below." Icon="Network/32x32/Earth_Location.png">
+        <WizardFormPadding>
+          <GridPanel Width="100%" Height="100%" Fixed="true">
+            <Memo ID="ErrorText" ReadOnly="true" Width="100%" Height="100%"/>
+          </GridPanel>
+        </WizardFormPadding>
+      </WizardFormPage>
+
+      <WizardFormLastPage ID="LastPage" Icon="Network/32x32/Earth_Location.png">
+        <GridPanel Cellpadding="2" Width="100%" Height="100%" Fixed="true">
+        
+          <Border GridPanel.Style="padding:0px 0px 16px 0px; font-weight:bold"><Literal Text="The wizard has completed. Click Finish to close the wizard."/></Border>
+          
+          <Border GridPanel.Style="padding:0px 0px 2px 0px">
+            <Literal Text="Result:"/>
+          </Border>
+          
+          <Memo ID="ResultText" ReadOnly="true" Width="100%" Height="100%" GridPanel.Height="100%"/>
+          
+        </GridPanel>
+      </WizardFormLastPage>
+
+    </WizardForm>
+  </ImportLanguage>
+</control>

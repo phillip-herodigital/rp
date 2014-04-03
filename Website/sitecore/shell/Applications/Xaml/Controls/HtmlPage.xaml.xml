@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xamlControls xmlns:html="http://www.sitecore.net/htmlcontrols" xmlns:x="http://www.sitecore.net/xaml">
+  <Sitecore.Controls.HtmlPage>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"&gt;
+    <x:param name="Title" value="Sitecore" />                                
+    <x:param name="Background" />
+    <x:param name="Overflow" />
+<html>
+  <meta http-equiv="X-UA-Compatible" content="IE=5"/>
+  <html:Head runat="server">
+    <html:Title runat="server" Text="{Title}" />
+    <meta name="GENERATOR" content="Sitecore" />
+    <meta http-equiv="imagetoolbar" content="no" />           
+    <meta http-equiv="imagetoolbar" content="false" />
+    <Placeholder runat="server" key="Stylesheets"/>
+    <Placeholder runat="server" key="Scripts"/>
+  </html:Head>
+      
+  <HtmlBody runat="server">
+    <x:styleattribute runat="server" name="overflow" value="{Overflow}" />
+
+    <html:Form runat="server">
+      <x:styleattribute runat="server" name="background" value="{Background}" />
+      <Placeholder runat="server"/>                                  
+    </html:Form>
+  </HtmlBody>
+</html>
+  </Sitecore.Controls.HtmlPage>
+</xamlControls>

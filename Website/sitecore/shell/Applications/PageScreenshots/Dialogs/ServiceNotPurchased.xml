@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <Sitecore.Shell.Applications.PageScreenshots.ServiceNotPurchased>
+    <FormDialog ID="Dialog" Icon="Custom/24x24/appcenter.png" OKButton="Open"  Header="The service isn't purchased" Text="Please purchase the 'Page Preview' service." >
+      <CodeBeside Type="Sitecore.Shell.Applications.PageScreenshots.Dialogs.ServiceNotPurchased, Sitecore.Client"/>
+      <GridPanel CellSpacing="4px">
+        <Literal Class="text" Text="To take screenshots of your pages you should purchase the 'Page Preview' service in 'Sitecore App Center' first."/>
+        <Literal Class="text" Text="Would you like to open 'Sitecore App Center' now?" />
+      </GridPanel>       
+    </FormDialog>
+  </Sitecore.Shell.Applications.PageScreenshots.ServiceNotPurchased>
+</control>

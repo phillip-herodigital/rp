@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <Sitecore.Shell.Applications.WebEdit.Dialogs.SelectTestWinners>    
+    <FormDialog ID="Dialog" Icon="BusinessV2/32x32/hand_thumb_up.png" Header="Stop the Test" OKButton="Select" Text="After you stop the test, each component will only display one of the configured variations. Select the desired variation or combination." >
+      <CodeBeside Type="Sitecore.Shell.Applications.WebEdit.Dialogs.SelectTestWinners.SelectTestWinnersForm ,Sitecore.Client"/>
+      <Stylesheet Src="/sitecore/shell/Controls/Testing/ComponentsRenderer/ComponentsRenderer.css"/>
+      <Stylesheet Src="/sitecore/shell/Controls/Testing/CombinationsGrid/CombinationsGrid.css"/>
+      <Stylesheet>
+        div.edit-variations
+        {
+          display:none;
+        }
+
+        table.testing-components
+        {
+          height: auto;
+        }
+
+        td.component-cell, td.variations-cell
+        {
+          padding: 8px;
+        }
+
+        tr.component-row
+        {
+          height: 96px;
+        }
+
+        .ff  tr.component-row
+        {
+          height: 94px;
+        }
+
+        #Components, #Combinations
+        {          
+          background-color:#FCFCFC;
+          border: none;
+        }
+
+        #combinationsGrid
+        {
+          width: 100%; 
+          margin-top: 4px;  
+          table-layout:fixed;
+        }
+
+        #combinationsGrid th
+        {
+          border-bottom: 1px solid #cfcfcf;
+          text-align: left;
+          padding-left: 4px;  
+        }
+
+        #combinationsGrid th.header span
+        {  
+          background-color: transparent;
+          background-image: none;
+          background-repeat: no-repeat;
+          background-position:right center;
+          padding-right: 10px;
+          display: inline-block;
+          color: #666;
+          font-weight: 600;
+        }
+
+        #combinationsGrid th.headerSortUp span
+        {
+          background-image: url('/sitecore/shell/Themes/Standard/Images/sortup9x5.png');
+        }
+
+        #combinationsGrid th.headerSortDown span
+        {
+          background-image: url('/sitecore/shell/Themes/Standard/Images/sortdown9x5.png');
+        }
+
+        .scWait
+        {
+          background: transparent url('/sitecore/shell/Themes/Standard/Images/PageEditor/toolbar_progress.gif') no-repeat center center; 
+        }
+          
+        #StopTestContainer
+        {
+          float:left;
+          padding-top: 4px;
+        }
+      </Stylesheet>
+      <Script Src="/sitecore/shell/Controls/Testing/ComponentsRenderer/ComponentsRenderer.js"/>
+      <Script Src="/sitecore/shell/Applications/WebEdit/Dialogs/SelectTestWinners/SelectTestWinners.js"/>
+      <Script Src="/sitecore/shell/Controls/Testing/CombinationsGrid/CombinationsGrid.js" />      
+      <Script Src="/sitecore/shell/Controls/Lib/jQuery/jQuery.noconflict.js"/>
+      <Script Src="/sitecore/shell/Controls/Lib/jQuery/tablesorter.js"/>
+      <Tabstrip ID="Tabs" Height="100%" Width="100%" GridPanel.Height="100%">
+        <Tab ID="ComponentsTab" Header="By Component" Height="100%">
+          <Scrollbox Width="100%" Height="100%" Padding="0" GridPanel.Height="100%" Class="scScrollbox scFixSize scKeepFixSize scFixSize4" ID="Components">
+          </Scrollbox>
+        </Tab>
+        <Tab ID="CombinationsTab" Header="By Combination" Height="100%">
+          <Scrollbox Width="100%" Height="100%" Padding="0" GridPanel.Height="100%" Class="scScrollbox scWait scFixSize scKeepFixSize" ID="Combinations">
+          </Scrollbox>
+        </Tab>
+      </Tabstrip>
+      <Border ID="StopTestContainer" def:placeholder="Buttons">
+        <a href="#" class="scActionLink" onclick="scForm.invoke('test:stop')">
+          <Literal Text="Stop test and revert to original design."></Literal>
+        </a>
+      </Border>      
+      <input type="hidden" id="selectedcombination" name="selectedcombination" value=""/>      
+    </FormDialog>
+  </Sitecore.Shell.Applications.WebEdit.Dialogs.SelectTestWinners>
+</control>

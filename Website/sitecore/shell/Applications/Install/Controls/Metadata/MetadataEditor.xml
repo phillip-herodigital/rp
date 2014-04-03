@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control xmlns:def="Definition">
+  <Installer.MetadataEditor def:inherits="Sitecore.Shell.Applications.Install.Controls.MetadataEditor,Sitecore.Client">
+
+    <Installer.FieldSet Header="General Info">
+
+      <Space Height="5px"/>
+      <Literal Text="Package Name" />
+      <Edit def:ID="PackageName" Width="100%" class="scInstallerField" maxlength="50"/>
+
+      <Space Height="5px"/>
+      <Literal Text="Author"/>
+      <Edit def:ID="Author" Width="100%" Class="scInstallerField"/>
+
+      <Space Height="5px"/>
+      <Literal Text="Version"/>
+      <Edit def:ID="Version" Width="100%" Class="scInstallerField" maxlength="50"/>
+
+
+    </Installer.FieldSet>
+
+    <Installer.FieldSet Header="Publishing">
+
+      <Space Height="5px"/>
+      <Literal Text="Publisher"/>
+      <Edit def:ID="Publisher" Width="100%" Class="scInstallerField"/>
+
+      <Space Height="5px"/>
+      <Border>
+        <Literal Text="License"/>
+        <Toolbutton Icon="Applications/16x16/edit.png" IconSize="id16x16" Tooltip="Modify..." Click="installer:modifylicense"/>
+      </Border>
+      <Scrollbox Height="200px" Border="solid 1px #dcdcdc">
+        <Literal def:ID="License" Width="100%"/>
+      </Scrollbox>
+
+    </Installer.FieldSet>
+
+    <Installer.FieldSet Header="Documentation">
+
+      <Space Height="5px"/>
+      <Literal Text="Comment"/>
+      <Memo def:ID="Comment" Width="100%" Height="100px" Class="scInstallerField"/>
+
+      <Space Height="5px"/>
+      <Border>
+        <Literal Text="Read me"/>
+        <Toolbutton Icon="Applications/16x16/edit.png" IconSize="id16x16" Tooltip="Modify..." Click="installer:modifyreadme"/>
+      </Border>
+      <Memo def:ID="Readme" ReadOnly="true" Class="scInstallerField" Width="100%" Height="200px" Style="scroll:auto"/>
+
+    </Installer.FieldSet>
+
+    <Installer.FieldSet Header="System">
+
+      <Space Height="5px" />
+      <Literal Text="Post Step" Margin="0 0 0 2px"/>
+      <Edit def:ID="PostStep" Width="100%" Class="scInstallerField" Margin="0px 2px"/>
+
+      <Space Height="5px" />
+      <Literal Text="Custom Attributes" Margin="0 0 0 2px"/>
+      <Scrollbox Height="200px" Border="none" Padding="0px">
+        <Installer.AttributesEditor def:ID="CustomAttributes"/>
+      </Scrollbox>
+    </Installer.FieldSet>
+  </Installer.MetadataEditor>
+</control>

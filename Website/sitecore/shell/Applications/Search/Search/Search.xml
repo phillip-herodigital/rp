@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <Search>
+    <FormPage Application="Search/Search" OnLoadEvent="scForm.focus(scForm.browser.getControl('SimpleSearch'))">   
+    
+      <CodeBeside Type="Sitecore.Shell.Applications.Search.Search.SearchForm,Sitecore.Client"/> 
+      <Stylesheet Src="/sitecore/shell/Applications/Search/Search/Search.css"/>
+      <Stylesheet Src="/sitecore/shell/Themes/Navigator.css"/>
+
+      <Scrollbox Width="100%" Height="100%" Border="none" Padding="0px">
+        <Border ID="Query" Align="Center" Padding="16px 0px 0px 0px">
+          <Border>
+            <ThemedImage Src="Applications/48x48/find.png" Width="48" Height="48" Margin="0px 8px 0px 0px" Align="absmiddle"/><Literal Class="scSearchHeader" Text="Search"/>
+          </Border>
+      
+          <Border Padding="32px 0px 8px 0px">
+            <Literal Class="scSearchDescription" Text="Please enter your search query:"/>
+          </Border>
+          
+          <Border>
+            <Edit ID="SimpleSearch" Name="SimpleSearch" Width="300" Margin="0px 0px 4px 0px"/>
+            <a href="/sitecore/shell/Applications/Search/Search.aspx?mo=ad" style="position:absolute; padding:0px 0px 0px 4px"><Literal Text="Advanced search"/></a>
+          </Border>
+          
+          <input ID="execute" name="execute" value="Search" type="submit" tabindex="1"/>
+          
+          <Border Padding="32px 0px 0px 0px" Foreground="#999999">
+            <Literal ID="Searching"/>
+          </Border>
+        </Border>
+        
+        <Border ID="Unsupported" Align="Center" Padding="16px 0px 0px 0px">
+          <Border>
+            <ThemedImage Src="Applications/48x48/find.png" Width="48" Height="48" Margin="0px 8px 0px 0px" Align="absmiddle"/><Literal Class="scSearchHeader" Text="Search"/>
+          </Border>
+        
+          <Border Padding="32px 0px 8px 0px">
+            <Literal ID="UnsupportedText" Class="scSearchDescription" Text="Search is not supported in this database."/>
+          </Border>
+        </Border>
+
+        <Border ID="Advanced">
+          <input name="CreatedFromField" type="hidden"/>
+          <input name="CreatedToField" type="hidden"/>
+          <input name="UpdatedFromField" type="hidden"/>
+          <input name="UpdatedToField" type="hidden"/>
+
+          <Border Padding="8px 8px 0px 8px">
+            <a href="/sitecore/shell/Applications/Search/Search.aspx" style="color:#666666; text-decoration:none"><ThemedImage Src="Applications/48x48/find.png" Width="48" Height="48" Margin="0px 8px 0px 0px" Align="absmiddle"/><Literal Class="scSearchDescription" Text="Advanced search:"/></a>
+          </Border>
+          
+          <Border Padding="0px 8px 0px 8px">
+          
+            <GridPanel Columns="2" CellPadding="4">
+              <Literal Text="Find:"/>
+            
+              <GridPanel Columns="2">
+                <Edit ID="AdvancedSearch" Name="AdvancedSearch" Width="250"/>
+                  
+                <input id="Search3" value="Search" type="submit"/>
+              </GridPanel>
+
+              <Literal Text="Created between:"/>
+              
+              <Border GridPanel.NoWrap="true">
+                <GridPanel Columns="3" CellPadding="2">
+                  <DatePicker ID="CreatedFrom" Width="100" Style="display:inline"/> 
+                  <Literal Text=" and "/>
+                  <DatePicker ID="CreatedTo" Width="100" Style="display:inline"/> 
+                </GridPanel>                          
+              </Border>
+              
+              <Literal Text="Updated between:"/>
+              
+              <Border GridPanel.NoWrap="true">
+                <GridPanel Columns="3" CellPadding="2">
+                  <DatePicker ID="UpdatedFrom" Width="100" Style="display:inline"/> 
+                  <Literal Text=" and "/>
+                  <DatePicker ID="UpdatedTo" Width="100" Style="display:inline"/> 
+                </GridPanel>
+              </Border>
+
+              <Literal Text="Author:"/>
+
+              <GridPanel Columns="2">
+                <Edit ID="Author" Name="Author" Width="250"/>
+                <Button Header="Me" Click="Me"/>
+              </GridPanel>
+
+            </GridPanel>
+          </Border>
+          
+        </Border>
+
+        <Border ID="Results">
+          <Border Padding="8px 8px 0px 8px">
+            <GridPanel Columns="4" CellPadding="2">
+              <a href="/sitecore/shell/Applications/Search/Search.aspx" style="color:#666666; text-decoration:none"><ThemedImage Src="Applications/48x48/find.png" Width="48" Height="48" Margin="0px 8px 0px 0px" Align="absmiddle"/><Literal Class="scLargeFont" Color="#666666" Text="Search:"/></a>
+              
+              <Edit ID="SearchAgain" Name="SearchAgain" Width="250"/>
+                
+              <input id="Search2" value="Search" type="submit"/>
+
+              <a href="/sitecore/shell/Applications/Search/Search.aspx?mo=ad"><Literal Text="Advanced search"/></a>
+            </GridPanel>
+          </Border>
+          
+          <Border ID="HitsPane">
+            <Border Background="#e5ecf9" Margin="8px 0px 0px 0px" Padding="2px" Style="border-top:1px solid #3366cc">
+              <Literal ID="ResultCount"/>     
+            </Border>
+            
+            <Border Padding="0px 8px 0px 8px">
+              <Literal ID="Hits"/>
+            </Border>
+          </Border>
+          
+          <Border ID="ErrorMessage" Padding="0px 8px 0px 8px">
+            <Border Background="#e5ecf9" Margin="8px 0px 0px 0px" Padding="2px" Style="border-top:1px solid #3366cc">
+              &#160;
+            </Border>
+
+            <Border ID="StandardErrorMessage">
+              <Border Padding="8px 0px 8px 0px" FontSize="11pt" FontName="Verdana">
+                <Literal Text="An error occured while perfoming the search."/>
+              </Border>
+              <Border Padding="0px 0px 8px 0px" FontSize="9pt" FontName="Verdana">
+                <Literal Text="Please try rephrasing your search."/>
+              </Border>
+            </Border>
+            <Border Padding="16px 0px 8px 0px" Foreground="#666666">
+              <Literal ID="ErrorText"/>
+            </Border>
+          </Border>
+          
+        </Border>
+      </Scrollbox>
+      
+    </FormPage>
+  </Search>
+</control>

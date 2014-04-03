@@ -1,0 +1,19 @@
+.scUnchangedFieldLabel
+{
+  color:#6487DC;
+  padding: 4px 4px 0px 4px;
+}
+
+.scChangedFieldLabel
+{
+  color:red;
+  padding: 4px 4px 0px 4px;
+}
+
+.scField
+{
+  border:1px solid #dcdcdc;
+  font: 10pt verdana;
+  padding: 1px 2px 1px 2px;
+  margin: 2px 4px 8px 0px;
+}

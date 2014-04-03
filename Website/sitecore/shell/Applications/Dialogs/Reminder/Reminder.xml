@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <Reminder>
+    <WizardForm CodeBeside="Sitecore.Shell.Applications.Dialogs.Reminder.ReminderForm,Sitecore.Client">
+
+      <WizardFormFirstPage ID="FirstPage" Icon="Applications/32x32/Document_Time.png">
+        <Border Class="scWizardWelcomeTitle"><Literal ID="Welcome" Text="Welcome to the Set Reminder Wizard."/></Border>
+        <Literal Text="This wizard helps you:"/>
+        <ul>
+          <li class="scWizardBullet"><Literal Text="Enter a text for the reminder."/></li>
+          <li class="scWizardBullet"><Literal Text="Select a date and time for the reminder."/></li>
+          <li class="scWizardBullet"><Literal Text="Specify who should receive the reminder."/></li>
+        </ul>
+      </WizardFormFirstPage>
+      
+      <WizardFormPage ID="ReminderText" Header="Reminder Text." Text="Enter the text for the reminder. Click Next to continue." Icon="Applications/32x32/Document_Time.png">
+        <WizardFormIndent>
+          <GridPanel Width="100%" Height="100%">
+             <Literal Text = "Reminder text:"/>
+             
+             <Memo ID="Text" Width="100%" Height="100%" GridPanel.Height="100%"/>
+           </GridPanel>
+        </WizardFormIndent>
+      </WizardFormPage>
+    
+      <WizardFormPage ID="DateAndRecipients" Header="Date and Recipients." Text="Select the date and time when the reminder will be sent. Enter the e-mail addresses of the recipents. Click Next to set the reminder." Icon="Applications/32x32/Document_Time.png">
+        <WizardFormIndent>
+          <GridPanel Columns="2" CellPadding="4" Width="100%">
+          
+            <Literal Text="Date:"/>
+            <DateTimePicker ID="Date"/>
+            
+            <Literal Text="Recipents:" GridPanel.VAlign="top"/>
+            <Memo ID="Recipients" Width="100%" Height="100"/>
+            
+            <Space/>
+            <Literal Text="You can seperate recipients with a semicolon, e.g. person1@company.com;person2@company.com"/>
+          
+          </GridPanel>
+        
+        </WizardFormIndent>
+      </WizardFormPage>
+      
+      <WizardFormLastPage ID="LastPage" Icon="Applications/32x32/Document_Time.png">
+        <Border><Literal Text="The reminder has been created sucessfully. Click Finish to close the wizard."/></Border>
+      </WizardFormLastPage>
+
+    </WizardForm>
+  </Reminder>
+</control>

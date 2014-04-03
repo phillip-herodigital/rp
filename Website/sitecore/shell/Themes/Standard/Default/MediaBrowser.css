@@ -1,0 +1,78 @@
+a.scTile {
+  float: left;
+  padding: 5px;
+  width: 118px;
+  height: 128px;
+  vertical-align: top;
+  text-align: center;
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: default;
+}
+
+.scTile:hover, .scTile:active {
+  background: #e8f5fd;
+  border: 1px solid #d8f0fa;
+  padding: 4px;
+}
+
+.scTileImage {
+  width: 98px;
+  border: 1px solid #cccccc;
+  margin: 0 auto;
+}
+
+.scTileImageImage {
+  height: 96px;
+  width: 96px;
+}
+
+.scTileHeader {
+}
+
+.scPreviewHeader {
+  padding: 8px 0px 0px 0px;
+}
+
+.scPreviewImage {
+  height: 192px;
+  width: 192px;
+}
+
+.filenameContainer {
+  padding: 8px 0px 4px 0px;
+}
+
+.ie .filenameContainer {
+  padding-top: 4px;
+}
+
+.name {
+  padding-right: 6px;
+}
+
+.ie .name {
+  padding-right: 4px;
+}
+
+.ff .filename {
+  margin-left: -2px;
+}
+
+#Listview {
+  position: relative;
+}
+
+.scProperties {
+  background:#e9e9e9;
+  border-top:1px solid #999999;
+}
+
+.scUploadLink {
+  padding:8px;
+}
+
+.scUploadLink a {
+  color: Blue;
+}

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense" xmlns:shell="http://www.sitecore.net/shell">
+  <Gallery.Icons>
+    <Gallery>
+      <CodeBeside Type="Sitecore.Shell.Applications.ContentManager.Galleries.Icons.GalleryIconsForm,Sitecore.Client"/>
+
+      <GridPanel ID="Grid" Width="100%" Height="100%">
+
+        <GalleryMenu Height="100%" GridPanel.Height="100%" GridPanel.VAlign="top" >
+          
+          <MenuPanel Height="100%">
+            <Scrollbox ID="Icons" Class="scScrollbox scFixSize" Height="100%" Background="#F4F4F5" Padding="0px" Border="none"/>
+          </MenuPanel>
+
+          <MenuLine/>
+
+          <MenuItem Header="More Icons" Icon="Core2/16x16/smiley_face2.png" Click="item:selecticon"/>
+
+        </GalleryMenu>
+
+        <GalleryMenuLine GridPanel.Height="2" />
+
+        <Gallery.Grip GridPanel.Height="10"/>
+
+      </GridPanel>
+      
+    </Gallery>
+  </Gallery.Icons>
+</control>

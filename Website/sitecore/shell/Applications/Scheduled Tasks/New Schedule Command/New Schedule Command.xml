@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <NewScheduleCommand>
+    <WizardForm Background="#e9e9e9" CodeBeside="Sitecore.Shell.Applications.ScheduledTasks.NewScheduleCommand.NewScheduleCommandForm,Sitecore.Client">
+    
+      <WizardFormFirstPage ID="FirstPage" Icon="People/32x32/clock_stop.png">
+        <Border Class="scWizardWelcomeTitle"><Literal ID="Welcome" Text="Welcome to the New Schedule Command wizard."/></Border>
+        <Literal Text="This wizard helps you:"/>
+        <ul>
+          <li class="scWizardBullet"><Literal Text="Specify the name of the schedule command."/></li>
+          <li class="scWizardBullet"><Literal Text="Specify the type and method to execute."/></li>
+          <li class="scWizardBullet"><Literal Text="Enter a descriptive help text."/></li>
+          <li class="scWizardBullet"><Literal Text="Save the schedule command."/></li>
+        </ul>
+      </WizardFormFirstPage>
+      
+      <WizardFormPage ID="Name" Header="Command" Text="Please specify name, type and method of the scehdule command. When ready, click Next to continue." Icon="People/32x32/clock_stop.png">
+        <WizardFormIndent>
+          <GridPanel Width="100%" Columns="2">
+          
+            <Literal Text="Name:" Padding="0px 8px 0px 0px"/>
+            <Edit ID="CommandName" Value="New Command" Width="100%" GridPanel.Width="100%" GridPanel.Style="padding:0px 0px 8px 0px"/>
+
+            <Literal Text="Type:" Padding="0px 8px 0px 0px"/>
+            <Edit ID="Type" Value="" Width="100%" GridPanel.Width="100%"/>
+
+            <Space/>
+            <Literal Text="E.g. 'Sitecore.Commands.MyCommand,Sitecore.Kernel'" GridPanel.Style="padding:0px 0px 8px 0px"/>
+            
+            <Literal Text="Method:" Padding="0px 8px 0px 0px"/>
+            <Edit ID="Method" Value="" Width="100%" GridPanel.Width="100%"/>
+            <Space/>
+            <Literal Text="E.g. 'Execute'" GridPanel.Style="padding:0px 0px 8px 0px"/>
+
+          </GridPanel>
+        </WizardFormIndent>
+      </WizardFormPage>
+
+      <WizardFormPage ID="Help" Header="Help" Text="Please enter help texts for the sechduled command. When done, click Next to create the schedule command." Icon="People/32x32/clock_stop.png">
+        <WizardFormIndent>
+          <GridPanel Width="100%" Columns="2" CellPadding="2">
+          
+            <Literal Text="Short description:" GridPanel.NoWrap="true"/>
+            <Edit ID="ToolTip" Value="" Width="100%" GridPanel.Width="100%"/>
+
+            <Literal Text="Long description:" GridPanel.NoWrap="true" GridPanel.VAlign="top"/>
+            <Memo ID="Description" Value="" Width="100%" Height="80" GridPanel.Width="100%"/>
+
+          </GridPanel>
+        </WizardFormIndent>
+      </WizardFormPage>
+
+      <WizardFormLastPage ID="LastPage" Icon="People/32x32/clock_stop.png">
+        <Literal Text="The wizard has completed. Click the Finish button to close the Wizard."/>
+      </WizardFormLastPage>
+      
+    </WizardForm>
+  </NewScheduleCommand>
+</control>

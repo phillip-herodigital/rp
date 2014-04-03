@@ -1,0 +1,211 @@
+﻿#Container
+{
+  border: 1px solid #999;
+}
+
+.command-button
+{
+  float: right;
+}
+
+.ie .command-button
+{
+  height: 20px;
+}
+
+.no-variations
+{
+  height:100%;
+  width: 100%;
+  vertical-align:middle;
+  text-align:left;
+}
+
+.no-variations-headline 
+{
+  display: block;
+  color: #333;
+  margin: 48px 32px 0px 32px;
+  font-weight: bold;
+}
+
+.no-variations-text
+{
+  display: block; 
+  color: #333;
+  
+  margin: 16px 32px;
+}
+
+.collapsible-panel .panel
+{
+  background-color: #E9E9E9;
+  padding: 16px 0px;
+  border-bottom: 1px solid #afafaf;
+}
+
+table.top-row
+{
+  width: 100%; 
+}
+
+table.top-row .left, table.top-row .right
+{
+  padding: 0px 8px;
+  vertical-align: middle;
+}
+
+table.top-row td.right
+{
+  width: 180px;
+  text-align: center;
+}
+
+.display-component-title
+{
+  padding-left: 4px;  
+}
+
+.item-picker
+{
+  border: 1px solid;
+  background-color: White;
+  height: 22px;
+  line-height: 22px;
+  background-position: 2px 3px;
+  background-repeat: no-repeat;
+  padding-left: 20px;
+  overflow: hidden;
+  border-color: #999999;
+}
+
+.default-values .item-picker
+{
+  font-style: italic;
+  color: #666666;
+}
+
+.display-off .item-picker
+{
+  background-color: #f1f1f1;
+  color: #999999;
+}
+
+.display-off .item-picker
+{
+  border-color: #cdcdcd;
+}
+
+.ff .item-picker
+{
+  height: 20px;
+  line-height: 20px;
+}
+
+.pick-button, .display-off .pick-button:hover
+{ 
+  width: 19px;
+  text-align: center;
+  height: 20px;
+  float: right;
+  border: none;
+  border-left: 1px solid; 
+  border-color: #999999;
+  background-color: #cfcfcf; 
+  outline: none;
+  margin-left: 2px;
+}
+ 
+.default-values .reset-button
+{
+  display: none;
+}
+
+.reset-button,  .display-off .reset-button:hover
+{
+  width: 16px;
+  height: 20px;  
+  background: transparent url('/sitecore/shell/Themes/Standard/Images/Progress/globalsearch_close.png') no-repeat center center;
+  outline: none;
+  text-decoration: none;
+  margin-left: 2px;
+  cursor: default;
+  float: right;
+}
+
+.reset-button:hover
+{
+  background-image: url('/sitecore/shell/Themes/Standard/Images/Progress/globalsearch_close_H_blue.png');
+  cursor: pointer;  
+}
+
+.pick-button:hover
+{  
+  background-color: #D5EFFC;
+  border-left: 1px solid #99DEFD;
+  text-decoration: none;
+}
+
+.display-off .pick-button, .display-off .pick-button:hover
+{
+  cursor: default;
+  border-color: #cdcdcd;
+}
+
+.thumbnail-container
+{
+  height: 136px;
+  background-color: White;
+  border: 1px solid #999;
+  background-repeat: no-repeat;
+  background-position: center center;
+  border-bottom: none;
+}
+
+.display-off .thumbnail-container
+{
+  opacity: 0.35;
+  filter: alpha(opacity=35);   
+}
+
+tr.component-row .test-title
+{
+  padding-top: 8px;
+}
+
+.hide-test-component .component-row
+{
+  display: none;
+}
+
+td.cross-piece
+{
+  height: 10px;
+}
+
+.ff td.cross-piece
+{
+  height: 2px;
+}
+
+.ff.wk td.cross-piece
+{
+  display: none;
+}
+
+#ResetContainer
+{
+  float:left;
+  padding-top: 4px;
+}
+
+#ComponentReplacing, .display-component input
+{
+  vertical-align: middle;
+}
+
+.ff input[type="checkbox"]
+{
+  position:relative;
+  top: -2px;
+}

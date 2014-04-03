@@ -1,0 +1,148 @@
+﻿.panel-header
+{
+  height: 22px;
+  padding: 4px 4px 4px 10px;
+  background: url('/sitecore/shell/themes/standard/images/ribbon/V2/ribbon_area.png') repeat-x bottom left;
+}
+
+.ie .panel-header
+{
+  height: 30px;
+}
+
+.header-menu
+{
+  float: right;
+  border-right: 2px solid #dfdfdf;
+  padding-right: 4px;
+  margin-right: 4px;
+}
+
+.header-menu a
+{
+  display: block;
+  padding: 2px;
+  cursor: pointer;
+}
+
+.header-menu a:link, .header-menu a:visited, .header-menu a:hover, .header-menu a:active
+{
+  outline: none;
+  text-decoration: none;
+  color: #333333;
+}
+
+.header-menu a:hover
+{
+  border: 1px solid;
+  border-color: #ddcf9b #d2c08e #ccc2a3 #d2c08e;
+  background: #ffe594 url(/sitecore/shell/Themes/Standard/Images/Ribbon/SmallButtonActive.png) repeat-x;
+  padding: 1px;
+}
+
+.header-menu a.menu-expanded, .header-menu a.menu-expanded:hover
+{
+  border: 1px solid;
+  border-top: none;
+  border-color: #ddcf9b #d2c08e #ccc2a3 #d2c08e;
+  background: #ffe594 url(/sitecore/shell/Themes/Standard/Images/RibbonSmallButtonDown.png) repeat-x;
+  padding: 1px;
+  padding-top: 2px;
+}
+
+.header-menu .action-icon img
+{
+  border: none;
+}
+
+.header-menu td
+{
+  padding: 0px 2px;
+  vertical-align: middle;
+}
+
+.header-actions
+{
+  float: right;
+}
+
+.header-actions a
+{
+  padding: 1px;
+  outline: none;
+  float: left;
+}
+
+.header-actions a:hover
+{
+  padding: 0px;
+  border: 1px solid;
+  border-color: #ddcf9b #d2c08e #ccc2a3 #d2c08e;
+  background: #ffe594 url(/sitecore/shell/Themes/Standard/Images/Ribbon/SmallButtonActive.png) repeat-x;
+  cursor: pointer;
+}
+
+.header-actions .icon-expand
+{
+  height: 19px;
+  width: 19px;
+  background: transparent url('/sitecore/shell/themes/standard/Images/WebEdit/more_expanded.png') no-repeat center center;  
+}
+
+.header-actions .icon-expand.collapsed
+{
+  background: transparent url('/sitecore/shell/themes/standard/Images/WebEdit/more_collapsed.png') no-repeat center center;
+}
+
+.action-menu-holder
+{  
+  position: relative; 
+  width: 0px;
+  height: 0px;
+  overflow:visible;
+}
+
+.action-menu-holder .scMenu
+{
+  top: 100%;
+}
+
+.header-title-edit
+{
+  height: 20px;
+  padding: 0px;
+}
+
+.wk .header-title-edit
+{
+  height: 18px;
+}
+
+.header-title
+{
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: bolder;
+  padding: 2px 4px;
+  outline: none;
+  text-decoration: none;    
+}
+
+.ie .header-title
+{
+  zoom: 1;
+}
+
+.ff .header-title
+{
+  display: inline-block;
+}
+
+a.header-title:hover
+{
+  padding: 1px 3px;
+  border: 1px solid;
+  border-color: #ddcf9b #d2c08e #ccc2a3 #d2c08e;
+  background: #ffe594 url(/sitecore/shell/Themes/Standard/Images/Ribbon/SmallButtonActive.png) repeat-x;
+  text-decoration: none;  
+}

@@ -1,0 +1,135 @@
+﻿FORM {
+  position: static;
+  height: auto;
+  width: auto;
+}
+
+a.scSystemMenu {
+  top: 0px;
+  background-image: none;
+  filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/sitecore/shell/themes/standard/images/homebutton2.png', sizingMethod='scale');     
+}
+
+.scSystemMenu:hover {
+  background-image: none;
+  filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/sitecore/shell/themes/standard/images/homebutton2_h.png', sizingMethod='scale'); 
+}
+
+.scSearchInput {
+ height: 20px;
+ padding: 2px 2px 0px 4px;
+}
+
+.scSearchOptionsInput {
+  height: 20px;
+}
+
+.scSearchOptionsValueContainer {
+  padding-right: 0;
+  height: auto;
+}
+
+.scSearchOptionsInput {
+  margin: 0px 0px 0px 2px;                       
+}
+
+/* Splitter */
+.scSplitter {
+  background: none;
+  width: 6px;
+  position: static;
+}
+
+.scSplitterFill {
+  background: #d2d5da url("/sitecore/shell/themes/standard/Images/Content Editor/Splitter.png") repeat-y;
+  cursor: move;
+  height: 100%;
+}
+
+/* Editor tabs */
+
+.scEditorTabControlsTab0, a.scRibbonEditorTabNormal, a.scRibbonEditorTabActive, .scEditorTabHeaderNormal, .scEditorTabHeaderActive, .scEditorTabControlsTab4, .scEditorTabControlsTab5,
+a.scEditorHeaderButton {
+  float: none;
+}
+
+.scEditorTabHeaderNormal, .scEditorTabHeaderActive {
+  padding-top: 3px;
+}
+
+a.scEditorHeaderVersionsLanguage {
+  padding-top: 2px;
+}
+
+.scEditorHeader {
+  height: 32px;
+  overflow: visible;
+}
+
+/* validation */
+.scValidatorPanel {
+  width: 20px;
+  border-left: 2px groove;
+  border-top: 2px groove;
+  vertical-align: top;
+}
+
+.scValidationResult {
+  padding: 0px 2px 0px 2px;
+  border-bottom: 2px groove;
+  border-bottom-color: inherit;
+}
+
+.scValidationMarker {
+  padding: 1px 2px 1px 2px;                    
+}
+
+/* Japanese presentation support */
+.lang_ja_jp .scEditorTabHeaderNormal span 
+{
+	height: 0;
+}
+
+.lang_ja_jp .scEditorTabHeaderActive span 
+{
+	height: 0;
+}
+
+/* support Japanese language */
+.lang_ja_jp .scEditorHeaderQuickInfoInput,
+.lang_ja_jp .scEditorHeaderQuickInfoInputID,
+.lang_ja_jp .scEditorWarningTitle,
+.lang_ja_jp .scEditorWarningHelp,
+.lang_ja_jp .scEditorSectionCaptionExpanded,
+.lang_ja_jp .scEditorSectionCaptionCollapsed,
+.lang_ja_jp .scEditorFieldLabel,
+.lang_ja_jp .scContentButton,
+.lang_ja_jp .scContentButton:link,
+.lang_ja_jp .scContentButton:visited,
+.lang_ja_jp .scContentButton:hover,
+.lang_ja_jp .scContentButton:active,
+.lang_ja_jp .scContentButtonDisabled,
+.lang_ja_jp .scSearchOptionsInput,
+.lang_ja_jp .scSearchHeader,
+.lang_ja_jp .scSearchInput,
+.lang_ja_jp .scProfileHeader,
+.lang_ja_jp .scProfileName,
+.lang_ja_jp .scProfileHeader,
+.lang_ja_jp .scSelectPresetLink,
+.lang_ja_jp .scProfileHeader,
+.lang_ja_jp .scSelectPresetLinkDisabled {
+  font-family: メイリオ, Meiryo, Microsoft YaHei, tahoma, sans-serif;
+}
+
+.lang_ja_jp .scSearchCategory {
+  white-space: nowrap;
+}
+
+.lang_ja_jp .scEditorHeaderTitle, 
+.lang_ja_jp .scEditorHeaderTitle:link, 
+.lang_ja_jp .scEditorHeaderTitle:hover, 
+.lang_ja_jp .scEditorHeaderTitle:active, 
+.lang_ja_jp .scEditorHeaderTitle:visited {
+  font-family: メイリオ, Meiryo, Microsoft YaHei, tahoma, sans-serif;
+  font-weight: bold;
+}

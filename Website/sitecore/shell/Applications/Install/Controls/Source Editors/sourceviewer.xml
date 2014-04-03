@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control xmlns:def="Definition">
+  <Installer.SourceViewer def:inherits="Sitecore.Shell.Applications.Install.Controls.SourceViewer,Sitecore.Client">
+    <GridPanel Width="100%" Height="100%" Padding="$Padding" Style="$Style">
+      <GridPanel Width="100%" Columns="3" GridPanel.Height="20px">
+        <Literal Text="Search for key:" Style="font-weight:bold" GridPanel.Width="100px"/>
+        <Edit def:ID="Filter" Width="100%"/>
+        <Border def:ID="ButtonFrame" GridPanel.Width="50px"/>
+      </GridPanel>
+
+      <Scrollbox def:ID="ViewScroll" Height="100%" Border="solid 1px silver" GridPanel.Height="100%" Padding="0px">
+        <Listview def:ID="View" View="Details">
+          <ListviewHeader>
+            <ListviewHeaderItem Header="Entry Key"/>
+            <ListviewHeaderItem Header="Installation options" Name="options"/>
+          </ListviewHeader>
+        </Listview>
+      </Scrollbox>
+    </GridPanel>
+  </Installer.SourceViewer>
+</control>

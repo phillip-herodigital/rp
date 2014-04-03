@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+  <title>Sitecore</title>
+  <script type="text/javascript" language="javascript">
+  
+  var scHeight = window.dialogHeight;
+  
+  function onLoad() {
+    var text = window.dialogArguments[0].___Message ? window.dialogArguments[0].___Message : window.dialogArguments[0];
+    
+    if (text == null) {
+      var n = location.href.search.indexOf("error=");
+      text = location.location.href.search.substr(n + 6);
+    }
+    
+    var simpleText = "";
+    
+    var n = text.indexOf("<h2> <i>");
+    if (n >= 0) {
+      simpleText = text.substr(n + 8);
+      n = simpleText.indexOf("</i>");
+      simpleText = simpleText.substr(0, n);
+    }
+    else {
+      simpleText = text;
+    }
+       
+    if (window.dialogArguments == null) {
+      simpleText = simpleText.replace(/\</gi, "&lt;").replace(/\>/gi, "&gt;");
+    }
+    
+    document.getElementById("error").contentWindow.document.write(text); 
+    document.getElementById("CopyToClipboard").style.display = (window.clipboardData != null ? "" : "none");
+
+    document.getElementById("SimpleText").innerHTML = simpleText;
+    if (window.dialogArguments != null) {
+      var browserOffset = navigator.userAgent.indexOf("MSIE 6") > 0 ? 35 : 0;
+      window.dialogHeight = document.getElementById("Simple").offsetHeight + browserOffset + "px";
+    }
+    
+    document.getElementById("Close1").focus();
+  }
+  
+  function scShowDetails() {
+    document.getElementById("Details").style.display = "";
+    document.getElementById("Simple").style.height = "100%";
+    document.getElementById("Details1").disabled = true;
+    window.dialogHeight = scHeight;
+  }
+  
+  window.dialogHeight = "1px";
+  
+  </script>
+  </head>
+<body onload='javascript:onLoad()' scroll="no" style="margin:0px">
+  <table id="Simple" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:threedface">
+    <tr>
+      <td style="padding:8px 8px 0px 8px" valign="top">
+        <img src="/sitecore/shell/themes/standard/images/error.gif" width="32" height="32" border="0" alt="0"/>
+      </td>
+      <td style="font:8pt tahoma" width="100%">
+        <div id="SimpleText"></div>
+      </td>
+    </tr>
+    
+    <tr id="Details" style="display:none" height="100%">
+      <td colspan="2" style="padding:8px 8px 0px 8px" valign="top">
+        <iframe id="error" src="about:blank" width="100%" height="100%"></iframe>
+      </td>
+    </tr>
+    
+    <tr>
+      <td style="padding:8px 8px 8px 8px" align="right" colspan="2" valign="bottom">
+        <hr />
+        <button id="CopyToClipboard" style="font:8pt tahoma; border:none; background:transparent;float:left" onclick="window.clipboardData.setData('Text', window.dialogArguments[0])">Copy to clipboard</button>
+        <button id="Details1" style="font:8pt tahoma; width:75px; height:25px;margin:0px 4px 0px 0px" onclick="javascript:scShowDetails()">Details</button>
+        <button id="Close1" style="font:8pt tahoma; width:75px; height:25px" onclick="javascript:window.close()">Close</button>
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>

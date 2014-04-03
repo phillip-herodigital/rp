@@ -1,0 +1,105 @@
+﻿UL.BlogPostList {
+    margin: 20px 0 0 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.BlogPostArea {
+    margin: 0px 19px 10px 19px;
+    border: 1px solid rgb(245, 245, 245);
+    padding: 0 0 20px 106px;
+    min-height: 72px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    -moz-box-shadow: 1px 1px 8px #FFF;
+    -webkit-box-shadow: 1px 1px 8px #FFF;
+    box-shadow: 1px 1px 8px #FFF;
+    list-style: none outside none;
+    text-align: left;
+    position: relative;
+    zoom: 1;
+    margin-left: 0;
+    padding-left: 0;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    behavior: url('/sitecore/shell/Applications/Buckets/Scripts/PIE.htc');
+}
+
+    .BlogPostArea:hover, .selectable li.pie_hover {
+        border: 1px solid rgb(200, 200, 200);
+        background-color: rgb(247, 247, 247);
+        -moz-box-shadow: 1px 1px 8px #EEE;
+        -webkit-box-shadow: 1px 1px 8px #EEE;
+        box-shadow: 1px 1px 8px #EEE;
+        cursor: pointer;
+        behavior: url('/sitecore/shell/Applications/Buckets/Scripts/PIE.htc');
+    }
+
+.quickactions {
+    height: auto;
+    border-radius: 0 0 5px 5px;
+    padding-bottom: 2px;
+    margin-top: 8px;
+    margin-left: 0;
+    margin-bottom: -20px;
+    background-color: rgba(165, 165, 165, 0.1);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#19a5a5a5,endColorstr=#19a5a5a5);
+    zoom: 1;
+}
+
+  .quickactions span {
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    padding-top: 5px;
+    padding-right: 5px;
+    padding-left: 5px;
+  }
+
+.BlogPostHeader {
+    padding-left: 110px;
+    margin-top: -14px;
+}
+
+.BlogPostHeader span {
+    float: right;
+    margin-top: -12px;
+    padding: 5px;
+    font-size: 11px;
+    font-family: verdana, arial, helvetica, sans-serif;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.BlogPostContent {
+    padding-left: 10px;
+    padding-left: 110px;
+    font-size: 100%;
+}
+
+.BlogPostFooter {
+    margin: 8px 0 0 0;
+    padding-left: 110px;
+    color: #000;
+    font-size: 90%; 
+}
+
+.BlogPostViews {
+    margin-top: 7px;
+    text-align: center;
+    padding: 10px 0 10px 3px;
+    margin-left: 15px;
+}
+
+    .BlogPostViews a {
+        -moz-border-radius: 2px;
+        -webkit-border-radius: 2px;
+        border-radius: 2px;
+        border: 1px solid #a5a5a5;
+        border: 1px solid rgba(165, 165, 165, .6);
+        background-color: rgba(165, 165, 165, 0.1);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#19a5a5a5,endColorstr=#19a5a5a5);
+    }
+

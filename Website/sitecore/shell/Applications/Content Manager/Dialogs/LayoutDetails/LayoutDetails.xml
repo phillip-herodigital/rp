@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense" xmlns:shell="http://www.sitecore.net/shell">
+  <LayoutDetails>
+    <FormDialog Icon="Applications/32x32/window_view.png" Header="Layout Details" Text="The details of the assigned layouts, controls and placeholders.">
+      <Stylesheet>
+        #LayoutPanel {
+        padding: 4px;
+        }
+
+        .ff #LayoutPanel {
+        padding: 0;
+        }
+
+        .scContentControlLayoutDevice, .scContentControlLayoutDevice_Active {
+        padding-bottom: 6px;
+        }
+
+        .ff .scDeviceCommands span:hover {
+        text-decoration: underline;
+        cursor: pointer;
+        }
+
+
+        .scConditionContainer{
+        background-color: #446693;
+        color: White;
+        float: left;
+        left: 10px;
+        position: absolute;
+        text-align: center;
+        top: -2px;
+        padding: 0 2px;
+        }
+
+        .ie .scConditionContainer
+        {
+          left: 9px;
+        }
+
+        .scLongConditionContainer
+        {
+        left:7px;
+        padding: 0 1px;
+        }
+      </Stylesheet>
+      <CodeBeside Type="Sitecore.Shell.Applications.ContentManager.Dialogs.LayoutDetails.LayoutDetailsForm,Sitecore.Client"/>
+
+      <Scrollbox ID="LayoutPanel" Class="scScrollbox scFixSize scFixSize4" Padding="0px" Height="100%" GridPanel.Height="100%"/>
+
+    </FormDialog>
+  </LayoutDetails>
+</control>

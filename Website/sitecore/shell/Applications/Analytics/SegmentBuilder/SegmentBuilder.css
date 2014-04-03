@@ -1,0 +1,135 @@
+﻿.non-default-container  {
+    display: block!important;
+}
+
+.top-row
+{
+  padding-left:5px;
+}
+
+.top-row .scButton  {
+    float: right;
+    margin: 0 5px 10px 5px;
+    width: auto!important;
+}
+
+.header-row
+{
+  padding: 5px 0 3px 0;
+}
+
+.header-row .title,
+.header-row .value {
+  font-weight:bold;
+}
+
+.header-row .title  {
+    float: left;
+}
+
+.header-row .total  {
+    float: right;
+}
+
+#RulesContainer
+{
+  border: 1px solid;
+}
+
+.rule-body
+{
+  border-bottom: 1px solid;
+}
+
+#RulesContainer, .rule-body
+{
+  border-color: #999999;
+}
+
+.rule-body
+{
+  width: 100%;
+}
+
+.rule-body td
+{
+  padding: 8px;
+  vertical-align: top;
+}
+
+/* Conditions */
+.condition-header
+{
+  font-weight: bold;
+  margin-left:20px;
+}
+
+.edit-button
+{
+  float: left;
+}
+
+.ie .edit-button
+{
+  height: 20px;
+}
+
+.condition-container
+{
+  margin-top: 8px;
+  margin-left: 80px;
+}
+
+.condition-container.default
+{
+  margin-top: 20px;
+}
+
+.condition-container .scRule, .condition-container hr
+{
+  display: none;
+}
+
+.condition-container .Draggable
+{
+  white-space: normal !important;
+}
+
+.conditions .scRule, .condition-container hr {
+display: none;
+}
+
+.rule-body .left-column    {
+    background: window;
+}
+
+.rule-body .left-column .conditions {
+    margin-right: 100px;
+}
+
+.rule-body .left-column .scButton
+{
+  margin-bottom:45px;
+}
+
+.rule-body .left-column span.condition {
+    color: #00f;
+}
+
+.rule-body .left-column .scButton.edit-button  {
+    width: 80px;
+    float: right;
+}
+
+.rule-body .right-column
+{
+  background: #ebebeb!important;
+  width:200px;
+  vertical-align:top;
+  text-align: right;
+}
+
+.rule-body .right-column .value    {
+    font-weight: bold;
+    padding: 0 0 0 4px;
+}

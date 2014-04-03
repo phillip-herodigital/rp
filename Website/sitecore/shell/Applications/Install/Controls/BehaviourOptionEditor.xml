@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control xmlns:def="Definition">
+  <Installer.BehaviourOptionEditor def:inherits="Sitecore.Shell.Applications.Install.Controls.BehaviourOptionEditor,Sitecore.Client">
+    <Stylesheet>
+      .BehaviourBox
+      {
+        padding: 4px 8px;
+        width: 244px;
+        height: 72px;
+        background-color: #f7f7f7;
+      }
+
+      .ie .BehaviourBox
+      {
+        width: 260px;
+        height: 80px;
+      }
+    </Stylesheet>
+    <GridPanel Columns="2">
+
+      <Border>
+        <Border>
+          <Radiobutton def:ID="OverwriteItems" Header="Overwrite" Width="100%" Value="1"/>
+        </Border>
+
+        <Border>
+          <Radiobutton def:ID="MergeItems" Name="BehaviourOptions" Header="Merge" Width="100%" Value="2"/>
+          <Listbox def:ID="MergeOptions" Style="display:block" margin="0px 0px 0px 20px">
+            <ListItem def:ID="ClearVersions" Header="Clear" Value="1" Selected="true"/>
+            <ListItem def:ID="AppendVersions" Header="Append" Value="2"/>
+            <ListItem def:ID="MergeVersions" Header="Merge" Value="3"/>
+          </Listbox>
+        </Border>
+
+        <Border>
+          <Radiobutton def:ID="SideBySideItems" Header="Side-by-Side" Width="100%" Value="4"/>
+        </Border>
+
+        <Border>
+          <Radiobutton def:ID="SkipItems" Header="Skip" Width="100%" Value="3"/>
+        </Border>
+
+        <Border>
+          <Radiobutton def:ID="AskUser" Header="Ask User" Width="100%" Value="0"/>
+        </Border>
+      </Border>
+      <Border GridPanel.Valign="top" Padding="8px 4px 0px 4px">
+        <Groupbox Class="BehaviourBox">
+          <Literal def:ID="BehaviorOptionText" />
+        </Groupbox>
+      </Border>
+
+    </GridPanel>
+
+  </Installer.BehaviourOptionEditor>
+</control>

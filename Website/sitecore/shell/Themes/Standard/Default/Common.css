@@ -1,0 +1,42 @@
+﻿body {
+  overflow:hidden;
+  margin:0px;
+}
+form {
+  margin-bottom: 1px;
+}
+table, button, th {
+	font: 8pt tahoma;
+}
+a, a:active, a:visited {
+  color:windowtext;
+  text-decoration: none;
+}
+a:hover {
+  color:windowtext;
+  text-decoration: underline;
+}
+.scBackground {
+	background: threedface;
+}
+.scFont {
+	font: 8pt tahoma;
+}
+.scLargeFont {
+  font: 14pt Franklin Gothic Medium;
+}
+.scLargeFont_Hover {
+  font: 14pt Franklin Gothic Medium;
+}
+.scLargeFont2 {
+  font: 11pt Franklin Gothic Medium;
+}
+.scLargeFont2_Hover {
+  font: 11pt Franklin Gothic Medium;
+}
+.scClickFont {
+  font: 9pt Verdana;
+}
+.scClickFont_Hover {
+  font: 9pt Verdana;
+}

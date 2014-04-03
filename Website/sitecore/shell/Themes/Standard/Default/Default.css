@@ -1,0 +1,2142 @@
+html {
+  height: 100%;
+}
+
+body {
+  font: 8pt tahoma;
+  margin: 0px;
+  padding: 0px;
+  border: none;
+  outline: 0;
+  width: 100%;
+  height: 100%;
+}
+form {
+  margin: 0px;
+  padding: 0px;
+  border: none;
+}
+table, button, th {
+  font: 8pt tahoma;
+}
+a, a:active, a:visited {
+  color: windowtext;
+  text-decoration: none;
+}
+a:hover {
+  color: windowtext;
+  text-decoration: underline;
+}
+.ff a {
+  outline: none;
+}
+
+textarea {
+    resize: none;
+}
+
+.scBackground {
+  background: threedface;
+}
+.scFill {
+  width: 100%;
+  height: 100%;
+}
+.scFont {
+  font: 8pt tahoma;
+}
+.scLargeFont {
+  font: 14pt Franklin Gothic Medium;
+}
+.scLargeFont_Hover {
+  font: 14pt Franklin Gothic Medium;
+}
+.scLargeFont2 {
+  font: 11pt Franklin Gothic Medium;
+}
+.scLargeFont2_Hover {
+  font: 11pt Franklin Gothic Medium;
+}
+.scClickFont {
+  font: 9pt Verdana;
+}
+.scClickFont_Hover {
+  font: 9pt Verdana;
+}
+.scButton {
+  color: black;
+  width: 75px;
+  height: 24px;
+}
+.ff .scButton {
+  height: auto;
+  width: auto;
+  min-width: 75px;
+}
+.scButton_Disabled {
+  width: 75px;
+  height: 24px;
+}
+.scBevelVerticalLine {
+  background: transparent;
+  border-left: 1px solid threedshadow;
+  border-right: 1px solid threedhighlight;
+  height: 100%;
+  width: 2px;
+}
+.scBevelHorizontalLine {
+  border-top: 1px solid threedshadow;
+  background: threedhighlight;
+  height: 2px;
+  overflow: hidden;
+  width: 100%;
+}
+.scBevelRaisedBox {
+  background: transparent;
+  border-top: 1px solid threedhighlight;
+  border-left: 1px solid threedhighlight;
+  border-right: 1px solid threedshadow;
+  border-bottom: 1px solid threedshadow;
+}
+.scBevelLoweredBox {
+  background: transparent;
+  border-top: 1px solid threedshadow;
+  border-left: 1px solid threedshadow;
+  border-right: 1px solid threedhighlight;
+  border-bottom: 1px solid threedhighlight;
+}
+.scBottomEdge, .scRightEdge {
+  background: threedshadow;
+}
+.scTopEdge, .scLeftEdge {
+  background: threedhighlight;
+}
+.scCalendar {
+  background: window;
+  border: 1px solid black;
+  border-collapse: collapse;
+  color: windowtext;
+  padding: 3px;
+}
+.scCalendarDay {
+  border-bottom: 1px solid black;
+  color: highlight;
+  font-weight: bold;
+  cursor: default;
+  padding: 3px 6px;
+  text-align: center;
+}
+.scCalendarToday {
+  cursor: default;
+  background: inactivecaption;
+  color: inactivecaptiontext;
+}
+.ff .scCalendarToday {
+  padding-left: 3px;
+}
+.scCalendarSelected {
+  cursor: default;
+  text-align: center;
+  background-color: #99B4D1;
+  color: captiontext;
+}
+.scCalendarCell {
+  cursor: default;
+  padding: 3px;
+  text-align: center;
+  border: none;
+  color: windowtext;
+}
+.scCalendarCellOtherMonth {
+  cursor: default;
+  padding: 3px;
+  text-align: center;
+  background: threedface;
+  color: graytext;
+}
+.scCalendarTodayCell {
+  cursor: default;
+  padding: 2px;
+  text-align: center;
+  border-top: 1px solid black;
+}
+.scCalendarYearRow {
+  background-color: #99B4D1;
+  color: captiontext;
+  font-weight: bold;
+}
+.scCalendarYearLeftCell {
+  cursor: default;
+  padding: 4px;
+}
+.scCalendarYearMiddleCell {
+  cursor: default;
+  padding: 4px;
+}
+.scCalendarYearRightCell {
+  cursor: default;
+  padding: 4px;
+}
+
+/* date/time pickers */
+.scDateTimePickerContainer {
+  overflow: auto;
+}
+
+.ff .scDatePickerComboBox, .ff .scDateTimePickerContainer > img, .ff .scTimePickerComboBox {
+  float: left;
+}
+
+.ie .scDatePickerComboBox, .ie .scTimePickerComboBox {
+  display: inline;
+}
+
+.scTimePicker {
+  width: 80px;
+  height: 300px;
+  background: window;
+  border: solid 1px black;
+  overflow: auto;
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+.scTimePicker a {
+  height: 16px;
+  padding: 1px;
+  width: 100%;
+  text-align: center;
+  display: block;
+}
+
+.ff .scTimePicker li {
+  width: 100%;
+}
+
+.ff .scTimePicker a {
+  width: auto;
+}
+
+.scTimePicker a:hover, .scTimePicker a:active {
+  background: #e8f5fd url(/sitecore/shell/themes/standard/Images/Tree/TreeNodeNormalBackground.png) repeat-x;
+  border: 1px solid #d8f0fa;
+  padding: 0;
+  text-decoration: none;
+}
+
+.scComboEditInput {
+  width: 100%;
+}
+
+.scCombobutton, .scCombobuttonEditor {
+  border: none;
+  display: inline;
+  height: 22px;
+  padding-right: 1px;
+  vertical-align: top;
+  white-space: nowrap;
+}
+.scCombobutton_Disabled, .scCombobuttonEditor_Disabled {
+  cursor: default;
+  display: inline;
+  height: 22px;
+  vertical-align: top;
+  white-space: nowrap;
+}
+.scCombobutton_Down, .scCombobuttonEditor_Down {
+  cursor: default;
+  height: 22px;
+  display: inline;
+  vertical-align: top;
+  white-space: nowrap;
+}
+.scCombobutton_Hover, .scCombobuttonEditor_Hover {
+  cursor: default;
+  display: inline;
+  filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#A5ADAF', EndColorStr='#7A8284');
+  height: 22px;
+  vertical-align: top;
+  white-space: nowrap;
+}
+.scCombobutton_Hot, .scCombobuttonEditor_Hot {
+  cursor: default;
+  height: 22px;
+  display: inline;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.scCombobuttonMain {
+  border: none;
+  background: transparent;
+  color: white;
+  display: inline;
+  height: 100%;
+  padding: 4px 2px 1px 5px;
+  white-space: nowrap;
+}
+.scCombobuttonEditorMain {
+  background: transparent;
+  border: 1px solid #F0CCA5;
+  border-right: none;
+  color: black;
+  display: inline;
+  filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#F8EED0', EndColorStr='#F8D5A6');
+  height: 100%;
+  padding: 3px 2px 0px 4px;
+  white-space: nowrap;
+}
+.scCombobuttonMain_Disabled {
+  display: inline;
+  height: 100%;
+  padding: 4px 2px 1px 5px;
+  white-space: nowrap;
+  border: none;
+  background: transparent;
+  color: buttontext;
+  filter: progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);
+}
+.scCombobuttonEditorMain_Disabled {
+  background: transparent;
+  border: 1px solid #F0CCA5;
+  border-right: none;
+  color: graytext;
+  display: inline;
+  filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#F8EED0', EndColorStr='#F8D5A6');
+  height: 100%;
+  padding: 3px 2px 0px 4px;
+  white-space: nowrap;
+}
+.scCombobuttonMain_Down, .scCombobuttonEditorMain_Down {
+  height: 100%;
+  display: inline;
+  padding: 3px 2px 0px 4px;
+  white-space: nowrap;
+  border: 1px solid #4A4A4A;
+  border-right: none;
+  color: white;
+  filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#A5ADAF', EndColorStr='#7A8284');
+}
+.scCombobuttonMain_Hover, .scCombobuttonEditorMain_Hover {
+  height: 100%;
+  display: inline;
+  padding: 2px 3px 1px;
+  white-space: nowrap;
+  border: 1px solid #242424;
+  border-right: none;
+  color: white;
+}
+.scCombobuttonMain_Hot, .scCombobuttonEditorMain_Hot {
+  height: 100%;
+  display: inline;
+  padding: 3px 2px 0px 4px;
+  white-space: nowrap;
+  border: 1px solid #242424;
+  border-right: none;
+  color: white;
+  filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#7A8284', EndColorStr='#A4ACAE');
+}
+
+.scCombobuttonDrop {
+  display: inline;
+  height: 100%;
+  padding: 4px 1px 1px 3px;
+  border: none;
+}
+.scCombobuttonEditorDrop {
+  border: 1px solid #F0CCA5;
+  border-left: none;
+  display: inline;
+  filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#F8EED0', EndColorStr='#F8D5A6');
+  height: 100%;
+  padding: 3px 0px 0px 3px;
+}
+.scCombobuttonDrop_Disabled {
+  display: inline;
+  height: 100%;
+  padding: 4px 1px 1px 3px;
+  border: none;
+}
+.scCombobuttonEditorDrop_Disabled {
+  border: 1px solid #F0CCA5;
+  border-left: none;
+  display: inline;
+  filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#F8EED0', EndColorStr='#F8D5A6');
+  height: 100%;
+  padding: 3px 0px 0px 3px;
+}
+.scCombobuttonDrop_Down, .scCombobuttonEditorDrop_Down {
+  display: inline;
+  height: 100%;
+  padding: 3px 1px 0px 2px;
+  border: 1px solid #242424;
+  border-left: 1px solid #6E7475;
+  color: buttontext;
+  filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#7A8284', EndColorStr='#A5ADAF');
+}
+.scCombobuttonDrop_Hover, .scCombobuttonEditorDrop_Hover {
+  display: inline;
+  height: 100%;
+  padding: 2px 2px 1px 1px;
+  border: 1px solid #242424;
+  border-left: 1px solid #6E7475;
+  color: buttontext;
+}
+.scCombobuttonDrop_Hot, .scCombobuttonEditorDrop_Hot {
+  display: inline;
+  height: 100%;
+  padding: 3px 1px 0px 2px;
+  border: 1px solid #242424;
+  border-left: 1px solid #6E7475;
+  color: buttontext;
+  filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#A5ADAF', EndColorStr='#7A8284');
+}
+.scContentEditorItemInformationLine {
+  font: 9pt verdana;
+  color: black;
+  padding: 3px;
+}
+.scContentEditorItemInformationHeader {
+  color: white;
+  font-weight: bold;
+}
+.scContentLabel {
+  color: #6487DC;
+  padding: 16px 0px 1px 0px;
+}
+
+a.scContentLabelLink, a.scContentLabelLink:active, a.scContentLabelLink:visited {
+  color: #6487DC;
+  padding-bottom: 1px;
+  text-decoration: none;
+}
+
+a.scContentLabelLink:hover {
+  color: #6487DC;
+  padding-bottom: 1px;
+  text-decoration: underline;
+}
+
+.scContentControl {
+  background: white;
+  border: 1px solid #cccccc;
+  color: black;
+  font: 10pt verdana;
+  width: 100%;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -khtml-box-sizing: border-box;
+}
+.scContentControl_Active {
+  background: white;
+  border: 1px solid activecaption;
+  color: black;
+  font: 10pt verdana;
+  width: 100%;
+}
+.scContentControlComboControl {
+  border: 1px solid #cccccc;
+  color: black;
+  width: 100%;
+}
+
+.scContentControlChecklist {
+  background: white;
+  border: 1px solid #cccccc;
+  color: black;
+  font: 10pt verdana;
+}
+
+.ff .scContentControlChecklist label, .ff .scContentControlChecklist input {
+  float: left;
+}
+
+.ff .scContentControlChecklist label {
+  padding-top: 2px;
+}
+
+.ff .scContentControlChecklist br {
+  clear: left;
+}
+
+.scContentControlChecklist_Active {
+  background: white;
+  border: 1px solid activecaption;
+  color: black;
+  font: 10pt verdana;
+}
+.scContentControlMemo {
+  border: 1px solid #cccccc;
+  color: black;
+  height: 80px;
+  width: 100%;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -khtml-box-sizing: border-box;
+}
+.scContentControlMemo_Active {
+  border: 1px solid activecaption;
+  color: black;
+  height: 80px;
+  width: 100%;
+}
+.scContentControlCheckbox {
+}
+
+.scContentControlHtml {
+  border: 1px solid #cccccc;
+  height: 100%;
+  width: 100%;
+}
+
+.defaultFieldEditorsFrameContainer
+{
+  height:150px;
+}
+
+.scContentControlHtmlToolbar {
+  padding: 1px 2px 1px 2px;
+  background: #505050 url(/sitecore/shell/themes/standard/Images/Toolbar/ToolbarBackground.png) repeat-x;
+}
+
+.scContentControlHtmlToolbarButton, .scContentControlHtmlToolbarButton:link, .scContentControlHtmlToolbarButton:visited, .scContentControlHtmlToolbarButton:hover, .scContentControlHtmlToolbarButton:active {
+  color: #303030;
+  cursor: default;
+  padding: 2px 2px 2px 2px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.scContentControlHtmlToolbarButton:active {
+  border: 1px solid;
+  border-color: #ddcf9b #c1a877 #dfd8bd #c1a877;
+  background: #ffb70b url(/sitecore/shell/Themes/Standard/Images/RibbonSmallButtonHover.png) repeat-x;
+  padding: 1px 1px 1px 1px;
+}
+
+.scContentControlHtmlToolbarButton:hover {
+  border: 1px solid;
+  border-color: #ddcf9b #c1a877 #dfd8bd #c1a877;
+  background: #ffb70b url(/sitecore/shell/Themes/Standard/Images/RibbonSmallButtonHover.png) repeat-x;
+  padding: 1px 1px 1px 1px;
+  text-decoration: underline;
+}
+
+
+.scContentControlHtml_Active {
+  border: 1px solid activecaption;
+  height: 100%;
+  width: 100%;
+}
+.scContentControlIFrame {
+  border: 1px solid #cccccc;
+  color: black;
+  height: 80px;
+  width: 100%;
+}
+.scContentControlIFrame_Active {
+  border: 1px solid activecaption;
+  color: black;
+  height: 80px;
+  width: 100%;
+}
+.scContentControlImage {
+  border: 1px solid #cccccc;
+  color: black;
+  font: 10pt verdana;
+  width: 100%;
+}
+.scContentControlImage_Active {
+  border: 1px solid activecaption;
+  color: black;
+  font: 10pt verdana;
+  width: 100%;
+}
+.scContentControlImagePane {
+  color: black;
+  border: 1px solid #cccccc;
+  border-top: none;
+  width: 100%;
+}
+.scContentControlImageImage {
+  background: #f0f1f2;
+  border: 1px solid #cccccc;
+  text-align: center;
+}
+.scContentControlImageDetails {
+  padding: 2px 8px 2px 8px;
+}
+
+.scContentControlAttachment {
+  background: transparent;
+  border: 1px solid #cccccc;
+  color: black;
+  font: 10pt verdana;
+  width: 100%;
+}
+.scContentControlAttachment_Active {
+  background: transparent;
+  border: 1px solid activecaption;
+  color: black;
+  font: 10pt verdana;
+  width: 100%;
+}
+.scContentControlAttachmentPane {
+  background: #e9e9e9;
+  color: black;
+  margin: 0px 0px 0px 0px;
+  width: 100%;
+}
+.scContentControlAttachmentImage {
+  background: white;
+  border: 1px solid #999999;
+  text-align: center;
+}
+
+.scContentControlMultilist {
+  background: white;
+  border: 1px solid #cccccc;
+  color: black;
+  font: 10pt verdana;
+  width: 100%;
+  table-layout: fixed;
+}
+.scContentControlMultilistCaption {
+  color: #666;
+  font: 8pt tahoma;
+}
+.scContentControlMultilistBox {
+  background: window;
+  color: windowtext;
+  width: 100%;
+}
+.scContentControlSecurity {
+  border: 1px solid #cccccc;
+  color: black;
+  width: 100%;
+}
+.scContentControlSecurity_Active {
+  border: 1px solid activecaption;
+  color: black;
+  width: 100%;
+}
+
+.ff .scContentControlTreelist .scScrollbox {
+  border-color: #b4b4b4;
+  height: 192px;
+}
+
+.ie .scContentControlTreelist .scScrollbox, .ie .scContentControlTreelist_Active .scScrollbox {
+  width:100%;  
+}
+
+.scContentControlTreelistEx {
+  height: 80px;
+  width: 100%;
+  overflow: auto;
+  font: 8pt tahoma;
+}
+
+.scContentControlTreelistEx div {
+  padding: 2px;
+}
+
+.scContentHeaderLabel {
+  color: white;
+  padding: 6px 0px 1px 0px;
+}
+.scGrayGradient {
+  background: #4E4E4E url(/sitecore/shell/themes/standard/gradients/gray1.gif) 50% 0 repeat-y;
+}
+.scGrayGradientLightShadow {
+  background: #6B6C6D url(/sitecore/shell/themes/standard/gradients/gray2.gif) 50% 0 repeat-y;
+}
+.scBlueGradient {
+  background: #5A6B7D url(/sitecore/shell/themes/standard/gradients/blue1.gif) 50% 0 repeat-y;
+}
+.scBlueGradientLightShadow {
+  background: #818E9C url(/sitecore/shell/themes/standard/gradients/blue2.gif) 50% 0 repeat-y;
+}
+.scDocumentBlueGradient {
+  background: #274092 url(/sitecore/shell/themes/standard/gradients/documentblue1.gif) 50% 0 repeat-y;
+}
+.scGreenGradient {
+  background: #6D9427 url(/sitecore/shell/themes/standard/gradients/green1.gif) 50% 0 repeat-y;
+}
+.scGreenGradientLightShadow {
+  background: #7F9847 url(/sitecore/shell/themes/standard/gradients/green2.gif) 50% 0 repeat-y;
+}
+.scLightBlueGradient {
+  background: #8595A4 url(/sitecore/shell/themes/standard/gradients/lightblue1.gif) 50% 0 repeat-y;
+}
+.scOrangeGradient {
+  background: #D2662B url(/sitecore/shell/themes/standard/gradients/orange1.gif) 50% 0 repeat-y;
+}
+.scOrange2Gradient {
+  background: #d2662b url(/sitecore/shell/themes/standard/gradients/orange2.gif) 50% 0 repeat-y;
+}
+.scPurpleGradient {
+  background: #2B0C2B url(/sitecore/shell/themes/standard/gradients/purple1.gif) 50% 0 repeat-y;
+}
+.scRedGradient {
+  background: #761819 url(/sitecore/shell/themes/standard/gradients/red1.gif) 50% 0 repeat-y;
+}
+.scListview {
+  height: 100%;
+  overflow: auto;
+}
+.scListviewItemReport {
+  color: windowtext;
+  cursor: default;
+  overflow: hidden;
+  padding: 3px;
+  text-overflow: ellipsis;
+  vertical-align: top;
+}
+.scListviewItemReport_Selected {
+  background: #F6D2AB;
+  border: 1px solid #F0CCA5;
+  color: #46448D;
+  filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#F8EED0', EndColorStr='#F8D5A6');
+  cursor: default;
+  overflow: hidden;
+  padding: 2px;
+  text-overflow: ellipsis;
+  vertical-align: top;
+}
+.scListviewViewReportIcon {
+  cursor: default;
+  padding-bottom: 4px;
+}
+
+.scListviewItemIcons {
+  cursor: default;
+  display: block;
+  overflow: hidden;
+  padding: 5px;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: top;
+  width: 80px;
+  float: left;
+}
+
+
+.scListviewItemIcons_Selected {
+  background: #F6D2AB;
+  border: 1px solid #F0CCA5;
+  color: #46448D;
+  cursor: default;
+  display: inline;
+  overflow: hidden;
+  padding: 4px;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: top;
+  width: 80px;
+  float: left;
+}
+
+.scListviewViewIconsIcon {
+  cursor: default;
+  padding-bottom: 4px;
+}
+
+.scListviewItemList {
+  cursor: default;
+  display: inline;
+  overflow: hidden;
+  padding: 2px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 150px;
+  float: left;
+}
+.scListviewItemList_Selected {
+  background: #F8D5A6;
+  border: 1px solid #F6D2AB;
+  color: #46448D;
+  cursor: default;
+  filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#F8EED0', EndColorStr='#F8D5A6');
+  display: inline;
+  overflow: hidden;
+  padding: 1px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 150px;
+  float: left;
+}
+.scListviewItemDetails {
+  cursor: default;
+  overflow: hidden;
+  padding: 3px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.scListviewItemDetails_Selected {
+  cursor: default;
+  overflow: hidden;
+  padding: 3px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.scListviewItemDetailsCell {
+  cursor: default;
+  padding: 2px 8px 2px 4px;
+  white-space: nowrap;
+}
+.scListviewItemDetailsCell_Selected {
+  background: #F8D5A6;
+  border-bottom: 1px solid #F6D2AB;
+  border-top: 1px solid #F6D2AB;
+  color: #46448D;
+  filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#F8EED0', EndColorStr='#F8D5A6');
+  cursor: default;
+  padding: 1px 8px 1px 4px;
+  white-space: nowrap;
+}
+.scListviewItemThumbnails {
+  color: windowtext;
+  cursor: default;
+  display: inline;
+  overflow: hidden;
+  padding: 5px;
+  text-align: center;
+  text-overflow: ellipsis;
+  vertical-align: top;
+  width: 100px;
+}
+.scListviewItemThumbnails_Selected {
+  background: #F8D5A6;
+  border: 1px solid #F6D2AB;
+  color: #46448D;
+  filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#F8EED0', EndColorStr='#F8D5A6');
+  cursor: default;
+  display: inline;
+  overflow: hidden;
+  padding: 4px;
+  text-align: center;
+  text-overflow: ellipsis;
+  vertical-align: top;
+  width: 100px;
+}
+.scListviewItemThumbnailsIcon {
+  border: 1px solid threedface;
+  cursor: default;
+  height: 72px;
+  vertical-align: baseline;
+  width: 72px;
+}
+.scListviewItemDocument {
+  border-bottom: 1px solid threedface;
+  color: highlight;
+  cursor: default;
+  overflow: hidden;
+  padding: 5px;
+  text-align: center;
+  text-overflow: ellipsis;
+  vertical-align: top;
+}
+.scListviewItemDocument_Selected {
+  border-bottom: 1px solid threedface;
+  background: highlight;
+  color: highlighttext;
+  cursor: default;
+  overflow: hidden;
+  padding: 5px;
+  text-align: center;
+  text-overflow: ellipsis;
+  vertical-align: top;
+}
+.scListviewItemDocumentTitle {
+  color: windowtext;
+}
+.scListviewItemDocumentText {
+  color: windowtext;
+}
+.scListviewDetailline {
+  padding: 2px 0px 2px 0px;
+}
+.scListviewNavigator {
+  background: threedface;
+  border-left: 1px solid threedhighlight;
+  border-top: 1px solid threedhighlight;
+  border-right: 1px solid threedshadow;
+  border-bottom: 1px solid threedshadow;
+  padding: 2px 4px 2px 4px;
+  white-space: nowrap;
+}
+.scListviewNavigatorItem {
+  font-weight: bold;
+}
+.scListviewNavigatorItemActive {
+  color: activecaption;
+  font-weight: bold;
+}
+.scListviewViewDetailsHeader {
+  background: threedface url(/sitecore/shell/themes/standard/images/listviewheader16x17.png) repeat-x;
+  border-left: 1px solid #E0E0E0;
+  border-right: 1px solid #FFF;
+  color: #373738;
+  height: 17px;
+  padding: 1px 3px 1px 3px;
+  text-align: left;
+  white-space: nowrap;
+}
+.scListviewViewDetailsHeaderHover {
+  background: threedface url(/sitecore/shell/themes/standard/images/listviewheaderhover16x17.png) repeat-x;
+  border-left: 1px solid #E0E0E0;
+  border-right: 1px solid #FFF;
+  color: #373738;
+  height: 17px;
+  padding: 1px 3px 1px 3px;
+  text-align: left;
+  white-space: nowrap;
+}
+.scMenu {
+  color: #080864;
+  background: #fafafa;
+  border: 1px solid #868686;
+}
+.scMenuItemIcon {
+  background: #efefef;
+  border-right: 1px solid #c5c5c5;
+  padding: 1px 0px 1px 1px;
+  vertical-align: top;
+  white-space: nowrap;
+  width: 20px;
+  margin: 0px 0px 0px 1px;
+}
+.scMenuItemCaption {
+  background: #fafafa;
+  cursor: default;
+  padding: 1px 1px 1px 4px;
+  white-space: nowrap;
+}
+.scMenuItemHotkey {
+  background: #fafafa;
+  cursor: default;
+  padding: 1px 4px 1px 4px;
+  text-align: right;
+  white-space: nowrap;
+}
+.scMenuItemIcon_Hover {
+  background: #d5effc url(/sitecore/shell/themes/standard/Images/Tree/TreeNodeActiveBackground.png) repeat-x;
+  border: 1px solid #99defd;
+  border-right: none;
+  color: menutext;
+  padding: 0px 1px 0px 0px;
+  vertical-align: top;
+  white-space: nowrap;
+  width: 20px;
+  margin: 0px 0px 0px 1px;
+}
+.scMenuItemCaption_Hover {
+  background: #d5effc url(/sitecore/shell/themes/standard/Images/Tree/TreeNodeActiveBackground.png) repeat-x;
+  border: 1px solid #99defd;
+  border-left: none;
+  border-right: none;
+  color: #000062;
+  cursor: default;
+  padding: 0px 1px 0px 4px;
+  white-space: nowrap;
+}
+.scMenuItemHotkey_Hover {
+  background: #d5effc url(/sitecore/shell/themes/standard/Images/Tree/TreeNodeActiveBackground.png) repeat-x;
+  border: 1px solid #99defd;
+  border-left: none;
+  color: menutext;
+  cursor: default;
+  padding: 0px 3px 0px 4px;
+  text-align: right;
+  white-space: nowrap;
+}
+.scMenuItemIcon_Disabled {
+  background: #efefef;
+  filter: progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);
+  border-right: 1px solid #c5c5c5;
+  padding: 1px 0px 1px 1px;
+  vertical-align: top;
+  white-space: nowrap;
+  width: 20px;
+  margin: 0px 0px 0px 1px;
+}
+.scMenuItemCaption_Disabled {
+  background: #fafafa;
+  color: graytext;
+  cursor: default;
+  padding: 1px 1px 1px 4px;
+  white-space: nowrap;
+}
+.scMenuItemHotkey_Disabled {
+  background: #fafafa;
+  color: graytext;
+  cursor: default;
+  padding: 1px 4px 1px 4px;
+  text-align: right;
+  white-space: nowrap;
+}
+.scMenuDividerIcon {
+  background: #efefef;
+  border-right: 1px solid #c5c5c5;
+  height: 3px;
+}
+.scMenuDividerCaption {
+  background: #9199a4;
+  border-top: 1px solid #fafafa;
+  border-bottom: 1px solid #fafafa;
+  border-left: 2px solid #fafafa;
+  height: 3px;
+}
+.scMenuDividerHotkey {
+  background: #9199a4;
+  border-top: 1px solid #fafafa;
+  border-bottom: 1px solid #fafafa;
+  height: 3px;
+}
+
+.wk .scMenuDividerIcon {
+  height: 1px;
+}
+.wk .scMenuDividerCaption {
+  height: 1px;
+}
+.wk .scMenuDividerHotkey {
+  height: 1px;
+}
+
+.scMenuPanelItem {
+  white-space: nowrap;
+  padding: 1px 4px 1px 4px;
+}
+.scMenuPanelItem_Hover, .scMenuPanelItemSelected_Hover {
+  background: #e8f5fd url(/sitecore/shell/themes/standard/Images/Tree/TreeNodeNormalBackground.png) repeat-x;
+  border: 1px solid #d8f0fa;
+  border-left: none;
+  border-right: none;
+  padding: 0px 4px 0px 4px;
+  color: menutext;
+  white-space: nowrap;
+}
+.scMenuPanelItemSelected {
+  background: #d5effc url(/sitecore/shell/themes/standard/Images/Tree/TreeNodeActiveBackground.png) repeat-x;
+  border: 1px solid #99defd;
+  border-left: none;
+  border-right: none;
+  padding: 0px 4px 0px 4px;
+  color: menutext;
+  white-space: nowrap;
+}
+.scMenubar {
+  background: threedface;
+  border: none;
+  filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=1, StartColorStr='#F1F3F1', EndColorStr='#ECE9D8');
+  width: 100%;
+  padding: 1px 0px 1px 2px;
+}
+.scBorderCell {
+  border: 1px solid threedface;
+}
+.scBorderCellHigh {
+  color: highlighttext;
+  background: highlight;
+}
+.scBorderCellSelected {
+  color: captiontext;
+  background: activecaption;
+}
+.scDarkBorderCell {
+  border: 1px solid #D4D0C8;
+}
+.scNotebookFrame {
+  border-left: 1px solid threedhighlight;
+  border-bottom: 1px solid threedshadow;
+  border-right: 1px solid threedshadow;
+}
+
+.scScrollbox {
+  background: window;
+  height: 100%;
+  overflow: auto;
+  border: 1px inset; /* ie */
+}
+
+.ff .scScrollbox {
+  border-top: solid 1px #B4B4B4;
+  border-left: solid 1px #B4B4B4;
+  border-bottom: solid 1px white;
+  border-right: solid 1px white;
+}
+
+.scScroller {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.wk .scScroller {
+  margin-bottom: 2px;
+}
+
+.scScrollerLeft {
+  display: none;
+}
+.scScrollerRight {
+  display: none;
+}
+.scShellTasks {
+  background: url(/sitecore/shell/themes/standard/images/gradient2800x16.png) 50% 0 repeat;
+  height: 100%;
+  padding: 8px;
+  width: 100%;
+}
+.scShellDetails {
+  padding: 6px;
+}
+.scSpinEditButton {
+  padding-bottom: 1px;
+}
+.scSpinEditInput {
+  border-top: 1px solid #7F9DB9;
+  border-left: 1px solid #7F9DB9;
+  border-bottom: 1px solid #7F9DB9;
+  border-right: none;
+  height: 22px;
+  width: 100%;
+}
+.scTaskboxOption {
+  cursor: default;
+}
+.scTaskboxOption_Hover {
+  cursor: default;
+  text-decoration: underline;
+}
+.scTaskboxBody {
+  height: 100%;
+  overflow: auto;
+  padding: 4px;
+  width: 100%;
+}
+.scTabstripTopTabs {
+  border-top: 2px solid #FFFBE9;
+  background: #FFFBE9;
+}
+.scTabstripTopTabs_Tab {
+  color: #817E73;
+  border-bottom: 2px groove;
+  padding: 3px 8px 3px 8px;
+}
+.scTabstripTopTabs_TabHover {
+  color: #F93;
+  text-decoration: underline;
+  border-bottom: 2px groove;
+  padding: 3px 8px 3px 8px;
+}
+.scTabstripTopTabs_ActiveTab {
+  background: threedface;
+  font-weight: bold;
+  border-left: 1px solid threedhighlight;
+  border-top: 1px solid threedhighlight;
+  border-right: 1px solid threeddarkshadow;
+  padding: 3px 8px 3px 8px;
+}
+.scTabstripTopTabs_ActiveTabHover {
+  background: threedface;
+  color: #F93;
+  font-weight: bold;
+  text-decoration: underline;
+  border-left: 1px solid threedhighlight;
+  border-top: 1px solid threedhighlight;
+  border-right: 1px solid threeddarkshadow;
+  padding: 3px 8px 3px 8px;
+}
+.scTabstripTopTabs_Filler {
+  border-bottom: 2px groove;
+}
+.scTabstripBottomTabs {
+  border-bottom: 2px solid #FFFBE9;
+  background: #FFFBE9;
+}
+.scTabstripBottomTabs_Tab {
+  color: #817E73;
+  border-top: 2px groove;
+  padding: 4px 8px 4px 8px;
+}
+.scTabstripBottomTabs_TabHover {
+  color: #F93;
+  text-decoration: underline;
+  border-top: 2px groove;
+  padding: 3px 8px 3px 8px;
+}
+.scTabstripBottomTabs_ActiveTab {
+  background: threedface;
+  font-weight: bold;
+  border-left: 1px solid threedhighlight;
+  border-bottom: 1px solid threeddarkshadow;
+  border-right: 1px solid threeddarkshadow;
+  padding: 3px 8px 3px 8px;
+}
+.scTabstripBottomTabs_ActiveTabHover {
+  background: threedface;
+  color: #F93;
+  font-weight: bold;
+  text-decoration: underline;
+  border-left: 1px solid threedhighlight;
+  border-bottom: 1px solid threeddarkshadow;
+  border-right: 1px solid threeddarkshadow;
+  padding: 3px 8px 3px 8px;
+}
+.scTabstripBottomTabs_Filler {
+  border-top: 2px groove;
+}
+.scTabstripButtons {
+  border: 3px solid #FFFBE9;
+  background: #FFFBE9;
+}
+.scTabstripButtons_Tab {
+  color: #817E73;
+  padding: 3px 9px 3px 9px;
+}
+.scTabstripButtons_TabHover {
+  color: #F93;
+  text-decoration: underline;
+  padding: 3px 9px 3px 9px;
+}
+.scTabstripButtons_ActiveTab {
+  background: window;
+  border: 1px solid #316AC5;
+  padding: 2px 8px 2px 8px;
+}
+.scTabstripButtons_ActiveTabHover {
+  background: window;
+  color: #F93;
+  text-decoration: underline;
+  border: 1px solid #316AC5;
+  padding: 2px 8px 2px 8px;
+}
+.scTaskboxCaption {
+  color: #0148B2;
+  background: #C5D2F0;
+  filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=1, StartColorStr='#FFFFFF', EndColorStr='#C5D2F0');
+}
+.scTaskboxBody {
+  background: white;
+}
+.scTaskOption {
+  color: white;
+  font-weight: bold;
+  cursor: default;
+  padding: 6px 0px;
+  white-space: nowrap;
+}
+.scTaskOption_Hover {
+  color: white;
+  font-weight: bold;
+  text-decoration: underline;
+  cursor: default;
+  padding: 6px 0px;
+  white-space: nowrap;
+}
+.scDisabledTaskOption {
+  color: graytext;
+  font-weight: bold;
+  cursor: default;
+  padding: 6px 0px;
+  white-space: nowrap;
+}
+.scToolbar {
+  background: #505050 url(/sitecore/shell/themes/standard/Images/Toolbar/ToolbarBackground.png) repeat-x;
+  border: none;
+  color: black;
+  padding: 3px 1px 3px 4px;
+}
+.scToolbutton {
+  background: transparent;
+  border: none;
+  color: black;
+  cursor: default;
+  height: 22px;
+  vertical-align: middle;
+  white-space: nowrap;
+  padding: 3px 2px 1px 2px;
+}
+
+.scToolbutton_Disabled {
+  background: transparent;
+  color: black;
+  filter: progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);
+  border: none;
+  cursor: default;
+  height: 22px;
+  vertical-align: middle;
+  white-space: nowrap;
+  padding: 3px 2px 1px 2px;
+}
+.scToolbutton_Down {
+  background: #ffdb75 url(/sitecore/shell/themes/standard/Images/Toolbar/ToolbuttonBackground.png) repeat-x;
+  border: 1px solid #ffbd69;
+  color: black;
+  cursor: default;
+  height: 22px;
+  vertical-align: middle;
+  white-space: nowrap;
+  padding: 2px 1px 0px 1px;
+}
+.scToolbutton_Down_Hover {
+  background: #ffdb75 url(/sitecore/shell/themes/standard/Images/Toolbar/ToolbuttonBackground.png) repeat-x;
+  border: 1px solid #ffbd69;
+  color: black;
+  cursor: default;
+  height: 22px;
+  vertical-align: middle;
+  white-space: nowrap;
+  padding: 2px 1px 0px 1px;
+}
+.scToolbutton_Hover {
+  background: #ffdb75 url(/sitecore/shell/themes/standard/Images/Toolbar/ToolbuttonBackground.png) repeat-x;
+  border: 1px solid #ffbd69;
+  color: black;
+  cursor: default;
+  height: 22px;
+  vertical-align: middle;
+  white-space: nowrap;
+  padding: 2px 1px 0px 1px;
+}
+.scToolbutton_Hot {
+  background: #ffdb75 url(/sitecore/shell/themes/standard/Images/Toolbar/ToolbuttonBackground.png) repeat-x;
+  border: 1px solid #ffbd69;
+  color: black;
+  cursor: default;
+  height: 22px;
+  vertical-align: middle;
+  white-space: nowrap;
+  padding: 2px 1px 0px 1px;
+}
+.scPropertyInspectorEditor {
+  border: none;
+  background: transparent;
+  width: 100%;
+}
+.scFieldCaption {
+  color: #666;
+  border-top: 1px solid threedshadow;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid threedshadow;
+  background: threedface;
+  padding: 5px 0px 0px 8px;
+}
+.scFieldBody {
+  background: window;
+  border-top: 1px solid threedshadow;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid threedshadow;
+}
+.scFieldBodySpace {
+  background: threedface;
+  border-top: 1px solid threedshadow;
+  border-left: none;
+  border-right: 1px solid threedshadow;
+  border-bottom: 1px solid threedshadow;
+}
+table.scTemplateEditorInspector {
+  border-collapse: collapse;
+  color: windowtext;
+}
+.scTemplateEditorSelector {
+  border: none;
+  background: transparent;
+  width: 100%;
+}
+.scTaskTitle {
+  font-weight: bold;
+  color: white;
+  height: 28px;
+}
+.scTaskHeadline {
+  font: bold 18pt tahoma;
+  color: #D6DFF5;
+}
+.scTaskWhatDoYouWantToDo {
+  font: bold 18pt tahoma;
+  color: #e9e9e9;
+  padding: 0px 0px 4px 0px;
+}
+.scTaskGradient {
+  filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=1, StartColorStr='#3366CC', EndColorStr='#6375D6');
+  height: 28px;
+}
+a.scTagTracker, a.scTagTracker:active, a.scTagTracker:visited {
+  color: windowtext;
+  text-decoration: none;
+  padding: 1px;
+  white-space: nowrap;
+}
+a.scTagTracker:hover {
+  color: activecaption;
+  text-decoration: underline;
+  padding: 1px;
+  white-space: nowrap;
+}
+.scTagTrackerSelected {
+  font-weight: bold;
+  color: windowtext;
+  padding: 1px;
+  white-space: nowrap;
+}
+.scInspector {
+  background: appworkspace;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+.scInspectorGrid {
+  background: threedface;
+  border-collapse: collapse;
+  border: none;
+}
+.scInspectorSection {
+  color: #666;
+  border: 1px solid threedshadow;
+  border-left: none;
+  border-right: none;
+  white-space: nowrap;
+  padding: 0px 4px 0px 4px;
+}
+.scInspectorKey {
+  color: #666;
+  border: 1px solid threedshadow;
+  border-left: none;
+  white-space: nowrap;
+  padding: 0px 4px 0px 4px;
+}
+.scInspectorValue {
+  background: window;
+  color: windowtext;
+  border: 1px solid threedshadow;
+  border-right: none;
+  width: 100%;
+  padding-left: 4px;
+}
+.scInspectorButtons {
+  background: window;
+  color: windowtext;
+  border: 1px solid threedshadow;
+  border-left: none;
+  border-right: none;
+  padding: 0px;
+}
+.scInspectorButton {
+  font: bold 10pt arial;
+  color: buttontext;
+  background: buttonface;
+  width: 19px;
+  height: 19px;
+}
+.scInspectorInput {
+  border: none;
+  width: 100%;
+  background: transparent;
+}
+.scInspectorDropdown {
+  border: none;
+  width: 100%;
+  background: transparent;
+}
+.scInspectorHeader {
+  font-weight: bold;
+  border: none;
+  padding: 4px;
+  background: threedlightshadow;
+}
+.scInspectorText {
+  color: #666;
+  text-align: center;
+}
+a.scInspectorTaglist, a:hover.scInspectorTaglist, a:active.scInspectorTaglist, a:visited.scInspectorTaglist {
+  color: Black;
+  border: none;
+  text-decoration: none;
+  background: transparent;
+}
+a.scInspectorInspectedtag, a:hover.scInspectorInspectedtag, a:active.scInspectorInspectedtag, a:visited.scInspectorInspectedtag {
+  color: highlighttext;
+  border: none;
+  text-decoration: none;
+  background: highlight;
+}
+.scWizardHeader {
+  font-weight: bold;
+  color: windowtext;
+  background: window;
+}
+.scWizardTitle {
+  font-weight: bold;
+  color: windowtext;
+  padding: 4px 4px 4px 8px;
+}
+.scWizardText {
+  color: windowtext;
+  margin-left: 32px;
+  padding-bottom: 4px;
+}
+.scWizardWelcomeTitle {
+  font: bold 12pt verdana;
+  padding-bottom: 16px;
+}
+.scWizardWelcomePanel {
+  color: windowtext;
+  background: window;
+  padding: 8px;
+}
+.scWizardTextPanel {
+  padding: 8px 36px 0px 36px;
+}
+.scWizardTextline {
+  color: windowtext;
+  padding-bottom: 8px;
+}
+.scWizardDocument {
+  font: 9pt Courier New;
+  width: 412px;
+  height: 100%;
+  overflow: auto;
+  border: 1px inset;
+  color: windowtext;
+  background: window;
+}
+li.scWizardBullet {
+  padding-bottom: 8px;
+}
+.scRollOver {
+  cursor: default;
+  text-decoration: none;
+}
+.scRollOver_Hover {
+  cursor: default;
+  text-decoration: underline;
+}
+.scRollOver2 {
+  cursor: default;
+  text-decoration: none;
+}
+.scRollOver2_Hover {
+  background: #EDB078;
+  cursor: default;
+  text-decoration: none;
+}
+.scSection {
+  width: 100%;
+}
+.scSectionLeft {
+  background: url(/sitecore/shell/themes/standard/images/contentsection16x16.png) repeat-x;
+}
+.scSectionCenter {
+  color: #333;
+  font: bold 9pt verdana;
+  height: 24px;
+  width: 100%;
+  background: url(/sitecore/shell/themes/standard/images/contentsection16x16.png) repeat-x;
+  padding-left: 4px;
+}
+.scSectionRight {
+  padding: 0px 8px 0px 8px;
+  background: url(/sitecore/shell/themes/standard/images/contentsection16x16.png) repeat-x;
+}
+.scCommand {
+  cursor: default;
+  padding: 2px 2px 2px 0px;
+  white-space: nowrap;
+}
+.scCommand_Hover {
+  cursor: default;
+  padding: 2px 2px 2px 0px;
+  white-space: nowrap;
+  text-decoration: underline;
+}
+.scCombobox {
+  background: window;
+  border: 1px solid inactivecaption;
+  white-space: nowrap;
+}
+.scComboboxEdit {
+  border: none;
+  font: 9pt verdana;
+  padding: 1px;
+  width: 100%;
+}
+.wk .scComboboxEdit {
+  padding: 0px;
+}
+.scComboboxDropDown {
+  margin: 0px 1px;
+}
+.ff .scComboboxDropDown {
+  margin-right: 1;
+}
+
+.scListbox {
+  cursor: default;
+  overflow: auto;
+  border: 3px inset;
+}
+.scListboxItem {
+  font: 10pt arial;
+  padding: 1px;
+  white-space: nowrap;
+}
+.scListboxItem_Selected {
+  background: highlight;
+  color: highlighttext;
+  font: 10pt arial;
+  padding: 1px;
+  white-space: nowrap;
+}
+.scInformationBar {
+  background: infobackground;
+  color: infotext;
+  padding: 6px 2px 6px 2px;
+  margin-bottom: 2px;
+  border-bottom: 1px solid #666666;
+}
+
+.scFieldLabel {
+  background: threedface;
+  border-bottom: 1px solid threedshadow;
+  border-right: 1px solid threedshadow;
+  padding: 2px 4px 0px 12px;
+  white-space: nowrap;
+}
+
+.scFieldInput {
+  background: window;
+  border-bottom: 1px solid threedshadow;
+  padding: 0px 0px 0px 4px;
+  width: 100%;
+}
+
+.scFieldSection {
+  background: threedface;
+  padding: 2px 0px 2px 4px;
+  border-bottom: 1px solid threedshadow;
+  font: bold 8pt tahoma;
+}
+
+.scFieldTextbox {
+  border: none;
+  font: 8pt tahoma;
+}
+
+.scContentControlLayout {
+  border: 1px solid #666666;
+  background: #e9e9e9;
+  margin: 0px 0px 16px 0px;
+}
+
+.scContentControlLayout_Active {
+  border: 1px solid activecaption;
+  background: #e9e9e9;
+  margin: 0px 0px 16px 0px;
+}
+
+.scContentControlLayoutDevice {
+  background: white;
+}
+
+.scContentControlLayoutDevice_Active {
+  background: #e9e9e9;
+}
+
+.scContentControlLayoutDeviceName {
+  padding: 4px 8px 4px 8px;
+}
+
+.scContentControlLayoutDeviceRenderings {
+  padding: 4px;
+}
+
+.scTabstrip {
+  height: 21px;
+  vertical-align: bottom;
+}
+
+.ff .scTabstrip {
+  width: 100%;
+}
+
+.scTabs {
+  background: white;
+  border-left: 1px solid #919b9c;
+  border-right: 1px solid #919b9c;
+  border-bottom: 1px solid #919b9c;
+  height: 100%;
+}
+
+.scTabPage {
+  width: 100%;
+  height: 100%;
+}
+
+.scTab, .scTab_Hover, .scTabActive, .scTabActive_Hover {
+  background: url(/sitecore/shell/themes/standard/images/tab.png) repeat-x top;
+  cursor: default;
+  height: 16px;
+  padding: 5px 4px 0px 4px;
+  font: 8pt tahoma;
+  vertical-align: top;
+  display: inline-block;  
+}
+
+.ff .scTab, .ff .scTab_Hover, .ff .scTabActive, .ff .scTabActive_Hover, .ff scTabstrip nobr, .ff .scTabstrip img {
+}
+
+.scTab_Hover {
+  text-decoration: underline;
+}
+
+.scTabActive, .scTabActive_Hover {
+  background: url(/sitecore/shell/themes/standard/images/tab_h.png) repeat-x top;
+  padding: 5px 4px 0px 4px;
+}
+
+.scTabFiller {
+  background: transparent;
+  width: 100%;
+}
+
+.scVerticalTabstrip .scVerticalTabs {
+  background: white;
+  border: solid 1px #919B9C;
+}
+
+.scVerticalTabstrip .scVerticalTabs a, .scVerticalTabstrip .scVerticalTabs span.header {
+  padding: 4px 20px 4px 8px;
+  display: block;
+  white-space: nowrap;
+}
+
+.scVerticalTabstrip .scVerticalTabs a.active {
+  background: url(/sitecore/shell/themes/standard/images/ribbonsmallbuttondown.png) repeat-x;
+}
+
+.scVerticalTabstrip .scVerticalTabs a:hover {
+  background: #ffde59 url(/sitecore/shell/themes/standard/images/ribbonsmallbuttonhover.png) repeat-x;
+  text-decoration: none;
+}
+
+.scVerticalTabstrip .scVerticalTabs span.header {
+  border-bottom: solid 1px #cecece;
+}
+
+.scVerticalTabstrip .scTabContent {
+  background: white;
+  border: solid 1px #919B9C;
+}
+
+.scViewerHeadline {
+  background: #a7a9bf url(/sitecore/portal/tech/head.gif) repeat-x;
+  border-top: 1px solid #b6b8cb;
+  border-bottom: 1px solid #cdcedb;
+  color: white;
+  padding: 2px;
+  font: 16pt Franklin Gothic Medium;
+  height: 33px;
+}
+
+.scDesktopItemIcons {
+  cursor: default;
+  display: inline;
+  overflow: hidden;
+  padding: 5px;
+  text-align: center;
+  text-overflow: ellipsis;
+  vertical-align: top;
+  width: 80px;
+}
+.scDesktopItemIcons_Selected {
+  background: highlight;
+  color: highlighttext;
+  cursor: default;
+  display: inline;
+  overflow: hidden;
+  padding: 5px;
+  text-align: center;
+  text-overflow: ellipsis;
+  vertical-align: top;
+  width: 80px;
+}
+.scDesktopViewIconsIcon {
+  cursor: default;
+  padding-bottom: 4px;
+}
+.scWindowManagementButton {
+  width: 24px;
+  height: 13px;
+  border: none;
+  margin: 0px 1px 0px 0px;
+  cursor: default;
+}
+.scWindowManagementCloseButton {
+  width: 38px;
+  height: 13px;
+  border: none;
+  margin: 0px 1px 0px 0px;
+  cursor: default;
+}
+
+#scLightbox {
+  position: absolute;
+  z-index: 100;
+  border: solid 1px #868686;
+  background: white;
+}
+
+#scOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 90;
+  width: 100%;
+  background-color: #000;
+}
+
+#SearchBox {
+  border: 1px solid #666666;
+  width: 120px;
+  color: #cccccc;
+  background: transparent;
+  padding-left: 2px;
+}
+
+#SearchBox.focus {
+  background-color: #111111;
+  width: 200px;
+}
+
+/* Content Tree */
+
+.scContentTreeContainer {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.scContentTree {
+  background: white url("/sitecore/shell/themes/standard/Images/Content Editor/TreeViewGutter.png") repeat-y;
+  background-color: white;
+  height: 100%;
+  overflow: auto;
+  padding-left: 6px;
+}
+
+.scContentTreeNode {
+  padding: 1px 2px 1px 16px;
+  white-space: nowrap;
+}
+
+.scContentTreeNode a {
+  text-decoration: none;
+  outline: none;
+}
+
+a.scContentTreeNodeNormal, a.scContentTreeNodeActive {
+  color: black;
+  cursor: default;
+  padding: 2px 4px 2px 2px;
+  line-height: 16px;
+}
+
+a.scContentTreeNodeNormal:hover, a.scContentTreeNodeActive, a.scContentTreeNodeNormal.scDragHover {
+  background: #e8f5fd url(/sitecore/shell/themes/standard/Images/Tree/TreeNodeNormalBackground.png) repeat-x;
+  border: 1px solid #d8f0fa;
+  padding: 2px 3px 2px 1px;
+}
+
+a.scContentTreeNodeActive {
+  background: #d5effc url(/sitecore/shell/themes/standard/Images/Tree/TreeNodeActiveBackground.png) repeat-x;
+  border: 1px solid #99defd;
+}
+
+.ff .scContentControl a.scContentTreeNodeNormal:hover, .ff .scContentControl a.scContentTreeNodeActive {
+  padding: 0px 3px 0px 1px;
+}
+
+.scContentTreeNodeGlyph {
+  border: none;
+  height: 15px;
+  margin: 0px 3px 0px 0px;
+  padding-bottom: 2px;
+  width: 15px;
+  vertical-align: bottom;
+}
+
+.scLoadingGlyph {
+  background: url(/~/icon/People/16x16/hourglass.png.aspx);
+  width: 16px;
+  height: 16px;
+  margin: 0px 0px 0px 8px;
+  vertical-align: bottom;
+}
+
+.scContentTreeNodeIcon {
+  border: none;
+  height: 16px;
+  margin: 0px 3px 0px 0px;
+  vertical-align: bottom;
+  width: 16px;
+}
+
+.scContentTreeNodeTitle {
+  outline: none;
+}
+
+.scContentTree a {
+  text-decoration: none !important;
+}
+
+.scContentTreeNodeGutter {
+  position: absolute;
+  left: 2px;
+}
+
+.ff .scContentTreeNodeGutter {
+  display: inline;
+}
+
+.scContentTreeNodeGutterIcon {
+  width: 16px;
+  height: 16px;
+  margin: 2px 0px 0px 2px;
+}
+
+.scContentTreeNodeGutterFlyout {
+  position: absolute;
+  border: 1px solid #868686;
+  padding: 2px;
+  background: white;
+  margin: -3px 0px 0px -3px;
+}
+
+.scContentTreeNodeGutterButton, .scContentTreeNodeGutterButton:link, .scContentTreeNodeGutterButton:active, .scContentTreeNodeGutterButton:hover, .scContentTreeNodeGutterButton:visited {
+  text-decoration: none;
+}
+
+.scContentTreeNodeGutterButton:hover, .scContentTreeNodeGutterButton:visited {
+  background: #ffb70b url(/sitecore/shell/Themes/Standard/Images/RibbonSmallButtonHover.png) repeat-x;
+}
+
+/* Item Tiles */
+.scTileItemIcon {
+  height: 32px;
+  width: 32px;
+}
+
+.ff .scInsetBorder {
+  border-top: solid 1px #B4B4B4;
+  border-left: solid 1px #B4B4B4;
+  border-bottom: solid 1px transparent;
+  border-right: solid 1px transparent;
+}
+
+.ie .scInsetBorder {
+  border: 1px inset;
+}
+
+.scFixSize, .scFixSizeInitialized {
+  height: 100px;
+  overflow: auto;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.scFixSize > * {
+  display: none;
+}
+
+.ff img[align=middle] {
+  vertical-align: middle;
+}
+
+/* Enables traditional box model like in IE quirks mode. */
+.scQuirksBoxModel
+{
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.scTmpCalculateSize > *
+{
+  display:none !important; 
+}
+
+/*
+ * Treeview.
+ */
+
+.scTreeview
+{
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.scTreeview ul
+{
+  border: none;
+  clear: both;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.scTreeview ul li
+{
+  border: none;
+  float: left;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.scTreeview .cell
+{
+  padding-bottom: 2px;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 1px;
+}
+
+.scTreeview .header
+{
+  background: url(/sitecore/shell/themes/standard/images/treeviewheader16x16.png) repeat-x;
+  border: none;
+  border-left: solid 1px white;
+  border-right: solid 1px #e1e1e1;
+  color: #353535;
+  padding-bottom: 2px;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 1px;
+  text-align: left;
+}
+
+.scTreeview .value
+{
+  border-left: solid 1px threedface;
+}
+
+.scTreeview .glyph
+{
+  border: none;
+  display: inline-block;
+  *display: inline;
+  height: 9px;
+  margin: 0;
+  margin-right: 3px;
+  margin-top: 5px;
+  vertical-align: top;
+  width: 9px;
+}
+
+.scTreeview .icon,
+.scTreeview .icon_Hover
+{
+  border: none;
+  margin: 0;
+  margin-right: 3px;
+  vertical-align: middle;
+}
+
+.scTreeview .nodeNormal,
+.scTreeview .nodeNormal_Hover,
+.scTreeview .nodeSelected,
+.scTreeview .nodeSelected_Hover
+{
+  border-style: solid;
+  border-width: 1px;
+  display: inline-block;
+  *display: inline;
+  vertical-align: top;
+  height: 16px;
+  line-height: 16px;
+  padding-bottom: 1px;
+  white-space: nowrap;
+  outline: none;
+}
+
+.scTreeview .nodeNormal,
+.scTreeview .nodeNormal_Hover
+{
+  background: transparent;
+  border-color: transparent;
+}
+
+.scTreeview .nodeSelected,
+.scTreeview .nodeSelected_Hover
+{
+  background: #d5effc url(/sitecore/shell/themes/standard/Images/Tree/TreeNodeActiveBackground.png) repeat-x;
+  border-color: #99defd;
+}
+
+.scTreeview .scTreeItem,
+.scTreeview .scTreeItem_Hover
+{
+  border: 1px solid transparent;
+  height: 21px;
+}
+
+.scTreeview .scTreeItem.hover
+{
+  background: #e8f5fd url(/sitecore/shell/themes/standard/Images/Tree/TreeNodeNormalBackground.png) repeat-x;
+  border: solid 1px #d8f0fa;
+  white-space: nowrap;
+}
+
+.scAccessViewerRight, 
+.scAccessViewerRight:link, 
+.scAccessViewerRight:active, 
+.scAccessViewerRight:hover, 
+.scAccessViewerRight:visited {
+  cursor:default;
+  display:block;
+  padding:1px 6px 1px 6px;
+  text-decoration:none;
+  white-space:nowrap;
+}
+
+.scAccessViewerRight:active, .scAccessViewerRight:hover , .scAccessViewerRight:focus {
+  background:#d5effc url(/sitecore/shell/themes/standard/Images/Tree/TreeNodeActiveBackground.png) repeat-x;
+	border: 1px solid #99defd;
+  padding:0px 5px 0px 5px;
+}
+
+.scAccessViewerRight:active  {
+  background-image: url(/sitecore/shell/themes/standard/Images/Tree/TreeNodeSelectedBackground.png);
+}
+
+.scActionLink, .scActionLink:link , .scActionLink:hover, .scActionLink:active  
+{
+  color: #186BF9;
+  text-decoration: none;
+  outline: none;
+}
+
+.scActionLink:hover
+{
+  text-decoration: underline;
+}
+
+
+.scPaneHeader {
+  font-family: verdana;
+}

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control xmlns:def="Definition">
+  <Installer.FileSourceEditor def:inherits="Sitecore.Shell.Applications.Install.Controls.FileSourceEditor,Sitecore.Client">
+    <Tabstrip def:ID="Tabs" Width="100%" Height="100%">
+      <Tab Header="Search Root">
+        <Installer.FileSourceRootEditor Padding="4px" Class="scQuirksBoxModel" />
+      </Tab>
+      <Tab Header="Filters">
+        <Installer.FilesFilterEditor Padding="4px" Class="scQuirksBoxModel" />
+      </Tab>
+      <Tab Header="Installation options">
+        <Installer.SourceOutputEditor Padding="4px" MergeOption="false"/>
+      </Tab>
+      <Tab Header="Preview">
+        <Installer.SourceViewer Padding="4px" />
+      </Tab>
+      <Tab Header="Name">
+        <Installer.NameEditor Padding="4px" />
+      </Tab>
+    </Tabstrip>
+  </Installer.FileSourceEditor>
+</control>

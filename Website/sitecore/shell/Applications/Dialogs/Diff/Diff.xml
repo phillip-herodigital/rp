@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <Diff>
+    <FormDialog Icon="Business/16x16/index_replace.png" Header="Compare Versions" Text="Compare two version of the same item. The differences are highlighted." CancelButton="false">
+      <CodeBeside Type="Sitecore.Shell.Applications.Dialogs.Diff.DiffForm,Sitecore.Client"/>
+      <link href="/sitecore/shell/Applications/Dialogs/Diff/Diff.css" rel="stylesheet"/>
+      <Stylesheet>
+        .ie #GridContainer {
+          padding: 4px;
+        }
+        
+        .ff #GridContainer &gt; * {
+          padding: 4px;
+        }
+        
+        .ff .scToolbutton, .ff .scToolbutton_Down, .ff .scToolbutton_Hover, .ff .scToolbutton_Down_Hover {
+          height: 20px;
+          float: left;
+        }
+      </Stylesheet>
+      
+      <AutoToolbar DataSource="/sitecore/content/Applications/Dialogs/Diff/Toolbar" def:placeholder="Toolbar"/>
+    
+      <GridPanel Columns="2" Width="100%" Height="100%" GridPanel.Height="100%">
+    
+        <Combobox ID="Version1" Width="100%" GridPanel.Width="50%" GridPanel.Style="padding:0px 4px 4px 0px" Change="#"/>
+      
+        <Combobox ID="Version2" Width="100%" GridPanel.Width="50%" GridPanel.Style="padding:0px 0px 4px 0px" Change="#"/>
+        
+        <Scrollbox ID="GridContainer" Padding="" Background="white" GridPanel.ColSpan="2" GridPanel.Height="100%">
+
+          <GridPanel ID="Grid" Width="100%" CellPadding="0" Fixed="true">
+          
+          </GridPanel>
+          
+        </Scrollbox>
+        
+      </GridPanel>
+        
+    </FormDialog>
+  </Diff>
+</control>

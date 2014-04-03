@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <Installer.AddStaticItemSource>
+    <WizardForm CodeBeside="Sitecore.Shell.Applications.Install.Dialogs.AddStaticItemSourceDialog,Sitecore.Client">
+      <Border ID="Internals" />
+      <WizardFormFirstPage ID="FirstPage" Icon="People/32x32/Box_Software.png">
+        <Border Class="scWizardWelcomeTitle">
+          <Literal ID="Welcome" Text="Welcome to the Add Static Item Source Wizard."/>
+        </Border>
+        <Literal Text="This wizard helps you:"/>
+        <ul>
+          <li class="scWizardBullet">
+            <Literal Text="Select the items and subtrees to include in the source."/>
+          </li>
+          <li class="scWizardBullet">
+            <Literal Text="Specify a name for the source."/>
+          </li>
+          <li class="scWizardBullet">
+            <Literal Text="Add the static item source."/>
+          </li>
+        </ul>
+      </WizardFormFirstPage>
+
+      <WizardFormPage ID="LoadItemSource" Header="Select Items" Text="Select the database and the items and subtrees that you want to include. Click Next to continue." Icon="People/32x32/Box_Software.png">
+        <WizardFormIndent>
+
+          <DataContext ID="DataContext" Root="{11111111-1111-1111-1111-111111111111}" filter="@@virtual=0"/>
+
+          <GridPanel Width="100%" Height="100%">
+
+            <Border Padding="0 0 8 0" GridPanel.Height="2em">
+              <GridPanel Width="100%" Columns="2">
+                <Literal Text="Database:&#160;" Style="white-space:nowrap;margin-right:0.5em"/>
+
+                <Combobox ID="Databases" Change="ChangeDatabase" Width="100%" Padding="0 0 0 4" GridPanel.Width="100%"/>
+              </GridPanel>
+            </Border>
+
+            <GridPanel Width="100%" Height="100%">
+
+              <Scrollbox Height="100%" Width="100%" Class="scScrollbox scFixSize scKeepFixSize" Background="white" Border="1px inset" Padding="0" GridPanel.Height="100%">
+
+                <DataTreeview ID="Treeview" DataContext="DataContext" Root="true">
+                  <TreeHeader>
+                    <TreeHeaderItem Name="name" Header="Name"/>
+                  </TreeHeader>
+                </DataTreeview>
+
+              </Scrollbox>
+
+              <Space GridPanel.Height="4px"/>
+
+              <Border GridPanel.Height="4px">
+                <Toolbutton Style="float:right" Icon="Applications/24x24/delete2.png" Header="Remove" ToolTip="Removes entry from selection list" Click="Remove(&quot;&quot;)"/>
+                <Toolbutton Icon="Software/24x24/branch.png" Header="Add with Subitems" ToolTip="Adds item with subitems" Click="AddTree"/>
+                <Toolbutton Icon="Software/24x24/element.png" Header="Add Item" ToolTip="Add Item" Click="AddItem"/>
+              </Border>
+
+              <Space GridPanel.Height="4px"/>
+
+              <Scrollbox ID="ItemListBox" Height="150px" ContextMenu="ListContextMenu()" Padding="0px">
+                <Listview ID="ItemList" Width="100%" View="Details" MultiSelect="true">
+                  <ListviewHeader>
+                    <ListviewHeaderItem Header="Selected items:"/>
+                  </ListviewHeader>
+                </Listview>
+              </Scrollbox>
+            </GridPanel>
+
+          </GridPanel>
+        </WizardFormIndent>
+      </WizardFormPage>
+
+      <WizardFormPage ID="SetName" Header="Source Name" Text="Enter a name for the source. Click Next to continue." Icon="People/32x32/Box_Software.png">
+        <WizardFormIndent>
+          <Installer.NameEditor ID="Name" />
+        </WizardFormIndent>
+      </WizardFormPage>
+
+      <WizardFormLastPage ID="LastPage" Icon="People/32x32/Box_Software.png">
+        <Border>
+          <Literal Text="The static item source has been added successfully."/>
+        </Border>
+        <Border>
+          <Literal Text="Click Finish to close the wizard."/>
+        </Border>
+      </WizardFormLastPage>
+
+    </WizardForm>
+  </Installer.AddStaticItemSource>
+</control>

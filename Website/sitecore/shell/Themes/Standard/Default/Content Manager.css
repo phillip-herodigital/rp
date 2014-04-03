@@ -1,0 +1,1699 @@
+BODY
+{
+  cursor: default;
+  font: 8pt tahoma;
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+  overflow: auto;
+}
+
+FORM
+{
+  /*position:absolute;   left: 0px;   bottom: 0px;   right: 0px;*/
+  height: 100%;
+  width: 100%;
+}
+
+TABLE
+{
+  font: 8pt tahoma;
+}
+
+.scPanel
+{
+  height: 100%;
+  border: none;
+  margin: 0px;
+  padding: 0px;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.scOutline
+{
+  border: 2px ridge;
+  position: absolute;
+  z-index: 9999;
+  cursor: col-resize;
+}
+
+.scWindowBorder1
+{
+  /* border:1px solid black; */
+}
+
+.scWindowBorder1.wk
+{
+  overflow: hidden;
+}
+
+.scWindowBorder2
+{
+  border: 1px solid #a0a0a0;
+  border-top: none;
+  table-layout: fixed;
+}
+
+.scWindowBorder3
+{
+  background: #4E4E4E;
+}
+
+.scWindowBorder4
+{
+  border: none;
+  height: 1px;
+  width: 2px;
+}
+
+a.scSystemMenu
+{
+  position: absolute;
+  top: 5px;
+  width: 42px;
+  height: 42px;
+  display: block;
+  margin: 3px 0px 0px 4px;
+  border: none;
+  cursor: default;
+  background: url("/sitecore/shell/themes/standard/images/homebutton2.png");
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/sitecore/shell/themes/standard/images/homebutton2.png', sizingMethod='scale');
+  text-decoration: none;
+}
+
+a.scSystemMenu:hover
+{
+  background: url("/sitecore/shell/themes/standard/images/homebutton2_h.png");
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/sitecore/shell/themes/standard/images/homebutton2_h.png', sizingMethod='scale');
+}
+
+.scSystemButtons
+{
+  position: absolute;
+  top: 0;
+  right: 0px;
+}
+
+/* Caption */
+
+.scCaption
+{
+  background: #4E4E4E url(/sitecore/shell/themes/standard/gradients/gray1.gif) 50% 0 repeat-y;
+}
+
+#CaptionTopLine
+{
+  background: #a0a0a0 url(/sitecore/shell/themes/standard/gradients/gray3.gif) 50% 0 repeat-y;
+  height: 1px;
+}
+
+#CaptionTopLine img
+{
+  border: none;
+  height: 1px;
+  width: 1px;
+}
+
+/* Content */
+
+#MainPanel
+{
+  background: #4E4E4E url(/sitecore/shell/themes/standard/gradients/gray1.gif) 50% 0 repeat-y;
+  height: 100%;
+}
+
+#MainContent
+{
+  vertical-align: top;
+  height: 100%;
+  width: 100%;
+}
+
+.scContent
+{
+  vertical-align: top;
+}
+
+/* Splitter */
+
+.scSplitter
+{
+  background: #d2d5da url("/sitecore/shell/themes/standard/Images/Content Editor/Splitter.png") repeat-y;
+  cursor: w-resize;
+  width: 7px;
+  position: relative;
+}
+
+.scSplitterFill
+{
+  border: none;
+  width: 7px;
+  height: 1px;
+}
+
+/* Editor */
+
+.scEditor
+{
+  border: none;
+  height: 100%;
+}
+
+.scEditorHeader
+{
+  padding: 4px 0px 4px 0px;
+  background: white;
+  overflow: auto;
+}
+
+.scEditorHeaderIcon, a.scEditorHeaderIcon, a.scEditorHeaderIcon:link, a.scEditorHeaderIcon:hover, a.scEditorHeaderIcon:active, a.scEditorHeaderIcon:visited
+{
+  cursor: default;
+  float: left;
+  padding: 2px;
+  text-decoration: none;
+}
+
+a.scEditorHeaderIcon:hover
+{
+  cursor: default;
+  border: 1px solid;
+  border-color: #ddcf9b #c1a877 #dfd8bd #c1a877;
+  background: #ffe695 url(/sitecore/shell/Themes/Standard/Images/RibbonLargeButtonHover.png) repeat-x;
+  padding: 1px;
+}
+
+img.scEditorHeaderIcon
+{
+  border: none;
+  height: 32px;
+  width: 32px;
+}
+
+.scEditorHeaderTitlePanel
+{
+  float: left;
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+
+.scEditorHeaderTitle, .scEditorHeaderTitle:link, .scEditorHeaderTitle:hover, .scEditorHeaderTitle:active, .scEditorHeaderTitle:visited
+{
+  cursor: default;
+  color: #072D6B;
+  display: inline;
+  font: 14pt Franklin Gothic Medium;
+  font: 14pt Franklin Gothic Medium;
+  padding: 1px 1px 1px 2px;
+  text-decoration: none;
+  white-space: nowrap;
+  margin: 2px 0 2px 0;
+}
+
+.scEditorHeaderTitle:hover
+{
+  border: 1px solid;
+  border-color: #ddcf9b #c1a877 #dfd8bd #c1a877;
+  background: #ffe695 url(/sitecore/shell/Themes/Standard/Images/RibbonLargeButtonHover.png) repeat-x;
+  padding: 0 2em 0 1px;
+}
+
+.scEditorHeaderTitleName
+{
+  color: #999999;
+}
+
+.scEditorHeaderTitleHelp
+{
+  color: #666666;
+  display: block;
+}
+
+.scEditorHeaderVersions
+{
+  float: right;
+}
+
+/* Personalization */
+
+.scEditorHeaderCustomizeProfilesIcon
+{
+  margin-left:0px;
+}
+
+.scEditorHeaderCustomizeProfilesIcon, a.scEditorHeaderCustomizeProfilesIcon, a.scEditorHeaderCustomizeProfilesIcon:link, a.scEditorHeaderCustomizeProfilesIcon:hover, a.scEditorHeaderCustomizeProfilesIcon:active, a.scEditorHeaderCustomizeProfilesIcon:visited
+{
+  float:right;
+  cursor: default;
+  padding: 2px 2px 2px 2px;
+  text-decoration: none;
+}
+
+a.scEditorHeaderCustomizeProfilesIcon:hover
+{
+  cursor: default;
+  border: 1px solid;
+  border-color: #ddcf9b #c1a877 #dfd8bd #c1a877;
+  background: #ffe695 url(/sitecore/shell/Themes/Standard/Images/RibbonLargeButtonHover.png) repeat-x;
+  padding: 1px;
+}
+
+img.scEditorHeaderCustomizeProfilesIcon
+{
+  border: medium none;
+  height: 32px;
+  width: 32px;
+  margin-left:0px;
+}
+
+.scEditorHeaderProfileCards
+{
+  float:right;
+  padding:0 0 1px 0;
+  margin: 2px 0 0;
+  border:none;
+}
+
+.ie .scEditorHeaderCustomizeProfilesIcon
+{
+  border:none;
+  height:36px;
+  width:36px;  
+}
+
+.scEditorHeaderProfileCardIcon
+{
+  cursor: default;
+  padding: 0;
+  text-decoration: none;
+  float:right;
+  height:32px;
+  width:32px;
+  border: 1px solid #b9b9b9;
+  margin:1px 1px 1px 2px;
+}
+
+.ie .scEditorHeaderProfileCardIcon
+{
+  height:34px;
+  width:34px;
+}
+
+a.scEditorHeaderProfileCardIcon:hover
+{
+  border: 2px solid #ddb25d;
+  margin:0 0 0 1px;
+}
+
+.ie a.scEditorHeaderProfileCardIcon:hover
+{
+  height:36px;
+  width:36px;
+}
+
+.scEditorHeaderSeperator
+{
+  display: inline;
+  float: left;
+  padding: 0;
+  vertical-align: top;  
+  float:right;
+}
+
+.scEditorHeaderSeperatorLine
+{
+  background: none repeat scroll 0 0 White;
+  border-left: 1px solid #B9B9B9;
+  display: block;
+  height: 34px;
+  margin: 1px 3px 1px 5px;  
+  width:1px;
+}
+
+.scEditorHeaderSeperatorFirstLine
+{
+  margin: 1px 2px 1px 5px;
+}
+
+.ie .scEditorHeaderSeperatorLine
+{
+  margin: 1px 4px 1px 5px;  
+}
+
+.ie .scEditorHeaderSeperatorFirstLine
+{
+  margin: 1px 2px 1px 5px;
+}
+
+.RadToolTip_Telerik.rtLoading
+{
+  background-image: url('/sitecore/shell/Themes/Standard/Images/sitecore-loader24.gif') !important;
+  background-repeat:no-repeat !important;
+  background-position:center !important;
+}
+
+/* editor header buttons */
+
+a.scEditorHeaderButton
+{
+  float: left;
+  height: 16px;
+  padding: 2px;
+  margin: 0px 4px 0px 0px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+a.scEditorHeaderButton:hover
+{
+  cursor: default;
+  border: 1px solid;
+  border-color: #ddcf9b #c1a877 #dfd8bd #c1a877;
+  background: #ffb70b url(/sitecore/shell/Themes/Standard/Images/RibbonSmallButtonHover.png) repeat-x;
+  padding: 1px;
+  text-decoration: none;
+}
+
+a.scEditorHeaderVersionsLanguage
+{
+  padding-top: 3px;
+}
+
+.scEditorHeaderVersionsLanguage:hover
+{
+}
+
+.scEditorHeaderVersionsLanguageIcon
+{
+  width: 16px;
+  height: 16px;
+  border: none;
+  vertical-align: middle;
+}
+
+.scEditorHeaderVersionsLanguageGlyph
+{
+  width: 7px;
+  height: 5px;
+  border: none;
+  margin: 0px 0px 0px 2px;
+  vertical-align: middle;
+}
+
+a.scEditorHeaderVersionsVersion, a.scEditorHeaderVersionsVersion:hover
+{
+  background-color: #d9eafc;
+  border: 1px solid #8f99b5;
+  font: 12px ariel;
+  padding: 1px 2px 2px 2px;
+  text-align: center;
+}
+
+a.scEditorHeaderVersionsVersion:hover
+{
+  border-color: #ddcf9b #c1a877 #dfd8bd #c1a877;
+  background: #ffb70b url(/sitecore/shell/Themes/Standard/Images/RibbonSmallButtonHover.png) repeat-x;
+}
+
+.scEditorHeaderVersionsVersionGlyph
+{
+  width: 7px;
+  height: 5px;
+  border: none;
+  margin: 0px 0px 0px 2px;
+  vertical-align: middle;
+}
+
+a.scEditorHeaderNavigator
+{
+  padding: 2px;
+  margin: 1px 0px 0px 0px;
+}
+
+.scEditorHeaderNavigatorIcon
+{
+  width: 16px;
+  height: 16px;
+  border: none;
+  vertical-align: middle;
+}
+
+.scEditorHeaderNavigatorGlyph
+{
+  width: 7px;
+  height: 5px;
+  border: none;
+  margin: 0px 0px 0px 2px;
+  vertical-align: middle;
+}
+
+.scEditorHeaderNavigatorMenu
+{
+  color: #080864;
+  background: #F4F4F5;
+  border: 1px solid #B7B8C4;
+}
+
+a.scEditorHeaderNavigatorSection
+{
+  display: block;
+  font-weight: bold;
+  padding: 4px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+a.scEditorHeaderNavigatorSection:hover
+{
+  display: block;
+  cursor: default;
+  border: 1px solid;
+  border-color: #ddcf9b #c1a877 #dfd8bd #c1a877;
+  background: #ffb70b url(/sitecore/shell/Themes/Standard/Images/RibbonSmallButtonHover.png) repeat-x;
+  padding: 3px;
+  text-decoration: none;
+}
+
+a.scEditorHeaderNavigatorField
+{
+  display: block;
+  padding: 4px 4px 4px 20px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.scEditorHeaderNavigatorField:hover
+{
+  display: block;
+  cursor: default;
+  border: 1px solid;
+  border-color: #ddcf9b #c1a877 #dfd8bd #c1a877;
+  background: #ffb70b url(/sitecore/shell/Themes/Standard/Images/RibbonSmallButtonHover.png) repeat-x;
+  padding: 3px 3px 3px 19px;
+  text-decoration: none;
+}
+
+/* =quick info*/
+.scEditorHeaderQuickInfoInput
+{
+  background: transparent;
+  border: none;
+  font: 8pt tahoma;
+  width: 100%;
+}
+
+.scEditorHeaderQuickInfoInputID
+{
+  background: transparent;
+  border: none;
+  font: 8pt tahoma;
+  width: 240px;
+}
+
+.scEditorWarningPanel
+{
+}
+
+.scEditorWarningPanelTable
+{
+  background: #ffffe4;
+  border: 1px solid #c9c9c9;
+  border-left: none;
+  border-right: none;
+  padding: 4px 2px 4px 2px;
+}
+
+.scEditorWarningTitle
+{
+  font: bold 8pt tahoma;
+}
+
+.scEditorWarningHelp
+{
+  font: 8pt tahoma;
+  color: #333333;
+  padding: 2px 0px 0px 0px;
+}
+
+.scEditorWarningOptions
+{
+  padding: 0px 0px 0px 0px;
+}
+
+.scEditorWarningOptionsList
+{
+  margin: 8px 8px 8px 24px;
+}
+
+.scEditorWarningOptionBullet
+{
+}
+
+a.scEditorWarningOption
+{
+  cursor: default;
+  text-decoration: none;
+}
+
+a.scEditorWarningOption:hover
+{
+  text-decoration: underline;
+}
+
+.scEditorPanelCell
+{
+  padding: 0px 0px 0px 0px;
+  background: #cccccc;
+  height: 100%;
+}
+
+.scEditorPanel
+{
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+
+.scEditorSections
+{
+  border-bottom: 1px solid #777777;
+}
+
+.scEditorSectionCaptionExpanded, .scEditorSectionCaptionCollapsed
+{
+  background: #d9d9d9;
+  border-top: 1px solid white;
+  border-bottom: 1px solid #cccccc;
+  color: #555555;
+  font: bold 8pt tahoma;
+  padding: 1px 2px 1px 2px;
+}
+
+.scEditorSectionCaptionCollapsed
+{
+  border-bottom: 1px solid #aaaaaa;
+  white-space: nowrap;
+}
+
+.scEditorSectionCaptionGlyph
+{
+  height: 15px;
+  float: right;
+  margin: 2px 2px 0px 0px;
+  width: 15px;
+}
+
+.scEditorSectionCaptionIcon
+{
+  height: 16px;
+  margin: 1px 2px 1px 2px;
+  width: 16px;
+  vertical-align: middle;
+}
+
+.scEditorSectionPanel
+{
+  background: #f0f1f2;
+  table-layout: fixed;
+}
+
+.scEditorSectionPanelCell
+{
+  padding: 6px 4px 4px 6px;
+}
+
+.scEditorSectionPanelCell_NoSections
+{
+  padding: 0px 4px 0px 6px;
+}
+
+.scEditorFieldLabel
+{
+  font: bold 8pt tahoma;
+  color: #333333;
+  padding: 0px 0px 1px 0px;
+}
+
+.scEditorFieldLabelDisabled
+{
+  color: #999999;
+}
+
+.scEditorFieldLabelAdministrator
+{
+  color: #999999;
+  font-weight: normal;
+}
+
+.scEditorFieldLabelLink, .scEditorFieldLabelLink:link, .scEditorFieldLabelLink:active, .scEditorFieldLabelLink:hover, .scEditorFieldLabelLink:visited
+{
+  color: #333333;
+  padding-bottom: 1px;
+  text-decoration: none;
+}
+
+.scEditorFieldLabelLink:hover
+{
+  text-decoration: underline;
+}
+
+.scEditorFieldMenu
+{
+  border: 1px solid #F0CCA5;
+  color: black;
+  cursor: default;
+  filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=  '#F8EED0' , EndColorStr= '#F8D5A6' );
+  padding: 3px 2px 0px 4px;
+}
+
+.scEditorTranslateButton
+{
+  background: #F8D5A6;
+  border: 1px solid #F0CCA5;
+  color: black;
+  cursor: default;
+  filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#F8EED0', EndColorStr='#F8D5A6');
+  height: 22px;
+}
+
+
+.scGalleryFrame
+{
+  position: absolute;
+  border: none;
+  z-index: 2000;
+}
+
+.scCombobuttonMain
+{
+  color: #b9b9b9;
+}
+
+.scEditorFieldMarker
+{
+  table-layout: fixed;
+  margin: 0px 0px 24px 0px;
+  width: 100%;
+}
+
+.wk .scEditorFieldMarker
+{
+  table-layout: auto;
+}
+
+.scEditorFieldMarkerBarCell
+{
+  border-left: 4px solid #cccccc;
+  width: 4px;
+}
+
+.scEditorFieldMarkerInputCell
+{
+  padding: 0px 0px 0px 6px;
+}
+
+.scEditorFieldSpacer
+{
+  height: 12px;
+}
+
+.scFieldMarker
+{
+  border-left: 4px solid #cccccc;
+  width: 4px;
+}
+
+.scEditorFieldMarkerBarCellGrey
+{
+  border-left: 4px solid #bbbbbb;
+  width: 4px;
+}
+
+.scEditorFieldMarkerBarCellYellow
+{
+  border-left: 4px solid #fbc200;
+  width: 4px;
+}
+
+.scEditorFieldMarkerBarCellRed
+{
+  border-left: 4px solid #ce130a;
+  width: 4px;
+}
+
+.scContentButtons
+{
+  margin: 0px 0px 0px -6px;
+  padding: 0px 0px 4px 0px;
+}
+
+.scContentButton, .scContentButton:link, .scContentButton:visited, .scContentButton:hover, .scContentButton:active
+{
+  color: #333333;
+  font: 8pt tahoma;
+  text-decoration: none;
+  padding: 2px 6px 2px 6px;
+  cursor: default;
+  white-space: nowrap;
+}
+
+.scContentButton:hover, .scContentButton:active
+{
+  color: black;
+  border: 1px solid;
+  border-color: #ddcf9b #d2c08e #ccc2a3 #d2c08e;
+  background: #ffe594 url(/sitecore/shell/Themes/Standard/Images/Ribbon/SmallButtonActive.png) repeat-x;
+  padding: 1px 5px 1px 5px;
+}
+
+.scContentButtonDisabled
+{
+  color: #999999;
+  font: 8pt tahoma;
+  padding: 2px 6px 2px 6px;
+  cursor: default;
+  white-space: nowrap;
+}
+
+/* Template */
+
+.scTemplateTreeTemplate, .scTemplateTreeTemplate:link, .scTemplateTreeTemplate:active, .scTemplateTreeTemplate:hover, .scTemplateTreeTemplate:visited, .scTemplateTreeTemplateActive, .scTemplateTreeTemplateActive:link, .scTemplateTreeTemplateActive:active, .scTemplateTreeTemplateActive:hover, .scTemplateTreeTemplateActive:visited
+{
+  cursor: default;
+  display: block;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 4px 4px 4px 4px;
+}
+
+.scTemplateTreeTemplateActive, .scTemplateTreeTemplate:hover
+{
+  background: #EDB078;
+}
+
+.scTemplateTreeSections
+{
+  border: 1px solid #999999;
+  padding: 2px 4px 4px 4px;
+  margin: 4px 2px 2px 2px;
+}
+
+.scTemplateTreeSectionsHeader
+{
+  font-weight: bold;
+}
+
+.scTemplateTreeSection
+{
+  border: 1px solid #c9c9c9;
+  margin: 4px 4px 4px 16px;
+}
+
+.scTemplateTreeSectionName, .scTemplateTreeSectionName:link, .scTemplateTreeSectionName:active, .scTemplateTreeSectionName:hover, .scTemplateTreeSectionName:visited, .scTemplateTreeSectionNameActive, .scTemplateTreeSectionNameActive:link, .scTemplateTreeSectionNameActive:active, .scTemplateTreeSectionNameActive:hover, .scTemplateTreeSectionNameActive:visited
+{
+  cursor: default;
+  display: block;
+  font-weight: bold;
+  padding: 3px 4px 3px 4px;
+  text-decoration: none;
+}
+
+.scTemplateTreeSectionNameActive, .scTemplateTreeSectionName:hover
+{
+  background: #EDB078;
+}
+
+.scTemplateTreeSectionAdd, .scTemplateTreeSectionAdd:link, .scTemplateTreeSectionAdd:active, .scTemplateTreeSectionAdd:hover, .scTemplateTreeSectionAdd:visited
+{
+  cursor: default;
+  display: block;
+  padding: 4px 4px 4px 18px;
+  text-decoration: none;
+}
+
+.scTemplateTreeSectionAdd:hover
+{
+  text-decoration: underline;
+}
+
+.scTemplateTreeSectionField, .scTemplateTreeSectionField:link, .scTemplateTreeSectionField:active, .scTemplateTreeSectionField:hover, .scTemplateTreeSectionField:visited, .scTemplateTreeSectionFieldActive, .scTemplateTreeSectionFieldActive:link, .scTemplateTreeSectionFieldActive:active, .scTemplateTreeSectionFieldActive:hover, .scTemplateTreeSectionFieldActive:visited
+{
+  border: 1px solid #c9c9c9;
+  cursor: default;
+  display: block;
+  margin: 2px 4px 2px 16px;
+  padding: 2px;
+  text-decoration: none;
+}
+
+.scTemplateTreeSectionFieldDetails
+{
+  color: #999999;
+}
+
+.scTemplateTreeSectionFieldActive, .scTemplateTreeSectionField:hover
+{
+  background: #EDB078;
+}
+
+.scTemplateTreeSectionFieldAdd, .scTemplateTreeSectionFieldAdd:link, .scTemplateTreeSectionFieldAdd:active, .scTemplateTreeSectionFieldAdd:hover, .scTemplateTreeSectionFieldAdd:visited
+{
+  cursor: default;
+  display: block;
+  padding: 4px 4px 4px 18px;
+  text-decoration: none;
+}
+
+.scTemplateTreeSectionFieldAdd:hover
+{
+  text-decoration: underline;
+}
+
+.scTemplateTreeStandardValues
+{
+  border: 1px solid #999999;
+  padding: 2px 4px 4px 4px;
+  margin: 8px 2px 2px 2px;
+}
+
+.scTemplateTreeStandardValuesHeader
+{
+  font-weight: bold;
+}
+
+.scTemplateTreeStandardValuesEdit, .scTemplateTreeStandardValuesEdit:link, .scTemplateTreeStandardValuesEdit:active, .scTemplateTreeStandardValuesEdit:hover, .scTemplateTreeStandardValuesEdit:visited, .scTemplateTreeStandardValuesEditActive, .scTemplateTreeStandardValuesEditActive:link, .scTemplateTreeStandardValuesEditActive:active, .scTemplateTreeStandardValuesEditActive:hover, .scTemplateTreeStandardValuesEditActive:visited
+{
+  cursor: default;
+  display: block;
+  margin: 2px 4px 2px 8px;
+  padding: 2px;
+  text-decoration: none;
+}
+
+.scTemplateTreeStandardValuesEditActive, .scTemplateTreeStandardValuesEdit:hover
+{
+  background: #EDB078;
+}
+
+.scTemplateTreeMasters
+{
+  border: 1px solid #999999;
+  padding: 2px 4px 4px 4px;
+  margin: 8px 2px 2px 2px;
+}
+
+.scTemplateTreeMastersHeader
+{
+  font-weight: bold;
+  padding: 0px 0px 4px 0px;
+}
+
+.scTemplateTreeMaster, .scTemplateTreeMaster:link, .scTemplateTreeMaster:active, .scTemplateTreeMaster:hover, .scTemplateTreeMaster:visited, .scTemplateTreeMasterActive, .scTemplateTreeMasterActive:link, .scTemplateTreeMasterActive:active, .scTemplateTreeMasterActive:hover, .scTemplateTreeMasterActive:visited
+{
+  cursor: default;
+  display: block;
+  margin: 2px 4px 2px 8px;
+  padding: 2px;
+  text-decoration: none;
+}
+
+.scTemplateTreeMasterActive, .scTemplateTreeMaster:hover
+{
+  background: #EDB078;
+}
+
+.scTemplateTreeMasterAdd, .scTemplateTreeMasterAdd:link, .scTemplateTreeMasterAdd:active, .scTemplateTreeMasterAdd:hover, .scTemplateTreeMasterAdd:visited
+{
+  cursor: default;
+  display: block;
+  padding: 4px 4px 4px 8px;
+  text-decoration: none;
+}
+
+.scTemplateTreeMasterAdd:hover
+{
+  text-decoration: underline;
+}
+
+.scTemplateTreeDisabled
+{
+  color: GrayText;
+  display: block;
+  padding: 4px 4px 4px 8px;
+}
+
+.scTemplateTreeIconGrayed
+{
+  filter: progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);
+  width: 16px;
+}
+
+/* Pager */
+
+.scPager
+{
+  background: #c7cbd1 url("/sitecore/shell/themes/standard/images/Content Editor/Pager.png") repeat-x;
+  height: 21px;
+  padding: 3px 0px 0px 2px;
+}
+
+a.scPagerButtonNormal
+{
+  color: white;
+  cursor: default;
+  float: left;
+  padding: 2px 8px 2px 8px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.scPagerButtonNormal:active, .scPagerButtonNormal:hover
+{
+  border: 1px solid #898989;
+  background: white;
+  color: black;
+  padding: 1px 7px 1px 7px;
+}
+
+.scPagerButtonNormal:hover
+{
+  text-decoration: underline;
+}
+
+a.scPagerButtonActive
+{
+  border: 1px solid #898989;
+  background: #e8e8e8;
+  float: left;
+  padding: 1px 7px 1px 7px;
+  color: #333333;
+  cursor: default;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.scPagerButtonActive:hover
+{
+  border: 1px solid #898989;
+  background: white;
+}
+
+
+/* SmartTag */
+
+.scSmartTag
+{
+  font-weight: normal;
+  position: absolute;
+  margin: -3px 0px 0px 0px;
+  white-space: nowrap;
+}
+
+.scSmartTagClick, .scSmartTagClick:link, .scSmartTagClick:active, .scSmartTagClick:hover, .scSmartTagClick:visited
+{
+  background: #F4F4F5;
+  border: 1px solid #B7B8C4;
+  border-right: none;
+  float: left;
+  height: 20px;
+  padding: 0px 2px 0px 0px;
+  text-decoration: none;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.scSmartTagClick:hover
+{
+  cursor: default;
+  border: 1px solid;
+  border-color: #ddcf9b #c1a877 #dfd8bd #c1a877;
+  background: #ffb70b url( "/sitecore/shell/Themes/Standard/Images/RibbonSmallButtonHover.png" ) repeat-x;
+  padding: 0px 1px 0px 0px;
+  text-decoration: none;
+}
+
+.scSmartTagClickOnly, .scSmartTagClickOnly:link, .scSmartTagClickOnly:active, .scSmartTagClickOnly:hover, .scSmartTagClickOnly:visited
+{
+  background: #F4F4F5;
+  border: 1px solid #B7B8C4;
+  float: left;
+  height: 20px;
+  padding: 0px 2px 0px 0px;
+  text-decoration: none;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.scSmartTagClickOnly:hover
+{
+  cursor: default;
+  border: 1px solid;
+  border-color: #ddcf9b #c1a877 #dfd8bd #c1a877;
+  background: #ffb70b url( "/sitecore/shell/Themes/Standard/Images/RibbonSmallButtonHover.png" ) repeat-x;
+  padding: 0px 1px 0px 0px;
+  text-decoration: none;
+}
+
+.scSmartTagMenu, .scSmartTagMenu:link, .scSmartTagMenu:active, .scSmartTagMenu:hover, .scSmartTagMenu:visited
+{
+  background: #F4F4F5;
+  border: 1px solid #B7B8C4;
+  border-left: none;
+  float: left;
+  height: 20px;
+  padding: 0px 0px 0px 1px;
+  text-decoration: none;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.scSmartTagMenu:hover
+{
+  cursor: default;
+  border: 1px solid;
+  border-color: #ddcf9b #c1a877 #dfd8bd #c1a877;
+  background: #ffb70b url( "/sitecore/shell/Themes/Standard/Images/RibbonSmallButtonHover.png" ) repeat-x;
+  padding: 0px;
+  text-decoration: none;
+}
+
+.scSmartTagIcon
+{
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/sitecore/shell/Themes/Standard/Core2/16x16/lightning_bolt.png', sizingMethod='scale');
+  border: none;
+  height: 16px;
+  margin: 0px 4px 0px 0px;
+  vertical-align: middle;
+  width: 16px;
+}
+
+.scSmartTagGlyph
+{
+  border: none;
+  height: 5px;
+  margin: 8px 4px 0px 4px;
+  vertical-align: middle;
+  width: 7px;
+  float: left;
+}
+
+.scRibbonToolbarKeyCodeSmallButton
+{
+  position: absolute;
+  border: 1px solid #666666;
+  background: white;
+  padding: 2px;
+  margin: 8px 0px 0px 4px;
+  filter: progid:DXImageTransform.Microsoft.BasicImage(opacity=0.75);
+}
+
+.scRibbonToolbarKeyCodeLargeButton
+{
+  position: absolute;
+  border: 1px solid #666666;
+  background: white;
+  padding: 2px;
+  margin: 8px 0px 0px 4px;
+  filter: progid:DXImageTransform.Microsoft.BasicImage(opacity=0.75);
+}
+
+/* EDITOR TABS */
+
+#Editors
+{
+  height: 100%;
+}
+
+.scEditorGrid
+{
+  background: transparent;
+  table-layout: fixed;
+}
+
+#EditorTabs
+{
+  background: #888888 url(/sitecore/shell/themes/standard/Images/Ribbon/tab7.png) repeat-x;
+  vertical-align: top;
+  height: 24px;
+}
+
+.scEditorTabControlsHolder
+{
+  float: right;
+}
+
+.scEditorTabControls
+{
+  display: inline;
+  padding: 0px;
+  margin: 0px;
+  vertical-align: top;
+  height: 24px;
+}
+
+.scEditorTabControlsTab0
+{
+  width: 6px;
+  height: 24px;
+  vertical-align: top;
+  float: left;
+}
+
+.scEditorTabControlsTab2
+{
+  width: 21px;
+  height: 24px;
+  vertical-align: top;
+}
+
+.scEditorTabControlsTab3
+{
+  width: 21px;
+  height: 24px;
+  vertical-align: top;
+}
+
+.scEditorTabControlsTab4
+{
+  float: left;
+  width: 21px;
+  height: 24px;
+  vertical-align: top;
+}
+
+.scEditorTabControlsTab5
+{
+  float: left;
+  height: 24px;
+  background: url(/sitecore/shell/Themes/Standard/Images/Ribbon/tab5.png) repeat-x;
+}
+
+.scEditorTabControlsTab6
+{
+  width: 6px;
+  height: 24px;
+  margin: 0px 4px 0px 0px;
+  vertical-align: top;
+}
+
+#EditorFrames
+{
+  background: white;
+}
+
+a.scRibbonEditorTabNormal, a.scRibbonEditorTabActive
+{
+  float: left;
+  height: 24px;
+  padding: 0px;
+  color: black;
+  cursor: default;
+  text-decoration: none;
+  white-space: nowrap;
+  outline: none;
+}
+
+a.scRibbonEditorTabNormal:hover, a.scRibbonEditorTabNormal:active, a.scRibbonEditorTabActive:hover, a.scRibbonEditorTabActive:active
+{
+  text-decoration: underline;
+}
+
+.scEditorTabHeaderNormal, .scEditorTabHeaderActive
+{
+  float: left;
+  height: 24px;
+  padding: 4px 0px 0px 0px;
+  background: url(/sitecore/shell/Themes/Standard/Images/Ribbon/tab1.png) repeat-x;
+  color: #333333;
+}
+
+.scEditorTabHeaderActive
+{
+  background-image: url(/sitecore/shell/Themes/Standard/Images/Ribbon/tab1_h.png);
+}
+
+.scEditorTabIcon
+{
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+  margin: 0px 2px 0px 0px;
+}
+
+.scEditorTabClose
+{
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+  margin: 0px 0px 0px 8px;
+}
+
+/* Validator bar */
+
+.scValidatorPanel
+{
+  height: 100%;
+  background: #f0f0f0;
+  padding: 2px 0px 0px 0px;
+}
+
+.scValidatorPanelCell
+{
+  width: 20px;
+  vertical-align: top;
+  background: #f0f0f0;
+}
+
+.scValidationMarkerLine
+{
+  white-space: nowrap;
+  width: 184px;
+  padding: 2px 0px 4px 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.scValidationResult
+{
+  padding: 0px 2px 0px 3px;
+  border-bottom: 1px solid;
+}
+
+.scValidationResultIcon
+{
+  width: 16px;
+  height: 16px;
+}
+
+.scValidationMarker
+{
+  padding: 4px 2px 1px 3px;
+}
+
+.scValidationMarkerIcon
+{
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+}
+
+.scValidationResultValidating
+{
+  background: url(/sitecore/shell/~/icon/Applications/16x16/bullet_square_grey.png.aspx);
+  width: 16px;
+  height: 16px;
+}
+
+/* =Search */
+
+a.scSearchButton
+{
+  background: white;
+  color: #303030;
+  cursor: default;
+  display: block;
+  border: 1px solid #4c4c4c;
+  border-left: none;
+  border-right: none;
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 0px 1px 0px 1px;
+  height: 20px;
+}
+
+a.scSearchButton img
+{
+  padding-top: 2px;
+}
+
+a.scSearchButton:active, a.scSearchButton:hover
+{
+  border: 1px solid #4c4c4c;
+  background: #ffb70b url(/sitecore/shell/Themes/Standard/Images/RibbonSmallButtonHover.png) repeat-x;
+  padding: 0px;
+}
+
+a.scSearchOptionsButton
+{
+  background: white;
+  border: 1px solid #4c4c4c;
+  border-left: none;
+  color: #303030;
+  cursor: default;
+  display: block;
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 0px 0px 0px 1px;
+  height: 20px;
+}
+
+a.scSearchOptionsButton img
+{
+  padding-top: 2px;
+}
+
+.scSearchOptionsButton:active, .scSearchOptionsButton:hover
+{
+  border: 1px solid #4c4c4c;
+  background: #ffb70b url(/sitecore/shell/Themes/Standard/Images/RibbonSmallButtonHover.png) repeat-x;
+  padding: 0px;
+}
+
+a.scSearchAddCriteria
+{
+  display: block;
+  color: #303030;
+  cursor: default;
+  height: 20px;
+  line-height: 20px;
+  padding: 1px 6px 2px 6px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+a.scSearchAddCriteria:active, a.scSearchAddCriteria:hover
+{
+  border: 1px solid;
+  border-color: #ddcf9b #d2c08e #ccc2a3 #d2c08e;
+  background: #ffe594 url(/sitecore/shell/Themes/Standard/Images/Ribbon/SmallButtonActive.png) repeat-x;
+  padding: 0px 5px 0px 5px;
+}
+
+a.scSearchAddCriteria:hover
+{
+  border-color: #dbce99 #c1a877 #dfd8bd #c1a877;
+  background-image: url(/sitecore/shell/Themes/Standard/Images/RibbonSmallButtonHover.png);
+}
+
+a.scSearchAddCriteria img
+{
+  vertical-align: middle;
+}
+
+.scSearchAddCriteriaInput
+{
+  padding-top: 11px;
+}
+a.scSearchOptionName
+{
+  color: #303030;
+  cursor: default;
+  padding: 2px 6px 4px 6px;
+  font-weight: bold;
+  height: 20px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.scSearchOptionName:active, .scSearchOptionName:hover
+{
+  border: 1px solid;
+  border-color: #ddcf9b #d2c08e #ccc2a3 #d2c08e;
+  background: #ffe594 url(/sitecore/shell/Themes/Standard/Images/Ribbon/SmallButtonActive.png) repeat-x;
+  padding: 1px 5px 3px 5px;
+}
+
+.scSearchOptionName:hover
+{
+  border-color: #dbce99 #c1a877 #dfd8bd #c1a877;
+  background-image: url(/sitecore/shell/Themes/Standard/Images/RibbonSmallButtonHover.png);
+}
+
+.scSearchOptionsValueContainer
+{
+  padding-right: 6px;
+  height: 22px;
+}
+
+.scSearchOptionsNameContainer
+{
+  text-align: right;
+}
+
+.scSearchOptionsInput
+{
+  border: 1px solid #4c4c4c;
+  padding: 2px 2px 0px 2px;
+  width: 100%;
+  font: 8pt tahoma;
+  height: 16px;
+}
+
+.scSearchCategory
+{
+  background: #efefef;
+  border-right: #c5c5c5;
+  text-align: right;
+  padding-right: 4px;
+  vertical-align: top;
+  line-height: 20px;
+}
+
+.scSearchResults
+{
+  background: #fafafa;
+}
+
+a.scSearchLink
+{
+  color: #303030;
+  cursor: default;
+  display: block;
+  padding: 2px 4px 4px 4px;
+  text-decoration: none;
+  white-space: nowrap;
+  line-height: 20px;
+}
+
+.scSearchLink:hover, .scSearchLink:active
+{
+  background: #d5effc url(/sitecore/shell/themes/standard/Images/Tree/TreeNodeActiveBackground.png) repeat-x;
+  border: 1px solid #99defd;
+  padding: 1px 3px 3px 3px;
+}
+
+a.scSearchLink img
+{
+  vertical-align: middle;
+}
+
+.scSearchLinkDetails
+{
+  margin: 0px 0px 0px 8px;
+  color: #999999;
+}
+
+.scSearchHeader
+{
+  font: bold 8pt tahoma;
+  color: #333333;
+  background: #bdc1c8 url("/sitecore/shell/Themes/Standard/Images/Content Editor/SearchBackground.png") repeat-x;
+  border-bottom: 1px solid #4c4c4c;
+  padding: 2px;
+  line-height: 20px;
+}
+
+.scSearchHeader img
+{
+  vertical-align: middle;
+}
+
+.scSearchInput
+{
+  font: 8pt tahoma;
+  height: 18px;
+  padding: 2px 2px 0px 4px;
+  width: 100%;
+  border: 1px solid #4c4c4c;
+  border-right: none;
+  color: #999999;
+}
+
+.scSearchEntireTree
+{
+  padding-top: 12px;
+}
+
+.scSearchEntireTree a
+{
+  color: Blue;
+}
+
+/* =Field error */
+.scContentEditorFieldError
+{
+  margin: 8px 0px 8px 0px;
+}
+
+.scContentEditorFieldError .errorImage
+{
+  float: left;
+  margin-right: 4px;
+}
+
+.scContentEditorFieldError .errorTitle
+{
+  font-weight: bold;
+  line-height: 32px;
+}
+
+.scContentEditorFieldError .errorButtons, .scContentEditorFieldError .errorDetails
+{
+  margin: 4px 0px 0px 2px;
+  clear: left;
+}
+
+.scContentEditorFieldError .errorDetails
+{
+  display: none;
+}
+
+#ContentTreePanel > table
+{
+  table-layout: fixed;
+}
+
+.scEditorFieldMarkerInputCell iframe
+{
+  background: white;
+}
+
+.ie #ContentTreeInnerPanel
+{
+  overflow: visible;
+}
+
+/* Personalization */
+
+.scSingleSelection
+{
+  margin-left:14px;  
+}
+
+.scPresetCard
+{
+  height:74px;
+}
+
+.scProfileHeader .scProfileName
+{
+  font: 8pt tahoma;
+  font-weight: bold;
+  padding-left: 14px;
+  padding-top: 12px;
+  padding-bottom:5px;
+  width:150px;
+}
+
+.scProfileHeader .scSelectPresetLink
+{
+  font: 8pt tahoma;
+  text-decoration: underline;
+  padding-top: 12px;
+  padding-bottom:5px;
+}
+
+.scProfileHeader .scSelectPresetLinkDisabled
+{
+  font: 8pt tahoma;
+  color: #999999;
+}
+
+.scPresetCard #textContainer
+{
+  padding: 10px 6px 10px 10px;
+}
+
+.scPresetCard #imageContainer
+{
+  padding: 8px 0px 10px 10px;
+}
+
+.scPresetCard #imageContainer div
+{
+  width:48px;
+  border:none;
+  text-align:center;  
+}
+
+.scPresetCard #moreInfoContainer
+{
+  float: right;
+  left: 2px;
+  position: relative;
+  top: 38px;
+}
+
+.scPresetCard #presetName
+{
+  font-weight: bold;
+}
+
+.scPresetCard #presetDescription
+{
+  color: #909090;
+}
+
+.scPresetCard #moreInfoContainer
+{
+ cursor: pointer;
+}
+
+.scPresetCard #weightContainer
+{
+  float: right;
+  position: relative;
+  top: -6px;
+  left:17px;
+}
+
+.scPresetCard #weightContainer span
+{
+  margin-right:17px;
+  font-weight:bold;
+  font-size:medium;  
+}
+
+.PresetCustomizationCard #headerContainer
+{
+  font-weight: bold;
+}
+
+.PresetCustomizationCard .profileKeyControl
+{
+  text-align: right;
+}
+
+.PresetCustomizationCard #headerContainer
+{
+  padding: 10px 10px 5px 10px;
+}
+
+.PresetCustomizationCard textContainer
+{
+  padding: 5px 10px 5px 10px;
+}
+
+.PresetCustomizationCard #imageContainer
+{
+  padding: 3px 10px 5px 10px;
+}
+
+.PresetCustomizationCard #profileKeys
+{
+  padding: 0px 10px 10px 10px;
+}
+
+.PresetCustomizationCard .sliderContainer
+{
+  overflow-y:auto;
+}
+
+.scContentDragMarker
+{
+  position: absolute;
+  background: #008EF4;
+  z-index: 9999999;
+  height: 2px;
+}

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control xmlns:def="Definition" xmlns:installer="Sitecore.Shell.Applications.Install.Controls">
+  <Installer.ItemTemplateFilterEditor def:inherits="Sitecore.Shell.Applications.Install.Controls.ItemTemplateFilterEditor,Sitecore.Client">
+    <GridPanel Width="100%" Columns="2"  Height="100%">
+      <GridPanel def:ID="TreeListPanel" Columns="1" GridPanel.Valign="Top" GridPanel.Width="100%" Width="100%"  >
+      </GridPanel>
+      <Button def:ID="ClearButton" Header="Clear Filter" GridPanel.Align="right" GridPanel.Valign="Top"/>
+    </GridPanel>
+  </Installer.ItemTemplateFilterEditor>
+</control>
+
+    

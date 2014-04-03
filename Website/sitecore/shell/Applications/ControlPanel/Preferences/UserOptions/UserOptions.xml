@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense" xmlns:sc="sitecore">
+  <ChangeUserOptions>
+    <FormDialog Icon="People/32x32/user1_preferences.png" Header="Application Options" Text="">
+
+      <CodeBeside Type="Sitecore.Shell.Applications.ControlPanel.Preferences.UserOptions.UserOptionsForm,Sitecore.Client"/>
+
+      <GridPanel Width="100%" Height="100%" Fixed="true">
+        <Tabstrip ID="Tabs" Height="100%" Width="100%" GridPanel.Height="100%" FixSize="True">
+
+          <Tab ID="ContentEditorTab" Header="Content Editor" Height="100%">
+            <Scrollbox Class="scScrollbox scFixSize scFixSize12" Padding="0px" Border="none" Height="100%">
+            <Border Padding="4px">
+              <Groupbox Header="Show/Hide">
+                <Border Padding="2px">
+                  <Checkbox ID="ItemInformationBar" Header="Item Title Bar" Checked="true"/>
+                </Border>
+                <Border Padding="2px">
+                  <Checkbox ID="FieldSections" Header="Field Section Titles" Checked="true"/>
+                </Border>
+                <Border Padding="2px">
+                  <Checkbox ID="SystemFields" Header="Fields from the Standard Template"/>
+                </Border>
+                <Border ID="BucketItemsPanel" Padding="2px">
+                  <Checkbox ID="BucketItems" Header="Bucket Items"/>
+                </Border>
+                <Border ID="HiddenItemsPanel" Padding="2px">
+                  <Checkbox ID="HiddenItems" Header="Hidden Items"/>
+                </Border>
+                <Border Padding="2px">
+                  <Checkbox ID="QuickInfo" Header="Quick Info Section"/>
+                </Border>
+                <Border Padding="2px">
+                  <Checkbox ID="Gutter" Header="Quick Action Bar"/>
+                </Border>
+                <Border Padding="2px">
+                  <Checkbox ID="SearchPanel" Header="Seach Panel"/>
+                </Border>
+                <Border Padding="2px">
+                  <Checkbox ID="ValidatorBar" Header="Validator Bar"/>
+                </Border>
+                <Border Padding="2px">
+                  <Checkbox ID="UseSmartTags" Header="Use Smart Tags"/>
+                </Border>
+                <Border Padding="2px">
+                  <Checkbox ID="RenderCollapsedSections" Header="Prefetch Collapsed Sections"/>
+                </Border>
+                <Border Padding="2px">
+                  <Checkbox ID="RenderItemPersonalizationInfo" Header="Content Profiling"/>
+                </Border>
+              </Groupbox>
+
+              <Groupbox Header="Field Values" Margin="4px 0px 0px 0px">
+                <Border Padding="2px">
+                  <Radiobutton ID="InputBoxes" Name="FieldValues" Value="InputBoxes" Header="Show Input Controls"/>
+                </Border>
+                <Border Padding="2px">
+                  <Radiobutton ID="RawValues" Name="FieldValues" Value="Raw" Header="Show Raw Values"/>
+                </Border>
+              </Groupbox>
+
+              <Groupbox Header="Pages" Margin="4px 0px 0px 0px">
+                <Border Padding="2px">
+                  <Checkbox ID="Pages" Header="Show Pages Bar"/>
+                </Border>
+              </Groupbox>
+            </Border>
+            </Scrollbox>
+          </Tab>
+
+          <Tab ID="ContentTreeTab" Header="View" Height="100%">
+            <Border Padding="4px">
+              <Groupbox Header="Content Tree - Item Names" Margin="4px 0px 0px 0px">
+                <Border Padding="2px">
+                  <Radiobutton ID="DisplayName" Name="TreeNames" Value="DisplayName" Header="Display Name (language-specific name)"/>
+                </Border>
+                <Border Padding="2px">
+                  <Radiobutton ID="ItemKey" Name="TreeNames" Value="Key" Header="Item Key"/>
+                </Border>
+              </Groupbox>
+
+              <Groupbox Header="Content Tree Root" Margin="4px 0px 0px 0px">
+                <Border Padding="2px">
+                  <Checkbox ID="TreeVisible" Header="Show the Content Tree in the Content Editor"/>
+                </Border>
+                <Border Padding="2px">
+                  <Checkbox ID="TreeRoot" Header="Show Entire Content Tree"/>
+                </Border>
+              </Groupbox>
+
+              <Groupbox Header="Control Properties" Margin="4px 0px 0px 0px">                
+                <Border Padding="2px">
+                  <Checkbox ID="PersonalizationSection" Header="Show the Personalization Section"/>                  
+                </Border>
+                <Border Padding="2px">
+                  <Checkbox ID="TestLabSection" Header="Show the Test Lab Section"/>
+                </Border>
+              </Groupbox>
+
+            </Border>
+          </Tab>
+          <Tab ID="WebDAVTab" Header="Media" Height="100%">
+            <Groupbox Header="Drag and Drop" Margin="4px 4px 0px 4px" ID="WebDAVViews"></Groupbox>
+            <Groupbox Header="Media Edit Button Default" Margin="4px 4px 0px 4px" ID="WebDAVOptions">
+              <Border Padding="2px">
+                <Checkbox ID="UseLocalEditor" Header="Open editing application installed on user’s computer"/>
+              </Border>
+            </Groupbox>
+          </Tab>
+        </Tabstrip>
+      </GridPanel>
+    </FormDialog>
+  </ChangeUserOptions>
+</control>

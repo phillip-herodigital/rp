@@ -1,0 +1,180 @@
+.scFolderButtons {
+}
+
+#FileList a {  
+  cursor: default;
+  padding: 5px;
+  text-decoration: none;
+  width: 256px;
+  vertical-align: top;
+  float: left;
+}
+
+#FileList a:hover, #FileList a:active, #FileList a.highlight {  
+  background:#e8f5fd;
+  border: 1px solid #d8f0fa;
+  padding: 4px;
+}
+
+#FileList a.scOption {  
+  width: 70px;
+  font: 8pt tahoma;
+	text-align: center;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	z-index: 1;
+}
+
+#FileList .scUploadWrapper {
+  width: 70px;
+  float: left;
+  position: relative;
+}
+
+#FileList .scUploadOverlay {
+  position: absolute;
+  width: 70px;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+
+#FileList a.scOption:hover, #FileList a.scOption:active {  
+  background: #e8f5fd;
+  border: 1px solid #d8f0fa;
+  padding: 4px;
+}
+
+.scMediaBorder {
+  float: left;
+  border: 1px solid #cccccc;
+  margin: 0px 5px 0px 0px;
+}
+
+.scMediaIcon {
+  vertical-align: middle;
+}
+
+.scMediaTitle {
+}
+
+.scMediaDetails {
+  padding: 4px 0px 0px 0px;
+  color: #999999;
+}
+
+.scMediaValidation {
+  margin-left: 75px;
+  padding: 2px 0px 0px 0px;
+  color: red;
+}
+
+.scMediaUsages {
+  padding: 2px 0px 0px 0px;
+  color: #999999;
+}
+
+.scTitle {
+  font: 8pt tahoma;
+  font-weight: bold;
+  padding: 8px 0px 4px 4px;
+  border-bottom: 1px solid #999999;
+  clear: left;
+}
+
+.scBackground {
+ background: white;
+}
+
+/* upload */
+
+/*
+body {
+  background: #fafafa;
+}
+
+form {
+  padding: 4px 4px 4px 8px;
+}
+*/
+
+#UploadUI {
+  padding-top: 16px;
+  overflow: auto;
+}
+
+#queue {
+  margin: 4px 0px 0px 6px;
+}
+
+#queue th {
+  text-align: left;
+  color: #999999;
+  padding-bottom: 2px;
+}
+
+#queue td {
+  padding: 2px 0;
+  line-height: 16px;
+}
+
+#queue .name {
+  padding-right: 24px;
+}
+
+#queue .size {
+  padding-right: 32px;
+  white-space: nowrap;
+}
+
+#queue .remove {
+  text-align: center;
+}
+
+.simple #queue .alt {
+  display: none;
+}
+
+#queue .alt input {
+  height: 18px;
+  padding-top: 0;
+  padding-bottom: 0;
+  font-size: 100%;
+  margin: 0;
+  width: 200px;
+}
+
+#queue .progress {
+  width: 160px;
+  padding-left: 20px;
+  
+  background: url(/sitecore/shell/Themes/Standard/Images/Progress/background_media.png) no-repeat 20px 50%;
+  visibility: hidden;
+}
+
+#queue .filler {
+  height: 4px;
+}
+
+#buttons {
+  clear: left;
+  padding-top: 12px;
+  padding-bottom: 4px;
+}
+
+.scButton {
+  width: 90px;
+  margin-left: 4px;
+}
+
+.simple #AdvancedOptions {
+  display: none;
+}
+
+#AdvancedOptions {
+  margin-top: 12px;
+}
+
+#AdvancedOptions label {
+  padding-right: 12px;
+}

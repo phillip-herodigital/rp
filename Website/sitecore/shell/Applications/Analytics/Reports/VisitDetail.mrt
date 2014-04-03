@@ -1,0 +1,1095 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<StiSerializer version="1.0" application="StiReport">
+  <Dictionary Ref="1" type="Dictionary" isKey="true">
+    <BusinessObjects isList="true" count="0" />
+    <Databases isList="true" count="0" />
+    <DataSources isList="true" count="7">
+      <Visitor Ref="2" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+        <Alias>Visitor</Alias>
+        <Columns isList="true" count="3">
+          <value>Text,System.String</value>
+          <value>VisitorClassification,System.Int32</value>
+          <value>VisitorId,System.Guid</value>
+        </Columns>
+        <CommandTimeout>0</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>Visitor</Name>
+        <NameInSource>DataConnection</NameInSource>
+        <Parameters isList="true" count="1">
+          <value>_x0040_VisitId,,14,0</value>
+        </Parameters>
+        <SqlCommand />
+      </Visitor>
+      <VisitorTags Ref="3" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+        <Alias>VisitorTags</Alias>
+        <Columns isList="true" count="8">
+          <value>VisitorId,System.Guid</value>
+          <value>Email,System.String</value>
+          <value>First_x0020_Name,System.String</value>
+          <value>Second_x0020_Name,System.String</value>
+          <value>Company,System.String</value>
+          <value>Organization,System.String</value>
+          <value>Full_x0020_name,System.String</value>
+          <value>StateProvince,System.String</value>
+        </Columns>
+        <CommandTimeout>0</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>VisitorTags</Name>
+        <NameInSource>DataConnection</NameInSource>
+        <Parameters isList="true" count="1">
+          <value>_x0040_VisitId,,14,0</value>
+        </Parameters>
+        <SqlCommand />
+      </VisitorTags>
+      <Visit Ref="4" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+        <Alias>Visit</Alias>
+        <Columns isList="true" count="17">
+          <value>City,System.String</value>
+          <value>Country,System.String</value>
+          <value>EndDateTime,System.DateTime</value>
+          <value>IspName,System.String</value>
+          <value>Region,System.String</value>
+          <value>Value,System.Int32</value>
+          <value>VisitPageCount,System.Int32</value>
+          <value>BusinessName,System.String</value>
+          <value>KeywordsId,System.Guid</value>
+          <value>Keyword,System.String</value>
+          <value>ReferringSiteId,System.Guid</value>
+          <value>ReferringSite,System.String</value>
+          <value>StartDateTime,System.DateTime</value>
+          <value>VisitorId,System.Guid</value>
+          <value>VisitorVisitIndex,System.Int32</value>
+          <value>VisitCount,System.Int32</value>
+          <value>Duration,Duration,System.TimeSpan,DateDiff_x0028__x0020_Visit.EndDateTime_x002C_Visit.StartDateTime_x0029_</value>
+        </Columns>
+        <CommandTimeout>0</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>Visit</Name>
+        <NameInSource>DataConnection</NameInSource>
+        <Parameters isList="true" count="1">
+          <value>_x0040_VisitId,,14,0</value>
+        </Parameters>
+        <SqlCommand />
+      </Visit>
+      <VisitPages Ref="5" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+        <Alias>VisitPages</Alias>
+        <Columns isList="true" count="7">
+          <value>Url,System.String</value>
+          <value>Duration,System.Int32</value>
+          <value>Hour,Hour,System.Int32,VisitPages.Duration_x002F_3600</value>
+          <value>Minutes,Minutes,System.Int32,VisitPages.Duration_x002F_60</value>
+          <value>PageId,System.Guid</value>
+          <value>PageIdObject,System.Object</value>
+          <value>DurationTimespan,DurationTimespan,System.TimeSpan,new_x0020_TimeSpan_x0028_0_x002C__x0020_0_x002C__x0020_0_x002C__x0020_0_x002C_VisitPages.Duration_x0029_</value>
+        </Columns>
+        <CommandTimeout>0</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>VisitPages</Name>
+        <NameInSource>DataConnection</NameInSource>
+        <Parameters isList="true" count="1">
+          <value>_x0040_VisitId,,14,0</value>
+        </Parameters>
+        <SqlCommand />
+      </VisitPages>
+      <Profiles Ref="6" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+        <Alias>Profiles</Alias>
+        <Columns isList="true" count="3">
+          <value>VisitId,System.Guid</value>
+          <value>ProfileName,System.String</value>
+          <value>PatternValues,System.String</value>
+        </Columns>
+        <CommandTimeout>0</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>Profiles</Name>
+        <NameInSource>DataConnection</NameInSource>
+        <Parameters isList="true" count="1">
+          <value>_x0040_VisitId,,14,0</value>
+        </Parameters>
+        <SqlCommand />
+      </Profiles>
+      <VisitGoals Ref="7" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+        <Alias>VisitGoals</Alias>
+        <Columns isList="true" count="3">
+          <value>Name,System.String</value>
+          <value>Value,System.Int32</value>
+          <value>GoalCount,System.Int32</value>
+        </Columns>
+        <CommandTimeout>0</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>VisitGoals</Name>
+        <NameInSource>DataConnection</NameInSource>
+        <Parameters isList="true" count="1">
+          <value>_x0040_VisitId,,14,0</value>
+        </Parameters>
+        <SqlCommand />
+      </VisitGoals>
+      <PageEvents Ref="8" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+        <Alias>PageEvents</Alias>
+        <Columns isList="true" count="5">
+          <value>Name,System.String</value>
+          <value>Text,System.String</value>
+          <value>PageId,System.Guid</value>
+          <value>IsGoal,System.Int32</value>
+          <value>IsFailure,System.Int32</value>
+        </Columns>
+        <CommandTimeout>0</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>PageEvents</Name>
+        <NameInSource>DataConnection</NameInSource>
+        <Parameters isList="true" count="1">
+          <value>_x0040_PageIdObject,IsNull_x0028_VisitPages_x002C__x0020__x0022_PageIdObject_x0022__x0029__x0020__x003F__x0020_DBNull.Value_x0020_:_x0020_VisitPages.PageIdObject,14,0</value>
+        </Parameters>
+        <ReconnectOnEachRow>True</ReconnectOnEachRow>
+        <SqlCommand />
+      </PageEvents>
+    </DataSources>
+    <Relations isList="true" count="2">
+      <VisitorRelation Ref="9" type="DataRelation" isKey="true">
+        <Alias>VisitorRelation</Alias>
+        <ChildColumns isList="true" count="1">
+          <value>VisitorId</value>
+        </ChildColumns>
+        <ChildSource isRef="4" />
+        <Dictionary isRef="1" />
+        <Name>VisitorRelation</Name>
+        <NameInSource>Name</NameInSource>
+        <ParentColumns isList="true" count="1">
+          <value>VisitorId</value>
+        </ParentColumns>
+        <ParentSource isRef="2" />
+      </VisitorRelation>
+      <VisitorTagsRelation Ref="10" type="DataRelation" isKey="true">
+        <Alias>VisitorTagsRelation</Alias>
+        <ChildColumns isList="true" count="1">
+          <value>VisitorId</value>
+        </ChildColumns>
+        <ChildSource isRef="4" />
+        <Dictionary isRef="1" />
+        <Name>VisitorTagsRelation</Name>
+        <NameInSource>Relation2</NameInSource>
+        <ParentColumns isList="true" count="1">
+          <value>VisitorId</value>
+        </ParentColumns>
+        <ParentSource isRef="3" />
+      </VisitorTagsRelation>
+    </Relations>
+    <Report isRef="0" />
+    <Variables isList="true" count="31">
+      <value>Texts</value>
+      <value>Texts,ReportTitle,ReportTitle,System.String,,False,False</value>
+      <value>Texts,PrintDateText,PrintDateText,System.String,print_x0020_date,False,False</value>
+      <value>Texts,ReportDescriptionText,ReportDescriptionText,System.String,Report_x0020_description,False,False</value>
+      <value>Texts,VisitsOfTotalText,VisitsOfTotalText,System.String,Visit_x0020__x0023__x0020_of_x0020_Total,False,False</value>
+      <value>Texts,ReferredFromText,ReferredFromText,System.String,Referred_x0020_From,False,False</value>
+      <value>Texts,VisitValueText,VisitValueText,System.String,Visit_x0020_Value,False,False</value>
+      <value>Texts,VisitPagesText,VisitPagesText,System.String,Visit_x0020_Pages,False,False</value>
+      <value>Texts,VisitDurationText,VisitDurationText,System.String,Visit_x0020_Duration,False,False</value>
+      <value>Texts,ConversionsText,ConversionsText,System.String,Conversions,False,False</value>
+      <value>Texts,GoalsText,GoalsText,System.String,Goals,False,False</value>
+      <value>Texts,ValueText,ValueText,System.String,Value,False,False</value>
+      <value>Texts,DurationText,DurationText,System.String,Duration,False,False</value>
+      <value>Texts,PageText,PageText,System.String,Page,False,False</value>
+      <value>Texts,SessionStartedText,SessionStartedText,System.String,Session_x0020_started_x0020__x007B_0_x007D__x0020_at_x0020__x007B_1_x007D_,False,False</value>
+      <value>Texts,ISPText,ISPText,System.String,ISP,False,False</value>
+      <value>Texts,LocationText,LocationText,System.String,Location,False,False</value>
+      <value>Texts,BusinessNameText,BusinessNameText,System.String,Business_x0020_Name,False,False</value>
+      <value>Texts,CompanyText,CompanyText,System.String,Company,False,False</value>
+      <value>Texts,N_AText,N_AText,System.String,N_x002F_A,False,False</value>
+      <value>Texts,SecondText,SecondText,System.String,sec,False,False</value>
+      <value>Texts,DaysText,DaysText,System.String,d,False,False</value>
+      <value>Texts,HourText,HourText,System.String,hr,False,False</value>
+      <value>Texts,MinutesText,MinutesText,System.String,min,False,False</value>
+      <value>Texts,ReportGeneratedText,ReportGeneratedText,System.String,Report_x0020_Generated,False,False</value>
+      <value>Texts,VisitorText,VisitorText,System.String,Visitor,False,False</value>
+      <value>Texts,SearchTermText,SearchTermText,System.String,Search_x0020_Term,False,False</value>
+      <value>Texts,ReportDescriptionVar,ReportDescriptionVar,System.String,Report_x0020_description,False,False</value>
+      <value>Texts,GoalText,GoalText,System.String,Goal,False,False</value>
+      <value>Texts,EventText,EventText,System.String,Event,False,False</value>
+      <value>Texts,FailureText,FailureText,System.String,Failure,False,False</value>
+      <value>Texts,MillisecondsText,MillisecondsText,System.String,millisec,False,False</value>
+    </Variables>
+  </Dictionary>
+  <EngineVersion>EngineV2</EngineVersion>
+  <GlobalizationStrings isList="true" count="0" />
+  <MetaTags isList="true" count="0" />
+  <Pages isList="true" count="1">
+    <Page1 Ref="11" type="Page" isKey="true">
+      <Border>None;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="10">
+        <PageHeaderBand1 Ref="12" type="PageHeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,0.4,19,2.54</ClientRectangle>
+          <Components isList="true" count="3">
+            <Text1 Ref="13" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.51,0,11.68,1.27</ClientRectangle>
+              <ComponentStyle>Title</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,21,Bold</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>76cbd5aad0ad4c5ca46677c328dc4978</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text1</Name>
+              <Page isRef="11" />
+              <Parent isRef="12" />
+              <Text>{ReportTitle}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
+              <Type>Expression</Type>
+            </Text1>
+            <Text12 Ref="14" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.51,1.78,18.4,0.51</ClientRectangle>
+              <ComponentStyle>ReportDescription</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,9</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>649139ccb3ca475abea84d9e295ab0fe</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text12</Name>
+              <Page isRef="11" />
+              <Parent isRef="12" />
+              <Printable>False</Printable>
+              <Text>&lt;label style="cursor:pointer;text-decoration:underline;color:gray;" onclick="document.getElementById('reportDescription{PageNumber}').style.display = document.getElementById('reportDescription{PageNumber}').style.display == 'none' ? 'block' : 'none'; return false;"&gt;{ReportDescriptionVar}&lt;/label&gt;
+&lt;br/&gt;&lt;div id="reportDescription{PageNumber}" style="display:none;margin-left:12;"&gt;{ReportDescriptionText}&lt;/div&gt;</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
+              <Type>Expression</Type>
+            </Text12>
+            <Text13 Ref="15" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>12.19,0,6.71,0.51</ClientRectangle>
+              <ComponentStyle>ItalicGrayGeneralText</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,10,Italic</Font>
+              <Guid>40abdf8c3dce4cf7a6cd1ec8d507b77d</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text13</Name>
+              <Page isRef="11" />
+              <Parent isRef="12" />
+              <Text>{ReportGeneratedText}: {Format("{0:MMM. dd, yyyy}",Today)}</Text>
+              <TextBrush>Gray</TextBrush>
+              <Type>Expression</Type>
+            </Text13>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Guid>8c7a9fa60e1e4e85b277a8185b6f418b</Guid>
+          <Name>PageHeaderBand1</Name>
+          <Page isRef="11" />
+          <Parent isRef="11" />
+        </PageHeaderBand1>
+        <PageFooterBand1 Ref="16" type="PageFooterBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,26.94,19,0.76</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text47 Ref="17" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>14.13,-0.05,4.57,0.51</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,10,Italic</Font>
+              <Guid>77eb21b7286444da85e4e93d7419a79b</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text47</Name>
+              <Page isRef="11" />
+              <Parent isRef="16" />
+              <Text>{PageNofM}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text47>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Guid>1b10e0e772d2425ba9d1fd28d11ec876</Guid>
+          <Name>PageFooterBand1</Name>
+          <Page isRef="11" />
+          <Parent isRef="11" />
+        </PageFooterBand1>
+        <DataBand1 Ref="18" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <BusinessObjectGuid isNull="true" />
+          <ClientRectangle>0,3.74,19,5.08</ClientRectangle>
+          <Components isList="true" count="20">
+            <Text2 Ref="19" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.51,0.76,5.33,0.51</ClientRectangle>
+              <ComponentStyle>GeneralText</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,10</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text2</Name>
+              <Page isRef="11" />
+              <Parent isRef="18" />
+              <Text>{!string.IsNullOrEmpty(Visit.VisitorTagsRelation.Full_name)? Visit.VisitorTagsRelation.Full_name:(!string.IsNullOrEmpty(Replace(Visit.VisitorTagsRelation.First_Name+" "+ Visit.VisitorTagsRelation.Second_Name, " ", ""))? (Visit.VisitorTagsRelation.First_Name+" "+ Visit.VisitorTagsRelation.Second_Name):!string.IsNullOrEmpty(Visit.VisitorTagsRelation.Organization)?Visit.VisitorTagsRelation.Organization: !string.IsNullOrEmpty(Visit.VisitorTagsRelation.Company)? Visit.VisitorTagsRelation.Company: "Anonymous")}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text2>
+            <Text3 Ref="20" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>6.1,0.76,3.81,0.51</ClientRectangle>
+              <ComponentStyle>GeneralText</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,10</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text3</Name>
+              <Page isRef="11" />
+              <Parent isRef="18" />
+              <Text>{string.IsNullOrEmpty(Visit.Country) ? N_AText :Visit.Country}({string.IsNullOrEmpty(Visit.VisitorTagsRelation.StateProvince) ?(string.IsNullOrEmpty(Visit.Region) ? N_AText :Visit.Region) : Visit.VisitorTagsRelation.StateProvince}),{string.IsNullOrEmpty(Visit.City)? N_AText :Visit.City}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text3>
+            <Text4 Ref="21" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.51,1.27,5.33,0.51</ClientRectangle>
+              <ComponentStyle>SubLink</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,10,Underline</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text4</Name>
+              <Page isRef="11" />
+              <Parent isRef="18" />
+              <Text>&lt;a style="cursor:pointer;text-decoration:underline;color:grey;font-size:9pt;" href="mailto:{Visit.VisitorTagsRelation.Email}"&gt;{Visit.VisitorTagsRelation.Email}&lt;/a&gt;</Text>
+              <TextBrush>[135:135:135]</TextBrush>
+              <Type>Expression</Type>
+            </Text4>
+            <Text6 Ref="22" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.51,3.05,17.78,0.51</ClientRectangle>
+              <ComponentStyle>ItalicGeneralText</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,10,Italic</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text6</Name>
+              <Page isRef="11" />
+              <Parent isRef="18" />
+              <Text>{ISPText}: {string.IsNullOrEmpty(Visit.IspName)? string.Empty : Visit.IspName}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text6>
+            <Text7 Ref="23" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.51,2.03,17.78,0.51</ClientRectangle>
+              <ComponentStyle>ItalicGeneralText</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,10,Italic</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text7</Name>
+              <Page isRef="11" />
+              <Parent isRef="18" />
+              <Text>{ReferredFromText}: {string.IsNullOrEmpty(Visit.ReferringSite) ? string.Empty: string.Format("&lt;a href=\"http://{0}\" target=\"_blank\"&gt;{0}&lt;/a&gt;", Visit.ReferringSite)}
+</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text7>
+            <Text8 Ref="24" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>6.1,3.81,2.54,0.51</ClientRectangle>
+              <ComponentStyle>ColumnHeader</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Calibri,11,Bold</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text8</Name>
+              <Page isRef="11" />
+              <Parent isRef="18" />
+              <Text>{VisitValueText}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text8>
+            <Text9 Ref="25" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>8.89,3.81,2.29,0.51</ClientRectangle>
+              <ComponentStyle>ColumnHeader</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Calibri,11,Bold</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text9</Name>
+              <Page isRef="11" />
+              <Parent isRef="18" />
+              <Text>{VisitsOfTotalText}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text9>
+            <Text10 Ref="26" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>11.43,3.81,2.54,0.51</ClientRectangle>
+              <ComponentStyle>ColumnHeader</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Calibri,11,Bold</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text10</Name>
+              <Page isRef="11" />
+              <Parent isRef="18" />
+              <Text>{VisitPagesText}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text10>
+            <Text11 Ref="27" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>14.22,3.81,4.06,0.51</ClientRectangle>
+              <ComponentStyle>ColumnHeader</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Calibri,11,Bold</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text11</Name>
+              <Page isRef="11" />
+              <Parent isRef="18" />
+              <Text>{VisitDurationText}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text11>
+            <Text14 Ref="28" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>6.1,4.32,2.54,0.51</ClientRectangle>
+              <ComponentStyle>GeneralText</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,10</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text14</Name>
+              <Page isRef="11" />
+              <Parent isRef="18" />
+              <Text>{Visit.Value}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text14>
+            <Text15 Ref="29" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>8.89,4.32,2.29,0.51</ClientRectangle>
+              <ComponentStyle>GeneralText</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,10</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text15</Name>
+              <Page isRef="11" />
+              <Parent isRef="18" />
+              <Text>{Visit.VisitorVisitIndex}/{Visit.VisitCount}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text15>
+            <Text16 Ref="30" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>11.43,4.32,2.54,0.51</ClientRectangle>
+              <ComponentStyle>GeneralText</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,10</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text16</Name>
+              <Page isRef="11" />
+              <Parent isRef="18" />
+              <Text>{Visit.VisitPageCount}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text16>
+            <Text17 Ref="31" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>14.22,4.32,4.06,0.51</ClientRectangle>
+              <ComponentStyle>GeneralText</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,10</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text17</Name>
+              <Page isRef="11" />
+              <Parent isRef="18" />
+              <Text>{FmtDatePart(Visit.Duration.Days, DaysText)}{FmtDatePart(Visit.Duration.Hours, HourText)}{FmtDatePart(Visit.Duration.Minutes, MinutesText)}{Visit.Duration.TotalSeconds &lt; 1 ? FmtDatePart(Visit.Duration.Seconds, SecondText, true): FmtDatePart(Visit.Duration.Seconds, SecondText, false)}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text17>
+            <Text30 Ref="32" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>6.1,0.25,3.81,0.51</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,10,Bold</Font>
+              <Guid>2b3023a32772475f9e245de86c6fc70c</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text30</Name>
+              <Page isRef="11" />
+              <Parent isRef="18" />
+              <Text>{LocationText}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text30>
+            <Text31 Ref="33" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>10.16,0.25,2.79,0.51</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,10,Bold</Font>
+              <Guid>df28b4e2da6e4b2a9400e4019fa2fcd6</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text31</Name>
+              <Page isRef="11" />
+              <Parent isRef="18" />
+              <Text>{BusinessNameText}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text31>
+            <Text32 Ref="34" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>13.21,0.25,2.79,0.51</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,10,Bold</Font>
+              <Guid>90cd1babf18f4ca09ee2b2316bbfff73</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text32</Name>
+              <Page isRef="11" />
+              <Parent isRef="18" />
+              <Text>{CompanyText}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text32>
+            <Text33 Ref="35" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>10.16,0.76,2.79,0.51</ClientRectangle>
+              <ComponentStyle>GeneralText</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,10</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text33</Name>
+              <Page isRef="11" />
+              <Parent isRef="18" />
+              <Text>{string.IsNullOrEmpty(Visit.BusinessName)? N_AText :Visit.BusinessName}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text33>
+            <Text35 Ref="36" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>13.21,0.76,2.79,0.51</ClientRectangle>
+              <ComponentStyle>GeneralText</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,10</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text35</Name>
+              <Page isRef="11" />
+              <Parent isRef="18" />
+              <Text>{string.IsNullOrEmpty(Visit.VisitorTagsRelation.Company) ? (string.IsNullOrEmpty(Visit.VisitorTagsRelation.Organization) ? N_AText :Visit.VisitorTagsRelation.Organization) :Visit.VisitorTagsRelation.Company }</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text35>
+            <Text36 Ref="37" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.51,0.25,5.33,0.51</ClientRectangle>
+              <ComponentStyle>ColumnHeader</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Calibri,11,Bold</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text36</Name>
+              <Page isRef="11" />
+              <Parent isRef="18" />
+              <Text>{VisitorText}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text36>
+            <Text37 Ref="38" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.51,2.54,17.78,0.51</ClientRectangle>
+              <ComponentStyle>Subtitle</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,10,Italic</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text37</Name>
+              <Page isRef="11" />
+              <Parent isRef="18" />
+              <Text>{SearchTermText}: {string.IsNullOrEmpty(Visit.Keyword)? string.Empty:Visit.Keyword}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text37>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <DataSourceName>Visit</DataSourceName>
+          <Filters isList="true" count="0" />
+          <Name>DataBand1</Name>
+          <Page isRef="11" />
+          <Parent isRef="11" />
+          <Sort isList="true" count="0" />
+        </DataBand1>
+        <HeaderBand3 Ref="39" type="HeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,9.62,19,1.02</ClientRectangle>
+          <Components isList="true" count="3">
+            <Text24 Ref="40" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.51,0.51,5.33,0.51</ClientRectangle>
+              <ComponentStyle>ColumnHeader</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Calibri,11,Bold</Font>
+              <Guid>a7e66df1c33a4580b2c4d70052c9f8ed</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text24</Name>
+              <Page isRef="11" />
+              <Parent isRef="39" />
+              <Text>{ConversionsText}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text24>
+            <Text25 Ref="41" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>6.1,0.51,2.54,0.51</ClientRectangle>
+              <ComponentStyle>ColumnHeader</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Calibri,11,Bold</Font>
+              <Guid>48e27d4278a7414bb04957bf7e7ce27d</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text25</Name>
+              <Page isRef="11" />
+              <Parent isRef="39" />
+              <Text>{GoalsText}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text25>
+            <Text26 Ref="42" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>8.89,0.51,2.54,0.51</ClientRectangle>
+              <ComponentStyle>ColumnHeader</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Calibri,11,Bold</Font>
+              <Guid>292103fd694441a6aaf13c14dddb1625</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text26</Name>
+              <Page isRef="11" />
+              <Parent isRef="39" />
+              <Text>{ValueText}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text26>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Name>HeaderBand3</Name>
+          <Page isRef="11" />
+          <Parent isRef="11" />
+        </HeaderBand3>
+        <DataBand4 Ref="43" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <BusinessObjectGuid isNull="true" />
+          <ClientRectangle>0,11.44,19,0.51</ClientRectangle>
+          <Components isList="true" count="3">
+            <Text27 Ref="44" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.51,0,5.33,0.51</ClientRectangle>
+              <ComponentStyle>GeneralText</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,10</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text27</Name>
+              <Page isRef="11" />
+              <Parent isRef="43" />
+              <Text>{VisitGoals.Name}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text27>
+            <Text28 Ref="45" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>6.1,0,2.54,0.51</ClientRectangle>
+              <ComponentStyle>GeneralText</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,10</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text28</Name>
+              <Page isRef="11" />
+              <Parent isRef="43" />
+              <Text>{VisitGoals.GoalCount}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text28>
+            <Text29 Ref="46" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>8.89,0,2.29,0.51</ClientRectangle>
+              <ComponentStyle>GeneralText</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,10</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text29</Name>
+              <Page isRef="11" />
+              <Parent isRef="43" />
+              <Text>{VisitGoals.Value}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text29>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <DataSourceName>VisitGoals</DataSourceName>
+          <Filters isList="true" count="0" />
+          <Name>DataBand4</Name>
+          <Page isRef="11" />
+          <Parent isRef="11" />
+          <Sort isList="true" count="0" />
+        </DataBand4>
+        <DataBand3 Ref="47" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <BusinessObjectGuid isNull="true" />
+          <ClientRectangle>0,12.75,19,6.22</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text22 Ref="48" type="Text" isKey="true">
+              <AutoWidth>True</AutoWidth>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <CanShrink>True</CanShrink>
+              <ClientRectangle>0.76,0.25,17.78,5.51</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text22</Name>
+              <Page isRef="11" />
+              <Parent isRef="47" />
+              <Text>&lt;iframe id='radarChart{Profiles.ProfileName}' frameBorder='0' src='/sitecore/shell/Applications/Analytics/Personalization/Chart/RadarChart.html?value=ProfileName={Profiles.ProfileName};{Profiles.PatternValues}' width='100%' height='100%'&gt;&lt;/iframe&gt;</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text22>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <DataSourceName>Profiles</DataSourceName>
+          <Filters isList="true" count="0" />
+          <Name>DataBand3</Name>
+          <Page isRef="11" />
+          <Parent isRef="11" />
+          <Sort isList="true" count="0" />
+        </DataBand3>
+        <HeaderBand2 Ref="49" type="HeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,19.77,19,1.02</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text23 Ref="50" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.51,0.25,17.53,0.51</ClientRectangle>
+              <ComponentStyle>ColumnHeader</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Calibri,11,Bold</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text23</Name>
+              <Page isRef="11" />
+              <Parent isRef="49" />
+              <Text>{string.Format(SessionStartedText, Format("{0:MMM. dd, yyyy}",Visit.StartDateTime), Visit.StartDateTime.ToString("HH:mm"))}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text23>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Name>HeaderBand2</Name>
+          <Page isRef="11" />
+          <Parent isRef="11" />
+        </HeaderBand2>
+        <HeaderBand1 Ref="51" type="HeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,21.59,19,0.76</ClientRectangle>
+          <Components isList="true" count="3">
+            <Text5 Ref="52" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1.27,0,3.3,0.51</ClientRectangle>
+              <ComponentStyle>ColumnHeader</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Calibri,11,Bold</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text5</Name>
+              <Page isRef="11" />
+              <Parent isRef="51" />
+              <Text>{DurationText}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text5>
+            <Text18 Ref="53" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>4.83,0,13.97,0.51</ClientRectangle>
+              <ComponentStyle>ColumnHeader</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Calibri,11,Bold</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text18</Name>
+              <Page isRef="11" />
+              <Parent isRef="51" />
+              <Text>{PageText}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text18>
+            <Text34 Ref="54" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.51,0,0.51,0.51</ClientRectangle>
+              <ComponentStyle>ColumnHeader</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Calibri,11,Bold</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text34</Name>
+              <Page isRef="11" />
+              <Parent isRef="51" />
+              <Text>#</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text34>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Name>HeaderBand1</Name>
+          <Page isRef="11" />
+          <Parent isRef="11" />
+        </HeaderBand1>
+        <DataBand2 Ref="55" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <BusinessObjectGuid isNull="true" />
+          <ClientRectangle>0,23.15,19,0.42</ClientRectangle>
+          <Components isList="true" count="3">
+            <Text19 Ref="56" type="Text" isKey="true">
+              <AutoWidth>True</AutoWidth>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.51,0,0.6,0.5</ClientRectangle>
+              <ComponentStyle>GeneralText</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,10</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text19</Name>
+              <Page isRef="11" />
+              <Parent isRef="55" />
+              <Text>{Line}.</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text19>
+            <Text20 Ref="57" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1.27,0,3.3,0.4</ClientRectangle>
+              <ComponentStyle>GeneralText</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,10</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text20</Name>
+              <Page isRef="11" />
+              <Parent isRef="55" />
+              <Text>{FmtDatePart(VisitPages.DurationTimespan.Days, DaysText)}{FmtDatePart(VisitPages.DurationTimespan.Hours, HourText)}{FmtDatePart(VisitPages.DurationTimespan.Minutes, MinutesText)}{FmtDatePart(VisitPages.DurationTimespan.Seconds, SecondText)}{FmtDatePart(VisitPages.DurationTimespan.Milliseconds, MillisecondsText)}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text20>
+            <Text21 Ref="58" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>4.83,0,13.97,0.4</ClientRectangle>
+              <ComponentStyle>GeneralText</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,10</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text21</Name>
+              <Page isRef="11" />
+              <Parent isRef="55" />
+              <Text>{string.IsNullOrEmpty(VisitPages.Url)|| VisitPages.Url == "/" ? "/default.aspx" : VisitPages.Url}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
+              <Type>Expression</Type>
+            </Text21>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <DataSourceName>VisitPages</DataSourceName>
+          <Filters isList="true" count="0" />
+          <Name>DataBand2</Name>
+          <Page isRef="11" />
+          <Parent isRef="11" />
+          <PrintIfDetailEmpty>True</PrintIfDetailEmpty>
+          <Sort isList="true" count="0" />
+        </DataBand2>
+        <DataPageEvents Ref="59" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <BusinessObjectGuid isNull="true" />
+          <ClientRectangle>0,24.37,19,0.8</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text38 Ref="60" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1.2,0.03,17.6,0.4</ClientRectangle>
+              <ComponentStyle>ItalicGrayGeneralText</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,10,Italic</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text38</Name>
+              <Page isRef="11" />
+              <Parent isRef="59" />
+              <Text>{!string.IsNullOrEmpty(PageEvents.Text) ? PageEvents.Text : (PageEvents.Name + " [" + (PageEvents.IsGoal == 1 ? GoalText : PageEvents.IsFailure == 1 ? FailureText : EventText) + "]")} 
+</Text>
+              <TextBrush>Gray</TextBrush>
+              <Type>Expression</Type>
+            </Text38>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <DataSourceName>PageEvents</DataSourceName>
+          <Filters isList="true" count="0" />
+          <MasterComponent isRef="55" />
+          <Name>DataPageEvents</Name>
+          <Page isRef="11" />
+          <Parent isRef="11" />
+          <Sort isList="true" count="0" />
+        </DataPageEvents>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>2366a0b145884d119b3c2f2a91d8ef3b</Guid>
+      <Margins>1,1,1,1</Margins>
+      <Name>Page1</Name>
+      <PageHeight>29.7</PageHeight>
+      <PageWidth>21</PageWidth>
+      <Report isRef="0" />
+      <Watermark Ref="61" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </Page1>
+  </Pages>
+  <PrinterSettings Ref="62" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
+  <ReferencedAssemblies isList="true" count="9">
+    <value>System.Dll</value>
+    <value>System.Drawing.Dll</value>
+    <value>System.Windows.Forms.Dll</value>
+    <value>System.Data.Dll</value>
+    <value>System.Xml.Dll</value>
+    <value>Stimulsoft.Controls.Dll</value>
+    <value>Stimulsoft.Base.Dll</value>
+    <value>Stimulsoft.Report.Dll</value>
+    <value>Sitecore.Analytics.dll</value>
+  </ReferencedAssemblies>
+  <ReportAlias>Report</ReportAlias>
+  <ReportChanged>6/14/2011 10:18:39 AM</ReportChanged>
+  <ReportCreated>2/3/2011 11:20:18 AM</ReportCreated>
+  <ReportFile>E:\Sitecore_projects\Version 6.5.0\code\Sitecore.Client\sitecore\shell\Applications\Analytics\Reports\VisitDetail.mrt</ReportFile>
+  <ReportGuid>241b674f6e8743ea85e2906a42b2f266</ReportGuid>
+  <ReportName>Report</ReportName>
+  <ReportUnit>Centimeters</ReportUnit>
+  <ReportVersion>2010.3.900</ReportVersion>
+  <Script>using System;
+using System.Drawing;
+using System.Windows.Forms;
+using System.Data;
+using Stimulsoft.Controls;
+using Stimulsoft.Base.Drawing;
+using Stimulsoft.Report;
+using Stimulsoft.Report.Dialogs;
+using Stimulsoft.Report.Components;
+
+namespace Reports
+{
+    public class Report : Stimulsoft.Report.StiReport
+    {
+        public Report()
+        {
+            this.InitializeComponent();
+        }
+
+        private string FmtDatePart(int value, string units) {
+          return FmtDatePart(value, units, false);
+        }
+
+        private string FmtDatePart(int value, string units, bool returnZero) {
+          return value > 0 ? value + " " + units + ". " : returnZero ? "0 " + units + ". " : string.Empty;
+        }
+        
+        #region StiReport Designer generated code - do not modify
+        #endregion StiReport Designer generated code - do not modify
+    }
+}
+</Script>
+  <ScriptLanguage>CSharp</ScriptLanguage>
+  <Styles isList="true" count="14">
+    <Title Ref="63" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Font>Arial,21,Bold</Font>
+      <Name>Title</Name>
+      <StyleCode>None</StyleCode>
+      <TextBrush>Black</TextBrush>
+    </Title>
+    <Subtitle Ref="64" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Font>Arial,10,Italic</Font>
+      <Name>Subtitle</Name>
+      <StyleCode>None</StyleCode>
+      <TextBrush>Black</TextBrush>
+    </Subtitle>
+    <ColumnHeader Ref="65" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Font>Calibri,11,Bold</Font>
+      <Name>ColumnHeader</Name>
+      <StyleCode>None</StyleCode>
+      <TextBrush>Black</TextBrush>
+    </ColumnHeader>
+    <ReportDescription Ref="66" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Font>Arial,9</Font>
+      <Name>ReportDescription</Name>
+      <StyleCode>None</StyleCode>
+      <TextBrush>Black</TextBrush>
+    </ReportDescription>
+    <GeneralText Ref="67" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Font>Arial,10</Font>
+      <Name>GeneralText</Name>
+      <StyleCode>None</StyleCode>
+      <TextBrush>Black</TextBrush>
+    </GeneralText>
+    <GroupHeader Ref="68" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Font>Calibri,11,Bold</Font>
+      <Name>GroupHeader</Name>
+      <StyleCode>None</StyleCode>
+      <TextBrush>Black</TextBrush>
+    </GroupHeader>
+    <Link Ref="69" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Font>Arial,10</Font>
+      <Name>Link</Name>
+      <StyleCode>None</StyleCode>
+      <TextBrush>[54:95:145]</TextBrush>
+    </Link>
+    <BoldLink Ref="70" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Font>Arial,10,Bold</Font>
+      <Name>BoldLink</Name>
+      <StyleCode>None</StyleCode>
+      <TextBrush>[54:95:145]</TextBrush>
+    </BoldLink>
+    <SubLink Ref="71" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Font>Arial,10,Underline</Font>
+      <Name>SubLink</Name>
+      <StyleCode>None</StyleCode>
+      <TextBrush>[135:135:135]</TextBrush>
+    </SubLink>
+    <SmallLink Ref="72" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Font>Arial,9,Underline</Font>
+      <Name>SmallLink</Name>
+      <StyleCode>None</StyleCode>
+      <TextBrush>[135:135:135]</TextBrush>
+    </SmallLink>
+    <MainText Ref="73" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Font>Arial,12,Bold</Font>
+      <Name>MainText</Name>
+      <StyleCode>None</StyleCode>
+      <TextBrush>Black</TextBrush>
+    </MainText>
+    <BoldGeneralText Ref="74" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Font>Arial,10,Bold</Font>
+      <Name>BoldGeneralText</Name>
+      <StyleCode>None</StyleCode>
+      <TextBrush>Black</TextBrush>
+    </BoldGeneralText>
+    <ItalicGeneralText Ref="75" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Font>Arial,10,Italic</Font>
+      <Name>ItalicGeneralText</Name>
+      <StyleCode>None</StyleCode>
+      <TextBrush>Black</TextBrush>
+    </ItalicGeneralText>
+    <ItalicGrayGeneralText Ref="76" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Font>Arial,10,Italic</Font>
+      <Name>ItalicGrayGeneralText</Name>
+      <StyleCode>None</StyleCode>
+      <TextBrush>Gray</TextBrush>
+    </ItalicGrayGeneralText>
+  </Styles>
+</StiSerializer>

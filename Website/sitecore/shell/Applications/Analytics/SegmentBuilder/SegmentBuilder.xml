@@ -1,0 +1,38 @@
+﻿<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <Sitecore.Shell.Applications.Analytics.SegmentBuilder>
+    <FormDialog ID="SegmentBuilderDialog" runat="server" Icon="BusinessV2/32x32/address_book.png" Header="Dynamic Segment Builder" Text="Define the set of conditions that determine which web site visitors to include in this segment.  Visitors that match multiple conditions are only included once. The total number of visitors in the segment may differ from the sum of the visitors matched by each condition." TextCssClass="TextLiteral">
+      <CodeBeside Type="Sitecore.Shell.Applications.Analytics.SegmentBuilder.SegmentBuilderForm,Sitecore.SegmentBuilder"/>
+      <Script Src="/sitecore/shell/Controls/Lib/jQuery/jQuery.noconflict.js"></Script>
+      <Script Src="/sitecore/shell/Controls/CollapsiblePanel/CollapsiblePanel.js"></Script>
+      <Script Src="/sitecore/shell/Applications/WebEdit/Dialogs/Personalization/Personalization.js"></Script>
+      <Script Src="/sitecore/shell/Controls/Lib/scriptaculous/scriptaculous.js?load=effects,dragdrop"></Script>
+      <Stylesheet Src="/sitecore/shell/Applications/Analytics/SegmentBuilder/SegmentBuilder.css" DeviceDependant="false" />
+      <Stylesheet Src="/sitecore/shell/Controls/CollapsiblePanel/CollapsiblePanel.css" DeviceDependant="false" />
+      <style>
+        .TextLiteral
+        {
+          display:block;
+          padding-bottom:2px;
+        }
+      </style>
+      <GridPanel Class="holder" Width="100%" Height="100%">
+        <ControlLiteral GridPanel.Class="top-row" GridPanel.VAlign="top">
+          <Button Header="Add Condition" Click="NewFilterClick"></Button>
+        </ControlLiteral>
+        <ControlLiteral GridPanel.Class="header-row" GridPanel.VAlign="top" >
+          <Literal Text="Conditions" ID="ConditionsText" Class="title"/>
+          <span class="total">
+            <Literal ID="TotalText" Text="Total in this segment:"/>
+            <span>
+              <Space Class="total" Width="2"/>
+            </span>
+            <Literal Text="0" ID="TotalVisitorsNumber" Class="value"/>
+          </span>
+        </ControlLiteral>
+        <Scrollbox Padding="0px" Class="scScrollbox scFixSize scFixSize4" Height="100%" Width="100%" GridPanel.Height="100%" ID="RulesContainer">
+        </Scrollbox>
+        <Border ID="MenuContainer" GridPanel.Class="bottom-row" Visible="false"></Border>
+      </GridPanel>
+    </FormDialog>
+  </Sitecore.Shell.Applications.Analytics.SegmentBuilder>
+</control>

@@ -1,0 +1,20 @@
+form {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+
+.scDialogContentContainer {
+  table-layout: fixed;
+  padding: 4px 8px 4px 8px;
+}
+
+.scDialogTextWithPadding
+{
+  display:block;
+  padding-bottom: 4px;
+}
+
+.lang_ja_jp #Versions td {
+  white-space: nowrap;
+}

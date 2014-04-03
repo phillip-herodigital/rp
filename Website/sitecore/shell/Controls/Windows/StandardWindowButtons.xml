@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <StandardWindowButtons def:inherits="Sitecore.Shell.Controls.Windows.StandardWindowButtonsXmlControl,Sitecore.Client">
+    <Border Align="right" Style="position:relative;top:-1px">
+      <WindowButton def:ID="MinimizeButton" Src="Images/Window Management/Minimize.png" Click="javascript:scWin.minimizeWindow()" Width="24" Height="13" Margin="0px 1px 0px 0px" ToolTip="Minimize"/>
+      <WindowButton def:ID="MaximizeButton" Src="Images/Window Management/Maximize.png" Click="javascript:scWin.maximizeWindow()" Width="24" Height="13" Margin="0px 1px 0px 0px" ToolTip="Maximize/Restore"/>
+      <WindowButton def:ID="CloseButton" Src="Images/Window Management/Close_red.png" Click="javascript:scWin.closeWindow()" Width="38" Height="13" Margin="0px 4px 0px 0px" ToolTip="Close"/>
+    </Border>
+  </StandardWindowButtons>
+</control>
+
+
+

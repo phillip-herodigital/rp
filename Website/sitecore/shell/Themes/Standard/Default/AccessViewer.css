@@ -1,0 +1,137 @@
+﻿.scExplanationNothing
+{
+  color: #999999;
+  padding: 16px 0 0 0;
+  text-align: center;
+}
+
+.scExplanationHeader
+{
+  padding: 8px 8px 20px 4px;
+}
+
+.scExplanationHeaderName
+{
+  color: #072d6b;
+  font: bold 11pt Tahoma;
+}
+
+#Explanation td
+{
+  white-space: nowrap;
+}
+
+.scExplanationSections
+{
+  clear: left;
+  padding: 0 4px;
+}
+
+.scExplanationSection
+{
+  background: #f9f9f9;
+  border: 1px solid #c9c9c9;
+  border-top: none;
+  margin: 0 0 4px 0;
+  padding-bottom: 4px;
+  overflow: auto;
+}
+
+.scExplanationSectionHeader
+{
+  background: #c9c9c9 url("/sitecore/shell/themes/standard/images/content editor/sectionbackground.png") repeat-x;
+  border: 1px solid #c9c9c9;
+  border-bottom: none;
+  color: #444444;
+  font: bold 10pt Tahoma;
+  margin: 6px 0 0 0;
+  padding: 1px 2px 1px 2px;
+}
+
+.scExplanationSectionCaptionIcon
+{
+  height: 16px;
+  margin: 1px 4px 1px 2px;
+  vertical-align: middle;
+  width: 16px;
+}
+
+.scExplanationSecurityNotSet
+{
+  color: #999999;
+}
+
+.scExplanationWorkflow
+{
+  padding: 2px 8px 2px 4px;
+}
+
+.scExplanationWorkflowState
+{
+  padding: 2px 8px 2px 4px;
+}
+
+.scExplanationWorkflowStateRight
+{
+  padding: 2px 8px 2px 4px;
+}
+
+.scExplanationSecurityTable
+{
+    width: 100%;
+}
+
+.scExplanationSecurityTableHeaderCell,
+.scExplanationSecurityTableHeaderCellFill
+{
+	background: url("/sitecore/shell/themes/standard/images/treeviewheader16x16.png") repeat-x;
+	border-bottom: none;
+  border-left: 1px solid white;
+	border-right: 1px solid #e1e1e1;
+	border-top: none;
+  color: #353535;
+	padding: 2px;
+	text-align: left;
+	white-space: nowrap;
+}
+
+.scExplanationSecurityTableItem
+{
+  border-left: 1px solid #f0f0f0;
+	border-right: 1px solid #e1e1e1;
+  white-space: nowrap;
+}
+
+.scExplanationSecurityTableAccount
+{
+  border-right: 1px solid #e1e1e1;
+  padding: 2px 4px 2px 6px;
+  white-space: nowrap;
+}
+
+.scExplanationSecurityTableSelector
+{
+	border-left: 1px solid #f0f0f0;
+  padding: 2px 0 0 4px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.scExplanationSecurityText
+{
+  margin: 0 12px 8px 0;
+  padding: 4px;
+}
+
+.scExplanationWarning
+{
+  font-family: Tahoma;
+  font-size: 8pt;
+  margin: 0 0 4px 4px;
+  padding: 4px 0 0 0;
+}
+
+.scEditorWarningTitle
+{
+  font: normal 8pt Tahoma;
+}

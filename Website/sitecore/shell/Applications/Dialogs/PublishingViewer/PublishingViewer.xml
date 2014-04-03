@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <PublishingViewer>
+    <FormDialog Icon="Network/48x48/Earth_Time.png" Header="Publishing Viewer" Text="When the different versions of the current item are active on the Web site." OKButton="Close" CancelButton="false">
+      <CodeBeside Type="Sitecore.Shell.Applications.Dialogs.PublishingViewer.PublishingViewerForm,Sitecore.Client"/>
+
+      <Stylesheet Key="inline">
+        .ie .scBar {
+          display: inline;
+        }
+        
+        .ff .scBar {
+          float: left;
+        }
+        
+        .ff .scDates {
+          display: none;
+        }
+      </Stylesheet>
+      
+      <GridPanel Width="100%" Height="100%">
+      
+        <Border Align="Center" Padding="0px 0px 8px 0px">
+          <GridPanel Columns="3">
+            <Literal Text="Start date:" Click="Refresh" GridPanel.VAlign="top"/>
+            <Space Width="32"/>
+            <Literal Text="End date:" Click="Refresh" GridPanel.VAlign="top"/>
+
+            <DateCalendar ID="StartDate"/>
+            <Space Width="32"/>
+            <DateCalendar ID="EndDate"/>
+          </GridPanel>
+        </Border>
+      
+        <Scrollbox Height="100%" Padding="0px" GridPanel.Height="100%">
+        
+          <GridPanel ID="Viewer" Columns="2" Width="100%"/>
+        
+        </Scrollbox>
+      
+      </GridPanel>  
+    </FormDialog>
+  </PublishingViewer>
+</control>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <WizardFormPage def:inherits="Sitecore.Web.UI.Pages.WizardDialogBaseXmlControl,Sitecore.Kernel">
+    <GridPanel Width="100%" Height="100%" Style="display:none" Fixed="true">
+    
+      <GridPanel Columns="2" Height="64px" GridPanel.Class="scWizardHeader" Width="100%" GridPanel.Height="64">
+      
+        <Border GridPanel.Width="100%" GridPanel.VAlign="top">
+          <Border Class="scWizardTitle"><Literal Text="$Header"/></Border>
+          <Border Class="scWizardText"><Literal Text="$Text"/></Border>
+        </Border>
+
+        <ThemedImage Src="$Icon" Width="32" Height="32" Margin="0px 8px 0px 0px" />
+        
+      </GridPanel>
+      
+      <Space GridPanel.Class="scBottomEdge" GridPanel.Height="1"/>
+      <Space GridPanel.Class="scTopEdge" GridPanel.Height="1"/>
+      
+      <def:Placeholder GridPanel.Height="100%" GridPanel.VAlign="top"/>
+    
+    </GridPanel>
+  </WizardFormPage>
+</control>

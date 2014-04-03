@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense" xmlns:shell="http://www.sitecore.net/shell">
+  <Gallery.Links>
+    
+    <Gallery>
+      <Stylesheet Src="/sitecore/shell/Applications/Content Manager/Galleries/Links/Gallery Links.css" />
+
+      <CodeBeside Type="Sitecore.Shell.Applications.ContentManager.Galleries.Links.GalleryLinksForm,Sitecore.Client"/>
+
+      <GridPanel ID="Grid" Width="100%" Height="100%" Fixed="true" Background="#F4F4F5">
+
+        <Scrollbox ID="Links" Class="scScrollbox scFixSize" Height="100%" GridPanel.Height="100%" Background="transparent" Padding="0px" Border="none"/>
+
+        <GalleryMenuLine GridPanel.Height="2" />
+
+        <Gallery.Grip GridPanel.Height="10"/>
+
+      </GridPanel>
+            
+    </Gallery>
+  </Gallery.Links>
+</control>

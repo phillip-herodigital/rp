@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control xmlns:def="Definition">
+  <Installer.ItemSourceRootEditor def:inherits="Sitecore.Shell.Applications.Install.Controls.ItemSourceRootEditor,Sitecore.Client">
+    <Border Height="100%" Padding="$Padding" Style="$Style" Class="$Class">
+      <DataContext def:ID="DataContext" Root="/" filter="@@virtual=0"/>
+
+      <GridPanel Width="100%" Height="100%">
+
+        <Border Padding="8px 0px 0px" GridPanel.Height="2em">
+          <GridPanel Width="100%" Columns="2">
+            <Literal Text="Database:&#160;" Style="white-space:nowrap;margin-right:0.5em"/>
+
+            <Combobox def:ID="Databases" Change="ChangeDatabase" Width="100%" Padding="0px 0px 0px 4px" GridPanel.Width="100%"/>
+          </GridPanel>
+        </Border>
+
+        <GridPanel Width="100%" Height="100%" GridPanel.Height="100%">
+          <Scrollbox Class="scScrollbox scFixSize4 scFixSize12 scFixSizeInitialized" Height="100%" Width="100%" Background="white" Border="1px inset" Padding="0px" GridPanel.Height="100%">
+            <DataTreeview def:ID="Treeview" Root="true">
+              <TreeHeader>
+                <TreeHeaderItem Name="name" Header="Name"/>
+              </TreeHeader>
+            </DataTreeview>
+          </Scrollbox>
+        </GridPanel>
+      </GridPanel>
+
+    </Border>
+  </Installer.ItemSourceRootEditor>
+</control>

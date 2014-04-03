@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control xmlns:def="Definition">
+  <Installer.EditorHost def:inherits="Sitecore.Shell.Applications.Install.Controls.EditorHost,Sitecore.Client">
+    <Border Height="100%">
+      <Border def:ID="Container" Height="100%">
+        <Space/>
+      </Border>
+    </Border>
+  </Installer.EditorHost>
+</control>

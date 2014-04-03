@@ -1,0 +1,112 @@
+﻿/* Japanese font support. */
+form[lang|='ja'] *,
+.lang_ja_jp,
+.lang_ja_jp table,
+.lang_ja_jp button,
+.lang_ja_jp th,
+.lang_ja_jp a:link,
+.lang_ja_jp a:hover {
+  font-family: メイリオ, Meiryo, Microsoft YaHei, tahoma, sans-serif;
+}
+
+.scContentTreeNode a span {
+  height:0;
+}
+
+.scBackground
+{
+  border: 1px outset;
+}
+
+.scContentTreeNode
+{
+  padding: 0px 2px 0px 16px;
+}
+
+a.scContentTreeNodeNormal, a.scContentTreeNodeActive
+{
+  line-height: inherit;
+  height: 16px;
+  padding: 1px 4px 2px 2px;
+  float: none;
+}
+
+a.scContentTreeNodeActive, a.scContentTreeNodeNormal:hover
+{
+  padding: 0px 3px 1px 1px;
+}
+
+.scContentTreeNodeGlyph
+{
+  float: none;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  vertical-align: baseline;
+}
+
+.scLoadingGlyph
+{
+  vertical-align: middle;
+}
+
+.scContentTreeNodeIcon
+{
+  vertical-align: middle;
+}
+
+.scContentTreeNodeGutter
+{
+  left: 0px;
+}
+
+.scContentTreeNodeNormal span, .scContentTreeNodeActive span, .scLoadingGlyph
+{
+  float: none;
+}
+
+.scFixSize > *
+{
+  display: inherit;
+}
+
+.SecurityLegend
+{
+    overflow:visible !important;
+    height: 100%;
+}
+
+/*OnTime Issue #348368*/
+.scContentControlLayout, .scContentControlLayout_Active
+{
+  position: relative;
+}
+
+
+/* Quirks mode specific styles  */
+* html .scTab, * html .scTab_Hover, * html .scTabActive, * html .scTabActive_Hover
+{
+  height: 21px;
+}
+
+* html .scTabActive, * html .scTabActive_Hover {
+  padding-top: 3px;
+}
+
+/* End of Quirks mode specific styles*/
+
+/* Japanese language support*/
+.lang_ja_jp a.scRibbonToolbarSmallButton span 
+{
+	height: 0;
+}
+
+.lang_ja_jp .scPaneHeader,
+.lang_ja_jp .scSectionCenter,
+.lang_ja_jp .scClickFont,
+.lang_ja_jp .scClickFont_Hover,
+.lang_ja_jp .scFont,
+.lang_ja_jp .scFont_Hover,
+.lang_ja_jp .scPopup,
+.lang_ja_jp .scLargeFont {
+  font-family: メイリオ, Meiryo, Microsoft YaHei, tahoma, sans-serif;
+}

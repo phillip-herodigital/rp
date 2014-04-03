@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xamlControls 
+  xmlns:x="http://www.sitecore.net/xaml"
+  xmlns:ajax="http://www.sitecore.net/ajax"
+  xmlns:rest="http://www.sitecore.net/rest"
+  xmlns:javascript="http://www.sitecore.net/javascript"
+  xmlns:r="http://www.sitecore.net/renderings"
+  xmlns:xmlcontrol="http://www.sitecore.net/xmlcontrols"
+  xmlns:p="http://schemas.sitecore.net/Visual-Studio-Intellisense"
+  xmlns:asp="http://www.sitecore.net/microsoft/webcontrols"
+  xmlns:html="http://www.sitecore.net/microsoft/htmlcontrols"
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+  
+  <Sitecore.Shell.Applications.ContentEditor.Dialogs.ValidationResult x:inherits="Sitecore.Shell.Applications.ContentEditor.Dialogs.ValidationResult.ValidationResultPage,Sitecore.Client">
+    <Sitecore.Controls.ModalDialogPage Header="Validation Results" Icon="Software/32x32/bug_yellow.png" Text="The results of the validation check." runat="server">
+
+      <Stylesheet runat="server">
+        .scWarning {
+          background: #ffffe4;
+          border-bottom: 1px solid #c9c9c9;
+          padding: 4px 2px 4px 4px;
+          margin: -2px 0px 12px 0px;
+          overflow: auto;
+        }
+        
+        .scWarning img {
+          margin-top: 2px;
+          margin-right: 4px;
+          vertical-align: middle;          
+          float: left;
+        }
+
+        .scWarningTitle {
+          font-weight: bold;
+        }
+        
+        .scWarningHelp {
+          padding: 2px 0 0 0px;
+          margin-left: 21px;
+          display: block;
+        }
+        
+        .scValidatorTitle {
+        vertical-align:top;
+        }
+        
+        .ff .scValidatorTitle img {
+          vertical-align: middle;
+        }
+        
+      </Stylesheet>
+
+      <AjaxScriptManager runat="server"/>
+      <ContinuationManager runat="server" />
+
+      <Scrollbox ID="Validation" Width="100%" Height="100%" Padding="2px" runat="server" />
+
+    </Sitecore.Controls.ModalDialogPage>
+  </Sitecore.Shell.Applications.ContentEditor.Dialogs.ValidationResult>
+
+</xamlControls>
+                           

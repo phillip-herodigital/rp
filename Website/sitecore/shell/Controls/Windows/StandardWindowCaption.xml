@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <StandardWindowCaption>
+    <GridPanel Columns="3" Width="100%" Height="20">
+    
+      <ThemedImage Src="$Icon" Width="16" Height="16" Margin="0px 4px 0px 4px"/>
+      
+      <Border Class="scWindowCaption" GridPanel.Width="100%">
+        <Inline ID="WindowCaption" />
+        <Literal Text="$Header"/>
+      </Border>
+      
+      <StandardWindowButtons Maximize="$Maximize" Minimize="$Minimize" Close="$Close" GridPanel.NoWrap="true" GridPanel.Valign="top"/>
+      
+    </GridPanel>
+  </StandardWindowCaption>
+</control>
+
+
+

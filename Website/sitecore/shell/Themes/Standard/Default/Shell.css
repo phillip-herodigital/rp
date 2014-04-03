@@ -1,0 +1,73 @@
+#Wallpaper {
+  position:absolute;
+  width:100%;
+  height:100%;
+  z-index:-1;
+}
+
+#Desktop {
+  width:100%;
+  height:100%;
+}
+
+#Links {
+  color:White;
+  width:100%;
+  height:100%;
+}
+
+.scDesktopItemIcons {
+	cursor: default;
+	display: inline;
+	overflow: hidden;
+	padding: 5px;
+	text-align: center;
+	text-overflow: ellipsis;
+	vertical-align: top;
+	width: 80px;
+}
+.scDesktopItemIcons_Selected {
+	background: highlight;
+	color: highlighttext;
+	cursor: default;
+	display: inline;
+	overflow: hidden;
+	padding: 5px;
+	text-align: center;
+	text-overflow: ellipsis;
+	vertical-align: top;
+	width: 80px;
+}
+.scDesktopViewIconsIcon {
+	cursor: default;
+	padding-bottom: 4px;
+}
+.scToolbutton {
+  color:white;
+}
+.scDatabaseName {
+  cursor:default;
+  position:absolute;
+  margin:-44px 0px 0px -8px;
+  color:green;
+  font:14pt tahoma;
+}
+
+.scDesktopItemIcons {
+	cursor: default;
+	display: inline;
+	overflow: hidden;
+	padding: 5px;
+	text-align: center;
+	text-overflow: ellipsis;
+	vertical-align: top;
+	width: 80px;
+}
+
+.ff .scDesktopItemIcons 
+{
+  float:left;
+}
+.ff .scDesktopItemIcons_Selected {
+  float:left;
+}

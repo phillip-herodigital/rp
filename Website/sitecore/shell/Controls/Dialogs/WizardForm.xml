@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <WizardForm>
+    <Stylesheet Src="Dialogs.css" DeviceDependant="true"/>
+    
+    <FormPage Application="$Application" FormTarget="$FormTarget" Enctype="$Enctype" Submittable='${MainUtil.GetString($Submittable,"true")}' Overflow="true">
+      <CodeBeside Type="$CodeBeside"/>
+      <Script Type="text/JavaScript" Language="javascript" Src="/sitecore/shell/controls/Sitecore.Runtime.js"/>
+      <Script Type="text/JavaScript" Language="javascript" Src="/sitecore/shell/controls/SitecoreWizard.js"/>
+
+      <GridPanel Width="100%" Height="100%">
+      
+        <def:Placeholder GridPanel.Height="100%" GridPanel.Style="background:#e9e9e9" GridPanel.VAlign="top"/>
+        
+        <Space GridPanel.Class="scBottomEdge" GridPanel.Height="1"/>
+        <Space GridPanel.Class="scTopEdge" GridPanel.Height="1"/>
+        
+        <Border Height="25" Align="right" GridPanel.Height="36" GridPanel.Style="background:#e9e9e9; white-space:nowrap">
+          <Button ID="BackButton" Class="scButton" Disabled="true" Click="#" Header="&lt; Back"/>
+          <Button ID="NextButton" Class="scButton" Click="#" Header="Next &gt;"/>&#160;&#160;&#160;
+          <Button ID="CancelButton" Class="scButton" Click="#" Header="Cancel"/>&#160;&#160;&#160;
+        </Border>
+      
+      </GridPanel>
+      
+    </FormPage>
+  </WizardForm>
+</control>

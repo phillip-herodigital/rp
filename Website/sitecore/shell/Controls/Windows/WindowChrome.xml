@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <WindowChrome def:inherits="Sitecore.Shell.Controls.Windows.WindowChromeXmlControl,Sitecore.Client">
+    <Stylesheet Src="Windows.css" DeviceDependant="true" />
+    <Script type="text/JavaScript" language="javascript" src="/sitecore/shell/controls/SitecoreObjects.js"/>
+    <Script type="text/JavaScript" language="javascript" src="/sitecore/shell/controls/SitecoreWindow.js"/>
+
+    <Border Class="scWindowOuterFrame">
+      <Border Class="scWindowFrame">
+      <GridPanel def:ID="WindowHandle" Width="100%" Height="100%" Class="scWindowHandle" Fixed="true"
+          onmousedown="return scWin.mouseDown(this, event)"
+          onmousemove="return scWin.mouseMove(this, event)"
+          onmouseup="return scWin.mouseUp(this, event)"
+          ondblclick="return scWin.maximizeWindow()"
+          onactivate="return scWin.activate(this, event)">
+
+          <Border Class="scWindowFrameTop" GridPanel.Height="1">
+            <Space />
+          </Border>
+        <StandardWindowCaption ID="Caption" Icon="$Icon" Header="$Header"/>
+
+          <GridPanel Height="100%" Width="100%" GridPanel.Height="100%" Fixed="true" CellPadding="2">
+
+          <def:Placeholder GridPanel.Height="100%" GridPanel.Style="padding-top:0px" />
+
+        </GridPanel>
+
+      </GridPanel>
+    </Border>
+    </Border>
+  </WindowChrome>
+</control>

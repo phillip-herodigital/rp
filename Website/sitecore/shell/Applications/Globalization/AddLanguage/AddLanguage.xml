@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <AddLanguage>
+    <WizardForm CodeBeside="Sitecore.Shell.Applications.Globalization.AddLanguage.AddLanguageForm,Sitecore.Client">
+
+      <Stylesheet Key="Flags">
+        a.scFlag,
+        a.scFlag:link,
+        a.scFlag:visited,
+        a.scFlag:hover,
+        a.scFlag:active {
+          color: #303030;
+          cursor: default;
+          text-decoration: none;
+          padding: 3px 6px 4px 6px;
+          text-align: center;
+          float: left;
+        }
+        
+        a.scFlag:active {
+          border:1px solid;
+          border-color: #ddcf9b #c1a877 #dfd8bd #c1a877;
+          background: #ffe594 url(/sitecore/shell/Themes/Standard/Images/Ribbon/LargeButtonActive.png) repeat-x;
+          padding: 2px 5px 3px 5px;
+        }
+
+        a.scFlag:hover {
+          border:1px solid;
+          border-color: #ddcf9b #c1a877 #dfd8bd #c1a877;
+          background: #ffe695 url(/sitecore/shell/Themes/Standard/Images/RibbonLargeButtonHover.png) repeat-x;
+          padding: 2px 5px 3px 5px;
+          text-decoration: underline;
+        }
+
+        a.scFlagIcon {
+        }
+
+      </Stylesheet>
+
+      <WizardFormFirstPage ID="FirstPage" Icon="Flags/32x32/Flag_generic.png">
+        <Border Class="scWizardWelcomeTitle"><Literal ID="Welcome" Text="Welcome to the Add Language Wizard."/></Border>
+        <Literal Text="This wizard helps you:"/>
+        <ul>
+          <li class="scWizardBullet"><Literal Text="Select the name of the new language."/></li>
+          <li class="scWizardBullet"><Literal Text="Select the language and country/region codes."/></li>
+          <li class="scWizardBullet"><Literal Text="Select the codepage and encoding to use for Web pages."/></li>
+          <li class="scWizardBullet"><Literal Text="Select a spell checker dictionary."/></li>
+          <li class="scWizardBullet"><Literal Text="Add the language."/></li>
+        </ul>
+      </WizardFormFirstPage>
+      
+      <WizardFormPage ID="Codes" Header="Language Codes" Text="Enter the language codes. Click Next to continue." Icon="Flags/32x32/Flag_generic.png">
+        <WizardFormIndent>
+
+          <Border Padding="0px 0px 4px 0px">
+            <Literal Text='You may select a predefined language here:'/>
+          </Border>
+
+          <Combobox ID="Predefined" Change="Predefined_Changed" Width="100%"/>
+
+          <hr />
+
+          <Border Padding="0px 0px 8px 0px">
+            <Literal Text='The language code consists of a language identifier, for example, "en" for English and a country/region code, for example, "US" for United States. The language code is then "en-US".'/>
+          </Border>
+
+          <GridPanel Columns="2" CellPadding="2" Width="100%">
+
+            <Literal Text="Language:" GridPanel.NoWrap="true" GridPanel.Align="right"/>
+            <Edit ID="Language" Width="100%" GridPanel.Width="100%"/>
+
+            <Space/>
+            <Border Padding="0px 0px 8px 0px">
+              <Literal Text='E.g. "en".'/>
+            </Border>
+
+            <Literal Text="Country/Region Code:" GridPanel.NoWrap="true" GridPanel.Align="right"/>
+            <Edit ID="Region" Width="100%"/>
+
+            <Space/>
+            <Border Padding="0px 0px 8px 0px">
+              <Literal Text='E.g. "US".'/>
+            </Border>
+            
+            <Literal Text="Custom Code:" GridPanel.NoWrap="true" GridPanel.Align="right"/>
+            <Edit ID="CustomCode" Width="100%"/>
+
+            <Border GridPanel.ColSpan="2">
+              <hr />
+            </Border>
+
+            <Literal Text="Icon:" GridPanel.Align="right" GridPanel.VAlign="top"/>
+            <GridPanel Columns="2" Width="100%" Height="100%">
+
+              <Border GridPanel.ColSpan="2" Padding="0px 0px 4px 0px">
+                <Edit ID="Flag" runat="server" Width="100%" Value="Flags/48x48/Flag_generic.png" Change="Flag_Changed"/>
+              </Border>
+
+              <Border Border="1px inset" Margin="0px 16px 0px 0px" GridPanel.VAlign="top">
+                <Border Padding="4px">
+                  <ThemedImage ID="FlagImage" Src="Flags/48x48/Flag_generic.png" Height="48" Width="48" runat="server"/>
+                </Border>
+              </Border>
+
+              <Scrollbox ID="Flags" Width="100%" Height="128" GridPanel.VAlign="top" GridPanel.Width="100%" GridPanel.Height="128" />
+            </GridPanel>
+
+          </GridPanel>
+
+        </WizardFormIndent>
+      </WizardFormPage>
+
+      <WizardFormPage ID="EncodingPage" Header="Codepage and Encoding" Text="Enter the codepage, encoding and charset to use for displaying HTML pages in this language. Click Next to continue." Icon="Flags/32x32/Flag_generic.png">
+        <WizardFormIndent>
+
+          <GridPanel Columns="2" CellPadding="2" Width="100%">
+
+            <Literal Text="Codepage:" GridPanel.NoWrap="true" GridPanel.Align="right"/>
+            <Edit ID="Codepage" Value="65001" Width="100%" GridPanel.Width="100%"/>
+
+            <Space/>
+            <Border Padding="0px 0px 8px 0px">
+              <Literal Text='E.g. "65001".'/>
+            </Border>
+            
+            <Literal Text="Encoding:" GridPanel.NoWrap="true" GridPanel.Align="right"/>
+            <Edit ID="Encoding" Value="utf-8" Width="100%"/>
+
+            <Space/>
+            <Border Padding="0px 0px 8px 0px">
+              <Literal Text='E.g. "utf-8".'/>
+            </Border>
+
+            <Literal Text="Charset:" GridPanel.NoWrap="true" GridPanel.Align="right"/>
+            <Edit ID="Charset" Value="iso-8859-1" Width="100%"/>
+
+            <Space/>
+            <Border Padding="0px 0px 8px 0px">
+              <Literal Text='E.g. "iso-8859-1".'/>
+            </Border>
+
+          </GridPanel>
+
+        </WizardFormIndent>
+      </WizardFormPage>
+
+      <WizardFormPage ID="SpellcheckerPage" Header="Checker Dictionary" Text="Enter the dictionary to use for spell checking. Click Next to continue." Icon="Flags/32x32/Flag_generic.png">
+        <WizardFormIndent>
+
+          <GridPanel Columns="2" CellPadding="2" Width="100%">
+
+            <Literal Text="Spellchecker file path:" GridPanel.NoWrap="true" GridPanel.Align="right"/>
+            <Edit ID="Spellchecker" Width="100%" GridPanel.Width="100%"/>
+
+            <Space/>
+            <Border Padding="0px 0px 8px 0px">
+              <Literal Text='E.g. "en-UK.tdf".'/>
+            </Border>
+
+          </GridPanel>
+
+        </WizardFormIndent>
+      </WizardFormPage>
+
+      <WizardFormLastPage ID="LastPage" Icon="Flags/32x32/Flag_generic.png">
+        <Border GridPanel.Style="padding:0px 0px 16px 0px; font-weight:bold"><Literal Text="The wizard has completed. Click Finish to close the wizard."/></Border>
+      </WizardFormLastPage>
+
+    </WizardForm>
+  </AddLanguage>
+</control>

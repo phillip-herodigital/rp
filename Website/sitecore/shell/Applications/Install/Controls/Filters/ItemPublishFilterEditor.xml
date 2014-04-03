@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control xmlns:def="Definition">
+   <Installer.ItemPublishFilterEditor def:inherits="Sitecore.Shell.Applications.Install.Controls.ItemPublishFilterEditor,Sitecore.Client">
+      <GridPanel Width="100%" Columns="2"  Height="100%">
+        <GridPanel Columns="2" GridPanel.Width="100%" Width="100%" Height="100%">
+           <Literal Text="Publish date: "  GridPanel.Style ="white-space:nowrap;"/>
+           <DatePicker def:ID="PublishDate" GridPanel.Width="100%" Width="150px" GridPanel.Align="left"  />
+           <Checkbox def:ID="CheckWorkflow" Header="Take workflow into account" Checked="true" GridPanel.colspan="2" />
+        </GridPanel>
+        <Button def:ID="ClearButton" Header="Clear Filter" GridPanel.Align="right" GridPanel.Valign="Top"/>
+      </GridPanel>
+   </Installer.ItemPublishFilterEditor>
+</control>
+
+      

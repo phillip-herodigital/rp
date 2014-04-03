@@ -1,0 +1,38 @@
+﻿.scKey {
+  text-align:right;
+  color:#666666;
+  cursor:default;
+  white-space:nowrap;
+}
+
+.scValue {
+  cursor:default;
+}
+
+.scItemID {
+  background: transparent;
+  border:none;
+  font: 8pt tahoma;
+  width:100%;
+}
+
+.scGalleryOuterFrame {
+  border:1px solid #434241;
+}
+
+.scGalleryInnerFrame {
+  border:1px solid #6b6a6a;
+}
+
+.scToolbutton {
+	background: #ffdb75 url(/sitecore/shell/themes/standard/Images/Galleries/SystemMenuToolbuttonBackground.png) repeat-x;
+	border:1px solid #898785;
+	color:#333333;
+	padding: 2px 4px 0px 4px;
+	margin:0px 8px 0px 0px;
+}
+
+.scToolbutton_Hover {
+	padding: 2px 4px 0px 4px;
+	margin:0px 8px 0px 0px;
+}

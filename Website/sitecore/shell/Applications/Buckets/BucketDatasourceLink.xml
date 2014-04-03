@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <BucketDatasourceLink>
+     <FormDialog Icon="People/32x32/power-drill.png?overlay=Applications/16x16/view.png" Header="Build a Search Query" Text="Use different filters to search for several content items and use their data sources as the basis for." OKButton="OK">
+      <Stylesheet Key="Style">
+        .ff input {
+        width: 800px;
+        }
+
+
+
+        .ff .scButton {
+        height: auto;
+        width: auto;
+        min-height: 24px;
+        min-width: 105px;
+        }
+
+        .scScrollbox
+        {
+
+        overflow: hidden;
+        }
+
+      </Stylesheet>
+      <CodeBeside Type="Sitecore.Buckets.FieldTypes.BucketDatasourceForm,Sitecore.Buckets"/>
+
+      <DataContext ID="InternalLinkDataContext"/>
+      <GridPanel Columns="1" Width="100%" Height="100%" CellPadding="4" Style="table-layout:fixed">
+
+
+        <Scrollbox Width="100%" Class="scScrollbox scFixSize" Background="window" Padding="0" Border="1px solid #CFCFCF" GridPanel.VAlign="top" GridPanel.Width="100%" GridPanel.Height="100%" Height="100%" style="overflow: hidden;">
+
+          <Frame SourceUri="/sitecore/shell/Applications/Buckets/DataSourceResult.aspx" Width="100%" Height="100%" Style="overflow-x: hidden;"></Frame>
+
+        </Scrollbox>
+
+        <Edit ID="ItemLink" class="BindMeToItem"  style="float:left;width:100%;"/>
+      </GridPanel>
+
+
+
+    </FormDialog>
+  </BucketDatasourceLink>
+</control>

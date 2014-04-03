@@ -1,0 +1,14 @@
+﻿.scLink, 
+.scLink:link, 
+.scLink:active, 
+.scLink:hover, 
+.scLink:visited {
+  display:block;
+  text-decoration:none;
+  padding:2px 2px 2px 16px;
+  white-space:nowrap
+}
+
+.scLink:hover {
+  text-decoration:underline;
+}

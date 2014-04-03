@@ -1,0 +1,16 @@
+﻿body {
+  font: 8pt tahoma;
+  background: transparent;
+}
+
+.scGalleryInnerFrame {
+  overflow: inherit;
+}
+
+.scGalleryGripIcon {
+  margin-bottom: 1px;
+}
+
+.scGalleryMenu {
+  table-layout: fixed;
+}

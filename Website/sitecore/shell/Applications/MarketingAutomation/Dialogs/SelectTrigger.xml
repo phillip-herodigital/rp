@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <SelectTrigger>
+    <FormDialog Header="Trigger" Text="Select a trigger." Icon="Applications/32x32/flash.png">
+      <CodeBeside Type="Sitecore.Shell.Applications.MarketingAutomation.Dialogs.SelectTriggerForm,Sitecore.Shell.MarketingAutomation" />
+
+      <GridPanel Height="100%" Width="100%" >
+        <Listbox ID="Triggers" Name="Triggers" Height="100%" Size="8" Width="100%"/>
+      </GridPanel>
+
+    </FormDialog>
+  </SelectTrigger>
+</control>

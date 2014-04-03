@@ -1,0 +1,56 @@
+html {
+  background: transparent;
+  height: 100%;
+}
+
+body {
+  background: #f5f5f5;
+  overflow: hidden;
+  height: 100%;
+  padding:0px;
+  margin:0px;
+}
+
+form {
+  background: transparent;
+  height: 100%;
+  margin:0px;
+}
+
+.scGalleryOuterFrame {
+  border: 1px solid #868686;
+  height: 100%;
+}
+
+.scGalleryInnerFrame {
+  background: #f5f5f5;
+  border: 1px solid white;
+  height: 100%;
+}
+
+.ff .scGalleryInnerFrame 
+{
+  border: none;
+}
+
+.scGalleryGrip {
+ background: #c6c6c6 url("/sitecore/shell/themes/standard/images/Galleries/GripBackground.png") repeat-x;
+ text-align: right;
+ height:10px;
+}
+
+.scGalleryGripIcon {
+  width: 7px;
+  height: 7px;
+  margin: 1px 2px 0px 0px;
+}
+
+.ff .scGalleryGripIcon {
+  margin: 0px 2px 0px 0px;
+}
+
+.scGalleryMenu {
+  border: none;
+  height: 100%;
+  width: 100%;
+}

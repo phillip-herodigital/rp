@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <Sitecore.Shell.Applications.Analytics.SynchronizeDatabase>
+    <WizardForm CodeBeside="Sitecore.Shell.Applications.Analytics.SynchronizeDatabase.SynchronizeDatabaseForm,Sitecore.Client">
+
+      <WizardFormFirstPage ID="FirstPage" Icon="Business/32x32/data_into.png">
+        <Border Class="scWizardWelcomeTitle"><Literal ID="Welcome" Text="Welcome to the Synchronize Database Wizard."/></Border>
+        <Literal Text="This wizard helps you:"/>
+        <ul>
+          <li class="scWizardBullet"><Literal Text="Copy data from the Analytics database to the master database in Sitecore. "/></li>
+        </ul>
+      </WizardFormFirstPage>
+      
+      <WizardFormPage ID="Ready" Header="Ready." Text="Click Synchronize to copy the data from the Analytics database." Icon="Business/32x32/data_into.png">
+        <WizardFormIndent>
+          <Literal Text="When Sitecore copies Analytics data to the master database, you will lose any changes that you have implemented in the master database but not in the Analytics database." />
+        </WizardFormIndent>
+      </WizardFormPage>
+
+      <WizardFormPage ID="Running" Header="Running" Text="Synchronizing Database..." Icon="Business/32x32/data_into.png">
+        <GridPanel Width="100%">
+          <Space Height="64"/>
+
+          <ThemedImage Src="Business/32x32/data_into.png" Width="48" Height="48" GridPanel.Align="center"/>
+
+          <Space Height="16"/>
+
+          <Border Align="center">
+            <ThemedImage Src="Images/progress.gif" Width="94" Height="17"/>
+          </Border>
+
+          <Space Height="16"/>
+
+          <Border ID="PublishingText" Align="center" GridPanel.Align="center" GridPanel.Style="font-weight:bold">
+            <Literal Text="Running..."/>
+          </Border>
+          <Space Height="16"/>
+          <Border ID="Status" Align="center" GridPanel.Align="center">
+            &#160;
+          </Border>
+
+        </GridPanel>
+      </WizardFormPage>
+
+      <WizardFormPage ID="Retry" Header="Error" Text="An error occurred while synchronizing the database." Icon="Business/32x32/data_into.png">
+        <WizardFormPadding>
+          <GridPanel Width="100%" Height="100%" Fixed="true">
+            <Memo ID="ErrorText" ReadOnly="true" Width="100%" Height="100%"/>
+          </GridPanel>
+        </WizardFormPadding>
+      </WizardFormPage>
+
+      <WizardFormLastPage ID="LastPage" Icon="Network/32x32/Clients.png">
+        <GridPanel Cellpadding="2" Width="100%" Height="100%" Fixed="true">
+
+          <Border GridPanel.Style="padding:0px 0px 16px 0px; font-weight:bold">
+            <Literal Text="The wizard has completed. Click Finish to close the wizard."/>
+          </Border>
+
+          <Border GridPanel.Style="padding:0px 0px 2px 0px">
+            <Literal Text="Result:"/>
+          </Border>
+
+          <Memo ID="ResultText" ReadOnly="true" Width="100%" Height="100%" GridPanel.Height="100%"/>
+
+        </GridPanel>
+      </WizardFormLastPage>
+
+    </WizardForm>
+  </Sitecore.Shell.Applications.Analytics.SynchronizeDatabase>
+</control>

@@ -1,0 +1,24 @@
+﻿/* DEFAULTS
+----------------------------------------------------------*/
+
+body {
+  font-size: .80em;
+  font-family: "Helvetica Neue" , "Lucida Grande" , "Segoe UI" , Arial, Helvetica, Verdana, sans-serif;
+  margin: 0px;
+  padding: 0px;
+  color: #696969;
+}
+
+a:link, a:visited {
+  color: #034af3;
+}
+
+a:hover {
+  color: #1d60ff;
+  text-decoration: none;
+}
+
+a:active {
+  color: #034af3;
+}
+

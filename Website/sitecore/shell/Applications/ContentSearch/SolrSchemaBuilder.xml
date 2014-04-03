@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+    <SolrSchemaBuilder>
+        <WizardForm CodeBeside="Sitecore.ContentSearch.Client.Forms.SolrSchemaBuilderWizard, Sitecore.ContentSearch.Client">
+            <WizardFormFirstPage ID="FirstPage" Icon="Business/32x32/tables_edit.png">
+                <Border Class="scWizardWelcomeTitle">
+                    <Literal Text="Welcome to the Build Solr Schema Wizard."/>
+                </Border>
+                <Literal Text="This wizard helps you:"/>
+                <ul>
+                    <li class="scWizardBullet">
+                        <Literal Text="Build the Solr Schema."/>
+                    </li>
+                </ul>
+            </WizardFormFirstPage>
+
+            <WizardFormPage ID="Setup" Header="Setup" Text="Please specify Source and Target Files" Icon="Business/32x32/tables_edit.png">
+                <WizardFormPadding>
+                    <GridPanel Width="100%" >
+                        <Space Height="25" />
+                        <Literal Text="Source File:" GridPanel.NoWrap="true" />
+                        <Edit ID="SourceFile" Value="c:\\solr\\examples\\conf\\schema.xml" Width="580px" />
+                        <Space Height="25" />
+                        <Literal Text="Target File:" GridPanel.NoWrap="true" />
+                        <Edit ID="TargetFile" Value="c:\\solr\\examples\\conf\\schema.xml" Width="580px" />
+                    </GridPanel>
+                </WizardFormPadding>
+            </WizardFormPage>
+
+            <WizardFormPage ID="Generating" Header="Generating" Text="Please wait while the schems is being generated..." Icon="Business/32x32/tables_edit.png">
+                <GridPanel Width="100%">
+
+                    <Space Height="10"/>
+
+                    <ThemedImage Src="Business/48x48/tables_edit.png" Width="48" Height="48" GridPanel.Align="center"/>
+
+                    <Space Height="10"/>
+
+                    <Border Align="center">
+                        <ThemedImage Src="Images/progress.gif" Width="94" Height="17"/>
+                    </Border>
+
+                    <Space Height="16"/>
+
+                    <Border ID="Text" Align="center" GridPanel.Align="center" GridPanel.Style="font-weight:bold">
+                        <Literal Text="Generating..."/>
+                    </Border>
+                    <Space Height="16"/>
+                    <Border ID="Status" Align="center" GridPanel.Align="center">
+
+                    </Border>
+
+                </GridPanel>
+            </WizardFormPage>
+
+            <WizardFormPage ID="Retry" Header="Error" Text="An error occurred while building your Solr Schema" Icon="Business/32x32/tables_edit.png">
+                <WizardFormPadding>
+                    <GridPanel Width="100%" Height="100%" Fixed="true">
+                        <Memo ID="ErrorText" ReadOnly="true" Width="100%" Height="100%"/>
+                    </GridPanel>
+                </WizardFormPadding>
+            </WizardFormPage>
+
+            <WizardFormLastPage ID="LastPage" Icon="Business/32x32/tables_edit.png">
+                <GridPanel Cellpadding="2" Width="100%" Height="100%" Fixed="true">
+
+                    <Border GridPanel.Style="padding:0px 0px 16px 0px; font-weight:bold">
+                        <Literal Text="The wizard has completed. Click Finish to close the wizard."/>
+                    </Border>
+
+                    <Border GridPanel.Style="padding:0px 0px 2px 0px">
+                        <Literal Text="Result:"/>
+                    </Border>
+
+                    <Memo ID="ResultText" ReadOnly="true" Width="100%" Height="100%" GridPanel.Height="100%"/>
+
+                </GridPanel>
+            </WizardFormLastPage>
+
+        </WizardForm>
+    </SolrSchemaBuilder>
+</control>

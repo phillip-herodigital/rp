@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense"  xmlns:shell="http://www.sitecore.net/shell">
+  <Startbar>
+    <Script Src="/sitecore/shell/applications/Startbar/Clock.js"/>
+    <Script Src="/sitecore/shell/applications/search/Instant/instantsearch.js" />
+    <Stylesheet Src="/sitecore/shell/applications/search/Instant/InstantSearch.css" />
+
+    <shell:StartMenu />
+
+    <Border ID="Startbar" Height="29px">
+      <GridPanel Columns="4" Width="100%" Height="29" Style="background:url(/sitecore/shell/themes/standard/Images/Startbar/StartbarBackground.png) repeat-x">
+
+        <ImageButton ID="StartButton" Src="Images/Startbar/StartButton.png" Width="79" Height="29" Click='javascript:scForm.showPopup(null, "StartButton", "StartMenu", "above")' Alt='Click here to begin.' Style='outline:none'/>
+
+        <Space Width="8"/>
+
+        <Scroller ID="StartbarScroller" Height="27px" Border="none" ContextMenu="StartbarMenu.Show" GridPanel.Width="100%" GridPanel.VAlign="bottom">
+          <table id="StartbarApplications" style="color:white; font:8pt tahoma" border="0" cellpadding="0" cellspacing="0" Height="27">
+            <tr></tr>
+          </table>
+        </Scroller>
+
+        <table id="StartbarTray" style="color:white; font:8pt tahoma" border="0" cellpadding="0" cellspacing="0" height="27" GridPanel.Width="200">
+          <tr>
+            <td>
+              <SubmittableEdit ID="SearchBox" Submit="Search" />
+            </td>
+            <td>
+              <Border ID="DatabaseName" Class="scDatabaseName" onmove="javascript:this.style.left=(scForm.browser.getControl('Startbar').offsetWidth-this.offsetWidth-4)+'px'"></Border>
+            </td>
+            <td ID="Tray" style="white-space:nowrap"></td>
+            <td ID="Clock" style="white-space:nowrap"></td>
+          </tr>
+        </table>
+      </GridPanel>
+    </Border>
+
+    <DataContextMenu ID="StartbarMenu" DataSource="/sitecore/content/Applications/Desktop/Context Menues/Startbar" RenderAs="WebControl"/>
+    <DataContextMenu ID="StartButtonMenu" DataSource="/sitecore/content/Applications/Desktop/Context Menues/Startbutton"  RenderAs="WebControl" />
+    <DataContextMenu ID="ApplicationMenu" DataSource="/sitecore/content/Applications/Desktop/Context Menues/ApplicationTab"  RenderAs="WebControl" />
+
+  </Startbar>
+</control>

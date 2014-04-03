@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense" xmlns:sc="sitecore">
+  <ChangeWallpaper>
+    <FormDialog Icon="People/32x32/monitor_rgb.png" Header="Desktop Background" 
+      Text="Select a desktop background." OKButton="Apply">
+
+      <CodeBeside Type="Sitecore.Shell.Applications.ControlPanel.Preferences.Wallpaper.WallpaperForm,Sitecore.Client"/>
+
+      <GridPanel Columns="2" Width="100%" Height="100%">
+
+        <Border Height="159" Align="center" Background="url(/sitecore/shell/themes/standard/Images/Wallpaper.png) no-repeat center" GridPanel.ColSpan="2">
+            <Image Src="/sitecore/images/blank.gif" ID="Preview" Width="153" Height="112" Margin="15px 0px 0px 0px" RenderAs="WebControl"/>
+        </Border>
+
+        <Border Padding="8px 0px 2px 0px">
+          <Literal Text="Background:"/>
+        </Border>
+
+        <Border/>
+
+        <Border GridPanel.Width="100%" GridPanel.Height="100%" GridPanel.VAlign="top" Height="100%">
+          <Listbox ID="Backgrounds" Size="6" Width="100%" Height="100%" Change="Change">
+            <ListItem Header="(None)" Value="" isTranslable="false"/>
+          </Listbox>
+        </Border>
+
+        <Border GridPanel.VAlign="top" Padding="0px 0px 0px 4px">
+          <Border>
+            <Border>
+              <Literal Text="Position:"/>
+            </Border>
+
+            <Combobox ID="Position" FontName="tahoma" FontSize="8pt">
+              <ListItem Header="Center" Value="Center"/>
+              <ListItem Header="Tile" Value="Tile"/>
+              <ListItem Header="Stretch" Value="Stretch"/>
+            </Combobox>
+          </Border>
+
+          <Border Padding="16px 0px 0px 0px">
+            <Border>
+              <Literal Text="Color:"/>
+            </Border>
+
+            <Button Click="GetWallpaperBackground">
+              <Border ID="WallpaperBackground" Background="blue" Width="64px" Height="12px" Border="1px solid black">
+                <Space/>
+              </Border>
+            </Button>
+
+          </Border>
+
+        </Border>
+
+      </GridPanel>
+
+    </FormDialog>
+    <object id="dlgHelper" classid="clsid:3050f819-98b5-11cf-bb82-00aa00bdce0b" width="0px" height="0px"></object>
+  </ChangeWallpaper>
+</control>

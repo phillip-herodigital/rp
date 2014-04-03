@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control xmlns:def="Definition">
+  <Installer.FileSourceRootEditor def:inherits="Sitecore.Shell.Applications.Install.Controls.FileSourceRootEditor,Sitecore.Client">
+    <Border Height="100%" Padding="$Padding" Style="$Style" Class="$Class">
+      <DataContext def:ID="DataContext" DefaultItem="/" Filter="Contains('${Sitecore.Data.DataProviders.FileSystemDataProvider.FolderID.ToString()}', @@templateid)"/>
+      
+      <GridPanel Columns="1" Width="100%" Height="100%" Fixed="true" Border="1px inset">
+        <Scrollbox Class="scScrollbox scFixSize4 scFixSize12 scFixSizeInitialized" GridPanel.Height="100%" Height="100%" Background="window" Border="none" Padding="0px" Style="filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=1, StartColorStr='#ffffff', EndColorStr='#DFE6EC')" GridPanel.ID="FoldersPane">
+          <Border Padding="4px" >
+          <DataTreeview def:ID="Treeview" MultiSelect="false" Root="true"/>
+          </Border>
+        </Scrollbox>
+      </GridPanel>
+    </Border>
+  </Installer.FileSourceRootEditor>
+</control>

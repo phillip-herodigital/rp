@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <KeyboardMap>
+    <FormPage OnLoadEvent="scForm.focus(scForm.browser.getControl('KeyCode'))">
+      <CodeBeside Type="Sitecore.Shell.Applications.Tools.KeyboardMap.KeyboardMapForm,Sitecore.Client"/>
+    
+      <Border Class="scBackground" Height="100%" KeyDown="KeyDown">
+        <Border Padding="8px">
+          <Literal Text="This utility displays keyboard codes. A keyboard code is the number of the key prefixed with modifiers such as Alt, Ctrl and Shift."/>
+          <br/><br/>
+          <Literal Text="A keyboard code can be used with global and local hotkeys."/><br/><br/>
+        </Border>
+        
+        <hr/>
+        
+        <Border Align="center">
+          <Edit ID="KeyCode" Background="White" Width="80" ReadOnly="true"/>
+        </Border>
+      </Border>
+    </FormPage>
+  </KeyboardMap>
+</control>

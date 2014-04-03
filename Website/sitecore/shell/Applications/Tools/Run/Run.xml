@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <Run>
+    <FormPage Submittable="false">
+      <CodeBeside Type="Sitecore.Shell.Applications.Tools.Run.RunForm,Sitecore.Client"/>
+      <GridPanel Class="scBackground" Width="100%" Height="100%" CellPadding="8">
+      
+        <GridPanel Columns="3">
+          <ThemedImage Src="Software/32x32/application_run.png" Width="32" Height="32"/>
+
+          <Space Width="8"/>
+
+          <Border>
+            <Literal Text="Type the name of a application, folder, document or Internet resource, and Sitecore will open it for you."/>
+          </Border>
+        </GridPanel>
+        
+        <GridPanel Columns="5" GridPanel.Valign="top">
+          
+          <Literal Text="Open:" Style="white-space:nowrap"/>
+          
+          <Space Width="8"/>
+
+          <GridPanel GridPanel.Width="100%" Fixed="true" Width="100%"> 
+            <SubmittableEdit ID="Program" Width="100%" Submit="run:ok"/>
+          </GridPanel>
+
+          <Space Width="2"/>
+          
+          <Button Header="Browse" Click="run:browse" GridPanel.NoWrap="true"/>
+          
+        </GridPanel>
+        
+        <Border Align="right">
+          <Button Header="OK" Click="run:ok"/>
+          <Button Header="Cancel" Click="run:cancel"/>
+        </Border>
+      
+      </GridPanel>
+    </FormPage>
+  </Run>
+</control>

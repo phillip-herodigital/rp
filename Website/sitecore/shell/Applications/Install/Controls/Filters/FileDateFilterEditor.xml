@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control xmlns:def="Definition">
+   <Installer.FileDateFilterEditor def:inherits="Sitecore.Shell.Applications.Install.Controls.FileDateFilterEditor,Sitecore.Client">
+      <GridPanel Width="100%" Columns="2"  Height="100%">
+         <GridPanel Columns="1" GridPanel.Width="180" GridPanel.Valign="Top">
+           <GridPanel Columns="3" Width="100%" Height="100%">
+             <Radiobutton def:ID="PastDays" Header="Within the past " Width="100%" GridPanel.Width="100" Value="PastDays"/>
+             <Edit def:ID="PastDaysEdit" Width="40" GridPanel.Width="45"/>
+             <Literal Text="days"/>
+           </GridPanel>
+
+           <Radiobutton def:ID="SpecifyRange" Width="100%" GridPanel.Width="100%" Header="Specify dates" Value="SpecifyRange"/>
+           <Border def:ID="Dates">
+             <GridPanel Columns="2" Height="100%">
+                <Literal Text="From" Padding="0px 0px 0px 21px" GridPanel.Width="55"/>
+                <DatePicker def:ID="FromDate" GridPanel.Width="100"/>
+                <Literal Text="To" Padding="0px 0px 0px 21px" />
+                <DatePicker def:ID="ToDate" />
+             </GridPanel>
+           </Border>
+         </GridPanel>
+         <Button def:ID="ClearButton" Header="Clear Filter" GridPanel.VAlign="Top"/>
+      </GridPanel>
+   </Installer.FileDateFilterEditor>
+</control>

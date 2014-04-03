@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <Commandbar def:inherits="Sitecore.Shell.Controls.Commandbars.CommandbarXmlControl,Sitecore.Client">
+    <Border def:ID="Toolbar" Class='${StringUtil.GetString($Background, "scGreenGradient")}' Height="120" Style="overflow:hidden">
+      
+      <Border Width="196" Height="196" Style="position:absolute; z-index:-1; overflow:hidden; filter:progid:DXImageTransform.Microsoft.BasicImage(opacity=0.20,grayscale=1)">
+        <ThemedImage def:ID="ToolbarIcon" Src="${StringUtil.GetString($Glyph, $Icon)}" Width="196" Height="196" Style="position:absolute;z-index:-1;-moz-opacity:0.2; clip: rect(0px 196px 120px 0px)"/>
+      </Border>
+
+      <GridPanel Columns="2" Width="100%" Height="100%" Style="table-layout:fixed">
+        
+        <Scrollbox def:ID="Details" Width="100%" Height="100%" Border="none" Foreground="white" Background="transparent" GridPanel.Valign="top">
+          <GridPanel Columns="2">
+          
+            <Border def:ID="PreviewPane" GridPanel.Width="56" GridPanel.Valign="top" Padding="0px 8px 0px 0px">
+              <ThemedImage def:ID="CommandbarIcon" Src="$Icon" Height="48" Width="48"/>
+            </Border>
+                                    
+            <Border Foreground="white">
+              <Border Class="scLargeFont"><Literal def:ID="CommandbarTitle" Text="$Title"/></Border>
+              <Border><Literal def:ID="CommandbarDescription" Text="$Description"/></Border>
+            </Border>
+            
+          </GridPanel>
+        </Scrollbox>
+        
+        <Scrollbox Width="100%" Height="100%" Border="none" Background="transparent" Padding="8px 12px 0px 12px" GridPanel.Width="65%">
+          <GridPanel def:ID="Tasks" Foreground="white" Columns="2"/>
+          <def:Placeholder/>
+        </Scrollbox>
+        
+      </GridPanel>
+
+    </Border>
+ 
+    <Border Background="#212424" Style="border-left:2px solid #4E4E4E; border-right:2px solid #4E4E4E"><Space/></Border>
+      
+  </Commandbar>
+</control>

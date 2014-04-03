@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <RebuildLinkDatabase>
+    <WizardForm CodeBeside="Sitecore.Shell.Applications.Dialogs.RebuildLinkDatabase.RebuildLinkDatabaseForm,Sitecore.Client">
+
+      <WizardFormFirstPage ID="FirstPage" Icon="Business/32x32/data_refresh.png">
+        <Border Class="scWizardWelcomeTitle"><Literal Text="Welcome to the Rebuild Link Database Wizard."/></Border>
+        <Literal Text="This wizard helps you:"/>
+        <ul>
+          <li class="scWizardBullet"><Literal Text="Select Link Databases."/></li>
+          <li class="scWizardBullet"><Literal Text="Rebuild the Link Databases."/></li>
+        </ul>
+      </WizardFormFirstPage>
+      
+      <WizardFormPage ID="Database" Header="Select Link Databases" Text="Select the Link Databases that you want to rebuild. Click Rebuild to rebuild the Link Databases." Icon="Business/32x32/data_refresh.png">
+        <WizardFormPadding>
+          <Scrollbox Border="none" Background="transparent">
+
+            <Groupbox Header="Rebuild Link Databases" Margin="0px 0px 16px 0px">
+              <Border ID="Databases" Padding="4px"/>
+            </Groupbox>
+
+          </Scrollbox>
+        </WizardFormPadding>
+      </WizardFormPage>
+    
+      <WizardFormPage ID="Rebuilding" Header="Rebuilding" Text="Please wait while rebuilding Link Databases..." Icon="Business/32x32/data_refresh.png">
+        <GridPanel Width="100%">
+          <Space Height="64"/>
+          
+          <ThemedImage Src="Business/48x48/data_refresh.png" Width="48" Height="48" GridPanel.Align="center"/>
+
+          <Space Height="16"/>
+          
+          <Border Align="center">
+            <ThemedImage Src="Images/progress.gif" Width="94" Height="17"/>
+          </Border>
+          
+          <Space Height="16"/>
+          
+          <Border ID="PublishingText" Align="center" GridPanel.Align="center" GridPanel.Style="font-weight:bold">
+            <Literal Text="Rebuilding..."/>
+          </Border>
+          <Space Height="16"/>
+          <Border ID="Status" Align="center" GridPanel.Align="center">
+            &#160;
+          </Border>
+          
+        </GridPanel>
+      </WizardFormPage>
+
+      <WizardFormPage ID="Retry" Header="Error" Text="An error occurred while rebuilding the Link Databases." Icon="Applications/32x32/find.png">
+        <WizardFormPadding>
+          <GridPanel Width="100%" Height="100%" Fixed="true">
+            <Memo ID="ErrorText" ReadOnly="true" Width="100%" Height="100%"/>
+          </GridPanel>
+        </WizardFormPadding>
+      </WizardFormPage>
+
+      <WizardFormLastPage ID="LastPage" Icon="Business/32x32/data_refresh.png">
+        <GridPanel Cellpadding="2" Width="100%" Height="100%" Fixed="true">
+
+          <Border GridPanel.Style="padding:0px 0px 16px 0px; font-weight:bold">
+            <Literal Text="The wizard has completed. Click Finish to close the wizard."/>
+          </Border>
+
+          <Border GridPanel.Style="padding:0px 0px 2px 0px">
+            <Literal Text="Result:"/>
+          </Border>
+
+          <Memo ID="ResultText" ReadOnly="true" Width="100%" Height="100%" GridPanel.Height="100%"/>
+
+        </GridPanel>
+      </WizardFormLastPage>
+
+    </WizardForm>
+  </RebuildLinkDatabase>
+</control>

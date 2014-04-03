@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <ScheduledTasks>
+    <FormPage>
+      <CodeBeside Type="Sitecore.Shell.Applications.ScheduledTasks.ScheduledTasks.ScheduledTasksForm,Sitecore.Client"/>
+
+      <DataContext ID="DataContext" DataViewName="Master" Root="{A705D262-5714-4880-9962-051E25F1416D}"/>
+        
+      <GridPanel Width="100%" Height="100%">
+        
+        <AutoToolbar DataSource="/sitecore/content/Applications/Scheduled Tasks/Scheduled Tasks/Toolbar 1"/>
+
+        <Border Height="100%" Width="100%" GridPanel.Height="100%" Background="white">
+        
+          <Scrollbox Width="100%" Height="100%" Background="window" Border="none" Padding="0" ContextMenu="Listview.GetContextMenu">
+            <DataListview ID="Listview" DataContext="DataContext" DblClick="Open">
+              <ListviewHeader>
+                <ListviewHeaderItem Name="name" Header="Name"/>
+              </ListviewHeader>
+            </DataListview>
+          </Scrollbox>
+        
+        </Border>
+        
+      </GridPanel>
+    </FormPage>
+  </ScheduledTasks>
+</control>

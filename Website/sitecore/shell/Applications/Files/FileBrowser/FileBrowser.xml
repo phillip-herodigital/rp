@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <FileBrowser>
+    <FormDialog Application="Files/FileBrowser" ID="Dialog" Icon="Applications/48x48/folder.png" Header="File browser" Text="Please select a file.">
+      <CodeBeside Type="Sitecore.Shell.Applications.Files.FileBrowser.FileBrowserForm,Sitecore.Client" Submittable="false"/>
+      
+      <DataContext ID="FileDataContext" DataViewName="FileSystem"/>
+
+      <GridPanel Width="100%" Height="100%" Style="table-layout:fixed">
+        <Scrollbox Class="scScrollbox scFixSize scFixSize8" Height="100%" Background="white" Border="1px inset" Padding="0px" GridPanel.Height="100%">
+
+          <TreeviewEx ID="Treeview" DataContext="FileDataContext" Click="SelectTreeNode" DblClick="Treeview_DblClick" ShowRoot="false" ContextMenu='Treeview.GetContextMenu("contextmenu")' />
+
+        </Scrollbox>
+
+        <Border Padding="4px 0px 4px 0px">
+          <GridPanel Width="100%" Columns="2">
+
+            <Border Padding="0px 4px 0px 0px">
+              <Literal Text="Name:"/>
+            </Border>
+
+            <Edit ID="Filename" Width="100%" GridPanel.Width="100%"/>
+          </GridPanel>
+        </Border>
+
+      </GridPanel>
+
+      <Button ID="UploadButton" Header="Upload" def:placeholder="Buttons" Click="filebrowser:upload"/>
+
+    </FormDialog>
+  </FileBrowser>
+</control>

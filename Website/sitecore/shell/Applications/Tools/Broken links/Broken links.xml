@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense" xmlns:sc="sitecore">
+  <BrokenLinks>
+    <FormPage OnLoadEvent='scForm.invoke("StartReport")'>
+      <CodeBeside Type="Sitecore.Shell.Applications.Tools.BrokenLinks.BrokenLinksForm,Sitecore.Client"/>
+      <Stylesheet Src="Content Manager.css" DeviceDependant="true"/>
+      <Stylesheet Src="Ribbon.css" DeviceDependant="true"/>
+      <Stylesheet Key="BrokenLinks">
+         #Report td {
+           padding:4px;
+           vertical-align:top;
+         }
+         
+         .scBreak {
+           display: inline-block;
+           width: 0px;
+         }
+      </Stylesheet>
+      <Script Src="/sitecore/shell/Applications/Content Manager/Content Editor.js"/>
+
+      <GridPanel Width="100%" Height="100%">
+
+        <Border ID="RibbonPanel"/>
+
+        <Scrollbox ID="Report" Class="scScrollbox scFixSize" Border="none" Height="100%" GridPanel.Height="100%" Padding="0px">
+          <GridPanel Width="100%">
+
+            <Space Height="64"/>
+
+            <ThemedImage Src="Network/48x48/link_delete.png" Width="48" Height="48" GridPanel.Align="center"/>
+
+            <Space Height="16"/>
+
+            <Border Align="center">
+              <ThemedImage Src="Images/progress.gif" Width="94" Height="17"/>
+            </Border>
+
+            <Space Height="16"/>
+
+            <Border ID="Text" Align="center" GridPanel.Align="center" GridPanel.Style="font-weight:bold">
+              <Literal Text="Building Report..."/>
+            </Border>
+            <Space Height="16"/>
+            <Border ID="Status" Align="center" GridPanel.Align="center">
+              &#160;
+            </Border>
+
+          </GridPanel>
+        </Scrollbox>
+      
+      </GridPanel>
+
+    </FormPage>
+
+  </BrokenLinks>
+</control>

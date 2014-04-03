@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <LoginUsers>
+    <SystemPage Icon="People/48x48/users4.png" Headline="There are too many users using the system at this time.">
+
+      <CodeBeside Type="Sitecore.Shell.Applications.Login.Users.UsersForm,Sitecore.Client"/>
+
+      <input type="hidden" id="KickUsers" name="KickUsers"/>
+      
+      <Border Padding="16px 0px 16px 0px" def:placeholder="Help"/>
+    
+      <GridPanel Width="100%" Height="100%">
+        <SystemOption ID="Logout" Header="Logout" Click="Logout"/>
+        <SystemOption ID="Boost" Header="Boost licences temporarily" Click="BoostUsers"/>
+        <SystemOption ID="Kick" Header="Log off the selected user" Click="KickUser"/>
+        
+        <Space Height="16"/>
+        
+        <Scrollbox ID="UserPanel" Border="1px solid inset" Background="white" Width="100%" Height="100%" GridPanel.Height="100%">
+          <Listview ID="Users" Background="transparent"/>
+        </Scrollbox>
+      </GridPanel>
+      
+    </SystemPage>
+      
+  </LoginUsers>
+  
+</control>

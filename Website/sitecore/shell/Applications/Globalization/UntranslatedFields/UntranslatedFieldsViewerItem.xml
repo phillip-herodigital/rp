@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <UntranslatedFieldsViewerItem>
+    <Border Padding="8px 0px 8px 0px">
+      <Inline Class="scResult" RollOver="true" Click="$Click">
+        <ThemedImage Src="$Icon" Width="16" Height="16" Align="absmiddle" Margin="0px 4px 0px 0px"/>
+        <Literal Text="$Name"/>
+        -
+        <Literal Text="$Field"/>
+      </Inline>
+      
+      <Border Class="scResultInfo">
+        <Literal Text="$Path"/> - <Literal Text="$Date"/>
+      </Border>
+      
+    </Border>
+  </UntranslatedFieldsViewerItem>
+</control>
+

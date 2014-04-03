@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control xmlns:def="Definition">
+   <Installer.ItemDateFilterEditor def:inherits="Sitecore.Shell.Applications.Install.Controls.ItemDateFilterEditor,Sitecore.Client">
+      <GridPanel Width="100%" Columns="2"  Height="100%">
+         <GridPanel Columns="2"  GridPanel.Valign="Top">
+             <Radiobutton def:ID="PastDays" Header="Within the past " Width="100%" GridPanel.Style ="white-space:nowrap; padding-top:5px"  Checked="true"  Value="PastDays"/>
+             <Border GridPanel.Align="Right" GridPanel.Style="padding-left:10px;" >
+               <Edit def:ID="PastDaysEdit" Margin="0 5px 0 5px" Width="40" GridPanel.Width="100%" />
+               <Literal Text="days"/>
+             </Border>
+             <Radiobutton def:ID="SpecifyRange" Width="100%"  Header="Specify dates" Value="SpecifyRange"/>
+             <Border def:ID="Dates" GridPanel.Style="padding-left:5px;text-align:left;" GridPanel.Align="left" >
+                 <GridPanel  Height="100%" Columns="2"   >
+                    <Literal Text="From"  GridPanel.Align="left"/>
+                    <DatePicker def:ID="FromDate" width="150px" />
+                    <Literal Text="To"  GridPanel.Align="left"/>
+                    <DatePicker def:ID="ToDate" width="150px"/>
+                 </GridPanel>
+              </Border>
+         </GridPanel>
+         
+         <Button def:ID="ClearButton" Header="Clear Filter" GridPanel.Align="right" GridPanel.Valign="Top"/>
+      </GridPanel>
+   </Installer.ItemDateFilterEditor>
+</control>

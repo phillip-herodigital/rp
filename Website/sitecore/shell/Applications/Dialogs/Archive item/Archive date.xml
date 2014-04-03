@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <ArchiveDate>
+    <FormDialog Header="Archive Date and Time."
+      Text="Select the date and time when the current item will be archived." Icon="Network/32x32/Server_Time.png">
+      <CodeBeside Type="Sitecore.Shell.Applications.Dialogs.ArchiveDate.ArchiveDateForm,Sitecore.Client" />
+      <Script runat="server">
+        function clearall(){
+        $$('.scComboboxEdit').each(function(e){ e.value=''});
+        }
+
+        function datetimeChrome(){
+        $$('.scScrollbox')[0].setStyle({'overflow' : 'hidden'});
+
+        if (!scForm.browser.isChrome){
+        return;
+        }
+
+        $$('.scDateTimePickerContainer > table').each(function(t) {
+        var width=t.width;
+        t.getElementsBySelector('input').each(function(i) {
+        i.setStyle({'width' : width});
+        });
+        });
+        }
+
+        Event.observe(window, 'load', datetimeChrome);
+      </Script>
+      <GridPanel runat="server" Width="100%" Height="100%" >
+        <Border runat="server" Height="100%" Grid.Row="1" Width="100%" GridPanel.Height="50px" GridPanel.VAlign="top">
+          <Border runat="server" style="margin-bottom: 2px">
+            <b>
+              <Literal Text="Archive Item" runat="server" />
+            </b>
+          </Border>
+          <Border runat="server">
+            <Literal Text="Date and time" runat="server" />
+            <DateTimePicker ID="ItemArchiveDate" />
+          </Border>
+        </Border>
+        <Border Grid.Row="2" runat="server" style="margin-top: 8px;margin-bottom: 2px" GridPanel.Height="15px">
+          <b>
+            <Literal Text="Archive Version" />            
+          </b>
+        </Border>
+        <Scrollbox ID="VerisonsPanel" Padding="0" Height="100%" Width="100%" Grid.Row="3" GridPanel.Height="100%" GridPanel.VAlign="top" runat="server">
+          <Border ID="Versions"  />
+        </Scrollbox>
+      </GridPanel>
+      <Border def:placeholder="Buttons" runat="server">
+        <Button Header="Clear all" runat="server"  Type="button" Click="" onclick="javascript:clearall()"/>
+      </Border>
+    </FormDialog>
+  </ArchiveDate>
+</control>

@@ -1,0 +1,11 @@
+﻿#EditorWrapper > tbody > tr:first-child {
+  height: 2px;
+}
+
+#EditorTop {
+  height: 27px;
+}
+
+#EditorWrapper td.reToolZone {
+  height: 26px;
+}

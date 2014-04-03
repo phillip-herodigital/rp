@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+   <Installer.AddFileSource>
+      <WizardForm CodeBeside="Sitecore.Shell.Applications.Install.Dialogs.AddFileSourceForm,Sitecore.Client">
+         <Border ID="Internals" />
+         <WizardFormFirstPage ID="FirstPage" Icon="People/32x32/Box_Software.png">
+            <Border Class="scWizardWelcomeTitle">
+               <Literal ID="Welcome" Text="Welcome to the Add Dynamic File Source Wizard."/>
+            </Border>
+            <Literal Text="This wizard helps you:"/>
+            <ul>
+               <li class="scWizardBullet">
+                  <Literal Text="Select the root folder for the search."/>
+               </li>
+               <li class="scWizardBullet">
+                  <Literal Text="Specify the search criteria."/>
+               </li>
+              <li class="scWizardBullet">
+                <Literal Text="Add the dynamic file source."/>
+              </li>
+            </ul>
+         </WizardFormFirstPage>
+
+         <WizardFormPage ID="LoadFileSource" Header="Select Root Folder" Text="Select the folder where you want to start the search. Click Next to continue." Icon="People/32x32/Box_Software.png">
+            <WizardFormIndent>
+              <Installer.FileSourceRootEditor ID="Root"/>
+            </WizardFormIndent>
+         </WizardFormPage>
+
+         <WizardFormPage ID="ApplyFilters" Header="Specify Source Filters" Text="Specify the filters that you want to apply to the source. Click Next to continue." Icon="People/32x32/Box_Software.png">
+            <WizardFormIndent>
+               <Installer.FilesFilterEditor ID="Filters" />
+            </WizardFormIndent>
+         </WizardFormPage>
+
+        <WizardFormPage ID="SetName" Header="Source Name" Text="Enter a name for the source. Click Add to add the dynamic file source." Icon="People/32x32/Box_Software.png">
+          <WizardFormIndent>
+            <Installer.NameEditor ID="Name" />
+          </WizardFormIndent>
+        </WizardFormPage>
+
+        <WizardFormLastPage ID="LastPage" Icon="People/32x32/Box_Software.png">
+          <Border>
+            <Literal Text="The dynamic file source has been added successfully."/>
+          </Border>
+          <Border>
+            <Literal Text="Click Finish to close the wizard."/>
+          </Border>
+        </WizardFormLastPage>
+
+      </WizardForm>
+   </Installer.AddFileSource>
+</control>
+

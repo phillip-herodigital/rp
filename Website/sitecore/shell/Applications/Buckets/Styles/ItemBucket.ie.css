@@ -1,0 +1,522 @@
+﻿
+
+.sb_search_container
+{
+    background: #fafafa url('../images/gray_gradient.png') repeat-x top left !important;
+}
+
+.sb_search_container, .sb_dropdown .sb_filter, .side, .side .tip
+{
+    border: 1px solid #dfdfdf;
+}
+
+.sb_up, .sb_down
+{
+    border: 1px solid;
+    border-color: #fafafa #dadada #dadada #fafafa;
+    padding-bottom: 26px;
+}
+
+#MainPanel
+{
+    text-align: center;
+}
+
+.mainmargin
+{
+    z-index: -1;
+}
+
+ul.token-input-list-facebook
+{
+    width: 100%;
+}
+
+li.token-input-token-facebook
+{
+    overflow: visible;
+    position: relative;
+    left: -12px;
+    top: -5px;
+    /*float: left;*/
+}
+
+    li.token-input-token-facebook p
+    {
+        position: relative;
+        left: 12px;
+        /*float: left;*/
+    }
+
+    li.token-input-token-facebook span
+    {
+        zoom: 1;
+        position: relative;
+        left: 17px;
+      /*  float: left;*/
+    }
+
+li.token-input-token-facebook-noremove span
+{
+    zoom: 1;
+}
+
+.tokenMaxWidth {
+  width: 150px;
+}
+
+.sb_wrapper .addition
+{
+    background: url('../images/blank.gif');
+}
+
+#loadingSection
+{
+    text-align: center;
+}
+
+.sb_search_container
+{
+    margin: 0 0 0 0;
+    zoom: 1;
+}
+
+
+.slide-out-div
+{
+    width: 209px;
+    z-index: -1;
+}
+
+.slide-out-div2
+{
+    padding: 0 20px;
+    width: 229px;
+    z-index: -1;
+}
+
+#navBeta
+{
+    width: 180px;
+    padding-left: 26px;
+    padding-right: 0px;
+}
+
+.Left
+{
+    width: 66px;
+}
+
+.pagination .active
+{
+    background: none;
+}
+
+.pagination ul
+{
+    display: inline;
+    zoom: 1;
+}
+
+#views
+{
+    width: 151px;
+    float: right;
+    padding-left: 10px;
+}
+
+.post_float.rounded,
+.blogpostviews a
+{
+    behavior: url('/sitecore/shell/Applications/Buckets/Scripts/PIE.htc');
+    position: relative;
+        display: inline-block;
+    text-overflow: ellipsis;
+
+    overflow: hidden;
+    white-space: nowrap; 
+}
+
+#Tableview:hover,
+#Tableview.active
+{
+    background: url("../images/table_selected.png");
+}
+
+#Previewview:hover,
+#Previewview.active
+{
+    background: url("../images/preview_selected.png");
+}
+
+#Imageview:hover,
+#Imageview.active
+{
+    background: url("../images/image_selected.png");
+}
+
+#MediaView
+{
+    float: left;
+    width: 28px;
+    height: 28px;
+    position: relative;
+    z-index: 1;
+    margin: auto;
+    margin-top: 12px;
+    cursor: pointer;
+    background: url("../images/infinitescroll.png");
+}
+
+    #Mediaview:hover, #Mediaview.active
+    {
+        background: url("../images/infinitescroll_selected.png");
+    }
+
+#LockView
+{
+    float: left;
+    width: 28px;
+    height: 28px;
+    position: relative;
+    z-index: 1;
+    margin: auto;
+    margin-top: 12px;
+    cursor: pointer;
+    background: url("../images/lock.png");
+}
+
+    #LockView:hover, #LockView.active
+    {
+        background: url("../images/lock_selected.png");
+    }
+
+#TagView
+{
+    float: left;
+    width: 28px;
+    height: 28px;
+    position: relative;
+    z-index: 1;
+    margin: auto;
+    margin-top: 12px;
+    cursor: pointer;
+    background: url("../images/tagview.png");
+}
+
+    #TagView:hover, #TagView.active
+    {
+        background: url("../images/tagview_selected.png");
+    }
+
+#IDView
+{
+    float: left;
+    width: 28px;
+    height: 28px;
+    position: relative;
+    z-index: 1;
+    margin: auto;
+    margin-top: 12px;
+    cursor: pointer;
+    background: url("../images/profile_selected.png");
+}
+
+    #IDView:hover, #IDView.active
+    {
+        background: url("../images/profile.png");
+    }
+
+
+.list
+{
+    float: left;
+    width: 28px;
+    height: 28px;
+    position: relative;
+    z-index: 1;
+    margin: auto;
+    margin-top: 12px;
+    cursor: pointer;
+    background: url("../images/view_list.png");
+}
+
+    .list:hover,
+    #list.active
+    {
+        background: url("../images/view_list_selected.png");
+    }
+
+.grid
+{
+    float: left;
+    width: 28px;
+    height: 28px;
+    position: relative;
+    z-index: 1;
+    margin: auto;
+    margin-top: 12px;
+    cursor: pointer;
+    background: url("../images/view_grid.png");
+}
+
+    .grid:hover,
+    #grid.active
+    {
+        background: url("../images/view_grid_selected.png") !important;
+    }
+
+.handle, .handle2
+{
+    behavior: expression(runtimeStyle.behavior = 'none', this.hideFocus=true);
+}
+
+#grid-content .post_float .imgcontainer
+{
+    width: 100%;
+    display: block;
+    text-align: center;
+}
+
+.ceebox
+{
+    display: inline-block;
+    text-overflow: ellipsis;
+    max-width: 148px;
+    overflow: hidden;
+    white-space: nowrap; 
+}
+
+
+.BlogPostArea .imgcontainer
+{
+    padding: 15px 21px 11px 16px;
+}
+
+
+/* Optimizing for smaller screens. Going fluid!*/
+@media screen and (max-width: 1000px)
+{
+
+    body #results
+    {
+        margin-left: 0px;
+        -moz-transform: scale(0.85, 0.85);
+        -webkit-transform: scale(0.85, 0.85);
+        -o-transform: scale(0.85, 0.85);
+        -ms-transform: scale(0.85, 0.85);
+        transform: scale(0.85, 0.85);
+        -moz-transform-origin: top left;
+        -webkit-transform-origin: top left;
+        -o-transform-origin: top left;
+        -ms-transform-origin: top left;
+        transform-origin: top left;
+    }
+
+    body #views
+    {
+        -moz-transform: scale(0.85, 0.85);
+        -webkit-transform: scale(0.85, 0.85);
+        -o-transform: scale(0.85, 0.85);
+        -ms-transform: scale(0.85, 0.85);
+        transform: scale(0.85, 0.85);
+        -moz-transform-origin: top left;
+        -webkit-transform-origin: top left;
+        -o-transform-origin: top left;
+        -ms-transform-origin: top left;
+        transform-origin: top left;
+    }
+
+    body .navAlpha
+    {
+        -moz-transform: scale(0.85, 0.85);
+        -webkit-transform: scale(0.85, 0.85);
+        -o-transform: scale(0.85, 0.85);
+        -ms-transform: scale(0.85, 0.85);
+        transform: scale(0.85, 0.85);
+        -moz-transform-origin: top left;
+        -webkit-transform-origin: top left;
+        -o-transform-origin: top left;
+        -ms-transform-origin: top left;
+        transform-origin: top left;
+    }
+
+    body #resultinfomessage
+    {
+        padding-right: 0px;
+        margin-right: -77px;
+        text-align: center;
+        -moz-transform: scale(0.85, 0.85);
+        -webkit-transform: scale(0.85, 0.85);
+        -o-transform: scale(0.85, 0.85);
+        -ms-transform: scale(0.85, 0.85);
+        transform: scale(0.85, 0.85);
+        -moz-transform-origin: top left;
+        -webkit-transform-origin: top left;
+        -o-transform-origin: top left;
+        -ms-transform-origin: top left;
+        transform-origin: top left;
+    }
+
+
+
+    .box
+    {
+        margin: 4px 0px 0 auto;
+        height: 86px;
+        width: 83%;
+        position: relative;
+        -moz-transform: scale(0.85, 0.85);
+        -webkit-transform: scale(0.85, 0.85);
+        -o-transform: scale(0.85, 0.85);
+        -ms-transform: scale(0.85, 0.85);
+        transform: scale(0.85, 0.85);
+        -moz-transform-origin: top left;
+        -webkit-transform-origin: top left;
+        -o-transform-origin: top left;
+        -ms-transform-origin: top left;
+        transform-origin: top left;
+    }
+
+
+    /*body #grid-content .post_float {
+        width: 40%;
+        margin: 4.99%;
+    }
+
+    #grid-content .post_float .imgcontainer {
+        width: 100%;
+        display: block;
+        text-align:center;
+    }
+
+    #grid-content .post_float img {
+        padding-left:0 !important;
+        padding-right:0 !important;
+        border:none;
+    }
+
+    body .blogpostarea {
+        margin-right: 0;
+        padding-right: 10px;
+    }*/
+}
+/* Optimizing for smaller screens. Going fluid!*/
+/*Triggering with class 'smallscreen-trigger' (added with jQuery) because IE in quirks mode does not understand mediaqueries*/
+.smallscreen-trigger .box
+{
+    margin: 4px 0px 0 auto;
+    height: 86px;
+    width: 83%;
+    position: relative;
+    -moz-transform: scale(0.85, 0.85);
+    -webkit-transform: scale(0.85, 0.85);
+    -o-transform: scale(0.85, 0.85);
+    -ms-transform: scale(0.85, 0.85);
+    transform: scale(0.85, 0.85);
+    -moz-transform-origin: top left;
+    -webkit-transform-origin: top left;
+    -o-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+}
+
+
+body .smallscreen-trigger .navAlpha
+{
+    -moz-transform: scale(0.85, 0.85);
+    -webkit-transform: scale(0.85, 0.85);
+    -o-transform: scale(0.85, 0.85);
+    -ms-transform: scale(0.85, 0.85);
+    transform: scale(0.85, 0.85);
+    -moz-transform-origin: top left;
+    -webkit-transform-origin: top left;
+    -o-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+}
+
+body .smallscreen-trigger #views
+{
+    -moz-transform: scale(0.85, 0.85);
+    -webkit-transform: scale(0.85, 0.85);
+    -o-transform: scale(0.85, 0.85);
+    -ms-transform: scale(0.85, 0.85);
+    transform: scale(0.85, 0.85);
+    -moz-transform-origin: top left;
+    -webkit-transform-origin: top left;
+    -o-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+}
+
+body .smallscreen-trigger #resultinfomessage
+{
+    margin-top: 76px;
+    padding-right: 0px;
+    margin-right: -77px;
+    text-align: center;
+    -moz-transform: scale(0.85, 0.85);
+    -webkit-transform: scale(0.85, 0.85);
+    -o-transform: scale(0.85, 0.85);
+    -ms-transform: scale(0.85, 0.85);
+    transform: scale(0.85, 0.85);
+    -moz-transform-origin: top left;
+    -webkit-transform-origin: top left;
+    -o-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+}
+
+
+body .smallscreen-trigger #results
+{
+    margin-left: 0px;
+    -moz-transform: scale(0.85, 0.85);
+    -webkit-transform: scale(0.85, 0.85);
+    -o-transform: scale(0.85, 0.85);
+    -ms-transform: scale(0.85, 0.85);
+    transform: scale(0.85, 0.85);
+    -moz-transform-origin: top left;
+    -webkit-transform-origin: top left;
+    -o-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+}
+
+body .smallscreen-trigger #grid-content .post_float
+{
+    width: 40%;
+    margin: 4.99%;
+}
+
+.smallscreen-trigger #grid-content .post_float .imgcontainer
+{
+    width: 100%;
+    max-width: 100%;
+    display: block;
+    text-align: center;
+}
+
+.smallscreen-trigger #grid-content .post_float img
+{
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    border: none;
+}
+
+body .smallscreen-trigger .blogpostarea
+{
+    margin-right: 0;
+    padding-right: 10px;
+}
+
+#resultInfoMessage
+{
+  z-index: -1;
+}
+
+.facets
+{
+  z-index: -1;
+}

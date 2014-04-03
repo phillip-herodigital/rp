@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <SetPublishing>
+    <FormDialog Icon="Network/32x32/earth_time.png" Header="Publishing Settings" 
+      Text="Configure how the current item is published.">
+
+      <CodeBeside Type="Sitecore.Shell.Applications.ContentManager.Dialogs.SetPublishing.SetPublishingForm,Sitecore.Client"/>
+
+      <Stylesheet Key="Warning">
+        .scWarning {
+          background: #ffffe4;
+          border: 1px solid #c9c9c9;
+          border-left:none;
+          border-right:none;
+          padding: 4px 2px 4px 4px;
+          margin: 4px 0px 12px 0px;
+          font-weight: bold;
+        }
+        
+        #Versions {
+          padding: 4px;
+        }
+        
+        .ff #Versions {
+          padding: 0;
+        }
+        
+        .ff #Versions &gt; table {
+          margin: 4px;
+          width: auto;
+        }
+
+      </Stylesheet>
+
+      <GridPanel Width="100%" Height="100%" Fixed="true">
+        <Border ID="Warning" Visible="false" class="scWarning">
+          <ThemedImage Height="16" Width="16" style="vertical-align:middle; margin-right: 4px" Src="Applications/16x16/warning.png" /> <Literal Text="You cannot change publish restrictions as you cannot modify the item." />
+        </Border>
+        
+        <Tabstrip ID="Tabs" Height="100%" Width="100%" GridPanel.Height="100%">
+          
+          <Tab ID="VersionsTab" Header="Versions" Height="100%">
+
+            <GridPanel Width="100%" Height="100%" Fixed="true">
+
+              <Border Padding="8px 8px 4px 8px">
+                <Literal Text="Restrict the publication of one or more versions of the current item. This only affects the current language."/>
+              </Border>
+              
+              <Scrollbox ID="Versions" Height="100%" Border="none" Padding="" GridPanel.Height="100%"/>
+              
+            </GridPanel>
+            
+          </Tab>
+
+          <Tab ID="ItemTab" Header="Item">
+
+            <Border Padding="8px 8px 4px 8px">
+              <Literal Text="Restrict the publication of the current item. This affects every version in every language."/>
+            </Border>
+            
+            <Border Padding="8px 8px 4px 8px">
+              <Checkbox ID="NeverPublish" Header="Publishable" Click="SetNeverPublish"/>
+            </Border>
+
+            <Border ID="PublishPanel">
+
+              <GridPanel Width="100%" Columns="3" CellPadding="4">
+
+                <Space Width="32"/>
+                
+                <Border GridPanel.NoWrap="true">
+                  <Literal Text="Publishable From:"/>
+                </Border>
+
+                <DateTimePicker ID="Publish" Width="100%" GridPanel.Width="100%"/>
+
+                <Space Width="32"/>
+                
+                <Border GridPanel.NoWrap="true">
+                  <Literal Text="Publishable To:"/>
+                </Border>
+
+                <DateTimePicker ID="Unpublish" Width="100%"/>
+
+              </GridPanel>
+              
+            </Border>
+              
+          </Tab>
+
+          <Tab ID="TargetsTab" Header="Targets">
+
+            <Border Padding="8px 8px 4px 8px">
+              <Literal Text="Indicate the publication destinations for the current item. This affects every version in every language."/>
+            </Border>
+
+            <Border Padding="8px">
+              <Groupbox ID="PublishingTargetsPanel" Header="Publishing targets">
+
+                <Border ID="PublishingTargets" Padding="4px" />
+
+              </Groupbox>
+            </Border>
+
+          </Tab>
+          
+        </Tabstrip>
+        
+      </GridPanel>
+
+    </FormDialog>
+  </SetPublishing>
+</control>

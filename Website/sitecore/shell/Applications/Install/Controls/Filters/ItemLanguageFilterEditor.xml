@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control xmlns:def="Definition" xmlns:installer="Sitecore.Shell.Applications.Install.Controls">
+   <Installer.ItemLanguageFilterEditor def:inherits="Sitecore.Shell.Applications.Install.Controls.ItemLanguageFilterEditor,Sitecore.Client">
+      <GridPanel Width="100%" Columns="3"  Height="100%">
+        <Literal def:ID="NoLanguageLabel" />
+        <Checklist def:ID="Languages" GridPanel.Width="100%"  Border="0px"/>
+        <Button def:ID="ClearButton" Header="Clear Filter" GridPanel.Align="right" GridPanel.Valign="Top"/>
+      </GridPanel>
+   </Installer.ItemLanguageFilterEditor>
+</control>

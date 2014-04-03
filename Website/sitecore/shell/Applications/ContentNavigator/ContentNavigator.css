@@ -1,0 +1,119 @@
+﻿.scMainPanel {
+  /* background: #4E4E4E url(/sitecore/shell/themes/standard/gradients/gray1.gif) 50% 0 repeat-y;*/
+  background: black;
+  height:100%;
+  padding: 2px;
+  border: solid 1px #454545;
+}
+
+#LeftPanel {
+  background: black;
+  padding: 0px 2px;
+}
+
+.scFilter {
+  background:#474747;
+  border:1px solid black;
+  margin:4px;
+}
+	
+.scFilterButton,
+.scFilterButton:link,
+.scFilterButton:visited,
+.scFilterButton:hover,
+.scFilterButton:active {
+  display:block;
+  text-decoration:none;
+  font-family: Segoe UI, Tahoma;
+  font-size:12pt;
+  color:#cccccc;
+  padding:4px;
+}
+
+.scFilterButton:hover, 
+.scFilterButton:active {
+  background:#565656;                                              
+}
+
+.scFilterButtonIcon {
+  height:24px;
+  width:24px;
+  vertical-align:middle;
+}
+
+/* --- */
+
+#FillPanel {
+  background:#292929;             
+}
+
+.scItemTile,
+.scItemTile:link,
+.scItemTile:visited,
+.scItemTile:hover,
+.scItemTile:active {
+  background:#7f7f7f;
+  border:1px ridge;
+  display:block;
+  float:left;
+  width:128px;
+  height:128px;
+  text-align:center;
+  padding:8px;
+  text-decoration:none;
+  vertical-align:middle;
+  position: relative;
+  cursor: pointer;
+}
+
+.scItemTile:hover,
+.scItemTile:active,
+.scItemTile.selected {
+  background:#999999;
+}
+
+.scItemTileIcon {
+}
+
+.scItemTileIconImage {
+  height:32px;                  
+  width:32px;                  
+}
+
+.scItemTileHeader {
+  font-family: Segoe UI, Tahoma;
+  font-size: 8pt;
+  color: White;
+}
+
+.scItemTile .scHoverButtons {
+  position: absolute;
+  bottom: 4px;
+  right: 8px;
+  cursor: pointer;  
+}
+
+#SelectionPane {
+  height: 64px; 
+  background: #292929;
+}
+
+#SelectionPane .scItemTile {
+  height: 54px;
+  width: auto;
+  padding: 4px 8px;
+  border-left: none;
+}
+
+#SelectionPane .scHoverButtons {
+  display: none;
+}
+
+#SelectionPane .scItemTileIcon {
+}
+
+#SelectionPane .scItemTileIconImage {
+}
+
+#SelectionPane .scItemTileHeader {
+}

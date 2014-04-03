@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <Workbox>
+    <CodeBeside Type="Sitecore.Shell.Applications.Workbox.WorkboxForm,Sitecore.Client"/>
+    <Stylesheet Src="Content Manager.css" DeviceDependant="true"/>
+    <Stylesheet Src="Ribbon.css" DeviceDependant="true"/>
+    <Stylesheet Src="Workbox.css" DeviceDependant="true"/>
+    <Stylesheet Src="/sitecore/shell/themes/navigator.css"/>
+    <Script Src="/sitecore/shell/Applications/Content Manager/Content Editor.js"/>
+
+    <Stylesheet Key="Workbox">
+      html { width:100%; height:100% }
+      body { width:100%; height:100%; overflow:auto }
+    </Stylesheet>
+
+    <FormPage Application="Workbox">
+
+      <input type="hidden" id="scActiveRibbonStrip" name="scActiveRibbonStrip" />
+       
+      <GridPanel ID="Grid" Width="100%" Height="100%">
+
+        <Border ID="RibbonPanel"/>
+
+        <Scrollbox Padding="0px" Background="transparent" Border="none" GridPanel.Class="scLightBlueGradient" Height="100%" GridPanel.Height="100%" GridPanel.NoWrap="true" GridPanel.VAlign="top">
+          
+          <GridPanel ID="Grid2" Width="100%" CellPadding="8">
+            
+            <Border ID="States">
+            </Border>
+          
+          </GridPanel>
+          
+        </Scrollbox>
+
+      </GridPanel>
+
+        
+    </FormPage>
+  </Workbox>
+</control>

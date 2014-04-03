@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+   <Installer.InstallPackage>
+     <Script Src="/sitecore/shell/Applications/Install/installer.js" />
+     <Script type="text/javascript">
+       Event.observe(window, 'load',
+         function(){                
+           var displayResult = window.clipboardData != null ? "" : "none";
+           $$("[id^=Copy]").each(function(node){node.style.display = displayResult;});
+           
+           if (Prototype.Browser.Gecko) {
+             var license = $('LicenseAgreementScrollbox');
+             license.style.height = license.up('body').offsetHeight - 170 + 'px';
+             $('ReadmeText').up('tr').insert({after: '<tr style="height:8px"></tr>'});
+           }
+         });
+         
+       Event.observe(window, 'resize',
+         function(){
+           if (Prototype.Browser.Gecko) {
+             var license = $('LicenseAgreementScrollbox');
+             license.style.height = license.up('body').offsetHeight - 170 + 'px';
+           }
+         });
+     </Script>
+     <WizardForm Application="Tools/Installer/InstallationWizard" CodeBeside="Sitecore.Shell.Applications.Install.Dialogs.InstallPackage.InstallPackageForm,Sitecore.Client">
+
+         <WizardFormFirstPage ID="FirstPage" Icon="People/32x32/Box_Software.png">
+            <Border Class="scWizardWelcomeTitle">
+               <Literal ID="Welcome" Text="Welcome to the Install Package Wizard."/>
+            </Border>
+            <Literal Text="This wizard helps you:"/>
+            <ul>
+               <li class="scWizardBullet">
+                  <Literal Text="Upload a package to the server."/>
+               </li>
+               <li class="scWizardBullet">
+                  <Literal Text="Install a package."/>
+               </li>
+            </ul>
+         </WizardFormFirstPage>
+
+         <WizardFormPage ID="LoadPackage" Header="Select Package" Text="Select a package to install." Icon="People/32x32/Box_Software.png">
+            <WizardFormIndent>
+               <Border Padding="0 0 2 0">
+                  <Literal Text="Enter the name of the package:"/>
+               </Border>
+
+               <Border Padding="0 0 16 0">
+                  <Edit ID="PackageFile" Width="100%"/>
+               </Border>
+
+               <Border Padding="0 0 2 0">
+                  <Literal Text="Click Browse to locate the package on the server. Click Upload to upload the package."/>
+               </Border>
+
+               <Border>
+                  <Button ID="Browse" Header="Browse" Click="installer:browse"/>
+                  <Space/>
+                  <Button ID="Upload" Header="Upload" Click="installer:upload"/>                  
+               </Border>
+            </WizardFormIndent>
+         </WizardFormPage>
+
+         <WizardFormPage ID="License" Header="License Agreement" Text="Please read the following important information before continuing." Icon="People/32x32/Box_Software.png">
+            <WizardFormIndent>
+               <GridPanel Width="100%" Height="100%" Fixed="true">
+
+                  <Scrollbox ID="LicenseAgreementScrollbox" Height="100%" GridPanel.Height="100%">
+                     <Literal ID="LicenseAgreement" />
+                  </Scrollbox>
+
+                  <Border id="CopyLicense" RollOver="true" Class="scRollOver" Align="right" Padding="2" Click="CopyLicense">
+                     <ThemedImage Src="Applications/16x16/Copy.png" Width="16" Height="16" Align="absmiddle" Margin="0 2 0 0"/>
+                     <Literal Text="Copy to clipboard"/>
+                  </Border>
+
+                  <Border>
+                     <Border>
+                        <Radiobutton ID="Accept" Name="AcceptLicense" Header="I accept the terms of the license agreement." Value="yes" Change="Agree" Click="Agree"/>
+                     </Border>
+                     <Border>
+                        <Radiobutton ID="Decline" Name="AcceptLicense" Header="I do not accept the terms of the license agreement." Value="no" Change="Disagree" Click="Disagree"/>
+                     </Border>
+                  </Border>
+
+               </GridPanel>
+            </WizardFormIndent>
+         </WizardFormPage>
+
+         <WizardFormPage ID="Readme" Header="Readme" Text="Please read the following information before continuing." Icon="People/32x32/Box_Software.png">
+            <WizardFormIndent>
+               <GridPanel Width="100%" Height="100%" Fixed="true">
+
+                  <Memo ID="ReadmeText" Width="100%" Height="100%" Wrap="off" ReadOnly="true" GridPanel.Height="100%"/>
+
+                  <Border id="CopyReadme" RollOver="true" Class="scRollOver" Align="right" Padding="2" Click="CopyReadme">
+                     <ThemedImage Src="Applications/16x16/Copy.png" Width="16" Height="16" Align="absmiddle" Margin="0 2 0 0"/>
+                     <Literal Text="Copy to clipboard"/>
+                  </Border>
+
+               </GridPanel>
+            </WizardFormIndent>
+         </WizardFormPage>
+
+         <WizardFormPage ID="Ready" Header="Ready to Install" Text="The wizard is ready to install the package. Click Install to install the package." Icon="People/32x32/Box_Software.png">
+            <WizardFormIndent>
+               <GridPanel Columns="2" CellPadding="2" Width="100%">
+
+                  <Literal Text="Package name:" GridPanel.NoWrap="true"/>
+                  <Edit ID="PackageName" Width="100%" ReadOnly="true" GridPanel.Width="100%"/>
+
+                  <Literal Text="Version:" GridPanel.NoWrap="true"/>
+                  <Edit ID="Version" Width="100%" ReadOnly="true"/>
+
+                  <Literal Text="Author:" GridPanel.NoWrap="true"/>
+                  <Edit ID="Author" Width="100%" ReadOnly="true"/>
+
+                  <Literal Text="Publisher:" GridPanel.NoWrap="true"/>
+                  <Edit ID="Publisher" Width="100%" ReadOnly="true"/>
+
+               </GridPanel>
+            </WizardFormIndent>
+         </WizardFormPage>
+
+         <WizardFormPage ID="Installing" Header="Installing" Text="This may take a few minutes." Icon="People/32x32/Box_Software.png">
+            <GridPanel Width="100%">
+               <Space Height="64"/>
+
+               <ThemedImage Src="People/48x48/Box_Software.png" Width="48" Height="48" GridPanel.Align="center"/>
+
+               <Space Height="16"/>
+
+               <Border Align="center">
+                  <ThemedImage Src="Images/progress.gif" Width="94" Height="17"/>
+               </Border>
+
+               <Space Height="16"/>
+
+               <Border ID="PublishingText" Align="center" GridPanel.Align="center" GridPanel.Style="font-weight:bold">
+                  <Literal Text="Installing..."/>
+               </Border>
+
+            </GridPanel>
+            <TaskMonitor ID="Monitor" />
+         </WizardFormPage>
+
+         <WizardFormLastPage ID="LastPage" Icon="People/32x32/Box_Software.png">
+            <Border ID="SuccessMessage">
+               <Literal Text="The package has been installed successfully."/>
+              <Border Padding="64 0 0 0">
+                <Checkbox ID="Restart" Header="Restart the Sitecore client." />
+              </Border>
+              <Border>
+                <Checkbox ID="RestartServer" Header="Restart the Sitecore server." />
+              </Border>
+            </Border>
+
+           <Border ID="ErrorMessage" Padding="0 0 0 20px" Style="display:none;">
+             <Literal Text="The installation failed for the following reason:" />
+
+             <GridPanel Fixed="true" Style="margin-right:0;width:auto;">
+               <Border Style="font-weight:bold;word-wrap:break-word;" Padding="1em 2em">
+                 <Literal ID="FailingReason" />
+               </Border>
+             </GridPanel>
+
+             <Border Style="display:none;" >
+               <Literal ID="ErrorDescription"/>
+             </Border>
+
+             <p style="margin:0">For more information see the Sitecore log.</p>
+             <p style="margin:1em 0">Try one of the following options:</p>
+
+             <Border id="CopyErrorMessage" RollOver="true" Class="scRollOver" Padding="2" Click="CopyErrorMessage">
+               <ThemedImage Src="Applications/16x16/Copy.png" Width="16" Height="16" Align="absmiddle" Margin="0px 2px 0px 0px"/>
+               <Literal Text="Copy the error report to the clipboard"/>
+             </Border>
+
+             <Border RollOver="true" Class="scRollOver" Padding="2" Click="RestartInstallation">
+               <ThemedImage Src="Applications/16x16/Refresh.png" Width="16" Height="16" Align="absmiddle" Margin="0px 2px 0px 0px"/>
+               <Literal Text="Retry the installation"/>
+             </Border>
+           </Border>
+
+           <Border ID="AbortMessage" Style="display:none;color:black;" Padding="0 0 0 20">
+             <Literal Text="Installation was aborted by user." />
+           </Border>
+           
+          </WizardFormLastPage>
+
+      </WizardForm>
+   </Installer.InstallPackage>
+</control>

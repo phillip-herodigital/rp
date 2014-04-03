@@ -1,0 +1,42 @@
+﻿.scResult, .scResult:active, .scResult:visited {
+  font: 9pt verdana;
+  color:#0000de;
+  text-decoration: underline;
+  cursor:default;
+}
+.scResult:hover, .scResult_Hover {
+  font: 9pt verdana;
+  color:#0000de;
+  text-decoration: underline;
+  cursor:default;
+}
+.scResultInfo {
+  color:Green;
+  cursor:default;
+}
+.scNoFound {
+  font: 9pt verdana;
+  color:#999999;
+  cursor:default;
+}
+
+.scField {
+  font-weight:bold;
+  color:Green;
+  cursor:default;
+}
+
+.scSearchHeader {
+  font: 30pt 'Franklin medium gothic';
+  color: #666666;
+}
+
+.scSearchDescription {
+  font: 12pt 'Franklin medium gothic';
+  color: #666666;
+}
+
+.ie .lang_ja_jp .scSearchHeader,
+.ie .lang_ja_jp .scSearchDescription {
+  font-family: メイリオ, Meiryo, Microsoft YaHei, tahoma, sans-serif;
+}

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <Sitecore.Shell.Applications.Analytics.ReportRunner>
+    <FormPage>
+      <CodeBeside Type="Sitecore.Shell.Applications.Analytics.ReportRunner.ReportRunnerForm,Sitecore.Client"/>
+
+      <DataContext ID="DataContext" DataViewName="Master" />
+
+      <script type="text/javascript">
+
+        function scDesign(enable) {
+        var display = enable ? "none" : "";
+
+        $('TreeViewPanel').style.display = display;
+        $('SplitterPanel').style.display = display;
+        }
+
+        function scLoaded() {
+        $('Loading').hide();
+        }
+
+        function scLoading() {
+        $('Loading').show();
+        }
+
+      </script>
+
+      <GridPanel Width="100%" Height="100%" Columns="3" CellPadding="0" Style="table-layout:fixed;background:white">
+
+        <Scrollbox GridPanel.ID="TreeViewPanel" Class="scScrollbox scFixSize scFixSize8" Height="100%" GridPanel.Height="100%" GridPanel.Width="250px" Border="none" Padding="0px">
+          <TreeviewEx ID="Treeview" DataContext="DataContext" Click="Refresh" ContextMenu='Treeview.GetContextMenu("contextmenu")' />
+        </Scrollbox>
+
+        <VSplitter ID="AnalyticsReportsLeft" GridPanel.Width="4" Target="left" GridPanel.Style='background:#d2d5da;' GridPanel.ID="SplitterPanel"/>
+        
+        <Border Height="100%">
+          <Border id="Loading" Style="position:absolute;width:100%;height:100%;background:white;z-index:1;padding:64px 0px 0px 0px" align="center">
+
+            <Border>
+              <ThemedImage Src="Business/48x48/column-chart.png" Width="48" Height="48" />
+            </Border>
+
+            <Border Padding="16px 0px 0px 0px">
+              <ThemedImage Src="Images/progress.gif" Width="94" Height="17" />
+            </Border>
+
+            <Border Padding="16px 0px 0px 0px;font-weight:bold">
+              <Literal Text="Processing Report..." />
+            </Border>
+          </Border>
+          
+          <Frame id="ReportFrame" SourceUri="/sitecore/shell/~/xaml/Sitecore.Shell.Applications.Analytics.ReportRunner.NoReport.aspx" Width="100%" Height="100%" OnLoad="javascript:scLoaded()" />
+        </Border>
+
+      </GridPanel>
+
+    </FormPage>
+  </Sitecore.Shell.Applications.Analytics.ReportRunner>
+</control>

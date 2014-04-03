@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xamlControls 
+  xmlns:x="http://www.sitecore.net/xaml"
+  xmlns:ajax="http://www.sitecore.net/ajax"
+  xmlns:rest="http://www.sitecore.net/rest"
+  xmlns:r="http://www.sitecore.net/renderings"
+  xmlns:xmlcontrol="http://www.sitecore.net/xmlcontrols"
+  xmlns:p="http://schemas.sitecore.net/Visual-Studio-Intellisense"
+  xmlns:asp="http://www.sitecore.net/microsoft/webcontrols"
+  xmlns:html="http://www.sitecore.net/microsoft/htmlcontrols"
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+
+  <Sitecore.Shell.Applications.Feeds.SetFeedPresenation x:inherits="Sitecore.Shell.Applications.Feeds.SetFeedPresentationPage,Sitecore.Client">
+    
+    <Sitecore.Controls.DialogPage runat="server" Icon="Custom/32x32/rss.png" Header="RSS Feed Design" Text="Specify how the item is presented in the RSS feed.">
+      <AjaxScriptManager runat="server" />
+      <ContinuationManager runat="server" />
+
+      <Script type="text/javascript" runat="server">
+        Event.observe(window, "load", function() {
+          scForm.postRequest("", "", "", "UpdatePreview");
+        
+          $$("select").each(function(select) { 
+            select.observe("change", function(e) {
+              scForm.postRequest("", "", "", "UpdatePreview");
+            });
+          });
+        });
+        
+        Event.observe(window, "resize", setPreviewDimensions);
+        Event.observe(window, "load", setPreviewDimensions);
+        
+        function onPreviewUpdated() {
+          $$("#Preview a").each(function(link) {
+            link.observe("click", function(e) {
+              e.stop();
+              return false;
+            });
+          });
+        }
+        
+        function setPreviewDimensions() {
+          var preview = $("Preview");
+          
+          preview.setStyle({ width: $(document.body).getWidth() - 16});
+        }
+      </Script>
+
+      <Stylesheet runat="server" Key="Preview">
+        .scWarning {
+          background: #ffffe4;
+          border: 1px solid #c9c9c9;
+          border-left:none;
+          border-right:none;
+          padding: 4px 2px 4px 4px;
+          margin: 4px 0px 12px 0px;
+        }
+
+        .scHint {
+          color: #333;
+          margin-bottom: 12px;
+        }
+
+        #Preview {
+          padding: 4px 8px;
+          overflow: auto;
+          background: white;
+          
+          width: 400px;
+        }
+        
+        #Preview h2 {
+          font-size: 11pt;
+          color: #3165C6;
+          font-weight: bold;
+          margin-bottom: 0;
+          padding-bottom: 4px;
+          margin-left: -2px;
+          
+          border-bottom: solid 1px #3165C6;
+        }
+        
+        #Preview .scPreviewDate {
+          color: #828282;
+          margin-top: 4px;
+          margin-bottom: 1em;
+        }
+      </Stylesheet>
+
+      <GridPanel runat="server" Height="100%" Width="100%">
+
+        <Border runat="server" ID="WarningPlaceholder" />
+        
+        <Border runat="server">
+          <Literal runat="server" Text="Title Field:" />
+          <br />
+          <html:select runat="server" style="width:100%" ID="TitleField" />
+        </Border>
+
+        <Space runat="server" Height="16" />
+
+        <Border runat="server">
+          <Literal runat="server" Text="Body Field:" />
+          <br />
+          <html:Select runat="server" style="width:100%" ID="BodyField" />
+        </Border>
+
+        <Space runat="server" Height="16" />
+
+        <Border runat="server">
+          <Literal runat="server" Text="Date Field:" />
+          <br />
+          <html:Select runat="server" style="width:100%" ID="DateField"/>
+        </Border>
+
+        <Space runat="server" Height="16" />
+
+        <Literal runat="server" Text="Preview:" />
+        <Scrollbox ID="Preview" runat="server" GridPanel.Height="100%" Padding="0px" />
+        
+      </GridPanel>
+
+    </Sitecore.Controls.DialogPage>
+    
+  </Sitecore.Shell.Applications.Feeds.SetFeedPresenation>
+</xamlControls>

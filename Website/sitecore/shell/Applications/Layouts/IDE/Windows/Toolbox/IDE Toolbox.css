@@ -1,0 +1,13 @@
+.scToolboxPaneHeader {
+	background: threedface;
+	border: none;
+	color: black;
+	cursor:default;
+	filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#faf9f5', EndColorStr='#c0c0a8');
+	padding: 2px 0px 2px 4px;
+	font: bold 8pt tahoma;
+}
+
+.scToolboxPaneItems {
+  padding:2px 0px 1px 0px;
+}

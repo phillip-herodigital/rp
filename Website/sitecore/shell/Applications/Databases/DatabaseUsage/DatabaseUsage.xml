@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <Database.Usage>
+    <FormPage Background="white">
+
+      <CodeBeside Type="Sitecore.Shell.Applications.Databases.DatabaseUsage.DatabaseUsageForm,Sitecore.Client"/>
+
+      <Border Border="none" class="scScrollbox scFixSize">
+        <Border Style="font:bold 9pt tahoma" Padding="4px 0px 8px 4px">
+          <Literal Text="System"/>
+        </Border>
+
+        <Border Padding="0px 0px 0px 16px">
+          <GridPanel Columns="2" CellPadding="2">
+
+            <Literal Text="Free Space Remaining:" GridPanel.VAlign="top"/>
+
+            <Border ID="FreeSpaceRemaining" Style="white-space:nowrap" GridPanel.VAlign="top">
+              <Border ID="FreeSpaceRemainingPercentage"></Border>
+              <Border Border="1px solid black" Height="16px" Width="100px" Style="vertical-align:middle" Margin="4px 8px 4px 0px" Background="white">
+                <Border ID="FreeSpaceRemainingBar" Height="14px" Background="#8CAAE6" Width="25px"/>
+              </Border>
+
+            </Border>
+
+          </GridPanel>
+        </Border>
+
+        <Border Style="font:bold 9pt tahoma" Padding="16px 0px 8px 4px">
+          <Literal Text="Content Size"/>
+        </Border>
+
+        <Border Padding="0px 0px 0px 16px">
+          <GridPanel Columns="2" CellPadding="2">
+
+            <Literal Text="Content Limit:" GridPanel.VAlign="top"/>
+            <Border ID="ContentLimit" Style="white-space:nowrap" GridPanel.VAlign="top" />
+
+            <Literal Text="System Usage:" GridPanel.VAlign="top"/>
+            <Border ID="SystemUsage" Style="white-space:nowrap" GridPanel.VAlign="top" />
+
+            <Literal Text="Available Space:" GridPanel.VAlign="top"/>
+            <Border ID="AvailableSpace" Style="white-space:nowrap" GridPanel.VAlign="top" />
+
+          </GridPanel>
+        </Border>
+
+        <Border Style="font:bold 9pt tahoma" Padding="16px 0px 8px 4px">
+          <Literal Text="Databases"/>
+        </Border>
+
+        <Border ID="Databases" Padding="0px 0px 0px 16px"/>
+      </Border>
+
+    </FormPage>
+  </Database.Usage>
+</control>

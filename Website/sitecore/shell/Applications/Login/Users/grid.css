@@ -1,0 +1,164 @@
+﻿.Grid 
+{ 
+  background-color: #FFFFFF; 
+  border: 1px solid #999999; 
+  font-family: tahoma; 
+  font-size: 8pt; 
+  cursor: pointer;
+}
+
+.GridHeader
+{
+  background-image: url(images/grid_headerBg.gif); 
+  background-color: #8988A5; 
+  height: 24px;
+  padding-left: 3px;
+  cursor: default;
+}
+
+.GridHeaderText
+{
+  color: #FFFFFF;  
+  font-family: tahoma; 
+  font-size: 8pt; 
+}
+
+.GroupByText
+{
+  color: #FFFFFF; 
+  padding-right: 5px;
+}
+
+.HeadingRow 
+{ 
+  background-color: #E0DFE3; 
+  background-image: url(images/header_rowBg.gif);   
+}
+
+.HeadingCell 
+{ 
+  background-image: url(images/header_bg.gif);   
+  padding: 3px; 
+  padding-top: 2px; 
+  padding-bottom: 1px; 
+}
+
+.HeadingRow td.FirstHeadingCell
+{ 
+  background-image: url(images/header1stCell_bg.gif); 
+}
+
+.HeadingCellText
+{
+  font-family: tahoma; 
+  font-size: 8pt; 
+  text-align: left;
+  padding-top: 3px;
+  padding-bottom: 5px;
+}
+
+.Row 
+{ 
+  background-color: #FFFFFF; 
+}
+
+.Row td.DataCell 
+{ 
+  cursor: default;
+  padding: 3px; 
+  padding-top: 2px; 
+  padding-bottom: 1px; 
+  border-bottom: 1px solid #EAE9E1; 
+  font-family: tahoma; 
+  font-size: 8pt; 
+} 
+
+.SortedDataCell 
+{ 
+  background-color: #F5F5F5; 
+} 
+
+
+.Row td.LastDataCell 
+{ 
+  background-color: #EFEFF4; 
+} 
+
+.SelectedRow 
+{ 
+}
+
+.SelectedRow td.DataCell 
+{ 
+  border-top:1px solid;
+  border-bottom:1px solid;
+  border-color: #ddcf9b #c1a877 #dfd8bd #c1a877;
+  background: #ffb70b url(/sitecore/shell/Themes/Standard/Images/RibbonSmallButtonHover.png) repeat-x;
+  
+  padding: 2px; 
+  padding-left: 3px; 
+  padding-top: 1px; 
+  padding-bottom: 1px; 
+  font-family: tahoma; 
+  font-size: 8pt; 
+}
+
+.SelectedRow td.FirstDataCell 
+{ 
+  border-top:1px solid;
+  border-bottom:1px solid;
+  border-left:1px solid;
+  padding-left: 2px; 
+  padding-right: 3px; 
+}
+
+.SelectedRow td.LastDataCell 
+{ 
+  border-top:1px solid;
+  border-bottom:1px solid;
+  border-right:1px solid;
+}
+
+.GroupHeading
+{
+  color: #706F91; 
+  background-color: #FFFFFF; 
+  font-family: tahoma; 
+  font-size: 8pt; 
+  border-bottom: 2px solid #A5A4BD; 
+  padding-top: 10px;
+  padding-bottom: 3px;
+}
+
+.SliderPopup
+{
+  border: 1px solid #4B4B6F; 
+  border-top-color: #9495A2; 
+  border-left-color: #9495A2; 
+  width: 288px;
+  height: 40px;
+}
+
+.GridFooter
+{
+  cursor: default;
+  padding: 5px;
+}
+
+.GridFooterText
+{
+  color: #000000;  
+  font-family: verdana; 
+  font-size: 11px;
+}
+
+/* support for Japanese */
+.lang_ja_jp .Grid,
+.lang_ja_jp .GridHeaderText,
+.lang_ja_jp .HeadingCellText,
+.lang_ja_jp .Row td.DataCell,
+.lang_ja_jp .SelectedRow td.DataCell,
+.lang_ja_jp .GroupHeading,
+.lang_ja_jp .GridFooterText {
+  font-family: メイリオ, Meiryo, Microsoft YaHei, tahoma, sans-serif;
+}

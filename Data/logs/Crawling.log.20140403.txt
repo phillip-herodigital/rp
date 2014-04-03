@@ -1,0 +1,6 @@
+ 356 15:45:58 INFO  [Index=sitecore_core_index] Initializing IntervalAsynchronousUpdateStrategy with interval '00:01:00'.
+ 356 15:45:58 INFO  [Index=sitecore_core_index] Initializing LuceneDatabaseCrawler. DB:core / Root:/sitecore
+ 356 15:45:58 INFO  [Index=sitecore_master_index] Initializing SynchronousStrategy.
+ 356 15:45:58 INFO  [Index=sitecore_master_index] Initializing LuceneDatabaseCrawler. DB:master / Root:/sitecore
+ 356 15:45:58 INFO  [Index=sitecore_web_index] Initializing OnPublishEndAsynchronousStrategy.
+ 356 15:45:58 INFO  [Index=sitecore_web_index] Initializing LuceneDatabaseCrawler. DB:web / Root:/sitecore
