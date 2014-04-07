@@ -365,7 +365,9 @@
   <ItemGroup>
     <Content Include="default.htm.sitedown" />
     <Content Include="Design.config" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.config.WebForms" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
