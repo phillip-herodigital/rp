@@ -1,0 +1,41 @@
+// Usage @include breakpoint(small) { /* Styles here */ }
+@mixin breakpoint($point) {
+	$small: 767px; // Up to 767px
+	$medium: 1024px; // Up to 1024px
+	@if $point == large {
+		@media only screen and (min-width : $medium+1) { @content; }
+	}
+	@else if $point == medium-large {
+		@media only screen and (min-width: $small+1) { @content; }
+	}
+	@else if $point == medium {
+		@media only screen and (min-width: $small+1) and (max-width: $medium) { @content; }
+	}
+	@else if $point == small-medium {
+		@media only screen and (max-width: $medium) { @content; }
+	}
+	@else if $point == small {
+		@media only screen and (max-width: $small) { @content; }
+	}
+}
+
+@mixin image-replace($imgName) {
+	display: inline-block;
+	width: image-width($imgName);
+	height: image-height($imgName);
+	background-image: image-url($imgName);
+	background-repeat: no-repeat;
+	text-indent: -5000px;
+}
+
+@mixin bg-pixelate {
+	@include background-image(linear-gradient(45deg, #c6c6c6 45%, transparent 25%));
+	@include background-size(2px 2px);
+	background-position: 0 0, 1px 0, 1px -1px, 0px 1px;
+}
+
+@mixin layout-list {
+	@include no-bullet;
+	margin: 0;
+	padding: 0;
+}

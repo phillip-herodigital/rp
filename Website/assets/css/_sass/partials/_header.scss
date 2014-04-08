@@ -1,0 +1,83 @@
+.site-header {
+	background: url(../i/bg/header.png) repeat-x;
+	> .wrapper {
+		height: 100px;
+	}
+	.logo {
+		@include image-replace("../i/logo.png");
+		position: absolute;
+		top: 15px;
+	}
+	.utility {
+		@include border-radius(0 0 5px 5px);
+		@include box-shadow(0 1px 1px rgba(0,0,0,.25));
+		float: right;
+		margin: 0;
+		padding: 10px;
+		background-color: #f1f1f1;
+		a {
+			margin-left: 25px;
+			text-transform: uppercase;
+		}
+	}
+	nav {
+		border-top: 5px solid #1697ff;
+		background: #0971ce;
+		> ul {
+			@include inline-block-list();
+			margin: 0 auto;
+			padding-left: 180px;
+			font-size: 15px;
+			text-transform: uppercase;
+			a {
+				display: inline-block;
+				color: #fff;
+				padding: 17px;
+				@include breakpoint(medium) {
+					padding: 17px 8px;
+				}
+			}
+		}
+	}
+	@include breakpoint(small) {
+		position: fixed;
+		width: 100%;
+		background: #fff url(../i/bg/header-mobile.png) repeat-x;
+		border-bottom: 1px solid #1697ff;
+		z-index: 2;
+		.logo {
+			left: 50%;
+			margin-left: image-width("../i/logo.png") / 2 * -1;
+		}
+		.utility {
+			display: none;
+		}
+		.nav-toggle {
+			margin-top: 35px;
+		}
+		nav {
+			display: none;
+		}
+	}
+	@include breakpoint(medium-large) {
+		.nav-toggle {
+			display: none;
+		}
+	}
+}
+
+.banner {
+	height: 200px;
+	overflow: hidden;
+	&.hero-1 {
+		background: url("../i/bg/hero-1.jpg") no-repeat;
+		background-size: cover;
+	}
+	h1 {
+		margin-top: 75px;
+		color: #fff;
+		font-size: 70px;
+		text-transform: uppercase;
+		font-weight: 100;
+	}
+}

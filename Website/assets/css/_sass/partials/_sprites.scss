@@ -1,0 +1,90 @@
+// Icon folder
+$iconFolder: "icon";
+$icon2xFolder: "icon2x";
+
+//-----------------------------------
+// Background
+//-----------------------------------
+@mixin sprite-background-image($map, $sprite, $dimensions: false, $offset-x: 0, $offset-y: 0) {
+	@include sprite($map, $sprite, $dimensions, $offset-x, $offset-y);
+	background-image: $map;
+	background-repeat: no-repeat;
+}
+
+//-----------------------------------
+// Icons
+//-----------------------------------
+$icon-sprite: sprite-map("#{$iconFolder}/*.png",
+	$spacing: 4px
+	//$new-position: 100%, $new-spacing: 15px, $new-repeat: no-repeat
+);
+//$icons-2x: sprite-map("icons-2x/*.png", $layout: smart);
+$icon-2x-sprite: sprite-map("#{$icon2xFolder}/*.png",
+	$spacing: 4px
+	//$new-position: 100%, $new-spacing: 15px, $new-repeat: no-repeat
+);
+
+$icons: sprite_names($icon-sprite); // Get a list of all the images used in the sprite
+$icons-2x: sprite_names($icon-2x-sprite); // Get a list of all the images used in the sprite
+$all-icons: remove-duplicates(join($icons, $icons-2x)); // Get a merged, unique list of all icons used, both 1x and 2x
+
+// Retina tips taken from https://github.com/Gaya/Retina-Sprites-for-Compass
+@mixin icon($sprite, $dimensions: true) {
+	// Check if we have a 1x version of the icon
+	@if index($icons, $sprite) {
+		background-image: sprite-url($icon-sprite);
+		background-position: sprite-position($icon-sprite, $sprite);
+		@if $dimensions {
+			height: image-height(sprite-file($icon-sprite, $sprite));
+			width: image-width(sprite-file($icon-sprite, $sprite));
+		}
+	}
+
+	// Check if we have a 2x version of the icon
+	@if index($icons-2x, $sprite) { 
+		@media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3/2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
+			background-image: sprite-url($icon-2x-sprite);
+			background-size: (image-width(sprite-path($icon-2x-sprite)) / 2) (image-height(sprite-path($icon-2x-sprite)) / 2);
+			background-position: round(nth(sprite-position($icon-2x-sprite, $sprite), 1) / 2) round(nth(sprite-position($icon-2x-sprite, $sprite), 2) / 2);
+			@if $dimensions {
+				height: image-height(sprite-file($icon-2x-sprite, $sprite)) / 2;
+				width: image-width(sprite-file($icon-2x-sprite, $sprite)) / 2;
+			}
+		}
+	}
+
+}
+
+// Create an .icon-{iconName} class for each icon. Careful what is added here, as lines will be replicated for every single icon.
+@each $icon in $all-icons {
+	@if str-index($icon, "_hover") == null {
+		.icon-#{$icon} {
+			@include icon($icon);
+			@if index($icons, $icon) {
+				&.text {
+					padding-left: image-width(sprite-file($icon-sprite, $icon))+5px;
+				}
+			}
+			@else if index($icons-2x, $icon) { 
+				&.text {
+					padding-left: (image-width(sprite-file($icon-2x-sprite, $icon)) / 2)+5px;
+				} 
+			}
+			// &.text {
+			// 	padding-left: image-width(sprite-file($icon-sprite, $icon))+5px;
+			// }
+		}
+	}
+}
+
+[class*="icon-"] {
+	display: inline-block;
+	vertical-align: middle;
+	text-indent: -5000px;
+	background-repeat: no-repeat;
+	&.text {
+		width: auto;
+		height: auto;
+		text-indent: 0;
+	}
+}

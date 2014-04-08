@@ -1,0 +1,18 @@
+/* This file is where the styling for modules will go. This employes the concepts of OOCSS, creating common base classes (using <article> as the base), and extending as necessary */
+
+/*
+
+<article class="module-name">
+	<header>
+		<h2>Module Name</h2>
+	</header>
+	<div class="content">
+		<!-- Content here -->
+	</div>
+</article>
+
+*/
+
+article {
+	// Careful what's added here. This is the base class, and is used everywhere	
+}
