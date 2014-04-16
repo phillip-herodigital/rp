@@ -214,4 +214,7 @@ pip-log.txt
 #Mr Developer
 .mr.developer.cfg
 
-data/*
+data/
+App_Data/
+temp/
+.sass-cache/
