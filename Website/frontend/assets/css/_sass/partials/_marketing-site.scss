@@ -191,3 +191,39 @@ article.marketingIntro {
 		}
 	}
 }
+article.leaders {
+	.paragraph {
+		width: 50%;
+		margin: auto;
+		text-align: center;
+		margin-bottom: 50px;
+		span {
+			color: #ac1f2d;
+		}
+	}
+	.director-banner {
+		background-color: #ac1f2d;
+		padding: 10px;
+		margin-bottom: 40px;
+		h2 {
+			color: #fff;
+		}
+	}
+	.director {
+		width: 25%;
+		float: left;
+		text-align: center;
+		h2,
+		h4 {
+			color: #ac1f2d;
+			margin: 0px;
+		}
+		p {
+			font-style: italic;
+		}
+	}
+	.view-all {
+		padding-top: 40px;
+		float: left;
+	}
+}
