@@ -1,0 +1,59 @@
+* {
+	@include box-sizing(border-box); 
+}
+
+body {
+	margin: 0;
+	font-size: 16px;
+	line-height: 1.375;
+	color: #333333;
+	background-color: #ffffff;
+}
+
+html,
+button,
+input,
+select,
+textarea {
+	font-family: "proxima-nova", Helvetica, Arial, sans-serif;
+}
+
+a {
+	color: #0971ce;
+	text-decoration: none;
+}
+
+dl {
+	dt {
+		float: left;
+		clear: both;
+		width: 50%;
+	}
+	dd {
+		float: right;
+		width: 50%;
+		margin: 0;
+		text-align: right;
+	}
+}
+
+.clearfix {
+	*zoom: 1;
+	&:before, &:after {
+		display: table;
+		content: "";
+		line-height: 0;
+	}
+	&:after {
+		clear: both;
+	}
+}
+	
+.hidden {
+	display: none;
+	visibility: hidden;
+}
+
+.actions {
+	float: right;
+}

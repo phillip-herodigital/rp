@@ -1,0 +1,193 @@
+// Primary Color is used for backgrounds and borders
+// Accent Color is used for headings and buttons
+// Text Color is the main body text
+$themes:
+	(name: blue, primaryColor: #1773cb, accentColor: #fff, textColor: #fff),
+	(name: paleblue, primaryColor: #7e9ab3, accentColor: #fff, textColor: #fff),
+	(name: darkblue, primaryColor: #073464, accentColor: #fff, textColor: #fff),
+	(name: green, primaryColor: #78bb2f, accentColor: #fff, textColor: #fff),
+	(name: palegreen, primaryColor: #8ba072, accentColor: #fff, textColor: #fff),
+	(name: orange, primaryColor: #fda32b, accentColor: #fff, textColor: #fff),
+	(name: red, primaryColor: #aa2130, accentColor: #fff, textColor: #fff),
+	(name: palered, primaryColor: #b48789, accentColor: #fff, textColor: #fff),
+	(name: white, primaryColor: #fff, accentColor: #1773cb, textColor: #6b6b6b);
+
+.banner.marketing {
+	height: 400px;
+	background-position: 50%;
+	background-size: cover;
+	@include breakpoint(medium) {
+		height: 300px;
+	}
+	@include breakpoint(small) {
+		display: none;
+	}
+}
+
+article.marketing {
+	@extend article.plain;
+	position: relative;
+	margin-bottom: 20px;
+	color: #6b6b6b;
+}
+
+article.photoLockup {
+	background-color: #e8e8e8;
+	color: #6b6b6b;
+	.photo {
+		position: absolute;
+		width: 49%;
+		height: 100%;
+	}
+	.text {
+		float: right;
+		width: 49%;
+		padding: 65px 0;
+		font-size: 16px;
+		line-height: 1.8;
+		.inner {
+			max-width: 455px;
+			padding: 0 10px;
+		}
+		h2 {
+			margin: 0;
+			font-size: 38px;
+			line-height: 1.1;
+			text-transform: uppercase;
+		}
+		h3 {
+			font-size: 16px;
+			color: #1773cb;
+		}
+		.lead {
+			font-size: 24px;
+			text-transform: uppercase;
+		}
+		blockquote {
+			margin: 0;
+			background: image-url("marketing/quote-left.png") no-repeat;
+			p:first-child {
+				text-indent: 50px;
+			}
+			p:last-child {
+				background: image-url("marketing/quote-right.png") no-repeat 100% 100%;
+				padding: 10px 10px 0 10px;
+				font-size: 18px;
+				line-height: 1.8em;
+			}
+		}
+		p.cite {
+			font-size: 14px;
+			text-transform: uppercase;
+		}
+	}
+	&.right-img {
+		.photo {
+			right: 0;
+		}
+		.text {
+			float: left;
+			.inner {
+				float: right;
+			}
+		}
+	}
+	&.border {
+		.photo {
+			border-right: 3px solid #1773cb;
+		}
+		&.right-img {
+			.photo {
+				border-right: 0;
+				border-left: 3px solid #1773cb;
+			}
+		}
+	}
+	@include breakpoint(small) {
+		.photo {
+			display: none;
+		}
+		.text {
+			float: none !important;
+			width: 100%;
+			.inner {
+				float: none !important;
+				max-width: none;
+			}
+		}
+	}
+	
+	// Custom colors
+	 @each $theme in $themes {
+		&.bg-#{map-get($theme, name)} {
+			background-color: map-get($theme, primaryColor);
+			color: map-get($theme, textColor);
+			h2, h3 {
+				color: map-get($theme, accentColor);
+			}
+			button, .button {
+				background-color: map-get($theme, accentColor);
+				color: map-get($theme, primaryColor);
+				text-shadow: none;
+			}
+		}
+	}
+	@each $theme in $themes {
+		&.border.border-#{map-get($theme, name)} .photo {
+		 	border-color: map-get($theme, primaryColor);
+		}
+	}
+	@each $theme in $themes {
+		&.accent-#{map-get($theme, name)} {
+		 	h2, h3 {
+				color: map-get($theme, primaryColor);
+			}
+			button, .button {
+				background-color: map-get($theme, primaryColor);
+			}
+		}
+	}
+
+}
+
+article.marketingIntro {
+	text-align: center;
+	em {
+		color: #007dc3;
+		font-style: normal;
+	}
+	p.intro {
+		margin: 1em 20px;
+		font-size: 24px;
+		line-height: 1.4em;
+		font-weight: 300;
+	}
+	hr {
+		margin: 22px 0;
+		border: 0;
+		border-top: 3px solid #eee;
+	}
+	div.body {
+		margin: 0 100px;
+		font-size: 19px;
+		em {
+			text-transform: uppercase;
+		}
+		ul {
+			width: 450px;
+			margin: 0 auto;
+			text-align: left;
+		}
+	}
+	@each $theme in $themes {
+		&.accent-#{map-get($theme, name)} {
+		 	em {
+				color: map-get($theme, primaryColor);
+			}
+			button, .button {
+				background-color: map-get($theme, primaryColor);
+				text-shadow: none;
+			}
+		}
+	}
+}

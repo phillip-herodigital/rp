@@ -1,0 +1,76 @@
+/* http://www.fontspring.com/blog/further-hardening-of-the-bulletproof-syntax */
+
+/*@font-face {
+	font-family: 'Avenir-Medium';
+	src: url('../fonts/AvenirLTStd-Medium.eot');
+	src: url('../fonts/AvenirLTStd-Medium.eot?#iefix') format('embedded-opentype'),
+		 url('../fonts/AvenirLTStd-Medium.woff') format('woff'),
+		 url('../fonts/AvenirLTStd-Medium.ttf') format('truetype'),
+		 url('../fonts/AvenirLTStd-Medium.svg#MyriadProItalic') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Avenir-Heavy';
+	src: url('../fonts/AvenirLTStd-Heavy.eot');
+	src: url('../fonts/AvenirLTStd-Heavy.eot?#iefix') format('embedded-opentype'),
+		 url('../fonts/AvenirLTStd-Heavy.woff') format('woff'),
+		 url('../fonts/AvenirLTStd-Heavy.ttf') format('truetype'),
+		 url('../fonts/AvenirLTStd-Heavy.svg#MyriadProItalic') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'MyriadProItalic';
+	src: url('../../fonts/myriadpro-it-webfont.eot');
+	src: url('../../fonts/myriadpro-it-webfont.eot?#iefix') format('embedded-opentype'),
+		 url('../../fonts/myriadpro-it-webfont.woff') format('woff'),
+		 url('../../fonts/myriadpro-it-webfont.ttf') format('truetype'),
+		 url('../../fonts/myriadpro-it-webfont.svg#MyriadProItalic') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}*/
+
+/*
+Thin - font-weight: 100;
+Light - font-weight: 300;
+Regular - font-weight: normal; // Or 500
+Semibold - font-weight: 600;
+Bold - font-weight: bold; // Or 700
+*/
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: "proxima-nova", Helvetica, Arial, sans-serif;
+	font-weight: 300;
+	margin: 10px 0;
+}
+h1 {
+	font-size: 35px;
+
+}
+h2 {
+	font-size: 25px;
+	color: #0971ce;
+}
+h3 {
+	font-size: 20px;
+}
+h4 {
+	font-size: 18px;
+	font-weight: 500;
+}
+h5 {
+	font-size: 16px;
+	font-weight: 500;
+}
+h6 {
+	font-size: 14px;
+}
+
+ul, ol {
+	ul, ol {
+		margin: 0;
+	}
+}
