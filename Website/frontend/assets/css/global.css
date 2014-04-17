@@ -1121,8 +1121,8 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 60, _sass/partials/_sprites.scss */
   .icon-bbb {
-    background-image: url('../i/icon2x-s1583dbdd24.png');
-    background-size: 47px 359px;
+    background-image: url('../i/icon2x-s784a4e52a3.png');
+    background-size: 108px 686px;
     background-position: 0 0;
     height: 40px;
     width: 40px;
@@ -1143,8 +1143,8 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 60, _sass/partials/_sprites.scss */
   .icon-blue-rectangle {
-    background-image: url('../i/icon2x-s1583dbdd24.png');
-    background-size: 47px 359px;
+    background-image: url('../i/icon2x-s784a4e52a3.png');
+    background-size: 108px 686px;
     background-position: 0 -42px;
     height: 10px;
     width: 6px;
@@ -1165,8 +1165,8 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 60, _sass/partials/_sprites.scss */
   .icon-close {
-    background-image: url('../i/icon2x-s1583dbdd24.png');
-    background-size: 47px 359px;
+    background-image: url('../i/icon2x-s784a4e52a3.png');
+    background-size: 108px 686px;
     background-position: 0 -54px;
     height: 19px;
     width: 19px;
@@ -1187,8 +1187,8 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 60, _sass/partials/_sprites.scss */
   .icon-compare-usage {
-    background-image: url('../i/icon2x-s1583dbdd24.png');
-    background-size: 47px 359px;
+    background-image: url('../i/icon2x-s784a4e52a3.png');
+    background-size: 108px 686px;
     background-position: 0 -75px;
     height: 17px;
     width: 17px;
@@ -1209,8 +1209,8 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 60, _sass/partials/_sprites.scss */
   .icon-dsa {
-    background-image: url('../i/icon2x-s1583dbdd24.png');
-    background-size: 47px 359px;
+    background-image: url('../i/icon2x-s784a4e52a3.png');
+    background-size: 108px 686px;
     background-position: 0 -94px;
     height: 40px;
     width: 40px;
@@ -1231,8 +1231,8 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 60, _sass/partials/_sprites.scss */
   .icon-facebook {
-    background-image: url('../i/icon2x-s1583dbdd24.png');
-    background-size: 47px 359px;
+    background-image: url('../i/icon2x-s784a4e52a3.png');
+    background-size: 108px 686px;
     background-position: 0 -136px;
     height: 14.5px;
     width: 7.5px;
@@ -1253,9 +1253,9 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 60, _sass/partials/_sprites.scss */
   .icon-hamburger {
-    background-image: url('../i/icon2x-s1583dbdd24.png');
-    background-size: 47px 359px;
-    background-position: 0 -153px;
+    background-image: url('../i/icon2x-s784a4e52a3.png');
+    background-size: 108px 686px;
+    background-position: 0 -262px;
     height: 18px;
     width: 23.5px;
   }
@@ -1275,9 +1275,9 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 60, _sass/partials/_sprites.scss */
   .icon-homelife-services {
-    background-image: url('../i/icon2x-s1583dbdd24.png');
-    background-size: 47px 359px;
-    background-position: 0 -173px;
+    background-image: url('../i/icon2x-s784a4e52a3.png');
+    background-size: 108px 686px;
+    background-position: 0 -282px;
     height: 15px;
     width: 16px;
   }
@@ -1294,6 +1294,16 @@ form .checkbox-list.inline li,
   height: 107px;
   width: 108px;
 }
+@media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
+  /* line 60, _sass/partials/_sprites.scss */
+  .icon-lightbulb-large {
+    background-image: url('../i/icon2x-s784a4e52a3.png');
+    background-size: 108px 686px;
+    background-position: 0 -299px;
+    height: 107px;
+    width: 108px;
+  }
+}
 /* line 63, _sass/partials/_sprites.scss */
 .icon-lightbulb-large.text {
   padding-left: 113px;
@@ -1309,9 +1319,9 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 60, _sass/partials/_sprites.scss */
   .icon-pinterest {
-    background-image: url('../i/icon2x-s1583dbdd24.png');
-    background-size: 47px 359px;
-    background-position: 0 -234px;
+    background-image: url('../i/icon2x-s784a4e52a3.png');
+    background-size: 108px 686px;
+    background-position: 0 -561px;
     height: 17.5px;
     width: 17.5px;
   }
@@ -1331,9 +1341,9 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 60, _sass/partials/_sprites.scss */
   .icon-quicklinks {
-    background-image: url('../i/icon2x-s1583dbdd24.png');
-    background-size: 47px 359px;
-    background-position: 0 -253px;
+    background-image: url('../i/icon2x-s784a4e52a3.png');
+    background-size: 108px 686px;
+    background-position: 0 -580px;
     height: 23.5px;
     width: 18.5px;
   }
@@ -1365,9 +1375,9 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 60, _sass/partials/_sprites.scss */
   .icon-select-arrow {
-    background-image: url('../i/icon2x-s1583dbdd24.png');
-    background-size: 47px 359px;
-    background-position: 0 -279px;
+    background-image: url('../i/icon2x-s784a4e52a3.png');
+    background-size: 108px 686px;
+    background-position: 0 -606px;
     height: 6px;
     width: 25px;
   }
@@ -1387,9 +1397,9 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 60, _sass/partials/_sprites.scss */
   .icon-social {
-    background-image: url('../i/icon2x-s1583dbdd24.png');
-    background-size: 47px 359px;
-    background-position: 0 -287px;
+    background-image: url('../i/icon2x-s784a4e52a3.png');
+    background-size: 108px 686px;
+    background-position: 0 -614px;
     height: 21px;
     width: 20.5px;
   }
@@ -1409,9 +1419,9 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 60, _sass/partials/_sprites.scss */
   .icon-twitter {
-    background-image: url('../i/icon2x-s1583dbdd24.png');
-    background-size: 47px 359px;
-    background-position: 0 -310px;
+    background-image: url('../i/icon2x-s784a4e52a3.png');
+    background-size: 108px 686px;
+    background-position: 0 -637px;
     height: 12.5px;
     width: 15.5px;
   }
@@ -1431,9 +1441,9 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 60, _sass/partials/_sprites.scss */
   .icon-utility {
-    background-image: url('../i/icon2x-s1583dbdd24.png');
-    background-size: 47px 359px;
-    background-position: 0 -324px;
+    background-image: url('../i/icon2x-s784a4e52a3.png');
+    background-size: 108px 686px;
+    background-position: 0 -651px;
     height: 16px;
     width: 16px;
   }
@@ -1453,9 +1463,9 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 60, _sass/partials/_sprites.scss */
   .icon-youtube {
-    background-image: url('../i/icon2x-s1583dbdd24.png');
-    background-size: 47px 359px;
-    background-position: 0 -342px;
+    background-image: url('../i/icon2x-s784a4e52a3.png');
+    background-size: 108px 686px;
+    background-position: 0 -669px;
     height: 17px;
     width: 17px;
   }
@@ -1467,10 +1477,40 @@ form .checkbox-list.inline li,
 
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 60, _sass/partials/_sprites.scss */
+  .icon-freeenergy-large {
+    background-image: url('../i/icon2x-s784a4e52a3.png');
+    background-size: 108px 686px;
+    background-position: 0 -153px;
+    height: 107px;
+    width: 108px;
+  }
+}
+/* line 68, _sass/partials/_sprites.scss */
+.icon-freeenergy-large.text {
+  padding-left: 113px;
+}
+
+@media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
+  /* line 60, _sass/partials/_sprites.scss */
+  .icon-money-large {
+    background-image: url('../i/icon2x-s784a4e52a3.png');
+    background-size: 108px 686px;
+    background-position: 0 -408px;
+    height: 107px;
+    width: 108px;
+  }
+}
+/* line 68, _sass/partials/_sprites.scss */
+.icon-money-large.text {
+  padding-left: 113px;
+}
+
+@media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
+  /* line 60, _sass/partials/_sprites.scss */
   .icon-month-to-month {
-    background-image: url('../i/icon2x-s1583dbdd24.png');
-    background-size: 47px 359px;
-    background-position: 0 -190px;
+    background-image: url('../i/icon2x-s784a4e52a3.png');
+    background-size: 108px 686px;
+    background-position: 0 -517px;
     height: 42px;
     width: 47px;
   }
