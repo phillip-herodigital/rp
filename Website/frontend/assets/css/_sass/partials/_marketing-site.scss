@@ -191,3 +191,31 @@ article.marketingIntro {
 		}
 	}
 }
+
+article.loginHorizontal {
+	margin-top: -20px;
+	padding: 4px 0;
+	border-top: 4px solid #1697ff;
+	background-color: #1773cb;
+	color: #fff;
+	span.text {
+		float: left;
+		margin: 0 10px 0 0;
+		padding: 5px 10px 5px 0;
+		border-right: 1px solid #409cee;
+		color: #fff;
+		font-size: 18px;
+	}
+	ul.radio-list {
+		line-height: 2em;
+		li {
+			display: inline-block;
+			margin-right: 5px;
+		}
+	}
+	button, .button {
+		background-color: #fff;
+		color: #1773cb;
+		@include text-shadow(none);
+	}
+}

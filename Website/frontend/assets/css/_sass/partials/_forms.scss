@@ -139,7 +139,7 @@ form,
 			div.item {
 				@include box-sizing(border-box);
 				float: left;
-				width: 310px;
+				//width: 310px;
 				padding: 0 10px 0 0;
 				&:last-child {
 					padding-right: 0;
