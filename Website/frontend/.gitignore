@@ -1,0 +1,8 @@
+# Ignore Sass cache
+*.sass-cache
+
+# Ignore IDE project files
+*.tmproj
+*.esproj
+*.sublime-project
+*.sublime-workspace

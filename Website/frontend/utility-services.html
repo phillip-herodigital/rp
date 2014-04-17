@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<!--[if IE 8]>         <html ng-app="ngApp" class="no-js ie8 lt-ie10 lt-ie9"> <![endif]-->
+<!--[if IE 9]>         <html ng-app="ngApp" class="no-js ie9 lt-ie10"> <![endif]-->
+<!--[if gt IE 8]><!--> <html ng-app="ngApp" class="no-js"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8" />
+
+	<title>Title</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<link rel="shortcut icon" type="image/ico" href="assets/i/favicon.ico" />
+	<link href="assets/css/global.css" rel="stylesheet" />
+
+	<script src="assets/js/libs/jquery/dist/jquery.min.js"></script>
+	<script src="assets/js/libs/modernizr/modernizr.js"></script>
+	<script src="assets/js/libs/angular/angular.min.js"></script>
+	<script src="assets/js/libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+	<script src="assets/js/libs/angular-ui-utils/ui-utils.min.js"></script>
+
+	<script src="assets/js/app.js"></script>
+	<script src="assets/js/controllers/main.js"></script>
+
+	<script type="text/javascript" src="//use.typekit.net/hag0zvs.js"></script>
+	<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
+</head>
+<body ng-controller="MainCtrl">
+	<div class="page-wrapper" ng-class="{open:sidebarOpen}">
+		<nav>
+			<ul>
+				<li ng-repeat="item in navLinks">
+					<a href="{{item.href}}">{{item.name}}</a>
+				</li>
+			</ul>
+		</nav>
+		<div class="page-content">
+			<header class="site-header">
+				<div class="wrapper">
+					<a href="/" class="logo">Logo</a>
+					<p class="utility">Welcome, Jordan <a href="#">Logout</a></p>
+					<a href="#" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
+				</div>
+				<nav>
+					<ul class="wrapper">
+						<li><a href="#">Account Overview</a></li>
+						<li class="selected"><a href="#">Utility Services</a></li>
+						<li><a href="#">Homelife Services</a></li>
+						<li><a href="#">My Profile</a></li>
+					</ul>
+				</nav>
+			</header>
+
+			<div class="banner hero-1">
+				<div class="wrapper">
+					<h1>Utility Services</h1>
+				</div>
+			</div>
+			<section class="layout cols-2 wrapper">
+				<section class="layout cols-1">
+					<article class="service-identification">
+						<div class="account-selector stretch">
+							<form>
+								<div class="group">
+									<div class="item">
+										<label>Account Number:</label>
+										<select>
+											<option value="Please choose">1197015532</option>
+											<option value="account1">Account 2</option>
+										</select>
+									</div>
+									<div class="item">
+										<label>ESI ID:</label>
+										<select class="id">
+											<option value="Please choose">109437200008913264</option>
+											<option value="account1">ID 2</option>
+										</select>
+									</div>
+								</div>
+							</form>
+						</div>
+						<div class="service-address">
+							<p>Service Address: 123 Main Street, Dallas, TX 75001</p>
+						</div>
+					</article>
+					<article class="plan">
+						<header>
+							<h2>Your Electricity Plan</h2>
+						</header>
+						<div class="stretch">
+							<table class="plan-table">
+								<thead>
+									<tr>
+										<th></th>
+										<th>Plan Name</th>
+										<th>Rate</th>
+										<th>Term</th>
+										<th>Fees</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th class="vertical"><div class="fixed">Fixed</div></th>
+										<td class="arrow"><h5><strong>Flex Choice Intro Plan</strong></h5><p class="details"><a href="#">Hide Details</a></p><div class="details-arrow"></div></td>
+										<td class="center"><span class="plan-cost">9.18&#162;</span><p>Per KWH</p></td>
+										<td class="center"><i class="icon-month-to-month"></i><p>Month-to-Month</p></td>
+										<td class="center"><span class="plan-cost">$0</span> <p>Termination Fee</p></td>
+									</tr>
+									<tr class="expand-details">
+										<td colspan="5">
+											<div class="inner"><p><a href="#"><i class="icon-close"></i></a>The Stream Intro/Variable Price Plan is for new customers only and is the applied rate for the first invoice. I understand that, under this plan, I will receive a guaranteed introductory rate on my first invoice. All subsequent months will be billed at Stream Energy's then-current Variable Price Rate. Early Termination Fees shall NOT apply and that my current rate may fluctuate based on market conditions. Please see the Terms of Services for more information on this product.</p></div>
+											<div class="grid three">
+												<div class="col">Pricing Effective:<br /><strong>11/21/2013</strong></div>
+												<div class="col">Minimum Usage Fee:<br /><strong>$0.00</strong></div>
+												<div class="col">
+													<ul>
+														<li><a href="#">Electricity Facts Label</a></li>
+														<li><a href="#">Terms of Service</a></li>
+														<li><a href="#">Your Rights as a Customer</a></li>
+													</ul>
+												</div>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<footer class="renew-plan">
+							<div class="grid two">
+								<div class="col">
+									<h3>Renew Your Plan</h3>
+									<p>Your service is due to renew on 4/15/2014</p>
+								</div>
+								<div class="col">
+									<button class="primary">Renew Now</button>
+								</div>
+							</div>
+						</footer>
+					</article>
+					<article class="plan">
+						<header>
+							<h2>Your Gas Plan</h2>
+						</header>
+						<div class="stretch">
+							<table>
+								<thead>
+									<tr>
+										<th></th>
+										<th>Plan Name</th>
+										<th>Rate</th>
+										<th>Term</th>
+										<th>Fees</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th class="vertical"><div class="fixed">Fixed</div></th>
+										<td><h5><strong>Flex Choice Intro Plan</strong></h5><p class="details"><a href="#">View Details</a></p></td>
+										<td class="center"><span class="plan-cost">4.98&#162;</span><p>Per CCF</p></td>
+										<td class="center"><i class="icon-month-to-month"></i><p>Month-to-Month</p></td>
+										<td class="center"><span class="plan-cost">$0</span> <p>Termination Fee</p></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</article>
+					<article class="energy-usage">
+						<header>
+							<h2>My Energy Usage</h2>
+						</header>
+						<div class="account-selector">
+							<form>
+								<div class="group">
+									<div class="item">
+										<label>Account Number:</label>
+										<select>
+											<option value="Please choose">1197015532</option>
+											<option value="account1">Account 2</option>
+										</select>
+									</div>
+									<div class="item">
+										<label>ESI ID:</label>
+										<select class="id">
+											<option value="Please choose">109437200008913264</option>
+											<option value="account1">ID 2</option>
+										</select>
+									</div>
+								</div>
+							</form>
+						</div>
+						<div class="graph-header grid three">
+							<div class="col"><p>kWh</p></div>
+							<div class="col"><p>January - December 2013</p></div>
+							<div class="col"><p>Gas (Therms)</p></div>
+						</div>
+						<div>
+							<h2>Graph Goes Here</h2>
+						</div>
+						<footer class="compare">
+							<p><i class="icon-compare-usage"></i> Compare my usage</p>
+							<select>
+								<option value="Please choose">None</option>
+								<option value="Option 1">Option 1</option>
+								<option value="Option 2">Option 2</option>
+							</select>
+						</footer>
+					</article>
+				</section>
+				<aside>
+					<article class="promo paperless">
+						<h1>Choose <div class="promo-bold">Paperless</div></h1>
+						<p>and leave the trees for the birds.</p>
+						<button class="secondary">Choose Paperless</button>
+					</article>
+					<article class="promo renew">
+						<h1>Renew Your <div class="promo-bold">Plan &amp; Save</div></h1>
+						<button class="secondary">Renew My Plan</button>
+					</article>
+				</aside>
+			</section>
+
+			
+			<!--
+			<footer class="site-footer">
+				<div class="wrapper">
+					<p>&copy; 2005-2013 SGE IP Holdco, LLC. All rights reserved. Licensed in TX, GA, PA, MD, NJ, NY, &amp; DC<br />
+					(TX #10104, GA #GM-38, NJ #ESL-0109 &amp; GSL-0120, PA #A-2010-2181867 &amp; A-2012-2308991, MD #IR-2072 &amp; IR-2742, NY #STRM, DC EA11-11)</p>
+					<ul>
+						<li><a href="#"><i class="icon-bbb"></i></a></li>
+						<li><a href="#"><i class="icon-dsa"></i></a></li>
+					</ul>
+				</div>
+			</footer>
+			-->
+
+			<footer class="site-footer">
+				<div class="super-footer">
+					<div class="wrapper">
+						<div class="grid three">
+							<div class="col">
+								<ul>
+									<li><a href="#"><img src="assets/i/img-footer-get-free-energy.png" alt="Get Free Energy" width="159" height="44" /></a></li>
+									<li><a href="#"><img src="assets/i/img-footer-renew-my-contract.png" alt="Renew My Contract" width="120" height="45" /></a></li>
+								</ul>
+							</div>
+							<div class="col quick-links">
+								<h2><i class="icon-quicklinks"></i> Quick Links</h2>
+								<ul>
+									<li><a href="#">Account Overview</a></li>
+									<li><a href="#">Utility Services</a></li>
+									<li><a href="#">Homelife Services</a></li>
+									<li><a href="#">My Profile</a></li>
+								</ul>
+							</div>
+							<div class="col social">
+								<h2><i class="icon-social"></i> Social</h2>
+								<ul>
+									<li><a href="#"><i class="icon-facebook"></i> Facebook</a></li>
+									<li><a href="#"><i class="icon-twitter"></i> Twitter</a></li>
+									<li><a href="#"><i class="icon-youtube"></i> YouTube</a></li>
+									<li><a href="#"><i class="icon-pinterest"></i> Pinterest</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="wrapper copyright">
+					<p>&copy; 2005-2013 SGE IP Holdco, LLC. All rights reserved. Licensed in TX, GA, PA, MD, NJ, NY, &amp; DC<br />
+					(TX #10104, GA #GM-38, NJ #ESL-0109 &amp; GSL-0120, PA #A-2010-2181867 &amp; A-2012-2308991, MD #IR-2072 &amp; IR-2742, NY #STRM, DC EA11-11)</p>
+					<ul>
+						<li><a href="#"><i class="icon-bbb"></i></a></li>
+						<li><a href="#"><i class="icon-dsa"></i></a></li>
+					</ul>
+				</div>
+			</footer>
+		</div>
+	</div>
+
+</body>
+</html>

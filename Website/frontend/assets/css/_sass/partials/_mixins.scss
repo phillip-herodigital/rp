@@ -1,0 +1,53 @@
+// Usage @include breakpoint(small) { /* Styles here */ }
+@mixin breakpoint($point) {
+	$small: 767px; // Up to 767px
+	$medium: 1024px; // Up to 1024px
+	@if $point == large {
+		@media only screen and (min-width : $medium+1) { @content; }
+	}
+	@else if $point == medium-large {
+		@media only screen and (min-width: $small+1) { @content; }
+	}
+	@else if $point == medium {
+		@media only screen and (min-width: $small+1) and (max-width: $medium) { @content; }
+	}
+	@else if $point == small-medium {
+		@media only screen and (max-width: $medium) { @content; }
+	}
+	@else if $point == small {
+		@media only screen and (max-width: $small) { @content; }
+	}
+}
+
+@mixin image-replace($imgName, $retina: false) {
+	display: inline-block;
+	@if $retina == false {
+		width: image-width($imgName);
+		height: image-height($imgName);
+	}
+	@else {
+		width: ceil(image-width($imgName) / 2);
+		height: ceil(image-height($imgName) / 2);
+		background-size: ceil(image-width($imgName) / 2) ceil(image-height($imgName) / 2);
+	}
+	background-image: image-url($imgName);
+	background-repeat: no-repeat;
+	text-indent: -5000px;
+}
+
+@mixin retina-background($imgName) {
+	background-image: image-url("bg/#{$imgName}");
+
+	@if image-exists("bg2x/#{$imgName}") {
+		@media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3/2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
+			background-image: image-url("bg2x/#{$imgName}");
+			background-size: (image-width("bg2x/#{$imgName}") / 2) (image-height("bg2x/#{$imgName}") / 2);
+		}
+	}
+}
+
+@mixin layout-list {
+	@include no-bullet;
+	margin: 0;
+	padding: 0;
+}
