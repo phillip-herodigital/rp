@@ -1,4 +1,13 @@
 #################
+## Frontend
+#################
+node_modules
+*.tmproj
+*.esproj
+*.sublime-project
+*.sublime-workspace
+
+#################
 ## Eclipse
 #################
 
