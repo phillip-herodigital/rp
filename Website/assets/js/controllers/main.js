@@ -8,7 +8,7 @@ ngApp.controller('MainCtrl', ['$scope', '$rootScope', '$http', function ($scope,
 	var buildNavLinks = function() {
 		var menu = [],
 		links = $("header nav > ul > li a");
-		
+
 		links.each(function() {
 			menu.push({
 				'name': $(this).html(),
@@ -25,7 +25,6 @@ ngApp.controller('MainCtrl', ['$scope', '$rootScope', '$http', function ($scope,
 
 	// Public Methods
 	$scope.toggleSidebar = function() {
-		console.log('ran');
 		$scope.sidebarOpen = !$scope.sidebarOpen;
 	};
 

@@ -18,7 +18,6 @@ $icon-sprite: sprite-map("#{$iconFolder}/*.png",
 	$spacing: 4px
 	//$new-position: 100%, $new-spacing: 15px, $new-repeat: no-repeat
 );
-//$icons-2x: sprite-map("icons-2x/*.png", $layout: smart);
 $icon-2x-sprite: sprite-map("#{$icon2xFolder}/*.png",
 	$spacing: 4px
 	//$new-position: 100%, $new-spacing: 15px, $new-repeat: no-repeat

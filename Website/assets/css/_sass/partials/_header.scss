@@ -1,10 +1,11 @@
 .site-header {
-	background: url(../i/bg/header.png) repeat-x;
+	@include transition(left linear .2s); 
+	background: image-url("bg/header.png") repeat-x;
 	> .wrapper {
 		height: 100px;
 	}
 	.logo {
-		@include image-replace("../i/logo.png");
+		@include image-replace("logo.png");
 		position: absolute;
 		top: 15px;
 	}
@@ -41,19 +42,28 @@
 	}
 	@include breakpoint(small) {
 		position: fixed;
+		top: 0;
+		left: 0;
 		width: 100%;
-		background: #fff url(../i/bg/header-mobile.png) repeat-x;
+		background-color: #fff;
+		//@include background-retina("bg/header-mobile.png", "bg/header-mobile.png");
+		@include retina-background("header-mobile.png");
 		border-bottom: 1px solid #1697ff;
 		z-index: 2;
+		> .wrapper {
+			height: 57px;
+		}
 		.logo {
+			@include image-replace("logo.png", true);
 			left: 50%;
-			margin-left: image-width("../i/logo.png") / 2 * -1;
+			top: 11px;
+			margin-left: (image-width("logo.png") / 2) / 2 * -1;
 		}
 		.utility {
 			display: none;
 		}
 		.nav-toggle {
-			margin-top: 35px;
+			margin-top: 22px;
 		}
 		nav {
 			display: none;
@@ -67,10 +77,11 @@
 }
 
 .banner {
-	height: 200px;
+	/*height: 200px;*/
 	overflow: hidden;
+	margin-bottom: 20px;
 	&.hero-1 {
-		background: url("../i/bg/hero-1.jpg") no-repeat;
+		background: image-url("bg/hero-1.jpg") no-repeat;
 		background-size: cover;
 	}
 	h1 {

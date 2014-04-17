@@ -52,8 +52,8 @@ textarea {
 
 select {
 	position: relative;
-	padding-right: 25px;
-	background: url("../i/icon/select-arrow.png") no-repeat 100% 50%;
+	padding-right: 30px;
+	background: image-url("icon/select-arrow.png") no-repeat 100% 50%;
 	// Mozilla
 	-moz-appearance: none;
 	text-indent: 0.01px;
@@ -71,7 +71,8 @@ select::-ms-expand {
 	background: white;
 }
 
-button {
+button,
+a.button {
 	@include border-radius(10px);
 	@include text-shadow(-1px 1px 1px rgba(0,0,0,.3));
 	height: auto;

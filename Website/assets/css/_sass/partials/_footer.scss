@@ -1,20 +1,7 @@
-/*.site-footer {
-	padding: 20px 0;
-	p {
-		float: left;
-		color: #b4b4b4;
-		font-size: 10px;
-	}
-	ul {
-		@include inline-block-list();
-		float: right;
-	}
-}*/
-
 .site-footer {
 	margin-top: 30px;
 	.super-footer {
-		background: #0971ce url(../i/bg/footer-top-border.png) repeat-x top left;
+		background: #0971ce image-url("bg/footer-top-border.png") repeat-x top left;
 		padding-top: 10px;
 		color: #b4b4b4;
 
@@ -88,7 +75,7 @@
 		}
 		
 		ul {
-			list-style-type: none;	
+			list-style-type: none;
 		}
 	}
 	

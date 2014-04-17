@@ -3,9 +3,3 @@ ngApp = angular.module("ngApp", ['ui.bootstrap',
 
 // Init Application
 ngApp.value("appName", "ngApp");
-
-/*$(function() {
-	$(".nav-toggle").click(function() {
-		$(".page-wrapper").toggleClass('open');
-	});
-});*/
