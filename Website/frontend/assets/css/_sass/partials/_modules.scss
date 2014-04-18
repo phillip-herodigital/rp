@@ -138,6 +138,7 @@ article.plain {
 	@include box-shadow(none);
 	@include border-radius(0px);
 	margin-bottom: 0px;
+	padding: 0;
 	.post-hero {
 		background: #0971ce;
 		color: #fff;
