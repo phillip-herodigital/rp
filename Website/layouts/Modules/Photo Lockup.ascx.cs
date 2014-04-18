@@ -9,25 +9,8 @@ using System.Web.UI.WebControls;
 
 namespace Website.layouts.Modules
 {
-    public partial class Photo_Lockup : System.Web.UI.UserControl
+    public partial class Photo_Lockup : BaseModule
     {
-        protected Item CurrentContextItem
-        {
-            get
-            {
-                Sublayout thisSublayout = (Parent as Sublayout);
-                if (thisSublayout == null)
-                    return Sitecore.Context.Item;
-                if (string.IsNullOrEmpty(thisSublayout.DataSource))
-                    return Sitecore.Context.Item;
-                string dataSource = thisSublayout.DataSource;
-                Item dataSourceItem = Sitecore.Context.Database.GetItem(dataSource) ??
-                                      Sitecore.Context.ContentDatabase.GetItem(dataSource);
-                if (dataSourceItem == null)
-                    return Sitecore.Context.Item;
-                return dataSourceItem;
-            }
-        }
         protected string BackgroundImageURL
         {
             get
@@ -57,7 +40,7 @@ namespace Website.layouts.Modules
                     classes.Add("right-img");
                 }
 
-                var colors = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Photo Lockup/Colors").Children;
+                var colors = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Colors").Children;
 
                 if (colors.Any(c => c.Name == backgroundColorField.Value))
                 {

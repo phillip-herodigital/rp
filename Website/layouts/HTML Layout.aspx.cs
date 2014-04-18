@@ -11,31 +11,42 @@ namespace Website.layouts
 {
     public partial class HTML_Layout : System.Web.UI.Page
     {
+        protected string BannerImageURL
+        {
+            get
+            {
+                var imageField = (Sitecore.Data.Fields.ImageField)Sitecore.Context.Item.Fields["Banner Image"];
+                if (imageField == null || imageField.MediaItem == null)
+                {
+                    return "";
+                }
+
+                return Sitecore.Resources.Media.MediaManager.GetMediaUrl(imageField.MediaItem);
+            }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            return;
-            PublishMode publishMode = PublishMode.Full;
+            var ret = new List<object>();
 
-            using (new Sitecore.SecurityModel.SecurityDisabler())
+            foreach (var item in Sitecore.Context.Database.GetItem("/sitecore/content/Data/Navigation/Anonymous").Children.ToArray())
             {
-                var webDb = Sitecore.Configuration.Factory.GetDatabase("web");
-                var masterDb = Sitecore.Configuration.Factory.GetDatabase("master");
-
-                try
+                var field = (Sitecore.Data.Fields.LinkField)item.Fields["Navigation Link"];
+                ret.Add(new
                 {
-                    foreach (Language language in masterDb.Languages)
-                    {
-                        //loops on the languages and do a full republish on the whole sitecore content tree
-                        var options = new PublishOptions(masterDb, webDb, publishMode, language, DateTime.Now) { RootItem = masterDb.Items["/sitecore"], RepublishAll = true, Deep = true };
+                    URL = field.Url,
+                    Text = field.Text,
+                    CssClass = (field.TargetItem.ID == Sitecore.Context.Item.ID) ? "selected" : ""
+                });
+            }
 
-                        var myPublisher = new Publisher(options);
-                        myPublisher.Publish();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Sitecore.Diagnostics.Log.Error("Could not publish", ex);
-                }
+            rptNavigationItems.DataSource = ret;
+            rptNavigationItems.DataBind();
+
+            var imageField = (Sitecore.Data.Fields.ImageField)Sitecore.Context.Item.Fields["Banner Image"];
+            if (imageField != null && imageField.MediaItem != null)
+            {
+                divBanner.Attributes["style"] = string.Format("background-image: url({0})", Sitecore.Resources.Media.MediaManager.GetMediaUrl(imageField.MediaItem));
             }
         }
     }
