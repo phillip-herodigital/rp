@@ -227,5 +227,23 @@ article.gridPromos {
 		@include breakpoint(small) {
 			padding: 0;
 		}
+		h4 {
+			font-weight: 100;
+			strong {
+				font-weight: 500;
+				display: block;
+			}
+		}
+		@each $theme in $themes {
+			&.accent-#{map-get($theme, name)} {
+			 	h4 {
+					color: map-get($theme, primaryColor);
+				}
+				button, .button {
+					background-color: map-get($theme, primaryColor);
+					text-shadow: none;
+				}
+			}
+		}
 	}
 }

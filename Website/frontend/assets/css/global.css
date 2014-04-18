@@ -2882,3 +2882,93 @@ article.gridPromos div.col {
     padding: 0;
   }
 }
+/* line 230, _sass/partials/_marketing-site.scss */
+article.gridPromos div.col h4 {
+  font-weight: 100;
+}
+/* line 232, _sass/partials/_marketing-site.scss */
+article.gridPromos div.col h4 strong {
+  font-weight: 500;
+  display: block;
+}
+/* line 239, _sass/partials/_marketing-site.scss */
+article.gridPromos div.col.accent-blue h4 {
+  color: #1773cb;
+}
+/* line 242, _sass/partials/_marketing-site.scss */
+article.gridPromos div.col.accent-blue button, article.gridPromos div.col.accent-blue .button {
+  background-color: #1773cb;
+  text-shadow: none;
+}
+/* line 239, _sass/partials/_marketing-site.scss */
+article.gridPromos div.col.accent-paleblue h4 {
+  color: #7e9ab3;
+}
+/* line 242, _sass/partials/_marketing-site.scss */
+article.gridPromos div.col.accent-paleblue button, article.gridPromos div.col.accent-paleblue .button {
+  background-color: #7e9ab3;
+  text-shadow: none;
+}
+/* line 239, _sass/partials/_marketing-site.scss */
+article.gridPromos div.col.accent-darkblue h4 {
+  color: #073464;
+}
+/* line 242, _sass/partials/_marketing-site.scss */
+article.gridPromos div.col.accent-darkblue button, article.gridPromos div.col.accent-darkblue .button {
+  background-color: #073464;
+  text-shadow: none;
+}
+/* line 239, _sass/partials/_marketing-site.scss */
+article.gridPromos div.col.accent-green h4 {
+  color: #78bb2f;
+}
+/* line 242, _sass/partials/_marketing-site.scss */
+article.gridPromos div.col.accent-green button, article.gridPromos div.col.accent-green .button {
+  background-color: #78bb2f;
+  text-shadow: none;
+}
+/* line 239, _sass/partials/_marketing-site.scss */
+article.gridPromos div.col.accent-palegreen h4 {
+  color: #8ba072;
+}
+/* line 242, _sass/partials/_marketing-site.scss */
+article.gridPromos div.col.accent-palegreen button, article.gridPromos div.col.accent-palegreen .button {
+  background-color: #8ba072;
+  text-shadow: none;
+}
+/* line 239, _sass/partials/_marketing-site.scss */
+article.gridPromos div.col.accent-orange h4 {
+  color: #fda32b;
+}
+/* line 242, _sass/partials/_marketing-site.scss */
+article.gridPromos div.col.accent-orange button, article.gridPromos div.col.accent-orange .button {
+  background-color: #fda32b;
+  text-shadow: none;
+}
+/* line 239, _sass/partials/_marketing-site.scss */
+article.gridPromos div.col.accent-red h4 {
+  color: #aa2130;
+}
+/* line 242, _sass/partials/_marketing-site.scss */
+article.gridPromos div.col.accent-red button, article.gridPromos div.col.accent-red .button {
+  background-color: #aa2130;
+  text-shadow: none;
+}
+/* line 239, _sass/partials/_marketing-site.scss */
+article.gridPromos div.col.accent-palered h4 {
+  color: #b48789;
+}
+/* line 242, _sass/partials/_marketing-site.scss */
+article.gridPromos div.col.accent-palered button, article.gridPromos div.col.accent-palered .button {
+  background-color: #b48789;
+  text-shadow: none;
+}
+/* line 239, _sass/partials/_marketing-site.scss */
+article.gridPromos div.col.accent-white h4 {
+  color: white;
+}
+/* line 242, _sass/partials/_marketing-site.scss */
+article.gridPromos div.col.accent-white button, article.gridPromos div.col.accent-white .button {
+  background-color: white;
+  text-shadow: none;
+}
