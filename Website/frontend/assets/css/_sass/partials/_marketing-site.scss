@@ -247,3 +247,19 @@ article.gridPromos {
 		}
 	}
 }
+
+article.home-latest {
+	margin-bottom: 0;
+	border-top: 3px solid #999;
+	background: #E8E8EB;
+	text-align: center;
+	h3 {
+		margin-bottom: 0;
+		font-size: 14px;
+		text-transform: none;
+	}
+	p {
+		margin: 5px 0;
+		font-size: 20px;
+	}
+}
