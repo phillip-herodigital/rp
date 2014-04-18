@@ -2770,40 +2770,118 @@ article.leaders .paragraph {
   width: 50%;
   margin: auto;
   text-align: center;
-  margin-bottom: 50px;
+  margin-bottom: 45px;
+  font-size: 19px;
 }
-/* line 200, _sass/partials/_marketing-site.scss */
+/* line 201, _sass/partials/_marketing-site.scss */
 article.leaders .paragraph span {
   color: #ac1f2d;
 }
 /* line 204, _sass/partials/_marketing-site.scss */
-article.leaders .director-banner {
-  background-color: #ac1f2d;
-  padding: 10px;
-  margin-bottom: 40px;
+article.leaders .paragraph sup {
+  font-size: 10px;
 }
 /* line 208, _sass/partials/_marketing-site.scss */
+article.leaders .director-banner {
+  background-color: #ac1f2d;
+  padding: 15px;
+  margin-bottom: 40px;
+}
+/* line 212, _sass/partials/_marketing-site.scss */
 article.leaders .director-banner h2 {
   color: #fff;
 }
-/* line 212, _sass/partials/_marketing-site.scss */
+/* line 216, _sass/partials/_marketing-site.scss */
 article.leaders .director {
   width: 25%;
   float: left;
   text-align: center;
 }
-/* line 216, _sass/partials/_marketing-site.scss */
+/* line 220, _sass/partials/_marketing-site.scss */
 article.leaders .director h2,
 article.leaders .director h4 {
   color: #ac1f2d;
   margin: 0px;
 }
-/* line 221, _sass/partials/_marketing-site.scss */
+/* line 225, _sass/partials/_marketing-site.scss */
 article.leaders .director p {
   font-style: italic;
 }
-/* line 225, _sass/partials/_marketing-site.scss */
+/* line 229, _sass/partials/_marketing-site.scss */
 article.leaders .view-all {
   padding-top: 40px;
   float: left;
+}
+@media only screen and (max-width: 767px) {
+  /* line 234, _sass/partials/_marketing-site.scss */
+  article.leaders .director {
+    width: 50%;
+  }
+}
+
+/* line 240, _sass/partials/_marketing-site.scss */
+article.director-list h2 {
+  color: #6b6b6b;
+  text-transform: none;
+  margin-bottom: 20px;
+}
+/* line 245, _sass/partials/_marketing-site.scss */
+article.director-list .director {
+  width: 25%;
+  float: left;
+  text-align: center;
+}
+/* line 249, _sass/partials/_marketing-site.scss */
+article.director-list .director h3 {
+  color: #0971ce;
+  text-transform: none;
+}
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+  /* line 255, _sass/partials/_marketing-site.scss */
+  article.director-list .director {
+    width: 33%;
+  }
+}
+@media only screen and (max-width: 767px) {
+  /* line 260, _sass/partials/_marketing-site.scss */
+  article.director-list .director {
+    width: 50%;
+  }
+}
+
+/* line 266, _sass/partials/_marketing-site.scss */
+article.donate .charity {
+  padding: 30px 0;
+  border-bottom: 3px solid #f0f0f0;
+}
+/* line 269, _sass/partials/_marketing-site.scss */
+article.donate .charity:last-child {
+  border-bottom: none;
+}
+/* line 272, _sass/partials/_marketing-site.scss */
+article.donate .charity img {
+  float: left;
+}
+/* line 275, _sass/partials/_marketing-site.scss */
+article.donate .charity.grey {
+  background-color: #fafafa;
+}
+/* line 278, _sass/partials/_marketing-site.scss */
+article.donate .charity .promo {
+  float: left;
+  width: 40%;
+  margin: 10px 0 0 30px;
+}
+/* line 282, _sass/partials/_marketing-site.scss */
+article.donate .charity .promo h4 {
+  color: #ffa300;
+}
+/* line 286, _sass/partials/_marketing-site.scss */
+article.donate .charity .donate-button {
+  float: right;
+  margin: 60px 20px 0 0;
+}
+/* line 289, _sass/partials/_marketing-site.scss */
+article.donate .charity .donate-button button {
+  background-color: #77bc1f;
 }
