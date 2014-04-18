@@ -367,3 +367,57 @@ article.blog-list {
 		}
 	}
 }
+article.pay {
+	h1 {
+		color: #0971ce;
+	}
+	h2 {
+		text-transform: none;
+		&.get-started {
+			text-align: center;
+			font-size: 28px;
+		}
+	}
+	.pay-option {
+		border-bottom: 4px solid #f0f0f0;
+		margin: 20px 25px 20px 0;
+		p.call {
+			font-size: 20px;
+		}
+		span.phone {
+			font-size: 22px;
+			color: #0971ce;
+		}
+		&:last-child {
+			border-bottom: none;
+		}
+	}
+	.box {
+		@include border-radius(10px, 10px);
+		border: 2px solid #f0f0f0;
+		padding: 20px;
+		margin-bottom: 20px;
+		input {
+			margin-top: 10px;
+			width: 100%;
+		}
+		button {
+			background-color: #77bc1f;
+		}
+		span.benefits {
+			color: #0971ce;
+			text-transform: uppercase;
+		}
+		p.sign-up {
+			font-size: 20px;
+			color: #0971ce;
+			a {
+				font-size: 22px;
+				text-decoration: underline;
+			}
+		}
+	}
+	hr {
+		border:	2px solid #f0f0f0;
+	}
+}

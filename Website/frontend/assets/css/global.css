@@ -2976,3 +2976,72 @@ article.blog-list ul {
 article.blog-list ul li {
   list-style-type: none;
 }
+
+/* line 371, _sass/partials/_marketing-site.scss */
+article.pay h1 {
+  color: #0971ce;
+}
+/* line 374, _sass/partials/_marketing-site.scss */
+article.pay h2 {
+  text-transform: none;
+}
+/* line 376, _sass/partials/_marketing-site.scss */
+article.pay h2.get-started {
+  text-align: center;
+  font-size: 28px;
+}
+/* line 381, _sass/partials/_marketing-site.scss */
+article.pay .pay-option {
+  border-bottom: 4px solid #f0f0f0;
+  margin: 20px 25px 20px 0;
+}
+/* line 384, _sass/partials/_marketing-site.scss */
+article.pay .pay-option p.call {
+  font-size: 20px;
+}
+/* line 387, _sass/partials/_marketing-site.scss */
+article.pay .pay-option span.phone {
+  font-size: 22px;
+  color: #0971ce;
+}
+/* line 391, _sass/partials/_marketing-site.scss */
+article.pay .pay-option:last-child {
+  border-bottom: none;
+}
+/* line 395, _sass/partials/_marketing-site.scss */
+article.pay .box {
+  -moz-border-radius: 10px / 10px;
+  -webkit-border-radius: 10px 10px;
+  border-radius: 10px / 10px;
+  border: 2px solid #f0f0f0;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+/* line 400, _sass/partials/_marketing-site.scss */
+article.pay .box input {
+  margin-top: 10px;
+  width: 100%;
+}
+/* line 404, _sass/partials/_marketing-site.scss */
+article.pay .box button {
+  background-color: #77bc1f;
+}
+/* line 407, _sass/partials/_marketing-site.scss */
+article.pay .box span.benefits {
+  color: #0971ce;
+  text-transform: uppercase;
+}
+/* line 411, _sass/partials/_marketing-site.scss */
+article.pay .box p.sign-up {
+  font-size: 20px;
+  color: #0971ce;
+}
+/* line 414, _sass/partials/_marketing-site.scss */
+article.pay .box p.sign-up a {
+  font-size: 22px;
+  text-decoration: underline;
+}
+/* line 420, _sass/partials/_marketing-site.scss */
+article.pay hr {
+  border: 2px solid #f0f0f0;
+}
