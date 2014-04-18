@@ -324,12 +324,22 @@
     <Compile Include="layouts\HTML Layout.aspx.designer.cs">
       <DependentUpon>HTML Layout.aspx</DependentUpon>
     </Compile>
+    <Compile Include="layouts\Modules\BaseModule.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="layouts\Modules\Footer.ascx.cs">
       <DependentUpon>Footer.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="layouts\Modules\Footer.ascx.designer.cs">
       <DependentUpon>Footer.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="layouts\Modules\Grid Promos.ascx.cs">
+      <DependentUpon>Grid Promos.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="layouts\Modules\Grid Promos.ascx.designer.cs">
+      <DependentUpon>Grid Promos.ascx</DependentUpon>
     </Compile>
     <Compile Include="layouts\Modules\Intro.ascx.cs">
       <DependentUpon>Intro.ascx</DependentUpon>
@@ -1003,6 +1013,7 @@
     <Content Include="Global.asax" />
     <Content Include="layouts\HTML Layout.aspx" />
     <Content Include="layouts\Modules\Footer.ascx" />
+    <Content Include="layouts\Modules\Grid Promos.ascx" />
     <Content Include="layouts\Modules\Intro.ascx" />
     <Content Include="layouts\Modules\Photo Lockup.ascx" />
     <Content Include="layouts\Sample Inner Sublayout.ascx" />

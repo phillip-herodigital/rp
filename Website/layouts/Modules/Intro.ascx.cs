@@ -9,25 +9,8 @@ using System.Web.UI.WebControls;
 
 namespace Website.layouts.Modules
 {
-    public partial class Intro : System.Web.UI.UserControl
+    public partial class Intro : BaseModule
     {
-        protected Item CurrentContextItem
-        {
-            get
-            {
-                Sublayout thisSublayout = (Parent as Sublayout);
-                if (thisSublayout == null)
-                    return Sitecore.Context.Item;
-                if (string.IsNullOrEmpty(thisSublayout.DataSource))
-                    return Sitecore.Context.Item;
-                string dataSource = thisSublayout.DataSource;
-                Item dataSourceItem = Sitecore.Context.Database.GetItem(dataSource) ??
-                                      Sitecore.Context.ContentDatabase.GetItem(dataSource);
-                if (dataSourceItem == null)
-                    return Sitecore.Context.Item;
-                return dataSourceItem;
-            }
-        }
         protected string ModuleCssClasses
         {
             get
