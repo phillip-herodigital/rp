@@ -11,5 +11,23 @@ namespace Website.layouts {
     
     
     public partial class HTML_Layout {
+        
+        /// <summary>
+        /// rptNavigationItems control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptNavigationItems;
+        
+        /// <summary>
+        /// divBanner control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divBanner;
     }
 }

@@ -1491,6 +1491,7 @@ form .checkbox-list.inline li,
   -webkit-transition-delay: 0.2s;
   transition: left linear 0.2s;
   background: url('../i/bg/header.png?1397167293') repeat-x;
+  position: relative;
 }
 /* line 4, _sass/partials/_header.scss */
 .site-header > .wrapper {
@@ -1799,7 +1800,7 @@ article {
   border-radius: 10px / 10px;
   margin-bottom: 20px;
   border: 1px solid #ddd;
-  padding: 15px;
+  /*padding: 15px;*/
   overflow: hidden;
 }
 /* line 29, _sass/partials/_modules.scss */

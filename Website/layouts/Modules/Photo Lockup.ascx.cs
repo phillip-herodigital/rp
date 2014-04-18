@@ -57,7 +57,7 @@ namespace Website.layouts.Modules
                     classes.Add("right-img");
                 }
 
-                var colors = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Photo Lockup/Colors").Children;
+                var colors = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Colors").Children;
 
                 if (colors.Any(c => c.Name == backgroundColorField.Value))
                 {
