@@ -7,27 +7,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Website.layouts {
+namespace Website.layouts.Modules {
     
     
-    public partial class HTML_Layout {
+    public partial class GridPromos {
         
         /// <summary>
-        /// rptNavigationItems control.
+        /// rptPromoItems control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptNavigationItems;
-        
-        /// <summary>
-        /// divBanner control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divBanner;
+        protected global::System.Web.UI.WebControls.Repeater rptPromoItems;
     }
 }

@@ -1,12 +1,13 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="Intro.ascx.cs" Inherits="Website.layouts.Modules.Intro" %>
 <%@ Register Assembly="Sitecore.Kernel" Namespace="Sitecore.Web.UI.WebControls" TagPrefix="sc" %>
 
-<div>
-    <p><%=FieldRenderer.Render(CurrentContextItem, "Content Piece 1") %></p>
+<article class="marketing marketingIntro wrapper <%=ModuleCssClasses %>">
 
-    <p><%=FieldRenderer.Render(CurrentContextItem, "Content Piece 2") %></p>
+	<p class="intro"><%=FieldRenderer.Render(CurrentContextItem, "Intro") %></p>
+	<hr />
+	<div class="body">
+		<%=FieldRenderer.Render(CurrentContextItem, "Body") %>
 
-    <p><%=FieldRenderer.Render(CurrentContextItem, "Content Piece 3") %></p>
-
-    <p><%=FieldRenderer.Render(CurrentContextItem, "Border Color") %></p>
-</div>
+		<p><%=FieldRenderer.Render(CurrentContextItem, "Action Button") %></p>
+	</div>
+</article>
