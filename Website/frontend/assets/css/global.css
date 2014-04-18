@@ -2972,3 +2972,22 @@ article.gridPromos div.col.accent-white button, article.gridPromos div.col.accen
   background-color: white;
   text-shadow: none;
 }
+
+/* line 251, _sass/partials/_marketing-site.scss */
+article.home-latest {
+  margin-bottom: 0;
+  border-top: 3px solid #999;
+  background: #E8E8EB;
+  text-align: center;
+}
+/* line 256, _sass/partials/_marketing-site.scss */
+article.home-latest h3 {
+  margin-bottom: 0;
+  font-size: 14px;
+  text-transform: none;
+}
+/* line 261, _sass/partials/_marketing-site.scss */
+article.home-latest p {
+  margin: 5px 0;
+  font-size: 20px;
+}
