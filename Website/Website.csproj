@@ -334,6 +334,13 @@
     <Compile Include="layouts\Modules\Footer.ascx.designer.cs">
       <DependentUpon>Footer.ascx</DependentUpon>
     </Compile>
+    <Compile Include="layouts\Modules\Full HTML.ascx.cs">
+      <DependentUpon>Full HTML.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="layouts\Modules\Full HTML.ascx.designer.cs">
+      <DependentUpon>Full HTML.ascx</DependentUpon>
+    </Compile>
     <Compile Include="layouts\Modules\Grid Promos.ascx.cs">
       <DependentUpon>Grid Promos.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -740,16 +747,19 @@
     <Content Include="frontend\assets\i\bg\hero-1.jpg" />
     <Content Include="frontend\assets\i\favicon.ico" />
     <Content Include="frontend\assets\i\favicon.png" />
-    <Content Include="frontend\assets\i\icon-s05c7378127.png" />
-    <Content Include="frontend\assets\i\icon2x-s1583dbdd24.png" />
+    <Content Include="frontend\assets\i\icon-s1e5882233b.png" />
+    <Content Include="frontend\assets\i\icon2x-s784a4e52a3.png" />
     <Content Include="frontend\assets\i\icon2x\bbb.png" />
     <Content Include="frontend\assets\i\icon2x\blue-rectangle.png" />
     <Content Include="frontend\assets\i\icon2x\close.png" />
     <Content Include="frontend\assets\i\icon2x\compare-usage.png" />
     <Content Include="frontend\assets\i\icon2x\dsa.png" />
     <Content Include="frontend\assets\i\icon2x\facebook.png" />
+    <Content Include="frontend\assets\i\icon2x\freeenergy-large.png" />
     <Content Include="frontend\assets\i\icon2x\hamburger.png" />
     <Content Include="frontend\assets\i\icon2x\homelife-services.png" />
+    <Content Include="frontend\assets\i\icon2x\lightbulb-large.png" />
+    <Content Include="frontend\assets\i\icon2x\money-large.png" />
     <Content Include="frontend\assets\i\icon2x\month-to-month.png" />
     <Content Include="frontend\assets\i\icon2x\pinterest.png" />
     <Content Include="frontend\assets\i\icon2x\quicklinks.png" />
@@ -764,8 +774,12 @@
     <Content Include="frontend\assets\i\icon\compare-usage.png" />
     <Content Include="frontend\assets\i\icon\dsa.png" />
     <Content Include="frontend\assets\i\icon\facebook.png" />
+    <Content Include="frontend\assets\i\icon\freeenergy-large.png" />
     <Content Include="frontend\assets\i\icon\hamburger.png" />
     <Content Include="frontend\assets\i\icon\homelife-services.png" />
+    <Content Include="frontend\assets\i\icon\lightbulb-large.png" />
+    <Content Include="frontend\assets\i\icon\money-large.png" />
+    <Content Include="frontend\assets\i\icon\month-to-month.png" />
     <Content Include="frontend\assets\i\icon\pinterest.png" />
     <Content Include="frontend\assets\i\icon\quicklinks.png" />
     <Content Include="frontend\assets\i\icon\search.png" />
@@ -787,6 +801,7 @@
     <Content Include="frontend\assets\i\paperless-promo.jpg" />
     <Content Include="frontend\assets\i\renew-promo.png" />
     <Content Include="frontend\assets\js\app.js" />
+    <Content Include="frontend\assets\js\controllers\loginHorizontal.js" />
     <Content Include="frontend\assets\js\controllers\invoices.js" />
     <Content Include="frontend\assets\js\controllers\main.js" />
     <Content Include="frontend\assets\js\controllers\marketing.js" />
@@ -1020,6 +1035,7 @@
     <Content Include="Global.asax" />
     <Content Include="layouts\HTML Layout.aspx" />
     <Content Include="layouts\Modules\Footer.ascx" />
+    <Content Include="layouts\Modules\Full HTML.ascx" />
     <Content Include="layouts\Modules\Grid Promos.ascx" />
     <Content Include="layouts\Modules\Intro.ascx" />
     <Content Include="layouts\Modules\Login Horizontal.ascx" />

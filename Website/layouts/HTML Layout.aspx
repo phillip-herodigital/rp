@@ -22,6 +22,7 @@
 	<script src="/frontend/assets/js/app.js"></script>
 	<script src="/frontend/assets/js/controllers/main.js"></script>
 	<script src="/frontend/assets/js/controllers/marketing.js"></script>
+    <script src="/frontend/assets/js/controllers/loginHorizontal.js"></script>
 
 	<script type="text/javascript" src="//use.typekit.net/hag0zvs.js"></script>
 	<script type="text/javascript">try { Typekit.load(); } catch (e) { }</script>
