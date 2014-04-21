@@ -1739,14 +1739,13 @@ div.tabbable div.tab-content div.tab-pane.active {
   text-align: right;
   margin-top: 5px;
 }
-/* line 35, _sass/partials/_header.scss */
+/* line 33, _sass/partials/_header.scss */
 .site-header nav.main-nav > ul {
   margin: 0;
   padding: 0;
   border: 0;
   overflow: hidden;
   *zoom: 1;
-  overflow: initial;
   margin: 0 auto;
   width: 100%;
   font-size: 15px;
@@ -1764,19 +1763,19 @@ div.tabbable div.tab-content div.tab-pane.active {
   *display: inline;
   white-space: nowrap;
 }
-/* line 45, _sass/partials/_header.scss */
+/* line 40, _sass/partials/_header.scss */
 .site-header nav.main-nav > ul li a {
   display: inline-block;
   color: #737373;
   padding: 17px;
 }
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
-  /* line 45, _sass/partials/_header.scss */
+  /* line 40, _sass/partials/_header.scss */
   .site-header nav.main-nav > ul li a {
     padding: 17px 8px;
   }
 }
-/* line 53, _sass/partials/_header.scss */
+/* line 48, _sass/partials/_header.scss */
 .site-header nav.main-nav > ul li.selected a {
   -moz-border-radius: 5px 5px 0 0;
   -webkit-border-radius: 5px;
@@ -1785,13 +1784,13 @@ div.tabbable div.tab-content div.tab-pane.active {
   border: 1px solid #d9d9d9;
   border-bottom: 0;
 }
-/* line 62, _sass/partials/_header.scss */
+/* line 57, _sass/partials/_header.scss */
 .site-header nav.sub-nav {
   background-color: #f2f2f2;
   border-top: 1px solid #d9d9d9;
   border-bottom: 1px solid #d9d9d9;
 }
-/* line 66, _sass/partials/_header.scss */
+/* line 61, _sass/partials/_header.scss */
 .site-header nav.sub-nav > ul {
   margin: 0;
   padding: 0;
@@ -1799,7 +1798,8 @@ div.tabbable div.tab-content div.tab-pane.active {
   overflow: hidden;
   *zoom: 1;
   margin: 0 auto;
-  font-size: 15px;
+  font-size: 14px;
+  text-transform: uppercase;
 }
 /* line 49, ../../../../../../Users/ryanbrill/.rvm/gems/ruby-2.0.0-p0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/typography/lists/_inline-block-list.scss */
 .site-header nav.sub-nav > ul li {
@@ -1813,7 +1813,7 @@ div.tabbable div.tab-content div.tab-pane.active {
   *display: inline;
   white-space: nowrap;
 }
-/* line 71, _sass/partials/_header.scss */
+/* line 67, _sass/partials/_header.scss */
 .site-header nav.sub-nav > ul li a {
   display: inline-block;
   color: #737373;
@@ -1824,7 +1824,7 @@ div.tabbable div.tab-content div.tab-pane.active {
   .site-header {
     height: 57px;
   }
-  /* line 81, _sass/partials/_header.scss */
+  /* line 77, _sass/partials/_header.scss */
   .site-header > .wrapper, article.state-tabs .site-header > ul.tabs-nav {
     position: fixed;
     top: 0;
@@ -1839,14 +1839,14 @@ div.tabbable div.tab-content div.tab-pane.active {
   }
 }
 @media only screen and (max-width: 767px) and (-webkit-min-device-pixel-ratio: 2), only screen and (max-width: 767px) and (-o-min-device-pixel-ratio: 3 / 2), only screen and (max-width: 767px) and (min--moz-device-pixel-ratio: 2), only screen and (max-width: 767px) and (min-device-pixel-ratio: 2), only screen and (max-width: 767px) and (min-resolution: 144dppx) {
-  /* line 81, _sass/partials/_header.scss */
+  /* line 77, _sass/partials/_header.scss */
   .site-header > .wrapper, article.state-tabs .site-header > ul.tabs-nav {
     background-image: url('../i/bg2x/header-mobile.png?1397848987');
     background-size: 11.5px 11.5px;
   }
 }
 @media only screen and (max-width: 767px) {
-  /* line 94, _sass/partials/_header.scss */
+  /* line 89, _sass/partials/_header.scss */
   .site-header .logo {
     display: inline-block;
     width: 84px;
@@ -1861,38 +1861,38 @@ div.tabbable div.tab-content div.tab-pane.active {
     margin-top: 0;
     margin-left: -41.75px;
   }
-  /* line 102, _sass/partials/_header.scss */
+  /* line 97, _sass/partials/_header.scss */
   .site-header .utility {
     display: none;
   }
-  /* line 105, _sass/partials/_header.scss */
+  /* line 100, _sass/partials/_header.scss */
   .site-header .nav-toggle {
     margin-top: 22px;
   }
-  /* line 108, _sass/partials/_header.scss */
+  /* line 103, _sass/partials/_header.scss */
   .site-header nav {
     display: none;
   }
 }
 @media only screen and (min-width: 768px) {
-  /* line 113, _sass/partials/_header.scss */
+  /* line 108, _sass/partials/_header.scss */
   .site-header .nav-toggle {
     display: none;
   }
 }
 
-/* line 119, _sass/partials/_header.scss */
+/* line 114, _sass/partials/_header.scss */
 .banner {
   /*height: 200px;*/
   overflow: hidden;
   margin-bottom: 20px;
 }
-/* line 123, _sass/partials/_header.scss */
+/* line 118, _sass/partials/_header.scss */
 .banner.hero-1 {
   background: url('../i/bg/hero-1.jpg?1397848987') no-repeat;
   background-size: cover;
 }
-/* line 127, _sass/partials/_header.scss */
+/* line 122, _sass/partials/_header.scss */
 .banner h1 {
   margin-top: 75px;
   color: #fff;

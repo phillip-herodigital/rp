@@ -24,8 +24,6 @@
 		}
 	}
 	nav.main-nav {
-		//clear: right;
-		//float: right;
 		position: absolute;
 		bottom: -1px;
 		right: 0;
@@ -34,11 +32,8 @@
 		margin-top: 5px;
 		> ul {
 			@include inline-block-list();
-			overflow: initial;
-			//position: relative;
 			margin: 0 auto;
 			width: 100%;
-			//padding-left: 180px;
 			font-size: 15px;
 			text-transform: uppercase;
 			li {
@@ -66,7 +61,8 @@
 		> ul {
 			@include inline-block-list();
 			margin: 0 auto;
-			font-size: 15px;
+			font-size: 14px;
+			text-transform: uppercase;
 			li {
 				a {
 					display: inline-block;
@@ -84,7 +80,6 @@
 			left: 0;
 			width: 100%;
 			background-color: #fff;
-			//@include background-retina("bg/header-mobile.png", "bg/header-mobile.png");
 			@include retina-background("header-mobile.png");
 			background-repeat: repeat-x;
 			border-bottom: 1px solid #1697ff;
