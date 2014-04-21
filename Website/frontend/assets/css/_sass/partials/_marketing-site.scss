@@ -2,15 +2,16 @@
 // Accent Color is used for headings and buttons
 // Text Color is the main body text
 $themes:
-	(name: blue, primaryColor: #1773cb, accentColor: #fff, textColor: #fff),
-	(name: paleblue, primaryColor: #7e9ab3, accentColor: #fff, textColor: #fff),
-	(name: darkblue, primaryColor: #073464, accentColor: #fff, textColor: #fff),
-	(name: green, primaryColor: #78bb2f, accentColor: #fff, textColor: #fff),
-	(name: palegreen, primaryColor: #8ba072, accentColor: #fff, textColor: #fff),
-	(name: orange, primaryColor: #fda32b, accentColor: #fff, textColor: #fff),
-	(name: red, primaryColor: #aa2130, accentColor: #fff, textColor: #fff),
-	(name: palered, primaryColor: #b48789, accentColor: #fff, textColor: #fff),
-	(name: white, primaryColor: #fff, accentColor: #1773cb, textColor: #6b6b6b);
+	(name: "blue", primaryColor: #1773cb, accentColor: #fff, textColor: #fff),
+	(name: "paleblue", primaryColor: #7e9ab3, accentColor: #fff, textColor: #fff),
+	(name: "darkblue", primaryColor: #073464, accentColor: #fff, textColor: #fff),
+	(name: "green", primaryColor: #78bb2f, accentColor: #fff, textColor: #fff),
+	(name: "palegreen", primaryColor: #8ba072, accentColor: #fff, textColor: #fff),
+	(name: "orange", primaryColor: #fda32b, accentColor: #fff, textColor: #fff),
+	(name: "red", primaryColor: #aa2130, accentColor: #fff, textColor: #fff),
+	(name: "palered", primaryColor: #b48789, accentColor: #fff, textColor: #fff),
+	(name: "white", primaryColor: #fff, accentColor: #1773cb, textColor: #6b6b6b),
+	(name: "grey", primaryColor: #e8e8e8, accentColor: #1773cb, textColor: #6b6b6b);
 
 .banner.marketing {
 	height: 400px;
@@ -118,7 +119,7 @@ article.photoLockup {
 	}
 	
 	// Custom colors
-	 @each $theme in $themes {
+	@each $theme in $themes {
 		&.bg-#{map-get($theme, name)} {
 			background-color: map-get($theme, primaryColor);
 			color: map-get($theme, textColor);
@@ -344,6 +345,37 @@ article.donate {
 			margin: 60px 20px 0 0;
 			button {
 				background-color: #77bc1f;
+			}
+		}
+	}
+}
+
+article.full-html {
+	&.center {
+		text-align: center;
+	}
+	// Custom colors
+	@each $theme in $themes {
+		&.bg-#{map-get($theme, name)} {
+			background-color: map-get($theme, primaryColor);
+			color: map-get($theme, textColor);
+			h2, h3 {
+				color: map-get($theme, accentColor);
+			}
+			button, .button {
+				background-color: map-get($theme, accentColor);
+				color: map-get($theme, primaryColor);
+				text-shadow: none;
+			}
+		}
+	}
+	@each $theme in $themes {
+		&.accent-#{map-get($theme, name)} {
+		 	h2, h3 {
+				color: map-get($theme, primaryColor);
+			}
+			button, .button {
+				background-color: map-get($theme, primaryColor);
 			}
 		}
 	}
