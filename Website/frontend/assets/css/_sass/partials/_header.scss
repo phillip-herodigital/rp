@@ -3,11 +3,13 @@
 	background: image-url("bg/header.png") repeat-x;
 	> .wrapper {
 		height: 100px;
+		position: relative;
+		overflow: initial;
 	}
 	.logo {
-		@include image-replace("logo.png");
-		position: absolute;
-		top: 15px;
+		@include image-replace("logo-horizontal.png");
+		float: left;
+		margin-top: 40px;
 	}
 	.utility {
 		@include border-radius(0 0 5px 5px);
@@ -21,42 +23,80 @@
 			text-transform: uppercase;
 		}
 	}
-	nav {
-		border-top: 5px solid #1697ff;
-		background: #0971ce;
+	nav.main-nav {
+		//clear: right;
+		//float: right;
+		position: absolute;
+		bottom: -1px;
+		right: 0;
+		width: 822px;
+		text-align: right;
+		margin-top: 5px;
+		> ul {
+			@include inline-block-list();
+			overflow: initial;
+			//position: relative;
+			margin: 0 auto;
+			width: 100%;
+			//padding-left: 180px;
+			font-size: 15px;
+			text-transform: uppercase;
+			li {
+				a {
+					display: inline-block;
+					color: #737373;
+					padding: 17px;
+					@include breakpoint(medium) {
+						padding: 17px 8px;
+					}
+				}
+				&.selected a {
+					@include border-radius(5px 5px 0 0);
+					background-color: #f2f2f2;
+					border: 1px solid #d9d9d9;
+					border-bottom: 0;
+				}
+			}
+		}
+	}
+	nav.sub-nav {
+		background-color: #f2f2f2;
+		border-top: 1px solid #d9d9d9;
+		border-bottom: 1px solid #d9d9d9;
 		> ul {
 			@include inline-block-list();
 			margin: 0 auto;
-			padding-left: 180px;
 			font-size: 15px;
-			text-transform: uppercase;
-			a {
-				display: inline-block;
-				color: #fff;
-				padding: 17px;
-				@include breakpoint(medium) {
-					padding: 17px 8px;
+			li {
+				a {
+					display: inline-block;
+					color: #737373;
+					padding: 15px 10px;
 				}
 			}
 		}
 	}
 	@include breakpoint(small) {
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
-		background-color: #fff;
-		//@include background-retina("bg/header-mobile.png", "bg/header-mobile.png");
-		@include retina-background("header-mobile.png");
-		border-bottom: 1px solid #1697ff;
-		z-index: 2;
+		height: 57px;
 		> .wrapper {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			background-color: #fff;
+			//@include background-retina("bg/header-mobile.png", "bg/header-mobile.png");
+			@include retina-background("header-mobile.png");
+			background-repeat: repeat-x;
+			border-bottom: 1px solid #1697ff;
+			z-index: 2;
 			height: 57px;
 		}
 		.logo {
 			@include image-replace("logo.png", true);
+			position: absolute;
 			left: 50%;
 			top: 11px;
+			margin-top: 0;
 			margin-left: (image-width("logo.png") / 2) / 2 * -1;
 		}
 		.utility {

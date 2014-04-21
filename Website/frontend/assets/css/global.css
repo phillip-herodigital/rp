@@ -430,6 +430,24 @@ dl dd {
   text-transform: uppercase;
 }
 
+@media only screen and (max-width: 767px) {
+  /* line 63, _sass/partials/_global.scss */
+  .hide-small {
+    display: none;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+  /* line 68, _sass/partials/_global.scss */
+  .hide-medium {
+    display: none;
+  }
+}
+@media only screen and (min-width: 1025px) {
+  /* line 73, _sass/partials/_global.scss */
+  .hide-large {
+    display: none;
+  }
+}
 @media only screen and (min-width: 768px) {
   /* line 6, _sass/partials/_layout.scss */
   .page-wrapper > nav {
@@ -483,7 +501,7 @@ dl dd {
     transition: left linear 0.2s;
   }
   /* line 45, _sass/partials/_layout.scss */
-  .page-wrapper.open .site-header,
+  .page-wrapper.open .site-header .wrapper, .page-wrapper.open .site-header article.state-tabs ul.tabs-nav, article.state-tabs .page-wrapper.open .site-header ul.tabs-nav,
   .page-wrapper.open .page-content {
     left: 260px;
   }
@@ -1680,19 +1698,21 @@ div.tabbable div.tab-content div.tab-pane.active {
 /* line 4, _sass/partials/_header.scss */
 .site-header > .wrapper, article.state-tabs .site-header > ul.tabs-nav {
   height: 100px;
+  position: relative;
+  overflow: initial;
 }
-/* line 7, _sass/partials/_header.scss */
+/* line 9, _sass/partials/_header.scss */
 .site-header .logo {
   display: inline-block;
-  width: 167px;
-  height: 159px;
-  background-image: url('../i/logo.png?1397848987');
+  width: 178px;
+  height: 43px;
+  background-image: url('../i/logo-horizontal.png?1398114277');
   background-repeat: no-repeat;
   text-indent: -5000px;
-  position: absolute;
-  top: 15px;
+  float: left;
+  margin-top: 40px;
 }
-/* line 12, _sass/partials/_header.scss */
+/* line 14, _sass/partials/_header.scss */
 .site-header .utility {
   -moz-border-radius: 0 0 5px 5px;
   -webkit-border-radius: 0;
@@ -1705,30 +1725,35 @@ div.tabbable div.tab-content div.tab-pane.active {
   padding: 10px;
   background-color: #f1f1f1;
 }
-/* line 19, _sass/partials/_header.scss */
+/* line 21, _sass/partials/_header.scss */
 .site-header .utility a {
   margin-left: 25px;
   text-transform: uppercase;
 }
-/* line 24, _sass/partials/_header.scss */
-.site-header nav {
-  border-top: 5px solid #1697ff;
-  background: #0971ce;
+/* line 26, _sass/partials/_header.scss */
+.site-header nav.main-nav {
+  position: absolute;
+  bottom: -1px;
+  right: 0;
+  width: 822px;
+  text-align: right;
+  margin-top: 5px;
 }
-/* line 27, _sass/partials/_header.scss */
-.site-header nav > ul {
+/* line 35, _sass/partials/_header.scss */
+.site-header nav.main-nav > ul {
   margin: 0;
   padding: 0;
   border: 0;
   overflow: hidden;
   *zoom: 1;
+  overflow: initial;
   margin: 0 auto;
-  padding-left: 180px;
+  width: 100%;
   font-size: 15px;
   text-transform: uppercase;
 }
 /* line 49, ../../../../../../Users/ryanbrill/.rvm/gems/ruby-2.0.0-p0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/typography/lists/_inline-block-list.scss */
-.site-header nav > ul li {
+.site-header nav.main-nav > ul li {
   list-style-image: none;
   list-style-type: none;
   margin-left: 0;
@@ -1739,44 +1764,89 @@ div.tabbable div.tab-content div.tab-pane.active {
   *display: inline;
   white-space: nowrap;
 }
-/* line 33, _sass/partials/_header.scss */
-.site-header nav > ul a {
+/* line 45, _sass/partials/_header.scss */
+.site-header nav.main-nav > ul li a {
   display: inline-block;
-  color: #fff;
+  color: #737373;
   padding: 17px;
 }
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
-  /* line 33, _sass/partials/_header.scss */
-  .site-header nav > ul a {
+  /* line 45, _sass/partials/_header.scss */
+  .site-header nav.main-nav > ul li a {
     padding: 17px 8px;
   }
+}
+/* line 53, _sass/partials/_header.scss */
+.site-header nav.main-nav > ul li.selected a {
+  -moz-border-radius: 5px 5px 0 0;
+  -webkit-border-radius: 5px;
+  border-radius: 5px 5px 0 0;
+  background-color: #f2f2f2;
+  border: 1px solid #d9d9d9;
+  border-bottom: 0;
+}
+/* line 62, _sass/partials/_header.scss */
+.site-header nav.sub-nav {
+  background-color: #f2f2f2;
+  border-top: 1px solid #d9d9d9;
+  border-bottom: 1px solid #d9d9d9;
+}
+/* line 66, _sass/partials/_header.scss */
+.site-header nav.sub-nav > ul {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  *zoom: 1;
+  margin: 0 auto;
+  font-size: 15px;
+}
+/* line 49, ../../../../../../Users/ryanbrill/.rvm/gems/ruby-2.0.0-p0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/typography/lists/_inline-block-list.scss */
+.site-header nav.sub-nav > ul li {
+  list-style-image: none;
+  list-style-type: none;
+  margin-left: 0;
+  display: inline-block;
+  vertical-align: middle;
+  *vertical-align: auto;
+  *zoom: 1;
+  *display: inline;
+  white-space: nowrap;
+}
+/* line 71, _sass/partials/_header.scss */
+.site-header nav.sub-nav > ul li a {
+  display: inline-block;
+  color: #737373;
+  padding: 15px 10px;
 }
 @media only screen and (max-width: 767px) {
   /* line 1, _sass/partials/_header.scss */
   .site-header {
+    height: 57px;
+  }
+  /* line 81, _sass/partials/_header.scss */
+  .site-header > .wrapper, article.state-tabs .site-header > ul.tabs-nav {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     background-color: #fff;
     background-image: url('../i/bg/header-mobile.png?1398100905');
+    background-repeat: repeat-x;
     border-bottom: 1px solid #1697ff;
     z-index: 2;
+    height: 57px;
   }
 }
 @media only screen and (max-width: 767px) and (-webkit-min-device-pixel-ratio: 2), only screen and (max-width: 767px) and (-o-min-device-pixel-ratio: 3 / 2), only screen and (max-width: 767px) and (min--moz-device-pixel-ratio: 2), only screen and (max-width: 767px) and (min-device-pixel-ratio: 2), only screen and (max-width: 767px) and (min-resolution: 144dppx) {
-  /* line 1, _sass/partials/_header.scss */
-  .site-header {
+  /* line 81, _sass/partials/_header.scss */
+  .site-header > .wrapper, article.state-tabs .site-header > ul.tabs-nav {
     background-image: url('../i/bg2x/header-mobile.png?1397848987');
     background-size: 11.5px 11.5px;
   }
 }
 @media only screen and (max-width: 767px) {
-  /* line 53, _sass/partials/_header.scss */
-  .site-header > .wrapper, article.state-tabs .site-header > ul.tabs-nav {
-    height: 57px;
-  }
-  /* line 56, _sass/partials/_header.scss */
+  /* line 94, _sass/partials/_header.scss */
   .site-header .logo {
     display: inline-block;
     width: 84px;
@@ -1785,42 +1855,44 @@ div.tabbable div.tab-content div.tab-pane.active {
     background-image: url('../i/logo.png?1397848987');
     background-repeat: no-repeat;
     text-indent: -5000px;
+    position: absolute;
     left: 50%;
     top: 11px;
+    margin-top: 0;
     margin-left: -41.75px;
   }
-  /* line 62, _sass/partials/_header.scss */
+  /* line 102, _sass/partials/_header.scss */
   .site-header .utility {
     display: none;
   }
-  /* line 65, _sass/partials/_header.scss */
+  /* line 105, _sass/partials/_header.scss */
   .site-header .nav-toggle {
     margin-top: 22px;
   }
-  /* line 68, _sass/partials/_header.scss */
+  /* line 108, _sass/partials/_header.scss */
   .site-header nav {
     display: none;
   }
 }
 @media only screen and (min-width: 768px) {
-  /* line 73, _sass/partials/_header.scss */
+  /* line 113, _sass/partials/_header.scss */
   .site-header .nav-toggle {
     display: none;
   }
 }
 
-/* line 79, _sass/partials/_header.scss */
+/* line 119, _sass/partials/_header.scss */
 .banner {
   /*height: 200px;*/
   overflow: hidden;
   margin-bottom: 20px;
 }
-/* line 83, _sass/partials/_header.scss */
+/* line 123, _sass/partials/_header.scss */
 .banner.hero-1 {
   background: url('../i/bg/hero-1.jpg?1397848987') no-repeat;
   background-size: cover;
 }
-/* line 87, _sass/partials/_header.scss */
+/* line 127, _sass/partials/_header.scss */
 .banner h1 {
   margin-top: 75px;
   color: #fff;
@@ -3387,7 +3459,8 @@ article.state-tabs ul.tabs-nav li a {
 }
 /* line 296, _sass/partials/_marketing-site.scss */
 article.state-tabs ul.tabs-nav li a span {
-  display: inline-block;
+  display: block;
+  margin: 0 auto;
   width: 82px;
   height: 84px;
   background-image: url('../i/bg/state-tabs.png?1398100905');
@@ -3399,36 +3472,36 @@ article.state-tabs ul.tabs-nav li a span {
     background-size: 82px 84px;
   }
 }
-/* line 304, _sass/partials/_marketing-site.scss */
+/* line 305, _sass/partials/_marketing-site.scss */
 article.state-tabs ul.tabs-nav li.active a {
   background-color: #0971ce;
   color: #fff;
 }
-/* line 308, _sass/partials/_marketing-site.scss */
+/* line 309, _sass/partials/_marketing-site.scss */
 article.state-tabs ul.tabs-nav li.active span {
   background: none;
 }
-/* line 314, _sass/partials/_marketing-site.scss */
+/* line 315, _sass/partials/_marketing-site.scss */
 article.state-tabs .tab-header {
   padding: 10px 0;
   background-color: #0971ce;
   color: #fff;
 }
 
-/* line 321, _sass/partials/_marketing-site.scss */
+/* line 322, _sass/partials/_marketing-site.scss */
 article.home-latest {
   margin-bottom: 0;
   border-top: 3px solid #999;
   background: #E8E8EB;
   text-align: center;
 }
-/* line 326, _sass/partials/_marketing-site.scss */
+/* line 327, _sass/partials/_marketing-site.scss */
 article.home-latest h3 {
   margin-bottom: 0;
   font-size: 14px;
   text-transform: none;
 }
-/* line 331, _sass/partials/_marketing-site.scss */
+/* line 332, _sass/partials/_marketing-site.scss */
 article.home-latest p {
   margin: 5px 0;
   font-size: 20px;

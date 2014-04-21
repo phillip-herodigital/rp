@@ -42,7 +42,7 @@ $mobile-nav: 260px;
 			@include transition(left linear .2s); 
 		}
 		&.open {
-			.site-header,
+			.site-header .wrapper,
 			.page-content {
 				left: $mobile-nav;
 			}

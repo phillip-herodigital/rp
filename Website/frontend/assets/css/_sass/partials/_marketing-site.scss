@@ -294,7 +294,8 @@ article.state-tabs {
 				text-align: center;
 				@include border-radius(7px 7px 0 0);
 				span {
-					display: inline-block;
+					display: block;
+					margin: 0 auto;
 					width: 82px;
 					height: 84px;
 					@include retina-background("state-tabs.png");
