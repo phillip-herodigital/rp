@@ -12,13 +12,15 @@
 	<link rel="shortcut icon" type="image/ico" href="assets/i/favicon.ico" />
 	<link href="assets/css/global.css" rel="stylesheet" />
 
-	<script src="assets/js/libs/jquery/dist/jquery.min.js"></script>
 	<script src="assets/js/libs/modernizr/modernizr.js"></script>
 	<script src="assets/js/libs/angular/angular.min.js"></script>
 	<script src="assets/js/libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 	<script src="assets/js/libs/angular-ui-utils/ui-utils.min.js"></script>
 
 	<script src="assets/js/app.js"></script>
+
+	<script src="assets/js/directives/state-tabs.js"></script>
+
 	<script src="assets/js/controllers/main.js"></script>
 	<script src="assets/js/controllers/marketing.js"></script>
 
@@ -55,8 +57,44 @@
 
 			<div class="banner marketing" style="background-image: url(assets/i/marketing/header-home-01.jpg)"></div>
 
-			
 			<section class="layout cols-1" ng-controller="MarketingCtrl">
+
+				<article class="marketing state-tabs" state-tabs>
+					<ul class="tabs-nav">
+						<li ng-click="selectPane('texas')" ng-class="{ active: pane == 'texas' }">
+							<a href="">
+								<span><i class="icon-state-texas"></i></span>
+								Texas
+							</a>
+						</li>
+						<li ng-click="selectPane('georgia')" ng-class="{ active: pane == 'georgia' }">
+							<a href="">
+								<span><i class="icon-state-georgia"></i></span>
+								Georgia
+							</a>
+						</li>
+					</ul>
+					<div class="tab-content" ng-class="{ hidden : pane != 'texas' }">
+						<div class="tab-header">
+							<div class="wrapper">
+								<p>Header content here.</p>
+							</div>
+						</div>
+						<div class="wrapper">
+							<p>Body content here.</p>
+						</div>
+					</div>
+					<div class="tab" ng-class="{ hidden : pane != 'georgia' }">
+						<div class="tab-header">
+							<div class="wrapper">
+								<p>Header content here 2.</p>
+							</div>
+						</div>
+						<div class="wrapper">
+							<p>Body content here 2.</p>
+						</div>
+					</div>
+				</article>
 				
 				<div class="form">
 					<div class="group">

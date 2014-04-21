@@ -21,7 +21,7 @@ ngApp.controller('MainCtrl', ['$scope', '$rootScope', '$http', function ($scope,
 	// Scope properties
 	$scope.sidebarOpen = false;
 
-	$scope.navLinks = buildNavLinks();
+	//$scope.navLinks = buildNavLinks();
 
 	// Public Methods
 	$scope.toggleSidebar = function() {
