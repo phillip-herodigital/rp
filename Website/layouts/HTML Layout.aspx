@@ -20,6 +20,10 @@
 	<script src="/frontend/assets/js/libs/angular-ui-utils/ui-utils.min.js"></script>
 
 	<script src="/frontend/assets/js/app.js"></script>
+
+    <script src="/frontend/assets/js/directives/main-nav.js"></script>
+    <script src="/frontend/assets/js/directives/state-tabs.js"></script>
+
 	<script src="/frontend/assets/js/controllers/main.js"></script>
 	<script src="/frontend/assets/js/controllers/marketing.js"></script>
     <script src="/frontend/assets/js/controllers/loginHorizontal.js"></script>
