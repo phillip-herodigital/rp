@@ -9,7 +9,7 @@ using System.Web.UI.WebControls;
 
 namespace Website.layouts.Modules
 {
-    public partial class Photo_Lockup : BaseModule
+    public partial class Photo_Lockup : BaseLayout
     {
         protected string BackgroundImageURL
         {

@@ -9,7 +9,7 @@ using System.Web.UI.WebControls;
 
 namespace Website.layouts.Modules
 {
-    public partial class Intro : BaseModule
+    public partial class Intro : BaseLayout
     {
         protected string ModuleCssClasses
         {

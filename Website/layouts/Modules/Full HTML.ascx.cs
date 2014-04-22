@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace Website.layouts.Modules
 {
-    public partial class Full_HTML : BaseModule
+    public partial class Full_HTML : BaseLayout
     {
         protected string ModuleCssClasses
         {
