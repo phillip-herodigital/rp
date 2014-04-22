@@ -195,6 +195,9 @@ article.marketingIntro {
 
 article.loginHorizontal {
 	margin-top: -20px;
+	@include breakpoint(small) {
+		margin-top: 0;
+	}
 	padding: 4px 0;
 	border-top: 4px solid #1697ff;
 	background-color: #1773cb;
@@ -277,6 +280,45 @@ article.full-html {
 				background-color: map-get($theme, primaryColor);
 			}
 		}
+	}
+}
+
+article.state-tabs {
+	ul.tabs-nav {
+		@extend .wrapper;
+		margin: 0 auto;
+		display: table;
+		li {
+			float: none;
+			display: table-cell;
+			a {
+				display: block;
+				padding: 10px 0 20px 0;
+				text-align: center;
+				@include border-radius(7px 7px 0 0);
+				span {
+					display: block;
+					margin: 0 auto;
+					width: 82px;
+					height: 84px;
+					@include retina-background("state-tabs.png");
+				}
+			}
+			&.active {
+				a {
+					background-color: #0971ce;
+					color: #fff;
+				}
+				span {
+					background: none;
+				}
+			}
+		}
+	}
+	.tab-header {
+		padding: 10px 0;
+		background-color: #0971ce;
+		color: #fff;
 	}
 }
 

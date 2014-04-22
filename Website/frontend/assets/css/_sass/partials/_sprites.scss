@@ -28,10 +28,13 @@ $icons-2x: sprite_names($icon-2x-sprite); // Get a list of all the images used i
 $all-icons: remove-duplicates(join($icons, $icons-2x)); // Get a merged, unique list of all icons used, both 1x and 2x
 
 // Retina tips taken from https://github.com/Gaya/Retina-Sprites-for-Compass
-@mixin icon($sprite, $dimensions: true) {
+@mixin icon($sprite, $dimensions: true, $hover: false) {
 	// Check if we have a 1x version of the icon
 	@if index($icons, $sprite) {
-		background-image: sprite-url($icon-sprite);
+		//@include sprite-background-image($icon-sprite, $sprite); // Sprite
+		@if not $hover {
+			background-image: sprite-url($icon-sprite);
+		}
 		background-position: sprite-position($icon-sprite, $sprite);
 		@if $dimensions {
 			height: image-height(sprite-file($icon-sprite, $sprite));
@@ -42,8 +45,10 @@ $all-icons: remove-duplicates(join($icons, $icons-2x)); // Get a merged, unique 
 	// Check if we have a 2x version of the icon
 	@if index($icons-2x, $sprite) { 
 		@media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3/2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
-			background-image: sprite-url($icon-2x-sprite);
-			background-size: (image-width(sprite-path($icon-2x-sprite)) / 2) (image-height(sprite-path($icon-2x-sprite)) / 2);
+			@if not $hover {
+				background-image: sprite-url($icon-2x-sprite);
+				background-size: (image-width(sprite-path($icon-2x-sprite)) / 2) (image-height(sprite-path($icon-2x-sprite)) / 2);
+			}
 			background-position: round(nth(sprite-position($icon-2x-sprite, $sprite), 1) / 2) round(nth(sprite-position($icon-2x-sprite, $sprite), 2) / 2);
 			@if $dimensions {
 				height: image-height(sprite-file($icon-2x-sprite, $sprite)) / 2;
@@ -69,9 +74,11 @@ $all-icons: remove-duplicates(join($icons, $icons-2x)); // Get a merged, unique 
 					padding-left: (image-width(sprite-file($icon-2x-sprite, $icon)) / 2)+5px;
 				} 
 			}
-			// &.text {
-			// 	padding-left: image-width(sprite-file($icon-sprite, $icon))+5px;
-			// }
+			@if index($all-icons, "#{$icon}_hover") { 
+				&:hover {
+					@include icon("#{$icon}_hover", false, true);
+				}
+			}
 		}
 	}
 }

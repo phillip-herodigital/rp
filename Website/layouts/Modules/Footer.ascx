@@ -5,7 +5,7 @@
 	<div class="super-footer">
 		<div class="wrapper">
 			<div class="grid three">
-				<div class="col">
+				<div class="col badges">
                     <%=FieldRenderer.Render(CurrentContextItem, "First Column Links") %>
 				</div>
 				<div class="col quick-links">
