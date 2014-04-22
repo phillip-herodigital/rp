@@ -195,6 +195,9 @@ article.marketingIntro {
 
 article.loginHorizontal {
 	margin-top: -20px;
+	@include breakpoint(small) {
+		margin-top: 0;
+	}
 	padding: 4px 0;
 	border-top: 4px solid #1697ff;
 	background-color: #1773cb;

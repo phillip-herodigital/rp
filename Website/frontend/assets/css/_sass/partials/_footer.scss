@@ -20,7 +20,7 @@
 				color: #fff;
 			}
 			.col {
-				padding: 0 65px;
+				padding: 0 20px;
 				@include breakpoint(small-medium) {
 					padding: 0 10px;
 				}
@@ -32,8 +32,25 @@
 					}
 				}
 				@include breakpoint(medium-large) {
+					&:nth-child(1),
+					&:nth-child(3) {
+						width: 30%;
+					}
+					&:nth-child(2) {
+						width: 40%;
+					}
 					&:not(:last-child) {
 						border-right: 1px solid #1a86e7;
+					}
+				}
+			}
+
+			.col.quick-links {
+				ul {
+					@extend .clearfix;
+					li {
+						float: left;
+						width: 50%;
 					}
 				}
 			}
@@ -68,10 +85,10 @@
 
 			.col.social {
 				li {
-					padding-left: 40px;
+					padding-left: 35px;
 					[class*="icon-"] {
 						float: left;
-						margin-left: -40px;
+						margin-left: -35px;
 					}
 				}
 			}

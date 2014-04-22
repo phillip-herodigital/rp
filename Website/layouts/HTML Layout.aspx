@@ -44,16 +44,16 @@
 					<a href="/" class="logo">Logo</a>
 					<p class="utility"><a href="#">Manage My Account</a></p>
 					<a href="" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
+                    <nav class="main-nav">
+					    <ul class="wrapper">
+                            <asp:Repeater ID="rptNavigationItems" runat="server">
+                                <ItemTemplate>
+                                    <li class="<%# Eval("CssClass") %>"><a href="<%# Eval("URL") %>"><%# Eval("Text") %></a></li>
+                                </ItemTemplate>
+                            </asp:Repeater>
+					    </ul>
+				    </nav>
 				</div>
-				<nav>
-					<ul class="wrapper">
-                        <asp:Repeater ID="rptNavigationItems" runat="server">
-                            <ItemTemplate>
-                                <li class="<%# Eval("CssClass") %>"><a href="<%# Eval("URL") %>"><%# Eval("Text") %></a></li>
-                            </ItemTemplate>
-                        </asp:Repeater>
-					</ul>
-				</nav>
 			</header>
 
 			<div id="divBanner" class="banner marketing" runat="server">
