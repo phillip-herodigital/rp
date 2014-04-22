@@ -742,3 +742,67 @@ article.contact {
 		}
 	}
 }
+
+article.contact-state {
+	.customer-service {
+		margin-bottom: 25px;
+		h1 {
+			color: #0971ce;
+			margin-bottom: 50px;
+		}
+		h2 {
+			text-transform: none;
+			margin-bottom: 0;
+		}
+		.left-side {
+			width: 65%;
+			float: left;
+			.phone-email {
+				margin-bottom: 40px;
+				p {
+					margin: 0;
+				}
+			}	
+		}
+		.right-side {
+			float: right;
+			.mail {
+				@include border-radius(10px, 10px);
+				background-color: #e8e8e8;
+				padding: 20px;
+				h2 {
+					background-image: url('../i/marketing/contact.png');
+					background-repeat: no-repeat;
+					background-position: top right;
+					padding-right: 70px;
+				}
+				p {
+					margin: 0;
+				}
+			}
+		}
+	}
+	.quality-control {
+		margin-bottom: 35px;
+		p {
+			margin: 20px 0 30px 0;
+		}
+		h2 {
+			margin: 0;
+		}
+	}
+	.emergency {
+		h3 {
+			color: #0971ce;
+			margin: 50px 0 10px 0;
+		}
+		.grid .col {
+			.company {
+				color: #0971ce;
+			}
+		}
+		.oncor {
+			width: 85%;
+		}
+	}
+}

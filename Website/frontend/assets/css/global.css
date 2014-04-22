@@ -4013,3 +4013,79 @@ article.contact div.faq h2 span.header-line {
 article.contact div.faq p {
   width: 305px;
 }
+
+/* line 747, _sass/partials/_marketing-site.scss */
+article.contact-state .customer-service {
+  margin-bottom: 25px;
+}
+/* line 749, _sass/partials/_marketing-site.scss */
+article.contact-state .customer-service h1 {
+  color: #0971ce;
+  margin-bottom: 50px;
+}
+/* line 753, _sass/partials/_marketing-site.scss */
+article.contact-state .customer-service h2 {
+  text-transform: none;
+  margin-bottom: 0;
+}
+/* line 757, _sass/partials/_marketing-site.scss */
+article.contact-state .customer-service .left-side {
+  width: 65%;
+  float: left;
+}
+/* line 760, _sass/partials/_marketing-site.scss */
+article.contact-state .customer-service .left-side .phone-email {
+  margin-bottom: 40px;
+}
+/* line 762, _sass/partials/_marketing-site.scss */
+article.contact-state .customer-service .left-side .phone-email p {
+  margin: 0;
+}
+/* line 767, _sass/partials/_marketing-site.scss */
+article.contact-state .customer-service .right-side {
+  float: right;
+}
+/* line 769, _sass/partials/_marketing-site.scss */
+article.contact-state .customer-service .right-side .mail {
+  -moz-border-radius: 10px / 10px;
+  -webkit-border-radius: 10px 10px;
+  border-radius: 10px / 10px;
+  background-color: #e8e8e8;
+  padding: 20px;
+}
+/* line 773, _sass/partials/_marketing-site.scss */
+article.contact-state .customer-service .right-side .mail h2 {
+  background-image: url("../i/marketing/contact.png");
+  background-repeat: no-repeat;
+  background-position: top right;
+  padding-right: 70px;
+}
+/* line 779, _sass/partials/_marketing-site.scss */
+article.contact-state .customer-service .right-side .mail p {
+  margin: 0;
+}
+/* line 785, _sass/partials/_marketing-site.scss */
+article.contact-state .quality-control {
+  margin-bottom: 35px;
+}
+/* line 787, _sass/partials/_marketing-site.scss */
+article.contact-state .quality-control p {
+  margin: 20px 0 30px 0;
+}
+/* line 790, _sass/partials/_marketing-site.scss */
+article.contact-state .quality-control h2 {
+  margin: 0;
+}
+/* line 795, _sass/partials/_marketing-site.scss */
+article.contact-state .emergency h3 {
+  color: #0971ce;
+  margin: 50px 0 10px 0;
+}
+/* line 800, _sass/partials/_marketing-site.scss */
+article.contact-state .emergency .grid .col .company {
+  color: #0971ce;
+}
+/* line 804, _sass/partials/_marketing-site.scss */
+article.contact-state .emergency .oncor {
+  width: 85%;
+}
