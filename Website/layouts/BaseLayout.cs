@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Website.layouts.Modules
+namespace Website.layouts
 {
-    public class BaseModule : System.Web.UI.UserControl
+    public class BaseLayout : System.Web.UI.UserControl
     {
         protected Item CurrentContextItem
         {

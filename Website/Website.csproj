@@ -324,7 +324,7 @@
     <Compile Include="layouts\HTML Layout.aspx.designer.cs">
       <DependentUpon>HTML Layout.aspx</DependentUpon>
     </Compile>
-    <Compile Include="layouts\Modules\BaseModule.cs">
+    <Compile Include="layouts\BaseLayout.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="layouts\Modules\Footer.ascx.cs">
@@ -368,6 +368,13 @@
     </Compile>
     <Compile Include="layouts\Modules\Photo Lockup.ascx.designer.cs">
       <DependentUpon>Photo Lockup.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="layouts\Pages\Marketing\Leader.ascx.cs">
+      <DependentUpon>Leader.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="layouts\Pages\Marketing\Leader.ascx.designer.cs">
+      <DependentUpon>Leader.ascx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -1086,6 +1093,7 @@
     <Content Include="layouts\Modules\Intro.ascx" />
     <Content Include="layouts\Modules\Login Horizontal.ascx" />
     <Content Include="layouts\Modules\Photo Lockup.ascx" />
+    <Content Include="layouts\Pages\Marketing\Leader.ascx" />
     <Content Include="layouts\Sample Inner Sublayout.ascx" />
     <Content Include="layouts\Sample Sublayout.ascx" />
     <Content Include="layouts\system\VisitorIdentification.aspx" />
