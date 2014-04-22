@@ -29,14 +29,17 @@ namespace Website.layouts
         {
             var ret = new List<object>();
 
+            var subnavNum = 0;
             foreach (var item in Sitecore.Context.Database.GetItem("/sitecore/content/Data/Navigation/Anonymous").Children.ToArray())
             {
+                subnavNum++;
                 var field = (Sitecore.Data.Fields.LinkField)item.Fields["Navigation Link"];
                 ret.Add(new
                 {
                     URL = field.Url,
                     Text = field.Text,
-                    CssClass = (field.TargetItem.ID == Sitecore.Context.Item.ID) ? "selected" : ""
+                    CssClass = (field.TargetItem.ID == Sitecore.Context.Item.ID) ? "selected" : "",
+                    SubNavAttributes = subnavNum != 5 ? string.Format(@"ng-mouseover=""showSubnav({0})"" ng-mouseout=""hideSubnav()"" ng-class=""{{ selected: subnav == {0} }}""", subnavNum) : "",
                 });
             }
 

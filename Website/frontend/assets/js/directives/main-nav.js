@@ -8,7 +8,7 @@ ngApp.directive('mainNav', function ($rootScope, $filter, $parse) {
 			
 			//scope.pane = 'one';
 
-			var defaultSelection = 2;
+			var defaultSelection = 0;
 
 			scope.subnav = defaultSelection;
 
