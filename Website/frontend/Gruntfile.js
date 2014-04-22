@@ -41,7 +41,7 @@ module.exports = function(grunt) {
 			options: {
 				width: "50%",
 				height: "50%",
-				overwrite: true
+				overwrite: grunt.option('overwrite') || false
 			},
 			dev: {
 				files: [{

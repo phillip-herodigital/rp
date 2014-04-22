@@ -20,8 +20,13 @@
 	<script src="/frontend/assets/js/libs/angular-ui-utils/ui-utils.min.js"></script>
 
 	<script src="/frontend/assets/js/app.js"></script>
+
+    <script src="/frontend/assets/js/directives/main-nav.js"></script>
+    <script src="/frontend/assets/js/directives/state-tabs.js"></script>
+
 	<script src="/frontend/assets/js/controllers/main.js"></script>
 	<script src="/frontend/assets/js/controllers/marketing.js"></script>
+    <script src="/frontend/assets/js/controllers/loginHorizontal.js"></script>
 
 	<script type="text/javascript" src="//use.typekit.net/hag0zvs.js"></script>
 	<script type="text/javascript">try { Typekit.load(); } catch (e) { }</script>
@@ -43,16 +48,16 @@
 					<a href="/" class="logo">Logo</a>
 					<p class="utility"><a href="#">Manage My Account</a></p>
 					<a href="" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
+                    <nav class="main-nav">
+					    <ul class="wrapper">
+                            <asp:Repeater ID="rptNavigationItems" runat="server">
+                                <ItemTemplate>
+                                    <li class="<%# Eval("CssClass") %>"><a href="<%# Eval("URL") %>"><%# Eval("Text") %></a></li>
+                                </ItemTemplate>
+                            </asp:Repeater>
+					    </ul>
+				    </nav>
 				</div>
-				<nav>
-					<ul class="wrapper">
-                        <asp:Repeater ID="rptNavigationItems" runat="server">
-                            <ItemTemplate>
-                                <li class="<%# Eval("CssClass") %>"><a href="<%# Eval("URL") %>"><%# Eval("Text") %></a></li>
-                            </ItemTemplate>
-                        </asp:Repeater>
-					</ul>
-				</nav>
 			</header>
 
 			<div id="divBanner" class="banner marketing" runat="server">

@@ -9,7 +9,7 @@ using System.Web.UI.WebControls;
 
 namespace Website.layouts.Modules
 {
-    public partial class Footer : BaseModule
+    public partial class Footer : BaseLayout
     {
         protected void Page_Load(object sender, EventArgs e)
         {

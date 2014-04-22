@@ -58,3 +58,19 @@ dl {
 	float: right;
 	text-transform: uppercase;
 }
+
+@include breakpoint(small) {
+	.hide-small {
+		display: none;
+	}
+}
+@include breakpoint(medium) {
+	.hide-medium {
+		display: none;
+	}
+}
+@include breakpoint(large) {
+	.hide-large {
+		display: none;
+	}
+}

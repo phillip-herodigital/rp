@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace Website.layouts.Modules
 {
-    public partial class Login_Horizontal : BaseModule
+    public partial class Login_Horizontal : BaseLayout
     {
         protected void Page_Load(object sender, EventArgs e)
         {

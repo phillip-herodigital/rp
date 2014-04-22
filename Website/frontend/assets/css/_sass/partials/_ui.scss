@@ -1,0 +1,23 @@
+div.tabbable {
+	ul.nav-tabs {
+		@include layout-list();
+		@extend .clearfix;
+		li {
+			float: left;
+			a {
+				display: block;
+			}
+			&.active {
+
+			}
+		}
+	}
+	div.tab-content {
+		div.tab-pane {
+			display: none;
+			&.active {
+				display: block;
+			}
+		}
+	}
+}
