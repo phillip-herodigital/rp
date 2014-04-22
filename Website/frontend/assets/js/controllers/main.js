@@ -6,15 +6,15 @@ ngApp.controller('MainCtrl', ['$scope', '$rootScope', '$http', function ($scope,
 
 	// Private Methods
 	var buildNavLinks = function() {
-		var menu = [],
-		links = $("header nav > ul > li a");
+		var menu = [];
+		/*links = $("header nav > ul > li a");
 
 		links.each(function() {
 			menu.push({
 				'name': $(this).html(),
 				'href': $(this).attr('href')
 			});
-		});
+		});*/
 		return menu;
 	};
 

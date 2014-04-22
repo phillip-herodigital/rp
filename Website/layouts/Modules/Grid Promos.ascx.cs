@@ -8,7 +8,7 @@ using System.Web.UI.WebControls;
 
 namespace Website.layouts.Modules
 {
-    public partial class GridPromos : BaseModule
+    public partial class GridPromos : BaseLayout
     {
         protected void Page_Load(object sender, EventArgs e)
         {
