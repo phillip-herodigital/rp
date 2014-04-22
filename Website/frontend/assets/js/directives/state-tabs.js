@@ -26,8 +26,16 @@ ngApp.directive('mainNav', function ($rootScope, $filter, $parse) {
 			
 			//scope.pane = 'one';
 
+			var defaultSelection = 2;
+
+			scope.subnav = defaultSelection;
+
 			scope.showSubnav = function(item) {
 				scope.subnav = item;
+			};
+
+			scope.hideSubnav = function(item) {
+				scope.subnav = defaultSelection;
 			};
 
 		}
