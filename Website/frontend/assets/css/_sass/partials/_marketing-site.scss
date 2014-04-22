@@ -274,27 +274,28 @@ article.leaders {
 			color: #fff;
 		}
 	}
-	.director {
-		width: 25%;
-		float: left;
-		text-align: center;
-		h2,
-		h4 {
-			color: #ac1f2d;
-			margin: 0px;
-		}
-		p {
-			font-style: italic;
+	ul li {
+		list-style-type: none;
+		&.director {
+			width: 25%;
+			float: left;
+			text-align: center;
+			h2,
+			h4 {
+				color: #ac1f2d;
+				margin: 0px;
+			}
+			p {
+				font-style: italic;
+			}
+			@include breakpoint(small) {
+				width: 50%;
+			}
 		}
 	}
 	.view-all {
 		padding-top: 40px;
 		float: left;
-	}
-	@include breakpoint(small) {
-		.director {
-			width: 50%;
-		}
 	}
 }
 
@@ -304,53 +305,55 @@ article.director-list {
 		text-transform: none;
 		margin-bottom: 20px;
 	}
-	.director {
-		width: 25%;
-		float: left;
-		text-align: center;
-		h3 {
-			color: #0971ce;
-			text-transform: none;
-		}
-	}
-	@include breakpoint(medium) {
-		.director {
-			width: 33%;
-		}
-	}
-	@include breakpoint(small) {
-		.director {
-			width: 50%;
+	ul li {
+		list-style-type: none;
+		&.director {
+			width: 25%;
+			float: left;
+			text-align: center;
+			h3 {
+				color: #0971ce;
+				text-transform: none;
+			}
+			@include breakpoint (medium) {
+				width: 33%;
+			}
+			@include breakpoint(small) {
+				width: 50%;
+			}
 		}
 	}
 }
 
 article.donate {
-	.charity {
-		padding: 30px 0;
-		border-bottom: 3px solid #f0f0f0;
-		&:last-child {
-			border-bottom: none;
-		}
-		img {
-			float: left;
-		}
-		&.grey {
-			background-color: #fafafa;
-		}
-		.promo {
-			float: left;
-			width: 40%;
-			margin: 10px 0 0 30px;
-			h4 {
-				color: #ffa300;
+	ul li {
+		list-style-type: none;
+		&.charity {
+			padding: 30px 0;
+			border-bottom: 3px solid #f0f0f0;
+			&:last-child {
+				border-bottom: none;
 			}
-		}
-		.donate-button {
-			float: right;
-			margin: 60px 20px 0 0;
-			button {
-				background-color: #77bc1f;
+			img {
+				float: left;
+			}
+			&.grey {
+				background-color: #fafafa;
+			}
+			.promo {
+				float: left;
+				width: 40%;
+				margin: 10px 0 0 30px;
+				h4 {
+					color: #ffa300;
+				}
+			}
+			.donate-button {
+				float: right;
+				margin: 60px 20px 0 0;
+				button {
+					background-color: #77bc1f;
+				}
 			}
 		}
 	}
