@@ -792,6 +792,7 @@ article.contact-state {
 		}
 	}
 	.emergency {
+		margin-bottom: 30px;
 		h3 {
 			color: #0971ce;
 			margin: 50px 0 10px 0;
@@ -800,9 +801,71 @@ article.contact-state {
 			.company {
 				color: #0971ce;
 			}
+			.oncor {
+				width: 85%;
+			}
+			.company-contact {
+				width: 80%;
+				margin-bottom: 40px;
+				h2 {
+					text-transform: none;
+				}
+				button {
+					background-color: #ffa409;
+					a {
+						color: #fff;
+					}
+					&:hover {
+						background-color: #6b6b6b;
+					}
+				}
+			}
 		}
-		.oncor {
-			width: 85%;
+	}
+}
+
+article.faq {
+	background-color: #eaeaea;
+	padding: 20px 0;
+	.wrapper {
+		.panel {
+			@include border-radius(10px, 10px);
+			background-color: #fff;
+			p.question {
+				background-image: url('../i/marketing/expand.png');
+				background-repeat: no-repeat;
+				background-position: 98%;
+				a {
+					color: #696969;
+					display: block;
+					padding: 10px;
+				}
+				.q {
+					font-size: 26px;
+					color: #bbb;
+					margin-right: 10px;
+				}
+			}
+			.panel-content {
+				color: #0971ce;
+				padding-bottom: 10px;
+				.answer-hr {
+					border: 3px solid #eaeaea;
+					width: 90%;
+				}
+				.a {
+					float: left;
+					font-size: 26px;
+					margin: 10px 0px 0 10px;
+				}
+				.answer {
+					margin-left: 55px;	
+				}
+			}
 		}
+		.faq-hr {
+			border: 3px solid #f3f3f3;
+			margin: 20px 0;
+		}	
 	}
 }
