@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<!--[if IE 8]>         <html ng-app="ngApp" class="no-js ie8 lt-ie10 lt-ie9"> <![endif]-->
+<!--[if IE 9]>         <html ng-app="ngApp" class="no-js ie9 lt-ie10"> <![endif]-->
+<!--[if gt IE 8]><!--> <html ng-app="ngApp" class="no-js"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8" />
+
+	<title>Title</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<link rel="shortcut icon" type="image/ico" href="assets/i/favicon.ico" />
+	<link href="assets/css/global.css" rel="stylesheet" />
+
+	<script src="assets/js/libs/jquery/dist/jquery.min.js"></script>
+	<script src="assets/js/libs/modernizr/modernizr.js"></script>
+	<script src="assets/js/libs/angular/angular.min.js"></script>
+	<script src="assets/js/libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+	<script src="assets/js/libs/angular-ui-utils/ui-utils.min.js"></script>
+
+	<script src="assets/js/app.js"></script>
+	<script src="assets/js/controllers/main.js"></script>
+	<script src="assets/js/controllers/marketing.js"></script>
+
+	<script type="text/javascript" src="//use.typekit.net/hag0zvs.js"></script>
+	<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
+</head>
+<body ng-controller="MainCtrl">
+	<div class="page-wrapper" ng-class="{open:sidebarOpen}">
+		<nav>
+			<ul>
+				<li ng-repeat="item in navLinks">
+					<a href="{{item.href}}">{{item.name}}</a>
+				</li>
+			</ul>
+		</nav>
+		<div class="page-content">
+			<header class="site-header">
+				<div class="wrapper">
+					<a href="/" class="logo">Logo</a>
+					<p class="utility"><a href="#">Manage My Account</a></p>
+					<a href="" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
+				</div>
+				<nav>
+					<ul class="wrapper">
+						<li><a href="#">Rates, Products, &amp; Services</a></li>
+						<li class="selected"><a href="#">Opportunity</a></li>
+						<li><a href="#">Company</a></li>
+						<li><a href="#">Contact Us</a></li>
+						<li><a href="#">Pay My Bill</a></li>
+					</ul>
+				</nav>
+			</header>
+
+			<div class="banner marketing" style="background-image: url(assets/i/marketing/header-home-01.jpg)"></div>
+
+			
+			<section class="layout cols-1" ng-controller="MarketingCtrl">
+				
+				<article class="marketing leaders">
+					<div class="paragraph">
+						<p>Want to know what some of our top Associates are saying about their experience<sup>3</sup> with The Ignite Opportunity? <span>You've come to the right place.</span></p>
+					</div>
+					<div class="director-banner stretch">
+						<h2 class="wrapper">Presidential Directors</h2>
+					</div>
+					<div class="wrapper">
+						<ul class="director">
+							<li>
+								<img src="assets/i/marketing/directors.jpg" Alt="Director Image" />
+								<h4>Presley &amp; Jeanie</h4>
+								<h2>Swagerty</h2>
+								<p>Flower Mound, TX</p>
+							</li>
+							<li>
+								<img src="assets/i/marketing/directors.jpg" Alt="Director Image" />
+								<h4>Presley &amp; Jeanie</h4>
+								<h2>Swagerty</h2>
+								<p>Flower Mound, TX</p>
+							</li>
+							<li>
+								<img src="assets/i/marketing/directors.jpg" Alt="Director Image" />
+								<h4>Presley &amp; Jeanie</h4>
+								<h2>Swagerty</h2>
+								<p>Flower Mound, TX</p>
+							</li>
+							<li>
+								<img src="assets/i/marketing/directors.jpg" Alt="Director Image" />
+								<h4>Presley &amp; Jeanie</h4>
+								<h2>Swagerty</h2>
+								<p>Flower Mound, TX</p>
+							</li>
+						</ul>
+						<p class="view-all"><a href="#">View All Presidential Directors &#187;</a></p>
+					</div>
+				</article>
+				<article class="marketing leaders">
+					<div class="director-banner stretch">
+						<h2 class="wrapper">Executive Directors</h2>
+					</div>
+					<div class="wrapper">
+						<ul class="director">
+							<li>
+								<img src="assets/i/marketing/directors.jpg" Alt="Director Image" />
+								<h4>David</h4>
+								<h2>Adams</h2>
+							</li>
+							<li>
+								<img src="assets/i/marketing/directors.jpg" Alt="Director Image" />
+								<h4>David</h4>
+								<h2>Adams</h2>
+							</li>
+							<li>
+								<img src="assets/i/marketing/directors.jpg" Alt="Director Image" />
+								<h4>David</h4>
+								<h2>Adams</h2>
+							</li>
+							<li>
+								<img src="assets/i/marketing/directors.jpg" Alt="Director Image" />
+								<h4>David</h4>
+								<h2>Adams</h2>
+							</li>
+						</ul>
+						<p class="view-all"><a href="#">View All Executive Directors &#187;</a></p>
+					</div>
+				</article>
+				
+				<article class="marketing director-list">
+					<div class="wrapper">
+						<h2>Presidential Directors</h2>
+						<ul class="director">
+							<li>
+								<img src="assets/i/marketing/directors.jpg" Alt="Director Image" />
+								<h3>Presley &amp; Jeanie Swagerty</h3>
+								<p>Flower Mound, TX</p>
+							</li>
+							<li>
+								<img src="assets/i/marketing/directors.jpg" Alt="Director Image" />
+								<h3>Steve &amp; Diane Fisher</h3>
+								<p>Colleyville, TX</p>
+							</li>
+							<li>
+								<img src="assets/i/marketing/directors.jpg" Alt="Director Image" />
+								<h3>Greg &amp; Heather McCord</h3>
+								<p>Dallas, TX</p>
+							</li>
+							<li>
+								<img src="assets/i/marketing/directors.jpg" Alt="Director Image" />
+								<h3>Randy &amp; Marcie Hedge</h3>
+								<p>DeQueen, AR</p>
+							</li>
+							<li>
+								<img src="assets/i/marketing/directors.jpg" Alt="Director Image" />
+								<h3>Mark &amp; La Dohn Dean</h3>
+								<p>Dallas, TX</p>
+							</li>
+							<li>
+								<img src="assets/i/marketing/directors.jpg" Alt="Director Image" />
+								<h3>Brian &amp; Beth Lucia</h3>
+								<p>McKinney, TX</p>
+							</li>
+							<li>
+								<img src="assets/i/marketing/directors.jpg" Alt="Director Image" />
+								<h3>Ryan Morris</h3>
+								<p>Fort Worth, TX</p>
+							</li>
+							<li>
+								<img src="assets/i/marketing/directors.jpg" Alt="Director Image" />
+								<h3>Mark Florez</h3>
+								<p>Heath, TX</p>
+							</li>
+						</ul>
+					</div>
+				</article>
+				
+				<article class="marketing director-list">
+					<div class="wrapper">
+						<h2>Presidential Directors</h2>
+						<ul class="director">
+							<li>
+								<img src="assets/i/marketing/directors.jpg" Alt="Director Image" />
+								<h3>David Adams</h3>
+							</li>
+							<li>
+								<img src="assets/i/marketing/directors.jpg" Alt="Director Image" />
+								<h3>Bill Akins</h3>
+							</li>
+							<li>
+								<img src="assets/i/marketing/directors.jpg" Alt="Director Image" />
+								<h3>Lynn Almond</h3>
+							</li>
+							<li>
+								<img src="assets/i/marketing/directors.jpg" Alt="Director Image" />
+								<h3>Sue Anderson</h3>
+							</li>
+							<li>
+								<img src="assets/i/marketing/directors.jpg" Alt="Director Image" />
+								<h3>Robart Bell</h3>
+							</li>
+							<li>
+								<img src="assets/i/marketing/directors.jpg" Alt="Director Image" />
+								<h3>Cobi Ben-Bassat</h3>
+							</li>
+							<li>
+								<img src="assets/i/marketing/directors.jpg" Alt="Director Image" />
+								<h3>Ray &amp; Rebecca Bickerstaff</h3>
+							</li>
+							<li>
+								<img src="assets/i/marketing/directors.jpg" Alt="Director Image" />
+								<h3>Becky Bigbie</h3>
+							</li>
+						</ul>
+					</div>
+				</article>
+				
+				<article class="marketing wrapper donate">
+					<ul class="charity">
+						<li class="clearfix">
+							<img src="assets/i/marketing/captain-hopes.jpg" alt="Captain Hope's" />
+							<div class="promo">
+								<h4>Captain Hope's Kids</h4>
+								<p>Texas-based Captain Hope's Kids is the only agency in Dallas that is devoted exclusively to providing critically needed items to homeless children.</p>
+							</div>
+							<div class="donate-button">
+								<a href="http://www.captainhope.org/donate"><button>Donate Now</button></a>
+							</div>
+						</li>
+						<li class="clearfix grey">
+							<img src="assets/i/marketing/fuel-fund.jpg" alt="Captain Hope's" />
+							<div class="promo">
+								<h4>Fuel Fund</h4>
+								<p>The Fuel Fund of Maryland provides financial relief to families who require assistance in paying for their household utility service.</p>
+							</div>
+							<div class="donate-button">
+								<a href="https://www.fuelfundmaryland.org/give-assistance/donate"><button>Donate Now</button></a>
+							</div>
+						</li>
+						<li class="clearfix">
+							<img src="assets/i/marketing/heat.jpg" alt="H.E.A.T." />
+							<div class="promo">
+								<h4>Heating Energy Assistance Team</h4>
+								<p>Economically disadvantaged families in Georgia rely on the Heating Energy Assistance Team for assistance in paying their energy bills.</p>
+							</div>
+							<div class="donate-button">
+								<a href="http://www.heatga.org/donate-now/donate-online-now"><button>Donate Now</button></a>
+							</div>
+						</li>
+						<li class="clearfix grey">
+							<img src="assets/i/marketing/ragans-hope.jpg" alt="Ragan's Hope" />
+							<div class="promo">
+								<h4>Ragan's Hope</h4>
+								<p>Ragan's HOPE is a Texas-based charity committed to helping parents across the nation whose children suffer from catastrophic illnesses or injuries providing financial, emotional and spiritual support.</p>
+							</div>
+							<div class="donate-button">
+								<a href="http://raganshope.org/giving/"><button>Donate Now</button></a>
+							</div>
+						</li>
+						<li class="clearfix">
+							<img src="assets/i/marketing/utility-emergency-services.jpg" alt="Utility Emergency Services Fund" />
+							<div class="promo">
+								<h4>Utility Emergency Services Fund</h4>
+								<p>Based in Pennsylvania, the Utility Emergency Services Fund helps low income families in Philadelphia pay for life essential services.</p>
+							</div>
+							<div class="donate-button">
+								<a href="http://www.uesfacts.org/donate-now.html"><button>Donate Now</button></a>
+							</div>
+						</li>
+					</ul>
+				</article>
+				
+				<article class="marketing wrapper careers">
+					<h3>No Current Job Openings</h3>
+					<hr />
+					<p>Thank you for your interest in working with us here at Stream Energy. Unfortunately we have no open job positions, but please check back as we regularly update the site.</p>
+				</article>
+				
+				<article class="marketing wrapper press">
+					<div class="press-intro">
+						<p class="paragraph">When you're helping revolutionize an industry that's more than 100 years old, people are bound to take notice. Stream Energy <span>often attracts the spotlight</span> in news stories and blogs, and we invite you to read all about it!</p>
+						<button>Download Our Press Kit</button>
+						<p>For media inquiries, please contact Amy Power at (214) 693-2146 or <a href="mailto:amy@powerpublicrelations.com" target="_top">amy@powerpublicrelations.com.</a></p>
+					</div>
+					<hr />
+					<div class="post">
+						<h2>Splash for Hope, sponsored by Steam Energy, July 9 at Hawaiian Falls Garland</h2>
+						<p class="date">Posted on: July 7, 2013</p>
+						<p>Captain Hope's Kids to host more than 300 homeless childrenStream Energy, one of the largest direct selling companies in the world, is partnering with Captain Hope's Kids to host more than 300 homeless children and their families for a day at Hawaiian Falls waterpark in Garland on July 9. "We strive[...]</p>
+						<button>Read full post</button>
+					</div>
+					<div class="post">
+						<h2>Splash for Hope, sponsored by Steam Energy, July 9 at Hawaiian Falls Garland</h2>
+						<p class="date">Posted on: July 7, 2013</p>
+						<p>Captain Hope's Kids to host more than 300 homeless childrenStream Energy, one of the largest direct selling companies in the world, is partnering with Captain Hope's Kids to host more than 300 homeless children and their families for a day at Hawaiian Falls waterpark in Garland on July 9. "We strive[...]</p>
+						<button>Read full post</button>
+					</div>
+					<div class="post">
+						<h2>Splash for Hope, sponsored by Steam Energy, July 9 at Hawaiian Falls Garland</h2>
+						<p class="date">Posted on: July 7, 2013</p>
+						<p>Captain Hope's Kids to host more than 300 homeless childrenStream Energy, one of the largest direct selling companies in the world, is partnering with Captain Hope's Kids to host more than 300 homeless children and their families for a day at Hawaiian Falls waterpark in Garland on July 9. "We strive[...]</p>
+						<button>Read full post</button>
+					</div>
+				</article>
+				
+				<article class="marketing wrapper choose-state">
+					<h2>Choose Your Area To Get Started</h2>
+					<ul>
+						<li><a href="#"><img src="assets/i/marketing/texas.jpg" alt="Texas" /><p>Texas</p></a></li>
+						<li><a href="#"><img src="assets/i/marketing/georgia.jpg" alt="Georgia" /><p>Georgia</p></a></li>
+						<li><a href="#"><img src="assets/i/marketing/pennsylvania.jpg" alt="Pennsylvania" /><p>Pennsylvania</p></a></li>
+						<li><a href="#"><img src="assets/i/marketing/maryland.jpg" alt="Maryland" /><p>Maryland</p></a></li>
+						<li><a href="#"><img src="assets/i/marketing/newjersey.jpg" alt="New Jersey" /><p>New Jersey</p></a></li>
+						<li><a href="#"><img src="assets/i/marketing/newyork.jpg" alt="New York" /><p>New York</p></a></li>
+						<li><a href="#"><img src="assets/i/marketing/washingtondc.jpg" alt="Washington, D.C." /><p>Washington, D.C.</p></a></li>
+					</ul>
+				</article>
+			</section>
+			
+
+			<section class="layout cols-2 wrapper" ng-controller="MarketingCtrl">
+				<section class="layout cols-1">
+					<article class="marketing blog">
+						<div class="blog-post">
+							<h2>Avoid Texas winter's high electricity bills</h2>
+							<p class="date">Posted on February 3, 2014 | By: Jon Bourne</p>
+							<p>The winder season is in full swing and we all know what that means - higher energy bills. As the temperature begins to drop, electric bills begin to rise. As your best friends energy company, we want to not only warn you about a potential increase in your bill, but[...]</p>
+							<a href="#"><button>Read Full Post</button></a>
+						</div>
+						<div class="blog-post">
+							<h2>Avoid Texas winter's high electricity bills</h2>
+							<p class="date">Posted on February 3, 2014 | By: Jon Bourne</p>
+							<p>The winder season is in full swing and we all know what that means - higher energy bills. As the temperature begins to drop, electric bills begin to rise. As your best friends energy company, we want to not only warn you about a potential increase in your bill, but[...]</p>
+							<a href="#"><button>Read Full Post</button></a>
+						</div>
+						<div class="blog-post">
+							<h2>Avoid Texas winter's high electricity bills</h2>
+							<p class="date">Posted on February 3, 2014 | By: Jon Bourne</p>
+							<p>The winder season is in full swing and we all know what that means - higher energy bills. As the temperature begins to drop, electric bills begin to rise. As your best friends energy company, we want to not only warn you about a potential increase in your bill, but[...]</p>
+							<a href="#"><button>Read Full Post</button></a>
+						</div>
+					</article>
+				</section>
+				<aside>
+					<article class="marketing blog-list">
+						<button>Categories</button>
+						<ul>
+							<li><a href="#">Clean Energy (3)</a></li>
+							<li><a href="#">Company Culture (39)</a></li>
+							<li><a href="#">Energy Deregulations/Regulations (14)</a></li>
+							<li><a href="#">Energy Industry Awards (1)</a></li>
+							<li><a href="#">Energy Landscape (21)</a></li>
+							<li><a href="#">Energy Network Marketing (24)</a></li>
+							<li><a href="#">Energy Savings &amp; Tips (9)</a></li>
+							<li><a href="#">Energy Services (12)</a></li>
+							<li><a href="#">Georgia Natural Gas (14)</a></li>
+							<li><a href="#">Green Energy (6)</a></li>
+							<li><a href="#">Maryland Energy (13)</a></li>
+							<li><a href="#">Network Marketing Awards (1)</a></li>
+							<li><a href="#">New Jersey Energy (5)</a></li>
+							<li><a href="#">New York Energy (3)</a></li>
+							<li><a href="#">Pennsylvania Energy (18)</a></li>
+							<li><a href="#">Philanthropy (14)</a></li>
+							<li><a href="#">Texas Energy (25)</a></li>
+							<li><a href="#">Uncategorized (6)</a></li>
+						</ul>
+						<button>Archives</button>
+						<ul>
+							<li><a href="#">February 2014</a></li>
+							<li><a href="#">November 2013</a></li>
+							<li><a href="#">July 2013</a></li>
+							<li><a href="#">March 2013</a></li>
+							<li><a href="#">February 2013</a></li>
+							<li><a href="#">January 2013</a></li>
+							<li><a href="#">December 2012</a></li>
+							<li><a href="#">November 2012</a></li>
+							<li><a href="#">October 2012</a></li>
+							<li><a href="#">September 2012</a></li>
+							<li><a href="#">August 2012</a></li>
+							<li><a href="#">July 2012</a></li>
+							<li><a href="#">June 2012</a></li>
+							<li><a href="#">April 2012</a></li>
+							<li><a href="#">March 2012</a></li>
+							<li><a href="#">February 2012</a></li>
+							<li><a href="#">January 2012</a></li>
+							<li><a href="#">December 2011</a></li>
+							<li><a href="#">November 2011</a></li>
+							<li><a href="#">October 2011</a></li>
+							<li><a href="#">September 2011</a></li>
+							<li><a href="#">August 2011</a></li>
+							<li><a href="#">July 2011</a></li>
+							<li><a href="#">June 2011</a></li>
+							<li><a href="#">May 2011</a></li>
+							<li><a href="#">April 2011</a></li>
+							<li><a href="#">March 2011</a></li>
+							<li><a href="#">February 2011</a></li>
+							<li><a href="#">January 2011</a></li>
+							<li><a href="#">December 2010</a></li>
+							<li><a href="#">November 2010</a></li>
+						</ul>
+					</article>
+				</aside>
+			</section>
+
+			<section class="layout cols-1" ng-controller="MarketingCtrl">
+				<article class="marketing wrapper pay">
+					<h2 class="get-started">There are Several Ways to Pay Your Bill. Just Click on Your Area to Get Started.</h2>
+					<div class="grid">
+						<div class="col">
+							<div class="pay-option">
+								<h1>Texas</h1>
+								<p>One of the easiest ways to pay your bill is by created a My Stream Account. Thanks for being a valued part of our family. Have questions?</p>
+								<p class="call">Call us at <span class="phone">866-447-8732</span>.</p>
+							</div>
+							<div class="pay-option">
+								<h2>Make a One-time Payment Online</h2>
+								<p>No time to login?</p>
+								<p><a href="#"><button>Click Here</button></a> INSTEAD</p>
+								<p>Some charges apply.</p>
+							</div>
+							<div class="pay-option">
+								<h2>Mail Your Payment</h2>
+								<p>Stream Energy<br />P.O. Box 650026<br /> Dallas, Texas 75265-0026</p>
+								<p>Stream Energy provides a self-addressed envelope with your bill to return your payment. Avoid late fees by mailing your payment at least three business days before the due date specified.</p>
+							</div>
+							<div class="pay-option">
+								<h2>Pay By Phone</h2>
+								<p>Using your credit or debit card, you may make a payment by calling <span class="phone">866-447-8732</span>.</p>
+								<p>Some charges apply.</p>
+								<p>Payments made over the phone will post the same day.</p>
+							</div>
+						</div>
+						<div class="col">
+							<div class="box">
+								<h1>My Stream Account</h1>
+								<input type="text" placeholder="Username">
+								<input type="text" placeholder="Password">
+								<p><button>Login</button></p>
+								<p>Forgot your <br /><a href="#">Username</a> or <a href="#">Password</a>?</p>
+								<hr />
+								<p>Haven't created a My Stream account?</p>
+								<p class="sign-up"><a href="#">Sign up for FREE</a> today and enjoy benefits like:</p>
+								<p><span class="benefits">Paperless Billing</span> - Reduce your carbon footprint</p>
+								<p><span class="benefits">Automated Payments</span> - Never forget a payment again</p>
+							</div>
+							<hr />
+							<h2>Find a Pay Center Near You</h2>
+							<p>If you would like to make your energy payment in person, use the <a href="#">Stream Energy Pay Center Locator</a> to find a payment center in your area.</p>
+							<p>If you choose to pay your bill with a money order, please have the money order made payable to the name of the convenience store or location you are paying through, rather than payable to Stream Energy.</p>
+						</div>
+					</div>
+				</article>
+				
+				<article class="marketing contact">
+					<div class="intro wrapper">
+						<p>Have a question? We're here to help.</p>
+						<p>Out Customer FAQ can answer most of your questions, but we're happy to talk with you if you'd rather give us a call.</p>
+						<p>Please select an area to view details.</p>
+					</div>
+				</article>
+				<article class="marketing contact">
+					<div class="blue-bar">
+					</div>
+					<div class="associate-support">
+						<div class="wrapper">
+							<h2>Associate Support</h2>
+							<div class="grid">
+								<div class="col">
+									<p class="phone">Phone: 214-800-4500</p>
+									<p>Hours of Operation: Monday - <br />Friday, 7 a.m. to 6 p.m. CT</p>
+									<p class="fax">Fax: 214-560-1341</p>
+								</div>
+								<div class="col">
+									<h4>Stream Energy</h4>
+									<p>1950 N Stemmons Frwy <br />Ste. 3000 <br />Dallas, TX 75207</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="homelife-services">
+						<div class="wrapper">
+							<h2>Questions About Homelife Services?</h2>
+							<h2 class="homelife">We're here to give you the answers</h2>
+							<h2 class="homelife phone">HomeLife Services:</h2>
+							<h2 class="homelife phone">866-544-0694</h2>
+							<p>Hours of Operation: Monday - Friday, 8 a.m. to 5 p.m. CT</p>
+						</div>
+					</div>
+					<div class="clean-nation">
+						<div class="wrapper">
+							<h2>Clean Nation</h2>
+							<p>Questions about Clean Nation? We have answers. Call us at any of the below number<br /> (or by directing mail to our address):
+							<h2>Clean Nation Support</h2>
+							<div class="grid">
+								<div class="col">
+									<p class="phone">Phone: 214-800-4500</p>
+									<p>Hours of Operation Monday -<br />Friday, 7 a.m. to 6 p.m. CT</p>
+								</div>
+								<div class="col">
+									<h4>Stream Energy</h4>
+									<p>1950 N Stemmons Frwy <br />Ste. 3000 <br />Dallas, TX 75207</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="vip wrapper">
+						<h2>VIP Support</h2>
+						<p>Once you've achieved the rank of Executive Director, an email will be sent to you with all of your VIP Support contact information.</p>
+					</div>
+					<div class="request">
+						<div class="request-or"></div>
+						<div class="wrapper">
+							<h2>Send us a Request.</h2>
+							<p>Please Fill Out All Required Fields marked with a " &#42; "</p>
+							<div class="grid">
+								<div class="col">
+									<form>
+										<div class="item">
+											<label for="first-name">First Name On Account:</label>
+											<input type="text" id="first-name" placeholder="First name (required)">
+											<span class="asterisk">&#42;</span>
+										</div>
+										<div class="item">
+											<label for="last-name">Last Name On Account:</label>
+											<input type="text" id="last-name" placeholder="Last name (required)">
+											<span class="asterisk">&#42;</span>
+										</div>
+										<div class="item">
+											<label for="first-name">Service Address:</label>
+											<input type="text" id="address" placeholder="Service Address">
+										</div>
+										<div class="group">
+											<div class="item">
+												<label for="first-name">City:</label>
+												<input type="text" id="city" placeholder="City (required)">
+												<span class="asterisk">&#42;</span>
+											</div>
+											<div class="item">
+												<label for="first-name">State:</label>
+												<select>
+													<option value="State">Select your State (required)</option>
+													<option>State 1</option>
+													<option>State 2</option>
+												</select>
+												<span class="asterisk">&#42;</span>
+											</div>
+											<div class="item">
+												<label for="zip-code">Zip Code:</label>
+												<input type="text" id="zip-code" placeholder="Zip Code (required)">
+												<span class="asterisk">&#42;</span>
+											</div>
+										</div>
+									</form>
+								</div>
+								<div class="col">
+									<form>
+										<div class="item">
+											<label for="phone">Phone Number:</label>
+											<input type="text" id="email" placeholder="Phone Number">
+										</div>
+										<div class="item">
+											<label for="email">Email Address:</label>
+											<input type="email" id="email" placeholder="Email (required)">
+											<span class="asterisk">&#42;</span>
+										</div>
+										<div class="item">
+											<label for="reason">Reason for Request:</label>
+											<select>
+												<option value="reason">Reason for request. (required)</option>
+											</select>
+											<span class="asterisk">&#42;</span>
+										</div>
+										<div class="item">
+											<label for="comments">Please Briefly Explain Your Request:</label>
+											<textarea placeholder="Please type your message here (required)"></textarea>
+											<span class="asterisk">&#42;</span>
+										</div>
+										<button>Send</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="contact-banner">
+						<img src="assets/i/marketing/contact-banner.jpg" />
+					</div>
+					<div class="faq">
+						<div class="wrapper">
+							<h2><span class="header-line"></span><span class="header">Frequently asked questions (FAQS)</span></h2>
+							<p>If you have questions about billing, energy rates, and more, please review our Customer FAQs.</p>
+							<p>To search our Customer FAQs, head here:</p>
+							<button class="primary">Customer FAQS</button>
+						</div>
+					</div>
+				</article>
+				
+				<article class="marketing contact-state wrapper">
+					<div class="customer-service clearfix">
+						<h1>Texas</h1>
+						<div class="left-side">
+							<div class="phone-email">
+								<h2>Customer Service: 866-447-8732</h2>
+								<p>(Hours: 7 a.m. to 10 p.m. CT, Monday - Friday; 8 a.m. to 5 p.m. CT, Saturday)</p>
+								<p>Email: <a href="mailto:customerservice@streamenergy.net">customerservice@streamenergy.net</a></p>
+							</div>
+							<h2>Customer Care Fax: <br />214-800-4444</h2>
+							<p>Commercial Service: contact your Account Manager or 866-544-0692</p>
+						</div>
+						<div class="right-side">
+							<div class="mail">
+								<h2>Stream Energy</h2>
+								<p>1950 N Stemmons Frwy</p>
+								<p>Ste. 3000</p>
+								<p>Dallas, TX 75207</p>
+							</div>
+						</div>
+						
+					</div>
+					<div class="quality-control">
+						<h2>Quality Control</h2>
+						<p>Questions about our policies and procedures? Seeking downline activity information or need more sales kits?<br />For those and anything else you stand in need of, please contact us at any of the below numbers:</p>
+						
+						<h2>English: 866-687-5264</h2>
+						<h2>Spanish: 866-687-5265</h2>
+						<p>Hours of Operation: 24 hours a day, seven days a week</p>
+					</div>
+					<div class="emergency">
+						<h2>Emergency Contact</h2>
+						<p>In case of emergency or outage, please contact your Local Wires Company directly.</p>
+						<p>The Local Wires Companies listed below are responsible for maintaining the poles and wires, and for responding to emergencies and power outages.</p>
+						<p>TIP: Keep the contact number of your local wires company close to your phone, so you can find it easily should you experience a power disruption.</p>
+						<h3>Local Wires Companies</h3>
+						<div class="grid">
+							<div class="col">
+								<p class="oncor"><span class="company">Oncor</span> (TXU service area) 888-313-4747<br /> (Oncor can link to five different phone numbers with your ESIID to speed restoration when you call to report outages. Call 888-313-6862 to set it up.)</p>
+								<p><span class="company">CenterPoint</span> (Reliant service area) 800-332-7143</p>
+								<p><span class="company">Sharyland Utilities McAllen Service Area</span> 956-668-9551<br />24 Hours a day / 7 days a week</p>
+							</div>
+							<div class="col">
+								<p><span class="company">AEP Central</span> (CPL service area) 866-223-8508</p>
+								<p><span class="company">TNMP</span> (First Choice service area) 888-866-7456</p>
+								<p><span class="company">AEP North</span> (WTU service area) 866-223-8508</p>
+								<p><span class="company">Sharyland Utilities Service Area</span> 800-442-8688<br />24 Hours a day / 7 days a week</p>
+							</div>
+						</div>
+					</div>
+				</article>
+				
+			</section>
+
+			<footer class="site-footer">
+				<div class="super-footer">
+					<div class="wrapper">
+						<div class="grid three">
+							<div class="col">
+								<ul>
+									<li><a href="#"><img src="assets/i/img-footer-get-free-energy.png" alt="Get Free Energy" width="159" height="44" /></a></li>
+									<li><a href="#"><img src="assets/i/img-footer-renew-my-contract.png" alt="Renew My Contract" width="120" height="45" /></a></li>
+								</ul>
+							</div>
+							<div class="col quick-links">
+								<h2><i class="icon-quicklinks"></i> Quick Links</h2>
+								<ul>
+									<li><a href="#">Account Overview</a></li>
+									<li><a href="#">Utility Services</a></li>
+									<li><a href="#">Homelife Services</a></li>
+									<li><a href="#">My Profile</a></li>
+								</ul>
+							</div>
+							<div class="col social">
+								<h2><i class="icon-social"></i> Social</h2>
+								<ul>
+									<li><a href="#"><i class="icon-facebook"></i> Facebook</a></li>
+									<li><a href="#"><i class="icon-twitter"></i> Twitter</a></li>
+									<li><a href="#"><i class="icon-youtube"></i> YouTube</a></li>
+									<li><a href="#"><i class="icon-pinterest"></i> Pinterest</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="wrapper copyright">
+					<p>&copy; 2005-2013 SGE IP Holdco, LLC. All rights reserved. Licensed in TX, GA, PA, MD, NJ, NY, &amp; DC<br />
+					(TX #10104, GA #GM-38, NJ #ESL-0109 &amp; GSL-0120, PA #A-2010-2181867 &amp; A-2012-2308991, MD #IR-2072 &amp; IR-2742, NY #STRM, DC EA11-11)</p>
+					<ul>
+						<li><a href="#"><i class="icon-bbb"></i></a></li>
+						<li><a href="#"><i class="icon-dsa"></i></a></li>
+					</ul>
+				</div>
+			</footer>
+		</div>
+	</div>
+
+</body>
+</html>
