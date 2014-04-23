@@ -49,6 +49,7 @@ article.photoLockup {
 		position: absolute;
 		width: 50%;
 		height: 100%;
+		overflow: hidden;
 	}
 	.text {
 		float: right;
@@ -820,4 +821,8 @@ article.states-enroll {
 	div.wrapper {
 		text-align: center;
 	}
+}
+article.full-width-image {
+	height: 300px;
+	background-size: cover;
 }

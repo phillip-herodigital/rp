@@ -2,7 +2,11 @@
 <%@ Register Assembly="Sitecore.Kernel" Namespace="Sitecore.Web.UI.WebControls" TagPrefix="sc" %>
 
 <article class="marketing photoLockup <%=ModuleCssClasses %>">
-	<div class="photo" style="background-image: url('<%=BackgroundImageURL %>')"></div>
+	<div class="photo" style="background-image: url('<%=BackgroundImageURL %>')">
+        <div id="divEditMode" visible="false" runat="server">
+            <%=FieldRenderer.Render(CurrentContextItem, "Background Image") %>
+        </div>
+	</div>
 	<div class="text">
 		<div class="inner">
 			<h2><%=FieldRenderer.Render(CurrentContextItem, "Header") %></h2>
