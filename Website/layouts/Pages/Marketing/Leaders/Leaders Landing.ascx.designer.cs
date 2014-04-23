@@ -7,36 +7,27 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Website.layouts {
+namespace Website.layouts.Pages.Marketing.Leaders {
     
     
-    public partial class HTML_Layout {
+    public partial class Leaders_Landing {
         
         /// <summary>
-        /// rptNavigationItems control.
+        /// cusPresidentialDirectors control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptNavigationItems;
+        protected global::Website.layouts.Pages.Marketing.Leaders.Leader_Listing cusPresidentialDirectors;
         
         /// <summary>
-        /// rptSubNavs control.
+        /// cusExecutiveDirectors control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptSubNavs;
-        
-        /// <summary>
-        /// divBanner control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divBanner;
+        protected global::Website.layouts.Pages.Marketing.Leaders.Leader_Listing cusExecutiveDirectors;
     }
 }
