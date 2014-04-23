@@ -327,6 +327,13 @@
     <Compile Include="layouts\BaseLayout.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="layouts\Modules\Full Width Image.ascx.cs">
+      <DependentUpon>Full Width Image.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="layouts\Modules\Full Width Image.ascx.designer.cs">
+      <DependentUpon>Full Width Image.ascx</DependentUpon>
+    </Compile>
     <Compile Include="layouts\Modules\Footer.ascx.cs">
       <DependentUpon>Footer.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1114,6 +1121,7 @@
     <Content Include="frontend\utility-services.html" />
     <Content Include="Global.asax" />
     <Content Include="layouts\HTML Layout.aspx" />
+    <Content Include="layouts\Modules\Full Width Image.ascx" />
     <Content Include="layouts\Modules\Footer.ascx" />
     <Content Include="layouts\Modules\Full HTML.ascx" />
     <Content Include="layouts\Modules\Grid Promos.ascx" />
