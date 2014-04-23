@@ -43,7 +43,7 @@
 			</ul>
 		</nav>
 		<div class="page-content">
-			<header class="site-header">
+			<header class="site-header" main-nav>
 				<div class="wrapper">
 					<a href="/" class="logo">Logo</a>
 					<p class="utility"><a href="#">Manage My Account</a></p>
@@ -52,12 +52,47 @@
 					    <ul class="wrapper">
                             <asp:Repeater ID="rptNavigationItems" runat="server">
                                 <ItemTemplate>
-                                    <li class="<%# Eval("CssClass") %>"><a href="<%# Eval("URL") %>"><%# Eval("Text") %></a></li>
+                                    <li <%# Eval("SubNavAttributes") %> class="<%# Eval("CssClass") %>"><a href="<%# Eval("URL") %>"><%# Eval("Text") %></a></li>
                                 </ItemTemplate>
                             </asp:Repeater>
 					    </ul>
 				    </nav>
 				</div>
+                <nav class="sub-nav">
+                    <ul class="wrapper" ng-class="{ hidden: subnav != 0 }" ng-mouseover="showSubnav(0)" ng-mouseout="hideSubnav()">
+						<li><a>&nbsp;</a></li>
+					</ul>
+					<ul class="wrapper" ng-class="{ hidden: subnav != 1 }" ng-mouseover="showSubnav(1)" ng-mouseout="hideSubnav()">
+						<li><a href="">Enroll</a></li>
+						<li><a href="">Renew</a></li>
+						<li><a href="">Free Energy</a></li>
+						<li><a href="">For Business</a></li>
+						<li><a href="">Electricity</a></li>
+						<li><a href="">Gas</a></li>
+						<li><a href="">HomeLife Services</a></li>
+						<li><a href="">Clean Energy</a></li>
+					</ul>
+					<ul class="wrapper" ng-class="{ hidden: subnav != 2 }" ng-mouseover="showSubnav(2)" ng-mouseout="hideSubnav()">
+						<li><a href="">Why Stream Energy?</a></li>
+						<li><a href="">Why Energy?</a></li>
+						<li><a href="">How It Works</a></li>
+						<li><a href="">Compensation Plan</a></li>
+						<li><a href="">Start a Business</a></li>
+						<li><a href="">Top Leaders</a></li>
+					</ul>
+					<ul class="wrapper" ng-class="{ hidden: subnav != 3 }" ng-mouseover="showSubnav(3)" ng-mouseout="hideSubnav()">
+						<li><a href="">About</a></li>
+						<li><a href="">Corporate Team</a></li>
+						<li><a href="">Blog</a></li>
+						<li><a href="">Press</a></li>
+						<li><a href="">Philanthropy</a></li>
+						<li><a href="">Careers</a></li>
+						<li><a href="" target="_blank">Events</a></li>
+					</ul>
+					<ul class="wrapper" ng-class="{ hidden: subnav != 4 }" ng-mouseover="showSubnav(4)" ng-mouseout="hideSubnav()">
+						<li><a href="">Customer FAQs</a></li>
+					</ul>
+				</nav>
 			</header>
 
 			<div id="divBanner" class="banner marketing" runat="server">
