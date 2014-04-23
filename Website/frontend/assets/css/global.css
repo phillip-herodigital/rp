@@ -3254,28 +3254,28 @@ article.leaders .director-banner h2 {
   color: #fff;
 }
 /* line 277, _sass/partials/_marketing-site.scss */
-article.leaders ul li {
+article.leaders ul.director {
   list-style-type: none;
 }
 /* line 279, _sass/partials/_marketing-site.scss */
-article.leaders ul li.director {
+article.leaders ul.director li {
   width: 25%;
   float: left;
   text-align: center;
 }
 /* line 283, _sass/partials/_marketing-site.scss */
-article.leaders ul li.director h2,
-article.leaders ul li.director h4 {
+article.leaders ul.director li h2,
+article.leaders ul.director li h4 {
   color: #ac1f2d;
   margin: 0px;
 }
 /* line 288, _sass/partials/_marketing-site.scss */
-article.leaders ul li.director p {
+article.leaders ul.director li p {
   font-style: italic;
 }
 @media only screen and (max-width: 767px) {
   /* line 279, _sass/partials/_marketing-site.scss */
-  article.leaders ul li.director {
+  article.leaders ul.director li {
     width: 50%;
   }
 }
@@ -3292,71 +3292,71 @@ article.director-list h2 {
   margin-bottom: 20px;
 }
 /* line 308, _sass/partials/_marketing-site.scss */
-article.director-list ul li {
+article.director-list ul.director {
   list-style-type: none;
 }
 /* line 310, _sass/partials/_marketing-site.scss */
-article.director-list ul li.director {
+article.director-list ul.director li {
   width: 25%;
   float: left;
   text-align: center;
 }
 /* line 314, _sass/partials/_marketing-site.scss */
-article.director-list ul li.director h3 {
+article.director-list ul.director li h3 {
   color: #0971ce;
   text-transform: none;
 }
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
   /* line 310, _sass/partials/_marketing-site.scss */
-  article.director-list ul li.director {
+  article.director-list ul.director li {
     width: 33%;
   }
 }
 @media only screen and (max-width: 767px) {
   /* line 310, _sass/partials/_marketing-site.scss */
-  article.director-list ul li.director {
+  article.director-list ul.director li {
     width: 50%;
   }
 }
 
 /* line 329, _sass/partials/_marketing-site.scss */
-article.donate ul li {
+article.donate ul.charity {
   list-style-type: none;
 }
 /* line 331, _sass/partials/_marketing-site.scss */
-article.donate ul li.charity {
+article.donate ul.charity li {
   padding: 30px 0;
   border-bottom: 3px solid #f0f0f0;
 }
 /* line 334, _sass/partials/_marketing-site.scss */
-article.donate ul li.charity:last-child {
+article.donate ul.charity li:last-child {
   border-bottom: none;
 }
 /* line 337, _sass/partials/_marketing-site.scss */
-article.donate ul li.charity img {
+article.donate ul.charity li img {
   float: left;
 }
 /* line 340, _sass/partials/_marketing-site.scss */
-article.donate ul li.charity.grey {
+article.donate ul.charity li.grey {
   background-color: #fafafa;
 }
 /* line 343, _sass/partials/_marketing-site.scss */
-article.donate ul li.charity .promo {
+article.donate ul.charity li .promo {
   float: left;
   width: 40%;
   margin: 10px 0 0 30px;
 }
 /* line 347, _sass/partials/_marketing-site.scss */
-article.donate ul li.charity .promo h4 {
+article.donate ul.charity li .promo h4 {
   color: #ffa300;
 }
 /* line 351, _sass/partials/_marketing-site.scss */
-article.donate ul li.charity .donate-button {
+article.donate ul.charity li .donate-button {
   float: right;
   margin: 60px 20px 0 0;
 }
 /* line 354, _sass/partials/_marketing-site.scss */
-article.donate ul li.charity .donate-button button {
+article.donate ul.charity li .donate-button button {
   background-color: #77bc1f;
 }
 

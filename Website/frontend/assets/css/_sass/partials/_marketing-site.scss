@@ -274,9 +274,9 @@ article.leaders {
 			color: #fff;
 		}
 	}
-	ul li {
+	ul.director {
 		list-style-type: none;
-		&.director {
+		li {
 			width: 25%;
 			float: left;
 			text-align: center;
@@ -305,9 +305,9 @@ article.director-list {
 		text-transform: none;
 		margin-bottom: 20px;
 	}
-	ul li {
+	ul.director {
 		list-style-type: none;
-		&.director {
+		li {
 			width: 25%;
 			float: left;
 			text-align: center;
@@ -326,9 +326,9 @@ article.director-list {
 }
 
 article.donate {
-	ul li {
+	ul.charity {
 		list-style-type: none;
-		&.charity {
+		li {
 			padding: 30px 0;
 			border-bottom: 3px solid #f0f0f0;
 			&:last-child {
