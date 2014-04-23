@@ -383,12 +383,33 @@
     <Compile Include="layouts\Modules\States Enroll.ascx.designer.cs">
       <DependentUpon>States Enroll.ascx</DependentUpon>
     </Compile>
-    <Compile Include="layouts\Pages\Marketing\Leader.ascx.cs">
+    <Compile Include="layouts\Pages\Marketing\Leaders\Leader Listing.ascx.cs">
+      <DependentUpon>Leader Listing.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="layouts\Pages\Marketing\Leaders\Leader Listing.ascx.designer.cs">
+      <DependentUpon>Leader Listing.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="layouts\Pages\Marketing\Leaders\Leader.ascx.cs">
       <DependentUpon>Leader.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="layouts\Pages\Marketing\Leader.ascx.designer.cs">
+    <Compile Include="layouts\Pages\Marketing\Leaders\Leader.ascx.designer.cs">
       <DependentUpon>Leader.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="layouts\Pages\Marketing\Leaders\Leaders Landing.ascx.cs">
+      <DependentUpon>Leaders Landing.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="layouts\Pages\Marketing\Leaders\Leaders Landing.ascx.designer.cs">
+      <DependentUpon>Leaders Landing.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="layouts\Pages\Marketing\Leaders\View All Directors.ascx.cs">
+      <DependentUpon>View All Directors.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="layouts\Pages\Marketing\Leaders\View All Directors.ascx.designer.cs">
+      <DependentUpon>View All Directors.ascx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -1129,7 +1150,10 @@
     <Content Include="layouts\Modules\Login Horizontal.ascx" />
     <Content Include="layouts\Modules\Photo Lockup.ascx" />
     <Content Include="layouts\Modules\States Enroll.ascx" />
-    <Content Include="layouts\Pages\Marketing\Leader.ascx" />
+    <Content Include="layouts\Pages\Marketing\Leaders\Leader Listing.ascx" />
+    <Content Include="layouts\Pages\Marketing\Leaders\Leader.ascx" />
+    <Content Include="layouts\Pages\Marketing\Leaders\Leaders Landing.ascx" />
+    <Content Include="layouts\Pages\Marketing\Leaders\View All Directors.ascx" />
     <Content Include="layouts\Sample Inner Sublayout.ascx" />
     <Content Include="layouts\Sample Sublayout.ascx" />
     <Content Include="layouts\system\VisitorIdentification.aspx" />
