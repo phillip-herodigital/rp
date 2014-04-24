@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Your Website</title>
+                    <script src="../../../../Assets/vendors/JQuery/jquery-1.8.2.min.js"></script>
+      <script src="../../../../Assets/vendors/KnockOut/knockout-2.1.0.js"></script>
+      <script src="../../../../Assets/vendors/underscore/underscore.js"></script>
+      <script src="../../../../Assets/vendors/Backbone/backbone.js"></script>
+
+		<script>
+			 window.__SITECOREDEBUG = true;
+		</script>
+      <script src="../../../../Assets/lib/dist/sitecore-1.0.1.js"></script>
+    </head>
+    <body>
+    <h1>Create a behavior and attaching it</h1>
+
+<div style="width:50%;float:left">
+    <h2>Code</h2>
+    <h3>Html</h3>
+    <pre>
+&#60;span data-sc-id="SimpleTextControl" data-sc-behaviors="tooltip" data-bind="text:text" class="sc-text"></span>
+    </pre>    
+    <h3>Javascript</h3>
+    <pre>
+_sc.Factories.createBehavior("tooltip", {
+  afterRender: function () {
+    this.$el.on("mouseover", this.showTootlip);
+  },
+  showTootlip: function (evt) {
+    var $target = $(evt.currentTarget);
+    $target.attr('title', $target.text());
+  }
+});
+
+_sc.Factories.createBaseComponent({
+  name: "TextControl",
+  selector: ".sc-text",
+  attributes: [ 
+    { name: "text", value: "Hello, world!" }
+  ]
+});
+
+window.app = _sc.Factories.createApp();
+    </pre>
+</div>
+<div style="width:50%;float:left">
+    <h2>Result</h2>
+
+    <span data-sc-id="SimpleTextControl" data-sc-behaviors="tooltip" data-bind="text:text" class="sc-text"></span>
+</div>
+<div style="width:100%;float:left;">
+<h4>What you need to know.</h4>
+<p>
+  <ul>
+    <li>
+      <b>data-sc-behaviors</b>
+      <p>Something you want to add the same effect on multiple controls. In order to reuse your code, we have created an object called behaviors.</p>
+      <p>This object will be attached to you control and will enhance it. You can have multiple behaviors for a control.</p>
+      <p>In order to attache the component, you need to write one of these methods:</p>
+        <ul>
+          <li>initialize</li>
+          <li>beforeRender</li>
+          <li>Render</li>
+          <li>afterRender</li>
+        </ul>
+    </li>
+    <li>
+      <b>data-sc-behaviors</b>
+      <p>This is the attribute which will have all the behaviors you want to attach. This will, of course coming from the Item</p>
+    </li>
+    <li>
+      <b>Hover the label render in the result area</b>
+      <p>and you will see a basic tooltip appearing.</p>
+    </li>
+  </ul>
+</p>
+</div>
+    <script>
+    	/*Create a Behavrio*/
+      _sc.Factories.createBehavior("tooltip", {
+          afterRender: function () {
+            this.$el.on("mouseover", this.showTootlip);
+          },
+          showTootlip: function (evt) {
+            var $target = $(evt.currentTarget);
+            $target.attr('title', $target.text());
+          }
+      });
+
+      _sc.Factories.createBaseComponent({
+        name: "TextControl",
+        selector: ".sc-text",
+        attributes: [ 
+          { name: "text", value: "Hello, world!" }
+        ]
+       });
+
+      window.app = _sc.Factories.createApp();
+
+    </script>
+    </body>
+</html>

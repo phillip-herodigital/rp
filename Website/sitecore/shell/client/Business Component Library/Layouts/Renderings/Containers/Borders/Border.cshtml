@@ -1,0 +1,55 @@
+﻿@using Sitecore.Mvc
+@using Sitecore.Mvc.Presentation
+@using Sitecore.Web.UI.Controls.Common.UserControls
+@model RenderingModel
+@{
+  var userControl = this.Html.Sitecore().Controls().GetUserControl(this.Model.Rendering);
+  var cssClass = "sc-border";
+  userControl.Requires.Script("business", "border.js");
+  userControl.HasNestedComponents = true;
+
+  var showBorder = userControl.GetBool("ShowBorder");
+  var usePadding = userControl.GetBool("UsePadding");
+  var contentAlignment = userControl.GetString("ContentAlignment");
+  
+  var height = userControl.GetString("Height");
+  userControl.Attributes["data-bind"] = "visible: isVisible";
+  
+
+  var alignCss = string.Empty;
+  switch (contentAlignment)
+  {
+    case "Left":
+      alignCss = " sc-align-left";
+      break;
+    case "Right":
+
+      alignCss = " sc-align-right";
+      break;
+
+    case "Center":
+
+      alignCss = " sc-align-center";
+      break;
+  }
+
+  cssClass += alignCss;
+
+  if (showBorder)
+  {
+    cssClass += " sc-show-border";
+  }
+
+  if (usePadding)
+  {
+    cssClass += " sc-show-padding";
+  }
+  
+  userControl.Class = cssClass;
+  userControl.DataBind = "visible: isVisible";
+  var controlId = userControl.ControlId;
+  var htmlAttributes = userControl.HtmlAttributes;
+}
+<div @htmlAttributes style="height: @height;">
+  @this.Html.Sitecore().Placeholder(controlId + ".Content")
+</div>

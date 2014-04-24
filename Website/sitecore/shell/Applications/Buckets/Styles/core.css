@@ -1,5 +1,13 @@
 @import url(reset.css);
 
+html, body {
+  height: 100%;
+}
+
+.mainForm {
+  height: 100%;
+}
+
 div.dark_square .pp_close
 {
     width: 85px;
@@ -25,7 +33,6 @@ div.dark_square .pp_close
 
 li
 {
-    list-style-image: circle;
     margin: 0 0 5px 0;
 }
 
@@ -85,21 +92,14 @@ li
     margin: 20px;
     float: left;
     border: 1px solid #e1e1e1;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
     border-radius: 5px;
-    -moz-box-shadow: 1px 1px 8px #EEE;
-    -webkit-box-shadow: 1px 1px 8px #EEE;
     box-shadow: 1px 1px 8px #EEE;
     cursor: pointer;
     -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     vertical-align: top;
     display: inline-block;
-    *display: inline;
     text-align: left;
-    behavior: url('/sitecore/shell/Applications/Buckets/Scripts/PIE.htc');
 }
 
 .languageLink
@@ -111,10 +111,10 @@ li
 }
 
 
-#grid-content .post_float:hover, #grid-content .pie_hover
+#grid-content .post_float:hover
 {
     background-color: rgba(165, 165, 165, 0.1);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#19a5a5a5,endColorstr=#19a5a5a5);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#19a5a5a5',endColorstr='#19a5a5a5');
 }
 
 
@@ -123,14 +123,15 @@ li
     background-color: gainsboro;
 }
 
-.BlogPostArea .highlight
-{
-    background-color: gainsboro;
-}
-
 .highlight
 {
-    background-color: gainsboro;
+  background-color: #ebebeb;
+  border: 1px solid #dbdbdb;
+}
+
+.highlight .quickactions
+{
+  background: #E4E4E4;
 }
 
 .ceebox.imgcontainer
@@ -138,7 +139,7 @@ li
     display: inline-block;
     float: left;
     border: 1px solid #e1e1e1;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#19a5a5a5,endColorstr=#19a5a5a5);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#19a5a5a5',endColorstr='#19a5a5a5');
 }
 
 .ceebox
@@ -176,10 +177,17 @@ li
             color: #666;
         }
 
-.post_float img
-{
-    margin: 2px;
-    border: 1px solid #e8e8e8;
+.post_float img {
+  margin: 2px;
+  vertical-align: top;
+  height: 100px;
+  width: 142px;
+}
+
+.post_float img.smallIcon {
+  height: 48px;
+  width: 48px;
+  padding: 27px 47px;
 }
 
 .post_float h2
@@ -190,8 +198,7 @@ li
 html, body
 {
     text-align: center;
-    overflow: hidden;
-    *overflow: auto;
+    overflow: auto;
 }
 
 body
@@ -206,7 +213,7 @@ h1
     margin: 0px 0px 15px 0px;
     padding: 0px;
     font-size: 28px;
-    font-weight: 900;
+    font-weight: bold;
     color: #ccc;
 }
 
@@ -233,7 +240,7 @@ a
     color: #09c;
     font-size: 11px;
     font-family: verdana, arial, helvetica, sans-serif;
-    font-weight: 600;
+    font-weight: bold;
     text-decoration: none;
 }
 
@@ -249,16 +256,14 @@ a
 
     a:hover
     {
-        background-color: #eee;
+        text-decoration: underline;
     }
 
 #MainPanel
 {
     width: auto;
-    zoom: 1;
     position: relative;
     overflow-x: hidden;
-    *overflow-x: inherit;
     margin: 0 auto;
     height: 100%;
 }
@@ -274,7 +279,22 @@ a
     height: 100%;
     top: 0;
     overflow: auto;
-    *overflow: inherit;
+}
+
+
+.contextdataarea
+{
+    position: absolute;
+    width: 150px;
+    right: 0px;
+    padding: 10px;
+    /*z-index: 7;*/
+    margin: 0px 10px 10px -3px;
+}
+
+body > .contextdataarea
+{
+    width: 128px;
 }
 
 .navAlpha
@@ -283,7 +303,6 @@ a
     width: 150px;
     right: 0px;
     padding: 10px;
-    /*z-index: 7;*/
     margin: 0px 10px 10px -3px;
 }
 
@@ -300,11 +319,9 @@ body > .navAlpha
 
 #navBeta
 {
-    /*right: -230px;*/
     padding: 0 31px;
     voice-family: "\"}\"";
     voice-family: inherit;
-    /*float: right;*/
     margin: 0 0 10px;
 }
 
@@ -321,17 +338,13 @@ body > #navBeta
     z-index: 0;
 }
 
-
-.sb_wrapper
-{
-    top: 0;
-}
-
 .contentAreaWrapper {
-  display: table;
   width: 100%;
   position: relative;
-  *position: inherit;
+}
+
+.ie8 .contentAreaWrapper {
+  z-index: -1;
 }
 
 /* pagination */
@@ -390,7 +403,6 @@ body > #navBeta
         {
             display: block;
             width: 19px;
-            /* background: #e9e9e9; */
             border: 3px solid #e9e9e9;
             color: #000;
         }
@@ -409,7 +421,6 @@ body > #navBeta
 
 .pagination li a:hover
 {
-    /* background: #e9e9e9; */
     border-color: #000;
     text-decoration: none;
 }
@@ -417,7 +428,6 @@ body > #navBeta
 .pagination li.active a
 {
     border-color: #000;
-    /* background: #e9e9e9; */
 }
 
 .tip
@@ -426,36 +436,47 @@ body > #navBeta
     padding: 6px 5px;
 }
 
+.sideMask {
+  overflow: hidden;
+  border-radius: 0 0 10px 10px;
+  background: -webkit-linear-gradient(top, #f2f2f2, #fafafa);
+  background: linear-gradient(to bottom, #f2f2f2, #fafafa);
+  width: 177px;
+  float: left;
+  border: 1px solid #f2f2f2;
+  box-shadow: 1px 1px 3px #666;
+  padding: 6px 5px;
+  margin: 4px 0px;
+}
+
+.ie8 .sideMask {
+  background: #fafafa;
+  filter: progid:DXImageTransform.Microsoft.Shadow(Color=#898989, Strength=3, Direction=135),
+          progid:DXImageTransform.Microsoft.Shadow(Color=#dedede, Strength=2, Direction=315);
+}
+
 .side
 {
-    border: 1px solid #fff;
-    background: -webkit-gradient(linear, left top, left bottom, from(#f2f2f2), to(#fafafa));
-    background: -moz-linear-gradient(top, #f2f2f2, #fafafa);
-    -pie-background: linear-gradient(top, #f2f2f2, #fafafa);
+    width: 100%;
     font-size: 24px;
     font-family: "Myriad Pro", "Trebuchet MS", sans-serif;
-    -moz-box-shadow: 1px 1px 3px #555;
-    -webkit-box-shadow: 1px 1px 3px #555;
-    box-shadow: 1px 1px 3px #555;
     outline: none;
-    padding: 6px 5px;
     text-shadow: 1px 1px 1px #fff;
-    width: 177px;
-    float: left;
-    margin: 4px 0px;
     list-style: none;
-    -moz-border-radius: 0 0 10px 10px;
-    -webkit-border-radius: 0 0 10px 10px;
     border-radius: 0 0 10px 10px;
     text-align: left;
-    behavior: url('/sitecore/shell/Applications/Buckets/Scripts/PIE.htc');
+}
+
+
+.ie9 .side {
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, StartColorStr='#f2f2f2', EndColorStr='#fafafa');
 }
 
     .side li
     {
         font-size: 16px;
         width: 100%;
-        float: left;
+        display: block;
         padding-bottom: 2px;
     }
 
@@ -479,7 +500,7 @@ body > #navBeta
         margin-bottom: 5px;
         border: 1px solid #f9f9f9;
         clear: both;
-        background: #ddd;
+        background: #EDEDED;
         font-size: 12px;
         letter-spacing: 1px;
         color: #444;
@@ -490,29 +511,25 @@ body > #navBeta
         behavior: expression(runtimeStyle.behavior = 'none', onmouseover = function() {this.className += ' hover'}, onmouseout = function() {this.className = this.className.replace(/ hover/g, '')});
     }
 
-        /* Hide from CSS3PIE*/
-        html > body .side .sb_filter.toggleoff
+        .side .sb_filter.toggleoff
         {
-            background: #ccc url('~/icon/Applications/16x16/zoom_in.png') no-repeat right center;
-            -moz-box-shadow: 0 0 2px #777;
-            -webkit-box-shadow: 0 0 3px #555 inset;
-            box-shadow: 0 0 3px #555 inset;
+            background: #EDEDED  url('~/icon/Applications/16x16/zoom_in.png') no-repeat right center;
+            box-shadow: 0 0 3px #bbb inset;
         }
 
-        html > body .side .sb_filter.toggleon
+        .side .sb_filter.toggleon
         {
-            background: #ccc url('~/icon/Applications/16x16/zoom_out.png') no-repeat right center;
-            -moz-box-shadow: 0 0 2px #777;
-            -webkit-box-shadow: 0 0 3px #555 inset;
-            box-shadow: 0 0 3px #555 inset;
-        }
+            background: #EDEDED url('~/icon/Applications/16x16/zoom_out.png') no-repeat right center;
+            box-shadow: 0 0 2px #999 inset;
+        
+            border-radius: 5px;
+}
 
         .side .sb_filter:hover, .side .hover
         {
-            -moz-box-shadow: 0 0 2px #444;
-            -webkit-box-shadow: 0 0 3px #222 inset;
-            box-shadow: 0 0 3px #333 inset;
-        }
+            box-shadow: 0 0 2px #555 inset;
+        
+}
 
     .side .tip
     {
@@ -525,17 +542,15 @@ body > #navBeta
         height: 16px;
         line-height: 16px;
         padding: 5px;
-        -moz-box-shadow: 0px 0px 2px #777;
-        -webkit-box-shadow: 0px 0px 3px #555 inset;
-        -box-shadow: 0px 0px 3px #555 inset;
+        box-shadow: 0 0 3px #555 inset;
         background: url('../images/star.png') no-repeat right;
     }
 
-#views
-{
-    float: right;
-    margin-right: -160px;
-    width: 141px;
+#views {
+  position: absolute;
+  top: 8px;
+  right: 0;
+  width: 141px;
 }
 
     #views a
@@ -759,15 +774,13 @@ body > #navBeta
 /*
 Table Style - This is what you want
 ------------------------------------------------------------------ */
-#results
-{
-    padding: 0px 0px 0 70px;
-    position: relative;
-    *z-index: -1;
-    margin-left: -56px;
-    margin-right: 220px;
+#results{
 }
 
+    #results table a {
+      white-space: nowrap;
+    }
+  
     #results table a:link
     {
         color: #666;
@@ -796,32 +809,25 @@ Table Style - This is what you want
         font-size: 12px;
         text-shadow: 1px 1px 0px #fff;
         background: #eaebec;
-        margin-bottom: 20px;
         border: #ccc 1px solid;
         -moz-border-radius: 3px;
         -webkit-border-radius: 3px;
         border-radius: 3px;
-        margin: 0 auto;
-        -moz-box-shadow: 0 1px 2px #d1d1d1;
-        -webkit-box-shadow: 0 1px 2px #d1d1d1;
+        margin: 27px auto;
         box-shadow: 0 1px 2px #d1d1d1;
     }
 
         #results table th
         {
-            padding: 7px 25px 7px 25px;
+            padding: 7px;
             border-top: 1px solid #fafafa;
             border-bottom: 1px solid #e0e0e0;
+            text-align: center;
             background: #ededed;
             background: -webkit-gradient(linear, left top, left bottom, from(#ededed), to(#ebebeb));
             background: -moz-linear-gradient(top, #ededed, #ebebeb);
+            background: linear-gradient(to bottom, #F8F8F8, #ebebeb);
         }
-
-            #results table th:first-child
-            {
-                text-align: left;
-                padding-left: 20px;
-            }
 
         #results table tr:first-child th:first-child
         {
@@ -840,16 +846,11 @@ Table Style - This is what you want
         #results table tr
         {
             text-align: left;
-            padding-left: 20px;
             cursor: pointer;
-            /*PIE pie_hover not works here*/
-            behavior: expression(runtimeStyle.behavior = 'none', onmouseover = function() {this.className += ' hover'}, onmouseout = function() {this.className = this.className.replace(/ hover/g, '')});
         }
-
+            
             #results table tr td:first-child
             {
-                text-align: left;
-                padding-left: 20px;
                 border-left: 0;
             }
 
@@ -890,10 +891,8 @@ Table Style - This is what you want
 
             #results table tr:hover td, #results table tr.hover td
             {
-                background: -webkit-gradient(linear, left top, left bottom, from(#f2f2f2), to(#f0f0f0));
-                background: -moz-linear-gradient(top, #f2f2f2, #f0f0f0);
-                background: gradient(linear, top, bottom, #F2F2F2, #f0f0f0);
-                behavior: url('/sitecore/shell/Applications/Buckets/Scripts/PIE.htc');
+                background: -webkit-linear-gradient(top, #F2F2F2, #f0f0f0);
+                background: linear-gradient(to bottom, #F2F2F2, #f0f0f0);
             }
 
 .list
@@ -965,8 +964,6 @@ Table Style - This is what you want
     vertical-align: top;
     text-align: left;
     display: inline-block;
-    *display: inline;
-    zoom: 1;
 }
 
     .boxgrid img
@@ -993,21 +990,18 @@ Table Style - This is what you want
     height: 100px;
     width: 100%;
     opacity: .8;
-    /* For IE 5-7 */
-    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
-    /* For IE 8 */
-    -MS-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
 }
 
 .captionfull .boxcaption
 {
-    top: 260;
+    top: 260px;
     left: 0;
 }
 
 .caption .boxcaption
 {
-    top: 220;
+    top: 220px;
     left: 0;
 }
 
@@ -1015,14 +1009,11 @@ Table Style - This is what you want
 {
     padding: 30px 20px 0 20px;
     width: 180px;
-    /*z-index: 9999999;*/
 }
 
 .slide-out-div2
 {
-    /*padding: 0 20px;*/
     width: 180px;
-    /*z-index: 9999999;*/
 }
 
 .scrolling
@@ -1034,4 +1025,9 @@ Table Style - This is what you want
 #resultInfoMessage
 {
     margin-top: 100px;
+}
+
+.scIgnoreModified {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }

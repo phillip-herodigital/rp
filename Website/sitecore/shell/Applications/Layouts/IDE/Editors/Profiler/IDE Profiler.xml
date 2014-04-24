@@ -5,8 +5,13 @@
       <CodeBeside Type="Sitecore.Shell.Applications.Layouts.IDE.Editors.Debugger.IDEDebuggerForm,Sitecore.Client"/>
 
       <Script Src="/sitecore/shell/Controls/SitecoreKeyboard.js"/>
-      <Script Src="/sitecore/shell/Controls/SitecoreModifiedHandling.js"/>
       <Stylesheet Src="IDE.css" DeviceDependant="true"/>
+
+      <script type="text/javascript">
+        if (scForm) {
+          scForm.enableModifiedHandling();
+        }
+      </script>
 
       <DataContext ID="ContentEditorDataContext" DataViewName="Master" Root="/sitecore/content"/>
 

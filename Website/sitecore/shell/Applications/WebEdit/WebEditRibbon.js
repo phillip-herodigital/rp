@@ -34,11 +34,6 @@ function scSetLayout() {
   scForm.postRequest('','','','webedit:changelayout');
 }
 
-function scCancel() {
-  scForm.setCookie("sitecore_webedit_editing", "");
-  window.top.location.href = scSetDesigning(false);
-}
-
 function scClose() {
   scForm.postRequest('','','','webedit:close');
 }
@@ -209,14 +204,18 @@ if (typeof(scSitecore) != 'undefined') {
    }
 
    scSitecore.prototype.postRequestEx = scSitecore.prototype.postRequest;
-   scSitecore.prototype.postRequest = function(control, source, eventtype, parameters, callback, async) {
-      var res = this.postRequestEx(control, source, eventtype, parameters, callback, async);
-      if (parameters && (parameters === "item:save" || parameters.indexOf("item:save(") === 0) && res !== "failed") {
-        Sitecore.PageEditorProxy.onSaving();
-      }
+   scSitecore.prototype.postRequest = function (control, source, eventtype, parameters, callback, async) {
+     var res = this.postRequestEx(control, source, eventtype, parameters, callback, async);
+     if (parameters && (parameters === "item:save" || parameters.indexOf("item:save(") === 0) && res !== "failed") {
+       Sitecore.PageEditorProxy.onSaving();
+     }
 
-      return res;
-   }
+     if (parameters && parameters === "webedit:save" && res !== "failed") {
+       window.parent.location.reload(true);
+     }
+
+     return res;
+   };
 }
 
 scRequest.prototype.buildFieldsEx = scRequest.prototype.buildFields;

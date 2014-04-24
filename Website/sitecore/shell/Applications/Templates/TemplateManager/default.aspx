@@ -3,6 +3,7 @@
 <%@ Import Namespace="Sitecore"%>
 <%@ Import namespace="Sitecore.Text"%>
 <%@ Import namespace="Sitecore.Web"%>
+<%@ Import Namespace="Sitecore.Shell.Applications.Templates.TemplateManager" %>
 
 <script runat="server">
   override protected void OnInit([NotNull] EventArgs e) {
@@ -11,6 +12,10 @@
     var url = new UrlString(HttpUtility.UrlDecode(WebUtil.GetQueryString()));
     
     var ro = !string.IsNullOrEmpty(url["ro"]) ? url["ro"] : Sitecore.ItemIDs.TemplateRoot.ToString();
+    var fo = WebUtil.GetQueryString("id");
+
+    ro = TemplateManagerForm.AlignRootToFolder(ro, fo);
+    
     var header = string.Empty;
 
     var applicationItem = Client.CoreDatabase.GetItem("{32C5C2CD-93A7-4926-A6E0-8BB50BF8B297}");
@@ -28,7 +33,7 @@
     destination["mo"] = "templateworkspace";
     destination["ic"] = "Software/16x16/components.png";
     destination["ro"] = ro;
-    destination["fo"] = WebUtil.GetQueryString("id");
+    destination["fo"] = fo;
     destination["il"] = WebUtil.GetQueryString("il");
     
     Response.Redirect(destination.ToString());

@@ -15,7 +15,7 @@
         padding-bottom: 6px;
         }
 
-        .ff .scDeviceCommands span:hover {
+        .scDeviceCommands span:hover {
         text-decoration: underline;
         cursor: pointer;
         }
@@ -32,11 +32,6 @@
         padding: 0 2px;
         }
 
-        .ie .scConditionContainer
-        {
-          left: 9px;
-        }
-
         .scLongConditionContainer
         {
         left:7px;
@@ -45,7 +40,7 @@
       </Stylesheet>
       <CodeBeside Type="Sitecore.Shell.Applications.ContentManager.Dialogs.LayoutDetails.LayoutDetailsForm,Sitecore.Client"/>
 
-      <Scrollbox ID="LayoutPanel" Class="scScrollbox scFixSize scFixSize4" Padding="0px" Height="100%" GridPanel.Height="100%"/>
+      <Scrollbox ID="LayoutPanel" Class="scScrollbox" Padding="0px" />
 
     </FormDialog>
   </LayoutDetails>

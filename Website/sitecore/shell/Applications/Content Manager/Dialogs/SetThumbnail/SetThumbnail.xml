@@ -134,7 +134,7 @@
 
               <Border/>
 
-              <Border>
+              <Border class="scDialogNoWrap">
                 <Literal Text="Item:" />
               </Border>
 
@@ -146,7 +146,7 @@
 
               <Border/>
 
-              <Border>
+              <Border class="scDialogNoWrap">
                 <Literal Text="Device:" />
               </Border>
 

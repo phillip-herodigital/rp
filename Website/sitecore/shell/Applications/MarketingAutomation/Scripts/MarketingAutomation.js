@@ -63,13 +63,13 @@
     setTimeout(function () {
       var dialogUrl = "/sitecore/shell/~/xaml/Sitecore.Shell.Applications.MarketingAutomation.Dialogs.SelectStateVisitor.aspx?mode=readOnly&stateId=" + id;
       var dialogStyle = "dialogWidth: 500px; dialogHeight: 490px; resizable: yes";
-      var returnValue = showModalDialog(dialogUrl, null, dialogStyle);
+      scForm.showModalDialog(dialogUrl, null, dialogStyle, null, function(returnValue) {
+        if (!returnValue) {
+          return;
+        }
 
-      if (!returnValue) {
-        return;
-      }
-
-      Reload();
+        Reload();
+      });
     }
   , 100);
     

@@ -1,0 +1,16 @@
+﻿<input type="text" data-sc-id="TextboxTest1" class="sc-textbox" 
+       data-bind="value: text, visible: isVisible, enable: isEnabled, readonly: isReadOnly,
+    attr: { maxlength: maxLength, required: isRequired, placeholder: watermark }" />
+
+<input data-sc-id="TextboxTest2" value="Sample text." type="text" readonly="true" class="sc-textbox" 
+       data-bind="value: text, visible: isVisible, enable: isEnabled, readonly: isReadOnly,
+    attr: { maxlength: maxLength, required: isRequired, placeholder: watermark }" 
+       data-sc-require="/-/speak/v1/business/textbox.js" maxlength="524288" placeholder="" />
+
+
+<input data-sc-id="TextboxTest3" value="You should not see this text box." type="text" class="sc-textbox"
+       data-bind="value: text, visible: isVisible, enable: isEnabled, readonly: isReadOnly,
+    attr: { maxlength: maxLength, required: isRequired, placeholder: watermark }" 
+       data-sc-require="/-/speak/v1/business/textbox.js" style="display:none;" maxlength="524288" placeholder="" />
+
+

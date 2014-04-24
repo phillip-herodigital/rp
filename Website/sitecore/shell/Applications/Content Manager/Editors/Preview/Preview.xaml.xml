@@ -27,27 +27,18 @@
 
       <input id="scActiveRibbonStrip" name="scActiveRibbonStrip" type="hidden" />
       
-      <table id="ContentEditor" width="100%" height="100%" border="0" cellpadding="0" cellspacing="0" style="table-layout:fixed">
-        <tr>
-          <td height="100%">
-            <Border runat="server" ID="DisabledNotice" Visible="false">
-              <Literal runat="server" Text="Preview is enabled for content items only." />
-            </Border>
+      <div id="ContentEditor" style="width:100%; height:100%;">
+        <Border runat="server" ID="DisabledNotice" Visible="false">
+          <Literal runat="server" Text="Preview is enabled for content items only." />
+        </Border>
 
-            <div id="Page">
-              <table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td>
-                    <div id="Shadow">
-                      <Frame runat="server" ID="Editor"  AllowTransparency="false"/>
-                    </div>
-                  </td>
-                </tr>
-              </table>
-            </div>
-          </td>
-        </tr>
-      </table>
+        <div id="Page" style="width:100%; height:100%">
+          <div id="Shadow">
+            <Frame runat="server" ID="Editor"  AllowTransparency="false"/>
+          </div>
+        </div>
+        
+      </div>
 
     </Sitecore.Controls.HtmlPage>
   </Sitecore.Shell.Applications.ContentEditor.Editors.Preview>

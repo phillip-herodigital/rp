@@ -129,7 +129,6 @@
 
 #GridContainer {
     overflow: auto;
-    height: 100% !important;
 }
 .scGridFooter {
     position: relative;   

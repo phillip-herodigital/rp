@@ -4,8 +4,7 @@
     <FormPage>
       <Stylesheet Src="IDE.css" DeviceDependant="true"/>
       <Script Src="/sitecore/shell/Controls/SitecoreKeyboard.js"/>
-      <Script Src="/sitecore/shell/controls/SitecoreModifiedHandling.js"/>
-      <Script>
+      <Script type="text/javascript">
         function scSetEditorText(text) {
         var editor = scForm.browser.getControl('Editor').contentWindow;
           if (editor) {
@@ -13,8 +12,13 @@
               editor.scSetText(text);
             }
           }
-        }         
+        }
+
+        if (scForm) {
+          scForm.enableModifiedHandling();
+        }
       </Script>
+
       <CodeBeside Type="Sitecore.Shell.Applications.Layouts.IDE.Editors.HTML.IDEHtmlEditorForm,Sitecore.Client"/>
 
       <DataContext ID="DataContext" Root="/sitecore/content" DataViewName="Master"/>

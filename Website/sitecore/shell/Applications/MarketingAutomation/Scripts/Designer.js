@@ -19,14 +19,16 @@ function OpenPageEventSubscriptionDialog(pageEventsIds) {
         });
 
     var dialogStyle = "dialogWidth: 450px; dialogHeight: 600px; resizable: yes";
-    var returnValue = showModalDialog(pageEventSubscriptionDialogUrl, null, dialogStyle);
-    if (!returnValue) {
-      return;
-    }
-    var control = document.getElementById("scSilverlightEngagementPlan");
-    if (control) {
-      control.Content.Main.SavePageEvents(returnValue);
-    }
+    scForm.showModalDialog(pageEventSubscriptionDialogUrl, null, dialogStyle, null, function(returnValue) {
+      if (!returnValue) {
+        return;
+      }
+      
+      var control = document.getElementById("scSilverlightEngagementPlan");
+      if (control) {
+        control.Content.Main.SavePageEvents(returnValue);
+      }
+    });
   }
   , 100);
 }
@@ -58,13 +60,13 @@ function OpenSaveAsWindow(selectedItemId, title, description, saveAsRootId) {
 
   // Displaying SelectItem dialog.
   var dialogStyle = "dialogWidth: 450px; dialogHeight: 600px; resizable: yes";
-  var returnValue = showModalDialog(selectItemDialogUrl, null, dialogStyle);
+  scForm.showModalDialog(selectItemDialogUrl, null, dialogStyle, null, function(returnValue) {
+    if (!returnValue) {
+      return;
+    }
 
-  if (!returnValue) {
-    return;
-  }
-
-  SetSaveAsParentId(returnValue);
+    SetSaveAsParentId(returnValue);
+  });
 }
 
 /*
@@ -86,12 +88,13 @@ function OpenFieldsEditorWindow(itemId, stateId, planId, templateId, fieldValues
 
   GetFieldEditorUrl(itemId, stateId, planId, templateId, fieldValues, isAction, isNewItem);
   setTimeout(function () {
-    var dialogStyle = "dialogWidth: 450px; dialogHeight: 600px; resizable: yes";
-    var returnValue = showModalDialog(fieldEditorUrl, null, dialogStyle);
-    if (!returnValue) {
-      return;
-    }
-    GetFieldValues(returnValue);
+    var dialogStyle = "dialogWidth: 600px; dialogHeight: 600px; resizable: yes";
+    scForm.showModalDialog(fieldEditorUrl, null, dialogStyle, null, function(returnValue) {
+      if (!returnValue) {
+        return;
+      }
+      GetFieldValues(returnValue);
+    });
   }
   , 100);
 }

@@ -15,7 +15,7 @@
             <Literal Class="scClickFont" Style="font-weight:bold" Text="$LayoutName"/>
           </Border>
         
-          <Border Background="#dddddd" Margin="4px 0px 4px 0px"><Space/></Border>
+          <Border Background="#dddddd" Margin="4px 0px 4px 0px" Height="1px"><Space/></Border>
 
           <GridPanel Width="100%" Columns="2" Fixed="true">
 
@@ -31,7 +31,7 @@
 
           </GridPanel>
 
-          <Border Background="#dddddd" Margin="4px 0px 4px 0px"><Space/></Border>
+          <Border Background="#dddddd" Margin="4px 0px 4px 0px" Height="1px"><Space/></Border>
           <Border Class="scDeviceCommands">
             <WorkboxCommand Command="$DblClick" Header="Edit" Icon="Applications/16x16/document_edit.png"/>
             <WorkboxCommand Command="$Copy" Header="Copy To" Icon="Core3/16x16/copy_to_folder.png"/>

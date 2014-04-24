@@ -32,11 +32,11 @@
       <AjaxScriptManager runat="server"/>
       <ContinuationManager runat="server" />
 
-      <GridPanel Height="100%" Width="100%" runat="server">
+      <Border class="scStretch" runat="server">
         <Border ID="RibbonContainer" runat="server">
           <Ribbon ID="Ribbon" runat="server" />
         </Border>
-        <Border ID="GridContainer" runat="server" GridPanel.Height="100%" Height="100%" Background="White">
+        <Border ID="GridContainer" runat="server" Background="White">
           <Grid id="Items"
             AutoFocusSearchBox="false"
             RunningMode="Callback"
@@ -178,7 +178,7 @@
               </tbody>
           </table>
         </Border>
-      </GridPanel>
+      </Border>
       
     </Sitecore.Controls.HtmlPage>
   </Sitecore.Shell.Applications.Archives.RecycleBin>

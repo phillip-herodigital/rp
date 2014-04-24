@@ -1,0 +1,254 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Your Website</title>
+                     <script src="../../../../Assets/vendors/JQuery/jquery-1.8.2.min.js"></script>
+      <script src="../../../../Assets/vendors/KnockOut/knockout-2.1.0.js"></script>
+      <script src="../../../../Assets/vendors/underscore/underscore.js"></script>
+      <script src="../../../../Assets/vendors/Backbone/backbone.js"></script>
+
+		<script>
+			 window.__SITECOREDEBUG = true;
+		</script>
+      <script src="../../../../Assets/lib/dist/sitecore-1.0.1.js"></script>
+        <style>
+        code, pre, tt {
+      font-family: Monaco, Consolas, "Lucida Console", monospace;
+      font-size: 12px;
+      line-height: 18px;
+      font-style: normal;
+    }
+      tt {
+        padding: 0px 3px;
+        background: #fff;
+        border: 1px solid #ddd;
+        zoom: 1;
+      }
+      code {
+        margin-left: 20px;
+      }
+      pre {
+        font-size: 12px;
+        padding: 2px 0 2px 15px;
+        border: 4px solid #bbb; border-top: 0; border-bottom: 0;
+        margin: 0px 0 25px;
+      }
+      div.run {
+      position: absolute;
+      right: 15px;
+      width: 26px; height: 18px;
+      background: url('arrows.png') no-repeat -26px 0;
+    }
+      div.run:active {
+        background-position: -51px 0;
+      }
+      header {
+        width: 600px;
+        margin:0 auto;
+      }
+      section {
+        width: 600px;
+        /*float: left;*/
+        margin:0 auto;
+        position: relative;
+      }
+      .console {
+        color:green;
+        font-size: 16px;
+      }
+      footer {
+        width:600px;
+        margin:0 auto;
+      }
+      footer a {
+        font-size: 24px;
+        margin:10px;
+      }
+      footer a.prev {
+        float: left;
+      }
+      footer a.next {
+        float: right;
+      }
+        </style>
+    </head>
+    <body>
+
+        <header>
+            <h1>Demo: The View in sitecore.</h1>
+            <p>To know more about View, please refer to <a target="_blank" href="http://backbonejs.org/#View">Backbone.Model</a></p>
+            <p><strong>NOTE:</strong> In all the tutorials about backbone, you will see lots of people are using the Render function. By default in Sitecore, we do not use Javascript Template because we prefer to let the Sitecore Rendering Engine defining your html. That said, it does not say you cannot use Render on your own. We (Sitecore) will also use it from time to time.</p>
+        </header>
+        <section>
+            <h2>1) Define a View and using it</h2>
+<pre class="runnable">
+  //we define the View
+  var View = _sc.Definitions.Views.View.extend({
+    doSomething: function() {
+      alert("do something");
+    }
+  });
+
+  //we instanciate
+  var view = new View();
+
+  //we get the value
+  view.doSomething();
+</pre>
+        </section>
+                <section>
+            <h2>2) Define a View with html</h2>
+            <p>If I instantiate a view by passing an el (id or class of an html element). This view will be "active". </p>
+
+<pre class="view">
+  &#60;div id="ViewExample1" class="example">
+    &#60;h3>Example&#60;/h3>
+    &#60;button class="btn">Please click Here&#60;/button>
+  &#60;/div>
+</pre>
+<pre class="runnable html">
+  //we define the View
+  var View = _sc.Definitions.Views.View.extend({
+    events: {
+      "click .btn": "doSomething"
+    },
+    doSomething: function() {
+      alert("do something");
+    }
+  });
+
+  //we instanciate - from now the view will be active 
+  var view = new View({ el: "#ViewExample1" });
+
+</pre>
+        </section>
+         <section>
+            <h2>3) Passing a model to the view</h2>
+<pre class="runnable">
+
+  //we define a model
+  var Model = _sc.Definitions.Models.Model.extend({
+    initialize: function() {
+      this.set("ping", "pong");
+    }
+  });
+
+  //we define the View
+  var View = _sc.Definitions.Views.View.extend({
+    doSomething: function() {
+      alert(this.model.get("ping"));
+    }
+  });
+
+  var model = new Model();
+  //pass model to the view
+  var view = new View({ model : model });
+
+  view.doSomething();
+
+</pre>
+        </section>
+        <section>
+          <h2>4) Passing a model to the view with binding</h2>
+          <p>The html that would be bound with the view</p>
+<pre class="view">
+  &#60;div id="ViewExample2" class="example">
+    &#60;h3>From binding: &#60;span data-bind="text:ping">&#60;/span>&#60;/h3>
+  &#60;/div>
+</pre>
+<p>We set the value of the html based on the model's value with the help of binding.<br/><a target="_blank" href="http://knockoutjs.com/documentation/text-binding.html">more about bindings</a></p>
+
+<pre class="runnable html">
+
+  //we define a model
+  var Model = _sc.Definitions.Models.Model.extend({
+    initialize: function() {
+      this.set("ping", "pong");
+    }
+  });
+
+  //we define the View
+  var View = _sc.Definitions.Views.View.extend({
+    initialize: function() {
+      //after 2 seconds, change the value
+      var view = this;
+      setInterval(function(){
+        view.model.get("ping") === "ping" ? view.model.set("ping", "pong") : view.model.set("ping", "ping");
+      },2000);
+    }
+  });
+
+  var model = new Model();
+  
+  var view = new View({ el: "#ViewExample2", model : model });
+
+</pre>
+
+        </section>
+        <section>
+          <h2>5) Updates values based on HTML input</h2>
+<pre class="view">
+  &#60;div id="ViewExample3" class="example">
+    &#60;input type="text" data-bind="value:FromInput" />
+    &#60;p>Value is &#60;span data-bind="text:FromInput">&#60;/span>&#60;/p>
+    &#60;button>Upadte the &#60;/button>
+  &#60;/div>
+</pre>
+<pre class="runnable html">
+
+  //we define a model
+  var Model = _sc.Definitions.Models.Model.extend({
+    initialize: function() {
+      this.set("FromInput", "");
+    }
+  });
+
+  //we define the View
+  var View = _sc.Definitions.Views.View.extend({
+    initialize: function() {
+      //after 2 seconds, change the value
+      var view = this;
+    }
+  });
+
+  var model = new Model();
+
+  var view = new View({ el: "#ViewExample3", model : model });
+
+  model.on("change", function(){
+    alert(this.get("FromInput"));
+  });
+  
+</pre>
+        </section>
+        <footer>
+            <a class="prev" href="index.html">Prev: The Model</a>
+            <a class="next" href="component.html">Next: The Component</a>
+        </footer>
+        <!-- Application source. -->
+        <script>
+            // Set up the "play" buttons for each runnable code example.
+            $(function() {
+
+              $('.runnable').each(function() {
+                var code = this;
+
+                var button = '<div class="run" title="Run"></div>';
+                $(button).insertBefore(code).bind('click', function(){
+                  var hasView = $(code).hasClass("html");
+
+                  if(hasView) {
+                    $(code).parent().find(".example").remove();
+                    var html = $(code).closest("section").find(".view").text();
+                    console.log(html);
+                    $(code).parent().append(html).addClass("inserted");
+                  }
+                  eval($(code).text());
+                });
+              });
+              //$('[data-original]').lazyload();
+            });
+        </script>
+    </body>
+</html>

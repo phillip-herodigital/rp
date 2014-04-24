@@ -9,6 +9,7 @@
       <Script Src="/sitecore/shell/Controls/Lib/scriptaculous/scriptaculous.js?load=effects,dragdrop"></Script>
       <Stylesheet Src="/sitecore/shell/Applications/WebEdit/Dialogs/Personalization/Personalization.css" DeviceDependant="false" />
       <Stylesheet Src="/sitecore/shell/Controls/CollapsiblePanel/CollapsiblePanel.css" DeviceDependant="false" />
+      <Stylesheet Src="/sitecore/shell/Controls/DatasourceExamples/DatasourceExamples.css" />
       <GridPanel Class="holder" Width="100%" Height="100%">      
       <Border GridPanel.Class="top-row" GridPanel.VAlign="top" >
         <Button Class="edit-button" Header="New Condition" Click="NewConditionClick"></Button>

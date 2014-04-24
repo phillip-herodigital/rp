@@ -1,0 +1,83 @@
+﻿@using Sitecore.Data.Fields
+@using Sitecore.Data.Items
+@using Sitecore.Mvc
+@using Sitecore.Mvc.Presentation
+@using Sitecore.Resources.Media
+@using Sitecore.Web.UI.Controls.Common.UserControls
+@model RenderingModel
+@{
+  var userControl = this.Html.Sitecore().Controls().GetUserControl(this.Model.Rendering);
+  var cssClass = "sc-applicationLauncher";
+  
+  userControl.Class = cssClass;
+  var htmlAttributes = userControl.HtmlAttributes;
+  Sitecore.Collections.ChildList children = null;
+  var rootItemId = userControl.GetString("RootItemId", "rootItemId");
+  if (rootItemId != string.Empty)
+  {
+    var rootItem = Sitecore.ClientHost.Items.GetItem(new Sitecore.Data.ID(rootItemId));
+    if (rootItem != null)
+    {
+      children = rootItem.Children;
+    }
+  }
+}
+<div @htmlAttributes>
+
+  @if (children != null)
+  {
+    foreach (Sitecore.Data.Items.Item child in children)
+    {
+
+      if (child.TemplateID == Sitecore.Names.TemplateIds.SpeakApplication)
+      {
+        var startPage = (!(child.Fields["Starting Page Id"] == null || string.IsNullOrEmpty(child.Fields["Starting Page Id"].ToString()))) ? child.Fields["Starting Page Id"].ToString() : string.Empty;
+
+        if (!string.IsNullOrEmpty(startPage))
+        {
+          var databaseParamter = (!string.IsNullOrEmpty(child.Fields["Database"].ToString())) ? child.Fields["Database"].ToString() : "core";
+          var database = Sitecore.Configuration.Factory.GetDatabase(databaseParamter);
+
+          var item = database.GetItem(startPage);
+
+          var name = (!string.IsNullOrEmpty(child.Fields["Title"].ToString())) ? child.Fields["Title"].ToString() : child.DisplayName;
+
+          ImageField imageField = child.Fields["Icon"];
+          var iconUrl = string.Empty;
+          if (!string.IsNullOrEmpty(imageField.ToString()))
+          {
+            MediaItem mediaItem = imageField.MediaItem;
+            if (mediaItem != null)
+            {
+              var options = new MediaUrlOptions
+              {
+                Database = Sitecore.Context.Database,
+                Width = 48,
+                Height = 48
+              };
+              iconUrl = MediaManager.GetMediaUrl(mediaItem, options);
+            }
+          }
+
+          var tooltip = (!string.IsNullOrEmpty(child.Fields["Title"].ToString())) ? child.Fields["Tooltip"].ToString() : child.DisplayName;
+
+          if (item != null && item.Access.CanRead())
+          {
+            var page = item.Paths.ContentPath;
+            <div class="sc-applicationLauncher-app">
+              <a href="@page" class="sc-applicationLauncher-app-content">
+                @if (!string.IsNullOrEmpty(iconUrl))
+                {
+                  <img title="@tooltip" alt="@tooltip" src="@iconUrl" />
+                }
+                <div class="sc-applicationLauncher-app-title">
+                  <span>@name</span>
+                </div>
+              </a>
+            </div>
+          }
+        }
+      }
+    }
+  }
+</div>

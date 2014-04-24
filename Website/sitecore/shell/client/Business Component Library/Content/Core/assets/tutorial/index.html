@@ -1,0 +1,258 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Your Website</title>
+                      <script src="../../../../Assets/vendors/JQuery/jquery-1.8.2.min.js"></script>
+      <script src="../../../../Assets/vendors/KnockOut/knockout-2.1.0.js"></script>
+      <script src="../../../../Assets/vendors/underscore/underscore.js"></script>
+      <script src="../../../../Assets/vendors/Backbone/backbone.js"></script>
+
+		<script>
+			 window.__SITECOREDEBUG = true;
+		</script>
+      <script src="../../../../Assets/lib/dist/sitecore-1.0.1.js"></script>
+        <style>
+        code, pre, tt {
+      font-family: Monaco, Consolas, "Lucida Console", monospace;
+      font-size: 12px;
+      line-height: 18px;
+      font-style: normal;
+    }
+      tt {
+        padding: 0px 3px;
+        background: #fff;
+        border: 1px solid #ddd;
+        zoom: 1;
+      }
+      code {
+        margin-left: 20px;
+      }
+      pre {
+        font-size: 12px;
+        padding: 2px 0 2px 15px;
+        border: 4px solid #bbb; border-top: 0; border-bottom: 0;
+        margin: 0px 0 25px;
+      }
+      div.run {
+      position: absolute;
+      right: 15px;
+      width: 26px; height: 18px;
+      background: url('arrows.png') no-repeat -26px 0;
+    }
+      div.run:active {
+        background-position: -51px 0;
+      }
+      header {
+        width: 600px;
+        margin:0 auto;
+      }
+      section {
+        width: 600px;
+        /*float: left;*/
+        margin:0 auto;
+        position: relative;
+      }
+      .console {
+        color:green;
+        font-size: 16px;
+      }
+            footer {
+        width:600px;
+        margin:0 auto;
+      }
+      footer a {
+        font-size: 24px;
+        margin:10px;
+      }
+      footer a.prev {
+        float: left;
+      }
+      footer a.next {
+        float: right;
+      }
+        </style>
+    </head>
+    <body>
+
+        <header>
+            <h1>Demo: The Model in sitecore.</h1>
+            <h2>You cannot run twice the same Example (this is simple code so please refresh)</h2>
+            <p>To know more about Model, please refer to <a target="_blank" href="http://backbonejs.org/#Model">Backbone.Model</a></p>
+        </header>
+        <section>
+            <h2>1) Define a Model and using it</h2>
+<pre class="runnable">
+  //we define the model
+  var MyNewModel = _sc.Definitions.Models.Model.extend({
+
+    //this will be call each time you instanciate a model
+    initialize: function() {
+      this.set("text", "this should set during initialization");
+    }
+
+  });
+
+  //we instanciate
+  var mynewModel = new MyNewModel();
+
+  //we get the value
+  alert(mynewModel.get("text"));
+</pre>
+        </section>
+        <section>
+            <h2>2) Add function to your model</h2>
+<pre class="runnable">
+  //we define the model with a function
+  var MyNewModel = _sc.Definitions.Models.Model.extend({
+    showMeTheCode: function() {
+        alert("I show you the code!")
+    }
+  });
+
+  //we instanciate
+  var mynewModel = new MyNewModel();
+
+  //we call it !
+  mynewModel.showMeTheCode();
+
+</pre>
+        </section>
+        <section>
+            <h2>3) Set Value to a Model</h2>
+<pre class="runnable">
+  //we define the model with a function
+  var MyNewModel = _sc.Definitions.Models.Model.extend({
+  });
+
+  //we instanciate
+  var mynewModel = new MyNewModel();
+
+  //I want to assign a value !
+  mynewModel.set("ping", "pong");
+
+  //See if ping has been set?
+  alert(mynewModel.get("ping"));
+
+</pre>
+        </section>
+        <section>
+            <h2>4) Use the defaults property</h2>
+<pre class="runnable">
+  //we define the model with defaults value
+  var ZenModel = _sc.Definitions.Models.Model.extend({
+    defaults: {
+        "ping": "pong",
+        "yin": "yang"
+    }
+  });
+
+  //we instanciate
+  var zenModel = new ZenModel();
+
+  alert("Value of Ping is " + zenModel.get("ping"));
+  alert("Value of Yin is " + zenModel.get("yin"));
+  
+</pre>
+        </section>
+        <section>
+            <h2>5) I want JSON</h2>
+            <p class="console">Open your console</p>
+<pre class="runnable">
+  //we define the model with defaults value
+  var ZenModel = _sc.Definitions.Models.Model.extend({
+    defaults: {
+        "ping": "pong",
+        "yin": "yang"
+    }
+  });
+
+  //we instanciate
+  var zenModel = new ZenModel();
+
+  console.log("And you got your JSON")
+  console.log(zenModel.toJSON());
+  
+</pre>
+        </section>
+        <section>
+            <h2>6) You told me about viewModel</h2>
+            <p class="console">Open your console</p>
+            <p><a target="_blank" href="http://knockoutjs.com/documentation/observables.html"><strong>What is observable?</strong></a></p>
+            <pre class="runnable">
+  //we define a model
+  var ZenModel = _sc.Definitions.Models.Model.extend({
+  });
+
+  var zenModel = new ZenModel();
+
+  //set some value
+  zenModel.set("yin","yang");
+
+  //see you console all the value are "observed"
+  console.log("See the viewModel from the Model");
+  console.log(zenModel.viewModel);
+
+  //And now, we use the KO bindings
+  alert("The ko way: "+zenModel.viewModel.yin());
+
+  //or the backbone way (YOU MUST USE THIS ONE)
+  alert("The Backbone way: "+zenModel.get("yin"));
+  
+</pre>
+        </section>
+        <section>
+            <h2>7) Use events to interact</h2>
+            
+            <pre class="runnable">
+  //we define a model
+  var House = _sc.Definitions.Models.Model.extend({
+    initialize: function() {
+        //silent is to set the value without triggering change event
+        this.set("nbPeopleInsideHouse", 0);
+    },
+    enter: function(num) {
+        var current = this.get("nbPeopleInsideHouse");
+        current += 1;
+        this.set("nbPeopleInsideHouse", current);
+    }
+  });
+
+  var house = new House();
+
+
+  //When model changes I want to be aware
+  house.on("change", function(){
+    //this is the model, "this" is magic !
+    alert("alert, "+this.get("nbPeopleInsideHouse") + " person(s) in the house");
+  });
+
+  //one person enter
+  house.enter();
+
+  house.enter();  
+
+  
+  
+</pre>
+        </section>
+        <footer>
+            <a class="next" href="view.html">Next: The View</a>
+        </footer>
+        <!-- Application source. -->
+        <script>
+            // Set up the "play" buttons for each runnable code example.
+            $(function() {
+
+              $('.runnable').each(function() {
+                var code = this;
+                var button = '<div class="run" title="Run"></div>';
+                $(button).insertBefore(code).bind('click', function(){
+                  eval($(code).text());
+                });
+              });
+              //$('[data-original]').lazyload();
+            });
+        </script>
+    </body>
+</html>

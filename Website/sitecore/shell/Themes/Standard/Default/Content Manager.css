@@ -58,6 +58,7 @@ TABLE
 .scWindowBorder3
 {
   background: #4E4E4E;
+  height: 2px;
 }
 
 .scWindowBorder4
@@ -78,14 +79,13 @@ a.scSystemMenu
   border: none;
   cursor: default;
   background: url("/sitecore/shell/themes/standard/images/homebutton2.png");
-  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/sitecore/shell/themes/standard/images/homebutton2.png', sizingMethod='scale');
   text-decoration: none;
+  z-index: 1;
 }
 
 a.scSystemMenu:hover
 {
-  background: url("/sitecore/shell/themes/standard/images/homebutton2_h.png");
-  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/sitecore/shell/themes/standard/images/homebutton2_h.png', sizingMethod='scale');
+  background: url("/sitecore/shell/themes/standard/images/homebutton2_h.png")
 }
 
 .scSystemButtons
@@ -120,7 +120,7 @@ a.scSystemMenu:hover
 #MainPanel
 {
   background: #4E4E4E url(/sitecore/shell/themes/standard/gradients/gray1.gif) 50% 0 repeat-y;
-  height: 100%;
+  height: auto;
 }
 
 #MainContent
@@ -495,6 +495,14 @@ a.scEditorHeaderNavigatorField
 }
 
 /* =quick info*/
+.scEditorQuickInfo td:nth-of-type(1) {
+  text-align: right;
+}
+
+.scEditorQuickInfo td {
+  padding: 4px;
+}
+
 .scEditorHeaderQuickInfoInput
 {
   background: transparent;
@@ -570,9 +578,10 @@ a.scEditorWarningOption:hover
 
 .scEditorPanel
 {
-  width: 100%;
   height: 100%;
   overflow: auto;
+  margin-right: 21px;
+  background: #c0c0c0;
 }
 
 .scEditorSections
@@ -999,105 +1008,6 @@ a.scPagerButtonActive
   background: white;
 }
 
-
-/* SmartTag */
-
-.scSmartTag
-{
-  font-weight: normal;
-  position: absolute;
-  margin: -3px 0px 0px 0px;
-  white-space: nowrap;
-}
-
-.scSmartTagClick, .scSmartTagClick:link, .scSmartTagClick:active, .scSmartTagClick:hover, .scSmartTagClick:visited
-{
-  background: #F4F4F5;
-  border: 1px solid #B7B8C4;
-  border-right: none;
-  float: left;
-  height: 20px;
-  padding: 0px 2px 0px 0px;
-  text-decoration: none;
-  white-space: nowrap;
-  vertical-align: middle;
-}
-
-.scSmartTagClick:hover
-{
-  cursor: default;
-  border: 1px solid;
-  border-color: #ddcf9b #c1a877 #dfd8bd #c1a877;
-  background: #ffb70b url( "/sitecore/shell/Themes/Standard/Images/RibbonSmallButtonHover.png" ) repeat-x;
-  padding: 0px 1px 0px 0px;
-  text-decoration: none;
-}
-
-.scSmartTagClickOnly, .scSmartTagClickOnly:link, .scSmartTagClickOnly:active, .scSmartTagClickOnly:hover, .scSmartTagClickOnly:visited
-{
-  background: #F4F4F5;
-  border: 1px solid #B7B8C4;
-  float: left;
-  height: 20px;
-  padding: 0px 2px 0px 0px;
-  text-decoration: none;
-  white-space: nowrap;
-  vertical-align: middle;
-}
-
-.scSmartTagClickOnly:hover
-{
-  cursor: default;
-  border: 1px solid;
-  border-color: #ddcf9b #c1a877 #dfd8bd #c1a877;
-  background: #ffb70b url( "/sitecore/shell/Themes/Standard/Images/RibbonSmallButtonHover.png" ) repeat-x;
-  padding: 0px 1px 0px 0px;
-  text-decoration: none;
-}
-
-.scSmartTagMenu, .scSmartTagMenu:link, .scSmartTagMenu:active, .scSmartTagMenu:hover, .scSmartTagMenu:visited
-{
-  background: #F4F4F5;
-  border: 1px solid #B7B8C4;
-  border-left: none;
-  float: left;
-  height: 20px;
-  padding: 0px 0px 0px 1px;
-  text-decoration: none;
-  white-space: nowrap;
-  vertical-align: middle;
-}
-
-.scSmartTagMenu:hover
-{
-  cursor: default;
-  border: 1px solid;
-  border-color: #ddcf9b #c1a877 #dfd8bd #c1a877;
-  background: #ffb70b url( "/sitecore/shell/Themes/Standard/Images/RibbonSmallButtonHover.png" ) repeat-x;
-  padding: 0px;
-  text-decoration: none;
-}
-
-.scSmartTagIcon
-{
-  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/sitecore/shell/Themes/Standard/Core2/16x16/lightning_bolt.png', sizingMethod='scale');
-  border: none;
-  height: 16px;
-  margin: 0px 4px 0px 0px;
-  vertical-align: middle;
-  width: 16px;
-}
-
-.scSmartTagGlyph
-{
-  border: none;
-  height: 5px;
-  margin: 8px 4px 0px 4px;
-  vertical-align: middle;
-  width: 7px;
-  float: left;
-}
-
 .scRibbonToolbarKeyCodeSmallButton
 {
   position: absolute;
@@ -1128,14 +1038,17 @@ a.scPagerButtonActive
 .scEditorGrid
 {
   background: transparent;
-  table-layout: fixed;
+  height:100%;
+  width:100%;
+  position:relative;
 }
 
 #EditorTabs
 {
   background: #888888 url(/sitecore/shell/themes/standard/Images/Ribbon/tab7.png) repeat-x;
   vertical-align: top;
-  height: 24px;
+  height: 25px;
+  width: 100%;
 }
 
 .scEditorTabControlsHolder
@@ -1180,6 +1093,7 @@ a.scPagerButtonActive
   width: 21px;
   height: 24px;
   vertical-align: top;
+  margin-top: 1px;
 }
 
 .scEditorTabControlsTab5
@@ -1187,6 +1101,7 @@ a.scPagerButtonActive
   float: left;
   height: 24px;
   background: url(/sitecore/shell/Themes/Standard/Images/Ribbon/tab5.png) repeat-x;
+  margin-top: 1px;
 }
 
 .scEditorTabControlsTab6
@@ -1195,10 +1110,15 @@ a.scPagerButtonActive
   height: 24px;
   margin: 0px 4px 0px 0px;
   vertical-align: top;
+  margin-top: 1px;
 }
 
-#EditorFrames
-{
+#EditorFrames {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin-top: 25px;
   background: white;
 }
 
@@ -1214,6 +1134,10 @@ a.scRibbonEditorTabNormal, a.scRibbonEditorTabActive
   outline: none;
 }
 
+.scRibbonEditorTabNormal > img, .scRibbonEditorTabActive > img {
+  margin-top: 1px;
+}
+
 a.scRibbonEditorTabNormal:hover, a.scRibbonEditorTabNormal:active, a.scRibbonEditorTabActive:hover, a.scRibbonEditorTabActive:active
 {
   text-decoration: underline;
@@ -1226,6 +1150,11 @@ a.scRibbonEditorTabNormal:hover, a.scRibbonEditorTabNormal:active, a.scRibbonEdi
   padding: 4px 0px 0px 0px;
   background: url(/sitecore/shell/Themes/Standard/Images/Ribbon/tab1.png) repeat-x;
   color: #333333;
+  margin-top: 1px;
+}
+
+.scEditorTabHeaderNormal > img, .scEditorTabHeaderActive > img {
+  margin-top: 1px;
 }
 
 .scEditorTabHeaderActive
@@ -1253,16 +1182,11 @@ a.scRibbonEditorTabNormal:hover, a.scRibbonEditorTabNormal:active, a.scRibbonEdi
 
 .scValidatorPanel
 {
-  height: 100%;
   background: #f0f0f0;
-  padding: 2px 0px 0px 0px;
-}
-
-.scValidatorPanelCell
-{
-  width: 20px;
-  vertical-align: top;
-  background: #f0f0f0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
 }
 
 .scValidationMarkerLine
@@ -1300,7 +1224,8 @@ a.scRibbonEditorTabNormal:hover, a.scRibbonEditorTabNormal:active, a.scRibbonEdi
 
 .scValidationResultValidating
 {
-  background: url(/sitecore/shell/~/icon/Applications/16x16/bullet_square_grey.png.aspx);
+  background: url(/sitecore/shell/~/icon/Applications/16x16/bullet_square_grey.png.aspx) center no-repeat;
+  padding: 0 2px 0 3px;
   width: 16px;
   height: 16px;
 }
@@ -1320,6 +1245,10 @@ a.scSearchButton
   white-space: nowrap;
   padding: 0px 1px 0px 1px;
   height: 20px;
+}
+
+.ie8 a.scSearchButton {
+  height: 16px;
 }
 
 a.scSearchButton img
@@ -1346,6 +1275,10 @@ a.scSearchOptionsButton
   white-space: nowrap;
   padding: 0px 0px 0px 1px;
   height: 20px;
+}
+
+.ie8 a.scSearchOptionsButton {
+  height: 16px;
 }
 
 a.scSearchOptionsButton img
@@ -1502,12 +1435,16 @@ a.scSearchLink img
 .scSearchInput
 {
   font: 8pt tahoma;
-  height: 18px;
-  padding: 2px 2px 0px 4px;
+  height: 22px;
+  padding: 2px 2px 0 4px;
   width: 100%;
   border: 1px solid #4c4c4c;
   border-right: none;
   color: #999999;
+}
+
+.ie8 .scSearchInput {
+  height: 18px;
 }
 
 .scSearchEntireTree
@@ -1549,19 +1486,19 @@ a.scSearchLink img
   display: none;
 }
 
-#ContentTreePanel > table
-{
-  table-layout: fixed;
-}
-
 .scEditorFieldMarkerInputCell iframe
 {
   background: white;
 }
 
-.ie #ContentTreeInnerPanel
-{
-  overflow: visible;
+.scEditorFieldMarkerInputCell .scContentControlTreelist, .scEditorFieldMarkerInputCell .scContentControlTreelist_Active {
+  height: 220px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+}
+
+.scContentControlTreelist .scScrollbox, .scContentControlTreelist_Active .scScrollbox {
+  border: 1px solid #b4b4b4;  
 }
 
 /* Personalization */
@@ -1696,4 +1633,54 @@ a.scSearchLink img
   background: #008EF4;
   z-index: 9999999;
   height: 2px;
+}
+
+#EditorWrapper > tbody > tr:first-child {
+  height: 2px;
+}
+
+#EditorTop {
+  height: 27px;
+}
+
+#EditorWrapper td.reToolZone {
+  height: 26px;
+}
+
+#EditorWrapper #EditorModule {
+  height: auto;
+}
+
+.splitter-bar {
+	width: 5px;
+	background: #d2d5da;
+}
+
+.splitter-bar > a {
+  width: 3px;
+  display: inline-block;
+}
+
+.splitter-bar:before, .splitter-bar:after {
+  background: grey;
+  width: 1px;
+  content: "";
+  height: 100%;
+  display: inline-block;
+}
+
+#ContentTreePanel {
+  width: 150px;
+  min-width: 40px;
+}
+
+.scContentEditorSplitter {
+  border-left: 2px solid #4E4E4E;
+  border-right: 2px solid #4E4E4E;
+  height: 100% !important;
+}
+
+.scContentEditorSplitter > div {
+  position: relative;
+  height: 100% !important;
 }

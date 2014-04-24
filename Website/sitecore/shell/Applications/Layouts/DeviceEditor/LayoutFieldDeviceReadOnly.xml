@@ -15,7 +15,7 @@
             <Literal Class="scClickFont" Style="font-weight:bold" Text="$LayoutName"/>
           </Border>
         
-          <Border Background="#dddddd" Margin="4px 0px 4px 0px"><Space/></Border>
+          <Border Background="#dddddd" Margin="4px 0px 4px 0px" Height="1px"><Space/></Border>
           
           <GridPanel Width="100%" Columns="2" Fixed="true">
 

@@ -40,17 +40,48 @@ form {
 }
 
 .scGalleryGripIcon {
+  vertical-align: top;
   width: 7px;
   height: 7px;
   margin: 1px 2px 0px 0px;
-}
-
-.ff .scGalleryGripIcon {
-  margin: 0px 2px 0px 0px;
 }
 
 .scGalleryMenu {
   border: none;
   height: 100%;
   width: 100%;
+}
+
+.scGalleryContent13 {
+  position: absolute;
+  top: 0;
+  bottom: 13px;
+  right: 0;
+  left: 0;
+  overflow: auto;
+}
+
+.scGalleryBottom13 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 13px;
+}
+
+.scGalleryContent10 {
+  position: absolute;
+  top: 0;
+  bottom: 10px;
+  right: 0;
+  left: 0;
+  overflow: auto;
+}
+
+.scGalleryBottom10 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 10px;
 }

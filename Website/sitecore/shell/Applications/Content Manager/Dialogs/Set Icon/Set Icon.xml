@@ -6,21 +6,42 @@
       <CodeBeside Type="Sitecore.Shell.Applications.ContentManager.Dialogs.SetIcon.SetIconForm,Sitecore.Client"/>
       <Script Src="/sitecore/shell/Applications/Content Manager/Dialogs/Set Icon/SetIcon.js" />
       <Stylesheet>
-        .ie #RecentList, .ie #List .scScrollbox
-        {
-          width: 100% !important;
+        #TabStrip {
+        padding-bottom: 30px;
         }
-        
-        .scRecentIcon
-        {
-          cursor: pointer;
-          margin: 4px;
+
+        .ie #RecentList {
+        width: 100% !important;
+        }
+
+        .scRecentIcon {
+        cursor: pointer;
+        margin: 4px;
+        }
+
+        #List {
+        position: absolute;
+        top: 35px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: auto;
+        }
+
+        #List > div {
+        border: 0 !important;
+        }
+
+        .iconFileName {
+        padding-top: 8px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
         }
       </Stylesheet>
-      <GridPanel Width="100%" Height="100%" Fixed="true">
-        <VerticalTabstrip ID="TabStrip" GridPanel.Height="100%" Height="100%" FixSize="true">
-
-		
+      <div class="scStretch">
+        <VerticalTabstrip ID="TabStrip">
           <Tab ID="Recent" Header="Recent">
             <GridPanel Width="100%" Height="100%" Fixed="true">
               <Scrollbox ID="RecentList" Class="scScrollbox scFixSize scFixSize8 scKeepFixSize" Height="100%" GridPanel.Height="100%" Border="none" Click="javascript:scClick(this,event)"/>
@@ -28,52 +49,50 @@
           </Tab>
 
           <Tab ID="Icons" Header="Icons">
-            <GridPanel Width="100%" Height="100%" Fixed="true">
-
+            <div class="scStretch">
               <Border Padding="8px 8px 12px 8px">
-          <Combobox ID="Selector" Float="right" Style="font:8pt tahoma" Change="javascript:scChange(this,event)">
-            <ListItem Header="Applications" Value="Applications"/>
-            <ListItem Header="Business" Value="Business"/>
-            <ListItem Header="Controls" Value="Controls"/>
-            <ListItem Header="Core 1" Value="Core1" />
-            <ListItem Header="Core 2" Value="Core2"/>
-            <ListItem Header="Core 3" Value="Core3" />
-            <ListItem Header="Database" Value="Database"/>
-            <ListItem Header="Flags" Value="Flags"/>
-            <ListItem Header="Imaging" Value="Imaging"/>
-            <ListItem Header="Multimedia" Value="Multimedia"/>
-            <ListItem Header="Network" Value="Network" />"
-            <ListItem Header="Other" Value="Other" />
-            <ListItem Header="People" Value="People" />
-            <ListItem Header="Software" Value="Software" />
-            <ListItem Header="Word Processing" Value="WordProcessing"/>
-          </Combobox>
+                <Combobox ID="Selector" Float="right" Style="font:8pt tahoma" Change="javascript:scChange(this,event)">
+                  <ListItem Header="Applications" Value="Applications"/>
+                  <ListItem Header="Business" Value="Business"/>
+                  <ListItem Header="Controls" Value="Controls"/>
+                  <ListItem Header="Core 1" Value="Core1" />
+                  <ListItem Header="Core 2" Value="Core2"/>
+                  <ListItem Header="Core 3" Value="Core3" />
+                  <ListItem Header="Database" Value="Database"/>
+                  <ListItem Header="Flags" Value="Flags"/>
+                  <ListItem Header="Imaging" Value="Imaging"/>
+                  <ListItem Header="Multimedia" Value="Multimedia"/>
+                  <ListItem Header="Network" Value="Network" />"
+                  <ListItem Header="Other" Value="Other" />
+                  <ListItem Header="People" Value="People" />
+                  <ListItem Header="Software" Value="Software" />
+                  <ListItem Header="Word Processing" Value="WordProcessing"/>
+                </Combobox>
                 <Literal Text="Icons:"/>
-        </Border>
+              </Border>
 
-              <Border ID="List" Height="100%" GridPanel.Height="100%" Click="javascript:scClick(this,event)" Border="none">
-                <Scrollbox Class="scScrollbox scFixSize scFixSizeNested scKeepFixSize" ID="ApplicationsList" Height="100%" Border="none"/>
-                <Scrollbox Class="scScrollbox scFixSize scFixSizeNested scKeepFixSize" ID="BusinessList" Height="100%" Visible="false" Border="none"/>
-                <Scrollbox Class="scScrollbox scFixSize scFixSizeNested scKeepFixSize" ID="ControlsList" Height="100%" Visible="false" Border="none"/>
-                <Scrollbox Class="scScrollbox scFixSize scFixSizeNested scKeepFixSize" ID="Core1List" Height="100%" Visible="false" Border="none"/>
-                <Scrollbox Class="scScrollbox scFixSize scFixSizeNested scKeepFixSize" ID="Core2List" Height="100%" Visible="false" Border="none"/>
-                <Scrollbox Class="scScrollbox scFixSize scFixSizeNested scKeepFixSize" ID="Core3List" Height="100%" Visible="false" Border="none"/>
-                <Scrollbox Class="scScrollbox scFixSize scFixSizeNested scKeepFixSize" ID="DatabaseList" Height="100%" Visible="false" Border="none"/>
-                <Scrollbox Class="scScrollbox scFixSize scFixSizeNested scKeepFixSize" ID="FlagsList" Height="100%" Visible="false" Border="none"/>
-                <Scrollbox Class="scScrollbox scFixSize scFixSizeNested scKeepFixSize" ID="ImagingList" Height="100%" Visible="false" Border="none"/>
-                <Scrollbox Class="scScrollbox scFixSize scFixSizeNested scKeepFixSize" ID="MultimediaList" Height="100%" Visible="false" Border="none"/>
-                <Scrollbox Class="scScrollbox scFixSize scFixSizeNested scKeepFixSize" ID="NetworkList" Height="100%" Visible="false" Border="none"/>
-                <Scrollbox Class="scScrollbox scFixSize scFixSizeNested scKeepFixSize" ID="OtherList" Height="100%" Visible="false" Border="none"/>
-                <Scrollbox Class="scScrollbox scFixSize scFixSizeNested scKeepFixSize" ID="PeopleList" Height="100%" Visible="false" Border="none"/>
-                <Scrollbox Class="scScrollbox scFixSize scFixSizeNested scKeepFixSize" ID="SoftwareList" Height="100%" Visible="false" Border="none"/>
-                <Scrollbox Class="scScrollbox scFixSize scFixSizeNested scKeepFixSize" ID="WordProcessingList" Height="100%" Visible="false" Border="none"/>
-        </Border>
-
-      </GridPanel>
-          </Tab> 
+              <Border ID="List" Click="javascript:scClick(this,event)">
+                <Scrollbox ID="ApplicationsList" Border="none"/>
+                <Scrollbox ID="BusinessList" Visible="false" />
+                <Scrollbox ID="ControlsList" Visible="false" />
+                <Scrollbox ID="Core1List" Visible="false" />
+                <Scrollbox ID="Core2List" Visible="false" />
+                <Scrollbox ID="Core3List" Visible="false" />
+                <Scrollbox ID="DatabaseList" Visible="false" />
+                <Scrollbox ID="FlagsList" Visible="false" />
+                <Scrollbox ID="ImagingList" Visible="false" />
+                <Scrollbox ID="MultimediaList" Visible="false" />
+                <Scrollbox ID="NetworkList" Visible="false" />
+                <Scrollbox ID="OtherList" Visible="false" />
+                <Scrollbox ID="PeopleList" Visible="false" />
+                <Scrollbox ID="SoftwareList" Visible="false" />
+                <Scrollbox ID="WordProcessingList" Visible="false" />
+              </Border>
+            </div>
+          </Tab>
         </VerticalTabstrip>
 
-        <GridPanel Width="100%" Columns="2" Margin="8px 0px 0px 0px">
+        <GridPanel class="iconFileName" Columns="2">
           <Border Padding="0px 8px 0px 0px">
             <Literal Text="Icon:"/>
           </Border>
@@ -81,11 +100,8 @@
           <Border GridPanel.Width="100%">
             <Edit ID="IconFile" Width="100%"/>
           </Border>
-
         </GridPanel>
-        
-      </GridPanel>
-
+      </div>
     </FormDialog>
   </SetIcon>
 </control>

@@ -1,0 +1,140 @@
+﻿@using Sitecore.Data
+@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Common.Buttons
+@using Sitecore.Web.UI.Controls.Common.Renderings
+@using Sitecore.Web.UI.Controls.Common.Texts
+@model Sitecore.Mvc.Presentation.RenderingModel
+@{
+  var rendering = new ID("{08B6767B-8E8A-41C8-8880-EFEBB4EAE0E3}").ToString();
+}
+
+@*<div class="sc-treeview" data-sc-id="TreeView" data-sc-rootitem="Media Library,master,{3D6658D8-A0BF-4E75-B3E2-D050FABCF4E1}" data-sc-require="/-/speak/v1/controls/treeview.js">    *@
+@*</div>             *@
+<h3>TreeView - basic usage</h3>
+<p>
+  Items needed for loading from the server can be retrieved by setting <b>PreLoadPath</b> parameter. Client-side properties <b>selectedItemId</b> and <b>checkedItemIds</b> are readonly and cannot be set from the server-side.
+</p>
+@Html.Sitecore().Controls().Rendering(this.Html, rendering, "TreeView", String.Empty, new { PreLoadPath = "{11111111-1111-1111-1111-111111111111}/{31056D46-2FAA-4EA2-8759-BE93EAE10001}/{83C57F8B-C9C1-43A6-8E1B-7A3604211076}/{D7A205E6-88C6-45F3-8986-D9D3A4BFF2CA}/{53F1488C-421B-4240-95AD-C8A591547C74}/{4F284ECC-B1AB-4235-BB11-2CC2782DAADF}/{08B6767B-8E8A-41C8-8880-EFEBB4EAE0E3}" })
+<div>
+  <dl>
+    <dt>Selected item ID:</dt>
+    <dd>@Html.Sitecore().Controls().Text("Text2", "Select an option", new { Text = "{Binding TreeView.selectedItemId}" })    </dd>
+    <dt>
+      Checked Item IDs:
+    </dt>
+    <dd>@Html.Sitecore().Controls().Text("Text3", "Select an option", new { Text = "{Binding TreeView.checkedItemIds}" })  </dd>
+  </dl>
+</div>
+
+@Html.Sitecore().Controls().Button("demoBtn", new{Click="javascript:app.TreeView.set('isCheckboxEnabled',!this.TreeView.get('isCheckboxEnabled'))",Text="Toggle showCheckBoxes"})
+<pre>
+  &#64;Html.Sitecore().Controls().Rendering(this.Html, 
+         rendering, 
+         "TreeView", 
+         String.Empty, 
+         new { PreLoadPath =  "{11111111-1111-1111-1111-111111111111}/{31056D46-2FAA-4EA2-8759-BE93EAE10001}" +
+                             "/{83C57F8B-C9C1-43A6-8E1B-7A3604211076}/{D7A205E6-88C6-45F3-8986-D9D3A4BFF2CA}" +
+                             "/{53F1488C-421B-4240-95AD-C8A591547C74}/{4F284ECC-B1AB-4235-BB11-2CC2782DAADF}/{08B6767B-8E8A-41C8-8880-EFEBB4EAE0E3}" })
+
+&lt;button onclick="Sitecore.app.TreeView.set('isCheckboxEnabled', !Sitecore.app.TreeView.get('isCheckboxEnabled'))"&gt;Toggle showCheckBoxes&lt;/button&gt;
+</pre>
+
+<h3>IsCheckboxEnabled property</h3>
+<div>
+@Html.Sitecore().Controls().Rendering(this.Html, 
+    rendering,
+    "TreeView2", 
+    String.Empty, 
+    new {
+      //ClickFolderMode=1,
+      isCheckboxEnabled=false,
+      //SelectMode=1,
+      RootItem="{3D6658D8-A0BF-4E75-B3E2-D050FABCF4E1}",
+      PreLoadPath = "{3D6658D8-A0BF-4E75-B3E2-D050FABCF4E1}/{7F864298-A4D8-4CE5-B8AC-A6D4DBA439D3}/{76DBBDDE-9A96-414C-846F-36D7FD8BFDC3}"
+    }
+)  
+</div>
+<pre>
+    &#64;Html.Sitecore().Controls().Rendering(this.Html, 
+    rendering,
+    "TreeView2", 
+    String.Empty, 
+    new {
+      CheckboxEnabled=false,
+      RootItem="{3D6658D8-A0BF-4E75-B3E2-D050FABCF4E1}",
+      PreLoadPath = "{3D6658D8-A0BF-4E75-B3E2-D050FABCF4E1}/{7F864298-A4D8-4CE5-B8AC-A6D4DBA439D3}/{76DBBDDE-9A96-414C-846F-36D7FD8BFDC3}"
+    }
+)  
+
+</pre>
+
+<h3>ShowSitecoreIcons property </h3>
+<p>This property tells whether or not to show sitecore icons. It's true by default. It can be only set on the server side.</p>
+@Html.Sitecore().Controls().Rendering(this.Html, 
+                                      rendering, 
+                                      "TreeView3", 
+                                      String.Empty, 
+                                      new { 
+                                        PreLoadPath = "{11111111-1111-1111-1111-111111111111}/{31056D46-2FAA-4EA2-8759-BE93EAE10001}/{83C57F8B-C9C1-43A6-8E1B-7A3604211076}/{D7A205E6-88C6-45F3-8986-D9D3A4BFF2CA}/{53F1488C-421B-4240-95AD-C8A591547C74}/{4F284ECC-B1AB-4235-BB11-2CC2782DAADF}/{08B6767B-8E8A-41C8-8880-EFEBB4EAE0E3}" ,
+                                        showSitecoreIcons=false
+                                      })
+<pre>&#64;Html.Sitecore().Controls().Rendering(this.Html, 
+                                      rendering, 
+                                      "TreeView3", 
+                                      String.Empty, 
+                                      new { 
+                                        PreLoadPath = "{11111111-1111-1111-1111-111111111111}/{31056D46-2FAA-4EA2-8759-BE93EAE10001}/{83C57F8B-C9C1-43A6-8E1B-7A3604211076}/{D7A205E6-88C6-45F3-8986-D9D3A4BFF2CA}/{53F1488C-421B-4240-95AD-C8A591547C74}/{4F284ECC-B1AB-4235-BB11-2CC2782DAADF}/{08B6767B-8E8A-41C8-8880-EFEBB4EAE0E3}" ,
+                                        <b>showSitecoreIcons=false</b>
+                                      })</pre>
+<h3>SelectMode property</h3>
+@Html.Sitecore().Controls().Button("demoBtn4_1", new{Click="javascript:app.TreeView4.set('selectMode',1)",Text="Set selectMode to 1:single"})
+@Html.Sitecore().Controls().Button("demoBtn4_2", new{Click="javascript:app.TreeView4.set('selectMode',2)",Text="Set selectMode to 2:multiple"})
+@Html.Sitecore().Controls().Button("demoBtn4_3", new{Click="javascript:app.TreeView4.set('selectMode',3)",Text="Set selectMode to 3:multi-hierarchical(default)"})
+@Html.Sitecore().Controls().Rendering(this.Html, 
+                                      rendering, 
+                                      "TreeView4", 
+                                      String.Empty, 
+                                      new { 
+                                        PreLoadPath = "{11111111-1111-1111-1111-111111111111}/{31056D46-2FAA-4EA2-8759-BE93EAE10001}/{83C57F8B-C9C1-43A6-8E1B-7A3604211076}/{D7A205E6-88C6-45F3-8986-D9D3A4BFF2CA}/{53F1488C-421B-4240-95AD-C8A591547C74}/{4F284ECC-B1AB-4235-BB11-2CC2782DAADF}/{08B6767B-8E8A-41C8-8880-EFEBB4EAE0E3}" ,
+                                        selectMode = 3
+                                      })
+<pre>
+&#64;Html.Sitecore().Controls().Button("demoBtn4_1", new{Click="javascript:app.TreeView4.set('selectMode',1)",Text="Set selectMode to 1:single"})
+&#64;Html.Sitecore().Controls().Button("demoBtn4_2", new{Click="javascript:app.TreeView4.set('selectMode',2)",Text="Set selectMode to 2:multiple"})
+&#64;Html.Sitecore().Controls().Button("demoBtn4_3", new{Click="javascript:app.TreeView4.set('selectMode',3)",Text="Set selectMode to 3:multi-hierarchical(default)"})
+&#64;Html.Sitecore().Controls().Rendering(this.Html, 
+                                  rendering, 
+                                  "TreeView4", 
+                                  String.Empty, 
+                                  new { 
+                                    PreLoadPath = "{11111111-1111-1111-1111-111111111111}/{31056D46-2FAA-4EA2-8759-BE93EAE10001}/{83C57F8B-C9C1-43A6-8E1B-7A3604211076}/{D7A205E6-88C6-45F3-8986-D9D3A4BFF2CA}/{53F1488C-421B-4240-95AD-C8A591547C74}/{4F284ECC-B1AB-4235-BB11-2CC2782DAADF}/{08B6767B-8E8A-41C8-8880-EFEBB4EAE0E3}" ,
+                                  <b>selectMode = 3</b>
+                                  })
+</pre>
+
+<h3>ClickFolderMode property</h3>
+@Html.Sitecore().Controls().Button("demoBtn5_1", new{Click="javascript:app.TreeView5.set('clickFolderMode',1)",Text="Set clickFolderMode to 1:activate(default)"})
+@Html.Sitecore().Controls().Button("demoBtn5_2", new{Click="javascript:app.TreeView5.set('clickFolderMode',2)",Text="Set clickFolderMode to 2:expand"})
+@Html.Sitecore().Controls().Button("demoBtn5_3", new{Click="javascript:app.TreeView5.set('clickFolderMode',3)",Text="Set clickFolderMode to 3:activate and expand"})
+@Html.Sitecore().Controls().Rendering(this.Html, 
+                                      rendering, 
+                                      "TreeView5", 
+                                      String.Empty, 
+                                      new { 
+                                        PreLoadPath = "{11111111-1111-1111-1111-111111111111}/{31056D46-2FAA-4EA2-8759-BE93EAE10001}/{83C57F8B-C9C1-43A6-8E1B-7A3604211076}/{D7A205E6-88C6-45F3-8986-D9D3A4BFF2CA}/{53F1488C-421B-4240-95AD-C8A591547C74}/{4F284ECC-B1AB-4235-BB11-2CC2782DAADF}/{08B6767B-8E8A-41C8-8880-EFEBB4EAE0E3}" ,
+                                        clickFolderMode = 3
+                                      })
+
+<pre>
+&#64;Html.Sitecore().Controls().Button("demoBtn5_1", new{Click="javascript:app.TreeView5.set('clickFolderMode',1)",Text="Set clickFolderMode to 1"})
+&#64;Html.Sitecore().Controls().Button("demoBtn5_2", new{Click="javascript:app.TreeView5.set('clickFolderMode',2)",Text="Set clickFolderMode to 2"})
+&#64;Html.Sitecore().Controls().Button("demoBtn5_3", new{Click="javascript:app.TreeView5.set('clickFolderMode',3)",Text="Set clickFolderMode to 3"})
+&#64;Html.Sitecore().Controls().Rendering(this.Html, 
+  rendering, 
+  "TreeView5", 
+  String.Empty, 
+  new { 
+    PreLoadPath = "{11111111-1111-1111-1111-111111111111}/{31056D46-2FAA-4EA2-8759-BE93EAE10001}/{83C57F8B-C9C1-43A6-8E1B-7A3604211076}/{D7A205E6-88C6-45F3-8986-D9D3A4BFF2CA}/{53F1488C-421B-4240-95AD-C8A591547C74}/{4F284ECC-B1AB-4235-BB11-2CC2782DAADF}/{08B6767B-8E8A-41C8-8880-EFEBB4EAE0E3}" ,
+    <b>clickFolderMode = 3</b>
+  })
+</pre>

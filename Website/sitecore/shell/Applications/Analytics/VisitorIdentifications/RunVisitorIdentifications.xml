@@ -13,12 +13,13 @@
       
       <WizardFormPage ID="Ready" Header="Ready" Text="Click Start to update visitor classifications." Icon="People/32x32/user1_earth.png">
         <WizardFormIndent>
+          <Literal Text="Click Start to update visitor classifications."/>
         </WizardFormIndent>
       </WizardFormPage>
 
       <WizardFormPage ID="Running" Header="Updating" Text="Updating the visitor classifications..." Icon="People/32x32/user1_earth.png">
         <GridPanel Width="100%">
-          <Space Height="64"/>
+          <Border Height="64"/>
 
           <ThemedImage Src="People/48x48/user1_earth.png" Width="48" Height="48" GridPanel.Align="center"/>
 
@@ -50,19 +51,15 @@
       </WizardFormPage>
 
       <WizardFormLastPage ID="LastPage" Icon="People/32x32/user1_earth.png">
-        <GridPanel Cellpadding="2" Width="100%" Height="100%" Fixed="true">
-
-          <Border GridPanel.Style="padding:0px 0px 16px 0px; font-weight:bold">
-            <Literal Text="The wizard has completed. Click Finish to close the wizard."/>
-          </Border>
-
-          <Border GridPanel.Style="padding:0px 0px 2px 0px">
-            <Literal Text="Result:"/>
-          </Border>
-
-          <Memo ID="ResultText" ReadOnly="true" Width="100%" Height="100%" GridPanel.Height="100%"/>
-
-        </GridPanel>
+        <div class="scStretch scFlexColumnContainerWithoutFlexie">
+          <Literal class="wizardCompleteText" Text="The wizard has completed. Click Finish to close the wizard."/>
+          <Literal class="wizardResult" Text="Result:"/>
+          <div class="scFlexContentWithoutFlexie scWizardLastPageResultText">
+            <div class="scStretchAbsolute">
+              <Memo ID="ResultText" class="scStretch" ReadOnly="true"/>
+            </div>
+          </div>
+        </div>
       </WizardFormLastPage>
 
     </WizardForm>

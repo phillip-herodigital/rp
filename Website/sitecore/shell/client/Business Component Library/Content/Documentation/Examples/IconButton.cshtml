@@ -1,0 +1,104 @@
+﻿@using Sitecore.Mvc.Presentation
+@using Sitecore.Mvc
+@using Sitecore.Web.UI
+@using Sitecore.Web.UI.Controls.Common.IconButtons
+@model RenderingModel
+
+<h3>Apperance</h3>
+<p>
+  Icon buttons can be enabled or disabled.
+</p>
+<table>
+<tr>
+<td>
+  @Html.Sitecore().Controls().IconButton("Icon1", "ApplicationsV2/16x16/text_bold.png")
+  @Html.Sitecore().Controls().IconButton("Icon2", "ApplicationsV2/16x16/text_bold.png", new { IsEnabled = false })  
+
+</td>
+</tr>
+</table>
+<pre>
+&#64;Html.Sitecore().Controls().IconButton("Icon1", "ApplicationsV2/16x16/text_bold.png")
+&#64;Html.Sitecore().Controls().IconButton("Icon2", "ApplicationsV2/16x16/text_bold.png", new {IsEnabled = false })  
+</pre>
+
+<p>
+  Icon buttons may have different size.
+</p>
+<table>
+<tr>
+<td>
+  @Html.Sitecore().Controls().IconButton("Icon3", "ApplicationsV2/16x16/text_bold.png", new { Dimensions = ImageDimension.id16x16 })
+  @Html.Sitecore().Controls().IconButton("Icon4", "ApplicationsV2/16x16/text_bold.png", new { Dimensions = ImageDimension.id24x24 })  
+  @Html.Sitecore().Controls().IconButton("Icon5", "ApplicationsV2/16x16/text_bold.png", new { Dimensions = ImageDimension.id32x32 })
+  @Html.Sitecore().Controls().IconButton("Icon6", "ApplicationsV2/16x16/text_bold.png", new { Dimensions = ImageDimension.id48x48 })
+
+</td>
+</tr>
+</table>
+<pre>
+  &#64;Html.Sitecore().Controls().IconButton("Icon3", "ApplicationsV2/16x16/text_bold.png", new {Dimensions = ImageDimension.id16x16 })
+  &#64;Html.Sitecore().Controls().IconButton("Icon4", "ApplicationsV2/16x16/text_bold.png", new { Dimensions = ImageDimension.id24x24 })  
+  &#64;Html.Sitecore().Controls().IconButton("Icon5", "ApplicationsV2/16x16/text_bold.png", new { Dimensions = ImageDimension.id32x32 })
+  &#64;Html.Sitecore().Controls().IconButton("Icon6", "ApplicationsV2/16x16/text_bold.png", new { Dimensions = ImageDimension.id48x48 })
+</pre>
+
+<h3>Clicking</h3>
+<p>
+  Set the Click, Command or ServerClick property to invoke a JavaScript function, a command or a server action.
+</p>
+<table>
+<tr>
+<td>
+@Html.Sitecore().Controls().IconButton("Icon7", "ApplicationsV2/16x16/text_bold.png", new { Click = "javascript:alert('I am clicked')" })
+</td>
+</tr>
+</table>
+<pre>
+&#64;Html.Sitecore().Controls().IconButton("Icon7", "ApplicationsV2/16x16/text_bold.png", new { Click = "javascript:alert('I am clicked')" })
+</pre>
+<p>
+  Disabled icon button cannot be clicked
+</p>
+<table>
+<tr>
+<td>
+@Html.Sitecore().Controls().IconButton("Icon8", "ApplicationsV2/16x16/text_bold.png", new { Click = "javascript:alert('I am clicked')", IsEnabled = false })
+</td>
+</tr>
+</table>
+<pre>
+&#64;Html.Sitecore().Controls().IconButton("Icon8", "ApplicationsV2/16x16/text_bold.png", new { Click = "javascript:alert('I am clicked')", IsEnabled = false  })
+</pre>
+
+<h3>Data-binding</h3>
+<p>
+  Data-binding the <code>imageUrl</code> property.
+</p>  
+<table>
+<tr>
+<td>
+  @Html.Sitecore().Controls().IconButton("Icon9", "ApplicationsV2/16x16/text_bold.png", new { Click = "javascript:this.set('imageUrl','ApplicationsV2/16x16/add2.png')" })
+</td>
+</tr>
+</table>
+<pre>
+&#64;Html.Sitecore().Controls().IconButton("Icon9", "ApplicationsV2/16x16/text_bold.png", new { Click = "javascript:this.set('imageUrl','ApplicationsV2/16x16/add2.png')" })
+</pre>
+
+<h3>Sprites</h3>
+ <p>
+ <img src="/sitecore/client/~/media/C2D806C76EA94DEE940AE949D9AFD77A.ashx" alt="sprite"/>
+ </p>
+ <table>
+<tr>
+<td>
+@Html.Sitecore().Controls().IconButton("Icon11", "/sitecore/client/~/media/C2D806C76EA94DEE940AE949D9AFD77A.ashx", new { Click = "javascript:alert('I am clicked')", BackgroundPosition = "-23px 1px" }) 
+@Html.Sitecore().Controls().IconButton("Icon12", "/sitecore/client/~/media/C2D806C76EA94DEE940AE949D9AFD77A.ashx", new { Click = "javascript:this.set('backgroundPosition','-47px -47px')", BackgroundPosition = "-23px -23px" }) 
+</td>
+</tr>
+</table>
+<pre>
+&#64;Html.Sitecore().Controls().IconButton("Icon11", "/sitecore/client/~/media/C2D806C76EA94DEE940AE949D9AFD77A.ashx", new { Click = "javascript:alert('I am clicked')", BackgroundPosition = "-23px 1px" })
+&#64;Html.Sitecore().Controls().IconButton("Icon12", "/sitecore/client/~/media/C2D806C76EA94DEE940AE949D9AFD77A.ashx", new { Click = "javascript:this.set('backgroundPosition','-47px -47px')", BackgroundPosition = "-23px -23px" })  
+</pre>

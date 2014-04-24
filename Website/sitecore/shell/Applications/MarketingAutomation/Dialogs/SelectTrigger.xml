@@ -3,11 +3,7 @@
   <SelectTrigger>
     <FormDialog Header="Trigger" Text="Select a trigger." Icon="Applications/32x32/flash.png">
       <CodeBeside Type="Sitecore.Shell.Applications.MarketingAutomation.Dialogs.SelectTriggerForm,Sitecore.Shell.MarketingAutomation" />
-
-      <GridPanel Height="100%" Width="100%" >
-        <Listbox ID="Triggers" Name="Triggers" Height="100%" Size="8" Width="100%"/>
-      </GridPanel>
-
+      <Listbox ID="Triggers" Name="Triggers" class="scStretch" Size="8" />
     </FormDialog>
   </SelectTrigger>
 </control>

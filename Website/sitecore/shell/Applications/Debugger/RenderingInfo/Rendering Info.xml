@@ -80,9 +80,12 @@
                 <Checkbox ID="CacheableCheckbox" Disabled="true" Header="Cacheable"/>
                 
                 <Border Padding="0px 0px 0px 16px">
+                  <Checkbox ID="ClearOnIndexUpdateCheckbox" Disabled="true" Header="Clear on Index Update"/>
+                  <br/>
+
                   <Checkbox ID="VaryByDataCheckbox" Disabled="true" Header="Vary by Data"/>
                   <br/>
-                
+
                   <Checkbox ID="VaryByDeviceCheckbox" Disabled="true" Header="Vary by Device"/>
                   <br/>
 

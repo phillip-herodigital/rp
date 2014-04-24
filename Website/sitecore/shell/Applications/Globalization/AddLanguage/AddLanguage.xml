@@ -163,7 +163,7 @@
       </WizardFormPage>
 
       <WizardFormLastPage ID="LastPage" Icon="Flags/32x32/Flag_generic.png">
-        <Border GridPanel.Style="padding:0px 0px 16px 0px; font-weight:bold"><Literal Text="The wizard has completed. Click Finish to close the wizard."/></Border>
+        <Literal class="wizardCompleteText" Text="The wizard has completed. Click Finish to close the wizard."/>
       </WizardFormLastPage>
 
     </WizardForm>

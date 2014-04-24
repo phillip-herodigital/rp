@@ -1,0 +1,18 @@
+﻿@using Sitecore.Mvc
+@using Sitecore.Mvc.Presentation
+@using Sitecore.Web.UI.Controls.Common.UserControls
+@model RenderingModel
+@{
+  var userControl = this.Html.Sitecore().Controls().GetUserControl(this.Model.Rendering);
+  userControl.Class = "sc-form";
+  
+  var controlId = userControl.ControlId;
+  var htmlAttributes = userControl.HtmlAttributes;
+}
+<div @htmlAttributes>
+  @this.Html.Sitecore().Placeholder(controlId + ".Header")
+
+  @this.Html.Sitecore().Placeholder(controlId + ".Content")
+
+  @this.Html.Sitecore().Placeholder(controlId + ".Footer")
+</div>

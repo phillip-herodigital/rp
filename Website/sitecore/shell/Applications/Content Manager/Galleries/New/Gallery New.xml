@@ -3,21 +3,26 @@
   <Gallery.New>
     <Gallery>
       <CodeBeside Type="Sitecore.Shell.Applications.ContentManager.Galleries.New.GalleryNewForm,Sitecore.Client"/>
-
-      <GridPanel Width="100%" Height="100%">
-
-        <GalleryMenu ID="Options" GridPanel.Height="100%">
-          
-          <MenuPanel Height="100%">
-            <Scrollbox ID="Masters" Class="scScrollbox scFixSize" Height="100%" Padding="0px" Border="none" Background="transparent"/>
-          </MenuPanel>
-          
-        </GalleryMenu>
-
-        <Gallery.Grip GridPanel.Height="10"/>
-
-      </GridPanel>
-
+      
+      <style>
+        #Masters{
+          height: auto !important;
+        }
+      </style>
+      
+      <div class="scStretch">
+        <div class="scGalleryContent10">
+          <GalleryMenu ID="Options" >
+            <MenuPanel class="scStretch">
+              <Scrollbox ID="Masters" Class="scScrollbox" Padding="0px" Border="none" Background="transparent"/>
+            </MenuPanel>
+          </GalleryMenu>
+        </div>
+        <div class="scGalleryBottom10">
+          <Gallery.Grip />
+        </div>
+      </div>
+      
     </Gallery>
   </Gallery.New>
 </control>

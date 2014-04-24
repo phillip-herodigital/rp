@@ -12,13 +12,15 @@ body {
   height: 100%;
 }
 form {
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
   border: none;
+  height: 100%;
 }
 table, button, th {
   font: 8pt tahoma;
 }
+
 a, a:active, a:visited {
   color: windowtext;
   text-decoration: none;
@@ -35,9 +37,50 @@ textarea {
     resize: none;
 }
 
+input:not([type]), input[type="text"], input[type="password"] {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 2px 0;
+  padding: 2px 4px;
+}
+
+.ie8 input {
+  box-sizing: border-box;
+}
+
+input:not([type])::-ms-clear, input[type=text]::-ms-clear {
+  display: none;
+}
+
+iframe {
+  vertical-align: top;
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
 .scBackground {
   background: threedface;
 }
+
+.scHorizontalLine {
+  height: 1px;
+  line-height: 1px;
+  width: 100%;
+  background-color: #dbdbdb;
+  font-size: 0;
+}
+
+.scBlackHorizontalLine {
+  height: 1px;
+  line-height: 1px;
+  color: transparent;
+  width: 100%;
+  background-color: black;
+}
+
 .scFill {
   width: 100%;
   height: 100%;
@@ -63,16 +106,25 @@ textarea {
 .scClickFont_Hover {
   font: 9pt Verdana;
 }
+
 .scButton {
-  color: black;
-  width: 75px;
-  height: 24px;
-}
-.ff .scButton {
   height: auto;
-  width: auto;
+  width: auto !important;
   min-width: 75px;
+  margin: 2px;
+  white-space: nowrap;
 }
+
+.ie8 .scButton, .ie8 .scButton_Disabled {
+  min-width: 50px;
+}
+
+.ie9 .scButton::before, .ie9 .scButton_Disabled::before {
+  content: "";
+  display: block;
+  width: 50px;
+}
+
 .scButton_Disabled {
   width: 75px;
   height: 24px;
@@ -105,12 +157,102 @@ textarea {
   border-right: 1px solid threedhighlight;
   border-bottom: 1px solid threedhighlight;
 }
-.scBottomEdge, .scRightEdge {
+
+.scBottomEdge {
+  height: 1px;
   background: threedshadow;
 }
-.scTopEdge, .scLeftEdge {
+
+.scTopEdge {
+  height: 1px;
   background: threedhighlight;
 }
+
+.scWizardSmallIcon {
+  position:absolute;
+  top:8px;
+  left:102px;
+  width:58px;
+  height: 58px;
+  border: 2px solid white;
+}
+
+.scWizardSmallIcon > img {
+  width: 48px;
+  height: 48px;
+}
+
+.scWizardLargeIcon {
+  overflow: hidden;
+  -moz-opacity: 0.2;
+  opacity: 0.2;
+  filter: progid:DXImageTransform.Microsoft.BasicImage(opacity=0.20, grayscale=1);
+  clip: rect(0 128px 128px 0);
+  width: 128px;
+  height: 128px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.scWizardLargeIcon > img {
+  width: 196px;
+  height: 196px;
+}
+
+.scWizardButtons {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  height:40px;
+  text-align:right;
+  background:#e9e9e9;
+  white-space: nowrap;
+}
+
+.scWizardButtons > .scButton {
+  margin-top: 10px;
+}
+
+.scWizardPageContainer {
+  position: absolute;
+  top: 0;
+  bottom: 40px;
+  width: 100%;
+  background:#e9e9e9;
+}
+
+.scWizardFormPadding {
+  padding: 8px;
+  background:#e9e9e9;
+  overflow: auto;
+}
+
+.scWizardFirstPageLeftPanel, .scWizardLastPageLeftPanel {
+  width:164px;
+  position:absolute;
+  height: 100%;
+  background:#123960;
+  filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#123960', EndColorStr='#405E7A');
+}
+
+.scWizardFirstPageContent, .scWizardLastPageContent {
+  margin-left:164px;
+  height: 100%;
+  overflow: auto;
+  padding: 10px;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background: white;
+}
+
+.ie8 .scWizardFormContentForOldIE, .ie9 .scWizardFormContentForOldIE {
+  position: absolute;
+  top: 66px;
+  bottom: 0;
+  width: 100%;
+}
+
 .scCalendar {
   background: window;
   border: 1px solid black;
@@ -183,14 +325,9 @@ textarea {
   overflow: auto;
 }
 
-.ff .scDatePickerComboBox, .ff .scDateTimePickerContainer > img, .ff .scTimePickerComboBox {
+.scDatePickerComboBox, .scDateTimePickerContainer > img, .scTimePickerComboBox {
   float: left;
 }
-
-.ie .scDatePickerComboBox, .ie .scTimePickerComboBox {
-  display: inline;
-}
-
 .scTimePicker {
   width: 80px;
   height: 300px;
@@ -205,17 +342,13 @@ textarea {
 .scTimePicker a {
   height: 16px;
   padding: 1px;
-  width: 100%;
+  width: auto;
   text-align: center;
   display: block;
 }
 
-.ff .scTimePicker li {
+.scTimePicker li {
   width: 100%;
-}
-
-.ff .scTimePicker a {
-  width: auto;
 }
 
 .scTimePicker a:hover, .scTimePicker a:active {
@@ -450,6 +583,30 @@ a.scContentLabelLink:hover {
   font: 10pt verdana;
 }
 
+.scContentControlTreelist {
+  position: relative;
+}
+
+.scTreeListHalfPart {
+  height:100%;
+  width:50%;
+  position:relative;
+  display:inline-block;
+  vertical-align: top;
+}
+
+.ie .scTreeListHalfPart {
+  height: calc(100% - 1px);
+}
+
+.scTreeListHalfPart > div:first-child {
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  right:25px;
+}
+
 .ff .scContentControlChecklist label, .ff .scContentControlChecklist input {
   float: left;
 }
@@ -610,11 +767,56 @@ a.scContentLabelLink:hover {
   color: #666;
   font: 8pt tahoma;
 }
+
+.scContentControlTree {
+  position: absolute;
+  top: 20px;
+  bottom: 0;
+  height: auto !important;
+  left: 0;
+  right: 0;
+}
+
 .scContentControlMultilistBox {
   background: window;
   color: windowtext;
   width: 100%;
 }
+
+.scContentControlNavigation {
+  padding-top: 20px;
+  position:absolute;
+  top:0;
+  bottom:0;
+  right:0;
+  width:25px;
+}
+
+.scContentControlNavigation > img {
+  margin: 5px;
+  display: block;
+}
+
+.scContentControlTreeListHelp {
+  border:1px solid #999999;
+  font:8pt tahoma;
+  padding:2px;
+  margin:4px 0 4px 0;
+  height: 20px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
+.scContentControlSelectedList {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  right: 0;
+  bottom: 30px;
+}
+
 .scContentControlSecurity {
   border: 1px solid #cccccc;
   color: black;
@@ -624,15 +826,6 @@ a.scContentLabelLink:hover {
   border: 1px solid activecaption;
   color: black;
   width: 100%;
-}
-
-.ff .scContentControlTreelist .scScrollbox {
-  border-color: #b4b4b4;
-  height: 192px;
-}
-
-.ie .scContentControlTreelist .scScrollbox, .ie .scContentControlTreelist_Active .scScrollbox {
-  width:100%;  
 }
 
 .scContentControlTreelistEx {
@@ -900,61 +1093,69 @@ a.scContentLabelLink:hover {
   text-align: left;
   white-space: nowrap;
 }
-.scMenu {
+.scMenu
+{
   color: #080864;
   background: #fafafa;
   border: 1px solid #868686;
+  border-collapse: separate;
 }
 .scMenuItemIcon {
   background: #efefef;
   border-right: 1px solid #c5c5c5;
-  padding: 1px 0px 1px 1px;
+  border: 1px solid transparent;
+  padding: 1px 0 1px 1px;
+  vertical-align: top;
+  white-space: nowrap;
+  width: 20px;
+  margin: 0px 0px 0px 1px;
+}
+.scMenuItemIcon_Hover {
+  background: #d5effc url(/sitecore/shell/themes/standard/Images/Tree/TreeNodeActiveBackground.png) repeat-x;
+  border: 1px solid #99defd;
+  border-right:1px solid transparent;
+  color: menutext;
+  padding:  1px 0 1px 1px;
   vertical-align: top;
   white-space: nowrap;
   width: 20px;
   margin: 0px 0px 0px 1px;
 }
 .scMenuItemCaption {
+  border: 1px solid transparent;
   background: #fafafa;
   cursor: default;
   padding: 1px 1px 1px 4px;
   white-space: nowrap;
 }
+.scMenuItemCaption_Hover {
+  background: #d5effc url(/sitecore/shell/themes/standard/Images/Tree/TreeNodeActiveBackground.png) repeat-x;
+  border: 1px solid #99defd;
+  border-left: 1px solid transparent;
+  border-right: 1px solid transparent;
+  color: #000062;
+  cursor: default;
+  padding: 1px 1px 1px 4px;
+  white-space: nowrap;
+}
+
 .scMenuItemHotkey {
+  border: 1px solid transparent;
   background: #fafafa;
   cursor: default;
   padding: 1px 4px 1px 4px;
   text-align: right;
   white-space: nowrap;
 }
-.scMenuItemIcon_Hover {
-  background: #d5effc url(/sitecore/shell/themes/standard/Images/Tree/TreeNodeActiveBackground.png) repeat-x;
-  border: 1px solid #99defd;
-  border-right: none;
-  color: menutext;
-  padding: 0px 1px 0px 0px;
-  vertical-align: top;
-  white-space: nowrap;
-  width: 20px;
-  margin: 0px 0px 0px 1px;
-}
-.scMenuItemCaption_Hover {
-  background: #d5effc url(/sitecore/shell/themes/standard/Images/Tree/TreeNodeActiveBackground.png) repeat-x;
-  border: 1px solid #99defd;
-  border-left: none;
-  border-right: none;
-  color: #000062;
-  cursor: default;
-  padding: 0px 1px 0px 4px;
-  white-space: nowrap;
-}
+
+
 .scMenuItemHotkey_Hover {
   background: #d5effc url(/sitecore/shell/themes/standard/Images/Tree/TreeNodeActiveBackground.png) repeat-x;
   border: 1px solid #99defd;
-  border-left: none;
+  border-left: 1px solid transparent;
   color: menutext;
   cursor: default;
-  padding: 0px 3px 0px 4px;
+  padding: 1px 4px 1px 4px;
   text-align: right;
   white-space: nowrap;
 }
@@ -986,32 +1187,30 @@ a.scContentLabelLink:hover {
 .scMenuDividerIcon {
   background: #efefef;
   border-right: 1px solid #c5c5c5;
-  height: 3px;
+  height: 1px;
+}
+.scMenuDividerIcon img {
+  display: block;
 }
 .scMenuDividerCaption {
   background: #9199a4;
-  border-top: 1px solid #fafafa;
-  border-bottom: 1px solid #fafafa;
-  border-left: 2px solid #fafafa;
-  height: 3px;
+  /*border-top: 1px solid #fafafa;*/
+  /*border-bottom: 1px solid #fafafa;
+  border-left: 2px solid #fafafa;*/
+  height: 1px;
+}
+.scMenuDividerCaption img {
+  display: block;
 }
 .scMenuDividerHotkey {
   background: #9199a4;
-  border-top: 1px solid #fafafa;
-  border-bottom: 1px solid #fafafa;
-  height: 3px;
-}
-
-.wk .scMenuDividerIcon {
+  /*border-top: 1px solid #fafafa;*/
+  /*border-bottom: 1px solid #fafafa;*/
   height: 1px;
 }
-.wk .scMenuDividerCaption {
-  height: 1px;
+.scMenuDividerHotkey img {
+  display: block;
 }
-.wk .scMenuDividerHotkey {
-  height: 1px;
-}
-
 .scMenuPanelItem {
   white-space: nowrap;
   padding: 1px 4px 1px 4px;
@@ -1062,17 +1261,47 @@ a.scContentLabelLink:hover {
 }
 
 .scScrollbox {
-  background: window;
+  background: white;
   height: 100%;
   overflow: auto;
-  border: 1px inset; /* ie */
-}
-
-.ff .scScrollbox {
   border-top: solid 1px #B4B4B4;
   border-left: solid 1px #B4B4B4;
   border-bottom: solid 1px white;
   border-right: solid 1px white;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.scScrollboxStretchAbsolute {
+  background: white;
+  overflow: auto;
+  border-top: solid 1px #B4B4B4;
+  border-left: solid 1px #B4B4B4;
+  border-bottom: solid 1px white;
+  border-right: solid 1px white;
+
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 4px;
+}
+
+.scStretchAbsolute {
+  position: absolute !important;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.scStretch {
+  width: 100%;
+  height: 100%;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  position: relative;
 }
 
 .scScroller {
@@ -1474,10 +1703,22 @@ a.scInspectorInspectedtag, a:hover.scInspectorInspectedtag, a:active.scInspector
   background: highlight;
 }
 .scWizardHeader {
-  font-weight: bold;
   color: windowtext;
   background: window;
+  min-height: 64px;
 }
+
+.ie8 .scWizardHeader, .ie9 .scWizardHeader {
+  height: 64px;
+  overflow: hidden;
+}
+
+.scWizardHeader > img {
+  float: right;
+  margin-top: 10px;
+  margin-right: 5px;
+}
+
 .scWizardTitle {
   font-weight: bold;
   color: windowtext;
@@ -1497,6 +1738,12 @@ a.scInspectorInspectedtag, a:hover.scInspectorInspectedtag, a:active.scInspector
   background: window;
   padding: 8px;
 }
+
+.scWizardSkip {
+  position: absolute;
+  bottom: 10px;
+}
+
 .scWizardTextPanel {
   padding: 8px 36px 0px 36px;
 }
@@ -1513,6 +1760,25 @@ a.scInspectorInspectedtag, a:hover.scInspectorInspectedtag, a:active.scInspector
   color: windowtext;
   background: window;
 }
+
+.ie8 .scWizardLastPageResultText, .ie9 .scWizardLastPageResultText {
+  position: absolute;
+  top: 65px;
+  bottom: 0;
+  width: 100%;
+}
+
+.wizardCompleteText {
+  padding-bottom: 16px;
+  font-weight:bold;
+  display:inline-block;
+}
+
+.wizardResult {
+  padding-bottom: 2px;
+  display:inline-block;
+}
+
 li.scWizardBullet {
   padding-bottom: 8px;
 }
@@ -1570,17 +1836,14 @@ li.scWizardBullet {
 .scComboboxEdit {
   border: none;
   font: 9pt verdana;
-  padding: 1px;
   width: 100%;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  height: 14px;
 }
-.wk .scComboboxEdit {
-  padding: 0px;
-}
+
 .scComboboxDropDown {
-  margin: 0px 1px;
-}
-.ff .scComboboxDropDown {
-  margin-right: 1;
+  margin: 0  1px;
 }
 
 .scListbox {
@@ -1663,6 +1926,11 @@ li.scWizardBullet {
   padding: 4px;
 }
 
+.scTabstripContainer {
+  position: relative;
+  height: 100%;
+}
+
 .scTabstrip {
   height: 21px;
   vertical-align: bottom;
@@ -1677,12 +1945,19 @@ li.scWizardBullet {
   border-left: 1px solid #919b9c;
   border-right: 1px solid #919b9c;
   border-bottom: 1px solid #919b9c;
-  height: 100%;
+  position: absolute;
+  top: 21px;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 .scTabPage {
   width: 100%;
-  height: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  overflow: auto;
 }
 
 .scTab, .scTab_Hover, .scTabActive, .scTabActive_Hover {
@@ -1715,6 +1990,7 @@ li.scWizardBullet {
 .scVerticalTabstrip .scVerticalTabs {
   background: white;
   border: solid 1px #919B9C;
+  overflow: auto;
 }
 
 .scVerticalTabstrip .scVerticalTabs a, .scVerticalTabstrip .scVerticalTabs span.header {
@@ -1739,6 +2015,7 @@ li.scWizardBullet {
 .scVerticalTabstrip .scTabContent {
   background: white;
   border: solid 1px #919B9C;
+  margin-left: 3px;
 }
 
 .scViewerHeadline {
@@ -1803,9 +2080,13 @@ li.scWizardBullet {
   position: absolute;
   top: 0;
   left: 0;
+  bottom: 0;
+  right: 0;
   z-index: 90;
-  width: 100%;
   background-color: #000;
+  opacity: 0.2;
+  zoom: 1;
+  -ms-filter: progid:DXImageTransform.Microsoft.alpha(Opacity=20);
 }
 
 #SearchBox {
@@ -1826,7 +2107,7 @@ li.scWizardBullet {
 .scContentTreeContainer {
   width: 100%;
   height: 100%;
-  position: relative;
+  position: absolute;
 }
 
 .scContentTree {
@@ -1834,6 +2115,7 @@ li.scWizardBullet {
   background-color: white;
   height: 100%;
   overflow: auto;
+  position: relative;
   padding-left: 6px;
 }
 
@@ -1847,11 +2129,14 @@ li.scWizardBullet {
   outline: none;
 }
 
-a.scContentTreeNodeNormal, a.scContentTreeNodeActive {
+a.scContentTreeNodeNormal, a.scContentTreeNodeActive, a.scContentTreeNodeStatic {
   color: black;
   cursor: default;
   padding: 2px 4px 2px 2px;
-  line-height: 16px;
+}
+
+a.scContentTreeNodeStatic, a.scContentTreeNodeStatic:visited, a.scContentTreeNodeStatic:hover, a.scContentTreeNodeStatic:active {
+  color: #666666;
 }
 
 a.scContentTreeNodeNormal:hover, a.scContentTreeNodeActive, a.scContentTreeNodeNormal.scDragHover {
@@ -1866,31 +2151,35 @@ a.scContentTreeNodeActive {
 }
 
 .ff .scContentControl a.scContentTreeNodeNormal:hover, .ff .scContentControl a.scContentTreeNodeActive {
-  padding: 0px 3px 0px 1px;
+  padding: 0 3px 0 1px;
 }
 
 .scContentTreeNodeGlyph {
   border: none;
   height: 15px;
-  margin: 0px 3px 0px 0px;
+  line-height: 0;
+  margin: 0 3px 0 0;
+  padding-top: 1px;
   padding-bottom: 2px;
   width: 15px;
-  vertical-align: bottom;
+  vertical-align: middle;
 }
 
 .scLoadingGlyph {
   background: url(/~/icon/People/16x16/hourglass.png.aspx);
   width: 16px;
   height: 16px;
-  margin: 0px 0px 0px 8px;
-  vertical-align: bottom;
+  line-height: 0;
+  margin: 0 0 0 8px;
+  vertical-align: middle;
 }
 
 .scContentTreeNodeIcon {
   border: none;
   height: 16px;
-  margin: 0px 3px 0px 0px;
-  vertical-align: bottom;
+  line-height: 0;
+  margin: 0 3px 0 0;
+  vertical-align: top;
   width: 16px;
 }
 
@@ -1905,9 +2194,6 @@ a.scContentTreeNodeActive {
 .scContentTreeNodeGutter {
   position: absolute;
   left: 2px;
-}
-
-.ff .scContentTreeNodeGutter {
   display: inline;
 }
 
@@ -1944,6 +2230,7 @@ a.scContentTreeNodeActive {
   border-left: solid 1px #B4B4B4;
   border-bottom: solid 1px transparent;
   border-right: solid 1px transparent;
+  min-height: 200px !important;
 }
 
 .ie .scInsetBorder {
@@ -1957,6 +2244,7 @@ a.scContentTreeNodeActive {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
+
 .scFixSize > * {
   display: none;
 }
@@ -2039,12 +2327,10 @@ a.scContentTreeNodeActive {
 {
   border: none;
   display: inline-block;
-  *display: inline;
   height: 9px;
   margin: 0;
   margin-right: 3px;
-  margin-top: 5px;
-  vertical-align: top;
+  vertical-align: middle;
   width: 9px;
 }
 
@@ -2065,8 +2351,7 @@ a.scContentTreeNodeActive {
   border-style: solid;
   border-width: 1px;
   display: inline-block;
-  *display: inline;
-  vertical-align: top;
+  vertical-align: middle;
   height: 16px;
   line-height: 16px;
   padding-bottom: 1px;
@@ -2136,7 +2421,56 @@ a.scContentTreeNodeActive {
   text-decoration: underline;
 }
 
-
 .scPaneHeader {
   font-family: verdana;
+}
+
+.scSpacer {
+  display: block;
+}
+
+.scHeightAuto {
+  height: auto !important;
+}
+
+.scHeight100 {
+  height: 100% !important;
+}
+
+.SecurityLegend
+{
+  background-color: #e9e9e9;
+  border-top:2px groove;
+  overflow: hidden;
+  padding: 2px 4px;
+}
+
+.scVSplitterImage {
+  vertical-align: top;
+  width: 6px;
+  display: block;
+}
+
+.scTextAlignCenter {
+  text-align: center;
+}
+
+.scVerticalTabContent {
+  height: 100%;
+}
+
+.scHidden
+{
+  display: none;
+}
+
+.col2 {
+  height: 100%;
+  width: 50%;
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 5px;
 }

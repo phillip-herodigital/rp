@@ -1,5 +1,11 @@
 .scStartbar {
   height: 29px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+#Startbar {
   overflow: hidden;
 }
 
@@ -75,11 +81,12 @@
 .scStartMenuLeftDivider {
   text-align: center;
   padding: 2px;
+  height: 1px;
 }
 
 .scStartMenuLeftDividerIcon {
-  height: 1px;
   width: 128px;
+  vertical-align: top;
 }
 
 .scStartMenuLeftOption, .scStartMenuLeftOption:link, .scStartMenuLeftOption:visited, .scStartMenuLeftOption:hover, .scStartMenuLeftOption:active {
@@ -137,10 +144,11 @@
 .scStartMenuRightDivider {
   text-align: center;
   padding: 2px;
+  height: 1px;
 }
 
 .scStartMenuRightDividerIcon {
-  height: 1px;
+  vertical-align: top;
   width: 128px;
 }
 

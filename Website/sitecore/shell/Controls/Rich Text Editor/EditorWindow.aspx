@@ -1,7 +1,7 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" Inherits="Sitecore.Shell.Applications.ContentManager.EditorWindowPage" Codebehind="EditorWindow.aspx.cs" %>
 <%@ Register TagPrefix="telerik" Namespace="Telerik.Web.UI" Assembly="Telerik.Web.UI" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head id="Head1" runat="server">
 <title>Sitecore</title>
   <script src="/sitecore/shell/controls/lib/prototype/prototype.js" type="text/javascript"></script>
@@ -93,6 +93,11 @@
     }
 
   </script>
+  <style>
+    .rwWindowContent {
+      background-color: #ECECEC !important;
+    }
+  </style>
 </head>
 <body style="background:transparent">
   <form id="form1" runat="server">
@@ -104,7 +109,7 @@
 
         <telerik:RadWindowManager ShowContentDuringLoad="false" VisibleStatusbar="false" runat="server" >
           <Windows>
-            <telerik:RadWindow ID="MainWindow" Behaviors="Resize,Move,Close,Maximize" runat="server" KeepInScreenBounds="true" Width="1000" Height="600" Modal="true" ReloadOnShow="false" Skin="Default" OnClientBeforeClose="scClientClose" />
+            <telerik:RadWindow ID="MainWindow" Behaviors="Resize,Move,Close,Maximize" runat="server" KeepInScreenBounds="true" Width="1000" Height="600" MinHeight="275" Modal="true" ReloadOnShow="false" Skin="Default" OnClientBeforeClose="scClientClose" />
           </Windows>
         </telerik:RadWindowManager>
       </ContentTemplate>

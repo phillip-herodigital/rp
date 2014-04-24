@@ -1,0 +1,40 @@
+﻿@using Sitecore.Mvc.Presentation
+@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Common.Buttons
+@using Sitecore.Web.UI.Controls.Common.Labels
+
+@model RenderingModel
+
+<h3>Apperance</h3>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Enabled</th>     
+      <th>Invisible</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>@Html.Sitecore().Controls().Label("Label1", "Label1", "Input1")<input type="text" id="Input1"/></td>      
+      <td>@Html.Sitecore().Controls().Label("Label3", "Label3", "Input3", new { IsVisible = false })<input type="text" id="Input3"/></td>
+    </tr>
+  </tbody>
+</table>
+
+<pre>
+&#64;Html.Sitecore().Controls().Label("Label1", "Label1", "Input1")&lt;input type="text" id="Input1"/&gt;
+&#64;Html.Sitecore().Controls().Label("Label3", "Label3", "Input3", new { IsVisible = false })&lt;input type="text" id="Input3"/&gt;
+</pre>
+<h3>Data-binding</h3>
+<p>
+  Data-binding the <code>text</code> property.
+</p>
+<p>
+  @Html.Sitecore().Controls().Label("Label4", "Label", "Button1")
+  @Html.Sitecore().Controls().Button("Button1", new { Text = "ChangeLabel", Click = "javascript:app.Label4.set('text','Label was changed.')" })  
+</p>
+<pre>
+ &#64;Html.Sitecore().Controls().Label("Label4", "Label", "Button1")
+ &#64;Html.Sitecore().Controls().Button("Button1", new { Text = "ChangeLabel", Click = "javascript:app.Label4.set('text','Label was changed.')" }) 
+</pre>

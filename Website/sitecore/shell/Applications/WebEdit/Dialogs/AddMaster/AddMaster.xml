@@ -7,7 +7,13 @@
       Text="Select the item that you want to insert. You must give the item a name." OKButton="Insert">
 
       <CodeBeside Type="Sitecore.Shell.Applications.WebEdit.Dialogs.AddMaster.AddMasterForm,Sitecore.Client"/>
-
+      
+      <Stylesheet Key="Style">
+        .addMasterContainer {
+        padding-bottom: 34px;
+        }
+      </Stylesheet>
+      
       <Script>
         Event.observe(window, "load", function() { 
           var focus = function() { $('ItemName').focus(); };
@@ -20,22 +26,19 @@
         });
       </Script>
 
-      <GridPanel Width="100%" Height="100%" Style="table-layout:fixed">
-        <Scrollbox ID="Items" Width="100%" Height="100%" Background="white" Border="1px inset" Padding="0" GridPanel.Height="100%" />
+      <div class="scStretch addMasterContainer">
+        <Scrollbox ID="Items" Border="1px inset" Padding="0" />
 
         <Border Padding="4px 0px 0px 0px">
           <GridPanel Width="100%" Columns="2">
-
             <Border Padding="0px 4px 0px 0px" Style="white-space:nowrap;" GridPanel.Align="right" NoWrap="true">
               <Literal Text="Item Name:"/>
             </Border>
-
             <Edit ID="ItemName" Style="padding:4px 0px;" Width="100%" GridPanel.Width="100%"/>
-
           </GridPanel>
         </Border>
 
-      </GridPanel>
+      </div>
 
     </FormDialog>
   </Applications.WebEdit.Dialogs.AddMaster>

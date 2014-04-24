@@ -1,0 +1,35 @@
+﻿@using Sitecore.Mvc.Presentation
+@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Containers.Frames
+@using Sitecore.Web.UI.Controls.Common.TextBoxes
+@model RenderingModel    
+
+<h3>Apperance</h3>
+<p>
+  A frame is a standard Html IFrame.
+</p>
+<p>
+  @Html.Sitecore().Controls().Frame("Frame1", new { SourceUrl = "http://www.sitecore.net", Width = "100%", Height = "300" })
+</p>
+
+<pre>
+  &#64;Html.Sitecore().Controls().Frame("Frame1", new { SourceUrl = "http://www.sitecore.net", Width = "100%", Height = "300" })
+</pre>
+
+
+<h3>Data binding</h3>
+<p>
+  The <code>SourceUrl</code> property can be data bound.
+</p>      
+<div class="alert alert-info">
+  <strong>Information</strong> This demo may be prevented by the browser (XSS security settings).
+</div>
+<p>
+  @Html.Sitecore().Controls().TextBox("TextBox1", new { Text = "http://www.sitecore.net" })                                        
+  @Html.Sitecore().Controls().Frame("Frame2", new { SourceUrl = "{binding TextBox1.text}", Width = "100%", Height = "300" })
+</p>
+
+<pre>
+  &#64;Html.Sitecore().Controls().TextBox("TextBox1", new { Text = "http://www.sitecore.net" })
+  &#64;Html.Sitecore().Controls().Frame("Frame2", new { SourceUrl = "{binding TextBox1.text}", Width = "100%" })
+</pre>

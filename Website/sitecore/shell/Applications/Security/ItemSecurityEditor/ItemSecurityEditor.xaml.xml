@@ -20,43 +20,38 @@
       <Script runat="server" type="text/javascript" Src="/sitecore/shell/Applications/Security/ItemSecurityEditor/ItemSecurityEditor.js" />
       <Stylesheet runat="server" Src="/sitecore/shell/Applications/Security/ItemSecurityEditor/ItemSecurityEditor.css" />
 
-      <GridPanel Height="100%" Width="100%" runat="server">
+      <Border class="scStretchAbsolute scItemSecurityEditorContainer scFlexColumnContainer" runat="server">
         <Border Padding="0px 0px 2px 0px"  runat="server">
           <Literal Text="Roles or User Names:" runat="server"/>
         </Border>
 
-        <GridPanel Height="100%" Width="100%" GridPanel.Height="30%" runat="server">
-          <Listbox ID="Accounts" Name="Accounts" Width="100%" Height="100%" GridPanel.Height="100%" Size="2" ajax:Change="Accounts_Change" runat="server" />
-          
+        <Border class="scItemSecurityEditorAccounts" runat="server">
+          <Listbox ID="Accounts" style="width:100%;" Name="Accounts" Size="8" ajax:Change="Accounts_Change" runat="server" />
           <Border align="right" runat="server">
             <Button Header="Add" Margin="0px 4px 0px 0px" ID="Add" Click="Add_Click" runat="server" />
             <Button Header="Remove" ID="Remove" Click="Remove_Click" runat="server" />
           </Border>
-        </GridPanel>
+          <Border ID="NoAccounts" Visible="false" runat="server" style="position: absolute; top: 45px; left:0; right:0; text-align:center;" />
+        </Border>
 
-        <Border ID="NoAccounts" Visible="false" runat="server" style="position: absolute; top: 96px; left: 174px" />
-        <Border ID="NoPermissions" Visible="false" runat="server" style="position: absolute; top: 270px; left: 124px; color: gray" />
-
-        <Border Padding="12px 0px 2px 0px" runat="server">
+        <Border class="permissionsLabel" runat="server">
           <Literal ID="PermissionsLabel" Text="Permissions for" runat="server"/>
           <b><Literal ID="Item" Text="Home" Style="padding: 0px 0px 0px 2px" runat="server" /></b>
           <Literal Text=":" runat="server"/>
         </Border>
 
-        <Border Height="100%" GridPanel.Height="50%" runat="server">
-          <Scrollbox ID="Permissions" Width="100%" Height="100%" Padding="0px" runat="Server" />
-        </Border>
+        <Scrollbox ID="Permissions" class="scScrollbox scFlexContent" runat="server">
+            <Border ID="NoPermissions" Visible="false" runat="server" style="position: absolute; top: 20px; left:0; right:0; text-align:center; color: gray" />
+        </Scrollbox>
 
-        <Border Padding="8px 0px 2px 0px" runat="server">
+        <Border class="permissionsLabel" runat="server">
           <Literal ID="PermissionsLabel" Text="Inheritance" runat="server"/>
           <Literal ID="SpecializedInheritanceWarning" Class="scInheritanceWarning" runat="server" />
           <Literal Text=":" runat="server"/>
         </Border>
 
-        <Border Height="100%" GridPanel.Height="8%" runat="server">
-          <Scrollbox ID="Inheritance" Width="100%" Height="100%" style="overflow: hidden" Padding="0px" runat="Server" />
-        </Border>
-      </GridPanel>
+        <Scrollbox ID="Inheritance" runat="server" />
+      </Border>
       
     </Sitecore.Controls.DialogPage>
   </Sitecore.Shell.Applications.Security.ItemSecurityEditor>

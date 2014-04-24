@@ -30,7 +30,7 @@
             <Literal Text="Date:"/>
             <DateTimePicker ID="Date"/>
             
-            <Literal Text="Recipents:" GridPanel.VAlign="top"/>
+            <Literal Text="Recipients:" GridPanel.VAlign="top"/>
             <Memo ID="Recipients" Width="100%" Height="100"/>
             
             <Space/>

@@ -5,7 +5,14 @@
       Header="Insert a JavaScript link" 
       Text="Please specify the JavaScript and any additional properties. When done, click the OK button."
       OKButton="OK">
-        
+      <Stylesheet>
+        textarea {
+        resize: vertical;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        overflow: auto;
+        }
+      </Stylesheet>
       <CodeBeside Type="Sitecore.Shell.Applications.Dialogs.JavascriptLink.JavascriptLinkForm,Sitecore.Client"/>
 
       <GridPanel CellPadding="2" Columns="2" Width="100%">
@@ -13,7 +20,7 @@
         <Edit ID="Text" Width="100%" GridPanel.Width="100%"/>
         
         <Label For="Url" GridPanel.NoWrap="true" GridPanel.VAlign="top"><Literal Text="JavaScript:"/></Label>
-        <Memo ID="Url" Width="100%" Height="80" Wrap="off"/>
+        <Memo ID="Url" Width="100%" Height="120" Wrap="off"/>
 
         <Label For="Class" GridPanel.NoWrap="true"><Literal Text="Style class:" /></Label>
         <Edit ID="Class" Width="100%" />

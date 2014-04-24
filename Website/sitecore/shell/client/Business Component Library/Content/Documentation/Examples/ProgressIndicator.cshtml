@@ -1,0 +1,43 @@
+﻿@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Common.Buttons
+@using Sitecore.Web.UI.Controls.Common.ProgressIndicators
+
+<h3>Apperance</h3>
+
+<p>Progress indicators can be visible or not.</p>
+
+<p>
+  @Html.Sitecore().Controls().ProgressIndicator("ProgressIndicator1", false, new { IsFullScreen = true })
+  @Html.Sitecore().Controls().Button("Button1", new { Text = "Show progress indicator for 10 seconds", Click = "javascript:app.ProgressIndicator1.show(10)" })
+</p>
+
+<pre>
+  &#64;Html.Sitecore().Controls().ProgressIndicator("ProgressIndicator1")
+  &#64;Html.Sitecore().Controls().Button("Button1", new { Text = "Show progress indicator for 10 seconds", Click = "javascript:app.ProgressIndicator1.show(10)" })
+</pre>
+
+<p class="alert">The isVisible property doesn't make sense for ProgressIndicator control. One should use isBusy property instead.</p>
+
+
+<p class="alert">If TargetControl is specifed, the ProgressIndicator control should not be nested into any positioned DOM element.<br/>
+  If the TargetControl component is contained in a SmartPanel or a DialogWindow, the ProgressIndicator gets a css z-index that is 50 higher than that component. <br/>
+  This ensures that the ProgressIndicator does not get hidden.
+</p>
+
+<p class="alert">When TargetControl is specifed and it is inside a SmartPanel or a DialogWindow, then the ProgressIndicator z-index is increrased so to appear on top of the TargetControl.</p>
+
+<h3>Data-binding</h3>
+<p>
+  Data-bind the <code>isBusy</code> and <code>targetControl</code> property.
+</p>
+<p>
+  @Html.Sitecore().Controls().ProgressIndicator("ProgressIndicator3", false, new { TargetControl = "DOM:#codeSnippet" })
+  @Html.Sitecore().Controls().Button("Button3", new { Text = "Show progress indicator over code snippet.", Click = "javascript:app.ProgressIndicator3.set('isBusy', true)" })
+  @Html.Sitecore().Controls().Button("Button4", new { Text = "Hide progress indicator over code snippet.", Click = "javascript:app.ProgressIndicator3.set('isBusy', false)" })
+</p>
+
+<pre id="codeSnippet">
+  &#64;Html.Sitecore().Controls().ProgressIndicator("ProgressIndicator3", false, new { TargetControl = "DOM:#codeSnippet" })
+  &#64;Html.Sitecore().Controls().Button("Button3", new { Text = "Show progress indicator over code snippet.", Click = "javascript:app.ProgressIndicator3.set('isBusy', true)" })
+  &#64;Html.Sitecore().Controls().Button("Button4", new { Text = "Hide progress indicator over code snippet.", Click = "javascript:app.ProgressIndicator3.set('isBusy', false)" })
+</pre>

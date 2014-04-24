@@ -1,0 +1,32 @@
+﻿@using Sitecore.Mvc.Presentation
+@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Common.GlobalLogos
+@model RenderingModel
+
+
+<h3>Apperance</h3>
+<p>Renders a logo image.</p>
+
+<p>
+  @Html.Sitecore().Controls().GlobalLogo("GlobalLogo1", string.Empty)
+  @Html.Sitecore().Controls().GlobalLogo("GlobalLogo2", "/sitecore/shell/client/Speak/Assets/img/sc-sprite.png")
+</p>
+<pre>
+&#64;Html.Sitecore().Controls().GlobalLogo("GlobalLogo1", string.Empty)
+&#64;Html.Sitecore().Controls().GlobalLogo("GlobalLogo2", "/sitecore/shell/client/Speak/Assets/img/sc-sprite.png")
+</pre>
+
+
+<h3>Clicking</h3>
+<p>
+  Set the Click.
+</p>
+<p>
+  @Html.Sitecore().Controls().GlobalLogo("GlobalLogo3", string.Empty, new {NavigateUrl = "http://sitecore.net"})
+</p>
+<pre>
+&#64;Html.Sitecore().Controls().GlobalLogo("GlobalLogo3", string.Empty, new {NavigateUrl = "http://sitecore.net"})
+</pre>
+
+
+

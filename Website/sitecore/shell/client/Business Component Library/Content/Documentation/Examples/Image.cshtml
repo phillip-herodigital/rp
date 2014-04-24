@@ -1,0 +1,48 @@
+﻿@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Common.Buttons
+@using Sitecore.Web.UI.Controls.Common.Images
+
+
+<h3>Appearance</h3>
+<p>
+  Images are resizable.
+</p>
+<p>
+  @Html.Sitecore().Controls().Image("Image1", new { Alt = "Sitecore logo", ImageUrl = "~/media/6DE2C2608FCD4DE48DE1D14EE37C82AF.ashx?db=core" })
+  @Html.Sitecore().Controls().Image("Image2", new { Alt = "Sitecore logo", ImageUrl = "~/media/6DE2C2608FCD4DE48DE1D14EE37C82AF.ashx?db=core", Width = "200px", Height = "400px" })
+    <br />
+  @Html.Sitecore().Controls().Image("Image3", new { Alt = "Sitecore logo", ImageUrl = "~/media/6DE2C2608FCD4DE48DE1D14EE37C82AF.ashx?db=core", Width = "400px", Height = "200px" }) 
+  @Html.Sitecore().Controls().Image("Image4", new { Alt = "Sitecore logo", ImageUrl = "~/media/6DE2C2608FCD4DE48DE1D14EE37C82AF.ashx?db=core", Width = "10em" })      
+</p>
+
+<pre>
+  &#64;Html.Sitecore().Controls().Image("Image1", new { Alt = "Sitecore logo", ImageUrl = "~/media/6DE2C2608FCD4DE48DE1D14EE37C82AF.ashx?db=core" })
+  &#64;Html.Sitecore().Controls().Image("Image2", new { Alt = "Sitecore logo", ImageUrl = "~/media/6DE2C2608FCD4DE48DE1D14EE37C82AF.ashx?db=core", Width = "200px", Height = "400px" })
+  &#64;Html.Sitecore().Controls().Image("Image3", new { Alt = "Sitecore logo", ImageUrl = "~/media/6DE2C2608FCD4DE48DE1D14EE37C82AF.ashx?db=core", Width = "400px", Height = "200px" }) 
+  &#64;Html.Sitecore().Controls().Image("Image4", new { Alt = "Sitecore logo", ImageUrl = "~/media/6DE2C2608FCD4DE48DE1D14EE37C82AF.ashx?db=core", Width = "10em" })           
+</pre>
+
+<p>
+  You can point Image to the media item using datasource.
+</p>
+<p>
+  @Html.Sitecore().Controls().Image("Image1", new { Alt = "Sitecore logo", DataSource = "{6DE2C260-8FCD-4DE4-8DE1-D14EE37C82AF}" })
+</p>
+
+<pre>
+  &#64;Html.Sitecore().Controls().Image("Image1", new { Alt = "Sitecore logo", DataSource = "{6DE2C260-8FCD-4DE4-8DE1-D14EE37C82AF}" })        
+</pre>
+
+<h3>Data-binding</h3>
+<p>
+  Data-binding the <code>ImageUrl</code> property.
+</p>
+<p>
+  @Html.Sitecore().Controls().Image("Image6", new { ImageUrl = "~/media/6DE2C2608FCD4DE48DE1D14EE37C82AF.ashx?db=core", Width="100px", Height="100px" })
+  @Html.Sitecore().Controls().Button("Button1", new { Text = "Click to change the image", Click = "javascript:app.Image6.set('imageUrl', '~/media/DE8EC2DC330444A98D271E8824BD5C76.ashx?db=core');app.Image6.set('isEnabled',false)" })
+</p>
+<pre>
+&#64;Html.Sitecore().Controls().Image("Image6", new { ImageUrl = "~/media/6DE2C2608FCD4DE48DE1D14EE37C82AF.ashx?db=core", Width="100px", Height="100px" })
+&#64;Html.Sitecore().Controls().Button("Button1", new { Text = "Click to change the image", Click = "javascript:app.Image6.set('imageUrl','~/media/DE8EC2DC330444A98D271E8824BD5C76.ashx?db=core');app.Image6.set('isEnabled',false)" })
+</pre>
+<strong>If Media Item is specified for the "Image" rendering as datasource, then media item is considered to be a ImageUrl for the image.</strong>

@@ -1,0 +1,21 @@
+﻿@using Sitecore.Data
+@using Sitecore.Mvc.Presentation
+@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Common.Renderings
+@model RenderingModel    
+@{
+    var rendering = new ID("{7A69C522-7E99-4630-A25A-5D571505862A}").ToString();
+}
+<h3>Apperance</h3>
+<p>
+  Lets try to Render view for GlobalLogo.
+</p>
+<p >
+    @Html.Sitecore().Controls().Rendering(this.Html, rendering, "RenderView1", "/sitecore", new {})
+</p>
+
+<pre>
+&#64;Html.Sitecore().Controls().Rendering(this.Html, rendering, "RenderView1", "/sitecore", new {})
+</pre>
+
+

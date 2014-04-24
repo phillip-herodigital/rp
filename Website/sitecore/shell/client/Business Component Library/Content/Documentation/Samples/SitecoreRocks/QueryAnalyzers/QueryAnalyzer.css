@@ -1,0 +1,9 @@
+﻿[data-sc-id = "QueryTextArea"] {
+  height: 100px;
+  width: 1160px;
+}
+
+#messages {
+  font-family: consolas;
+  color: gray;
+}

@@ -1,0 +1,64 @@
+﻿@using Sitecore.Mvc.Presentation
+@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls
+@using Sitecore.Web.UI.Controls.Common.Buttons
+@using Sitecore.Web.UI.Controls.Common.TextBoxes
+@model RenderingModel
+                  
+
+<h3>Apperance</h3>
+<p>
+  ToggleButtons can be enabled or disabled. Only use a Primary ToggleButton when there is single logical action.
+</p>
+<p>
+  @Html.Sitecore().Controls().ToggleButton("Button1", new { Text = "Enabled" })
+  @Html.Sitecore().Controls().ToggleButton("Button2", new { Text = "Disabled", IsEnabled = false })
+  @Html.Sitecore().Controls().ToggleButton("Button4", new { Text = "Primary", ButtonType = ButtonControlBase.ButtonTypes.Primary })
+  @Html.Sitecore().Controls().ToggleButton("Button5", new { Text = "Primary Disabled", ButtonType = ButtonControlBase.ButtonTypes.Primary, IsEnabled = false })
+  @Html.Sitecore().Controls().ToggleButton("Button4", new { Text = "Inverse", ButtonType = ButtonControlBase.ButtonTypes.Inverse })
+  @Html.Sitecore().Controls().ToggleButton("Button5", new { Text = "Inverse Disabled", ButtonType = ButtonControlBase.ButtonTypes.Inverse, IsEnabled = false })
+</p>
+
+<pre>
+&#64;Html.Sitecore().Controls().ToggleButton("Button1", new { Text = "Enabled" })
+&#64;Html.Sitecore().Controls().ToggleButton("Button2", new { Text = "Disabled", IsEnabled = false })
+&#64;Html.Sitecore().Controls().ToggleButton("Button4", new { Text = "Primary", ButtonTypes = ButtonTypes.Primary })
+&#64;Html.Sitecore().Controls().ToggleButton("Button5", new { Text = "Primary Disabled", ButtonTypes = ButtonTypes.Primary, IsEnabled = false })
+&#64;Html.Sitecore().Controls().ToggleButton("Button4", new { Text = "Inverse", ButtonTypes = ButtonTypes.Inverse })
+&#64;Html.Sitecore().Controls().ToggleButton("Button5", new { Text = "Inverse Disabled", ButtonTypes = ButtonTypes.Inverse, IsEnabled = false })
+</pre>
+
+<h3>Clicking</h3>
+<p>
+  Set the Click, Command or ServerClick property to invoke a JavaScript function, a command or a server action.
+</p>
+<p>
+  @Html.Sitecore().Controls().ToggleButton("Button3", new { Text = "Click Here", Click = "javascript:alert('Thanks, I needed that')" })
+</p>
+<pre>
+&#64;Html.Sitecore().Controls().ToggleButton("Button3", new { Text = "Click Here", Click = "javascript:alert('Thanks, I needed that')" })
+</pre>
+
+<h3>Data-binding</h3>
+<p>
+  Data-binding the <code>text</code> property.
+</p>
+<p>
+  @Html.Sitecore().Controls().ToggleButton("Button7", new { Text = "Click Me", Click = "javascript:this.set('text', 'Yay, I was clicked')" })
+</p>
+<pre>
+&#64;Html.Sitecore().Controls().ToggleButton("Button7", new { Text = "Click Me", Click = "javascript:this.text('Yay, I was clicked')" })
+</pre>   
+
+<p>
+  Change the label using a TextBox (press Enter to update).
+</p>
+<p>
+  @Html.Sitecore().Controls().ToggleButton("Button8", new { Text = "{Binding TextBox1.Text}" })
+  @Html.Sitecore().Controls().TextBox("TextBox1", new { Text = "Change Me" })
+</p>
+
+<pre>
+  &#64;Html.Sitecore().Controls().ToggleButton("Button8", new { Text = "{Binding TextBox1.text}" })
+  &#64;Html.Sitecore().Controls().TextBox("TextBox1", new { Text = "Change Me" })
+</pre>

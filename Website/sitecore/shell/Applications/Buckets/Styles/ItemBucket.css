@@ -1,56 +1,34 @@
-﻿.sb_wrapper
+﻿.sb_dropdown
 {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    z-index: 10;
-    text-align: left;
-    margin-left: 20px;
+  width: 650px;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 1px solid #fff;
+  background: #fafafa;
+  background: -webkit-linear-gradient(top, #f2f2f2, #fafafa);
+  background: linear-gradient(to bottom, #f2f2f2, #fafafa);
+  font-size: 24px;
+  font-family: "Myriad Pro", "Trebuchet MS", sans-serif;
+  box-shadow: 1px 1px 3px #666;
+  border-radius: 0 0 10px 10px;
+  outline: none;
+  padding: 3px 5px;
+  position: absolute;
+  z-index: 1;
+  zoom: 1;
+  text-shadow: 1px 1px 1px #fff;
+  list-style: none;
+  cursor: pointer;
 }
 
-.sb_dropdown
-{
-    width: 100%;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    border: 1px solid #fff;
-    background: -webkit-gradient(linear, left top, left bottom, from(#f2f2f2), to(#fafafa));
-    background: -moz-linear-gradient(top, #f2f2f2, #fafafa);
-    -pie-background: linear-gradient(top, #f2f2f2, #fafafa);
-    font-size: 24px;
-    font-family: "Myriad Pro", "Trebuchet MS", sans-serif;
-    -moz-box-shadow: 1px 1px 3px #555;
-    -webkit-box-shadow: 1px 1px 3px #555;
-    box-shadow: 1px 1px 3px #555;
-    -moz-border-radius: 0 0 10px 10px;
-    -webkit-border-radius: 0 0 10px 10px;
-    border-radius: 0 0 10px 10px;
-    outline: none;
-    padding: 3px 5px;
-    position: absolute;
-    z-index: 1;
-    text-shadow: 1px 1px 1px #fff;
-    margin: 3px 0;
-    list-style: none;
-    cursor: pointer;
-    behavior: url('/sitecore/shell/Applications/Buckets/Scripts/PIE.htc');
+.ie8 .sb_dropdown {
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, StartColorStr='#f2f2f2', EndColorStr='#fafafa'),
+          progid:DXImageTransform.Microsoft.Shadow(Color=#898989, Strength=3, Direction=135),
+          progid:DXImageTransform.Microsoft.Shadow(Color=#dedede, Strength=2, Direction=315);
 }
 
-.sb_search_container
-{
-    width: 100%;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    margin: 0 100px 0 0;
-    position: relative;
-    background: -moz-linear-gradient(center top, #F2F2F2, #FAFAFA) repeat scroll 0 0 transparent;
-    background: -webkit-gradient(linear, left top, left bottom, from(#F2F2F2), to(#FAFAFA));
-    background: linear-gradient(top, #F2F2F2, #FAFAFA);
-    border: 1px solid #FFFFFF;
-    box-shadow: 1px 1px 3px #555555;
-    behavior: url('/sitecore/shell/Applications/Buckets/Scripts/PIE.htc');
+.ie9 .sb_dropdown {
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, StartColorStr='#f2f2f2', EndColorStr='#fafafa');
 }
 
 .ui-rangeSlider-label
@@ -58,24 +36,11 @@
     font: 11px verdana,arial,helvetica,sans-serif;
 }
 
-.sb_wrapper input[type="text"]
-{
-    background-color: transparent;
-    font-size: 24px;
-    font-family: "Myriad Pro", "Trebuchet MS", sans-serif;
-    outline: none;
-    padding: 8px 5px 6px 0;
-    text-shadow: 1px 1px 1px #fff;
-    float: left;
-    margin: 0;
-    text-align: left;
-}
-
 .sb_dropdown li
 {
     font-size: 16px;
-    line-height: 32px;
-    height: 32px;
+    line-height: 20px;
+    /*height: 32px;*/
     float: left;
     width: 50%;
     overflow: hidden;
@@ -89,23 +54,34 @@
 
 .sb_dropdown .sb_filter
 {
-    border: 1px solid #f9f9f9;
     clear: both;
-    margin: 5px 0;
-    background: #ddd;
+    margin: 16px 0 4px;
+    background: transparent;
     font-size: 12px;
-    letter-spacing: 1px;
     color: #444;
     height: 16px;
     font-family: verdana, arial, helvetica, sans-serif;
-    border-radius: 5px;
     line-height: 16px;
     padding: 5px;
-    -moz-box-shadow: 0 0 2px #777;
-    -webkit-box-shadow: 0 0 3px #555 inset;
-    box-shadow: 0 0 3px #555 inset; /* taken out the .. in the CSS link so it will link to nothing. */
-    background: no-repeat right;
-    behavior: url('/sitecore/shell/Applications/Buckets/Scripts/PIE.htc');
+    font-weight:900;
+}
+
+    .sb_dropdown .sb_filter img {
+        padding-right:4px;
+    }
+
+    .sb_dropdown .sb_filter span {
+        font-weight:400;
+    }
+
+.RecentlyModifiedbody,
+.MyRecentSearchesbody,
+.RecentlyCreatedbody,
+.RecentTabsbody,
+.SearchFiltersbody,
+.SearchOperationsbody {
+    padding:2px 30px;    
+    width:100%;
 }
 
 .searchFilterIcon
@@ -116,79 +92,48 @@
     vertical-align: middle;
 }
 
-span.sb_up, span.sb_down
-{
-    position: absolute;
-    left: 1px;
-    top: 1px;
-    bottom: 1px;
-    cursor: pointer;
-    width: 14px;
-    background-color: #f2f2f2;
-    background-position: center center;
-    background-repeat: no-repeat;
-    z-index: 10;
-    -moz-box-shadow: 1px 0 1px #ddd;
-    -webkit-box-shadow: 1px 0 1px #ddd;
-    box-shadow: 1px 0 1px #ddd;
-}
-
-span.sb_up
-{
-    background-image: url("../images/icons/up.png");
-}
-
-span.sb_down
-{
-    background-image: url("../images/icons/down.png");
-}
-
-    span.sb_down:hover
-    {
-        background-color: #fff;
-    }
-
-.sb_input
-{
-    display: none;
-}
-
-input.sb_search, input.sb_clear
+.sb_up, .sb_down
 {
     position: absolute;
     top: 0;
     bottom: 0;
-    right: 0;
-    background: #f2f2f2 url("../images/search.png") no-repeat center center;
-    width: 50px;
-    height: 100%;
-    outline: none;
-    padding-bottom: 25px;
+    left: 0;
     cursor: pointer;
-    border-left: 1px solid #DFDFDF;
-    -webkit-box-shadow: -1px 0 1px 0 #ddd;
-    -moz-box-shadow: -1px 0 1px 0 #ddd;
-    box-shadow: -1px 0 1px 0 #ddd;
-    /*behavior: url('/sitecore/shell/Applications/Buckets/Scripts/PIE.htc');*/
+    width: 15px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    z-index: 10;
+    border-right: 1px solid #DFDFDF;
 }
 
-input.sb_clear
-{
-    display: none;
-    right: 50px;
-    background: #f2f2f2 url("../images/clear.png") no-repeat center center;
+.sb_up {
+  background-image: url("../images/icons/up.png");
 }
 
-    input.sb_clear:hover
-    {
-        background-color: #fff;
-    }
+  .sb_up:hover {
+    background-image: url("../images/icons/up.png"), -webkit-linear-gradient(bottom, #F2F2F2, #FAFAFA);
+    background-image: url("../images/icons/up.png"), linear-gradient(to top, #F2F2F2, #FAFAFA);
+  }
 
+  .ie8 .sb_up:hover {
+    background-color: #FAFAFA;
+    background-image: url("../images/icons/up.png");
+  }
 
-input.sb_search:hover
-{
-    background-color: #fff;
+.sb_down {
+  background-image: url("../images/icons/down.png");
 }
+
+  .sb_down:hover
+  {
+    background-image: url("../images/icons/down.png"), -webkit-linear-gradient(bottom, #F2F2F2, #FAFAFA);
+    background-image: url("../images/icons/down.png"), linear-gradient(to top, #F2F2F2, #FAFAFA);
+  }
+
+  .ie8 .sb_down:hover {
+    background-color: #FAFAFA;
+    background-image: url("../images/icons/down.png");
+  }
 
 span.reference
 {
@@ -213,10 +158,11 @@ span.reference
 
 .box
 {
-    margin: 4px auto 0 auto;
+    margin: 4px auto 0;
     padding-top: 20px;
-    width: 650px;
+    width: 800px;
     position: relative;
+    text-align: left;
 }
 
     .box h2
@@ -237,174 +183,17 @@ span.reference
 }
 
 .pageSection {
-  width: 100%;
+  margin: 0 240px 0 50px;
+  overflow: auto;
 }
 
-/* Optimizing for smaller screens. Going fluid!*/
-@media screen and (max-width: 1000px)
-{
-
-    body #results
-    {
-        margin-left: 0px;
-        -moz-transform: scale(0.85, 0.85);
-        -webkit-transform: scale(0.85, 0.85);
-        -o-transform: scale(0.85, 0.85);
-        -ms-transform: scale(0.85, 0.85);
-        transform: scale(0.85, 0.85);
-        -moz-transform-origin: top left;
-        -webkit-transform-origin: top left;
-        -o-transform-origin: top left;
-        -ms-transform-origin: top left;
-        transform-origin: top left;
-    }
-
-    body #views
-    {
-        -moz-transform: scale(0.85, 0.85);
-        -webkit-transform: scale(0.85, 0.85);
-        -o-transform: scale(0.85, 0.85);
-        -ms-transform: scale(0.85, 0.85);
-        transform: scale(0.85, 0.85);
-        -moz-transform-origin: top left;
-        -webkit-transform-origin: top left;
-        -o-transform-origin: top left;
-        -ms-transform-origin: top left;
-        transform-origin: top left;
-    }
-
-    body .navAlpha
-    {
-        -moz-transform: scale(0.85, 0.85);
-        -webkit-transform: scale(0.85, 0.85);
-        -o-transform: scale(0.85, 0.85);
-        -ms-transform: scale(0.85, 0.85);
-        transform: scale(0.85, 0.85);
-        -moz-transform-origin: top left;
-        -webkit-transform-origin: top left;
-        -o-transform-origin: top left;
-        -ms-transform-origin: top left;
-        transform-origin: top left;
-    }
-
-     body #resultinfomessage
-    {
-       
-        -moz-transform: scale(1.0, 1.0);
-        -webkit-transform: scale(1.0, 1.0);
-        -o-transform: scale(1.0, 1.0);
-        -ms-transform: scale(1.0, 1.0);
-        transform: scale(1.0, 1.0);
-        -moz-transform-origin: top left;
-        -webkit-transform-origin: top left;
-        -o-transform-origin: top left;
-        -ms-transform-origin: top left;
-        transform-origin: top left;
-    }
-
-
-    body #resultinfomessage
-    {
-        /*margin-top: 76px;
-        padding-right: 0px;
-        margin-right: -77px;*/
-        /*text-align: center;*/
-        -moz-transform: scale(0.85, 0.85);
-        -webkit-transform: scale(0.85, 0.85);
-        -o-transform: scale(0.85, 0.85);
-        -ms-transform: scale(0.85, 0.85);
-        transform: scale(0.85, 0.85);
-        -moz-transform-origin: top left;
-        -webkit-transform-origin: top left;
-        -o-transform-origin: top left;
-        -ms-transform-origin: top left;
-        transform-origin: top left;
-    }
-
-    .box
-    {
-        margin: 4px 0px 0 auto;
-        width: 83%;
-        -moz-transform: scale(0.85, 0.85);
-        -webkit-transform: scale(0.85, 0.85);
-        -o-transform: scale(0.85, 0.85);
-        -ms-transform: scale(0.85, 0.85);
-        transform: scale(0.85, 0.85);
-        -moz-transform-origin: top left;
-        -webkit-transform-origin: top left;
-        -o-transform-origin: top left;
-        -ms-transform-origin: top left;
-        transform-origin: top left;
-        z-index: 1;
-    }
-
-
-    /*body #grid-content .post_float {
-        width: 40%;
-        margin: 4.99%;
-    }
-
-    #grid-content .post_float .imgcontainer {
-        width: 100%;
-        display: block;
-        text-align:center;
-    }
-
-    #grid-content .post_float img {
-        padding-left:0 !important;
-        padding-right:0 !important;
-        border:none;
-    }
-
-    body .blogpostarea {
-        margin-right: 0;
-        padding-right: 10px;
-    }*/
+.facets {
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
-
-/* Optimizing for smaller screens. End*/
-/* Example tokeninput style #2: Facebook style */
-/* Example tokeninput style #2: Facebook style */
-ul.token-input-list-facebook
-{
-    overflow: hidden;
-    display: block;
-    height: auto !important;
-    height: 1%;
-    cursor: text;
-    min-height: 43px;
-    z-index: 999;
-    list-style-type: none;
-    clear: left;
-    width: 91%;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-}
-
-    ul.token-input-list-facebook li input
-    {
-        border: 0;
-        padding: 3px 8px;
-        margin: 2px 0;
-        -webkit-appearance: caret;
-    }
-
-.addition
-{
-    /*background: -moz-linear-gradient(center top , #F2F2F2, #FAFAFA) repeat scroll 0 0 transparent;*/
-    border: 1px solid #FFFFFF;
-    float: left;
-    font-family: "Myriad Pro", "Trebuchet MS",sans-serif;
-    font-size: 24px;
-    margin: 3px 0;
-    outline: medium none;
-    padding: 6px 5px 6px 20px;
-    width: 100%;
-}
-
-input:-ms-clear
+input::-ms-clear
 {
     display: none;
 }
@@ -413,8 +202,6 @@ input:-ms-clear
 {
     background-position: 50% 50%;
     border: 1px solid #F2F2F2;
-    -webkit-box-shadow: 1px 0 1px #DDD;
-    -moz-box-shadow: 1px 0 1px #DDD;
     box-shadow: 1px 0 1px #DDD;
 }
 
@@ -422,8 +209,6 @@ input:-ms-clear
 {
     background-position: 50% 50%;
     border: 1px solid #F2F2F2;
-    -webkit-box-shadow: 1px 0 1px #DDD;
-    -moz-box-shadow: 1px 0 1px #DDD;
     box-shadow: 1px 0 1px #DDD;
 }
 
@@ -432,8 +217,6 @@ a.handle:hover
     background-position: 50% 50%;
     border: 1px solid #DDD;
     background-color: #DDD;
-    -webkit-box-shadow: 1px 0 1px #AAA;
-    -moz-box-shadow: 1px 0 1px #AAA;
     box-shadow: 1px 0 1px #AAA;
 }
 
@@ -442,174 +225,12 @@ a.handle2:hover
     background-position: 50% 50%;
     border: 1px solid #DDD;
     background-color: #DDD;
-    -webkit-box-shadow: 1px 0 1px #AAA;
-    -moz-box-shadow: 1px 0 1px #AAA;
     box-shadow: 1px 0 1px #AAA;
 }
-
-li.token-input-token-facebook
-{
-    overflow: hidden;
-    height: auto !important;
-    height: 30px;
-    margin: 9px 12px 9px 3px;
-    padding: 1px 3px;
-    background-color: #eff2f7;
-    color: #000;
-    cursor: pointer;
-    border: 1px solid #ccd5e4;
-    font-size: 18px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-    float: left;
-    white-space: nowrap;
-    behavior: url('/sitecore/shell/Applications/Buckets/Scripts/PIE.htc');
-}
-
-
-    li.token-input-token-facebook p
-    {
-        display: inline-block;
-        padding: 0;
-        margin-left: 5px;
-    }
-
-li.token-input-token-facebook-noremove
-{
-    overflow: hidden;
-    height: auto !important;
-    height: 30px;
-    margin: 9px 12px 9px 3px;
-    padding: 1px 3px;
-    background-color: #eff2f7;
-    color: #000;
-    cursor: default;
-    border: 1px solid #ccd5e4;
-    font-size: 18px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-    float: left;
-    white-space: nowrap;
-}
-
-
-    li.token-input-token-facebook-noremove p
-    {
-        display: inline;
-        padding: 0;
-        margin-left: 5px;
-    }
-
-.boxme
-{
-    font-family: "Myriad Pro", "Trebuchet MS",sans-serif;
-    font-size: 24px;
-    outline: medium none;
-    padding: 5px 60px 5px 38px;
-    margin-right: 50px;
-    margin-left: 16px;
-    text-shadow: 1px 1px 1px #FFFFFF;
-    width: 364px;
-}
-
-li.token-input-token-facebook span
-{
-    color: #a6b3cf;
-    margin-left: 3px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-li.token-input-token-facebook-noremove span
-{
-    color: #a6b3cf;
-    margin-left: 5px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-
-li.token-input-selected-token-facebook
-{
-    background-color: #5670a6;
-    border: 1px solid #3b5998;
-    color: #fff;
-}
-
-li.token-input-input-token-facebook
-{
-    float: left;
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-    width: 100%;
-}
-
-div.token-input-dropdown-facebook
-{
-    position: absolute;
-    width: 400px;
-    background-color: #fff;
-    overflow: hidden;
-    border-left: 1px solid #ccc;
-    border-right: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
-    cursor: default;
-    font-size: 11px;
-    font-family: Verdana;
-    z-index: 1;
-}
-
-    div.token-input-dropdown-facebook p
-    {
-        margin: 0;
-        padding: 5px;
-        font-weight: bold;
-        color: #777;
-    }
-
-    div.token-input-dropdown-facebook ul
-    {
-        margin: 0;
-        padding: 0;
-    }
-
-        div.token-input-dropdown-facebook ul li
-        {
-            background-color: #fff;
-            padding: 3px;
-            margin: 0;
-            list-style-type: none;
-        }
-
-            div.token-input-dropdown-facebook ul li.token-input-dropdown-item-facebook
-            {
-                background-color: #fff;
-            }
-
-            div.token-input-dropdown-facebook ul li.token-input-dropdown-item2-facebook
-            {
-                background-color: #fff;
-            }
-
-            div.token-input-dropdown-facebook ul li em
-            {
-                font-weight: bold;
-                font-style: normal;
-            }
-
-            div.token-input-dropdown-facebook ul li.token-input-selected-dropdown-item-facebook
-            {
-                background-color: #3b5998;
-                color: #fff;
-            }
 
 .myInputbox
 {
     background-color: #ebf3fc;
-    border: 1px solid #abd2ff;
 }
 
 .command, .command:link, .command:hover, .command:active
@@ -619,6 +240,10 @@ div.token-input-dropdown-facebook
     height: 16px;
     display: inline-block;
     line-height: 16px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 90%;
 }
 
     .command:hover
@@ -636,7 +261,7 @@ div.token-input-dropdown-facebook
     margin-right: 16px !important;
 }
 
-.hastip, .errortip
+.hastip
 {
     display: none;
     overflow: hidden;
@@ -658,6 +283,23 @@ div.token-input-dropdown-facebook
 
 .errortip
 {
+    display: none;
+    width: 591px;
+    margin: 9px 12px 9px 63px;
+    padding: 5px 10px;
+    background-color: #E6E7E9;
+    color: black;
+    cursor: default;
+    border: 1px solid #CCD5E4;
+    font-size: 16px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+   
+}
+
+.errortip
+{
     margin-left: 20px;
 }
 
@@ -671,6 +313,5 @@ div.token-input-dropdown-facebook
 .loadingSection
 {
     height: 50px;
-    margin-left: -77px;
     padding-top: 10px;
 }

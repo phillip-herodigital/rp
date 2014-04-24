@@ -64,11 +64,6 @@ Sitecore.PresetCardManager = function (chart, sliders, data, selectedPresetsConr
 
 Sitecore.PresetList = function (controlId) {
   this.controlId = controlId;
-  var me = this;
-
-  this.OnResize = function () {
-    me.doResize();
-  };
 }
 
 function DisableListBox(listboxId) {
@@ -87,72 +82,6 @@ function EnableListBox(listboxId) {
   }
 
   list.set_enabled(true);
-}
-
-Sitecore.PresetList.prototype.doResize = function () {
-  try {
-    if (!scForm.browser.isIE) {
-      return;
-    }
-
-    var parent = $(this.controlId);
-    var container = $(this.controlId).childElements()[0];
-    if (!container || !parent) {
-      return;
-    }
-
-    var list = container.childElements()[0];
-    if (!list) {
-      return;
-    }
-
-    list.style.height = container.getHeight() + 'px';
-    list.style.width = container.getWidth() - 3 + 'px';
-
-    var tableContainer = list.childElements()[0];
-
-    if (!tableContainer) {
-      return;
-    }
-
-    tableContainer.style.height = container.getHeight() + 'px';
-    tableContainer.style.width = container.getWidth() - 3 + 'px';
-
-    var header = list.select('[class="rlbHeader"]')[0];
-    if (!header) {
-      return;
-    }
-
-    var cellHeader = header.ancestors()[0];
-    cellHeader.style.height = '25px';
-    cellHeader.ancestors()[0].style.height = '25px';
-
-    var cellContainer = list.select('[class="rlbGroupCell"]')[0];
-    if (!cellContainer) {
-      return;
-    }
-
-    cellContainer.style.height = (container.getHeight() - header.getHeight()) + 'px';
-    cellContainer.style.width = (container.getWidth() - 2) + 'px';
-
-    var innerContainer = list.select('[class="rlbGroupContainer"]')[0];
-    if (!innerContainer) {
-      return;
-    }
-
-    innerContainer.style.height = cellContainer.getHeight() + 'px';
-    innerContainer.style.width = cellContainer.getWidth() + 'px';
-
-    var child = innerContainer.childElements()[0];
-    if (!child) {
-      return
-    }
-
-    child.style.height = innerContainer.getHeight() + 'px';
-    child.style.width = innerContainer.getWidth() + 'px';
-  }
-  catch (err)
-  { }
 }
 
 function selectPresetCard(element) {

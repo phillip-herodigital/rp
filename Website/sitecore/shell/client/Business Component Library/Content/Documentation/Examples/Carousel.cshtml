@@ -1,0 +1,58 @@
+﻿
+@using Sitecore.Mvc.Presentation
+@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.ListsAndGrids.Carousels
+@using Sitecore.Web.UI.Controls.Common.TextBoxes
+
+@model RenderingModel    
+
+<h3>Apperance</h3>
+<p>
+  A image / html tiles slider viewer.
+</p>
+<p>
+    The carousel is used to render the a list of Tiles. A title is an item that could be anthing, an Image, an HTML Page, a text,...
+</p>
+<p>
+    The title must have rendering in order to ouput something. Basically the Carousel control loop through all the Tiles and use the ItemRenderer in order to render the items.
+</p>
+<p>
+  @Html.Sitecore().Controls().Carousel("Carousel1", new { Tiles = "{508C6006-A862-44DD-B842-247A24FAF2FA}"})
+</p>
+
+<pre>
+   &#64;Html.Sitecore().Controls().Carousel("Carousel1", new { Tiles = "{508C6006-A862-44DD-B842-247A24FAF2FA}"})
+</pre>
+
+<div style="position:relative; height:400px;">
+  @Html.Sitecore().Controls().Carousel("Carousel2", new { Tiles = "{508C6006-A862-44DD-B842-247A24FAF2FA}", Orientation="Vertical" , MinimumTiles=2})
+</div>
+
+<pre>
+   &#64;Html.Sitecore().Controls().Carousel("Carousel2", new { Tiles = "{508C6006-A862-44DD-B842-247A24FAF2FA}", Orientation="Vertical" , MinimumTiles=2})
+</pre>
+
+<br />
+<p>
+    It displays minimum four tiles
+</p>
+<p>
+  @Html.Sitecore().Controls().Carousel("Carousel3", new { Tiles = "{508C6006-A862-44DD-B842-247A24FAF2FA}", MinimumTiles = 4})
+</p>
+
+<pre>
+   &#64;Html.Sitecore().Controls().Carousel("Carousel3", new { Tiles = "{508C6006-A862-44DD-B842-247A24FAF2FA}", MinimumTiles = 4})
+</pre>
+
+<br />
+<p>
+    It sets the width of the tile 
+</p>
+<p>
+  @Html.Sitecore().Controls().Carousel("Carousel4", new { Tiles = "{508C6006-A862-44DD-B842-247A24FAF2FA}", TileWidth = 100})
+</p>
+
+<pre>
+   &#64;Html.Sitecore().Controls().Carousel("Carousel4", new { Tiles = "{508C6006-A862-44DD-B842-247A24FAF2FA}", TileWidth = 100})
+</pre>
+

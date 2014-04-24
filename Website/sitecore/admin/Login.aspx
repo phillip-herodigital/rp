@@ -1,16 +1,15 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="Sitecore.Admin.Login" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head runat="server">
   <title>Sitecore Login</title>
-    
+  <link rel="shortcut icon" href="/sitecore/images/favicon.ico" />
   <link rel="Stylesheet" type="text/css" href="/sitecore/shell/themes/standard/default/WebFramework.css" />
   
   <script type="text/javascript" src="/sitecore/shell/controls/lib/jQuery/jquery.js"></script>
   <script type="text/javascript" src="/sitecore/shell/controls/lib/jQuery/jquery.watermark.js"></script>
-  <script type="text/javascript" src="/sitecore/shell/controls/webframework/webframework.js"></script></head>
+  <script type="text/javascript" src="/sitecore/shell/controls/webframework/webframework.js"></script>
   
   <style type="text/css">
     .login-form { margin-top: 2em; }
@@ -20,7 +19,7 @@
   </style>
 </head>
 <body>
-  <form runat="server" class="wf-container">
+  <form runat="server" class="wf-container" id="LoginForm">
       <div class="wf-content">
         <h1>Log into Sitecore</h1>
         
@@ -35,6 +34,6 @@
     <div class="wf-footer">
       <asp:Button runat="server" Text="Login" OnClick="LoginClick" />
     </div>
-
   </form>
+</body>
 </html>

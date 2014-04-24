@@ -1,0 +1,67 @@
+﻿@using Sitecore.Data
+@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Common.ListBoxes
+@using Sitecore.Web.UI.Controls.Common.Renderings
+@using Sitecore.Web.UI.Controls.Common.TextBoxes
+@using Sitecore.Web.UI.Controls.Common.Texts
+@using Sitecore.Web.UI.Controls.Data.SearchDataSources
+@model Sitecore.Mvc.Presentation.RenderingModel
+<p>
+  MutiSelectList behavior works only with ListControl. This behavior extends the ListControl with 2 additional properties <b>checkedItems, checkedItemIds</b>.
+</p>
+<p><b>checkedItems</b> - contains the array of the checked raw objects</p>
+<p><b>checkedItemIds</b> - contains the array of ID's of the checked items in the list control</p>
+@{
+  var listControlRendering = new ID("{ACE0AFD6-3DE0-42CF-8E62-4E68CD810A8D}").ToString();
+  var multiSelectBehaviorRendering = new ID("{327FD09D-41D6-4F15-8B18-611799364853}").ToString();
+}
+@Html.Sitecore().Controls().Rendering(this.Html, multiSelectBehaviorRendering , "MultiSelectList", String.Empty, new{PageScriptFileName="/sitecore/shell/client/Speak/Assets/lib/ui/behaviors/MultiSelectList.js", Name="MultiSelectList"})
+@Html.Sitecore().Controls().SearchDataSource("SearchDataSource3", new { SearchConfigItemId = "{57AC916A-7162-41DA-B6A5-FC053254387B}", PageSize = 20, Language = "$context_language", Fields="__Created", Formatting="$convert_date_to_friendly_format", Database="$context_contentdatabase" })
+@Html.Sitecore().Controls().Rendering(this.Html, listControlRendering , "ListControl", "{CD471110-0BD6-4925-8107-A10BB27880D9}", new{ Items="{Binding SearchDataSource3.items}", Behaviors="MultiSelectList"})
+
+<div>
+  <div>
+  <span>Checked items count: </span>
+  @Html.Sitecore().Controls().Text("itemsPreview","0", new{})  
+  </div>
+  <div>
+  <span>Checked item IDs: </span>
+    
+    @Html.Sitecore().Controls().Text("idsPreview","[]", new{})  
+  </div>
+  
+</div>
+<input type="hidden" class="sc-multi-select-example"/>
+
+<pre>
+&#64;Html.Sitecore().Controls().Rendering(this.Html, multiSelectBehaviorRendering , "MultiSelectList", String.Empty, new{PageScriptFileName="/sitecore/shell/client/Speak/Assets/lib/ui/behaviors/MultiSelectList.js", Name="MultiSelectList"})
+&#64;Html.Sitecore().Controls().SearchDataSource("SearchDataSource3", new { SearchConfigItemId = "{57AC916A-7162-41DA-B6A5-FC053254387B}", PageSize = 20, Language = "$context_language", Fields="__Created", Formatting="$convert_date_to_friendly_format", Database="$context_contentdatabase" })
+&#64;Html.Sitecore().Controls().Rendering(this.Html, listControlRendering , "ListControl", "{CD471110-0BD6-4925-8107-A10BB27880D9}", new{ Items="{Binding SearchDataSource3.items}", Behaviors="MultiSelectList"})
+  &lt;span&gt;Checked items count: &lt;/span&gt;
+  &#64;Html.Sitecore().Controls().Text("itemsPreview","0", new{})  
+  &lt;span&gt;Checked item IDs: &lt;/span&gt;
+  &#64;Html.Sitecore().Controls().Text("idsPreview","[]", new{})  
+</pre>
+<pre>
+define(["sitecore"], function (_sc) {
+  var model = Sitecore.Definitions.Models.ControlModel;
+  var view = Sitecore.Definitions.Views.ControlView.extend({
+    initialize: function () {
+      this._super();
+      if (this.app && this.app.ListControl) {
+        this.app.ListControl.on("change", this.changedHandler);
+        
+      }
+    },
+    changedHandler: function () {
+      if (this.get("checkedItems")) {
+        this.viewModel.app.itemsPreview.set("text", this.get("checkedItems").length);
+      }
+      if (this.get("checkedItemIds")) {
+        this.viewModel.app.idsPreview.set("text", this.get("checkedItemIds").toString());
+      }
+    }
+  });
+  _sc.Factories.createComponent("InitControls", model, view, ".sc-multi-select-example");
+});
+</pre>

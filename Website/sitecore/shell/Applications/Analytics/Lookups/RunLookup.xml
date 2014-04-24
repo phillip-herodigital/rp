@@ -39,7 +39,7 @@
 
       <WizardFormPage ID="Running" Header="Refreshing" Text="Refreshing the lookups..." Icon="Network/32x32/Clients.png">
         <GridPanel Width="100%">
-          <Space Height="64"/>
+          <Border Height="64"/>
 
           <ThemedImage Src="Network/48x48/Clients.png" Width="48" Height="48" GridPanel.Align="center"/>
 
@@ -71,19 +71,15 @@
       </WizardFormPage>
 
       <WizardFormLastPage ID="LastPage" Icon="Network/32x32/Clients.png">
-        <GridPanel Cellpadding="2" Width="100%" Height="100%" Fixed="true">
-
-          <Border GridPanel.Style="padding:0px 0px 16px 0px; font-weight:bold">
-            <Literal Text="The wizard has completed. Click Finish to close the wizard."/>
-          </Border>
-
-          <Border GridPanel.Style="padding:0px 0px 2px 0px">
-            <Literal Text="Result:"/>
-          </Border>
-
-          <Memo ID="ResultText" ReadOnly="true" Width="100%" Height="100%" GridPanel.Height="100%"/>
-
-        </GridPanel>
+        <div class="scStretch scFlexColumnContainerWithoutFlexie">
+          <Literal class="wizardCompleteText" Text="The wizard has completed. Click Finish to close the wizard."/>
+          <Literal class="wizardResult" Text="Result:"/>
+          <div class="scFlexContentWithoutFlexie scWizardLastPageResultText">
+            <div class="scStretchAbsolute">
+              <Memo ID="ResultText" class="scStretch" ReadOnly="true"/>
+            </div>
+          </div>
+        </div>
       </WizardFormLastPage>
 
     </WizardForm>

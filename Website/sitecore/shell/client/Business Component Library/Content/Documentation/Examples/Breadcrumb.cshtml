@@ -1,0 +1,19 @@
+﻿@using Sitecore.Mvc.Presentation
+@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Navigation.BreadCrumbs
+@model RenderingModel
+                  
+
+<h3>Apperance</h3>
+<p>
+  RootItemId can be specified for BreadCrumb.
+  Items should be configured properly to use BreadCrumb.
+</p>
+<p>
+  @Html.Sitecore().Controls().BreadCrumb("BreadCrumb1", new { RootItemId = "{2E68D108-18E4-49EC-BA70-F02B1796886B}" })
+</p>
+
+<pre>
+&#64;Html.Sitecore().Controls().BreadCrumb("BreadCrumb1", new { RootItemId = "{2E68D108-18E4-49EC-BA70-F02B1796886B}" })
+</pre>
+

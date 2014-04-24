@@ -60,6 +60,15 @@
   border:1px solid #999999;
 }
 
+.scInstallerDesignerContainer {
+  height: 100%;
+  width: 100%;
+}
+
+.ie .scInstallerDesignerContainer {
+  height: auto;
+}
+
 .scFlatButtonHeader {
   font-weight:bold;
   text-decoration:none;
@@ -126,11 +135,6 @@
         font-size:11px;
         font-family:Tahoma;
         padding:1px 0px 1px 1px;                
-}
-
-.scInstallerTree
-{
-	filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=1, StartColorStr="#ffffff", EndColorStr="#DFE6EC");
 }
 
 .scInstallerPager

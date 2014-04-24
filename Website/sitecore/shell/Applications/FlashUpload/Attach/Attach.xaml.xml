@@ -54,6 +54,7 @@
 
       <html:HtmlInputHidden class="uploadID" id="InputUploadID" runat="server" />
       <html:HtmlInputHidden class="uploadSessionID" id="UploadSessionID" runat="server" />
+      <html:HtmlInputHidden class="uploadSessionID1" id="UploadSessionID1" runat="server" />
 
       <GridPanel runat="server" Width="100%">
         <Literal runat="server" Text="Filename:" />
@@ -68,7 +69,7 @@
           </Border>
           <Border runat="server" id="BrowseContainer" GridPanel.Width="72px" style="position:relative">
             <Button runat="server" Header="Browse" ID="Browse" style="z-index:1"/>
-            <div id="BrowseOverlay" style="width:72px;height:22px;position:absolute;top:1;left:6;z-index:2" />
+            <div id="BrowseOverlay" style="width:82px;height:22px;position:absolute;top:0;left:0;z-index:2" />
           </Border>
         </GridPanel>
 

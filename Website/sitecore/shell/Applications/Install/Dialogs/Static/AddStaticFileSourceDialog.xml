@@ -35,46 +35,46 @@
             <ListviewViewsMenuItems Listview="FileExplorer"/>
           </ContextMenu>
 
-          <GridPanel Width="100%" Height="100%">
+          <Border class="scStretch" style="position:relative;overflow:auto;">
 
-            <GridPanel ID="Body" Columns="3" Width="100%" Height="100%" Fixed="true" Border="1px inset" GridPanel.Height="100%">
+            <Border class="scScrollboxStretchAbsolute" style="bottom:190px;margin:0;">
+              <GridPanel ID="Body" class="scStretchAbsolute" style="height:100%;width:100%;" Columns="3" Fixed="true">
 
-              <Scrollbox Class="scScrollbox scFixSize" ID="Folders" Height="100%" Width="100%" GridPanel.Height="100%" Background="window" Border="none" Padding="0" Style="filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=1, StartColorStr='#ffffff', EndColorStr='#DFE6EC')" GridPanel.ID="FoldersPane" GridPanel.Width="200">
-                <DataTreeview ID="FileTreeview" DataContext="TreeDataContext" MultiSelect="false" Root="true"/>
-              </Scrollbox>
+                <Scrollbox Class="scScrollbox" ID="Folders" Height="100%" Width="100%" GridPanel.Height="100%" Background="window" Border="none" Padding="0" Style="filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=1, StartColorStr='#ffffff', EndColorStr='#DFE6EC')" GridPanel.ID="FoldersPane" GridPanel.Width="200">
+                  <DataTreeview ID="FileTreeview" DataContext="TreeDataContext" MultiSelect="false" Root="true"/>
+                </Scrollbox>
 
-              <VSplitter ID="FileExplorerLeft" GridPanel.Width="4" Target="left" GridPanel.Style="background:#e9e9e9; display:expression(previousSibling.style.display)"/>
+                <VSplitter ID="FileExplorerLeft" GridPanel.Width="4" Target="left" GridPanel.Style="background:#e9e9e9; display:expression(previousSibling.style.display)"/>
 
-              <Scrollbox Class="scScrollbox scFixSize" Height="100%" Background="window" Border="none" Padding="0px" ContextMenu="show:ContextMenu" GridPanel.Height="100%">
-                <DataListview ID="FileExplorer" DataContext="DataContext" DblClick="AddFile">
-                  <ListviewHeader>
-                    <ListviewHeaderItem Name="name" Header="Name"/>
-                    <ListviewHeaderItem Name="size" Header="Size"/>
-                    <ListviewHeaderItem Name="modified" Header="Date Modified"/>
-                  </ListviewHeader>
-                </DataListview>
-              </Scrollbox>
+                <Scrollbox Class="scScrollbox" Height="100%" Background="window" Border="none" Padding="0px" ContextMenu="show:ContextMenu" GridPanel.Height="100%">
+                  <DataListview ID="FileExplorer" DataContext="DataContext" DblClick="AddFile">
+                    <ListviewHeader>
+                      <ListviewHeaderItem Name="name" Header="Name"/>
+                      <ListviewHeaderItem Name="size" Header="Size"/>
+                      <ListviewHeaderItem Name="modified" Header="Date Modified"/>
+                    </ListviewHeader>
+                  </DataListview>
+                </Scrollbox>
 
-            </GridPanel>
-
-            <Space GridPanel.Height="4px"/>
-            
-            <Border GridPanel.Height="4px">
-              <Toolbutton Style="float:right" Icon="Applications/24x24/delete2.png" Header="Remove" ToolTip="Remove entry from selection list." Click="Remove(&quot;&quot;)"/>
-              <Toolbutton Icon="Applications/24x24/add.png" Header="Add path" ToolTip="Adds a path to selection list to include into the package." Click="AddFile"/>
+              </GridPanel>
             </Border>
-            
-            <Space GridPanel.Height="4px"/>
 
-            <Scrollbox ID="ItemListBox" GridPanel.Height="150px" Height="100%" ContextMenu="ListContextMenu()" Padding="0px">
-              <Listview ID="ItemList" Width="100%" View="Details" MultiSelect="true">
-                <ListviewHeader>
-                  <ListviewHeaderItem Header="Selected paths:"/>
-                </ListviewHeader>
-              </Listview>
-            </Scrollbox>
+            <Border style="position:absolute;bottom:0;left:0;right:0;width:100%;">
+              <Toolbutton Style="float:right" Icon="Applications/24x24/delete2.png" Header="Remove"
+                          ToolTip="Remove entry from selection list." Click="Remove(&quot;&quot;)" />
+              <Toolbutton Icon="Applications/24x24/add.png" Header="Add path"
+                          ToolTip="Adds a path to selection list to include into the package." Click="AddFile" />
 
-          </GridPanel>
+              <Scrollbox ID="ItemListBox" style="height:150px;width:100%;margin: 4px 0 0;padding:0;" ContextMenu="ListContextMenu()">
+                <Listview ID="ItemList" Width="100%" View="Details" MultiSelect="true">
+                  <ListviewHeader>
+                    <ListviewHeaderItem Header="Selected paths:" />
+                  </ListviewHeader>
+                </Listview>
+              </Scrollbox>
+            </Border>
+
+          </Border>
 
         </WizardFormIndent>
       </WizardFormPage>
