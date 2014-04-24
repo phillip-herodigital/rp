@@ -384,7 +384,7 @@ article.payment-history {
 /*ALL MODULES BELOW THIS ARE SIDEBAR MODULES*/
 
 aside {
-	article.promo {	
+	article.promo { 
 		@extend article.plain;
 		@include border-radius(10px);
 		margin-bottom: 20px;
