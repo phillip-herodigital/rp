@@ -200,6 +200,13 @@ form,
 		.button {
 			float: right;
 			margin: 10px 0 0 5px;
+			@include breakpoint(small) {
+				float: none;
+				width: 100%;
+			}
+			&:first-child {
+				margin-left: 0;
+			}
 		}
 	}
 	input[type="radio"],

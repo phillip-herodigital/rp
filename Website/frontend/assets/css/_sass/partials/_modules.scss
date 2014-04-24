@@ -20,8 +20,8 @@ article {
 /* Box styling */
 
 article {
-	@include box-shadow(#ddd 0px 0px 5px);
-	@include border-radius(10px, 10px);
+	@include box-shadow(0 0 5px rgba(0,0,0,.15));
+	@include border-radius(10px);
 	margin-bottom: 20px;
 	border: 1px solid #ddd;	
 	padding: 15px;
@@ -29,8 +29,9 @@ article {
 	header {
 		@include border-radius(10px 10px 0px 0px);
 		background-color: #1385e1;
+		@include background-image(linear-gradient(bottom, #1383df 0%, #1597ff 100%));
 		margin: -15px -15px 0px -15px;
-		padding: 5px 15px;
+		padding: 5px 13px;
 		h2 {
 			color: #fff;
 			text-transform: uppercase;
@@ -44,9 +45,9 @@ article {
 	}
 	.account-selector {
 		background: #fbfbfb;
-		padding: 15px;
+		padding: 10px;
 		border-bottom: 1px solid #ddd;
-		margin: 0px -15px;
+		margin: 0px -15px 15px;
 		.group {
 			.item {
 				width: auto;
@@ -298,15 +299,14 @@ article.balances-payments {
 		@include breakpoint(small) {
 			.group {
 				.item {
-					float: left;
-					padding-right: 5px;
+					width: 100%;
 				}
 			}
-			form button {
-				float: none;
-				width: 100%;
-				margin-top: 10px;
-			}
+			// form button {
+			// 	float: none;
+			// 	width: 100%;
+			// 	margin-top: 10px;
+			// }
 		}
 	}
 }
