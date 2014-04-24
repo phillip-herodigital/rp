@@ -386,22 +386,22 @@ article.payment-history {
 aside {
 	article.promo {	
 		@extend article.plain;
-		background-repeat: no-repeat;
-		color: #fff;
-		padding: 20px;
+		@include border-radius(10px);
 		margin-bottom: 20px;
+		padding: 20px;
+		background-repeat: no-repeat;
 		background-size: cover;
+		color: #fff;
 		h1 {
 			line-height: 1em;
+			margin: 0;
 		}
 		button {
 			width: 100%;
+			margin-top: 15px;
 		}
 		p {
-			margin: 0px;
-		}
-		.promo-bold {
-			font-weight: 600;
+			margin: 0;
 		}
 		&.renew {
 			background-image: image-url('renew-promo.png');

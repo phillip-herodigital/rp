@@ -2522,31 +2522,32 @@ article.payment-history div.table-header ul li {
 /*ALL MODULES BELOW THIS ARE SIDEBAR MODULES*/
 /* line 387, _sass/partials/_modules.scss */
 aside article.promo {
-  background-repeat: no-repeat;
-  color: #fff;
-  padding: 20px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
   margin-bottom: 20px;
+  padding: 20px;
+  background-repeat: no-repeat;
   background-size: cover;
+  color: #fff;
 }
-/* line 394, _sass/partials/_modules.scss */
+/* line 395, _sass/partials/_modules.scss */
 aside article.promo h1 {
   line-height: 1em;
+  margin: 0;
 }
-/* line 397, _sass/partials/_modules.scss */
+/* line 399, _sass/partials/_modules.scss */
 aside article.promo button {
   width: 100%;
-}
-/* line 400, _sass/partials/_modules.scss */
-aside article.promo p {
-  margin: 0px;
+  margin-top: 15px;
 }
 /* line 403, _sass/partials/_modules.scss */
-aside article.promo .promo-bold {
-  font-weight: 600;
+aside article.promo p {
+  margin: 0;
 }
 /* line 406, _sass/partials/_modules.scss */
 aside article.promo.renew {
-  background-image: url('../i/renew-promo.png?1397848987');
+  background-image: url('../i/renew-promo.png?1398360737');
 }
 /* line 409, _sass/partials/_modules.scss */
 aside article.promo.paperless {
