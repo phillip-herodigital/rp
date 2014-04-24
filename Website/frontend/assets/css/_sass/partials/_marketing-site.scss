@@ -326,7 +326,7 @@ article.director-list {
 				color: #0971ce;
 				text-transform: none;
 			}
-			@include breakpoint (medium) {
+			@include breakpoint(medium) {
 				width: 33%;
 			}
 			@include breakpoint(small) {
@@ -364,6 +364,22 @@ article.donate {
 				margin: 60px 20px 0 0;
 				button {
 					background-color: #77bc1f;
+				}
+			}
+			@include breakpoint(medium) {
+				.promo {
+					width: 33%;
+					margin: 0 0 0 15px;
+				}
+			}
+			@include breakpoint(small) {
+				.promo {
+					width: 90%;
+					margin-left: 0;
+				}
+				.donate-button {
+					float: left;
+					margin: 0;
 				}
 			}
 		}
@@ -535,6 +551,9 @@ article.blog-list {
 	button {
 		padding: 10px 65px;
 		margin-top: 20px;
+		@include breakpoint(small) {
+			width: 100%;
+		}
 	}
 	ul {
 		padding-left: 0;
@@ -639,7 +658,14 @@ article.contact {
 			margin-top: 0;
 			background-image: url('../i/marketing/contact.png');
 			background-repeat: no-repeat;
-			background-position: 35%;
+			background-position: 160px 0;
+		}
+		@include breakpoint(small-medium) {
+			padding-left: 20px;
+			.grid .col {
+				width: 50%;
+				float: left;
+			}
 		}
 	}
 	div.homelife-services {
@@ -668,13 +694,20 @@ article.contact {
 			margin-top: 0;
 			background-image: url('../i/marketing/contact-dark.png');
 			background-repeat: no-repeat;
-			background-position: 35%;
+			background-position: 160px 0;
 		}
 		p {
 			margin: 0;
 			&.phone {
 				font-size: 22px;
 				margin: 10px 0 0 0;
+			}
+		}
+		@include breakpoint(small-medium) {
+			padding-left: 20px;
+			.grid .col {
+				width: 50%;
+				float: left;
 			}
 		}
 	}
@@ -773,7 +806,7 @@ article.contact-state {
 				p {
 					margin: 0;
 				}
-			}	
+			}
 		}
 		.right-side {
 			float: right;
@@ -790,6 +823,9 @@ article.contact-state {
 				p {
 					margin: 0;
 				}
+			}
+			@include breakpoint(small) {
+				float: left;	
 			}
 		}
 	}
@@ -846,16 +882,21 @@ article.faq {
 				background-image: url('../i/marketing/expand.png');
 				background-repeat: no-repeat;
 				background-position: 98%;
+				margin-left: 55px;
 				a {
 					color: #696969;
 					display: block;
-					padding: 10px;
+					padding: 15px;
+					@include breakpoint(small) {
+						width: 93%;	
+					}
 				}
-				.q {
-					font-size: 26px;
-					color: #bbb;
-					margin-right: 10px;
-				}
+			}
+			.q {
+				float: left;
+				font-size: 26px;
+				margin: 10px 0px 0 10px;
+				color: #bbb;
 			}
 			.panel-content {
 				color: #0971ce;
@@ -930,6 +971,10 @@ article.homelife-services {
 			background-color: #fff;
 			padding: 35px;
 			position: relative;
+			width: 100%;
+			@include breakpoint(small) {
+				padding: 5px;
+			}
 			h3 {
 				color: #0971ce;
 				span {
@@ -939,6 +984,9 @@ article.homelife-services {
 			button a {
 				color: #fff;
 			}
+			h4 {
+				font-size: 17px;
+			}
 			ul.services {
 				list-style-type: none;
 				padding-left: 0;
@@ -946,7 +994,7 @@ article.homelife-services {
 				li {
 					text-align: center;
 					float: left;
-					margin-right: 40px;
+					margin-right: 39px;
 					input {
 						margin-top: 15px;
 					}
@@ -1044,6 +1092,53 @@ article.homelife-services {
 					-webkit-transform: rotate(90deg);
 				}
 			}
+			@include breakpoint(small-medium) {
+				ul.services {
+					width: 100%;
+					li {
+						width: 30%;
+						margin-right: 20px;
+						&.support:after {
+							right: -10%;
+						}
+					}
+				}
+				.savings {
+					margin-left: 30%;
+					margin-right: 20px;
+				}
+				.pricing {
+					float: left;
+				}
+			}
+			@include breakpoint(small) {
+				ul.services li {
+					margin-right: 8px;
+					&.identity:after {
+						content: " ";
+					}
+					&.support {
+						&:after {
+							content: " ";
+						}
+						h4 {
+							width: 67%;
+							margin: 10px auto;
+						}
+					}
+					&.monitoring h4 {
+						width: 91%;
+						margin: 10px auto;
+					}
+				}
+				.savings {
+					margin: 15px 0 0 10%;
+				}
+				.pricing {
+					float: right;
+					margin: 0 10% 0 0;
+				}
+			}
 		}
 		&.platinum {
 			background-color: #0971ce;
@@ -1094,6 +1189,7 @@ article.homelife-services {
 						.pricing {
 							text-align: center;
 							float: none;
+							margin: 0;
 							.price .dollars {
 								font-size: 24px;
 							}
