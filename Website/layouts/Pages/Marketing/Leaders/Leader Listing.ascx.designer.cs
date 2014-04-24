@@ -7,18 +7,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Website.layouts.Modules {
+namespace Website.layouts.Pages.Marketing.Leaders {
     
     
-    public partial class Photo_Lockup {
+    public partial class Leader_Listing {
         
         /// <summary>
-        /// divEditMode control.
+        /// rptLeaders control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divEditMode;
+        protected global::System.Web.UI.WebControls.Repeater rptLeaders;
     }
 }

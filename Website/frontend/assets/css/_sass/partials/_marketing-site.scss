@@ -49,6 +49,7 @@ article.photoLockup {
 		position: absolute;
 		width: 50%;
 		height: 100%;
+		overflow: hidden;
 	}
 	.text {
 		float: right;
@@ -802,6 +803,7 @@ article.contact-state {
 		}
 	}
 	.emergency {
+		margin-bottom: 30px;
 		h3 {
 			color: #0971ce;
 			margin: 50px 0 10px 0;
@@ -810,9 +812,311 @@ article.contact-state {
 			.company {
 				color: #0971ce;
 			}
+			.oncor {
+				width: 85%;
+			}
+			.company-contact {
+				width: 80%;
+				margin-bottom: 40px;
+				h2 {
+					text-transform: none;
+				}
+				button {
+					background-color: #ffa409;
+					a {
+						color: #fff;
+					}
+					&:hover {
+						background-color: #6b6b6b;
+					}
+				}
+			}
 		}
-		.oncor {
+	}
+}
+
+article.faq {
+	background-color: #eaeaea;
+	padding: 20px 0;
+	.wrapper {
+		.panel {
+			@include border-radius(10px, 10px);
+			background-color: #fff;
+			p.question {
+				background-image: url('../i/marketing/expand.png');
+				background-repeat: no-repeat;
+				background-position: 98%;
+				a {
+					color: #696969;
+					display: block;
+					padding: 10px;
+				}
+				.q {
+					font-size: 26px;
+					color: #bbb;
+					margin-right: 10px;
+				}
+			}
+			.panel-content {
+				color: #0971ce;
+				padding-bottom: 10px;
+				.answer-hr {
+					border: 3px solid #eaeaea;
+					width: 90%;
+				}
+				.a {
+					float: left;
+					font-size: 26px;
+					margin: 10px 0px 0 10px;
+				}
+				.answer {
+					margin-left: 55px;	
+				}
+			}
+		}
+		.faq-hr {
+			border: 3px solid #f3f3f3;
+			margin: 20px 0;
+		}	
+	}
+}
+
+article.homelife-services {
+	.intro {
+		background-color: #0971ce;
+		color: #fff;
+		text-align: center;
+		padding: 50px 0;
+		h1 {
+			font-size: 63px;
+		}
+		p {
+			font-size: 22px;
+		}
+	}
+	.homelife-promo {
+		background-image: url('../i/marketing/homelife-services.jpg');
+		background-repeat: no-repeat;
+		background-position: top center;
+		height: 550px;
+		border-bottom: 5px solid #ffa409;
+		.wrapper {
+			width: 55%;
+			padding-top: 80px;
+			h3 {
+				color: #0971ce;
+			}
+		}
+	}
+	.bundle-promo {
+		margin: 35px 0;
+		text-align: center;
+		font-size: 20px;
+		span {
+			font-size: 22px;
+			color: #0971ce;
+			text-transform: uppercase;
+		}
+		hr {
+			border: 1px solid #eee;
+			margin: 15px auto;
 			width: 85%;
 		}
 	}
+	div.package {
+		padding: 40px;
+		.box {
+			@include border-radius(10px, 10px);
+			background-color: #fff;
+			padding: 35px;
+			position: relative;
+			h3 {
+				color: #0971ce;
+				span {
+					text-transform: none;
+				}
+			}
+			button a {
+				color: #fff;
+			}
+			ul.services {
+				list-style-type: none;
+				padding-left: 0;
+				float: left;
+				li {
+					text-align: center;
+					float: left;
+					margin-right: 40px;
+					input {
+						margin-top: 15px;
+					}
+					&.identity {
+						color: #7e9bb5;
+						position: relative;
+						button {
+							background-color: #7e9bb5;
+						}
+						&:after {
+							content: "+";
+							color: #898989;
+							font-size: 62px;
+							position: absolute;
+							top: 36%;
+							right: -10%;
+						}
+					}
+					&.support {
+						color: #b58789;
+						position: relative;
+						button {
+							background-color: #b58789;
+						}
+						&:after {
+							content: "+";
+							color: #898989;
+							font-size: 62px;
+							position: absolute;
+							top: 36%;
+							right: -35%;
+						}
+					}
+					&.monitoring {
+						color: #8ba170;
+						button {
+							background-color: #8ba170;
+						}
+					}
+				}
+			}
+			.savings {
+				@include border-radius(50%);
+				float: left;
+				width: 113px;
+				height: 113px;
+				margin-top: 25px;
+				p {
+					color: #fff;
+					font-size: 22px;
+					font-weight: bold;
+					text-align: center;
+					margin-top: 10px;
+				}
+			}
+			.pricing {
+				text-align: center;
+				p {
+					font-size: 14px;
+					text-transform: uppercase;
+					font-style: italic;
+					margin: 0 0 50px 0;
+					color: #6b6b6b;
+					&.price {
+						margin-bottom: 0;
+						font-style: normal;
+						.dollars {
+							font-size: 38px;
+							color: #0971ce;
+						}
+						.cents {
+							font-size: 12px;
+							color: #0971ce;
+							vertical-align: 50%;
+						}
+					}	
+				}
+			}
+			.sash {
+				position: absolute;
+				background-color: #e61b23;
+				top: -33px;
+				right: 18px;
+				min-width: 32px;
+				height: 132px;
+				overflow: hidden;
+				-webkit-transform: rotate(-45deg);
+				span {
+					font-size: 24px;
+					text-transform: uppercase;
+					position: absolute;
+					font-weight: 600;
+					color: #fff;
+					margin: 50px 0 0  -12px;
+					-webkit-transform: rotate(90deg);
+				}
+			}
+		}
+		&.platinum {
+			background-color: #0971ce;
+			.savings {
+				background-color: #0971ce;
+				p {
+					color: #fff;
+				}
+			}
+		}
+		&.gold {
+			.box {
+				border: 1px solid #c1dbf2;
+				background-color: #f6f6f6;
+				.savings {
+					background-color: #fdfdfd;
+					border: 1px solid #d0d0d0;
+					p {
+						color: #0971ce;
+					}
+				}
+				button {
+					background-color: #ccc;
+				}
+			}
+		}
+		&.silver {
+			.box {
+				border: 1px solid #cdcdcd;
+				h3 {
+				text-align: center;
+				}
+				ul.services {
+					width: 100%;
+					li {
+						margin-right: 0;
+						width: 33%;
+						border-right: 1px solid #cdcdcd;
+						&.identity,
+						&.support {
+							&:after {
+								content: " ";
+							}
+						}
+						&.monitoring {
+							border-right: none;
+						}
+						.pricing {
+							text-align: center;
+							float: none;
+							.price .dollars {
+								font-size: 24px;
+							}
+							button {
+								background-color: #0971ce;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	p.footnote {
+		font-size: 12px;
+		text-align: center;
+	}
+}
+article.states-enroll {
+	div.wrapper {
+		text-align: center;
+	}
+}
+article.full-width-image {
+	height: 300px;
+	background-size: cover; 
 }
