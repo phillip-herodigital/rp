@@ -395,17 +395,17 @@ dl dd {
 .clearfix, .layout, form div.item,
 .form div.item, form div.group,
 .form div.group, form div.buttons,
-.form div.buttons, div.tabbable ul.nav-tabs, .site-footer .super-footer div.grid .col.quick-links ul {
+.form div.buttons, div.tabbable ul.nav-tabs, .site-header > .wrapper, article.state-tabs .site-header > ul.tabs-nav, .site-footer .super-footer div.grid .col.quick-links ul {
   *zoom: 1;
 }
 /* line 42, _sass/partials/_global.scss */
 .clearfix:before, .layout:before, form div.item:before,
 .form div.item:before, form div.group:before,
 .form div.group:before, form div.buttons:before,
-.form div.buttons:before, div.tabbable ul.nav-tabs:before, .site-footer .super-footer div.grid .col.quick-links ul:before, .clearfix:after, .layout:after, form div.item:after,
+.form div.buttons:before, div.tabbable ul.nav-tabs:before, .site-header > .wrapper:before, article.state-tabs .site-header > ul.tabs-nav:before, .site-footer .super-footer div.grid .col.quick-links ul:before, .clearfix:after, .layout:after, form div.item:after,
 .form div.item:after, form div.group:after,
 .form div.group:after, form div.buttons:after,
-.form div.buttons:after, div.tabbable ul.nav-tabs:after, .site-footer .super-footer div.grid .col.quick-links ul:after {
+.form div.buttons:after, div.tabbable ul.nav-tabs:after, .site-header > .wrapper:after, article.state-tabs .site-header > ul.tabs-nav:after, .site-footer .super-footer div.grid .col.quick-links ul:after {
   display: table;
   content: "";
   line-height: 0;
@@ -414,7 +414,7 @@ dl dd {
 .clearfix:after, .layout:after, form div.item:after,
 .form div.item:after, form div.group:after,
 .form div.group:after, form div.buttons:after,
-.form div.buttons:after, div.tabbable ul.nav-tabs:after, .site-footer .super-footer div.grid .col.quick-links ul:after {
+.form div.buttons:after, div.tabbable ul.nav-tabs:after, .site-header > .wrapper:after, article.state-tabs .site-header > ul.tabs-nav:after, .site-footer .super-footer div.grid .col.quick-links ul:after {
   clear: both;
 }
 
@@ -1710,15 +1710,14 @@ div.tabbable div.tab-content div.tab-pane.active {
   -webkit-transition: left linear;
   -webkit-transition-delay: 0.2s;
   transition: left linear 0.2s;
-  background: url('../i/bg/header.png?1397848987') repeat-x;
+  border-top: 5px solid #f1f1f1;
 }
-/* line 4, _sass/partials/_header.scss */
+/* line 5, _sass/partials/_header.scss */
 .site-header > .wrapper, article.state-tabs .site-header > ul.tabs-nav {
-  height: 100px;
   position: relative;
   overflow: initial;
 }
-/* line 9, _sass/partials/_header.scss */
+/* line 11, _sass/partials/_header.scss */
 .site-header .logo {
   display: inline-block;
   width: 178px;
@@ -1727,9 +1726,9 @@ div.tabbable div.tab-content div.tab-pane.active {
   background-repeat: no-repeat;
   text-indent: -5000px;
   float: left;
-  margin-top: 40px;
+  margin-top: 15px;
 }
-/* line 14, _sass/partials/_header.scss */
+/* line 16, _sass/partials/_header.scss */
 .site-header .utility {
   -moz-border-radius: 0 0 5px 5px;
   -webkit-border-radius: 0;
@@ -1738,25 +1737,25 @@ div.tabbable div.tab-content div.tab-pane.active {
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
   float: right;
+  height: 30px;
   margin: 0;
-  padding: 10px;
+  padding: 5px 10px 5px;
   background-color: #f1f1f1;
+  font-size: 14px;
+  text-transform: uppercase;
 }
-/* line 21, _sass/partials/_header.scss */
+/* line 26, _sass/partials/_header.scss */
 .site-header .utility a {
   margin-left: 25px;
   text-transform: uppercase;
 }
-/* line 26, _sass/partials/_header.scss */
+/* line 31, _sass/partials/_header.scss */
 .site-header nav.main-nav {
-  position: absolute;
-  bottom: -1px;
-  right: 0;
-  width: 822px;
+  float: right;
   text-align: right;
-  margin-top: 5px;
+  margin: 10px 0 -1px 10px;
 }
-/* line 33, _sass/partials/_header.scss */
+/* line 39, _sass/partials/_header.scss */
 .site-header nav.main-nav > ul {
   margin: 0;
   padding: 0;
@@ -1765,7 +1764,8 @@ div.tabbable div.tab-content div.tab-pane.active {
   *zoom: 1;
   margin: 0 auto;
   width: 100%;
-  font-size: 15px;
+  font-size: 0;
+  /* This is to fix the spacing between inline-block elements. Font size is reset on child element */
   text-transform: uppercase;
 }
 /* line 49, ../../../../../../Users/ryanbrill/.rvm/gems/ruby-2.0.0-p0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/typography/lists/_inline-block-list.scss */
@@ -1780,35 +1780,34 @@ div.tabbable div.tab-content div.tab-pane.active {
   *display: inline;
   white-space: nowrap;
 }
-/* line 40, _sass/partials/_header.scss */
+/* line 45, _sass/partials/_header.scss */
+.site-header nav.main-nav > ul li {
+  font-size: 15px;
+}
+/* line 47, _sass/partials/_header.scss */
 .site-header nav.main-nav > ul li a {
   display: inline-block;
   color: #737373;
-  padding: 17px;
+  padding: 10px 17px;
 }
-@media only screen and (min-width: 768px) and (max-width: 1024px) {
-  /* line 40, _sass/partials/_header.scss */
-  .site-header nav.main-nav > ul li a {
-    padding: 17px 8px;
-  }
-}
-/* line 48, _sass/partials/_header.scss */
+/* line 55, _sass/partials/_header.scss */
 .site-header nav.main-nav > ul li.selected a {
   -moz-border-radius: 5px 5px 0 0;
   -webkit-border-radius: 5px;
   border-radius: 5px 5px 0 0;
   background-color: #f2f2f2;
-  padding: 16px 16px 17px 16px;
+  padding: 9px 16px 10px 16px;
   border: 1px solid #d9d9d9;
   border-bottom: 0;
 }
-/* line 58, _sass/partials/_header.scss */
+/* line 68, _sass/partials/_header.scss */
 .site-header nav.sub-nav {
+  min-height: 50px;
   background-color: #f2f2f2;
   border-top: 1px solid #d9d9d9;
   border-bottom: 1px solid #d9d9d9;
 }
-/* line 62, _sass/partials/_header.scss */
+/* line 73, _sass/partials/_header.scss */
 .site-header nav.sub-nav > ul {
   margin: 0;
   padding: 0;
@@ -1816,8 +1815,7 @@ div.tabbable div.tab-content div.tab-pane.active {
   overflow: hidden;
   *zoom: 1;
   margin: 0 auto;
-  font-size: 14px;
-  text-transform: uppercase;
+  font-size: 13px;
 }
 /* line 49, ../../../../../../Users/ryanbrill/.rvm/gems/ruby-2.0.0-p0/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/typography/lists/_inline-block-list.scss */
 .site-header nav.sub-nav > ul li {
@@ -1831,7 +1829,7 @@ div.tabbable div.tab-content div.tab-pane.active {
   *display: inline;
   white-space: nowrap;
 }
-/* line 68, _sass/partials/_header.scss */
+/* line 79, _sass/partials/_header.scss */
 .site-header nav.sub-nav > ul li a {
   display: inline-block;
   color: #737373;
@@ -1842,7 +1840,7 @@ div.tabbable div.tab-content div.tab-pane.active {
   .site-header {
     height: 57px;
   }
-  /* line 78, _sass/partials/_header.scss */
+  /* line 89, _sass/partials/_header.scss */
   .site-header > .wrapper, article.state-tabs .site-header > ul.tabs-nav {
     position: fixed;
     top: 0;
@@ -1857,14 +1855,14 @@ div.tabbable div.tab-content div.tab-pane.active {
   }
 }
 @media only screen and (max-width: 767px) and (-webkit-min-device-pixel-ratio: 2), only screen and (max-width: 767px) and (-o-min-device-pixel-ratio: 3 / 2), only screen and (max-width: 767px) and (min--moz-device-pixel-ratio: 2), only screen and (max-width: 767px) and (min-device-pixel-ratio: 2), only screen and (max-width: 767px) and (min-resolution: 144dppx) {
-  /* line 78, _sass/partials/_header.scss */
+  /* line 89, _sass/partials/_header.scss */
   .site-header > .wrapper, article.state-tabs .site-header > ul.tabs-nav {
     background-image: url('../i/bg2x/header-mobile.png?1397848987');
     background-size: 11.5px 11.5px;
   }
 }
 @media only screen and (max-width: 767px) {
-  /* line 90, _sass/partials/_header.scss */
+  /* line 101, _sass/partials/_header.scss */
   .site-header .logo {
     display: inline-block;
     width: 84px;
@@ -1879,38 +1877,38 @@ div.tabbable div.tab-content div.tab-pane.active {
     margin-top: 0;
     margin-left: -41.75px;
   }
-  /* line 98, _sass/partials/_header.scss */
+  /* line 109, _sass/partials/_header.scss */
   .site-header .utility {
     display: none;
   }
-  /* line 101, _sass/partials/_header.scss */
+  /* line 112, _sass/partials/_header.scss */
   .site-header .nav-toggle {
     margin-top: 22px;
   }
-  /* line 104, _sass/partials/_header.scss */
+  /* line 115, _sass/partials/_header.scss */
   .site-header nav {
     display: none;
   }
 }
 @media only screen and (min-width: 768px) {
-  /* line 109, _sass/partials/_header.scss */
+  /* line 120, _sass/partials/_header.scss */
   .site-header .nav-toggle {
     display: none;
   }
 }
 
-/* line 115, _sass/partials/_header.scss */
+/* line 126, _sass/partials/_header.scss */
 .banner {
   /*height: 200px;*/
   overflow: hidden;
   margin-bottom: 20px;
 }
-/* line 119, _sass/partials/_header.scss */
+/* line 130, _sass/partials/_header.scss */
 .banner.hero-1 {
   background: url('../i/bg/hero-1.jpg?1397848987') no-repeat;
   background-size: cover;
 }
-/* line 123, _sass/partials/_header.scss */
+/* line 134, _sass/partials/_header.scss */
 .banner h1 {
   margin-top: 75px;
   color: #fff;

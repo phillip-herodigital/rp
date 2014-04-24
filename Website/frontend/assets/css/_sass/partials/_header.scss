@@ -1,69 +1,80 @@
 .site-header {
 	@include transition(left linear .2s); 
-	background: image-url("bg/header.png") repeat-x;
+	//background: image-url("bg/header.png") repeat-x;
+	border-top: 5px solid #f1f1f1;
 	> .wrapper {
-		height: 100px;
+		@extend .clearfix;
+		//min-height: 100px;
 		position: relative;
 		overflow: initial;
 	}
 	.logo {
 		@include image-replace("logo-horizontal.png");
 		float: left;
-		margin-top: 40px;
+		margin-top: 15px;
 	}
 	.utility {
 		@include border-radius(0 0 5px 5px);
 		@include box-shadow(0 1px 1px rgba(0,0,0,.25));
 		float: right;
+		height: 30px;
 		margin: 0;
-		padding: 10px;
+		padding: 5px 10px 5px;
 		background-color: #f1f1f1;
+		font-size: 14px;
+		text-transform: uppercase;
 		a {
 			margin-left: 25px;
 			text-transform: uppercase;
 		}
 	}
 	nav.main-nav {
-		position: absolute;
-		bottom: -1px;
-		right: 0;
-		width: 822px;
+		// position: absolute;
+		// bottom: -1px;
+		// right: 0;
+		// width: 822px;
+		float: right;
 		text-align: right;
-		margin-top: 5px;
+		margin: 10px 0 -1px 10px;
 		> ul {
 			@include inline-block-list();
 			margin: 0 auto;
 			width: 100%;
-			font-size: 15px;
+			font-size: 0; /* This is to fix the spacing between inline-block elements. Font size is reset on child element */
 			text-transform: uppercase;
 			li {
+				font-size: 15px;
 				a {
 					display: inline-block;
 					color: #737373;
-					padding: 17px;
-					@include breakpoint(medium) {
-						padding: 17px 8px;
-					}
+					padding: 10px 17px;
+					// @include breakpoint(medium) {
+					// 	padding: 10px 8px;
+					// }
 				}
 				&.selected a {
 					@include border-radius(5px 5px 0 0);
 					background-color: #f2f2f2;
-					padding: 16px 16px 17px 16px;
+					padding: 9px 16px 10px 16px;
 					border: 1px solid #d9d9d9;
 					border-bottom: 0;
+					// @include breakpoint(medium) {
+					// 	padding: 10px 7px 11px 7px;
+					// }
 				}
 			}
 		}
 	}
 	nav.sub-nav {
+		min-height: 50px;
 		background-color: #f2f2f2;
 		border-top: 1px solid #d9d9d9;
 		border-bottom: 1px solid #d9d9d9;
 		> ul {
 			@include inline-block-list();
 			margin: 0 auto;
-			font-size: 14px;
-			text-transform: uppercase;
+			font-size: 13px;
+			//text-transform: uppercase;
 			li {
 				a {
 					display: inline-block;
