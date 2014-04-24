@@ -43,7 +43,7 @@
 			</ul>
 		</nav>
 		<div class="page-content">
-			<header class="site-header">
+			<header class="site-header" main-nav>
 				<div class="wrapper">
 					<a href="/" class="logo">Logo</a>
 					<p class="utility"><a href="#">Manage My Account</a></p>
@@ -52,12 +52,28 @@
 					    <ul class="wrapper">
                             <asp:Repeater ID="rptNavigationItems" runat="server">
                                 <ItemTemplate>
-                                    <li class="<%# Eval("CssClass") %>"><a href="<%# Eval("URL") %>"><%# Eval("Text") %></a></li>
+                                    <li <%# Eval("SubNavAttributes") %> class="<%# Eval("CssClass") %>"><a href="<%# Eval("URL") %>"><%# Eval("Text") %></a></li>
                                 </ItemTemplate>
                             </asp:Repeater>
 					    </ul>
 				    </nav>
 				</div>
+                <nav class="sub-nav">
+                    <ul class="wrapper" ng-class="{ hidden: subnav != 0 }" ng-mouseover="showSubnav(0)" ng-mouseout="hideSubnav()">
+						<li><a>&nbsp;</a></li>
+					</ul>
+                    <asp:Repeater ID="rptSubNavs" runat="server">
+                        <ItemTemplate>
+                            <ul class="wrapper" ng-class="{ hidden: subnav != <%# Eval("SubNavNum") %> }" ng-mouseover="showSubnav(<%# Eval("SubNavNum") %>)" ng-mouseout="hideSubnav()">
+                                <asp:Repeater ID="rptSubNavItems" runat="server">
+                                    <ItemTemplate>
+                                        <li><a href="<%# Eval("URL") %>"><%# Eval("Text") %></a></li>
+                                    </ItemTemplate>
+                                </asp:Repeater>
+					        </ul>
+                        </ItemTemplate>
+                    </asp:Repeater>
+				</nav>
 			</header>
 
 			<div id="divBanner" class="banner marketing" runat="server">

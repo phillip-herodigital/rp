@@ -10,7 +10,7 @@
 namespace Website.layouts.Modules {
     
     
-    public partial class Photo_Lockup {
+    public partial class Full_Width_Image {
         
         /// <summary>
         /// divEditMode control.

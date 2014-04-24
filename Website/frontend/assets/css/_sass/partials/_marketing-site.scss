@@ -13,6 +13,16 @@ $themes:
 	(name: "white", primaryColor: #fff, accentColor: #1773cb, textColor: #6b6b6b),
 	(name: "grey", primaryColor: #e8e8e8, accentColor: #1773cb, textColor: #6b6b6b);
 
+@each $theme in $themes {
+	button, .button {
+		&.#{map-get($theme, name)} {
+			background-color: map-get($theme, primaryColor);
+			color: map-get($theme, accentColor);
+			text-shadow: none;
+		}
+	}
+}
+
 .banner.marketing {
 	height: 400px;
 	background-position: 50%;
@@ -39,6 +49,7 @@ article.photoLockup {
 		position: absolute;
 		width: 50%;
 		height: 100%;
+		overflow: hidden;
 	}
 	.text {
 		float: right;
@@ -1099,4 +1110,13 @@ article.homelife-services {
 		font-size: 12px;
 		text-align: center;
 	}
+}
+article.states-enroll {
+	div.wrapper {
+		text-align: center;
+	}
+}
+article.full-width-image {
+	height: 300px;
+	background-size: cover; 
 }

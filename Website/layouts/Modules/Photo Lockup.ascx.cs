@@ -62,6 +62,10 @@ namespace Website.layouts.Modules
         }
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Sitecore.Context.PageMode.IsPageEditorEditing)
+            {
+                divEditMode.Visible = true;
+            }
         }
     }
 }
