@@ -1,0 +1,63 @@
+﻿@using Sitecore.Mvc.Presentation
+@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Common.RadioButtons
+@using Sitecore.Web.UI.Controls.Common.Texts
+
+@model RenderingModel
+
+<h3>Apperance</h3>
+<div>
+<span>Selected value: </span><span data-bind='text: Sitecore.app.rb1'></span>  
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Checked</th>
+      <th>Unchecked</th>
+      <th>Disabled</th>
+      <th>Invisible</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>@Html.Sitecore().Controls().RadioButton("rb1", new { IsChecked = true, Value = "1", GroupName = "rb", Text="Option 1" })</td>
+          <td>@Html.Sitecore().Controls().RadioButton("rb2", new { IsChecked = false, Value = "2", GroupName = "rb"})</td>
+          <td>@Html.Sitecore().Controls().RadioButton("rb3", new { IsChecked = false, Value = "3", GroupName = "rb", IsEnabled = false })</td>
+          <td>@Html.Sitecore().Controls().RadioButton("rb4", new { IsChecked = false, Value = "4", GroupName = "rb", IsVisible = false })</td>
+      </tr>
+      <tr>
+          <td colspan="4">
+              Is "Option 1" selected: @Html.Sitecore().Controls().Text("Text1", "true", new { Text = "{Binding rb1.isChecked}" })<br />
+              Is "Option 2" selected: @Html.Sitecore().Controls().Text("Text2", "true", new { Text = "{Binding rb2.isChecked}" })<br />
+              <pre>
+&#64;Html.Sitecore().Controls().RadioButton("rb1", new { IsChecked = true, Value = "1", GroupName = "rb", Text="Option 1" })
+&#64;Html.Sitecore().Controls().RadioButton("rb2", new { IsChecked = false, Value = "2", GroupName = "rb"})
+&#64;Html.Sitecore().Controls().RadioButton("rb3", new { IsChecked = false, Value = "3", GroupName = "rb", IsEnabled = false })
+&#64;Html.Sitecore().Controls().RadioButton("rb4", new { IsChecked = false, Value = "4", GroupName = "rb", IsVisible = false })
+              </pre>
+          </td>
+      </tr>
+      <tr>
+          <td colspan="4">
+              @Html.Sitecore().Controls().RadioButton("rb5", new { IsChecked = false, Value = "1", GroupName = "rb1", Text="Option 1" })<br />
+              @Html.Sitecore().Controls().RadioButton("rb6", new { IsChecked = true, Value = "2", GroupName = "rb1", Text="Option 2" })<br />
+              @Html.Sitecore().Controls().RadioButton("rb7", new { IsChecked = false, Value = "3", GroupName = "rb1", Text="Option 3" })<br />
+              @Html.Sitecore().Controls().RadioButton("rb8", new { IsChecked = false, Value = "4", GroupName = "rb1", Text="Option 4" })
+          </td>
+      </tr>
+      <tr>
+          <td colspan="4">
+              <pre>
+&#64;Html.Sitecore().Controls().RadioButton("rb5", new { IsChecked = false, Value = "1", GroupName = "rb1", Text="Option 1" })
+&#64;Html.Sitecore().Controls().RadioButton("rb6", new { IsChecked = true, Value = "2", GroupName = "rb1", Text="Option 2" })
+&#64;Html.Sitecore().Controls().RadioButton("rb7", new { IsChecked = false, Value = "3", GroupName = "rb1", Text="Option 3" })
+&#64;Html.Sitecore().Controls().RadioButton("rb8", new { IsChecked = false, Value = "4", GroupName = "rb1", Text="Option 4" })
+              </pre>
+          </td>
+      </tr>
+
+  </tbody>
+</table>
+
+

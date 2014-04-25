@@ -1,0 +1,22 @@
+﻿@using Sitecore.Data
+@using Sitecore.Mvc.Presentation
+@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Common.Renderings
+@model RenderingModel    
+
+@{
+    var rendering = new ID("{A3E869BC-ABF8-462E-9B55-FB881B6491A1}").ToString();
+}
+<h3>Apperance</h3>
+<p>
+  Form container.<br />
+</p>
+<p>
+    @Html.Sitecore().Controls().Rendering(this.Html, rendering, "Form1", "/sitecore", new {})
+    @Html.Sitecore().Controls().Rendering(this.Html, rendering, "Form1", "/sitecore", new {IsVisible = false})
+</p>
+
+<pre>
+&#64;Html.Sitecore().Controls().Rendering(this.Html, rendering, "Form1", "/sitecore", new {})
+&#64;Html.Sitecore().Controls().Rendering(this.Html, rendering, "Form2", "/sitecore", new {IsVisible = false})
+</pre>

@@ -1,0 +1,39 @@
+﻿@using Sitecore
+@using Sitecore.Configuration
+@using Sitecore.Mvc
+@using Sitecore.SecurityModel                     
+@model Sitecore.Mvc.Presentation.RenderingModel
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />    
+  @{
+      using (new SecurityDisabler())
+      {
+          if (ClientHost.Items.ContextItem != null)
+          {
+              if (!ClientHost.Items.ContextItem.Access.CanRead())
+              {
+                  Response.Redirect(SpeakSettings.Login.LoginUrl);
+              }
+          }
+          else
+          {
+              Response.Redirect(SpeakSettings.Login.LoginUrl);
+          }
+      }       
+  }
+  @Html.Sitecore().Placeholder("Page.Stylesheets")
+  @Html.Sitecore().Placeholder("Page.Code")
+</head>
+<body class="sc">
+  <div class="sc-list">
+@this.Html.Sitecore().Placeholder("Page.Internal.BeforeGrid")
+    <div class="container-narrow">
+@this.Html.Sitecore().Placeholder("Page.Body")
+    </div>
+@this.Html.Sitecore().Placeholder("Page.Internal.AfterGrid")
+  </div>
+</body>
+</html>

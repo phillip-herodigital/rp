@@ -15,12 +15,7 @@
 .scButtonsTitle {
 }
 
-.scButtons {
-  overflow: auto;
-}
-
 a.scButton {  
-  float: left;
   width: 70px;
   height: auto;
   
@@ -29,8 +24,9 @@ a.scButton {
   cursor: default;
   text-decoration: none;
   font: 8pt tahoma;
-	text-align: center;
-	overflow: auto;	
+  text-align: center;
+  overflow: auto;
+  display: inline-block;
 }
 
 .scButton:hover, .scButton:active {
@@ -45,6 +41,7 @@ a.scButton {
 }
 
 .scButtonHeader {
+  word-wrap: break-word;
 }
 
 .scTilesTitle {

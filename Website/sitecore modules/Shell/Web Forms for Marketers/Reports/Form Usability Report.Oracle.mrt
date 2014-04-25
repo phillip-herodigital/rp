@@ -1,0 +1,1287 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<StiSerializer version="1.0" application="StiReport">
+  <Dictionary Ref="1" type="Dictionary" isKey="true">
+    <Databases isList="true" count="0" />
+    <DataSources isList="true" count="11">
+      <OverallErrors Ref="2" type="Stimulsoft.Report.Dictionary.StiOracleSourceExt" isKey="true">
+        <Alias>OverallErrors</Alias>
+        <Columns isList="true" count="2">
+          <value>Name,System.String</value>
+          <value>ErrorCount,System.Int32</value>
+        </Columns>
+        <CommandTimeout>300</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>OverallErrors</Name>
+        <NameInSource>DataConnection</NameInSource>
+        <Parameters isList="true" count="3">
+          <value>:DataKey,,12,900</value>
+          <value>:StartDate,StartDate,4,0</value>
+          <value>:EndDate,EndDate,4,0</value>
+        </Parameters>
+        <SqlCommand>
+            select TO_CHAR("PageEventDefinition"."Name") as "Name", 
+                   count("PageEvent"."PageEventId") as "ErrorCount"
+            from 	 "PageEvent", 
+		               "PageEventDefinition",
+			             "Page",  
+			             "Session", 	  
+			             "GlobalSession", 
+			             "IP",
+			             "IPOwner",
+			             "Browser" 
+            where 
+                   "PageEvent"."DataKey" = :DataKey and 
+      		         "Session"."Timestamp" &gt;= :StartDate and
+      		         "Session"."Timestamp" &lt;= :EndDate and 
+			             "PageEventDefinition"."PageEventDefinitionId" = "PageEvent"."PageEventDefinitionId" and
+	  		           "PageEventDefinition"."IsFailure" = 1 and
+			             "PageEvent"."PageId" = "Page"."PageId" and 
+			             "GlobalSession"."GlobalSessionId" = "Session"."GlobalSessionId" and
+			             "Session"."SessionId" = "Page"."SessionId" and
+			             "IP"."IpId" = "Session"."IpId" and
+			             "IP"."IpOwnerId" = "IPOwner"."IpOwnerId" and
+			             "Session"."BrowserId" = "Browser"."BrowserId" 
+		              {Session}
+			            {GlobalSession}
+			            {Ip}
+			            {IpOwner}
+			            {Browser}
+           group by TO_CHAR("PageEventDefinition"."Name")
+         </SqlCommand>
+      </OverallErrors>
+      <DropoutSession Ref="3" type="Stimulsoft.Report.Dictionary.StiOracleSourceExt" isKey="true">
+        <Alias>DropoutSession</Alias>
+        <Columns isList="true" count="1">
+          <value>StatisticValue,System.Int32</value>
+        </Columns>
+        <CommandTimeout>300</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>DropoutSession</Name>
+        <NameInSource>DataConnection</NameInSource>
+        <Parameters isList="true" count="3">
+          <value>:DataKey,,12,900</value>
+          <value>:StartDate,StartDate,4,0</value>
+          <value>:EndDate,EndDate,4,0</value>
+        </Parameters>
+        <SqlCommand>
+            select count(distinct "Session"."SessionId") as "StatisticValue"
+            from "PageEvent", 
+		             "Session", 
+		             "Page",
+		             "GlobalSession", 
+		             "IP",
+		             "IPOwner",
+	 	             "Browser" 
+            where	
+                 not "Session"."SessionId" in	
+	               (
+                    select "Session"."SessionId"
+	                  from   "Session", 
+                           "Page",
+                           "PageEvent"
+	                  where 
+	                         "PageEvent"."PageEventDefinitionId" = '8984F02F472A044F8D8E0C25A294B2C4' AND	
+	                         "PageEvent"."PageId" = "Page"."PageId" AND
+	                         "Session"."SessionId" = "Page"."SessionId"
+	               )  and
+                 "PageEvent"."PageId" = "Page"."PageId" and
+	               "Session"."SessionId" = "Page"."SessionId" and
+	               "PageEvent"."DataKey" = :DataKey and	  
+                 "Session"."Timestamp" &gt;= :StartDate and
+	               "Session"."Timestamp" &lt;= :EndDate and
+      	         "GlobalSession"."GlobalSessionId" = "Session"."GlobalSessionId" and
+	               "IP"."IpId" = "Session"."IpId" and
+	               "IP"."IpOwnerId" = "IPOwner"."IpOwnerId" and
+	               "Session"."BrowserId" = "Browser"."BrowserId"
+	               {Session}
+			           {GlobalSession}
+			           {Ip}
+			           {IpOwner}
+			           {Browser}		  
+</SqlCommand>
+      </DropoutSession>
+      <DropoutError Ref="4" type="Stimulsoft.Report.Dictionary.StiOracleSourceExt" isKey="true">
+        <Alias>DropoutError</Alias>
+        <Columns isList="true" count="2">
+          <value>Name,System.String</value>
+          <value>ErrorCount,System.Int32</value>
+        </Columns>
+        <CommandTimeout>300</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>DropoutError</Name>
+        <NameInSource>DataConnection</NameInSource>
+        <Parameters isList="true" count="3">
+          <value>:DataKey,,12,900</value>
+          <value>:StartDate,StartDate,4,0</value>
+          <value>:EndDate,EndDate,4,0</value>
+        </Parameters>
+        <SqlCommand>
+            select TO_CHAR("PageEventDefinition"."Name") as "Name", 
+		               count("PageEvent"."PageEventId") as "ErrorCount"
+            from "Page",
+            		 "PageEvent", 
+		             "PageEventDefinition",
+	               (
+		                select distinct "Session"."SessionId"
+		                from   "PageEvent", 
+				                   "Page", 
+				                   "Session", 	
+				                   "GlobalSession", 
+				                   "IP",
+				                   "IPOwner",
+				                   "Browser" 
+                    where
+	                         not "Session"."SessionId" in 
+                              (
+                                  select "Session"."SessionId"
+	                                from  "Session" "Session",
+                                        "Page",
+                                        "PageEvent"
+	                                where "PageEvent"."PageEventDefinitionId" = '8984F02F472A044F8D8E0C25A294B2C4' and		
+	                                      "PageEvent"."PageId" = "Page"."PageId" and		
+                                        "Page"."SessionId" = "Session"."SessionId"
+		                          ) and
+		                      "PageEvent"."DataKey" = :DataKey and 		
+		                   		"Session"."Timestamp" &gt;= :StartDate and 
+		                      "Session"."Timestamp" &lt;= :EndDate and
+	                		    "Page"."SessionId" = "Session"."SessionId" and
+		                      "PageEvent"."PageId" = "Page"."PageId" and
+      		                "GlobalSession"."GlobalSessionId" = "Session"."GlobalSessionId" and
+		                      "IP"."IpId" = "Session"."IpId" and
+		                      "IP"."IpOwnerId" = "IPOwner"."IpOwnerId" and
+		                      "Session"."BrowserId" = "Browser"."BrowserId"	
+	                        {IpOwner}
+	                        {Ip}		
+	                        {Session}
+ 	                        {GlobalSession}
+	                        {Browser}
+                	 ) DropoutSession
+              where 
+	                "Page"."SessionId" = DropoutSession."SessionId" and
+	                "PageEventDefinition"."PageEventDefinitionId" = "PageEvent"."PageEventDefinitionId" and
+	                "PageEvent"."PageId" = "Page"."PageId" and
+	                "PageEvent"."DataKey" = :DataKey and
+	                "PageEventDefinition"."IsFailure" = 1
+              group by TO_CHAR("PageEventDefinition"."Name")
+</SqlCommand>
+      </DropoutError>
+      <FormSession Ref="5" type="Stimulsoft.Report.Dictionary.StiOracleSourceExt" isKey="true">
+        <Alias>FormSession</Alias>
+        <Columns isList="true" count="9">
+          <value>IpOwnerName,System.String</value>
+          <value>Country,System.String</value>
+          <value>IspName,System.String</value>
+          <value>City,System.String</value>
+          <value>IpObject,System.Object</value>
+          <value>Region,System.String</value>
+          <value>Timestamp,System.DateTime</value>
+          <value>SessionIdObject,System.Object</value>
+          <value>SuccessCount,System.Int32</value>
+        </Columns>
+        <CommandTimeout>300</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>FormSession</Name>
+        <NameInSource>DataConnection</NameInSource>
+        <Parameters isList="true" count="3">
+          <value>:DataKey,,12,900</value>
+          <value>:StartDate,StartDate,4,0</value>
+          <value>:EndDate,EndDate,4,0</value>
+        </Parameters>
+        <SqlCommand>    
+            select "Session"."SessionId" as SessionIdObject, 
+				           "Session"."Timestamp",
+				           "IP"."IpId" as "IpObject", 
+				           "IP"."City", 
+				           "IP"."IspName", 
+				           "IP"."Region", 
+				           "IPOwner"."Country", 
+				           "IPOwner"."Name" as "IpOwnerName", 
+				           FormSession."SuccessCount"				   
+            from  
+              		 "Session",
+							     "IP",
+							     "IPOwner",
+					        (
+                       select * from 
+                       (
+							                select "Session"."SessionId",  
+									                   SUM(CASE WHEN "PageEvent"."PageEventDefinitionId" = '8984F02F472A044F8D8E0C25A294B2C4' THEN 1 ELSE 0 END) as "SuccessCount"
+                              from   "PageEvent", 
+									                   "Page", 
+									                   "Session", 	
+									                   "GlobalSession", 
+									                   "Browser" 
+                              where  
+                                     "PageEvent"."DataKey" = :DataKey and
+									                   "Session"."Timestamp" &gt;= :StartDate and 
+									                   "Session"."Timestamp" &lt;= :EndDate and
+									                   "Session"."SessionId" = "Page"."SessionId" and
+									                   "PageEvent"."PageId" = "Page"."PageId" and									  
+									                   "GlobalSession"."GlobalSessionId" = "Session"."GlobalSessionId" and
+									                   "Session"."BrowserId" = "Browser"."BrowserId"     												
+									                   {Session}
+									                   {GlobalSession}
+									                   {Browser}
+                              group by "Session"."SessionId",
+                                       "Session"."Timestamp"
+                         )
+                         where rownum &lt;= 200
+                  ) FormSession 
+					where   FormSession."SessionId" = "Session"."SessionId" and
+                  "IP"."IpId" = "Session"."IpId" and
+						      "IP"."IpOwnerId" = "IPOwner"."IpOwnerId"
+								  {Ip}
+								  {IpOwner}
+          order by "Session"."Timestamp" desc
+       </SqlCommand>
+      </FormSession>
+      <LastErrorBeforeDropout Ref="6" type="Stimulsoft.Report.Dictionary.StiOracleSourceExt" isKey="true">
+        <Alias>LastErrorBeforeDropout</Alias>
+        <Columns isList="true" count="2">
+          <value>Name,System.String</value>
+          <value>ErrorCount,System.Int32</value>
+        </Columns>
+        <CommandTimeout>300</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>LastErrorBeforeDropout</Name>
+        <NameInSource>DataConnection</NameInSource>
+        <Parameters isList="true" count="3">
+          <value>:DataKey,,12,900</value>
+          <value>:StartDate,StartDate,4,0</value>
+          <value>:EndDate,EndDate,4,0</value>
+        </Parameters>
+        <SqlCommand>
+            select TO_CHAR("PageEventDefinition"."Name") as "Name", 
+                   count("PageEvent"."PageEventId") as "ErrorCount"
+	        	from 	 "Page",
+		               "PageEvent",
+		               "PageEventDefinition",
+	                 (			
+		                  select "Session"."SessionId",
+                             MAX(CASE WHEN "PageEventDefinition"."IsFailure" = 1 THEN ("Page"."Timestamp" + NUMTODSINTERVAL("PageEvent"."CustomSorting",'SECOND')) ELSE  to_timestamp('01-01-1000 01:00:00', 'DD-MM-YYYY HH_MI_SS') END) as "Timestamp"
+			                from   "PageEvent", 
+					                   "PageEventDefinition",
+					                   "Page", 
+					                   "Session", 	
+					                   "GlobalSession", 
+					                   "IP",
+					                   "IPOwner",
+					                   "Browser" 	
+			                where  "PageEvent"."DataKey" = :DataKey and 
+ 				                     "Session"."Timestamp" &gt;= :StartDate and
+			                       "Session"."Timestamp" &lt;= :EndDate and
+					                   "Session"."SessionId" = "Page"."SessionId" and
+ 					                   "PageEventDefinition"."PageEventDefinitionId" = "PageEvent"."PageEventDefinitionId" and				    
+				                     "PageEvent"."PageId" = "Page"."PageId" and
+  				                   "GlobalSession"."GlobalSessionId" = "Session"."GlobalSessionId" and
+				                     "IP"."IpId" = "Session"."IpId" and
+				                     "IP"."IpOwnerId" = "IPOwner"."IpOwnerId" and
+				                     "Session"."BrowserId" = "Browser"."BrowserId"   				    	
+			                       {Session}
+				                     {GlobalSession}
+				                     {Ip}
+				                     {IpOwner}
+				                     {Browser}				    
+			               group by "Session"."SessionId"
+			               having SUM(CASE WHEN "PageEvent"."PageEventDefinitionId" = '8984F02F472A044F8D8E0C25A294B2C4' THEN 1 ELSE 0 END) = 0
+	               ) DropoutSession
+          where 
+	               "PageEvent"."DataKey" = :DataKey and 
+	               "PageEvent"."PageId" = "Page"."PageId" and
+	               "PageEventDefinition"."PageEventDefinitionId" = "PageEvent"."PageEventDefinitionId" and
+                 DropoutSession."SessionId" = "Page"."SessionId" and
+	               ("Page"."Timestamp" + NUMTODSINTERVAL("PageEvent"."CustomSorting",'SECOND')) = DropoutSession."Timestamp" and
+	               "PageEventDefinition"."IsFailure" = 1
+          group by TO_CHAR("PageEventDefinition"."Name")
+       </SqlCommand>
+      </LastErrorBeforeDropout>
+      <SubmitForm Ref="7" type="Stimulsoft.Report.Dictionary.StiOracleSourceExt" isKey="true">
+        <Alias>SubmitForm</Alias>
+        <Columns isList="true" count="1">
+          <value>SubmitCount,System.Int32</value>
+        </Columns>
+        <CommandTimeout>300</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>SubmitForm</Name>
+        <NameInSource>DataConnection</NameInSource>
+        <Parameters isList="true" count="2">
+          <value>:DataKey,,12,900</value>
+          <value>:SessionIdObject,FormSession.SessionIdObject_x0020_is_x0020_DBNull_x0020__x003F__x0020_DBNull.Value_x0020_:_x0020_FormSession.SessionIdObject,14,0</value>
+        </Parameters>
+        <ReconnectOnEachRow>True</ReconnectOnEachRow>
+        <SqlCommand>
+select count("PageEvent"."PageEventDefinitionId") as "SubmitCount"
+	from   "Page",
+	"PageEvent",
+	"Session"
+	where "Page"."PageId" = "PageEvent"."PageId" and
+	"Session"."SessionId" = "Page"."SessionId" and
+	"PageEvent"."DataKey" = :DataKey and
+	"Session"."SessionId" = :SessionIdObject and
+	"PageEvent"."PageEventDefinitionId" = '51CFC2A2609384409BA01A15F1A41096'
+           </SqlCommand>
+      </SubmitForm>
+      <LastError Ref="8" type="Stimulsoft.Report.Dictionary.StiOracleSourceExt" isKey="true">
+        <Alias>LastError</Alias>
+        <Columns isList="true" count="2">
+          <value>Name,System.String</value>
+          <value>Text,System.String</value>
+        </Columns>
+        <CommandTimeout>300</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>LastError</Name>
+        <NameInSource>DataConnection</NameInSource>
+        <Parameters isList="true" count="2">
+          <value>:SessionIdObject,IsNull_x0028_FormSession_x002C__x0020__x0022_SessionIdObject_x0022__x0029__x0020__x003F__x0020_DBNull.Value_x0020_:_x0020_FormSession.SessionIdObject,14,0</value>
+          <value>:DataKey,,12,900</value>
+        </Parameters>
+        <ReconnectOnEachRow>True</ReconnectOnEachRow>
+        <SqlCommand>
+          select "PageEventDefinition"."Name",
+                 "PageEvent"."Text"
+          from 	 "PageEvent", 
+			           "Page", 
+			           "PageEventDefinition",
+			           "Session"
+          where  rownum &lt;= 1 and
+                 "Session"."SessionId" = :SessionIdObject and 
+                 "PageEventDefinition"."IsFailure" = 1 and 
+	               "PageEvent"."DataKey" = :DataKey and
+	               "PageEvent"."PageId" = "Page"."PageId" and
+ 	               "PageEventDefinition"."PageEventDefinitionId" = "PageEvent"."PageEventDefinitionId" and	
+	               "Session"."SessionId" = "Page"."SessionId" 
+          order by "Page"."Timestamp" desc, 
+                   "PageEvent"."CustomSorting" desc, 
+                   "PageEvent"."Timestamp" desc
+                 </SqlCommand>
+      </LastError>
+      <SuccessSession Ref="9" type="Stimulsoft.Report.Dictionary.StiOracleSourceExt" isKey="true">
+        <Alias>SuccessSession</Alias>
+        <Columns isList="true" count="1">
+          <value>StatisticValue,System.Int32</value>
+        </Columns>
+        <CommandTimeout>300</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>SuccessSession</Name>
+        <NameInSource>DataConnection</NameInSource>
+        <Parameters isList="true" count="3">
+          <value>:DataKey,,12,900</value>
+          <value>:StartDate,StartDate,4,0</value>
+          <value>:EndDate,EndDate,4,0</value>
+        </Parameters>
+        <SqlCommand>
+            select count (distinct "Session"."SessionId") as "StatisticValue"
+	          from "Session", 
+                 "Page", 
+                 "PageEvent", 
+                 "GlobalSession", 
+                 "IP",
+                 "IPOwner", 
+                 "Browser" 
+	          where
+	               "PageEvent"."PageEventDefinitionId" = '8984F02F472A044F8D8E0C25A294B2C4' and	
+	               "PageEvent"."PageId" = "Page"."PageId" and
+	               "Session"."SessionId" = "Page"."SessionId" and
+	               "PageEvent"."DataKey" = :DataKey and
+        	  		 "Session"."Timestamp" &gt;= :StartDate and
+	  		         "Session"."Timestamp" &lt;= :EndDate and
+            	   "GlobalSession"."GlobalSessionId" = "Session"."GlobalSessionId" and
+	               "IP"."IpId" = "Session"."IpId" and
+	               "IP"."IpOwnerId" = "IPOwner"."IpOwnerId" and
+	               "Session"."BrowserId" = "Browser"."BrowserId" 
+	                {Session}
+			            {GlobalSession}
+			            {Ip}
+			            {IpOwner}
+			            {Browser}
+         </SqlCommand>
+      </SuccessSession>
+      <SubmitCount Ref="10" type="Stimulsoft.Report.Dictionary.StiOracleSourceExt" isKey="true">
+        <Alias>SubmitCount</Alias>
+        <Columns isList="true" count="1">
+          <value>StatisticValue,System.Int32</value>
+        </Columns>
+        <CommandTimeout>300</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>SubmitCount</Name>
+        <NameInSource>DataConnection</NameInSource>
+        <Parameters isList="true" count="3">
+          <value>:DataKey,,12,900</value>
+          <value>:StartDate,StartDate,4,0</value>
+          <value>:EndDate,EndDate,4,0</value>
+        </Parameters>
+        <SqlCommand>	  
+              select count("PageEvent"."PageEventId") as "StatisticValue"
+	            from
+	                   "PageEvent", 
+	                   "Session", 
+	                   "Page",
+	                   "GlobalSession", 
+	                   "IP",
+	                   "IPOwner",
+	                   "Browser" 
+	 	      	  where "PageEvent"."PageEventDefinitionId" = '51CFC2A2609384409BA01A15F1A41096' and
+	                  "PageEvent"."PageId" = "Page"."PageId" and
+	                  "Session"."SessionId" = "Page"."SessionId" and
+	                  "PageEvent"."DataKey" = :DataKey and
+	                	"Session"."Timestamp" &gt;= :StartDate and
+	                  "Session"."Timestamp" &lt;= :EndDate and
+                  	"GlobalSession"."GlobalSessionId" = "Session"."GlobalSessionId" and
+	                  "IP"."IpId" = "Session"."IpId" and
+	                  "IP"."IpOwnerId" = "IPOwner"."IpOwnerId" and
+	                  "Session"."BrowserId" = "Browser"."BrowserId" 
+	                  {Session}
+			              {GlobalSession}
+			              {Ip}
+			              {IpOwner}
+			              {Browser}
+          </SqlCommand>
+      </SubmitCount>
+      <DropoutFailures Ref="11" type="Stimulsoft.Report.Dictionary.StiOracleSourceExt" isKey="true">
+        <Alias>DropoutFailures</Alias>
+        <Columns isList="true" count="1">
+          <value>StatisticValue,System.Int32</value>
+        </Columns>
+        <CommandTimeout>300</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>DropoutFailures</Name>
+        <NameInSource>DataConnection</NameInSource>
+        <Parameters isList="true" count="3">
+          <value>:DataKey,,12,900</value>
+          <value>:StartDate,StartDate,4,0</value>
+          <value>:EndDate,EndDate,4,0</value>
+        </Parameters>
+        <SqlCommand>
+            select count("PageEvent"."PageEventId") as "StatisticValue"
+	          from	
+                   "PageEvent", 
+	                 "PageEventDefinition",
+	                 "Session", 
+	                 "Page",
+	                 "GlobalSession", 
+	                 "IP",
+	                 "IPOwner",
+	                 "Browser" 
+	          WHERE  
+                   not "Session"."SessionId" in	
+		                    (
+                            select "Session"."SessionId"
+	                          from   "Session", 
+                                   "Page",
+                                   "PageEvent" 
+	                          where 
+	                                 "PageEvent"."PageEventDefinitionId" = '8984F02F472A044F8D8E0C25A294B2C4' and	
+	                                 "PageEvent"."PageId" = "Page"."PageId" and
+	                                 "Session"."SessionId" = "Page"."SessionId"
+		                    ) and
+	            	  "PageEventDefinition"."IsFailure" = 1 and
+	                "PageEvent"."PageId" = "Page"."PageId" and
+	                "PageEvent"."PageEventDefinitionId" = "PageEventDefinition"."PageEventDefinitionId" and
+	                "Session"."SessionId" = "Page"."SessionId" and
+	                "PageEvent"."DataKey" = :DataKey and
+	              	"Session"."Timestamp" &gt;= :StartDate and
+	                "Session"."Timestamp" &lt;= :EndDate and
+                  "GlobalSession"."GlobalSessionId" = "Session"."GlobalSessionId" and
+	                "IP"."IpId" = "Session"."IpId" and
+	                "IP"."IpOwnerId" = "IPOwner"."IpOwnerId" and
+	                "Session"."BrowserId" = "Browser"."BrowserId"
+                  {Session}
+			            {GlobalSession}
+			            {Ip}
+			            {IpOwner}
+			            {Browser}
+        </SqlCommand>
+      </DropoutFailures>
+      <SuccessFailures Ref="12" type="Stimulsoft.Report.Dictionary.StiOracleSourceExt" isKey="true">
+        <Alias>SuccessFailures</Alias>
+        <Columns isList="true" count="1">
+          <value>StatisticValue,System.Int32</value>
+        </Columns>
+        <CommandTimeout>300</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>SuccessFailures</Name>
+        <NameInSource>DataConnection</NameInSource>
+        <Parameters isList="true" count="3">
+          <value>:DataKey,,12,900</value>
+          <value>:StartDate,StartDate,4,0</value>
+          <value>:EndDate,EndDate,4,0</value>
+        </Parameters>
+        <SqlCommand>
+            select count("PageEvent"."PageEventId") as "StatisticValue"
+	          from 
+        			   "Session",
+	               "PageEvent", 
+	               "PageEventDefinition",
+	               "Page",
+	               "GlobalSession", 
+	               "IP",
+	               "IPOwner",
+	               "Browser",
+	              (
+                    select distinct "Session"."SessionId" as "SessionId"
+	                  from  "Session", 
+                          "Page", 
+                          "PageEvent"
+	                  where
+	                        "PageEvent"."PageEventDefinitionId" = '8984F02F472A044F8D8E0C25A294B2C4' and	
+	                        "PageEvent"."PageId" = "Page"."PageId" and
+	                        "Session"."SessionId" = "Page"."SessionId"
+	              ) SuccessSession
+           where
+  		           "PageEvent"."PageId" = "Page"."PageId" and
+		             SuccessSession."SessionId" = "Page"."SessionId" and
+			           "PageEventDefinition"."IsFailure" = 1 and
+			  	       "PageEvent"."PageEventDefinitionId" = "PageEventDefinition"."PageEventDefinitionId" and
+		             "PageEvent"."DataKey" = :DataKey and
+	               "Session"."Timestamp" &gt;= :StartDate and
+	               "Session"."Timestamp" &lt;= :EndDate and
+	               SuccessSession."SessionId" = "Session"."SessionId" and
+		             "Session"."SessionId" = "Page"."SessionId" and
+		             "GlobalSession"."GlobalSessionId" = "Session"."GlobalSessionId" and
+		             "IP"."IpId" = "Session"."IpId" and
+		             "IP"."IpOwnerId" = "IPOwner"."IpOwnerId" and
+		             "Session"."BrowserId" = "Browser"."BrowserId"
+	                {Session}
+			            {GlobalSession}
+			            {Ip}
+			            {IpOwner}
+			            {Browser}	  
+        </SqlCommand>
+      </SuccessFailures>
+    </DataSources>
+    <Relations isList="true" count="0" />
+    <Report isRef="0" />
+    <Variables isList="true" count="11">
+      <value>,ReportTitle,ReportTitle,System.String,,False,False</value>
+      <value>,StartDate,StartDate,System.DateTime,DateTime.Now.AddDays_x0028_-7_x0029_,False,True</value>
+      <value>,Session,,System.String,,True,False</value>
+      <value>,GlobalSession,,System.String,,True,False</value>
+      <value>,Ip,,System.String,,True,False</value>
+      <value>,IpOwner,,System.String,,True,False</value>
+      <value>,Browser,,System.String,,True,False</value>
+      <value>,EndDate,EndDate,System.DateTime,DateTime.Now,False,True</value>
+      <value>,SuccessEvent,SuccessEvent,System.Guid,_x007B_2FF08489-2A47-4F04-8D8E-0C25A294B2C4_x007D_,False,False</value>
+      <value>,DataKey,DataKey,System.String,_x0022_FFB1DA32-2764-47DB-83B0-95B843546A7E_x007C_CF1B97C8-FA93-4D9D-AF44-A089E7263885_x0022_,False,False</value>
+      <value>,SubmitEvent,SubmitEvent,System.Guid,_x007B_A2C2CF51-9360-4084-9BA0-1A15F1A41096_x007D_,False,False</value>
+    </Variables>
+  </Dictionary>
+  <EngineVersion>EngineV2</EngineVersion>
+  <GlobalizationStrings isList="true" count="0" />
+  <MetaTags isList="true" count="0" />
+  <Pages isList="true" count="1">
+    <Page1 Ref="13" type="Page" isKey="true">
+      <Border>None;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="14">
+        <PageHeader Ref="14" type="PageHeaderBand" isKey="true">
+          <Border>Bottom;[23:54:95];1;Solid;False;4;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,0.4,19,1</ClientRectangle>
+          <Components isList="true" count="2">
+            <Text2 Ref="15" type="Text" isKey="true">
+              <Border>Bottom;[23:54:95];1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,10,1</ClientRectangle>
+              <ComponentStyle>Title</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Cambria,26.25</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text2</Name>
+              <Page isRef="13" />
+              <Parent isRef="14" />
+              <Text>{ReportTitle}</Text>
+              <TextBrush>[23:54:95]</TextBrush>
+              <VertAlignment>Center</VertAlignment>
+            </Text2>
+            <Text1 Ref="16" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>11.2,0.6,7.4,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Cambria,10</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text1</Name>
+              <Page isRef="13" />
+              <Parent isRef="14" />
+              <Text>{Format("{0:MM.dd.yyyy}", SuccessFailures.Parameters[":StartDate"].ParameterValue)} - {Format("{0:MM.dd.yyyy}", SuccessFailures.Parameters[":EndDate"].ParameterValue)}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text1>
+          </Components>
+          <ComponentStyle>Title</ComponentStyle>
+          <Conditions isList="true" count="0" />
+          <Name>PageHeader</Name>
+          <Page isRef="13" />
+          <Parent isRef="13" />
+        </PageHeader>
+        <Text29 Ref="17" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>4.4,19.8,0.4,0.2</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Arial,8</Font>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text29</Name>
+          <Page isRef="13" />
+          <Parent isRef="13" />
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+        </Text29>
+        <HeaderBand1 Ref="18" type="HeaderBand" isKey="true">
+          <Brush>WhiteSmoke</Brush>
+          <ClientRectangle>0,2.2,19,0.8</ClientRectangle>
+          <Components isList="true" count="2">
+            <Text4 Ref="19" type="Text" isKey="true">
+              <Brush>WhiteSmoke</Brush>
+              <ClientRectangle>0,0,19,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <DockStyle>Fill</DockStyle>
+              <Font>Calibri,12,Regular,Point,False,204</Font>
+              <Margins>10,10,10,10</Margins>
+              <Name>Text4</Name>
+              <Page isRef="13" />
+              <Parent isRef="18" />
+              <Text>{Sitecore.Form.Core.Configuration.StaticSettings.ContextDatabase.GetItem(((string)(SuccessFailures.Parameters[":DataKey"].ParameterValue)).Substring(37, 36)).Name}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text4>
+            <Text24 Ref="20" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,19,0.1</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <DockStyle>Top</DockStyle>
+              <Font>Arial,8,Underline</Font>
+              <Guid>95bf1f7d6aff4844b628769a0b460d88</Guid>
+              <Margins>10,10,10,10</Margins>
+              <Name>Text24</Name>
+              <Page isRef="13" />
+              <Parent isRef="18" />
+              <Text>{Sitecore.Form.Core.Analytics.ReportHelper.IsNotExport() ? "&lt;script language='jscript' type='text/javascript' src='/sitecore modules/web/web forms for marketers/scripts/jquery.js'&gt;&lt;/script&gt;" + "&lt;script language='jscript' type='text/javascript'&gt; var $j = jQuery.noConflict(true); $j().ready(function() { " + "  if (window.parent != null &amp;&amp; window.parent.parent != null &amp;&amp; window.parent.parent.parent!= null &amp;&amp; window.parent.parent.parent.LoadingDataViewer != null) {" + " $j('a').attr('target', '_blank'); $j('a').click(function(event) {  if ( this.className != 'scfSystem' &amp;&amp; event.ctrlKey !=1 ) {" + "  $j(this).removeAttr('target'); window.parent.parent.location = this.href; window.parent.parent.parent.LoadingDataViewer(); return false; } }) } }) &lt;/script&gt;" : ""}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextQuality>Wysiwyg</TextQuality>
+              <Type>Expression</Type>
+            </Text24>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Name>HeaderBand1</Name>
+          <Page isRef="13" />
+          <Parent isRef="13" />
+        </HeaderBand1>
+        <DataBand1 Ref="21" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,3.8,19,4</ClientRectangle>
+          <Components isList="true" count="9">
+            <Text3 Ref="22" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,19,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <DockStyle>Top</DockStyle>
+              <Font>Calibri,9.75,Regular,Point,False,204</Font>
+              <Margins>10,0,20,0</Margins>
+              <Name>Text3</Name>
+              <Page isRef="13" />
+              <Parent isRef="21" />
+              <Text>{SuccessSession.StatisticValue + DropoutSession.StatisticValue} Visit{SuccessSession.StatisticValue + DropoutSession.StatisticValue == 1 ? "" : "s"}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text3>
+            <Text5 Ref="23" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0.4,19,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <DockStyle>Top</DockStyle>
+              <Font>Calibri,9.75,Regular,Point,False,204</Font>
+              <Margins>10,0,0,0</Margins>
+              <Name>Text5</Name>
+              <Page isRef="13" />
+              <Parent isRef="21" />
+              <Text>{SubmitCount.StatisticValue} form submission attempt{SubmitCount.StatisticValue == 1 ? "" : "s" }</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text5>
+            <Text6 Ref="24" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0.8,19,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <DockStyle>Top</DockStyle>
+              <Font>Calibri,9.75,Regular,Point,False,204</Font>
+              <Margins>10,0,0,0</Margins>
+              <Name>Text6</Name>
+              <Page isRef="13" />
+              <Parent isRef="21" />
+              <Text>{DropoutFailures.StatisticValue + SuccessFailures.StatisticValue} errors and failure{DropoutFailures.StatisticValue + SuccessFailures.StatisticValue == 1 ? "" : "s"}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text6>
+            <Text10 Ref="25" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,1.2,19,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <DockStyle>Top</DockStyle>
+              <Font>Calibri,9.75,Regular,Point,False,0</Font>
+              <Guid>0b7649c36524488092b9f0c2fedfca31</Guid>
+              <Margins>10,0,0,0</Margins>
+              <Name>Text10</Name>
+              <Page isRef="13" />
+              <Parent isRef="21" />
+              <Text>{SuccessSession.StatisticValue} successful submission{SuccessSession.StatisticValue == 1 ? "" : "s" }</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text10>
+            <Text11 Ref="26" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,1.6,19,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <DockStyle>Top</DockStyle>
+              <Font>Calibri,9.75,Regular,Point,False,204</Font>
+              <Guid>fec47289d445439cbfb3076d55be0f9d</Guid>
+              <Margins>10,0,0,0</Margins>
+              <Name>Text11</Name>
+              <Page isRef="13" />
+              <Parent isRef="21" />
+              <Text>{DropoutSession.StatisticValue} dropout{DropoutSession.StatisticValue == 1 ? "" : "s"}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text11>
+            <Text12 Ref="27" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,2,19,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <DockStyle>Top</DockStyle>
+              <Font>Calibri,9.75,Regular,Point,False,204</Font>
+              <Guid>b602d2afb6024055badb7cfc2a904de3</Guid>
+              <Margins>10,0,0,0</Margins>
+              <Name>Text12</Name>
+              <Page isRef="13" />
+              <Parent isRef="21" />
+              <Text>{IIF( SubmitCount.StatisticValue &gt; 0 &amp;&amp; (SuccessFailures.StatisticValue + DropoutFailures.StatisticValue) &gt; 0,Format("{0:N2}",(double)Sum(SuccessFailures.StatisticValue + DropoutFailures.StatisticValue)/(double)Sum(SubmitCount.StatisticValue)) ,0)} average errors in all attempts</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text12>
+            <Text8 Ref="28" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,2.8,19,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Calibri,9.75,Regular,Point,False,204</Font>
+              <Guid>71b9172dcd2f4998b3a7ceedb05d8312</Guid>
+              <Margins>10,0,0,0</Margins>
+              <Name>Text8</Name>
+              <Page isRef="13" />
+              <Parent isRef="21" />
+              <Text>{IIF( DropoutSession.StatisticValue &gt; 0 &amp;&amp; DropoutFailures.StatisticValue &gt; 0,Format("{0:N2}", (double)Sum(DropoutFailures.StatisticValue) / (double)Sum(DropoutSession.StatisticValue)),0)} average errors in dropouts</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text8>
+            <Text9 Ref="29" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,2.4,19,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <DockStyle>Top</DockStyle>
+              <Font>Calibri,9.75,Regular,Point,False,0</Font>
+              <Guid>fd99b8e60d5042b19776fa08581c6f9d</Guid>
+              <Margins>10,0,0,0</Margins>
+              <Name>Text9</Name>
+              <Page isRef="13" />
+              <Parent isRef="21" />
+              <Text>{IIF(SuccessSession.StatisticValue &gt; 0 &amp;&amp; SuccessFailures.StatisticValue &gt; 0 , Format("{0:N2}",(double)Sum(SuccessFailures.StatisticValue)/(double)Sum(SubmitCount.StatisticValue)),0)} average errors in success cases
+</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text9>
+            <Text13 Ref="30" type="Text" isKey="true">
+              <Brush>GradientBrush,WhiteSmoke,White,0</Brush>
+              <ClientRectangle>0,3.4,19,0.6</ClientRectangle>
+              <ComponentStyle>SectionTitle</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <DockStyle>Bottom</DockStyle>
+              <Font>Calibri,10</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text13</Name>
+              <Page isRef="13" />
+              <Parent isRef="21" />
+              <Text>Overall Errors:</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text13>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <CountData>1</CountData>
+          <DataRelationName isNull="true" />
+          <Filters isList="true" count="0" />
+          <Name>DataBand1</Name>
+          <Page isRef="13" />
+          <Parent isRef="13" />
+          <PrintIfDetailEmpty>True</PrintIfDetailEmpty>
+          <Sort isList="true" count="0" />
+        </DataBand1>
+        <DataBand2 Ref="31" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,8.6,19,0.4</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text7 Ref="32" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,19,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <DockStyle>Top</DockStyle>
+              <Font>Calibri,9.75,Regular,Point,False,204</Font>
+              <Margins>10,0,0,0</Margins>
+              <Name>Text7</Name>
+              <Page isRef="13" />
+              <Parent isRef="31" />
+              <Text>{OverallErrors.ErrorCount} {OverallErrors.Name}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text7>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <DataSourceName>OverallErrors</DataSourceName>
+          <Filters isList="true" count="0" />
+          <Name>DataBand2</Name>
+          <Page isRef="13" />
+          <Parent isRef="13" />
+          <Sort isList="true" count="0" />
+        </DataBand2>
+        <DataBand3 Ref="33" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,9.8,19,0.8</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text14 Ref="34" type="Text" isKey="true">
+              <Brush>GradientBrush,WhiteSmoke,White,0</Brush>
+              <ClientRectangle>0,0.2,19,0.6</ClientRectangle>
+              <ComponentStyle>SectionTitle</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <DockStyle>Bottom</DockStyle>
+              <Font>Calibri,10</Font>
+              <Guid>b252f8e9acfd438f9386ec2d205129d2</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text14</Name>
+              <Page isRef="13" />
+              <Parent isRef="33" />
+              <Text>Errors in Dropouts:</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text14>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <Filters isList="true" count="0" />
+          <Name>DataBand3</Name>
+          <Page isRef="13" />
+          <Parent isRef="13" />
+          <Sort isList="true" count="0" />
+        </DataBand3>
+        <DataBand4 Ref="35" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,11.4,19,0.4</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text15 Ref="36" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,19,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <DockStyle>Top</DockStyle>
+              <Font>Calibri,9.75,Regular,Point,False,204</Font>
+              <Guid>7ff0b82a8265435f95a6a3b6b2f9d49e</Guid>
+              <Margins>10,0,0,0</Margins>
+              <Name>Text15</Name>
+              <Page isRef="13" />
+              <Parent isRef="35" />
+              <Text>{DropoutError.ErrorCount} {DropoutError.Name}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text15>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <DataSourceName>DropoutError</DataSourceName>
+          <Filters isList="true" count="0" />
+          <Name>DataBand4</Name>
+          <Page isRef="13" />
+          <Parent isRef="13" />
+          <Sort isList="true" count="0" />
+        </DataBand4>
+        <DataBand5 Ref="37" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,12.6,19,0.8</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text16 Ref="38" type="Text" isKey="true">
+              <Brush>GradientBrush,WhiteSmoke,White,0</Brush>
+              <ClientRectangle>0,0.2,19,0.6</ClientRectangle>
+              <ComponentStyle>SectionTitle</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <DockStyle>Bottom</DockStyle>
+              <Font>Calibri,10</Font>
+              <Guid>0dc32c1b225c4a7bbc94da1840639c05</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text16</Name>
+              <Page isRef="13" />
+              <Parent isRef="37" />
+              <Text>Last Error Before Dropout:</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text16>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <Filters isList="true" count="0" />
+          <Guid>1579569e31884a1fb760fabd58e22169</Guid>
+          <Name>DataBand5</Name>
+          <Page isRef="13" />
+          <Parent isRef="13" />
+          <Sort isList="true" count="0" />
+        </DataBand5>
+        <DataBand6 Ref="39" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,14.2,19,0.4</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text17 Ref="40" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,19,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <DockStyle>Top</DockStyle>
+              <Font>Calibri,9.75,Regular,Point,False,204</Font>
+              <Guid>a80818d42ee34b4ca7b3ca8b721e8de9</Guid>
+              <Margins>10,0,0,0</Margins>
+              <Name>Text17</Name>
+              <Page isRef="13" />
+              <Parent isRef="39" />
+              <Text>{LastErrorBeforeDropout.ErrorCount} {LastErrorBeforeDropout.Name}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text17>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <DataSourceName>LastErrorBeforeDropout</DataSourceName>
+          <Filters isList="true" count="0" />
+          <Guid>933fbc9863804115b6f045b23c4e522b</Guid>
+          <Name>DataBand6</Name>
+          <Page isRef="13" />
+          <Parent isRef="13" />
+          <Sort isList="true" count="0" />
+        </DataBand6>
+        <DataBand7 Ref="41" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,15.4,19,0.8</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text18 Ref="42" type="Text" isKey="true">
+              <Brush>GradientBrush,WhiteSmoke,White,0</Brush>
+              <ClientRectangle>0,0.2,19,0.6</ClientRectangle>
+              <ComponentStyle>SectionTitle</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <DockStyle>Bottom</DockStyle>
+              <Font>Calibri,10</Font>
+              <Guid>6d2952b12d9b44fca2850030ad29db80</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text18</Name>
+              <Page isRef="13" />
+              <Parent isRef="41" />
+              <Text>Overview per Form Session</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text18>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <Filters isList="true" count="0" />
+          <Guid>2d661109d0954474939d430e032b7510</Guid>
+          <Name>DataBand7</Name>
+          <Page isRef="13" />
+          <Parent isRef="13" />
+          <Sort isList="true" count="0" />
+        </DataBand7>
+        <GroupHeader1 Ref="43" type="GroupHeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,17,19,1</ClientRectangle>
+          <Components isList="true" count="2">
+            <Text19 Ref="44" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0.2,19,0.4</ClientRectangle>
+              <ComponentStyle>OddRow</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Calibri,11,Bold,Point,False,0</Font>
+              <Guid>7169281a87a1440a9a880577fb2dcb01</Guid>
+              <Margins>10,0,0,0</Margins>
+              <Name>Text19</Name>
+              <Page isRef="13" />
+              <Parent isRef="43" />
+              <Text>{string.IsNullOrEmpty(FormSession.IpOwnerName) ? "N/A" : FormSession.IpOwnerName}</Text>
+              <TextBrush>[54:95:145]</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text19>
+            <Text20 Ref="45" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0.6,19,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <DockStyle>Bottom</DockStyle>
+              <Font>Calibri,10,Regular,Point,False,0</Font>
+              <Guid>6b7ce9d5ba3940e4a6ea9178022ceea5</Guid>
+              <Margins>10,0,0,0</Margins>
+              <Name>Text20</Name>
+              <Page isRef="13" />
+              <Parent isRef="43" />
+              <Text>{string.IsNullOrEmpty(FormSession.City) ? "N/A" : FormSession.City}, {string.IsNullOrEmpty(FormSession.Country) ? "N/A" : FormSession.Country}, {string.IsNullOrEmpty(FormSession.Region) ? "N/A" : FormSession.Region} - ({string.IsNullOrEmpty(FormSession.IspName) ? "N/A" : FormSession.IspName})</Text>
+              <TextBrush>[54:95:145]</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text20>
+          </Components>
+          <Condition>{FormSession.IpOwnerName}{FormSession.Country}{FormSession.City}{FormSession.Region}{FormSession.IspName}</Condition>
+          <Conditions isList="true" count="0" />
+          <Guid>e0e02b01e253487ab3cf07e55a67eea1</Guid>
+          <Name>GroupHeader1</Name>
+          <Page isRef="13" />
+          <Parent isRef="13" />
+          <SortDirection>None</SortDirection>
+        </GroupHeader1>
+        <Data1 Ref="46" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,18.8,19,0.8</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text22 Ref="47" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,19,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Calibri,10</Font>
+              <Guid>85d9035322b748868898400379103507</Guid>
+              <Hyperlink>/sitecore/shell/applications/analytics/default.aspx?r={"{"}164ADC69-DC89-4E3E-8057-2F15A3FB11D5{"}"}&amp;sessionid={FormSession.SessionIdObject}&amp;DataKey={FormSession.Parameters[":DataKey"].ParameterValue}</Hyperlink>
+              <Margins>40,0,0,0</Margins>
+              <Name>Text22</Name>
+              <Page isRef="13" />
+              <Parent isRef="46" />
+              <Text>
+{FormSession.Timestamp}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Bottom</VertAlignment>
+            </Text22>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <DataSourceName>FormSession</DataSourceName>
+          <Filters isList="true" count="0" />
+          <Guid>72c6310910e34b7caad8d78ef6a370db</Guid>
+          <KeepChildTogether>True</KeepChildTogether>
+          <KeepDetailsTogether>True</KeepDetailsTogether>
+          <Name>Data1</Name>
+          <Page isRef="13" />
+          <Parent isRef="13" />
+          <PrintIfDetailEmpty>True</PrintIfDetailEmpty>
+          <Sort isList="true" count="10">
+            <value>ASC</value>
+            <value>IpOwnerName</value>
+            <value>ASC</value>
+            <value>Country</value>
+            <value>ASC</value>
+            <value>City</value>
+            <value>ASC</value>
+            <value>IspName</value>
+            <value>DESC</value>
+            <value>Timestamp</value>
+          </Sort>
+        </Data1>
+        <DataBand8 Ref="48" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,20.4,19,1.2</ClientRectangle>
+          <Components isList="true" count="6">
+            <Text21 Ref="49" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,19,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <DockStyle>Top</DockStyle>
+              <Font>Calibri,10</Font>
+              <Margins>40,0,0,0</Margins>
+              <Name>Text21</Name>
+              <Page isRef="13" />
+              <Parent isRef="48" />
+              <Text>{SubmitForm.SubmitCount} Form Submission Attempt{SubmitForm.SubmitCount == 1 ? "" : "s"}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text21>
+            <Text27 Ref="50" type="Text" isKey="true">
+              <AutoWidth>True</AutoWidth>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0.4,4.6,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Calibri,10,Regular,Point,False,204</Font>
+              <Guid>ed946b061ea646fd8bab9dbf21796bd6</Guid>
+              <Margins>40,0,0,0</Margins>
+              <Name>Text27</Name>
+              <Page isRef="13" />
+              <Parent isRef="48" />
+              <Text>Final Submission Result: </Text>
+              <TextBrush>Black</TextBrush>
+              <TextQuality>Wysiwyg</TextQuality>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text27>
+            <Text23 Ref="51" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>4.6,0.4,13.6,0.4</ClientRectangle>
+              <Conditions isList="true" count="2">
+                <value>_x007B_FormSession.SuccessCount_x0020__x003E__x0020_0_x007D_,ForestGreen,Transparent,Calibri_x002C_9.75_x002C_Bold_x002C_Point_x002C_False_x002C_204,True,False,</value>
+                <value>_x007B_FormSession.SuccessCount_x0020__x003D__x003D__x0020_0_x007D_,[148:54:52],Transparent,Calibri_x002C_9.75_x002C_Bold,True,False,</value>
+              </Conditions>
+              <Font>Calibri,10,Bold</Font>
+              <Guid>b6da61b8bb084a40803fe43c18f319d3</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text23</Name>
+              <Page isRef="13" />
+              <Parent isRef="48" />
+              <Text>{FormSession.SuccessCount &gt; 0 ? "Success" : "Dropout"}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextQuality>Wysiwyg</TextQuality>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text23>
+            <Text28 Ref="52" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>3.8,1,0.8,0</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text28</Name>
+              <Page isRef="13" />
+              <Parent isRef="48" />
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text28>
+            <Text25 Ref="53" type="Text" isKey="true">
+              <AutoWidth>True</AutoWidth>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0.8,4.8,0.4</ClientRectangle>
+              <Conditions isList="true" count="2">
+                <value>_x007B_FormSession.SuccessCount_x0020__x003E__x0020_0_x0020__x007D_,Red,Transparent,Arial_x002C_8,False,False,</value>
+                <value>Multi&lt;?xml version="1.0" encoding="utf-16" standalone="yes"?&gt;&lt;StiSerializer version="1.0" application="State"&gt;&lt;Filters isList="true" count="2"&gt;&lt;value&gt;LastError.Text,EqualTo,_x0022__x0022_,,String&lt;/value&gt;&lt;value&gt;LastError.Name,EqualTo,_x0022__x0022_,,String&lt;/value&gt;&lt;/Filters&gt;&lt;Enabled&gt;False&lt;/Enabled&gt;&lt;TextColor&gt;Red&lt;/TextColor&gt;&lt;BackColor&gt;Transparent&lt;/BackColor&gt;&lt;Font&gt;Arial, 8pt&lt;/Font&gt;&lt;/StiSerializer&gt;</value>
+              </Conditions>
+              <Font>Calibri,9.75,Regular,Point,False,204</Font>
+              <Guid>d54940860f264b6ea79977f6d5ed10b0</Guid>
+              <Margins>40,0,0,0</Margins>
+              <Name>Text25</Name>
+              <Page isRef="13" />
+              <Parent isRef="48" />
+              <Text>{IIF(FormSession.SuccessCount == 0 &amp;&amp; !(string.IsNullOrEmpty( LastError.Name) &amp;&amp; string.IsNullOrEmpty(Sitecore.Form.Core.Analytics.ReportHelper.GetText(LastError.Text))), "Last Error Before Dropout: ", "")}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextQuality>Wysiwyg</TextQuality>
+              <Type>Expression</Type>
+            </Text25>
+            <Text26 Ref="54" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>4.8,0.8,12.2,0.4</ClientRectangle>
+              <Conditions isList="true" count="1">
+                <value>_x007B_FormSession.SuccessCount_x0020__x003E__x0020_0_x0020__x007D_,Red,Transparent,Arial_x002C_8,False,False,</value>
+              </Conditions>
+              <Font>Calibri,10</Font>
+              <Guid>ebaf0cd0cbf94ed0b3d3ee4b550b178b</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text26</Name>
+              <Page isRef="13" />
+              <Parent isRef="48" />
+              <Text>{FormSession.SuccessCount &gt; 0 || (string.IsNullOrEmpty( LastError.Name) &amp;&amp; string.IsNullOrEmpty(Sitecore.Form.Core.Analytics.ReportHelper.GetText(LastError.Text))) ? "" :  LastError.Name + ": " + Sitecore.Form.Core.Analytics.ReportHelper.GetText(LastError.Text)}</Text>
+              <TextBrush>[148:54:25]</TextBrush>
+              <Type>Expression</Type>
+            </Text26>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <DataSourceName>SubmitForm</DataSourceName>
+          <Filters isList="true" count="0" />
+          <MasterComponent isRef="46" />
+          <Name>DataBand8</Name>
+          <Page isRef="13" />
+          <Parent isRef="13" />
+          <Sort isList="true" count="0" />
+        </DataBand8>
+        <DataBand9 Ref="55" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,22.4,19,0</ClientRectangle>
+          <Components isList="true" count="0" />
+          <Conditions isList="true" count="1">
+            <value>_x007B_FormSession.SuccessCount_x0020__x003E__x0020_0_x0020__x007D_,Red,Transparent,Arial_x002C_8,False,False,</value>
+          </Conditions>
+          <DataRelationName isNull="true" />
+          <DataSourceName>LastError</DataSourceName>
+          <Filters isList="true" count="0" />
+          <MasterComponent isRef="46" />
+          <Name>DataBand9</Name>
+          <Page isRef="13" />
+          <Parent isRef="13" />
+          <Sort isList="true" count="0" />
+        </DataBand9>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>07f01f59d5f64faeab2194d128d0ac56</Guid>
+      <Margins>1,1,1,1</Margins>
+      <Name>Page1</Name>
+      <Page isRef="13" />
+      <PageHeight>29.7</PageHeight>
+      <PageWidth>21</PageWidth>
+      <Report isRef="0" />
+      <Watermark Ref="56" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </Page1>
+  </Pages>
+  <PrinterSettings Ref="57" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
+  <ReferencedAssemblies isList="true" count="12">
+    <value>System.Dll</value>
+    <value>System.Drawing.Dll</value>
+    <value>System.Windows.Forms.Dll</value>
+    <value>System.Data.Dll</value>
+    <value>System.Xml.Dll</value>
+    <value>Sitecore.Kernel.Dll</value>
+    <value>Sitecore.Forms.Core.Dll</value>
+    <value>Stimulsoft.Controls.Dll</value>
+    <value>Stimulsoft.Base.Dll</value>
+    <value>Stimulsoft.Report.Dll</value>
+    <value>Sitecore.Analytics.dll</value>
+    <value>Sitecore.Oracle.dll</value>
+  </ReferencedAssemblies>
+  <ReportAlias>Отчет</ReportAlias>
+  <ReportChanged>1/25/2010 8:11:30 PM</ReportChanged>
+  <ReportCreated>6/12/2009 2:05:41 PM</ReportCreated>
+  <ReportFile>H:\6.2.0.WFFM\Website\sitecore modules\Shell\Web Forms for Marketers\Reports\Form Usability Report.Oracle.mrt</ReportFile>
+  <ReportGuid>ae9f610a205a44caaa347154cc9f88a8</ReportGuid>
+  <ReportName>Отчет</ReportName>
+  <ReportUnit>Centimeters</ReportUnit>
+  <ReportVersion>2009.2.500</ReportVersion>
+  <Script>
+    using System;
+    using System.Drawing;
+    using System.Windows.Forms;
+    using System.Data;
+    using Stimulsoft.Controls;
+    using Stimulsoft.Base.Drawing;
+    using Stimulsoft.Report;
+    using Stimulsoft.Report.Dialogs;
+    using Stimulsoft.Report.Components;
+    namespace Reports
+    {
+
+    public class Report : Stimulsoft.Report.StiReport
+    {
+
+    public Report()
+    {
+    this.InitializeComponent();
+    }
+    #region StiReport Designer generated code - do not modify#endregion StiReport Designer generated code - do not modify
+    }
+    }
+  </Script>
+  <ScriptLanguage>CSharp</ScriptLanguage>
+  <Styles isList="true" count="1">
+    <SectionTitle Ref="58" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <AllowUseVertAlignment>True</AllowUseVertAlignment>
+      <Brush>GradientBrush,WhiteSmoke,White,0</Brush>
+      <Font>Calibri,10</Font>
+      <Name>SectionTitle</Name>
+      <TextBrush>Black</TextBrush>
+      <VertAlignment>Center</VertAlignment>
+    </SectionTitle>
+  </Styles>
+</StiSerializer>

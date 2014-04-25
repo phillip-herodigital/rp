@@ -1,5 +1,5 @@
 ﻿function scShowRule(id) {
-  $$(".scConditionsActions").each(function(e) { e.hide(); e.previous().removeClassName("scRuleActive"); })
+  $$(".scConditionsActions").each(function(e) { e.hide(); e.previous().removeClassName("scRuleActive"); });
 
   if (id == null) {
     $("RuleId").value = "";

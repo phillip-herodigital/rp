@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <MappingTemplate>
+
+
+    <Stylesheet Key="MappingWizard">
+
+      .scWarning {
+      background: #ffffe4;
+      border: 1px solid #c9c9c9;
+      border-left:none;
+      border-right:none;
+      padding: 4px 2px 4px 4px;
+      margin: 24px 0px 4px 0px;
+      font-weight: bold;
+      }
+
+      #LostFields ul,
+      #CollisionFields ul{
+      margin-top: 0;
+      margin-left: 32px;
+      }
+
+
+      .scfEntry
+      {
+      height:20px;
+      width:100%;
+      display:block;
+      padding:5px;
+      }
+
+      .scfFieldName
+      {
+      font: 8pt tahoma;
+      width:40%;
+      padding:0px 10px 0px 30px;
+      }
+
+      .scfNotDefined
+      {
+      color:silver;
+      }
+
+      .scfAborder
+      {
+      width:55%;
+      text-align:left;
+      display:inline;
+      font:8pt Tahoma;
+      right:0;     
+      position:absolute;
+      margin-right:20px;
+      }
+
+      .scfTemplateFieldName
+      {
+      display:inline;
+      cursor:hand;
+      font: 8pt tahoma;
+      padding:0px 5px;
+      }
+
+      .scEditorHeaderButton
+      {
+      text-align:right;
+      padding:0px 10px;
+      }
+
+      .scfCheckbox
+      {
+      font: 8pt tahoma;
+      font-weight: bold;
+      }
+    </Stylesheet>
+
+    <WizardForm Application="Modules/Web Forms for Marketers/Insert Form Wizard" CodeBeside="Sitecore.Forms.Shell.UI.Dialogs.MappingTemplate, Sitecore.Forms.Core">
+
+      <WizardFormPage ID="SelectTemplatePage" Icon="Business/32x32/index_new.png" >
+        <GridPanel Columns="3"  Cellpadding="5" Padding="3px"  Margin="30px 10px 10px 15px">
+          <Literal ID="TemplateLiteral" Padding="5px 0px 0px 0px" Style="font-weight:bold"/>
+          <Edit ID="EbTemplate" GridPanel.Width="60%" Width="90%"/>
+          <Button ID="SelectTemplateButton" Click="dialog:selecttemplate"/>
+
+          <Literal ID="DestinationLabel" Padding="5px 0px 0px 0px"  Style="font-weight:bold"/>
+          <Edit ID="EbDestination" GridPanel.Width="60%" Width="90%"/>
+          <Button ID="SelectDestinationButton" Click="dialog:selectdestination"/>
+        </GridPanel>
+      </WizardFormPage>
+
+      <WizardFormPage ID="MappingFormPage"  Icon="Business/32x32/index_new.png" >
+        <Border  Height="100%" Style="overflow-y:auto">
+          <GridPanel Width="100%" vAlign="top" Cellpadding="0" Style="table-layout:fixed" Padding="0px 10px">
+            <Groupbox ID="SettingsGroupbox" >
+              <Border Padding="10px 40px">
+                <Checkbox ID="ShowStandardField" Class="scfCheckbox" OnClick="javascript:return scForm.postEvent(this,event,'OnShowStandardField')"></Checkbox>
+              </Border>
+            </Groupbox>
+
+            <Groupbox ID="MappingGroupbox"  Padding="10px" Style="overflow-y:auto">
+              <Border ID="MappingBorder" vAlign="top">
+              </Border>
+            </Groupbox>
+
+          </GridPanel>
+        </Border>
+      </WizardFormPage>
+
+      <WizardFormPage ID="ConfirmationPage" Icon="Business/32x32/index_new.png" >
+        <WizardFormIndent>
+          <Literal ID="TemplateConfirmLiteral"/>
+          <Border Padding="16px 0px 16px 16px">
+            <li>
+              <b>
+                <Literal ID="TemplateName"/>
+              </b>
+            </li>
+          </Border>
+
+          <Literal ID="ItemsWillBeStoredLiteral" />
+          <Border Padding="16px 0px 0px 16px">
+            <li>
+              <b>
+                <Literal ID="DestinationName"/>
+              </b>
+            </li>
+          </Border>
+
+          <Border ID="Warning" Visible="false">
+            <Border class="scWarning">
+              <ThemedImage Height="16" Width="16" style="vertical-align:middle; margin-right: 4px" Src="Applications/16x16/warning.png" />
+              <Literal ID="InformationLostLiteral"  />
+            </Border>
+
+            <Border ID="LostFields">
+              <ul>
+                <li>
+                  <Literal />
+                </li>
+                <li>
+                  <Literal />
+                </li>
+              </ul>
+            </Border>
+
+          </Border>
+
+          <Border id="Collision" Visible="false">
+            <Border class="scWarning">
+              <ThemedImage Height="16" Width="16" style="vertical-align:middle; margin-right: 4px" Src="Applications/16x16/warning.png" />
+              <Literal ID="ConflictLiteral"  />
+            </Border>
+
+            <Border ID="CollisionFields">
+            </Border>
+          </Border>
+
+        </WizardFormIndent>
+      </WizardFormPage>
+
+    </WizardForm>
+  </MappingTemplate>
+</control>

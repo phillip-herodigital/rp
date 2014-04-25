@@ -1,5 +1,5 @@
 <%@ Page language="c#" Codebehind="error.aspx.cs" AutoEventWireup="false" Inherits="Sitecore.Shell.ErrorPage" %>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<!DOCTYPE html>
 <html>
   <head>
     <title>error</title>

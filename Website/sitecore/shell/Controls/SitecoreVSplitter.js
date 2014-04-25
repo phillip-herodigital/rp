@@ -122,7 +122,7 @@ scVSplitter.prototype.mouseUp = function (tag, evt, id, target) {
         next.style.width = right - this.delta + "px";
       }
 
-      scForm.postEvent(tag, evt, id + ".Release(\"" + prev.offsetWidth.toString() + "\", \"" + next.offsetWidth.toString() + "\")");
+      scForm.postEvent(tag, evt, id + ".Release(\"" + prev.offsetWidth.toString() + "px\", \"" + next.offsetWidth.toString() + "px\")");
     }
   }
 }

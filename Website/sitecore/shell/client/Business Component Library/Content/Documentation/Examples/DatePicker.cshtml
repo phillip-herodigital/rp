@@ -1,0 +1,49 @@
+﻿@using Sitecore.Mvc.Presentation
+@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Common.DatePickers
+@model RenderingModel
+
+<div class="alert alert-error"><strong>Please notice.</strong> This control is work in progress.</div>
+
+<div style="margin-bottom: 20px;">
+    <p>@Html.Sitecore().Controls().DatePicker("DatePicker1", new {})</p>
+    <p>@Html.Sitecore().Controls().DatePicker("DatePicker2", new { Date = "2000-12-31" })</p>
+    <p>@Html.Sitecore().Controls().DatePicker("DatePicker3", new { Date = "2001-09-11", Format = "d" })</p>
+    <p>@Html.Sitecore().Controls().DatePicker("DatePicker4", new { Date = "2001-09-11", Format = "d", IsEnabled = false })</p>
+    <p>@Html.Sitecore().Controls().DatePicker("DatePicker5", new { Date = "2013-03-14", Format = "d", IsReadOnly = true })</p>
+</div>
+<div>
+  <pre>
+    &#64;Html.Sitecore().Controls().DatePicker("DatePicker1", new {})
+    &#64;Html.Sitecore().Controls().DatePicker("DatePicker2", new { Date = "2000-12-31" })
+    &#64;Html.Sitecore().Controls().DatePicker("DatePicker3", new { Date = "2001-09-11", Format = "d" })
+    &#64;Html.Sitecore().Controls().DatePicker("DatePicker4", new { Date = "2001-09-11", Format = "d", IsEnabled = false })
+    &#64;Html.Sitecore().Controls().DatePicker("DatePicker5", new { Date = "2001-09-11", Format = "d", IsReadOnly = true })
+  </pre>  
+</div>
+
+@*
+//TODO: Provide another example - DO NOT USE INLINE JAVASCRIPT !!!!!
+<h3>Client side API</h3>
+<div style="margin-bottom: 20px;">
+@Html.Sitecore().Controls().DatePicker("DatePicker5", new { Date = "2000-12-31" })
+</div>
+<button class="btn sc-button" onclick="UpdateDate()">Update Date</button>
+<button class="btn sc-button" onclick="AlertCurrentDate()">Alert Date</button>
+<script type="text/javascript">
+    function UpdateDate() {
+        Sitecore.app.DatePicker5.model.set("date","07/14/1986");
+    }
+    function AlertCurrentDate() {
+        alert(Sitecore.app.DatePicker5.model.get("date"));
+    }
+</script>*@
+
+
+
+
+
+
+
+
+

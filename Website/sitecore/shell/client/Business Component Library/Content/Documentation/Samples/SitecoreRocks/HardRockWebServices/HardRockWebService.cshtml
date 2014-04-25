@@ -1,0 +1,19 @@
+﻿@using Sitecore.Mvc
+@using Sitecore.Mvc.Presentation
+@using Sitecore.Web.UI.Controls.Common.UserControls
+@model RenderingModel
+@{
+  var userControl = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
+
+  userControl.Requires.Script("/sitecore/shell/client/Speak/Content/Documentation/Samples/SitecoreRocks/HardRockWebServices/jquery.hardrockwebservice.js");
+  userControl.Requires.Script("/sitecore/shell/client/Speak/Content/Documentation/Samples/SitecoreRocks/HardRockWebServices/HardRockWebService.js");
+
+  userControl.Attributes["type"] = "text/x-sitecore-hardrockwebservice";
+  userControl.Attributes["data-sc-url"] = "/sitecore/shell/webservice/service2.asmx";
+  userControl.Attributes["data-sc-method"] = "Execute";
+  userControl.Attributes["data-sc-namespace"] = "http://sitecore.net/visual/";
+  
+  var htmlAttributes = userControl.HtmlAttributes;
+}                        
+<script @htmlAttributes> </script>
+       

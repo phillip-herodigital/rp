@@ -1,0 +1,23 @@
+﻿@using Sitecore.Data
+@using Sitecore.Mvc.Presentation
+@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Common.Renderings
+@model RenderingModel    
+@{
+    var rendering = new ID("{44DBDD8B-A63F-42F7-BD11-EB7B26C413FB}").ToString();
+}
+<h3>Apperance</h3>
+<p>
+  Section container.
+</p>
+<p >
+    @Html.Sitecore().Controls().Rendering(this.Html, rendering, "Section1", "/sitecore", new {})
+    @Html.Sitecore().Controls().Rendering(this.Html, rendering, "Section2", "/sitecore", new {IsVisible = false})
+</p>
+
+<pre>
+&#64;Html.Sitecore().Controls().Rendering(this.Html, rendering, "Section1", "/sitecore", new {})
+&#64;Html.Sitecore().Controls().Rendering(this.Html, rendering, "Section2", "/sitecore", new {IsVisible = false})
+</pre>
+
+

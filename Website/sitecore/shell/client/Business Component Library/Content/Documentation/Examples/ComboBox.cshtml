@@ -1,0 +1,50 @@
+﻿@using Sitecore.Mvc.Presentation
+@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Common.ComboBoxes
+@using Sitecore.Web.UI.Controls.Common.Texts
+@using Sitecore.Web.UI.Controls.Data.SearchDataSources
+@model RenderingModel
+
+<h3>Using a Data Source</h3>
+<p>
+  The child items of the data source of the rendering determines the items in the list box.
+</p>
+<p>
+@Html.Sitecore().Controls().ComboBox("ComboBox1", new { DataSource = "/sitecore" })
+</p>
+
+<pre>
+&#64;Html.Sitecore().Controls().ComboBox("ComboBox1", new { DataSource = "/sitecore" })
+</pre>
+
+
+
+<h3>Events</h3>
+<p>
+  Selecting an item updates the <code>selectedItemIds</code> property.
+</p>
+
+@Html.Sitecore().Controls().ComboBox("ComboBox2", new { DataSource = "/sitecore" })
+@Html.Sitecore().Controls().Text("Text1", "Select an option", new { Text = "{Binding ComboBox2.selectedItemId}" })
+
+<pre>
+  &#64;Html.Sitecore().Controls().ComboBox("ComboBox2", new { DataSource = "/sitecore" })
+  &#64;Html.Sitecore().Controls().Text("Text1", "Select an option", new { Text = "{Binding ComboBox2.selectedItemId}" })
+</pre>
+
+
+<h3>Data-binding</h3>
+<p>
+  The items can be data-bound to a data source.
+</p>
+
+@Html.Sitecore().Controls().SearchDataSource("DataSource1", new { Text = "Sample" })
+@Html.Sitecore().Controls().ComboBox("ComboBox3", new { Items = "{Binding DataSource1.items}" })
+@Html.Sitecore().Controls().Text("Text2", "Select an option", new { Text = "{Binding ComboBox3.selectedItemId}" })
+
+<pre>
+&#64;Html.Sitecore().Controls().SearchDataSource("DataSource1", new { Text = "Sample" })
+&#64;Html.Sitecore().Controls().ComboBox("ComboBox3", new { Items = "{Binding DataSource1.items}" })
+&#64;Html.Sitecore().Controls().Text("Text2", "Select an option", new { Text = "{Binding ComboBox3.selectedItemId}" })
+</pre>
+

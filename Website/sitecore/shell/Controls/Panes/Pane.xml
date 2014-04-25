@@ -5,15 +5,15 @@
     <Border def:id="Control" ID="$PaneID" Height="$Height">
       <table border="0" cellpadding="0" cellspacing="0" width="100%" style="height:$Height;table-layout:fixed; margin:0px 0px 24px 0px; background:white">
         <RenderLiteral>
-        <tr>
-          <td width="8" style="background:#4E4E4E" valign="top">
+        <tr class="scPaneTopRow">
+          <td width="8" style="background:#4E4E4E" valign="top" class="scPaneTopRowCorner">
             <ThemedImage Src="images/contentsectioncorner1.gif" Width="8" Height="8"/>
           </td>
           <td width="100%" height="26" class="scGrayGradient">
           
-            <Border Background="black"><Space/></Border>
+            <Border Class="scSpacerWrap" Background="black"><Space/></Border>
             
-            <Border Class="scGrayGradientLightShadow"><Space/></Border>
+            <Border Class="scGrayGradientLightShadow scSpacerWrap"><Space /></Border>
           
             <Border def:ID="Caption" Style="position:relative">
               <ThemedImage Src="$Icon" Width="48" Height="48" Style="position:absolute;margin:-8px 0px 0px 0px" GridPanel.Height="24"/>
@@ -33,10 +33,11 @@
               </GridPanel>
             </Border>
           </td>
-          <td width="8" style="background:#4E4E4E" valign="top" >
+          <td width="8" style="background:#4E4E4E" valign="top" class="scPaneTopRowCorner">
             <ThemedImage Src="images/contentsectioncorner2.gif" Width="8" Height="8"/>
           </td>
         </tr>
+          
         </RenderLiteral>
         
         <RenderLiteral>
@@ -62,7 +63,7 @@
         </tbody>
         
         <RenderLiteral>
-        <tr>
+        <tr class="scPaneBottomRow">
           <td style='background:${StringUtil.GetString($BackgroundColor, "transparent")}'>
             <ThemedImage Src="images/contentsectioncorner3.gif" Width="8" Height="8"/>
           </td>

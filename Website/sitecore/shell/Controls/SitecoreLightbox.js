@@ -27,11 +27,9 @@
     this.content.hide();
     var pageSize = this.getPageSize();
     
-    this.overlay.setStyle({ width: pageSize[0] + "px", height: pageSize[1] + "px" });
     new Effect.Appear('scOverlay', { duration: 0.4, from: 0.0, to: 0.2 });
 
     var height = this.content.getHeight() || 250;
-    var width = this.content.getWidth() || pageSize[0] - 200;
 
     if (height > pageSize[3] - 125) {
       height = pageSize[3] - 125;
@@ -45,11 +43,7 @@
       }
     }
     
-    if (width > pageSize[0] - 25) {
-      width = pageSize[0] - 25;
-    }
-    
-    this.lightbox.setStyle({ left: (pageSize[0] - width) / 2.0 + "px", top: "100px", height: height + 16, width: width });
+    this.lightbox.setStyle({ left: "0px", right: "0px", margin: "0 auto", top: "100px", height: height + 16, width: "800px" });
     this.height = height;
     
     if (Prototype.Browser.Gecko) {
@@ -71,10 +65,6 @@
   },
   
   onResize: function() {
-    if (!this.overlay) return;
-    
-    var pageSize = this.getPageSize();
-    this.overlay.setStyle({ width: pageSize[0] + "px", height: pageSize[1] + "px" });
   },
   
   hide: function() {

@@ -1,99 +1,21 @@
-﻿if (!("console" in window))
-{
-  window.console = {};
-}
+﻿(function () {
+  var method;
+  var noop = function () { };
+  var methods = [
+  'assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error',
+  'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
+  'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd',
+  'timeStamp', 'trace', 'warn'
+  ];
+  var length = methods.length;
+  var console = (window.console = window.console || {});
 
-var methods =
-{
-  assert: function(truth, message)
-  {
-  },
+  while (length--) {
+    method = methods[length];
 
-  clear: function()
-  {
-  },
-
-  close: function()
-  {
-  },
-
-  copy: function(text)
-  {
-  },
-
-  count: function()
-  {
-  },
-
-  debug: function()
-  {
-  },
-
-  dir: function(object)
-  {
-  },
-
-  dirxml: function(node)
-  {
-  },
-
-  error: function()
-  {
-  },
-
-  group: function()
-  {
-  },
-
-  groupStart: function()
-  {
-  },
-
-  groupEnd: function()
-  {
-  },
-
-  info: function()
-  {
-  },
-  
-  log: function()
-  {
-  },
-
-  open: function()
-  {
-  },
-
-  profile: function()
-  {
-  },
-
-  profileEnd: function()
-  {
-  },
-
-  time: function(name)
-  {
-  },
-
-  timeEnd: function(name)
-  {
-  },
-
-  trace: function()
-  {
-  },
-
-  warn: function()
-  {
+    // Only stub undefined methods.
+    if (!console[method]) {
+      console[method] = noop;
+    }
   }
-};
-
-for (var methodName in methods)
-{
-  if (!(methodName in console))
-  {
-    console[methodName] = methods[methodName];
-  }
-};
+}());

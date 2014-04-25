@@ -1,0 +1,379 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<xamlControls
+  xmlns:x="http://www.sitecore.net/xaml"
+  xmlns:ajax="http://www.sitecore.net/ajax"
+  xmlns:rest="http://www.sitecore.net/rest"
+  xmlns:r="http://www.sitecore.net/renderings"
+  xmlns:xmlcontrol="http://www.sitecore.net/xmlcontrols"
+  xmlns:p="http://schemas.sitecore.net/Visual-Studio-Intellisense"
+  xmlns:asp="http://www.sitecore.net/microsoft/webcontrols"
+  xmlns:html="http://www.sitecore.net/microsoft/htmlcontrols"
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:wfm="http://www.sitecore.net/wfm/webcontrols">
+
+  <Sitecore.Forms.Shell.UI.Dialogs.Subscription x:inherits="Sitecore.Forms.Shell.UI.Dialogs.SubscriptionPage,Sitecore.Forms.Core">
+    <x:register assembly="ComponentArt.Web.UI" namespace="ComponentArt.Web.UI" />
+    <x:register assembly="Sitecore.Forms.Core" namespace="Sitecore.Forms.Shell.UI.Controls"/>
+    <Sitecore.Controls.DialogPage Icon="Business/32x32/businessmen.png" runat="server" >
+      <AjaxScriptManager runat="server"/>
+      <ContinuationManager runat="server" />
+
+      <Style runat="server" x:placeholder="Stylesheets">
+        .EntryGrid {
+        padding:0px 4px 2px 2px;
+        }
+
+        .EntryGrid td {
+        white-space:nowrap;
+        }
+
+        .TabStrip {
+        position:relative;
+        top:2px;
+        z-index:1;
+        }
+
+        .DefaultTab {
+        color:black;
+        background-image: url(/sitecore/shell/themes/standard/ComponentArt/Tabstrip/tab_bg.gif);
+        font-family:Tahoma;
+        font-size:8pt;
+        cursor:default;
+        }
+
+        .DefaultTabHover {
+        color:black;
+        background-image: url(/sitecore/shell/themes/standard/ComponentArt/Tabstrip/hover_tab_bg.gif);
+        font-family:Tahoma;
+        font-size:8pt;
+        cursor:default;
+        }
+
+        .SelectedTab {
+        color:black;
+        background-image: url(/sitecore/shell/themes/standard/ComponentArt/Tabstrip/selected_tab_bg.gif);
+        font-family:Tahoma;
+        font-size:8pt;
+        cursor:default;
+        }
+
+        .MultiPage {
+        background-color:White;
+        border: 1px solid #919B9C;
+        width:100%;
+        height:100%;
+        }
+
+        .PageContent {
+        background:#fbfbfb;
+        }
+
+        .scText,
+        .scPassword,
+        .scLookup,
+        .scChecklist {
+        width:100%;
+        }
+
+        .scMemo {
+        width:100%;
+        height:120px;
+        }
+
+        .scCheckbox {
+        }
+
+        .scFieldLabel {
+        color:#6487DC;
+        padding:4px 0px 2px 0px;
+        background:white;
+        border:none;
+        }
+
+        .ProfileRight{
+        width : 49%;
+        display:inline;
+        }
+
+        .ProfileLeft{
+        float : left;
+        display:inline;
+        }
+
+        .GroupBox
+        {
+
+        border-bottom : 0px;
+        border-right : 0px;
+        border-left : 0px;
+
+
+        margin:0 10 0 0;
+        }
+
+        .GroupBox legend
+        {
+        padding : 0 5;
+        }
+
+        .CheckboxSetting label
+        {
+        margin-top:-5px;
+        }
+
+        .CallBack{
+
+        }
+
+        .MappingGrid
+        {
+        width:100%;
+        padding: 1px 5px;
+        }
+
+        .MappingGrid td
+        {
+        width:50%;
+        }
+
+        .MappingGrid select
+        {
+        width : 100%;
+        }
+
+        .MappingGrid span
+        {
+        height:15px;
+        }
+
+        .InactiveRequired
+        {
+        margin : 0 0 0 5;
+        }
+
+        .ValidationErrors
+        {
+        color:red;
+        }
+
+        ul, li
+        {
+        margin-top:0px;
+        margin-bottom:0px;
+        }
+      </Style>
+
+      <Stylesheet Src="WFM/ComboBoxWithNestedContent.css" DeviceDependant="true" runat="server" />
+
+      <script type="text/javascript" language="javascript">
+        function OnItemStateChanged(sender, args){
+        var nodes = sender.select('input[type="checkbox"]');
+
+        if (nodes.first().checked){
+        var element = nodes.first().next();
+        ModeCombobox.set_text(element.innerText || element.innerHTML);
+        }
+        else
+        {
+        var text = "";
+        nodes.each(function(node){
+        if (node.checked){
+        text = text + ", " + node.next().innerHTML;
+        }
+        });
+
+        if (text.blank()){
+        text = sc.dictionary['Never'];
+        }
+
+        if (text.startsWith(",")){
+        text = text.substring(2);
+        }
+        ModeCombobox.set_text(text);
+        }
+        }
+
+        if (!window.ctl00_ctl00_ctl00_ctl00_ctl04_ModeCombobox || window.ctl00_ctl00_ctl00_ctl00_ctl04_ModeCombobox == 'undefined') {
+        window.ctl00_ctl00_ctl00_ctl00_ctl04_ModeCombobox = new Object();
+        window.ctl00_ctl00_ctl00_ctl00_ctl04_ModeCombobox.HandleInputMouseOut = function(){};
+        window.ctl00_ctl00_ctl00_ctl00_ctl04_ModeCombobox.HandleInputMouseOver = function(){};
+        }
+
+        document.observe('dom:loaded', function() {
+        $('ctl00_ctl00_ctl00_ctl00_ctl04_ModeCombobox_Input').readOnly = true;
+        })
+
+        function updateMode(selectedIndex){
+        $('ModeSettingsBorder').childElements().each(
+        function(element){
+        element.hide();
+        });
+
+        $('ModeSettingsBorder').childElements()[selectedIndex].show();
+        }
+      </script>
+
+      <html:HtmlInputHidden ID="MappedFields" runat="server" />
+
+      <table width="100%" height="100%" cellpadding="0" cellspacing="0" border="0" >
+        <tr>
+          <td></td>
+        </tr>
+        <tr>
+          <td height="100%" vAlign="top">
+
+            <Border runat="server" Margin="0 0 0 0" />
+
+            <GridPanel runat="server" Width="100%">
+
+              <Groupbox ID="IdentityUserGroupbox" Class="GroupBox" runat="server" Width="100%" Padding="0 10 0 0" >
+
+                <GridPanel runat="server" Columns="2" Margin="10 0 0 10" Padding="0 4 5 2" Width="100%">
+                  <Literal ID="SubscribeModeLiteral" runat="server" GridPanel.Width="105px" />
+                  <asp:DropDownList ID="SubscribeMode" runat="server" Width="100%" onchange="updateMode(this.selectedIndex)" >
+                  </asp:DropDownList>
+                </GridPanel>
+
+                <Border runat="server" ID="ModeSettingsBorder" Margin="0" Padding="0">
+
+                  <GridPanel ID="CurrentVisitorSettings" Class="EntryGrid" Width="100%" Style="display:none" runat="server" Margin="0 0 10 0" Padding="0" >
+                    <Literal runat="server" style="display:none"/>
+                  </GridPanel>
+
+                  <GridPanel ID="UserFromFormSettings" Class="EntryGrid"  runat="server" Style="display:none" Margin="2 0 10 10" Padding="0 0 5 30" Width="100%">
+
+                    <Literal ID="UserNameBasedLiteral" runat="server"  GridPanel.Width="100%" />
+
+                    <GridPanel Columns="2" runat="server" Width="100%"  Class="EntryGrid"  Margin="2 0 0 0" >
+                      <Literal ID="UserNameLiteral" runat="server"  GridPanel.Width="75px" />
+
+                      <Border runat="server"  Width="100%" Margin="0 0 0 0" >
+                        <asp:DropDownList ID="NameField" runat="server" Width="100%" />
+                        <Literal Class="InactiveRequired" ID="NameRequired" runat="server" Text="*" />
+                      </Border>
+
+                      <Literal ID="DomainLiteral" runat="server"  GridPanel.Width="75px"  Margin="2 0 0 0" />
+                      <Border runat="server" Width="100%" Margin="0 0 0 0" >
+                        <asp:DropDownList ID="DomainField" runat="server" Width="100%"  />
+                        <Literal Class="InactiveRequired" ID="DomainRequired" runat="server" Text="*" />
+                      </Border>
+                    </GridPanel>
+                  </GridPanel>
+
+                  <GridPanel ID="EmailFromForm" Class="EntryGrid" runat="server" Style="display:none"  Margin="2 0 10 10" Padding="0 0 5 30" Width="100%">
+
+                    <Literal ID="EmailBasedLiteral" runat="server"  GridPanel.Width="100%" />
+
+                    <GridPanel Columns="2" runat="server" Width="100%"  Class="EntryGrid"  Margin="2 0 0 0" >
+                      <Literal ID="EmailLiteral" runat="server"  GridPanel.Width="75px" />
+
+                      <Border runat="server"  Width="100%" Margin="0 0 0 0" >
+                        <asp:DropDownList ID="EmailField" runat="server" Width="100%" />
+                      </Border>
+                    </GridPanel>
+
+                  </GridPanel>
+
+                </Border>
+
+              </Groupbox>
+
+              <Groupbox ID="TargetAudienceGroupbox" Class="GroupBox" runat="server" Padding="0 10 0 0" >
+                <Border runat="server" Margin="17 0 0 0"/>
+
+                <GridPanel Class="EntryGrid" Columns="2" runat="server" Margin="5 0 0 10" Padding="0 4 5 2" Width="100%" >
+                  <Literal ID="ChangeSubscriptionLiteral" runat="server"  style="line-height:20px" GridPanel.Width="120px" Padding="15 0 0 0" GridPanel.vAlign="top"/>
+
+                  <Border ID="ModeComboboxHolder" runat="server" style="position:relative;overflow:hide" >
+                    <ComboBox ID="ModeCombobox"
+                              runat="server"
+                              KeyboardEnabled="false"
+                              AutoFilter="false"
+                              AutoHighlight="false"
+                              AutoComplete="false"
+                              DropHoverImageUrl="/sitecore/shell/Themes/Standard/Default/WFM/ComponentArt/images/ddn-hover.png"
+                              DropImageUrl="/sitecore/shell/Themes/Standard/Default/WFM/ComponentArt/images/ddn.png"
+                              Width="100%"
+                              Height="18"
+                              DropDownWidth="350"
+                              DropDownHeight="230"
+                              DropDownOffsetY="2"
+                              DropDownOffsetX="-2"
+                              ItemCssClass="ddn-item"
+                              ItemHoverCssClass="ddn-item-hover"
+                              CssClass="cmb"
+                              HoverCssClass="cmb-hover"
+                              TextBoxCssClass="txt"
+                              DropDownResizingMode="bottom"
+                              DropDownCssClass="ddn"
+                              DropDownContentCssClass="ddn-con"
+                              Margin="0 0 0 3"
+                              CollapseDuration="0">
+                      <DropDownContent>
+                        <ComboBoxContent runat="server">
+                          <ControlledChecklist ID="SubsribeCondition" runat="server" ClientSideOnNodeStateChanged="OnItemStateChanged" />
+                        </ComboBoxContent>
+                      </DropDownContent>
+                    </ComboBox>
+                  </Border>
+
+                </GridPanel>
+
+                <CallBack id="SubscribeToTargetAudienceCallBack" PostState="true" CacheContent="true" Padding="0"  CssClass="CallBack" runat="server" Width="100%" Align="center">
+                  <Content>
+                    <asp:PlaceHolder id="SubscribeToTargetAudienceContent" runat="server" >
+                      <GridPanel Class="EntryGrid" Columns="1" runat="server" Margin="5 0 0 10" Padding="0 4 5 2" Width="100%">
+                        <Literal ID="SubscribeToTargetAudienceLiteral"  GridPanel.Width="160px" runat="server"  GridPanel.vAlign="top" />
+                        <Border runat="server" Width="100%" GridPanel.Style="padding:0 4 1 2">
+                          <html:HtmlInputHidden ID="SubscribeToTargetAudienceValue" runat="server" />
+                          <asp:ListBox ID="SubscribeToTargetAudienceList" Rows="3" runat="server" Width="100%" />
+                        </Border>
+
+                        <Border runat="server"/>
+                        <Border runat="server" Width="100%" Align="right" Padding="0px">
+                          <input type="button" class="scButton" runat="server" ID="SubscribeToTargetAudienceButton" ajax:Click="OnSubscribeToTargetAudience" style="padding:0 3;margin:0" GridPanel.vAlign="bottom"/>
+                        </Border>
+                      </GridPanel>
+                    </asp:PlaceHolder>
+                  </Content>
+                </CallBack>
+
+                <CallBack id="UnsubscribeFromTargetAudienceCallBack" PostState="true" CacheContent="true" Padding="0"  CssClass="CallBack" runat="server" Width="100%" Align="center">
+                  <Content>
+                    <asp:PlaceHolder id="UnsubscribeFromTargetAudienceContent" runat="server" >
+
+                      <GridPanel Class="EntryGrid" Columns="1" runat="server" Margin="0 0 0 10" Padding="0 4 5 2" Width="100%">
+                        <Literal ID="UnsubscribeFromTargetAudienceLiteral" GridPanel.Width="180px" runat="server"  GridPanel.vAlign="top"/>
+                        <Border runat="server" Width="100%" GridPanel.Style="padding:0 4 1 2" >
+                          <html:HtmlInputHidden ID="UnsubscribeFromTargetAudienceValue" runat="server" />
+                          <asp:ListBox ID="UnsubscribeFromTargetAudienceList" Rows="3" runat="server" Width="100%" />
+                        </Border>
+
+                        <Border runat="server" />
+                        <Border runat="server" Width="100%" Align="right" Padding="0" GridPanel.Style="padding:0 4 0 2">
+                          <input type="button" class="scButton" runat="server" ID="UnsubscribeFromTargetAudienceButton" ajax:Click="OnUnsubscribeFromTargetAudience" style="padding:0 3;margin:0" GridPanel.vAlign="bottom"/>
+                        </Border>
+                      </GridPanel>
+
+                    </asp:PlaceHolder>
+                  </Content>
+                </CallBack>
+
+                <Border runat="server" Margin="0 0 5 0">
+                  <Checkbox  ID="SendConfirmationMail" Checked="true" Margin="0 4 0 10" runat="server" />
+                </Border>
+
+                <Border runat="server" ID="Summary" Class="ValidationErrors" Height="30px" Margin="0 0 0 0" Style="display:none" />
+              </Groupbox>
+
+            </GridPanel>
+          </td>
+        </tr>
+      </table>
+
+
+    </Sitecore.Controls.DialogPage>
+  </Sitecore.Forms.Shell.UI.Dialogs.Subscription>
+
+</xamlControls>
+

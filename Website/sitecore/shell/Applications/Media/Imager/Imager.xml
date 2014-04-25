@@ -6,7 +6,11 @@
       <Stylesheet Src="Ribbon.css" DeviceDependant="true"/>
       <Script Src="/sitecore/shell/Applications/Media/Imager/Imager.js"/>
       <Script Src="/sitecore/shell/Applications/Content Manager/Content Editor.js"/>
-      <Script Src="/sitecore/shell/controls/SitecoreModifiedHandling.js"/>
+      <script type="text/javascript">
+        if (scForm) {
+          scForm.enableModifiedHandling();
+        }
+      </script>
 
       <CodeBeside Type="Sitecore.Shell.Applications.Media.Imager.ImagerForm,Sitecore.Client"/>
 

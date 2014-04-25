@@ -2,7 +2,7 @@
 
 <%@ Register TagPrefix="sc" Assembly="Sitecore.Kernel" Namespace="Sitecore.Web.UI.HtmlControls" %>
 <%@ OutputCache Location="None" VaryByParam="none" %>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE html>
 <html>
 <head>
   <title>Sitecore</title>

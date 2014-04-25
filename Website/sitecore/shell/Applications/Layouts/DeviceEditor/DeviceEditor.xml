@@ -5,6 +5,11 @@
       Text="Set the layouts, controls and placeholders for this device." OKButton="OK">
 
       <Stylesheet>
+
+        .ie8 .scDialogContentContainer {
+        overflow: hidden !important;
+        }
+
         .scVerticalTabstrip .scTabContent {
         background: transparent;
         border: none;
@@ -27,78 +32,63 @@
         left:16px;
         padding: 1px 2px;
         }
+
+        .optionButtons {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 90px;
+        text-align: right;
+        white-space: normal;
+        }
+
+        #Renderings, #Placeholders {
+        margin-right: 90px;
+        }
+
+        .ie .lang_ja_jp #Renderings {
+        margin-right: 110px;
+        }
+
       </Stylesheet>
 
       <CodeBeside Type="Sitecore.Shell.Applications.Layouts.DeviceEditor.DeviceEditorForm,Sitecore.Client"/>
       <DataContext ID="LayoutDataContext" DataViewName="Master" Root="{75CC5CE4-8979-4008-9D3C-806477D57619}" Filter="Contains('{A87A00B1-E6DB-45AB-8B54-636FEC3B5523},{1163DA83-B2EF-4381-BF09-B2FF714B1B3F},{3A45A723-64EE-4919-9D41-02FD40FD1466},{A87A00B1-E6DB-45AB-8B54-636FEC3B5523},{239F9CF4-E5A0-44E0-B342-0F32CD4C6D8B},{93227C5D-4FEF-474D-94C0-F252EC8E8219}', @@templateid)"/>
 
-      <GridPanel Width="100%" Height="100%" Cellpadding="0" Style="table-layout:fixed">
-        <VerticalTabstrip GridPanel.Height="100%" Height="100%" FixSize="true">
+      <VerticalTabstrip>
+        <Tab ID="LayoutTab" Header="Layout">
+          <TreePicker ID="Layout" DataContext="LayoutDataContext" SelectOnly="true" AllowNone="true" Width="100%"/>
+        </Tab>
 
-          <Tab ID="LayoutTab" Header="Layout">
-            <TreePicker ID="Layout" DataContext="LayoutDataContext" SelectOnly="true" AllowNone="true" Width="100%"/>
-          </Tab>
+        <Tab ID="ControlsTab" Header="Controls"> 
+          <div class="scStretch">
+            <Scrollbox ID="Renderings" Padding="0px" />
+            <div class="optionButtons">
+              <Button Header="Add" Click="device:add" style="margin-bottom: 6px"/>
+              <Button Header="Edit" ID="btnEdit" Click="device:edit" style="margin-bottom: 6px"/>
+              <Button ID="Personalize" Header="Personalize" Click="device:personalize" style="margin-bottom: 6px"/>
+              <Button Header="Change" ID="btnChange" Click="device:change" style="margin-bottom: 6px"/>
+              <Button Header="Remove" ID ="btnRemove" Click="device:remove" style="margin-bottom: 14px"/>
+              <Button ID="Test" Header="Test" Click="device:test" style="margin-bottom: 14px"/>
+              <Button Header="Move Up" ID ="MoveUp" Click="device:sortup" style="margin-bottom: 6px"/>
+              <Button Header="Move Down" ID="MoveDown" Click="device:sortdown" style="margin-bottom: 6px"/>
 
-          <Tab ID="ControlsTab" Header="Controls"> 
-            <GridPanel Columns="3" Width="100%" Height="100%" GridPanel.Height="100%">
+            </div>
+          </div>
+        </Tab>
 
-              <Scrollbox ID="Renderings" Class="scScrollbox scFixSize scFixSizeNested" Height="100%" Padding="0px" GridPanel.Width="100%" GridPanel.Height="100%" GridPanel.VAlign="top"/>
+        <Tab ID="PlaceholdersTab" Header="Placeholder Settings">
+          <div class="scStretch">
+            <Scrollbox ID="Placeholders" Padding="0px"/>
+            <div class="optionButtons">
+              <Button Header="Add" Click="device:addplaceholder" style="margin-bottom: 6px"/>
+              <Button Header="Edit" ID="phEdit" Click="device:editplaceholder" style="margin-bottom: 6px"/>
+              <Button Header="Remove" ID="phRemove" Click="device:removeplaceholder" style="margin-bottom: 14px"/>
+            </div>
+          </div>
+        </Tab>
 
-              <Space Width="4" GridPanel.Width="4px"/>
-
-              <Border GridPanel.VAlign="top">
-                <Border Padding="0px 0px 4px 0px">
-                  <Button Header="Add" Click="device:add"/>
-                </Border>
-                <Border Padding="0px 0px 4px 0px">
-                  <Button Header="Edit" Click="device:edit"/>
-                </Border>
-                <Border Padding="0px 0px 4px 0px">
-                  <Button ID="Personalize" Header="Personalize" Click="device:personalize"/>
-                </Border>
-                <Border Padding="0px 0px 4px 0px">
-                  <Button Header="Change" Click="device:change"/>
-                </Border>
-                <Border Padding="0px 0px 12px 0px">
-                  <Button Header="Remove" Click="device:remove"/>
-                </Border>
-                <Border Padding="0px 0px 12px 0px">
-                  <Button ID="Test" Header="Test" Click="device:test"/>
-                </Border>                
-                <Border Padding="0px 0px 4px 0px">
-                  <Button Header="Move Up" Click="device:sortup"/>
-                </Border>
-                <Border Padding="0px 0px 4px 0px">
-                  <Button Header="Move Down" Click="device:sortdown"/>
-                </Border>
-              </Border>
-            </GridPanel>
-
-          </Tab>
-
-          <Tab ID="PlaceholdersTab" Header="Placeholder Settings">
-            <GridPanel Columns="3" Width="100%" Height="100%" GridPanel.Height="100%">
-
-              <Scrollbox ID="Placeholders" Class="scScrollbox scFixSize scFixSizeNested" Height="100%" Padding="0px" GridPanel.Width="100%" GridPanel.Height="100%" GridPanel.VAlign="top"/>
-
-              <Space Width="4" GridPanel.Width="4px"/>
-
-              <Border GridPanel.VAlign="top">
-                <Border Padding="0px 0px 4px 0px">
-                  <Button Header="Add" Click="device:addplaceholder"/>
-                </Border>
-                <Border Padding="0px 0px 4px 0px">
-                  <Button Header="Edit" Click="device:editplaceholder"/>
-                </Border>
-                <Border Padding="0px 0px 12px 0px">
-                  <Button Header="Remove" Click="device:removeplaceholder"/>
-                </Border>
-              </Border>
-            </GridPanel>
-          </Tab>
-
-        </VerticalTabstrip>
-      </GridPanel>
+      </VerticalTabstrip>
 
     </FormDialog>
   </DeviceEditor>

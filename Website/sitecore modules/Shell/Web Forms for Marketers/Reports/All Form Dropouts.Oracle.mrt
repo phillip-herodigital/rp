@@ -1,0 +1,868 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<StiSerializer version="1.0" application="StiReport">
+  <Dictionary Ref="1" type="Dictionary" isKey="true">
+    <Databases isList="true" count="0" />
+    <DataSources isList="true" count="3">
+      <Form Ref="2" type="Stimulsoft.Report.Dictionary.StiUndefinedDataSource" isKey="true">
+        <Alias>Form</Alias>
+        <Columns isList="true" count="2">
+          <value>DataKey,System.String</value>
+          <value>Dropouts,System.Int32</value>
+        </Columns>
+        <CommandTimeout>300</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>Form</Name>
+        <NameInSource>DataConnection</NameInSource>
+        <Parameters isList="true" count="2">
+          <value>:StartDate,StartDate,4,0</value>
+          <value>:EndDate,EndDate,4,0</value>
+        </Parameters>
+        <SqlCommand>
+            select count ("Events"."SessionId") as "Dropouts", 
+                   "Events"."DataKey"
+            from 
+                  (
+                      select distinct "SessionOut"."SessionId", 
+                                      "PageEventOut"."DataKey"
+	                    from
+	                          "Session" "SessionOut",
+                            "Page", 
+                            "PageEvent" "PageEventOut", 
+                            "IPOwner", 
+                            "IP", 
+                            "Browser", 
+                            "GlobalSession"
+	                    where
+	                    not exists (
+	                           select "Session"."SessionId",
+                                          "PageEvent"."DataKey"
+				                     from
+				                            "Session" "Session", 
+                                    "Page", 
+                                    "PageEvent"
+				                     where  rownum &lt;= 1 and
+				                            "PageEvent"."DataKey" = "PageEventOut"."DataKey" and
+				                            "Session"."SessionId" = "SessionOut"."SessionId" and
+				                            "PageEvent"."PageEventDefinitionId" = '8984F02F472A044F8D8E0C25A294B2C4' and
+				                            "PageEvent"."PageId" = "Page"."PageId" and		
+				                            "Page"."SessionId" = "Session"."SessionId"			      
+		                  ) and
+		
+		                  (
+			                  "PageEventOut"."PageEventDefinitionId" = '933A11F00A57694F8C7CBA08037D1E34' or
+			                  "PageEventOut"."PageEventDefinitionId" = 'F5B2867EECAC604C89224EB5AE5D9874' or
+			                  "PageEventOut"."PageEventDefinitionId" = '0CB2D7F35C67074784CC5E5B4481B0EE' or
+			                  "PageEventOut"."PageEventDefinitionId" = 'C9C444716AE52945B3C1A1DEDC454AB8' or		
+			                  "PageEventOut"."PageEventDefinitionId" = '252E30DEAFE55E468BB15C3E8145615D' or		
+			                  "PageEventOut"."PageEventDefinitionId" = '51CFC2A2609384409BA01A15F1A41096' or		
+			                  "PageEventOut"."PageEventDefinitionId" = '40BD4B84F691CE4288235EA4D089ECA2' 					
+		                  ) and 				
+		                  "SessionOut"."Timestamp" &gt;= :StartDate and
+		                  "SessionOut"."Timestamp" &lt;= :EndDate and
+		                  "PageEventOut"."PageId" = "Page"."PageId" and
+		                  "Page"."SessionId" = "SessionOut"."SessionId" and		
+		                  "GlobalSession"."GlobalSessionId" = "SessionOut"."GlobalSessionId" and
+		                  "IP"."IpId" = "SessionOut"."IpId" and
+		                  "IP"."IpOwnerId" = "IPOwner"."IpOwnerId" and
+		                  "SessionOut"."BrowserId" = "Browser"."BrowserId"	
+ 	                    {IpOwner}
+ 	                    {Ip}		
+	                    {Session}
+                      {GlobalSession}
+		                  {Browser}	
+                ) "Events"
+                GROUP BY "Events"."DataKey"
+                ORDER BY "Events"."DataKey"
+</SqlCommand>
+      </Form>
+      <Dropout Ref="3" type="Stimulsoft.Report.Dictionary.StiUndefinedDataSource" isKey="true">
+        <Alias>Dropout</Alias>
+        <Columns isList="true" count="10">
+          <value>IpOwnerName,System.String</value>
+          <value>Country,System.String</value>
+          <value>IspName,System.String</value>
+          <value>City,System.String</value>
+          <value>IpObject,System.Object</value>
+          <value>Region,System.String</value>
+          <value>Timestamp,System.DateTime</value>
+          <value>SessionId,System.Object</value>
+          <value>IpOwnerId,System.Object</value>
+          <value>DataKey,System.String</value>
+        </Columns>
+        <CommandTimeout>300</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>Dropout</Name>
+        <NameInSource>DataConnection</NameInSource>
+        <Parameters isList="true" count="2">
+          <value>:StartDate,StartDate,4,0</value>
+          <value>:EndDate,EndDate,4,0</value>
+        </Parameters>
+        <SqlCommand>
+          select * 
+          from (
+            select distinct
+                   "SessionOut"."SessionId", 
+                   "PageEventOut"."DataKey", 
+                   "SessionOut"."Timestamp",
+				           "IP"."IpId" as "IpObject", 
+				           TO_CHAR("IP"."City") as "City", 
+				           TO_CHAR("IP"."IspName") as "IspName", 
+				           TO_CHAR("IP"."Region") as "Region", 
+				           TO_CHAR("IPOwner"."Country") as "Country", 
+				           "IPOwner"."IpOwnerId", 
+				           TO_CHAR("IPOwner"."Name") as "IpOwnerName"
+            from
+	                 "Session" "SessionOut", 
+                   "Page", 
+                   "PageEvent" "PageEventOut",
+                   "IPOwner", 
+                   "IP", 
+                   "Browser", 
+                   "GlobalSession"
+            where  
+	                 not exists (
+		                      select 
+                                 "Session"."SessionId", 
+                                 "PageEvent"."DataKey"
+				                  from				
+				                         "Session" "Session", 
+                                 "Page", 
+                                 "PageEvent"
+				                  where  rownum &lt;= 1 and
+				                         "PageEvent"."DataKey" = "PageEventOut"."DataKey" and
+				                         "Session"."SessionId" = "SessionOut"."SessionId" and
+				                         "PageEvent"."PageEventDefinitionId" = '8984F02F472A044F8D8E0C25A294B2C4' and		
+				                         "PageEvent"."PageId" = "Page"."PageId" and		
+				                         "Page"."SessionId" = "Session"."SessionId"			
+		               ) and 		
+		              (
+			                "PageEventOut"."PageEventDefinitionId" = '933A11F00A57694F8C7CBA08037D1E34' or
+			                "PageEventOut"."PageEventDefinitionId" = 'F5B2867EECAC604C89224EB5AE5D9874' or
+			                "PageEventOut"."PageEventDefinitionId" = '0CB2D7F35C67074784CC5E5B4481B0EE' or
+			                "PageEventOut"."PageEventDefinitionId" = 'C9C444716AE52945B3C1A1DEDC454AB8' or		
+			                "PageEventOut"."PageEventDefinitionId" = '252E30DEAFE55E468BB15C3E8145615D' or		
+			                "PageEventOut"."PageEventDefinitionId" = '51CFC2A2609384409BA01A15F1A41096' or		
+			                "PageEventOut"."PageEventDefinitionId" = '40BD4B84F691CE4288235EA4D089ECA2' 					
+		              ) and 		
+					        "SessionOut"."Timestamp" &gt;= :StartDate and 
+			            "SessionOut"."Timestamp" &lt;= :EndDate and
+      		        "PageEventOut"."PageId" = "Page"."PageId" and
+		              "Page"."SessionId" = "SessionOut"."SessionId" and		
+		              "GlobalSession"."GlobalSessionId" = "SessionOut"."GlobalSessionId" and
+		              "IP"."IpId" = "SessionOut"."IpId" and
+		              "IP"."IpOwnerId" = "IPOwner"."IpOwnerId" and
+		              "SessionOut"."BrowserId" = "Browser"."BrowserId"	
+ 		              {IpOwner}
+ 		              {Ip}		
+		              {Session}
+                  {GlobalSession}
+		              {Browser}
+            ) "Out"
+            where rownum &lt;= 200
+            order by  "Out"."Timestamp" desc
+</SqlCommand>
+      </Dropout>
+      <Completed Ref="4" type="Stimulsoft.Report.Dictionary.StiUndefinedDataSource" isKey="true">
+        <Alias>Completed</Alias>
+        <Columns isList="true" count="8">
+          <value>PageEventId,System.Object</value>
+          <value>Text,System.String</value>
+          <value>Data,System.String</value>
+          <value>Timestamp,System.Int64</value>
+          <value>PageId,System.Guid</value>
+          <value>MinTimestamp,System.Int64</value>
+          <value>PageTime,System.DateTime</value>
+          <value>MinPageTime,System.DateTime</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>Completed</Name>
+        <NameInSource>DataConnection</NameInSource>
+        <Parameters isList="true" count="2">
+          <value>:DataKey,Dropout.DataKey,12,9000</value>
+          <value>:SessionId,IsNull_x0028_Dropout_x002C__x0020__x0022_SessionId_x0022__x0029__x0020__x003F__x0020_DBNull.Value_x0020_:_x0020_Dropout.SessionId,14,0</value>
+        </Parameters>
+        <ReconnectOnEachRow>True</ReconnectOnEachRow>
+        <SqlCommand>
+            select  
+                    "PageEvent"."PageEventId",
+	                  "PageEvent"."Text", 
+	                  "PageEvent"."Data", 
+	                  "PageEvent"."Timestamp",
+	                  "Page"."PageId", 
+	                  "Page"."Timestamp" as "PageTime", 
+	                  MinTimes."MinTimestamp",
+	                  MinTimes."MinPageTime"           
+	          from		
+            			  "PageEvent",
+			              "Page",
+			              "Session",
+			              (
+                          select	TO_CHAR("PageEvent"."Data") as "Data",
+                                  MIN("Page"."Timestamp") as "MinPageTime",
+                                  MIN("PageEvent"."CustomSorting") as "MinTimestamp"					
+	                        from 	  "PageEvent",
+	                                "Page",
+	                                "Session"
+	                        where 
+	                                "PageEvent"."DataKey" = :DataKey and
+							                    "Session"."SessionId" = :SessionId and
+							                    "PageEvent"."PageEventDefinitionId" = '933A11F00A57694F8C7CBA08037D1E34' and													
+							                    "Page"."PageId" = "PageEvent"."PageId" and
+							                    "Page"."SessionId" = "Session"."SessionId"    							
+		          		        group by  TO_CHAR("PageEvent"."Data")
+			             ) MinTimes                     
+           where	
+			            "PageEvent"."DataKey" = :DataKey and
+			            "Session"."SessionId" = :SessionId and
+			            "PageEvent"."PageEventDefinitionId" = '933A11F00A57694F8C7CBA08037D1E34' and						
+			            TO_CHAR("PageEvent"."Data") = MinTimes."Data" and			
+			            "Page"."PageId" = "PageEvent"."PageId" and
+			            "Page"."SessionId" = "Session"."SessionId"
+          order by "Page"."Timestamp", 
+                   "PageEvent"."CustomSorting", 
+                   "PageEvent"."Timestamp" desc
+         </SqlCommand>
+      </Completed>
+    </DataSources>
+    <Relations isList="true" count="0" />
+    <Report isRef="0" />
+    <Variables isList="true" count="13">
+      <value>,ReportTitle,ReportTitle,System.String,,False,False</value>
+      <value>,EndDate,EndDate,System.DateTime,DateTime.Now,False,True</value>
+      <value>,StartDate,StartDate,System.DateTime,DateTime.Now.AddDays_x0028_-7_x0029_,False,True</value>
+      <value>,Session,,System.String,,True,False</value>
+      <value>,GlobalSession,,System.String,,True,False</value>
+      <value>,Ip,,System.String,,True,False</value>
+      <value>,IpOwner,,System.String,,True,False</value>
+      <value>,Browser,,System.String,,True,False</value>
+      <value>texts</value>
+      <value>texts,DropoutText,DropoutText,System.String,Dropout,False,False</value>
+      <value>texts,DroupoutsText,DroupoutsText,System.String,Droupouts,False,False</value>
+      <value>texts,TotalFormText,TotalFormText,System.String,Total_x0020_Form,False,False</value>
+      <value>texts,FormText,FormText,System.String,Form,False,False</value>
+    </Variables>
+  </Dictionary>
+  <EngineVersion>EngineV2</EngineVersion>
+  <GlobalizationStrings isList="true" count="0" />
+  <MetaTags isList="true" count="0" />
+  <Pages isList="true" count="1">
+    <Page1 Ref="5" type="Page" isKey="true">
+      <Border>None;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="22">
+        <PageHeader Ref="6" type="PageHeaderBand" isKey="true">
+          <Border>Bottom;[23:54:95];1;Solid;False;4;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,0.4,19,1</ClientRectangle>
+          <Components isList="true" count="2">
+            <Text2 Ref="7" type="Text" isKey="true">
+              <Border>Bottom;[23:54:95];1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,10,1</ClientRectangle>
+              <ComponentStyle>Title</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Cambria,26.25</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text2</Name>
+              <Page isRef="5" />
+              <Parent isRef="6" />
+              <Text>{ReportTitle}</Text>
+              <TextBrush>[23:54:95]</TextBrush>
+              <VertAlignment>Center</VertAlignment>
+            </Text2>
+            <Text13 Ref="8" type="Text" isKey="true">
+              <Brush>EmptyBrush</Brush>
+              <ClientRectangle>11.6,0.6,7.4,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Calibri,10,Regular,Point,False,0</Font>
+              <Guid>2b5c71057c12481191fa61cb61e2057a</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text13</Name>
+              <Page isRef="5" />
+              <Parent isRef="6" />
+              <Text>{Format("{0:MM.dd.yyyy}", Form.Parameters[":StartDate"].ParameterValue)} - {Format("{0:MM.dd.yyyy}", Form.Parameters[":EndDate"].ParameterValue)}</Text>
+              <TextBrush>Gray</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text13>
+          </Components>
+          <ComponentStyle>Title</ComponentStyle>
+          <Conditions isList="true" count="0" />
+          <Name>PageHeader</Name>
+          <Page isRef="5" />
+          <Parent isRef="5" />
+        </PageHeader>
+        <PageHeaderBand1 Ref="9" type="PageHeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,2.2,19,0.8</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text8 Ref="10" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,19,0</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <DockStyle>Top</DockStyle>
+              <Font>Arial,8</Font>
+              <Guid>816e4385b68b47898e488f87a1777658</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text8</Name>
+              <Page isRef="5" />
+              <Parent isRef="9" />
+              <Text>&lt;script language="jscript" type="text/javascript" src="/sitecore modules/web/web forms for marketers/scripts/jquery.js"&gt; &lt;/script&gt;&lt;script language='jscript' type='text/javascript'&gt; //var $j = jQuery.noConflict(true);$j().ready(function(){"{"} $j("a").click(function(){"{"} $j(this).removeAttr('target'); window.parent.parent.location = this.href; return false;{"}"}); {"}"})&lt;/script&gt;</Text>
+              <TextBrush>Black</TextBrush>
+              <TextQuality>Wysiwyg</TextQuality>
+              <Type>Expression</Type>
+            </Text8>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Name>PageHeaderBand1</Name>
+          <Page isRef="5" />
+          <Parent isRef="5" />
+        </PageHeaderBand1>
+        <GroupHeaderBand1 Ref="11" type="GroupHeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,3.8,19,0.6</ClientRectangle>
+          <Components isList="true" count="0" />
+          <Condition>{Form.DataKey}</Condition>
+          <Conditions isList="true" count="0" />
+          <Name>GroupHeaderBand1</Name>
+          <Page isRef="5" />
+          <Parent isRef="5" />
+        </GroupHeaderBand1>
+        <DataBand1 Ref="12" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,5.2,19,0.8</ClientRectangle>
+          <Components isList="true" count="2">
+            <Text1 Ref="13" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,19,0.6</ClientRectangle>
+              <ComponentStyle>Subtitle</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Cambria,12,Italic</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text1</Name>
+              <Page isRef="5" />
+              <Parent isRef="12" />
+              <Text>{Sitecore.Form.Core.Configuration.StaticSettings.ContextDatabase.GetItem(Form.DataKey.Substring(37, 36)) != null ? Sitecore.Form.Core.Configuration.StaticSettings.ContextDatabase.GetItem(Form.DataKey.Substring(37, 36)).Name : "Form Id:" + Form.DataKey.Substring(37, 36)}</Text>
+              <TextBrush>[23:54:95]</TextBrush>
+              <Type>Expression</Type>
+            </Text1>
+            <Text3 Ref="14" type="Text" isKey="true">
+              <Brush>EmptyBrush</Brush>
+              <ClientRectangle>0,0.4,19,0.4</ClientRectangle>
+              <ComponentStyle>Detail</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <DockStyle>Bottom</DockStyle>
+              <Font>Calibri,10</Font>
+              <Hyperlink>/sitecore/shell/applications/analytics/default.aspx?r=A4212522-887C-47EC-A6F1-D9EB018761F2&amp;DataKey={Form.DataKey}</Hyperlink>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text3</Name>
+              <Page isRef="5" />
+              <Parent isRef="12" />
+              <Text>{Form.Dropouts} {TotalFormText} {Form.Dropouts == 1 ? DropoutText : DropoutsText}</Text>
+              <TextBrush>DimGray</TextBrush>
+              <Type>Expression</Type>
+            </Text3>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataSourceName>Form</DataSourceName>
+          <Filters isList="true" count="0" />
+          <Name>DataBand1</Name>
+          <Page isRef="5" />
+          <Parent isRef="5" />
+          <PrintIfDetailEmpty>True</PrintIfDetailEmpty>
+          <Sort isList="true" count="0" />
+        </DataBand1>
+        <GroupFooterBand1 Ref="15" type="GroupFooterBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,6.8,19,0</ClientRectangle>
+          <Components isList="true" count="0" />
+          <Conditions isList="true" count="0" />
+          <Name>GroupFooterBand1</Name>
+          <Page isRef="5" />
+          <Parent isRef="5" />
+        </GroupFooterBand1>
+        <DataBand2 Ref="16" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,7.6,19,1.2</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text4 Ref="17" type="Text" isKey="true">
+              <Brush>EmptyBrush</Brush>
+              <ClientRectangle>0,0.6,19,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <DockStyle>Bottom</DockStyle>
+              <Font>Cambria,12,Italic</Font>
+              <Guid>989513a5711f46259e63e6b9f524d2a7</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text4</Name>
+              <Page isRef="5" />
+              <Parent isRef="16" />
+              <Text>Dropouts per Company:</Text>
+              <TextBrush>DimGray</TextBrush>
+            </Text4>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <CountData>1</CountData>
+          <DataRelationName isNull="true" />
+          <Filters isList="true" count="0" />
+          <Name>DataBand2</Name>
+          <Page isRef="5" />
+          <Parent isRef="5" />
+          <Sort isList="true" count="0" />
+        </DataBand2>
+        <GroupHeaderBand2 Ref="18" type="GroupHeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,9.6,19,1.2</ClientRectangle>
+          <Components isList="true" count="2">
+            <Text6 Ref="19" type="Text" isKey="true">
+              <Brush>[211:223:238]</Brush>
+              <ClientRectangle>0,0.2,19,0.4</ClientRectangle>
+              <ComponentStyle>EvenRow</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Calibri,11,Bold</Font>
+              <Guid>5289d9ed057e4799a389568ee0d90755</Guid>
+              <Margins>20,0,0,0</Margins>
+              <Name>Text6</Name>
+              <Page isRef="5" />
+              <Parent isRef="18" />
+              <Text>{string.IsNullOrEmpty(Dropout.IpOwnerName) ? "N/A" : Dropout.IpOwnerName}</Text>
+              <TextBrush>[54:95:145]</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text6>
+            <Text9 Ref="20" type="Text" isKey="true">
+              <Brush>[211:223:238]</Brush>
+              <ClientRectangle>0,0.6,19,0.4</ClientRectangle>
+              <ComponentStyle>EvenRow</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Font>Calibri,11,Bold</Font>
+              <Guid>0ec79c54ac6940d3aeac1cfcf04ef2b7</Guid>
+              <Margins>20,0,0,0</Margins>
+              <Name>Text9</Name>
+              <Page isRef="5" />
+              <Parent isRef="18" />
+              <Text>{string.IsNullOrEmpty(Dropout.City) ? "N/A" : Dropout.City}, {string.IsNullOrEmpty(Dropout.Country) ? "N/A" : Dropout.Country}, {string.IsNullOrEmpty(Dropout.Region) ? "N/A" : Dropout.Region} - ({string.IsNullOrEmpty(Dropout.IspName) ? "N/A" : Dropout.IspName})</Text>
+              <TextBrush>[54:95:145]</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text9>
+          </Components>
+          <Condition>{Dropout.IpOwnerName}{Dropout.Country}{Dropout.City}{Dropout.Region}{Dropout.IspName}</Condition>
+          <Conditions isList="true" count="0" />
+          <KeepGroupHeaderTogether>False</KeepGroupHeaderTogether>
+          <Name>GroupHeaderBand2</Name>
+          <Page isRef="5" />
+          <Parent isRef="5" />
+        </GroupHeaderBand2>
+        <GroupHeaderBand3 Ref="21" type="GroupHeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,11.6,19,0.8</ClientRectangle>
+          <Components isList="true" count="2">
+            <Text5 Ref="22" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,19,0.4</ClientRectangle>
+              <ComponentStyle>Subtitle</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <DockStyle>Top</DockStyle>
+              <Font>Cambria,12,Italic</Font>
+              <Guid>179487c52c744e50b78cac1df49a8e64</Guid>
+              <Margins>40,0,0,0</Margins>
+              <Name>Text5</Name>
+              <Page isRef="5" />
+              <Parent isRef="21" />
+              <Text>{Sitecore.Form.Core.Configuration.StaticSettings.ContextDatabase.GetItem(Dropout.DataKey.Substring(37, 36)) != null ? Sitecore.Form.Core.Configuration.StaticSettings.ContextDatabase.GetItem(Dropout.DataKey.Substring(37, 36)).Name : "Form Id:" + Dropout.DataKey.Substring(37, 36)}</Text>
+              <TextBrush>[23:54:95]</TextBrush>
+              <Type>Expression</Type>
+            </Text5>
+            <Text7 Ref="23" type="Text" isKey="true">
+              <Brush>EmptyBrush</Brush>
+              <ClientRectangle>0,0.4,19,0.6</ClientRectangle>
+              <ComponentStyle>Detail</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <DockStyle>Top</DockStyle>
+              <Font>Calibri,10</Font>
+              <Margins>40,0,0,0</Margins>
+              <Name>Text7</Name>
+              <Page isRef="5" />
+              <Parent isRef="21" />
+              <Text>{Count()}  {FormText} {Count() == 1 ? DropoutText : DropoutsText}</Text>
+              <TextBrush>DimGray</TextBrush>
+              <Type>Expression</Type>
+            </Text7>
+          </Components>
+          <Condition>{Dropout.DataKey}</Condition>
+          <Conditions isList="true" count="0" />
+          <KeepGroupHeaderTogether>False</KeepGroupHeaderTogether>
+          <Name>GroupHeaderBand3</Name>
+          <Page isRef="5" />
+          <Parent isRef="5" />
+        </GroupHeaderBand3>
+        <GroupHeaderBand4 Ref="24" type="GroupHeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,13.2,19,0</ClientRectangle>
+          <Components isList="true" count="0" />
+          <Condition>{Dropout.Timestamp}</Condition>
+          <Conditions isList="true" count="0" />
+          <Name>GroupHeaderBand4</Name>
+          <Page isRef="5" />
+          <Parent isRef="5" />
+        </GroupHeaderBand4>
+        <GroupHeaderBand6 Ref="25" type="GroupHeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,14,19,0.4</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text16 Ref="26" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,19,0.4</ClientRectangle>
+              <ComponentStyle>OddRow</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <DockStyle>Fill</DockStyle>
+              <Font>Calibri,11,Bold</Font>
+              <Guid>affe2c8d13624947b937f84cea6362d1</Guid>
+              <Hyperlink>/sitecore/shell/applications/analytics/default.aspx?r=AF4FC15A-1BAA-4F7A-94A4-01CFDC9D257F&amp;sessionid={Dropout.SessionId}</Hyperlink>
+              <Margins>70,0,0,0</Margins>
+              <Name>Text16</Name>
+              <Page isRef="5" />
+              <Parent isRef="25" />
+              <Text>{Dropout.Timestamp}</Text>
+              <TextBrush>[54:95:145]</TextBrush>
+            </Text16>
+          </Components>
+          <Condition>{Dropout.SessionId}</Condition>
+          <Conditions isList="true" count="0" />
+          <KeepGroupHeaderTogether>False</KeepGroupHeaderTogether>
+          <Name>GroupHeaderBand6</Name>
+          <Page isRef="5" />
+          <Parent isRef="5" />
+          <SortDirection>None</SortDirection>
+        </GroupHeaderBand6>
+        <DataBand3 Ref="27" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,15.2,19,0</ClientRectangle>
+          <Components isList="true" count="0" />
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <DataSourceName>Dropout</DataSourceName>
+          <Filters isList="true" count="0" />
+          <Name>DataBand3</Name>
+          <Page isRef="5" />
+          <Parent isRef="5" />
+          <PrintIfDetailEmpty>True</PrintIfDetailEmpty>
+          <Sort isList="true" count="2">
+            <value>ASC</value>
+            <value>Timestamp</value>
+          </Sort>
+        </DataBand3>
+        <GroupFooterBand6 Ref="28" type="GroupFooterBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,16,19,0.4</ClientRectangle>
+          <Components isList="true" count="0" />
+          <Conditions isList="true" count="0" />
+          <Name>GroupFooterBand6</Name>
+          <Page isRef="5" />
+          <Parent isRef="5" />
+        </GroupFooterBand6>
+        <GroupFooterBand4 Ref="29" type="GroupFooterBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,17.2,19,0</ClientRectangle>
+          <Components isList="true" count="0" />
+          <Conditions isList="true" count="0" />
+          <Name>GroupFooterBand4</Name>
+          <Page isRef="5" />
+          <Parent isRef="5" />
+        </GroupFooterBand4>
+        <GroupFooterBand3 Ref="30" type="GroupFooterBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,18,19,0</ClientRectangle>
+          <Components isList="true" count="0" />
+          <Conditions isList="true" count="0" />
+          <Name>GroupFooterBand3</Name>
+          <Page isRef="5" />
+          <Parent isRef="5" />
+        </GroupFooterBand3>
+        <GroupFooterBand2 Ref="31" type="GroupFooterBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,18.8,19,0</ClientRectangle>
+          <Components isList="true" count="0" />
+          <Conditions isList="true" count="0" />
+          <Name>GroupFooterBand2</Name>
+          <Page isRef="5" />
+          <Parent isRef="5" />
+        </GroupFooterBand2>
+        <GroupHeaderBand8 Ref="32" type="GroupHeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,19.6,19,0</ClientRectangle>
+          <Components isList="true" count="0" />
+          <Condition>{Sitecore.Form.Core.Analytics.ReportHelper.GetDropoutSortOrder(Completed.DataTable, Completed.Data, 
+"Data LIKE '&lt;scparent&gt;" + Sitecore.Form.Core.Analytics.ReportHelper.GetMajorData(Completed.Data) + "&lt;/scparent&gt;%'",
+            "MinPageTime", "MinTimestamp", Completed.MinPageTime, Completed.MinTimestamp)}</Condition>
+          <Conditions isList="true" count="0" />
+          <Guid>33ce0a9a0005405697b42b1f086cb761</Guid>
+          <Name>GroupHeaderBand8</Name>
+          <Page isRef="5" />
+          <Parent isRef="5" />
+        </GroupHeaderBand8>
+        <GroupHeaderBand7 Ref="33" type="GroupHeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,20.4,19,0.3</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text21 Ref="34" type="Text" isKey="true">
+              <AllowHtmlTags>True</AllowHtmlTags>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,19,0.4</ClientRectangle>
+              <ComponentStyle>Text</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <DockStyle>Top</DockStyle>
+              <Font>Cambria,10</Font>
+              <Guid>c876445ecb184bba92070f6417473855</Guid>
+              <Margins>90,0,0,0</Margins>
+              <Name>Text21</Name>
+              <Page isRef="5" />
+              <Parent isRef="33" />
+              <Text>{Sitecore.Form.Core.Analytics.ReportHelper.GetFieldName((string)(Completed.Parameters[":DataKey"].ParameterValue), Completed.Data)}: {IIF(string.IsNullOrEmpty(Sitecore.Form.Core.Analytics.ReportHelper.GetSubFieldName((string)(Completed.Parameters[":DataKey"].ParameterValue), Completed.Data)), Sitecore.Form.Core.Analytics.ReportHelper.FormatFieldValue((string)(Completed.Parameters[":DataKey"].ParameterValue), Completed.Data, Completed.Text, false), string.Empty)} </Text>
+              <TextBrush>Black</TextBrush>
+              <TextQuality>Wysiwyg</TextQuality>
+              <Type>Expression</Type>
+            </Text21>
+          </Components>
+          <Condition>{Sitecore.Form.Core.Analytics.ReportHelper.GetMajorData(Completed.Data)}</Condition>
+          <Conditions isList="true" count="1">
+            <value>_x007B_Completed.Data_x0020__x003D__x003D__x0020__x0022_wer_x0022__x007D_,Red,Transparent,Arial_x002C_8,True,False,</value>
+          </Conditions>
+          <Guid>21bacd1796394b3893ecb055c138a545</Guid>
+          <Name>GroupHeaderBand7</Name>
+          <Page isRef="5" />
+          <Parent isRef="5" />
+          <SortDirection>None</SortDirection>
+        </GroupHeaderBand7>
+        <GroupHeaderBand5 Ref="35" type="GroupHeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <CanShrink>True</CanShrink>
+          <ClientRectangle>0,21.5,19,0.2</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text22 Ref="36" type="Text" isKey="true">
+              <AllowHtmlTags>True</AllowHtmlTags>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0.03,19,0.4</ClientRectangle>
+              <Conditions isList="true" count="1">
+                <value>_x007B_string.IsNullOrEmpty_x0028_Sitecore.Form.Core.Analytics.ReportHelper.GetSubFieldName_x0028__x0028_string_x0029__x0028_Completed.Parameters_x005B__x0022_:DataKey_x0022__x005D_.ParameterValue_x0029__x002C__x0020_Completed.Data_x0029__x0029__x007D_,Red,Transparent,Arial_x002C_8,False,False,</value>
+              </Conditions>
+              <Font>Calibri,9.75,Regular,Point,False,204</Font>
+              <Guid>b873551c3337414d909fa660712244d6</Guid>
+              <Margins>110,0,0,0</Margins>
+              <Name>Text22</Name>
+              <Page isRef="5" />
+              <Parent isRef="35" />
+              <Text>{IIF(string.IsNullOrEmpty(Sitecore.Form.Core.Analytics.ReportHelper.GetSubFieldName((string)(Completed.Parameters[":DataKey"].ParameterValue), Completed.Data)), string.Empty, Sitecore.Form.Core.Analytics.ReportHelper.GetSubFieldName((string)(Completed.Parameters[":DataKey"].ParameterValue), Completed.Data) + ": " + Sitecore.Form.Core.Analytics.ReportHelper.FormatFieldValue((string)(Completed.Parameters[":DataKey"].ParameterValue), Completed.Data, Completed.Text, false))}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextQuality>Wysiwyg</TextQuality>
+              <Type>Expression</Type>
+            </Text22>
+          </Components>
+          <Condition>{Completed.Data}</Condition>
+          <Conditions isList="true" count="0" />
+          <Guid>2bd72a261e5943c7a023f4dc0630b619</Guid>
+          <Name>GroupHeaderBand5</Name>
+          <Page isRef="5" />
+          <Parent isRef="5" />
+        </GroupHeaderBand5>
+        <DataBand4 Ref="37" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <CanShrink>True</CanShrink>
+          <ClientRectangle>0,22.5,19,0.1</ClientRectangle>
+          <Components isList="true" count="2">
+            <Text24 Ref="38" type="Text" isKey="true">
+              <AllowHtmlTags>True</AllowHtmlTags>
+              <Brush>EmptyBrush</Brush>
+              <ClientRectangle>6.2,0,9.8,0.4</ClientRectangle>
+              <ComponentStyle>Detail</ComponentStyle>
+              <Conditions isList="true" count="1">
+                <value>Multi&lt;?xml version="1.0" encoding="utf-16" standalone="yes"?&gt;&lt;StiSerializer version="1.0" application="State"&gt;&lt;Filters isList="true" count="2"&gt;&lt;value&gt;_x007B_Completed.Text.Contains_x0028__x0022__x003C_schidden_x003E__x003C__x002F_schidden_x003E__x0022__x0029__x007D_&lt;/value&gt;&lt;value&gt;_x007B_Line_x0020__x003D__x003D__x0020_1_x007D_&lt;/value&gt;&lt;/Filters&gt;&lt;FilterMode&gt;Or&lt;/FilterMode&gt;&lt;Enabled&gt;False&lt;/Enabled&gt;&lt;TextColor&gt;Red&lt;/TextColor&gt;&lt;BackColor&gt;Transparent&lt;/BackColor&gt;&lt;Font&gt;Arial, 8pt&lt;/Font&gt;&lt;/StiSerializer&gt;</value>
+              </Conditions>
+              <Font>Calibri,10</Font>
+              <Guid>707fad3b7a46420ca359a0ad76a2953e</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text24</Name>
+              <Page isRef="5" />
+              <Parent isRef="37" />
+              <Text>{Sitecore.Form.Core.Analytics.ReportHelper.FormatFieldValue((string)(Completed.Parameters[":DataKey"].ParameterValue), Completed.Data, Completed.Text, false)}</Text>
+              <TextBrush>DimGray</TextBrush>
+              <TextQuality>Wysiwyg</TextQuality>
+              <Type>Expression</Type>
+            </Text24>
+            <Text23 Ref="39" type="Text" isKey="true">
+              <Brush>EmptyBrush</Brush>
+              <ClientRectangle>3.4,0,2.8,0.4</ClientRectangle>
+              <Conditions isList="true" count="1">
+                <value>Multi&lt;?xml version="1.0" encoding="utf-16" standalone="yes"?&gt;&lt;StiSerializer version="1.0" application="State"&gt;&lt;Filters isList="true" count="3"&gt;&lt;value&gt;_x007B_Completed.Text.Contains_x0028__x0022__x003C_schidden_x003E__x003C__x002F_schidden_x003E__x0022__x0029__x007D_&lt;/value&gt;&lt;value&gt;_x007B_Line_x0020__x003D__x003D__x0020_1_x007D_&lt;/value&gt;&lt;value&gt;_x007B_Line_x0020__x003E__x0020_2_x007D_&lt;/value&gt;&lt;/Filters&gt;&lt;FilterMode&gt;Or&lt;/FilterMode&gt;&lt;Enabled&gt;False&lt;/Enabled&gt;&lt;TextColor&gt;Red&lt;/TextColor&gt;&lt;BackColor&gt;Transparent&lt;/BackColor&gt;&lt;Font&gt;Arial, 8pt&lt;/Font&gt;&lt;/StiSerializer&gt;</value>
+              </Conditions>
+              <Font>Calibri,10,Italic</Font>
+              <Guid>5cca62726b66408cb92cb44a6554abf6</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text23</Name>
+              <Page isRef="5" />
+              <Parent isRef="37" />
+              <Text>Previous values: </Text>
+              <TextBrush>DimGray</TextBrush>
+              <Type>Expression</Type>
+            </Text23>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <DataSourceName>Completed</DataSourceName>
+          <Filters isList="true" count="0" />
+          <Guid>1fd0f04e85a547ed9eb69e3a6d0923a9</Guid>
+          <MasterComponent isRef="27" />
+          <Name>DataBand4</Name>
+          <Page isRef="5" />
+          <Parent isRef="5" />
+          <Sort isList="true" count="2">
+            <value>DESC</value>
+            <value>Timestamp</value>
+          </Sort>
+        </DataBand4>
+        <GroupFooterBand5 Ref="40" type="GroupFooterBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,23.4,19,0</ClientRectangle>
+          <Components isList="true" count="0" />
+          <Conditions isList="true" count="0" />
+          <Guid>20bc41eedae749a2a47602e875762e8d</Guid>
+          <Name>GroupFooterBand5</Name>
+          <Page isRef="5" />
+          <Parent isRef="5" />
+        </GroupFooterBand5>
+        <GroupFooterBand7 Ref="41" type="GroupFooterBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,24.2,19,0.1</ClientRectangle>
+          <Components isList="true" count="0" />
+          <Conditions isList="true" count="0" />
+          <Guid>f1836a404e194fd4bcf8b97b64b350f0</Guid>
+          <Name>GroupFooterBand7</Name>
+          <Page isRef="5" />
+          <Parent isRef="5" />
+        </GroupFooterBand7>
+        <GroupFooterBand8 Ref="42" type="GroupFooterBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,25.1,19,0</ClientRectangle>
+          <Components isList="true" count="0" />
+          <Conditions isList="true" count="0" />
+          <Guid>48e65db401864616aa267746931cf352</Guid>
+          <Name>GroupFooterBand8</Name>
+          <Page isRef="5" />
+          <Parent isRef="5" />
+        </GroupFooterBand8>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>07f01f59d5f64faeab2194d128d0ac56</Guid>
+      <Margins>1,1,1,1</Margins>
+      <Name>Page1</Name>
+      <Page isRef="5" />
+      <PageHeight>29.7</PageHeight>
+      <PageWidth>21</PageWidth>
+      <Report isRef="0" />
+      <Watermark Ref="43" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </Page1>
+  </Pages>
+  <PrinterSettings Ref="44" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
+  <ReferencedAssemblies isList="true" count="12">
+    <value>System.Dll</value>
+    <value>System.Drawing.Dll</value>
+    <value>System.Windows.Forms.Dll</value>
+    <value>System.Data.Dll</value>
+    <value>System.Xml.Dll</value>
+    <value>Sitecore.Kernel.Dll</value>
+    <value>Sitecore.Forms.Core.Dll</value>
+    <value>Sitecore.Analytics.dll</value>
+    <value>Sitecore.Oracle.dll</value>
+    <value>Stimulsoft.Controls.Dll</value>
+    <value>Stimulsoft.Base.Dll</value>
+    <value>Stimulsoft.Report.Dll</value>
+  </ReferencedAssemblies>
+  <ReportAlias>All Form Dropouts</ReportAlias>
+  <ReportAuthor>Sitecore</ReportAuthor>
+  <ReportChanged>9/22/2011 4:18:56 PM</ReportChanged>
+  <ReportCreated>6/18/2009 7:10:55 PM</ReportCreated>
+  <ReportDescription>Downloads</ReportDescription>
+  <ReportFile>U:\sc650\sc650\sitecore modules\Shell\Web Forms for Marketers\Reports\All Form Dropouts.Oracle.mrt</ReportFile>
+  <ReportGuid>94152a57de6e4721947e43f0cd5cd1ef</ReportGuid>
+  <ReportName>All Form Dropouts</ReportName>
+  <ReportUnit>Centimeters</ReportUnit>
+  <ReportVersion>2009.2.500</ReportVersion>
+  <Script>using System;
+using System.Drawing;
+using System.Windows.Forms;
+using System.Data;
+using Stimulsoft.Controls;
+using Stimulsoft.Base.Drawing;
+using Stimulsoft.Report;
+using Stimulsoft.Report.Dialogs;
+using Stimulsoft.Report.Components;
+namespace Reports
+{
+    public class DownloadsReport : Stimulsoft.Report.StiReport
+    {
+        public DownloadsReport()
+        {
+            this.InitializeComponent();
+        }
+        #region StiReport Designer generated code - do not modify#endregion StiReport Designer generated code - do not modify
+    }
+}</Script>
+  <ScriptLanguage>CSharp</ScriptLanguage>
+  <Styles isList="true" count="8">
+    <Title Ref="45" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>Bottom;[23:54:95];1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Font>Cambria,26.25</Font>
+      <Name>Title</Name>
+      <TextBrush>[23:54:95]</TextBrush>
+    </Title>
+    <Subtitle Ref="46" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Font>Cambria,12,Italic</Font>
+      <Name>Subtitle</Name>
+      <TextBrush>[23:54:95]</TextBrush>
+    </Subtitle>
+    <ColumnHeader Ref="47" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>Top, Bottom;[54:95:145];1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Font>Calibri,11,Bold</Font>
+      <Name>ColumnHeader</Name>
+      <TextBrush>[54:95:145]</TextBrush>
+    </ColumnHeader>
+    <EvenRow Ref="48" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>[211:223:238]</Brush>
+      <Font>Calibri,11,Bold</Font>
+      <Name>EvenRow</Name>
+      <TextBrush>[54:95:145]</TextBrush>
+    </EvenRow>
+    <OddRow Ref="49" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Font>Calibri,11,Bold</Font>
+      <Name>OddRow</Name>
+      <TextBrush>[54:95:145]</TextBrush>
+    </OddRow>
+    <GroupHeader Ref="50" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Font>Cambria,14.25,Bold</Font>
+      <Name>GroupHeader</Name>
+      <TextBrush>[54:95:145]</TextBrush>
+    </GroupHeader>
+    <Detail Ref="51" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>EmptyBrush</Brush>
+      <Font>Calibri,10</Font>
+      <Name>Detail</Name>
+      <TextBrush>DimGray</TextBrush>
+    </Detail>
+    <Text Ref="52" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Brush>Transparent</Brush>
+      <Font>Cambria,10</Font>
+      <Name>Text</Name>
+      <TextBrush>Black</TextBrush>
+    </Text>
+  </Styles>
+</StiSerializer>

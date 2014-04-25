@@ -1,7 +1,8 @@
 <%@ Page Language="c#" Inherits="System.Web.UI.Page" CodePage="65001" %>
+<%@ Import Namespace="Sitecore.Web" %>
 
 <%@ Register TagPrefix="sc" Namespace="Sitecore.Web.UI.HtmlControls" Assembly="Sitecore.Kernel" %>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<!DOCTYPE html>
 <html>
 <head runat="server">
   <title>www.sitecore.net</title>
@@ -39,3 +40,15 @@
   </form>
 </body>
 </html>
+
+<script language="C#" runat="server">
+
+protected void Page_Load(object sender, EventArgs args)
+{
+  if (!Sitecore.Context.User.IsAuthenticated)
+  {
+    WebUtil.RedirectToLoginPage();
+  }
+}
+
+</script>

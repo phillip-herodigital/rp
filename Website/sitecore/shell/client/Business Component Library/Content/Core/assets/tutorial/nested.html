@@ -1,0 +1,238 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Your Website</title>
+                      <script src="../../../../Assets/vendors/JQuery/jquery-1.8.2.min.js"></script>
+      <script src="../../../../Assets/vendors/KnockOut/knockout-2.1.0.js"></script>
+      <script src="../../../../Assets/vendors/underscore/underscore.js"></script>
+      <script src="../../../../Assets/vendors/Backbone/backbone.js"></script>
+
+		<script>
+			 window.__SITECOREDEBUG = true;
+		</script>
+      <script src="../../../../Assets/lib/dist/sitecore-1.0.1.js"></script>
+        <style>
+        code, pre, tt {
+      font-family: Monaco, Consolas, "Lucida Console", monospace;
+      font-size: 12px;
+      line-height: 18px;
+      font-style: normal;
+    }
+      tt {
+        padding: 0px 3px;
+        background: #fff;
+        border: 1px solid #ddd;
+        zoom: 1;
+      }
+      code {
+        margin-left: 20px;
+      }
+      pre {
+        font-size: 12px;
+        padding: 2px 0 2px 15px;
+        border: 4px solid #bbb; border-top: 0; border-bottom: 0;
+        margin: 0px 0 25px;
+      }
+      div.run {
+      position: absolute;
+      right: 15px;
+      width: 26px; height: 18px;
+      background: url('arrows.png') no-repeat -26px 0;
+    }
+      div.run:active {
+        background-position: -51px 0;
+      }
+      header {
+        width: 600px;
+        margin:0 auto;
+      }
+      section {
+        width: 600px;
+        /*float: left;*/
+        margin:0 auto;
+        position: relative;
+      }
+      .console {
+        color:green;
+        font-size: 16px;
+      }
+      footer {
+        width:600px;
+        margin:0 auto;
+      }
+      footer a {
+        font-size: 24px;
+        margin:10px;
+      }
+      footer a.prev {
+        float: left;
+      }
+      footer a.next {
+        float: right;
+      }
+        </style>
+    </head>
+    <body>
+
+        <header>
+            <h1>Demo: Nested App.</h1>
+        </header>
+        <section>
+          <h2>1) Multiple App in same Page.</h2>
+          <p>This is example will run 2 examples with the same component.</p>
+          <p class="console">Open your console</p>
+<pre class="view">
+  &#60;div id="thisIsApp">
+    &#60;div id="ViewExample"  data-sc-id="Control1" class="sc-control">
+      &#60;input type="text" data-bind="value:FromInput" />
+      &#60;p>Value is &#60;span data-bind="text:FromInput">&#60;/span>&#60;/p>
+      &#60;button>Update &#60;/button>
+    &#60;/div>
+  &#60;/div>
+  &#60;div id="thisIsApp2">
+    &#60;div id="ViewExample"  data-sc-id="Control2" class="sc-control">
+      &#60;input type="text" data-bind="value:FromInput" />
+      &#60;p>Value is &#60;span data-bind="text:FromInput">&#60;/span>&#60;/p>
+      &#60;button>Update &#60;/button>
+    &#60;/div>
+  &#60;/div>
+</pre>
+<pre class="runnable html">
+
+  //we define a model
+  var Model = _sc.Definitions.Models.Model.extend({
+    initialize: function() {
+      this.set("FromInput", "");
+    }
+  });
+
+  //we define the View
+  var View = _sc.Definitions.Views.View.extend({
+  });
+
+  //we have now at least one component
+  _sc.Factories.createComponent("FakeComponent", Model, View, ".sc-control");
+
+  var app1 = _sc.Factories.createApp("thisIsApp");
+
+  var app2 = _sc.Factories.createApp("thisIsApp2");
+
+  //from now you have an app.
+  console.log(app1);
+  console.log(app2);
+  alert("Here is our 1st app: "+ app1.name);
+  alert("Here is our 2nd app: "+ app2.name);
+</pre>
+        </section>
+        <section>
+          <h2>2) Nested applications</h2>
+          <p>In order to have nested application, you need to apply the attribute "data-sc-app" on your HTML Elements to define the Border of each Application. Hence, SPEAK Js will know that this area will be treated as an Application inside the application</p>
+          <p class="console">Open your console</p>
+<pre class="view">
+  &#60;div id="thisIsApp2Nested"  data-sc-app>
+    &#60;div id="ViewExample"  data-sc-id="Control1" class="sc-controlNested">
+      &#60;input type="text" data-bind="value:FromInput" />
+      &#60;p>Value is &#60;span data-bind="text:FromInput">&#60;/span>&#60;/p>
+      &#60;button>Update &#60;/button>
+    &#60;/div>
+    &#60;div id="thisIsAppNested" data-sc-app>
+      &#60;div id="ViewExample"  data-sc-id="Control2" class="sc-controlNested">
+        &#60;input type="text" data-bind="value:FromInput" />
+        &#60;p>Value is &#60;span data-bind="text:FromInput">&#60;/span>&#60;/p>
+        &#60;button>Update &#60;/button>
+      &#60;/div>
+    &#60;/div>
+  &#60;/div>
+</pre>
+<pre class="runnable html">
+
+  var Model = _sc.Definitions.Models.Model.extend({
+    initialize: function() {
+      this.set("FromInput", "");
+    }
+  });
+
+  var View = _sc.Definitions.Views.View.extend({
+  });
+
+  _sc.Factories.createComponent("FakeComponent", Model, View, ".sc-controlNested");
+
+  //we just need to run the Parent App in order to run the child APP
+  var nestedapp = _sc.Factories.createApp("thisIsApp2Nested"); 
+
+  //from now you have an app.
+  console.log(nestedapp);
+  console.log(nestedapp.thisIsAppNested);
+
+</pre>
+        </section>
+        <section>
+          <h2>3) Excluding HTML from SPEAK JS</h2>
+          <p>We have provided you a way to exlude HTML to be runned. You need to set the data-sc-exclude attribute on the element you do not whish to be part of SPEAK JS.</p>
+
+<pre class="view">
+  &#60;div id="excludedApp"  data-sc-app>
+    &#60;div data-sc-exclude>
+      &#60;div id="ViewExample" data-sc-id="Control1" class="sc-controlExclude">
+        &#60;input type="text" data-bind="value:FromInput" />
+        &#60;p>Value is &#60;span data-bind="text:FromInput">&#60;/span>&#60;/p>
+        &#60;button>Update &#60;/button>
+      &#60;/div>
+    &#60;/div>
+  &#60;/div>
+</pre>
+<pre class="runnable html">
+
+  var Model = _sc.Definitions.Models.Model.extend({
+    initialize: function() {
+      this.set("FromInput", "");
+    }
+  });
+
+  var View = _sc.Definitions.Views.View.extend({
+  });
+
+  _sc.Factories.createComponent("FakeComponent", Model, View, ".sc-controlExclude");
+
+  //we just need to run the Parent App in order to run the child APP
+  var excludeapp = _sc.Factories.createApp("excludedApp"); 
+
+  //from now you have an app.
+  console.log(excludeapp);
+
+  //there should be not control
+  alert("You have no control due to exlude. Nb of controls: "+ excludeapp.Controls.length);
+
+</pre>
+        </section>
+        <footer>
+            <a class="prev" href="app.html">Prev: The Application</a>
+            <a class="next" href="pipeline.html">Next: The Pipeline</a>
+        </footer>
+        <!-- Application source. -->
+        <script>
+            // Set up the "play" buttons for each runnable code example.
+            $(function() {
+
+              $('.runnable').each(function() {
+                var code = this;
+
+                var button = '<div class="run" title="Run"></div>';
+                $(button).insertBefore(code).bind('click', function(){
+                  var hasView = $(code).hasClass("html");
+
+                  if(hasView) {
+                    $(code).parent().find(".example").remove();
+                    var html = $(code).closest("section").find(".view").text();
+
+                    $(code).parent().append(html).addClass("inserted");
+                  }
+                  eval($(code).text());
+                });
+              });
+              //$('[data-original]').lazyload();
+            });
+        </script>
+    </body>
+</html>

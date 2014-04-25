@@ -4,6 +4,8 @@ if (typeof (Sitecore.Controls) == "undefined") Sitecore.Controls = new Object();
 Sitecore.Controls.RichEditor = Class.create({
   initialize: function(editorId) {
     this.editorId = editorId;
+
+    Event.observe(window, "resize", this.fitEditorToScreen.bind(this));
   },
 
   onClientLoad: function(editor) {
@@ -13,9 +15,14 @@ Sitecore.Controls.RichEditor = Class.create({
     }
 
     fixIeObjectTagBug();
-    Event.observe($$('.reMode_design')[0], 'click', function () {
+
+    // get the design mode
+    var designModeBtn = $$('.reMode_design')[0];
+    if (typeof (designModeBtn) != "undefined") {
+        Event.observe(designModeBtn, 'click', function () {
       setTimeout(fixIeObjectTagBug, 100);
     });
+    }
 
     if (Prototype.Browser.IE && editor.get_newLineMode() == Telerik.Web.UI.EditorNewLineModes.P) {
       editor.attachEventHandler("onkeydown", function (e) {
@@ -27,6 +34,8 @@ Sitecore.Controls.RichEditor = Class.create({
     }
 
     this.oldValue = editor.get_html(true);
+
+    this.fitEditorToScreen();
   },
 
   getEditor: function() {
@@ -35,6 +44,42 @@ Sitecore.Controls.RichEditor = Class.create({
     }
 
     return null;
+  },
+
+  fitEditorToScreen: function () {
+    var editor = this.getEditor();
+    if (!editor) {
+      return;
+    }
+
+    var container = $$("form")[0];
+
+    var width = 0;
+    var height = 0;
+
+    if (container.getHeight != null) {
+      height = container.getHeight() - 28;
+      width = container.getWidth();
+    }
+    else {
+      width = container.offsetWidth;
+      height = (container.offsetHeight - 28);
+    }
+
+    if (height < 0) {
+      return;
+    }
+
+    editor.setSize(width, height);
+
+    if (!scForm.browser.isIE) {
+      if (height - 53 > 0) {
+        $('EditorCenter').style.height = (height - $('EditorTop').offsetHeight - 27) + 'px';
+      }
+      else {
+        $('EditorCenter').style.height = '0px';
+      }
+    }
   },
 
   saveRichText: function (html) {
@@ -93,7 +138,30 @@ function scCloseEditor() {
     $(w).hide();
    }
    else {
-    // Page editor
-    window.close();
+     // Page editor
+     if (top._scDialogs.length != 0) {
+       top.dialogClose();
+     } else {
+       scCloseRadWindow();
+     }
+   }
+}
+
+function scGetRadWindow() {
+  var currentRadWindow = null;
+  if (window.radWindow)
+    currentRadWindow = window.radWindow;
+  else if (window.frameElement.radWindow)
+    currentRadWindow = window.frameElement.radWindow;
+  return currentRadWindow;
+}
+
+function scCloseRadWindow() {
+  var currentRadWindow = scGetRadWindow();
+  if (currentRadWindow != null) {
+    // Hack for IE. Window is not closed because code thinks that window is already closed. Calling 'show' before closing helps to solve the problem. 
+    currentRadWindow.show();
+    currentRadWindow.close();
   }
+  return false;
 }

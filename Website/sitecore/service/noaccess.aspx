@@ -2,8 +2,8 @@
 <%@ register TagPrefix="sc" Namespace="Sitecore.Web.UI.HtmlControls" Assembly="Sitecore.Kernel" %>
 <%@ Register TagPrefix="sc" Namespace="Sitecore.Web.UI.WebControls" Assembly="Sitecore.Analytics" %>
 <%@ Page language="c#" Codebehind="noaccess.aspx.cs" EnableViewState="false" EnableViewStateMac="false" AutoEventWireup="True" Inherits="SitecoreClient.Page.NoAccess" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" >
+<!DOCTYPE html>
+<html>
   <head>
     <title>Access Denied</title>
     <link href="/sitecore/login/default.css" rel="stylesheet" />

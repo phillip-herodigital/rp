@@ -1,0 +1,24 @@
+﻿@using Sitecore.Mvc
+@using Sitecore.Mvc.Presentation
+@using Sitecore.Web.UI.Controls.Common.UserControls
+@model RenderingModel
+@{
+  var userControl = this.Html.Sitecore().Controls().GetUserControl(this.Model.Rendering);
+  userControl.Requires.Script("business", "searchpanel.js");
+  userControl.HasNestedComponents = true;
+  var controlId = userControl.ControlId;
+  var htmlAttributes = userControl.HtmlAttributes;
+}
+<div class="sc-search row-fluid" @htmlAttributes>
+  <div class="sc-search-filters span4">
+    @Html.Sitecore().Placeholder(@controlId + ".Filters")
+  </div>
+  
+  <div class="sc-search-searches span8">
+    @Html.Sitecore().Placeholder(@controlId + ".Searches")
+  </div>
+
+  <div class="span12 sc-search-details">
+    @Html.Sitecore().Placeholder(@controlId + ".Details")
+  </div>
+</div>

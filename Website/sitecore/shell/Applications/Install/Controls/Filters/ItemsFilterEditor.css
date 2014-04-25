@@ -1,0 +1,35 @@
+﻿.itemsFilterEditorContainer {
+  overflow: auto;
+}
+
+  .itemsFilterEditorContainer > fieldset {
+    margin-bottom: 10px;
+    padding: 8px;
+  }
+
+.filterEditorChildContainer {
+  position: relative;
+}
+
+  .filterEditorChildContainer > div, .filterEditorChildContainer > table {
+    padding-right: 85px;
+  }
+
+  .filterEditorChildContainer > fieldset {
+    margin-right: 85px;
+  }
+
+  .filterEditorChildContainer > button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+  }
+
+.ie8 .itemsFilterEditorContainer > fieldset {
+  margin-bottom: 0;
+}
+
+.ie8 .filterEditorChildContainer {
+  margin: 5px 10px 0 0;
+}

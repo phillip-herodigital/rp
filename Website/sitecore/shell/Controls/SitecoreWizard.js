@@ -34,9 +34,7 @@ function scAlignWizardButtons() {
 }
 
 function scUpdateWizardControls() {   
-  if (!scForm.browser.isIE) { 
-    scForm.browser.initializeFixsizeElements(); 
-  }
+  scForm.browser.initializeFixsizeElements(); 
 
   if (typeof(scTreeview) != 'undefined' && scTreeview.isHidden) {   
     scTreeview.align();

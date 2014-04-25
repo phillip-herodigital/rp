@@ -4,7 +4,7 @@
     <FormPage>
       <CodeBeside Type="Sitecore.Shell.Applications.Reports.LogViewer.LogViewerDetailsForm,Sitecore.Client"/>
 
-      <Scrollbox ID="LogViewer" Class="scScrollbox scFixSize scFixSize4" Padding="0px" FontSize="9pt" FontName="courier new" Border="none" Height="100%">
+      <Scrollbox ID="LogViewer" Class="scScrollbox" Padding="0px" FontSize="9pt" FontName="courier new" Border="none" Height="100%">
 
         <Border ID="TextPanel" Foreground="#999999" Align="center" Padding="16px 0px 16px 0px">
           <i>

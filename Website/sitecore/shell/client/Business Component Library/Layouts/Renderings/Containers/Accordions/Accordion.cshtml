@@ -1,0 +1,56 @@
+﻿@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Common.UserControls
+@model Sitecore.Mvc.Presentation.RenderingModel
+@{
+  var userControl = this.Html.Sitecore().Controls().GetUserControl(this.Model.Rendering);
+  userControl.Class = "sc-accordion";
+  userControl.HasNestedComponents = true;
+  userControl.Requires.Script("business", "accordion.js");
+  userControl.DataBind = "visible: isVisible";
+  
+  var controlId = userControl.ControlId;
+  var header = userControl.GetString("Header", "Header");
+  var enableAdditional = userControl.GetBool("EnableAdditional", "EnableAdditional");
+  userControl.Attributes["data-sc-enableadditional"] = enableAdditional.ToString();
+  var isOpen = userControl.GetBool("IsOpen", "IsOpen", true);
+  userControl.Attributes["data-sc-isopen"] = isOpen.ToString();
+  var contentHeight = userControl.GetString("ContentHeight", "ContentHeight");
+  userControl.Attributes["data-sc-contentheight"] = contentHeight;
+  userControl.Attributes["data-sc-header"] = header;
+  var htmlAttributes = userControl.HtmlAttributes;
+}
+<div @htmlAttributes>
+  <div class="sc-accordion-header">
+    <table>
+      <tr>
+        <td class="sc-accordion-header-title" data-bind="text: header">
+          @header
+        </td>
+        <td class="sc-accordion-header-actionbar">@this.Html.Sitecore().Placeholder(controlId + ".ActionBar")</td>
+        <td class="sc-accordion-header-chevron">
+          <a href="#" data-bind="click: toggle">
+              <span class="sc-accordion-header-chevron-glyph" data-bind="css: { 'sc-accordion2-header-chevron-glyph-open': isOpen }"></span>
+          </a>
+        </td>
+      </tr> 
+      <tr>
+        <td class="sc-accordion-header-promotedfields" colspan="3"></td>
+      </tr>
+    </table>
+  </div>
+    
+  <div class="sc-accordion-body" data-bind="visible: isOpen">
+    <div data-bind="style: { height: contentHeight }" class="sc-accordion-bodywrapper">
+      @this.Html.Sitecore().Placeholder(controlId + ".Body")
+    </div>
+                     
+    <div class="sc-accordion-footer" data-bind="visible: enableAdditional">
+      <div class="sc-accordion-footer-less" data-bind="visible: showAdditional">
+        <a href="#" data-bind="click: toggleAdditional">Less</a>
+      </div>
+      <div class="sc-accordion-footer-more" data-bind="visible: !showAdditional()">
+        <a href="#" data-bind="click: toggleAdditional">More</a>
+      </div>
+    </div>
+  </div>
+</div>

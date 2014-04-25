@@ -79,7 +79,7 @@
 
       <WizardFormPage ID="Uploading" Header="Uploading" Text="Please wait while the file(s) are being uploaded..." Icon="Applications/32x32/Export1.png">
         <GridPanel Width="100%">
-          <Space Height="64"/>
+          <Border Height="64"/>
           
           <ThemedImage Src="Applications/48x48/Export1.png" Width="48" Height="48" GridPanel.Align="center"/>
 

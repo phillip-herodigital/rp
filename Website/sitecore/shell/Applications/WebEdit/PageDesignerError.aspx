@@ -1,8 +1,8 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="PageDesignerError.aspx.cs" Inherits="Sitecore.Shell.Applications.WebEdit.PageDesignerError" %>
 <%@ OutputCache Location="None" VaryByParam="none" %>
 <%@ register TagPrefix="sc" Namespace="Sitecore.Web.UI.HtmlControls" Assembly="Sitecore.Kernel" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" >
+<!DOCTYPE html>
+<html>
   <head>
     <title>Sitecore</title>
     <link href="/sitecore/login/default.css" rel="stylesheet" />

@@ -12,9 +12,9 @@
            <Radiobutton def:ID="SpecifyRange" Width="100%" GridPanel.Width="100%" Header="Specify dates" Value="SpecifyRange"/>
            <Border def:ID="Dates">
              <GridPanel Columns="2" Height="100%">
-                <Literal Text="From" Padding="0px 0px 0px 21px" GridPanel.Width="55"/>
+                <Literal Text="Start date:" Padding="0px 0px 0px 21px" GridPanel.Width="80"/>
                 <DatePicker def:ID="FromDate" GridPanel.Width="100"/>
-                <Literal Text="To" Padding="0px 0px 0px 21px" />
+                <Literal Text="End date:" Padding="0px 0px 0px 21px" />
                 <DatePicker def:ID="ToDate" />
              </GridPanel>
            </Border>

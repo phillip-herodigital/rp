@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html class="sc">
+<head>
+  <title>Jasmine Test Runner</title>
+  <link href="../assets/css/sitecorify.css" rel="stylesheet" />
+  <link href="vendors/jasmine-standalone-1.0.0/jasmine.css" rel="stylesheet" />
+
+  <script src="../assets/vendors/JQuery/jquery-1.8.2.min.js" type="text/javascript"></script>
+  <script src="../assets/vendors/JQuery/jquery-ui-1.8.23.custom.min.js" type="text/javascript"></script>
+  <script src="../assets/vendors/underscore/underscore.js" type="text/javascript"></script>
+  <script src="../assets/vendors/KnockOut/knockout-2.1.0.js" type="text/javascript"></script>
+  <script src="../assets/vendors/KnockOut/knockout.mapping-latest.js" type="text/javascript"></script>
+  <script src="../assets/vendors/backbone/backbone.js" type="text/javascript"></script>
+  <script src="../assets/vendors/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+  <script src="../assets/vendors/JQuery.FileDrop/jquery.filedrop.js" type="text/javascript"></script>
+  <script src="../assets/vendors/Wijmo/jquery.wijmo-open.all.2.2.1.min.js" type="text/javascript"></script>
+  <script src="../assets/vendors/Wijmo/jquery.wijmo-complete.all.2.2.1.min.js" type="text/javascript"></script>
+  <script src="../assets/vendors/Wijmo/knockout.wijmo.js" type="text/javascript"></script>
+  <script src="../assets/lib/dist/sitecore-0.9.9.js" type="text/javascript"> </script>
+
+  <script src="vendors/jasmine-standalone-1.0.0/jasmine.js" type="text/javascript"> </script>
+  <script src="vendors/jasmine-standalone-1.0.0/jasmine-html.js" type="text/javascript"> </script>
+  <script src="vendors/jquery.mockjax.js" type="text/javascript"></script>
+  <script src="vendors/jquery.mockjax.settings.js" type="text/javascript"></script>
+  
+  <script src="../Layouts/Renderings/Common/Buttons/Button.js"></script>                 
+  <script src="renderings/common/Button.test.js" type="text/javascript"> </script>                     
+
+  <script src="../Layouts/Renderings/Common/Hyperlink/HyperlinkButton.js"></script>
+  <script src="renderings/common/HyperlinkButton.test.js" type="text/javascript"> </script>          
+
+  <script src="../Layouts/Renderings/Common/RadioButton/RadioButton.js"></script>
+  <script src="renderings/common/RadioButton.test.js" type="text/javascript"> </script>
+  
+  <script src="../Layouts/Renderings/Containers/Accordions/Accordion.js"></script>
+  <script src="renderings/containers/Accordion.test.js" type="text/javascript"> </script>                   
+
+  <script src="../Layouts/Renderings/Data/QueryDataSources/QueryDataSource.js"></script>
+  <script src="renderings/data/QueryDataSource.test.js" type="text/javascript"> </script>
+
+  <!--
+    <script src="../Sitecore/Repository/Layouts/Renderings/Common/MessageBars/MessageBar.js"></script>
+    <script src="renderings/common/MessageBar.test.js" type="text/javascript"> </script>
+  -->
+</head>
+  <body>
+    <div>
+      <script type="text/javascript">
+        var jasmineEnv = jasmine.getEnv();
+        var htmlReporter = new jasmine.TrivialReporter();
+        jasmineEnv.addReporter(htmlReporter);
+        jasmineEnv.execute();
+      </script>
+    </div>
+  </body>
+</html>

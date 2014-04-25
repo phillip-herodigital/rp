@@ -9,11 +9,34 @@
         padding-left: 0;
         padding-right: 0;
         }
+        .scGalleryGrip {
+          position: absolute; 
+          bottom: 0;
+          left: 0; 
+          right: 0;
+          height: 10px;
+        }
+        .scGalleryMenuLine {
+          position: absolute; 
+          bottom: 10px;
+          left: 0; 
+          right: 0;
+          height: 2px;
+        }
+        .scIndexesGalleryMenu {
+          overflow: hidden;
+          vertical-align: top;
+          border-bottom: 12px solid transparent;
+          -moz-box-sizing: border-box;
+          box-sizing: border-box;
+          width: 100%;
+          height: 100%;
+        }
       </Stylesheet>
 
-      <GridPanel Width="100%" Height="100%">
+      <Border Width="100%" Height="100%">
 
-        <GalleryMenu ID="Options" GridPanel.Height="100%" GridPanel.VAlign="top">
+        <GalleryMenu ID="Options" Class="scIndexesGalleryMenu">
 
           <MenuPanel Height="100%">
             <Scrollbox ID="Indexes" Class="scScrollbox scFixSize" Height="100%" Background="#F4F4F5" Padding="0px" Border="none"/>
@@ -21,12 +44,12 @@
 
         </GalleryMenu>
 
-        <GalleryMenuLine GridPanel.Height="2" />
+        <GalleryMenuLine />
 
-        <Gallery.Grip GridPanel.Height="10"/>
+        <Gallery.Grip />
         
-      </GridPanel>
-      
+      </Border>
+
     </Gallery>
   </Gallery.Indexes>
 </control>

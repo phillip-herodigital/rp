@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Your Website</title>
+                     <script src="../../../../Assets/vendors/JQuery/jquery-1.8.2.min.js"></script>
+      <script src="../../../../Assets/vendors/KnockOut/knockout-2.1.0.js"></script>
+      <script src="../../../../Assets/vendors/underscore/underscore.js"></script>
+      <script src="../../../../Assets/vendors/Backbone/backbone.js"></script>
+
+		<script>
+			 window.__SITECOREDEBUG = true;
+		</script>
+      <script src="../../../../Assets/lib/dist/sitecore-1.0.1.js"></script>
+    </head>
+    <body>
+    <h1>Use events with our Simple Text Control</h1>
+
+<div style="width:50%;float:left">
+    <h2>Code</h2>
+    <h3>Html</h3>
+    <pre>
+&#60;span data-sc-id="SimpleTextControl" data-bind="text:text" class="sc-text">&#60;/span>
+    </pre>    
+    <h3>Javascript</h3>
+    <pre>
+_sc.Factories.createBaseComponent({
+  name: "TextControl",
+  selector: ".sc-text",
+  attributes: [ 
+    { name: "text", value: "Hello, world!" }
+  ],
+  events: {
+    "mouseover": "changeText",
+    "mouseout": "revertText" 
+  },
+  changeText: function () {
+    this.model.set("oldText", this.model.get("text"));
+    this.model.set("text", "Hello dude, what's up")
+  },
+  revertText: function() {
+    this.model.set("text", this.model.get("oldText"));
+  }
+ });
+
+  window.app = _sc.Factories.createApp();
+    </pre>
+</div>
+<div style="width:50%;float:left">
+    <h2>Result</h2>
+
+    <span data-sc-id="SimpleTextControl" data-bind="text:text" class="sc-text"></span>
+</div>
+<div style="width:100%;float:left">
+<h4>What you need to know.</h4>
+<p>
+  <ul>
+    <li>
+      <b>events:</b>
+      <p>This object is a key/value object. The key is the name of the event you want to listen. The value is the function you want to execute. These functions should be part of the object you pass to the createBaseComponent function. Sitecore uses backbone which uses jQuery, the event you see there are events supported by Jquery.</p>
+      <p>More about events: <a href="http://api.jquery.com/category/events/event-object/">http://api.jquery.com/category/events/event-object/</a></p>
+    </li>
+    <li>
+      <b>What is "this"</b>
+      <p>"this" is the current context. In fact it is the view.</p>
+      <ul>
+        <li>this.$el</li>
+        <p>Jquery object which represent the element <a href="http://api.jquery.com/jQuery/">(Jquery Object)</a></p>
+        <li>this.model</li>
+        <p>is your model (<a href="http://backbonejs.org/#Model">backbone model</a>)</p>
+        <li>this.app</li>
+        <p>App where the control is included (will see this later)</p>
+      </ul>
+    </li>
+  </ul>
+</p>
+</div>
+    <script>
+    	
+      _sc.Factories.createBaseComponent({
+        name: "TextControl",
+        selector: ".sc-text",
+        attributes: [ 
+          { name: "text", value: "Hello, world!" }
+        ],
+        events: {
+          "mouseover": "changeText",
+          "mouseout": "revertText" 
+        },
+        changeText: function () {
+          this.model.set("oldText", this.model.get("text"));
+          this.model.set("text", "Hello dude, what's up")
+        },
+        revertText: function() {
+          this.model.set("text", this.model.get("oldText"));
+        }
+       });
+
+      window.app = _sc.Factories.createApp();
+
+    </script>
+    </body>
+</html>

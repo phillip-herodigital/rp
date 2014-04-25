@@ -12,27 +12,16 @@
       <CodeBeside Type="Sitecore.Shell.Applications.Security.SecurityEditor.SecurityEditorForm,Sitecore.Client"/>
 
       <DataContext ID="DataContext" Root="{11111111-1111-1111-1111-111111111111}"/>
-      
+
       <input type="hidden" id="scActiveRibbonStrip" name="scActiveRibbonStrip" />
 
-      <GridPanel ID="Grid" Width="100%" Height="100%" Fixed="true">
-
-        <Border ID="RibbonPanel" GridPanel.Width="100%"/>
-
-        <GridPanel Width="100%" Height="100%" GridPanel.Height="100%" GridPanel.Width="100%" Fixed="true">
-
-          <Scrollbox Class="scScrollbox scFixSize" Height="100%" Border="none" Padding="0px" GridPanel.Width="100%" GridPanel.Height="100%" GridPanel.VAlign="top">
-
-            <shell:SecurityTreeview Click="Treeview_Click" ID="Treeview" DataContext="DataContext" Root="true" ContextMenu='Treeview.GetContextMenu("contextmenu")' AllowDragging="true"/>
-            
-          </Scrollbox>
-        
-        </GridPanel>
-
+      <div class="scFlexColumnContainer scHeight100" onclick="javascript:scContent.onEditorClick(this, event);">
+        <Border ID="RibbonPanel"/>
+        <Scrollbox Class="scScrollbox scFlexContent">
+          <shell:SecurityTreeview Click="Treeview_Click" ID="Treeview" DataContext="DataContext" Root="true" ContextMenu='Treeview.GetContextMenu("contextmenu")' AllowDragging="true"/>
+        </Scrollbox>
         <SecurityEditorLegend />
-
-      </GridPanel>
-
+      </div>
     </FormPage>
   </SecurityEditor>
 </control>

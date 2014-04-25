@@ -32,7 +32,7 @@
   Sitecore.Treeview.onTreeGlyphClick = function(node, treeElement, id) {
     var glyph = node.down();
     var isMultiRoot = false;
-    if (glyph.src.indexOf("expand15x15") >= 0) {
+    if (glyph.src.indexOf("expand15x15") >= 0 && glyph.src.indexOf("noexpand15x15") == -1) {
       this.setGlyph(glyph, "/loading15x15");
     
       var content = $F(treeElement.id + "_Database");
@@ -67,7 +67,7 @@
           onFailure: function(request){ alert("Failed") }
         });
     }
-    else {
+    else if (glyph.src.indexOf("collapse15x15") >= 0) {
       this.collapseTreeNode(node);
     }
   

@@ -1,0 +1,14 @@
+﻿@using Sitecore.Mvc
+<div class="row-fluid">
+  <aside class="span3 sc-applicationContent-navigation">
+    @Html.Sitecore().Placeholder("ApplicationContent.Navigation")
+  </aside>
+
+  <section class="span6 sc-applicationContent-main">
+    @Html.Sitecore().Placeholder("ApplicationContent.Main")
+  </section>
+
+  <section class="span3 sc-applicationContent-info">
+    @Html.Sitecore().Placeholder("ApplicationContent.Info")
+  </section>
+</div>

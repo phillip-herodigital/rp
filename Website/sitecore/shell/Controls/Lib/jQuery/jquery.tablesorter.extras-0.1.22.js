@@ -60,7 +60,7 @@ Tablesorter widget to enable selcting rows.
       var not = false;
       var tr = $('tbody tr', table);
 
-      if (e.which == 1) {     // left mouse button
+      if (e.button == 0 || navigator.userAgent.indexOf("Trident/4") != -1 && e.button == 1) {     // left mouse button
         if (!e.ctrlKey) {
           $(elem).siblings('.selected').removeClass('selected');
 

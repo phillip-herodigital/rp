@@ -1,0 +1,31 @@
+﻿@using Sitecore.Mvc.Presentation
+@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Common.CheckBoxes
+@using Sitecore.Web.UI.Controls.Common.Texts
+
+@model RenderingModel
+
+<h3>Apperance</h3>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Checked</th>
+      <th>Unchecked</th>
+      <th>Invisible</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>@Html.Sitecore().Controls().CheckBox("CheckBox1", new { IsChecked = true })</td>
+      <td>@Html.Sitecore().Controls().CheckBox("CheckBox2", new { IsChecked = false })</td>
+      <td>@Html.Sitecore().Controls().CheckBox("CheckBox3", new { IsVisible = false })</td>
+    </tr>
+  </tbody>
+</table>
+         
+<pre>
+&#64;Html.Sitecore().Controls().CheckBox("CheckBox1", new { IsChecked = true })
+&#64;Html.Sitecore().Controls().CheckBox("CheckBox2", new { IsChecked = false })
+&#64;Html.Sitecore().Controls().CheckBox("CheckBox3", new { IsVisible = false })
+</pre>

@@ -2,9 +2,8 @@
 <%@ Import Namespace="Sitecore.Globalization" %>
 <%@ Register Assembly="Sitecore.Kernel" Namespace="Sitecore.Web.UI.HtmlControls" TagPrefix="sc" %>
 <%@ Register Assembly="Sitecore.Kernel" Namespace="Sitecore.Web.UI.WebControls" TagPrefix="sc" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE html>
 <html >
-<meta http-equiv="X-UA-Compatible" content="IE=5"/>
 <head runat="server">
   <title>Sitecore</title>
   <sc:Head runat="server" />
@@ -17,12 +16,12 @@
     form { height:100%; }
     #Grid { height:100% }
     #FileListCell { height:100%; vertical-align:top }
-    #FileList { background:white; border:1px inset; height:100%; padding:4px; overflow: auto; margin-top: 7px; }
+    #FileList { background:white; border:1px #eeeeee inset; height:100%; padding:4px; overflow: auto; margin-top: 7px; }
     #FileList input {  width:100%; }
     #Buttons { vertical-align:bottom }
     #HeadTable { background:white; position:relative }
     #OptionTableWrapper { position: relative; bottom: 110px; *bottom: 255px;width: 100%; margin-left: 5px; overflow: hidden; text-align:right;}
-    #OptionTableWrapper table { white-space: nowrap; }
+    #OptionTableWrapper table { white-space: nowrap;text-align: left;}
     #Upload { position: relative; font:8pt tahoma;height:24px;width:75px; margin-right:10px; *margin-right: 5px; }
     #FileListWrapper {width: 100%; height: 100%; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; padding: 5px 5px 150px 5px; }
     td label { white-space: nowrap;}
@@ -58,7 +57,7 @@
           </tr>
         </table>
 
-        <div style="background: #dbdbdb"><sc:Space runat="server" /></div>
+        <div class="scHorizontalLine">.</div>
               <div id="FileListWrapper">
                 <sc:Literal runat="server" Text="Select the Files to Upload Here:"/>
                 <div id="FileList">

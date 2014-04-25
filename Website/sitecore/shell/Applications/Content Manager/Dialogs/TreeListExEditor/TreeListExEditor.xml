@@ -6,28 +6,17 @@
         .scContentControl {
         height:100%;
         }
-        .scContentControlMultilistBox {
-        height:100%;
-        }
       </Stylesheet>
       <Script Src="/sitecore/shell/applications/content manager/dialogs/treeListExEditor/TreeListExEditor.js" RunAt="server"/>
       <CodeBeside Type="Sitecore.Shell.Applications.ContentEditor.Dialogs.TreeListExEditor.TreeListExEditorForm,Sitecore.Client"/>
 
-    
+      <VerticalTabstrip GridPanel.Height="100%" Height="99%">
+        <TabSection Header="Options" />
+        <Tab ID="Templates" Header="Editors">
+          <content:TreeList ID="TreeList" Activation="false" Style="background:#e9e9e9;border:none;padding: 0px 4px 4px 4px" />
+        </Tab>
 
-
-
-     <VerticalTabstrip GridPanel.Height="100%" Height="99%" FixSize="true">
-          <TabSection Header="Options" />
-          <Tab ID="Templates" Header="Editors">
-              <GridPanel Width="100%" Height="100%" Cellpadding="0" Style="table-layout:fixed">
-        <content:TreeList ID="TreeList" Activation="false" Style="background:#e9e9e9;border:none;padding: 0px 4px 4px 4px" />
-      </GridPanel>
-
-          </Tab>
- 
-          
-        </VerticalTabstrip>
+      </VerticalTabstrip>
 
     </FormDialog>
   </TreeListExEditor>

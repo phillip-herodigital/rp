@@ -38,9 +38,10 @@ function scCancel() {
   getRadWindow().close();
 }
 
+// It seems that this function is unused.
 function scCloseWebEdit(url) {
-  window.returnValue = url;
-  window.close();
+  window.top.returnValue = window.returnValue = url;
+  window.top.close();
 }
 
 if (window.focus && Prototype.Browser.Gecko) {

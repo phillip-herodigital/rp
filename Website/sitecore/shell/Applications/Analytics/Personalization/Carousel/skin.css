@@ -1,33 +1,16 @@
-.jcarousel-skin-sitecore .jcarousel-container {
-}
-
-.ie .jcarousel-skin-sitecore .jcarousel-container 
-{
-  width:100%;
-}
 
 .jcarousel-skin-sitecore .jcarousel-direction-rtl {
 	direction: rtl;
 }
 
 .jcarousel-skin-sitecore .jcarousel-container-horizontal {
-    /*width: 100%;*/
     margin: 0 14px 0 14px;
 }
 
-.ie .jcarousel-skin-sitecore .jcarousel-container-horizontal {
-    width: 100%;
-}
-
 .jcarousel-skin-sitecore .jcarousel-clip-horizontal {
-    /*width:  100%;*/
     height: 74px;
     background: url("/sitecore/shell/themes/standard/images/jcarousel/carouselbg.png") repeat-x scroll 0 0;
     background-position: top left; 
-}
-
-.ie .jcarousel-skin-sitecore .jcarousel-clip-horizontal {
-    width:  100%;
 }
 
 .jcarousel-skin-sitecore .jcarousel-item {

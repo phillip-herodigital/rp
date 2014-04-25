@@ -1,0 +1,19 @@
+﻿<button data-sc-id="ButtonTest1" class="btn sc-button" 
+        data-bind="text: text, visible: isVisible, enable: isEnabled, click: click" 
+        data-sc-require="/-/speak/v1/business/button.js">Enabled
+</button>
+
+<button data-sc-id="ButtonTest2" class="btn sc-button" disabled="disabled" data-bind="visible: isVisible, enable: isEnabled, click: click" 
+        data-sc-require="/-/speak/v1/business/button.js" data-sc-hasnested="true" type="button">
+    <span class="sc-button-text" data-bind="text: text">Disabled</span>
+</button>
+
+<button data-sc-id="ButtonTest3" class="btn sc-button" data-bind="visible: isVisible, enable: isEnabled, click: click" 
+        data-sc-require="/-/speak/v1/business/button.js" data-sc-hasnested="true" type="button">
+    <div data-sc-imageurl="/sitecore/shell/client/Speak/Assets/img/sc-sprite.png" 
+        data-bind="style: { 'backgroundImage': 'url(' + imageUrl() + ')', 'backgroundPosition': backgroundPosition() }" 
+        class="sc-icon" style="background-image: url('/sitecore/shell/client/Speak/Assets/img/sc-sprite.png')">
+    </div>
+    <span class="sc-button-text" data-bind="text: text">With Icon and text</span>
+</button>
+

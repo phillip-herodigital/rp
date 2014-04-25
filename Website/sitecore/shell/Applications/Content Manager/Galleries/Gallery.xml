@@ -10,9 +10,9 @@
 
       <input type="hidden" id="__IGNOREMESSAGES" value="1" />
 
-      <GridPanel Width="100%" Height="100%" Border="1px solid #868686" >
-        <def:Placeholder Height="100%" GridPanel.Height="100%" />
-      </GridPanel>
+      <Border class="scStretch" Border="1px solid #868686" >
+        <def:Placeholder />
+      </Border>
 
     </FormPage>
   </Gallery>

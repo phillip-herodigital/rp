@@ -1,0 +1,126 @@
+﻿@using Sitecore.Data
+@using Sitecore.Mvc.Presentation
+@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Common.Buttons
+@using Sitecore.Web.UI.Controls.Common.Renderings
+@using Sitecore.Web.UI.Controls.Common.Texts
+@model RenderingModel
+@{
+  var renderingID = "{B60FB581-44D1-4372-86A2-D6E494F020E1}";
+}
+
+<h3>Modal</h3>
+
+<p>
+    The modal dialog is used to launch content inside a modal dialog.
+    This modal dialog should looks the same as a Dialog Page.
+</p>
+<p>
+    Generally, in a Modal you want to use 2 types of content: Internal and external.
+    Internal content is generally defined on the same page (or same application). External content is generally used to 
+    launch content from other applications (via iFrame generally). 
+</p>
+<p>
+    <strong>The Modal popup should be agnostic whether it is external and internal.</strong>
+    If you want to use external content with the Modal component, please refer to the iFrame documentation.
+</p>
+<h4>Communicate with events</h4>
+
+<p>You can communicate with your Modal component with events. The Modal component has </p>
+<ul>
+    <li><strong>toogle</strong>: will open/hide depenging of the state.</li>
+    <li><strong>open</strong>: will open the modal</li>
+    <li><strong>close</strong>: will close the modal</li>
+</ul>
+<h4>Placholders</h4>
+<p>
+    They are 3 placeholders in your modal.
+</p>
+<ul>
+    <li><strong>Header.Title</strong>: place for your title.</li>
+    <li><strong>Header.Actions</strong>: place to put the "main" action you want to achieve</li>
+    <li><strong>Content</strong>: place to put the content (other components)</li>
+</ul>
+<h4>Databinding</h4>
+<p>
+    You can databind <strong>open</strong> in order to launch the modal or you can set the value programmatically to true.
+</p>
+<h4>Sizes</h4>
+<p>
+    3 sizes have been defined for the Modal
+</p>
+<ul>
+    <li><strong>Small</strong></li>
+    <li><strong>Medium</strong></li>
+    <li><strong>Large</strong></li>
+    <li><strong>Fullscreen</strong></li>
+    <li><strong>Auto</strong> will choose the sizes depending on the window resolution.</li>
+</ul>
+<h4>Options</h4>
+<ul>
+    <li><strong>Keyboard</strong> if set to false, it will prevent to close the dialog with escape</li>
+</ul>
+<h2>Live Example:</h2>
+
+
+@Html.Sitecore().Controls().Rendering(this.Html, renderingID, "TestDialog1", "/sitecore", new
+{
+  Size=new ID ("F505B72F-890A-4190-8C48-742A4FEBD6B0"), 
+  EnableKeyboard = true,
+  HeaderText="Some Text",
+  IsAnimated=true
+})
+
+@Html.Sitecore().Controls().Button("Btn1",new{Click="trigger:show:TestDialog1", Text="Open Modal Dialog"})
+
+<pre>
+&#64;Html.Sitecore().Controls().Rendering(this.Html, renderingID, "TestDialog1", "/sitecore", new
+  {
+    Size=new ID ("F505B72F-890A-4190-8C48-742A4FEBD6B0"), 
+    EnableKeyboard = true,
+    HeaderText="Some Text",
+    IsAnimated=true
+  })
+  &#64;Html.Sitecore().Controls().Button("Btn1",new{Click="trigger:show:TestDialog1", Text="Open Modal Dialog"})
+</pre>
+
+@Html.Sitecore().Controls().Rendering(this.Html, renderingID, "TestDialog2", "/sitecore", new
+{
+  EnableKeyboard = false,
+  HeaderText="Some header Text",
+  IsAnimated=false,
+  Backdrop=false
+})
+
+@Html.Sitecore().Controls().Button("Btn1",new { Click = "trigger:show:TestDialog2", Text = "Open non Modal Dialog" })
+<pre>
+&#64;Html.Sitecore().Controls().Rendering(this.Html, renderingID, "TestDialog2", "/sitecore", new
+{
+  EnableKeyboard = false,
+  HeaderText="Some header Text",
+  IsAnimated=false,
+  Backdrop=false
+})
+
+&#64;Html.Sitecore().Controls().Button("Btn1", new { Click = "trigger:show:TestDialog2", Text = "Open non Modal Dialog" })
+</pre>
+
+@Html.Sitecore().Controls().Rendering(this.Html, renderingID, "TestDialog3", "/sitecore", new
+{
+  EnableKeyboard = true,
+  HeaderText = "Some header Text",
+  IsAnimated = false,
+  Backdrop = "static"
+})
+@Html.Sitecore().Controls().Button("Btn1", new { Click = "trigger:show:TestDialog3", Text = "Open Dialog with static backdrop" })
+<pre>
+&#64;Html.Sitecore().Controls().Rendering(this.Html, renderingID, "TestDialog3", "/sitecore", new
+{
+  EnableKeyboard = true,
+  HeaderText = "Some header Text",
+  IsAnimated = false,
+  Backdrop = "static"
+})
+&#64;Html.Sitecore().Controls().Button("Btn1", new { Click = "trigger:show:TestDialog3", Text = "Open Dialog with static backdrop" })
+</pre>
+<iframe src="/sitecore/client/Business%20Component%20Library/Content/DialogCommunication" style="width:620px; height: 500px; border: none;"></iframe>

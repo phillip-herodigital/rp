@@ -1,0 +1,104 @@
+﻿@using Sitecore.Data
+@using Sitecore.Mvc.Presentation
+@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Common.Renderings
+@using Sitecore.Web.UI.Controls.Common.Buttons
+@model RenderingModel    
+@{
+    var rendering = new ID("{910155C7-3881-4A56-90FB-D126490EDE55}").ToString();
+}
+<div class="page-header">
+    <h2>
+        3 types of messages.
+    </h2>    
+</div>
+<h3>
+    Error message
+</h3>
+<div class="control-group">
+    @Html.Sitecore().Controls().Rendering(this.Html, rendering, "MessageBar1", String.Empty, new { Messages = "{7C98C335-CC01-46C6-B097-FC6B8A2169BC}" })
+</div>
+<pre>
+&#64;Html.Sitecore().Controls().Rendering(this.Html, rendering, "MessageBar1", String.Empty, new { Messages = "{7C98C335-CC01-46C6-B097-FC6B8A2169BC}" })
+</pre>
+
+<h3>
+    Warning message
+</h3>
+
+<div class="control-group">
+    @Html.Sitecore().Controls().Rendering(this.Html, rendering, "MessageBar3", String.Empty, new { Messages = "{48509A76-DC6B-4B77-8253-6EEBAC5AD4E8}" })
+  
+</div>
+<pre>
+&#64;Html.Sitecore().Controls().Rendering(this.Html, rendering, "MessageBar3", String.Empty, new { Messages = "{48509A76-DC6B-4B77-8253-6EEBAC5AD4E8}" })
+</pre>
+
+<h3>
+    Notification message
+</h3>
+
+<div class="control-group">
+    @Html.Sitecore().Controls().Rendering(this.Html, rendering, "MessageBar2", String.Empty, new { IsClosable= "true",Messages = "{A1A5B775-F92F-41FA-8C2B-6769F3D507A6}" })
+</div>
+<pre>
+&#64;Html.Sitecore().Controls().Rendering(this.Html, rendering, "MessageBar2", String.Empty, new { IsClosable= "true",Messages = "{A1A5B775-F92F-41FA-8C2B-6769F3D507A6}" })
+
+</pre>
+<h3>
+    Temporary Notification message
+</h3>
+
+<div class="control-group">
+    @Html.Sitecore().Controls().Rendering(this.Html, rendering, "MessageBar7", String.Empty, new { Messages = "{2A79C5C1-F348-4AD1-93DC-D3E713A23080}" })
+</div>
+<pre>
+&#64;Html.Sitecore().Controls().Rendering(this.Html, rendering, "MessageBar7", String.Empty, new { Messages = "{2A79C5C1-F348-4AD1-93DC-D3E713A23080}" })
+
+</pre>
+
+<div class="page-header">
+    <h2>
+        Collapsible Message Bar
+    </h2>    
+</div>
+<div class="control-group">
+    @Html.Sitecore().Controls().Rendering(this.Html, rendering, "MessageBar4", String.Empty, new { Messages = "{A1A5B775-F92F-41FA-8C2B-6769F3D507A6}|{E140EB69-C905-422C-BB1A-5E95B81DC497}|{48509A76-DC6B-4B77-8253-6EEBAC5AD4E8}" })
+</div>
+<pre>
+&#64;Html.Sitecore().Controls().Rendering(this.Html, rendering, "MessageBar4", String.Empty, new { Messages = "{A1A5B775-F92F-41FA-8C2B-6769F3D507A6}|{E140EB69-C905-422C-BB1A-5E95B81DC497}|{48509A76-DC6B-4B77-8253-6EEBAC5AD4E8}" })
+</pre>
+
+<hr class="bs-docs-separator"/>
+
+<div class="page-header">
+  <h2>
+    Clien-side API
+  </h2>
+  <div class="row-fluid">
+    <div class="span6">
+      <h3>Add messages</h3>
+      @Html.Sitecore().Controls().Button("ButtonAddError", new { Text = "Add error message", Click = "javascript:app.MessageBar5.addMessage('error', 'This is error message')" })
+      @Html.Sitecore().Controls().Button("ButtonAddInfo", new { Text = "Add info message", Click = "javascript:app.MessageBar5.addMessage('notification', 'This is error message')" })
+      @Html.Sitecore().Controls().Button("ButtonAddWarning", new { Text = "Add warning message", Click = "javascript:app.MessageBar5.addMessage('warning', 'This is error message')" })
+      <h3>Remove messages</h3>
+      @Html.Sitecore().Controls().Button("ButtonRemoveAll", new { Text = "Remove All messages", Click = "javascript:app.MessageBar5.removeMessages()" })
+    </div>
+    <div class="span6">
+      <h3>Results</h3>
+      @Html.Sitecore().Controls().Rendering(this.Html, rendering, "MessageBar5", String.Empty, new { Messages = "{A1A5B775-F92F-41FA-8C2B-6769F3D507A6}" })
+    </div>
+    <div class="span12">
+      <h3>Code for Buttons</h3>
+      <pre>
+        &#64;Html.Sitecore().Controls().Button("ButtonAddError", new { Text = "Add error message", Click = "javascript:app.MessageBar5.addMessage('error', 'This is error message')" })
+        &#64Html.Sitecore().Controls().Button("ButtonAddInfo", new { Text = "Add info message", Click = "javascript:app.MessageBar5.addMessage('notification', 'This is error message')" })
+        &#64Html.Sitecore().Controls().Button("ButtonAddWarning", new { Text = "Add warning message", Click = "javascript:app.MessageBar5.addMessage('warning', 'This is error message')" })
+      </pre>
+      <h3>Code for Messages Bar</h3>
+      <pre>
+        &#64Html.Sitecore().Controls().Rendering(this.Html, rendering, "MessageBar5", String.Empty, new { Messages = "{A1A5B775-F92F-41FA-8C2B-6769F3D507A6}" })
+      </pre>
+    </div>
+  </div>
+</div>

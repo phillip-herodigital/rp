@@ -1,0 +1,12 @@
+﻿@using Sitecore.Mvc
+@using Sitecore.Mvc.Presentation
+@using Sitecore.Web.UI.Controls.Common.ItemRenderers                 
+@using Sitecore.Web.UI.Controls.Common.UserControls
+@model RenderingModel
+@{
+  var rendering = this.Html.Sitecore().Controls().GetUserControl(this.Model.Rendering);
+  var htmlAttributes = rendering.HtmlAttributes;
+}
+<div @htmlAttributes data-sc-app>
+  @Html.Sitecore().Controls().ItemRenderer(Model.Rendering)
+</div>

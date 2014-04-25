@@ -4,14 +4,17 @@
 <%@ Register Assembly="Sitecore.Kernel" Namespace="Sitecore.Web.UI.WebControls.Ribbons" TagPrefix="sc" %>
 <%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html style="overflow:hidden; width: 100%; height: 100%">
-  <meta http-equiv="X-UA-Compatible" content="IE=5"/>
   <head runat="server">
     <title>Sitecore</title>
-    <link href="/sitecore/shell/Themes/Standard/Firefox/Content Manager.css" rel="stylesheet" type="text/css" />
+    <link href="/sitecore/shell/Themes/Standard/Default/Content Manager.css" rel="stylesheet" type="text/css" />
     <style type="text/css">
       <asp:Placeholder ID="EditorStyles" runat="server" />
+
+      body {
+        overflow: hidden;
+      }
 
       .reResizeCell
       {
@@ -31,25 +34,30 @@
       
       #Editor {
           height: 100% !important;
-          overflow-y: auto;
+          overflow-y: hidden;
+          min-width: 1100px !important;
       }
       
       #EditorWrapper {
           height: 100% !important;
       }
-   
+
+      .RadWindow .rwTable {
+          height: 100% !important;
+      }
     </style>
     
+    <script src="/sitecore/shell/controls/lib/jquery/jquery.noconflict.js" type="text/javascript"></script>
     <script src="/sitecore/shell/controls/lib/prototype/prototype.js" type="text/javascript"></script>
-    <script type="text/javascript" language="javascript" src="/sitecore/shell/Controls/Rich Text Editor/EditorPage.js"></script>
-    <script type="text/javascript" language="javascript" src="/sitecore/shell/Controls/Rich Text Editor/RTEfixes.js"></script>
+    <script type="text/javascript" src="/sitecore/shell/Controls/Rich Text Editor/EditorPage.js"></script>
+    <script type="text/javascript" src="/sitecore/shell/Controls/Rich Text Editor/RTEfixes.js"></script>
   
-    <script type="text/javascript" language="javascript">
+    <script type="text/javascript">
       <asp:Placeholder runat="server" ID="ScriptConstants" />
 
       var scRichText = new Sitecore.Controls.RichEditor(scClientID);
       var currentKey = null;      
-      
+
       function scLoad(key, html) {
         if (key == currentKey) {
           scRichText.setText(html);
@@ -61,9 +69,16 @@
       }
 
       function OnClientLoad(editor) {
+          editor.attachEventHandler("mouseup", function() {
+            var element = editor.getSelection().getParentElement();
+            if (element !== undefined && element.tagName.toUpperCase() === "IMG") {
+               fixImageParameters(element, prefixes.split("|"));
+            }
+          });
+
         scRichText.onClientLoad(editor);
 
-        var filter = new WebControlFilter()
+        var filter = new WebControlFilter();
         editor.get_filtersManager().add(filter);
 
         var protoFilter = new PrototypeAwayFilter();
@@ -76,12 +91,12 @@
           myFilter.getDesignContent(editor.get_contentArea());
 
           editor.fire("ToggleTableBorder");
-          editor.fire("ToggleTableBorder");        
+          editor.fire("ToggleTableBorder");
 
           editor.setFocus();
         }, 0);
       }
-         
+
       function scSendRequest(evt, command)
       {
         var editor = scRichText.getEditor();
@@ -91,9 +106,9 @@
 
         $("EditorValue").value = editor.get_html(true);
 
-        scForm.postRequest("", "", "", command);
-
         scForm.browser.clearEvent(evt);
+        
+        scForm.postRequest("", "", "", command);
 
         return false;
       }
@@ -103,6 +118,10 @@
           var element = editor.get_element();
           editor.add_firstShow(function () { element.style.minWidth = element.style.width; });
         }
+      }
+
+      function OnClientModeChange(editor, args) {
+        setTimeout(function () { scRichText.fitEditorToScreen(); }, 0);
       }
     </script>
   </head>
@@ -149,10 +168,12 @@
           TemplateManager-ViewPaths="/media library"
 
           ThumbSuffix="thumb"
-          
+                    
+          OnClientCommandExecuted="OnClientCommandExecuted"
           OnClientLoad="OnClientLoad"
           OnClientSelectionChange="OnClientSelectionChange"
           OnClientInit="OnClientInit"
+          OnClientModeChange="OnClientModeChange"
           OnClientPasteHtml="OnClientPasteHtml" />
         
         </ContentTemplate>
@@ -163,7 +184,7 @@
       <asp:placeholder id="EditorClientScripts" runat="server"/>
       
       <div id="scButtons" style="position: absolute; right: 8px; bottom: 1px">
-        <sc:Button runat="server" ID="OkButton" Width="76px" Height="23px" KeyCode="13" Margin="0px 0px 0px 4px" Click="javascript: if (Prototype.Browser.IE){ $$(\'.reMode_design\')[0].click(); } scSendRequest(event, \'editorpage:accept\')" Type="Button">
+        <sc:Button runat="server" ID="OkButton" Width="76px" Height="23px" KeyCode="13" Margin="0px 0px 0px 4px" Click="javascript: if (Prototype.Browser.IE){ var designModeBtn = $$(\'.reMode_design\')[0]; if (typeof (designModeBtn) != \'undefined\') { designModeBtn.click(); } } scSendRequest(event, \'editorpage:accept\')" Type="Button">
           <sc:Literal runat="server" Text="Accept"/>
         </sc:Button>
 

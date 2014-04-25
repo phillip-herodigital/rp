@@ -21,7 +21,6 @@
     <Sitecore.Controls.HtmlPage runat="server" Title="{Title}" Background="{Background}" Overflow="{Overflow}">
       <Stylesheet runat="server" Src="Dialogs.css" DeviceDependant="true" x:placeholder="Stylesheets" />
       <Script runat="server" Type="text/JavaScript" Language="javascript" Src="/sitecore/shell/Controls/SitecoreObjects.js" x:placeholder="Scripts"/>
-      <Script runat="server" Type="text/JavaScript" Language="javascript" Src="/sitecore/shell/Controls/FirebugLite/firebugx.js" x:placeholder="Scripts"/>
 
       <AjaxScriptManager runat="server"/>
       <ContinuationManager runat="server" />

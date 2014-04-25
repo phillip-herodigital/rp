@@ -7,9 +7,8 @@
       <Stylesheet Src="MediaBrowser.css" DeviceDependant="true" />
       <CodeBeside Type="Sitecore.Shell.Applications.WebDAV.WebDAVBrowserForm,Sitecore.Client"/>
 
-      <GridPanel Width="100%" Height="100%" Style="table-layout:fixed">
-        <WebFolderView runat="server" ID="DAVFrame" Style="Border:1px inset;" Width="100%" Height="100%" Visible="false"/>
-      </GridPanel>
+      <WebFolderView runat="server" ID="DAVFrame" Style="Border:1px inset;" class="scStretch" Visible="false"/>
+      
     </FormDialog>
   </Sitecore.Shell.Applications.WebDAV.WebDAVBrowser>
 </control>

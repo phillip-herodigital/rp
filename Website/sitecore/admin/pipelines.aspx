@@ -1,9 +1,10 @@
 <%@ Page Language="c#" CodeBehind="pipelines.aspx.cs" AutoEventWireup="false" EnableEventValidation="false" Inherits="Sitecore.sitecore.admin.Pipelines" %>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<!DOCTYPE html>
 <html>
 <head>
     <title>Pipelines profiling</title>
+    <link rel="shortcut icon" href="/sitecore/images/favicon.ico" />
     <link rel="Stylesheet" type="text/css" href="/sitecore/shell/themes/standard/default/WebFramework.css" />
     <style type="text/css">
         .wf-container
@@ -213,10 +214,13 @@
             A snapshot from the pipeline profiler.</p>
         <asp:PlaceHolder runat="server" Visible="False" ID="profilerDisabledMessage">
             <h2>Pipeline profiling is disabled. No data is currently available.</h2>
-
-            <p>
-                Rename PipelineProfiling.config.disabled into PipelineProfiling.config and set the value of &quot;Pipelines.Profiling.Enabled&quot;
-                setting to &quot;true&quot; to enable the profiler.
+            <p> 
+                To enable pipeline profiling, rename the &#47;App_Config&#47;Include&#47;Sitecore.PipelineProfiling.config.disabled file to Sitecore.PipelineProfiling.config 
+                and set the value of the &quot;Pipelines.Profiling.Enabled&quot; setting to &quot;true&quot; if it is set to &quot;false&quot;. 
+            </p>
+            <p> 
+                To measure CPU usage during pipeline profiling, set the value of the &quot;Pipelines.Profiling.MeasureCpuTime&quot; setting to &quot;true&quot;.  
+                Measuring CPU usage adds a performance overhead to the  pipeline but provides additional information about the behavior of the processors.
             </p>
         </asp:PlaceHolder>
         <asp:PlaceHolder runat="server" ID="actions">

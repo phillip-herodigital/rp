@@ -11,17 +11,15 @@
 
          <DataContext ID="DataContext" Root="{3D6658D8-A0BF-4E75-B3E2-D050FABCF4E1}"/>
 
-         <Tabstrip ID="Tabs" Width="100%" Height="100%">
+         <Tabstrip class="scInsertImageTabs" ID="Tabs" Width="100%" Height="100%">
             <Tab ID="MediaLibraryTab" Header="Media Library" Height="100%">
-               <GridPanel Width="100%" Height="100%" Style="table-layout:fixed">
-                  <GridPanel Width="100%" Height="100%" Style="table-layout:fixed" Columns="3" GridPanel.Height="100%">
-                     <Scrollbox Class="scScrollbox scFixSize" Width="100%" Height="100%" Background="white" Border="1px inset" Padding="0" GridPanel.Height="100%" GridPanel.Width="50%" GridPanel.Valign="top">
-                        <TreeviewEx ID="Treeview" DataContext="DataContext" Click="SelectTreeNode" ShowRoot="true" ContextMenu='Treeview.GetContextMenu("contextmenu")' />
-                     </Scrollbox>
-                     <VSplitter ID="InsertMediaLeft" GridPanel.Width="4" Target="left" />
-                     <Scrollbox Class="scScrollbox scFixSize" ID="Listview" Width="100%" Height="100%" Background="white" Padding="0px" GridPanel.Height="100%" GridPanel.Width="100%" GridPanel.VAlign="top" />
-                  </GridPanel>
-               </GridPanel>
+              <GridPanel Width="100%" Height="100%" Style="table-layout:fixed" Columns="3" GridPanel.Height="100%">
+                <Scrollbox Class="scScrollbox" Width="100%" Height="100%" Background="white" Border="1px inset" Padding="0" GridPanel.Height="100%" GridPanel.Width="50%" GridPanel.Valign="top">
+                  <TreeviewEx ID="Treeview" DataContext="DataContext" Click="SelectTreeNode" ShowRoot="true" ContextMenu='Treeview.GetContextMenu("contextmenu")' />
+                </Scrollbox>
+                <VSplitter ID="InsertMediaLeft" GridPanel.Width="4" Target="left" />
+                <Scrollbox ID="Listview" Width="100%" Height="100%" Background="white" Padding="0px" GridPanel.Height="100%" GridPanel.Width="100%" GridPanel.VAlign="top" />
+              </GridPanel>
             </Tab>
 
             <!-- START Buckets tab -->
@@ -32,9 +30,9 @@
             </Tab>
          </Tabstrip>
 
-         <Border Padding="4px 8px 0px 0px">
+         <Border class="scInsertImageFileName" Padding="4px 8px 0px 0px">
             <GridPanel Width="100%" Columns="2">
-               <Border Padding="0px 4px 0px 0px">
+               <Border Padding="0px 4px 0px 0px" Class="scDialogNoWrap">
                   <Literal Text="Name:"/>
                </Border>
                <Edit ID="Filename" Width="100%" GridPanel.Width="100%"/>

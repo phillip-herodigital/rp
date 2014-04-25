@@ -131,8 +131,22 @@
       </Script>
 
       <style>
-        .GridGroupingNotificationm
+        .GridGroupingNotificationm {
           display: none;
+        }
+        
+        .editManagedDomainsContainer {
+          margin: 5px 10px;
+          overflow: auto;
+        }
+        
+        .Grid {
+          height: auto !important;
+          width:100% !important;
+        }
+        
+        .Row *, .SelectedRow *, .HeadingRow * {
+          width: auto !important;
         }
 
       </style>
@@ -142,12 +156,12 @@
 
       <input id="SelectedDomainsHolder" type="hidden" />
 
-      <GridPanel Height="100%" Width="100%" runat="server">
+      <Border class="editManagedDomainsContainer scStretchAbsolute" runat="server">
 
         <Literal Text="Selected Domains:" runat="server" />
-        <html:HtmlSelect class="edit-managed-domains-selected-domains" ID="SelectedDomains" GridPanel.Height="40%" style="font:9pt verdana;width:100%;height:100%" Size="8" Multiple="true" ondblclick="javascript:onSelectedDoubleClick();" runat="server"/>
+        <html:HtmlSelect class="edit-managed-domains-selected-domains" ID="SelectedDomains" style="font:9pt verdana;width:100%;" Size="8" Multiple="true" ondblclick="javascript:onSelectedDoubleClick();" runat="server"/>
 
-        <Border Padding="0px 0px 16px 0px" runat="server">
+        <Border Padding="8px 0px 16px 0px" runat="server">
           <html:HtmlButton ID="Add" Type="button" style="width:75px;height:25px" javascript:Click="return scAdd()" runat="server">
             <Literal Text="Add" runat="server" />
           </html:HtmlButton>
@@ -157,7 +171,7 @@
         </Border>
 
         <Literal Text="Available Domains:" runat="server" />
-        <Border runat="server" GridPanel.Height="60%" GridPanel.Row.ID="DomainsPanel">
+        <Border runat="server" id="DomainsPanel">
           <Grid id="Domains"
             RunningMode="Callback"
             CssClass="Grid"
@@ -266,7 +280,7 @@
             </ClientTemplates>
           </Grid>
         </Border>
-      </GridPanel>
+      </Border>
 
     </Sitecore.Controls.DialogPage>
   </Sitecore.Shell.Applications.Security.EditManagedDomains>

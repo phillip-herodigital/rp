@@ -3,14 +3,28 @@
    <Installer.GetPasteMode>
       <FormPage Background="threedface">
         <Stylesheet>
-        button.scButton
-        {
-          white-space: nowrap;
-        }
-
         body.ff
         {
           overflow: hidden;
+        }
+        
+        .bottomButtons{
+          position:absolute;
+          left:0;
+          right:0;
+          padding:16px 8px 8px 8px;
+          bottom:0;
+          text-align:right;
+          white-space:nowrap;
+        }
+        
+        .pasteModeContent {
+          position:absolute;
+          top:0;
+          left:0;
+          right:0;
+          bottom: 40px;
+          overflow: auto;
         }
         </Stylesheet>
         <Script>
@@ -19,37 +33,37 @@
           });
         </Script>
          <CodeBeside Type="Sitecore.Shell.Applications.Install.Dialogs.InstallPackage.GetPasteModeForm,Sitecore.Client"/>
-         <GridPanel Width="100%" Height="100%">
-            <GridPanel Columns="2" Width="100%" GridPanel.Height="100%" GridPanel.Valign="top">
-               <ThemedImage Src="Applications/32x32/Warning.png" Width="32px" Height="32px" Margin="8px 0 8px 16px" GridPanel.Valign="top"/>
-               <Border Padding="8px 16px 8px 8px" GridPanel.Width="100%">
-                 <GridPanel ID="PnlCollision">
-                   <Literal Text="Item being installed already exists in database."/>
-                   <br />
-                   <GridPanel Columns="2">
-                     <Literal Text="ID:" />
-                     <Edit ID="FldItemID" ReadOnly="true" Disabled="False" OnClick="this.select()" HideFocus="hidefocus" Style="border-style:none;background:none;width:300px" />
-                   </GridPanel>
-                 </GridPanel>
-                 <GridPanel Id="PathGridPanel" Columns="2" Style="width:100%">
-                   <Literal Text="Path:" />
-                   <Edit ID="FldItemPath" ReadOnly="true" Disabled="False" OnClick="this.select()" HideFocus="hidefocus" Style="border-style:none;background:none;width:100%" />
-                 </GridPanel>
+         <div class="scStretch">
+           <div class="pasteModeContent">
+             <ThemedImage Src="Applications/32x32/Warning.png" style="width:32px; height:32px; margin:8px 0 8px 16px;float:left;"/>
+             <Border style="padding: 8px 16px 8px 8px; overflow:hidden; ">
+               <GridPanel ID="PnlCollision">
+                 <Literal Text="Item being installed already exists in database."/>
                  <br />
-                 <br />
-                 
-                 <Literal Text="Please choose one of the following options:"/>
-                 <br/>
-                 <br/>
-                 <Installer.BehaviourOptionEditor ID="OptionEditor" User="EndUser"/>
-               </Border>
-            </GridPanel>
-            <Border Align="Center" Padding="16px 8px 8px 8px" Style="width:500px">
+                 <GridPanel Columns="2">
+                   <Literal Text="ID:" />
+                   <Edit ID="FldItemID" ReadOnly="true" Disabled="False" OnClick="this.select()" HideFocus="hidefocus" Style="border-style:none;background:none;width:300px" />
+                 </GridPanel>
+               </GridPanel>
+               <GridPanel Id="PathGridPanel" Columns="2" Style="width:100%">
+                 <Literal Text="Path:" />
+                 <Edit ID="FldItemPath" ReadOnly="true" Disabled="False" OnClick="this.select()" HideFocus="hidefocus" Style="border-style:none;background:none;width:100%;text-overflow:ellipsis;" />
+               </GridPanel>
+               <br />
+               <br />
+
+               <Literal Text="Please choose one of the following options:"/>
+               <br/>
+               <br/>
+               <Installer.BehaviourOptionEditor ID="OptionEditor" User="EndUser"/>
+             </Border>
+           </div>
+           <div class="bottomButtons">
                <Button Click="Apply" Header="Apply" Margin="0 4px 0 0"/>
                <Button Click="ApplyToAll" Header="Apply to all" Margin="0 4px 0 0"/>
                <Button Click="Cancel" Header="Abort" Margin="0 4px 0 0"/>
-            </Border>
-         </GridPanel>
+            </div>
+         </div>
       </FormPage>
    </Installer.GetPasteMode>
 </control>

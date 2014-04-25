@@ -11,12 +11,16 @@
   <sc:Stylesheet runat="server" Src="/sitecore/shell/Applications/WebEdit/WebEditRibbon.css"/>
   <script type="text/JavaScript" language="javascript" src="/sitecore/shell/controls/SitecoreObjects.js"></script>
   <script type="text/JavaScript" language="javascript" src="/sitecore/shell/controls/SitecoreKeyboard.js"></script>
-  <script type="text/JavaScript" language="javascript" src="/sitecore/shell/controls/SitecoreModifiedHandling.js"></script>
   <script type="text/JavaScript" language="javascript" src="/sitecore/shell/controls/SitecoreVSplitter.js"></script>
   <script type="text/JavaScript" language="javascript" src="/sitecore/shell/controls/SitecoreWindow.js"></script>
   <script type="text/JavaScript" language="javascript" src="/sitecore/shell/Applications/Content Manager/Content Editor.js"></script>  
   <script type="text/JavaScript" language="javascript" src="/sitecore/shell/Applications/WebEdit/WebEditRibbon.js"></script>
   <script type="text/JavaScript" language="javascript" src="/sitecore/shell/Applications/Page Modes/PageEditorProxy.js"></script>    
+  <script type="text/Javascript">
+    if (scForm) {
+      scForm.enableModifiedHandling();
+    }
+  </script>
   <style type="text/css">
     body
     {

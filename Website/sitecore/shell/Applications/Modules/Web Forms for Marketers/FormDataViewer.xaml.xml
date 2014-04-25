@@ -1,0 +1,539 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<xamlControls
+  xmlns:x="http://www.sitecore.net/xaml"
+  xmlns:ajax="http://www.sitecore.net/ajax"
+  xmlns:rest="http://www.sitecore.net/rest"
+  xmlns:r="http://www.sitecore.net/renderings"
+  xmlns:xmlcontrol="http://www.sitecore.net/xmlcontrols"
+  xmlns:p="http://schemas.sitecore.net/Visual-Studio-Intellisense"
+  xmlns:asp="http://www.sitecore.net/microsoft/webcontrols"
+  xmlns:html="http://www.sitecore.net/microsoft/htmlcontrols"
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+
+  <Sitecore.Forms.Shell.UI.FormDataViewer x:inherits="Sitecore.Forms.Shell.UI.FormDataViewerPage,Sitecore.Forms.Core">
+    <Script runat="server" Src="/sitecore/shell/Applications/Modules/Web Forms for Marketers/script/Utils.js"/>
+    <Sitecore.Controls.HtmlPage runat="server">
+      <x:register assembly="ComponentArt.Web.UI" namespace="ComponentArt.Web.UI"/>
+      <x:register assembly="Sitecore.Kernel" namespace="Sitecore.Web.UI.WebControls.Ribbons"/>
+
+      <Stylesheet Src="Default.css" DeviceDependant="true" x:placeholder="Stylesheets" runat="server" />
+      <Stylesheet Src="Content Manager.css" DeviceDependant="true" runat="server" />
+      <Stylesheet Src="Ribbon.css" DeviceDependant="true" runat="server" />
+      <Stylesheet Src="Grid.css" DeviceDependant="true" runat="server" />
+      <Stylesheet Src="FormDataViewer.css" DeviceDependant="true" runat="server" />
+
+      <Style runat="server" x:placeholder="Stylesheets">
+        BODY {
+        background:transparent;
+        }
+
+        .EntryGrid {
+        padding:0px 8px 2px 8px;
+        }
+
+        .EntryGrid td {
+        white-space:nowrap;
+        }
+
+        .TabStrip {
+        position:relative;
+        top:2px;
+        z-index:1;
+        }
+
+        .DefaultTab {
+        color:black;
+        background-image: url(/sitecore/shell/themes/standard/ComponentArt/Tabstrip/tab_bg.gif);
+        font-family:Tahoma;
+        font-size:8pt;
+        cursor:default;
+        }
+
+        .DefaultTabHover {
+        color:black;
+        background-image: url(/sitecore/shell/themes/standard/ComponentArt/Tabstrip/hover_tab_bg.gif);
+        font-family:Tahoma;
+        font-size:8pt;
+        cursor:default;
+        }
+
+        .SelectedTab {
+        color:black;
+        background-image: url(/sitecore/shell/themes/standard/ComponentArt/Tabstrip/selected_tab_bg.gif);
+        font-family:Tahoma;
+        font-size:8pt;
+        cursor:default;
+        }
+
+        .MultiPage {
+        background-color:White;
+        border: 1px solid #919B9C;
+        width:100%;
+        height:100%;
+        }
+
+        .PageContent {
+        background:#fbfbfb;
+        }
+
+        .scText,
+        .scPassword,
+        .scLookup,
+        .scChecklist {
+        width:100%;
+        }
+
+        .scMemo {
+        width:100%;
+        height:120px;
+        }
+
+        .scCheckbox {
+        }
+
+        .scFieldLabel {
+        color:#6487DC;
+        padding:4px 0px 2px 0px;
+        background:white;
+        border:none;
+        }
+
+        .scRibbon{
+        padding:0px;
+        }
+
+        .scDvTitleTextDescription
+        {
+        display:block;
+        }
+      </Style>
+
+      <script type="text/javascript" language="javascript">
+
+        function LoadingDataViewer(){
+
+        if ($('ctl00_ctl01_ctl04_DropoutReport') != null) {
+        $('ctl00_ctl00_ctl04_DropoutReport').style.dislpay ='none';
+        }
+
+        if ($('ctl00_ctl00_ctl04_UsabilityReport') != null){
+        $('ctl00_ctl00_ctl04_UsabilityReport').style.dislpay ='none';
+        }
+
+        if ($('ctl00_ctl00_ctl04_FailuresReport') != null ){
+        $('ctl00_ctl00_ctl04_FailuresReport').style.dislpay ='none';
+        }
+
+        if ($('LoadingDropout') != null) {
+        $('LoadingDropout').style.display = 'block';
+        }
+
+        if ($('LoadingUsability') != null) {
+        $('LoadingUsability').style.display = 'block';
+        }
+
+        if ($('LoadingFailures') != null) {
+        $('LoadingFailures').style.display = 'block';
+        }
+        }
+
+
+        function refreshReport(element){
+
+        if ($('ctl00_ctl01_ctl04_UsabilityReport') != null){
+        $('ctl00_ctl01_ctl04_UsabilityReport').style.height='600px';
+        }
+
+        if ($('ctl00_ctl01_ctl04_DropoutReport') != null){
+        $('ctl00_ctl01_ctl04_DropoutReport').style.height='600px';
+        }
+
+        if ($('ctl00_ctl00_ctl04_FailuresReport') != null ){
+        $('ctl00_ctl00_ctl04_FailuresReport').style.height='600px';
+        }
+
+        if (element.tagName == null) {
+        var data = Event.element(element);
+        element = $A(arguments)[1];
+        }
+
+        var doc = (element.contentDocument || element.contentWindow.document);
+
+        if ($('LoadingDropout') != null) {
+        $('LoadingDropout').style.display = 'none';
+        }
+
+        if ($('LoadingUsability') != null) {
+        $('LoadingUsability').style.display = 'none';
+        }
+
+        if ($('LoadingFailures') != null) {
+        $('LoadingFailures').style.display = 'none';
+        }
+
+        doc.getElementById('TreeViewPanel').style.display='none';
+        doc.getElementById('SplitterPanel').style.display='none';
+        element.style.display='block';
+        doc.getElementById('ReportFrame').parentNode.parentNode.style.height='100%';
+
+
+        var reportDoc = doc.getElementById('ReportFrame').contentDocument || doc.getElementById('ReportFrame').contentWindow.document;
+        if (reportDoc.getElementById('webReportFrame_ReportViewer') != null) {
+        reportDoc.getElementById('webReportFrame_ReportViewer').style.display='inline-block';
+        reportDoc.getElementById('webReportFrame_ReportViewer').style.width='100%';
+        reportDoc.getElementById('webReportFrame_ReportViewer').style.height='100%';
+        }
+
+        if (reportDoc.getElementById('ReportViewer') != null) {
+        reportDoc.getElementById('ReportViewer').style.display='inline-block';
+        reportDoc.getElementById('ReportViewer').style.height='100%';
+        reportDoc.getElementById('ReportViewer').style.width='100%';
+        }
+
+        if (reportDoc.getElementById('webReportFrame_ReportViewer') != null) {
+        var reportViewerDoc = reportDoc.getElementById('webReportFrame_ReportViewer').contentDocument || reportDoc.getElementById('webReportFrame_ReportViewer').contentWindow.document;
+
+        reportDoc.getElementById('webReportFrame_ReportViewer').style.height= reportViewerDoc.getElementsByTagName("body")[0].scrollHeight + "px";
+
+        }
+        if(doc.getElementById('ReportFrame').contentWindow.document.forms.length >0) {
+        alignButtons(doc.getElementById('ReportFrame').contentWindow.document.forms[0].getElementsByTagName('button'));
+        }
+
+        var array = [ reportDoc.getElementById('ReportViewer_Print'), reportDoc.getElementById('ReportViewer_Save'),
+        reportDoc.getElementById('ReportViewer_Zoom'),reportDoc.getElementById('ReportViewer_ViewMode')];
+        alignButtons(array);
+        }
+
+        function onDoubleClick(sender, eventArgs) {
+        scForm.postRequest("", "", "", "forms:opensession(sessionid="  + sender.Data[1] + ")");
+        }
+
+
+        function OnResize() {
+
+        if ($('ctl00_ctl01_ctl04_UsabilityReport') != null){
+        $('ctl00_ctl01_ctl04_UsabilityReport').style.height='850px';
+        }
+
+        if ($('ctl00_ctl01_ctl04_DropoutReport') != null){
+        $('ctl00_ctl01_ctl04_DropoutReport').style.height='850px';
+        }
+
+        if ($('ctl00_ctl01_ctl04_FailuresPage') != null){
+        $('ctl00_ctl01_ctl04_FailuresPage').style.height='850px';
+        }
+
+        if ($("ctl00_ctl01_ctl04_Items_dom") != null) {
+        $("ctl00_ctl01_ctl04_Items_dom").style.width = document.body.clientWidth + "px";
+
+        var height = (document.body.offsetHeight - $('RibbonContainer').getDimensions().height - 80);
+        if (height &lt; 0)
+        {
+        height = 0;
+        }
+
+        $("ctl00_ctl01_ctl04_Items_dom").style.height =  height + "px";
+
+        if (typeof ctl00_ctl01_ctl04_Items === 'undefined' || ctl00_ctl01_ctl04_Items.GlobalAlias == null || typeof Items === 'undefined')
+        {
+
+        }
+        else
+        {
+        try {
+        Items.render();
+        }catch(e){
+        }
+        }
+        }
+        }
+
+        window.onresize = OnResize;
+
+      </script>
+
+      <AjaxScriptManager runat="server"/>
+      <ContinuationManager runat="server" />
+
+      <table width="100%" height="100%" cellpadding="0" cellspacing="0" border="0" >
+        <tr>
+          <td>
+            <Border runat="server" id="RibbonContainer">
+
+              <Ribbon ID="Ribbon" ShowContextualTabs="false"  runat="server" paddin="0px"/>
+
+            </Border>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <html:HtmlInputHidden ID="SourceItem" runat="server" />
+
+            <TabStrip id="TabStrip"
+              CssClass="TabStrip"
+              DefaultItemLookId="DefaultTabLook"
+              DefaultSelectedItemLookId="SelectedTabLook"
+              DefaultDisabledItemLookId="DisabledTabLook"
+              DefaultGroupTabSpacing="0"
+              ImagesBaseUrl="/sitecore/shell/themes/standard/ComponentArt/TabStrip/"
+              MultiPageId="MultiPage"
+              
+
+              runat="server">
+              <ItemLooks>
+                <ItemLook LookId="DefaultTabLook" CssClass="DefaultTab" HoverCssClass="DefaultTabHover" LabelPaddingLeft="10" LabelPaddingRight="10" LabelPaddingTop="5" LabelPaddingBottom="4" LeftIconUrl="tab_left_icon.gif" RightIconUrl="tab_right_icon.gif" HoverLeftIconUrl="hover_tab_left_icon.gif" HoverRightIconUrl="hover_tab_right_icon.gif" LeftIconWidth="3" LeftIconHeight="21" RightIconWidth="3" RightIconHeight="21" runat="server" />
+                <ItemLook LookId="SelectedTabLook" CssClass="SelectedTab" LabelPaddingLeft="10" LabelPaddingRight="10" LabelPaddingTop="4" LabelPaddingBottom="4" LeftIconUrl="selected_tab_left_icon.gif" RightIconUrl="selected_tab_right_icon.gif" LeftIconWidth="3" LeftIconHeight="21" RightIconWidth="3" RightIconHeight="21" runat="server" />
+
+              </ItemLooks>
+              <Tabs>
+                <TabStripTab ID="DataTab" runat="server" />
+                <TabStripTab ID="SummaryTab" runat="server" />
+                <TabStripTab ID="EngagementAnalyticsTab" runat="server" />
+                <TabStripTab ID="DropoutTab"   runat="server" />
+                <TabStripTab ID="UsabilityTab"  runat="server" />
+                <TabStripTab ID="FailureTab" runat="server" />
+              </Tabs>
+            </TabStrip>
+          </td>
+        </tr>
+
+        <tr>
+          <td height="100%">
+
+
+            <MultiPage id="MultiPage" CssClass="MultiPage" runat="server" RenderSelectedPageOnly="true" AutoPostBack="true">
+              <PageViews>
+
+                <PageView CssClass="PageContent" width="100%" height="100%" runat="server">
+                  <Border runat="server" id="ItemsContainer" Height="100%" Width="100%" >
+                    <Grid id="Items"
+            AllowHorizontalScrolling="true"
+            AutoFocusSearchBox="false"
+            RunningMode="Callback"
+            CssClass="Grid"
+
+            ShowHeader="true"
+            HeaderCssClass="GridHeader"
+
+            FillContainer="false"
+            FooterCssClass="GridFooter"
+
+            GroupByCssClass="GroupByCell"
+            GroupByTextCssClass="GroupByText"
+            GroupBySortAscendingImageUrl="group_asc.gif"
+            GroupBySortDescendingImageUrl="group_desc.gif"
+            GroupBySortImageWidth="10"
+            GroupBySortImageHeight="10"
+            
+            GroupingNotificationTextCssClass="GridHeaderText"
+            GroupingPageSize="5"
+            
+            ManualPaging="true"
+            PageSize="15"
+            PagerStyle="Slider"
+            
+      	    PagerButtonWidth="41"
+      	    PagerButtonHeight="22"
+            PagerImagesFolderUrl="/sitecore/shell/themes/standard/componentart/grid/pager/"
+            
+            ShowSearchBox="true"
+            SearchTextCssClass="GridHeaderText"
+            SearchBoxCssClass="SearchBox"
+      	    
+            SliderHeight="20"
+            SliderWidth="150"
+            SliderGripWidth="9"
+            SliderPopupOffsetX="20"
+            SliderPopupClientTemplateId="SliderTemplate"
+            
+            TreeLineImagesFolderUrl="/sitecore/shell/themes/standard/componentart/grid/lines/"
+            TreeLineImageWidth="22"
+            TreeLineImageHeight="19"
+            
+            PreExpandOnGroup="false"
+            ImagesBaseUrl="/sitecore/shell/themes/standard/componentart/grid/"
+            IndentCellWidth="22"
+                          
+            ClientSideOnDoubleClick="onDoubleClick"
+                                      
+            Width="100%" Height="100%" runat="server">
+
+                      <Levels runat="server">
+                        <GridLevel
+
+                          DataKeyField="id"
+                          ShowTableHeading="false"
+                          ShowSelectorCells="false"
+                          RowCssClass="Row"
+                          ColumnReorderIndicatorImageUrl="reorder.gif"
+                          DataCellCssClass="DataCell"
+                          HeadingCellCssClass="HeadingCell"
+                          HeadingCellHoverCssClass="HeadingCellHover"
+                          HeadingCellActiveCssClass="HeadingCellActive"
+                          HeadingRowCssClass="HeadingRow"
+                          HeadingTextCssClass="HeadingCellText"
+                          SelectedRowCssClass="SelectedRow"
+                          GroupHeadingCssClass="GroupHeading"
+                          SortAscendingImageUrl="asc.gif"
+                          SortDescendingImageUrl="desc.gif"
+                          SortImageWidth="13"
+                          SortImageHeight="13" runat="server">
+                          <Columns runat="server">
+                            <GridColumn DataField="id" Visible="false" runat="server"/>
+                            <GridColumn DataField="sessionid" Visible="false" runat="server"/>
+                            <GridColumn DataField="created" HeadingCellCssClass="scDomainNameColumn" AllowGrouping="true" IsSearchable="true" SortedDataCellCssClass="SortedDataCell" HeadingText="Created" runat="server"/>
+                          </Columns>
+                        </GridLevel>
+                      </Levels>
+
+                      <ClientTemplates>
+
+                        <ClientTemplate Id="SliderTemplate" runat="server">
+                          <table class="SliderPopup" cellspacing="0" cellpadding="0" border="0">
+                            <tr>
+                              <td>
+                                <div style="padding:4px;font:8pt tahoma;white-space:nowrap;overflow:hidden">## if (DataItem.GetMember('Name') != null) DataItem.GetMember('Name').Value ##</div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td style="height:14px;background-color:#666666;padding:1px 8px 1px 8px;color:white">
+                                ## DataItem.PageIndex + 1 ## / ## Items.PageCount ##
+                              </td>
+                            </tr>
+                          </table>
+                        </ClientTemplate>
+
+                      </ClientTemplates>
+                    </Grid>
+                  </Border>
+                </PageView>
+
+                <PageView CssClass="PageContent" runat="server" ID="SummaryPage">
+                  <Border ID="StatisticAll" style="width:100%;height:100%;overflow-y:auto"  runat="server">
+
+                    <Border id="TitleBorder" class="scDvTitleStatistic" runat="server" >
+                      <GridPanel runat="server" Columns="2"  class="scDvTitleSpan" >
+
+                        <ThemedImage GridPanel.Width="60px"  Src="business/48x48/chart.png" Align="absmiddle" Width="48px" class="scDvTitleIcon" runat="server"/>
+
+                        <Inline Class="scDvTitleText" runat="server" GridPanel.vAlign="bottom" Margin="3px 0px 5px 0px" >
+                          <Literal ID="FormTitle"  class="scDvTitleTextMain" runat="server"/>
+                          <Literal ID="FormDesc" class="scDvTitleTextDescription" runat="server"/>
+                        </Inline>
+
+                      </GridPanel>
+                    </Border>
+ 
+
+                    <Border id="StatisticGrid" class="scDvFieldsStatistic" runat="server"></Border>
+
+                  </Border>
+                </PageView>
+
+                <PageView CssClass="PageContent" ID="EngagementAnalyticsPage" runat="server">
+                  <IFrame runat="server" Src="/sitecore/shell/sitecore/content/Applications/Analytics/Executive Dashboard.aspx?DefaultReport=Traffic;0;GoalConversions;true" Width="100%" Height="600px">
+
+                  </IFrame>                  
+                </PageView>
+
+
+                <PageView CssClass="PageContent" ID="DropoutPage" runat="server">
+                  <Border id="LoadingDropout" Style="position:absolute;width:100%;height:100%;background:white;z-index:1;padding:64px 0px 0px 0px" align="center" runat="server">
+
+                    <Border runat="server">
+                      <ThemedImage Src="Business/48x48/column-chart.png" Width="48" Height="48" runat="server" />
+                    </Border>
+
+                    <Border Padding="16px 0px 0px 0px" runat="server">
+                      <ThemedImage Src="Images/progress.gif" Width="94" Height="17" runat="server"/>
+                    </Border>
+
+                    <Border Padding="16px 0px 0px 0px;font-weight:bold" runat="server">
+                      <Literal ID="ProcessingDropoutReportLiteral" runat="server"/>
+                    </Border>
+                  </Border>
+
+                  <IFrame runat="server" style="display:none" onload="refreshReport(this); Element.extend((this.contentDocument || this.contentWindow.document).getElementById('ReportFrame')).observe('load', refreshReport.bindAsEventListener(this, this));" ID="DropoutReport" Width="100%" Height="100%" Src="/sitecore/shell/~/xaml/Sitecore.Shell.Applications.Analytics.ReportRunner.NoReport.aspx">
+
+                  </IFrame>
+                </PageView>
+
+                <PageView CssClass="PageContent" ID="UsabilityPage"  runat="server">
+                  <Border id="LoadingUsability" runat="server" Style="position:absolute;width:100%;height:100%;background:white;z-index:1;padding:64px 0px 0px 0px" align="center">
+
+                    <Border runat="server">
+                      <ThemedImage  runat="server" Src="Business/48x48/column-chart.png" Width="48" Height="48" />
+                    </Border>
+
+                    <Border runat="server" Padding="16px 0px 0px 0px">
+                      <ThemedImage runat="server" Src="Images/progress.gif" Width="94" Height="17" />
+                    </Border>
+
+                    <Border runat="server" Padding="16px 0px 0px 0px;font-weight:bold">
+                      <Literal runat="server" ID="ProcessingUsabilityReportLiteral" />
+                    </Border>
+                  </Border>
+
+                  <IFrame runat="server" style="display:none" onload="refreshReport(this);        Element.extend((this.contentDocument || this.contentWindow.document).getElementById('ReportFrame')).observe('load', refreshReport.bindAsEventListener(this, this)); " ID="UsabilityReport" Width="100%" Height="100%" Src="/sitecore/shell/~/xaml/Sitecore.Shell.Applications.Analytics.ReportRunner.NoReport.aspx">
+
+                  </IFrame>
+
+                </PageView>
+
+                <PageView CssClass="PageContent" ID="FailuresPage"  runat="server">
+                  <Border id="LoadingFailures" runat="server" Style="position:absolute;width:100%;height:100%;background:white;z-index:1;padding:64px 0px 0px 0px" align="center">
+
+                    <Border>
+                      <ThemedImage runat="server" Src="Business/48x48/column-chart.png" Width="48" Height="48" />
+                    </Border>
+
+                    <Border runat="server" Padding="16px 0px 0px 0px">
+                      <ThemedImage runat="server" Src="Images/progress.gif" Width="94" Height="17" />
+                    </Border>
+
+                    <Border runat="server" Padding="16px 0px 0px 0px;font-weight:bold">
+                      <Literal ID="ProcessingFailureReportLiteral" runat="server"/>
+                    </Border>
+                  </Border>
+
+                  <IFrame runat="server" style="display:none" onload="refreshReport(this);        Element.extend((this.contentDocument || this.contentWindow.document).getElementById('ReportFrame')).observe('load', refreshReport.bindAsEventListener(this, this));" ID="FailureReport" Width="100%" Height="600px" Src="/sitecore/shell/~/xaml/Sitecore.Shell.Applications.Analytics.ReportRunner.NoReport.aspx">
+
+                  </IFrame>
+
+                </PageView>
+              </PageViews>
+            </MultiPage>
+          </td>
+        </tr>
+      </table>
+
+
+      <script type="text/javascript" language="javascript">
+        
+        var url = location.href;
+
+        if (url.indexOf("view=archive") > -1) {
+
+        var ctl1 = window.parent.scForm.browser.getControl("WindowCaption");
+
+        if (ctl1 != null) {
+        ctl1.innerHTML = "Archive - ";
+        }
+
+        }else{
+        var ctl2 = window.parent.scForm.browser.getControl("WindowCaption");
+
+        if (ctl2 != null) {
+        ctl2.innerHTML = "";
+        }
+        }
+        
+      </script>
+
+    </Sitecore.Controls.HtmlPage>
+  </Sitecore.Forms.Shell.UI.FormDataViewer>
+
+</xamlControls>
+
