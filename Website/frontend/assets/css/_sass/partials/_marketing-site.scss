@@ -442,7 +442,7 @@ article.state-tabs {
 	}
 }
 
-article.services {
+article.service-states {
 	.wrapper {
 		text-align: center;
 	}
@@ -454,6 +454,74 @@ article.services {
 		&.secondary {
 			background-color: #fff;
 			color: #1773cb;
+		}
+	}
+}
+
+article.service-icons {
+	ul {
+		margin: 0;
+		padding: 0;
+		li {
+			list-style-type: none;
+			padding: 0;
+			float: left;
+			width: 25%;
+			text-align: center;
+			text-transform: uppercase;
+			@include breakpoint(small) {
+				float: none;
+				width: auto;
+			}
+		}
+	}
+	img {
+		display: block;
+		margin: 0 auto 5px auto;
+	}
+	.accent-blue {
+		color: #1773cb;
+		button,
+		a.button {
+			background: #1773cb;
+			color: #fff;
+			&:hover {
+				background-color: #6b6b6b;
+			}
+		}
+		
+	}
+	.accent-orange {
+		color: #fda32b;
+		button,
+		a.button {
+			background: #fda32b;
+			color: #fff;
+			&:hover {
+				background-color: #6b6b6b;
+			}
+		}
+	}
+	.accent-green {
+		color: #78bb2f;
+		button,
+		a.button {
+			background: #78bb2f;
+			color: #fff;
+			&:hover {
+				background-color: #6b6b6b;
+			}
+		}
+	}
+	.accent-dark-blue {
+		color: #043464;
+		button,
+		a.button {
+			background: #043464;
+			color: #fff;
+			&:hover {
+				background-color: #6b6b6b;
+			}
 		}
 	}
 }
