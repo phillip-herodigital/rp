@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<!--[if IE 8]>         <html ng-app="ngApp" class="no-js ie8 lt-ie10 lt-ie9"> <![endif]-->
+<!--[if IE 9]>         <html ng-app="ngApp" class="no-js ie9 lt-ie10"> <![endif]-->
+<!--[if gt IE 8]><!--> <html ng-app="ngApp" class="no-js"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8" />
+
+	<title>Services</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<link rel="shortcut icon" type="image/ico" href="assets/i/favicon.ico" />
+	<link href="assets/css/global.css" rel="stylesheet" />
+
+	<script src="assets/js/libs/modernizr/modernizr.js"></script>
+	<script src="assets/js/libs/angular/angular.min.js"></script>
+	<script src="assets/js/libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+	<script src="assets/js/libs/angular-ui-utils/ui-utils.min.js"></script>
+	<script src="assets/js/libs/respond/dest/respond.min.js"></script>
+
+	<script src="assets/js/app.js"></script>
+
+	<script src="assets/js/directives/main-nav.js"></script>
+	<script src="assets/js/directives/state-tabs.js"></script>
+
+	<script src="assets/js/controllers/main.js"></script>
+	<script src="assets/js/controllers/marketing.js"></script>
+
+	<script type="text/javascript" src="//use.typekit.net/hag0zvs.js"></script>
+	<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
+</head>
+<body ng-controller="MainCtrl">
+	<div class="page-wrapper" ng-class="{open:sidebarOpen}">
+		<nav>
+			<ul>
+				<li><a href="#">Rates, Products, &amp; Services</a>
+					<ul>
+						<li><a href="">Enroll</a></li>
+						<li><a href="">Renew</a></li>
+						<li><a href="">Free Energy</a></li>
+						<li><a href="">For Business</a></li>
+						<li><a href="">Electricity</a></li>
+						<li><a href="">Gas</a></li>
+						<li><a href="">HomeLife Services</a></li>
+						<li><a href="">Clean Energy</a></li>
+					</ul>
+				</li>
+				<li><a href="#">Opportunity</a></li>
+				<li><a href="#">Company</a></li>
+				<li><a href="#">Contact Us</a></li>
+				<li><a href="#">Pay My Bill</a></li>
+			</ul>
+		</nav>
+		<div class="page-content">
+			<header class="site-header" main-nav>
+				<div class="wrapper">
+					<a href="/" class="logo">Logo</a>
+					<p class="utility"><a href="#">Manage My Account</a></p>
+					<a href="" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
+					<nav class="main-nav">
+						<ul class="wrapper">
+							<li ng-mouseover="showSubnav(1)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav == 1 }"><a href="#"><span class="hide-medium">Rates, Products, &amp; </span>Services</a></li>
+							<li ng-mouseover="showSubnav(2)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav == 2 }"><a href="#">Opportunity</a></li>
+							<li ng-mouseover="showSubnav(3)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav == 3 }"><a href="#">Company</a></li>
+							<li ng-mouseover="showSubnav(4)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav == 4 }"><a href="#">Contact Us</a></li>
+							<li><a href="#">Pay My Bill</a></li>
+						</ul>
+					</nav>
+				</div>
+				<nav class="sub-nav">
+					<ul class="wrapper" ng-class="{ hidden: subnav != 1 }" ng-mouseover="showSubnav(1)" ng-mouseout="hideSubnav()">
+						<li><a href="">Enroll</a></li>
+						<li><a href="">Renew</a></li>
+						<li><a href="">Free Energy</a></li>
+						<li><a href="">For Business</a></li>
+						<li><a href="">Electricity</a></li>
+						<li><a href="">Gas</a></li>
+						<li><a href="">HomeLife Services</a></li>
+						<li><a href="">Clean Energy</a></li>
+					</ul>
+					<ul class="wrapper" ng-class="{ hidden: subnav != 2 }" ng-mouseover="showSubnav(2)" ng-mouseout="hideSubnav()">
+						<li><a href="">Why Stream Energy?</a></li>
+						<li><a href="">Why Energy?</a></li>
+						<li><a href="">How It Works</a></li>
+						<li><a href="">Compensation Plan</a></li>
+						<li><a href="">Start a Business</a></li>
+						<li><a href="">Top Leaders</a></li>
+					</ul>
+					<ul class="wrapper" ng-class="{ hidden: subnav != 3 }" ng-mouseover="showSubnav(3)" ng-mouseout="hideSubnav()">
+						<li><a href="">About</a></li>
+						<li><a href="">Corporate Team</a></li>
+						<li><a href="">Blog</a></li>
+						<li><a href="">Press</a></li>
+						<li><a href="">Philanthropy</a></li>
+						<li><a href="">Careers</a></li>
+						<li><a href="" target="_blank">Events</a></li>
+					</ul>
+					<ul class="wrapper" ng-class="{ hidden: subnav != 4 }" ng-mouseover="showSubnav(4)" ng-mouseout="hideSubnav()">
+						<li><a href="">Customer FAQs</a></li>
+					</ul>
+				</nav>
+			</header>
+
+			<div class="banner marketing" style="background-image: url(assets/i/marketing/services.jpg)"></div>
+
+			<section class="layout cols-1" ng-controller="MarketingCtrl">
+
+				<article class="marketing state-tabs services" state-tabs>
+					<ul class="tabs-nav">
+						<li ng-click="selectPane('texas')" ng-class="{ active: pane == 'texas' }">
+							<a href="">
+								<span><i class="icon-state-texas"></i></span>
+								Texas
+							</a>
+						</li>
+						<li ng-click="selectPane('georgia')" ng-class="{ active: pane == 'georgia' }">
+							<a href="">
+								<span><i class="icon-state-georgia"></i></span>
+								Georgia
+							</a>
+						</li>
+						<li ng-click="selectPane('pennsylvania')" ng-class="{ active: pane == 'pennsylvania' }">
+							<a href="">
+								<span><i class="icon-state-pennsylvania"></i></span>
+								Pennsylvania
+							</a>
+						</li>
+						<li ng-click="selectPane('maryland')" ng-class="{ active: pane == 'maryland' }">
+							<a href="">
+								<span><i class="icon-state-maryland"></i></span>
+								Maryland
+							</a>
+						</li>
+						<li ng-click="selectPane('newjersey')" ng-class="{ active: pane == 'newjersey' }">
+							<a href="">
+								<span><i class="icon-state-newjersey"></i></span>
+								New Jersey
+							</a>
+						</li>
+						<li ng-click="selectPane('newyork')" ng-class="{ active: pane == 'newyork' }">
+							<a href="">
+								<span><i class="icon-state-newyork"></i></span>
+								New York
+							</a>
+						</li>
+						<li ng-click="selectPane('washingtondc')" ng-class="{ active: pane == 'washingtondc' }">
+							<a href="">
+								<span><i class="icon-state-washingtondc"></i></span>
+								Washington, D.C.
+							</a>
+						</li>
+					</ul>
+					<div class="tab-content" ng-class="{ hidden : pane != 'texas' }">
+						<div class="tab-header">
+							<div class="wrapper">
+								<p><a href="#" class="button secondary">View Electricity Rates</a> <a href="#" class="button">Enroll Now</a></p>
+							</div>
+						</div>
+					</div>
+					<div class="tab-content" ng-class="{ hidden : pane != 'georgia' }">
+						<div class="tab-header">
+							<div class="wrapper">
+								<p><a href="#" class="button secondary">View Gas Rates</a> <a href="#" class="button">Enroll Now</a></p>
+							</div>
+						</div>
+					</div>
+					<div class="tab-content" ng-class="{ hidden : pane != 'pennsylvania' }">
+						<div class="tab-header">
+							<div class="wrapper">
+								<p><a href="#" class="button secondary">View Electricity and Gas Rates</a> <a href="#" class="button">Enroll Now</a></p>
+							</div>
+						</div>
+					</div>
+					<div class="tab-content" ng-class="{ hidden : pane != 'maryland' }">
+						<div class="tab-header">
+							<div class="wrapper">
+								<p><a href="#" class="button secondary">View Electricity and Gas Rates</a> <a href="#" class="button">Enroll Now</a></p>
+							</div>
+						</div>
+					</div>
+					<div class="tab-content" ng-class="{ hidden : pane != 'newjersey' }">
+						<div class="tab-header">
+							<div class="wrapper">
+								<p><a href="#" class="button secondary">View Electricity and Gas Rates</a> <a href="#" class="button">Enroll Now</a></p>
+							</div>
+						</div>
+					</div>
+					<div class="tab-content" ng-class="{ hidden : pane != 'newyork' }">
+						<div class="tab-header">
+							<div class="wrapper">
+								<p><a href="#" class="button secondary">View Electricity and Gas Rates</a> <a href="#" class="button">Enroll Now</a></p>
+							</div>
+						</div>
+					</div>
+					<div class="tab-content" ng-class="{ hidden : pane != 'washingtondc' }">
+						<div class="tab-header">
+							<div class="wrapper">
+								<p><a href="#" class="button secondary">View Electricity Rates</a> <a href="#" class="button">Enroll Now</a></p>
+							</div>
+						</div>
+					</div>
+				</article>
+				
+				<div class="form">
+					<div class="group">
+						<div class="item">
+							<label>Accent</label>
+							<select ng-model="view.introAccentClass" ng-options="item.accentClass as item.name for item in themes">
+								<option value="">Default</option>
+							</select>
+						</div>
+					</div>
+				</div>
+
+				<article class="marketing marketingIntro wrapper" ng-class="view.introAccentClass">
+
+					<p class="intro">Becoming a Stream Energy customer is easy. We’re committed to helping you find the energy services you need at affordable rates, and our customer service team stays with you through every step of the process. <em>But that’s just the beginning.</em></p>
+					<hr />
+					<div class="body">
+						<p>When you switch providers, the energy that comes into your home doesn’t change—the poles and wires are still maintained by your local utility. But as a Stream Energy customer, you can feel confident knowing that you’re backed by a $6 billion company.</p>
+						<ul>
+							<li>A company that has <em>changed the lives</em> of hundreds of thousands of people</li>
+							<li>A company dedicated to <em>helping our environment</em> through the promotion of clean, renewable sources including wind power and others</li>
+							<li>A company that has been recognized for devoting time, money and manpower to <em>help the communities</em> it serves</li>
+						</ul>
+						<p><a href="#" class="button">Action Button</a></p>
+					</div>
+				</article>
+
+				<div class="form">
+					<div class="group">
+						<div class="item">
+							<label>Image Position</label>
+							<select ng-model="view.img">
+								<option value="">Left - Default</option>
+								<option value="right-img">Right</option>
+							</select>
+						</div>
+						<div class="item">
+							<label>BG Color</label>
+							<select ng-model="view.bgClass" ng-options="item.bgClass as item.name for item in themes">
+								<option value="">Default</option>
+							</select>
+						</div>
+						<div class="item">
+							<label>Border</label>
+							<select ng-model="view.borderClass" ng-options="item.borderClass as item.name for item in themes">
+								<option value="">Default</option>
+							</select>
+						</div>
+						<div class="item">
+							<label>Accent</label>
+							<select ng-model="view.accentClass" ng-options="item.accentClass as item.name for item in themes">
+								<option value="">Default</option>
+							</select>
+						</div>
+					</div>
+				</div>
+
+				<article class="marketing photoLockup" ng-class="[view.img, view.bgClass, view.borderClass, view.accentClass]">
+					<div class="photo" style="background-image: url(assets/i/marketing/home-test2.jpg)"></div>
+					<div class="text">
+						<div class="inner">
+							<h2>Headline</h2>
+							<h3>Subhead</h3>
+							<blockquote>
+								<p><span class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span> Morbi pellentesque lacus at felis auctor fringilla in ac ipsum. Etiam in turpis vitae felis facilisis sagittis.</p>
+							</blockquote>
+							<p class="cite">&mdash; John D. Dallas, TX</p>
+							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi pellentesque lacus at felis auctor fringilla in ac ipsum. Etiam in turpis vitae felis facilisis sagittis.</p>
+							<ul>
+								<li>This is a bullet</li>
+								<li>So is this</li>
+							</ul>
+							<a href="#" class="button">Action Button</a>
+						</div>
+					</div>
+				</article>
+
+			</section>
+
+			<footer class="site-footer">
+				<div class="super-footer">
+					<div class="wrapper">
+						<div class="grid three">
+							<div class="col">
+								<ul>
+									<li><a href="#"><img src="assets/i/img-footer-get-free-energy.png" alt="Get Free Energy" width="159" height="44" /></a></li>
+									<li><a href="#"><img src="assets/i/img-footer-renew-my-contract.png" alt="Renew My Contract" width="120" height="45" /></a></li>
+								</ul>
+							</div>
+							<div class="col quick-links">
+								<h2><i class="icon-quicklinks"></i> Quick Links</h2>
+								<ul>
+									<li><a href="#">Account Overview</a></li>
+									<li><a href="#">Utility Services</a></li>
+									<li><a href="#">Homelife Services</a></li>
+									<li><a href="#">My Profile</a></li>
+								</ul>
+							</div>
+							<div class="col social">
+								<h2><i class="icon-social"></i> Social</h2>
+								<ul>
+									<li><a href="#"><i class="icon-facebook"></i> Facebook</a></li>
+									<li><a href="#"><i class="icon-twitter"></i> Twitter</a></li>
+									<li><a href="#"><i class="icon-youtube"></i> YouTube</a></li>
+									<li><a href="#"><i class="icon-pinterest"></i> Pinterest</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="wrapper copyright">
+					<p>&copy; 2005-2013 SGE IP Holdco, LLC. All rights reserved. Licensed in TX, GA, PA, MD, NJ, NY, &amp; DC<br />
+					(TX #10104, GA #GM-38, NJ #ESL-0109 &amp; GSL-0120, PA #A-2010-2181867 &amp; A-2012-2308991, MD #IR-2072 &amp; IR-2742, NY #STRM, DC EA11-11)</p>
+					<ul>
+						<li><a href="#"><i class="icon-bbb"></i></a></li>
+						<li><a href="#"><i class="icon-dsa"></i></a></li>
+					</ul>
+				</div>
+			</footer>
+		</div>
+	</div>
+
+</body>
+</html>

@@ -27,6 +27,7 @@ $themes:
 	height: 400px;
 	background-position: 50%;
 	background-size: cover;
+	border-bottom: 5px solid #259afd;
 	@include breakpoint(medium) {
 		height: 300px;
 	}
@@ -44,6 +45,7 @@ article.marketing {
 
 article.photoLockup {
 	background-color: #e8e8e8;
+	border-top: 3px solid #999;
 	color: #6b6b6b;
 	.photo {
 		position: absolute;
@@ -437,6 +439,22 @@ article.state-tabs {
 		padding: 10px 0;
 		background-color: #0971ce;
 		color: #fff;
+	}
+}
+
+article.services {
+	.wrapper {
+		text-align: center;
+	}
+
+	button,
+	a.button {
+		background-color: #78bb2f;
+		color: #fff;
+		&.secondary {
+			background-color: #fff;
+			color: #1773cb;
+		}
 	}
 }
 
