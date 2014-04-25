@@ -95,6 +95,26 @@ article.photoLockup {
 			text-transform: uppercase;
 		}
 	}
+	&.top-right-photo {
+		.photo {
+			background-position: top right;
+		}
+	}
+	&.top-left-photo {
+		.photo {
+			background-position: top left;
+		}
+	}
+	&.bottom-left-photo {
+		.photo {
+			background-position: bottom left;
+		}
+	}
+	&.bottom-right-photo {
+		.photo {
+			background-position: bottom right;
+		}
+	}
 	&.right-img {
 		.photo {
 			right: 0;
@@ -454,6 +474,13 @@ article.service-states {
 		&.secondary {
 			background-color: #fff;
 			color: #1773cb;
+			&:hover {
+				background-color: #6b6b6b;
+				color: #fff;
+			}
+		}
+		&:hover {
+			background-color: #6b6b6b;
 		}
 	}
 }

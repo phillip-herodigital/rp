@@ -215,6 +215,16 @@
 							</select>
 						</div>
 						<div class="item">
+							<label>BG Position</label>
+							<select ng-model="view.bgPositionClass">
+								<option value="">Default</option>
+								<option value="top-left-photo">Top Left</option>
+								<option value="top-right-photo">Top Right</option>
+								<option value="bottom-left-photo">Bottom Left</option>
+								<option value="bottom-right-photo">Bottom Right</option>
+							</select>
+						</div>
+						<div class="item">
 							<label>Border</label>
 							<select ng-model="view.borderClass" ng-options="item.borderClass as item.name for item in themes">
 								<option value="">Default</option>
@@ -229,7 +239,7 @@
 					</div>
 				</div>
 
-				<article class="marketing photoLockup" ng-class="[view.img, view.bgClass, view.borderClass, view.accentClass]">
+				<article class="marketing photoLockup" ng-class="[view.img, view.bgClass, view.bgPositionClass, view.borderClass, view.accentClass]">
 					<div class="photo" style="background-image: url(assets/i/marketing/home-test2.jpg)"></div>
 					<div class="text">
 						<div class="inner">
