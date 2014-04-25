@@ -1620,6 +1620,17 @@
     <Content Include="App_Config\Include\Sitecore.Analytics.config" />
     <Content Include="App_Config\Include\Sitecore.Analytics.ExcludeRobots.config" />
     <Content Include="App_Config\Include\Sitecore.Analytics.RobotDetection.config" />
+    <Content Include="App_Config\Include\Captcha.config" />
+    <Content Include="App_Config\Include\Sitecore.Forms.config" />
+    <Content Include="App_Config\Include\Sitecore.ItemWebApi.config" />
+    <Content Include="App_Config\Include\Sitecore.Publishing.DedicatedInstance.config.example" />
+    <Content Include="App_Config\Include\Sitecore.Publishing.EventProvider.Async.config.disabled" />
+    <Content Include="App_Config\Include\Sitecore.Publishing.Optimizations.config.example" />
+    <Content Include="App_Config\Include\Sitecore.Publishing.Parallel.config.disabled" />
+    <Content Include="App_Config\Include\Sitecore.Publishing.Recovery.config.example" />
+    <Content Include="App_Config\Include\Sitecore.Speak.config" />
+    <Content Include="App_Config\Include\Sitecore.Speak.ItemWebApi.config" />
+    <Content Include="App_Config\Include\Sitecore.Speak.Mvc.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
