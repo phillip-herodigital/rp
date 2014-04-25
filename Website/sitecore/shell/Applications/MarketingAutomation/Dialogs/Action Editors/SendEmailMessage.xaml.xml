@@ -24,6 +24,12 @@
       <AjaxScriptManager runat="server" />
       <ContinuationManager runat="server" />
 
+      <Style runat="server" x:placeholder="Stylesheets">
+        .scDialogContentContainer {
+        overflow:auto;
+        }
+      </Style>
+      
       <script type="text/javascript">
         function ConfigureView() {
         var ControlName = document.getElementById("ctl00_ctl00_ctl00_ctl00_ctl04_SendToDropDownList");
@@ -43,20 +49,7 @@
 
         document.observe("dom:loaded", function () {
 
-        try
-        {
-        if ($telerik.$.browser.msie){
-        window.dialogWidth = "700px";
-        window.dialogHeight = "700px";
-        }
-        else {
-        window.resizeTo(700, 700);
-        }
-        }
-        catch(e)
-        {
-        alert(e);
-        }
+        scForm.setDialogDimension(1120, 640);
 
         ConfigureView();
 

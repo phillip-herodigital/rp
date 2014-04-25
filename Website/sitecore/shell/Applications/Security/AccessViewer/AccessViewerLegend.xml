@@ -3,51 +3,52 @@
   <AccessViewerLegend>
     <Border Background="#e9e9e9" Class="SecurityLegend" Style="border-top:2px groove; overflow:hidden;" Padding="2px 4px 2px 4px">
       <Border Float="left" Style="font-weight:bold">
-        <Space Width="1" Height="16" Align="absmiddle" />
         <Literal Text="Key:" />
       </Border>
 
       <Border Float="left" FontBold="true" Margin="0px 0px 0px 12px">
-        <ThemedImage Src="Images/Security/large_allow_disabled.gif" Width="16" Height="16" Align="absmiddle"/>
-        <ThemedImage Src="Images/Security/large_deny_disabled.gif" Width="16" Height="16" Align="absmiddle" Margin="0px 2px 0px 0px" />
+        <ThemedImage Src="Images/Security/large_allow_disabled.gif" Width="16" Height="16" Align="middle"/>
+        <ThemedImage Src="Images/Security/large_deny_disabled.gif" Width="16" Height="16" Align="middle" Margin="0px 2px 0px 0px" />
         <Literal Text="Not Specified" />
       </Border>
 
       <Border Float="left" FontBold="true" Margin="0px 0px 0px 12px">
-        <ThemedImage Src="Images/Security/large_allow_enabled.gif" Width="16" Height="16" Align="absmiddle"/>
-        <ThemedImage Src="Images/Security/large_deny_disabled.gif" Width="16" Height="16" Align="absmiddle" Margin="0px 2px 0px 0px" />
+        <ThemedImage Src="Images/Security/large_allow_enabled.gif" Width="16" Height="16" Align="middle"/>
+        <ThemedImage Src="Images/Security/large_deny_disabled.gif" Width="16" Height="16" Align="middle" Margin="0px 2px 0px 0px" />
         <Literal Text="Allowed" />
       </Border>
 
       <Border Float="left" FontBold="true" Margin="0px 0px 0px 12px">
-        <ThemedImage Src="Images/Security/large_allow_disabled.gif" Width="16" Height="16" Align="absmiddle"/>
-        <ThemedImage Src="Images/Security/large_deny_enabled.gif" Width="16" Height="16" Align="absmiddle" Margin="0px 2px 0px 0px" />
+        <ThemedImage Src="Images/Security/large_allow_disabled.gif" Width="16" Height="16" Align="middle"/>
+        <ThemedImage Src="Images/Security/large_deny_enabled.gif" Width="16" Height="16" Align="middle" Margin="0px 2px 0px 0px" />
         <Literal Text="Denied" />
       </Border>
 
       <Border Float="left" FontBold="true" Margin="0px 0px 0px 12px">
-        <div style="position:absolute">
-          <ThemedImage Src="Images/Security/small_allow_disabled.gif" Width="16" Height="8" Align="absmiddle"/>
-          <ThemedImage Src="Images/Security/small_deny_disabled.gif" Width="16" Height="8" Align="absmiddle" />
+        <div style="position:absolute; line-height:0;">
+          <ThemedImage Src="Images/Security/small_allow_disabled.gif" Width="16" Height="8" Align="middle"/>
+          <ThemedImage Src="Images/Security/small_deny_disabled.gif" Width="16" Height="8" Align="middle" />
           <br/>
-          <ThemedImage Src="Images/Security/small_allow_enabled.gif" Width="16" Height="8" Align="absmiddle"/>
-          <ThemedImage Src="Images/Security/small_deny_disabled.gif" Width="16" Height="8" Align="absmiddle" />
+          <ThemedImage Src="Images/Security/small_allow_enabled.gif" Width="16" Height="8" Align="middle"/>
+          <ThemedImage Src="Images/Security/small_deny_disabled.gif" Width="16" Height="8" Align="middle" />
         </div>
-        <Space Width="34" Height="16" Align="absmiddle" />
+        <Space Width="34" Height="16" Align="middle" />
 
         <Literal Text="Item vs. Descendant Right" />
       </Border>
 
       <Border Float="left" FontBold="true" Margin="0px 0px 0px 12px">
-        <ThemedImage Src="Images/Security/large_allow_enabled_d.gif" Width="16" Height="16" Align="absmiddle"/>
-        <ThemedImage Src="Images/Security/large_deny_disabled.gif" Width="16" Height="16" Align="absmiddle" Margin="0px 2px 0px 0px" />
+        <ThemedImage Src="Images/Security/large_allow_enabled_d.gif" Width="16" Height="16" Align="middle"/>
+        <ThemedImage Src="Images/Security/large_deny_disabled.gif" Width="16" Height="16" Align="middle" Margin="0px 2px 0px 0px" />
         <Literal Text="Protected" />
       </Border>
 
       <Border Float="left" FontBold="true" Margin="0px 0px 0px 12px">
-        <ThemedImage Src="Images/Security/NA.gif" Width="32" Height="16" Align="absmiddle" Margin="0px 2px 0px 0px" />
+        <ThemedImage Src="Images/Security/NA.gif" Width="32" Height="16" Align="middle" Margin="0px 2px 0px 0px" />
         <Literal Text="Not Applicable" />
       </Border>
+
+      <div style="clear:left"></div>
 
     </Border>
   </AccessViewerLegend>

@@ -13,9 +13,6 @@
             left: 10px;
             z-index: 1;
         }
-        .content {
-            top: 30px;
-        }
     </style>
 </asp:Content>
 

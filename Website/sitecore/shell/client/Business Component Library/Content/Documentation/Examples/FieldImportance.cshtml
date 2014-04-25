@@ -1,0 +1,67 @@
+﻿@using Sitecore.Data
+@using Sitecore.Mvc.Presentation
+@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Common.Renderings
+@model RenderingModel    
+@{
+  var rendering = new ID("{D11D6565-D655-4D66-AB9F-31D09974C4F7}").ToString();
+}
+
+<h3>Description</h3>
+<p>
+  The FieldImportance control is used in conjuection with an Accordion control. 
+  Together they provide progressive disclosure using the More/Less buttons at 
+  the bottom of the Accordion body and chevron in the Accordion header.
+</p>
+<p>
+  The FieldImportance is not a stand-alone rendering, but other renderings can 
+  output data, that is handled by the FieldImportance control, for instance the
+  FieldEditor.
+</p>
+<p>
+  The FieldImportance parses the contents of a script block to determines elements
+  that are important. The script block looks like this:
+</p>                                                   
+<pre>
+  &lt;script data-sc-id="FieldImportance1" type="text/x-sitecore-fieldimportance" data-sc-target="Accordion1">
+    {
+      "fields": [
+        {"el": "#FirstName", "label": "First Name", "value": "#FirstNameInput", "priority": 1},
+        {"el": "#LastName", "label": "Last Name", "value": "#LastNameInput", "priority": 1},
+        {"el": "#Address", "label": "Address", "value": "#AddressInput", "priority": 2},
+        {"el": "#City", "label": "City", "value": "#CityInput", "priority": 2},
+        {"el": "#State", "label": "State", "value": "#StateInput", "priority": 3},
+        {"el": "#Country", "label": "Country", "value": "#CountryInput", "priority": 1}
+      ]
+    }
+  &lt;/script>
+</pre>    
+<p>
+  The 'fields' is an array of items. 
+</p>
+<table class="table table-bordered">
+  <tr>
+    <th>Item Property</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><code>el</code></td>
+    <td>Identifies the element of the field. This element is hidden, when the field is hidden.</td>
+  </tr>
+  <tr>
+    <td><code>label</code></td>
+    <td>The label that appears in the Accordion's Promoted Fields area, if the value of the field is blank.</td>
+  </tr>
+  <tr>
+    <td><code>value</code></td>
+    <td>Identifies the element that holds the value of the field.</td>
+  </tr>
+  <tr>
+    <td><code>priority</code></td>
+    <td>Specifies the prioriry of the field. See the Func. Spec. for more information.</td>
+  </tr>
+</table>
+<p>
+  @Html.Sitecore().Controls().Rendering(this.Html, rendering, "Control1", "/sitecore")
+</p>
+

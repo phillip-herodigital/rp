@@ -16,24 +16,20 @@
       <AjaxScriptManager runat="server"/>
       <ContinuationManager runat="server" />
 
-      <GridPanel Width="100%" runat="server" CellPadding="1">
-
+      <Border class="scStretchAbsolute" style="padding:5px;overflow:auto;" runat="server">
         <Literal Text="Current Owner:" runat="server" />
-        <asp:TextBox ID="CurrentOwner" runat="server" Width="100%" ReadOnly="true" style="background:#e9e9e9" OnClick="javascript:this.select();return false"/>
-
+        <asp:TextBox ID="CurrentOwner" runat="server" ReadOnly="true" style="background:#e9e9e9;width:100%;box-sizing:border-box;" OnClick="javascript:this.select();return false;"/>
         <Border runat="server" Padding="8px 0px 0px 0px">
           <Literal Text="Change Owner To :" runat="server" />
         </Border>
         <GridPanel Columns="2" Width="100%" runat="server">
-          <Border runat="server" GridPanel.Width="100%" Padding="0px 4px 0px 0px">
+          <Border runat="server" GridPanel.Width="100%" style="margin-right:5px;padding-right:5px;">
             <asp:TextBox ID="ChangeOwner" runat="server" Width="100%"/>
           </Border>
           <Button ID="Browse" runat="server" Click="Browse_Click" Header="Browse" />
         </GridPanel>
-
-
-      </GridPanel>
-      
+      </Border>
+    
     </Sitecore.Controls.DialogPage>
   </Sitecore.Shell.Applications.Security.SetOwner>
 

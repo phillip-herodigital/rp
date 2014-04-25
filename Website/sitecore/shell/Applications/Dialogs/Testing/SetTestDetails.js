@@ -16,7 +16,7 @@
     if (value && !value.blank()) {      
       var variationId = nameEdit.readAttribute("data-meta-id");
       if (variationId) {        
-        scForm.postRequest("","","","variation:rename(variationId=" + variationId + ",name=" + value.escapeHTML().gsub(/"/,'&quot;') + ")", null, true);
+        scForm.postRequest("","","","variation:rename(variationId=" + variationId + ",name=" + encodeURIComponent(value.escapeHTML().gsub(/"/,'&quot;')) + ")", null, true);
       }                     
     }
  };

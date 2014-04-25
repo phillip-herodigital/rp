@@ -5,21 +5,26 @@
       <CodeBeside Type="Sitecore.Shell.Applications.Dialogs.PublishingViewer.PublishingViewerForm,Sitecore.Client"/>
 
       <Stylesheet Key="inline">
-        .ie .scBar {
-          display: inline;
-        }
-        
         .ff .scBar {
-          float: left;
+        float: left;
         }
-        
-        .ff .scDates {
-          display: none;
+
+        .scDates {
+        display: none;
+        }
+
+        .scViewer{
+         position:absolute;
+         top:200px;
+         bottom:0;
+         left:0;
+         right:0;
+         margin:10px;
+         height:auto !important;
         }
       </Stylesheet>
       
-      <GridPanel Width="100%" Height="100%">
-      
+      <Border Width="100%" Height="100%"> 
         <Border Align="Center" Padding="0px 0px 8px 0px">
           <GridPanel Columns="3">
             <Literal Text="Start date:" Click="Refresh" GridPanel.VAlign="top"/>
@@ -32,13 +37,11 @@
           </GridPanel>
         </Border>
       
-        <Scrollbox Height="100%" Padding="0px" GridPanel.Height="100%">
-        
-          <GridPanel ID="Viewer" Columns="2" Width="100%"/>
-        
+        <Scrollbox class="scScrollbox scViewer" Height="100%" Padding="0px">      
+          <GridPanel ID="Viewer" Columns="2" Width="100%"/>      
         </Scrollbox>
       
-      </GridPanel>  
+      </Border>  
     </FormDialog>
   </PublishingViewer>
 </control>

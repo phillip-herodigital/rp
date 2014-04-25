@@ -1,31 +1,68 @@
 ﻿BODY {
-	background: #4E4E4E url(/sitecore/shell/themes/standard/gradients/gray1.gif) 50% 0 repeat-y;
+  background: #4E4E4E url(/sitecore/shell/themes/standard/gradients/gray1.gif) 50% 0 repeat-y;
   height:100%;
 }
 
 .scWindowOuterFrame
 {
   border:1px solid black;
-  height:100%;
+  position:absolute;
+  left:0;
+  right:0;
+  top:0;
+  bottom:0;
+  height:auto;
 }  
 
 .scWindowFrame {
-	background: #4E4E4E url(/sitecore/shell/themes/standard/gradients/gray1.gif) 50% 0 repeat-y;
+  background: #4E4E4E url(/sitecore/shell/themes/standard/gradients/gray1.gif) 50% 0 repeat-y;
   border:1px solid #a0a0a0;
   border-top:none;
-  height:100%;
+  position:absolute;
+  left:0;
+  right:0;
+  top:0;
+  bottom:0;
+  height:auto;
 }
 
 .scWindowFrameTop {
-	background: #a0a0a0 url(/sitecore/shell/themes/standard/gradients/gray3.gif) 50% 0 repeat-y;
-	height:1px;
+  background: #a0a0a0 url(/sitecore/shell/themes/standard/gradients/gray3.gif) 50% 0 repeat-y;
+  height:1px;
+}
+
+.standardWindowCaption {
+  height: 20px;
+}
+
+.standartWindowButtons {
+  position:absolute;
+  top:0;
+  right:0;
+}
+
+.windowCaptionIcon {
+  width:16px;
+  height:16px;
+  margin:2px 4px;
+  vertical-align:top;
 }
 
 .scWindowCaption {
   font: bold 9pt tahoma;
-  background:transparent;
-  color:White;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis
+  background: transparent;
+  color: White;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.windowPlaceholderContainer {
+  position:absolute;
+  top:21px;
+  bottom:0;
+  left:0;
+  right:0;
 }

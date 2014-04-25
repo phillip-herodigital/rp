@@ -6,13 +6,15 @@
  
       <Action ID="HasFile" Disabled="true"/>
       
-      <GridPanel Width="100%" Height="100%">
+      <Border class="scFlexColumnContainer" style="width:100%; height:100%;">
 
         <Commandbar ID="Commandbar" Icon="Software/32x32/text_code_colored.png" Title="Log files" Description="This tool displays the content of log files." DataSource="/sitecore/content/Applications/Reports/LogViewer/Commands"/>
       
-        <Frame ID="Document" XmlControl="LogViewerDetails" Height="100%" Style="display:block" GridPanel.Width="100%" GridPanel.Height="100%"/>
+        <div class="scFlexContent">
+          <Frame ID="Document" XmlControl="LogViewerDetails" Style="display:block; position:absolute;" />
+        </div>
       
-      </GridPanel>
+      </Border>
     
     </FormPage>
   </LogViewer>

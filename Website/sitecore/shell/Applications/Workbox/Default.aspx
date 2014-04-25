@@ -1,6 +1,6 @@
 <%@ Page Language="C#" AutoEventWireup="true" Codebehind="Default.aspx.cs" Inherits="Sitecore.Shell.Applications.Workbox.WorkboxPage" %>
 <%@ Register TagPrefix="sc" Namespace="Sitecore.Web.UI.HtmlControls" Assembly="Sitecore.Kernel" %>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html>
 <html>
 <head runat="server">
   <asp:placeholder id="BrowserTitle" runat="server"></asp:placeholder>
@@ -13,15 +13,12 @@
 <body class="scWindowBorder1">
   <form id="WorkboxForm" runat="server">
 
-  <table class="scPanel scWorkboxPanel scWindowBorder2" cellpadding="0" cellspacing="0" border="0">
-    <tr>
-      <td id="CaptionTopLine">
-        <img src="/sitecore/images/blank.gif" alt="" />
-      </td> 
-    </tr>
+  <div class="scPanel scFlexColumnContainer scWorkboxPanel scWindowBorder2">
+      <div id="CaptionTopLine">
+        <img src="/sitecore/images/blank.gif" alt="" style="display: block" />
+      </div> 
     
-    <tr>
-      <td class="scWorkboxWindowCaption scCaption scWindowHandle"
+      <div class="scWorkboxWindowCaption scCaption scWindowHandle"
         onmousedown="scWin.mouseDown(this, event)"
         onmousemove="scWin.mouseMove(this, event)"
         onmouseup="scWin.mouseUp(this, event)"
@@ -32,34 +29,31 @@
           <asp:PlaceHolder ID="WindowButtonsPlaceholder" runat="server" />
         </div> 
 
-      </td>
-    </tr>
+      </div>
   
-    <tr>
-      <td height="100%">
+      <div class="scFlexContent">
         
-        <table class="scPanel" cellpadding="0" cellspacing="0" border="0" width="100%" height="100%">
-          <tr>
-            <td class="scWindowBorder3"><img src="/sitecore/images/blank.gif" class="scWindowBorder4" alt="" /></td>
+        <div class="scPanel " style="position: absolute;">
+          
+            <div class="scWindowBorder3"><img src="/sitecore/images/blank.gif" class="scWindowBorder4" alt="" style="display: block" /></div>
 
-            <td id="WorkboxFrame">
-              <iframe src="/sitecore/shell/default.aspx?xmlcontrol=Workbox&mo=preview" width="100%" height="100%" frameborder="0"></iframe>
-            </td>
+            <div id="WorkboxFrame" class="" style="height: 100%">
+              <iframe src="/sitecore/shell/default.aspx?xmlcontrol=Workbox&mo=preview" style="width: 100%;height: 100%; box-sizing: border-box;"></iframe>
+            </div>
             
-            <td class="scWindowBorder3"><img src="/sitecore/images/blank.gif" class="scWindowBorder4" alt="" /></td>
-          </tr>
-        </table>
+            <div class="scWindowBorder3"><img src="/sitecore/images/blank.gif" class="scWindowBorder4" style="display: block"  alt="" /></div>
+          
+        </div>
         
-      </td>
-    </tr>
-
-    <tr>
-       <td height="2" class="scWindowBorder3"><img src="/sitecore/images/blank.gif" height="2" width="1" alt="" border="0" /></td>
-    </tr>
+      </div>
     
-    <asp:PlaceHolder ID="Pager" runat="server" />
-
-  </table>
+    <div class="scWindowBorder3" style="height: 2px;"><img src="/sitecore/images/blank.gif"  alt=""  /></div>
+    
+    <div class="scPager scDockBottom">
+      <asp:PlaceHolder ID="Pager" runat="server" />
+    </div>
+    
+  </div>
   </form>
 </body>
 </html>

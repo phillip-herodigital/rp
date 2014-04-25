@@ -5,8 +5,12 @@
       <CodeBeside Type="Sitecore.Shell.Applications.Layouts.Layouter.LayouterASPXForm,Sitecore.Client"/>
 
       <Script Src="/sitecore/shell/Controls/SitecoreKeyboard.js"/>
-      <Script Src="/sitecore/shell/controls/SitecoreModifiedHandling.js"/>
-      
+      <script type="text/javascript">
+        if (scForm) {
+          scForm.enableModifiedHandling();
+        }
+      </script>
+
       <DataContext ID="HtmlEditorRenderingsDataContext" DataViewName="Master" DataSource="/sitecore/layout" Root="{EB2E4FFD-2761-4653-B052-26A64D385227}"/>
 
       <GridPanel Columns="3" Width="100%" Height="100%" Style="table-layout:fixed">

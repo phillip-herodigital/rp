@@ -7,8 +7,6 @@
         width: 800px;
         }
 
-
-
         .ff .scButton {
         height: auto;
         width: auto;
@@ -16,30 +14,34 @@
         min-width: 105px;
         }
 
-        .scScrollbox
-        {
+        .scDataSourceResultContainer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 30px;
+        background: white;
+        border: 1px solid #CFCFCF;
+        }
 
-        overflow: hidden;
+        #ItemLink {
+        position:absolute;
+        bottom:0;
+        width:100%;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
         }
 
       </Stylesheet>
       <CodeBeside Type="Sitecore.Buckets.FieldTypes.BucketDatasourceForm,Sitecore.Buckets"/>
 
       <DataContext ID="InternalLinkDataContext"/>
-      <GridPanel Columns="1" Width="100%" Height="100%" CellPadding="4" Style="table-layout:fixed">
-
-
-        <Scrollbox Width="100%" Class="scScrollbox scFixSize" Background="window" Padding="0" Border="1px solid #CFCFCF" GridPanel.VAlign="top" GridPanel.Width="100%" GridPanel.Height="100%" Height="100%" style="overflow: hidden;">
-
-          <Frame SourceUri="/sitecore/shell/Applications/Buckets/DataSourceResult.aspx" Width="100%" Height="100%" Style="overflow-x: hidden;"></Frame>
-
-        </Scrollbox>
-
-        <Edit ID="ItemLink" class="BindMeToItem"  style="float:left;width:100%;"/>
-      </GridPanel>
-
-
-
+      <div class="scStretch">
+        <div class="scDataSourceResultContainer">
+          <Frame SourceUri="/sitecore/shell/Applications/Buckets/DataSourceResult.aspx"></Frame>
+        </div>
+        <Edit ID="ItemLink" class="BindMeToItem" />
+      </div>
     </FormDialog>
   </BucketDatasourceLink>
 </control>

@@ -1,7 +1,7 @@
 <%@ Page language="c#" AutoEventWireup="True" Inherits="Sitecore.Shell.Applications.Security.ChangePassword.ChangePasswordPage" CodeBehind="ChangePassword.aspx.cs" %>
 <%@ Register Assembly="Sitecore.Kernel" Namespace="Sitecore.Web.UI.HtmlControls" TagPrefix="sc" %>
 <%@ OutputCache Location="None" VaryByParam="none" %>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE html>
 <html>
 <head>
   <base target="_self" />
@@ -79,7 +79,7 @@
       </tr>
       <tr>
         <td>
-          <div style="background:#dbdbdb"><img src="/sitecore/images/blank.gif" width="1" height="1" alt="" border="0" /></div>
+          <div class="scHorizontalLine">.</div>
         </td>
       </tr>
       <tr>

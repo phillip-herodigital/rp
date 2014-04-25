@@ -7,12 +7,7 @@
         width: 180px;
         }
 
-        .scFixSize, .scFixSizeInitialized {
-        width:97%;
 
-        height:100%;
-        overflow: hidden;
-        }
 
         .lang_en {
 
@@ -24,9 +19,9 @@
 
       <DataContext ID="InternalLinkDataContext"/>
 
-      <GridPanel Columns="2" Width="100%" Height="100%" CellPadding="4" Style="table-layout:fixed">
+      <div class="scStretch">
 
-        <Scrollbox Width="300" Height="100%" Background="transparent" Border="none" GridPanel.VAlign="top" GridPanel.Width="300">
+        <div style="width:300px; height:100%; overflow: auto; ">
           <GridPanel CellPadding="2" Columns="2">
             <Literal Text="Link Description:" GridPanel.NoWrap="true" />
             <Edit ID="Text"/>
@@ -62,14 +57,14 @@
             <Edit ID="Querystring" />
          
           </GridPanel>
-        </Scrollbox>
+        </div>
 
-        <Scrollbox Width="100%" Class="scScrollbox scFixSize" Background="window" Padding="0" Border="1px solid #CFCFCF" GridPanel.VAlign="top" GridPanel.Width="100%" GridPanel.Height="100%">
+        <div style="position: absolute; top:0; left:305px; right:0;  bottom:0; border:1px solid #CFCFCF">
 
           <Frame SourceUri="/sitecore/shell/Applications/Buckets/FieldResults.aspx" Width="100%" Height="100%" Style="overflow-x: hidden;"></Frame>
-          <TreeviewEx ID="Treeview" DataContext="InternalLinkDataContext" MultiSelect="False" Width="100%"/>
-        </Scrollbox>
-      </GridPanel>
+          <TreeviewEx ID="Treeview" DataContext="InternalLinkDataContext" MultiSelect="False" style="display: none"/>
+        </div>
+      </div>
     </FormDialog>
   </BucketLink>
 </control>

@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <Forms.FormDesigner>
+    <FormPage>
+      <CodeBeside Type="Sitecore.Forms.Shell.UI.FormDesigner, Sitecore.Forms.Core"/>
+     
+
+      <Stylesheet Src="Default.css" DeviceDependant="true"/>
+      <Stylesheet Src="Content Manager.css" DeviceDependant="true"/>
+      <Stylesheet Src="Ribbon.css" DeviceDependant="true" runat="server"/>
+      <Stylesheet Src="FormBuilder.css" DeviceDependant="true"/>      
+ 
+      <Script runat="server" Src="/sitecore/shell/controls/lib/jquery/jquery.js"/>
+      <Script runat="server" Src="/sitecore modules/web/web forms for marketers/scripts/jquery-ui.min.js"/> 
+      <Script runat="server" Src="/sitecore/shell/Applications/Modules/Web Forms for Marketers/script/jquery.livequery.min.js"/>
+      <Script runat="server" Src="/sitecore modules/web/web forms for marketers/scripts/json2.min.js"/>
+      
+      <Script type="text/javascript" runat="server">
+        var $j = jQuery.noConflict();
+      </Script> 
+
+
+      <Script runat="server" Src="/sitecore/shell/Controls/Sitecore.Runtime.js"/>
+      
+      <Script runat="server" Src="/sitecore/shell/Controls/Lib/scriptaculous/scriptaculous.js"/>
+      <Script runat="server" Src="/sitecore/shell/Controls/Lib/scriptaculous/effects.js"/>
+      <Script runat="server" Src="/sitecore/shell/Controls/Lib/scriptaculous/dragdrop.js"/>
+
+      <Script runat="server" Src="/sitecore/shell/Applications/Content Manager/Content Editor.js"/>
+
+      <Script runat="server" Src="/sitecore/shell/controls/SitecoreObjects.js"/>
+      <Script runat="server" Src="/sitecore/shell/controls/SitecoreVSplitter.js"/>
+      <Script runat="server" Src="/sitecore/shell/controls/SitecoreKeyboard.js"/>
+      <Script runat="server" Src="/sitecore/shell/Controls/Sitecore.Runtime.js"/>
+      
+      <Script runat="server" Src="/sitecore/shell/Applications/Modules/Web Forms for Marketers/script/Utils.js"/>
+      <Script runat="server" Src="/sitecore/shell/Applications/Modules/Web Forms for Marketers/script/OverflowController.js"/>
+      <Script runat="server" Src="/sitecore/shell/Applications/Modules/Web Forms for Marketers/script/Sitecore.FormBuilder.js"/>
+      <Script runat="server" Src="/sitecore/shell/Applications/Modules/Web Forms for Marketers/script/Sitecore.Parser.js"/>
+      <Script runat="server" Src="/sitecore/shell/Applications/Modules/Web Forms for Marketers/script/Sitecore.PropertiesBuilder.js"/>
+
+      <input type="hidden" id="scActiveRibbonStrip" />
+
+      <GridPanel Width="100%" Height="100%" >
+        <Border ID="RibbonPanel" sc="scRibbon"  />
+        <Border ID="FormPanel" vAling="top" Padding="0px" Width="100%" Height="100%" GridPanel.Height="100%"  Border="none" GridPanel.NoWrap="true" GridPanel.VAlign="top" Style="overflow-y:fixed">
+          <GridPanel Columns="3" Width="100%" Height="100%" vAling="top" Padding="0" Margin="0" CellPadding="0" CellSpasing="0" Style="table-layout:fixed">
+            <Scrollbox ID="PropertiesPanel" GridPanel.ID="PropertyEditor" GridPanel.vAling="top" Class="scPropertiesPanel" GridPanel.Height="100%" Height="100%" vAling="top" Border ="0" Padding="0" Margin="0" GridPanel.Padding="0" GridPanel.Margin="0" Style="position:relative">
+              <Border ID="Properties" Class="scFieldProperties"  Width="100%" vAling="top" Border="0" >
+                <div/>
+                <FormSettingsDesigner ID="SettingsEditor" Height="100%"/>
+              </Border>
+            </Scrollbox>
+
+            <VISplitter class="sc-vertical-splitter" GridPanel.Align="center" ID="FormsSpliter" GridPanel.Width="6px" Target="left" GridPanel.Style="background : #f0f3f7 url(/sitecore/shell/themes/standard/Images/seperator.png) no-repeat center center;border: none;	cursor: move;	height: 100%;"/>
+
+            <Border ID="WorkPanel" Class="scFbWorkPanel" GridPanel.vAling="top" GridPanel.Padding="10px 0px 0px 0px" Margin="0px" Border="0" Style="overflow-:auto; position:relative">
+              <Border ID="TitleBorder" class="scFbTitleGrid" onclick="javascript:return Sitecore.FormBuilder.selectControl(this,event,'TitleBorder','ContentTitle', true, 'TitleEdit')" onmouseover="javascript:return Sitecore.FormBuilder.mouseMove(this,event,'TitleBorder')" onmouseout="javascript:return Sitecore.FormBuilder.mouseOver(this,event,'TitleBorder')" >
+                <ThemedImage class="scFbArrow" id="TitleBorderMarker" Src="/sitecore/shell/Applications/Modules/Web Forms for Marketers/images/arrow.png"/>
+                <h2>
+                  <Literal ID="FormTitle" Border="0px" Padding="0px" Width="100%"/>
+                </h2>
+              </Border>
+              <ALink ID="Intro" class="scFbFrameGrid" onclick="javascript:return Sitecore.FormBuilder.selectControl(this,event,'Intro','ContentIntro', true, 'IntroHtml')" >
+                <ThemedImage class="scFbArrow" id="IntroMarker"  Src="/sitecore/shell/Applications/Modules/Web Forms for Marketers/images/arrow.png"/>
+                <RichTextBorder ID="IntroGrid" SourceID="IntroHtml"/>
+              </ALink>
+              <Border ID="FormTablePanel" Width="100%" vAling="top" style="position:relative"/>
+              <ALink ID="Footer" class="scFbFrameGrid" onclick="javascript:return Sitecore.FormBuilder.selectControl(this,event,'Footer','ContentFooter', true, 'FooterHtml')">
+                <ThemedImage class="scFbArrow" id="FooterMarker"  Src="/sitecore/shell/Applications/Modules/Web Forms for Marketers/images/arrow.png"/>
+                <RichTextBorder ID="FooterGrid" SourceID="FooterHtml"/>
+              </ALink>
+              <ALink ID="SubmitGrid" class="scFbTitleGrid"  onclick="javascript:return Sitecore.FormBuilder.selectControl(this,event,'SubmitGrid','SubmitTab', true)">
+                <ThemedImage class="scFbArrow" id="SubmitGridMarker"  Src="/sitecore/shell/Applications/Modules/Web Forms for Marketers/images/arrow.png"/>
+                <input type="button" ID="FormSubmit" Style="width:auto; margin:0px 0px 20px 0px" />
+              </ALink>
+            </Border>
+          </GridPanel>
+        </Border>
+      </GridPanel>
+
+    </FormPage>
+  </Forms.FormDesigner>
+</control>

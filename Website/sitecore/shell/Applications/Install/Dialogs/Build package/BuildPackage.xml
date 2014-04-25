@@ -37,7 +37,7 @@
 
       <WizardFormPage ID="Building" Header="Building" Text="This may take a few minutes." Icon="People/32x32/Box_Software.png">
         <GridPanel Width="100%">
-          <Space Height="64"/>
+          <Border Height="64"/>
 
           <ThemedImage Src="People/48x48/Box_Software.png" Width="48" Height="48" GridPanel.Align="center"/>
 

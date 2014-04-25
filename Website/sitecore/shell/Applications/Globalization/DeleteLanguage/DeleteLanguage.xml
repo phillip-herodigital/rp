@@ -33,57 +33,54 @@
       </WizardFormPage>
     
       <WizardFormPage ID="Deleting" Header="Deleting" Text="Please wait while deleting..." Icon="Network/32x32/Earth_Delete.png">
-        <GridPanel Width="100%">
+        <Border class="scStretch scTextAlignCenter">
           
-          <Space Height="64"/>
+          <Border Height="64"/>
           
           <ThemedImage Src="Network/48x48/Earth_Delete.png" Width="48" Height="48" GridPanel.Align="center"/>
 
-          <Space Height="16"/>
+          <Border Height="16"/>
           
           <Border Align="center">
             <ThemedImage Src="Images/progress.gif" Width="94" Height="17"/>
           </Border>
           
-          <Space Height="16"/>
+          <Border Height="16"/>
           
           <Border ID="Text" Align="center" GridPanel.Align="center" GridPanel.Style="font-weight:bold">
             <Literal Text="Deleting..."/>
           </Border>
-          <Space Height="16"/>
+          <Border Height="16"/>
           <Border ID="Status" Align="center" GridPanel.Align="center">
             &#160;
           </Border>
           
-        </GridPanel>
+        </Border>
       </WizardFormPage>
 
       <WizardFormPage ID="Retry" Header="Error" Text="An error occurred while deleting the languages." Icon="Network/32x32/Earth_Delete.png">
         <WizardFormPadding>
-          <GridPanel Width="100%" Height="100%" Fixed="true">
-            <Memo ID="ErrorText" ReadOnly="true" Width="100%" Height="100%"/>
-          </GridPanel>
+          <Border class="scStretch">
+            <Memo ID="ErrorText" class="scStretch" ReadOnly="true" />
+          </Border>
         </WizardFormPadding>
       </WizardFormPage>
 
       <WizardFormLastPage ID="LastPage" Icon="Network/32x32/Earth_Delete.png">
-        <GridPanel Cellpadding="2" Width="100%" Height="100%" Fixed="true">
-
-          <Border GridPanel.Style="padding:0px 0px 16px 0px; font-weight:bold">
-            <Literal Text="The wizard has completed. Click Finish to close the wizard."/>
-          </Border>
-
-          <Border ID="ShowResultPane" GridPanel.Style="padding:8px 0px 2px 0px" Click="ShowResult" RollOver="true" Class="scRollOver">
+        <div class="scStretch scFlexColumnContainerWithoutFlexie">
+          <Literal class="wizardCompleteText" Text="The wizard has completed. Click Finish to close the wizard."/>
+          <Border ID="ShowResultPane" style="padding:8px 0px 2px 0px" Click="ShowResult" RollOver="true" Class="scRollOver">
             <Literal Text="Click here to view additional information."/>
           </Border>
-
-          <Border ID="ResultLabel" GridPanel.Style="padding:8px 0px 2px 0px" Visible="false">
+          <Border ID="ResultLabel" style="padding:8px 0px 2px 0px" Visible="false">
             <Literal Text="Result:"/>
           </Border>
-
-          <Memo ID="ResultText" ReadOnly="true" Width="100%" Height="100%" GridPanel.Height="100%" Visible="false"/>
-
-        </GridPanel>
+          <div class="scFlexContentWithoutFlexie scWizardLastPageResultText">
+            <div class="scStretchAbsolute">
+              <Memo ID="ResultText" class="scStretch" ReadOnly="true" visible="false"/>
+            </div>
+          </div>
+        </div>
       </WizardFormLastPage>
 
     </WizardForm>

@@ -118,6 +118,10 @@ function scInsertSitecoreLink(sender, returnValue) {
 
   var text = scEditor.getSelectionHtml();
 
+  if ($telerik.isIE) {
+    text = scIEFixRTETextRange(scEditor);
+  }
+
   if (text == "" || text == null || ((text != null) && (text.length == 15) && (text.substring(2, 15).toLowerCase() == "<p>&nbsp;</p>"))) {
     text = returnValue.text;
   }
@@ -148,7 +152,7 @@ RadEditorCommandList["InsertSitecoreMedia"] = function(commandName, editor, args
   editor.showExternalDialog(
     "/sitecore/shell/default.aspx?xmlcontrol=RichText.InsertImage&la=" + scLanguage + (id ? "&fo=" + id : "") + (scDatabase ? "&databasename=" + scDatabase : "") ,
     null, //argument
-    1100,
+    1105,
     500,
     scInsertSitecoreMedia,
     null,
@@ -311,3 +315,21 @@ WebControlFilter.prototype =
 
 WebControlFilter.registerClass('WebControlFilter', Telerik.Web.UI.Editor.Filter);
 PrototypeAwayFilter.registerClass('PrototypeAwayFilter', Telerik.Web.UI.Editor.Filter);
+
+function scIEFixRTETextRange(scEditor) {
+  var text = scEditor.getSelectionHtml();
+  var regex = /^([\s]*<p.*?>).+(<\/p>[\s]*)$/i;
+  var match = regex.exec(text);
+  if (match && match.length == 3) {
+    var elem = scEditor.getSelectedElement();
+    if (elem.parentElement.lastChild != elem) {
+      var range = scEditor.getSelection().getRange();
+      range.moveEnd('character', -1);
+      scEditor.getSelection().selectRange(range);
+
+      text = scEditor.getSelectionHtml();
+    }
+  }
+
+  return text;
+}

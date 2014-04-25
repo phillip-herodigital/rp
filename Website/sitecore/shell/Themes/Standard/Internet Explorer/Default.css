@@ -9,59 +9,8 @@ form[lang|='ja'] *,
   font-family: メイリオ, Meiryo, Microsoft YaHei, tahoma, sans-serif;
 }
 
-.scContentTreeNode a span {
-  height:0;
-}
-
-.scBackground
-{
-  border: 1px outset;
-}
-
-.scContentTreeNode
-{
-  padding: 0px 2px 0px 16px;
-}
-
-a.scContentTreeNodeNormal, a.scContentTreeNodeActive
-{
-  line-height: inherit;
-  height: 16px;
-  padding: 1px 4px 2px 2px;
-  float: none;
-}
-
-a.scContentTreeNodeActive, a.scContentTreeNodeNormal:hover
-{
-  padding: 0px 3px 1px 1px;
-}
-
-.scContentTreeNodeGlyph
-{
-  float: none;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  vertical-align: baseline;
-}
-
-.scLoadingGlyph
-{
-  vertical-align: middle;
-}
-
-.scContentTreeNodeIcon
-{
-  vertical-align: middle;
-}
-
-.scContentTreeNodeGutter
-{
-  left: 0px;
-}
-
-.scContentTreeNodeNormal span, .scContentTreeNodeActive span, .scLoadingGlyph
-{
-  float: none;
+[hidden] {
+  display: none;
 }
 
 .scFixSize > *
@@ -69,10 +18,14 @@ a.scContentTreeNodeActive, a.scContentTreeNodeNormal:hover
   display: inherit;
 }
 
+.scFixSize > script, .scFixSize > style
+{
+  display: none;
+}
+
 .SecurityLegend
 {
     overflow:visible !important;
-    height: 100%;
 }
 
 /*OnTime Issue #348368*/
@@ -81,23 +34,10 @@ a.scContentTreeNodeActive, a.scContentTreeNodeNormal:hover
   position: relative;
 }
 
-
-/* Quirks mode specific styles  */
-* html .scTab, * html .scTab_Hover, * html .scTabActive, * html .scTabActive_Hover
-{
-  height: 21px;
-}
-
-* html .scTabActive, * html .scTabActive_Hover {
-  padding-top: 3px;
-}
-
-/* End of Quirks mode specific styles*/
-
 /* Japanese language support*/
 .lang_ja_jp a.scRibbonToolbarSmallButton span 
 {
-	height: 0;
+  height: 0;
 }
 
 .lang_ja_jp .scPaneHeader,

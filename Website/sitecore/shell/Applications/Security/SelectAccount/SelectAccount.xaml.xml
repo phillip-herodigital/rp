@@ -31,8 +31,8 @@
         }
 
         function show(id) {
-          scForm.browser.getControl("UsersPanel").parentNode.style.display = (id == "Users" ? "" : "none");
-          scForm.browser.getControl("RolesPanel").parentNode.style.display = (id == "Roles" ? "" : "none");
+          scForm.browser.getControl("UsersPanel").style.display = (id == "Users" ? "" : "none");
+          scForm.browser.getControl("RolesPanel").style.display = (id == "Roles" ? "" : "none");
           if(id == "Users") setTimeout("Users.render()", 25);
         }
         
@@ -46,22 +46,57 @@
         Event.observe(window, 'load', function() {
           var e = $("RolesPanel");
           var id = "";
-          
-          if (e.down() != null && e.down().down() != null) {
+
+          if (e.down() != null) {
             id = "Roles";
           }
           else {
             id = "Users";
           }
           
-          scForm.browser.getControl("UsersPanel").parentNode.style.display = (id == "Users" ? "" : "none");
-          scForm.browser.getControl("RolesPanel").parentNode.style.display = (id == "Roles" ? "" : "none");
+          scForm.browser.getControl("UsersPanel").style.display = (id == "Users" ? "" : "none");
+          scForm.browser.getControl("RolesPanel").style.display = (id == "Roles" ? "" : "none");
         });
         ]]>
       </Script>
 
-      <GridPanel Height="100%" Width="100%" runat="server" id="MainPanel">
-        <Border ID="AccountSelector" Padding="0px 0px 8px 0px" runat="server">
+      <style>
+        #MainPanel{
+        height: 100%;
+        width: 100%;
+        padding-bottom: 70px;
+        }
+
+        #AccountSelector {
+        padding: 0 0 8px;
+        }
+
+        #RolesPanel, #UsersPanel {
+        height: 100%;
+        overflow:auto;
+        }
+
+        .Grid {
+        height: auto !important;
+        width: auto !important;
+        }
+
+        .Row *, .SelectedRow *, .HeadingRow * {
+        width: auto !important;
+        }
+
+        .invisibleAccountSelector{
+        padding-bottom: 0px !important;
+        }
+
+        .scDialogContentContainer{
+        overflow: hidden !important;
+        }
+
+      </style>
+      
+      <Border id="MainPanel" runat="server">
+        <Border ID="AccountSelector" runat="server">
           <Groupbox Header="Account Type" runat="server">
             <Radiobutton Header="Roles" ID="RoleAccounts" Name="AccountType" Checked="true" Value="Role" runat="server" Click='javascript:show("Roles")' />
             <br/>            
@@ -69,7 +104,7 @@
           </Groupbox>
         </Border>
 
-        <Border runat="server" Height="100%" GridPanel.Height="100%" GridPanel.Row.ID="RolesPanel">
+        <Border runat="server" Id="RolesPanel">
           <Grid id="Roles"
             RunningMode="Callback"
             CssClass="Grid"
@@ -121,7 +156,7 @@
             LoadingPanelClientTemplateId="LoadingFeedbackTemplate"
             LoadingPanelPosition="MiddleCenter"
             
-            Width="100%" Height="100%" runat="server">
+            Width="100%" runat="server">
 
             <Levels>
               <GridLevel
@@ -182,7 +217,7 @@
           </Grid>
         </Border>
 
-        <Border runat="server" Height="100%" Width="100%"  GridPanel.Height="100%" GridPanel.Row.ID="UsersPanel" GridPanel.VAlign="top" id="UsersResizeContainer">
+        <Border runat="server" id="UsersPanel">
           <Grid id="Users"
             RunningMode="Callback"
             CssClass="Grid"
@@ -233,7 +268,7 @@
             LoadingPanelClientTemplateId="LoadingFeedbackTemplate"
             LoadingPanelPosition="MiddleCenter"
             
-            Width="100%" Height="100%" runat="server">
+            Width="100%" runat="server">
 
             <Levels>
               <GridLevel
@@ -305,7 +340,7 @@
           </Grid>
         </Border>
 
-      </GridPanel>
+      </Border>
       
     </Sitecore.Controls.DialogPage>
   </Sitecore.Shell.Applications.Security.SelectAccount>

@@ -20,22 +20,29 @@
       <Stylesheet runat="server" Src="Content Manager.css" DeviceDependant="true" x:placeholder="Stylesheets" />
       <Stylesheet runat="server" Src="Ribbon.css" DeviceDependant="true" x:placeholder="Stylesheets" />
       <Stylesheet Key="EditHtml" runat="server">
-      .scRibbon {
+        .scRibbon {
         padding:0px;
-      }
+        }
+
+        .scEditHtmlButtons {
+        border-top:1px solid #666666;
+        padding: 8px 4px 4px;
+        background: #e9e9e9;
+        text-align: right;
+        }
       </Stylesheet>
 
       <input type="hidden" id="scActiveRibbonStrip" name="scActiveRibbonStrip" />
 
-      <GridPanel Width="100%" Height="100%" Style="table-layout:fixed" runat="server">
+      <Border class="scStretch scFlexColumnContainer" runat="server">
 
         <Border ID="RibbonPanel" runat="server" />
 
-        <Border GridPanel.Height="100%" Height="100%" runat="server">
+        <Border class="scFlexContent" runat="server">
           <asp:TextBox ID="Html" runat="server" TextMode="MultiLine" Style="width:100%;height:100%;border:none"/>
         </Border>
 
-        <Border Style="border-top:1px solid #666666" Padding="4px" Background="#e9e9e9" Align="right" runat="server">
+        <Border class="scEditHtmlButtons" runat="server">
           <Button runat="server" ID="OK" Width="76px" Height="23px" KeyCode="13" Margin="0px 0px 0px 4px" FontName="Tahoma" FontSize="8pt" Click="OK_Click">
             <Literal runat="server" Text="Accept"/>
           </Button>
@@ -44,7 +51,7 @@
             <Literal runat="server" Text="Reject"/>
           </Button>
         </Border>
-      </GridPanel>
+      </Border>
 
     </Sitecore.Controls.HtmlPage>
   </Sitecore.Shell.Applications.ContentEditor.Dialogs.EditHtml>

@@ -1,9 +1,9 @@
 <%@ Page language="c#" Codebehind="Cache.aspx.cs" AutoEventWireup="false" Inherits="Sitecore.sitecore.admin.CacheAdmin" %>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<!DOCTYPE html>
 <HTML>
   <HEAD>
     <title>Cache Admin</title>
-<meta content="Microsoft Visual Studio .NET 7.1" name=GENERATOR>
+      <link rel="shortcut icon" href="/sitecore/images/favicon.ico" />
 <meta content=C# name=CODE_LANGUAGE>
 <meta content=JavaScript name=vs_defaultClientScript>
 <meta content=http://schemas.microsoft.com/intellisense/ie5 name=vs_targetSchema>

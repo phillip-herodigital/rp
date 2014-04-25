@@ -1,0 +1,100 @@
+﻿@using Sitecore.Data
+@using Sitecore.Mvc.Presentation
+@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Common.ListBoxes
+@using Sitecore.Web.UI.Controls.Common.Renderings
+@model RenderingModel    
+@{
+  var rendering = new ID("{A82840D0-633E-4D1A-B7FE-8C0062AA22F1}").ToString();
+}
+              
+<p>
+  In the following example the data source of the <code>Model.Rendering</code> points to an
+  item with template StringDictionary. This template has a TreeList field 'Dictionary',
+  where the first entry points to the 'Welcome to Sitecore' item in the Core database 
+  (/sitecore/system/Dictionary/W/Welcome to Sitecore).
+</p>                                
+      
+<p>
+  Output:          
+</p>
+@Html.Sitecore().Controls().Rendering(this.Html, rendering, "Dictionary1", "/sitecore/client/Business Component Library/Content/Documentation/Component Library/PageSettings/StringDictionary", new {  })
+<input type="hidden" class="sc-dictionary-example" data-sc-id="InitControl" />
+<pre>
+  @Html.Sitecore().Controls().ListBox("ListBox1", new {})
+</pre>    
+<pre>
+&#64;Html.Sitecore().Controls().Rendering(this.Html, rendering, "Dictionary1", "/sitecore/client/Business Component Library/Content/Documentation/Component Library/PageSettings/StringDictionary", new {  })
+&#64;Html.Sitecore().Controls().ListBox("ListBox1", new {})
+</pre>
+   
+
+<p>Try rendering this page in Danish language to see the value change.</p>
+<p>
+  <a href="/sitecore/client/Business Component Library/Content/Documentation/component library?i={A82840D0-633E-4D1A-B7FE-8C0062AA22F1}&sc_lang=da">Switch to Danish</a><br />
+  <a href="/sitecore/client/Business Component Library/Content/Documentation/component library?i={A82840D0-633E-4D1A-B7FE-8C0062AA22F1}&sc_lang=en">Switch to English</a>
+</p>    
+         
+<p>
+  In the following example the  <code>Model.Rendering</code> has Phrases specified.
+</p>                                
+      
+<p>
+  Output:          
+</p>
+@Html.Sitecore().Controls().Rendering(this.Html, rendering, "Dictionary2", "/sitecore/client/Speak/Content", new { Phrases = "Welcome to Sitecore|Uncategorized|Insert Anchor" })
+<pre>
+  @Html.Sitecore().Controls().ListBox("ListBox2", new {})
+</pre>      
+<pre>
+&#64;Html.Sitecore().Controls().Rendering(this.Html, rendering, "Dictionary2", "/sitecore/client/Speak/Content", new { Phrases = "Welcome to Sitecore|Uncategorized" })
+&#64;Html.Sitecore().Controls().ListBox("ListBox2", new {})
+</pre>
+   
+
+<p>Try rendering this page in Danish language to see the value change.</p>
+<p>
+  <a href="/sitecore/client/Business Component Library/Content/Documentation/component library?i={A82840D0-633E-4D1A-B7FE-8C0062AA22F1}&sc_lang=da">Switch to Danish</a><br />
+  <a href="/sitecore/client/Business Component Library/Content/Documentation/component library?i={A82840D0-633E-4D1A-B7FE-8C0062AA22F1}&sc_lang=en">Switch to English</a>
+</p>
+
+<p>
+  Code of the function used for displaying Dictionaries in ListBoxes          
+</p>
+
+<pre>
+      if (this.app && this.app.Dictionary1 && this.app.Dictionary2) {
+        var app = this.app;
+        var values = app.Dictionary1.attributes;
+        var data = [];
+        _.each(_.pairs(values), function (value) {
+          if (value[0] != 'type' && value[0] != 'name') {
+            data.push({
+              itemId: '',
+              $displayName: value[0]
+            });
+            data.push({
+              itemId: '',
+              $displayName: value[1]
+            });
+          }
+        });
+        app.ListBox1.set('items', data);
+        
+        values = app.Dictionary2.attributes;
+        data = [];
+        _.each(_.pairs(values), function (value) {
+          if (value[0] != 'type' && value[0] != 'name') {
+            data.push({
+              itemId: '',
+              $displayName: value[0]
+            });
+            data.push({
+              itemId: '',
+              $displayName: value[1]
+            });
+          }
+        });
+        app.ListBox2.set('items', data);
+      }
+</pre>

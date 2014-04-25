@@ -44,8 +44,14 @@
         vertical-align:top;
         }
         
-        .ff .scValidatorTitle img {
-          vertical-align: middle;
+        tr>td:first-child{
+          vertical-align:top;
+        }
+        
+        #Validation{
+          margin: 10px;
+          padding: 2px;
+          height:auto !important;
         }
         
       </Stylesheet>
@@ -53,7 +59,7 @@
       <AjaxScriptManager runat="server"/>
       <ContinuationManager runat="server" />
 
-      <Scrollbox ID="Validation" Width="100%" Height="100%" Padding="2px" runat="server" />
+      <Scrollbox class="scScrollbox scStretchAbsolute" ID="Validation" runat="server" />
 
     </Sitecore.Controls.ModalDialogPage>
   </Sitecore.Shell.Applications.ContentEditor.Dialogs.ValidationResult>

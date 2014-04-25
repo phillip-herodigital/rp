@@ -1,0 +1,24 @@
+﻿<button data-sc-id="ToggleButtonTest1" class="btn sc-togglebutton" 
+        data-bind="visible: isVisible, enable: isEnabled, click: toggle, css: { 'up': isOpen() }" 
+        data-sc-require="/-/speak/v1/business/button.js,/-/speak/v1/business/togglebutton.js" 
+        data-sc-hasnested="true" type="button">
+    <span class="sc-togglebutton-text" data-sc-isopen="False" data-bind="text: text">Enabled</span>
+</button>
+
+<button data-sc-id="ToggleButtonTest2" class="btn sc-togglebutton up" 
+        data-bind="visible: isVisible, enable: isEnabled, click: toggle, css: { 'up': isOpen() }" 
+        data-sc-require="/-/speak/v1/business/button.js,/-/speak/v1/business/togglebutton.js" 
+        data-sc-hasnested="true" type="button">
+    <span class="sc-togglebutton-text" data-sc-isopen="False" data-bind="text: text">Toggled</span>
+</button>
+
+<button data-sc-id="ToggleButtonTest3" class="btn sc-togglebutton" disabled="disabled" 
+        data-bind="visible: isVisible, enable: isEnabled, click: toggle, css: { 'up': isOpen() }" 
+        data-sc-require="/-/speak/v1/business/button.js,/-/speak/v1/business/togglebutton.js" 
+        data-sc-hasnested="true" type="button">
+    <div data-sc-imageurl="/sitecore/shell/client/Speak/Assets/img/sc-sprite.png" data-sc-backgroundposition="-32px -34px" data-bind="style: { 'backgroundImage': 'url(' + imageUrl() + ')', 'backgroundPosition': backgroundPosition() }" class="sc-icon" 
+         style="background-image: url('/sitecore/shell/client/Speak/Assets/img/sc-sprite.png'); background-position: -32px -34px;">
+    </div><span class="sc-togglebutton-text" data-sc-isopen="False" data-bind="text: text">ToogleButton with background</span>
+</button>
+
+

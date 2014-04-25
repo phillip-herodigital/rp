@@ -16,7 +16,7 @@
 
     <Sitecore.Controls.DialogPage Icon="Software/32x32/graph_edge_directed.png" runat="server"  
                                   Header="Increase the Profile Value"
-                                  Text="Select the profile key and then specify that value that you want to add" >
+                                  Text="Select the profile key and then specify the value that you want to add" >
 
       <x:register assembly="Sitecore.Shell.MarketingAutomation" namespace="Sitecore.Shell.Applications.MarketingAutomation.Controls" />
       <x:register assembly="Sitecore.Client" namespace="Sitecore.Shell.Applications.Analytics.Personalization" />
@@ -26,57 +26,30 @@
       <ContinuationManager runat="server" />
       <RadScriptManager runat="server"/>
 
-      <Style runat="server" x:placeholder="Stylesheets">
-        .ui-title
-        {
-        display : block;
-        padding : 5px;
-        font-weight : bold;
-        }
+      <div>
+        <Literal ID="SelectProfileKeyLiteral" runat="server" Text="Select a Profile Key:"/>
+        <div style="padding-top:5px;position:relative;">
+          <GroupedList ID = "ProfileKeysList" runat="server" 
+                       ParentItemId="12BD7E35-437B-449C-B931-23CFA12C03D8"
+                       TemplateGroupId="8E0C1738-3591-4C60-8151-54ABCC9807D1"
+                       TemplateItemId="44AB5107-3C73-42F0-A427-BEC549F944B9" 
+                       Height="400px"/>
+        </div>
+      </div>
 
-        .ui-value
-        {
-        display : block;
-        padding : 5px;
-        }
-      </Style>
+      <div>
+        <GridPanel Class="EntryGrid" Columns="2" runat="server"  Margin="30px 30px 10px 10px">
 
-      <table width="100%" height="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td>
+          <Literal ID="ProfileKeyLiteral" runat="server" Text="Profile Key:" GridPanel.Align="right" GridPanel.Width="25%" Class="ui-title"/>
+          <Literal ID="ProfileKeyNameLiteral" Class="ui-value" GridPanel.Align="left" runat="server"/>
 
-              <Literal ID="SelectProfileKeyLiteral" runat="server" Text="Select a Profile Key:"/>
+          <Literal ID="SliderLiteral" runat="server" Text="Value:" GridPanel.Align="right" GridPanel.Width="25%" Class="ui-title"/>
+          <Border runat="server" ID="ValueBorder" Class="ui-value" GridPanel.Align="left">
+            <TextBoxSlider ID="ValueTextBoxSlider" runat="server"/>
+          </Border>
 
-              <Border runat="server" Padding="5px 0 0 0">
-                <GroupedList ID = "ProfileKeysList" runat="server" 
-                             ParentItemId="12BD7E35-437B-449C-B931-23CFA12C03D8"
-                             TemplateGroupId="8E0C1738-3591-4C60-8151-54ABCC9807D1"
-                             TemplateItemId="44AB5107-3C73-42F0-A427-BEC549F944B9" 
-                             Width="453px" 
-                             Height="360px"/>
-              </Border>
-
-          </td>
-        </tr>
-        <tr>
-          <td height="100%" vAlign="top">
-
-            <GridPanel Class="EntryGrid" Columns="2" runat="server"  Margin="30px 30px 10px 10px">
-
-              <Literal ID="ProfileKeyLiteral" runat="server" Text="Profile Key:" GridPanel.Align="right" GridPanel.Width="25%" Class="ui-title"/>
-              <Literal ID="ProfileKeyNameLiteral" Class="ui-value" GridPanel.Align="left" runat="server"/>
-
-              <Literal ID="SliderLiteral" runat="server" Text="Value:" GridPanel.Align="right" GridPanel.Width="25%" Class="ui-title"/>
-              <Border runat="server" ID="ValueBorder" Class="ui-value" GridPanel.Align="left">
-                <TextBoxSlider ID="ValueTextBoxSlider" runat="server"/>
-              </Border>
-
-            </GridPanel>
-
-          </td>
-        </tr>
-      </table>
-      
+        </GridPanel>
+      </div>
     </Sitecore.Controls.DialogPage>
 
   </Sitecore.Shell.Applications.MarketingAutomation.Dialogs.ActionEditors.AddToVisitProfile>

@@ -65,10 +65,31 @@ scRect.prototype.clientToScreen = function(tag) {
   var ctl = tag;
   while (ctl != null) {
     this.offset(ctl.offsetLeft, ctl.offsetTop);
-   
+
     ctl = ctl.offsetParent;
   }
-}
+};
+
+scRect.prototype.clientToRelativeParent = function (tag) {
+  var ctl = tag;
+  while (ctl != null && (window.getComputedStyle ? getComputedStyle(ctl).position : ctl.currentStyle.position) != "relative") {
+    this.offset(ctl.offsetLeft, ctl.offsetTop);
+
+    ctl = ctl.offsetParent;
+  }
+};
+
+scRect.prototype.getRelativeParentSize = function(tag) {
+  var ctl = tag;
+  while (ctl != null && (window.getComputedStyle ? getComputedStyle(ctl).position : ctl.currentStyle.position) != "relative") {
+    ctl = ctl.offsetParent;
+  }
+
+  if (ctl != null) {
+    this.width = ctl.offsetWidth;
+    this.height = ctl.offsetHeight;
+  }
+};
 
 scRect.prototype.contains = function(x, y) {
   return (x >= this.left && y >= this.top && x <= this.left + this.width && y <= this.top + this.height);

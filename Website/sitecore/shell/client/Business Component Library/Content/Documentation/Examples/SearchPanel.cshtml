@@ -1,0 +1,19 @@
+﻿@using Sitecore.Data
+@using Sitecore.Mvc.Presentation
+@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Common.Renderings
+@model RenderingModel    
+@{
+  var rendering = new ID("{ED5C3BA8-17E3-4F82-89C2-1496E8D61434}").ToString();
+}
+
+<h3>Apperance</h3>
+<p>
+  SearchPanel addes three placeholders - $Id.Filters, $Id.Searches, $Id.Details
+</p>
+<p>
+  @Html.Sitecore().Controls().Rendering(this.Html, rendering, "SearchPanel", "/sitecore")
+</p>
+<pre>
+&#64;Html.Sitecore().Controls().Rendering(this.Html, rendering, "SearchPanel", "/sitecore")
+</pre>

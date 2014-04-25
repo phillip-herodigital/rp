@@ -1,0 +1,96 @@
+﻿@using Sitecore.Mvc.Presentation
+@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Common.Texts
+@using Sitecore.Web.UI.Controls.Navigation.HyperlinkButtonsGroups
+@using Sitecore.Web.UI.Controls.Common.Buttons
+
+@model RenderingModel
+
+<h3>Behaviour</h3>
+<p>
+  The DataSource property points to the folder item containing the HyperlinkButton items to be displyed in the group.
+</p>
+
+<table class="table">
+  <tbody>
+    <tr>
+      <td>@Html.Sitecore().Controls().HyperlinkButtonsGroup("LinksGroup1", new { DataSource = "{64DABB5A-C883-46A8-B8DB-B7250689121A}" })</td>
+    </tr>
+  </tbody>
+</table>
+<pre>
+&#64;Html.Sitecore().Controls().HyperlinkButtonsGroup("LinksGroup1", new { DataSource = "{64DABB5A-C883-46A8-B8DB-B7250689121A}" })
+</pre>
+
+<p>
+  The SelectedItemId property points to the item selected by default.
+</p>
+
+<table class="table">
+  <tbody>
+    <tr>
+      <td>@Html.Sitecore().Controls().HyperlinkButtonsGroup("LinksGroup1", new { DataSource = "{64DABB5A-C883-46A8-B8DB-B7250689121A}", SelectedItemId = "{53C532E1-D277-4CCC-B524-83E08F50CAD4}" })</td>
+    </tr>
+  </tbody>
+</table>
+<pre>
+&#64;Html.Sitecore().Controls().HyperlinkButtonsGroup("LinksGroup1", new { DataSource = "{64DABB5A-C883-46A8-B8DB-B7250689121A}", SelectedItemId = "{53C532E1-D277-4CCC-B524-83E08F50CAD4}" })
+</pre>
+
+<h3>Apperence</h3>
+
+<p>The HyperlinkButtonGroup is a simple container of a collection of HyperlinkButton controls.</p>
+
+<p>
+  Disabled HyperlinkButtonsGroup.
+</p>
+<table class="table">
+  <tbody>
+    <tr>
+      <td>@Html.Sitecore().Controls().HyperlinkButtonsGroup("LinksGroup2", new { DataSource = "{64DABB5A-C883-46A8-B8DB-B7250689121A}", IsEnabled = false })</td>
+    </tr>
+  </tbody>
+</table>
+<pre>
+&#64;Html.Sitecore().Controls().HyperlinkButtonsGroup("LinksGroup1", new { DataSource = "{64DABB5A-C883-46A8-B8DB-B7250689121A}, IsEnabled = false " })
+</pre>
+
+<h3>Clicking and Data-binding</h3>
+<p>
+  Click to select another item and see changed SelectedItemName and SelectedItemId.
+</p>
+<table class="table">
+  <tbody>
+    <tr>
+      <td>@Html.Sitecore().Controls().HyperlinkButtonsGroup("LinksGroup3", new { DataSource = "{64DABB5A-C883-46A8-B8DB-B7250689121A}" })</td>
+    </tr>
+    <tr>
+      <td>Selected item: @Html.Sitecore().Controls().Text("Text1", "Empty", new {Text = "{Binding LinksGroup3.SelectedItemName}"})
+          @Html.Sitecore().Controls().Text("Text2", "Empty", new {Text = "{Binding LinksGroup3.SelectedItemId}"})</td>
+    </tr>
+  </tbody>
+</table>
+<pre>
+&#64;Html.Sitecore().Controls().HyperlinkButtonsGroup("LinksGroup3", new { DataSource = "{64DABB5A-C883-46A8-B8DB-B7250689121A}" })
+&#64;Html.Sitecore().Controls().Text("Text1", "Empty", new {Text = "{Binding LinksGroup3.SelectedItemName}"})
+&#64;Html.Sitecore().Controls().Text("Text2", "Empty", new {Text = "{Binding LinksGroup3.SelectedItemId}"})
+</pre>
+
+<h3>Setting selected</h3>
+<p>
+  Click to select item "My images".
+</p>
+<table class="table">
+  <tbody>
+    <tr>
+      <td>@Html.Sitecore().Controls().HyperlinkButtonsGroup("LinksGroup4", new { DataSource = "{64DABB5A-C883-46A8-B8DB-B7250689121A}" })</td>
+    </tr>
+    <tr>
+      <td>@Html.Sitecore().Controls().Button("Button1", new { Text = "Click Me to select item \"My images\"", Click = "javascript:app.LinksGroup4.set('selectedItemId', '{53C532E1-D277-4CCC-B524-83E08F50CAD4}')" })</td>
+    </tr>
+  </tbody>
+</table>
+<pre>
+&#64;Html.Sitecore().Controls().HyperlinkButtonsGroup("LinksGroup4", new { DataSource = "{64DABB5A-C883-46A8-B8DB-B7250689121A}" })
+&#64;Html.Sitecore().Controls().Button("Button1", new { Text = "Click Me to select item \"My images\"", Click = "javascript:app.LinksGroup4.set('selectedItemId', '{53C532E1-D277-4CCC-B524-83E08F50CAD4}')" })
+</pre>

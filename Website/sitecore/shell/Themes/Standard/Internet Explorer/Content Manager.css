@@ -1,98 +1,12 @@
-﻿FORM {
-  position: static;
-  height: auto;
-  width: auto;
-}
-
-a.scSystemMenu {
-  top: 0px;
-  background-image: none;
-  filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/sitecore/shell/themes/standard/images/homebutton2.png', sizingMethod='scale');     
-}
-
-.scSystemMenu:hover {
-  background-image: none;
-  filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/sitecore/shell/themes/standard/images/homebutton2_h.png', sizingMethod='scale'); 
-}
-
-.scSearchInput {
- height: 20px;
- padding: 2px 2px 0px 4px;
-}
-
-.scSearchOptionsInput {
-  height: 20px;
-}
-
-.scSearchOptionsValueContainer {
-  padding-right: 0;
-  height: auto;
-}
-
-.scSearchOptionsInput {
-  margin: 0px 0px 0px 2px;                       
-}
-
-/* Splitter */
-.scSplitter {
-  background: none;
-  width: 6px;
-  position: static;
-}
-
-.scSplitterFill {
-  background: #d2d5da url("/sitecore/shell/themes/standard/Images/Content Editor/Splitter.png") repeat-y;
-  cursor: move;
-  height: 100%;
-}
-
-/* Editor tabs */
-
-.scEditorTabControlsTab0, a.scRibbonEditorTabNormal, a.scRibbonEditorTabActive, .scEditorTabHeaderNormal, .scEditorTabHeaderActive, .scEditorTabControlsTab4, .scEditorTabControlsTab5,
-a.scEditorHeaderButton {
-  float: none;
-}
-
-.scEditorTabHeaderNormal, .scEditorTabHeaderActive {
-  padding-top: 3px;
-}
-
-a.scEditorHeaderVersionsLanguage {
-  padding-top: 2px;
-}
-
-.scEditorHeader {
-  height: 32px;
-  overflow: visible;
-}
-
-/* validation */
-.scValidatorPanel {
-  width: 20px;
-  border-left: 2px groove;
-  border-top: 2px groove;
-  vertical-align: top;
-}
-
-.scValidationResult {
-  padding: 0px 2px 0px 2px;
-  border-bottom: 2px groove;
-  border-bottom-color: inherit;
-}
-
-.scValidationMarker {
-  padding: 1px 2px 1px 2px;                    
-}
-
-/* Japanese presentation support */
+﻿/* Japanese presentation support */
 .lang_ja_jp .scEditorTabHeaderNormal span 
 {
-	height: 0;
+  height: 0;
 }
 
 .lang_ja_jp .scEditorTabHeaderActive span 
 {
-	height: 0;
+  height: 0;
 }
 
 /* support Japanese language */

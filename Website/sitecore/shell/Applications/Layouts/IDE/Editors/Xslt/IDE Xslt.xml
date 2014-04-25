@@ -4,7 +4,12 @@
     <FormPage Submittable="false">
       <Stylesheet Src="IDE.css" DeviceDependant="true"/>
       <Script Src="/sitecore/shell/Controls/SitecoreKeyboard.js"/>
-      <Script Src="/sitecore/shell/Controls/SitecoreModifiedHandling.js"/>
+
+      <script type="text/javascript">
+        if (scForm) {
+          scForm.enableModifiedHandling();
+        }
+      </script>
 
       <CodeBeside Type="Sitecore.Shell.Applications.Layouts.IDE.Editors.Xslt.IDEXsltForm,Sitecore.Client"/>
       

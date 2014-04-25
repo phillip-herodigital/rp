@@ -11,28 +11,29 @@
     <Stylesheet Key="Workbox">
       html { width:100%; height:100% }
       body { width:100%; height:100%; overflow:auto }
+      #States table { width: 100%; }
     </Stylesheet>
 
     <FormPage Application="Workbox">
 
       <input type="hidden" id="scActiveRibbonStrip" name="scActiveRibbonStrip" />
-       
-      <GridPanel ID="Grid" Width="100%" Height="100%">
+
+      <Border ID="Grid">
 
         <Border ID="RibbonPanel"/>
 
-        <Scrollbox Padding="0px" Background="transparent" Border="none" GridPanel.Class="scLightBlueGradient" Height="100%" GridPanel.Height="100%" GridPanel.NoWrap="true" GridPanel.VAlign="top">
-          
-          <GridPanel ID="Grid2" Width="100%" CellPadding="8">
+        <Border Padding="0px" Class="scLightBlueGradient scStretchAbsolute" Style="margin-top:67px;overflow:auto;">
+
+          <Border ID="Grid2">
             
             <Border ID="States">
             </Border>
           
-          </GridPanel>
+          </Border>
           
-        </Scrollbox>
+        </Border>
 
-      </GridPanel>
+      </Border>
 
         
     </FormPage>

@@ -1,0 +1,55 @@
+﻿@using Sitecore.Mvc
+@using Sitecore.Data
+@using Sitecore.Web.UI.Controls.Common.Texts
+@using Sitecore.Web.UI.Controls.Containers.TabControls
+
+
+<h3>Apperance</h3>
+<p>Assign tabs by specifying datasource.The children of the data source are the tabs. Each tab item is rendered using an Item Renderer.</p>
+@Html.Sitecore().Controls().TabControl("TabStrip1", new { DataSource = "{E08F0ECE-9623-4DB5-83C4-35CC6EF11442}" })
+<pre>
+&#64;Html.Sitecore().Controls().TabControl("TabStrip1", new { DataSource = "{E08F0ECE-9623-4DB5-83C4-35CC6EF11442}" })
+</pre>
+
+<p>Tabs can be assigned by explicitely setting tab item IDs. Default active tab ID can be expiclitely specified.</p>
+@Html.Sitecore().Controls().TabControl("TabStrip2", new { Tabs = new List<ID> { new ID("{3BFDDBCA-327F-4860-8791-2348FE007609}"), new ID("{C29A2AFE-1762-49AB-89CB-BEAF077C152C}"), new ID("{DA79D9EC-AFB7-42E3-B370-A56754E0DF1B}"), new ID("{386203DC-9783-4D17-BCC7-5F0A893EFACC}") } } )
+<pre>
+&#64;Html.Sitecore().Controls().TabControl("TabStrip2", new { Tabs = new List&lt;ID&gt; {new ID("{3BFDDBCA-327F-4860-8791-2348FE007609}"), new ID("{C29A2AFE-1762-49AB-89CB-BEAF077C152C}"), new ID("{DA79D9EC-AFB7-42E3-B370-A56754E0DF1B}"), new ID("{DA79D9EC-AFB7-42E3-B370-A56754E0DF1B}")} })
+</pre>
+
+<p>We can set ID for the Selected Tab</p>
+@Html.Sitecore().Controls().TabControl("TabStrip3", new { Tabs = new List<ID> { new ID("{3BFDDBCA-327F-4860-8791-2348FE007609}"), new ID("{C29A2AFE-1762-49AB-89CB-BEAF077C152C}"), new ID("{DA79D9EC-AFB7-42E3-B370-A56754E0DF1B}"), new ID("{386203DC-9783-4D17-BCC7-5F0A893EFACC}") }, selectedTab = "{386203DC-9783-4D17-BCC7-5F0A893EFACC}" } )
+<pre>
+&#64;Html.Sitecore().Controls().TabControl("TabStrip3", new { Tabs = new List<ID> { new ID("{3BFDDBCA-327F-4860-8791-2348FE007609}"), new ID("{C29A2AFE-1762-49AB-89CB-BEAF077C152C}"), new ID("{DA79D9EC-AFB7-42E3-B370-A56754E0DF1B}"), new ID("{386203DC-9783-4D17-BCC7-5F0A893EFACC}") }, selectedTab = "{386203DC-9783-4D17-BCC7-5F0A893EFACC}" } )
+</pre>
+
+<h3>Data-binding</h3>
+<p>
+  Data-bind the <code>selectedTab</code> or <code>selectedTabIndex</code> properties.
+</p>
+
+<b>Active tab index</b>:@Html.Sitecore().Controls().Text("Activetabindex", string.Empty, new 
+  {
+      Text = "{Binding TabStrip3.selectedTabIndex}"
+  })
+<br/>
+
+<b>Active tab id</b>:@Html.Sitecore().Controls().Text("Activetabid", string.Empty, new 
+  {
+      Text = "{Binding TabStrip3.selectedTab}"
+  })
+
+
+<pre>
+&#64;Html.Sitecore().Controls().Text("Activetabindex", string.Empty, new 
+  {
+    Text = "{Binding TabStrip2.model.selectedTabIndex}"
+  })
+  
+&#64;Html.Sitecore().Controls().Text("Activetabid", string.Empty, new 
+  {
+    Text = "{Binding TabStrip2.model.selectedTab}"
+  })
+</pre>
+
+

@@ -1,0 +1,19 @@
+﻿@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Common.ItemRenderers
+
+<p>
+  This Control is used to render all the renderings of an item.<br />
+  If you create an item and add some renderings to it, the ItemRenderer will loop through all the renderings and render them.<br />
+</p>
+<h3>Sample</h3>
+<pre>
+  &#64;Html.Sitecore().Controls().ItemRenderer("ItemRenderer", new { DataSource = "{6B287DB7-EAE7-4C9E-B212-39D5E87C1A67}" })
+</pre>
+<p>
+  @Html.Sitecore().Controls().ItemRenderer("ItemRenderer", new { DataSource = "{6B287DB7-EAE7-4C9E-B212-39D5E87C1A67}" })
+</p>
+
+<h3>Data-binding</h3>
+<p>
+  There is no databinding for an itemRenderer and no javascript, this is a pure "server-side" controls. On the other hand, if you have a SPEAK Component defined in the renderings, this component will be rendered in the exact same way than a rendering in a SPEAK-PAGE.
+</p>

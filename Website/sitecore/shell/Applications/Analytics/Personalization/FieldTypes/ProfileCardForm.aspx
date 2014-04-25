@@ -4,8 +4,8 @@
 <%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
 <%@ Register Assembly="Sitecore.Client" Namespace="Sitecore.Shell.Applications.Analytics.Personalization"
   TagPrefix="sc" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head runat="server">
   <title>Profile Card Values</title>
   <script type="text/javascript" src="/sitecore/shell/Controls/lib/prototype/prototype.js"></script>

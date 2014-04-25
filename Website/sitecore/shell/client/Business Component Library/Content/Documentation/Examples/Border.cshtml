@@ -1,0 +1,25 @@
+﻿@using Sitecore.Data
+@using Sitecore.Mvc.Presentation
+@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Common.Renderings
+@model RenderingModel    
+@{
+  var rendering = new ID("{F6C9F461-FCAF-47DC-AA01-C8C64C2EFFB8}").ToString();
+}
+<h3>Apperance</h3>
+<p>
+  Border container.<br />
+  It can align content to Left|Center|Right, showing a border and using padding.
+</p>
+<p>
+    @Html.Sitecore().Controls().Rendering(this.Html, rendering, "Border1", "/sitecore", new { ShowBorder = true, UsePadding = true, ContentAlignment = "Center" })
+</p>
+
+<pre>
+&#64;Html.Sitecore().Controls().Rendering(this.Html, rendering, "Border1", "/sitecore", new { ShowBorder = true, UsePadding = true, ContentAlignment = "Center" })
+</pre>
+
+<p>
+  A Scrollbar behavior can be attached to a Border, <br />
+  in this case it is necessary to set the Border.Height property to a fixed value (i.e. "200px").<br />
+</p>

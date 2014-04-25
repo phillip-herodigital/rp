@@ -5,36 +5,42 @@
 
          <CodeBeside Type="Sitecore.Shell.Applications.Templates.AddFromTemplate.AddFromTemplateForm,Sitecore.Client"/>
          <Script Src="/sitecore/shell/applications/Templates/AddFromTemplate/AddFromTemplate.xml.js" />
+        <Stylesheet>
+          .scTemplateInfo {
+          margin-top: 10px;
+          }
+
+          .scTemplateInfo td {
+          padding: 2px;
+          }
+        </Stylesheet>
          <TemplateDataContext ID="TemplatesDataContext"/>
 
-         <GridPanel Width="100%" Height="100%" Style="table-layout:fixed">
-            <Tabstrip ID="Tabs" Width="100%" Height="460px">
+         <Border Class="scFlexColumnContainer" style="height:100%;width:100%;">
+            <Tabstrip ID="Tabs" class="scFlexContent">
+              <Tab ID="MediaLibraryTab" Header="Browse" Height="100%">
+                <Scrollbox Width="100%" Height="100%" Background="white" Class="scScrollbox" Padding="0">
+                  <TreeviewEx ID="Templates" Click="SelectTreeNode" DblClick="DoOK" DataContext="TemplatesDataContext" />
+                </Scrollbox>
+              </Tab>
                <Tab ID="MediaTab" Header="Search" Height="100%">
-                  <GridPanel Width="100%" Height="100%" Style="table-layout:fixed">
-                     <Scrollbox ID="SearchItems" Height="100%" Class="scScrollbox scFixSize scFixSize4" Background="white" Border="1px inset" Padding="0px" GridPanel.Height="100%">
-                        <Frame SourceUri="/sitecore/shell/Applications/Buckets/FieldResults.aspx" Width="100%" Height="100%"></Frame>
-                     </Scrollbox>
-                  </GridPanel>
-               </Tab>
-               <Tab ID="MediaLibraryTab" Header="Browse" Height="100%">
-                  <Scrollbox Width="100%" Height="100%" Background="white" Class="scScrollbox scFixSize scInsetBorder" Padding="0" GridPanel.Height="100%">
-                     <TreeviewEx ID="Templates" Click="SelectTreeNode" DblClick="DoOK" DataContext="TemplatesDataContext" />
+                  <Scrollbox ID="SearchItems" Height="100%" Background="white" Padding="0px" >
+                    <Frame SourceUri="/sitecore/shell/Applications/Buckets/FieldResults.aspx" Width="100%" Height="100%"></Frame>
                   </Scrollbox>
                </Tab>
             </Tabstrip>
-            <Border Padding="1px 0px 0px 0px">
-               <GridPanel Width="100%" Columns="2">
-                  <Border Padding="0px 4px 0px 0px" GridPanel.Align="right" NoWrap="true">
-                     <Literal Text="Template:"/>
-                  </Border>
-                  <Edit ID="TemplateName" Width="100%" GridPanel.Width="100%"/>
-                  <Border Padding="0px 0px 0px 0px" GridPanel.Align="right" NoWrap="true" Style="width: 56px;">
-                     <Literal Text="Item Name:"/>
-                  </Border>
-                  <Edit ID="ItemName" Width="100%" GridPanel.Width="100%" Class="not-dirty"/>
-               </GridPanel>
-            </Border>
-         </GridPanel>
+            <GridPanel class="scTemplateInfo" Columns="2">
+              <Border style="padding-right:4px ; white-space: nowrap;" >
+                <Literal Text="Template:"/>
+              </Border>
+              <Edit ID="TemplateName" Width="100%" GridPanel.Width="100%"/>
+              <Border style="padding-right:4px; white-space: nowrap;">
+                <Literal Text="Item Name:"/>
+              </Border>
+              <Edit ID="ItemName" Width="100%" GridPanel.Width="100%" Class="not-dirty"/>
+            </GridPanel>
+
+         </Border>
       </FormDialog>
    </AddFromTemplate>
 </control>

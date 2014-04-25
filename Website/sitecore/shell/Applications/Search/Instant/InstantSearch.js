@@ -73,7 +73,7 @@
         instantSearch.showResults(transport.responseText, version);
       },
       onFailure: function(transport, response) {
-        scForm.browser.showModalDialog("/sitecore/shell/controls/error.htm", new Array(transport.responseText), "center:yes;help:no;resizable:yes;scroll:yes;status:no;");
+        scForm.showModalDialog("/sitecore/shell/controls/error.htm", new Array(transport.responseText), "center:yes;help:no;resizable:yes;scroll:yes;status:no;dialogWidth:506;dialogHeight:103");
         instantSearch.unregisterProgress();
       }
     });

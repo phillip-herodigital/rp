@@ -26,10 +26,9 @@
                <input id="Path" name="Path" type="hidden" value=""/>
                <input id="Unzip" name="Unzip" type="hidden" value="0"/>
                <input id="Overwrite" name="Overwrite" type="hidden" value="0"/>
-                                      
-               <GridPanel Width="100%" Height="100%" Style="table-layout:fixed">
-                  <Scrollbox ID="FileList" Height="100%" Border="none" GridPanel.VAlign="top"/>
-               </GridPanel>
+
+              <Scrollbox ID="FileList" class="scScrollbox scStretch" Border="none" style="background: inherit; " />
+
             </WizardFormIndent>
          </WizardFormPage>
 
@@ -46,7 +45,7 @@
 
          <WizardFormPage ID="Uploading" Header="Uploading" Text="Please wait while the file(s) are being uploaded..." Icon="Applications/32x32/Export1.png">
             <GridPanel Width="100%">
-               <Space Height="64"/>
+               <Border Height="64"/>
 
                <ThemedImage Src="Applications/48x48/Export1.png" Width="48" Height="48" GridPanel.Align="center"/>
 

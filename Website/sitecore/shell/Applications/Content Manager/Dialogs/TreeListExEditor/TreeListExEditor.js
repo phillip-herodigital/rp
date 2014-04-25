@@ -138,25 +138,11 @@ if (typeof (scBrowser) != 'undefined') {
 
   scBrowser.prototype.initializeFixsizeElements = function (preserveFixSize) {
     this.initializeFixsizeElementsEx(preserveFixSize);
-    correctSize();
   };
 
   scBrowser.prototype.resizeFixsizeElementsEx = scBrowser.prototype.resizeFixsizeElements;
 
   scBrowser.prototype.resizeFixsizeElements = function () {
     this.resizeFixsizeElementsEx();
-    correctSize();
   };
-
-  function correctSize() {
-    var treeBox = $$('#TreeList div.scScrollbox').first();
-    var treeListAll = $('TreeList_all');
-
-    if (treeBox && treeListAll) {
-
-      treeBox.setStyle({ height: "100%" });         
-      treeListAll.setStyle({ display: "inline" });            
-      treeListAll.setStyle({ overflow: "auto", height: treeBox.getHeight() + "px", position: "fixed", width: treeBox.getWidth() + "px" });      
-    }
-  }
 }

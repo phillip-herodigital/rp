@@ -75,7 +75,8 @@
     
     params["Mode"] = "simple";
     if (Prototype.Browser.Gecko || Prototype.Browser.WebKit) {      
-      params["UploadSessionID"] = $$(".uploadSessionID")[0].value;      
+      params["UploadSessionID"] = $$(".uploadSessionID")[0].value;
+      params["UploadSessionID1"] = $$(".uploadSessionID1")[0].value;
     }
         
     this.yUploader.upload(this.fileId, this.destination, "POST", params);
@@ -101,3 +102,6 @@
 
 var scUpload = new SitecoreAttach();
 Event.observe(window, "load", scUpload.onload.bindAsEventListener(scUpload));
+Event.observe(document, "unload", function () {
+  scUpload.yUploader.destroy();
+});

@@ -1,5 +1,10 @@
 ﻿var SitecoreMultiUpload = Class.create({
-  onload: function() {
+  onload: function () {
+    // Clicking on 'Close button' in IE9 will cause an exception in this dialog.
+    if ($$('.ie9').length > 0) {
+      scForm.hideCloseButton();
+    }
+
     if (Prototype.Browser.Gecko || Prototype.Browser.WebKit) {
       $$("form")[0].observe("submit", function(e) {
         e.stop();
@@ -26,7 +31,8 @@
     scForm.postRequest("", "", "", "Cancel");
   },
   
-  close: function() {
+  close: function () {
+    this.yUploader.destroy();
     scForm.postRequest("", "", "", "Close(\"" + this.uploadedFiles + "\")");
   },
   
@@ -75,7 +81,8 @@
     
     params["Mode"] = "simple";
     if (Prototype.Browser.Gecko || Prototype.Browser.WebKit) {      
-      params["UploadSessionID"] = $$(".uploadSessionID")[0].value;      
+      params["UploadSessionID"] = $$(".uploadSessionID")[0].value;
+      params["UploadSessionID1"] = $$(".uploadSessionID1")[0].value;
     }
         
     this.yUploader.upload(this.fileId, this.destination, "POST", params);
@@ -101,3 +108,6 @@
 
 var scUpload = new SitecoreMultiUpload();
 Event.observe(window, "load", scUpload.onload.bindAsEventListener(scUpload));
+Event.observe(window, "unload", function() {
+  scUpload.yUploader.destroy();
+});

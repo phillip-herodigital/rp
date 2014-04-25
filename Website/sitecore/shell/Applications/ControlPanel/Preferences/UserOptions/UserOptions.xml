@@ -40,9 +40,6 @@
                   <Checkbox ID="ValidatorBar" Header="Validator Bar"/>
                 </Border>
                 <Border Padding="2px">
-                  <Checkbox ID="UseSmartTags" Header="Use Smart Tags"/>
-                </Border>
-                <Border Padding="2px">
                   <Checkbox ID="RenderCollapsedSections" Header="Prefetch Collapsed Sections"/>
                 </Border>
                 <Border Padding="2px">

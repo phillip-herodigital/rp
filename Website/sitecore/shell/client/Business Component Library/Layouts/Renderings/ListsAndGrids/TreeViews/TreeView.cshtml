@@ -1,0 +1,51 @@
+﻿@using Sitecore
+@using Sitecore.Data.Items
+@using Sitecore.Mvc
+@using Sitecore.Mvc.Presentation
+@using Sitecore.Resources
+@using Sitecore.Web.UI
+@using Sitecore.Web.UI.Controls.Common.JqueryUiUserControls
+@model RenderingModel
+@{
+  var userControl = this.Html.Sitecore().Controls().GetJqueryUiUserControl(this.Model.Rendering);
+  userControl.Class = "sc-treeview";
+  userControl.Requires.Script("business", "treeview.js");
+  var rootItemIcon = string.Empty;
+  var rootItemId = userControl.GetString("RootItem");
+  var selectedItems = userControl.GetString("SelectedItemId");
+  var preLoadPath = userControl.GetString("PreLoadPath");
+  
+  var checkedItems = userControl.GetString("CheckedItems");
+  var clickFolderMode = userControl.GetInt("ClickFolderMode");
+  var checkboxEnabled = userControl.GetBool("IsCheckboxEnabled");
+  var showScIcons = userControl.GetBool("ShowSitecoreIcons");
+  var selectMode = userControl.GetInt("SelectMode");
+  
+  Item rootItem = null;
+  if (!string.IsNullOrEmpty(rootItemId))
+  {
+    rootItem = ClientHost.Databases.ContentDatabase.GetItem(rootItemId);
+  }
+
+  if (rootItem == null)
+  {
+    rootItem = ClientHost.Databases.ContentDatabase.GetRootItem();
+  }
+
+  rootItemIcon = Images.GetThemedImageSource(!string.IsNullOrEmpty(rootItem.Appearance.Icon) ? rootItem.Appearance.Icon : "Applications/16x16/documents.png", ImageDimension.id16x16);
+  userControl.SetAttribute("data-sc-rootitem", rootItem.DisplayName + "," + rootItem.Database.Name + "," + rootItem.ID + "," + rootItemIcon);
+  userControl.SetAttribute("data-sc-loadpath", preLoadPath);
+  
+  userControl.AddOptionAttribute("selectedItems");
+  //userControl.AddOptionAttribute("preLoadPath");
+  userControl.AddOptionAttribute("checkedItems");
+  userControl.AddOptionAttribute("clickFolderMode");
+  userControl.AddOptionAttribute("selectMode");
+  userControl.AddBoolOptionAttribute("IsCheckboxEnabled", "checkbox");
+  userControl.AddBoolOptionAttribute("ShowSitecoreIcons");
+
+  var htmlAttributes = userControl.HtmlAttributes;
+}
+<div @htmlAttributes>
+  <ul></ul>
+</div>             

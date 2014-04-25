@@ -1,0 +1,67 @@
+<script data-layout-main="TestListControl" type="text/x-sc-listcontrol">
+  <table class="sc-table table">
+	<thead>
+
+	</thead><tbody>
+
+	</tbody>
+</table><table class="sc-table-footer">
+
+</table>
+</script>
+
+<script data-layout-header="TestListControl" type="text/x-sc-listcontrol">
+  <th>Item Name</th>    
+  <th title="File"><div>
+	File<span class="sc-table-sortable noDirection" data-sc-sort-name="File" data-sc-name="File"></span>
+</div></th>
+  <th title="Type"><div>
+	Type<span class="sc-table-sortable noDirection" data-sc-sort-name="Type" data-sc-name="Type"></span>
+</div></th>
+  <th title="Size"><div>
+	Size<span class="sc-table-sortable noDirection" data-sc-sort-name="Size" data-sc-name="Size"></span>
+</div></th> 
+  <th>Dimensions</th>
+  <th>Updated</th>
+  <th>Updated By</th>
+  
+</script>
+
+<script data-layout-row="TestListControl" type="text/x-sc-listcontrol">
+  <td class="ventilate" data-sc-important="data-sc-important" data-bind="text: typeof $data[&#39;itemName&#39;] != &#39;undefined&#39; ? $data[&#39;itemName&#39;] : &#39;&#39;"></td><td class="ventilate" data-sc-important="data-sc-important" data-bind="text: typeof $data[&#39;File Path&#39;] != &#39;undefined&#39; ? $data[&#39;File Path&#39;] : &#39;&#39;"></td><td class="ventilate" data-sc-important="data-sc-important" data-bind="text: typeof $data[&#39;templateName&#39;] != &#39;undefined&#39; ? $data[&#39;templateName&#39;] : &#39;&#39;"></td><td class="ventilate" data-sc-important="data-sc-important" data-bind="text: typeof $data[&#39;Size&#39;] != &#39;undefined&#39; ? $data[&#39;Size&#39;] : &#39;&#39;"></td><td class="ventilate" data-sc-important="data-sc-important" data-bind="text: typeof $data[&#39;Dimensions&#39;] != &#39;undefined&#39; ? $data[&#39;Dimensions&#39;] : &#39;&#39;"></td><td class="ventilate" data-sc-important="data-sc-important" data-bind="text: typeof $data[&#39;__Updated&#39;] != &#39;undefined&#39; ? $data[&#39;__Updated&#39;] : &#39;&#39;"></td><td class="ventilate" data-sc-important="data-sc-important" data-bind="text: typeof $data[&#39;__Updated by&#39;] != &#39;undefined&#39; ? $data[&#39;__Updated by&#39;] : &#39;&#39;"></td>
+</script>
+
+<script data-layout-iconList="TestListControl" type="text/x-sc-listcontrol"></script>
+<script data-layout-footer="TestListControl" type="text/x-sc-listcontrol">
+  
+</script>
+<script data-layout-listControl="TestListControl" type="text/x-sc-listcontrol">
+  
+</script>
+
+<script data-layout-icon="TestListControl" type="layout">
+  <div class="sc-iconList-item">
+    <div class="sc-iconList-item-content">
+      <a data-bind="attr: {href: $url}">
+        <img data-bind="attr: {src: image}" />
+      </a>
+      <div class="sc-iconList-item-title">
+        <span data-bind="text: itemName"></span>
+      </div>
+      <div class="sc-iconList-item-caption">
+        <a data-bind="attr: {href: $url}, text: itemName"></a>
+        <table>
+          <tr>
+            <th>Item Name</th><th>File</th><th>Type</th><th>Size</th><th>Dimensions</th><th>Updated</th><th>Updated By</th>
+          </tr>
+          <tr>
+            <td class="ventilate" data-sc-important="data-sc-important" data-bind="text: typeof $data[&#39;itemName&#39;] != &#39;undefined&#39; ? $data[&#39;itemName&#39;] : &#39;&#39;"></td><td class="ventilate" data-sc-important="data-sc-important" data-bind="text: typeof $data[&#39;File Path&#39;] != &#39;undefined&#39; ? $data[&#39;File Path&#39;] : &#39;&#39;"></td><td class="ventilate" data-sc-important="data-sc-important" data-bind="text: typeof $data[&#39;templateName&#39;] != &#39;undefined&#39; ? $data[&#39;templateName&#39;] : &#39;&#39;"></td><td class="ventilate" data-sc-important="data-sc-important" data-bind="text: typeof $data[&#39;Size&#39;] != &#39;undefined&#39; ? $data[&#39;Size&#39;] : &#39;&#39;"></td><td class="ventilate" data-sc-important="data-sc-important" data-bind="text: typeof $data[&#39;Dimensions&#39;] != &#39;undefined&#39; ? $data[&#39;Dimensions&#39;] : &#39;&#39;"></td><td class="ventilate" data-sc-important="data-sc-important" data-bind="text: typeof $data[&#39;__Updated&#39;] != &#39;undefined&#39; ? $data[&#39;__Updated&#39;] : &#39;&#39;"></td><td class="ventilate" data-sc-important="data-sc-important" data-bind="text: typeof $data[&#39;__Updated by&#39;] != &#39;undefined&#39; ? $data[&#39;__Updated by&#39;] : &#39;&#39;"></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</script>
+
+<div data-sc-behaviors="" data-sc-id="TestListControl"  data-bind="visible: isVisible" data-sc-viewmode="IconList" data-sc-height="500" class="sc-listcontrol" data-sc-require="/-/speak/v1/business/listcontrol.js">
+</div>

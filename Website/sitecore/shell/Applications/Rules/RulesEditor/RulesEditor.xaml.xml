@@ -92,7 +92,7 @@
         .scLine div {
         display:none;
         position:absolute;
-        float: none !important;        
+        float: none !important;
         right: 4px;
         top:0px;
         }
@@ -162,79 +162,92 @@
         padding-right: 4px;
         padding-left: 4px;
         }
+
+        .scFixedLayoutTable
+        {
+        table-layout: fixed;
+        }
+
+        .scConditionsAndActions {
+        height:50%;
+        overflow: hidden;
+        }
+
+        .scRuleDescription{
+        position:relative;
+        height:50%;
+        padding-top:12px;
+        -moz-box-sizing:border-box;
+        box-sizing:border-box;
+        }
+
+        .scConditionsAndActions > div {
+        height:100%;
+        }
+
+        .scConditions {
+        padding-right: 10px;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        }
+
+        .scMainContainer {
+        position:absolute;
+        top:0;
+        bottom:0;
+        left:0;
+        right:0;
+        margin: 10px;
+        }
+
+        .scConditions, .scActions {
+        position:relative;
+        display: inline-block;
+        width: 50%;
+        }
+
+        .scConditions #Conditions, .scActions #Actions {
+        position: absolute;
+        top:40px;
+        bottom:0;
+        left:0;
+        right:0;
+        height: auto;
+        }
+
+        .scConditions #Conditions {
+        right: 10px;
+        }
+
+        .scDescription{
+        position:absolute;
+        height:auto;
+        top:32px;
+        left:0;
+        right:0;
+        bottom:0;
+        }
       </style>
 
-      <table cellpadding="0" cellspacing="4px" border="0" width="100%" height="100%">
-        <tr>
-          <td style="width:50%; height:50%;">
-              
-            <table cellpadding="0" cellspacing="0" border="0" width="100%" height="100%">
-              <tr>
-                <td>
-                  <Border runat="server">
-          <Literal runat="server" Text="Select the conditions for the rule:" />
-        </Border>
-                </td>
-              </tr>
-
-              <tr>
-                <td>
-                  <Edit id="ConditionFilter" onfocus="javascript:scFocus(this,event)" onblur="javascript:scBlur(this,event)" style="color:#999999; font:8pt tahoma; width:100%; margin:0px 0px 2px 0px" onkeyup="javascript:scFilterConditions(this,event)" oncut="javascript:scFilterConditions(this,event)" onpaste="javascript:scFilterConditions(this,event)" runat="server" />
-                </td>
-              </tr>
-
-              <tr>
-                <td style="height:100%">
-                  <Scrollbox ID="Conditions" Class="scScrollBox scFixSize scFixSize8" Padding="4px" runat="server" Height="100%"/>
-                </td>
-              </tr>
-            </table>
-
-          </td>
-          <td ID="ActionPanel" style="width:50%; height:50%;" runat="server">
-
-            <table cellpadding="0" cellspacing="0" border="0" width="100%" height="100%">
-              <tr>
-                <td>
-                  <Border runat="server">
-          <Literal runat="server" Text="Select the actions for the rule:" />
-        </Border>
-                </td>
-              </tr>
-
-              <tr>
-                <td>
-                  <Edit id="ActionFilter" onfocus="javascript:scFocus(this,event)" onblur="javascript:scBlur(this,event)" style="color:#999999; font:8pt tahoma; width:100%; margin:0px 0px 2px 0px" onkeyup="javascript:scFilterActions(this,event)" oncut="javascript:scFilterActions(this,event)" onpaste="javascript:scFilterActions(this,event)" runat="server"/>
-                </td>
-              </tr>
-              
-              <tr id="ActionBox">
-                <td style="height:100%">
-                  <Scrollbox ID="Actions" Class="scScrollBox scFixSize scFixSize8" Padding="4px" runat="server" Height="100%" />
-                </td>
-              </tr>
-
-            </table>
-          </td>
-        </tr>
-
-        <tr>
-          <td colspan="2">
-            <Border runat="server" Margin="12px 0px 2px 0px">
-          <Literal runat="server" Text="Rule description (click an underlined value to edit it):" />
-        </Border>
-          </td>
-        </tr>
-
-        <tr>
-          <td id="DescriptionCell" colspan="2" style="height:50%">
-            <Scrollbox ID="Description" Class="scScrollBox scFixSize scFixSize8" Padding="4px" runat="server" Height="100%"/>
-          </td>
-        </tr>
-
-      </table>
-
+      <div class="scMainContainer">
+        <div class="scConditionsAndActions">
+          <div class="scConditions" id="ConditionPanel" runat="server">
+            <Literal runat="server" Text="Select the conditions for the rule:" />
+            <Edit id="ConditionFilter" onfocus="javascript:scFocus(this,event)" onblur="javascript:scBlur(this,event)" style="color:#999999; font:8pt tahoma; width:100%; margin:4px 0px 2px 0px" onkeyup="javascript:scFilterConditions(this,event)" oncut="javascript:scFilterConditions(this,event)" onpaste="javascript:scFilterConditions(this,event)" runat="server" />
+            <Scrollbox ID="Conditions" runat="server"/>
+          </div>
+          <div class="scActions" ID="ActionPanel" runat="server">
+            <Literal runat="server" Text="Select the actions for the rule:" />
+            <Edit id="ActionFilter" onfocus="javascript:scFocus(this,event)" onblur="javascript:scBlur(this,event)" style="color:#999999; font:8pt tahoma; width:100%; margin:4px 0px 2px 0px" onkeyup="javascript:scFilterActions(this,event)" oncut="javascript:scFilterActions(this,event)" onpaste="javascript:scFilterActions(this,event)" runat="server"/>
+            <Scrollbox ID="Actions" runat="server" />
+          </div>
+        </div>
+        <div class="scRuleDescription">
+          <Literal style="margin-bottom:2px; display:block;" runat="server" Text="Rule description (click an underlined value to edit it):" />
+          <Scrollbox class="scScrollbox scDescription" ID="Description" runat="server" />
+        </div>
+      </div>
     </Sitecore.Controls.DialogPage>
-    
+
   </Sitecore.Shell.Applications.Rules.RulesEditor>
 </xamlControls>

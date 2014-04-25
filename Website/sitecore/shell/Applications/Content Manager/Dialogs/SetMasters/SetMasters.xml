@@ -10,9 +10,6 @@
         .scContentControlMultilistBox {
           height:100%;
         }
-        .scDialogContentContainer {
-          padding: 0px;
-        }
         .scContentControlTreelist {
         border:none;
         }
@@ -20,26 +17,25 @@
 
       <CodeBeside Type="Sitecore.Shell.Applications.ContentManager.Dialogs.SetMasters.SetMastersForm,Sitecore.Client"/>
 
-      <GridPanel Width="100%" Height="100%" Cellpadding="0" Style="table-layout:fixed">
-        <VerticalTabstrip GridPanel.Height="100%" Height="99%" FixSize="true">
-          <TabSection Header="Options" />
+      <VerticalTabstrip>
+        <TabSection Header="Options" />
 
-          <Tab ID="Templates" Header="Templates">
-            <content:TreeList ID="TreeList" Source="/sitecore/templates" Activation="false" Style="background:#e9e9e9;border:none;font:8pt tahoma"
-                              IncludeTemplatesForSelection="Template,Master,Command Template,Branch"
-                              IncludeTemplatesForDisplay="Master folder,Master,Template folder,Template,Folder,Node,Main section,Command Template,Branch,Branch Folder"
-                              ExcludeItemsForDisplay="{FC118F80-8638-483C-A810-214E91F69CA4},{0DE95AE4-41AB-4D01-9EB0-67441B7C2450},{EB2E4FFD-2761-4653-B052-26A64D385227},{3D6658D8-A0BF-4E75-B3E2-D050FABCF4E1},{13D6D6C6-C50B-4BBD-B331-2B04F1A58F21}"  />
-          </Tab>
+        <Tab ID="Templates" Header="Templates">
+          <content:TreeList ID="TreeList" Source="/sitecore/templates" Activation="false" Style="background:#e9e9e9;border:none;font:8pt tahoma"
+                            IncludeTemplatesForSelection="Template,Master,Command Template,Branch"
+                            IncludeTemplatesForDisplay="Master folder,Master,Template folder,Template,Folder,Node,Main section,Command Template,Branch,Branch Folder"
+                            ExcludeItemsForDisplay="{FC118F80-8638-483C-A810-214E91F69CA4},{0DE95AE4-41AB-4D01-9EB0-67441B7C2450},{EB2E4FFD-2761-4653-B052-26A64D385227},{3D6658D8-A0BF-4E75-B3E2-D050FABCF4E1},{13D6D6C6-C50B-4BBD-B331-2B04F1A58F21}"  />
+        </Tab>
           
-          <Tab ID="Insertion" Header="Insert Rules">        
-            <content:TreeList ID="InsertRules" Source="/sitecore/system/Settings/Insert Rules" Activation="false" Style="background:#e9e9e9;border:none;padding: 0px 4px 4px 4px;font:8pt tahoma"
-                              IncludeTemplatesForSelection="Insert Rule"
-                              IncludeTemplatesForDisplay="Folder,Insert Rule" 
-                              GridPanel.Height="34%" />
-          </Tab>
+        <Tab ID="Insertion" Header="Insert Rules">        
+          <content:TreeList ID="InsertRules" Source="/sitecore/system/Settings/Insert Rules" Activation="false" Style="background:#e9e9e9;border:none;padding: 0px 4px 4px 4px;font:8pt tahoma"
+                            IncludeTemplatesForSelection="Insert Rule"
+                            IncludeTemplatesForDisplay="Folder,Insert Rule" 
+                            GridPanel.Height="34%" />
+        </Tab>
          
-        </VerticalTabstrip>
-      </GridPanel>
+      </VerticalTabstrip>
+
 
     </FormDialog>
   </SetMasters>

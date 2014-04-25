@@ -16,8 +16,15 @@
 
       <AjaxScriptManager runat="server"/>
       <ContinuationManager runat="server" />
+      <Stylesheet runat="server" x:placeholder="Stylesheets">
+        .languages {
+          margin: 5px;
+        }
+      </Stylesheet>
 
-      <asp:ListBox id="Languages" style="width:100%;height:100%" ajax:DblClick="OK_Click" runat="server" />
+      <div class="scStretchAbsolute languages">
+        <asp:ListBox id="Languages" class="scStretch" ajax:DblClick="OK_Click" runat="server" />
+      </div>
       
     </Sitecore.Controls.DialogPage>
   </Sitecore.Shell.Applications.Globalization.SelectLanguage>

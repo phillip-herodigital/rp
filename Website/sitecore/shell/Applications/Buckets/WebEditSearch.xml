@@ -3,48 +3,25 @@
   <WebEditSearch>
     <FormDialog Icon="Applications/32x32/find_next.png" Header="Navigate to Item" Text="Use this dialog to search for content from the content tree and redirect to this item in the browser" OKButton="OK">
       <Stylesheet Key="Style">
-        .ff input {
-        width: 800px;
+        .BindMeToItem {
+        width: 100%;
+        margin-top: 10px !important;
         }
 
-
-
-        .ff .scButton {
-        height: auto;
-        width: auto;
-        min-height: 24px;
-        min-width: 105px;
+        .webEditSearchContainer {
+        padding-bottom: 36px;
         }
-
-        .scScrollbox
-        {
-
-        overflow: hidden;
-        }
-
       </Stylesheet>
       <CodeBeside Type="Sitecore.Buckets.FieldTypes.BucketDatasourceForm,Sitecore.Buckets"/>
-
+      
       <DataContext ID="InternalLinkDataContext"/>
-     
-      <GridPanel Columns="1" Width="100%" Height="100%" CellPadding="4" Style="table-layout:fixed">
-
-
-        <Scrollbox Width="100%" Class="scScrollbox scFixSize" Background="window" Padding="0" Border="1px solid #CFCFCF" GridPanel.VAlign="top" GridPanel.Width="100%" GridPanel.Height="100%" Height="100%" style="overflow: hidden;">
-
-          <Frame SourceUri="/sitecore/shell/Applications/Buckets/DataSourceResult.aspx" Width="100%" Height="100%" Style="overflow-x: hidden;"></Frame>
-         
+      
+      <div class="scStretch webEditSearchContainer">
+        <Scrollbox class="scScrollbox" Background="window" Padding="0" Border="1px solid #CFCFCF">
+          <Frame SourceUri="/sitecore/shell/Applications/Buckets/DataSourceResult.aspx" Width="100%" Height="100%"></Frame>    
         </Scrollbox>
-        <GridPanel CellPadding="2" Columns="1" Width="100%">
-
-          <Edit ID="ItemLink" class="BindMeToItem" Width="100%" Style="width:100%;"/>
-
-
-        </GridPanel>
-      </GridPanel>
-
-
-
+        <Edit ID="ItemLink" class="BindMeToItem" />
+      </div>
     </FormDialog>
   </WebEditSearch>
 </control>

@@ -2,31 +2,30 @@
   Sitecore = new Object();
 }
 
-Sitecore.Treeview = new function() {
-}
+Sitecore.Treeview = new function () {
+};
 
-Sitecore.Treeview.collapseTreeNode = function(node) {
-  while(node.childNodes.length > 2) {
+Sitecore.Treeview.collapseTreeNode = function (node) {
+  while (node.childNodes.length > 2) {
     node.removeChild(node.childNodes[2]);
   }
 
   this.setGlyph(node.down(), "/expand15x15");
-}
+};
 
-Sitecore.Treeview.expandTreeNode = function(node, html) {
+Sitecore.Treeview.expandTreeNode = function (node, html) {
   this.collapseTreeNode(node);
-  
+
   if (html != "") {
     node.insert("<div>" + html + "</div>");
 
     this.setGlyph(node.down(), "/collapse15x15");
-  }
-  else {
+  } else {
     this.setGlyph(node.down(), "/noexpand15x15");
   }
-}
+};
 
-Sitecore.Treeview.onTreeClick = function(element, evt, click) {
+Sitecore.Treeview.onTreeClick = function (element, evt, click) {
   var source = Event.element(evt);
   var node = source.up("div.scContentTreeNode");
   if (node == null || node.id == null || node.id == "") {
@@ -40,18 +39,18 @@ Sitecore.Treeview.onTreeClick = function(element, evt, click) {
   }
 
   return this.onTreeNodeClick(node, $(element), evt, id, click);
-}
+};
 
-Sitecore.Treeview.onTreeGlyphClick = function(node, treeElement, id) {
+Sitecore.Treeview.onTreeGlyphClick = function (node, treeElement, id) {
   var glyph = node.down();
 
-  if (glyph.src.indexOf("expand15x15") >= 0) {
+  if (glyph.src.indexOf("expand15x15") >= 0 && glyph.src.indexOf("noexpand15x15") == -1) {
     this.setGlyph(glyph, "/loading15x15");
-    
+
     var content = $F(treeElement.id + "_Database");
-    
+
     body = treeElement.id + "_Selected=" + escape($F(treeElement.id + "_Selected")) + "&" + treeElement.id + "_Parameters=" + escape($F(treeElement.id + "_Parameters"));
-    var templateIDs = $(treeElement.id + "_templateIDs");   
+    var templateIDs = $(treeElement.id + "_templateIDs");
     if (templateIDs) {
       body += "&" + treeElement.id + "_templateIDs=" + escape(templateIDs.value);
     }
@@ -59,38 +58,43 @@ Sitecore.Treeview.onTreeGlyphClick = function(node, treeElement, id) {
     if (displayFieldName) {
       body += "&" + treeElement.id + "_displayFieldName=" + escape(displayFieldName.value);
     }
-
-    var contentLanguage = Sitecore.getUrlParameterValue("la");
-    if (contentLanguage) {
-      contentLanguage = "&la=" + contentLanguage;
+ 
+    if (window.scCSRFToken && window.scCSRFToken.key && window.scCSRFToken.value) {
+        body += "&" + window.scCSRFToken.key + "=" + window.scCSRFToken.value;
     }
-    else {
+
+    var contentLanguage;
+    var treeviewLanguage = window.document.getElementById(treeElement.id + "_Language");
+
+    if (treeviewLanguage) {
+      contentLanguage = "&la=" + treeviewLanguage.value;
+    } else {
       contentLanguage = "";
     }
 
     new Ajax.Request("/sitecore/shell/Controls/TreeviewEx/TreeviewEx.aspx?treeid=" + encodeURIComponent(treeElement.id) + "&id=" + encodeURIComponent(id) + (content != null ? "&sc_content=" + content : "") + contentLanguage, {
-        method:"post",
-        postBody: body,
-        onSuccess: function(transport) { Sitecore.Treeview.expandTreeNode(node, transport.responseText) },
-        onException: function(request, ex){ alert(ex) },
-        onFailure: function(request){ alert("Failed") }
-      });
-  }
-  else {
+      method: "post",
+      postBody: body,
+        onSuccess: function (transport) { Sitecore.Treeview.expandTreeNode(node, transport.responseText) },
+        onException: function (request, ex) { alert(ex); },
+        onFailure: function (request) { alert("Failed"); }
+    });
+  } 
+  else if (glyph.src.indexOf("collapse15x15") > 0) {
     this.collapseTreeNode(node);
   }
-  
-  return false;
-}
 
-Sitecore.Treeview.refresh = function(node, treeElement, id) {
+  return false;
+};
+
+Sitecore.Treeview.refresh = function (node, treeElement, id) {
   scForm.browser.closePopups();
   node = $(node);
   this.collapseTreeNode(node);
   this.onTreeGlyphClick(node, $(treeElement), id);
-}
+};
 
-Sitecore.Treeview.onTreeNodeClick = function(node, treeElement, evt, id, click) {
+Sitecore.Treeview.onTreeNodeClick = function (node, treeElement, evt, id, click) {
   var selectedElement = $(treeElement.id + "_Selected")
   var selected = selectedElement.value;
 
@@ -99,8 +103,8 @@ Sitecore.Treeview.onTreeNodeClick = function(node, treeElement, evt, id, click) 
     var active = treeElement.getElementsBySelector(".scContentTreeNodeActive");
 
     if (active != null && active.length > 0) {
-      active.each(function(e) {
-        e.className = "scContentTreeNodeNormal"
+      active.each(function (e) {
+        e.className = "scContentTreeNodeNormal";
       });
     }
   }
@@ -115,21 +119,21 @@ Sitecore.Treeview.onTreeNodeClick = function(node, treeElement, evt, id, click) 
   $(node.id).down('span').focus();
 
   return false;
-}
+};
 
-Sitecore.Treeview.setGlyph = function(glyph, src) {
+Sitecore.Treeview.setGlyph = function (glyph, src) {
   glyph.src = glyph.src.replace("/expand15x15", src).replace("/noexpand15x15", src).replace("/collapse15x15", src).replace("/loading15x15", src);
-}
+};
 
-Sitecore.Treeview.onTreeDrag = function(element, evt) {
+Sitecore.Treeview.onTreeDrag = function (element, evt) {
   if (evt.button == 1 || evt.type == "dragstart") {
     var source = Event.element(evt).up("div");
-    
+
     if (source != null) {
       scForm.drag(element, evt, "item:" + source.id);
     }
   }
-}
+};
 
 Sitecore.Treeview.onTreeDrop = function(element, evt) {
   var e = $(document.elementFromPoint(evt.clientX, evt.clientY)).up("DIV");
