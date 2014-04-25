@@ -1,7 +1,7 @@
 <%@ Page AutoEventWireup="true" Inherits="Sitecore.Shell.Applications.Media.UploadManager.ResultPage" Language="C#" %>
 <%@ Register Assembly="Sitecore.Kernel" Namespace="Sitecore.Web.UI.HtmlControls" TagPrefix="sc" %>
 <%@ Register Assembly="Sitecore.Kernel" Namespace="Sitecore.Web.UI.WebControls" TagPrefix="sc" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE html>
 <html >
 <head runat="server">
   <title>Sitecore</title>
@@ -24,7 +24,7 @@
       height:100%; vertical-align:top 
     }
     #FileList { 
-      background:white; border:1px inset; height:100%; width:100%; overflow:auto; 
+      background:white; border:1px #eeeeee inset; height:100%; width:100%; overflow:auto; 
     }
     #FileList a, #FileList a:link, #FileList a:visited, #FileList a:hover, #FileList a:active{  
       cursor:default;
@@ -111,7 +111,7 @@
         <div id="FileList" runat="server"></div>
       </div>
       <div id="Buttons">
-        <button id="CloseButton" onclick="javascript:return Sitecore.App.invoke('CloseWindow');" style="font:8pt tahoma;height:24px;width:75px">
+        <button id="CloseButton" onclick="javascript:return window.top.dialogClose();" style="font:8pt tahoma;height:24px;width:75px">
             <sc:Literal runat="server" Text="Close"/>
         </button>
       </div>

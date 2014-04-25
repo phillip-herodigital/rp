@@ -100,9 +100,5 @@ function scSetRight(element, evt, accessRight, allow, propagationType) {
 Event.observe(document, "dom:loaded", function() {
   $("Accounts").observe("click", updateButtonState);
   
-  // center no-accounts message over the accounts list box
-  $("NoAccounts").setStyle({ left: $("Accounts").cumulativeOffset().left + ($("Accounts").getWidth() - $("NoAccounts").getWidth())/2 });
-  $("NoPermissions").setStyle({ left: $("Permissions").cumulativeOffset().left + ($("Permissions").getWidth() - $("NoPermissions").getWidth())/2 });
-  
   updateButtonState();
 });

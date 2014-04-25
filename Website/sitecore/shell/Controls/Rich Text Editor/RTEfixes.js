@@ -31,6 +31,150 @@ function OnClientSelectionChange(editor, args) {
   }
 }
 
+function OnClientModeChange(editor) {
+    var url = window.location.protocol + '//' + window.location.hostname;
+    var html = editor.get_html();
+    var originalHtml = html;
+
+    var lastIndexOf = window.location.pathname.lastIndexOf("/");
+    var path = "";
+    if (lastIndexOf !== -1) {
+        path = window.location.pathname.substring(0, lastIndexOf);
+    }
+
+    if (path.indexOf("/") !== 0) {
+        path = "/" + path;
+    }
+
+    var regexpWithPath = new RegExp(url + path, "gi");
+    var regexpWithUrl = new RegExp(url, "gi");
+
+    html = html.replace(regexpWithPath, "");
+    html = html.replace(regexpWithUrl, "");
+
+    if (html !== originalHtml) {
+        editor.set_html(html);
+        editor.saveClientState();
+    }
+}
+
+function OnClientCommandExecuted(sender, args) {
+  if (args.get_commandName() == "SetImageProperties") {
+    replaceClearImgeDimensionsFunction();
+  }
+}
+
+function replaceClearImgeDimensionsFunction(count) {
+  if (!count) count = 0;
+  setTimeout(function () {
+      try {
+          var selector = 'iframe[src^="Telerik.Web.UI.DialogHandler.aspx?DialogName=ImageProperties"]';
+          $$(selector)[0].contentWindow.Telerik.Web.UI.Widgets.ImageProperties.prototype._clearImgeDimensions = function (image) {
+              fixImageParameters(image, prefixes.split('|'));
+          };
+      } catch (e) {
+          if (count < 10) {
+              count++;
+              replaceClearImgeDimensionsFunction(count);
+          }
+      }
+  }, 500);
+}
+
+function fixImageParameters(image, mediaPrefixes) {
+
+    var isMediaLink = false;
+
+    for (var i = 0; i < mediaPrefixes.length; i++) {
+        if (mediaPrefixes[i] === undefined || mediaPrefixes[i] === "") {
+            continue;
+        };
+
+      var imageHost = decodeURI(window.location.protocol + "//" + window.location.hostname);
+
+      if (new RegExp("^" + imageHost + "(.)*/" + decodeURI(mediaPrefixes[i]) + "*", "i").test(decodeURI(image.src))) {
+          isMediaLink = true;
+          break;
+      };
+    };
+
+    if (!isMediaLink) { return; };
+
+    _toQueryParams = function(href) {
+        var result = {};
+
+        var search = href.split("?")[1];
+
+        if (search !== undefined) {
+            var params = search.split("&");
+            $sc.each(params, function(index, value) {
+                var param = value.split("=");
+                result[param[0]] = param[1];
+            });
+        };
+
+        return result;
+    };
+
+    // This code corrects inconsistencies between image sizes set in style attribute, width and height attributes, w and h image parameters.
+    var src = image.getAttribute("src");
+
+    var params = _toQueryParams(src);
+
+    var n = src.indexOf("?");
+    if (n >= 0) {
+        src = src.substr(0, n + 1);
+    } else {
+        src = src + "?";
+    }
+
+    for (var param in params) {
+        if (params[param] === undefined || params[param] === "") {
+            delete params[param];
+        }
+    }
+
+    // if style
+    if (image.style.height !== undefined && image.style.height !== "") {
+        var height = image.style.height.replace("px", "");
+        image.removeAttribute("height");
+        params["h"] = height;
+    }
+    // else if attribute
+    else if (image.attributes !== undefined && image.attributes["height"] !== undefined && image.attributes["height"] !== "") {
+        image.style.height = image.attributes["height"].value + "px";
+        params["h"] = image.attributes["height"].value;
+    }
+    // no style, no attribute
+    else {
+        delete params["h"];
+    }
+
+    // if style
+    if (image.style.width !== undefined && image.style.width !== "") {
+        var width = image.style.width.replace("px", "");
+        image.removeAttribute("width");
+        params["w"] = width;
+    }
+    // else if attribute
+    else if (image.attributes !== undefined && image.attributes["width"] !== undefined && image.attributes["width"] !== "") {
+        image.style.width = image.attributes["width"].value + "px";
+        params["w"] = image.attributes["width"].value;
+    }
+    // no style, no attribute
+    else {
+        delete params["w"];
+    }
+
+    if ($sc.param(params) === "" && src.endsWith("?")) {
+        src = src.substr(0, src.length - 1);
+    } else {
+        src = src + $sc.param(params);
+    }
+
+    image.setAttribute("src", src);
+}
+
 // Fix mentioned here http://www.telerik.com/community/forums/aspnet-ajax/editor/html-entity-characters-are-not-escaped-on-hyperlink-editor-email-subject.aspx
 function OnClientPasteHtml(sender, args) {
   var commandName = args.get_commandName();
@@ -45,7 +189,7 @@ function OnClientPasteHtml(sender, args) {
       var fixedValue = value.replace(regex, function (str) { return str.replace(/</g, "&lt;").replace(/>/g, "&gt;"); });
       args.set_value(fixedValue);
     }
-  } else if (commandName == "Paste") {
+} else if (commandName == "Paste") {
     // The StripPathsFilter() method receives as a parameter an array of strings (devided by a white space) that will be stripped from the absolute links.
     var relativeUrl = getRelativeUrl(); //returns the relative url.
     var domainUrl = window.location.protocol + '//' + window.location.host;
@@ -61,13 +205,13 @@ function OnClientPasteHtml(sender, args) {
       }
 
       args.set_value(value);  //set the modified pasted content in the editor
-    }
+  }
   }
 
   if (Prototype.Browser.IE) {
     var helperIframe = $$("iframe[title^='Paste helper']:first")[0];
     if (helperIframe) {
-      Element.setStyle(helperIframe, { widht: 0, height: 0 });
+        Element.setStyle(helperIframe, { width: 0, height: 0 });
     }
   }
 }

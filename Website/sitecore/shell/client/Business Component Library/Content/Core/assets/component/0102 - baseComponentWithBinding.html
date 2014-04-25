@@ -1,0 +1,95 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Your Website</title>
+                      <script src="../../../../Assets/vendors/JQuery/jquery-1.8.2.min.js"></script>
+      <script src="../../../../Assets/vendors/KnockOut/knockout-2.1.0.js"></script>
+      <script src="../../../../Assets/vendors/underscore/underscore.js"></script>
+      <script src="../../../../Assets/vendors/Backbone/backbone.js"></script>
+
+		<script>
+			 window.__SITECOREDEBUG = true;
+		</script>
+      <script src="../../../../Assets/lib/dist/sitecore-1.0.1.js"></script>
+    </head>
+    <body>
+    <h1>Use data-bind to bootstrap a Control</h1>
+
+<div style="width:50%;float:left">
+    <h2>Code</h2>
+    <h3>Html</h3>
+    <pre>
+&#60;a href="#" data-sc-id="SimpleAnchor" data-bind="text:text" class="sc-text">This text will set the value of the model. Click to change the text&#60;/a>
+    </pre>    
+    <h3>Javascript</h3>
+    <pre>
+_sc.Factories.createBaseComponent({
+  name: "Anchor",
+  selector: ".sc-anchor",
+  attributes: [ 
+    { name: "text", value: "$el.text" }
+  ],
+  events: {
+    "click": "changeText",
+  },
+  changeText: function () {
+    this.model.set("text", "I have clicked and changed the text.")
+  }
+ });
+
+ //exposing to global for documentation purpose
+ window.app = _sc.Factories.createApp();
+    </pre>
+</div>
+<div style="width:50%;float:left">
+    <h2>Result</h2>
+
+    <a data-sc-id="SimpleAnchor" href="#" data-bind="text:text" class="sc-anchor">This text will set the value of the model. Click to change the text</a>
+</div>
+<div style="width:100%;float:left">
+<h4>What you need to know.</h4>
+<p>
+  <ul>
+    <li>
+      <b>data-bind</b>
+      <p>_sc is using <a href="http://knockoutjs.com/documentation/introduction.html">knockout for data-binding</a>. This will keep the value of your html with the value of the model. This is possible with the attribute data-bind="text:text"</p>
+      <p>As soon as you change the value of the text in your model, the html will be updated</p>
+    </li>
+    <li>
+      <b>Initializing based on attribute ({ name: "text", value: "$el.text" })</b>
+      <p>When using server side rendering, you need to initialize the value of your model based on the value you got from the HTML. If not, by default the value in the model will be empty and the data-bind will erase your html. To prevent this, you need to set the value of the attribute with the correct value.<p>
+      <p>Here you see "$el.text".</p>
+      <p><b>$el</b> means the current element and text will be the jquery method that will be called. We are working on providing a rich syntax for this.</p>
+      <p>What if I want complex initialization?</p>
+      <p>You just need to pass an initialize function to the createComponent method. This function will be called during the Initialization Time (see later)</p>
+    </li>
+    <li>
+      <b>Try this:</b>
+      <p>Open you console and type: app.SimpleAnchor.set("text", "change me the text") and look at the Result area.</p>
+    </li>
+  </ul>
+</p>
+</div>
+    <script>
+    	
+      _sc.Factories.createBaseComponent({
+        name: "Anchor",
+        selector: ".sc-anchor",
+        attributes: [ 
+          { name: "text", value: "$el.text" }
+        ],
+        events: {
+          "click": "changeText",
+        },
+        changeText: function (e) {
+          e.preventDefault();
+          this.model.set("text", "I have clicked and changed the text.")
+        }
+       });
+
+      window.app = _sc.Factories.createApp();
+
+    </script>
+    </body>
+</html>

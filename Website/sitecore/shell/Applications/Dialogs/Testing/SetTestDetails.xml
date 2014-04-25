@@ -7,6 +7,7 @@
       <Script Src="/sitecore/shell/Controls/CollapsiblePanel/CollapsiblePanel.js"></Script>
       <Script Src="/sitecore/shell/Applications/Dialogs/Testing/SetTestDetails.js"></Script>      
       <Stylesheet Src="/sitecore/shell/Controls/CollapsiblePanel/CollapsiblePanel.css" />
+      <Stylesheet Src="/sitecore/shell/Controls/DatasourceExamples/DatasourceExamples.css" />
       <Stylesheet Src="/sitecore/shell/Applications/Dialogs/Testing/SetTestDetails.css" DeviceDependant="false" />
       <GridPanel Width="100%" Height="100%">
         <Border GridPanel.Height="24px" GridPanel.VAlign="top" >

@@ -4,36 +4,53 @@
     <FormDialog ID="Dialog" Icon="People/16x16/box.png" Header="Save Package As" Text="Save changes">
 
       <CodeBeside Type="Sitecore.Shell.Applications.Install.Dialogs.BrowseDialog,Sitecore.Client"/>
-
+      
+      <style>
+        #FileExplorerFrame {
+          background:white;
+        }
+        
+        #FileExplorer{
+          position:absolute;
+          top:0;
+          bottom:0;
+          left:0;
+          right:0;
+        }
+        
+        .scFileName {
+          padding:8px 0px 2px 0px;
+        }
+        .scFlexColumnContainer{
+          padding-top:2px;
+          width:100%;
+          height:100%;
+        }
+      </style>
+      
       <DataContext ID="FileExplorerDataContext"/>
 
       <ContextMenu ID="ContextMenu">
         <ListviewViewsMenuItems Listview="FileExplorer"/> 
       </ContextMenu>
 
-      <GridPanel Width="100%" Height="100%" Fixed="true">
-
+      <Border Class="scFlexColumnContainer scBrowseDialog">
         <Toolbar>
           <Toolbutton Icon="Applications/16x16/refresh.png" Tooltip="Refresh the files view" Header="Refresh" Click="dialog:refresh"/>
           <Toolbutton Icon="Applications/16x16/folder_up.png" Tooltip="Upload a file" Header="Upload" Click="dialog:upload"/>
           <Toolbutton Icon="Network/16x16/download.png" Tooltip="Download the selected file" Header="Download" Click="dialog:download" Visible='${Sitecore.Context.IsAdministrator.ToString()}'/>
           <Toolbutton Icon="Applications/16x16/delete2.png" Tooltip="Delete the selected file" Header="Delete" Click="dialog:delete"/>
         </Toolbar>
-
-        <GridPanel ID="Body" Width="100%" Height="100%" Fixed="true" GridPanel.Height="100%">
-
-          <Scrollbox ID="FileExplorerFrame" Height="100%" Background="window" Border="none" Padding="0" ContextMenu="show:ContextMenu" GridPanel.Height="100%">
-            <Listview ID="FileExplorer" Click="SelectListItem" DblClick="OK.ClickButton" DataContext="FileExplorerDataContext">
-              <ListviewHeader>
-                <ListviewHeaderItem Name="name" Header="Name"/>
-                <ListviewHeaderItem Name="size" Header="Size"/>
-                <ListviewHeaderItem Name="modified" Header="Date Modified"/>
-              </ListviewHeader>
-            </Listview>
-          </Scrollbox>
-
-        </GridPanel>
-        <Border Padding="2px 0px 2px 0px">
+        <Scrollbox Class="scFlexContent" ID="FileExplorerFrame" Border="none" Padding="0" ContextMenu="show:ContextMenu" >
+          <Listview ID="FileExplorer" Click="SelectListItem" DblClick="OK.ClickButton" DataContext="FileExplorerDataContext">
+            <ListviewHeader>
+              <ListviewHeaderItem Name="name" Header="Name"/>
+              <ListviewHeaderItem Name="size" Header="Size"/>
+              <ListviewHeaderItem Name="modified" Header="Date Modified"/>
+            </ListviewHeader>
+          </Listview>
+        </Scrollbox>
+        <Border class="scFileName">
           <GridPanel Width="100%" Columns="2">
 
             <Border Padding="0px 4px 0px 0px" Width="5em">
@@ -43,7 +60,7 @@
             <Edit ID="Filename" Width="100%" GridPanel.Width="100%"/>
           </GridPanel>
         </Border>
-      </GridPanel>
+      </Border>
 
     </FormDialog>
   </Installer.Browse>

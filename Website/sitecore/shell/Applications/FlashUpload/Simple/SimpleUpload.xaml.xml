@@ -70,8 +70,9 @@
 
       <html:HtmlInputHidden class="uploadID" id="InputUploadID" runat="server" />
       <html:HtmlInputHidden class="uploadSessionID" id="UploadSessionID" runat="server" />
+      <html:HtmlInputHidden class="uploadSessionID1" id="UploadSessionID1" runat="server" />
 
-      <GridPanel runat="server" Width="100%">
+      <div class="scStretchAbsolute" style="padding:5px 10px;">
         <Literal runat="server" Text="Filename:" />
 
         <GridPanel runat="server" Columns="2" Width="100%">
@@ -85,12 +86,12 @@
           
           <Border runat="server" id="BrowseContainer" GridPanel.Width="72px" style="position:relative">
             <Button runat="server" Header="Browse" ID="Browse" style="z-index:1"/>
-            <div id="BrowseOverlay" style="width:72px;height:22px;position:absolute;top:1;left:6;z-index:2" />
+            <div id="BrowseOverlay" style="width:72px;height:22px;position:absolute;top:1px;left:6px;z-index:2" />
           </Border>
         </GridPanel>
 
         <Literal runat="server" ID="Message" />
-      </GridPanel>
+      </div>
 
     </Sitecore.Controls.DialogPage>
   </Sitecore.Shell.Applications.FlashUpload.Simple>

@@ -10,7 +10,6 @@
       <Script type="text/JavaScript" language="javascript" src="/sitecore/shell/controls/SitecoreObjects.js"/>
       <Script type="text/JavaScript" language="javascript" src="/sitecore/shell/controls/SitecoreVSplitter.js"/>
       <Script type="text/JavaScript" language="javascript" src="/sitecore/shell/controls/SitecoreKeyboard.js"/>
-      <Script type="text/JavaScript" language="javascript" src="/sitecore/shell/controls/SitecoreModifiedHandling.js"/>
       
       <Script Key="OnUnload">
       
@@ -31,6 +30,12 @@
         }
       
       </Script>
+
+      <script type="text/javascript">
+        if (scForm) {
+          scForm.enableModifiedHandling();
+        }
+      </script>
     
       <CodeBeside Type="Sitecore.Shell.Applications.ContentEditor.ContentEditorForm,Sitecore.Client"/>
    

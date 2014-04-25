@@ -1,76 +1,73 @@
-﻿.presetList
-{
-  border-top: 1px solid #A0A0A0;
-  border-left: 1px solid #D5D5D5;
-}
-
-.presetList .scPresetItemTemplate
-{
-  padding: 0;
-  margin: 0;
-  border: 0;
+.presetList {
+  border: 1px solid #D5D5D5;
+  position: relative;
+  height: 100%;
   width: 100%;
-  height: 25px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
 }
 
-.presetList .RadListBox_Default .rlbHeader
-{
-  background-color: #E9E9E9;
-  border-bottom: 1px solid #C9C9C9;
-  background-image: none;
-}
+  .presetList .RadListBox {
+    height: 100%;
+    width: 100%;
+  }
 
-.presetList .RadListBox_Default .rlbGroup
-{
-  border: 0;
-}
+  .presetList .scPresetItemTemplate {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    width: 100%;
+    height: 25px;
+  }
 
-.presetList .rlbTemplateTable .rlbGroupCell .rlbGroupContainer .rlbGroup .rlbList
-{
-  padding: 0;
-  margin: 0;
-}
+  .presetList .RadListBox_Default .rlbHeader {
+    background-color: #E9E9E9;
+    border-bottom: 1px solid #C9C9C9;
+    background-image: none;
+  }
 
-.presetList .rlbTemplateTable .rlbGroupCell .rlbGroupContainer .rlbGroup .rlbList .rlbItem
-{
-  border-top: 1px solid White;
-  border-left: 1px solid White;
-  border-right: 1px solid White;
-  border-bottom: 1px solid #EAEAEA;
-  zoom: 1;
-}
+  .presetList .RadListBox_Default .rlbGroup {
+    border: 0;
+  }
 
-.presetList .rlbTemplateTable .rlbGroupCell .rlbGroupContainer .rlbGroup .rlbList .rlbActive
-{
-  padding: 2px 5px;
-}
+  .presetList .rlbTemplateTable .rlbGroupCell .rlbGroupContainer .rlbGroup .rlbList {
+    padding: 0;
+    margin: 0;
+  }
 
-.presetList .rlbTemplateTable .rlbGroupCell .rlbGroupContainer .rlbGroup .rlbList .rlbSelected
-{
-  background: url("/sitecore/shell/Themes/Standard/Images/Personalization/PresetRowSelected.png") repeat-x scroll 0 0 #D1EDFC;
-  background-position: top;
-  border: 1px solid #99DEFD;
-}
+    .presetList .rlbTemplateTable .rlbGroupCell .rlbGroupContainer .rlbGroup .rlbList .rlbItem {
+      border-top: 1px solid White;
+      border-left: 1px solid White;
+      border-right: 1px solid White;
+      border-bottom: 1px solid #EAEAEA;
+      zoom: 1;
+    }
 
-.presetList .rlbTemplateTable .rlbGroupCell .rlbGroupContainer .rlbGroup .rlbList .rlbHovered
-{
-  background-color: #ECF7FD;
-  border: 1px solid #D8F0FA;
-}
+    .presetList .rlbTemplateTable .rlbGroupCell .rlbGroupContainer .rlbGroup .rlbList .rlbActive {
+      padding: 2px 5px;
+    }
 
-.presetList .RadListBox_Default .rlbTemplateContainer
-{
-  border: 0;
-  border-right: 1px solid #D5D5D5;
-}
+    .presetList .rlbTemplateTable .rlbGroupCell .rlbGroupContainer .rlbGroup .rlbList .rlbSelected {
+      background: url("/sitecore/shell/Themes/Standard/Images/Personalization/PresetRowSelected.png") repeat-x scroll 0 0 #D1EDFC;
+      background-position: top;
+      border: 1px solid #99DEFD;
+    }
 
-.ie .presetList .rlbTemplateTable .rlbGroupCell .rlbGroupContainer .rlbGroup .rlbList .rlbItem
-{
-  display: inline;
-}
+    .presetList .rlbTemplateTable .rlbGroupCell .rlbGroupContainer .rlbGroup .rlbList .rlbHovered {
+      background-color: #ECF7FD;
+      border: 1px solid #D8F0FA;
+    }
 
-.on
-{
+  .presetList .RadListBox_Default .rlbTemplateContainer {
+    border: 0;
+  }
+
+  .ie .presetList .RadListBox_Default .rlbTemplateContainer {
+    padding-bottom: 26px;
+    box-sizing: border-box;
+  }
+
+.on {
   border: 1px #909090 outset;
   background: #b0b0b0;
   padding: 2px 8px 2px 8px;
@@ -80,8 +77,7 @@
   margin: 0;
 }
 
-.off
-{
+.off {
   border: 1px #909090 outset;
   background: #F6F6F6 -webkit-gradient(linear, 0% 0%, 0% 100%, from(white), to(#EFEFEF));
   background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(white), to(#EFEFEF));
@@ -92,7 +88,98 @@
   margin: 0;
 }
 
-.presetList .rlbTemplateTable .rlbGroupCell .rlbGroupContainer .rlbGroup .rlbList .rlbDisabled span
-{
-  color:#6D6D6D;
+.presetList .rlbTemplateTable .rlbGroupCell .rlbGroupContainer .rlbGroup .rlbList .rlbDisabled span {
+  color: #6D6D6D;
+}
+
+.rlbGroup.rlbGroupRight {
+  height: 100%;
+}
+
+.RadarChart {
+  width: 344px;
+  height: 230px;
+  margin: 10px;
+  padding: 0;
+}
+
+.selectPresetContainer {
+  padding: 5px;
+  margin: 2px 5px;
+  overflow: hidden;
+  border: 1px solid #CCCCCC;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding-right: 385px;
+}
+
+.ie8 .scDialogHeader, .ie9 .scDialogHeader {
+  position: absolute;
+  top: 0;
+  height: 39px;
+  overflow: hidden;
+}
+
+.ie8 .scDialogContentContainer, .ie9 .scDialogContentContainer {
+  position: absolute;
+  bottom: 40px;
+  top: 40px;
+}
+
+.ie8 .scFormDialogFooter, .ie9 .scFormDialogFooter {
+  position: absolute;
+  bottom: 0;
+}
+
+.rlbGroupContainer {
+  height: 100% !important;
+}
+
+.allPreset {
+  height: 100%;
+  padding-bottom: 25px;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.presets {
+  padding: 0 57px 20px 0;
+}
+
+.presetMoveButtons {
+  position: absolute;
+  width: 100px;
+  left: 0;
+  right: 390px;
+  margin: 0 auto;
+  top: 45%;
+  z-index: 1;
+}
+
+.selectedPresets {
+  padding: 0 0 20px 45px;
+}
+
+.presetValues {
+  width: 370px;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  bottom: 5px;
+  padding-bottom: 20px;
+  z-index: 2;
+}
+
+.selectPresetContainer .title {
+  display: inline-block;
+  font: bold 9pt tahoma;
+  height: 20px;
+  padding-left: 3px;
+}
+
+.rlbGroupCell {
+  height: 100% !important;
 }

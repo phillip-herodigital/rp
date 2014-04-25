@@ -7,9 +7,9 @@
         <ThemedImage def:ID="ToolbarIcon" Src="${StringUtil.GetString($Glyph, $Icon)}" Width="196" Height="196" Style="position:absolute;z-index:-1;-moz-opacity:0.2; clip: rect(0px 196px 120px 0px)"/>
       </Border>
 
-      <GridPanel Columns="2" Width="100%" Height="100%" Style="table-layout:fixed">
+      <Border style="width:100%">
         
-        <Scrollbox def:ID="Details" Width="100%" Height="100%" Border="none" Foreground="white" Background="transparent" GridPanel.Valign="top">
+        <Border style="display:inline-block" def:ID="Details" Border="none" Foreground="white" Background="transparent">
           <GridPanel Columns="2">
           
             <Border def:ID="PreviewPane" GridPanel.Width="56" GridPanel.Valign="top" Padding="0px 8px 0px 0px">
@@ -22,18 +22,16 @@
             </Border>
             
           </GridPanel>
-        </Scrollbox>
+        </Border>
         
-        <Scrollbox Width="100%" Height="100%" Border="none" Background="transparent" Padding="8px 12px 0px 12px" GridPanel.Width="65%">
+        <Border style="display:inline-block; padding:8px 12px 0px 12px" Border="none" Background="transparent" >
           <GridPanel def:ID="Tasks" Foreground="white" Columns="2"/>
           <def:Placeholder/>
-        </Scrollbox>
+        </Border>
         
-      </GridPanel>
+      </Border>
 
     </Border>
- 
-    <Border Background="#212424" Style="border-left:2px solid #4E4E4E; border-right:2px solid #4E4E4E"><Space/></Border>
-      
+    <div class="scBlackHorizontalLine">.</div>      
   </Commandbar>
 </control>

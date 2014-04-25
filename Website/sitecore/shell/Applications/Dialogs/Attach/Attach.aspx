@@ -1,9 +1,8 @@
 <%@ OutputCache Location="None" VaryByParam="none" %>
 <%@ Page language="c#" CodeBehind="Attach.aspx.cs" AutoEventWireup="false" Inherits="SitecoreClient.sitecore.shell.Applications.Attach.AttachPage" %>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" >
+<!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=5"/>
     <title>Sitecore</title>
     <meta content="http://schemas.microsoft.com/intellisense/ie5" name="vs_targetSchema">
   </head>

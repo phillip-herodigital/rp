@@ -1,7 +1,7 @@
 <%@ Page Language="c#" Inherits="Sitecore.Shell.Controls.RADEditor.RADEditor" AutoEventWireup="true" %>
 <%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html style="width:100%;height:100%;margin:0px;padding:0px;overflow:hidden">
   <head>
     <title>Sitecore</title>
@@ -113,7 +113,6 @@
         MediaManager-DeletePaths="/media library"
         MediaManager-ViewPaths="/media library"
 
-        DocumentManager-UploadPaths="/media library"
         DocumentManager-DeletePaths="/media library"
         DocumentManager-ViewPaths="/media library"
 

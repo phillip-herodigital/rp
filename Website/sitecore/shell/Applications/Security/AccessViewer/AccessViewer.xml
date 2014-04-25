@@ -15,19 +15,19 @@
       
       <input type="hidden" id="scActiveRibbonStrip" name="scActiveRibbonStrip" />
       
-      <GridPanel ID="Grid" Width="100%" Height="100%">
+      <GridPanel ID="Grid" Width="100%" Height="100%" onclick="javascript:scContent.onEditorClick(this, event);">
 
         <Border ID="RibbonPanel"/>
 
-        <GridPanel Columns="3" Width="100%" Height="100%" GridPanel.Height="100%" Style="table-layout:fixed">
+        <GridPanel Columns="3" Width="100%" Height="100%" GridPanel.Height="100%" Style="table-layout:fixed" Class="scFixSize">
         
           <Scrollbox Class="scScrollbox scFixSize" Width="100%" Height="100%" Background="white" Border="none" Padding="0px" ContextMenu='Treeview.GetContextMenu("contextmenu")' GridPanel.Width="100%" GridPanel.Height="100%">
             <shell:AccessViewerTreeview ID="Treeview" DataContext="DataContext" Root="true" />
           </Scrollbox>
 
-          <VSplitter ID="AccessViewerLeft" GridPanel.Width="4" Target="right" GridPanel.Style="background:#8595a4; display:expression(previousSibling.style.display)"/>
+          <VSplitter ID="AccessViewerLeft" GridPanel.Width="4" Target="right" GridPanel.Style="background:#8595a4; display:expression(previousSibling.style.display)" GridPanel.Height="100%"/>
 
-          <Scrollbox Class="scScrollbox scFixSize" ID="Explanation" Height="100%" Background="window" Border="none" Padding="0px" GridPanel.Width="200" />
+          <Scrollbox Class="scScrollbox" ID="Explanation" Height="100%" Background="window" Border="none" Padding="0px" GridPanel.Width="200" GridPanel.Height="100%" />
 
         </GridPanel>
 

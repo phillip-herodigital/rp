@@ -39,18 +39,14 @@
         <WizardFormIndent>
           <Tabstrip ID="Tabs" Width="100%" Height="100%">
             <Tab ID="MediaLibraryTab" Header="Browse" Height="100%">
-              <Scrollbox Width="100%" Height="100%" Background="white" Border="1px inset" Padding="0">
+              <Scrollbox Width="100%" Height="100%" Padding="0">
                 <TreeviewEx ID="TemplateLister" DataContext="TemplatesDataContext" />
               </Scrollbox>
             </Tab>
             <Tab ID="MediaTab" Header="Search" Height="100%">
-              <GridPanel Width="100%" Height="100%" Style="table-layout:fixed">
-                <Scrollbox ID="SearchItems" Height="100%" Class="scScrollbox scFixSize scFixSize4" Background="white" Border="1px inset" Padding="0px" GridPanel.Height="100%">
-
-                  <Frame SourceUri="/sitecore/shell/Applications/Buckets/FieldResults.aspx" Width="100%" Height="100%"></Frame>
-
-                </Scrollbox>
-              </GridPanel>
+              <Scrollbox ID="SearchItems" Class="scScrollbox scStretch" Padding="0px">
+                <Frame SourceUri="/sitecore/shell/Applications/Buckets/FieldResults.aspx" class="scStretch"></Frame>
+              </Scrollbox>
             </Tab>
           </Tabstrip>
         </WizardFormIndent>

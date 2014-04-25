@@ -223,7 +223,7 @@ function scDblClick(tag, evt) {
   url = encodeURIComponent(url);
   url = page + "&pa=" + url;
   
-  var result = scForm.browser.showModalDialog(url, new Array(window), options);
+  var result = scForm.showModalDialog(url, new Array(window), options);
   
   if (result != null && result != "__cancel") {
     Sitecore.App.invoke("SetRenderingProperties(\"" + tag.parentNode.id + "\",\"" + result + "\")");

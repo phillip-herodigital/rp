@@ -26,9 +26,9 @@
 
           <DataContext ID="DataContext" Root="{11111111-1111-1111-1111-111111111111}" filter="@@virtual=0"/>
 
-          <GridPanel Width="100%" Height="100%">
+          <Border class="scStretch" style="position:relative;overflow:auto;">
 
-            <Border Padding="0 0 8 0" GridPanel.Height="2em">
+            <Border Padding="0 0 8px 0" height="2em">
               <GridPanel Width="100%" Columns="2">
                 <Literal Text="Database:&#160;" Style="white-space:nowrap;margin-right:0.5em"/>
 
@@ -36,9 +36,8 @@
               </GridPanel>
             </Border>
 
-            <GridPanel Width="100%" Height="100%">
-
-              <Scrollbox Height="100%" Width="100%" Class="scScrollbox scFixSize scKeepFixSize" Background="white" Border="1px inset" Padding="0" GridPanel.Height="100%">
+            <Border style="position:absolute;top:30px;bottom:200px;left:0;right:0;overflow:auto;">
+              <Scrollbox Width="100%" Class="scScrollbox" Background="white" Border="1px inset" Padding="0" >
 
                 <DataTreeview ID="Treeview" DataContext="DataContext" Root="true">
                   <TreeHeader>
@@ -47,27 +46,29 @@
                 </DataTreeview>
 
               </Scrollbox>
+            </Border>
+            
+            <Border style="position:absolute;bottom:0;left:0;right:0;width:100%;">
+              <Border height="4px"/>
 
-              <Space GridPanel.Height="4px"/>
-
-              <Border GridPanel.Height="4px">
+              <Border style="height:23px; overflow:hidden;">
                 <Toolbutton Style="float:right" Icon="Applications/24x24/delete2.png" Header="Remove" ToolTip="Removes entry from selection list" Click="Remove(&quot;&quot;)"/>
                 <Toolbutton Icon="Software/24x24/branch.png" Header="Add with Subitems" ToolTip="Adds item with subitems" Click="AddTree"/>
                 <Toolbutton Icon="Software/24x24/element.png" Header="Add Item" ToolTip="Add Item" Click="AddItem"/>
               </Border>
 
-              <Space GridPanel.Height="4px"/>
+              <Border height="4px"/>
 
-              <Scrollbox ID="ItemListBox" Height="150px" ContextMenu="ListContextMenu()" Padding="0px">
+              <Scrollbox ID="ItemListBox" style="height:150px; width:100%;padding:0;" ContextMenu="ListContextMenu()">
                 <Listview ID="ItemList" Width="100%" View="Details" MultiSelect="true">
                   <ListviewHeader>
                     <ListviewHeaderItem Header="Selected items:"/>
                   </ListviewHeader>
                 </Listview>
               </Scrollbox>
-            </GridPanel>
+            </Border>
 
-          </GridPanel>
+          </Border>
         </WizardFormIndent>
       </WizardFormPage>
 

@@ -72,11 +72,6 @@ if (typeof $sc === 'undefined') {
         var self = this,    
             options = this.options,
             element = this.element;
-        if (element.attr('scrollHeight') <= this.element.height()){
-            this.load.hide();
-        }else{
-            this.load.show();
-        }
 
         element.unbind('scroll').scroll(function(){
             var scrollHolder = $sc(this);
@@ -119,7 +114,7 @@ if (typeof $sc === 'undefined') {
     },
 
     buildLoad : function(){
-        this.load = $sc("<div class='ui-list-load'><img src='" + this.options.loadingIconPath + "' border='0' /><span>" + this.options.loading + "</span></div>")
+        this.load = $sc("<div class='ui-list-load' style='display:none;'><img src='" + this.options.loadingIconPath + "' border='0' /><span>" + this.options.loading + "</span></div>")
         this.element.append(this.load);
         this.options.page = this.options.data.length;
         this.nodata = $sc("<div class='ui-list-nodata'><span>" + this.options.nodata + "</span></div>")

@@ -1,0 +1,277 @@
+﻿@using Sitecore
+@using Sitecore.Data.Items
+@using Sitecore.IO
+@using Sitecore.Mvc
+@using Sitecore.Mvc.Presentation
+@using Sitecore.Text
+@using Sitecore.Web
+@using Sitecore.Web.UI.Controls.Common.Renderings
+@model RenderingModel
+@{
+  var itemId = WebUtil.GetQueryString("i", string.Empty);
+
+  var item = ClientHost.Databases.Database.GetItem(itemId);
+  if (item == null)
+  {
+    return;
+  }
+
+  var title = item.DisplayName;
+  var subtitle = item.Help.ToolTip;
+  var text = item.Help.Text.Replace("\r", "<br />");
+
+  TemplateItem template = null;
+
+  var t = item["Parameters Template"];
+  if (!string.IsNullOrEmpty(t))
+  {
+    var i = ClientHost.Databases.Database.GetItem(t);
+    if (i != null)
+    {
+      template = new TemplateItem(i);
+    }
+  }
+
+  HtmlString example;
+  using (new ContextItemSwitcher(item))
+  {
+    example = Html.Sitecore().Placeholder("Example");
+  }
+  
+  if (string.IsNullOrEmpty(example.ToString()))
+  {
+    example = new HtmlString("There are no examples available.");
+  }
+
+  var itemName = item.Name;
+  var itemPath = item.Paths.Path;
+  var itemPathLink = "/sitecore/shell/Applications/Content Editor?id=" + item.ID + "&sc_content=master&fo=" + item.ID + "&ic=People/16x16/cubes_blue.png&he=Content Editor&cl=0";
+  var placeHolders = StringUtil.GetString(item["Place Holders"], "The Placeholders field is empty.");
+
+  var pathField = item["Path"];
+  var fileName = string.Empty;
+  var localFileName = string.Empty;
+  if (!string.IsNullOrEmpty(pathField))
+  {
+    localFileName = FileUtil.MapPath(pathField);
+    fileName = "file:///" + FileUtil.NormalizeWebPath(localFileName);
+  }
+
+  var defaultParameters = new UrlString(item["Default Parameters"]);
+  var usages = Globals.LinkDatabase.GetReferrerCount(item);
+
+  string testFileName = Path.ChangeExtension(pathField, ".test.js");
+  if (!FileUtil.Exists(testFileName))
+  {
+      var path = FileUtil.MapPath("/sitecore/shell/client/Business Component Library/tests/renderings/");
+      string[] files = Directory.GetFiles(path, itemName + ".test.js", SearchOption.AllDirectories);
+      testFileName = files.Length > 0 ? FileUtil.UnmapPath(files[0]) : string.Empty;
+  }
+  
+}      
+
+<div style="display:none">
+  @Html.Sitecore().Controls().Rendering(this.Html, item.ID.ToString(), "Control1", "/sitecore")
+</div>
+
+<script type="text/javascript">
+  rendering = {
+    itemName: "@itemName",
+    testFileName: "@testFileName"
+  };
+</script>  
+         
+<div class="page-header">
+  <h1>@title</h1>
+</div>   
+<p>
+  @subtitle
+</p>                           
+<p>
+  @Html.Raw(text)
+</p>
+
+<ul class="nav nav-pills">
+  <li><a href="#Properties">Properties</a></li>
+  <li><a href="#ModelMembers">Model Members</a></li>
+  <li><a href="#ViewMembers">View Members</a></li>
+  <li><a href="#ControlOptions">Control Options</a></li>
+  <li><a href="#MvcExamples">MVC Examples</a></li>
+  <li><a href="#Resources">Resources</a></li>
+  <li><a href="#BddSpecification">BDD Specification</a></li>
+</ul>
+            
+<section>
+  <h2><a id="Properties"></a>Properties</h2>
+  <table class="table table-bordered table-striped table-hover table-condensed">
+    <thead>
+      <tr>
+        <th>
+          Name
+        </th>
+        <th>
+          Description
+        </th>
+        <th>
+          Types
+        </th>
+        <th>
+          Binding Mode
+        </th>
+        <th>
+          Default Value
+        </th>
+      </tr>
+    </thead> 
+    <tbody>
+    @if (template != null)
+    {
+      foreach (var templateSection in template.Fields.GroupBy(f => f.Section.Name).Select(g => new { Name = g.Key, Fields = g.OrderBy(f => f.DisplayName) }).OrderBy(g => g.Name))
+      {
+        var first = true;
+      
+        foreach (var field in templateSection.Fields.OrderBy(f => f.Name))
+        {
+          var templateItem = new TemplateItem(field.InnerItem.Parent.Parent);
+          var source = new UrlString(field.Source);
+          var bindMode = source["bindMode"];
+
+          if (string.IsNullOrEmpty(bindMode)) {
+            bindMode = "readwrite";
+          }
+
+          if (!templateItem.BaseTemplates.Any()) {
+            continue;
+          }
+        
+          if (first) {
+            <tr class="info">
+              <td colspan="5">@templateSection.Name</td>
+            </tr>
+          }
+
+          first = false;
+          var defaultValue = defaultParameters.Parameters[@field.Name] ?? string.Empty;
+          <tr>
+            <td>
+              @field.Name
+            </td>
+            <td>
+              @field.ToolTip
+              @if (this.Session["SC_EDIT"] as string == "1")
+              {
+                <a href="@itemPathLink"><img src="/sitecore/shell/themes/standard/images/smarttag.png" width="11" height="11" alt="Edit" /></a>
+              }
+            </td>
+            <td>
+              @field.Type
+            </td>
+            <td>
+              @bindMode
+            </td>
+            <td>
+              @defaultValue
+            </td>
+          </tr>
+        }
+      }
+    }     
+    </tbody>
+  </table>      
+
+  <h2>Model and View Members</h2>  
+  <p>
+    A Component has a Model and a View, and both the Model and the View has members. You can read more about how to use these members here: <a href="http://sdn.sitecore.net">Using Model and View Members</a>. 
+  </p>   
+  <p>
+    @itemName controls have these Model and View Members. 
+  </p> 
+
+  <div id="modelMembersSection">
+    <h3><a id="ModelMembers"></a>Model Members</h3>
+    <p>
+      Model members represent the properties of a control.  You can manipulate the model members in the PageCode. 
+    </p>
+    <p>
+      The model members correspond to the parameters with the same name described above. The table below has a description when there are exceptions to this convention.     
+    </p>
+    <table id="modelMembers" class="table table-bordered table-striped table-hover table-condensed">
+      <thead>
+        <tr>
+          <th>
+            Name
+          </th>
+        </tr>  
+      </thead>
+      <tbody data-bind="foreach: modelMembers">
+        <tr>
+          <td data-bind="text: name"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div id="viewMembersSection">
+    <h3><a id="ViewMembers"></a>View Members</h3>
+    <p>
+      View members represent events that the control either raises and/or listens to.  You can listen for and raise events in the PageCode.   
+    </p>
+    <table id="viewMembers" class="table table-bordered table-striped table-hover table-condensed">
+      <thead>
+        <tr>
+          <th>
+            Name
+          </th>
+          <th>
+            Description
+          </th>
+        </tr>  
+      </thead>
+      <tbody data-bind="foreach: viewMembers">
+        <tr>
+          <td data-bind="text: name"></td>
+          <td data-bind="text: summary"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+      
+  <h2><a id="ControlOptions"></a>Control Options</h2>
+  <h2><a id="MvcExamples"></a>MVC Examples</h2>
+  @example
+
+  <h2><a id="Resources"></a>Resources</h2>        
+  <p>
+    This section displays implementation details related to this control.
+  </p>
+  <dl>
+    <dt>Rendering Item</dt>
+    <dd><a href="@itemPathLink" target="_blank">@itemPath</a></dd>
+
+    <dt>Rendering Item ID</dt>
+    <dd>@itemId</dd>
+
+    <dt>Placeholders Field</dt>
+    <dd>@placeHolders</dd>
+
+    <dt>Path Field</dt>
+    <dd><a href="@fileName" target="_blank">@pathField</a></dd>
+
+    <dt>File</dt>
+    <dd><a href="@fileName" target="_blank">@localFileName</a></dd>
+
+    <dt>Component Usage (from Link Database)</dt>
+    <dd>@usages place(s)</dd>
+  </dl>
+
+@{
+  if (!string.IsNullOrEmpty(testFileName))
+  {
+    <h2><a id="BddSpecification"></a>BDD Specification</h2>
+    <p>The BDD specifications are run live from the file: @testFileName</p>
+    <div id="jasmine_report">
+    </div>
+    <link href="/sitecore/shell/client/Business Component Library/Tests/vendors/jasmine-1.3.1/jasmine.css" rel="stylesheet" />
+  }
+}
+</section> 

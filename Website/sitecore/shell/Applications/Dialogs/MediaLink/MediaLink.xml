@@ -3,20 +3,20 @@
   <MediaLink>
     <FormDialog Icon="Applications/32x32/photo_scenery.png" 
       Header="Insert a media library link" Text="Please select an item from the media library and specify any additional properties. When done click the OK button." OKButton="OK">
-        
       <CodeBeside Type="Sitecore.Shell.Applications.Dialogs.MediaLink.MediaLinkForm,Sitecore.Client"/>
 
       <DataContext ID="MediaLinkDataContext" Root="{3D6658D8-A0BF-4E75-B3E2-D050FABCF4E1}"/>
       <UpAction ID="UpAction" DataContext="MediaLinkDataContext"/>
       
-      <GridPanel Columns="3" Width="100%" Height="100%" CellPadding="4" Style="table-layout:fixed">
-        <Scrollbox Width="100%" Height="100%" Class="scScrollbox scFixSize" Background="window" Padding="0" Border="1px solid #CFCFCF" GridPanel.VAlign="top" GridPanel.Height="100%" GridPanel.Width="50%">
-          <TreeviewEx ID="MediaLinkTreeview" DataContext="MediaLinkDataContext" Click="SelectTreeNode" DblClick="OnOpen" ContextMenu='MediaLinkTreeview.GetContextMenu("contextmenu")' />
-        </Scrollbox>
+      <div class="scStretch">
+        <div class="col2">
+          <Scrollbox Border="1px solid #CFCFCF">
+            <TreeviewEx ID="MediaLinkTreeview" DataContext="MediaLinkDataContext" Click="SelectTreeNode" DblClick="OnOpen" ContextMenu='MediaLinkTreeview.GetContextMenu("contextmenu")' />
+          </Scrollbox>
+        </div>
+        <div class="col2">
 
-        <GridPanel Width="100%" Height="100%" GridPanel.Height="100%" GridPanel.Width="50%" GridPanel.Align="top" Style="table-layout:fixed">
-
-          <Border ID="Preview" Align="Center" Height="136px" Padding="4px" Background="white" Class="scInsetBorder" GridPanel.Height="136px"/>
+          <Border ID="Preview" Align="Center" Height="136px" Padding="4px" Background="white" Class="scInsetBorder"/>
 
           <Border Background="transparent" Border="none" GridPanel.VAlign="top" Padding="4px 0px 0px 0px">
             <GridPanel CellPadding="2" Columns="2" Width="100%">
@@ -30,7 +30,7 @@
                 <ListItem Value="Custom" Header="Custom"/>
               </Combobox>
               
-              <Panel ID="CustomLabel" Disabled="true" Background="transparent" Border="none" GridPanel.NoWrap="true" GridPanel.Align="right"><Label For="CustomTarget"><Literal Text="Custom:" /></Label></Panel>
+              <Panel ID="CustomLabel" Disabled="true" Background="transparent" Border="none" GridPanel.NoWrap="true"><Label For="CustomTarget"><Literal Text="Custom:" /></Label></Panel>
               <Edit ID="CustomTarget" Width="100%" Disabled="true"/>
 
               <Literal Text="Style class:" GridPanel.NoWrap="true"/>
@@ -41,9 +41,9 @@
             </GridPanel>
           </Border>
 
-        </GridPanel>
+        </div>
       
-      </GridPanel>
+      </div>
 
       <Button Header="Upload" def:placeholder="Buttons" Click="UploadImage"/>
       

@@ -42,14 +42,15 @@ li.state.ui-state-active
     padding: 1px 2px 1px 19px;        
 }
 
-.ui-search-icon
-{
-    display:block;
-    width:16px;
-    height:16px;
-    background:transparent url("/sitecore/shell/themes/standard/Images/close.png") no-repeat 0 0;
-    position:relative;
-    top: -19px;
+.ui-search-icon {
+    display: block;
+    width: 16px;
+    height: 16px;
+    background: transparent url("/sitecore/shell/themes/standard/Images/close.png") no-repeat 0 0;
+    position: absolute;
+    top: 9px;
+    right: 0;
+    left: auto !important;
 }
 
 .ui-list-load
@@ -91,4 +92,23 @@ li.ui-state-focus-group
     margin-bottom:3px;   
     margin-top:5px;       
     background: url("/sitecore/shell/themes/standard/Images/Tree/TreeNodeNormalBackground.png") repeat-x scroll 0 0 #E8F5FD;
+}
+
+.header div, .header input, .header select, .jq_watermark, .watermark_container, .watermark_container input, #Container {
+  width: 100% !important;
+}
+
+#Container {
+  margin-top: 5px;
+}
+
+.ui-title {
+  display: block;
+  padding: 5px;
+  font-weight: bold;
+}
+
+.ui-value {
+  display: block;
+  padding: 5px;
 }

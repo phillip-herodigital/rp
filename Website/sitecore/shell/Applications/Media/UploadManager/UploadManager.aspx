@@ -1,8 +1,7 @@
 <%@ Page Language="C#" AutoEventWireup="true" CodeBehind="UploadManager.aspx.cs" Inherits="Sitecore.Shell.Applications.Media.UploadManager.UploadManagerPage" %>
 <%@ Register Assembly="Sitecore.Kernel" Namespace="Sitecore.Web.UI.HtmlControls" TagPrefix="sc" %>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<meta http-equiv="X-UA-Compatible" content="IE=5"/>
+<!DOCTYPE html>
+<html>
 <head runat="server">
   <title>Sitecore</title>
   <sc:Head runat="server" />

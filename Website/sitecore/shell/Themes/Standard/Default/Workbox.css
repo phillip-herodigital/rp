@@ -59,3 +59,13 @@ form {
 .ff span.scRollover img, .ff span.scRollover_Hover img {
   vertical-align: middle;
 }
+.scPaneTopRow .scPaneTopRowCorner img,.scPaneBottomRow img,.scSpacerWrap img {
+  display: block;
+}
+.scSectionRight {
+  white-space: nowrap;
+}
+.scRibbon
+{
+  padding: 0;
+}

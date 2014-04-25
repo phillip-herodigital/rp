@@ -5,7 +5,11 @@
       <CodeBeside Type="Sitecore.Shell.Applications.Layouts.Layouter.Viewers.Text.LayouterTextForm,Sitecore.Client"/>
 
       <Script Src="/sitecore/shell/Controls/SitecoreKeyboard.js"/>
-      <Script Src="/sitecore/shell/Controls/SitecoreModifiedHandling.js"/>
+      <script type="text/javascript">
+        if (scForm) {
+          scForm.enableModifiedHandling();
+        }
+      </script>
 
       <GridPanel Width="100%" Height="100%">
       

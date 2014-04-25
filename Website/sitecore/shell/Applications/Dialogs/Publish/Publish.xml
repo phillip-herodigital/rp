@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <Publish>
+    <WizardForm CodeBeside="Sitecore.Shell.Applications.Dialogs.Publish.PublishForm,Sitecore.Client">
+      <Script Src="/sitecore/shell/Controls/Lib/jQuery/jQuery.noconflict.js"></Script>
+      <Script Src="/sitecore/shell/Applications/Dialogs/Publish/Publish.js"></Script>
+
+      <WizardFormFirstPage ID="FirstPage" Icon="Custom/32x32/Publish.png">
+        <Border Class="scWizardWelcomeTitle"><Literal ID="Welcome" Text="Welcome to the Publish Wizard."/></Border>
+        <Literal Text="This wizard helps you:"/>
+        <ul>
+          <li class="scWizardBullet"><Literal Text="Choose publishing mode."/></li>
+          <li class="scWizardBullet"><Literal Text="Select the languages to publish."/></li>
+          <li class="scWizardBullet"><Literal Text="Select the publishing targets."/></li>
+        </ul>
+      </WizardFormFirstPage>
+      
+      <WizardFormPage ID="Settings" Header="Settings" Text="Select the publishing settings. Click Publish to publish." Icon="Custom/32x32/Publish.png">
+        <WizardFormPadding>
+          <Scrollbox ID="SettingsPane" Border="none" Background="transparent">
+            <Groupbox ID="PublishingPanel" Header="Publishing" Margin="0px 0px 16px 0px">
+              <Border Padding="4">
+                <Border ID="IncrementalPublishPane">
+                  <Radiobutton ID="IncrementalPublish" Name="PublishMode" Header="Incremental Publish - Publish Only Changed Items." Value="IncrementalPublish"/><br/>
+                </Border>
+                <Border ID="SmartPublishPane">
+                  <Radiobutton ID="SmartPublish" Name="PublishMode" Header="Smart publish - Publish Differences Between Source and Target Database." Value="SmartPublish" Checked="true"/><br/>
+                </Border>
+                <Border ID="RepublishPane">
+                  <Radiobutton ID="Republish" Name="PublishMode" Header="Republish - Publish Everything." Value="Republish"/>
+                </Border>
+              
+                <Border ID="PublishChildrenPane">
+                  <Checkbox ID="PublishChildren" Header="Publish Subitems"/>
+                  <br />
+                  <Checkbox ID="PublishRelatedItems" Header="Publish Related Items"/>
+                </Border>
+              </Border>
+            </Groupbox>
+
+            <Groupbox ID="LanguagesPanel" Header="Publishing Language" Margin="0px 0px 16px 0px">
+              <Border Padding="4">
+                <Checkbox ID="SelectAllLanguages" Header="Select all" />
+              </Border>
+              <Border Padding="4" ID="Languages" />
+            </Groupbox>
+
+            <Groupbox ID="PublishingTargetsPanel" Header="Publishing Targets">
+              <Border Padding="4" ID="PublishingTargets"/>
+            </Groupbox>
+          </Scrollbox>
+          <Border ID="NoPublishingTarget" Visible="false" Align="center" Padding="4px">
+            <ThemedImage Src="Applications/24x24/error.png" Width="16" Height="16" Align="absmiddle" Margin="0px 4px 0px 0px" />
+            <b>
+              <Literal Text="You cannot publish as no publishing targets are defined in this database." />
+            </b>
+          </Border>
+        </WizardFormPadding>
+      </WizardFormPage>
+    
+      <WizardFormPage ID="Publishing" Header="Publishing" Text="Please wait while publishing..." Icon="Custom/32x32/Publish.png">
+        <GridPanel Width="100%">
+          <Border Height="64"/>
+          
+          <ThemedImage Src="Custom/48x48/Publish.png" Width="48" Height="48" GridPanel.Align="center"/>
+
+          <Space Height="16"/>
+          
+          <Border Align="center">
+            <ThemedImage Src="Images/progress.gif" Width="94" Height="17"/>
+          </Border>
+          
+          <Space Height="16"/>
+          
+          <Border ID="PublishingText" Align="center" GridPanel.Align="center" GridPanel.Style="font-weight:bold">
+            <Literal Text="Publishing..."/>
+          </Border>
+          <Space Height="16"/>
+          <Border ID="PublishingTarget" Align="center" GridPanel.Align="center">
+            &#160;
+          </Border>
+        </GridPanel>
+      </WizardFormPage>
+
+      <WizardFormPage ID="Retry" Header="An error occurred" Text="An error occurred while publishing." Icon="Custom/32x32/Publish.png">
+        <WizardFormPadding>
+          <Memo ID="ErrorText" ReadOnly="true" Width="100%" Height="100%"/>
+        </WizardFormPadding>
+      </WizardFormPage>
+
+      <WizardFormLastPage ID="LastPage" Icon="Custom/32x32/Publish.png">
+        <div class="scStretch scFlexColumnContainerWithoutFlexie">
+          <Literal class="wizardCompleteText" Text="The wizard has completed. Click Finish to close the wizard."/>
+          <div style="padding:0px 0px 2px 0px">
+            <Literal ID="Status"/>
+          </div>
+          <Border ID="ShowResultPane" style="padding:8px 0px 2px 0px" Click="ShowResult" RollOver="true" Class="scRollOver">
+            <Literal Text="Click here to view additional information."/>
+          </Border>
+          <Border ID="ResultLabel" style="padding:8px 0px 2px 0px" Visible="false">
+            <Literal Text="Result:"/>
+          </Border>
+          <div class="scFlexContentWithoutFlexie scWizardLastPageResultText">
+            <div class="scStretchAbsolute">
+              <Memo ID="ResultText" class="scStretch" ReadOnly="true" Visible="false"/>
+            </div>
+          </div>
+        </div>
+      </WizardFormLastPage>
+
+    </WizardForm>
+  </Publish>
+</control>

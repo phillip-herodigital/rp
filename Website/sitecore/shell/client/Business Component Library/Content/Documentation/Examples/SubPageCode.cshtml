@@ -1,0 +1,18 @@
+﻿@using Sitecore.Mvc.Presentation
+@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Containers.Frames
+@model RenderingModel
+<h3>Usage</h3>   
+<p> Items are rendered using repeater. Each item has SubPageCode in layout with the  method listed bellow to display values from rendered controls.</p>               
+@Html.Sitecore().Controls().Frame("Frame1",new{SourceUrl="/sitecore/client/Business Component Library/Content/SubPageCode/Example1" , Width="500", Height="400"})
+<p> Page Code listing:</p>
+<pre>
+define(["sitecore"], function (_sc) {
+  var App = _sc.Definitions.App.extend({
+    speak: function () {
+      alert(this.FirstNameText.get("text") + " " + this.LastNameText.get("text"));
+    }
+  });
+  return App;
+});
+</pre>

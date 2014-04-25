@@ -274,6 +274,7 @@ var SitecoreMediaUploader = Class.create({
 
     if (Prototype.Browser.Gecko || Prototype.Browser.WebKit) {
       params["UploadSessionID"] = this.settings.uploadSessionID;
+      params["UploadSessionID1"] = this.settings.uploadSessionID1;
     }
 
     if (this.queue.length == 0) {
@@ -300,8 +301,12 @@ var SitecoreMediaUploader = Class.create({
   },
 
   cancelUpload: function() {
-    this.yUploader.cancel();
-    this.lightbox.hide();
+    if (this.yUploader) {
+      this.yUploader.cancel();
+    }
+    if (this.lightbox) {
+      this.lightbox.hide();
+    }
     location.reload();
   },
 
@@ -317,3 +322,9 @@ var SitecoreMediaUploader = Class.create({
 
 var scMediaFolder = new SitecoreMediaFolder();
 Event.observe(document, "dom:loaded", scMediaFolder.load.bind(scMediaFolder));
+
+window.scDisplose = function () {
+  scMediaFolder.uploaders.each(function (item) {
+    item.yUploader.destroy();
+  });
+}

@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Your Website</title>
+                      <script src="../../../../Assets/vendors/JQuery/jquery-1.8.2.min.js"></script>
+      <script src="../../../../Assets/vendors/KnockOut/knockout-2.1.0.js"></script>
+      <script src="../../../../Assets/vendors/underscore/underscore.js"></script>
+      <script src="../../../../Assets/vendors/Backbone/backbone.js"></script>
+
+		<script>
+			 window.__SITECOREDEBUG = true;
+		</script>
+      <script src="../../../../Assets/lib/dist/sitecore-1.0.1.js"></script>
+    </head>
+    <body>
+    <h1>Click button set by data-sc-click</h1>
+
+<div style="width:50%;float:left">
+    <h2>Code</h2>
+    <h3>Html</h3>
+    <pre>
+&#60;input type="button" data-sc-id="Button" data-sc-click="this.set('text',"etet")" data-bind="value:text, click: click" class="sc-button"/>
+    </pre>    
+    <h3>Javascript</h3>
+<pre>
+_sc.Factories.createBaseComponent({
+  base: "ButtonBase",
+  name: "button",
+  selector: ".sc-button",
+  attributes: [ 
+    { name: "text", value: "Click me" }
+  ]
+ });
+
+  //Exposing to global window
+  window.app = _sc.Factories.createApp();
+</pre>
+</div>
+<div style="width:50%;float:left">
+    <h2>Result</h2>
+
+    <input type="button" data-sc-id="Button" checked="checked" data-sc-click="javascript:this.set('text','etet')" data-bind="value:text,click: click" class="sc-button"/>
+</div>
+<div style="width:100%;float:left;">
+<h4>What you need to know.</h4>
+<p>
+  <ul>
+    <li>
+      <b>Base</b>
+      <p>The base property is used to defined which base class you want to extend. This will use the extend <a href="http://backbonejs.org/#Model-extend">method from backbone.</a></p>
+    </li>
+    <li>
+      <b>data-sc-click</b>
+      <p>In order to be able to write the behavior you want in you item, we have provided you a click property. This will generate the data-sc-click</p>
+      <p>If the control is a type button, you will have the click automatically register for you.</p>
+    </li>
+    <li>
+      <b>The syntax</b>
+      <p>The click will be set by the Item and will execute the Invocation pipeline. Here the this is the model.</p>
+    </li>
+  </ul>
+</p>
+</div>
+    <script>
+    	
+_sc.Factories.createBaseComponent({
+  base: "ButtonBase",
+  name: "button",
+  selector: ".sc-button",
+  attributes: [ 
+    { name: "text", value: "Click me" }
+  ]
+ });
+
+  //Exposing to global window
+  window.app = _sc.Factories.createApp();
+    </script>
+    </body>
+</html>

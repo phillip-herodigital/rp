@@ -6,6 +6,10 @@
       <Stylesheet Src="Content Manager.css" DeviceDependant="true"/>
       <Stylesheet Src="Ribbon.css" DeviceDependant="true"/>
       <Stylesheet Key="BrokenLinks">
+         #Report > table {
+           width:100%;
+         }
+        
          #Report td {
            padding:4px;
            vertical-align:top;

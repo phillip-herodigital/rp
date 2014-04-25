@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xamlControls
+  xmlns:x="http://www.sitecore.net/xaml"
+  xmlns:ajax="http://www.sitecore.net/ajax"
+  xmlns:rest="http://www.sitecore.net/rest"
+  xmlns:javascript="http://www.sitecore.net/javascript"
+  xmlns:r="http://www.sitecore.net/renderings"
+  xmlns:xmlcontrol="http://www.sitecore.net/xmlcontrols"
+  xmlns:p="http://schemas.sitecore.net/Visual-Studio-Intellisense"
+  xmlns:asp="http://www.sitecore.net/microsoft/webcontrols"
+  xmlns:html="http://www.sitecore.net/microsoft/htmlcontrols"
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+
+  <Sitecore.Forms.Shell.UI.Dialogs.SendStandardMessage x:inherits="Sitecore.Forms.Shell.UI.Dialogs.SendStandardMessagePage,Sitecore.Forms.Core">
+    <x:register assembly="ComponentArt.Web.UI" namespace="ComponentArt.Web.UI"/>
+    <x:register assembly="Sitecore.Forms.Core" prefix="xmlcontrol" namespace="Sitecore.Forms.Shell.UI.Controls"/>
+
+    <x:using runat="server" namespace="Sitecore.Controls" />
+
+    <Stylesheet Src="Content Manager.css" DeviceDependant="true" />
+    <Stylesheet Src="WFM/MessagePreview.css" DeviceDependant="true" runat="server" />
+
+
+    <Sitecore.Xaml.Wizard.Form runat="server" Title="Package Designer">
+      <x:using runat="server" namespace="Sitecore.Xaml.Wizard" />
+      <Script runat="server" type="text/javascript" Src="/sitecore/shell/Applications/Modules/Web Forms for Marketers/script/Utils.js"/>
+      <Script runat="server" type="text/javascript" Src="/sitecore/shell/Applications/Modules/Web Forms for Marketers/script/Sitecore.Forms.PopupMenu.js"/>
+      <Script runat="server" Src="/sitecore/shell/Applications/Modules/Web Forms for Marketers/script/MessagePreview.js"/>
+
+      <script type="text/javascript" language="javascript">
+        //<![CDATA[
+
+        scForm.OnContextMenuClick = function (sender, event, itemName, editToken){
+        
+          $(editToken).value = $(editToken).getValue() + '[' + itemName + ']';
+          scForm.browser.closePopups();
+          if (Sitecore.Forms.PopupMenu.activePopup != null && Sitecore.Forms.PopupMenu.activePopup.parentNode != null) {
+              $(Sitecore.Forms.PopupMenu.activePopup).remove();
+          }     
+        }
+    
+        scForm.OnRecipientChanged = function (sender, event){        
+          $('UserProperties').disabled = $('UseCurrentVisitor').checked;
+          $$('select').each(function(element){
+            element.disabled = $('UseCurrentVisitor').checked;
+          })
+        }
+                            
+    //]]>
+      </script>
+
+      <Page runat="server"
+                                 ID="SelectMessagePage"
+                                 Icon="Network/32x32/mail2_view.png">
+        <PageIndent runat="server" >
+
+          <Groupbox Id="MessageGroupbox" class="GroupBox" runat="server" Width="100%">
+
+
+            <GridPanel runat="server"  Padding="0 0" Width="100%" GridPanel.Width="100%" Margin="10 8 0 8" ID="PageLinkSetingsGrid" Columns="3">
+              <Literal ID="StandardMessageLabel" runat="server" GridPanel.Width="35%" GridPanel.Style="text-align:left;padding-right:4px"/>
+
+              <Edit Disabled="true" ID="MessageLink" runat="server" Width="283px" GridPanel.Width="100%"></Edit>
+              <input type="button" runat="server" ID="StandardMessageButton" style="padding:0 0; margin:0 5 0 5" ajax:Click="OnBrowsePage" />
+
+              <Border runat="server" Width="100%" GridPanel.ColSpan="3" GridPanel.Style="padding:5 0 0 0" Margin="0 0 10 0">
+                <Checkbox runat="server" ID="WaitForConfirmationCheckbox"  checked="true" />
+              </Border>
+            </GridPanel>
+
+
+          </Groupbox>
+
+          <Groupbox Id="RecipientGroupbox" class="GroupBox" runat="server">
+            <GridPanel runat="server" Width="100%" Height="100%" Margin="5 8 10 8">
+
+              <Literal ID="SendToLiteral" runat="server" GridPanel.Width="30%" GridPanel.Style="padding-top:10px;padding-right:5px;padding-bottom:5px"/>
+
+              <GridPanel Columns="1" runat="server" Width="100%" Align="left" style="table-layout:auto" vAlign="top" Padding="0">
+
+                <Border runat="server">
+                  <Radiobutton runat="server" ID="UseCurrentVisitor" Name="UseVisitor" Value="UseCurrentVisitor"  Click="javascript:scForm.OnRecipientChanged(this, event)"/>
+
+                </Border>
+
+                <Border runat="server" Margin="3  0 0 0">
+                  <Radiobutton runat="server" ID="UseVisitor" Name="UseVisitor" Value="UseVisitor" Click="javascript:scForm.OnRecipientChanged(this, event)"/>
+
+                </Border>
+
+              </GridPanel>
+
+
+              <GridPanel ID="UserProperties" Class="EntryGrid" Columns="2" runat="server" Margin="7 0 0 20" Padding="1 0">
+
+                <Literal ID="UserNameBasedLiteral" GridPanel.Style="padding-bottom:4px" runat="server" GridPanel.Colspan="2"/>
+
+                <Literal ID="UserNameLiteral" runat="server" GridPanel.Align="left" GridPanel.Width="70px"/>
+                <Border runat="server"  Width="100%" GridPanel.Width="84%" Margin="0 0 0 8">
+                  <asp:DropDownList ID="NameField" runat="server" Width="97%"/>
+
+                  <Literal Class="InactiveRequired" ID="NameRequired" runat="server" Text="*" Margin="0 0 0 3"/>
+
+                </Border>
+
+                <Literal ID="DomainLiteral" runat="server" GridPanel.Align="left"/>
+                <Border runat="server"  Width="100%" GridPanel.Width="84%" Margin="0 0 0 8">
+                  <asp:DropDownList ID="DomainField" runat="server" Width="97%"/>
+
+                  <Literal Class="InactiveRequired" ID="DomainRequired" runat="server" Text="*" Margin="0 0 0 3" />
+
+                </Border>
+              </GridPanel>
+
+            </GridPanel>
+          </Groupbox>
+
+        </PageIndent>
+      </Page>
+
+      <Page runat="server"
+                                 ID="PersonalizeMessagePage"
+                                 Icon="Network/32x32/mail2_view.png">
+        <PageIndent runat="server">
+          <Border runat="server" ID="TokensPanel" Width="100%" Style="height:100%; overflow:auto;margin-left:-20px">
+            <html:HtmlInputHidden ID="TokensValue" runat="server" />
+            <GridPanel runat="server" Width="100%" Margin="10 5">
+              <Literal runat="server" ID="TokensLiteral" />
+
+              <GridPanel Class="Tokens" runat="server" Columns="2" ID="Tokens" Width="99%" Margin="10 0" Padding="2 0" />
+            </GridPanel>
+          </Border>
+        </PageIndent>
+      </Page>
+
+      <Page runat="server"
+                           ID="PreviewMessagePage"
+                           Icon="Network/32x32/mail2_view.png">
+        <PageIndent runat="server">
+
+
+          <GridPanel runat="server" CellPadding="0" CellSpacing="0" Height="100%" Width="105%" Style="margin-left:-24px;table-layout: fixed;" >
+
+            <Border ID="Shadow" GridPanel.Height="100%" GridPanel.Width="100%" GridPanel.Style="padding-bottom:4px;" runat="server">
+              <Border class="PreviewArea" runat="server">
+                <GridPanel CellPadding="0" CellSpacing="0" Height="100%" Width="100%" runat="server">
+
+                  <Border ID="MessageHeader" runat="server">
+                    <Border Style="float: left;" runat="server">
+                      <GridPanel CellSpacing="0" Columns="2" Width="100%" GridPanel.Width="100%" Style="padding: 0px 0px 2px 3px;" runat="server">
+                        <Border ID="FromHeader" runat="server">
+                          <Literal ID="FromLiteral" Style="white-space: nowrap;" runat="server"/>
+                        </Border>
+                        <Border GridPanel.Nowrap="nowrap" runat="server">
+                          <Literal id="From" class="HeaderInfo" runat="server" />
+                        </Border>
+                        <Border ID="SubjectHeader" runat="server">
+                          <Literal ID="SubjectLiteral" Style="white-space: nowrap;" runat="server"/>
+                          <span style="padding-right: 2px;">:</span>
+                        </Border>
+                        <Border GridPanel.Width="100%" runat="server">
+                          <Literal id="Subject" class="HeaderInfo" runat="server" />
+                        </Border>
+                        <Border GridPanel.Height="3px" runat="server"/>
+                      </GridPanel>
+                    </Border>
+                  </Border>
+
+                  <GridPanel GridPanel.Height="100%" GridPanel.Width="100%" Height="100%" Width="100%" CellSpacing="2" Style="table-layout: fixed;" runat="server">
+                    <Border id="MessageBody" GridPanel.Height="100%" GridPanel.Width="100%" class="MessageBody" runat="server" />
+                  </GridPanel>
+
+                  <Border Visible="false" runat="server">
+                    <Literal id="HtmlBody" runat="server" />
+                    <div id="TextBody" runat="server" />
+                  </Border>
+
+                </GridPanel>
+              </Border>
+            </Border>
+          </GridPanel>
+        </PageIndent>
+      </Page>
+
+    </Sitecore.Xaml.Wizard.Form>
+
+  </Sitecore.Forms.Shell.UI.Dialogs.SendStandardMessage>
+</xamlControls>

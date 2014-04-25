@@ -12,3 +12,7 @@
 .scLink:hover {
   text-decoration:underline;
 }
+
+#Grid {
+  background: #F4F4F5;
+}

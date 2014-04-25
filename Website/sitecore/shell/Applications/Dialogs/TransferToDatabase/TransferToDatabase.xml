@@ -30,44 +30,19 @@
           </Scrollbox>
         </WizardFormPadding>
 
-
-
       </WizardFormPage>
 
       <WizardFormPage ID="Destination" Header="Destination." Text="Select the database that you want to transfer the item to and the destination folder. Click Next to continue." Icon="Business/32x32/Data_Into.png">
         <DataContext ID="DestinationDataContext" Root="/" DataViewName="Master" filter="@@virtual=0"/>
-        <Tabstrip ID="Tabs2" Width="100%" Height="100%">
-          <Tab ID="TreeTab2" Header="Browse" Height="100%">
-            <WizardFormPadding>
-
-              <GridPanel Height="100%" Width="100%">
-                <Border Padding="0px 0px 8px 0px">
-                  <GridPanel Width="100%" Columns="2">
-                    <Literal Text="Database:&#160;" Style="white-space:nowrap;margin-right:0.5em"/>
-
-                    <Combobox ID="Databases" Change="ChangeDatabase" Width="100%" Padding="0px 0px 0px 4px" GridPanel.Width="100%"/>
-                  </GridPanel>
-                </Border>
-
-                <Scrollbox Width="100%" Height="100%" Padding="0px" GridPanel.Height="100%">
-                  <TreeviewEx ID="DestinationTreeview" DataContext="DestinationDataContext" Root="true" />
-                </Scrollbox>
-              </GridPanel>
-            </WizardFormPadding>
-          </Tab>
-
-          <Tab ID="SearchTab2" Header="Search" Height="100%">
-            <GridPanel Width="100%" Height="100%" Style="table-layout:fixed">
-              <Scrollbox ID="SearchItems2" Height="100%" Class="scScrollbox scFixSize scFixSize4" Background="white" Border="1px inset" Padding="0px" GridPanel.Height="100%">
-
-                <Frame SourceUri="/sitecore/shell/Applications/Buckets/FieldResults.aspx" Width="100%" Height="100%"></Frame>
-
-              </Scrollbox>
-            </GridPanel>
-          </Tab>
-
-
-        </Tabstrip>
+        <WizardFormPadding>
+          <div>
+            <Literal Text="Database:&#160;" Style="white-space:nowrap;margin-right:0.5em"/>
+            <Combobox ID="Databases" Change="ChangeDatabase" Padding="0px 0px 0px 4px"/>
+          </div>
+          <Scrollbox style="padding:4px; height: auto; position: absolute; bottom: 8px; top: 35px; left: 8px; right: 8px;">
+            <TreeviewEx ID="DestinationTreeview" DataContext="DestinationDataContext" Root="true" />
+          </Scrollbox>
+        </WizardFormPadding>
       </WizardFormPage>
 
       <WizardFormPage ID="Ready" Header="Ready" Text="You are ready to transfer the item. Click Transfer to transfer the item." Icon="Business/32x32/Data_Into.png">
@@ -93,7 +68,7 @@
             </li>
           </Border>
 
-          <Groupbox Header="Options" Padding="32px 0px 0px 0px">
+          <Groupbox Header="Options">
             <Border Padding="4px">
               <Checkbox ID="Deep" Header="Include subitems."/>
             </Border>
@@ -119,7 +94,7 @@
 
       <WizardFormPage ID="Transferring" Header="Transferring..." Text="Please wait while transferring..." Icon="Business/32x32/Data_Into.png">
         <GridPanel Width="100%">
-          <Space Height="64px"/>
+          <Border Height="64px"/>
 
           <ThemedImage Src="Business/32x32/Data_Into.png" Width="48" Height="48" GridPanel.Align="center"/>
 

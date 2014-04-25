@@ -1,0 +1,43 @@
+﻿@using Sitecore.Data
+@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Common.ListBoxes
+@using Sitecore.Web.UI.Controls.Common.Renderings
+@using Sitecore.Web.UI.Controls.Common.TextBoxes
+@using Sitecore.Web.UI.Controls.Data.SearchDataSources
+@model Sitecore.Mvc.Presentation.RenderingModel
+<p>
+  SearchDataSource supports server-side pagination.
+</p>
+@{
+  var rendering = new ID("{ACE0AFD6-3DE0-42CF-8E62-4E68CD810A8D}").ToString();
+}
+@Html.Sitecore().Controls().TextBox("SearchText", new {Text = "sample"})
+@Html.Sitecore().Controls().SearchDataSource("SearchDataSource1", new { Text = "{Binding SearchText.text}" })<br/>
+@Html.Sitecore().Controls().ListBox("ListBox1", new { Items = "{Binding SearchDataSource1.items}" })
+
+<pre>
+  &#64;Html.Sitecore().Controls().TextBox("SearchText", new {Text = "sample"})
+  &#64;Html.Sitecore().Controls().SearchDataSource("SearchDataSource1", new { Text = "{Binding SearchText.text}" })<br/>
+  &#64;Html.Sitecore().Controls().ListBox("ListBox1", new { Items = "{Binding SearchDataSource1.items}" })
+ </pre>
+
+<p>Setting the language to the <i>"$context_language"</i> value will return you data for the currently selected language</p>
+@Html.Sitecore().Controls().SearchDataSource("SearchDataSource2", new { SearchConfigItemId = "{3B74E413-D556-4CEC-A831-B3229C4C848A}", PageSize = 20, Language = "$context_language" })<br/>
+@Html.Sitecore().Controls().ListBox("ListBox2", new { Items = "{Binding SearchDataSource2.items}" })
+
+<pre>
+&#64;Html.Sitecore().Controls().SearchDataSource("SearchDataSource2", new { SearchConfigItemId = "{3B74E413-D556-4CEC-A831-B3229C4C848A}", PageSize = 20, Language = "$context_language" })<br/>
+&#64;Html.Sitecore().Controls().ListBox("ListBox2", new { Items = "{Binding SearchDataSource2.items}" })
+</pre>
+
+<p>
+  You can also set up the formatting option in the SearchConfigItem
+</p>
+
+@Html.Sitecore().Controls().SearchDataSource("SearchDataSource3", new { SearchConfigItemId = "{57AC916A-7162-41DA-B6A5-FC053254387B}", PageSize = 20, Language = "$context_language", Fields="__Created", Formatting="$convert_date_to_friendly_format", Database="$context_contentdatabase" })
+@Html.Sitecore().Controls().Rendering(this.Html, rendering, "ListControl", "{CD471110-0BD6-4925-8107-A10BB27880D9}", new{ Items="{Binding SearchDataSource3.items}"})
+
+<pre>
+&#64;Html.Sitecore().Controls().SearchDataSource("SearchDataSource3", new { SearchConfigItemId = "{57AC916A-7162-41DA-B6A5-FC053254387B}", PageSize = 20, Language = "$context_language", Fields="__Created", Formatting="$convert_date_to_friendly_format", Database="$context_contentdatabase" })
+&#64;Html.Sitecore().Controls().Rendering(this.Html, rendering, "ListControl", "{CD471110-0BD6-4925-8107-A10BB27880D9}", new{ Items="{Binding SearchDataSource3.items}"})
+</pre>

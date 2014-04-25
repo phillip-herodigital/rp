@@ -24,23 +24,31 @@
         .DataArea
         {
           background-color: #FFFFFF;
-        }        
+        }  
+        
+        #MainPanel {
+          padding: 5px 10px;
+        }
       </style>
       <Script runat="server" Src="/sitecore/shell/controls/Sitecore.Runtime.js" />
       <Script runat="server">
-          window.onresize = function() {
+        Event.observe(window, "resize", onResizeHandler);
+                  
+        function onResizeHandler() {
           var doc = $(document.documentElement);
           var grid = $("GridContainer");
 
           grid.style.height = doc.getHeight() - 115 + 'px';
-
-          Items.render();
+          try{
+            Items.render();
+          }
+          catch(e){}
 
           /* re-render again after some "magic amount of time" - without this second re-render grid doesn't pick correct width sometimes */
           setTimeout("Items.render()", 150);
-          }
+        }
         
-        scForm.browser.attachEvent(window, "onload", function() { Sitecore.UI.alignButtons($$(".UnlockButtons BUTTON")) });
+        scForm.browser.attachEvent(window, "onload", function() { Sitecore.UI.alignButtons($$(".UnlockButtons BUTTON")); onResizeHandler(); });
         
         function fixColumns(){
           Items.InitialRender();
@@ -50,7 +58,7 @@
       <AjaxScriptManager runat="server"/>
       <ContinuationManager runat="server" />
 
-      <GridPanel Height="100%" Width="100%" runat="server" id="MainPanel">
+      <Border id="MainPanel" class="scStretchAbsolute" runat="server">
 
         <Border ID="GridContainer" runat="server" Height="100%" Width="100%"  GridPanel.Height="100%" GridPanel.VAlign="top">
           <Grid id="Items"
@@ -171,7 +179,7 @@
           <Button Header="Unlock All" Margin="0px 16px 0px 0px" runat="server" Click="webedit:unlockall" />
         </Border>
 
-      </GridPanel>
+      </Border>
       
     </Sitecore.Controls.ModalDialogPage>
   </Sitecore.Shell.Applications.WebEdit.Dialogs.LockedItems>

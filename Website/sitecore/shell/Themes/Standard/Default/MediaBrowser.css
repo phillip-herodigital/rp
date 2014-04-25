@@ -40,12 +40,20 @@ a.scTile {
   width: 192px;
 }
 
-.filenameContainer {
-  padding: 8px 0px 4px 0px;
+.mediaBrowserTabstrip {
+  position: absolute;
+  top: 5px;
+  bottom: 40px;
+  left: 8px;
+  right: 8px;
 }
 
-.ie .filenameContainer {
-  padding-top: 4px;
+.filenameContainer {
+  padding: 8px 0px 4px 0px;
+  position: absolute;
+  bottom: 4px;
+  left: 8px;
+  right: 8px;
 }
 
 .name {
@@ -75,4 +83,22 @@ a.scTile {
 
 .scUploadLink a {
   color: Blue;
+}
+
+.scInsertImageTabs {
+  position: absolute;
+  bottom: 45px;
+  top: 5px;
+  left: 10px;
+  right: 10px;
+  height: auto !important;
+
+}
+
+.scInsertImageFileName {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+
 }

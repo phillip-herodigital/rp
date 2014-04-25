@@ -1,0 +1,69 @@
+﻿@using Sitecore.Data.Items
+@using Sitecore.Links
+@using Sitecore.Mvc.Presentation
+@using Sitecore.Web
+@model RenderingModel
+@{
+  var editing = WebUtil.GetQueryString("sc_edit");
+  if (!string.IsNullOrEmpty(editing))
+  {
+    Session["SC_EDIT"] = editing;
+  }
+
+  var item = Model.PageItem;
+  if (item == null)
+  {
+    return;
+  }
+
+  var title = item.DisplayName;
+  var subtitle = item.Help.ToolTip;
+  var text = item.Help.Text;
+  var itemPathLink = "/sitecore/shell/Applications/Content Editor?id=" + item.ID + "&sc_content=master&fo=" + item.ID + "&ic=People/16x16/cubes_blue.png&he=Content Editor&cl=0";
+  
+  if (string.IsNullOrEmpty(text))
+  {
+    text = "Controls in the " + title + " namespace.";
+  }
+}
+                    
+<h1>@title</h1>
+            
+<section>
+  <h2>
+    @subtitle
+  </h2>
+  <p>
+    @text    
+  </p>
+</section>
+
+<table class="table table-striped table-condensed">
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+  </tr>
+
+  @foreach(Item child in item.Children)
+  {
+    var name = child.DisplayName;
+    var help = child.Help.ToolTip;
+    var href = LinkManager.GetItemUrl(child, new UrlOptions()
+    {
+      AddAspxExtension = false
+    } );
+          
+    <tr>
+      <td>
+        <a href="@href"><i class="icon-chevron-right"></i>@name</a>
+      </td>
+      <td>
+        @help
+        @if (Session["SC_EDIT"] as string == "1")
+        {
+          <a href="@itemPathLink"><img src="/sitecore/shell/themes/standard/images/smarttag.png" width="11" height="11" border="0" alt="Edit" /></a>
+        }
+      </td>
+    </tr>
+  }
+</table>

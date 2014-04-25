@@ -74,3 +74,20 @@
 #NoAccounts a {
   color: blue;
 }
+
+.scItemSecurityEditorContainer {
+  padding: 10px;
+  overflow: auto !important;
+}
+
+.scItemSecurityEditorAccounts {
+  overflow: hidden;
+}
+
+#Inheritance {
+  height: 40px;
+}
+
+.permissionsLabel {
+  padding: 12px 0 2px;
+}

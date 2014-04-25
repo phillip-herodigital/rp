@@ -1,0 +1,27 @@
+﻿@using Sitecore.Data
+@using Sitecore.Mvc.Presentation
+@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Common.Renderings
+@model RenderingModel     
+@{
+  var rendering = new ID("{704833B1-B4EA-4D08-B19F-EE59712C9F05}").ToString();
+} 
+
+<h3>Description</h3>
+<p>
+  Application launcher is a panel with shortcuts.
+</p>             
+
+<h3>Apperance</h3>
+<p>
+  An application launcher with shortcuts.
+</p>
+  @Html.Sitecore().Controls().Rendering(this.Html, rendering, "Launcher1", "/sitecore", new { RootItemId = "{74DDD77F-55D7-48A3-BFF7-05AC657E7E03}" })
+<br style="clear:both;"/>
+<pre>
+&#64;model RenderingModel    
+&#64; {
+  var rendering = new ID("{704833B1-B4EA-4D08-B19F-EE59712C9F05}").ToString();
+} 
+  &#64;Html.Sitecore().Controls().Rendering(this.Html, rendering, "Launcher1", "/sitecore", new { RootItemId = "{74DDD77F-55D7-48A3-BFF7-05AC657E7E03}" })
+</pre>

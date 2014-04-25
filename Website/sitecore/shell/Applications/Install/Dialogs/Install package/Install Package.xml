@@ -6,21 +6,15 @@
        Event.observe(window, 'load',
          function(){                
            var displayResult = window.clipboardData != null ? "" : "none";
-           $$("[id^=Copy]").each(function(node){node.style.display = displayResult;});
-           
-           if (Prototype.Browser.Gecko) {
+           $$("[id^=Copy]").each(function(node){node.style.display = displayResult;});        
              var license = $('LicenseAgreementScrollbox');
              license.style.height = license.up('body').offsetHeight - 170 + 'px';
-             $('ReadmeText').up('tr').insert({after: '<tr style="height:8px"></tr>'});
-           }
          });
          
        Event.observe(window, 'resize',
          function(){
-           if (Prototype.Browser.Gecko) {
              var license = $('LicenseAgreementScrollbox');
              license.style.height = license.up('body').offsetHeight - 170 + 'px';
-           }
          });
      </Script>
      <WizardForm Application="Tools/Installer/InstallationWizard" CodeBeside="Sitecore.Shell.Applications.Install.Dialogs.InstallPackage.InstallPackageForm,Sitecore.Client">
@@ -64,7 +58,7 @@
 
          <WizardFormPage ID="License" Header="License Agreement" Text="Please read the following important information before continuing." Icon="People/32x32/Box_Software.png">
             <WizardFormIndent>
-               <GridPanel Width="100%" Height="100%" Fixed="true">
+               <GridPanel Width="100%" Fixed="true">
 
                   <Scrollbox ID="LicenseAgreementScrollbox" Height="100%" GridPanel.Height="100%">
                      <Literal ID="LicenseAgreement" />
@@ -90,16 +84,18 @@
 
          <WizardFormPage ID="Readme" Header="Readme" Text="Please read the following information before continuing." Icon="People/32x32/Box_Software.png">
             <WizardFormIndent>
-               <GridPanel Width="100%" Height="100%" Fixed="true">
+               <Border class="scStretch">
 
-                  <Memo ID="ReadmeText" Width="100%" Height="100%" Wrap="off" ReadOnly="true" GridPanel.Height="100%"/>
+                 <Border style="position:absolute;left:0;right:0;top:0;bottom:25px;">
+                   <Memo ID="ReadmeText" class="scStretch" Wrap="off" ReadOnly="true" />
+                 </Border>
 
-                  <Border id="CopyReadme" RollOver="true" Class="scRollOver" Align="right" Padding="2" Click="CopyReadme">
+                  <Border id="CopyReadme" RollOver="true" Class="scRollOver" style="text-align:right;padding:2px;position:absolute;bottom:0;right:0;" Click="CopyReadme">
                      <ThemedImage Src="Applications/16x16/Copy.png" Width="16" Height="16" Align="absmiddle" Margin="0 2 0 0"/>
                      <Literal Text="Copy to clipboard"/>
                   </Border>
 
-               </GridPanel>
+               </Border>
             </WizardFormIndent>
          </WizardFormPage>
 
@@ -125,7 +121,7 @@
 
          <WizardFormPage ID="Installing" Header="Installing" Text="This may take a few minutes." Icon="People/32x32/Box_Software.png">
             <GridPanel Width="100%">
-               <Space Height="64"/>
+               <Border Height="64"/>
 
                <ThemedImage Src="People/48x48/Box_Software.png" Width="48" Height="48" GridPanel.Align="center"/>
 

@@ -20,7 +20,7 @@ function scDblClick() {
   
   url = encodeURIComponent(url);
   
-  var result = scForm.browser.showModalDialog("/sitecore/shell/default.aspx?xmlcontrol=RenderingProperties&pa=" + url, new Array(window), "help:no;scroll:auto;resizable:yes;status:no;center:yes");
+  var result = scForm.showModalDialog("/sitecore/shell/default.aspx?xmlcontrol=RenderingProperties&pa=" + url, new Array(window), "help:no;scroll:auto;resizable:yes;status:no;center:yes");
   
   if (result != null && result != "__cancel") {
   

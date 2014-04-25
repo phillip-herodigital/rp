@@ -1,0 +1,230 @@
+﻿@using Sitecore.Data
+@using Sitecore.Mvc.Presentation
+@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Common.Buttons
+@using Sitecore.Web.UI.Controls.Common.Renderings
+@using Sitecore.Web.UI.Controls.Common.Texts
+@model RenderingModel    
+@{
+  var rendering = new ID("{9B00BB85-3894-4FBD-8522-3C467FDEB050}").ToString();
+}
+
+<h3>Behaviour</h3>
+<p>
+  The Facets property points to the data that displayed in Filter Control.
+</p>
+<p>
+  @Html.Sitecore().Controls().Button("Button1", new { Text = "Click Me to fill Filter Control", Click = "javascript:app.FilterControl1.set('facets', facets)" })
+  @Html.Sitecore().Controls().Rendering(this.Html, rendering, "FilterControl1", "/sitecore/Client/Business Component Library/Content", new { IsVisible = true })
+</p>
+<pre>
+&#64;Html.Sitecore().Controls().Button("Button1", new { Text = "Click Me to fill Filter Control", Click = "javascript:app.FilterControl1.set('facets', facets)" })
+&#64;Html.Sitecore().Controls().Rendering(this.Html, rendering, "FilterControl1", "/sitecore/Client/Speak/Content", new {IsVisible = true})
+</pre>
+<pre>
+  var facets = [
+    {
+      "Name": "Dimensions",
+      "Values": [
+          {
+            "Count": 1,
+            "DisplayText": "Enormous",
+            "Priority": 0,
+            "Text": "enormous",
+            "Value": "calculateddimension:enormous"
+          },
+          {
+            "Count": 13,
+            "DisplayText": "Extra large",
+            "Priority": 0,
+            "Text": "extra large",
+            "Value": "calculateddimension:extra large"
+          },
+          {
+            "Count": 6,
+            "DisplayText": "Mega large",
+            "Priority": 0,
+            "Text": "mega large",
+            "Value": "calculateddimension:mega large"
+          }
+      ]
+    },
+    {
+      "Name": "Media Type",
+      "Values": [
+          {
+            "Count": 11,
+            "DisplayText": "Image",
+            "Priority": 0,
+            "Text": "image",
+            "Value": "_templatename:image"
+          },
+          {
+            "Count": 9,
+            "DisplayText": "Jpeg",
+            "Priority": 0,
+            "Text": "jpeg",
+            "Value": "_templatename:jpeg"
+          }
+      ]
+    },
+    {
+      "Name": "Updated",
+      "Values": [
+          {
+            "Count": 1,
+            "DisplayText": "Today",
+            "Priority": 1,
+            "Text": "Today",
+            "Value": "__smallupdateddate:[20130910 TO 20130910]"
+          },
+          {
+            "Count": 0,
+            "DisplayText": "Yesterday",
+            "Priority": 2,
+            "Text": "Yesterday",
+            "Value": "__smallupdateddate:[20130909 TO 20130909]"
+          },
+          {
+            "Count": 2,
+            "DisplayText": "Few days ago",
+            "Priority": 3,
+            "Text": "Few days ago",
+            "Value": "__smallupdateddate:[20130906 TO 20130908]"
+          },
+          {
+            "Count": 1,
+            "DisplayText": "Last month",
+            "Priority": 4,
+            "Text": "Last month",
+            "Value": "__smallupdateddate:[20130810 TO 20130905]"
+          },
+          {
+            "Count": 10,
+            "DisplayText": "Few months ago",
+            "Priority": 5,
+            "Text": "Few months ago",
+            "Value": "__smallupdateddate:[20130510 TO 20130809]"
+          },
+          {
+            "Count": 20,
+            "DisplayText": "Older",
+            "Priority": 6,
+            "Text": "Older",
+            "Value": "__smallupdateddate:[00010101 TO 20130509]"
+          }
+      ]
+    }
+    ];
+</pre>
+<script id="MockDataSource" type="text/javascript">
+  var facets = [
+    {
+      "Name": "Dimensions",
+      "Values": [
+        {
+          "Count": 1,
+          "DisplayText": "Enormous",
+          "Priority": 0,
+          "Text": "enormous",
+          "Value": "calculateddimension:enormous"
+        },
+        {
+          "Count": 13,
+          "DisplayText": "Extra large",
+          "Priority": 0,
+          "Text": "extra large",
+          "Value": "calculateddimension:extra large"
+        },
+        {
+          "Count": 6,
+          "DisplayText": "Mega large",
+          "Priority": 0,
+          "Text": "mega large",
+          "Value": "calculateddimension:mega large"
+        }
+      ]
+    },
+    {
+      "Name": "Media Type",
+      "Values": [
+        {
+          "Count": 11,
+          "DisplayText": "Image",
+          "Priority": 0,
+          "Text": "image",
+          "Value": "_templatename:image"
+        },
+        {
+          "Count": 9,
+          "DisplayText": "Jpeg",
+          "Priority": 0,
+          "Text": "jpeg",
+          "Value": "_templatename:jpeg"
+        }
+      ]
+    },
+    {
+      "Name": "Updated",
+      "Values": [
+        {
+          "Count": 1,
+          "DisplayText": "Today",
+          "Priority": 1,
+          "Text": "Today",
+          "Value": "__smallupdateddate:[20130910 TO 20130910]"
+        },
+        {
+          "Count": 0,
+          "DisplayText": "Yesterday",
+          "Priority": 2,
+          "Text": "Yesterday",
+          "Value": "__smallupdateddate:[20130909 TO 20130909]"
+        },
+        {
+          "Count": 2,
+          "DisplayText": "Few days ago",
+          "Priority": 3,
+          "Text": "Few days ago",
+          "Value": "__smallupdateddate:[20130906 TO 20130908]"
+        },
+        {
+          "Count": 1,
+          "DisplayText": "Last month",
+          "Priority": 4,
+          "Text": "Last month",
+          "Value": "__smallupdateddate:[20130810 TO 20130905]"
+        },
+        {
+          "Count": 10,
+          "DisplayText": "Few months ago",
+          "Priority": 5,
+          "Text": "Few months ago",
+          "Value": "__smallupdateddate:[20130510 TO 20130809]"
+        },
+        {
+          "Count": 20,
+          "DisplayText": "Older",
+          "Priority": 6,
+          "Text": "Older",
+          "Value": "__smallupdateddate:[00010101 TO 20130509]"
+        }
+      ]
+    }
+  ];
+</script>
+
+<h3>Clicking</h3>
+<p>
+  The SelectedFacets property contain items selected by checkboxes. Click checkboxes to see changed SelectedFacets.
+</p>
+<p>
+  @Html.Sitecore().Controls().Rendering(this.Html, rendering, "FilterControl2", "/sitecore/Client/Business Component Library/Content", new { IsVisible = true })
+  <input  type="hidden" class="sc-init-controls" />
+  @Html.Sitecore().Controls().Text("Text1", "No item selected", new {Text = "Empty"})
+</p>
+<pre>
+&#64;Html.Sitecore().Controls().Rendering(this.Html, rendering, "FilterControl2", "/sitecore/Client/Speak/Content", new { IsVisible = true })
+&#64;Html.Sitecore().Controls().Text("Text1", "Empty", new {Text = "Empty"})
+</pre>
+

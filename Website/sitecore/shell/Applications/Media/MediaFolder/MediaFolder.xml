@@ -3,8 +3,8 @@
   <MediaFolder>
     <FormPage>
       <CodeBeside Type="Sitecore.Shell.Applications.Media.MediaFolder.MediaFolderForm,Sitecore.Client"/>
-      <Stylesheet Src="Media Folder Viewer.css" DeviceDependant="true"/>
-
+      <Stylesheet Src="Media Folder Viewer.css" DeviceDependant="true"/>   
+      
       <Border id="SettingsContainer" style="display:none" />
       
       <Script runat="server" Src="/sitecore/shell/controls/lib/YUIupload/yahoo-dom-event/yahoo-dom-event.js" />
@@ -15,13 +15,11 @@
       <Script type="text/JavaScript" language="javascript" Src="/sitecore/shell/controls/SitecoreLightbox.js" />
       <Script type="text/JavaScript" language="javascript" Src="/sitecore/shell/applications/media/mediafolder/mediafolder.js"/>
 
-      <Border Class="scBackground" Height="100%">
-        <GridPanel Width="100%" Height="100%">
-          <Scrollbox ID="FileList" Height="100%" Class="scScrollbox scFixSize" Background="Transparent" Border="none" Padding="0px" GridPanel.Height="100%" ContextMenu="FileList_ContextMenu" />
-        </GridPanel>
-      </Border>
+      <div Class="scBackground" style="height:100%;">
+        <Scrollbox ID="FileList" Background="Transparent" Border="none" Padding="0px" ContextMenu="FileList_ContextMenu" />
+      </div>
 
-      <div id="UploadPanel" style="width: 684px; display:none; background: white">
+      <div id="UploadPanel" style="display:none; background: white">
         <div id="UploadUI">
           <Literal Text="These files are ready for uploading:" style="display: none; padding: 0px 0px 12px 4px; font-weight: 700" ID="Header" runat="server" />
 

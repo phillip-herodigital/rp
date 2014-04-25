@@ -1,0 +1,26 @@
+﻿@using Sitecore.Data
+@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Common.ListBoxes
+@using Sitecore.Web.UI.Controls.Common.Renderings
+@using Sitecore.Web.UI.Controls.Common.TextBoxes
+@using Sitecore.Web.UI.Controls.Containers.SmartPanels
+@using Sitecore.Web.UI.Controls.Data.QueryDataSources
+@using Sitecore.Web.UI.Controls.Data.SearchDataSources
+@using Sitecore.Mvc.Presentation
+@model RenderingModel
+@{
+  var rendering = new ID("{1169C5EF-E49C-4B59-848D-9C9204E40D12}").ToString();
+}
+
+<p>
+  Rule live demo.
+</p>
+<p>
+  Try to resize your browser window, when the size will be less then <b> 750px </b>the smart panel control will hide.
+</p>
+@Html.Sitecore().Controls().SmartPanel("InfoSmartPanel", new { Dimensions = "Large", Position="Right", OffsetBottom=0, OffsetTop=0, IsOpen=true})
+@Html.Sitecore().Controls().Rendering(this.Html, rendering, "Rule1", "/sitecore", new {Trigger = "window:resize", Field="Rule", RuleItemId="{A37AFFC8-5794-4960-AF8D-2C9FEA71ABD6}"})
+<pre>
+  &#64;Html.Sitecore().Controls().SmartPanel("InfoSmartPanel", new { Dimensions = "Large", Position="Right", OffsetBottom=0, OffsetTop=0, IsOpen=true})
+  &#64;Html.Sitecore().Controls().Rendering(this.Html, rendering, "Rule1", "/sitecore", new {Trigger = "window:resize", Field="Rule", RuleItemId="{A37AFFC8-5794-4960-AF8D-2C9FEA71ABD6}"})
+</pre>

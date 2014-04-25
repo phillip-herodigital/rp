@@ -1,0 +1,46 @@
+﻿<div data-sc-id="DropDownButtonTest1" class="sc-dropdownbutton" 
+     data-bind="visible: isVisible, click: toggle, css: { 'up': isOpen() }" 
+    data-sc-require="/-/speak/v1/business/dropDownButton.js" data-sc-hasnested="true">
+    <button data-bind="enable: isEnabled, css: { 'up': isOpen() }" class="btn">
+        <span class="sc-dropdownbutton-text" data-bind="text: text">Click Me</span>
+        <div class="sc-dropdownbutton-toggler">
+            <div class="sc-dropdownbutton-chevron" data-bind="css: { 'up': isOpen() }"></div>
+        </div>
+    </button>
+    <div class="sc-dropdownbutton-contentpanel left">
+		<div class="sc-dropdownbutton-content"></div>
+	</div>
+</div>
+
+
+<div data-sc-id="DropDownButtonTest2" class="sc-dropdownbutton primary" 
+     data-bind="visible: isVisible, click: toggle, css: { 'up': isOpen() }" 
+     data-sc-require="/-/speak/v1/business/dropDownButton.js" data-sc-hasnested="true">
+    <button data-bind="enable: isEnabled, css: { 'up': isOpen() }" class="btn">
+        <span class="sc-dropdownbutton-text" data-bind="text: text">Primary button</span>
+        <div class="sc-dropdownbutton-toggler">
+            <div class="sc-dropdownbutton-chevron" data-bind="css: { 'up': isOpen() }"></div>
+        </div>
+    </button>
+    <div class="sc-dropdownbutton-contentpanel left">
+        <div class="sc-dropdownbutton-content"></div>
+    </div>
+</div>
+
+
+<div data-sc-id="DropDownButtonTest3" class="sc-dropdownbutton" 
+     data-bind="visible: isVisible, click: toggle, css: { 'up': isOpen() }" 
+    data-sc-require="/-/speak/v1/business/dropDownButton.js" data-sc-hasnested="true">
+    <button data-bind="enable: isEnabled, css: { 'up': isOpen() }" class="btn">
+        <div data-sc-imageurl="/sitecore/shell/client/Speak/Assets/img/sc-sprite.png" data-sc-backgroundposition="-32px -34px" 
+             data-bind="style: {'backgroundImage': 'url(' + imageUrl() + ')', 'backgroundPosition': backgroundPosition()}" 
+             class="sc-icon" style="background-image: url('/sitecore/shell/client/Speak/Assets/img/sc-sprite.png'); background-position: -32px -34px;">
+        </div>
+        <span class="sc-dropdownbutton-text" data-bind="text: text">Click Me</span>
+        <div class="sc-dropdownbutton-toggler">
+            <div class="sc-dropdownbutton-chevron" data-bind="css: { 'up': isOpen() }"></div>
+        </div>
+    </button><div class="sc-dropdownbutton-contentpanel left">
+		<div class="sc-dropdownbutton-content"></div>
+	</div>
+</div>

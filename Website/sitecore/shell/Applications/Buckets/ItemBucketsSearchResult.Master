@@ -1,54 +1,51 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="ItemBucketsSearchResult.master.cs" Inherits="Sitecore.Buckets.Client.sitecore_modules.Shell.Sitecore.Buckets.ItemBucketsSearchResult" %>
+<%@ Register TagPrefix="sc" Namespace="Sitecore.Web.UI.HtmlControls.Controls" Assembly="Sitecore.Kernel" %>
 
-<%@ Import Namespace="Sitecore" %>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Welcome to Sitecore</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="CODE_LANGUAGE" content="C#" />
-    <meta name="vs_defaultClientScript" content="JavaScript" />
-    <meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5" />
-    <link href="./Styles/jquery-ui.css" media="all" rel="stylesheet" type="text/css" />
-    <link href="./Styles/ItemBucket.css" rel="stylesheet" type="text/css" />
-    <link href="./Styles/SiteNew.css" rel="stylesheet" type="text/css" />
-    <link href="./Styles/ListNew.css" rel="stylesheet" type="text/css" />
-    <link href="./Styles/core.css" rel="stylesheet" type="text/css" />
-    <!--[if IE]>
-     <link href="./Styles/ItemBucket.ie.css" rel="stylesheet" type="text/css" />
-    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="./libs/jquery-ui/css/smoothness/jquery-ui-1.10.3.custom.min.css" media="all"  />
+    <link rel="stylesheet" type="text/css" href="./Styles/jquery-ui.css"  />
+    <link rel="stylesheet" type="text/css" href="./Styles/ItemBucket.css" />
+    <link rel="stylesheet" type="text/css" href="./Styles/SiteNew.css" />
+    <link rel="stylesheet" type="text/css" href="./Styles/ListNew.css" />
+    <link rel="stylesheet" type="text/css" href="./Styles/core.css" />
+    <link rel="stylesheet" type="text/css" href="./Styles/searchBox.css" />
     
-    <script src="./Scripts/jquery.min.js" type="text/javascript"></script>
-    <script src="./Scripts/jquery.min.noconflict.js" type="text/javascript"></script>
-    <script src="/sitecore/shell/controls/lib/prototype/prototype.js" type="text/javascript"></script>
+    <asp:PlaceHolder ID="dynamicHeadPlaceholder" runat="server"></asp:PlaceHolder>     
+    
+   <!--[if IE 8]><script type="text/javascript" src="libs/es5-shim/es5-shim.min.js"></script><![endif]-->
 
-    <% if (UIUtil.IsIE()) {%>
-    <script src="/sitecore/shell/controls/InternetExplorer.js" type="text/javascript"></script>
-    <% } else { %>
-    <script src="/sitecore/shell/controls/Gecko.js" type="text/javascript"></script>
-    <% } %>
-    <script src="/sitecore/shell/controls/Sitecore.js" type="text/javascript"></script>
-    <script src="./Scripts/jquery-ui.min.js" type="text/javascript"></script>
-    <script src="./Scripts/jquery-ui-culture.js" type="text/javascript"></script>
-    <script src="./Scripts/date.js" type="text/javascript"></script>
-    <script src="./Scripts/ItemBucket.utils.js" type="text/javascript"></script>
-    <script src="./Scripts/ItemBucket.autoSuggest.js" type="text/javascript"></script>
-    <script src="./Scripts/ItemBucket.js" type="text/javascript"></script>
+    <% #if DEBUG %>
+    <script data-main="scripts/main" src="libs/requirejs/require-2.1.9.js"></script>
+    <% #else %>
+    <script type="text/javascript" src="Scripts/main.min.js"></script>
+    <% #endif %>
+  
+    <script type="text/javascript" src="/sitecore/shell/controls/lib/prototype/prototype.js"></script>
+
+    <script type="text/javascript" src="/sitecore/shell/controls/Browser.js"></script>
+    <script type="text/javascript" src="/sitecore/shell/controls/Sitecore.js"></script>
+  
+    <script type="text/javascript" src="scripts/ItemBucket.utils.js"></script>
+    <script type="text/javascript" src="scripts/ItemBucket.js"></script>
 
     <script type="text/javascript">
       scForm.registerKey("13", "", "");
-       if (scForm.browser.isIE) {
-         window.onerror = function(msg, url) {
-           return url.indexOf("PIE.htc") != -1;
-         };
-       }
     </script>
-       
+
+    <sc:JavaScriptSettings runat="server"/>
+    
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
 <body>
-    <form id="Form1" method="post" runat="server">
+    <form id="Form1" class="mainForm" method="post" runat="server">
+        <!--form submit fix-->
+        <input class="hidden" type="text" />
+
         <asp:ContentPlaceHolder ID="body" runat="server">
         </asp:ContentPlaceHolder>
     </form>

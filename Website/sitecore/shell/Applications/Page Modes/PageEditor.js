@@ -445,6 +445,17 @@ Sitecore.PageModes.PageEditor = new function() {
     if ($sc.browser.mozilla) {
        $doc.keypress($sc.proxy(this.onKeyPress, this));      
     }    
+
+    $sc(".scWebEditInput[contenteditable='true']").live("mouseup", function(e) {
+      if (e.target.tagName.toUpperCase() === "IMG") {
+        fixImageParameters(e.target, Sitecore.WebEditSettings.mediaPrefixes.split("|"));
+      }
+      else {
+        $sc.each($sc(e.target).find("img"), function(index, value) {
+          fixImageParameters(value, Sitecore.WebEditSettings.mediaPrefixes.split("|"));
+        })
+      }
+    });
   };
   /** @private */
   this.onKeyDown = function(e) {     

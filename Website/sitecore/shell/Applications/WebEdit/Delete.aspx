@@ -1,8 +1,8 @@
 <%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Delete.aspx.cs" Inherits="Sitecore.Shell.Applications.WebEdit.DeletePage" %>
 <%@ Register TagPrefix="sc" Namespace="Sitecore.Web.UI.HtmlControls" Assembly="Sitecore.Kernel" %>
 <%@ OutputCache Location="None" VaryByParam="none" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" >
+<!DOCTYPE html>
+<html>
 <head runat="server">
   <title>Sitecore</title>
   <link rel="Stylesheet" href="/sitecore/shell/Applications/WebEdit/WebEditDialog.css" />

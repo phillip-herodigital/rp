@@ -1,7 +1,21 @@
-body
-{
+html {
+  height: 100%;
+  overflow: hidden;
+}
+
+body, form {
   font: 8pt tahoma;
-  margin: 0px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: 0;
+  width: 100%;
+  height: 100%;
+}
+
+textarea {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 table
@@ -18,6 +32,8 @@ td
 input
 {
   font: 8pt tahoma;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 select
@@ -37,10 +53,44 @@ a:active, a:hover
   text-decoration: underline;
 }
 
+.scStretch
+{
+  height: 100%;
+  width: 100%;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.scStretchAbsolute {
+  position: absolute !important;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: activecaption;
+}
+
+.content
+{
+  position: absolute;
+  top: 32px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
 a.TreeNode, a:visited.TreeNode
 {
   color: windowtext;
-  padding: 2px 4px 2px 4px;
+  padding: 2px 4px;
   text-decoration: none;
   white-space:nowrap;
 }
@@ -48,7 +98,7 @@ a.TreeNode, a:visited.TreeNode
 a:active.TreeNode, a:hover.TreeNode
 {
   color: windowtext;
-  padding: 2px 4px 2px 4px;
+  padding: 2px 4px;
   text-decoration: underline;
   white-space:nowrap;
 }
@@ -57,7 +107,7 @@ a.TreeNodeSelected, a:visited.TreeNodeSelected
 {
   background: highlight;
   color: highlighttext;
-  padding: 2px 4px 2px 4px;
+  padding: 2px 4px;
   text-decoration: none;
   white-space:nowrap;
 }
@@ -66,7 +116,7 @@ a:active.TreeNodeSelected, a:hover.TreeNodeSelected
 {
   background: highlight;
   color: highlighttext;
-  padding: 2px 4px 2px 4px;
+  padding: 2px 4px;
   text-decoration: underline;
   white-space:nowrap;
 }
@@ -76,26 +126,41 @@ a:active.TreeNodeSelected, a:hover.TreeNodeSelected
   padding:1px 0px 2px 0px;
   white-space:nowrap;
 }
-  
-.Caption
+
+.TreeNodeRow > img {
+  vertical-align: top;  
+}
+
+.caption
 {
-  background: activecaption;
   color: captiontext;
   font: bold 10pt tahoma;
   padding:8px 4px 8px 4px;
 }
 
-.Tree
+.dataBases {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.tree
 {
   background:threedface;
-  padding:4px;
+  padding:4px; 
+  display: inline-block;
+  width: 20%;
+  vertical-align: top;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  height: 100%;
 }
 
 a.TreeNodeSelected 
 {
   color: highlighttext;
   background: highlight;
-  padding:2px;
+  padding:2px 4px;
 }
 
 .TreeNode
@@ -103,26 +168,36 @@ a.TreeNodeSelected
   padding:2px;
 }
 
-.ContentEditor
+.contentEditor
 {
   background: threedface;
+  display: inline-block;
+  width: 80%;
+  height: 100%;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  vertical-align: top;
+  position: relative;
 }
 
 .Scroller
 {
-  border:1px inset;
-  background:window;  
+  border: 1px inset #e0e0e0;
+  background:white;  
   width:100%;
   height:100%;
   overflow:auto;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .FieldsScroller
 {
-  width:100%;
+  width: 75%;
   height:100%;
   overflow:auto;
-  background:#666666;
+  display: inline-block;
+  vertical-align: top;
 }
 
 .Fields
@@ -135,16 +210,17 @@ a.TreeNodeSelected
 {
   background: threedface;
   border-bottom: 1px solid threedshadow;
-  border-right: 1px solid threedshadow;
-  padding: 0px 0px 0px 12px;
 }
+
+  .FieldLabel > div {
+    text-align: center;
+  }
 
 .FieldInput
 {
   background: window;
   border-bottom: 1px solid threedshadow;
   border-left: 1px solid threedshadow;
-  padding: 0px 0px 0px 4px;
 }
 
 .FieldSection
@@ -218,21 +294,21 @@ a.TreeNodeSelected
 
 a.ItemPathFragment, a:visited.ItemPathFragment
 {
-	font:bold 8pt Tahoma;	
+  font:bold 8pt Tahoma;	
   color:threeddarkshadow; 
   text-decoration: none;
 }
 
 a.ItemPathTemplate, a:visited.ItemPathTemplate
 {
-	font:bold 8pt Tahoma;	
+  font:bold 8pt Tahoma;	
   color:#6375D6; 
   text-decoration: none;
 }
 
 a:hover.ItemPathFragment, a:active.ItemPathFragment
 {
-	font:bold 8pt Tahoma;	
+  font:bold 8pt Tahoma;	
   color:threeddarkshadow; 
 }
 
@@ -247,14 +323,15 @@ a:hover.ItemPathFragment, a:active.ItemPathFragment
 {
   background: #D6DFF7;
   width:100%;
-  margin: 8px 8px 8px 8px;
 }
 
 .TaskScroller
 {
-  width:100%;
+  width: 25%;
   height:100%;
   overflow:auto;
+  display: inline-block;
+  vertical-align: top;
 }
 
 .TaskCaption
@@ -321,3 +398,11 @@ a:active.DatabaseLinkSelected, a:hover.DatabaseLinkSelected
   margin: 0px 16px 0px 0px;
 }
   
+.fields
+{
+  position: absolute;
+  top: 80px;
+  lefT: 0;
+  right: 0;
+  bottom: 0;
+}

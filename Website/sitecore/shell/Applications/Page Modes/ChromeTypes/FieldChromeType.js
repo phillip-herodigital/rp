@@ -246,17 +246,20 @@
     var chars = this.characteristics();
     return chars.fieldId;
   },
+  
+  insertHtmlFragment: function (html) {
+    if (!this.selection) {
+      return false;
+    }
 
-  insertHtmlFragment: function(html) {    
     if (document.selection && document.selection.createRange) {//IE
-      document.selection.createRange().pasteHTML(html);
+      this.selection.pasteHTML(html);
       return true;
     }
 
     if (window.getSelection && window.getSelection().getRangeAt) {//FF
-      range = window.getSelection().getRangeAt(0);
-      node = range.createContextualFragment(html);
-      range.insertNode(node);
+      var node = this.selection.createContextualFragment(html);
+      this.selection.insertNode(node);
       return true;
     }
 
@@ -327,14 +330,22 @@
     return this.parentLink != null;
   },
 
-  insertImage: function() {
+  insertImage: function () {
+    this.chrome.element.focus();
+    if (document.selection && document.selection.createRange) {
+      this.selection = document.selection.createRange();
+    }
+    else if (window.getSelection && window.getSelection().getRangeAt) {
+      this.selection = window.getSelection().getRangeAt(0);
+    }
+
     var chars = this.characteristics();
     var parameters = this.chrome.element.attr("sc_parameters");
     Sitecore.PageModes.PageEditor.postRequest(
               "webedit:insertimage" + '(placement=cursor,itemid=' + chars.itemId + ',language=' +
               chars.language + ',version=' + chars.version + ',fieldid=' + chars.fieldId +
               ',controlid=' + this.controlId() + ',webeditparams=' + parameters + ')', null, false);
-    
+
     return false;
   },
 
@@ -396,7 +407,7 @@
       this.selection.pasteHTML(htmlToInsert);
     }
     else {
-      node = this.selection.createContextualFragment(htmlToInsert);
+      var node = this.selection.createContextualFragment(htmlToInsert);
       this.selection.deleteContents();
       this.selection.insertNode(node);
     }

@@ -15,38 +15,40 @@
         <Button Header="Drag and Drop" ID="OpenWebDAVViewButton" Click="OpenWebDAVView" Style="white-space:nowrap;"/>
       </Border>
 
-      <GridPanel Width="100%" Height="100%" Style="table-layout:fixed">
-        <Tabstrip ID="Tabs" Width="100%" Height="471px">
+      <div class="scStretchAbsolute">
+        <div class="mediaBrowserTabstrip">
+          <Tabstrip ID="Tabs">
           <Tab ID="MediaTab" Header="Search" Height="100%">
             <Frame SourceUri="/sitecore/shell/Applications/Buckets/MediaBrowser.aspx" Width="100%" Height="100%"></Frame>
           </Tab>
-          <Tab ID="MediaLibraryTab" Header="Browse" Height="100%">
-            <GridPanel Width="100%" Height="100%" Style="table-layout:fixed" Columns="3" GridPanel.Height="100%">
+            <Tab ID="MediaLibraryTab" Header="Browse" Height="100%">
+              <GridPanel Width="100%" Height="100%" Style="table-layout:fixed" Columns="3" GridPanel.Height="100%">
 
-              <Scrollbox Height="100%" Class="scScrollbox scFixSize scFixSize8" Background="white" Padding="0px" GridPanel.Height="100%" GridPanel.Width="200" GridPanel.VAlign="top" Style="overflow:auto">
-                <TreeviewEx ID="Treeview" DataContext="MediaDataContext" Click="SelectTreeNode" DblClick="TreeViewDblClick" ShowRoot="true" ContextMenu='Treeview.GetContextMenu("contextmenu")' Width="100%" />
-              </Scrollbox>
+                <Scrollbox Height="100%" Class="scScrollbox scFixSize scFixSize8" Background="white" GridPanel.Height="100%" GridPanel.Width="200" GridPanel.VAlign="top" Style="overflow:auto;border-top:0;border-left:0;">
+                  <TreeviewEx ID="Treeview" DataContext="MediaDataContext" Click="SelectTreeNode" DblClick="TreeViewDblClick" ShowRoot="true" ContextMenu='Treeview.GetContextMenu("contextmenu")' Width="100%" />
+                </Scrollbox>
 
-              <VSplitter ID="MediaBrowserLeft" Target="left" GridPanel.Width="4" />
+                <VSplitter ID="MediaBrowserLeft" Target="left" GridPanel.Width="4" />
 
-              <Scrollbox ID="Listview" Width="100%" Height="100%" Class="scScrollbox scFixSize scFixSize8" Background="white" Padding="0px" GridPanel.Height="100%" GridPanel.Width="100%" GridPanel.VAlign="top" />
+                <Scrollbox ID="Listview" Width="100%" Height="100%" Class="scScrollbox scFixSize scFixSize8" Background="white" Padding="0px" GridPanel.Height="100%" GridPanel.Width="100%" GridPanel.VAlign="top" style="border-top:0;" />
 
-            </GridPanel>
-          </Tab>
+              </GridPanel>
+            </Tab>
           
-        </Tabstrip>
-        <Border Class="filenameContainer">
+          </Tabstrip>
+        </div>
+        <div class="filenameContainer">
           <GridPanel Width="100%" Columns="2">
 
-            <Border Class="name">
+            <Border Class="name scDialogNoWrap">
               <Literal Text="Name:"/>
             </Border>
 
             <Edit ID="Filename" Class="filename" Width="100%" GridPanel.Width="100%"/>
           </GridPanel>
-        </Border>
+        </div>
 
-      </GridPanel>
+      </div>
 
 
     </FormDialog>

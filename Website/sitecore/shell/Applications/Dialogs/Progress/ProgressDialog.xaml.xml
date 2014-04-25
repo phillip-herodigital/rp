@@ -25,60 +25,60 @@
 
       <input type="hidden" ID="ErrorMessage" />
       
-      <GridPanel runat="server" Width="100%" Height="100%" Fixed="true" Background="white">
-
-        <Border runat="server" Width="100%">
-          <GridPanel ID="header" runat="server" Columns="2" Width="100%" Height="100%">
-            <Border runat="server" Padding="2px 16px 0px 0px" GridPanel.Width="100%" GridPanel.VAlign="top">
-              <div id="HeaderIconContainer">
-                <ThemedImage ID="Icon" Width="24" Height="24" Src="Applications/32x32/documents_new.png" Alt="" runat="server" />
-              </div>
-              <div id="HeaderTextContainer">
-                <Literal runat="server" ID="HeaderText" Text="In progress" />
-              </div>
-            </Border>
-          </GridPanel>
-        </Border>
+      <div class="scFlexColumnContainer" style="background: white;">
+        <div>
+          <div  style="2px 16px 0px 0px" >
+            <div id="HeaderIconContainer">
+              <ThemedImage ID="Icon" Width="24" Height="24" Src="Applications/32x32/documents_new.png" Alt="" runat="server" />
+            </div>
+            <div id="HeaderTextContainer">
+              <Literal runat="server" ID="HeaderText" Text="In progress" />
+            </div>
+          </div>
+        </div>
 
         <Image runat="server" ID="HeaderSpacer" Src="/sitecore/images/blank.gif" width="1" alt="" border="0" />
 
-        <GridPanel runat="server" Width="100%" Style="table-layout:fixed;" Padding="0px 22px 0px 22px">
-          <Border runat="server" GridPanel.VAlign="top" Style="color: #111111">
+        <div id="MainContent">
+          <div style="color: #111111">
             <ThemedImage runat="server" ID="TitleIcon" Src="Applications/32x32/error.png" Visible="false" />
-            <Border runat="server" ID="LogContainer" style="display:none" >
+            <div id="LogContainer" style="display:none" >
               <Literal ID="Log" runat="server" />
-            </Border>
+            </div>
             <Literal runat="server" Style="white-space:nowrap;" ID="Title" Text="{Text}" />
             <Literal runat="server" ID="Subtitle" Visible="false" />
-          </Border>
+          </div>
 
           <Image runat="server" ID="ProgressSpacer" Src="/sitecore/images/blank.gif" width="1" height="12" alt="" border="0"/>
           
           <Border runat="server" ID="Progress">
-            <img src="/sitecore/shell/themes/standard/Images/Progress/background.png" style="position: absolute" />
+
+            <img src="/sitecore/shell/themes/standard/Images/Progress/background_left.png" id="progressBackgroundLeft"/>
+            <img src="/sitecore/shell/themes/standard/Images/Progress/background_center.png" id="progressBackgroundCenter"/>
+            <img src="/sitecore/shell/themes/standard/Images/Progress/background_right.png" id="progressBackgroundRight"/>
+
             <div id="filler">
               <img src="/sitecore/shell/themes/standard/Images/Progress/Filler.png" />
             </div>
           </Border>
-        </GridPanel>
+        </div>
 
         <Image runat="server" ID="FooterSpacer" Src="/sitecore/images/blank.gif" width="1" height="8" alt="" border="0" GridPanel.Height="100%"/>
 
-        <Border runat="server" ID="Footer" GridPanel.Height="42px">
+        <div id="Footer">
           <div ID="Buttons">
             <Button runat="server" ID="Close" Header="Close" Click="Close_Click" Visible="false" />
-            <Button runat="server" Header="Cancel" Visible="true" Disabled="true" />
           </div>
           <Border runat="server" ID="MoreInformationContainer">
             <a href="#" onclick="javascript:scForm.postRequest('', '', '', 'ToggleInformation');return false">
               <ThemedImage ID="MoreImage" runat="server" Height="19" Width="19" Src="Images/Progress/more_collapsed.png" />
               <ThemedImage ID="LessImage" runat="server" Height="19" Width="19" Src="Images/Progress/more_expanded.png" Style="display:none" />
-              <Literal ID="MoreInformation" runat="server" Text="View all messages" />
+              <Literal ID="MoreInformation" runat="server" Text="View all messages" style="vertical-align:top;" />
             </a>
           </Border>
-        </Border>
+        </div>
 
-      </GridPanel>
+      </div>
     </HtmlPage>
   </Sitecore.Shell.Applications.Dialogs.Progress>
 </xamlControls>

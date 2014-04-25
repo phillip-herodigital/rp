@@ -1,58 +1,67 @@
-<?xml version="1.0" encoding="utf-8" ?> 
+<?xml version="1.0" encoding="utf-8" ?>
 <control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense" xmlns:sc="sitecore">
   <ChangeWallpaper>
-    <FormDialog Icon="People/32x32/monitor_rgb.png" Header="Desktop Background" 
+    <FormDialog Icon="People/32x32/monitor_rgb.png" Header="Desktop Background"
       Text="Select a desktop background." OKButton="Apply">
 
+      <Stylesheet>
+        .changeColorContainer{
+        padding-top: 16px;
+        }
+
+        .ie9 .changeColorContainer .scButton {
+        min-width:50px !important;
+        }
+      </Stylesheet>
+      
       <CodeBeside Type="Sitecore.Shell.Applications.ControlPanel.Preferences.Wallpaper.WallpaperForm,Sitecore.Client"/>
 
-      <GridPanel Columns="2" Width="100%" Height="100%">
+      <div class="scStretch">
 
-        <Border Height="159" Align="center" Background="url(/sitecore/shell/themes/standard/Images/Wallpaper.png) no-repeat center" GridPanel.ColSpan="2">
-            <Image Src="/sitecore/images/blank.gif" ID="Preview" Width="153" Height="112" Margin="15px 0px 0px 0px" RenderAs="WebControl"/>
-        </Border>
+        <div style="height:159px; text-align:center;background: url(/sitecore/shell/themes/standard/Images/Wallpaper.png) no-repeat center">
+          <Image Src="/sitecore/images/blank.gif" ID="Preview" Width="153" Height="112" Margin="15px 0px 0px 0px" RenderAs="WebControl"/>
+        </div>
 
-        <Border Padding="8px 0px 2px 0px">
+        <div style="padding: 8px 0px 2px 0px">
           <Literal Text="Background:"/>
-        </Border>
+        </div>
 
-        <Border/>
+        <div style="position: absolute; bottom: 0; top: 180px; left: 0; right: 0; min-height: 110px;">
+          <div style="height:100%; padding-right: 95px;">
+            <Listbox ID="Backgrounds" style="height:100%;width:100%;" Size="6" Change="Change">
+              <ListItem Header="(None)" Value="" isTranslable="false"/>
+            </Listbox>
+          </div>
 
-        <Border GridPanel.Width="100%" GridPanel.Height="100%" GridPanel.VAlign="top" Height="100%">
-          <Listbox ID="Backgrounds" Size="6" Width="100%" Height="100%" Change="Change">
-            <ListItem Header="(None)" Value="" isTranslable="false"/>
-          </Listbox>
-        </Border>
+          <div style="position:absolute;top:0;right:0;">
+            <div>
+              <div>
+                <Literal Text="Position:"/>
+              </div>
 
-        <Border GridPanel.VAlign="top" Padding="0px 0px 0px 4px">
-          <Border>
-            <Border>
-              <Literal Text="Position:"/>
-            </Border>
+              <Combobox ID="Position" FontName="tahoma" FontSize="8pt">
+                <ListItem Header="Center" Value="Center"/>
+                <ListItem Header="Tile" Value="Tile"/>
+                <ListItem Header="Stretch" Value="Stretch"/>
+              </Combobox>
+            </div>
 
-            <Combobox ID="Position" FontName="tahoma" FontSize="8pt">
-              <ListItem Header="Center" Value="Center"/>
-              <ListItem Header="Tile" Value="Tile"/>
-              <ListItem Header="Stretch" Value="Stretch"/>
-            </Combobox>
-          </Border>
+            <div class="changeColorContainer">
+              <div>
+                <Literal Text="Color:"/>
+              </div>
 
-          <Border Padding="16px 0px 0px 0px">
-            <Border>
-              <Literal Text="Color:"/>
-            </Border>
+              <Button Click="GetWallpaperBackground">
+                <Border ID="WallpaperBackground" Background="blue" Width="64px" Height="12px" Border="1px solid black">
+                  <Space/>
+                </Border>
+              </Button>
 
-            <Button Click="GetWallpaperBackground">
-              <Border ID="WallpaperBackground" Background="blue" Width="64px" Height="12px" Border="1px solid black">
-                <Space/>
-              </Border>
-            </Button>
+            </div>
 
-          </Border>
-
-        </Border>
-
-      </GridPanel>
+          </div>
+        </div>
+      </div>
 
     </FormDialog>
     <object id="dlgHelper" classid="clsid:3050f819-98b5-11cf-bb82-00aa00bdce0b" width="0px" height="0px"></object>

@@ -59,37 +59,25 @@
 
       <WizardFormPage ID="VisitorAndTrigger" Header="Visitor &amp; Trigger" Text="Select the visitor that you want to use and the trigger that you want to execute." Icon="Applications/32x32/flash.png">
         <WizardFormPadding>
-          <GridPanel Width="100%" VAlign="top" >
-
-            <Label Header="Visitor:" />
-            <Space Height="4"/>
-
-            <GridPanel GridPanel.VAlign="top"  Columns="3" Width="100%">
-              <Edit ID="Visitor" GridPanel.Width="100%" Width="100%" ReadOnly="true" />
-              <Space Width="6px" />
-              <Button Header="Select" Click="SelectVisitor_Click" />
-            </GridPanel>
-
-            <Space Height="10"/>
-
-            <Label Header="Trigger:" />
-            <Space Height="4"/>
-            <GridPanel GridPanel.VAlign="top" Columns="3" Width="100%">
-              <Edit ID="Trigger" GridPanel.Width="100%" Width="100%" ReadOnly="true" />
-              <Space Width="6px" />
-              <Button Header="Select" Click="SelectTrigger_Click" />
-            </GridPanel>
-
+          <Label Header="Visitor:" />
+          <GridPanel GridPanel.VAlign="top"  Columns="3" Width="100%">
+            <Edit ID="Visitor" GridPanel.Width="100%" Width="100%" ReadOnly="true" />
+            <Space Width="6px" />
+            <Button Header="Select" Click="SelectVisitor_Click" />
+          </GridPanel>
+          
+          <Label Header="Trigger:" style="display:inline-block; margin-top:5px;" />
+          <GridPanel GridPanel.VAlign="top" Columns="3" Width="100%">
+            <Edit ID="Trigger" GridPanel.Width="100%" Width="100%" ReadOnly="true" />
+            <Space Width="6px" />
+            <Button Header="Select" Click="SelectTrigger_Click" />
           </GridPanel>
         </WizardFormPadding>
       </WizardFormPage>
 
       <WizardFormPage ID="Simulation" Header="Simulation" Text="See the trigger simulation." Icon="Applications/32x32/flash.png">
         <WizardFormPadding>
-          <GridPanel Width="100%" Height="100%">
-            <Scrollbox ID="ReportBox" Width="100%" Height="100%" Background="transparent" Border="0px solid #A5ACB2" Padding="4px" GridPanel.Height="100%">
-            </Scrollbox>
-          </GridPanel>
+          <Scrollbox ID="ReportBox" class="scStretch" Background="transparent" Border="0px solid #A5ACB2" Padding="4px" />
         </WizardFormPadding>
       </WizardFormPage>
 

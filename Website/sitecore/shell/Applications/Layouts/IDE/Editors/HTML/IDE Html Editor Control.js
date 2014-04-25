@@ -69,7 +69,7 @@ function scDblClick() {
 
   url = page + "&pa=" + url;
 
-  var result = scForm.browser.showModalDialog(url, new Array(window), options);
+  var result = scForm.showModalDialog(url, new Array(window), options);
 
   if (result != null && result != "__cancel") {
     url = window.location.href;

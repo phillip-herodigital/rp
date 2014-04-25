@@ -1,0 +1,121 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Your Website</title>
+                     <script src="../../../../Assets/vendors/JQuery/jquery-1.8.2.min.js"></script>
+      <script src="../../../../Assets/vendors/KnockOut/knockout-2.1.0.js"></script>
+      <script src="../../../../Assets/vendors/underscore/underscore.js"></script>
+      <script src="../../../../Assets/vendors/Backbone/backbone.js"></script>
+
+		<script>
+			 window.__SITECOREDEBUG = true;
+		</script>
+      <script src="../../../../Assets/lib/dist/sitecore-1.0.1.js"></script>
+    </head>
+    <body>
+    <h1>Communicating between controls</h1>
+
+<div style="width:50%;float:left">
+    <h2>Code</h2>
+    <h3>Html</h3>
+    <pre>
+&#60;span data-sc-id="SimpleTextControl" data-bind="text:text" class="sc-text">&#60;A simple text conrol/span>
+&#60;button data-sc-id="Button" data-bind="text:text" class="sc-button">&#60;Change the text/button>
+    </pre>    
+    <h3>Javascript</h3>
+    <pre>
+_sc.Factories.createBaseComponent({
+  listen: {
+    "customEvent:$this": "changeText"
+  }
+  name: "TextControl",
+  selector: ".sc-text",
+  attributes: [ 
+    { name: "text", value: "$el.text" }
+  ],
+  changeText: function() {
+    this.model.set("text", "Chaning the text based on event");
+  }
+});
+
+_sc.Factories.createBaseComponent({
+  name: "Button",
+  selector: ".sc-button",
+  attributes: [ 
+    { name: "text", value: "$el.text" }
+  ],
+  events: {
+    "click": "doSomething"
+  },
+  doSomething: function() {
+    this.app.trigger("customEvent:SimpleTextControl");
+  }
+});
+
+
+window.app = _sc.Factories.createApp();
+    </pre>
+</div>
+<div style="width:50%;float:left">
+    <h2>Result</h2>
+<span data-sc-id="SimpleTextControl" data-bind="text:text" class="sc-text">A text control</span>
+<br/>
+<button data-sc-id="Button" data-bind="text:text" class="sc-button">Change the text</button>
+</div>
+<div style="width:100%;float:left;">
+<h4>What you need to know.</h4>
+<p>
+  <ul>
+    <li>
+      <b>this.app</b>
+      <p>In your view, you will always have a reference to the app. The app is created by the createApp method. He is the father of all the control.</p>
+    </li>
+    <li>
+      <b>Why you need trigger on the app ?</b>
+      <p>As the app is one level upper than the controls, its goal is too glue all the controls together. We think it is the perfect place to write the communication between controls.</p>
+      <p>this.app.trigger("customEvent:SimpleTextControl"); the SimpleTextControl is hardcoded in this exercice but please keep in mind that this attribute will be set by Sitecore.</p>
+    </li>
+    <li>
+      <b>listen</b>
+      <p>the $this means the current id of the controls. As in a component you are defining a class, you do not know what will be the value of data-sc-id. So we have created this shortcut.</p>
+    </li>
+  </ul>
+</p>
+</div>
+    <script>
+      
+_sc.Factories.createBaseComponent({
+  listen: {
+    "customEvent:$this": "changeText"
+  },
+  name: "TextControl",
+  selector: ".sc-text",
+  attributes: [ 
+    { name: "text", value: "$el.text" }
+  ],
+  changeText: function() {
+    this.model.set("text", "Chaning the text based on event");
+  }
+});
+
+_sc.Factories.createBaseComponent({
+  name: "Button",
+  selector: ".sc-button",
+  attributes: [ 
+    { name: "text", value: "$el.text" }
+  ],
+  events: {
+    "click": "doSomething"
+  },
+  doSomething: function() {
+    this.app.trigger("customEvent:SimpleTextControl");
+  }
+});
+
+
+window.app = _sc.Factories.createApp();
+
+    </script>
+    </body>
+</html>

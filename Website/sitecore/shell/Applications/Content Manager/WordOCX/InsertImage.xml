@@ -4,52 +4,43 @@
       <FormDialog Icon="Applications/32x32/photo_scenery.png" Header="Insert Media Item"
         Text="You can insert a media item here." OKButton="Insert">
 
-         <Stylesheet Src="MediaBrowser.css" DeviceDependant="true" />
-         <script Type="text/javascript" Language="javascript" Src="/sitecore/shell/RadControls/Editor/Scripts/7_2_0/RadWindow.js">.</script>
-         <script Type="text/javascript" Language="javascript" Src="/sitecore/shell/Applications/Content Manager/WordOCX/InsertImage.js">.</script>
+        <Stylesheet Src="MediaBrowser.css" DeviceDependant="true" />
+        <script Type="text/javascript" Language="javascript" Src="/sitecore/shell/RadControls/Editor/Scripts/7_2_0/RadWindow.js">.</script>
+        <script Type="text/javascript" Language="javascript" Src="/sitecore/shell/Applications/Content Manager/WordOCX/InsertImage.js">.</script>
 
-         <CodeBeside Type="Sitecore.Shell.Applications.ContentManager.WordOCX.InsertImage,Sitecore.Client"/>
+        <CodeBeside Type="Sitecore.Shell.Applications.ContentManager.WordOCX.InsertImage,Sitecore.Client"/>
 
-         <DataContext ID="DataContext" Root="{3D6658D8-A0BF-4E75-B3E2-D050FABCF4E1}"/>
+        <DataContext ID="DataContext" Root="{3D6658D8-A0BF-4E75-B3E2-D050FABCF4E1}"/>
 
-         <GridPanel Width="100%" Height="100%" Style="table-layout:fixed">
-            <Tabstrip ID="Tabs" Width="100%" Height="100%">
-               <Tab ID="MediaTab" Header="Media Items" Height="100%">
-                  <GridPanel Width="100%" Height="100%" Style="table-layout:fixed" Columns="3" GridPanel.Height="100%">
+        <Tabstrip ID="Tabs" class="scInsertImageTabs" Width="100%" Height="100%">
+          <Tab ID="MediaTab" Header="Media Items" Height="100%">
+            <GridPanel Width="100%" Height="100%" Style="table-layout:fixed" Columns="3" GridPanel.Height="100%">
+              <Scrollbox Width="100%" Height="100%" Background="white" Border="1px inset" Padding="0" GridPanel.Height="100%" GridPanel.Width="50%" GridPanel.Valign="top">
+                <TreeviewEx ID="Treeview" DataContext="DataContext" Click="SelectTreeNode" ShowRoot="true" ContextMenu='Treeview.GetContextMenu("contextmenu")' />
+              </Scrollbox>
+              <VSplitter ID="InsertMediaLeft" GridPanel.Width="4" Target="left" />
+              <Scrollbox ID="Listview" Width="100%" Height="100%" Background="white" Padding="0px" GridPanel.Height="100%" GridPanel.Width="100%" GridPanel.VAlign="top" />
+            </GridPanel>
+          </Tab>
 
-                     <Scrollbox Class="scScrollbox scFixSize" Width="100%" Height="100%" Background="white" Border="1px inset" Padding="0" GridPanel.Height="100%" GridPanel.Width="50%" GridPanel.Valign="top">
-                        <TreeviewEx ID="Treeview" DataContext="DataContext" Click="SelectTreeNode" ShowRoot="true" ContextMenu='Treeview.GetContextMenu("contextmenu")' />
-                     </Scrollbox>
+          <Tab ID="BucketsTab" Header="Search" Height="100%">
+            <Frame SourceUri="/sitecore/shell/Applications/Buckets/MediaBrowser.aspx" Width="100%" Height="100%"></Frame>
+          </Tab>
+        </Tabstrip>
 
-                     <VSplitter ID="InsertMediaLeft" GridPanel.Width="4" Target="left" />
-
-                     <Scrollbox Class="scScrollbox scFixSize" ID="Listview" Width="100%" Height="100%" Background="white" Padding="0px" GridPanel.Height="100%" GridPanel.Width="100%" GridPanel.VAlign="top" />
-
-                  </GridPanel>
-               </Tab>
-
-               <Tab ID="BucketsTab" Header="Search" Height="100%">
-                  <Frame SourceUri="/sitecore/shell/Applications/Buckets/MediaBrowser.aspx" Width="100%" Height="100%"></Frame>
-               </Tab>
-            </Tabstrip>
-
-            <Border Padding="4px 0px 4px 0px">
-               <GridPanel Width="100%" Columns="2">
-
-                  <Border Padding="0px 4px 0px 0px">
-                     <Literal Text="Name:"/>
-                  </Border>
-
-                  <Edit ID="Filename" Width="100%" GridPanel.Width="100%"/>
-               </GridPanel>
+        <Border class="scInsertImageFileName" Padding="4px 0px 4px 0px">
+          <GridPanel Width="100%" Columns="2">
+            <Border Padding="0px 4px 0px 0px">
+              <Literal Text="Name:"/>
             </Border>
+            <Edit ID="Filename" Width="100%" GridPanel.Width="100%"/>
+          </GridPanel>
+        </Border>
 
-         </GridPanel>
-
-         <Border def:placeholder="Buttons">
+        <Border def:placeholder="Buttons">
             <Button ID="Upload" Header="Upload" Click="media:upload(edit=1,load=1,sc_bw=1)"/>
             <Button Header="Edit" Click="Edit"/>
-         </Border>
+          </Border>
 
       </FormDialog>
    </Docx.InsertImage>

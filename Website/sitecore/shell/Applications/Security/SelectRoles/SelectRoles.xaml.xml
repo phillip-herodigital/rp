@@ -164,23 +164,48 @@
       </Script>
       
       <style>
-        .GridGroupingNotificationm
+        .GridGroupingNotification {
           display: none;
-        }        
+        }
+        
+        #ButtonsContainer {
+          padding:8px 0px 16px 0px;
+          -moz-box-sizing: border-box;
+          box-sizing: border-box;
+        }
+        
+        #RolesContainer {
+          overflow:auto;
+          min-height:100px;
+        }
+        
+        .Grid{
+          height: auto !important;
+          width:100% !important;
+        }
+        
+        .scSelectRolesContainer {
+          margin:5px 10px;
+          overflow:auto;
+        }
+        
+        .Row *, .SelectedRow *, .HeadingRow * {
+          width: auto !important;
+        }
+        
       </style>
       
       <AjaxScriptManager runat="server"/>
       <ContinuationManager runat="server" />
 
       <html:HtmlInputHidden ID="SelectedValues" runat="server" />
-      
-      <GridPanel Height="100%" Width="100%" runat="server">
 
+      <div class="scSelectRolesContainer scStretchAbsolute">
         <Literal Text="Selected Roles:" runat="server" />
-        <html:HtmlSelect ID="SelectedRoles" GridPanel.Height="40%" style="font:9pt verdana;width:100%;height:100%" Size="8" Multiple="true" ondblclick="javascript:onSelectedDoubleClick();" runat="server"/>
+        <html:HtmlSelect ID="SelectedRoles" style="font:9pt verdana;width:100%;" Size="8" Multiple="true" ondblclick="javascript:onSelectedDoubleClick();" runat="server"/>
 
-        <Border Padding="0px 0px 16px 0px" runat="server">
-          <html:HtmlButton ID="Add" Type="button" style="width:75px;height:25px" javascript:Click="return scAdd()" runat="server">
+        <Border runat="server" ID="ButtonsContainer">
+          <html:HtmlButton ID="Add" Type="button" style="width:75px;height:25px;margin-right:5px;" javascript:Click="return scAdd()" runat="server">
             <Literal Text="Add" runat="server" />
           </html:HtmlButton>
           <html:HtmlButton ID="Remove" Type="button" style="width:75px;height:25px" javascript:Click="return scRemove()" runat="server">
@@ -189,58 +214,58 @@
         </Border>
 
         <Literal Text="Available Roles:" runat="server" />
-        <Border runat="server" GridPanel.Height="60%" GridPanel.Row.ID="RolesPanel">
+        <Border runat="server" ID="RolesContainer">
           <Grid id="Roles"
-            RunningMode="Callback"
-            CssClass="Grid"
+                RunningMode="Callback"
+                CssClass="Grid"
 
-            ShowHeader="true"
-            HeaderCssClass="GridHeader"
-            AutoFocusSearchBox="false"
-            
-            FooterCssClass="GridFooter"
+                ShowHeader="true"
+                HeaderCssClass="GridHeader"
+                AutoFocusSearchBox="false"
 
-            GroupByText = ""
-            GroupingNotificationText = ""
-            GroupByCssClass="GroupByCell"
-            GroupByTextCssClass="GroupByText"
-            GroupBySortAscendingImageUrl="group_asc.gif"
-            GroupBySortDescendingImageUrl="group_desc.gif"
-            GroupBySortImageWidth="10"
-            GroupBySortImageHeight="10"
+                FooterCssClass="GridFooter"
 
-            GroupingNotificationTextCssClass="GridHeaderText GridGroupingNotification"
-            GroupingPageSize="5"
-            
-            PageSize="15"
-            PagerStyle="Slider"
-            PagerTextCssClass="GridFooterText"
-      	    PagerButtonWidth="41"
-      	    PagerButtonHeight="22"
-            PagerImagesFolderUrl="/sitecore/shell/themes/standard/componentart/grid/pager/"
-            
-            ShowSearchBox="true"
-            SearchTextCssClass="GridHeaderText"
-            SearchBoxCssClass="SearchBox"
-      	    
-            SliderHeight="20"
-            SliderWidth="150"
-            SliderGripWidth="9"
-            SliderPopupOffsetX="20"
-            SliderPopupClientTemplateId="SliderTemplate"
-            
-            TreeLineImagesFolderUrl="/sitecore/shell/themes/standard/componentart/grid/lines/"
-            TreeLineImageWidth="22"
-            TreeLineImageHeight="19"
-            
-            PreExpandOnGroup="false"
-            ImagesBaseUrl="/sitecore/shell/themes/standard/componentart/grid/"
-            IndentCellWidth="22"
+                GroupByText = ""
+                GroupingNotificationText = ""
+                GroupByCssClass="GroupByCell"
+                GroupByTextCssClass="GroupByText"
+                GroupBySortAscendingImageUrl="group_asc.gif"
+                GroupBySortDescendingImageUrl="group_desc.gif"
+                GroupBySortImageWidth="10"
+                GroupBySortImageHeight="10"
 
-            LoadingPanelClientTemplateId="LoadingFeedbackTemplate"
-            LoadingPanelPosition="MiddleCenter"
-            
-            Width="100%" Height="100%" runat="server">
+                GroupingNotificationTextCssClass="GridHeaderText GridGroupingNotification"
+                GroupingPageSize="5"
+
+                PageSize="15"
+                PagerStyle="Slider"
+                PagerTextCssClass="GridFooterText"
+                PagerButtonWidth="41"
+                PagerButtonHeight="22"
+                PagerImagesFolderUrl="/sitecore/shell/themes/standard/componentart/grid/pager/"
+
+                ShowSearchBox="true"
+                SearchTextCssClass="GridHeaderText"
+                SearchBoxCssClass="SearchBox"
+
+                SliderHeight="20"
+                SliderWidth="150"
+                SliderGripWidth="9"
+                SliderPopupOffsetX="20"
+                SliderPopupClientTemplateId="SliderTemplate"
+
+                TreeLineImagesFolderUrl="/sitecore/shell/themes/standard/componentart/grid/lines/"
+                TreeLineImageWidth="22"
+                TreeLineImageHeight="19"
+
+                PreExpandOnGroup="false"
+                ImagesBaseUrl="/sitecore/shell/themes/standard/componentart/grid/"
+                IndentCellWidth="22"
+
+                LoadingPanelClientTemplateId="LoadingFeedbackTemplate"
+                LoadingPanelPosition="MiddleCenter"
+
+                Width="100%" Height="100%" runat="server">
 
             <Levels>
               <GridLevel
@@ -299,10 +324,8 @@
             </ClientTemplates>
           </Grid>
         </Border>
-      </GridPanel>
-      
+      </div>
+
     </Sitecore.Controls.DialogPage>
   </Sitecore.Shell.Applications.Security.SelectRoles>
-
 </xamlControls>
-                           

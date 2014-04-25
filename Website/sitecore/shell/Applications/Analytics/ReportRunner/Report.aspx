@@ -3,7 +3,7 @@
 <%@ Register Assembly="Stimulsoft.Report.WebDesign" Namespace="Stimulsoft.Report.Web" TagPrefix="cc2" %>
 <%@ Register Assembly="Sitecore.Kernel" Namespace="Sitecore.Web.UI.HtmlControls" TagPrefix="sc" %>
 <%@ register tagprefix="ds" tagname="dateselector" src="/sitecore/shell/Applications/Analytics/ReportRunner/DateSelector.ascx" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE html>
 <html>
 <head runat="server">
   <title>Sitecore</title>
@@ -73,6 +73,7 @@
     function scDesign() {
       window.parent.scDesign(true);
       $("Design").click();
+      return false;
     }
 
     function scJump(id) {
@@ -80,6 +81,10 @@
 
     function scFilter() {
       return window.parent.scForm.postRequest("", "", "", "Filter_Click");
+    }
+
+    function scShowModalDialog(url, dialogArguments, features, request) {
+      return window.parent.scForm.showModalDialog(url, dialogArguments, features, request);
     }
 
     var element = $("ReportViewer");

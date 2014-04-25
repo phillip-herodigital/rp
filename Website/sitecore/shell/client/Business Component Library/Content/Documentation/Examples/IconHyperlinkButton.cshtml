@@ -1,0 +1,50 @@
+﻿@using Sitecore.Mvc.Presentation
+@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Common.HyperlinkButtons
+
+@model RenderingModel
+
+<h3>Apperance</h3>
+
+<p>The Icon HyperlinkButton control may be used two ways:</p>
+
+<ul>
+  <li>As a <em>regular HTML hyperlink</em> to navigate to a web resource specified via the <code>NavigateUrl</code> property.</li>
+  <li>As a <em>JavaScript hyperlink</em> to execute a JavaScript specified via the <code>Click</code> property.</li>
+</ul>
+
+<p>
+  <strong>Notice</strong> The <code>NavigateUrl</code> has more weight than the <code>Click</code>:
+  if the <code>NavigateUrl</code> property has a value, the JavaScript specified in the <code>Click</code> won't be invoked.
+</p>
+
+<p>
+  <strong>Notice</strong> If the iconHyperlink button is disabled via the <code>IsEnabled</code> property set to <code>false</code>,
+  both the <code>NavigateUrl</code> and <code>Click</code> properties are ignored.
+</p>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Regular IconHyperlink</th>
+      <th>JavaScript IconHyperlink</th>
+      <th>Disabled Link</th>
+      <th>Invisible Link</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>@Html.Sitecore().Controls().IconHyperlinkButton("Link1", new { Text = "Sitecore", NavigateUrl = "http://www.sitecore.net", ImageUrl = "ApplicationsV2/16x16/text_bold.png" })</td>
+      <td>@Html.Sitecore().Controls().IconHyperlinkButton("Link2", new { Text = "Click Me!", ImageUrl = "/sitecore/shell/client/Speak/Assets/img/sc-sprite.png",  BackgroundPosition = "-342px -54px", Click = "javascript:alert('Yep, I have been clicked!')" })</td>
+      <td>@Html.Sitecore().Controls().IconHyperlinkButton("Link3", new { Text = "Wall Street Journal", ImageUrl = "/sitecore/shell/client/Speak/Assets/img/sc-sprite.png",  BackgroundPosition = "-342px -73px", NavigateUrl = "http://online.wsj.com", IsEnabled = false })</td>
+      <td>@Html.Sitecore().Controls().IconHyperlinkButton("Link4", new { Text = "Forbes", NavigateUrl = "http://www.forbes.com", ImageUrl = "/sitecore/shell/client/Speak/Assets/img/sc-sprite.png",  BackgroundPosition = "-342px -73px", IsVisible = false })</td>
+    </tr>
+  </tbody>
+</table>
+
+<pre>
+&#64;Html.Sitecore().Controls().IconHyperlinkButton("Link1", new { Text = "Sitecore", NavigateUrl = "http://www.sitecore.net", ImageUrl = "ApplicationsV2/16x16/text_bold.png" })
+&#64;Html.Sitecore().Controls().IconHyperlinkButton("Link2", new { Text = "Click Me!", ImageUrl = "/sitecore/shell/client/Speak/Assets/img/sc-sprite.png",  BackgroundPosition = "-342px -54px", Click = "javascript:alert('Yep, I have been clicked!')" })
+&#64;Html.Sitecore().Controls().IconHyperlinkButton("Link3", new { Text = "Wall Street Journal", ImageUrl = "/sitecore/shell/client/Speak/Assets/img/sc-sprite.png",  BackgroundPosition = "-342px -73px", NavigateUrl = "http://online.wsj.com", IsEnabled = false })</td>
+&#64;Html.Sitecore().Controls().IconHyperlinkButton("Link4", new { Text = "Forbes", NavigateUrl = "http://www.forbes.com", ImageUrl = "/sitecore/shell/client/Speak/Assets/img/sc-sprite.png",  BackgroundPosition = "-342px -73px", IsVisible = false })</td>
+</pre>
