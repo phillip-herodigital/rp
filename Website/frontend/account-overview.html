@@ -12,14 +12,15 @@
 	<link rel="shortcut icon" type="image/ico" href="assets/i/favicon.ico" />
 	<link href="assets/css/global.css" rel="stylesheet" />
 
-	<script src="assets/js/libs/jquery/dist/jquery.min.js"></script>
 	<script src="assets/js/libs/modernizr/modernizr.js"></script>
 	<script src="assets/js/libs/angular/angular.min.js"></script>
 	<script src="assets/js/libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 	<script src="assets/js/libs/angular-ui-utils/ui-utils.min.js"></script>
+	<script src="assets/js/libs/underscore/underscore.js"></script>
 
 	<script src="assets/js/app.js"></script>
 	<script src="assets/js/controllers/main.js"></script>
+	<script src="assets/js/controllers/accountBalances.js"></script>
 
 	<script type="text/javascript" src="//use.typekit.net/hag0zvs.js"></script>
 	<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
@@ -50,9 +51,7 @@
 					</nav>
 				</div>
 				<nav class="sub-nav">
-					<ul class="wrapper">
-						<li></li>
-					</ul>
+					
 				</nav>
 			</header>
 
@@ -69,8 +68,8 @@
 				</article>
 			</div>
 			<section class="layout cols-2 wrapper">
-				<section class="layout cols-1">
-					<article class="balances-payments">
+				<section>
+					<article class="balances-payments" ng-controller="AccountBalances">
 						<header>
 							<h2>Account Balances &amp; Payments</h2>
 						</header>
@@ -79,18 +78,17 @@
 								<div class="group">
 									<div class="item">
 										<label>Account Number:</label>
-										<select>
-											<option value="Please choose">1197015532</option>
-											<option value="account1">Account 2</option>
+										<select ng-model="selectedAccount.account" ng-options="item.accountNumber for item in accounts">
+											<option value="">All</option>
 										</select>
 									</div>
-									<div class="item">
+									<!-- <div class="item">
 										<label>ESI ID:</label>
 										<select class="id">
 											<option value="Please choose">109437200008913264</option>
 											<option value="account1">ID 2</option>
 										</select>
-									</div>
+									</div> -->
 								</div>
 							</form>
 						</div>
@@ -98,12 +96,12 @@
 							<div class="col">
 								<h4>Account Balance</h4>
 								<dl class="clearfix">
-									<dt>Account Number</dt>
-									<dd>1234567890</dd>
+									<dt>Account Number:</dt>
+									<dd>{{ selectedAccount.account.accountNumber || "All" }}</dd>
 									<dt>Current Amount Due:</dt>
-									<dd>$87.24</dd>
+									<dd>{{ paymentForm.amount | currency }}</dd>
 									<dt>Due Date:</dt>
-									<dd>3/10/2014</dd>
+									<dd>{{ selectedAccount.account.dueDate || paymentForm.dueDate }}</dd>
 								</dl>
 							</div>
 							<div class="col payment">
@@ -112,18 +110,18 @@
 									<div class="group">
 										<div class="item">
 											<label for="Amount">Amount</label>
-											<input type="text" id="amount">
+											<input type="text" id="amount" ng-model="paymentForm.amount" />
 										</div>
 										<div class="item">
 											<label for="Payment method">Payment Method</label>
-											<select>
-												<option value="Please choose">Select</option>
-												<option value="payment1">Payment Method 1</option>
-												<option value="payment2">Payment Method 2</option>
-											</select>
+											<select ng-model="paymentForm.paymentMethod" ng-options="item.id as item.name for item in paymentMethods">
+											<option value="">Select</option>
+										</select>
 										</div>
 									</div>
-									<button type="submit">Continue</button>
+									<div class="buttons">
+										<button type="submit" class="primary" ng-click="submit()">Continue</button>
+									</div>
 								</form>
 							</div>
 						</div>
@@ -152,25 +150,11 @@
 				</section>
 				<aside>
 					<article class="promo renew">
-						<h1>Renew Your <div class="promo-bold">Plan &amp; Save</div></h1>
+						<h1>Renew Your <strong>Plan &amp; Save</strong></h1>
 						<button class="secondary">Renew My Plan</button>
 					</article>
 				</aside>
 			</section>
-
-			
-			<!--
-			<footer class="site-footer">
-				<div class="wrapper">
-					<p>&copy; 2005-2013 SGE IP Holdco, LLC. All rights reserved. Licensed in TX, GA, PA, MD, NJ, NY, &amp; DC<br />
-					(TX #10104, GA #GM-38, NJ #ESL-0109 &amp; GSL-0120, PA #A-2010-2181867 &amp; A-2012-2308991, MD #IR-2072 &amp; IR-2742, NY #STRM, DC EA11-11)</p>
-					<ul>
-						<li><a href="#"><i class="icon-bbb"></i></a></li>
-						<li><a href="#"><i class="icon-dsa"></i></a></li>
-					</ul>
-				</div>
-			</footer>
-			-->
 
 			<footer class="site-footer">
 				<div class="super-footer">

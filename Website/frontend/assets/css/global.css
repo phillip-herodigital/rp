@@ -395,17 +395,17 @@ dl dd {
 .clearfix, .layout, form div.item,
 .form div.item, form div.group,
 .form div.group, form div.buttons,
-.form div.buttons, div.tabbable ul.nav-tabs, .site-footer .super-footer div.grid .col.quick-links ul {
+.form div.buttons, div.tabbable ul.nav-tabs, .site-header > .wrapper, article.state-tabs .site-header > ul.tabs-nav, .site-footer .super-footer div.grid .col.quick-links ul {
   *zoom: 1;
 }
 /* line 42, _sass/partials/_global.scss */
 .clearfix:before, .layout:before, form div.item:before,
 .form div.item:before, form div.group:before,
 .form div.group:before, form div.buttons:before,
-.form div.buttons:before, div.tabbable ul.nav-tabs:before, .site-footer .super-footer div.grid .col.quick-links ul:before, .clearfix:after, .layout:after, form div.item:after,
+.form div.buttons:before, div.tabbable ul.nav-tabs:before, .site-header > .wrapper:before, article.state-tabs .site-header > ul.tabs-nav:before, .site-footer .super-footer div.grid .col.quick-links ul:before, .clearfix:after, .layout:after, form div.item:after,
 .form div.item:after, form div.group:after,
 .form div.group:after, form div.buttons:after,
-.form div.buttons:after, div.tabbable ul.nav-tabs:after, .site-footer .super-footer div.grid .col.quick-links ul:after {
+.form div.buttons:after, div.tabbable ul.nav-tabs:after, .site-header > .wrapper:after, article.state-tabs .site-header > ul.tabs-nav:after, .site-footer .super-footer div.grid .col.quick-links ul:after {
   display: table;
   content: "";
   line-height: 0;
@@ -414,7 +414,7 @@ dl dd {
 .clearfix:after, .layout:after, form div.item:after,
 .form div.item:after, form div.group:after,
 .form div.group:after, form div.buttons:after,
-.form div.buttons:after, div.tabbable ul.nav-tabs:after, .site-footer .super-footer div.grid .col.quick-links ul:after {
+.form div.buttons:after, div.tabbable ul.nav-tabs:after, .site-header > .wrapper:after, article.state-tabs .site-header > ul.tabs-nav:after, .site-footer .super-footer div.grid .col.quick-links ul:after {
   clear: both;
 }
 
@@ -1102,7 +1102,24 @@ form div.buttons .button,
   float: right;
   margin: 10px 0 0 5px;
 }
-/* line 205, _sass/partials/_forms.scss */
+@media only screen and (max-width: 767px) {
+  /* line 199, _sass/partials/_forms.scss */
+  form div.buttons button,
+  form div.buttons .button,
+  .form div.buttons button,
+  .form div.buttons .button {
+    float: none;
+    width: 100%;
+  }
+}
+/* line 207, _sass/partials/_forms.scss */
+form div.buttons button:first-child,
+form div.buttons .button:first-child,
+.form div.buttons button:first-child,
+.form div.buttons .button:first-child {
+  margin-left: 0;
+}
+/* line 212, _sass/partials/_forms.scss */
 form input[type="radio"],
 form input[type="checkbox"],
 .form input[type="radio"],
@@ -1110,7 +1127,7 @@ form input[type="checkbox"],
   margin-bottom: 0;
   margin-right: 5px;
 }
-/* line 212, _sass/partials/_forms.scss */
+/* line 219, _sass/partials/_forms.scss */
 form .radio-list input, form .radio-list label,
 form .checkbox-list input,
 form .checkbox-list label,
@@ -1120,7 +1137,7 @@ form .checkbox-list label,
 .form .checkbox-list label {
   display: inline-block;
 }
-/* line 216, _sass/partials/_forms.scss */
+/* line 223, _sass/partials/_forms.scss */
 form .radio-list.inline li,
 form .checkbox-list.inline li,
 .form .radio-list.inline li,
@@ -1693,15 +1710,14 @@ div.tabbable div.tab-content div.tab-pane.active {
   -webkit-transition: left linear;
   -webkit-transition-delay: 0.2s;
   transition: left linear 0.2s;
-  background: url('../i/bg/header.png?1397761833') repeat-x;
+  border-top: 5px solid #f1f1f1;
 }
-/* line 4, _sass/partials/_header.scss */
+/* line 5, _sass/partials/_header.scss */
 .site-header > .wrapper, article.state-tabs .site-header > ul.tabs-nav {
-  height: 100px;
   position: relative;
   overflow: initial;
 }
-/* line 9, _sass/partials/_header.scss */
+/* line 11, _sass/partials/_header.scss */
 .site-header .logo {
   display: inline-block;
   width: 178px;
@@ -1710,9 +1726,9 @@ div.tabbable div.tab-content div.tab-pane.active {
   background-repeat: no-repeat;
   text-indent: -5000px;
   float: left;
-  margin-top: 40px;
+  margin-top: 15px;
 }
-/* line 14, _sass/partials/_header.scss */
+/* line 16, _sass/partials/_header.scss */
 .site-header .utility {
   -moz-border-radius: 0 0 5px 5px;
   -webkit-border-radius: 0;
@@ -1721,25 +1737,25 @@ div.tabbable div.tab-content div.tab-pane.active {
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
   float: right;
+  height: 30px;
   margin: 0;
-  padding: 10px;
+  padding: 5px 10px 5px;
   background-color: #f1f1f1;
+  font-size: 14px;
+  text-transform: uppercase;
 }
-/* line 21, _sass/partials/_header.scss */
+/* line 26, _sass/partials/_header.scss */
 .site-header .utility a {
   margin-left: 25px;
   text-transform: uppercase;
 }
-/* line 26, _sass/partials/_header.scss */
+/* line 31, _sass/partials/_header.scss */
 .site-header nav.main-nav {
-  position: absolute;
-  bottom: -1px;
-  right: 0;
-  width: 822px;
+  float: right;
   text-align: right;
-  margin-top: 5px;
+  margin: 10px 0 -1px 10px;
 }
-/* line 33, _sass/partials/_header.scss */
+/* line 39, _sass/partials/_header.scss */
 .site-header nav.main-nav > ul {
   margin: 0;
   padding: 0;
@@ -1748,7 +1764,8 @@ div.tabbable div.tab-content div.tab-pane.active {
   *zoom: 1;
   margin: 0 auto;
   width: 100%;
-  font-size: 15px;
+  font-size: 0;
+  /* This is to fix the spacing between inline-block elements. Font size is reset on child element */
   text-transform: uppercase;
 }
 /* line 49, ../../../../../../../.rvm/gems/ruby-2.0.0-p353@global/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/typography/lists/_inline-block-list.scss */
@@ -1763,35 +1780,34 @@ div.tabbable div.tab-content div.tab-pane.active {
   *display: inline;
   white-space: nowrap;
 }
-/* line 40, _sass/partials/_header.scss */
+/* line 45, _sass/partials/_header.scss */
+.site-header nav.main-nav > ul li {
+  font-size: 15px;
+}
+/* line 47, _sass/partials/_header.scss */
 .site-header nav.main-nav > ul li a {
   display: inline-block;
   color: #737373;
-  padding: 17px;
+  padding: 10px 17px;
 }
-@media only screen and (min-width: 768px) and (max-width: 1024px) {
-  /* line 40, _sass/partials/_header.scss */
-  .site-header nav.main-nav > ul li a {
-    padding: 17px 8px;
-  }
-}
-/* line 48, _sass/partials/_header.scss */
+/* line 55, _sass/partials/_header.scss */
 .site-header nav.main-nav > ul li.selected a {
   -moz-border-radius: 5px 5px 0 0;
   -webkit-border-radius: 5px;
   border-radius: 5px 5px 0 0;
   background-color: #f2f2f2;
-  padding: 16px 16px 17px 16px;
+  padding: 9px 16px 10px 16px;
   border: 1px solid #d9d9d9;
   border-bottom: 0;
 }
-/* line 58, _sass/partials/_header.scss */
+/* line 68, _sass/partials/_header.scss */
 .site-header nav.sub-nav {
+  min-height: 50px;
   background-color: #f2f2f2;
   border-top: 1px solid #d9d9d9;
   border-bottom: 1px solid #d9d9d9;
 }
-/* line 62, _sass/partials/_header.scss */
+/* line 73, _sass/partials/_header.scss */
 .site-header nav.sub-nav > ul {
   margin: 0;
   padding: 0;
@@ -1799,8 +1815,7 @@ div.tabbable div.tab-content div.tab-pane.active {
   overflow: hidden;
   *zoom: 1;
   margin: 0 auto;
-  font-size: 14px;
-  text-transform: uppercase;
+  font-size: 13px;
 }
 /* line 49, ../../../../../../../.rvm/gems/ruby-2.0.0-p353@global/gems/compass-core-1.0.0.alpha.19/stylesheets/compass/typography/lists/_inline-block-list.scss */
 .site-header nav.sub-nav > ul li {
@@ -1814,7 +1829,7 @@ div.tabbable div.tab-content div.tab-pane.active {
   *display: inline;
   white-space: nowrap;
 }
-/* line 68, _sass/partials/_header.scss */
+/* line 79, _sass/partials/_header.scss */
 .site-header nav.sub-nav > ul li a {
   display: inline-block;
   color: #737373;
@@ -1825,7 +1840,7 @@ div.tabbable div.tab-content div.tab-pane.active {
   .site-header {
     height: 57px;
   }
-  /* line 78, _sass/partials/_header.scss */
+  /* line 89, _sass/partials/_header.scss */
   .site-header > .wrapper, article.state-tabs .site-header > ul.tabs-nav {
     position: fixed;
     top: 0;
@@ -1840,14 +1855,14 @@ div.tabbable div.tab-content div.tab-pane.active {
   }
 }
 @media only screen and (max-width: 767px) and (-webkit-min-device-pixel-ratio: 2), only screen and (max-width: 767px) and (-o-min-device-pixel-ratio: 3 / 2), only screen and (max-width: 767px) and (min--moz-device-pixel-ratio: 2), only screen and (max-width: 767px) and (min-device-pixel-ratio: 2), only screen and (max-width: 767px) and (min-resolution: 144dppx) {
-  /* line 78, _sass/partials/_header.scss */
+  /* line 89, _sass/partials/_header.scss */
   .site-header > .wrapper, article.state-tabs .site-header > ul.tabs-nav {
     background-image: url('../i/bg2x/header-mobile.png?1397761833');
     background-size: 11.5px 11.5px;
   }
 }
 @media only screen and (max-width: 767px) {
-  /* line 90, _sass/partials/_header.scss */
+  /* line 101, _sass/partials/_header.scss */
   .site-header .logo {
     display: inline-block;
     width: 84px;
@@ -1862,38 +1877,38 @@ div.tabbable div.tab-content div.tab-pane.active {
     margin-top: 0;
     margin-left: -41.75px;
   }
-  /* line 98, _sass/partials/_header.scss */
+  /* line 109, _sass/partials/_header.scss */
   .site-header .utility {
     display: none;
   }
-  /* line 101, _sass/partials/_header.scss */
+  /* line 112, _sass/partials/_header.scss */
   .site-header .nav-toggle {
     margin-top: 22px;
   }
-  /* line 104, _sass/partials/_header.scss */
+  /* line 115, _sass/partials/_header.scss */
   .site-header nav {
     display: none;
   }
 }
 @media only screen and (min-width: 768px) {
-  /* line 109, _sass/partials/_header.scss */
+  /* line 120, _sass/partials/_header.scss */
   .site-header .nav-toggle {
     display: none;
   }
 }
 
-/* line 115, _sass/partials/_header.scss */
+/* line 126, _sass/partials/_header.scss */
 .banner {
   /*height: 200px;*/
   overflow: hidden;
   margin-bottom: 20px;
 }
-/* line 119, _sass/partials/_header.scss */
+/* line 130, _sass/partials/_header.scss */
 .banner.hero-1 {
   background: url('../i/bg/hero-1.jpg?1397761833') no-repeat;
   background-size: cover;
 }
-/* line 123, _sass/partials/_header.scss */
+/* line 134, _sass/partials/_header.scss */
 .banner h1 {
   margin-top: 75px;
   color: #fff;
@@ -2066,12 +2081,12 @@ div.tabbable div.tab-content div.tab-pane.active {
 /* Box styling */
 /* line 22, _sass/partials/_modules.scss */
 article {
-  -moz-box-shadow: #dddddd 0px 0px 5px;
-  -webkit-box-shadow: #dddddd 0px 0px 5px;
-  box-shadow: #dddddd 0px 0px 5px;
-  -moz-border-radius: 10px / 10px;
-  -webkit-border-radius: 10px 10px;
-  border-radius: 10px / 10px;
+  -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
   margin-bottom: 20px;
   border: 1px solid #ddd;
   padding: 15px;
@@ -2083,63 +2098,66 @@ article header {
   -webkit-border-radius: 10px;
   border-radius: 10px 10px 0px 0px;
   background-color: #1385e1;
+  background-image: -moz-linear-gradient(bottom, #1383df 0%, #1597ff 100%);
+  background-image: -webkit-linear-gradient(bottom, #1383df 0%, #1597ff 100%);
+  background-image: linear-gradient(to top, #1383df 0%, #1597ff 100%);
   margin: -15px -15px 0px -15px;
-  padding: 5px 15px;
+  padding: 5px 13px;
 }
-/* line 34, _sass/partials/_modules.scss */
+/* line 35, _sass/partials/_modules.scss */
 article header h2 {
   color: #fff;
   text-transform: uppercase;
 }
-/* line 39, _sass/partials/_modules.scss */
+/* line 40, _sass/partials/_modules.scss */
 article footer {
   background: #fbfbfb;
   padding: 15px;
   border-top: 1px solid #ddd;
   margin: 0px -15px -15px -15px;
 }
-/* line 45, _sass/partials/_modules.scss */
+/* line 46, _sass/partials/_modules.scss */
 article .account-selector {
   background: #fbfbfb;
-  padding: 15px;
+  padding: 10px;
   border-bottom: 1px solid #ddd;
-  margin: 0px -15px;
+  margin: 0px -15px 15px;
 }
-/* line 51, _sass/partials/_modules.scss */
+/* line 52, _sass/partials/_modules.scss */
 article .account-selector .group .item {
   width: auto;
   margin-top: 8px;
 }
-/* line 54, _sass/partials/_modules.scss */
+/* line 55, _sass/partials/_modules.scss */
 article .account-selector .group .item label {
   display: inline-block;
   margin-right: 5px;
 }
-/* line 58, _sass/partials/_modules.scss */
+/* line 59, _sass/partials/_modules.scss */
 article .account-selector .group .item select {
   width: auto;
 }
-/* line 64, _sass/partials/_modules.scss */
+/* line 65, _sass/partials/_modules.scss */
 article .stretch {
   margin: 0 -15px;
 }
-/* line 68, _sass/partials/_modules.scss */
+/* line 69, _sass/partials/_modules.scss */
 article .pagination .page-size {
   float: left;
   width: 25%;
 }
-/* line 71, _sass/partials/_modules.scss */
+/* line 72, _sass/partials/_modules.scss */
 article .pagination .page-size select {
   width: auto;
 }
-/* line 75, _sass/partials/_modules.scss */
+/* line 76, _sass/partials/_modules.scss */
 article .pagination .showing {
   float: left;
   width: 25%;
   margin: 10px 0 0 0;
   text-align: right;
 }
-/* line 81, _sass/partials/_modules.scss */
+/* line 82, _sass/partials/_modules.scss */
 article .pagination .page-selection {
   list-style-image: none;
   list-style-type: none;
@@ -2150,13 +2168,13 @@ article .pagination .page-selection {
   width: 50%;
   text-align: right;
 }
-/* line 86, _sass/partials/_modules.scss */
+/* line 87, _sass/partials/_modules.scss */
 article .pagination .page-selection li {
   display: inline-block;
   vertical-align: middle;
   margin: 7px 2px 0 2px;
 }
-/* line 92, _sass/partials/_modules.scss */
+/* line 93, _sass/partials/_modules.scss */
 article .pagination .page-selection li.page-number a {
   -moz-border-radius: 10px / 10px;
   -webkit-border-radius: 10px 10px;
@@ -2168,16 +2186,16 @@ article .pagination .page-selection li.page-number a {
   color: #333;
   cursor: pointer;
 }
-/* line 100, _sass/partials/_modules.scss */
+/* line 101, _sass/partials/_modules.scss */
 article .pagination .page-selection li.page-number a.selected {
   color: #fff;
   background: #0971cd;
 }
-/* line 106, _sass/partials/_modules.scss */
+/* line 107, _sass/partials/_modules.scss */
 article .pagination .page-selection li.disabled a {
   color: #333;
 }
-/* line 112, _sass/partials/_modules.scss */
+/* line 113, _sass/partials/_modules.scss */
 article hr.wide {
   height: 0px;
   width: 100%;
@@ -2185,30 +2203,30 @@ article hr.wide {
   border-bottom: 0px;
 }
 
-/* line 119, _sass/partials/_modules.scss */
+/* line 120, _sass/partials/_modules.scss */
 article.grey-box {
   background-color: #f9f9f9;
 }
-/* line 121, _sass/partials/_modules.scss */
+/* line 122, _sass/partials/_modules.scss */
 article.grey-box header {
   background-color: #f5f5f5;
   border-bottom: 1px solid #ddd;
 }
-/* line 124, _sass/partials/_modules.scss */
+/* line 125, _sass/partials/_modules.scss */
 article.grey-box header h2 {
   color: #0971ce;
 }
-/* line 128, _sass/partials/_modules.scss */
+/* line 129, _sass/partials/_modules.scss */
 article.grey-box footer {
   background-color: #fbfbfb;
   border-top: 1px solid #ddd;
 }
-/* line 132, _sass/partials/_modules.scss */
+/* line 133, _sass/partials/_modules.scss */
 article.grey-box .account-selector {
   background-color: #f4f4f4;
 }
 
-/* line 136, _sass/partials/_modules.scss */
+/* line 137, _sass/partials/_modules.scss */
 article.plain, aside article.promo, article.marketing {
   border: none;
   -moz-box-shadow: none;
@@ -2220,7 +2238,7 @@ article.plain, aside article.promo, article.marketing {
   margin-bottom: 0px;
   padding: 0;
 }
-/* line 142, _sass/partials/_modules.scss */
+/* line 143, _sass/partials/_modules.scss */
 article.plain .post-hero, aside article.promo .post-hero, article.marketing .post-hero {
   background: #0971ce;
   color: #fff;
@@ -2228,23 +2246,23 @@ article.plain .post-hero, aside article.promo .post-hero, article.marketing .pos
   border-bottom: 6px solid #ffa409;
 }
 
-/* line 149, _sass/partials/_modules.scss */
+/* line 150, _sass/partials/_modules.scss */
 article.plan {
   -moz-border-radius: 10px 10px 0 0;
   -webkit-border-radius: 10px;
   border-radius: 10px 10px 0 0;
   padding-bottom: 0px;
 }
-/* line 153, _sass/partials/_modules.scss */
+/* line 154, _sass/partials/_modules.scss */
 article.plan table th {
   border: 0px;
 }
-/* line 155, _sass/partials/_modules.scss */
+/* line 156, _sass/partials/_modules.scss */
 article.plan table th.vertical {
   background-color: #f6f6f6;
   padding: 0px;
 }
-/* line 158, _sass/partials/_modules.scss */
+/* line 159, _sass/partials/_modules.scss */
 article.plan table th.vertical .fixed {
   -moz-transform: rotate(-90deg);
   -ms-transform: rotate(-90deg);
@@ -2252,46 +2270,46 @@ article.plan table th.vertical .fixed {
   transform: rotate(-90deg);
   text-transform: uppercase;
 }
-/* line 164, _sass/partials/_modules.scss */
+/* line 165, _sass/partials/_modules.scss */
 article.plan table td {
   border: 0px;
   border-right: 1px solid #eaeaea;
 }
-/* line 167, _sass/partials/_modules.scss */
+/* line 168, _sass/partials/_modules.scss */
 article.plan table td h5 {
   margin-top: 0px;
 }
-/* line 170, _sass/partials/_modules.scss */
+/* line 171, _sass/partials/_modules.scss */
 article.plan table td span.plan-cost {
   font-size: 24px;
   font-style: italic;
   color: #000;
 }
-/* line 175, _sass/partials/_modules.scss */
+/* line 176, _sass/partials/_modules.scss */
 article.plan table td p.details {
   margin-top: 40px;
 }
-/* line 178, _sass/partials/_modules.scss */
+/* line 179, _sass/partials/_modules.scss */
 article.plan table td.center {
   text-align: center;
   color: #828282;
   padding: 20px;
 }
-/* line 182, _sass/partials/_modules.scss */
+/* line 183, _sass/partials/_modules.scss */
 article.plan table td.center p {
   margin-top: 0px;
   text-transform: uppercase;
 }
-/* line 188, _sass/partials/_modules.scss */
+/* line 189, _sass/partials/_modules.scss */
 article.plan table .expand-details {
   background-color: #f7f7f7;
 }
-/* line 190, _sass/partials/_modules.scss */
+/* line 191, _sass/partials/_modules.scss */
 article.plan table .expand-details td {
   padding: 20px;
   position: relative;
 }
-/* line 193, _sass/partials/_modules.scss */
+/* line 194, _sass/partials/_modules.scss */
 article.plan table .expand-details td:before {
   content: "";
   border-left: 14px solid transparent;
@@ -2301,33 +2319,33 @@ article.plan table .expand-details td:before {
   top: -14px;
   left: 70px;
 }
-/* line 202, _sass/partials/_modules.scss */
+/* line 203, _sass/partials/_modules.scss */
 article.plan table .expand-details td div.inner {
   margin-right: 50px;
 }
-/* line 205, _sass/partials/_modules.scss */
+/* line 206, _sass/partials/_modules.scss */
 article.plan table .expand-details td i.icon-close {
   position: absolute;
   top: 35px;
   right: 20px;
 }
-/* line 210, _sass/partials/_modules.scss */
+/* line 211, _sass/partials/_modules.scss */
 article.plan table .expand-details td .grid {
   background-color: #f1f1f1;
   margin: 0 0 15px 0;
   width: 100%;
   text-align: center;
 }
-/* line 215, _sass/partials/_modules.scss */
+/* line 216, _sass/partials/_modules.scss */
 article.plan table .expand-details td .grid p {
   text-align: left;
   margin: 0px;
 }
-/* line 219, _sass/partials/_modules.scss */
+/* line 220, _sass/partials/_modules.scss */
 article.plan table .expand-details td .grid .col {
   padding: 10px;
 }
-/* line 221, _sass/partials/_modules.scss */
+/* line 222, _sass/partials/_modules.scss */
 article.plan table .expand-details td .grid .col ul {
   list-style-type: none;
   padding-left: 0px;
@@ -2335,42 +2353,42 @@ article.plan table .expand-details td .grid .col ul {
   margin-top: 0;
 }
 @media only screen and (max-width: 767px) {
-  /* line 231, _sass/partials/_modules.scss */
+  /* line 232, _sass/partials/_modules.scss */
   article.plan table .expand-details td .grid .col {
     float: left;
     width: 50%;
   }
-  /* line 236, _sass/partials/_modules.scss */
+  /* line 237, _sass/partials/_modules.scss */
   article.plan table .expand-details td .grid .col:last-child {
     width: 100%;
   }
-  /* line 238, _sass/partials/_modules.scss */
+  /* line 239, _sass/partials/_modules.scss */
   article.plan table .expand-details td .grid .col:last-child ul li {
     float: left;
     width: 33%;
   }
 }
-/* line 247, _sass/partials/_modules.scss */
+/* line 248, _sass/partials/_modules.scss */
 article.plan footer.renew-plan {
   background-color: #d8edfe;
 }
-/* line 249, _sass/partials/_modules.scss */
+/* line 250, _sass/partials/_modules.scss */
 article.plan footer.renew-plan button.primary {
   float: right;
   margin-top: 20px;
 }
-/* line 254, _sass/partials/_modules.scss */
+/* line 255, _sass/partials/_modules.scss */
 article.plan footer.renew-plan .grid p {
   margin-top: 0px;
 }
 @media only screen and (max-width: 767px) {
-  /* line 258, _sass/partials/_modules.scss */
+  /* line 259, _sass/partials/_modules.scss */
   article.plan footer.renew-plan .grid .col button {
     float: none;
   }
 }
 
-/* line 265, _sass/partials/_modules.scss */
+/* line 266, _sass/partials/_modules.scss */
 article.utility-providers .logos {
   border: 1px solid #d9d9d9;
   float: left;
@@ -2379,12 +2397,12 @@ article.utility-providers .logos {
   margin-right: 15px;
   padding: 0px 15px;
 }
-/* line 272, _sass/partials/_modules.scss */
+/* line 273, _sass/partials/_modules.scss */
 article.utility-providers .logos:hover {
   border: 1px solid #1697ff;
 }
 
-/* line 277, _sass/partials/_modules.scss */
+/* line 278, _sass/partials/_modules.scss */
 article.balances-payments dl dd {
   font-weight: bold;
   margin-bottom: 5px;
@@ -2392,34 +2410,27 @@ article.balances-payments dl dd {
   width: 31%;
   margin-left: 15px;
 }
-/* line 284, _sass/partials/_modules.scss */
+/* line 285, _sass/partials/_modules.scss */
 article.balances-payments dl dt {
   margin-bottom: 5px;
   width: 61%;
 }
-/* line 288, _sass/partials/_modules.scss */
+/* line 289, _sass/partials/_modules.scss */
 article.balances-payments .grid .col {
   border-spacing: 0px;
 }
-/* line 290, _sass/partials/_modules.scss */
+/* line 291, _sass/partials/_modules.scss */
 article.balances-payments .grid .col h4 {
   font-weight: 600;
 }
-/* line 294, _sass/partials/_modules.scss */
+/* line 295, _sass/partials/_modules.scss */
 article.balances-payments .grid .col .group .item {
   width: 50%;
 }
 @media only screen and (max-width: 767px) {
-  /* line 300, _sass/partials/_modules.scss */
+  /* line 301, _sass/partials/_modules.scss */
   article.balances-payments .grid .col .group .item {
-    float: left;
-    padding-right: 5px;
-  }
-  /* line 305, _sass/partials/_modules.scss */
-  article.balances-payments .grid .col form button {
-    float: none;
     width: 100%;
-    margin-top: 10px;
   }
 }
 
@@ -2509,31 +2520,32 @@ article.payment-history div.table-header ul li {
 /*ALL MODULES BELOW THIS ARE SIDEBAR MODULES*/
 /* line 387, _sass/partials/_modules.scss */
 aside article.promo {
-  background-repeat: no-repeat;
-  color: #fff;
-  padding: 20px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
   margin-bottom: 20px;
+  padding: 20px;
+  background-repeat: no-repeat;
   background-size: cover;
+  color: #fff;
 }
-/* line 394, _sass/partials/_modules.scss */
+/* line 395, _sass/partials/_modules.scss */
 aside article.promo h1 {
   line-height: 1em;
+  margin: 0;
 }
-/* line 397, _sass/partials/_modules.scss */
+/* line 399, _sass/partials/_modules.scss */
 aside article.promo button {
   width: 100%;
-}
-/* line 400, _sass/partials/_modules.scss */
-aside article.promo p {
-  margin: 0px;
+  margin-top: 15px;
 }
 /* line 403, _sass/partials/_modules.scss */
-aside article.promo .promo-bold {
-  font-weight: 600;
+aside article.promo p {
+  margin: 0;
 }
 /* line 406, _sass/partials/_modules.scss */
 aside article.promo.renew {
-  background-image: url('../i/renew-promo.png?1397761833');
+  background-image: url('../i/renew-promo.png?1398458310');
 }
 /* line 409, _sass/partials/_modules.scss */
 aside article.promo.paperless {
