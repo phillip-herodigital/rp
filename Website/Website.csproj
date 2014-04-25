@@ -1617,6 +1617,9 @@
     <Content Include="assets\.sass-cache\f2d7d9025a5f2197a45555fc64982256eea4f7dd\_inline-block-list.scssc" />
     <Content Include="assets\.sass-cache\f2d7d9025a5f2197a45555fc64982256eea4f7dd\_inline-list.scssc" />
     <Content Include="assets\css\_sass\partials\_marketing-site.scss" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.config" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.ExcludeRobots.config" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.RobotDetection.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
