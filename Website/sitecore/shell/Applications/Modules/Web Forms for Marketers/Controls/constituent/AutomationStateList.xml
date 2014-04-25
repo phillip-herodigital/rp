@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <AutomationStateList def:inherits="Sitecore.Forms.Shell.UI.Controls.AutomationStateList,Sitecore.Forms.Core">
+    <Stylesheet Src="WFM/list-view.css" DeviceDependant="true"/>
+    <Stylesheet Src="WFM/jqueryui/jquery-ui.custom.css" DeviceDependant="true"/>
+    <Script type="text/JavaScript" language="javascript" src="/sitecore modules/web/Web Forms for Marketers/scripts/jquery.js"/>
+    <Script type="text/JavaScript" language="javascript" src="/sitecore modules/web/Web Forms for Marketers/scripts/jquery-ui.min.js"/>
+    <Script type="text/JavaScript" language="javascript" src="/sitecore/shell/applications/modules/web forms for marketers/script/jquery.tmpl.min.js"/>
+    <Script type="text/JavaScript" language="javascript" src="/sitecore/shell/applications/modules/web forms for marketers/script/jquery.watermark.custom.js  "/>
+    <Script type="text/JavaScript" language="javascript" src="/sitecore/shell/applications/modules/web forms for marketers/script/jquery.list-view.js"/>
+
+    
+    <Scrollbox def:ID="Container" Width="$Width" Height="$Height" style="overflow-y:auto" Margin="3px 0 0 0" Padding="0 10px">
+    </Scrollbox>
+    
+  </AutomationStateList>
+</control>

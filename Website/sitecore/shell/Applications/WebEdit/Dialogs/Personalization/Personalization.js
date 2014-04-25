@@ -55,7 +55,7 @@
     if (value && !value.blank()) {      
       var ruleId = nameEdit.readAttribute("data-meta-id");
       if (ruleId) {        
-        scForm.postRequest("","","","rule:rename(ruleId=" + ruleId + ",name=" + value.escapeHTML().gsub(/"/,'&quot;') + ")", null, true);
+        scForm.postRequest("","","","rule:rename(ruleId=" + ruleId + ",name=" + encodeURIComponent(value.escapeHTML().gsub(/"/,'&quot;')) + ")", null, true);
       }                     
     }
   };

@@ -27,7 +27,7 @@
                 </WizardFormPadding>
             </WizardFormPage>
 
-            <WizardFormPage ID="Generating" Header="Generating" Text="Please wait while the schems is being generated..." Icon="Business/32x32/tables_edit.png">
+            <WizardFormPage ID="Generating" Header="Generating" Text="Please wait while the schema is being generated..." Icon="Business/32x32/tables_edit.png">
                 <GridPanel Width="100%">
 
                     <Space Height="10"/>

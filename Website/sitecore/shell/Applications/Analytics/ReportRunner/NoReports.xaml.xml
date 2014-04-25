@@ -12,19 +12,9 @@
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
   <Sitecore.Shell.Applications.Analytics.ReportRunner.NoReport>
-    <Sitecore.Controls.HtmlPage>
-
-      <GridPanel Width="100%" Height="100%" runat="server">
-
-        <Border runat="server" GridPanel.Align="center" FontName="Tahoma" FontSize="8pt" FontItalic="true">
-          <Literal Text="Select a report to run." runat="server" />
-        </Border>
-
-      </GridPanel>
-
-    </Sitecore.Controls.HtmlPage>
-    
+    <div style="text-align:center;padding-top:100px;" >
+      <Literal FontName="Tahoma" FontSize="8pt" FontItalic="true" Text="Select a report to run." runat="server" />
+    </div>
   </Sitecore.Shell.Applications.Analytics.ReportRunner.NoReport>
-
 </xamlControls>
                            

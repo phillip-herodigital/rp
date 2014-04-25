@@ -1,0 +1,23 @@
+﻿@using Sitecore.Mvc
+@using Sitecore.Data.Items
+
+@model Sitecore.Mvc.Presentation.RenderingModel
+
+
+<header class="sc-globalHeader">
+  @Model.Item.Uri
+      
+  @Html.Sitecore().Placeholder("GlobalHeader")
+</header>
+
+<header class="sc-applicationHeader">  
+  @Html.Sitecore().Placeholder("ApplicationHeader")  
+</header>
+
+<section class="sc-applicationContent">
+  @Html.Sitecore().Placeholder("ApplicationContent")
+</section>
+
+<footer class="sc-globalFooter">
+  @Html.Sitecore().Placeholder("GlobalFooter")
+</footer>

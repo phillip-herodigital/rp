@@ -6,6 +6,19 @@
 
       <DataContext ID="DataContext" DataViewName="Master" />
 
+      <style>
+        #Loading {
+          background:white;
+          text-align:center;
+          z-index:1;
+          padding:64px 0px 0px 0px
+        }
+        
+        #SplitterPanel > img {
+          vertical-align:top;
+        }
+      </style>
+        
       <script type="text/javascript">
 
         function scDesign(enable) {
@@ -33,8 +46,8 @@
 
         <VSplitter ID="AnalyticsReportsLeft" GridPanel.Width="4" Target="left" GridPanel.Style='background:#d2d5da;' GridPanel.ID="SplitterPanel"/>
         
-        <Border Height="100%">
-          <Border id="Loading" Style="position:absolute;width:100%;height:100%;background:white;z-index:1;padding:64px 0px 0px 0px" align="center">
+        <Border style="height:100%;position:relative;" GridPanel.Style="height:100%;">
+          <Border id="Loading" class="scStretchAbsolute">
 
             <Border>
               <ThemedImage Src="Business/48x48/column-chart.png" Width="48" Height="48" />
@@ -49,7 +62,7 @@
             </Border>
           </Border>
           
-          <Frame id="ReportFrame" SourceUri="/sitecore/shell/~/xaml/Sitecore.Shell.Applications.Analytics.ReportRunner.NoReport.aspx" Width="100%" Height="100%" OnLoad="javascript:scLoaded()" />
+          <Frame id="ReportFrame" class="scStretch" SourceUri="/sitecore/shell/~/xaml/Sitecore.Shell.Applications.Analytics.ReportRunner.NoReport.aspx" OnLoad="javascript:scLoaded()" />
         </Border>
 
       </GridPanel>

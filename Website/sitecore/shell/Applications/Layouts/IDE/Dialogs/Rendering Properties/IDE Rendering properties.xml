@@ -46,6 +46,7 @@
           <Tab Header="Caching">
             <Border Padding="4">
               <Checkbox ID="Cacheable" Header="Cacheable" Click="SetCacheable"/><br/>
+              <Space Width="16"/><Checkbox ID="ClearOnIndexUpdate" Header="Clear on Index Update"/><br/>
               <Space Width="16"/><Checkbox ID="VaryByData" Header="Vary by data"/><br/>
               <Space Width="16"/><Checkbox ID="VaryByDevice" Header="Vary by device"/><br/>
               <Space Width="16"/><Checkbox ID="VaryByLogin" Header="Vary by login"/><br/>

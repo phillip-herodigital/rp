@@ -10,7 +10,7 @@
                    GridPanel.VAlign="top" GridPanel.Height="100%">
         <GridPanel Width="100%" Height="100%" Class="scDialogContentContainer">
           <input type="hidden" id="scSections" name="scSections" />
-          <Border ID="Fields" style="position:absolute; top:0;" Background="white" />
+          <Border ID="Fields" style="position:absolute;background:white;top:0;left:0;right:0;" />
         </GridPanel>
       </Scrollbox>
     </FormPage>

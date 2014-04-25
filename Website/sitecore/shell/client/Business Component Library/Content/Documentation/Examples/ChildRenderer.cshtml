@@ -1,0 +1,19 @@
+﻿@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Common.ChildRenderers
+
+<p>
+  This Control is used to render all the children of an item.<br />
+</p>
+<h3>Sample Code</h3>
+<pre>
+  &#64;Html.Sitecore().Controls().Children("ChildRenderer", new { DataSource = "{D80EDFC1-D39D-4419-8056-B27FDC895C2E}" })
+</pre>
+<h3>Sample Result</h3>
+<p>
+  @Html.Sitecore().Controls().Children("ChildRenderer", new { DataSource = "{D80EDFC1-D39D-4419-8056-B27FDC895C2E}" })
+</p>
+
+<h3>Data-binding</h3>
+<p>
+  There is no databinding for an childRenderer and no javascript, this is a pure "server-side" controls. On the other hand, if you have a SPEAK Component defined in the renderings, this component will be rendered in the exact same way than a rendering in a SPEAK-PAGE.
+</p>

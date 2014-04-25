@@ -1,3 +1,7 @@
+body {
+  overflow: hidden;
+}
+
 #Wallpaper {
   position:absolute;
   width:100%;
@@ -17,30 +21,30 @@
 }
 
 .scDesktopItemIcons {
-	cursor: default;
-	display: inline;
-	overflow: hidden;
-	padding: 5px;
-	text-align: center;
-	text-overflow: ellipsis;
-	vertical-align: top;
-	width: 80px;
+  cursor: default;
+  display: inline-block;
+  overflow: hidden;
+  padding: 5px;
+  text-align: center;
+  text-overflow: ellipsis;
+  vertical-align: top;
+  width: 80px;
 }
 .scDesktopItemIcons_Selected {
-	background: highlight;
-	color: highlighttext;
-	cursor: default;
-	display: inline;
-	overflow: hidden;
-	padding: 5px;
-	text-align: center;
-	text-overflow: ellipsis;
-	vertical-align: top;
-	width: 80px;
+  background: highlight;
+  color: highlighttext;
+  cursor: default;
+  display: inline-block;
+  overflow: hidden;
+  padding: 5px;
+  text-align: center;
+  text-overflow: ellipsis;
+  vertical-align: top;
+  width: 80px;
 }
 .scDesktopViewIconsIcon {
-	cursor: default;
-	padding-bottom: 4px;
+  cursor: default;
+  padding-bottom: 4px;
 }
 .scToolbutton {
   color:white;
@@ -51,23 +55,4 @@
   margin:-44px 0px 0px -8px;
   color:green;
   font:14pt tahoma;
-}
-
-.scDesktopItemIcons {
-	cursor: default;
-	display: inline;
-	overflow: hidden;
-	padding: 5px;
-	text-align: center;
-	text-overflow: ellipsis;
-	vertical-align: top;
-	width: 80px;
-}
-
-.ff .scDesktopItemIcons 
-{
-  float:left;
-}
-.ff .scDesktopItemIcons_Selected {
-  float:left;
 }

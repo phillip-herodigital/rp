@@ -5,6 +5,39 @@
       
       <CodeBeside Type="Sitecore.Shell.Applications.ContentManager.Dialogs.Aliases.AliasesForm,Sitecore.Client"/>
 
+      <Stylesheet>
+        .optionButtons {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 90px;
+        text-align: right;
+        white-space: normal;
+        }
+
+        .optionButtons > .scButton:first-child {
+        margin-top:0;
+        }
+
+        .aliasesContainer {
+        position: relative;
+        margin-right: 90px;
+        height: 100%;
+        }
+        
+        .aliasesContainer > input {
+        width: 100%;
+        }
+        
+        .aliasesListContainer{
+        position: absolute;
+        top: 30px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        }
+      </Stylesheet>
+
       <Script>
         function scCreateAlias(id, header, value) {
         var list = $("List");
@@ -31,25 +64,20 @@
         }
       </Script>
 
-      <GridPanel Columns="2" CellPadding="4" Width="100%" Height="100%">
+      <div class="scStretch">
+        <div class="aliasesContainer">
+          <Edit ID="NewAlias" Class="scIgnoreModified"/>
+          <div class="aliasesListContainer">
+            <Listbox ID="List" class="scStretch" Size="8" Multiple="true"/>
+          </div>
+        </div>
 
-        <Border GridPanel.Width="100%">
-          <Edit ID="NewAlias" Width="100%"/>
-        </Border>
-
-        <Border>
+        <div class="optionButtons">
           <Button ID="Add" Header="Add" Click="Add_Click"/>
-        </Border>
-
-        <Border ID="ListHolder" Height="100%" GridPanel.Height="100%" GridPanel.VAlign="top" GridPanel.Width="100%">
-          <Listbox ID="List" Class="scFixSize" Height="100%" Width="100%" Size="8" Multiple="true"/>
-        </Border>
-
-        <Border Height="100%" GridPanel.Height="100%" GridPanel.VAlign="top">
           <Button ID="Remove" Header="Remove" Click="Remove_Click"/>
-        </Border>
+        </div>
 
-      </GridPanel>
+      </div>
       
     </FormDialog>
   </Aliases>

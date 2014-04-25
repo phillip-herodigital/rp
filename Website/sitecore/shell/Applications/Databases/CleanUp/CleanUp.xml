@@ -25,7 +25,7 @@
       <WizardFormPage ID="Cleaning" Header="Cleaning Up" Text="Please wait while cleaning up..." Icon="Business/32x32/data_ok.png">
         <GridPanel Width="100%">
           
-          <Space Height="64"/>
+          <Border Height="64"/>
           
           <ThemedImage Src="Business/48x48/data_ok.png" Width="48" Height="48" GridPanel.Align="center"/>
 
@@ -57,17 +57,15 @@
       </WizardFormPage>
 
       <WizardFormLastPage ID="LastPage" Icon="Business/32x32/data_ok.png">
-        <GridPanel Cellpadding="2" Width="100%" Height="100%" Fixed="true">
-        
-          <Border GridPanel.Style="padding:0px 0px 16px 0px; font-weight:bold"><Literal Text="The wizard has completed. Click Finish to close the wizard."/></Border>
-          
-          <Border GridPanel.Style="padding:0px 0px 2px 0px">
-            <Literal Text="Result:"/>
-          </Border>
-          
-          <Memo ID="ResultText" ReadOnly="true" Width="100%" Height="100%" GridPanel.Height="100%"/>
-          
-        </GridPanel>
+        <div class="scStretch scFlexColumnContainerWithoutFlexie">
+          <Literal class="wizardCompleteText" Text="The wizard has completed. Click Finish to close the wizard."/>
+          <Literal class="wizardResult" Text="Result:"/>
+          <div class="scFlexContentWithoutFlexie scWizardLastPageResultText">
+            <div class="scStretchAbsolute">
+              <Memo ID="ResultText" class="scStretch" ReadOnly="true"/>
+            </div>
+          </div>
+        </div>
       </WizardFormLastPage>
 
     </WizardForm>

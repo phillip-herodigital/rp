@@ -1,0 +1,99 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Your Website</title>
+              <script src="../../../../Assets/vendors/JQuery/jquery-1.8.2.min.js"></script>
+      <script src="../../../../Assets/vendors/KnockOut/knockout-2.1.0.js"></script>
+      <script src="../../../../Assets/vendors/underscore/underscore.js"></script>
+      <script src="../../../../Assets/vendors/Backbone/backbone.js"></script>
+
+		<script>
+			 window.__SITECOREDEBUG = true;
+		</script>
+      <script src="../../../../Assets/lib/dist/sitecore-1.0.1.js"></script>
+    </head>
+    <body>
+    <h1>Create a simple text control</h1>
+
+<div style="width:50%;float:left">
+    <h2>Code</h2>
+    <h3>Html</h3>
+    <pre>
+&#60;span data-sc-id="SimpleTextControl" data-bind="text:text" class="sc-text">&#60;/span>
+    </pre>    
+    <h3>Javascript</h3>
+    <pre>
+_sc.Factories.createBaseComponent({
+  name: "TextControl",
+  selector: ".sc-text",
+  attributes: [ 
+    { name: "text", value: "Hello, world!" }
+  ]
+ });
+
+window.app = _sc.Factories.createApp();
+    </pre>
+</div>
+<div style="width:50%;float:left">
+    <h2>Result</h2>
+
+    <span data-sc-id="SimpleTextControl" data-bind="text:text" class="sc-text"></span>
+</div>
+<div style="width:100%;float:left;">
+<h4>What you need to know.</h4>
+<p>
+  <ul>
+    <li>
+      <b>data-sc-id attribute in the html</b>
+      <p>this is the name of you control.</p>
+    </li>
+    <li>
+      <b>name</b>
+      <p>this is the name of your Component (a control is built based on the component). Component can be seen as a Class, control can be seen as an object.</p>
+    </li>
+    <li>
+      <b>css selector</b>
+      <p>Will indicate which html element correspond to which Component.</p>
+    </li>
+    <li>
+      <b>attributes</b>
+      <p>An array of object to set the proper value to your model. Currently you have name (name of the attribute) and value</p>
+    </li>
+    <li>
+      <b>What a control looks like</b>
+      <ul>
+        <li>name: comes from data-sc-id</li>
+        <li>model: this is your model (a backbone model)</li>
+        <li>view: this is your view (a backbone view)</li>
+        <li>collection: optionnal, a list of model</li>
+      </ul>
+    </li>
+    <li>
+       <b>What is exposed</b>
+       <p>The app is not exposed to the global Object. It is only available on your PageCode (you will see that later). This is why I am assigning the app to window.</p>
+       <p>Open your console type: app.SimpleTextControl and press return</p>
+       <p>In order to levarge binding, cross-binding and events deletagtion, we decided to only exposed the model on the app object.</p>
+    </li>
+    <li>
+      <p>Try to type this in your console</p>
+      <p>app.SimpleTextControl.get("text")</p>
+    </li>
+  </ul>
+</p>
+</div>
+    <script>
+	 
+      _sc.Factories.createBaseComponent({
+        name: "TextControl",
+        selector: ".sc-text",
+        attributes: [ 
+          { name: "text", value: "Hello, world!" }
+        ]
+       });
+
+      window.app = _sc.Factories.createApp();
+
+    </script>
+    </body>
+</html>

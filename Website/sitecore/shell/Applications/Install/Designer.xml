@@ -11,6 +11,7 @@
 
       <Stylesheet Src="Content Manager.css" DeviceDependant="true" runat="server" x:placeholder="stylesheets" />
       <Stylesheet  Src="Ribbon.css" DeviceDependant="true" runat="server" x:placeholder="Stylesheets" />
+      <style>form{overflow:auto;}</style>
 
       <CodeBeside Type="Sitecore.Shell.Applications.Install.Designer, Sitecore.Client"/>
 
@@ -18,7 +19,7 @@
       <Literal ID="FrameName" />
       <Border ID="Internals" />
 
-      <GridPanel Width="100%" Height="100%" Background="white" CellPadding="0" CellSpacing="0">
+      <GridPanel Class="scInstallerDesignerContainer" Background="white">
 
         <Border GridPanel.Row.Height="20px" ID="RibbonFrame" GridPanel.Height="0px" Class="scCaption"/>
 

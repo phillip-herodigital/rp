@@ -1,0 +1,308 @@
+/* Statistic */
+.scDvFieldsStatistic
+{
+	padding: 20px 20px 20px 80px;
+    position: relative;
+    width: 90%;
+    height: 450px;
+}
+.scDvStatisticTable
+{
+	table-layout: fixed;
+}
+
+.scDvHeadingRow
+{
+	width: 100%;
+	padding: 5px;
+	font: 10pt Segoe UI;
+	background-color: #c9c9c9;
+	
+}
+
+.scDvHeadingResponseCell
+{
+	width: 10%;
+	padding: 0px;
+	border-bottom: 1px solid #c9c9c9;
+}
+
+.scDvHeadingNameCell
+{
+	width: 55%;
+	padding : 4px;
+	border-bottom: 1px solid #c9c9c9;
+}
+
+.scDvHeadingResetCell
+{
+	width:10%;
+	cursor: default;
+	padding: 3px 4px 2px 21px;
+	border-bottom: 1px solid #c9c9c9;
+	font: 8pt Segoe UI;
+	text-align:right;
+	color : Black;	
+}
+
+.scDvRow
+{
+	background-color: #EFEFEF;
+}
+
+.scDvDataNameCell
+{
+	cursor: default;
+	padding: 3px 4px 2px 21px;
+	border-bottom: 1px solid #EAE9E1;
+	font: 8pt Segoe UI;
+}
+
+.scDvResetCell
+{
+	cursor: default;
+	padding: 3px 4px 2px 21px;
+	border-bottom: 1px solid #EAE9E1;
+	font: 8pt Segoe UI;
+	text-align:right;
+}
+
+.scDvDataResponseCell
+{
+	width:10%;
+	cursor: default;
+	padding: 3px 4px 2px 21px;
+	border-bottom: 1px solid #EAE9E1;
+	font: 8pt Segoe UI;
+}
+
+.scDvListStatisticTable
+{
+	width: 100%;
+	table-layout:fixed;
+	background-color : #F8f8f8;
+}
+
+.scDvInnerHeadingRow
+{
+	width: 100%;
+	padding: 5px;
+	font: 10pt Segoe UI;
+}
+
+
+.scDvDataNameListCell
+{
+	width: 55%;
+	padding: 4px;
+	border-bottom: 1px solid #EAE9E1;
+}
+
+.scDvDataResponseListCell
+{
+	width: 10%;
+	padding :0px;
+	border-bottom: 1px solid #EAE9E1;
+	text-align:left;
+	padding-left:21px;
+}
+
+
+.scDvInnerPadding
+{
+	width : 5%;
+}
+
+.scDvInnerHeadingNameCell
+{
+	width: 55%;	
+	border-bottom: 1px solid #c9c9c9;
+	padding: 3px 4px 2px 40px;	
+}
+
+.scDvInnerHeadingResponseCell
+{
+	width: 10%;
+	padding: 4px;
+	border-bottom: 1px solid #c9c9c9;
+}
+
+.scDvInnerResetDataCell
+{
+	width: 10%;
+	padding: 4px;
+	border-bottom: 1px solid #EAE9E1;
+}
+
+
+.scDvInnerHeadingResetCell
+{
+	width: 10%;
+	padding: 4px;
+	border-bottom: 1px solid #c9c9c9;
+	text-align : right;
+}
+
+.scFormDataViewerLink : hover
+{
+	text-decoration:underline;
+}
+
+.scformViewerInline
+{
+	overflow:auto;
+}
+
+.scFormDataViewerLink
+{
+
+}
+
+.scFormDataViewerImage, .scFormDataViewerImage : hover
+{
+	margin-right : 2px;
+}
+
+.scDvInnerRow
+{
+	background-color: transparent;
+}
+
+.scDvInnerProgressDataCell
+{
+	width: 30%;
+	padding: 3px 4px 2px 4px;
+	border-bottom: 1px solid #EAE9E1;
+	font: 8pt Tahoma;
+}
+
+.scDvInnerPersentDataCell
+{
+	width: 5%;
+	padding: 3px 4px 2px 4px;
+	border-bottom: 1px solid #EAE9E1;
+	font: 8pt Tahoma;
+}
+
+.scDvInnerNumberDataCell
+{
+	width: 5%;
+	
+	border-bottom: 1px solid #EAE9E1;
+	font: 8pt Tahoma;
+	padding : 0px;
+	padding-left : 21px;
+}
+
+.scDvInnerValueDataCell
+{
+	width: 55%;
+	padding: 3px 4px 2px 40px;
+	border-bottom: 1px solid #EAE9E1;
+	font: 8pt Tahoma;
+}
+
+
+.scDvMoreRow
+{
+}
+
+.scDvMoreCell
+{
+	width:100%;
+	padding : 0px;
+	margin : 0px;
+}
+
+.scDvInnerValueDataCell
+{
+}
+
+.scDvInnerNumberDataCell
+{
+}
+
+.scDvPersentDataCell
+{
+	width: 5%;
+	padding: 3px 4px 2px 4px;
+	border-bottom: 1px solid #c9c9c9;
+	font: 8pt Tahoma;
+}
+
+.scDvProgressDataCell
+{
+	width: 30%;
+	padding: 3px 4px 2px 4px;
+	border-bottom: 1px solid #c9c9c9;
+	font: 8pt Tahoma;
+}
+.scDivProgressGreen
+{
+	background: transparent url(    '/sitecore/shell/Applications/Modules/Web Forms for Marketers/images/filler_green_one.png' ) repeat top center;
+}
+
+.scDivProgressBlue
+{
+	background: transparent url(    '/sitecore/shell/Applications/Modules/Web Forms for Marketers/images/filler_blue_one.png' ) repeat top center;
+}
+
+.scDivProgressBorder
+{
+	margin: 0px 2px;
+}
+
+.scDvTitleStatistic
+{
+	padding: 20px 20px 20px 80px;
+	width: 90%;
+}
+
+.scDvTitleIcon
+{
+	margin: 0px 10px;
+}
+
+.scDvTitleSpan
+{
+	width: 90%;
+}
+
+.scDvTitleText
+{
+	border-bottom: solid 1px #b6bcc6;
+	width: 100%;
+}
+
+.scDvTitleTextMain
+{
+	width: 100%;
+	font: 14pt Franklin Gothic Medium;
+}
+
+.scDvTitleTextDescription
+{
+	width: 100%;
+	font: 8pt Tahoma;
+}
+
+.scDvListValue, .scDvListValue:hover, .scDvListValue:active, .scDvListValue:visited
+{
+	border: 0px;
+}
+
+.scDvListValue:hover
+{
+	text-decoration: underline;
+}
+
+.scDivListValueImg
+{
+	border: 0px;
+	margin-right: 3px;
+}
+
+.scDvUploadValue img
+{
+	margin : 3px 2px 0px 0px;
+}

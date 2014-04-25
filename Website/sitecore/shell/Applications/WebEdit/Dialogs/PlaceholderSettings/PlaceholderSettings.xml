@@ -7,34 +7,38 @@
         .scWarning
         {
         background: #ffffe4;
-        border: 1px solid #B99325;
+        border-top: 1px solid #B99325;
         padding: 2px;
         }
-        
-        table.scDialogContentContainer
-        {
-        padding: 3px 4px 0px 4px;
+
+        #Left {
+        width: 120px;
+        height: 100%;
+        overflow: auto;
+        }
+
+        #RightContainer{
+        position: absolute;
+        top:0;
+        right:0;
+        left: 130px;
+        bottom:0;
         }
 
         .main-column
         {
         border: 1px solid #828790;
+        -moz-box-sizing:border-box;
+        box-sizing:border-box;
         }
 
         .edit
         {
         width: 100%;
-        height: 20px;
         padding-top: 1px;
         padding-bottom: 1px;
         border: 1px solid;
         border-color: #ABADB3 #DBDFE6 #E3E9EF #E2E3EA
-        }
-
-        .ff .edit
-        {
-        width: 99%;
-        height: 16px;
         }
 
         .section-header
@@ -42,24 +46,19 @@
         font-weight: bold;
         color: #333333;
         border-bottom: 1px solid #999999;
-        height: 16px;
-        width: 100%;
+        height: 17px;
+        padding: 2px 5px 0px;
         }
 
         .section
         {
-        width: 100%;
-        height: 100%;
+        overflow: auto;
         }
 
-        .ff #Right
-        {
-        padding: 8px;
-        }
-
-        .ie #RightContainer
-        {
-        padding: 8px;
+        .section > div {
+        overflow: auto;
+        -moz-box-sizing:border-box;
+        box-sizing:border-box;
         }
 
         #Treeview
@@ -75,20 +74,48 @@
 
         .ff #Treeview > input[type="hidden"] + div.scContentTreeNode
         {
-          padding-left: 0px;
+        padding-left: 0px;
         }
 
         #Editable, #SelectedSettingsEditable
         {
-          position:relative;
-          left: -4px;
+        position:relative;
+        left: -4px;
         }
 
         .setting-item-name
         {
-          padding-left: 4px;
-          font-weight: 600;
+        padding-left: 4px;
+        font-weight: 600;
         }
+
+        #CreateSection, #EditSection {
+        padding: 0 5px 5px;
+        }
+
+        .header {
+        display: block;
+        margin: 8px 2px 2px;
+        }
+
+        .allowedСontrols {
+        height: 300px;
+        position: relative;
+        }
+        
+        #Right{
+        overflow: auto;
+        background: white;
+        }
+        
+        #ListHolder , #SelectedSettingsHolder{
+        right: 80px;
+        }
+        
+        .ie8 #ListHolder, .ie8 #SelectedSettingsHolder{
+        right: 90px;
+        }
+
       </Stylesheet>
       <Script>
         window.stateFlags = {};
@@ -123,9 +150,9 @@
       <CodeBeside Type=" Sitecore.Shell.Applications.WebEdit.Dialogs.PlaceholderSettingsForm,Sitecore.Client"/>
       <DataContext ID="DataContext" Root="/"/>
       <DataContext ID="ParentDataContext" Root="/"/>
-      <GridPanel Height="100%" Width="100%" VAlign="top" Fixed="true" Columns="3">
+      <div class="scStretch">
         <!--Left column-->
-        <Border ID="Left" Class="main-column scQuirksBoxModel" Height="100%" Width="100%" GridPanel.Height="100%" GridPanel.Width="120px">
+        <div ID="Left" Class="main-column">
           <!--Edit-->
           <Border ID="EditOption" Visible="false">
             <a href="#" class="mode" onfocus="this.blur()">
@@ -154,91 +181,80 @@
               </div>
             </a>
           </Border>
-        </Border>
-        <!--Center column-->
-        <Space GridPanel.Width="8px" />
+        </div>
         <!--Right Panel-->
-        <Border ID="RightContainer" Background="white" Class="main-column scQuirksBoxModel" Height="100%" GridPanel.Width="100%" GridPanel.Height="100%">
-          <GridPanel ID="Right" VAlign="top" Fixed="true" Columns="1" Width="100%" Height="100%">
-            <Border Class="section-header">
+        <Border ID="RightContainer" Class="main-column">
+          <div ID="Right" class="scStretch scFlexColumnContainer">
+            <div class="section-header">
               <Literal ID="SectionHeader" Text="Select existing placeholder settings" />
-            </Border>
-            <Border Class="section" Height="100%" GridPanel.Height="100%">
+            </div>
+            <div class="section scFlexContent">
               <!--Edit Section-->
               <Border ID="EditSection" Visible="false">
-                <GridPanel Fixed="true" VAlign="top" Width="100%" Height="100%">
-                  <Space GridPanel.Height="8px"></Space>
-                  <Border>
-                    <Literal Text="Name:"/><Literal ID="SelectedSettingName" Class="setting-item-name"></Literal>
-                  </Border>                
+                <div  class="header">
+                  <Literal Text="Name:"/><Literal ID="SelectedSettingName" Class="setting-item-name"/>
+                </div>                
+                <Literal Text="Placeholder Key:" class="header"/>
+                <Edit ID="EditPlaceholderKey" OnChange="javascript:valueChanged(this,event)" Class="edit"></Edit>
 
-                  <Space GridPanel.Height="8px"></Space>
-                  <Literal Text="Placeholder Key:"/>
-                  <Edit ID="EditPlaceholderKey" OnChange="javascript:valueChanged(this,event)" Class="edit"></Edit>                
-                  
-                  <Space GridPanel.Height="8px"></Space>
+                <div class="header">
                   <Checkbox ID="SelectedSettingsEditable" Click="SelectedEditable_Click" Header="Editable" Checked="true" ></Checkbox>
-                  <Space GridPanel.Height="8px"></Space>
-                  <Literal Text="Available Controls:"/>
-                  <GridPanel Columns="2" Width="100%" GridPanel.Height="100%" Height="100%">
-                    <Border ID="SelectedSettingsHolder" Height="100%" GridPanel.Height="100%" GridPanel.VAlign="top" GridPanel.Width="100%">
-                      <Listbox ID="SelectedSettingsAllowedControls" Class="edit" Height="100%" Width="100%" Size="8" Multiple="true"/>
-                    </Border>
-                    <Border Height="100%" GridPanel.Height="100%" GridPanel.VAlign="top">
-                      <Button ID="SelectedSettingsEditControls" Margin="0px 0px 0px 4px" Header="Edit"/>
-                    </Border>
-                  </GridPanel>
-                </GridPanel>
+                </div>
+                <Literal Text="Available Controls:" class="header"/>
+                
+                <div class="allowedСontrols">
+                  <Border ID="SelectedSettingsHolder" class="scStretchAbsolute">
+                    <Listbox ID="SelectedSettingsAllowedControls" Class="edit" Height="100%" Width="100%" Size="8" Multiple="true"/>
+                  </Border>
+                  <div style="position: absolute; top: 0; right: 0;">
+                    <Button ID="SelectedSettingsEditControls" Margin="0px 0px 0px 4px" Header="Edit"/>
+                  </div>
+                </div>
+
               </Border>
               <!--Select Section-->
               <!--Using Scrollbox with non-existing css class instead of Border to avoid breaking changes-->
-              <Scrollbox ID="SelectSection" Padding="0" Class="scSelectSection" Height="100%">
-                <GridPanel Fixed="true" VAlign="top" Width="100%" Height="100%">
-                  <Scrollbox Width="100%" Height="100%" GridPanel.Height="100%" Class="scScrollbox scFixSize scFixSize4 scKeepFixSize" Style="border-top:none;border-left:none;padding: 0px">
-                <TreeviewEx ID="Treeview" DataContext="DataContext" Click="Treeview_Click" ShowRoot="true"/>
-              </Scrollbox>
-                  <Border Style="margin-top: 8px">
-                    <Literal Text="Placeholder Key:"/>
-                    <Edit ID="PlaceholderKey" OnChange="javascript:valueChanged(this,event)" Class="edit"></Edit>
-                  </Border>
-                </GridPanel>
+              <Scrollbox ID="SelectSection" Padding="0" Class="scSelectSection">
+                <div class="scStretchAbsolute" Style="overflow: auto; background: white; bottom: 47px; ">
+                  <TreeviewEx ID="Treeview" DataContext="DataContext" Click="Treeview_Click" ShowRoot="true"/>
+                </div>
+                <div style="margin-top: 8px; padding: 0px 5px 5px; position: absolute; bottom: 0; left: 0; right: 0;">
+                  <Literal Text="Placeholder Key:"/>
+                  <Edit ID="PlaceholderKey" OnChange="javascript:valueChanged(this,event)" Class="edit"></Edit>
+                </div>
               </Scrollbox>
 
               <!--Create Section-->
-              <Border ID="CreateSection" Visible="false" Height="100%">
-                <GridPanel Fixed="true" VAlign="top" Width="100%" Height="100%">
-                  <Space GridPanel.Height="8px"></Space>
-                  <Literal Text="Name:"/>
-                  <Edit ID="NewSettingsName" OnChange="javascript:valueChanged(this,event)" Class="edit"></Edit>
-                  <Space GridPanel.Height="8px"></Space>
-                  <Literal Text="Placeholder Key:"/>
-                  <Edit ID="NewSettingsPlaceholderKey" OnChange="javascript:valueChanged(this,event)" Class="edit"></Edit>
-                  <Space GridPanel.Height="8px"></Space>
-                  <Literal Text="Parent:"/>
-                  <TreePicker ID="Parent" DataContext="ParentDataContext" Class="scCombobox edit" SelectOnly="true" AllowNone="false" Width="100%"/>
-                  <Space GridPanel.Height="8px"></Space>
-                  <Checkbox ID="Editable" Header="Editable" Click="Editable_Click" Checked="true" ></Checkbox>
-                  <Space GridPanel.Height="8px"></Space>
-                  <Literal Text="Allowed Controls:"/>
-                  <GridPanel Columns="2" Width="100%" GridPanel.Height="100%" Height="100%">
-                   <Border ID="ListHolder" Height="100%" GridPanel.Height="100%" GridPanel.VAlign="top" GridPanel.Width="100%">
-                    <Listbox ID="AllowedControls" Class="edit" Height="100%" Width="100%" Size="7" Multiple="true"/>
+              <Border ID="CreateSection" Visible="false">
+                <Literal Text="Name:" class="header"/>
+                <Edit ID="NewSettingsName" OnChange="javascript:valueChanged(this,event)" Class="edit"/>
+                <Literal Text="Placeholder Key:" class="header"/>
+                <Edit ID="NewSettingsPlaceholderKey" OnChange="javascript:valueChanged(this,event)" Class="edit"/>
+                <Literal Text="Parent:" class="header"/>
+                <TreePicker ID="Parent" DataContext="ParentDataContext" Class="scCombobox edit" SelectOnly="true" AllowNone="false" Width="100%"/>
+                <div class="header">
+                  <Checkbox ID="Editable" Header="Editable" Click="Editable_Click" Checked="true" />
+                </div>
+                <Literal Text="Allowed Controls:" class="header"/>
+                <div class="allowedСontrols">
+                  <Border ID="ListHolder" class="scStretchAbsolute">
+                    <Listbox ID="AllowedControls" Class="edit scStretch" Size="7" Multiple="true"/>
                   </Border>
-                  <Border Height="100%" GridPanel.Height="100%" GridPanel.VAlign="top">
-                      <Button ID="EditControls" Margin="0px 0px 0px 4px" Header="Edit"/>
-                  </Border>
-                  </GridPanel>                  
-                </GridPanel>
+                  <div style="position: absolute; top: 0; right: 0;">
+                    <Button ID="EditControls" Margin="0px 0px 0px 4px" Header="Edit"/>
+                  </div>
+                </div>
+
               </Border>
-            </Border>
+            </div>
             <!-- Warnings-->
             <Border ID="Warnings" Class="scWarning" Visible="false" GridPanel.Height="36px" GridPanel.VAlign="bottom">
               <ThemedImage Height="16" Width="16" style="vertical-align:middle; margin-right:4px" Src="Applications/16x16/warning.png" />
               <Literal ID="Information"></Literal>
             </Border>
-          </GridPanel>          
+          </div>          
         </Border>
-      </GridPanel>      
+      </div>      
     </FormDialog>>
   </Sitecore.Shell.Applications.WebEdit.Dialogs.PlaceholderSettings>
 </control> 

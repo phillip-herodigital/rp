@@ -1,7 +1,7 @@
 <%@ Page Language="C#" AutoEventWireup="true" Inherits="System.Web.UI.Page" %>
 <%@ Import namespace="Sitecore.Web"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" >
+<!DOCTYPE html>
+<html>
 <head runat="server">
   <title>Sitecore - Media Player</title>
   <style type="text/css">
@@ -34,3 +34,15 @@
     </form>
 </body>
 </html>
+
+<script language="C#" runat="server">
+
+protected void Page_Load(object sender, EventArgs args)
+{
+  if (!Sitecore.Context.User.IsAuthenticated)
+  {
+    WebUtil.RedirectToLoginPage();
+  }
+}
+
+</script>

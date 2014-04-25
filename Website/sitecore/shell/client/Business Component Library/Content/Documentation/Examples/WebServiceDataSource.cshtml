@@ -1,0 +1,28 @@
+﻿@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Common.Buttons
+@using Sitecore.Mvc.Presentation
+@using Sitecore.Web.UI.Controls.Common.Texts
+@using Sitecore.Web.UI.Controls.Data.WebServiceDataSources
+@model RenderingModel
+
+<p>
+  WebServiceDataSource live demo.
+</p>
+
+@Html.Sitecore().Controls().Button("Button",new{Text="Make a request",Click="javascript:app.WebServiceDataSource.refresh()"})
+@Html.Sitecore().Controls().WebServiceDataSource("WebServiceDataSource", new{Url="/sitecore/shell/client/Speak/Layouts/Renderings/Data/WebServiceDataSources/TestWebService.asmx", MethodName="HelloWorld", Namespace="http://tempuri.org/"})
+<div>
+  <p>Response from the WebService:</p>
+  @Html.Sitecore().Controls().Text("Result","", new {Text="{Binding WebServiceDataSource.response}"})  
+</div>
+
+<pre>
+&#64;Html.Sitecore().Controls().Button("Button",new{Text="Make a request",Click="javascript:app.WebServiceDataSource.refresh()"})<br />
+&#64;Html.Sitecore().Controls().WebServiceDataSource("WebServiceDataSource", new{Url="/sitecore/shell/client/Speak/Layouts/Renderings/Data/WebServiceDataSources/TestWebService.asmx", MethodName="HelloWorld", Namespace="http://tempuri.org/"})<br />
+&lt;div&gt;<br />
+  &lt;p&gt;Response from the WebService:&lt;/p&gt;<br />
+  &#64;Html.Sitecore().Controls().Text("Result","", new {Text="{Binding WebServiceDataSource.response}"})  <br />
+&lt;/div&gt;<br />
+
+
+</pre>

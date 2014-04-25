@@ -1,38 +1,14 @@
 <%@ Page Language="C#" AutoEventWireup="true" CodeBehind="default.aspx.cs" Inherits="Sitecore.sitecore.login.LoginPage" %>
 <%@ Register Assembly="Sitecore.Kernel" Namespace="Sitecore.Web.UI.HtmlControls" TagPrefix="sc" %>
 <%@ OutputCache Location="None" VaryByParam="none" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head runat="server">
     <title>Sitecore</title>
+    <link rel="shortcut icon" href="/sitecore/images/favicon.ico" />
     <link href="/sitecore/login/default.css" rel="stylesheet" />
     <meta name="robots" content="noindex, nofollow" />
-    <script type="text/JavaScript" language="javascript" src="/sitecore/login/default.js"></script>
-
-    <!--[if IE 6]>
-    <style type="text/css">
-
-        #Right
-        {
-            overflow: hidden;
-            width: 236px;
-        }
-
-        #SystemInformation
-        {
-            margin-left: 4px;
-            margin-right: 5px;
-            margin-top: 6px;
-        }
-
-        #SDN
-        {
-            margin-left: -4px;
-        }
-
-    </style>
-    <![endif]-->
-
+    <script type="text/JavaScript" src="/sitecore/login/default.js"></script> 
     <asp:PlaceHolder id="ExpressStylesheet" runat="server" />
 </head>
 <body onload="javascript:onLoad()">
@@ -171,6 +147,14 @@
                                                     alt="WebEdit" border="0" />
                                                 <sc:Literal runat="server" Text="Page Editor" />
                                             </button>
+                                        </div>
+                                      <div class="UIPanel">
+                                            <button id="AdvancedAppLauncher" type="button" runat="server" onclick="javascript:onClick('AdvancedAppLauncher', '/sitecore/client/Applications/Launch Pad')"
+                                                ondblclick="javascript:onDblClick()">
+                                                <img class="AdvancedOptionImage" src="/sitecore/shell/Themes/Standard/Images/Speak/24x24/Startpage.png"
+                                                    alt="Desktop" border="0" />
+                                                <sc:Literal runat="server" Text="Launch Pad" />
+                                            </button>                                            
                                         </div>
                                     </div>
                                     <div id="LanguagePanel">

@@ -6,26 +6,47 @@
 
       <Stylesheet Key="GalleryLanguages">
         .scMenuPanelItem, .scMenuPanelItem_Hover, .scMenuPanelItemSelected_Hover, .scMenuPanelItemSelected {
-        padding-left: 0;
-        padding-right: 0;
+          padding-left: 0;
+          padding-right: 0;
         }
+        .scGalleryMenuLine {
+          position: absolute;
+          bottom: 12px;
+          left: 1px;
+          right: 1px;
+          height: 2px;
+          -moz-box-sizing: border-box;
+          box-sizing: border-box;
+        }
+        .scGalleryGrip {
+          position: absolute;
+          bottom: 1px;
+          left: 1px;
+          right: 1px;
+          height: 10px;
+        }
+        
+        #Versions{
+          height: auto !important;
+        }
+        
       </Stylesheet>
 
-      <GridPanel Width="100%" Height="100%">
+      <div class="scStretch">
+        <div class="scGalleryContent13">
+          <GalleryMenu ID="Options" Class="scStretch">
 
-        <GalleryMenu ID="Options" GridPanel.Height="100%" GridPanel.VAlign="top">
+            <MenuPanel Height="100%">
+              <Scrollbox ID="Versions" Class="scScrollbox" Background="#F4F4F5" Padding="0px" Border="none" />
+            </MenuPanel>
 
-          <MenuPanel Height="100%">
-            <Scrollbox ID="Versions" Class="scScrollbox scFixSize" Height="100%" Background="#F4F4F5" Padding="0px" Border="none"/>
-          </MenuPanel>
-
-        </GalleryMenu>
-
-        <GalleryMenuLine GridPanel.Height="2" />
-
-        <Gallery.Grip GridPanel.Height="10"/>
-        
-      </GridPanel>
+          </GalleryMenu>
+        </div>
+        <div class="scGalleryBottom13">
+          <GalleryMenuLine />
+          <Gallery.Grip />
+        </div>
+      </div>
       
     </Gallery>
   </Gallery.Versions>

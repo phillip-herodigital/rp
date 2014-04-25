@@ -1,8 +1,7 @@
 <%@ Page language="c#" Codebehind="IDE Xslt Preview.aspx.cs" AutoEventWireup="false" Inherits="Sitecore.Shell.Applications.Layouts.IDE.Editors.Xslt.IDEXsltPreview" %>
 <%@ register TagPrefix="sc" Namespace="Sitecore.Web.UI.WebControls" Assembly="Sitecore.Kernel" %>
 <%@ OutputCache Location="None" VaryByParam="none" %>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" > 
-
+<!DOCTYPE html> 
 <html>
   <head>
     <title>XSLT Preview</title>

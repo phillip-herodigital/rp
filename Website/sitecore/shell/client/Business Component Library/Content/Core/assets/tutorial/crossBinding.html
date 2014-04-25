@@ -1,0 +1,152 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Your Website</title>
+                    <script src="../../../../Assets/vendors/JQuery/jquery-1.8.2.min.js"></script>
+      <script src="../../../../Assets/vendors/KnockOut/knockout-2.1.0.js"></script>
+      <script src="../../../../Assets/vendors/underscore/underscore.js"></script>
+      <script src="../../../../Assets/vendors/Backbone/backbone.js"></script>
+
+		<script>
+			 window.__SITECOREDEBUG = true;
+		</script>
+      <script src="../../../../Assets/lib/dist/sitecore-1.0.1.js"></script>
+        <style>
+        code, pre, tt {
+      font-family: Monaco, Consolas, "Lucida Console", monospace;
+      font-size: 12px;
+      line-height: 18px;
+      font-style: normal;
+    }
+      tt {
+        padding: 0px 3px;
+        background: #fff;
+        border: 1px solid #ddd;
+        zoom: 1;
+      }
+      code {
+        margin-left: 20px;
+      }
+      pre {
+        font-size: 12px;
+        padding: 2px 0 2px 15px;
+        border: 4px solid #bbb; border-top: 0; border-bottom: 0;
+        margin: 0px 0 25px;
+      }
+      div.run {
+      position: absolute;
+      right: 15px;
+      width: 26px; height: 18px;
+      background: url('arrows.png') no-repeat -26px 0;
+    }
+      div.run:active {
+        background-position: -51px 0;
+      }
+      header {
+        width: 600px;
+        margin:0 auto;
+      }
+      section {
+        width: 600px;
+        /*float: left;*/
+        margin:0 auto;
+        position: relative;
+      }
+      .console {
+        color:green;
+        font-size: 16px;
+      }
+      footer {
+        width:600px;
+        margin:0 auto;
+      }
+      footer a {
+        font-size: 24px;
+        margin:10px;
+      }
+      footer a.prev {
+        float: left;
+      }
+      footer a.next {
+        float: right;
+      }
+        </style>
+    </head>
+    <body>
+
+        <header>
+            <h1>Demo: CrossBinding in Sitecore.</h1>
+            
+        </header>
+        <section>
+            <h2>1) Binding One Model value with another one</h2>
+<pre class="view">
+   &#60;div id="crossBindingApp">
+     &#60;button name="button1" data-sc-id="idFromSitecore1" class="sc-button">
+         &#60;span data-bind='text:nameOfButton'> &#60;/span>
+     &#60;/button>
+    
+     &#60;input name="input2" class="sc-input"  data-sc-bindings="nameOfInput:idFromSitecore1.nameOfButton" data-sc-id="idFromSitecore2" type="text" data-bind="value:nameOfInput"/>
+   &#60;/div>
+</pre>
+<pre class="runnable html">
+  var button = _sc.Definitions.Models.Model.extend({
+    defaults: { "nameOfButton": "sharedValue" }
+   });
+
+  var buttonView = _sc.Definitions.Views.View.extend({
+    events: {"click": "changeValue"},
+    initialize: function() {
+      this.time = 0;
+    },
+    changeValue: function() {
+      this.time = this.time +1;
+      this.model.set("nameOfButton", this.time);
+    }
+  });
+       
+  var input = _sc.Definitions.Models.Model.extend({
+    defaults: { "nameOfInput": "FromInput" }
+  });
+
+  var inputView = _sc.Definitions.Views.View.extend({});
+      
+  _sc.Factories.createComponent("button", button, buttonView, ".sc-button");
+  _sc.Factories.createComponent("input", input, inputView, ".sc-input");
+
+  var app = _sc.Factories.createApp("crossBindingApp");
+
+  app.idFromSitecore2.set("nameOfButton", "sharedValue");
+</pre>
+        </section>
+        <footer>
+            <a class="prev" href="pipeline.html">Prev: The Pipeline</a>
+            <a class="next" href="#">Next: The End</a>
+        </footer>
+        <!-- Application source. -->
+        <script>
+            // Set up the "play" buttons for each runnable code example.
+            $(function() {
+
+              $('.runnable').each(function() {
+                var code = this;
+
+                var button = '<div class="run" title="Run"></div>';
+                $(button).insertBefore(code).bind('click', function(){
+                  var hasView = $(code).hasClass("html");
+
+                  if(hasView) {
+                    $(code).parent().find(".example").remove();
+                    var html = $(code).closest("section").find(".view").text();
+                    console.log(html);
+                    $(code).parent().append(html).addClass("inserted");
+                  }
+                  eval($(code).text());
+                });
+              });
+              //$('[data-original]').lazyload();
+            });
+        </script>
+    </body>
+</html>

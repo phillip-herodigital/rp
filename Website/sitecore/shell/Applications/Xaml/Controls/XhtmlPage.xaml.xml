@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <xamlControls xmlns:html="http://www.sitecore.net/htmlcontrols" xmlns:x="http://www.sitecore.net/xaml">
-  <Sitecore.Controls.XHtmlPage>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"&gt;
+  <Sitecore.Controls.XHtmlPage>&lt;!DOCTYPE html&gt;
     <x:param name="Title" value="Sitecore" />
     <x:param name="Background" />
 <html>

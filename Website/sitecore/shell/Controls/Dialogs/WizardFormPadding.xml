@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?> 
 <control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
-  <WizardFormPadding>
-  
-    <GridPanel Width="100%" Height="100%">
-    
-      <def:Placeholder GridPanel.Width="100%" GridPanel.VAlign="top" GridPanel.Style="padding:8px"/>
-      
-    </GridPanel>
-  
+  <WizardFormPadding> 
+    <div class="scWizardFormContentForOldIE scFlexContentWithoutFlexie">
+      <div class="scWizardFormPadding scStretchAbsolute">
+        <def:Placeholder />
+      </div>
+    </div>  
   </WizardFormPadding>
 </control>

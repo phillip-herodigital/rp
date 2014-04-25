@@ -88,23 +88,13 @@
 
 /* upload */
 
-/*
-body {
-  background: #fafafa;
-}
-
-form {
-  padding: 4px 4px 4px 8px;
-}
-*/
-
 #UploadUI {
   padding-top: 16px;
   overflow: auto;
 }
 
 #queue {
-  margin: 4px 0px 0px 6px;
+  margin: 4px 6px 0;
 }
 
 #queue th {
@@ -118,9 +108,13 @@ form {
   line-height: 16px;
 }
 
-#queue .name {
-  padding-right: 24px;
-}
+  #queue .name {
+    padding-right: 23px;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    width: 100%;
+    max-width: 332px;
+  }
 
 #queue .size {
   padding-right: 32px;

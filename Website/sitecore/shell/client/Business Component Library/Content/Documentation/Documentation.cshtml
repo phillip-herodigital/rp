@@ -1,0 +1,30 @@
+﻿@using Sitecore
+@using Sitecore.Mvc.Presentation
+@using Sitecore.Web
+@model RenderingModel
+@{
+  var editing = WebUtil.GetQueryString("sc_edit");
+  if (!string.IsNullOrEmpty(editing))
+  {
+    Session["SC_EDIT"] = editing;
+  }
+
+  var itemId = WebUtil.GetQueryString("i", "{53F1488C-421B-4240-95AD-C8A591547C74}");
+
+  var item = ClientHost.Items.GetItem(itemId);
+
+  if (item != null)
+  {
+    if (item.TemplateName == "Folder" || item.TemplateName == "Speak-RenderingFolder")
+    {
+        Html.RenderPartial("/sitecore/shell/client/Business Component Library/Content/Documentation/Folder.cshtml");
+      return;
+    }
+
+    if (item.TemplateName == "View rendering")
+    {
+        Html.RenderPartial("/sitecore/shell/client/Business Component Library/Content/Documentation/Rendering.cshtml");
+      return;
+    }
+  }
+}

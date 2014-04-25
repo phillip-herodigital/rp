@@ -10,13 +10,13 @@ function OpenChangeTimeoutTriggerWindow(stateId) {
   setTimeout(function () {
     var dialogUrl = "/sitecore/shell/default.aspx?xmlcontrol=Supervisor.ChangeTimeOut&stateId=" + stateId;
     var dialogStyle = "dialogWidth: 500px; dialogHeight: 600px; resizable: yes";
-    var returnValue = showModalDialog(dialogUrl, null, dialogStyle);
+    scForm.showModalDialog(dialogUrl, null, dialogStyle, null, function(returnValue) {
+      if (!returnValue) {
+        return;
+      }
 
-    if (!returnValue) {
-      return;
-    }
-
-    Reload();
+      Reload();
+    });
   }
   , 100);
 }
@@ -43,22 +43,16 @@ function OpenSimulateTriggerWindow(stateId) {
       });
 
   // Displaying the dialog.
-  setTimeout(function () {
+  setTimeout(function() {
     var dialogStyle = "dialogWidth: 500px; dialogHeight: 600px; resizable: yes";
-    var returnValue = showModalDialog(dialogUrl, null, dialogStyle);
+    scForm.showModalDialog(dialogUrl, null, dialogStyle, null, function(returnValue) {
+      if (!returnValue) {
+        return;
+      }
 
-    if (!returnValue) {
-      return;
-    }
-
-    var indx = returnValue.indexOf("^", 0);
-    if (indx > 0) {
-      var userName = returnValue.substring(0, indx);
-    }
-
-    Reload();
-  }
-  , 100);
+      Reload();
+    });
+  }, 100);
 }
 
 // ------------------------------------------------------------------------------------------------------------------
@@ -91,18 +85,18 @@ function OpenSelectUserWindow(stateId) {
   // Displaying the dialog.
   setTimeout(function () {
     var dialogStyle = "dialogWidth: 500px; dialogHeight: 600px; resizable: yes";
-    var returnValue = showModalDialog(dialogUrl, null, dialogStyle);
+    scForm.showModalDialog(dialogUrl, null, dialogStyle, null, function (returnValue) {
+      if (!returnValue) {
+        return;
+      }
 
-    if (!returnValue) {   
-      return;
-    }
+      var indx = returnValue.indexOf("^", 0);
+      if (indx > 0) {
+        var userName = returnValue.substring(0, indx);
+      }
 
-    var indx = returnValue.indexOf("^", 0);
-    if (indx > 0) {
-      var userName = returnValue.substring(0, indx);
-    }
-
-    AddVisitor(stateId, userName);
+      AddVisitor(stateId, userName);
+    });
   }
   , 100);
 }
@@ -158,13 +152,14 @@ function OpenSegmentBuilderWindow(stateId) {
   // Displaying the dialog.
       setTimeout(function () {
         var dialogStyle = "dialogWidth: 500px; dialogHeight: 600px; resizable: yes";
-        var returnValue = showModalDialog(dialogUrl, null, dialogStyle);
-         
-        if (!returnValue) {
-          return;
-        }
-        control.Content.Supervisor.VisitorsAdded(false);
-        AddVisitorsFromSegment(stateId, returnValue);
+        scForm.showModalDialog(dialogUrl, null, dialogStyle, null, function(returnValue) {
+          if (!returnValue) {
+            return;
+          }
+          
+          control.Content.Supervisor.VisitorsAdded(false);
+          AddVisitorsFromSegment(stateId, returnValue);
+        });
       }
   , 100);
 }
@@ -222,19 +217,19 @@ function OpenSelectRoleWindow(stateId) {
   // Displaying the dialog.
   setTimeout(function () {
     var dialogStyle = "dialogWidth: 500px; dialogHeight: 600px; resizable: yes";
-    var returnValue = showModalDialog(dialogUrl, null, dialogStyle);
+    scForm.showModalDialog(dialogUrl, null, dialogStyle, null, function(returnValue) {
+      if (!returnValue) {
+        return;
+      }
 
-    if (!returnValue)  {      
-      return;
-    }
+      var indx = returnValue.indexOf("^", 0);
+      if (indx > 0) {
+        var roleName = returnValue.substring(0, indx);
+      }
 
-    var indx = returnValue.indexOf("^", 0);
-    if (indx > 0) {
-      var roleName = returnValue.substring(0, indx);
-    }
-
-    control.Content.Supervisor.VisitorsAdded(false);
-    AddVisitors(stateId, roleName);
+      control.Content.Supervisor.VisitorsAdded(false);
+      AddVisitors(stateId, roleName);
+    });
   }
   , 100);
 }
@@ -296,13 +291,13 @@ function OpenImportVisitorsWindow(stateId) {
 
     // Displaying the dialog.
     var dialogStyle = "dialogWidth: 520px; dialogHeight: 600px; resizable: yes";
-    var returnValue = showModalDialog(dialogUrl, null, dialogStyle);
+    scForm.showModalDialog(dialogUrl, null, dialogStyle, null, function(returnValue) {
+      if (!returnValue) {
+        return;
+      }
 
-    if (!returnValue) {    
-      return;
-    }
-
-    control.Content.Supervisor.VisitorsAdded(true);
+      control.Content.Supervisor.VisitorsAdded(true);
+    });
   }
   , 100);
 }
@@ -343,18 +338,18 @@ function OpenSelectStateAsWindow(stateId, title, description, rootItemId, comman
   setTimeout(function () { 
 
     var dialogStyle = "dialogWidth: 500px; dialogHeight: 600px; resizable: yes";
-    var returnValue = showModalDialog(dialogUrl, null, dialogStyle);
+    scForm.showModalDialog(dialogUrl, null, dialogStyle, null, function(returnValue) {
+      if (!returnValue) {
+        return;
+      }
 
-    if (!returnValue) {
-      return;
-    }
-
-    if (command == "move") {
-      MoveVisitors(stateId, returnValue);
-    }
-    if (command == "copy") {
-      CopyVisitors(stateId, returnValue);
-    }
+      if (command == "move") {
+        MoveVisitors(stateId, returnValue);
+      }
+      if (command == "copy") {
+        CopyVisitors(stateId, returnValue);
+      }
+    });
   }
   , 100);
 }

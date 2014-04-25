@@ -1,0 +1,25 @@
+﻿@using Sitecore.Mvc
+@using Sitecore.Mvc.Presentation
+@using Sitecore.Speak.Charting.sitecore.shell.client.Speak.Layouts.Renderings.Data.DataProviders
+@using Sitecore.Web.UI.Controls.Common.UserControls
+@model RenderingModel
+@{
+  var userControl = this.Html.Sitecore().Controls().GetUserControl(this.Model.Rendering);
+  userControl.Requires.Script("controls", "GenericDataProvider.js");
+  
+  var cssClass = "sc-GenericDataProvider";
+  
+  DataProviderHelper.SetAttributes(userControl);
+
+  var serverSorting = userControl.GetString("ServerSorting");
+  var pageSize = userControl.GetString("PageSize");
+  var pageNumber = userControl.GetString("PageNumber");
+
+  userControl.Attributes["data-sc-serversorting"] = serverSorting;  
+  userControl.Attributes["data-sc-pagesize"] = pageSize;
+  userControl.Attributes["data-sc-pagenumber"] = pageNumber;
+  
+  var htmlAttributes = userControl.HtmlAttributes;
+  userControl.AppendClass(cssClass);
+}
+<script type='text/x-sitecore-genericdataprovider' @htmlAttributes> </script>

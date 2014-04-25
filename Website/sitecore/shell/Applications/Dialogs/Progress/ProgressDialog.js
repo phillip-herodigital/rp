@@ -1,21 +1,23 @@
 ﻿
 
 function checkStatus() {
+  SitecoreProgressAnimation.play();
   scForm.postRequest("", "", "", "CheckStatus");
 }
 
 function progressTo(factor) {
+  SitecoreProgressAnimation.stop();
   var filler = $("filler");
-  var total = 353;
+  var total = $("Progress").offsetWidth;
   
   var parsedFactor = parseFloat(factor);
-  var width = factor * total;
+  var width = parsedFactor * total;
   
   filler.setStyle({ width: width + "px" });
 }
 
 function showException() {
-  scForm.browser.showModalDialog("/sitecore/shell/controls/error.htm", new Array($('ErrorMessage').value), "center:yes;help:no;resizable:yes;scroll:yes;status:no;");
+  scForm.showModalDialog("/sitecore/shell/controls/error.htm", new Array($('ErrorMessage').value), "center:yes;help:no;resizable:yes;scroll:yes;status:no;dialogWidth:506;dialogHeight:103");
 }
 
 function toggle() {
@@ -28,16 +30,18 @@ function toggle() {
 }
 
 function expand() {
-  initialDialogHeight = window.dialogHeight;
-  window.dialogHeight = '387px';
+  initialDialogHeight = window.document.viewport.getHeight();
+  scForm.setDialogDimension(null, initialDialogHeight + 220);
   $("LogContainer").show();
   $("MoreImage").toggle();
   $("LessImage").toggle();
 }
 
 function collapse() {
-  window.dialogHeight = initialDialogHeight;
+  scForm.setDialogDimension(null, initialDialogHeight);
   $("LogContainer").hide();
+  $("MoreImage").toggle();
+  $("LessImage").toggle();
 }
 
 function appendLog(html) {
@@ -45,33 +49,46 @@ function appendLog(html) {
 }
 
 var SitecoreProgressAnimation = new (Class.create({
-  initialize: function() {
-    this.step = 3;
-    this.fillerWidth = 65;
-    this.totalWidth = 353;    
+  initialize: function () {
   },
   
-  play: function() {
+  play: function () {
     if (this.playing) {
       return;
     }
-    
-    $("filler").setStyle({ width: this.fillerWidth + "px" });
-    this.playing = true;    
+
+    this.playing = true;
     this.loop();
   },
   
-  loop: function() {
+  stop: function() {
+    this.playing = false;
+    $("filler").setStyle({ left: 0 });
+  },
+
+  loop: function () {
+    if (!this.playing) {
+      return;
+    }
+
     var filler = $("filler");
+    var totalWidth = $("Progress").offsetWidth;
+    var fillerWidth = totalWidth / 5;
+    var step = fillerWidth / 20;
+
+    if (filler.offsetWidth != fillerWidth) {
+      filler.setStyle({ width: fillerWidth + "px" });
+    }
+
     var left = filler.positionedOffset()[0];
-    left += this.step;
+    left += step;
     
-    if (left >= this.totalWidth - this.fillerWidth + this.step) {
+    if (left >= totalWidth - fillerWidth + step) {
       left = 1;
     }
     
     filler.setStyle({ left: left + "px" });
-    setTimeout("SitecoreProgressAnimation.loop()", 25);
+    setTimeout("SitecoreProgressAnimation.loop()", 40);
   }
 }));
 

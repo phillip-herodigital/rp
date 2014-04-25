@@ -1,0 +1,26 @@
+﻿@using Sitecore.Mvc
+@using Sitecore.Mvc.Presentation
+@using Sitecore.Web.UI.Controls.Common.UserControls
+@model RenderingModel
+@{
+  var rendering = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
+  rendering.Class = "sc-queryAnalyzerResultPane";
+  rendering.Requires.Script("/sitecore/shell/client/Speak/Content/Documentation/Samples/SitecoreRocks/QueryAnalyzers/QueryAnalyzerResultPane.js");
+  rendering.DataBind = "visible: isVisible";
+
+  var htmlAttributes = rendering.HtmlAttributes;
+}    
+  
+<div @htmlAttributes>
+  <ul id="resultPane" class="nav nav-tabs">
+    <li><a href="#tables" data-toggle="tab">Results</a></li>
+    <li class="active"><a href="#messages" data-toggle="tab">Messages</a></li>
+  </ul>     
+  
+  <div class="tab-content">
+    <div class="tab-pane" id="tables" data-bind="html: tables">
+    </div>
+    <div class="tab-pane active" id="messages" data-bind="html: messages">
+    </div>
+  </div>
+</div>

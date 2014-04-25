@@ -1,0 +1,77 @@
+﻿@using Sitecore
+@using Sitecore.Data.Items
+@using Sitecore.Mvc.Presentation
+@using Sitecore.Web
+@model RenderingModel
+@{
+  var itemId = WebUtil.GetQueryString("i", "{53F1488C-421B-4240-95AD-C8A591547C74}");
+
+  var item = ClientHost.Databases.Database.GetItem(itemId);
+  if (item == null)
+  {
+    return;
+  }
+
+  var items = new List<Item>(item.Children);
+
+  if (itemId == "{53F1488C-421B-4240-95AD-C8A591547C74}")
+  {
+    var roots = item.Database.SelectItems("fast://*[@@templateid='{BAAD9D10-19E7-4878-A96F-E290B914BF5F}']");
+    foreach (var root in roots)
+    {
+      if (root.ID.ToString() == "{53F1488C-421B-4240-95AD-C8A591547C74}")
+      {
+        continue;
+      }
+      
+      items.Add(root);
+    }
+  }
+
+  var title = item.DisplayName;
+  var subtitle = item.Help.ToolTip;
+  var text = item.Help.Text;
+  var itemPathLink = "/sitecore/shell/Applications/Content Editor?id=" + item.ID + "&sc_content=master&fo=" + item.ID + "&ic=People/16x16/cubes_blue.png&he=Content Editor&cl=0";
+  
+  if (string.IsNullOrEmpty(text))
+  {
+    text = "Controls in the " + title + " namespace.";
+  }
+}
+<h1>@title</h1>
+            
+<section>
+  <h2>
+    @subtitle
+  </h2>
+  <p>
+    @text    
+  </p>
+</section>
+
+<table class="table table-striped table-condensed">
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+  </tr>
+
+  @foreach(var child in items)
+  {
+    var name = child.DisplayName;
+    var help = child.Help.ToolTip;
+    var path = child.Paths.Path;
+          
+    <tr>
+      <td title="@path">
+        <a href="/sitecore/client/Business Component Library/Content/Documentation/component%20library?i=@child.ID"><i class="icon-chevron-right"></i>@name</a>
+      </td>
+      <td>
+        @help     
+        @if (Session["SC_EDIT"] as string == "1")
+        {
+          <a href="@itemPathLink"><img src="/sitecore/shell/themes/standard/images/smarttag.png" width="11" height="11" border="0" alt="Edit" /></a>
+        }
+      </td>
+    </tr>
+  }
+</table>

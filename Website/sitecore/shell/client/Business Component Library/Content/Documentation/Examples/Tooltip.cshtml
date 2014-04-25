@@ -1,0 +1,255 @@
+﻿@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Common.Buttons
+@using Sitecore.Web.UI.Controls.Common.ToolTips
+
+<h3>Apperance</h3>
+<h3>Tooltip</h3>
+<p>
+  General usage. Placement.
+</p>
+@Html.Sitecore().Controls().Tooltip("Tooltip1", new { Content = "Lorem Ipsum dolor sit amet", TargetControl = "DOM:#target_tooltip1" })
+@Html.Sitecore().Controls().Tooltip("Tooltip2", new { Content = "Lorem Ipsum dolor sit amet", TargetControl = "DOM:#target_tooltip2", Placement = TooltipPlacement.Left })
+@Html.Sitecore().Controls().Tooltip("Tooltip3", new { Content = "Lorem Ipsum dolor sit amet", TargetControl = "DOM:#target_tooltip3", Placement = TooltipPlacement.Top })
+@Html.Sitecore().Controls().Tooltip("Tooltip4", new { Content = "Lorem Ipsum dolor sit amet", TargetControl = "DOM:#target_tooltip4", Placement = TooltipPlacement.Right })
+<div class="sc-docs-example">
+  <button id="target_tooltip1" class="btn sc-button btn-primary" type="button">Placement: bottom(default)</button>
+  <button id="target_tooltip2" class="btn sc-button btn-primary" type="button">Placement: left</button>
+  <button id="target_tooltip3" class="btn sc-button btn-primary" type="button">Placement: top</button>
+  <button id="target_tooltip4" class="btn sc-button btn-primary" type="button">Placement: right</button><br /><br />
+</div>
+<pre>
+&#64;Html.Sitecore().Controls().Tooltip("Tooltip1", new { Content = "Lorem Ipsum dolor sit amet", TargetControl = "DOM:#target_tooltip1" })
+&#64;Html.Sitecore().Controls().Tooltip("Tooltip2", new { Content = "Lorem Ipsum dolor sit amet", TargetControl = "DOM:#target_tooltip2", Placement = TooltipPlacement.Left })
+&#64;Html.Sitecore().Controls().Tooltip("Tooltip3", new { Content = "Lorem Ipsum dolor sit amet", TargetControl = "DOM:#target_tooltip3", Placement = TooltipPlacement.Top })
+&#64;Html.Sitecore().Controls().Tooltip("Tooltip4", new { Content = "Lorem Ipsum dolor sit amet", TargetControl = "DOM:#target_tooltip4", Placement = TooltipPlacement.Right })
+</pre>
+
+<p>Trigger options:</p>
+@Html.Sitecore().Controls().Tooltip("Tooltip5", "DOM:#target_tooltip5", new { Content = "Lorem Ipsum dolor sit amet", Trigger = TriggerOptions.Focus })
+@Html.Sitecore().Controls().Tooltip("Tooltip6", "DOM:#target_tooltip6", new { Content = "Lorem Ipsum dolor sit amet", Trigger = TriggerOptions.Click })
+@Html.Sitecore().Controls().Tooltip("Tooltip7", "DOM:#target_tooltip7", new { Content = "Lorem Ipsum dolor sit amet", Trigger = TriggerOptions.Manual })
+@Html.Sitecore().Controls().Tooltip("Tooltip7", "Button1", new { Content = "Lorem Ipsum dolor sit amet"})
+@Html.Sitecore().Controls().Button("Button1", new{Text="Hover on me!"})
+@*<script type="text/javascript">
+  $(function () {
+    $("#target_tooltip7_1").click(function () {
+      Sitecore.app.Tooltip7.model.set("isVisible", true);
+    });
+    $("#target_tooltip7_2").click(function () {
+      Sitecore.app.Tooltip7.model.set("isVisible", false);
+    });
+  });
+</script>*@
+<div class="sc-docs-example">
+@*  <div>
+    <input id="target_tooltip5" type="text" class="x-large" placeholder="focus it to see tooltip..."/>  
+  </div>
+  <button id="target_tooltip6" class="btn sc-button  btn-large" type="button">Click me please</button>
+  <div>
+    <span id="target_tooltip7" class="label label-info">Here you can see the tooltip</span>
+    <button id="target_tooltip7_1" class="btn sc-button  btn-large" type="button">Show tooltip</button>
+    <button id="target_tooltip7_2" class="btn sc-button  btn-large" type="button">Hide tooltip</button>  
+  </div>*@
+  @*  @Html.Sitecore().Controls().Button("Button1", new { @class = "btn btn-large btn-info", Text = "Tooltip7 Target" })*@
+</div>
+@*<pre>
+&#64;Html.Sitecore().Controls().Tooltip("Tooltip5", "#target_tooltip5", new { Content = "Lorem Ipsum dolor sit amet", Trigger = TriggerOptions.Focus })
+&#64;Html.Sitecore().Controls().Tooltip("Tooltip6", "#target_tooltip6", new { Content = "Lorem Ipsum dolor sit amet", Trigger = TriggerOptions.Click })
+&#64;Html.Sitecore().Controls().Tooltip("Tooltip7", "#target_tooltip7", new { Content = "Lorem Ipsum dolor sit amet", Trigger = TriggerOptions.Manual })
+
+ $(function () {
+    $("#target_tooltip7_1").click(function () {
+      Sitecore.app.Tooltip7.model.set("isVisible", true);
+    });
+    $("#target_tooltip7_2").click(function () {
+      Sitecore.app.Tooltip7.model.set("isVisible", false);
+    });
+  });
+
+</pre>
+*@
+@Html.Sitecore().Controls().Tooltip("Tooltip8", "DOM:#target_tooltip8", new { Content = "This <i>tooltip</i> contains <b>html</b>" })
+@Html.Sitecore().Controls().Tooltip("Tooltip9", "DOM:#target_tooltip9", new { Content = "This <i>tooltip</i> contains <b>html</b>", ContainsHtml = true })
+<div class="sc-docs-example">
+  <button id="target_tooltip8" class="btn sc-button btn-large" type="button">Html is disabled</button>  
+  <button id="target_tooltip9" class="btn sc-button btn-large" type="button">Html is enabled</button><br /><br />
+</div>
+<pre>
+&#64;Html.Sitecore().Controls().Tooltip("Tooltip8", "#target_tooltip8", new { Content = "This &lt;i&gt; tooltip &lt;/i&gt; contains &lt;b&gt;html&lt;/b&gt;" })
+&#64;Html.Sitecore().Controls().Tooltip("Tooltip9", "#target_tooltip9", new { Content = "This &lt;i&gt;tooltip&lt;/i&gt; contains &lt;b&gt;html&lt;/b&gt;", ContainsHTML = true })
+</pre>
+
+@Html.Sitecore().Controls().Tooltip("Tooltip10", "DOM:#target_tooltip10", new { Content = "Lorem Ipsum dolor sit amet", Delay = 1000 })
+@Html.Sitecore().Controls().Tooltip("Tooltip11", "DOM:#target_tooltip11", new { Content = "javascript: function(){return $('#tooltip11_src').text();}" })
+@Html.Sitecore().Controls().Tooltip("Tooltip12", "TestButton", new { Content = "Sitecore Button!!!" })
+<div class="sc-docs-example">
+  <button id="target_tooltip10" class="btn sc-button" type="button">Delayed tooltip</button>
+  <button id="target_tooltip11" class="btn sc-button" type="button">Dynamic tooltip</button>
+  <span id="tooltip11_src" class="label label-info">It will be the content of the tooltip!</span>
+  <div style="margin: 10px 0">
+    @Html.Sitecore().Controls().Button("TestButton",new{Text="Sitecore Button"})
+  </div>
+</div>
+<pre>
+&#64;Html.Sitecore().Controls().Tooltip("Tooltip10", "#target_tooltip10", new { Content = "Lorem Ipsum dolor sit amet", Delay = 1000 })
+&#64;Html.Sitecore().Controls().Tooltip("Tooltip11", "#target_tooltip11", new { Content = "javascript: function(){return $('#tooltip11_src').text();}" })
+&#64;Html.Sitecore().Controls().Tooltip("Tooltip12", "Sitecore.app.TestButton", new { Content = "Sitecore Button!!!" })
+</pre>
+@*&#64;Html.Sitecore().Controls().Button("TestButton",new{Text="Sitecore Button"})*@
+<h3>Popover.</h3>
+
+@Html.Sitecore().Controls().Tooltip("Popover1", "DOM:#target_popover1", new { Content = "Lorem Ipsum dolor sit amet", Simple = false, Trigger = TriggerOptions.Click, Title = "Some dummy title" })
+@Html.Sitecore().Controls().Tooltip("Popover2", "DOM:#target_popover2", new { Content = "Lorem Ipsum dolor sit amet", Simple = false, Trigger = TriggerOptions.Click, Title = "Some dummy title", Placement = TooltipPlacement.Left })
+@Html.Sitecore().Controls().Tooltip("Popover3", "DOM:#target_popover3", new { Content = "Lorem Ipsum dolor sit amet", Simple = false, Trigger = TriggerOptions.Click, Title = "Some dummy title", Placement = TooltipPlacement.Right })
+@Html.Sitecore().Controls().Tooltip("Popover4", "DOM:#target_popover4", new { Content = "Lorem Ipsum dolor sit amet", Simple = false, Trigger = TriggerOptions.Click, Title = "Some dummy title", Placement = TooltipPlacement.Top })
+
+<div class="sc-docs-example">
+  <button id="target_popover1" class="btn sc-button" type="button">Placement: bottom(default)</button>
+  <button id="target_popover2" class="btn sc-button" type="button">Placement: left</button>
+  <button id="target_popover3" class="btn sc-button" type="button">Placement: right</button>
+  <button id="target_popover4" class="btn sc-button" type="button">Placement: top</button><br /><br />
+</div>
+<pre>
+&#64;Html.Sitecore().Controls().Tooltip("Popover1", "DOM:#target_popover1", new { Content = "Lorem ...", <b>Simple = false</b>, Trigger = TriggerOptions.Click, Title = "Some dummy title" })
+&#64;Html.Sitecore().Controls().Tooltip("Popover2", "DOM:#target_popover2", new { Content = "Lorem ...", <b>Simple = false</b>, Trigger = TriggerOptions.Click, Title = "Some dummy title", Placement = TooltipPlacement.Left })
+&#64;Html.Sitecore().Controls().Tooltip("Popover3", "DOM:#target_popover3", new { Content = "Lorem ...", <b>Simple = false</b>, Trigger = TriggerOptions.Click, Title = "Some dummy title", Placement = TooltipPlacement.Right })
+&#64;Html.Sitecore().Controls().Tooltip("Popover4", "DOM:#target_popover4", new { Content = "Lorem ...", <b>Simple = false</b>, Trigger = TriggerOptions.Click, Title = "Some dummy title", Placement = TooltipPlacement.Top })
+</pre>
+
+
+@*<div class="sc-docs-example">
+  <label>ButtonTypes:</label>
+  <div class="btn-group" data-toggle="buttons-radio" style="margin-bottom: 20px;">
+    <button type="button" id="simple_type_btn" class="btn sc-button btn-info active">Simple</button>
+    <button type="button" id="adv_type_btn" class="btn sc-button btn-info">Advanced</button>
+  </div>
+  <div class="row">
+    <div class="span4">
+      <label>Content:</label>
+      <input id="tooltip_popover_content" type="text" placeholder="Content for tooltip">  
+    </div>
+    <div class="span4">
+      <label>Title(only for advanced mode):</label>
+      <input id="tooltip_popover_title" type="text" disabled placeholder="Title for advanced tooltip">  
+    </div>  
+  </div>
+  
+  
+  
+  <div style="margin: 20px 0;">
+    <label>Orientation</label>
+    <div class="btn-group" id="orientation" data-toggle="buttons-radio" >
+      <button type="button" id="orient_bottom" class="btn sc-button  btn-info active">Bottom</button>
+      <button type="button" id="orient_top" class="btn sc-button  btn-info">Top</button>
+      <button type="button" id="orient_left" class="btn sc-button  btn-info">Left</button>
+      <button type="button" id="orient_right" class="btn sc-button  btn-info">Right</button>
+    </div>
+  </div>
+  <div class="well">
+    <button type="button" id="toggle_tp" class="btn sc-button  btn-primary">Toggle tooltip</button>
+    <button type="button" id="reset_btn" class="btn sc-button">Reset</button>
+  </div>
+  <div style="margin:20px 0; padding: 40px 0 20px;">
+    <input id="tooltip_popover_target" type="text" placeholder="Target for tooltip">
+    
+  </div>
+</div>*@
+@*@Html.Sitecore().Controls().Tooltip("ToolipAdv", "#tooltip_popover_target", new { Content = "", Trigger=TriggerOptions.Manual})*@
+@*<script type="text/javascript">
+  $(function () {
+    var simple = true, orientation = "bottom", content, title;
+
+    $("#toggle_tp").click(function (e) {
+      content = $("#tooltip_popover_content").val();
+      title = $("#tooltip_popover_title").val();
+      Sitecore.app.ToolipAdv.model.set({ "simple": simple, "placement": orientation, "content": content, "title": title });
+      Sitecore.app.ToolipAdv.model.toggle();
+    });
+
+    $("#orientation").on("click", "button", function (e) {
+      switch ($(e.target).attr("id")) {
+      case "orient_bottom":
+        orientation = "bottom";
+        break;
+      case "orient_top":
+        orientation = "top";
+        break;
+      case "orient_left":
+        orientation = "left";
+        break;
+      case "orient_right":
+        orientation = "right";
+        break;
+      }
+    });
+
+    $("#adv_type_btn").click(function (e) {
+      simple = false;
+      $("#tooltip_popover_title").removeAttr("disabled");
+    });
+
+    $("#simple_type_btn").click(function (e) {
+      simple = true;
+      $("#tooltip_popover_title").attr("disabled", "");
+    });
+    $("#reset_btn").click(function () {
+      $("#tooltip_popover_title").attr("disabled", "");
+      $(".btn-group button").removeClass("active");
+      $(".btn-group button:first-child").addClass("active");
+      $("#tooltip_popover_content").val("");
+      $("#tooltip_popover_title").val("");
+    });
+  });
+</script>*@
+@*<pre>
+&#64;Html.Sitecore().Controls().Tooltip("ToolipAdv", "#tooltip_popover_target", new { Content = "Lorem Ipsum dolor sit amet", Trigger=TriggerOptions.Manual})
+
+Javascript:
+$(function () {
+    var simple = true, orientation = "bottom", content, title;
+
+    $("#toggle_tp").click(function (e) {
+      content = $("#tooltip_popover_content").val();
+      title = $("#tooltip_popover_title").val();
+      Sitecore.app.ToolipAdv.model.set({ "simple": simple, "placement": orientation, "content": content, "title": title });
+      Sitecore.app.ToolipAdv.model.toggle();
+    });
+
+    $("#orientation").on("click", "button", function (e) {
+      switch ($(e.target).attr("id")) {
+      case "orient_bottom":
+        orientation = "bottom";
+        break;
+      case "orient_top":
+        orientation = "top";
+        break;
+      case "orient_left":
+        orientation = "left";
+        break;
+      case "orient_right":
+        orientation = "right";
+        break;
+      default:
+      }
+    });
+
+    $("#adv_type_btn").click(function (e) {
+      simple = false;
+      $("#tooltip_popover_title").removeAttr("disabled");
+    });
+
+    $("#simple_type_btn").click(function (e) {
+      simple = true;
+      $("#tooltip_popover_title").attr("disabled", "");
+    });
+
+    $("#reset_btn").click(function () {
+      $("#tooltip_popover_title").attr("disabled", "");
+      $(".btn-group button").removeClass("active");
+      $(".btn-group button:first-child").addClass("active");
+      $("#tooltip_popover_content").val("");
+      $("#tooltip_popover_title").val("");
+    });
+  });
+</pre>
+*@

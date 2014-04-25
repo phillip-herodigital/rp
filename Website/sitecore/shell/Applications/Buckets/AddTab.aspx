@@ -5,44 +5,31 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <script src="./Scripts/jquery.min.js" type="text/javascript"></script>
-    <script src="./Scripts/jquery.min.noconflict.js" type="text/javascript"></script>
-    <script src="/sitecore/shell/controls/lib/prototype/prototype.js" type="text/javascript"></script>
+<head>
+    <title></title>
+    <script type="text/javascript" src="./libs/jquery/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="./libs/jquery/jquery-migrate-1.2.1.js"></script>
+    <script type="text/javascript" src="./Scripts/jquery.noconflict.js"></script>
 
-    <% if (UIUtil.IsIE())
-       {%>
-    <script src="/sitecore/shell/controls/InternetExplorer.js" type="text/javascript"></script>
-    <% }
-       else
-       { %>
-    <script src="/sitecore/shell/controls/Gecko.js" type="text/javascript"></script>
-    <% } %>
-    <script src="/sitecore/shell/controls/Sitecore.js" type="text/javascript"></script>
-    <!--[if IE]>
-     <link href="/sitecore/shell/Applications/Buckets/Styles/ItemBucket.ie.css" rel="stylesheet" type="text/css" />
-    <![endif]-->
+    <script type="text/javascript" src="/sitecore/shell/controls/lib/prototype/prototype.js"></script>
+    <script type="text/javascript" src="/sitecore/shell/controls/Browser.js"></script>
+    <script type="text/javascript" src="/sitecore/shell/controls/Sitecore.js"></script>
 
     <script type="text/javascript">
-
-
         $j(document).ready(function () {
-            
-            //if (!$j.browser.msie) {
-                var firstLoad = true;
 
-                $j(".scRibbonEditorTabNormal", parent.document.body).click(function() {
+            var firstLoad = true;
 
-                    var src = $j('.scEditorTabHeaderActive', parent.document.body)[0].firstChild.src;
-                    if (src.indexOf("Applications/16x16/view_add.png") != -1) {
-                        window.scForm.getParentForm().postRequest('', '', '', 'contenteditor:launchblanktab(url=' + '' + ')');
-                        firstLoad = false;
-                    }
-
-
-                });
-            //}
-
+            $j(".scRibbonEditorTabNormal", parent.document.body).click(function () {
+                var icon = $j('.scEditorTabHeaderActive', parent.document.body)[0].firstChild;
+                var filter = icon.style.filter;
+                var src = icon.src;
+                var iconPath = "Applications/16x16/view_add.png";
+                if (src.indexOf(iconPath) != -1 || filter.indexOf(iconPath) != -1) {
+                    window.scForm.getParentForm().postRequest('', '', '', 'contenteditor:launchblanktab(url=' + '' + ')');
+                    firstLoad = false;
+                }
+            });
         });
 
     </script>

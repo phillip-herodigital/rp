@@ -39,7 +39,7 @@
     </style>
     <div class="row" style="margin-top: 14px;">
       <div class="label">
-        <span>Name:</span>
+        <asp:Label ID="leadName" runat="server" />
       </div>
       <div class="value">
         <asp:Image ID="Portrait" runat="server" class="img" Style="border: 1px solid #b9b9b9;" />
@@ -48,7 +48,7 @@
     </div>
     <div runat="server" id="TitleRow" class="row">
       <div class="label">
-        Title:
+        <asp:Label ID="leadTitle" runat="server" />
       </div>
       <div class="value">
         <asp:Label ID="lblTitle" runat="server" Text="" />
@@ -56,7 +56,7 @@
     </div>
     <div runat="server" id="DetailsRow" class="row">
       <div class="label">
-        Details:
+        <asp:Label ID="leadDetails" runat="server" />
       </div>
       <div class="value">
         <asp:Label ID="lblDetails" runat="server" Text="" />
@@ -64,7 +64,7 @@
     </div>
     <div runat="server" id="DescriptionRow" class="row">
       <div class="label">
-        Description:
+        <asp:Label ID="leadDescription" runat="server" />
       </div>
       <div class="value">
         <asp:Label ID="lblDescription" runat="server" Text="" />
@@ -72,7 +72,7 @@
     </div>
     <div runat="server" id="AgeRow" class="row">
       <div class="label">
-        Age:
+        <asp:Label ID="leadAge" runat="server" />
       </div>
       <div class="value">
         <asp:Label ID="lblAge" runat="server" Text="" />
@@ -80,7 +80,7 @@
     </div>
     <div runat="server" id="EducationRow" class="row">
       <div class="label">
-        Education:
+        <asp:Label ID="leadEducation" runat="server" />
       </div>
       <div class="value">
         <asp:Label ID="lblEducation" runat="server" Text="" />
@@ -88,7 +88,7 @@
     </div>
     <div runat="server" id="FamilyRow" class="row">
       <div class="label">
-        Family:
+        <asp:Label ID="leadFamily" runat="server" />
       </div>
       <div class="value">
         <asp:Label ID="lblFamily" runat="server" Text="" />
@@ -96,7 +96,7 @@
     </div>
     <div runat="server" id="InterestsRow" class="row">
       <div class="label">
-        Interests:
+        <asp:Label ID="leadInterests" runat="server" />
       </div>
       <div class="value">
         <asp:Label ID="lblInterests" runat="server" Text="" />
@@ -104,7 +104,7 @@
     </div>
     <div runat="server" id="DayOfMyLifeRow" class="row">
       <div class="label">
-        DayOfMyLife:
+        <asp:Label ID="leadDayOfMyLife" runat="server" />
       </div>
       <div class="value">
         <asp:Label ID="lblDayOfMyLife" runat="server" Text="" />
@@ -112,7 +112,7 @@
     </div>
     <div runat="server" id="OrganizationRow" class="row">
       <div class="label">
-        Organization:
+        <asp:Label ID="leadOrganization" runat="server" />
       </div>
       <div class="value">
         <asp:Label ID="lblOrganization" runat="server" Text="" />
@@ -120,7 +120,7 @@
     </div>
     <div runat="server" id="EnvironmentRow" class="row">
       <div class="label">
-        Environment:
+        <asp:Label ID="leadEnvironment" runat="server" />
       </div>
       <div class="value">
         <asp:Label ID="lblEnvironment" runat="server" Text="" />
@@ -128,7 +128,7 @@
     </div>
     <div runat="server" id="GoalRow" class="row">
       <div class="label">
-        Goal:
+        <asp:Label ID="leadGoal" runat="server" />
       </div>
       <div class="value">
         <asp:Label ID="lblGoal" runat="server" Text="" />
@@ -136,7 +136,7 @@
     </div>
     <div runat="server" id="ResponsibilityRow" class="row">
       <div class="label">
-        Responsibility:
+        <asp:Label ID="leadResponsibility" runat="server" />
       </div>
       <div class="value">
         <asp:Label ID="lblResponsibility" runat="server" Text="" />
@@ -144,7 +144,7 @@
     </div>
     <div runat="server" id="PsychographicsRow" class="row">
       <div class="label">
-        Psychographics:
+        <asp:Label ID="leadPsychographics" runat="server" />
       </div>
       <div class="value">
         <asp:Label ID="lblPsychographics" runat="server" Text="" />

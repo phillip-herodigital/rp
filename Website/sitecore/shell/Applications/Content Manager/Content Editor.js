@@ -2,7 +2,6 @@ function scContentEditor() {
     this.lastVisibleStrip = 0;
     this.fontSize = 0;
     this.isContextualTab = false;
-    this.currentSmartTag = null;
     this.currentGallery = null;
     this.validationTimer = null;
     this.validationTimer2 = null;
@@ -10,7 +9,7 @@ function scContentEditor() {
     this.treeFocus = null;
     this.ribbonFocus = null;
     this.validatorUpdateDelay = null;
-  
+
     scForm.Content = this;
 
     scForm.browser.attachEvent(document, "onkeyup", function (evt) { scContent.onKeyUp(evt ? evt : window.event) });
@@ -24,9 +23,18 @@ var ignoreNextTabClick = false;
 
 scContentEditor.prototype.onLoad = function (evt) {
     scContentEditorUpdated();
-    var ctl = scForm.browser.getControl("ContentTreeSplitter");
-    if (ctl != null) {
-        ctl.style.display = scForm.browser.getControl("ContentTreePanel").style.display;
+
+    try {
+      if (window.frameElement && $(window.frameElement).observe) {
+          var self = this;
+          $(window.frameElement).observe("sc:onWindowRestore", function () {
+              self.focusActiveItem();
+          });
+
+          this.focusActiveItem();
+      }
+    }
+    catch(e) {
     }
 
     if (!Prototype.Browser.Gecko) {
@@ -120,7 +128,6 @@ scContentEditor.prototype.onEditorClick = function (sender, evt) {
         // silent
     }
 
-    this.smartTag(this);
     scForm.browser.closePopups('EditorClick');
     this.closeGallery(evt, false, 'EditorClick');
 }
@@ -182,7 +189,7 @@ scContentEditor.prototype.getExecuteRequest = function (command, callback) {
 scContentEditor.prototype.executeHandler = function (parameters, callback) {
     if (this.httpRequest != null) {
         if (this.httpRequest.status != "200") {
-            scForm.browser.showModalDialog("/sitecore/shell/controls/error.htm", new Array(this.httpRequest.responseText), "center:yes;help:no;resizable:yes;scroll:yes;status:no;");
+            scForm.showModalDialog("/sitecore/shell/controls/error.htm", new Array(this.httpRequest.responseText), "center:yes;help:no;resizable:yes;scroll:yes;status:no;dialogWidth:506;dialogHeight:103");
             return;
         }
 
@@ -347,8 +354,15 @@ scContentEditor.prototype.onTreeClick = function (sender, evt) {
                 return;
             }
 
+            if ($(ctl).hasClassName("scContentTreeNodeStatic")) {
+              return;
+            }
+
             if (ctl.id != null && ctl.id.indexOf("_Node_") >= 0) {
-                return this.onTreeNodeClick(ctl, ctl.id.substr(ctl.id.lastIndexOf("_") + 1));
+                if (!$$('#EditorFrames>iframe[id^="F{"]').any(function (iframe) { return iframe.contentWindow.scForm && iframe.contentWindow.scForm.modified; })
+                  || confirm(scForm.translate("There are unsaved changes. Are you sure you want to continue?"))) {
+                    return this.onTreeNodeClick(ctl, ctl.id.substr(ctl.id.lastIndexOf("_") + 1));
+                }
             }
         }
     }
@@ -369,14 +383,14 @@ scContentEditor.prototype.onTreeNodeClick = function (sender, id) {
         scForm.disableRequests = true;
 
         if (navigator.userAgent.indexOf('Trident/6.0') > 0) {
-          var focusKeeper = top.document.getElementById('scIE10FocusKeeper');
-          if (focusKeeper) focusKeeper.focus();
+            var focusKeeper = top.document.getElementById('scIE10FocusKeeper');
+            if (focusKeeper) focusKeeper.focus();
         }
 
         scForm.postRequest("", "", "", "LoadItem(\"" + id + "\")");
 
-      sender.removeChild(sender.lastChild);
-      $(sender.id).focus();
+        sender.removeChild(sender.lastChild);
+        $(sender.id).focus();
     }, 1);
 
     return false;
@@ -426,27 +440,13 @@ scContentEditor.prototype.expandTreeNode = function (sender, result) {
             document.fire("sc:contenttreeupdated", node);
         }
         else {
-            var container = node.ownerDocument.createElement("div");
-
-            node.appendChild(container);
-
-            container.innerHTML = "<div class=\"scContentTreeNode\"><img src=\"/sitecore/shell/themes/standard/images/noexpand15x15.gif\" id=\"Tree_Glyph_DE94472DBCFA4B159F1504ECEF5FA9CC\" " +
-                "class=\"scContentTreeNodeGlyph\" alt=\"\" border=\"0\"><div id=\"GutterDE94472DBCFA4B159F1504ECEF5FA9CC\" class=\"scContentTreeNodeGutter\"></div><a id=\"\" href=\"#\" " +
-                "class=\"scContentTreeNodeNormal\" style=\"position: relative; \"><span style=\"opacity:0.3;\"><img src=\"~/icon/business/16x16/chest_add.png\" width=\"16\" height=\"16\" " +
-                "class=\"scContentTreeNodeIcon\" alt=\"\" border=\"0\">" + hiddenItemsText + "</span></a></div>";
-
-            scForm.browser.setOuterHtml(node.childNodes[0], scForm.browser.getOuterHtml(node.childNodes[0]).replace("/expand15x15", "/noexpand15x15").replace("/collapse15x15", "/noexpand15x15").replace("/loading15x15", "/noexpand15x15"));
-
-            document.fire("sc:contenttreeupdated", node);
- this.collapseTreeNode(sender);
+          scForm.browser.setOuterHtml(node.childNodes[0], scForm.browser.getOuterHtml(node.childNodes[0]).replace("/expand15x15", "/noexpand15x15").replace("/collapse15x15", "/noexpand15x15").replace("/loading15x15", "/noexpand15x15"));
         }
-
-	
     }
 }
 
 scContentEditor.prototype.onTreeGlyphClick = function (sender, id, treeid) {
-    if (sender.src.indexOf("expand15x15") >= 0) {
+    if (sender.src.indexOf("expand15x15") >= 0 && sender.src.indexOf("noexpand15x15") == -1) {
         function expandTreeNode(result) {
             scContent.expandTreeNode(sender, result);
         }
@@ -461,7 +461,7 @@ scContentEditor.prototype.onTreeGlyphClick = function (sender, id, treeid) {
 
         this.execute("GetTreeviewChildren", expandTreeNode, "id", id, "treeid", treeid, "ro", this.getQueryString("ro"), "la", language);
     }
-    else {
+    else if (sender.src.indexOf("collapse15x15") >= 0) {
         this.collapseTreeNode(sender);
     }
 
@@ -525,9 +525,9 @@ scContentEditor.prototype.setActiveTreeNode = function (id, path, treeid) {
     }
 
     if (!scForm.browser.isIE) {
-      setTimeout(function() {scForm.browser.resizeFixsizeElements();}, 100);
+        setTimeout(function () { scForm.browser.resizeFixsizeElements(); }, 100);
     }
-    
+
     var active = this.getActiveEditorTab();
 
     if (active.id.startsWith('B') && !active.id.startsWith('BT') && !active.id.startsWith('BContent')) {
@@ -557,7 +557,7 @@ scContentEditor.prototype.onTreeDrag = function (tag, evt) {
             control = control.parentNode;
         }
 
-        if (control != null) {
+        if (control != null && !$(control).hasClassName('scContentTreeNodeStatic')) {
             scForm.drag(tag, evt, "item:" + control.id);
         }
     }
@@ -570,7 +570,7 @@ scContentEditor.prototype.onTreeDrop = function (tag, evt) {
         control = control.parentNode;
     }
 
-    if (control != null && control.id != null && control.id != "") {
+    if (control != null && !!control.id && !$(control).hasClassName('scContentTreeNodeStatic')) {
         var parameters = null;
 
         if (evt.type == "drop") {
@@ -656,165 +656,184 @@ scContentEditor.prototype.onTreeKeyDown = function (tag, evt) {
         return;
     }
 
-  var source = Event.element(evt);
-  var node = source.up("div.scContentTreeNode");
-  if (node == null) {
-    return;
-  }
-
-  if (node != null) {
-    switch (evt.keyCode) {
-    case 37:
-// left
-      node = node.childNodes[0];
-
-      if (node.src.indexOf("/collapse15x15") >= 0) {
-        this.RaiseEventClick(node);
-        scForm.browser.clearEvent(evt, true, false);
-      }
-      break;
-    case 39:
-// right
-      node = node.childNodes[0];
-
-      if (node.src.indexOf("/expand15x15") >= 0) {
-        this.RaiseEventClick(node);
-        scForm.browser.clearEvent(evt, true, false);
-      }
-      break;
-    case 38:
-// up
-      var previousNode = this.getPreviousTreeNode(node) || node.up('div.scContentTreeNode', 0);
-      if (previousNode) {
-        var treeNodeLink = previousNode.down('a');
-        this.RaiseEventClick(treeNodeLink);
-        scForm.browser.clearEvent(evt, true, false);
-        $(treeNodeLink.id).focus();
-      }
-      break;
-    case 40:
-// down
-      var nextNode = node.down('div.scContentTreeNode') || node.next() || this.getNextTreeNode(node);
-
-      if (nextNode != null) {
-        var treeNodeLink = nextNode.down('a');
-        this.RaiseEventClick(treeNodeLink);
-        scForm.browser.clearEvent(evt, true, false);
-        $(treeNodeLink.id).focus();
-      }
-      break;
+    var source = Event.element(evt);
+    var node = source.up("div.scContentTreeNode");
+    if (node == null) {
+        return;
     }
+
+  switch (evt.keyCode) {
+            case 37:
+                // left
+                node = node.childNodes[0];
+
+                if (node.src.indexOf("/collapse15x15") >= 0) {
+                    this.RaiseEventClick(node);
+                    scForm.browser.clearEvent(evt, true, false);
+                }
+                break;
+            case 39:
+                // right
+                node = node.childNodes[0];
+
+                if (node.src.indexOf("/expand15x15") >= 0) {
+                    this.RaiseEventClick(node);
+                    scForm.browser.clearEvent(evt, true, false);
+                }
+                break;
+            case 38:
+                // up
+                var previousNode = this.getPreviousTreeNode(node) || node.up('div.scContentTreeNode', 0);
+                if (previousNode) {
+                    var treeNodeLink = previousNode.down('a');
+                    this.RaiseEventClick(treeNodeLink);
+                    scForm.browser.clearEvent(evt, true, false);
+                    $(treeNodeLink.id).focus();
+                }
+                break;
+            case 40:
+                // down
+                var nextNode = node.down('div.scContentTreeNode') || node.next() || this.getNextTreeNode(node);
+
+                if (nextNode != null) {
+                    var treeNodeLink = nextNode.down('a');
+                    this.RaiseEventClick(treeNodeLink);
+                    scForm.browser.clearEvent(evt, true, false);
+                    $(treeNodeLink.id).focus();
+                }
+                break;
+      
+    case 46: // delete
+      scForm.invoke('item:delete', event);
+      break;
   }
-}
+};
 
 scContentEditor.prototype.getNextTreeNode = function (node) {
-  var upperNode = node.up('div.scContentTreeNode');
-  var result;
-  do {
-    result = upperNode.next();
-    upperNode = upperNode.up('div.scContentTreeNode');
-  } while (upperNode && !result)
+    var upperNode = node.up('div.scContentTreeNode');
+    var result;
+    do {
+        result = upperNode.next();
+        upperNode = upperNode.up('div.scContentTreeNode');
+    } while (upperNode && !result)
 
-  return result;
+    return result;
 }
 
 scContentEditor.prototype.getPreviousTreeNode = function (node) {
-  var previousNode = node.previous('div.scContentTreeNode');
-  if (!previousNode)
-    return;
+    var previousNode = node.previous('div.scContentTreeNode');
+    if (!previousNode)
+        return;
 
-  var lastChildNode = $(previousNode).select(':last-child').last().up('div.scContentTreeNode');
+    var lastChildNode = $(previousNode).select(':last-child').last().up('div.scContentTreeNode');
 
-  return lastChildNode;
+    return lastChildNode;
 }
 
-scContentEditor.prototype.RaiseEventClick = function(element) {
-  // Safari can not procces .click() on 'img', 'a' and maybe something else
-  if (!Prototype.Browser.WebKit) {
-    element.click();
-  }
-  else {
-    var eventObj = document.createEvent('MouseEvents');
-    eventObj.initEvent('click', true, true);
-    element.dispatchEvent(eventObj);
-  }
-}
-
-scContentEditor.prototype.initializeTree = function() {
-  var ctl = scForm.browser.getControl("ContentTreePanel");
-  
-  if (ctl != null) {
-    var visible = (scForm.getCookie("scContentEditorFolders") != "0") && (window.location.href.indexOf("mo=preview") < 0) && (window.location.href.indexOf("mo=mini") < 0) && (window.location.href.indexOf("mo=popup") < 0) || (window.location.href.indexOf("mo=template") >= 0);
-    
-    ctl.style.display = visible ? "" : "none";
-    
-    var width = scForm.getCookie("scContentEditorFoldersWidth");
-    
-    if (width != null && width != "")  {
-      ctl.style.width = width;
+scContentEditor.prototype.RaiseEventClick = function (element) {
+    // Safari can not procces .click() on 'img', 'a' and maybe something else
+    if (!Prototype.Browser.WebKit) {
+        element.click();
     }
-  }
+    else {
+        var eventObj = document.createEvent('MouseEvents');
+        eventObj.initEvent('click', true, true);
+        element.dispatchEvent(eventObj);
+    }
+}
+
+scContentEditor.prototype.initializeTree = function () {
+    var ctl = scForm.browser.getControl("ContentTreePanel");
+
+    if (ctl != null) {
+        var visible = (scForm.getCookie("scContentEditorFolders") != "0") && (window.location.href.indexOf("mo=preview") < 0) && (window.location.href.indexOf("mo=mini") < 0) && (window.location.href.indexOf("mo=popup") < 0) || (window.location.href.indexOf("mo=template") >= 0);
+
+        ctl.style.display = visible ? "" : "none";
+    }
 }
 
 // ------------------------------------------------------------------
 // Galleries
 // ------------------------------------------------------------------
 
-scContentEditor.prototype.showGallery = function (sender, evt, id, src, parameters, width, height, where) {
-    scForm.focus(sender); // IE bug work-around
-    this.closeGallery(evt, true, 'showGallery');
-    Event.stop(evt);
+scContentEditor.prototype.showGallery = function(sender, evt, id, src, parameters, width, height, where) {
+  scForm.focus(sender); // IE bug work-around
+  this.closeGallery(evt, true, 'showGallery');
+  Event.stop(evt);
 
-    // To do: insert more proper logic than silent try/catch
-    if ($("scGalleries")) {
-        try {
-            var size = $F("scGalleries").toQueryParams()[id];
-            if (size != null && size != "") {
-                var parts = size.split("q");
-                width = parts[0];
-                height = parts[1];
-            }
-        } catch (ex) {
-            console.error(ex);
-        }
+  // To do: insert more proper logic than silent try/catch
+  if ($("scGalleries")) {
+    try {
+      var size = $F("scGalleries").toQueryParams()[id];
+      if (size != null && size != "") {
+        var parts = size.split("q");
+        width = parts[0];
+        height = parts[1];
+      }
+    } catch(ex) {
+      console.error(ex);
     }
+  }
 
-    var url = "/sitecore/shell/default.aspx?xmlcontrol=" + src + "&" + parameters;
+  var url = "/sitecore/shell/default.aspx?xmlcontrol=" + src + "&" + parameters;
 
-    var iframe = document.createElement("IFRAME");
+  var iframe = document.createElement("IFRAME");
 
-    iframe.id = id;
-    iframe.className = "scGalleryFrame";
-    iframe.frameBorder = 0;
-    iframe.allowTransparency = true;
-    iframe.ondeactivate = function () { return scContent.closeGallery(id, null, 'ondeactivate') };
-    iframe.src = url;
-    // iframe.style.display = "none";
-
-    iframe.width = width;
-    iframe.height = height;
-
-    var bounds = new scRect();
-    bounds.clientToScreen(sender);
-
-    if (where == "expanding") {
-        iframe.style.left = (bounds.left + 2) + "px";
-        iframe.style.top = (bounds.top) + "px";
-        if (iframe.width == null || iframe.width == "") {
-            iframe.width = sender.offsetWidth + "px";
-        }
+  iframe.id = id;
+  iframe.className = "scGalleryFrame";
+  iframe.frameBorder = 0;
+  iframe.allowTransparency = true;
+  iframe.ondeactivate = function () {
+    if (top.initializingModalDialog) {
+      return false;
     }
-    else {
-        iframe.style.left = (bounds.left + 3) + "px";
-        iframe.style.top = (bounds.top + sender.offsetHeight + 2) + "px";
+    return scContent.closeGallery(id, null, 'ondeactivate');
+  };
+  iframe.src = url;
+  // iframe.style.display = "none";
+
+  iframe.width = width;
+  iframe.height = height;
+
+  var bounds = new scRect();
+  bounds.clientToRelativeParent(sender);
+
+  var relativeParentSize = new scRect();
+  relativeParentSize.getRelativeParentSize(sender);
+
+  var iframeLeft = 0;
+  var iframeTop = 0;
+  if (where == "expanding") {
+    iframeLeft = bounds.left + 2;
+    iframeTop = bounds.top;
+    if (iframe.width == null || iframe.width == "") {
+      iframe.width = sender.offsetWidth + "px";
     }
+  } else {
+    iframeLeft = bounds.left + 3;
+    iframeTop = bounds.top + sender.offsetHeight + 2;
+  }
 
-    sender.insertBefore(iframe, sender.firstChild);
+  var iframeWidth = 0;
+  try {
+    iframeWidth = parseInt(iframe.width);
+  } catch(ex) {
+    console.error(ex);
+  }
 
-    this.currentGallery = id;
+  if (relativeParentSize.width > 0 && iframeLeft + iframeWidth > relativeParentSize.width) {
+    iframeLeft = relativeParentSize.width - iframeWidth;
+  }
 
-    return false;
-}
+  iframe.style.left = iframeLeft + "px";
+  iframe.style.top = iframeTop + "px";
+
+  sender.insertBefore(iframe, sender.firstChild);
+
+  this.currentGallery = id;
+
+  return false;
+};
 
 scContentEditor.prototype.closeGallery = function (evt, clearEvent, reason) {
     var ctl = scForm.browser.getControl(this.currentGallery);
@@ -874,12 +893,12 @@ scContentEditor.prototype.toggleSection = function (id, sectionName) {
     var nextSibling = e.next();
     var visible = nextSibling.style.display == "none";
 
-  e.className = visible ? "scEditorSectionCaptionExpanded" : "scEditorSectionCaptionCollapsed";
-  var displayStyle = "block";
-  if ((Prototype.Browser.Gecko || Prototype.Browser.WebKit) && nextSibling.nodeName.toLowerCase() == "table") {
-    displayStyle = "table";
-  }
-  nextSibling.style.display = visible ? displayStyle : "none";
+    e.className = visible ? "scEditorSectionCaptionExpanded" : "scEditorSectionCaptionCollapsed";
+    var displayStyle = "block";
+    if ((Prototype.Browser.Gecko || Prototype.Browser.WebKit) && nextSibling.nodeName.toLowerCase() == "table") {
+        displayStyle = "table";
+    }
+    nextSibling.style.display = visible ? displayStyle : "none";
 
     var scSections = $("scSections");
     var value = scSections.value;
@@ -907,7 +926,7 @@ scContentEditor.prototype.toggleSection = function (id, sectionName) {
 // Folders
 // ------------------------------------------------------------------
 
-scContentEditor.prototype.toggleFolders = function() {
+scContentEditor.prototype.toggleFolders = function () {
     var ctl = scForm.browser.getControl("ContentTreePanel");
 
     if (ctl != null) {
@@ -925,7 +944,7 @@ scContentEditor.prototype.toggleFolders = function() {
         ctl.style.display = visible ? "" : "none";
     }
 
-    if (typeof(scGeckoRelayout) != "undefined") {
+    if (typeof (scGeckoRelayout) != "undefined") {
         scForm.browser.initializeFixsizeElements();
     }
 };
@@ -935,111 +954,15 @@ scContentEditor.prototype.toggleFolders = function() {
 // ------------------------------------------------------------------
 
 scContentEditor.prototype.fullScreen = function () {
-     if (!scForm.browser.isIE) {
-         window.$sc(window.top.document).fullScreen(true);
-}
+    if (!scForm.browser.isIE) {
+        window.$sc(window.top.document).fullScreen(true);
+    }
 };
-
-scContentEditor.prototype.mouseDown = function (tag, evt) {
-    if (!this.dragging) {
-        this.bounds = new scRect();
-        this.bounds.getControlRect(tag);
-        this.bounds.move(0, 0);
-        this.bounds.clientToScreen(tag);
-
-        if (!scForm.browser.isIE) {
-            this.bounds.height -= 4;
-        }
-
-        this.trackCursor = new scPoint();
-        this.trackCursor.setPoint(evt.screenX, evt.screenY);
-
-        this.dragging = true;
-        this.delta = 0;
-
-        scForm.browser.setCapture(tag, function (tag, evt) { scContent.mouseMove(tag, evt) });
-
-        scForm.browser.clearEvent(evt, false);
-
-        return false;
-    }
-}
-
-scContentEditor.prototype.mouseMove = function (tag, evt) {
-    if (this.dragging) {
-        if (evt.type == "mouseup") {
-            return this.mouseUp(tag, evt);
-        }
-
-        if (this.outline == null) {
-            this.outline = scForm.browser.getControl("outline");
-            this.outline.style.display = "";
-        }
-
-        var dx = evt.screenX - this.trackCursor.x;
-
-        this.bounds.offset(dx, 0);
-
-        this.delta += dx;
-
-        this.bounds.apply(this.outline);
-
-        this.trackCursor.setPoint(evt.screenX, evt.screenY);
-
-        scForm.browser.clearEvent(evt, false);
-
-        return false;
-    }
-}
-
-scContentEditor.prototype.mouseUp = function (tag, evt) {
-    if (this.dragging) {
-        this.dragging = false;
-
-        scForm.browser.clearEvent(evt, false);
-
-        scForm.browser.releaseCapture(tag);
-
-        if (this.outline != null) {
-            this.outline.style.display = "none";
-            this.outline = null;
-        }
-
-        var ctl = tag;
-
-        while (ctl != null && ctl.tagName != "TD") {
-            ctl = ctl.parentNode;
-        }
-
-        if (ctl != null) {
-            var prev = scForm.browser.getPreviousSibling(ctl);
-            var next = scForm.browser.getNextSibling(ctl);
-
-            var left = prev.offsetWidth;
-            var right = next.offsetWidth;
-
-            var v = left + this.delta;
-
-            if (v < 32) {
-                this.delta = -(left - 32);
-            }
-            else if (v > left + right - 32) {
-                this.delta = right - 32;
-            }
-
-            prev.style.width = "" + (left + this.delta) + "px";
-
-            scForm.setCookie("scContentEditorFoldersWidth", prev.offsetWidth.toString());
-        }
-
-        return false;
-    }
-}
 
 scContentEditor.prototype.activateContextualTab = function (id) {
     var contextuals = scForm.browser.getControl(id + "_ContextualToolbar");
 
-    for (var s = scForm.browser.getEnumerator(contextuals.childNodes); !s.atEnd(); s.moveNext()) {
+    for (var s = scForm.browser.getEnumerator(contextuals.childNodes) ; !s.atEnd() ; s.moveNext()) {
         if (s.item().className == "scRibbonToolbarStrip" || s.item().className == "scRibbonToolbarContextualStrip") {
             scContent.setActiveStrip(s.item().id, false);
             return true;
@@ -1194,16 +1117,6 @@ scContentEditor.prototype.getQueryString = function (name) {
     return qs;
 }
 
-scContentEditor.prototype.closeSearch = function (sender, evt) {
-    var search = scForm.browser.getControl("SearchResultHolder");
-    var tree = scForm.browser.getControl("ContentTreeHolder");
-
-    search.style.display = "none";
-    tree.style.display = "";
-
-    scForm.browser.clearEvent(evt, true, false);
-}
-
 scContentEditor.prototype.watermarkFocus = function (sender, evt) {
     sender = sender || evt.target;
 
@@ -1218,83 +1131,10 @@ scContentEditor.prototype.watermarkBlur = function (sender, evt) {
     if (sender.value == "") {
         sender.value = sender.watermark;
         sender.style.color = "#999999";
+        sender.dirty = false;
     }
     else {
         sender.dirty = true;
-    }
-}
-
-scContentEditor.prototype.addSearchCriteria = function (sender, evt) {
-    var input = $("SearchOptionsAddCriteria");
-    var name = input.value;
-
-    if (name == "") {
-        return;
-    }
-
-    input.value = "";
-
-    var table = $("SearchOptionsList");
-
-    var row = table.insertRow(table.rows.length - 1);
-
-    var cell = $(row.insertCell(0));
-
-    cell.innerHTML = "<a href=\"#\" class=\"scSearchOptionName\" onclick=\"javascript:return scForm.postEvent(this,event,'TreeSearchOptionName_Click',true)\">" + name + ":</a>";
-    cell.addClassName("scSearchOptionsNameContainer");
-
-    cell = $(row.insertCell(1));
-
-    name = name.replace(/\"/gi, "");
-
-    cell.innerHTML = "<input class=\"scSearchOptionsInput scIgnoreModified\"/><input type=\"hidden\" value=\"" + name + "\"/>";
-    cell.addClassName("scSearchOptionsValueContainer");
-
-    this.updateSearchCriteria();
-
-    return false;
-}
-
-scContentEditor.prototype.changeSearchCriteria = function (index, name) {
-    var table = $("SearchOptionsList");
-
-    var row = table.rows[parseInt(index, 10)];
-
-    row.cells[0].childNodes[0].innerHTML = name + ":";
-    row.cells[1].childNodes[1].value = name;
-
-    this.updateSearchCriteria();
-
-    scForm.browser.closePopups();
-
-    return false;
-}
-
-scContentEditor.prototype.removeSearchCriteria = function (index) {
-    var table = $("SearchOptionsList");
-
-    var row = table.rows[parseInt(index, 10)];
-
-    row.parentNode.removeChild(row);
-
-    this.updateSearchCriteria();
-
-    scForm.browser.closePopups();
-
-    return false;
-}
-
-scContentEditor.prototype.updateSearchCriteria = function () {
-    var table = $("SearchOptionsList");
-
-    for (var r = 0; r < table.rows.length - 1; r++) {
-        var cell = table.rows[r].cells[0];
-        cell.childNodes[0].id = "SearchOptionsControl" + r;
-
-        cell = table.rows[r].cells[1];
-
-        cell.childNodes[0].id = "SearchOptionsValue" + r;
-        cell.childNodes[1].id = "SearchOptionsName" + r;
     }
 }
 
@@ -1500,83 +1340,6 @@ scContentEditor.prototype.animate = function (data) {
     }
 }
 
-scContentEditor.prototype.smartTag = function (sender, evt, controlID, text, menuCount) {
-    if (text != null) {
-        if (this.currentSmartTag == controlID) {
-            return;
-        }
-
-        this.hideSmartTag();
-
-        var smarttag = scForm.browser.getControl("SmartTag_" + controlID);
-
-        if (smarttag != null) {
-            var ctl = document.createElement("div");
-            ctl.className = "scSmartTag";
-            ctl.id = controlID + "_smarttag";
-            ctl.title = "";
-
-            var click = document.createElement("a");
-            click.href = "#";
-            click.onclick = function () { return scContent.smartTagClick(this, evt, controlID, true) };
-            click.className = (menuCount < 2 ? "scSmartTagClickOnly" : "scSmartTagClick");
-            click.innerHTML = "<img src=\"/sitecore/images/blank.gif\" class=\"scSmartTagIcon\" alt=\"\" />" + text;
-
-            ctl.appendChild(click);
-
-            if (menuCount > 1) {
-                var menu = document.createElement("a");
-                menu.href = "#";
-                menu.id = controlID + "_menu";
-                menu.onclick = function () { return scContent.smartTagClick(this, evt, controlID, false) };
-                menu.className = "scSmartTagMenu";
-                menu.innerHTML = "<img src=\"/sitecore/shell/themes/standard/Images/ribbondropdown.gif\" class=\"scSmartTagGlyph\" alt=\"\" />";
-
-                ctl.appendChild(menu);
-            }
-
-            smarttag.insertBefore(ctl, smarttag.firstChild);
-
-            this.currentSmartTag = controlID;
-        }
-    }
-    else {
-        this.hideSmartTag();
-    }
-}
-
-scContentEditor.prototype.hideSmartTag = function () {
-    if (this.currentSmartTag != null) {
-        var ctl = scForm.browser.getControl(this.currentSmartTag + "_smarttag");
-        if (ctl != null) {
-            scForm.browser.removeChild(ctl);
-            this.currentSmartTag = null;
-        }
-    }
-}
-
-scContentEditor.prototype.smartTagClick = function (sender, evt, controlID, click) {
-    var evt = window.event;
-
-    scForm.browser.clearEvent(window.event, true, false);
-
-    if (click) {
-        scForm.invoke("FieldMenu_Click(\"" + controlID + "\")");
-    }
-    else {
-        scForm.invoke("FieldMenu_DropDown(\"" + controlID + "\")");
-    }
-
-    try {
-        evt.scClickReason = "ignore";
-    }
-    catch (e) {
-        // silent
-    }
-
-    return false;
-}
-
 scContentEditor.prototype.postMessage = function (message) {
     for (var n = 0; n < window.frames.length; n++) {
         try {
@@ -1587,36 +1350,36 @@ scContentEditor.prototype.postMessage = function (message) {
     }
 }
 
-scContentEditor.prototype.scrollTo = function(sender, evt) {
-  var srcElement = scForm.browser.getSrcElement(evt);
-  var ctl = scForm.browser.getControl(srcElement.id.substr(4));
-  var isSection = ctl && ctl.id && ctl.id.indexOf('Section') == 0;
-  var scrollToCtl = isSection ? ctl : scForm.browser.getControl('FieldMarker' + srcElement.id.substr(4));
+scContentEditor.prototype.scrollTo = function (sender, evt) {
+    var srcElement = scForm.browser.getSrcElement(evt);
+    var ctl = scForm.browser.getControl(srcElement.id.substr(4));
+    var isSection = ctl && ctl.id && ctl.id.indexOf('Section') == 0;
+    var scrollToCtl = isSection ? ctl : scForm.browser.getControl('FieldMarker' + srcElement.id.substr(4));
 
-  ctl = ctl || scrollToCtl;
+    ctl = ctl || scrollToCtl;
 
-  var sectionCtl = isSection ? ctl : $(ctl).up('.scEditorSectionPanel').previous();
-  if (sectionCtl.className == 'scEditorSectionCaptionCollapsed') {
-    this.RaiseEventClick($(sectionCtl).down('.scEditorSectionCaptionGlyph'));
-  }
+    var sectionCtl = isSection ? ctl : $(ctl).up('.scEditorSectionPanel').previous();
+    if (sectionCtl.className == 'scEditorSectionCaptionCollapsed') {
+        this.RaiseEventClick($(sectionCtl).down('.scEditorSectionCaptionGlyph'));
+    }
 
-  alignToTop = srcElement.className == "scEditorHeaderNavigatorSection";
-  
-  scForm.focus(ctl);
-  
-  if (!scForm.browser.isIE) {
-    scForm.browser.scrollIntoView(scrollToCtl);
-  }
-  else if (alignToTop) {
-    var ce = scForm.browser.getControl("EditorPanel");
-    ce.scrollTop = scrollToCtl.offsetTop;
-  }
-  
-  scForm.browser.closePopups('ScrollTo');
-  
-  scForm.browser.clearEvent(evt, true, false); 
-  
-  return false;
+    alignToTop = srcElement.className == "scEditorHeaderNavigatorSection";
+
+    scForm.focus(ctl);
+
+    if (!scForm.browser.isIE) {
+        scForm.browser.scrollIntoView(scrollToCtl);
+    }
+    else if (alignToTop) {
+        var ce = scForm.browser.getControl("EditorPanel");
+        ce.scrollTop = scrollToCtl.offsetTop;
+    }
+
+    scForm.browser.closePopups('ScrollTo');
+
+    scForm.browser.clearEvent(evt, true, false);
+
+    return false;
 }
 
 /* Validation */
@@ -1701,14 +1464,14 @@ scContentEditor.prototype.updateValidators = function () {
 scContentEditor.prototype.updateFieldMarkers = function () {
     var validatorPanel = $("ValidatorPanel");
 
-    for (var e = scForm.browser.getEnumerator(document.getElementsByTagName("TD")); !e.atEnd(); e.moveNext()) {
+    for (var e = scForm.browser.getEnumerator(document.getElementsByTagName("TD")) ; !e.atEnd() ; e.moveNext()) {
         var ctl = e.item();
         if (ctl.id.substr(0, 11) == "FieldMarker") {
             ctl.className = "scEditorFieldMarkerBarCell";
         }
     }
 
-    for (var e = scForm.browser.getEnumerator(validatorPanel.getElementsByTagName("DIV")); !e.atEnd(); e.moveNext()) {
+    for (var e = scForm.browser.getEnumerator(validatorPanel.getElementsByTagName("DIV")) ; !e.atEnd() ; e.moveNext()) {
         var ctl = e.item();
 
         if (ctl.id.substr(0, 16) == "ValidationMarker") {
@@ -1727,7 +1490,7 @@ scContentEditor.prototype.updateFieldMarkers = function () {
 scForm.activateEx = scForm.activate;
 
 scForm.activate = function (sender, evt) {
-    if (evt.type == "deactivate" || (Prototype.Browser.Gecko && evt.type == "blur")) {
+    if (evt.type == "deactivate" || evt.type == "blur") {
         scContent.startValidators();
     }
     scForm.activateEx(sender, evt);
@@ -1738,7 +1501,7 @@ scForm.activate = function (sender, evt) {
 scContentEditor.prototype.getActiveEditorTab = function () {
     var ctl = scForm.browser.getControl("EditorTabs");
 
-    for (var e = scForm.browser.getEnumerator(ctl.childNodes); !e.atEnd(); e.moveNext()) {
+    for (var e = scForm.browser.getEnumerator(ctl.childNodes) ; !e.atEnd() ; e.moveNext()) {
         var ctl = e.item();
 
         if (ctl.className == "scRibbonEditorTabActive") {
@@ -1760,7 +1523,12 @@ scContentEditor.prototype.onEditorTabClick = function (sender, evt, id) {
         ignoreNextTabClick = false;
         return;
     }
-    
+  
+    if (id == "TAddNewSearch") {
+      window.scForm.postRequest('', '', '', 'contenteditor:launchblanktab(url=' + '' + ')');
+      return;
+    }
+
     var active = this.getActiveEditorTab();
 
     scForm.browser.clearEvent(evt, true, false);
@@ -1822,17 +1590,17 @@ scContentEditor.prototype.onEditorTabClick = function (sender, evt, id) {
         var frame = scForm.browser.getControl("F" + id);
 
         if (id == "SelectSearch") {
-            var allBucketTabs = $$(".scEditorTabIcon");
-            var scEditorTabs = scForm.browser.getControl("scEditorTabs");
-            var tabs = scEditorTabs.value.split("|");
-            for (var n = 0; n < allBucketTabs.length; n++) {
-                if (allBucketTabs[n].src.indexOf("/temp/IconCache/applications/16x16/view.png") != -1) {
-                    var currentId = allBucketTabs[n].parentElement.parentElement;
-                    frame = scForm.browser.getControl("F" + currentId.id.substr(1, currentId.id.length));
-                }
-            }
+          var allBucketTabs = $$(".scEditorTabIcon");
+          var scEditorTabs = scForm.browser.getControl("scEditorTabs");
+          var tabs = scEditorTabs.value.split("|");
+          for (var n = 0; n < allBucketTabs.length; n++) {
+              if (allBucketTabs[n].src.indexOf("/temp/IconCache/applications/16x16/view.png") != -1) {
+                  var currentId = allBucketTabs[n].parentElement.parentElement;
+                  frame = scForm.browser.getControl("F" + currentId.id.substr(1, currentId.id.length));
+              }
+          }
         }
-      
+
         frame.style.display = "";
 
         if (Prototype.Browser.Gecko || Prototype.Browser.WebKit) {
@@ -1903,21 +1671,11 @@ scContentEditor.prototype.showEditorTab = function (command, header, icon, url, 
     // var html = "<a id=\"B" + id + "\" href=\"#\" class=\"scRibbonEditorTabNormal\" onclick=\"javascript:return scContent.onEditorTabClick(this,event,'" + id + "')\"><span class=\"scEditorTabHeader\"><img src=\"" + icon + "\" width=\"16\" height=\"16\" alt=\"\" border=\"0\" class=\"scEditorTabIcon\" />" + header;
     var html = "<a id=\"B" + id + "\" href=\"#\" class=\"scRibbonEditorTabNormal\" oncontextmenu=\"javascript:return scForm.postEvent(this,event,'ShowTabContextMenu');\" onclick=\"javascript:return scContent.onEditorTabClick(this,event,'" + id + "')\"><span class=\"scEditorTabHeader\"><img src=\"" + icon + "\" width=\"16\" height=\"16\" alt=\"\" border=\"0\" class=\"scEditorTabIcon\" />" + header;
     if (closeable) {
-        if (scForm.browser.isIE) {
-            var src = " style=\"FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/sitecore/shell/themes/standard/Images/Close.png', sizingMethod='scale')\" src=\"/sitecore/images/blank.gif\"";
-        }
-        else {
-            var src = " src=\"/sitecore/shell/themes/standard/Images/Close.png\"";
-        }
+        var src = " src=\"/sitecore/shell/themes/standard/Images/Close.png\"";
         html += "<img class=\"scEditorTabClose\" onmouseover=\"javascript:return scForm.rollOver(this, event)\" onclick=\"javascript:scContent.closeEditorTab('" + id + "');\" onmouseout=\"javascript:return scForm.rollOver(this, event)\" height=\"16\" alt=\"\" width=\"16\" border=\"0\"" + src + " />";
     }
 
-    if (scForm.browser.isIE) {
-        var src = " style=\"filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/sitecore/shell/themes/standard/Images/Ribbon/tab3.png', sizingMethod='scale')\" src=\"/sitecore/images/blank.gif\"";
-    }
-    else {
-        var src = " src='/sitecore/shell/themes/standard/Images/Ribbon/tab3.png'";
-    }
+    src = " src='/sitecore/shell/themes/standard/Images/Ribbon/tab3.png'";
 
     html += "</span><img width=\"21\" height=\"24\" align=\"top\" alt=\"\" border=\"0\"" + src + " /></a>";
 
@@ -1962,8 +1720,6 @@ scContentEditor.prototype.closeAllEditorTab = function () {
             var currentId = allBucketTabs[n].parentElement.parentElement;
             this.closeEditorTab(currentId.id.substr(1, currentId.id.length));
             allTabsTogether = allTabsTogether + currentId.id.substr(1, currentId.id.length) + "|";
-           
-
         }
     }
 
@@ -1990,6 +1746,15 @@ scContentEditor.prototype.closeEditorTab = function (id) {
     if (active == null) {
         return;
     }
+
+    var itemContent = $$("#EditorFrames>iframe[id^=F" + id + "]")[0];
+    if (itemContent
+      && itemContent.contentWindow.scForm
+      && itemContent.contentWindow.scForm.modified
+      && !confirm(scForm.translate("There are unsaved changes. Are you sure you want to continue?"))) {
+        return;
+    }
+
     var setSearchAsTheActiveTab = false;
     if (active.innerHTML.indexOf("/temp/IconCache/Applications/16x16/text_view.png") != -1) {
 
@@ -2095,8 +1860,15 @@ scContentEditor.prototype.closeAllToRightEditorTab = function () {
         }
     }
 
-}
+};
 
+scContentEditor.prototype.focusActiveItem = function () {
+    var contentTreeInnerPanel = this.getActiveTreeNode(scForm.browser.getControl('ContentTreeInnerPanel'));
+
+    if (contentTreeInnerPanel != null) {
+        contentTreeInnerPanel.focus();
+    }
+};
 
 /* Ribbon Proxies */
 
@@ -2125,7 +1897,7 @@ function scUpdateRibbonProxy(source, target, activateRibbon) {
     var n = 0;
     var toolbar = sourceToolbar.cloneNode(true);
     toolbar.removeChild(toolbar.lastChild);
-    for (var e = scForm.browser.getEnumerator(toolbar.childNodes); !e.atEnd(); e.moveNext()) {
+    for (var e = scForm.browser.getEnumerator(toolbar.childNodes) ; !e.atEnd() ; e.moveNext()) {
         var ctl = e.item();
         ctl.className = "scRibbonToolbarContextualStrip";
 
@@ -2219,7 +1991,7 @@ function scUpdateRibbonProxyValues(frame, source) {
     var parent = scForm.browser.getControl(source);
 
     function replaceInputValue(tagName) {
-        for (var e = scForm.browser.getEnumerator(parent.getElementsByTagName(tagName)); !e.atEnd(); e.moveNext()) {
+        for (var e = scForm.browser.getEnumerator(parent.getElementsByTagName(tagName)) ; !e.atEnd() ; e.moveNext()) {
             var ctl = e.item();
 
             var c = form.browser.getControl(ctl.id);
@@ -2323,11 +2095,11 @@ scContentEditor.prototype.fieldResizeDown = function (tag, evt) {
         this.resizeFieldY = evt.screenY;
         this.resizeFieldHeight = $(tag).previous().getHeight();
 
-    $(tag).setStyle({ position: 'absolute' });
-    $(tag).next().setStyle({ display: '' });
+        $(tag).setStyle({ position: 'absolute' });
+        $(tag).next().setStyle({ display: '' });
 
-    scForm.browser.clearEvent(evt, true, false);
-  }
+        scForm.browser.clearEvent(evt, true, false);
+    }
 }
 
 scContentEditor.prototype.fieldResizeMove = function (tag, evt) {
@@ -2348,11 +2120,11 @@ scContentEditor.prototype.fieldResizeUp = function (tag, evt, id) {
     if (this.dragging) {
         this.dragging = false;
 
-    $(tag).setStyle({ position: '' });
-    $(tag).next().setStyle({ display: 'none' });
+        $(tag).setStyle({ position: '' });
+        $(tag).next().setStyle({ display: 'none' });
 
-    var dy = evt.screenY - this.resizeFieldY;
-    var h = this.resizeFieldHeight + dy;
+        var dy = evt.screenY - this.resizeFieldY;
+        var h = this.resizeFieldHeight + dy;
 
         if (h < 24) {
             h = 24;
@@ -2370,17 +2142,17 @@ scContentEditor.prototype.fieldResizeUp = function (tag, evt, id) {
 }
 
 scContentEditor.prototype.editRichText = function (url, key, html) {
-  var w = $('overlayWindow');
-  this.state = scForm.state.pipeline;
-  // Rich text editor is launched from content editor.
-  if (w) {  
-    w.show();
-    w.contentWindow.scLoad(url, key, html);
-  }
-  else {
-    w = $('feRTEContainer');
-    // Rich text editor is launched from field editor.
-   
+    var w = $('overlayWindow');
+    this.state = scForm.state.pipeline;
+    // Rich text editor is launched from content editor.
+    if (w) {
+        w.show();
+        w.contentWindow.scLoad(url, key, html);
+    }
+    else {
+        w = $('feRTEContainer');
+        // Rich text editor is launched from field editor.
+
         if (w) {
             //w.show();
             if (this.loadHandler) { this.loadHandler.stop(); }
@@ -2416,15 +2188,21 @@ scContentEditor.prototype.subscribeToToggleSectionEvent = function (delegate) {
     scContentEditor.prototype.onToggleSection[scContentEditor.prototype.onToggleSection.length] = delegate;
 }
 
+scContentEditor.prototype.fixSearchPanelLayout = function () {
+  if (!window.Flexie) return;
+  var height = Element.getHeight("SearchPanel");
+  $('SearchResultHolder').style.marginTop = height + 'px';
+  $('ContentTreeHolder').style.marginTop = height + 'px';
+
+  height = Element.getHeight('SearchHeader');
+  $('SearchResult').style.marginTop = height + 'px';
+};
+
 // scDraggable extends Draggable class from Scriptaculous to fix a couple of methods according to our needs.
 // Changes compared to original Scriptaculous 1.9 code are marked in the code by comments.
 var scDraggable;
 
 Event.observe(document, "dom:loaded", function () {
-    if (Prototype.Browser.IE) {
-        return;
-    }
-
     if (typeof (Draggable) == "undefined") {
         if (console) {
             console.info("Scriptaculous Draggable not loaded, skipping content tree drag&drop initialization");
@@ -2471,78 +2249,80 @@ Event.observe(document, "dom:loaded", function () {
             if (this.options.starteffect) this.options.starteffect(this.element);
         },
 
-    initDrag: function (event) {
-      if (!Object.isUndefined(Draggable._dragging[this.element]) &&
-      Draggable._dragging[this.element]) return;
-      if (Event.isLeftClick(event)) {
-        // abort on form elements, fixes a Firefox issue
-        var src = Event.element(event);
-        if ((tag_name = src.tagName.toUpperCase()) && (
-        tag_name == 'INPUT' ||
-        tag_name == 'SELECT' ||
-        tag_name == 'OPTION' ||
-        tag_name == 'BUTTON' ||
-        tag_name == 'TEXTAREA')) return;
+        initDrag: function (event) {
+            if (!Object.isUndefined(Draggable._dragging[this.element]) &&
+            Draggable._dragging[this.element]) return;
+            if (Event.isLeftClick(event)) {
+                // abort on form elements, fixes a Firefox issue
+                var src = Event.element(event);
+                if ((tag_name = src.tagName.toUpperCase()) && (
+                tag_name == 'INPUT' ||
+                tag_name == 'SELECT' ||
+                tag_name == 'OPTION' ||
+                tag_name == 'BUTTON' ||
+                tag_name == 'TEXTAREA')) return;
 
-        //CHANGE - scroll offset
-        var scrollOffset = this.getScrollOffset();
+                //CHANGE - scroll offset
+                var scrollOffset = this.getScrollOffset();
 
-        var pointer = [Event.pointerX(event) - scrollOffset[0], Event.pointerY(event) - scrollOffset[1]];
-        var pos = this.element.cumulativeOffset();
-        this.offset = [0, 1].map(function (i) { return (pointer[i] - pos[i]) });
+                var pointer = [Event.pointerX(event) - scrollOffset[0], Event.pointerY(event) - scrollOffset[1]];
+                var pos = this.element.cumulativeOffset();
+                this.offset = [0, 1].map(function (i) { return (pointer[i] - pos[i]) });
 
-        Draggables.activate(this);
-        Event.stop(event);
-      }
-    },
+                Draggables.activate(this);
+                Event.stop(event);
+            }
+        },
 
-    updateDrag: function (event, pointer) {
-      if (!this.dragging) this.startDrag(event);
+        updateDrag: function (event, pointer) {
+            scContent.dragDropManager.removeDragHoverSelection();
 
-      if (!this.options.quiet) {
-        Position.prepare();
+            if (!this.dragging) this.startDrag(event);
 
-        //CHANGE - scroll offset
-        var scrollOffset = this.getScrollOffset();
-        var pointer1 = [pointer[0] + scrollOffset[0], pointer[1] + scrollOffset[1]];
+            if (!this.options.quiet) {
+                Position.prepare();
 
-        Droppables.show(pointer1, this.element);
-      }
+                //CHANGE - scroll offset
+                var scrollOffset = this.getScrollOffset();
+                var pointer1 = [pointer[0] + scrollOffset[0], pointer[1] + scrollOffset[1]];
 
-      Draggables.notify('onDrag', this, event);
+                Droppables.show(pointer1, this.element);
+            }
 
-      this.draw(pointer);
-      if (this.options.change) this.options.change(this);
+            Draggables.notify('onDrag', this, event);
 
-      if (this.options.scroll) {
-        this.stopScrolling();
+            this.draw(pointer);
+            if (this.options.change) this.options.change(this);
 
-        var p;
-        if (this.options.scroll == window) {
-          with (this._getWindowScroll(this.options.scroll)) { p = [left, top, left + width, top + height]; }
-        } else {
-          p = Position.page(this.options.scroll).toArray();
-          p[0] += this.options.scroll.scrollLeft + Position.deltaX;
-          p[1] += this.options.scroll.scrollTop + Position.deltaY;
-          p.push(p[0] + this.options.scroll.offsetWidth);
-          p.push(p[1] + this.options.scroll.offsetHeight);
-        }
-        var speed = [0, 0];
-        if (pointer[0] < (p[0] + this.options.scrollSensitivity)) speed[0] = pointer[0] - (p[0] + this.options.scrollSensitivity);
-        if (pointer[1] < (p[1] + this.options.scrollSensitivity)) speed[1] = pointer[1] - (p[1] + this.options.scrollSensitivity);
-        if (pointer[0] > (p[2] - this.options.scrollSensitivity)) speed[0] = pointer[0] - (p[2] - this.options.scrollSensitivity);
-        if (pointer[1] > (p[3] - this.options.scrollSensitivity)) speed[1] = pointer[1] - (p[3] - this.options.scrollSensitivity);
-        this.startScrolling(speed);
-      }
+            if (this.options.scroll) {
+                this.stopScrolling();
 
-      // fix AppleWebKit rendering
-      if (Prototype.Browser.WebKit) window.scrollBy(0, 0);
+                var p;
+                if (this.options.scroll == window) {
+                    with (this._getWindowScroll(this.options.scroll)) { p = [left, top, left + width, top + height]; }
+                } else {
+                    p = Position.page(this.options.scroll).toArray();
+                    p[0] += this.options.scroll.scrollLeft + Position.deltaX;
+                    p[1] += this.options.scroll.scrollTop + Position.deltaY;
+                    p.push(p[0] + this.options.scroll.offsetWidth);
+                    p.push(p[1] + this.options.scroll.offsetHeight);
+                }
+                var speed = [0, 0];
+                if (pointer[0] < (p[0] + this.options.scrollSensitivity)) speed[0] = pointer[0] - (p[0] + this.options.scrollSensitivity);
+                if (pointer[1] < (p[1] + this.options.scrollSensitivity)) speed[1] = pointer[1] - (p[1] + this.options.scrollSensitivity);
+                if (pointer[0] > (p[2] - this.options.scrollSensitivity)) speed[0] = pointer[0] - (p[2] - this.options.scrollSensitivity);
+                if (pointer[1] > (p[3] - this.options.scrollSensitivity)) speed[1] = pointer[1] - (p[3] - this.options.scrollSensitivity);
+                this.startScrolling(speed);
+            }
 
-      Event.stop(event);
-    },
-    
-    finishDrag: function($super, event, success) {
-      this.dragging = false;
+            // fix AppleWebKit rendering
+            if (Prototype.Browser.WebKit) window.scrollBy(0, 0);
+
+            Event.stop(event);
+        },
+
+        finishDrag: function ($super, event, success) {
+            this.dragging = false;
 
             if (this.options.quiet) {
                 Position.prepare();
@@ -2550,37 +2330,42 @@ Event.observe(document, "dom:loaded", function () {
                 Droppables.show(pointer, this.element);
             }
 
-      if(this.options.ghosting) {
-        //CHANGE - Commented this line in original scriptaculous 1.9
-        //if (!this._originallyAbsolute)
-          //Position.relativize(this.element);
+            if (this.options.ghosting) {
+                //CHANGE - Commented this line in original scriptaculous 1.9
+                //if (!this._originallyAbsolute)
+                //Position.relativize(this.element);
 
-                    delete this._originallyAbsolute;
+                delete this._originallyAbsolute;
                 Element.remove(this._clone);
                 this._clone = null;
             }
 
-      var dropped = false;
-      if (success) {
-        //CHANGE - scroll offset
-        var scrollOffset = this.getScrollOffset();
-        var x = scrollOffset[0], y = scrollOffset[1];
-        var eventClone = Object.clone(event);
-        eventClone.clientX += x;
-        eventClone.pageX += x;
-        eventClone.clientY += y;
-        eventClone.pageY += y;
+            var dropped = false;
+            if (success) {
+                //CHANGE - scroll offset
+                var scrollOffset = this.getScrollOffset();
+                var x = scrollOffset[0], y = scrollOffset[1];
+                var eventClone = Object.clone(event);
+                eventClone.clientX += x;
+                eventClone.pageX += x;
+                eventClone.clientY += y;
+                eventClone.pageY += y;
+        eventClone.stopPropagation = function () { };
+        eventClone.preventDefault = function () { };
 
-        dropped = Droppables.fire(eventClone, this.element);
-        if (!dropped) dropped = false;
-      }
-      if(dropped && this.options.onDropped) this.options.onDropped(this.element);
-      Draggables.notify('onEnd', this, event, dropped);
+                dropped = Droppables.fire(eventClone, this.element);
+                if (!dropped) dropped = false;
+            }
+            if (dropped && this.options.onDropped) this.options.onDropped(this.element);
+            Draggables.notify('onEnd', this, event, dropped);
 
             var revert = this.options.revert;
             if (revert && Object.isFunction(revert)) revert = revert(this.element);
 
             var d = this.currentDelta();
+            d[1] = d[1] - this.options.scrollContainer.scrollTop;
+            d[0] = d[0] - this.options.scrollContainer.scrollLeft;
+
             if (revert && this.options.reverteffect) {
                 if (dropped == 0 || revert != 'failure')
                     this.options.reverteffect(this.element, d[1] - this.delta[1], d[0] - this.delta[0]);
@@ -2594,32 +2379,32 @@ Event.observe(document, "dom:loaded", function () {
             if (this.options.endeffect)
                 this.options.endeffect(this.element);
 
-      Draggables.deactivate(this);
-      Droppables.reset();
-    },
+            Draggables.deactivate(this);
+            Droppables.reset();
+        },
 
-    //CHANGE - scroll offset
-    getScrollOffset: function () {
-      var x = 0, y = 0;
-      if (this.options.scrollContainer) {
-        y = this.options.scrollContainer.scrollTop;
-        x = this.options.scrollContainer.scrollLeft;
-      }
+        //CHANGE - scroll offset
+        getScrollOffset: function () {
+            var x = 0, y = 0;
+            if (this.options.scrollContainer) {
+                y = this.options.scrollContainer.scrollTop;
+                x = this.options.scrollContainer.scrollLeft;
+            }
 
-      return [x, y];
-    }
-  });
+            return [x, y];
+        }
+    });
 });
 
 var scContentEditorDragDrop = Class.create({
-    initialize: function () {
-        if (Prototype.Browser.IE) {
-            return;
-        }
+  initialize: function () {
+//        if (Prototype.Browser.IE) {
+//            return;
+//        }
 
         this.activeDraggable = null;
 
-        Event.observe(window, "dom:loaded", function () {
+        Event.observe(window, "load", function () {
             if (!scDraggable) {
                 console.warn("scDraggable not defined. Skipping drag&drop initialization.");
                 return;
@@ -2637,53 +2422,55 @@ var scContentEditorDragDrop = Class.create({
 
             $("ContentTreeActualSize").observe("mouseleave", function () {
                 this.showMarker(null, "hide");
-            } .bind(this));
+            }.bind(this));
 
             document.observe("sc:contenttreeupdated", function (e) {
                 var node = e.memo;
 
                 this.initializeTreeNodes(node);
-            } .bindAsEventListener(this));
-        } .bind(this));
+            }.bindAsEventListener(this));
+        }.bind(this));
     },
 
     initializeTreeNodes: function (root) {
+      
         var elements = root.select(".scContentTreeNodeNormal, .scContentTreeNodeActive");
-        var ids = elements.pluck("id");
-
+        var ids = elements.pluck("id").findAll(function (id) { return id && id != ""; });
+      
         var hoverHandler = this.onNodeHover.bind(this);
         var dropHandler = this.onNodeDrop.bind(this);
 
-    var scrollContainer = $$('div.scKeepFixSize.scFixSizeInitialized')[0];
+        var scrollContainer = $$('#ContentTreeInnerPanel')[0];
 
-    ids.each(function(id) {
-      new scDraggable(id, { 
-        ghosting: true,
-        revert: true,
-        scrollContainer: scrollContainer,
-        starteffect: function(element) {
-          element._opacity = Element.getOpacity(element);
-          Draggable._dragging[element] = true;
-          new Effect.Opacity(element, {duration:0.2, from:element._opacity, to:0.2});
-        },
-        reverteffect: function(element, top_offset, left_offset) {
-          var dur = Math.sqrt(Math.abs(top_offset^2)+Math.abs(left_offset^2))*0.02;
-          new Effect.Move(element, { x: -left_offset, y: -top_offset, duration: dur,
-            queue: {scope:'_draggable', position:'end'},
-            afterFinish: function() { element.relativize(); element.setStyle({ position: 'relative' }); }
-          });
-        },
-        onEnd: function (draggable, event, success) {
-          if (success) {
-            if (window.console){
-              console.info("setting 'scBeenDragged'");
-            }
-            draggable.element.addClassName("scBeenDragged");
-          }
+        ids.select(function(id) { return !!id; }).each(function (id) {
+            new scDraggable(id, {
+                ghosting: true,
+                revert: true,
+                scrollContainer: scrollContainer,
+                starteffect: function (element) {
+                    element._opacity = Element.getOpacity(element);
+                    Draggable._dragging[element] = true;
+                    new Effect.Opacity(element, { duration: 0.2, from: element._opacity, to: 0.2 });
+                },
+                reverteffect: function (element, top_offset, left_offset) {
+                    var dur = Math.sqrt(Math.abs(top_offset ^ 2) + Math.abs(left_offset ^ 2)) * 0.02;
+                    new Effect.Move(element, {
+                        x: -left_offset, y: -top_offset, duration: dur,
+                        queue: { scope: '_draggable', position: 'end' },
+                        afterFinish: function () { element.relativize(); element.setStyle({ position: 'relative' }); }
+                    });
+                },
+                onEnd: function (draggable, event, success) {
+                    if (success) {
+                        if (window.console) {
+                            console.info("setting 'scBeenDragged'");
+                        }
+                        draggable.element.addClassName("scBeenDragged");
+                    }
 
-          root.select(".scDragHover").invoke("removeClassName", "scDragHover");
-        }
-      });
+                    scContent.dragDropManager.removeDragHoverSelection();
+                }
+            });
 
             Droppables.add(id, {
                 overlap: 'vertical',
@@ -2706,6 +2493,7 @@ var scContentEditorDragDrop = Class.create({
     },
 
     onNodeDrop: function (dragged, target, event) {
+      
         var action = this.lastAction;
         if (!action) {
             return false;
@@ -2758,6 +2546,16 @@ var scContentEditorDragDrop = Class.create({
         this.lastAction = "after";
     },
 
+    removeDragHoverSelection: function () {
+      var root = $("ContentTreeInnerPanel");
+      if (root) {
+        var dragHoverElements = root.select(".scDragHover");
+        if (dragHoverElements) {
+          dragHoverElements.invoke("removeClassName", "scDragHover");
+        }
+      }
+    },
+
     showMarker: function (target, position) {
         var marker = this.getMarker();
 
@@ -2772,9 +2570,12 @@ var scContentEditorDragDrop = Class.create({
 
         var offsetParent = target.getOffsetParent();
         var eOffset = target.viewportOffset(),
-    pOffset = offsetParent.viewportOffset();
+        pOffset = offsetParent.viewportOffset();
 
         var offset = eOffset.relativeTo(pOffset);
+        offset.left = offset.left + offsetParent.scrollLeft;
+        offset.top = offset.top + offsetParent.scrollTop;
+
         var layout = target.getLayout();
 
         if (position == "before") {
@@ -2788,177 +2589,156 @@ var scContentEditorDragDrop = Class.create({
 
 /* Overlay */
 
-function scOverlayWindow()
-{
-  this.overlayContainer = null;
-  this.overlayWindowContainer = null;
-  this.overlayWindow = null;
-  this.overlayFrame = null;
-  this.scrollHandler = this.onWindowScroll.bind(this);
-  this.borderRadius = "8px"
+function scOverlayWindow() {
+    this.overlayContainer = null;
+    this.overlayWindowContainer = null;
+    this.overlayWindow = null;
+    this.overlayFrame = null;
+    this.scrollHandler = this.onWindowScroll.bind(this);
+    this.borderRadius = "8px"
 }
 
 scOverlayWindow.prototype = {
-  ensureControlsCreated: function ()
-  {
-    if (this.overlayContainer)
-    {
-      return;
+    ensureControlsCreated: function () {
+        if (this.overlayContainer) {
+            return;
+        }
+
+        this.create(window.top.document);
+    },
+
+    create: function (doc) {
+        this.createContainer(doc);
+        this.createWindow();
+        this.createCloseButton();
+        this.createFrame();
+    },
+
+    createContainer: function (doc) {
+        var container = doc.createElement("div");
+        container.className = "scOverlayContainer";
+        container.style.display = "none";
+        var isQuirksMode = this.isQuirksMode(doc);
+        container.style.position = isQuirksMode ? "absolute" : "fixed";
+        container.style.top = "0";
+        container.style.left = "0";
+        if (isQuirksMode) {
+            var scrollPos = this.getScrollPosition(doc);
+            container.style.top = scrollPos.top + "px";
+            container.style.left = scrollPos.left + "px";
+        }
+
+        container.style.height = "100%";
+        container.style.width = "100%";
+        container.style.zIndex = "9999";
+        container.style.background = "transparent url('/sitecore/shell/Themes/Standard/Images/bg_overlay.png') repeat";
+        container.style.overflow = "hidden";
+        this.overlayContainer = doc.body.appendChild(container);
+    },
+
+    createCloseButton: function () {
+        var doc = this.getDocument();
+        var img = doc.createElement("img");
+        img.src = "/sitecore/shell/~/icon/Core3/24x24/stop_d.png";
+        img.style.position = "absolute";
+        img.style.right = "-12px";
+        img.style.top = "-12px";
+        img.style.cursor = "pointer";
+        img.title = "Close";
+        this.overlayWindow.appendChild(img);
+        img.onmouseover = img.onmouseenter = function () {
+            img.src = "/sitecore/shell/~/icon/Core3/24x24/stop.png";
+        }
+
+        img.onmouseout = img.onmouseleave = function () {
+            img.src = "/sitecore/shell/~/icon/Core3/24x24/stop_d.png";
+        }
+
+        img.onclick = function () {
+            this.hide();
+            return false;
+        }.bind(this);
+    },
+
+    createFrame: function () {
+        var doc = this.getDocument();
+        var iframe = doc.createElement("iframe");
+        iframe.className = "scOverlayFrame";
+        iframe.frameBorder = 0;
+        iframe.allowTransparency = true;
+        iframe.src = "about:blank";
+        iframe.width = "100%";
+        iframe.height = "100%";
+        iframe.style.borderRadius = this.borderRadius;
+        this.overlayFrame = this.overlayWindow.appendChild(iframe);
+    },
+
+    createWindow: function () {
+        var doc = this.getDocument();
+        var windowContainer = doc.createElement("div");
+        windowContainer.className = "scOverlayWindowContainer";
+        windowContainer.style.position = "absolute";
+        windowContainer.style.top = "50%";
+        windowContainer.style.left = "50%";
+        this.overlayWindowContainer = this.overlayContainer.appendChild(windowContainer);
+        var overlayWindow = doc.createElement("div");
+        overlayWindow.className = "scOverlayWindow";
+        overlayWindow.style.position = "absolute";
+        overlayWindow.style.top = "-50%";
+        overlayWindow.style.left = "-50%";
+        overlayWindow.style.backgroundColor = "white";
+        overlayWindow.style.opacity = "1";
+        overlayWindow.style.zIndex = "9999";
+        overlayWindow.style.width = "100%";
+        overlayWindow.style.height = "100%";
+        overlayWindow.style.borderRadius = this.borderRadius;
+        overlayWindow.style.boxShadow = "0px 0px 4px 2px rgba(160, 160, 160, 0.75)";
+        this.overlayWindow = this.overlayWindowContainer.appendChild(overlayWindow);
+    },
+
+    getDocument: function () {
+        return this.overlayContainer ? this.overlayContainer.ownerDocument : window.top.document;
+    },
+
+    getScrollPosition: function (doc) {
+        var scrollTop = doc.documentElement.scrollTop;
+        var scrollLeft = doc.documentElement.scrollLeft;
+        return { top: parseInt(scrollTop || "0"), left: parseInt(scrollLeft || "0") };
+    },
+
+    isQuirksMode: function (doc) {
+        return doc.compatMode && doc.compatMode == "BackCompat";
+    },
+
+    show: function (url, height, width) {
+        if (!url) {
+            return;
+        }
+
+        this.ensureControlsCreated();
+        this.overlayWindowContainer.style.height = height || "75%";
+        this.overlayWindowContainer.style.width = width || "75%";
+        this.overlayContainer.style.display = "";
+        this.overlayFrame.src = url;
+        if (this.isQuirksMode(window.top.document)) {
+            scForm.browser.attachEvent(window.top, "onscroll", this.scrollHandler);
+        }
+    },
+
+    hide: function () {
+        this.overlayFrame.src = "about:blank";
+        this.overlayContainer.style.display = "none";
+        if (this.isQuirksMode(window.top.document)) {
+            scForm.browser.detachEvent(window.top, "onscroll", this.scrollHandler);
+        }
+    },
+
+    onWindowScroll: function (e) {
+        var doc = this.getDocument();
+        var scrollPos = this.getScrollPosition(doc)
+        this.overlayContainer.style.top = scrollPos.top + "px";
+        this.overlayContainer.style.left = scrollPos.left + "px";
     }
-
-    this.create(window.top.document);
-  },
-
-  create: function (doc)
-  {
-    this.createContainer(doc);
-    this.createWindow();
-    this.createCloseButton();
-    this.createFrame();
-  },
-
-  createContainer: function (doc)
-  {
-    var container = doc.createElement("div");
-    container.className = "scOverlayContainer";
-    container.style.display = "none";
-    var isQuirksMode = this.isQuirksMode(doc);
-    container.style.position = isQuirksMode ? "absolute" : "fixed";
-    container.style.top = "0";
-    container.style.left = "0";
-    if (isQuirksMode)
-    {
-      var scrollPos = this.getScrollPosition(doc);
-      container.style.top = scrollPos.top + "px";
-      container.style.left = scrollPos.left + "px";
-    }
-
-    container.style.height = "100%";
-    container.style.width = "100%";
-    container.style.zIndex = "9999";
-    container.style.background = "transparent url('/sitecore/shell/Themes/Standard/Images/bg_overlay.png') repeat";
-    container.style.overflow = "hidden";
-    this.overlayContainer = doc.body.appendChild(container);
-  },
-
-  createCloseButton: function ()
-  {
-    var doc = this.getDocument();
-    var img = doc.createElement("img");
-    img.src = "/sitecore/shell/~/icon/Core3/24x24/stop_d.png";
-    img.style.position = "absolute";
-    img.style.right = "-12px";
-    img.style.top = "-12px";
-    img.style.cursor = "pointer";
-    img.title = "Close";
-    this.overlayWindow.appendChild(img);
-    img.onmouseover = img.onmouseenter = function ()
-    {
-      img.src = "/sitecore/shell/~/icon/Core3/24x24/stop.png";
-    }
-
-    img.onmouseout = img.onmouseleave = function ()
-    {
-      img.src = "/sitecore/shell/~/icon/Core3/24x24/stop_d.png";
-    }
-
-    img.onclick = function ()
-    {
-      this.hide();
-      return false;
-    }.bind(this);
-  },
-
-  createFrame: function ()
-  {
-    var doc = this.getDocument();
-    var iframe = doc.createElement("iframe");
-    iframe.className = "scOverlayFrame";
-    iframe.frameBorder = 0;
-    iframe.allowTransparency = true;
-    iframe.src = "about:blank";
-    iframe.width = "100%";
-    iframe.height = "100%";
-    iframe.style.borderRadius = this.borderRadius;
-    this.overlayFrame = this.overlayWindow.appendChild(iframe);
-  },
-
-  createWindow: function ()
-  {
-    var doc = this.getDocument();
-    var windowContainer = doc.createElement("div");
-    windowContainer.className = "scOverlayWindowContainer";
-    windowContainer.style.position = "absolute";
-    windowContainer.style.top = "50%";
-    windowContainer.style.left = "50%";
-    this.overlayWindowContainer = this.overlayContainer.appendChild(windowContainer);
-    var overlayWindow = doc.createElement("div");
-    overlayWindow.className = "scOverlayWindow";
-    overlayWindow.style.position = "absolute";
-    overlayWindow.style.top = "-50%";
-    overlayWindow.style.left = "-50%";
-    overlayWindow.style.backgroundColor = "white";
-    overlayWindow.style.opacity = "1";
-    overlayWindow.style.zIndex = "9999";
-    overlayWindow.style.width = "100%";
-    overlayWindow.style.height = "100%";
-    overlayWindow.style.borderRadius = this.borderRadius;
-    overlayWindow.style.boxShadow = "0px 0px 4px 2px rgba(160, 160, 160, 0.75)";
-    this.overlayWindow = this.overlayWindowContainer.appendChild(overlayWindow);
-  },
-
-  getDocument: function ()
-  {
-    return this.overlayContainer ? this.overlayContainer.ownerDocument : window.top.document;
-  },
-
-  getScrollPosition: function (doc)
-  {
-    var scrollTop = doc.documentElement.scrollTop;
-    var scrollLeft = doc.documentElement.scrollLeft;
-    return { top: parseInt(scrollTop || "0"), left: parseInt(scrollLeft || "0") };
-  },
-
-  isQuirksMode: function (doc)
-  {
-    return doc.compatMode && doc.compatMode == "BackCompat";
-  },
-
-  show: function (url, height, width)
-  {
-    if (!url)
-    {
-      return;
-    }
-
-    this.ensureControlsCreated();
-    this.overlayWindowContainer.style.height = height || "75%";
-    this.overlayWindowContainer.style.width = width || "75%";
-    this.overlayContainer.style.display = "";
-    this.overlayFrame.src = url;
-    if (this.isQuirksMode(window.top.document))
-    {
-      scForm.browser.attachEvent(window.top, "onscroll", this.scrollHandler);
-    }
-  },
-
-  hide: function ()
-  {
-    this.overlayFrame.src = "about:blank";
-    this.overlayContainer.style.display = "none";
-    if (this.isQuirksMode(window.top.document))
-    {
-      scForm.browser.detachEvent(window.top, "onscroll", this.scrollHandler);
-    }
-  },
-
-  onWindowScroll: function (e)
-  {
-    var doc = this.getDocument();
-    var scrollPos = this.getScrollPosition(doc)
-    this.overlayContainer.style.top = scrollPos.top + "px";
-    this.overlayContainer.style.left = scrollPos.left + "px";
-  }
 };
 
 /* Overlay end */

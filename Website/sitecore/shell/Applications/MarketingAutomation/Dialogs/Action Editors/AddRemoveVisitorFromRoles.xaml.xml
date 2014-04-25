@@ -14,33 +14,6 @@
   <Sitecore.Shell.Applications.MarketingAutomation.Dialogs.ActionEditors.AddRemoveVisitorFromRoles
       x:inherits="Sitecore.Shell.Applications.MarketingAutomation.Dialogs.ActionEditors.AddRemoveVisitorFromRoles, Sitecore.Shell.MarketingAutomation">
 
-    <!--<Sitecore.Controls.DialogPage Icon="Software/32x32/graph_edge_directed.png" runat="server"
-                                  Header="Add Points"
-                                  Text="Specify the number of points that you want to add to the visitor's lead score." >
-
-
-
-      <AjaxScriptManager runat="server" />
-      <ContinuationManager runat="server" />
-      <Border runat="server"  Margin="20 0 10 0" >
-        <table width="100%">
-          <tr>
-            <td>
-              <asp:Literal ID="InstructionLiteral" runat="server" Text="Points:" />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <asp:TextBox ID="NumberOfPointsTextBox" runat="server"  Width="100%" Text="0" onFocus="javascript:this.select();"/>
-            </td>
-          </tr>
-        </table>
-      </Border>
-
-    </Sitecore.Controls.DialogPage>-->
-
-
-
     <Sitecore.Controls.DialogPage Icon="Software/32x32/graph_edge_directed.png" runat="server"
                                   Header="Add or remove visitor from roles"
                                   Text="Select one or more roles to add the visitor to or remove the visitor from." >
@@ -64,19 +37,79 @@
         min-height:100%;
         }
 
-        .DomainSelectorContainer
-        {
-        padding-bottom:4px;
+        .spanLabel {
+        display: block;
+        padding: 3px 0 2px;
         }
 
-        .SearchTextLabelContainer
-        {
-        padding-bottom:2px;
+        .rolesContainer {
+        position: absolute;
+        top: 90px;
+        left: 8px;
+        right: 8px;
+        bottom: 8px;
         }
 
-        td img
-        {
-        padding-top:2px;
+        .allRoles {
+        display: inline-block;
+        width: 50%;
+        vertical-align: top;
+        position: relative;
+        height: 100%;
+        padding: 0 12px 18px 0;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        }
+
+        .addRemoveRoles{
+        display: inline-block;
+        width: 50%;
+        vertical-align: top;
+        height: 100%;
+        padding: 0 0 13px 12px;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        }
+
+        .moveButtons{
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 24px;
+        left: 0;
+        right: 0;
+        margin: auto;
+        text-align: center;
+        }
+
+        .moveButtons img {
+        height: 16px;
+        width: 16px;
+        cursor: pointer;
+        }
+
+        .addRoles, .removeRoles {
+        height: 50%;
+        padding-bottom: 18px;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        }
+
+        .removeRoles {
+        margin-top: 13px;
+        }
+
+        .halfHeight{
+        height: 50%;
+        position: relative;
+        }
+        
+        .halfHeight > div {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        margin: auto 0;
+        height: 34px;
         }
       </style>
       <xmlcontrol:SelectList runat="server" ID="Main"/>

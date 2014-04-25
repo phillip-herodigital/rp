@@ -1,16 +1,15 @@
 <%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Preview.aspx.cs" Inherits="Sitecore.Shell.Controls.RADEditor.Preview" %>
 <%@ Import Namespace="Sitecore" %>
 <%@ Register Assembly="Sitecore.Kernel" Namespace="Sitecore.Web.UI.HtmlControls" TagPrefix="sc" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" >
+<html>
 <head runat="server">
     <title>Sitecore</title>
     <script src="/sitecore/shell/controls/lib/prototype/prototype.js" type="text/javascript"></script>
     <asp:PlaceHolder id="Stylesheets" runat="server" />
     <style type="text/css">
-      html { <% if (UIUtil.IsIE(7)) { %> height:100%; <% } else {%> height:auto; <%} %>  width:100%; }
-      body { height:100%; width:100%; padding: 0px; margin: 0px }
+      body { height:100%; width:100%; padding: 0;margin: 0;display: inline-block;vertical-align: top;}
       form { height:100%; width:100% }
       #ContentWrapper {margin-left: 4px;}
     </style>
@@ -228,10 +227,10 @@
     </script>
 </head>
 
-<body onload="javascript:scOnLoad()" ondblclick="javascript:scEdit()" onkeydown="javascript:scKeyDown()" onblur="javascript:$('ClickableArea').setStyle({position:'absolute', height: '100%', width: '100%'})" oncontextmenu="javascript:return scContextMenu(event)">
-<div id="ClickableArea" style="position: absolute; height: 100%; width: 100%; top: 0px; left: 0px;" tabindex='0'></div>
-<div id="ContentWrapper">
-  <asp:PlaceHolder id="Content" runat="server"/>
-</div>
+<body onload="javascript:scOnLoad();" ondblclick="javascript:scEdit();" onkeydown="javascript:scKeyDown();" onblur="javascript:$('ClickableArea').setStyle({position:'absolute', height: '100%', width: '100%'});" oncontextmenu="javascript:return scContextMenu(event)">
+  <div id="ClickableArea" style="position: absolute; height: 100%; width: 100%; top: 0; left: 0;" tabindex='0'></div>
+  <div id="ContentWrapper">
+    <asp:PlaceHolder id="Content" runat="server"/>
+  </div>
 </body>
 </html>

@@ -22,7 +22,7 @@
         <Label for="Title" GridPanel.NoWrap="true"><Literal Text="Alternate text:"/></Label>
         <Edit ID="Title" Width="100%" />
         
-        <Space Height="16" GridPanel.ColSpan="2"/>
+        <Border GridPanel.ColSpan="2"/>
         
         <Border GridPanel.ColSpan="2" Align="Center">
           <Button Click="OnTest" Style="width:auto"><Literal Text="Send a test mail"/></Button>

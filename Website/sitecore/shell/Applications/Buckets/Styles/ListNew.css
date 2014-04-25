@@ -1,41 +1,37 @@
-﻿UL.BlogPostList {
+UL.BlogPostList {
     margin: 20px 0 0 0;
     padding: 0;
     list-style-type: none;
 }
 
 .BlogPostArea {
-    margin: 0px 19px 10px 19px;
-    border: 1px solid rgb(245, 245, 245);
+    margin: 0 19px 10px;
+    border: 1px solid #f2f2f2;
+    background: #FAFAFA;
     padding: 0 0 20px 106px;
     min-height: 72px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
     border-radius: 5px;
-    -moz-box-shadow: 1px 1px 8px #FFF;
-    -webkit-box-shadow: 1px 1px 8px #FFF;
     box-shadow: 1px 1px 8px #FFF;
     list-style: none outside none;
     text-align: left;
     position: relative;
-    zoom: 1;
     margin-left: 0;
     padding-left: 0;
     -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    behavior: url('/sitecore/shell/Applications/Buckets/Scripts/PIE.htc');
+    zoom: 1;
 }
 
-    .BlogPostArea:hover, .selectable li.pie_hover {
-        border: 1px solid rgb(200, 200, 200);
-        background-color: rgb(247, 247, 247);
-        -moz-box-shadow: 1px 1px 8px #EEE;
-        -webkit-box-shadow: 1px 1px 8px #EEE;
-        box-shadow: 1px 1px 8px #EEE;
-        cursor: pointer;
-        behavior: url('/sitecore/shell/Applications/Buckets/Scripts/PIE.htc');
-    }
+.BlogPostArea:hover, .ie .BlogPostArea.hover {
+    border: 1px solid rgb(200, 200, 200);
+    background: rgb(247, 247, 247);
+    box-shadow: 1px 1px 8px #EEE;
+    cursor: pointer;
+}
+
+.BlogPostArea:hover .quickactions, .ie .BlogPostArea.hover .quickactions {
+  background: #EDEDED;
+}
 
 .quickactions {
     height: auto;
@@ -43,16 +39,14 @@
     padding-bottom: 2px;
     margin-top: 8px;
     margin-left: 0;
+    min-height: 20px;
     margin-bottom: -20px;
-    background-color: rgba(165, 165, 165, 0.1);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#19a5a5a5,endColorstr=#19a5a5a5);
+    background: #F5F5F5;
     zoom: 1;
 }
 
-  .quickactions span {
+.quickactions span {
     display: inline-block;
-    *display: inline;
-    zoom: 1;
     padding-top: 5px;
     padding-right: 5px;
     padding-left: 5px;
@@ -103,3 +97,12 @@
         filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#19a5a5a5,endColorstr=#19a5a5a5);
     }
 
+.grayBlur {
+  filter: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='grayscale'><feColorMatrix type='matrix' values='0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0'/></filter></svg>#grayscale");
+  -ms-filter: "progid:DXImageTransform.Microsoft.Blur(PixelRadius='10')";
+  -webkit-filter: grayscale(100%) blur(10px);
+}
+
+  .grayBlur > div {
+    filter: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='blur' x='0' y='0'><feGaussianBlur stdDeviation='10'/></filter></svg>#blur");
+  }

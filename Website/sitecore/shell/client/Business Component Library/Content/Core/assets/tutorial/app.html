@@ -1,0 +1,250 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Your Website</title>
+                   <script src="../../../../Assets/vendors/JQuery/jquery-1.8.2.min.js"></script>
+      <script src="../../../../Assets/vendors/KnockOut/knockout-2.1.0.js"></script>
+      <script src="../../../../Assets/vendors/underscore/underscore.js"></script>
+      <script src="../../../../Assets/vendors/Backbone/backbone.js"></script>
+
+		<script>
+			 window.__SITECOREDEBUG = true;
+		</script>
+      <script src="../../../../Assets/lib/dist/sitecore-1.0.1.js"></script>
+        <style>
+        code, pre, tt {
+      font-family: Monaco, Consolas, "Lucida Console", monospace;
+      font-size: 12px;
+      line-height: 18px;
+      font-style: normal;
+    }
+      tt {
+        padding: 0px 3px;
+        background: #fff;
+        border: 1px solid #ddd;
+        zoom: 1;
+      }
+      code {
+        margin-left: 20px;
+      }
+      pre {
+        font-size: 12px;
+        padding: 2px 0 2px 15px;
+        border: 4px solid #bbb; border-top: 0; border-bottom: 0;
+        margin: 0px 0 25px;
+      }
+      div.run {
+      position: absolute;
+      right: 15px;
+      width: 26px; height: 18px;
+      background: url('arrows.png') no-repeat -26px 0;
+    }
+      div.run:active {
+        background-position: -51px 0;
+      }
+      header {
+        width: 600px;
+        margin:0 auto;
+      }
+      section {
+        width: 600px;
+        /*float: left;*/
+        margin:0 auto;
+        position: relative;
+      }
+      .console {
+        color:green;
+        font-size: 16px;
+      }
+      footer {
+        width:600px;
+        margin:0 auto;
+      }
+      footer a {
+        font-size: 24px;
+        margin:10px;
+      }
+      footer a.prev {
+        float: left;
+      }
+      footer a.next {
+        float: right;
+      }
+        </style>
+    </head>
+    <body>
+
+        <header>
+            <h1>Demo: Application in sitecore.</h1>
+            <p>
+              Be focused, it is where the "magic" happens.
+            </p>
+            <p>
+            	An app is a set of controls. You can have multiple APP in your page and you can communicate between them with events.
+            </p>
+            <p>
+            	<strong>NOTE: </strong>In this page, if you run twice the example without reloading the Page, you will have an error in your console. It is absolutely normal because you are trying to re-define the same component twice. In order to avoid conflict, we do not let you defining the same component twice.
+            </p>
+            <p>
+            	<strong>NOTE2: </strong>If you do not provide any argument to the _.sc.run() method, the scope will the entire page.
+            </p>
+        </header>
+        <section>
+          <h2>1) How can I create an APP ?</h2>
+          <p>In order to create an app, you need at least one component and an HTML which have the same class as the component</p>
+          <p class="console">Open your console</p>
+<pre class="view">
+  &#60;div id="thisIsApp">
+    &#60;div id="ViewExample" class="sc-control">
+      &#60;input type="text" data-bind="value:FromInput" />
+      &#60;p>Value is &#60;span data-bind="text:FromInput">&#60;/span>&#60;/p>
+      &#60;button>Update &#60;/button>
+    &#60;/div>
+  &#60;/div>
+</pre>
+<pre class="runnable html">
+
+  //we define a model
+  var Model = _sc.Definitions.Models.Model.extend({
+    initialize: function() {
+      this.set("FromInput", "");
+    }
+  });
+
+  //we define the View
+  var View = _sc.Definitions.Views.View.extend({
+    initialize: function() {
+      //after 2 seconds, change the value
+      var view = this;
+    }
+  });
+
+  //we have now at least one component
+  _sc.Factories.createComponent("FakeComponent", Model, View, ".sc-control");
+
+  var app = _sc.Factories.createApp("thisIsApp");
+
+  //from now you have an app.
+  console.log(app);
+  alert("You have " + app.Controls.length + " controls in your App");
+</pre>
+        </section>
+        <section>
+          <h2>2) App is on object which has events support</h2>
+<pre class="view">
+  &#60;div id="thisIsApp2">
+    &#60;div id="ViewExample" class="sc-control2">
+      &#60;input type="text" data-bind="value:FromInput" />
+      &#60;p>Value is &#60;span data-bind="text:FromInput">&#60;/span>&#60;/p>
+      &#60;button>Update &#60;/button>
+    &#60;/div>
+  &#60;/div>
+</pre>
+<pre class="runnable html">
+
+  //we define a model
+  var Model2 = _sc.Definitions.Models.Model.extend({
+    initialize: function() {
+      this.set("FromInput", "");
+    }
+  });
+
+  //we define the View
+  var View2 = _sc.Definitions.Views.View.extend({
+    initialize: function() {
+      //after 2 seconds, change the value
+      var view = this;
+    }
+  });
+
+  //we have now at least one component
+  _sc.Factories.createComponent("FakeComponent2", Model2, View2, ".sc-control2");
+
+  var app2 = _sc.Factories.createApp("thisIsApp2");
+  console.log(app2)
+  app2.on("done", function() {
+  	alert("done")
+  });
+
+  //after 2 seconds we trigger "done"
+  setTimeout(function(){app2.trigger("done");}, 1000);
+</pre>
+        </section>
+         <section>
+          <h2>3) Ok, I am done with this app, what about now?</h2>
+          <p class="console">Open your console</p>
+          <p>When you are done with an app, you can destroy it in order to clean up Memory and de-register you html from the View and the Model</p>
+<pre class="view">
+  &#60;div id="thisIsAppWillBeDestoyed">
+    &#60;div id="ViewExample" class="sc-tobedestroy">
+      &#60;input type="text" data-bind="value:FromInput" />
+      &#60;p>Value is &#60;span data-bind="text:FromInput">&#60;/span>&#60;/p>
+      &#60;button>Update &#60;/button>
+    &#60;/div>
+  &#60;/div>
+</pre>
+<pre class="runnable html">
+
+  //we define a model
+  var ModelTBD = _sc.Definitions.Models.Model.extend({
+    initialize: function() {
+      this.set("FromInput", "");
+    }
+  });
+
+  //we define the View
+  var ViewTBD = _sc.Definitions.Views.View.extend({
+    initialize: function() {
+      //after 2 seconds, change the value
+      var view = this;
+    }
+  });
+
+  //we have now at least one component
+  _sc.Factories.createComponent("FakeComponentTBD", ModelTBD, ViewTBD, ".sc-tobedestroy");
+
+  var destroythisapp = _sc.Factories.createApp("thisIsAppWillBeDestoyed");
+
+  //from now you have an app.
+  console.log("I have an app");
+  console.log(destroythisapp);
+
+  //I destroy it
+  _sc.destroy(destroythisapp);
+
+  //now it will be Undefined
+  console.log("This app is now destroyed");
+  
+</pre>
+        </section>
+        <footer>
+            <a class="prev" href="control.html">Prev: The Control</a>
+            <a class="next" href="nested.html">Next: The Nested App</a>
+        </footer>
+        <!-- Application source. -->
+        <script>
+            // Set up the "play" buttons for each runnable code example.
+            $(function() {
+
+              $('.runnable').each(function() {
+                var code = this;
+
+                var button = '<div class="run" title="Run"></div>';
+                $(button).insertBefore(code).bind('click', function(){
+                  var hasView = $(code).hasClass("html");
+
+                  if(hasView) {
+                    $(code).parent().find(".example").remove();
+                    var html = $(code).closest("section").find(".view").text();
+
+                    $(code).parent().append(html).addClass("inserted");
+                  }
+                  eval($(code).text());
+                });
+              });
+              //$('[data-original]').lazyload();
+            });
+        </script>
+    </body>
+</html>

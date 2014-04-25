@@ -15,6 +15,7 @@
       <xsd:element ref="TreeviewEx" />
       <xsd:element ref="FavoritesTreeviewEx" />
       <xsd:element ref="MultiRootTreeview" />
+      <xsd:element ref="Favicon" />
       <xsd:element ref="EditableCombobox" />
       <xsd:element ref="EditableComboboxPopup" />
       <xsd:element ref="DocumentType" />
@@ -246,6 +247,16 @@
     <xsd:complexType mixed="true">
       <xsd:group ref="__Content" />
       <xsd:attributeGroup ref="MultiRootTreeviewAttributes" />
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:attributeGroup name="FaviconAttributes">
+    <xsd:attributeGroup ref="ComponentAttributes" />
+    <xsd:attribute name="Src" />
+  </xsd:attributeGroup>
+  <xsd:element name="Favicon">
+    <xsd:complexType mixed="true">
+      <xsd:group ref="__Content" />
+      <xsd:attributeGroup ref="FaviconAttributes" />
     </xsd:complexType>
   </xsd:element>
   <xsd:attributeGroup name="ComboboxBaseAttributes">
@@ -599,7 +610,6 @@
     <xsd:attributeGroup ref="ControlAttributes" />
     <xsd:attribute name="Active" />
     <xsd:attribute name="ActiveTabID" />
-    <xsd:attribute name="FixSize" type="xsd:boolean" />
   </xsd:attributeGroup>
   <xsd:element name="VerticalTabstrip">
     <xsd:complexType mixed="true">

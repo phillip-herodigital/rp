@@ -1,0 +1,69 @@
+﻿@using Sitecore.Configuration
+@using Sitecore.Extensions.StringExtensions
+@using Sitecore.IO
+@using Sitecore.Mvc
+@using Sitecore.Mvc.Presentation
+@using Sitecore.Reflection
+@using Sitecore.Web.PageCodes
+@using Sitecore.Web.UI.Controls.Common.UserControls
+@model Sitecore.Mvc.Presentation.RenderingModel
+@{                             
+  var userControl = this.Html.Sitecore().Controls().GetUserControl(this.Model.Rendering);
+  
+  // set the main file for require.js
+  var mainFile = SpeakSettings.Html.RequireJsMainFile;
+  var debug = Sitecore.Context.Diagnostics.Debugging;
+
+  var title = this.Html.Sitecore().Placeholder("Page.Title");
+  if (string.IsNullOrEmpty(title.ToString()))
+  {
+    title = new HtmlString(this.Model.PageItem["BrowserTitle"]);
+  }
+
+  // run the server side page code
+  var pageCodeTypeName = userControl.GetString("PageCodeTypeName");
+  
+  var behaviors = userControl.GetString("Behaviors") ?? string.Empty;
+  if (!string.IsNullOrEmpty(behaviors)) {
+    behaviors = "data-sc-behaviors=\"" + behaviors + "\"";
+  }
+  
+  if (!string.IsNullOrEmpty(pageCodeTypeName))
+  {
+    var pageCode = ReflectionUtil.CreateObject(pageCodeTypeName) as IPageCode;
+    if (pageCode == null)
+    {
+      throw new InvalidOperationException("Page Code object not found: " + pageCodeTypeName);
+    }
+
+    pageCode.Initialize(RenderingContext.Current);
+  }
+
+  // find the client side page code javascript file
+  var scriptFileName = userControl.GetString("PageCodeScriptFileName");
+  
+  //if the js pagecode is not specified we suppose to have it the same path as the current PageItem
+  if (string.IsNullOrEmpty(scriptFileName))
+  {
+    scriptFileName = "/sitecore/shell/client/" + this.Model.PageItem.Paths.Path.Mid(17) + "/" + this.Model.PageItem.Name + ".js";
+
+    //checking if it exists on the server
+    if (!FileUtil.FileExists(scriptFileName))
+    {
+      scriptFileName = null;
+    }
+  }
+}                                      
+<title>@title</title>
+@this.Html.Sitecore().PageStylesheets()
+@if (debug)
+{
+  <script type="text/javascript"> window.__SITECOREDEBUG = true; </script>
+}
+@if (!string.IsNullOrEmpty(scriptFileName))
+{
+  <script src="@scriptFileName" type="text/x-sitecore-pagecode" @behaviors> </script>
+}
+  <script src="/sitecore/shell/client/Speak/Assets/lib/core/deps/require.js" data-main="@mainFile" type="text/javascript"> </script>
+@this.Html.Sitecore().PageScripts()
+@this.Html.Sitecore().Overlays()

@@ -1,0 +1,29 @@
+﻿@using Sitecore.Mvc.Presentation
+@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Navigation.Menus
+
+@model RenderingModel
+
+<h3>Appearence</h3>
+
+<p>The Menu is used to render horizontal/vertical menu, the Menu can render be built based on "SPEAK-PAGE" or based on "SECTION", for inner page menu.</p>
+<p>To use it, just provided an ItemId as datasource, the menu will loop through the children of that item, it will grab and render the Page's name
+     (if it is in Page mode) or grab and render a Section's name (if it is in Section Mode)</p>
+<p>- If the menu is in Page mode, the hyperlink generated will point to that page.</p>
+<p>- If the menu is in section mode, the hyperlink geneerated will point to the #anchor inside the page</p>
+
+<h3>Behaviour</h3>
+<h4>Page Mode</h4>
+<p>
+    @Html.Sitecore().Controls().Menu("Menu", new { DataSource = "{648AFADA-20C7-413A-9636-44703A16DFCF}", Orientation = System.Web.UI.WebControls.Orientation.Vertical })
+</p>
+<pre>
+&#64;Html.Sitecore().Controls().Menu("Menu", new { DataSource = "{648AFADA-20C7-413A-9636-44703A16DFCF}", Orientation = System.Web.UI.WebControls.Orientation.Vertical })
+</pre>
+<h4>Section Mode</h4>
+<p>
+    @Html.Sitecore().Controls().Menu("Menu", new { DataSource = "{218D5429-7B21-4B93-BE4A-4030FCF377A8}", Orientation = System.Web.UI.WebControls.Orientation.Vertical, MenuType = MenuType.Section })
+</p>
+<pre>
+&#64;Html.Sitecore().Controls().Menu("Menu", new { DataSource = "{218D5429-7B21-4B93-BE4A-4030FCF377A8}", Orientation = System.Web.UI.WebControls.Orientation.Vertical, MenuType = MenuType.Section })
+</pre>

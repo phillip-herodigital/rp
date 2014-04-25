@@ -1,0 +1,35 @@
+﻿@using Sitecore.IO
+@using Sitecore.Mvc
+@model Sitecore.Mvc.Presentation.RenderingModel
+
+<h1>Test Runner</h1>
+
+@{
+    var folderPath = FileUtil.MapPath("/sitecore/shell/client/Business Component Library/tests/renderings/");
+  var fileNames=new List<string>();
+  foreach (var fileName in Directory.GetFiles(folderPath, "*.js", SearchOption.AllDirectories))
+  {
+    var fileInfo = new FileInfo(fileName);
+    if ((fileInfo.Attributes & FileAttributes.Hidden) == FileAttributes.Hidden)
+    {
+      continue;
+    }
+
+    if ((fileInfo.Attributes & FileAttributes.System) == FileAttributes.System)
+    {
+      continue;
+    }
+
+    fileNames.Add(fileName);
+  }  
+}
+<script type="text/javascript">
+  var renderings = [];
+
+@foreach (var file in fileNames)
+{
+  var path = @FileUtil.UnmapPath(file, false);
+  <text>renderings.push("@path");</text>;
+}
+  
+</script>

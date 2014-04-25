@@ -1,0 +1,164 @@
+﻿@using Sitecore.Data
+@using Sitecore.Mvc.Presentation
+@using Sitecore.Mvc
+@using Sitecore.Web.UI.Controls.Common.Texts
+@using Sitecore.Web.UI.Controls.Common.Buttons
+@using Sitecore.Web.UI.Controls.Common.Renderings
+@using Sitecore.Web.UI.Controls.Data.SearchDataSources
+@model RenderingModel    
+@{
+  var rendering = new ID("{ACE0AFD6-3DE0-42CF-8E62-4E68CD810A8D}").ToString();
+}
+
+<h3>Apperance</h3>
+<p>
+  <h4>ViewMode</h4>
+  The list control as 2 ViewMode:
+  <ui>
+    <li>DetailList (default)</li>
+    <li>IconList</li>
+  </ui>
+</p>
+<p>
+  <h4>Sorting</h4>
+  The sorting logic is defined as followed:<br />
+  1) Every sortable column can cycle through 3 states: NoDirection, Descending, Ascending;<br />
+  2) When a column is clicked, it goes to the next Status and it becomes the first sorting parameter;<br />
+</p>
+<p>
+  <h4>Numeric Formatting</h4>
+  The list control columns cna be defined by a ColumnField component, which can be used to format numeric values.<br />
+  The accepeted formats are:<br />
+  #Px       -> percentage formatter<br />
+  #Nx      -> number formatter<br />
+
+  x is an optional integer specifying the number of rounded decimals.<br />
+  If x is not provided (or is not an integer) then x=2. (following C# number formmatting rules).<br />
+  <br />
+
+  The difgits separators (thousands, and decimals) are formmatted according to the context language.<br />
+  <br />
+
+  examples:<br />
+  original value = 1234.56789<br />
+  context language = "en-US"<br />
+
+  #N&nbsp;&nbsp; -> 1,234.57<br />
+  #N0 -> 1,234<br />
+  #N1 -> 1,234.6<br />
+  #N2 -> 1,234.57<br />
+  #N7 -> 1,234.5678900<br />
+  <br />
+
+  #P&nbsp;&nbsp; -> 1,234.57 %<br />
+  #P0 -> 1,234 %<br />
+  #P1 -> 1,234.6 %<br />
+  #P2 -> 1,234.57 %<br />
+  #P7 -> 1,234.5678900 %
+
+</p>
+<p>
+  <h4>Coulmn Width</h4>
+  The List Control allows seeting it's columns Width.<br/>
+  The value can be set in the ColumnField item's Width property.<br />
+  The value cab be absolute (pixel, ie. 20px) or relative (percentage, i.e. 20%), and it will be set in the Html table TH and TD tag's style's width attribute, so it will follow the html definition.
+  In the following example, the columns are set as 30%, 50%, 20%.<br />  
+</p>
+<h5>DetailList ViewMode</h5>
+<table>
+  <tbody>
+    <tr>
+      <td style="width: 40px">
+        @Html.Sitecore().Controls().Text("SortingLabel", "Sorting: ", new { TextType = "Title" })
+      </td>
+      <td>@Html.Sitecore().Controls().Text("SortingText", "", new { Text = "{Binding ListControl1.sorting}", TextType = "Value" })</td>
+    </tr>
+  </tbody>
+</table>
+
+@Html.Sitecore().Controls().SearchDataSource("SearchDataSource1", new { SearchConfigItemId = "{57AC916A-7162-41DA-B6A5-FC053254387B}", PageSize = 9, Language = "$context_language", Fields = "__Created", Formatting = "$convert_date_to_friendly_format", Database = "$context_contentdatabase" })
+@Html.Sitecore().Controls().Rendering(this.Html, rendering, "ListControl1", "{CD471110-0BD6-4925-8107-A10BB27880D9}", new { Items = "{Binding SearchDataSource1.items}" })
+<br />
+<pre>
+&#64;Html.Sitecore().Controls().SearchDataSource("SearchDataSource1", new { SearchConfigItemId = "{57AC916A-7162-41DA-B6A5-FC053254387B}", PageSize = 9, Language = "$context_language", Fields="__Created", Formatting="$convert_date_to_friendly_format", Database="$context_contentdatabase" })
+&#64;Html.Sitecore().Controls().Rendering(this.Html, rendering, "ListControl1", "{CD471110-0BD6-4925-8107-A10BB27880D9}", new{ Items="{Binding SearchDataSource1.items}" })
+</pre>
+
+<h5>IconList ViewMode</h5>
+@Html.Sitecore().Controls().Rendering(this.Html, rendering, "ListControl2", "{CD471110-0BD6-4925-8107-A10BB27880D9}", new { Items = "{Binding SearchDataSource1.items}", ViewMode = "IconList" })
+<br />
+<pre>
+&#64;Html.Sitecore().Controls().Rendering(this.Html, rendering, "ListControl2", "{CD471110-0BD6-4925-8107-A10BB27880D9}", new{ Items="{Binding SearchDataSource1.items}" })
+</pre>
+
+<h2>List Control with static source</h2>
+
+<p>
+  Click button to see ListControl with configured link in Link column and data from local json.
+</p>
+<p>
+  @Html.Sitecore().Controls().Button("Button1", new { Text = "Click Me to fill List Control", Click = "javascript:app.ListControl3.set('items', items)" })
+  @Html.Sitecore().Controls().Rendering(this.Html, rendering, "ListControl3", "{C2D9C320-C10C-4A72-AFE5-FBB9322ADC39}", new { })
+</p>
+<pre>
+&#64;Html.Sitecore().Controls().Button("Button1", new { Text = "Click Me to fill List Control", Click = "javascript:app.ListControl11.set('items', items)" })
+&#64;Html.Sitecore().Controls().Rendering(this.Html, rendering, "ListControl3", "{C2D9C320-C10C-4A72-AFE5-FBB9322ADC39}", new{  })
+</pre>
+<pre>
+var items = [
+    {
+        $displayName: "Item Buckets",
+        $templateName: "Template Folder",
+        __Created: "Thursday, October 27, 2011 2:37 PM",
+        itemId: "{AB323CEF-9997-47D7-A070-CDC1177D82B0}",
+        itemName: "Item 1",
+        image: "/temp/IconCache/Applications/16x16/windows.png",
+        url: "#1"
+    },
+    {
+        $displayName: "Item Buckets",
+        $templateName: "Template Folder",
+        __Created: "Wednesday, October 26, 2011 2:37 PM",
+        itemId: "{AB323CEF-9997-47D7-A070-CDC1177D82BD}",
+        itemName: "Item 2",
+        image: "/temp/IconCache/People/16x16/cubes_blue.png",
+        url: "#2"
+    }
+];
+</pre>
+<script id="MockDataSource" type="text/javascript">
+  var items = [
+      {
+        $displayName: "Item 1",
+        $templateName: "Template Folder",
+        __Created: "Thursday, October 27, 2011 2:37 PM",
+        itemId: "{AB323CEF-9997-47D7-A070-CDC1177D82B0}",
+        itemName: "Item 1",
+        image: "/temp/IconCache/Applications/16x16/windows.png",
+        url: "#1"
+      },
+      {
+        $displayName: "Item 2",
+        $templateName: "Template Folder",
+        __Created: "Wednesday, October 26, 2011 2:37 PM",
+        itemId: "{AB323CEF-9997-47D7-A070-CDC1177D82BD}",
+        itemName: "Item 2",
+        image: "/temp/IconCache/People/16x16/cubes_blue.png",
+        url: "#2"
+      }
+  ];
+</script>
+
+
+<h2>Events</h2>
+Selected item id: @Html.Sitecore().Controls().Text("Text1", "Select an option", new { Text = "{Binding ListControl4.selectedItemId}" })<br />
+@Html.Sitecore().Controls().Rendering(this.Html, rendering, "ListControl4", "{CD471110-0BD6-4925-8107-A10BB27880D9}", new { Items = "{Binding SearchDataSource1.items}" })<br />
+@Html.Sitecore().Controls().Button("Button2", new { Text = "Click Me to change ViewMode to IconList", Click = "javascript:app.ListControl4.set('view', 'IconList')" })
+<br />
+<br />
+<pre>
+&#64;Html.Sitecore().Controls().Text("Text1", "Select an option", new { Text = "{Binding ListControl3.selectedItemId}" })
+&#64;Html.Sitecore().Controls().Rendering(this.Html, rendering, "ListControl4", "{CD471110-0BD6-4925-8107-A10BB27880D9}", new{ Items="{Binding SearchDataSource1.items}" })
+&#64;Html.Sitecore().Controls().Button("Button2", new { Text = "Click Me to change ViewMode to IconList", Click = "javascript:app.ListControl4.set('view', 'IconList')" })
+</pre>
+

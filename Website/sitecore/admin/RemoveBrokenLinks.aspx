@@ -2,9 +2,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 <head runat="server">
   <title>Remove Broken Links</title>
+  <link rel="shortcut icon" href="/sitecore/images/favicon.ico" />
   <link rel="Stylesheet" type="text/css" href="/sitecore/shell/themes/standard/default/WebFramework.css" />
   <script type="text/javascript" src="/sitecore/shell/controls/lib/jQuery/jquery.js"></script>
   <script type="text/javascript" src="/sitecore/shell/controls/lib/jQuery/jquery.watermark.js"></script>

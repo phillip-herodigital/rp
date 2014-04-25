@@ -36,9 +36,7 @@
           </GridPanel>
         </Border>
 
-        <div style="background:#dbdbdb">
-          <img src="/sitecore/images/blank.gif" width="1" height="1" alt="" border="0" />
-        </div>
+        <div class="scHorizontalLine">.</div>
 
         <Placeholder runat="server" Key="Toolbar"/>
 

@@ -1,10 +1,11 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="SetSACEndpoint.aspx.cs" Inherits="Sitecore.sitecore.admin.SetSACEndpoint" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 <head runat="server">
     <title>Application Center endpoint address</title>
+    <link rel="shortcut icon" href="/sitecore/images/favicon.ico" />
 </head>
 <body>
     <form id="form1" runat="server">

@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Your Website</title>
+                     <script src="../../../../Assets/vendors/JQuery/jquery-1.8.2.min.js"></script>
+      <script src="../../../../Assets/vendors/KnockOut/knockout-2.1.0.js"></script>
+      <script src="../../../../Assets/vendors/underscore/underscore.js"></script>
+      <script src="../../../../Assets/vendors/Backbone/backbone.js"></script>
+
+		<script>
+			 window.__SITECOREDEBUG = true;
+		</script>
+      <script src="../../../../Assets/lib/dist/sitecore-1.0.1.js"></script>
+    </head>
+    <body>
+    <h1>Another kind of initialization</h1>
+
+<div style="width:50%;float:left">
+    <h2>Code</h2>
+    <h3>Html</h3>
+    <pre>
+&#60;input type="checkbox" data-sc-id="Checkbox" checked="checked"  data-bind="checked:isChecked" class="sc-checkbox"/>
+    </pre>    
+    <h3>Javascript</h3>
+<pre>
+_sc.Factories.createBaseComponent({
+  name: "Checkbox",
+  selector: ".sc-checkbox",
+  attributes: [ 
+    { name: "isChecked", value: "$el.prop:checked" }
+  ]
+ });
+
+  //Exposing to global window
+  window.app = _sc.Factories.createApp();
+</pre>
+</div>
+<div style="width:50%;float:left">
+    <h2>Result</h2>
+
+    <input type="checkbox" data-sc-id="Checkbox" data-bind="checked: isChecked" type="checkbox" checked="checked" class="sc-checkbox"/>
+</div>
+<div style="width:100%;float:left;">
+<h4>What you need to know.</h4>
+<p>
+  <ul>
+    <li>
+      <b>Another kind of initialization</b>
+      <p>This example will show you how to initialize your model based on more complex case. Here this.$el.prop("checked") will be called.</p>
+      <p>You could also do value:"$el.attr:class" or "$el.data:sc-some-special-stuff"<p>
+    </li>
+  </ul>
+</p>
+</div>
+    <script>
+    	
+  _sc.Factories.createBaseComponent({
+    name: "Checkbox",
+    selector: ".sc-checkbox",
+    attributes: [ 
+      { name: "isChecked", value: "$el.prop:checked" }
+    ]
+  });
+
+  //Exposing to global window
+  window.app = _sc.Factories.createApp();
+
+    </script>
+    </body>
+</html>

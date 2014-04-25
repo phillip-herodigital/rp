@@ -1,0 +1,20 @@
+﻿<a data-sc-id="LinkTest1" href="http://www.sitecore.net" class="sc-hyperlinkbutton" 
+   data-bind="text: text, visible: isVisible, enable: isEnabled, css: { disabled: !isEnabled() }" 
+   data-sc-require="/-/speak/v1/business/hyperlinkbutton.js" data-sc-isbuttonmode="false">Sitecore</a>
+
+<a data-sc-id="LinkTest2" href="http://www.sitecore.net" class="sc-hyperlinkbutton btn" 
+   data-bind="text: text, visible: isVisible, enable: isEnabled, css: { disabled: !isEnabled(), btn: isButtonMode() }" 
+   data-sc-require="/-/speak/v1/business/hyperlinkbutton.js" data-sc-isbuttonmode="true" 
+   data-sc-href="http://www.sitecore.net">Sitecore</a>
+
+
+<a data-sc-id="LinkTest3" class="sc-hyperlinkbutton disabled" disabled="disabled" 
+   data-bind="text: text, visible: isVisible, enable: isEnabled, css: { disabled: !isEnabled(), btn: isButtonMode() }" 
+   data-sc-require="/-/speak/v1/business/hyperlinkbutton.js" data-sc-isbuttonmode="false" 
+   data-sc-href="http://online.wsj.com">Wall Street Journal</a>
+
+<a data-sc-id="LinkTest4" href="http://www.forbes.com" class="sc-hyperlinkbutton" 
+   data-bind="text: text, visible: isVisible, enable: isEnabled, css: { disabled: !isEnabled(), btn: isButtonMode() }" 
+   data-sc-require="/-/speak/v1/business/hyperlinkbutton.js" data-sc-isbuttonmode="false" style="display:none;" 
+   data-sc-href="http://www.forbes.com">Forbes</a>
+

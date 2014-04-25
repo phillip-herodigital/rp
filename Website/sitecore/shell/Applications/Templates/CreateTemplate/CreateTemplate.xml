@@ -39,7 +39,7 @@
 
       <WizardFormPage ID="LocationPage" Header="Location" Text="Select the location where you want to store the template. Click Next to create the template." Icon="Applications/32x32/form_blue.png?overlay=People/16x16/sun.png">
         <WizardFormIndent>
-          <Scrollbox Padding="0px" Class="scScrollbox scFixSize" Height="100%" ContextMenu="Location.GetContextMenu">
+          <Scrollbox Padding="0px" ContextMenu="Location.GetContextMenu">
             <TreeviewEx ID="Location" DataContext="LocationDataContext" />
           </Scrollbox>
         </WizardFormIndent>

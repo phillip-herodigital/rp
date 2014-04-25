@@ -55,29 +55,11 @@
         }
       </Script>
 
-      <GridPanel Height="100%" Width="100%" >
-        <table cellpadding="0" cellspacing="0" border="0" width="100%" height="100%">
-          <tr>
-            <td>
-              <Border runat="server">
-                <Literal runat="server" Text="Select the goals and page events that you want to associate with this state." />
-              </Border>
-            </td>
-          </tr>
-
-          <tr>
-            <td>
-              <Edit id="PageEventFilter" onfocus="javascript:scFocus(this,event)" onblur="javascript:scBlur(this,event)" style="color:#999999; font:8pt tahoma; width:100%; margin:0px 0px 2px 0px" onkeyup="javascript:scFilterPageEvents(this,event)" oncut="javascript:scFilterPageEvents(this,event)" onpaste="javascript:scFilterPageEvents(this,event)" runat="server" />
-            </td>
-          </tr>
-
-          <tr>
-            <td style="height:100%">
-              <Scrollbox ID="PageEvents" Class="scScrollBox scFixSize scFixSize8" Padding="4px" runat="server" Height="100%"/>
-            </td>
-          </tr>
-        </table>
-      </GridPanel>
+      <div class="scStretch" style="padding-bottom:34px;" >
+        <Literal runat="server" Text="Select the goals and page events that you want to associate with this state." />
+        <Edit id="PageEventFilter" onfocus="javascript:scFocus(this,event)" onblur="javascript:scBlur(this,event)" style="color:#999999; font:8pt tahoma; width:100%; margin:0px 0px 2px 0px" onkeyup="javascript:scFilterPageEvents(this,event)" oncut="javascript:scFilterPageEvents(this,event)" onpaste="javascript:scFilterPageEvents(this,event)" runat="server" />
+        <Scrollbox ID="PageEvents" runat="server"/>
+      </div>
 
     </FormDialog>
   </PageEventSubscription>

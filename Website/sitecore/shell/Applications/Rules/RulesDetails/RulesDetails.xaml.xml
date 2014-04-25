@@ -31,7 +31,7 @@
 
       <input id="RuleSetValue" type="hidden" runat="server"/>
 
-      <Scrollbox Height="100%" Border="none" Padding="0px">
+      <Scrollbox runat="server" Height="100%" Border="none" Padding="0px">
         <Border ID="RuleSet" Padding="4px" runat="server" />
       </Scrollbox>
       
@@ -39,4 +39,3 @@
   </Sitecore.Shell.Applications.Rules.RulesDetails>
 
 </xamlControls>
-                           
