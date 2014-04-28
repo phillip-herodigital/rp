@@ -14,6 +14,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{6B353F
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{759BD9F7-310E-413A-B8AE-7553177FA63A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamEnergy.Core", "StreamEnergy.Core\StreamEnergy.Core.csproj", "{79779D13-7D5E-4190-BA72-5302244C8165}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,8 +32,15 @@ Global
 		{81567CE8-9ECD-4406-BA10-61B1A12AF201}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81567CE8-9ECD-4406-BA10-61B1A12AF201}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81567CE8-9ECD-4406-BA10-61B1A12AF201}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79779D13-7D5E-4190-BA72-5302244C8165}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79779D13-7D5E-4190-BA72-5302244C8165}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79779D13-7D5E-4190-BA72-5302244C8165}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79779D13-7D5E-4190-BA72-5302244C8165}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{79779D13-7D5E-4190-BA72-5302244C8165} = {759BD9F7-310E-413A-B8AE-7553177FA63A}
 	EndGlobalSection
 EndGlobal
