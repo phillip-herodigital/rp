@@ -61,7 +61,9 @@ namespace StreamEnergy.Unity
         }
 
         /// <summary>
-        /// Resolves a type using Unity
+        /// Resolves a type using Unity. 
+        /// 
+        /// This simplified access is provided to reduce need for the Microsoft.Practices.Unity using statement in files for extension methods.
         /// </summary>
         /// <typeparam name="T">The type to resolve</typeparam>
         /// <returns>The object as resolved from Unity</returns>
@@ -80,6 +82,14 @@ namespace StreamEnergy.Unity
         public virtual T Resolve<T>(string name, params ResolverOverride[] resolverOverrides)
         {
             return unityContainer.Resolve<T>(name, resolverOverrides);
+        }
+
+        /// <summary>
+        /// Gets direct access to the unity container for advanced usage.
+        /// </summary>
+        public virtual IUnityContainer Unity
+        {
+            get { return unityContainer; }
         }
 
         /// <summary>
