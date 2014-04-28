@@ -1219,64 +1219,6 @@ article.full-width-image {
 	height: 300px;
 	background-size: cover; 
 }
-article.home-intro {
-	.wrapper {
-		margin-bottom: 15px;
-		ul {
-			padding-left: 0;
-			li {
-				list-style-type: none;
-				width: 33%;
-				float: left;
-				text-align: center;
-				&.become-customer h3 {
-					color: #0971ce;
-					width: 90%;
-					margin: auto;
-				}
-				&.free-energy {
-					h3 {
-						color: #76bd1d;
-						width: 72%;
-						margin: auto;
-					}
-					button {
-						background-color: #76bd1d;
-					}
-					sup {
-						font-size: 9px;
-					}
-				}
-				&.build-income {
-					h3 {
-						color: #ffa409;
-						margin-top: 0;
-					}
-					button {
-						background-color: #ffa409;
-					}
-				}
-			}
-			button a {
-				color: #fff;
-			}
-		}
-	}
-	.small-banner {
-		background-color: #e8e8e8;
-		padding: 10px 0;
-		p {
-			text-align: center;
-			margin: 0 0 5px 0;
-		}
-		h3 {
-			text-align: center;
-			text-transform: none;
-			color: #0971ce;
-			margin: 0;
-		}
-	}
-}
 
 article.identity-theft {
 	h2,
@@ -1325,37 +1267,32 @@ article.why-energy {
 	}
 }
 
-article.commerical {
-	border-top: 3px solid #999;
-	.grid {
-		border-spacing: 0;
-		.col {
-			.quote {
+article.commercial-quote {
+	.text {
+		border-left: 3px solid #ffa409;
+		width: 50%;
+		background-color: #0971ce;
+		.inner {
+			color: #fff;
+			h2 {
 				color: #fff;
-				padding: 40px 20px;
-				background-color: #0971ce;
-				border-left: 3px solid #ffa409;
-				h2 {
-					color: #fff;
-				}
-				select {
-					color: #bcbcbc;
-				}
-			}
-			.images {
-				background-image: url('http://placehold.it/1000x700');
-				background-repeat: no-repeat;
-				background-position: center;
-				height: 650px;
+				font-size: 24px;
 			}
 			button {
 				background-color: #ebebeb;
 				a {
-					color: #000;
+					color: #333;
 				}
+			}
+			input,
+			select {
+				width: 100%;
 			}
 		}
 	}
+}
+
+article.commercial-account-banner {
 	.account-banner {
 		background-color: #0971ce;
 		p {

@@ -4676,86 +4676,20 @@ article.full-width-image {
   background-size: cover;
 }
 
-/* line 1223, _sass/partials/_marketing-site.scss */
-article.home-intro .wrapper, article.home-intro article.state-tabs ul.tabs-nav, article.state-tabs article.home-intro ul.tabs-nav {
-  margin-bottom: 15px;
-}
-/* line 1225, _sass/partials/_marketing-site.scss */
-article.home-intro .wrapper ul, article.home-intro article.state-tabs ul.tabs-nav ul, article.state-tabs article.home-intro ul.tabs-nav ul {
-  padding-left: 0;
-}
-/* line 1227, _sass/partials/_marketing-site.scss */
-article.home-intro .wrapper ul li, article.home-intro article.state-tabs ul.tabs-nav ul li, article.state-tabs article.home-intro ul.tabs-nav ul li {
-  list-style-type: none;
-  width: 33%;
-  float: left;
-  text-align: center;
-}
-/* line 1232, _sass/partials/_marketing-site.scss */
-article.home-intro .wrapper ul li.become-customer h3, article.home-intro article.state-tabs ul.tabs-nav ul li.become-customer h3, article.state-tabs article.home-intro ul.tabs-nav ul li.become-customer h3 {
-  color: #0971ce;
-  width: 90%;
-  margin: auto;
-}
-/* line 1238, _sass/partials/_marketing-site.scss */
-article.home-intro .wrapper ul li.free-energy h3, article.home-intro article.state-tabs ul.tabs-nav ul li.free-energy h3, article.state-tabs article.home-intro ul.tabs-nav ul li.free-energy h3 {
-  color: #76bd1d;
-  width: 72%;
-  margin: auto;
-}
-/* line 1243, _sass/partials/_marketing-site.scss */
-article.home-intro .wrapper ul li.free-energy button, article.home-intro article.state-tabs ul.tabs-nav ul li.free-energy button, article.state-tabs article.home-intro ul.tabs-nav ul li.free-energy button {
-  background-color: #76bd1d;
-}
-/* line 1246, _sass/partials/_marketing-site.scss */
-article.home-intro .wrapper ul li.free-energy sup, article.home-intro article.state-tabs ul.tabs-nav ul li.free-energy sup, article.state-tabs article.home-intro ul.tabs-nav ul li.free-energy sup {
-  font-size: 9px;
-}
-/* line 1251, _sass/partials/_marketing-site.scss */
-article.home-intro .wrapper ul li.build-income h3, article.home-intro article.state-tabs ul.tabs-nav ul li.build-income h3, article.state-tabs article.home-intro ul.tabs-nav ul li.build-income h3 {
-  color: #ffa409;
-  margin-top: 0;
-}
-/* line 1255, _sass/partials/_marketing-site.scss */
-article.home-intro .wrapper ul li.build-income button, article.home-intro article.state-tabs ul.tabs-nav ul li.build-income button, article.state-tabs article.home-intro ul.tabs-nav ul li.build-income button {
-  background-color: #ffa409;
-}
-/* line 1260, _sass/partials/_marketing-site.scss */
-article.home-intro .wrapper ul button a, article.home-intro article.state-tabs ul.tabs-nav ul button a, article.state-tabs article.home-intro ul.tabs-nav ul button a {
-  color: #fff;
-}
-/* line 1265, _sass/partials/_marketing-site.scss */
-article.home-intro .small-banner {
-  background-color: #e8e8e8;
-  padding: 10px 0;
-}
-/* line 1268, _sass/partials/_marketing-site.scss */
-article.home-intro .small-banner p {
-  text-align: center;
-  margin: 0 0 5px 0;
-}
-/* line 1272, _sass/partials/_marketing-site.scss */
-article.home-intro .small-banner h3 {
-  text-align: center;
-  text-transform: none;
-  color: #0971ce;
-  margin: 0;
-}
-
-/* line 1282, _sass/partials/_marketing-site.scss */
+/* line 1224, _sass/partials/_marketing-site.scss */
 article.identity-theft h2,
 article.identity-theft h3 {
   text-transform: none;
 }
-/* line 1286, _sass/partials/_marketing-site.scss */
+/* line 1228, _sass/partials/_marketing-site.scss */
 article.identity-theft .semibold {
   font-weight: 600;
 }
-/* line 1289, _sass/partials/_marketing-site.scss */
+/* line 1231, _sass/partials/_marketing-site.scss */
 article.identity-theft ul.credit-bureaus {
   padding-left: 0;
 }
-/* line 1291, _sass/partials/_marketing-site.scss */
+/* line 1233, _sass/partials/_marketing-site.scss */
 article.identity-theft ul.credit-bureaus li {
   float: left;
   width: 33%;
@@ -4763,29 +4697,29 @@ article.identity-theft ul.credit-bureaus li {
   text-align: center;
 }
 
-/* line 1301, _sass/partials/_marketing-site.scss */
+/* line 1243, _sass/partials/_marketing-site.scss */
 article.why-energy .paragraph {
   margin: 20px auto;
   width: 60%;
   text-align: center;
 }
-/* line 1305, _sass/partials/_marketing-site.scss */
+/* line 1247, _sass/partials/_marketing-site.scss */
 article.why-energy .paragraph span {
   color: #ac1f2d;
 }
-/* line 1308, _sass/partials/_marketing-site.scss */
+/* line 1250, _sass/partials/_marketing-site.scss */
 article.why-energy .paragraph.promo {
   font-size: 20px;
 }
-/* line 1312, _sass/partials/_marketing-site.scss */
+/* line 1254, _sass/partials/_marketing-site.scss */
 article.why-energy .paragraph.joining-info p button {
   background-color: #ac1f2d;
 }
-/* line 1314, _sass/partials/_marketing-site.scss */
+/* line 1256, _sass/partials/_marketing-site.scss */
 article.why-energy .paragraph.joining-info p button a {
   color: #fff;
 }
-/* line 1320, _sass/partials/_marketing-site.scss */
+/* line 1262, _sass/partials/_marketing-site.scss */
 article.why-energy .banner {
   background-image: url("../i/marketing/why-energy-banner.jpg");
   background-repeat: no-repeat;
@@ -4793,163 +4727,154 @@ article.why-energy .banner {
   height: 300px;
 }
 
-/* line 1328, _sass/partials/_marketing-site.scss */
-article.commerical {
-  border-top: 3px solid #999;
-}
-/* line 1330, _sass/partials/_marketing-site.scss */
-article.commerical .grid {
-  border-spacing: 0;
-}
-/* line 1333, _sass/partials/_marketing-site.scss */
-article.commerical .grid .col .quote {
-  color: #fff;
-  padding: 40px 20px;
-  background-color: #0971ce;
+/* line 1271, _sass/partials/_marketing-site.scss */
+article.commercial-quote .text {
   border-left: 3px solid #ffa409;
+  width: 50%;
+  background-color: #0971ce;
 }
-/* line 1338, _sass/partials/_marketing-site.scss */
-article.commerical .grid .col .quote h2 {
+/* line 1275, _sass/partials/_marketing-site.scss */
+article.commercial-quote .text .inner {
   color: #fff;
 }
-/* line 1341, _sass/partials/_marketing-site.scss */
-article.commerical .grid .col .quote select {
-  color: #bcbcbc;
+/* line 1277, _sass/partials/_marketing-site.scss */
+article.commercial-quote .text .inner h2 {
+  color: #fff;
+  font-size: 24px;
 }
-/* line 1345, _sass/partials/_marketing-site.scss */
-article.commerical .grid .col .images {
-  background-image: url("http://placehold.it/1000x700");
-  background-repeat: no-repeat;
-  background-position: center;
-  height: 650px;
-}
-/* line 1351, _sass/partials/_marketing-site.scss */
-article.commerical .grid .col button {
+/* line 1281, _sass/partials/_marketing-site.scss */
+article.commercial-quote .text .inner button {
   background-color: #ebebeb;
 }
-/* line 1353, _sass/partials/_marketing-site.scss */
-article.commerical .grid .col button a {
-  color: #000;
+/* line 1283, _sass/partials/_marketing-site.scss */
+article.commercial-quote .text .inner button a {
+  color: #333;
 }
-/* line 1359, _sass/partials/_marketing-site.scss */
-article.commerical .account-banner {
+/* line 1287, _sass/partials/_marketing-site.scss */
+article.commercial-quote .text .inner input,
+article.commercial-quote .text .inner select {
+  width: 100%;
+}
+
+/* line 1296, _sass/partials/_marketing-site.scss */
+article.commercial-account-banner .account-banner {
   background-color: #0971ce;
 }
-/* line 1361, _sass/partials/_marketing-site.scss */
-article.commerical .account-banner p {
+/* line 1298, _sass/partials/_marketing-site.scss */
+article.commercial-account-banner .account-banner p {
   padding: 15px 0;
 }
-/* line 1363, _sass/partials/_marketing-site.scss */
-article.commerical .account-banner p button {
+/* line 1300, _sass/partials/_marketing-site.scss */
+article.commercial-account-banner .account-banner p button {
   background-color: #fff;
   color: #0971ce;
   margin: auto;
   display: block;
 }
 
-/* line 1373, _sass/partials/_marketing-site.scss */
+/* line 1310, _sass/partials/_marketing-site.scss */
 article.free-energy {
   margin-top: 20px;
 }
-/* line 1375, _sass/partials/_marketing-site.scss */
+/* line 1312, _sass/partials/_marketing-site.scss */
 article.free-energy img {
   margin: auto;
   display: block;
 }
-/* line 1379, _sass/partials/_marketing-site.scss */
+/* line 1316, _sass/partials/_marketing-site.scss */
 article.free-energy h3 {
   text-transform: none;
   margin-bottom: 30px;
 }
-/* line 1383, _sass/partials/_marketing-site.scss */
+/* line 1320, _sass/partials/_marketing-site.scss */
 article.free-energy .picture-promo {
   background-image: url("../i/marketing/free-energy.jpg");
   background-repeat: no-repeat;
   background-position: center;
 }
-/* line 1387, _sass/partials/_marketing-site.scss */
+/* line 1324, _sass/partials/_marketing-site.scss */
 article.free-energy .picture-promo .promo-content {
   color: #fff;
   width: 335px;
   margin: auto;
   padding: 320px 0 50px 0;
 }
-/* line 1392, _sass/partials/_marketing-site.scss */
+/* line 1329, _sass/partials/_marketing-site.scss */
 article.free-energy .picture-promo .promo-content h2 {
   color: #fff;
 }
 
-/* line 1400, _sass/partials/_marketing-site.scss */
+/* line 1337, _sass/partials/_marketing-site.scss */
 article.services-icons ul {
   padding-left: 0;
 }
-/* line 1402, _sass/partials/_marketing-site.scss */
+/* line 1339, _sass/partials/_marketing-site.scss */
 article.services-icons ul li {
   list-style-type: none;
   float: left;
   width: 25%;
   text-align: center;
 }
-/* line 1407, _sass/partials/_marketing-site.scss */
+/* line 1344, _sass/partials/_marketing-site.scss */
 article.services-icons ul li.electricity h3 {
   color: #0971ce;
 }
-/* line 1410, _sass/partials/_marketing-site.scss */
+/* line 1347, _sass/partials/_marketing-site.scss */
 article.services-icons ul li.gas {
   color: #ffa409;
 }
-/* line 1412, _sass/partials/_marketing-site.scss */
+/* line 1349, _sass/partials/_marketing-site.scss */
 article.services-icons ul li.gas button {
   background-color: #ffa409;
 }
-/* line 1416, _sass/partials/_marketing-site.scss */
+/* line 1353, _sass/partials/_marketing-site.scss */
 article.services-icons ul li.clean-energy {
   color: #76bd1d;
 }
-/* line 1418, _sass/partials/_marketing-site.scss */
+/* line 1355, _sass/partials/_marketing-site.scss */
 article.services-icons ul li.clean-energy button {
   background-color: #76bd1d;
 }
-/* line 1422, _sass/partials/_marketing-site.scss */
+/* line 1359, _sass/partials/_marketing-site.scss */
 article.services-icons ul li.homelife-services {
   color: #003a5d;
 }
-/* line 1424, _sass/partials/_marketing-site.scss */
+/* line 1361, _sass/partials/_marketing-site.scss */
 article.services-icons ul li.homelife-services button {
   background-color: #003a5d;
 }
 @media only screen and (max-width: 767px) {
-  /* line 1402, _sass/partials/_marketing-site.scss */
+  /* line 1339, _sass/partials/_marketing-site.scss */
   article.services-icons ul li {
     width: 50%;
     margin-bottom: 20px;
   }
 }
 
-/* line 1437, _sass/partials/_marketing-site.scss */
+/* line 1374, _sass/partials/_marketing-site.scss */
 article.terms-of-use .write-to {
   width: 70%;
   text-align: center;
   margin: auto;
 }
-/* line 1442, _sass/partials/_marketing-site.scss */
+/* line 1379, _sass/partials/_marketing-site.scss */
 article.terms-of-use ul {
   padding-left: 80px;
 }
-/* line 1444, _sass/partials/_marketing-site.scss */
+/* line 1381, _sass/partials/_marketing-site.scss */
 article.terms-of-use ul li {
   list-style-type: none;
 }
-/* line 1447, _sass/partials/_marketing-site.scss */
+/* line 1384, _sass/partials/_marketing-site.scss */
 article.terms-of-use ul h3 {
   color: #0971ce;
 }
-/* line 1450, _sass/partials/_marketing-site.scss */
+/* line 1387, _sass/partials/_marketing-site.scss */
 article.terms-of-use ul span {
   text-transform: uppercase;
 }
 
-/* line 1456, _sass/partials/_marketing-site.scss */
+/* line 1393, _sass/partials/_marketing-site.scss */
 article.energy-certificates {
   background-image: url("../i/marketing/energy-certificates.jpg");
   background-repeat: no-repeat;
@@ -4958,59 +4883,59 @@ article.energy-certificates {
   border-top: 3px solid #7eb24c;
   border-bottom: 3px solid #862134;
 }
-/* line 1463, _sass/partials/_marketing-site.scss */
+/* line 1400, _sass/partials/_marketing-site.scss */
 article.energy-certificates div {
   width: 335px;
   float: right;
   margin: 50px 50px 0 0;
 }
-/* line 1467, _sass/partials/_marketing-site.scss */
+/* line 1404, _sass/partials/_marketing-site.scss */
 article.energy-certificates div button {
   background-color: #2c3e50;
   box-shadow: 0 2px #7eb24c;
 }
 
-/* line 1474, _sass/partials/_marketing-site.scss */
+/* line 1411, _sass/partials/_marketing-site.scss */
 article.ignite-associate {
   text-align: center;
   margin: 50px 0;
 }
-/* line 1477, _sass/partials/_marketing-site.scss */
+/* line 1414, _sass/partials/_marketing-site.scss */
 article.ignite-associate button {
   background-color: #a9222d;
 }
 
-/* line 1482, _sass/partials/_marketing-site.scss */
+/* line 1419, _sass/partials/_marketing-site.scss */
 article.independent-associate-chart {
   text-align: center;
 }
-/* line 1484, _sass/partials/_marketing-site.scss */
+/* line 1421, _sass/partials/_marketing-site.scss */
 article.independent-associate-chart h2 {
   background-color: #ac1f2d;
   padding: 20px 0;
   font-size: 24px;
   color: #fff;
 }
-/* line 1490, _sass/partials/_marketing-site.scss */
+/* line 1427, _sass/partials/_marketing-site.scss */
 article.independent-associate-chart img {
   margin: 20px 0;
   max-width: 100%;
 }
 
-/* line 1497, _sass/partials/_marketing-site.scss */
+/* line 1434, _sass/partials/_marketing-site.scss */
 article.residual-income h3 {
   float: left;
   margin-right: 10px;
 }
-/* line 1501, _sass/partials/_marketing-site.scss */
+/* line 1438, _sass/partials/_marketing-site.scss */
 article.residual-income img {
   max-width: 100%;
 }
-/* line 1504, _sass/partials/_marketing-site.scss */
+/* line 1441, _sass/partials/_marketing-site.scss */
 article.residual-income .footnotes {
   font-size: 10px;
 }
-/* line 1507, _sass/partials/_marketing-site.scss */
+/* line 1444, _sass/partials/_marketing-site.scss */
 article.residual-income button {
   background-color: #a9222d;
   float: right;
