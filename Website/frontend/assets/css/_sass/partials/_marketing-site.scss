@@ -163,6 +163,10 @@ article.photoLockup {
 				background-color: map-get($theme, accentColor);
 				color: map-get($theme, primaryColor);
 				text-shadow: none;
+				&:hover {
+					background-color: #6b6b6b;
+					color: #fff;
+				}
 			}
 		}
 	}
@@ -178,6 +182,10 @@ article.photoLockup {
 			}
 			button, .button {
 				background-color: map-get($theme, primaryColor);
+				&:hover {
+					background-color: #6b6b6b;
+					color: #fff;
+				}
 			}
 		}
 	}
