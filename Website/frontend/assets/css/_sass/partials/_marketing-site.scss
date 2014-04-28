@@ -27,6 +27,7 @@ $themes:
 	height: 400px;
 	background-position: 50%;
 	background-size: cover;
+	border-bottom: 5px solid #259afd;
 	@include breakpoint(medium) {
 		height: 300px;
 	}
@@ -93,6 +94,26 @@ article.photoLockup {
 			text-transform: uppercase;
 		}
 	}
+	&.top-right-photo {
+		.photo {
+			background-position: top right;
+		}
+	}
+	&.top-left-photo {
+		.photo {
+			background-position: top left;
+		}
+	}
+	&.bottom-left-photo {
+		.photo {
+			background-position: bottom left;
+		}
+	}
+	&.bottom-right-photo {
+		.photo {
+			background-position: bottom right;
+		}
+	}
 	&.right-img {
 		.photo {
 			right: 0;
@@ -141,6 +162,10 @@ article.photoLockup {
 				background-color: map-get($theme, accentColor);
 				color: map-get($theme, primaryColor);
 				text-shadow: none;
+				&:hover {
+					background-color: #6b6b6b;
+					color: #fff;
+				}
 			}
 		}
 	}
@@ -156,6 +181,10 @@ article.photoLockup {
 			}
 			button, .button {
 				background-color: map-get($theme, primaryColor);
+				&:hover {
+					background-color: #6b6b6b;
+					color: #fff;
+				}
 			}
 		}
 	}
@@ -248,6 +277,10 @@ article.gridPromos {
 				font-weight: 500;
 				display: block;
 			}
+		}
+		i {
+			display: block;
+			margin: 0 auto 5px auto;
 		}
 		@each $theme in $themes {
 			&.accent-#{map-get($theme, name)} {
@@ -390,6 +423,16 @@ article.full-html {
 	&.center {
 		text-align: center;
 	}
+	&.promo {
+		h1 {
+			font-size: 40px;
+		}
+		p {
+			font-size: 27px;
+			line-height: 38px;
+			font-weight: 300;
+		}
+	}
 	// Custom colors
 	@each $theme in $themes {
 		&.bg-#{map-get($theme, name)} {
@@ -407,7 +450,7 @@ article.full-html {
 	}
 	@each $theme in $themes {
 		&.accent-#{map-get($theme, name)} {
-		 	h2, h3 {
+		 	h1, h2, h3 {
 				color: map-get($theme, primaryColor);
 			}
 			button, .button {
@@ -453,6 +496,48 @@ article.state-tabs {
 		padding: 10px 0;
 		background-color: #0971ce;
 		color: #fff;
+	}
+}
+
+article.service-states {
+	.wrapper {
+		text-align: center;
+	}
+
+	button,
+	a.button {
+		background-color: #78bb2f;
+		color: #fff;
+		&.secondary {
+			background-color: #fff;
+			color: #1773cb;
+			&:hover {
+				background-color: #6b6b6b;
+				color: #fff;
+			}
+		}
+		&:hover {
+			background-color: #6b6b6b;
+		}
+	}
+}
+
+article.marketingPromo {
+	text-align: center;
+	h1 {
+		font-size: 40px;
+	}
+	p {
+		font-size: 27px;
+		line-height: 27px;
+		font-weight: 300;
+	}
+	@each $theme in $themes {
+		&.accent-#{map-get($theme, name)} {
+		 	span {
+				color: map-get($theme, primaryColor);
+			}
+		}
 	}
 }
 
