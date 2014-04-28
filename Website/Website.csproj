@@ -1470,7 +1470,6 @@
     <Content Include="Web.config.WebForms" />
     <Content Include="Data\webdav.lic" />
     <Content Include="temp\dictionary.dat" />
-    <Content Include="packages.config" />
     <Content Include="assets\.DS_Store" />
     <Content Include="assets\.sass-cache\19803f83f2351e85549e554ea3d61989b07cc36b\_utilities.scssc" />
     <Content Include="assets\.sass-cache\1f685ac5fc8ff75356f541e48a2b30fa60f22e54\_ellipsis.scssc" />
