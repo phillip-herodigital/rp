@@ -561,6 +561,50 @@ article.service-icons {
 	}
 }
 
+article.promo {
+	text-align: center;
+	h1 {
+		font-size: 40px;
+	}
+	p {
+		font-size: 27px;
+		line-height: 27px;
+		font-weight: 300;
+	}
+	@each $theme in $themes {
+		&.accent-#{map-get($theme, name)} {
+		 	span {
+				color: map-get($theme, primaryColor);
+			}
+		}
+	}
+}
+
+article.fullWidthPhoto {
+	border-top: 3px solid #999;
+	margin: 20px 0;
+	height: 300px;
+}
+
+article.textBlock {
+	text-align: center;
+	h1 {
+		font-size: 40px;
+	}
+	p {
+		font-size: 27px;
+		line-height: 38px;
+		font-weight: 300;
+	}
+	@each $theme in $themes {
+		&.accent-#{map-get($theme, name)} {
+		 	h1 {
+				color: map-get($theme, primaryColor);
+			}
+		}
+	}
+}
+
 article.home-latest {
 	margin-bottom: 0;
 	border-top: 3px solid #999;
