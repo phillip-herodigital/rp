@@ -279,6 +279,10 @@ article.gridPromos {
 				display: block;
 			}
 		}
+		img {
+			display: block;
+			margin: 0 auto;
+		}
 		@each $theme in $themes {
 			&.accent-#{map-get($theme, name)} {
 			 	h4 {
@@ -404,6 +408,16 @@ article.full-html {
 	&.center {
 		text-align: center;
 	}
+	&.promo {
+		h1 {
+			font-size: 40px;
+		}
+		p {
+			font-size: 27px;
+			line-height: 38px;
+			font-weight: 300;
+		}
+	}
 	// Custom colors
 	@each $theme in $themes {
 		&.bg-#{map-get($theme, name)} {
@@ -421,7 +435,7 @@ article.full-html {
 	}
 	@each $theme in $themes {
 		&.accent-#{map-get($theme, name)} {
-		 	h2, h3 {
+		 	h1, h2, h3 {
 				color: map-get($theme, primaryColor);
 			}
 			button, .button {
@@ -493,74 +507,6 @@ article.service-states {
 	}
 }
 
-article.service-icons {
-	ul {
-		margin: 0;
-		padding: 0;
-		li {
-			list-style-type: none;
-			padding: 0;
-			float: left;
-			width: 25%;
-			text-align: center;
-			text-transform: uppercase;
-			@include breakpoint(small) {
-				float: none;
-				width: auto;
-			}
-		}
-	}
-	img {
-		display: block;
-		margin: 0 auto 5px auto;
-	}
-	.accent-blue {
-		color: #1773cb;
-		button,
-		a.button {
-			background: #1773cb;
-			color: #fff;
-			&:hover {
-				background-color: #6b6b6b;
-			}
-		}
-		
-	}
-	.accent-orange {
-		color: #fda32b;
-		button,
-		a.button {
-			background: #fda32b;
-			color: #fff;
-			&:hover {
-				background-color: #6b6b6b;
-			}
-		}
-	}
-	.accent-green {
-		color: #78bb2f;
-		button,
-		a.button {
-			background: #78bb2f;
-			color: #fff;
-			&:hover {
-				background-color: #6b6b6b;
-			}
-		}
-	}
-	.accent-dark-blue {
-		color: #043464;
-		button,
-		a.button {
-			background: #043464;
-			color: #fff;
-			&:hover {
-				background-color: #6b6b6b;
-			}
-		}
-	}
-}
-
 article.promo {
 	text-align: center;
 	h1 {
@@ -574,31 +520,6 @@ article.promo {
 	@each $theme in $themes {
 		&.accent-#{map-get($theme, name)} {
 		 	span {
-				color: map-get($theme, primaryColor);
-			}
-		}
-	}
-}
-
-article.fullWidthPhoto {
-	border-top: 3px solid #999;
-	margin: 20px 0;
-	height: 300px;
-}
-
-article.textBlock {
-	text-align: center;
-	h1 {
-		font-size: 40px;
-	}
-	p {
-		font-size: 27px;
-		line-height: 38px;
-		font-weight: 300;
-	}
-	@each $theme in $themes {
-		&.accent-#{map-get($theme, name)} {
-		 	h1 {
 				color: map-get($theme, primaryColor);
 			}
 		}
