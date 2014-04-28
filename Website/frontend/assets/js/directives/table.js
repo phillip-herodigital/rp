@@ -8,6 +8,12 @@ ngApp.directive('gridTable', function ($rootScope, $filter, $parse) {
 		link: function(scope, element, attrs, model) {
 			// Table data
 
+			var sizes = {
+				'mobile': [0, 767],
+				'tablet': [768, 1024],
+				'desktop': [1025, 9999]
+			};
+
 			/*var ajaxParams = $parse('ajaxParams');
 			console.log(ajaxParams(scope));
 			ajaxParams.assign(scope, "New name");*/
@@ -200,6 +206,26 @@ ngApp.directive('gridTable', function ($rootScope, $filter, $parse) {
 					updatePagingOptions(scope.table.pagingOptions);
 				}
 
+			};
+
+			scope.toggleResponsiveColumns = function(elSize) {
+				console.log(sizes);
+				_.each(sizes, function(size) {
+					console.log(size);
+				});
+			};
+
+			scope.$watch(function() {
+					return element[0].offsetWidth;
+				}, function(newValue, oldValue) {
+				if (newValue !== oldValue) {
+					// Width Updated
+					scope.toggleResponsiveColumns(newValue);
+				}
+			});
+
+			window.onresize = function() {
+				scope.$apply();
 			};
 
 		}
