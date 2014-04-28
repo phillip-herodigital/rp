@@ -127,6 +127,9 @@
     <Reference Include="Microsoft.WindowsAzure.Storage, Version=3.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WindowsAzure.Storage.3.0.3.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
     </Reference>
+    <Reference Include="MSCaptcha">
+      <HintPath>..\Libraries\Sitecore\MSCaptcha.dll</HintPath>
+    </Reference>
     <Reference Include="Mvp.Xml, Version=2.0.2158.1055, Culture=neutral, PublicKeyToken=dd92544dc05f5671, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\Mvp.Xml.dll</HintPath>
@@ -185,6 +188,12 @@
     <Reference Include="Sitecore.ContentSearch.LuceneProvider, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\Sitecore.ContentSearch.LuceneProvider.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Forms.Core">
+      <HintPath>..\Libraries\Sitecore\Sitecore.Forms.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Forms.Custom">
+      <HintPath>..\Libraries\Sitecore\Sitecore.Forms.Custom.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.ItemWebApi">
       <HintPath>..\Libraries\Sitecore\Sitecore.ItemWebApi.dll</HintPath>
