@@ -1384,15 +1384,128 @@ article.free-energy {
 		background-image: url('../i/marketing/free-energy.jpg');
 		background-repeat: no-repeat;
 		background-position: center;
-		height: 668px;
 		.promo-content {
 			color: #fff;
 			width: 335px;
 			margin: auto;
-			padding-top: 350px;
+			padding: 320px 0 50px 0;
 			h2 {
 				color: #fff;
 			}
 		}
+	}
+}
+
+article.services-icons {
+	ul {
+		padding-left: 0;
+		li {
+			list-style-type: none;
+			float: left;
+			width: 25%;
+			text-align: center;
+			&.electricity h3 {
+				color: #0971ce;
+			}
+			&.gas {
+				color: #ffa409;
+				button {
+					background-color: #ffa409;
+				}
+			}
+			&.clean-energy {
+				color: #76bd1d;
+				button {
+					background-color: #76bd1d;
+				}
+			}
+			&.homelife-services {
+				color: #003a5d;
+				button {
+					background-color: #003a5d;
+				}
+			}
+			@include breakpoint(small) {
+				width: 50%;
+				margin-bottom: 20px;
+			}
+		}
+	}
+}
+
+article.terms-of-use {
+	.write-to {
+		width: 70%;
+		text-align: center;
+		margin: auto;
+	}
+	ul {
+		padding-left: 80px;
+		li {
+			list-style-type: none;
+		}
+		h3 {
+			color: #0971ce;
+		}
+		span {
+			text-transform: uppercase;
+		}
+	}
+}
+
+article.energy-certificates {
+	background-image: url('../i/marketing/energy-certificates.jpg');
+	background-repeat: no-repeat;
+	background-position: center;
+	height: 350px;
+	border-top: 3px solid #7eb24c;
+	border-bottom: 3px solid #862134;
+	div {
+		width: 335px;
+		float: right;
+		margin: 50px 50px 0 0;
+		button {
+			background-color: #2c3e50;
+			box-shadow: 0 2px #7eb24c;
+		}
+	}
+}
+
+article.ignite-associate {
+	text-align: center;
+	margin: 50px 0;
+	button {
+		background-color: #a9222d;
+	}
+}
+
+article.independent-associate-chart {
+	text-align: center;
+	h2 {
+		background-color: #ac1f2d;
+		padding: 20px 0;
+		font-size: 24px;
+		color: #fff;
+	}
+	img {
+		margin: 20px 0;
+		max-width: 100%;
+	}
+}
+
+article.residual-income {
+	h3 {
+		float: left;
+		margin-right: 10px;
+	}
+	img {
+		max-width: 100%;
+	}
+	.footnotes {
+		font-size: 10px;
+	}
+	button {
+		background-color: #a9222d;
+		float: right;
 	}
 }

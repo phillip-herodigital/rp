@@ -4866,16 +4866,152 @@ article.free-energy .picture-promo {
   background-image: url("../i/marketing/free-energy.jpg");
   background-repeat: no-repeat;
   background-position: center;
-  height: 668px;
 }
-/* line 1388, _sass/partials/_marketing-site.scss */
+/* line 1387, _sass/partials/_marketing-site.scss */
 article.free-energy .picture-promo .promo-content {
   color: #fff;
   width: 335px;
   margin: auto;
-  padding-top: 350px;
+  padding: 320px 0 50px 0;
 }
-/* line 1393, _sass/partials/_marketing-site.scss */
+/* line 1392, _sass/partials/_marketing-site.scss */
 article.free-energy .picture-promo .promo-content h2 {
   color: #fff;
+}
+
+/* line 1400, _sass/partials/_marketing-site.scss */
+article.services-icons ul {
+  padding-left: 0;
+}
+/* line 1402, _sass/partials/_marketing-site.scss */
+article.services-icons ul li {
+  list-style-type: none;
+  float: left;
+  width: 25%;
+  text-align: center;
+}
+/* line 1407, _sass/partials/_marketing-site.scss */
+article.services-icons ul li.electricity h3 {
+  color: #0971ce;
+}
+/* line 1410, _sass/partials/_marketing-site.scss */
+article.services-icons ul li.gas {
+  color: #ffa409;
+}
+/* line 1412, _sass/partials/_marketing-site.scss */
+article.services-icons ul li.gas button {
+  background-color: #ffa409;
+}
+/* line 1416, _sass/partials/_marketing-site.scss */
+article.services-icons ul li.clean-energy {
+  color: #76bd1d;
+}
+/* line 1418, _sass/partials/_marketing-site.scss */
+article.services-icons ul li.clean-energy button {
+  background-color: #76bd1d;
+}
+/* line 1422, _sass/partials/_marketing-site.scss */
+article.services-icons ul li.homelife-services {
+  color: #003a5d;
+}
+/* line 1424, _sass/partials/_marketing-site.scss */
+article.services-icons ul li.homelife-services button {
+  background-color: #003a5d;
+}
+@media only screen and (max-width: 767px) {
+  /* line 1402, _sass/partials/_marketing-site.scss */
+  article.services-icons ul li {
+    width: 50%;
+    margin-bottom: 20px;
+  }
+}
+
+/* line 1437, _sass/partials/_marketing-site.scss */
+article.terms-of-use .write-to {
+  width: 70%;
+  text-align: center;
+  margin: auto;
+}
+/* line 1442, _sass/partials/_marketing-site.scss */
+article.terms-of-use ul {
+  padding-left: 80px;
+}
+/* line 1444, _sass/partials/_marketing-site.scss */
+article.terms-of-use ul li {
+  list-style-type: none;
+}
+/* line 1447, _sass/partials/_marketing-site.scss */
+article.terms-of-use ul h3 {
+  color: #0971ce;
+}
+/* line 1450, _sass/partials/_marketing-site.scss */
+article.terms-of-use ul span {
+  text-transform: uppercase;
+}
+
+/* line 1456, _sass/partials/_marketing-site.scss */
+article.energy-certificates {
+  background-image: url("../i/marketing/energy-certificates.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 350px;
+  border-top: 3px solid #7eb24c;
+  border-bottom: 3px solid #862134;
+}
+/* line 1463, _sass/partials/_marketing-site.scss */
+article.energy-certificates div {
+  width: 335px;
+  float: right;
+  margin: 50px 50px 0 0;
+}
+/* line 1467, _sass/partials/_marketing-site.scss */
+article.energy-certificates div button {
+  background-color: #2c3e50;
+  box-shadow: 0 2px #7eb24c;
+}
+
+/* line 1474, _sass/partials/_marketing-site.scss */
+article.ignite-associate {
+  text-align: center;
+  margin: 50px 0;
+}
+/* line 1477, _sass/partials/_marketing-site.scss */
+article.ignite-associate button {
+  background-color: #a9222d;
+}
+
+/* line 1482, _sass/partials/_marketing-site.scss */
+article.independent-associate-chart {
+  text-align: center;
+}
+/* line 1484, _sass/partials/_marketing-site.scss */
+article.independent-associate-chart h2 {
+  background-color: #ac1f2d;
+  padding: 20px 0;
+  font-size: 24px;
+  color: #fff;
+}
+/* line 1490, _sass/partials/_marketing-site.scss */
+article.independent-associate-chart img {
+  margin: 20px 0;
+  max-width: 100%;
+}
+
+/* line 1497, _sass/partials/_marketing-site.scss */
+article.residual-income h3 {
+  float: left;
+  margin-right: 10px;
+}
+/* line 1501, _sass/partials/_marketing-site.scss */
+article.residual-income img {
+  max-width: 100%;
+}
+/* line 1504, _sass/partials/_marketing-site.scss */
+article.residual-income .footnotes {
+  font-size: 10px;
+}
+/* line 1507, _sass/partials/_marketing-site.scss */
+article.residual-income button {
+  background-color: #a9222d;
+  float: right;
 }
