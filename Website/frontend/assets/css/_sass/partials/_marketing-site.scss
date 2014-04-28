@@ -45,7 +45,6 @@ article.marketing {
 
 article.photoLockup {
 	background-color: #e8e8e8;
-	border-top: 3px solid #999;
 	color: #6b6b6b;
 	.photo {
 		position: absolute;
@@ -279,9 +278,9 @@ article.gridPromos {
 				display: block;
 			}
 		}
-		img {
+		i {
 			display: block;
-			margin: 0 auto;
+			margin: 0 auto 5px auto;
 		}
 		@each $theme in $themes {
 			&.accent-#{map-get($theme, name)} {
@@ -507,7 +506,7 @@ article.service-states {
 	}
 }
 
-article.promo {
+article.marketingPromo {
 	text-align: center;
 	h1 {
 		font-size: 40px;
