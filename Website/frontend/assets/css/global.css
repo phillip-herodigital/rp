@@ -820,7 +820,7 @@ select {
   transition: border linear 0.2s, box-shadow linear 0.2s;
   display: inline-block;
   width: 300px;
-  padding: 7px 10px;
+  padding: 6px 10px;
   border: 1px solid #bcbcbc;
   background-color: #fff;
   vertical-align: middle;
@@ -860,7 +860,7 @@ textarea {
 select {
   position: relative;
   padding-right: 30px;
-  background: white url('../i/icon/select-arrow.png?1398267129') no-repeat 100% 50%;
+  background: white url('../i/icon/select-arrow.png?1398700757') no-repeat 100% 50%;
   -moz-appearance: none;
   text-indent: 0.01px;
   text-overflow: '';
@@ -1722,7 +1722,7 @@ div.tabbable div.tab-content div.tab-pane.active {
   display: inline-block;
   width: 178px;
   height: 43px;
-  background-image: url('../i/logo-horizontal.png?1398267129');
+  background-image: url('../i/logo-horizontal.png?1398700757');
   background-repeat: no-repeat;
   text-indent: -5000px;
   float: left;
@@ -1847,7 +1847,7 @@ div.tabbable div.tab-content div.tab-pane.active {
     left: 0;
     width: 100%;
     background-color: #fff;
-    background-image: url('../i/bg/header-mobile.png?1398267129');
+    background-image: url('../i/bg/header-mobile.png?1398700757');
     background-repeat: repeat-x;
     border-bottom: 1px solid #1697ff;
     z-index: 2;
@@ -1904,36 +1904,40 @@ div.tabbable div.tab-content div.tab-pane.active {
   background-size: cover;
   background-position: 50%;
   background-repeat: no-repeat;
-  background-image: url('../i/bg/hero-1.jpg?1397848987');
+  background-image: url('../i/bg/hero-1.jpg');
 }
 /* line 121, _sass/partials/_header.scss */
+.banner .inner {
+  background: url('../i/bg/banner-bottom.png?1398704675') 0 100% repeat-x;
+}
+/* line 124, _sass/partials/_header.scss */
 .banner .wrapper, .banner article.state-tabs ul.tabs-nav, article.state-tabs .banner ul.tabs-nav {
   height: 220px;
   padding-top: 85px;
 }
-/* line 125, _sass/partials/_header.scss */
+/* line 128, _sass/partials/_header.scss */
 .banner h1 {
   font-size: 70px;
   font-weight: 100;
 }
-/* line 129, _sass/partials/_header.scss */
+/* line 132, _sass/partials/_header.scss */
 .banner h1, .banner p {
   margin: 0;
   color: #fff;
   line-height: 1;
   text-transform: uppercase;
 }
-/* line 135, _sass/partials/_header.scss */
+/* line 138, _sass/partials/_header.scss */
 .banner p {
   font-size: 32px;
   font-weight: 300;
 }
-/* line 140, _sass/partials/_header.scss */
+/* line 143, _sass/partials/_header.scss */
 .banner.large .wrapper, .banner.large article.state-tabs ul.tabs-nav, article.state-tabs .banner.large ul.tabs-nav {
   height: 325px;
   padding-top: 150px;
 }
-/* line 144, _sass/partials/_header.scss */
+/* line 147, _sass/partials/_header.scss */
 .banner.large h1, .banner.large p {
   color: #0971ce;
 }
@@ -2579,7 +2583,7 @@ aside article.promo p {
 }
 /* line 419, _sass/partials/_modules.scss */
 aside article.promo.renew {
-  background-image: url('../i/renew-promo.png?1398441744');
+  background-image: url('../i/renew-promo.png?1398700757');
 }
 /* line 422, _sass/partials/_modules.scss */
 aside article.promo.paperless {
@@ -3741,12 +3745,12 @@ article.state-tabs ul.tabs-nav li a span {
   margin: 0 auto;
   width: 82px;
   height: 84px;
-  background-image: url('../i/bg/state-tabs.png?1398267129');
+  background-image: url('../i/bg/state-tabs.png?1398700757');
 }
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 419, _sass/partials/_marketing-site.scss */
   article.state-tabs ul.tabs-nav li a span {
-    background-image: url('../i/bg2x/state-tabs.png?1398267129');
+    background-image: url('../i/bg2x/state-tabs.png?1398700757');
     background-size: 82px 84px;
   }
 }

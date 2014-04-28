@@ -118,6 +118,9 @@
 	background-position: 50%;
 	background-repeat: no-repeat;
 	background-image: image-url("bg/hero-1.jpg");
+	.inner {
+		background: image-url("bg/banner-bottom.png") 0 100% repeat-x;
+	}
 	.wrapper {
 		height: 220px;
 		padding-top: 85px;
