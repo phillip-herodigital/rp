@@ -146,14 +146,14 @@
 									<tr ng-repeat="item in table.valuesToShow">
 										<td class="align-center" style="width:30px;"><input type="checkbox" ng-model="item.selected" /></td>
 										<td ng-show="showColumn('accountNumber')">{{item.accountNumber}}</td>
-										<td ng-switch on="item.serviceType">
+										<td ng-show="showColumn('serviceType')" ng-switch on="item.serviceType">
 											<i ng-switch-when="HomeLife Services" class="icon-homelife-services"></i>
 											<i ng-switch-when="Utility" class="icon-utility"></i>
 											{{item.serviceType}}
 										</td>
-										<td>{{item.invoiceNumber}}</td>
-										<td>{{item.invoiceAmount}}</td>
-										<td>{{item.dueDate}}</td>
+										<td ng-show="showColumn('invoiceNumber')">{{item.invoiceNumber}}</td>
+										<td ng-show="showColumn('invoiceAmount')">{{item.invoiceAmount}}</td>
+										<td ng-show="showColumn('dueDate')">{{item.dueDate}}</td>
 										<td ng-show="showColumn('action')">
 											<button class="secondary">View PDF</button>
 											<button class="submit" ng-show="!item.isPaid">Pay</button>

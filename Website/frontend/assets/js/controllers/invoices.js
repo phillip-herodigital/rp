@@ -9,7 +9,8 @@ ngApp.controller('InvoicesCtrl', ['$scope', '$rootScope', '$http', '$filter', fu
 			{
 				"field": "accountNumber",
 				"displayName": "Account Number",
-				"isVisible": true
+				"isVisible": true,
+				"hide": ["phone"]
 			},
 			{
 				"field": "serviceType",
@@ -19,22 +20,25 @@ ngApp.controller('InvoicesCtrl', ['$scope', '$rootScope', '$http', '$filter', fu
 			{
 				"field": "invoiceNumber",
 				"displayName": "Invoice Number",
-				"isVisible": true
+				"isVisible": true,
+				"hide": ["tablet", "phone"]
 			},
 			{
 				"field": "invoiceAmount",
 				"displayName": "Invoice Amount",
-				"isVisible": true
+				"isVisible": true,
 			},
 			{
 				"field": "dueDate",
 				"displayName": "Due Date",
-				"isVisible": true
+				"isVisible": true,
+				"hide": ["tablet", "phone"]
 			},
 			{
 				"field": "action",
 				"displayName": "Action",
-				"isVisible": true
+				"isVisible": true,
+				"hide": ["phone"]
 			}
 		],
 		"values": [
@@ -253,12 +257,6 @@ ngApp.controller('InvoicesCtrl', ['$scope', '$rootScope', '$http', '$filter', fu
 	$scope.isFiltered = function() {
 		return !_.isEmpty($scope.filters);
 	}
-
-	$scope.showColumn = function(field) {
-
-		var field = $filter('filter')($scope.invoicesTable.columnList, { 'field': field });
-		return field[0].isVisible;
-	};
 
 	// Watches
 

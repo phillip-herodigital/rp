@@ -8,11 +8,20 @@ ngApp.directive('gridTable', function ($rootScope, $filter, $parse) {
 		link: function(scope, element, attrs, model) {
 			// Table data
 
-			var sizes = {
-				'mobile': [0, 767],
-				'tablet': [768, 1024],
-				'desktop': [1025, 9999]
-			};
+			var sizes = [
+				{
+					'name': 'phone',
+					'dimensions': [0, 767]
+				},
+				{
+					'name': 'tablet',
+					'dimensions': [768, 1024]
+				},
+				{
+					'name': 'dektop',
+					'dimensions': [1025, 9999]
+				}
+			];
 
 			/*var ajaxParams = $parse('ajaxParams');
 			console.log(ajaxParams(scope));
@@ -115,6 +124,12 @@ ngApp.directive('gridTable', function ($rootScope, $filter, $parse) {
 
 			};
 
+			scope.showColumn = function(field) {
+
+				var field = $filter('filter')(scope.table.columnList, { 'field': field });
+				return field[0].isVisible;
+			};
+
 			// Expand row by the index of "inner table"
 			scope.expandInnerTable = function (index) {
 				scope.expand[index] = !scope.expand[index];
@@ -208,20 +223,32 @@ ngApp.directive('gridTable', function ($rootScope, $filter, $parse) {
 
 			};
 
-			scope.toggleResponsiveColumns = function(elSize) {
-				console.log(sizes);
+			scope.breakpoint = '';
+
+			scope.setBreakpoint = function(windowSize) {
 				_.each(sizes, function(size) {
-					console.log(size);
+					if (windowSize > size.dimensions[0] && windowSize < size.dimensions[1]) {
+						scope.breakpoint = size.name;
+					}
 				});
 			};
 
-			scope.$watch(function() {
-					return element[0].offsetWidth;
-				}, function(newValue, oldValue) {
+			scope.toggleResponsiveColumns = function(breakpoint) {
+				_.each(scope.table.columnList, function(col) {
+					col.isVisible = !_.contains(col.hide, breakpoint);
+				});
+			};
+
+			scope.$watch('breakpoint', function(newValue, oldValue) {
 				if (newValue !== oldValue) {
-					// Width Updated
 					scope.toggleResponsiveColumns(newValue);
 				}
+			});
+
+			scope.$watch(function() {
+				return window.innerWidth;
+			}, function(newValue, oldValue) {
+				scope.setBreakpoint(newValue);
 			});
 
 			window.onresize = function() {
