@@ -1446,3 +1446,33 @@ article.residual-income {
 		float: right;
 	}
 }
+
+article.electricity-gas {
+	p {
+		font-size: 22px;
+		text-align: center;
+		width: 80%;
+		margin-right: auto;
+		margin-left: auto;
+		span {
+			color: #0971ce;
+		}
+		button {
+			margin: auto;
+			background-color: #76bd1d;
+			font-size: 24px;
+			padding: 10px;
+		}
+	}
+	hr {
+		border: 2px solid #f0f0f0;
+		margin: 40px 0;
+	}
+	img {
+		max-width: 100%;
+		padding-bottom: 25px;
+	}
+	.gas-chart {
+		border-bottom: 3px solid #76bd1d;
+	}
+}

@@ -4940,3 +4940,37 @@ article.residual-income button {
   background-color: #a9222d;
   float: right;
 }
+
+/* line 1451, _sass/partials/_marketing-site.scss */
+article.electricity-gas p {
+  font-size: 22px;
+  text-align: center;
+  width: 80%;
+  margin-right: auto;
+  margin-left: auto;
+}
+/* line 1457, _sass/partials/_marketing-site.scss */
+article.electricity-gas p span {
+  color: #0971ce;
+}
+/* line 1460, _sass/partials/_marketing-site.scss */
+article.electricity-gas p button {
+  margin: auto;
+  background-color: #76bd1d;
+  font-size: 24px;
+  padding: 10px;
+}
+/* line 1467, _sass/partials/_marketing-site.scss */
+article.electricity-gas hr {
+  border: 2px solid #f0f0f0;
+  margin: 40px 0;
+}
+/* line 1471, _sass/partials/_marketing-site.scss */
+article.electricity-gas img {
+  max-width: 100%;
+  padding-bottom: 25px;
+}
+/* line 1475, _sass/partials/_marketing-site.scss */
+article.electricity-gas .gas-chart {
+  border-bottom: 3px solid #76bd1d;
+}
