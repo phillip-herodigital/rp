@@ -142,8 +142,8 @@
 										</th>
 									</tr>
 								</thead>
-								<tbody>
-									<tr ng-repeat="item in table.valuesToShow">
+								<tbody ng-repeat="item in table.valuesToShow">
+									<tr>
 										<td class="align-center" style="width:30px;"><input type="checkbox" ng-model="item.selected" /></td>
 										<td ng-show="showColumn('accountNumber')">{{item.accountNumber}}</td>
 										<td ng-show="showColumn('serviceType')" ng-switch on="item.serviceType">
@@ -157,6 +157,19 @@
 										<td ng-show="showColumn('action')">
 											<button class="secondary">View PDF</button>
 											<button class="submit" ng-show="!item.isPaid">Pay</button>
+										</td>
+									</tr>
+									<tr ng-show="hasHiddenColumns()">
+										<td colspan="{{table.columnList.length+1}}">
+											<p ng-repeat="column in table.columnList | filter:{isVisible: false}" ng-switch on="column.field">
+												<span ng-switch-when="action">
+													<button class="secondary">View PDF</button>
+													<button class="submit" ng-show="!item.isPaid">Pay</button>
+												</span>
+												<span ng-switch-default>
+													<strong>{{ column.displayName }}:</strong> {{ item[column.field] }}
+												</span>
+											</p>
 										</td>
 									</tr>
 								</tbody>

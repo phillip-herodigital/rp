@@ -43,6 +43,8 @@ ngApp.directive('gridTable', function ($rootScope, $filter, $parse) {
 				}, true);
 			}
 
+			scope.breakpoint = '';
+
 			var init = function(data) {
 				
 				if (typeof data != "object") {
@@ -223,7 +225,7 @@ ngApp.directive('gridTable', function ($rootScope, $filter, $parse) {
 
 			};
 
-			scope.breakpoint = '';
+			// Responsive Tables
 
 			scope.setBreakpoint = function(windowSize) {
 				_.each(sizes, function(size) {
@@ -237,6 +239,11 @@ ngApp.directive('gridTable', function ($rootScope, $filter, $parse) {
 				_.each(scope.table.columnList, function(col) {
 					col.isVisible = !_.contains(col.hide, breakpoint);
 				});
+			};
+
+			scope.hasHiddenColumns = function() {
+				var len = $filter('filter')(scope.table.columnList, { 'isVisible': false }).length;
+				return len ? true : false;
 			};
 
 			scope.$watch('breakpoint', function(newValue, oldValue) {
