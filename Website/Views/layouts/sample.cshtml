@@ -1,0 +1,22 @@
+﻿@inherits System.Web.Mvc.WebViewPage
+@{
+    Layout = null;
+}
+<html>
+<body>
+    <h4>Index.cshtml</h4>
+    <div>
+        Model:
+        @{
+            if (Model == null)
+            {
+                <text>null</text>
+            }
+            else
+            {
+                @Model.GetType();
+            }
+        }
+    </div>
+</body>
+</html>
