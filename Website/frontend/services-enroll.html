@@ -5,7 +5,7 @@
 <head>
 	<meta charset="utf-8" />
 
-	<title>Title</title>
+	<title>Enroll | Services</title>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -102,11 +102,11 @@
 				</nav>
 			</header>
 
-			<div class="banner marketing" style="background-image: url(assets/i/marketing/header-home-01.jpg)"></div>
+			<div class="banner marketing" style="background-image: url(assets/i/marketing/services_new_residential.jpg)"></div>
 
 			<section class="layout cols-1" ng-controller="MarketingCtrl">
 
-				<article class="marketing state-tabs" state-tabs>
+				<article class="marketing state-tabs service-states" state-tabs>
 					<ul class="tabs-nav">
 						<li ng-click="selectPane('texas')" ng-class="{ active: pane == 'texas' }">
 							<a href="">
@@ -154,107 +154,85 @@
 					<div class="tab-content" ng-class="{ hidden : pane != 'texas' }">
 						<div class="tab-header">
 							<div class="wrapper">
-								<p>Header content here.</p>
+								<p><a href="#" class="button secondary">View Electricity Rates</a> <a href="#" class="button">Enroll Now</a></p>
 							</div>
 						</div>
-						<div class="wrapper">
-							<p>Body content here.</p>
-						</div>
 					</div>
-					<div class="tab" ng-class="{ hidden : pane != 'georgia' }">
+					<div class="tab-content" ng-class="{ hidden : pane != 'georgia' }">
 						<div class="tab-header">
 							<div class="wrapper">
-								<p>Header content here 2.</p>
+								<p><a href="#" class="button secondary">View Gas Rates</a> <a href="#" class="button">Enroll Now</a></p>
 							</div>
 						</div>
-						<div class="wrapper">
-							<p>Body content here 2.</p>
+					</div>
+					<div class="tab-content" ng-class="{ hidden : pane != 'pennsylvania' }">
+						<div class="tab-header">
+							<div class="wrapper">
+								<p><a href="#" class="button secondary">View Electricity and Gas Rates</a> <a href="#" class="button">Enroll Now</a></p>
+							</div>
+						</div>
+					</div>
+					<div class="tab-content" ng-class="{ hidden : pane != 'maryland' }">
+						<div class="tab-header">
+							<div class="wrapper">
+								<p><a href="#" class="button secondary">View Electricity and Gas Rates</a> <a href="#" class="button">Enroll Now</a></p>
+							</div>
+						</div>
+					</div>
+					<div class="tab-content" ng-class="{ hidden : pane != 'newjersey' }">
+						<div class="tab-header">
+							<div class="wrapper">
+								<p><a href="#" class="button secondary">View Electricity and Gas Rates</a> <a href="#" class="button">Enroll Now</a></p>
+							</div>
+						</div>
+					</div>
+					<div class="tab-content" ng-class="{ hidden : pane != 'newyork' }">
+						<div class="tab-header">
+							<div class="wrapper">
+								<p><a href="#" class="button secondary">View Electricity and Gas Rates</a> <a href="#" class="button">Enroll Now</a></p>
+							</div>
+						</div>
+					</div>
+					<div class="tab-content" ng-class="{ hidden : pane != 'washingtondc' }">
+						<div class="tab-header">
+							<div class="wrapper">
+								<p><a href="#" class="button secondary">View Electricity Rates</a> <a href="#" class="button">Enroll Now</a></p>
+							</div>
 						</div>
 					</div>
 				</article>
-				
-				<div class="form">
-					<div class="group">
-						<div class="item">
-							<label>Accent</label>
-							<select ng-model="view.introAccentClass" ng-options="item.accentClass as item.name for item in themes">
-								<option value="">Default</option>
-							</select>
-						</div>
-					</div>
-				</div>
 
-				<article class="marketing marketingIntro wrapper" ng-class="view.introAccentClass">
-
-					<p class="intro">Becoming a Stream Energy customer is easy. We’re committed to helping you find the energy services you need at affordable rates, and our customer service team stays with you through every step of the process. <em>But that’s just the beginning.</em></p>
-					<hr />
-					<div class="body">
-						<p>When you switch providers, the energy that comes into your home doesn’t change—the poles and wires are still maintained by your local utility. But as a Stream Energy customer, you can feel confident knowing that you’re backed by a $6 billion company.</p>
-						<ul>
-							<li>A company that has <em>changed the lives</em> of hundreds of thousands of people</li>
-							<li>A company dedicated to <em>helping our environment</em> through the promotion of clean, renewable sources including wind power and others</li>
-							<li>A company that has been recognized for devoting time, money and manpower to <em>help the communities</em> it serves</li>
-						</ul>
-						<p><a href="#" class="button">Action Button</a></p>
-					</div>
-				</article>
-
-				<div class="form">
-					<div class="group">
-						<div class="item">
-							<label>Image Position</label>
-							<select ng-model="view.img">
-								<option value="">Left - Default</option>
-								<option value="right-img">Right</option>
-							</select>
-						</div>
-						<div class="item">
-							<label>BG Color</label>
-							<select ng-model="view.bgClass" ng-options="item.bgClass as item.name for item in themes">
-								<option value="">Default</option>
-							</select>
-						</div>
-						<div class="item">
-							<label>BG Image Position</label>
-							<select ng-model="view.bgPositionClass">
-								<option value="">Default</option>
-								<option value="top-left-photo">Top Left</option>
-								<option value="top-right-photo">Top Right</option>
-								<option value="bottom-left-photo">Bottom Left</option>
-								<option value="bottom-right-photo">Bottom Right</option>
-							</select>
-						</div>
-						<div class="item">
-							<label>Border</label>
-							<select ng-model="view.borderClass" ng-options="item.borderClass as item.name for item in themes">
-								<option value="">Default</option>
-							</select>
-						</div>
-						<div class="item">
-							<label>Accent</label>
-							<select ng-model="view.accentClass" ng-options="item.accentClass as item.name for item in themes">
-								<option value="">Default</option>
-							</select>
-						</div>
-					</div>
-				</div>
-
-				<article class="marketing photoLockup" ng-class="[view.img, view.bgClass, view.bgPositionClass, view.borderClass, view.accentClass]">
-					<div class="photo" style="background-image: url(assets/i/marketing/home-test2.jpg)"></div>
+				<article class="marketing photoLockup accent-darkblue right-img top-left-photo">
+					<div class="photo" style="background-image: url(assets/i/marketing/ignite_while-youre-likely.jpg);"></div>
 					<div class="text">
 						<div class="inner">
-							<h2>Headline</h2>
-							<h3>Subhead</h3>
+							<img src="assets/i/marketing/icons-services-free.png" Alt="Free Energy" />
+							<p>While you’re likely to enjoy significant energy savings just by switching to Stream Energy, you also have the unique ability to get your energy for free.</p>
+							<p>As you refer your friends and family to us, you will actually earn credits on your energy bill.</p>
+							<a href="#" class="button">Learn More</a>
+						</div>
+					</div>
+				</article>
+
+				<article class="marketing photoLockup bg-blue top-right-photo">
+					<div class="photo" style="background-image: url(assets/i/marketing/ignite_energy-and-more.jpg);"></div>
+					<div class="text">
+						<div class="inner">
+							<h2>ENERGY AND MORE</h2>
+							<p>What’s more, Stream Energy customers are eligible to take advantage of our other valuable services at a discounted rate. Ensure a safer, more informed lifestyle with identity theft, tech support and credit monitoring.</p>
+							<p>Enroll today and experience an energy company like none other!</p>
+						</div>
+					</div>
+				</article>
+
+				<article class="marketing photoLockup bg-orange top-right-photo">
+					<div class="photo" style="background-image: url(assets/i/marketing/ignite_the-choice-to.jpg);"></div>
+					<div class="text">
+						<div class="inner">
 							<blockquote>
-								<p><span class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span> Morbi pellentesque lacus at felis auctor fringilla in ac ipsum. Etiam in turpis vitae felis facilisis sagittis.</p>
+								<p><span class="lead">SWITCHING TO STREAM AS MY ENERGY PROVIDER WAS ONE OF THE BEST DECISIONS I’VE EVER MADE.</span> This is the beginning of a long, satisfying relationship.</p>
 							</blockquote>
-							<p class="cite">&mdash; John D. Dallas, TX</p>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi pellentesque lacus at felis auctor fringilla in ac ipsum. Etiam in turpis vitae felis facilisis sagittis.</p>
-							<ul>
-								<li>This is a bullet</li>
-								<li>So is this</li>
-							</ul>
-							<a href="#" class="button">Action Button</a>
+							<p class="cite">— TOM S., HOUSTON, TX</p>
 						</div>
 					</div>
 				</article>

@@ -8,6 +8,21 @@ ngApp.directive('gridTable', function ($rootScope, $filter, $parse) {
 		link: function(scope, element, attrs, model) {
 			// Table data
 
+			var sizes = [
+				{
+					'name': 'phone',
+					'dimensions': [0, 767]
+				},
+				{
+					'name': 'tablet',
+					'dimensions': [768, 1024]
+				},
+				{
+					'name': 'dektop',
+					'dimensions': [1025, 9999]
+				}
+			];
+
 			/*var ajaxParams = $parse('ajaxParams');
 			console.log(ajaxParams(scope));
 			ajaxParams.assign(scope, "New name");*/
@@ -27,6 +42,8 @@ ngApp.directive('gridTable', function ($rootScope, $filter, $parse) {
 					}
 				}, true);
 			}
+
+			scope.breakpoint = '';
 
 			var init = function(data) {
 				
@@ -107,6 +124,12 @@ ngApp.directive('gridTable', function ($rootScope, $filter, $parse) {
 					//sel.assign(item, scope.toggleCheckbox);
 				});
 
+			};
+
+			scope.showColumn = function(field) {
+
+				var field = $filter('filter')(scope.table.columnList, { 'field': field });
+				return field[0].isVisible;
 			};
 
 			// Expand row by the index of "inner table"
@@ -200,6 +223,43 @@ ngApp.directive('gridTable', function ($rootScope, $filter, $parse) {
 					updatePagingOptions(scope.table.pagingOptions);
 				}
 
+			};
+
+			// Responsive Tables
+
+			scope.setBreakpoint = function(windowSize) {
+				_.each(sizes, function(size) {
+					if (windowSize > size.dimensions[0] && windowSize < size.dimensions[1]) {
+						scope.breakpoint = size.name;
+					}
+				});
+			};
+
+			scope.toggleResponsiveColumns = function(breakpoint) {
+				_.each(scope.table.columnList, function(col) {
+					col.isVisible = !_.contains(col.hide, breakpoint);
+				});
+			};
+
+			scope.hasHiddenColumns = function() {
+				var len = $filter('filter')(scope.table.columnList, { 'isVisible': false }).length;
+				return len ? true : false;
+			};
+
+			scope.$watch('breakpoint', function(newValue, oldValue) {
+				if (newValue !== oldValue) {
+					scope.toggleResponsiveColumns(newValue);
+				}
+			});
+
+			scope.$watch(function() {
+				return window.innerWidth;
+			}, function(newValue, oldValue) {
+				scope.setBreakpoint(newValue);
+			});
+
+			window.onresize = function() {
+				scope.$apply();
 			};
 
 		}
