@@ -233,8 +233,10 @@ article.marketingIntro {
 	}
 }
 
-article.loginHorizontal {
+div.banner + article.loginHorizontal {
 	margin-top: -20px;
+}
+article.loginHorizontal {
 	@include breakpoint(small) {
 		margin-top: 0;
 	}
