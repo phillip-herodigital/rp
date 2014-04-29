@@ -20,5 +20,32 @@ namespace Website.layouts.Pages.Marketing.Historical_Rates {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater rptVariablePricePlan;
+        
+        /// <summary>
+        /// rptGreenAndCleanVariablePricePlan control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptGreenAndCleanVariablePricePlan;
+        
+        /// <summary>
+        /// rptFlexChoicePlan control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptFlexChoicePlan;
+        
+        /// <summary>
+        /// rptFlexChoicePlanGreenAndCleanPlan control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptFlexChoicePlanGreenAndCleanPlan;
     }
 }
