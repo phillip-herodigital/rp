@@ -484,25 +484,31 @@ article.state-tabs {
 }
 
 article.service-states {
-	.wrapper {
-		text-align: center;
-	}
-
-	button,
-	a.button {
-		background-color: #78bb2f;
-		color: #fff;
-		&.secondary {
-			background-color: #fff;
-			color: #1773cb;
+	.tab-header {
+		margin-bottom: 20px;
+		.wrapper {
+			text-align: center;
+		}
+		button,
+		a.button {
+			background-color: #78bb2f;
+			color: #fff;
+			&.secondary {
+				background-color: #fff;
+				color: #1773cb;
+				&:hover {
+					background-color: #6b6b6b;
+					color: #fff;
+				}
+			}
 			&:hover {
 				background-color: #6b6b6b;
-				color: #fff;
 			}
 		}
-		&:hover {
-			background-color: #6b6b6b;
-		}
+	}
+
+	h2.wrapper {
+		text-align: center;
 	}
 }
 
