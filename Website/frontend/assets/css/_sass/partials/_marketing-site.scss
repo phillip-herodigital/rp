@@ -580,36 +580,12 @@ article.press {
 		margin-top: 60px;
 		padding-bottom: 40px;
 		border-bottom: 3px solid #f0f0f0;
-		h2 {
-			margin-bottom: 0px;
-		}
+		h2,
 		p.date {
-			margin-top: 0px;
+			margin: 0px;
 		}
 		&:last-child {
 			border-bottom: none;
-		}
-	}
-}
-
-article.choose-state {
-	h2 {
-		text-align: center;
-		margin-bottom: 30px;
-		font-size: 30px;
-	}
-	ul li {
-		list-style-type: none;
-		float: left;
-		width: 14%;
-		text-align: center;
-		padding-top: 30px;
-		&:hover {
-			background-color: #0971ce;
-			border-radius: 10px 10px 0 0;
-			p {
-				color: #fff;
-			}
 		}
 	}
 }
@@ -619,11 +595,9 @@ article.blog {
 		margin-top: 60px;
 		padding-bottom: 40px;
 		border-bottom: 3px solid #f0f0f0;
-		h2 {
-			margin-bottom: 0px;
-		}
+		h2,
 		p.date {
-			margin-top: 0px;
+			margin: 0px;
 		}
 		&:last-child {
 			border-bottom: none;
@@ -684,6 +658,13 @@ article.pay {
 		}
 		button {
 			background-color: #77bc1f;
+			&:hover {
+				color: #000;
+			}
+		}
+		p.forgot a:hover {
+			color: #064985;
+			text-decoration: underline;
 		}
 		span.benefits {
 			color: #0971ce;
@@ -826,27 +807,30 @@ article.contact {
 			color: #fff;
 			text-align: left;
 		}
-		.grid .col {
-			.item {
-				position: relative;
-				width: 90%;
-				input,
-				select,
-				textarea {
+		.grid {
+			-webkit-border-vertical-spacing: 0px;
+			.col {
+				.item {
+					position: relative;
 					width: 90%;
-					color: #bcbcbc;
+					input,
+					select,
+					textarea {
+						width: 90%;
+						color: #bcbcbc;
+					}
+					.asterisk {
+						font-size: 24px;
+						vertical-align: middle;
+					}
 				}
-				.asterisk {
-					font-size: 24px;
-					vertical-align: middle;
+				.group .item {
+					width: 44%;
 				}
-			}
-			.group .item {
-				width: 44%;
-			}
-			button {
-				background-color: #ebebeb;
-				color: #000;
+				button {
+					background-color: #ebebeb;
+					color: #000;
+				}
 			}
 		}
 	}
@@ -854,16 +838,14 @@ article.contact {
 		h2 {
 			text-align: left;
 			position: relative;
-			span.header {
-				background-color: #fff;
-				padding-right: 20px;
-			}
-			span.header-line {
+			.header-line {
 				height: 4px;
+				width: 100%;
 				display: block;
 				background-color: #efefef;
-				position: relative;
-				top: 22px;
+				position: absolute;
+				top: 19px;
+				left: 570px;
 			}
 		}
 		p {
@@ -916,18 +898,38 @@ article.contact-state {
 	}
 	.quality-control {
 		margin-bottom: 35px;
+		position: relative;
 		p {
 			margin: 20px 0 30px 0;
 		}
 		h2 {
 			margin: 0;
 		}
+		.header-line {
+			height: 4px;
+			width: 100%;
+			display: block;
+			background-color: #efefef;
+			position: absolute;
+			top: 14px;
+			left: 240px;
+		}
 	}
 	.emergency {
 		margin-bottom: 30px;
+		position: relative;
 		h3 {
 			color: #0971ce;
 			margin: 50px 0 10px 0;
+		}
+		.header-line {
+			height: 4px;
+			width: 100%;
+			display: block;
+			background-color: #efefef;
+			position: absolute;
+			top: 14px;
+			left: 280px;
 		}
 		.grid .col {
 			.company {
@@ -1134,6 +1136,28 @@ article.homelife-services {
 					text-align: center;
 					margin-top: 10px;
 				}
+				.line-top {
+					height: 40px;
+					width: 1px;
+					background-color: #ddd;
+					float: left;
+					margin-left: 50%;
+					margin-top: -50px;
+				}
+				.line-bottom {
+					height: 40px;
+					width: 1px;
+					background-color: #ddd;
+					float: left;
+					margin-left: 50%;
+					margin-top: 13px;
+				}
+				@include breakpoint(medium) {
+					.line-top,
+					.line-bottom {
+						display: none;
+					}
+				}
 			}
 			.pricing {
 				text-align: center;
@@ -1283,6 +1307,9 @@ article.homelife-services {
 							}
 							button {
 								background-color: #0971ce;
+								&:hover {
+									background-color: #6b6b6b;
+								}
 							}
 						}
 					}
@@ -1338,6 +1365,9 @@ article.why-energy {
 		&.joining-info {
 			p button {
 				background-color: #ac1f2d;
+				&:hover {
+					background-color: #6b6b6b;
+				}
 				a {
 					color: #fff;
 				}
@@ -1364,9 +1394,12 @@ article.commercial-quote {
 				font-size: 24px;
 			}
 			button {
-				background-color: #ebebeb;
+				background-color: #fff;
 				a {
 					color: #333;
+				}
+				&:hover {
+					background-color: #ebebeb
 				}
 			}
 			input,
@@ -1387,6 +1420,9 @@ article.commercial-account-banner {
 				color: #0971ce;
 				margin: auto;
 				display: block;
+				&:hover {
+					background-color: #ccc;
+				}
 			}
 		}
 	}
@@ -1418,40 +1454,9 @@ article.free-energy {
 	}
 }
 
-article.services-icons {
-	ul {
-		padding-left: 0;
-		li {
-			list-style-type: none;
-			float: left;
-			width: 25%;
-			text-align: center;
-			&.electricity h3 {
-				color: #0971ce;
-			}
-			&.gas {
-				color: #ffa409;
-				button {
-					background-color: #ffa409;
-				}
-			}
-			&.clean-energy {
-				color: #76bd1d;
-				button {
-					background-color: #76bd1d;
-				}
-			}
-			&.homelife-services {
-				color: #003a5d;
-				button {
-					background-color: #003a5d;
-				}
-			}
-			@include breakpoint(small) {
-				width: 50%;
-				margin-bottom: 20px;
-			}
-		}
+article.service-icons {
+	.grid .col {
+		padding: 0;
 	}
 }
 
@@ -1489,6 +1494,9 @@ article.energy-certificates {
 		button {
 			background-color: #2c3e50;
 			box-shadow: 0 2px #7eb24c;
+			&:hover {
+				background-color: #6b6b6b;
+			}
 		}
 	}
 }
@@ -1498,6 +1506,9 @@ article.ignite-associate {
 	margin: 50px 0;
 	button {
 		background-color: #a9222d;
+		&:hover {
+			background-color: #6b6b6b;
+		}
 	}
 }
 
@@ -1529,6 +1540,9 @@ article.residual-income {
 	button {
 		background-color: #a9222d;
 		float: right;
+		&:hover {
+			background-color: #6b6b6b;
+		}
 	}
 }
 
@@ -1547,6 +1561,9 @@ article.electricity-gas {
 			background-color: #76bd1d;
 			font-size: 24px;
 			padding: 10px;
+			&:hover {
+				background-color: #6b6b6b;
+			}
 		}
 	}
 	hr {
@@ -1559,5 +1576,54 @@ article.electricity-gas {
 	}
 	.gas-chart {
 		border-bottom: 3px solid #76bd1d;
+	}
+}
+
+article.privacy-policy {
+	.intro-paragraph {
+		text-align: center;
+	}
+	hr {
+		width: 60%;
+		border: 1px solid #f0f0f0;
+		margin: 40px auto;
+	}
+	h2 {
+		margin-top: 30px;
+	}
+	.indented {
+		margin-left: 40px;
+		ul {
+			list-style: none;
+			li {
+				background-image: url('../i/marketing/blue-bullet.png');
+				background-repeat: no-repeat;
+				background-position: 0px 5px;
+				padding-left: 25px;
+			}
+		}
+	}
+}
+
+article.earn-free-energy {
+	.intro-paragraph {
+		text-align: center;
+	}
+	p {
+		font-size: 26px;
+	}
+	.full-image {
+		background-image: url('../i/marketing/free-energy-start-earning.jpg');
+		background-repeat: no-repeat;
+		background-position: center;
+		height: 300px;
+		border-top: 3px solid #999;
+	}
+	.enhance {
+		text-align: center;
+		h2 {
+			font-size: 40px;
+			margin-top: 40px;
+		}
 	}
 }
