@@ -134,19 +134,32 @@ article.grey-box {
 		background-color: #f4f4f4;
 	}
 }
+
 article.plain {
 	border: none;
 	@include box-shadow(none);
 	@include border-radius(0px);
 	margin-bottom: 0px;
 	padding: 0;
-	.post-hero {
-		background: #0971ce;
-		color: #fff;
-		padding: 10px 0px;
-		border-bottom: 6px solid #ffa409;
+}
+
+div.banner + article.message {
+	margin-top: -20px;
+}
+article.message {
+	@extend .plain;
+	margin-bottom: 20px;
+	padding: 10px 0px;
+	border-bottom: 6px solid #ffa409;
+	background: #0971ce;
+	color: #fff;
+	font-size: 20px;
+	font-weight: 100;
+	p {
+		margin: 0;
 	}
 }
+
 article.plan {
 	@include border-radius(10px 10px 0 0);
 	padding-bottom: 0px;
