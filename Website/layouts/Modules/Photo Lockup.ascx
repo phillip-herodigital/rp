@@ -9,13 +9,13 @@
 	</div>
 	<div class="text">
 		<div class="inner">
-			<h2><%=FieldRenderer.Render(CurrentContextItem, "Header") %></h2>
-			<h3><%=FieldRenderer.Render(CurrentContextItem, "Sub Header") %></h3>
-			<blockquote>
+			<h2 id="h2Header" runat="server"><%=FieldRenderer.Render(CurrentContextItem, "Header") %></h2>
+			<h3 id="h3Header" runat="server"><%=FieldRenderer.Render(CurrentContextItem, "Sub Header") %></h3>
+			<blockquote id="blkQuote" runat="server">
 				<p><%=FieldRenderer.Render(CurrentContextItem, "Quote") %></p>
 			</blockquote>
-			<p class="cite">&mdash; <%=FieldRenderer.Render(CurrentContextItem, "Citation") %></p>
-			<p><%=FieldRenderer.Render(CurrentContextItem, "Content") %></p>
+			<p class="cite" id="pCite" runat="server">&mdash; <%=FieldRenderer.Render(CurrentContextItem, "Citation") %></p>
+			<p id="pContent" runat="server"><%=FieldRenderer.Render(CurrentContextItem, "Content") %></p>
             <%=FieldRenderer.Render(CurrentContextItem, "Button") %>
 		</div>
 	</div>
