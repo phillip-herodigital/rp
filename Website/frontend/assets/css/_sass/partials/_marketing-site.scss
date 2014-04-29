@@ -660,6 +660,13 @@ article.pay {
 			border-bottom: none;
 		}
 	}
+	.pay-list {
+		padding: 0;
+		li {
+			list-style-type: none;
+			padding: 0;
+		}
+	}
 	.box {
 		@include border-radius(10px, 10px);
 		border: 2px solid #f0f0f0;
