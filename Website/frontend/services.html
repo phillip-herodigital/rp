@@ -5,7 +5,7 @@
 <head>
 	<meta charset="utf-8" />
 
-	<title>Title</title>
+	<title>Services</title>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -102,11 +102,11 @@
 				</nav>
 			</header>
 
-			<div class="banner marketing" style="background-image: url(assets/i/marketing/header-home-01.jpg)"></div>
+			<div class="banner marketing" style="background-image: url(assets/i/marketing/services.jpg)"></div>
 
 			<section class="layout cols-1" ng-controller="MarketingCtrl">
 
-				<article class="marketing state-tabs" state-tabs>
+				<article class="marketing state-tabs service-states" state-tabs>
 					<ul class="tabs-nav">
 						<li ng-click="selectPane('texas')" ng-class="{ active: pane == 'texas' }">
 							<a href="">
@@ -154,109 +154,133 @@
 					<div class="tab-content" ng-class="{ hidden : pane != 'texas' }">
 						<div class="tab-header">
 							<div class="wrapper">
-								<p>Header content here.</p>
+								<p><a href="#" class="button secondary">View Electricity Rates</a> <a href="#" class="button">Enroll Now</a></p>
 							</div>
 						</div>
-						<div class="wrapper">
-							<p>Body content here.</p>
-						</div>
 					</div>
-					<div class="tab" ng-class="{ hidden : pane != 'georgia' }">
+					<div class="tab-content" ng-class="{ hidden : pane != 'georgia' }">
 						<div class="tab-header">
 							<div class="wrapper">
-								<p>Header content here 2.</p>
+								<p><a href="#" class="button secondary">View Gas Rates</a> <a href="#" class="button">Enroll Now</a></p>
 							</div>
 						</div>
-						<div class="wrapper">
-							<p>Body content here 2.</p>
+					</div>
+					<div class="tab-content" ng-class="{ hidden : pane != 'pennsylvania' }">
+						<div class="tab-header">
+							<div class="wrapper">
+								<p><a href="#" class="button secondary">View Electricity and Gas Rates</a> <a href="#" class="button">Enroll Now</a></p>
+							</div>
+						</div>
+					</div>
+					<div class="tab-content" ng-class="{ hidden : pane != 'maryland' }">
+						<div class="tab-header">
+							<div class="wrapper">
+								<p><a href="#" class="button secondary">View Electricity and Gas Rates</a> <a href="#" class="button">Enroll Now</a></p>
+							</div>
+						</div>
+					</div>
+					<div class="tab-content" ng-class="{ hidden : pane != 'newjersey' }">
+						<div class="tab-header">
+							<div class="wrapper">
+								<p><a href="#" class="button secondary">View Electricity and Gas Rates</a> <a href="#" class="button">Enroll Now</a></p>
+							</div>
+						</div>
+					</div>
+					<div class="tab-content" ng-class="{ hidden : pane != 'newyork' }">
+						<div class="tab-header">
+							<div class="wrapper">
+								<p><a href="#" class="button secondary">View Electricity and Gas Rates</a> <a href="#" class="button">Enroll Now</a></p>
+							</div>
+						</div>
+					</div>
+					<div class="tab-content" ng-class="{ hidden : pane != 'washingtondc' }">
+						<div class="tab-header">
+							<div class="wrapper">
+								<p><a href="#" class="button secondary">View Electricity Rates</a> <a href="#" class="button">Enroll Now</a></p>
+							</div>
 						</div>
 					</div>
 				</article>
-				
-				<div class="form">
-					<div class="group">
-						<div class="item">
-							<label>Accent</label>
-							<select ng-model="view.introAccentClass" ng-options="item.accentClass as item.name for item in themes">
-								<option value="">Default</option>
-							</select>
-						</div>
+
+				<article class="marketing grid four gridPromos">
+					<div class="col accent-blue">
+						<i class="icon-services-lightbulb"></i>
+						Electricity
+						<p><a href="#" class="button">Learn More</a></p>
 					</div>
-				</div>
-
-				<article class="marketing marketingIntro wrapper" ng-class="view.introAccentClass">
-
-					<p class="intro">Becoming a Stream Energy customer is easy. We’re committed to helping you find the energy services you need at affordable rates, and our customer service team stays with you through every step of the process. <em>But that’s just the beginning.</em></p>
-					<hr />
-					<div class="body">
-						<p>When you switch providers, the energy that comes into your home doesn’t change—the poles and wires are still maintained by your local utility. But as a Stream Energy customer, you can feel confident knowing that you’re backed by a $6 billion company.</p>
-						<ul>
-							<li>A company that has <em>changed the lives</em> of hundreds of thousands of people</li>
-							<li>A company dedicated to <em>helping our environment</em> through the promotion of clean, renewable sources including wind power and others</li>
-							<li>A company that has been recognized for devoting time, money and manpower to <em>help the communities</em> it serves</li>
-						</ul>
-						<p><a href="#" class="button">Action Button</a></p>
+					<div class="col accent-orange">
+						<i class="icon-gas"></i>
+							Gas
+						<p><a href="#" class="button">Learn More</a></p>
+					</div>
+					<div class="col accent-green">
+						<i class="icon-clean-energy"></i>
+							Clean Energy
+						<p><a href="#" class="button">Learn More</a></p>
+					</div>
+					<div class="col accent-dark-blue">
+						<i class="icon-homelife-services-alt"></i>
+							Homelife Services
+						<p><a href="#" class="button">Learn More</a></p>
 					</div>
 				</article>
 
-				<div class="form">
-					<div class="group">
-						<div class="item">
-							<label>Image Position</label>
-							<select ng-model="view.img">
-								<option value="">Left - Default</option>
-								<option value="right-img">Right</option>
-							</select>
-						</div>
-						<div class="item">
-							<label>BG Color</label>
-							<select ng-model="view.bgClass" ng-options="item.bgClass as item.name for item in themes">
-								<option value="">Default</option>
-							</select>
-						</div>
-						<div class="item">
-							<label>BG Image Position</label>
-							<select ng-model="view.bgPositionClass">
-								<option value="">Default</option>
-								<option value="top-left-photo">Top Left</option>
-								<option value="top-right-photo">Top Right</option>
-								<option value="bottom-left-photo">Bottom Left</option>
-								<option value="bottom-right-photo">Bottom Right</option>
-							</select>
-						</div>
-						<div class="item">
-							<label>Border</label>
-							<select ng-model="view.borderClass" ng-options="item.borderClass as item.name for item in themes">
-								<option value="">Default</option>
-							</select>
-						</div>
-						<div class="item">
-							<label>Accent</label>
-							<select ng-model="view.accentClass" ng-options="item.accentClass as item.name for item in themes">
-								<option value="">Default</option>
-							</select>
-						</div>
-					</div>
-				</div>
-
-				<article class="marketing photoLockup" ng-class="[view.img, view.bgClass, view.bgPositionClass, view.borderClass, view.accentClass]">
-					<div class="photo" style="background-image: url(assets/i/marketing/home-test2.jpg)"></div>
+				<article class="marketing photoLockup border border-blue top-right-photo">
+					<div class="photo" style="background-image: url(assets/i/marketing/ignite_from-keeping-your.jpg);"></div>
 					<div class="text">
 						<div class="inner">
-							<h2>Headline</h2>
-							<h3>Subhead</h3>
-							<blockquote>
-								<p><span class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span> Morbi pellentesque lacus at felis auctor fringilla in ac ipsum. Etiam in turpis vitae felis facilisis sagittis.</p>
-							</blockquote>
-							<p class="cite">&mdash; John D. Dallas, TX</p>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi pellentesque lacus at felis auctor fringilla in ac ipsum. Etiam in turpis vitae felis facilisis sagittis.</p>
-							<ul>
-								<li>This is a bullet</li>
-								<li>So is this</li>
-							</ul>
-							<a href="#" class="button">Action Button</a>
+							<h2>Electricity</h2>
+							<p>From keeping your lights on to turning up the air conditioning and powering your tools, electricity is an essential service for every home and business.</p>
+							<a href="#" class="button">Learn More</a>
 						</div>
 					</div>
+				</article>
+
+				<article class="marketing photoLockup border border-orange accent-orange right-img top-left-photo bg-white">
+					<div class="photo" style="background-image: url(assets/i/marketing/ignite_the-cleanest-source.jpg);"></div>
+					<div class="text">
+						<div class="inner">
+							<h2>Gas</h2>
+							<p>Whether you’re cooking meals or heating your home, natural gas is a great way to use power at home and at the office.</p>
+							<a href="#" class="button">Learn More</a>
+						</div>
+					</div>
+				</article>
+
+				<article class="marketing photoLockup border border-green accent-green top-right-photo">
+					<div class="photo" style="background-image: url(assets/i/marketing/ignite_clean-energy.jpg);"></div>
+					<div class="text">
+						<div class="inner">
+							<h2>Clean Energy</h2>
+							<p>Use energy that is Green and Clean. Our renewable energy is produced naturally by the wind, sun, and earth.</p>
+							<a href="#" class="button">Learn More</a>
+						</div>
+					</div>
+				</article>
+
+				<article class="marketing photoLockup border border-darkblue accent-darkblue right-img top-left-photo bg-white">
+					<div class="photo" style="background-image: url(assets/i/marketing/ignite_protect-more-than.jpg);"></div>
+					<div class="text">
+						<div class="inner">
+							<h2>Homelife Services</h2>
+							<p>Protect more than just your home. Take advantage of our valuable Life Services—identity theft protection, technology support with online (data) backup, and credit monitoring—to secure a safer, more informed lifestyle.</p>
+							<a href="#" class="button">Learn More</a>
+						</div>
+					</div>
+				</article>
+
+				<article class="marketing marketingPromo accent-blue wrapper">
+					<img src="assets/i/marketing/icons-services-free.png" Alt="Free Energy" />
+					<p>When you join Stream Energy, we'll help you SAVE<br/>even more with our <span>Free Energy Program!</span></p>
+					<h1>START EARNING YOUR FREE ENERGY TODAY!</h1>
+				</article>
+
+				<article class="marketing full-width-image" style="background-image: url(assets/i/marketing/ignite_how-does-stream.jpg);">
+				</article>
+
+				<article class="marketing full-html center promo accent-blue wrapper">
+					<h1>HOW DOES STREAM ENERGY ENHANCE YOUR LIFE?</h1>
+					<p>We’re here to make your life better. Stream Energy doesn’t just power your home, fuel your cooking, and protect your peace of mind. We’re always working hard tofind new ways to improve your life and help save you money.</p>
 				</article>
 
 			</section>
