@@ -93,12 +93,11 @@
 						</div>
 					</article>
 					<article class="grey-box">
-						<!-- <h3>My Invoices</h3> -->
 						<header>
 							<h2>My Invoices</h2>
 						</header>
 						<div class="content" loading-indicator>
-							<div class="account-selector">
+							<div class="filters">
 								<form>
 									<div class="group">
 										<div class="item">
@@ -106,30 +105,18 @@
 											<select ng-model="filters.serviceType" ng-options="item.value as item.name for item in filtersList.serviceType">
 												<option value="">All</option>
 											</select>
-											<!-- <select ng-model="filters.serviceType">
-												<option value="">All</option>
-												<option ng-value="item.value" ng-repeat="item in filtersList.serviceType">{{ item.name }}</option>
-											</select> -->
 										</div>
 										<div class="item">
 											<label>Account:</label>
 											<select ng-model="filters.accountNumber" ng-options="item.value as item.name for item in filtersList.accountNumber">
 												<option value="">All</option>
 											</select>
-											<!-- <select ng-model="filters.accountNumber">
-												<option value="">All</option>
-												<option ng-value="item.value" ng-repeat="item in filtersList.accountNumber">{{ item.name }}</option>
-											</select> -->
 										</div>
 										<div class="item">
 											<label>Status:</label>
 											<select ng-model="filters.isPaid" ng-options="item.value as item.name for item in filtersList.isPaid">
 												<option value="">All</option>
 											</select>
-											<!-- <select ng-model="filters.isPaid">
-												<option value="">All</option>
-												<option ng-value="item.value" ng-repeat="item in filtersList.isPaid">{{ item.name }}</option>
-											</select> -->
 										</div>
 										<div class="actions" ng-show="isFiltered()">
 											<p><a href="" ng-click="resetFilters()">Reset Filters</a></p>
@@ -139,16 +126,7 @@
 							</div>
 							<div class="stretch">
 								<table grid-table ng-model="invoicesTable">
-									<thead>
-										<tr>
-											<th style="width:30px;">
-												<input type="checkbox" ng-model="toggleCheckbox" ng-change="toggleCheckboxes()" />
-											</th>
-											<th ng-repeat="item in table.columnList | filter:{isVisible: true} | orderBy:'displayOrder'" ng-click="updateSort(item)">
-												<span>{{ item.displayName }}</span>
-											</th>
-										</tr>
-									</thead>
+									<thead grid-table-header></thead>
 									<tbody ng-repeat="item in table.valuesToShow">
 										<tr>
 											<td class="align-center" style="width:30px;"><input type="checkbox" ng-model="item.selected" /></td>
@@ -180,30 +158,7 @@
 											</td>
 										</tr>
 									</tbody>
-									<tfoot>
-										<tr>
-											<td colspan="{{table.columnList.length+1}}" class="pagination">
-												<div class="page-size">
-													Show: <select ng-model="table.pagingOptions.pageSize" ng-change="updatePageSize()">
-														<option ng-repeat="size in table.pagingOptions.pageSizes">{{ size }}</option>
-													</select>
-													entries.
-												</div>
-												<p class="showing">
-													Showing <strong>{{ table.startPos }}-{{ table.endPos }}</strong> of <strong>{{ table.pagingOptions.totalServerItems }}</strong> Items
-												</p>
-												<ul class="page-selection">
-													<li ng-class="{disabled: table.pagingOptions.currentPage == 1}"><a href="" ng-click="firstPage()">First <i class="icon-blue-rectangle"></i></a></li>
-													<li ng-class="{disabled: table.pagingOptions.currentPage == 1}"><a href="" ng-click="previousPage()">Previous <i class="icon-blue-rectangle"></i></a></li>
-													<li ng-repeat="number in table.pageRange" class="page-number">
-														<a ng-class="{selected: number == table.pagingOptions.currentPage}" ng-click="selectPageNumber(number)" ng-bind="number"></a>
-													</li>
-													<li ng-class="{disabled: table.pagingOptions.currentPage == table.pageNum}"><a href="" ng-click="nextPage()">Next <i class="icon-blue-rectangle"></i></a></li>
-													<li ng-class="{disabled: table.pagingOptions.currentPage == table.pageNum}"><a href="" ng-click="lastPage()">Last <i class="icon-blue-rectangle"></i></a></li>
-												</div>
-											</td>
-										</tr>
-									</tfoot>
+									<tfoot grid-table-pagination></tfoot>
 								</table>
 							</div>
 						</div>

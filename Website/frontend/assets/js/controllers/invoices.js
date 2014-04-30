@@ -209,7 +209,49 @@ ngApp.controller('InvoicesCtrl', ['$scope', '$rootScope', '$http', '$filter', '$
 	// 	]
 	// };
 
-	$scope.invoicesTable = {};
+	$scope.invoicesTable = {
+		"columnList": [
+			{
+				"field": "accountNumber",
+				"displayName": "Account Number",
+				"isVisible": true,
+				"hide": ["phone"]
+			},
+			{
+				"field": "serviceType",
+				"displayName": "Service Type",
+				"isVisible": true
+			},
+			{
+				"field": "invoiceNumber",
+				"displayName": "Invoice Number",
+				"isVisible": true,
+				"hide": ["tablet", "phone"]
+			},
+			{
+				"field": "invoiceAmount",
+				"displayName": "Invoice Amount",
+				"isVisible": true,
+			},
+			{
+				"field": "dueDate",
+				"displayName": "Due Date",
+				"isVisible": true,
+				"hide": ["tablet", "phone"]
+			},
+			{
+				"field": "action",
+				"displayName": "Action",
+				"isVisible": true,
+				"hide": ["phone"]
+			}
+		],
+		"values": [
+			
+		]
+	};
+
+	//$scope.invoicesTable = {};
 	$scope.isLoading = true;
 
 	$timeout(function() {
@@ -268,6 +310,10 @@ ngApp.controller('InvoicesCtrl', ['$scope', '$rootScope', '$http', '$filter', '$
 	$scope.isFiltered = function() {
 		return !_.isEmpty($scope.filters);
 	}
+
+	$scope.test = function() {
+		console.log($scope);
+	};
 
 	// Watches
 
