@@ -1,28 +1,57 @@
-ngApp.controller('AccountBalances', ['$scope', '$rootScope', '$http', '$filter', function ($scope, $rootScope, $http, $filter) {
+ngApp.controller('AccountBalances', ['$scope', '$rootScope', '$http', '$filter', '$timeout', function ($scope, $rootScope, $http, $filter, $timeout) {
 
-	$scope.accounts = [
-		{
-			'accountNumber': 1234567890,
-			'amountDue': '87.24',
-			'dueDate': '03/10/2014'
-		},
-		{
-			'accountNumber': 2345678901,
-			'amountDue': '129.50',
-			'dueDate': '02/10/2014'
+	// $scope.accounts = [
+	// 	{
+	// 		"accountNumber": 1234567890,
+	// 		"amountDue": "87.24",
+	// 		"dueDate": "03/10/2014"
+	// 	},
+	// 	{
+	// 		"accountNumber": 2345678901,
+	// 		"amountDue": "129.50",
+	// 		"dueDate": "02/10/2014"
+	// 	}
+	// ];
+
+	$scope.accounts = [];
+	$scope.selectedAccount = {
+		'account': null
+	};
+	$scope.paymentForm = {};
+	$scope.isLoading = true;
+
+	$timeout(function() {
+
+		$http.get('assets/json/accountBalances.json').success(function(data, status, headers, config) {
+			$scope.accounts = data;
+			loadSelectedAccount($scope.selectedAccount.account);
+			$scope.isLoading = false;
+		});
+	}, 2000);
+
+	var loadSelectedAccount = function(account) {
+		if (account == null) {
+			// All accounts
+			$scope.paymentForm.accountNumber = null;
+			$scope.paymentForm.amount = getTotalDue();
+			$scope.paymentForm.dueDate = getLatestDueDate();
+		} else {
+			$scope.paymentForm.accountNumber = account.accountNumber;
+			$scope.paymentForm.amount = account.amountDue;
+			$scope.paymentForm.dueDate = account.dueDate;
 		}
-	];
-
-	var latestAccount = $filter('orderBy')($scope.accounts, "dueDate"),
-		totalDue = _.reduce($scope.accounts, function(memo, item){
+	},
+	getLatestDueDate = function() {
+		var latestAccounts = $filter('orderBy')($scope.accounts, "dueDate");
+		if (latestAccounts.length && latestAccounts[0].dueDate) {
+			return latestAccounts[0].dueDate;
+		}
+		return '';
+	},
+	getTotalDue = function() {
+		return _.reduce($scope.accounts, function(memo, item){
 			return memo + parseFloat(item.amountDue, 10);
 		}, 0);
-
-	$scope.selectedAccount = {};
-	$scope.paymentForm = {
-		'accountNumber': null,
-		'amount': totalDue,
-		'dueDate': latestAccount[0].dueDate
 	};
 
 	$scope.paymentMethods = [
@@ -38,10 +67,7 @@ ngApp.controller('AccountBalances', ['$scope', '$rootScope', '$http', '$filter',
 
 	$scope.$watch('selectedAccount.account', function(newVal, oldVal) {
 		if (newVal !== oldVal) {
-			var selectedAccount = $scope.selectedAccount.account;
-			$scope.paymentForm.accountNumber = (selectedAccount != null) ? selectedAccount.accountNumber : null;
-			$scope.paymentForm.amount = (selectedAccount != null) ? selectedAccount.amountDue : totalDue;
-			$scope.paymentForm.dueDate = (selectedAccount != null) ? selectedAccount.dueDate : latestAccount[0].dueDate;
+			loadSelectedAccount($scope.selectedAccount.account);
 		}
 	}, true);
 

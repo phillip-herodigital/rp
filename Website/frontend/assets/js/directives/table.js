@@ -46,8 +46,8 @@ ngApp.directive('gridTable', function ($rootScope, $filter, $parse) {
 			scope.breakpoint = '';
 
 			var init = function(data) {
-				
-				if (typeof data != "object") {
+
+				if (typeof data != "object" || _.isEmpty(data)) {
 					// Maybe want to hide the table, or something?
 					// Also, might want to make this a better check... Just because it's an object, doesn't mean it's in the right format. :)
 					return;
@@ -77,6 +77,13 @@ ngApp.directive('gridTable', function ($rootScope, $filter, $parse) {
 				scope.sortOrder = false;
 
 				updatePagingOptions(scope.table.pagingOptions);
+
+				scope.$watch(function() {
+					return window.innerWidth;
+				}, function(newValue, oldValue) {
+					scope.setBreakpoint(newValue);
+				});
+
 			};
 
 			// Range function similar to Python range
@@ -250,12 +257,6 @@ ngApp.directive('gridTable', function ($rootScope, $filter, $parse) {
 				if (newValue !== oldValue) {
 					scope.toggleResponsiveColumns(newValue);
 				}
-			});
-
-			scope.$watch(function() {
-				return window.innerWidth;
-			}, function(newValue, oldValue) {
-				scope.setBreakpoint(newValue);
 			});
 
 			window.onresize = function() {
