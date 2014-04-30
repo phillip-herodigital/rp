@@ -46,6 +46,7 @@ namespace StreamEnergy
 
                 var container = StreamEnergy.Unity.Container.Instance.Unity;
 
+                ControllerBuilder.Current.SetControllerFactory(new Mvc.ControllerFactory(ControllerBuilder.Current.GetControllerFactory(), container));
                 DependencyResolver.SetResolver(new global::Unity.Mvc5.UnityDependencyResolver(container));
                 GlobalConfiguration.Configuration.DependencyResolver = new global::Unity.WebApi.UnityDependencyResolver(container);
             }

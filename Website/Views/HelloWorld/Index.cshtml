@@ -1,3 +1,5 @@
 ﻿@model Sitecore.Mvc.Presentation.RenderingModel
 
 <p>Hello, @(Model == null ? "World" : Model.Item.Name)!</p>
+
+<p>Title: @Html.Sitecore().Field("Page Title")</p>

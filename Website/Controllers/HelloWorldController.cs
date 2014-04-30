@@ -8,6 +8,11 @@ namespace Website.Controllers
 {
     public class HelloWorldController : Controller
     {
+        public HelloWorldController()
+        {
+
+        }
+
         public ActionResult Index()
         {
             return View();
