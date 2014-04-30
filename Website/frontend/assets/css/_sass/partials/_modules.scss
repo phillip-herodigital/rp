@@ -24,13 +24,13 @@ article {
 	@include border-radius(10px);
 	margin-bottom: 20px;
 	border: 1px solid #ddd;	
-	padding: 15px;
+	//padding: 15px;
 	overflow: hidden;
 	header {
 		@include border-radius(10px 10px 0px 0px);
 		background-color: #1385e1;
 		@include background-image(linear-gradient(bottom, #1383df 0%, #1597ff 100%));
-		margin: -15px -15px 0px -15px;
+		//margin: -15px -15px 0px -15px;
 		padding: 5px 13px;
 		h2 {
 			color: #fff;
@@ -41,13 +41,43 @@ article {
 		background: #fbfbfb;
 		padding: 15px;
 		border-top: 1px solid #ddd;
-		margin: 0px -15px -15px -15px;
+		//margin: 0px -15px -15px -15px;
+	}
+	.content {
+		padding: 15px;
+		position: relative;
+	}
+	.loadingMessage {
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		background-color: rgba(255, 255, 255, .9);
+		z-index: 2;
+		span {
+			$height: 32px;
+			$width: 130px;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			display: block;
+			width: $width;
+			height: $height;
+			margin: $height/2*-1 0 0 $width/2*-1;
+			text-transform: uppercase;
+			font-weight: bold;
+			img {
+				margin-right: 5px;
+			}
+		}
 	}
 	.account-selector {
 		background: #fbfbfb;
 		padding: 10px;
 		border-bottom: 1px solid #ddd;
-		margin: 0px -15px 15px;
+		//margin: 0px -15px 15px;
+		margin: -15px;
 		.group {
 			.item {
 				width: auto;
@@ -121,6 +151,7 @@ article.grey-box {
 	background-color: #f9f9f9;
 	header {
 		background-color: #f5f5f5;
+		background-image: none;
 		border-bottom: 1px solid #ddd;
 		h2 {
 			color: #0971ce;
