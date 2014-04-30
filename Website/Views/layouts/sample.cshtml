@@ -1,8 +1,4 @@
-﻿@inherits System.Web.Mvc.WebViewPage
-@{
-    Layout = null;
-}
-<html>
+﻿<html>
 <body>
     <h4>Index.cshtml</h4>
     <div>
@@ -15,6 +11,9 @@
             else
             {
                 @Model.GetType();
+
+                @Html.Sitecore().Placeholder("content");
+                @Html.Sitecore().Placeholder("footer");
             }
         }
     </div>
