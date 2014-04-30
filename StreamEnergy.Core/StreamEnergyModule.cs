@@ -34,7 +34,7 @@ namespace StreamEnergy
 
                 if (configuration == null)
                 {
-                    Sitecore.Diagnostics.Log.SingleError("Could not find \"streamEnergy\" configuration section.", this);
+                    global::Sitecore.Diagnostics.Log.SingleError("Could not find \"streamEnergy\" configuration section.", this);
                 }
                 else
                 {

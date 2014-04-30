@@ -38,7 +38,7 @@ namespace StreamEnergy.Configuration
             }
             catch (Exception ex)
             {
-                Sitecore.Diagnostics.Log.Error("Could not build Unity.IContainerSetupStrategy of type " + TypeName, ex, this);
+                global::Sitecore.Diagnostics.Log.Error("Could not build Unity.IContainerSetupStrategy of type " + TypeName, ex, this);
                 return null;
             }
         }
