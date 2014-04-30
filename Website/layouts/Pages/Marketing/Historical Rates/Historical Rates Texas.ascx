@@ -270,6 +270,8 @@
             </ItemTemplate>
         </asp:Repeater>
 
+        <div><%=FieldRenderer.Render(CurrentContextItem, "Page Bottom Text") %></div>
+
 		<h2><%=FieldRenderer.Render(CurrentContextItem, "Location") %></h2>
         <%=FieldRenderer.Render(CurrentContextItem, "Description") %>
 	</div>
