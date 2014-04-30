@@ -7,63 +7,72 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Website.layouts.Modules {
+namespace Website.layouts.Pages.Marketing.FAQ {
     
     
-    public partial class Photo_Lockup {
+    public partial class FAQ_Landing {
         
         /// <summary>
-        /// divEditMode control.
+        /// faqTexas control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divEditMode;
+        protected global::Website.layouts.Pages.Marketing.FAQ.FAQ_Listing faqTexas;
         
         /// <summary>
-        /// h2Header control.
+        /// faqGeorgia control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl h2Header;
+        protected global::Website.layouts.Pages.Marketing.FAQ.FAQ_Listing faqGeorgia;
         
         /// <summary>
-        /// h3Header control.
+        /// faqPennsylvania control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl h3Header;
+        protected global::Website.layouts.Pages.Marketing.FAQ.FAQ_Listing faqPennsylvania;
         
         /// <summary>
-        /// blkQuote control.
+        /// faqMaryland control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl blkQuote;
+        protected global::Website.layouts.Pages.Marketing.FAQ.FAQ_Listing faqMaryland;
         
         /// <summary>
-        /// pCite control.
+        /// faqNewJersey control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl pCite;
+        protected global::Website.layouts.Pages.Marketing.FAQ.FAQ_Listing faqNewJersey;
         
         /// <summary>
-        /// pContent control.
+        /// faqNewYork control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl pContent;
+        protected global::Website.layouts.Pages.Marketing.FAQ.FAQ_Listing faqNewYork;
+        
+        /// <summary>
+        /// faqWashingtonDC control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Website.layouts.Pages.Marketing.FAQ.FAQ_Listing faqWashingtonDC;
     }
 }
