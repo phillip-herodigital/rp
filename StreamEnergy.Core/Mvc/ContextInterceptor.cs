@@ -57,7 +57,10 @@ namespace StreamEnergy.Mvc
             }
             else if (setSessionItems.Contains(invocation.Method))
             {
-                // TODO - verify serializable
+                if (invocation.Arguments[1] != null && !invocation.Arguments[1].GetType().IsSerializable)
+                {
+                    throw new InvalidOperationException("All objects placed into session must be serializable.");
+                }
             }
             else if (invocation.Method == getResponse)
             {
