@@ -1493,7 +1493,6 @@
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Web.config.WebForms" />
     <Content Include="Data\webdav.lic" />
     <Content Include="temp\dictionary.dat" />
     <Content Include="assets\.DS_Store" />
