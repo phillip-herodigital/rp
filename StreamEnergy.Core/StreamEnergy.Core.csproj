@@ -140,6 +140,7 @@
     <Compile Include="StreamEnergyModule.cs" />
     <Compile Include="Unity\Container.cs" />
     <Compile Include="Unity\IContainerSetupStrategy.cs" />
+    <Compile Include="Unity\InheritanceSetupStrategy.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
