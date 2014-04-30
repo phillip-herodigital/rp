@@ -1,0 +1,29 @@
+﻿@{
+    var classes = new List<string>();
+
+    var backgroundColorField = Html.Sitecore().CurrentItem.Fields["Background Color"];
+    var accentColorField = Html.Sitecore().CurrentItem.Fields["Accent Color"];
+
+    var colors = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Colors").Children;
+
+    if (colors.Any(c => c.Name == backgroundColorField.Value))
+    {
+        classes.Add("bg-" + colors.First(c => c.Name == backgroundColorField.Value).Fields["CSS Class"].Value);
+    }
+
+    if (colors.Any(c => c.Name == accentColorField.Value))
+    {
+        classes.Add("accent-" + colors.First(c => c.Name == accentColorField.Value).Fields["CSS Class"].Value);
+    }
+
+    if (!string.IsNullOrEmpty(Html.Sitecore().CurrentItem.Fields["Custom CSS Class"].Value))
+    {
+        classes.Add(Html.Sitecore().CurrentItem.Fields["Custom CSS Class"].Value);
+    }
+
+    <article class="marketing full-html center @string.Join(" ", classes) bg-grey accent-blue home-latest">
+        <div class="wrapper">
+            @Html.Sitecore().Field("Module HTML")
+        </div>
+    </article>
+}
