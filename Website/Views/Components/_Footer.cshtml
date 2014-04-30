@@ -1,0 +1,26 @@
+﻿<footer class="site-footer">
+    <div class="super-footer">
+        <div class="wrapper">
+            <div class="grid three">
+                <div class="col badges">
+                    @Html.Sitecore().Field("First Column Links")
+                </div>
+                <div class="col quick-links">
+                    <h2><i class="icon-quicklinks"></i> @Html.Sitecore().Field("Quick Links Header")</h2>
+                    @Html.Sitecore().Field("Quick Links")
+                </div>
+                <div class="col social">
+                    <h2><i class="icon-social"></i> @Html.Sitecore().Field("Social Header")</h2>
+                    @Html.Sitecore().Field("Social Links")
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="wrapper copyright">
+        <p>@Html.Sitecore().Field("Copyright Content")</p>
+        <ul>
+            <li><a href="#"><i class="icon-bbb"></i></a></li>
+            <li><a href="#"><i class="icon-dsa"></i></a></li>
+        </ul>
+    </div>
+</footer>

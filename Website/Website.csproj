@@ -1182,6 +1182,7 @@
     <Content Include="frontend\assets\js\libs\respond\LICENSE-MIT" />
     <Content Include="frontend\assets\js\libs\respond\package.json" />
     <Content Include="frontend\assets\js\libs\respond\README.md" />
+    <Content Include="Views\Components\_Footer.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
