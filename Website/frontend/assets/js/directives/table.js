@@ -1,5 +1,5 @@
 // General use data table
-ngApp.directive('gridTable', function ($rootScope, $filter, $parse) {
+ngApp.directive('gridTable', ['$filter', function ($filter) {
 	return {
 		restrict: 'A',
 		scope: true,
@@ -267,9 +267,9 @@ ngApp.directive('gridTable', function ($rootScope, $filter, $parse) {
 
 		}
 	};
-});
+}]);
 
-ngApp.directive('gridTableHeader', function ($rootScope, $filter, $parse) {
+ngApp.directive('gridTableHeader', [function () {
 	return {
 		restrict: 'A',
 		transclude: true,
@@ -288,9 +288,9 @@ ngApp.directive('gridTableHeader', function ($rootScope, $filter, $parse) {
 
 		}
 	};
-});
+}]);
 
-ngApp.directive('gridTablePagination', function ($rootScope, $filter, $parse) {
+ngApp.directive('gridTablePagination', [function () {
 	return {
 		restrict: 'A',
 		transclude: true,
@@ -323,4 +323,4 @@ ngApp.directive('gridTablePagination', function ($rootScope, $filter, $parse) {
 
 		}
 	};
-});
+}]);
