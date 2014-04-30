@@ -24,6 +24,7 @@
 	<script src="assets/js/filters/filters.js"></script>
 
 	<script src="assets/js/directives/table.js"></script>
+	<script src="assets/js/directives/loading-indicator.js"></script>
 
 	<script src="assets/js/controllers/main.js"></script>
 	<script src="assets/js/controllers/invoices.js"></script>
@@ -58,9 +59,7 @@
 					</nav>
 				</div>
 				<nav class="sub-nav">
-					<ul class="wrapper">
-						<li></li>
-					</ul>
+					
 				</nav>
 			</header>
 
@@ -73,131 +72,95 @@
 			</div>
 			<section class="layout wrapper" ng-controller="InvoicesCtrl">
 				<section class="layout cols-1">
-					<article class="plain">
-						<h2>View and Pay Your Latest Ebills and Track Your Payments.</h2>
-						<p>Listed below are your last 18 bills that have not yet been filled with the most recent bill displayed first. You can use the filters to narrow down your search and sort the order of your bills. You can pay the bill by pressing the "Pay" button found in the action column. To help keep your site manageable, you also have the option of filing the bills.</p>
-					</article>
+					
+					<h2>View and Pay Your Latest Ebills and Track Your Payments.</h2>
+					<p>Listed below are your last 18 bills that have not yet been filled with the most recent bill displayed first. You can use the filters to narrow down your search and sort the order of your bills. You can pay the bill by pressing the "Pay" button found in the action column. To help keep your site manageable, you also have the option of filing the bills.</p>
+				
 					<article class="grey-box utility-providers">
-						<div class="clearfix">
-							<h3>Utility Providers</h3>
+						<header>
+							<h2>Utility Providers</h2>
+						</header>
+						<div class="content">
 							<p>Some of your services are billed directly by your utility provider. You can find your invoices by following the links below.</p>
-							<div class="logos">
-								<a href="#"><img src="assets/i/logo-ppl.png" alt="PPL Logo" /></a>
-							</div>
-							<div class="logos">
-								<a href="#"><img src="assets/i/logo-peco.png" alt="PECO Logo" /></a>
+							<div class="clearfix">
+								<div class="logos">
+									<a href="#"><img src="assets/i/logo-ppl.png" alt="PPL Logo" /></a>
+								</div>
+								<div class="logos">
+									<a href="#"><img src="assets/i/logo-peco.png" alt="PECO Logo" /></a>
+								</div>
 							</div>
 						</div>
 					</article>
 					<article class="grey-box">
-						<h3>My Invoices</h3>
-						<div class="account-selector">
-							<form>
-								<div class="group">
-									<div class="item">
-										<label>Service Type:</label>
-										<select ng-model="filters.serviceType" ng-options="item.value as item.name for item in filtersList.serviceType">
-											<option value="">All</option>
-										</select>
-										<!-- <select ng-model="filters.serviceType">
-											<option value="">All</option>
-											<option ng-value="item.value" ng-repeat="item in filtersList.serviceType">{{ item.name }}</option>
-										</select> -->
+						<header>
+							<h2>My Invoices</h2>
+						</header>
+						<div class="content" loading-indicator>
+							<div class="filters">
+								<form>
+									<div class="group">
+										<div class="item">
+											<label>Service Type:</label>
+											<select ng-model="filters.serviceType" ng-options="item.value as item.name for item in filtersList.serviceType">
+												<option value="">All</option>
+											</select>
+										</div>
+										<div class="item">
+											<label>Account:</label>
+											<select ng-model="filters.accountNumber" ng-options="item.value as item.name for item in filtersList.accountNumber">
+												<option value="">All</option>
+											</select>
+										</div>
+										<div class="item">
+											<label>Status:</label>
+											<select ng-model="filters.isPaid" ng-options="item.value as item.name for item in filtersList.isPaid">
+												<option value="">All</option>
+											</select>
+										</div>
+										<div class="actions" ng-show="isFiltered()">
+											<p><a href="" ng-click="resetFilters()">Reset Filters</a></p>
+										</div>
 									</div>
-									<div class="item">
-										<label>Account:</label>
-										<select ng-model="filters.accountNumber" ng-options="item.value as item.name for item in filtersList.accountNumber">
-											<option value="">All</option>
-										</select>
-										<!-- <select ng-model="filters.accountNumber">
-											<option value="">All</option>
-											<option ng-value="item.value" ng-repeat="item in filtersList.accountNumber">{{ item.name }}</option>
-										</select> -->
-									</div>
-									<div class="item">
-										<label>Status:</label>
-										<select ng-model="filters.isPaid" ng-options="item.value as item.name for item in filtersList.isPaid">
-											<option value="">All</option>
-										</select>
-										<!-- <select ng-model="filters.isPaid">
-											<option value="">All</option>
-											<option ng-value="item.value" ng-repeat="item in filtersList.isPaid">{{ item.name }}</option>
-										</select> -->
-									</div>
-									<div class="actions" ng-show="isFiltered()">
-										<p><a href="" ng-click="resetFilters()">Reset Filters</a></p>
-									</div>
-								</div>
-							</form>
-						</div>
-						<div class="stretch">
-							<table grid-table ng-model="invoicesTable">
-								<thead>
-									<tr>
-										<th style="width:30px;">
-											<input type="checkbox" ng-model="toggleCheckbox" ng-change="toggleCheckboxes()" />
-										</th>
-										<th ng-repeat="item in table.columnList | filter:{isVisible: true} | orderBy:'displayOrder'" ng-click="updateSort(item)">
-											<span>{{ item.displayName }}</span>
-										</th>
-									</tr>
-								</thead>
-								<tbody ng-repeat="item in table.valuesToShow">
-									<tr>
-										<td class="align-center" style="width:30px;"><input type="checkbox" ng-model="item.selected" /></td>
-										<td ng-show="showColumn('accountNumber')">{{item.accountNumber}}</td>
-										<td ng-show="showColumn('serviceType')" ng-switch on="item.serviceType">
-											<i ng-switch-when="HomeLife Services" class="icon-homelife-services"></i>
-											<i ng-switch-when="Utility" class="icon-utility"></i>
-											{{item.serviceType}}
-										</td>
-										<td ng-show="showColumn('invoiceNumber')">{{item.invoiceNumber}}</td>
-										<td ng-show="showColumn('invoiceAmount')">{{item.invoiceAmount}}</td>
-										<td ng-show="showColumn('dueDate')">{{item.dueDate}}</td>
-										<td ng-show="showColumn('action')">
-											<button class="secondary">View PDF</button>
-											<button class="submit" ng-show="!item.isPaid">Pay</button>
-										</td>
-									</tr>
-									<tr ng-show="hasHiddenColumns()">
-										<td colspan="{{table.columnList.length+1}}">
-											<p ng-repeat="column in table.columnList | filter:{isVisible: false}" ng-switch on="column.field">
-												<span ng-switch-when="action">
-													<button class="secondary">View PDF</button>
-													<button class="submit" ng-show="!item.isPaid">Pay</button>
-												</span>
-												<span ng-switch-default>
-													<strong>{{ column.displayName }}:</strong> {{ item[column.field] }}
-												</span>
-											</p>
-										</td>
-									</tr>
-								</tbody>
-								<tfoot>
-									<tr>
-										<td colspan="{{table.columnList.length+1}}" class="pagination">
-											<div class="page-size">
-												Show: <select ng-model="table.pagingOptions.pageSize" ng-change="updatePageSize()">
-													<option ng-repeat="size in table.pagingOptions.pageSizes">{{ size }}</option>
-												</select>
-												entries.
-											</div>
-											<p class="showing">
-												Showing <strong>{{ table.startPos }}-{{ table.endPos }}</strong> of <strong>{{ table.pagingOptions.totalServerItems }}</strong> Items
-											</p>
-											<ul class="page-selection">
-												<li ng-class="{disabled: table.pagingOptions.currentPage == 1}"><a href="" ng-click="firstPage()">First <i class="icon-blue-rectangle"></i></a></li>
-												<li ng-class="{disabled: table.pagingOptions.currentPage == 1}"><a href="" ng-click="previousPage()">Previous <i class="icon-blue-rectangle"></i></a></li>
-												<li ng-repeat="number in table.pageRange" class="page-number">
-													<a ng-class="{selected: number == table.pagingOptions.currentPage}" ng-click="selectPageNumber(number)" ng-bind="number"></a>
-												</li>
-												<li ng-class="{disabled: table.pagingOptions.currentPage == table.pageNum}"><a href="" ng-click="nextPage()">Next <i class="icon-blue-rectangle"></i></a></li>
-												<li ng-class="{disabled: table.pagingOptions.currentPage == table.pageNum}"><a href="" ng-click="lastPage()">Last <i class="icon-blue-rectangle"></i></a></li>
-											</div>
-										</td>
-									</tr>
-								</tfoot>
-							</table>
+								</form>
+							</div>
+							<div class="stretch">
+								<table grid-table ng-model="invoicesTable">
+									<thead grid-table-header></thead>
+									<tbody ng-repeat="item in table.valuesToShow">
+										<tr>
+											<td class="align-center" style="width:30px;"><input type="checkbox" ng-model="item.selected" /></td>
+											<td ng-show="showColumn('accountNumber')">{{item.accountNumber}}</td>
+											<td ng-show="showColumn('serviceType')" ng-switch on="item.serviceType">
+												<i ng-switch-when="HomeLife Services" class="icon-homelife-services"></i>
+												<i ng-switch-when="Utility" class="icon-utility"></i>
+												{{item.serviceType}}
+											</td>
+											<td ng-show="showColumn('invoiceNumber')">{{item.invoiceNumber}}</td>
+											<td ng-show="showColumn('invoiceAmount')">{{item.invoiceAmount}}</td>
+											<td ng-show="showColumn('dueDate')">{{item.dueDate}}</td>
+											<td ng-show="showColumn('action')">
+												<button class="secondary">View PDF</button>
+												<button class="submit" ng-show="!item.isPaid">Pay</button>
+											</td>
+										</tr>
+										<tr ng-show="hasHiddenColumns()">
+											<td colspan="{{table.columnList.length+1}}">
+												<p ng-repeat="column in table.columnList | filter:{isVisible: false}" ng-switch on="column.field">
+													<span ng-switch-when="action">
+														<button class="secondary">View PDF</button>
+														<button class="submit" ng-show="!item.isPaid">Pay</button>
+													</span>
+													<span ng-switch-default>
+														<strong>{{ column.displayName }}:</strong> {{ item[column.field] }}
+													</span>
+												</p>
+											</td>
+										</tr>
+									</tbody>
+									<tfoot grid-table-pagination></tfoot>
+								</table>
+							</div>
 						</div>
 					</article>
 				</section>

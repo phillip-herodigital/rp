@@ -1,5 +1,5 @@
 // Main Navigation
-ngApp.directive('mainNav', function ($rootScope, $filter, $parse) {
+ngApp.directive('mainNav', [function () {
 	return {
 		restrict: 'A',
 		//scope: true,
@@ -22,4 +22,4 @@ ngApp.directive('mainNav', function ($rootScope, $filter, $parse) {
 
 		}
 	};
-});
+}]);

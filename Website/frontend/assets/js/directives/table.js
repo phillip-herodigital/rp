@@ -1,10 +1,12 @@
 // General use data table
-ngApp.directive('gridTable', function ($rootScope, $filter, $parse) {
+ngApp.directive('gridTable', ['$filter', function ($filter) {
 	return {
 		restrict: 'A',
 		scope: true,
 		require: '?ngModel',
-		// The linking function will add behavior to the template
+		// transclude: true,
+		// template: '<div><div ng-transclude></div><div grid-table-pagination></div></div>',
+		//replace: true,
 		link: function(scope, element, attrs, model) {
 			// Table data
 
@@ -46,8 +48,8 @@ ngApp.directive('gridTable', function ($rootScope, $filter, $parse) {
 			scope.breakpoint = '';
 
 			var init = function(data) {
-				
-				if (typeof data != "object") {
+
+				if (typeof data != "object" || _.isEmpty(data)) {
 					// Maybe want to hide the table, or something?
 					// Also, might want to make this a better check... Just because it's an object, doesn't mean it's in the right format. :)
 					return;
@@ -77,6 +79,13 @@ ngApp.directive('gridTable', function ($rootScope, $filter, $parse) {
 				scope.sortOrder = false;
 
 				updatePagingOptions(scope.table.pagingOptions);
+
+				scope.$watch(function() {
+					return window.innerWidth;
+				}, function(newValue, oldValue) {
+					scope.setBreakpoint(newValue);
+				});
+
 			};
 
 			// Range function similar to Python range
@@ -252,16 +261,66 @@ ngApp.directive('gridTable', function ($rootScope, $filter, $parse) {
 				}
 			});
 
-			scope.$watch(function() {
-				return window.innerWidth;
-			}, function(newValue, oldValue) {
-				scope.setBreakpoint(newValue);
-			});
-
 			window.onresize = function() {
 				scope.$apply();
 			};
 
 		}
 	};
-});
+}]);
+
+ngApp.directive('gridTableHeader', [function () {
+	return {
+		restrict: 'A',
+		transclude: true,
+		template:	'<thead>' +
+					'	<tr>' +
+					'		<th style="width:30px;">' +
+					'			<input type="checkbox" ng-model="toggleCheckbox" ng-change="toggleCheckboxes()" />' +
+					'		</th>' +
+					'		<th ng-repeat="item in table.columnList | filter:{isVisible: true} | orderBy:\'displayOrder\'" ng-click="updateSort(item)">' +
+					'			<span>{{ item.displayName }}</span>' +
+					'		</th>' +
+					'	</tr>' +
+					'</thead>',
+		replace: true,
+		link: function(scope, element, attrs, model) {
+
+		}
+	};
+}]);
+
+ngApp.directive('gridTablePagination', [function () {
+	return {
+		restrict: 'A',
+		transclude: true,
+		template:	'<tfoot>' +
+					'	<tr>' +
+					'		<td colspan="{{table.columnList.length+1}}" class="pagination">' +
+					'			<div class="page-size">' +
+					'				Show: <select ng-model="table.pagingOptions.pageSize" ng-change="updatePageSize()">' +
+					'					<option ng-repeat="size in table.pagingOptions.pageSizes">{{ size }}</option>' +
+					'				</select>' +
+					'				entries.' +
+					'			</div>' +
+					'			<p class="showing">' +
+					'				Showing <strong>{{ table.startPos }}-{{ table.endPos }}</strong> of <strong>{{ table.pagingOptions.totalServerItems }}</strong> Items' +
+					'			</p>' +
+					'			<ul class="page-selection">' +
+					'				<li ng-class="{disabled: table.pagingOptions.currentPage == 1}"><a href="" ng-click="firstPage()"><i class="icon-arrow-left"></i> First</a></li>' +
+					'				<li ng-class="{disabled: table.pagingOptions.currentPage == 1}"><a href="" ng-click="previousPage()"><i class="icon-arrow-left"></i> Previous</a></li>' +
+					'				<li ng-repeat="number in table.pageRange" class="page-number">' +
+					'					<a ng-class="{selected: number == table.pagingOptions.currentPage}" ng-click="selectPageNumber(number)" ng-bind="number"></a>' +
+					'				</li>' +
+					'				<li ng-class="{disabled: table.pagingOptions.currentPage == table.pageNum}"><a href="" ng-click="nextPage()">Next <i class="icon-arrow-right"></i></a></li>' +
+					'				<li ng-class="{disabled: table.pagingOptions.currentPage == table.pageNum}"><a href="" ng-click="lastPage()">Last <i class="icon-arrow-right"></i></a></li>' +
+					'			</div>' +
+					'		</td>' +
+					'	</tr>' +
+					'</tfoot>',
+		replace: true,
+		link: function(scope, element, attrs, model) {
+
+		}
+	};
+}]);
