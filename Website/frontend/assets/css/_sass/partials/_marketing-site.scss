@@ -361,13 +361,19 @@ article.director-list {
 				color: #0971ce;
 				text-transform: none;
 			}
-			@include breakpoint (medium) {
+			@include breakpoint(medium) {
 				width: 33%;
 			}
 			@include breakpoint(small) {
 				width: 50%;
 			}
 		}
+	}
+}
+article.leader {
+	p.img {
+		float: left;
+		margin-right: 2em;
 	}
 }
 
@@ -399,6 +405,22 @@ article.donate {
 				margin: 60px 20px 0 0;
 				button {
 					background-color: #77bc1f;
+				}
+			}
+			@include breakpoint(medium) {
+				.promo {
+					width: 33%;
+					margin: 0 0 0 15px;
+				}
+			}
+			@include breakpoint(small) {
+				.promo {
+					width: 90%;
+					margin-left: 0;
+				}
+				.donate-button {
+					float: left;
+					margin: 0;
 				}
 			}
 		}
@@ -566,36 +588,12 @@ article.press {
 		margin-top: 60px;
 		padding-bottom: 40px;
 		border-bottom: 3px solid #f0f0f0;
-		h2 {
-			margin-bottom: 0px;
-		}
+		h2,
 		p.date {
-			margin-top: 0px;
+			margin: 0px;
 		}
 		&:last-child {
 			border-bottom: none;
-		}
-	}
-}
-
-article.choose-state {
-	h2 {
-		text-align: center;
-		margin-bottom: 30px;
-		font-size: 30px;
-	}
-	ul li {
-		list-style-type: none;
-		float: left;
-		width: 14%;
-		text-align: center;
-		padding-top: 30px;
-		&:hover {
-			background-color: #0971ce;
-			border-radius: 10px 10px 0 0;
-			p {
-				color: #fff;
-			}
 		}
 	}
 }
@@ -605,11 +603,9 @@ article.blog {
 		margin-top: 60px;
 		padding-bottom: 40px;
 		border-bottom: 3px solid #f0f0f0;
-		h2 {
-			margin-bottom: 0px;
-		}
+		h2,
 		p.date {
-			margin-top: 0px;
+			margin: 0px;
 		}
 		&:last-child {
 			border-bottom: none;
@@ -622,6 +618,9 @@ article.blog-list {
 	button {
 		padding: 10px 65px;
 		margin-top: 20px;
+		@include breakpoint(small) {
+			width: 100%;
+		}
 	}
 	ul {
 		padding-left: 0;
@@ -667,6 +666,13 @@ article.pay {
 		}
 		button {
 			background-color: #77bc1f;
+			&:hover {
+				color: #000;
+			}
+		}
+		p.forgot a:hover {
+			color: #064985;
+			text-decoration: underline;
 		}
 		span.benefits {
 			color: #0971ce;
@@ -726,7 +732,14 @@ article.contact {
 			margin-top: 0;
 			background-image: url('../i/marketing/contact.png');
 			background-repeat: no-repeat;
-			background-position: 35%;
+			background-position: 160px 0;
+		}
+		@include breakpoint(small-medium) {
+			padding-left: 20px;
+			.grid .col {
+				width: 50%;
+				float: left;
+			}
 		}
 	}
 	div.homelife-services {
@@ -755,13 +768,20 @@ article.contact {
 			margin-top: 0;
 			background-image: url('../i/marketing/contact-dark.png');
 			background-repeat: no-repeat;
-			background-position: 35%;
+			background-position: 160px 0;
 		}
 		p {
 			margin: 0;
 			&.phone {
 				font-size: 22px;
 				margin: 10px 0 0 0;
+			}
+		}
+		@include breakpoint(small-medium) {
+			padding-left: 20px;
+			.grid .col {
+				width: 50%;
+				float: left;
 			}
 		}
 	}
@@ -795,27 +815,30 @@ article.contact {
 			color: #fff;
 			text-align: left;
 		}
-		.grid .col {
-			.item {
-				position: relative;
-				width: 90%;
-				input,
-				select,
-				textarea {
+		.grid {
+			-webkit-border-vertical-spacing: 0px;
+			.col {
+				.item {
+					position: relative;
 					width: 90%;
-					color: #bcbcbc;
+					input,
+					select,
+					textarea {
+						width: 90%;
+						color: #bcbcbc;
+					}
+					.asterisk {
+						font-size: 24px;
+						vertical-align: middle;
+					}
 				}
-				.asterisk {
-					font-size: 24px;
-					vertical-align: middle;
+				.group .item {
+					width: 44%;
 				}
-			}
-			.group .item {
-				width: 44%;
-			}
-			button {
-				background-color: #ebebeb;
-				color: #000;
+				button {
+					background-color: #ebebeb;
+					color: #000;
+				}
 			}
 		}
 	}
@@ -823,16 +846,14 @@ article.contact {
 		h2 {
 			text-align: left;
 			position: relative;
-			span.header {
-				background-color: #fff;
-				padding-right: 20px;
-			}
-			span.header-line {
+			.header-line {
 				height: 4px;
+				width: 100%;
 				display: block;
 				background-color: #efefef;
-				position: relative;
-				top: 22px;
+				position: absolute;
+				top: 19px;
+				left: 570px;
 			}
 		}
 		p {
@@ -860,7 +881,7 @@ article.contact-state {
 				p {
 					margin: 0;
 				}
-			}	
+			}
 		}
 		.right-side {
 			float: right;
@@ -878,22 +899,45 @@ article.contact-state {
 					margin: 0;
 				}
 			}
+			@include breakpoint(small) {
+				float: left;	
+			}
 		}
 	}
 	.quality-control {
 		margin-bottom: 35px;
+		position: relative;
 		p {
 			margin: 20px 0 30px 0;
 		}
 		h2 {
 			margin: 0;
 		}
+		.header-line {
+			height: 4px;
+			width: 100%;
+			display: block;
+			background-color: #efefef;
+			position: absolute;
+			top: 14px;
+			left: 240px;
+		}
 	}
 	.emergency {
 		margin-bottom: 30px;
+		position: relative;
 		h3 {
 			color: #0971ce;
 			margin: 50px 0 10px 0;
+		}
+		.header-line {
+			height: 4px;
+			width: 100%;
+			display: block;
+			background-color: #efefef;
+			position: absolute;
+			top: 14px;
+			left: 280px;
 		}
 		.grid .col {
 			.company {
@@ -933,16 +977,21 @@ article.faq {
 				background-image: url('../i/marketing/expand.png');
 				background-repeat: no-repeat;
 				background-position: 98%;
+				margin-left: 55px;
 				a {
 					color: #696969;
 					display: block;
-					padding: 10px;
+					padding: 15px;
+					@include breakpoint(small) {
+						width: 93%;	
+					}
 				}
-				.q {
-					font-size: 26px;
-					color: #bbb;
-					margin-right: 10px;
-				}
+			}
+			.q {
+				float: left;
+				font-size: 26px;
+				margin: 10px 0px 0 10px;
+				color: #bbb;
 			}
 			.panel-content {
 				color: #0971ce;
@@ -1017,6 +1066,10 @@ article.homelife-services {
 			background-color: #fff;
 			padding: 35px;
 			position: relative;
+			width: 100%;
+			@include breakpoint(small) {
+				padding: 5px;
+			}
 			h3 {
 				color: #0971ce;
 				span {
@@ -1026,6 +1079,9 @@ article.homelife-services {
 			button a {
 				color: #fff;
 			}
+			h4 {
+				font-size: 17px;
+			}
 			ul.services {
 				list-style-type: none;
 				padding-left: 0;
@@ -1033,7 +1089,7 @@ article.homelife-services {
 				li {
 					text-align: center;
 					float: left;
-					margin-right: 40px;
+					margin-right: 39px;
 					input {
 						margin-top: 15px;
 					}
@@ -1088,6 +1144,28 @@ article.homelife-services {
 					text-align: center;
 					margin-top: 10px;
 				}
+				.line-top {
+					height: 40px;
+					width: 1px;
+					background-color: #ddd;
+					float: left;
+					margin-left: 50%;
+					margin-top: -50px;
+				}
+				.line-bottom {
+					height: 40px;
+					width: 1px;
+					background-color: #ddd;
+					float: left;
+					margin-left: 50%;
+					margin-top: 13px;
+				}
+				@include breakpoint(medium) {
+					.line-top,
+					.line-bottom {
+						display: none;
+					}
+				}
 			}
 			.pricing {
 				text-align: center;
@@ -1131,9 +1209,59 @@ article.homelife-services {
 					-webkit-transform: rotate(90deg);
 				}
 			}
+			@include breakpoint(small-medium) {
+				ul.services {
+					width: 100%;
+					li {
+						width: 30%;
+						margin-right: 20px;
+						&.support:after {
+							right: -10%;
+						}
+					}
+				}
+				.savings {
+					margin-left: 30%;
+					margin-right: 20px;
+				}
+				.pricing {
+					float: left;
+				}
+			}
+			@include breakpoint(small) {
+				ul.services li {
+					margin-right: 8px;
+					&.identity:after {
+						content: " ";
+					}
+					&.support {
+						&:after {
+							content: " ";
+						}
+						h4 {
+							width: 67%;
+							margin: 10px auto;
+						}
+					}
+					&.monitoring h4 {
+						width: 91%;
+						margin: 10px auto;
+					}
+				}
+				.savings {
+					margin: 15px 0 0 10%;
+				}
+				.pricing {
+					float: right;
+					margin: 0 10% 0 0;
+				}
+			}
 		}
 		&.platinum {
 			background-color: #0971ce;
+			h3 {
+				width: 85%;
+			}
 			.savings {
 				background-color: #0971ce;
 				p {
@@ -1181,11 +1309,15 @@ article.homelife-services {
 						.pricing {
 							text-align: center;
 							float: none;
+							margin: 0;
 							.price .dollars {
 								font-size: 24px;
 							}
 							button {
 								background-color: #0971ce;
+								&:hover {
+									background-color: #6b6b6b;
+								}
 							}
 						}
 					}
@@ -1206,4 +1338,300 @@ article.states-enroll {
 article.full-width-image {
 	height: 300px;
 	background-size: cover; 
+}
+
+article.identity-theft {
+	h2,
+	h3 {
+		text-transform: none;
+	}
+	.semibold {
+		font-weight: 600;
+	}
+	ul.credit-bureaus {
+		padding-left: 0;
+		li {
+			float: left;
+			width: 33%;
+			list-style-type: none;
+			text-align: center;
+		}
+	}
+}
+
+article.why-energy {
+	.paragraph {
+		margin: 20px auto;
+		width: 60%;
+		text-align: center;
+		span {
+			color: #ac1f2d;
+		}
+		&.promo {
+			font-size: 20px;	
+		}
+		&.joining-info {
+			p button {
+				background-color: #ac1f2d;
+				&:hover {
+					background-color: #6b6b6b;
+				}
+				a {
+					color: #fff;
+				}
+			}
+		}
+	}
+	.banner {
+		background-image: url('../i/marketing/why-energy-banner.jpg');
+		background-repeat: no-repeat;
+		background-position: center;
+		height: 300px;
+	}
+}
+
+article.commercial-quote {
+	.text {
+		border-left: 3px solid #ffa409;
+		width: 50%;
+		background-color: #0971ce;
+		.inner {
+			color: #fff;
+			h2 {
+				color: #fff;
+				font-size: 24px;
+			}
+			button {
+				background-color: #fff;
+				a {
+					color: #333;
+				}
+				&:hover {
+					background-color: #ebebeb
+				}
+			}
+			input,
+			select {
+				width: 100%;
+			}
+		}
+	}
+}
+
+article.commercial-account-banner {
+	.account-banner {
+		background-color: #0971ce;
+		p {
+			padding: 15px 0;
+			button {
+				background-color: #fff;
+				color: #0971ce;
+				margin: auto;
+				display: block;
+				&:hover {
+					background-color: #ccc;
+				}
+			}
+		}
+	}
+}
+
+article.free-energy {
+	margin-top: 20px;
+	img {
+		margin: auto;
+		display: block;
+	}
+	h3 {
+		text-transform: none;
+		margin-bottom: 30px;
+	}
+	.picture-promo {
+		background-image: url('../i/marketing/free-energy.jpg');
+		background-repeat: no-repeat;
+		background-position: center;
+		.promo-content {
+			color: #fff;
+			width: 335px;
+			margin: auto;
+			padding: 320px 0 50px 0;
+			h2 {
+				color: #fff;
+			}
+		}
+	}
+}
+
+article.service-icons {
+	.grid .col {
+		padding: 0;
+	}
+}
+
+article.terms-of-use {
+	.write-to {
+		width: 70%;
+		text-align: center;
+		margin: auto;
+	}
+	ul {
+		padding-left: 80px;
+		li {
+			list-style-type: none;
+		}
+		h3 {
+			color: #0971ce;
+		}
+		span {
+			text-transform: uppercase;
+		}
+	}
+}
+
+article.energy-certificates {
+	background-image: url('../i/marketing/energy-certificates.jpg');
+	background-repeat: no-repeat;
+	background-position: center;
+	height: 350px;
+	border-top: 3px solid #7eb24c;
+	border-bottom: 3px solid #862134;
+	div {
+		width: 335px;
+		float: right;
+		margin: 50px 50px 0 0;
+		button {
+			background-color: #2c3e50;
+			box-shadow: 0 2px #7eb24c;
+			&:hover {
+				background-color: #6b6b6b;
+			}
+		}
+	}
+}
+
+article.ignite-associate {
+	text-align: center;
+	margin: 50px 0;
+	button {
+		background-color: #a9222d;
+		&:hover {
+			background-color: #6b6b6b;
+		}
+	}
+}
+
+article.independent-associate-chart {
+	text-align: center;
+	h2 {
+		background-color: #ac1f2d;
+		padding: 20px 0;
+		font-size: 24px;
+		color: #fff;
+	}
+	img {
+		margin: 20px 0;
+		max-width: 100%;
+	}
+}
+
+article.residual-income {
+	h3 {
+		float: left;
+		margin-right: 10px;
+	}
+	img {
+		max-width: 100%;
+	}
+	.footnotes {
+		font-size: 10px;
+	}
+	button {
+		background-color: #a9222d;
+		float: right;
+		&:hover {
+			background-color: #6b6b6b;
+		}
+	}
+}
+
+article.electricity-gas {
+	p {
+		font-size: 22px;
+		text-align: center;
+		width: 80%;
+		margin-right: auto;
+		margin-left: auto;
+		span {
+			color: #0971ce;
+		}
+		button {
+			margin: auto;
+			background-color: #76bd1d;
+			font-size: 24px;
+			padding: 10px;
+			&:hover {
+				background-color: #6b6b6b;
+			}
+		}
+	}
+	hr {
+		border: 2px solid #f0f0f0;
+		margin: 40px 0;
+	}
+	img {
+		max-width: 100%;
+		padding-bottom: 25px;
+	}
+	.gas-chart {
+		border-bottom: 3px solid #76bd1d;
+	}
+}
+
+article.privacy-policy {
+	.intro-paragraph {
+		text-align: center;
+	}
+	hr {
+		width: 60%;
+		border: 1px solid #f0f0f0;
+		margin: 40px auto;
+	}
+	h2 {
+		margin-top: 30px;
+	}
+	.indented {
+		margin-left: 40px;
+		ul {
+			list-style: none;
+			li {
+				background-image: url('../i/marketing/blue-bullet.png');
+				background-repeat: no-repeat;
+				background-position: 0px 5px;
+				padding-left: 25px;
+			}
+		}
+	}
+}
+
+article.earn-free-energy {
+	.intro-paragraph {
+		text-align: center;
+	}
+	p {
+		font-size: 26px;
+	}
+	.full-image {
+		background-image: url('../i/marketing/free-energy-start-earning.jpg');
+		background-repeat: no-repeat;
+		background-position: center;
+		height: 300px;
+		border-top: 3px solid #999;
+	}
+	.enhance {
+		text-align: center;
+		h2 {
+			font-size: 40px;
+			margin-top: 40px;
+		}
+	}
 }

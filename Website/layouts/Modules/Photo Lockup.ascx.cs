@@ -34,6 +34,8 @@ namespace Website.layouts.Modules
                 var backgroundColorField = CurrentContextItem.Fields["Background Color"];
                 var accentColorField = CurrentContextItem.Fields["Accent Color"];
                 var borderColorField = CurrentContextItem.Fields["Border Color"];
+                var backgroundImagePositionField = CurrentContextItem.Fields["Background Image Position"];
+                var customCssClassField = CurrentContextItem.Fields["Custom CSS Class"];
 
                 if (imageOnRightField != null && imageOnRightField.Checked)
                 {
@@ -56,6 +58,16 @@ namespace Website.layouts.Modules
                 {
                     classes.Add("border border-" + colors.First(c => c.Name == borderColorField.Value).Fields["CSS Class"].Value);
                 }
+                if (customCssClassField != null && !string.IsNullOrEmpty(customCssClassField.Value))
+                {
+                    classes.Add(customCssClassField.Value);
+                }
+
+                var backgroundImagePositions = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Background Image Positions").Children;
+                if (backgroundImagePositions.Any(c => c.Name == backgroundImagePositionField.Value))
+                {
+                    classes.Add(backgroundImagePositions.First(c => c.Name == backgroundImagePositionField.Value).Fields["CSS Class"].Value);
+                }
 
                 return string.Join(" ", classes);
             }
@@ -65,6 +77,23 @@ namespace Website.layouts.Modules
             if (Sitecore.Context.PageMode.IsPageEditorEditing)
             {
                 divEditMode.Visible = true;
+            }
+
+            var controlMapping = new Dictionary<string, string>()
+            {
+                {"h2Header", "Header"},
+                {"h3Header", "Sub Header"},
+                {"blkQuote", "Quote"},
+                {"pCite", "Citation"},
+                {"pContent", "Content"},
+            };
+            foreach (var key in controlMapping.Keys)
+            {
+                var control = this.FindControl(key);
+                if (control != null)
+                {
+                    control.Visible = !string.IsNullOrEmpty(FieldRenderer.Render(CurrentContextItem, controlMapping[key]));
+                }
             }
         }
     }
