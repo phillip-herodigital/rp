@@ -1,5 +1,5 @@
 // Loading Message
-ngApp.directive('loadingIndicator', function ($rootScope, $filter, $parse) {
+ngApp.directive('loadingIndicator', [function () {
 	return {
 		restrict: 'A',
 		transclude: true,
@@ -9,4 +9,4 @@ ngApp.directive('loadingIndicator', function ($rootScope, $filter, $parse) {
 
 		}
 	};
-});
+}]);

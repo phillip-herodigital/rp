@@ -77,7 +77,26 @@ article {
 		padding: 10px;
 		border-bottom: 1px solid #ddd;
 		//margin: 0px -15px 15px;
-		margin: -15px;
+		margin: -15px -15px 15px -15px;
+		.group {
+			.item {
+				width: auto;
+				margin-top: 8px;
+				label {
+					display: inline-block;
+					margin-right: 5px;
+				}
+				select {
+					width: auto;
+				}
+			}
+		}
+	}
+	.filters {
+		background: #fbfbfb;
+		padding: 10px;
+		border-bottom: 1px solid #ddd;
+		margin: -15px -15px 0 -15px;
 		.group {
 			.item {
 				width: auto;
