@@ -1177,6 +1177,7 @@
     <Content Include="frontend\assets\js\libs\respond\README.md" />
     <Content Include="Views\layouts\HTML Layout.cshtml" />
     <Content Include="Views\Components\Header.cshtml" />
+    <Content Include="App_Config\Include\StreamEnergy.Initialization.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
