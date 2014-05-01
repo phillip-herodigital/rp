@@ -37,8 +37,19 @@ namespace StreamEnergy.Sitecore
             if (field.TargetItem != null)
                 return field.TargetItem;
 
+            if (string.IsNullOrEmpty(originalField.Value))
+                return null;
+
             var item = global::Sitecore.Context.Database.GetItem(originalField.Source + "/" + originalField.Value);
             return item;
+        }
+
+        public static string SafeFieldValue(this Item target, string fieldName)
+        {
+            if (target == null)
+                return null;
+
+            return target[fieldName];
         }
 
         public static StreamEnergyHelper MyStream(this HtmlHelper htmlHelper)
