@@ -143,6 +143,7 @@
     <Compile Include="Sitecore\InitializeUnityContainer.cs" />
     <Compile Include="Sitecore\RegisterMvcFactories.cs" />
     <Compile Include="Sitecore\RegisterPlatformBundles.cs" />
+    <Compile Include="Sitecore\StreamEnergyHelper.cs" />
     <Compile Include="Unity\Container.cs" />
     <Compile Include="Unity\IContainerSetupStrategy.cs" />
     <Compile Include="Unity\InheritanceSetupStrategy.cs" />
