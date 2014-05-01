@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 
-namespace StreamEnergy.Sitecore
+namespace StreamEnergy.Extensions
 {
     public class StreamEnergyHelper
     {

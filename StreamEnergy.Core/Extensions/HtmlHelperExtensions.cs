@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
-namespace StreamEnergy.Sitecore
+namespace StreamEnergy.Extensions
 {
     public static class HtmlHelperExtensions
     {
@@ -44,43 +44,9 @@ namespace StreamEnergy.Sitecore
             return item;
         }
 
-        public static bool? IsChecked(this Item sitecoreItem, string fieldName)
-        {
-            var field = (CheckboxField)sitecoreItem.Fields[fieldName];
-            if (field == null)
-                return null;
-            return field.Checked;
-        }
-
-        public static string SafeFieldValue(this Item target, string fieldName)
-        {
-            if (target == null)
-                return null;
-
-            return target[fieldName];
-        }
-
         public static StreamEnergyHelper MyStream(this HtmlHelper htmlHelper)
         {
             return new StreamEnergyHelper(htmlHelper);
-        }
-
-        /// <summary>
-        /// Prepends a prefix if the target is not null or empty
-        /// </summary>
-        /// <param name="target">The target string in question</param>
-        /// <param name="prefix">The prefix</param>
-        /// <returns>The prefix and target, or the original target if it was null or empty</returns>
-        public static string Prefix(this string target, string prefix)
-        {
-            if (!string.IsNullOrEmpty(target))
-                return prefix + target;
-            return target;
-        }
-
-        public static IHtmlString AsHtml(this string target)
-        {
-            return new HtmlString(target);
         }
     }
 }
