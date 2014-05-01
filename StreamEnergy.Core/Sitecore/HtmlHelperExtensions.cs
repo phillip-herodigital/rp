@@ -44,6 +44,14 @@ namespace StreamEnergy.Sitecore
             return item;
         }
 
+        public static bool? IsChecked(this Item sitecoreItem, string fieldName)
+        {
+            var field = (CheckboxField)sitecoreItem.Fields[fieldName];
+            if (field == null)
+                return null;
+            return field.Checked;
+        }
+
         public static string SafeFieldValue(this Item target, string fieldName)
         {
             if (target == null)

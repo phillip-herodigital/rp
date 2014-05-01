@@ -1,44 +1,19 @@
 ﻿@{
+    var sc = Html.Sitecore();
+   
     var classes = new List<string>();
 
-    var imageOnRightField = (Sitecore.Data.Fields.CheckboxField)Html.Sitecore().CurrentItem.Fields["Image on Right"];
-    var backgroundColorField = Html.Sitecore().CurrentItem.Fields["Background Color"];
-    var accentColorField = Html.Sitecore().CurrentItem.Fields["Accent Color"];
-    var borderColorField = Html.Sitecore().CurrentItem.Fields["Border Color"];
-    var backgroundImagePositionField = Html.Sitecore().CurrentItem.Fields["Background Image Position"];
-    var customCssClassField = Html.Sitecore().CurrentItem.Fields["Custom CSS Class"];
-
-    if (imageOnRightField != null && imageOnRightField.Checked)
+    if (sc.CurrentItem.IsChecked("Image on Right") ?? false)
     {
         classes.Add("right-img");
     }
 
-    var colors = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Colors").Children;
+    classes.Add(sc.LookupItem("Background Color").SafeFieldValue("CSS Class").Prefix("bg-"));
+    classes.Add(sc.LookupItem("Accent Color").SafeFieldValue("CSS Class").Prefix("accent-"));
 
-    if (colors.Any(c => c.Name == backgroundColorField.Value))
-    {
-        classes.Add("bg-" + colors.First(c => c.Name == backgroundColorField.Value).Fields["CSS Class"].Value);
-    }
-
-    if (colors.Any(c => c.Name == accentColorField.Value))
-    {
-        classes.Add("accent-" + colors.First(c => c.Name == accentColorField.Value).Fields["CSS Class"].Value);
-    }
-
-    if (colors.Any(c => c.Name == borderColorField.Value))
-    {
-        classes.Add("border border-" + colors.First(c => c.Name == borderColorField.Value).Fields["CSS Class"].Value);
-    }
-    if (customCssClassField != null && !string.IsNullOrEmpty(customCssClassField.Value))
-    {
-        classes.Add(customCssClassField.Value);
-    }
-
-    var backgroundImagePositions = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Background Image Positions").Children;
-    if (backgroundImagePositions.Any(c => c.Name == backgroundImagePositionField.Value))
-    {
-        classes.Add(backgroundImagePositions.First(c => c.Name == backgroundImagePositionField.Value).Fields["CSS Class"].Value);
-    }
+    classes.Add(sc.LookupItem("Border Color").SafeFieldValue("CSS Class").Prefix("border border-"));
+    classes.Add(sc.CurrentItem["Custom Css Class"]);
+    classes.Add(sc.LookupItem("Background Image Position").SafeFieldValue("CSS Class"));
 }
 <article class="marketing photoLockup @string.Join(" ", classes)">
     <div class="photo" style="@Html.AsBackgroundStyle("Background Image")">
