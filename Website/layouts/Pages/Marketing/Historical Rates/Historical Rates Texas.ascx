@@ -37,6 +37,8 @@
                         <tr>
                             <td id="tdDate" runat="server"></td>
                         </tr>
+                    </thead>
+                    <tbody>
                         <tr>
                             <td id="tdKwh500Label" runat="server"></td>
                             <td id="tdKwh1000Label" runat="server"></td>
@@ -67,7 +69,7 @@
                             <td id="tdKwh1000TNMPPrice" runat="server"></td>
                             <td id="tdKwh2000TNMPPrice" runat="server"></td>
                         </tr>
-                    </thead>
+                    </tbody>
                 </table>
             </ItemTemplate>
         </asp:Repeater>
@@ -103,6 +105,8 @@
                         <tr>
                             <td id="tdDate" runat="server"></td>
                         </tr>
+                    </thead>
+                    <tbody>
                         <tr>
                             <td id="tdKwh500Label" runat="server"></td>
                             <td id="tdKwh1000Label" runat="server"></td>
@@ -133,7 +137,7 @@
                             <td id="tdKwh1000TNMPPrice" runat="server"></td>
                             <td id="tdKwh2000TNMPPrice" runat="server"></td>
                         </tr>
-                    </thead>
+                    </tbody>
                 </table>
             </ItemTemplate>
         </asp:Repeater>
@@ -169,6 +173,8 @@
                         <tr>
                             <td id="tdDate" runat="server"></td>
                         </tr>
+                    </thead>
+                    <tbody>
                         <tr>
                             <td id="tdKwh500Label" runat="server"></td>
                             <td id="tdKwh1000Label" runat="server"></td>
@@ -199,7 +205,7 @@
                             <td id="tdKwh1000TNMPPrice" runat="server"></td>
                             <td id="tdKwh2000TNMPPrice" runat="server"></td>
                         </tr>
-                    </thead>
+                    </tbody>
                 </table>
             </ItemTemplate>
         </asp:Repeater>
@@ -235,6 +241,8 @@
                         <tr>
                             <td id="tdDate" runat="server"></td>
                         </tr>
+                    </thead>
+                    <tbody>
                         <tr>
                             <td id="tdKwh500Label" runat="server"></td>
                             <td id="tdKwh1000Label" runat="server"></td>
@@ -265,7 +273,7 @@
                             <td id="tdKwh1000TNMPPrice" runat="server"></td>
                             <td id="tdKwh2000TNMPPrice" runat="server"></td>
                         </tr>
-                    </thead>
+                    </tbody>
                 </table>
             </ItemTemplate>
         </asp:Repeater>
