@@ -140,7 +140,9 @@
     <Compile Include="Sitecore\HtmlHelperExtensions.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="StreamEnergyModule.cs" />
+    <Compile Include="Sitecore\InitializeUnityContainer.cs" />
+    <Compile Include="Sitecore\RegisterMvcFactories.cs" />
+    <Compile Include="Sitecore\RegisterPlatformBundles.cs" />
     <Compile Include="Unity\Container.cs" />
     <Compile Include="Unity\IContainerSetupStrategy.cs" />
     <Compile Include="Unity\InheritanceSetupStrategy.cs" />

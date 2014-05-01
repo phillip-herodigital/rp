@@ -1,0 +1,31 @@
+﻿using Sitecore;
+using Sitecore.Pipelines;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Mvc;
+
+namespace StreamEnergy.Sitecore
+{
+    public class RegisterMvcFactories
+    {
+        [UsedImplicitly]
+        public virtual void Process(PipelineArgs args)
+        {
+            SetupMvcInversionOfControl();
+        }
+
+        private static void SetupMvcInversionOfControl()
+        {
+            var container = StreamEnergy.Unity.Container.Instance.Unity;
+
+            ControllerBuilder.Current.SetControllerFactory(new Mvc.ControllerFactory(ControllerBuilder.Current.GetControllerFactory(), container));
+            DependencyResolver.SetResolver(new global::Unity.Mvc5.UnityDependencyResolver(container));
+            GlobalConfiguration.Configuration.DependencyResolver = new global::Unity.WebApi.UnityDependencyResolver(container);
+        }
+
+    }
+}

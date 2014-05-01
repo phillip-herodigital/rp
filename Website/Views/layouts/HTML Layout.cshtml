@@ -1,6 +1,4 @@
-﻿@using Sitecore.Data.Fields;
-@using Sitecore.Resources.Media;
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <!--[if IE 8]>         <html ng-app="ngApp" class="no-js ie8 lt-ie10 lt-ie9"> <![endif]-->
 <!--[if IE 9]>         <html ng-app="ngApp" class="no-js ie9 lt-ie10"> <![endif]-->
 <!--[if gt IE 8]><!-->
@@ -14,21 +12,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <link rel="shortcut icon" type="image/ico" href="/frontend/assets/i/favicon.ico" />
-    <link href="/frontend/assets/css/global.css" rel="stylesheet" />
-
-    <script src="/frontend/assets/js/libs/modernizr/modernizr.js"></script>
-    <script src="/frontend/assets/js/libs/angular/angular.min.js"></script>
-    <script src="/frontend/assets/js/libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-    <script src="/frontend/assets/js/libs/angular-ui-utils/ui-utils.min.js"></script>
-
-    <script src="/frontend/assets/js/app.js"></script>
-
-    <script src="/frontend/assets/js/directives/main-nav.js"></script>
-    <script src="/frontend/assets/js/directives/state-tabs.js"></script>
-
-    <script src="/frontend/assets/js/controllers/main.js"></script>
-    <script src="/frontend/assets/js/controllers/marketing.js"></script>
-    <script src="/frontend/assets/js/controllers/loginHorizontal.js"></script>
+    @Styles.Render("~/bundles/Styles")
+    @Scripts.Render("~/bundles/Scripts")
 
     <script type="text/javascript" src="//use.typekit.net/hag0zvs.js"></script>
     <script type="text/javascript">try { Typekit.load(); } catch (e) { }</script>
