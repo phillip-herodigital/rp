@@ -1,10 +1,12 @@
 // General use data table
-ngApp.directive('gridTable', function ($rootScope, $filter, $parse) {
+ngApp.directive('gridTable', ['$filter', function ($filter) {
 	return {
 		restrict: 'A',
 		scope: true,
 		require: '?ngModel',
-		// The linking function will add behavior to the template
+		// transclude: true,
+		// template: '<div><div ng-transclude></div><div grid-table-pagination></div></div>',
+		//replace: true,
 		link: function(scope, element, attrs, model) {
 			// Table data
 
@@ -43,8 +45,6 @@ ngApp.directive('gridTable', function ($rootScope, $filter, $parse) {
 				}, true);
 			}
 
-			scope.breakpoint = '';
-
 			var init = function(data) {
 
 				if (typeof data != "object" || _.isEmpty(data)) {
@@ -73,17 +73,22 @@ ngApp.directive('gridTable', function ($rootScope, $filter, $parse) {
 					currentPage: scope.table.pagingOptions.currentPage || 1                                   // the current page
 				});
 
+				scope.expand = [];
+				for (var i = 0, len = scope.table.values.length; i < len; i++) {
+					scope.expand.push(false);
+				}
+
 				scope.sortFieldName = '';
 				scope.sortOrder = false;
 
 				updatePagingOptions(scope.table.pagingOptions);
 
-				scope.$watch(function() {
-					return window.innerWidth;
-				}, function(newValue, oldValue) {
-					scope.setBreakpoint(newValue);
-				});
+				scope.toggleResponsiveColumns(scope.breakpoint);
 
+			};
+
+			var checkForHiddenColumns = function() {
+				scope.hasHiddenColumns = $filter('filter')(scope.table.columnList, { 'isVisible': false }).length ? true : false;
 			};
 
 			// Range function similar to Python range
@@ -246,12 +251,14 @@ ngApp.directive('gridTable', function ($rootScope, $filter, $parse) {
 				_.each(scope.table.columnList, function(col) {
 					col.isVisible = !_.contains(col.hide, breakpoint);
 				});
+				checkForHiddenColumns();
 			};
 
-			scope.hasHiddenColumns = function() {
-				var len = $filter('filter')(scope.table.columnList, { 'isVisible': false }).length;
-				return len ? true : false;
-			};
+			scope.$watch(function() {
+				return window.innerWidth;
+			}, function(newValue, oldValue) {
+				scope.setBreakpoint(newValue);
+			});
 
 			scope.$watch('breakpoint', function(newValue, oldValue) {
 				if (newValue !== oldValue) {
@@ -265,4 +272,61 @@ ngApp.directive('gridTable', function ($rootScope, $filter, $parse) {
 
 		}
 	};
-});
+}]);
+
+ngApp.directive('gridTableHeader', [function () {
+	return {
+		restrict: 'A',
+		transclude: true,
+		template:	'<thead>' +
+					'	<tr>' +
+					'		<th style="width:30px;" ng-show="hasCheckboxes">' +
+					'			<input type="checkbox" ng-model="toggleCheckbox" ng-change="toggleCheckboxes()" />' +
+					'		</th>' +
+					'		<th style="width:30px;" ng-show="hasHiddenColumns"></th>' +
+					'		<th ng-repeat="item in table.columnList | filter:{isVisible: true} | orderBy:\'displayOrder\'" ng-click="updateSort(item)">' +
+					'			<span>{{ item.displayName }}</span>' +
+					'		</th>' +
+					'	</tr>' +
+					'</thead>',
+		replace: true,
+		link: function(scope, element, attrs, model) {
+			scope.hasCheckboxes = attrs.checkboxes || false;
+		}
+	};
+}]);
+
+ngApp.directive('gridTablePagination', [function () {
+	return {
+		restrict: 'A',
+		transclude: true,
+		template:	'<tfoot>' +
+					'	<tr>' +
+					'		<td colspan="{{table.columnList.length+1}}" class="pagination">' +
+					'			<div class="page-size">' +
+					'				Show: <select ng-model="table.pagingOptions.pageSize" ng-change="updatePageSize()">' +
+					'					<option ng-repeat="size in table.pagingOptions.pageSizes">{{ size }}</option>' +
+					'				</select>' +
+					'				entries.' +
+					'			</div>' +
+					'			<p class="showing">' +
+					'				Showing <strong>{{ table.startPos }}-{{ table.endPos }}</strong> of <strong>{{ table.pagingOptions.totalServerItems }}</strong> Items' +
+					'			</p>' +
+					'			<ul class="page-selection">' +
+					'				<li ng-class="{disabled: table.pagingOptions.currentPage == 1}"><a href="" ng-click="firstPage()"><i class="icon-arrow-left"></i> First</a></li>' +
+					'				<li ng-class="{disabled: table.pagingOptions.currentPage == 1}"><a href="" ng-click="previousPage()"><i class="icon-arrow-left"></i> Previous</a></li>' +
+					'				<li ng-repeat="number in table.pageRange" class="page-number">' +
+					'					<a ng-class="{selected: number == table.pagingOptions.currentPage}" ng-click="selectPageNumber(number)" ng-bind="number"></a>' +
+					'				</li>' +
+					'				<li ng-class="{disabled: table.pagingOptions.currentPage == table.pageNum}"><a href="" ng-click="nextPage()">Next <i class="icon-arrow-right"></i></a></li>' +
+					'				<li ng-class="{disabled: table.pagingOptions.currentPage == table.pageNum}"><a href="" ng-click="lastPage()">Last <i class="icon-arrow-right"></i></a></li>' +
+					'			</div>' +
+					'		</td>' +
+					'	</tr>' +
+					'</tfoot>',
+		replace: true,
+		link: function(scope, element, attrs, model) {
+
+		}
+	};
+}]);
