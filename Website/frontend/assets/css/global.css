@@ -798,7 +798,17 @@ table tbody {
 table tbody tr {
   background-color: #fff;
 }
-/* line 36, _sass/partials/_tables.scss */
+/* line 34, _sass/partials/_tables.scss */
+table tbody td.opened {
+  border-left: 2px solid #0971ce;
+  border-bottom: 0;
+}
+/* line 39, _sass/partials/_tables.scss */
+table tbody tr.details td:first-child {
+  border: 0;
+  border-left: 2px solid #0971ce;
+}
+/* line 46, _sass/partials/_tables.scss */
 table tfoot td {
   border: 0;
 }
