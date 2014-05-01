@@ -14,7 +14,7 @@
                 @{
                     foreach (var num in new string[] { "Promo One", "Promo Two", "Promo Three", "Promo Four" })
                     {
-                        <div class="col @Html.MyStream().LookupReferencedFieldValue(num + " Accent", "CSS Class", "accent-")">
+                        <div class="col @Html.Sitecore().LookupItem(num + " Accent")["Css Class"].Prefix("accent-").AsHtml()">
                             @Html.Sitecore().Field(num + " Image")
                             <h4>@Html.Sitecore().Field(num + " Header")</h4>
                             <p>@Html.Sitecore().Field(num + " Content")</p>

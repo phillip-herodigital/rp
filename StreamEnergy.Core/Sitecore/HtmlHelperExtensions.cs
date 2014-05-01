@@ -27,7 +27,7 @@ namespace StreamEnergy.Sitecore
             return htmlHelper.Raw("");
         }
 
-        public static Item Lookup(this SitecoreHelper sitecoreHelper, string fieldName)
+        public static Item LookupItem(this SitecoreHelper sitecoreHelper, string fieldName)
         {
             var originalField = sitecoreHelper.CurrentItem.Fields[fieldName];
             if (originalField == null)
@@ -46,5 +46,22 @@ namespace StreamEnergy.Sitecore
             return new StreamEnergyHelper(htmlHelper);
         }
 
+        /// <summary>
+        /// Prepends a prefix if the target is not null or empty
+        /// </summary>
+        /// <param name="target">The target string in question</param>
+        /// <param name="prefix">The prefix</param>
+        /// <returns>The prefix and target, or the original target if it was null or empty</returns>
+        public static string Prefix(this string target, string prefix)
+        {
+            if (!string.IsNullOrEmpty(target))
+                return prefix + target;
+            return target;
+        }
+
+        public static IHtmlString AsHtml(this string target)
+        {
+            return new HtmlString(target);
+        }
     }
 }
