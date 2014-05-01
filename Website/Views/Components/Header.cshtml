@@ -23,7 +23,7 @@
                 <ul class="wrapper">
                     @foreach (var item in target)
                     {
-                        <li ng-mouseover="showsubnav(@item.SubNavNum)" ng-mouseout="hidesubnav()" ng-class="{ selected subnav==@item.SubNavNum }" class="@item.CssClass">@Html.Sitecore().Field("Navigation Link", item.Item)</li>
+                        <li ng-mouseover="showSubnav(@item.SubNavNum)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav==@item.SubNavNum }" class="@item.CssClass">@Html.Sitecore().Field("Navigation Link", item.Item)</li>
                     }
                 </ul>
             </nav>

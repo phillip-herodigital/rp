@@ -12,17 +12,9 @@
             }
             <div class="grid @divClass">
                 @{
-                    var colors = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Colors").Children;
                     foreach (var num in new string[] { "Promo One", "Promo Two", "Promo Three", "Promo Four" })
                     {
-                        var accentColorField = Html.Sitecore().CurrentItem.Fields[num + " Accent"];
-
-                        var classes = "";
-                        if (colors.Any(c => c.Name == accentColorField.Value))
-                        {
-                            classes = "accent-" + colors.First(c => c.Name == accentColorField.Value).Fields["CSS Class"].Value;
-                        }
-                        <div class="col @classes">
+                        <div class="col @Html.Sitecore().LookupItem(num + " Accent").SafeFieldValue("Css Class").Prefix("accent-")">
                             @Html.Sitecore().Field(num + " Image")
                             <h4>@Html.Sitecore().Field(num + " Header")</h4>
                             <p>@Html.Sitecore().Field(num + " Content")</p>
