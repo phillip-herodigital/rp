@@ -5386,3 +5386,47 @@ article.earn-free-energy .enhance h2 {
   font-size: 40px;
   margin-top: 40px;
 }
+
+/* line 2, _sass/partials/_enrollment.scss */
+.enrollment .site-header {
+  height: 57px;
+}
+/* line 4, _sass/partials/_enrollment.scss */
+.enrollment .site-header > .wrapper, .enrollment article.state-tabs .site-header > ul.tabs-nav, article.state-tabs .enrollment .site-header > ul.tabs-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  background-image: url('../i/bg/header-mobile.png?1398270080');
+  background-repeat: repeat-x;
+  border-bottom: 1px solid #1697ff;
+  z-index: 2;
+  height: 57px;
+}
+@media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
+  /* line 4, _sass/partials/_enrollment.scss */
+  .enrollment .site-header > .wrapper, .enrollment article.state-tabs .site-header > ul.tabs-nav, article.state-tabs .enrollment .site-header > ul.tabs-nav {
+    background-image: url('../i/bg2x/header-mobile.png?1398270080');
+    background-size: 11.5px 11.5px;
+  }
+}
+/* line 16, _sass/partials/_enrollment.scss */
+.enrollment .site-header .logo {
+  display: inline-block;
+  width: 84px;
+  height: 80px;
+  background-size: 84px 80px;
+  background-image: url('../i/logo.png?1398270080');
+  background-repeat: no-repeat;
+  text-indent: -5000px;
+  position: absolute;
+  left: 50%;
+  top: 11px;
+  margin-top: 0;
+  margin-left: -41.75px;
+}
+/* line 24, _sass/partials/_enrollment.scss */
+.enrollment .site-header .nav-toggle {
+  margin-top: 22px;
+}

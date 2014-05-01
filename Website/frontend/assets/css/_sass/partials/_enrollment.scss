@@ -1,0 +1,28 @@
+.enrollment {
+		.site-header {
+		height: 57px;
+		> .wrapper {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			background-color: #fff;
+			@include retina-background("header-mobile.png");
+			background-repeat: repeat-x;
+			border-bottom: 1px solid #1697ff;
+			z-index: 2;
+			height: 57px;
+		}
+		.logo {
+			@include image-replace("logo.png", true);
+			position: absolute;
+			left: 50%;
+			top: 11px;
+			margin-top: 0;
+			margin-left: (image-width("logo.png") / 2) / 2 * -1;
+		}
+		.nav-toggle {
+			margin-top: 22px;
+		}
+	}
+}
