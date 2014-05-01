@@ -379,7 +379,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\HelloWorldController.cs" />
     <Compile Include="layouts\HTML Layout.aspx.cs">
       <DependentUpon>HTML Layout.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1171,8 +1170,6 @@
     <Content Include="App_Config\Include\Sitecore.Speak.ItemWebApi.config" />
     <Content Include="App_Config\Include\Sitecore.Speak.Mvc.config" />
     <Content Include="Views\web.config" />
-    <Content Include="Views\HelloWorld\Index.cshtml" />
-    <Content Include="Views\layouts\sample.cshtml" />
     <Content Include="frontend\assets\js\libs\respond\.bower.json" />
     <Content Include="frontend\assets\js\libs\respond\bower.json" />
     <Content Include="frontend\assets\js\libs\respond\LICENSE-MIT" />
@@ -1187,6 +1184,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Controllers\" />
     <Folder Include="Models\" />
     <Folder Include="Scripts\" />
     <Folder Include="Views\Shared\" />
