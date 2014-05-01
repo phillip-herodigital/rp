@@ -1186,6 +1186,8 @@
     <Content Include="Views\Components\Header.cshtml" />
     <Content Include="Views\Components\States Enroll.cshtml" />
     <Content Include="App_Config\Include\StreamEnergy.Initialization.config" />
+    <Content Include="Views\Pages\Marketing\FAQ\FAQ Landing.cshtml" />
+    <Content Include="Views\Pages\Marketing\FAQ\FAQ Listing.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
