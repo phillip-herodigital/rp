@@ -18,10 +18,10 @@ namespace StreamEnergy.Sitecore
         {
             item = item ?? htmlHelper.Sitecore().CurrentItem;
 
-            var imageField = (ImageField)item.Fields["Banner Image"];
+            var imageField = (ImageField)item.Fields[fieldName];
             if (imageField != null && imageField.MediaItem != null)
             {
-                return htmlHelper.Raw("background-image: url(" + MediaManager.GetMediaUrl(imageField.MediaItem) + ")");
+                return htmlHelper.Raw("background-image: url('" + MediaManager.GetMediaUrl(imageField.MediaItem) + "')");
             }
             return htmlHelper.Raw("");
         }
