@@ -1184,6 +1184,7 @@
     <Content Include="Views\Components\Login Horizontal.cshtml" />
     <Content Include="Views\Components\Photo Lockup.cshtml" />
     <Content Include="Views\Components\Header.cshtml" />
+    <Content Include="Views\Components\States Enroll.cshtml" />
     <Content Include="App_Config\Include\StreamEnergy.Initialization.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
