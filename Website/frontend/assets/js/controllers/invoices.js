@@ -113,7 +113,7 @@ ngApp.controller('InvoicesCtrl', ['$scope', '$rootScope', '$http', '$filter', '$
 	$scope.$watch('filters', function(newVal, oldVal) {
 		
 		$scope.filters = $filter('removeNullProps')($scope.filters);
-		if ($scope.invoicesTable.length) {
+		if ($scope.invoicesTable.values.length) {
 			$scope.invoicesTable.values = $filter('filter')($scope.invoicesTableOriginal.values, $scope.filters);
 		}
 
