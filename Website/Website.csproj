@@ -451,6 +451,19 @@
     </Compile>
     <Compile Include="layouts\Pages\Marketing\FAQ\FAQ Listing.ascx.designer.cs">
       <DependentUpon>FAQ Listing.ascx</DependentUpon>
+    <Compile Include="layouts\Pages\Marketing\Historical Rates\Historical Rates Maryland.ascx.cs">
+      <DependentUpon>Historical Rates Maryland.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="layouts\Pages\Marketing\Historical Rates\Historical Rates Maryland.ascx.designer.cs">
+      <DependentUpon>Historical Rates Maryland.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="layouts\Pages\Marketing\Historical Rates\Historical Rates Texas.ascx.cs">
+      <DependentUpon>Historical Rates Texas.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="layouts\Pages\Marketing\Historical Rates\Historical Rates Texas.ascx.designer.cs">
+      <DependentUpon>Historical Rates Texas.ascx</DependentUpon>
     </Compile>
     <Compile Include="layouts\Pages\Marketing\Leaders\Leader Listing.ascx.cs">
       <DependentUpon>Leader Listing.ascx</DependentUpon>
@@ -925,6 +938,8 @@
     <Content Include="layouts\Pages\Marketing\Historical Rates\Historical Rates Texas.ascx" />
     <Content Include="layouts\Pages\Marketing\FAQ\FAQ Landing.ascx" />
     <Content Include="layouts\Pages\Marketing\FAQ\FAQ Listing.ascx" />
+    <Content Include="layouts\Pages\Marketing\Historical Rates\Historical Rates Maryland.ascx" />
+    <Content Include="layouts\Pages\Marketing\Historical Rates\Historical Rates Texas.ascx" />
     <Content Include="layouts\Pages\Marketing\Leaders\Leader Listing.ascx" />
     <Content Include="layouts\Pages\Marketing\Leaders\Leader.ascx" />
     <Content Include="layouts\Pages\Marketing\Leaders\Leaders Landing.ascx" />
