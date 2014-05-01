@@ -45,8 +45,6 @@ ngApp.directive('gridTable', ['$filter', function ($filter) {
 				}, true);
 			}
 
-			scope.breakpoint = '';
-
 			var init = function(data) {
 
 				if (typeof data != "object" || _.isEmpty(data)) {
@@ -75,17 +73,22 @@ ngApp.directive('gridTable', ['$filter', function ($filter) {
 					currentPage: scope.table.pagingOptions.currentPage || 1                                   // the current page
 				});
 
+				scope.expand = [];
+				for (var i = 0, len = scope.table.values.length; i < len; i++) {
+					scope.expand.push(false);
+				}
+
 				scope.sortFieldName = '';
 				scope.sortOrder = false;
 
 				updatePagingOptions(scope.table.pagingOptions);
 
-				scope.$watch(function() {
-					return window.innerWidth;
-				}, function(newValue, oldValue) {
-					scope.setBreakpoint(newValue);
-				});
+				scope.toggleResponsiveColumns(scope.breakpoint);
 
+			};
+
+			var checkForHiddenColumns = function() {
+				scope.hasHiddenColumns = $filter('filter')(scope.table.columnList, { 'isVisible': false }).length ? true : false;
 			};
 
 			// Range function similar to Python range
@@ -248,12 +251,14 @@ ngApp.directive('gridTable', ['$filter', function ($filter) {
 				_.each(scope.table.columnList, function(col) {
 					col.isVisible = !_.contains(col.hide, breakpoint);
 				});
+				checkForHiddenColumns();
 			};
 
-			scope.hasHiddenColumns = function() {
-				var len = $filter('filter')(scope.table.columnList, { 'isVisible': false }).length;
-				return len ? true : false;
-			};
+			scope.$watch(function() {
+				return window.innerWidth;
+			}, function(newValue, oldValue) {
+				scope.setBreakpoint(newValue);
+			});
 
 			scope.$watch('breakpoint', function(newValue, oldValue) {
 				if (newValue !== oldValue) {
@@ -275,9 +280,10 @@ ngApp.directive('gridTableHeader', [function () {
 		transclude: true,
 		template:	'<thead>' +
 					'	<tr>' +
-					'		<th style="width:30px;">' +
+					'		<th style="width:30px;" ng-show="hasCheckboxes">' +
 					'			<input type="checkbox" ng-model="toggleCheckbox" ng-change="toggleCheckboxes()" />' +
 					'		</th>' +
+					'		<th style="width:30px;" ng-show="hasHiddenColumns"></th>' +
 					'		<th ng-repeat="item in table.columnList | filter:{isVisible: true} | orderBy:\'displayOrder\'" ng-click="updateSort(item)">' +
 					'			<span>{{ item.displayName }}</span>' +
 					'		</th>' +
@@ -285,7 +291,7 @@ ngApp.directive('gridTableHeader', [function () {
 					'</thead>',
 		replace: true,
 		link: function(scope, element, attrs, model) {
-
+			scope.hasCheckboxes = attrs.checkboxes || false;
 		}
 	};
 }]);

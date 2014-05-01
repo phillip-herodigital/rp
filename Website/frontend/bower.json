@@ -4,7 +4,7 @@
     "dependencies": {
     	"modernizr": "latest",
     	"jquery": "latest",
-        "angular": "latest",
+        "angular": "~1.2.0",
         "angular-bootstrap": "latest",
         "angular-ui-utils": "latest",
         "underscore": "latest",
