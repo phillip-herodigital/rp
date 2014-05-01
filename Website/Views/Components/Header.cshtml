@@ -1,0 +1,47 @@
+﻿<header class="site-header" main-nav>
+    @{
+        var parentMenu = Html.Sitecore().CurrentItem;
+        var target = from entry in parentMenu.Children.OfType<Sitecore.Data.Items.Item>().Select((item, index) => new { item, index })
+                     let field = (Sitecore.Data.Fields.LinkField)entry.item.Fields["Navigation Link"]
+                     select new
+                     {
+                         Item = entry.item,
+                         CssClass = (field.TargetItem.ID == Sitecore.Context.Item.ID) ? "selected" : "",
+                         SubNavNum = entry.index,
+                         SubNavItems = from Sitecore.Data.Items.Item subitem in entry.item.Children
+                                       select subitem
+                     };
+                     
+        // Included ToArray to force Select to happen once, even though we have two foreach
+        target = target.ToArray();                     
+                     
+        <div class="wrapper">
+            <a href="/" class="logo">Logo</a>
+            <p class="utility"><a href="#">Manage My Account</a></p>
+            <a href="" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
+            <nav class="main-nav">
+                <ul class="wrapper">
+                    @foreach (var item in target)
+                    {
+                        <li ng-mouseover="showsubnav(@item.SubNavNum)" ng-mouseout="hidesubnav()" ng-class="{ selected subnav==@item.SubNavNum }" class="@item.CssClass">@Html.Sitecore().Field("Navigation Link", item.Item)</li>
+                    }
+                </ul>
+            </nav>
+        </div>
+        <nav class="sub-nav">
+            @foreach (var entry in target)
+            {
+                <ul class="wrapper" ng-class="{ hidden: subnav != @entry.SubNavNum }" ng-mouseover="showSubnav(@entry.SubNavNum)" ng-mouseout="hideSubnav()">
+                    @foreach (var subItem in entry.SubNavItems)
+                    {
+                        <li>@Html.Sitecore().Field("Navigation Link", subItem)</li>
+                    }
+                    @if (!entry.SubNavItems.Any())
+                    {
+                        <li><a>&nbsp;</a></li>
+                    }
+                </ul>
+            }
+        </nav>
+    }
+</header>

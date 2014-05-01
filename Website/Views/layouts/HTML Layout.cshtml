@@ -44,62 +44,11 @@
             </ul>
         </nav>
         <div class="page-content">
-            <header class="site-header" main-nav>
-                @{
-                    var target = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Navigation/Anonymous").Children.OfType<Sitecore.Data.Items.Item>().Select((item, index) => new { item, index });
-                    <div class="wrapper">
-                        <a href="/" class="logo">Logo</a>
-                        <p class="utility"><a href="#">Manage My Account</a></p>
-                        <a href="" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
-                        <nav class="main-nav">
-                            <ul class="wrapper">
-                                @foreach (var item in from entry in target
-                                                     let field = (Sitecore.Data.Fields.LinkField)entry.item.Fields["Navigation Link"]
-                                                     select new
-                                                     {
-                                                         Item = entry.item,
-                                                         URL = field.Url,
-                                                         Text = field.Text,
-                                                         CssClass = (field.TargetItem.ID == Sitecore.Context.Item.ID) ? "selected" : "",
-                                                         SubNavNum = entry.index,
-                                                         SubNavAttributes = entry.item.HasChildren ? string.Format(@"ng-mouseover=""showSubnav({0})"" ng-mouseout=""hideSubnav()"" ng-class=""{{ selected: subnav == {0} }}""", entry.index) : "",
-                                                     })
-                                {
-                                    <li @Html.Raw(item.SubNavAttributes) class="@item.CssClass">@Html.Sitecore().Field("Navigation Link", item.Item)</li>
-                                }
-                            </ul>
-                        </nav>
-                    </div>
-                    <nav class="sub-nav">
-                        @foreach (var entry in (from entry in target
-                                               where entry.item.HasChildren
-                                               select new
-                                               {
-                                                   SubNavNum = entry.index,
-                                                   SubNavItems = from Sitecore.Data.Items.Item subitem in entry.item.Children
-                                                                 select subitem
-                                               }))
-                        {
-                            <ul class="wrapper" ng-class="{ hidden: subnav != @entry.SubNavNum }" ng-mouseover="showSubnav(@entry.SubNavNum)" ng-mouseout="hideSubnav()">
-                                @foreach (var subItem in entry.SubNavItems)
-                                {
-                                    <li>@Html.Sitecore().Field("Navigation Link", subItem)</li>
-                                }
-                                @if (!entry.SubNavItems.Any())
-                                {
-                                    <li><a>&nbsp;</a></li>
-                                }
-                            </ul>
-                        }
-                    </nav>
-                }
-            </header>
-
+            @Html.Sitecore().Placeholder("header")
 
             <div class="banner marketing" style="@Html.AsBackgroundStyle("Banner Image")">
 
             </div>
-
 
             <section class="layout cols-1">
 

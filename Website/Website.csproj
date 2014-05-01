@@ -379,10 +379,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\HelloWorldController.cs" />
-    <Compile Include="Global.asax.cs">
-      <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
     <Compile Include="layouts\HTML Layout.aspx.cs">
       <DependentUpon>HTML Layout.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -497,7 +493,6 @@
     <Content Include="App_Browsers\Form.browser" />
     <Content Include="App_Browsers\XamlPage.browser" />
     <Content Include="Data\license.xml" />
-    <Content Include="Default.aspx" />
     <Content Include="default.css" />
     <Content Include="default.js" />
     <Content Include="frontend\.bowerrc" />
@@ -1175,8 +1170,6 @@
     <Content Include="App_Config\Include\Sitecore.Speak.ItemWebApi.config" />
     <Content Include="App_Config\Include\Sitecore.Speak.Mvc.config" />
     <Content Include="Views\web.config" />
-    <Content Include="Views\HelloWorld\Index.cshtml" />
-    <Content Include="Views\layouts\sample.cshtml" />
     <Content Include="frontend\assets\js\libs\respond\.bower.json" />
     <Content Include="frontend\assets\js\libs\respond\bower.json" />
     <Content Include="frontend\assets\js\libs\respond\LICENSE-MIT" />
@@ -1190,6 +1183,7 @@
     <Content Include="Views\Components\Intro.cshtml" />
     <Content Include="Views\Components\Login Horizontal.cshtml" />
     <Content Include="Views\Components\Photo Lockup.cshtml" />
+    <Content Include="Views\Components\Header.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1198,6 +1192,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Controllers\" />
     <Folder Include="Models\" />
     <Folder Include="Scripts\" />
     <Folder Include="Views\Shared\" />
