@@ -128,22 +128,25 @@
 									<thead grid-table-header></thead>
 									<tbody ng-repeat="item in table.valuesToShow">
 										<tr>
-											<td class="align-center" style="width:30px;"><input type="checkbox" ng-model="item.selected" /></td>
-											<td ng-show="showColumn('accountNumber')">{{item.accountNumber}}</td>
+											<!--<td class="align-center" style="width:30px;"><input type="checkbox" ng-model="item.selected" /></td>-->
+											<td ng-show="hasHiddenColumns" ng-click="expandInnerTable($index)" ng-class="{'arrow-down': expand[$index], 'arrow-right': !expand[$index]}">
+												<i ng-class="{'icon-arrow-expanded': expand[$index], 'icon-arrow-collapsed': !expand[$index]}"></i>
+											</td>
+											<td ng-show="showColumn('accountNumber')">{{ item.accountNumber }}</td>
 											<td ng-show="showColumn('serviceType')" ng-switch on="item.serviceType">
 												<i ng-switch-when="HomeLife Services" class="icon-homelife-services"></i>
 												<i ng-switch-when="Utility" class="icon-utility"></i>
-												{{item.serviceType}}
+												{{ item.serviceType }}
 											</td>
-											<td ng-show="showColumn('invoiceNumber')">{{item.invoiceNumber}}</td>
-											<td ng-show="showColumn('invoiceAmount')">{{item.invoiceAmount}}</td>
-											<td ng-show="showColumn('dueDate')">{{item.dueDate}}</td>
+											<td ng-show="showColumn('invoiceNumber')">{{ item.invoiceNumber }}</td>
+											<td ng-show="showColumn('invoiceAmount')">{{ item.invoiceAmount }}</td>
+											<td ng-show="showColumn('dueDate')">{{ item.dueDate }}</td>
 											<td ng-show="showColumn('action')">
 												<button class="secondary">View PDF</button>
 												<button class="submit" ng-show="!item.isPaid">Pay</button>
 											</td>
 										</tr>
-										<tr ng-show="hasHiddenColumns()">
+										<tr ng-show="hasHiddenColumns && expand[$index] == true">
 											<td colspan="{{table.columnList.length+1}}">
 												<p ng-repeat="column in table.columnList | filter:{isVisible: false}" ng-switch on="column.field">
 													<span ng-switch-when="action">
