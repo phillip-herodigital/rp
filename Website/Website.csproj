@@ -1176,6 +1176,7 @@
     <Content Include="frontend\assets\js\libs\respond\package.json" />
     <Content Include="frontend\assets\js\libs\respond\README.md" />
     <Content Include="Views\layouts\HTML Layout.cshtml" />
+    <Content Include="Views\Components\Header.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
