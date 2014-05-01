@@ -1175,7 +1175,14 @@
     <Content Include="frontend\assets\js\libs\respond\LICENSE-MIT" />
     <Content Include="frontend\assets\js\libs\respond\package.json" />
     <Content Include="frontend\assets\js\libs\respond\README.md" />
+    <Content Include="Views\Components\Footer.cshtml" />
     <Content Include="Views\layouts\HTML Layout.cshtml" />
+    <Content Include="Views\Components\Full HTML.cshtml" />
+    <Content Include="Views\Components\Full Width Image.cshtml" />
+    <Content Include="Views\Components\Grid Promos.cshtml" />
+    <Content Include="Views\Components\Intro.cshtml" />
+    <Content Include="Views\Components\Login Horizontal.cshtml" />
+    <Content Include="Views\Components\Photo Lockup.cshtml" />
     <Content Include="Views\Components\Header.cshtml" />
     <Content Include="App_Config\Include\StreamEnergy.Initialization.config" />
     <None Include="Web.Debug.config">

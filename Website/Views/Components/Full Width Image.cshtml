@@ -1,0 +1,8 @@
+﻿<article class="marketing full-width-image" style="@Html.AsBackgroundStyle("Image")">
+    @{
+        if (Sitecore.Context.PageMode.IsPageEditorEditing)
+        {
+            @Html.Sitecore().Field("Image")
+        }
+    }
+</article>

@@ -1,0 +1,20 @@
+﻿@{
+    var articleClass = "";
+
+    var accentColorField = Html.Sitecore().CurrentItem.Fields["Accent Color"];
+    var colors = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Colors").Children;
+
+    if (colors.Any(c => c.Name == accentColorField.Value))
+    {
+        articleClass = "accent-" + colors.First(c => c.Name == accentColorField.Value).Fields["CSS Class"].Value;
+    }
+}
+<article class="marketing marketingIntro wrapper @articleClass">
+    <p class="intro">@Html.Sitecore().Field("Intro")</p>
+    <hr />
+    <div class="body">
+        @Html.Sitecore().Field("Body")
+
+        <p>@Html.Sitecore().Field("Action Button")</p>
+    </div>
+</article>
