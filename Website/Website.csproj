@@ -380,9 +380,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\HelloWorldController.cs" />
-    <Compile Include="Global.asax.cs">
-      <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
     <Compile Include="layouts\HTML Layout.aspx.cs">
       <DependentUpon>HTML Layout.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -497,7 +494,6 @@
     <Content Include="App_Browsers\Form.browser" />
     <Content Include="App_Browsers\XamlPage.browser" />
     <Content Include="Data\license.xml" />
-    <Content Include="Default.aspx" />
     <Content Include="default.css" />
     <Content Include="default.js" />
     <Content Include="frontend\.bowerrc" />
