@@ -473,6 +473,7 @@
     </Compile>
     <Compile Include="layouts\Pages\Marketing\FAQ\FAQ Listing.ascx.designer.cs">
       <DependentUpon>FAQ Listing.ascx</DependentUpon>
+    </Compile>
     <Compile Include="layouts\Pages\Marketing\Historical Rates\Historical Rates Maryland.ascx.cs">
       <DependentUpon>Historical Rates Maryland.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
