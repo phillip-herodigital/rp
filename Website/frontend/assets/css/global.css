@@ -5049,34 +5049,38 @@ article.identity-theft ul.credit-bureaus li {
   list-style-type: none;
   text-align: center;
 }
+/* line 1354, _sass/partials/_marketing-site.scss */
+article.identity-theft .phishing-image img {
+  max-width: 100%;
+}
 
-/* line 1357, _sass/partials/_marketing-site.scss */
+/* line 1360, _sass/partials/_marketing-site.scss */
 article.why-energy .paragraph {
   margin: 20px auto;
   width: 60%;
   text-align: center;
 }
-/* line 1361, _sass/partials/_marketing-site.scss */
+/* line 1364, _sass/partials/_marketing-site.scss */
 article.why-energy .paragraph span {
   color: #ac1f2d;
 }
-/* line 1364, _sass/partials/_marketing-site.scss */
+/* line 1367, _sass/partials/_marketing-site.scss */
 article.why-energy .paragraph.promo {
   font-size: 20px;
 }
-/* line 1368, _sass/partials/_marketing-site.scss */
+/* line 1371, _sass/partials/_marketing-site.scss */
 article.why-energy .paragraph.joining-info p button {
   background-color: #ac1f2d;
 }
-/* line 1370, _sass/partials/_marketing-site.scss */
+/* line 1373, _sass/partials/_marketing-site.scss */
 article.why-energy .paragraph.joining-info p button:hover {
   background-color: #6b6b6b;
 }
-/* line 1373, _sass/partials/_marketing-site.scss */
+/* line 1376, _sass/partials/_marketing-site.scss */
 article.why-energy .paragraph.joining-info p button a {
   color: #fff;
 }
-/* line 1379, _sass/partials/_marketing-site.scss */
+/* line 1382, _sass/partials/_marketing-site.scss */
 article.why-energy .banner {
   background-image: url("../i/marketing/why-energy-banner.jpg");
   background-repeat: no-repeat;
@@ -5084,120 +5088,124 @@ article.why-energy .banner {
   height: 300px;
 }
 
-/* line 1388, _sass/partials/_marketing-site.scss */
+/* line 1391, _sass/partials/_marketing-site.scss */
 article.commercial-quote .text {
   border-left: 3px solid #ffa409;
   width: 50%;
   background-color: #0971ce;
 }
-/* line 1392, _sass/partials/_marketing-site.scss */
+/* line 1395, _sass/partials/_marketing-site.scss */
 article.commercial-quote .text .inner {
   color: #fff;
 }
-/* line 1394, _sass/partials/_marketing-site.scss */
+/* line 1397, _sass/partials/_marketing-site.scss */
 article.commercial-quote .text .inner h2 {
   color: #fff;
   font-size: 24px;
 }
-/* line 1398, _sass/partials/_marketing-site.scss */
+/* line 1401, _sass/partials/_marketing-site.scss */
 article.commercial-quote .text .inner button {
   background-color: #fff;
 }
-/* line 1400, _sass/partials/_marketing-site.scss */
+/* line 1403, _sass/partials/_marketing-site.scss */
 article.commercial-quote .text .inner button a {
   color: #333;
 }
-/* line 1403, _sass/partials/_marketing-site.scss */
+/* line 1406, _sass/partials/_marketing-site.scss */
 article.commercial-quote .text .inner button:hover {
   background-color: #ebebeb;
 }
-/* line 1407, _sass/partials/_marketing-site.scss */
+/* line 1410, _sass/partials/_marketing-site.scss */
 article.commercial-quote .text .inner input,
 article.commercial-quote .text .inner select {
   width: 100%;
 }
 
-/* line 1416, _sass/partials/_marketing-site.scss */
+/* line 1419, _sass/partials/_marketing-site.scss */
 article.commercial-account-banner .account-banner {
   background-color: #0971ce;
 }
-/* line 1418, _sass/partials/_marketing-site.scss */
+/* line 1421, _sass/partials/_marketing-site.scss */
 article.commercial-account-banner .account-banner p {
   padding: 15px 0;
 }
-/* line 1420, _sass/partials/_marketing-site.scss */
+/* line 1423, _sass/partials/_marketing-site.scss */
 article.commercial-account-banner .account-banner p button {
   background-color: #fff;
   color: #0971ce;
   margin: auto;
   display: block;
 }
-/* line 1425, _sass/partials/_marketing-site.scss */
+/* line 1428, _sass/partials/_marketing-site.scss */
 article.commercial-account-banner .account-banner p button:hover {
   background-color: #ccc;
 }
 
-/* line 1433, _sass/partials/_marketing-site.scss */
+/* line 1436, _sass/partials/_marketing-site.scss */
 article.free-energy {
   margin-top: 20px;
 }
-/* line 1435, _sass/partials/_marketing-site.scss */
+/* line 1438, _sass/partials/_marketing-site.scss */
 article.free-energy img {
   margin: auto;
   display: block;
 }
-/* line 1439, _sass/partials/_marketing-site.scss */
+/* line 1442, _sass/partials/_marketing-site.scss */
 article.free-energy h3 {
   text-transform: none;
   margin-bottom: 30px;
 }
-/* line 1443, _sass/partials/_marketing-site.scss */
+/* line 1446, _sass/partials/_marketing-site.scss */
 article.free-energy .picture-promo {
   background-image: url("../i/marketing/free-energy.jpg");
   background-repeat: no-repeat;
   background-position: center;
 }
-/* line 1447, _sass/partials/_marketing-site.scss */
+/* line 1450, _sass/partials/_marketing-site.scss */
 article.free-energy .picture-promo .promo-content {
   color: #fff;
   width: 335px;
   margin: auto;
   padding: 320px 0 50px 0;
 }
-/* line 1452, _sass/partials/_marketing-site.scss */
+/* line 1455, _sass/partials/_marketing-site.scss */
 article.free-energy .picture-promo .promo-content h2 {
   color: #fff;
 }
 
-/* line 1460, _sass/partials/_marketing-site.scss */
+/* line 1463, _sass/partials/_marketing-site.scss */
 article.service-icons .grid .col {
   padding: 0;
 }
 
-/* line 1466, _sass/partials/_marketing-site.scss */
+/* line 1469, _sass/partials/_marketing-site.scss */
 article.terms-of-use .write-to {
   width: 70%;
   text-align: center;
   margin: auto;
 }
-/* line 1471, _sass/partials/_marketing-site.scss */
+/* line 1474, _sass/partials/_marketing-site.scss */
 article.terms-of-use ul {
   padding-left: 80px;
 }
-/* line 1473, _sass/partials/_marketing-site.scss */
+/* line 1476, _sass/partials/_marketing-site.scss */
 article.terms-of-use ul li {
   list-style-type: none;
 }
-/* line 1476, _sass/partials/_marketing-site.scss */
+/* line 1478, _sass/partials/_marketing-site.scss */
+article.terms-of-use ul li p {
+  margin-left: 20px;
+}
+/* line 1482, _sass/partials/_marketing-site.scss */
 article.terms-of-use ul h3 {
   color: #0971ce;
 }
-/* line 1479, _sass/partials/_marketing-site.scss */
+/* line 1485, _sass/partials/_marketing-site.scss */
 article.terms-of-use ul span {
   text-transform: uppercase;
 }
 
-/* line 1485, _sass/partials/_marketing-site.scss */
+/* line 1491, _sass/partials/_marketing-site.scss */
 article.energy-certificates {
   background-image: url("../i/marketing/energy-certificates.jpg");
   background-repeat: no-repeat;
@@ -5206,77 +5214,81 @@ article.energy-certificates {
   border-top: 3px solid #7eb24c;
   border-bottom: 3px solid #862134;
 }
-/* line 1492, _sass/partials/_marketing-site.scss */
+/* line 1498, _sass/partials/_marketing-site.scss */
 article.energy-certificates div {
   width: 335px;
   float: right;
   margin: 50px 50px 0 0;
 }
-/* line 1496, _sass/partials/_marketing-site.scss */
+/* line 1502, _sass/partials/_marketing-site.scss */
 article.energy-certificates div button {
   background-color: #2c3e50;
   box-shadow: 0 2px #7eb24c;
 }
-/* line 1499, _sass/partials/_marketing-site.scss */
+/* line 1505, _sass/partials/_marketing-site.scss */
 article.energy-certificates div button:hover {
   background-color: #6b6b6b;
 }
 
-/* line 1506, _sass/partials/_marketing-site.scss */
+/* line 1512, _sass/partials/_marketing-site.scss */
 article.ignite-associate {
   text-align: center;
   margin: 50px 0;
 }
-/* line 1509, _sass/partials/_marketing-site.scss */
+/* line 1515, _sass/partials/_marketing-site.scss */
 article.ignite-associate button {
   background-color: #a9222d;
 }
-/* line 1511, _sass/partials/_marketing-site.scss */
+/* line 1517, _sass/partials/_marketing-site.scss */
 article.ignite-associate button:hover {
   background-color: #6b6b6b;
 }
 
-/* line 1517, _sass/partials/_marketing-site.scss */
+/* line 1523, _sass/partials/_marketing-site.scss */
 article.independent-associate-chart {
   text-align: center;
 }
-/* line 1519, _sass/partials/_marketing-site.scss */
+/* line 1525, _sass/partials/_marketing-site.scss */
 article.independent-associate-chart h2 {
   background-color: #ac1f2d;
   padding: 20px 0;
   font-size: 24px;
   color: #fff;
 }
-/* line 1525, _sass/partials/_marketing-site.scss */
+/* line 1531, _sass/partials/_marketing-site.scss */
 article.independent-associate-chart img {
   margin: 20px 0;
   max-width: 100%;
 }
 
-/* line 1532, _sass/partials/_marketing-site.scss */
+/* line 1538, _sass/partials/_marketing-site.scss */
 article.residual-income h3 {
   float: left;
   margin-right: 10px;
 }
-/* line 1536, _sass/partials/_marketing-site.scss */
+/* line 1542, _sass/partials/_marketing-site.scss */
 article.residual-income img {
   max-width: 100%;
 }
-/* line 1539, _sass/partials/_marketing-site.scss */
+/* line 1545, _sass/partials/_marketing-site.scss */
 article.residual-income .footnotes {
   font-size: 10px;
 }
-/* line 1542, _sass/partials/_marketing-site.scss */
+/* line 1548, _sass/partials/_marketing-site.scss */
 article.residual-income button {
   background-color: #a9222d;
   float: right;
 }
-/* line 1545, _sass/partials/_marketing-site.scss */
+/* line 1551, _sass/partials/_marketing-site.scss */
+article.residual-income button a {
+  color: #fff;
+}
+/* line 1554, _sass/partials/_marketing-site.scss */
 article.residual-income button:hover {
   background-color: #6b6b6b;
 }
 
-/* line 1552, _sass/partials/_marketing-site.scss */
+/* line 1561, _sass/partials/_marketing-site.scss */
 article.electricity-gas p {
   font-size: 22px;
   text-align: center;
@@ -5284,59 +5296,63 @@ article.electricity-gas p {
   margin-right: auto;
   margin-left: auto;
 }
-/* line 1558, _sass/partials/_marketing-site.scss */
+/* line 1567, _sass/partials/_marketing-site.scss */
 article.electricity-gas p span {
   color: #0971ce;
 }
-/* line 1561, _sass/partials/_marketing-site.scss */
+/* line 1570, _sass/partials/_marketing-site.scss */
 article.electricity-gas p button {
   margin: auto;
   background-color: #76bd1d;
   font-size: 24px;
   padding: 10px;
 }
-/* line 1566, _sass/partials/_marketing-site.scss */
+/* line 1575, _sass/partials/_marketing-site.scss */
 article.electricity-gas p button:hover {
   background-color: #6b6b6b;
 }
-/* line 1571, _sass/partials/_marketing-site.scss */
+/* line 1578, _sass/partials/_marketing-site.scss */
+article.electricity-gas p button a {
+  color: #fff;
+}
+/* line 1583, _sass/partials/_marketing-site.scss */
 article.electricity-gas hr {
   border: 2px solid #f0f0f0;
   margin: 40px 0;
 }
-/* line 1575, _sass/partials/_marketing-site.scss */
+/* line 1587, _sass/partials/_marketing-site.scss */
 article.electricity-gas img {
   max-width: 100%;
   padding-bottom: 25px;
 }
-/* line 1579, _sass/partials/_marketing-site.scss */
+/* line 1591, _sass/partials/_marketing-site.scss */
 article.electricity-gas .gas-chart {
   border-bottom: 3px solid #76bd1d;
 }
 
-/* line 1585, _sass/partials/_marketing-site.scss */
+/* line 1597, _sass/partials/_marketing-site.scss */
 article.privacy-policy .intro-paragraph {
   text-align: center;
 }
-/* line 1588, _sass/partials/_marketing-site.scss */
+/* line 1600, _sass/partials/_marketing-site.scss */
 article.privacy-policy hr {
   width: 60%;
   border: 1px solid #f0f0f0;
   margin: 40px auto;
 }
-/* line 1593, _sass/partials/_marketing-site.scss */
+/* line 1605, _sass/partials/_marketing-site.scss */
 article.privacy-policy h2 {
   margin-top: 30px;
 }
-/* line 1596, _sass/partials/_marketing-site.scss */
+/* line 1608, _sass/partials/_marketing-site.scss */
 article.privacy-policy .indented {
   margin-left: 40px;
 }
-/* line 1598, _sass/partials/_marketing-site.scss */
+/* line 1610, _sass/partials/_marketing-site.scss */
 article.privacy-policy .indented ul {
   list-style: none;
 }
-/* line 1600, _sass/partials/_marketing-site.scss */
+/* line 1612, _sass/partials/_marketing-site.scss */
 article.privacy-policy .indented ul li {
   background-image: url("../i/marketing/blue-bullet.png");
   background-repeat: no-repeat;
@@ -5344,15 +5360,15 @@ article.privacy-policy .indented ul li {
   padding-left: 25px;
 }
 
-/* line 1611, _sass/partials/_marketing-site.scss */
+/* line 1623, _sass/partials/_marketing-site.scss */
 article.earn-free-energy .intro-paragraph {
   text-align: center;
 }
-/* line 1614, _sass/partials/_marketing-site.scss */
+/* line 1626, _sass/partials/_marketing-site.scss */
 article.earn-free-energy p {
   font-size: 26px;
 }
-/* line 1617, _sass/partials/_marketing-site.scss */
+/* line 1629, _sass/partials/_marketing-site.scss */
 article.earn-free-energy .full-image {
   background-image: url("../i/marketing/free-energy-start-earning.jpg");
   background-repeat: no-repeat;
@@ -5360,11 +5376,11 @@ article.earn-free-energy .full-image {
   height: 300px;
   border-top: 3px solid #999;
 }
-/* line 1624, _sass/partials/_marketing-site.scss */
+/* line 1636, _sass/partials/_marketing-site.scss */
 article.earn-free-energy .enhance {
   text-align: center;
 }
-/* line 1626, _sass/partials/_marketing-site.scss */
+/* line 1638, _sass/partials/_marketing-site.scss */
 article.earn-free-energy .enhance h2 {
   font-size: 40px;
   margin-top: 40px;
