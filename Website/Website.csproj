@@ -411,34 +411,6 @@
       <DependentUpon>Historical Rates Texas.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="layouts\Pages\Marketing\Leaders\Leader Listing.ascx.cs">
-      <DependentUpon>Leader Listing.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="layouts\Pages\Marketing\Leaders\Leader Listing.ascx.designer.cs">
-      <DependentUpon>Leader Listing.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="layouts\Pages\Marketing\Leaders\Leader.ascx.cs">
-      <DependentUpon>Leader.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="layouts\Pages\Marketing\Leaders\Leader.ascx.designer.cs">
-      <DependentUpon>Leader.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="layouts\Pages\Marketing\Leaders\Leaders Landing.ascx.cs">
-      <DependentUpon>Leaders Landing.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="layouts\Pages\Marketing\Leaders\Leaders Landing.ascx.designer.cs">
-      <DependentUpon>Leaders Landing.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="layouts\Pages\Marketing\Leaders\View All Directors.ascx.cs">
-      <DependentUpon>View All Directors.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="layouts\Pages\Marketing\Leaders\View All Directors.ascx.designer.cs">
-      <DependentUpon>View All Directors.ascx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -874,10 +846,6 @@
     <Content Include="layouts\Pages\Marketing\Historical Rates\Historical Rates Pennsylvania.ascx" />
     <Content Include="layouts\Pages\Marketing\Historical Rates\Historical Rates Maryland.ascx" />
     <Content Include="layouts\Pages\Marketing\Historical Rates\Historical Rates Texas.ascx" />
-    <Content Include="layouts\Pages\Marketing\Leaders\Leader Listing.ascx" />
-    <Content Include="layouts\Pages\Marketing\Leaders\Leader.ascx" />
-    <Content Include="layouts\Pages\Marketing\Leaders\Leaders Landing.ascx" />
-    <Content Include="layouts\Pages\Marketing\Leaders\View All Directors.ascx" />
     <Content Include="layouts\Sample Inner Sublayout.ascx" />
     <Content Include="layouts\Sample Sublayout.ascx" />
     <Content Include="layouts\system\VisitorIdentification.aspx" />
