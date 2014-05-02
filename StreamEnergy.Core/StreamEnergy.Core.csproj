@@ -129,6 +129,7 @@
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="Configuration\IKeyGenerator.cs" />
     <Compile Include="Configuration\IocInitializer.cs" />
+    <Compile Include="ISanitizable.cs" />
     <Compile Include="Json.cs" />
     <Compile Include="Mvc\ContextInterceptor.cs" />
     <Compile Include="Mvc\ControllerFactory.cs" />
@@ -137,6 +138,8 @@
     <Compile Include="Mvc\Sitecore\ControllerRenderer.cs" />
     <Compile Include="Mvc\Sitecore\ControllerRunner.cs" />
     <Compile Include="Mvc\Sitecore\GetControllerRenderer.cs" />
+    <Compile Include="Processes\IState.cs" />
+    <Compile Include="Processes\IStateMachine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReflectionExpressionUtility.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs">
