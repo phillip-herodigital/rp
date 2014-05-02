@@ -33,8 +33,10 @@ namespace StreamEnergy.Core.Tests.Processes
 
             public void Sanitize()
             {
-                Username = Username.Trim();
-                Email = Email.Trim();
+                if (Username != null)
+                    Username = Username.Trim();
+                if (Email != null)
+                    Email = Email.Trim();
             }
         }
 
@@ -131,11 +133,30 @@ namespace StreamEnergy.Core.Tests.Processes
             }
         }
 
+        class CreateAccountStateMachine : StateMachine<CreateAccountContext, CreateAccountStateId>
+        {
+
+            protected override IState<CreateAccountContext, CreateAccountStateId> GetState()
+            {
+                switch (StateId)
+                {
+                    case CreateAccountStateId.GatherData:
+                        return new GatherDataState(null);
+                    case CreateAccountStateId.Verify:
+                        return new VerifyState(null);
+                    case CreateAccountStateId.Confirmation:
+                        return new ConfirmationState(null);
+                    default:
+                        throw new NotSupportedException();
+                }
+            }
+        }
+
         #endregion
 
         private IStateMachine<CreateAccountContext, CreateAccountStateId> Create()
         {
-            throw new NotImplementedException();
+            return new CreateAccountStateMachine();
         }
 
         [TestMethod]
@@ -212,6 +233,29 @@ namespace StreamEnergy.Core.Tests.Processes
             context.Email = "a@b.c";
 
             Assert.AreEqual(CreateAccountStateId.GatherData, stateMachine.StateId);
+            Assert.AreEqual(context, stateMachine.Context);
+
+            stateMachine.Process();
+
+            Assert.AreEqual(CreateAccountStateId.Confirmation, stateMachine.StateId);
+            Assert.AreEqual(context, stateMachine.Context);
+        }
+
+        [TestMethod]
+        public void StartAtVerifyTest()
+        {
+            IStateMachine<CreateAccountContext, CreateAccountStateId> stateMachine = Create();
+            var context = new CreateAccountContext();
+
+            context.Username = "tester";
+            context.Password = "somePassword";
+            context.ConfirmPassword = "somePassword";
+
+            stateMachine.Initialize(context, CreateAccountStateId.Verify);
+
+            context.Email = "a@b.c";
+
+            Assert.AreEqual(CreateAccountStateId.Verify, stateMachine.StateId);
             Assert.AreEqual(context, stateMachine.Context);
 
             stateMachine.Process();
