@@ -26,11 +26,39 @@ $mobile-nav: 260px;
 			ul {
 				@include layout-list();
 				> li {
-					border-bottom: 1px solid #d9d9d9;
 					a {
 						text-transform: uppercase;
 						display: block;
-						padding: 15px;
+						padding: 15px 45px 15px 15px;
+						border-bottom: 1px solid #d9d9d9;
+					}
+					> span {
+						display: block;
+						position: relative;
+					}
+					span.arrow {
+						position: absolute;
+						right: 0;
+						top: 0;
+						bottom: 0;
+						width: 40px;
+						line-height: 40px;
+						text-align: center;
+						background: rgba(0,0,0,.05);
+					}
+					&.opened a {
+						background-color: #1e5280;
+						color: #fff;
+						border-bottom: 1px solid #748ea5;
+					}
+					&.selected span > a,
+					&.selected > a {
+						background-color: #1898ff;
+						color: #fff;
+					}
+					li a {
+						padding-left: 30px;
+						text-transform: none;
 					}
 				}
 			}
