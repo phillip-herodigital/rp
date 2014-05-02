@@ -1,0 +1,117 @@
+﻿@{
+    var stateFAQs = new Dictionary<string, List<Sitecore.Data.Items.Item>>();
+    foreach(Sitecore.Data.Items.Item item in Html.Sitecore().CurrentItem.Children)
+    {
+        var faqStatesField = (Sitecore.Data.Fields.MultilistField)item.Fields["FAQ States"];
+        foreach (var state in faqStatesField.GetItems())
+        {
+            if (!stateFAQs.ContainsKey(state.Name))
+            {
+                stateFAQs.Add(state.Name, new List<Sitecore.Data.Items.Item>());
+            }
+            stateFAQs[state.Name].Add(item);
+        }
+    }
+}
+<article class="marketing state-tabs" state-tabs="texas">
+    <ul class="tabs-nav">
+        <li ng-click="selectPane('texas')" ng-class="{ active: pane == 'texas' }">
+            <a href="">
+                <span><i class="icon-state-texas"></i></span>
+                @Html.Sitecore().Field("Texas Title")
+            </a>
+        </li>
+        <li ng-click="selectPane('georgia')" ng-class="{ active: pane == 'georgia' }">
+            <a href="">
+                <span><i class="icon-state-georgia"></i></span>
+                @Html.Sitecore().Field("Georgia Title")
+            </a>
+        </li>
+        <li ng-click="selectPane('pennsylvania')" ng-class="{ active: pane == 'pennsylvania' }">
+            <a href="">
+                <span><i class="icon-state-pennsylvania"></i></span>
+                @Html.Sitecore().Field("Pennsylvania Title")
+            </a>
+        </li>
+        <li ng-click="selectPane('maryland')" ng-class="{ active: pane == 'maryland' }">
+            <a href="">
+                <span><i class="icon-state-maryland"></i></span>
+                @Html.Sitecore().Field("Maryland Title")
+            </a>
+        </li>
+        <li ng-click="selectPane('newjersey')" ng-class="{ active: pane == 'newjersey' }">
+            <a href="">
+                <span><i class="icon-state-newjersey"></i></span>
+                @Html.Sitecore().Field("New Jersey Title")
+            </a>
+        </li>
+        <li ng-click="selectPane('newyork')" ng-class="{ active: pane == 'newyork' }">
+            <a href="">
+                <span><i class="icon-state-newyork"></i></span>
+                @Html.Sitecore().Field("New York Title")
+            </a>
+        </li>
+        <li ng-click="selectPane('washingtondc')" ng-class="{ active: pane == 'washingtondc' }">
+            <a href="">
+                <span><i class="icon-state-washingtondc"></i></span>
+                @Html.Sitecore().Field("Washington DC Title")
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content" ng-class="{ hidden : pane != 'texas' }">
+        <div class="tab-header">
+            <div class="wrapper"></div>
+        </div>
+        <div class="wrapper">
+            @Html.Partial("~/Views/Pages/Marketing/FAQ/FAQ Listing.cshtml", stateFAQs.ContainsKey("texas") ? stateFAQs["texas"] : null)
+        </div>
+    </div>
+    <div class="tab" ng-class="{ hidden : pane != 'georgia' }">
+        <div class="tab-header">
+            <div class="wrapper"></div>
+        </div>
+        <div class="wrapper">
+            @Html.Partial("~/Views/Pages/Marketing/FAQ/FAQ Listing.cshtml", stateFAQs.ContainsKey("georgia") ? stateFAQs["georgia"] : null)
+        </div>
+    </div>
+    <div class="tab" ng-class="{ hidden : pane != 'pennsylvania' }">
+        <div class="tab-header">
+            <div class="wrapper"></div>
+        </div>
+        <div class="wrapper">
+            @Html.Partial("~/Views/Pages/Marketing/FAQ/FAQ Listing.cshtml", stateFAQs.ContainsKey("pennsylvania") ? stateFAQs["pennsylvania"] : null)
+        </div>
+    </div>
+    <div class="tab" ng-class="{ hidden : pane != 'maryland' }">
+        <div class="tab-header">
+            <div class="wrapper"></div>
+        </div>
+        <div class="wrapper">
+            @Html.Partial("~/Views/Pages/Marketing/FAQ/FAQ Listing.cshtml", stateFAQs.ContainsKey("maryland") ? stateFAQs["maryland"] : null)
+        </div>
+    </div>
+    <div class="tab" ng-class="{ hidden : pane != 'newjersey' }">
+        <div class="tab-header">
+            <div class="wrapper"></div>
+        </div>
+        <div class="wrapper">
+            @Html.Partial("~/Views/Pages/Marketing/FAQ/FAQ Listing.cshtml", stateFAQs.ContainsKey("new-jersey") ? stateFAQs["new-jersey"] : null)
+        </div>
+    </div>
+    <div class="tab" ng-class="{ hidden : pane != 'newyork' }">
+        <div class="tab-header">
+            <div class="wrapper"></div>
+        </div>
+        <div class="wrapper">
+            @Html.Partial("~/Views/Pages/Marketing/FAQ/FAQ Listing.cshtml", stateFAQs.ContainsKey("new-york") ? stateFAQs["new-york"] : null)
+        </div>
+    </div>
+    <div class="tab" ng-class="{ hidden : pane != 'washingtondc' }">
+        <div class="tab-header">
+            <div class="wrapper"></div>
+        </div>
+        <div class="wrapper">
+            @Html.Partial("~/Views/Pages/Marketing/FAQ/FAQ Listing.cshtml", stateFAQs.ContainsKey("washington-dc") ? stateFAQs["washington-dc"] : null)
+        </div>
+    </div>
+</article>

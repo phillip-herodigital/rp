@@ -1,0 +1,32 @@
+﻿@{
+    var presidentialDirectorsField = (Sitecore.Data.Fields.MultilistField)Sitecore.Context.Item.Fields["Presidential Directors"];
+
+    var presidentialDirectors = (from id in presidentialDirectorsField.TargetIDs
+                                 select Sitecore.Context.Database.Items[id]).ToList();
+
+    var executiveDirectorsField = (Sitecore.Data.Fields.MultilistField)Sitecore.Context.Item.Fields["Executive Directors"];
+
+    var executiveDirectors = (from id in executiveDirectorsField.TargetIDs
+                              select Sitecore.Context.Database.Items[id]).ToList();
+}
+<article class="marketing leaders">
+    <div class="paragraph">
+        @Html.Sitecore().Field("Intro Text")
+    </div>
+    <div class="director-banner stretch">
+        <h2 class="wrapper">@Html.Sitecore().Field("Presidential Directors Header")</h2>
+    </div>
+    <div class="wrapper">
+        @Html.Partial("~/Views/Pages/Marketing/Leaders/Leader Listing.cshtml", presidentialDirectors)
+        <p class="view-all">@Html.Sitecore().Field("Presidential Directors Link")</p>
+    </div>
+</article>
+<article class="marketing leaders">
+    <div class="director-banner stretch">
+        <h2 class="wrapper">@Html.Sitecore().Field("Executive Directors Header")</h2>
+    </div>
+    <div class="wrapper">
+        @Html.Partial("~/Views/Pages/Marketing/Leaders/Leader Listing.cshtml", executiveDirectors)
+        <p class="view-all">@Html.Sitecore().Field("Executive Directors Link")</p>
+    </div>
+</article>
