@@ -389,62 +389,6 @@
     <Compile Include="layouts\BaseLayout.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="layouts\Modules\Full Width Image.ascx.cs">
-      <DependentUpon>Full Width Image.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="layouts\Modules\Full Width Image.ascx.designer.cs">
-      <DependentUpon>Full Width Image.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="layouts\Modules\Footer.ascx.cs">
-      <DependentUpon>Footer.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="layouts\Modules\Footer.ascx.designer.cs">
-      <DependentUpon>Footer.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="layouts\Modules\Full HTML.ascx.cs">
-      <DependentUpon>Full HTML.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="layouts\Modules\Full HTML.ascx.designer.cs">
-      <DependentUpon>Full HTML.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="layouts\Modules\Grid Promos.ascx.cs">
-      <DependentUpon>Grid Promos.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="layouts\Modules\Grid Promos.ascx.designer.cs">
-      <DependentUpon>Grid Promos.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="layouts\Modules\Intro.ascx.cs">
-      <DependentUpon>Intro.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="layouts\Modules\Intro.ascx.designer.cs">
-      <DependentUpon>Intro.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="layouts\Modules\Login Horizontal.ascx.cs">
-      <DependentUpon>Login Horizontal.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="layouts\Modules\Login Horizontal.ascx.designer.cs">
-      <DependentUpon>Login Horizontal.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="layouts\Modules\Photo Lockup.ascx.cs">
-      <DependentUpon>Photo Lockup.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="layouts\Modules\Photo Lockup.ascx.designer.cs">
-      <DependentUpon>Photo Lockup.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="layouts\Modules\States Enroll.ascx.cs">
-      <DependentUpon>States Enroll.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="layouts\Modules\States Enroll.ascx.designer.cs">
-      <DependentUpon>States Enroll.ascx</DependentUpon>
-    </Compile>
     <Compile Include="layouts\Pages\Marketing\Historical Rates\Historical Rates Pennsylvania.ascx.cs">
       <DependentUpon>Historical Rates Pennsylvania.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -466,20 +410,6 @@
     <Compile Include="layouts\Pages\Marketing\Historical Rates\Historical Rates Texas.ascx.designer.cs">
       <DependentUpon>Historical Rates Texas.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="layouts\Pages\Marketing\FAQ\FAQ Landing.ascx.cs">
-      <DependentUpon>FAQ Landing.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="layouts\Pages\Marketing\FAQ\FAQ Landing.ascx.designer.cs">
-      <DependentUpon>FAQ Landing.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="layouts\Pages\Marketing\FAQ\FAQ Listing.ascx.cs">
-      <DependentUpon>FAQ Listing.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="layouts\Pages\Marketing\FAQ\FAQ Listing.ascx.designer.cs">
-      <DependentUpon>FAQ Listing.ascx</DependentUpon>
     </Compile>
     <Compile Include="layouts\Pages\Marketing\Leaders\Leader Listing.ascx.cs">
       <DependentUpon>Leader Listing.ascx</DependentUpon>
@@ -941,19 +871,9 @@
     <Content Include="frontend\utility-services.html" />
     <Content Include="Global.asax" />
     <Content Include="layouts\HTML Layout.aspx" />
-    <Content Include="layouts\Modules\Full Width Image.ascx" />
-    <Content Include="layouts\Modules\Footer.ascx" />
-    <Content Include="layouts\Modules\Full HTML.ascx" />
-    <Content Include="layouts\Modules\Grid Promos.ascx" />
-    <Content Include="layouts\Modules\Intro.ascx" />
-    <Content Include="layouts\Modules\Login Horizontal.ascx" />
-    <Content Include="layouts\Modules\Photo Lockup.ascx" />
-    <Content Include="layouts\Modules\States Enroll.ascx" />
     <Content Include="layouts\Pages\Marketing\Historical Rates\Historical Rates Pennsylvania.ascx" />
     <Content Include="layouts\Pages\Marketing\Historical Rates\Historical Rates Maryland.ascx" />
     <Content Include="layouts\Pages\Marketing\Historical Rates\Historical Rates Texas.ascx" />
-    <Content Include="layouts\Pages\Marketing\FAQ\FAQ Landing.ascx" />
-    <Content Include="layouts\Pages\Marketing\FAQ\FAQ Listing.ascx" />
     <Content Include="layouts\Pages\Marketing\Leaders\Leader Listing.ascx" />
     <Content Include="layouts\Pages\Marketing\Leaders\Leader.ascx" />
     <Content Include="layouts\Pages\Marketing\Leaders\Leaders Landing.ascx" />
