@@ -1,5 +1,5 @@
 // State Tabs Selector
-ngApp.directive('stateTabs', function ($rootScope, $filter, $parse) {
+ngApp.directive('stateTabs', [function () {
 	return {
 		restrict: 'A',
 		scope: true,
@@ -16,4 +16,4 @@ ngApp.directive('stateTabs', function ($rootScope, $filter, $parse) {
 
 		}
 	};
-});
+}]);
