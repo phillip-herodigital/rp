@@ -6,7 +6,7 @@
     classes.Add(sc.LookupItem("Accent Color").SafeFieldValue("Css Class").Prefix("accent-"));
     classes.Add(sc.CurrentItem["Custom CSS Class"]);
 }
-<article class="marketing full-html center @string.Join(" ", classes)">
+<article class="marketing full-html @string.Join(" ", classes)">
     <div class="wrapper">
         @Html.Sitecore().Field("Module HTML")
     </div>
