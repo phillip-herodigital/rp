@@ -1,28 +1,119 @@
 .enrollment {
-		.site-header {
-		height: 57px;
+	.site-header {
+		height: 121px;
 		> .wrapper {
 			position: fixed;
 			top: 0;
 			left: 0;
 			width: 100%;
 			background-color: #fff;
-			@include retina-background("header-mobile.png");
+			@include retina-background("header-enrollment.png");
 			background-repeat: repeat-x;
-			border-bottom: 1px solid #1697ff;
 			z-index: 2;
 			height: 57px;
+			@include breakpoint(small) {
+				background: none;
+			}
 		}
 		.logo {
-			@include image-replace("logo.png", true);
+			@include image-replace("logo.png", false);
 			position: absolute;
 			left: 50%;
 			top: 11px;
 			margin-top: 0;
-			margin-left: (image-width("logo.png") / 2) / 2 * -1;
+			margin-left: image-width("logo.png") / 2 * -1;
+			@include breakpoint(small) {
+				margin-left: (image-width("logo.png") / 2) / 2 * -1;
+			}
 		}
 		.nav-toggle {
 			margin-top: 22px;
 		}
+		@include breakpoint(small) {
+			height: 67px;
+		}
+	}
+
+	.banner {
+		height: 320px;
+		background-position: 50%;
+		background-size: cover;
+		border-bottom: 5px solid #dfdfdf;
+		@include breakpoint(small) {
+			height: 215px;
+		}
+	}
+
+	section {
+		background: #f1f1f8;
+		.wrapper {
+			@extend .clearfix;
+			position: relative;
+			overflow: visible;
+			min-height: 150px;
+		}
+		aside.left {
+			position: absolute;
+			left: -260px;
+			top: 0;
+			width: 260px;
+			@include breakpoint(medium) {
+				display: none;
+			}
+			@include breakpoint(small) {
+				display: none;
+			}
+			nav {
+				li {
+					position: relative;
+					&::before {
+						color: #bfbfbf;
+						content: ' \25CF';
+						position: absolute;
+						top: -2px;
+						left: -25px;
+						width: 10px;
+						height: 10px;
+						font-size: 16px;
+					}
+					&:hover,
+					&.active {
+						a {
+							color: #333;
+						}
+						&::before {
+							color: #053d5a;
+							font-size: 32px;
+							left: -30px;
+							top: -13px;
+						}
+					}
+					&.completed {
+						&::before {
+							color: #36637b;
+						}
+					}
+				}
+				a {
+					color: #bfbfbf;
+					font-size: 14px;
+					@include transition-property(all);
+  					@include transition-duration(0.25s);
+  					@include transition-timing-function(ease-in);
+				}
+			}
+		}
+		article {
+			border: 0;
+			margin: 0;
+			@include border-radius(0);
+			@include box-shadow(none);
+		}
+		aside.right {
+			float: right;
+		}
+	}
+	.site-footer {
+		margin-top: 0;
 	}
 }
