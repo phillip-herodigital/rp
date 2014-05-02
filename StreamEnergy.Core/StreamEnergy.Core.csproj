@@ -126,10 +126,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompositeValidationResult.cs" />
     <Compile Include="Configuration\ConfigurationElementCollection.cs" />
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="Configuration\IKeyGenerator.cs" />
     <Compile Include="Configuration\IocInitializer.cs" />
+    <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="ISanitizable.cs" />
     <Compile Include="Json.cs" />
     <Compile Include="Mvc\ContextInterceptor.cs" />
@@ -156,6 +158,7 @@
     <Compile Include="Unity\Container.cs" />
     <Compile Include="Unity\IContainerSetupStrategy.cs" />
     <Compile Include="Unity\InheritanceSetupStrategy.cs" />
+    <Compile Include="ValidateObjectAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
