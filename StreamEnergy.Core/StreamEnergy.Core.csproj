@@ -143,6 +143,7 @@
     <Compile Include="Mvc\Sitecore\GetControllerRenderer.cs" />
     <Compile Include="Processes\IState.cs" />
     <Compile Include="Processes\IStateMachine.cs" />
+    <Compile Include="Processes\SimpleFinalState.cs" />
     <Compile Include="Processes\StateMachine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReflectionExpressionUtility.cs" />

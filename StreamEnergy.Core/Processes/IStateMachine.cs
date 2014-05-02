@@ -11,17 +11,15 @@ namespace StreamEnergy.Processes
     /// A basic interface for a state machine to run the State design pattern.
     /// </summary>
     /// <typeparam name="TContext">A type that contains the relevant data preserved between states</typeparam>
-    /// <typeparam name="TStateId">A value type that can be 1:1 mapped to states in the state machine</typeparam>
-    public interface IStateMachine<TContext, TStateId>
+    public interface IStateMachine<TContext>
         where TContext : ISanitizable
-        where TStateId : struct
     {
-        void Initialize(TContext context, TStateId stateId);
+        void Initialize(TContext context, Type state);
 
         TContext Context { get; }
-        TStateId StateId { get; }
+        Type State { get; }
         
-        void Process(TStateId? stopAt = null);
+        void Process(params Type[] stopAt);
 
         IEnumerable<ValidationResult> ValidationResults { get; }
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Practices.Unity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,28 +8,34 @@ using System.Threading.Tasks;
 
 namespace StreamEnergy.Processes
 {
-    public abstract class StateMachine<TContext, TStateId> : IStateMachine<TContext, TStateId>
+    public class StateMachine<TContext> : IStateMachine<TContext>
         where TContext : ISanitizable
-        where TStateId : struct
     {
+        private readonly IUnityContainer container;
         private IEnumerable<ValidationResult> lastValidations;
-        public void Initialize(TContext context, TStateId stateId)
+
+        public StateMachine(IUnityContainer container)
+        {
+            this.container = container;
+        }
+
+        public void Initialize(TContext context, Type state)
         {
             lastValidations = null;
             Context = context;
-            StateId = stateId;
+            State = state;
 
             context.Sanitize();
         }
 
         public TContext Context { get; private set; }
 
-        public TStateId StateId { get; private set; }
+        public Type State { get; private set; }
 
-        public void Process(TStateId? stopAt = null)
+        public void Process(params Type[] stopAt)
         {
             Context.Sanitize();
-            while (!StateId.Equals(stopAt))
+            while (stopAt == null || !stopAt.Contains(State))
             {
                 var state = GetState();
                 if (state.IsFinal)
@@ -39,7 +46,7 @@ namespace StreamEnergy.Processes
                 if (lastValidations.Any())
                     break;
 
-                StateId = state.Process(Context);
+                State = state.Process(Context);
 
                 lastValidations = null;
                 Context.Sanitize();
@@ -58,9 +65,14 @@ namespace StreamEnergy.Processes
             }
         }
 
-        protected abstract IState<TContext, TStateId> GetState();
+        public IEnumerable<ResolverOverride> ResolverOverrides { get; set; }
 
-        private void RunStateValidations(IState<TContext, TStateId> state)
+        protected IState<TContext> GetState()
+        {
+            return (IState<TContext>)container.Resolve(State, (ResolverOverrides ?? Enumerable.Empty<ResolverOverride>()).ToArray());
+        }
+
+        private void RunStateValidations(IState<TContext> state)
         {
             var validationContext = new ValidationContext(Context);
             var validations = new HashSet<ValidationResult>();
@@ -69,7 +81,8 @@ namespace StreamEnergy.Processes
                 validationContext.MemberName = property.name;
                 Validator.TryValidateProperty(property.value, validationContext, validations);
             }
-            lastValidations = (IEnumerable<ValidationResult>)validations;
+
+            lastValidations = validations.Concat(state.AdditionalValidations(Context)).ToArray();
         }
     }
 }
