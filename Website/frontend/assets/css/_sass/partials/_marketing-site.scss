@@ -1357,6 +1357,9 @@ article.identity-theft {
 			text-align: center;
 		}
 	}
+	.phishing-image img {
+		max-width: 100%;
+	}
 }
 
 article.why-energy {
@@ -1460,7 +1463,7 @@ article.free-energy {
 			}
 		}
 	}
-}
+} 
 
 article.service-icons {
 	.grid .col {
@@ -1478,6 +1481,9 @@ article.terms-of-use {
 		padding-left: 80px;
 		li {
 			list-style-type: none;
+			p {
+				margin-left: 20px;
+			}
 		}
 		h3 {
 			color: #0971ce;
@@ -1548,6 +1554,9 @@ article.residual-income {
 	button {
 		background-color: #a9222d;
 		float: right;
+		a {
+			color: #fff;
+		}
 		&:hover {
 			background-color: #6b6b6b;
 		}
@@ -1571,6 +1580,9 @@ article.electricity-gas {
 			padding: 10px;
 			&:hover {
 				background-color: #6b6b6b;
+			}
+			a {
+				color: #fff; 
 			}
 		}
 	}
