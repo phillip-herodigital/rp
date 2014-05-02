@@ -1,0 +1,9 @@
+﻿<article class="marketing marketingIntro wrapper @Html.Sitecore().LookupItem("Accent Color").SafeFieldValue("Css Class").Prefix("accent-")">
+    <p class="intro">@Html.Sitecore().Field("Intro")</p>
+    <hr />
+    <div class="body">
+        @Html.Sitecore().Field("Body")
+
+        <p>@Html.Sitecore().Field("Action Button")</p>
+    </div>
+</article>

@@ -12,20 +12,6 @@ namespace Website.layouts
 {
     public partial class HTML_Layout : System.Web.UI.Page
     {
-        protected string BannerImageURL
-        {
-            get
-            {
-                var imageField = (Sitecore.Data.Fields.ImageField)Sitecore.Context.Item.Fields["Banner Image"];
-                if (imageField == null || imageField.MediaItem == null)
-                {
-                    return "";
-                }
-
-                return Sitecore.Resources.Media.MediaManager.GetMediaUrl(imageField.MediaItem);
-            }
-        }
-
         protected void Page_Load(object sender, EventArgs e)
         {
             var navs = new List<object>();

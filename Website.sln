@@ -1,9 +1,22 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30110.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Website", "Website\Website.csproj", "{FB926363-ED56-4B04-8837-CACBE8F9F222}"
 EndProject
 Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "Website.Azure", "Website.Azure\Website.Azure.ccproj", "{81567CE8-9ECD-4406-BA10-61B1A12AF201}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{6B353FEE-CA4B-4452-BE02-7453284E1343}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{759BD9F7-310E-413A-B8AE-7553177FA63A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamEnergy.Core", "StreamEnergy.Core\StreamEnergy.Core.csproj", "{79779D13-7D5E-4190-BA72-5302244C8165}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,8 +32,15 @@ Global
 		{81567CE8-9ECD-4406-BA10-61B1A12AF201}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81567CE8-9ECD-4406-BA10-61B1A12AF201}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81567CE8-9ECD-4406-BA10-61B1A12AF201}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79779D13-7D5E-4190-BA72-5302244C8165}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79779D13-7D5E-4190-BA72-5302244C8165}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79779D13-7D5E-4190-BA72-5302244C8165}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79779D13-7D5E-4190-BA72-5302244C8165}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{79779D13-7D5E-4190-BA72-5302244C8165} = {759BD9F7-310E-413A-B8AE-7553177FA63A}
 	EndGlobalSection
 EndGlobal

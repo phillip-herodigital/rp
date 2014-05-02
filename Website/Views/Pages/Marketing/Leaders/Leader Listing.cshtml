@@ -1,0 +1,14 @@
+﻿@model List<Sitecore.Data.Items.Item>
+
+<ul class="director clearfix">
+    @foreach (var item in Model)
+    {
+        var url = Sitecore.Links.LinkManager.GetItemUrl(item);
+        <li>
+            <a href="@url">@Html.Sitecore().Field("Image", item)</a>
+            <h4><a href="@url">@Html.Sitecore().Field("First Name", item)</a></h4>
+            <h2><a href="@url">@Html.Sitecore().Field("Last Name", item)</a></h2>
+            <p>@Html.Sitecore().Field("Location", item)</p>
+        </li>
+    }
+</ul>

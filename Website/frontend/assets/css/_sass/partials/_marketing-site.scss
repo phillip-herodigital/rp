@@ -370,6 +370,12 @@ article.director-list {
 		}
 	}
 }
+article.leader {
+	p.img {
+		float: left;
+		margin-right: 2em;
+	}
+}
 
 article.donate {
 	ul.charity {
@@ -1457,7 +1463,7 @@ article.free-energy {
 			}
 		}
 	}
-}
+} 
 
 article.service-icons {
 	.grid .col {

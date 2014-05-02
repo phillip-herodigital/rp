@@ -1,0 +1,64 @@
+﻿@{
+    var sc = Html.Sitecore();
+   
+    var classes = new List<string>();
+
+    if (sc.CurrentItem.IsChecked("Image on Right") ?? false)
+    {
+        classes.Add("right-img");
+    }
+
+    classes.Add(sc.LookupItem("Background Color").SafeFieldValue("CSS Class").Prefix("bg-"));
+    classes.Add(sc.LookupItem("Accent Color").SafeFieldValue("CSS Class").Prefix("accent-"));
+
+    classes.Add(sc.LookupItem("Border Color").SafeFieldValue("CSS Class").Prefix("border border-"));
+    classes.Add(sc.CurrentItem["Custom Css Class"]);
+    classes.Add(sc.LookupItem("Background Image Position").SafeFieldValue("CSS Class"));
+}
+<article class="marketing photoLockup @string.Join(" ", classes)">
+    <div class="photo" style="@Html.AsBackgroundStyle("Background Image")">
+        @{
+            if (Sitecore.Context.PageMode.IsPageEditorEditing)
+            {
+                @Html.Sitecore().Field("Background Image")
+            }
+        }
+    </div>
+    <div class="text">
+        <div class="inner">
+            @{
+                if (!string.IsNullOrEmpty(Html.Sitecore().CurrentItem.Fields["Header"].Value))
+                {
+                    <h2>@Html.Sitecore().Field("Header")</h2>
+                }
+            }
+            @{
+                if (!string.IsNullOrEmpty(Html.Sitecore().CurrentItem.Fields["Sub Header"].Value))
+                {
+                    <h3>@Html.Sitecore().Field("Sub Header")</h3>
+                }
+            }
+            @{
+                if (!string.IsNullOrEmpty(Html.Sitecore().CurrentItem.Fields["Quote"].Value))
+                {
+                    <blockquote>
+                        <p>@Html.Sitecore().Field("Quote")</p>
+                    </blockquote>
+                }
+            }
+            @{
+                if (!string.IsNullOrEmpty(Html.Sitecore().CurrentItem.Fields["Citation"].Value))
+                {
+                    <p class="cite">&mdash; @Html.Sitecore().Field("Citation")</p>
+                }
+            }
+            @{
+                if (!string.IsNullOrEmpty(Html.Sitecore().CurrentItem.Fields["Content"].Value))
+                {
+                    <p>&mdash; @Html.Sitecore().Field("Content")</p>
+                }
+            }
+            @Html.Sitecore().Field("Button")
+        </div>
+    </div>
+</article>
