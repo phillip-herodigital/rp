@@ -1133,6 +1133,10 @@
     <Content Include="App_Config\Include\StreamEnergy.Initialization.config" />
     <Content Include="Views\Pages\Marketing\FAQ\FAQ Landing.cshtml" />
     <Content Include="Views\Pages\Marketing\FAQ\FAQ Listing.cshtml" />
+    <Content Include="Views\Pages\Marketing\Leaders\Leader Listing.cshtml" />
+    <Content Include="Views\Pages\Marketing\Leaders\Leader.cshtml" />
+    <Content Include="Views\Pages\Marketing\Leaders\Leaders Landing.cshtml" />
+    <Content Include="Views\Pages\Marketing\Leaders\View All Directors.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
