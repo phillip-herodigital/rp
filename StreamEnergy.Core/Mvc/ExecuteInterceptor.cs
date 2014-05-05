@@ -9,8 +9,6 @@ namespace StreamEnergy.Mvc
 {
     class ExecuteInterceptor : IInterceptor
     {
-        private bool first = true;
-
         public ExecuteInterceptor()
         {
         }

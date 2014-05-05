@@ -8,7 +8,7 @@ using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
-namespace Website.layouts.Pages.Marketing.Historical_Rates
+namespace StreamEnergy.MyStream.layouts.Pages.Marketing.Historical_Rates
 {
     public partial class historical_rates_maryland : BaseLayout
     {
