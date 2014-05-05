@@ -8,7 +8,7 @@
         {
             <div class="post">
                 <h2>@Html.Sitecore().Field("Title", item)</h2>
-                <p class="date">@Html.Sitecore().Field("Posted On Text"): @Sitecore.Web.UI.WebControls.FieldRenderer.Render(item, "Date", "format=MMMM d, yyyy")</p>
+                <p class="date">@Html.Sitecore().Field("Posted On Text", item): @Sitecore.Web.UI.WebControls.FieldRenderer.Render(item, "Date", "format=MMMM d, yyyy")</p>
                 <p>
                  @{
                     if (!string.IsNullOrEmpty(@Html.Sitecore().Field("Excerpt", item).ToHtmlString()))
@@ -17,10 +17,10 @@
                     }
                     else
                     {
-                        @Html.Raw(Html.Sitecore().Field("Content", item).ToHtmlString().Substring(0, 200))
+                        @Html.Raw(Html.Sitecore().Field("Content", item).ToHtmlString().Substring(0, 200) + "&hellip;")
                     }
                  }</p>
-                <p><a href="@Sitecore.Links.LinkManager.GetItemUrl(item)" class="button">@Html.Sitecore().Field("Read Full Post Text")&hellip;</a></p>
+                <p><a href="@Sitecore.Links.LinkManager.GetItemUrl(item)" class="button">@Html.Sitecore().Field("Read Full Post Text")</a></p>
             </div>
         }
     }
