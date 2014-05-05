@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="Historical Rates Pennsylvania.ascx.cs" Inherits="Website.layouts.Pages.Marketing.Historical_Rates.historical_rates_pennsylvania" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="Historical Rates Pennsylvania.ascx.cs" Inherits="StreamEnergy.MyStream.layouts.Pages.Marketing.Historical_Rates.historical_rates_pennsylvania" %>
 <%@ Register Assembly="Sitecore.Kernel" Namespace="Sitecore.Web.UI.WebControls" TagPrefix="sc" %>
 
 <article class="marketing">

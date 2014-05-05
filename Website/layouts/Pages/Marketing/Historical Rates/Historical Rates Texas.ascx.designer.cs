@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Website.layouts.Pages.Marketing.Historical_Rates {
+namespace StreamEnergy.MyStream.layouts.Pages.Marketing.Historical_Rates {
     
     
     public partial class historical_rates_texas {
