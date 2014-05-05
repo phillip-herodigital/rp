@@ -22,6 +22,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{17FDE13F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamEnergy.Core.Tests", "StreamEnergy.Core.Tests\StreamEnergy.Core.Tests.csproj", "{F81AAE15-6DD3-43DE-9D73-0E42AEA33238}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamEnergy.DomainModel", "StreamEnergy.DomainModel\StreamEnergy.DomainModel.csproj", "{449D7F2C-372C-41A8-B640-6751FDA30828}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,10 @@ Global
 		{F81AAE15-6DD3-43DE-9D73-0E42AEA33238}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F81AAE15-6DD3-43DE-9D73-0E42AEA33238}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F81AAE15-6DD3-43DE-9D73-0E42AEA33238}.Release|Any CPU.Build.0 = Release|Any CPU
+		{449D7F2C-372C-41A8-B640-6751FDA30828}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{449D7F2C-372C-41A8-B640-6751FDA30828}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{449D7F2C-372C-41A8-B640-6751FDA30828}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{449D7F2C-372C-41A8-B640-6751FDA30828}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

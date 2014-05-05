@@ -969,6 +969,10 @@
       <Project>{79779d13-7d5e-4190-ba72-5302244c8165}</Project>
       <Name>StreamEnergy.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\StreamEnergy.DomainModel\StreamEnergy.DomainModel.csproj">
+      <Project>{449d7f2c-372c-41a8-b640-6751fda30828}</Project>
+      <Name>StreamEnergy.DomainModel</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
