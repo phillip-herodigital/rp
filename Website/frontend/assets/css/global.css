@@ -5754,7 +5754,7 @@ article.earn-free-energy .enhance h2 {
   left: 0;
   width: 100%;
   background-color: #fff;
-  background-image: url('../i/bg/header-enrollment.png?1399308222');
+  background-image: url('../i/bg/header-enrollment.png?1399317357');
   background-repeat: repeat-x;
   z-index: 2;
   height: 121px;
@@ -5762,7 +5762,7 @@ article.earn-free-energy .enhance h2 {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 5, _sass/partials/_enrollment.scss */
   .enrollment .site-header > .wrapper, .enrollment article.state-tabs .site-header > ul.tabs-nav, article.state-tabs .enrollment .site-header > ul.tabs-nav {
-    background-image: url('../i/bg2x/header-enrollment.png?1399308222');
+    background-image: url('../i/bg2x/header-enrollment.png?1399317357');
     background-size: 23px 13px;
   }
 }
