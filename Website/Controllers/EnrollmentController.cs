@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StreamEnergy.DomainModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -36,9 +37,15 @@ namespace StreamEnergy.MyStream.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<string> Trial()
+        public Address Trial()
         {
-            return new string[] { "value1", "value2" };
+            return new Address
+                {
+                     AddressLine1 = "123 Test St",
+                     City = "Dallas",
+                     StateAbbreviation = "TX",
+                     PostalCode5 = "75201",
+                };
         }
 
         [HttpPost]

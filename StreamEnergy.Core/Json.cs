@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,12 @@ namespace StreamEnergy
             {
                 return new JsonSerializerSettings
                     {
-                        ContractResolver = new CamelCasePropertyNamesContractResolver()
+                        NullValueHandling = NullValueHandling.Ignore,
+                        ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                        Converters = 
+                        {
+                            new IsoDateTimeConverter()
+                        }
                     };
             }
         }

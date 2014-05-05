@@ -140,6 +140,7 @@
     <Compile Include="Mvc\ContextInterceptor.cs" />
     <Compile Include="Mvc\ControllerFactory.cs" />
     <Compile Include="Mvc\ExecuteInterceptor.cs" />
+    <Compile Include="Mvc\JsonNetFormatter.cs" />
     <Compile Include="Mvc\MvcProxyGenerator.cs" />
     <Compile Include="Mvc\PerHttpContextLifetimeManager.cs" />
     <Compile Include="Mvc\SessionControllerHandler.cs" />
