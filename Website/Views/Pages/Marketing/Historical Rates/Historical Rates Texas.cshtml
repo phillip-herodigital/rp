@@ -1,341 +1,111 @@
 ﻿@{
-    var variablePricePlanItems = Html.Sitecore().CurrentItem.Children["Variable Price Plan"].Children.OrderByDescending(C => C.Fields["Date"].Value);
-    var variablePricePlanRows = new List<List<dynamic>>();
-    var headerRow = new List<dynamic>();
-    headerRow.Add(new
+    var planContent = new Dictionary<string, dynamic>();
+    foreach (var plan in new string[] { "Variable Price Plan", "Green and Clean Variable Price Plan", "Flex Choice Plan", "Flex Choice Plan - Green and Clean Plan" })
     {
-        Text = "",
-    });
+        var variablePricePlanItems = Html.Sitecore().CurrentItem.Children[plan].Children.OrderByDescending(C => C.Fields["Date"].Value);
+        var variablePricePlanRows = new Dictionary<string, List<dynamic>>();
+        var tdus = new string[] { "Oncor", "Centerpoint", "AEP Central", "AEP North", "TNMP" };
+        var kwhPrices = new string[] { "500", "1000", "2000" };
+        var headerRow = new List<dynamic>();
+        headerRow.Add(new
+        {
+            Text = "",
+            ColSpan = 1,
+        });
 
-    foreach (var item in variablePricePlanItems)
-    {
-        var num = 0;
-        if (!string.IsNullOrEmpty(Html.Sitecore().Field("500 kWh Label", item).ToHtmlString()))
+        variablePricePlanRows.Add("Kwh Label", new List<dynamic>());
+        variablePricePlanRows["Kwh Label"].Add(new
         {
-            num++;
-        }
-        if (!string.IsNullOrEmpty(Html.Sitecore().Field("1000 kWh Label", item).ToHtmlString()))
-        {
-            num++;
-        }
-        if (!string.IsNullOrEmpty(Html.Sitecore().Field("2000 kWh Label", item).ToHtmlString()))
-        {
-            num++;
-        }
-        headerRow.Add(new
-        {
-            Text = Html.Sitecore().Field("Date", item),
-            ColSpan = num,
+            Text = Html.Sitecore().Field("Service Area Text"),
         });
-    }
 
-    /*if (!string.IsNullOrEmpty(item.Fields["500 kWh Label"].Value))
-    {
-        headerRow.Add(new
+        foreach (var tdu in tdus)
         {
-            Text = Html.Sitecore().Field("500 kWh Label"),
+            variablePricePlanRows.Add(tdu, new List<dynamic>());
+            variablePricePlanRows[tdu].Add(new
+            {
+                Text = Html.Sitecore().Field(tdu + " Text"),
+            });
+        }
+
+        foreach (var item in variablePricePlanItems)
+        {
+            var showKwhPrice = new List<string>();
+
+            foreach (var kwhPrice in kwhPrices)
+            {
+                if ((from tdu in tdus
+                     select item.Fields[kwhPrice + " kWh " + tdu + " Price"].Value).Any(s => !string.IsNullOrEmpty(s)))
+                {
+                    showKwhPrice.Add(kwhPrice);
+                }
+            }
+
+            headerRow.Add(new
+            {
+                Text = Sitecore.Web.UI.WebControls.FieldRenderer.Render(item, "Date", "format=M/d/yyyy"),
+                ColSpan = showKwhPrice.Count,
+            });
+
+            foreach (var kwhPrice in showKwhPrice)
+            {
+                variablePricePlanRows["Kwh Label"].Add(new
+                {
+                    Text = Html.Sitecore().Field(kwhPrice + " kWh Label", item),
+                });
+            }
+
+            foreach (var tdu in tdus)
+            {
+                foreach (var kwhPrice in showKwhPrice)
+                {
+                    variablePricePlanRows[tdu].Add(new
+                    {
+                        Text = Html.Sitecore().Field(kwhPrice + " kWh " + tdu + " Price", item),
+                    });
+                }
+            }
+        }
+        planContent.Add(plan, new
+        {
+            IntroText = Html.Sitecore().Field(plan + " Text"),
+            HeaderRow = headerRow,
+            PlanItems = variablePricePlanRows,
         });
     }
-    if (!string.IsNullOrEmpty(item.Fields["1000 kWh Label"].Value))
-    {
-        headerRow.Add(new
-        {
-            Text = Html.Sitecore().Field("1000 kWh Label"),
-        });
-    }
-    if (!string.IsNullOrEmpty(item.Fields["2000 kWh Label"].Value))
-    {
-        headerRow.Add(new
-        {
-            Text = Html.Sitecore().Field("2000 kWh Label"),
-        });
-    }*/
-    
-    
 }
 <article class="marketing">
     <div class="wrapper">
         <h1>@Html.Sitecore().Field("Header Text")</h1>
         <p>@Html.Sitecore().Field("Intro Paragraph")</p>
-        <p>@Html.Sitecore().Field("Variable Price Plan Text")</p>
 
-        <table>
-            <thead>
-                <tr>
-                    @foreach (var cell in headerRow)
+        @foreach (var plan in planContent)
+        {
+            <p>@plan.Value.IntroText</p>
+        
+            <table>
+                <thead>
+                    <tr>
+                        @foreach (var cell in plan.Value.HeaderRow)
+                        {
+                            <td colspan="@cell.ColSpan">@Html.Raw(cell.Text)</td>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var row in plan.Value.PlanItems)
                     {
-                        <td colspan="@cell.CollSpan">@cell.Text</td>
+                        <tr>
+                            @foreach (var cell in row.Value)
+                            {
+                                <td>@cell.Text</td>
+                            }
+                        </tr>
                     }
-                </tr>
-            </thead>
-        </table>
-        <table>
-            <tr>
-                <td></td>
-            </tr>
-            <tr>
-                <td>@Html.Sitecore().Field("Service Area Text")</td>
-            </tr>
-            <tr>
-                <td>@Html.Sitecore().Field("Oncor Text")</td>
-            </tr>
-            <tr>
-                <td>@Html.Sitecore().Field("Centerpoint Text")</td>
-            </tr>
-            <tr>
-                <td>@Html.Sitecore().Field("AEP Central Text")</td>
-            </tr>
-            <tr>
-                <td>@Html.Sitecore().Field("AEP North Text")</td>
-            </tr>
-            <tr>
-                <td>@Html.Sitecore().Field("TNMP Text")</td>
-            </tr>
-        </table>
-        <asp:Repeater ID="rptVariablePricePlan" runat="server">
-            <itemtemplate>
-                <table id="table" runat="server">
-                    <thead>
-                        <tr>
-                            <td id="tdDate" runat="server"></td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td id="tdKwh500Label" runat="server"></td>
-                            <td id="tdKwh1000Label" runat="server"></td>
-                            <td id="tdKwh2000Label" runat="server"></td>
-                        </tr>
-                        <tr>
-                            <td id="tdKwh500OncorPrice" runat="server"></td>
-                            <td id="tdKwh1000OncorPrice" runat="server"></td>
-                            <td id="tdKwh2000OncorPrice" runat="server"></td>
-                        </tr>
-                        <tr>
-                            <td id="tdKwh500CenterpointPrice" runat="server"></td>
-                            <td id="tdKwh1000CenterpointPrice" runat="server"></td>
-                            <td id="tdKwh2000CenterpointPrice" runat="server"></td>
-                        </tr>
-                        <tr>
-                            <td id="tdKwh500AEPCentralPrice" runat="server"></td>
-                            <td id="tdKwh1000AEPCentralPrice" runat="server"></td>
-                            <td id="tdKwh2000AEPCentralPrice" runat="server"></td>
-                        </tr>
-                        <tr>
-                            <td id="tdKwh500AEPNorthPrice" runat="server"></td>
-                            <td id="tdKwh1000AEPNorthPrice" runat="server"></td>
-                            <td id="tdKwh2000AEPNorthPrice" runat="server"></td>
-                        </tr>
-                        <tr>
-                            <td id="tdKwh500TNMPPrice" runat="server"></td>
-                            <td id="tdKwh1000TNMPPrice" runat="server"></td>
-                            <td id="tdKwh2000TNMPPrice" runat="server"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </itemtemplate>
-        </asp:Repeater>
-        <p>@Html.Sitecore().Field("Green and Clean Variable Price Plan Text")</p>
-        <table>
-            <tr>
-                <td></td>
-            </tr>
-            <tr>
-                <td>@Html.Sitecore().Field("Service Area Text")</td>
-            </tr>
-            <tr>
-                <td>@Html.Sitecore().Field("Oncor Text")</td>
-            </tr>
-            <tr>
-                <td>@Html.Sitecore().Field("Centerpoint Text")</td>
-            </tr>
-            <tr>
-                <td>@Html.Sitecore().Field("AEP Central Text")</td>
-            </tr>
-            <tr>
-                <td>@Html.Sitecore().Field("AEP North Text")</td>
-            </tr>
-            <tr>
-                <td>@Html.Sitecore().Field("TNMP Text")</td>
-            </tr>
-        </table>
-        <asp:Repeater ID="rptGreenAndCleanVariablePricePlan" runat="server">
-            <itemtemplate>
-                <table id="table" runat="server">
-                    <thead>
-                        <tr>
-                            <td id="tdDate" runat="server"></td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td id="tdKwh500Label" runat="server"></td>
-                            <td id="tdKwh1000Label" runat="server"></td>
-                            <td id="tdKwh2000Label" runat="server"></td>
-                        </tr>
-                        <tr>
-                            <td id="tdKwh500OncorPrice" runat="server"></td>
-                            <td id="tdKwh1000OncorPrice" runat="server"></td>
-                            <td id="tdKwh2000OncorPrice" runat="server"></td>
-                        </tr>
-                        <tr>
-                            <td id="tdKwh500CenterpointPrice" runat="server"></td>
-                            <td id="tdKwh1000CenterpointPrice" runat="server"></td>
-                            <td id="tdKwh2000CenterpointPrice" runat="server"></td>
-                        </tr>
-                        <tr>
-                            <td id="tdKwh500AEPCentralPrice" runat="server"></td>
-                            <td id="tdKwh1000AEPCentralPrice" runat="server"></td>
-                            <td id="tdKwh2000AEPCentralPrice" runat="server"></td>
-                        </tr>
-                        <tr>
-                            <td id="tdKwh500AEPNorthPrice" runat="server"></td>
-                            <td id="tdKwh1000AEPNorthPrice" runat="server"></td>
-                            <td id="tdKwh2000AEPNorthPrice" runat="server"></td>
-                        </tr>
-                        <tr>
-                            <td id="tdKwh500TNMPPrice" runat="server"></td>
-                            <td id="tdKwh1000TNMPPrice" runat="server"></td>
-                            <td id="tdKwh2000TNMPPrice" runat="server"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </itemtemplate>
-        </asp:Repeater>
-        <p>@Html.Sitecore().Field("Flex Choice Plan Text")</p>
-        <table>
-            <tr>
-                <td></td>
-            </tr>
-            <tr>
-                <td>@Html.Sitecore().Field("Service Area Text")</td>
-            </tr>
-            <tr>
-                <td>@Html.Sitecore().Field("Oncor Text")</td>
-            </tr>
-            <tr>
-                <td>@Html.Sitecore().Field("Centerpoint Text")</td>
-            </tr>
-            <tr>
-                <td>@Html.Sitecore().Field("AEP Central Text")</td>
-            </tr>
-            <tr>
-                <td>@Html.Sitecore().Field("AEP North Text")</td>
-            </tr>
-            <tr>
-                <td>@Html.Sitecore().Field("TNMP Text")</td>
-            </tr>
-        </table>
-        <asp:Repeater ID="rptFlexChoicePlan" runat="server">
-            <itemtemplate>
-                <table id="table" runat="server">
-                    <thead>
-                        <tr>
-                            <td id="tdDate" runat="server"></td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td id="tdKwh500Label" runat="server"></td>
-                            <td id="tdKwh1000Label" runat="server"></td>
-                            <td id="tdKwh2000Label" runat="server"></td>
-                        </tr>
-                        <tr>
-                            <td id="tdKwh500OncorPrice" runat="server"></td>
-                            <td id="tdKwh1000OncorPrice" runat="server"></td>
-                            <td id="tdKwh2000OncorPrice" runat="server"></td>
-                        </tr>
-                        <tr>
-                            <td id="tdKwh500CenterpointPrice" runat="server"></td>
-                            <td id="tdKwh1000CenterpointPrice" runat="server"></td>
-                            <td id="tdKwh2000CenterpointPrice" runat="server"></td>
-                        </tr>
-                        <tr>
-                            <td id="tdKwh500AEPCentralPrice" runat="server"></td>
-                            <td id="tdKwh1000AEPCentralPrice" runat="server"></td>
-                            <td id="tdKwh2000AEPCentralPrice" runat="server"></td>
-                        </tr>
-                        <tr>
-                            <td id="tdKwh500AEPNorthPrice" runat="server"></td>
-                            <td id="tdKwh1000AEPNorthPrice" runat="server"></td>
-                            <td id="tdKwh2000AEPNorthPrice" runat="server"></td>
-                        </tr>
-                        <tr>
-                            <td id="tdKwh500TNMPPrice" runat="server"></td>
-                            <td id="tdKwh1000TNMPPrice" runat="server"></td>
-                            <td id="tdKwh2000TNMPPrice" runat="server"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </itemtemplate>
-        </asp:Repeater>
-        <p>@Html.Sitecore().Field("Flex Choice Plan - Green and Clean Plan Text")</p>
-        <table>
-            <tr>
-                <td></td>
-            </tr>
-            <tr>
-                <td>@Html.Sitecore().Field("Service Area Text")</td>
-            </tr>
-            <tr>
-                <td>@Html.Sitecore().Field("Oncor Text")</td>
-            </tr>
-            <tr>
-                <td>@Html.Sitecore().Field("Centerpoint Text")</td>
-            </tr>
-            <tr>
-                <td>@Html.Sitecore().Field("AEP Central Text")</td>
-            </tr>
-            <tr>
-                <td>@Html.Sitecore().Field("AEP North Text")</td>
-            </tr>
-            <tr>
-                <td>@Html.Sitecore().Field("TNMP Text")</td>
-            </tr>
-        </table>
-        <asp:Repeater ID="rptFlexChoicePlanGreenAndCleanPlan" runat="server">
-            <itemtemplate>
-                <table id="table" runat="server">
-                    <thead>
-                        <tr>
-                            <td id="tdDate" runat="server"></td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td id="tdKwh500Label" runat="server"></td>
-                            <td id="tdKwh1000Label" runat="server"></td>
-                            <td id="tdKwh2000Label" runat="server"></td>
-                        </tr>
-                        <tr>
-                            <td id="tdKwh500OncorPrice" runat="server"></td>
-                            <td id="tdKwh1000OncorPrice" runat="server"></td>
-                            <td id="tdKwh2000OncorPrice" runat="server"></td>
-                        </tr>
-                        <tr>
-                            <td id="tdKwh500CenterpointPrice" runat="server"></td>
-                            <td id="tdKwh1000CenterpointPrice" runat="server"></td>
-                            <td id="tdKwh2000CenterpointPrice" runat="server"></td>
-                        </tr>
-                        <tr>
-                            <td id="tdKwh500AEPCentralPrice" runat="server"></td>
-                            <td id="tdKwh1000AEPCentralPrice" runat="server"></td>
-                            <td id="tdKwh2000AEPCentralPrice" runat="server"></td>
-                        </tr>
-                        <tr>
-                            <td id="tdKwh500AEPNorthPrice" runat="server"></td>
-                            <td id="tdKwh1000AEPNorthPrice" runat="server"></td>
-                            <td id="tdKwh2000AEPNorthPrice" runat="server"></td>
-                        </tr>
-                        <tr>
-                            <td id="tdKwh500TNMPPrice" runat="server"></td>
-                            <td id="tdKwh1000TNMPPrice" runat="server"></td>
-                            <td id="tdKwh2000TNMPPrice" runat="server"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </itemtemplate>
-        </asp:Repeater>
+                </tbody>
+            </table>
+        }
+
         <div>@Html.Sitecore().Field("Page Bottom Text")</div>
         <h2>@Html.Sitecore().Field("Location")</h2>
         @Html.Sitecore().Field("Description")
