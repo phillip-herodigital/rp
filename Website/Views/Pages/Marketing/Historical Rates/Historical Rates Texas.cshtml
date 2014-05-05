@@ -35,7 +35,7 @@
             foreach (var kwhPrice in kwhPrices)
             {
                 if ((from tdu in tdus
-                     select item.Fields[kwhPrice + " kWh " + tdu + " Price"].Value).Any(s => !string.IsNullOrEmpty(s)))
+                     select Html.Sitecore().Field(kwhPrice + " kWh " + tdu + " Price", item).ToHtmlString()).Any(s => !string.IsNullOrEmpty(s)))
                 {
                     showKwhPrice.Add(kwhPrice);
                 }
