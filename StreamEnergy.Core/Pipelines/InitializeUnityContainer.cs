@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Configuration;
 
-namespace StreamEnergy.Sitecore
+namespace StreamEnergy.Pipelines
 {
     public class InitializeUnityContainer
     {
