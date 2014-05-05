@@ -188,6 +188,11 @@ article.photoLockup {
 			}
 		}
 	}
+	@each $theme in $themes {
+		& span.#{map-get($theme, name)} {
+			color: map-get($theme, primaryColor);
+		}
+	}
 
 }
 
@@ -466,6 +471,12 @@ article.full-html {
 			}
 		}
 	}
+	@each $theme in $themes {
+		& span.#{map-get($theme, name)} {
+			color: map-get($theme, primaryColor);
+		}
+	}
+	
 }
 
 article.state-tabs {
@@ -1441,22 +1452,43 @@ article.free-energy {
 	img {
 		margin: auto;
 		display: block;
+		float: left; 
 	}
 	h3 {
 		text-transform: none;
 		margin-bottom: 30px;
 	}
-	.picture-promo {
-		background-image: url('../i/marketing/free-energy.jpg');
-		background-repeat: no-repeat;
-		background-position: center;
-		.promo-content {
+	p {
+			font-size: 21px;
+			line-height: 1.3;
+	}
+	.how-it-works {
+		img {
+			margin: 0px 30px 0px 0px;
+		}
+		h1 {
+			line-height: 1;
+		}
+		p {
+			line-height: 1;
+	}
+	}
+}
+
+article.free-energy.picture-promo {
+	background-image: url('../i/marketing/free-energy.jpg');
+	background-repeat: no-repeat;
+	background-position: center;
+	.promo-content {
+		color: #fff;
+		width: 335px;
+		margin-left: 100px;
+		padding: 320px 0 50px 0;
+		h2 {
 			color: #fff;
-			width: 335px;
-			margin: auto;
-			padding: 320px 0 50px 0;
-			h2 {
-				color: #fff;
+			line-height: 28px;
+			.big {
+				font-size: 31px;
 			}
 		}
 	}
