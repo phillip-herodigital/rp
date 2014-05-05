@@ -10,6 +10,8 @@ namespace StreamEnergy
 {
     internal static class ReflectionExpressionUtility
     {
+        private static readonly Dictionary<Tuple<Type, string>, object> compiledDelegates = new Dictionary<Tuple<Type, string>, object>();
+
         public static PropertyInfo SimpleProperty(this Expression expression)
         {
             return expression.SimpleMember() as PropertyInfo;
@@ -47,6 +49,16 @@ namespace StreamEnergy
                 return cast.Operand;
             }
             return expression;
+        }
+
+        public static TDelegate CachedCompile<TDelegate>(this Expression<TDelegate> expression)
+        {
+            var key = Tuple.Create(typeof(TDelegate), expression.ToString());
+            if (!compiledDelegates.ContainsKey(key))
+            {
+                compiledDelegates[key] = expression.Compile();
+            }
+            return (TDelegate)compiledDelegates[key];
         }
     }
 }
