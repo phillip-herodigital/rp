@@ -11,7 +11,8 @@ $themes:
 	(name: "red", primaryColor: #aa2130, accentColor: #fff, textColor: #fff),
 	(name: "palered", primaryColor: #b48789, accentColor: #fff, textColor: #fff),
 	(name: "white", primaryColor: #fff, accentColor: #1773cb, textColor: #6b6b6b),
-	(name: "grey", primaryColor: #e8e8e8, accentColor: #1773cb, textColor: #6b6b6b);
+	(name: "grey", primaryColor: #e8e8e8, accentColor: #1773cb, textColor: #6b6b6b),
+	(name: "darkgrey", primaryColor: #6b6b6b, accentColor: #fff, textColor: #fff);
 
 @each $theme in $themes {
 	button, .button {
@@ -188,12 +189,6 @@ article.photoLockup {
 			}
 		}
 	}
-	@each $theme in $themes {
-		& span.#{map-get($theme, name)} {
-			color: map-get($theme, primaryColor);
-		}
-	}
-
 }
 
 article.marketingIntro {
@@ -234,6 +229,14 @@ article.marketingIntro {
 				background-color: map-get($theme, primaryColor);
 				text-shadow: none;
 			}
+		}
+	}
+	@each $theme in $themes {
+		& span.#{map-get($theme, name)} {
+			color: map-get($theme, primaryColor);
+		}
+		& ul.#{map-get($theme, name)} {
+			color: map-get($theme, primaryColor);
 		}
 	}
 }
@@ -1471,7 +1474,7 @@ article.free-energy {
 		}
 		p {
 			line-height: 1;
-	}
+		}
 	}
 }
 
@@ -1492,6 +1495,18 @@ article.free-energy.picture-promo {
 			}
 		}
 	}
+}
+
+article.enroll {
+	margin-top: 20px;
+	.text {
+		padding: 25px 0;
+		h3 {
+			font-size: 32px;
+			line-height: 1.1;
+		}
+	}
+	
 }
 
 article.service-icons {
