@@ -390,28 +390,6 @@
     <Compile Include="layouts\BaseLayout.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="layouts\Pages\Marketing\Historical Rates\Historical Rates Pennsylvania.ascx.cs">
-      <DependentUpon>Historical Rates Pennsylvania.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="layouts\Pages\Marketing\Historical Rates\Historical Rates Pennsylvania.ascx.designer.cs">
-      <DependentUpon>Historical Rates Pennsylvania.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="layouts\Pages\Marketing\Historical Rates\Historical Rates Maryland.ascx.cs">
-      <DependentUpon>Historical Rates Maryland.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="layouts\Pages\Marketing\Historical Rates\Historical Rates Maryland.ascx.designer.cs">
-      <DependentUpon>Historical Rates Maryland.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="layouts\Pages\Marketing\Historical Rates\Historical Rates Texas.ascx.cs">
-      <DependentUpon>Historical Rates Texas.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="layouts\Pages\Marketing\Historical Rates\Historical Rates Texas.ascx.designer.cs">
-      <DependentUpon>Historical Rates Texas.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -844,9 +822,6 @@
     <Content Include="frontend\utility-services.html" />
     <Content Include="Global.asax" />
     <Content Include="layouts\HTML Layout.aspx" />
-    <Content Include="layouts\Pages\Marketing\Historical Rates\Historical Rates Pennsylvania.ascx" />
-    <Content Include="layouts\Pages\Marketing\Historical Rates\Historical Rates Maryland.ascx" />
-    <Content Include="layouts\Pages\Marketing\Historical Rates\Historical Rates Texas.ascx" />
     <Content Include="layouts\Sample Inner Sublayout.ascx" />
     <Content Include="layouts\Sample Sublayout.ascx" />
     <Content Include="layouts\system\VisitorIdentification.aspx" />
@@ -954,6 +929,8 @@
     <Content Include="Views\Pages\Marketing\Historical Rates\Historical Rates Texas.cshtml" />
     <Content Include="Views\Pages\Marketing\Historical Rates\Historical Rates Maryland.cshtml" />
     <Content Include="Views\Pages\Marketing\Historical Rates\Historical Rates Pennsylvania.cshtml" />
+    <Content Include="Views\Pages\Marketing\Press\Press Release.cshtml" />
+    <Content Include="Views\Pages\Marketing\Press\Press Landing.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
