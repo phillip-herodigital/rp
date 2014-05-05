@@ -7,13 +7,16 @@ using System.Threading.Tasks;
 
 namespace StreamEnergy.Processes
 {
-    public interface IState<TContext>
-        where TContext : ISanitizable
+    public interface IState<TContext, TInternalContext>
+        where TContext : class, ISanitizable
+        where TInternalContext : class
     {
         IEnumerable<System.Linq.Expressions.Expression<Func<TContext, object>>> PreconditionValidations();
-        IEnumerable<ValidationResult> AdditionalValidations(TContext data);
+        IEnumerable<ValidationResult> AdditionalValidations(TContext data, TInternalContext internalContext);
         bool IsFinal { get; }
 
-        Type Process(TContext data);
+        Type Process(TContext data, TInternalContext internalContext);
+
+        bool RestoreInternalState(IStateMachine<TContext, TInternalContext> stateMachine, ref TInternalContext internalContext, ref Type state);
     }
 }

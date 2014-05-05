@@ -11,16 +11,23 @@ namespace StreamEnergy.Processes
     /// A basic interface for a state machine to run the State design pattern.
     /// </summary>
     /// <typeparam name="TContext">A type that contains the relevant data preserved between states</typeparam>
-    public interface IStateMachine<TContext>
-        where TContext : ISanitizable
+    /// <typeparam name="TInternalContext">A type that contains relevant data internal to states that can be restored - a cache of sorts - specific to this flow</typeparam>
+    public interface IStateMachine<TContext, TInternalContext>
+        where TContext : class, ISanitizable
+        where TInternalContext : class
     {
-        void Initialize(TContext context, Type state);
+        void Initialize(Type state, TContext context, TInternalContext internalContext = null);
 
         TContext Context { get; }
+        TInternalContext InternalContext { get; }
         Type State { get; }
-        
+
+        bool RestoreStateFrom(Type state, ref TInternalContext internalContext, ref Type currentState);
+
         void Process(params Type[] stopAt);
 
         IEnumerable<ValidationResult> ValidationResults { get; }
+
+        IEnumerable<ValidationResult> ValidateForState(IState<TContext, TInternalContext> state);
     }
 }

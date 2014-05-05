@@ -16,11 +16,11 @@ namespace StreamEnergy.Core.Tests.Processes
         #region Tested implementations
         class CreateAccountContext : ISanitizable
         {
-            [Required(ErrorMessage="Username Required")]
-            [RegularExpression("^[a-zA-Z0-9]{6,}$", ErrorMessage="Username Invalid")]
+            [Required(ErrorMessage = "Username Required")]
+            [RegularExpression("^[a-zA-Z0-9]{6,}$", ErrorMessage = "Username Invalid")]
             public string Username { get; set; }
 
-            [Required(ErrorMessage="Password Required")]
+            [Required(ErrorMessage = "Password Required")]
             public string Password { get; set; }
 
             [Required(ErrorMessage = "Password Confirmation Required")]
@@ -29,7 +29,7 @@ namespace StreamEnergy.Core.Tests.Processes
 
             // This is a bad regex for email addresses. I don't care; this is a test. Just don't re-use it.
             [Required(ErrorMessage = "Email Required")]
-            [RegularExpression(@"[a-zA-Z0-9.]+\@[a-zA-Z0-9]+\.[a-zA-Z0-9]+", ErrorMessage="Email Invalid")]
+            [RegularExpression(@"[a-zA-Z0-9.]+\@[a-zA-Z0-9]+\.[a-zA-Z0-9]+", ErrorMessage = "Email Invalid")]
             public string Email { get; set; }
 
             public void Sanitize()
@@ -41,7 +41,7 @@ namespace StreamEnergy.Core.Tests.Processes
             }
         }
 
-        class GatherDataState : IState<CreateAccountContext>
+        class GatherDataState : IState<CreateAccountContext, object>
         {
             private Action called;
 
@@ -57,7 +57,7 @@ namespace StreamEnergy.Core.Tests.Processes
                 yield return context => context.ConfirmPassword;
             }
 
-            public IEnumerable<ValidationResult> AdditionalValidations(CreateAccountContext context)
+            public IEnumerable<ValidationResult> AdditionalValidations(CreateAccountContext context, object internalContext)
             {
                 return Enumerable.Empty<ValidationResult>();
             }
@@ -67,14 +67,19 @@ namespace StreamEnergy.Core.Tests.Processes
                 get { return false; }
             }
 
-            public Type Process(CreateAccountContext data)
+            public Type Process(CreateAccountContext data, object internalContext)
             {
                 called();
                 return typeof(VerifyState);
             }
+
+            public bool RestoreInternalState(IStateMachine<CreateAccountContext, object> stateMachine, ref object internalContext, ref Type state)
+            {
+                return true;
+            }
         }
 
-        class VerifyState : IState<CreateAccountContext>
+        class VerifyState : IState<CreateAccountContext, object>
         {
             private Action called;
 
@@ -91,7 +96,7 @@ namespace StreamEnergy.Core.Tests.Processes
                 yield return context => context.Email;
             }
 
-            public IEnumerable<ValidationResult> AdditionalValidations(CreateAccountContext context)
+            public IEnumerable<ValidationResult> AdditionalValidations(CreateAccountContext context, object internalContext)
             {
                 return Enumerable.Empty<ValidationResult>();
             }
@@ -101,14 +106,19 @@ namespace StreamEnergy.Core.Tests.Processes
                 get { return false; }
             }
 
-            public Type Process(CreateAccountContext data)
+            public Type Process(CreateAccountContext data, object internalContext)
             {
                 called();
                 return typeof(ConfirmationState);
             }
+
+            public bool RestoreInternalState(IStateMachine<CreateAccountContext, object> stateMachine, ref object internalContext, ref Type state)
+            {
+                return true;
+            }
         }
 
-        class ConfirmationState : SimpleFinalState<CreateAccountContext> { }
+        class ConfirmationState : SimpleFinalState<CreateAccountContext, object> { }
 
         #endregion
 
@@ -117,10 +127,10 @@ namespace StreamEnergy.Core.Tests.Processes
             void Callback(Type state);
         }
 
-        private IStateMachine<CreateAccountContext> Create(ICheckState mock)
+        private IStateMachine<CreateAccountContext, object> Create(ICheckState mock)
         {
             var unity = new UnityContainer();
-            var result = new StateMachine<CreateAccountContext>(unity);
+            var result = new StateMachine<CreateAccountContext, object>(unity);
             result.ResolverOverrides = new ResolverOverride[] {
                     new DependencyOverride(typeof(Action), (Action)(() => mock.Callback(result.State)))
                 };
@@ -131,10 +141,10 @@ namespace StreamEnergy.Core.Tests.Processes
         public void NoProgressTest()
         {
             var mock = new Moq.Mock<ICheckState>(Moq.MockBehavior.Strict);
-            IStateMachine<CreateAccountContext> stateMachine = Create(mock.Object);
+            var stateMachine = Create(mock.Object);
             var context = new CreateAccountContext();
 
-            stateMachine.Initialize(context, typeof(GatherDataState));
+            stateMachine.Initialize(typeof(GatherDataState), context);
 
             Assert.AreEqual(typeof(GatherDataState), stateMachine.State);
             Assert.AreEqual(context, stateMachine.Context);
@@ -150,10 +160,10 @@ namespace StreamEnergy.Core.Tests.Processes
         public void BlankValidationsTest()
         {
             var mock = new Moq.Mock<ICheckState>(Moq.MockBehavior.Strict);
-            IStateMachine<CreateAccountContext> stateMachine = Create(mock.Object);
+            var stateMachine = Create(mock.Object);
             var context = new CreateAccountContext();
 
-            stateMachine.Initialize(context, typeof(GatherDataState));
+            stateMachine.Initialize(typeof(GatherDataState), context);
 
             Assert.IsTrue(stateMachine.ValidationResults.Select(r => r.ErrorMessage).SequenceEqual(new[] { "Username Required", "Password Required", "Password Confirmation Required" }));
             Assert.AreEqual(typeof(GatherDataState), stateMachine.State);
@@ -164,10 +174,10 @@ namespace StreamEnergy.Core.Tests.Processes
         public void FailedValidationTest()
         {
             var mock = new Moq.Mock<ICheckState>(Moq.MockBehavior.Strict);
-            IStateMachine<CreateAccountContext> stateMachine = Create(mock.Object);
+            var stateMachine = Create(mock.Object);
             var context = new CreateAccountContext();
 
-            stateMachine.Initialize(context, typeof(GatherDataState));
+            stateMachine.Initialize(typeof(GatherDataState), context);
 
             context.Username = " tester";
             context.Password = "somePassword";
@@ -188,14 +198,14 @@ namespace StreamEnergy.Core.Tests.Processes
         public void InitialValidationsTest()
         {
             var mock = new Moq.Mock<ICheckState>(Moq.MockBehavior.Strict);
-            IStateMachine<CreateAccountContext> stateMachine = Create(mock.Object);
+            var stateMachine = Create(mock.Object);
             var context = new CreateAccountContext();
 
             context.Username = "tester";
             context.Password = "somePassword";
             context.ConfirmPassword = "somePassword";
 
-            stateMachine.Initialize(context, typeof(VerifyState));
+            stateMachine.Initialize(typeof(VerifyState), context);
 
             Assert.IsTrue(stateMachine.ValidationResults.Select(r => r.ErrorMessage).SequenceEqual(new[] { "Email Required" }));
             Assert.AreEqual(typeof(VerifyState), stateMachine.State);
@@ -206,10 +216,10 @@ namespace StreamEnergy.Core.Tests.Processes
         public void StopAtVerifyTest()
         {
             var mock = new Moq.Mock<ICheckState>(Moq.MockBehavior.Strict);
-            IStateMachine<CreateAccountContext> stateMachine = Create(mock.Object);
+            var stateMachine = Create(mock.Object);
             var context = new CreateAccountContext();
 
-            stateMachine.Initialize(context, typeof(GatherDataState));
+            stateMachine.Initialize(typeof(GatherDataState), context);
 
             context.Username = "tester";
             context.Password = "somePassword";
@@ -232,10 +242,10 @@ namespace StreamEnergy.Core.Tests.Processes
         public void PassThroughToConfirmationTest()
         {
             var mock = new Moq.Mock<ICheckState>(Moq.MockBehavior.Strict);
-            IStateMachine<CreateAccountContext> stateMachine = Create(mock.Object);
+            var stateMachine = Create(mock.Object);
             var context = new CreateAccountContext();
 
-            stateMachine.Initialize(context, typeof(GatherDataState));
+            stateMachine.Initialize(typeof(GatherDataState), context);
 
             context.Username = "tester";
             context.Password = "somePassword";
@@ -260,14 +270,14 @@ namespace StreamEnergy.Core.Tests.Processes
         public void StartAtVerifyTest()
         {
             var mock = new Moq.Mock<ICheckState>(Moq.MockBehavior.Strict);
-            IStateMachine<CreateAccountContext> stateMachine = Create(mock.Object);
+            var stateMachine = Create(mock.Object);
             var context = new CreateAccountContext();
 
             context.Username = "tester";
             context.Password = "somePassword";
             context.ConfirmPassword = "somePassword";
 
-            stateMachine.Initialize(context, typeof(VerifyState));
+            stateMachine.Initialize(typeof(VerifyState), context);
 
             context.Email = "a@b.c";
 
@@ -288,10 +298,10 @@ namespace StreamEnergy.Core.Tests.Processes
         public void PauseAtVerifyTest()
         {
             var mock = new Moq.Mock<ICheckState>(Moq.MockBehavior.Strict);
-            IStateMachine<CreateAccountContext> stateMachine = Create(mock.Object);
+            var stateMachine = Create(mock.Object);
             var context = new CreateAccountContext();
 
-            stateMachine.Initialize(context, typeof(GatherDataState));
+            stateMachine.Initialize(typeof(GatherDataState), context);
 
             context.Username = "tester";
             context.Password = "somePassword";

@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace StreamEnergy.Processes
 {
-    public class StateMachine<TContext> : IStateMachine<TContext>
-        where TContext : ISanitizable
+    public class StateMachine<TContext, TInternalContext> : IStateMachine<TContext, TInternalContext>
+        where TContext : class, ISanitizable
+        where TInternalContext : class
     {
         private readonly IUnityContainer container;
         private IEnumerable<ValidationResult> lastValidations;
@@ -19,16 +20,20 @@ namespace StreamEnergy.Processes
             this.container = container;
         }
 
-        public void Initialize(TContext context, Type state)
+        public void Initialize(Type state, TContext context, TInternalContext internalContext)
         {
             lastValidations = null;
             Context = context;
-            State = state;
-
             context.Sanitize();
+
+            RestoreStateFrom(state, ref internalContext, ref state);
+            InternalContext = internalContext;
+            State = state;
         }
 
         public TContext Context { get; private set; }
+
+        public TInternalContext InternalContext { get; private set; }
 
         public Type State { get; private set; }
 
@@ -46,7 +51,7 @@ namespace StreamEnergy.Processes
                 if (lastValidations.Any())
                     break;
 
-                State = state.Process(Context);
+                State = state.Process(Context, InternalContext);
 
                 lastValidations = null;
                 Context.Sanitize();
@@ -67,12 +72,27 @@ namespace StreamEnergy.Processes
 
         public IEnumerable<ResolverOverride> ResolverOverrides { get; set; }
 
-        protected IState<TContext> GetState()
+        public bool RestoreStateFrom(Type state, ref TInternalContext internalContext, ref Type currentState)
         {
-            return (IState<TContext>)container.Resolve(State, (ResolverOverrides ?? Enumerable.Empty<ResolverOverride>()).ToArray());
+            return BuildState(state).RestoreInternalState(this, ref internalContext, ref currentState);
         }
 
-        private void RunStateValidations(IState<TContext> state)
+        protected IState<TContext, TInternalContext> GetState()
+        {
+            return BuildState(State);
+        }
+
+        private IState<TContext, TInternalContext> BuildState(Type state)
+        {
+            return container.Resolve(state, (ResolverOverrides ?? Enumerable.Empty<ResolverOverride>()).ToArray()) as IState<TContext, TInternalContext>;
+        }
+
+        private void RunStateValidations(IState<TContext, TInternalContext> state)
+        {
+            lastValidations = ValidateForState(state);
+        }
+
+        public IEnumerable<ValidationResult> ValidateForState(IState<TContext, TInternalContext> state)
         {
             var validationContext = new ValidationContext(Context);
             var validations = new HashSet<ValidationResult>();
@@ -82,7 +102,8 @@ namespace StreamEnergy.Processes
                 Validator.TryValidateProperty(property.value, validationContext, validations);
             }
 
-            lastValidations = validations.Concat(state.AdditionalValidations(Context)).ToArray();
+            return validations.Concat(state.AdditionalValidations(Context, InternalContext)).ToArray();
         }
+
     }
 }
