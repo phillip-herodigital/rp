@@ -1,5 +1,6 @@
 .enrollment {
 	.site-header {
+		background: #fff;
 		height: 121px;
 		> .wrapper {
 			position: fixed;
@@ -10,7 +11,7 @@
 			@include retina-background("header-enrollment.png");
 			background-repeat: repeat-x;
 			z-index: 2;
-			height: 57px;
+			height: 121px;
 			@include breakpoint(small) {
 				background: none;
 			}
@@ -30,12 +31,15 @@
 			margin-top: 22px;
 		}
 		@include breakpoint(small) {
-			height: 67px;
+			height: 57px;
+			> .wrapper {
+				height: 57px;
+			}
 		}
 	}
 
 	.banner {
-		height: 320px;
+		height: 335px;
 		background-position: 50%;
 		background-size: cover;
 		border-bottom: 5px solid #dfdfdf;
@@ -50,7 +54,7 @@
 			@extend .clearfix;
 			position: relative;
 			overflow: visible;
-			min-height: 150px;
+			min-height: 200px;
 		}
 		aside.left {
 			position: absolute;
@@ -64,6 +68,9 @@
 				display: none;
 			}
 			nav {
+				ul {
+					margin-top: 0;
+				}
 				li {
 					position: relative;
 					&::before {
@@ -108,9 +115,13 @@
 			margin: 0;
 			@include border-radius(0);
 			@include box-shadow(none);
+			float: left;
+			width: 650px;
+			padding: 0;
 		}
 		aside.right {
 			float: right;
+			width: 290px;
 		}
 	}
 	.site-footer {
