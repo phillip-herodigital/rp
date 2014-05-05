@@ -45,7 +45,8 @@ namespace StreamEnergy.Mvc
         {
             if (invocation.Method == getSession)
             {
-                if (sessionProxy == null)
+                var innerValue = ((HttpContextBase)invocation.InvocationTarget).Session;
+                if (innerValue != null && sessionProxy == null)
                     sessionProxy = MvcProxyGenerator.Generator.CreateClassProxyWithTarget(((HttpContextBase)invocation.InvocationTarget).Session, this);
                 invocation.ReturnValue = sessionProxy;
                 return;

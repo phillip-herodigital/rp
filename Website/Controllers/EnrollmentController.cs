@@ -1,0 +1,50 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web;
+using System.Web.Http;
+using System.Web.SessionState;
+
+namespace StreamEnergy.MyStream.Controllers
+{
+    public class EnrollmentController : ApiController, IRequiresSessionState
+    {
+        private HttpSessionStateBase session;
+
+        public EnrollmentController(HttpSessionStateBase session)
+        {
+            this.session = session;
+        }
+
+        // GET api/<controller>
+        public IEnumerable<string> Get()
+        {
+            return new string[] { "value1", "value2" };
+        }
+
+        // GET api/<controller>/5
+        public string Get(int id)
+        {
+            return "value";
+        }
+
+        // POST api/<controller>
+        public void Post([FromBody]string value)
+        {
+        }
+
+        [HttpGet]
+        public IEnumerable<string> Trial()
+        {
+            return new string[] { "value1", "value2" };
+        }
+
+        [HttpPost]
+        public IEnumerable<string> Trial([FromBody]string value)
+        {
+            return new string[] { "value1", "value2", value };
+        }
+    }
+}
