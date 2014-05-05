@@ -1,0 +1,86 @@
+﻿@{
+    var planContent = new Dictionary<string, dynamic>();
+    foreach (var plan in new string[] { "Electricity Month-to-Month Rates", "Electricity Green Rates", "Gas Month-to-Month Rates" })
+    {
+        var variablePricePlanItems = Html.Sitecore().CurrentItem.Children[plan].Children.OrderByDescending(C => C.Fields["Date"].Value);
+        var variablePricePlanRows = new Dictionary<string, List<dynamic>>();
+        var tdus = new string[] { "Duquesne", "PPL", "PECO", "METED", "WPP", "PENELEC" };
+        var headerRow = new List<dynamic>();
+        headerRow.Add(new
+        {
+            Text = "",
+            ColSpan = 1,
+        });
+        
+        foreach (var tdu in tdus)
+        {
+            if ((from item in variablePricePlanItems
+                 select Sitecore.Web.UI.WebControls.FieldRenderer.Render(item, tdu + " Price")).Any(t => !string.IsNullOrEmpty(t)))
+            {
+                variablePricePlanRows.Add(tdu, new List<dynamic>());
+                variablePricePlanRows[tdu].Add(new
+                {
+                    Text = Html.Sitecore().Field(tdu + " Text"),
+                });
+            }
+        }
+
+        foreach (var item in variablePricePlanItems)
+        {
+            headerRow.Add(new
+            {
+                Text = Sitecore.Web.UI.WebControls.FieldRenderer.Render(item, "Date", "format=M/d/yyyy"),
+                ColSpan = 1,
+            });
+
+            foreach (var row in variablePricePlanRows)
+            {
+                row.Value.Add(new
+                {
+                    Text = Html.Sitecore().Field(row.Key + " Price", item),
+                });
+            }
+        }
+        planContent.Add(plan, new
+        {
+            IntroText = Html.Sitecore().Field(plan + " Text"),
+            HeaderRow = headerRow,
+            PlanItems = variablePricePlanRows,
+        });
+    }
+}
+<article class="marketing">
+    <div class="wrapper">
+        <h1>@Html.Sitecore().Field("Header Text")</h1>
+        <p>@Html.Sitecore().Field("Intro Paragraph")</p>
+
+        @foreach (var plan in planContent)
+        {
+            <p>@plan.Value.IntroText</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        @foreach (var cell in plan.Value.HeaderRow)
+                        {
+                            <td colspan="@cell.ColSpan">@Html.Raw(cell.Text)</td>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var row in plan.Value.PlanItems)
+                    {
+                        <tr>
+                            @foreach (var cell in row.Value)
+                            {
+                                <td>@cell.Text</td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+        <div>@Html.Sitecore().Field("Page Bottom Text")</div>
+    </div>
+</article>
