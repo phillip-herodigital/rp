@@ -49,7 +49,6 @@
 	}
 
 	section {
-		background: #f1f1f8;
 		.wrapper {
 			@extend .clearfix;
 			position: relative;
@@ -122,7 +121,68 @@
 		aside.right {
 			float: right;
 			width: 290px;
+			.box {
+				background: #fafafa;
+				color: #333;
+				margin-bottom: 15px;
+				padding: 10px;
+				@include border-radius(4px);
+				h1 {
+					font-size: 20px;
+					text-transform: none;
+					margin: 15px 10px;
+				}
+				p {
+					font-size: 16px;
+				}
+				ul.info {
+					border-top: 1px solid #e2e2e3;
+					padding: 0;
+					li {
+						border-bottom: 1px solid #e2e2e3;
+						list-style-type: none;
+						padding: 10px 0;
+						font-size: 13px;
+						i {
+							width: 25px;
+						}
+					}
+				}
+				.box {
+					background: #fdfdfd;
+					margin-bottom: 8px;
+					p {
+						font-size: 13px;
+						margin: 10px 0;
+						&.alt {
+							color: #9a9a9a;
+							font-size: 15px;
+						}
+					}
+					&.time {
+						.icon-clock {
+							float: left;
+							margin: 12px 15px 0 0;
+						}
+					}
+				}
+			}
 		}
+		.cart-items {
+			float: right;
+			margin-right: 10px;
+			position: relative;
+			.item-num {
+				position: absolute;
+				font-size: 13px;
+				font-weight: bold;
+				top: -5px;
+				right: 8px;
+			}
+		}
+	}
+	.box {
+		border: 1px solid #ebebeb;
 	}
 	.site-footer {
 		margin-top: 0;

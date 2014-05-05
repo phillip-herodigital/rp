@@ -68,17 +68,44 @@
 						<h1>Let's Get Started</h1>
 						<p>To help us build a relationship with you, we need to check if you’re in our service area. Please enter your zip code in the space provided below.</p>
 						<form>
-							<div class="item">
-								<label for="address-or-zip">Address or Zip Code</label>
-								<input type="text" id="address-or-zip" placeholder="Start typing your address"/>
-									Texas
-							</div>
-							<div class="item">
-								<label>Choose One Of The Following Options</label>
-								<ul class="checkbox-list">
-									<li><input type="radio" name="service-type" id="switching-electricity-providers"><label for="switching-electricity-providers">Switching electricity providers</label></li>
-									<li><input type="radio" name="service-type" id="setting-up-new-service"><label for="setting-up-new-service">Setting up new service</label></li>
-								</ul>
+							<div class="box">
+								<div class="item">
+									<label for="service-type">What are you interested in?</label>
+									<select id="service-type">
+										<option value="">Please Choose</option>
+										<option value="">Residential Utilities</option>
+										<option value="">Commercial Utilities</option>
+										<option value="">Homelife Services</option>
+									</select>
+								</div>
+								<div class="item">
+									<label for="address-or-zip">Address or Zip Code</label>
+									<input type="text" id="address-or-zip" placeholder="Start typing your address"/>
+									<select id="state">
+										<option value="">Texas</option>
+									</select>
+								</div>
+								<div class="item">
+									<label>Choose One Of The Following Options</label>
+									<ul class="checkbox-list">
+										<li><input type="radio" name="service-type" id="switching-electricity-providers"><label for="switching-electricity-providers">Switching electricity providers</label></li>
+										<li><input type="radio" name="service-type" id="setting-up-new-service"><label for="setting-up-new-service">Setting up new service</label></li>
+									</ul>
+								</div>
+								<div class="item">
+									<label>How many premises are your enrolling?</label>
+									<ul class="checkbox-list">
+										<li><input type="radio" name="premise-num" id="less-than-5"><label for="less-than-5">Less than 5</label></li>
+										<li><input type="radio" name="premise-num" id="5-or-more"><label for="5-or-more">5 or more</label></li>
+									</ul>
+								</div>
+								<div class="item">
+									<label>What is your total monthly spending?</label>
+									<ul class="checkbox-list">
+										<li><input type="radio" name="monthly-spending" id="less-than-150"><label for="less-than-150">Less than $150.00</label></li>
+										<li><input type="radio" name="monthly-spending" id="150-or-more"><label for="150-or-more">$150 or more</label></li>
+									</ul>
+								</div>
 							</div>
 						</form>
 						<p><a class="button" href="">Continue</a></p>
@@ -86,24 +113,27 @@
 					<aside class="right">
 						<div class="box">
 							<header>
+								<div class="cart-items">
+									<i class="icon-cart"></i>
+									<div class="item-num">0</div>
+								</div>
 								<h1>Your Cart</h1>
 							</header>
 							<div class="body">
-								<p>Your cart is empty.  To get started please enter your address and choose a plan.
-							</div>
-							<footer>
-								<p>It will take approximately <strong>9</strong> more minutes to complete your order.
-							</footer>
-						</div>
-						<div class="box">
-							<div class="body">
+								<div class="box">
+									<p class="alt">Your cart is empty.  To get started please enter your address and choose a plan.
+								</div>
+								<div class="box time">
+									<i class="icon-clock"></i>
+									<p>It will take approximately <strong>9</strong> more minutes to complete your order.
+								</div>
 								<p>Here's some documents you'll need to complete your order:</p>
-								<ul>
-									<li>Your Service Address</li>
-									<li><a href="">Your <a href="">Bill Account Number</a></li>
-									<li>Your <a href="">Utility Provider</a></li>
-									<li>Your Social Security Number</li>
-									<li>Your Driver's License Number</li>
+								<ul class="info">
+									<li><i class="icon-home"></i> Your Service Address</li>
+									<li><i class="icon-bill"></i> Your <a href="">Bill Account Number</a></li>
+									<li><i class="icon-utility-provider"></i> Your <a href="">Utility Provider</a></li>
+									<li><i class="icon-ssn"></i> Your Social Security Number</li>
+									<li><i class="icon-drivers-license"></i> Your Driver's License Number</li>
 								</ul>
 							</div>
 						</div>
@@ -198,6 +228,7 @@
 								</tr>
 							</tbody>
 						</table>
+						<p><a class="button" href="">Continue</a></p>
 					</article>
 					<aside class="right">
 					</aside>
@@ -247,29 +278,16 @@
 								<div class="group">
 									<div class="item">
 										<label for="firstname">First Name</label>
-										<input type="text" id="firstname" />
+										<input type="text" id="firstname" placeholder="Jordan" />
 									</div>
 									<div class="item">
 										<label for="lastname">Last Name</label>
-										<input type="text" id="lastname" />
+										<input type="text" id="lastname" placeholder="Campbell" />
 									</div>
 								</div>
 								<div class="item">
-									<label for="service-address">Service Address</label>
-									<strong>123 Main Street, Dallas, TX 75001</strong>
-								</div>
-								<div class="item">
-									<label for="utility-account-number">Utility Account Number</label>
-									<input type="text" id="ultility-account-number" placeholder="654-XXXX-XXX-XXXXXX"/>
-									<a href="">See Example</a>
-								</div>
-								<div class="item">
-									<label for="service-start-date">Service Start Date</label>
-									<input type="text" id="ultility-account-number" placeholder="01/29/14"/>
-								</div>
-								<div class="item">
-									<label for="connection-fee">Connection Fee</label>
-									<strong>$10.25 (Priority Connect)</strong>
+									<label for="ssn">Social Security Number</label>
+									<input type="text" id="ssn" placeholder="390-20-1094"/>
 								</div>
 							</div>
 							<h2>Billing Address</h2>
