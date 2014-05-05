@@ -10,8 +10,6 @@ namespace StreamEnergy
 {
     public static class Json
     {
-        private static readonly JsonSerializerSettings standardFormatting;
-
         public static string Stringify(object target)
         {
             return JsonConvert.SerializeObject(target, StandardFormatting);
