@@ -954,6 +954,8 @@
     <Content Include="Views\Pages\Marketing\Historical Rates\Historical Rates Texas.cshtml" />
     <Content Include="Views\Pages\Marketing\Historical Rates\Historical Rates Maryland.cshtml" />
     <Content Include="Views\Pages\Marketing\Historical Rates\Historical Rates Pennsylvania.cshtml" />
+    <Content Include="Views\Pages\Marketing\Press\Press Release.cshtml" />
+    <Content Include="Views\Pages\Marketing\Press\Press Landing.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
