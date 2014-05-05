@@ -53,7 +53,8 @@
 			@extend .clearfix;
 			position: relative;
 			overflow: visible;
-			min-height: 200px;
+			min-height: 700px;
+			padding-bottom: 50px;
 		}
 		aside.left {
 			position: absolute;
@@ -71,43 +72,74 @@
 					margin-top: 0;
 				}
 				li {
-					position: relative;
-					&::before {
-						color: #bfbfbf;
-						content: ' \25CF';
-						position: absolute;
-						top: -2px;
-						left: -25px;
-						width: 10px;
-						height: 10px;
-						font-size: 16px;
+					a {
+						position: relative;
+						&::before {
+							color: #bfbfbf;
+							content: ' \25CF';
+							position: absolute;
+							top: -2px;
+							left: -25px;
+							width: 10px;
+							height: 10px;
+							font-size: 16px;
+						}
 					}
 					&:hover,
 					&.active {
 						a {
 							color: #333;
-						}
-						&::before {
-							color: #053d5a;
-							font-size: 32px;
-							left: -30px;
-							top: -13px;
+							&::before {
+								color: #053d5a;
+								font-size: 32px;
+								left: -30px;
+								top: -13px;
+							}
 						}
 					}
 					&.completed {
-						&::before {
-							color: #36637b;
+						a {
+							&::before {
+								color: #36637b;
+							}
 						}
 					}
 				}
 				a {
 					color: #bfbfbf;
 					font-size: 14px;
-					@include transition-property(all);
+					@include transition-property(color);
   					@include transition-duration(0.25s);
   					@include transition-timing-function(ease-in);
 				}
 			}
+
+			@media only screen and (max-width: 1055px) {
+				display: none;
+			}
+
+			@media only screen and (min-width: 1056px) and (max-width: 1515px) {
+				width: 25px;
+				left: -40px;
+				nav {
+					ul {
+						li {
+							height: 22px;
+							a {
+								color: transparent;
+								visibility: hidden;
+								@include transition-duration(0);
+								&::before {
+									color: #bfbfbf;
+									visibility: visible;
+								}
+							}
+						}
+					}
+				}
+			}
+
+
 		}
 		article {
 			border: 0;
@@ -117,6 +149,33 @@
 			float: left;
 			width: 650px;
 			padding: 0;
+			h1 {
+				font-size: 31px;
+				letter-spacing: -1px;
+			}
+			h2 {
+				color: #333;
+				font-weight: bold;
+				font-size: 20px;
+			}
+			.item {
+				margin-bottom: 20px;
+			}
+			.box {
+				@include border-radius(10px);
+				@include box-shadow(0 1px 1px rgba(0,0,0,.15));
+				@include transition(border linear .2s, box-shadow linear .2s);
+				margin-bottom: 25px;
+			}
+			@include breakpoint(medium) {
+				float: none;
+				width: auto;
+			}
+
+			@include breakpoint(small) {
+				float: none;
+				width: auto;
+			}
 		}
 		aside.right {
 			float: right;
@@ -125,7 +184,6 @@
 				background: #fafafa;
 				color: #333;
 				margin-bottom: 15px;
-				padding: 10px;
 				@include border-radius(4px);
 				h1 {
 					font-size: 20px;
@@ -160,12 +218,22 @@
 						}
 					}
 					&.time {
+						position: relative;
+						padding-left: 55px;
 						.icon-clock {
-							float: left;
-							margin: 12px 15px 0 0;
+							position: absolute;
+							top: 27px;
+							left: 15px;
 						}
 					}
 				}
+			}
+			@include breakpoint(medium) {
+				display: none;
+			}
+
+			@include breakpoint(small) {
+				display: none;
 			}
 		}
 		.cart-items {
@@ -179,10 +247,83 @@
 				top: -5px;
 				right: 8px;
 			}
-		}
+		}	
 	}
 	.box {
 		border: 1px solid #ebebeb;
+		padding: 15px;
+	}
+	table {
+		thead {
+			th {
+				background: #f7f7f7;
+				color: #646464;
+				text-transform: uppercase;
+				font-weight: bold;
+				text-align: center;
+				padding: 25px 15px;
+			}
+		}
+		tbody {
+			td {
+				text-align: center;
+			}
+		}
+		.vertical {
+			padding: 0;
+			text-align: center;
+			height: 100px;
+			width: 20px;
+			position: relative;
+			.fixed, .variable {
+				position: absolute;
+				top: 40px; left: -40px;
+				@include rotate(-90deg);
+				text-transform: uppercase;
+				color: #fff;
+				height: 20px;
+				width: 100px;
+			}
+			.fixed {
+				background: #053d5a;
+			}
+			.variable {
+				background: #79bb4b;
+			}
+		}
+		.plan-name {
+			font-size: 18px;
+			font-weight: bold;
+			text-align: left;
+			a {
+				display: block;
+				font-weight: normal;
+				margin-top: 15px;
+				font-size: 12px;
+			}
+		}
+		.details {
+			th {
+				border-right: 0;
+			}
+			td {
+				border-left: 0;
+				text-align: left;
+				p {
+					font-size: 15px;
+				}
+			}
+		}
+		.spacer {
+			height: 20px;
+		}
+	}
+	@each $theme in $themes {
+		&.accent-#{map-get($theme, name)} {
+		 	h1 span {
+				color: map-get($theme, primaryColor);
+			}
+		}
 	}
 	.site-footer {
 		margin-top: 0;
