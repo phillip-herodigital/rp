@@ -1,8 +1,74 @@
-﻿<article class="marketing">
+﻿@{
+    var variablePricePlanItems = Html.Sitecore().CurrentItem.Children["Variable Price Plan"].Children.OrderByDescending(C => C.Fields["Date"].Value);
+    var variablePricePlanRows = new List<List<dynamic>>();
+    var headerRow = new List<dynamic>();
+    headerRow.Add(new
+    {
+        Text = "",
+    });
+
+    foreach (var item in variablePricePlanItems)
+    {
+        var num = 0;
+        if (!string.IsNullOrEmpty(Html.Sitecore().Field("500 kWh Label", item).ToHtmlString()))
+        {
+            num++;
+        }
+        if (!string.IsNullOrEmpty(Html.Sitecore().Field("1000 kWh Label", item).ToHtmlString()))
+        {
+            num++;
+        }
+        if (!string.IsNullOrEmpty(Html.Sitecore().Field("2000 kWh Label", item).ToHtmlString()))
+        {
+            num++;
+        }
+        headerRow.Add(new
+        {
+            Text = Html.Sitecore().Field("Date", item),
+            ColSpan = num,
+        });
+    }
+
+    /*if (!string.IsNullOrEmpty(item.Fields["500 kWh Label"].Value))
+    {
+        headerRow.Add(new
+        {
+            Text = Html.Sitecore().Field("500 kWh Label"),
+        });
+    }
+    if (!string.IsNullOrEmpty(item.Fields["1000 kWh Label"].Value))
+    {
+        headerRow.Add(new
+        {
+            Text = Html.Sitecore().Field("1000 kWh Label"),
+        });
+    }
+    if (!string.IsNullOrEmpty(item.Fields["2000 kWh Label"].Value))
+    {
+        headerRow.Add(new
+        {
+            Text = Html.Sitecore().Field("2000 kWh Label"),
+        });
+    }*/
+    
+    
+}
+<article class="marketing">
     <div class="wrapper">
         <h1>@Html.Sitecore().Field("Header Text")</h1>
         <p>@Html.Sitecore().Field("Intro Paragraph")</p>
         <p>@Html.Sitecore().Field("Variable Price Plan Text")</p>
+
+        <table>
+            <thead>
+                <tr>
+                    @foreach (var cell in headerRow)
+                    {
+                        <td colspan="@cell.CollSpan">@cell.Text</td>
+                    }
+                </tr>
+            </thead>
+        </table>
         <table>
             <tr>
                 <td></td>
