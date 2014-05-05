@@ -1,0 +1,277 @@
+﻿<article class="marketing">
+    <div class="wrapper">
+        <h1>@Html.Sitecore().Field("Header Text")</h1>
+        <p>@Html.Sitecore().Field("Intro Paragraph")</p>
+        <p>@Html.Sitecore().Field("Variable Price Plan Text")</p>
+        <table>
+            <tr>
+                <td></td>
+            </tr>
+            <tr>
+                <td>@Html.Sitecore().Field("Service Area Text")</td>
+            </tr>
+            <tr>
+                <td>@Html.Sitecore().Field("Oncor Text")</td>
+            </tr>
+            <tr>
+                <td>@Html.Sitecore().Field("Centerpoint Text")</td>
+            </tr>
+            <tr>
+                <td>@Html.Sitecore().Field("AEP Central Text")</td>
+            </tr>
+            <tr>
+                <td>@Html.Sitecore().Field("AEP North Text")</td>
+            </tr>
+            <tr>
+                <td>@Html.Sitecore().Field("TNMP Text")</td>
+            </tr>
+        </table>
+        <asp:Repeater ID="rptVariablePricePlan" runat="server">
+            <itemtemplate>
+                <table id="table" runat="server">
+                    <thead>
+                        <tr>
+                            <td id="tdDate" runat="server"></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="tdKwh500Label" runat="server"></td>
+                            <td id="tdKwh1000Label" runat="server"></td>
+                            <td id="tdKwh2000Label" runat="server"></td>
+                        </tr>
+                        <tr>
+                            <td id="tdKwh500OncorPrice" runat="server"></td>
+                            <td id="tdKwh1000OncorPrice" runat="server"></td>
+                            <td id="tdKwh2000OncorPrice" runat="server"></td>
+                        </tr>
+                        <tr>
+                            <td id="tdKwh500CenterpointPrice" runat="server"></td>
+                            <td id="tdKwh1000CenterpointPrice" runat="server"></td>
+                            <td id="tdKwh2000CenterpointPrice" runat="server"></td>
+                        </tr>
+                        <tr>
+                            <td id="tdKwh500AEPCentralPrice" runat="server"></td>
+                            <td id="tdKwh1000AEPCentralPrice" runat="server"></td>
+                            <td id="tdKwh2000AEPCentralPrice" runat="server"></td>
+                        </tr>
+                        <tr>
+                            <td id="tdKwh500AEPNorthPrice" runat="server"></td>
+                            <td id="tdKwh1000AEPNorthPrice" runat="server"></td>
+                            <td id="tdKwh2000AEPNorthPrice" runat="server"></td>
+                        </tr>
+                        <tr>
+                            <td id="tdKwh500TNMPPrice" runat="server"></td>
+                            <td id="tdKwh1000TNMPPrice" runat="server"></td>
+                            <td id="tdKwh2000TNMPPrice" runat="server"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </itemtemplate>
+        </asp:Repeater>
+        <p>@Html.Sitecore().Field("Green and Clean Variable Price Plan Text")</p>
+        <table>
+            <tr>
+                <td></td>
+            </tr>
+            <tr>
+                <td>@Html.Sitecore().Field("Service Area Text")</td>
+            </tr>
+            <tr>
+                <td>@Html.Sitecore().Field("Oncor Text")</td>
+            </tr>
+            <tr>
+                <td>@Html.Sitecore().Field("Centerpoint Text")</td>
+            </tr>
+            <tr>
+                <td>@Html.Sitecore().Field("AEP Central Text")</td>
+            </tr>
+            <tr>
+                <td>@Html.Sitecore().Field("AEP North Text")</td>
+            </tr>
+            <tr>
+                <td>@Html.Sitecore().Field("TNMP Text")</td>
+            </tr>
+        </table>
+        <asp:Repeater ID="rptGreenAndCleanVariablePricePlan" runat="server">
+            <itemtemplate>
+                <table id="table" runat="server">
+                    <thead>
+                        <tr>
+                            <td id="tdDate" runat="server"></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="tdKwh500Label" runat="server"></td>
+                            <td id="tdKwh1000Label" runat="server"></td>
+                            <td id="tdKwh2000Label" runat="server"></td>
+                        </tr>
+                        <tr>
+                            <td id="tdKwh500OncorPrice" runat="server"></td>
+                            <td id="tdKwh1000OncorPrice" runat="server"></td>
+                            <td id="tdKwh2000OncorPrice" runat="server"></td>
+                        </tr>
+                        <tr>
+                            <td id="tdKwh500CenterpointPrice" runat="server"></td>
+                            <td id="tdKwh1000CenterpointPrice" runat="server"></td>
+                            <td id="tdKwh2000CenterpointPrice" runat="server"></td>
+                        </tr>
+                        <tr>
+                            <td id="tdKwh500AEPCentralPrice" runat="server"></td>
+                            <td id="tdKwh1000AEPCentralPrice" runat="server"></td>
+                            <td id="tdKwh2000AEPCentralPrice" runat="server"></td>
+                        </tr>
+                        <tr>
+                            <td id="tdKwh500AEPNorthPrice" runat="server"></td>
+                            <td id="tdKwh1000AEPNorthPrice" runat="server"></td>
+                            <td id="tdKwh2000AEPNorthPrice" runat="server"></td>
+                        </tr>
+                        <tr>
+                            <td id="tdKwh500TNMPPrice" runat="server"></td>
+                            <td id="tdKwh1000TNMPPrice" runat="server"></td>
+                            <td id="tdKwh2000TNMPPrice" runat="server"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </itemtemplate>
+        </asp:Repeater>
+        <p>@Html.Sitecore().Field("Flex Choice Plan Text")</p>
+        <table>
+            <tr>
+                <td></td>
+            </tr>
+            <tr>
+                <td>@Html.Sitecore().Field("Service Area Text")</td>
+            </tr>
+            <tr>
+                <td>@Html.Sitecore().Field("Oncor Text")</td>
+            </tr>
+            <tr>
+                <td>@Html.Sitecore().Field("Centerpoint Text")</td>
+            </tr>
+            <tr>
+                <td>@Html.Sitecore().Field("AEP Central Text")</td>
+            </tr>
+            <tr>
+                <td>@Html.Sitecore().Field("AEP North Text")</td>
+            </tr>
+            <tr>
+                <td>@Html.Sitecore().Field("TNMP Text")</td>
+            </tr>
+        </table>
+        <asp:Repeater ID="rptFlexChoicePlan" runat="server">
+            <itemtemplate>
+                <table id="table" runat="server">
+                    <thead>
+                        <tr>
+                            <td id="tdDate" runat="server"></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="tdKwh500Label" runat="server"></td>
+                            <td id="tdKwh1000Label" runat="server"></td>
+                            <td id="tdKwh2000Label" runat="server"></td>
+                        </tr>
+                        <tr>
+                            <td id="tdKwh500OncorPrice" runat="server"></td>
+                            <td id="tdKwh1000OncorPrice" runat="server"></td>
+                            <td id="tdKwh2000OncorPrice" runat="server"></td>
+                        </tr>
+                        <tr>
+                            <td id="tdKwh500CenterpointPrice" runat="server"></td>
+                            <td id="tdKwh1000CenterpointPrice" runat="server"></td>
+                            <td id="tdKwh2000CenterpointPrice" runat="server"></td>
+                        </tr>
+                        <tr>
+                            <td id="tdKwh500AEPCentralPrice" runat="server"></td>
+                            <td id="tdKwh1000AEPCentralPrice" runat="server"></td>
+                            <td id="tdKwh2000AEPCentralPrice" runat="server"></td>
+                        </tr>
+                        <tr>
+                            <td id="tdKwh500AEPNorthPrice" runat="server"></td>
+                            <td id="tdKwh1000AEPNorthPrice" runat="server"></td>
+                            <td id="tdKwh2000AEPNorthPrice" runat="server"></td>
+                        </tr>
+                        <tr>
+                            <td id="tdKwh500TNMPPrice" runat="server"></td>
+                            <td id="tdKwh1000TNMPPrice" runat="server"></td>
+                            <td id="tdKwh2000TNMPPrice" runat="server"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </itemtemplate>
+        </asp:Repeater>
+        <p>@Html.Sitecore().Field("Flex Choice Plan - Green and Clean Plan Text")</p>
+        <table>
+            <tr>
+                <td></td>
+            </tr>
+            <tr>
+                <td>@Html.Sitecore().Field("Service Area Text")</td>
+            </tr>
+            <tr>
+                <td>@Html.Sitecore().Field("Oncor Text")</td>
+            </tr>
+            <tr>
+                <td>@Html.Sitecore().Field("Centerpoint Text")</td>
+            </tr>
+            <tr>
+                <td>@Html.Sitecore().Field("AEP Central Text")</td>
+            </tr>
+            <tr>
+                <td>@Html.Sitecore().Field("AEP North Text")</td>
+            </tr>
+            <tr>
+                <td>@Html.Sitecore().Field("TNMP Text")</td>
+            </tr>
+        </table>
+        <asp:Repeater ID="rptFlexChoicePlanGreenAndCleanPlan" runat="server">
+            <itemtemplate>
+                <table id="table" runat="server">
+                    <thead>
+                        <tr>
+                            <td id="tdDate" runat="server"></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="tdKwh500Label" runat="server"></td>
+                            <td id="tdKwh1000Label" runat="server"></td>
+                            <td id="tdKwh2000Label" runat="server"></td>
+                        </tr>
+                        <tr>
+                            <td id="tdKwh500OncorPrice" runat="server"></td>
+                            <td id="tdKwh1000OncorPrice" runat="server"></td>
+                            <td id="tdKwh2000OncorPrice" runat="server"></td>
+                        </tr>
+                        <tr>
+                            <td id="tdKwh500CenterpointPrice" runat="server"></td>
+                            <td id="tdKwh1000CenterpointPrice" runat="server"></td>
+                            <td id="tdKwh2000CenterpointPrice" runat="server"></td>
+                        </tr>
+                        <tr>
+                            <td id="tdKwh500AEPCentralPrice" runat="server"></td>
+                            <td id="tdKwh1000AEPCentralPrice" runat="server"></td>
+                            <td id="tdKwh2000AEPCentralPrice" runat="server"></td>
+                        </tr>
+                        <tr>
+                            <td id="tdKwh500AEPNorthPrice" runat="server"></td>
+                            <td id="tdKwh1000AEPNorthPrice" runat="server"></td>
+                            <td id="tdKwh2000AEPNorthPrice" runat="server"></td>
+                        </tr>
+                        <tr>
+                            <td id="tdKwh500TNMPPrice" runat="server"></td>
+                            <td id="tdKwh1000TNMPPrice" runat="server"></td>
+                            <td id="tdKwh2000TNMPPrice" runat="server"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </itemtemplate>
+        </asp:Repeater>
+        <div>@Html.Sitecore().Field("Page Bottom Text")</div>
+        <h2>@Html.Sitecore().Field("Location")</h2>
+        @Html.Sitecore().Field("Description")
+    </div>
+</article>
