@@ -1,4 +1,4 @@
-appRD.directive('paginate', function ($timeout) {
+appRD.directive('paginate', ['$timeout', function ($timeout) {
     return {
         restrict: 'A',
         scope: true,
@@ -81,4 +81,4 @@ appRD.directive('paginate', function ($timeout) {
             };
         }
     };
-});
+}]);

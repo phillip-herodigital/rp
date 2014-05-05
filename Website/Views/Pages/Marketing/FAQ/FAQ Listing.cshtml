@@ -1,0 +1,9 @@
+﻿@model List<Sitecore.Data.Items.Item>
+
+@{
+    foreach(var item in Model)
+    {
+        <h2>@Html.Sitecore().Field("FAQ Question", item)</h2>
+        @Html.Sitecore().Field("FAQ Answer", item)
+    }
+}

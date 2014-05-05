@@ -12,7 +12,6 @@
 	<link rel="shortcut icon" type="image/ico" href="assets/i/favicon.ico" />
 	<link href="assets/css/global.css" rel="stylesheet" />
 
-	<script src="assets/js/libs/jquery/dist/jquery.min.js"></script>
 	<script src="assets/js/libs/modernizr/modernizr.js"></script>
 	<script src="assets/js/libs/angular/angular.min.js"></script>
 	<script src="assets/js/libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
@@ -58,52 +57,50 @@
 			</div>
 			<section class="layout cols-2 wrapper">
 				<section class="layout cols-1">
-					<article class="plain">
-						<p>To add a new account to your online profile, fill the required information and click on "Submit" button below. To remove an account, click on corresponding "Delete" button below.</p>
-					</article>
+					<p>To add a new account to your online profile, fill the required information and click on "Submit" button below. To remove an account, click on corresponding "Delete" button below.</p>
 					<article class="grey-box">
 						<header>
 							<h2>Add New Account</h2>
 						</header>
-						<p>Please enter the Account Number, Last 4 of Social/TIN of the Stream Energy account you would like to pay.</p>
-						<form>
-							<div class="group">
-								<div class="item">
-									<label for="Amount">Account Number:</label>
-									<input type="text" id="amount">
+						<div class="content">
+							<p>Please enter the Account Number, Last 4 of Social/TIN of the Stream Energy account you would like to pay.</p>
+							<form>
+								<div class="group">
+									<div class="item">
+										<label for="Amount">Account Number:</label>
+										<input type="text" id="amount">
+									</div>
+									<div class="item">
+										<label for="Amount">Last 4 of Social/TIN</label>
+										<input type="text" id="amount">
+									</div>
 								</div>
-								<div class="item">
-									<label for="Amount">Last 4 of Social/TIN</label>
-									<input type="text" id="amount">
+								<div class="buttons">
+									<button type="submit" class="buttons">Save</button>
 								</div>
-							</div>
-						</form>
-						<footer>
-							<button type="submit" class="buttons">Save</button>
-						</footer>
+							</form>
+						</div>
 					</article>
 					<article class="enrolled-accounts">
 						<header>
 							<h2>Enrolled Accounts</h2>
 						</header>
-						<div class="stretch">
-							<table>
-								<thead>
-									<tr>
-										<th>Account to Pay</th>
-										<th>Date Added</th>
-										<th>Action</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td><a href="#">1234567890</a></td>
-										<td>12/28/2013 - 17:33:15 PM</td>
-										<td><button class="secondary">Remove</button><button class="secondary">Send Letter of Residency</button></td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
+						<table>
+							<thead>
+								<tr>
+									<th>Account to Pay</th>
+									<th>Date Added</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><a href="#">1234567890</a></td>
+									<td>12/28/2013 - 17:33:15 PM</td>
+									<td><button class="secondary">Remove</button><button class="secondary">Send Letter of Residency</button></td>
+								</tr>
+							</tbody>
+						</table>
 					</article>
 				</section>
 				<aside>

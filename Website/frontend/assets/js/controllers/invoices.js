@@ -1,14 +1,12 @@
 /* Invoices Controller
  */
-ngApp.controller('InvoicesCtrl', ['$scope', '$rootScope', '$http', '$filter', function ($scope, $rootScope, $http, $filter) {
-
-	// Scope properties
+ngApp.controller('InvoicesCtrl', ['$scope', '$rootScope', '$http', '$filter', '$timeout', function ($scope, $rootScope, $http, $filter, $timeout) {
 
 	$scope.invoicesTable = {
 		"columnList": [
 			{
 				"field": "accountNumber",
-				"displayName": "Account Number",
+				"displayName": "Account Numberz",
 				"isVisible": true,
 				"hide": ["phone"]
 			},
@@ -42,174 +40,22 @@ ngApp.controller('InvoicesCtrl', ['$scope', '$rootScope', '$http', '$filter', fu
 			}
 		],
 		"values": [
-			{
-				"accountNumber": 1197015532,
-				"serviceType": "HomeLife Services",
-				"invoiceNumber": 1030523546381,
-				"invoiceAmount": "24.99",
-				"dueDate": "04/05/2014",
-				"isPaid": false,
-				"canRequestExtension": true
-			},
-			{
-				"accountNumber": 219849302,
-				"serviceType": "Utility",
-				"invoiceNumber": 1020453546012,
-				"invoiceAmount": "93.72",
-				"dueDate": "04/03/2014",
-				"isPaid": false,
-				"canRequestExtension": false
-			},
-			{
-				"accountNumber": 194829927,
-				"serviceType": "Utility",
-				"invoiceNumber": 1030523546381,
-				"invoiceAmount": "52.24",
-				"dueDate": "04/01/2014",
-				"isPaid": false,
-				"canRequestExtension": false
-			},
-			{
-				"accountNumber": 1197015532,
-				"serviceType": "HomeLife Services",
-				"invoiceNumber": 1030523546381,
-				"invoiceAmount": "24.99",
-				"dueDate": "03/05/2014",
-				"isPaid": true,
-				"canRequestExtension": true
-			},
-			{
-				"accountNumber": 219849302,
-				"serviceType": "Utility",
-				"invoiceNumber": 1020453546012,
-				"invoiceAmount": "93.72",
-				"dueDate": "03/03/2014",
-				"isPaid": true,
-				"canRequestExtension": false
-			},
-			{
-				"accountNumber": 194829927,
-				"serviceType": "Utility",
-				"invoiceNumber": 1030523546381,
-				"invoiceAmount": "52.24",
-				"dueDate": "03/01/2014",
-				"isPaid": true,
-				"canRequestExtension": false
-			},
-			{
-				"accountNumber": 1197015532,
-				"serviceType": "HomeLife Services",
-				"invoiceNumber": 1030523546381,
-				"invoiceAmount": "24.99",
-				"dueDate": "02/05/2014",
-				"isPaid": true,
-				"canRequestExtension": true
-			},
-			{
-				"accountNumber": 219849302,
-				"serviceType": "Utility",
-				"invoiceNumber": 1020453546012,
-				"invoiceAmount": "93.72",
-				"dueDate": "02/03/2014",
-				"isPaid": true,
-				"canRequestExtension": false
-			},
-			{
-				"accountNumber": 194829927,
-				"serviceType": "Utility",
-				"invoiceNumber": 1030523546381,
-				"invoiceAmount": "52.24",
-				"dueDate": "02/01/2014",
-				"isPaid": true,
-				"canRequestExtension": false
-			},
-
-
-			{
-				"accountNumber": 1197015532,
-				"serviceType": "HomeLife Services",
-				"invoiceNumber": 1030523546381,
-				"invoiceAmount": "24.99",
-				"dueDate": "04/05/2014",
-				"isPaid": true,
-				"canRequestExtension": true
-			},
-			{
-				"accountNumber": 219849302,
-				"serviceType": "Utility",
-				"invoiceNumber": 1020453546012,
-				"invoiceAmount": "93.72",
-				"dueDate": "04/03/2014",
-				"isPaid": true,
-				"canRequestExtension": false
-			},
-			{
-				"accountNumber": 194829927,
-				"serviceType": "Utility",
-				"invoiceNumber": 1030523546381,
-				"invoiceAmount": "52.24",
-				"dueDate": "04/01/2014",
-				"isPaid": true,
-				"canRequestExtension": false
-			},
-			{
-				"accountNumber": 1197015532,
-				"serviceType": "HomeLife Services",
-				"invoiceNumber": 1030523546381,
-				"invoiceAmount": "24.99",
-				"dueDate": "03/05/2014",
-				"isPaid": true,
-				"canRequestExtension": true
-			},
-			{
-				"accountNumber": 219849302,
-				"serviceType": "Utility",
-				"invoiceNumber": 1020453546012,
-				"invoiceAmount": "93.72",
-				"dueDate": "03/03/2014",
-				"isPaid": true,
-				"canRequestExtension": false
-			},
-			{
-				"accountNumber": 194829927,
-				"serviceType": "Utility",
-				"invoiceNumber": 1030523546381,
-				"invoiceAmount": "52.24",
-				"dueDate": "03/01/2014",
-				"isPaid": true,
-				"canRequestExtension": false
-			},
-			{
-				"accountNumber": 1197015532,
-				"serviceType": "HomeLife Services",
-				"invoiceNumber": 1030523546381,
-				"invoiceAmount": "24.99",
-				"dueDate": "02/05/2014",
-				"isPaid": true,
-				"canRequestExtension": true
-			},
-			{
-				"accountNumber": 219849302,
-				"serviceType": "Utility",
-				"invoiceNumber": 1020453546012,
-				"invoiceAmount": "93.72",
-				"dueDate": "02/03/2014",
-				"isPaid": true,
-				"canRequestExtension": false
-			},
-			{
-				"accountNumber": 194829927,
-				"serviceType": "Utility",
-				"invoiceNumber": 1030523546381,
-				"invoiceAmount": "52.24",
-				"dueDate": "02/01/2014",
-				"isPaid": true,
-				"canRequestExtension": false
-			}
+			
 		]
 	};
 
-	$scope.invoicesTableOriginal = angular.copy($scope.invoicesTable);
+	//$scope.invoicesTable = {};
+	$scope.isLoading = true;
+
+	$timeout(function() {
+
+		$http.get('assets/json/invoices.json').success(function(data, status, headers, config) {
+			$scope.invoicesTable = data;
+			$scope.invoicesTableOriginal = angular.copy($scope.invoicesTable);
+			$scope.isLoading = false;
+		});
+	}, 2000);
+
 	$scope.filters = {};
 	$scope.filtersList = {
 		"serviceType": [
@@ -258,12 +104,18 @@ ngApp.controller('InvoicesCtrl', ['$scope', '$rootScope', '$http', '$filter', fu
 		return !_.isEmpty($scope.filters);
 	}
 
+	$scope.test = function() {
+		console.log($scope);
+	};
+
 	// Watches
 
 	$scope.$watch('filters', function(newVal, oldVal) {
 		
 		$scope.filters = $filter('removeNullProps')($scope.filters);
-		$scope.invoicesTable.values = $filter('filter')($scope.invoicesTableOriginal.values, $scope.filters);
+		if ($scope.invoicesTable.values.length) {
+			$scope.invoicesTable.values = $filter('filter')($scope.invoicesTableOriginal.values, $scope.filters);
+		}
 
 	}, true);
 

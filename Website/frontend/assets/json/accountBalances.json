@@ -1,0 +1,12 @@
+[
+	{
+		"accountNumber": 1234567890,
+		"amountDue": "87.24",
+		"dueDate": "03/10/2014"
+	},
+	{
+		"accountNumber": 2345678901,
+		"amountDue": "129.50",
+		"dueDate": "02/10/2014"
+	}
+]

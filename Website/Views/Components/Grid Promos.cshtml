@@ -1,0 +1,28 @@
+﻿<article class="marketing gridPromos">
+    <div class="wrapper">
+        @{
+            var divClass = "two";
+            if (!string.IsNullOrEmpty(Html.Sitecore().CurrentItem.Fields["Promo Four Header"].Value))
+            {
+                divClass = "four";
+            }
+            else if (!string.IsNullOrEmpty(Html.Sitecore().CurrentItem.Fields["Promo Three Header"].Value))
+            {
+                divClass = "three";
+            }
+            <div class="grid @divClass">
+                @{
+                    foreach (var num in new string[] { "Promo One", "Promo Two", "Promo Three", "Promo Four" })
+                    {
+                        <div class="col @Html.Sitecore().LookupItem(num + " Accent").SafeFieldValue("Css Class").Prefix("accent-")">
+                            @Html.Sitecore().Field(num + " Image")
+                            <h4>@Html.Sitecore().Field(num + " Header")</h4>
+                            <p>@Html.Sitecore().Field(num + " Content")</p>
+                            <p>@Html.Sitecore().Field(num + " Button")</p>
+                        </div>
+                    }
+                }
+            </div>
+        }
+    </div>
+</article>

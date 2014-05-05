@@ -17,8 +17,12 @@
 	<script src="assets/js/libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 	<script src="assets/js/libs/angular-ui-utils/ui-utils.min.js"></script>
 	<script src="assets/js/libs/underscore/underscore.js"></script>
+	<script src="assets/js/libs/respond/dest/respond.min.js"></script>
 
 	<script src="assets/js/app.js"></script>
+
+	<script src="assets/js/directives/loading-indicator.js"></script>
+
 	<script src="assets/js/controllers/main.js"></script>
 	<script src="assets/js/controllers/accountBalances.js"></script>
 
@@ -73,56 +77,58 @@
 						<header>
 							<h2>Account Balances &amp; Payments</h2>
 						</header>
-						<div class="account-selector">
-							<form>
-								<div class="group">
-									<div class="item">
-										<label>Account Number:</label>
-										<select ng-model="selectedAccount.account" ng-options="item.accountNumber for item in accounts">
-											<option value="">All</option>
-										</select>
-									</div>
-									<!-- <div class="item">
-										<label>ESI ID:</label>
-										<select class="id">
-											<option value="Please choose">109437200008913264</option>
-											<option value="account1">ID 2</option>
-										</select>
-									</div> -->
-								</div>
-							</form>
-						</div>
-						<div class="grid border">
-							<div class="col">
-								<h4>Account Balance</h4>
-								<dl class="clearfix">
-									<dt>Account Number:</dt>
-									<dd>{{ selectedAccount.account.accountNumber || "All" }}</dd>
-									<dt>Current Amount Due:</dt>
-									<dd>{{ paymentForm.amount | currency }}</dd>
-									<dt>Due Date:</dt>
-									<dd>{{ selectedAccount.account.dueDate || paymentForm.dueDate }}</dd>
-								</dl>
-							</div>
-							<div class="col payment">
-								<h4>Make a Payment</h4>
+						<div class="content" loading-indicator>
+							<div class="account-selector">
 								<form>
 									<div class="group">
 										<div class="item">
-											<label for="Amount">Amount</label>
-											<input type="text" id="amount" ng-model="paymentForm.amount" />
+											<label>Account Number:</label>
+											<select ng-model="selectedAccount.account" ng-options="item.accountNumber for item in accounts">
+												<option value="">All</option>
+											</select>
 										</div>
-										<div class="item">
-											<label for="Payment method">Payment Method</label>
-											<select ng-model="paymentForm.paymentMethod" ng-options="item.id as item.name for item in paymentMethods">
-											<option value="">Select</option>
-										</select>
-										</div>
-									</div>
-									<div class="buttons">
-										<button type="submit" class="primary" ng-click="submit()">Continue</button>
+										<!-- <div class="item">
+											<label>ESI ID:</label>
+											<select class="id">
+												<option value="Please choose">109437200008913264</option>
+												<option value="account1">ID 2</option>
+											</select>
+										</div> -->
 									</div>
 								</form>
+							</div>
+							<div class="grid border">
+								<div class="col">
+									<h4>Account Balance</h4>
+									<dl class="clearfix">
+										<dt>Account Number:</dt>
+										<dd>{{ selectedAccount.account.accountNumber || "All" }}</dd>
+										<dt>Current Amount Due:</dt>
+										<dd>{{ paymentForm.amount | currency }}</dd>
+										<dt>Due Date:</dt>
+										<dd>{{ selectedAccount.account.dueDate || paymentForm.dueDate }}</dd>
+									</dl>
+								</div>
+								<div class="col payment">
+									<h4>Make a Payment</h4>
+									<form>
+										<div class="group">
+											<div class="item">
+												<label for="Amount">Amount</label>
+												<input type="text" id="amount" ng-model="paymentForm.amount" />
+											</div>
+											<div class="item">
+												<label for="Payment method">Payment Method</label>
+												<select ng-model="paymentForm.paymentMethod" ng-options="item.id as item.name for item in paymentMethods">
+												<option value="">Select</option>
+											</select>
+											</div>
+										</div>
+										<div class="buttons">
+											<button type="submit" class="primary" ng-click="submit()">Continue</button>
+										</div>
+									</form>
+								</div>
 							</div>
 						</div>
 					</article>

@@ -20,6 +20,8 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -238,6 +240,26 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\Sitecore.Publishing.WebDeploy.dll</HintPath>
     </Reference>
+    <Reference Include="Sitecore.Rocks.Server, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.Rocks.Server.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Rocks.Server.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.Rocks.Server.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Rocks.Server.Lucene.3030, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.Rocks.Server.Lucene.3030.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Rocks.Server.Speak, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.Rocks.Server.Speak.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Rocks.Server.Validation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.Rocks.Server.Validation.dll</HintPath>
+    </Reference>
     <Reference Include="Sitecore.Security.AntiCsrf, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\Sitecore.Security.AntiCsrf.dll</HintPath>
@@ -367,451 +389,34 @@
     <Compile Include="layouts\BaseLayout.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="layouts\Modules\Full Width Image.ascx.cs">
-      <DependentUpon>Full Width Image.ascx</DependentUpon>
+    <Compile Include="layouts\Pages\Marketing\Historical Rates\Historical Rates Pennsylvania.ascx.cs">
+      <DependentUpon>Historical Rates Pennsylvania.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="layouts\Modules\Full Width Image.ascx.designer.cs">
-      <DependentUpon>Full Width Image.ascx</DependentUpon>
+    <Compile Include="layouts\Pages\Marketing\Historical Rates\Historical Rates Pennsylvania.ascx.designer.cs">
+      <DependentUpon>Historical Rates Pennsylvania.ascx</DependentUpon>
     </Compile>
-    <Compile Include="layouts\Modules\Footer.ascx.cs">
-      <DependentUpon>Footer.ascx</DependentUpon>
+    <Compile Include="layouts\Pages\Marketing\Historical Rates\Historical Rates Maryland.ascx.cs">
+      <DependentUpon>Historical Rates Maryland.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="layouts\Modules\Footer.ascx.designer.cs">
-      <DependentUpon>Footer.ascx</DependentUpon>
+    <Compile Include="layouts\Pages\Marketing\Historical Rates\Historical Rates Maryland.ascx.designer.cs">
+      <DependentUpon>Historical Rates Maryland.ascx</DependentUpon>
     </Compile>
-    <Compile Include="layouts\Modules\Full HTML.ascx.cs">
-      <DependentUpon>Full HTML.ascx</DependentUpon>
+    <Compile Include="layouts\Pages\Marketing\Historical Rates\Historical Rates Texas.ascx.cs">
+      <DependentUpon>Historical Rates Texas.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="layouts\Modules\Full HTML.ascx.designer.cs">
-      <DependentUpon>Full HTML.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="layouts\Modules\Grid Promos.ascx.cs">
-      <DependentUpon>Grid Promos.ascx</DependentUpon>
+    <Compile Include="layouts\Pages\Marketing\Historical Rates\Historical Rates Texas.ascx.designer.cs">
+      <DependentUpon>Historical Rates Texas.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="layouts\Modules\Grid Promos.ascx.designer.cs">
-      <DependentUpon>Grid Promos.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="layouts\Modules\Intro.ascx.cs">
-      <DependentUpon>Intro.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="layouts\Modules\Intro.ascx.designer.cs">
-      <DependentUpon>Intro.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="layouts\Modules\Login Horizontal.ascx.cs">
-      <DependentUpon>Login Horizontal.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="layouts\Modules\Login Horizontal.ascx.designer.cs">
-      <DependentUpon>Login Horizontal.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="layouts\Modules\Photo Lockup.ascx.cs">
-      <DependentUpon>Photo Lockup.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="layouts\Modules\Photo Lockup.ascx.designer.cs">
-      <DependentUpon>Photo Lockup.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="layouts\Modules\States Enroll.ascx.cs">
-      <DependentUpon>States Enroll.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="layouts\Modules\States Enroll.ascx.designer.cs">
-      <DependentUpon>States Enroll.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="layouts\Pages\Marketing\Leaders\Leader Listing.ascx.cs">
-      <DependentUpon>Leader Listing.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="layouts\Pages\Marketing\Leaders\Leader Listing.ascx.designer.cs">
-      <DependentUpon>Leader Listing.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="layouts\Pages\Marketing\Leaders\Leader.ascx.cs">
-      <DependentUpon>Leader.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="layouts\Pages\Marketing\Leaders\Leader.ascx.designer.cs">
-      <DependentUpon>Leader.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="layouts\Pages\Marketing\Leaders\Leaders Landing.ascx.cs">
-      <DependentUpon>Leaders Landing.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="layouts\Pages\Marketing\Leaders\Leaders Landing.ascx.designer.cs">
-      <DependentUpon>Leaders Landing.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="layouts\Pages\Marketing\Leaders\View All Directors.ascx.cs">
-      <DependentUpon>View All Directors.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="layouts\Pages\Marketing\Leaders\View All Directors.ascx.designer.cs">
-      <DependentUpon>View All Directors.ascx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Browsers\Form.browser" />
     <Content Include="App_Browsers\XamlPage.browser" />
-    <Content Include="assets\css\.DS_Store" />
-    <Content Include="assets\css\global.css" />
-    <Content Include="assets\css\global.css.scss" />
-    <Content Include="assets\css\_sass\.DS_Store" />
-    <Content Include="assets\css\_sass\global.scss" />
-    <Content Include="assets\css\_sass\partials\_footer.scss" />
-    <Content Include="assets\css\_sass\partials\_forms.scss" />
-    <Content Include="assets\css\_sass\partials\_functions.scss" />
-    <Content Include="assets\css\_sass\partials\_global.scss" />
-    <Content Include="assets\css\_sass\partials\_header.scss" />
-    <Content Include="assets\css\_sass\partials\_layout.scss" />
-    <Content Include="assets\css\_sass\partials\_mixins.scss" />
-    <Content Include="assets\css\_sass\partials\_modules.scss" />
-    <Content Include="assets\css\_sass\partials\_palette.scss" />
-    <Content Include="assets\css\_sass\partials\_sprites.scss" />
-    <Content Include="assets\css\_sass\partials\_tables.scss" />
-    <Content Include="assets\css\_sass\partials\_typography.scss" />
-    <Content Include="assets\css\_sass\partials\_ui.scss" />
-    <Content Include="assets\i\bg2x\header-mobile.png" />
-    <Content Include="assets\i\bg\footer-top-border.png" />
-    <Content Include="assets\i\bg\header-mobile.png" />
-    <Content Include="assets\i\bg\header.png" />
-    <Content Include="assets\i\bg\hero-1.jpg" />
-    <Content Include="assets\i\favicon.ico" />
-    <Content Include="assets\i\favicon.png" />
-    <Content Include="assets\i\icon-s3d826306d5.png" />
-    <Content Include="assets\i\icon2x-s4f50f716b6.png" />
-    <Content Include="assets\i\icon2x\bbb.png" />
-    <Content Include="assets\i\icon2x\blue-rectangle.png" />
-    <Content Include="assets\i\icon2x\dsa.png" />
-    <Content Include="assets\i\icon2x\facebook.png" />
-    <Content Include="assets\i\icon2x\hamburger.png" />
-    <Content Include="assets\i\icon2x\homelife-services.png" />
-    <Content Include="assets\i\icon2x\pinterest.png" />
-    <Content Include="assets\i\icon2x\quicklinks.png" />
-    <Content Include="assets\i\icon2x\select-arrow.png" />
-    <Content Include="assets\i\icon2x\social.png" />
-    <Content Include="assets\i\icon2x\twitter.png" />
-    <Content Include="assets\i\icon2x\utility.png" />
-    <Content Include="assets\i\icon2x\youtube.png" />
-    <Content Include="assets\i\icon\bbb.png" />
-    <Content Include="assets\i\icon\blue-rectangle.png" />
-    <Content Include="assets\i\icon\dsa.png" />
-    <Content Include="assets\i\icon\facebook.png" />
-    <Content Include="assets\i\icon\hamburger.png" />
-    <Content Include="assets\i\icon\homelife-services.png" />
-    <Content Include="assets\i\icon\pinterest.png" />
-    <Content Include="assets\i\icon\quicklinks.png" />
-    <Content Include="assets\i\icon\search.png" />
-    <Content Include="assets\i\icon\select-arrow.png" />
-    <Content Include="assets\i\icon\social.png" />
-    <Content Include="assets\i\icon\twitter.png" />
-    <Content Include="assets\i\icon\utility.png" />
-    <Content Include="assets\i\icon\youtube.png" />
-    <Content Include="assets\i\img-footer-get-free-energy.png" />
-    <Content Include="assets\i\img-footer-renew-my-contract.png" />
-    <Content Include="assets\i\logo-peco.png" />
-    <Content Include="assets\i\logo-ppl.png" />
-    <Content Include="assets\i\logo.png" />
-    <Content Include="assets\i\marketing\header-home-01.jpg" />
-    <Content Include="assets\i\marketing\home-test2.jpg" />
-    <Content Include="assets\i\marketing\quote-left.png" />
-    <Content Include="assets\i\marketing\quote-right.png" />
-    <Content Include="assets\i\renew-promo.png" />
-    <Content Include="assets\js\app.js" />
-    <Content Include="assets\js\controllers\invoices.js" />
-    <Content Include="assets\js\controllers\main.js" />
-    <Content Include="assets\js\controllers\marketing.js" />
-    <Content Include="assets\js\controllers\template.js" />
-    <Content Include="assets\js\directives\pagination.js" />
-    <Content Include="assets\js\directives\table.js" />
-    <Content Include="assets\js\filters\filters.js" />
-    <Content Include="assets\js\libs\angular-bootstrap\.bower.json" />
-    <Content Include="assets\js\libs\angular-bootstrap\bower.json" />
-    <Content Include="assets\js\libs\angular-bootstrap\ui-bootstrap-tpls.js" />
-    <Content Include="assets\js\libs\angular-bootstrap\ui-bootstrap-tpls.min.js" />
-    <Content Include="assets\js\libs\angular-bootstrap\ui-bootstrap.js" />
-    <Content Include="assets\js\libs\angular-bootstrap\ui-bootstrap.min.js" />
-    <Content Include="assets\js\libs\angular-ui-utils\.bower.json" />
-    <Content Include="assets\js\libs\angular-ui-utils\.travis.yml" />
-    <Content Include="assets\js\libs\angular-ui-utils\bower.json" />
-    <Content Include="assets\js\libs\angular-ui-utils\CHANGELOG.md" />
-    <Content Include="assets\js\libs\angular-ui-utils\ui-utils-ieshiv.js" />
-    <Content Include="assets\js\libs\angular-ui-utils\ui-utils-ieshiv.min.js" />
-    <Content Include="assets\js\libs\angular-ui-utils\ui-utils.js" />
-    <Content Include="assets\js\libs\angular-ui-utils\ui-utils.min.js" />
-    <Content Include="assets\js\libs\angular\.bower.json" />
-    <Content Include="assets\js\libs\angular\angular-csp.css" />
-    <Content Include="assets\js\libs\angular\angular.js" />
-    <Content Include="assets\js\libs\angular\angular.min.js" />
-    <Content Include="assets\js\libs\angular\angular.min.js.gzip" />
-    <Content Include="assets\js\libs\angular\angular.min.js.map" />
-    <Content Include="assets\js\libs\angular\bower.json" />
-    <Content Include="assets\js\libs\angular\README.md" />
-    <Content Include="assets\js\libs\jquery\.bower.json" />
-    <Content Include="assets\js\libs\jquery\bower.json" />
-    <Content Include="assets\js\libs\jquery\dist\jquery.js" />
-    <Content Include="assets\js\libs\jquery\dist\jquery.min.js" />
-    <Content Include="assets\js\libs\jquery\dist\jquery.min.map" />
-    <Content Include="assets\js\libs\jquery\MIT-LICENSE.txt" />
-    <Content Include="assets\js\libs\jquery\src\ajax.js" />
-    <Content Include="assets\js\libs\jquery\src\ajax\jsonp.js" />
-    <Content Include="assets\js\libs\jquery\src\ajax\load.js" />
-    <Content Include="assets\js\libs\jquery\src\ajax\parseJSON.js" />
-    <Content Include="assets\js\libs\jquery\src\ajax\parseXML.js" />
-    <Content Include="assets\js\libs\jquery\src\ajax\script.js" />
-    <Content Include="assets\js\libs\jquery\src\ajax\var\nonce.js" />
-    <Content Include="assets\js\libs\jquery\src\ajax\var\rquery.js" />
-    <Content Include="assets\js\libs\jquery\src\ajax\xhr.js" />
-    <Content Include="assets\js\libs\jquery\src\attributes.js" />
-    <Content Include="assets\js\libs\jquery\src\attributes\attr.js" />
-    <Content Include="assets\js\libs\jquery\src\attributes\classes.js" />
-    <Content Include="assets\js\libs\jquery\src\attributes\prop.js" />
-    <Content Include="assets\js\libs\jquery\src\attributes\support.js" />
-    <Content Include="assets\js\libs\jquery\src\attributes\val.js" />
-    <Content Include="assets\js\libs\jquery\src\callbacks.js" />
-    <Content Include="assets\js\libs\jquery\src\core.js" />
-    <Content Include="assets\js\libs\jquery\src\core\access.js" />
-    <Content Include="assets\js\libs\jquery\src\core\init.js" />
-    <Content Include="assets\js\libs\jquery\src\core\parseHTML.js" />
-    <Content Include="assets\js\libs\jquery\src\core\ready.js" />
-    <Content Include="assets\js\libs\jquery\src\core\var\rsingleTag.js" />
-    <Content Include="assets\js\libs\jquery\src\css.js" />
-    <Content Include="assets\js\libs\jquery\src\css\addGetHookIf.js" />
-    <Content Include="assets\js\libs\jquery\src\css\curCSS.js" />
-    <Content Include="assets\js\libs\jquery\src\css\defaultDisplay.js" />
-    <Content Include="assets\js\libs\jquery\src\css\hiddenVisibleSelectors.js" />
-    <Content Include="assets\js\libs\jquery\src\css\support.js" />
-    <Content Include="assets\js\libs\jquery\src\css\swap.js" />
-    <Content Include="assets\js\libs\jquery\src\css\var\cssExpand.js" />
-    <Content Include="assets\js\libs\jquery\src\css\var\getStyles.js" />
-    <Content Include="assets\js\libs\jquery\src\css\var\isHidden.js" />
-    <Content Include="assets\js\libs\jquery\src\css\var\rmargin.js" />
-    <Content Include="assets\js\libs\jquery\src\css\var\rnumnonpx.js" />
-    <Content Include="assets\js\libs\jquery\src\data.js" />
-    <Content Include="assets\js\libs\jquery\src\data\accepts.js" />
-    <Content Include="assets\js\libs\jquery\src\data\Data.js" />
-    <Content Include="assets\js\libs\jquery\src\data\var\data_priv.js" />
-    <Content Include="assets\js\libs\jquery\src\data\var\data_user.js" />
-    <Content Include="assets\js\libs\jquery\src\deferred.js" />
-    <Content Include="assets\js\libs\jquery\src\deprecated.js" />
-    <Content Include="assets\js\libs\jquery\src\dimensions.js" />
-    <Content Include="assets\js\libs\jquery\src\effects.js" />
-    <Content Include="assets\js\libs\jquery\src\effects\animatedSelector.js" />
-    <Content Include="assets\js\libs\jquery\src\effects\Tween.js" />
-    <Content Include="assets\js\libs\jquery\src\event.js" />
-    <Content Include="assets\js\libs\jquery\src\event\alias.js" />
-    <Content Include="assets\js\libs\jquery\src\event\support.js" />
-    <Content Include="assets\js\libs\jquery\src\exports\amd.js" />
-    <Content Include="assets\js\libs\jquery\src\exports\global.js" />
-    <Content Include="assets\js\libs\jquery\src\intro.js" />
-    <Content Include="assets\js\libs\jquery\src\jquery.js" />
-    <Content Include="assets\js\libs\jquery\src\manipulation.js" />
-    <Content Include="assets\js\libs\jquery\src\manipulation\support.js" />
-    <Content Include="assets\js\libs\jquery\src\manipulation\var\rcheckableType.js" />
-    <Content Include="assets\js\libs\jquery\src\manipulation\_evalUrl.js" />
-    <Content Include="assets\js\libs\jquery\src\offset.js" />
-    <Content Include="assets\js\libs\jquery\src\outro.js" />
-    <Content Include="assets\js\libs\jquery\src\queue.js" />
-    <Content Include="assets\js\libs\jquery\src\queue\delay.js" />
-    <Content Include="assets\js\libs\jquery\src\selector-native.js" />
-    <Content Include="assets\js\libs\jquery\src\selector-sizzle.js" />
-    <Content Include="assets\js\libs\jquery\src\selector.js" />
-    <Content Include="assets\js\libs\jquery\src\serialize.js" />
-    <Content Include="assets\js\libs\jquery\src\sizzle\dist\sizzle.js" />
-    <Content Include="assets\js\libs\jquery\src\sizzle\dist\sizzle.min.js" />
-    <Content Include="assets\js\libs\jquery\src\sizzle\dist\sizzle.min.map" />
-    <Content Include="assets\js\libs\jquery\src\traversing.js" />
-    <Content Include="assets\js\libs\jquery\src\traversing\findFilter.js" />
-    <Content Include="assets\js\libs\jquery\src\traversing\var\rneedsContext.js" />
-    <Content Include="assets\js\libs\jquery\src\var\arr.js" />
-    <Content Include="assets\js\libs\jquery\src\var\class2type.js" />
-    <Content Include="assets\js\libs\jquery\src\var\concat.js" />
-    <Content Include="assets\js\libs\jquery\src\var\hasOwn.js" />
-    <Content Include="assets\js\libs\jquery\src\var\indexOf.js" />
-    <Content Include="assets\js\libs\jquery\src\var\pnum.js" />
-    <Content Include="assets\js\libs\jquery\src\var\push.js" />
-    <Content Include="assets\js\libs\jquery\src\var\rnotwhite.js" />
-    <Content Include="assets\js\libs\jquery\src\var\slice.js" />
-    <Content Include="assets\js\libs\jquery\src\var\strundefined.js" />
-    <Content Include="assets\js\libs\jquery\src\var\support.js" />
-    <Content Include="assets\js\libs\jquery\src\var\toString.js" />
-    <Content Include="assets\js\libs\jquery\src\var\trim.js" />
-    <Content Include="assets\js\libs\jquery\src\wrap.js" />
-    <Content Include="assets\js\libs\modernizr\.bower.json" />
-    <Content Include="assets\js\libs\modernizr\.editorconfig" />
-    <Content Include="assets\js\libs\modernizr\.gitignore" />
-    <Content Include="assets\js\libs\modernizr\.travis.yml" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\a-download.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\audio-audiodata-api.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\audio-webaudio-api.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\battery-api.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\battery-level.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\blob-constructor.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\canvas-todataurl-type.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\contenteditable.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\contentsecuritypolicy.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\contextmenu.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\cookies.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\cors.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\css-backgroundposition-shorthand.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\css-backgroundposition-xy.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\css-backgroundrepeat.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\css-backgroundsizecover.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\css-boxsizing.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\css-calc.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\css-cubicbezierrange.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\css-displayrunin.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\css-displaytable.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\css-filters.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\css-hyphens.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\css-lastchild.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\css-mask.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\css-mediaqueries.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\css-objectfit.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\css-overflow-scrolling.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\css-pointerevents.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\css-positionsticky.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\css-regions.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\css-remunit.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\css-resize.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\css-scrollbars.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\css-subpixelfont.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\css-supports.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\css-userselect.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\css-vhunit.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\css-vmaxunit.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\css-vminunit.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\css-vwunit.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\custom-protocol-handler.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\dart.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\dataview-api.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\dom-classlist.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\dom-createElement-attrs.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\dom-dataset.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\dom-microdata.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\elem-datalist.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\elem-details.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\elem-output.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\elem-progress-meter.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\elem-ruby.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\elem-time.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\elem-track.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\emoji.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\es5-strictmode.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\event-deviceorientation-motion.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\exif-orientation.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\file-api.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\file-filesystem.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\forms-fileinput.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\forms-formattribute.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\forms-inputnumber-l10n.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\forms-placeholder.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\forms-speechinput.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\forms-validation.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\fullscreen-api.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\gamepad.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\getusermedia.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\ie8compat.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\iframe-sandbox.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\iframe-seamless.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\iframe-srcdoc.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\img-apng.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\img-webp.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\json.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\lists-reversed.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\mathml.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\network-connection.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\network-eventsource.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\network-xhr2.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\notification.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\performance.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\pointerlock-api.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\quota-management-api.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\requestanimationframe.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\script-async.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\script-defer.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\style-scoped.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\svg-filters.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\unicode.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\url-data-uri.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\userdata.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\vibration.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\web-intents.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\webgl-extensions.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\websockets-binary.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\window-framed.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\workers-blobworkers.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\workers-dataworkers.js" />
-    <Content Include="assets\js\libs\modernizr\feature-detects\workers-sharedworkers.js" />
-    <Content Include="assets\js\libs\modernizr\grunt.js" />
-    <Content Include="assets\js\libs\modernizr\media\Modernizr 2 Logo.ai" />
-    <Content Include="assets\js\libs\modernizr\media\Modernizr 2 Logo.eps" />
-    <Content Include="assets\js\libs\modernizr\media\Modernizr 2 Logo.pdf" />
-    <Content Include="assets\js\libs\modernizr\media\Modernizr 2 Logo.png" />
-    <Content Include="assets\js\libs\modernizr\media\Modernizr 2 Logo.svg" />
-    <Content Include="assets\js\libs\modernizr\modernizr.js" />
-    <Content Include="assets\js\libs\modernizr\readme.md" />
-    <Content Include="assets\js\libs\modernizr\test\basic.html" />
-    <Content Include="assets\js\libs\modernizr\test\caniuse.html" />
-    <Content Include="assets\js\libs\modernizr\test\caniuse_files\alpha.png" />
-    <Content Include="assets\js\libs\modernizr\test\caniuse_files\apng_test.png" />
-    <Content Include="assets\js\libs\modernizr\test\caniuse_files\before-after.png" />
-    <Content Include="assets\js\libs\modernizr\test\caniuse_files\form_validation.html" />
-    <Content Include="assets\js\libs\modernizr\test\caniuse_files\ga.js" />
-    <Content Include="assets\js\libs\modernizr\test\caniuse_files\green5x5.png" />
-    <Content Include="assets\js\libs\modernizr\test\caniuse_files\hashchange.html" />
-    <Content Include="assets\js\libs\modernizr\test\caniuse_files\jquery.min.js" />
-    <Content Include="assets\js\libs\modernizr\test\caniuse_files\mathml.html" />
-    <Content Include="assets\js\libs\modernizr\test\caniuse_files\mathml_ref.png" />
-    <Content Include="assets\js\libs\modernizr\test\caniuse_files\modernizr-1.7.min.js" />
-    <Content Include="assets\js\libs\modernizr\test\caniuse_files\png_alpha_result.png" />
-    <Content Include="assets\js\libs\modernizr\test\caniuse_files\pushstate.html" />
-    <Content Include="assets\js\libs\modernizr\test\caniuse_files\red30x30.png" />
-    <Content Include="assets\js\libs\modernizr\test\caniuse_files\ruby.png" />
-    <Content Include="assets\js\libs\modernizr\test\caniuse_files\stroked-text.png" />
-    <Content Include="assets\js\libs\modernizr\test\caniuse_files\style.css" />
-    <Content Include="assets\js\libs\modernizr\test\caniuse_files\svg-html-blur.png" />
-    <Content Include="assets\js\libs\modernizr\test\caniuse_files\svg-img.svg" />
-    <Content Include="assets\js\libs\modernizr\test\caniuse_files\svg-img.svg.1" />
-    <Content Include="assets\js\libs\modernizr\test\caniuse_files\svg_blur.png" />
-    <Content Include="assets\js\libs\modernizr\test\caniuse_files\table.png" />
-    <Content Include="assets\js\libs\modernizr\test\caniuse_files\text-shadow1.png" />
-    <Content Include="assets\js\libs\modernizr\test\caniuse_files\text-shadow2.png" />
-    <Content Include="assets\js\libs\modernizr\test\caniuse_files\Windsong-webfont.eot" />
-    <Content Include="assets\js\libs\modernizr\test\caniuse_files\Windsong-webfont.otf" />
-    <Content Include="assets\js\libs\modernizr\test\caniuse_files\Windsong-webfont.svg" />
-    <Content Include="assets\js\libs\modernizr\test\caniuse_files\Windsong-webfont.ttf" />
-    <Content Include="assets\js\libs\modernizr\test\caniuse_files\Windsong-webfont.woff" />
-    <Content Include="assets\js\libs\modernizr\test\caniuse_files\windsong_font.png" />
-    <Content Include="assets\js\libs\modernizr\test\caniuse_files\xhtml.html" />
-    <Content Include="assets\js\libs\modernizr\test\index.html" />
-    <Content Include="assets\js\libs\modernizr\test\js\basic.html" />
-    <Content Include="assets\js\libs\modernizr\test\js\dumpdata.js" />
-    <Content Include="assets\js\libs\modernizr\test\js\lib\detect-global.js" />
-    <Content Include="assets\js\libs\modernizr\test\js\lib\jquery-1.7b2.js" />
-    <Content Include="assets\js\libs\modernizr\test\js\lib\jsonselect.js" />
-    <Content Include="assets\js\libs\modernizr\test\js\lib\polyfills.js" />
-    <Content Include="assets\js\libs\modernizr\test\js\lib\uaparser.js" />
-    <Content Include="assets\js\libs\modernizr\test\js\setup.js" />
-    <Content Include="assets\js\libs\modernizr\test\js\unit-caniuse.js" />
-    <Content Include="assets\js\libs\modernizr\test\js\unit.js" />
-    <Content Include="assets\js\libs\modernizr\test\qunit\qunit.css" />
-    <Content Include="assets\js\libs\modernizr\test\qunit\qunit.js" />
-    <Content Include="assets\js\libs\modernizr\test\qunit\run-qunit.js" />
-    <Content Include="assets\js\libs\underscore\.bower.json" />
-    <Content Include="assets\js\libs\underscore\.editorconfig" />
-    <Content Include="assets\js\libs\underscore\.gitignore" />
-    <Content Include="assets\js\libs\underscore\bower.json" />
-    <Content Include="assets\js\libs\underscore\component.json" />
-    <Content Include="assets\js\libs\underscore\LICENSE" />
-    <Content Include="assets\js\libs\underscore\package.json" />
-    <Content Include="assets\js\libs\underscore\README.md" />
-    <Content Include="assets\js\libs\underscore\underscore.js" />
     <Content Include="Data\license.xml" />
-    <Content Include="Default.aspx" />
     <Content Include="default.css" />
     <Content Include="default.js" />
     <Content Include="frontend\.bowerrc" />
@@ -839,27 +444,33 @@
     <Content Include="frontend\assets\css\_sass\partials\_ui.scss" />
     <Content Include="frontend\assets\i\bg2x\header-mobile.png" />
     <Content Include="frontend\assets\i\bg2x\state-tabs.png" />
+    <Content Include="frontend\assets\i\bg\banner-bottom.png" />
     <Content Include="frontend\assets\i\bg\footer-top-border.png" />
     <Content Include="frontend\assets\i\bg\header-mobile.png" />
     <Content Include="frontend\assets\i\bg\header.png" />
-    <Content Include="frontend\assets\i\bg\hero-1.jpg" />
+    <Content Include="frontend\assets\i\bg\hero-invoices.jpg" />
+    <Content Include="frontend\assets\i\bg\hero-myaccount.jpg" />
     <Content Include="frontend\assets\i\bg\state-tabs.png" />
     <Content Include="frontend\assets\i\favicon.ico" />
     <Content Include="frontend\assets\i\favicon.png" />
     <Content Include="frontend\assets\i\icon-sa6d2193bbe.png" />
-    <Content Include="frontend\assets\i\icon2x-s5dc7bbd738.png" />
+    <Content Include="frontend\assets\i\icon2x-se011512aa6.png" />
     <Content Include="frontend\assets\i\icon2x\bbb.png" />
     <Content Include="frontend\assets\i\icon2x\blue-rectangle.png" />
+    <Content Include="frontend\assets\i\icon2x\clean-energy.png" />
     <Content Include="frontend\assets\i\icon2x\close.png" />
     <Content Include="frontend\assets\i\icon2x\compare-usage.png" />
     <Content Include="frontend\assets\i\icon2x\dsa.png" />
     <Content Include="frontend\assets\i\icon2x\facebook.png" />
+    <Content Include="frontend\assets\i\icon2x\gas.png" />
     <Content Include="frontend\assets\i\icon2x\hamburger.png" />
+    <Content Include="frontend\assets\i\icon2x\homelife-services-alt.png" />
     <Content Include="frontend\assets\i\icon2x\homelife-services.png" />
     <Content Include="frontend\assets\i\icon2x\month-to-month.png" />
     <Content Include="frontend\assets\i\icon2x\pinterest.png" />
     <Content Include="frontend\assets\i\icon2x\quicklinks.png" />
     <Content Include="frontend\assets\i\icon2x\select-arrow.png" />
+    <Content Include="frontend\assets\i\icon2x\services-lightbulb.png" />
     <Content Include="frontend\assets\i\icon2x\social.png" />
     <Content Include="frontend\assets\i\icon2x\state-georgia.png" />
     <Content Include="frontend\assets\i\icon2x\state-maryland.png" />
@@ -901,14 +512,49 @@
     <Content Include="frontend\assets\i\logo-peco.png" />
     <Content Include="frontend\assets\i\logo-ppl.png" />
     <Content Include="frontend\assets\i\logo.png" />
+    <Content Include="frontend\assets\i\marketing\captain-hopes.jpg" />
+    <Content Include="frontend\assets\i\marketing\collapse.png" />
+    <Content Include="frontend\assets\i\marketing\contact-banner.jpg" />
+    <Content Include="frontend\assets\i\marketing\contact-dark.png" />
+    <Content Include="frontend\assets\i\marketing\contact-or.png" />
+    <Content Include="frontend\assets\i\marketing\contact.png" />
+    <Content Include="frontend\assets\i\marketing\credit-monitoring.png" />
+    <Content Include="frontend\assets\i\marketing\directors.jpg" />
+    <Content Include="frontend\assets\i\marketing\expand.png" />
+    <Content Include="frontend\assets\i\marketing\fuel-fund.jpg" />
+    <Content Include="frontend\assets\i\marketing\georgia.jpg" />
     <Content Include="frontend\assets\i\marketing\header-home-01.jpg" />
+    <Content Include="frontend\assets\i\marketing\heat.jpg" />
     <Content Include="frontend\assets\i\marketing\home-test1.jpg" />
     <Content Include="frontend\assets\i\marketing\home-test2.jpg" />
+    <Content Include="frontend\assets\i\marketing\homelife-services.jpg" />
+    <Content Include="frontend\assets\i\marketing\icons-services-free.png" />
+    <Content Include="frontend\assets\i\marketing\identity-protection.png" />
+    <Content Include="frontend\assets\i\marketing\ignite_clean-energy.jpg" />
+    <Content Include="frontend\assets\i\marketing\ignite_energy-and-more.jpg" />
+    <Content Include="frontend\assets\i\marketing\ignite_from-keeping-your.jpg" />
+    <Content Include="frontend\assets\i\marketing\ignite_how-does-stream.jpg" />
+    <Content Include="frontend\assets\i\marketing\ignite_protect-more-than.jpg" />
+    <Content Include="frontend\assets\i\marketing\ignite_the-choice-to.jpg" />
+    <Content Include="frontend\assets\i\marketing\ignite_the-cleanest-source.jpg" />
+    <Content Include="frontend\assets\i\marketing\ignite_while-youre-likely.jpg" />
+    <Content Include="frontend\assets\i\marketing\maryland.jpg" />
+    <Content Include="frontend\assets\i\marketing\newjersey.jpg" />
+    <Content Include="frontend\assets\i\marketing\newyork.jpg" />
+    <Content Include="frontend\assets\i\marketing\pennsylvania.jpg" />
     <Content Include="frontend\assets\i\marketing\quote-left.png" />
     <Content Include="frontend\assets\i\marketing\quote-right.png" />
+    <Content Include="frontend\assets\i\marketing\ragans-hope.jpg" />
+    <Content Include="frontend\assets\i\marketing\services.jpg" />
+    <Content Include="frontend\assets\i\marketing\services_new_residential.jpg" />
+    <Content Include="frontend\assets\i\marketing\tech-support.png" />
+    <Content Include="frontend\assets\i\marketing\texas.jpg" />
+    <Content Include="frontend\assets\i\marketing\utility-emergency-services.jpg" />
+    <Content Include="frontend\assets\i\marketing\washingtondc.jpg" />
     <Content Include="frontend\assets\i\paperless-promo.jpg" />
     <Content Include="frontend\assets\i\renew-promo.png" />
     <Content Include="frontend\assets\js\app.js" />
+    <Content Include="frontend\assets\js\controllers\accountBalances.js" />
     <Content Include="frontend\assets\js\controllers\invoices.js" />
     <Content Include="frontend\assets\js\controllers\loginHorizontal.js" />
     <Content Include="frontend\assets\js\controllers\main.js" />
@@ -1159,6 +805,18 @@
     <Content Include="frontend\assets\js\libs\modernizr\test\qunit\qunit.css" />
     <Content Include="frontend\assets\js\libs\modernizr\test\qunit\qunit.js" />
     <Content Include="frontend\assets\js\libs\modernizr\test\qunit\run-qunit.js" />
+    <Content Include="frontend\assets\js\libs\respond\cross-domain\example.html" />
+    <Content Include="frontend\assets\js\libs\respond\cross-domain\respond-proxy.html" />
+    <Content Include="frontend\assets\js\libs\respond\cross-domain\respond.proxy.gif" />
+    <Content Include="frontend\assets\js\libs\respond\cross-domain\respond.proxy.js" />
+    <Content Include="frontend\assets\js\libs\respond\dest\respond.matchmedia.addListener.min.js" />
+    <Content Include="frontend\assets\js\libs\respond\dest\respond.matchmedia.addListener.src.js" />
+    <Content Include="frontend\assets\js\libs\respond\dest\respond.min.js" />
+    <Content Include="frontend\assets\js\libs\respond\dest\respond.src.js" />
+    <Content Include="frontend\assets\js\libs\respond\Gruntfile.js" />
+    <Content Include="frontend\assets\js\libs\respond\src\matchmedia.addListener.js" />
+    <Content Include="frontend\assets\js\libs\respond\src\matchmedia.polyfill.js" />
+    <Content Include="frontend\assets\js\libs\respond\src\respond.js" />
     <Content Include="frontend\assets\js\libs\underscore\.bower.json" />
     <Content Include="frontend\assets\js\libs\underscore\.editorconfig" />
     <Content Include="frontend\assets\js\libs\underscore\.gitignore" />
@@ -1177,236 +835,21 @@
     <Content Include="frontend\Gruntfile.js" />
     <Content Include="frontend\marketing-elements.html" />
     <Content Include="frontend\marketing-homepage.html" />
+    <Content Include="frontend\marketing-modules.html" />
     <Content Include="frontend\package.json" />
     <Content Include="frontend\README.md" />
+    <Content Include="frontend\services-enroll.html" />
+    <Content Include="frontend\services.html" />
     <Content Include="frontend\utility-services.html" />
     <Content Include="Global.asax" />
     <Content Include="layouts\HTML Layout.aspx" />
-    <Content Include="layouts\Modules\Full Width Image.ascx" />
-    <Content Include="layouts\Modules\Footer.ascx" />
-    <Content Include="layouts\Modules\Full HTML.ascx" />
-    <Content Include="layouts\Modules\Grid Promos.ascx" />
-    <Content Include="layouts\Modules\Intro.ascx" />
-    <Content Include="layouts\Modules\Login Horizontal.ascx" />
-    <Content Include="layouts\Modules\Photo Lockup.ascx" />
-    <Content Include="layouts\Modules\States Enroll.ascx" />
-    <Content Include="layouts\Pages\Marketing\Leaders\Leader Listing.ascx" />
-    <Content Include="layouts\Pages\Marketing\Leaders\Leader.ascx" />
-    <Content Include="layouts\Pages\Marketing\Leaders\Leaders Landing.ascx" />
-    <Content Include="layouts\Pages\Marketing\Leaders\View All Directors.ascx" />
+    <Content Include="layouts\Pages\Marketing\Historical Rates\Historical Rates Pennsylvania.ascx" />
+    <Content Include="layouts\Pages\Marketing\Historical Rates\Historical Rates Maryland.ascx" />
+    <Content Include="layouts\Pages\Marketing\Historical Rates\Historical Rates Texas.ascx" />
     <Content Include="layouts\Sample Inner Sublayout.ascx" />
     <Content Include="layouts\Sample Sublayout.ascx" />
     <Content Include="layouts\system\VisitorIdentification.aspx" />
     <Content Include="layouts\xmlcontrol.aspx" />
-    <Content Include="temp\box_into_disabled24x24.png" />
-    <Content Include="temp\box_previous_disabled24x24.png" />
-    <Content Include="temp\box_view_disabled24x24.png" />
-    <Content Include="temp\checkbox_disabled24x24.png" />
-    <Content Include="temp\copy_to_folder_disabled16x16.png" />
-    <Content Include="temp\delete2_disabled24x24.png" />
-    <Content Include="temp\disk_blue_disabled24x24.png" />
-    <Content Include="temp\documents_link16x16.png" />
-    <Content Include="temp\documents_link24x24.png" />
-    <Content Include="temp\document_certificate_disabled24x24.png" />
-    <Content Include="temp\document_gear_disabled16x16.png" />
-    <Content Include="temp\document_time_disabled24x24.png" />
-    <Content Include="temp\edit_disabled24x24.png" />
-    <Content Include="temp\flag_usa_disabled16x16.png" />
-    <Content Include="temp\folder_cubes_disabled24x24.png" />
-    <Content Include="temp\form_blue_disabled16x16.png" />
-    <Content Include="temp\form_green_disabled16x16.png" />
-    <Content Include="temp\form_yellow_delete_disabled16x16.png" />
-    <Content Include="temp\form_yellow_edit_disabled16x16.png" />
-    <Content Include="temp\help2_disabled16x16.png" />
-    <Content Include="temp\IconCache\ApplicationsV2\16x16\folder_blue.png" />
-    <Content Include="temp\IconCache\Applications\16x16\about.png" />
-    <Content Include="temp\IconCache\Applications\16x16\bookmark.png" />
-    <Content Include="temp\IconCache\Applications\16x16\bullet_square_green.png" />
-    <Content Include="temp\IconCache\Applications\16x16\bullet_square_grey.png" />
-    <Content Include="temp\IconCache\Applications\16x16\bullet_square_red.png" />
-    <Content Include="temp\IconCache\Applications\16x16\check.png" />
-    <Content Include="temp\IconCache\Applications\16x16\check2.png" />
-    <Content Include="temp\IconCache\Applications\16x16\delete.png" />
-    <Content Include="temp\IconCache\Applications\16x16\delete2.png" />
-    <Content Include="temp\IconCache\Applications\16x16\document.png" />
-    <Content Include="temp\IconCache\Applications\16x16\documents.png" />
-    <Content Include="temp\IconCache\Applications\16x16\document_edit.png" />
-    <Content Include="temp\IconCache\Applications\16x16\document_gear.png" />
-    <Content Include="temp\IconCache\Applications\16x16\document_ok.png" />
-    <Content Include="temp\IconCache\Applications\16x16\document_plain.png" />
-    <Content Include="temp\IconCache\Applications\16x16\document_time.png" />
-    <Content Include="temp\IconCache\Applications\16x16\find.png" />
-    <Content Include="temp\IconCache\Applications\16x16\folder.png" />
-    <Content Include="temp\IconCache\Applications\16x16\folder_view.png" />
-    <Content Include="temp\IconCache\Applications\16x16\forbidden.png" />
-    <Content Include="temp\IconCache\Applications\16x16\form_blue.png" />
-    <Content Include="temp\IconCache\Applications\16x16\form_green.png" />
-    <Content Include="temp\IconCache\Applications\16x16\form_yellow_delete.png" />
-    <Content Include="temp\IconCache\Applications\16x16\form_yellow_edit.png" />
-    <Content Include="temp\IconCache\Applications\16x16\garbage_empty.png" />
-    <Content Include="temp\IconCache\Applications\16x16\gear_replace.png" />
-    <Content Include="temp\IconCache\Applications\16x16\help2.png" />
-    <Content Include="temp\IconCache\Applications\16x16\history.png" />
-    <Content Include="temp\IconCache\Applications\16x16\information.png" />
-    <Content Include="temp\IconCache\Applications\16x16\navigate_down.png" />
-    <Content Include="temp\IconCache\Applications\16x16\navigate_down2.png" />
-    <Content Include="temp\IconCache\Applications\16x16\navigate_up.png" />
-    <Content Include="temp\IconCache\Applications\16x16\navigate_up2.png" />
-    <Content Include="temp\IconCache\Applications\16x16\nav_right_green.png" />
-    <Content Include="temp\IconCache\Applications\16x16\photo_scenery.png" />
-    <Content Include="temp\IconCache\Applications\16x16\preferences.png" />
-    <Content Include="temp\IconCache\Applications\16x16\refresh.png" />
-    <Content Include="temp\IconCache\Applications\16x16\selection_delete.png" />
-    <Content Include="temp\IconCache\Applications\16x16\view.png" />
-    <Content Include="temp\IconCache\Applications\16x16\view_add.png" />
-    <Content Include="temp\IconCache\Applications\16x16\warning.png" />
-    <Content Include="temp\IconCache\Applications\16x16\window.png" />
-    <Content Include="temp\IconCache\Applications\16x16\windows.png" />
-    <Content Include="temp\IconCache\Applications\16x16\zoom_in.png" />
-    <Content Include="temp\IconCache\Applications\16x16\zoom_out.png" />
-    <Content Include="temp\IconCache\Applications\24x24\checkbox.png" />
-    <Content Include="temp\IconCache\Applications\24x24\delete2.png" />
-    <Content Include="temp\IconCache\Applications\24x24\disk_blue.png" />
-    <Content Include="temp\IconCache\Applications\24x24\documents.png" />
-    <Content Include="temp\IconCache\Applications\24x24\document_certificate.png" />
-    <Content Include="temp\IconCache\Applications\24x24\document_edit.png" />
-    <Content Include="temp\IconCache\Applications\24x24\document_lock.png" />
-    <Content Include="temp\IconCache\Applications\24x24\document_ok.png" />
-    <Content Include="temp\IconCache\Applications\24x24\document_time.png" />
-    <Content Include="temp\IconCache\Applications\24x24\edit.png" />
-    <Content Include="temp\IconCache\Applications\24x24\find.png" />
-    <Content Include="temp\IconCache\Applications\24x24\folder_cubes.png" />
-    <Content Include="temp\IconCache\Applications\24x24\garbage_empty.png" />
-    <Content Include="temp\IconCache\Applications\24x24\media_play_green.png" />
-    <Content Include="temp\IconCache\Applications\24x24\nav_left_green.png" />
-    <Content Include="temp\IconCache\Applications\24x24\nav_right_green.png" />
-    <Content Include="temp\IconCache\Applications\24x24\preferences.png" />
-    <Content Include="temp\IconCache\Applications\24x24\Scroll.png" />
-    <Content Include="temp\IconCache\Applications\32x32\check.png" />
-    <Content Include="temp\IconCache\Applications\32x32\document.png" />
-    <Content Include="temp\IconCache\Applications\32x32\export1.png" />
-    <Content Include="temp\IconCache\Applications\32x32\folder_new.png" />
-    <Content Include="temp\IconCache\Applications\32x32\folder_up.png" />
-    <Content Include="temp\IconCache\Applications\32x32\photo_scenery.png" />
-    <Content Include="temp\IconCache\Applications\48x48\folder.png" />
-    <Content Include="temp\IconCache\Business\16x16\chest_add.png" />
-    <Content Include="temp\IconCache\Business\16x16\data.png" />
-    <Content Include="temp\IconCache\Business\16x16\data_into.png" />
-    <Content Include="temp\IconCache\Business\16x16\index_add.png" />
-    <Content Include="temp\IconCache\Business\16x16\index_delete.png" />
-    <Content Include="temp\IconCache\Business\32x32\column-chart.png" />
-    <Content Include="temp\IconCache\Control\16x16\edit_mask.png" />
-    <Content Include="temp\IconCache\Control\16x16\menu_b.png" />
-    <Content Include="temp\IconCache\Control\16x16\popup_menu_b.png" />
-    <Content Include="temp\IconCache\Core2\16x16\closewindow.png" />
-    <Content Include="temp\IconCache\Core2\16x16\maximize.png" />
-    <Content Include="temp\IconCache\Core2\16x16\minimize.png" />
-    <Content Include="temp\IconCache\Core3\16x16\copy_to_folder.png" />
-    <Content Include="temp\IconCache\Core3\16x16\move_to_folder.png" />
-    <Content Include="temp\IconCache\Core\16x16\hide.png" />
-    <Content Include="temp\IconCache\Core\16x16\rename.png" />
-    <Content Include="temp\IconCache\Flags\16x16\flag_denmark.png" />
-    <Content Include="temp\IconCache\Flags\16x16\flag_generic.png" />
-    <Content Include="temp\IconCache\Flags\16x16\flag_Germany.PNG" />
-    <Content Include="temp\IconCache\Flags\16x16\flag_Japan.PNG" />
-    <Content Include="temp\IconCache\Flags\16x16\flag_usa.png" />
-    <Content Include="temp\IconCache\Imaging\16x16\text.png" />
-    <Content Include="temp\IconCache\NetworkV2\16x16\link.png" />
-    <Content Include="temp\IconCache\NetworkV2\24x24\link_delete.png" />
-    <Content Include="temp\IconCache\Network\16x16\certificate.png" />
-    <Content Include="temp\IconCache\Network\16x16\earth.png" />
-    <Content Include="temp\IconCache\Network\16x16\earth_add.png" />
-    <Content Include="temp\IconCache\Network\16x16\earth_time.png" />
-    <Content Include="temp\IconCache\Network\16x16\home.png" />
-    <Content Include="temp\IconCache\Network\16x16\id_cards.png" />
-    <Content Include="temp\IconCache\Network\16x16\link_delete.png" />
-    <Content Include="temp\IconCache\Network\16x16\lock_open.png" />
-    <Content Include="temp\IconCache\Network\16x16\Lock_view.png" />
-    <Content Include="temp\IconCache\Network\16x16\mail.png" />
-    <Content Include="temp\IconCache\Network\16x16\node.png" />
-    <Content Include="temp\IconCache\Network\16x16\outbox.png" />
-    <Content Include="temp\IconCache\Network\16x16\safe.png" />
-    <Content Include="temp\IconCache\Network\16x16\server_earth.png" />
-    <Content Include="temp\IconCache\Network\24x24\earth_time.png" />
-    <Content Include="temp\IconCache\Network\24x24\id_cards.png" />
-    <Content Include="temp\IconCache\Network\24x24\keys.png" />
-    <Content Include="temp\IconCache\Network\24x24\lock.png" />
-    <Content Include="temp\IconCache\Network\24x24\lock_edit.png" />
-    <Content Include="temp\IconCache\Network\24x24\node.png" />
-    <Content Include="temp\IconCache\Network\24x24\outbox.png" />
-    <Content Include="temp\IconCache\Network\24x24\server_document.png" />
-    <Content Include="temp\IconCache\Network\32x32\home.png" />
-    <Content Include="temp\IconCache\Network\32x32\mail.png" />
-    <Content Include="temp\IconCache\People\16x16\alarmclock.png" />
-    <Content Include="temp\IconCache\People\16x16\Astrologer.png" />
-    <Content Include="temp\IconCache\People\16x16\book_red.png" />
-    <Content Include="temp\IconCache\People\16x16\box.png" />
-    <Content Include="temp\IconCache\People\16x16\box_software.png" />
-    <Content Include="temp\IconCache\People\16x16\cubes.png" />
-    <Content Include="temp\IconCache\People\16x16\cubes_blue.png" />
-    <Content Include="temp\IconCache\People\16x16\cube_blue.png" />
-    <Content Include="temp\IconCache\People\16x16\hourglass.png" />
-    <Content Include="temp\IconCache\People\16x16\keyboard_key.png" />
-    <Content Include="temp\IconCache\People\16x16\megaphone.png" />
-    <Content Include="temp\IconCache\People\16x16\palette2.png" />
-    <Content Include="temp\IconCache\People\16x16\pda.png" />
-    <Content Include="temp\IconCache\People\16x16\toolbox.png" />
-    <Content Include="temp\IconCache\People\16x16\user1.png" />
-    <Content Include="temp\IconCache\People\16x16\user1_lock.png" />
-    <Content Include="temp\IconCache\People\16x16\user1_view.png" />
-    <Content Include="temp\IconCache\People\16x16\users1.png" />
-    <Content Include="temp\IconCache\People\16x16\users4.png" />
-    <Content Include="temp\IconCache\People\16x16\users_back.png" />
-    <Content Include="temp\IconCache\People\16x16\users_into.png" />
-    <Content Include="temp\IconCache\People\16x16\workstation1.png" />
-    <Content Include="temp\IconCache\People\24x24\box_into.png" />
-    <Content Include="temp\IconCache\People\24x24\box_previous.png" />
-    <Content Include="temp\IconCache\People\24x24\box_view.png" />
-    <Content Include="temp\IconCache\People\24x24\cube_blue.png" />
-    <Content Include="temp\IconCache\People\24x24\monitor.png" />
-    <Content Include="temp\IconCache\People\24x24\user1_new.png" />
-    <Content Include="temp\IconCache\People\24x24\users4.png" />
-    <Content Include="temp\IconCache\People\32x32\Astrologer.png" />
-    <Content Include="temp\IconCache\People\32x32\cubes_blue.png" />
-    <Content Include="temp\IconCache\People\32x32\gauge.png" />
-    <Content Include="temp\IconCache\People\32x32\megaphone.png" />
-    <Content Include="temp\IconCache\People\32x32\user1_lock.png" />
-    <Content Include="temp\IconCache\Software\16x16\application.png" />
-    <Content Include="temp\IconCache\Software\16x16\application_run.png" />
-    <Content Include="temp\IconCache\Software\16x16\breakpoint.png" />
-    <Content Include="temp\IconCache\Software\16x16\components.png" />
-    <Content Include="temp\IconCache\Software\16x16\elements1.png" />
-    <Content Include="temp\IconCache\Software\16x16\elements_selection.png" />
-    <Content Include="temp\IconCache\Software\16x16\element_run.png" />
-    <Content Include="temp\IconCache\Software\16x16\jar.png" />
-    <Content Include="temp\IconCache\Software\16x16\text_code_colored.png" />
-    <Content Include="temp\IconCache\Software\24x24\bug_yellow.png" />
-    <Content Include="temp\IconCache\Software\24x24\debug_run.png" />
-    <Content Include="temp\IconCache\Software\24x24\text_code.png" />
-    <Content Include="temp\IconCache\Software\32x32\bug_yellow.png" />
-    <Content Include="temp\IconCache\Software\32x32\components.png" />
-    <Content Include="temp\IconCache\Wordprocessing\16x16\style_formatting_b.png" />
-    <Content Include="temp\IconCache\Wordprocessing\24x24\spell_check.png" />
-    <Content Include="temp\index_add_disabled16x16.png" />
-    <Content Include="temp\index_delete_disabled16x16.png" />
-    <Content Include="temp\link_delete_disabled24x24.png" />
-    <Content Include="temp\lock_edit_disabled24x24.png" />
-    <Content Include="temp\menu_b_disabled16x16.png" />
-    <Content Include="temp\move_to_folder_disabled16x16.png" />
-    <Content Include="temp\navigate_down2_disabled16x16.png" />
-    <Content Include="temp\navigate_down_disabled16x16.png" />
-    <Content Include="temp\navigate_up2_disabled16x16.png" />
-    <Content Include="temp\navigate_up_disabled16x16.png" />
-    <Content Include="temp\nav_left_green_disabled24x24.png" />
-    <Content Include="temp\nav_right_green_disabled24x24.png" />
-    <Content Include="temp\photo_scenery_disabled16x16.png" />
-    <Content Include="temp\popup_menu_b_disabled16x16.png" />
-    <Content Include="temp\readme.txt" />
-    <Content Include="temp\rename_disabled16x16.png" />
-    <Content Include="temp\server_document_disabled24x24.png" />
-    <Content Include="temp\spell_check_disabled24x24.png" />
-    <Content Include="temp\style_formatting_b_disabled16x16.png" />
-    <Content Include="temp\text_disabled16x16.png" />
     <Content Include="upload\readme.txt" />
     <Content Include="webedit.css" />
     <Content Include="xsl\system\WebEdit\Hidden Rendering.xslt" />
@@ -1467,165 +910,9 @@
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Web.config.WebForms" />
     <Content Include="Data\webdav.lic" />
     <Content Include="temp\dictionary.dat" />
     <Content Include="packages.config" />
-    <Content Include="assets\.DS_Store" />
-    <Content Include="assets\.sass-cache\19803f83f2351e85549e554ea3d61989b07cc36b\_utilities.scssc" />
-    <Content Include="assets\.sass-cache\1f685ac5fc8ff75356f541e48a2b30fa60f22e54\_ellipsis.scssc" />
-    <Content Include="assets\.sass-cache\1f685ac5fc8ff75356f541e48a2b30fa60f22e54\_force-wrap.scssc" />
-    <Content Include="assets\.sass-cache\1f685ac5fc8ff75356f541e48a2b30fa60f22e54\_nowrap.scssc" />
-    <Content Include="assets\.sass-cache\1f685ac5fc8ff75356f541e48a2b30fa60f22e54\_replacement.scssc" />
-    <Content Include="assets\.sass-cache\20ff1f5b88cadc49f1a14e8575b190e37128e5aa\_color.scssc" />
-    <Content Include="assets\.sass-cache\20ff1f5b88cadc49f1a14e8575b190e37128e5aa\_general.scssc" />
-    <Content Include="assets\.sass-cache\20ff1f5b88cadc49f1a14e8575b190e37128e5aa\_sprites.scssc" />
-    <Content Include="assets\.sass-cache\20ff1f5b88cadc49f1a14e8575b190e37128e5aa\_tables.scssc" />
-    <Content Include="assets\.sass-cache\267e65138e0d57e6f1fa164cc3aac54a7a628197\_ellipsis.scssc" />
-    <Content Include="assets\.sass-cache\267e65138e0d57e6f1fa164cc3aac54a7a628197\_force-wrap.scssc" />
-    <Content Include="assets\.sass-cache\267e65138e0d57e6f1fa164cc3aac54a7a628197\_nowrap.scssc" />
-    <Content Include="assets\.sass-cache\267e65138e0d57e6f1fa164cc3aac54a7a628197\_replacement.scssc" />
-    <Content Include="assets\.sass-cache\2c2c8d229f6508be6128462a42e016e50c2fe2ab\_h5bp.scssc" />
-    <Content Include="assets\.sass-cache\302c437fb8b93559881dbf5abc67048b07ad5aa1\_utilities.scssc" />
-    <Content Include="assets\.sass-cache\312856d7ac0c9202acce01d01b748e14b42a872f\_hover-link.scssc" />
-    <Content Include="assets\.sass-cache\312856d7ac0c9202acce01d01b748e14b42a872f\_link-colors.scssc" />
-    <Content Include="assets\.sass-cache\312856d7ac0c9202acce01d01b748e14b42a872f\_unstyled-link.scssc" />
-    <Content Include="assets\.sass-cache\31dd57d7ea2cbece0a4cb9339e07bfb3a660ddaf\_alternating-rows-and-columns.scssc" />
-    <Content Include="assets\.sass-cache\31dd57d7ea2cbece0a4cb9339e07bfb3a660ddaf\_borders.scssc" />
-    <Content Include="assets\.sass-cache\31dd57d7ea2cbece0a4cb9339e07bfb3a660ddaf\_scaffolding.scssc" />
-    <Content Include="assets\.sass-cache\37ac3561ace67f6c00853fbd924c1d681655791d\_base.scssc" />
-    <Content Include="assets\.sass-cache\37ac3561ace67f6c00853fbd924c1d681655791d\_sprite-img.scssc" />
-    <Content Include="assets\.sass-cache\37f3be6ee8f5c63689079dd976ffc8a24e8fa1e0\_clearfix.scssc" />
-    <Content Include="assets\.sass-cache\37f3be6ee8f5c63689079dd976ffc8a24e8fa1e0\_float.scssc" />
-    <Content Include="assets\.sass-cache\37f3be6ee8f5c63689079dd976ffc8a24e8fa1e0\_hacks.scssc" />
-    <Content Include="assets\.sass-cache\37f3be6ee8f5c63689079dd976ffc8a24e8fa1e0\_min.scssc" />
-    <Content Include="assets\.sass-cache\37f3be6ee8f5c63689079dd976ffc8a24e8fa1e0\_reset.scssc" />
-    <Content Include="assets\.sass-cache\37f3be6ee8f5c63689079dd976ffc8a24e8fa1e0\_tag-cloud.scssc" />
-    <Content Include="assets\.sass-cache\46372f5d90c3713b76a35e23bf35feca1fb9ac99\_css3.scssc" />
-    <Content Include="assets\.sass-cache\46372f5d90c3713b76a35e23bf35feca1fb9ac99\_support.scssc" />
-    <Content Include="assets\.sass-cache\46372f5d90c3713b76a35e23bf35feca1fb9ac99\_typography.scssc" />
-    <Content Include="assets\.sass-cache\46372f5d90c3713b76a35e23bf35feca1fb9ac99\_utilities.scssc" />
-    <Content Include="assets\.sass-cache\597da684e4d554a1b262639ec2596c2cb47b12b4\global.scssc" />
-    <Content Include="assets\.sass-cache\597da684e4d554a1b262639ec2596c2cb47b12b4\homelifeservices.scssc" />
-    <Content Include="assets\.sass-cache\5cf39c70020ba818d50934168d8e437f4fb46dd9\_appearance.scssc" />
-    <Content Include="assets\.sass-cache\5cf39c70020ba818d50934168d8e437f4fb46dd9\_background-clip.scssc" />
-    <Content Include="assets\.sass-cache\5cf39c70020ba818d50934168d8e437f4fb46dd9\_background-origin.scssc" />
-    <Content Include="assets\.sass-cache\5cf39c70020ba818d50934168d8e437f4fb46dd9\_background-size.scssc" />
-    <Content Include="assets\.sass-cache\5cf39c70020ba818d50934168d8e437f4fb46dd9\_border-radius.scssc" />
-    <Content Include="assets\.sass-cache\5cf39c70020ba818d50934168d8e437f4fb46dd9\_box-shadow.scssc" />
-    <Content Include="assets\.sass-cache\5cf39c70020ba818d50934168d8e437f4fb46dd9\_box-sizing.scssc" />
-    <Content Include="assets\.sass-cache\5cf39c70020ba818d50934168d8e437f4fb46dd9\_box.scssc" />
-    <Content Include="assets\.sass-cache\5cf39c70020ba818d50934168d8e437f4fb46dd9\_columns.scssc" />
-    <Content Include="assets\.sass-cache\5cf39c70020ba818d50934168d8e437f4fb46dd9\_filter.scssc" />
-    <Content Include="assets\.sass-cache\5cf39c70020ba818d50934168d8e437f4fb46dd9\_font-face.scssc" />
-    <Content Include="assets\.sass-cache\5cf39c70020ba818d50934168d8e437f4fb46dd9\_hyphenation.scssc" />
-    <Content Include="assets\.sass-cache\5cf39c70020ba818d50934168d8e437f4fb46dd9\_images.scssc" />
-    <Content Include="assets\.sass-cache\5cf39c70020ba818d50934168d8e437f4fb46dd9\_inline-block.scssc" />
-    <Content Include="assets\.sass-cache\5cf39c70020ba818d50934168d8e437f4fb46dd9\_opacity.scssc" />
-    <Content Include="assets\.sass-cache\5cf39c70020ba818d50934168d8e437f4fb46dd9\_regions.scssc" />
-    <Content Include="assets\.sass-cache\5cf39c70020ba818d50934168d8e437f4fb46dd9\_shared.scssc" />
-    <Content Include="assets\.sass-cache\5cf39c70020ba818d50934168d8e437f4fb46dd9\_text-shadow.scssc" />
-    <Content Include="assets\.sass-cache\5cf39c70020ba818d50934168d8e437f4fb46dd9\_transform.scssc" />
-    <Content Include="assets\.sass-cache\5cf39c70020ba818d50934168d8e437f4fb46dd9\_transition.scssc" />
-    <Content Include="assets\.sass-cache\73db756a64d7d8f3d06a7628a8cda63d4178c3dc\_helpers.scssc" />
-    <Content Include="assets\.sass-cache\73db756a64d7d8f3d06a7628a8cda63d4178c3dc\_main.scssc" />
-    <Content Include="assets\.sass-cache\73db756a64d7d8f3d06a7628a8cda63d4178c3dc\_media.scssc" />
-    <Content Include="assets\.sass-cache\73db756a64d7d8f3d06a7628a8cda63d4178c3dc\_normalize.scssc" />
-    <Content Include="assets\.sass-cache\82bdeff5a16d26681693e3c5df47f2f7f10a8e60\_color.scssc" />
-    <Content Include="assets\.sass-cache\82bdeff5a16d26681693e3c5df47f2f7f10a8e60\_general.scssc" />
-    <Content Include="assets\.sass-cache\82bdeff5a16d26681693e3c5df47f2f7f10a8e60\_sprites.scssc" />
-    <Content Include="assets\.sass-cache\82bdeff5a16d26681693e3c5df47f2f7f10a8e60\_tables.scssc" />
-    <Content Include="assets\.sass-cache\85726c9cf59d8feac9e4d488e7e1fa200854a153\_appearance.scssc" />
-    <Content Include="assets\.sass-cache\85726c9cf59d8feac9e4d488e7e1fa200854a153\_background-clip.scssc" />
-    <Content Include="assets\.sass-cache\85726c9cf59d8feac9e4d488e7e1fa200854a153\_background-origin.scssc" />
-    <Content Include="assets\.sass-cache\85726c9cf59d8feac9e4d488e7e1fa200854a153\_background-size.scssc" />
-    <Content Include="assets\.sass-cache\85726c9cf59d8feac9e4d488e7e1fa200854a153\_border-radius.scssc" />
-    <Content Include="assets\.sass-cache\85726c9cf59d8feac9e4d488e7e1fa200854a153\_box-shadow.scssc" />
-    <Content Include="assets\.sass-cache\85726c9cf59d8feac9e4d488e7e1fa200854a153\_box-sizing.scssc" />
-    <Content Include="assets\.sass-cache\85726c9cf59d8feac9e4d488e7e1fa200854a153\_box.scssc" />
-    <Content Include="assets\.sass-cache\85726c9cf59d8feac9e4d488e7e1fa200854a153\_columns.scssc" />
-    <Content Include="assets\.sass-cache\85726c9cf59d8feac9e4d488e7e1fa200854a153\_filter.scssc" />
-    <Content Include="assets\.sass-cache\85726c9cf59d8feac9e4d488e7e1fa200854a153\_font-face.scssc" />
-    <Content Include="assets\.sass-cache\85726c9cf59d8feac9e4d488e7e1fa200854a153\_hyphenation.scssc" />
-    <Content Include="assets\.sass-cache\85726c9cf59d8feac9e4d488e7e1fa200854a153\_images.scssc" />
-    <Content Include="assets\.sass-cache\85726c9cf59d8feac9e4d488e7e1fa200854a153\_inline-block.scssc" />
-    <Content Include="assets\.sass-cache\85726c9cf59d8feac9e4d488e7e1fa200854a153\_opacity.scssc" />
-    <Content Include="assets\.sass-cache\85726c9cf59d8feac9e4d488e7e1fa200854a153\_regions.scssc" />
-    <Content Include="assets\.sass-cache\85726c9cf59d8feac9e4d488e7e1fa200854a153\_shared.scssc" />
-    <Content Include="assets\.sass-cache\85726c9cf59d8feac9e4d488e7e1fa200854a153\_text-shadow.scssc" />
-    <Content Include="assets\.sass-cache\85726c9cf59d8feac9e4d488e7e1fa200854a153\_transform.scssc" />
-    <Content Include="assets\.sass-cache\85726c9cf59d8feac9e4d488e7e1fa200854a153\_transition.scssc" />
-    <Content Include="assets\.sass-cache\896c8a458b5ad73fafb4a67d77399e476e78958d\_contrast.scssc" />
-    <Content Include="assets\.sass-cache\8eb826984b4fcac5aaf8b88cb5b6b8037f325f11\_helpers.scssc" />
-    <Content Include="assets\.sass-cache\8eb826984b4fcac5aaf8b88cb5b6b8037f325f11\_main.scssc" />
-    <Content Include="assets\.sass-cache\8eb826984b4fcac5aaf8b88cb5b6b8037f325f11\_media.scssc" />
-    <Content Include="assets\.sass-cache\8eb826984b4fcac5aaf8b88cb5b6b8037f325f11\_normalize.scssc" />
-    <Content Include="assets\.sass-cache\8f583bc1bc5e301ffa955e24fa9a04c1e56b781b\global.scssc" />
-    <Content Include="assets\.sass-cache\9468e063daf180ac5ddfa5142b8a390461f56a2c\_clearfix.scssc" />
-    <Content Include="assets\.sass-cache\9468e063daf180ac5ddfa5142b8a390461f56a2c\_float.scssc" />
-    <Content Include="assets\.sass-cache\9468e063daf180ac5ddfa5142b8a390461f56a2c\_hacks.scssc" />
-    <Content Include="assets\.sass-cache\9468e063daf180ac5ddfa5142b8a390461f56a2c\_min.scssc" />
-    <Content Include="assets\.sass-cache\9468e063daf180ac5ddfa5142b8a390461f56a2c\_reset.scssc" />
-    <Content Include="assets\.sass-cache\9468e063daf180ac5ddfa5142b8a390461f56a2c\_tag-cloud.scssc" />
-    <Content Include="assets\.sass-cache\97aad946916a504b73d5cd30bdadd262907855a1\_css3.scssc" />
-    <Content Include="assets\.sass-cache\97aad946916a504b73d5cd30bdadd262907855a1\_support.scssc" />
-    <Content Include="assets\.sass-cache\97aad946916a504b73d5cd30bdadd262907855a1\_typography.scssc" />
-    <Content Include="assets\.sass-cache\97aad946916a504b73d5cd30bdadd262907855a1\_utilities.scssc" />
-    <Content Include="assets\.sass-cache\9d0a145307d38a9447c3b89b0298012ca1032a1c\_h5bp.scssc" />
-    <Content Include="assets\.sass-cache\a31baacec3b8e662098936edb4e864987e846691\_alternating-rows-and-columns.scssc" />
-    <Content Include="assets\.sass-cache\a31baacec3b8e662098936edb4e864987e846691\_borders.scssc" />
-    <Content Include="assets\.sass-cache\a31baacec3b8e662098936edb4e864987e846691\_scaffolding.scssc" />
-    <Content Include="assets\.sass-cache\a961cd391e620a61fda0d755b90fbb1596ba0c4d\_footer.scssc" />
-    <Content Include="assets\.sass-cache\a961cd391e620a61fda0d755b90fbb1596ba0c4d\_forms.scssc" />
-    <Content Include="assets\.sass-cache\a961cd391e620a61fda0d755b90fbb1596ba0c4d\_global.scssc" />
-    <Content Include="assets\.sass-cache\a961cd391e620a61fda0d755b90fbb1596ba0c4d\_header.scssc" />
-    <Content Include="assets\.sass-cache\a961cd391e620a61fda0d755b90fbb1596ba0c4d\_layout.scssc" />
-    <Content Include="assets\.sass-cache\a961cd391e620a61fda0d755b90fbb1596ba0c4d\_mixins.scssc" />
-    <Content Include="assets\.sass-cache\a961cd391e620a61fda0d755b90fbb1596ba0c4d\_modules.scssc" />
-    <Content Include="assets\.sass-cache\a961cd391e620a61fda0d755b90fbb1596ba0c4d\_palette.scssc" />
-    <Content Include="assets\.sass-cache\a961cd391e620a61fda0d755b90fbb1596ba0c4d\_sprites.scssc" />
-    <Content Include="assets\.sass-cache\a961cd391e620a61fda0d755b90fbb1596ba0c4d\_tables.scssc" />
-    <Content Include="assets\.sass-cache\a961cd391e620a61fda0d755b90fbb1596ba0c4d\_typography.scssc" />
-    <Content Include="assets\.sass-cache\a961cd391e620a61fda0d755b90fbb1596ba0c4d\_ui.scssc" />
-    <Content Include="assets\.sass-cache\aefef25c11e3af0efd4ba8d40675fde0c8122fb2\_compass.scssc" />
-    <Content Include="assets\.sass-cache\b47275cb744c6083ace98ff486b15cef29f8bb32\_links.scssc" />
-    <Content Include="assets\.sass-cache\b47275cb744c6083ace98ff486b15cef29f8bb32\_lists.scssc" />
-    <Content Include="assets\.sass-cache\b47275cb744c6083ace98ff486b15cef29f8bb32\_text.scssc" />
-    <Content Include="assets\.sass-cache\b47275cb744c6083ace98ff486b15cef29f8bb32\_vertical_rhythm.scssc" />
-    <Content Include="assets\.sass-cache\cbc04b1979cb1082b55a8db870140d83d5363d40\_compass.scssc" />
-    <Content Include="assets\.sass-cache\cebf013c69024aef2ffb06191647d064fc3377a2\_hover-link.scssc" />
-    <Content Include="assets\.sass-cache\cebf013c69024aef2ffb06191647d064fc3377a2\_link-colors.scssc" />
-    <Content Include="assets\.sass-cache\cebf013c69024aef2ffb06191647d064fc3377a2\_unstyled-link.scssc" />
-    <Content Include="assets\.sass-cache\d3499664a3adc8d0d34f23ba92c230cd99dc8fed\_contrast.scssc" />
-    <Content Include="assets\.sass-cache\d46918eceb7070917b9b872b01b80a28613a768a\_footer.scssc" />
-    <Content Include="assets\.sass-cache\d46918eceb7070917b9b872b01b80a28613a768a\_forms.scssc" />
-    <Content Include="assets\.sass-cache\d46918eceb7070917b9b872b01b80a28613a768a\_global.scssc" />
-    <Content Include="assets\.sass-cache\d46918eceb7070917b9b872b01b80a28613a768a\_header.scssc" />
-    <Content Include="assets\.sass-cache\d46918eceb7070917b9b872b01b80a28613a768a\_layout.scssc" />
-    <Content Include="assets\.sass-cache\d46918eceb7070917b9b872b01b80a28613a768a\_mixins.scssc" />
-    <Content Include="assets\.sass-cache\d46918eceb7070917b9b872b01b80a28613a768a\_modules.scssc" />
-    <Content Include="assets\.sass-cache\d46918eceb7070917b9b872b01b80a28613a768a\_palette.scssc" />
-    <Content Include="assets\.sass-cache\d46918eceb7070917b9b872b01b80a28613a768a\_sprites.scssc" />
-    <Content Include="assets\.sass-cache\d46918eceb7070917b9b872b01b80a28613a768a\_tables.scssc" />
-    <Content Include="assets\.sass-cache\d46918eceb7070917b9b872b01b80a28613a768a\_typography.scssc" />
-    <Content Include="assets\.sass-cache\d46918eceb7070917b9b872b01b80a28613a768a\_ui.scssc" />
-    <Content Include="assets\.sass-cache\d5680a485b5761bfc9a728287d7d8939633a40e0\_links.scssc" />
-    <Content Include="assets\.sass-cache\d5680a485b5761bfc9a728287d7d8939633a40e0\_lists.scssc" />
-    <Content Include="assets\.sass-cache\d5680a485b5761bfc9a728287d7d8939633a40e0\_text.scssc" />
-    <Content Include="assets\.sass-cache\d5680a485b5761bfc9a728287d7d8939633a40e0\_vertical_rhythm.scssc" />
-    <Content Include="assets\.sass-cache\db9015ad49e195f532366025ae890ed94e0a0cc6\_grid-background.scssc" />
-    <Content Include="assets\.sass-cache\de47d8667d000f9718223a5a889d84d24931ba90\_base.scssc" />
-    <Content Include="assets\.sass-cache\de47d8667d000f9718223a5a889d84d24931ba90\_sprite-img.scssc" />
-    <Content Include="assets\.sass-cache\e168009cc95be917dbf90b3db7288a580db6a265\_bullets.scssc" />
-    <Content Include="assets\.sass-cache\e168009cc95be917dbf90b3db7288a580db6a265\_horizontal-list.scssc" />
-    <Content Include="assets\.sass-cache\e168009cc95be917dbf90b3db7288a580db6a265\_inline-block-list.scssc" />
-    <Content Include="assets\.sass-cache\e168009cc95be917dbf90b3db7288a580db6a265\_inline-list.scssc" />
-    <Content Include="assets\.sass-cache\e8b7daafb90b622d40d33c72ce8fc1c4ce0eb24b\_grid-background.scssc" />
-    <Content Include="assets\.sass-cache\f2d7d9025a5f2197a45555fc64982256eea4f7dd\_bullets.scssc" />
-    <Content Include="assets\.sass-cache\f2d7d9025a5f2197a45555fc64982256eea4f7dd\_horizontal-list.scssc" />
-    <Content Include="assets\.sass-cache\f2d7d9025a5f2197a45555fc64982256eea4f7dd\_inline-block-list.scssc" />
-    <Content Include="assets\.sass-cache\f2d7d9025a5f2197a45555fc64982256eea4f7dd\_inline-list.scssc" />
-    <Content Include="assets\css\_sass\partials\_marketing-site.scss" />
     <Content Include="App_Config\Include\Sitecore.Analytics.config" />
     <Content Include="App_Config\Include\Sitecore.Analytics.ExcludeRobots.config" />
     <Content Include="App_Config\Include\Sitecore.Analytics.RobotDetection.config" />
@@ -1640,6 +927,29 @@
     <Content Include="App_Config\Include\Sitecore.Speak.config" />
     <Content Include="App_Config\Include\Sitecore.Speak.ItemWebApi.config" />
     <Content Include="App_Config\Include\Sitecore.Speak.Mvc.config" />
+    <Content Include="Views\web.config" />
+    <Content Include="frontend\assets\js\libs\respond\.bower.json" />
+    <Content Include="frontend\assets\js\libs\respond\bower.json" />
+    <Content Include="frontend\assets\js\libs\respond\LICENSE-MIT" />
+    <Content Include="frontend\assets\js\libs\respond\package.json" />
+    <Content Include="frontend\assets\js\libs\respond\README.md" />
+    <Content Include="Views\Components\Footer.cshtml" />
+    <Content Include="Views\layouts\HTML Layout.cshtml" />
+    <Content Include="Views\Components\Full HTML.cshtml" />
+    <Content Include="Views\Components\Full Width Image.cshtml" />
+    <Content Include="Views\Components\Grid Promos.cshtml" />
+    <Content Include="Views\Components\Intro.cshtml" />
+    <Content Include="Views\Components\Login Horizontal.cshtml" />
+    <Content Include="Views\Components\Photo Lockup.cshtml" />
+    <Content Include="Views\Components\Header.cshtml" />
+    <Content Include="Views\Components\States Enroll.cshtml" />
+    <Content Include="App_Config\Include\StreamEnergy.Initialization.config" />
+    <Content Include="Views\Pages\Marketing\FAQ\FAQ Landing.cshtml" />
+    <Content Include="Views\Pages\Marketing\FAQ\FAQ Listing.cshtml" />
+    <Content Include="Views\Pages\Marketing\Leaders\Leader Listing.cshtml" />
+    <Content Include="Views\Pages\Marketing\Leaders\Leader.cshtml" />
+    <Content Include="Views\Pages\Marketing\Leaders\Leaders Landing.cshtml" />
+    <Content Include="Views\Pages\Marketing\Leaders\View All Directors.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1653,10 +963,12 @@
     <Folder Include="Scripts\" />
     <Folder Include="Views\Shared\" />
   </ItemGroup>
-  <PropertyGroup>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
-    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\StreamEnergy.Core\StreamEnergy.Core.csproj">
+      <Project>{79779d13-7d5e-4190-ba72-5302244c8165}</Project>
+      <Name>StreamEnergy.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
@@ -1681,6 +993,13 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
