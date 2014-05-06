@@ -5619,3 +5619,244 @@ article.earn-free-energy .enhance h2 {
   font-size: 40px;
   margin-top: 40px;
 }
+
+/* line 1652, _sass/partials/_marketing-site.scss */
+article.manage-my-account .left-column {
+  width: 35%;
+  border-right: 1px solid #cfcfcf;
+  padding-right: 40px;
+  float: left;
+}
+@media only screen and (max-width: 767px) {
+  /* line 1652, _sass/partials/_marketing-site.scss */
+  article.manage-my-account .left-column {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #cfcfcf;
+    padding: 0;
+  }
+}
+/* line 1664, _sass/partials/_marketing-site.scss */
+article.manage-my-account .right-column {
+  width: 65%;
+  float: right;
+  padding-left: 40px;
+}
+/* line 1668, _sass/partials/_marketing-site.scss */
+article.manage-my-account .right-column img {
+  float: left;
+}
+/* line 1671, _sass/partials/_marketing-site.scss */
+article.manage-my-account .right-column h3 {
+  float: left;
+  margin: 25px 0 0 10px;
+  color: #76BD1D;
+}
+/* line 1676, _sass/partials/_marketing-site.scss */
+article.manage-my-account .right-column .states {
+  float: left;
+  margin: 20px 40px 0 0;
+}
+/* line 1679, _sass/partials/_marketing-site.scss */
+article.manage-my-account .right-column .states input {
+  margin-bottom: 15px;
+}
+/* line 1683, _sass/partials/_marketing-site.scss */
+article.manage-my-account .right-column .input-fields {
+  float: left;
+}
+/* line 1685, _sass/partials/_marketing-site.scss */
+article.manage-my-account .right-column .input-fields div {
+  margin-top: 10px;
+}
+/* line 1689, _sass/partials/_marketing-site.scss */
+article.manage-my-account .right-column .login {
+  margin: 10px 0 0 20px;
+  float: left;
+}
+/* line 1692, _sass/partials/_marketing-site.scss */
+article.manage-my-account .right-column .login button {
+  background-color: #76BD1D;
+}
+@media only screen and (max-width: 767px) {
+  /* line 1664, _sass/partials/_marketing-site.scss */
+  article.manage-my-account .right-column {
+    width: 100%;
+    margin: 20px auto;
+    padding: 0;
+  }
+}
+
+/* line 1704, _sass/partials/_marketing-site.scss */
+article.manage-free-energy {
+  background-image: url("../i/marketing/free-energy-pic.jpg");
+  height: 399px;
+}
+/* line 1707, _sass/partials/_marketing-site.scss */
+article.manage-free-energy .left-column {
+  float: left;
+  width: 55%;
+  margin-top: 30px;
+}
+/* line 1711, _sass/partials/_marketing-site.scss */
+article.manage-free-energy .left-column p {
+  width: 70%;
+  color: #fff;
+  margin-top: 60px;
+}
+@media only screen and (max-width: 767px) {
+  /* line 1711, _sass/partials/_marketing-site.scss */
+  article.manage-free-energy .left-column p {
+    width: 80%;
+  }
+}
+/* line 1720, _sass/partials/_marketing-site.scss */
+article.manage-free-energy .right-column {
+  float: right;
+  background-color: #003366;
+  width: 45%;
+  height: 399px;
+}
+/* line 1725, _sass/partials/_marketing-site.scss */
+article.manage-free-energy .right-column .center {
+  text-align: center;
+}
+/* line 1727, _sass/partials/_marketing-site.scss */
+article.manage-free-energy .right-column .center button {
+  box-shadow: 0 2px #3e8bcb;
+  background-color: #ffa409;
+  margin: 150px 0 20px 0;
+}
+/* line 1732, _sass/partials/_marketing-site.scss */
+article.manage-free-energy .right-column .center p {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  color: #fff;
+}
+@media only screen and (max-width: 767px) {
+  /* line 1732, _sass/partials/_marketing-site.scss */
+  article.manage-free-energy .right-column .center p {
+    width: 75%;
+  }
+}
+
+/* line 1745, _sass/partials/_marketing-site.scss */
+article.manage-services {
+  background-color: #7D9AB4;
+}
+/* line 1747, _sass/partials/_marketing-site.scss */
+article.manage-services .text {
+  color: #fff;
+  float: left;
+  margin-bottom: 75px;
+}
+/* line 1751, _sass/partials/_marketing-site.scss */
+article.manage-services .text .inner {
+  float: right;
+}
+/* line 1753, _sass/partials/_marketing-site.scss */
+article.manage-services .text .inner span {
+  text-transform: uppercase;
+}
+@media only screen and (max-width: 1024px) {
+  /* line 1747, _sass/partials/_marketing-site.scss */
+  article.manage-services .text {
+    width: 100%;
+    float: none;
+    padding: 10px;
+    margin-bottom: 0;
+  }
+  /* line 1762, _sass/partials/_marketing-site.scss */
+  article.manage-services .text .inner {
+    float: none;
+    max-width: 100%;
+  }
+}
+/* line 1768, _sass/partials/_marketing-site.scss */
+article.manage-services .photo {
+  background-image: url("../i/marketing/manage-services.jpg");
+  background-repeat: no-repeat;
+  right: 0;
+}
+/* line 1772, _sass/partials/_marketing-site.scss */
+article.manage-services .photo ul {
+  padding-left: 5px;
+}
+/* line 1774, _sass/partials/_marketing-site.scss */
+article.manage-services .photo ul li {
+  list-style-type: none;
+  float: left;
+  text-align: center;
+  margin: 50px 5px 0 0;
+  border-right: 1px solid #cfcece;
+  padding: 30px 5px 30px 0;
+}
+/* line 1781, _sass/partials/_marketing-site.scss */
+article.manage-services .photo ul li:last-child {
+  border-right: none;
+  padding-right: 0;
+  margin-right: 0;
+}
+/* line 1786, _sass/partials/_marketing-site.scss */
+article.manage-services .photo ul li a .box {
+  background-color: #7D9AB4;
+  border-radius: 10px;
+  box-shadow: 0 3px #DAD4CF;
+  height: 70px;
+  width: 160px;
+}
+/* line 1792, _sass/partials/_marketing-site.scss */
+article.manage-services .photo ul li a .box p {
+  text-transform: uppercase;
+  padding: 3px;
+  color: #fff;
+}
+/* line 1796, _sass/partials/_marketing-site.scss */
+article.manage-services .photo ul li a .box p:hover {
+  color: #064985;
+  text-decoration: underline;
+}
+/* line 1801, _sass/partials/_marketing-site.scss */
+article.manage-services .photo ul li a .box.tech-support {
+  background-color: #b68889;
+}
+/* line 1804, _sass/partials/_marketing-site.scss */
+article.manage-services .photo ul li a .box.credit-monitoring {
+  background-color: #8ea173;
+}
+/* line 1810, _sass/partials/_marketing-site.scss */
+article.manage-services .photo p.sign-up {
+  margin-left: 5px;
+}
+/* line 1812, _sass/partials/_marketing-site.scss */
+article.manage-services .photo p.sign-up a:hover {
+  color: #064985;
+  text-decoration: underline;
+}
+@media only screen and (max-width: 1024px) {
+  /* line 1768, _sass/partials/_marketing-site.scss */
+  article.manage-services .photo {
+    background-size: cover;
+    width: 100%;
+    float: none;
+    display: block;
+    position: initial;
+  }
+}
+@media only screen and (max-width: 767px) {
+  /* line 1768, _sass/partials/_marketing-site.scss */
+  article.manage-services .photo {
+    background-image: none;
+    background-color: #fff;
+  }
+  /* line 1827, _sass/partials/_marketing-site.scss */
+  article.manage-services .photo ul li {
+    width: 100%;
+    margin-top: 0;
+  }
+  /* line 1830, _sass/partials/_marketing-site.scss */
+  article.manage-services .photo ul li a .box {
+    margin: auto;
+  }
+}
