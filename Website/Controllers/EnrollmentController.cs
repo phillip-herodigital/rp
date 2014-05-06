@@ -15,9 +15,9 @@ namespace StreamEnergy.MyStream.Controllers
     public class EnrollmentController : ApiController, IRequiresSessionState
     {
         private HttpSessionStateBase session;
-        private StateMachine<UserState, object> stateMachine;
+        private StateMachine<UserContext, object> stateMachine;
 
-        public EnrollmentController(HttpSessionStateBase session, StateMachine<UserState, object> stateMachine)
+        public EnrollmentController(HttpSessionStateBase session, StateMachine<UserContext, object> stateMachine)
         {
             this.session = session;
             this.stateMachine = stateMachine;

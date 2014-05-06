@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 namespace StreamEnergy.DomainModels.Enrollments
 {
     [Serializable]
-    public class UserState : ISanitizable
+    public class UserContext : ISanitizable
     {
-        public UserState()
+        public UserContext()
         {
             SelectedOffers = new HashSet<IOffer>();
         }
