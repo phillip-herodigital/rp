@@ -1,4 +1,6 @@
 ﻿using StreamEnergy.DomainModels;
+using StreamEnergy.DomainModels.Enrollments;
+using StreamEnergy.Processes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +15,12 @@ namespace StreamEnergy.MyStream.Controllers
     public class EnrollmentController : ApiController, IRequiresSessionState
     {
         private HttpSessionStateBase session;
+        private StateMachine<UserState, object> stateMachine;
 
-        public EnrollmentController(HttpSessionStateBase session)
+        public EnrollmentController(HttpSessionStateBase session, StateMachine<UserState, object> stateMachine)
         {
             this.session = session;
+            this.stateMachine = stateMachine;
         }
 
         // GET api/<controller>

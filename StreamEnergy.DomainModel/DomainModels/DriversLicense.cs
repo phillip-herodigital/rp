@@ -9,14 +9,17 @@ namespace StreamEnergy.DomainModels
 {
     public class DriversLicense : ISanitizable
     {
-        [Required]
+        [Required(ErrorMessage="Number Required")]
         public string Number { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "State Required")]
+        [RegularExpression("^[A-Z]{2}$", ErrorMessage = "State Invalid")]
         public string StateAbbreviation { get; set; }
 
         void ISanitizable.Sanitize()
         {
-            throw new NotImplementedException();
+            if (Number != null)
+                Number = Number.Trim();
         }
     }
 }
