@@ -48,5 +48,10 @@ namespace StreamEnergy.Extensions
         {
             return new StreamEnergyHelper(htmlHelper);
         }
+
+        public static string JsonStringify(this HtmlHelper htmlHelper, object target)
+        {
+            return Json.Stringify(target);
+        }
     }
 }

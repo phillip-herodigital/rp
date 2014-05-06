@@ -241,11 +241,9 @@ article.marketingIntro {
 	}
 }
 
-div.banner + article.loginHorizontal {
-	margin-top: -20px;
-}
 article.loginHorizontal {
-	@include breakpoint(small) {
+    margin-top: -20px;
+    @include breakpoint(small) {
 		margin-top: 0;
 	}
 	padding: 4px 0;
@@ -1386,6 +1384,9 @@ article.identity-theft {
 			text-align: center;
 		}
 	}
+	.phishing-image img {
+		max-width: 100%;
+	}
 }
 
 article.why-energy {
@@ -1510,7 +1511,7 @@ article.free-energy.picture-promo {
 			}
 		}
 	}
-}
+} 
 
 article.enroll {
 	margin-top: 20px;
@@ -1539,6 +1540,9 @@ article.terms-of-use {
 		padding-left: 80px;
 		li {
 			list-style-type: none;
+			p {
+				margin-left: 20px;
+			}
 		}
 		h3 {
 			color: #0971ce;
@@ -1609,6 +1613,9 @@ article.residual-income {
 	button {
 		background-color: #a9222d;
 		float: right;
+		a {
+			color: #fff;
+		}
 		&:hover {
 			background-color: #6b6b6b;
 		}
@@ -1632,6 +1639,9 @@ article.electricity-gas {
 			padding: 10px;
 			&:hover {
 				background-color: #6b6b6b;
+			}
+			a {
+				color: #fff; 
 			}
 		}
 	}

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Mvc;
 
-namespace StreamEnergy.Sitecore
+namespace StreamEnergy.Pipelines
 {
     public class RegisterMvcFactories
     {

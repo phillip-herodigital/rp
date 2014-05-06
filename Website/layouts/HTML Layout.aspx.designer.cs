@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Website.layouts {
+namespace StreamEnergy.MyStream.layouts {
     
     
     public partial class HTML_Layout {
