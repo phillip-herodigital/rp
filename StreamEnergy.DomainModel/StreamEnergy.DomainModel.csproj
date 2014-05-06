@@ -45,8 +45,10 @@
     <Compile Include="DomainModels\CustomerContact.cs" />
     <Compile Include="DomainModels\CustomerName.cs" />
     <Compile Include="DomainModels\DriversLicense.cs" />
+    <Compile Include="DomainModels\Email.cs" />
     <Compile Include="DomainModels\Enrollments\IOffer.cs" />
     <Compile Include="DomainModels\Enrollments\UserState.cs" />
+    <Compile Include="DomainModels\Phone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
