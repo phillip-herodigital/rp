@@ -36,7 +36,7 @@ namespace StreamEnergy
                                                                           from a in p.GetCustomAttributes().OfType<CompositeValidationAttribute>()
                                                                           select a.ErrorMessagePrefix)),
                                          name = string.Join(".", propertyChain.Select(mi => mi.Name)),
-                                         value = v.CachedCompile<Func<T, object>>()(target),
+                                         value = TryGetValue(v.CachedCompile<Func<T, object>>(), target),
                                          attrs = property.Member.GetCustomAttributes(true).OfType<ValidationAttribute>()
                                      })
             {
@@ -47,6 +47,18 @@ namespace StreamEnergy
                                      select new ValidationResult(v.ErrorMessage.Prefix(property.messagePrefix), v.MemberNames));
             }
             return validations.Flatten(result => result as IEnumerable<ValidationResult>, leafNodesOnly: true);
+        }
+
+        private object TryGetValue<T>(Func<T, object> func, T target)
+        {
+            try
+            {
+                return func(target);
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         private IEnumerable<MemberInfo> UnrollPropertyChain(MemberExpression expression)

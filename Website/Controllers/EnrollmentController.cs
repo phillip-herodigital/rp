@@ -3,6 +3,7 @@ using StreamEnergy.DomainModels.Enrollments;
 using StreamEnergy.Processes;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -14,48 +15,48 @@ namespace StreamEnergy.MyStream.Controllers
 {
     public class EnrollmentController : ApiController, IRequiresSessionState
     {
+        private static readonly string ContextSessionKey = typeof(EnrollmentController).FullName + " " + typeof(UserContext).FullName;
+        private static readonly string StateSessionKey = typeof(EnrollmentController).FullName + " State";
         private HttpSessionStateBase session;
-        private StateMachine<UserContext, object> stateMachine;
+        private IStateMachine<UserContext, InternalContext> stateMachine;
 
-        public EnrollmentController(HttpSessionStateBase session, StateMachine<UserContext, object> stateMachine)
+        public EnrollmentController(HttpSessionStateBase session, StateMachine<UserContext, InternalContext> stateMachine)
         {
             this.session = session;
             this.stateMachine = stateMachine;
         }
 
-        // GET api/<controller>
-        public IEnumerable<string> Get()
+        protected override void Initialize(System.Web.Http.Controllers.HttpControllerContext controllerContext)
         {
-            return new string[] { "value1", "value2" };
+            var context = session[ContextSessionKey] as UserContext;
+            if (context == null)
+                session[ContextSessionKey] = context = new UserContext();
+
+            var state = (session[StateSessionKey] as Type) ?? typeof(DomainModels.Enrollments.GetServiceInformationState);
+            stateMachine.Initialize(state, context, null);
+
+            base.Initialize(controllerContext);
         }
 
-        // GET api/<controller>/5
-        public string Get(int id)
+        protected override void Dispose(bool disposing)
         {
-            return "value";
-        }
+            session[ContextSessionKey] = stateMachine.Context;
+            session[StateSessionKey] = stateMachine.State;
 
-        // POST api/<controller>
-        public void Post([FromBody]string value)
-        {
+            base.Dispose(disposing);
         }
 
         [HttpGet]
-        public Address Trial()
+        public Address ServiceAddress()
         {
-            return new Address
-                {
-                     AddressLine1 = "123 Test St",
-                     City = "Dallas",
-                     StateAbbreviation = "TX",
-                     PostalCode5 = "75201",
-                };
+            return stateMachine.Context.ServiceAddress;
         }
 
         [HttpPost]
-        public IEnumerable<string> Trial([FromBody]string value)
+        public IEnumerable<ValidationResult> ServiceAddress([FromBody]Address value)
         {
-            return new string[] { "value1", "value2", value };
+            stateMachine.Context.ServiceAddress = value;
+            return stateMachine.ValidationResults;
         }
     }
 }

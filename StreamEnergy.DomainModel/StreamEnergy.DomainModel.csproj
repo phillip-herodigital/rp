@@ -46,7 +46,9 @@
     <Compile Include="DomainModels\CustomerName.cs" />
     <Compile Include="DomainModels\DriversLicense.cs" />
     <Compile Include="DomainModels\Email.cs" />
+    <Compile Include="DomainModels\Enrollments\GetServiceInformationState.cs" />
     <Compile Include="DomainModels\Enrollments\IOffer.cs" />
+    <Compile Include="DomainModels\Enrollments\InternalContext.cs" />
     <Compile Include="DomainModels\Enrollments\UserContext.cs" />
     <Compile Include="DomainModels\Phone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
