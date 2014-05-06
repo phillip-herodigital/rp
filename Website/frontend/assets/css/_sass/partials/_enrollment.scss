@@ -187,6 +187,11 @@
 		aside.right {
 			float: right;
 			width: 290px;
+			hr {
+				margin: 10px 0;
+				border: 0;
+				border-top: 3px solid #eee;
+			}
 			.box {
 				background: #fafafa;
 				color: #333;
@@ -215,6 +220,13 @@
 						}
 					}
 				}
+				.cart-item {
+					@extend .clearfix;
+					margin-bottom: 10px;
+					&:last-child {
+						margin-bottom: 0;
+					}
+				}
 				.delete {
 					cursor: pointer;
 					float: right;
@@ -222,12 +234,13 @@
 					margin-top: 5px;
 				}
 				.rate {
-					float: right;
+					float: left;
 					width: 65px;
-					text-align: center;
 					font-size: 18px;
 					line-height: 14px;
 					font-weight: bold;
+					margin-right: 10px;
+					text-align: right;
 					span {
 						font-weight: normal;
 						font-style: italic;
@@ -249,10 +262,6 @@
 					a {
 						font-size: 13px;
 					}
-				}
-				hr {
-					border: 0;
-					border-top: 1px solid 
 				}
 				address {
 					font-style: normal;
