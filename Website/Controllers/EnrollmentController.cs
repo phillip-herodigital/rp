@@ -1,5 +1,7 @@
 ﻿using StreamEnergy.DomainModels;
 using StreamEnergy.DomainModels.Enrollments;
+using StreamEnergy.MyStream.Models;
+using StreamEnergy.MyStream.Models.Enrollment;
 using StreamEnergy.Processes;
 using System;
 using System.Collections.Generic;
@@ -46,17 +48,57 @@ namespace StreamEnergy.MyStream.Controllers
             base.Dispose(disposing);
         }
 
+        /// <summary>
+        /// Gets all the client data, such as for a page refresh
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        public Address ServiceAddress()
+        public ClientData ClientData()
         {
-            return stateMachine.Context.ServiceAddress;
+            return new ClientData
+            {
+                Validations = Translate(stateMachine.ValidationResults),
+                UserContext = CopyForClientDisplay(stateMachine.Context)
+            };
+        }
+
+        [HttpGet]
+        public ServiceInformation ServiceInformation()
+        {
+            return new ServiceInformation
+            {
+                ServiceAddress = stateMachine.Context.ServiceAddress,
+                IsNewService = stateMachine.Context.IsNewService
+            };
         }
 
         [HttpPost]
-        public IEnumerable<ValidationResult> ServiceAddress([FromBody]Address value)
+        public ClientData ServiceInformation([FromBody]ServiceInformation value)
         {
-            stateMachine.Context.ServiceAddress = value;
-            return stateMachine.ValidationResults;
+            stateMachine.Context.ServiceAddress = value.ServiceAddress;
+            stateMachine.Context.IsNewService = value.IsNewService;
+            
+            stateMachine.Process(); // TODO - set steps to stop at
+            
+            return ClientData();
+        }
+
+        private IEnumerable<TranslatedValidationResult> Translate(IEnumerable<ValidationResult> results)
+        {
+            return from val in results
+                   let text = val.ErrorMessage // TODO - get field from Sitecore
+                   from member in val.MemberNames
+                   select new TranslatedValidationResult
+                   {
+                       MemberName = member,
+                       Text = text
+                   };
+        }
+
+        private UserContext CopyForClientDisplay(UserContext userContext)
+        {
+            // TODO - clone and remove items that should not be displayed
+            return userContext;
         }
     }
 }

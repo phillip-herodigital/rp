@@ -15,6 +15,8 @@ namespace StreamEnergy.DomainModels.Enrollments
             SelectedOffers = new HashSet<IOffer>();
         }
 
+        public bool IsNewService { get; set; }
+
         [ValidateObject(ErrorMessagePrefix = "Contact Info ")]
         public CustomerContact ContactInfo { get; set; }
 
