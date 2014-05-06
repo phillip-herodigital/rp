@@ -512,6 +512,7 @@
     <Content Include="frontend\assets\i\logo-peco.png" />
     <Content Include="frontend\assets\i\logo-ppl.png" />
     <Content Include="frontend\assets\i\logo.png" />
+    <Content Include="frontend\assets\i\marketing\bullet-white.png" />
     <Content Include="frontend\assets\i\marketing\captain-hopes.jpg" />
     <Content Include="frontend\assets\i\marketing\collapse.png" />
     <Content Include="frontend\assets\i\marketing\contact-banner.jpg" />
