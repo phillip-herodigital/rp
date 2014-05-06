@@ -70,6 +70,7 @@
     <Compile Include="Processes\StateMachineInternalTrackerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ValidateObjectAttributeTest.cs" />
+    <Compile Include="ValidationServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\StreamEnergy.Core\StreamEnergy.Core.csproj">
