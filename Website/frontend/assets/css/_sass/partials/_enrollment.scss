@@ -170,6 +170,10 @@
 				@include transition(border linear .2s, box-shadow linear .2s);
 				margin-bottom: 25px;
 			}
+			.icon-blue-arrow-up,
+			.icon-blue-arrow-down {
+				margin-top: -2px;
+			}
 			@include breakpoint(medium) {
 				float: none;
 				width: auto;
@@ -215,7 +219,7 @@
 					cursor: pointer;
 					float: right;
 					width: 10px;
-					margin-top: 10px;
+					margin-top: 5px;
 				}
 				.rate {
 					float: right;
@@ -253,7 +257,7 @@
 				address {
 					font-style: normal;
 					font-size: 12px;
-					margin-top: 30px;
+					margin-top: 20px;
 					h3 {
 						font-size: 12px;
 						color: #333;
@@ -288,6 +292,26 @@
 
 			@include breakpoint(small) {
 				display: none;
+			}
+		}
+		.plans {
+			position: relative;
+			.table-overlay {
+				position: absolute;
+				top: 0;
+				left: 0;
+				bottom: 0;
+				right: 0;
+				background: rgba(0,0,0, 0.5);
+				.content {
+					position: absolute;
+					top: 15px;
+					left: 25px;
+					bottom: 15px;
+					right: 25px;
+					background: #fff;
+					padding: 10px 20px;
+				}
 			}
 		}
 		.cart-items {

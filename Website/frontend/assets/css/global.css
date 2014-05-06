@@ -1231,8 +1231,8 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-arrow-collapsed {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
     background-position: 0 -100px;
     height: 12px;
     width: 12px;
@@ -1253,8 +1253,8 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-arrow-expanded {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
     background-position: 0 -114px;
     height: 6px;
     width: 12px;
@@ -1275,8 +1275,8 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-arrow-left {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
     background-position: 0 -122px;
     height: 10px;
     width: 6px;
@@ -1297,8 +1297,8 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-arrow-right {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
     background-position: 0 -134px;
     height: 10px;
     width: 6px;
@@ -1319,8 +1319,8 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-bbb {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
     background-position: 0 -146px;
     height: 40px;
     width: 40px;
@@ -1341,9 +1341,9 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-clean-energy {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
-    background-position: 0 -243px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
+    background-position: 0 -258px;
     height: 103px;
     width: 103px;
   }
@@ -1363,9 +1363,9 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-close {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
-    background-position: 0 -381px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
+    background-position: 0 -396px;
     height: 19px;
     width: 19px;
   }
@@ -1385,9 +1385,9 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-compare-usage {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
-    background-position: 0 -402px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
+    background-position: 0 -417px;
     height: 17px;
     width: 17px;
   }
@@ -1407,9 +1407,9 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-dsa {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
-    background-position: 0 -447px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
+    background-position: 0 -462px;
     height: 40px;
     width: 40px;
   }
@@ -1429,9 +1429,9 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-facebook {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
-    background-position: 0 -489px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
+    background-position: 0 -504px;
     height: 14.5px;
     width: 7.5px;
   }
@@ -1451,9 +1451,9 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-gas {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
-    background-position: 0 -506px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
+    background-position: 0 -521px;
     height: 103px;
     width: 103px;
   }
@@ -1473,9 +1473,9 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-hamburger {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
-    background-position: 0 -611px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
+    background-position: 0 -626px;
     height: 18px;
     width: 23.5px;
   }
@@ -1495,9 +1495,9 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-homelife-services-alt {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
-    background-position: 0 -647px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
+    background-position: 0 -662px;
     height: 103px;
     width: 103px;
   }
@@ -1517,9 +1517,9 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-homelife-services {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
-    background-position: 0 -752px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
+    background-position: 0 -767px;
     height: 15px;
     width: 16px;
   }
@@ -1539,9 +1539,9 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-month-to-month {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
-    background-position: 0 -769px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
+    background-position: 0 -784px;
     height: 42px;
     width: 47px;
   }
@@ -1561,9 +1561,9 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-nav-arrow-collapsed {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
-    background-position: 0 -813px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
+    background-position: 0 -828px;
     height: 6px;
     width: 14px;
   }
@@ -1583,9 +1583,9 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-nav-arrow-expanded {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
-    background-position: 0 -821px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
+    background-position: 0 -836px;
     height: 6px;
     width: 14px;
   }
@@ -1605,9 +1605,9 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-pinterest {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
-    background-position: 0 -829px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
+    background-position: 0 -844px;
     height: 17.5px;
     width: 17.5px;
   }
@@ -1627,9 +1627,9 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-quicklinks {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
-    background-position: 0 -848px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
+    background-position: 0 -863px;
     height: 23.5px;
     width: 18.5px;
   }
@@ -1661,9 +1661,9 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-select-arrow {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
-    background-position: 0 -874px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
+    background-position: 0 -889px;
     height: 6px;
     width: 25px;
   }
@@ -1683,9 +1683,9 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-services-lightbulb {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
-    background-position: 0 -882px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
+    background-position: 0 -897px;
     height: 103px;
     width: 103px;
   }
@@ -1705,9 +1705,9 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-social {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
-    background-position: 0 -987px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
+    background-position: 0 -1002px;
     height: 21px;
     width: 20.5px;
   }
@@ -1727,9 +1727,9 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-state-georgia {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
-    background-position: 0 -1025px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
+    background-position: 0 -1040px;
     height: 85px;
     width: 82px;
   }
@@ -1749,9 +1749,9 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-state-maryland {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
-    background-position: 0 -1112px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
+    background-position: 0 -1127px;
     height: 85px;
     width: 82px;
   }
@@ -1771,9 +1771,9 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-state-newjersey {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
-    background-position: 0 -1199px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
+    background-position: 0 -1214px;
     height: 85px;
     width: 82px;
   }
@@ -1793,9 +1793,9 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-state-newyork {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
-    background-position: 0 -1286px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
+    background-position: 0 -1301px;
     height: 85px;
     width: 82px;
   }
@@ -1815,9 +1815,9 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-state-pennsylvania {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
-    background-position: 0 -1373px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
+    background-position: 0 -1388px;
     height: 85px;
     width: 82px;
   }
@@ -1837,9 +1837,9 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-state-texas {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
-    background-position: 0 -1460px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
+    background-position: 0 -1475px;
     height: 85px;
     width: 82px;
   }
@@ -1859,9 +1859,9 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-state-washingtondc {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
-    background-position: 0 -1547px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
+    background-position: 0 -1562px;
     height: 85px;
     width: 82px;
   }
@@ -1881,9 +1881,9 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-twitter {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
-    background-position: 0 -1634px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
+    background-position: 0 -1649px;
     height: 12.5px;
     width: 15.5px;
   }
@@ -1903,9 +1903,9 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-utility {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
-    background-position: 0 -1666px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
+    background-position: 0 -1681px;
     height: 16px;
     width: 16px;
   }
@@ -1925,9 +1925,9 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-youtube {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
-    background-position: 0 -1684px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
+    background-position: 0 -1699px;
     height: 17px;
     width: 17px;
   }
@@ -1940,8 +1940,8 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-24months {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
     background-position: 0 0;
     height: 48px;
     width: 45px;
@@ -1955,8 +1955,8 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-6months {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
     background-position: 0 -50px;
     height: 48px;
     width: 45px;
@@ -1970,8 +1970,8 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-bill {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
     background-position: 0 -188px;
     height: 15px;
     width: 14px;
@@ -1984,10 +1984,40 @@ div.tabbable div.tab-content div.tab-pane.active {
 
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
-  .icon-cart {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
+  .icon-blue-arrow-down {
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
     background-position: 0 -205px;
+    height: 5px;
+    width: 9px;
+  }
+}
+/* line 73, _sass/partials/_sprites.scss */
+.icon-blue-arrow-down.text {
+  padding-left: 14px;
+}
+
+@media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
+  /* line 65, _sass/partials/_sprites.scss */
+  .icon-blue-arrow-up {
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
+    background-position: 0 -212px;
+    height: 6px;
+    width: 9px;
+  }
+}
+/* line 73, _sass/partials/_sprites.scss */
+.icon-blue-arrow-up.text {
+  padding-left: 14px;
+}
+
+@media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
+  /* line 65, _sass/partials/_sprites.scss */
+  .icon-cart {
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
+    background-position: 0 -220px;
     height: 23px;
     width: 27px;
   }
@@ -2000,9 +2030,9 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-check {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
-    background-position: 0 -230px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
+    background-position: 0 -245px;
     height: 11px;
     width: 11px;
   }
@@ -2015,9 +2045,9 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-clock {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
-    background-position: 0 -348px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
+    background-position: 0 -363px;
     height: 31px;
     width: 31px;
   }
@@ -2030,9 +2060,9 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-delete {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
-    background-position: 0 -421px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
+    background-position: 0 -436px;
     height: 10px;
     width: 10px;
   }
@@ -2045,9 +2075,9 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-drivers-license {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
-    background-position: 0 -433px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
+    background-position: 0 -448px;
     height: 12px;
     width: 17px;
   }
@@ -2060,9 +2090,9 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-home {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
-    background-position: 0 -631px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
+    background-position: 0 -646px;
     height: 14px;
     width: 15px;
   }
@@ -2075,9 +2105,9 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-ssn {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
-    background-position: 0 -1010px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
+    background-position: 0 -1025px;
     height: 13px;
     width: 20px;
   }
@@ -2090,9 +2120,9 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 65, _sass/partials/_sprites.scss */
   .icon-utility-provider {
-    background-image: url('../i/icon2x-s19279b8302.png');
-    background-size: 103px 1701px;
-    background-position: 0 -1648px;
+    background-image: url('../i/icon2x-s2d96bfb411.png');
+    background-size: 103px 1716px;
+    background-position: 0 -1663px;
     height: 16px;
     width: 14px;
   }
@@ -5816,7 +5846,7 @@ article.earn-free-energy .enhance h2 {
   left: 0;
   width: 100%;
   background-color: #fff;
-  background-image: url('../i/bg/header-enrollment.png?1399331280');
+  background-image: url('../i/bg/header-enrollment.png?1399406005');
   background-repeat: repeat-x;
   z-index: 2;
   height: 121px;
@@ -5824,7 +5854,7 @@ article.earn-free-energy .enhance h2 {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 5, _sass/partials/_enrollment.scss */
   .enrollment .site-header > .wrapper, .enrollment article.state-tabs .site-header > ul.tabs-nav, article.state-tabs .enrollment .site-header > ul.tabs-nav {
-    background-image: url('../i/bg2x/header-enrollment.png?1399331280');
+    background-image: url('../i/bg2x/header-enrollment.png?1399406005');
     background-size: 23px 13px;
   }
 }
@@ -6037,6 +6067,11 @@ article.earn-free-energy .enhance h2 {
   transition: border linear 0.2s, box-shadow linear 0.2s;
   margin-bottom: 25px;
 }
+/* line 173, _sass/partials/_enrollment.scss */
+.enrollment section article .icon-blue-arrow-up,
+.enrollment section article .icon-blue-arrow-down {
+  margin-top: -2px;
+}
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
   /* line 144, _sass/partials/_enrollment.scss */
   .enrollment section article {
@@ -6051,12 +6086,12 @@ article.earn-free-energy .enhance h2 {
     width: auto;
   }
 }
-/* line 183, _sass/partials/_enrollment.scss */
+/* line 187, _sass/partials/_enrollment.scss */
 .enrollment section aside.right {
   float: right;
   width: 290px;
 }
-/* line 186, _sass/partials/_enrollment.scss */
+/* line 190, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box {
   background: #fafafa;
   color: #333;
@@ -6065,42 +6100,42 @@ article.earn-free-energy .enhance h2 {
   -webkit-border-radius: 4px;
   border-radius: 4px;
 }
-/* line 191, _sass/partials/_enrollment.scss */
+/* line 195, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box h1 {
   font-size: 20px;
   text-transform: none;
   margin: 15px 10px;
 }
-/* line 196, _sass/partials/_enrollment.scss */
+/* line 200, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box p {
   font-size: 16px;
   margin: 0 8px 15px 8px;
 }
-/* line 200, _sass/partials/_enrollment.scss */
+/* line 204, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box ul.info {
   border-top: 1px solid #e2e2e3;
   padding: 0;
   margin: 0 8px 15px 5px;
 }
-/* line 204, _sass/partials/_enrollment.scss */
+/* line 208, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box ul.info li {
   border-bottom: 1px solid #e2e2e3;
   list-style-type: none;
   padding: 10px 0;
   font-size: 13px;
 }
-/* line 209, _sass/partials/_enrollment.scss */
+/* line 213, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box ul.info li i {
   width: 25px;
 }
-/* line 214, _sass/partials/_enrollment.scss */
+/* line 218, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box .delete {
   cursor: pointer;
   float: right;
   width: 10px;
-  margin-top: 10px;
+  margin-top: 5px;
 }
-/* line 220, _sass/partials/_enrollment.scss */
+/* line 224, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box .rate {
   float: right;
   width: 65px;
@@ -6109,19 +6144,19 @@ article.earn-free-energy .enhance h2 {
   line-height: 14px;
   font-weight: bold;
 }
-/* line 227, _sass/partials/_enrollment.scss */
+/* line 231, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box .rate span {
   font-weight: normal;
   font-style: italic;
   font-size: 12px;
   line-height: 12px;
 }
-/* line 234, _sass/partials/_enrollment.scss */
+/* line 238, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box .description {
   float: left;
   width: 160px;
 }
-/* line 237, _sass/partials/_enrollment.scss */
+/* line 241, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box .description h2 {
   line-height: 16px;
   margin: 0;
@@ -6130,72 +6165,95 @@ article.earn-free-energy .enhance h2 {
   font-weight: bold;
   text-transform: none;
 }
-/* line 245, _sass/partials/_enrollment.scss */
+/* line 249, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box .description a {
   font-size: 13px;
 }
-/* line 249, _sass/partials/_enrollment.scss */
+/* line 253, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box hr {
   border: 0;
   border-top: 1px solid;
 }
-/* line 253, _sass/partials/_enrollment.scss */
+/* line 257, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box address {
   font-style: normal;
   font-size: 12px;
-  margin-top: 30px;
+  margin-top: 20px;
 }
-/* line 257, _sass/partials/_enrollment.scss */
+/* line 261, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box address h3 {
   font-size: 12px;
   color: #333;
   margin: 0;
 }
-/* line 263, _sass/partials/_enrollment.scss */
+/* line 267, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box .box {
   background: #fdfdfd;
   margin-bottom: 8px;
 }
-/* line 266, _sass/partials/_enrollment.scss */
+/* line 270, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box .box p {
   font-size: 13px;
   margin: 10px 0;
 }
-/* line 269, _sass/partials/_enrollment.scss */
+/* line 273, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box .box p.alt {
   color: #9a9a9a;
   font-size: 15px;
 }
-/* line 274, _sass/partials/_enrollment.scss */
+/* line 278, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box .box.time {
   position: relative;
   padding-left: 55px;
 }
-/* line 277, _sass/partials/_enrollment.scss */
+/* line 281, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box .box.time .icon-clock {
   position: absolute;
   top: 22px;
   left: 10px;
 }
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
-  /* line 183, _sass/partials/_enrollment.scss */
+  /* line 187, _sass/partials/_enrollment.scss */
   .enrollment section aside.right {
     display: none;
   }
 }
 @media only screen and (max-width: 767px) {
-  /* line 183, _sass/partials/_enrollment.scss */
+  /* line 187, _sass/partials/_enrollment.scss */
   .enrollment section aside.right {
     display: none;
   }
 }
-/* line 293, _sass/partials/_enrollment.scss */
+/* line 297, _sass/partials/_enrollment.scss */
+.enrollment section .plans {
+  position: relative;
+}
+/* line 299, _sass/partials/_enrollment.scss */
+.enrollment section .plans .table-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+/* line 306, _sass/partials/_enrollment.scss */
+.enrollment section .plans .table-overlay .content {
+  position: absolute;
+  top: 15px;
+  left: 25px;
+  bottom: 15px;
+  right: 25px;
+  background: #fff;
+  padding: 10px 20px;
+}
+/* line 317, _sass/partials/_enrollment.scss */
 .enrollment section .cart-items {
   float: right;
   margin-right: 10px;
   position: relative;
 }
-/* line 297, _sass/partials/_enrollment.scss */
+/* line 321, _sass/partials/_enrollment.scss */
 .enrollment section .cart-items .item-num {
   position: absolute;
   font-size: 13px;
@@ -6203,12 +6261,12 @@ article.earn-free-energy .enhance h2 {
   top: -5px;
   right: 8px;
 }
-/* line 306, _sass/partials/_enrollment.scss */
+/* line 330, _sass/partials/_enrollment.scss */
 .enrollment .box {
   border: 1px solid #ebebeb;
   padding: 10px;
 }
-/* line 312, _sass/partials/_enrollment.scss */
+/* line 336, _sass/partials/_enrollment.scss */
 .enrollment table thead th {
   background: #f7f7f7;
   color: #646464;
@@ -6217,11 +6275,11 @@ article.earn-free-energy .enhance h2 {
   text-align: center;
   padding: 25px 15px;
 }
-/* line 322, _sass/partials/_enrollment.scss */
+/* line 346, _sass/partials/_enrollment.scss */
 .enrollment table tbody td {
   text-align: center;
 }
-/* line 326, _sass/partials/_enrollment.scss */
+/* line 350, _sass/partials/_enrollment.scss */
 .enrollment table .vertical {
   padding: 0;
   text-align: center;
@@ -6229,7 +6287,7 @@ article.earn-free-energy .enhance h2 {
   width: 20px;
   position: relative;
 }
-/* line 332, _sass/partials/_enrollment.scss */
+/* line 356, _sass/partials/_enrollment.scss */
 .enrollment table .vertical .fixed, .enrollment table .vertical .variable {
   position: absolute;
   top: 40px;
@@ -6243,125 +6301,125 @@ article.earn-free-energy .enhance h2 {
   height: 20px;
   width: 100px;
 }
-/* line 341, _sass/partials/_enrollment.scss */
+/* line 365, _sass/partials/_enrollment.scss */
 .enrollment table .vertical .fixed {
   background: #053d5a;
 }
-/* line 344, _sass/partials/_enrollment.scss */
+/* line 368, _sass/partials/_enrollment.scss */
 .enrollment table .vertical .variable {
   background: #79bb4b;
 }
-/* line 348, _sass/partials/_enrollment.scss */
+/* line 372, _sass/partials/_enrollment.scss */
 .enrollment table .plan-name {
   font-size: 18px;
   font-weight: bold;
   text-align: left;
 }
-/* line 352, _sass/partials/_enrollment.scss */
+/* line 376, _sass/partials/_enrollment.scss */
 .enrollment table .plan-name a {
   display: block;
   font-weight: normal;
   margin-top: 15px;
   font-size: 12px;
 }
-/* line 359, _sass/partials/_enrollment.scss */
+/* line 383, _sass/partials/_enrollment.scss */
 .enrollment table .rate {
   font-size: 22px;
   font-weight: bold;
   line-height: 18px;
 }
-/* line 363, _sass/partials/_enrollment.scss */
+/* line 387, _sass/partials/_enrollment.scss */
 .enrollment table .rate span {
   color: #828282;
   font-size: 13px;
   font-weight: normal;
   display: block;
 }
-/* line 370, _sass/partials/_enrollment.scss */
+/* line 394, _sass/partials/_enrollment.scss */
 .enrollment table .term {
   font-size: 13px;
   color: #828282;
 }
-/* line 373, _sass/partials/_enrollment.scss */
+/* line 397, _sass/partials/_enrollment.scss */
 .enrollment table .term i {
   display: block;
   margin: 0 auto;
 }
-/* line 378, _sass/partials/_enrollment.scss */
+/* line 402, _sass/partials/_enrollment.scss */
 .enrollment table .fees {
   font-size: 19px;
   font-weight: bold;
 }
-/* line 381, _sass/partials/_enrollment.scss */
+/* line 405, _sass/partials/_enrollment.scss */
 .enrollment table .fees span {
   display: block;
   font-size: 10px;
   color: #828282;
   font-weight: normal;
 }
-/* line 389, _sass/partials/_enrollment.scss */
+/* line 413, _sass/partials/_enrollment.scss */
 .enrollment table .details th {
   border-right: 0;
 }
-/* line 392, _sass/partials/_enrollment.scss */
+/* line 416, _sass/partials/_enrollment.scss */
 .enrollment table .details td {
   border-left: 0;
   text-align: left;
 }
-/* line 395, _sass/partials/_enrollment.scss */
+/* line 419, _sass/partials/_enrollment.scss */
 .enrollment table .details td p {
   font-size: 15px;
 }
-/* line 400, _sass/partials/_enrollment.scss */
+/* line 424, _sass/partials/_enrollment.scss */
 .enrollment table .spacer {
   height: 20px;
 }
-/* line 406, _sass/partials/_enrollment.scss */
+/* line 430, _sass/partials/_enrollment.scss */
 .enrollment .accent-blue h1 span {
   color: #1773cb;
 }
-/* line 406, _sass/partials/_enrollment.scss */
+/* line 430, _sass/partials/_enrollment.scss */
 .enrollment .accent-paleblue h1 span {
   color: #7e9ab3;
 }
-/* line 406, _sass/partials/_enrollment.scss */
+/* line 430, _sass/partials/_enrollment.scss */
 .enrollment .accent-darkblue h1 span {
   color: #073464;
 }
-/* line 406, _sass/partials/_enrollment.scss */
+/* line 430, _sass/partials/_enrollment.scss */
 .enrollment .accent-green h1 span {
   color: #78bb2f;
 }
-/* line 406, _sass/partials/_enrollment.scss */
+/* line 430, _sass/partials/_enrollment.scss */
 .enrollment .accent-palegreen h1 span {
   color: #8ba072;
 }
-/* line 406, _sass/partials/_enrollment.scss */
+/* line 430, _sass/partials/_enrollment.scss */
 .enrollment .accent-orange h1 span {
   color: #fda32b;
 }
-/* line 406, _sass/partials/_enrollment.scss */
+/* line 430, _sass/partials/_enrollment.scss */
 .enrollment .accent-red h1 span {
   color: #aa2130;
 }
-/* line 406, _sass/partials/_enrollment.scss */
+/* line 430, _sass/partials/_enrollment.scss */
 .enrollment .accent-palered h1 span {
   color: #b48789;
 }
-/* line 406, _sass/partials/_enrollment.scss */
+/* line 430, _sass/partials/_enrollment.scss */
 .enrollment .accent-white h1 span {
   color: white;
 }
-/* line 406, _sass/partials/_enrollment.scss */
+/* line 430, _sass/partials/_enrollment.scss */
 .enrollment .accent-grey h1 span {
   color: #e8e8e8;
 }
-/* line 411, _sass/partials/_enrollment.scss */
+/* line 435, _sass/partials/_enrollment.scss */
 .enrollment .site-footer {
   margin-top: 0;
 }
 @media only screen and (max-width: 767px) {
-  /* line 415, _sass/partials/_enrollment.scss */
+  /* line 439, _sass/partials/_enrollment.scss */
   .enrollment .button {
     margin: 0 auto;
     display: block;
