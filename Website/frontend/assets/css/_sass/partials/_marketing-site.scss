@@ -385,51 +385,47 @@ article.leader {
 	}
 }
 
-article.donate {
-	ul.charity {
-		list-style-type: none;
-		li {
-			padding: 30px 0;
+article.philanthropy {
+	.donate {
+		padding: 30px 0;
+		display: inline-block;
+		.donate-image {
+			float: left;
+		}
+		&.donate-alt {
+			background-color: #fafafa;
 			border-bottom: 3px solid #f0f0f0;
-			&:last-child {
-				border-bottom: none;
+			border-bottom: 3px solid #f0f0f0;
+		}
+		.donate-promo {
+			float: left;
+			width: 40%;
+			margin: 10px 0 0 30px;
+			h4 {
+				color: #ffa300;
 			}
-			img {
-				float: left;
+		}
+		.donate-button {
+			float: right;
+			margin: 60px 20px 0 0;
+			button {
+				background-color: #77bc1f;
 			}
-			&.grey {
-				background-color: #fafafa;
+		}
+		@include breakpoint(medium) {
+			.donate-promo {
+				width: 33%;
+				margin: 0 0 0 15px;
 			}
-			.promo {
-				float: left;
-				width: 40%;
-				margin: 10px 0 0 30px;
-				h4 {
-					color: #ffa300;
-				}
+		}
+		@include breakpoint(small) {
+			.donate-promo {
+				width: 90%;
+				margin-left: 0;
 			}
 			.donate-button {
-				float: right;
-				margin: 60px 20px 0 0;
-				button {
-					background-color: #77bc1f;
-				}
-			}
-			@include breakpoint(medium) {
-				.promo {
-					width: 33%;
-					margin: 0 0 0 15px;
-				}
-			}
-			@include breakpoint(small) {
-				.promo {
-					width: 90%;
-					margin-left: 0;
-				}
-				.donate-button {
-					float: left;
-					margin: 0;
-				}
+				float: left;
+				margin: 0;
 			}
 		}
 	}
@@ -475,7 +471,7 @@ article.full-html {
 		}
 	}
 	@each $theme in $themes {
-		& span.#{map-get($theme, name)} {
+		& span.#{map-get($theme, name)}, h1.#{map-get($theme, name)}, h2.#{map-get($theme, name)}, h3.#{map-get($theme, name)}, h4.#{map-get($theme, name)} {
 			color: map-get($theme, primaryColor);
 		}
 	}
@@ -580,6 +576,25 @@ article.home-latest {
 }
 
 article.careers {
+	.text {
+		padding: 25px 0;
+	}
+	.list-header {
+		font-size: 22px;
+		padding-left: 23px;
+		width: 63%;
+		line-height: 1.1;
+	}
+	ul.white {
+		list-style: none;
+		li {
+			background: url("../i/marketing/bullet-white.png") no-repeat;
+			margin: .75em 0 0 -1em;
+			padding-left: 2em;
+			font-size: 18px;
+			line-height: 1.1;
+		}
+	}
 	h3 {
 		text-transform: none;
 	}
@@ -1506,7 +1521,6 @@ article.enroll {
 			line-height: 1.1;
 		}
 	}
-	
 }
 
 article.service-icons {

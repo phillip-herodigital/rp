@@ -55,7 +55,7 @@
             @{
                 if (!string.IsNullOrEmpty(Html.Sitecore().CurrentItem.Fields["Content"].Value))
                 {
-                    <p>&mdash; @Html.Sitecore().Field("Content")</p>
+                    <p>@Html.Sitecore().Field("Content")</p>
                 }
             }
             @Html.Sitecore().Field("Button")
