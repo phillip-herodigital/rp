@@ -1,0 +1,111 @@
+﻿@{
+    var planContent = new Dictionary<string, dynamic>();
+    foreach (var plan in new string[] { "Variable Price Plan", "Green and Clean Variable Price Plan", "Flex Choice Plan", "Flex Choice Plan - Green and Clean Plan" })
+    {
+        var variablePricePlanItems = Html.Sitecore().CurrentItem.Children[plan].Children.OrderByDescending(C => C.Fields["Date"].Value);
+        var variablePricePlanRows = new Dictionary<string, List<dynamic>>();
+        var tdus = new string[] { "Oncor", "Centerpoint", "AEP Central", "AEP North", "TNMP" };
+        var kwhPrices = new string[] { "500", "1000", "2000" };
+        var headerRow = new List<dynamic>();
+        headerRow.Add(new
+        {
+            Text = "",
+            ColSpan = 1,
+        });
+
+        variablePricePlanRows.Add("Kwh Label", new List<dynamic>());
+        variablePricePlanRows["Kwh Label"].Add(new
+        {
+            Text = Html.Sitecore().Field("Service Area Text"),
+        });
+
+        foreach (var tdu in tdus)
+        {
+            variablePricePlanRows.Add(tdu, new List<dynamic>());
+            variablePricePlanRows[tdu].Add(new
+            {
+                Text = Html.Sitecore().Field(tdu + " Text"),
+            });
+        }
+
+        foreach (var item in variablePricePlanItems)
+        {
+            var showKwhPrice = new List<string>();
+
+            foreach (var kwhPrice in kwhPrices)
+            {
+                if ((from tdu in tdus
+                     select Html.Sitecore().Field(kwhPrice + " kWh " + tdu + " Price", item).ToHtmlString()).Any(s => !string.IsNullOrEmpty(s)))
+                {
+                    showKwhPrice.Add(kwhPrice);
+                }
+            }
+
+            headerRow.Add(new
+            {
+                Text = Sitecore.Web.UI.WebControls.FieldRenderer.Render(item, "Date", "format=M/d/yyyy"),
+                ColSpan = showKwhPrice.Count,
+            });
+
+            foreach (var kwhPrice in showKwhPrice)
+            {
+                variablePricePlanRows["Kwh Label"].Add(new
+                {
+                    Text = Html.Sitecore().Field(kwhPrice + " kWh Label", item),
+                });
+            }
+
+            foreach (var tdu in tdus)
+            {
+                foreach (var kwhPrice in showKwhPrice)
+                {
+                    variablePricePlanRows[tdu].Add(new
+                    {
+                        Text = Html.Sitecore().Field(kwhPrice + " kWh " + tdu + " Price", item),
+                    });
+                }
+            }
+        }
+        planContent.Add(plan, new
+        {
+            IntroText = Html.Sitecore().Field(plan + " Text"),
+            HeaderRow = headerRow,
+            PlanItems = variablePricePlanRows,
+        });
+    }
+}
+<article class="marketing">
+    <div class="wrapper">
+        <h1>@Html.Sitecore().Field("Header Text")</h1>
+        <p>@Html.Sitecore().Field("Intro Paragraph")</p>
+
+        @foreach (var plan in planContent)
+        {
+            <p>@plan.Value.IntroText</p>
+        
+            <table>
+                <thead>
+                    <tr>
+                        @foreach (var cell in plan.Value.HeaderRow)
+                        {
+                            <td colspan="@cell.ColSpan">@Html.Raw(cell.Text)</td>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var row in plan.Value.PlanItems)
+                    {
+                        <tr>
+                            @foreach (var cell in row.Value)
+                            {
+                                <td>@cell.Text</td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+        <div>@Html.Sitecore().Field("Page Bottom Text")</div>
+    </div>
+</article>
