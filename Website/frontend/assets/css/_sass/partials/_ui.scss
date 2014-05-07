@@ -23,12 +23,13 @@ div.tabbable {
 }
 
 .slide-toggle  {
+	-webkit-transition: all ease 1s;
+  	-moz-transition:all ease 1s;
+  	-o-transition:all ease 1s;
+  	transition:all ease 1s;
   	&.ng-hide-add, 
   	&.ng-hide-remove {
-  		-webkit-transition: all ease 1.0s;
-  		-moz-transition:all ease 1.0s;
-  		-o-transition:all ease 1.0s;
-  		transition:all ease 1.0s;
+  		
   		display: block !important;
 	}
 	&.ng-hide-add.ng-hide-add-active,
@@ -37,6 +38,6 @@ div.tabbable {
 	}
 	&.ng-hide-add,
 	&.ng-hide-remove.ng-hide-remove-active {
-  		max-height: 999999px;
+  		max-height: none;
 	}
 }
