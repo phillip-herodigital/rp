@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <!--[if IE 8]>         <html ng-app="ngApp" class="no-js ie8 lt-ie10 lt-ie9"> <![endif]-->
 <!--[if IE 9]>         <html ng-app="ngApp" class="no-js ie9 lt-ie10"> <![endif]-->
 <!--[if gt IE 8]><!--> <html ng-app="ngApp" class="no-js"> <!--<![endif]-->
@@ -14,10 +14,16 @@
 
 	<script src="assets/js/libs/modernizr/modernizr.js"></script>
 	<script src="assets/js/libs/angular/angular.min.js"></script>
+    <script src="assets/js/libs/angular-animate/angular-animate.min.js"></script>
 	<script src="assets/js/libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 	<script src="assets/js/libs/angular-ui-utils/ui-utils.min.js"></script>
 
 	<script src="assets/js/app.js"></script>
+
+    <script src="assets/js/services/breakpoint.js"></script>
+
+    <script src="assets/js/directives/float-labels.js"></script>
+
 	<script src="assets/js/controllers/main.js"></script>
 
 	<script type="text/javascript" src="//use.typekit.net/hag0zvs.js"></script>
@@ -39,22 +45,25 @@
 					<a href="/" class="logo">Logo</a>
 					<p class="utility">Welcome, Jordan <a href="#">Logout</a></p>
 					<a href="#" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
+                    <nav class="main-nav">
+                        <ul class="wrapper">
+                            <li><a href="#">Account Overview</a></li>
+                            <li><a href="#">Utility Services</a></li>
+                            <li><a href="#">Homelife Services</a></li>
+                            <li class="selected"><a href="#">My Profile</a></li>
+                        </ul>
+                    </nav>
 				</div>
-				<nav>
-					<ul class="wrapper">
-						<li><a href="#">Account Overview</a></li>
-						<li><a href="#">Utility Services</a></li>
-						<li><a href="#">Homelife Services</a></li>
-						<li class="selected"><a href="#">My Profile</a></li>
-					</ul>
-				</nav>
 			</header>
 
-			<div class="banner hero-1">
-				<div class="wrapper">
-					<h1>Enrolled Accounts</h1>
-				</div>
-			</div>
+            <div class="banner" style="background-image: url(assets/i/bg/hero-invoices.jpg);">
+                <div class="inner">
+                    <div class="wrapper">
+                        <h1>Enrolled Accounts</h1>
+                    </div>
+                </div>
+            </div>
+			
 			<section class="layout cols-2 wrapper">
 				<section class="layout cols-1">
 					<p>To add a new account to your online profile, fill the required information and click on "Submit" button below. To remove an account, click on corresponding "Delete" button below.</p>
