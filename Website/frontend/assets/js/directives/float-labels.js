@@ -3,11 +3,13 @@ ngApp.directive('floatLabel', ['$timeout', '$parse', 'breakpoint', function ($ti
 	return {
 	    restrict: 'A',
         scope: true,
-        template: '<div ng-class="{\'fl-enabled\': isEnabled, \'fl-active\': isActive}" ng-transclude></div>',
+        template: '<div ng-class="{\'fl-enabled\': isEnabled, \'fl-active\': isActive, \'fl-animate\': shouldAnimate,}" ng-transclude></div>',
 	    transclude: true,
         replace: true,
 		link: function(scope, element, attrs) {
 		    var formEl = angular.element(element[0].querySelectorAll('input,select,textarea')[0]); // Get first form input
+
+		    scope.shouldAnimate = false; // Set to false while we set up default state
 
 		    formEl.on('propertychange keyup input paste', function () {
 		        if (formEl.val() === '') {
@@ -42,6 +44,7 @@ ngApp.directive('floatLabel', ['$timeout', '$parse', 'breakpoint', function ($ti
 		    $timeout(function () {
                 // Wait for a model to be bound
 		        formEl.triggerHandler('keyup');
+		        scope.shouldAnimate = true;
 		    });
             
 		}
