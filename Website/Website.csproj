@@ -943,6 +943,7 @@
     <Content Include="Views\Pages\Marketing\Historical Rates\Historical Rates Pennsylvania.cshtml" />
     <Content Include="Views\Pages\Marketing\Press\Press Release.cshtml" />
     <Content Include="Views\Pages\Marketing\Press\Press Landing.cshtml" />
+    <Content Include="Views\Pages\Marketing\Philanthropy\Charity Listing.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -976,7 +977,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>0</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:59993/</IISUrl>
+          <IISUrl>http://localhost:59203/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
