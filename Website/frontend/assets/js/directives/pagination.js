@@ -1,4 +1,4 @@
-appRD.directive('paginate', ['$timeout', function ($timeout) {
+ngApp.directive('paginate', ['$timeout', function ($timeout) {
     return {
         restrict: 'A',
         scope: true,

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <!--[if IE 8]>         <html ng-app="ngApp" class="no-js ie8 lt-ie10 lt-ie9"> <![endif]-->
 <!--[if IE 9]>         <html ng-app="ngApp" class="no-js ie9 lt-ie10"> <![endif]-->
 <!--[if gt IE 8]><!--> <html ng-app="ngApp" class="no-js"> <!--<![endif]-->
@@ -12,13 +12,18 @@
 	<link rel="shortcut icon" type="image/ico" href="assets/i/favicon.ico" />
 	<link href="assets/css/global.css" rel="stylesheet" />
 
-	<script src="assets/js/libs/jquery/dist/jquery.min.js"></script>
 	<script src="assets/js/libs/modernizr/modernizr.js"></script>
 	<script src="assets/js/libs/angular/angular.min.js"></script>
+    <script src="assets/js/libs/angular-animate/angular-animate.min.js"></script>
 	<script src="assets/js/libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 	<script src="assets/js/libs/angular-ui-utils/ui-utils.min.js"></script>
 
 	<script src="assets/js/app.js"></script>
+
+    <script src="assets/js/services/breakpoint.js"></script>
+    
+    <script src="assets/js/directives/float-labels.js"></script>
+
 	<script src="assets/js/controllers/main.js"></script>
 
 	<script type="text/javascript" src="//use.typekit.net/hag0zvs.js"></script>
@@ -46,15 +51,15 @@
 					<a href="/" class="logo">Logo</a>
 					<p class="utility">Welcome, Jordan <a href="#">Logout</a></p>
 					<a href="" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
+                    <nav class="main-nav">
+                        <ul class="wrapper">
+                            <li><a href="#">Account Overview</a></li>
+                            <li class="selected"><a href="#">Utility Services</a></li>
+                            <li><a href="#">Homelife Services</a></li>
+                            <li><a href="#">My Profile</a></li>
+                        </ul>
+                    </nav>
 				</div>
-				<nav>
-					<ul class="wrapper">
-						<li><a href="#">Account Overview</a></li>
-						<li class="selected"><a href="#">Utility Services</a></li>
-						<li><a href="#">Homelife Services</a></li>
-						<li><a href="#">My Profile</a></li>
-					</ul>
-				</nav>
 			</header>
 
 			<div class="banner hero-1">
@@ -109,135 +114,157 @@
 					<li>Nulla volutpat aliquam velit</li>
 				</ol>
 
-				<h2>Forms</h2>
-				<form>
-					<div class="group">
-						<div class="item">
-							<label for="firstname">First Name</label>
-							<input type="text" id="firstname" />
-						</div>
-						<div class="item">
-							<label for="lastname">Last Name</label>
-							<input type="text" id="lastname" />
-						</div>
-					</div>
-					<div class="item">
-						<label for="email">Email</label>
-						<input type="email" id="email" />
-					</div>
-					<div class="item">
-						<label for="comments">Comments</label>
-						<textarea></textarea>
-					</div>
-					<div class="item">
-						<label>Gender</label>
-						<select>
-							<option>Please Choose</option>
-							<option value="male">Male</option>
-							<option value="female">Female</option>
-						</select>
-					</div>
-					<div class="item">
-						<label>Gender</label>
-						<ul class="checkbox-list">
-							<li><input type="radio" name="gender" id="male"><label for="male">Male</label></li>
-							<li><input type="radio" name="gender" id="female"><label for="female">Female</label></li>
-						</ul>
-					</div>
-					<div class="item">
-						<label>Gender</label>
-						<ul class="checkbox-list">
-							<li><input type="checkbox" id="male"><label for="male">Male</label></li>
-							<li><input type="checkbox" id="female"><label for="female">Female</label></li>
-						</ul>
-					</div>
-					<button type="submit">Submit</button> <button class="secondary">Secondary</button> <button disabled="disabled">Disabled</button>
+                <h2>Float Labels</h2>
+                <form ng-init="labels = {'firstName':'First Name', 'lastName':'Last Name', 'comment':'Comment', 'gender':'Gender'}">
+                    
+                    <input type="text" ng-model="labels.firstName" /><br /><br /> 
 
-					<div class="vertical">
-						<div class="item">
-							<label for="email">Email</label>
-							<input type="email" id="email" />
-						</div>
-						<div class="item">
-							<label for="comments">Comments</label>
-							<textarea></textarea>
-						</div>
-						<div class="item">
-							<label>Gender</label>
-							<select>
-								<option>Please Choose</option>
-								<option value="male">Male</option>
-								<option value="female">Female</option>
-							</select>
-						</div>
-						<div class="item">
-							<label>Gender</label>
-							<ul class="checkbox-list">
-								<li><input type="radio" name="gender" id="male"><label for="male">Male</label></li>
-								<li><input type="radio" name="gender" id="female"><label for="female">Female</label></li>
-							</ul>
-						</div>
-						<div class="item">
-							<label>Gender</label>
-							<ul class="checkbox-list">
-								<li><input type="checkbox" id="male"><label for="male">Male</label></li>
-								<li><input type="checkbox" id="female"><label for="female">Female</label></li>
-							</ul>
-						</div>
-						<button type="submit">Submit</button> <button class="secondary">Secondary</button> <button disabled="disabled">Disabled</button>
-					</div>
+                    <div class="group">
+                        <div class="item" float-label>
+                            <label for="firstname">{{labels.firstName}}</label>
+                            <input type="text" id="firstname" placeholder="{{labels.firstName}}" />
+                        </div>
+                        <div class="item" float-label>
+                            <label for="lastname">Last Name</label>
+                            <input type="text" id="lastname" placeholder="Last Name" ng-model="labels.firstName" />
+                        </div>
+                    </div>
+                    <div class="item" float-label>
+                        <label for="comments">{{labels.comment}}</label>
+                        <textarea placeholder="Comment"></textarea>
+                    </div>
+                    <div class="item" float-label>
+                        <label>{{labels.gender}}</label>
+                        <select>
+                            <option>Please Choose</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
 
-				</form>
+                    </formng-init="labels>
 
-				<h2>Tables</h2>
-				<table>
-					<thead>
-						<tr>
-							<th>Header 1</th>
-							<th>Header 2</th>
-							<th>Header 3</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>Cell 1</td>
-							<td>Cell 2</td>
-							<td>Cell 3</td>
-						</tr>
-						<tr>
-							<td>Cell 4</td>
-							<td>Cell 5</td>
-							<td>Cell 6</td>
-						</tr>
-						<tr>
-							<td>Cell 7</td>
-							<td>Cell 8</td>
-							<td>Cell 9</td>
-						</tr>
-					</tbody>
-				</table>
-
-				<h2>Grids</h2>
-
-				<div class="grid">
-					<div class="col">Column 1</div>
-					<div class="col">Column 2</div>
-				</div>
-
-				<div class="grid three">
-					<div class="col">Column 1</div>
-					<div class="col">Column 2</div>
-					<div class="col">Column 3</div>
-				</div>
-
-				<div class="grid four">
-					<div class="col">Column 1</div>
-					<div class="col">Column 2</div>
-					<div class="col">Column 3</div>
-					<div class="col">Column 4</div>
-				</div>
-
-			</section>
+                    <h2>Forms</h2>
+                    <form>
+                        <div class="group">
+                            <div class="item">
+                                <label for="firstname">First Name</label>
+                                <input type="text" id="firstname" />
+                            </div>
+                            <div class="item">
+                                <label for="lastname">Last Name</label>
+                                <input type="text" id="lastname" />
+                            </div>
+                        </div>
+                        <div class="item">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" />
+                        </div>
+                        <div class="item">
+                            <label for="comments">Comments</label>
+                            <textarea></textarea>
+                        </div>
+                        <div class="item">
+                            <label>Gender</label>
+                            <select>
+                                <option>Please Choose</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div>
+                        <div class="item">
+                            <label>Gender</label>
+                            <ul class="checkbox-list">
+                                <li><input type="radio" name="gender" id="male"><label for="male">Male</label></li>
+                                <li><input type="radio" name="gender" id="female"><label for="female">Female</label></li>
+                            </ul>
+                        </div>
+                        <div class="item">
+                            <label>Gender</label>
+                            <ul class="checkbox-list">
+                                <li><input type="checkbox" id="male"><label for="male">Male</label></li>
+                                <li><input type="checkbox" id="female"><label for="female">Female</label></li>
+                            </ul>
+                        </div>
+                        <button type="submit">Submit</button> <button class="secondary">Secondary</button> <button disabled="disabled">Disabled</button>
+                        <div class="vertical">
+                            <div class="item">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" />
+                            </div>
+                            <div class="item">
+                                <label for="comments">Comments</label>
+                                <textarea></textarea>
+                            </div>
+                            <div class="item">
+                                <label>Gender</label>
+                                <select>
+                                    <option>Please Choose</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </div>
+                            <div class="item">
+                                <label>Gender</label>
+                                <ul class="checkbox-list">
+                                    <li><input type="radio" name="gender" id="male"><label for="male">Male</label></li>
+                                    <li><input type="radio" name="gender" id="female"><label for="female">Female</label></li>
+                                </ul>
+                            </div>
+                            <div class="item">
+                                <label>Gender</label>
+                                <ul class="checkbox-list">
+                                    <li><input type="checkbox" id="male"><label for="male">Male</label></li>
+                                    <li><input type="checkbox" id="female"><label for="female">Female</label></li>
+                                </ul>
+                            </div>
+                            <button type="submit">Submit</button> <button class="secondary">Secondary</button> <button disabled="disabled">Disabled</button>
+                        </div>
+                    </form>
+                    <h2>Tables</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Header 1</th>
+                                <th>Header 2</th>
+                                <th>Header 3</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Cell 1</td>
+                                <td>Cell 2</td>
+                                <td>Cell 3</td>
+                            </tr>
+                            <tr>
+                                <td>Cell 4</td>
+                                <td>Cell 5</td>
+                                <td>Cell 6</td>
+                            </tr>
+                            <tr>
+                                <td>Cell 7</td>
+                                <td>Cell 8</td>
+                                <td>Cell 9</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h2>Grids</h2>
+                    <div class="grid">
+                        <div class="col">Column 1</div>
+                        <div class="col">Column 2</div>
+                    </div>
+                    <div class="grid three">
+                        <div class="col">Column 1</div>
+                        <div class="col">Column 2</div>
+                        <div class="col">Column 3</div>
+                    </div>
+                    <div class="grid four">
+                        <div class="col">Column 1</div>
+                        <div class="col">Column 2</div>
+                        <div class="col">Column 3</div>
+                        <div class="col">Column 4</div>
+                    </div>
+</section>
 
 			<footer class="site-footer">
 				<div class="super-footer">
