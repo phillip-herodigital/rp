@@ -1,4 +1,5 @@
-ngApp = angular.module("ngApp", ['ui.bootstrap', 
+ngApp = angular.module("ngApp", ['ngAnimate',
+                                 'ui.bootstrap',
 								 'ui.utils']);
 
 // Init Application
