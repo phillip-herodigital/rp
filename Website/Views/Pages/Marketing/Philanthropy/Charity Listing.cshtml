@@ -1,12 +1,22 @@
-﻿@{
-    foreach (Item item in Model)
-    {
-        var url = Sitecore.Links.LinkManager.GetItemUrl(item);
-        <li>
-            <a href="@url">@Html.Raw(Sitecore.Web.UI.WebControls.FieldRenderer.Render(item, "Image", "w=185"))</a>
-            <h4><a href="@url">@Html.Sitecore().Field("First Name", item)</a></h4>
-            <h2><a href="@url">@Html.Sitecore().Field("Last Name", item)</a></h2>
-            <p>@Html.Sitecore().Field("Location", item)</p>
-        </li>
-    }
-}
+﻿<article class="marketing full-html   philanthropy">
+    <div class="wrapper">
+        @{
+            int i = 1;
+            foreach (Sitecore.Data.Items.Item item in Html.Sitecore().CurrentItem.Children)
+            {
+                <div class="donate @(i++ %2 == 0 ? "donate-alt":"")">
+                    <div class="donate-image">
+                        @Html.Raw(Sitecore.Web.UI.WebControls.FieldRenderer.Render(item, "Charity Image"))
+                    </div>
+                    <div class="donate-promo">
+                        <h4>@Html.Sitecore().Field("Charity Name", item)</h4>
+                        <p>@Html.Sitecore().Field("Charity Description", item)</p>
+                    </div>
+                    <div class="donate-button">
+                        <a href="@Html.Sitecore().Field("Donation Link", item)" class="button green">DONATE NOW</a>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</article>
