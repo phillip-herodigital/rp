@@ -976,7 +976,7 @@ button.social .icon-holder i,
 a.button.social .icon-holder i {
   position: absolute;
   top: 15px;
-  left: 15px;
+  left: 13px;
 }
 /* line 120, _sass/partials/_forms.scss */
 button.facebook,
@@ -992,7 +992,7 @@ a.button.facebook .icon-holder {
 /* line 125, _sass/partials/_forms.scss */
 button.facebook .icon-holder i,
 a.button.facebook .icon-holder i {
-  left: 18px;
+  left: 16px;
 }
 /* line 130, _sass/partials/_forms.scss */
 button.twitter,
