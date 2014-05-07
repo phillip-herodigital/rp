@@ -12,9 +12,10 @@
 	<link rel="shortcut icon" type="image/ico" href="assets/i/favicon.ico" />
 	<link href="assets/css/global.css" rel="stylesheet" />
 
-	<script src="assets/js/libs/jquery/dist/jquery.min.js"></script>
+	<!--<script src="assets/js/libs/jquery/dist/jquery.min.js"></script>-->
 	<script src="assets/js/libs/modernizr/modernizr.js"></script>
 	<script src="assets/js/libs/angular/angular.min.js"></script>
+	<script src="assets/js/libs/angular-animate/angular-animate.min.js"></script>
 	<script src="assets/js/libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 	<script src="assets/js/libs/angular-ui-utils/ui-utils.min.js"></script>
 
@@ -702,7 +703,7 @@
 						<div class="panel" slide-toggle>
 							<div class="q">Q |</div>
 							<p class="question"><a ng-click="togglePane('question1')" href="">What makes my bill so high in certain months of the year?</a></p>
-							<div class="panel-content" ng-class="{ hidden : pane != 'question1' }">
+							<div class="panel-content slide-toggle" ng-show="pane == 'question1'">
 								<hr class="answer-hr" />
 								<div class="a">A |</div>
 								<div class="answer">
