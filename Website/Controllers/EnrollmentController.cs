@@ -58,7 +58,8 @@ namespace StreamEnergy.MyStream.Controllers
             return new ClientData
             {
                 Validations = Translate(stateMachine.ValidationResults),
-                UserContext = CopyForClientDisplay(stateMachine.Context)
+                UserContext = CopyForClientDisplay(stateMachine.Context),
+                // TODO - more data, such as plan list, calendar, etc. - probably from stateMachine.InternalContext
             };
         }
 
