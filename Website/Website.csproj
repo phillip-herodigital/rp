@@ -967,6 +967,7 @@
     <Content Include="Views\Pages\Marketing\Historical Rates\Historical Rates Pennsylvania.cshtml" />
     <Content Include="Views\Pages\Marketing\Press\Press Release.cshtml" />
     <Content Include="Views\Pages\Marketing\Press\Press Landing.cshtml" />
+    <Content Include="App_Config\ConnectionStrings.local.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -986,6 +987,10 @@
     <ProjectReference Include="..\StreamEnergy.DomainModel\StreamEnergy.DomainModel.csproj">
       <Project>{449d7f2c-372c-41a8-b640-6751fda30828}</Project>
       <Name>StreamEnergy.DomainModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StreamEnergy.StreamCommons\StreamEnergy.StreamCommons.csproj">
+      <Project>{c1c6ce03-d27a-4dff-a5e5-822e8a29bfa9}</Project>
+      <Name>StreamEnergy.StreamCommons</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

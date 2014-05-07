@@ -17,8 +17,7 @@ namespace StreamEnergy.MyStream.Models.Angular.GridTable
                    {
                        Field = Json.GetJsonPropertyName(member),
                        DisplayName = attr.DisplayNameField, // TODO - Sitecore translate
-                       Hide = attr.HideFor,
-                       IsVisible = attr.IsVisible
+                       Hide = attr.HideFor
                    };
         }
     }

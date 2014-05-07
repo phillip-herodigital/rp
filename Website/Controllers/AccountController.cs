@@ -12,10 +12,18 @@ namespace StreamEnergy.MyStream.Controllers
 {
     public class AccountController : ApiController, IRequiresSessionState
     {
-        public AccountController(HttpSessionStateBase session)
+        private Services.Clients.ITemperatureService temperatureService;
+
+        public AccountController(HttpSessionStateBase session, Services.Clients.ITemperatureService temperatureService)
         {
+            this.temperatureService = temperatureService;
         }
 
+        [HttpGet]
+        public string CelciusToFahrenheit(string celcius)
+        {
+            return temperatureService.CelciusToFahrenheit(celcius: celcius);
+        }
 
 
         /// <summary>
@@ -27,7 +35,7 @@ namespace StreamEnergy.MyStream.Controllers
         {
             return new Table<Invoice>
                 {
-                    ColumnList = schema ? typeof(Invoice).BuildTableSchema().Concat(Enumerable.Repeat(new Column { Field = "action", IsVisible = true }, 1)) : null,
+                    ColumnList = schema ? typeof(Invoice).BuildTableSchema() : null,
                     Values = new[] { 
                         new Invoice
                         {
@@ -37,7 +45,11 @@ namespace StreamEnergy.MyStream.Controllers
 			                InvoiceAmount = "24.99",
 			                DueDate = "04/05/2014",
 			                IsPaid = false,
-			                CanRequestExtension = true
+			                CanRequestExtension = true,
+                            Actions = 
+                            {
+                                { "viewPdf", "http://.../" }
+                            }
 		                },
                         new Invoice
 		                {

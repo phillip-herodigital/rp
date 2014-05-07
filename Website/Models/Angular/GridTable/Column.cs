@@ -9,7 +9,6 @@ namespace StreamEnergy.MyStream.Models.Angular.GridTable
     {
         public string Field { get; set; }
         public string DisplayName { get; set; }
-        public bool IsVisible { get; set; }
         public IEnumerable<DeviceType> Hide { get; set; }
     }
 }
