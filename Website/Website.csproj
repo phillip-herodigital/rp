@@ -822,6 +822,7 @@
     <Content Include="frontend\assets\js\libs\underscore\package.json" />
     <Content Include="frontend\assets\js\libs\underscore\README.md" />
     <Content Include="frontend\assets\js\libs\underscore\underscore.js" />
+    <Content Include="frontend\assets\js\modules\mask-jquery.js" />
     <Content Include="frontend\assets\js\services\breakpoint.js" />
     <Content Include="frontend\bower.json" />
     <Content Include="frontend\config.rb" />
