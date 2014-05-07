@@ -3,8 +3,8 @@
     "version": "0.0.1",
     "dependencies": {
     	"modernizr": "latest",
-    	"jquery": "latest",
-        "angular": "~1.2.0",
+    	"jquery": "~1",
+        "angular": "~1.2",
         "angular-animate": "latest",
         "angular-bootstrap": "latest",
         "angular-ui-utils": "latest",
