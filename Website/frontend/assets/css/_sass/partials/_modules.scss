@@ -180,6 +180,9 @@ article.grey-box {
 	footer {
 		background-color: #fbfbfb;
 		border-top: 1px solid #ddd;
+		.buttons button {
+			margin-top: 0;
+		}
 	}
 	.account-selector {
 		background-color: #f4f4f4;

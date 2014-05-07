@@ -169,6 +169,9 @@ form,
 	div.group {
 		@extend .clearfix;
 		@include breakpoint(medium-large) {
+			&.cols-2 .item {
+				width: 50%;
+			}
 			div.item {
 				@include box-sizing(border-box);
 				float: left;
