@@ -11,7 +11,8 @@ $themes:
 	(name: "red", primaryColor: #aa2130, accentColor: #fff, textColor: #fff),
 	(name: "palered", primaryColor: #b48789, accentColor: #fff, textColor: #fff),
 	(name: "white", primaryColor: #fff, accentColor: #1773cb, textColor: #6b6b6b),
-	(name: "grey", primaryColor: #e8e8e8, accentColor: #1773cb, textColor: #6b6b6b);
+	(name: "grey", primaryColor: #e8e8e8, accentColor: #1773cb, textColor: #6b6b6b),
+	(name: "darkgrey", primaryColor: #6b6b6b, accentColor: #fff, textColor: #fff);
 
 @each $theme in $themes {
 	button, .button {
@@ -188,7 +189,6 @@ article.photoLockup {
 			}
 		}
 	}
-
 }
 
 article.marketingIntro {
@@ -229,6 +229,14 @@ article.marketingIntro {
 				background-color: map-get($theme, primaryColor);
 				text-shadow: none;
 			}
+		}
+	}
+	@each $theme in $themes {
+		& span.#{map-get($theme, name)} {
+			color: map-get($theme, primaryColor);
+		}
+		& ul.#{map-get($theme, name)} {
+			color: map-get($theme, primaryColor);
 		}
 	}
 }
@@ -375,51 +383,47 @@ article.leader {
 	}
 }
 
-article.donate {
-	ul.charity {
-		list-style-type: none;
-		li {
-			padding: 30px 0;
+article.philanthropy {
+	.donate {
+		padding: 30px 0;
+		display: inline-block;
+		.donate-image {
+			float: left;
+		}
+		&.donate-alt {
+			background-color: #fafafa;
 			border-bottom: 3px solid #f0f0f0;
-			&:last-child {
-				border-bottom: none;
+			border-bottom: 3px solid #f0f0f0;
+		}
+		.donate-promo {
+			float: left;
+			width: 40%;
+			margin: 10px 0 0 30px;
+			h4 {
+				color: #ffa300;
 			}
-			img {
-				float: left;
+		}
+		.donate-button {
+			float: right;
+			margin: 60px 20px 0 0;
+			button {
+				background-color: #77bc1f;
 			}
-			&.grey {
-				background-color: #fafafa;
+		}
+		@include breakpoint(medium) {
+			.donate-promo {
+				width: 33%;
+				margin: 0 0 0 15px;
 			}
-			.promo {
-				float: left;
-				width: 40%;
-				margin: 10px 0 0 30px;
-				h4 {
-					color: #ffa300;
-				}
+		}
+		@include breakpoint(small) {
+			.donate-promo {
+				width: 90%;
+				margin-left: 0;
 			}
 			.donate-button {
-				float: right;
-				margin: 60px 20px 0 0;
-				button {
-					background-color: #77bc1f;
-				}
-			}
-			@include breakpoint(medium) {
-				.promo {
-					width: 33%;
-					margin: 0 0 0 15px;
-				}
-			}
-			@include breakpoint(small) {
-				.promo {
-					width: 90%;
-					margin-left: 0;
-				}
-				.donate-button {
-					float: left;
-					margin: 0;
-				}
+				float: left;
+				margin: 0;
 			}
 		}
 	}
@@ -464,6 +468,12 @@ article.full-html {
 			}
 		}
 	}
+	@each $theme in $themes {
+		& span.#{map-get($theme, name)}, h1.#{map-get($theme, name)}, h2.#{map-get($theme, name)}, h3.#{map-get($theme, name)}, h4.#{map-get($theme, name)} {
+			color: map-get($theme, primaryColor);
+		}
+	}
+	
 }
 
 article.state-tabs {
@@ -564,6 +574,25 @@ article.home-latest {
 }
 
 article.careers {
+	.text {
+		padding: 25px 0;
+	}
+	.list-header {
+		font-size: 22px;
+		padding-left: 23px;
+		width: 63%;
+		line-height: 1.1;
+	}
+	ul.white {
+		list-style: none;
+		li {
+			background: url("../i/marketing/bullet-white.png") no-repeat;
+			margin: .75em 0 0 -1em;
+			padding-left: 2em;
+			font-size: 18px;
+			line-height: 1.1;
+		}
+	}
 	h3 {
 		text-transform: none;
 	}
@@ -1442,26 +1471,58 @@ article.free-energy {
 	img {
 		margin: auto;
 		display: block;
+		float: left; 
 	}
 	h3 {
 		text-transform: none;
 		margin-bottom: 30px;
 	}
-	.picture-promo {
-		background-image: url('../i/marketing/free-energy.jpg');
-		background-repeat: no-repeat;
-		background-position: center;
-		.promo-content {
+	p {
+			font-size: 21px;
+			line-height: 1.3;
+	}
+	.how-it-works {
+		img {
+			margin: 0px 30px 0px 0px;
+		}
+		h1 {
+			line-height: 1;
+		}
+		p {
+			line-height: 1;
+		}
+	}
+}
+
+article.free-energy.picture-promo {
+	background-image: url('../i/marketing/free-energy.jpg');
+	background-repeat: no-repeat;
+	background-position: center;
+	.promo-content {
+		color: #fff;
+		width: 335px;
+		margin-left: 100px;
+		padding: 320px 0 50px 0;
+		h2 {
 			color: #fff;
-			width: 335px;
-			margin: auto;
-			padding: 320px 0 50px 0;
-			h2 {
-				color: #fff;
+			line-height: 28px;
+			.big {
+				font-size: 31px;
 			}
 		}
 	}
 } 
+
+article.enroll {
+	margin-top: 20px;
+	.text {
+		padding: 25px 0;
+		h3 {
+			font-size: 32px;
+			line-height: 1.1;
+		}
+	}
+}
 
 article.service-icons {
 	.grid .col {
