@@ -21,3 +21,25 @@ div.tabbable {
 		}
 	}
 }
+
+/*
+.slide-toggle  {
+	-webkit-transition: all ease 1s;
+  	-moz-transition:all ease 1s;
+  	-o-transition:all ease 1s;
+  	transition:all ease 1s;
+  	&.ng-hide-add, 
+  	&.ng-hide-remove {
+  		display: block !important;
+	}
+	&.ng-hide-add.ng-hide-add-active,
+	&.ng-hide-remove {
+  		max-height: 0;
+  		overflow: hidden;
+	}
+	&.ng-hide-add,
+	&.ng-hide-remove.ng-hide-remove-active {
+  		max-height: 99999px;
+	}
+}
+*/
