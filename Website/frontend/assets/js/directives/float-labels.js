@@ -29,14 +29,15 @@ ngApp.directive('floatLabel', ['$timeout', '$parse', 'breakpoint', function ($ti
 		        }
 		    });
 
-            // Watch the breakpoint for updates
-		    scope.$watch(breakpoint.getBreakpoint, function (newValue, oldValue) {
+		    scope.$watch(function () {
+		        return breakpoint.breakpoint.name
+		    }, function (newValue, oldValue) {
 		        if (newValue == 'phone') {
 		            scope.isEnabled = true;
 		        } else {
 		            scope.isEnabled = false;
 		        }
-		    });
+		    }, true);
 
 		    $timeout(function () {
                 // Wait for a model to be bound
