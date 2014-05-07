@@ -12,15 +12,18 @@
 	<link rel="shortcut icon" type="image/ico" href="assets/i/favicon.ico" />
 	<link href="assets/css/global.css" rel="stylesheet" />
 
-	<script src="assets/js/libs/jquery/dist/jquery.min.js"></script>
+	<!--<script src="assets/js/libs/jquery/dist/jquery.min.js"></script>-->
 	<script src="assets/js/libs/modernizr/modernizr.js"></script>
 	<script src="assets/js/libs/angular/angular.min.js"></script>
+	<script src="assets/js/libs/angular-animate/angular-animate.min.js"></script>
 	<script src="assets/js/libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 	<script src="assets/js/libs/angular-ui-utils/ui-utils.min.js"></script>
 
 	<script src="assets/js/app.js"></script>
 	<script src="assets/js/controllers/main.js"></script>
 	<script src="assets/js/controllers/marketing.js"></script>
+
+	<script src="assets/js/directives/slide-toggle.js"></script>
 
 	<script type="text/javascript" src="//use.typekit.net/hag0zvs.js"></script>
 	<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
@@ -697,10 +700,10 @@
 							<p class="question"><a href="#">What can I do to save in my electric bill?</a></p>
 						</div>
 						<hr class="faq-hr" />
-						<div class="panel">
+						<div class="panel" slide-toggle>
 							<div class="q">Q |</div>
-							<p class="question"><a href="#">What makes my bill so high in certain months of the year?</a></p>
-							<div class="panel-content">
+							<p class="question"><a ng-click="togglePane('question1')" href="">What makes my bill so high in certain months of the year?</a></p>
+							<div class="panel-content slide-toggle" ng-show="pane == 'question1'">
 								<hr class="answer-hr" />
 								<div class="a">A |</div>
 								<div class="answer">
@@ -1181,6 +1184,97 @@
 						<p>We're here to make your life better. Stream Energy doesn't just power your home, fuel your cooking, and protect your peace of mind. We're always working hard to find new ways to improve your life and help save you money.</p>
 						</div>
 					</article>
+				</article>
+				
+				<article class="marketing manage-my-account">
+					<div class="wrapper">
+						<div class="left-column">
+							<p>Texas and Georgia customers can save both time and money when you set up and pay your energy bill with a FREE <strong>My Stream Account</strong>. Plus, you can enjoy convenient features like paperless billing and automated payment, reducing your carbon footprint and reducing the headache of possible late payment fees.</p>
+						</div>
+						<div class="right-column">
+							<div class="clearfix">
+								<img src="assets/i/marketing/my-account-icon.png" alt="My Account Icon" />
+								<h3>My Stream Account</h3>
+							</div>
+							<div class="account-login clearfix">
+								<div class="states">
+									<div>
+										<input type="radio" checked="checked" name="state">
+										<label>Texas</label>
+									</div>
+									<div>
+										<input type="radio" checked="checked" name="state">
+										<label>Georgia</label>
+									</div>
+								</div>
+								<div class="input-fields">
+									<div>
+										<input type="text" placeholder="Username">
+									</div>
+									<div>
+										<input type="text" placeholder="Password">
+									</div>
+								</div>
+								<div class="login">
+									<a href="#"><button>Login</button></a>
+								</div>
+							</div>
+							<p>Don't have a My Stream Account? Or Forgot Your Username or Password? Select <a href="https://secure3.i-doxs.net/StreamEnergy/">Texas</a> or <a gref="https://secure3.i-doxs.net/StreamEnergyGA/">Georgia</a> now for assistance.</p>
+						</div>
+					</div>
+				</article>
+				
+				<article class="marketing manage-free-energy">
+					<div class="wrapper">
+						<div class="left-column">
+							<img src="assets/i/marketing/free-energy.png" alt="Free Energy Icon" />
+							<p>Share your excitement with family, friends and neighbors on social media or simply keep track of all the money you're saving.</p>
+						</div>
+						<div class="right-column">
+							<div class="center">
+								<button>Manage My Free Energy</button>
+								<p>If you have not set up your FREE ENERGY account, you can do that <a href="https://secure.streamenergy.net/febo/logon.asp">here</a>.</p>
+							</div>
+						</div>
+					</div>
+				</article>
+				
+				<article class="marketing photoLockup manage-services">
+					<div class="text">
+						<div class="inner">
+							<p><span>Energy is Just the Beginning.</span> We make your life easier and safer with Stream Homelife Services&#8482;.</p>
+							<p>You can save up to $180 a year when you bundle these services with us. In addition, Stream Energy customers get the first month of service <span>Free</span>!</p>
+						</div>
+					</div>
+					<div class="photo clearfix">
+						<ul class="clearfix">
+							<li>
+								<img src="assets/i/marketing/identity-protection.png" alt="Identity Protection">
+								<a href="https://idprotection.mystream.com/">
+									<div class="box identity-protection">
+									<p>Manage My Stream Identity Protection</p>
+									</div>
+								</a>
+							</li>
+							<li>
+								<img src="assets/i/marketing/tech-support.png" alt="Tech Support">
+								<a href="https://techsupport.mystream.com/">
+									<div class="box tech-support">
+									<p>Manage My Stream Tech Support</p>
+									</div>
+								</a>
+							</li>
+							<li>
+								<img src="assets/i/marketing/credit-monitoring.png" alt="Credit Monitoring">
+								<a href="https://creditmonitoring.mystream.com/">
+									<div class="box credit-monitoring">
+									<p>Manage My Stream Credit Monitoring</p>
+									</div>
+								</a>
+							</li>
+						</ul>
+						<p class="sign-up">If you haven't signed up for Stream HomeLife Services™. <a href="https://mystream.com/services/homelife/">Check them out NOW!</a></p>
+					</div>	
 				</article>
 				
 			</section>

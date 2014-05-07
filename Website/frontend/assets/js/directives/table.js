@@ -20,7 +20,7 @@ ngApp.directive('gridTable', ['$filter', function ($filter) {
 					'dimensions': [768, 1024]
 				},
 				{
-					'name': 'dektop',
+					'name': 'desktop',
 					'dimensions': [1025, 9999]
 				}
 			];
