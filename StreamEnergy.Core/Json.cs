@@ -11,9 +11,16 @@ namespace StreamEnergy
 {
     public static class Json
     {
+        private static readonly CamelCasePropertyNamesContractResolver contractResolver = new CamelCasePropertyNamesContractResolver();
+
         public static string Stringify(object target)
         {
             return JsonConvert.SerializeObject(target, StandardFormatting);
+        }
+
+        public static string GetJsonPropertyName(System.Reflection.MemberInfo member)
+        {
+            return contractResolver.GetResolvedPropertyName(member.Name);
         }
 
         public static JsonSerializerSettings StandardFormatting
@@ -23,10 +30,11 @@ namespace StreamEnergy
                 return new JsonSerializerSettings
                     {
                         NullValueHandling = NullValueHandling.Ignore,
-                        ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                        ContractResolver = contractResolver,
                         Converters = 
                         {
-                            new IsoDateTimeConverter()
+                            new IsoDateTimeConverter(),
+                            new StringEnumConverter() { CamelCaseText = true }
                         }
                     };
             }

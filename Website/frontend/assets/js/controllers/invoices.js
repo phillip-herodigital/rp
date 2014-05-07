@@ -49,7 +49,7 @@ ngApp.controller('InvoicesCtrl', ['$scope', '$rootScope', '$http', '$filter', '$
 
 	$timeout(function() {
 
-		$http.get('assets/json/invoices.json').success(function(data, status, headers, config) {
+	    $http.get('/api/account/invoices').success(function (data, status, headers, config) {
 			$scope.invoicesTable = data;
 			$scope.invoicesTableOriginal = angular.copy($scope.invoicesTable);
 			$scope.isLoading = false;

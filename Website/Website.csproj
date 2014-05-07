@@ -404,6 +404,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EnrollmentController.cs" />
     <Compile Include="layouts\HTML Layout.aspx.cs">
       <DependentUpon>HTML Layout.aspx</DependentUpon>
@@ -415,6 +416,12 @@
     <Compile Include="layouts\BaseLayout.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Models\Account\Invoice.cs" />
+    <Compile Include="Models\Angular\GridTable\Column.cs" />
+    <Compile Include="Models\Angular\GridTable\ColumnSchemaAttribute.cs" />
+    <Compile Include="Models\Angular\GridTable\GridTableExtensions.cs" />
+    <Compile Include="Models\Angular\GridTable\Table.cs" />
+    <Compile Include="Models\Angular\GridTable\DeviceType.cs" />
     <Compile Include="Models\Enrollment\ClientData.cs" />
     <Compile Include="Models\Enrollment\ServiceInformation.cs" />
     <Compile Include="Models\TranslatedValidationResult.cs" />
