@@ -27,7 +27,7 @@ namespace StreamEnergy.MyStream.Controllers
         {
             return new Table<Invoice>
                 {
-                    ColumnList = schema ? typeof(Invoice).BuildTableSchema() : null,
+                    ColumnList = schema ? typeof(Invoice).BuildTableSchema().Concat(Enumerable.Repeat(new Column { Field = "action", IsVisible = true }, 1)) : null,
                     Values = new[] { 
                         new Invoice
                         {

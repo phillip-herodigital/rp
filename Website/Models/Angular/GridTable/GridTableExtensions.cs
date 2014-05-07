@@ -12,12 +12,13 @@ namespace StreamEnergy.MyStream.Models.Angular.GridTable
         {
             return from member in type.GetProperties().OfType<MemberInfo>().Concat(type.GetFields())
                    let attr = member.GetCustomAttribute<ColumnSchemaAttribute>()
+                   where attr != null
                    select new Column
                    {
                        Field = Json.GetJsonPropertyName(member),
-                       DisplayName = attr != null ? attr.DisplayNameField : null, // TODO - Sitecore translate
-                       Hide = attr != null ? attr.HideFor : null,
-                       IsVisible = attr != null ? attr.IsVisible : false
+                       DisplayName = attr.DisplayNameField, // TODO - Sitecore translate
+                       Hide = attr.HideFor,
+                       IsVisible = attr.IsVisible
                    };
         }
     }
