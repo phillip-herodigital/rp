@@ -1336,6 +1336,27 @@ div.tabbable div.tab-content div.tab-pane.active {
   display: block;
 }
 
+/*
+.slide-toggle  {
+	-webkit-transition: all ease 1s;
+  	-moz-transition:all ease 1s;
+  	-o-transition:all ease 1s;
+  	transition:all ease 1s;
+  	&.ng-hide-add, 
+  	&.ng-hide-remove {
+  		display: block !important;
+	}
+	&.ng-hide-add.ng-hide-add-active,
+	&.ng-hide-remove {
+  		max-height: 0;
+  		overflow: hidden;
+	}
+	&.ng-hide-add,
+	&.ng-hide-remove.ng-hide-remove-active {
+  		max-height: 99999px;
+	}
+}
+*/
 /* line 65, _sass/partials/_sprites.scss */
 .icon-arrow-collapsed {
   background-image: url('../i/icon-sbc5d1a038b.png');
@@ -6477,7 +6498,7 @@ article.manage-services .photo p.sign-up a:hover {
   left: 0;
   width: 100%;
   background-color: #fff;
-  background-image: url('../i/bg/header-enrollment.png?1399496636');
+  background-image: url('../i/bg/header-enrollment.png?1399501166');
   background-repeat: repeat-x;
   z-index: 2;
   height: 121px;
@@ -6485,7 +6506,7 @@ article.manage-services .photo p.sign-up a:hover {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 5, _sass/partials/_enrollment.scss */
   .enrollment .site-header > .wrapper, .enrollment article.state-tabs .site-header > ul.tabs-nav, article.state-tabs .enrollment .site-header > ul.tabs-nav {
-    background-image: url('../i/bg2x/header-enrollment.png?1399496636');
+    background-image: url('../i/bg2x/header-enrollment.png?1399501166');
     background-size: 23px 13px;
   }
 }
