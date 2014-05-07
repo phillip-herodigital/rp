@@ -954,18 +954,86 @@ a.button:disabled {
   opacity: .5;
 }
 /* line 101, _sass/partials/_forms.scss */
+button.social,
+a.button.social {
+  display: inline-block;
+  width: 190px;
+  position: relative;
+  padding-left: 50px;
+}
+/* line 106, _sass/partials/_forms.scss */
+button.social .icon-holder,
+a.button.social .icon-holder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 40px;
+  text-align: center;
+}
+/* line 113, _sass/partials/_forms.scss */
+button.social .icon-holder i,
+a.button.social .icon-holder i {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+}
+/* line 120, _sass/partials/_forms.scss */
+button.facebook,
+a.button.facebook {
+  background: #4a6aa9;
+  border: 1px solid #3e5c9b;
+}
+/* line 123, _sass/partials/_forms.scss */
+button.facebook .icon-holder,
+a.button.facebook .icon-holder {
+  border-right: 1px solid #3e5c9b;
+}
+/* line 125, _sass/partials/_forms.scss */
+button.facebook .icon-holder i,
+a.button.facebook .icon-holder i {
+  left: 18px;
+}
+/* line 130, _sass/partials/_forms.scss */
+button.twitter,
+a.button.twitter {
+  background: #36a5ca;
+  border: 1px solid #2a86a6;
+}
+/* line 133, _sass/partials/_forms.scss */
+button.twitter .icon-holder,
+a.button.twitter .icon-holder {
+  border-right: 1px solid #2a86a6;
+}
+/* line 135, _sass/partials/_forms.scss */
+button.twitter .icon-holder i,
+a.button.twitter .icon-holder i {
+  top: 16px;
+}
+/* line 140, _sass/partials/_forms.scss */
+button.linkedin,
+a.button.linkedin {
+  background: #2386bb;
+  border: 1px solid #1f557e;
+}
+/* line 143, _sass/partials/_forms.scss */
+button.linkedin .icon-holder,
+a.button.linkedin .icon-holder {
+  border-right: 1px solid #1f557e;
+}
+/* line 147, _sass/partials/_forms.scss */
 button i,
 a.button i {
   margin: -4px 5px 0 0;
 }
 
-/* line 108, _sass/partials/_forms.scss */
+/* line 154, _sass/partials/_forms.scss */
 form div.validationSummary,
 .form div.validationSummary {
   margin-bottom: 10px;
   color: #BE3438;
 }
-/* line 111, _sass/partials/_forms.scss */
+/* line 157, _sass/partials/_forms.scss */
 form div.validationSummary ul,
 .form div.validationSummary ul {
   list-style-image: none;
@@ -974,12 +1042,12 @@ form div.validationSummary ul,
   margin: 0;
   padding: 0;
 }
-/* line 115, _sass/partials/_forms.scss */
+/* line 161, _sass/partials/_forms.scss */
 form div.item,
 .form div.item {
   margin-bottom: 5px;
 }
-/* line 118, _sass/partials/_forms.scss */
+/* line 164, _sass/partials/_forms.scss */
 form div.item > label,
 .form div.item > label {
   display: block;
@@ -987,17 +1055,17 @@ form div.item > label,
   font-size: 14px;
   text-transform: uppercase;
 }
-/* line 123, _sass/partials/_forms.scss */
+/* line 169, _sass/partials/_forms.scss */
 form div.item > label span,
 .form div.item > label span {
   text-transform: none;
 }
-/* line 127, _sass/partials/_forms.scss */
+/* line 173, _sass/partials/_forms.scss */
 form div.item input,
 .form div.item input {
   vertical-align: baseline;
 }
-/* line 130, _sass/partials/_forms.scss */
+/* line 176, _sass/partials/_forms.scss */
 form div.item > ul,
 .form div.item > ul {
   list-style-image: none;
@@ -1006,19 +1074,19 @@ form div.item > ul,
   margin: 0;
   padding: 0;
 }
-/* line 134, _sass/partials/_forms.scss */
+/* line 180, _sass/partials/_forms.scss */
 form div.item.horizontal > label,
 .form div.item.horizontal > label {
   display: inline-block;
   margin-right: 5px;
   text-transform: uppercase;
 }
-/* line 142, _sass/partials/_forms.scss */
+/* line 188, _sass/partials/_forms.scss */
 form div.item.fl-enabled,
 .form div.item.fl-enabled {
   position: relative;
 }
-/* line 144, _sass/partials/_forms.scss */
+/* line 190, _sass/partials/_forms.scss */
 form div.item.fl-enabled > label,
 .form div.item.fl-enabled > label {
   position: absolute;
@@ -1028,7 +1096,7 @@ form div.item.fl-enabled > label,
   opacity: 0;
   font-size: 12px;
 }
-/* line 155, _sass/partials/_forms.scss */
+/* line 201, _sass/partials/_forms.scss */
 form div.item.fl-enabled input[type="text"], form div.item.fl-enabled input[type="password"], form div.item.fl-enabled input[type="search"], form div.item.fl-enabled input[type="number"], form div.item.fl-enabled input[type="datetime"], form div.item.fl-enabled input[type="datetime-local"], form div.item.fl-enabled input[type="date"], form div.item.fl-enabled input[type="month"], form div.item.fl-enabled input[type="time"], form div.item.fl-enabled input[type="week"], form div.item.fl-enabled input[type="email"], form div.item.fl-enabled input[type="url"], form div.item.fl-enabled input[type="tel"], form div.item.fl-enabled input[type="color"],
 form div.item.fl-enabled textarea,
 .form div.item.fl-enabled input[type="text"],
@@ -1049,19 +1117,19 @@ form div.item.fl-enabled textarea,
   padding-top: 18px;
   padding-bottom: 5px;
 }
-/* line 161, _sass/partials/_forms.scss */
+/* line 207, _sass/partials/_forms.scss */
 form div.item.fl-enabled.fl-active > label,
 .form div.item.fl-enabled.fl-active > label {
   top: 5px;
   opacity: 1;
 }
-/* line 167, _sass/partials/_forms.scss */
+/* line 213, _sass/partials/_forms.scss */
 form div.item.fl-enabled.fl-animate > label,
 .form div.item.fl-enabled.fl-animate > label {
   transition: all .25s;
 }
 @media only screen and (min-width: 768px) {
-  /* line 176, _sass/partials/_forms.scss */
+  /* line 222, _sass/partials/_forms.scss */
   form div.group div.item,
   .form div.group div.item {
     -moz-box-sizing: border-box;
@@ -1070,12 +1138,12 @@ form div.item.fl-enabled.fl-animate > label,
     float: left;
     padding: 0 10px 0 0;
   }
-  /* line 181, _sass/partials/_forms.scss */
+  /* line 227, _sass/partials/_forms.scss */
   form div.group div.item:last-child,
   .form div.group div.item:last-child {
     padding-right: 0;
   }
-  /* line 184, _sass/partials/_forms.scss */
+  /* line 230, _sass/partials/_forms.scss */
   form div.group div.item input[type="text"], form div.group div.item input[type="password"], form div.group div.item input[type="search"], form div.group div.item input[type="number"], form div.group div.item input[type="datetime"], form div.group div.item input[type="datetime-local"], form div.group div.item input[type="date"], form div.group div.item input[type="month"], form div.group div.item input[type="time"], form div.group div.item input[type="week"], form div.group div.item input[type="email"], form div.group div.item input[type="url"], form div.group div.item input[type="tel"], form div.group div.item input[type="color"],
   form div.group div.item textarea,
   form div.group div.item select,
@@ -1097,7 +1165,7 @@ form div.item.fl-enabled.fl-animate > label,
   .form div.group div.item select {
     width: 100%;
   }
-  /* line 190, _sass/partials/_forms.scss */
+  /* line 236, _sass/partials/_forms.scss */
   form div.group div.item.horizontal input[type="text"], form div.group div.item.horizontal input[type="password"], form div.group div.item.horizontal input[type="search"], form div.group div.item.horizontal input[type="number"], form div.group div.item.horizontal input[type="datetime"], form div.group div.item.horizontal input[type="datetime-local"], form div.group div.item.horizontal input[type="date"], form div.group div.item.horizontal input[type="month"], form div.group div.item.horizontal input[type="time"], form div.group div.item.horizontal input[type="week"], form div.group div.item.horizontal input[type="email"], form div.group div.item.horizontal input[type="url"], form div.group div.item.horizontal input[type="tel"], form div.group div.item.horizontal input[type="color"],
   form div.group div.item.horizontal textarea,
   form div.group div.item.horizontal select,
@@ -1120,14 +1188,14 @@ form div.item.fl-enabled.fl-animate > label,
     width: auto;
   }
 }
-/* line 202, _sass/partials/_forms.scss */
+/* line 248, _sass/partials/_forms.scss */
 form div.vertical div.item > label,
 .form div.vertical div.item > label {
   float: left;
   width: 33%;
   text-transform: uppercase;
 }
-/* line 207, _sass/partials/_forms.scss */
+/* line 253, _sass/partials/_forms.scss */
 form div.vertical div.item input[type="text"], form div.vertical div.item input[type="password"], form div.vertical div.item input[type="search"], form div.vertical div.item input[type="number"], form div.vertical div.item input[type="datetime"], form div.vertical div.item input[type="datetime-local"], form div.vertical div.item input[type="date"], form div.vertical div.item input[type="month"], form div.vertical div.item input[type="time"], form div.vertical div.item input[type="week"], form div.vertical div.item input[type="email"], form div.vertical div.item input[type="url"], form div.vertical div.item input[type="tel"], form div.vertical div.item input[type="color"],
 form div.vertical div.item textarea,
 form div.vertical div.item select,
@@ -1149,19 +1217,19 @@ form div.vertical div.item select,
 .form div.vertical div.item select {
   max-width: 67%;
 }
-/* line 212, _sass/partials/_forms.scss */
+/* line 258, _sass/partials/_forms.scss */
 form div.vertical div.item .radio-list,
 form div.vertical div.item .checkbox-list,
 .form div.vertical div.item .radio-list,
 .form div.vertical div.item .checkbox-list {
   float: left;
 }
-/* line 218, _sass/partials/_forms.scss */
+/* line 264, _sass/partials/_forms.scss */
 form div.vertical.fixed div.item,
 .form div.vertical.fixed div.item {
   padding-left: 250px;
 }
-/* line 220, _sass/partials/_forms.scss */
+/* line 266, _sass/partials/_forms.scss */
 form div.vertical.fixed div.item > label,
 .form div.vertical.fixed div.item > label {
   float: left;
@@ -1169,7 +1237,7 @@ form div.vertical.fixed div.item > label,
   margin-left: -250px;
   text-transform: uppercase;
 }
-/* line 226, _sass/partials/_forms.scss */
+/* line 272, _sass/partials/_forms.scss */
 form div.vertical.fixed div.item input[type="text"], form div.vertical.fixed div.item input[type="password"], form div.vertical.fixed div.item input[type="search"], form div.vertical.fixed div.item input[type="number"], form div.vertical.fixed div.item input[type="datetime"], form div.vertical.fixed div.item input[type="datetime-local"], form div.vertical.fixed div.item input[type="date"], form div.vertical.fixed div.item input[type="month"], form div.vertical.fixed div.item input[type="time"], form div.vertical.fixed div.item input[type="week"], form div.vertical.fixed div.item input[type="email"], form div.vertical.fixed div.item input[type="url"], form div.vertical.fixed div.item input[type="tel"], form div.vertical.fixed div.item input[type="color"],
 form div.vertical.fixed div.item textarea,
 form div.vertical.fixed div.item select,
@@ -1191,7 +1259,7 @@ form div.vertical.fixed div.item select,
 .form div.vertical.fixed div.item select {
   max-width: auto;
 }
-/* line 236, _sass/partials/_forms.scss */
+/* line 282, _sass/partials/_forms.scss */
 form div.buttons button,
 form div.buttons .button,
 .form div.buttons button,
@@ -1200,7 +1268,7 @@ form div.buttons .button,
   margin: 10px 0 0 5px;
 }
 @media only screen and (max-width: 767px) {
-  /* line 236, _sass/partials/_forms.scss */
+  /* line 282, _sass/partials/_forms.scss */
   form div.buttons button,
   form div.buttons .button,
   .form div.buttons button,
@@ -1209,14 +1277,14 @@ form div.buttons .button,
     width: 100%;
   }
 }
-/* line 244, _sass/partials/_forms.scss */
+/* line 290, _sass/partials/_forms.scss */
 form div.buttons button:first-child,
 form div.buttons .button:first-child,
 .form div.buttons button:first-child,
 .form div.buttons .button:first-child {
   margin-left: 0;
 }
-/* line 249, _sass/partials/_forms.scss */
+/* line 295, _sass/partials/_forms.scss */
 form input[type="radio"],
 form input[type="checkbox"],
 .form input[type="radio"],
@@ -1224,7 +1292,7 @@ form input[type="checkbox"],
   margin-bottom: 0;
   margin-right: 5px;
 }
-/* line 256, _sass/partials/_forms.scss */
+/* line 302, _sass/partials/_forms.scss */
 form .radio-list input, form .radio-list label,
 form .checkbox-list input,
 form .checkbox-list label,
@@ -1234,7 +1302,7 @@ form .checkbox-list label,
 .form .checkbox-list label {
   display: inline-block;
 }
-/* line 260, _sass/partials/_forms.scss */
+/* line 306, _sass/partials/_forms.scss */
 form .radio-list.inline li,
 form .checkbox-list.inline li,
 .form .radio-list.inline li,
@@ -6409,7 +6477,7 @@ article.manage-services .photo p.sign-up a:hover {
   left: 0;
   width: 100%;
   background-color: #fff;
-  background-image: url('../i/bg/header-enrollment.png?1399491629');
+  background-image: url('../i/bg/header-enrollment.png?1399496636');
   background-repeat: repeat-x;
   z-index: 2;
   height: 121px;
@@ -6417,7 +6485,7 @@ article.manage-services .photo p.sign-up a:hover {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 5, _sass/partials/_enrollment.scss */
   .enrollment .site-header > .wrapper, .enrollment article.state-tabs .site-header > ul.tabs-nav, article.state-tabs .enrollment .site-header > ul.tabs-nav {
-    background-image: url('../i/bg2x/header-enrollment.png?1399491629');
+    background-image: url('../i/bg2x/header-enrollment.png?1399496636');
     background-size: 23px 13px;
   }
 }
@@ -6635,6 +6703,37 @@ article.manage-services .photo p.sign-up a:hover {
 .enrollment section article .icon-blue-arrow-down {
   margin-top: -2px;
 }
+/* line 177, _sass/partials/_enrollment.scss */
+.enrollment section article .social-box {
+  -moz-border-radius: 10px 10px 0 0;
+  -webkit-border-radius: 10px;
+  border-radius: 10px 10px 0 0;
+  background: #f9f9f9;
+  margin: -14px -14px 30px -14px;
+  padding: 5px 10px 20px 10px;
+  position: relative;
+}
+/* line 183, _sass/partials/_enrollment.scss */
+.enrollment section article .social-box .social-buttons {
+  text-align: center;
+}
+/* line 186, _sass/partials/_enrollment.scss */
+.enrollment section article .social-box .seperator {
+  position: absolute;
+  bottom: -21px;
+  left: 50%;
+  height: 42px;
+  width: 42px;
+  margin-left: -21px;
+  background: #fff;
+  color: #898989;
+  font-weight: bold;
+  text-align: center;
+  -moz-border-radius: 21px;
+  -webkit-border-radius: 21px;
+  border-radius: 21px;
+  padding-top: 10px;
+}
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
   /* line 144, _sass/partials/_enrollment.scss */
   .enrollment section article {
@@ -6649,18 +6748,18 @@ article.manage-services .photo p.sign-up a:hover {
     width: auto;
   }
 }
-/* line 187, _sass/partials/_enrollment.scss */
+/* line 211, _sass/partials/_enrollment.scss */
 .enrollment section aside.right {
   float: right;
-  width: 290px;
+  width: 315px;
 }
-/* line 190, _sass/partials/_enrollment.scss */
+/* line 214, _sass/partials/_enrollment.scss */
 .enrollment section aside.right hr {
   margin: 10px 0;
   border: 0;
   border-top: 3px solid #eee;
 }
-/* line 195, _sass/partials/_enrollment.scss */
+/* line 219, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box {
   background: #fafafa;
   color: #333;
@@ -6669,50 +6768,50 @@ article.manage-services .photo p.sign-up a:hover {
   -webkit-border-radius: 4px;
   border-radius: 4px;
 }
-/* line 200, _sass/partials/_enrollment.scss */
+/* line 224, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box h1 {
   font-size: 20px;
   text-transform: none;
   margin: 15px 10px;
 }
-/* line 205, _sass/partials/_enrollment.scss */
+/* line 229, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box p {
   font-size: 16px;
   margin: 0 8px 15px 8px;
 }
-/* line 209, _sass/partials/_enrollment.scss */
+/* line 233, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box ul.info {
   border-top: 1px solid #e2e2e3;
   padding: 0;
   margin: 0 8px 15px 5px;
 }
-/* line 213, _sass/partials/_enrollment.scss */
+/* line 237, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box ul.info li {
   border-bottom: 1px solid #e2e2e3;
   list-style-type: none;
   padding: 10px 0;
   font-size: 13px;
 }
-/* line 218, _sass/partials/_enrollment.scss */
+/* line 242, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box ul.info li i {
   width: 25px;
 }
-/* line 223, _sass/partials/_enrollment.scss */
+/* line 247, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box .cart-item {
   margin-bottom: 10px;
 }
-/* line 226, _sass/partials/_enrollment.scss */
+/* line 250, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box .cart-item:last-child {
   margin-bottom: 0;
 }
-/* line 230, _sass/partials/_enrollment.scss */
+/* line 254, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box .delete {
   cursor: pointer;
   float: right;
   width: 10px;
   margin-top: 5px;
 }
-/* line 236, _sass/partials/_enrollment.scss */
+/* line 260, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box .rate {
   float: left;
   width: 65px;
@@ -6722,19 +6821,19 @@ article.manage-services .photo p.sign-up a:hover {
   margin-right: 10px;
   text-align: right;
 }
-/* line 244, _sass/partials/_enrollment.scss */
+/* line 268, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box .rate span {
   font-weight: normal;
   font-style: italic;
   font-size: 12px;
   line-height: 12px;
 }
-/* line 251, _sass/partials/_enrollment.scss */
+/* line 275, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box .description {
   float: left;
   width: 160px;
 }
-/* line 254, _sass/partials/_enrollment.scss */
+/* line 278, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box .description h2 {
   line-height: 16px;
   margin: 0;
@@ -6743,65 +6842,65 @@ article.manage-services .photo p.sign-up a:hover {
   font-weight: bold;
   text-transform: none;
 }
-/* line 262, _sass/partials/_enrollment.scss */
+/* line 286, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box .description a {
   font-size: 13px;
 }
-/* line 266, _sass/partials/_enrollment.scss */
+/* line 290, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box address {
   font-style: normal;
   font-size: 12px;
   margin-top: 20px;
 }
-/* line 270, _sass/partials/_enrollment.scss */
+/* line 294, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box address h3 {
   font-size: 12px;
   color: #333;
   margin: 0;
 }
-/* line 276, _sass/partials/_enrollment.scss */
+/* line 300, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box .box {
   background: #fdfdfd;
   margin-bottom: 8px;
 }
-/* line 279, _sass/partials/_enrollment.scss */
+/* line 303, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box .box p {
   font-size: 13px;
   margin: 10px 0;
 }
-/* line 282, _sass/partials/_enrollment.scss */
+/* line 306, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box .box p.alt {
   color: #9a9a9a;
   font-size: 15px;
 }
-/* line 287, _sass/partials/_enrollment.scss */
+/* line 311, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box .box.time {
   position: relative;
   padding-left: 55px;
 }
-/* line 290, _sass/partials/_enrollment.scss */
+/* line 314, _sass/partials/_enrollment.scss */
 .enrollment section aside.right .box .box.time .icon-clock {
   position: absolute;
   top: 22px;
   left: 10px;
 }
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
-  /* line 187, _sass/partials/_enrollment.scss */
+  /* line 211, _sass/partials/_enrollment.scss */
   .enrollment section aside.right {
     display: none;
   }
 }
 @media only screen and (max-width: 767px) {
-  /* line 187, _sass/partials/_enrollment.scss */
+  /* line 211, _sass/partials/_enrollment.scss */
   .enrollment section aside.right {
     display: none;
   }
 }
-/* line 306, _sass/partials/_enrollment.scss */
+/* line 330, _sass/partials/_enrollment.scss */
 .enrollment section .plans {
   position: relative;
 }
-/* line 308, _sass/partials/_enrollment.scss */
+/* line 332, _sass/partials/_enrollment.scss */
 .enrollment section .plans .table-overlay {
   position: absolute;
   top: 0;
@@ -6810,7 +6909,7 @@ article.manage-services .photo p.sign-up a:hover {
   right: 0;
   background: rgba(0, 0, 0, 0.5);
 }
-/* line 315, _sass/partials/_enrollment.scss */
+/* line 339, _sass/partials/_enrollment.scss */
 .enrollment section .plans .table-overlay .content {
   position: absolute;
   top: 15px;
@@ -6820,13 +6919,13 @@ article.manage-services .photo p.sign-up a:hover {
   background: #fff;
   padding: 10px 20px;
 }
-/* line 326, _sass/partials/_enrollment.scss */
+/* line 350, _sass/partials/_enrollment.scss */
 .enrollment section .cart-items {
   float: right;
   margin-right: 10px;
   position: relative;
 }
-/* line 330, _sass/partials/_enrollment.scss */
+/* line 354, _sass/partials/_enrollment.scss */
 .enrollment section .cart-items .item-num {
   position: absolute;
   font-size: 13px;
@@ -6834,12 +6933,12 @@ article.manage-services .photo p.sign-up a:hover {
   top: -5px;
   right: 8px;
 }
-/* line 339, _sass/partials/_enrollment.scss */
+/* line 363, _sass/partials/_enrollment.scss */
 .enrollment .box {
   border: 1px solid #ebebeb;
-  padding: 10px;
+  padding: 14px;
 }
-/* line 345, _sass/partials/_enrollment.scss */
+/* line 369, _sass/partials/_enrollment.scss */
 .enrollment table thead th {
   background: #f7f7f7;
   color: #646464;
@@ -6848,11 +6947,11 @@ article.manage-services .photo p.sign-up a:hover {
   text-align: center;
   padding: 25px 15px;
 }
-/* line 355, _sass/partials/_enrollment.scss */
+/* line 379, _sass/partials/_enrollment.scss */
 .enrollment table tbody td {
   text-align: center;
 }
-/* line 359, _sass/partials/_enrollment.scss */
+/* line 383, _sass/partials/_enrollment.scss */
 .enrollment table .vertical {
   padding: 0;
   text-align: center;
@@ -6860,7 +6959,7 @@ article.manage-services .photo p.sign-up a:hover {
   width: 20px;
   position: relative;
 }
-/* line 365, _sass/partials/_enrollment.scss */
+/* line 389, _sass/partials/_enrollment.scss */
 .enrollment table .vertical .fixed, .enrollment table .vertical .variable {
   position: absolute;
   top: 40px;
@@ -6874,129 +6973,129 @@ article.manage-services .photo p.sign-up a:hover {
   height: 20px;
   width: 100px;
 }
-/* line 374, _sass/partials/_enrollment.scss */
+/* line 398, _sass/partials/_enrollment.scss */
 .enrollment table .vertical .fixed {
   background: #053d5a;
 }
-/* line 377, _sass/partials/_enrollment.scss */
+/* line 401, _sass/partials/_enrollment.scss */
 .enrollment table .vertical .variable {
   background: #79bb4b;
 }
-/* line 381, _sass/partials/_enrollment.scss */
+/* line 405, _sass/partials/_enrollment.scss */
 .enrollment table .plan-name {
   font-size: 18px;
   font-weight: bold;
   text-align: left;
 }
-/* line 385, _sass/partials/_enrollment.scss */
+/* line 409, _sass/partials/_enrollment.scss */
 .enrollment table .plan-name a {
   display: block;
   font-weight: normal;
   margin-top: 15px;
   font-size: 12px;
 }
-/* line 392, _sass/partials/_enrollment.scss */
+/* line 416, _sass/partials/_enrollment.scss */
 .enrollment table .rate {
   font-size: 22px;
   font-weight: bold;
   line-height: 18px;
 }
-/* line 396, _sass/partials/_enrollment.scss */
+/* line 420, _sass/partials/_enrollment.scss */
 .enrollment table .rate span {
   color: #828282;
   font-size: 13px;
   font-weight: normal;
   display: block;
 }
-/* line 403, _sass/partials/_enrollment.scss */
+/* line 427, _sass/partials/_enrollment.scss */
 .enrollment table .term {
   font-size: 13px;
   color: #828282;
 }
-/* line 406, _sass/partials/_enrollment.scss */
+/* line 430, _sass/partials/_enrollment.scss */
 .enrollment table .term i {
   display: block;
   margin: 0 auto;
 }
-/* line 411, _sass/partials/_enrollment.scss */
+/* line 435, _sass/partials/_enrollment.scss */
 .enrollment table .fees {
   font-size: 19px;
   font-weight: bold;
 }
-/* line 414, _sass/partials/_enrollment.scss */
+/* line 438, _sass/partials/_enrollment.scss */
 .enrollment table .fees span {
   display: block;
   font-size: 10px;
   color: #828282;
   font-weight: normal;
 }
-/* line 422, _sass/partials/_enrollment.scss */
+/* line 446, _sass/partials/_enrollment.scss */
 .enrollment table .details th {
   border-right: 0;
 }
-/* line 425, _sass/partials/_enrollment.scss */
+/* line 449, _sass/partials/_enrollment.scss */
 .enrollment table .details td {
   border-left: 0;
   text-align: left;
 }
-/* line 428, _sass/partials/_enrollment.scss */
+/* line 452, _sass/partials/_enrollment.scss */
 .enrollment table .details td p {
   font-size: 15px;
 }
-/* line 433, _sass/partials/_enrollment.scss */
+/* line 457, _sass/partials/_enrollment.scss */
 .enrollment table .spacer {
   height: 20px;
 }
-/* line 439, _sass/partials/_enrollment.scss */
+/* line 463, _sass/partials/_enrollment.scss */
 .enrollment .accent-blue h1 span {
   color: #1773cb;
 }
-/* line 439, _sass/partials/_enrollment.scss */
+/* line 463, _sass/partials/_enrollment.scss */
 .enrollment .accent-paleblue h1 span {
   color: #7e9ab3;
 }
-/* line 439, _sass/partials/_enrollment.scss */
+/* line 463, _sass/partials/_enrollment.scss */
 .enrollment .accent-darkblue h1 span {
   color: #073464;
 }
-/* line 439, _sass/partials/_enrollment.scss */
+/* line 463, _sass/partials/_enrollment.scss */
 .enrollment .accent-green h1 span {
   color: #78bb2f;
 }
-/* line 439, _sass/partials/_enrollment.scss */
+/* line 463, _sass/partials/_enrollment.scss */
 .enrollment .accent-palegreen h1 span {
   color: #8ba072;
 }
-/* line 439, _sass/partials/_enrollment.scss */
+/* line 463, _sass/partials/_enrollment.scss */
 .enrollment .accent-orange h1 span {
   color: #fda32b;
 }
-/* line 439, _sass/partials/_enrollment.scss */
+/* line 463, _sass/partials/_enrollment.scss */
 .enrollment .accent-red h1 span {
   color: #aa2130;
 }
-/* line 439, _sass/partials/_enrollment.scss */
+/* line 463, _sass/partials/_enrollment.scss */
 .enrollment .accent-palered h1 span {
   color: #b48789;
 }
-/* line 439, _sass/partials/_enrollment.scss */
+/* line 463, _sass/partials/_enrollment.scss */
 .enrollment .accent-white h1 span {
   color: white;
 }
-/* line 439, _sass/partials/_enrollment.scss */
+/* line 463, _sass/partials/_enrollment.scss */
 .enrollment .accent-grey h1 span {
   color: #e8e8e8;
 }
-/* line 439, _sass/partials/_enrollment.scss */
+/* line 463, _sass/partials/_enrollment.scss */
 .enrollment .accent-darkgrey h1 span {
   color: #6b6b6b;
 }
-/* line 444, _sass/partials/_enrollment.scss */
+/* line 468, _sass/partials/_enrollment.scss */
 .enrollment .site-footer {
   margin-top: 0;
 }
 @media only screen and (max-width: 767px) {
-  /* line 448, _sass/partials/_enrollment.scss */
+  /* line 472, _sass/partials/_enrollment.scss */
   .enrollment .button {
     margin: 0 auto;
     display: block;

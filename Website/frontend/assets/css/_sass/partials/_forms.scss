@@ -98,6 +98,52 @@ a.button {
 	&:disabled {
 		opacity: .5;
 	}
+	&.social {
+		display: inline-block;
+		width: 190px;
+		position: relative;
+		padding-left: 50px;
+		.icon-holder {
+			position: absolute;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			width: 40px;
+			text-align: center;
+			i {
+				position: absolute;
+				top: 15px;
+				left: 15px;
+			}
+		}
+	}
+	&.facebook {
+		background: #4a6aa9;
+		border: 1px solid #3e5c9b;
+		.icon-holder {
+			border-right: 1px solid #3e5c9b;
+			i {
+				left: 18px;
+			}
+		}
+	}
+	&.twitter {
+		background: #36a5ca;
+		border: 1px solid #2a86a6;
+		.icon-holder {
+			border-right: 1px solid #2a86a6;
+			i {
+				top: 16px;
+			}
+		}
+	}
+	&.linkedin {
+		background: #2386bb;
+		border: 1px solid #1f557e;
+		.icon-holder {
+			border-right: 1px solid #1f557e;
+		}
+	}
 	i {
 		margin: -4px 5px 0 0;
 	}
