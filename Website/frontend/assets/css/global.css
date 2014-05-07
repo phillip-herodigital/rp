@@ -1013,8 +1013,55 @@ form div.item.horizontal > label,
   margin-right: 5px;
   text-transform: uppercase;
 }
+/* line 142, _sass/partials/_forms.scss */
+form div.item.fl-enabled,
+.form div.item.fl-enabled {
+  position: relative;
+}
+/* line 144, _sass/partials/_forms.scss */
+form div.item.fl-enabled > label,
+.form div.item.fl-enabled > label {
+  position: absolute;
+  top: 10px;
+  padding: 0 10px;
+  color: #0971ce;
+  opacity: 0;
+  font-size: 12px;
+}
+/* line 155, _sass/partials/_forms.scss */
+form div.item.fl-enabled input[type="text"], form div.item.fl-enabled input[type="password"], form div.item.fl-enabled input[type="search"], form div.item.fl-enabled input[type="number"], form div.item.fl-enabled input[type="datetime"], form div.item.fl-enabled input[type="datetime-local"], form div.item.fl-enabled input[type="date"], form div.item.fl-enabled input[type="month"], form div.item.fl-enabled input[type="time"], form div.item.fl-enabled input[type="week"], form div.item.fl-enabled input[type="email"], form div.item.fl-enabled input[type="url"], form div.item.fl-enabled input[type="tel"], form div.item.fl-enabled input[type="color"],
+form div.item.fl-enabled textarea,
+.form div.item.fl-enabled input[type="text"],
+.form div.item.fl-enabled input[type="password"],
+.form div.item.fl-enabled input[type="search"],
+.form div.item.fl-enabled input[type="number"],
+.form div.item.fl-enabled input[type="datetime"],
+.form div.item.fl-enabled input[type="datetime-local"],
+.form div.item.fl-enabled input[type="date"],
+.form div.item.fl-enabled input[type="month"],
+.form div.item.fl-enabled input[type="time"],
+.form div.item.fl-enabled input[type="week"],
+.form div.item.fl-enabled input[type="email"],
+.form div.item.fl-enabled input[type="url"],
+.form div.item.fl-enabled input[type="tel"],
+.form div.item.fl-enabled input[type="color"],
+.form div.item.fl-enabled textarea {
+  padding-top: 18px;
+  padding-bottom: 5px;
+}
+/* line 161, _sass/partials/_forms.scss */
+form div.item.fl-enabled.fl-active > label,
+.form div.item.fl-enabled.fl-active > label {
+  top: 5px;
+  opacity: 1;
+}
+/* line 167, _sass/partials/_forms.scss */
+form div.item.fl-enabled.fl-animate > label,
+.form div.item.fl-enabled.fl-animate > label {
+  transition: all .25s;
+}
 @media only screen and (min-width: 768px) {
-  /* line 145, _sass/partials/_forms.scss */
+  /* line 176, _sass/partials/_forms.scss */
   form div.group div.item,
   .form div.group div.item {
     -moz-box-sizing: border-box;
@@ -1023,12 +1070,12 @@ form div.item.horizontal > label,
     float: left;
     padding: 0 10px 0 0;
   }
-  /* line 150, _sass/partials/_forms.scss */
+  /* line 181, _sass/partials/_forms.scss */
   form div.group div.item:last-child,
   .form div.group div.item:last-child {
     padding-right: 0;
   }
-  /* line 153, _sass/partials/_forms.scss */
+  /* line 184, _sass/partials/_forms.scss */
   form div.group div.item input[type="text"], form div.group div.item input[type="password"], form div.group div.item input[type="search"], form div.group div.item input[type="number"], form div.group div.item input[type="datetime"], form div.group div.item input[type="datetime-local"], form div.group div.item input[type="date"], form div.group div.item input[type="month"], form div.group div.item input[type="time"], form div.group div.item input[type="week"], form div.group div.item input[type="email"], form div.group div.item input[type="url"], form div.group div.item input[type="tel"], form div.group div.item input[type="color"],
   form div.group div.item textarea,
   form div.group div.item select,
@@ -1050,7 +1097,7 @@ form div.item.horizontal > label,
   .form div.group div.item select {
     width: 100%;
   }
-  /* line 159, _sass/partials/_forms.scss */
+  /* line 190, _sass/partials/_forms.scss */
   form div.group div.item.horizontal input[type="text"], form div.group div.item.horizontal input[type="password"], form div.group div.item.horizontal input[type="search"], form div.group div.item.horizontal input[type="number"], form div.group div.item.horizontal input[type="datetime"], form div.group div.item.horizontal input[type="datetime-local"], form div.group div.item.horizontal input[type="date"], form div.group div.item.horizontal input[type="month"], form div.group div.item.horizontal input[type="time"], form div.group div.item.horizontal input[type="week"], form div.group div.item.horizontal input[type="email"], form div.group div.item.horizontal input[type="url"], form div.group div.item.horizontal input[type="tel"], form div.group div.item.horizontal input[type="color"],
   form div.group div.item.horizontal textarea,
   form div.group div.item.horizontal select,
@@ -1073,14 +1120,14 @@ form div.item.horizontal > label,
     width: auto;
   }
 }
-/* line 171, _sass/partials/_forms.scss */
+/* line 202, _sass/partials/_forms.scss */
 form div.vertical div.item > label,
 .form div.vertical div.item > label {
   float: left;
   width: 33%;
   text-transform: uppercase;
 }
-/* line 176, _sass/partials/_forms.scss */
+/* line 207, _sass/partials/_forms.scss */
 form div.vertical div.item input[type="text"], form div.vertical div.item input[type="password"], form div.vertical div.item input[type="search"], form div.vertical div.item input[type="number"], form div.vertical div.item input[type="datetime"], form div.vertical div.item input[type="datetime-local"], form div.vertical div.item input[type="date"], form div.vertical div.item input[type="month"], form div.vertical div.item input[type="time"], form div.vertical div.item input[type="week"], form div.vertical div.item input[type="email"], form div.vertical div.item input[type="url"], form div.vertical div.item input[type="tel"], form div.vertical div.item input[type="color"],
 form div.vertical div.item textarea,
 form div.vertical div.item select,
@@ -1102,19 +1149,19 @@ form div.vertical div.item select,
 .form div.vertical div.item select {
   max-width: 67%;
 }
-/* line 181, _sass/partials/_forms.scss */
+/* line 212, _sass/partials/_forms.scss */
 form div.vertical div.item .radio-list,
 form div.vertical div.item .checkbox-list,
 .form div.vertical div.item .radio-list,
 .form div.vertical div.item .checkbox-list {
   float: left;
 }
-/* line 187, _sass/partials/_forms.scss */
+/* line 218, _sass/partials/_forms.scss */
 form div.vertical.fixed div.item,
 .form div.vertical.fixed div.item {
   padding-left: 250px;
 }
-/* line 189, _sass/partials/_forms.scss */
+/* line 220, _sass/partials/_forms.scss */
 form div.vertical.fixed div.item > label,
 .form div.vertical.fixed div.item > label {
   float: left;
@@ -1122,7 +1169,7 @@ form div.vertical.fixed div.item > label,
   margin-left: -250px;
   text-transform: uppercase;
 }
-/* line 195, _sass/partials/_forms.scss */
+/* line 226, _sass/partials/_forms.scss */
 form div.vertical.fixed div.item input[type="text"], form div.vertical.fixed div.item input[type="password"], form div.vertical.fixed div.item input[type="search"], form div.vertical.fixed div.item input[type="number"], form div.vertical.fixed div.item input[type="datetime"], form div.vertical.fixed div.item input[type="datetime-local"], form div.vertical.fixed div.item input[type="date"], form div.vertical.fixed div.item input[type="month"], form div.vertical.fixed div.item input[type="time"], form div.vertical.fixed div.item input[type="week"], form div.vertical.fixed div.item input[type="email"], form div.vertical.fixed div.item input[type="url"], form div.vertical.fixed div.item input[type="tel"], form div.vertical.fixed div.item input[type="color"],
 form div.vertical.fixed div.item textarea,
 form div.vertical.fixed div.item select,
@@ -1144,7 +1191,7 @@ form div.vertical.fixed div.item select,
 .form div.vertical.fixed div.item select {
   max-width: auto;
 }
-/* line 205, _sass/partials/_forms.scss */
+/* line 236, _sass/partials/_forms.scss */
 form div.buttons button,
 form div.buttons .button,
 .form div.buttons button,
@@ -1153,7 +1200,7 @@ form div.buttons .button,
   margin: 10px 0 0 5px;
 }
 @media only screen and (max-width: 767px) {
-  /* line 205, _sass/partials/_forms.scss */
+  /* line 236, _sass/partials/_forms.scss */
   form div.buttons button,
   form div.buttons .button,
   .form div.buttons button,
@@ -1162,14 +1209,14 @@ form div.buttons .button,
     width: 100%;
   }
 }
-/* line 213, _sass/partials/_forms.scss */
+/* line 244, _sass/partials/_forms.scss */
 form div.buttons button:first-child,
 form div.buttons .button:first-child,
 .form div.buttons button:first-child,
 .form div.buttons .button:first-child {
   margin-left: 0;
 }
-/* line 218, _sass/partials/_forms.scss */
+/* line 249, _sass/partials/_forms.scss */
 form input[type="radio"],
 form input[type="checkbox"],
 .form input[type="radio"],
@@ -1177,7 +1224,7 @@ form input[type="checkbox"],
   margin-bottom: 0;
   margin-right: 5px;
 }
-/* line 225, _sass/partials/_forms.scss */
+/* line 256, _sass/partials/_forms.scss */
 form .radio-list input, form .radio-list label,
 form .checkbox-list input,
 form .checkbox-list label,
@@ -1187,7 +1234,7 @@ form .checkbox-list label,
 .form .checkbox-list label {
   display: inline-block;
 }
-/* line 229, _sass/partials/_forms.scss */
+/* line 260, _sass/partials/_forms.scss */
 form .radio-list.inline li,
 form .checkbox-list.inline li,
 .form .radio-list.inline li,
@@ -2347,7 +2394,6 @@ div.tabbable div.tab-content div.tab-pane.active {
   background-size: cover;
   background-position: 50%;
   background-repeat: no-repeat;
-  background-image: url('../i/bg/hero-1.jpg');
 }
 /* line 121, _sass/partials/_header.scss */
 .banner .inner {
@@ -6110,6 +6156,247 @@ article.earn-free-energy .enhance h2 {
   margin-top: 40px;
 }
 
+/* line 1724, _sass/partials/_marketing-site.scss */
+article.manage-my-account .left-column {
+  width: 35%;
+  border-right: 1px solid #cfcfcf;
+  padding-right: 40px;
+  float: left;
+}
+@media only screen and (max-width: 767px) {
+  /* line 1724, _sass/partials/_marketing-site.scss */
+  article.manage-my-account .left-column {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #cfcfcf;
+    padding: 0;
+  }
+}
+/* line 1736, _sass/partials/_marketing-site.scss */
+article.manage-my-account .right-column {
+  width: 65%;
+  float: right;
+  padding-left: 40px;
+}
+/* line 1740, _sass/partials/_marketing-site.scss */
+article.manage-my-account .right-column img {
+  float: left;
+}
+/* line 1743, _sass/partials/_marketing-site.scss */
+article.manage-my-account .right-column h3 {
+  float: left;
+  margin: 25px 0 0 10px;
+  color: #76BD1D;
+}
+/* line 1748, _sass/partials/_marketing-site.scss */
+article.manage-my-account .right-column .states {
+  float: left;
+  margin: 20px 40px 0 0;
+}
+/* line 1751, _sass/partials/_marketing-site.scss */
+article.manage-my-account .right-column .states input {
+  margin-bottom: 15px;
+}
+/* line 1755, _sass/partials/_marketing-site.scss */
+article.manage-my-account .right-column .input-fields {
+  float: left;
+}
+/* line 1757, _sass/partials/_marketing-site.scss */
+article.manage-my-account .right-column .input-fields div {
+  margin-top: 10px;
+}
+/* line 1761, _sass/partials/_marketing-site.scss */
+article.manage-my-account .right-column .login {
+  margin: 10px 0 0 20px;
+  float: left;
+}
+/* line 1764, _sass/partials/_marketing-site.scss */
+article.manage-my-account .right-column .login button {
+  background-color: #76BD1D;
+}
+@media only screen and (max-width: 767px) {
+  /* line 1736, _sass/partials/_marketing-site.scss */
+  article.manage-my-account .right-column {
+    width: 100%;
+    margin: 20px auto;
+    padding: 0;
+  }
+}
+
+/* line 1776, _sass/partials/_marketing-site.scss */
+article.manage-free-energy {
+  background-image: url("../i/marketing/free-energy-pic.jpg");
+  height: 399px;
+}
+/* line 1779, _sass/partials/_marketing-site.scss */
+article.manage-free-energy .left-column {
+  float: left;
+  width: 55%;
+  margin-top: 30px;
+}
+/* line 1783, _sass/partials/_marketing-site.scss */
+article.manage-free-energy .left-column p {
+  width: 70%;
+  color: #fff;
+  margin-top: 60px;
+}
+@media only screen and (max-width: 767px) {
+  /* line 1783, _sass/partials/_marketing-site.scss */
+  article.manage-free-energy .left-column p {
+    width: 80%;
+  }
+}
+/* line 1792, _sass/partials/_marketing-site.scss */
+article.manage-free-energy .right-column {
+  float: right;
+  background-color: #003366;
+  width: 45%;
+  height: 399px;
+}
+/* line 1797, _sass/partials/_marketing-site.scss */
+article.manage-free-energy .right-column .center {
+  text-align: center;
+}
+/* line 1799, _sass/partials/_marketing-site.scss */
+article.manage-free-energy .right-column .center button {
+  box-shadow: 0 2px #3e8bcb;
+  background-color: #ffa409;
+  margin: 150px 0 20px 0;
+}
+/* line 1804, _sass/partials/_marketing-site.scss */
+article.manage-free-energy .right-column .center p {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  color: #fff;
+}
+@media only screen and (max-width: 767px) {
+  /* line 1804, _sass/partials/_marketing-site.scss */
+  article.manage-free-energy .right-column .center p {
+    width: 75%;
+  }
+}
+
+/* line 1817, _sass/partials/_marketing-site.scss */
+article.manage-services {
+  background-color: #7D9AB4;
+}
+/* line 1819, _sass/partials/_marketing-site.scss */
+article.manage-services .text {
+  color: #fff;
+  float: left;
+  margin-bottom: 75px;
+}
+/* line 1823, _sass/partials/_marketing-site.scss */
+article.manage-services .text .inner {
+  float: right;
+}
+/* line 1825, _sass/partials/_marketing-site.scss */
+article.manage-services .text .inner span {
+  text-transform: uppercase;
+}
+@media only screen and (max-width: 1024px) {
+  /* line 1819, _sass/partials/_marketing-site.scss */
+  article.manage-services .text {
+    width: 100%;
+    float: none;
+    padding: 10px;
+    margin-bottom: 0;
+  }
+  /* line 1834, _sass/partials/_marketing-site.scss */
+  article.manage-services .text .inner {
+    float: none;
+    max-width: 100%;
+  }
+}
+/* line 1840, _sass/partials/_marketing-site.scss */
+article.manage-services .photo {
+  background-image: url("../i/marketing/manage-services.jpg");
+  background-repeat: no-repeat;
+  right: 0;
+}
+/* line 1844, _sass/partials/_marketing-site.scss */
+article.manage-services .photo ul {
+  padding-left: 5px;
+}
+/* line 1846, _sass/partials/_marketing-site.scss */
+article.manage-services .photo ul li {
+  list-style-type: none;
+  float: left;
+  text-align: center;
+  margin: 50px 5px 0 0;
+  border-right: 1px solid #cfcece;
+  padding: 30px 5px 30px 0;
+}
+/* line 1853, _sass/partials/_marketing-site.scss */
+article.manage-services .photo ul li:last-child {
+  border-right: none;
+  padding-right: 0;
+  margin-right: 0;
+}
+/* line 1858, _sass/partials/_marketing-site.scss */
+article.manage-services .photo ul li a .box {
+  background-color: #7D9AB4;
+  border-radius: 10px;
+  box-shadow: 0 3px #DAD4CF;
+  height: 70px;
+  width: 160px;
+}
+/* line 1864, _sass/partials/_marketing-site.scss */
+article.manage-services .photo ul li a .box p {
+  text-transform: uppercase;
+  padding: 3px;
+  color: #fff;
+}
+/* line 1868, _sass/partials/_marketing-site.scss */
+article.manage-services .photo ul li a .box p:hover {
+  color: #064985;
+  text-decoration: underline;
+}
+/* line 1873, _sass/partials/_marketing-site.scss */
+article.manage-services .photo ul li a .box.tech-support {
+  background-color: #b68889;
+}
+/* line 1876, _sass/partials/_marketing-site.scss */
+article.manage-services .photo ul li a .box.credit-monitoring {
+  background-color: #8ea173;
+}
+/* line 1882, _sass/partials/_marketing-site.scss */
+article.manage-services .photo p.sign-up {
+  margin-left: 5px;
+}
+/* line 1884, _sass/partials/_marketing-site.scss */
+article.manage-services .photo p.sign-up a:hover {
+  color: #064985;
+  text-decoration: underline;
+}
+@media only screen and (max-width: 1024px) {
+  /* line 1840, _sass/partials/_marketing-site.scss */
+  article.manage-services .photo {
+    background-size: cover;
+    width: 100%;
+    float: none;
+    display: block;
+    position: initial;
+  }
+}
+@media only screen and (max-width: 767px) {
+  /* line 1840, _sass/partials/_marketing-site.scss */
+  article.manage-services .photo {
+    background-image: none;
+    background-color: #fff;
+  }
+  /* line 1899, _sass/partials/_marketing-site.scss */
+  article.manage-services .photo ul li {
+    width: 100%;
+    margin-top: 0;
+  }
+  /* line 1902, _sass/partials/_marketing-site.scss */
+  article.manage-services .photo ul li a .box {
+    margin: auto;
+  }
+}
+
 /* line 2, _sass/partials/_enrollment.scss */
 .enrollment .site-header {
   background: #fff;
@@ -6122,7 +6409,7 @@ article.earn-free-energy .enhance h2 {
   left: 0;
   width: 100%;
   background-color: #fff;
-  background-image: url('../i/bg/header-enrollment.png?1399416789');
+  background-image: url('../i/bg/header-enrollment.png?1399491629');
   background-repeat: repeat-x;
   z-index: 2;
   height: 121px;
@@ -6130,7 +6417,7 @@ article.earn-free-energy .enhance h2 {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 5, _sass/partials/_enrollment.scss */
   .enrollment .site-header > .wrapper, .enrollment article.state-tabs .site-header > ul.tabs-nav, article.state-tabs .enrollment .site-header > ul.tabs-nav {
-    background-image: url('../i/bg2x/header-enrollment.png?1399416789');
+    background-image: url('../i/bg2x/header-enrollment.png?1399491629');
     background-size: 23px 13px;
   }
 }
