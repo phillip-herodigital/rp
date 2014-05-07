@@ -1007,8 +1007,55 @@ form div.item.horizontal > label,
   margin-right: 5px;
   text-transform: uppercase;
 }
+/* line 138, _sass/partials/_forms.scss */
+form div.item.fl-enabled,
+.form div.item.fl-enabled {
+  position: relative;
+}
+/* line 140, _sass/partials/_forms.scss */
+form div.item.fl-enabled > label,
+.form div.item.fl-enabled > label {
+  position: absolute;
+  top: 10px;
+  padding: 0 10px;
+  color: #0971ce;
+  opacity: 0;
+  font-size: 12px;
+}
+/* line 151, _sass/partials/_forms.scss */
+form div.item.fl-enabled input[type="text"], form div.item.fl-enabled input[type="password"], form div.item.fl-enabled input[type="search"], form div.item.fl-enabled input[type="number"], form div.item.fl-enabled input[type="datetime"], form div.item.fl-enabled input[type="datetime-local"], form div.item.fl-enabled input[type="date"], form div.item.fl-enabled input[type="month"], form div.item.fl-enabled input[type="time"], form div.item.fl-enabled input[type="week"], form div.item.fl-enabled input[type="email"], form div.item.fl-enabled input[type="url"], form div.item.fl-enabled input[type="tel"], form div.item.fl-enabled input[type="color"],
+form div.item.fl-enabled textarea,
+.form div.item.fl-enabled input[type="text"],
+.form div.item.fl-enabled input[type="password"],
+.form div.item.fl-enabled input[type="search"],
+.form div.item.fl-enabled input[type="number"],
+.form div.item.fl-enabled input[type="datetime"],
+.form div.item.fl-enabled input[type="datetime-local"],
+.form div.item.fl-enabled input[type="date"],
+.form div.item.fl-enabled input[type="month"],
+.form div.item.fl-enabled input[type="time"],
+.form div.item.fl-enabled input[type="week"],
+.form div.item.fl-enabled input[type="email"],
+.form div.item.fl-enabled input[type="url"],
+.form div.item.fl-enabled input[type="tel"],
+.form div.item.fl-enabled input[type="color"],
+.form div.item.fl-enabled textarea {
+  padding-top: 18px;
+  padding-bottom: 5px;
+}
+/* line 157, _sass/partials/_forms.scss */
+form div.item.fl-enabled.fl-active > label,
+.form div.item.fl-enabled.fl-active > label {
+  top: 5px;
+  opacity: 1;
+}
+/* line 163, _sass/partials/_forms.scss */
+form div.item.fl-enabled.fl-animate > label,
+.form div.item.fl-enabled.fl-animate > label {
+  transition: all .25s;
+}
 @media only screen and (min-width: 768px) {
-  /* line 141, _sass/partials/_forms.scss */
+  /* line 172, _sass/partials/_forms.scss */
   form div.group div.item,
   .form div.group div.item {
     -moz-box-sizing: border-box;
@@ -1017,12 +1064,12 @@ form div.item.horizontal > label,
     float: left;
     padding: 0 10px 0 0;
   }
-  /* line 146, _sass/partials/_forms.scss */
+  /* line 177, _sass/partials/_forms.scss */
   form div.group div.item:last-child,
   .form div.group div.item:last-child {
     padding-right: 0;
   }
-  /* line 149, _sass/partials/_forms.scss */
+  /* line 180, _sass/partials/_forms.scss */
   form div.group div.item input[type="text"], form div.group div.item input[type="password"], form div.group div.item input[type="search"], form div.group div.item input[type="number"], form div.group div.item input[type="datetime"], form div.group div.item input[type="datetime-local"], form div.group div.item input[type="date"], form div.group div.item input[type="month"], form div.group div.item input[type="time"], form div.group div.item input[type="week"], form div.group div.item input[type="email"], form div.group div.item input[type="url"], form div.group div.item input[type="tel"], form div.group div.item input[type="color"],
   form div.group div.item textarea,
   form div.group div.item select,
@@ -1044,7 +1091,7 @@ form div.item.horizontal > label,
   .form div.group div.item select {
     width: 100%;
   }
-  /* line 155, _sass/partials/_forms.scss */
+  /* line 186, _sass/partials/_forms.scss */
   form div.group div.item.horizontal input[type="text"], form div.group div.item.horizontal input[type="password"], form div.group div.item.horizontal input[type="search"], form div.group div.item.horizontal input[type="number"], form div.group div.item.horizontal input[type="datetime"], form div.group div.item.horizontal input[type="datetime-local"], form div.group div.item.horizontal input[type="date"], form div.group div.item.horizontal input[type="month"], form div.group div.item.horizontal input[type="time"], form div.group div.item.horizontal input[type="week"], form div.group div.item.horizontal input[type="email"], form div.group div.item.horizontal input[type="url"], form div.group div.item.horizontal input[type="tel"], form div.group div.item.horizontal input[type="color"],
   form div.group div.item.horizontal textarea,
   form div.group div.item.horizontal select,
@@ -1067,14 +1114,14 @@ form div.item.horizontal > label,
     width: auto;
   }
 }
-/* line 167, _sass/partials/_forms.scss */
+/* line 198, _sass/partials/_forms.scss */
 form div.vertical div.item > label,
 .form div.vertical div.item > label {
   float: left;
   width: 33%;
   text-transform: uppercase;
 }
-/* line 172, _sass/partials/_forms.scss */
+/* line 203, _sass/partials/_forms.scss */
 form div.vertical div.item input[type="text"], form div.vertical div.item input[type="password"], form div.vertical div.item input[type="search"], form div.vertical div.item input[type="number"], form div.vertical div.item input[type="datetime"], form div.vertical div.item input[type="datetime-local"], form div.vertical div.item input[type="date"], form div.vertical div.item input[type="month"], form div.vertical div.item input[type="time"], form div.vertical div.item input[type="week"], form div.vertical div.item input[type="email"], form div.vertical div.item input[type="url"], form div.vertical div.item input[type="tel"], form div.vertical div.item input[type="color"],
 form div.vertical div.item textarea,
 form div.vertical div.item select,
@@ -1096,19 +1143,19 @@ form div.vertical div.item select,
 .form div.vertical div.item select {
   max-width: 67%;
 }
-/* line 177, _sass/partials/_forms.scss */
+/* line 208, _sass/partials/_forms.scss */
 form div.vertical div.item .radio-list,
 form div.vertical div.item .checkbox-list,
 .form div.vertical div.item .radio-list,
 .form div.vertical div.item .checkbox-list {
   float: left;
 }
-/* line 183, _sass/partials/_forms.scss */
+/* line 214, _sass/partials/_forms.scss */
 form div.vertical.fixed div.item,
 .form div.vertical.fixed div.item {
   padding-left: 250px;
 }
-/* line 185, _sass/partials/_forms.scss */
+/* line 216, _sass/partials/_forms.scss */
 form div.vertical.fixed div.item > label,
 .form div.vertical.fixed div.item > label {
   float: left;
@@ -1116,7 +1163,7 @@ form div.vertical.fixed div.item > label,
   margin-left: -250px;
   text-transform: uppercase;
 }
-/* line 191, _sass/partials/_forms.scss */
+/* line 222, _sass/partials/_forms.scss */
 form div.vertical.fixed div.item input[type="text"], form div.vertical.fixed div.item input[type="password"], form div.vertical.fixed div.item input[type="search"], form div.vertical.fixed div.item input[type="number"], form div.vertical.fixed div.item input[type="datetime"], form div.vertical.fixed div.item input[type="datetime-local"], form div.vertical.fixed div.item input[type="date"], form div.vertical.fixed div.item input[type="month"], form div.vertical.fixed div.item input[type="time"], form div.vertical.fixed div.item input[type="week"], form div.vertical.fixed div.item input[type="email"], form div.vertical.fixed div.item input[type="url"], form div.vertical.fixed div.item input[type="tel"], form div.vertical.fixed div.item input[type="color"],
 form div.vertical.fixed div.item textarea,
 form div.vertical.fixed div.item select,
@@ -1138,7 +1185,7 @@ form div.vertical.fixed div.item select,
 .form div.vertical.fixed div.item select {
   max-width: auto;
 }
-/* line 201, _sass/partials/_forms.scss */
+/* line 232, _sass/partials/_forms.scss */
 form div.buttons button,
 form div.buttons .button,
 .form div.buttons button,
@@ -1147,7 +1194,7 @@ form div.buttons .button,
   margin: 10px 0 0 5px;
 }
 @media only screen and (max-width: 767px) {
-  /* line 201, _sass/partials/_forms.scss */
+  /* line 232, _sass/partials/_forms.scss */
   form div.buttons button,
   form div.buttons .button,
   .form div.buttons button,
@@ -1156,14 +1203,14 @@ form div.buttons .button,
     width: 100%;
   }
 }
-/* line 209, _sass/partials/_forms.scss */
+/* line 240, _sass/partials/_forms.scss */
 form div.buttons button:first-child,
 form div.buttons .button:first-child,
 .form div.buttons button:first-child,
 .form div.buttons .button:first-child {
   margin-left: 0;
 }
-/* line 214, _sass/partials/_forms.scss */
+/* line 245, _sass/partials/_forms.scss */
 form input[type="radio"],
 form input[type="checkbox"],
 .form input[type="radio"],
@@ -1171,7 +1218,7 @@ form input[type="checkbox"],
   margin-bottom: 0;
   margin-right: 5px;
 }
-/* line 221, _sass/partials/_forms.scss */
+/* line 252, _sass/partials/_forms.scss */
 form .radio-list input, form .radio-list label,
 form .checkbox-list input,
 form .checkbox-list label,
@@ -1181,7 +1228,7 @@ form .checkbox-list label,
 .form .checkbox-list label {
   display: inline-block;
 }
-/* line 225, _sass/partials/_forms.scss */
+/* line 256, _sass/partials/_forms.scss */
 form .radio-list.inline li,
 form .checkbox-list.inline li,
 .form .radio-list.inline li,
@@ -2146,7 +2193,6 @@ div.tabbable div.tab-content div.tab-pane.active {
   background-size: cover;
   background-position: 50%;
   background-repeat: no-repeat;
-  background-image: url('../i/bg/hero-1.jpg');
 }
 /* line 121, _sass/partials/_header.scss */
 .banner .inner {
