@@ -38,6 +38,6 @@ div.tabbable {
 	}
 	&.ng-hide-add,
 	&.ng-hide-remove.ng-hide-remove-active {
-  		max-height: none;
+  		max-height: 99999px;
 	}
 }

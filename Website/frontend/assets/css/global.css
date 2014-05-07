@@ -1279,7 +1279,7 @@ div.tabbable div.tab-content div.tab-pane.active {
 }
 /* line 39, _sass/partials/_ui.scss */
 .slide-toggle.ng-hide-add, .slide-toggle.ng-hide-remove.ng-hide-remove-active {
-  max-height: none;
+  max-height: 99999px;
 }
 
 /* line 65, _sass/partials/_sprites.scss */
