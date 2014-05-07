@@ -943,6 +943,8 @@
     <Content Include="Views\Pages\Marketing\Historical Rates\Historical Rates Pennsylvania.cshtml" />
     <Content Include="Views\Pages\Marketing\Press\Press Release.cshtml" />
     <Content Include="Views\Pages\Marketing\Press\Press Landing.cshtml" />
+    <Content Include="Views\Pages\Marketing\Careers\Careers Listing.cshtml" />
+    <Content Include="Views\Pages\Marketing\Careers\Careers Detail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

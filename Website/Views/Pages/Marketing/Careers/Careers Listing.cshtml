@@ -1,0 +1,26 @@
+﻿@{
+    if (Html.Sitecore().CurrentItem.HasChildren)
+    {
+        foreach (Sitecore.Data.Items.Item item in Html.Sitecore().CurrentItem.Children)
+        {   
+            var jobTitle = @Html.Sitecore().Field("Job Title", item);
+            var resumeEmail = @Html.Sitecore().Field("Resume Email", item);   
+            
+            <article class="marketing wrapper careers">
+                <p class="job-title"><a class="job-button" href="#">@jobTitle</a></p>
+                <hr />
+                @Html.Sitecore().Field("Job Description", item)
+                <p>@Html.Sitecore().Field("Job Info Text", item)</p>
+                <p><a class="button blue" href="mailto:@resumeEmail?subject=@jobTitle">@resumeEmail</a></p>
+            </article>
+        }
+    }
+    else
+    {
+        <article class="marketing wrapper careers">
+			<h3>No Current Job Openings</h3>
+			<hr />
+			<p>Thank you for your interest in working with us here at Stream Energy. Unfortunately we have no open job positions, but please check back as we regularly update the site.</p>
+		</article>
+    }
+}
