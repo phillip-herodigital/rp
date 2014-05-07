@@ -65,9 +65,13 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Services\Clients\ClientContainerSetup.cs" />
+    <Compile Include="Services\Clients\EmbeddedResourceMockResolver.cs" />
+    <Compile Include="Services\Clients\IServiceMockResolver.cs" />
     <Compile Include="Services\Clients\ServiceMockInterceptor.cs" />
+    <Compile Include="Services\Clients\ServiceMockResolver.cs" />
     <Compile Include="Services\Clients\TemperatureService.cs" />
     <Compile Include="Services\Clients\ITemperatureService.cs" />
+    <Compile Include="Services\SoapConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\StreamEnergy.Core\StreamEnergy.Core.csproj">
@@ -88,6 +92,7 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\Sample.Temperature\tempconvert.wsdl" />
+    <EmbeddedResource Include="Services\Clients\Mocks\CelsiusToFahrenheit_Response.soap" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\Sample.Temperature\" />
@@ -103,6 +108,10 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Services\Clients\Mocks\CelsiusToFahrenheit_Request.soap" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

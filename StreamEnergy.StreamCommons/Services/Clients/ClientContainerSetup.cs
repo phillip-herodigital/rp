@@ -24,15 +24,18 @@ namespace StreamEnergy.Services.Clients
 
         protected override void AdditionalSetup(IUnityContainer unityContainer)
         {
-            unityContainer.RegisterInstance(WrapService<Sample.Temperature.TempConvertSoap>(
+            unityContainer.RegisterType<ServiceMockResolver>(new ContainerControlledLifetimeManager());
+            unityContainer.Resolve<ServiceMockResolver>().MockResolvers.Add(new EmbeddedResourceMockResolver(this.GetType().Assembly));
+
+            unityContainer.RegisterInstance(WrapService<Sample.Temperature.TempConvertSoap>(unityContainer,
                 new Sample.Temperature.TempConvertSoapClient(new System.ServiceModel.BasicHttpBinding(), new System.ServiceModel.EndpointAddress("http://www.w3schools.com/webservices/tempconvert.asmx"))
             ));
         }
 
-        private TInterface WrapService<TInterface>(TInterface soapClient)
+        private TInterface WrapService<TInterface>(IUnityContainer unityContainer, TInterface soapClient)
             where TInterface : class
         {
-            return proxyGenerator.CreateInterfaceProxyWithTarget(soapClient, new ServiceMockInterceptor());
+            return proxyGenerator.CreateInterfaceProxyWithTarget(soapClient, unityContainer.Resolve<ServiceMockInterceptor>());
         }
     }
 }
