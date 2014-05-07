@@ -14,8 +14,9 @@
     classes.Add(sc.LookupItem("Border Color").SafeFieldValue("CSS Class").Prefix("border border-"));
     classes.Add(sc.CurrentItem["Custom Css Class"]);
     classes.Add(sc.LookupItem("Background Image Position").SafeFieldValue("CSS Class"));
+    var id = !string.IsNullOrEmpty(sc.CurrentItem["Custom ID"]) ? " id=\"" + sc.CurrentItem["Custom ID"] + "\"" : "";
 }
-<article class="marketing photoLockup @string.Join(" ", classes)">
+<article @Html.Raw(id) class="marketing photoLockup @string.Join(" ", classes)">
     <div class="photo" style="@Html.AsBackgroundStyle("Background Image")">
         @{
             if (Sitecore.Context.PageMode.IsPageEditorEditing)
@@ -27,19 +28,19 @@
     <div class="text">
         <div class="inner">
             @{
-                if (!string.IsNullOrEmpty(Html.Sitecore().CurrentItem.Fields["Header"].Value))
+                if (!string.IsNullOrEmpty(Html.Sitecore().Field("Header").ToString()))
                 {
                     <h2>@Html.Sitecore().Field("Header")</h2>
                 }
             }
             @{
-                if (!string.IsNullOrEmpty(Html.Sitecore().CurrentItem.Fields["Sub Header"].Value))
+                if (!string.IsNullOrEmpty(Html.Sitecore().Field("Sub Header").ToString()))
                 {
                     <h3>@Html.Sitecore().Field("Sub Header")</h3>
                 }
             }
             @{
-                if (!string.IsNullOrEmpty(Html.Sitecore().CurrentItem.Fields["Quote"].Value))
+                if (!string.IsNullOrEmpty(Html.Sitecore().Field("Quote").ToString()))
                 {
                     <blockquote>
                         <p>@Html.Sitecore().Field("Quote")</p>
@@ -47,13 +48,13 @@
                 }
             }
             @{
-                if (!string.IsNullOrEmpty(Html.Sitecore().CurrentItem.Fields["Citation"].Value))
+                if (!string.IsNullOrEmpty(Html.Sitecore().Field("Citation").ToString()))
                 {
                     <p class="cite">&mdash; @Html.Sitecore().Field("Citation")</p>
                 }
             }
             @{
-                if (!string.IsNullOrEmpty(Html.Sitecore().CurrentItem.Fields["Content"].Value))
+                if (!string.IsNullOrEmpty(Html.Sitecore().Field("Content").ToString()))
                 {
                     <p>@Html.Sitecore().Field("Content")</p>
                 }
