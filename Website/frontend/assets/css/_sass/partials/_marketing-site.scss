@@ -657,7 +657,15 @@ article.blog-list {
 	}
 }
 
+article.states-pay {
+	.tab-header {
+		min-height: 30px;
+		border-bottom: 5px solid #76bd1d;
+	}
+}
+
 article.pay {
+	padding: 20px 0;
 	h1 {
 		color: #0971ce;
 	}
@@ -711,6 +719,22 @@ article.pay {
 			a {
 				font-size: 22px;
 				text-decoration: underline;
+			}
+		}
+	}
+	aside {
+		h4 {
+			margin-bottom: 40px;
+			color: #0971ce;
+			text-transform: none;
+			font-size: 24px;
+			font-weight: 300;
+		}
+		ul.pay-list {
+			margin: 0;
+			padding: 0;
+			li {
+				list-style: none;
 			}
 		}
 	}
