@@ -41,13 +41,13 @@ namespace StreamEnergy.MyStream.Controllers
                     Values = from invoice in accountService.GetInvoices(User.Identity.Name)
                              select new Invoice
                              {
-                                 AccountNumber = "1197015532",
-                                 ServiceType = "HomeLife Services",
-                                 InvoiceNumber = "1030523546381",
-                                 InvoiceAmount = "24.99",
-                                 DueDate = "04/05/2014",
-                                 IsPaid = false,
-                                 CanRequestExtension = true,
+                                 AccountNumber = invoice.AccountNumber,
+                                 ServiceType = invoice.ServiceType,
+                                 InvoiceNumber = invoice.InvoiceNumber,
+                                 InvoiceAmount = invoice.InvoiceAmount.ToString("0.00"),
+                                 DueDate = invoice.DueDate.ToShortDateString(),
+                                 IsPaid = invoice.IsPaid,
+                                 CanRequestExtension = invoice.CanRequestExtension,
                                  Actions = 
                                  {
                                      { "viewPdf", "http://.../" }
