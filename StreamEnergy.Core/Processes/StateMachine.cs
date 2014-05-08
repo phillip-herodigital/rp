@@ -13,10 +13,12 @@ namespace StreamEnergy.Processes
         where TInternalContext : class
     {
         private readonly IUnityContainer container;
+        private readonly IValidationService validationService;
         private IEnumerable<ValidationResult> lastValidations;
 
-        public StateMachine(IUnityContainer container)
+        public StateMachine(IValidationService validationService, IUnityContainer container)
         {
+            this.validationService = validationService;
             this.container = container;
         }
 
@@ -94,13 +96,8 @@ namespace StreamEnergy.Processes
 
         public IEnumerable<ValidationResult> ValidateForState(IState<TContext, TInternalContext> state)
         {
-            var validationContext = new ValidationContext(Context);
-            var validations = new HashSet<ValidationResult>();
-            foreach (var property in state.PreconditionValidations().Select(v => new { name = v.SimpleProperty().Name, value = v.CachedCompile<Func<TContext, object>>()(Context) }))
-            {
-                validationContext.MemberName = property.name;
-                Validator.TryValidateProperty(property.value, validationContext, validations);
-            }
+            var validations = new HashSet<ValidationResult>(validationService.PartialValidate(Context, state.PreconditionValidations().ToArray()));
+
 
             return validations.Concat(state.AdditionalValidations(Context, InternalContext)).ToArray();
         }
