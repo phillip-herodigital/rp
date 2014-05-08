@@ -26,8 +26,17 @@ select {
 	@include transition(border linear .2s, box-shadow linear .2s);
 	display: inline-block;
 	width: 300px;
+	&.small {
+		width: 100px;
+	}
+	&.full-width {
+		width: 100%;
+	}
 	@include breakpoint(small) {
 		width: 100%;
+		&.small {
+			width: 100px;
+		}
 	}
 	padding: 6px 10px;
 	border: 1px solid #bcbcbc;
@@ -231,6 +240,9 @@ form,
 				textarea,
 				select {
 					width: 100%;
+					&.small {
+						width: 100px;
+					}
 				}
 				&.horizontal {
 					#{$input-selectors},

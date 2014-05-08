@@ -588,7 +588,7 @@
 									</div>
 									<div class="item">
 										<label for="zip">Zip</label>
-										<input type="text" id="zip" />
+										<input class="small" type="text" id="zip" />
 									</div>
 								</div>
 							</div>
@@ -945,7 +945,7 @@
 								</tr>
 								<tr>
 									<td class="total" colspan="2">
-										Total Due Now: $150.00
+										Total Due Now: <span>$150.00</span>
 									</td>
 								</tr>
 							</tbody>
@@ -958,24 +958,56 @@
 							<tbody>
 								<tr class="line-item">
 									<td class="description">
-										<h1>Deposit Due</h1>
-										<h2>24 Month Fixed Rate plan</h2>
-										<p>Based on your credit score, the following deposit is required. It will be returned to you after xxxxx.</p>
+										<h1>Stream Tech Support</h1>
+										<p>This will appear as a charge from “ABCD Corp.” on your bill.</p>
 									</td>
 									<td class="rate">
-										$150.00
+										$14.95
 									</div>
 								</tr>
 								<tr>
 									<td class="total" colspan="2">
-										Total Due Now: $150.00
+										Total Recurring Payments: <span>$14.95</span>
 									</td>
 								</tr>
 							</tbody>
 						</table>
 						<h2>Card Details</h2>
 						<div class="box">
+							<form>
+								<div class="item">
+									<label for="payment-method">Select Payment Method</label>
+									<select id="payment-method">
+										<option value="">Please Choose</option>
+									</select>
+								</div>
+								<div class="item">
+									<label for="cc">Credit Card Number</label>
+									<input class="full-width" type="text" id="cc" />
+								</div>
+								<div class="group">
+									<div class="item">
+										<label for="expiration-date">Expiration Date</label>
+										<select class="small" id="cc-month">
+											<option value="">MM</option>
+										</select>
+										<select class="small" id="cc-year">
+											<option value="">YYYY</option>
+										</select>
+									</div>
+									<div class="item">
+										<label for="billing-zip">Billing Zip</label>
+										<input class="small" type="text" id="billing-zip" />
+									</div>
+									<div class="item">
+										<label for="security-code">Security Code</label>
+										<input class="small" type="text" id="security-code" />
+										<a href="">See Example</a>
+									</div>
+								</div>
+							</form>
 						</div>
+						<p><a class="button" href="">Place Order</a></p>
 					</article>
 					<aside class="right">
 						<div class="box">
@@ -1077,35 +1109,6 @@
 								</ul>
 							</div>
 						</div>
-					</aside>
-				</div>
-			</section>
-
-			<section id="confirm-order" class="accent-darkgreen">
-				<div class="banner" style="background-image: url(assets/i/enrollment/headers/confirmorder.jpg)">
-					<div class="wrapper">
-						<h1>
-							<span class="medium block">Confirm <i>Your</i></span>
-							<span class="block">Order</span>
-						</h1>
-					</div>
-				</div>
-				<div class="wrapper">
-					<aside class="left">
-						<nav>
-							<ul>
-								<li class="completed"><a href="#lets-get-started">Let's Get Started</a></li>
-								<li class="completed"><a href="#choose-your-plan">Choose Your Plan</a></li>
-								<li class="completed"><a href="#setup-your-account">Setup Your Account</a></li>
-								<li class="completed"><a href="#verify-identity">Verify Identity</a></li>
-								<li class="completed"><a href="#add-payment-information">Add Payment Information</a></li>
-								<li class="active"><a href="#confirm-order">Confirm Order</a></li>
-							</ul>
-						</nav>
-					</aside>
-					<article>
-					</article>
-					<aside class="right">
 					</aside>
 				</div>
 			</section>
