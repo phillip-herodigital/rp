@@ -1,6 +1,7 @@
 ﻿using Castle.DynamicProxy;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.ServiceModel;
@@ -20,6 +21,7 @@ namespace StreamEnergy.Services.Clients
             this.serviceMockResolver = serviceMockResolver;
         }
 
+        [DebuggerNonUserCode]
         void IInterceptor.Intercept(IInvocation invocation)
         {
             if (!serviceMockResolver.ApplyMock(invocation))

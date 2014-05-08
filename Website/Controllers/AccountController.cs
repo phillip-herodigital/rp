@@ -12,11 +12,13 @@ namespace StreamEnergy.MyStream.Controllers
 {
     public class AccountController : ApiController, IRequiresSessionState
     {
-        private Services.Clients.ITemperatureService temperatureService;
+        private readonly Services.Clients.ITemperatureService temperatureService;
+        private readonly Services.Clients.IAccountService accountService;
 
-        public AccountController(HttpSessionStateBase session, Services.Clients.ITemperatureService temperatureService)
+        public AccountController(HttpSessionStateBase session, Services.Clients.IAccountService accountService, Services.Clients.ITemperatureService temperatureService)
         {
             this.temperatureService = temperatureService;
+            this.accountService = accountService;
         }
 
         [HttpGet]
@@ -36,102 +38,21 @@ namespace StreamEnergy.MyStream.Controllers
             return new Table<Invoice>
                 {
                     ColumnList = schema ? typeof(Invoice).BuildTableSchema() : null,
-                    Values = new[] { 
-                        new Invoice
-                        {
-			                AccountNumber = "1197015532",
-			                ServiceType = "HomeLife Services",
-			                InvoiceNumber = "1030523546381",
-			                InvoiceAmount = "24.99",
-			                DueDate = "04/05/2014",
-			                IsPaid = false,
-			                CanRequestExtension = true,
-                            Actions = 
-                            {
-                                { "viewPdf", "http://.../" }
-                            }
-		                },
-                        new Invoice
-		                {
-			                AccountNumber = "219849302",
-			                ServiceType = "Utility",
-			                InvoiceNumber = "1020453546012",
-			                InvoiceAmount = "93.72",
-			                DueDate = "04/03/2014",
-			                IsPaid = false,
-			                CanRequestExtension = false
-		                },
-                        new Invoice
-		                {
-			                AccountNumber = "194829927",
-			                ServiceType = "Utility",
-			                InvoiceNumber = "1030523546381",
-			                InvoiceAmount = "52.24",
-			                DueDate = "04/01/2014",
-			                IsPaid = false,
-			                CanRequestExtension = false
-		                },
-                        new Invoice
-		                {
-			                AccountNumber = "1197015532",
-			                ServiceType = "HomeLife Services",
-			                InvoiceNumber = "1030523546381",
-			                InvoiceAmount = "24.99",
-			                DueDate = "03/05/2014",
-			                IsPaid = true,
-			                CanRequestExtension = true
-		                },
-                                       new Invoice
-		                {
-			                AccountNumber = "219849302",
-			                ServiceType = "Utility",
-			                InvoiceNumber = "1020453546012",
-			                InvoiceAmount = "93.72",
-			                DueDate = "03/03/2014",
-			                IsPaid = true,
-			                CanRequestExtension = false
-		                },
-                        new Invoice
-		                {
-			                AccountNumber = "194829927",
-			                ServiceType = "Utility",
-			                InvoiceNumber = "1030523546381",
-			                InvoiceAmount = "52.24",
-			                DueDate = "03/01/2014",
-			                IsPaid = true,
-			                CanRequestExtension = false
-		                },
-                        new Invoice
-		                {
-			                AccountNumber = "1197015532",
-			                ServiceType = "HomeLife Services",
-			                InvoiceNumber = "1030523546381",
-			                InvoiceAmount = "24.99",
-			                DueDate = "02/05/2014",
-			                IsPaid = true,
-			                CanRequestExtension = true
-		                },
-                        new Invoice
-		                {
-			                AccountNumber = "219849302",
-			                ServiceType = "Utility",
-			                InvoiceNumber = "1020453546012",
-			                InvoiceAmount = "93.72",
-			                DueDate = "02/03/2014",
-			                IsPaid = true,
-			                CanRequestExtension = false
-		                },
-                        new Invoice
-		                {
-			                AccountNumber = "194829927",
-			                ServiceType = "Utility",
-			                InvoiceNumber = "1030523546381",
-			                InvoiceAmount = "52.24",
-			                DueDate = "02/01/2014",
-			                IsPaid = true,
-			                CanRequestExtension = false
-		                }
-                    }
+                    Values = from invoice in accountService.GetInvoices(User.Identity.Name)
+                             select new Invoice
+                             {
+                                 AccountNumber = "1197015532",
+                                 ServiceType = "HomeLife Services",
+                                 InvoiceNumber = "1030523546381",
+                                 InvoiceAmount = "24.99",
+                                 DueDate = "04/05/2014",
+                                 IsPaid = false,
+                                 CanRequestExtension = true,
+                                 Actions = 
+                                 {
+                                     { "viewPdf", "http://.../" }
+                                 }
+                             }
                 };
         }
     }
