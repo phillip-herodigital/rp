@@ -24,9 +24,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamEnergy.Core.Tests", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamEnergy.DomainModel", "StreamEnergy.DomainModel\StreamEnergy.DomainModel.csproj", "{449D7F2C-372C-41A8-B640-6751FDA30828}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamEnergy.StreamCommons", "StreamEnergy.StreamCommons\StreamEnergy.StreamCommons.csproj", "{C1C6CE03-D27A-4DFF-A5E5-822E8A29BFA9}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{25960F8A-E3E2-43E0-A982-4C3E9BC37855}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamEnergy.Services", "StreamEnergy.Services\StreamEnergy.Services.csproj", "{C1C6CE03-D27A-4DFF-A5E5-822E8A29BFA9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -66,6 +66,5 @@ Global
 		{79779D13-7D5E-4190-BA72-5302244C8165} = {759BD9F7-310E-413A-B8AE-7553177FA63A}
 		{17FDE13F-7944-4199-91B2-B851C879E228} = {759BD9F7-310E-413A-B8AE-7553177FA63A}
 		{F81AAE15-6DD3-43DE-9D73-0E42AEA33238} = {17FDE13F-7944-4199-91B2-B851C879E228}
-		{C1C6CE03-D27A-4DFF-A5E5-822E8A29BFA9} = {25960F8A-E3E2-43E0-A982-4C3E9BC37855}
 	EndGlobalSection
 EndGlobal

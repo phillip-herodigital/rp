@@ -988,9 +988,9 @@
       <Project>{449d7f2c-372c-41a8-b640-6751fda30828}</Project>
       <Name>StreamEnergy.DomainModel</Name>
     </ProjectReference>
-    <ProjectReference Include="..\StreamEnergy.StreamCommons\StreamEnergy.StreamCommons.csproj">
+    <ProjectReference Include="..\StreamEnergy.Services\StreamEnergy.Services.csproj">
       <Project>{c1c6ce03-d27a-4dff-a5e5-822e8a29bfa9}</Project>
-      <Name>StreamEnergy.StreamCommons</Name>
+      <Name>StreamEnergy.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
