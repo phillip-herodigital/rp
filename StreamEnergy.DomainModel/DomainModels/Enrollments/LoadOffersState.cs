@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
-    public class GetServiceInformationState : IState<UserContext, InternalContext>
+    public class LoadOffersState : IState<UserContext, InternalContext>
     {
         public IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
         {
@@ -27,30 +27,18 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public Type Process(UserContext data, InternalContext internalContext)
         {
-            // TODO - do we actually need to load the address info? Or is it already in the user context?
-            //LoadAddressInfo(stateMachine.Context, internalContext);
-            return typeof(LoadOffersState);
+            // TODO - load offers and connect dates, etc.
+            return typeof(SelectOfferState);
         }
 
         public bool RestoreInternalState(IStateMachine<UserContext, InternalContext> stateMachine, ref InternalContext internalContext, ref Type state)
         {
-            if (internalContext == null)
+            if (!stateMachine.RestoreStateFrom(typeof(GetServiceInformationState), ref internalContext, ref state))
             {
-                internalContext = new InternalContext();
-            }
-
-            // Don't try to restore state if this is invalid.
-            if (stateMachine.ValidateForState(this).Any())
-            {
-                state = this.GetType();
                 return false;
             }
 
-            // TODO - do we actually need to load the address info? Or is it already in the user context?
-            //if (string.IsNullOrEmpty(internalContext.DeliveryUtility))
-            //{
-            //    LoadAddressInfo(stateMachine.Context, internalContext);
-            //}
+            // TODO - restore offers and connect dates, etc.
             return true;
         }
     }

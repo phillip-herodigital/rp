@@ -39,6 +39,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         public Address BillingAddress { get; set; }
 
         [ValidateEnumerable(ErrorMessagePrefix = "Selected Offers ")]
+        [CollectionCountRangeAttribute(1, int.MaxValue, ErrorMessage="Selected Offer Required")]
         public HashSet<IOffer> SelectedOffers { get; private set; }
 
         void ISanitizable.Sanitize()
