@@ -475,8 +475,10 @@
     <Content Include="frontend\assets\i\icon\bbb.png" />
     <Content Include="frontend\assets\i\icon\blue-rectangle.png" />
     <Content Include="frontend\assets\i\icon\close.png" />
+    <Content Include="frontend\assets\i\icon\collapse.png" />
     <Content Include="frontend\assets\i\icon\compare-usage.png" />
     <Content Include="frontend\assets\i\icon\dsa.png" />
+    <Content Include="frontend\assets\i\icon\expand.png" />
     <Content Include="frontend\assets\i\icon\facebook.png" />
     <Content Include="frontend\assets\i\icon\hamburger.png" />
     <Content Include="frontend\assets\i\icon\homelife-services.png" />

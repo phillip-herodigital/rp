@@ -608,6 +608,12 @@ article.careers {
 		a {
 			display: block;
 			padding: 15px 0;
+			background-image: url("../i/marketing/collapse.png");
+			background-repeat: no-repeat;
+			background-position: 99% center;
+		}
+		a.collapsed {
+			background-image: url("../i/marketing/expand.png");
 		}
 	}
 }
