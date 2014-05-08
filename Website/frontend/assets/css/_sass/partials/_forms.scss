@@ -101,6 +101,10 @@ a.button {
 
 form,
 .form {
+	.additional-field-action {
+		text-transform: uppercase;
+		font-weight: 600;
+	}
 	div.validationSummary {
 		margin-bottom: 10px;
 		color: #BE3438;
@@ -168,11 +172,27 @@ form,
 
 	div.group {
 		@extend .clearfix;
+		@include breakpoint(large) {
+			&.inline-group {
+				width: auto;
+				margin-top: 8px;
+				.item {
+					label {
+						display: inline-block;
+						margin-right: 5px;	
+					}
+					input,
+					select {
+						width: auto;
+					}
+				}
+			}
+		}
 		@include breakpoint(medium-large) {
 			&.cols-2 .item {
 				width: 50%;
 			}
-			div.item {
+			.item {
 				@include box-sizing(border-box);
 				float: left;
 				//width: 310px;
@@ -193,6 +213,36 @@ form,
 					}
 				}
 			}
+		}
+	}
+	div.additional-field-group {
+		background: #fbfbfb;
+		border-top: 1px solid #ddd;
+		border-bottom: 1px solid #ddd;
+		padding: 25px 15px;
+		margin: 0 -15px;
+		position: relative;
+		&:after, &:before {
+			bottom: 100%;
+			left: 12%;
+			border: solid transparent;
+			content: " ";
+			height: 0;
+			width: 0;
+			position: absolute;
+			pointer-events: none;
+		}
+		&:after {
+			border-color: rgba(250, 250, 250, 0);
+			border-bottom-color: #fafafa;
+			border-width: 10px;
+			margin-left: -10px;
+		}
+		&:before {
+			border-color: rgba(222, 222, 222, 0);
+			border-bottom-color: #ddd;
+			border-width: 11px;
+			margin-left: -11px;
 		}
 	}
 	div.vertical {
