@@ -58,20 +58,26 @@
 			}
 		}
 		h1 {
-			font-size: 48px;
-			width: 50%;
+			font-size: 60px;
+			width: 48%;
 			.block {
 				display: block;
 			}
 			.xsmall {
 				color: #c5c1b4;
-				font-size: 19px;
+				font-size: 24px;
+			}
+			.small {
+				font-size: 33px;
+			}
+			.medium {
+				font-size: 40px;
 			}
 		}
 		@include breakpoint(small) {
 			height: 215px;
 			.wrapper {
-				padding-top: 50px;
+				padding-top: 60px;
 				&.center {
 					h1 {
 						top: 120px;
@@ -82,6 +88,12 @@
 				font-size: 30px;
 				.xsmall {
 					font-size: 16px;
+				}
+				.small {
+					font-size: 20px;
+				}
+				.medium {
+					font-size: 25px;
 				}
 			}
 		}
