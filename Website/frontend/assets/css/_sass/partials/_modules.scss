@@ -401,6 +401,10 @@ article.service-identification {
 	}
 }
 article.account-information {
+	.content {
+		padding-top: 15px;
+		padding-bottom: 15px;
+	}
 	select {
 		min-width: 160px;
 	}
