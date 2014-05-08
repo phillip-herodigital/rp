@@ -59,12 +59,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service References\DPI\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Service References\Sample.Commons\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Service References\Sample.Temperature\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\StreamCommons.Account\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -98,6 +108,28 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Service References\DPI\dpilink.wsdl" />
+    <None Include="Service References\DPI\StreamEnergy.DPI.CreateCustomerEnrollmentResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DPI\StreamEnergy.DPI.FilterResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DPI\StreamEnergy.DPI.GetSponsorResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DPI\StreamEnergy.DPI.IsValidIaNumberResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DPI\StreamEnergy.DPI.Result.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DPI\StreamEnergy.DPI.RetrieveIaContactInfoResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DPI\StreamEnergy.DPI.TokenResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\Sample.Commons\samplecommons.wsdl" />
     <None Include="Service References\Sample.Commons\StreamEnergy.Sample.Commons.GetInvoicesResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -112,10 +144,40 @@
     <EmbeddedResource Include="Services\Clients\Mocks\CelsiusToFahrenheit_Response.soap" />
     <EmbeddedResource Include="Services\Clients\Mocks\GetInvoices_New_Response.soap" />
     <EmbeddedResource Include="Services\Clients\Mocks\GetInvoices_Response.soap" />
+    <None Include="Service References\StreamCommons.Account\StreamEnergy.StreamCommons.Account.CustomerAccount.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StreamCommons.Account\StreamEnergy.StreamCommons.Account.EchoTextResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StreamCommons.Account\StreamEnergy.StreamCommons.Account.echoTextResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StreamCommons.Account\StreamEnergy.StreamCommons.Account.getCisAccountsByCisAccountNumberResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StreamCommons.Account\StreamEnergy.StreamCommons.Account.getCisAccountsByUtilityAccountNumberResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StreamCommons.Account\StreamEnergy.StreamCommons.Account.HelloWorldResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StreamCommons.Account\StreamEnergy.StreamCommons.Account.helloWorldResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StreamCommons.Account\StreamEnergy.StreamCommons.Account.LinkCisAccountToCamelotAccountResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StreamCommons.Account\StreamEnergy.StreamCommons.Account.linkCisAccountToCamelotAccountResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StreamCommons.Account\StreamEnergyCisAccountServicesWebService.wsdl" />
   </ItemGroup>
   <ItemGroup>
+    <WCFMetadataStorage Include="Service References\DPI\" />
     <WCFMetadataStorage Include="Service References\Sample.Commons\" />
     <WCFMetadataStorage Include="Service References\Sample.Temperature\" />
+    <WCFMetadataStorage Include="Service References\StreamCommons.Account\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\Sample.Temperature\configuration91.svcinfo" />
@@ -140,6 +202,30 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\Sample.Commons\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\StreamCommons.Account\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\StreamCommons.Account\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\StreamCommons.Account\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\DPI\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\DPI\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\DPI\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
