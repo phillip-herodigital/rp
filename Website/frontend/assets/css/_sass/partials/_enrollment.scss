@@ -43,9 +43,49 @@
 		background-position: 50%;
 		background-size: cover;
 		border-bottom: 5px solid #dfdfdf;
+		.wrapper {
+			padding-top: 100px;
+			&.center {
+			text-align: center;
+			position: relative;
+				h1 {
+					position: absolute;
+					left: 0;
+					right: 0;
+					top: 180px;
+					width: auto;
+				}
+			}
+		}
+		h1 {
+			font-size: 48px;
+			width: 50%;
+			.block {
+				display: block;
+			}
+			.xsmall {
+				color: #c5c1b4;
+				font-size: 19px;
+			}
+		}
 		@include breakpoint(small) {
 			height: 215px;
+			.wrapper {
+				padding-top: 50px;
+				&.center {
+					h1 {
+						top: 120px;
+					}
+				}
+			}
+			h1 {
+				font-size: 30px;
+				.xsmall {
+					font-size: 16px;
+				}
+			}
 		}
+
 	}
 
 	section {
@@ -460,8 +500,11 @@
 	}
 	@each $theme in $themes {
 		.accent-#{map-get($theme, name)} {
-		 	h1 span {
+		 	article h1 span {
 				color: map-get($theme, primaryColor);
+			}
+			.banner {
+				border-top: 5px solid map-get($theme, primaryColor);
 			}
 		}
 	}
