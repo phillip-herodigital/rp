@@ -13,7 +13,7 @@
                         <p>@Html.Sitecore().Field("Charity Description", item)</p>
                     </div>
                     <div class="donate-button">
-                        <a href="@Html.Sitecore().Field("Donation Link", item)" class="button green">DONATE NOW</a>
+                        <a href="@Html.Sitecore().Field("Donation Link", item)" class="button green">@Html.Sitecore().Field("Donation Button Text", item)</a>
                     </div>
                 </div>
             }
