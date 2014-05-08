@@ -1,5 +1,5 @@
 // General use data table
-ngApp.directive('gridTable', ['$filter', function ($filter) {
+ngApp.directive('gridTable', ['$filter', 'breakpoint', 'jQuery', function ($filter, breakpoint, jQuery) {
 	return {
 		restrict: 'A',
 		scope: true,
@@ -9,21 +9,6 @@ ngApp.directive('gridTable', ['$filter', function ($filter) {
 		//replace: true,
 		link: function(scope, element, attrs, model) {
 			// Table data
-
-			var sizes = [
-				{
-					'name': 'phone',
-					'dimensions': [0, 767]
-				},
-				{
-					'name': 'tablet',
-					'dimensions': [768, 1024]
-				},
-				{
-					'name': 'dektop',
-					'dimensions': [1025, 9999]
-				}
-			];
 
 			/*var ajaxParams = $parse('ajaxParams');
 			console.log(ajaxParams(scope));
@@ -47,7 +32,7 @@ ngApp.directive('gridTable', ['$filter', function ($filter) {
 
 			var init = function(data) {
 
-				if (typeof data != "object" || _.isEmpty(data)) {
+				if (typeof data != "object" || jQuery.isEmptyObject(data)) {
 					// Maybe want to hide the table, or something?
 					// Also, might want to make this a better check... Just because it's an object, doesn't mean it's in the right format. :)
 					return;
@@ -83,7 +68,7 @@ ngApp.directive('gridTable', ['$filter', function ($filter) {
 
 				updatePagingOptions(scope.table.pagingOptions);
 
-				scope.toggleResponsiveColumns(scope.breakpoint);
+				scope.toggleResponsiveColumns(breakpoint.breakpoint.name);
 
 			};
 
@@ -239,36 +224,20 @@ ngApp.directive('gridTable', ['$filter', function ($filter) {
 
 			// Responsive Tables
 
-			scope.setBreakpoint = function(windowSize) {
-				_.each(sizes, function(size) {
-					if (windowSize > size.dimensions[0] && windowSize < size.dimensions[1]) {
-						scope.breakpoint = size.name;
-					}
-				});
-			};
-
 			scope.toggleResponsiveColumns = function(breakpoint) {
-				_.each(scope.table.columnList, function(col) {
-					col.isVisible = !_.contains(col.hide, breakpoint);
+			    angular.forEach(scope.table.columnList, function (col) {
+			        col.isVisible = jQuery.inArray(breakpoint, col.hide) === -1;
 				});
 				checkForHiddenColumns();
 			};
 
-			scope.$watch(function() {
-				return window.innerWidth;
-			}, function(newValue, oldValue) {
-				scope.setBreakpoint(newValue);
-			});
-
-			scope.$watch('breakpoint', function(newValue, oldValue) {
-				if (newValue !== oldValue) {
-					scope.toggleResponsiveColumns(newValue);
-				}
-			});
-
-			window.onresize = function() {
-				scope.$apply();
-			};
+			scope.$watch(function () {
+			    return breakpoint.breakpoint.name
+			}, function (newValue, oldValue) {
+			    if (newValue !== oldValue) {
+			        scope.toggleResponsiveColumns(newValue);
+			    }
+			}, true);
 
 		}
 	};

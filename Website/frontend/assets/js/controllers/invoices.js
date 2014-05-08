@@ -1,6 +1,6 @@
 /* Invoices Controller
  */
-ngApp.controller('InvoicesCtrl', ['$scope', '$rootScope', '$http', '$filter', '$timeout', function ($scope, $rootScope, $http, $filter, $timeout) {
+ngApp.controller('InvoicesCtrl', ['$scope', '$rootScope', '$http', '$filter', '$timeout', 'jQuery', function ($scope, $rootScope, $http, $filter, $timeout, jQuery) {
 
 	$scope.invoicesTable = {
 		"columnList": [
@@ -101,7 +101,7 @@ ngApp.controller('InvoicesCtrl', ['$scope', '$rootScope', '$http', '$filter', '$
 	};
 
 	$scope.isFiltered = function() {
-		return !_.isEmpty($scope.filters);
+		return !jQuery.isEmptyObject($scope.filters);
 	}
 
 	$scope.test = function() {

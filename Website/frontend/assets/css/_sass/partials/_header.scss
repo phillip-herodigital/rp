@@ -117,7 +117,7 @@
 	background-size: cover;
 	background-position: 50%;
 	background-repeat: no-repeat;
-	background-image: image-url("bg/hero-1.jpg");
+    // Set background iamge on .banner in HTML
 	.inner {
 		background: image-url("bg/banner-bottom.png") 0 100% repeat-x;
 	}

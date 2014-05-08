@@ -527,6 +527,7 @@
     <Content Include="frontend\assets\i\logo-peco.png" />
     <Content Include="frontend\assets\i\logo-ppl.png" />
     <Content Include="frontend\assets\i\logo.png" />
+    <Content Include="frontend\assets\i\marketing\bullet-white.png" />
     <Content Include="frontend\assets\i\marketing\captain-hopes.jpg" />
     <Content Include="frontend\assets\i\marketing\collapse.png" />
     <Content Include="frontend\assets\i\marketing\contact-banner.jpg" />
@@ -575,11 +576,16 @@
     <Content Include="frontend\assets\js\controllers\main.js" />
     <Content Include="frontend\assets\js\controllers\marketing.js" />
     <Content Include="frontend\assets\js\controllers\template.js" />
+    <Content Include="frontend\assets\js\directives\float-labels.js" />
+    <Content Include="frontend\assets\js\directives\loading-indicator.js" />
     <Content Include="frontend\assets\js\directives\main-nav.js" />
+    <Content Include="frontend\assets\js\directives\mobile-nav.js" />
     <Content Include="frontend\assets\js\directives\pagination.js" />
     <Content Include="frontend\assets\js\directives\state-tabs.js" />
     <Content Include="frontend\assets\js\directives\table.js" />
     <Content Include="frontend\assets\js\filters\filters.js" />
+    <Content Include="frontend\assets\js\libs\angular-animate\angular-animate.js" />
+    <Content Include="frontend\assets\js\libs\angular-animate\angular-animate.min.js" />
     <Content Include="frontend\assets\js\libs\angular-bootstrap\.bower.json" />
     <Content Include="frontend\assets\js\libs\angular-bootstrap\bower.json" />
     <Content Include="frontend\assets\js\libs\angular-bootstrap\ui-bootstrap-tpls.js" />
@@ -841,6 +847,8 @@
     <Content Include="frontend\assets\js\libs\underscore\package.json" />
     <Content Include="frontend\assets\js\libs\underscore\README.md" />
     <Content Include="frontend\assets\js\libs\underscore\underscore.js" />
+    <Content Include="frontend\assets\js\modules\mask-jquery.js" />
+    <Content Include="frontend\assets\js\services\breakpoint.js" />
     <Content Include="frontend\bower.json" />
     <Content Include="frontend\config.rb" />
     <Content Include="frontend\elements.html" />
@@ -968,6 +976,7 @@
     <Content Include="Views\Pages\Marketing\Press\Press Release.cshtml" />
     <Content Include="Views\Pages\Marketing\Press\Press Landing.cshtml" />
     <Content Include="App_Config\ConnectionStrings.local.config" />
+    <Content Include="Views\Pages\Marketing\Services\HomeLife Services.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
