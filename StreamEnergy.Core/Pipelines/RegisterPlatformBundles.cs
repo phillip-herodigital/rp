@@ -26,7 +26,6 @@ namespace StreamEnergy.Pipelines
                 .Include("~/frontend/assets/js/libs/modernizr/modernizr.js")
                 .Include("~/frontend/assets/js/libs/jquery/dist/jquery.min.js")
                 .Include("~/frontend/assets/js/libs/angular/angular.min.js")
-                .Include("~/frontend/assets/js/libs/angular-animate/angular-animate.min.js")
                 .Include("~/frontend/assets/js/libs/angular-bootstrap/ui-bootstrap-tpls.min.js")
                 .Include("~/frontend/assets/js/libs/angular-ui-utils/ui-utils.min.js")
                 .Include("~/frontend/assets/js/app.js")
