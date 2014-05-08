@@ -1,5 +1,4 @@
-﻿using StreamEnergy.Extensions;
-using StreamEnergy.Processes;
+﻿using StreamEnergy.Processes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,12 +7,18 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
-    class SelectOfferState : IState<UserContext, InternalContext>
+    public class AccountInformationState : IState<UserContext, InternalContext>
     {
         public IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
         {
-            yield return context => context.ServiceAddress.PostalCode5;
+            yield return context => context.ServiceAddress;
             yield return context => context.SelectedOffers;
+            yield return context => context.BillingAddress;
+            yield return context => context.ContactInfo;
+            yield return context => context.Language;
+            yield return context => context.SecondaryContactInfo;
+            yield return context => context.SocialSecurityNumber;
+            yield return context => context.DriversLicense;
         }
 
         public IEnumerable<ValidationResult> AdditionalValidations(UserContext context, InternalContext internalContext)
@@ -28,13 +33,12 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public Type Process(UserContext context, InternalContext internalContext)
         {
-            // TODO - is there anything that goes here?
-            return typeof(ProvideAccountInfoState);
+            return typeof(LoadIdentityQuestionsState);
         }
 
         public bool RestoreInternalState(IStateMachine<UserContext, InternalContext> stateMachine, ref InternalContext internalContext, ref Type state)
         {
-            if (!stateMachine.RestoreStateFrom(typeof(LoadOffersState), ref internalContext, ref state))
+            if (!stateMachine.RestoreStateFrom(typeof(PlanSelectionState), ref internalContext, ref state))
             {
                 return false;
             }

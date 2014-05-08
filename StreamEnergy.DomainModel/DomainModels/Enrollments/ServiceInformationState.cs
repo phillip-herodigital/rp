@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
-    public class GetServiceInformationState : IState<UserContext, InternalContext>
+    public class ServiceInformationState : IState<UserContext, InternalContext>
     {
         public IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
         {

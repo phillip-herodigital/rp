@@ -1,13 +1,12 @@
 ﻿using StreamEnergy.Processes;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
-    public class ProvideAccountInfoState : IState<UserContext, InternalContext>
+    class VerifyIdentityState : IState<UserContext, InternalContext>
     {
         public IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
         {
@@ -19,9 +18,10 @@ namespace StreamEnergy.DomainModels.Enrollments
             yield return context => context.SecondaryContactInfo;
             yield return context => context.SocialSecurityNumber;
             yield return context => context.DriversLicense;
+            // TODO - identity questions
         }
 
-        public IEnumerable<ValidationResult> AdditionalValidations(UserContext context, InternalContext internalContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> AdditionalValidations(UserContext context, InternalContext internalContext)
         {
             yield break;
         }
@@ -33,13 +33,12 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public Type Process(UserContext context, InternalContext internalContext)
         {
-            // TODO - is there anything that goes here?
-            return typeof(ProvideAccountInfoState);
+            return typeof(LoadDespositInfoState);
         }
 
         public bool RestoreInternalState(IStateMachine<UserContext, InternalContext> stateMachine, ref InternalContext internalContext, ref Type state)
         {
-            if (!stateMachine.RestoreStateFrom(typeof(SelectOfferState), ref internalContext, ref state))
+            if (!stateMachine.RestoreStateFrom(typeof(LoadIdentityQuestionsState), ref internalContext, ref state))
             {
                 return false;
             }

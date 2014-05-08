@@ -28,12 +28,12 @@ namespace StreamEnergy.DomainModels.Enrollments
         public Type Process(UserContext data, InternalContext internalContext)
         {
             // TODO - load offers and connect dates, etc.
-            return typeof(SelectOfferState);
+            return typeof(PlanSelectionState);
         }
 
         public bool RestoreInternalState(IStateMachine<UserContext, InternalContext> stateMachine, ref InternalContext internalContext, ref Type state)
         {
-            if (!stateMachine.RestoreStateFrom(typeof(GetServiceInformationState), ref internalContext, ref state))
+            if (!stateMachine.RestoreStateFrom(typeof(ServiceInformationState), ref internalContext, ref state))
             {
                 return false;
             }

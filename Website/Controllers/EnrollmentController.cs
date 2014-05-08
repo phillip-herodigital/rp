@@ -34,7 +34,7 @@ namespace StreamEnergy.MyStream.Controllers
             if (context == null)
                 session[ContextSessionKey] = context = new UserContext();
 
-            var state = (session[StateSessionKey] as Type) ?? typeof(DomainModels.Enrollments.GetServiceInformationState);
+            var state = (session[StateSessionKey] as Type) ?? typeof(DomainModels.Enrollments.ServiceInformationState);
             stateMachine.Initialize(state, context, null);
 
             base.Initialize(controllerContext);
