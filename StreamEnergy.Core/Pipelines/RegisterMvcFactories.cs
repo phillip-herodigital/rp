@@ -25,6 +25,8 @@ namespace StreamEnergy.Pipelines
             ControllerBuilder.Current.SetControllerFactory(new Mvc.ControllerFactory(ControllerBuilder.Current.GetControllerFactory(), container));
             DependencyResolver.SetResolver(new global::Unity.Mvc5.UnityDependencyResolver(container));
             GlobalConfiguration.Configuration.DependencyResolver = new global::Unity.WebApi.UnityDependencyResolver(container);
+
+            GlobalConfiguration.Configuration.Formatters.Insert(0, new Mvc.JsonNetFormatter());
         }
 
     }
