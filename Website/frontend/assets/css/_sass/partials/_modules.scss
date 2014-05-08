@@ -44,8 +44,11 @@ article {
 		//margin: 0px -15px -15px -15px;
 	}
 	.content {
-		padding: 15px;
+		padding: 25px 15px;
 		position: relative;
+		& + .content {
+			border-top: 1px solid #ddd;
+		}
 	}
 	.loadingMessage {
 		position: absolute;

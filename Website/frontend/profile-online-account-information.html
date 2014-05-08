@@ -59,7 +59,7 @@
             <div class="banner" style="background-image: url(assets/i/bg/hero-invoices.jpg);">
                 <div class="inner">
                     <div class="wrapper">
-                        <h1>Account Information</h1>
+                        <h1>Online Account</h1>
                     </div>
                 </div>
             </div>
@@ -68,14 +68,86 @@
 				<section class="layout cols-1">
 					<article class="grey-box"> 
 						<header>
-							<h2></h2>
+							<h2>My Online Account Information</h2>
 						</header>
 						<form>
 							<div class="content">
-								
+								<div class="group cols-2">
+									<div class="item">
+										<label for="username">Username:</label>
+										<input type="text" name="username" id="username">
+									</div>
+									<div class="item">
+										<label for="email">Email:</label>
+										<input type="email" name="email" id="email">
+									</div>
+								</div>	
+								<p><a href="#" class="additional-field-action">Change Password</a></p>
+								<div class="group additional-field-group">
+									<div class="group cols-2">
+										<div class="item">
+											<label for="current-password">Current Password:</label>
+											<input type="text" name="current-password" id="current-password">
+										</div>
+									</div>
+									<div class="group cols-2">
+										<div class="item">
+											<label for="new-password">New Password:</label>
+											<input type="text" name="new-password" id="new-password">
+											<span class="help-text">Password must be 8 characters long and not be the same as your username</span>
+										</div>
+										<div class="item">
+											<label for="new-password-repeat">New Password:</label>
+											<input type="email" name="new-password-repeat" id="new-password-repeat">
+										</div>
+									</div>
+								</div>
+								<div class="group cols-2">
+									<div class="item">
+										<label for="security-question-1">Security Question #1:</label>
+										<select name="security-question-1" id="security-question-1">
+											<option value="">Select a Security Question</option>
+										</select>
+									</div>
+									<div class="item">
+										<label for="security-answer-1">Answer:</label>
+										<input type="text" name="security-answer-1" id="security-answer-1">
+										<span class="help-text">Answer must be 4 or more characters and is not case sensitive</span>
+									</div>
+								</div>
+								<div class="group cols-2">
+									<div class="item">
+										<label for="security-question-2">Security Question #2:</label>
+										<select name="security-question-2" id="security-question-2">
+											<option value="">Select a Security Question</option>
+										</select>
+									</div>
+									<div class="item">
+										<label for="security-answer-2">Answer:</label>
+										<input type="text" name="security-answer-2" id="security-answer-2">
+										<span class="help-text">Answer must be 4 or more characters and is not case sensitive</span>
+									</div>
+								</div>
+							</div>
+							<div class="content">
+								<div class="item">
+									<label for="security-question-2">Language Preference</label>
+									<ul class="checkbox-list">
+										<li>
+											<input type="radio" id="language-english" value="english" name="language-preference">
+											<label for="language-english">English</label>
+										</li>
+										<li>
+											<input type="radio" id="language-spanish" value="spanish" name="language-preference">
+											<label for="language-spanish">Spanish</label>
+										</li>
+									</ul>
+								</div>								
 							</div>
 							<footer>
-								
+								<div class="buttons">
+									<button type="submit" class="buttons">Save</button>
+								</div>								
 							</footer>
 						</form>
 					</article>

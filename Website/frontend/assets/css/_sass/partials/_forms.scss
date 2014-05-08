@@ -104,6 +104,14 @@ form,
 	.additional-field-action {
 		text-transform: uppercase;
 		font-weight: 600;
+		font-size: 14px;
+	}
+	.help-text {
+		display: block;
+		color: #999;
+		font-size: 11px;
+		line-height: 1.3;
+		padding: 7px 8px 0;
 	}
 	div.validationSummary {
 		margin-bottom: 10px;
@@ -214,9 +222,12 @@ form,
 				}
 			}
 		}
+		& + div.group {
+			margin-top: 20px;
+		}
 	}
 	div.additional-field-group {
-		background: #fbfbfb;
+		background: #fafafa;
 		border-top: 1px solid #ddd;
 		border-bottom: 1px solid #ddd;
 		padding: 25px 15px;
