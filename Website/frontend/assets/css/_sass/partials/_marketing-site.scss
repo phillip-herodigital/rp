@@ -1893,3 +1893,18 @@ article.manage-services {
 		}
 	}
 }
+
+article.marketing div.wrapper div.historical-rates {
+	overflow: scroll;
+	table tr {
+		td {
+			text-align: center;
+			&:nth-child(even) {
+				background-color: #c2ddf5;
+			}
+			&:nth-child(odd) {
+			background-color: #e8f2fa;
+			}
+		}
+	}
+}
