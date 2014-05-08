@@ -417,6 +417,7 @@
 		padding: 14px;
 	}
 	table {
+		margin-bottom: 30px;
 		thead {
 			th {
 				background: #f7f7f7;
@@ -493,6 +494,19 @@
 				color: #828282;
 				font-weight: normal;
 			}
+		}
+		.line-item {
+			.description {
+				text-align: left;
+				border-right: 0;
+			}
+			.rate {
+				text-align: right;
+				border-left: 0;
+			}
+		}
+		.total {
+			text-align: right;
 		}
 		.details {
 			th {
