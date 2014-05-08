@@ -1,4 +1,26 @@
-﻿<article class="marketing homelife-services">
+﻿@model StreamEnergy.MyStream.Models.Marketing.HomeLifeServices
+
+<article class="marketing homelife-services">
+    <form method="post" action="@Model.PostUrl">
+        <input type="hidden" name="clientId" value="@Model.ClientID" />
+        <input type="hidden" name="productCode" value="" />
+        <input type="hidden" name="campaignName" value="@Model.CampaignName" />
+        <input type="hidden" name="customerNumber" value="@Model.CustomerNumber" />
+        <input type="hidden" name="firstName" value="@Model.FirstName" />
+        <input type="hidden" name="lastName" value="@Model.LastName" />
+        <input type="hidden" name="address1" value="@Model.Address1" />
+        <input type="hidden" name="address2" value="@Model.Address2" />
+        <input type="hidden" name="city" value="@Model.City" />
+        <input type="hidden" name="state" value="@Model.State" />
+        <input type="hidden" name="zipCode" value="@Model.ZipCode" />
+        <input type="hidden" name="phone1" value="@Model.Phone1" />
+        <input type="hidden" name="phone2" value="@Model.Phone2" />
+        <input type="hidden" name="phone3" value="@Model.Phone3" />
+        <input type="hidden" name="repId" value="@Model.RepId" />
+        <input type="hidden" name="repFirstName" value="@Model.RepFirstName" />
+        <input type="hidden" name="repLastName" value="@Model.RepLastName" />
+        <input type="hidden" name="repEmail" value="@Model.RepEmail" />
+    </form>
     <div class="intro">
         <div class="wrapper">
             <h1>@Html.Sitecore().Field("Intro Header")</h1>
