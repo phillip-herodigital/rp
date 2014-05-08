@@ -110,7 +110,7 @@
 	}
 }
 
-.banner {
+.banner {	
 	//height: 200px;
 	overflow: hidden;
 	margin-bottom: 20px;
@@ -148,4 +148,16 @@
 			color: #0971ce;
 		}
 	}
+	@include breakpoint(small) {
+		.inner {
+			background: image-url("bg/banner-bottom-mobile.png") 0 100% repeat-x;
+		}			
+		.wrapper {
+			height: 120px;
+			padding-top: 50px;
+		}
+		h1 {
+			font-size: 27px;
+		}	
+	}	
 }

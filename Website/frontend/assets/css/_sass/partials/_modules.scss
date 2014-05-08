@@ -22,7 +22,7 @@ article {
 article {
 	@include box-shadow(0 0 5px rgba(0,0,0,.15));
 	@include border-radius(10px);
-	margin-bottom: 20px;
+	margin: 15px 0 20px;
 	border: 1px solid #ddd;	
 	//padding: 15px;
 	overflow: hidden;
@@ -418,6 +418,35 @@ article.notification-settings {
 	}
 	.edit-preferences {
 		padding-bottom: 0;
+		.additional-field-action {
+			position: absolute;
+			right: 0;
+			top: 50%;
+			margin-top: -10px;
+		}
+		.additional-field-group {
+			border-bottom: 0;
+			> :first-child { 
+				margin-top: 0;
+			}
+			.buttons {
+				margin-right: 0;
+			}
+		}
+		.checkbox-list {
+			label {
+				display: inline;
+			}
+			li {
+				margin-bottom: 5px;
+				&:last-child {
+					margin-bottom: 0;
+				}	
+			}
+		}
+		.group {
+			position: relative;
+		}		
 		.label {
 			@include border-radius(4px);
 			border: 1px solid #ddd;
@@ -426,15 +455,12 @@ article.notification-settings {
 			padding: 3px 8px;
 			font-weight: 600;
 		}
-		.additional-field-action {
-			float: right;
-			margin-top: 10px;
+		.notification-list {
+			font-weight: 600;
 		}
-		.additional-field-group {
-			border-bottom: 0;
-			> :first-child { 
-				margin-top: 0;
-			}
+		.preference-type {
+			display: block;
+			margin-right: 50px;
 		}
 	}
 }
@@ -523,9 +549,17 @@ aside {
 	}
 	article.grey-box {
 		margin-top: 15px;
-		padding: 0 15px;
-		p a {
+		padding: 0;
+		.active {
+			background-color: #fff;
+		}
+		p {
+			margin: 0;
+			padding: 20px 15px;
 			text-transform: uppercase;
+		}
+		p + p {
+			border-top: 1px solid #ddd;
 		}
 	}
 }

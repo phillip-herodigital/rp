@@ -155,6 +155,12 @@ form,
 				text-transform: uppercase;
 			}
 		}
+		@include breakpoint(small) {
+			margin-bottom: 15px;
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
 	}
 
     div.item.fl-enabled {
