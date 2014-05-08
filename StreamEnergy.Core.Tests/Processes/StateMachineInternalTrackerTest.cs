@@ -174,7 +174,7 @@ namespace StreamEnergy.Core.Tests.Processes
         private IStateMachine<GetOffersContext, GetOffersInternalContext> Create()
         {
             var unity = new UnityContainer();
-            var result = new StateMachine<GetOffersContext, GetOffersInternalContext>(unity);
+            var result = new StateMachine<GetOffersContext, GetOffersInternalContext>(new ValidationService(), unity);
             return result;
         }
 

@@ -6,9 +6,9 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StreamEnergy
+namespace StreamEnergy.Extensions
 {
-    internal static class ReflectionExpressionUtility
+    public static class ReflectionExpressionUtility
     {
         private static readonly Dictionary<Tuple<Type, string>, object> compiledDelegates = new Dictionary<Tuple<Type, string>, object>();
 
