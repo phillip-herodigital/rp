@@ -500,8 +500,10 @@
     <Content Include="frontend\assets\i\icon\bbb.png" />
     <Content Include="frontend\assets\i\icon\blue-rectangle.png" />
     <Content Include="frontend\assets\i\icon\close.png" />
+    <Content Include="frontend\assets\i\icon\collapse.png" />
     <Content Include="frontend\assets\i\icon\compare-usage.png" />
     <Content Include="frontend\assets\i\icon\dsa.png" />
+    <Content Include="frontend\assets\i\icon\expand.png" />
     <Content Include="frontend\assets\i\icon\facebook.png" />
     <Content Include="frontend\assets\i\icon\hamburger.png" />
     <Content Include="frontend\assets\i\icon\homelife-services.png" />
@@ -975,6 +977,8 @@
     <Content Include="Views\Pages\Marketing\Historical Rates\Historical Rates Pennsylvania.cshtml" />
     <Content Include="Views\Pages\Marketing\Press\Press Release.cshtml" />
     <Content Include="Views\Pages\Marketing\Press\Press Landing.cshtml" />
+    <Content Include="Views\Pages\Marketing\Careers\Careers Listing.cshtml" />
+    <Content Include="Views\Pages\Marketing\Careers\Careers Detail.cshtml" />
     <Content Include="App_Config\ConnectionStrings.local.config" />
     <Content Include="Views\Pages\Marketing\Services\HomeLife Services.cshtml" />
     <None Include="Web.Debug.config">
