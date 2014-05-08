@@ -139,6 +139,7 @@
     <Compile Include="ISanitizable.cs" />
     <Compile Include="IValidationService.cs" />
     <Compile Include="Json.cs" />
+    <Compile Include="MockParameterBuilder.cs" />
     <Compile Include="Mvc\AspNetContainerSetup.cs" />
     <Compile Include="Mvc\ContextInterceptor.cs" />
     <Compile Include="Mvc\ControllerFactory.cs" />

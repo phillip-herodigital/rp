@@ -15,19 +15,21 @@ namespace StreamEnergy.Services.Clients
     {
         private struct ResponseTest
         {
-            public Predicate<NameValueCollection> Test;
+            public Predicate<string[]> Test;
             public string Response;
         }
 
-        private System.Reflection.Assembly sourceAsm;
+        private readonly System.Reflection.Assembly sourceAsm;
+        private readonly MockParameterBuilder mockParameterBuilder;
         private readonly Dictionary<MethodInfo, List<ResponseTest>> envelopes = new Dictionary<MethodInfo, List<ResponseTest>>();
 
-        public LambdaToResourceMockResolver(System.Reflection.Assembly sourceAsm)
+        public LambdaToResourceMockResolver(System.Reflection.Assembly sourceAsm, MockParameterBuilder mockParameterBuilder)
         {
             this.sourceAsm = sourceAsm;
+            this.mockParameterBuilder = mockParameterBuilder;
         }
 
-        public void Register<T>(Expression<Func<T, object>> service, Predicate<NameValueCollection> match, string resource)
+        public void Register<T>(Expression<Func<T, object>> service, Predicate<string[]> match, string resource)
         {
             var method = service.SimpleMethodCall();
 
@@ -51,7 +53,7 @@ namespace StreamEnergy.Services.Clients
         {
             if (envelopes.ContainsKey(invocation.Method))
             {
-                var mockParameters = new NameValueCollection(); // TODO - get these from somewhere
+                var mockParameters = mockParameterBuilder.Build();
                 var result = envelopes[invocation.Method].FirstOrDefault(m => m.Test(mockParameters));
                 if (result.Response != null)
                 {

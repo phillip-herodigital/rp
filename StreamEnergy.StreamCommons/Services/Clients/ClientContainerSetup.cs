@@ -40,7 +40,7 @@ namespace StreamEnergy.Services.Clients
             mockResolver.MockResolvers.Add(new EmbeddedResourceMockResolver(this.GetType().Assembly));
 
             var temp = unityContainer.Resolve<LambdaToResourceMockResolver>(new DependencyOverride(typeof(System.Reflection.Assembly), this.GetType().Assembly));
-            temp.Register<Sample.Temperature.TempConvertSoap>(s => s.CelsiusToFahrenheit(null), nvc => true, "StreamEnergy.Services.Clients.Mocks.CelsiusToFahrenheit_Response.soap");
+            temp.Register<Sample.Temperature.TempConvertSoap>(s => s.CelsiusToFahrenheit(null), mockParams => mockParams.Contains("nice"), "StreamEnergy.Services.Clients.Mocks.CelsiusToFahrenheit_Response.soap");
             mockResolver.MockResolvers.Add(temp);
         }
 
