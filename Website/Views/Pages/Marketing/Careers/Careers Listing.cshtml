@@ -7,11 +7,15 @@
             var resumeEmail = @Html.Sitecore().Field("Resume Email", item);   
             
             <article class="marketing wrapper careers">
-                <p class="job-title"><a class="job-button" href="#">@jobTitle</a></p>
-                <hr />
-                @Html.Sitecore().Field("Job Description", item)
-                <p>@Html.Sitecore().Field("Job Info Text", item)</p>
-                <p><a class="button blue" href="mailto:@resumeEmail?subject=@jobTitle">@resumeEmail</a></p>
+                <div class="panel" slide-toggle>
+                    <p class="job-title"><a class="job-button" ng-click="togglePane('question1')" href="">@jobTitle</a></p>
+                    <hr />
+                    <div class="panel-content slide-toggle" ng-show="pane == 'question1'">
+                        @Html.Sitecore().Field("Job Description", item)
+                        <p>@Html.Sitecore().Field("Job Info Text", item)</p>
+                        <p><a class="button blue" href="mailto:@resumeEmail?subject=@jobTitle">@resumeEmail</a></p>
+                    </div>
+                </div>
             </article>
         }
     }
