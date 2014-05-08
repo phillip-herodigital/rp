@@ -48,10 +48,12 @@ ngApp.controller('AccountBalances', ['$scope', '$rootScope', '$http', '$filter',
 		}
 		return '';
 	},
-	getTotalDue = function() {
-		return _.reduce($scope.accounts, function(memo, item){
-			return memo + parseFloat(item.amountDue, 10);
-		}, 0);
+	getTotalDue = function () {
+	    var total = 0;
+	    angular.forEach($scope.accounts, function (account, key) {
+	        total += parseFloat(account.amountDue, 10);
+	    });
+	    return total;
 	};
 
 	$scope.paymentMethods = [

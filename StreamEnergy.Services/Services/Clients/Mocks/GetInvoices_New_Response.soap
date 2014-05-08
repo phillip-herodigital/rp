@@ -1,0 +1,1 @@
+﻿<GetInvoicesResponse xmlns="http://www.example.com/webservices/"><Invoice xmlns:d3p1="http://schemas.datacontract.org/2004/07/StreamEnergy.Sample.Commons" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"></Invoice></GetInvoicesResponse>
