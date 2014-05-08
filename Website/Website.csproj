@@ -329,6 +329,11 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Services.Client" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.1.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Spatial, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Spatial.5.6.0\lib\net40\System.Spatial.dll</HintPath>
     </Reference>
@@ -341,6 +346,14 @@
     <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.1.2\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.1.2\lib\net45\System.Web.Http.WebHost.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -391,6 +404,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\EnrollmentController.cs" />
     <Compile Include="layouts\HTML Layout.aspx.cs">
       <DependentUpon>HTML Layout.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -401,6 +416,16 @@
     <Compile Include="layouts\BaseLayout.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Models\Account\Invoice.cs" />
+    <Compile Include="Models\Angular\GridTable\Column.cs" />
+    <Compile Include="Models\Angular\GridTable\ColumnSchemaAttribute.cs" />
+    <Compile Include="Models\Angular\GridTable\GridTableExtensions.cs" />
+    <Compile Include="Models\Angular\GridTable\Table.cs" />
+    <Compile Include="Models\Angular\GridTable\DeviceType.cs" />
+    <Compile Include="Models\Enrollment\ClientData.cs" />
+    <Compile Include="Models\Enrollment\ServiceInformation.cs" />
+    <Compile Include="Models\TranslatedValidationResult.cs" />
+    <Compile Include="Pipelines\InitializeWebApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -475,8 +500,10 @@
     <Content Include="frontend\assets\i\icon\bbb.png" />
     <Content Include="frontend\assets\i\icon\blue-rectangle.png" />
     <Content Include="frontend\assets\i\icon\close.png" />
+    <Content Include="frontend\assets\i\icon\collapse.png" />
     <Content Include="frontend\assets\i\icon\compare-usage.png" />
     <Content Include="frontend\assets\i\icon\dsa.png" />
+    <Content Include="frontend\assets\i\icon\expand.png" />
     <Content Include="frontend\assets\i\icon\facebook.png" />
     <Content Include="frontend\assets\i\icon\hamburger.png" />
     <Content Include="frontend\assets\i\icon\homelife-services.png" />
@@ -551,11 +578,16 @@
     <Content Include="frontend\assets\js\controllers\main.js" />
     <Content Include="frontend\assets\js\controllers\marketing.js" />
     <Content Include="frontend\assets\js\controllers\template.js" />
+    <Content Include="frontend\assets\js\directives\float-labels.js" />
+    <Content Include="frontend\assets\js\directives\loading-indicator.js" />
     <Content Include="frontend\assets\js\directives\main-nav.js" />
+    <Content Include="frontend\assets\js\directives\mobile-nav.js" />
     <Content Include="frontend\assets\js\directives\pagination.js" />
     <Content Include="frontend\assets\js\directives\state-tabs.js" />
     <Content Include="frontend\assets\js\directives\table.js" />
     <Content Include="frontend\assets\js\filters\filters.js" />
+    <Content Include="frontend\assets\js\libs\angular-animate\angular-animate.js" />
+    <Content Include="frontend\assets\js\libs\angular-animate\angular-animate.min.js" />
     <Content Include="frontend\assets\js\libs\angular-bootstrap\.bower.json" />
     <Content Include="frontend\assets\js\libs\angular-bootstrap\bower.json" />
     <Content Include="frontend\assets\js\libs\angular-bootstrap\ui-bootstrap-tpls.js" />
@@ -817,6 +849,8 @@
     <Content Include="frontend\assets\js\libs\underscore\package.json" />
     <Content Include="frontend\assets\js\libs\underscore\README.md" />
     <Content Include="frontend\assets\js\libs\underscore\underscore.js" />
+    <Content Include="frontend\assets\js\modules\mask-jquery.js" />
+    <Content Include="frontend\assets\js\services\breakpoint.js" />
     <Content Include="frontend\bower.json" />
     <Content Include="frontend\config.rb" />
     <Content Include="frontend\elements.html" />
@@ -944,6 +978,11 @@
     <Content Include="Views\Pages\Marketing\Press\Press Release.cshtml" />
     <Content Include="Views\Pages\Marketing\Press\Press Landing.cshtml" />
     <Content Include="Views\Pages\Marketing\Pay\States Pay.cshtml" />
+    <Content Include="Views\Pages\Marketing\Philanthropy\Charity Listing.cshtml" />
+    <Content Include="Views\Pages\Marketing\Careers\Careers Listing.cshtml" />
+    <Content Include="Views\Pages\Marketing\Careers\Careers Detail.cshtml" />
+    <Content Include="App_Config\ConnectionStrings.local.config" />
+    <Content Include="Views\Pages\Marketing\Services\HomeLife Services.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -952,8 +991,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="Models\" />
     <Folder Include="Scripts\" />
     <Folder Include="Views\Shared\" />
   </ItemGroup>
@@ -961,6 +998,14 @@
     <ProjectReference Include="..\StreamEnergy.Core\StreamEnergy.Core.csproj">
       <Project>{79779d13-7d5e-4190-ba72-5302244c8165}</Project>
       <Name>StreamEnergy.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StreamEnergy.DomainModel\StreamEnergy.DomainModel.csproj">
+      <Project>{449d7f2c-372c-41a8-b640-6751fda30828}</Project>
+      <Name>StreamEnergy.DomainModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StreamEnergy.Services\StreamEnergy.Services.csproj">
+      <Project>{c1c6ce03-d27a-4dff-a5e5-822e8a29bfa9}</Project>
+      <Name>StreamEnergy.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -977,7 +1022,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>0</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:59993/</IISUrl>
+          <IISUrl>http://localhost:59203/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

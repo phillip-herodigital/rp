@@ -1,0 +1,128 @@
+﻿<article class="marketing homelife-services">
+    <div class="intro">
+        <div class="wrapper">
+            <h1>@Html.Sitecore().Field("Intro Header")</h1>
+            @Html.Sitecore().Field("Intro Content")
+        </div>
+    </div>
+    <div class="homelife-promo">
+        <div class="wrapper">
+            <h3>@Html.Sitecore().Field("Promo Header")</h3>
+            @Html.Sitecore().Field("Promo Content")
+        </div>
+    </div>
+    <div class="bundle-promo">
+        @Html.Sitecore().Field("Bundle Promo")
+    </div>
+    <div class="package platinum" id="platinum-package">
+        <div class="wrapper">
+            <div class="box clearfix">
+                <h3>@Html.Sitecore().Field("Platinum Title")</h3>
+                <ul class="services">
+                    <li class="identity">
+                        <h4>@Html.Sitecore().Field("Identity Protection Header")</h4>
+                        @Html.Sitecore().Field("Identity Protection Image", new { height = "69" })
+                        <p><a class="button" href="#identity-protection-details">@Html.Sitecore().Field("Learn More Text")</a></p>
+                    </li>
+                    <li class="support">
+                        <h4>@Html.Sitecore().Field("Tech Support Header")</h4>
+                        @Html.Sitecore().Field("Tech Support Image", new { height = "69" })
+                        <p><a class="button" href="#tech-support-details">@Html.Sitecore().Field("Learn More Text")</a></></p>
+                    </li>
+                    <li class="monitoring">
+                        <h4>@Html.Sitecore().Field("Credit Monitoring Header")</h4>
+                        @Html.Sitecore().Field("Credit Monitoring Image", new { height = "69" })
+                        <p><a class="button" href="#credit-monitoring-details">@Html.Sitecore().Field("Learn More Text")</a></p>
+                    </li>
+                </ul>
+                <div class="savings">
+                    <p><span class="line-top"></span>@Html.Sitecore().Field("Platinum Savings")<span class="line-bottom"></span></p>
+                </div>
+                <div class="pricing">
+                    <p class="price">@Html.Sitecore().Field("Platinum Price")</p>
+                    <p>@Html.Sitecore().Field("Per Month Text")</p>
+                    <div><a class="button" href="#">@Html.Sitecore().Field("Enroll Now Text")</a></div>
+                </div>
+                <span class="sash"><span>@Html.Sitecore().Field("Best Text")</span></span>
+            </div>
+        </div>
+    </div>
+    <div class="package gold">
+        <div class="wrapper">
+            <div class="box clearfix">
+                <h3>@Html.Sitecore().Field("Gold Title")</h3>
+                <ul class="services">
+                    <li class="identity">
+                        <h4>@Html.Sitecore().Field("Identity Protection Header")</h4>
+                        @Html.Sitecore().Field("Identity Protection Image", new { height = "69" })
+                        <div>
+                            <input type="checkbox" id="identity">
+                            <label for="identity"></label>
+                        </div>
+                    </li>
+                    <li class="support">
+                        <h4>@Html.Sitecore().Field("Tech Support Header")</h4>
+                        @Html.Sitecore().Field("Tech Support Image", new { height = "69" })
+                        <div>
+                            <input type="checkbox" id="support">
+                            <label for="support"></label>
+                        </div>
+                    </li>
+                    <li class="monitoring">
+                        <h4>@Html.Sitecore().Field("Credit Monitoring Header")</h4>
+                        @Html.Sitecore().Field("Credit Monitoring Image", new { height = "69" })
+                        <div>
+                            <input type="checkbox" id="monitoring">
+                            <label for="monitoring"></label>
+                        </div>
+                    </li>
+                </ul>
+                <div class="savings">
+                    <p><span class="line-top"></span>@Html.Sitecore().Field("Gold Savings")<span class="line-bottom"></span></p>
+                </div>
+                <div class="pricing">
+                    <p class="price">@Html.Sitecore().Field("Gold Price")</p>
+                    <p>@Html.Sitecore().Field("Per Month Text")</p>
+                    <div><a class="button" href="#">@Html.Sitecore().Field("Enroll Now Text")</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="package silver">
+        <div class="wrapper">
+            <div class="box clearfix">
+                <h3>@Html.Sitecore().Field("Silver Title")</h3>
+                <ul class="services">
+                    <li class="identity">
+                        <h4>@Html.Sitecore().Field("Identity Protection Header")</h4>
+                        <div>@Html.Sitecore().Field("Identity Protection Image", new { height = "69" })</div>
+                        <div class="pricing">
+                            <p class="price">@Html.Sitecore().Field("Silver Price")</p>
+                            <p>@Html.Sitecore().Field("Per Month Text")</p>
+                            <div><a class="button" href="#">@Html.Sitecore().Field("Enroll Now Text")</a></div>
+                        </div>
+                    </li>
+                    <li class="support">
+                        <h4>@Html.Raw(Html.Sitecore().Field("Tech Support Header"))</h4>
+                        <div>@Html.Sitecore().Field("Tech Support Image", new { height = "69" })</div>
+                        <div class="pricing">
+                            <p class="price">@Html.Sitecore().Field("Silver Price")</p>
+                            <p>@Html.Sitecore().Field("Per Month Text")</p>
+                            <div><a class="button" href="#">@Html.Sitecore().Field("Enroll Now Text")</a></div>
+                        </div>
+                    </li>
+                    <li class="monitoring">
+                        <h4>@Html.Sitecore().Field("Credit Monitoring Header")</h4>
+                        <div>@Html.Sitecore().Field("Credit Monitoring Image", new { height = "69" })</div>
+                        <div class="pricing">
+                            <p class="price">@Html.Sitecore().Field("Silver Price")</p>
+                            <p>@Html.Sitecore().Field("Per Month Text")</p>
+                            <div><a class="button" href="#">@Html.Sitecore().Field("Enroll Now Text")</a></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <p class="wrapper footnote">@Html.Sitecore().Field("Bundle Footnote")</p>
+</article>
