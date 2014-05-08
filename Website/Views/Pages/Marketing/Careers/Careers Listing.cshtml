@@ -22,9 +22,9 @@
     else
     {
         <article class="marketing wrapper careers">
-			<h3>No Current Job Openings</h3>
+			<h3>@Html.Sitecore().Field("No Openings Title")</h3>
 			<hr />
-			<p>Thank you for your interest in working with us here at Stream Energy. Unfortunately we have no open job positions, but please check back as we regularly update the site.</p>
+			<p>@Html.Sitecore().Field("No Openings Text")</p>
 		</article>
     }
 }
