@@ -75,6 +75,7 @@
     <Compile Include="Services\Clients\IAccountService.cs" />
     <Compile Include="Services\Clients\IServiceMockResolver.cs" />
     <Compile Include="Services\Clients\LambdaToResourceMockResolver.cs" />
+    <Compile Include="Services\Clients\ServiceMockContainerSetup.cs" />
     <Compile Include="Services\Clients\ServiceMockInterceptor.cs" />
     <Compile Include="Services\Clients\ServiceMockResolver.cs" />
     <Compile Include="Services\Clients\TemperatureService.cs" />
