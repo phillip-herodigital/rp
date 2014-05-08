@@ -296,6 +296,9 @@
 						}
 					}
 				}
+				.center {
+					text-align: center;
+				}
 				.cart-item {
 					@extend .clearfix;
 					margin-bottom: 10px;
@@ -524,6 +527,7 @@
 			}
 		}
 		.total {
+			background: #fafafa;
 			text-align: right;
 			font-size: 20px;
 			span {
