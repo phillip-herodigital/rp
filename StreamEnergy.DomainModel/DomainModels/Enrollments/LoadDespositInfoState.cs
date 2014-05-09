@@ -8,6 +8,13 @@ namespace StreamEnergy.DomainModels.Enrollments
 {
     public class LoadDespositInfoState : IState<UserContext, InternalContext>
     {
+        private readonly IEnrollmentService enrollmentService;
+
+        public LoadDespositInfoState(IEnrollmentService enrollmentService)
+        {
+            this.enrollmentService = enrollmentService;
+        }
+
         public IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
         {
             yield return context => context.ServiceAddress;
@@ -33,7 +40,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public Type Process(UserContext context, InternalContext internalContext)
         {
-            // TODO - load deposit information
+            LoadInternalState(context, internalContext);
 
             // TODO - if no deposit, skip the "load payment information" state
             return typeof(LoadPaymentInfoState);
@@ -46,9 +53,16 @@ namespace StreamEnergy.DomainModels.Enrollments
                 return false;
             }
 
-            // TODO - restore deposit information
+            LoadInternalState(stateMachine.Context, internalContext);
 
             return true;
+        }
+
+        private void LoadInternalState(UserContext context, InternalContext internalContext)
+        {
+            enrollmentService.LoadDeposit(context.SelectedOffers);
+            
+            // TODO - read deposit state to internalContext
         }
     }
 }

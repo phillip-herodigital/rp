@@ -8,6 +8,13 @@ namespace StreamEnergy.DomainModels.Enrollments
 {
     class LoadIdentityQuestionsState : IState<UserContext, InternalContext>
     {
+        private readonly IEnrollmentService enrollmentService;
+
+        public LoadIdentityQuestionsState(IEnrollmentService enrollmentService)
+        {
+            this.enrollmentService = enrollmentService;
+        }
+
         public IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
         {
             yield return context => context.ServiceAddress;
@@ -32,8 +39,9 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public Type Process(UserContext context, InternalContext internalContext)
         {
-            // TODO - load identity questions
+            LoadInternalState(context, internalContext);
 
+            // TODO - based on the credit check, we may have a hard stop, etc.
             return typeof(VerifyIdentityState);
         }
 
@@ -44,8 +52,14 @@ namespace StreamEnergy.DomainModels.Enrollments
                 return false;
             }
 
-            // TODO - restore identity questions
+            LoadInternalState(stateMachine.Context, internalContext);
             return true;
+        }
+
+        private void LoadInternalState(UserContext context, InternalContext internalContext)
+        {
+            enrollmentService.CreditCheck(context.ContactInfo.Name, context.SocialSecurityNumber, context.DriversLicense, context.BillingAddress);
+            // TODO - something with the result so we know where we're going next
         }
     }
 }

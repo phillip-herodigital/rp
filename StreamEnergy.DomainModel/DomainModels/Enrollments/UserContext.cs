@@ -19,7 +19,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         public bool IsNewService { get; set; }
 
         [Required(ErrorMessage = "Contact Info Required")]
-        [ValidateObject(ErrorMessagePrefix = "Contact Info ")]
+        [ValidateObject(ErrorMessagePrefix = "")]
         public CustomerContact ContactInfo { get; set; }
 
         [Required(ErrorMessage = "Service Address Required")]
