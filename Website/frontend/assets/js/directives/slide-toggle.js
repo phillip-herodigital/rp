@@ -8,15 +8,15 @@ ngApp.directive('slideToggle', [function () {
 			if (attrs.openPane) {
 				scope.pane = attrs.openPane;
 			}
-
 			scope.togglePane = function(pane) {
 				if(scope.pane === pane) {
 					scope.pane = '';
+					element.find('a').addClass('collapsed');
 				} else {
 					scope.pane = pane;
+					element.find('a').removeClass('collapsed');
 				}
 			};
-
 		}
 	};
 }]);
