@@ -11,11 +11,10 @@ namespace StreamEnergy.DomainModels.Accounts
         public string CisAccountNumber { get; set; }
         public string CamelotAccountNumber { get; set; }
         public string Commodity { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string PrimaryPhone { get; set; }
-        public string WorkPhone { get; set; }
-        public string CellPhone { get; set; }
+        public Name Name { get; set; }
+        public Phone Primary { get; set; }
+        public Phone Work { get; set; }
+        public Phone Cell { get; set; }
         public string EmailAddress { get; set; }
         public Address BillingAddress { get; set; }
     }

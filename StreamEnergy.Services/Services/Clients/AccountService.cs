@@ -11,9 +11,9 @@ namespace StreamEnergy.Services.Clients
     {
         private Sample.Commons.SampleStreamCommonsSoap service;
         private StreamCommons.Account.CisAccountServicesPortType accountService;
-        private StreamEnergy.DPI.DPILinkSoap dpiLinkService;
+        private StreamEnergy.Dpi.DPILinkSoap dpiLinkService;
 
-        public AccountService(Sample.Commons.SampleStreamCommonsSoap service, StreamCommons.Account.CisAccountServicesPortType accountService, StreamEnergy.DPI.DPILinkSoap dpiLinkService)
+        public AccountService(Sample.Commons.SampleStreamCommonsSoap service, StreamCommons.Account.CisAccountServicesPortType accountService, StreamEnergy.Dpi.DPILinkSoap dpiLinkService)
         {
             this.service = service;
             this.accountService = accountService;
@@ -50,11 +50,23 @@ namespace StreamEnergy.Services.Clients
 
             return new CustomerAccount()
             {
-                FirstName = contactInfo.Name_First,
-                LastName = contactInfo.Name_Last,
-                PrimaryPhone = contactInfo.Phone_Primary,
-                WorkPhone = contactInfo.Phone_Work,
-                CellPhone = contactInfo.Phone_Cell,
+                Name = new DomainModels.Name()
+                {
+                    First = contactInfo.Name_First,
+                    Last = contactInfo.Name_Last,
+                },
+                Primary = new DomainModels.Phone()
+                {
+                    Number = contactInfo.Phone_Primary,
+                },
+                Work = new DomainModels.Phone()
+                {
+                    Number = contactInfo.Phone_Work,
+                },
+                Cell = new DomainModels.Phone()
+                {
+                    Number = contactInfo.Phone_Cell,
+                },
                 BillingAddress = new DomainModels.Address()
                 {
                     AddressLine1 = contactInfo.Street,
@@ -84,9 +96,15 @@ namespace StreamEnergy.Services.Clients
                 CisAccountNumber = account.cisAccountNumber,
                 CamelotAccountNumber = account.camelotAccountNumber,
                 Commodity = account.commodity,
-                FirstName = account.firstName,
-                LastName = account.lastName,
-                PrimaryPhone = account.primaryPhone,
+                Name = new DomainModels.Name()
+                {
+                    First = account.firstName,
+                    Last = account.lastName,
+                },
+                Primary = new DomainModels.Phone()
+                {
+                    Number = account.primaryPhone,
+                },
                 EmailAddress = account.emailAddress,
                 BillingAddress = new DomainModels.Address()
                 {
@@ -117,9 +135,15 @@ namespace StreamEnergy.Services.Clients
                 CisAccountNumber = account.cisAccountNumber,
                 CamelotAccountNumber = account.camelotAccountNumber,
                 Commodity = account.commodity,
-                FirstName = account.firstName,
-                LastName = account.lastName,
-                PrimaryPhone = account.primaryPhone,
+                Name = new DomainModels.Name()
+                {
+                    First = account.firstName,
+                    Last = account.lastName,
+                },
+                Primary = new DomainModels.Phone()
+                {
+                    Number = account.primaryPhone,
+                },
                 EmailAddress = account.emailAddress,
                 BillingAddress = new DomainModels.Address()
                 {

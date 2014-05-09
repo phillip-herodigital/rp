@@ -24,7 +24,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         public Address ServiceAddress { get; set; }
 
         [ValidateObject(ErrorMessagePrefix = "Secondary Contact ")]
-        public CustomerName SecondaryContactInfo { get; set; }
+        public Name SecondaryContactInfo { get; set; }
 
         public string SocialSecurityNumber { get; set; }
 

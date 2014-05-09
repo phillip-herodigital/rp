@@ -14,7 +14,7 @@ namespace StreamEnergy.DomainModels
     {
         [Required(ErrorMessage = "Name Required")]
         [ValidateObject]
-        public CustomerName Name { get; set; }
+        public Name Name { get; set; }
 
         [ValidateObject(ErrorMessagePrefix = "Primary Phone ")]
         public Phone PrimaryPhone { get; set; }

@@ -8,17 +8,17 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace StreamEnergy.DPI {
+namespace StreamEnergy.Dpi {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(Name="DPILink™Soap", Namespace="http://ignite.soap.dataparadigm.com/", ConfigurationName="DPI.DPILinkSoap")]
+    [System.ServiceModel.ServiceContractAttribute(Name="DPILink™Soap", Namespace="http://ignite.soap.dataparadigm.com/", ConfigurationName="Dpi.DPILinkSoap")]
     public interface DPILinkSoap {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ignite.soap.dataparadigm.com/Stream_SendTelephonicEnrollmentConfirmationEm" +
             "ail", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        StreamEnergy.DPI.Result Stream_SendTelephonicEnrollmentConfirmationEmail(
+        StreamEnergy.Dpi.Result Stream_SendTelephonicEnrollmentConfirmationEmail(
                     string Auth_ID, 
                     string Auth_PW, 
                     string Salutation, 
@@ -50,7 +50,7 @@ namespace StreamEnergy.DPI {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ignite.soap.dataparadigm.com/Stream_SendTelephonicEnrollmentConfirmationEm" +
             "ail", ReplyAction="*")]
-        System.Threading.Tasks.Task<StreamEnergy.DPI.Result> Stream_SendTelephonicEnrollmentConfirmationEmailAsync(
+        System.Threading.Tasks.Task<StreamEnergy.Dpi.Result> Stream_SendTelephonicEnrollmentConfirmationEmailAsync(
                     string Auth_ID, 
                     string Auth_PW, 
                     string Salutation, 
@@ -82,14 +82,14 @@ namespace StreamEnergy.DPI {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ignite.soap.dataparadigm.com/ServerTest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        StreamEnergy.DPI.Result ServerTest();
+        StreamEnergy.Dpi.Result ServerTest();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ignite.soap.dataparadigm.com/ServerTest", ReplyAction="*")]
-        System.Threading.Tasks.Task<StreamEnergy.DPI.Result> ServerTestAsync();
+        System.Threading.Tasks.Task<StreamEnergy.Dpi.Result> ServerTestAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ignite.soap.dataparadigm.com/UpdateAccount", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        StreamEnergy.DPI.Result UpdateAccount(
+        StreamEnergy.Dpi.Result UpdateAccount(
                     string Auth_ID, 
                     string Auth_PW, 
                     string Account_Number, 
@@ -115,7 +115,7 @@ namespace StreamEnergy.DPI {
                     string Product_Name);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ignite.soap.dataparadigm.com/UpdateAccount", ReplyAction="*")]
-        System.Threading.Tasks.Task<StreamEnergy.DPI.Result> UpdateAccountAsync(
+        System.Threading.Tasks.Task<StreamEnergy.Dpi.Result> UpdateAccountAsync(
                     string Auth_ID, 
                     string Auth_PW, 
                     string Account_Number, 
@@ -142,21 +142,21 @@ namespace StreamEnergy.DPI {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ignite.soap.dataparadigm.com/Stream_IsValidIaNumber", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        StreamEnergy.DPI.IsValidIaNumberResult Stream_IsValidIaNumber(string Auth_ID, string Auth_PW, string IA_Number);
+        StreamEnergy.Dpi.IsValidIaNumberResult Stream_IsValidIaNumber(string Auth_ID, string Auth_PW, string IA_Number);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ignite.soap.dataparadigm.com/Stream_IsValidIaNumber", ReplyAction="*")]
-        System.Threading.Tasks.Task<StreamEnergy.DPI.IsValidIaNumberResult> Stream_IsValidIaNumberAsync(string Auth_ID, string Auth_PW, string IA_Number);
+        System.Threading.Tasks.Task<StreamEnergy.Dpi.IsValidIaNumberResult> Stream_IsValidIaNumberAsync(string Auth_ID, string Auth_PW, string IA_Number);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ignite.soap.dataparadigm.com/Stream_RetrieveIaContactInfo", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        StreamEnergy.DPI.RetrieveIaContactInfoResult Stream_RetrieveIaContactInfo(string Auth_ID, string Auth_PW, string IA_Number);
+        StreamEnergy.Dpi.RetrieveIaContactInfoResult Stream_RetrieveIaContactInfo(string Auth_ID, string Auth_PW, string IA_Number);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ignite.soap.dataparadigm.com/Stream_RetrieveIaContactInfo", ReplyAction="*")]
-        System.Threading.Tasks.Task<StreamEnergy.DPI.RetrieveIaContactInfoResult> Stream_RetrieveIaContactInfoAsync(string Auth_ID, string Auth_PW, string IA_Number);
+        System.Threading.Tasks.Task<StreamEnergy.Dpi.RetrieveIaContactInfoResult> Stream_RetrieveIaContactInfoAsync(string Auth_ID, string Auth_PW, string IA_Number);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ignite.soap.dataparadigm.com/Stream_CreateCustomerEnrollment", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        StreamEnergy.DPI.CreateCustomerEnrollmentResult Stream_CreateCustomerEnrollment(
+        StreamEnergy.Dpi.CreateCustomerEnrollmentResult Stream_CreateCustomerEnrollment(
                     string Auth_ID, 
                     string Auth_PW, 
                     string ACCT_TYPE, 
@@ -180,10 +180,10 @@ namespace StreamEnergy.DPI {
                     string CONTRACT_LENGTH, 
                     string SPON_DCODE, 
                     string LANGUAGE, 
-                    StreamEnergy.DPI.ES_Parameter[] ES_PARAMS);
+                    StreamEnergy.Dpi.ES_Parameter[] ES_PARAMS);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ignite.soap.dataparadigm.com/Stream_CreateCustomerEnrollment", ReplyAction="*")]
-        System.Threading.Tasks.Task<StreamEnergy.DPI.CreateCustomerEnrollmentResult> Stream_CreateCustomerEnrollmentAsync(
+        System.Threading.Tasks.Task<StreamEnergy.Dpi.CreateCustomerEnrollmentResult> Stream_CreateCustomerEnrollmentAsync(
                     string Auth_ID, 
                     string Auth_PW, 
                     string ACCT_TYPE, 
@@ -207,18 +207,18 @@ namespace StreamEnergy.DPI {
                     string CONTRACT_LENGTH, 
                     string SPON_DCODE, 
                     string LANGUAGE, 
-                    StreamEnergy.DPI.ES_Parameter[] ES_PARAMS);
+                    StreamEnergy.Dpi.ES_Parameter[] ES_PARAMS);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ignite.soap.dataparadigm.com/Stream_SendCompletedQcEmail", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        StreamEnergy.DPI.Result Stream_SendCompletedQcEmail(string Auth_ID, string Auth_PW, StreamEnergy.DPI.Account[] Accounts);
+        StreamEnergy.Dpi.Result Stream_SendCompletedQcEmail(string Auth_ID, string Auth_PW, StreamEnergy.Dpi.Account[] Accounts);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ignite.soap.dataparadigm.com/Stream_SendCompletedQcEmail", ReplyAction="*")]
-        System.Threading.Tasks.Task<StreamEnergy.DPI.Result> Stream_SendCompletedQcEmailAsync(string Auth_ID, string Auth_PW, StreamEnergy.DPI.Account[] Accounts);
+        System.Threading.Tasks.Task<StreamEnergy.Dpi.Result> Stream_SendCompletedQcEmailAsync(string Auth_ID, string Auth_PW, StreamEnergy.Dpi.Account[] Accounts);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ignite.soap.dataparadigm.com/Stream_SendRenewalEmail", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        StreamEnergy.DPI.Result Stream_SendRenewalEmail(
+        StreamEnergy.Dpi.Result Stream_SendRenewalEmail(
                     string Auth_ID, 
                     string Auth_PW, 
                     string RenewalRefNum, 
@@ -253,7 +253,7 @@ namespace StreamEnergy.DPI {
                     string EstContractEndDate);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ignite.soap.dataparadigm.com/Stream_SendRenewalEmail", ReplyAction="*")]
-        System.Threading.Tasks.Task<StreamEnergy.DPI.Result> Stream_SendRenewalEmailAsync(
+        System.Threading.Tasks.Task<StreamEnergy.Dpi.Result> Stream_SendRenewalEmailAsync(
                     string Auth_ID, 
                     string Auth_PW, 
                     string RenewalRefNum, 
@@ -289,38 +289,38 @@ namespace StreamEnergy.DPI {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ignite.soap.dataparadigm.com/Stream_GetSponsor", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        StreamEnergy.DPI.GetSponsorResult Stream_GetSponsor(string Auth_ID, string Auth_PW, string CustomerNumber);
+        StreamEnergy.Dpi.GetSponsorResult Stream_GetSponsor(string Auth_ID, string Auth_PW, string CustomerNumber);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ignite.soap.dataparadigm.com/Stream_GetSponsor", ReplyAction="*")]
-        System.Threading.Tasks.Task<StreamEnergy.DPI.GetSponsorResult> Stream_GetSponsorAsync(string Auth_ID, string Auth_PW, string CustomerNumber);
+        System.Threading.Tasks.Task<StreamEnergy.Dpi.GetSponsorResult> Stream_GetSponsorAsync(string Auth_ID, string Auth_PW, string CustomerNumber);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ignite.soap.dataparadigm.com/UpdateUserTokenInfo", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        StreamEnergy.DPI.Result UpdateUserTokenInfo(string Auth_ID, string Auth_PW, string Encrypted_Value);
+        StreamEnergy.Dpi.Result UpdateUserTokenInfo(string Auth_ID, string Auth_PW, string Encrypted_Value);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ignite.soap.dataparadigm.com/UpdateUserTokenInfo", ReplyAction="*")]
-        System.Threading.Tasks.Task<StreamEnergy.DPI.Result> UpdateUserTokenInfoAsync(string Auth_ID, string Auth_PW, string Encrypted_Value);
+        System.Threading.Tasks.Task<StreamEnergy.Dpi.Result> UpdateUserTokenInfoAsync(string Auth_ID, string Auth_PW, string Encrypted_Value);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ignite.soap.dataparadigm.com/UpdateUserTokenStatus", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        StreamEnergy.DPI.Result UpdateUserTokenStatus(string Auth_ID, string Auth_PW, string Encrypted_Value, bool Is_Revoked);
+        StreamEnergy.Dpi.Result UpdateUserTokenStatus(string Auth_ID, string Auth_PW, string Encrypted_Value, bool Is_Revoked);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ignite.soap.dataparadigm.com/UpdateUserTokenStatus", ReplyAction="*")]
-        System.Threading.Tasks.Task<StreamEnergy.DPI.Result> UpdateUserTokenStatusAsync(string Auth_ID, string Auth_PW, string Encrypted_Value, bool Is_Revoked);
+        System.Threading.Tasks.Task<StreamEnergy.Dpi.Result> UpdateUserTokenStatusAsync(string Auth_ID, string Auth_PW, string Encrypted_Value, bool Is_Revoked);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ignite.soap.dataparadigm.com/GetCustomFilterList", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        StreamEnergy.DPI.FilterResult GetCustomFilterList(string Auth_ID, string Auth_PW, string Encrypted_Value);
+        StreamEnergy.Dpi.FilterResult GetCustomFilterList(string Auth_ID, string Auth_PW, string Encrypted_Value);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ignite.soap.dataparadigm.com/GetCustomFilterList", ReplyAction="*")]
-        System.Threading.Tasks.Task<StreamEnergy.DPI.FilterResult> GetCustomFilterListAsync(string Auth_ID, string Auth_PW, string Encrypted_Value);
+        System.Threading.Tasks.Task<StreamEnergy.Dpi.FilterResult> GetCustomFilterListAsync(string Auth_ID, string Auth_PW, string Encrypted_Value);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ignite.soap.dataparadigm.com/GetCustomFilterTokens", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        StreamEnergy.DPI.TokenResult GetCustomFilterTokens(string Auth_ID, string Auth_PW, string Encrypted_Value, int FilterID);
+        StreamEnergy.Dpi.TokenResult GetCustomFilterTokens(string Auth_ID, string Auth_PW, string Encrypted_Value, int FilterID);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ignite.soap.dataparadigm.com/GetCustomFilterTokens", ReplyAction="*")]
-        System.Threading.Tasks.Task<StreamEnergy.DPI.TokenResult> GetCustomFilterTokensAsync(string Auth_ID, string Auth_PW, string Encrypted_Value, int FilterID);
+        System.Threading.Tasks.Task<StreamEnergy.Dpi.TokenResult> GetCustomFilterTokensAsync(string Auth_ID, string Auth_PW, string Encrypted_Value, int FilterID);
     }
     
     /// <remarks/>
@@ -1438,12 +1438,12 @@ namespace StreamEnergy.DPI {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface DPILinkSoapChannel : StreamEnergy.DPI.DPILinkSoap, System.ServiceModel.IClientChannel {
+    public interface DPILinkSoapChannel : StreamEnergy.Dpi.DPILinkSoap, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class DPILinkSoapClient : System.ServiceModel.ClientBase<StreamEnergy.DPI.DPILinkSoap>, StreamEnergy.DPI.DPILinkSoap {
+    public partial class DPILinkSoapClient : System.ServiceModel.ClientBase<StreamEnergy.Dpi.DPILinkSoap>, StreamEnergy.Dpi.DPILinkSoap {
         
         public DPILinkSoapClient() {
         }
@@ -1464,7 +1464,7 @@ namespace StreamEnergy.DPI {
                 base(binding, remoteAddress) {
         }
         
-        public StreamEnergy.DPI.Result Stream_SendTelephonicEnrollmentConfirmationEmail(
+        public StreamEnergy.Dpi.Result Stream_SendTelephonicEnrollmentConfirmationEmail(
                     string Auth_ID, 
                     string Auth_PW, 
                     string Salutation, 
@@ -1496,7 +1496,7 @@ namespace StreamEnergy.DPI {
             return base.Channel.Stream_SendTelephonicEnrollmentConfirmationEmail(Auth_ID, Auth_PW, Salutation, RefNumber, FullName, HomePhone, MobilePhone, WorkPhone, EmailAddress, Last4SSN, DLNumber, DLState, LanguagePreference, ServiceAddress1, ServiceAddress2, ServiceCity, ServiceState, ServiceZip, MailingAddress1, MailingAddress2, MailingCity, MailingState, MailingZip, ESIID, ServiceDate, StandardFee, PriorityFee, ServicePlan);
         }
         
-        public System.Threading.Tasks.Task<StreamEnergy.DPI.Result> Stream_SendTelephonicEnrollmentConfirmationEmailAsync(
+        public System.Threading.Tasks.Task<StreamEnergy.Dpi.Result> Stream_SendTelephonicEnrollmentConfirmationEmailAsync(
                     string Auth_ID, 
                     string Auth_PW, 
                     string Salutation, 
@@ -1528,15 +1528,15 @@ namespace StreamEnergy.DPI {
             return base.Channel.Stream_SendTelephonicEnrollmentConfirmationEmailAsync(Auth_ID, Auth_PW, Salutation, RefNumber, FullName, HomePhone, MobilePhone, WorkPhone, EmailAddress, Last4SSN, DLNumber, DLState, LanguagePreference, ServiceAddress1, ServiceAddress2, ServiceCity, ServiceState, ServiceZip, MailingAddress1, MailingAddress2, MailingCity, MailingState, MailingZip, ESIID, ServiceDate, StandardFee, PriorityFee, ServicePlan);
         }
         
-        public StreamEnergy.DPI.Result ServerTest() {
+        public StreamEnergy.Dpi.Result ServerTest() {
             return base.Channel.ServerTest();
         }
         
-        public System.Threading.Tasks.Task<StreamEnergy.DPI.Result> ServerTestAsync() {
+        public System.Threading.Tasks.Task<StreamEnergy.Dpi.Result> ServerTestAsync() {
             return base.Channel.ServerTestAsync();
         }
         
-        public StreamEnergy.DPI.Result UpdateAccount(
+        public StreamEnergy.Dpi.Result UpdateAccount(
                     string Auth_ID, 
                     string Auth_PW, 
                     string Account_Number, 
@@ -1563,7 +1563,7 @@ namespace StreamEnergy.DPI {
             return base.Channel.UpdateAccount(Auth_ID, Auth_PW, Account_Number, Status_Code, Product_Code, First_Name, Last_Name, Address_Type, Address1, Address2, City, State, Zip, Zip_Plus, Email_Address, Phone_Number, Actual_Service_Start_Date, Contract_Term_Start_Date, Contract_Term_End_Date, Pending_Contract, Expected_Service_End_Date, Status_Change_Date, Product_Name);
         }
         
-        public System.Threading.Tasks.Task<StreamEnergy.DPI.Result> UpdateAccountAsync(
+        public System.Threading.Tasks.Task<StreamEnergy.Dpi.Result> UpdateAccountAsync(
                     string Auth_ID, 
                     string Auth_PW, 
                     string Account_Number, 
@@ -1590,23 +1590,23 @@ namespace StreamEnergy.DPI {
             return base.Channel.UpdateAccountAsync(Auth_ID, Auth_PW, Account_Number, Status_Code, Product_Code, First_Name, Last_Name, Address_Type, Address1, Address2, City, State, Zip, Zip_Plus, Email_Address, Phone_Number, Actual_Service_Start_Date, Contract_Term_Start_Date, Contract_Term_End_Date, Pending_Contract, Expected_Service_End_Date, Status_Change_Date, Product_Name);
         }
         
-        public StreamEnergy.DPI.IsValidIaNumberResult Stream_IsValidIaNumber(string Auth_ID, string Auth_PW, string IA_Number) {
+        public StreamEnergy.Dpi.IsValidIaNumberResult Stream_IsValidIaNumber(string Auth_ID, string Auth_PW, string IA_Number) {
             return base.Channel.Stream_IsValidIaNumber(Auth_ID, Auth_PW, IA_Number);
         }
         
-        public System.Threading.Tasks.Task<StreamEnergy.DPI.IsValidIaNumberResult> Stream_IsValidIaNumberAsync(string Auth_ID, string Auth_PW, string IA_Number) {
+        public System.Threading.Tasks.Task<StreamEnergy.Dpi.IsValidIaNumberResult> Stream_IsValidIaNumberAsync(string Auth_ID, string Auth_PW, string IA_Number) {
             return base.Channel.Stream_IsValidIaNumberAsync(Auth_ID, Auth_PW, IA_Number);
         }
         
-        public StreamEnergy.DPI.RetrieveIaContactInfoResult Stream_RetrieveIaContactInfo(string Auth_ID, string Auth_PW, string IA_Number) {
+        public StreamEnergy.Dpi.RetrieveIaContactInfoResult Stream_RetrieveIaContactInfo(string Auth_ID, string Auth_PW, string IA_Number) {
             return base.Channel.Stream_RetrieveIaContactInfo(Auth_ID, Auth_PW, IA_Number);
         }
         
-        public System.Threading.Tasks.Task<StreamEnergy.DPI.RetrieveIaContactInfoResult> Stream_RetrieveIaContactInfoAsync(string Auth_ID, string Auth_PW, string IA_Number) {
+        public System.Threading.Tasks.Task<StreamEnergy.Dpi.RetrieveIaContactInfoResult> Stream_RetrieveIaContactInfoAsync(string Auth_ID, string Auth_PW, string IA_Number) {
             return base.Channel.Stream_RetrieveIaContactInfoAsync(Auth_ID, Auth_PW, IA_Number);
         }
         
-        public StreamEnergy.DPI.CreateCustomerEnrollmentResult Stream_CreateCustomerEnrollment(
+        public StreamEnergy.Dpi.CreateCustomerEnrollmentResult Stream_CreateCustomerEnrollment(
                     string Auth_ID, 
                     string Auth_PW, 
                     string ACCT_TYPE, 
@@ -1630,11 +1630,11 @@ namespace StreamEnergy.DPI {
                     string CONTRACT_LENGTH, 
                     string SPON_DCODE, 
                     string LANGUAGE, 
-                    StreamEnergy.DPI.ES_Parameter[] ES_PARAMS) {
+                    StreamEnergy.Dpi.ES_Parameter[] ES_PARAMS) {
             return base.Channel.Stream_CreateCustomerEnrollment(Auth_ID, Auth_PW, ACCT_TYPE, CUSTOMER_TYPE, SWITCH, NAME_COMPANY, NAME_FIRST, NAME_LAST, SSN, PHONE_PRIMARY, PHONE, PHONE_MOBILE, PHONE_WORK, EMAIL_ADDRESS, ADDRESS1, ADDRESS2, CITY, ST, ZIP, SERVICE_CHOICE, CONTRACT_LENGTH, SPON_DCODE, LANGUAGE, ES_PARAMS);
         }
         
-        public System.Threading.Tasks.Task<StreamEnergy.DPI.CreateCustomerEnrollmentResult> Stream_CreateCustomerEnrollmentAsync(
+        public System.Threading.Tasks.Task<StreamEnergy.Dpi.CreateCustomerEnrollmentResult> Stream_CreateCustomerEnrollmentAsync(
                     string Auth_ID, 
                     string Auth_PW, 
                     string ACCT_TYPE, 
@@ -1658,19 +1658,19 @@ namespace StreamEnergy.DPI {
                     string CONTRACT_LENGTH, 
                     string SPON_DCODE, 
                     string LANGUAGE, 
-                    StreamEnergy.DPI.ES_Parameter[] ES_PARAMS) {
+                    StreamEnergy.Dpi.ES_Parameter[] ES_PARAMS) {
             return base.Channel.Stream_CreateCustomerEnrollmentAsync(Auth_ID, Auth_PW, ACCT_TYPE, CUSTOMER_TYPE, SWITCH, NAME_COMPANY, NAME_FIRST, NAME_LAST, SSN, PHONE_PRIMARY, PHONE, PHONE_MOBILE, PHONE_WORK, EMAIL_ADDRESS, ADDRESS1, ADDRESS2, CITY, ST, ZIP, SERVICE_CHOICE, CONTRACT_LENGTH, SPON_DCODE, LANGUAGE, ES_PARAMS);
         }
         
-        public StreamEnergy.DPI.Result Stream_SendCompletedQcEmail(string Auth_ID, string Auth_PW, StreamEnergy.DPI.Account[] Accounts) {
+        public StreamEnergy.Dpi.Result Stream_SendCompletedQcEmail(string Auth_ID, string Auth_PW, StreamEnergy.Dpi.Account[] Accounts) {
             return base.Channel.Stream_SendCompletedQcEmail(Auth_ID, Auth_PW, Accounts);
         }
         
-        public System.Threading.Tasks.Task<StreamEnergy.DPI.Result> Stream_SendCompletedQcEmailAsync(string Auth_ID, string Auth_PW, StreamEnergy.DPI.Account[] Accounts) {
+        public System.Threading.Tasks.Task<StreamEnergy.Dpi.Result> Stream_SendCompletedQcEmailAsync(string Auth_ID, string Auth_PW, StreamEnergy.Dpi.Account[] Accounts) {
             return base.Channel.Stream_SendCompletedQcEmailAsync(Auth_ID, Auth_PW, Accounts);
         }
         
-        public StreamEnergy.DPI.Result Stream_SendRenewalEmail(
+        public StreamEnergy.Dpi.Result Stream_SendRenewalEmail(
                     string Auth_ID, 
                     string Auth_PW, 
                     string RenewalRefNum, 
@@ -1706,7 +1706,7 @@ namespace StreamEnergy.DPI {
             return base.Channel.Stream_SendRenewalEmail(Auth_ID, Auth_PW, RenewalRefNum, CustomerName, BillingAddressee, BillingAddress1, BillingAddress2, BillingCity, BillingState, BillingZip, EmailAddress, SSNLastFour, PreferredLanguage, StreamAccountNumber, StreamCustomerNumber, ServiceAddressee, ServiceAddress1, ServiceAddress2, ServiceCity, ServiceState, ServiceZip, EsiId, TDSP, ProductCode, ProductTerm, EarlyTermFee, EnergyCharge, AveragePrice, MinimumUsageFee, EffectiveDate, EstContractStartDate, EstContractEndDate);
         }
         
-        public System.Threading.Tasks.Task<StreamEnergy.DPI.Result> Stream_SendRenewalEmailAsync(
+        public System.Threading.Tasks.Task<StreamEnergy.Dpi.Result> Stream_SendRenewalEmailAsync(
                     string Auth_ID, 
                     string Auth_PW, 
                     string RenewalRefNum, 
@@ -1742,43 +1742,43 @@ namespace StreamEnergy.DPI {
             return base.Channel.Stream_SendRenewalEmailAsync(Auth_ID, Auth_PW, RenewalRefNum, CustomerName, BillingAddressee, BillingAddress1, BillingAddress2, BillingCity, BillingState, BillingZip, EmailAddress, SSNLastFour, PreferredLanguage, StreamAccountNumber, StreamCustomerNumber, ServiceAddressee, ServiceAddress1, ServiceAddress2, ServiceCity, ServiceState, ServiceZip, EsiId, TDSP, ProductCode, ProductTerm, EarlyTermFee, EnergyCharge, AveragePrice, MinimumUsageFee, EffectiveDate, EstContractStartDate, EstContractEndDate);
         }
         
-        public StreamEnergy.DPI.GetSponsorResult Stream_GetSponsor(string Auth_ID, string Auth_PW, string CustomerNumber) {
+        public StreamEnergy.Dpi.GetSponsorResult Stream_GetSponsor(string Auth_ID, string Auth_PW, string CustomerNumber) {
             return base.Channel.Stream_GetSponsor(Auth_ID, Auth_PW, CustomerNumber);
         }
         
-        public System.Threading.Tasks.Task<StreamEnergy.DPI.GetSponsorResult> Stream_GetSponsorAsync(string Auth_ID, string Auth_PW, string CustomerNumber) {
+        public System.Threading.Tasks.Task<StreamEnergy.Dpi.GetSponsorResult> Stream_GetSponsorAsync(string Auth_ID, string Auth_PW, string CustomerNumber) {
             return base.Channel.Stream_GetSponsorAsync(Auth_ID, Auth_PW, CustomerNumber);
         }
         
-        public StreamEnergy.DPI.Result UpdateUserTokenInfo(string Auth_ID, string Auth_PW, string Encrypted_Value) {
+        public StreamEnergy.Dpi.Result UpdateUserTokenInfo(string Auth_ID, string Auth_PW, string Encrypted_Value) {
             return base.Channel.UpdateUserTokenInfo(Auth_ID, Auth_PW, Encrypted_Value);
         }
         
-        public System.Threading.Tasks.Task<StreamEnergy.DPI.Result> UpdateUserTokenInfoAsync(string Auth_ID, string Auth_PW, string Encrypted_Value) {
+        public System.Threading.Tasks.Task<StreamEnergy.Dpi.Result> UpdateUserTokenInfoAsync(string Auth_ID, string Auth_PW, string Encrypted_Value) {
             return base.Channel.UpdateUserTokenInfoAsync(Auth_ID, Auth_PW, Encrypted_Value);
         }
         
-        public StreamEnergy.DPI.Result UpdateUserTokenStatus(string Auth_ID, string Auth_PW, string Encrypted_Value, bool Is_Revoked) {
+        public StreamEnergy.Dpi.Result UpdateUserTokenStatus(string Auth_ID, string Auth_PW, string Encrypted_Value, bool Is_Revoked) {
             return base.Channel.UpdateUserTokenStatus(Auth_ID, Auth_PW, Encrypted_Value, Is_Revoked);
         }
         
-        public System.Threading.Tasks.Task<StreamEnergy.DPI.Result> UpdateUserTokenStatusAsync(string Auth_ID, string Auth_PW, string Encrypted_Value, bool Is_Revoked) {
+        public System.Threading.Tasks.Task<StreamEnergy.Dpi.Result> UpdateUserTokenStatusAsync(string Auth_ID, string Auth_PW, string Encrypted_Value, bool Is_Revoked) {
             return base.Channel.UpdateUserTokenStatusAsync(Auth_ID, Auth_PW, Encrypted_Value, Is_Revoked);
         }
         
-        public StreamEnergy.DPI.FilterResult GetCustomFilterList(string Auth_ID, string Auth_PW, string Encrypted_Value) {
+        public StreamEnergy.Dpi.FilterResult GetCustomFilterList(string Auth_ID, string Auth_PW, string Encrypted_Value) {
             return base.Channel.GetCustomFilterList(Auth_ID, Auth_PW, Encrypted_Value);
         }
         
-        public System.Threading.Tasks.Task<StreamEnergy.DPI.FilterResult> GetCustomFilterListAsync(string Auth_ID, string Auth_PW, string Encrypted_Value) {
+        public System.Threading.Tasks.Task<StreamEnergy.Dpi.FilterResult> GetCustomFilterListAsync(string Auth_ID, string Auth_PW, string Encrypted_Value) {
             return base.Channel.GetCustomFilterListAsync(Auth_ID, Auth_PW, Encrypted_Value);
         }
         
-        public StreamEnergy.DPI.TokenResult GetCustomFilterTokens(string Auth_ID, string Auth_PW, string Encrypted_Value, int FilterID) {
+        public StreamEnergy.Dpi.TokenResult GetCustomFilterTokens(string Auth_ID, string Auth_PW, string Encrypted_Value, int FilterID) {
             return base.Channel.GetCustomFilterTokens(Auth_ID, Auth_PW, Encrypted_Value, FilterID);
         }
         
-        public System.Threading.Tasks.Task<StreamEnergy.DPI.TokenResult> GetCustomFilterTokensAsync(string Auth_ID, string Auth_PW, string Encrypted_Value, int FilterID) {
+        public System.Threading.Tasks.Task<StreamEnergy.Dpi.TokenResult> GetCustomFilterTokensAsync(string Auth_ID, string Auth_PW, string Encrypted_Value, int FilterID) {
             return base.Channel.GetCustomFilterTokensAsync(Auth_ID, Auth_PW, Encrypted_Value, FilterID);
         }
     }

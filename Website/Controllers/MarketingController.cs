@@ -60,26 +60,13 @@ namespace StreamEnergy.MyStream.Controllers
 
                 if (customerAccount != null)
                 {
-                    model.CustomerNumber = customerAccount.CisAccountNumber;
-                    model.FirstName = customerAccount.FirstName;
-                    model.LastName = customerAccount.LastName;
-                    model.Phone1 = customerAccount.PrimaryPhone;
-                    model.Phone2 = customerAccount.WorkPhone;
-                    model.Phone3 = customerAccount.CellPhone;
+                    model.CustomerAccount = customerAccount;
                     model.RepId = hashValues["IgniteAssociate"];
-                    if (customerAccount.BillingAddress != null)
-                    {
-                        model.Address1 = customerAccount.BillingAddress.AddressLine1;
-                        model.Address2 = customerAccount.BillingAddress.AddressLine2;
-                        model.City = customerAccount.BillingAddress.City;
-                        model.State = customerAccount.BillingAddress.StateAbbreviation;
-                        model.ZipCode = customerAccount.BillingAddress.PostalCode5;
-                    }
                 }
 
-                if (string.IsNullOrEmpty(model.RepId) && !string.IsNullOrEmpty(model.CustomerNumber))
+                if (string.IsNullOrEmpty(model.RepId) && !string.IsNullOrEmpty(model.CustomerAccount.CisAccountNumber))
                 {
-                    model.RepId = accountService.GetIgniteAssociateFromCustomerNumber("Ignite", "3t8sh8f3sg", model.CustomerNumber);
+                    model.RepId = accountService.GetIgniteAssociateFromCustomerNumber("Ignite", "3t8sh8f3sg", model.CustomerAccount.CisAccountNumber);
                 }
             }
 

@@ -30,7 +30,7 @@ namespace StreamEnergy.Services.Clients
             RegisterService<Sample.Temperature.TempConvertSoap>(unityContainer, new Sample.Temperature.TempConvertSoapClient(new System.ServiceModel.BasicHttpBinding(), new System.ServiceModel.EndpointAddress("http://www.w3schools.com/webservices/tempconvert.asmx")));
             RegisterService<Sample.Commons.SampleStreamCommonsSoap>(unityContainer, new Sample.Commons.SampleStreamCommonsSoapClient(new System.ServiceModel.BasicHttpBinding(), new System.ServiceModel.EndpointAddress("http://www.example.com/webservices")));
             RegisterService<StreamCommons.Account.CisAccountServicesPortType>(unityContainer, new StreamCommons.Account.CisAccountServicesPortTypeClient(new System.ServiceModel.BasicHttpBinding(), new System.ServiceModel.EndpointAddress("http://sgecom.stge.datx.streamenergy.net/CisAccountServices/WebServices/SoapServer.php?wsdl")));
-            RegisterService<StreamEnergy.DPI.DPILinkSoap>(unityContainer, new StreamEnergy.DPI.DPILinkSoapClient(new System.ServiceModel.BasicHttpBinding(), new System.ServiceModel.EndpointAddress("http://uat.soap.dataparadigm.com:6080/dpilink.asmx?WSDL")));
+            RegisterService<StreamEnergy.Dpi.DPILinkSoap>(unityContainer, new StreamEnergy.Dpi.DPILinkSoapClient(new System.ServiceModel.BasicHttpBinding(), new System.ServiceModel.EndpointAddress("http://uat.soap.dataparadigm.com:6080/dpilink.asmx?WSDL")));
         }
 
         private void RegisterService<TInterface>(IUnityContainer unityContainer, TInterface soapClient)
