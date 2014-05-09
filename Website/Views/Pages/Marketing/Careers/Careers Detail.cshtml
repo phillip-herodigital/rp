@@ -1,0 +1,12 @@
+﻿@{ 
+    var jobTitle = @Html.Sitecore().Field("Job Title");
+    var resumeEmail = @Html.Sitecore().Field("Resume Email");
+
+    <article class="marketing wrapper careers">
+        <p class="job-title"><a class="job-button" href="#">@jobTitle</a></p>
+        <hr />
+        @Html.Sitecore().Field("Job Description")
+        <p>@Html.Sitecore().Field("Job Info Text")</p>
+        <p><a class="button blue" href="mailto:@resumeEmail?subject=@jobTitle">@resumeEmail</a></p>
+    </article>  
+}

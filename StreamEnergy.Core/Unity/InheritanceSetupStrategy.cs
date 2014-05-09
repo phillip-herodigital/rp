@@ -30,6 +30,11 @@ namespace StreamEnergy.Unity
 
                 Register(unityContainer, registration.instanceType, registration.parentType);
             }
+            AdditionalSetup(unityContainer);
+        }
+
+        protected virtual void AdditionalSetup(IUnityContainer unityContainer)
+        {
         }
 
         protected virtual void Register(IUnityContainer unityContainer, Type instanceType, Type parentType)

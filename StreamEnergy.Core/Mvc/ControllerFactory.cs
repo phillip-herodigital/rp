@@ -1,4 +1,5 @@
 ﻿using Castle.DynamicProxy;
+using Microsoft.Practices.Unity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace StreamEnergy.Mvc
         private IControllerFactory originalControllerFactory;
         private Microsoft.Practices.Unity.IUnityContainer container;
 
-        public ControllerFactory(IControllerFactory originalControllerFactory, Microsoft.Practices.Unity.IUnityContainer container)
+        public ControllerFactory(IControllerFactory originalControllerFactory, IUnityContainer container)
         {
             this.originalControllerFactory = originalControllerFactory;
             this.container = container;
@@ -26,7 +27,7 @@ namespace StreamEnergy.Mvc
             var controllerBase = result as ControllerBase;
             if (controllerBase != null)
             {
-                return MvcProxyGenerator.Generator.CreateInterfaceProxyWithTarget(result, new ExecuteInterceptor());
+                return MvcProxyGenerator.Generator.CreateInterfaceProxyWithTarget(result, container.Resolve<ExecuteInterceptor>());
             }
             return result;
         }
