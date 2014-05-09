@@ -228,6 +228,10 @@ article.marketingIntro {
 			button, .button {
 				background-color: map-get($theme, primaryColor);
 				text-shadow: none;
+				&:hover {
+					background-color: #6b6b6b;
+					color: #fff;
+				}
 			}
 		}
 	}
@@ -1567,6 +1571,9 @@ article.energy-certificates {
 		button {
 			background-color: #2c3e50;
 			box-shadow: 0 2px #7eb24c;
+			a {
+				color: #fff;
+			}
 			&:hover {
 				background-color: #6b6b6b;
 			}
@@ -1579,6 +1586,9 @@ article.ignite-associate {
 	margin: 50px 0;
 	button {
 		background-color: #a9222d;
+		a {
+			color: #fff;
+		}
 		&:hover {
 			background-color: #6b6b6b;
 		}
@@ -1894,15 +1904,27 @@ article.manage-services {
 	}
 }
 
-article.marketing div.wrapper div.historical-rates {
+article.marketing div.wrapper {
+	div.historical-rates {
 	overflow: scroll;
-	table tr {
-		td {
+		table tr td {
 			text-align: center;
 			&:nth-child(even) {
 				background-color: #c2ddf5;
 			}
 			&:nth-child(odd) {
+			background-color: #e8f2fa;
+			}
+		}
+	}
+	div.historical-rates-tx {
+	overflow: scroll;
+		table tr td {
+			text-align: center;
+			.even {
+				background-color: #c2ddf5;
+			}
+			.odd {
 			background-color: #e8f2fa;
 			}
 		}

@@ -81,29 +81,30 @@
 
         @foreach (var plan in planContent)
         {
-            <p>@plan.Value.IntroText</p>
-        
-            <table>
-                <thead>
-                    <tr>
-                        @foreach (var cell in plan.Value.HeaderRow)
-                        {
-                            <td colspan="@cell.ColSpan">@Html.Raw(cell.Text)</td>
-                        }
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var row in plan.Value.PlanItems)
-                    {
+            <h3>@plan.Value.IntroText</h3>
+            <div class="historical-rates-tx">
+                <table>
+                    <thead>
                         <tr>
-                            @foreach (var cell in row.Value)
+                            @foreach (var cell in plan.Value.HeaderRow)
                             {
-                                <td>@cell.Text</td>
+                                <td colspan="@cell.ColSpan">@Html.Raw(cell.Text)</td>
                             }
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var row in plan.Value.PlanItems)
+                        {
+                            <tr>
+                                @foreach (var cell in row.Value)
+                                {
+                                    <td>@cell.Text</td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         }
 
         <div>@Html.Sitecore().Field("Page Bottom Text")</div>
