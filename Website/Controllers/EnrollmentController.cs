@@ -103,6 +103,16 @@ namespace StreamEnergy.MyStream.Controllers
             return ClientData();
         }
 
+        [HttpPost]
+        public ClientData SelectedOffers()
+        {
+            // TODO - need some parameters
+
+            stateMachine.Process(); // TODO - set steps to stop at
+
+            return ClientData();
+        }
+
         private IEnumerable<TranslatedValidationResult> Translate(IEnumerable<ValidationResult> results)
         {
             return from val in results
