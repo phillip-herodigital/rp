@@ -168,6 +168,8 @@
     <Compile Include="Pipelines\RegisterPlatformBundles.cs" />
     <Compile Include="Extensions\StreamEnergyHelper.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="TypeIndicatorJsonConverter.cs" />
+    <Compile Include="TypeIndicatorLookup.cs" />
     <Compile Include="Unity\Container.cs" />
     <Compile Include="Unity\IContainerSetupStrategy.cs" />
     <Compile Include="Unity\InheritanceSetupStrategy.cs" />

@@ -7,5 +7,6 @@ namespace StreamEnergy.DomainModels
 {
     public interface IServiceCapability
     {
+        string CapabilityType { get; }
     }
 }

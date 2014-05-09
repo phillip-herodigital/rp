@@ -10,6 +10,10 @@ namespace StreamEnergy.DomainModels
     [Serializable]
     public class TexasServiceCapability : IServiceCapability
     {
+        public const string capabilityType = "TexasElectricity";
+
+        public string CapabilityType { get { return "TexasElectricity"; } }
+
         [Required]
         public string EsiId { get; set; }
 
