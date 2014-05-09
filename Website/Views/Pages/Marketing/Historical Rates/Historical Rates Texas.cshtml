@@ -1,5 +1,6 @@
 ﻿@{
     var planContent = new Dictionary<string, dynamic>();
+    var cellCssClass = "odd";
     foreach (var plan in new string[] { "Variable Price Plan", "Green and Clean Variable Price Plan", "Flex Choice Plan", "Flex Choice Plan - Green and Clean Plan" })
     {
         var variablePricePlanItems = Html.Sitecore().CurrentItem.Children[plan].Children.OrderByDescending(C => C.Fields["Date"].Value);
@@ -11,12 +12,14 @@
         {
             Text = "",
             ColSpan = 1,
+            CssClass = cellCssClass,
         });
 
         variablePricePlanRows.Add("Kwh Label", new List<dynamic>());
         variablePricePlanRows["Kwh Label"].Add(new
         {
             Text = Html.Sitecore().Field("Service Area Text"),
+            CssClass = cellCssClass,
         });
 
         foreach (var tdu in tdus)
@@ -25,11 +28,14 @@
             variablePricePlanRows[tdu].Add(new
             {
                 Text = Html.Sitecore().Field(tdu + " Text"),
+                CssClass = cellCssClass,
             });
         }
 
         foreach (var item in variablePricePlanItems)
         {
+            cellCssClass = (cellCssClass == "even") ? "odd" : "even";
+            
             var showKwhPrice = new List<string>();
 
             foreach (var kwhPrice in kwhPrices)
@@ -45,6 +51,7 @@
             {
                 Text = Sitecore.Web.UI.WebControls.FieldRenderer.Render(item, "Date", "format=M/d/yyyy"),
                 ColSpan = showKwhPrice.Count,
+                CssClass = cellCssClass,
             });
 
             foreach (var kwhPrice in showKwhPrice)
@@ -52,6 +59,7 @@
                 variablePricePlanRows["Kwh Label"].Add(new
                 {
                     Text = Html.Sitecore().Field(kwhPrice + " kWh Label", item),
+                    CssClass = cellCssClass,
                 });
             }
 
@@ -62,6 +70,7 @@
                     variablePricePlanRows[tdu].Add(new
                     {
                         Text = Html.Sitecore().Field(kwhPrice + " kWh " + tdu + " Price", item),
+                        CssClass = cellCssClass,
                     });
                 }
             }
@@ -83,27 +92,27 @@
         {
             <h3>@plan.Value.IntroText</h3>
             <div class="historical-rates-tx">
-                <table>
-                    <thead>
+            <table>
+                <thead>
+                    <tr>
+                        @foreach (var cell in plan.Value.HeaderRow)
+                        {
+                            <td class="@cell.CssClass" colspan="@cell.ColSpan">@Html.Raw(cell.Text)</td>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var row in plan.Value.PlanItems)
+                    {
                         <tr>
-                            @foreach (var cell in plan.Value.HeaderRow)
+                            @foreach (var cell in row.Value)
                             {
-                                <td colspan="@cell.ColSpan">@Html.Raw(cell.Text)</td>
+                                <td class="@cell.CssClass">@cell.Text</td>
                             }
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var row in plan.Value.PlanItems)
-                        {
-                            <tr>
-                                @foreach (var cell in row.Value)
-                                {
-                                    <td>@cell.Text</td>
-                                }
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                    }
+                </tbody>
+            </table>
             </div>
         }
 
