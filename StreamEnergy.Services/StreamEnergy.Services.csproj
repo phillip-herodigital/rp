@@ -72,6 +72,7 @@
     <Compile Include="Services\Clients\AccountService.cs" />
     <Compile Include="Services\Clients\ClientContainerSetup.cs" />
     <Compile Include="Services\Clients\EmbeddedResourceMockResolver.cs" />
+    <Compile Include="Services\Clients\EnrollmentService.cs" />
     <Compile Include="Services\Clients\IServiceMockResolver.cs" />
     <Compile Include="Services\Clients\LambdaToResourceMockResolver.cs" />
     <Compile Include="Services\Clients\ServiceMockContainerSetup.cs" />

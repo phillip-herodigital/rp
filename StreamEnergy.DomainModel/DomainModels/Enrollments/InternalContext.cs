@@ -8,5 +8,8 @@ namespace StreamEnergy.DomainModels.Enrollments
     [Serializable]
     public class InternalContext
     {
+        public IEnumerable<IOffer> AllOffers { get; set; }
+
+        public IConnectDatePolicy ConnectPolicy { get; set; }
     }
 }

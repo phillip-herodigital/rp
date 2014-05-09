@@ -9,6 +9,13 @@ namespace StreamEnergy.DomainModels.Enrollments
 {
     public class LoadOffersState : IState<UserContext, InternalContext>
     {
+        private readonly IEnrollmentService enrollmentService;
+
+        public LoadOffersState(IEnrollmentService enrollmentService)
+        {
+            this.enrollmentService = enrollmentService;
+        }
+
         public IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
         {
             yield return context => context.ServiceAddress.PostalCode5;
@@ -27,7 +34,8 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public Type Process(UserContext data, InternalContext internalContext)
         {
-            // TODO - load offers and connect dates, etc.
+            LoadInternalState(data, internalContext);
+
             return typeof(PlanSelectionState);
         }
 
@@ -38,8 +46,14 @@ namespace StreamEnergy.DomainModels.Enrollments
                 return false;
             }
 
-            // TODO - restore offers and connect dates, etc.
+            LoadInternalState(stateMachine.Context, internalContext);
             return true;
+        }
+
+        private void LoadInternalState(UserContext data, InternalContext internalContext)
+        {
+            internalContext.AllOffers = enrollmentService.LoadOffers(data.ServiceAddress, data.ServiceCapabilities, data.IsNewService);
+            internalContext.ConnectPolicy = enrollmentService.LoadConnectDates(data.ServiceAddress, data.ServiceCapabilities, data.IsNewService);
         }
     }
 }

@@ -9,10 +9,10 @@ namespace StreamEnergy.DomainModels
 {
     public class Address : ISanitizable
     {
-        [Required(ErrorMessage = "Address Line 1 Required")]
-        public string AddressLine1 { get; set; }
+        [Required(ErrorMessage = "Line 1 Required")]
+        public string Line1 { get; set; }
 
-        public string AddressLine2 { get; set; }
+        public string Line2 { get; set; }
         public string UnitNumber { get; set; }
 
         [Required(ErrorMessage = "City Required")]
@@ -28,11 +28,11 @@ namespace StreamEnergy.DomainModels
 
         void ISanitizable.Sanitize()
         {
-            if (AddressLine1 != null)
-                AddressLine1 = AddressLine1.Trim();
+            if (Line1 != null)
+                Line1 = Line1.Trim();
 
-            if (AddressLine2 != null) 
-                AddressLine2 = AddressLine2.Trim();
+            if (Line2 != null) 
+                Line2 = Line2.Trim();
 
             if (UnitNumber != null) 
                 UnitNumber = UnitNumber.Trim();
