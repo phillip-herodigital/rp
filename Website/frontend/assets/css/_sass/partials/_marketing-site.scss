@@ -1953,20 +1953,12 @@ article.marketing div.wrapper {
 			&:nth-child(even) {
 				background-color: #c2ddf5;
 			}
-			&:nth-child(odd) {
-			background-color: #e8f2fa;
+			&:nth-child(odd),
+			&.odd {
+				background-color: #e8f2fa;
 			}
-		}
-	}
-	div.historical-rates-tx {
-	overflow: scroll;
-		table tr td {
-			text-align: center;
-			.even {
+			&.even {
 				background-color: #c2ddf5;
-			}
-			.odd {
-			background-color: #e8f2fa;
 			}
 		}
 	}
