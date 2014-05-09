@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 namespace StreamEnergy.DomainModels.Enrollments
 {
     [Serializable]
-    public class UserContext : ISanitizable
+    public class UserContext : ISanitizable, IValidatableObject
     {
         public UserContext()
         {
-            SelectedOffers = new HashSet<IOffer>();
+            OfferOrders = new Dictionary<IOffer, IOfferOption>();
         }
 
         public bool IsNewService { get; set; }
@@ -49,7 +49,12 @@ namespace StreamEnergy.DomainModels.Enrollments
         [Required(ErrorMessage = "Selected Offers Required")]
         [ValidateEnumerable(ErrorMessagePrefix = "Selected Offers ")]
         [CollectionCountRangeAttribute(1, int.MaxValue, ErrorMessage="Selected Offer Required")]
-        public HashSet<IOffer> SelectedOffers { get; private set; }
+        public IEnumerable<IOffer> SelectedOffers { get { return OfferOrders.Keys; } }
+
+        public Dictionary<IOffer, IOfferOption> OfferOrders { get; private set; }
+
+        [ValidateEnumerable(ErrorMessagePrefix = "Selected Offers ")]
+        public IEnumerable<IOfferOption> OfferOptions { get { return OfferOrders.Values; } }
 
         void ISanitizable.Sanitize()
         {
@@ -66,6 +71,18 @@ namespace StreamEnergy.DomainModels.Enrollments
                 ((ISanitizable)DriversLicense).Sanitize();
             if (BillingAddress != null)
                 ((ISanitizable)BillingAddress).Sanitize();
+        }
+
+
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        {
+            if (OfferOrders.Any(kvp => !kvp.Key.AcceptsOptions(kvp.Value)))
+            {
+                // This is really a developer error. The user was allowed to provide options for an offer that didn't match the offer.
+                // At the time of writing this validation, I don't have concrete examples, but it's like giving electricity connect date
+                // to the Tech Support Home Life Services product.
+                yield return new ValidationResult("Selected Offer Option Invalid");
+            }
         }
     }
 }

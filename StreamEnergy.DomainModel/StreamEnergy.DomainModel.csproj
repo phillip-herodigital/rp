@@ -50,6 +50,7 @@
     <Compile Include="DomainModels\Email.cs" />
     <Compile Include="DomainModels\Enrollments\AdditionalIdentityInformation.cs" />
     <Compile Include="DomainModels\Enrollments\CompleteOrderState.cs" />
+    <Compile Include="DomainModels\Enrollments\IOfferOption.cs" />
     <Compile Include="DomainModels\Enrollments\Service\CreditCheckResult.cs" />
     <Compile Include="DomainModels\Enrollments\IConnectDatePolicy.cs" />
     <Compile Include="DomainModels\Enrollments\IEnrollmentService.cs" />
