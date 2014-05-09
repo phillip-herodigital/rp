@@ -12,7 +12,7 @@ namespace StreamEnergy.DomainModels
     {
         public const string capabilityType = "TexasElectricity";
 
-        public string CapabilityType { get { return "TexasElectricity"; } }
+        public string CapabilityType { get { return capabilityType; } }
 
         [Required]
         public string EsiId { get; set; }
