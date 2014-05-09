@@ -72,14 +72,14 @@
 					<form>
 						<article class="grey-box account-information">
 							<div class="content">
-								<div class="group inline-group cols-2">
-									<div class="item">
+								<div class="group inline-group">
+									<div class="item group-col">
 										<label for="account-number">Account Number:</label>
 										<select name="account-number" id="account-number">
 											<option value="123456789">123456789</option>
 										</select>	
 									</div>
-									<div class="item">
+									<div class="item group-col">
 										<label for="meter-id">Meter ID:</label>
 										<select name="meter-id" id="meter-id">
 											<option value="">109437200008913264</option>
@@ -92,18 +92,18 @@
 							</footer>
 						</article>
 
-						<article class="grey-box"> 
+						<article class="grey-box account-holder-information"> 
 							<div class="content">
 								<div class="item">
-									<label for="">Account Holder Name:</label>
-									<p>Mr. John A. Doe</p>
+									<label class="account-holder-title">Account Holder Name:</label>
+									<p class="account-holder-name">Mr. John A. Doe</p>
 								</div>
-								<div class="group cols-2">
-									<div class="item">
+								<div class="group">
+									<div class="item group-col" float-label>
 										<label for="primary-phone">Primary Phone Number:</label>
 										<input type="tel" name="primary-phone" id="primary-phone">
 									</div>
-									<div class="item">
+									<div class="item group-col">
 										<label for="primary-phone-type">Phone Type</label>
 										<select name="primary-phone-type" id="primary-phone-type">
 											<option value="mobile">Mobile</option>
@@ -111,13 +111,13 @@
 									</div>
 								</div>
 								<p><a href="#" class="additional-field-action">Add Additional Phone Number</a></p>
-								<div class="additional-field-group">
-									<div class="group cols-2">
-										<div class="item">
+								<div class="group additional-field-group">
+									<div class="group">
+										<div class="item group-col" float-label>
 											<label for="secondary-phone">secondary Phone Number:</label>
 											<input type="tel" name="secondary-phone" id="secondary-phone">
 										</div>
-										<div class="item">
+										<div class="item group-col">
 											<label for="secondary-phone-type">Phone Type</label>
 											<select name="secondary-phone-type" id="secondary-phone-type">
 												<option value="mobile">Mobile</option>
@@ -125,15 +125,21 @@
 										</div>
 									</div>									
 								</div>
-								<div>
-									<p>Billing Address</p>
-									<div class="item">
-										<ul class="checkbox-list">
-											<li>
-												<input type="checkbox" name="billing-address" id="billing-address">
-												<label for="billing-address">Same as Service Address</label>
-											</li>
-										</ul>
+								<div class="vertical">
+									<div class="clearfix">
+										<h3 class="billing-address-title">Billing Address</h3>
+										<div class="item">
+											<ul class="checkbox-list">
+												<li>
+													<input type="checkbox" name="billing-address" id="billing-address">
+													<label for="billing-address">Same as Service Address</label>
+												</li>
+												<li class="billing-address">
+													123 Main St.<br>
+													Dallas, TX 75001
+												</li>
+											</ul>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -149,7 +155,7 @@
 					<article class="grey-box">
 						<div class="clearfix">
 							<p><a href="#">Online Account Information</a></p>
-							<p class="active"><a href="#">Account Information</a></p>
+							<p class="active">Account Information</p>
 							<p><a href="#">Notifications &amp; Reminders</a></p>
 							<p><a href="#">Enrolled Accounts</a></p>
 						</div>

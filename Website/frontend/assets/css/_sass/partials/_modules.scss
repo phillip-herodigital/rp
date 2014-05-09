@@ -412,9 +412,24 @@ article.account-information {
 		font-size: 14px;
 	}
 }
-article.enrolled-accounts {
-	@include border-radius(10px 10px 0 0);
-	padding-bottom: 0px;
+article.account-holder-information {
+	.account-holder-title {
+	}
+	.account-holder-name {
+		margin-top: 0;
+	}
+	.billing-address-title {
+		text-transform: uppercase;
+	}
+	.billing-address {
+		margin-left: 23px;
+	}
+	.checkbox-list {
+		label {
+			text-transform: uppercase;
+			margin-bottom: 10px;
+		}
+	}
 }
 article.notification-settings {
 	header h2 {
@@ -467,6 +482,10 @@ article.notification-settings {
 			margin-right: 50px;
 		}
 	}
+}
+article.enrolled-accounts {
+	@include border-radius(10px 10px 0 0);
+	padding-bottom: 0px;
 }
 article.make-payment {
 	div.payment-account {

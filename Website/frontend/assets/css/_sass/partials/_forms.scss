@@ -213,7 +213,7 @@ form,
 			}
 		}
 		@include breakpoint(medium-large) {
-			&.cols-2 .item {
+			& .group-col {
 				width: 50%;
 			}
 			.item {
