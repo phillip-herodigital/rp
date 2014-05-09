@@ -484,13 +484,16 @@ article.notification-settings {
 			display: block;
 			margin-right: 50px;
 		}
+		i {
+			margin-right: 4px;
+		}
 	}
 }
 article.enrolled-accounts {
 	@include border-radius(10px 10px 0 0);
 	padding-bottom: 0px;
 
-	@include breakpoint(small) {
+	@include breakpoint(small-medium) {
 		table, thead, tbody, th, td, tr {
 			display: block;
 		}

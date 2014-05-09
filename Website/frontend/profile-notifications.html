@@ -18,6 +18,8 @@
 	<script src="assets/js/libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 	<script src="assets/js/libs/angular-ui-utils/ui-utils.min.js"></script>
 
+	<script src="assets/js/libs/respond/dest/respond.min.js"></script>
+
 	<script src="assets/js/app.js"></script>
 
 	<script src="assets/js/modules/mask-jquery.js"></script>
@@ -102,34 +104,32 @@
 							<div class="content edit-preferences">
 								<div class="group">
 									<span class="preference-type">
-										When a new document arrives: <span class="label"><i class="icon-utility"></i> Web</span> <span class="label"><i class="icon-utility"></i> Email</span>
+										When a new document arrives: <span class="label"><i class="icon-notification-bell"></i> Web</span> <span class="label"><i class="icon-notification-email"></i> Email</span>
 									</span>
 									<a href="#" class="additional-field-action">Edit</a>
 								</div>
 								<div class="vertical additional-field-group">
 									<p>Please choose the deliver methods by which you&rsquo;d like to receive this notification.</p>
-									<div class="clearfix">
-										<div class="item">
-											<ul class="checkbox-list notification-list">
-												<li>
-													<input type="checkbox" value="web">
-													<label for=""><i class="icon-utility"></i> Web</label>
-												</li>
-												<li>
-													<input type="checkbox" value="web">
-													<label for=""><i class="icon-utility"></i> Email</label>
-												</li>
-												<li>
-													<input type="checkbox" value="web">
-													<label for=""><i class="icon-utility"></i> SMS</label>
-												</li>
-											</ul>
-										</div>
-										<div class="item">
-											<div class="buttons">
-												<button class="buttons link">Cancel</button> 
-												<button class="buttons">Save Preference</button> 
-											</div>
+									<div class="item">
+										<ul class="checkbox-list notification-list">
+											<li>
+												<input type="checkbox" value="web">
+												<label for=""><i class="icon-notification-bell"></i> Web</label>
+											</li>
+											<li>
+												<input type="checkbox" value="web">
+												<label for=""><i class="icon-notification-email"></i> Email</label>
+											</li>
+											<li>
+												<input type="checkbox" value="web">
+												<label for=""><i class="icon-notification-sms"></i> SMS</label>
+											</li>
+										</ul>
+									</div>
+									<div class="item">
+										<div class="buttons">
+											<button class="link">Cancel</button>
+											<button>Save Preference</button>
 										</div>
 									</div>
 								</div>
@@ -138,7 +138,7 @@
 								<div class="edit-preferences">
 									<div class="group">
 										<span class="preference-type">
-											When online payments are made: <span class="label"><i class="icon-utility"></i> Web</span> <span class="label"><i class="icon-utility"></i> Email</span>
+											When online payments are made: <span class="label"><i class="icon-notification-bell"></i> Web</span> <span class="label"><i class="icon-notification-email"></i> Email</span>
 										</span>
 										<a href="#" class="additional-field-action">Edit</a>
 									</div>
@@ -148,7 +148,7 @@
 								<div class="edit-preferences">
 									<div class="group">
 										<span class="preference-type">
-											When recurring payments are made: <span class="label"><i class="icon-utility"></i> Web</span> <span class="label"><i class="icon-utility"></i> Email</span>
+											When recurring payments are made: <span class="label"><i class="icon-notification-bell"></i> Web</span> <span class="label"><i class="icon-notification-email"></i> Email</span>
 										</span>
 										<a href="#" class="additional-field-action">Edit</a>
 									</div>
@@ -158,7 +158,7 @@
 								<div class="edit-preferences">
 									<div class="group">
 										<span class="preference-type">
-											When recurring profile expires: <span class="label"><i class="icon-utility"></i> Web</span> <span class="label"><i class="icon-utility"></i> Email</span>
+											When recurring profile expires: <span class="label"><i class="icon-notification-bell"></i> Web</span> <span class="label"><i class="icon-notification-email"></i> Email</span>
 										</span>
 										<a href="#" class="additional-field-action">Edit</a>
 									</div>

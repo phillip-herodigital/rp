@@ -325,6 +325,13 @@ form,
 				
 			}
 		}
+		/* If link style button is last-child, remove right padding
+		to butt up against the container */
+		&:last-child .link {
+			padding-left: 0;
+			padding-right: 0;
+			margin-left: 13px;
+		}
 	}
 	input[type="radio"],
 	input[type="checkbox"] {
