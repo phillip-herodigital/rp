@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -17,9 +18,11 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public bool IsNewService { get; set; }
 
+        [Required(ErrorMessage = "Contact Info Required")]
         [ValidateObject(ErrorMessagePrefix = "Contact Info ")]
         public CustomerContact ContactInfo { get; set; }
 
+        [Required(ErrorMessage = "Service Address Required")]
         [ValidateObject(ErrorMessagePrefix = "Service Address ")]
         public Address ServiceAddress { get; set; }
 
@@ -35,9 +38,11 @@ namespace StreamEnergy.DomainModels.Enrollments
         /// </summary>
         public string Language { get; set; }
 
+        [Required(ErrorMessage = "Billing Address Required")]
         [ValidateObject(ErrorMessagePrefix = "Billing Address ")]
         public Address BillingAddress { get; set; }
 
+        [Required(ErrorMessage = "Selected Offers Required")]
         [ValidateEnumerable(ErrorMessagePrefix = "Selected Offers ")]
         [CollectionCountRangeAttribute(1, int.MaxValue, ErrorMessage="Selected Offer Required")]
         public HashSet<IOffer> SelectedOffers { get; private set; }

@@ -18,6 +18,7 @@ namespace StreamEnergy.MyStream.Controllers
     public class EnrollmentController : ApiController, IRequiresSessionState
     {
         private static readonly string ContextSessionKey = typeof(EnrollmentController).FullName + " " + typeof(UserContext).FullName;
+        private static readonly string InternalContextSessionKey = typeof(EnrollmentController).FullName + " " + typeof(InternalContext).FullName;
         private static readonly string StateSessionKey = typeof(EnrollmentController).FullName + " State";
         private HttpSessionStateBase session;
         private IStateMachine<UserContext, InternalContext> stateMachine;
@@ -35,17 +36,33 @@ namespace StreamEnergy.MyStream.Controllers
                 session[ContextSessionKey] = context = new UserContext();
 
             var state = (session[StateSessionKey] as Type) ?? typeof(DomainModels.Enrollments.ServiceInformationState);
-            stateMachine.Initialize(state, context, null);
+            stateMachine.Initialize(state, context, session[InternalContextSessionKey] as InternalContext);
 
             base.Initialize(controllerContext);
         }
 
         protected override void Dispose(bool disposing)
         {
-            session[ContextSessionKey] = stateMachine.Context;
-            session[StateSessionKey] = stateMachine.State;
+            if (stateMachine != null)
+            {
+                session[ContextSessionKey] = stateMachine.Context;
+                session[StateSessionKey] = stateMachine.State;
+                session[InternalContextSessionKey] = stateMachine.InternalContext;
+            }
+            else
+            {
+                session[ContextSessionKey] = null;
+                session[StateSessionKey] = null;
+                session[InternalContextSessionKey] = null;
+            }
 
             base.Dispose(disposing);
+        }
+
+        [HttpPost]
+        public void Reset()
+        {
+            stateMachine = null;
         }
 
         /// <summary>
