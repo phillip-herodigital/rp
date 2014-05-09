@@ -392,7 +392,7 @@ article.philanthropy {
 		}
 		&.donate-alt {
 			background-color: #fafafa;
-			border-bottom: 3px solid #f0f0f0;
+			border-top: 3px solid #f0f0f0;
 			border-bottom: 3px solid #f0f0f0;
 		}
 		.donate-promo {
@@ -574,6 +574,7 @@ article.home-latest {
 }
 
 article.careers {
+	margin-bottom: 0;
 	.text {
 		padding: 25px 0;
 	}
@@ -595,9 +596,25 @@ article.careers {
 	}
 	h3 {
 		text-transform: none;
+		margin-top: 20px;
 	}
 	hr {
 		border:	2px solid #f0f0f0;
+	}
+	p.job-title {
+		margin: 5px 0px;
+		line-height: 1;
+		text-transform: uppercase;
+		a {
+			display: block;
+			padding: 15px 0;
+			background-image: url("../i/marketing/collapse.png");
+			background-repeat: no-repeat;
+			background-position: 99% center;
+		}
+		a.collapsed {
+			background-image: url("../i/marketing/expand.png");
+		}
 	}
 }
 
@@ -657,7 +674,15 @@ article.blog-list {
 	}
 }
 
+article.states-pay {
+	.tab-header {
+		min-height: 30px;
+		border-bottom: 5px solid #76bd1d;
+	}
+}
+
 article.pay {
+	padding: 20px 0;
 	h1 {
 		color: #0971ce;
 	}
@@ -711,6 +736,22 @@ article.pay {
 			a {
 				font-size: 22px;
 				text-decoration: underline;
+			}
+		}
+	}
+	aside {
+		h4 {
+			margin-bottom: 40px;
+			color: #0971ce;
+			text-transform: none;
+			font-size: 24px;
+			font-weight: 300;
+		}
+		ul.pay-list {
+			margin: 0;
+			padding: 0;
+			li {
+				list-style: none;
 			}
 		}
 	}
