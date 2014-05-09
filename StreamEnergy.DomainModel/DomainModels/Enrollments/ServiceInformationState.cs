@@ -12,7 +12,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         public IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
         {
             yield return context => context.ServiceAddress.PostalCode5;
-            // TODO - if we're getting the delivery utility, etc. from the front-end, we should check it in the validation
+            yield return context => context.ServiceCapabilities;
         }
 
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> AdditionalValidations(UserContext data, InternalContext internalContext)
@@ -27,8 +27,6 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public Type Process(UserContext data, InternalContext internalContext)
         {
-            // TODO - do we actually need to load the address info? Or is it already in the user context?
-            //LoadAddressInfo(stateMachine.Context, internalContext);
             return typeof(LoadOffersState);
         }
 
@@ -46,11 +44,6 @@ namespace StreamEnergy.DomainModels.Enrollments
                 return false;
             }
 
-            // TODO - do we actually need to load the address info? Or is it already in the user context?
-            //if (string.IsNullOrEmpty(internalContext.DeliveryUtility))
-            //{
-            //    LoadAddressInfo(stateMachine.Context, internalContext);
-            //}
             return true;
         }
     }

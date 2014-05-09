@@ -86,6 +86,7 @@ namespace StreamEnergy.MyStream.Controllers
             return new ServiceInformation
             {
                 ServiceAddress = stateMachine.Context.ServiceAddress,
+                ServiceCapabilities = stateMachine.Context.ServiceCapabilities,
                 IsNewService = stateMachine.Context.IsNewService
             };
         }
@@ -94,6 +95,7 @@ namespace StreamEnergy.MyStream.Controllers
         public ClientData ServiceInformation([FromBody]ServiceInformation value)
         {
             stateMachine.Context.ServiceAddress = value.ServiceAddress;
+            stateMachine.Context.ServiceCapabilities = value.ServiceCapabilities;
             stateMachine.Context.IsNewService = value.IsNewService;
             
             stateMachine.Process(); // TODO - set steps to stop at

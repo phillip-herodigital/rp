@@ -12,7 +12,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         public IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
         {
             yield return context => context.ServiceAddress.PostalCode5;
-            // TODO - if we're getting the delivery utility, etc. from the front-end, we should check it in the validation
+            yield return context => context.ServiceCapabilities;
         }
 
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> AdditionalValidations(UserContext data, InternalContext internalContext)

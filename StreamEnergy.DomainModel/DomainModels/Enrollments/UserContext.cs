@@ -26,6 +26,10 @@ namespace StreamEnergy.DomainModels.Enrollments
         [ValidateObject(ErrorMessagePrefix = "Service Address ")]
         public Address ServiceAddress { get; set; }
 
+        [Required(ErrorMessage = "Service Capabilities Missing")]
+        [ValidateEnumerable(ErrorMessagePrefix = "Selected Capabilities ")]
+        public IEnumerable<IServiceCapability> ServiceCapabilities { get; set; }
+
         [ValidateObject(ErrorMessagePrefix = "Secondary Contact ")]
         public CustomerName SecondaryContactInfo { get; set; }
 

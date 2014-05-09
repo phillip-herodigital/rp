@@ -48,7 +48,14 @@
     <Compile Include="DomainModels\CustomerName.cs" />
     <Compile Include="DomainModels\DriversLicense.cs" />
     <Compile Include="DomainModels\Email.cs" />
+    <Compile Include="DomainModels\Enrollments\AdditionalIdentityInformation.cs" />
     <Compile Include="DomainModels\Enrollments\CompleteOrderState.cs" />
+    <Compile Include="DomainModels\Enrollments\Service\CreditCheckResult.cs" />
+    <Compile Include="DomainModels\Enrollments\IConnectDatePolicy.cs" />
+    <Compile Include="DomainModels\Enrollments\IEnrollmentService.cs" />
+    <Compile Include="DomainModels\Enrollments\Service\LoadDepositResult.cs" />
+    <Compile Include="DomainModels\Enrollments\Service\PlaceOrderResult.cs" />
+    <Compile Include="DomainModels\IServiceCapability.cs" />
     <Compile Include="DomainModels\Enrollments\LoadIdentityQuestionsState.cs" />
     <Compile Include="DomainModels\Enrollments\LoadPaymentInfoState.cs" />
     <Compile Include="DomainModels\Enrollments\OrderConfirmationState.cs" />
@@ -60,6 +67,7 @@
     <Compile Include="DomainModels\Enrollments\LoadOffersState.cs" />
     <Compile Include="DomainModels\Enrollments\AccountInformationState.cs" />
     <Compile Include="DomainModels\Enrollments\PlanSelectionState.cs" />
+    <Compile Include="DomainModels\TexasServiceCapability.cs" />
     <Compile Include="DomainModels\Enrollments\UserContext.cs" />
     <Compile Include="DomainModels\Enrollments\VerifyIdentityState.cs" />
     <Compile Include="DomainModels\Phone.cs" />
