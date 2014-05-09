@@ -1,0 +1,47 @@
+﻿<article class="marketing photoLockup commercial-quote">
+    <div class="photo">
+        @Html.Sitecore().Field("Form Image")
+    </div>
+    <div class="text">
+        <div class="inner">
+            <h2>@Html.Sitecore().Field("Form Title")</h2>
+            @Html.Sitecore().Field("Form Intro Text")
+            <form>
+                <div class="item">
+                    <input type="text" id="first-name" placeholder="@Html.Sitecore().Field("First Name Placeholder Text")">
+                </div>
+                <div class="item">
+                    <input type="text" id="last-name" placeholder="@Html.Sitecore().Field("Last Name Placeholder Text")">
+                </div>
+                <div class="item">
+                    <input type="text" id="company-name" placeholder="@Html.Sitecore().Field("Company Name Placeholder Text")">
+                </div>
+                <div class="item">
+                    <input type="text" id="phone-number" placeholder="@Html.Sitecore().Field("Phone Number Placeholder Text")">
+                </div>
+                <div class="item">
+                    <input type="text" id="Email" placeholder="@Html.Sitecore().Field("Email Placeholder Text")">
+                </div>
+                <div class="item">
+                    <input type="text" id="service-address" placeholder="@Html.Sitecore().Field("Service Address Placeholder Text")">
+                </div>
+                <div class="item">
+                    <input type="text" id="city" placeholder="@Html.Sitecore().Field("City Placeholder Text")">
+                </div>
+                <div class="item">
+                    <select>
+                        <option value="State">Select your State (required)</option>
+                        <option>State 1</option>
+                        <option>State 2</option>
+                    </select>
+                </div>
+                <div class="item">
+                    <input type="text" id="zip-code" placeholder="@Html.Sitecore().Field("Zip Code Placeholder Text")">
+                </div>
+                <div class="item">
+                    <button><a href="#">@Html.Sitecore().Field("Send Button Text")</a></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</article>
