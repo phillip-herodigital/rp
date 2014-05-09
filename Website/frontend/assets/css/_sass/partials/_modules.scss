@@ -46,6 +46,9 @@ article {
 	.content {
 		padding: 25px 15px;
 		position: relative;
+		& > p:first-child {
+			margin-top: 0;
+		}
 		& + .content {
 			border-top: 1px solid #ddd;
 		}
