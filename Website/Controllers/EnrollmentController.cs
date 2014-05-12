@@ -20,11 +20,13 @@ namespace StreamEnergy.MyStream.Controllers
         private static readonly string ContextSessionKey = typeof(EnrollmentController).FullName + " " + typeof(UserContext).FullName;
         private static readonly string InternalContextSessionKey = typeof(EnrollmentController).FullName + " " + typeof(InternalContext).FullName;
         private static readonly string StateSessionKey = typeof(EnrollmentController).FullName + " State";
+        private readonly Sitecore.Data.Items.Item translationItem;
         private HttpSessionStateBase session;
         private IStateMachine<UserContext, InternalContext> stateMachine;
 
         public EnrollmentController(HttpSessionStateBase session, StateMachine<UserContext, InternalContext> stateMachine)
         {
+            this.translationItem = Sitecore.Context.Database.GetItem(new Sitecore.Data.ID("{5B9C5629-3350-4D85-AACB-277835B6B1C9}"));
             this.session = session;
             this.stateMachine = stateMachine;
         }
@@ -74,7 +76,7 @@ namespace StreamEnergy.MyStream.Controllers
         {
             return new ClientData
             {
-                Validations = Translate(stateMachine.ValidationResults),
+                Validations = TranslatedValidationResult.Translate(stateMachine.ValidationResults, translationItem),
                 UserContext = CopyForClientDisplay(stateMachine.Context),
                 // TODO - more data, such as plan list, calendar, etc. - probably from stateMachine.InternalContext
             };
@@ -111,18 +113,6 @@ namespace StreamEnergy.MyStream.Controllers
             stateMachine.Process(); // TODO - set steps to stop at
 
             return ClientData();
-        }
-
-        private IEnumerable<TranslatedValidationResult> Translate(IEnumerable<ValidationResult> results)
-        {
-            return from val in results
-                   let text = val.ErrorMessage // TODO - get field from Sitecore
-                   from member in val.MemberNames
-                   select new TranslatedValidationResult
-                   {
-                       MemberName = member,
-                       Text = text
-                   };
         }
 
         private UserContext CopyForClientDisplay(UserContext userContext)
