@@ -64,5 +64,12 @@ namespace StreamEnergy.Extensions
                 return lBrace + value + rBrace;
             });
         }
+
+        public static string RenderFieldFrom(this string fieldName, Sitecore.Data.Items.Item item, bool fallbackToFieldName = false)
+        {
+            var text = item != null ? Sitecore.Web.UI.WebControls.FieldRenderer.Render(item, fieldName) : null;
+
+            return (string.IsNullOrEmpty(text) && fallbackToFieldName) ? fieldName : text;
+        }
     }
 }

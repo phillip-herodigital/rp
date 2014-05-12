@@ -37,7 +37,8 @@ namespace StreamEnergy.MyStream.Controllers
         {
             return new Table<Invoice>
                 {
-                    ColumnList = schema ? typeof(Invoice).BuildTableSchema() : null,
+                    // TODO - provide translation sitecore item
+                    ColumnList = schema ? typeof(Invoice).BuildTableSchema(null) : null,
                     Values = from invoice in accountService.GetInvoices(User.Identity.Name)
                              select new Invoice
                              {
