@@ -574,7 +574,7 @@
     <Content Include="frontend\assets\js\app.js" />
     <Content Include="frontend\assets\js\controllers\accountBalances.js" />
     <Content Include="frontend\assets\js\controllers\invoices.js" />
-    <Content Include="frontend\assets\js\controllers\loginHorizontal.js" />
+    <Content Include="frontend\assets\js\controllers\login.js" />
     <Content Include="frontend\assets\js\controllers\main.js" />
     <Content Include="frontend\assets\js\controllers\marketing.js" />
     <Content Include="frontend\assets\js\controllers\template.js" />
