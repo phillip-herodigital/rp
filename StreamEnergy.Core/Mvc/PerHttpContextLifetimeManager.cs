@@ -9,25 +9,27 @@ namespace StreamEnergy.Mvc
     public class PerHttpContextLifetimeManager : LifetimeManager
     {
         private readonly string key;
+        private readonly Func<System.Web.HttpContext> getContext;
 
-        public PerHttpContextLifetimeManager()
+        public PerHttpContextLifetimeManager(Func<System.Web.HttpContext> getContext)
         {
-            key = Guid.NewGuid().ToString();
+            this.key = Guid.NewGuid().ToString();
+            this.getContext = getContext;
         }
 
         public override object GetValue()
         {
-            return System.Web.HttpContext.Current.Items[key];
+            return getContext().Items[key];
         }
 
         public override void RemoveValue()
         {
-            System.Web.HttpContext.Current.Items.Remove(key);
+            getContext().Items.Remove(key);
         }
 
         public override void SetValue(object newValue)
         {
-            System.Web.HttpContext.Current.Items[key] = newValue;
+            getContext().Items[key] = newValue;
         }
     }
 }

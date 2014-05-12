@@ -29,18 +29,13 @@ namespace StreamEnergy.MyStream.Controllers
             this.translationItem = Sitecore.Context.Database.GetItem(new Sitecore.Data.ID("{5B9C5629-3350-4D85-AACB-277835B6B1C9}"));
             this.session = session;
             this.stateMachine = stateMachine;
-        }
 
-        protected override void Initialize(System.Web.Http.Controllers.HttpControllerContext controllerContext)
-        {
             var context = session[ContextSessionKey] as UserContext;
             if (context == null)
                 session[ContextSessionKey] = context = new UserContext();
 
             var state = (session[StateSessionKey] as Type) ?? typeof(DomainModels.Enrollments.ServiceInformationState);
             stateMachine.Initialize(state, context, session[InternalContextSessionKey] as InternalContext);
-
-            base.Initialize(controllerContext);
         }
 
         protected override void Dispose(bool disposing)
