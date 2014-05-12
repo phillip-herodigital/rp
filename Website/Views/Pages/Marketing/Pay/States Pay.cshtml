@@ -3,7 +3,7 @@
         <h2 class="get-started">@Html.Sitecore().Field("Header Text")</h2>
     </div>
 </article>
-<article class="marketing state-tabs states-pay" state-tabs="texas">
+<article class="marketing state-tabs states-pay" ng-controller="LoginCtrl" ng-init="init('https://secure3.i-doxs.net/StreamEnergy/Default.aspx', 'https://secure3.i-doxs.net/StreamEnergyGA/Default.aspx')" state-tabs="texas">
     <ul class="tabs-nav">
         <li ng-click="selectPane('texas')" ng-class="{ active: pane == 'texas' }">
             <a href="">
@@ -63,7 +63,7 @@
                     <div class="pay-option">
                         <h2>@Html.Sitecore().Field("One Time Payment Text")</h2>
                         <p>@Html.Sitecore().Field("No Login Text")</p>
-                        <p><a href="#"><button>@Html.Sitecore().Field("No Login Button Text")</button></a> @Html.Sitecore().Field("Instead Text")</p>
+                        <p><a class="button" href="https://secure3.i-doxs.net/StreamEnergy/OneTimeValidate.aspx">@Html.Sitecore().Field("No Login Button Text")</a> @Html.Sitecore().Field("Instead Text")</p>
                         <p>@Html.Sitecore().Field("Charges Apply Text")</p>
                     </div>
                     <div class="pay-option">
@@ -81,13 +81,13 @@
                 <div class="col">
                     <div class="box">
                         <h1>@Html.Sitecore().Field("My Stream Account Text")</h1>
-                        <input type="text" placeholder="Username">
-                        <input type="text" placeholder="Password">
-                        <p><button>@Html.Sitecore().Field("Login Button Text")</button></p>
-                        <p class="forgot">@Html.Sitecore().Field("Forgot Text")</p>
+                        <input type="text" ng-model="username" placeholder="Username">
+                        <input type="password" ng-model="password" placeholder="Password">
+                        <p><button type="button" ng-click="loginClicked('TX')">@Html.Sitecore().Field("Login Button Text")</button></p>
+                        <p class="forgot">@Html.Sitecore().Field("Texas Forgot Text")</p>
                         <hr />
                         <p>@Html.Sitecore().Field("Havent Created Text")</p>
-                        <p class="sign-up"><a href="#">@Html.Sitecore().Field("Sign Up Text")</a> @Html.Sitecore().Field("Benefits Text")</p>
+                        <p class="sign-up"><a href="https://secure3.i-doxs.net/StreamEnergy/OneTimeValidate.aspx">@Html.Sitecore().Field("Sign Up Text")</a> @Html.Sitecore().Field("Benefits Text")</p>
                         <p><span class="benefits">@Html.Sitecore().Field("Paperless Billing Text")</span> @Html.Sitecore().Field("Paperless Benefit Text")</p>
                         <p><span class="benefits">@Html.Sitecore().Field("Automated Payments Text")</span> @Html.Sitecore().Field("Automated Benefit Text")</p>
                     </div>
@@ -112,7 +112,7 @@
                     <div class="pay-option">
                         <h2>@Html.Sitecore().Field("One Time Payment Text")</h2>
                         <p>@Html.Sitecore().Field("No Login Text")</p>
-                        <p><a href="#"><button>@Html.Sitecore().Field("No Login Button Text")</button></a> @Html.Sitecore().Field("Instead Text")</p>
+                        <p><a class="button" href="https://secure3.i-doxs.net/StreamEnergyGA/OneTimeValidate.aspx">@Html.Sitecore().Field("No Login Button Text")</a> @Html.Sitecore().Field("Instead Text")</p>
                         <p>@Html.Sitecore().Field("Charges Apply Text")</p>
                     </div>
                     <div class="pay-option">
@@ -130,13 +130,13 @@
                 <div class="col">
                     <div class="box">
                         <h1>@Html.Sitecore().Field("My Stream Account Text")</h1>
-                        <input type="text" placeholder="Username">
-                        <input type="text" placeholder="Password">
-                        <p><button>@Html.Sitecore().Field("Login Button Text")</button></p>
-                        <p class="forgot">@Html.Sitecore().Field("Forgot Text")</p>
+                        <input type="text" ng-model="username" placeholder="Username">
+                        <input type="password" ng-model="password" placeholder="Password">
+                        <p><button ng-click="loginClicked('GA')">@Html.Sitecore().Field("Login Button Text")</button></p>
+                        <p class="forgot">@Html.Sitecore().Field("Georgia Forgot Text")</p>
                         <hr />
                         <p>@Html.Sitecore().Field("Havent Created Text")</p>
-                        <p class="sign-up"><a href="#">@Html.Sitecore().Field("Sign Up Text")</a> @Html.Sitecore().Field("Benefits Text")</p>
+                        <p class="sign-up"><a href="https://secure3.i-doxs.net/StreamEnergyGA/Enroll_Step1.aspx">@Html.Sitecore().Field("Sign Up Text")</a> @Html.Sitecore().Field("Benefits Text")</p>
                         <p><span class="benefits">@Html.Sitecore().Field("Paperless Billing Text")</span> @Html.Sitecore().Field("Paperless Benefit Text")</p>
                         <p><span class="benefits">@Html.Sitecore().Field("Automated Payments Text")</span> @Html.Sitecore().Field("Automated Benefit Text")</p>
                     </div>
