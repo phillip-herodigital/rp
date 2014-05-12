@@ -7486,108 +7486,112 @@ article.manage-services .photo p.sign-up a:hover {
 .enrollment table .spacer {
   height: 20px;
 }
-/* line 556, _sass/partials/_enrollment.scss */
+/* line 554, _sass/partials/_enrollment.scss */
+.enrollment #order-confirmation {
+  margin-top: 20px;
+}
+/* line 559, _sass/partials/_enrollment.scss */
 .enrollment .accent-blue article h1 span {
   color: #1773cb;
 }
-/* line 559, _sass/partials/_enrollment.scss */
+/* line 562, _sass/partials/_enrollment.scss */
 .enrollment .accent-blue .banner {
   border-top: 5px solid #1773cb;
 }
-/* line 556, _sass/partials/_enrollment.scss */
+/* line 559, _sass/partials/_enrollment.scss */
 .enrollment .accent-paleblue article h1 span {
   color: #7e9ab3;
 }
-/* line 559, _sass/partials/_enrollment.scss */
+/* line 562, _sass/partials/_enrollment.scss */
 .enrollment .accent-paleblue .banner {
   border-top: 5px solid #7e9ab3;
 }
-/* line 556, _sass/partials/_enrollment.scss */
+/* line 559, _sass/partials/_enrollment.scss */
 .enrollment .accent-darkblue article h1 span {
   color: #073464;
 }
-/* line 559, _sass/partials/_enrollment.scss */
+/* line 562, _sass/partials/_enrollment.scss */
 .enrollment .accent-darkblue .banner {
   border-top: 5px solid #073464;
 }
-/* line 556, _sass/partials/_enrollment.scss */
+/* line 559, _sass/partials/_enrollment.scss */
 .enrollment .accent-green article h1 span {
   color: #78bb2f;
 }
-/* line 559, _sass/partials/_enrollment.scss */
+/* line 562, _sass/partials/_enrollment.scss */
 .enrollment .accent-green .banner {
   border-top: 5px solid #78bb2f;
 }
-/* line 556, _sass/partials/_enrollment.scss */
+/* line 559, _sass/partials/_enrollment.scss */
 .enrollment .accent-palegreen article h1 span {
   color: #8ba072;
 }
-/* line 559, _sass/partials/_enrollment.scss */
+/* line 562, _sass/partials/_enrollment.scss */
 .enrollment .accent-palegreen .banner {
   border-top: 5px solid #8ba072;
 }
-/* line 556, _sass/partials/_enrollment.scss */
+/* line 559, _sass/partials/_enrollment.scss */
 .enrollment .accent-darkgreen article h1 span {
   color: #5f9c37;
 }
-/* line 559, _sass/partials/_enrollment.scss */
+/* line 562, _sass/partials/_enrollment.scss */
 .enrollment .accent-darkgreen .banner {
   border-top: 5px solid #5f9c37;
 }
-/* line 556, _sass/partials/_enrollment.scss */
+/* line 559, _sass/partials/_enrollment.scss */
 .enrollment .accent-orange article h1 span {
   color: #fda32b;
 }
-/* line 559, _sass/partials/_enrollment.scss */
+/* line 562, _sass/partials/_enrollment.scss */
 .enrollment .accent-orange .banner {
   border-top: 5px solid #fda32b;
 }
-/* line 556, _sass/partials/_enrollment.scss */
+/* line 559, _sass/partials/_enrollment.scss */
 .enrollment .accent-red article h1 span {
   color: #aa2130;
 }
-/* line 559, _sass/partials/_enrollment.scss */
+/* line 562, _sass/partials/_enrollment.scss */
 .enrollment .accent-red .banner {
   border-top: 5px solid #aa2130;
 }
-/* line 556, _sass/partials/_enrollment.scss */
+/* line 559, _sass/partials/_enrollment.scss */
 .enrollment .accent-palered article h1 span {
   color: #b48789;
 }
-/* line 559, _sass/partials/_enrollment.scss */
+/* line 562, _sass/partials/_enrollment.scss */
 .enrollment .accent-palered .banner {
   border-top: 5px solid #b48789;
 }
-/* line 556, _sass/partials/_enrollment.scss */
+/* line 559, _sass/partials/_enrollment.scss */
 .enrollment .accent-white article h1 span {
   color: white;
 }
-/* line 559, _sass/partials/_enrollment.scss */
+/* line 562, _sass/partials/_enrollment.scss */
 .enrollment .accent-white .banner {
   border-top: 5px solid white;
 }
-/* line 556, _sass/partials/_enrollment.scss */
+/* line 559, _sass/partials/_enrollment.scss */
 .enrollment .accent-grey article h1 span {
   color: #e8e8e8;
 }
-/* line 559, _sass/partials/_enrollment.scss */
+/* line 562, _sass/partials/_enrollment.scss */
 .enrollment .accent-grey .banner {
   border-top: 5px solid #e8e8e8;
 }
-/* line 556, _sass/partials/_enrollment.scss */
+/* line 559, _sass/partials/_enrollment.scss */
 .enrollment .accent-darkgrey article h1 span {
   color: #6b6b6b;
 }
-/* line 559, _sass/partials/_enrollment.scss */
+/* line 562, _sass/partials/_enrollment.scss */
 .enrollment .accent-darkgrey .banner {
   border-top: 5px solid #6b6b6b;
 }
-/* line 564, _sass/partials/_enrollment.scss */
+/* line 567, _sass/partials/_enrollment.scss */
 .enrollment .site-footer {
   margin-top: 0;
 }
 @media only screen and (max-width: 767px) {
-  /* line 568, _sass/partials/_enrollment.scss */
+  /* line 571, _sass/partials/_enrollment.scss */
   .enrollment .button {
     margin: 0 auto;
     display: block;

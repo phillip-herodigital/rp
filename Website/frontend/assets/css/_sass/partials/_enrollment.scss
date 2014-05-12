@@ -551,6 +551,9 @@
 			height: 20px;
 		}
 	}
+	#order-confirmation {
+		margin-top: 20px;
+	}
 	@each $theme in $themes {
 		.accent-#{map-get($theme, name)} {
 		 	article h1 span {
