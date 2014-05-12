@@ -271,12 +271,6 @@
     <Content Include="App.config">
       <SubType>Designer</SubType>
     </Content>
-    <None Include="Web.Debug.config">
-      <DependentUpon>App.config</DependentUpon>
-    </None>
-    <None Include="Web.Release.config">
-      <DependentUpon>App.config</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup />
   <Choose>
