@@ -418,6 +418,33 @@
 	.box {
 		border: 1px solid #ebebeb;
 		padding: 14px;
+		&.thirds {
+			@extend .clearfix;
+			background: #fdfdfd;
+			@include border-radius(0);
+			.avatar {
+				float: left;
+				width: 110px;
+			}
+			.description {
+				float: left;
+				width: 340px;
+				h2 {
+					font-weight: normal;
+					text-transform: none;
+					margin: 0 0 20px 0;
+					font-size: 18px;
+				}
+				p {
+					font-size: 14px;
+				}
+			}
+			.button-holder {
+				float: right;
+				text-align: right;
+				padding-top: 25px;
+			}
+		}
 	}
 	table {
 		margin-bottom: 30px;
@@ -514,6 +541,11 @@
 					font-size: 16px;
 					margin: 0;
 				}
+				h3 {
+					font-size: 16px;
+					text-transform: none;
+					margin: 10px 0 0 0;
+				}
 				p {
 					margin-top: 0;
 				}
@@ -524,6 +556,34 @@
 				font-size: 18px;
 				vertical-align: top;
 				padding-top: 23px;
+			}
+			.docs {
+				border-left: 0;
+				ul {
+					li {
+						list-style-type: none;
+						text-align: right;
+					}
+				}
+			}
+			&.noborder {
+				td {
+					border-top: 0;
+					border-bottom: 0;
+					vertical-align: top;
+				}
+				&:first-child {
+					border-top: 1px solid #eaeaea;
+				}
+				&:last-child {
+					border-bottom: 1px solid #eaeaea;
+				}
+			}
+			&.secondary {
+				.rate {
+					padding-top: 10px;
+					font-weight: normal;
+				}
 			}
 		}
 		.total {
@@ -553,6 +613,17 @@
 	}
 	#order-confirmation {
 		margin-top: 20px;
+		.print {
+			float: right;
+			margin-top: 20px;
+		}
+		dl {
+			@extend .clearfix;
+			margin-bottom: 20px;
+			dd {
+				text-align: left;
+			}
+		}
 	}
 	@each $theme in $themes {
 		.accent-#{map-get($theme, name)} {
