@@ -26,8 +26,10 @@ namespace StreamEnergy
         {
             var target = serializer.Deserialize<Newtonsoft.Json.Linq.JObject>(reader);
             var selected = TypeIndicators.Where(t => t.SuperType == objectType).FirstOrDefault(t => t.IsMatch(target));
-
-            return serializer.Deserialize(target.CreateReader(), selected.Concrete);
+            if (selected != null)
+                return serializer.Deserialize(target.CreateReader(), selected.Concrete);
+            else
+                return null;
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)

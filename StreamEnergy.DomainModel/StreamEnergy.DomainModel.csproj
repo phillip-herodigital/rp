@@ -67,6 +67,7 @@
     <Compile Include="DomainModels\Enrollments\AdditionalIdentityInformation.cs" />
     <Compile Include="DomainModels\Enrollments\CompleteOrderState.cs" />
     <Compile Include="DomainModels\Enrollments\IOfferOption.cs" />
+    <Compile Include="DomainModels\Enrollments\SelectedOffer.cs" />
     <Compile Include="DomainModels\Enrollments\Service\CreditCheckResult.cs" />
     <Compile Include="DomainModels\Enrollments\IConnectDatePolicy.cs" />
     <Compile Include="DomainModels\Enrollments\IEnrollmentService.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="DomainModels\Enrollments\AccountInformationState.cs" />
     <Compile Include="DomainModels\Enrollments\PlanSelectionState.cs" />
     <Compile Include="DomainModels\PolymorphicSerializationContainerSetup.cs" />
+    <Compile Include="DomainModels\SampleServiceCapability.cs" />
     <Compile Include="DomainModels\TexasServiceCapability.cs" />
     <Compile Include="DomainModels\Enrollments\UserContext.cs" />
     <Compile Include="DomainModels\Enrollments\VerifyIdentityState.cs" />

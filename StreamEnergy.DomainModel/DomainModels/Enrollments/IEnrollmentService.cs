@@ -14,8 +14,10 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         CreditCheckResult CreditCheck(CustomerName name, string ssn, DriversLicense driversLicense, Address billingAddress, AdditionalIdentityInformation identityInformation = null);
 
-        LoadDepositResult LoadDeposit(IEnumerable<IOffer> selectedOffers);
-        PlaceOrderResult PlaceOrder(IEnumerable<IOffer> selectedOffers);
+        LoadDepositResult LoadDeposit(IEnumerable<SelectedOffer> selectedOffers);
+
+        // TODO - needs customer number, at the very least
+        PlaceOrderResult PlaceOrder(IEnumerable<SelectedOffer> selectedOffers);
 
     }
 }

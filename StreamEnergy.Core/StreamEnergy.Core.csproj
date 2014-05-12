@@ -136,6 +136,7 @@
     <Compile Include="Configuration\IKeyGenerator.cs" />
     <Compile Include="Configuration\IocInitializer.cs" />
     <Compile Include="CoreContainerSetup.cs" />
+    <Compile Include="EnumerableRequiredAttribute.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="ISanitizable.cs" />
     <Compile Include="IValidationService.cs" />

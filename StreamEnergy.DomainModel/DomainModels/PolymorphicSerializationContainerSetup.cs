@@ -12,11 +12,9 @@ namespace StreamEnergy.DomainModels
     {
         void IContainerSetupStrategy.SetupUnity(IUnityContainer unityContainer)
         {
-            unityContainer.Resolve<TypeIndicatorJsonConverter>().TypeIndicators.Add(new TypeIndicatorLookup
+            unityContainer.Resolve<TypeIndicatorJsonConverter>().TypeIndicators.Add(new TypeIndicatorLookup<IServiceCapability, SampleServiceCapability, TexasServiceCapability>
                 {
-                    Concrete = typeof(TexasServiceCapability),
-                    SuperType = typeof(IServiceCapability),
-                    IsMatch = j => j["capabilityType"].ToString() == TexasServiceCapability.capabilityType
+                    IsMatch = serviceCapability => serviceCapability.CapabilityType == TexasServiceCapability.capabilityType
                 });
         }
     }

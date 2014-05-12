@@ -24,12 +24,12 @@ namespace StreamEnergy.Services.Clients
             throw new NotImplementedException();
         }
 
-        DomainModels.Enrollments.Service.LoadDepositResult IEnrollmentService.LoadDeposit(IEnumerable<IOffer> selectedOffers)
+        DomainModels.Enrollments.Service.LoadDepositResult IEnrollmentService.LoadDeposit(IEnumerable<SelectedOffer> selectedOffers)
         {
             throw new NotImplementedException();
         }
 
-        DomainModels.Enrollments.Service.PlaceOrderResult IEnrollmentService.PlaceOrder(IEnumerable<IOffer> selectedOffers)
+        DomainModels.Enrollments.Service.PlaceOrderResult IEnrollmentService.PlaceOrder(IEnumerable<SelectedOffer> selectedOffers)
         {
             throw new NotImplementedException();
         }

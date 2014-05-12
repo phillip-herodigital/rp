@@ -127,10 +127,6 @@ namespace StreamEnergy.MyStream.Controllers
 
         private UserContext CopyForClientDisplay(UserContext userContext)
         {
-            userContext.ServiceCapabilities = new[] 
-            {
-                new TexasServiceCapability { EsiId = "1234SAMPLE5678", Tdu = "Centerpoint" }
-            };
             // TODO - clone and remove items that should not be displayed
             return userContext;
         }
