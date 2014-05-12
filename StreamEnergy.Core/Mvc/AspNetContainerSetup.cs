@@ -13,7 +13,7 @@ namespace StreamEnergy.Mvc
     {
         public void SetupUnity(IUnityContainer unityContainer)
         {
-            unityContainer.RegisterType<HttpContextBase>(new PerHttpContextLifetimeManager(() => unityContainer.Resolve<HttpContext>()), new InjectionFactory(CreateInterceptedHttpContext));
+            unityContainer.RegisterType<HttpContextBase>(new PerHttpContextLifetimeManager(() => new HttpContextWrapper(HttpContext.Current)), new InjectionFactory(CreateInterceptedHttpContext));
             unityContainer.RegisterType<HttpSessionStateBase>(new InjectionFactory(uc => uc.Resolve<HttpContextBase>().Session));
         }
 

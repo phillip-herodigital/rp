@@ -20,10 +20,12 @@ namespace StreamEnergy.DomainModels
         
         [Required(ErrorMessage = "State Required")]
         public string StateAbbreviation { get; set; }
-        
+
         [Required(ErrorMessage = "Postal Code Required")]
+        [RegularExpression("^[0-9]{5}$", ErrorMessage = "Postal Code Invalid")]
         public string PostalCode5 { get; set; }
 
+        [RegularExpression("^[0-9]{4}$", ErrorMessage = "Postal Code Plus 4 Invalid")]
         public string PostalCodePlus4 { get; set; }
 
         void ISanitizable.Sanitize()

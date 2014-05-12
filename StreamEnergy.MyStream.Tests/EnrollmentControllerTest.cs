@@ -41,6 +41,12 @@ namespace StreamEnergy.MyStream.Tests
             Assert.IsTrue(keys.Any(key => session[key] is UserContext));
             Assert.IsTrue(keys.Any(key => session[key] is InternalContext));
             Assert.IsTrue(keys.Any(key => (session[key] as Type) == typeof(DomainModels.Enrollments.ServiceInformationState)));
+
+            var sessionHelper = container.Resolve<EnrollmentController.SessionHelper>();
+
+            Assert.IsTrue(sessionHelper.UserContext is UserContext);
+            Assert.IsTrue(sessionHelper.InternalContext is InternalContext);
+            Assert.IsTrue(sessionHelper.State == typeof(DomainModels.Enrollments.ServiceInformationState));
         }
 
         [TestMethod]

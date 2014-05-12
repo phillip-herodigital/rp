@@ -9,9 +9,9 @@ namespace StreamEnergy.Mvc
     public class PerHttpContextLifetimeManager : LifetimeManager
     {
         private readonly string key;
-        private readonly Func<System.Web.HttpContext> getContext;
+        private readonly Func<System.Web.HttpContextBase> getContext;
 
-        public PerHttpContextLifetimeManager(Func<System.Web.HttpContext> getContext)
+        public PerHttpContextLifetimeManager(Func<System.Web.HttpContextBase> getContext)
         {
             this.key = Guid.NewGuid().ToString();
             this.getContext = getContext;
