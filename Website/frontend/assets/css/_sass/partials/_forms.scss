@@ -89,16 +89,6 @@ a.button {
  		@include text-shadow(-1px 1px 1px rgba(0,0,0,.3));
  		background-color: #797b7e;
  	}
- 	&.link {
- 		background: transparent;
- 		color: #0971ce;
- 		text-shadow: none;
- 		&:hover, &:active, &:focus {
- 			color: #0971ce;
- 			background: transparent;
- 			text-decoration: underline;
- 		}
- 	}
 	&:hover {
 		background-color: #6b6b6b;
 		color: #fff;
@@ -323,13 +313,6 @@ form,
 			&:first-child {
 				
 			}
-		}
-		/* If link style button is last-child, remove right padding
-		to butt up against the container */
-		&:last-child .link {
-			padding-left: 0;
-			padding-right: 0;
-			margin-left: 13px;
 		}
 	}
 	hr.content-divider { 
