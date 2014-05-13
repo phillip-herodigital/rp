@@ -966,14 +966,14 @@
     <Content Include="frontend\assets\js\libs\respond\README.md" />
     <Content Include="Views\Components\Footer.cshtml" />
     <Content Include="Views\layouts\HTML Layout.cshtml" />
-    <Content Include="Views\Components\Full HTML.cshtml" />
-    <Content Include="Views\Components\Full Width Image.cshtml" />
-    <Content Include="Views\Components\Grid Promos.cshtml" />
-    <Content Include="Views\Components\Intro.cshtml" />
-    <Content Include="Views\Components\Login Horizontal.cshtml" />
-    <Content Include="Views\Components\Photo Lockup.cshtml" />
+    <Content Include="Views\Components\Marketing\Full HTML.cshtml" />
+    <Content Include="Views\Components\Marketing\Full Width Image.cshtml" />
+    <Content Include="Views\Components\Marketing\Grid Promos.cshtml" />
+    <Content Include="Views\Components\Marketing\Intro.cshtml" />
+    <Content Include="Views\Components\Marketing\Login Horizontal.cshtml" />
+    <Content Include="Views\Components\Marketing\Photo Lockup.cshtml" />
     <Content Include="Views\Components\Header.cshtml" />
-    <Content Include="Views\Components\States Enroll.cshtml" />
+    <Content Include="Views\Components\Marketing\States Enroll.cshtml" />
     <Content Include="App_Config\Include\StreamEnergy.Initialization.config" />
     <Content Include="Views\Pages\Marketing\FAQ\FAQ Landing.cshtml" />
     <Content Include="Views\Pages\Marketing\FAQ\FAQ Listing.cshtml" />
@@ -995,7 +995,7 @@
     <Content Include="Views\Pages\Marketing\Services\Enroll Commercial.cshtml" />
     <Content Include="Views\Pages\Marketing\Contact\Contact.cshtml" />
     <Content Include="Views\Pages\Marketing\Rates\NE Rates.cshtml" />
-    <Content Include="Data\GeoLite2-City.mmdb" />
+    <Content Include="Views\Pages\Portal\Account\Invoices\Utility Providers.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
