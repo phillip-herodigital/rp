@@ -1,4 +1,25 @@
 .enrollment {
+	/*
+	@include breakpoint(medium) {
+		.page-content {
+			position: relative;
+			left: 0;
+			background: #fff;
+			@include transition(left linear .2s); 
+		}
+		.page-wrapper {
+			> nav {
+				display: block;
+			}
+			&.open {
+				.site-header .wrapper,
+				.page-content {
+					left: $mobile-nav;
+				}
+			}
+		}
+	}
+	*/
 	.site-header {
 		background: #fff;
 		height: 121px;
@@ -36,15 +57,43 @@
 				height: 57px;
 			}
 		}
-
+		/*
 		@include breakpoint(medium) {
-			.nav-toggle {
+			height: 57px;
+			> .wrapper {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				background-color: #fff;
+				@include retina-background("header-mobile.png");
+				background-repeat: repeat-x;
+				border-bottom: 1px solid #1697ff;
+				z-index: 2;
+				height: 57px;
+			}
+			.logo {
+				@include image-replace("logo.png", true);
+				position: absolute;
+				left: 50%;
+				top: 11px;
+				margin-top: 0;
+				margin-left: (image-width("logo.png") / 2) / 2 * -1;
+			}
+			.utility {
+				display: none;
+			}
+			.nav-toggle{
+				margin-top: 22px;
 				display: block;
 			}
 			.cart-toggle {
+				float: right;
+				margin-top: 18px;
 				display: block;
 			}
 		}
+		*/
 	}
 
 	.banner {
@@ -260,8 +309,7 @@
 				}
 			}
 			@include breakpoint(medium) {
-				float: none;
-				width: auto;
+				width: 400px;
 			}
 
 			@include breakpoint(small) {
@@ -421,9 +469,9 @@
 				}
 			}
 		}
-		@include breakpoint(medium) {
-			display: none;
-		}
+		//@include breakpoint(medium) {
+		//	display: none;
+		//}
 		@include breakpoint(small) {
 			display: none;
 		}
