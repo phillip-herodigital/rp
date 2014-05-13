@@ -96,8 +96,12 @@
 		.utility {
 			display: none;
 		}
-		.nav-toggle {
+		.nav-toggle{
 			margin-top: 22px;
+		}
+		.cart-toggle {
+			float: right;
+			margin-top: 18px;
 		}
 		nav {
 			display: none;
@@ -105,6 +109,9 @@
 	}
 	@include breakpoint(medium-large) {
 		.nav-toggle {
+			display: none;
+		}
+		.cart-toggle {
 			display: none;
 		}
 	}
