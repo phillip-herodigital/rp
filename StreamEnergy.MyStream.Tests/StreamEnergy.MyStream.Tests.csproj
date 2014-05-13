@@ -18,6 +18,7 @@
     <TestProjectType>UnitTest</TestProjectType>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <SitecorePath>$(SolutionDir)Website\</SitecorePath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -171,109 +172,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Config\Commands.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="App_Config\ConnectionStrings.config">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="App_Config\ConnectionStrings.local.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="App_Config\ConnectionStringsOracle.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="App_Config\FieldTypes.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="App_Config\Icons.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="App_Config\Include\Captcha.config" />
-    <Content Include="App_Config\Include\DataFolder.config.example" />
-    <Content Include="App_Config\Include\EventHandler.config.example" />
-    <Content Include="App_Config\Include\ForwardingSecurityEvents.config.example" />
-    <Content Include="App_Config\Include\ja-JP.config.example" />
-    <Content Include="App_Config\Include\LiveMode.config.example" />
-    <Content Include="App_Config\Include\ScalabilitySettings.config.example" />
-    <Content Include="App_Config\Include\Sitecore.Analytics.config" />
-    <Content Include="App_Config\Include\Sitecore.Analytics.ExcludeRobots.config" />
-    <Content Include="App_Config\Include\Sitecore.Analytics.RobotDetection.config" />
-    <Content Include="App_Config\Include\Sitecore.AntiCsrf.config" />
-    <Content Include="App_Config\Include\Sitecore.Buckets.config" />
-    <Content Include="App_Config\Include\Sitecore.Buckets.Scaling.config.example" />
-    <Content Include="App_Config\Include\Sitecore.Buckets.WarmupQueries.config.example" />
-    <Content Include="App_Config\Include\Sitecore.ContentSearch.config" />
-    <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.DefaultIndexConfiguration.config" />
-    <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.Index.Core.config" />
-    <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.Index.Master.config" />
-    <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.Index.Web.config" />
-    <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.Indexes.Sharded.Core.config.example" />
-    <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.Indexes.Sharded.Master.config.example" />
-    <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.Indexes.Sharded.Web.config.example" />
-    <Content Include="App_Config\Include\Sitecore.ContentSearch.VerboseLogging.config.example" />
-    <Content Include="App_Config\Include\Sitecore.Forms.config" />
-    <Content Include="App_Config\Include\Sitecore.ItemWebApi.config" />
-    <Content Include="App_Config\Include\Sitecore.Mvc.config" />
-    <Content Include="App_Config\Include\Sitecore.MvcAnalytics.config.disabled" />
-    <Content Include="App_Config\Include\Sitecore.MvcExperienceEditor.config" />
-    <Content Include="App_Config\Include\Sitecore.MvcSimulator.config" />
-    <Content Include="App_Config\Include\Sitecore.PipelineProfiling.config.disabled" />
-    <Content Include="App_Config\Include\Sitecore.Publishing.DedicatedInstance.config.example" />
-    <Content Include="App_Config\Include\Sitecore.Publishing.EventProvider.Async.config.disabled" />
-    <Content Include="App_Config\Include\Sitecore.Publishing.Optimizations.config.example" />
-    <Content Include="App_Config\Include\Sitecore.Publishing.Parallel.config.disabled" />
-    <Content Include="App_Config\Include\Sitecore.Publishing.Recovery.config.example" />
-    <Content Include="App_Config\Include\Sitecore.Shell.MarketingAutomation.config" />
-    <Content Include="App_Config\Include\Sitecore.Speak.config" />
-    <Content Include="App_Config\Include\Sitecore.Speak.ItemWebApi.config" />
-    <Content Include="App_Config\Include\Sitecore.Speak.Mvc.config" />
-    <Content Include="App_Config\Include\Sitecore.WebDAV.config" />
-    <Content Include="App_Config\Include\SitecoreSettings.config.example" />
-    <Content Include="App_Config\Include\SiteDefinition.config.example" />
-    <Content Include="App_Config\Include\StreamEnergy.Initialization.config" />
-    <Content Include="App_Config\Include\WebDeploy.config.example" />
-    <Content Include="App_Config\Include\XslExtension.config.example" />
-    <Content Include="App_Config\LanguageDefinitions.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="App_Config\MimeTypes.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="App_Config\Portraits.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="App_Config\Prefetch\Common.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="App_Config\Prefetch\Core.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="App_Config\Prefetch\Master.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="App_Config\Prefetch\Web.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="App_Config\Prototypes.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="App_Config\Security\Domains.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="App_Config\Security\GlobalRoles.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="App_Config\XamlSharp.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\license.xml" />
-    <Content Include="Data\webdav.lic" />
     <None Include="packages.config" />
-    <Content Include="App.config">
-      <SubType>Designer</SubType>
-    </Content>
   </ItemGroup>
   <ItemGroup />
   <Choose>
@@ -298,10 +197,19 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
+       Other similar extension points exist, see Microsoft.Common.targets.-->
   <Target Name="BeforeBuild">
+    <CreateItem Include="$(SitecorePath)App_Config\**\*.config">
+      <Output ItemName="AppConfigFiles" TaskParameter="Include" />
+    </CreateItem>
+    <Copy SourceFiles="@(AppConfigFiles)" DestinationFiles="@(AppConfigFiles->'$(ProjectDir)App_Config\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+    <CreateItem Include="$(SitecorePath)Data\*.*">
+      <Output ItemName="DataLicenseFiles" TaskParameter="Include" />
+    </CreateItem>
+    <Copy SourceFiles="@(DataLicenseFiles)" DestinationFiles="@(DataLicenseFiles->'$(ProjectDir)Data\%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
   </Target>
   <Target Name="AfterBuild">
+    <Copy SourceFiles="@(AppConfigFiles)" DestinationFiles="@(AppConfigFiles->'$(ProjectDir)$(OutputPath)App_Config\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="$(SitecorePath)web.config" DestinationFiles="$(ProjectDir)$(OutputPath)$(AssemblyName).dll.config" SkipUnchangedFiles="true" />
   </Target>
-  -->
 </Project>
