@@ -28,7 +28,9 @@
 
     <script src="assets/js/directives/float-labels.js"></script>
 
+	<script src="assets/js/directives/loading-indicator.js"></script>
 	<script src="assets/js/controllers/main.js"></script>
+	<script src="assets/js/controllers/accountBalances.js"></script>
 
 	<script type="text/javascript" src="//use.typekit.net/hag0zvs.js"></script>
 	<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
@@ -73,28 +75,37 @@
 			
 			<section class="layout cols-2 wrapper">
 				<section class="layout cols-1">
-					<form>
-						<article class="grey-box account-information">
-							<div class="content">
-								<div class="group inline-group">
-									<div class="item group-col">
-										<label for="account-number">Account Number:</label>
-										<select name="account-number" id="account-number">
-											<option value="123456789">123456789</option>
-										</select>	
+				
+
+
+					<article class="balances-payments" ng-controller="AccountBalances">
+						<div class="content" loading-indicator>
+							<div class="account-selector">
+								<form>
+									<div class="group">
+										<div class="item">
+											<label>Account Number:</label>
+											<select ng-model="selectedAccount.account" ng-options="item.accountNumber for item in accounts">
+												<option value="">All</option>
+											</select>
+										</div>
+										<div class="item">
+											<label>Meter ID:</label>
+											<select class="id">
+												<option value="Please choose">109437200008913264</option>
+												<option value="account1">ID 2</option>
+											</select>
+										</div>
 									</div>
-									<div class="item group-col">
-										<label for="meter-id">Meter ID:</label>
-										<select name="meter-id" id="meter-id">
-											<option value="">109437200008913264</option>
-										</select>
-									</div>
-								</div>
+								</form>
 							</div>
-							<footer>
+							<div class="grid border">
 								Service Address: 123 Main Street, Dallas, TX 75001
-							</footer>
-						</article>
+							</div>
+						</div>
+					</article>
+
+					<form>
 
 						<article class="grey-box account-holder-information"> 
 							<div class="content">
@@ -114,7 +125,9 @@
 										</select>
 									</div>
 								</div>
-								<p><a href="#" class="additional-field-action">Add Additional Phone Number</a></p>
+								<div class="additional-field-action">
+									<a href="#">Add Additional Phone Number</a>
+								</div>
 								<div class="group additional-field-group">
 									<div class="group">
 										<div class="item group-col" float-label>
@@ -129,21 +142,18 @@
 										</div>
 									</div>									
 								</div>
-								<div class="vertical">
-									<div class="clearfix">
-										<h3 class="billing-address-title">Billing Address</h3>
-										<div class="item">
-											<ul class="checkbox-list">
-												<li>
-													<input type="checkbox" name="billing-address" id="billing-address">
-													<label for="billing-address">Same as Service Address</label>
-												</li>
-												<li class="billing-address">
-													123 Main St.<br>
-													Dallas, TX 75001
-												</li>
-											</ul>
-										</div>
+								<hr class="content-divider" />
+								<h3 class="billing-address-title">Billing Address</h3>
+								<div class="item">
+									<ul class="checkbox-list">
+										<li>
+											<input type="checkbox" name="billing-address" id="billing-address">
+											<label for="billing-address">Same as Service Address</label>
+										</li>
+									</ul>
+									<div class="billing-address">
+										123 Main St.<br>
+										Dallas, TX 75001
 									</div>
 								</div>
 							</div>
@@ -156,16 +166,16 @@
 					</form>
 				</section>
 				<aside>
-					<article class="grey-box">
-						<div class="clearfix">
-							<p><a href="#">Online Account Information</a></p>
-							<p class="active">Account Information</p>
-							<p><a href="#">Notifications &amp; Reminders</a></p>
-							<p><a href="#">Enrolled Accounts</a></p>
-						</div>
+					<article class="subnav">
+						<ul>
+							<li><a href="#">Online Account Information</a></li>
+							<li class="active">Account Information</li>
+							<li><a href="#">Notifications &amp; Reminders</a></li>
+							<li><a href="#">Enrolled Accounts</a></li>
+						</ul>
 					</article>
 					<article class="promo renew">
-						<h1>Renew Your <div class="promo-bold">Plan &amp; Save</div></h1>
+						<h1>Renew Your <strong>Plan &amp; Save</strong></h1>
 						<button class="secondary">Renew My Plan</button>
 					</article>
 				</aside>

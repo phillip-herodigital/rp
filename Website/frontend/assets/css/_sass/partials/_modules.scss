@@ -22,7 +22,7 @@ article {
 article {
 	@include box-shadow(0 0 5px rgba(0,0,0,.15));
 	@include border-radius(10px);
-	margin: 15px 0 20px;
+	margin-bottom: 20px;
 	border: 1px solid #ddd;	
 	//padding: 15px;
 	overflow: hidden;
@@ -48,9 +48,6 @@ article {
 		position: relative;
 		& > p:first-child {
 			margin-top: 0;
-		}
-		& + .content {
-			border-top: 1px solid #ddd;
 		}
 	}
 	.loadingMessage {
@@ -81,12 +78,14 @@ article {
 	}
 	.account-selector {
 		background: #fbfbfb;
-		padding: 10px;
+		padding: 15px;
 		border-bottom: 1px solid #ddd;
 		//margin: 0px -15px 15px;
-		margin: -15px -15px 15px -15px;
+		margin: -25px -15px 15px -15px;
 		.group {
+			@extend .inline-group;
 			.item {
+				@extend .group-col;
 				width: auto;
 				margin-top: 8px;
 				label {
@@ -403,26 +402,9 @@ article.service-identification {
 		margin-bottom: 0px;
 	}
 }
-article.account-information {
-	.content {
-		padding-top: 15px;
-		padding-bottom: 15px;
-	}
-	select {
-		min-width: 160px;
-	}
-	footer { 
-		font-size: 14px;
-	}
-}
 article.account-holder-information {
-	.account-holder-title {
-	}
 	.account-holder-name {
 		margin-top: 0;
-	}
-	.billing-address-title {
-		text-transform: uppercase;
 	}
 	.billing-address {
 		margin-left: 23px;
@@ -435,9 +417,6 @@ article.account-holder-information {
 	}
 }
 article.notification-settings {
-	header h2 {
-		color: #444;
-	}
 	.edit-preferences {
 		padding-bottom: 0;
 		.additional-field-action {
@@ -447,7 +426,6 @@ article.notification-settings {
 			margin-top: -10px;
 		}
 		.additional-field-group {
-			border-bottom: 0;
 			> :first-child { 
 				margin-top: 0;
 			}
@@ -466,7 +444,7 @@ article.notification-settings {
 				}	
 			}
 		}
-		.group {
+		.preference {
 			position: relative;
 		}		
 		.label {
@@ -613,8 +591,20 @@ aside {
 			}
 		}
 	}
+	article.subnav {
+		ul {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+
+			> li {
+				padding: 20px 15px;
+				border-bottom: 1px solid #ddd;
+				text-transform: uppercase;
+			}
+		}
+	}
 	article.grey-box {
-		margin-top: 15px;
 		padding: 0;
 		.active {
 			background-color: #fff;

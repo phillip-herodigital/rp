@@ -27,8 +27,10 @@
     <script src="assets/js/services/breakpoint.js"></script>
 
     <script src="assets/js/directives/float-labels.js"></script>
-
+	
+	<script src="assets/js/directives/loading-indicator.js"></script>
 	<script src="assets/js/controllers/main.js"></script>
+	<script src="assets/js/controllers/accountBalances.js"></script>
 
 	<script type="text/javascript" src="//use.typekit.net/hag0zvs.js"></script>
 	<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
@@ -73,98 +75,100 @@
 			
 			<section class="layout cols-2 wrapper">
 				<section class="layout cols-1">
-					<article class="grey-box account-information">
-						<div class="content">
-							<form>
-								<div class="group inline-group">
-									<div class="item group-col">
-										<label for="account-number">Account Number:</label>
-										<select name="account-number" id="account-number">
-											<option value="123456789">123456789</option>
-										</select>	
+
+					<article class="balances-payments" ng-controller="AccountBalances">
+						<div class="content" loading-indicator>
+							<div class="account-selector">
+								<form>
+									<div class="group">
+										<div class="item">
+											<label>Account Number:</label>
+											<select ng-model="selectedAccount.account" ng-options="item.accountNumber for item in accounts">
+												<option value="">All</option>
+											</select>
+										</div>
+										<div class="item">
+											<label>Meter ID:</label>
+											<select class="id">
+												<option value="Please choose">109437200008913264</option>
+												<option value="account1">ID 2</option>
+											</select>
+										</div>
 									</div>
-									<div class="item group-col">
-										<label for="meter-id">Meter ID:</label>
-										<select name="meter-id" id="meter-id">
-											<option value="">109437200008913264</option>
-										</select>
-									</div>
-								</div>
-							</form>
+								</form>
+							</div>
+							<div class="grid border">
+								Service Address: 123 Main Street, Dallas, TX 75001
+							</div>
 						</div>
-						<footer>
-							Service Address: 123 Main Street, Dallas, TX 75001
-						</footer>
 					</article>
 					<article class="grey-box notification-settings">
 						<form>
 							<header>
 								<h2>Notification Settings</h2>
 							</header>
-							<div class="content edit-preferences">
-								<div class="group">
-									<span class="preference-type">
-										When a new document arrives: <span class="label"><i class="icon-notification-bell"></i> Web</span> <span class="label"><i class="icon-notification-email"></i> Email</span>
-									</span>
-									<a href="#" class="additional-field-action">Edit</a>
-								</div>
-								<div class="vertical additional-field-group">
-									<p>Please choose the deliver methods by which you&rsquo;d like to receive this notification.</p>
-									<div class="item">
-										<ul class="checkbox-list notification-list">
-											<li>
-												<input type="checkbox" value="web">
-												<label for=""><i class="icon-notification-bell"></i> Web</label>
-											</li>
-											<li>
-												<input type="checkbox" value="web">
-												<label for=""><i class="icon-notification-email"></i> Email</label>
-											</li>
-											<li>
-												<input type="checkbox" value="web">
-												<label for=""><i class="icon-notification-sms"></i> SMS</label>
-											</li>
-										</ul>
+							<div class="content">
+								<div class="edit-preferences">
+									<div class="preference">
+										<span class="preference-type">
+											When a new document arrives: <span class="label"><i class="icon-notification-bell"></i> Web</span> <span class="label"><i class="icon-notification-email"></i> Email</span>
+										</span>
+										<a href="#" class="additional-field-action">Edit</a>
 									</div>
-									<div class="item">
-										<div class="buttons">
-											<button class="link">Cancel</button>
-											<button>Save Preference</button>
+									<div class="additional-field-group">
+										<p>Please choose the deliver methods by which you&rsquo;d like to receive this notification.</p>
+										<div class="item">
+											<ul class="checkbox-list notification-list">
+												<li>
+													<input type="checkbox" value="web" id="notifications-document-web">
+													<label for="notifications-document-web"><i class="icon-notification-bell"></i> Web</label>
+												</li>
+												<li>
+													<input type="checkbox" value="email" id="notifications-document-email">
+													<label for="notifications-document-email"><i class="icon-notification-email"></i> Email</label>
+												</li>
+												<li>
+													<input type="checkbox" value="sms" id="notifications-document-sms">
+													<label for="notifications-document-sms"><i class="icon-notification-sms"></i> SMS</label>
+												</li>
+											</ul>
+										</div>
+										<div class="item">
+											<div class="buttons">
+												<button class="secondary">Cancel</button>
+												<button>Save Preference</button>
+											</div>
 										</div>
 									</div>
 								</div>
-							</div>
-							<div class="content">
+								<hr class="content-divider" />
 								<div class="edit-preferences">
-									<div class="group">
+									<div class="preference">
 										<span class="preference-type">
 											When online payments are made: <span class="label"><i class="icon-notification-bell"></i> Web</span> <span class="label"><i class="icon-notification-email"></i> Email</span>
 										</span>
 										<a href="#" class="additional-field-action">Edit</a>
 									</div>
 								</div>
-							</div>
-							<div class="content">
+								<hr class="content-divider" />
 								<div class="edit-preferences">
-									<div class="group">
+									<div class="preference">
 										<span class="preference-type">
 											When recurring payments are made: <span class="label"><i class="icon-notification-bell"></i> Web</span> <span class="label"><i class="icon-notification-email"></i> Email</span>
 										</span>
 										<a href="#" class="additional-field-action">Edit</a>
 									</div>
 								</div>
-							</div>
-							<div class="content">
+								<hr class="content-divider" />
 								<div class="edit-preferences">
-									<div class="group">
+									<div class="preference">
 										<span class="preference-type">
 											When recurring profile expires: <span class="label"><i class="icon-notification-bell"></i> Web</span> <span class="label"><i class="icon-notification-email"></i> Email</span>
 										</span>
 										<a href="#" class="additional-field-action">Edit</a>
 									</div>
 								</div>
-							</div>
-							<div class="content">
+								<hr class="content-divider" />
 								<div class="edit-preferences">
 									<div class="item">
 										<ul class="checkbox-list">
@@ -189,16 +193,16 @@
 					</article>					
 				</section>
 				<aside>
-					<article class="grey-box">
-						<div class="clearfix">
-							<p><a href="#">Online Account Information</a></p>
-							<p><a href="#">Account Information</a></p>
-							<p class="active">Notifications &amp; Reminders</p>
-							<p><a href="#">Enrolled Accounts</a></p>
-						</div>
+					<article class="subnav">
+						<ul>
+							<li><a href="#">Online Account Information</a></li>
+							<li><a href="#">Account Information</a></li>
+							<li class="active">Notifications &amp; Reminders</li>
+							<li><a href="#">Enrolled Accounts</a></li>
+						</ul>
 					</article>
 					<article class="promo renew">
-						<h1>Renew Your <div class="promo-bold">Plan &amp; Save</div></h1>
+						<h1>Renew Your <strong>Plan &amp; Save</strong></h1>
 						<button class="secondary">Renew My Plan</button>
 					</article>
 				</aside>
