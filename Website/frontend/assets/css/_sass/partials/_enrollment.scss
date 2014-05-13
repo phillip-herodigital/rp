@@ -302,6 +302,7 @@
 			}
 		}	
 	}
+	.right,
 	.cart {
 		float: right;
 		width: 315px;
@@ -441,6 +442,17 @@
 			float: none;
 			width: auto;
 			margin: 20px;
+			.rate {
+				position: absolute;
+				float: none;
+				right: 60px;
+			}
+			@include breakpoint(medium) {
+				display: block;
+			}
+			@include breakpoint(small) {
+				display: block;
+			}
 		}
 		&.open {
 			display: block;
