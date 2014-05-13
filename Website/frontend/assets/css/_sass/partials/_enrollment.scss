@@ -342,6 +342,10 @@
 						font-size: 13px;
 					}
 				}
+				.avatar {
+					text-align: center;
+					margin-bottom: 10px;
+				}
 				address {
 					font-style: normal;
 					font-size: 12px;
@@ -425,6 +429,7 @@
 			.avatar {
 				float: left;
 				width: 110px;
+				padding: 8px 0 0 5px;
 			}
 			.description {
 				float: left;
@@ -615,7 +620,11 @@
 		margin-top: 20px;
 		.print {
 			float: right;
+			font-size: 14px;
 			margin-top: 20px;
+			i {
+				margin-top: -3px;
+			}
 		}
 		dl {
 			@extend .clearfix;
