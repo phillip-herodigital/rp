@@ -395,7 +395,7 @@ dl dd {
 .clearfix, .layout, form div.item,
 .form div.item, form div.group,
 .form div.group, form div.buttons,
-.form div.buttons, div.tabbable ul.nav-tabs, .site-header > .wrapper, article.state-tabs .site-header > ul.tabs-nav, .site-footer .super-footer div.grid .col.quick-links ul, .enrollment section .wrapper, .enrollment section article.state-tabs ul.tabs-nav, article.state-tabs .enrollment section ul.tabs-nav, .enrollment .right .box .cart-item,
+.form div.buttons, div.tabbable ul.nav-tabs, .site-header > .wrapper, article.state-tabs .site-header > ul.tabs-nav, .site-footer .super-footer div.grid .col.quick-links ul, .enrollment .enrollment-section .wrapper, .enrollment .enrollment-section article.state-tabs ul.tabs-nav, article.state-tabs .enrollment .enrollment-section ul.tabs-nav, .enrollment .right .box .cart-item,
 .enrollment .cart .box .cart-item, .enrollment .box.thirds, .enrollment #order-confirmation dl {
   *zoom: 1;
 }
@@ -403,11 +403,11 @@ dl dd {
 .clearfix:before, .layout:before, form div.item:before,
 .form div.item:before, form div.group:before,
 .form div.group:before, form div.buttons:before,
-.form div.buttons:before, div.tabbable ul.nav-tabs:before, .site-header > .wrapper:before, article.state-tabs .site-header > ul.tabs-nav:before, .site-footer .super-footer div.grid .col.quick-links ul:before, .enrollment section .wrapper:before, .enrollment section article.state-tabs ul.tabs-nav:before, article.state-tabs .enrollment section ul.tabs-nav:before, .enrollment .right .box .cart-item:before,
+.form div.buttons:before, div.tabbable ul.nav-tabs:before, .site-header > .wrapper:before, article.state-tabs .site-header > ul.tabs-nav:before, .site-footer .super-footer div.grid .col.quick-links ul:before, .enrollment .enrollment-section .wrapper:before, .enrollment .enrollment-section article.state-tabs ul.tabs-nav:before, article.state-tabs .enrollment .enrollment-section ul.tabs-nav:before, .enrollment .right .box .cart-item:before,
 .enrollment .cart .box .cart-item:before, .enrollment .box.thirds:before, .enrollment #order-confirmation dl:before, .clearfix:after, .layout:after, form div.item:after,
 .form div.item:after, form div.group:after,
 .form div.group:after, form div.buttons:after,
-.form div.buttons:after, div.tabbable ul.nav-tabs:after, .site-header > .wrapper:after, article.state-tabs .site-header > ul.tabs-nav:after, .site-footer .super-footer div.grid .col.quick-links ul:after, .enrollment section .wrapper:after, .enrollment section article.state-tabs ul.tabs-nav:after, article.state-tabs .enrollment section ul.tabs-nav:after, .enrollment .right .box .cart-item:after,
+.form div.buttons:after, div.tabbable ul.nav-tabs:after, .site-header > .wrapper:after, article.state-tabs .site-header > ul.tabs-nav:after, .site-footer .super-footer div.grid .col.quick-links ul:after, .enrollment .enrollment-section .wrapper:after, .enrollment .enrollment-section article.state-tabs ul.tabs-nav:after, article.state-tabs .enrollment .enrollment-section ul.tabs-nav:after, .enrollment .right .box .cart-item:after,
 .enrollment .cart .box .cart-item:after, .enrollment .box.thirds:after, .enrollment #order-confirmation dl:after {
   display: table;
   content: "";
@@ -417,7 +417,7 @@ dl dd {
 .clearfix:after, .layout:after, form div.item:after,
 .form div.item:after, form div.group:after,
 .form div.group:after, form div.buttons:after,
-.form div.buttons:after, div.tabbable ul.nav-tabs:after, .site-header > .wrapper:after, article.state-tabs .site-header > ul.tabs-nav:after, .site-footer .super-footer div.grid .col.quick-links ul:after, .enrollment section .wrapper:after, .enrollment section article.state-tabs ul.tabs-nav:after, article.state-tabs .enrollment section ul.tabs-nav:after, .enrollment .right .box .cart-item:after,
+.form div.buttons:after, div.tabbable ul.nav-tabs:after, .site-header > .wrapper:after, article.state-tabs .site-header > ul.tabs-nav:after, .site-footer .super-footer div.grid .col.quick-links ul:after, .enrollment .enrollment-section .wrapper:after, .enrollment .enrollment-section article.state-tabs ul.tabs-nav:after, article.state-tabs .enrollment .enrollment-section ul.tabs-nav:after, .enrollment .right .box .cart-item:after,
 .enrollment .cart .box .cart-item:after, .enrollment .box.thirds:after, .enrollment #order-confirmation dl:after {
   clear: both;
 }
@@ -7204,14 +7204,14 @@ article.marketing div.wrapper div.historical-rates table tr td.even {
   }
 }
 /* line 162, _sass/partials/_enrollment.scss */
-.enrollment section .wrapper, .enrollment section article.state-tabs ul.tabs-nav, article.state-tabs .enrollment section ul.tabs-nav {
+.enrollment .enrollment-section .wrapper, .enrollment .enrollment-section article.state-tabs ul.tabs-nav, article.state-tabs .enrollment .enrollment-section ul.tabs-nav {
   position: relative;
   overflow: visible;
   min-height: 700px;
   padding-bottom: 50px;
 }
 /* line 169, _sass/partials/_enrollment.scss */
-.enrollment section aside.left {
+.enrollment .enrollment-section aside.left {
   position: absolute;
   left: -260px;
   top: 0;
@@ -7219,26 +7219,26 @@ article.marketing div.wrapper div.historical-rates table tr td.even {
 }
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
   /* line 169, _sass/partials/_enrollment.scss */
-  .enrollment section aside.left {
+  .enrollment .enrollment-section aside.left {
     display: none;
   }
 }
 @media only screen and (max-width: 767px) {
   /* line 169, _sass/partials/_enrollment.scss */
-  .enrollment section aside.left {
+  .enrollment .enrollment-section aside.left {
     display: none;
   }
 }
 /* line 181, _sass/partials/_enrollment.scss */
-.enrollment section aside.left nav ul {
+.enrollment .enrollment-section aside.left nav ul {
   margin-top: 0;
 }
 /* line 185, _sass/partials/_enrollment.scss */
-.enrollment section aside.left nav li a {
+.enrollment .enrollment-section aside.left nav li a {
   position: relative;
 }
 /* line 187, _sass/partials/_enrollment.scss */
-.enrollment section aside.left nav li a::before {
+.enrollment .enrollment-section aside.left nav li a::before {
   color: #bfbfbf;
   content: ' \25CF';
   position: absolute;
@@ -7249,22 +7249,22 @@ article.marketing div.wrapper div.historical-rates table tr td.even {
   font-size: 16px;
 }
 /* line 200, _sass/partials/_enrollment.scss */
-.enrollment section aside.left nav li:hover a, .enrollment section aside.left nav li.active a {
+.enrollment .enrollment-section aside.left nav li:hover a, .enrollment .enrollment-section aside.left nav li.active a {
   color: #333;
 }
 /* line 202, _sass/partials/_enrollment.scss */
-.enrollment section aside.left nav li:hover a::before, .enrollment section aside.left nav li.active a::before {
+.enrollment .enrollment-section aside.left nav li:hover a::before, .enrollment .enrollment-section aside.left nav li.active a::before {
   color: #053d5a;
   font-size: 32px;
   left: -30px;
   top: -13px;
 }
 /* line 212, _sass/partials/_enrollment.scss */
-.enrollment section aside.left nav li.completed a::before {
+.enrollment .enrollment-section aside.left nav li.completed a::before {
   color: #36637b;
 }
 /* line 218, _sass/partials/_enrollment.scss */
-.enrollment section aside.left nav a {
+.enrollment .enrollment-section aside.left nav a {
   color: #bfbfbf;
   font-size: 14px;
   -moz-transition-property: color;
@@ -7282,22 +7282,22 @@ article.marketing div.wrapper div.historical-rates table tr td.even {
 }
 @media only screen and (max-width: 1055px) {
   /* line 169, _sass/partials/_enrollment.scss */
-  .enrollment section aside.left {
+  .enrollment .enrollment-section aside.left {
     display: none;
   }
 }
 @media only screen and (min-width: 1056px) and (max-width: 1515px) {
   /* line 169, _sass/partials/_enrollment.scss */
-  .enrollment section aside.left {
+  .enrollment .enrollment-section aside.left {
     width: 25px;
     left: -40px;
   }
   /* line 236, _sass/partials/_enrollment.scss */
-  .enrollment section aside.left nav ul li {
+  .enrollment .enrollment-section aside.left nav ul li {
     height: 22px;
   }
   /* line 238, _sass/partials/_enrollment.scss */
-  .enrollment section aside.left nav ul li a {
+  .enrollment .enrollment-section aside.left nav ul li a {
     color: transparent;
     visibility: hidden;
     -moz-transition-duration: 0;
@@ -7306,13 +7306,13 @@ article.marketing div.wrapper div.historical-rates table tr td.even {
     transition-duration: 0;
   }
   /* line 242, _sass/partials/_enrollment.scss */
-  .enrollment section aside.left nav ul li a::before {
+  .enrollment .enrollment-section aside.left nav ul li a::before {
     color: #bfbfbf;
     visibility: visible;
   }
 }
 /* line 254, _sass/partials/_enrollment.scss */
-.enrollment section article {
+.enrollment .enrollment-section section {
   border: 0;
   margin: 0;
   -moz-border-radius: 0;
@@ -7321,31 +7321,29 @@ article.marketing div.wrapper div.historical-rates table tr td.even {
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
   box-shadow: none;
-  float: left;
-  width: 650px;
   padding: 0;
 }
-/* line 262, _sass/partials/_enrollment.scss */
-.enrollment section article h1 {
+/* line 260, _sass/partials/_enrollment.scss */
+.enrollment .enrollment-section section h1 {
   font-size: 31px;
   letter-spacing: -1px;
 }
-/* line 266, _sass/partials/_enrollment.scss */
-.enrollment section article h2 {
+/* line 264, _sass/partials/_enrollment.scss */
+.enrollment .enrollment-section section h2 {
   color: #333;
   font-weight: bold;
   font-size: 20px;
 }
-/* line 271, _sass/partials/_enrollment.scss */
-.enrollment section article .item {
+/* line 269, _sass/partials/_enrollment.scss */
+.enrollment .enrollment-section section .item {
   margin-bottom: 20px;
 }
-/* line 273, _sass/partials/_enrollment.scss */
-.enrollment section article .item:last-child {
+/* line 271, _sass/partials/_enrollment.scss */
+.enrollment .enrollment-section section .item:last-child {
   margin-bottom: 0;
 }
-/* line 277, _sass/partials/_enrollment.scss */
-.enrollment section article .box {
+/* line 275, _sass/partials/_enrollment.scss */
+.enrollment .enrollment-section section .box {
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
   border-radius: 10px;
@@ -7359,13 +7357,13 @@ article.marketing div.wrapper div.historical-rates table tr td.even {
   transition: border linear 0.2s, box-shadow linear 0.2s;
   margin-bottom: 25px;
 }
-/* line 283, _sass/partials/_enrollment.scss */
-.enrollment section article .icon-blue-arrow-up,
-.enrollment section article .icon-blue-arrow-down {
+/* line 281, _sass/partials/_enrollment.scss */
+.enrollment .enrollment-section section .icon-blue-arrow-up,
+.enrollment .enrollment-section section .icon-blue-arrow-down {
   margin-top: -2px;
 }
-/* line 287, _sass/partials/_enrollment.scss */
-.enrollment section article .social-box {
+/* line 285, _sass/partials/_enrollment.scss */
+.enrollment .enrollment-section section .social-box {
   -moz-border-radius: 10px 10px 0 0;
   -webkit-border-radius: 10px;
   border-radius: 10px 10px 0 0;
@@ -7374,12 +7372,12 @@ article.marketing div.wrapper div.historical-rates table tr td.even {
   padding: 5px 10px 20px 10px;
   position: relative;
 }
-/* line 293, _sass/partials/_enrollment.scss */
-.enrollment section article .social-box .social-buttons {
+/* line 291, _sass/partials/_enrollment.scss */
+.enrollment .enrollment-section section .social-box .social-buttons {
   text-align: center;
 }
-/* line 296, _sass/partials/_enrollment.scss */
-.enrollment section article .social-box .seperator {
+/* line 294, _sass/partials/_enrollment.scss */
+.enrollment .enrollment-section section .social-box .seperator {
   position: absolute;
   bottom: -21px;
   left: 50%;
@@ -7395,25 +7393,12 @@ article.marketing div.wrapper div.historical-rates table tr td.even {
   border-radius: 21px;
   padding-top: 10px;
 }
-@media only screen and (min-width: 768px) and (max-width: 1024px) {
-  /* line 254, _sass/partials/_enrollment.scss */
-  .enrollment section article {
-    width: 400px;
-  }
-}
-@media only screen and (max-width: 767px) {
-  /* line 254, _sass/partials/_enrollment.scss */
-  .enrollment section article {
-    float: none;
-    width: auto;
-  }
-}
-/* line 320, _sass/partials/_enrollment.scss */
-.enrollment section .plans {
+/* line 310, _sass/partials/_enrollment.scss */
+.enrollment .enrollment-section .plans {
   position: relative;
 }
-/* line 322, _sass/partials/_enrollment.scss */
-.enrollment section .plans .table-overlay {
+/* line 312, _sass/partials/_enrollment.scss */
+.enrollment .enrollment-section .plans .table-overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -7421,8 +7406,8 @@ article.marketing div.wrapper div.historical-rates table tr td.even {
   right: 0;
   background: rgba(0, 0, 0, 0.5);
 }
-/* line 329, _sass/partials/_enrollment.scss */
-.enrollment section .plans .table-overlay .content {
+/* line 319, _sass/partials/_enrollment.scss */
+.enrollment .enrollment-section .plans .table-overlay .content {
   position: absolute;
   top: 15px;
   left: 25px;
@@ -7431,34 +7416,28 @@ article.marketing div.wrapper div.historical-rates table tr td.even {
   background: #fff;
   padding: 10px 20px;
 }
-/* line 340, _sass/partials/_enrollment.scss */
-.enrollment section .cart-items {
+/* line 331, _sass/partials/_enrollment.scss */
+.enrollment .cart-items {
   float: right;
   margin-right: 10px;
   position: relative;
 }
-/* line 344, _sass/partials/_enrollment.scss */
-.enrollment section .cart-items .item-num {
+/* line 335, _sass/partials/_enrollment.scss */
+.enrollment .cart-items .item-num {
   position: absolute;
   font-size: 13px;
   font-weight: bold;
   top: -5px;
   right: 8px;
 }
-/* line 353, _sass/partials/_enrollment.scss */
-.enrollment .right,
-.enrollment .cart {
-  float: right;
-  width: 315px;
-}
-/* line 357, _sass/partials/_enrollment.scss */
+/* line 345, _sass/partials/_enrollment.scss */
 .enrollment .right hr,
 .enrollment .cart hr {
   margin: 10px 0;
   border: 0;
   border-top: 3px solid #eee;
 }
-/* line 362, _sass/partials/_enrollment.scss */
+/* line 350, _sass/partials/_enrollment.scss */
 .enrollment .right .box,
 .enrollment .cart .box {
   background: #fafafa;
@@ -7468,74 +7447,76 @@ article.marketing div.wrapper div.historical-rates table tr td.even {
   -webkit-border-radius: 4px;
   border-radius: 4px;
 }
-/* line 367, _sass/partials/_enrollment.scss */
+/* line 355, _sass/partials/_enrollment.scss */
 .enrollment .right .box h1,
 .enrollment .cart .box h1 {
   font-size: 20px;
   text-transform: none;
   margin: 15px 10px;
 }
-/* line 372, _sass/partials/_enrollment.scss */
+/* line 360, _sass/partials/_enrollment.scss */
 .enrollment .right .box p,
 .enrollment .cart .box p {
   font-size: 16px;
   margin: 0 8px 15px 8px;
 }
-/* line 376, _sass/partials/_enrollment.scss */
+/* line 364, _sass/partials/_enrollment.scss */
 .enrollment .right .box ul.info,
 .enrollment .cart .box ul.info {
   border-top: 1px solid #e2e2e3;
   padding: 0;
   margin: 0 8px 15px 5px;
 }
-/* line 380, _sass/partials/_enrollment.scss */
+/* line 368, _sass/partials/_enrollment.scss */
 .enrollment .right .box ul.info li,
 .enrollment .cart .box ul.info li {
   border-bottom: 1px solid #e2e2e3;
   list-style-type: none;
-  padding: 10px 0;
+  padding: 10px 0 10px 30px;
   font-size: 13px;
+  position: relative;
 }
-/* line 385, _sass/partials/_enrollment.scss */
+/* line 374, _sass/partials/_enrollment.scss */
 .enrollment .right .box ul.info li i,
 .enrollment .cart .box ul.info li i {
-  width: 25px;
+  position: absolute;
+  top: 12px;
+  left: 0;
 }
-/* line 390, _sass/partials/_enrollment.scss */
+/* line 381, _sass/partials/_enrollment.scss */
 .enrollment .right .box .center,
 .enrollment .cart .box .center {
   text-align: center;
 }
-/* line 393, _sass/partials/_enrollment.scss */
+/* line 384, _sass/partials/_enrollment.scss */
 .enrollment .right .box .cart-item,
 .enrollment .cart .box .cart-item {
   margin-bottom: 10px;
 }
-/* line 396, _sass/partials/_enrollment.scss */
+/* line 387, _sass/partials/_enrollment.scss */
 .enrollment .right .box .cart-item:last-child,
 .enrollment .cart .box .cart-item:last-child {
   margin-bottom: 0;
 }
-/* line 400, _sass/partials/_enrollment.scss */
+/* line 391, _sass/partials/_enrollment.scss */
 .enrollment .right .box .delete,
 .enrollment .cart .box .delete {
   cursor: pointer;
   float: right;
-  width: 10px;
+  width: 5%;
   margin-top: 5px;
 }
-/* line 406, _sass/partials/_enrollment.scss */
+/* line 397, _sass/partials/_enrollment.scss */
 .enrollment .right .box .rate,
 .enrollment .cart .box .rate {
   float: left;
-  width: 65px;
+  width: 29%;
   font-size: 18px;
   line-height: 14px;
   font-weight: bold;
-  margin-right: 10px;
-  text-align: right;
+  text-align: center;
 }
-/* line 414, _sass/partials/_enrollment.scss */
+/* line 404, _sass/partials/_enrollment.scss */
 .enrollment .right .box .rate span,
 .enrollment .cart .box .rate span {
   font-weight: normal;
@@ -7543,13 +7524,13 @@ article.marketing div.wrapper div.historical-rates table tr td.even {
   font-size: 12px;
   line-height: 12px;
 }
-/* line 421, _sass/partials/_enrollment.scss */
+/* line 411, _sass/partials/_enrollment.scss */
 .enrollment .right .box .description,
 .enrollment .cart .box .description {
   float: left;
-  width: 160px;
+  width: 60%;
 }
-/* line 424, _sass/partials/_enrollment.scss */
+/* line 414, _sass/partials/_enrollment.scss */
 .enrollment .right .box .description h2,
 .enrollment .cart .box .description h2 {
   line-height: 16px;
@@ -7559,56 +7540,56 @@ article.marketing div.wrapper div.historical-rates table tr td.even {
   font-weight: bold;
   text-transform: none;
 }
-/* line 432, _sass/partials/_enrollment.scss */
+/* line 422, _sass/partials/_enrollment.scss */
 .enrollment .right .box .description a,
 .enrollment .cart .box .description a {
   font-size: 13px;
 }
-/* line 436, _sass/partials/_enrollment.scss */
+/* line 426, _sass/partials/_enrollment.scss */
 .enrollment .right .box .avatar,
 .enrollment .cart .box .avatar {
   text-align: center;
   margin-bottom: 10px;
 }
-/* line 440, _sass/partials/_enrollment.scss */
+/* line 430, _sass/partials/_enrollment.scss */
 .enrollment .right .box address,
 .enrollment .cart .box address {
   font-style: normal;
   font-size: 12px;
   margin-top: 20px;
 }
-/* line 444, _sass/partials/_enrollment.scss */
+/* line 434, _sass/partials/_enrollment.scss */
 .enrollment .right .box address h3,
 .enrollment .cart .box address h3 {
   font-size: 12px;
   color: #333;
   margin: 0;
 }
-/* line 450, _sass/partials/_enrollment.scss */
+/* line 440, _sass/partials/_enrollment.scss */
 .enrollment .right .box .box,
 .enrollment .cart .box .box {
   background: #fdfdfd;
   margin-bottom: 8px;
 }
-/* line 453, _sass/partials/_enrollment.scss */
+/* line 443, _sass/partials/_enrollment.scss */
 .enrollment .right .box .box p,
 .enrollment .cart .box .box p {
   font-size: 13px;
   margin: 10px 0;
 }
-/* line 456, _sass/partials/_enrollment.scss */
+/* line 446, _sass/partials/_enrollment.scss */
 .enrollment .right .box .box p.alt,
 .enrollment .cart .box .box p.alt {
   color: #9a9a9a;
   font-size: 15px;
 }
-/* line 461, _sass/partials/_enrollment.scss */
+/* line 451, _sass/partials/_enrollment.scss */
 .enrollment .right .box .box.time,
 .enrollment .cart .box .box.time {
   position: relative;
   padding-left: 55px;
 }
-/* line 464, _sass/partials/_enrollment.scss */
+/* line 454, _sass/partials/_enrollment.scss */
 .enrollment .right .box .box.time .icon-clock,
 .enrollment .cart .box .box.time .icon-clock {
   position: absolute;
@@ -7616,13 +7597,13 @@ article.marketing div.wrapper div.historical-rates table tr td.even {
   left: 10px;
 }
 @media only screen and (max-width: 767px) {
-  /* line 353, _sass/partials/_enrollment.scss */
+  /* line 343, _sass/partials/_enrollment.scss */
   .enrollment .right,
   .enrollment .cart {
     display: none;
   }
 }
-/* line 479, _sass/partials/_enrollment.scss */
+/* line 466, _sass/partials/_enrollment.scss */
 .enrollment .cart-overlay {
   position: fixed;
   top: 0;
@@ -7634,79 +7615,79 @@ article.marketing div.wrapper div.historical-rates table tr td.even {
   overflow: scroll;
   display: none;
 }
-/* line 489, _sass/partials/_enrollment.scss */
+/* line 476, _sass/partials/_enrollment.scss */
 .enrollment .cart-overlay .cart {
   float: none;
   width: auto;
   margin: 20px;
 }
-/* line 493, _sass/partials/_enrollment.scss */
+/* line 480, _sass/partials/_enrollment.scss */
 .enrollment .cart-overlay .cart .rate {
   position: absolute;
   float: none;
   right: 60px;
 }
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
-  /* line 489, _sass/partials/_enrollment.scss */
+  /* line 476, _sass/partials/_enrollment.scss */
   .enrollment .cart-overlay .cart {
     display: block;
   }
 }
 @media only screen and (max-width: 767px) {
-  /* line 489, _sass/partials/_enrollment.scss */
+  /* line 476, _sass/partials/_enrollment.scss */
   .enrollment .cart-overlay .cart {
     display: block;
   }
 }
-/* line 505, _sass/partials/_enrollment.scss */
+/* line 492, _sass/partials/_enrollment.scss */
 .enrollment .cart-overlay.open {
   display: block;
 }
-/* line 509, _sass/partials/_enrollment.scss */
+/* line 496, _sass/partials/_enrollment.scss */
 .enrollment .box {
   border: 1px solid #ebebeb;
   padding: 14px;
 }
-/* line 512, _sass/partials/_enrollment.scss */
+/* line 499, _sass/partials/_enrollment.scss */
 .enrollment .box.thirds {
   background: #fdfdfd;
   -moz-border-radius: 0;
   -webkit-border-radius: 0;
   border-radius: 0;
 }
-/* line 516, _sass/partials/_enrollment.scss */
+/* line 503, _sass/partials/_enrollment.scss */
 .enrollment .box.thirds .avatar {
   float: left;
   width: 110px;
   padding: 8px 0 0 5px;
 }
-/* line 521, _sass/partials/_enrollment.scss */
+/* line 508, _sass/partials/_enrollment.scss */
 .enrollment .box.thirds .description {
   float: left;
   width: 340px;
 }
-/* line 524, _sass/partials/_enrollment.scss */
+/* line 511, _sass/partials/_enrollment.scss */
 .enrollment .box.thirds .description h2 {
   font-weight: normal;
   text-transform: none;
   margin: 0 0 20px 0;
   font-size: 18px;
 }
-/* line 530, _sass/partials/_enrollment.scss */
+/* line 517, _sass/partials/_enrollment.scss */
 .enrollment .box.thirds .description p {
   font-size: 14px;
 }
-/* line 534, _sass/partials/_enrollment.scss */
+/* line 521, _sass/partials/_enrollment.scss */
 .enrollment .box.thirds .button-holder {
   float: right;
   text-align: right;
   padding-top: 25px;
 }
-/* line 541, _sass/partials/_enrollment.scss */
+/* line 528, _sass/partials/_enrollment.scss */
 .enrollment table {
   margin-bottom: 30px;
 }
-/* line 544, _sass/partials/_enrollment.scss */
+/* line 531, _sass/partials/_enrollment.scss */
 .enrollment table thead th {
   background: #f7f7f7;
   color: #646464;
@@ -7715,11 +7696,11 @@ article.marketing div.wrapper div.historical-rates table tr td.even {
   text-align: center;
   padding: 25px 15px;
 }
-/* line 554, _sass/partials/_enrollment.scss */
+/* line 541, _sass/partials/_enrollment.scss */
 .enrollment table tbody td {
   text-align: center;
 }
-/* line 558, _sass/partials/_enrollment.scss */
+/* line 545, _sass/partials/_enrollment.scss */
 .enrollment table .vertical {
   padding: 0;
   text-align: center;
@@ -7727,7 +7708,7 @@ article.marketing div.wrapper div.historical-rates table tr td.even {
   width: 20px;
   position: relative;
 }
-/* line 564, _sass/partials/_enrollment.scss */
+/* line 551, _sass/partials/_enrollment.scss */
 .enrollment table .vertical .fixed, .enrollment table .vertical .variable {
   position: absolute;
   top: 40px;
@@ -7741,92 +7722,92 @@ article.marketing div.wrapper div.historical-rates table tr td.even {
   height: 20px;
   width: 100px;
 }
-/* line 573, _sass/partials/_enrollment.scss */
+/* line 560, _sass/partials/_enrollment.scss */
 .enrollment table .vertical .fixed {
   background: #053d5a;
 }
-/* line 576, _sass/partials/_enrollment.scss */
+/* line 563, _sass/partials/_enrollment.scss */
 .enrollment table .vertical .variable {
   background: #79bb4b;
 }
-/* line 580, _sass/partials/_enrollment.scss */
+/* line 567, _sass/partials/_enrollment.scss */
 .enrollment table .plan-name {
   font-size: 18px;
   font-weight: bold;
   text-align: left;
 }
-/* line 584, _sass/partials/_enrollment.scss */
+/* line 571, _sass/partials/_enrollment.scss */
 .enrollment table .plan-name a {
   display: block;
   font-weight: normal;
   margin-top: 15px;
   font-size: 12px;
 }
-/* line 591, _sass/partials/_enrollment.scss */
+/* line 578, _sass/partials/_enrollment.scss */
 .enrollment table .rate {
   font-size: 22px;
   font-weight: bold;
   line-height: 18px;
 }
-/* line 595, _sass/partials/_enrollment.scss */
+/* line 582, _sass/partials/_enrollment.scss */
 .enrollment table .rate span {
   color: #828282;
   font-size: 13px;
   font-weight: normal;
   display: block;
 }
-/* line 602, _sass/partials/_enrollment.scss */
+/* line 589, _sass/partials/_enrollment.scss */
 .enrollment table .term {
   font-size: 13px;
   color: #828282;
 }
-/* line 605, _sass/partials/_enrollment.scss */
+/* line 592, _sass/partials/_enrollment.scss */
 .enrollment table .term i {
   display: block;
   margin: 0 auto;
 }
-/* line 610, _sass/partials/_enrollment.scss */
+/* line 597, _sass/partials/_enrollment.scss */
 .enrollment table .fees {
   font-size: 19px;
   font-weight: bold;
 }
-/* line 613, _sass/partials/_enrollment.scss */
+/* line 600, _sass/partials/_enrollment.scss */
 .enrollment table .fees span {
   display: block;
   font-size: 10px;
   color: #828282;
   font-weight: normal;
 }
-/* line 621, _sass/partials/_enrollment.scss */
+/* line 608, _sass/partials/_enrollment.scss */
 .enrollment table .line-item .description {
   text-align: left;
   border-right: 0;
 }
-/* line 624, _sass/partials/_enrollment.scss */
+/* line 611, _sass/partials/_enrollment.scss */
 .enrollment table .line-item .description h1 {
   text-transform: none;
   font-size: 18px;
   font-weight: bold;
   margin: 15px 0 0 0;
 }
-/* line 630, _sass/partials/_enrollment.scss */
+/* line 617, _sass/partials/_enrollment.scss */
 .enrollment table .line-item .description h2 {
   font-weight: normal;
   text-transform: none;
   font-size: 16px;
   margin: 0;
 }
-/* line 636, _sass/partials/_enrollment.scss */
+/* line 623, _sass/partials/_enrollment.scss */
 .enrollment table .line-item .description h3 {
   font-size: 16px;
   text-transform: none;
   margin: 10px 0 0 0;
 }
-/* line 641, _sass/partials/_enrollment.scss */
+/* line 628, _sass/partials/_enrollment.scss */
 .enrollment table .line-item .description p {
   margin-top: 0;
 }
-/* line 645, _sass/partials/_enrollment.scss */
+/* line 632, _sass/partials/_enrollment.scss */
 .enrollment table .line-item .rate {
   text-align: right;
   border-left: 0;
@@ -7834,186 +7815,186 @@ article.marketing div.wrapper div.historical-rates table tr td.even {
   vertical-align: top;
   padding-top: 23px;
 }
-/* line 652, _sass/partials/_enrollment.scss */
+/* line 639, _sass/partials/_enrollment.scss */
 .enrollment table .line-item .docs {
   border-left: 0;
 }
-/* line 655, _sass/partials/_enrollment.scss */
+/* line 642, _sass/partials/_enrollment.scss */
 .enrollment table .line-item .docs ul li {
   list-style-type: none;
   text-align: right;
 }
-/* line 662, _sass/partials/_enrollment.scss */
+/* line 649, _sass/partials/_enrollment.scss */
 .enrollment table .line-item.noborder td {
   border-top: 0;
   border-bottom: 0;
   vertical-align: top;
 }
-/* line 667, _sass/partials/_enrollment.scss */
+/* line 654, _sass/partials/_enrollment.scss */
 .enrollment table .line-item.noborder:first-child {
   border-top: 1px solid #eaeaea;
 }
-/* line 670, _sass/partials/_enrollment.scss */
+/* line 657, _sass/partials/_enrollment.scss */
 .enrollment table .line-item.noborder:last-child {
   border-bottom: 1px solid #eaeaea;
 }
-/* line 675, _sass/partials/_enrollment.scss */
+/* line 662, _sass/partials/_enrollment.scss */
 .enrollment table .line-item.secondary .rate {
   padding-top: 10px;
   font-weight: normal;
 }
-/* line 681, _sass/partials/_enrollment.scss */
+/* line 668, _sass/partials/_enrollment.scss */
 .enrollment table .total {
   background: #fafafa;
   text-align: right;
   font-size: 20px;
 }
-/* line 685, _sass/partials/_enrollment.scss */
+/* line 672, _sass/partials/_enrollment.scss */
 .enrollment table .total span {
   font-weight: bold;
   margin-left: 20px;
 }
-/* line 691, _sass/partials/_enrollment.scss */
+/* line 678, _sass/partials/_enrollment.scss */
 .enrollment table .details th {
   border-right: 0;
 }
-/* line 694, _sass/partials/_enrollment.scss */
+/* line 681, _sass/partials/_enrollment.scss */
 .enrollment table .details td {
   border-left: 0;
   text-align: left;
 }
-/* line 697, _sass/partials/_enrollment.scss */
+/* line 684, _sass/partials/_enrollment.scss */
 .enrollment table .details td p {
   font-size: 15px;
 }
-/* line 702, _sass/partials/_enrollment.scss */
+/* line 689, _sass/partials/_enrollment.scss */
 .enrollment table .spacer {
   height: 20px;
 }
-/* line 706, _sass/partials/_enrollment.scss */
+/* line 693, _sass/partials/_enrollment.scss */
 .enrollment #order-confirmation {
   margin-top: 20px;
 }
-/* line 708, _sass/partials/_enrollment.scss */
+/* line 695, _sass/partials/_enrollment.scss */
 .enrollment #order-confirmation .print {
   float: right;
   font-size: 14px;
   margin-top: 20px;
 }
-/* line 712, _sass/partials/_enrollment.scss */
+/* line 699, _sass/partials/_enrollment.scss */
 .enrollment #order-confirmation .print i {
   margin-top: -3px;
 }
-/* line 716, _sass/partials/_enrollment.scss */
+/* line 703, _sass/partials/_enrollment.scss */
 .enrollment #order-confirmation dl {
   margin-bottom: 20px;
 }
-/* line 719, _sass/partials/_enrollment.scss */
+/* line 706, _sass/partials/_enrollment.scss */
 .enrollment #order-confirmation dl dd {
   text-align: left;
 }
-/* line 726, _sass/partials/_enrollment.scss */
-.enrollment .accent-blue article h1 span {
+/* line 713, _sass/partials/_enrollment.scss */
+.enrollment .accent-blue section h1 span {
   color: #1773cb;
 }
-/* line 729, _sass/partials/_enrollment.scss */
+/* line 716, _sass/partials/_enrollment.scss */
 .enrollment .accent-blue .banner {
   border-top: 5px solid #1773cb;
 }
-/* line 726, _sass/partials/_enrollment.scss */
-.enrollment .accent-paleblue article h1 span {
+/* line 713, _sass/partials/_enrollment.scss */
+.enrollment .accent-paleblue section h1 span {
   color: #7e9ab3;
 }
-/* line 729, _sass/partials/_enrollment.scss */
+/* line 716, _sass/partials/_enrollment.scss */
 .enrollment .accent-paleblue .banner {
   border-top: 5px solid #7e9ab3;
 }
-/* line 726, _sass/partials/_enrollment.scss */
-.enrollment .accent-darkblue article h1 span {
+/* line 713, _sass/partials/_enrollment.scss */
+.enrollment .accent-darkblue section h1 span {
   color: #073464;
 }
-/* line 729, _sass/partials/_enrollment.scss */
+/* line 716, _sass/partials/_enrollment.scss */
 .enrollment .accent-darkblue .banner {
   border-top: 5px solid #073464;
 }
-/* line 726, _sass/partials/_enrollment.scss */
-.enrollment .accent-green article h1 span {
+/* line 713, _sass/partials/_enrollment.scss */
+.enrollment .accent-green section h1 span {
   color: #78bb2f;
 }
-/* line 729, _sass/partials/_enrollment.scss */
+/* line 716, _sass/partials/_enrollment.scss */
 .enrollment .accent-green .banner {
   border-top: 5px solid #78bb2f;
 }
-/* line 726, _sass/partials/_enrollment.scss */
-.enrollment .accent-palegreen article h1 span {
+/* line 713, _sass/partials/_enrollment.scss */
+.enrollment .accent-palegreen section h1 span {
   color: #8ba072;
 }
-/* line 729, _sass/partials/_enrollment.scss */
+/* line 716, _sass/partials/_enrollment.scss */
 .enrollment .accent-palegreen .banner {
   border-top: 5px solid #8ba072;
 }
-/* line 726, _sass/partials/_enrollment.scss */
-.enrollment .accent-darkgreen article h1 span {
+/* line 713, _sass/partials/_enrollment.scss */
+.enrollment .accent-darkgreen section h1 span {
   color: #5f9c37;
 }
-/* line 729, _sass/partials/_enrollment.scss */
+/* line 716, _sass/partials/_enrollment.scss */
 .enrollment .accent-darkgreen .banner {
   border-top: 5px solid #5f9c37;
 }
-/* line 726, _sass/partials/_enrollment.scss */
-.enrollment .accent-orange article h1 span {
+/* line 713, _sass/partials/_enrollment.scss */
+.enrollment .accent-orange section h1 span {
   color: #fda32b;
 }
-/* line 729, _sass/partials/_enrollment.scss */
+/* line 716, _sass/partials/_enrollment.scss */
 .enrollment .accent-orange .banner {
   border-top: 5px solid #fda32b;
 }
-/* line 726, _sass/partials/_enrollment.scss */
-.enrollment .accent-red article h1 span {
+/* line 713, _sass/partials/_enrollment.scss */
+.enrollment .accent-red section h1 span {
   color: #aa2130;
 }
-/* line 729, _sass/partials/_enrollment.scss */
+/* line 716, _sass/partials/_enrollment.scss */
 .enrollment .accent-red .banner {
   border-top: 5px solid #aa2130;
 }
-/* line 726, _sass/partials/_enrollment.scss */
-.enrollment .accent-palered article h1 span {
+/* line 713, _sass/partials/_enrollment.scss */
+.enrollment .accent-palered section h1 span {
   color: #b48789;
 }
-/* line 729, _sass/partials/_enrollment.scss */
+/* line 716, _sass/partials/_enrollment.scss */
 .enrollment .accent-palered .banner {
   border-top: 5px solid #b48789;
 }
-/* line 726, _sass/partials/_enrollment.scss */
-.enrollment .accent-white article h1 span {
+/* line 713, _sass/partials/_enrollment.scss */
+.enrollment .accent-white section h1 span {
   color: white;
 }
-/* line 729, _sass/partials/_enrollment.scss */
+/* line 716, _sass/partials/_enrollment.scss */
 .enrollment .accent-white .banner {
   border-top: 5px solid white;
 }
-/* line 726, _sass/partials/_enrollment.scss */
-.enrollment .accent-grey article h1 span {
+/* line 713, _sass/partials/_enrollment.scss */
+.enrollment .accent-grey section h1 span {
   color: #e8e8e8;
 }
-/* line 729, _sass/partials/_enrollment.scss */
+/* line 716, _sass/partials/_enrollment.scss */
 .enrollment .accent-grey .banner {
   border-top: 5px solid #e8e8e8;
 }
-/* line 726, _sass/partials/_enrollment.scss */
-.enrollment .accent-darkgrey article h1 span {
+/* line 713, _sass/partials/_enrollment.scss */
+.enrollment .accent-darkgrey section h1 span {
   color: #6b6b6b;
 }
-/* line 729, _sass/partials/_enrollment.scss */
+/* line 716, _sass/partials/_enrollment.scss */
 .enrollment .accent-darkgrey .banner {
   border-top: 5px solid #6b6b6b;
 }
-/* line 734, _sass/partials/_enrollment.scss */
+/* line 721, _sass/partials/_enrollment.scss */
 .enrollment .site-footer {
   margin-top: 0;
 }
 @media only screen and (max-width: 767px) {
-  /* line 738, _sass/partials/_enrollment.scss */
+  /* line 725, _sass/partials/_enrollment.scss */
   .enrollment .button {
     margin: 0 auto;
     display: block;
