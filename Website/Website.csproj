@@ -983,6 +983,8 @@
     <Content Include="Views\Pages\Marketing\Careers\Careers Detail.cshtml" />
     <Content Include="App_Config\ConnectionStrings.local.config" />
     <Content Include="Views\Pages\Marketing\Services\HomeLife Services.cshtml" />
+    <Content Include="Views\Pages\Marketing\Services\Enroll Commercial.cshtml" />
+    <Content Include="Views\Pages\Marketing\Contact\Contact.cshtml" />
     <Content Include="Views\Pages\Marketing\Rates\NE Rates.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

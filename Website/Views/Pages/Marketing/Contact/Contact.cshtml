@@ -1,0 +1,310 @@
+﻿<article class="marketing contact">
+    <div class="intro wrapper">
+        @Html.Sitecore().Field("Intro Text")
+    </div>
+</article>
+<article class="marketing state-tabs contact" state-tabs>
+    <ul class="tabs-nav">
+        <li ng-click="selectPane('texas')" ng-class="{ active: pane == 'texas' }">
+            <a href="">
+                <span><i class="icon-state-texas"></i></span>
+                @Html.Sitecore().Field("Texas State Text")
+            </a>
+        </li>
+        <li ng-click="selectPane('georgia')" ng-class="{ active: pane == 'georgia' }">
+            <a href="">
+                <span><i class="icon-state-georgia"></i></span>
+                @Html.Sitecore().Field("Georgia State Text")
+            </a>
+        </li>
+        <li ng-click="selectPane('pennsylvania')" ng-class="{ active: pane == 'pennsylvania' }">
+            <a href="">
+                <span><i class="icon-state-pennsylvania"></i></span>
+                @Html.Sitecore().Field("Pennsylvania State Text")
+            </a>
+        </li>
+        <li ng-click="selectPane('maryland')" ng-class="{ active: pane == 'maryland' }">
+            <a href="">
+                <span><i class="icon-state-maryland"></i></span>
+                @Html.Sitecore().Field("Maryland State Text")
+            </a>
+        </li>
+        <li ng-click="selectPane('newjersey')" ng-class="{ active: pane == 'newjersey' }">
+            <a href="">
+                <span><i class="icon-state-newjersey"></i></span>
+                @Html.Sitecore().Field("New Jersey State Text")
+            </a>
+        </li>
+        <li ng-click="selectPane('newyork')" ng-class="{ active: pane == 'newyork' }">
+            <a href="">
+                <span><i class="icon-state-newyork"></i></span>
+                @Html.Sitecore().Field("New York State Text")
+            </a>
+        </li>
+        <li ng-click="selectPane('washingtondc')" ng-class="{ active: pane == 'washingtondc' }">
+            <a href="">
+                <span><i class="icon-state-washingtondc"></i></span>
+                @Html.Sitecore().Field("Washington DC State Text")
+            </a>
+        </li>
+    </ul>
+    <div class="blue-bar">
+    </div>
+    <div class="tab-content" ng-class="{ hidden : pane != 'texas' }">
+        <article class="marketing contact-state wrapper">
+            <div class="customer-service clearfix">
+                <h1>@Html.Sitecore().Field("Texas State Text")</h1>
+                <div class="left-side">
+                    <div class="phone-email">
+                        @Html.Sitecore().Field("Texas Phone and Email")
+                    </div>
+                    @Html.Sitecore().Field("Texas Fax and Commercial")
+                </div>
+                <div class="right-side">
+                    <div class="mail">
+                        @Html.Sitecore().Field("Texas Mail")
+                    </div>
+                </div>
+            </div>
+            <div class="quality-control">
+                <h2><div class="header-line"></div>@Html.Sitecore().Field("Quality Control Text")</h2>
+                @Html.Sitecore().Field("Texas Quality Control")
+            </div>
+            <div class="emergency">
+                <h2><div class="header-line"></div>@Html.Sitecore().Field("Emergency Contacts Text")</h2>
+                @Html.Sitecore().Field("Texas Emergency Contact")  
+            </div>
+        </article>
+    </div>
+    <div class="tab-content" ng-class="{ hidden : pane != 'georgia' }">
+        <article class="marketing contact-state wrapper">
+            <div class="customer-service clearfix">
+                <h1>@Html.Sitecore().Field("Georgia State Text")</h1>
+                <div class="left-side">
+                    <div class="phone-email">
+                        @Html.Sitecore().Field("Georgia Phone and Email")
+                    </div>
+                    @Html.Sitecore().Field("Georgia Fax and Commercial")
+                </div>
+                <div class="right-side">
+                    <div class="mail">
+                        @Html.Sitecore().Field("Georgia Mail")
+                    </div>
+                </div>
+            </div>
+            <div class="quality-control">
+                <h2><div class="header-line"></div>@Html.Sitecore().Field("Quality Control Text")</h2>
+                @Html.Sitecore().Field("Georgia Quality Control")
+            </div>
+            <div class="emergency">
+                <h2><div class="header-line"></div>@Html.Sitecore().Field("Emergency Contacts Text")</h2>
+                @Html.Sitecore().Field("Georgia Emergency Contact")
+            </div>
+        </article>
+    </div>
+    <div class="tab-content" ng-class="{ hidden : pane != 'pennsylvania' }">
+        <article class="marketing contact-state wrapper">
+            <div class="customer-service clearfix">
+                <h1>@Html.Sitecore().Field("Pennsylvania State Text")</h1>
+                <div class="left-side">
+                    <div class="phone-email">
+                        @Html.Sitecore().Field("Pennsylvania Phone and Email")
+                    </div>
+                    @Html.Sitecore().Field("Pennsylvania Fax and Commercial")
+                </div>
+                <div class="right-side">
+                    <div class="mail">
+                        @Html.Sitecore().Field("Pennsylvania Mail")
+                    </div>
+                </div>
+            </div>
+            <div class="emergency">
+                @Html.Sitecore().Field("Pennsylvania Emergency Contact")
+            </div>
+        </article>
+    </div>
+    <div class="tab-content" ng-class="{ hidden : pane != 'maryland' }">
+        <article class="marketing contact-state wrapper">
+            <div class="customer-service clearfix">
+                <h1>@Html.Sitecore().Field("Maryland State Text")</h1>
+                <div class="left-side">
+                    <div class="phone-email">
+                        @Html.Sitecore().Field("Maryland Phone and Email")
+                    </div>
+                    @Html.Sitecore().Field("Maryland Fax and Commercial")
+                </div>
+                <div class="right-side">
+                    <div class="mail">
+                        @Html.Sitecore().Field("Maryland Mail")
+                    </div>
+                </div>
+            </div>
+            <div class="emergency">
+                @Html.Sitecore().Field("Maryland Emergency Contact")
+            </div>
+        </article>
+    </div>
+    <div class="tab-content" ng-class="{ hidden : pane != 'newjersey' }">
+        <article class="marketing contact-state wrapper">
+            <div class="customer-service clearfix">
+                <h1>@Html.Sitecore().Field("New Jersey State Text")</h1>
+                <div class="left-side">
+                    <div class="phone-email">
+                        @Html.Sitecore().Field("New Jersey Phone and Email")
+                    </div>
+                    @Html.Sitecore().Field("New Jersey Fax and Commercial")
+                </div>
+                <div class="right-side">
+                    <div class="mail">
+                        @Html.Sitecore().Field("New Jersey Mail")
+                    </div>
+                </div>
+            </div>
+            <div class="emergency">
+                @Html.Sitecore().Field("New Jersey Emergency Contact")
+            </div>
+        </article>
+    </div>
+    <div class="tab-content" ng-class="{ hidden : pane != 'newyork' }">
+        <article class="marketing contact-state wrapper">
+            <div class="customer-service clearfix">
+                <h1>@Html.Sitecore().Field("New York State Text")</h1>
+                <div class="left-side">
+                    <div class="phone-email">
+                        @Html.Sitecore().Field("New York Phone and Email")
+                    </div>
+                    @Html.Sitecore().Field("New York Fax and Commercial")
+                </div>
+                <div class="right-side">
+                    <div class="mail">
+                        @Html.Sitecore().Field("New York Mail")
+                    </div>
+                </div>
+            </div>
+            <div class="emergency">
+                @Html.Sitecore().Field("New York Emergency Contact")
+            </div>
+        </article>
+    </div>
+    <div class="tab-content" ng-class="{ hidden : pane != 'washingtondc' }">
+        <article class="marketing contact-state wrapper">
+            <div class="customer-service clearfix">
+                <h1>@Html.Sitecore().Field("Washington DC State Text")</h1>
+                <div class="left-side">
+                    <div class="phone-email">
+                        @Html.Sitecore().Field("Washington DC Phone and Email")
+                    </div>
+                    @Html.Sitecore().Field("Washington DC Fax and Commercial")
+                </div>
+                <div class="right-side">
+                    <div class="mail">
+                        @Html.Sitecore().Field("Washington DC Mail")
+                    </div>
+                </div>
+            </div>
+            <div class="emergency">
+                @Html.Sitecore().Field("Washington DC Emergency Contact")
+            </div>
+        </article>
+    </div>
+    <div class="associate-support">
+        <div class="wrapper">
+            <h2>@Html.Sitecore().Field("Associate Support Text")</h2>
+            @Html.Sitecore().Field("Associate Support Content")
+        </div>
+    </div>
+    <div class="homelife-services">
+        <div class="wrapper">
+            <h2>@Html.Sitecore().Field("Homelife Services Text")</h2>
+            @Html.Sitecore().Field("Homelife Services Content")
+        </div>
+    </div>
+    <div class="clean-nation">
+        @Html.Sitecore().Field("Clean Nation Content")
+    </div>
+    <div class="vip wrapper">
+        <h2>@Html.Sitecore().Field("VIP Support Text")</h2>
+        @Html.Sitecore().Field("VIP Support Content")
+    </div>
+    <div class="request">
+        <div class="request-or"></div>
+        <div class="wrapper">
+            <h2>@Html.Sitecore().Field("Request Form Text")</h2>
+            <p>@Html.Sitecore().Field("Required Form Text")</p>
+            <div class="grid">
+                <div class="col">
+                    <form>
+                        <div class="item">
+                            <label for="first-name">@Html.Sitecore().Field("First Name Text")</label>
+                            <input type="text" id="first-name" placeholder="@Html.Sitecore().Field("First Name Placeholder")">
+                            <span class="asterisk">&#42;</span>
+                        </div>
+                        <div class="item">
+                            <label for="last-name">@Html.Sitecore().Field("Last Name Text")</label>
+                            <input type="text" id="last-name" placeholder="@Html.Sitecore().Field("Last Name Placeholder")">
+                            <span class="asterisk">&#42;</span>
+                        </div>
+                        <div class="item">
+                            <label for="first-name">@Html.Sitecore().Field("Service Address Text")</label>
+                            <input type="text" id="address" placeholder="@Html.Sitecore().Field("Service Address Placeholder")">
+                        </div>
+                        <div class="group">
+                            <div class="item">
+                                <label for="first-name">@Html.Sitecore().Field("City Text")</label>
+                                <input type="text" id="city" placeholder="@Html.Sitecore().Field("City Placeholder")">
+                                <span class="asterisk">&#42;</span>
+                            </div>
+                            <div class="item">
+                                <label for="first-name">@Html.Sitecore().Field("State Text")</label>
+                                <select>
+                                    @Html.Sitecore().Field("State Options")
+                                </select>
+                                <span class="asterisk">&#42;</span>
+                            </div>
+                            <div class="item">
+                                <label for="zip-code">@Html.Sitecore().Field("Zip Code Text")</label>
+                                <input type="text" id="zip-code" placeholder="@Html.Sitecore().Field("Zip Code Placeholder")">
+                                <span class="asterisk">&#42;</span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col">
+                    <form>
+                        <div class="item">
+                            <label for="phone">@Html.Sitecore().Field("Phone Text")</label>
+                            <input type="text" id="email" placeholder="@Html.Sitecore().Field("Phone Placeholder")">
+                        </div>
+                        <div class="item">
+                            <label for="email">@Html.Sitecore().Field("Email Text")</label>
+                            <input type="email" id="email" placeholder="@Html.Sitecore().Field("Email Placeholder")">
+                            <span class="asterisk">&#42;</span>
+                        </div>
+                        <div class="item">
+                            <label for="reason">@Html.Sitecore().Field("Reason Text")</label>
+                            <select>
+                                @Html.Sitecore().Field("Reason Options")
+                            </select>
+                            <span class="asterisk">&#42;</span>
+                        </div>
+                        <div class="item">
+                            <label for="comments">@Html.Sitecore().Field("Explain Text")</label>
+                            <textarea placeholder="@Html.Sitecore().Field("Explain Placeholder")"></textarea>
+                            <span class="asterisk">&#42;</span>
+                        </div>
+                        <button>@Html.Sitecore().Field("Send Button Text")</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="contact-banner">
+        @Html.Sitecore().Field("Banner Image")
+    </div>
+    <div class="faq">
+        <div class="wrapper">
+            <h2><div class="header-line"></div>@Html.Sitecore().Field("FAQ Text")</h2>
+            @Html.Sitecore().Field("FAQ Content")
+        </div>
+    </div>
+</article>
