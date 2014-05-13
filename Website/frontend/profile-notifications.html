@@ -1,0 +1,255 @@
+﻿<!DOCTYPE html>
+<!--[if IE 8]>         <html ng-app="ngApp" class="no-js ie8 lt-ie10 lt-ie9"> <![endif]-->
+<!--[if IE 9]>         <html ng-app="ngApp" class="no-js ie9 lt-ie10"> <![endif]-->
+<!--[if gt IE 8]><!--> <html ng-app="ngApp" class="no-js"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8" />
+
+	<title>Title</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<link rel="shortcut icon" type="image/ico" href="assets/i/favicon.ico" />
+	<link href="assets/css/global.css" rel="stylesheet" />
+
+	<script src="assets/js/libs/modernizr/modernizr.js"></script>
+	<script src="assets/js/libs/angular/angular.min.js"></script>
+    <script src="assets/js/libs/angular-animate/angular-animate.min.js"></script>
+	<script src="assets/js/libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+	<script src="assets/js/libs/angular-ui-utils/ui-utils.min.js"></script>
+
+	<script src="assets/js/libs/respond/dest/respond.min.js"></script>
+
+	<script src="assets/js/app.js"></script>
+
+	<script src="assets/js/modules/mask-jquery.js"></script>
+
+    <script src="assets/js/services/breakpoint.js"></script>
+
+    <script src="assets/js/directives/float-labels.js"></script>
+	
+	<script src="assets/js/directives/loading-indicator.js"></script>
+	<script src="assets/js/controllers/main.js"></script>
+	<script src="assets/js/controllers/accountBalances.js"></script>
+
+	<script type="text/javascript" src="//use.typekit.net/hag0zvs.js"></script>
+	<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
+</head>
+<body ng-controller="MainCtrl">
+	<div class="page-wrapper" ng-class="{open:sidebarOpen}">
+		<nav>
+			<ul>
+				<li ng-repeat="item in navLinks">
+					<a href="{{item.href}}">{{item.name}}</a>
+				</li>
+			</ul>
+		</nav>
+		<div class="page-content">
+			<header class="site-header">
+				<div class="wrapper">
+					<a href="/" class="logo">Logo</a>
+					<p class="utility">Welcome, Jordan <a href="#">Logout</a></p>
+					<a href="#" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
+                    <nav class="main-nav">
+                        <ul class="wrapper">
+                            <li><a href="#">Account Overview</a></li>
+                            <li><a href="#">Utility Services</a></li>
+                            <li><a href="#">Homelife Services</a></li>
+                            <li class="selected"><a href="#">My Profile</a></li>
+                        </ul>
+                    </nav>
+				</div>
+				<nav class="sub-nav">
+					
+				</nav>
+			</header>
+
+            <div class="banner" style="background-image: url(assets/i/bg/hero-invoices.jpg);">
+                <div class="inner">
+                    <div class="wrapper">
+                        <h1>Notifications &amp; Reminders</h1>
+                    </div>
+                </div>
+            </div>
+			
+			<section class="layout cols-2 wrapper">
+				<section class="layout cols-1">
+
+					<article class="balances-payments" ng-controller="AccountBalances">
+						<div class="content" loading-indicator>
+							<div class="account-selector">
+								<form>
+									<div class="group">
+										<div class="item">
+											<label>Account Number:</label>
+											<select ng-model="selectedAccount.account" ng-options="item.accountNumber for item in accounts">
+												<option value="">All</option>
+											</select>
+										</div>
+										<div class="item">
+											<label>Meter ID:</label>
+											<select class="id">
+												<option value="Please choose">109437200008913264</option>
+												<option value="account1">ID 2</option>
+											</select>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="grid border">
+								Service Address: 123 Main Street, Dallas, TX 75001
+							</div>
+						</div>
+					</article>
+					<article class="grey-box notification-settings">
+						<form>
+							<header>
+								<h2>Notification Settings</h2>
+							</header>
+							<div class="content">
+								<div class="edit-preferences">
+									<div class="preference">
+										<span class="preference-type">
+											When a new document arrives: <span class="label"><i class="icon-notification-bell"></i> Web</span> <span class="label"><i class="icon-notification-email"></i> Email</span>
+										</span>
+										<a href="#" class="additional-field-action">Edit</a>
+									</div>
+									<div class="additional-field-group">
+										<p>Please choose the deliver methods by which you&rsquo;d like to receive this notification.</p>
+										<div class="item">
+											<ul class="checkbox-list notification-list">
+												<li>
+													<input type="checkbox" value="web" id="notifications-document-web">
+													<label for="notifications-document-web"><i class="icon-notification-bell"></i> Web</label>
+												</li>
+												<li>
+													<input type="checkbox" value="email" id="notifications-document-email">
+													<label for="notifications-document-email"><i class="icon-notification-email"></i> Email</label>
+												</li>
+												<li>
+													<input type="checkbox" value="sms" id="notifications-document-sms">
+													<label for="notifications-document-sms"><i class="icon-notification-sms"></i> SMS</label>
+												</li>
+											</ul>
+										</div>
+										<div class="item">
+											<div class="buttons">
+												<button class="secondary">Cancel</button>
+												<button>Save Preference</button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<hr class="content-divider" />
+								<div class="edit-preferences">
+									<div class="preference">
+										<span class="preference-type">
+											When online payments are made: <span class="label"><i class="icon-notification-bell"></i> Web</span> <span class="label"><i class="icon-notification-email"></i> Email</span>
+										</span>
+										<a href="#" class="additional-field-action">Edit</a>
+									</div>
+								</div>
+								<hr class="content-divider" />
+								<div class="edit-preferences">
+									<div class="preference">
+										<span class="preference-type">
+											When recurring payments are made: <span class="label"><i class="icon-notification-bell"></i> Web</span> <span class="label"><i class="icon-notification-email"></i> Email</span>
+										</span>
+										<a href="#" class="additional-field-action">Edit</a>
+									</div>
+								</div>
+								<hr class="content-divider" />
+								<div class="edit-preferences">
+									<div class="preference">
+										<span class="preference-type">
+											When recurring profile expires: <span class="label"><i class="icon-notification-bell"></i> Web</span> <span class="label"><i class="icon-notification-email"></i> Email</span>
+										</span>
+										<a href="#" class="additional-field-action">Edit</a>
+									</div>
+								</div>
+								<hr class="content-divider" />
+								<div class="edit-preferences">
+									<div class="item">
+										<ul class="checkbox-list">
+											<li>
+												<input type="checkbox">
+												<label for="">Do not mail me printed invoices</label>
+											</li>
+											<li>
+												<input type="checkbox">
+												<label for="">I&rsquo;d like to receive occasional promotion and offer emails from Stream Energy</label>
+											</li>											
+										</ul>
+									</div>
+								</div>
+							</div>
+							<footer>
+								<div class="buttons">
+									<button type="submit" class="buttons">Save</button>
+								</div>							
+							</footer>
+						</form>
+					</article>					
+				</section>
+				<aside>
+					<article class="subnav">
+						<ul>
+							<li><a href="#">Online Account Information</a></li>
+							<li><a href="#">Account Information</a></li>
+							<li class="active">Notifications &amp; Reminders</li>
+							<li><a href="#">Enrolled Accounts</a></li>
+						</ul>
+					</article>
+					<article class="promo renew">
+						<h1>Renew Your <strong>Plan &amp; Save</strong></h1>
+						<button class="secondary">Renew My Plan</button>
+					</article>
+				</aside>
+			</section>
+
+			<footer class="site-footer">
+				<div class="super-footer">
+					<div class="wrapper">
+						<div class="grid three">
+							<div class="col">
+								<ul>
+									<li><a href="#"><img src="assets/i/img-footer-get-free-energy.png" alt="Get Free Energy" width="159" height="44" /></a></li>
+									<li><a href="#"><img src="assets/i/img-footer-renew-my-contract.png" alt="Renew My Contract" width="120" height="45" /></a></li>
+								</ul>
+							</div>
+							<div class="col quick-links">
+								<h2><i class="icon-quicklinks"></i> Quick Links</h2>
+								<ul>
+									<li><a href="#">Account Overview</a></li>
+									<li><a href="#">Utility Services</a></li>
+									<li><a href="#">Homelife Services</a></li>
+									<li><a href="#">My Profile</a></li>
+								</ul>
+							</div>
+							<div class="col social">
+								<h2><i class="icon-social"></i> Social</h2>
+								<ul>
+									<li><a href="#"><i class="icon-facebook"></i> Facebook</a></li>
+									<li><a href="#"><i class="icon-twitter"></i> Twitter</a></li>
+									<li><a href="#"><i class="icon-youtube"></i> YouTube</a></li>
+									<li><a href="#"><i class="icon-pinterest"></i> Pinterest</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="wrapper copyright">
+					<p>&copy; 2005-2013 SGE IP Holdco, LLC. All rights reserved. Licensed in TX, GA, PA, MD, NJ, NY, &amp; DC<br />
+					(TX #10104, GA #GM-38, NJ #ESL-0109 &amp; GSL-0120, PA #A-2010-2181867 &amp; A-2012-2308991, MD #IR-2072 &amp; IR-2742, NY #STRM, DC EA11-11)</p>
+					<ul>
+						<li><a href="#"><i class="icon-bbb"></i></a></li>
+						<li><a href="#"><i class="icon-dsa"></i></a></li>
+					</ul>
+				</div>
+			</footer>
+		</div>
+	</div>
+
+</body>
+</html>
