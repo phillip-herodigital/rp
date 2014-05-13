@@ -14,7 +14,6 @@ namespace StreamEnergy.DomainModels
 
         public string CapabilityType { get { return capabilityType; } }
 
-        [Required]
         public string EsiId { get; set; }
 
         [Required]

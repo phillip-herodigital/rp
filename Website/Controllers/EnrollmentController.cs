@@ -117,17 +117,6 @@ namespace StreamEnergy.MyStream.Controllers
             };
         }
 
-        [HttpGet]
-        public ServiceInformation ServiceInformation()
-        {
-            return new ServiceInformation
-            {
-                ServiceAddress = stateMachine.Context.ServiceAddress,
-                ServiceCapabilities = stateMachine.Context.ServiceCapabilities,
-                IsNewService = stateMachine.Context.IsNewService
-            };
-        }
-
         [HttpPost]
         public ClientData ServiceInformation([FromBody]ServiceInformation value)
         {
