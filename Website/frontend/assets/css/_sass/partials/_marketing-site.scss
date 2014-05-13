@@ -950,7 +950,7 @@ article.contact {
 
 article.contact-state {
 	.customer-service {
-		margin-bottom: 25px;
+		margin: 25px 0;
 		h1 {
 			color: #0971ce;
 			margin-bottom: 50px;
@@ -998,6 +998,7 @@ article.contact-state {
 		}
 		h2 {
 			margin: 0;
+			font-size: 25px;
 		}
 		.header-line {
 			height: 4px;
@@ -1012,6 +1013,10 @@ article.contact-state {
 	.emergency {
 		margin-bottom: 30px;
 		position: relative;
+		h2 {
+			margin: 0;
+			font-size: 25px;
+		}
 		h3 {
 			color: #0971ce;
 			margin: 50px 0 10px 0;
