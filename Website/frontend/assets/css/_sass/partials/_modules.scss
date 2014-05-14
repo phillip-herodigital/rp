@@ -46,8 +46,12 @@ article {
 	.content {
 		padding: 25px 15px;
 		position: relative;
-		& > p:first-child {
+		& > :first-child {
 			margin-top: 0;
+		}
+
+		& > :last-child {
+			margin-bottom: 0;
 		}
 	}
 	.loadingMessage {
@@ -74,6 +78,17 @@ article {
 				margin-right: 5px;
 				vertical-align: middle;
 			}
+		}
+	}
+	.alert {
+	    padding: 15px;
+	    margin-bottom: 20px;
+	    border: 1px solid transparent;
+
+		&.alert-error {
+		    background-color: #f2dede;
+		    border-color: #ebccd1;
+		    color: #a94442
 		}
 	}
 	.account-selector {
