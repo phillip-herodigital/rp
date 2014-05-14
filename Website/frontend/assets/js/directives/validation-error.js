@@ -3,7 +3,7 @@
         restrict: 'A',
         link: function (scope, element, attrs) {
             var disposeWatch = scope.$watch(validation.messageArray + '["' + attrs['valError'] + '"]', function (newValue) {
-                if (newValue.length) {
+                if (newValue && newValue.length) {
                     element.addClass('error');
                 }
                 else {

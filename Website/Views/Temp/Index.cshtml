@@ -10,31 +10,26 @@
     ngApp.controller('mainController', ['$scope', function ($scope) {
         $scope.provideEmail = true;
         $scope.email = '@(Model != null && Model.ContactInfo != null && Model.ContactInfo.Email != null ? Model.ContactInfo.Email.Address : null)';
-        $scope.submit = function ($event) {
-            console.log($event);
-        }
     }]);
 </script>
 
 <div ng-controller="mainController">
-    <form name="myForm" action="" method="post" @*ng-submit="submit(myForm.$valid)"*@ novalidate>
+    <form action="/mjd" method="post">
         @Html.ValidationSummary()
         <p>
             <label for="provideEmail">Provide Email?</label> <input type="checkbox" id="provideEmail" ng-model="provideEmail" />
         </p>
         <p @Html.ValidationErrorClass(model => model.ContactInfo.Email.Address) data-ng-if="provideEmail">
-            @*@Html.TextBoxFor(model => model.ContactInfo.Email.Address, new Dictionary<string,object> { { "ng-model", "email" } })*@
-
-            <input type="text" @Html.ValidationAttributes(m => m.ContactInfo.Email.Address) name="ContactInfo.Email.Address" data-val-if="provideEmail" ng-model="email" />
+            <input type="text" @Html.ValidationAttributes(m => m.ContactInfo.Email.Address) data-val-if="provideEmail" ng-model="email" />
             @Html.ValidationMessageFor(model => model.ContactInfo.Email.Address)
         </p>
 
         <p @Html.ValidationErrorClass(model => model.ContactInfo.PrimaryPhone.Number) >
-            <input type="text" @Html.ValidationAttributes(m => m.ContactInfo.PrimaryPhone.Number) name="ContactInfo.PrimaryPhone.Number" ng-model="primaryPhone" />
+            <input type="text" @Html.ValidationAttributes(m => m.ContactInfo.PrimaryPhone.Number) ng-model="primaryPhone" />
             @Html.ValidationMessageFor(model => model.ContactInfo.PrimaryPhone.Number)
         </p>
 
-        <button type="submit" name="btnSubmit" ng-disabled="myForm.$invalid">Register</button>
+        <button type="submit" name="btnSubmit" data-val-submit>Register</button>
 
         <p>myForm.$valid = {{myForm.$valid}}</p>
     </form>

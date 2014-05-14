@@ -4,7 +4,8 @@
     this.$get = function () {
         return {
             getValidator: this.getValidator,
-            messageArray: 'validationMessages'
+            messageArray: 'validationMessages',
+            cancelSuppress: 'validationCancelSuppress'
         };
     };
 
