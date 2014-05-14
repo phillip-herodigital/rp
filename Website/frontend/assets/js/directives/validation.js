@@ -9,7 +9,7 @@
         var validators = {};
         for (var index in keys) {
             var key = keys[index];
-            if (key == 'val' || key == 'valName' || key == 'valIf' || !startsWith(key, 'val'))
+            if (key == 'val' || key == 'valIf' || !startsWith(key, 'val'))
                 continue;
             var handled = false;
             for (var validator in validators) {
@@ -45,7 +45,7 @@
         if (attrs['val'] != 'true')
             return;
 
-        var validationFor = attrs['valName'];
+        var validationFor = attrs['name'];
         scope[validation.messageArray] = scope[validation.messageArray] || {};
 
         // If allowValidation is false, then don't run any validations or mark validity as false
@@ -57,6 +57,7 @@
             for (var key in validators) {
                 if (allowValidation && !validators[key].validate(newValue, validators[key].params)) {
                     ngModelController.$setValidity(key, false);
+                    console.log(validators[key].message);
                     scope[validation.messageArray][validationFor].push($sce.trustAsHtml(validators[key].message));
                 }
                 else {
@@ -73,7 +74,7 @@
         });
 
         element.on('$destroy', function () {
-            scope[validation.messageArray][validationFor] = undefined;
+            delete scope[validation.messageArray][validationFor];
         });
     };
 

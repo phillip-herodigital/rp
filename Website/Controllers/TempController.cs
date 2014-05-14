@@ -20,5 +20,11 @@ namespace StreamEnergy.MyStream.Controllers
                     }
                 });
         }
+
+        [HttpPost]
+        public ActionResult Index(DomainModels.Enrollments.UserContext form)
+        {
+            return View(form);
+        }
 	}
 }

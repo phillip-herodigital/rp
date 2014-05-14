@@ -67,12 +67,12 @@ namespace StreamEnergy.Extensions
             var clientRules = StreamEnergy.CompositeValidationAttribute.FilterClientRules(propertyChain, ModelValidatorProviders.Providers.GetValidators(metadata, html.ViewContext).SelectMany(v => v.GetClientValidationRules())).ToArray();
             foreach (var rule in clientRules)
             {
-                rule.ErrorMessage = (prefix + rule.ErrorMessage).RenderFieldFrom(translateFrom ?? (Item)html.ViewBag.ValidationMessagesItem ?? html.Sitecore().CurrentItem, true);
+                rule.ErrorMessage = html.Encode((prefix + rule.ErrorMessage).RenderFieldFrom(translateFrom ?? (Item)html.ViewBag.ValidationMessagesItem ?? html.Sitecore().CurrentItem, true));
             }
 
             var dictionary = new Dictionary<string, object>();
             UnobtrusiveValidationAttributesGenerator.GetValidationAttributes(clientRules, dictionary);
-            dictionary["data-val-name"] = StreamEnergy.CompositeValidationAttribute.GetPathedName(propertyChain);
+            dictionary["name"] = StreamEnergy.CompositeValidationAttribute.GetPathedName(propertyChain);
 
             return html.Raw(string.Join(" ", from attr in dictionary
                                              select attr.Key + "=\"" + attr.Value + "\""));

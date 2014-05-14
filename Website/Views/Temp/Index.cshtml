@@ -17,14 +17,21 @@
 </script>
 
 <div ng-controller="mainController">
-    <form name="myForm" ng-submit="submit(myForm.$valid)" novalidate>
+    <form name="myForm" action="" method="post" @*ng-submit="submit(myForm.$valid)"*@ novalidate>
         @Html.ValidationSummary()
         <p>
             <label for="provideEmail">Provide Email?</label> <input type="checkbox" id="provideEmail" ng-model="provideEmail" />
         </p>
-        <p @Html.ValidationErrorClass(model => model.ContactInfo.Email.Address)>
-            <input type="text" @Html.ValidationAttributes(m => m.ContactInfo.Email.Address) data-val-if="provideEmail" ng-model="email" />
+        <p @Html.ValidationErrorClass(model => model.ContactInfo.Email.Address) data-ng-if="provideEmail">
+            @*@Html.TextBoxFor(model => model.ContactInfo.Email.Address, new Dictionary<string,object> { { "ng-model", "email" } })*@
+
+            <input type="text" @Html.ValidationAttributes(m => m.ContactInfo.Email.Address) name="ContactInfo.Email.Address" data-val-if="provideEmail" ng-model="email" />
             @Html.ValidationMessageFor(model => model.ContactInfo.Email.Address)
+        </p>
+
+        <p @Html.ValidationErrorClass(model => model.ContactInfo.PrimaryPhone.Number) >
+            <input type="text" @Html.ValidationAttributes(m => m.ContactInfo.PrimaryPhone.Number) name="ContactInfo.PrimaryPhone.Number" ng-model="primaryPhone" />
+            @Html.ValidationMessageFor(model => model.ContactInfo.PrimaryPhone.Number)
         </p>
 
         <button type="submit" name="btnSubmit" ng-disabled="myForm.$invalid">Register</button>
