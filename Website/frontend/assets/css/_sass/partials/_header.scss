@@ -125,6 +125,41 @@
 			display: none;
 		}
 	}
+
+	&.fixed {
+		@include breakpoint(medium-large) {
+			background: #fff;
+			height: 121px;
+			> .wrapper {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				background-color: #fff;
+				@include retina-background("header-enrollment.png");
+				background-repeat: repeat-x;
+				z-index: 2;
+				height: 121px;
+				@include breakpoint(small) {
+					background: #fff;
+				}
+			}
+			.logo {
+				@include image-replace("logo.png", false);
+				position: absolute;
+				left: 50%;
+				top: 11px;
+				margin-top: 0;
+				margin-left: image-width("logo.png") / 2 * -1;
+				@include breakpoint(small) {
+					margin-left: (image-width("logo.png") / 2) / 2 * -1;
+				}
+			}
+			.nav-toggle {
+				margin-top: 22px;
+			}
+		}
+	}
 }
 
 .banner {	
