@@ -67,11 +67,11 @@
                 </div>
             </div>
             <div class="quality-control">
-                <h2><div class="header-line"></div>@Html.Sitecore().Field("Quality Control Text")</h2>
+                <div class="header-line"></div><h2>@Html.Sitecore().Field("Quality Control Text")</h2>
                 @Html.Sitecore().Field("Texas Quality Control")
             </div>
             <div class="emergency">
-                <h2><div class="header-line"></div>@Html.Sitecore().Field("Emergency Contacts Text")</h2>
+                <div class="header-line"></div><h2>@Html.Sitecore().Field("Emergency Contacts Text")</h2>
                 @Html.Sitecore().Field("Texas Emergency Contact")  
             </div>
         </article>
@@ -93,11 +93,11 @@
                 </div>
             </div>
             <div class="quality-control">
-                <h2><div class="header-line"></div>@Html.Sitecore().Field("Quality Control Text")</h2>
+                <div class="header-line"></div><h2>@Html.Sitecore().Field("Quality Control Text")</h2>
                 @Html.Sitecore().Field("Georgia Quality Control")
             </div>
             <div class="emergency">
-                <h2><div class="header-line"></div>@Html.Sitecore().Field("Emergency Contacts Text")</h2>
+                <div class="header-line"></div><h2>@Html.Sitecore().Field("Emergency Contacts Text")</h2>
                 @Html.Sitecore().Field("Georgia Emergency Contact")
             </div>
         </article>
@@ -231,71 +231,70 @@
         <div class="wrapper">
             <h2>@Html.Sitecore().Field("Request Form Text")</h2>
             <p>@Html.Sitecore().Field("Required Form Text")</p>
-            <div class="grid">
-                <div class="col">
-                    <form>
+            @using (Html.BeginForm())
+            {
+                <div class="grid">
+                    <div class="col">
                         <div class="item">
-                            <label for="first-name">@Html.Sitecore().Field("First Name Text")</label>
-                            <input type="text" id="first-name" placeholder="@Html.Sitecore().Field("First Name Placeholder")">
+                            <label for="firstName">@Html.Sitecore().Field("First Name Text")</label>
+                            <input type="text" id="firstName" name="firstName" required placeholder="@Html.Sitecore().Field("First Name Placeholder")">
                             <span class="asterisk">&#42;</span>
                         </div>
                         <div class="item">
-                            <label for="last-name">@Html.Sitecore().Field("Last Name Text")</label>
-                            <input type="text" id="last-name" placeholder="@Html.Sitecore().Field("Last Name Placeholder")">
+                            <label for="lastName">@Html.Sitecore().Field("Last Name Text")</label>
+                            <input type="text" id="lastName" name="lastName" required placeholder="@Html.Sitecore().Field("Last Name Placeholder")">
                             <span class="asterisk">&#42;</span>
                         </div>
                         <div class="item">
-                            <label for="first-name">@Html.Sitecore().Field("Service Address Text")</label>
-                            <input type="text" id="address" placeholder="@Html.Sitecore().Field("Service Address Placeholder")">
+                            <label for="address">@Html.Sitecore().Field("Service Address Text")</label>
+                            <input type="text" id="address" name="address" placeholder="@Html.Sitecore().Field("Service Address Placeholder")">
                         </div>
                         <div class="group">
                             <div class="item">
-                                <label for="first-name">@Html.Sitecore().Field("City Text")</label>
-                                <input type="text" id="city" placeholder="@Html.Sitecore().Field("City Placeholder")">
+                                <label for="city">@Html.Sitecore().Field("City Text")</label>
+                                <input type="text" id="city" name="city" required placeholder="@Html.Sitecore().Field("City Placeholder")">
                                 <span class="asterisk">&#42;</span>
                             </div>
                             <div class="item">
-                                <label for="first-name">@Html.Sitecore().Field("State Text")</label>
-                                <select>
+                                <label for="state">@Html.Sitecore().Field("State Text")</label>
+                                <select id="state" name="state" required>
                                     @Html.Sitecore().Field("State Options")
                                 </select>
                                 <span class="asterisk">&#42;</span>
                             </div>
                             <div class="item">
-                                <label for="zip-code">@Html.Sitecore().Field("Zip Code Text")</label>
-                                <input type="text" id="zip-code" placeholder="@Html.Sitecore().Field("Zip Code Placeholder")">
+                                <label for="zipCode">@Html.Sitecore().Field("Zip Code Text")</label>
+                                <input type="text" id="zipCode" name="zipCode" required placeholder="@Html.Sitecore().Field("Zip Code Placeholder")">
                                 <span class="asterisk">&#42;</span>
                             </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="col">
-                    <form>
+                        </div>                
+                    </div>
+                    <div class="col">                
                         <div class="item">
                             <label for="phone">@Html.Sitecore().Field("Phone Text")</label>
-                            <input type="text" id="email" placeholder="@Html.Sitecore().Field("Phone Placeholder")">
+                            <input type="text" id="phone" name="phone" placeholder="@Html.Sitecore().Field("Phone Placeholder")">
                         </div>
                         <div class="item">
                             <label for="email">@Html.Sitecore().Field("Email Text")</label>
-                            <input type="email" id="email" placeholder="@Html.Sitecore().Field("Email Placeholder")">
+                            <input type="email" id="email" name="email" required placeholder="@Html.Sitecore().Field("Email Placeholder")">
                             <span class="asterisk">&#42;</span>
                         </div>
                         <div class="item">
                             <label for="reason">@Html.Sitecore().Field("Reason Text")</label>
-                            <select>
+                            <select id="reason" name="reason" required>
                                 @Html.Sitecore().Field("Reason Options")
                             </select>
                             <span class="asterisk">&#42;</span>
                         </div>
                         <div class="item">
                             <label for="comments">@Html.Sitecore().Field("Explain Text")</label>
-                            <textarea placeholder="@Html.Sitecore().Field("Explain Placeholder")"></textarea>
+                            <textarea id="comments" name="comments" required placeholder="@Html.Sitecore().Field("Explain Placeholder")"></textarea>
                             <span class="asterisk">&#42;</span>
                         </div>
-                        <button>@Html.Sitecore().Field("Send Button Text")</button>
-                    </form>
+                        <button type="submit">@Html.Sitecore().Field("Send Button Text")</button> 
+                    </div>
                 </div>
-            </div>
+            }
         </div>
     </div>
     <div class="contact-banner">
