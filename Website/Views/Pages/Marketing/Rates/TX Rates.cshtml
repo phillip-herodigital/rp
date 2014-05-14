@@ -3,53 +3,41 @@
     var plans = from folder in Html.Sitecore().LookupItem("Rates parent").Children
                 select folder.Children.OrderBy(c => c.Fields["Effective Date"]).First();
 
-    var fields_plan = plans.First();
-    fields_plan.Fields.ReadAll();
+    Html.Sitecore().CurrentItem.Fields.Sort();
     var utilities = from field in Html.Sitecore().CurrentItem.Fields
-                    where field.Name.EndsWith("Utility Title")
-                    select field.Name.Replace("Utility Title", "");
+                    where field.Name.EndsWith(" Service Area Text")
+                    select field.Name.Replace(" Service Area Text", "");
 
-    var gasUtilities = (Sitecore.Data.Fields.MultilistField)Html.Sitecore().CurrentItem.Fields["Gas Utilities"];
-    var tables = from utility in utilities
-                 select new
-                 {
-                     HeaderField = utility + "Utility Title",
-                     IsGas = gasUtilities.Contains(utility + "Utility Title"),
-                     Rows = from plan in plans
-                            where !string.IsNullOrEmpty(plan.Fields[utility + "Current Price"].Value)
-                            select new
-                            {
-                                Item = plan,
-                                Prefix = utility,
-                            }
-                 };
 }
-<article class="marketing wrapper press">
+<article class="marketing wrapper">
     <h1>@Html.Sitecore().Field("Header")</h1>
 
     @Html.Sitecore().Field("Page Intro")
 
     <table>
-        @foreach (dynamic table in tables)
+        @foreach (dynamic plan in plans)
         {
             <thead>
                 <tr>
-                    <th>@Html.Sitecore().Field(table.HeaderField)</th>
-                    <th>@Html.Sitecore().Field(table.IsGas ? "Current Price per Therm" : "Current Price per KwH")</th>
-                    <th>@Html.Sitecore().Field("Monthly Customer Service Fee")</th>
-                    <th>@Html.Sitecore().Field("Term")</th>
-                    <th>@Html.Sitecore().Field("Early Cancellation Fee")</th>
+                    <th colspan="5">@Html.Sitecore().Field("Pricing Effective Text") @Html.Sitecore().Field("Plan Title", plan)</th>
+                </tr>
+                <tr>
+                    <th>@Html.Sitecore().Field("Pricing Effective Text") @Html.Sitecore().Field("Date", plan)</th>
+                    <th>@Html.Sitecore().Field("Stream Energy Charge Text")</th>
+                    <th>@Html.Sitecore().Field("Average Price Text")</th>
+                    <th>@Html.Sitecore().Field("Minimum Usage Fee Text")</th>
+                    <th>@Html.Sitecore().Field("Termination Fee Text")</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (dynamic row in table.Rows)
+                @foreach (dynamic utility in utilities)
                 {
                     <tr>
-                        <td>@Html.Sitecore().Field("Plan Title", row.Item)</td>
-                        <td>@Html.AsMoney((string)row.Prefix + "Current Price", (Sitecore.Data.Items.Item)row.Item, 4)</td>
-                        <td>@Html.AsMoney((string)row.Prefix + "Monthly Customer Service Fee", (Sitecore.Data.Items.Item)row.Item)</td>
-                        <td>@Html.Sitecore().Field(row.Prefix + "Term", row.Item)</td>
-                        <td>@Html.AsMoney((string)row.Prefix + "Early Cancellation Fee", (Sitecore.Data.Items.Item)row.Item)</td>
+                        <td>@Html.Sitecore().Field(utility + " Service Area Text")</td>
+                        <td>@Html.Sitecore().Field("Stream Energy Charge " + utility, plan)&cent;</td>
+                        <td>@Html.Sitecore().Field("1000 kWh " + utility + " Price", plan)&cent;</td>
+                        <td>@Html.AsMoney((string)("Minimum Usage Fee " + utility), (Sitecore.Data.Items.Item)plan)</td>
+                        <td>@Html.AsMoney((string)("Termination Fee " + utility), (Sitecore.Data.Items.Item)plan)</td>
                     </tr>
                 }
             </tbody>
