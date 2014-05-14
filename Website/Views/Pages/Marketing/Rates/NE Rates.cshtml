@@ -3,8 +3,7 @@
     var plans = from folder in Html.Sitecore().LookupItem("Rates parent").Children
                 select folder.Children.OrderBy(c => c.Fields["Effective Date"]).First();
 
-    var fields_plan = plans.First();
-    fields_plan.Fields.ReadAll();
+    Html.Sitecore().CurrentItem.Fields.Sort();
     var utilities = from field in Html.Sitecore().CurrentItem.Fields
                     where field.Name.EndsWith("Utility Title")
                     select field.Name.Replace("Utility Title", "");
