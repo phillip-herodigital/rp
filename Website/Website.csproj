@@ -587,6 +587,7 @@
     <Content Include="frontend\assets\js\directives\state-tabs.js" />
     <Content Include="frontend\assets\js\directives\table.js" />
     <Content Include="frontend\assets\js\directives\validation-message.js" />
+    <Content Include="frontend\assets\js\directives\validation-summary.js" />
     <Content Include="frontend\assets\js\directives\validation.js" />
     <Content Include="frontend\assets\js\filters\filters.js" />
     <Content Include="frontend\assets\js\libs\angular-animate\angular-animate.js" />

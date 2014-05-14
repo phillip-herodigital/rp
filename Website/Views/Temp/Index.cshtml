@@ -18,6 +18,7 @@
 
 <div ng-controller="mainController">
     <form name="myForm" ng-submit="submit(myForm.$valid)" novalidate>
+        @Html.ValidationSummary()
         <p>
             <label for="provideEmail">Provide Email?</label> <input type="checkbox" id="provideEmail" ng-model="provideEmail" />
         </p>
