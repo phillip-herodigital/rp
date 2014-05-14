@@ -586,6 +586,7 @@
     <Content Include="frontend\assets\js\directives\pagination.js" />
     <Content Include="frontend\assets\js\directives\state-tabs.js" />
     <Content Include="frontend\assets\js\directives\table.js" />
+    <Content Include="frontend\assets\js\directives\validation-error.js" />
     <Content Include="frontend\assets\js\directives\validation-message.js" />
     <Content Include="frontend\assets\js\directives\validation-summary.js" />
     <Content Include="frontend\assets\js\directives\validation.js" />

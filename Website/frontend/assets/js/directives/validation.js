@@ -48,6 +48,7 @@
         var validationFor = attrs['valName'];
         scope[validation.messageArray] = scope[validation.messageArray] || {};
 
+        // If allowValidation is false, then don't run any validations or mark validity as false
         var allowValidation = false;
 
         var validators = buildValidatorsFromAttributes(attrs);

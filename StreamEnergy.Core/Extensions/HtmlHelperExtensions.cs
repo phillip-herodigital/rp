@@ -77,5 +77,12 @@ namespace StreamEnergy.Extensions
             return html.Raw(string.Join(" ", from attr in dictionary
                                              select attr.Key + "=\"" + attr.Value + "\""));
         }
+
+        public static IHtmlString ValidationErrorClass<T, U>(this HtmlHelper<T> html, Expression<Func<T, U>> model)
+        {
+            var temp = model.RemoveLambdaBody().RemoveCast();
+            var propertyChain = StreamEnergy.CompositeValidationAttribute.UnrollPropertyChain(temp as MemberExpression);
+            return html.Raw("data-val-error=\"" + StreamEnergy.CompositeValidationAttribute.GetPathedName(propertyChain) + "\"");
+        }
     }
 }
