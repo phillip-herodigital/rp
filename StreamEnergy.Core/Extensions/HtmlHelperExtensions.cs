@@ -53,5 +53,17 @@ namespace StreamEnergy.Extensions
         {
             return Json.Stringify(target);
         }
+
+        public static IHtmlString AsMoney(this HtmlHelper htmlHelper, string fieldName, Item item = null, int decimalPlaces = 2)
+        {
+            item = item ?? htmlHelper.Sitecore().CurrentItem;
+
+            decimal value;
+            if (item.Fields[fieldName] != null && !Sitecore.Context.PageMode.IsPageEditorEditing && decimal.TryParse(item.Fields[fieldName].Value, out value))
+            {
+                return htmlHelper.Raw(value.ToString("C" + decimalPlaces));
+            }
+            return htmlHelper.Sitecore().Field(fieldName, item);
+        }
     }
 }

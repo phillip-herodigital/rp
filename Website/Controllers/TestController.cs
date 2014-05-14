@@ -18,18 +18,13 @@ namespace StreamEnergy.MyStream.Controllers
             this.emailService = emailService;
         }
 
-        
-        //
-        // GET: /Test/
-        public ActionResult Index()
+        public ActionResult ContactIndex()
         {
             return View("~/Views/Pages/Marketing/Contact/Contact.cshtml");
         }
 
-        //
-        // POST: /Test/Create
         [HttpPost]
-        public ActionResult Index(FormCollection collection)
+        public ActionResult ContactIndex(FormCollection collection)
         {
             try
             {
@@ -43,13 +38,21 @@ namespace StreamEnergy.MyStream.Controllers
                 var Email = collection["email"];
                 var Reason = collection["reason"];
                 var Comments = collection["comments"];
+                var Name = FirstName + ' ' + LastName;
 
-                var Message = new MailMessage();
-                Message.Body = Comments;
+               
 
                 // TODO - Validate form data
 
-                // TODO - Send the email
+                // Send the email
+                MailAddress From = new MailAddress(Email, Name);
+                MailAddress To = new MailAddress("adam.powell@responsivepath.com", "Adam Powell");
+                MailMessage Message = new MailMessage(From, To);
+                Message.Subject = "New Contact Form Submission";
+                Message.IsBodyHtml = true;
+                Message.Body = "First Name: " + FirstName + "<br />Last Name: " + LastName + "<br />Address: " + AddressLine1 + "<br />" + City + ", " + StateAbbreviation + " " + PostalCode5
+                        + "<br />Phone: " + Phone + "<br />Email: " + Email + "<br />Reason: " + Reason + "<br /> Comments: " + Comments;
+
                 var result = this.emailService.SendEmail(Message);
                 // TODO - Send the success message or load a new view
 
@@ -60,5 +63,6 @@ namespace StreamEnergy.MyStream.Controllers
                 return View("~/Views/Pages/Marketing/Contact/Contact.cshtml");
             }
         }
+
     }
 }
