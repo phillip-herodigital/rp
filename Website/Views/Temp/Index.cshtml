@@ -27,7 +27,7 @@
             @Html.ValidationMessageFor(model => model.ContactInfo.Email.Address)
         </p>
 
-        <input type="submit" name="btnSubmit" ng-disabled="myForm.$invalid" value="Register" />
+        <button type="submit" name="btnSubmit" ng-disabled="myForm.$invalid">Register</button>
 
         <p>myForm.$valid = {{myForm.$valid}}</p>
     </form>
