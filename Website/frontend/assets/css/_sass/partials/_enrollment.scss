@@ -125,11 +125,11 @@
 			}
 		}
 
-		@media only screen and (max-width: 1055px) {
+		@include breakpoint-max(1055px) {
 			display: none;
 		}
 
-		@media only screen and (min-width: 1056px) and (max-width: 1515px) {
+		@include breakpoint-min-max(1055px, 1515px) {
 			width: 25px;
 			left: -40px;
 			nav {
@@ -480,6 +480,7 @@
 		}
 	}
 
+.enrollment-right,
 .cart {
 		hr {
 			margin: 10px 0;
