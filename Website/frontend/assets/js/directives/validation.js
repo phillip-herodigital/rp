@@ -1,4 +1,4 @@
-﻿ngApp.directive('val', ['validation', '$compile', '$sce', function (validation, $compile, $sce) {
+﻿ngApp.directive('val', ['validation', '$sce', function (validation, $sce) {
     var validationId = 0;
 
     function startsWith(string, start) { return string.slice(0, start.length) == start; };
@@ -46,17 +46,17 @@
             return;
 
         var validationFor = attrs['valName'];
-        scope.$$validation = scope.$$validation || {};
+        scope[validation.messageArray] = scope[validation.messageArray] || {};
 
         var allowValidation = false;
 
         var validators = buildValidatorsFromAttributes(attrs);
         var runValidations = function (newValue) {
-            scope.$$validation[validationFor] = [];
+            scope[validation.messageArray][validationFor] = [];
             for (var key in validators) {
                 if (allowValidation && !validators[key].validate(newValue, validators[key].params)) {
                     ngModelController.$setValidity(key, false);
-                    scope.$$validation[validationFor].push($sce.trustAsHtml(validators[key].message));
+                    scope[validation.messageArray][validationFor].push($sce.trustAsHtml(validators[key].message));
                 }
                 else {
                     ngModelController.$setValidity(key, true);
@@ -72,7 +72,7 @@
         });
 
         element.on('$destroy', function () {
-            scope.$$validation[validationFor] = undefined;
+            scope[validation.messageArray][validationFor] = undefined;
         });
     };
 
@@ -81,16 +81,14 @@
         require: 'ngModel',
         link: link
     };
-}]);
-
-ngApp.directive('form', [function () {
+}]).directive('form', ['validation', function (validation) {
 
     return {
         restrict: 'E',
         link: function (scope) {
             // add the $$validation object at the form level so that we don't end up adding it
             // at an inner level, such as an ng-if
-            scope.$$validation = {};
+            scope[validation.messageArray] = {};
         }
     };
-}])
+}]);

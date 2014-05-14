@@ -3,7 +3,8 @@
 
     this.$get = function () {
         return {
-            getValidator: this.getValidator
+            getValidator: this.getValidator,
+            messageArray: 'validationMessages'
         };
     };
 
