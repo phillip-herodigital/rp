@@ -2,21 +2,34 @@
 @using System.Linq.Expressions;
 @using StreamEnergy.Extensions;
 
-<script src="http://ajax.microsoft.com/ajax/jQuery/jquery-1.8.0.min.js"></script>
+@*<script src="http://ajax.microsoft.com/ajax/jQuery/jquery-1.8.0.min.js"></script>
 <script src="http://ajax.microsoft.com/ajax/jquery.validate/1.8/jquery.validate.min.js"></script>
-<script src="http://ajax.aspnetcdn.com/ajax/mvc/5.1/jquery.validate.unobtrusive.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/mvc/5.1/jquery.validate.unobtrusive.js"></script>*@
 
+<script>
+    ngApp.controller('mainController', ['$scope', function ($scope) {
+        $scope.email = '@(Model != null && Model.ContactInfo != null && Model.ContactInfo.Email != null ? Model.ContactInfo.Email.Address : null)';
+        $scope.submit = function ($event) {
+            console.log($event);
+        }
+    }]);
+</script>
 
-@using (Html.BeginForm()) {
-    @Html.ValidationSummary()
-    
-    <p>
-        <input type="text" @Html.ValidationAttributes(m => m.ContactInfo.Email.Address) name="ContactInfo.Email.Address" value="@Model.ContactInfo.Email.Address" />
-        @Html.ValidationMessageFor(model => model.ContactInfo.Email.Address)
-    </p>
-    <p>
-        <span data-ng-repeat="err in $$validation.errs['ContactInfo.Email.Address']" ng-bind-html="err"></span>
-    </p>
+<div ng-controller="mainController">
+    <form name="myForm" ng-submit="submit(myForm.$valid)" novalidate>
+        <p>
+            <label for="provideEmail">Provide Email?</label> <input type="checkbox" id="provideEmail" ng-model="provideEmail" />
+        </p>
+        <p>
+            <input type="text" @Html.ValidationAttributes(m => m.ContactInfo.Email.Address) data-val-if="provideEmail" ng-model="email" />
+            @Html.ValidationMessageFor(model => model.ContactInfo.Email.Address)
+        </p>
+        <p>
+            <span data-ng-repeat="err in $$validation['ContactInfo.Email.Address']" ng-bind-html="err"></span>
+        </p>
 
-    <input type="submit" value="Register" id="btn1" />
-}
+        <input type="submit" name="btnSubmit" ng-disabled="myForm.$invalid" value="Register" />
+
+        <p>myForm.$valid = {{myForm.$valid}}</p>
+    </form>
+</div>
