@@ -126,7 +126,14 @@
                 <h2>Float Labels</h2>
                 <form ng-init="labels = {'firstName':'First Name', 'lastName':'Last Name', 'comment':'Comment', 'gender':'Gender'}">
                     
-                    <input type="text" ng-model="labels.firstName" /><br /><br /> 
+                    <div class="item">
+                        <label>Label Binding</label>
+                        <input type="text" ng-model="labels.firstName" />
+                    </div>
+                    <div class="item">
+                        <label>Value Binding</label>
+                        <input type="text" ng-model="labels.lastNameValue" />
+                    </div>
 
                     <div class="group">
                         <div class="item" float-label>
@@ -135,7 +142,7 @@
                         </div>
                         <div class="item" float-label>
                             <label for="lastname">Last Name</label>
-                            <input type="text" id="lastname" placeholder="Last Name" ng-model="labels.firstName" />
+                            <input type="text" id="lastname" placeholder="Last Name" ng-model="labels.lastNameValue" />
                         </div>
                     </div>
                     <div class="item" float-label>
@@ -151,7 +158,7 @@
                         </select>
                     </div>
 
-                    </formng-init="labels>
+                    </form>
 
                     <h2>Forms</h2>
                     <form>

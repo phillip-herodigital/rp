@@ -127,7 +127,7 @@
 	}
 }
 
-.banner {
+.banner {	
 	//height: 200px;
 	overflow: hidden;
 	margin-bottom: 20px;
@@ -136,7 +136,10 @@
 	background-repeat: no-repeat;
     // Set background iamge on .banner in HTML
 	.inner {
-		background: image-url("bg/banner-bottom.png") 0 100% repeat-x;
+		@include retina-background("banner-bottom.png");
+		background-repeat: repeat-x;
+		background-position: 0 100%;
+		/*background: image-url("bg/banner-bottom.png") 0 100% repeat-x;*/
 	}
 	.wrapper {
 		height: 220px;
@@ -165,4 +168,30 @@
 			color: #0971ce;
 		}
 	}
+	@include breakpoint(small) {
+		.inner {
+			@include retina-background("header-mobile.png");
+			background-repeat: repeat-x;
+		}			
+		.wrapper {
+			height: 120px;
+			padding-top: 50px;
+		}
+		h1 {
+			font-size: 27px;
+		}	
+	}
+	@include breakpoint(medium) {
+		.inner {
+			@include retina-background("header-mobile.png");
+			background-repeat: repeat-x;
+		}			
+		.wrapper {
+			height: 180px;
+			padding-top: 70px;
+		}
+		h1 {
+			font-size: 50px;
+		}	
+	}		
 }
