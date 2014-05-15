@@ -18,14 +18,10 @@ namespace StreamEnergy.MyStream.Controllers
             public string CardNumber { get; set; }
 
             public DateTime Date { get; set; }
-            
-            public string Digits { get; set; }
 
             public int Integer { get; set; }
 
             public float Single { get; set; }
-
-            public Uri Url { get; set; }
 
             [Url]
             public string Url2 { get; set; }
@@ -36,9 +32,11 @@ namespace StreamEnergy.MyStream.Controllers
             [System.ComponentModel.DataAnnotations.MaxLength(3)]
             public string MaxLength { get; set; }
 
+            // WARNING - this doesn't work server-side
             [System.ComponentModel.DataAnnotations.FileExtensions(Extensions = "cs,txt")]
             public HttpPostedFileBase PostedFile { get; set; }
 
+            // This doesn't seem to do us much good
             [System.ComponentModel.DataAnnotations.FileExtensions(Extensions = "cs,txt")]
             public string FileName { get; set; }
 
@@ -54,7 +52,10 @@ namespace StreamEnergy.MyStream.Controllers
             [Remote("ServiceInformation", "Enrollment", AdditionalFields = "FileName", HttpMethod = "POST")]
             public string Data { get; set; }
 
-            [System.Web.Security.MembershipPassword(MinRequiredNonAlphanumericCharacters=2, MinRequiredPasswordLength = 6)]
+            [System.Web.Security.MembershipPassword(
+                MinRequiredNonAlphanumericCharacters=2, MinNonAlphanumericCharactersError="Harder", 
+                MinRequiredPasswordLength = 6, MinPasswordLengthError="Longer", 
+                PasswordStrengthRegularExpression=".", PasswordStrengthError="Stronger")]
             public string Password { get; set; }
         }
 

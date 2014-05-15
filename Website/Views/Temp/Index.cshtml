@@ -41,13 +41,8 @@
             <p>MinLength  - {{data.MinLength  }}<br /><input type="text" @Html.ValidationAttributes(m => m.MinLength) data-val-realtime ng-model="data.MinLength" /> @Html.ValidationMessageFor(model => model.MinLength)    </p>
             <p>MaxLength  - {{data.MaxLength  }}<br /><input type="text" @Html.ValidationAttributes(m => m.MaxLength) data-val-realtime ng-model="data.MaxLength" /> @Html.ValidationMessageFor(model => model.MaxLength)    </p>
             <p>Range      - {{data.Range      }}<br /><input type="text" @Html.ValidationAttributes(m => m.Range) data-val-realtime ng-model="data.Range" /> @Html.ValidationMessageFor(model => model.Range)                </p>
+            <p>Password   - {{data.Password   }}<br /><input type="text" @Html.ValidationAttributes(m => m.Password) data-val-realtime ng-model="data.Password" /> @Html.ValidationMessageFor(model => model.Password)       </p>
 
-        </div>
-
-        <div>
-            Incorrect C# side
-            <p>Digits     - {{data.Digits     }}<br /><input type="text" @Html.ValidationAttributes(m => m.Digits) data-val-realtime ng-model="data.Digits" /> @Html.ValidationMessageFor(model => model.Digits)             </p>
-            <p>Url        - {{data.Url        }}<br /><input type="text" @Html.ValidationAttributes(m => m.Url) data-val-realtime ng-model="data.Url" /> @Html.ValidationMessageFor(model => model.Url)                      </p>
         </div>
 
         <div>
@@ -57,7 +52,6 @@
             <p>StrLen     - {{data.StrLen     }}<br /><input type="text" @Html.ValidationAttributes(m => m.StrLen) data-val-realtime ng-model="data.StrLen" /> @Html.ValidationMessageFor(model => model.StrLen)             </p>
             <p>Match      - {{data.Match      }}<br /><input type="text" @Html.ValidationAttributes(m => m.Match) data-val-realtime ng-model="data.Match" /> @Html.ValidationMessageFor(model => model.Match)                </p>
             <p>Data       - {{data.Data       }}<br /><input type="text" @Html.ValidationAttributes(m => m.Data) data-val-realtime ng-model="data.Data" /> @Html.ValidationMessageFor(model => model.Data)                   </p>
-            <p>Password   - {{data.Password   }}<br /><input type="text" @Html.ValidationAttributes(m => m.Password) data-val-realtime ng-model="data.Password" /> @Html.ValidationMessageFor(model => model.Password)       </p>
 
         </div>
 

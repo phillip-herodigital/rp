@@ -103,18 +103,20 @@
         var value = parseFloat(val);
         return value <= params.max && value >= params.min;
     });
+    validationProvider.addValidator("password", function (val, params) {
+        function nonalphamin (value, min) {
+            var match = value.match(/\W/g);
+            return match && match.length >= min;
+        }
+        if (!val)
+            return true;;
+        return (!params.min || val.length >= params.min)
+            && (!params.nonalphamin || nonalphamin(val, params.nonalphamin))
+            && (!params.regex || !!(new RegExp(params.regex).exec(val)));
+    });
     
     /*
     
-    $jQval.addMethod("nonalphamin", function (value, element, nonalphamin) {
-        var match;
-        if (nonalphamin) {
-            match = value.match(/\W/g);
-            match = match && match.length >= nonalphamin;
-        }
-        return match;
-    });
-
     if ($jQval.methods.extension) {
         adapters.addSingleVal("accept", "mimtype");
         adapters.addSingleVal("extension", "extension");
@@ -151,17 +153,6 @@
         });
 
         setValidationValues(options, "remote", value);
-    });
-    adapters.add("password", ["min", "nonalphamin", "regex"], function (options) {
-        if (options.params.min) {
-            setValidationValues(options, "minlength", options.params.min);
-        }
-        if (options.params.nonalphamin) {
-            setValidationValues(options, "nonalphamin", options.params.nonalphamin);
-        }
-        if (options.params.regex) {
-            setValidationValues(options, "regex", options.params.regex);
-        }
     });
 
     */
