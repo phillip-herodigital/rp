@@ -125,6 +125,5 @@ namespace StreamEnergy.MyStream.Controllers
                 return View("~/Views/Pages/Marketing/Services/Enroll Commercial.cshtml");
             }
         }
-
     }
 }

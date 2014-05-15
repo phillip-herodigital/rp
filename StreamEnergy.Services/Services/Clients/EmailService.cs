@@ -21,6 +21,7 @@ namespace StreamEnergy.Services.Clients
 
             // Create the email object first, then add the properties.
             SendGrid emailMessage = SendGrid.GetInstance();
+            
             // Add multiple addresses to the To field.
             var recipients = message.To;
 
@@ -29,8 +30,7 @@ namespace StreamEnergy.Services.Clients
                 emailMessage.AddTo(recipient.ToString());
             }
 
-            //emailMessage.AddTo("adam.powell@responsivepath.com");
-            emailMessage.From = message.From; //new MailAddress("adam.powell@responsivepath.com", "Adam Powell");
+            emailMessage.From = message.From;
             emailMessage.Subject = message.Subject;
             if (message.IsBodyHtml) 
             {
@@ -54,8 +54,6 @@ namespace StreamEnergy.Services.Clients
             {
                 return "Email Failed";
             }
-            
-
         }
     }
 }
