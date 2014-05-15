@@ -11,7 +11,7 @@ namespace StreamEnergy.Services.Clients
     class EmailService : IEmailService
     {          
         // TODO - Add parameters for Template and Dictionary since they aren't included in MailMessage
-        string IEmailService.SendEmail(MailMessage message)
+        bool IEmailService.SendEmail(MailMessage message)
         {
             // Create network credentials to access your SendGrid account.
             var username = Sitecore.Configuration.Settings.GetSetting("SendGrid.username", null);;
@@ -48,11 +48,11 @@ namespace StreamEnergy.Services.Clients
             try 
             {
                 transportWeb.Deliver(emailMessage);
-                return "Success";
+                return true;
             }
             catch
             {
-                return "Email Failed";
+                return false;
             }
         }
     }

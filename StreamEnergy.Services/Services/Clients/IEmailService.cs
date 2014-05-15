@@ -7,6 +7,6 @@ namespace StreamEnergy.Services.Clients
 {
     public interface IEmailService
     {
-        string SendEmail(MailMessage message);
+        bool SendEmail(MailMessage message);
     }
 }
