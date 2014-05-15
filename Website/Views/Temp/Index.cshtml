@@ -3,7 +3,7 @@
 @using StreamEnergy.Extensions;
 
 @*<script src="http://ajax.microsoft.com/ajax/jQuery/jquery-1.8.0.min.js"></script>
-    <script src="http://ajax.microsoft.com/ajax/jquery.validate/1.8/jquery.validate.min.js"></script>
+    <script src="http://ajax.microsoft.com/ajax/jquery.validate/1.8/jquery.validate.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/mvc/5.1/jquery.validate.unobtrusive.js"></script>*@
 
 <script>
@@ -44,16 +44,23 @@
             <p>Password   - {{data.Password   }}<br /><input type="text" @Html.ValidationAttributes(m => m.Password) data-val-realtime ng-model="data.Password" /> @Html.ValidationMessageFor(model => model.Password)       </p>
             <p>StrLen     - {{data.StrLen     }}<br /><input type="text" @Html.ValidationAttributes(m => m.StrLen) data-val-realtime ng-model="data.StrLen" /> @Html.ValidationMessageFor(model => model.StrLen)             </p>
             <p>Match      - {{data.Match      }}<br /><input type="text" @Html.ValidationAttributes(m => m.Match) data-val-realtime ng-model="data.Match" /> @Html.ValidationMessageFor(model => model.Match)                </p>
+            <p>FileName   - {{data.FileName   }}<br /><input type="text" @Html.ValidationAttributes(m => m.FileName) data-val-realtime ng-model="data.FileName" /> @Html.ValidationMessageFor(model => model.FileName)       </p>
 
         </div>
 
         <div>
-            Needs JS work:
+            Not quite supported by Angular:
             <p>PostedFile - {{data.PostedFile }}<br /><input type="file" @Html.ValidationAttributes(m => m.PostedFile) data-val-realtime ng-model="data.PostedFile" /> @Html.ValidationMessageFor(model => model.PostedFile) </p>
-            <p>FileName   - {{data.FileName   }}<br /><input type="text" @Html.ValidationAttributes(m => m.FileName) data-val-realtime ng-model="data.FileName" /> @Html.ValidationMessageFor(model => model.FileName)       </p>
+        </div>
+
+        <div>
+            Needs JS work:
             <p>Data       - {{data.Data       }}<br /><input type="text" @Html.ValidationAttributes(m => m.Data) data-val-realtime ng-model="data.Data" /> @Html.ValidationMessageFor(model => model.Data)                   </p>
 
         </div>
+
+        @Html.TextBoxFor(x => x.PostedFile, new { type = "file" })
+
 
         <button type="submit" name="btnSubmit" data-val-submit>Register</button>
 

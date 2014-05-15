@@ -156,7 +156,7 @@
             return match && match.length >= min;
         }
         if (!val)
-            return true;;
+            return true;
         return (!options.parameters.min || val.length >= options.parameters.min)
             && (!options.parameters.nonalphamin || nonalphamin(val, options.parameters.nonalphamin))
             && (!options.parameters.regex || !!(new RegExp(options.parameters.regex).exec(val)));
@@ -168,6 +168,13 @@
             element = validationProvider.$get().dataValue( options.scope, fullOtherName);
 
         return element == val;
+    });
+    validationProvider.addValidator("extension", function (val, options) {
+        if (!val)
+            return true;
+        console.log(val);
+        var param = typeof options.parameters.extension == "string" ? options.parameters.extension.replace(/,/g, '|') : "png|jpe?g|gif";
+		return val.match(new RegExp(".(" + param + ")$", "i"));
     });
     
     /*
