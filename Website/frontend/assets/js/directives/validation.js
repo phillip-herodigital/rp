@@ -11,7 +11,7 @@
         var validators = {};
         for (var index in keys) {
             var key = keys[index];
-            if (key == 'val' || key == 'valIf' || !startsWith(key, 'val'))
+            if (key == 'val' || key == 'valIf' || key == 'valRealtime' || !startsWith(key, 'val'))
                 continue;
             var handled = false;
             var keyName = camelCase(key.substr(3));
@@ -73,6 +73,7 @@
             // If we're not suppressing, share the validation messages.
             if (!suppress)
                 scope[validation.messageArray][validationFor] = validationMessages;
+            return validationMessages.length == 0 ? newValue : ngModelController.$modelValue;
         };
 
         ngModelController.$parsers.unshift(runValidations);
@@ -83,6 +84,9 @@
                 suppress = suppress && !scope[validation.cancelSuppress];
                 if (!suppress)
                     scope[validation.messageArray][validationFor] = validationMessages;
+            }),
+            scope.$watch(function () { return ngModelController.$modelValue }, function (newValue) {
+                runValidations(newValue);
             })
         ];
 
