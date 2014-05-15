@@ -96,6 +96,11 @@
             return true;
         return val.length <= params.max;
     });
+    validationProvider.addValidator("length", function (val, params) {
+        if (!val)
+            return true;
+        return val.length >= params.min &&  val.length <= params.max;
+    });
     validationProvider.addValidator("range", function (val, params) {
         if (!val)
             return true;
@@ -127,8 +132,6 @@
         adapters.addSingleVal("extension", "extension", "accept");
     }
 
-    adapters.addMinMax("length", "minlength", "maxlength", "rangelength").addMinMax("range", "min", "max", "range");
-    adapters.addMinMax("minlength", "minlength").addMinMax("maxlength", "minlength", "maxlength");
     adapters.add("equalto", ["other"], function (options) {
         var prefix = getModelPrefix(options.element.name),
             other = options.params.other,
