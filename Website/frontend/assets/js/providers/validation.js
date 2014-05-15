@@ -5,17 +5,35 @@
         var svc = {
             getValidator: this.getValidator,
             ensureValidation: function (scope) {
-                scope.validation = scope.validation || { cancelSuppress: false, messages: {} };
+                scope.validation = scope.validation || { cancelSuppress: false, messages: {}, data: {} };
                 return scope.validation;
             },
-            messageArray: function (scope) {
+            messageArray: function (scope, dotNetName, setter) {
+                if (dotNetName) {
+                    if (setter !== undefined)
+                        svc.ensureValidation(scope).messages[dotNetName] = setter;
+                    return svc.ensureValidation(scope).messages[dotNetName];
+                }
                 return svc.ensureValidation(scope).messages;
+            },
+            dataValue: function (scope, dotNetName, setter) {
+                if (dotNetName) {
+                    if (setter !== undefined)
+                        svc.ensureValidation(scope).data[dotNetName] = setter;
+                    return svc.ensureValidation(scope).data[dotNetName];
+                }
+                return svc.ensureValidation(scope).data;
             },
             hasCancelledSuppress: function (scope) {
                 return svc.ensureValidation(scope).cancelSuppress;
             },
             cancelSuppress: function (scope) {
                 svc.ensureValidation(scope).cancelSuppress = true;
+            },
+            clearDotNetName: function (scope, dotNetName) {
+                var validation = svc.ensureValidation(scope);
+                delete svc.ensureValidation(scope).messages[dotNetName];
+                delete svc.ensureValidation(scope).data[dotNetName];
             }
         };
         return svc;

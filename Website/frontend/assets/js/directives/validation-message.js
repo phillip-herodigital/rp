@@ -10,7 +10,7 @@
         link: function (scope, element) {
             scope.validationSummary = [];
             // Here we don't need to dispose our watch because we have an isolated scope that goes away when the element does.
-            var watch = scope.$parent.$watchCollection(function () { return validation.messageArray(scope.$parent)[scope.valmsgFor] }, function (newValue) {
+            var watch = scope.$parent.$watchCollection(function () { return validation.messageArray(scope.$parent, scope.valmsgFor) }, function (newValue) {
                 scope.messages = newValue;
             });
 

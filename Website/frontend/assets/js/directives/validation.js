@@ -57,8 +57,9 @@
         var validationMessages = [];
 
         function populateMessages() {
-            if (!suppress)
-                validation.messageArray(scope)[validationFor] = validationMessages;
+            if (!suppress) {
+                validation.messageArray(scope, validationFor, validationMessages);
+            }
         }
 
         var runValidations = function (newValue) {
@@ -74,6 +75,7 @@
                 }
             }
             populateMessages();
+            validation.dataValue(scope, validationFor, newValue);
             return newValue;
         };
 
@@ -103,7 +105,7 @@
 
         // Make sure we dispose all our 
         element.on('$destroy', function () {
-            delete validation.messageArray(scope)[validationFor];
+            delete validation.clearDotNetName(scope, validationFor);
 
             for (var key in watches)
                 watches[key]();
@@ -124,7 +126,7 @@
         else {
             element.on('focus', function () {
                 suppress = false;
-                populateMessage();
+                populateMessages();
                 scope.$digest();
             });
         }
