@@ -4320,7 +4320,7 @@ article.loginHorizontal {
 @media only screen and (max-width: 767px) {
   /* line 249, _sass/partials/_marketing-site.scss */
   article.loginHorizontal {
-    margin-top: 0;
+    margin-top: 30px;
   }
 }
 /* line 258, _sass/partials/_marketing-site.scss */
