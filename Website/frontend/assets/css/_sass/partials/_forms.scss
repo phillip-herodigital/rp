@@ -147,9 +147,6 @@ form,
 				text-transform: uppercase;
 			}
 		}
-		@include breakpoint(small) {
-			margin-bottom: 15px;
-		}
 	}
 
     div.item.fl-enabled {
