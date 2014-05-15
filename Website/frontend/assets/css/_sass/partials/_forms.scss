@@ -25,7 +25,7 @@ select {
 	@include box-shadow(0 1px 1px rgba(0,0,0,.15));
 	@include transition(border linear .2s, box-shadow linear .2s);
 	display: inline-block;
-	width: 300px;
+	width: 50%;
 	@include breakpoint(small) {
 		width: 100%;
 	}
@@ -124,6 +124,8 @@ form,
 	div.item {
 		@extend .clearfix;
 		margin-bottom: 5px;
+		//Make sure to have padding-right by default to match the group-col's padding
+		padding-right: 10px;
 		> label {
 			display: block;
 			margin-bottom: 5px;
@@ -145,6 +147,10 @@ form,
 				margin-right: 5px;
 				text-transform: uppercase;
 			}
+		}
+		//Enforce consistent spacing between all form groupings
+		& + div.group, & + div.vertical, & + div.item {
+			margin-top: 20px;
 		}
 		@include breakpoint(small) {
 			margin-bottom: 15px;
@@ -226,9 +232,13 @@ form,
 						width: auto;
 					}
 				}
+
+				& + .item {
+					margin-top: 0;
+				}
 			}
 		}
-		& + div.group, & + div.vertical {
+		& + div.group, & + div.vertical, & + div.item {
 			margin-top: 20px;
 		}
 	}
@@ -295,9 +305,9 @@ form,
 				}
 			}
 		}
-		& + div.group, & + div.vertical {
+		& + div.group, & + div.vertical, & + div.item {
 			margin-top: 20px;
-		}		
+		}
 	}
 	div.buttons {
 		@extend .clearfix;
