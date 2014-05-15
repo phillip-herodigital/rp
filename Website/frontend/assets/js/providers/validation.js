@@ -1,9 +1,19 @@
-﻿ngApp.provider('validation', [function () {
+﻿/// <reference path="../libs/angular/angular.js" />
+
+ngApp.provider('validation', [function () {
     var validators = {};
 
-    this.$get = function () {
+    this.$get = ['$injector', function ($injector) {
         var svc = {
-            getValidator: this.getValidator,
+            getValidator: function (validatorName) {
+                if (!validators[validatorName].injected && validators[validatorName].$inject) {
+                    validators[validatorName].injected = [];
+                    angular.forEach(validators[validatorName].$inject, function (name) {
+                        validators[validatorName].injected[name] = $injector.get(name);
+                    });
+                }
+                return validators[validatorName];
+            },
             ensureValidation: function (scope) {
                 scope.validation = scope.validation || { cancelSuppress: false, messages: {}, data: {} };
                 return scope.validation;
@@ -37,16 +47,13 @@
             }
         };
         return svc;
-    };
+    }];
 
-    this.getValidator = function (validatorName) {
-        return validators[validatorName];
+    this.addValidator = function (validatorName, validate, inject) {
+        validate.$inject = inject;
+        validators[validatorName] = validate;        
     };
-
-    this.addValidator = function (validatorName, validate) {
-        validators[validatorName] = validate;
-    };
-}]).config(['validationProvider', function(validationProvider)
+}]).config(['validationProvider', '$injector', function (validationProvider, $injector)
 {
 
     function getModelPrefix(fieldName) {
@@ -165,47 +172,42 @@
         var prefix = getModelPrefix(options.attributes.name),
             other = options.parameters.other,
             fullOtherName = appendModelPrefix(other, prefix),
-            element = validationProvider.$get().dataValue( options.scope, fullOtherName);
+            element = options.injected.validation.dataValue(options.scope, fullOtherName);
 
         return element == val;
-    });
+    }, ['validation']);
     validationProvider.addValidator("extension", function (val, options) {
         if (!val)
             return true;
-        console.log(val);
         var param = typeof options.parameters.extension == "string" ? options.parameters.extension.replace(/,/g, '|') : "png|jpe?g|gif";
 		return val.match(new RegExp(".(" + param + ")$", "i"));
     });
-    
-    /*
-    
-    if ($jQval.methods.extension) {
-        adapters.addSingleVal("accept", "mimtype");
-        adapters.addSingleVal("extension", "extension");
-    } else {
-        // for backward compatibility, when the 'extension' validation method does not exist, such as with versions
-        // of JQuery Validation plugin prior to 1.10, we should use the 'accept' method for
-        // validating the extension, and ignore mime-type validations as they are not supported.
-        adapters.addSingleVal("extension", "extension", "accept");
-    }
+    validationProvider.addValidator("remote", function (val, options) {
+        if (options.ngModel.remoteTimeout)
+            options.ngModel.remoteTimeout.resolve();
+        if (!val)
+            return true;
 
-    adapters.add("remote", ["url", "type", "additionalfields"], function (options) {
-        var value = {
-            url: options.params.url,
-            type: options.params.type || "GET",
-            data: {}
-        },
-            prefix = getModelPrefix(options.element.name);
-
-        $.each(splitAndTrim(options.params.additionalfields || options.element.name), function (i, fieldName) {
-            var paramName = appendModelPrefix(fieldName, prefix);
-            value.data[paramName] = function () {
-                return $(options.form).find(":input").filter("[name='" + escapeAttributeValue(paramName) + "']").val();
-            };
+        var prefix = getModelPrefix(options.attributes.name);
+        var data = {};
+        angular.forEach((options.parameters.additionalfields || options.attributes.name).split(','), function (fieldName) {
+            var dataName = appendModelPrefix(fieldName, prefix);
+            data[dataName] = options.injected.validation.dataValue(options.scope, dataName);
         });
 
-        setValidationValues(options, "remote", value);
-    });
-
-    */
+        var timeout = options.injected.$q.defer();
+        options.ngModel.remoteTimeout = timeout;
+        options.injected.$http({
+                                   method: options.parameters.type,
+                                   url: options.parameters.url,
+                                   data: data,
+                                   cache: true, // we may want this off... but it should save repeated calls to our back-end
+                                   timeout: timeout.promise
+        }).success(function (response, status)
+        {
+            if (response !== true && response !== "true")
+                options.ngModel.$setValidity('remote', false);
+        });
+        return true;
+    }, ['validation', '$http', '$q']);
 }]);

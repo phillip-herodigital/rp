@@ -10,6 +10,24 @@ namespace StreamEnergy.MyStream.Controllers
 {
     public class TempController : Controller
     {
+        public class StreamEnergyRemoteAttribute : RemoteAttribute
+        {
+            private string url;
+
+            public StreamEnergyRemoteAttribute(string url, string controller, string action)
+                : base(routeName: "DefaultApiWithAction")
+            {
+                this.url = url;
+                RouteData["controller"] = controller;
+                RouteData["action"] = action;
+            }
+
+            protected override string GetUrl(ControllerContext controllerContext)
+            {
+                return url;
+            }
+        }
+
         public class SampleModel
         {
             public CustomerContact ContactInfo { get; set; }
@@ -49,7 +67,7 @@ namespace StreamEnergy.MyStream.Controllers
             [System.ComponentModel.DataAnnotations.Compare("Range")]
             public double Match { get; set; }
 
-            [Remote("ServiceInformation", "Enrollment", AdditionalFields = "FileName", HttpMethod = "POST")]
+            [StreamEnergyRemote("/Api/Enrollment/ServiceInformation", "Enrollment", "ServiceInformation", AdditionalFields = "FileName", HttpMethod = "POST")]
             public string Data { get; set; }
 
             [System.Web.Security.MembershipPassword(

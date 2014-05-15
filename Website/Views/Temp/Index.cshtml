@@ -45,6 +45,7 @@
             <p>StrLen     - {{data.StrLen     }}<br /><input type="text" @Html.ValidationAttributes(m => m.StrLen) data-val-realtime ng-model="data.StrLen" /> @Html.ValidationMessageFor(model => model.StrLen)             </p>
             <p>Match      - {{data.Match      }}<br /><input type="text" @Html.ValidationAttributes(m => m.Match) data-val-realtime ng-model="data.Match" /> @Html.ValidationMessageFor(model => model.Match)                </p>
             <p>FileName   - {{data.FileName   }}<br /><input type="text" @Html.ValidationAttributes(m => m.FileName) data-val-realtime ng-model="data.FileName" /> @Html.ValidationMessageFor(model => model.FileName)       </p>
+            <p>Data       - {{data.Data       }}<br /><input type="text" @Html.ValidationAttributes(m => m.Data) data-val-realtime ng-model="data.Data" /> @Html.ValidationMessageFor(model => model.Data)                   </p>
 
         </div>
 
@@ -55,11 +56,8 @@
 
         <div>
             Needs JS work:
-            <p>Data       - {{data.Data       }}<br /><input type="text" @Html.ValidationAttributes(m => m.Data) data-val-realtime ng-model="data.Data" /> @Html.ValidationMessageFor(model => model.Data)                   </p>
 
         </div>
-
-        @Html.TextBoxFor(x => x.PostedFile, new { type = "file" })
 
 
         <button type="submit" name="btnSubmit" data-val-submit>Register</button>

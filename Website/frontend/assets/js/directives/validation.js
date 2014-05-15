@@ -63,10 +63,11 @@
         }
 
         var runValidations = function (newValue) {
+            validation.dataValue(scope, validationFor, newValue);
             validationMessages = [];
             // Run validations for all of our client-side validation and store in a local array.
             for (var key in validators) {
-                if (allowValidation && !validators[key].validate(newValue, { parameters: validators[key].params, attributes: attrs, scope: scope })) {
+                if (allowValidation && !validators[key].validate(newValue, { parameters: validators[key].params, attributes: attrs, scope: scope, ngModel: ngModelController, injected: validators[key].validate.injected })) {
                     ngModelController.$setValidity(key, false);
                     validationMessages.push($sce.trustAsHtml(validators[key].message));
                 }
@@ -75,7 +76,6 @@
                 }
             }
             populateMessages();
-            validation.dataValue(scope, validationFor, newValue);
             return newValue;
         };
 
