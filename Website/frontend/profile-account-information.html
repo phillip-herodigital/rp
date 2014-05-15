@@ -18,13 +18,19 @@
 	<script src="assets/js/libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 	<script src="assets/js/libs/angular-ui-utils/ui-utils.min.js"></script>
 
+	<script src="assets/js/libs/respond/dest/respond.min.js"></script>
+
 	<script src="assets/js/app.js"></script>
+
+	<script src="assets/js/modules/mask-jquery.js"></script>
 
     <script src="assets/js/services/breakpoint.js"></script>
 
     <script src="assets/js/directives/float-labels.js"></script>
 
+	<script src="assets/js/directives/loading-indicator.js"></script>
 	<script src="assets/js/controllers/main.js"></script>
+	<script src="assets/js/controllers/accountBalances.js"></script>
 
 	<script type="text/javascript" src="//use.typekit.net/hag0zvs.js"></script>
 	<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
@@ -54,102 +60,126 @@
                         </ul>
                     </nav>
 				</div>
+				<nav class="sub-nav">
+					
+				</nav>
 			</header>
 
             <div class="banner" style="background-image: url(assets/i/bg/hero-invoices.jpg);">
                 <div class="inner">
                     <div class="wrapper">
-                        <h1>Enrolled Accounts</h1>
+                        <h1>Account Information</h1>
                     </div>
                 </div>
             </div>
 			
 			<section class="layout cols-2 wrapper">
 				<section class="layout cols-1">
-					<p>To add a new account to your online profile, fill the required information and click on "Submit" button below. To remove an account, click on corresponding "Delete" button below.</p>
-					<article class="grey-box">
-						<header>
-							<h2>Add New Account</h2>
-						</header>
-						<div class="content">
-							<p>Please enter the Account Number, Last 4 of Social/TIN of the Stream Energy account you would like to pay.</p>
-							<form>
-								<div class="group">
-									<div class="item">
-										<label for="Amount">Account Number:</label>
-										<input type="text" id="amount">
+				
+
+
+					<article class="balances-payments" ng-controller="AccountBalances">
+						<div class="content" loading-indicator>
+							<div class="account-selector">
+								<form>
+									<div class="group">
+										<div class="item">
+											<label>Account Number:</label>
+											<select ng-model="selectedAccount.account" ng-options="item.accountNumber for item in accounts">
+												<option value="">All</option>
+											</select>
+										</div>
+										<div class="item">
+											<label>Meter ID:</label>
+											<select class="id">
+												<option value="Please choose">109437200008913264</option>
+												<option value="account1">ID 2</option>
+											</select>
+										</div>
 									</div>
-									<div class="item">
-										<label for="Amount">Last 4 of Social/TIN</label>
-										<input type="text" id="amount">
-									</div>
-								</div>
-								<div class="buttons">
-									<button type="submit" class="buttons">Save</button>
-								</div>
-							</form>
+								</form>
+							</div>
+							<div class="grid border">
+								Service Address: 123 Main Street, Dallas, TX 75001
+							</div>
 						</div>
 					</article>
-					<article class="enrolled-accounts">
-						<header>
-							<h2>Enrolled Accounts</h2>
-						</header>
-						<table>
-							<thead>
-								<tr>
-									<th>Account to Pay</th>
-									<th>Date Added</th>
-									<th>Action</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td><a href="#">1234567890</a></td>
-									<td>12/28/2013 - 17:33:15 PM</td>
-									<td><button class="secondary">Remove</button><button class="secondary">Send Letter of Residency</button></td>
-								</tr>
-							</tbody>
-						</table>
-					</article>
+
+					<form>
+
+						<article class="grey-box account-holder-information"> 
+							<div class="content">
+								<div class="item account-holder">
+									<label class="account-holder-title">Account Holder Name:</label>
+									Mr. John A. Doe
+								</div>
+								<div class="group">
+									<div class="item group-col" float-label>
+										<label for="primary-phone">Primary Phone Number:</label>
+										<input type="tel" name="primary-phone" id="primary-phone" placeholder="">
+									</div>
+									<div class="item group-col">
+										<label for="primary-phone-type">Phone Type</label>
+										<select name="primary-phone-type" id="primary-phone-type">
+											<option value="mobile">Mobile</option>
+										</select>
+									</div>
+								</div>
+								<div class="additional-field-action">
+									<a href="#">Add Additional Phone Number</a>
+								</div>
+								<div class="group additional-field-group">
+									<div class="group">
+										<div class="item group-col" float-label>
+											<label for="secondary-phone">secondary Phone Number:</label>
+											<input type="tel" name="secondary-phone" id="secondary-phone">
+										</div>
+										<div class="item group-col">
+											<label for="secondary-phone-type">Phone Type</label>
+											<select name="secondary-phone-type" id="secondary-phone-type">
+												<option value="mobile">Mobile</option>
+											</select>
+										</div>
+									</div>									
+								</div>
+								<hr class="content-divider" />
+								<h3 class="billing-address-title">Billing Address</h3>
+								<div class="item">
+									<ul class="checkbox-list">
+										<li>
+											<input type="checkbox" name="billing-address" id="billing-address">
+											<label for="billing-address">Same as Service Address</label>
+										</li>
+									</ul>
+									<div class="billing-address">
+										123 Main St.<br>
+										Dallas, TX 75001
+									</div>
+								</div>
+							</div>
+							<footer>
+								<div class="buttons">
+									<button type="submit">Save</button>
+								</div>
+							</footer>
+						</article>
+					</form>
 				</section>
 				<aside>
-					<article class="grey-box">
-						<div class="clearfix">
-							<p><a href="#">Online Account Information</a></p>
-							<div class="stretch">
-								<hr class="wide" />
-							</div>
-							<p><a href="#">Account Information</a></p>
-							<div class="stretch">
-								<hr class="wide" />
-							</div>
-							<p><a href="#">Notifications &amp; Reminders</a></p>
-							<div class="stretch">
-								<hr class="wide" />
-							</div>
-							<p class="active"><a href="#">Enrolled Accounts</a></p>
-						</div>
+					<article class="subnav">
+						<ul>
+							<li><a href="#">Online Account Information</a></li>
+							<li class="active">Account Information</li>
+							<li><a href="#">Notifications &amp; Reminders</a></li>
+							<li><a href="#">Enrolled Accounts</a></li>
+						</ul>
 					</article>
 					<article class="promo renew">
-						<h1>Renew Your <div class="promo-bold">Plan &amp; Save</div></h1>
+						<h1>Renew Your <strong>Plan &amp; Save</strong></h1>
 						<button class="secondary">Renew My Plan</button>
 					</article>
 				</aside>
 			</section>
-
-			
-			<!--
-			<footer class="site-footer">
-				<div class="wrapper">
-					<p>&copy; 2005-2013 SGE IP Holdco, LLC. All rights reserved. Licensed in TX, GA, PA, MD, NJ, NY, &amp; DC<br />
-					(TX #10104, GA #GM-38, NJ #ESL-0109 &amp; GSL-0120, PA #A-2010-2181867 &amp; A-2012-2308991, MD #IR-2072 &amp; IR-2742, NY #STRM, DC EA11-11)</p>
-					<ul>
-						<li><a href="#"><i class="icon-bbb"></i></a></li>
-						<li><a href="#"><i class="icon-dsa"></i></a></li>
-					</ul>
-				</div>
-			</footer>
-			-->
 
 			<footer class="site-footer">
 				<div class="super-footer">

@@ -101,6 +101,19 @@ a.button {
 
 form,
 .form {
+	.additional-field-action {
+		text-transform: uppercase;
+		font-weight: 600;
+		font-size: 14px;
+		margin: 15px 0 -10px;
+	}
+	.help-text {
+		display: block;
+		color: #999;
+		font-size: 11px;
+		line-height: 1.3;
+		padding: 7px 8px 0;
+	}
 	div.validationSummary {
 		margin-bottom: 10px;
 		color: #BE3438;
@@ -131,6 +144,12 @@ form,
 				display: inline-block;
 				margin-right: 5px;
 				text-transform: uppercase;
+			}
+		}
+		@include breakpoint(small) {
+			margin-bottom: 15px;
+			&:last-child {
+				margin-bottom: 0;
 			}
 		}
 	}
@@ -168,8 +187,26 @@ form,
 
 	div.group {
 		@extend .clearfix;
+		@include breakpoint(large) {
+			&.inline-group {
+				width: auto;
+				.item {
+					label {
+						display: inline-block;
+						margin-right: 5px;	
+					}
+					input,
+					select {
+						width: auto;
+					}
+				}
+			}
+		}
 		@include breakpoint(medium-large) {
-			div.item {
+			& .group-col {
+				width: 50%;
+			}
+			.item {
 				@include box-sizing(border-box);
 				float: left;
 				//width: 310px;
@@ -190,6 +227,38 @@ form,
 					}
 				}
 			}
+		}
+		& + div.group, & + div.vertical {
+			margin-top: 20px;
+		}
+	}
+	div.additional-field-group {
+		background: #fafafa;
+		padding: 25px 15px;
+		margin: 25px -15px -25px;
+		border-top: 1px solid #ddd;
+		position: relative;
+		&:after, &:before {
+			bottom: 100%;
+			left: 12%;
+			border: solid transparent;
+			content: " ";
+			height: 0;
+			width: 0;
+			position: absolute;
+			pointer-events: none;
+		}
+		&:after {
+			border-color: rgba(250, 250, 250, 0);
+			border-bottom-color: #fafafa;
+			border-width: 10px;
+			margin-left: -10px;
+		}
+		&:before {
+			border-color: rgba(222, 222, 222, 0);
+			border-bottom-color: #ddd;
+			border-width: 11px;
+			margin-left: -11px;
 		}
 	}
 	div.vertical {
@@ -226,6 +295,9 @@ form,
 				}
 			}
 		}
+		& + div.group, & + div.vertical {
+			margin-top: 20px;
+		}		
 	}
 	div.buttons {
 		@extend .clearfix;
@@ -236,12 +308,18 @@ form,
 			@include breakpoint(small) {
 				float: none;
 				width: 100%;
+				margin-left: 0;
 			}
 			&:first-child {
-				margin-left: 0;
+				
 			}
 		}
 	}
+	hr.content-divider { 
+		border: none;
+		border-top: 1px solid #ddd;
+		margin: 25px -15px;
+	}	
 	input[type="radio"],
 	input[type="checkbox"] {
 		margin-bottom: 0;
@@ -259,4 +337,4 @@ form,
 			}
 		}
 	}
-}
+} 
