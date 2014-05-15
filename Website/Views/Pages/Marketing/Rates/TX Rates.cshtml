@@ -19,10 +19,10 @@
         {
             <thead>
                 <tr>
-                    <th colspan="5">@Html.Sitecore().Field("Pricing Effective Text") @Html.Sitecore().Field("Plan Title", plan)</th>
+                    <th colspan="5">@Html.Sitecore().Field("Pricing For Text") @Html.Sitecore().Field("Plan Title", plan)</th>
                 </tr>
                 <tr>
-                    <th>@Html.Sitecore().Field("Pricing Effective Text") @Html.Sitecore().Field("Date", plan)</th>
+                    <th>@Html.Sitecore().Field("Pricing Effective Text") @Html.Sitecore().Field("Date", plan, new { format = "MM/dd/yy" })</th>
                     <th>@Html.Sitecore().Field("Stream Energy Charge Text")</th>
                     <th>@Html.Sitecore().Field("Average Price Text")</th>
                     <th>@Html.Sitecore().Field("Minimum Usage Fee Text")</th>
