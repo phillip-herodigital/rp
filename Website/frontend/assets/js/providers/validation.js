@@ -48,9 +48,21 @@
     };
 }]).config(['validationProvider', function(validationProvider)
 {
+
+    function getModelPrefix(fieldName) {
+        return fieldName.substr(0, fieldName.lastIndexOf(".") + 1);
+    }
+
+    function appendModelPrefix(value, prefix) {
+        if (value.indexOf("*.") === 0) {
+            value = value.replace("*.", prefix);
+        }
+        return value;
+    }
+
     validationProvider.addValidator('required', function (val) { return !!val; });
-    validationProvider.addValidator('regex', function (val, parameters) {
-        return !val || new RegExp(parameters['pattern']).exec(val);
+    validationProvider.addValidator('regex', function (val, options) {
+        return !val || new RegExp(options.parameters['pattern']).exec(val);
     });
     validationProvider.addValidator('email', function (val) {
         // regex taken from jquery.validate v1.12.0
@@ -116,38 +128,46 @@
         // contributed by Scott Gonzalez: http://projects.scottsplayground.com/iri/
         return /^(https?|s?ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(val);
     });
-    validationProvider.addValidator("minlength", function (val, params) {
+    validationProvider.addValidator("minlength", function (val, options) {
         if (!val)
             return true;
-        return val.length >= params.min;
+        return val.length >= options.parameters.min;
     });
-    validationProvider.addValidator("maxlength", function (val, params) {
+    validationProvider.addValidator("maxlength", function (val, options) {
         if (!val)
             return true;
-        return val.length <= params.max;
+        return val.length <= options.parameters.max;
     });
-    validationProvider.addValidator("length", function (val, params) {
+    validationProvider.addValidator("length", function (val, options) {
         if (!val)
             return true;
-        return val.length >= params.min &&  val.length <= params.max;
+        return val.length >= options.parameters.min &&  val.length <= options.parameters.max;
     });
-    validationProvider.addValidator("range", function (val, params) {
+    validationProvider.addValidator("range", function (val, options) {
         if (!val)
             return true;
         
         var value = parseFloat(val);
-        return value <= params.max && value >= params.min;
+        return value <= options.parameters.max && value >= options.parameters.min;
     });
-    validationProvider.addValidator("password", function (val, params) {
+    validationProvider.addValidator("password", function (val, options) {
         function nonalphamin (value, min) {
             var match = value.match(/\W/g);
             return match && match.length >= min;
         }
         if (!val)
             return true;;
-        return (!params.min || val.length >= params.min)
-            && (!params.nonalphamin || nonalphamin(val, params.nonalphamin))
-            && (!params.regex || !!(new RegExp(params.regex).exec(val)));
+        return (!options.parameters.min || val.length >= options.parameters.min)
+            && (!options.parameters.nonalphamin || nonalphamin(val, options.parameters.nonalphamin))
+            && (!options.parameters.regex || !!(new RegExp(options.parameters.regex).exec(val)));
+    });
+    validationProvider.addValidator("equalto", function (val, options) {
+        var prefix = getModelPrefix(options.attributes.name),
+            other = options.parameters.other,
+            fullOtherName = appendModelPrefix(other, prefix),
+            element = validationProvider.$get().dataValue( options.scope, fullOtherName);
+
+        return element == val;
     });
     
     /*
@@ -162,14 +182,6 @@
         adapters.addSingleVal("extension", "extension", "accept");
     }
 
-    adapters.add("equalto", ["other"], function (options) {
-        var prefix = getModelPrefix(options.element.name),
-            other = options.params.other,
-            fullOtherName = appendModelPrefix(other, prefix),
-            element = $(options.form).find(":input").filter("[name='" + escapeAttributeValue(fullOtherName) + "']")[0];
-
-        setValidationValues(options, "equalTo", element);
-    });
     adapters.add("remote", ["url", "type", "additionalfields"], function (options) {
         var value = {
             url: options.params.url,
