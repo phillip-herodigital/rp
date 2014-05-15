@@ -48,15 +48,18 @@
             return;
 
         var validationFor = attrs['name'];
-        // Assuming this is inside a <form>, thos shouldn't really be necessary.
-        scope[validation.messageArray] = scope[validation.messageArray] || {};
 
         // If allowValidation is false, then don't run any validations or mark validity as false.
         var allowValidation = false;
         // If suppress is true, don't actually display any validation messages.
-        var suppress = !scope[validation.cancelSuppress];
+        var suppress = !validation.hasCancelledSuppress(scope);
         var validators = buildValidatorsFromAttributes(attrs);
         var validationMessages = [];
+
+        function populateMessages() {
+            if (!suppress)
+                validation.messageArray(scope)[validationFor] = validationMessages;
+        }
 
         var runValidations = function (newValue) {
             validationMessages = [];
@@ -70,23 +73,18 @@
                     ngModelController.$setValidity(key, true);
                 }
             }
-            // If we're not suppressing, share the validation messages.
-            if (!suppress)
-                scope[validation.messageArray][validationFor] = validationMessages;
-            return validationMessages.length == 0 ? newValue : ngModelController.$modelValue;
+            populateMessages();
+            return newValue;
         };
 
         ngModelController.$parsers.unshift(runValidations);
+        ngModelController.$formatters.unshift(runValidations);
 
         var watches = [
-            // Watch to see if the cancelSuppress is set to true and, if it is, cancel our own suppression.
-            scope.$watch(validation.cancelSuppress, function (newValue) {
-                suppress = suppress && !scope[validation.cancelSuppress];
-                if (!suppress)
-                    scope[validation.messageArray][validationFor] = validationMessages;
-            }),
-            scope.$watch(function () { return ngModelController.$modelValue }, function (newValue) {
-                runValidations(newValue);
+            // Watch to see if the hasCancelledSuppress is set to true and, if it is, cancel our own suppression.
+            scope.$watch(validation.hasCancelledSuppress, function (newValue) {
+                suppress = suppress && !newValue;
+                populateMessages();
             })
         ];
 
@@ -105,7 +103,7 @@
 
         // Make sure we dispose all our 
         element.on('$destroy', function () {
-            delete scope[validation.messageArray][validationFor];
+            delete validation.messageArray(scope)[validationFor];
 
             for (var key in watches)
                 watches[key]();
@@ -114,7 +112,7 @@
         // Cancel suppression of error messages for this element on blur
         element.on('blur', function () {
             suppress = false;
-            scope[validation.messageArray][validationFor] = validationMessages;
+            populateMessages();
             scope.$digest();
         });
 
@@ -126,7 +124,7 @@
         else {
             element.on('focus', function () {
                 suppress = false;
-                scope[validation.messageArray][validationFor] = validationMessages;
+                populateMessage();
                 scope.$digest();
             });
         }
@@ -144,8 +142,7 @@
         link: function (scope) {
             // Add the $$validation object at the form level so that we don't end up adding it
             // at an inner level, such as an ng-if.
-            scope[validation.messageArray] = {};
-            scope[validation.cancelSuppress] = false;
+            validation.ensureValidation(scope);
         }
     };
 }]).directive('valSubmit', ['validation', function (validation) {
@@ -157,7 +154,7 @@
                 if (ctrl.$invalid) {
                     $event.preventDefault();
                     // Cancels the suppression of validation messages, which reveals error classes, validation summaries, etc.
-                    scope[validation.cancelSuppress] = true;
+                    validation.cancelSuppress(scope);
                     scope.$digest();
                 }
             });

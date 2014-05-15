@@ -2,11 +2,23 @@
     var validators = {};
 
     this.$get = function () {
-        return {
+        var svc = {
             getValidator: this.getValidator,
-            messageArray: 'validationMessages',
-            cancelSuppress: 'validationCancelSuppress'
+            ensureValidation: function (scope) {
+                scope.validation = scope.validation || { cancelSuppress: false, messages: {} };
+                return scope.validation;
+            },
+            messageArray: function (scope) {
+                return svc.ensureValidation(scope).messages;
+            },
+            hasCancelledSuppress: function (scope) {
+                return svc.ensureValidation(scope).cancelSuppress;
+            },
+            cancelSuppress: function (scope) {
+                svc.ensureValidation(scope).cancelSuppress = true;
+            }
         };
+        return svc;
     };
 
     this.getValidator = function (validatorName) {
