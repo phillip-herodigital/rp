@@ -14,9 +14,10 @@
             if (key == 'val' || key == 'valIf' || !startsWith(key, 'val'))
                 continue;
             var handled = false;
+            var keyName = camelCase(key.substr(3));
             for (var validator in validators) {
-                if (startsWith(key, validator)) {
-                    validators[validator].params[camelCase(key.substr(validator.length))] = attrs[key];
+                if (startsWith(keyName, validator)) {
+                    validators[validator].params[camelCase(keyName.substr(validator.length))] = attrs[key];
                     handled = true;
                     break;
                 }
@@ -24,7 +25,6 @@
             if (handled)
                 continue;
 
-            var keyName = camelCase(key.substr(3));
             var validate = validation.getValidator(keyName);
             if (validate) {
                 validators[keyName] = {
@@ -94,6 +94,10 @@
                 runValidations(element.val());
             }));
         }
+        else
+        {
+            allowValidation = true;
+        }
 
         // Make sure we dispose all our 
         element.on('$destroy', function () {
@@ -109,6 +113,19 @@
             scope[validation.messageArray][validationFor] = validationMessages;
             scope.$digest();
         });
+
+        if (!attrs.hasOwnProperty('valRealtime')) {
+            element.on('focus', function () {
+                suppress = true;
+            });
+        }
+        else {
+            element.on('focus', function () {
+                suppress = false;
+                scope[validation.messageArray][validationFor] = validationMessages;
+                scope.$digest();
+            });
+        }
     };
 
     return {
