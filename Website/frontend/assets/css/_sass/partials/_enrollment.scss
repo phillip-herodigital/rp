@@ -383,15 +383,33 @@
 				margin-left: 20px;
 			}
 		}
-		.details {
-			th {
-				border-right: 0;
+		tbody {
+			tr.details {
+				display: none;
+				td {
+					border: 1px solid #eaeaea;
+					text-align: left;
+					padding-left: 30px;
+					p {
+						font-size: 15px;
+					}
+					&:first-child {
+						border: 1px solid #eaeaea;
+					}
+				}
 			}
-			td {
-				border-left: 0;
-				text-align: left;
-				p {
-					font-size: 15px;
+			&.open {
+				td.plan-name {
+					border-bottom: 1px solid #fff;
+				}
+				tr.details {
+					display: table-row;
+					td {
+						border-top: 0;
+						&:first-child {
+							border-top: 1px solid #fff;
+						}
+					}
 				}
 			}
 		}
@@ -452,170 +470,196 @@
 	}
 
 .cart {
-		hr {
-			margin: 10px 0;
-			border: 0;
-			border-top: 3px solid #eee;
-		}
-		article {
-			background: #fafafa;
-			color: #333;
-			border: 1px solid #ebebeb;
-			padding: 14px;
-			margin-bottom: 15px;
-			@include border-radius(4px);
-			@include box-shadow(none);
-			header {
-				background: none;
-				@include border-radius(0);
-				padding: 0;
-				h1 {
-					margin: 15px 10px;
-				}
-			}
-			h1 {
-				font-size: 20px;
-				text-transform: none;
-				margin: 15px 10px;
-			}
-			p {
-				font-size: 16px;
-				margin: 0 8px 15px 8px;
-			}
-			ul.info {
-				border-top: 1px solid #e2e2e3;
-				padding: 0;
-				margin: 0 8px 15px 5px;
-				li {
-					border-bottom: 1px solid #e2e2e3;
-					list-style-type: none;
-					padding: 10px 0 10px 30px;
-					font-size: 13px;
-					position: relative;
-					i {
-						position: absolute;
-						top: 12px;
-						left: 0;
-					}
-				}
-			}
-			.center {
-				text-align: center;
-			}
-			.cart-item {
-				@extend .clearfix;
-				margin-bottom: 10px;
-				&:last-child {
-					margin-bottom: 0;
-				}
-			}
-			.delete {
-				cursor: pointer;
-				float: right;
-				width: 5%;
-				margin-top: 5px;
-			}
-			.rate {
-				float: left;
-				width: 29%;
-				font-size: 18px;
-				line-height: 14px;
-				font-weight: bold;
-				text-align: center;
-				span {
-					display: block;
-					font-weight: normal;
-					font-style: italic;
-					font-size: 12px;
-					line-height: 12px;
-				}
-			}
-			.description {
-				float: left;
-				width: 60%;
-				h2 {
-					line-height: 16px;
-					margin: 0;
-					color: #333;
-					font-size: 16px;
-					font-weight: bold;
-					text-transform: none;
-				}
-				a {
-					font-size: 13px;
-				}
-			}
-			.avatar {
-				text-align: center;
-				margin-bottom: 10px;
-			}
-			address {
-				font-style: normal;
-				font-size: 12px;
-				margin-top: 20px;
-				h3 {
-					font-size: 12px;
-					color: #333;
-					margin: 0;
-				}
-			}
-			article {
-				background: #fdfdfd;
-				margin-bottom: 8px;
-				p {
-					font-size: 13px;
-					margin: 10px 0;
-					&.alt {
-						color: #9a9a9a;
-						font-size: 15px;
-					}
-				}
-				&.time {
-					position: relative;
-					padding-left: 55px;
-					.icon-clock {
-						position: absolute;
-						top: 22px;
-						left: 10px;
-					}
-				}
-			}
-
-		}
-		@include breakpoint(small) {
-			display: none;
+	background: #fafafa;
+	color: #333;
+	border: 1px solid #ebebeb;
+	padding: 14px;
+	margin-bottom: 15px;
+	@include border-radius(4px);
+	@include box-shadow(none);
+	
+	header {
+		background: none;
+		@include border-radius(0);
+		padding: 0;
+		
+		h1 {
+			margin: 15px 10px;
 		}
 	}
-	.cart-overlay {
-		position: fixed;
-		top: 0;
-		left: 0;
-		bottom: 0;
-		right: 0;
-		background: rgba(255,255,255, 0.7);
-		z-index: 10000;
-		overflow: scroll;
-		display: none;
-		.cart {
-			float: none;
-			width: auto;
-			margin: 20px;
-			.rate {
+	
+	hr {
+		margin: 10px 0;
+		border: 0;
+		border-top: 3px solid #eee;
+	}
+	
+	h1 {
+		font-size: 20px;
+		text-transform: none;
+		margin: 15px 10px;
+	}
+	p {
+		font-size: 16px;
+		margin: 0 8px 15px 8px;
+	}
+
+	ul.info {
+		border-top: 1px solid #e2e2e3;
+		padding: 0;
+		margin: 0 8px 15px 5px;
+		li {
+			border-bottom: 1px solid #e2e2e3;
+			list-style-type: none;
+			padding: 10px 0 10px 30px;
+			font-size: 13px;
+			position: relative;
+			i {
 				position: absolute;
-				float: none;
-				right: 60px;
-			}
-			@include breakpoint(medium) {
-				display: block;
-			}
-			@include breakpoint(small) {
-				display: block;
+				top: 12px;
+				left: 0;
 			}
 		}
-		&.open {
+	}
+	
+	.center {
+		text-align: center;
+	}
+	
+	.cart-item {
+		@extend .clearfix;
+		margin-bottom: 10px;
+		
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+	
+	.delete {
+		cursor: pointer;
+		float: right;
+		width: 5%;
+		margin-top: 5px;
+	}
+	
+	.rate {
+		float: left;
+		width: 29%;
+		font-size: 18px;
+		line-height: 14px;
+		font-weight: bold;
+		text-align: center;
+		
+		span {
+			display: block;
+			font-weight: normal;
+			font-style: italic;
+			font-size: 12px;
+			line-height: 12px;
+		}
+	}
+	
+	.description {
+		float: left;
+		width: 60%;
+		h2 {
+			line-height: 16px;
+			margin: 0;
+			color: #333;
+			font-size: 16px;
+			font-weight: bold;
+			text-transform: none;
+		}
+		
+		a {
+			font-size: 13px;
+		}
+	}
+
+	.avatar {
+		text-align: center;
+		margin-bottom: 10px;
+	}
+	
+	address {
+		font-style: normal;
+		font-size: 12px;
+		margin-top: 20px;
+		h3 {
+			font-size: 12px;
+			color: #333;
+			margin: 0;
+		}
+	}
+
+	.box {
+		@include border-radius(4px);
+		@include box-shadow(none);
+		background: #fdfdfd;
+		margin-bottom: 8px;
+		padding: 14px;
+		border: 1px solid #ebebeb;
+		p {
+			font-size: 13px;
+			margin: 10px 0;
+			
+			&.alt {
+				color: #9a9a9a;
+				font-size: 15px;
+			}
+		}
+		
+		&.time {
+			position: relative;
+			padding-left: 55px;
+			
+			.icon-clock {
+				position: absolute;
+				top: 22px;
+				left: 10px;
+			}
+		}
+	}
+
+	@include breakpoint(small) {
+		display: none;
+	}
+}
+
+.cart-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background: rgba(255,255,255, 0.7);
+	z-index: 10000;
+	overflow: scroll;
+	display: none;
+	.cart {
+		float: none;
+		width: auto;
+		margin: 20px;
+		
+		.rate {
+			position: absolute;
+			float: none;
+			right: 60px;
+		}
+		
+		@include breakpoint(medium) {
+			display: block;
+		}
+		
+		@include breakpoint(small) {
 			display: block;
 		}
 	}
+	
+	&.open {
+		display: block;
+	}
+}
 
 .promo-box {
 	background: #fafafa;
