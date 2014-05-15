@@ -53,7 +53,7 @@ ngApp.provider('validation', [function () {
         validate.$inject = inject;
         validators[validatorName] = validate;        
     };
-}]).config(['validationProvider', '$injector', function (validationProvider, $injector)
+}]).config(['validationProvider', function (validationProvider)
 {
 
     function getModelPrefix(fieldName) {
@@ -202,12 +202,16 @@ ngApp.provider('validation', [function () {
                                    url: options.parameters.url,
                                    data: data,
                                    cache: true, // we may want this off... but it should save repeated calls to our back-end
-                                   timeout: timeout.promise
+                                   timeout: timeout.promise,
+                                   responseType: "json"
         }).success(function (response, status)
         {
-            if (response !== true && response !== "true")
+            console.log(response);
+            if (response !== true && response !== "true") {
                 options.ngModel.$setValidity('remote', false);
+                options.ngModel.validationMessages.push(options.injected.$sce.trustAsHtml(response || options.attributes['valRemote']));
+            }
         });
         return true;
-    }, ['validation', '$http', '$q']);
+    }, ['validation', '$http', '$q', '$sce']);
 }]);

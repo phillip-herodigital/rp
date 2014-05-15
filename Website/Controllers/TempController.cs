@@ -51,6 +51,7 @@ namespace StreamEnergy.MyStream.Controllers
             public string MaxLength { get; set; }
 
             // WARNING - this doesn't work server-side
+            // Also, it doesn't work angular-side
             [System.ComponentModel.DataAnnotations.FileExtensions(Extensions = "cs,txt")]
             public HttpPostedFileBase PostedFile { get; set; }
 
@@ -67,7 +68,7 @@ namespace StreamEnergy.MyStream.Controllers
             [System.ComponentModel.DataAnnotations.Compare("Range")]
             public double Match { get; set; }
 
-            [StreamEnergyRemote("/Api/Enrollment/ServiceInformation", "Enrollment", "ServiceInformation", AdditionalFields = "FileName", HttpMethod = "POST")]
+            [StreamEnergyRemote("/Api/Validation/IsValid", "Validation", "IsValid", AdditionalFields = "FileName", HttpMethod = "POST")]
             public string Data { get; set; }
 
             [System.Web.Security.MembershipPassword(
@@ -96,4 +97,17 @@ namespace StreamEnergy.MyStream.Controllers
             return View(form);
         }
 	}
+
+    public class ValidationController : System.Web.Http.ApiController
+    {
+        [System.Web.Http.HttpPost]
+        public string IsValid([System.Web.Http.FromBody] TempController.SampleModel sampleModel)
+        {
+            if (sampleModel.Data == sampleModel.FileName)
+                return "true";
+            if (string.IsNullOrEmpty(sampleModel.FileName))
+                return "";
+            return "That doesn't seem right.";
+        }
+    }
 }
