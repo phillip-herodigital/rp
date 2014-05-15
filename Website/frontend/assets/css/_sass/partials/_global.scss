@@ -80,6 +80,11 @@ dl {
 		display: none;
 	}
 }
+@include breakpoint(medium-large) {
+	.hide-medium-large {
+		display: none;
+	}
+}
 @include breakpoint(large) {
 	.hide-large {
 		display: none;

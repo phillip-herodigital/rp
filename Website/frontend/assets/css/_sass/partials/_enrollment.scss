@@ -418,6 +418,16 @@
 			}
 		}
 	}
+
+	.time-remaining-mobile {
+		text-align: center;
+		.time-remaining {
+			text-transform: uppercase;
+			font-size: 14px;
+			width: 75%;
+			margin: 0 auto;
+		}
+	}
 	
 	@each $theme in $themes {
 		.accent-#{map-get($theme, name)} {
