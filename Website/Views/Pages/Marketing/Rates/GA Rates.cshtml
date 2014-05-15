@@ -1,0 +1,71 @@
+﻿@{
+    var plansParent = Html.Sitecore().LookupItem("Rates Parent");
+    var plans = from folder in Html.Sitecore().LookupItem("Rates parent").Children
+                select folder.Children.OrderBy(c => c.Fields["Effective Date"]).First();
+
+    var headerRow = new List<dynamic>()
+    {
+        Html.Sitecore().Field("Plan Title Text"),
+    };
+    var rows = new List<List<dynamic>>()
+    {
+        new List<dynamic>()
+        {
+            Html.Sitecore().Field("Current Price per Therm Text"),
+        },
+        new List<dynamic>()
+        {
+            Html.Sitecore().Field("Therm Range per Billing Cycle Text"),
+        },
+        new List<dynamic>()
+        {
+            Html.Sitecore().Field("Monthly Service Charge Text"),
+        },
+        new List<dynamic>()
+        {
+            Html.Sitecore().Field("Terms Text"),
+        },
+        new List<dynamic>()
+        {
+            Html.Sitecore().Field("Early Termination Fee Text"),
+        },
+    };
+    foreach(Sitecore.Data.Items.Item plan in plans)
+    {
+        headerRow.Add(Html.Sitecore().Field("Plan Title", plan));
+        rows[0].Add(Html.AsMoney("Current Price per Therm", plan));
+        rows[1].Add(Html.Sitecore().Field("Therm Range per Billing Cycle", plan));
+        rows[2].Add(Html.AsMoney("Monthly Service Charge", plan));
+        rows[3].Add(Html.Sitecore().Field("Terms", plan));
+        rows[4].Add(Html.AsMoney("Early Termination Fee", plan));
+    }
+}
+<article class="marketing wrapper press">
+    <h1>@Html.Sitecore().Field("Header")</h1>
+
+    @Html.Sitecore().Field("Page Intro")
+
+    <table>
+        <thead>
+            <tr>
+                @foreach(var cell in headerRow)
+                {
+                    <th>@cell</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (dynamic row in rows)
+            {
+                <tr>
+                    @foreach (var cell in row)
+                    {
+                        <td>@cell</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @Html.Sitecore().Field("Page Outro")
+</article>

@@ -59,7 +59,7 @@ namespace StreamEnergy.Extensions
             item = item ?? htmlHelper.Sitecore().CurrentItem;
 
             decimal value;
-            if (!Sitecore.Context.PageMode.IsPageEditorEditing && decimal.TryParse(item.Fields[fieldName].Value, out value))
+            if (item.Fields[fieldName] != null && !Sitecore.Context.PageMode.IsPageEditorEditing && decimal.TryParse(item.Fields[fieldName].Value, out value))
             {
                 return htmlHelper.Raw(value.ToString("C" + decimalPlaces));
             }
