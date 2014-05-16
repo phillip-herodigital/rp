@@ -408,7 +408,7 @@
     <Compile Include="Controllers\EnrollmentController.cs" />
     <Compile Include="Controllers\TempController.cs" />
 	<Compile Include="Controllers\MarketingController.cs" />
-	<Compile Include="layouts\HTML Layout.aspx.cs">
+    <Compile Include="layouts\HTML Layout.aspx.cs">
       <DependentUpon>HTML Layout.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -429,6 +429,7 @@
     <Compile Include="Models\Marketing\Contact.cs" />
     <Compile Include="Models\TranslatedValidationResult.cs" />
     <Compile Include="Pipelines\InitializeWebApi.cs" />
+    <Compile Include="Models\Marketing\HomeLifeServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -473,7 +474,7 @@
     <Content Include="frontend\assets\i\favicon.png" />
     <Content Include="frontend\assets\i\icon-sa6d2193bbe.png" />
     <Content Include="frontend\assets\i\icon2x-se011512aa6.png" />
-	<Content Include="frontend\assets\i\icon2x\bbb.png" />
+    <Content Include="frontend\assets\i\icon2x\bbb.png" />
 	<Content Include="frontend\assets\i\icon2x\blue-rectangle.png" />
     <Content Include="frontend\assets\i\icon2x\clean-energy.png" />
     <Content Include="frontend\assets\i\icon2x\close.png" />
