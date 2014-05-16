@@ -640,7 +640,11 @@
 		float: none;
 		width: auto;
 		margin: 20px;
-		
+		i {
+			float: right;
+			cursor: pointer;
+			margin-right: 10px;
+		}
 		.rate {
 			position: absolute;
 			float: none;
@@ -653,11 +657,16 @@
 		
 		@include breakpoint(small) {
 			display: block;
+
 		}
 	}
 	
 	&.open {
 		display: block;
+
+		@include breakpoint(medium-large) { 
+			display: none;
+		}
 	}
 }
 
