@@ -101,22 +101,22 @@ namespace StreamEnergy.Extensions
 
             var allMetaData = new[] 
             { 
-                new { prefix = basePrefix, innerPrefix = basePrefix, metadata = ModelMetadata.FromLambdaExpression(model, html.ViewData) } 
+                new { propertyChain, metadata = ModelMetadata.FromLambdaExpression(model, html.ViewData) } 
             }.Flatten(m => from property in m.metadata.Properties
                            let propertyInfo = m.metadata.ModelType.GetProperty(property.PropertyName)
                            // Keeps us from delving into properties like String.Length
                            where propertyInfo.DeclaringType.Namespace.StartsWith("StreamEnergy")
-                           let newPrefix = StreamEnergy.CompositeValidationAttribute.GetPrefix(new[] { propertyInfo })
-                           select new { prefix = m.innerPrefix, innerPrefix = m.innerPrefix + newPrefix, metadata = property }, false);
+                           select new { propertyChain = m.propertyChain.Concat(new[] { propertyInfo }), metadata = property }, false);
 
             var clientRules = (from entry in allMetaData
                                from validator in ModelValidatorProviders.Providers.GetValidators(entry.metadata, html.ViewContext)
                                from rule in validator.GetClientValidationRules()
-                               let name = (entry.prefix + rule.ErrorMessage)
-                               select new { name, rule = TranslateRule(html, rule, name, translateFrom, false).ErrorMessage }).ToArray();
+                               let name = (StreamEnergy.CompositeValidationAttribute.GetPrefix(entry.propertyChain) + rule.ErrorMessage)
+                               let path = StreamEnergy.CompositeValidationAttribute.GetPathedName(entry.propertyChain)
+                               select new { name, path, rule = TranslateRule(html, rule, name, translateFrom, false).ErrorMessage }).ToArray();
 
             return html.Raw(string.Join("<br/>", from rule in clientRules
-                                                 select rule.name + " &mdash; " + rule.rule));
+                                                 select rule.name + " (" + rule.path + ") &mdash; " + rule.rule));
         }
 
         public static IHtmlString AsMoney(this HtmlHelper htmlHelper, string fieldName, Item item = null, int decimalPlaces = 2)
