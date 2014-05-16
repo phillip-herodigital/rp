@@ -20,7 +20,7 @@ namespace StreamEnergy.Services.Clients
             this.dpiLinkService = dpiLinkService;
         }
 
-        IEnumerable<DomainModels.Accounts.Invoice> IAccountService.GetInvoices(string username)
+        IEnumerable<Invoice> IAccountService.GetInvoices(string username)
         {
             var response = service.GetInvoices(new Sample.Commons.GetInvoicesRequest { Username = username });
 

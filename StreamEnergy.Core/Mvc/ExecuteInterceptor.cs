@@ -1,6 +1,7 @@
 ﻿using Castle.DynamicProxy;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -10,6 +11,7 @@ namespace StreamEnergy.Mvc
 {
     class ExecuteInterceptor : IInterceptor
     {
+        [DebuggerNonUserCode]
         void IInterceptor.Intercept(IInvocation invocation)
         {
             var arg = ((RequestContext)invocation.Arguments[0]);

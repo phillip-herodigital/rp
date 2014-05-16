@@ -19,8 +19,10 @@ namespace StreamEnergy.Services.Clients
 
         protected override IEnumerable<Type> GetParentTypes(Type instanceType)
         {
-            return instanceType.GetInterfaces().Where(t => t.Assembly == instanceType.Assembly).Except(new[]
+            return instanceType.GetInterfaces().Except(new[]
             {
+                typeof(Unity.IContainerSetupStrategy),
+                typeof(IInterceptor),
                 typeof(IServiceMockResolver)
             });
         }

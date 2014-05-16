@@ -28,14 +28,11 @@ namespace StreamEnergy
             var validations = new List<ValidationResult>();
             foreach (var property in from v in properties
                                      let property = (v.RemoveLambdaBody().RemoveCast() as MemberExpression)
-                                     let propertyChain = UnrollPropertyChain(property)
+                                     let propertyChain = CompositeValidationAttribute.UnrollPropertyChain(property)
                                      select new
                                      {
-                                         messagePrefix = string.Join("", (from p in propertyChain
-                                                                          where p != property.Member
-                                                                          from a in p.GetCustomAttributes().OfType<CompositeValidationAttribute>()
-                                                                          select a.ErrorMessagePrefix)),
-                                         name = string.Join(".", propertyChain.Select(mi => mi.Name)),
+                                         messagePrefix = CompositeValidationAttribute.GetPrefix(propertyChain),
+                                         name = CompositeValidationAttribute.GetPathedName(propertyChain),
                                          value = TryGetValue(v.CachedCompile<Func<T, object>>(), target),
                                          attrs = property.Member.GetCustomAttributes(true).OfType<ValidationAttribute>()
                                      })
@@ -61,15 +58,5 @@ namespace StreamEnergy
             }
         }
 
-        private IEnumerable<MemberInfo> UnrollPropertyChain(MemberExpression expression)
-        {
-            var members = new Stack<MemberInfo>();
-            while (expression != null)
-            {
-                members.Push(expression.Member);
-                expression = expression.Expression as MemberExpression;
-            }
-            return members.ToArray();
-        }
     }
 }
