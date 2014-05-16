@@ -1,22 +1,24 @@
 ﻿@{
     System.Web.HtmlString pageHeader = null;
-    IEnumerable<Sitecore.Data.Items.Item> itemsToShow = Html.Sitecore().CurrentItem.Children;
-    var categories = new Dictionary<Sitecore.Data.Items.Item, List<Sitecore.Data.Items.Item>>();
-    foreach (Sitecore.Data.Items.Item item in Html.Sitecore().CurrentItem.Children)
+    IEnumerable<Sitecore.Data.Items.Item> itemsToShow = Html.Sitecore().CurrentItem.Children.OrderByDescending(i => ((Sitecore.Data.Fields.DateField)i.Fields["Date"]).DateTime);
+    IEnumerable<KeyValuePair<Sitecore.Data.Items.Item, List<Sitecore.Data.Items.Item>>> categories = null;
+    var cats = new List<KeyValuePair<Sitecore.Data.Items.Item, List<Sitecore.Data.Items.Item>>>();
+    foreach (Sitecore.Data.Items.Item item in itemsToShow)
     {
         var categoriesField = (Sitecore.Data.Fields.MultilistField)item.Fields["Categories"];
         
         foreach(var cat in categoriesField.GetItems())
         {
-            if (!categories.Any(c => c.Key.ID == cat.ID))
+            if (!cats.Any(c => c.Key.ID == cat.ID))
             {
-                categories.Add(cat, new List<Sitecore.Data.Items.Item>());
+                cats.Add(new KeyValuePair<Sitecore.Data.Items.Item,List<Sitecore.Data.Items.Item>>(cat, new List<Sitecore.Data.Items.Item>()));
             }
-            categories.First(c => c.Key.ID == cat.ID).Value.Add(item);
+            cats.First(c => c.Key.ID == cat.ID).Value.Add(item);
         }
     }
-    
-    var archives = from item in Html.Sitecore().CurrentItem.Children
+    categories = cats.OrderBy(c => c.Key.Name);
+
+    var archives = from item in itemsToShow
                    group item by Html.Sitecore().Field("Date", item, new { format= "MMMM yyyy" });
 
     if (categories.Any(c => c.Key.Name == Request.Params["category"]))
