@@ -277,6 +277,22 @@ article.loginHorizontal {
 	}
 }
 
+.ie8 article.loginHorizontal {
+	padding-top: 8px;
+	.item {
+		display: inline-block;
+		input[type=text], input[type=password] {
+			margin: 0 8px;
+			width: 200px;
+			height:30px;
+		}
+		button {
+			width: 130px;
+			height:30px;
+		}
+	}
+}
+
 article.gridPromos {
 	div.col {
 		text-align: center;
