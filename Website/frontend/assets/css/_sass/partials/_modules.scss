@@ -579,6 +579,9 @@ article.auth-sign-in {
 			margin-right: 5px;
 		}
 	}
+}
+article.auth-sign-in, 
+article.auth-forgot-password {
 	.single-link {
 		font-size: 14px;
 	}
@@ -591,7 +594,6 @@ article.auth-sign-in {
 }
 
 /*ALL MODULES BELOW THIS ARE SIDEBAR MODULES*/
-
 aside {
 	article.promo { 
 		@extend article.plain;
