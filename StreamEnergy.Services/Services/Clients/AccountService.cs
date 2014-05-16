@@ -69,8 +69,8 @@ namespace StreamEnergy.Services.Clients
                 },
                 BillingAddress = new DomainModels.Address()
                 {
-                    AddressLine1 = contactInfo.Street,
-                    AddressLine2 = contactInfo.Street2,
+                    Line1 = contactInfo.Street,
+                    Line2 = contactInfo.Street2,
                     City = contactInfo.City,
                     StateAbbreviation = contactInfo.State,
                     PostalCode5 = contactInfo.Zip,
@@ -108,8 +108,8 @@ namespace StreamEnergy.Services.Clients
                 EmailAddress = account.emailAddress,
                 BillingAddress = new DomainModels.Address()
                 {
-                    AddressLine1 = account.billingAddress.street,
-                    AddressLine2 = account.billingAddress.street2,
+                    Line1 = account.billingAddress.street,
+                    Line2 = account.billingAddress.street2,
                     City = account.billingAddress.city,
                     PostalCode5 = account.billingAddress.zipcode,
                     StateAbbreviation = account.billingAddress.state,
@@ -147,8 +147,8 @@ namespace StreamEnergy.Services.Clients
                 EmailAddress = account.emailAddress,
                 BillingAddress = new DomainModels.Address()
                 {
-                    AddressLine1 = account.billingAddress.street,
-                    AddressLine2 = account.billingAddress.street2,
+                    Line1 = account.billingAddress.street,
+                    Line2 = account.billingAddress.street2,
                     City = account.billingAddress.city,
                     PostalCode5 = account.billingAddress.zipcode,
                     StateAbbreviation = account.billingAddress.state,

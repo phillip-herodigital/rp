@@ -8,8 +8,8 @@
         <input type="hidden" name="customerNumber" value="@(Model.CustomerAccount != null ? Model.CustomerAccount.CisAccountNumber : "")" />
         <input type="hidden" name="firstName" value="@(Model.CustomerAccount != null ? Model.CustomerAccount.Name.First : "")" />
         <input type="hidden" name="lastName" value="@(Model.CustomerAccount != null ? Model.CustomerAccount.Name.Last : "")" />
-        <input type="hidden" name="address1" value="@(Model.CustomerAccount != null && Model.CustomerAccount.BillingAddress != null ? Model.CustomerAccount.BillingAddress.AddressLine1 : "")" />
-        <input type="hidden" name="address2" value="@(Model.CustomerAccount != null && Model.CustomerAccount.BillingAddress != null ? Model.CustomerAccount.BillingAddress.AddressLine2 : "")" />
+        <input type="hidden" name="address1" value="@(Model.CustomerAccount != null && Model.CustomerAccount.BillingAddress != null ? Model.CustomerAccount.BillingAddress.Line1 : "")" />
+        <input type="hidden" name="address2" value="@(Model.CustomerAccount != null && Model.CustomerAccount.BillingAddress != null ? Model.CustomerAccount.BillingAddress.Line2 : "")" />
         <input type="hidden" name="city" value="@(Model.CustomerAccount != null && Model.CustomerAccount.BillingAddress != null ? Model.CustomerAccount.BillingAddress.City : "")" />
         <input type="hidden" name="state" value="@(Model.CustomerAccount != null && Model.CustomerAccount.BillingAddress != null ? Model.CustomerAccount.BillingAddress.StateAbbreviation : "")" />
         <input type="hidden" name="zipCode" value="@(Model.CustomerAccount != null && Model.CustomerAccount.BillingAddress != null ? Model.CustomerAccount.BillingAddress.PostalCode5 : "")" />

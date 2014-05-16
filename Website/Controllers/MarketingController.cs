@@ -11,8 +11,8 @@ namespace StreamEnergy.MyStream.Controllers
 {
     public class MarketingController : Controller
     {
-        private Services.Clients.IAccountService accountService;
-        public MarketingController(Services.Clients.IAccountService accountService)
+        private StreamEnergy.DomainModels.Accounts.IAccountService accountService;
+        public MarketingController(StreamEnergy.DomainModels.Accounts.IAccountService accountService)
         {
             this.accountService = accountService;
         }
