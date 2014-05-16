@@ -6,40 +6,51 @@
         <div class="inner">
             <h2>@Html.Sitecore().Field("Form Title")</h2>
             @Html.Sitecore().Field("Form Intro Text")
-            <form>
+            <form action="/services/enroll/commercial" method="post">
                 <div class="item">
-                    <input type="text" id="first-name" placeholder="@Html.Sitecore().Field("First Name Placeholder Text")">
+                    <input type="text" id="firstName" name="firstName" required placeholder="@Html.Sitecore().Field("First Name Placeholder Text")">
                 </div>
                 <div class="item">
-                    <input type="text" id="last-name" placeholder="@Html.Sitecore().Field("Last Name Placeholder Text")">
+                    <input type="text" id="lastName" name="lastName" required placeholder="@Html.Sitecore().Field("Last Name Placeholder Text")">
                 </div>
                 <div class="item">
-                    <input type="text" id="company-name" placeholder="@Html.Sitecore().Field("Company Name Placeholder Text")">
+                    <input type="text" id="companyName" name="companyName" required placeholder="@Html.Sitecore().Field("Company Name Placeholder Text")">
                 </div>
                 <div class="item">
-                    <input type="text" id="phone-number" placeholder="@Html.Sitecore().Field("Phone Number Placeholder Text")">
+                    <input type="text" id="phone" name="phone" required placeholder="@Html.Sitecore().Field("Phone Number Placeholder Text")">
                 </div>
                 <div class="item">
-                    <input type="text" id="Email" placeholder="@Html.Sitecore().Field("Email Placeholder Text")">
+                    <input type="text" id="email" name="email" required placeholder="@Html.Sitecore().Field("Email Placeholder Text")">
                 </div>
                 <div class="item">
-                    <input type="text" id="service-address" placeholder="@Html.Sitecore().Field("Service Address Placeholder Text")">
+                    <input type="text" id="address" name="address" required placeholder="@Html.Sitecore().Field("Service Address Placeholder Text")">
                 </div>
                 <div class="item">
-                    <input type="text" id="city" placeholder="@Html.Sitecore().Field("City Placeholder Text")">
+                    <input type="text" id="city" name="city" required placeholder="@Html.Sitecore().Field("City Placeholder Text")">
                 </div>
                 <div class="item">
-                    <select>
+                    <select id="state" name="state" required>
                         @Html.Sitecore().Field("State Options")
                     </select>
                 </div>
                 <div class="item">
-                    <input type="text" id="zip-code" placeholder="@Html.Sitecore().Field("Zip Code Placeholder Text")">
+                    <input type="text" id="zipCode" name="zipCode" required placeholder="@Html.Sitecore().Field("Zip Code Placeholder Text")">
                 </div>
                 <div class="item">
-                    <button><a href="#">@Html.Sitecore().Field("Send Button Text")</a></button>
+                    <button type="submit">@Html.Sitecore().Field("Send Button Text")</button>
                 </div>
             </form>
         </div>
     </div>
 </article>
+@if (Model != null && Model.ShowSuccessMessage)
+{
+    <article class="marketing commercial-quote">
+        <div class="success-message" id="success-message">
+            <div class="wrapper">
+                <h2>@Html.Sitecore().Field("Thank You Text")</h2>
+                <h4>@Html.Sitecore().Field("Success Message Text")</h4>
+            </div>
+        </div>
+    </article>
+}

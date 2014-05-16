@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="urn:webservice" xmlns:streamEnergy="http://www.streamenergy.net/Schema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns="http://schemas.xmlsoap.org/wsdl/" name="StreamEnergyCisAccountServicesWebService" targetNamespace="urn:webservice" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.streamenergy.net/Schema">
+      <xsd:complexType name="HelloWorldResponse">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="message" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="EchoTextRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="text" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="EchoTextResponse">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="text" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="GetCisAccountsByUtilityAccountNumberRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="utilityAccountNumber" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="customerPin" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="cisOfRecord" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="GetCisAccountsByUtilityAccountNumberResponse">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="customerAccount" type="streamEnergy:CustomerAccount" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="GetCisAccountsByCisAccountNumberRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="cisAccountNumber" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="customerPin" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="cisOfRecord" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="GetCisAccountsByCisAccountNumberResponse">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="customerAccount" type="streamEnergy:CustomerAccount" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="LinkCisAccountToCamelotAccountRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="cisAccountNumber" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="cisOfRecord" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="camelotAccountNumber" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="igniteAssociateNumber" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="LinkCisAccountToCamelotAccountResponse">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="customerAccount" type="streamEnergy:CustomerAccount" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="CustomerAccount">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="cisAccountNumber" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="cisOfRecord" type="streamEnergy:cisDesignationsType" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="camelotAccountNumber" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="commodity" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="firstName" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="lastName" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="primaryPhone" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="emailAddress" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="billingAddress" type="streamEnergy:Address" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="Address">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="street" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="street2" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="city" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="state" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="zipcode" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="cisDesignationsType">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="ARSENAL_TX" />
+          <xsd:enumeration value="PEACEKEEPER_GA" />
+          <xsd:enumeration value="ISTANET_NE" />
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="HelloWorldRequest" />
+  <wsdl:message name="HelloWorldResponse">
+    <wsdl:part name="HelloWorldResponse" type="streamEnergy:HelloWorldResponse" />
+  </wsdl:message>
+  <wsdl:message name="EchoTextRequest">
+    <wsdl:part name="EchoTextRequest" type="streamEnergy:EchoTextRequest" />
+  </wsdl:message>
+  <wsdl:message name="EchoTextResponse">
+    <wsdl:part name="EchoTextResponse" type="streamEnergy:EchoTextResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCisAccountsByUtilityAccountNumberRequest">
+    <wsdl:part name="GetCisAccountsByUtilityAccountNumberRequest" type="streamEnergy:GetCisAccountsByUtilityAccountNumberRequest" />
+  </wsdl:message>
+  <wsdl:message name="GetCisAccountsByUtilityAccountNumberResponse">
+    <wsdl:part name="GetCisAccountsByUtilityAccountNumberResponse" type="streamEnergy:GetCisAccountsByUtilityAccountNumberResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCisAccountsByCisAccountNumberRequest">
+    <wsdl:part name="GetCisAccountsByCisAccountNumberRequest" type="streamEnergy:GetCisAccountsByCisAccountNumberRequest" />
+  </wsdl:message>
+  <wsdl:message name="GetCisAccountsByCisAccountNumberResponse">
+    <wsdl:part name="GetCisAccountsByCisAccountNumberResponse" type="streamEnergy:GetCisAccountsByCisAccountNumberResponse" />
+  </wsdl:message>
+  <wsdl:message name="LinkCisAccountToCamelotAccountRequest">
+    <wsdl:part name="LinkCisAccountToCamelotAccountRequest" type="streamEnergy:LinkCisAccountToCamelotAccountRequest" />
+  </wsdl:message>
+  <wsdl:message name="LinkCisAccountToCamelotAccountResponse">
+    <wsdl:part name="LinkCisAccountToCamelotAccountResponse" type="streamEnergy:LinkCisAccountToCamelotAccountResponse" />
+  </wsdl:message>
+  <wsdl:portType name="CisAccountServicesPortType">
+    <wsdl:operation name="helloWorld">
+      <wsdl:input message="tns:HelloWorldRequest" />
+      <wsdl:output message="tns:HelloWorldResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="echoText">
+      <wsdl:input message="tns:EchoTextRequest" />
+      <wsdl:output message="tns:EchoTextResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getCisAccountsByUtilityAccountNumber">
+      <wsdl:input message="tns:GetCisAccountsByUtilityAccountNumberRequest" />
+      <wsdl:output message="tns:GetCisAccountsByUtilityAccountNumberResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getCisAccountsByCisAccountNumber">
+      <wsdl:input message="tns:GetCisAccountsByCisAccountNumberRequest" />
+      <wsdl:output message="tns:GetCisAccountsByCisAccountNumberResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="linkCisAccountToCamelotAccount">
+      <wsdl:input message="tns:LinkCisAccountToCamelotAccountRequest" />
+      <wsdl:output message="tns:LinkCisAccountToCamelotAccountResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CisAccountServicesBinding" type="tns:CisAccountServicesPortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc" />
+    <wsdl:operation name="helloWorld">
+      <soap:operation soapAction="urn:helloWorldAction" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="urn:xmethods" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="urn:xmethods" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="echoText">
+      <soap:operation soapAction="urn:echoTextAction" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="urn:xmethods" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="urn:xmethods" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCisAccountsByUtilityAccountNumber">
+      <soap:operation soapAction="urn:getCisAccountsByUtilityAccountNumber" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="urn:xmethods" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="urn:xmethods" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCisAccountsByCisAccountNumber">
+      <soap:operation soapAction="urn:getCisAccountsByCisAccountNumber" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="urn:xmethods" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="urn:xmethods" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="linkCisAccountToCamelotAccount">
+      <soap:operation soapAction="urn:linkCisAccountToCamelotAccount" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="urn:xmethods" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="urn:xmethods" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CisAccountServicesWebService">
+    <documentation>WSDL for the services that are called to get Account information from any/all CISes</documentation>
+    <wsdl:port name="CisAccountServicesPort" binding="tns:CisAccountServicesBinding">
+      <soap:address location="http://sgecom.stge.datx.streamenergy.net/CisAccountServices/WebServices/SoapServer.php" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
