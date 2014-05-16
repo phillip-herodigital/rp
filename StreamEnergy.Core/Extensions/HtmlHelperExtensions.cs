@@ -64,7 +64,7 @@ namespace StreamEnergy.Extensions
 
             var metadata = ModelMetadata.FromLambdaExpression(model, html.ViewData);
 
-            var clientRules = StreamEnergy.CompositeValidationAttribute.FilterClientRules(propertyChain, ModelValidatorProviders.Providers.GetValidators(metadata, html.ViewContext).SelectMany(v => v.GetClientValidationRules())).ToArray();
+            var clientRules = ModelValidatorProviders.Providers.GetValidators(metadata, html.ViewContext).SelectMany(v => v.GetClientValidationRules()).ToArray();
             foreach (var rule in clientRules)
             {
                 rule.ErrorMessage = html.Encode((prefix + rule.ErrorMessage).RenderFieldFrom(translateFrom ?? (Item)html.ViewBag.ValidationMessagesItem ?? html.Sitecore().CurrentItem, true));

@@ -23,7 +23,6 @@
         <p @Html.ValidationErrorClass(model => model.ContactInfo.Email.Address) data-ng-if="provideEmail">
             <input type="text" @Html.ValidationAttributes(m => m.ContactInfo.Email.Address) data-val-if="provideEmail" data-val-realtime ng-model="email" />
             @Html.ValidationMessageFor(model => model.ContactInfo.Email.Address)
-            {{email}}
         </p>
 
         <p @Html.ValidationErrorClass(model => model.ContactInfo.PrimaryPhone.Number)>
