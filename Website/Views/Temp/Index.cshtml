@@ -17,6 +17,9 @@
 <div ng-controller="mainController">
     <form name="myForm" action="/mjd" method="post">
         @Html.ValidationSummary()
+
+        @Html.AllValidationMessagesFor(model => model)
+
         <p>
             <label for="provideEmail">Provide Email?</label> <input type="checkbox" id="provideEmail" ng-model="provideEmail" />
         </p>
