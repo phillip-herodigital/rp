@@ -6,8 +6,8 @@
 		position: relative;
 		overflow: initial;
 		@include breakpoint(small) {
-					overflow: visible;
-				}
+			overflow: visible;
+		}
 	}
 	.logo {
 		@include image-replace("logo-horizontal.png");
