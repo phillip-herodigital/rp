@@ -580,6 +580,21 @@ article.auth-sign-in {
 		}
 	}
 }
+article.auth-forgot-password {
+	.label { 
+		@extend label;
+	}
+	dd {
+		text-align: left;
+	}
+	@include breakpoint(small) {
+		dl {
+			dt, dd {
+				float: none;
+			}
+		}
+	}	
+}
 article.auth-sign-in, 
 article.auth-forgot-password {
 	.single-link {
