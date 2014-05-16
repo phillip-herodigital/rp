@@ -407,7 +407,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EnrollmentController.cs" />
     <Compile Include="Controllers\TempController.cs" />
-	<Compile Include="Controllers\MarketingController.cs" />
+    <Compile Include="Controllers\MarketingController.cs" />
     <Compile Include="layouts\HTML Layout.aspx.cs">
       <DependentUpon>HTML Layout.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -475,7 +475,7 @@
     <Content Include="frontend\assets\i\icon-sa6d2193bbe.png" />
     <Content Include="frontend\assets\i\icon2x-se011512aa6.png" />
     <Content Include="frontend\assets\i\icon2x\bbb.png" />
-	<Content Include="frontend\assets\i\icon2x\blue-rectangle.png" />
+    <Content Include="frontend\assets\i\icon2x\blue-rectangle.png" />
     <Content Include="frontend\assets\i\icon2x\clean-energy.png" />
     <Content Include="frontend\assets\i\icon2x\close.png" />
     <Content Include="frontend\assets\i\icon2x\compare-usage.png" />
@@ -502,7 +502,7 @@
     <Content Include="frontend\assets\i\icon2x\utility.png" />
     <Content Include="frontend\assets\i\icon2x\youtube.png" />
     <Content Include="frontend\assets\i\icon\bbb.png" />
-	<Content Include="frontend\assets\i\icon\blue-rectangle.png" />
+    <Content Include="frontend\assets\i\icon\blue-rectangle.png" />
     <Content Include="frontend\assets\i\icon\close.png" />
     <Content Include="frontend\assets\i\icon\collapse.png" />
     <Content Include="frontend\assets\i\icon\compare-usage.png" />
@@ -1005,6 +1005,7 @@
     <Content Include="Views\Pages\Enrollment\Complete Order.cshtml" />
     <Content Include="Views\Pages\Marketing\Blog\Blog Landing.cshtml" />
     <Content Include="Views\Pages\Marketing\Blog\Blog Post.cshtml" />
+    <None Include="Properties\PublishProfiles\Package.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1016,6 +1017,10 @@
     <Folder Include="Scripts\" />
     <Folder Include="Views\Shared\" />
   </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\StreamEnergy.Core\StreamEnergy.Core.csproj">
       <Project>{79779d13-7d5e-4190-ba72-5302244c8165}</Project>
