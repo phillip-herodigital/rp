@@ -1,22 +1,133 @@
 ﻿/// <reference path="../libs/angular/angular.js" />
 
 ngApp.provider('validation', [function () {
-    var validators = {};
+    var validationTypes = {};
 
-    this.$get = ['$injector', function ($injector) {
-        var svc = {
-            getValidator: function (validatorName) {
-                if (!validators[validatorName].injected && validators[validatorName].$inject) {
-                    validators[validatorName].injected = [];
-                    angular.forEach(validators[validatorName].$inject, function (name) {
-                        validators[validatorName].injected[name] = $injector.get(name);
-                    });
+    this.$get = ['$injector', '$sce', function ($injector, $sce) {
+        function startsWith(string, start) { return string.slice(0, start.length) == start; };
+        function camelCase(string) { return string.charAt(0).toLowerCase() + string.slice(1); };
+
+        function getValidationType(validatorName) {
+            return validationTypes[validatorName];
+        };
+
+        // Aggregate our attributes for validation parameters. 
+        // For example, valRegexPattern is a parameter of valRegex called "pattern".
+        function buildValidatorsFromAttributes(attrs) {
+            var keys = Object.keys(attrs).sort();
+            var result = {};
+            angular.forEach(keys, function(key) {
+                if (key == 'val' || key == 'valIf' || key == 'valRealtime' || !startsWith(key, 'val'))
+                    return;
+                var handled = false;
+                var keyName = camelCase(key.substr(3));
+                angular.forEach(result, function (validator, validatorName) {
+                    if (startsWith(keyName, validatorName)) {
+                        validator.parameters[camelCase(keyName.substr(validatorName.length))] = attrs[key];
+                        handled = true;
+                        return;
+                    }
+                });
+                if (handled)
+                    return;
+
+                var validate = getValidationType(keyName);
+                if (validate) {
+                    result[keyName] = {
+                        name: keyName,
+                        validate: validate.validate,
+                        message: $sce.trustAsHtml(attrs[key]),
+                        parameters: [],
+                        injected: {}
+                    };
+                    if (validate.inject) {
+                        angular.forEach(validate.inject, function (name) {
+                            result[keyName].injected[name] = $injector.get(name);
+                        });
+                    }
                 }
-                return validators[validatorName];
-            },
+                else {
+                    console.log('WARNING: Unhandled validation attribute: ' + keyName);
+                }
+            });
+            return result;
+        };
+
+        var svc = {
             ensureValidation: function (scope) {
                 scope.validation = scope.validation || { cancelSuppress: false, messages: {}, data: {} };
                 return scope.validation;
+            },
+            buildValidation: function (scope, element, attrs, ngModelController) {
+                var validationEnabled = true;
+                var validationFor = attrs['name'];
+                ngModelController.suppressValidationMessages = true;
+                ngModelController.validationMessages = {};
+                var validators = buildValidatorsFromAttributes(attrs);
+                
+                var result = {
+                    enable: function () {
+                        validationEnabled = true;
+                        result.runValidations(svc.dataValue(scope, validationFor));
+                        result.populateMessages();
+                    },
+                    disable: function () {
+                        validationEnabled = false;
+                        ngModelController.validationMessages = {};
+                        angular.forEach(validators, function (value, key) {
+                            result.pass(key);
+                        })
+                        result.populateMessages();
+                    },
+                    populateMessages: function () {
+                        if (!ngModelController.suppressValidationMessages) {
+                            svc.messageArray(scope, validationFor, ngModelController.validationMessages);
+                        }
+                    },
+                    runValidations: function (newValue) {
+                        svc.dataValue(scope, validationFor, newValue);
+                        if (validationEnabled) {
+                            ngModelController.validationMessages = {};
+                            // Run validations for all of our client-side validation and store in a local array.
+                            angular.forEach(validators, function (value, key) {
+                                if (!value.validate(newValue, {
+                                    parameters: value.parameters,
+                                    injected: value.injected,
+                                    attributes: attrs,
+                                    scope: scope,
+                                    ngModel: ngModelController,
+                                    fail: result.fail,
+                                    pass: result.pass
+                                })) {
+                                    result.fail(key);
+                                }
+                                else {
+                                    result.pass(key);
+                                }
+                            });
+                            result.populateMessages();
+                        }
+                        return newValue;
+                    },
+                    cancelSuppress: function () {
+                        ngModelController.suppressValidationMessages = false;
+                        result.populateMessages();
+                    },
+                    enableSuppress: function () {
+                        ngModelController.suppressValidationMessages = true;
+                        // don't re-populate the messages here
+                    },
+                    fail: function (key, message) {
+                        if (validationEnabled) {
+                            ngModelController.$setValidity(key, false);
+                            ngModelController.validationMessages[key] = message ? $sce.trustAsHtml(message) : (validators[key].message);
+                        }
+                    },
+                    pass: function (key) {
+                        ngModelController.$setValidity(key, true);
+                    }
+                };
+                return result;
             },
             messageArray: function (scope, dotNetName, setter) {
                 if (dotNetName) {
@@ -50,11 +161,9 @@ ngApp.provider('validation', [function () {
     }];
 
     this.addValidator = function (validatorName, validate, inject) {
-        validate.$inject = inject;
-        validators[validatorName] = validate;        
+        validationTypes[validatorName] = { validate: validate, inject: inject };
     };
-}]).config(['validationProvider', function (validationProvider)
-{
+}]).config(['validationProvider', function (validationProvider) {
 
     function getModelPrefix(fieldName) {
         return fieldName.substr(0, fieldName.lastIndexOf(".") + 1);
@@ -148,17 +257,17 @@ ngApp.provider('validation', [function () {
     validationProvider.addValidator("length", function (val, options) {
         if (!val)
             return true;
-        return val.length >= options.parameters.min &&  val.length <= options.parameters.max;
+        return val.length >= options.parameters.min && val.length <= options.parameters.max;
     });
     validationProvider.addValidator("range", function (val, options) {
         if (!val)
             return true;
-        
+
         var value = parseFloat(val);
         return value <= options.parameters.max && value >= options.parameters.min;
     });
     validationProvider.addValidator("password", function (val, options) {
-        function nonalphamin (value, min) {
+        function nonalphamin(value, min) {
             var match = value.match(/\W/g);
             return match && match.length >= min;
         }
@@ -180,7 +289,7 @@ ngApp.provider('validation', [function () {
         if (!val)
             return true;
         var param = typeof options.parameters.extension == "string" ? options.parameters.extension.replace(/,/g, '|') : "png|jpe?g|gif";
-		return val.match(new RegExp(".(" + param + ")$", "i"));
+        return val.match(new RegExp(".(" + param + ")$", "i"));
     });
     validationProvider.addValidator("remote", function (val, options) {
         if (options.ngModel.remoteTimeout)
@@ -198,18 +307,16 @@ ngApp.provider('validation', [function () {
         var timeout = options.injected.$q.defer();
         options.ngModel.remoteTimeout = timeout;
         options.injected.$http({
-                                   method: options.parameters.type,
-                                   url: options.parameters.url,
-                                   data: data,
-                                   cache: true, // we may want this off... but it should save repeated calls to our back-end
-                                   timeout: timeout.promise,
-                                   responseType: "json"
-        }).success(function (response, status)
-        {
-            console.log(response);
+            method: options.parameters.type,
+            url: options.parameters.url,
+            data: data,
+            cache: true, // we may want this off... but it should save repeated calls to our back-end
+            timeout: timeout.promise,
+            responseType: "json"
+        }).success(function (response, status) {
             if (response !== true && response !== "true") {
                 options.ngModel.$setValidity('remote', false);
-                options.ngModel.validationMessages.push(options.injected.$sce.trustAsHtml(response || options.attributes['valRemote']));
+                options.ngModel.validationMessages['remote'] = options.injected.$sce.trustAsHtml(response || options.attributes['valRemote']);
             }
         });
         return true;

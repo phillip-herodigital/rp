@@ -1,93 +1,23 @@
-﻿ngApp.directive('val', ['validation', '$sce', function (validation, $sce) {
-    var validationId = 0;
-
-    function startsWith(string, start) { return string.slice(0, start.length) == start; };
-    function camelCase(string) { return string.charAt(0).toLowerCase() + string.slice(1); };
-
-    // Aggregate our attributes for validation parameters. 
-    // For example, valRegexPattern is a parameter of valRegex called "pattern".
-    var buildValidatorsFromAttributes = function (attrs) {
-        var keys = Object.keys(attrs).sort();
-        var validators = {};
-        for (var index in keys) {
-            var key = keys[index];
-            if (key == 'val' || key == 'valIf' || key == 'valRealtime' || !startsWith(key, 'val'))
-                continue;
-            var handled = false;
-            var keyName = camelCase(key.substr(3));
-            for (var validator in validators) {
-                if (startsWith(keyName, validator)) {
-                    validators[validator].params[camelCase(keyName.substr(validator.length))] = attrs[key];
-                    handled = true;
-                    break;
-                }
-            }
-            if (handled)
-                continue;
-
-            var validate = validation.getValidator(keyName);
-            if (validate) {
-                validators[keyName] = {
-                    name: keyName,
-                    validate: validate,
-                    message: attrs[key],
-                    params: []
-                };
-            }
-            else {
-                console.log('WARNING: Unhandled validation attribute: ' + keyName);
-            }
-        }
-        return validators;
-    };
-
+﻿ngApp.directive('val', ['validation', function (validation) {
     // Attribute to run validation on an element
     var link = function (scope, element, attrs, ngModelController) {
-        // TODO - consider $observe-ing the attributes
         if (attrs['val'] != 'true')
             return;
 
         var validationFor = attrs['name'];
 
-        // If allowValidation is false, then don't run any validations or mark validity as false.
-        var allowValidation = false;
         // If suppress is true, don't actually display any validation messages.
-        var suppress = !validation.hasCancelledSuppress(scope);
-        var validators = buildValidatorsFromAttributes(attrs);
-        var validationMessages = [];
+        var validators = validation.buildValidation(scope, element, attrs, ngModelController);
 
-        function populateMessages() {
-            if (!suppress) {
-                console.log('not suppressed', ngModelController.validationMessages == validationMessages);
-                validation.messageArray(scope, validationFor, validationMessages);
-            }
-        }
 
-        var runValidations = function (newValue) {
-            validation.dataValue(scope, validationFor, newValue);
-            validationMessages = ngModelController.validationMessages = [];
-            // Run validations for all of our client-side validation and store in a local array.
-            for (var key in validators) {
-                if (allowValidation && !validators[key].validate(newValue, { parameters: validators[key].params, attributes: attrs, scope: scope, ngModel: ngModelController, injected: validators[key].validate.injected })) {
-                    ngModelController.$setValidity(key, false);
-                    validationMessages.push($sce.trustAsHtml(validators[key].message));
-                }
-                else {
-                    ngModelController.$setValidity(key, true);
-                }
-            }
-            populateMessages();
-            return newValue;
-        };
-
-        ngModelController.$parsers.unshift(runValidations);
-        ngModelController.$formatters.unshift(runValidations);
+        ngModelController.$parsers.unshift(validators.runValidations);
+        ngModelController.$formatters.unshift(validators.runValidations);
 
         var watches = [
             // Watch to see if the hasCancelledSuppress is set to true and, if it is, cancel our own suppression.
             scope.$watch(validation.hasCancelledSuppress, function (newValue) {
-                suppress = suppress && !newValue;
-                populateMessages();
+                if (newValue)
+                    validators.cancelSuppress();
             })
         ];
 
@@ -95,13 +25,15 @@
         {
             // watch our "valIf" expression and, if it becomse falsy, turn off all of our validations.
             watches.push(scope.$watch(attrs['valIf'], function (newValue, oldValue) {
-                allowValidation = !!newValue;
-                runValidations(element.val());
+                if (newValue)
+                    validators.enable();
+                else
+                    validators.disable();
             }));
         }
         else
         {
-            allowValidation = true;
+            validators.enable();
         }
 
         // Make sure we dispose all our 
@@ -114,20 +46,18 @@
 
         // Cancel suppression of error messages for this element on blur
         element.on('blur', function () {
-            suppress = false;
-            populateMessages();
+            validators.cancelSuppress();
             scope.$digest();
         });
 
         if (!attrs.hasOwnProperty('valRealtime')) {
             element.on('focus', function () {
-                suppress = true;
+                validators.enableSuppress();
             });
         }
         else {
             element.on('focus', function () {
-                suppress = false;
-                populateMessages();
+                validators.cancelSuppress();
                 scope.$digest();
             });
         }

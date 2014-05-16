@@ -14,7 +14,9 @@
                 var obj = newValue;
                 for (key in obj) {
                     if (obj.hasOwnProperty(key)) {
-                        merged = merged.concat(obj[key]);
+                        angular.forEach(obj[key], function (value) {
+                            merged.push(value);
+                        });
                     }
                 }
                 scope.validationSummary = merged;
