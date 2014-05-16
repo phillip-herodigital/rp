@@ -2693,6 +2693,16 @@ div.tabbable div.tab-content div.tab-pane.active {
   border: none;
 }
 
+/* line 142, _sass/partials/_footer.scss */
+.ie8 .site-footer .super-footer {
+  padding: 30px 0 60px 0;
+}
+/* line 144, _sass/partials/_footer.scss */
+.ie8 .site-footer .super-footer .col {
+  float: left;
+  width: 33%;
+}
+
 /* This file is where the styling for modules will go. This employes the concepts of OOCSS, creating common base classes (using <article> as the base), and extending as necessary */
 /*
 

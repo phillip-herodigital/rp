@@ -137,3 +137,13 @@
 		}
 	}
 }
+
+.ie8 .site-footer {
+	.super-footer{
+		padding: 30px 0 60px 0;
+		.col {
+			float: left;
+			width: 33%;	
+		}
+	}	
+}
