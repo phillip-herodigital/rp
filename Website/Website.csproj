@@ -990,6 +990,12 @@
     <Content Include="Views\Pages\Portal\Account\Invoices\Utility Providers.cshtml" />
     <Content Include="Views\Pages\Marketing\Rates\TX Rates.cshtml" />
     <Content Include="Views\Pages\Marketing\Rates\GA Rates.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Enrollment Page.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Service Information.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Plan Selection.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Account Information.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Verify Identity.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Complete Order.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
