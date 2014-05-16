@@ -483,9 +483,7 @@
     <Content Include="frontend\assets\i\favicon.ico" />
     <Content Include="frontend\assets\i\favicon.png" />
     <Content Include="frontend\assets\i\icon-s026e7f6ecf.png" />
-    <Content Include="frontend\assets\i\icon-sa6d2193bbe.png" />
     <Content Include="frontend\assets\i\icon2x-s4fbbfafbc7.png" />
-    <Content Include="frontend\assets\i\icon2x-se011512aa6.png" />
     <Content Include="frontend\assets\i\icon2x\24months.png" />
     <Content Include="frontend\assets\i\icon2x\6months.png" />
     <Content Include="frontend\assets\i\icon2x\arrow-collapsed.png" />
