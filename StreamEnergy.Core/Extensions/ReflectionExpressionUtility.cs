@@ -12,9 +12,19 @@ namespace StreamEnergy.Extensions
     {
         private static readonly Dictionary<Tuple<Type, string>, object> compiledDelegates = new Dictionary<Tuple<Type, string>, object>();
 
+        public static PropertyInfo SimpleProperty(this Expression<Func<object>> expression)
+        {
+            return SimpleProperty((Expression)expression);
+        }
+
         public static PropertyInfo SimpleProperty(this Expression expression)
         {
             return expression.SimpleMember() as PropertyInfo;
+        }
+
+        public static MemberInfo SimpleMember(this Expression<Func<object>> expression)
+        {
+            return SimpleMember((Expression)expression);
         }
 
         public static MemberInfo SimpleMember(this Expression expression)
@@ -22,6 +32,11 @@ namespace StreamEnergy.Extensions
             var memberExpression = expression.RemoveLambdaBody().RemoveCast() as System.Linq.Expressions.MemberExpression;
             System.Diagnostics.Debug.Assert(memberExpression != null);
             return memberExpression.Member;
+        }
+
+        public static MethodInfo SimpleMethodCall(this Expression<Func<object>> expression)
+        {
+            return SimpleMethodCall((Expression)expression);
         }
 
         public static MethodInfo SimpleMethodCall(this Expression expression)

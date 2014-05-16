@@ -26,13 +26,22 @@ select {
 	@include transition(border linear .2s, box-shadow linear .2s);
 	display: inline-block;
 	width: 50%;
-	@include breakpoint(small) {
-		width: 100%;
-	}
 	padding: 6px 10px;
 	border: 1px solid #bcbcbc;
 	background-color: #fff;
 	vertical-align: middle;
+	&.small {
+		width: 100px;
+	}
+	&.full-width {
+		width: 100%;
+	}
+	@include breakpoint(small) {
+		width: 100%;
+		&.small {
+			width: 100px;
+		}
+	}
 	&:focus {
 		border-color: #66afe9;
 		@include box-shadow(0 0 8px rgba(102, 175, 233, .75));
@@ -85,6 +94,7 @@ a.button {
 	font-size: 16px;
 	font-weight: 600;
 	text-transform: uppercase;
+	white-space: nowrap;
 	&.secondary {
  		@include text-shadow(-1px 1px 1px rgba(0,0,0,.3));
  		background-color: #797b7e;
@@ -96,6 +106,55 @@ a.button {
 
 	&:disabled {
 		opacity: .5;
+	}
+	&.social {
+		display: inline-block;
+		width: 190px;
+		position: relative;
+		padding-left: 50px;
+		.icon-holder {
+			position: absolute;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			width: 40px;
+			text-align: center;
+			i {
+				position: absolute;
+				top: 15px;
+				left: 13px;
+			}
+		}
+	}
+	&.facebook {
+		background: #4a6aa9;
+		border: 1px solid #3e5c9b;
+		.icon-holder {
+			border-right: 1px solid #3e5c9b;
+			i {
+				left: 16px;
+			}
+		}
+	}
+	&.twitter {
+		background: #36a5ca;
+		border: 1px solid #2a86a6;
+		.icon-holder {
+			border-right: 1px solid #2a86a6;
+			i {
+				top: 16px;
+			}
+		}
+	}
+	&.linkedin {
+		background: #2386bb;
+		border: 1px solid #1f557e;
+		.icon-holder {
+			border-right: 1px solid #1f557e;
+		}
+	}
+	i {
+		margin: -4px 5px 0 0;
 	}
 }
 
@@ -213,6 +272,9 @@ form,
 				textarea,
 				select {
 					width: 100%;
+					&.small {
+						width: 100px;
+					}
 				}
 				&.horizontal {
 					#{$input-selectors},
@@ -310,6 +372,33 @@ form,
 		border: none;
 		border-top: 1px solid #ddd;
 		margin: 25px -15px;
+	}
+	div.text-content-divider {
+	    overflow: hidden;
+	    text-align: center;
+	    text-transform: uppercase;
+		margin: 25px -15px;
+
+		&:before,
+		&:after {
+		    background-color: #000;
+		    content: "";
+		    display: inline-block;
+		    height: 1px;
+		    position: relative;
+		    vertical-align: middle;
+		    width: 50%;
+		}
+		&:before {
+		    right: 0.5em;
+		    margin-left: -50%;
+		    background-color: #ccc;
+		}
+		&:after {
+		    left: 0.5em;
+		    margin-right: -50%;
+		    background-color: #ccc;
+		}
 	}	
 	input[type="radio"],
 	input[type="checkbox"] {

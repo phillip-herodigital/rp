@@ -20,7 +20,7 @@ namespace StreamEnergy.Pipelines
 
         private Configuration.ConfigurationSection GetConfiguration()
         {
-            var configuration = WebConfigurationManager.OpenWebConfiguration("~").GetSection("streamEnergy") as Configuration.ConfigurationSection;
+            var configuration = WebConfigurationManager.GetWebApplicationSection("streamEnergy") as Configuration.ConfigurationSection;
 
             if (configuration == null)
             {

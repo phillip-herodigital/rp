@@ -5,6 +5,9 @@
 		@extend .clearfix;
 		position: relative;
 		overflow: initial;
+		@include breakpoint(small) {
+			overflow: visible;
+		}
 	}
 	.logo {
 		@include image-replace("logo-horizontal.png");
@@ -36,6 +39,7 @@
 			width: 100%;
 			font-size: 0; /* This is to fix the spacing between inline-block elements. Font size is reset on child element */
 			text-transform: uppercase;
+			white-space: nowrap;
 			li {
 				font-size: 15px;
 				a {
@@ -96,8 +100,22 @@
 		.utility {
 			display: none;
 		}
-		.nav-toggle {
+		.nav-toggle{
 			margin-top: 22px;
+		}
+		.cart-toggle {
+			float: right;
+			margin-top: 18px;
+			@include opacity(0.40);
+			position: relative;
+			span {
+				position: absolute;
+				top: -6px;
+				left: 10px;
+				text-indent: 0;
+				color: #000;
+				font-weight: bold;
+			}
 		}
 		nav {
 			display: none;
@@ -106,6 +124,44 @@
 	@include breakpoint(medium-large) {
 		.nav-toggle {
 			display: none;
+		}
+		.cart-toggle {
+			display: none;
+		}
+	}
+
+	&.fixed {
+		@include breakpoint(medium-large) {
+			background: #fff;
+			height: 121px;
+			> .wrapper {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				background-color: #fff;
+				@include retina-background("header-enrollment.png");
+				background-repeat: repeat-x;
+				z-index: 2;
+				height: 121px;
+				@include breakpoint(small) {
+					background: #fff;
+				}
+			}
+			.logo {
+				@include image-replace("logo.png", false);
+				position: absolute;
+				left: 50%;
+				top: 11px;
+				margin-top: 0;
+				margin-left: image-width("logo.png") / 2 * -1;
+				@include breakpoint(small) {
+					margin-left: (image-width("logo.png") / 2) / 2 * -1;
+				}
+			}
+			.nav-toggle {
+				margin-top: 22px;
+			}
 		}
 	}
 }
