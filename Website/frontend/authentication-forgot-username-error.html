@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<!--[if IE 8]>         <html ng-app="ngApp" class="no-js ie8 lt-ie10 lt-ie9"> <![endif]-->
+<!--[if IE 9]>         <html ng-app="ngApp" class="no-js ie9 lt-ie10"> <![endif]-->
+<!--[if gt IE 8]><!--> <html ng-app="ngApp" class="no-js"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8" />
+
+	<title>Title</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<link rel="shortcut icon" type="image/ico" href="assets/i/favicon.ico" />
+	<link href="assets/css/global.css" rel="stylesheet" />
+
+    <script src="assets/js/libs/modernizr/modernizr.js"></script>
+    <script src="assets/js/libs/jquery/dist/jquery.min.js"></script>
+    <script src="assets/js/libs/angular/angular.min.js"></script>
+    <script src="assets/js/libs/angular-animate/angular-animate.js"></script>
+    <script src="assets/js/libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script src="assets/js/libs/angular-ui-utils/ui-utils.min.js"></script>
+    <script src="assets/js/libs/respond/dest/respond.min.js"></script>
+
+	<script src="assets/js/app.js"></script>
+
+    <script src="assets/js/modules/mask-jquery.js"></script>
+
+    <script src="assets/js/filters/filters.js"></script>
+
+    <script src="assets/js/services/breakpoint.js"></script>
+
+    <script src="assets/js/directives/float-labels.js"></script>
+	<script src="assets/js/directives/main-nav.js"></script>
+	<script src="assets/js/directives/mobile-nav.js"></script>
+
+	<script src="assets/js/controllers/main.js"></script>
+
+	<script type="text/javascript" src="//use.typekit.net/hag0zvs.js"></script>
+	<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
+</head>
+<body ng-controller="MainCtrl">
+	<div class="page-wrapper" ng-class="{open:sidebarOpen}">
+		<nav mobile-nav="0">
+			<ul>
+				<li ng-class="{ opened: subnav == 0 }">
+					<span>
+						<span class="arrow" ng-click="toggleSubnav(0)"><i ng-class="{'icon-nav-arrow-expanded': subnav == 0, 'icon-nav-arrow-collapsed': subnav != 0}"></i></span>
+						<a href="#">Rates, Products, &amp; Services</a>
+					</span>
+					<ul ng-hide="subnav != 0">
+						<li><a href="">Enroll</a></li>
+						<li class="selected"><a href="">Renew</a></li>
+						<li><a href="">Free Energy</a></li>
+						<li><a href="">For Business</a></li>
+						<li><a href="">Electricity</a></li>
+						<li><a href="">Gas</a></li>
+						<li><a href="">HomeLife Services</a></li>
+						<li><a href="">Clean Energy</a></li>
+					</ul>
+				</li>
+				<li ng-class="{ opened: subnav == 1 }">
+					<span>
+						<span class="arrow" ng-click="toggleSubnav(1)"><i ng-class="{'icon-nav-arrow-expanded': subnav == 1, 'icon-nav-arrow-collapsed': subnav != 1}"></i></span>
+						<a href="#">Opportunity</a>
+					</span>
+					<ul ng-hide="subnav != 1">
+						<li><a href="">Why Stream Energy?</a></li>
+						<li><a href="">Why Energy?</a></li>
+						<li><a href="">How It Works</a></li>
+						<li><a href="">Compensation Plan</a></li>
+						<li><a href="">Start a Business</a></li>
+						<li><a href="">Top Leaders</a></li>
+					</ul>
+				</li>
+				<li ng-class="{ opened: subnav == 2 }">
+					<span>
+						<span class="arrow" ng-click="toggleSubnav(2)"><i ng-class="{'icon-nav-arrow-expanded': subnav == 2, 'icon-nav-arrow-collapsed': subnav != 2}"></i></span>
+						<a href="#">Company</a>
+					</span>
+					<ul ng-hide="subnav != 2">
+						<li><a href="">About</a></li>
+						<li><a href="">Corporate Team</a></li>
+						<li><a href="">Blog</a></li>
+						<li><a href="">Press</a></li>
+						<li><a href="">Philanthropy</a></li>
+						<li><a href="">Careers</a></li>
+						<li><a href="" target="_blank">Events</a></li>
+					</ul>
+				</li>
+				<li ng-class="{ opened: subnav == 3 }">
+					<span>
+						<span class="arrow" ng-click="toggleSubnav(3)"><i ng-class="{'icon-nav-arrow-expanded': subnav == 3, 'icon-nav-arrow-collapsed': subnav != 3}"></i></span>
+						<a href="#">Contact Us</a>
+					</span>
+					<ul ng-hide="subnav != 3">
+						<li><a href="">Customer FAQs</a></li>
+					</ul>
+				</li>
+				<li>
+					<span>
+						<a href="#">Pay My Bill</a>
+					</span>
+				</li>
+			</ul>
+		</nav>
+		<div class="page-content">
+			<header class="site-header" main-nav="0">
+				<div class="wrapper">
+					<a href="/" class="logo">Logo</a>
+					<p class="utility"><a href="#">Manage My Account</a></p>
+					<a href="" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
+					<nav class="main-nav">
+						<ul class="wrapper">
+							<li ng-mouseover="showSubnav(0)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav == 0 }"><a href="#"><span class="hide-medium">Rates, Products, &amp; </span>Services</a></li>
+							<li ng-mouseover="showSubnav(1)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav == 1 }"><a href="#">Opportunity</a></li>
+							<li ng-mouseover="showSubnav(2)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav == 2 }"><a href="#">Company</a></li>
+							<li ng-mouseover="showSubnav(3)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav == 3 }"><a href="#">Contact Us</a></li>
+							<li><a href="#">Pay My Bill</a></li>
+						</ul>
+					</nav>
+				</div>
+				<nav class="sub-nav">
+					<ul class="wrapper" ng-hide="subnav != 0" ng-mouseover="showSubnav(0)" ng-mouseout="hideSubnav()">
+						<li><a href="">Enroll</a></li>
+						<li><a href="">Renew</a></li>
+						<li><a href="">Free Energy</a></li>
+						<li><a href="">For Business</a></li>
+						<li><a href="">Electricity</a></li>
+						<li><a href="">Gas</a></li>
+						<li><a href="">HomeLife Services</a></li>
+						<li><a href="">Clean Energy</a></li>
+					</ul>
+					<ul class="wrapper" ng-hide="subnav != 1" ng-mouseover="showSubnav(1)" ng-mouseout="hideSubnav()">
+						<li><a href="">Why Stream Energy?</a></li>
+						<li><a href="">Why Energy?</a></li>
+						<li><a href="">How It Works</a></li>
+						<li><a href="">Compensation Plan</a></li>
+						<li><a href="">Start a Business</a></li>
+						<li><a href="">Top Leaders</a></li>
+					</ul>
+					<ul class="wrapper" ng-hide="subnav != 2" ng-mouseover="showSubnav(2)" ng-mouseout="hideSubnav()">
+						<li><a href="">About</a></li>
+						<li><a href="">Corporate Team</a></li>
+						<li><a href="">Blog</a></li>
+						<li><a href="">Press</a></li>
+						<li><a href="">Philanthropy</a></li>
+						<li><a href="">Careers</a></li>
+						<li><a href="" target="_blank">Events</a></li>
+					</ul>
+					<ul class="wrapper" ng-hide="subnav != 3" ng-mouseover="showSubnav(3)" ng-mouseout="hideSubnav()">
+						<li><a href="">Customer FAQs</a></li>
+					</ul>
+				</nav>
+			</header>
+
+			<div class="banner marketing" style="background-image: url(assets/i/marketing/header-home-01.jpg)"></div>
+
+
+
+
+
+			<section class="layout cols-2 wrapper">
+				<section>
+					<article class="grey-box form">
+						<header>
+							<h2>Recover Username</h2>
+						</header>
+						<div class="content">
+							<p>There was an error recovering your username. Please call us at 1-XXX-XXX-XXXX.</p>
+						</div>
+						<footer>
+							<div class="buttons">
+								<a href="#" class="button">Return to Login</a>
+							</div>
+						</footer>
+					</article>
+				</section>
+			</section>
+
+
+
+
+
+			<footer class="site-footer">
+				<div class="super-footer">
+					<div class="wrapper">
+						<div class="grid three">
+							<div class="col">
+								<ul>
+									<li><a href="#"><img src="assets/i/img-footer-get-free-energy.png" alt="Get Free Energy" width="159" height="44" /></a></li>
+									<li><a href="#"><img src="assets/i/img-footer-renew-my-contract.png" alt="Renew My Contract" width="120" height="45" /></a></li>
+								</ul>
+							</div>
+							<div class="col quick-links">
+								<h2><i class="icon-quicklinks"></i> Quick Links</h2>
+								<ul>
+									<li><a href="#">Account Overview</a></li>
+									<li><a href="#">Utility Services</a></li>
+									<li><a href="#">Homelife Services</a></li>
+									<li><a href="#">My Profile</a></li>
+								</ul>
+							</div>
+							<div class="col social">
+								<h2><i class="icon-social"></i> Social</h2>
+								<ul>
+									<li><a href="#"><i class="icon-facebook"></i> Facebook</a></li>
+									<li><a href="#"><i class="icon-twitter"></i> Twitter</a></li>
+									<li><a href="#"><i class="icon-youtube"></i> YouTube</a></li>
+									<li><a href="#"><i class="icon-pinterest"></i> Pinterest</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="wrapper copyright">
+					<p>&copy; 2005-2013 SGE IP Holdco, LLC. All rights reserved. Licensed in TX, GA, PA, MD, NJ, NY, &amp; DC<br />
+					(TX #10104, GA #GM-38, NJ #ESL-0109 &amp; GSL-0120, PA #A-2010-2181867 &amp; A-2012-2308991, MD #IR-2072 &amp; IR-2742, NY #STRM, DC EA11-11)</p>
+					<ul>
+						<li><a href="#"><i class="icon-bbb"></i></a></li>
+						<li><a href="#"><i class="icon-dsa"></i></a></li>
+					</ul>
+				</div>
+			</footer>
+		</div>
+	</div>
+
+</body>
+</html>
