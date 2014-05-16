@@ -15,7 +15,7 @@ namespace StreamEnergy.DomainModels.Accounts
         public Phone Primary { get; set; }
         public Phone Work { get; set; }
         public Phone Cell { get; set; }
-        public string EmailAddress { get; set; }
+        public Email Email { get; set; }
         public Address BillingAddress { get; set; }
     }
 }

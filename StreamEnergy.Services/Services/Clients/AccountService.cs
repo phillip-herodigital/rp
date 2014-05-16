@@ -75,6 +75,10 @@ namespace StreamEnergy.Services.Clients
                     StateAbbreviation = contactInfo.State,
                     PostalCode5 = contactInfo.Zip,
                 },
+                Email = new DomainModels.Email()
+                {
+                    Address = contactInfo.Email,
+                },
             };
         }
 
@@ -105,7 +109,10 @@ namespace StreamEnergy.Services.Clients
                 {
                     Number = account.primaryPhone,
                 },
-                EmailAddress = account.emailAddress,
+                Email = new DomainModels.Email()
+                {
+                    Address = account.emailAddress
+                },
                 BillingAddress = new DomainModels.Address()
                 {
                     Line1 = account.billingAddress.street,
@@ -144,7 +151,10 @@ namespace StreamEnergy.Services.Clients
                 {
                     Number = account.primaryPhone,
                 },
-                EmailAddress = account.emailAddress,
+                Email = new DomainModels.Email()
+                {
+                    Address = account.emailAddress,
+                },
                 BillingAddress = new DomainModels.Address()
                 {
                     Line1 = account.billingAddress.street,
