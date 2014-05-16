@@ -67,6 +67,8 @@ namespace StreamEnergy.MyStream.Tests
         [TestMethod]
         public void PostServiceInformationTest()
         {
+            // Arrange
+   
             // TODO - remove this mock and replace with a service-level mock
             Mock<IEnrollmentService> service = new Mock<IEnrollmentService>();
             container.Unity.RegisterInstance(service.Object);
@@ -81,12 +83,17 @@ namespace StreamEnergy.MyStream.Tests
                 };
                 service.Setup(svc => svc.LoadOffers(request.ServiceAddress, request.ServiceCapabilities, request.IsNewService)).Returns(Enumerable.Empty<IOffer>());
 
+                // Act
                 var result = controller.ServiceInformation(request);
+
+                // Assert
                 Assert.IsTrue(result.UserContext.IsNewService);
                 Assert.AreEqual("SelectedOffers", result.Validations.Single().MemberName);
                 Assert.AreEqual("75010", result.UserContext.ServiceAddress.PostalCode5);
                 Assert.AreEqual(DomainModels.TexasServiceCapability.capabilityType, result.UserContext.ServiceCapabilities.First().CapabilityType);
                 Assert.AreEqual("Centerpoint", (result.UserContext.ServiceCapabilities.First() as DomainModels.TexasServiceCapability).Tdu);
+
+                // TODO - assert offers that we get back
             }
             var session = container.Resolve<EnrollmentController.SessionHelper>();
 
