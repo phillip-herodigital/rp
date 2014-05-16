@@ -579,16 +579,14 @@ article.auth-sign-in {
 			margin-right: 5px;
 		}
 	}
-	input + a {
-		display: inline-block;
-		margin-top: 10px;
+	.single-link {
 		font-size: 14px;
 	}
 	@include breakpoint(medium-large) {
-		input + a {
-			margin-top: 0;
-			margin-left: 5px;
-		}	
+		.single-link {
+			display: inline-block;
+			margin-top: 30px;
+		}
 	}
 }
 
