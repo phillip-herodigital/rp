@@ -20,12 +20,17 @@ ngApp.controller('MainCtrl', ['$scope', '$rootScope', '$http', function ($scope,
 
 	// Scope properties
 	$scope.sidebarOpen = false;
+	$scope.cartOpen = false;
 
 	//$scope.navLinks = buildNavLinks();
 
 	// Public Methods
 	$scope.toggleSidebar = function() {
 		$scope.sidebarOpen = !$scope.sidebarOpen;
+	};
+
+	$scope.toggleCart = function() {
+		$scope.cartOpen = !$scope.cartOpen;
 	};
 
 }]);

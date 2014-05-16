@@ -13,9 +13,9 @@ namespace StreamEnergy.MyStream.Controllers
     public class AccountController : ApiController, IRequiresSessionState
     {
         private readonly Services.Clients.ITemperatureService temperatureService;
-        private readonly Services.Clients.IAccountService accountService;
+        private readonly DomainModels.Accounts.IAccountService accountService;
 
-        public AccountController(HttpSessionStateBase session, Services.Clients.IAccountService accountService, Services.Clients.ITemperatureService temperatureService)
+        public AccountController(HttpSessionStateBase session, DomainModels.Accounts.IAccountService accountService, Services.Clients.ITemperatureService temperatureService)
         {
             this.temperatureService = temperatureService;
             this.accountService = accountService;
@@ -37,7 +37,8 @@ namespace StreamEnergy.MyStream.Controllers
         {
             return new Table<Invoice>
                 {
-                    ColumnList = schema ? typeof(Invoice).BuildTableSchema() : null,
+                    // TODO - provide translation sitecore item
+                    ColumnList = schema ? typeof(Invoice).BuildTableSchema(null) : null,
                     Values = from invoice in accountService.GetInvoices(User.Identity.Name)
                              select new Invoice
                              {

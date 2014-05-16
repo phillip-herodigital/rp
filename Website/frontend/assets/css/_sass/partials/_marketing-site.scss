@@ -7,6 +7,7 @@ $themes:
 	(name: "darkblue", primaryColor: #073464, accentColor: #fff, textColor: #fff),
 	(name: "green", primaryColor: #78bb2f, accentColor: #fff, textColor: #fff),
 	(name: "palegreen", primaryColor: #8ba072, accentColor: #fff, textColor: #fff),
+	(name: "darkgreen", primaryColor: #5f9c37, accentColor: #fff, textColor: #fff),
 	(name: "orange", primaryColor: #fda32b, accentColor: #fff, textColor: #fff),
 	(name: "red", primaryColor: #aa2130, accentColor: #fff, textColor: #fff),
 	(name: "palered", primaryColor: #b48789, accentColor: #fff, textColor: #fff),
@@ -547,25 +548,31 @@ article.state-tabs {
 }
 
 article.service-states {
-	.wrapper {
-		text-align: center;
-	}
-
-	button,
-	a.button {
-		background-color: #78bb2f;
-		color: #fff;
-		&.secondary {
-			background-color: #fff;
-			color: #1773cb;
+	.tab-header {
+		margin-bottom: 20px;
+		.wrapper {
+			text-align: center;
+		}
+		button,
+		a.button {
+			background-color: #78bb2f;
+			color: #fff;
+			&.secondary {
+				background-color: #fff;
+				color: #1773cb;
+				&:hover {
+					background-color: #6b6b6b;
+					color: #fff;
+				}
+			}
 			&:hover {
 				background-color: #6b6b6b;
-				color: #fff;
 			}
 		}
-		&:hover {
-			background-color: #6b6b6b;
-		}
+	}
+
+	h2.wrapper {
+		text-align: center;
 	}
 }
 
@@ -736,6 +743,13 @@ article.pay {
 		}
 		&:last-child {
 			border-bottom: none;
+		}
+	}
+	.pay-list {
+		padding: 0;
+		li {
+			list-style-type: none;
+			padding: 0;
 		}
 	}
 	.box {
@@ -939,6 +953,21 @@ article.contact {
 					color: #000;
 				}
 			}
+		}
+	}
+	div.success-message {
+		margin: 20px 0;
+		background-color: #e8e8e8;
+		border-bottom: 3px solid #fda32b;
+		h2 {
+			text-align: center;
+		}
+		h4 {
+			text-align:center;
+			text-transform: none;
+			font-size: 38px;
+			font-weight: 300;
+			line-height: 1.1;
 		}
 	}
 	div.faq {
@@ -1521,6 +1550,25 @@ article.commercial-quote {
 			select {
 				width: 100%;
 			}
+		}
+	}
+	.wrapper {
+		padding: 40px 0 30px 0;
+	}
+	.success-message {
+		margin: 20px 0;
+		background-color: #e8e8e8;
+		border-bottom: 3px solid #fda32b;
+		h2 {
+			font-size: 30px;
+			text-align: center;
+		}
+		h4 {
+			text-align:center;
+			text-transform: none;
+			font-size: 38px;
+			font-weight: 300;
+			line-height: 1.1;
 		}
 	}
 }

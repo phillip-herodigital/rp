@@ -12,7 +12,7 @@ using System.Xml;
 
 namespace StreamEnergy.Services.Clients
 {
-    public class ServiceMockInterceptor : IInterceptor
+    class ServiceMockInterceptor : IInterceptor
     {
         private readonly ServiceMockResolver serviceMockResolver;
 
