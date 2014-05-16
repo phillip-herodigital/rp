@@ -14,8 +14,8 @@ namespace StreamEnergy.Services.Clients
         bool IEmailService.SendEmail(MailMessage message)
         {
             // Create network credentials to access your SendGrid account.
-            var username = Sitecore.Configuration.Settings.GetSetting("SendGrid.username", null);;
-            var pswd = Sitecore.Configuration.Settings.GetSetting("SendGrid.password", null);;
+            var username = Sitecore.Configuration.Settings.GetSetting("SendGrid.username", null);
+            var pswd = Sitecore.Configuration.Settings.GetSetting("SendGrid.password", null);
 
             var credentials = new NetworkCredential(username, pswd);
 
