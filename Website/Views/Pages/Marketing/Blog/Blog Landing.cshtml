@@ -1,0 +1,85 @@
+﻿@{
+    System.Web.HtmlString pageHeader = null;
+    IEnumerable<Sitecore.Data.Items.Item> itemsToShow = Html.Sitecore().CurrentItem.Children.OrderByDescending(i => ((Sitecore.Data.Fields.DateField)i.Fields["Date"]).DateTime);
+    IEnumerable<KeyValuePair<Sitecore.Data.Items.Item, List<Sitecore.Data.Items.Item>>> categories = null;
+    var cats = new List<KeyValuePair<Sitecore.Data.Items.Item, List<Sitecore.Data.Items.Item>>>();
+    foreach (Sitecore.Data.Items.Item item in itemsToShow)
+    {
+        var categoriesField = (Sitecore.Data.Fields.MultilistField)item.Fields["Categories"];
+        
+        foreach(var cat in categoriesField.GetItems())
+        {
+            if (!cats.Any(c => c.Key.ID == cat.ID))
+            {
+                cats.Add(new KeyValuePair<Sitecore.Data.Items.Item,List<Sitecore.Data.Items.Item>>(cat, new List<Sitecore.Data.Items.Item>()));
+            }
+            cats.First(c => c.Key.ID == cat.ID).Value.Add(item);
+        }
+    }
+    categories = cats.OrderBy(c => c.Key.Name);
+
+    var archives = from item in itemsToShow
+                   group item by Html.Sitecore().Field("Date", item, new { format= "MMMM yyyy" });
+
+    if (categories.Any(c => c.Key.Name == Request.Params["category"]))
+    {
+        var cat = categories.FirstOrDefault(c => c.Key.Name == Request.Params["category"]);
+        itemsToShow = cat.Value;
+        pageHeader = Html.Sitecore().Field("Category Title", cat.Key);
+    }
+
+    if (archives.Any(c => Html.Sitecore().Field("Date", c.First(), new { format = "MMMM yyyy" }).ToString() == Request.Params["archive"]))
+    {
+        itemsToShow = archives.FirstOrDefault(c => Html.Sitecore().Field("Date", c.First(), new { format = "MMMM yyyy" }).ToString() == Request.Params["archive"]);
+        pageHeader = pageHeader = Html.Sitecore().Field("Date", itemsToShow.First(), new { format = "MMMM yyyy" });
+    }
+}
+<section class="layout cols-2 wrapper">
+    <section class="layout cols-1">
+        <article class="marketing blog">
+            @if (pageHeader != null)
+            {
+                <h1>@pageHeader</h1>
+            }
+            <hr />
+            @{
+                foreach (Sitecore.Data.Items.Item item in itemsToShow)
+                {
+                    <div class="post">
+                        <h2><a href="@Sitecore.Links.LinkManager.GetItemUrl(item)">@Html.Sitecore().Field("Title", item)</a></h2>
+                        <p class="date">@Html.Sitecore().Field("Posted On Text", item): @Html.Sitecore().Field("Date", item, new { format= "MMMM d, yyyy" }) | @Html.Sitecore().Field("By Text", item): @Html.Sitecore().Field("Author", item)</p>
+                        @{
+                    if (!string.IsNullOrEmpty(@Html.Sitecore().Field("Excerpt", item).ToHtmlString()))
+                    {
+                        @Html.Sitecore().Field("Excerpt", item)
+                    }
+                    else
+                    {
+                        @Html.Raw(Html.Sitecore().Field("Content", item).ToHtmlString().Substring(0, 200) + "&hellip;")
+                    }
+                        }
+                        <p><a href="@Sitecore.Links.LinkManager.GetItemUrl(item)" class="button">@Html.Sitecore().Field("Read Full Post Text", item)</a></p>
+                    </div>
+                }
+            }
+        </article>
+    </section>
+    <aside>
+        <article class="marketing blog-list">
+            <button>@Html.Sitecore().Field("Categories Text")</button>
+            <ul>
+                @foreach (var category in categories)
+                {
+                    <li><a href="?category=@category.Key.Name">@Html.Sitecore().Field("Category Title", category.Key) (@category.Value.Count)</a></li>
+                }
+            </ul>
+            <button>@Html.Sitecore().Field("Archives Text")</button>
+            <ul>
+                @foreach (var i in archives)
+                {
+                    <li><a href="?archive=@Html.Sitecore().Field("Date", i.First(), new { format= "MMMM yyyy" })">@Html.Sitecore().Field("Date", i.First(), new { format = "MMMM yyyy" })</a></li>
+                }
+            </ul>
+        </article>
+    </aside>
+</section>
