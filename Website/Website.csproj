@@ -406,6 +406,8 @@
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EnrollmentController.cs" />
+    <Compile Include="Controllers\TempController.cs" />
+	<Compile Include="Controllers\MarketingController.cs" />
     <Compile Include="layouts\HTML Layout.aspx.cs">
       <DependentUpon>HTML Layout.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -424,8 +426,10 @@
     <Compile Include="Models\Angular\GridTable\DeviceType.cs" />
     <Compile Include="Models\Enrollment\ClientData.cs" />
     <Compile Include="Models\Enrollment\ServiceInformation.cs" />
+    <Compile Include="Models\Marketing\Contact.cs" />
     <Compile Include="Models\TranslatedValidationResult.cs" />
     <Compile Include="Pipelines\InitializeWebApi.cs" />
+    <Compile Include="Models\Marketing\HomeLifeServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -468,7 +472,10 @@
     <Content Include="frontend\assets\i\bg\state-tabs.png" />
     <Content Include="frontend\assets\i\favicon.ico" />
     <Content Include="frontend\assets\i\favicon.png" />
+    <Content Include="frontend\assets\i\icon-sa6d2193bbe.png" />
+    <Content Include="frontend\assets\i\icon2x-se011512aa6.png" />
     <Content Include="frontend\assets\i\icon2x\bbb.png" />
+	<Content Include="frontend\assets\i\icon2x\blue-rectangle.png" />
     <Content Include="frontend\assets\i\icon2x\clean-energy.png" />
     <Content Include="frontend\assets\i\icon2x\close.png" />
     <Content Include="frontend\assets\i\icon2x\compare-usage.png" />
@@ -495,6 +502,7 @@
     <Content Include="frontend\assets\i\icon2x\utility.png" />
     <Content Include="frontend\assets\i\icon2x\youtube.png" />
     <Content Include="frontend\assets\i\icon\bbb.png" />
+	<Content Include="frontend\assets\i\icon\blue-rectangle.png" />
     <Content Include="frontend\assets\i\icon\close.png" />
     <Content Include="frontend\assets\i\icon\collapse.png" />
     <Content Include="frontend\assets\i\icon\compare-usage.png" />
@@ -581,6 +589,10 @@
     <Content Include="frontend\assets\js\directives\pagination.js" />
     <Content Include="frontend\assets\js\directives\state-tabs.js" />
     <Content Include="frontend\assets\js\directives\table.js" />
+    <Content Include="frontend\assets\js\directives\validation-error.js" />
+    <Content Include="frontend\assets\js\directives\validation-message.js" />
+    <Content Include="frontend\assets\js\directives\validation-summary.js" />
+    <Content Include="frontend\assets\js\directives\validation.js" />
     <Content Include="frontend\assets\js\filters\filters.js" />
     <Content Include="frontend\assets\js\libs\angular-animate\angular-animate.js" />
     <Content Include="frontend\assets\js\libs\angular-animate\angular-animate.min.js" />
@@ -845,6 +857,7 @@
     <Content Include="frontend\assets\js\libs\underscore\README.md" />
     <Content Include="frontend\assets\js\libs\underscore\underscore.js" />
     <Content Include="frontend\assets\js\modules\mask-jquery.js" />
+    <Content Include="frontend\assets\js\providers\validation.js" />
     <Content Include="frontend\assets\js\services\breakpoint.js" />
     <Content Include="frontend\bower.json" />
     <Content Include="frontend\config.rb" />
@@ -977,12 +990,21 @@
     <Content Include="Views\Pages\Marketing\Careers\Careers Detail.cshtml" />
     <Content Include="App_Config\ConnectionStrings.local.config" />
     <Content Include="Views\Pages\Marketing\Services\HomeLife Services.cshtml" />
+    <Content Include="Views\Temp\Index.cshtml" />
     <Content Include="Views\Pages\Marketing\Services\Enroll Commercial.cshtml" />
     <Content Include="Views\Pages\Marketing\Contact\Contact.cshtml" />
     <Content Include="Views\Pages\Marketing\Rates\NE Rates.cshtml" />
     <Content Include="Views\Pages\Portal\Account\Invoices\Utility Providers.cshtml" />
     <Content Include="Views\Pages\Marketing\Rates\TX Rates.cshtml" />
     <Content Include="Views\Pages\Marketing\Rates\GA Rates.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Enrollment Page.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Service Information.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Plan Selection.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Account Information.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Verify Identity.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Complete Order.cshtml" />
+    <Content Include="Views\Pages\Marketing\Blog\Blog Landing.cshtml" />
+    <Content Include="Views\Pages\Marketing\Blog\Blog Post.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

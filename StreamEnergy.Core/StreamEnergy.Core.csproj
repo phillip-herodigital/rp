@@ -128,6 +128,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CollectionCountRangeAttribute.cs" />
     <Compile Include="CompositeValidationAttribute.cs" />
     <Compile Include="CompositeValidationResult.cs" />
     <Compile Include="Configuration\ConfigurationElementCollection.cs" />
@@ -135,6 +136,7 @@
     <Compile Include="Configuration\IKeyGenerator.cs" />
     <Compile Include="Configuration\IocInitializer.cs" />
     <Compile Include="CoreContainerSetup.cs" />
+    <Compile Include="EnumerableRequiredAttribute.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="ISanitizable.cs" />
     <Compile Include="IValidationService.cs" />
@@ -167,6 +169,8 @@
     <Compile Include="Pipelines\RegisterPlatformBundles.cs" />
     <Compile Include="Extensions\StreamEnergyHelper.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="TypeIndicatorJsonConverter.cs" />
+    <Compile Include="TypeIndicatorLookup.cs" />
     <Compile Include="Unity\Container.cs" />
     <Compile Include="Unity\IContainerSetupStrategy.cs" />
     <Compile Include="Unity\InheritanceSetupStrategy.cs" />

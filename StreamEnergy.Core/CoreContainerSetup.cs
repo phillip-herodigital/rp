@@ -12,6 +12,9 @@ namespace StreamEnergy
     {
         public void SetupUnity(IUnityContainer unityContainer)
         {
+            var typeIndicatorJsonConverter = new TypeIndicatorJsonConverter();
+            unityContainer.RegisterInstance(typeIndicatorJsonConverter);
+            Json.AdditionalConverters.Add(typeIndicatorJsonConverter);
             unityContainer.RegisterInstance<IValidationService>(new ValidationService());
         }
     }

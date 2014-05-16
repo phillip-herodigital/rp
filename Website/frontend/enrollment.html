@@ -47,6 +47,7 @@
 		<div class="cart-overlay" ng-class="{open:cartOpen}">
 			<article class="cart">
 				<header>
+					<i class="icon-close" ng-click="toggleCart();"></i>
 					<h1>Your Cart</h1>
 				</header>
 				<div class="body">
@@ -141,12 +142,11 @@
 					</div>
 				</div>
 			</article>
-		</div>
 		<div class="page-content">
 			<header class="site-header fixed" main-nav>
 				<div class="wrapper">
 					<a href="/" class="logo">Logo</a>
-					<a href="" class="cart-toggle icon-cart">Toggle Cart<span class="item-num">2</span></a>
+					<a href="" class="cart-toggle icon-cart" ng-click="toggleCart()">Toggle Cart<span class="item-num">2</span></a>
 					<a href="" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
 				</div>
 			</header>
@@ -1261,6 +1261,6 @@
 							</footer>
 						</div>
 					</div>
-
+				</div>
 				</body>
 				</html>

@@ -7,5 +7,6 @@ namespace StreamEnergy.DomainModels.Enrollments
 {
     public interface IOffer
     {
+        bool AcceptsOptions(IOfferOption offerOption);
     }
 }

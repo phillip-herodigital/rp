@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 
 namespace StreamEnergy
@@ -32,6 +34,29 @@ namespace StreamEnergy
                 return new CompositeValidationResult(results, ErrorMessageString, new[] { memberName });
             }
             return ValidationResult.Success;
+        }
+
+        public static string GetPrefix(IEnumerable<System.Reflection.MemberInfo> propertyChain)
+        {
+            return string.Join("", (from p in propertyChain
+                                    from a in p.GetCustomAttributes<CompositeValidationAttribute>()
+                                    select a.ErrorMessagePrefix));
+        }
+
+        public static IEnumerable<MemberInfo> UnrollPropertyChain(MemberExpression expression)
+        {
+            var members = new Stack<MemberInfo>();
+            while (expression != null)
+            {
+                members.Push(expression.Member);
+                expression = expression.Expression as MemberExpression;
+            }
+            return members.ToArray();
+        }
+
+        public static string GetPathedName(IEnumerable<MemberInfo> propertyChain)
+        {
+            return string.Join(".", propertyChain.Select(mi => mi.Name));
         }
     }
 }

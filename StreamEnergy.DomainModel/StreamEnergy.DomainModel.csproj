@@ -11,6 +11,8 @@
     <AssemblyName>StreamEnergy.DomainModel</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,6 +33,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Practices.Unity, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration">
+      <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention">
+      <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -41,16 +57,40 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainModels\Accounts\IAccountService.cs" />
+    <Compile Include="DomainModels\Accounts\CustomerAccount.cs" />
     <Compile Include="DomainModels\Accounts\Invoice.cs" />
     <Compile Include="DomainModels\Address.cs" />
     <Compile Include="DomainModels\CustomerContact.cs" />
-    <Compile Include="DomainModels\CustomerName.cs" />
+    <Compile Include="DomainModels\Name.cs" />
     <Compile Include="DomainModels\DriversLicense.cs" />
     <Compile Include="DomainModels\Email.cs" />
-    <Compile Include="DomainModels\Enrollments\GetServiceInformationState.cs" />
+    <Compile Include="DomainModels\Enrollments\AdditionalIdentityInformation.cs" />
+    <Compile Include="DomainModels\Enrollments\CompleteOrderState.cs" />
+    <Compile Include="DomainModels\Enrollments\IOfferOption.cs" />
+    <Compile Include="DomainModels\Enrollments\SelectedOffer.cs" />
+    <Compile Include="DomainModels\Enrollments\Service\CreditCheckResult.cs" />
+    <Compile Include="DomainModels\Enrollments\IConnectDatePolicy.cs" />
+    <Compile Include="DomainModels\Enrollments\IEnrollmentService.cs" />
+    <Compile Include="DomainModels\Enrollments\Service\LoadDepositResult.cs" />
+    <Compile Include="DomainModels\Enrollments\Service\PlaceOrderResult.cs" />
+    <Compile Include="DomainModels\IServiceCapability.cs" />
+    <Compile Include="DomainModels\Enrollments\LoadIdentityQuestionsState.cs" />
+    <Compile Include="DomainModels\Enrollments\LoadPaymentInfoState.cs" />
+    <Compile Include="DomainModels\Enrollments\OrderConfirmationState.cs" />
+    <Compile Include="DomainModels\Enrollments\PlaceOrderState.cs" />
+    <Compile Include="DomainModels\Enrollments\ServiceInformationState.cs" />
     <Compile Include="DomainModels\Enrollments\IOffer.cs" />
     <Compile Include="DomainModels\Enrollments\InternalContext.cs" />
+    <Compile Include="DomainModels\Enrollments\LoadDespositInfoState.cs" />
+    <Compile Include="DomainModels\Enrollments\LoadOffersState.cs" />
+    <Compile Include="DomainModels\Enrollments\AccountInformationState.cs" />
+    <Compile Include="DomainModels\Enrollments\PlanSelectionState.cs" />
+    <Compile Include="DomainModels\PolymorphicSerializationContainerSetup.cs" />
+    <Compile Include="DomainModels\SampleServiceCapability.cs" />
+    <Compile Include="DomainModels\TexasServiceCapability.cs" />
     <Compile Include="DomainModels\Enrollments\UserContext.cs" />
+    <Compile Include="DomainModels\Enrollments\VerifyIdentityState.cs" />
     <Compile Include="DomainModels\Phone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -60,7 +100,11 @@
       <Name>StreamEnergy.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

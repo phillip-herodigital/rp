@@ -199,7 +199,7 @@ article.grey-box {
 	footer {
 		background-color: #fbfbfb;
 		border-top: 1px solid #ddd;
-		.buttons button {
+		.buttons button, .buttons .button {
 			margin-top: 0;
 		}
 	}
@@ -571,7 +571,16 @@ article.payment-history {
 		}
 	}
 }
-article.auth-forgot-password-2 {
+article.auth-sign-in {
+	.social-login {
+		@include layout-list;
+		> li {
+			float: left;
+			margin-right: 5px;
+		}
+	}
+}
+article.auth-forgot-password {
 	.label { 
 		@extend label;
 	}
@@ -586,9 +595,20 @@ article.auth-forgot-password-2 {
 		}
 	}	
 }
+article.auth-sign-in, 
+article.auth-forgot-password {
+	.single-link {
+		font-size: 14px;
+	}
+	@include breakpoint(medium-large) {
+		.single-link {
+			display: inline-block;
+			margin-top: 30px;
+		}
+	}
+}
 
 /*ALL MODULES BELOW THIS ARE SIDEBAR MODULES*/
-
 aside {
 	article.promo { 
 		@extend article.plain;

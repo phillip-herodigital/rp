@@ -6,7 +6,7 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels
 {
-    public class CustomerName : ISanitizable
+    public class Name : ISanitizable
     {
         [Required(ErrorMessage = "First Name Required")]
         public string First { get; set; }
