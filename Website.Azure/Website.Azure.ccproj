@@ -37,6 +37,16 @@
     <ServiceConfiguration Include="ServiceConfiguration.Cloud.cscfg" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Website\Website.csproj">
+      <Name>Website</Name>
+      <Project>{fb926363-ed56-4b04-8837-cacbe8f9f222}</Project>
+      <Private>True</Private>
+      <RoleType>Web</RoleType>
+      <RoleName>Website</RoleName>
+      <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="Profiles" />
     <Folder Include="WebsiteContent\" />
   </ItemGroup>
