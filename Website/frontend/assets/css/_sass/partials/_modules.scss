@@ -571,6 +571,26 @@ article.payment-history {
 		}
 	}
 }
+article.auth-sign-in {
+	.social-login {
+		@include layout-list;
+		> li {
+			float: left;
+			margin-right: 5px;
+		}
+	}
+	input + a {
+		display: inline-block;
+		margin-top: 10px;
+		font-size: 14px;
+	}
+	@include breakpoint(medium-large) {
+		input + a {
+			margin-top: 0;
+			margin-left: 5px;
+		}	
+	}
+}
 
 /*ALL MODULES BELOW THIS ARE SIDEBAR MODULES*/
 
