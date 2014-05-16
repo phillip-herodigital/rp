@@ -64,6 +64,7 @@
       <HintPath>..\packages\smtpapi.1.0.0\lib\Smtpapi.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net" />
     <Reference Include="System.Net.Http" />
@@ -99,7 +100,7 @@
     <Compile Include="Services\Clients\EmailService.cs" />
     <Compile Include="Services\Clients\ClientContainerSetup.cs" />
     <Compile Include="Services\Clients\EmbeddedResourceMockResolver.cs" />
-    <Compile Include="Services\Clients\IAccountService.cs" />
+    <Compile Include="Services\Clients\EnrollmentService.cs" />
     <Compile Include="Services\Clients\IServiceMockResolver.cs" />
     <Compile Include="Services\Clients\IEmailService.cs" />
     <Compile Include="Services\Clients\LambdaToResourceMockResolver.cs" />

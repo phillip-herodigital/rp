@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
-    public class GetServiceInformationState : IState<UserContext, InternalContext>
+    public class ServiceInformationState : IState<UserContext, InternalContext>
     {
         public IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
         {
             yield return context => context.ServiceAddress.PostalCode5;
+            yield return context => context.ServiceCapabilities;
         }
 
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> AdditionalValidations(UserContext data, InternalContext internalContext)
@@ -26,12 +27,23 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public Type Process(UserContext data, InternalContext internalContext)
         {
-            // TODO
-            throw new NotImplementedException();
+            return typeof(LoadOffersState);
         }
 
         public bool RestoreInternalState(IStateMachine<UserContext, InternalContext> stateMachine, ref InternalContext internalContext, ref Type state)
         {
+            if (internalContext == null)
+            {
+                internalContext = new InternalContext();
+            }
+
+            // Don't try to restore state if this is invalid.
+            if (stateMachine.ValidateForState(this).Any())
+            {
+                state = this.GetType();
+                return false;
+            }
+
             return true;
         }
     }
