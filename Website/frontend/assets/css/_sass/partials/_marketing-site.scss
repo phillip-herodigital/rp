@@ -325,6 +325,12 @@ article.gridPromos {
 	}
 }
 
+.ie8 article.gridPromos {
+	div.col {
+		display: inline-block;
+	}
+}
+
 article.leaders {
 	.paragraph {
 		width: 50%;
