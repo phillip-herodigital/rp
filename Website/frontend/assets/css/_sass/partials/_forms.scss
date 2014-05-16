@@ -25,7 +25,7 @@ select {
 	@include box-shadow(0 1px 1px rgba(0,0,0,.15));
 	@include transition(border linear .2s, box-shadow linear .2s);
 	display: inline-block;
-	width: 300px;
+	width: 50%;
 	@include breakpoint(small) {
 		width: 100%;
 	}
@@ -123,7 +123,8 @@ form,
 	}
 	div.item {
 		@extend .clearfix;
-		margin-bottom: 5px;
+		//Make sure to have padding-right by default to match the group-col's padding
+		padding-right: 10px;
 		> label {
 			display: block;
 			margin-bottom: 5px;
@@ -144,12 +145,6 @@ form,
 				display: inline-block;
 				margin-right: 5px;
 				text-transform: uppercase;
-			}
-		}
-		@include breakpoint(small) {
-			margin-bottom: 15px;
-			&:last-child {
-				margin-bottom: 0;
 			}
 		}
 	}
@@ -209,7 +204,7 @@ form,
 			.item {
 				@include box-sizing(border-box);
 				float: left;
-				//width: 310px;
+				margin-bottom: 0;
 				padding: 0 10px 0 0;
 				&:last-child {
 					padding-right: 0;
@@ -227,9 +222,6 @@ form,
 					}
 				}
 			}
-		}
-		& + div.group, & + div.vertical {
-			margin-top: 20px;
 		}
 	}
 	div.additional-field-group {
@@ -263,7 +255,6 @@ form,
 	}
 	div.vertical {
 		div.item {
-			//padding-left: 250px;
 			> label {
 				float: left;
 				width: 33%;
@@ -295,9 +286,12 @@ form,
 				}
 			}
 		}
-		& + div.group, & + div.vertical {
-			margin-top: 20px;
-		}		
+	}
+	div.item, div.group, div.vertical {
+		margin-bottom: 20px;
+		&:last-child {
+			margin-bottom: 0;
+		}	
 	}
 	div.buttons {
 		@extend .clearfix;
@@ -309,9 +303,6 @@ form,
 				float: none;
 				width: 100%;
 				margin-left: 0;
-			}
-			&:first-child {
-				
 			}
 		}
 	}
