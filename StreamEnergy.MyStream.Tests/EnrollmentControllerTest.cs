@@ -81,7 +81,12 @@ namespace StreamEnergy.MyStream.Tests
                     ServiceAddress = new DomainModels.Address { PostalCode5 = "75010" },
                     ServiceCapabilities = new[] { new DomainModels.TexasServiceCapability { Tdu = "Centerpoint" } }
                 };
-                service.Setup(svc => svc.LoadOffers(request.ServiceAddress, request.ServiceCapabilities, request.IsNewService)).Returns(Enumerable.Empty<IOffer>());
+                service.Setup(svc => svc.LoadOffers(request.ServiceAddress, request.ServiceCapabilities, request.IsNewService)).Returns(new [] { 
+                    (IOffer)new TexasElectricityOffer
+                    {
+
+                    }
+                });
 
                 // Act
                 var result = controller.ServiceInformation(request);

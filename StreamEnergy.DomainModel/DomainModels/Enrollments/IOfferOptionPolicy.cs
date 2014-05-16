@@ -5,10 +5,8 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
-    public interface IOffer
+    public interface IOfferOptionPolicy
     {
-        string ID { get; }
-        string OfferType { get; }
-        IOfferOptionPolicy GetOfferOptionPolicy();
+        bool AcceptsOptions(IOfferOption OfferOption);
     }
 }
