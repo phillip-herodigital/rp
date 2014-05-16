@@ -319,6 +319,7 @@ article.gridPromos {
 				button, .button {
 					background-color: map-get($theme, primaryColor);
 					text-shadow: none;
+					white-space: nowrap;
 				}
 			}
 		}
