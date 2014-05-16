@@ -13,7 +13,7 @@ ngApp.provider('validation', [function () {
 
         // Aggregate our attributes for validation parameters. 
         // For example, valRegexPattern is a parameter of valRegex called "pattern".
-        function buildValidatorsFromAttributes(attrs) {
+        function buildValidatorsFromAttributes(attrs, tools, scope, ngModel) {
             var keys = Object.keys(attrs).sort();
             var result = {};
             angular.forEach(keys, function(key) {
@@ -38,7 +38,12 @@ ngApp.provider('validation', [function () {
                         validate: validate.validate,
                         message: $sce.trustAsHtml(attrs[key]),
                         parameters: [],
-                        injected: {}
+                        injected: {},
+                        attributes: attrs,
+                        scope: scope,
+                        ngModel: ngModel,
+                        fail: function (message) { tools.fail(keyName, message); },
+                        pass: function () { tools.pass(keyName); }
                     };
                     if (validate.inject) {
                         angular.forEach(validate.inject, function (name) {
@@ -63,7 +68,7 @@ ngApp.provider('validation', [function () {
                 var validationFor = attrs['name'];
                 ngModelController.suppressValidationMessages = true;
                 ngModelController.validationMessages = {};
-                var validators = buildValidatorsFromAttributes(attrs);
+                var validators;
                 
                 var result = {
                     enable: function () {
@@ -90,20 +95,10 @@ ngApp.provider('validation', [function () {
                             ngModelController.validationMessages = {};
                             // Run validations for all of our client-side validation and store in a local array.
                             angular.forEach(validators, function (value, key) {
-                                if (!value.validate(newValue, {
-                                    parameters: value.parameters,
-                                    injected: value.injected,
-                                    attributes: attrs,
-                                    scope: scope,
-                                    ngModel: ngModelController,
-                                    fail: result.fail,
-                                    pass: result.pass
-                                })) {
-                                    result.fail(key);
-                                }
-                                else {
-                                    result.pass(key);
-                                }
+                                if (!value.validate(newValue, value))
+                                    value.fail();
+                                else
+                                    value.pass();
                             });
                             result.populateMessages();
                         }
@@ -127,6 +122,7 @@ ngApp.provider('validation', [function () {
                         ngModelController.$setValidity(key, true);
                     }
                 };
+                validators = buildValidatorsFromAttributes(attrs, result, scope, ngModelController);                
                 return result;
             },
             messageArray: function (scope, dotNetName, setter) {
@@ -315,10 +311,9 @@ ngApp.provider('validation', [function () {
             responseType: "json"
         }).success(function (response, status) {
             if (response !== true && response !== "true") {
-                options.ngModel.$setValidity('remote', false);
-                options.ngModel.validationMessages['remote'] = options.injected.$sce.trustAsHtml(response || options.attributes['valRemote']);
+                options.fail(response);
             }
         });
         return true;
-    }, ['validation', '$http', '$q', '$sce']);
+    }, ['validation', '$http', '$q']);
 }]);
