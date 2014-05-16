@@ -17,35 +17,89 @@ namespace StreamEnergy.MyStream.Controllers
 {
     public class EnrollmentController : ApiController, IRequiresSessionState
     {
-        private static readonly string ContextSessionKey = typeof(EnrollmentController).FullName + " " + typeof(UserContext).FullName;
-        private static readonly string StateSessionKey = typeof(EnrollmentController).FullName + " State";
-        private HttpSessionStateBase session;
+        private readonly Sitecore.Data.Items.Item translationItem;
         private IStateMachine<UserContext, InternalContext> stateMachine;
+        private readonly SessionHelper sessionHelper;
 
-        public EnrollmentController(HttpSessionStateBase session, StateMachine<UserContext, InternalContext> stateMachine)
+        internal class SessionHelper
         {
-            this.session = session;
-            this.stateMachine = stateMachine;
+            private readonly HttpSessionStateBase session;
+            private static readonly string ContextSessionKey = typeof(EnrollmentController).FullName + " " + typeof(UserContext).FullName;
+            private static readonly string InternalContextSessionKey = typeof(EnrollmentController).FullName + " " + typeof(InternalContext).FullName;
+            private static readonly string StateSessionKey = typeof(EnrollmentController).FullName + " State";
+
+            public SessionHelper(HttpSessionStateBase session)
+            {
+                this.session = session;
+            }
+
+            public UserContext UserContext
+            {
+                get
+                {
+                    var context = session[ContextSessionKey] as UserContext;
+                    if (context == null)
+                        session[ContextSessionKey] = context = new UserContext();
+                    return context;
+                }
+                set { session[ContextSessionKey] = value; }
+            }
+
+            public Type State
+            {
+                get
+                {
+                    return (session[StateSessionKey] as Type) ?? typeof(DomainModels.Enrollments.ServiceInformationState);
+                }
+                set { session[StateSessionKey] = value; }
+            }
+
+            public InternalContext InternalContext
+            {
+                get { return session[InternalContextSessionKey] as InternalContext; }
+                set { session[InternalContextSessionKey] = value; }
+            }
         }
 
-        protected override void Initialize(System.Web.Http.Controllers.HttpControllerContext controllerContext)
+        public EnrollmentController(HttpSessionStateBase session, StateMachine<UserContext, InternalContext> stateMachine)
+            : this(new SessionHelper(session), stateMachine)
         {
-            var context = session[ContextSessionKey] as UserContext;
-            if (context == null)
-                session[ContextSessionKey] = context = new UserContext();
+        }
 
-            var state = (session[StateSessionKey] as Type) ?? typeof(DomainModels.Enrollments.GetServiceInformationState);
-            stateMachine.Initialize(state, context, null);
+        internal EnrollmentController(SessionHelper sessionHelper, StateMachine<UserContext, InternalContext> stateMachine)
+        {
+            this.translationItem = Sitecore.Context.Database.GetItem(new Sitecore.Data.ID("{5B9C5629-3350-4D85-AACB-277835B6B1C9}"));
+            this.stateMachine = stateMachine;
+            this.sessionHelper = sessionHelper;
 
-            base.Initialize(controllerContext);
+            var context = sessionHelper.UserContext;
+
+            var state = sessionHelper.State;
+            stateMachine.Initialize(state, context, sessionHelper.InternalContext);
         }
 
         protected override void Dispose(bool disposing)
         {
-            session[ContextSessionKey] = stateMachine.Context;
-            session[StateSessionKey] = stateMachine.State;
+            if (stateMachine != null)
+            {
+                sessionHelper.UserContext = stateMachine.Context;
+                sessionHelper.State = stateMachine.State;
+                sessionHelper.InternalContext = stateMachine.InternalContext;
+            }
+            else
+            {
+                sessionHelper.UserContext = null;
+                sessionHelper.State = null;
+                sessionHelper.InternalContext = null;
+            }
 
             base.Dispose(disposing);
+        }
+
+        [HttpPost]
+        public void Reset()
+        {
+            stateMachine = null;
         }
 
         /// <summary>
@@ -57,19 +111,9 @@ namespace StreamEnergy.MyStream.Controllers
         {
             return new ClientData
             {
-                Validations = Translate(stateMachine.ValidationResults),
+                Validations = TranslatedValidationResult.Translate(stateMachine.ValidationResults, translationItem),
                 UserContext = CopyForClientDisplay(stateMachine.Context),
                 // TODO - more data, such as plan list, calendar, etc. - probably from stateMachine.InternalContext
-            };
-        }
-
-        [HttpGet]
-        public ServiceInformation ServiceInformation()
-        {
-            return new ServiceInformation
-            {
-                ServiceAddress = stateMachine.Context.ServiceAddress,
-                IsNewService = stateMachine.Context.IsNewService
             };
         }
 
@@ -77,23 +121,22 @@ namespace StreamEnergy.MyStream.Controllers
         public ClientData ServiceInformation([FromBody]ServiceInformation value)
         {
             stateMachine.Context.ServiceAddress = value.ServiceAddress;
+            stateMachine.Context.ServiceCapabilities = value.ServiceCapabilities;
             stateMachine.Context.IsNewService = value.IsNewService;
-            
+
             stateMachine.Process(); // TODO - set steps to stop at
-            
+
             return ClientData();
         }
 
-        private IEnumerable<TranslatedValidationResult> Translate(IEnumerable<ValidationResult> results)
+        [HttpPost]
+        public ClientData SelectedOffers()
         {
-            return from val in results
-                   let text = val.ErrorMessage // TODO - get field from Sitecore
-                   from member in val.MemberNames
-                   select new TranslatedValidationResult
-                   {
-                       MemberName = member,
-                       Text = text
-                   };
+            // TODO - need some parameters
+
+            stateMachine.Process(); // TODO - set steps to stop at
+
+            return ClientData();
         }
 
         private UserContext CopyForClientDisplay(UserContext userContext)

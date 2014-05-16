@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StreamEnergy.DomainModels.Accounts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,7 @@ namespace StreamEnergy.Services.Clients
             this.service = service;
         }
 
-        IEnumerable<DomainModels.Accounts.Invoice> IAccountService.GetInvoices(string username)
+        IEnumerable<Invoice> IAccountService.GetInvoices(string username)
         {
             var response = service.GetInvoices(new Sample.Commons.GetInvoicesRequest { Username = username });
 

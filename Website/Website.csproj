@@ -406,6 +406,7 @@
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EnrollmentController.cs" />
+    <Compile Include="Controllers\TempController.cs" />
     <Compile Include="layouts\HTML Layout.aspx.cs">
       <DependentUpon>HTML Layout.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -468,10 +469,7 @@
     <Content Include="frontend\assets\i\bg\state-tabs.png" />
     <Content Include="frontend\assets\i\favicon.ico" />
     <Content Include="frontend\assets\i\favicon.png" />
-    <Content Include="frontend\assets\i\icon-sa6d2193bbe.png" />
-    <Content Include="frontend\assets\i\icon2x-se011512aa6.png" />
     <Content Include="frontend\assets\i\icon2x\bbb.png" />
-    <Content Include="frontend\assets\i\icon2x\blue-rectangle.png" />
     <Content Include="frontend\assets\i\icon2x\clean-energy.png" />
     <Content Include="frontend\assets\i\icon2x\close.png" />
     <Content Include="frontend\assets\i\icon2x\compare-usage.png" />
@@ -498,7 +496,6 @@
     <Content Include="frontend\assets\i\icon2x\utility.png" />
     <Content Include="frontend\assets\i\icon2x\youtube.png" />
     <Content Include="frontend\assets\i\icon\bbb.png" />
-    <Content Include="frontend\assets\i\icon\blue-rectangle.png" />
     <Content Include="frontend\assets\i\icon\close.png" />
     <Content Include="frontend\assets\i\icon\collapse.png" />
     <Content Include="frontend\assets\i\icon\compare-usage.png" />
@@ -585,6 +582,10 @@
     <Content Include="frontend\assets\js\directives\pagination.js" />
     <Content Include="frontend\assets\js\directives\state-tabs.js" />
     <Content Include="frontend\assets\js\directives\table.js" />
+    <Content Include="frontend\assets\js\directives\validation-error.js" />
+    <Content Include="frontend\assets\js\directives\validation-message.js" />
+    <Content Include="frontend\assets\js\directives\validation-summary.js" />
+    <Content Include="frontend\assets\js\directives\validation.js" />
     <Content Include="frontend\assets\js\filters\filters.js" />
     <Content Include="frontend\assets\js\libs\angular-animate\angular-animate.js" />
     <Content Include="frontend\assets\js\libs\angular-animate\angular-animate.min.js" />
@@ -660,7 +661,6 @@
     <Content Include="frontend\assets\js\libs\jquery\src\outro.js" />
     <Content Include="frontend\assets\js\libs\jquery\src\queue.js" />
     <Content Include="frontend\assets\js\libs\jquery\src\queue\delay.js" />
-    <Content Include="frontend\assets\js\libs\jquery\src\selector-native.js" />
     <Content Include="frontend\assets\js\libs\jquery\src\selector-sizzle.js" />
     <Content Include="frontend\assets\js\libs\jquery\src\selector.js" />
     <Content Include="frontend\assets\js\libs\jquery\src\serialize.js" />
@@ -850,11 +850,11 @@
     <Content Include="frontend\assets\js\libs\underscore\README.md" />
     <Content Include="frontend\assets\js\libs\underscore\underscore.js" />
     <Content Include="frontend\assets\js\modules\mask-jquery.js" />
+    <Content Include="frontend\assets\js\providers\validation.js" />
     <Content Include="frontend\assets\js\services\breakpoint.js" />
     <Content Include="frontend\bower.json" />
     <Content Include="frontend\config.rb" />
     <Content Include="frontend\elements.html" />
-    <Content Include="frontend\enrolled-accounts.html" />
     <Content Include="frontend\Gemfile" />
     <Content Include="frontend\Gemfile.lock" />
     <Content Include="frontend\Gruntfile.js" />
@@ -983,6 +983,7 @@
     <Content Include="Views\Pages\Marketing\Careers\Careers Detail.cshtml" />
     <Content Include="App_Config\ConnectionStrings.local.config" />
     <Content Include="Views\Pages\Marketing\Services\HomeLife Services.cshtml" />
+    <Content Include="Views\Temp\Index.cshtml" />
     <Content Include="Views\Pages\Marketing\Services\Enroll Commercial.cshtml" />
     <Content Include="Views\Pages\Marketing\Contact\Contact.cshtml" />
     <Content Include="Views\Pages\Marketing\Rates\NE Rates.cshtml" />
@@ -1016,6 +1017,10 @@
       <Name>StreamEnergy.Services</Name>
     </ProjectReference>
   </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
@@ -1030,7 +1035,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>0</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:59203/</IISUrl>
+          <IISUrl>http://localhost:59993/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

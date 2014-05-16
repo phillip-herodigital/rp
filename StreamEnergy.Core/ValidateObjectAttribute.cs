@@ -13,17 +13,20 @@ namespace StreamEnergy
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            var results = new HashSet<ValidationResult>();
-            var context = new ValidationContext(value);
-
-            Validator.TryValidateObject(value, context, results, true);
-
-            if (results.Count != 0)
+            if (value != null)
             {
-                var memberName = validationContext.MemberName;
+                var results = new HashSet<ValidationResult>();
+                var context = new ValidationContext(value);
 
-                return ResultFromInnerResults(from result in results.Flatten(result => result as IEnumerable<ValidationResult>, leafNodesOnly: true)
-                                              select Tuple.Create(memberName, result), memberName);
+                Validator.TryValidateObject(value, context, results, true);
+
+                if (results.Count != 0)
+                {
+                    var memberName = validationContext.MemberName;
+
+                    return ResultFromInnerResults(from result in results.Flatten(result => result as IEnumerable<ValidationResult>, leafNodesOnly: true)
+                                                  select Tuple.Create(memberName, result), memberName);
+                }
             }
 
             return ValidationResult.Success;

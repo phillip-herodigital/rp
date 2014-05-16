@@ -48,6 +48,7 @@
       <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime" />
     <Reference Include="System.Runtime.Serialization" />
@@ -73,7 +74,7 @@
     <Compile Include="Services\Clients\AccountService.cs" />
     <Compile Include="Services\Clients\ClientContainerSetup.cs" />
     <Compile Include="Services\Clients\EmbeddedResourceMockResolver.cs" />
-    <Compile Include="Services\Clients\IAccountService.cs" />
+    <Compile Include="Services\Clients\EnrollmentService.cs" />
     <Compile Include="Services\Clients\IServiceMockResolver.cs" />
     <Compile Include="Services\Clients\LambdaToResourceMockResolver.cs" />
     <Compile Include="Services\Clients\ServiceMockContainerSetup.cs" />
