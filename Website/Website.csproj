@@ -494,7 +494,6 @@
     <Content Include="frontend\assets\i\icon2x\bill.png" />
     <Content Include="frontend\assets\i\icon2x\blue-arrow-down.png" />
     <Content Include="frontend\assets\i\icon2x\blue-arrow-up.png" />
-    <Content Include="frontend\assets\i\icon2x\blue-rectangle.png" />
     <Content Include="frontend\assets\i\icon2x\cards.png" />
     <Content Include="frontend\assets\i\icon2x\cart.png" />
     <Content Include="frontend\assets\i\icon2x\check.png" />
@@ -547,7 +546,6 @@
     <Content Include="frontend\assets\i\icon\bill.png" />
     <Content Include="frontend\assets\i\icon\blue-arrow-down.png" />
     <Content Include="frontend\assets\i\icon\blue-arrow-up.png" />
-    <Content Include="frontend\assets\i\icon\blue-rectangle.png" />
     <Content Include="frontend\assets\i\icon\cards.png" />
     <Content Include="frontend\assets\i\icon\cart.png" />
     <Content Include="frontend\assets\i\icon\check.png" />
