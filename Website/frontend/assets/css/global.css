@@ -5068,12 +5068,12 @@ article.state-tabs ul.tabs-nav li a span {
   }
 }
 /* line 532, _sass/partials/_marketing-site.scss */
-article.state-tabs ul.tabs-nav li.active a {
+article.state-tabs ul.tabs-nav li.active a, article.state-tabs ul.tabs-nav li:hover a {
   background-color: #0971ce;
   color: #fff;
 }
 /* line 536, _sass/partials/_marketing-site.scss */
-article.state-tabs ul.tabs-nav li.active span {
+article.state-tabs ul.tabs-nav li.active span, article.state-tabs ul.tabs-nav li:hover span {
   background: none;
 }
 /* line 542, _sass/partials/_marketing-site.scss */

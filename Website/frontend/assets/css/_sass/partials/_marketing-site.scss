@@ -528,7 +528,7 @@ article.state-tabs {
 					@include retina-background("state-tabs.png");
 				}
 			}
-			&.active {
+			&.active, &:hover {
 				a {
 					background-color: #0971ce;
 					color: #fff;
