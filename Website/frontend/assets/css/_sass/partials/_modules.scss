@@ -571,27 +571,6 @@ article.payment-history {
 		}
 	}
 }
-article.auth-change-password {
-	dl {
-		dt {
-
-		}
-		dd {
-			text-align: left;
-			margin-bottom: 10px;
-		}
-		& :last-child {
-			margin-bottom: 0;
-		}
-	}
-	@include breakpoint(small) {
-		dl {
-			dt, dd {
-				float: none;
-			}
-		}
-	}
-}
 article.auth-forgot-password {
 	.single-link {
 		font-size: 14px;
