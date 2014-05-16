@@ -39,6 +39,7 @@
 			width: 100%;
 			font-size: 0; /* This is to fix the spacing between inline-block elements. Font size is reset on child element */
 			text-transform: uppercase;
+			white-space: nowrap;
 			li {
 				font-size: 15px;
 				a {
