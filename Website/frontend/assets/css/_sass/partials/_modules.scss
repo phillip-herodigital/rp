@@ -571,6 +571,21 @@ article.payment-history {
 		}
 	}
 }
+article.auth-forgot-password-2 {
+	.label { 
+		@extend label;
+	}
+	dd {
+		text-align: left;
+	}
+	@include breakpoint(small) {
+		dl {
+			dt, dd {
+				float: none;
+			}
+		}
+	}	
+}
 
 /*ALL MODULES BELOW THIS ARE SIDEBAR MODULES*/
 
