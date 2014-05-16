@@ -406,6 +406,7 @@
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EnrollmentController.cs" />
+    <Compile Include="Controllers\TempController.cs" />
     <Compile Include="layouts\HTML Layout.aspx.cs">
       <DependentUpon>HTML Layout.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -581,6 +582,10 @@
     <Content Include="frontend\assets\js\directives\pagination.js" />
     <Content Include="frontend\assets\js\directives\state-tabs.js" />
     <Content Include="frontend\assets\js\directives\table.js" />
+    <Content Include="frontend\assets\js\directives\validation-error.js" />
+    <Content Include="frontend\assets\js\directives\validation-message.js" />
+    <Content Include="frontend\assets\js\directives\validation-summary.js" />
+    <Content Include="frontend\assets\js\directives\validation.js" />
     <Content Include="frontend\assets\js\filters\filters.js" />
     <Content Include="frontend\assets\js\libs\angular-animate\angular-animate.js" />
     <Content Include="frontend\assets\js\libs\angular-animate\angular-animate.min.js" />
@@ -845,6 +850,7 @@
     <Content Include="frontend\assets\js\libs\underscore\README.md" />
     <Content Include="frontend\assets\js\libs\underscore\underscore.js" />
     <Content Include="frontend\assets\js\modules\mask-jquery.js" />
+    <Content Include="frontend\assets\js\providers\validation.js" />
     <Content Include="frontend\assets\js\services\breakpoint.js" />
     <Content Include="frontend\bower.json" />
     <Content Include="frontend\config.rb" />
@@ -977,6 +983,7 @@
     <Content Include="Views\Pages\Marketing\Careers\Careers Detail.cshtml" />
     <Content Include="App_Config\ConnectionStrings.local.config" />
     <Content Include="Views\Pages\Marketing\Services\HomeLife Services.cshtml" />
+    <Content Include="Views\Temp\Index.cshtml" />
     <Content Include="Views\Pages\Marketing\Services\Enroll Commercial.cshtml" />
     <Content Include="Views\Pages\Marketing\Contact\Contact.cshtml" />
     <Content Include="Views\Pages\Marketing\Rates\NE Rates.cshtml" />
@@ -1026,7 +1033,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>0</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:59203/</IISUrl>
+          <IISUrl>http://localhost:59993/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

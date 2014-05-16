@@ -28,7 +28,10 @@ namespace StreamEnergy.Processes
             Context = context;
             context.Sanitize();
 
-            RestoreStateFrom(state, ref internalContext, ref state);
+            if (internalContext == null)
+            {
+                RestoreStateFrom(state, ref internalContext, ref state);
+            }
             InternalContext = internalContext;
             State = state;
         }
