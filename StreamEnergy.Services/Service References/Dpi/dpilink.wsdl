@@ -1,0 +1,1472 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://ignite.soap.dataparadigm.com/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://ignite.soap.dataparadigm.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Allows third-party systems to interact with Data Paradigm's systems.</wsdl:documentation>
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://ignite.soap.dataparadigm.com/">
+      <s:element name="Stream_SendTelephonicEnrollmentConfirmationEmail">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Auth_ID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Auth_PW" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Salutation" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="RefNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="FullName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="HomePhone" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MobilePhone" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="WorkPhone" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailAddress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Last4SSN" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DLNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DLState" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="LanguagePreference" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ServiceAddress1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ServiceAddress2" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ServiceCity" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ServiceState" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ServiceZip" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MailingAddress1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MailingAddress2" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MailingCity" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MailingState" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MailingZip" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ESIID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ServiceDate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="StandardFee" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PriorityFee" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ServicePlan" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Stream_SendTelephonicEnrollmentConfirmationEmailResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Stream_SendTelephonicEnrollmentConfirmationEmailResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Result">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="ResultCode" type="s:int" use="required" />
+            <s:attribute name="ErrMessage" type="s:string" />
+            <s:attribute name="ExecutionTime" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:element name="ServerTest">
+        <s:complexType />
+      </s:element>
+      <s:element name="ServerTestResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ServerTestResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateAccount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Auth_ID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Auth_PW" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Account_Number" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Status_Code" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Product_Code" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="First_Name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Last_Name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Address_Type" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Address1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Address2" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Zip" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Zip_Plus" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Email_Address" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Phone_Number" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Actual_Service_Start_Date" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Contract_Term_Start_Date" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Contract_Term_End_Date" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Pending_Contract" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Expected_Service_End_Date" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Status_Change_Date" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Product_Name" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateAccountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UpdateAccountResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Stream_IsValidIaNumber">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Auth_ID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Auth_PW" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="IA_Number" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Stream_IsValidIaNumberResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Stream_IsValidIaNumberResult" type="tns:IsValidIaNumberResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="IsValidIaNumberResult" mixed="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="IsValidIaNumber" type="s:boolean" />
+        </s:sequence>
+        <s:attribute name="ResultCode" type="s:int" use="required" />
+        <s:attribute name="ErrMessage" type="s:string" />
+        <s:attribute name="ExecutionTime" type="s:string" />
+      </s:complexType>
+      <s:element name="Stream_RetrieveIaContactInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Auth_ID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Auth_PW" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="IA_Number" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Stream_RetrieveIaContactInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Stream_RetrieveIaContactInfoResult" type="tns:RetrieveIaContactInfoResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="RetrieveIaContactInfoResult" mixed="true">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="RetrieveIaContactInfo" type="tns:ContactInfoRow" />
+        </s:sequence>
+        <s:attribute name="ResultCode" type="s:int" use="required" />
+        <s:attribute name="ErrMessage" type="s:string" />
+        <s:attribute name="ExecutionTime" type="s:string" />
+      </s:complexType>
+      <s:complexType name="ContactInfoRow">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Name_Company" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name_First" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name_Last" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Street" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Street2" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Zip" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Phone_Primary" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Phone_Work" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Phone_Cell" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Phone_Fax" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Email" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Website" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="Stream_CreateCustomerEnrollment">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Auth_ID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Auth_PW" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ACCT_TYPE" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CUSTOMER_TYPE" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SWITCH" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="NAME_COMPANY" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="NAME_FIRST" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="NAME_LAST" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SSN" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PHONE_PRIMARY" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PHONE" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PHONE_MOBILE" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PHONE_WORK" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EMAIL_ADDRESS" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ADDRESS1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ADDRESS2" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CITY" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ST" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ZIP" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SERVICE_CHOICE" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CONTRACT_LENGTH" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SPON_DCODE" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="LANGUAGE" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ES_PARAMS" type="tns:ArrayOfES_Parameter" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfES_Parameter">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ES_Parameter" nillable="true" type="tns:ES_Parameter" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ES_Parameter">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ESIID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ES_ADDRESS1" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ES_ADDRESS2" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ES_CITY" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ES_ST" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ES_ZIP" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="Stream_CreateCustomerEnrollmentResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Stream_CreateCustomerEnrollmentResult" type="tns:CreateCustomerEnrollmentResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="CreateCustomerEnrollmentResult" mixed="true">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="NewDCode" type="s:string" />
+        </s:sequence>
+        <s:attribute name="ResultCode" type="s:int" use="required" />
+        <s:attribute name="ErrMessage" type="s:string" />
+        <s:attribute name="ExecutionTime" type="s:string" />
+      </s:complexType>
+      <s:element name="Stream_SendCompletedQcEmail">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Auth_ID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Auth_PW" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Accounts" type="tns:ArrayOfAccount" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfAccount">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Account" nillable="true" type="tns:Account" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Account">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CustomerNumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CustomerName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Email" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PreferredLanguage" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="Stream_SendCompletedQcEmailResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Stream_SendCompletedQcEmailResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Stream_SendRenewalEmail">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Auth_ID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Auth_PW" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="RenewalRefNum" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CustomerName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="BillingAddressee" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="BillingAddress1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="BillingAddress2" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="BillingCity" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="BillingState" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="BillingZip" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailAddress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SSNLastFour" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PreferredLanguage" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="StreamAccountNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="StreamCustomerNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ServiceAddressee" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ServiceAddress1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ServiceAddress2" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ServiceCity" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ServiceState" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ServiceZip" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EsiId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TDSP" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ProductCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ProductTerm" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EarlyTermFee" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EnergyCharge" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AveragePrice" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MinimumUsageFee" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EffectiveDate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EstContractStartDate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EstContractEndDate" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Stream_SendRenewalEmailResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Stream_SendRenewalEmailResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Stream_GetSponsor">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Auth_ID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Auth_PW" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CustomerNumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Stream_GetSponsorResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Stream_GetSponsorResult" type="tns:GetSponsorResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="GetSponsorResult" mixed="true">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="SponsorNumber" type="s:string" />
+        </s:sequence>
+        <s:attribute name="ResultCode" type="s:int" use="required" />
+        <s:attribute name="ErrMessage" type="s:string" />
+        <s:attribute name="ExecutionTime" type="s:string" />
+      </s:complexType>
+      <s:element name="UpdateUserTokenInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Auth_ID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Auth_PW" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Encrypted_Value" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateUserTokenInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UpdateUserTokenInfoResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateUserTokenStatus">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Auth_ID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Auth_PW" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Encrypted_Value" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Is_Revoked" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateUserTokenStatusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UpdateUserTokenStatusResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCustomFilterList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Auth_ID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Auth_PW" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Encrypted_Value" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCustomFilterListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCustomFilterListResult" type="tns:FilterResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="FilterResult" mixed="true">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Filters" type="tns:ArrayOfFilterObject" />
+        </s:sequence>
+        <s:attribute name="ResultCode" type="s:int" use="required" />
+        <s:attribute name="ErrMessage" type="s:string" />
+        <s:attribute name="ExecutionTime" type="s:string" />
+      </s:complexType>
+      <s:complexType name="ArrayOfFilterObject">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Filter" nillable="true" type="tns:FilterObject" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="FilterObject">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="FilterID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FilterName" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Count" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetCustomFilterTokens">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Auth_ID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Auth_PW" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Encrypted_Value" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="FilterID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCustomFilterTokensResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCustomFilterTokensResult" type="tns:TokenResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TokenResult" mixed="true">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Tokens" type="tns:ArrayOfTokenObject" />
+        </s:sequence>
+        <s:attribute name="ResultCode" type="s:int" use="required" />
+        <s:attribute name="ErrMessage" type="s:string" />
+        <s:attribute name="ExecutionTime" type="s:string" />
+      </s:complexType>
+      <s:complexType name="ArrayOfTokenObject">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Token" nillable="true" type="tns:TokenObject" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TokenObject">
+        <s:simpleContent>
+          <s:extension base="s:string" />
+        </s:simpleContent>
+      </s:complexType>
+      <s:element name="Result" nillable="true" type="tns:Result" />
+      <s:element name="IsValidIaNumberResult" nillable="true" type="tns:IsValidIaNumberResult" />
+      <s:element name="RetrieveIaContactInfoResult" nillable="true" type="tns:RetrieveIaContactInfoResult" />
+      <s:element name="GetSponsorResult" nillable="true" type="tns:GetSponsorResult" />
+      <s:element name="FilterResult" nillable="true" type="tns:FilterResult" />
+      <s:element name="TokenResult" nillable="true" type="tns:TokenResult" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="Stream_SendTelephonicEnrollmentConfirmationEmailSoapIn">
+    <wsdl:part name="parameters" element="tns:Stream_SendTelephonicEnrollmentConfirmationEmail" />
+  </wsdl:message>
+  <wsdl:message name="Stream_SendTelephonicEnrollmentConfirmationEmailSoapOut">
+    <wsdl:part name="parameters" element="tns:Stream_SendTelephonicEnrollmentConfirmationEmailResponse" />
+  </wsdl:message>
+  <wsdl:message name="ServerTestSoapIn">
+    <wsdl:part name="parameters" element="tns:ServerTest" />
+  </wsdl:message>
+  <wsdl:message name="ServerTestSoapOut">
+    <wsdl:part name="parameters" element="tns:ServerTestResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateAccountSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateAccount" />
+  </wsdl:message>
+  <wsdl:message name="UpdateAccountSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateAccountResponse" />
+  </wsdl:message>
+  <wsdl:message name="Stream_IsValidIaNumberSoapIn">
+    <wsdl:part name="parameters" element="tns:Stream_IsValidIaNumber" />
+  </wsdl:message>
+  <wsdl:message name="Stream_IsValidIaNumberSoapOut">
+    <wsdl:part name="parameters" element="tns:Stream_IsValidIaNumberResponse" />
+  </wsdl:message>
+  <wsdl:message name="Stream_RetrieveIaContactInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:Stream_RetrieveIaContactInfo" />
+  </wsdl:message>
+  <wsdl:message name="Stream_RetrieveIaContactInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:Stream_RetrieveIaContactInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="Stream_CreateCustomerEnrollmentSoapIn">
+    <wsdl:part name="parameters" element="tns:Stream_CreateCustomerEnrollment" />
+  </wsdl:message>
+  <wsdl:message name="Stream_CreateCustomerEnrollmentSoapOut">
+    <wsdl:part name="parameters" element="tns:Stream_CreateCustomerEnrollmentResponse" />
+  </wsdl:message>
+  <wsdl:message name="Stream_SendCompletedQcEmailSoapIn">
+    <wsdl:part name="parameters" element="tns:Stream_SendCompletedQcEmail" />
+  </wsdl:message>
+  <wsdl:message name="Stream_SendCompletedQcEmailSoapOut">
+    <wsdl:part name="parameters" element="tns:Stream_SendCompletedQcEmailResponse" />
+  </wsdl:message>
+  <wsdl:message name="Stream_SendRenewalEmailSoapIn">
+    <wsdl:part name="parameters" element="tns:Stream_SendRenewalEmail" />
+  </wsdl:message>
+  <wsdl:message name="Stream_SendRenewalEmailSoapOut">
+    <wsdl:part name="parameters" element="tns:Stream_SendRenewalEmailResponse" />
+  </wsdl:message>
+  <wsdl:message name="Stream_GetSponsorSoapIn">
+    <wsdl:part name="parameters" element="tns:Stream_GetSponsor" />
+  </wsdl:message>
+  <wsdl:message name="Stream_GetSponsorSoapOut">
+    <wsdl:part name="parameters" element="tns:Stream_GetSponsorResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateUserTokenInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateUserTokenInfo" />
+  </wsdl:message>
+  <wsdl:message name="UpdateUserTokenInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateUserTokenInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateUserTokenStatusSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateUserTokenStatus" />
+  </wsdl:message>
+  <wsdl:message name="UpdateUserTokenStatusSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateUserTokenStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCustomFilterListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCustomFilterList" />
+  </wsdl:message>
+  <wsdl:message name="GetCustomFilterListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCustomFilterListResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCustomFilterTokensSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCustomFilterTokens" />
+  </wsdl:message>
+  <wsdl:message name="GetCustomFilterTokensSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCustomFilterTokensResponse" />
+  </wsdl:message>
+  <wsdl:message name="Stream_SendTelephonicEnrollmentConfirmationEmailHttpGetIn">
+    <wsdl:part name="Auth_ID" type="s:string" />
+    <wsdl:part name="Auth_PW" type="s:string" />
+    <wsdl:part name="Salutation" type="s:string" />
+    <wsdl:part name="RefNumber" type="s:string" />
+    <wsdl:part name="FullName" type="s:string" />
+    <wsdl:part name="HomePhone" type="s:string" />
+    <wsdl:part name="MobilePhone" type="s:string" />
+    <wsdl:part name="WorkPhone" type="s:string" />
+    <wsdl:part name="EmailAddress" type="s:string" />
+    <wsdl:part name="Last4SSN" type="s:string" />
+    <wsdl:part name="DLNumber" type="s:string" />
+    <wsdl:part name="DLState" type="s:string" />
+    <wsdl:part name="LanguagePreference" type="s:string" />
+    <wsdl:part name="ServiceAddress1" type="s:string" />
+    <wsdl:part name="ServiceAddress2" type="s:string" />
+    <wsdl:part name="ServiceCity" type="s:string" />
+    <wsdl:part name="ServiceState" type="s:string" />
+    <wsdl:part name="ServiceZip" type="s:string" />
+    <wsdl:part name="MailingAddress1" type="s:string" />
+    <wsdl:part name="MailingAddress2" type="s:string" />
+    <wsdl:part name="MailingCity" type="s:string" />
+    <wsdl:part name="MailingState" type="s:string" />
+    <wsdl:part name="MailingZip" type="s:string" />
+    <wsdl:part name="ESIID" type="s:string" />
+    <wsdl:part name="ServiceDate" type="s:string" />
+    <wsdl:part name="StandardFee" type="s:string" />
+    <wsdl:part name="PriorityFee" type="s:string" />
+    <wsdl:part name="ServicePlan" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Stream_SendTelephonicEnrollmentConfirmationEmailHttpGetOut">
+    <wsdl:part name="Body" element="tns:Result" />
+  </wsdl:message>
+  <wsdl:message name="ServerTestHttpGetIn" />
+  <wsdl:message name="ServerTestHttpGetOut">
+    <wsdl:part name="Body" element="tns:Result" />
+  </wsdl:message>
+  <wsdl:message name="UpdateAccountHttpGetIn">
+    <wsdl:part name="Auth_ID" type="s:string" />
+    <wsdl:part name="Auth_PW" type="s:string" />
+    <wsdl:part name="Account_Number" type="s:string" />
+    <wsdl:part name="Status_Code" type="s:string" />
+    <wsdl:part name="Product_Code" type="s:string" />
+    <wsdl:part name="First_Name" type="s:string" />
+    <wsdl:part name="Last_Name" type="s:string" />
+    <wsdl:part name="Address_Type" type="s:string" />
+    <wsdl:part name="Address1" type="s:string" />
+    <wsdl:part name="Address2" type="s:string" />
+    <wsdl:part name="City" type="s:string" />
+    <wsdl:part name="State" type="s:string" />
+    <wsdl:part name="Zip" type="s:string" />
+    <wsdl:part name="Zip_Plus" type="s:string" />
+    <wsdl:part name="Email_Address" type="s:string" />
+    <wsdl:part name="Phone_Number" type="s:string" />
+    <wsdl:part name="Actual_Service_Start_Date" type="s:string" />
+    <wsdl:part name="Contract_Term_Start_Date" type="s:string" />
+    <wsdl:part name="Contract_Term_End_Date" type="s:string" />
+    <wsdl:part name="Pending_Contract" type="s:string" />
+    <wsdl:part name="Expected_Service_End_Date" type="s:string" />
+    <wsdl:part name="Status_Change_Date" type="s:string" />
+    <wsdl:part name="Product_Name" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="UpdateAccountHttpGetOut">
+    <wsdl:part name="Body" element="tns:Result" />
+  </wsdl:message>
+  <wsdl:message name="Stream_IsValidIaNumberHttpGetIn">
+    <wsdl:part name="Auth_ID" type="s:string" />
+    <wsdl:part name="Auth_PW" type="s:string" />
+    <wsdl:part name="IA_Number" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Stream_IsValidIaNumberHttpGetOut">
+    <wsdl:part name="Body" element="tns:IsValidIaNumberResult" />
+  </wsdl:message>
+  <wsdl:message name="Stream_RetrieveIaContactInfoHttpGetIn">
+    <wsdl:part name="Auth_ID" type="s:string" />
+    <wsdl:part name="Auth_PW" type="s:string" />
+    <wsdl:part name="IA_Number" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Stream_RetrieveIaContactInfoHttpGetOut">
+    <wsdl:part name="Body" element="tns:RetrieveIaContactInfoResult" />
+  </wsdl:message>
+  <wsdl:message name="Stream_SendRenewalEmailHttpGetIn">
+    <wsdl:part name="Auth_ID" type="s:string" />
+    <wsdl:part name="Auth_PW" type="s:string" />
+    <wsdl:part name="RenewalRefNum" type="s:string" />
+    <wsdl:part name="CustomerName" type="s:string" />
+    <wsdl:part name="BillingAddressee" type="s:string" />
+    <wsdl:part name="BillingAddress1" type="s:string" />
+    <wsdl:part name="BillingAddress2" type="s:string" />
+    <wsdl:part name="BillingCity" type="s:string" />
+    <wsdl:part name="BillingState" type="s:string" />
+    <wsdl:part name="BillingZip" type="s:string" />
+    <wsdl:part name="EmailAddress" type="s:string" />
+    <wsdl:part name="SSNLastFour" type="s:string" />
+    <wsdl:part name="PreferredLanguage" type="s:string" />
+    <wsdl:part name="StreamAccountNumber" type="s:string" />
+    <wsdl:part name="StreamCustomerNumber" type="s:string" />
+    <wsdl:part name="ServiceAddressee" type="s:string" />
+    <wsdl:part name="ServiceAddress1" type="s:string" />
+    <wsdl:part name="ServiceAddress2" type="s:string" />
+    <wsdl:part name="ServiceCity" type="s:string" />
+    <wsdl:part name="ServiceState" type="s:string" />
+    <wsdl:part name="ServiceZip" type="s:string" />
+    <wsdl:part name="EsiId" type="s:string" />
+    <wsdl:part name="TDSP" type="s:string" />
+    <wsdl:part name="ProductCode" type="s:string" />
+    <wsdl:part name="ProductTerm" type="s:string" />
+    <wsdl:part name="EarlyTermFee" type="s:string" />
+    <wsdl:part name="EnergyCharge" type="s:string" />
+    <wsdl:part name="AveragePrice" type="s:string" />
+    <wsdl:part name="MinimumUsageFee" type="s:string" />
+    <wsdl:part name="EffectiveDate" type="s:string" />
+    <wsdl:part name="EstContractStartDate" type="s:string" />
+    <wsdl:part name="EstContractEndDate" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Stream_SendRenewalEmailHttpGetOut">
+    <wsdl:part name="Body" element="tns:Result" />
+  </wsdl:message>
+  <wsdl:message name="Stream_GetSponsorHttpGetIn">
+    <wsdl:part name="Auth_ID" type="s:string" />
+    <wsdl:part name="Auth_PW" type="s:string" />
+    <wsdl:part name="CustomerNumber" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Stream_GetSponsorHttpGetOut">
+    <wsdl:part name="Body" element="tns:GetSponsorResult" />
+  </wsdl:message>
+  <wsdl:message name="UpdateUserTokenInfoHttpGetIn">
+    <wsdl:part name="Auth_ID" type="s:string" />
+    <wsdl:part name="Auth_PW" type="s:string" />
+    <wsdl:part name="Encrypted_Value" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="UpdateUserTokenInfoHttpGetOut">
+    <wsdl:part name="Body" element="tns:Result" />
+  </wsdl:message>
+  <wsdl:message name="UpdateUserTokenStatusHttpGetIn">
+    <wsdl:part name="Auth_ID" type="s:string" />
+    <wsdl:part name="Auth_PW" type="s:string" />
+    <wsdl:part name="Encrypted_Value" type="s:string" />
+    <wsdl:part name="Is_Revoked" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="UpdateUserTokenStatusHttpGetOut">
+    <wsdl:part name="Body" element="tns:Result" />
+  </wsdl:message>
+  <wsdl:message name="GetCustomFilterListHttpGetIn">
+    <wsdl:part name="Auth_ID" type="s:string" />
+    <wsdl:part name="Auth_PW" type="s:string" />
+    <wsdl:part name="Encrypted_Value" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetCustomFilterListHttpGetOut">
+    <wsdl:part name="Body" element="tns:FilterResult" />
+  </wsdl:message>
+  <wsdl:message name="GetCustomFilterTokensHttpGetIn">
+    <wsdl:part name="Auth_ID" type="s:string" />
+    <wsdl:part name="Auth_PW" type="s:string" />
+    <wsdl:part name="Encrypted_Value" type="s:string" />
+    <wsdl:part name="FilterID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetCustomFilterTokensHttpGetOut">
+    <wsdl:part name="Body" element="tns:TokenResult" />
+  </wsdl:message>
+  <wsdl:message name="Stream_SendTelephonicEnrollmentConfirmationEmailHttpPostIn">
+    <wsdl:part name="Auth_ID" type="s:string" />
+    <wsdl:part name="Auth_PW" type="s:string" />
+    <wsdl:part name="Salutation" type="s:string" />
+    <wsdl:part name="RefNumber" type="s:string" />
+    <wsdl:part name="FullName" type="s:string" />
+    <wsdl:part name="HomePhone" type="s:string" />
+    <wsdl:part name="MobilePhone" type="s:string" />
+    <wsdl:part name="WorkPhone" type="s:string" />
+    <wsdl:part name="EmailAddress" type="s:string" />
+    <wsdl:part name="Last4SSN" type="s:string" />
+    <wsdl:part name="DLNumber" type="s:string" />
+    <wsdl:part name="DLState" type="s:string" />
+    <wsdl:part name="LanguagePreference" type="s:string" />
+    <wsdl:part name="ServiceAddress1" type="s:string" />
+    <wsdl:part name="ServiceAddress2" type="s:string" />
+    <wsdl:part name="ServiceCity" type="s:string" />
+    <wsdl:part name="ServiceState" type="s:string" />
+    <wsdl:part name="ServiceZip" type="s:string" />
+    <wsdl:part name="MailingAddress1" type="s:string" />
+    <wsdl:part name="MailingAddress2" type="s:string" />
+    <wsdl:part name="MailingCity" type="s:string" />
+    <wsdl:part name="MailingState" type="s:string" />
+    <wsdl:part name="MailingZip" type="s:string" />
+    <wsdl:part name="ESIID" type="s:string" />
+    <wsdl:part name="ServiceDate" type="s:string" />
+    <wsdl:part name="StandardFee" type="s:string" />
+    <wsdl:part name="PriorityFee" type="s:string" />
+    <wsdl:part name="ServicePlan" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Stream_SendTelephonicEnrollmentConfirmationEmailHttpPostOut">
+    <wsdl:part name="Body" element="tns:Result" />
+  </wsdl:message>
+  <wsdl:message name="ServerTestHttpPostIn" />
+  <wsdl:message name="ServerTestHttpPostOut">
+    <wsdl:part name="Body" element="tns:Result" />
+  </wsdl:message>
+  <wsdl:message name="UpdateAccountHttpPostIn">
+    <wsdl:part name="Auth_ID" type="s:string" />
+    <wsdl:part name="Auth_PW" type="s:string" />
+    <wsdl:part name="Account_Number" type="s:string" />
+    <wsdl:part name="Status_Code" type="s:string" />
+    <wsdl:part name="Product_Code" type="s:string" />
+    <wsdl:part name="First_Name" type="s:string" />
+    <wsdl:part name="Last_Name" type="s:string" />
+    <wsdl:part name="Address_Type" type="s:string" />
+    <wsdl:part name="Address1" type="s:string" />
+    <wsdl:part name="Address2" type="s:string" />
+    <wsdl:part name="City" type="s:string" />
+    <wsdl:part name="State" type="s:string" />
+    <wsdl:part name="Zip" type="s:string" />
+    <wsdl:part name="Zip_Plus" type="s:string" />
+    <wsdl:part name="Email_Address" type="s:string" />
+    <wsdl:part name="Phone_Number" type="s:string" />
+    <wsdl:part name="Actual_Service_Start_Date" type="s:string" />
+    <wsdl:part name="Contract_Term_Start_Date" type="s:string" />
+    <wsdl:part name="Contract_Term_End_Date" type="s:string" />
+    <wsdl:part name="Pending_Contract" type="s:string" />
+    <wsdl:part name="Expected_Service_End_Date" type="s:string" />
+    <wsdl:part name="Status_Change_Date" type="s:string" />
+    <wsdl:part name="Product_Name" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="UpdateAccountHttpPostOut">
+    <wsdl:part name="Body" element="tns:Result" />
+  </wsdl:message>
+  <wsdl:message name="Stream_IsValidIaNumberHttpPostIn">
+    <wsdl:part name="Auth_ID" type="s:string" />
+    <wsdl:part name="Auth_PW" type="s:string" />
+    <wsdl:part name="IA_Number" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Stream_IsValidIaNumberHttpPostOut">
+    <wsdl:part name="Body" element="tns:IsValidIaNumberResult" />
+  </wsdl:message>
+  <wsdl:message name="Stream_RetrieveIaContactInfoHttpPostIn">
+    <wsdl:part name="Auth_ID" type="s:string" />
+    <wsdl:part name="Auth_PW" type="s:string" />
+    <wsdl:part name="IA_Number" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Stream_RetrieveIaContactInfoHttpPostOut">
+    <wsdl:part name="Body" element="tns:RetrieveIaContactInfoResult" />
+  </wsdl:message>
+  <wsdl:message name="Stream_SendRenewalEmailHttpPostIn">
+    <wsdl:part name="Auth_ID" type="s:string" />
+    <wsdl:part name="Auth_PW" type="s:string" />
+    <wsdl:part name="RenewalRefNum" type="s:string" />
+    <wsdl:part name="CustomerName" type="s:string" />
+    <wsdl:part name="BillingAddressee" type="s:string" />
+    <wsdl:part name="BillingAddress1" type="s:string" />
+    <wsdl:part name="BillingAddress2" type="s:string" />
+    <wsdl:part name="BillingCity" type="s:string" />
+    <wsdl:part name="BillingState" type="s:string" />
+    <wsdl:part name="BillingZip" type="s:string" />
+    <wsdl:part name="EmailAddress" type="s:string" />
+    <wsdl:part name="SSNLastFour" type="s:string" />
+    <wsdl:part name="PreferredLanguage" type="s:string" />
+    <wsdl:part name="StreamAccountNumber" type="s:string" />
+    <wsdl:part name="StreamCustomerNumber" type="s:string" />
+    <wsdl:part name="ServiceAddressee" type="s:string" />
+    <wsdl:part name="ServiceAddress1" type="s:string" />
+    <wsdl:part name="ServiceAddress2" type="s:string" />
+    <wsdl:part name="ServiceCity" type="s:string" />
+    <wsdl:part name="ServiceState" type="s:string" />
+    <wsdl:part name="ServiceZip" type="s:string" />
+    <wsdl:part name="EsiId" type="s:string" />
+    <wsdl:part name="TDSP" type="s:string" />
+    <wsdl:part name="ProductCode" type="s:string" />
+    <wsdl:part name="ProductTerm" type="s:string" />
+    <wsdl:part name="EarlyTermFee" type="s:string" />
+    <wsdl:part name="EnergyCharge" type="s:string" />
+    <wsdl:part name="AveragePrice" type="s:string" />
+    <wsdl:part name="MinimumUsageFee" type="s:string" />
+    <wsdl:part name="EffectiveDate" type="s:string" />
+    <wsdl:part name="EstContractStartDate" type="s:string" />
+    <wsdl:part name="EstContractEndDate" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Stream_SendRenewalEmailHttpPostOut">
+    <wsdl:part name="Body" element="tns:Result" />
+  </wsdl:message>
+  <wsdl:message name="Stream_GetSponsorHttpPostIn">
+    <wsdl:part name="Auth_ID" type="s:string" />
+    <wsdl:part name="Auth_PW" type="s:string" />
+    <wsdl:part name="CustomerNumber" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="Stream_GetSponsorHttpPostOut">
+    <wsdl:part name="Body" element="tns:GetSponsorResult" />
+  </wsdl:message>
+  <wsdl:message name="UpdateUserTokenInfoHttpPostIn">
+    <wsdl:part name="Auth_ID" type="s:string" />
+    <wsdl:part name="Auth_PW" type="s:string" />
+    <wsdl:part name="Encrypted_Value" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="UpdateUserTokenInfoHttpPostOut">
+    <wsdl:part name="Body" element="tns:Result" />
+  </wsdl:message>
+  <wsdl:message name="UpdateUserTokenStatusHttpPostIn">
+    <wsdl:part name="Auth_ID" type="s:string" />
+    <wsdl:part name="Auth_PW" type="s:string" />
+    <wsdl:part name="Encrypted_Value" type="s:string" />
+    <wsdl:part name="Is_Revoked" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="UpdateUserTokenStatusHttpPostOut">
+    <wsdl:part name="Body" element="tns:Result" />
+  </wsdl:message>
+  <wsdl:message name="GetCustomFilterListHttpPostIn">
+    <wsdl:part name="Auth_ID" type="s:string" />
+    <wsdl:part name="Auth_PW" type="s:string" />
+    <wsdl:part name="Encrypted_Value" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetCustomFilterListHttpPostOut">
+    <wsdl:part name="Body" element="tns:FilterResult" />
+  </wsdl:message>
+  <wsdl:message name="GetCustomFilterTokensHttpPostIn">
+    <wsdl:part name="Auth_ID" type="s:string" />
+    <wsdl:part name="Auth_PW" type="s:string" />
+    <wsdl:part name="Encrypted_Value" type="s:string" />
+    <wsdl:part name="FilterID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetCustomFilterTokensHttpPostOut">
+    <wsdl:part name="Body" element="tns:TokenResult" />
+  </wsdl:message>
+  <wsdl:portType name="DPILink_x2122_Soap">
+    <wsdl:operation name="Stream_SendTelephonicEnrollmentConfirmationEmail">
+      <wsdl:input message="tns:Stream_SendTelephonicEnrollmentConfirmationEmailSoapIn" />
+      <wsdl:output message="tns:Stream_SendTelephonicEnrollmentConfirmationEmailSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ServerTest">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Tests for database connectivity&lt;br /&gt;Click &lt;a href='/pages/resultcodes.aspx?op=ServerTest'&gt;here&lt;/a&gt; for a complete list of result codes.</wsdl:documentation>
+      <wsdl:input message="tns:ServerTestSoapIn" />
+      <wsdl:output message="tns:ServerTestSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateAccount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Updates an Account&lt;br /&gt;Click &lt;a href='/pages/resultcodes.aspx?op=UpdateAccount'&gt;here&lt;/a&gt; for a complete list of result codes.</wsdl:documentation>
+      <wsdl:input message="tns:UpdateAccountSoapIn" />
+      <wsdl:output message="tns:UpdateAccountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Stream_IsValidIaNumber">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns whether an IA Number is valid.&lt;br /&gt;Click &lt;a href='/pages/resultcodes.aspx?op=IsValidIaNumber'&gt;here&lt;/a&gt; for a complete list of result codes.</wsdl:documentation>
+      <wsdl:input message="tns:Stream_IsValidIaNumberSoapIn" />
+      <wsdl:output message="tns:Stream_IsValidIaNumberSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Stream_RetrieveIaContactInfo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Retrieves the contact information for a valid IA Number.&lt;br /&gt;Click &lt;a href='/pages/resultcodes.aspx?op=RetrieveIaContactInfo'&gt;here&lt;/a&gt; for a complete list of result codes.</wsdl:documentation>
+      <wsdl:input message="tns:Stream_RetrieveIaContactInfoSoapIn" />
+      <wsdl:output message="tns:Stream_RetrieveIaContactInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Stream_CreateCustomerEnrollment">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Creates a Customer Enrollment.&lt;br /&gt;Click &lt;a href='/pages/resultcodes.aspx?op=CreateCustomerEnrollment'&gt;here&lt;/a&gt; for a complete list of result codes.</wsdl:documentation>
+      <wsdl:input message="tns:Stream_CreateCustomerEnrollmentSoapIn" />
+      <wsdl:output message="tns:Stream_CreateCustomerEnrollmentSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Stream_SendCompletedQcEmail">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends email to accounts.&lt;br /&gt;Click &lt;a href='/pages/resultcodes.aspx?op=SendCompletedQcEmail'&gt;here&lt;/a&gt; for a complete list of result codes.</wsdl:documentation>
+      <wsdl:input message="tns:Stream_SendCompletedQcEmailSoapIn" />
+      <wsdl:output message="tns:Stream_SendCompletedQcEmailSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Stream_SendRenewalEmail">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Stream will call this method to send an email. &lt;br /&gt;Click &lt;a href='/pages/resultcodes.aspx?op=SendRenewalEmail'&gt;here&lt;/a&gt; for a complete list of result codes.</wsdl:documentation>
+      <wsdl:input message="tns:Stream_SendRenewalEmailSoapIn" />
+      <wsdl:output message="tns:Stream_SendRenewalEmailSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Stream_GetSponsor">
+      <wsdl:input message="tns:Stream_GetSponsorSoapIn" />
+      <wsdl:output message="tns:Stream_GetSponsorSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserTokenInfo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Update user token info.&lt;br /&gt;Click &lt;a href='/pages/resultcodes.aspx?op=UpdateUserTokenInfo'&gt;here&lt;/a&gt; for a complete list of result codes.</wsdl:documentation>
+      <wsdl:input message="tns:UpdateUserTokenInfoSoapIn" />
+      <wsdl:output message="tns:UpdateUserTokenInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserTokenStatus">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Update user token status.&lt;br /&gt;Click &lt;a href='/pages/resultcodes.aspx?op=UpdateUserTokenStatus'&gt;here&lt;/a&gt; for a complete list of result codes.</wsdl:documentation>
+      <wsdl:input message="tns:UpdateUserTokenStatusSoapIn" />
+      <wsdl:output message="tns:UpdateUserTokenStatusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomFilterList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gather the custom filters list that a user has defined in Agent Area.&lt;br /&gt;Click &lt;a href='/pages/resultcodes.aspx?op=GetCustomFilterList'&gt;here&lt;/a&gt; for a complete list of result codes.</wsdl:documentation>
+      <wsdl:input message="tns:GetCustomFilterListSoapIn" />
+      <wsdl:output message="tns:GetCustomFilterListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomFilterTokens">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gather the tokens based on the custom filters list that a user has defined in Agent Area.&lt;br /&gt;Click &lt;a href='/pages/resultcodes.aspx?op=GetCustomFilterTokens'&gt;here&lt;/a&gt; for a complete list of result codes.</wsdl:documentation>
+      <wsdl:input message="tns:GetCustomFilterTokensSoapIn" />
+      <wsdl:output message="tns:GetCustomFilterTokensSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="DPILink_x2122_HttpGet">
+    <wsdl:operation name="Stream_SendTelephonicEnrollmentConfirmationEmail">
+      <wsdl:input message="tns:Stream_SendTelephonicEnrollmentConfirmationEmailHttpGetIn" />
+      <wsdl:output message="tns:Stream_SendTelephonicEnrollmentConfirmationEmailHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ServerTest">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Tests for database connectivity&lt;br /&gt;Click &lt;a href='/pages/resultcodes.aspx?op=ServerTest'&gt;here&lt;/a&gt; for a complete list of result codes.</wsdl:documentation>
+      <wsdl:input message="tns:ServerTestHttpGetIn" />
+      <wsdl:output message="tns:ServerTestHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateAccount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Updates an Account&lt;br /&gt;Click &lt;a href='/pages/resultcodes.aspx?op=UpdateAccount'&gt;here&lt;/a&gt; for a complete list of result codes.</wsdl:documentation>
+      <wsdl:input message="tns:UpdateAccountHttpGetIn" />
+      <wsdl:output message="tns:UpdateAccountHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Stream_IsValidIaNumber">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns whether an IA Number is valid.&lt;br /&gt;Click &lt;a href='/pages/resultcodes.aspx?op=IsValidIaNumber'&gt;here&lt;/a&gt; for a complete list of result codes.</wsdl:documentation>
+      <wsdl:input message="tns:Stream_IsValidIaNumberHttpGetIn" />
+      <wsdl:output message="tns:Stream_IsValidIaNumberHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Stream_RetrieveIaContactInfo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Retrieves the contact information for a valid IA Number.&lt;br /&gt;Click &lt;a href='/pages/resultcodes.aspx?op=RetrieveIaContactInfo'&gt;here&lt;/a&gt; for a complete list of result codes.</wsdl:documentation>
+      <wsdl:input message="tns:Stream_RetrieveIaContactInfoHttpGetIn" />
+      <wsdl:output message="tns:Stream_RetrieveIaContactInfoHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Stream_SendRenewalEmail">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Stream will call this method to send an email. &lt;br /&gt;Click &lt;a href='/pages/resultcodes.aspx?op=SendRenewalEmail'&gt;here&lt;/a&gt; for a complete list of result codes.</wsdl:documentation>
+      <wsdl:input message="tns:Stream_SendRenewalEmailHttpGetIn" />
+      <wsdl:output message="tns:Stream_SendRenewalEmailHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Stream_GetSponsor">
+      <wsdl:input message="tns:Stream_GetSponsorHttpGetIn" />
+      <wsdl:output message="tns:Stream_GetSponsorHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserTokenInfo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Update user token info.&lt;br /&gt;Click &lt;a href='/pages/resultcodes.aspx?op=UpdateUserTokenInfo'&gt;here&lt;/a&gt; for a complete list of result codes.</wsdl:documentation>
+      <wsdl:input message="tns:UpdateUserTokenInfoHttpGetIn" />
+      <wsdl:output message="tns:UpdateUserTokenInfoHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserTokenStatus">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Update user token status.&lt;br /&gt;Click &lt;a href='/pages/resultcodes.aspx?op=UpdateUserTokenStatus'&gt;here&lt;/a&gt; for a complete list of result codes.</wsdl:documentation>
+      <wsdl:input message="tns:UpdateUserTokenStatusHttpGetIn" />
+      <wsdl:output message="tns:UpdateUserTokenStatusHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomFilterList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gather the custom filters list that a user has defined in Agent Area.&lt;br /&gt;Click &lt;a href='/pages/resultcodes.aspx?op=GetCustomFilterList'&gt;here&lt;/a&gt; for a complete list of result codes.</wsdl:documentation>
+      <wsdl:input message="tns:GetCustomFilterListHttpGetIn" />
+      <wsdl:output message="tns:GetCustomFilterListHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomFilterTokens">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gather the tokens based on the custom filters list that a user has defined in Agent Area.&lt;br /&gt;Click &lt;a href='/pages/resultcodes.aspx?op=GetCustomFilterTokens'&gt;here&lt;/a&gt; for a complete list of result codes.</wsdl:documentation>
+      <wsdl:input message="tns:GetCustomFilterTokensHttpGetIn" />
+      <wsdl:output message="tns:GetCustomFilterTokensHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="DPILink_x2122_HttpPost">
+    <wsdl:operation name="Stream_SendTelephonicEnrollmentConfirmationEmail">
+      <wsdl:input message="tns:Stream_SendTelephonicEnrollmentConfirmationEmailHttpPostIn" />
+      <wsdl:output message="tns:Stream_SendTelephonicEnrollmentConfirmationEmailHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ServerTest">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Tests for database connectivity&lt;br /&gt;Click &lt;a href='/pages/resultcodes.aspx?op=ServerTest'&gt;here&lt;/a&gt; for a complete list of result codes.</wsdl:documentation>
+      <wsdl:input message="tns:ServerTestHttpPostIn" />
+      <wsdl:output message="tns:ServerTestHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateAccount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Updates an Account&lt;br /&gt;Click &lt;a href='/pages/resultcodes.aspx?op=UpdateAccount'&gt;here&lt;/a&gt; for a complete list of result codes.</wsdl:documentation>
+      <wsdl:input message="tns:UpdateAccountHttpPostIn" />
+      <wsdl:output message="tns:UpdateAccountHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Stream_IsValidIaNumber">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns whether an IA Number is valid.&lt;br /&gt;Click &lt;a href='/pages/resultcodes.aspx?op=IsValidIaNumber'&gt;here&lt;/a&gt; for a complete list of result codes.</wsdl:documentation>
+      <wsdl:input message="tns:Stream_IsValidIaNumberHttpPostIn" />
+      <wsdl:output message="tns:Stream_IsValidIaNumberHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Stream_RetrieveIaContactInfo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Retrieves the contact information for a valid IA Number.&lt;br /&gt;Click &lt;a href='/pages/resultcodes.aspx?op=RetrieveIaContactInfo'&gt;here&lt;/a&gt; for a complete list of result codes.</wsdl:documentation>
+      <wsdl:input message="tns:Stream_RetrieveIaContactInfoHttpPostIn" />
+      <wsdl:output message="tns:Stream_RetrieveIaContactInfoHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Stream_SendRenewalEmail">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Stream will call this method to send an email. &lt;br /&gt;Click &lt;a href='/pages/resultcodes.aspx?op=SendRenewalEmail'&gt;here&lt;/a&gt; for a complete list of result codes.</wsdl:documentation>
+      <wsdl:input message="tns:Stream_SendRenewalEmailHttpPostIn" />
+      <wsdl:output message="tns:Stream_SendRenewalEmailHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Stream_GetSponsor">
+      <wsdl:input message="tns:Stream_GetSponsorHttpPostIn" />
+      <wsdl:output message="tns:Stream_GetSponsorHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserTokenInfo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Update user token info.&lt;br /&gt;Click &lt;a href='/pages/resultcodes.aspx?op=UpdateUserTokenInfo'&gt;here&lt;/a&gt; for a complete list of result codes.</wsdl:documentation>
+      <wsdl:input message="tns:UpdateUserTokenInfoHttpPostIn" />
+      <wsdl:output message="tns:UpdateUserTokenInfoHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserTokenStatus">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Update user token status.&lt;br /&gt;Click &lt;a href='/pages/resultcodes.aspx?op=UpdateUserTokenStatus'&gt;here&lt;/a&gt; for a complete list of result codes.</wsdl:documentation>
+      <wsdl:input message="tns:UpdateUserTokenStatusHttpPostIn" />
+      <wsdl:output message="tns:UpdateUserTokenStatusHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomFilterList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gather the custom filters list that a user has defined in Agent Area.&lt;br /&gt;Click &lt;a href='/pages/resultcodes.aspx?op=GetCustomFilterList'&gt;here&lt;/a&gt; for a complete list of result codes.</wsdl:documentation>
+      <wsdl:input message="tns:GetCustomFilterListHttpPostIn" />
+      <wsdl:output message="tns:GetCustomFilterListHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomFilterTokens">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gather the tokens based on the custom filters list that a user has defined in Agent Area.&lt;br /&gt;Click &lt;a href='/pages/resultcodes.aspx?op=GetCustomFilterTokens'&gt;here&lt;/a&gt; for a complete list of result codes.</wsdl:documentation>
+      <wsdl:input message="tns:GetCustomFilterTokensHttpPostIn" />
+      <wsdl:output message="tns:GetCustomFilterTokensHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="DPILink_x2122_Soap" type="tns:DPILink_x2122_Soap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Stream_SendTelephonicEnrollmentConfirmationEmail">
+      <soap:operation soapAction="http://ignite.soap.dataparadigm.com/Stream_SendTelephonicEnrollmentConfirmationEmail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ServerTest">
+      <soap:operation soapAction="http://ignite.soap.dataparadigm.com/ServerTest" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateAccount">
+      <soap:operation soapAction="http://ignite.soap.dataparadigm.com/UpdateAccount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Stream_IsValidIaNumber">
+      <soap:operation soapAction="http://ignite.soap.dataparadigm.com/Stream_IsValidIaNumber" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Stream_RetrieveIaContactInfo">
+      <soap:operation soapAction="http://ignite.soap.dataparadigm.com/Stream_RetrieveIaContactInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Stream_CreateCustomerEnrollment">
+      <soap:operation soapAction="http://ignite.soap.dataparadigm.com/Stream_CreateCustomerEnrollment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Stream_SendCompletedQcEmail">
+      <soap:operation soapAction="http://ignite.soap.dataparadigm.com/Stream_SendCompletedQcEmail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Stream_SendRenewalEmail">
+      <soap:operation soapAction="http://ignite.soap.dataparadigm.com/Stream_SendRenewalEmail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Stream_GetSponsor">
+      <soap:operation soapAction="http://ignite.soap.dataparadigm.com/Stream_GetSponsor" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserTokenInfo">
+      <soap:operation soapAction="http://ignite.soap.dataparadigm.com/UpdateUserTokenInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserTokenStatus">
+      <soap:operation soapAction="http://ignite.soap.dataparadigm.com/UpdateUserTokenStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomFilterList">
+      <soap:operation soapAction="http://ignite.soap.dataparadigm.com/GetCustomFilterList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomFilterTokens">
+      <soap:operation soapAction="http://ignite.soap.dataparadigm.com/GetCustomFilterTokens" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="DPILink_x2122_Soap12" type="tns:DPILink_x2122_Soap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Stream_SendTelephonicEnrollmentConfirmationEmail">
+      <soap12:operation soapAction="http://ignite.soap.dataparadigm.com/Stream_SendTelephonicEnrollmentConfirmationEmail" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ServerTest">
+      <soap12:operation soapAction="http://ignite.soap.dataparadigm.com/ServerTest" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateAccount">
+      <soap12:operation soapAction="http://ignite.soap.dataparadigm.com/UpdateAccount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Stream_IsValidIaNumber">
+      <soap12:operation soapAction="http://ignite.soap.dataparadigm.com/Stream_IsValidIaNumber" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Stream_RetrieveIaContactInfo">
+      <soap12:operation soapAction="http://ignite.soap.dataparadigm.com/Stream_RetrieveIaContactInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Stream_CreateCustomerEnrollment">
+      <soap12:operation soapAction="http://ignite.soap.dataparadigm.com/Stream_CreateCustomerEnrollment" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Stream_SendCompletedQcEmail">
+      <soap12:operation soapAction="http://ignite.soap.dataparadigm.com/Stream_SendCompletedQcEmail" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Stream_SendRenewalEmail">
+      <soap12:operation soapAction="http://ignite.soap.dataparadigm.com/Stream_SendRenewalEmail" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Stream_GetSponsor">
+      <soap12:operation soapAction="http://ignite.soap.dataparadigm.com/Stream_GetSponsor" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserTokenInfo">
+      <soap12:operation soapAction="http://ignite.soap.dataparadigm.com/UpdateUserTokenInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserTokenStatus">
+      <soap12:operation soapAction="http://ignite.soap.dataparadigm.com/UpdateUserTokenStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomFilterList">
+      <soap12:operation soapAction="http://ignite.soap.dataparadigm.com/GetCustomFilterList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomFilterTokens">
+      <soap12:operation soapAction="http://ignite.soap.dataparadigm.com/GetCustomFilterTokens" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="DPILink_x2122_HttpGet" type="tns:DPILink_x2122_HttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="Stream_SendTelephonicEnrollmentConfirmationEmail">
+      <http:operation location="/Stream_SendTelephonicEnrollmentConfirmationEmail" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ServerTest">
+      <http:operation location="/ServerTest" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateAccount">
+      <http:operation location="/UpdateAccount" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Stream_IsValidIaNumber">
+      <http:operation location="/Stream_IsValidIaNumber" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Stream_RetrieveIaContactInfo">
+      <http:operation location="/Stream_RetrieveIaContactInfo" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Stream_SendRenewalEmail">
+      <http:operation location="/Stream_SendRenewalEmail" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Stream_GetSponsor">
+      <http:operation location="/Stream_GetSponsor" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserTokenInfo">
+      <http:operation location="/UpdateUserTokenInfo" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserTokenStatus">
+      <http:operation location="/UpdateUserTokenStatus" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomFilterList">
+      <http:operation location="/GetCustomFilterList" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomFilterTokens">
+      <http:operation location="/GetCustomFilterTokens" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="DPILink_x2122_HttpPost" type="tns:DPILink_x2122_HttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="Stream_SendTelephonicEnrollmentConfirmationEmail">
+      <http:operation location="/Stream_SendTelephonicEnrollmentConfirmationEmail" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ServerTest">
+      <http:operation location="/ServerTest" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateAccount">
+      <http:operation location="/UpdateAccount" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Stream_IsValidIaNumber">
+      <http:operation location="/Stream_IsValidIaNumber" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Stream_RetrieveIaContactInfo">
+      <http:operation location="/Stream_RetrieveIaContactInfo" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Stream_SendRenewalEmail">
+      <http:operation location="/Stream_SendRenewalEmail" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Stream_GetSponsor">
+      <http:operation location="/Stream_GetSponsor" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserTokenInfo">
+      <http:operation location="/UpdateUserTokenInfo" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserTokenStatus">
+      <http:operation location="/UpdateUserTokenStatus" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomFilterList">
+      <http:operation location="/GetCustomFilterList" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomFilterTokens">
+      <http:operation location="/GetCustomFilterTokens" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="DPILink_x2122_">
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Allows third-party systems to interact with Data Paradigm's systems.</wsdl:documentation>
+    <wsdl:port name="DPILink_x2122_Soap" binding="tns:DPILink_x2122_Soap">
+      <soap:address location="http://uat.soap.dataparadigm.com:6080/dpilink.asmx" />
+    </wsdl:port>
+    <wsdl:port name="DPILink_x2122_Soap12" binding="tns:DPILink_x2122_Soap12">
+      <soap12:address location="http://uat.soap.dataparadigm.com:6080/dpilink.asmx" />
+    </wsdl:port>
+    <wsdl:port name="DPILink_x2122_HttpGet" binding="tns:DPILink_x2122_HttpGet">
+      <http:address location="http://uat.soap.dataparadigm.com:6080/dpilink.asmx" />
+    </wsdl:port>
+    <wsdl:port name="DPILink_x2122_HttpPost" binding="tns:DPILink_x2122_HttpPost">
+      <http:address location="http://uat.soap.dataparadigm.com:6080/dpilink.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
