@@ -513,9 +513,16 @@ article.state-tabs {
 		@extend .wrapper;
 		margin: 0 auto;
 		display: table;
+		@include breakpoint(small) {
+			width: 100%;
+		}
 		li {
 			float: none;
 			display: table-cell;
+			@include breakpoint(small) {
+				display: block;
+				width: auto;
+			}
 			a {
 				display: block;
 				padding: 10px 0 20px 0;
@@ -527,6 +534,10 @@ article.state-tabs {
 					width: 82px;
 					height: 84px;
 					@include retina-background("state-tabs.png");
+				}
+				@include breakpoint(small) {
+					@include border-radius(7px 7px 7px 7px);
+					width: auto;
 				}
 			}
 			&.active, &:hover {
@@ -544,6 +555,12 @@ article.state-tabs {
 		padding: 10px 0;
 		background-color: #0971ce;
 		color: #fff;
+		button, a.button{
+			@include breakpoint(small) {
+				display:block;
+				margin: 5px 0;
+			}
+		}
 	}
 }
 

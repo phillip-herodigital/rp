@@ -20,6 +20,11 @@ namespace StreamEnergy.Processes
             return Enumerable.Empty<System.ComponentModel.DataAnnotations.ValidationResult>();
         }
 
+        bool IState<TContext, TInternalContext>.IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult)
+        {
+            return false;
+        }
+
         bool IState<TContext, TInternalContext>.IsFinal
         {
             get { return true; }

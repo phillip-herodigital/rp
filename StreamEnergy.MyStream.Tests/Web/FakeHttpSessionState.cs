@@ -7,20 +7,20 @@ namespace FakeN.Web
 	public class FakeHttpSessionState : HttpSessionStateBase
 	{
 		private readonly SessionStateCollection data;
-		private int codePage;
-		private HttpSessionStateBase contents;
-		private HttpCookieMode cookieMode;
-		private bool isCookieless;
-		private bool isNewSession;
-		private bool isReadOnly;
-		private int lcid;
-		private SessionStateMode mode;
-		private string sessionId;
-		private HttpStaticObjectsCollectionBase staticObjects;
-		private int timeout;
-		private int count;
-		private bool isSynchronized;
-		private object syncRoot;
+		public int codePage;
+		public HttpSessionStateBase contents;
+		public HttpCookieMode cookieMode;
+		public bool isCookieless;
+		public bool isNewSession;
+		public bool isReadOnly;
+		public int lcid;
+		public SessionStateMode mode;
+		public string sessionId;
+		public HttpStaticObjectsCollectionBase staticObjects;
+		public int timeout;
+		public int count;
+		public bool isSynchronized;
+		public object syncRoot;
 
 		public FakeHttpSessionState()
 		{
