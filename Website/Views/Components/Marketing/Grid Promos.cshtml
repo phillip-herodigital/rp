@@ -14,12 +14,15 @@
                 @{
                     foreach (var num in new string[] { "Promo One", "Promo Two", "Promo Three", "Promo Four" })
                     {
-                        <div class="col @Html.Sitecore().LookupItem(num + " Accent").SafeFieldValue("Css Class").Prefix("accent-")">
-                            @Html.Sitecore().Field(num + " Image")
-                            <h4>@Html.Sitecore().Field(num + " Header")</h4>
-                            <p>@Html.Sitecore().Field(num + " Content")</p>
-                            <p>@Html.Sitecore().Field(num + " Button")</p>
-                        </div>
+                        if (!string.IsNullOrEmpty(Html.Sitecore().CurrentItem.Fields[num + " Header"].Value))
+                        {
+                            <div class="col @Html.Sitecore().LookupItem(num + " Accent").SafeFieldValue("Css Class").Prefix("accent-")">
+                                @Html.Sitecore().Field(num + " Image")
+                                <h4>@Html.Sitecore().Field(num + " Header")</h4>
+                                <p>@Html.Sitecore().Field(num + " Content")</p>
+                                <p>@Html.Sitecore().Field(num + " Button")</p>
+                            </div>
+                        }
                     }
                 }
             </div>
