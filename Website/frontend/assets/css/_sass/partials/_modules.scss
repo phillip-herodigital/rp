@@ -571,35 +571,47 @@ article.payment-history {
 		}
 	}
 }
-article.auth-sign-in {
-	.social-login {
-		@include layout-list;
-		> li {
-			float: left;
-			margin-right: 5px;
+article.auth-create-account {
+	dl {
+		dt {
+			font-weight: bold;
 		}
-	}
+	}	
 }
 article.auth-forgot-password {
 	.label { 
 		@extend label;
+	}
+}
+article.auth {
+	.single-link {
+		font-size: 14px;
+	}
+	.social-login {
+		@include layout-list;
+		text-align: center;
+		> li {
+			display: inline-block;
+		}
+		@include breakpoint(small-medium) {
+			> li {
+				margin-bottom: 10px;
+			}
+		}
 	}
 	dd {
 		text-align: left;
 	}
 	@include breakpoint(small) {
 		dl {
+			dd {
+				margin-bottom: 10px; 
+			}			
 			dt, dd {
 				float: none;
 			}
 		}
 	}	
-}
-article.auth-sign-in, 
-article.auth-forgot-password {
-	.single-link {
-		font-size: 14px;
-	}
 	@include breakpoint(medium-large) {
 		.single-link {
 			display: inline-block;
