@@ -213,13 +213,22 @@ namespace StreamEnergy.MyStream.Tests
                 var result = controller.AccountInformation(request);
 
                 // Assert
-                Assert.IsTrue(result.UserContext.SelectedOffers.Any(o => o.Offer.Id == "NewOffer"));
-                Assert.IsNotNull(result.OfferOptionRules["NewOffer"]);
+                Assert.AreEqual("Test", result.UserContext.ContactInfo.Name.First);
+                Assert.AreEqual("Person", result.UserContext.ContactInfo.Name.Last);
+                Assert.AreEqual("test@example.com", result.UserContext.ContactInfo.Email.Address);
+                Assert.AreEqual("2142234567", result.UserContext.ContactInfo.PrimaryPhone.Number);
+                Assert.IsNull(result.UserContext.SocialSecurityNumber);
+                Assert.AreEqual("en", result.UserContext.Language);
             }
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.VerifyIdentityState), session.State);
             Assert.IsTrue(session.UserContext.SelectedOffers.Any(o => o.Offer.Id == "NewOffer"));
-            Assert.IsNotNull(session.InternalContext.OfferOptionRules["NewOffer"]);
+            Assert.AreEqual("Test", session.UserContext.ContactInfo.Name.First);
+            Assert.AreEqual("Person", session.UserContext.ContactInfo.Name.Last);
+            Assert.AreEqual("test@example.com", session.UserContext.ContactInfo.Email.Address);
+            Assert.AreEqual("2142234567", session.UserContext.ContactInfo.PrimaryPhone.Number);
+            Assert.AreEqual("123456789", session.UserContext.SocialSecurityNumber);
+            Assert.AreEqual("en", session.UserContext.Language);
         }
     }
 }

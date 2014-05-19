@@ -156,8 +156,20 @@ namespace StreamEnergy.MyStream.Controllers
 
         private UserContext CopyForClientDisplay(UserContext userContext)
         {
-            // TODO - clone and remove items that should not be displayed
-            return userContext;
+            return new UserContext
+            {
+                BillingAddress = userContext.BillingAddress,
+                ContactInfo = userContext.ContactInfo,
+                DriversLicense = userContext.DriversLicense,
+                Language = userContext.Language,
+                SecondaryContactInfo = userContext.SecondaryContactInfo,
+                SelectedOffers = userContext.SelectedOffers,
+                ServiceAddress = userContext.ServiceAddress,
+                ServiceCapabilities = userContext.ServiceCapabilities,
+                SocialSecurityNumber = null,
+
+                // TODO - there will be more properties here
+            };
         }
 
         [HttpPost]
