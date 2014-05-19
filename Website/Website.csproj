@@ -439,6 +439,7 @@
     <Compile Include="Models\Angular\GridTable\GridTableExtensions.cs" />
     <Compile Include="Models\Angular\GridTable\Table.cs" />
     <Compile Include="Models\Angular\GridTable\DeviceType.cs" />
+    <Compile Include="Models\Enrollment\AccountInformation.cs" />
     <Compile Include="Models\Enrollment\ClientData.cs" />
     <Compile Include="Models\Enrollment\SelectedOffers.cs" />
     <Compile Include="Models\Enrollment\ServiceInformation.cs" />

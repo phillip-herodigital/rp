@@ -189,7 +189,7 @@ namespace StreamEnergy.Core.Tests.Processes
         private IStateMachine<GetOffersContext, GetOffersInternalContext> Create()
         {
             var unity = new UnityContainer();
-            var result = new StateMachine<GetOffersContext, GetOffersInternalContext>(new ValidationService(), unity);
+            var result = new StateMachine<GetOffersContext, GetOffersInternalContext>(new ValidationService(new Microsoft.Practices.Unity.UnityContainer()), unity);
             return result;
         }
 

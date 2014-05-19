@@ -109,6 +109,7 @@ namespace StreamEnergy.MyStream.Tests
             }
             var session = container.Resolve<EnrollmentController.SessionHelper>();
 
+            Assert.AreEqual(typeof(DomainModels.Enrollments.PlanSelectionState), session.State);
             Assert.AreEqual("75010", session.UserContext.ServiceAddress.PostalCode5);
             Assert.AreEqual(DomainModels.TexasServiceCapability.capabilityType, session.UserContext.ServiceCapabilities.First().CapabilityType);
             Assert.AreEqual("Centerpoint", (session.UserContext.ServiceCapabilities.First() as DomainModels.TexasServiceCapability).Tdu);
@@ -152,6 +153,71 @@ namespace StreamEnergy.MyStream.Tests
                 Assert.IsNotNull(result.OfferOptionRules["NewOffer"]);
             }
 
+            Assert.AreEqual(typeof(DomainModels.Enrollments.AccountInformationState), session.State);
+            Assert.IsTrue(session.UserContext.SelectedOffers.Any(o => o.Offer.Id == "NewOffer"));
+            Assert.IsNotNull(session.InternalContext.OfferOptionRules["NewOffer"]);
+        }
+
+        [TestMethod]
+        public void PostAccountInformationTest()
+        {
+            // Arrange
+            var session = container.Resolve<EnrollmentController.SessionHelper>();
+            session.UserContext = new UserContext
+            {
+                ServiceAddress = new DomainModels.Address { PostalCode5 = "75010" },
+                ServiceCapabilities = new[] { new DomainModels.TexasServiceCapability { Tdu = "Centerpoint" } },
+                SelectedOffers = new[] 
+                { 
+                    new SelectedOffer 
+                    { 
+                        Offer = new TexasElectricityOffer
+                        {
+                            Id = "NewOffer"
+                        }
+                    }
+                }
+            };
+            session.InternalContext = new InternalContext
+            {
+                AllOffers = new IOffer[] 
+                { 
+                    new TexasElectricityOffer
+                    {
+                        Id = "NewOffer"
+                    }
+                }
+            };
+            session.State = typeof(DomainModels.Enrollments.AccountInformationState);
+            var request = new Models.Enrollment.AccountInformation
+            {
+                ServiceAddress = new DomainModels.Address { Line1 = "3620 Huffines Blvd", UnitNumber = "226", City = "Carrollton", StateAbbreviation = "TX", PostalCode5 = "75010" },
+                ServiceCapabilities = new[] { new DomainModels.TexasServiceCapability { Tdu = "Centerpoint", EsiId = "1234SAMPLE5678" } },
+                ContactInfo = new DomainModels.CustomerContact
+                {
+                    Name = new DomainModels.Name { First = "Test", Last = "Person" },
+                    Email = new DomainModels.Email { Address = "test@example.com" },
+                    PrimaryPhone = new DomainModels.Phone { Number = "214-223-4567" },
+                },
+                BillingAddress = new DomainModels.Address { Line1 = "3620 Huffines Blvd", UnitNumber = "226", City = "Carrollton", StateAbbreviation = "TX", PostalCode5 = "75010" },
+                DriversLicense = null,
+                Language = "en",
+                SecondaryContactInfo = null,
+                SocialSecurityNumber = "123-45-6789",
+                OfferOptions = new Dictionary<string, IOfferOption> { { "NewOffer", new TexasElectricityOfferOption { ConnectDate = new DateTime(2014, 5, 1) } } }
+            };
+
+            using (var controller = container.Resolve<EnrollmentController>())
+            {
+                // Act
+                var result = controller.AccountInformation(request);
+
+                // Assert
+                Assert.IsTrue(result.UserContext.SelectedOffers.Any(o => o.Offer.Id == "NewOffer"));
+                Assert.IsNotNull(result.OfferOptionRules["NewOffer"]);
+            }
+
+            Assert.AreEqual(typeof(DomainModels.Enrollments.VerifyIdentityState), session.State);
             Assert.IsTrue(session.UserContext.SelectedOffers.Any(o => o.Offer.Id == "NewOffer"));
             Assert.IsNotNull(session.InternalContext.OfferOptionRules["NewOffer"]);
         }

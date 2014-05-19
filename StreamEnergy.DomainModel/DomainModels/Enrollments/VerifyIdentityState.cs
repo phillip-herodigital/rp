@@ -6,7 +6,7 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
-    class VerifyIdentityState : IState<UserContext, InternalContext>
+    public class VerifyIdentityState : IState<UserContext, InternalContext>
     {
         public IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
         {

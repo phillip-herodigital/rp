@@ -159,5 +159,38 @@ namespace StreamEnergy.MyStream.Controllers
             // TODO - clone and remove items that should not be displayed
             return userContext;
         }
+
+        [HttpPost]
+        public ClientData AccountInformation([FromBody]AccountInformation request)
+        {
+            stateMachine.Context.ServiceAddress = request.ServiceAddress;
+            stateMachine.Context.ServiceCapabilities = request.ServiceCapabilities;
+            stateMachine.Context.ContactInfo = request.ContactInfo;
+            stateMachine.Context.BillingAddress = request.BillingAddress;
+            stateMachine.Context.DriversLicense = request.DriversLicense;
+            stateMachine.Context.Language = request.Language;
+            stateMachine.Context.SecondaryContactInfo = request.SecondaryContactInfo;
+            stateMachine.Context.SocialSecurityNumber = request.SocialSecurityNumber;
+            if (request.OfferOptions != null)
+            {
+                foreach (var entry in request.OfferOptions)
+                {
+                    var selectedOffer = stateMachine.Context.SelectedOffers.SingleOrDefault(offer => offer.Offer.Id == entry.Key);
+                    if (selectedOffer == null)
+                    {
+                        selectedOffer = new SelectedOffer { Offer = stateMachine.InternalContext.AllOffers.SingleOrDefault(offer => offer.Id == entry.Key) };
+                        if (selectedOffer.Offer == null)
+                            continue;
+                        stateMachine.Context.SelectedOffers = stateMachine.Context.SelectedOffers.Concat(Enumerable.Repeat(selectedOffer, 1));
+                    }
+                    selectedOffer.OfferOption = entry.Value;
+                }
+            }
+
+            if (stateMachine.State == typeof(DomainModels.Enrollments.AccountInformationState))
+                stateMachine.Process(typeof(DomainModels.Enrollments.VerifyIdentityState));
+
+            return ClientData();
+        }
     }
 }

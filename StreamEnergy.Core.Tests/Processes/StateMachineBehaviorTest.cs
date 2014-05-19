@@ -140,7 +140,7 @@ namespace StreamEnergy.Core.Tests.Processes
         private IStateMachine<CreateAccountContext, object> Create(ICheckState mock)
         {
             var unity = new UnityContainer();
-            var result = new StateMachine<CreateAccountContext, object>(new ValidationService(), unity);
+            var result = new StateMachine<CreateAccountContext, object>(new ValidationService(unity), unity);
             result.ResolverOverrides = new ResolverOverride[] {
                     new DependencyOverride(typeof(Action), (Action)(() => mock.Callback(result.State)))
                 };
