@@ -41,10 +41,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public Type Process(UserContext context, InternalContext internalContext)
         {
-            foreach (var offer in context.SelectedOffers)
-            {
-                internalContext.OfferOptionRules[offer.Offer.Id] = offer.Offer.GetOfferOptionPolicy(container).GetOptionRules(context.ServiceAddress, offer.Offer, context.ServiceCapabilities);
-            }
+            LoadInternalState(context, internalContext);
             return typeof(AccountInformationState);
         }
 
@@ -55,7 +52,17 @@ namespace StreamEnergy.DomainModels.Enrollments
                 return false;
             }
 
+            LoadInternalState(stateMachine.Context, internalContext);
+
             return true;
+        }
+
+        private void LoadInternalState(UserContext context, InternalContext internalContext)
+        {
+            foreach (var offer in context.SelectedOffers)
+            {
+                internalContext.OfferOptionRules[offer.Offer.Id] = offer.Offer.GetOfferOptionPolicy(container).GetOptionRules(context.ServiceAddress, offer.Offer, context.ServiceCapabilities);
+            }
         }
     }
 }

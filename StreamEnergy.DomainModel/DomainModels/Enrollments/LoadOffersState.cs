@@ -51,6 +51,7 @@ namespace StreamEnergy.DomainModels.Enrollments
                 return false;
             }
 
+            // TODO - do we really want to always reload internal state?
             LoadInternalState(stateMachine.Context, internalContext);
             return true;
         }
