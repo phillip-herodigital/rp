@@ -429,7 +429,7 @@
         }
     }
     @each $theme in $themes {
-        .accent-#{map-get($theme, name)} {
+        &.accent-#{map-get($theme, name)} {
             section h1 span {
                 color: map-get($theme, primaryColor);
             }
