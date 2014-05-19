@@ -4,6 +4,7 @@ using StreamEnergy.DomainModels.Accounts;
 using StreamEnergy.MyStream.Models.Marketing;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -26,8 +27,10 @@ namespace StreamEnergy.MyStream.Controllers
         public ActionResult ContactIndex()
         {
             var model = new StreamEnergy.MyStream.Models.Marketing.Contact()
-            {
+            {          
                 ShowSuccessMessage = !string.IsNullOrEmpty(Request["success"]) && Request["success"] == "true",
+                ContactInfo = new DomainModels.CustomerContact(),
+                ContactAddress = new DomainModels.Address(),
             };
 
             return View("~/Views/Pages/Marketing/Contact/Contact.cshtml", model);
@@ -77,6 +80,7 @@ namespace StreamEnergy.MyStream.Controllers
                 return View("~/Views/Pages/Marketing/Contact/Contact.cshtml");
             }
         }
+
 
         public ActionResult EnrollCommercialIndex()
         {
