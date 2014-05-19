@@ -13,6 +13,7 @@ namespace StreamEnergy.Processes
     {
         IEnumerable<System.Linq.Expressions.Expression<Func<TContext, object>>> PreconditionValidations();
         IEnumerable<ValidationResult> AdditionalValidations(TContext context, TInternalContext internalContext);
+        bool IgnoreValidation(ValidationResult validationResult);
         bool IsFinal { get; }
 
         Type Process(TContext context, TInternalContext internalContext);

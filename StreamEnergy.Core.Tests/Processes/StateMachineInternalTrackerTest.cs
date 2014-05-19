@@ -49,6 +49,11 @@ namespace StreamEnergy.Core.Tests.Processes
                 return Enumerable.Empty<ValidationResult>();
             }
 
+            bool IState<GetOffersContext, GetOffersInternalContext>.IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult)
+            {
+                return false;
+            }
+
             public bool IsFinal
             {
                 get { return false; }
@@ -99,6 +104,11 @@ namespace StreamEnergy.Core.Tests.Processes
                 return Enumerable.Empty<ValidationResult>();
             }
 
+            bool IState<GetOffersContext, GetOffersInternalContext>.IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult)
+            {
+                return false;
+            }
+
             public bool IsFinal
             {
                 get { return false; }
@@ -145,6 +155,11 @@ namespace StreamEnergy.Core.Tests.Processes
                 {
                     yield return new ValidationResult("Selected Offer Invalid", new[] { "ChosenOffer" });
                 }
+            }
+
+            bool IState<GetOffersContext, GetOffersInternalContext>.IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult)
+            {
+                return false;
             }
 
             public bool IsFinal

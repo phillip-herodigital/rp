@@ -29,6 +29,11 @@ namespace StreamEnergy.DomainModels.Enrollments
             yield break;
         }
 
+        bool IState<UserContext, InternalContext>.IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult)
+        {
+            return validationResult.MemberNames.All(m => System.Text.RegularExpressions.Regex.IsMatch(m, @"SelectedOffers\[[0-9]+\]\.OfferOption"));
+        }
+
         public bool IsFinal
         {
             get { return false; }
