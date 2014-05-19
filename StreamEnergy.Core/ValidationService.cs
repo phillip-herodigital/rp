@@ -28,10 +28,10 @@ namespace StreamEnergy
             var validations = new List<ValidationResult>();
             foreach (var property in from v in properties
                                      let property = (v.RemoveLambdaBody().RemoveCast() as MemberExpression)
-                                     let propertyChain = CompositeValidationAttribute.UnrollPropertyChain(property)
+                                     let propertyChain = CompositeValidationAttribute.UnrollPropertyChain(property).ToArray()
                                      select new
                                      {
-                                         messagePrefix = CompositeValidationAttribute.GetPrefix(propertyChain),
+                                         messagePrefix = CompositeValidationAttribute.GetPrefix(propertyChain.Take(propertyChain.Length - 1)),
                                          name = CompositeValidationAttribute.GetPathedName(propertyChain),
                                          value = TryGetValue(v.CachedCompile<Func<T, object>>(), target),
                                          attrs = property.Member.GetCustomAttributes(true).OfType<ValidationAttribute>()
