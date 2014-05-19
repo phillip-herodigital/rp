@@ -20,11 +20,10 @@ article {
 /* Box styling */
 
 article {
-	@include box-shadow(0 0 5px rgba(0,0,0,.15));
+	@include box-shadow(0 1px 2px rgba(0, 0, 0, 0.15));
 	@include border-radius(10px);
 	margin-bottom: 20px;
-	border: 1px solid #ddd;	
-	//padding: 15px;
+	border: 1px solid #ddd;
 	overflow: hidden;
 	header {
 		@include border-radius(10px 10px 0px 0px);
@@ -41,7 +40,9 @@ article {
 		background: #fbfbfb;
 		padding: 15px;
 		border-top: 1px solid #ddd;
-		//margin: 0px -15px -15px -15px;
+		button, .button {
+			margin-top: 10px;
+		}
 	}
 	.content {
 		padding: 25px 15px;
@@ -52,6 +53,7 @@ article {
 
 		& > :last-child {
 			margin-bottom: 0;
+			padding-bottom: 0;
 		}
 	}
 	.loadingMessage {
@@ -194,13 +196,6 @@ article.grey-box {
 		border-bottom: 1px solid #ddd;
 		h2 {
 			color: #0971ce;
-		}
-	}
-	footer {
-		background-color: #fbfbfb;
-		border-top: 1px solid #ddd;
-		.buttons button, .buttons .button {
-			margin-top: 0;
 		}
 	}
 	.account-selector {
@@ -584,9 +579,6 @@ article.auth-forgot-password {
 	}
 }
 article.auth {
-	.single-link {
-		font-size: 14px;
-	}
 	.social-login {
 		@include layout-list;
 		text-align: center;
@@ -612,12 +604,6 @@ article.auth {
 			}
 		}
 	}	
-	@include breakpoint(medium-large) {
-		.single-link {
-			display: inline-block;
-			margin-top: 30px;
-		}
-	}
 }
 
 /*ALL MODULES BELOW THIS ARE SIDEBAR MODULES*/
