@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.ComponentModel.DataAnnotations;
 using StreamEnergy.Extensions;
+using Microsoft.Practices.Unity;
 
 namespace StreamEnergy.Core.Tests
 {
@@ -39,6 +40,10 @@ namespace StreamEnergy.Core.Tests
         [TestMethod]
         public void InnerFields()
         {
+            var unity = new UnityContainer();
+            var validationService = new ValidationService(unity);
+            unity.RegisterInstance<IValidationService>(validationService);
+
             var target = new Outer()
             {
                 DriversLicense = new DriversLicense()
@@ -49,7 +54,7 @@ namespace StreamEnergy.Core.Tests
 
             try
             {
-                Validator.ValidateObject(target, new ValidationContext(target, null, null), true);
+                Validator.ValidateObject(target, validationService.CreateValidationContext(target), true);
                 Assert.Fail("Should have thrown an Exception.");
             }
             catch (ValidationException ex)
