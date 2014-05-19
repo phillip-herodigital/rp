@@ -571,18 +571,37 @@ article.payment-history {
 		}
 	}
 }
-article.auth-sign-in {
+article.auth-create-account {
+	dl {
+		dt {
+			font-weight: bold;
+		}
+	}
+	@include breakpoint(small) {
+		dl {
+			dd {
+				margin-bottom: 10px; 
+			}
+		}
+	}		
+}
+article.auth-forgot-password {
+	.label { 
+		@extend label;
+	}
+}
+article.auth-sign-in,
+article.auth-create-account,
+article.auth-forgot-password {
+	.single-link {
+		font-size: 14px;
+	}
 	.social-login {
 		@include layout-list;
 		> li {
 			float: left;
 			margin-right: 5px;
 		}
-	}
-}
-article.auth-forgot-password {
-	.label { 
-		@extend label;
 	}
 	dd {
 		text-align: left;
@@ -594,12 +613,6 @@ article.auth-forgot-password {
 			}
 		}
 	}	
-}
-article.auth-sign-in, 
-article.auth-forgot-password {
-	.single-link {
-		font-size: 14px;
-	}
 	@include breakpoint(medium-large) {
 		.single-link {
 			display: inline-block;
