@@ -4,6 +4,7 @@ using Moq;
 using StreamEnergy.DomainModels.Enrollments;
 using StreamEnergy.MyStream.Controllers;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http.Controllers;
@@ -68,26 +69,25 @@ namespace StreamEnergy.MyStream.Tests
         public void PostServiceInformationTest()
         {
             // Arrange
-   
             // TODO - remove this mock and replace with a service-level mock
             Mock<IEnrollmentService> service = new Mock<IEnrollmentService>();
             container.Unity.RegisterInstance(service.Object);
+            var request = new Models.Enrollment.ServiceInformation
+            {
+                IsNewService = true,
+                ServiceAddress = new DomainModels.Address { PostalCode5 = "75010" },
+                ServiceCapabilities = new[] { new DomainModels.TexasServiceCapability { Tdu = "Centerpoint" } }
+            };
+            service.Setup(svc => svc.LoadOffers(request.ServiceAddress, request.ServiceCapabilities)).Returns(new IOffer[] 
+            { 
+                new TexasElectricityOffer
+                {
+                    Id = "NewOffer"
+                }
+            });
 
             using (var controller = container.Resolve<EnrollmentController>())
             {
-                var request = new Models.Enrollment.ServiceInformation
-                {
-                    IsNewService = true,
-                    ServiceAddress = new DomainModels.Address { PostalCode5 = "75010" },
-                    ServiceCapabilities = new[] { new DomainModels.TexasServiceCapability { Tdu = "Centerpoint" } }
-                };
-                service.Setup(svc => svc.LoadOffers(request.ServiceAddress, request.ServiceCapabilities)).Returns(new [] { 
-                    (IOffer)new TexasElectricityOffer
-                    {
-                        Id = "NewOffer"
-                    }
-                });
-
                 // Act
                 var result = controller.ServiceInformation(request);
 
@@ -108,6 +108,51 @@ namespace StreamEnergy.MyStream.Tests
             Assert.AreEqual("Centerpoint", (session.UserContext.ServiceCapabilities.First() as DomainModels.TexasServiceCapability).Tdu);
             Assert.IsTrue((session.UserContext.ServiceCapabilities.First() as DomainModels.TexasServiceCapability).IsNewService);
             Assert.IsNotNull(session.InternalContext.AllOffers.SingleOrDefault(offer => offer.Id == "NewOffer"));
+        }
+
+        [TestMethod]
+        public void PostSelectedOffersTest()
+        {
+            // Arrange
+            // TODO - remove this mock and replace with a service-level mock
+            Mock<IEnrollmentService> service = new Mock<IEnrollmentService>();
+            // This isn't really here to be a mock, but rather a placeholder... hence it's a "stub". The real thing should come in with the service-level mock.
+            Mock<IConnectDatePolicy> stub = new Mock<IConnectDatePolicy>();
+            service.Setup(svc => svc.LoadConnectDates(It.IsAny<DomainModels.Address>(), It.IsAny<IEnumerable<DomainModels.IServiceCapability>>())).Returns(stub.Object);
+            container.Unity.RegisterInstance(service.Object);
+            var session = container.Resolve<EnrollmentController.SessionHelper>();
+            session.UserContext = new UserContext
+            {
+                ServiceAddress = new DomainModels.Address { PostalCode5 = "75010" },
+                ServiceCapabilities = new[] { new DomainModels.TexasServiceCapability { Tdu = "Centerpoint" } }
+            };
+            session.InternalContext = new InternalContext
+            {
+                AllOffers = new IOffer[] 
+                { 
+                    new TexasElectricityOffer
+                    {
+                        Id = "NewOffer"
+                    }
+                }
+            };
+            session.State = typeof(DomainModels.Enrollments.PlanSelectionState);
+            var request = new Models.Enrollment.SelectedOffers
+            {
+                OfferIds = new[] { "NewOffer" }
+            };
+
+            using (var controller = container.Resolve<EnrollmentController>())
+            {
+                // Act
+                var result = controller.SelectedOffers(request);
+
+                // Assert
+                Assert.IsTrue(result.UserContext.SelectedOffers.Any(o => o.Offer.Id == "NewOffer"));
+            }
+
+            Assert.IsTrue(session.UserContext.SelectedOffers.Any(o => o.Offer.Id == "NewOffer"));
+            Assert.IsNotNull(session.InternalContext.OfferOptionRules["NewOffer"]);
         }
     }
 }

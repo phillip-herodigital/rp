@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Practices.Unity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
-            if (Offer != null && OfferOption != null && Offer.GetOfferOptionPolicy().AcceptsOptions(OfferOption))
+            if (Offer != null && OfferOption != null && Offer.GetOfferOptionPolicy((IUnityContainer)validationContext.ServiceContainer.GetService(typeof(IUnityContainer))).AcceptsOptions(OfferOption))
             {
                 // This is really a developer error. The user was allowed to provide options for an offer that didn't match the offer.
                 // At the time of writing this validation, I don't have concrete examples, but it's like giving electricity connect date

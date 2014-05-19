@@ -137,11 +137,18 @@ namespace StreamEnergy.MyStream.Controllers
         }
 
         [HttpPost]
-        public ClientData SelectedOffers()
+        public ClientData SelectedOffers([FromBody]SelectedOffers value)
         {
-            // TODO - need some parameters
+            stateMachine.Context.SelectedOffers = (from offerId in value.OfferIds
+                                                   let offer = stateMachine.InternalContext.AllOffers.SingleOrDefault(o => o.Id == offerId)
+                                                   where offer != null
+                                                   select new SelectedOffer
+                                                   {
+                                                       Offer = offer,
+                                                   }).ToArray();
 
-            stateMachine.Process(); // TODO - set steps to stop at
+            if (stateMachine.State == typeof(DomainModels.Enrollments.PlanSelectionState))
+                stateMachine.Process(typeof(DomainModels.Enrollments.AccountInformationState));
 
             return ClientData();
         }

@@ -1,4 +1,5 @@
-﻿using StreamEnergy.Extensions;
+﻿using Microsoft.Practices.Unity;
+using StreamEnergy.Extensions;
 using StreamEnergy.Processes;
 using System;
 using System.Collections.Generic;
@@ -8,8 +9,15 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
-    class PlanSelectionState : IState<UserContext, InternalContext>
+    public class PlanSelectionState : IState<UserContext, InternalContext>
     {
+        private readonly IUnityContainer container;
+
+        public PlanSelectionState(IUnityContainer container)
+        {
+            this.container = container;
+        }
+
         public IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
         {
             yield return context => context.ServiceAddress.PostalCode5;
@@ -30,7 +38,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         {
             foreach (var offer in context.SelectedOffers)
             {
-                internalContext.OfferOptionRules[offer.Offer.Id] = offer.Offer.GetOfferOptionPolicy().GetOptionRules(context.ServiceAddress, offer.Offer, context.ServiceCapabilities);
+                internalContext.OfferOptionRules[offer.Offer.Id] = offer.Offer.GetOfferOptionPolicy(container).GetOptionRules(context.ServiceAddress, offer.Offer, context.ServiceCapabilities);
             }
             return typeof(AccountInformationState);
         }

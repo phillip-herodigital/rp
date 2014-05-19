@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Practices.Unity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,9 +18,9 @@ namespace StreamEnergy.DomainModels.Enrollments
             get { return TexasElectricityOffer.OfferTypeQualifier; }
         }
 
-        public IOfferOptionPolicy GetOfferOptionPolicy()
+        public IOfferOptionPolicy GetOfferOptionPolicy(IUnityContainer container)
         {
-            return StreamEnergy.Unity.Container.Build<TexasElectricityOfferOptionPolicy>();
+            return container.Resolve<TexasElectricityOfferOptionPolicy>();
         }
     }
 }

@@ -9,6 +9,6 @@ namespace StreamEnergy.DomainModels.Enrollments
     {
         string Id { get; }
         string OfferType { get; }
-        IOfferOptionPolicy GetOfferOptionPolicy();
+        IOfferOptionPolicy GetOfferOptionPolicy(Microsoft.Practices.Unity.IUnityContainer container);
     }
 }
