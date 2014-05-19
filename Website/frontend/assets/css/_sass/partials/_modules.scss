@@ -576,31 +576,27 @@ article.auth-create-account {
 		dt {
 			font-weight: bold;
 		}
-	}
-	@include breakpoint(small) {
-		dl {
-			dd {
-				margin-bottom: 10px; 
-			}
-		}
-	}		
+	}	
 }
 article.auth-forgot-password {
 	.label { 
 		@extend label;
 	}
 }
-article.auth-sign-in,
-article.auth-create-account,
-article.auth-forgot-password {
+article.auth {
 	.single-link {
 		font-size: 14px;
 	}
 	.social-login {
 		@include layout-list;
+		text-align: center;
 		> li {
-			float: left;
-			margin-right: 5px;
+			display: inline-block;
+		}
+		@include breakpoint(small-medium) {
+			> li {
+				margin-bottom: 10px;
+			}
 		}
 	}
 	dd {
@@ -608,6 +604,9 @@ article.auth-forgot-password {
 	}
 	@include breakpoint(small) {
 		dl {
+			dd {
+				margin-bottom: 10px; 
+			}			
 			dt, dd {
 				float: none;
 			}
