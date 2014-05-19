@@ -1,5 +1,5 @@
 ﻿<div id="choose-your-plan" class="enrollment-section accent-orange">
-    <div class="banner" style="background-image: url(assets/i/enrollment/headers/chooseyourplan.jpg)">
+    <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper">
             <h1>
                 <span class="small block">Choose <i>Your</i> <span class="hide-small">Stream</span></span>
@@ -21,9 +21,11 @@
             <h1>Choose From One Of These <span>Great Plans.</span></h1>
             <p>Choose from one of these great plans below that are available for your service location</p>
             <article class="form">
-                <div class="item">
-                    <label for="service-address">Service Address</label>
-                    <strong>123 Main Street, Dallas, TX 75001</strong>
+                <div class="content">
+                    <div class="item">
+                        <label for="service-address">Service Address</label>
+                        <strong>123 Main Street, Dallas, TX 75001</strong>
+                    </div>
                 </div>
             </article>
             <h2>Electricity Plans</h2>
@@ -187,13 +189,15 @@
                     <div class="content">
                         <p>Multiple utility providers were found for your zip code <strong>75019</strong>.  Please choose your utility provider from the list below.</p>
                         <article class="form">
-                            <div class="item">
-                                <ul class="checkbox-list">
-                                    <li><input type="radio" name="provider" id="oncor-electric"><label for="oncor-electric">Oncor Electric Delivery Company</label></li>
-                                    <li><input type="radio" name="provider" id="texas-new-mexico"><label for="texas-new-mexico">Texas-New Mexico Power Company</label></li>
-                                </ul>
+                            <div class="content">
+                                <div class="item">
+                                    <ul class="checkbox-list">
+                                        <li><input type="radio" name="provider" id="oncor-electric"><label for="oncor-electric">Oncor Electric Delivery Company</label></li>
+                                        <li><input type="radio" name="provider" id="texas-new-mexico"><label for="texas-new-mexico">Texas-New Mexico Power Company</label></li>
+                                    </ul>
+                                </div>
+                                <p><a class="button" href="">Continue</a></p>
                             </div>
-                            <p><a class="button" href="">Continue</a></p>
                         </article>
                     </div>
                 </div>
