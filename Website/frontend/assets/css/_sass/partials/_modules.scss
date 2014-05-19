@@ -571,7 +571,8 @@ article.payment-history {
 		}
 	}
 }
-article.auth-create-account {
+article.auth-create-account,
+article.auth-change-password {
 	dl {
 		dt {
 			font-weight: bold;
@@ -592,6 +593,7 @@ article.auth-forgot-password {
 }
 article.auth-sign-in,
 article.auth-create-account,
+article.auth-change-password,
 article.auth-forgot-password {
 	.single-link {
 		font-size: 14px;
