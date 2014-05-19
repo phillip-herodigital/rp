@@ -52,8 +52,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         private void LoadInternalState(UserContext data, InternalContext internalContext)
         {
-            internalContext.AllOffers = enrollmentService.LoadOffers(data.ServiceAddress, data.ServiceCapabilities, data.IsNewService);
-            internalContext.ConnectPolicy = enrollmentService.LoadConnectDates(data.ServiceAddress, data.ServiceCapabilities, data.IsNewService);
+            internalContext.AllOffers = enrollmentService.LoadOffers(data.ServiceAddress, data.ServiceCapabilities);
         }
     }
 }

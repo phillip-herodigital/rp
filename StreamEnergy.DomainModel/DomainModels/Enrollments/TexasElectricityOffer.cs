@@ -19,7 +19,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public IOfferOptionPolicy GetOfferOptionPolicy()
         {
-            return new TexasElectricityOfferOptionPolicy();
+            return StreamEnergy.Unity.Container.Build<TexasElectricityOfferOptionPolicy>();
         }
     }
 }

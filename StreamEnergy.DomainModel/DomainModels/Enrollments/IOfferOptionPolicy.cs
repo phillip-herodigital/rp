@@ -8,5 +8,7 @@ namespace StreamEnergy.DomainModels.Enrollments
     public interface IOfferOptionPolicy
     {
         bool AcceptsOptions(IOfferOption offerOption);
+
+        IOfferOptionRules GetOptionRules(Address serviceAddress, IOffer offer, IEnumerable<IServiceCapability> enumerable);
     }
 }

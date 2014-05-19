@@ -28,7 +28,10 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public Type Process(UserContext context, InternalContext internalContext)
         {
-            // TODO - is there anything that goes here?
+            foreach (var offer in context.SelectedOffers)
+            {
+                internalContext.OfferOptionRules[offer.Offer.ID] = offer.Offer.GetOfferOptionPolicy().GetOptionRules(context.ServiceAddress, offer.Offer, context.ServiceCapabilities);
+            }
             return typeof(AccountInformationState);
         }
 

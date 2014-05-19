@@ -122,7 +122,12 @@ namespace StreamEnergy.MyStream.Controllers
         {
             stateMachine.Context.ServiceAddress = value.ServiceAddress;
             stateMachine.Context.ServiceCapabilities = value.ServiceCapabilities;
-            stateMachine.Context.IsNewService = value.IsNewService;
+            
+            // TODO - make sure this gets put in all the other service capabilities, or remove it from the interface and have the front-end do it
+            foreach (var entry in value.ServiceCapabilities.OfType<TexasServiceCapability>())
+            {
+                entry.IsNewService = value.IsNewService;
+            }
 
             stateMachine.Process(); // TODO - set steps to stop at
 

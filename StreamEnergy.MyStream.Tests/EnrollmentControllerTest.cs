@@ -81,7 +81,7 @@ namespace StreamEnergy.MyStream.Tests
                     ServiceAddress = new DomainModels.Address { PostalCode5 = "75010" },
                     ServiceCapabilities = new[] { new DomainModels.TexasServiceCapability { Tdu = "Centerpoint" } }
                 };
-                service.Setup(svc => svc.LoadOffers(request.ServiceAddress, request.ServiceCapabilities, request.IsNewService)).Returns(new [] { 
+                service.Setup(svc => svc.LoadOffers(request.ServiceAddress, request.ServiceCapabilities)).Returns(new [] { 
                     (IOffer)new TexasElectricityOffer
                     {
 
@@ -92,20 +92,18 @@ namespace StreamEnergy.MyStream.Tests
                 var result = controller.ServiceInformation(request);
 
                 // Assert
-                Assert.IsTrue(result.UserContext.IsNewService);
                 Assert.AreEqual("SelectedOffers", result.Validations.Single().MemberName);
                 Assert.AreEqual("75010", result.UserContext.ServiceAddress.PostalCode5);
                 Assert.AreEqual(DomainModels.TexasServiceCapability.capabilityType, result.UserContext.ServiceCapabilities.First().CapabilityType);
                 Assert.AreEqual("Centerpoint", (result.UserContext.ServiceCapabilities.First() as DomainModels.TexasServiceCapability).Tdu);
-
-                // TODO - assert offers that we get back
+                Assert.IsTrue((result.UserContext.ServiceCapabilities.First() as DomainModels.TexasServiceCapability).IsNewService);
             }
             var session = container.Resolve<EnrollmentController.SessionHelper>();
 
-            Assert.IsTrue(session.UserContext.IsNewService);
             Assert.AreEqual("75010", session.UserContext.ServiceAddress.PostalCode5);
             Assert.AreEqual(DomainModels.TexasServiceCapability.capabilityType, session.UserContext.ServiceCapabilities.First().CapabilityType);
             Assert.AreEqual("Centerpoint", (session.UserContext.ServiceCapabilities.First() as DomainModels.TexasServiceCapability).Tdu);
+            Assert.IsTrue((session.UserContext.ServiceCapabilities.First() as DomainModels.TexasServiceCapability).IsNewService);
         }
     }
 }
