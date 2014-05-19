@@ -9,5 +9,6 @@ namespace StreamEnergy.MyStream.Models.Enrollment
     {
         public IEnumerable<TranslatedValidationResult> Validations { get; set; }
         public DomainModels.Enrollments.UserContext UserContext { get; set; }
+        public IEnumerable<DomainModels.Enrollments.IOffer> Offers { get; set; }
     }
 }

@@ -84,7 +84,7 @@ namespace StreamEnergy.MyStream.Tests
                 service.Setup(svc => svc.LoadOffers(request.ServiceAddress, request.ServiceCapabilities)).Returns(new [] { 
                     (IOffer)new TexasElectricityOffer
                     {
-
+                        Id = "NewOffer"
                     }
                 });
 
@@ -97,6 +97,9 @@ namespace StreamEnergy.MyStream.Tests
                 Assert.AreEqual(DomainModels.TexasServiceCapability.capabilityType, result.UserContext.ServiceCapabilities.First().CapabilityType);
                 Assert.AreEqual("Centerpoint", (result.UserContext.ServiceCapabilities.First() as DomainModels.TexasServiceCapability).Tdu);
                 Assert.IsTrue((result.UserContext.ServiceCapabilities.First() as DomainModels.TexasServiceCapability).IsNewService);
+
+                Assert.IsTrue(result.Offers.Any());
+                Assert.IsNotNull(result.Offers.SingleOrDefault(offer => offer.Id == "NewOffer"));
             }
             var session = container.Resolve<EnrollmentController.SessionHelper>();
 
@@ -104,6 +107,7 @@ namespace StreamEnergy.MyStream.Tests
             Assert.AreEqual(DomainModels.TexasServiceCapability.capabilityType, session.UserContext.ServiceCapabilities.First().CapabilityType);
             Assert.AreEqual("Centerpoint", (session.UserContext.ServiceCapabilities.First() as DomainModels.TexasServiceCapability).Tdu);
             Assert.IsTrue((session.UserContext.ServiceCapabilities.First() as DomainModels.TexasServiceCapability).IsNewService);
+            Assert.IsNotNull(session.InternalContext.AllOffers.SingleOrDefault(offer => offer.Id == "NewOffer"));
         }
     }
 }

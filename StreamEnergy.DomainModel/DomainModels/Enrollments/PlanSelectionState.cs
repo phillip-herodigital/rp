@@ -30,7 +30,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         {
             foreach (var offer in context.SelectedOffers)
             {
-                internalContext.OfferOptionRules[offer.Offer.ID] = offer.Offer.GetOfferOptionPolicy().GetOptionRules(context.ServiceAddress, offer.Offer, context.ServiceCapabilities);
+                internalContext.OfferOptionRules[offer.Offer.Id] = offer.Offer.GetOfferOptionPolicy().GetOptionRules(context.ServiceAddress, offer.Offer, context.ServiceCapabilities);
             }
             return typeof(AccountInformationState);
         }

@@ -10,7 +10,7 @@ namespace StreamEnergy.DomainModels.Enrollments
     {
         public const string OfferTypeQualifier = "TexasElectricity";
 
-        public string ID { get; set; }
+        public string Id { get; set; }
 
         public string OfferType
         {

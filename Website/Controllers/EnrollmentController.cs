@@ -113,7 +113,8 @@ namespace StreamEnergy.MyStream.Controllers
             {
                 Validations = TranslatedValidationResult.Translate(stateMachine.ValidationResults, translationItem),
                 UserContext = CopyForClientDisplay(stateMachine.Context),
-                // TODO - more data, such as plan list, calendar, etc. - probably from stateMachine.InternalContext
+                Offers = stateMachine.InternalContext.AllOffers,
+                // TODO - more data, such as calendar, etc. - probably from stateMachine.InternalContext
             };
         }
 
@@ -129,7 +130,8 @@ namespace StreamEnergy.MyStream.Controllers
                 entry.IsNewService = value.IsNewService;
             }
 
-            stateMachine.Process(); // TODO - set steps to stop at
+            if (stateMachine.State == typeof(DomainModels.Enrollments.ServiceInformationState))
+                stateMachine.Process(typeof(DomainModels.Enrollments.AccountInformationState));
 
             return ClientData();
         }
