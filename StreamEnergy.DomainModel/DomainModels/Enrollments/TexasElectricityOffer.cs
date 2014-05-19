@@ -8,19 +8,18 @@ namespace StreamEnergy.DomainModels.Enrollments
 {
     public class TexasElectricityOffer : IOffer
     {
-        public string ID
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public const string OfferTypeQualifier = "TexasElectricity";
+
+        public string ID { get; set; }
 
         public string OfferType
         {
-            get { throw new NotImplementedException(); }
+            get { return TexasElectricityOffer.OfferTypeQualifier; }
         }
 
         public IOfferOptionPolicy GetOfferOptionPolicy()
         {
-            throw new NotImplementedException();
+            return new TexasElectricityOfferOptionPolicy();
         }
     }
 }
