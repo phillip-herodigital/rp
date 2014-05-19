@@ -149,6 +149,7 @@ namespace StreamEnergy.MyStream.Tests
 
                 // Assert
                 Assert.IsTrue(result.UserContext.SelectedOffers.Any(o => o.Offer.Id == "NewOffer"));
+                Assert.IsNotNull(result.OfferOptionRules["NewOffer"]);
             }
 
             Assert.IsTrue(session.UserContext.SelectedOffers.Any(o => o.Offer.Id == "NewOffer"));

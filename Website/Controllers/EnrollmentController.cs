@@ -114,6 +114,7 @@ namespace StreamEnergy.MyStream.Controllers
                 Validations = TranslatedValidationResult.Translate(stateMachine.ValidationResults, translationItem),
                 UserContext = CopyForClientDisplay(stateMachine.Context),
                 Offers = stateMachine.InternalContext.AllOffers,
+                OfferOptionRules = stateMachine.InternalContext.OfferOptionRules,
                 // TODO - more data, such as calendar, etc. - probably from stateMachine.InternalContext
             };
         }
