@@ -5159,7 +5159,7 @@ article.gridPromos div.col {
   text-align: center;
   padding: 0 5%;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 1024px) {
   /* line 298, _sass/partials/_marketing-site.scss */
   article.gridPromos div.col {
     padding: 0;
