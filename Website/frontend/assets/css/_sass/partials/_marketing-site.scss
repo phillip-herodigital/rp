@@ -298,7 +298,7 @@ article.gridPromos {
 	div.col {
 		text-align: center;
 		padding: 0 5%;
-		@include breakpoint(small) {
+		@include breakpoint(small-medium) {
 			padding: 0;
 		}
 		h4 {
