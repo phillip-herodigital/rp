@@ -19,7 +19,7 @@ namespace StreamEnergy.Services.Clients
             throw new NotImplementedException();
         }
 
-        DomainModels.Enrollments.Service.CreditCheckResult IEnrollmentService.CreditCheck(DomainModels.CustomerName name, string ssn, DomainModels.DriversLicense driversLicense, DomainModels.Address billingAddress, AdditionalIdentityInformation identityInformation)
+        DomainModels.Enrollments.Service.CreditCheckResult IEnrollmentService.CreditCheck(DomainModels.Name name, string ssn, DomainModels.DriversLicense driversLicense, DomainModels.Address billingAddress, AdditionalIdentityInformation identityInformation)
         {
             throw new NotImplementedException();
         }

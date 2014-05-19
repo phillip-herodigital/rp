@@ -58,18 +58,5 @@ namespace StreamEnergy
         {
             return string.Join(".", propertyChain.Select(mi => mi.Name));
         }
-
-        public static IEnumerable<System.Web.Mvc.ModelClientValidationRule> FilterClientRules(IEnumerable<MemberInfo> propertyChain, IEnumerable<System.Web.Mvc.ModelClientValidationRule> clientRules)
-        {
-            foreach (var rule in clientRules)
-            {
-                if (rule is System.Web.Mvc.ModelClientValidationRequiredRule)
-                {
-                    if (!propertyChain.All(prop => prop.GetCustomAttributes<RequiredAttribute>().Any()))
-                        continue;
-                }
-                yield return rule;
-            }
-        }
     }
 }

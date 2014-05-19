@@ -250,7 +250,7 @@ article.marketingIntro {
 article.loginHorizontal {
     margin-top: -20px;
     @include breakpoint(small) {
-		margin-top: 0;
+		margin-top: 30px;
 	}
 	padding: 4px 0;
 	border-top: 4px solid #1697ff;
@@ -275,6 +275,22 @@ article.loginHorizontal {
 		background-color: #fff;
 		color: #1773cb;
 		@include text-shadow(none);
+	}
+}
+
+.ie8 article.loginHorizontal {
+	padding-top: 8px;
+	.item {
+		display: inline-block;
+		input[type=text], input[type=password] {
+			margin: 0 8px;
+			width: 200px;
+			height:30px;
+		}
+		button {
+			width: 130px;
+			height:30px;
+		}
 	}
 }
 
@@ -304,9 +320,19 @@ article.gridPromos {
 				button, .button {
 					background-color: map-get($theme, primaryColor);
 					text-shadow: none;
+					white-space: nowrap;
+					&:hover {
+						background-color: #6b6b6b;
+					}
 				}
 			}
 		}
+	}
+}
+
+.ie8 article.gridPromos {
+	div.col {
+		display: inline-block;
 	}
 }
 
@@ -503,7 +529,7 @@ article.state-tabs {
 					@include retina-background("state-tabs.png");
 				}
 			}
-			&.active {
+			&.active, &:hover {
 				a {
 					background-color: #0971ce;
 					color: #fff;
@@ -927,6 +953,21 @@ article.contact {
 					color: #000;
 				}
 			}
+		}
+	}
+	div.success-message {
+		margin: 20px 0;
+		background-color: #e8e8e8;
+		border-bottom: 3px solid #fda32b;
+		h2 {
+			text-align: center;
+		}
+		h4 {
+			text-align:center;
+			text-transform: none;
+			font-size: 38px;
+			font-weight: 300;
+			line-height: 1.1;
 		}
 	}
 	div.faq {
@@ -1509,6 +1550,25 @@ article.commercial-quote {
 			select {
 				width: 100%;
 			}
+		}
+	}
+	.wrapper {
+		padding: 40px 0 30px 0;
+	}
+	.success-message {
+		margin: 20px 0;
+		background-color: #e8e8e8;
+		border-bottom: 3px solid #fda32b;
+		h2 {
+			font-size: 30px;
+			text-align: center;
+		}
+		h4 {
+			text-align:center;
+			text-transform: none;
+			font-size: 38px;
+			font-weight: 300;
+			line-height: 1.1;
 		}
 	}
 }

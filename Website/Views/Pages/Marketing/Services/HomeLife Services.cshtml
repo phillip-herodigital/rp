@@ -1,4 +1,26 @@
-﻿<article class="marketing homelife-services">
+﻿@model StreamEnergy.MyStream.Models.Marketing.HomeLifeServices
+
+<article class="marketing homelife-services">
+    <form method="post" action="@Model.PostUrl">
+        <input type="hidden" name="clientId" value="@Model.ClientId" />
+        <input type="hidden" name="productCode" value="" />
+        <input type="hidden" name="campaignName" value="@Model.CampaignName" />
+        <input type="hidden" name="customerNumber" value="@(Model.CustomerAccount != null ? Model.CustomerAccount.CisAccountNumber : "")" />
+        <input type="hidden" name="firstName" value="@(Model.CustomerAccount != null ? Model.CustomerAccount.Name.First : "")" />
+        <input type="hidden" name="lastName" value="@(Model.CustomerAccount != null ? Model.CustomerAccount.Name.Last : "")" />
+        <input type="hidden" name="address1" value="@(Model.CustomerAccount != null && Model.CustomerAccount.BillingAddress != null ? Model.CustomerAccount.BillingAddress.Line1 : "")" />
+        <input type="hidden" name="address2" value="@(Model.CustomerAccount != null && Model.CustomerAccount.BillingAddress != null ? Model.CustomerAccount.BillingAddress.Line2 : "")" />
+        <input type="hidden" name="city" value="@(Model.CustomerAccount != null && Model.CustomerAccount.BillingAddress != null ? Model.CustomerAccount.BillingAddress.City : "")" />
+        <input type="hidden" name="state" value="@(Model.CustomerAccount != null && Model.CustomerAccount.BillingAddress != null ? Model.CustomerAccount.BillingAddress.StateAbbreviation : "")" />
+        <input type="hidden" name="zipCode" value="@(Model.CustomerAccount != null && Model.CustomerAccount.BillingAddress != null ? Model.CustomerAccount.BillingAddress.PostalCode5 : "")" />
+        <input type="hidden" name="phone1" value="@(Model.CustomerAccount != null ? Model.CustomerAccount.Primary.Number : "")" />
+        <input type="hidden" name="phone2" value="@(Model.CustomerAccount != null ? Model.CustomerAccount.Work.Number : "")" />
+        <input type="hidden" name="phone3" value="@(Model.CustomerAccount != null ? Model.CustomerAccount.Cell.Number : "")" />
+        <input type="hidden" name="repId" value="@Model.RepId" />
+        <input type="hidden" name="repFirstName" value="@(Model.RepName != null ? Model.RepName.First : "")" />
+        <input type="hidden" name="repLastName" value="@(Model.RepName != null ? Model.RepName.Last : "")" />
+        <input type="hidden" name="repEmail" value="@(Model.RepEmail != null ? Model.RepEmail.Address : "")" />
+    </form>
     <div class="intro">
         <div class="wrapper">
             <h1>@Html.Sitecore().Field("Intro Header")</h1>
