@@ -1,1 +1,98 @@
-﻿<p>Get Started</p>
+﻿<div id="lets-get-started" class="enrollment-section accent-orange">
+    <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
+        <div class="wrapper center">
+            <h1>
+                <span class="xsmall block">Welcome To <i>Stream Energy</i></span>
+                <span class="block">Let's Get Started</span>
+            </h1>
+        </div>
+    </div>
+    <div class="wrapper layout cols-2">
+        <aside class="left">
+            <nav>
+                <ul>
+                    <li class="active"><a href="#lets-get-started">Let's Get Started</a></li>
+                    <li><a href="#choose-your-plan">Choose Your Plan</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <section>
+            <h1>Let's <span>Get Started</span></h1>
+            <p>To help us build a relationship with you, we need to check if you’re in our service area. Please enter your zip code in the space provided below.</p>
+            <article class="form">
+                <div class="content">
+                    <div class="item">
+                        <label for="service-type">What are you interested in?</label>
+                        <select id="service-type">
+                            <option value="">Please Choose</option>
+                            <option value="">Residential Utilities</option>
+                            <option value="">Commercial Utilities</option>
+                            <option value="">Homelife Services</option>
+                        </select>
+                    </div>
+                    <div class="item">
+                        <label for="address-or-zip">Address or Zip Code</label>
+                        <input type="text" id="address-or-zip" placeholder="Start typing your address" />
+                        <select id="state">
+                            <option value="">Texas</option>
+                        </select>
+                    </div>
+                    <div class="item">
+                        <label>Choose One Of The Following Options</label>
+                        <ul class="checkbox-list">
+                            <li><input type="radio" name="service-type" id="switching-electricity-providers"><label for="switching-electricity-providers">Switching electricity providers</label></li>
+                            <li><input type="radio" name="service-type" id="setting-up-new-service"><label for="setting-up-new-service">Setting up new service</label></li>
+                        </ul>
+                    </div>
+                    <div class="item">
+                        <label>How many premises are your enrolling?</label>
+                        <ul class="checkbox-list">
+                            <li><input type="radio" name="premise-num" id="less-than-5"><label for="less-than-5">Less than 5</label></li>
+                            <li><input type="radio" name="premise-num" id="5-or-more"><label for="5-or-more">5 or more</label></li>
+                        </ul>
+                    </div>
+                    <div class="item">
+                        <label>What is your total monthly spending?</label>
+                        <ul class="checkbox-list">
+                            <li><input type="radio" name="monthly-spending" id="less-than-150"><label for="less-than-150">Less than $150.00</label></li>
+                            <li><input type="radio" name="monthly-spending" id="150-or-more"><label for="150-or-more">$150 or more</label></li>
+                        </ul>
+                    </div>
+                </div>
+            </article>
+            <p><a class="button" href="">Continue</a></p>
+            <div class="hide-medium-large time-remaining-mobile">
+                <p class="time-remaining">Estimated Time For Completion <strong>10 Minutes</strong></p>
+                <p><a href="">What info will I need to complete my order?</a></p>
+            </div>
+        </section>
+        <aside>
+            <article class="cart">
+                <header>
+                    <div class="cart-items">
+                        <i class="icon-cart"></i>
+                        <div class="item-num">0</div>
+                    </div>
+                    <h1>Your Cart</h1>
+                </header>
+                <div class="body">
+                    <div class="box">
+                        <p class="alt">Your cart is empty.  To get started please enter your address and choose a plan.</p>
+                    </div>
+                    <div class="box time">
+                        <i class="icon-clock"></i>
+                        <p>It will take approximately <strong>9</strong> more minutes to complete your order.</p>
+                    </div>
+                    <p>Here's some documents you'll need to complete your order:</p>
+                    <ul class="info">
+                        <li><i class="icon-home"></i> Your Service Address</li>
+                        <li><i class="icon-bill"></i> Your <a href="">Bill Account Number</a></li>
+                        <li><i class="icon-utility-provider"></i> Your <a href="">Utility Provider</a></li>
+                        <li><i class="icon-ssn"></i> Your Social Security Number</li>
+                        <li><i class="icon-drivers-license"></i> Your Driver's License Number</li>
+                    </ul>
+                </div>
+            </article>
+        </aside>
+    </div>
+</div>

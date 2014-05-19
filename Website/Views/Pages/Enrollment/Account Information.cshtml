@@ -1,1 +1,350 @@
-﻿<p>Account Information</p>
+﻿<div id="setup-your-account" class="enrollment-section accent-darkgreen">
+    <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
+        <div class="wrapper">
+            <h1>
+                <span class="block">Setup Your</span>
+                <span class="block">Account</span>
+            </h1>
+        </div>
+    </div>
+    <div class="wrapper layout cols-2">
+        <aside class="left">
+            <nav>
+                <ul>
+                    <li class="completed"><a href="#lets-get-started">Let's Get Started</a></li>
+                    <li class="completed"><a href="#choose-your-plan">Choose Your Plan</a></li>
+                    <li class="active"><a href="#setup-your-account">Setup Your Account</a></li>
+                    <li><a href="#verify-identity">Verify Identity</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <section>
+            <h1>Account <span>Information</span></h1>
+            <p>Please fill in your information to set up your account.</p>
+            <article class="form">
+                <div class="content">
+                    <div class="item">
+                        <label for="service-address">Service Address</label>
+                        <strong>123 Main Street, Dallas, TX 75001</strong>
+                    </div>
+                    <div class="item">
+                        <label for="service-address">Service Address</label>
+                        <input type="text" id="service-address" placeholder="123 Main Street, Dallas, TX 75001" />
+                    </div>
+                    <div class="group">
+                        <div class="item group-col">
+                            <label for="bill-account-number">Bill Account Number</label>
+                            <input type="text" id="bill-account-number" placeholder="654-XXXX-XXX-XXXXXX" />
+                        </div>
+                        <div class="item group-col">
+                            <a href="" class="single-link">See Example</a>
+                        </div>
+                    </div>
+                    <div class="group">
+                        <div class="item group-col">
+                            <label for="service-start-date">Service Start Date</label>
+                            <input type="text" id="ultility-account-number" placeholder="01/29/14" />
+                        </div>
+                        <div class="item">
+                            <label for="service-start-time">Time</label>
+                            <select id="service-start-time">
+                                <option value="">Please Choose</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <label for="connection-fee">Connection Fee</label>
+                        <strong>$10.25 (Priority Connect)</strong>
+                    </div>
+                    <div class="item">
+                        <label for="meter-set-fee">Meter Set Fee</label>
+                        <strong>$XX.XX</strong>
+                    </div>
+                    <div class="item">
+                        <label for="utility-connect-fee">Utility Connect Fee</label>
+                        <strong>$25.00</strong>
+                    </div>
+                    <div class="item">
+                        <label for="stream-connect-fee">Stream Connect Fee</label>
+                        <strong>$25.00</strong>
+                    </div>
+                </div>
+            </article>
+            <h2>Personal Information</h2>
+            <article class="form">
+                <div class="content">
+                    <div class="group">
+                        <div class="item group-col">
+                            <label for="firstname">First Name</label>
+                            <input type="text" id="firstname" placeholder="Jordan" />
+                        </div>
+                        <div class="item group-col">
+                            <label for="lastname">Last Name</label>
+                            <input type="text" id="lastname" placeholder="Campbell" />
+                        </div>
+                    </div>
+                    <div class="group">
+                        <div class="item group-col">
+                            <label for="primary-phone-number">Primary Phone Number</label>
+                            <input type="text" id="primary-phone-number" />
+                        </div>
+                        <div class="item group-col">
+                            <label for="phone-type">Phone Type</label>
+                            <select id="phone-type">
+                                <option value="">Please Choose</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="additional-field-action">
+                        <a href="">Add additional phone number</a>
+                    </div>
+                    <div class="additional-field-group">
+                        <div class="group">
+                            <div class="item group-col">
+                                <label for="secondary-phone-number">Secondary Phone Number</label>
+                                <input type="text" id="secondary-phone-number" />
+                            </div>
+                            <div class="item group-col">
+                                <label for="phone-type">Phone Type</label>
+                                <select id="phone-type">
+                                    <option value="">Please Choose</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="content-divider">
+                    <div class="item">
+                        <label for="email-address">Email Address</label>
+                        <input type="email" id="email-address" />
+                    </div>
+                    <div class="item">
+                        <label>Would you prefer to provide your Social Security Number or Tax ID Number?</label>
+                        <ul class="checkbox-list">
+                            <li><input type="radio" name="taxid" id="ssn"><label for="ssn">Social Security Number</label></li>
+                            <li><input type="radio" name="taxid" id="taxid"><label for="taxid">Tax ID</label></li>
+                        </ul>
+                    </div>
+                    <div class="item">
+                        <label for="ssn">Social Security Number</label>
+                        <input type="text" id="ssn" />
+                    </div>
+                    <div class="item">
+                        <label for="dba">DBA</label>
+                        <input type="text" id="dba" />
+                    </div>
+                    <div class="group">
+                        <div class="item group-col">
+                            <label for="drivers-license-number">Driver's License Number</label>
+                            <input type="text" id="drivers-license-number" />
+                        </div>
+                        <div class="item group-col">
+                            <label for="drivers-license-state">Driver's License State</label>
+                            <select id="drivers-license-state">
+                                <option value="">Please Choose</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="additional-field-item item">
+                        <ul class="checkbox-list">
+                            <li><input type="checkbox" name="secondary-contact" id="secondary-contact"><label for="secondary-contact">Add Secondary Contact</label></li>
+                        </ul>
+                    </div>
+                    <div class="additional-field-group">
+                        <div class="group">
+                            <div class="item group-col">
+                                <label for="firstname">First Name</label>
+                                <input type="text" id="firstname" placeholder="Jordan" />
+                            </div>
+                            <div class="item group-col">
+                                <label for="lastname">Last Name</label>
+                                <input type="text" id="lastname" placeholder="Campbell" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <h2>Billing Address</h2>
+            <article class="form">
+                <div class="content">
+                    <div class="item">
+                        <ul class="checkbox-list">
+                            <li><input type="checkbox" name="same-address" id="same-address"><label for="same-address">Same as Service Address</label></li>
+                        </ul>
+                    </div>
+                    <div class="item">
+                        <label for="service-address">Select Service Address</label>
+                        <select id="service-address">
+                            <option value="">Please Choose</option>
+                        </select>
+                    </div>
+                    <div class="item">
+                        <label for="service-address">Service Address</label>
+                        <strong>123 Main Street, Dallas, TX 75001</strong>
+                    </div>
+                    <div class="group">
+                        <div class="item group-col">
+                            <label for="address1">Address 1</label>
+                            <input type="text" id="address1" />
+                        </div>
+                        <div class="item group-col">
+                            <label for="address2">Address 2</label>
+                            <input type="text" id="address2" />
+                        </div>
+                    </div>
+                    <div class="group">
+                        <div class="item group-col">
+                            <label for="city">City</label>
+                            <input type="text" id="city" />
+                        </div>
+                        <div class="item">
+                            <label for="state">State</label>
+                            <select id="state">
+                                <option value="">Please Choose</option>
+                            </select>
+                        </div>
+                        <div class="item">
+                            <label for="zip">Zip</label>
+                            <input class="small" type="text" id="zip" />
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <article class="form">
+                <div class="content">
+                    <div class="social-box">
+                        <h2>Create Your Online Account With 1-Click</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis</p>
+                        <p class="social-buttons">
+                            <a class="button social facebook" href=""><span class="icon-holder"><i class="icon-facebook"></i></span> Facebook</a>
+                            <a class="button social twitter" href=""><span class="icon-holder"><i class="icon-twitter"></i></span> Twitter</a>
+                            <a class="button social linkedin" href=""><span class="icon-holder"><i class="icon-linkedin"></i></span> LinkedIn</a>
+                        </p>
+                        <div class="seperator">OR</div>
+                    </div>
+                    <h2>Create Your Online Account Now</h2>
+                    <p>An online account will be created for you upon successful completion of your order. You can specify your password for your account below. If you leave this empty, we’ll create a password for you.</p>
+                    <div class="item">
+                        <label for="username">Username (Optional)</label>
+                        <input type="text" id="username" />
+                    </div>
+                    <div class="group">
+                        <div class="item group-col">
+                            <label for="password">Online Account Password (Optional)</label>
+                            <input type="password" id="password" />
+                        </div>
+                        <div class="item group-col">
+                            <label for="verify-password">Verify Password</label>
+                            <input type="password" id="verify-password" />
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <p><a class="button" href="">Continue</a></p>
+            <div class="hide-medium-large time-remaining-mobile">
+                <p class="time-remaining">Estimated Time For Completion <strong>10 Minutes</strong></p>
+                <p><a href="">What info will I need to complete my order?</a></p>
+            </div>
+        </section>
+        <aside>
+            <article class="cart">
+                <header>
+                    <div class="cart-items">
+                        <i class="icon-cart"></i>
+                        <div class="item-num">2</div>
+                    </div>
+                    <h1>Your Cart</h1>
+                </header>
+                <div class="body">
+                    <div class="box">
+                        <div class="cart-item">
+                            <div class="delete">
+                                <i class="icon-delete"></i>
+                            </div>
+                            <div class="description">
+                                <h2>24-Month Fixed Rate</h2>
+                                <a href="">Change Plan</a>
+                            </div>
+                            <div class="rate">
+                                7.18&cent;
+                                <span>per kWh</span>
+                            </div>
+                        </div>
+                        <div class="cart-item">
+                            <div class="description">
+                                <h2>Installation Fee</h2>
+                            </div>
+                            <div class="rate">
+                                $10.35
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="cart-item">
+                            <div class="delete">
+                                <i class="icon-delete"></i>
+                            </div>
+                            <div class="description">
+                                <h2>Stream Smart Themostat</h2>
+                            </div>
+                            <div class="rate">
+                                $14.95
+                                <span>per month</span>
+                            </div>
+                        </div>
+                        <address>
+                            <h3>Service Address</h3>
+                            123 Main Street, Dallas, TX 75001<br />
+                            <a href="">Edit Address</a>
+                        </address>
+                    </div>
+                    <div class="box">
+                        <div class="cart-item">
+                            <div class="delete">
+                                <i class="icon-delete"></i>
+                            </div>
+                            <div class="description">
+                                <h2>3 Month Fixed Rate</h2>
+                                <a href="">Change Plan</a>
+                            </div>
+                            <div class="rate">
+                                7.18&cent;
+                                <span>per kWh</span>
+                            </div>
+                        </div>
+                        <address>
+                            <h3>Service Address</h3>
+                            456 Center Street Dallas, TX 75001<br />
+                            <a href="">Edit Address</a>
+                        </address>
+                    </div>
+                    <div class="box">
+                        <div class="cart-item">
+                            <div class="delete">
+                                <i class="icon-delete"></i>
+                            </div>
+                            <div class="description">
+                                <h2>Stream Tech Support</h2>
+                                <a href="">Change Plan</a>
+                            </div>
+                            <div class="rate">
+                                $14.95
+                                <span>per month</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box time">
+                        <i class="icon-clock"></i>
+                        <p>It will take approximately <strong>6</strong> more minutes to complete your order.
+                    </div>
+                    <p>Here's some documents you'll need to complete your order:</p>
+                    <ul class="info">
+                        <li><i class="icon-home"></i> Your Service Address</li>
+                        <li><i class="icon-bill"></i> Your <a href="">Bill Account Number</a></li>
+                        <li><i class="icon-utility-provider"></i> Your <a href="">Utility Provider</a></li>
+                        <li><i class="icon-ssn"></i> Your Social Security Number</li>
+                        <li><i class="icon-drivers-license"></i> Your Driver's License Number</li>
+                    </ul>
+                </div>
+            </article>
+        </aside>
+    </div>
+</div>
