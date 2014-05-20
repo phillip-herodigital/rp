@@ -8,27 +8,22 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Configuration;
 
 namespace StreamEnergy.MyStream.Tests
 {
     public class ContainerSetup
     {
-        static readonly string[] setupTypeNames = new[] 
-        {
-            "StreamEnergy.CoreContainerSetup, StreamEnergy.Core",
-            "StreamEnergy.Mvc.AspNetContainerSetup, StreamEnergy.Core",
-            "StreamEnergy.Services.Clients.ClientContainerSetup, StreamEnergy.Services",
-            "StreamEnergy.Services.Clients.ServiceMockContainerSetup, StreamEnergy.Services",
-            "StreamEnergy.DomainModels.PolymorphicSerializationContainerSetup, StreamEnergy.DomainModel",
-        };
-
         public static Container Create()
         {
             SetupSitecoreContext();
             var result = new Container(new Microsoft.Practices.Unity.UnityContainer());
-            result.Initialize((from typeName in setupTypeNames
-                               let type = Type.GetType(typeName)
-                               select (IContainerSetupStrategy)Activator.CreateInstance(type)).ToArray());
+            var configuration = WebConfigurationManager.GetWebApplicationSection("streamEnergy") as Configuration.ConfigurationSection;
+
+            result.Initialize((from iocInitializer in configuration.InversionOfControlInitializers
+                               let value = iocInitializer.Build()
+                               where value != null
+                               select value).ToArray());
             SetupHttpContext(result.Unity);
             return result;
         }
