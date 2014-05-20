@@ -34,6 +34,12 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         bool IState<UserContext, InternalContext>.IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult, UserContext context, InternalContext internalContext)
         {
+            if (internalContext.Deposit.Amount == 0 && validationResult.MemberNames.Any(m => m.StartsWith("PaymentInfo")))
+            {
+                // TODO - verify that the amount being 0 is all we need to check, such as prior debt, etc.
+                context.PaymentInfo = null;
+                return true;
+            }
             return false;
         }
 
