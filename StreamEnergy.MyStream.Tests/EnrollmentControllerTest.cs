@@ -4,6 +4,7 @@ using Moq;
 using StreamEnergy.DomainModels.Enrollments;
 using StreamEnergy.MyStream.Controllers;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http.Controllers;
@@ -19,6 +20,22 @@ namespace StreamEnergy.MyStream.Tests
         public void InitializeTest()
         {
             container = ContainerSetup.Create();
+
+            // TODO - remove this mock and replace with a service-level mock
+            Mock<IEnrollmentService> service = new Mock<IEnrollmentService>();
+
+            service.Setup(svc => svc.LoadOffers(It.IsAny<DomainModels.Address>(), It.IsAny<IEnumerable<DomainModels.IServiceCapability>>())).Returns(new IOffer[] 
+            { 
+                new TexasElectricityOffer
+                {
+                    Id = "NewOffer"
+                }
+            });
+
+            // This isn't really here to be a mock, but rather a placeholder... hence it's a "stub". The real thing should come in with the service-level mock.
+            Mock<IConnectDatePolicy> stub = new Mock<IConnectDatePolicy>();
+            service.Setup(svc => svc.LoadConnectDates(It.IsAny<DomainModels.Address>(), It.IsAny<IEnumerable<DomainModels.IServiceCapability>>())).Returns(stub.Object);
+            container.Unity.RegisterInstance(service.Object);
         }
 
         [TestMethod]
@@ -68,39 +85,150 @@ namespace StreamEnergy.MyStream.Tests
         public void PostServiceInformationTest()
         {
             // Arrange
-   
-            // TODO - remove this mock and replace with a service-level mock
-            Mock<IEnrollmentService> service = new Mock<IEnrollmentService>();
-            container.Unity.RegisterInstance(service.Object);
+            var request = new Models.Enrollment.ServiceInformation
+            {
+                IsNewService = true,
+                ServiceAddress = new DomainModels.Address { PostalCode5 = "75010" },
+                ServiceCapabilities = new[] { new DomainModels.TexasServiceCapability { Tdu = "Centerpoint" } }
+            };
 
             using (var controller = container.Resolve<EnrollmentController>())
             {
-                var request = new Models.Enrollment.ServiceInformation
-                {
-                    IsNewService = true,
-                    ServiceAddress = new DomainModels.Address { PostalCode5 = "75010" },
-                    ServiceCapabilities = new[] { new DomainModels.TexasServiceCapability { Tdu = "Centerpoint" } }
-                };
-                service.Setup(svc => svc.LoadOffers(request.ServiceAddress, request.ServiceCapabilities, request.IsNewService)).Returns(Enumerable.Empty<IOffer>());
-
                 // Act
                 var result = controller.ServiceInformation(request);
 
                 // Assert
-                Assert.IsTrue(result.UserContext.IsNewService);
                 Assert.AreEqual("SelectedOffers", result.Validations.Single().MemberName);
                 Assert.AreEqual("75010", result.UserContext.ServiceAddress.PostalCode5);
                 Assert.AreEqual(DomainModels.TexasServiceCapability.capabilityType, result.UserContext.ServiceCapabilities.First().CapabilityType);
                 Assert.AreEqual("Centerpoint", (result.UserContext.ServiceCapabilities.First() as DomainModels.TexasServiceCapability).Tdu);
+                Assert.IsTrue((result.UserContext.ServiceCapabilities.First() as DomainModels.TexasServiceCapability).IsNewService);
 
-                // TODO - assert offers that we get back
+                Assert.IsTrue(result.Offers.Any());
+                Assert.IsNotNull(result.Offers.SingleOrDefault(offer => offer.Id == "NewOffer"));
             }
             var session = container.Resolve<EnrollmentController.SessionHelper>();
 
-            Assert.IsTrue(session.UserContext.IsNewService);
+            Assert.AreEqual(typeof(DomainModels.Enrollments.PlanSelectionState), session.State);
             Assert.AreEqual("75010", session.UserContext.ServiceAddress.PostalCode5);
             Assert.AreEqual(DomainModels.TexasServiceCapability.capabilityType, session.UserContext.ServiceCapabilities.First().CapabilityType);
             Assert.AreEqual("Centerpoint", (session.UserContext.ServiceCapabilities.First() as DomainModels.TexasServiceCapability).Tdu);
+            Assert.IsTrue((session.UserContext.ServiceCapabilities.First() as DomainModels.TexasServiceCapability).IsNewService);
+            Assert.IsNotNull(session.InternalContext.AllOffers.SingleOrDefault(offer => offer.Id == "NewOffer"));
+        }
+
+        [TestMethod]
+        public void PostSelectedOffersTest()
+        {
+            // Arrange
+            var session = container.Resolve<EnrollmentController.SessionHelper>();
+            session.UserContext = new UserContext
+            {
+                ServiceAddress = new DomainModels.Address { PostalCode5 = "75010" },
+                ServiceCapabilities = new[] { new DomainModels.TexasServiceCapability { Tdu = "Centerpoint" } }
+            };
+            session.InternalContext = new InternalContext
+            {
+                AllOffers = new IOffer[] 
+                { 
+                    new TexasElectricityOffer
+                    {
+                        Id = "NewOffer"
+                    }
+                }
+            };
+            session.State = typeof(DomainModels.Enrollments.PlanSelectionState);
+            var request = new Models.Enrollment.SelectedOffers
+            {
+                OfferIds = new[] { "NewOffer" }
+            };
+
+            using (var controller = container.Resolve<EnrollmentController>())
+            {
+                // Act
+                var result = controller.SelectedOffers(request);
+
+                // Assert
+                Assert.IsTrue(result.UserContext.SelectedOffers.Any(o => o.Offer.Id == "NewOffer"));
+                Assert.IsNotNull(result.OfferOptionRules["NewOffer"]);
+            }
+
+            Assert.AreEqual(typeof(DomainModels.Enrollments.AccountInformationState), session.State);
+            Assert.IsTrue(session.UserContext.SelectedOffers.Any(o => o.Offer.Id == "NewOffer"));
+            Assert.IsNotNull(session.InternalContext.OfferOptionRules["NewOffer"]);
+        }
+
+        [TestMethod]
+        public void PostAccountInformationTest()
+        {
+            // Arrange
+            var session = container.Resolve<EnrollmentController.SessionHelper>();
+            session.UserContext = new UserContext
+            {
+                ServiceAddress = new DomainModels.Address { PostalCode5 = "75010" },
+                ServiceCapabilities = new[] { new DomainModels.TexasServiceCapability { Tdu = "Centerpoint" } },
+                SelectedOffers = new[] 
+                { 
+                    new SelectedOffer 
+                    { 
+                        Offer = new TexasElectricityOffer
+                        {
+                            Id = "NewOffer"
+                        }
+                    }
+                }
+            };
+            session.InternalContext = new InternalContext
+            {
+                AllOffers = new IOffer[] 
+                { 
+                    new TexasElectricityOffer
+                    {
+                        Id = "NewOffer"
+                    }
+                }
+            };
+            session.State = typeof(DomainModels.Enrollments.AccountInformationState);
+            var request = new Models.Enrollment.AccountInformation
+            {
+                ServiceAddress = new DomainModels.Address { Line1 = "3620 Huffines Blvd", UnitNumber = "226", City = "Carrollton", StateAbbreviation = "TX", PostalCode5 = "75010" },
+                ServiceCapabilities = new[] { new DomainModels.TexasServiceCapability { Tdu = "Centerpoint", EsiId = "1234SAMPLE5678" } },
+                ContactInfo = new DomainModels.CustomerContact
+                {
+                    Name = new DomainModels.Name { First = "Test", Last = "Person" },
+                    Email = new DomainModels.Email { Address = "test@example.com" },
+                    PrimaryPhone = new DomainModels.Phone { Number = "214-223-4567" },
+                },
+                BillingAddress = new DomainModels.Address { Line1 = "3620 Huffines Blvd", UnitNumber = "226", City = "Carrollton", StateAbbreviation = "TX", PostalCode5 = "75010" },
+                DriversLicense = null,
+                Language = "en",
+                SecondaryContactInfo = null,
+                SocialSecurityNumber = "123-45-6789",
+                OfferOptions = new Dictionary<string, IOfferOption> { { "NewOffer", new TexasElectricityOfferOption { ConnectDate = new DateTime(2014, 5, 1) } } }
+            };
+
+            using (var controller = container.Resolve<EnrollmentController>())
+            {
+                // Act
+                var result = controller.AccountInformation(request);
+
+                // Assert
+                Assert.AreEqual("Test", result.UserContext.ContactInfo.Name.First);
+                Assert.AreEqual("Person", result.UserContext.ContactInfo.Name.Last);
+                Assert.AreEqual("test@example.com", result.UserContext.ContactInfo.Email.Address);
+                Assert.AreEqual("2142234567", result.UserContext.ContactInfo.PrimaryPhone.Number);
+                Assert.IsNull(result.UserContext.SocialSecurityNumber);
+                Assert.AreEqual("en", result.UserContext.Language);
+            }
+
+            Assert.AreEqual(typeof(DomainModels.Enrollments.VerifyIdentityState), session.State);
+            Assert.IsTrue(session.UserContext.SelectedOffers.Any(o => o.Offer.Id == "NewOffer"));
+            Assert.AreEqual("Test", session.UserContext.ContactInfo.Name.First);
+            Assert.AreEqual("Person", session.UserContext.ContactInfo.Name.Last);
+            Assert.AreEqual("test@example.com", session.UserContext.ContactInfo.Email.Address);
+            Assert.AreEqual("2142234567", session.UserContext.ContactInfo.PrimaryPhone.Number);
+            Assert.AreEqual("123456789", session.UserContext.SocialSecurityNumber);
+            Assert.AreEqual("en", session.UserContext.Language);
         }
     }
 }

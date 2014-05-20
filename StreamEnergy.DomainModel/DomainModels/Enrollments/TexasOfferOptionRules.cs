@@ -5,8 +5,8 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
-    public interface IOfferOption : ISanitizable
+    class TexasOfferOptionRules : IOfferOptionRules
     {
-        string OptionType { get; }
+        public IConnectDatePolicy ConnectDates { get; set; }
     }
 }

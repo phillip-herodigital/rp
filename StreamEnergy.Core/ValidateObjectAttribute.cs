@@ -16,7 +16,7 @@ namespace StreamEnergy
             if (value != null)
             {
                 var results = new HashSet<ValidationResult>();
-                var context = new ValidationContext(value);
+                var context = ((IValidationService)validationContext.GetService(typeof(IValidationService))).CreateValidationContext(value);
 
                 Validator.TryValidateObject(value, context, results, true);
 

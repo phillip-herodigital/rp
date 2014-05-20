@@ -15,7 +15,7 @@ namespace StreamEnergy
             var typeIndicatorJsonConverter = new TypeIndicatorJsonConverter();
             unityContainer.RegisterInstance(typeIndicatorJsonConverter);
             Json.AdditionalConverters.Add(typeIndicatorJsonConverter);
-            unityContainer.RegisterInstance<IValidationService>(new ValidationService());
+            unityContainer.RegisterInstance<IValidationService>(new ValidationService(unityContainer));
         }
     }
 }
