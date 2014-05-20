@@ -7,6 +7,8 @@ namespace StreamEnergy.DomainModels.Enrollments
 {
     public interface IOffer
     {
-        bool AcceptsOptions(IOfferOption offerOption);
+        string Id { get; }
+        string OfferType { get; }
+        IOfferOptionPolicy GetOfferOptionPolicy(Microsoft.Practices.Unity.IUnityContainer container);
     }
 }

@@ -15,23 +15,23 @@ namespace FakeN.Web
 		private readonly HttpSessionStateBase session;
 		private readonly IDictionary items;
 
-		private TraceContext trace;
-		private DateTime timestamp;
-		private bool skipAuthorization;
-		private HttpServerUtilityBase server;
-		private ProfileBase profile;
-		private IHttpHandler previousHandler;
-		private bool isPostNotification;
-		private bool isDebuggingEnabled;
-		private bool isCustomErrorEnabled;
-		private IHttpHandler handler;
-		private Exception error;
-		private RequestNotification currentNotification;
-		private IHttpHandler currentHandler;
-		private Cache cache;
-		private HttpApplication applicationInstance;
-		private HttpApplicationStateBase application;
-		private Exception[] allErrors;
+		public TraceContext trace;
+		public DateTime timestamp;
+		public bool skipAuthorization;
+		public HttpServerUtilityBase server;
+		public ProfileBase profile;
+		public IHttpHandler previousHandler;
+		public bool isPostNotification;
+		public bool isDebuggingEnabled;
+		public bool isCustomErrorEnabled;
+		public IHttpHandler handler;
+		public Exception error;
+		public RequestNotification currentNotification;
+		public IHttpHandler currentHandler;
+		public Cache cache;
+		public HttpApplication applicationInstance;
+		public HttpApplicationStateBase application;
+		public Exception[] allErrors;
 
 		public FakeHttpContext(
 			HttpRequestBase request = null,

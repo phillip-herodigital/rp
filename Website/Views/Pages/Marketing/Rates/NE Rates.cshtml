@@ -1,7 +1,10 @@
 ﻿@{
     var plansParent = Html.Sitecore().LookupItem("Rates Parent");
     var plans = from folder in Html.Sitecore().LookupItem("Rates parent").Children
-                select folder.Children.OrderBy(c => c.Fields["Effective Date"]).First();
+                let item = folder.Children.OrderBy(c => c.Fields["Effective Date"]).First()
+                let endingDateField = (Sitecore.Data.Fields.DateField)item.Fields["Ending Date"]
+                where endingDateField.DateTime == null || endingDateField.DateTime == DateTime.MinValue || endingDateField.DateTime > DateTime.Today
+                select item;
 
     Html.Sitecore().CurrentItem.Fields.Sort();
     var utilities = from field in Html.Sitecore().CurrentItem.Fields
@@ -23,7 +26,7 @@
                             }
                  };
 }
-<article class="marketing wrapper press">
+<article class="marketing wrapper rates northeast">
     <h1>@Html.Sitecore().Field("Header")</h1>
 
     @Html.Sitecore().Field("Page Intro")

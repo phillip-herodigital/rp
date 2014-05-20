@@ -1,7 +1,10 @@
 ﻿@{
     var plansParent = Html.Sitecore().LookupItem("Rates Parent");
     var plans = from folder in Html.Sitecore().LookupItem("Rates parent").Children
-                select folder.Children.OrderBy(c => c.Fields["Effective Date"]).First();
+                let item = folder.Children.OrderBy(c => c.Fields["Effective Date"]).First()
+                let endingDateField = (Sitecore.Data.Fields.DateField)item.Fields["Ending Date"]
+                where endingDateField.DateTime == null || endingDateField.DateTime == DateTime.MinValue || endingDateField.DateTime > DateTime.Today
+                select item;
 
     var headerRow = new List<dynamic>()
     {
@@ -33,14 +36,14 @@
     foreach(Sitecore.Data.Items.Item plan in plans)
     {
         headerRow.Add(Html.Sitecore().Field("Plan Title", plan));
-        rows[0].Add(Html.AsMoney("Current Price per Therm", plan));
+        rows[0].Add(Html.AsMoney("Current Price per Therm", plan, 3));
         rows[1].Add(Html.Sitecore().Field("Therm Range per Billing Cycle", plan));
         rows[2].Add(Html.AsMoney("Monthly Service Charge", plan));
         rows[3].Add(Html.Sitecore().Field("Terms", plan));
         rows[4].Add(Html.AsMoney("Early Termination Fee", plan));
     }
 }
-<article class="marketing wrapper press">
+<article class="marketing wrapper rates georgia">
     <h1>@Html.Sitecore().Field("Header")</h1>
 
     @Html.Sitecore().Field("Page Intro")

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -33,6 +33,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DeployIisAppPath>Default Web Site/MyStream</DeployIisAppPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -117,6 +118,13 @@
     </Reference>
     <Reference Include="Microsoft.Data.Services.Client, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Data.Services.Client.5.6.0\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.16\lib\net45\Microsoft.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.16\lib\net45\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -329,11 +337,19 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Services.Client" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Extensions">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.13\lib\net45\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net.Http.Formatting, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.1.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
+    <Reference Include="System.Net.Http.Primitives">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.13\lib\net45\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Spatial, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Spatial.5.6.0\lib\net40\System.Spatial.dll</HintPath>
     </Reference>
@@ -424,7 +440,9 @@
     <Compile Include="Models\Angular\GridTable\GridTableExtensions.cs" />
     <Compile Include="Models\Angular\GridTable\Table.cs" />
     <Compile Include="Models\Angular\GridTable\DeviceType.cs" />
+    <Compile Include="Models\Enrollment\AccountInformation.cs" />
     <Compile Include="Models\Enrollment\ClientData.cs" />
+    <Compile Include="Models\Enrollment\SelectedOffers.cs" />
     <Compile Include="Models\Enrollment\ServiceInformation.cs" />
     <Compile Include="Models\Marketing\Contact.cs" />
     <Compile Include="Models\TranslatedValidationResult.cs" />
@@ -461,36 +479,70 @@
     <Content Include="frontend\assets\css\_sass\partials\_tables.scss" />
     <Content Include="frontend\assets\css\_sass\partials\_typography.scss" />
     <Content Include="frontend\assets\css\_sass\partials\_ui.scss" />
+    <Content Include="frontend\assets\i\bg2x\banner-bottom-mobile.png" />
+    <Content Include="frontend\assets\i\bg2x\header-enrollment.png" />
     <Content Include="frontend\assets\i\bg2x\header-mobile.png" />
     <Content Include="frontend\assets\i\bg2x\state-tabs.png" />
+    <Content Include="frontend\assets\i\bg\banner-bottom-mobile.png" />
     <Content Include="frontend\assets\i\bg\banner-bottom.png" />
     <Content Include="frontend\assets\i\bg\footer-top-border.png" />
+    <Content Include="frontend\assets\i\bg\header-enrollment.png" />
     <Content Include="frontend\assets\i\bg\header-mobile.png" />
     <Content Include="frontend\assets\i\bg\header.png" />
     <Content Include="frontend\assets\i\bg\hero-invoices.jpg" />
     <Content Include="frontend\assets\i\bg\hero-myaccount.jpg" />
     <Content Include="frontend\assets\i\bg\state-tabs.png" />
+    <Content Include="frontend\assets\i\enrollment\headers\addpaymentinformation.jpg" />
+    <Content Include="frontend\assets\i\enrollment\headers\chooseyourplan.jpg" />
+    <Content Include="frontend\assets\i\enrollment\headers\confirmorder.jpg" />
+    <Content Include="frontend\assets\i\enrollment\headers\letsgetstarted.jpg" />
+    <Content Include="frontend\assets\i\enrollment\headers\setupyouraccount.jpg" />
+    <Content Include="frontend\assets\i\enrollment\headers\verifyyouridentity.jpg" />
     <Content Include="frontend\assets\i\favicon.ico" />
     <Content Include="frontend\assets\i\favicon.png" />
-    <Content Include="frontend\assets\i\icon-sa6d2193bbe.png" />
-    <Content Include="frontend\assets\i\icon2x-se011512aa6.png" />
+    <Content Include="frontend\assets\i\icon-s026e7f6ecf.png" />
+    <Content Include="frontend\assets\i\icon2x-s4fbbfafbc7.png" />
+    <Content Include="frontend\assets\i\icon2x\24months.png" />
+    <Content Include="frontend\assets\i\icon2x\6months.png" />
+    <Content Include="frontend\assets\i\icon2x\arrow-collapsed.png" />
+    <Content Include="frontend\assets\i\icon2x\arrow-expanded.png" />
+    <Content Include="frontend\assets\i\icon2x\arrow-left.png" />
+    <Content Include="frontend\assets\i\icon2x\arrow-right.png" />
     <Content Include="frontend\assets\i\icon2x\bbb.png" />
     <Content Include="frontend\assets\i\icon2x\blue-rectangle.png" />
+    <Content Include="frontend\assets\i\icon2x\bill.png" />
+    <Content Include="frontend\assets\i\icon2x\blue-arrow-down.png" />
+    <Content Include="frontend\assets\i\icon2x\blue-arrow-up.png" />
+    <Content Include="frontend\assets\i\icon2x\cards.png" />
+    <Content Include="frontend\assets\i\icon2x\cart.png" />
+    <Content Include="frontend\assets\i\icon2x\check.png" />
     <Content Include="frontend\assets\i\icon2x\clean-energy.png" />
+    <Content Include="frontend\assets\i\icon2x\clock.png" />
     <Content Include="frontend\assets\i\icon2x\close.png" />
     <Content Include="frontend\assets\i\icon2x\compare-usage.png" />
+    <Content Include="frontend\assets\i\icon2x\delete.png" />
+    <Content Include="frontend\assets\i\icon2x\drivers-license.png" />
     <Content Include="frontend\assets\i\icon2x\dsa.png" />
     <Content Include="frontend\assets\i\icon2x\facebook.png" />
     <Content Include="frontend\assets\i\icon2x\gas.png" />
     <Content Include="frontend\assets\i\icon2x\hamburger.png" />
+    <Content Include="frontend\assets\i\icon2x\home.png" />
     <Content Include="frontend\assets\i\icon2x\homelife-services-alt.png" />
     <Content Include="frontend\assets\i\icon2x\homelife-services.png" />
+    <Content Include="frontend\assets\i\icon2x\house.png" />
     <Content Include="frontend\assets\i\icon2x\month-to-month.png" />
+    <Content Include="frontend\assets\i\icon2x\nav-arrow-collapsed.png" />
+    <Content Include="frontend\assets\i\icon2x\nav-arrow-expanded.png" />
+    <Content Include="frontend\assets\i\icon2x\notification-bell.png" />
+    <Content Include="frontend\assets\i\icon2x\notification-email.png" />
+    <Content Include="frontend\assets\i\icon2x\notification-sms.png" />
     <Content Include="frontend\assets\i\icon2x\pinterest.png" />
+    <Content Include="frontend\assets\i\icon2x\printer.png" />
     <Content Include="frontend\assets\i\icon2x\quicklinks.png" />
     <Content Include="frontend\assets\i\icon2x\select-arrow.png" />
     <Content Include="frontend\assets\i\icon2x\services-lightbulb.png" />
     <Content Include="frontend\assets\i\icon2x\social.png" />
+    <Content Include="frontend\assets\i\icon2x\ssn.png" />
     <Content Include="frontend\assets\i\icon2x\state-georgia.png" />
     <Content Include="frontend\assets\i\icon2x\state-maryland.png" />
     <Content Include="frontend\assets\i\icon2x\state-newjersey.png" />
@@ -498,25 +550,55 @@
     <Content Include="frontend\assets\i\icon2x\state-pennsylvania.png" />
     <Content Include="frontend\assets\i\icon2x\state-texas.png" />
     <Content Include="frontend\assets\i\icon2x\state-washingtondc.png" />
+    <Content Include="frontend\assets\i\icon2x\tablet.png" />
     <Content Include="frontend\assets\i\icon2x\twitter.png" />
+    <Content Include="frontend\assets\i\icon2x\utility-provider.png" />
     <Content Include="frontend\assets\i\icon2x\utility.png" />
     <Content Include="frontend\assets\i\icon2x\youtube.png" />
+    <Content Include="frontend\assets\i\icon\24months.png" />
+    <Content Include="frontend\assets\i\icon\6months.png" />
+    <Content Include="frontend\assets\i\icon\arrow-collapsed.png" />
+    <Content Include="frontend\assets\i\icon\arrow-expanded.png" />
+    <Content Include="frontend\assets\i\icon\arrow-left.png" />
+    <Content Include="frontend\assets\i\icon\arrow-right.png" />
     <Content Include="frontend\assets\i\icon\bbb.png" />
     <Content Include="frontend\assets\i\icon\blue-rectangle.png" />
+    <Content Include="frontend\assets\i\icon\bill.png" />
+    <Content Include="frontend\assets\i\icon\blue-arrow-down.png" />
+    <Content Include="frontend\assets\i\icon\blue-arrow-up.png" />
+    <Content Include="frontend\assets\i\icon\cards.png" />
+    <Content Include="frontend\assets\i\icon\cart.png" />
+    <Content Include="frontend\assets\i\icon\check.png" />
+    <Content Include="frontend\assets\i\icon\clean-energy.png" />
+    <Content Include="frontend\assets\i\icon\clock.png" />
     <Content Include="frontend\assets\i\icon\close.png" />
     <Content Include="frontend\assets\i\icon\collapse.png" />
     <Content Include="frontend\assets\i\icon\compare-usage.png" />
+    <Content Include="frontend\assets\i\icon\delete.png" />
+    <Content Include="frontend\assets\i\icon\drivers-license.png" />
     <Content Include="frontend\assets\i\icon\dsa.png" />
     <Content Include="frontend\assets\i\icon\expand.png" />
     <Content Include="frontend\assets\i\icon\facebook.png" />
+    <Content Include="frontend\assets\i\icon\gas.png" />
     <Content Include="frontend\assets\i\icon\hamburger.png" />
+    <Content Include="frontend\assets\i\icon\home.png" />
+    <Content Include="frontend\assets\i\icon\homelife-services-alt.png" />
     <Content Include="frontend\assets\i\icon\homelife-services.png" />
+    <Content Include="frontend\assets\i\icon\house.png" />
     <Content Include="frontend\assets\i\icon\month-to-month.png" />
+    <Content Include="frontend\assets\i\icon\nav-arrow-collapsed.png" />
+    <Content Include="frontend\assets\i\icon\nav-arrow-expanded.png" />
+    <Content Include="frontend\assets\i\icon\notification-bell.png" />
+    <Content Include="frontend\assets\i\icon\notification-email.png" />
+    <Content Include="frontend\assets\i\icon\notification-sms.png" />
     <Content Include="frontend\assets\i\icon\pinterest.png" />
+    <Content Include="frontend\assets\i\icon\printer.png" />
     <Content Include="frontend\assets\i\icon\quicklinks.png" />
     <Content Include="frontend\assets\i\icon\search.png" />
     <Content Include="frontend\assets\i\icon\select-arrow.png" />
+    <Content Include="frontend\assets\i\icon\services-lightbulb.png" />
     <Content Include="frontend\assets\i\icon\social.png" />
+    <Content Include="frontend\assets\i\icon\ssn.png" />
     <Content Include="frontend\assets\i\icon\state-georgia.png" />
     <Content Include="frontend\assets\i\icon\state-maryland.png" />
     <Content Include="frontend\assets\i\icon\state-newjersey.png" />
@@ -524,31 +606,50 @@
     <Content Include="frontend\assets\i\icon\state-pennsylvania.png" />
     <Content Include="frontend\assets\i\icon\state-texas.png" />
     <Content Include="frontend\assets\i\icon\state-washingtondc.png" />
+    <Content Include="frontend\assets\i\icon\tablet.png" />
     <Content Include="frontend\assets\i\icon\twitter.png" />
+    <Content Include="frontend\assets\i\icon\utility-provider.png" />
     <Content Include="frontend\assets\i\icon\utility.png" />
     <Content Include="frontend\assets\i\icon\youtube.png" />
     <Content Include="frontend\assets\i\img-footer-get-free-energy.png" />
     <Content Include="frontend\assets\i\img-footer-renew-my-contract.png" />
+    <Content Include="frontend\assets\i\loading.gif" />
     <Content Include="frontend\assets\i\logo-horizontal.png" />
     <Content Include="frontend\assets\i\logo-peco.png" />
     <Content Include="frontend\assets\i\logo-ppl.png" />
     <Content Include="frontend\assets\i\logo.png" />
+    <Content Include="frontend\assets\i\marketing\blue-bullet.png" />
     <Content Include="frontend\assets\i\marketing\bullet-white.png" />
     <Content Include="frontend\assets\i\marketing\captain-hopes.jpg" />
+    <Content Include="frontend\assets\i\marketing\clean-energy-icon.png" />
     <Content Include="frontend\assets\i\marketing\collapse.png" />
+    <Content Include="frontend\assets\i\marketing\company_philanthropy.jpg" />
     <Content Include="frontend\assets\i\marketing\contact-banner.jpg" />
     <Content Include="frontend\assets\i\marketing\contact-dark.png" />
     <Content Include="frontend\assets\i\marketing\contact-or.png" />
     <Content Include="frontend\assets\i\marketing\contact.png" />
     <Content Include="frontend\assets\i\marketing\credit-monitoring.png" />
+    <Content Include="frontend\assets\i\marketing\deregulated-history-chart.jpg" />
     <Content Include="frontend\assets\i\marketing\directors.jpg" />
+    <Content Include="frontend\assets\i\marketing\electricity-icon.png" />
+    <Content Include="frontend\assets\i\marketing\energy-certificates.jpg" />
     <Content Include="frontend\assets\i\marketing\expand.png" />
+    <Content Include="frontend\assets\i\marketing\free-energy-icon.png" />
+    <Content Include="frontend\assets\i\marketing\free-energy-pic.jpg" />
+    <Content Include="frontend\assets\i\marketing\free-energy-start-earning.jpg" />
+    <Content Include="frontend\assets\i\marketing\free-energy.jpg" />
+    <Content Include="frontend\assets\i\marketing\free-energy.png" />
     <Content Include="frontend\assets\i\marketing\fuel-fund.jpg" />
+    <Content Include="frontend\assets\i\marketing\gas-icon.png" />
     <Content Include="frontend\assets\i\marketing\georgia.jpg" />
     <Content Include="frontend\assets\i\marketing\header-home-01.jpg" />
     <Content Include="frontend\assets\i\marketing\heat.jpg" />
+    <Content Include="frontend\assets\i\marketing\home-become-customer.png" />
+    <Content Include="frontend\assets\i\marketing\home-build-income.png" />
+    <Content Include="frontend\assets\i\marketing\home-free-energy.png" />
     <Content Include="frontend\assets\i\marketing\home-test1.jpg" />
     <Content Include="frontend\assets\i\marketing\home-test2.jpg" />
+    <Content Include="frontend\assets\i\marketing\homelife-services-icon.png" />
     <Content Include="frontend\assets\i\marketing\homelife-services.jpg" />
     <Content Include="frontend\assets\i\marketing\icons-services-free.png" />
     <Content Include="frontend\assets\i\marketing\identity-protection.png" />
@@ -560,19 +661,26 @@
     <Content Include="frontend\assets\i\marketing\ignite_the-choice-to.jpg" />
     <Content Include="frontend\assets\i\marketing\ignite_the-cleanest-source.jpg" />
     <Content Include="frontend\assets\i\marketing\ignite_while-youre-likely.jpg" />
+    <Content Include="frontend\assets\i\marketing\independent-associate.png" />
+    <Content Include="frontend\assets\i\marketing\manage-services.jpg" />
     <Content Include="frontend\assets\i\marketing\maryland.jpg" />
+    <Content Include="frontend\assets\i\marketing\my-account-icon.png" />
     <Content Include="frontend\assets\i\marketing\newjersey.jpg" />
     <Content Include="frontend\assets\i\marketing\newyork.jpg" />
     <Content Include="frontend\assets\i\marketing\pennsylvania.jpg" />
     <Content Include="frontend\assets\i\marketing\quote-left.png" />
     <Content Include="frontend\assets\i\marketing\quote-right.png" />
     <Content Include="frontend\assets\i\marketing\ragans-hope.jpg" />
+    <Content Include="frontend\assets\i\marketing\residual-income-chart.png" />
+    <Content Include="frontend\assets\i\marketing\residual-income-icon.png" />
     <Content Include="frontend\assets\i\marketing\services.jpg" />
     <Content Include="frontend\assets\i\marketing\services_new_residential.jpg" />
+    <Content Include="frontend\assets\i\marketing\services_pay-my-bill.jpg" />
     <Content Include="frontend\assets\i\marketing\tech-support.png" />
     <Content Include="frontend\assets\i\marketing\texas.jpg" />
     <Content Include="frontend\assets\i\marketing\utility-emergency-services.jpg" />
     <Content Include="frontend\assets\i\marketing\washingtondc.jpg" />
+    <Content Include="frontend\assets\i\marketing\why-energy-banner.jpg" />
     <Content Include="frontend\assets\i\paperless-promo.jpg" />
     <Content Include="frontend\assets\i\renew-promo.png" />
     <Content Include="frontend\assets\js\app.js" />
@@ -590,6 +698,7 @@
     <Content Include="frontend\assets\js\directives\main-nav.js" />
     <Content Include="frontend\assets\js\directives\mobile-nav.js" />
     <Content Include="frontend\assets\js\directives\pagination.js" />
+    <Content Include="frontend\assets\js\directives\slide-toggle.js" />
     <Content Include="frontend\assets\js\directives\state-tabs.js" />
     <Content Include="frontend\assets\js\directives\table.js" />
     <Content Include="frontend\assets\js\directives\validation-error.js" />
@@ -623,6 +732,8 @@
     <Content Include="frontend\assets\js\libs\angular\README.md" />
     <Content Include="frontend\assets\js\libs\jquery\.bower.json" />
     <Content Include="frontend\assets\js\libs\jquery\bower.json" />
+    <Content Include="frontend\assets\js\libs\jquery\dist\jquery.js" />
+    <Content Include="frontend\assets\js\libs\jquery\dist\jquery.min.js" />
     <Content Include="frontend\assets\js\libs\jquery\MIT-LICENSE.txt" />
     <Content Include="frontend\assets\js\libs\jquery\src\ajax.js" />
     <Content Include="frontend\assets\js\libs\jquery\src\ajax\jsonp.js" />
@@ -630,6 +741,8 @@
     <Content Include="frontend\assets\js\libs\jquery\src\ajax\parseJSON.js" />
     <Content Include="frontend\assets\js\libs\jquery\src\ajax\parseXML.js" />
     <Content Include="frontend\assets\js\libs\jquery\src\ajax\script.js" />
+    <Content Include="frontend\assets\js\libs\jquery\src\ajax\var\nonce.js" />
+    <Content Include="frontend\assets\js\libs\jquery\src\ajax\var\rquery.js" />
     <Content Include="frontend\assets\js\libs\jquery\src\ajax\xhr.js" />
     <Content Include="frontend\assets\js\libs\jquery\src\attributes.js" />
     <Content Include="frontend\assets\js\libs\jquery\src\attributes\attr.js" />
@@ -643,6 +756,7 @@
     <Content Include="frontend\assets\js\libs\jquery\src\core\init.js" />
     <Content Include="frontend\assets\js\libs\jquery\src\core\parseHTML.js" />
     <Content Include="frontend\assets\js\libs\jquery\src\core\ready.js" />
+    <Content Include="frontend\assets\js\libs\jquery\src\core\var\rsingleTag.js" />
     <Content Include="frontend\assets\js\libs\jquery\src\css.js" />
     <Content Include="frontend\assets\js\libs\jquery\src\css\addGetHookIf.js" />
     <Content Include="frontend\assets\js\libs\jquery\src\css\curCSS.js" />
@@ -650,12 +764,17 @@
     <Content Include="frontend\assets\js\libs\jquery\src\css\hiddenVisibleSelectors.js" />
     <Content Include="frontend\assets\js\libs\jquery\src\css\support.js" />
     <Content Include="frontend\assets\js\libs\jquery\src\css\swap.js" />
+    <Content Include="frontend\assets\js\libs\jquery\src\css\var\cssExpand.js" />
+    <Content Include="frontend\assets\js\libs\jquery\src\css\var\isHidden.js" />
+    <Content Include="frontend\assets\js\libs\jquery\src\css\var\rmargin.js" />
+    <Content Include="frontend\assets\js\libs\jquery\src\css\var\rnumnonpx.js" />
     <Content Include="frontend\assets\js\libs\jquery\src\data.js" />
     <Content Include="frontend\assets\js\libs\jquery\src\deferred.js" />
     <Content Include="frontend\assets\js\libs\jquery\src\deprecated.js" />
     <Content Include="frontend\assets\js\libs\jquery\src\dimensions.js" />
     <Content Include="frontend\assets\js\libs\jquery\src\effects.js" />
     <Content Include="frontend\assets\js\libs\jquery\src\effects\animatedSelector.js" />
+    <Content Include="frontend\assets\js\libs\jquery\src\effects\support.js" />
     <Content Include="frontend\assets\js\libs\jquery\src\effects\Tween.js" />
     <Content Include="frontend\assets\js\libs\jquery\src\event.js" />
     <Content Include="frontend\assets\js\libs\jquery\src\event\alias.js" />
@@ -666,6 +785,7 @@
     <Content Include="frontend\assets\js\libs\jquery\src\jquery.js" />
     <Content Include="frontend\assets\js\libs\jquery\src\manipulation.js" />
     <Content Include="frontend\assets\js\libs\jquery\src\manipulation\support.js" />
+    <Content Include="frontend\assets\js\libs\jquery\src\manipulation\var\rcheckableType.js" />
     <Content Include="frontend\assets\js\libs\jquery\src\manipulation\_evalUrl.js" />
     <Content Include="frontend\assets\js\libs\jquery\src\offset.js" />
     <Content Include="frontend\assets\js\libs\jquery\src\outro.js" />
@@ -674,8 +794,24 @@
     <Content Include="frontend\assets\js\libs\jquery\src\selector-sizzle.js" />
     <Content Include="frontend\assets\js\libs\jquery\src\selector.js" />
     <Content Include="frontend\assets\js\libs\jquery\src\serialize.js" />
+    <Content Include="frontend\assets\js\libs\jquery\src\sizzle\dist\sizzle.js" />
+    <Content Include="frontend\assets\js\libs\jquery\src\sizzle\dist\sizzle.min.js" />
+    <Content Include="frontend\assets\js\libs\jquery\src\support.js" />
     <Content Include="frontend\assets\js\libs\jquery\src\traversing.js" />
     <Content Include="frontend\assets\js\libs\jquery\src\traversing\findFilter.js" />
+    <Content Include="frontend\assets\js\libs\jquery\src\traversing\var\rneedsContext.js" />
+    <Content Include="frontend\assets\js\libs\jquery\src\var\class2type.js" />
+    <Content Include="frontend\assets\js\libs\jquery\src\var\concat.js" />
+    <Content Include="frontend\assets\js\libs\jquery\src\var\deletedIds.js" />
+    <Content Include="frontend\assets\js\libs\jquery\src\var\hasOwn.js" />
+    <Content Include="frontend\assets\js\libs\jquery\src\var\indexOf.js" />
+    <Content Include="frontend\assets\js\libs\jquery\src\var\pnum.js" />
+    <Content Include="frontend\assets\js\libs\jquery\src\var\push.js" />
+    <Content Include="frontend\assets\js\libs\jquery\src\var\rnotwhite.js" />
+    <Content Include="frontend\assets\js\libs\jquery\src\var\slice.js" />
+    <Content Include="frontend\assets\js\libs\jquery\src\var\strundefined.js" />
+    <Content Include="frontend\assets\js\libs\jquery\src\var\support.js" />
+    <Content Include="frontend\assets\js\libs\jquery\src\var\toString.js" />
     <Content Include="frontend\assets\js\libs\jquery\src\wrap.js" />
     <Content Include="frontend\assets\js\libs\modernizr\.bower.json" />
     <Content Include="frontend\assets\js\libs\modernizr\.editorconfig" />
@@ -838,6 +974,8 @@
     <Content Include="frontend\assets\js\libs\modernizr\test\qunit\qunit.css" />
     <Content Include="frontend\assets\js\libs\modernizr\test\qunit\qunit.js" />
     <Content Include="frontend\assets\js\libs\modernizr\test\qunit\run-qunit.js" />
+    <Content Include="frontend\assets\js\libs\respond\.bower.json" />
+    <Content Include="frontend\assets\js\libs\respond\bower.json" />
     <Content Include="frontend\assets\js\libs\respond\cross-domain\example.html" />
     <Content Include="frontend\assets\js\libs\respond\cross-domain\respond-proxy.html" />
     <Content Include="frontend\assets\js\libs\respond\cross-domain\respond.proxy.gif" />
@@ -847,6 +985,9 @@
     <Content Include="frontend\assets\js\libs\respond\dest\respond.min.js" />
     <Content Include="frontend\assets\js\libs\respond\dest\respond.src.js" />
     <Content Include="frontend\assets\js\libs\respond\Gruntfile.js" />
+    <Content Include="frontend\assets\js\libs\respond\LICENSE-MIT" />
+    <Content Include="frontend\assets\js\libs\respond\package.json" />
+    <Content Include="frontend\assets\js\libs\respond\README.md" />
     <Content Include="frontend\assets\js\libs\respond\src\matchmedia.addListener.js" />
     <Content Include="frontend\assets\js\libs\respond\src\matchmedia.polyfill.js" />
     <Content Include="frontend\assets\js\libs\respond\src\respond.js" />
@@ -960,11 +1101,6 @@
     <Content Include="App_Config\Include\Sitecore.Speak.ItemWebApi.config" />
     <Content Include="App_Config\Include\Sitecore.Speak.Mvc.config" />
     <Content Include="Views\web.config" />
-    <Content Include="frontend\assets\js\libs\respond\.bower.json" />
-    <Content Include="frontend\assets\js\libs\respond\bower.json" />
-    <Content Include="frontend\assets\js\libs\respond\LICENSE-MIT" />
-    <Content Include="frontend\assets\js\libs\respond\package.json" />
-    <Content Include="frontend\assets\js\libs\respond\README.md" />
     <Content Include="Views\Components\Footer.cshtml" />
     <Content Include="Views\layouts\HTML Layout.cshtml" />
     <Content Include="Views\Components\Marketing\Full HTML.cshtml" />
@@ -1009,6 +1145,16 @@
     <Content Include="Views\Pages\Marketing\Blog\Blog Landing.cshtml" />
     <Content Include="Views\Pages\Marketing\Blog\Blog Post.cshtml" />
     <Content Include="Views\Pages\Enrollment\Cart.cshtml" />
+    <Content Include="frontend\assets\css\_sass\partials\_enrollment.scss" />
+    <Content Include="frontend\assets\json\accountBalances.json" />
+    <Content Include="frontend\assets\json\invoices.json" />
+    <Content Include="frontend\assets\js\libs\angular-animate\.bower.json" />
+    <Content Include="frontend\assets\js\libs\angular-animate\angular-animate.min.js.map" />
+    <Content Include="frontend\assets\js\libs\angular-animate\bower.json" />
+    <Content Include="frontend\assets\js\libs\angular-animate\README.md" />
+    <Content Include="frontend\assets\js\libs\jquery\dist\jquery.min.map" />
+    <Content Include="frontend\assets\js\libs\jquery\src\sizzle\dist\sizzle.min.map" />
+    <None Include="Properties\PublishProfiles\Package.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1020,6 +1166,10 @@
     <Folder Include="Scripts\" />
     <Folder Include="Views\Shared\" />
   </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\StreamEnergy.Core\StreamEnergy.Core.csproj">
       <Project>{79779d13-7d5e-4190-ba72-5302244c8165}</Project>
@@ -1034,10 +1184,6 @@
       <Name>StreamEnergy.Services</Name>
     </ProjectReference>
   </ItemGroup>
-  <PropertyGroup>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
-    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-  </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
@@ -1068,6 +1214,11 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

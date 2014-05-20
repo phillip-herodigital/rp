@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.Practices.Unity;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -36,7 +37,10 @@ namespace StreamEnergy.Core.Tests
 
         private IValidationService CreateService()
         {
-            return new ValidationService();
+            var unity = new UnityContainer();
+            var result = new ValidationService(unity);
+            unity.RegisterInstance<IValidationService>(result);
+            return result;
         }
 
         private static IEnumerable<string> AsComparable(IEnumerable<ValidationResult> results)

@@ -19,6 +19,8 @@ namespace StreamEnergy.DomainModels
         [Required]
         public string Tdu { get; set; }
 
+        public bool IsNewService { get; set; }
+
         // TODO - meter type? dwelling type?
     }
 }
