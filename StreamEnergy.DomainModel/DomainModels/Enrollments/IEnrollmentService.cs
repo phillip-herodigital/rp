@@ -12,7 +12,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         IEnumerable<IOffer> LoadOffers(Address serviceAddress, IEnumerable<IServiceCapability> serviceCapabilities);
         IConnectDatePolicy LoadConnectDates(Address serviceAddress, IEnumerable<IServiceCapability> serviceCapabilities);
 
-        CreditCheckResult CreditCheck(Name name, string ssn, DriversLicense driversLicense, Address billingAddress, AdditionalIdentityInformation identityInformation = null);
+        IdentityCheckResult IdentityCheck(Name name, string ssn, DriversLicense driversLicense, Address billingAddress, AdditionalIdentityInformation identityInformation = null);
 
         LoadDepositResult LoadDeposit(IEnumerable<SelectedOffer> selectedOffers);
 

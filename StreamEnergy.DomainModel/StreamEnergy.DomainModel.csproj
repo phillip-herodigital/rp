@@ -62,7 +62,10 @@
     <Compile Include="DomainModels\Accounts\Invoice.cs" />
     <Compile Include="DomainModels\Address.cs" />
     <Compile Include="DomainModels\CustomerContact.cs" />
+    <Compile Include="DomainModels\Enrollments\IdentityAnswer.cs" />
+    <Compile Include="DomainModels\Enrollments\IdentityQuestion.cs" />
     <Compile Include="DomainModels\Enrollments\IOfferOptionRules.cs" />
+    <Compile Include="DomainModels\Enrollments\Service\IdentityCheckHardStop.cs" />
     <Compile Include="DomainModels\Enrollments\TexasElectricityOfferOption.cs" />
     <Compile Include="DomainModels\Enrollments\TexasElectricityOfferOptionPolicy.cs" />
     <Compile Include="DomainModels\Enrollments\TexasOfferOptionRules.cs" />
@@ -74,7 +77,7 @@
     <Compile Include="DomainModels\Enrollments\IOfferOption.cs" />
     <Compile Include="DomainModels\Enrollments\IOfferOptionPolicy.cs" />
     <Compile Include="DomainModels\Enrollments\SelectedOffer.cs" />
-    <Compile Include="DomainModels\Enrollments\Service\CreditCheckResult.cs" />
+    <Compile Include="DomainModels\Enrollments\Service\IdentityCheckResult.cs" />
     <Compile Include="DomainModels\Enrollments\IConnectDatePolicy.cs" />
     <Compile Include="DomainModels\Enrollments\IEnrollmentService.cs" />
     <Compile Include="DomainModels\Enrollments\Service\LoadDepositResult.cs" />

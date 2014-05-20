@@ -15,6 +15,8 @@ namespace StreamEnergy.MyStream.Tests
     public class EnrollmentControllerTest
     {
         private Unity.Container container;
+        private IOffer[] offers;
+        private IdentityQuestion[] identityQuestions;
 
         [TestInitialize]
         public void InitializeTest()
@@ -24,18 +26,61 @@ namespace StreamEnergy.MyStream.Tests
             // TODO - remove this mock and replace with a service-level mock
             Mock<IEnrollmentService> service = new Mock<IEnrollmentService>();
 
-            service.Setup(svc => svc.LoadOffers(It.IsAny<DomainModels.Address>(), It.IsAny<IEnumerable<DomainModels.IServiceCapability>>())).Returns(new IOffer[] 
+            offers = new IOffer[] 
             { 
                 new TexasElectricityOffer
                 {
                     Id = "NewOffer"
                 }
-            });
+            };
+            service.Setup(svc => svc.LoadOffers(It.IsAny<DomainModels.Address>(), It.IsAny<IEnumerable<DomainModels.IServiceCapability>>())).Returns(offers);
 
             // This isn't really here to be a mock, but rather a placeholder... hence it's a "stub". The real thing should come in with the service-level mock.
             Mock<IConnectDatePolicy> stub = new Mock<IConnectDatePolicy>();
             service.Setup(svc => svc.LoadConnectDates(It.IsAny<DomainModels.Address>(), It.IsAny<IEnumerable<DomainModels.IServiceCapability>>())).Returns(stub.Object);
             container.Unity.RegisterInstance(service.Object);
+
+            // This is for the first identity check call.
+            identityQuestions = new[] 
+            {
+                new IdentityQuestion
+                {
+                    QuestionId = "1",
+                    QuestionText = "What is your name?",
+                    Answers = new[] { 
+                        new IdentityAnswer { AnswerId = "1", AnswerText = "King Arthur" },
+                        new IdentityAnswer { AnswerId = "2", AnswerText = "Sir Lancelot" },
+                        new IdentityAnswer { AnswerId = "3", AnswerText = "Sir Robin" },
+                        new IdentityAnswer { AnswerId = "4", AnswerText = "Sir Galahad" },
+                    }
+                },
+                new IdentityQuestion
+                {
+                    QuestionId = "2",
+                    QuestionText = "What is your quest?",
+                    Answers = new[] { 
+                        new IdentityAnswer { AnswerId = "1", AnswerText = "To seek the Holy Grail." },
+                    }
+                },
+                new IdentityQuestion
+                {
+                    QuestionId = "3",
+                    QuestionText = "What is your favorite color?",
+                    Answers = new[] { 
+                        new IdentityAnswer { AnswerId = "1", AnswerText = "Blue." },
+                        new IdentityAnswer { AnswerId = "2", AnswerText = "Green." },
+                        new IdentityAnswer { AnswerId = "3", AnswerText = "Yellow." },
+                        new IdentityAnswer { AnswerId = "4", AnswerText = "Red." },
+                    }
+                },
+            };
+            service.Setup(svc => svc.IdentityCheck(It.IsAny<DomainModels.Name>(), It.IsAny<string>(), It.IsAny<DomainModels.DriversLicense>(), It.IsAny<DomainModels.Address>(), null))
+                .Returns(new DomainModels.Enrollments.Service.IdentityCheckResult
+                {
+                    IdentityCheckId = "01234",
+                    HardStop = null,
+                    IdentityQuestions = identityQuestions,
+                });
         }
 
         [TestMethod]
@@ -129,13 +174,7 @@ namespace StreamEnergy.MyStream.Tests
             };
             session.InternalContext = new InternalContext
             {
-                AllOffers = new IOffer[] 
-                { 
-                    new TexasElectricityOffer
-                    {
-                        Id = "NewOffer"
-                    }
-                }
+                AllOffers = offers
             };
             session.State = typeof(DomainModels.Enrollments.PlanSelectionState);
             var request = new Models.Enrollment.SelectedOffers
@@ -171,22 +210,13 @@ namespace StreamEnergy.MyStream.Tests
                 { 
                     new SelectedOffer 
                     { 
-                        Offer = new TexasElectricityOffer
-                        {
-                            Id = "NewOffer"
-                        }
+                        Offer = offers[0]
                     }
                 }
             };
             session.InternalContext = new InternalContext
             {
-                AllOffers = new IOffer[] 
-                { 
-                    new TexasElectricityOffer
-                    {
-                        Id = "NewOffer"
-                    }
-                }
+                AllOffers = offers
             };
             session.State = typeof(DomainModels.Enrollments.AccountInformationState);
             var request = new Models.Enrollment.AccountInformation
@@ -204,7 +234,7 @@ namespace StreamEnergy.MyStream.Tests
                 Language = "en",
                 SecondaryContactInfo = null,
                 SocialSecurityNumber = "123-45-6789",
-                OfferOptions = new Dictionary<string, IOfferOption> { { "NewOffer", new TexasElectricityOfferOption { ConnectDate = new DateTime(2014, 5, 1) } } }
+                OfferOptions = new Dictionary<string, IOfferOption> { { offers[0].Id, new TexasElectricityOfferOption { ConnectDate = new DateTime(2014, 5, 1) } } }
             };
 
             using (var controller = container.Resolve<EnrollmentController>())
@@ -217,6 +247,7 @@ namespace StreamEnergy.MyStream.Tests
                 Assert.AreEqual("Person", result.UserContext.ContactInfo.Name.Last);
                 Assert.AreEqual("test@example.com", result.UserContext.ContactInfo.Email.Address);
                 Assert.AreEqual("2142234567", result.UserContext.ContactInfo.PrimaryPhone.Number);
+                Assert.IsNotNull(result.IdentityQuestions);
                 Assert.IsNull(result.UserContext.SocialSecurityNumber);
                 Assert.AreEqual("en", result.UserContext.Language);
             }
@@ -229,6 +260,7 @@ namespace StreamEnergy.MyStream.Tests
             Assert.AreEqual("2142234567", session.UserContext.ContactInfo.PrimaryPhone.Number);
             Assert.AreEqual("123456789", session.UserContext.SocialSecurityNumber);
             Assert.AreEqual("en", session.UserContext.Language);
+            Assert.IsNotNull(session.InternalContext.IdentityCheckResult.IdentityQuestions);
         }
     }
 }

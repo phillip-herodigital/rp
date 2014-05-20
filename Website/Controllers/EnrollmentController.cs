@@ -115,6 +115,7 @@ namespace StreamEnergy.MyStream.Controllers
                 UserContext = CopyForClientDisplay(stateMachine.Context),
                 Offers = stateMachine.InternalContext.AllOffers,
                 OfferOptionRules = stateMachine.InternalContext.OfferOptionRules,
+                IdentityQuestions = stateMachine.InternalContext.IdentityCheckResult != null ? stateMachine.InternalContext.IdentityCheckResult.IdentityQuestions : null,
                 // TODO - more data, such as calendar, etc. - probably from stateMachine.InternalContext
             };
         }

@@ -59,9 +59,12 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         private void LoadInternalState(UserContext context, InternalContext internalContext)
         {
-            foreach (var offer in context.SelectedOffers)
+            if (context.SelectedOffers != null)
             {
-                internalContext.OfferOptionRules[offer.Offer.Id] = offer.Offer.GetOfferOptionPolicy(container).GetOptionRules(context.ServiceAddress, offer.Offer, context.ServiceCapabilities);
+                foreach (var offer in context.SelectedOffers)
+                {
+                    internalContext.OfferOptionRules[offer.Offer.Id] = offer.Offer.GetOfferOptionPolicy(container).GetOptionRules(context.ServiceAddress, offer.Offer, context.ServiceCapabilities);
+                }
             }
         }
     }

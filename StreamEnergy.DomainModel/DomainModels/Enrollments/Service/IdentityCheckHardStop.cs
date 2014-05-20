@@ -5,7 +5,9 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels.Enrollments.Service
 {
-    public class CreditCheckResult
+    public enum IdentityCheckHardStop
     {
+        Minor,
+        Deceased
     }
 }
