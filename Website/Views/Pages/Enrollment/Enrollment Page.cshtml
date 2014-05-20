@@ -1,12 +1,12 @@
-﻿		<div class="page-content">
-			<header class="site-header fixed" main-nav>
-				<div class="wrapper">
-					<a href="/" class="logo">Logo</a>
-					<a href="" class="cart-toggle icon-cart" ng-click="toggleCart()">Toggle Cart<span class="item-num">2</span></a>
-					<a href="" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
-				</div>
-			</header>
-
-@Html.Sitecore().Placeholder("enrollment sections")
-
-		</div>
+﻿<div ng-controller="EnrollmentCtrl">
+    <div class="page-content">
+        <header class="site-header fixed" main-nav>
+            <div class="wrapper">
+                <a href="/" class="logo">Logo</a>
+                <a href="" class="cart-toggle icon-cart" ng-click="toggleCart()">Toggle Cart<span class="item-num">2</span></a>
+                <a href="" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
+            </div>
+        </header>
+        @Html.Sitecore().Placeholder("enrollment sections")
+    </div>
+</div>
