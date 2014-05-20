@@ -49,7 +49,7 @@ namespace StreamEnergy.Core.Tests.Processes
                 return Enumerable.Empty<ValidationResult>();
             }
 
-            bool IState<GetOffersContext, GetOffersInternalContext>.IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult)
+            bool IState<GetOffersContext, GetOffersInternalContext>.IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult, GetOffersContext data, GetOffersInternalContext internalData)
             {
                 return false;
             }
@@ -104,7 +104,7 @@ namespace StreamEnergy.Core.Tests.Processes
                 return Enumerable.Empty<ValidationResult>();
             }
 
-            bool IState<GetOffersContext, GetOffersInternalContext>.IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult)
+            bool IState<GetOffersContext, GetOffersInternalContext>.IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult, GetOffersContext data, GetOffersInternalContext internalData)
             {
                 return false;
             }
@@ -157,7 +157,7 @@ namespace StreamEnergy.Core.Tests.Processes
                 }
             }
 
-            bool IState<GetOffersContext, GetOffersInternalContext>.IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult)
+            bool IState<GetOffersContext, GetOffersInternalContext>.IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult, GetOffersContext data, GetOffersInternalContext internalContext)
             {
                 return false;
             }
