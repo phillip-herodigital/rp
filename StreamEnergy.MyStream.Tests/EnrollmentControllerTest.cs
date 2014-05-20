@@ -118,6 +118,12 @@ namespace StreamEnergy.MyStream.Tests
                 .Returns(finalIdentityCheckResult);
 
             service.Setup(svc => svc.LoadDeposit(It.IsAny<IEnumerable<SelectedOffer>>())).Returns(loadDepositResult);
+
+            service.Setup(svc => svc.PlaceOrder(It.IsAny<IEnumerable<SelectedOffer>>())).Returns(new StreamEnergy.DomainModels.Enrollments.Service.PlaceOrderResult
+                {
+                    ConfirmationNumber = "123456"
+                });
+
         }
 
         [TestMethod]
@@ -346,9 +352,9 @@ namespace StreamEnergy.MyStream.Tests
         [TestMethod]
         public void PostIdentityQuestionsNoDepositTest()
         {
+            // Arrange
             loadDepositResult.Amount = 0;
 
-            // Arrange
             var session = container.Resolve<EnrollmentController.SessionHelper>();
             session.UserContext = new UserContext
             {
@@ -390,6 +396,56 @@ namespace StreamEnergy.MyStream.Tests
             }
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.CompleteOrderState), session.State);
+        }
+
+        [TestMethod]
+        public void PostConfirmOrderTest()
+        {
+            // Arrange
+            loadDepositResult.Amount = 0;
+
+            var session = container.Resolve<EnrollmentController.SessionHelper>();
+            session.UserContext = new UserContext
+            {
+                ServiceAddress = specificAddress,
+                ServiceCapabilities = specificServiceCapabilities,
+                SelectedOffers = new[] 
+                { 
+                    new SelectedOffer 
+                    { 
+                        Offer = offers[0],
+                        OfferOption = offerOption
+                    }
+                },
+                BillingAddress = specificAddress,
+                ContactInfo = contactInfo,
+                DriversLicense = null,
+                Language = "en",
+                SecondaryContactInfo = null,
+                SelectedIdentityAnswers = new Dictionary<string,string>(),
+                SocialSecurityNumber = "123-45-6789",
+            };
+            session.InternalContext = new InternalContext
+            {
+                AllOffers = offers,
+                IdentityCheckResult = identityCheckResult,
+            };
+            session.State = typeof(DomainModels.Enrollments.VerifyIdentityState);
+            var request = new Models.Enrollment.ConfirmOrder
+            {
+                AgreeToTerms = true,
+            };
+
+            using (var controller = container.Resolve<EnrollmentController>())
+            {
+                // Act
+                var result = controller.ConfirmOrder(request);
+
+                // Assert
+                Assert.IsNotNull(result.ConfirmationNumber);
+            }
+
+            Assert.AreEqual(typeof(DomainModels.Enrollments.OrderConfirmationState), session.State);
         }
     }
 }

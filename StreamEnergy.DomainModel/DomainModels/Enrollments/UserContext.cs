@@ -52,6 +52,9 @@ namespace StreamEnergy.DomainModels.Enrollments
         [ValidateObject(ErrorMessagePrefix = "")]
         public DomainModels.IPaymentInfo PaymentInfo { get; set; }
 
+        [RequireValue(true, ErrorMessage = "Must Agree To Terms")]
+        public bool AgreeToTerms { get; set; }
+
         void ISanitizable.Sanitize()
         {
             if (SocialSecurityNumber != null)
@@ -68,6 +71,5 @@ namespace StreamEnergy.DomainModels.Enrollments
             if (BillingAddress != null)
                 ((ISanitizable)BillingAddress).Sanitize();
         }
-
     }
 }

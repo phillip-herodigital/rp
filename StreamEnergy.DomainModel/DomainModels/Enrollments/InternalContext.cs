@@ -20,5 +20,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         public Service.IdentityCheckResult IdentityCheckResult { get; set; }
 
         public Service.LoadDepositResult Deposit { get; set; }
+
+        public Service.PlaceOrderResult PlaceOrderResult { get; set; }
     }
 }

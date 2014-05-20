@@ -8,6 +8,13 @@ namespace StreamEnergy.DomainModels.Enrollments
 {
     public class CompleteOrderState : IState<UserContext, InternalContext>
     {
+        private readonly IEnrollmentService enrollmentService;
+
+        public CompleteOrderState(IEnrollmentService enrollmentService)
+        {
+            this.enrollmentService = enrollmentService;
+        }
+
         public IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
         {
             yield return context => context.ServiceAddress;
@@ -19,8 +26,8 @@ namespace StreamEnergy.DomainModels.Enrollments
             yield return context => context.SocialSecurityNumber;
             yield return context => context.DriversLicense;
             yield return context => context.SelectedIdentityAnswers;
-            // TODO - select payment method
-            // TODO - confirm TOSA, etc.
+            yield return context => context.PaymentInfo;
+            yield return context => context.AgreeToTerms;
         }
 
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> AdditionalValidations(UserContext context, InternalContext internalContext)
@@ -40,6 +47,8 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public Type Process(UserContext context, InternalContext internalContext)
         {
+            internalContext.PlaceOrderResult = enrollmentService.PlaceOrder(context.SelectedOffers);
+
             return typeof(PlaceOrderState);
         }
 

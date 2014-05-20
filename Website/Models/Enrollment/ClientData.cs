@@ -13,5 +13,6 @@ namespace StreamEnergy.MyStream.Models.Enrollment
         public Dictionary<string, DomainModels.Enrollments.IOfferOptionRules> OfferOptionRules { get; set; }
         public DomainModels.Enrollments.IdentityQuestion[] IdentityQuestions { get; set; }
         public decimal? DepositAmount { get; set; }
+        public string ConfirmationNumber { get; set; }
     }
 }

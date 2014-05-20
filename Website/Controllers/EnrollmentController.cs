@@ -117,7 +117,7 @@ namespace StreamEnergy.MyStream.Controllers
                 OfferOptionRules = stateMachine.InternalContext.OfferOptionRules,
                 IdentityQuestions = stateMachine.InternalContext.IdentityCheckResult != null ? stateMachine.InternalContext.IdentityCheckResult.IdentityQuestions : null,
                 DepositAmount = stateMachine.InternalContext.Deposit != null ? stateMachine.InternalContext.Deposit.Amount : (decimal?)null,
-                // TODO - more data, such as calendar, etc. - probably from stateMachine.InternalContext
+                ConfirmationNumber = stateMachine.InternalContext.PlaceOrderResult != null ? stateMachine.InternalContext.PlaceOrderResult.ConfirmationNumber : null
             };
         }
 
@@ -154,24 +154,6 @@ namespace StreamEnergy.MyStream.Controllers
                 stateMachine.Process(typeof(DomainModels.Enrollments.AccountInformationState));
 
             return ClientData();
-        }
-
-        private UserContext CopyForClientDisplay(UserContext userContext)
-        {
-            return new UserContext
-            {
-                BillingAddress = userContext.BillingAddress,
-                ContactInfo = userContext.ContactInfo,
-                DriversLicense = userContext.DriversLicense,
-                Language = userContext.Language,
-                SecondaryContactInfo = userContext.SecondaryContactInfo,
-                SelectedOffers = userContext.SelectedOffers,
-                ServiceAddress = userContext.ServiceAddress,
-                ServiceCapabilities = userContext.ServiceCapabilities,
-                SocialSecurityNumber = null,
-
-                // TODO - there will be more properties here
-            };
         }
 
         [HttpPost]
@@ -216,6 +198,40 @@ namespace StreamEnergy.MyStream.Controllers
                 stateMachine.Process(typeof(DomainModels.Enrollments.CompleteOrderState));
 
             return ClientData();
+        }
+
+        [HttpPost]
+        public ClientData PaymentInfo([FromBody]DomainModels.IPaymentInfo request)
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpPost]
+        public ClientData ConfirmOrder([FromBody]ConfirmOrder request)
+        {
+            stateMachine.Context.AgreeToTerms = request.AgreeToTerms;
+
+            stateMachine.Process();
+
+            return ClientData();
+        }
+
+        private UserContext CopyForClientDisplay(UserContext userContext)
+        {
+            return new UserContext
+            {
+                BillingAddress = userContext.BillingAddress,
+                ContactInfo = userContext.ContactInfo,
+                DriversLicense = userContext.DriversLicense,
+                Language = userContext.Language,
+                SecondaryContactInfo = userContext.SecondaryContactInfo,
+                SelectedOffers = userContext.SelectedOffers,
+                ServiceAddress = userContext.ServiceAddress,
+                ServiceCapabilities = userContext.ServiceCapabilities,
+                SocialSecurityNumber = null,
+
+                // TODO - there will be more properties here
+            };
         }
     }
 }
