@@ -317,3 +317,9 @@ ngApp.provider('validation', [function () {
         return true;
     }, ['validation', '$http', '$q']);
 }]);
+
+ngApp.config(['validationProvider', function (validationProvider) {
+    /*validationProvider.addValidator('exactvalue', function (val, options) {
+        return !val || options.parameters['value'] == JSON.stringify(val);
+    });*/
+}]);

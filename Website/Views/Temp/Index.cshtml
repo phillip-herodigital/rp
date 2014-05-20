@@ -35,6 +35,8 @@
 
         <div>
             Correct:
+            <p>RequireChecked - {{data.RequireChecked}}<br /><input type="checkbox" @Html.ValidationAttributes(m => m.RequireChecked) data-val-realtime ng-model="data.RequireChecked" /> @Html.ValidationMessageFor(model => model.RequireChecked) </p>
+
             <p>CardNumber - {{data.CardNumber }}<br /><input type="text" @Html.ValidationAttributes(m => m.CardNumber) data-val-realtime ng-model="data.CardNumber" /> @Html.ValidationMessageFor(model => model.CardNumber) </p>
             <p>Date       - {{data.Date       }}<br /><input type="text" @Html.ValidationAttributes(m => m.Date) data-val-realtime ng-model="data.Date" /> @Html.ValidationMessageFor(model => model.Date)                   </p>
             <p>Integer    - {{data.Integer    }}<br /><input type="text" @Html.ValidationAttributes(m => m.Integer) data-val-realtime ng-model="data.Integer" /> @Html.ValidationMessageFor(model => model.Integer)          </p>

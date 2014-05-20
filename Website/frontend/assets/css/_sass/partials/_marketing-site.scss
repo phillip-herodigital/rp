@@ -221,6 +221,9 @@ article.marketingIntro {
 				text-transform: uppercase;
 			}
 		}
+		@include breakpoint(small) {
+			margin: 0 20px;
+		}
 	}
 	@each $theme in $themes {
 		&.accent-#{map-get($theme, name)} {
@@ -1691,7 +1694,7 @@ article.terms-of-use {
 		margin: auto;
 	}
 	ul {
-		padding-left: 80px;
+		padding: 0 80px;
 		li {
 			list-style-type: none;
 			p {
@@ -1705,6 +1708,16 @@ article.terms-of-use {
 			text-transform: uppercase;
 		}
 	}
+	@include breakpoint(small) {
+		ul {
+			padding: 0 20px;
+		}
+	}
+	@include breakpoint(medium) {
+		ul {
+			padding: 0 40px;
+		}
+	}	
 }
 
 article.energy-certificates {
@@ -2071,4 +2084,42 @@ article.marketing div.wrapper {
 			}
 		}
 	}
+}
+
+article.rates {
+    table {
+        th, td {
+            &:first-child {
+                text-align: left;
+                background: #f9f9f9;
+            }
+        }
+
+        thead th,
+        thead th:first-child {
+            border: 1px solid #e8e8e8;
+            background-color: #efefef;
+            font-weight: 600;
+
+            &[colspan] {
+                background: #999;
+                color: #fff;
+            }
+        }
+
+        tbody {
+            tr.details td:first-child {
+                border: 0;
+                border-left: 2px solid #0971ce;
+            }
+        }
+    }
+    &.northeast,
+    &.georgia {
+        table thead th,
+	    table thead th:first-child {
+		    background: #999;
+		    color: #fff;
+	    }
+    }
 }

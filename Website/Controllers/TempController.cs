@@ -32,6 +32,9 @@ namespace StreamEnergy.MyStream.Controllers
         {
             public CustomerContact ContactInfo { get; set; }
 
+            [RequireValue(true, ErrorMessage="RequireChecked Must Be Checked")]
+            public bool RequireChecked { get; set; }
+
             [CreditCard]
             public string CardNumber { get; set; }
 
