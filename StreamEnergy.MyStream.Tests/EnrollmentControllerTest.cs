@@ -15,17 +15,21 @@ namespace StreamEnergy.MyStream.Tests
     public class EnrollmentControllerTest
     {
         private Unity.Container container;
+        private DomainModels.Address generalAddress;
+        private DomainModels.IServiceCapability[] generalServiceCapabilities;
         private IOffer[] offers;
         private IdentityQuestion[] identityQuestions;
+        private DomainModels.Address specificAddress;
+        private DomainModels.IServiceCapability[] specificServiceCapabilities;
+        private DomainModels.CustomerContact contactInfo;
+        private TexasElectricityOfferOption offerOption;
 
         [TestInitialize]
         public void InitializeTest()
         {
             container = ContainerSetup.Create();
-
-            // TODO - remove this mock and replace with a service-level mock
-            Mock<IEnrollmentService> service = new Mock<IEnrollmentService>();
-
+            generalAddress = new DomainModels.Address { PostalCode5 = "75010" };
+            generalServiceCapabilities = new[] { new DomainModels.TexasServiceCapability { Tdu = "Centerpoint" } };
             offers = new IOffer[] 
             { 
                 new TexasElectricityOffer
@@ -33,14 +37,6 @@ namespace StreamEnergy.MyStream.Tests
                     Id = "NewOffer"
                 }
             };
-            service.Setup(svc => svc.LoadOffers(It.IsAny<DomainModels.Address>(), It.IsAny<IEnumerable<DomainModels.IServiceCapability>>())).Returns(offers);
-
-            // This isn't really here to be a mock, but rather a placeholder... hence it's a "stub". The real thing should come in with the service-level mock.
-            Mock<IConnectDatePolicy> stub = new Mock<IConnectDatePolicy>();
-            service.Setup(svc => svc.LoadConnectDates(It.IsAny<DomainModels.Address>(), It.IsAny<IEnumerable<DomainModels.IServiceCapability>>())).Returns(stub.Object);
-            container.Unity.RegisterInstance(service.Object);
-
-            // This is for the first identity check call.
             identityQuestions = new[] 
             {
                 new IdentityQuestion
@@ -74,6 +70,27 @@ namespace StreamEnergy.MyStream.Tests
                     }
                 },
             };
+            specificAddress = new DomainModels.Address { Line1 = "3620 Huffines Blvd", UnitNumber = "226", City = "Carrollton", StateAbbreviation = "TX", PostalCode5 = "75010" };
+            specificServiceCapabilities = new[] { new DomainModels.TexasServiceCapability { Tdu = "Centerpoint", EsiId = "1234SAMPLE5678" } };
+            contactInfo = new DomainModels.CustomerContact
+            {
+                Name = new DomainModels.Name { First = "Test", Last = "Person" },
+                Email = new DomainModels.Email { Address = "test@example.com" },
+                PrimaryPhone = new DomainModels.Phone { Number = "214-223-4567" },
+            };
+            offerOption = new TexasElectricityOfferOption { ConnectDate = new DateTime(2014, 5, 1) };
+
+            // TODO - remove this mock and replace with a service-level mock
+            Mock<IEnrollmentService> service = new Mock<IEnrollmentService>();
+
+            service.Setup(svc => svc.LoadOffers(It.IsAny<DomainModels.Address>(), It.IsAny<IEnumerable<DomainModels.IServiceCapability>>())).Returns(offers);
+
+            // This isn't really here to be a mock, but rather a placeholder... hence it's a "stub". The real thing should come in with the service-level mock.
+            Mock<IConnectDatePolicy> stub = new Mock<IConnectDatePolicy>();
+            service.Setup(svc => svc.LoadConnectDates(It.IsAny<DomainModels.Address>(), It.IsAny<IEnumerable<DomainModels.IServiceCapability>>())).Returns(stub.Object);
+            container.Unity.RegisterInstance(service.Object);
+
+            // This is for the first identity check call.            
             service.Setup(svc => svc.IdentityCheck(It.IsAny<DomainModels.Name>(), It.IsAny<string>(), It.IsAny<DomainModels.DriversLicense>(), It.IsAny<DomainModels.Address>(), null))
                 .Returns(new DomainModels.Enrollments.Service.IdentityCheckResult
                 {
@@ -133,8 +150,8 @@ namespace StreamEnergy.MyStream.Tests
             var request = new Models.Enrollment.ServiceInformation
             {
                 IsNewService = true,
-                ServiceAddress = new DomainModels.Address { PostalCode5 = "75010" },
-                ServiceCapabilities = new[] { new DomainModels.TexasServiceCapability { Tdu = "Centerpoint" } }
+                ServiceAddress = generalAddress,
+                ServiceCapabilities = generalServiceCapabilities
             };
 
             using (var controller = container.Resolve<EnrollmentController>())
@@ -169,8 +186,8 @@ namespace StreamEnergy.MyStream.Tests
             var session = container.Resolve<EnrollmentController.SessionHelper>();
             session.UserContext = new UserContext
             {
-                ServiceAddress = new DomainModels.Address { PostalCode5 = "75010" },
-                ServiceCapabilities = new[] { new DomainModels.TexasServiceCapability { Tdu = "Centerpoint" } }
+                ServiceAddress = generalAddress,
+                ServiceCapabilities = generalServiceCapabilities
             };
             session.InternalContext = new InternalContext
             {
@@ -204,8 +221,8 @@ namespace StreamEnergy.MyStream.Tests
             var session = container.Resolve<EnrollmentController.SessionHelper>();
             session.UserContext = new UserContext
             {
-                ServiceAddress = new DomainModels.Address { PostalCode5 = "75010" },
-                ServiceCapabilities = new[] { new DomainModels.TexasServiceCapability { Tdu = "Centerpoint" } },
+                ServiceAddress = generalAddress,
+                ServiceCapabilities = generalServiceCapabilities,
                 SelectedOffers = new[] 
                 { 
                     new SelectedOffer 
@@ -221,20 +238,15 @@ namespace StreamEnergy.MyStream.Tests
             session.State = typeof(DomainModels.Enrollments.AccountInformationState);
             var request = new Models.Enrollment.AccountInformation
             {
-                ServiceAddress = new DomainModels.Address { Line1 = "3620 Huffines Blvd", UnitNumber = "226", City = "Carrollton", StateAbbreviation = "TX", PostalCode5 = "75010" },
-                ServiceCapabilities = new[] { new DomainModels.TexasServiceCapability { Tdu = "Centerpoint", EsiId = "1234SAMPLE5678" } },
-                ContactInfo = new DomainModels.CustomerContact
-                {
-                    Name = new DomainModels.Name { First = "Test", Last = "Person" },
-                    Email = new DomainModels.Email { Address = "test@example.com" },
-                    PrimaryPhone = new DomainModels.Phone { Number = "214-223-4567" },
-                },
-                BillingAddress = new DomainModels.Address { Line1 = "3620 Huffines Blvd", UnitNumber = "226", City = "Carrollton", StateAbbreviation = "TX", PostalCode5 = "75010" },
+                ServiceAddress = specificAddress,
+                ServiceCapabilities = specificServiceCapabilities,
+                ContactInfo = contactInfo,
+                BillingAddress = specificAddress,
                 DriversLicense = null,
                 Language = "en",
                 SecondaryContactInfo = null,
                 SocialSecurityNumber = "123-45-6789",
-                OfferOptions = new Dictionary<string, IOfferOption> { { offers[0].Id, new TexasElectricityOfferOption { ConnectDate = new DateTime(2014, 5, 1) } } }
+                OfferOptions = new Dictionary<string, IOfferOption> { { offers[0].Id, offerOption } }
             };
 
             using (var controller = container.Resolve<EnrollmentController>())
