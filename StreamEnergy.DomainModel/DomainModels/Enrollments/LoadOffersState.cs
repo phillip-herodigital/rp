@@ -27,7 +27,7 @@ namespace StreamEnergy.DomainModels.Enrollments
             yield break;
         }
 
-        bool IState<UserContext, InternalContext>.IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult)
+        bool IState<UserContext, InternalContext>.IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult, UserContext context, InternalContext internalContext)
         {
             return false;
         }
