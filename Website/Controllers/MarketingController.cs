@@ -37,23 +37,22 @@ namespace StreamEnergy.MyStream.Controllers
         [HttpPost]
         public ActionResult ContactIndex(StreamEnergy.MyStream.Models.Marketing.Contact contact)
         {
-
-            // Get the form data
-            var FirstName = contact.ContactInfo.Name.First;
-            var LastName = contact.ContactInfo.Name.Last;
-            var AddressLine1 = contact.ContactAddress.Line1;
-            var City = contact.ContactAddress.City;
-            var StateAbbreviation = contact.ContactAddress.StateAbbreviation;
-            var PostalCode5 = contact.ContactAddress.PostalCode5;
-            var Phone = contact.ContactInfo.PrimaryPhone.Number;
-            var Email = contact.ContactInfo.Email.Address;
-            var Reason = contact.Reason;
-            var Comment = contact.Comment;
-            var Name = FirstName + ' ' + LastName;
-
             // Validate form data
-            if (TryValidateModel(contact))
+            if (ModelState.IsValid)
             {
+                // Get the form data
+                var FirstName = contact.ContactName.First;
+                var LastName = contact.ContactName.Last;
+                var AddressLine1 = contact.ContactAddress.Line1;
+                var City = contact.ContactAddress.City;
+                var StateAbbreviation = contact.ContactAddress.StateAbbreviation;
+                var PostalCode5 = contact.ContactAddress.PostalCode5;
+                var Phone = contact.ContactPhone.Number;
+                var Email = contact.ContactEmail.Address;
+                var Reason = contact.Reason;
+                var Comment = contact.Comment;
+                var Name = FirstName + ' ' + LastName;
+
                 // Send the email
                 MailAddress From = new MailAddress(Email, Name);
                 MailAddress To = new MailAddress("adam.powell@responsivepath.com", "Adam Powell");  // TODO - Get this email address(es) from a Sitecore field

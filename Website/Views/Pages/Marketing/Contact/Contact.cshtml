@@ -235,28 +235,26 @@
         <script>
             ngApp.controller('mainController', ['$scope', function ($scope) {
                 $scope.data = {};
-                $scope.provideEmail = true;
-                $scope.email = '@(Model != null && Model.ContactInfo != null && Model.ContactInfo.Email != null ? Model.ContactInfo.Email.Address : null)';
             }]);
         </script>
         <div class="wrapper" ng-controller="mainController">
             <h2>@Html.Sitecore().Field("Request Form Text")</h2>
             <p>@Html.Sitecore().Field("Required Form Text")</p>
-            <form name="contact" action="/contact" method="post" novalidate>
+            <form action="/contact" method="post">
                 @Html.ValidationSummary()
                 <div class="grid">
                     <div class="col">
-                        <div class="item" @Html.ValidationErrorClass(model => model.ContactInfo.Name.First)>
+                        <div class="item" @Html.ValidationErrorClass(model => model.ContactName.First)>
                             <label for="ContactInfo.Name.First">@Html.Sitecore().Field("First Name Text")</label>
-                            <input type="text" placeholder="@Html.Sitecore().Field("First Name Placeholder")" @Html.ValidationAttributes(m => m.ContactInfo.Name.First) data-val-realtime ng-model="firstName" />
+                            <input type="text" placeholder="@Html.Sitecore().Field("First Name Placeholder")" @Html.ValidationAttributes(m => m.ContactName.First) data-val-realtime ng-model="firstName" />
                             <span class="asterisk">&#42;</span>
-                            @Html.ValidationMessageFor(model => model.ContactInfo.Name.First)
+                            @Html.ValidationMessageFor(model => model.ContactName.First)
                         </div>
-                        <div class="item" @Html.ValidationErrorClass(model => model.ContactInfo.Name.Last)>
+                        <div class="item" @Html.ValidationErrorClass(model => model.ContactName.Last)>
                             <label for="ContactInfo.Name.Last">@Html.Sitecore().Field("Last Name Text")</label>
-                            <input type="text" placeholder="@Html.Sitecore().Field("Last Name Placeholder")" @Html.ValidationAttributes(m => m.ContactInfo.Name.Last) data-val-realtime ng-model="lastName" />
+                            <input type="text" placeholder="@Html.Sitecore().Field("Last Name Placeholder")" @Html.ValidationAttributes(m => m.ContactName.Last) data-val-realtime ng-model="lastName" />
                             <span class="asterisk">&#42;</span>
-                            @Html.ValidationMessageFor(model => model.ContactInfo.Name.Last)
+                            @Html.ValidationMessageFor(model => model.ContactName.Last)
                         </div>
                         <div class="item" @Html.ValidationErrorClass(model => model.ContactAddress.Line1)>
                             <label for="ContactAddress.Line1">@Html.Sitecore().Field("Service Address Text")</label>
@@ -288,17 +286,17 @@
                         </div>
                     </div>
                     <div class="col">
-                        <div class="item" @Html.ValidationErrorClass(model => model.ContactInfo.PrimaryPhone.Number)>
+                        <div class="item" @Html.ValidationErrorClass(model => model.ContactPhone.Number)>
                             <label for="ContactInfo.PrimaryPhone.Number">@Html.Sitecore().Field("Phone Text")</label>
-                            <input type="text" placeholder="@Html.Sitecore().Field("Phone Placeholder")" @Html.ValidationAttributes(m => m.ContactInfo.PrimaryPhone.Number) data-val-realtime ng-model="phone" />
+                            <input type="text" placeholder="@Html.Sitecore().Field("Phone Placeholder")" @Html.ValidationAttributes(m => m.ContactPhone.Number) data-val-realtime ng-model="phone" />
                             <span class="asterisk">&#42;</span>
-                            @Html.ValidationMessageFor(model => model.ContactInfo.PrimaryPhone.Number)
+                            @Html.ValidationMessageFor(model => model.ContactPhone.Number)
                         </div>
-                        <div class="item" @Html.ValidationErrorClass(model => model.ContactInfo.Email.Address)>
+                        <div class="item" @Html.ValidationErrorClass(model => model.ContactEmail.Address)>
                             <label for="ContactInfo.Email.Address">@Html.Sitecore().Field("Email Text")</label>
-                            <input type="email" placeholder="@Html.Sitecore().Field("Email Placeholder")" @Html.ValidationAttributes(m => m.ContactInfo.Email.Address) data-val-realtime ng-model="email" />
+                            <input type="email" placeholder="@Html.Sitecore().Field("Email Placeholder")" @Html.ValidationAttributes(m => m.ContactEmail.Address) data-val-realtime ng-model="email" />
                             <span class="asterisk">&#42;</span>
-                            @Html.ValidationMessageFor(model => model.ContactInfo.Email.Address)
+                            @Html.ValidationMessageFor(model => model.ContactEmail.Address)
                         </div>
                         <div class="item" @Html.ValidationErrorClass(model => model.Reason)>
                             <label for="Reason">@Html.Sitecore().Field("Reason Text")</label>

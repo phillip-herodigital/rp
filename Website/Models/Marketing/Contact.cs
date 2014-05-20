@@ -12,17 +12,23 @@ namespace StreamEnergy.MyStream.Models.Marketing
         public bool ShowSuccessMessage { get; set; }
 
         [ValidateObject(ErrorMessagePrefix = "")]
-        public CustomerContact ContactInfo { get; set; }
+        public Name ContactName { get; set; }
+
+        [ValidateObject(ErrorMessagePrefix = "")]
+        public Phone ContactPhone { get; set; }
+
+        [ValidateObject(ErrorMessagePrefix = "")]
+        public Email ContactEmail { get; set; }
 
         [ValidateObject(ErrorMessagePrefix = "")]
         public Address ContactAddress { get; set; }
 
         [Required(ErrorMessage = "Reason Required")]
-        [StringLength(int.MaxValue, MinimumLength = 1)]
+        [StringLength(50, MinimumLength = 1)]
         public string Reason { get; set; }
 
         [Required(ErrorMessage = "Comment Required")]
-        [StringLength(int.MaxValue, MinimumLength = 1)]
+        [StringLength(1000, MinimumLength = 1)]
         public string Comment { get; set; }
     }
 }
