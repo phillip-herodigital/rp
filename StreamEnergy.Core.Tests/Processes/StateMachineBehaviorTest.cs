@@ -62,7 +62,7 @@ namespace StreamEnergy.Core.Tests.Processes
                 return Enumerable.Empty<ValidationResult>();
             }
 
-            bool IState<CreateAccountContext, object>.IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult)
+            bool IState<CreateAccountContext, object>.IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult, CreateAccountContext context, object internalContext)
             {
                 return false;
             }
@@ -106,7 +106,7 @@ namespace StreamEnergy.Core.Tests.Processes
                 return Enumerable.Empty<ValidationResult>();
             }
 
-            bool IState<CreateAccountContext, object>.IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult)
+            bool IState<CreateAccountContext, object>.IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult, CreateAccountContext context, object internalContext)
             {
                 return false;
             }

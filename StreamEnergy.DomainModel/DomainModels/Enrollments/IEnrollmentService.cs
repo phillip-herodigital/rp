@@ -12,11 +12,14 @@ namespace StreamEnergy.DomainModels.Enrollments
         IEnumerable<IOffer> LoadOffers(Address serviceAddress, IEnumerable<IServiceCapability> serviceCapabilities);
         IConnectDatePolicy LoadConnectDates(Address serviceAddress, IEnumerable<IServiceCapability> serviceCapabilities);
 
-        CreditCheckResult CreditCheck(Name name, string ssn, DriversLicense driversLicense, Address billingAddress, AdditionalIdentityInformation identityInformation = null);
+        IdentityCheckResult IdentityCheck(Name name, string ssn, DriversLicense driversLicense, Address billingAddress, AdditionalIdentityInformation identityInformation = null);
 
+        // TODO - will need more inputs
         LoadDepositResult LoadDeposit(IEnumerable<SelectedOffer> selectedOffers);
 
-        // TODO - needs customer number, at the very least
+        // TODO - how do we pay deposits?
+
+        // TODO - needs customer info, at the very least
         PlaceOrderResult PlaceOrder(IEnumerable<SelectedOffer> selectedOffers);
 
     }

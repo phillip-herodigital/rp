@@ -31,6 +31,7 @@ namespace StreamEnergy.Pipelines
                 .Include("~/frontend/assets/js/app.js")
                 .IncludeDirectory("~/frontend/assets/js/modules/", "*.js", true)
                 .IncludeDirectory("~/frontend/assets/js/providers/", "*.js", true)
+                .IncludeDirectory("~/frontend/assets/js/config/", "*.js", true)
                 .IncludeDirectory("~/frontend/assets/js/services/", "*.js", true)
                 .IncludeDirectory("~/frontend/assets/js/filters/", "*.js", true)
                 .IncludeDirectory("~/frontend/assets/js/directives/", "*.js", true)

@@ -16,6 +16,7 @@ namespace StreamEnergy.Pipelines
         public virtual void Process(PipelineArgs args)
         {
             SetupMvcInversionOfControl();
+            SetupMvcValidations();
         }
 
         private static void SetupMvcInversionOfControl()
@@ -29,5 +30,11 @@ namespace StreamEnergy.Pipelines
             GlobalConfiguration.Configuration.Formatters.Insert(0, new Mvc.JsonNetFormatter());
         }
 
+        private void SetupMvcValidations()
+        {
+
+            DataAnnotationsModelValidatorProvider.RegisterAdapter(typeof(RequireValueAttribute), typeof(RequireValueAttributeAdapter));
+            //modelValidatorProvider
+        }
     }
 }
