@@ -21,20 +21,13 @@
 </head>
 <body ng-controller="MainCtrl">
     <div class="page-wrapper" ng-class="{open:sidebarOpen}">
-        <nav>
-            <ul>
-                <li ng-repeat="item in navLinks">
-                    <a href="{{item.href}}">{{item.name}}</a>
-                </li>
-            </ul>
-        </nav>
+        <div ng-include="'mobileNav'" mobile-nav="0"></div>
         <div class="page-content">
             @Html.Sitecore().Placeholder("header")
 
-            <div class="banner marketing" style="@Html.AsBackgroundStyle("Banner Image")">
-
-            </div>
-
+            @if (!string.IsNullOrEmpty(Html.Sitecore().Field("Banner Image").ToString())) {
+            <div class="banner marketing" style="@Html.AsBackgroundStyle("Banner Image")"></div>
+            }
             <section class="layout cols-1">
 
                 @Html.Sitecore().Placeholder("content")

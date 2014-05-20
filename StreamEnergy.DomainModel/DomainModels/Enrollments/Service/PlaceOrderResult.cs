@@ -7,5 +7,6 @@ namespace StreamEnergy.DomainModels.Enrollments.Service
 {
     public class PlaceOrderResult
     {
+        public string ConfirmationNumber { get; set; }
     }
 }

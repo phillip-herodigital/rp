@@ -423,7 +423,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EnrollmentController.cs" />
     <Compile Include="Controllers\TempController.cs" />
-	<Compile Include="Controllers\MarketingController.cs" />
+    <Compile Include="Controllers\MarketingController.cs" />
     <Compile Include="layouts\HTML Layout.aspx.cs">
       <DependentUpon>HTML Layout.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -442,8 +442,10 @@
     <Compile Include="Models\Angular\GridTable\DeviceType.cs" />
     <Compile Include="Models\Enrollment\AccountInformation.cs" />
     <Compile Include="Models\Enrollment\ClientData.cs" />
+    <Compile Include="Models\Enrollment\ConfirmOrder.cs" />
     <Compile Include="Models\Enrollment\SelectedOffers.cs" />
     <Compile Include="Models\Enrollment\ServiceInformation.cs" />
+    <Compile Include="Models\Enrollment\VerifyIdentity.cs" />
     <Compile Include="Models\Marketing\Contact.cs" />
     <Compile Include="Models\TranslatedValidationResult.cs" />
     <Compile Include="Pipelines\InitializeWebApi.cs" />
@@ -682,7 +684,10 @@
     <Content Include="frontend\assets\i\paperless-promo.jpg" />
     <Content Include="frontend\assets\i\renew-promo.png" />
     <Content Include="frontend\assets\js\app.js" />
+    <Content Include="frontend\assets\js\config\validation-exactvalue.js" />
+    <Content Include="frontend\assets\js\config\validation.js" />
     <Content Include="frontend\assets\js\controllers\accountBalances.js" />
+    <Content Include="frontend\assets\js\controllers\enrollmentMain.js" />
     <Content Include="frontend\assets\js\controllers\invoices.js" />
     <Content Include="frontend\assets\js\controllers\login.js" />
     <Content Include="frontend\assets\js\controllers\main.js" />
@@ -1149,6 +1154,8 @@
     <Content Include="frontend\assets\js\libs\jquery\dist\jquery.min.map" />
     <Content Include="frontend\assets\js\libs\jquery\src\sizzle\dist\sizzle.min.map" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
+    <Content Include="Views\Components\Header Fixed.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Cart.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -25,7 +25,7 @@ namespace StreamEnergy.DomainModels.Enrollments
             yield return context => context.SecondaryContactInfo;
             yield return context => context.SocialSecurityNumber;
             yield return context => context.DriversLicense;
-            // TODO - identity questions
+            yield return context => context.SelectedIdentityAnswers;
         }
 
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> AdditionalValidations(UserContext context, InternalContext internalContext)
@@ -33,7 +33,7 @@ namespace StreamEnergy.DomainModels.Enrollments
             yield break;
         }
 
-        bool IState<UserContext, InternalContext>.IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult)
+        bool IState<UserContext, InternalContext>.IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult, UserContext context, InternalContext internalContext)
         {
             return false;
         }
@@ -47,8 +47,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         {
             LoadInternalState(context, internalContext);
 
-            // TODO - if no deposit, skip the "load payment information" state
-            return typeof(LoadPaymentInfoState);
+            return typeof(PaymentInfoState);
         }
 
         public bool RestoreInternalState(IStateMachine<UserContext, InternalContext> stateMachine, ref InternalContext internalContext, ref Type state)
@@ -65,9 +64,8 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         private void LoadInternalState(UserContext context, InternalContext internalContext)
         {
-            enrollmentService.LoadDeposit(context.SelectedOffers);
-            
-            // TODO - read deposit state to internalContext
+            var result = enrollmentService.LoadDeposit(context.SelectedOffers);
+            internalContext.Deposit = result;
         }
     }
 }

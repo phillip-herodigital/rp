@@ -15,27 +15,115 @@ namespace StreamEnergy.MyStream.Tests
     public class EnrollmentControllerTest
     {
         private Unity.Container container;
+        private DomainModels.Address generalAddress;
+        private DomainModels.IServiceCapability[] generalServiceCapabilities;
+        private IOffer[] offers;
+        private IdentityQuestion[] identityQuestions;
+        private DomainModels.Enrollments.Service.IdentityCheckResult identityCheckResult;
+        private DomainModels.Address specificAddress;
+        private DomainModels.IServiceCapability[] specificServiceCapabilities;
+        private DomainModels.CustomerContact contactInfo;
+        private TexasElectricityOfferOption offerOption;
+        private DomainModels.Enrollments.Service.IdentityCheckResult finalIdentityCheckResult;
+        private DomainModels.Enrollments.Service.LoadDepositResult loadDepositResult;
 
         [TestInitialize]
         public void InitializeTest()
         {
             container = ContainerSetup.Create();
-
-            // TODO - remove this mock and replace with a service-level mock
-            Mock<IEnrollmentService> service = new Mock<IEnrollmentService>();
-
-            service.Setup(svc => svc.LoadOffers(It.IsAny<DomainModels.Address>(), It.IsAny<IEnumerable<DomainModels.IServiceCapability>>())).Returns(new IOffer[] 
+            generalAddress = new DomainModels.Address { PostalCode5 = "75010" };
+            generalServiceCapabilities = new[] { new DomainModels.TexasServiceCapability { Tdu = "Centerpoint" } };
+            offers = new IOffer[] 
             { 
                 new TexasElectricityOffer
                 {
                     Id = "NewOffer"
                 }
-            });
+            };
+            identityQuestions = new[] 
+            {
+                new IdentityQuestion
+                {
+                    QuestionId = "1",
+                    QuestionText = "What is your name?",
+                    Answers = new[] { 
+                        new IdentityAnswer { AnswerId = "1", AnswerText = "King Arthur" },
+                        new IdentityAnswer { AnswerId = "2", AnswerText = "Sir Lancelot" },
+                        new IdentityAnswer { AnswerId = "3", AnswerText = "Sir Robin" },
+                        new IdentityAnswer { AnswerId = "4", AnswerText = "Sir Galahad" },
+                    }
+                },
+                new IdentityQuestion
+                {
+                    QuestionId = "2",
+                    QuestionText = "What is your quest?",
+                    Answers = new[] { 
+                        new IdentityAnswer { AnswerId = "1", AnswerText = "To seek the Holy Grail." },
+                    }
+                },
+                new IdentityQuestion
+                {
+                    QuestionId = "3",
+                    QuestionText = "What is your favorite color?",
+                    Answers = new[] { 
+                        new IdentityAnswer { AnswerId = "1", AnswerText = "Blue." },
+                        new IdentityAnswer { AnswerId = "2", AnswerText = "Green." },
+                        new IdentityAnswer { AnswerId = "3", AnswerText = "Yellow." },
+                        new IdentityAnswer { AnswerId = "4", AnswerText = "Red." },
+                    }
+                },
+            };
+            identityCheckResult = new DomainModels.Enrollments.Service.IdentityCheckResult
+            {
+                IdentityCheckId = "01234",
+                HardStop = null,
+                IdentityQuestions = identityQuestions,
+            };
+            finalIdentityCheckResult = new DomainModels.Enrollments.Service.IdentityCheckResult
+            {
+                IdentityCheckId = "01235",
+                HardStop = null,
+                IdentityQuestions = new IdentityQuestion[0],
+            };
+            specificAddress = new DomainModels.Address { Line1 = "3620 Huffines Blvd", UnitNumber = "226", City = "Carrollton", StateAbbreviation = "TX", PostalCode5 = "75010" };
+            specificServiceCapabilities = new[] { new DomainModels.TexasServiceCapability { Tdu = "Centerpoint", EsiId = "1234SAMPLE5678" } };
+            contactInfo = new DomainModels.CustomerContact
+            {
+                Name = new DomainModels.Name { First = "Test", Last = "Person" },
+                Email = new DomainModels.Email { Address = "test@example.com" },
+                PrimaryPhone = new DomainModels.Phone { Number = "214-223-4567" },
+            };
+            offerOption = new TexasElectricityOfferOption { ConnectDate = new DateTime(2014, 5, 1) };
+            loadDepositResult = new DomainModels.Enrollments.Service.LoadDepositResult
+            {
+                Amount = 50.00m
+            };
+
+            // TODO - remove this mock and replace with a service-level mock
+            Mock<IEnrollmentService> service = new Mock<IEnrollmentService>();
+            container.Unity.RegisterInstance(service.Object);
+
+            service.Setup(svc => svc.LoadOffers(It.IsAny<DomainModels.Address>(), It.IsAny<IEnumerable<DomainModels.IServiceCapability>>())).Returns(offers);
 
             // This isn't really here to be a mock, but rather a placeholder... hence it's a "stub". The real thing should come in with the service-level mock.
             Mock<IConnectDatePolicy> stub = new Mock<IConnectDatePolicy>();
             service.Setup(svc => svc.LoadConnectDates(It.IsAny<DomainModels.Address>(), It.IsAny<IEnumerable<DomainModels.IServiceCapability>>())).Returns(stub.Object);
-            container.Unity.RegisterInstance(service.Object);
+
+            // This is for the first identity check call.            
+            service.Setup(svc => svc.IdentityCheck(It.IsAny<DomainModels.Name>(), It.IsAny<string>(), It.IsAny<DomainModels.DriversLicense>(), It.IsAny<DomainModels.Address>(), null))
+                .Returns(identityCheckResult);
+
+            // This is for the return identity check call
+            service.Setup(svc => svc.IdentityCheck(It.IsAny<DomainModels.Name>(), It.IsAny<string>(), It.IsAny<DomainModels.DriversLicense>(), It.IsAny<DomainModels.Address>(), It.Is<DomainModels.Enrollments.AdditionalIdentityInformation>(m => m != null)))
+                .Returns(finalIdentityCheckResult);
+
+            service.Setup(svc => svc.LoadDeposit(It.IsAny<IEnumerable<SelectedOffer>>())).Returns(loadDepositResult);
+
+            service.Setup(svc => svc.PlaceOrder(It.IsAny<IEnumerable<SelectedOffer>>())).Returns(new StreamEnergy.DomainModels.Enrollments.Service.PlaceOrderResult
+                {
+                    ConfirmationNumber = "123456"
+                });
+
         }
 
         [TestMethod]
@@ -88,8 +176,8 @@ namespace StreamEnergy.MyStream.Tests
             var request = new Models.Enrollment.ServiceInformation
             {
                 IsNewService = true,
-                ServiceAddress = new DomainModels.Address { PostalCode5 = "75010" },
-                ServiceCapabilities = new[] { new DomainModels.TexasServiceCapability { Tdu = "Centerpoint" } }
+                ServiceAddress = generalAddress,
+                ServiceCapabilities = generalServiceCapabilities
             };
 
             using (var controller = container.Resolve<EnrollmentController>())
@@ -124,18 +212,12 @@ namespace StreamEnergy.MyStream.Tests
             var session = container.Resolve<EnrollmentController.SessionHelper>();
             session.UserContext = new UserContext
             {
-                ServiceAddress = new DomainModels.Address { PostalCode5 = "75010" },
-                ServiceCapabilities = new[] { new DomainModels.TexasServiceCapability { Tdu = "Centerpoint" } }
+                ServiceAddress = generalAddress,
+                ServiceCapabilities = generalServiceCapabilities
             };
             session.InternalContext = new InternalContext
             {
-                AllOffers = new IOffer[] 
-                { 
-                    new TexasElectricityOffer
-                    {
-                        Id = "NewOffer"
-                    }
-                }
+                AllOffers = offers
             };
             session.State = typeof(DomainModels.Enrollments.PlanSelectionState);
             var request = new Models.Enrollment.SelectedOffers
@@ -165,46 +247,32 @@ namespace StreamEnergy.MyStream.Tests
             var session = container.Resolve<EnrollmentController.SessionHelper>();
             session.UserContext = new UserContext
             {
-                ServiceAddress = new DomainModels.Address { PostalCode5 = "75010" },
-                ServiceCapabilities = new[] { new DomainModels.TexasServiceCapability { Tdu = "Centerpoint" } },
+                ServiceAddress = generalAddress,
+                ServiceCapabilities = generalServiceCapabilities,
                 SelectedOffers = new[] 
                 { 
                     new SelectedOffer 
                     { 
-                        Offer = new TexasElectricityOffer
-                        {
-                            Id = "NewOffer"
-                        }
+                        Offer = offers[0]
                     }
                 }
             };
             session.InternalContext = new InternalContext
             {
-                AllOffers = new IOffer[] 
-                { 
-                    new TexasElectricityOffer
-                    {
-                        Id = "NewOffer"
-                    }
-                }
+                AllOffers = offers
             };
             session.State = typeof(DomainModels.Enrollments.AccountInformationState);
             var request = new Models.Enrollment.AccountInformation
             {
-                ServiceAddress = new DomainModels.Address { Line1 = "3620 Huffines Blvd", UnitNumber = "226", City = "Carrollton", StateAbbreviation = "TX", PostalCode5 = "75010" },
-                ServiceCapabilities = new[] { new DomainModels.TexasServiceCapability { Tdu = "Centerpoint", EsiId = "1234SAMPLE5678" } },
-                ContactInfo = new DomainModels.CustomerContact
-                {
-                    Name = new DomainModels.Name { First = "Test", Last = "Person" },
-                    Email = new DomainModels.Email { Address = "test@example.com" },
-                    PrimaryPhone = new DomainModels.Phone { Number = "214-223-4567" },
-                },
-                BillingAddress = new DomainModels.Address { Line1 = "3620 Huffines Blvd", UnitNumber = "226", City = "Carrollton", StateAbbreviation = "TX", PostalCode5 = "75010" },
+                ServiceAddress = specificAddress,
+                ServiceCapabilities = specificServiceCapabilities,
+                ContactInfo = contactInfo,
+                BillingAddress = specificAddress,
                 DriversLicense = null,
                 Language = "en",
                 SecondaryContactInfo = null,
                 SocialSecurityNumber = "123-45-6789",
-                OfferOptions = new Dictionary<string, IOfferOption> { { "NewOffer", new TexasElectricityOfferOption { ConnectDate = new DateTime(2014, 5, 1) } } }
+                OfferOptions = new Dictionary<string, IOfferOption> { { offers[0].Id, offerOption } }
             };
 
             using (var controller = container.Resolve<EnrollmentController>())
@@ -217,6 +285,7 @@ namespace StreamEnergy.MyStream.Tests
                 Assert.AreEqual("Person", result.UserContext.ContactInfo.Name.Last);
                 Assert.AreEqual("test@example.com", result.UserContext.ContactInfo.Email.Address);
                 Assert.AreEqual("2142234567", result.UserContext.ContactInfo.PrimaryPhone.Number);
+                Assert.IsNotNull(result.IdentityQuestions);
                 Assert.IsNull(result.UserContext.SocialSecurityNumber);
                 Assert.AreEqual("en", result.UserContext.Language);
             }
@@ -229,6 +298,203 @@ namespace StreamEnergy.MyStream.Tests
             Assert.AreEqual("2142234567", session.UserContext.ContactInfo.PrimaryPhone.Number);
             Assert.AreEqual("123456789", session.UserContext.SocialSecurityNumber);
             Assert.AreEqual("en", session.UserContext.Language);
+            Assert.IsNotNull(session.InternalContext.IdentityCheckResult.IdentityQuestions);
+        }
+
+        [TestMethod]
+        public void PostIdentityQuestionsTest()
+        {
+            // Arrange
+            var session = container.Resolve<EnrollmentController.SessionHelper>();
+            session.UserContext = new UserContext
+            {
+                ServiceAddress = specificAddress,
+                ServiceCapabilities = specificServiceCapabilities,
+                SelectedOffers = new[] 
+                { 
+                    new SelectedOffer 
+                    { 
+                        Offer = offers[0],
+                        OfferOption = offerOption
+                    }
+                },
+                BillingAddress = specificAddress,
+                ContactInfo = contactInfo,
+                DriversLicense = null,
+                Language = "en",
+                SecondaryContactInfo = null,
+                SocialSecurityNumber = "123-45-6789",
+            };
+            session.InternalContext = new InternalContext
+            {
+                AllOffers = offers,
+                IdentityCheckResult = identityCheckResult,
+            };
+            session.State = typeof(DomainModels.Enrollments.VerifyIdentityState);
+            var request = new Models.Enrollment.VerifyIdentity
+            {
+                SelectedIdentityAnswers = new Dictionary<string, string> { { "1", "2" }, { "2", "1" }, { "3", "1" } }
+            };
+
+            using (var controller = container.Resolve<EnrollmentController>())
+            {
+                // Act
+                var result = controller.VerifyIdentity(request);
+
+                // Assert
+                Assert.IsFalse(result.IdentityQuestions.Any());
+                Assert.AreEqual(50, result.DepositAmount);
+            }
+
+            Assert.AreEqual(typeof(DomainModels.Enrollments.PaymentInfoState), session.State);
+        }
+
+        [TestMethod]
+        public void PostIdentityQuestionsNoDepositTest()
+        {
+            // Arrange
+            loadDepositResult.Amount = 0;
+
+            var session = container.Resolve<EnrollmentController.SessionHelper>();
+            session.UserContext = new UserContext
+            {
+                ServiceAddress = specificAddress,
+                ServiceCapabilities = specificServiceCapabilities,
+                SelectedOffers = new[] 
+                { 
+                    new SelectedOffer 
+                    { 
+                        Offer = offers[0],
+                        OfferOption = offerOption
+                    }
+                },
+                BillingAddress = specificAddress,
+                ContactInfo = contactInfo,
+                DriversLicense = null,
+                Language = "en",
+                SecondaryContactInfo = null,
+                SocialSecurityNumber = "123-45-6789",
+            };
+            session.InternalContext = new InternalContext
+            {
+                AllOffers = offers,
+                IdentityCheckResult = identityCheckResult,
+            };
+            session.State = typeof(DomainModels.Enrollments.VerifyIdentityState);
+            var request = new Models.Enrollment.VerifyIdentity
+            {
+                SelectedIdentityAnswers = new Dictionary<string, string> { { "1", "2" }, { "2", "1" }, { "3", "1" } }
+            };
+
+            using (var controller = container.Resolve<EnrollmentController>())
+            {
+                // Act
+                var result = controller.VerifyIdentity(request);
+
+                // Assert
+                Assert.AreEqual(0, result.DepositAmount);
+            }
+
+            Assert.AreEqual(typeof(DomainModels.Enrollments.CompleteOrderState), session.State);
+        }
+
+        [TestMethod]
+        public void PostPaymentInfoTest()
+        {
+            // Arrange
+            var session = container.Resolve<EnrollmentController.SessionHelper>();
+            session.UserContext = new UserContext
+            {
+                ServiceAddress = specificAddress,
+                ServiceCapabilities = specificServiceCapabilities,
+                SelectedOffers = new[] 
+                { 
+                    new SelectedOffer 
+                    { 
+                        Offer = offers[0],
+                        OfferOption = offerOption
+                    }
+                },
+                BillingAddress = specificAddress,
+                ContactInfo = contactInfo,
+                DriversLicense = null,
+                Language = "en",
+                SecondaryContactInfo = null,
+                SelectedIdentityAnswers = new Dictionary<string, string>(),
+                SocialSecurityNumber = "123-45-6789",
+            };
+            session.InternalContext = new InternalContext
+            {
+                AllOffers = offers,
+                IdentityCheckResult = identityCheckResult,
+            };
+            session.State = typeof(DomainModels.Enrollments.PaymentInfoState);
+            var request = new DomainModels.Payments.TokenizedCard
+                {
+                    CardToken = "12345678901234567890"
+                };
+
+            using (var controller = container.Resolve<EnrollmentController>())
+            {
+                // Act
+                var result = controller.PaymentInfo(request);
+
+                // Assert
+                Assert.IsNull(result.UserContext.PaymentInfo);
+            }
+
+            Assert.AreEqual(typeof(DomainModels.Enrollments.CompleteOrderState), session.State);
+            Assert.IsNotNull(session.UserContext.PaymentInfo);
+        }
+
+        [TestMethod]
+        public void PostConfirmOrderTest()
+        {
+            // Arrange
+            loadDepositResult.Amount = 0;
+
+            var session = container.Resolve<EnrollmentController.SessionHelper>();
+            session.UserContext = new UserContext
+            {
+                ServiceAddress = specificAddress,
+                ServiceCapabilities = specificServiceCapabilities,
+                SelectedOffers = new[] 
+                { 
+                    new SelectedOffer 
+                    { 
+                        Offer = offers[0],
+                        OfferOption = offerOption
+                    }
+                },
+                BillingAddress = specificAddress,
+                ContactInfo = contactInfo,
+                DriversLicense = null,
+                Language = "en",
+                SecondaryContactInfo = null,
+                SelectedIdentityAnswers = new Dictionary<string,string>(),
+                SocialSecurityNumber = "123-45-6789",
+            };
+            session.InternalContext = new InternalContext
+            {
+                AllOffers = offers,
+                IdentityCheckResult = identityCheckResult,
+            };
+            session.State = typeof(DomainModels.Enrollments.CompleteOrderState);
+            var request = new Models.Enrollment.ConfirmOrder
+            {
+                AgreeToTerms = true,
+            };
+
+            using (var controller = container.Resolve<EnrollmentController>())
+            {
+                // Act
+                var result = controller.ConfirmOrder(request);
+
+                // Assert
+                Assert.IsNotNull(result.ConfirmationNumber);
+            }
+
+            Assert.AreEqual(typeof(DomainModels.Enrollments.OrderConfirmationState), session.State);
         }
     }
 }

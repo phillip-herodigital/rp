@@ -115,7 +115,9 @@ namespace StreamEnergy.MyStream.Controllers
                 UserContext = CopyForClientDisplay(stateMachine.Context),
                 Offers = stateMachine.InternalContext.AllOffers,
                 OfferOptionRules = stateMachine.InternalContext.OfferOptionRules,
-                // TODO - more data, such as calendar, etc. - probably from stateMachine.InternalContext
+                IdentityQuestions = stateMachine.InternalContext.IdentityCheckResult != null ? stateMachine.InternalContext.IdentityCheckResult.IdentityQuestions : null,
+                DepositAmount = stateMachine.InternalContext.Deposit != null ? stateMachine.InternalContext.Deposit.Amount : (decimal?)null,
+                ConfirmationNumber = stateMachine.InternalContext.PlaceOrderResult != null ? stateMachine.InternalContext.PlaceOrderResult.ConfirmationNumber : null
             };
         }
 
@@ -154,24 +156,6 @@ namespace StreamEnergy.MyStream.Controllers
             return ClientData();
         }
 
-        private UserContext CopyForClientDisplay(UserContext userContext)
-        {
-            return new UserContext
-            {
-                BillingAddress = userContext.BillingAddress,
-                ContactInfo = userContext.ContactInfo,
-                DriversLicense = userContext.DriversLicense,
-                Language = userContext.Language,
-                SecondaryContactInfo = userContext.SecondaryContactInfo,
-                SelectedOffers = userContext.SelectedOffers,
-                ServiceAddress = userContext.ServiceAddress,
-                ServiceCapabilities = userContext.ServiceCapabilities,
-                SocialSecurityNumber = null,
-
-                // TODO - there will be more properties here
-            };
-        }
-
         [HttpPost]
         public ClientData AccountInformation([FromBody]AccountInformation request)
         {
@@ -203,6 +187,57 @@ namespace StreamEnergy.MyStream.Controllers
                 stateMachine.Process(typeof(DomainModels.Enrollments.VerifyIdentityState));
 
             return ClientData();
+        }
+
+        [HttpPost]
+        public ClientData VerifyIdentity([FromBody]VerifyIdentity request)
+        {
+            stateMachine.Context.SelectedIdentityAnswers = request.SelectedIdentityAnswers;
+
+            if (stateMachine.State == typeof(DomainModels.Enrollments.VerifyIdentityState))
+                stateMachine.Process(typeof(DomainModels.Enrollments.CompleteOrderState));
+
+            return ClientData();
+        }
+
+        [HttpPost]
+        public ClientData PaymentInfo([FromBody]DomainModels.Payments.IPaymentInfo request)
+        {
+            stateMachine.Context.PaymentInfo = request;
+
+            if (stateMachine.State == typeof(DomainModels.Enrollments.PaymentInfoState))
+                stateMachine.Process(typeof(DomainModels.Enrollments.CompleteOrderState));
+
+            return ClientData();
+        }
+
+        [HttpPost]
+        public ClientData ConfirmOrder([FromBody]ConfirmOrder request)
+        {
+            stateMachine.Context.AgreeToTerms = request.AgreeToTerms;
+
+            stateMachine.Process();
+
+            return ClientData();
+        }
+
+        private UserContext CopyForClientDisplay(UserContext userContext)
+        {
+            return new UserContext
+            {
+                BillingAddress = userContext.BillingAddress,
+                ContactInfo = userContext.ContactInfo,
+                DriversLicense = userContext.DriversLicense,
+                Language = userContext.Language,
+                SecondaryContactInfo = userContext.SecondaryContactInfo,
+                SelectedOffers = userContext.SelectedOffers,
+                ServiceAddress = userContext.ServiceAddress,
+                ServiceCapabilities = userContext.ServiceCapabilities,
+                SocialSecurityNumber = null,
+                AgreeToTerms = userContext.AgreeToTerms,
+                PaymentInfo = null,
+                SelectedIdentityAnswers = null,
+            };
         }
     }
 }
