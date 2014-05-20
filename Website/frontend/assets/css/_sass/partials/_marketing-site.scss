@@ -1498,13 +1498,25 @@ article.identity-theft {
 	.semibold {
 		font-weight: 600;
 	}
-	ul.credit-bureaus {
+	.credit-bureaus {
 		padding-left: 0;
 		li {
 			float: left;
 			width: 33%;
 			list-style-type: none;
 			text-align: center;
+		}
+	}
+	@include breakpoint(small) {
+		.credit-bureaus {
+			li {
+				float: none;
+				width: 100%;
+				margin-bottom: 30px;
+				&:last-child {
+					margin-bottom: 0;
+				}
+			}
 		}
 	}
 	.phishing-image img {
