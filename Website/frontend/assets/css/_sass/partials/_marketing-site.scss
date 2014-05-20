@@ -633,11 +633,10 @@ article.careers {
 	ul.white {
 		list-style: none;
 		li {
-			background: url("../i/marketing/bullet-white.png") no-repeat;
-			margin: .75em 0 0 -1em;
-			padding-left: 2em;
-			font-size: 18px;
-			line-height: 1.1;
+			background: url("../i/marketing/bullet-white.png");
+			background-repeat: no-repeat;
+			background-position-y: 5px;
+			padding-left: 25px;
 		}
 	}
 	h3 {
@@ -1649,9 +1648,39 @@ article.enroll {
 	margin-top: 20px;
 	.text {
 		padding: 25px 0;
-		h3 {
-			font-size: 32px;
-			line-height: 1.1;
+		h1 {
+			color: #0971ce;
+		}
+		h2 {
+			text-transform: none;			
+		}
+		hr {
+			margin: 22px 0;
+			border: 0;
+			border-top: 3px solid #eee;
+		}
+		.left-column{
+			float: left;
+			width: 50%;
+			margin-bottom: 20px;
+		}
+		.right-column {
+			float: right;
+			width: 50%;
+			margin-bottom: 20px;
+		}
+		li.terms {
+			background: url("../i/marketing/blue-bullet.png") no-repeat;
+			margin: 1.5em 0 0 -2.3em;
+			padding-left: 2em;
+		}
+		ul.service-links{
+			padding-left: 0px;
+			list-style: none;
+			li a {
+				color: #6b6b6b;
+				text-decoration: underline;
+			}
 		}
 	}
 }
