@@ -23,7 +23,10 @@
                     {
                         <li ng-class="{ opened: subnav == @item.SubNavNum }">
                             <span>
-                                <span class="arrow" ng-click="toggleSubnav(@item.SubNavNum)"><i ng-class="{'icon-nav-arrow-expanded': subnav == @item.SubNavNum, 'icon-nav-arrow-collapsed': subnav != @item.SubNavNum}"></i></span>
+                                @if (item.SubNavItems.Any())
+                                {
+                                    <span class="arrow" ng-click="toggleSubnav(@item.SubNavNum)"><i ng-class="{'icon-nav-arrow-expanded': subnav == @item.SubNavNum, 'icon-nav-arrow-collapsed': subnav != @item.SubNavNum}"></i></span>
+                                }
                                 @Html.Sitecore().Field("Navigation Link", item.Item)
                             </span>
                             @if (item.SubNavItems.Any())
