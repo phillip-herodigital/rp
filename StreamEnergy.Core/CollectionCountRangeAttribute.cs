@@ -20,7 +20,7 @@ namespace StreamEnergy
         {
             if (value is ICollection)
             {
-                return ((ICollection)value).Count < Minimum || ((ICollection)value).Count > Maximum;
+                return ((ICollection)value).Count >= Minimum && ((ICollection)value).Count <= Maximum;
             }
             return true;
         }

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
-    class VerifyIdentityState : IState<UserContext, InternalContext>
+    public class VerifyIdentityState : IState<UserContext, InternalContext>
     {
         public IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
         {
@@ -24,6 +24,11 @@ namespace StreamEnergy.DomainModels.Enrollments
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> AdditionalValidations(UserContext context, InternalContext internalContext)
         {
             yield break;
+        }
+
+        bool IState<UserContext, InternalContext>.IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult)
+        {
+            return false;
         }
 
         public bool IsFinal

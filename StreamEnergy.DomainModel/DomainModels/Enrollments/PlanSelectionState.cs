@@ -1,4 +1,5 @@
-﻿using StreamEnergy.Extensions;
+﻿using Microsoft.Practices.Unity;
+using StreamEnergy.Extensions;
 using StreamEnergy.Processes;
 using System;
 using System.Collections.Generic;
@@ -8,8 +9,15 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
-    class PlanSelectionState : IState<UserContext, InternalContext>
+    public class PlanSelectionState : IState<UserContext, InternalContext>
     {
+        private readonly IUnityContainer container;
+
+        public PlanSelectionState(IUnityContainer container)
+        {
+            this.container = container;
+        }
+
         public IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
         {
             yield return context => context.ServiceAddress.PostalCode5;
@@ -21,6 +29,11 @@ namespace StreamEnergy.DomainModels.Enrollments
             yield break;
         }
 
+        bool IState<UserContext, InternalContext>.IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult)
+        {
+            return validationResult.MemberNames.All(m => System.Text.RegularExpressions.Regex.IsMatch(m, @"SelectedOffers\[[0-9]+\]\.OfferOption"));
+        }
+
         public bool IsFinal
         {
             get { return false; }
@@ -28,7 +41,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public Type Process(UserContext context, InternalContext internalContext)
         {
-            // TODO - is there anything that goes here?
+            LoadInternalState(context, internalContext);
             return typeof(AccountInformationState);
         }
 
@@ -39,7 +52,17 @@ namespace StreamEnergy.DomainModels.Enrollments
                 return false;
             }
 
+            LoadInternalState(stateMachine.Context, internalContext);
+
             return true;
+        }
+
+        private void LoadInternalState(UserContext context, InternalContext internalContext)
+        {
+            foreach (var offer in context.SelectedOffers)
+            {
+                internalContext.OfferOptionRules[offer.Offer.Id] = offer.Offer.GetOfferOptionPolicy(container).GetOptionRules(context.ServiceAddress, offer.Offer, context.ServiceCapabilities);
+            }
         }
     }
 }

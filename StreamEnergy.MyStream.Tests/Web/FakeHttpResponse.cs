@@ -22,7 +22,7 @@ namespace FakeN.Web
 
 		private string contentType;
 
-		private HttpCookieCollection cookies;
+		public HttpCookieCollection cookies;
 
 		private int expires;
 
@@ -30,17 +30,17 @@ namespace FakeN.Web
 
 		private Stream filter;
 
-		private NameValueCollection headers;
+        public NameValueCollection headers;
 
 		private Encoding headerEncoding;
 
-		private bool isClientConnected;
+        public bool isClientConnected;
 
-		private bool isRequestBeingRedirected;
+        public bool isRequestBeingRedirected;
 
 		private TextWriter output;
 
-		private Stream outputStream;
+        public Stream outputStream;
 
 		private string redirectLocation;
 
