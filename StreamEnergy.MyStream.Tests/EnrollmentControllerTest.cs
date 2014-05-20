@@ -337,9 +337,59 @@ namespace StreamEnergy.MyStream.Tests
 
                 // Assert
                 Assert.IsFalse(result.IdentityQuestions.Any());
+                Assert.AreEqual(50, result.DepositAmount);
             }
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.PaymentInfoState), session.State);
+        }
+
+        [TestMethod]
+        public void PostIdentityQuestionsNoDepositTest()
+        {
+            loadDepositResult.Amount = 0;
+
+            // Arrange
+            var session = container.Resolve<EnrollmentController.SessionHelper>();
+            session.UserContext = new UserContext
+            {
+                ServiceAddress = specificAddress,
+                ServiceCapabilities = specificServiceCapabilities,
+                SelectedOffers = new[] 
+                { 
+                    new SelectedOffer 
+                    { 
+                        Offer = offers[0],
+                        OfferOption = offerOption
+                    }
+                },
+                BillingAddress = specificAddress,
+                ContactInfo = contactInfo,
+                DriversLicense = null,
+                Language = "en",
+                SecondaryContactInfo = null,
+                SocialSecurityNumber = "123-45-6789",
+            };
+            session.InternalContext = new InternalContext
+            {
+                AllOffers = offers,
+                IdentityCheckResult = identityCheckResult,
+            };
+            session.State = typeof(DomainModels.Enrollments.VerifyIdentityState);
+            var request = new Models.Enrollment.VerifyIdentity
+            {
+                SelectedIdentityAnswers = new Dictionary<string, string> { { "1", "2" }, { "2", "1" }, { "3", "1" } }
+            };
+
+            using (var controller = container.Resolve<EnrollmentController>())
+            {
+                // Act
+                var result = controller.VerifyIdentity(request);
+
+                // Assert
+                Assert.AreEqual(0, result.DepositAmount);
+            }
+
+            Assert.AreEqual(typeof(DomainModels.Enrollments.CompleteOrderState), session.State);
         }
     }
 }

@@ -116,6 +116,7 @@ namespace StreamEnergy.MyStream.Controllers
                 Offers = stateMachine.InternalContext.AllOffers,
                 OfferOptionRules = stateMachine.InternalContext.OfferOptionRules,
                 IdentityQuestions = stateMachine.InternalContext.IdentityCheckResult != null ? stateMachine.InternalContext.IdentityCheckResult.IdentityQuestions : null,
+                DepositAmount = stateMachine.InternalContext.Deposit != null ? stateMachine.InternalContext.Deposit.Amount : (decimal?)null,
                 // TODO - more data, such as calendar, etc. - probably from stateMachine.InternalContext
             };
         }
