@@ -5,8 +5,7 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
-    public interface IOfferOption : ISanitizable
+    public interface IOfferOptionRules
     {
-        string OptionType { get; }
     }
 }

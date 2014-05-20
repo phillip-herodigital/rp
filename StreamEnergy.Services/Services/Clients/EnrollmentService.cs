@@ -9,12 +9,12 @@ namespace StreamEnergy.Services.Clients
 {
     class EnrollmentService : IEnrollmentService
     {
-        IEnumerable<IOffer> IEnrollmentService.LoadOffers(DomainModels.Address serviceAddress, IEnumerable<DomainModels.IServiceCapability> serviceCapabilities, bool isNewService)
+        IEnumerable<IOffer> IEnrollmentService.LoadOffers(DomainModels.Address serviceAddress, IEnumerable<DomainModels.IServiceCapability> serviceCapabilities)
         {
             throw new NotImplementedException();
         }
 
-        IConnectDatePolicy IEnrollmentService.LoadConnectDates(DomainModels.Address serviceAddress, IEnumerable<DomainModels.IServiceCapability> serviceCapabilities, bool isNewService)
+        IConnectDatePolicy IEnrollmentService.LoadConnectDates(DomainModels.Address serviceAddress, IEnumerable<DomainModels.IServiceCapability> serviceCapabilities)
         {
             throw new NotImplementedException();
         }
