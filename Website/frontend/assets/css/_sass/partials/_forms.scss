@@ -364,9 +364,6 @@ form,
 			margin-bottom: 0;
 		}	
 	}
-	.buttons {
-		@include button-bar;
-	}
 	hr.content-divider { 
 		border: none;
 		border-top: 1px solid #ddd;

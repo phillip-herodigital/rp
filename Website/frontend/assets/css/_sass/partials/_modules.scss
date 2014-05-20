@@ -43,10 +43,19 @@ article {
 		button, .button {
 			margin-top: 10px;
 		}
-		.buttons {
-			@include button-bar(true);
-		}
 	}
+	.buttons {
+		@extend .clearfix;		
+		.button, button {
+			float: right;
+			margin: 0 0 0 5px;	
+			@include breakpoint(small) {
+				float: none;
+				width: 100%;
+				margin-left: 0;
+			}			
+		}
+	}	
 	.content {
 		padding: 25px 15px;
 		position: relative;
