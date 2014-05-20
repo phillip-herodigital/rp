@@ -43,6 +43,9 @@ article {
 		button, .button {
 			margin-top: 10px;
 		}
+		.buttons {
+			@include button-bar(true);
+		}
 	}
 	.content {
 		padding: 25px 15px;
@@ -566,14 +569,6 @@ article.payment-history {
 		}
 	}
 }
-article.auth-create-account,
-article.auth-change-password {
-	dl {
-		dt {
-			font-weight: bold;
-		}
-	}	
-}
 article.auth-forgot-password {
 	.label { 
 		@extend label;
@@ -592,6 +587,9 @@ article.auth {
 			}
 		}
 	}
+	dt {
+		font-weight: bold;
+	}	
 	dd {
 		text-align: left;
 	}
@@ -599,7 +597,7 @@ article.auth {
 		dl {
 			dd {
 				margin-bottom: 10px; 
-			}			
+			}
 			dt, dd {
 				float: none;
 			}

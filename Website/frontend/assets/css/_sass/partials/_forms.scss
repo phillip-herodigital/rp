@@ -365,16 +365,7 @@ form,
 		}	
 	}
 	.buttons {
-		@extend .clearfix;
-		button, .button {
-			float: right;
-			margin: 0 0 0 5px;
-			@include breakpoint(small) {
-				float: none;
-				width: 100%;
-				margin-left: 0;
-			}
-		}
+		@include button-bar;
 	}
 	hr.content-divider { 
 		border: none;
