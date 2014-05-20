@@ -6,7 +6,7 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
-    class LoadPaymentInfoState : IState<UserContext, InternalContext>
+    public class PaymentInfoState : IState<UserContext, InternalContext>
     {
         public IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
         {
@@ -18,11 +18,17 @@ namespace StreamEnergy.DomainModels.Enrollments
             yield return context => context.SecondaryContactInfo;
             yield return context => context.SocialSecurityNumber;
             yield return context => context.DriversLicense;
-            // TODO - identity questions
+            yield return context => context.SelectedIdentityAnswers;
+            yield return context => context.PaymentInfo;
         }
 
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> AdditionalValidations(UserContext context, InternalContext internalContext)
         {
+            if (internalContext.Deposit.Amount > 0)
+            {
+                if (context.PaymentInfo == null)
+                    yield return new System.ComponentModel.DataAnnotations.ValidationResult("Payment Info Required", new[] { "PaymentInfo" });
+            }
             yield break;
         }
 
@@ -38,9 +44,8 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public Type Process(UserContext context, InternalContext internalContext)
         {
-            // TODO - load deposit information
+            // TODO - process the payment
 
-            // TODO - if no deposit, skip the "load payment information" state
             return typeof(CompleteOrderState);
         }
 
@@ -51,7 +56,6 @@ namespace StreamEnergy.DomainModels.Enrollments
                 return false;
             }
 
-            // TODO - restore deposit information
             return true;
         }
     }

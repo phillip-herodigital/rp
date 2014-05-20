@@ -46,6 +46,12 @@ namespace StreamEnergy.DomainModels.Enrollments
         [CollectionCountRangeAttribute(1, int.MaxValue, ErrorMessage = "Selected Offers Required")]
         public IEnumerable<SelectedOffer> SelectedOffers { get; set; }
 
+        [Required(ErrorMessage = "Selected Identity Answers Required")]
+        public Dictionary<string, string> SelectedIdentityAnswers { get; set; }
+
+        [ValidateObject(ErrorMessagePrefix = "")]
+        public DomainModels.IPaymentInfo PaymentInfo { get; set; }
+
         void ISanitizable.Sanitize()
         {
             if (SocialSecurityNumber != null)

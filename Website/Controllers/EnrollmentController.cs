@@ -205,5 +205,16 @@ namespace StreamEnergy.MyStream.Controllers
 
             return ClientData();
         }
+
+        [HttpPost]
+        public ClientData VerifyIdentity([FromBody]VerifyIdentity request)
+        {
+            stateMachine.Context.SelectedIdentityAnswers = request.SelectedIdentityAnswers;
+
+            if (stateMachine.State == typeof(DomainModels.Enrollments.VerifyIdentityState))
+                stateMachine.Process(typeof(DomainModels.Enrollments.CompleteOrderState));
+
+            return ClientData();
+        }
     }
 }

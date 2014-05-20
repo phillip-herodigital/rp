@@ -19,10 +19,13 @@ namespace StreamEnergy.MyStream.Tests
         private DomainModels.IServiceCapability[] generalServiceCapabilities;
         private IOffer[] offers;
         private IdentityQuestion[] identityQuestions;
+        private DomainModels.Enrollments.Service.IdentityCheckResult identityCheckResult;
         private DomainModels.Address specificAddress;
         private DomainModels.IServiceCapability[] specificServiceCapabilities;
         private DomainModels.CustomerContact contactInfo;
         private TexasElectricityOfferOption offerOption;
+        private DomainModels.Enrollments.Service.IdentityCheckResult finalIdentityCheckResult;
+        private DomainModels.Enrollments.Service.LoadDepositResult loadDepositResult;
 
         [TestInitialize]
         public void InitializeTest()
@@ -70,6 +73,18 @@ namespace StreamEnergy.MyStream.Tests
                     }
                 },
             };
+            identityCheckResult = new DomainModels.Enrollments.Service.IdentityCheckResult
+            {
+                IdentityCheckId = "01234",
+                HardStop = null,
+                IdentityQuestions = identityQuestions,
+            };
+            finalIdentityCheckResult = new DomainModels.Enrollments.Service.IdentityCheckResult
+            {
+                IdentityCheckId = "01235",
+                HardStop = null,
+                IdentityQuestions = new IdentityQuestion[0],
+            };
             specificAddress = new DomainModels.Address { Line1 = "3620 Huffines Blvd", UnitNumber = "226", City = "Carrollton", StateAbbreviation = "TX", PostalCode5 = "75010" };
             specificServiceCapabilities = new[] { new DomainModels.TexasServiceCapability { Tdu = "Centerpoint", EsiId = "1234SAMPLE5678" } };
             contactInfo = new DomainModels.CustomerContact
@@ -79,25 +94,30 @@ namespace StreamEnergy.MyStream.Tests
                 PrimaryPhone = new DomainModels.Phone { Number = "214-223-4567" },
             };
             offerOption = new TexasElectricityOfferOption { ConnectDate = new DateTime(2014, 5, 1) };
+            loadDepositResult = new DomainModels.Enrollments.Service.LoadDepositResult
+            {
+                Amount = 50.00m
+            };
 
             // TODO - remove this mock and replace with a service-level mock
             Mock<IEnrollmentService> service = new Mock<IEnrollmentService>();
+            container.Unity.RegisterInstance(service.Object);
 
             service.Setup(svc => svc.LoadOffers(It.IsAny<DomainModels.Address>(), It.IsAny<IEnumerable<DomainModels.IServiceCapability>>())).Returns(offers);
 
             // This isn't really here to be a mock, but rather a placeholder... hence it's a "stub". The real thing should come in with the service-level mock.
             Mock<IConnectDatePolicy> stub = new Mock<IConnectDatePolicy>();
             service.Setup(svc => svc.LoadConnectDates(It.IsAny<DomainModels.Address>(), It.IsAny<IEnumerable<DomainModels.IServiceCapability>>())).Returns(stub.Object);
-            container.Unity.RegisterInstance(service.Object);
 
             // This is for the first identity check call.            
             service.Setup(svc => svc.IdentityCheck(It.IsAny<DomainModels.Name>(), It.IsAny<string>(), It.IsAny<DomainModels.DriversLicense>(), It.IsAny<DomainModels.Address>(), null))
-                .Returns(new DomainModels.Enrollments.Service.IdentityCheckResult
-                {
-                    IdentityCheckId = "01234",
-                    HardStop = null,
-                    IdentityQuestions = identityQuestions,
-                });
+                .Returns(identityCheckResult);
+
+            // This is for the return identity check call
+            service.Setup(svc => svc.IdentityCheck(It.IsAny<DomainModels.Name>(), It.IsAny<string>(), It.IsAny<DomainModels.DriversLicense>(), It.IsAny<DomainModels.Address>(), It.Is<DomainModels.Enrollments.AdditionalIdentityInformation>(m => m != null)))
+                .Returns(finalIdentityCheckResult);
+
+            service.Setup(svc => svc.LoadDeposit(It.IsAny<IEnumerable<SelectedOffer>>())).Returns(loadDepositResult);
         }
 
         [TestMethod]
@@ -273,6 +293,53 @@ namespace StreamEnergy.MyStream.Tests
             Assert.AreEqual("123456789", session.UserContext.SocialSecurityNumber);
             Assert.AreEqual("en", session.UserContext.Language);
             Assert.IsNotNull(session.InternalContext.IdentityCheckResult.IdentityQuestions);
+        }
+
+        [TestMethod]
+        public void PostIdentityQuestionsTest()
+        {
+            // Arrange
+            var session = container.Resolve<EnrollmentController.SessionHelper>();
+            session.UserContext = new UserContext
+            {
+                ServiceAddress = specificAddress,
+                ServiceCapabilities = specificServiceCapabilities,
+                SelectedOffers = new[] 
+                { 
+                    new SelectedOffer 
+                    { 
+                        Offer = offers[0],
+                        OfferOption = offerOption
+                    }
+                },
+                BillingAddress = specificAddress,
+                ContactInfo = contactInfo,
+                DriversLicense = null,
+                Language = "en",
+                SecondaryContactInfo = null,
+                SocialSecurityNumber = "123-45-6789",
+            };
+            session.InternalContext = new InternalContext
+            {
+                AllOffers = offers,
+                IdentityCheckResult = identityCheckResult,
+            };
+            session.State = typeof(DomainModels.Enrollments.VerifyIdentityState);
+            var request = new Models.Enrollment.VerifyIdentity
+            {
+                SelectedIdentityAnswers = new Dictionary<string, string> { { "1", "2" }, { "2", "1" }, { "3", "1" } }
+            };
+
+            using (var controller = container.Resolve<EnrollmentController>())
+            {
+                // Act
+                var result = controller.VerifyIdentity(request);
+
+                // Assert
+                Assert.IsFalse(result.IdentityQuestions.Any());
+            }
+
+            Assert.AreEqual(typeof(DomainModels.Enrollments.PaymentInfoState), session.State);
         }
     }
 }
