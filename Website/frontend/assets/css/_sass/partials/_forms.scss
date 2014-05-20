@@ -180,6 +180,15 @@ form,
 			@include layout-list;
 		}
 	}
+	.single-link {
+		font-size: 14px;
+	}
+	@include breakpoint(medium-large) {
+		.single-link {
+			display: inline-block;
+			margin-top: 30px;
+		}
+	}
 	div.item {
 		@extend .clearfix;
 		//Make sure to have padding-right by default to match the group-col's padding
@@ -355,12 +364,11 @@ form,
 			margin-bottom: 0;
 		}	
 	}
-	div.buttons {
+	.buttons {
 		@extend .clearfix;
-		button,
-		.button {
+		button, .button {
 			float: right;
-			margin: 10px 0 0 5px;
+			margin: 0 0 0 5px;
 			@include breakpoint(small) {
 				float: none;
 				width: 100%;
@@ -372,6 +380,33 @@ form,
 		border: none;
 		border-top: 1px solid #ddd;
 		margin: 25px -15px;
+	}
+	div.text-content-divider {
+	    overflow: hidden;
+	    text-align: center;
+	    text-transform: uppercase;
+		margin: 25px -15px;
+
+		&:before,
+		&:after {
+		    background-color: #000;
+		    content: "";
+		    display: inline-block;
+		    height: 1px;
+		    position: relative;
+		    vertical-align: middle;
+		    width: 50%;
+		}
+		&:before {
+		    right: 0.5em;
+		    margin-left: -50%;
+		    background-color: #ccc;
+		}
+		&:after {
+		    left: 0.5em;
+		    margin-right: -50%;
+		    background-color: #ccc;
+		}
 	}	
 	input[type="radio"],
 	input[type="checkbox"] {

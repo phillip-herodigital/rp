@@ -17,13 +17,15 @@
 <div ng-controller="mainController">
     <form name="myForm" action="/mjd" method="post">
         @Html.ValidationSummary()
+
+        @Html.AllValidationMessagesFor(model => model)
+
         <p>
             <label for="provideEmail">Provide Email?</label> <input type="checkbox" id="provideEmail" ng-model="provideEmail" />
         </p>
         <p @Html.ValidationErrorClass(model => model.ContactInfo.Email.Address) data-ng-if="provideEmail">
             <input type="text" @Html.ValidationAttributes(m => m.ContactInfo.Email.Address) data-val-if="provideEmail" data-val-realtime ng-model="email" />
             @Html.ValidationMessageFor(model => model.ContactInfo.Email.Address)
-            {{email}}
         </p>
 
         <p @Html.ValidationErrorClass(model => model.ContactInfo.PrimaryPhone.Number)>

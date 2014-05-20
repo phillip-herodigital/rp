@@ -47,6 +47,7 @@
 		<div class="cart-overlay" ng-class="{open:cartOpen}">
 			<article class="cart">
 				<header>
+					<i class="icon-close" ng-click="toggleCart();"></i>
 					<h1>Your Cart</h1>
 				</header>
 				<div class="body">
@@ -141,12 +142,11 @@
 					</div>
 				</div>
 			</article>
-		</div>
 		<div class="page-content">
 			<header class="site-header fixed" main-nav>
 				<div class="wrapper">
 					<a href="/" class="logo">Logo</a>
-					<a href="" class="cart-toggle icon-cart">Toggle Cart<span class="item-num">2</span></a>
+					<a href="" class="cart-toggle icon-cart" ng-click="toggleCart()">Toggle Cart<span class="item-num">2</span></a>
 					<a href="" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
 				</div>
 			</header>
@@ -173,42 +173,44 @@
 						<h1>Let's <span>Get Started</span></h1>
 						<p>To help us build a relationship with you, we need to check if you’re in our service area. Please enter your zip code in the space provided below.</p>
 						<article class="form">
-							<div class="item">
-								<label for="service-type">What are you interested in?</label>
-								<select id="service-type">
-									<option value="">Please Choose</option>
-									<option value="">Residential Utilities</option>
-									<option value="">Commercial Utilities</option>
-									<option value="">Homelife Services</option>
-								</select>
-							</div>
-							<div class="item">
-								<label for="address-or-zip">Address or Zip Code</label>
-								<input type="text" id="address-or-zip" placeholder="Start typing your address"/>
-								<select id="state">
-									<option value="">Texas</option>
-								</select>
-							</div>
-							<div class="item">
-								<label>Choose One Of The Following Options</label>
-								<ul class="checkbox-list">
-									<li><input type="radio" name="service-type" id="switching-electricity-providers"><label for="switching-electricity-providers">Switching electricity providers</label></li>
-									<li><input type="radio" name="service-type" id="setting-up-new-service"><label for="setting-up-new-service">Setting up new service</label></li>
-								</ul>
-							</div>
-							<div class="item">
-								<label>How many premises are your enrolling?</label>
-								<ul class="checkbox-list">
-									<li><input type="radio" name="premise-num" id="less-than-5"><label for="less-than-5">Less than 5</label></li>
-									<li><input type="radio" name="premise-num" id="5-or-more"><label for="5-or-more">5 or more</label></li>
-								</ul>
-							</div>
-							<div class="item">
-								<label>What is your total monthly spending?</label>
-								<ul class="checkbox-list">
-									<li><input type="radio" name="monthly-spending" id="less-than-150"><label for="less-than-150">Less than $150.00</label></li>
-									<li><input type="radio" name="monthly-spending" id="150-or-more"><label for="150-or-more">$150 or more</label></li>
-								</ul>
+							<div class="content">
+								<div class="item">
+									<label for="service-type">What are you interested in?</label>
+									<select id="service-type">
+										<option value="">Please Choose</option>
+										<option value="">Residential Utilities</option>
+										<option value="">Commercial Utilities</option>
+										<option value="">Homelife Services</option>
+									</select>
+								</div>
+								<div class="item">
+									<label for="address-or-zip">Address or Zip Code</label>
+									<input type="text" id="address-or-zip" placeholder="Start typing your address"/>
+									<select id="state">
+										<option value="">Texas</option>
+									</select>
+								</div>
+								<div class="item">
+									<label>Choose One Of The Following Options</label>
+									<ul class="checkbox-list">
+										<li><input type="radio" name="service-type" id="switching-electricity-providers"><label for="switching-electricity-providers">Switching electricity providers</label></li>
+										<li><input type="radio" name="service-type" id="setting-up-new-service"><label for="setting-up-new-service">Setting up new service</label></li>
+									</ul>
+								</div>
+								<div class="item">
+									<label>How many premises are your enrolling?</label>
+									<ul class="checkbox-list">
+										<li><input type="radio" name="premise-num" id="less-than-5"><label for="less-than-5">Less than 5</label></li>
+										<li><input type="radio" name="premise-num" id="5-or-more"><label for="5-or-more">5 or more</label></li>
+									</ul>
+								</div>
+								<div class="item">
+									<label>What is your total monthly spending?</label>
+									<ul class="checkbox-list">
+										<li><input type="radio" name="monthly-spending" id="less-than-150"><label for="less-than-150">Less than $150.00</label></li>
+										<li><input type="radio" name="monthly-spending" id="150-or-more"><label for="150-or-more">$150 or more</label></li>
+									</ul>
+								</div>
 							</div>
 						</article>
 						<p><a class="button" href="">Continue</a></p>
@@ -271,9 +273,11 @@
 						<h1>Choose From One Of These <span>Great Plans.</span></h1>
 						<p>Choose from one of these great plans below that are available for your service location</p>
 							<article class="form">
-								<div class="item">
-									<label for="service-address">Service Address</label>
-									<strong>123 Main Street, Dallas, TX 75001</strong>
+								<div class="content">
+									<div class="item">
+										<label for="service-address">Service Address</label>
+										<strong>123 Main Street, Dallas, TX 75001</strong>
+									</div>
 								</div>
 							</article>
 						<h2>Electricity Plans</h2>
@@ -437,13 +441,15 @@
 								<div class="content">
 									<p>Multiple utility providers were found for your zip code <strong>75019</strong>.  Please choose your utility provider from the list below.</p>
 									<article class="form">
-										<div class="item">
-											<ul class="checkbox-list">
-												<li><input type="radio" name="provider" id="oncor-electric"><label for="oncor-electric">Oncor Electric Delivery Company</label></li>
-												<li><input type="radio" name="provider" id="texas-new-mexico"><label for="texas-new-mexico">Texas-New Mexico Power Company</label></li>
-											</ul>
+										<div class="content">
+											<div class="item">
+												<ul class="checkbox-list">
+													<li><input type="radio" name="provider" id="oncor-electric"><label for="oncor-electric">Oncor Electric Delivery Company</label></li>
+													<li><input type="radio" name="provider" id="texas-new-mexico"><label for="texas-new-mexico">Texas-New Mexico Power Company</label></li>
+												</ul>
+											</div>
+											<p><a class="button" href="">Continue</a></p>
 										</div>
-										<p><a class="button" href="">Continue</a></p>
 									</article>
 								</div>
 							</div>
@@ -525,6 +531,7 @@
 						<h1>Account <span>Information</span></h1>
 						<p>Please fill in your information to set up your account.</p>
 						<article class="form">
+							<div class="content">
 								<div class="item">
 									<label for="service-address">Service Address</label>
 									<strong>123 Main Street, Dallas, TX 75001</strong>
@@ -533,13 +540,17 @@
 									<label for="service-address">Service Address</label>
 									<input type="text" id="service-address" placeholder="123 Main Street, Dallas, TX 75001"/>
 								</div>
-								<div class="item">
-									<label for="bill-account-number">Bill Account Number</label>
-									<input type="text" id="bill-account-number" placeholder="654-XXXX-XXX-XXXXXX"/>
-									<a href="">See Example</a>
+								<div class="group">
+									<div class="item group-col">
+										<label for="bill-account-number">Bill Account Number</label>
+										<input type="text" id="bill-account-number" placeholder="654-XXXX-XXX-XXXXXX"/>
+									</div>
+									<div class="item group-col">
+										<a href="" class="single-link">See Example</a>
+									</div>
 								</div>
 								<div class="group">
-									<div class="item">
+									<div class="item group-col">
 										<label for="service-start-date">Service Start Date</label>
 										<input type="text" id="ultility-account-number" placeholder="01/29/14"/>
 									</div>
@@ -566,46 +577,51 @@
 									<label for="stream-connect-fee">Stream Connect Fee</label>
 									<strong>$25.00</strong>
 								</div>
+							</div>
 						</article>
-							<h2>Personal Information</h2>
-							<article class="form">
+						<h2>Personal Information</h2>
+						<article class="form">
+							<div class="content">
 								<div class="group">
-									<div class="item">
+									<div class="item group-col">
 										<label for="firstname">First Name</label>
 										<input type="text" id="firstname" placeholder="Jordan" />
 									</div>
-									<div class="item">
+									<div class="item group-col">
 										<label for="lastname">Last Name</label>
 										<input type="text" id="lastname" placeholder="Campbell" />
 									</div>
 								</div>
 								<div class="group">
-									<div class="item">
+									<div class="item group-col">
 										<label for="primary-phone-number">Primary Phone Number</label>
 										<input type="text" id="primary-phone-number" />
 									</div>
-									<div class="item">
+									<div class="item group-col">
 										<label for="phone-type">Phone Type</label>
 										<select id="phone-type">
 											<option value="">Please Choose</option>
 										</select>
 									</div>
 								</div>
-								<div class="item">
+								<div class="additional-field-action">
 									<a href="">Add additional phone number</a>
 								</div>
-								<div class="group">
-									<div class="item">
-										<label for="secondary-phone-number">Secondary Phone Number</label>
-										<input type="text" id="secondary-phone-number" />
-									</div>
-									<div class="item">
-										<label for="phone-type">Phone Type</label>
-										<select id="phone-type">
-											<option value="">Please Choose</option>
-										</select>
+								<div class="additional-field-group">
+									<div class="group">
+										<div class="item group-col">
+											<label for="secondary-phone-number">Secondary Phone Number</label>
+											<input type="text" id="secondary-phone-number" />
+										</div>
+										<div class="item group-col">
+											<label for="phone-type">Phone Type</label>
+											<select id="phone-type">
+												<option value="">Please Choose</option>
+											</select>
+										</div>
 									</div>
 								</div>
+								<hr class="content-divider">
 								<div class="item">
 									<label for="email-address">Email Address</label>
 									<input type="email" id="email-address" />
@@ -626,35 +642,39 @@
 									<input type="text" id="dba" />
 								</div>
 								<div class="group">
-									<div class="item">
+									<div class="item group-col">
 										<label for="drivers-license-number">Driver's License Number</label>
 										<input type="text" id="drivers-license-number" />
 									</div>
-									<div class="item">
+									<div class="item group-col">
 										<label for="drivers-license-state">Driver's License State</label>
 										<select id="drivers-license-state">
 											<option value="">Please Choose</option>
 										</select>
 									</div>
 								</div>
-								<div class="item">
+								<div class="additional-field-item item">
 									<ul class="checkbox-list">
 										<li><input type="checkbox" name="secondary-contact" id="secondary-contact"><label for="secondary-contact">Add Secondary Contact</label></li>
 									</ul>
 								</div>
-								<div class="group">
-									<div class="item">
-										<label for="firstname">First Name</label>
-										<input type="text" id="firstname" placeholder="Jordan" />
-									</div>
-									<div class="item">
-										<label for="lastname">Last Name</label>
-										<input type="text" id="lastname" placeholder="Campbell" />
+								<div class="additional-field-group">
+									<div class="group">
+										<div class="item group-col">
+											<label for="firstname">First Name</label>
+											<input type="text" id="firstname" placeholder="Jordan" />
+										</div>
+										<div class="item group-col">
+											<label for="lastname">Last Name</label>
+											<input type="text" id="lastname" placeholder="Campbell" />
+										</div>
 									</div>
 								</div>
-							</article>
-							<h2>Billing Address</h2>
-							<article class="form">
+							</div>
+						</article>
+						<h2>Billing Address</h2>
+						<article class="form">
+							<div class="content">
 								<div class="item">
 									<ul class="checkbox-list">
 										<li><input type="checkbox" name="same-address" id="same-address"><label for="same-address">Same as Service Address</label></li>
@@ -671,17 +691,17 @@
 									<strong>123 Main Street, Dallas, TX 75001</strong>
 								</div>
 								<div class="group">
-									<div class="item">
+									<div class="item group-col">
 										<label for="address1">Address 1</label>
 										<input type="text" id="address1" />
 									</div>
-									<div class="item">
+									<div class="item group-col">
 										<label for="address2">Address 2</label>
 										<input type="text" id="address2" />
 									</div>
 								</div>
 								<div class="group">
-									<div class="item">
+									<div class="item group-col">
 										<label for="city">City</label>
 										<input type="text" id="city" />
 									</div>
@@ -696,8 +716,10 @@
 										<input class="small" type="text" id="zip" />
 									</div>
 								</div>
-							</article>
-							<article class="form">
+							</div>
+						</article>
+						<article class="form">
+							<div class="content">
 								<div class="social-box">
 									<h2>Create Your Online Account With 1-Click</h2>
 									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis</p>
@@ -715,21 +737,22 @@
 									<input type="text" id="username" />
 								</div>
 								<div class="group">
-									<div class="item">
+									<div class="item group-col">
 										<label for="password">Online Account Password (Optional)</label>
 										<input type="password" id="password" />
 									</div>
-									<div class="item">
+									<div class="item group-col">
 										<label for="verify-password">Verify Password</label>
 										<input type="password" id="verify-password" />
 									</div>
 								</div>
-							</article>
-							<p><a class="button" href="">Continue</a></p>
-							<div class="hide-medium-large time-remaining-mobile">
-								<p class="time-remaining">Estimated Time For Completion <strong>10 Minutes</strong></p>
-								<p><a href="">What info will I need to complete my order?</a></p>
 							</div>
+						</article>
+						<p><a class="button" href="">Continue</a></p>
+						<div class="hide-medium-large time-remaining-mobile">
+							<p class="time-remaining">Estimated Time For Completion <strong>10 Minutes</strong></p>
+							<p><a href="">What info will I need to complete my order?</a></p>
+						</div>
 					</section>
 					<aside>
 						<article class="cart">
@@ -859,52 +882,54 @@
 						<section>
 							<h1>Verify Your <span>Identity</span></h1>
 							<p>To be able to process your order online, we need you to verify your identity. Please answer the questions below.</p>
-							<article>
-								<p><strong>If you do not know the answer to the questions, you can skip this step and a customer support agent will contact you to complete your order.</strong></p>
-								<div class="form">
-									<div class="item">
-										<label>Which of the following addresses did you live at in 2010?</label>
-										<ul class="checkbox-list">
-											<li><input type="radio" name="address" id=""><label for="">9452 Broad Turnabout, Lanigan, North Dakota</label></li>
-											<li><input type="radio" name="address" id=""><label for="">7600 Clear Falls, Prince Albert, Michigan</label></li>
-											<li><input type="radio" name="address" id=""><label for="">7757 Stony Diversion, Lost Cane, Alaska</label></li>
-											<li><input type="radio" name="address" id=""><label for="">None of the above</label></li>
-										</ul>
+							<article class="form">
+								<div class="content">
+									<p><strong>If you do not know the answer to the questions, you can skip this step and a customer support agent will contact you to complete your order.</strong></p>
+									<div class="form">
+										<div class="item">
+											<label>Which of the following addresses did you live at in 2010?</label>
+											<ul class="checkbox-list">
+												<li><input type="radio" name="address" id=""><label for="">9452 Broad Turnabout, Lanigan, North Dakota</label></li>
+												<li><input type="radio" name="address" id=""><label for="">7600 Clear Falls, Prince Albert, Michigan</label></li>
+												<li><input type="radio" name="address" id=""><label for="">7757 Stony Diversion, Lost Cane, Alaska</label></li>
+												<li><input type="radio" name="address" id=""><label for="">None of the above</label></li>
+											</ul>
+										</div>
+										<div class="item">
+											<label>What was the make and model of your first car?</label>
+											<ul class="checkbox-list">
+												<li><input type="radio" name="car" id=""><label for="">Ford Mustang</label></li>
+												<li><input type="radio" name="car" id=""><label for="">Chevy Cobalt</label></li>
+												<li><input type="radio" name="car" id=""><label for="">Dodge Durango</label></li>
+												<li><input type="radio" name="car" id=""><label for="">None of the above</label></li>
+											</ul>
+										</div>
+										<div class="item">
+											<label>Which year did you graduate high school?</label>
+											<ul class="checkbox-list">
+												<li><input type="radio" name="graduate-year" id=""><label for="">1990</label></li>
+												<li><input type="radio" name="graduate-year" id=""><label for="">1994</label></li>
+												<li><input type="radio" name="graduate-year" id=""><label for="">1998</label></li>
+												<li><input type="radio" name="graduate-year" id=""><label for="">None of the above</label></li>
+											</ul>
+										</div>
+										<div class="item">
+											<label>Which of the following cities have you lived in?</label>
+											<ul class="checkbox-list">
+												<li><input type="radio" name="cities" id=""><label for="">New York, NY</label></li>
+												<li><input type="radio" name="cities" id=""><label for="">Dallas, TX</label></li>
+												<li><input type="radio" name="cities" id=""><label for="">San Francisco, CA</label></li>
+												<li><input type="radio" name="cities" id=""><label for="">None of the above</label></li>
+											</ul>
+										</div>
 									</div>
-									<div class="item">
-										<label>What was the make and model of your first car?</label>
-										<ul class="checkbox-list">
-											<li><input type="radio" name="car" id=""><label for="">Ford Mustang</label></li>
-											<li><input type="radio" name="car" id=""><label for="">Chevy Cobalt</label></li>
-											<li><input type="radio" name="car" id=""><label for="">Dodge Durango</label></li>
-											<li><input type="radio" name="car" id=""><label for="">None of the above</label></li>
-										</ul>
-									</div>
-									<div class="item">
-										<label>Which year did you graduate high school?</label>
-										<ul class="checkbox-list">
-											<li><input type="radio" name="graduate-year" id=""><label for="">1990</label></li>
-											<li><input type="radio" name="graduate-year" id=""><label for="">1994</label></li>
-											<li><input type="radio" name="graduate-year" id=""><label for="">1998</label></li>
-											<li><input type="radio" name="graduate-year" id=""><label for="">None of the above</label></li>
-										</ul>
-									</div>
-									<div class="item">
-										<label>Which of the following cities have you lived in?</label>
-										<ul class="checkbox-list">
-											<li><input type="radio" name="cities" id=""><label for="">New York, NY</label></li>
-											<li><input type="radio" name="cities" id=""><label for="">Dallas, TX</label></li>
-											<li><input type="radio" name="cities" id=""><label for="">San Francisco, CA</label></li>
-											<li><input type="radio" name="cities" id=""><label for="">None of the above</label></li>
-										</ul>
-									</div>
-								</div>
-								<p><a class="button" href="">Continue</a></p>
-								<div class="hide-medium-large time-remaining-mobile">
-									<p class="time-remaining">Estimated Time For Completion <strong>10 Minutes</strong></p>
-									<p><a href="">What info will I need to complete my order?</a></p>
 								</div>
 							</article>
+							<p><a class="button" href="">Continue</a></p>
+							<div class="hide-medium-large time-remaining-mobile">
+								<p class="time-remaining">Estimated Time For Completion <strong>10 Minutes</strong></p>
+								<p><a href="">What info will I need to complete my order?</a></p>
+							</div>
 						</section>
 						<aside>
 							<article class="cart">
@@ -1036,9 +1061,11 @@
 								<h1>Add <span>Payment Information</span></h1>
 								<p>Based on your order, the following payment is due now to complete your order.</p>
 									<article class="form">
-										<div class="item">
-											<label for="service-address">Service Address</label>
-											<strong>123 Main Street, Dallas, TX 75001</strong>
+										<div class="content">
+											<div class="item">
+												<label for="service-address">Service Address</label>
+												<strong>123 Main Street, Dallas, TX 75001</strong>
+											</div>
 										</div>
 									</article>
 								<table>
@@ -1082,6 +1109,7 @@
 								</table>
 								<h2>Card Details</h2>
 								<article class="form">
+									<div class="content">
 										<div class="item">
 											<label for="payment-method">Select Payment Method</label>
 											<select id="payment-method">
@@ -1090,7 +1118,7 @@
 										</div>
 										<div class="item">
 											<label for="cc">Credit Card Number</label>
-											<input class="full-width" type="text" id="cc" />
+											<input type="text" id="cc" />
 										</div>
 										<div class="group">
 											<div class="item">
@@ -1109,9 +1137,12 @@
 											<div class="item">
 												<label for="security-code">Security Code</label>
 												<input class="small" type="text" id="security-code" />
-												<a href="">See Example</a>
+											</div>
+											<div class="item">
+												<a href="" class="single-link">See Example</a>
 											</div>
 										</div>
+									</div>
 								</article>
 								<p><a class="button" href="">Place Order</a></p>
 							</section>
@@ -1261,6 +1292,6 @@
 							</footer>
 						</div>
 					</div>
-
+				</div>
 				</body>
 				</html>

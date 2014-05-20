@@ -250,7 +250,7 @@ article.marketingIntro {
 article.loginHorizontal {
     margin-top: -20px;
     @include breakpoint(small) {
-		margin-top: 0;
+		margin-top: 30px;
 	}
 	padding: 4px 0;
 	border-top: 4px solid #1697ff;
@@ -278,11 +278,27 @@ article.loginHorizontal {
 	}
 }
 
+.ie8 article.loginHorizontal {
+	padding-top: 8px;
+	.item {
+		display: inline-block;
+		input[type=text], input[type=password] {
+			margin: 0 8px;
+			width: 200px;
+			height:30px;
+		}
+		button {
+			width: 130px;
+			height:30px;
+		}
+	}
+}
+
 article.gridPromos {
 	div.col {
 		text-align: center;
 		padding: 0 5%;
-		@include breakpoint(small) {
+		@include breakpoint(small-medium) {
 			padding: 0;
 		}
 		h4 {
@@ -304,9 +320,19 @@ article.gridPromos {
 				button, .button {
 					background-color: map-get($theme, primaryColor);
 					text-shadow: none;
+					white-space: nowrap;
+					&:hover {
+						background-color: #6b6b6b;
+					}
 				}
 			}
 		}
+	}
+}
+
+.ie8 article.gridPromos {
+	div.col {
+		display: inline-block;
 	}
 }
 
@@ -487,9 +513,16 @@ article.state-tabs {
 		@extend .wrapper;
 		margin: 0 auto;
 		display: table;
+		@include breakpoint(small) {
+			width: 100%;
+		}
 		li {
 			float: none;
 			display: table-cell;
+			@include breakpoint(small) {
+				display: block;
+				width: auto;
+			}
 			a {
 				display: block;
 				padding: 10px 0 20px 0;
@@ -502,8 +535,12 @@ article.state-tabs {
 					height: 84px;
 					@include retina-background("state-tabs.png");
 				}
+				@include breakpoint(small) {
+					@include border-radius(7px 7px 7px 7px);
+					width: auto;
+				}
 			}
-			&.active {
+			&.active, &:hover {
 				a {
 					background-color: #0971ce;
 					color: #fff;
@@ -518,6 +555,12 @@ article.state-tabs {
 		padding: 10px 0;
 		background-color: #0971ce;
 		color: #fff;
+		button, a.button{
+			@include breakpoint(small) {
+				display:block;
+				margin: 5px 0;
+			}
+		}
 	}
 }
 

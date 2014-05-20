@@ -12,13 +12,15 @@
                 var merged = [];
                 // flatten the nested arrays into "merged"
                 var obj = newValue;
-                for (key in obj) {
+                angular.forEach(obj, function (value, key) {
                     if (obj.hasOwnProperty(key)) {
-                        angular.forEach(obj[key], function (value) {
-                            merged.push(value);
+                        angular.forEach(value, function (innerValue) {
+                            if (innerValue && merged.indexOf(innerValue) == -1) {
+                                merged.push(innerValue);
+                            }
                         });
                     }
-                }
+                });
                 scope.validationSummary = merged;
             });
 
