@@ -1682,7 +1682,7 @@ article.terms-of-use {
 		margin: auto;
 	}
 	ul {
-		padding-left: 80px;
+		padding: 0 80px;
 		li {
 			list-style-type: none;
 			p {
@@ -1696,6 +1696,16 @@ article.terms-of-use {
 			text-transform: uppercase;
 		}
 	}
+	@include breakpoint(small) {
+		ul {
+			padding: 0 20px;
+		}
+	}
+	@include breakpoint(medium) {
+		ul {
+			padding: 0 40px;
+		}
+	}	
 }
 
 article.energy-certificates {
