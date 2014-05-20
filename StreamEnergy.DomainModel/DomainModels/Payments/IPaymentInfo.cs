@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StreamEnergy.DomainModels
+namespace StreamEnergy.DomainModels.Payments
 {
     public interface IPaymentInfo
     {

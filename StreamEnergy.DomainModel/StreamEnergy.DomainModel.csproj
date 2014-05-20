@@ -70,7 +70,7 @@
     <Compile Include="DomainModels\Enrollments\TexasElectricityOfferOption.cs" />
     <Compile Include="DomainModels\Enrollments\TexasElectricityOfferOptionPolicy.cs" />
     <Compile Include="DomainModels\Enrollments\TexasOfferOptionRules.cs" />
-    <Compile Include="DomainModels\IPaymentInfo.cs" />
+    <Compile Include="DomainModels\Payments\IPaymentInfo.cs" />
     <Compile Include="DomainModels\Name.cs" />
     <Compile Include="DomainModels\DriversLicense.cs" />
     <Compile Include="DomainModels\Email.cs" />
@@ -97,6 +97,7 @@
     <Compile Include="DomainModels\Enrollments\LoadOffersState.cs" />
     <Compile Include="DomainModels\Enrollments\AccountInformationState.cs" />
     <Compile Include="DomainModels\Enrollments\PlanSelectionState.cs" />
+    <Compile Include="DomainModels\Payments\TokenizedCard.cs" />
     <Compile Include="DomainModels\PolymorphicSerializationContainerSetup.cs" />
     <Compile Include="DomainModels\SampleServiceCapability.cs" />
     <Compile Include="DomainModels\TexasServiceCapability.cs" />

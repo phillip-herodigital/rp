@@ -201,9 +201,14 @@ namespace StreamEnergy.MyStream.Controllers
         }
 
         [HttpPost]
-        public ClientData PaymentInfo([FromBody]DomainModels.IPaymentInfo request)
+        public ClientData PaymentInfo([FromBody]DomainModels.Payments.IPaymentInfo request)
         {
-            throw new NotImplementedException();
+            stateMachine.Context.PaymentInfo = request;
+
+            if (stateMachine.State == typeof(DomainModels.Enrollments.PaymentInfoState))
+                stateMachine.Process(typeof(DomainModels.Enrollments.CompleteOrderState));
+
+            return ClientData();
         }
 
         [HttpPost]
@@ -229,8 +234,9 @@ namespace StreamEnergy.MyStream.Controllers
                 ServiceAddress = userContext.ServiceAddress,
                 ServiceCapabilities = userContext.ServiceCapabilities,
                 SocialSecurityNumber = null,
-
-                // TODO - there will be more properties here
+                AgreeToTerms = userContext.AgreeToTerms,
+                PaymentInfo = null,
+                SelectedIdentityAnswers = null,
             };
         }
     }

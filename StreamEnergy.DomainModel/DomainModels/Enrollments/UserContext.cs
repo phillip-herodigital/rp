@@ -50,7 +50,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         public Dictionary<string, string> SelectedIdentityAnswers { get; set; }
 
         [ValidateObject(ErrorMessagePrefix = "")]
-        public DomainModels.IPaymentInfo PaymentInfo { get; set; }
+        public DomainModels.Payments.IPaymentInfo PaymentInfo { get; set; }
 
         [RequireValue(true, ErrorMessage = "Must Agree To Terms")]
         public bool AgreeToTerms { get; set; }
