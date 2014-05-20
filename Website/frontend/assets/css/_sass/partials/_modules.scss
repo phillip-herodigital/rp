@@ -44,6 +44,18 @@ article {
 			margin-top: 10px;
 		}
 	}
+	.buttons {
+		@extend .clearfix;		
+		.button, button {
+			float: right;
+			margin: 0 0 0 5px;	
+			@include breakpoint(small) {
+				float: none;
+				width: 100%;
+				margin-left: 0;
+			}			
+		}
+	}	
 	.content {
 		padding: 25px 15px;
 		position: relative;
@@ -566,13 +578,6 @@ article.payment-history {
 		}
 	}
 }
-article.auth-create-account {
-	dl {
-		dt {
-			font-weight: bold;
-		}
-	}	
-}
 article.auth-forgot-password {
 	.label { 
 		@extend label;
@@ -591,6 +596,9 @@ article.auth {
 			}
 		}
 	}
+	dt {
+		font-weight: bold;
+	}	
 	dd {
 		text-align: left;
 	}
@@ -598,7 +606,7 @@ article.auth {
 		dl {
 			dd {
 				margin-bottom: 10px; 
-			}			
+			}
 			dt, dd {
 				float: none;
 			}
