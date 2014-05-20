@@ -63,28 +63,3 @@
 	margin: 0;
 	padding: 0;
 }
-
-@mixin button-bar($right: false) {
-	@extend .clearfix;
-	@if($right == true) {
-		.button, button {
-			float: right;
-			margin: 0 0 0 5px;	
-		}
-	} 
-	@else {
-		&.buttons-right {
-			.button, button {
-				float: right;
-				margin: 0 0 0 5px;
-			}	
-		}
-	}
-	button, .button {
-		@include breakpoint(small) {
-			float: none;
-			width: 100%;
-			margin-left: 0;
-		}
-	}
-}
