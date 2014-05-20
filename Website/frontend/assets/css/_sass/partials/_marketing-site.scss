@@ -214,7 +214,9 @@ article.marketingIntro {
 		margin: 0 100px;
 		font-size: 19px;
 		ul {
-			width: 450px;
+			@include breakpoint(medium-large) {
+				width: 450px;
+			}
 			margin: 0 auto;
 			text-align: left;
 			em {
@@ -544,6 +546,12 @@ article.state-tabs {
 		padding: 10px 0;
 		background-color: #0971ce;
 		color: #fff;
+	}
+	.tab-footer {
+		min-height: 30px;
+		margin: 0;
+		background-color: #0971ce;
+		border-bottom: 5px solid #76bd1d;
 	}
 }
 
@@ -1577,7 +1585,6 @@ article.commercial-account-banner {
 	.account-banner {
 		background-color: #0971ce;
 		p {
-			padding: 15px 0;
 			button {
 				background-color: #fff;
 				color: #0971ce;
