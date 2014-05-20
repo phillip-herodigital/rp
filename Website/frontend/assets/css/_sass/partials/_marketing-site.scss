@@ -221,6 +221,9 @@ article.marketingIntro {
 				text-transform: uppercase;
 			}
 		}
+		@include breakpoint(small) {
+			margin: 0 20px;
+		}
 	}
 	@each $theme in $themes {
 		&.accent-#{map-get($theme, name)} {
