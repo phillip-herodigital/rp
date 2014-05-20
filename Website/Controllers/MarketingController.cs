@@ -27,57 +27,56 @@ namespace StreamEnergy.MyStream.Controllers
         public ActionResult ContactIndex()
         {
             var model = new StreamEnergy.MyStream.Models.Marketing.Contact()
-            {          
+            {
                 ShowSuccessMessage = !string.IsNullOrEmpty(Request["success"]) && Request["success"] == "true",
-                ContactInfo = new DomainModels.CustomerContact(),
-                ContactAddress = new DomainModels.Address(),
             };
 
             return View("~/Views/Pages/Marketing/Contact/Contact.cshtml", model);
         }
 
         [HttpPost]
-        public ActionResult ContactIndex(FormCollection collection)
+        public ActionResult ContactIndex(StreamEnergy.MyStream.Models.Marketing.Contact contact)
         {
-            try
+
+            // Get the form data
+            var FirstName = contact.ContactInfo.Name.First;
+            var LastName = contact.ContactInfo.Name.Last;
+            var AddressLine1 = contact.ContactAddress.Line1;
+            var City = contact.ContactAddress.City;
+            var StateAbbreviation = contact.ContactAddress.StateAbbreviation;
+            var PostalCode5 = contact.ContactAddress.PostalCode5;
+            var Phone = contact.ContactInfo.PrimaryPhone.Number;
+            var Email = contact.ContactInfo.Email.Address;
+            var Reason = contact.Reason;
+            var Comment = contact.Comment;
+            var Name = FirstName + ' ' + LastName;
+
+            // Validate form data
+            if (TryValidateModel(contact))
             {
-                var FirstName = collection["firstName"];
-                var LastName = collection["lastName"];
-                var AddressLine1 = collection["address"];
-                var City = collection["city"];
-                var StateAbbreviation = collection["state"];
-                var PostalCode5 = collection["zipCode"];
-                var Phone = collection["phone"];
-                var Email = collection["email"];
-                var Reason = collection["reason"];
-                var Comments = collection["comments"];
-                var Name = FirstName + ' ' + LastName;
-
-                // TODO - Validate form data
-
                 // Send the email
                 MailAddress From = new MailAddress(Email, Name);
                 MailAddress To = new MailAddress("adam.powell@responsivepath.com", "Adam Powell");  // TODO - Get this email address(es) from a Sitecore field
                 MailMessage Message = new MailMessage(From, To);
                 Message.Subject = "New Contact Form Submission";
                 Message.IsBodyHtml = true;
-                Message.Body = "First Name: " + FirstName + 
-                    "<br />Last Name: " + LastName + 
+                Message.Body = "First Name: " + FirstName +
+                    "<br />Last Name: " + LastName +
                     "<br />Address: " + AddressLine1 +
                     "<br />" + City + ", " + StateAbbreviation + " " + PostalCode5 +
-                    "<br />Phone: " + Phone + 
-                    "<br />Email: " + Email + 
+                    "<br />Phone: " + Phone +
+                    "<br />Email: " + Email +
                     "<br />Reason: " + Reason +
-                    "<br /> Comments: " + Comments;
+                    "<br /> Comments: " + Comment;
 
                 this.emailService.SendEmail(Message);
-                
+
                 // Send the success message back to the page
                 return new RedirectResult(Request.Url.AbsolutePath + "?success=true#success-message");
             }
-            catch
+            else
             {
-                return View("~/Views/Pages/Marketing/Contact/Contact.cshtml");
+                return View("~/Views/Pages/Marketing/Contact/Contact.cshtml", contact);
             }
         }
 
@@ -116,12 +115,12 @@ namespace StreamEnergy.MyStream.Controllers
                 MailMessage Message = new MailMessage(From, To);
                 Message.Subject = "New Commerical Quote Request";
                 Message.IsBodyHtml = true;
-                Message.Body = "First Name: " + FirstName + 
-                    "<br />Last Name: " + LastName + 
-                    "<br />Company Name: " + CompanyName + 
-                    "<br />Address: " + AddressLine1 + 
+                Message.Body = "First Name: " + FirstName +
+                    "<br />Last Name: " + LastName +
+                    "<br />Company Name: " + CompanyName +
+                    "<br />Address: " + AddressLine1 +
                     "<br />" + City + ", " + StateAbbreviation + " " + PostalCode5 +
-                    "<br />Phone: " + Phone + 
+                    "<br />Phone: " + Phone +
                     "<br />Email: " + Email;
 
                 this.emailService.SendEmail(Message);
