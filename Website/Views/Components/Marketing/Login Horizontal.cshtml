@@ -1,4 +1,4 @@
-﻿<article class="marketing loginHorizontal" ng-controller="LoginCtrl" ng-init="init('https://secure3.i-doxs.net/StreamEnergy/Default.aspx', 'https://secure3.i-doxs.net/StreamEnergyGA/Default.aspx')">
+﻿<article class="marketing loginHorizontal" ng-controller="LoginCtrl" ng-init="init('@Html.TranslateDomain("https://secure3.i-doxs.net")/StreamEnergy/Default.aspx', '@Html.TranslateDomain("https://secure3.i-doxs.net")/StreamEnergyGA/Default.aspx')">
     <div class="wrapper">
         <span class="text">@Html.Sitecore().Field("Header Text")</span>
         <div class="form">

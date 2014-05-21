@@ -130,5 +130,19 @@ namespace StreamEnergy.Extensions
             }
             return htmlHelper.Sitecore().Field(fieldName, item);
         }
+
+        public static string TranslateDomain(this HtmlHelper htmlHelper, string domain)
+        {
+            var dict = new Dictionary<string, string>()
+            {
+                {"https://secure.streamenergy.net", "http://uat.secure.streamenergy.net"},
+                {"https://secure3.i-doxs.net", "https://preprod.i-doxs.net"},
+            };
+            if (dict.ContainsKey(domain))
+            {
+                return dict[domain];
+            }
+            return domain;
+        }
     }
 }
