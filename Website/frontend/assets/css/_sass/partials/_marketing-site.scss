@@ -934,6 +934,7 @@ article.contact {
 		color: #fff;
 		border-bottom: 3px solid #ffa409;
 		border-top: 3px solid #ffa409;
+		padding-bottom: 20px;
 		position: relative;
 		@include breakpoint(small) {
 			padding-top: 30px;
@@ -955,13 +956,14 @@ article.contact {
 		.grid {
 			-webkit-border-vertical-spacing: 0px;
 			.col {
+				border-spacing: 0;
 				.item {
 					position: relative;
-					width: 90%;
+					//width: 90%;
 					input,
 					select,
 					textarea {
-						width: 90%;
+						width: 85%;
 						color: #bcbcbc;
 					}
 					.asterisk {
@@ -969,8 +971,8 @@ article.contact {
 						vertical-align: middle;
 					}
 				}
-				.group .item {
-					width: 44%;
+				.group .item, .item.half-width {
+					width: 44.8%;
 				}
 				button {
 					background-color: #ebebeb;

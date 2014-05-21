@@ -6414,6 +6414,7 @@ article.contact div.request {
   color: #fff;
   border-bottom: 3px solid #ffa409;
   border-top: 3px solid #ffa409;
+  padding-bottom: 20px;
   position: relative;
 }
 @media only screen and (max-width: 767px) {
@@ -6422,7 +6423,7 @@ article.contact div.request {
     padding-top: 30px;
   }
 }
-/* line 941, _sass/partials/_marketing-site.scss */
+/* line 942, _sass/partials/_marketing-site.scss */
 article.contact div.request .request-or {
   background-image: url("../i/marketing/contact-or.png");
   background-repeat: no-repeat;
@@ -6433,52 +6434,55 @@ article.contact div.request .request-or {
   height: 70px;
   width: 114px;
 }
-/* line 951, _sass/partials/_marketing-site.scss */
+/* line 952, _sass/partials/_marketing-site.scss */
 article.contact div.request h2 {
   color: #fff;
   text-align: left;
 }
-/* line 955, _sass/partials/_marketing-site.scss */
+/* line 956, _sass/partials/_marketing-site.scss */
 article.contact div.request .grid {
   -webkit-border-vertical-spacing: 0px;
 }
 /* line 958, _sass/partials/_marketing-site.scss */
+article.contact div.request .grid .col {
+  border-spacing: 0;
+}
+/* line 960, _sass/partials/_marketing-site.scss */
 article.contact div.request .grid .col .item {
   position: relative;
-  width: 90%;
 }
-/* line 961, _sass/partials/_marketing-site.scss */
+/* line 963, _sass/partials/_marketing-site.scss */
 article.contact div.request .grid .col .item input,
 article.contact div.request .grid .col .item select,
 article.contact div.request .grid .col .item textarea {
-  width: 90%;
+  width: 85%;
   color: #bcbcbc;
 }
-/* line 967, _sass/partials/_marketing-site.scss */
+/* line 969, _sass/partials/_marketing-site.scss */
 article.contact div.request .grid .col .item .asterisk {
   font-size: 24px;
   vertical-align: middle;
 }
-/* line 972, _sass/partials/_marketing-site.scss */
-article.contact div.request .grid .col .group .item {
-  width: 44%;
+/* line 974, _sass/partials/_marketing-site.scss */
+article.contact div.request .grid .col .group .item, article.contact div.request .grid .col .item.half-width {
+  width: 44.8%;
 }
-/* line 975, _sass/partials/_marketing-site.scss */
+/* line 977, _sass/partials/_marketing-site.scss */
 article.contact div.request .grid .col button {
   background-color: #ebebeb;
   color: #000;
 }
-/* line 982, _sass/partials/_marketing-site.scss */
+/* line 984, _sass/partials/_marketing-site.scss */
 article.contact div.success-message {
   margin: 20px 0;
   background-color: #e8e8e8;
   border-bottom: 3px solid #fda32b;
 }
-/* line 986, _sass/partials/_marketing-site.scss */
+/* line 988, _sass/partials/_marketing-site.scss */
 article.contact div.success-message h2 {
   text-align: center;
 }
-/* line 989, _sass/partials/_marketing-site.scss */
+/* line 991, _sass/partials/_marketing-site.scss */
 article.contact div.success-message h4 {
   text-align: center;
   text-transform: none;
@@ -6486,12 +6490,12 @@ article.contact div.success-message h4 {
   font-weight: 300;
   line-height: 1.1;
 }
-/* line 998, _sass/partials/_marketing-site.scss */
+/* line 1000, _sass/partials/_marketing-site.scss */
 article.contact div.faq h2 {
   text-align: left;
   position: relative;
 }
-/* line 1001, _sass/partials/_marketing-site.scss */
+/* line 1003, _sass/partials/_marketing-site.scss */
 article.contact div.faq h2 .header-line {
   height: 4px;
   width: 100%;
@@ -6501,43 +6505,43 @@ article.contact div.faq h2 .header-line {
   top: 19px;
   left: 570px;
 }
-/* line 1011, _sass/partials/_marketing-site.scss */
+/* line 1013, _sass/partials/_marketing-site.scss */
 article.contact div.faq p {
   width: 305px;
 }
 
-/* line 1018, _sass/partials/_marketing-site.scss */
+/* line 1020, _sass/partials/_marketing-site.scss */
 article.contact-state .customer-service {
   margin: 25px 0;
 }
-/* line 1020, _sass/partials/_marketing-site.scss */
+/* line 1022, _sass/partials/_marketing-site.scss */
 article.contact-state .customer-service h1 {
   color: #0971ce;
   margin-bottom: 50px;
 }
-/* line 1024, _sass/partials/_marketing-site.scss */
+/* line 1026, _sass/partials/_marketing-site.scss */
 article.contact-state .customer-service h2 {
   text-transform: none;
   margin-bottom: 0;
 }
-/* line 1028, _sass/partials/_marketing-site.scss */
+/* line 1030, _sass/partials/_marketing-site.scss */
 article.contact-state .customer-service .left-side {
   width: 65%;
   float: left;
 }
-/* line 1031, _sass/partials/_marketing-site.scss */
+/* line 1033, _sass/partials/_marketing-site.scss */
 article.contact-state .customer-service .left-side .phone-email {
   margin-bottom: 40px;
 }
-/* line 1033, _sass/partials/_marketing-site.scss */
+/* line 1035, _sass/partials/_marketing-site.scss */
 article.contact-state .customer-service .left-side .phone-email p {
   margin: 0;
 }
-/* line 1038, _sass/partials/_marketing-site.scss */
+/* line 1040, _sass/partials/_marketing-site.scss */
 article.contact-state .customer-service .right-side {
   float: right;
 }
-/* line 1040, _sass/partials/_marketing-site.scss */
+/* line 1042, _sass/partials/_marketing-site.scss */
 article.contact-state .customer-service .right-side .mail {
   -moz-border-radius: 10px / 10px;
   -webkit-border-radius: 10px 10px;
@@ -6545,38 +6549,38 @@ article.contact-state .customer-service .right-side .mail {
   background-color: #e8e8e8;
   padding: 20px;
 }
-/* line 1044, _sass/partials/_marketing-site.scss */
+/* line 1046, _sass/partials/_marketing-site.scss */
 article.contact-state .customer-service .right-side .mail h2 {
   background-image: url("../i/marketing/contact.png");
   background-repeat: no-repeat;
   background-position: top right;
   padding-right: 70px;
 }
-/* line 1050, _sass/partials/_marketing-site.scss */
+/* line 1052, _sass/partials/_marketing-site.scss */
 article.contact-state .customer-service .right-side .mail p {
   margin: 0;
 }
 @media only screen and (max-width: 767px) {
-  /* line 1038, _sass/partials/_marketing-site.scss */
+  /* line 1040, _sass/partials/_marketing-site.scss */
   article.contact-state .customer-service .right-side {
     float: left;
   }
 }
-/* line 1059, _sass/partials/_marketing-site.scss */
+/* line 1061, _sass/partials/_marketing-site.scss */
 article.contact-state .quality-control {
   margin-bottom: 35px;
   position: relative;
 }
-/* line 1062, _sass/partials/_marketing-site.scss */
+/* line 1064, _sass/partials/_marketing-site.scss */
 article.contact-state .quality-control p {
   margin: 20px 0 30px 0;
 }
-/* line 1065, _sass/partials/_marketing-site.scss */
+/* line 1067, _sass/partials/_marketing-site.scss */
 article.contact-state .quality-control h2 {
   margin: 0;
   font-size: 25px;
 }
-/* line 1069, _sass/partials/_marketing-site.scss */
+/* line 1071, _sass/partials/_marketing-site.scss */
 article.contact-state .quality-control .header-line {
   height: 4px;
   width: 100%;
@@ -6586,22 +6590,22 @@ article.contact-state .quality-control .header-line {
   top: 14px;
   left: 240px;
 }
-/* line 1079, _sass/partials/_marketing-site.scss */
+/* line 1081, _sass/partials/_marketing-site.scss */
 article.contact-state .emergency {
   margin-bottom: 30px;
   position: relative;
 }
-/* line 1082, _sass/partials/_marketing-site.scss */
+/* line 1084, _sass/partials/_marketing-site.scss */
 article.contact-state .emergency h2 {
   margin: 0;
   font-size: 25px;
 }
-/* line 1086, _sass/partials/_marketing-site.scss */
+/* line 1088, _sass/partials/_marketing-site.scss */
 article.contact-state .emergency h3 {
   color: #0971ce;
   margin: 50px 0 10px 0;
 }
-/* line 1090, _sass/partials/_marketing-site.scss */
+/* line 1092, _sass/partials/_marketing-site.scss */
 article.contact-state .emergency .header-line {
   height: 4px;
   width: 100%;
@@ -6611,116 +6615,116 @@ article.contact-state .emergency .header-line {
   top: 14px;
   left: 280px;
 }
-/* line 1100, _sass/partials/_marketing-site.scss */
+/* line 1102, _sass/partials/_marketing-site.scss */
 article.contact-state .emergency .grid .col .company {
   color: #0971ce;
 }
-/* line 1103, _sass/partials/_marketing-site.scss */
+/* line 1105, _sass/partials/_marketing-site.scss */
 article.contact-state .emergency .grid .col .oncor {
   width: 85%;
 }
-/* line 1106, _sass/partials/_marketing-site.scss */
+/* line 1108, _sass/partials/_marketing-site.scss */
 article.contact-state .emergency .grid .col .company-contact {
   width: 80%;
   margin-bottom: 40px;
 }
-/* line 1109, _sass/partials/_marketing-site.scss */
+/* line 1111, _sass/partials/_marketing-site.scss */
 article.contact-state .emergency .grid .col .company-contact h2 {
   text-transform: none;
 }
-/* line 1112, _sass/partials/_marketing-site.scss */
+/* line 1114, _sass/partials/_marketing-site.scss */
 article.contact-state .emergency .grid .col .company-contact button {
   background-color: #ffa409;
 }
-/* line 1114, _sass/partials/_marketing-site.scss */
+/* line 1116, _sass/partials/_marketing-site.scss */
 article.contact-state .emergency .grid .col .company-contact button a {
   color: #fff;
 }
-/* line 1117, _sass/partials/_marketing-site.scss */
+/* line 1119, _sass/partials/_marketing-site.scss */
 article.contact-state .emergency .grid .col .company-contact button:hover {
   background-color: #6b6b6b;
 }
 
-/* line 1126, _sass/partials/_marketing-site.scss */
+/* line 1128, _sass/partials/_marketing-site.scss */
 article.faq {
   background-color: #eaeaea;
   padding: 20px 0;
 }
-/* line 1130, _sass/partials/_marketing-site.scss */
+/* line 1132, _sass/partials/_marketing-site.scss */
 article.faq .wrapper .panel, article.faq article.state-tabs ul.tabs-nav .panel, article.state-tabs article.faq ul.tabs-nav .panel {
   -moz-border-radius: 10px / 10px;
   -webkit-border-radius: 10px 10px;
   border-radius: 10px / 10px;
   background-color: #fff;
 }
-/* line 1133, _sass/partials/_marketing-site.scss */
+/* line 1135, _sass/partials/_marketing-site.scss */
 article.faq .wrapper .panel p.question, article.faq article.state-tabs ul.tabs-nav .panel p.question, article.state-tabs article.faq ul.tabs-nav .panel p.question {
   background-image: url("../i/marketing/expand.png");
   background-repeat: no-repeat;
   background-position: 98%;
   margin-left: 55px;
 }
-/* line 1138, _sass/partials/_marketing-site.scss */
+/* line 1140, _sass/partials/_marketing-site.scss */
 article.faq .wrapper .panel p.question a, article.faq article.state-tabs ul.tabs-nav .panel p.question a, article.state-tabs article.faq ul.tabs-nav .panel p.question a {
   color: #696969;
   display: block;
   padding: 15px;
 }
 @media only screen and (max-width: 767px) {
-  /* line 1138, _sass/partials/_marketing-site.scss */
+  /* line 1140, _sass/partials/_marketing-site.scss */
   article.faq .wrapper .panel p.question a, article.faq article.state-tabs ul.tabs-nav .panel p.question a, article.state-tabs article.faq ul.tabs-nav .panel p.question a {
     width: 93%;
   }
 }
-/* line 1147, _sass/partials/_marketing-site.scss */
+/* line 1149, _sass/partials/_marketing-site.scss */
 article.faq .wrapper .panel .q, article.faq article.state-tabs ul.tabs-nav .panel .q, article.state-tabs article.faq ul.tabs-nav .panel .q {
   float: left;
   font-size: 26px;
   margin: 10px 0px 0 10px;
   color: #bbb;
 }
-/* line 1153, _sass/partials/_marketing-site.scss */
+/* line 1155, _sass/partials/_marketing-site.scss */
 article.faq .wrapper .panel .panel-content, article.faq article.state-tabs ul.tabs-nav .panel .panel-content, article.state-tabs article.faq ul.tabs-nav .panel .panel-content {
   color: #0971ce;
   padding-bottom: 10px;
 }
-/* line 1156, _sass/partials/_marketing-site.scss */
+/* line 1158, _sass/partials/_marketing-site.scss */
 article.faq .wrapper .panel .panel-content .answer-hr, article.faq article.state-tabs ul.tabs-nav .panel .panel-content .answer-hr, article.state-tabs article.faq ul.tabs-nav .panel .panel-content .answer-hr {
   border: 3px solid #eaeaea;
   width: 90%;
 }
-/* line 1160, _sass/partials/_marketing-site.scss */
+/* line 1162, _sass/partials/_marketing-site.scss */
 article.faq .wrapper .panel .panel-content .a, article.faq article.state-tabs ul.tabs-nav .panel .panel-content .a, article.state-tabs article.faq ul.tabs-nav .panel .panel-content .a {
   float: left;
   font-size: 26px;
   margin: 10px 0px 0 10px;
 }
-/* line 1165, _sass/partials/_marketing-site.scss */
+/* line 1167, _sass/partials/_marketing-site.scss */
 article.faq .wrapper .panel .panel-content .answer, article.faq article.state-tabs ul.tabs-nav .panel .panel-content .answer, article.state-tabs article.faq ul.tabs-nav .panel .panel-content .answer {
   margin-left: 55px;
 }
-/* line 1170, _sass/partials/_marketing-site.scss */
+/* line 1172, _sass/partials/_marketing-site.scss */
 article.faq .wrapper .faq-hr, article.faq article.state-tabs ul.tabs-nav .faq-hr, article.state-tabs article.faq ul.tabs-nav .faq-hr {
   border: 3px solid #f3f3f3;
   margin: 20px 0;
 }
 
-/* line 1178, _sass/partials/_marketing-site.scss */
+/* line 1180, _sass/partials/_marketing-site.scss */
 article.homelife-services .intro {
   background-color: #0971ce;
   color: #fff;
   text-align: center;
   padding: 50px 0;
 }
-/* line 1183, _sass/partials/_marketing-site.scss */
+/* line 1185, _sass/partials/_marketing-site.scss */
 article.homelife-services .intro h1 {
   font-size: 63px;
 }
-/* line 1186, _sass/partials/_marketing-site.scss */
+/* line 1188, _sass/partials/_marketing-site.scss */
 article.homelife-services .intro p {
   font-size: 22px;
 }
-/* line 1190, _sass/partials/_marketing-site.scss */
+/* line 1192, _sass/partials/_marketing-site.scss */
 article.homelife-services .homelife-promo {
   background-image: url("../i/marketing/homelife-services.jpg");
   background-repeat: no-repeat;
@@ -6728,38 +6732,38 @@ article.homelife-services .homelife-promo {
   height: 550px;
   border-bottom: 5px solid #ffa409;
 }
-/* line 1196, _sass/partials/_marketing-site.scss */
+/* line 1198, _sass/partials/_marketing-site.scss */
 article.homelife-services .homelife-promo .wrapper, article.homelife-services .homelife-promo article.state-tabs ul.tabs-nav, article.state-tabs article.homelife-services .homelife-promo ul.tabs-nav {
   width: 55%;
   padding-top: 80px;
 }
-/* line 1199, _sass/partials/_marketing-site.scss */
+/* line 1201, _sass/partials/_marketing-site.scss */
 article.homelife-services .homelife-promo .wrapper h3, article.homelife-services .homelife-promo article.state-tabs ul.tabs-nav h3, article.state-tabs article.homelife-services .homelife-promo ul.tabs-nav h3 {
   color: #0971ce;
 }
-/* line 1204, _sass/partials/_marketing-site.scss */
+/* line 1206, _sass/partials/_marketing-site.scss */
 article.homelife-services .bundle-promo {
   margin: 35px 0;
   text-align: center;
   font-size: 20px;
 }
-/* line 1208, _sass/partials/_marketing-site.scss */
+/* line 1210, _sass/partials/_marketing-site.scss */
 article.homelife-services .bundle-promo span {
   font-size: 22px;
   color: #0971ce;
   text-transform: uppercase;
 }
-/* line 1213, _sass/partials/_marketing-site.scss */
+/* line 1215, _sass/partials/_marketing-site.scss */
 article.homelife-services .bundle-promo hr {
   border: 1px solid #eee;
   margin: 15px auto;
   width: 85%;
 }
-/* line 1219, _sass/partials/_marketing-site.scss */
+/* line 1221, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package {
   padding: 40px;
 }
-/* line 1221, _sass/partials/_marketing-site.scss */
+/* line 1223, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box {
   -moz-border-radius: 10px / 10px;
   -webkit-border-radius: 10px 10px;
@@ -6770,53 +6774,53 @@ article.homelife-services div.package .box {
   width: 100%;
 }
 @media only screen and (max-width: 767px) {
-  /* line 1221, _sass/partials/_marketing-site.scss */
+  /* line 1223, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box {
     padding: 5px;
   }
 }
-/* line 1230, _sass/partials/_marketing-site.scss */
+/* line 1232, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box h3 {
   color: #0971ce;
 }
-/* line 1232, _sass/partials/_marketing-site.scss */
+/* line 1234, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box h3 span {
   text-transform: none;
 }
-/* line 1236, _sass/partials/_marketing-site.scss */
+/* line 1238, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box button a {
   color: #fff;
 }
-/* line 1239, _sass/partials/_marketing-site.scss */
+/* line 1241, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box h4 {
   font-size: 17px;
 }
-/* line 1242, _sass/partials/_marketing-site.scss */
+/* line 1244, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box ul.services {
   list-style-type: none;
   padding-left: 0;
   float: left;
 }
-/* line 1246, _sass/partials/_marketing-site.scss */
+/* line 1248, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box ul.services li {
   text-align: center;
   float: left;
   margin-right: 39px;
 }
-/* line 1250, _sass/partials/_marketing-site.scss */
+/* line 1252, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box ul.services li input {
   margin-top: 15px;
 }
-/* line 1253, _sass/partials/_marketing-site.scss */
+/* line 1255, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box ul.services li.identity {
   color: #7e9bb5;
   position: relative;
 }
-/* line 1256, _sass/partials/_marketing-site.scss */
+/* line 1258, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box ul.services li.identity button {
   background-color: #7e9bb5;
 }
-/* line 1259, _sass/partials/_marketing-site.scss */
+/* line 1261, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box ul.services li.identity:after {
   content: "+";
   color: #898989;
@@ -6825,16 +6829,16 @@ article.homelife-services div.package .box ul.services li.identity:after {
   top: 36%;
   right: -10%;
 }
-/* line 1268, _sass/partials/_marketing-site.scss */
+/* line 1270, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box ul.services li.support {
   color: #b58789;
   position: relative;
 }
-/* line 1271, _sass/partials/_marketing-site.scss */
+/* line 1273, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box ul.services li.support button {
   background-color: #b58789;
 }
-/* line 1274, _sass/partials/_marketing-site.scss */
+/* line 1276, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box ul.services li.support:after {
   content: "+";
   color: #898989;
@@ -6843,15 +6847,15 @@ article.homelife-services div.package .box ul.services li.support:after {
   top: 36%;
   right: -35%;
 }
-/* line 1283, _sass/partials/_marketing-site.scss */
+/* line 1285, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box ul.services li.monitoring {
   color: #8ba170;
 }
-/* line 1285, _sass/partials/_marketing-site.scss */
+/* line 1287, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box ul.services li.monitoring button {
   background-color: #8ba170;
 }
-/* line 1291, _sass/partials/_marketing-site.scss */
+/* line 1293, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box .savings {
   -moz-border-radius: 50%;
   -webkit-border-radius: 50%;
@@ -6861,7 +6865,7 @@ article.homelife-services div.package .box .savings {
   height: 113px;
   margin-top: 25px;
 }
-/* line 1297, _sass/partials/_marketing-site.scss */
+/* line 1299, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box .savings p {
   color: #fff;
   font-size: 22px;
@@ -6869,7 +6873,7 @@ article.homelife-services div.package .box .savings p {
   text-align: center;
   margin-top: 10px;
 }
-/* line 1304, _sass/partials/_marketing-site.scss */
+/* line 1306, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box .savings .line-top {
   height: 40px;
   width: 1px;
@@ -6878,7 +6882,7 @@ article.homelife-services div.package .box .savings .line-top {
   margin-left: 50%;
   margin-top: -50px;
 }
-/* line 1312, _sass/partials/_marketing-site.scss */
+/* line 1314, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box .savings .line-bottom {
   height: 40px;
   width: 1px;
@@ -6888,17 +6892,17 @@ article.homelife-services div.package .box .savings .line-bottom {
   margin-top: 13px;
 }
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
-  /* line 1321, _sass/partials/_marketing-site.scss */
+  /* line 1323, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box .savings .line-top,
   article.homelife-services div.package .box .savings .line-bottom {
     display: none;
   }
 }
-/* line 1327, _sass/partials/_marketing-site.scss */
+/* line 1329, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box .pricing {
   text-align: center;
 }
-/* line 1329, _sass/partials/_marketing-site.scss */
+/* line 1331, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box .pricing p {
   font-size: 14px;
   text-transform: uppercase;
@@ -6906,23 +6910,23 @@ article.homelife-services div.package .box .pricing p {
   margin: 0 0 50px 0;
   color: #6b6b6b;
 }
-/* line 1335, _sass/partials/_marketing-site.scss */
+/* line 1337, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box .pricing p.price {
   margin-bottom: 0;
   font-style: normal;
 }
-/* line 1338, _sass/partials/_marketing-site.scss */
+/* line 1340, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box .pricing p.price .dollars {
   font-size: 38px;
   color: #0971ce;
 }
-/* line 1342, _sass/partials/_marketing-site.scss */
+/* line 1344, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box .pricing p.price .cents {
   font-size: 12px;
   color: #0971ce;
   vertical-align: 50%;
 }
-/* line 1350, _sass/partials/_marketing-site.scss */
+/* line 1352, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box .sash {
   position: absolute;
   background-color: #e61b23;
@@ -6933,7 +6937,7 @@ article.homelife-services div.package .box .sash {
   overflow: hidden;
   -webkit-transform: rotate(-45deg);
 }
-/* line 1359, _sass/partials/_marketing-site.scss */
+/* line 1361, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box .sash span {
   font-size: 24px;
   text-transform: uppercase;
@@ -6944,171 +6948,171 @@ article.homelife-services div.package .box .sash span {
   -webkit-transform: rotate(90deg);
 }
 @media only screen and (max-width: 1024px) {
-  /* line 1370, _sass/partials/_marketing-site.scss */
+  /* line 1372, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box ul.services {
     width: 100%;
   }
-  /* line 1372, _sass/partials/_marketing-site.scss */
+  /* line 1374, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box ul.services li {
     width: 30%;
     margin-right: 20px;
   }
-  /* line 1375, _sass/partials/_marketing-site.scss */
+  /* line 1377, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box ul.services li.support:after {
     right: -10%;
   }
-  /* line 1380, _sass/partials/_marketing-site.scss */
+  /* line 1382, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box .savings {
     margin-left: 30%;
     margin-right: 20px;
   }
-  /* line 1384, _sass/partials/_marketing-site.scss */
+  /* line 1386, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box .pricing {
     float: left;
   }
 }
 @media only screen and (max-width: 767px) {
-  /* line 1389, _sass/partials/_marketing-site.scss */
+  /* line 1391, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box ul.services li {
     margin-right: 8px;
   }
-  /* line 1391, _sass/partials/_marketing-site.scss */
+  /* line 1393, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box ul.services li.identity:after {
     content: " ";
   }
-  /* line 1395, _sass/partials/_marketing-site.scss */
+  /* line 1397, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box ul.services li.support:after {
     content: " ";
   }
-  /* line 1398, _sass/partials/_marketing-site.scss */
+  /* line 1400, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box ul.services li.support h4 {
     width: 67%;
     margin: 10px auto;
   }
-  /* line 1403, _sass/partials/_marketing-site.scss */
+  /* line 1405, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box ul.services li.monitoring h4 {
     width: 91%;
     margin: 10px auto;
   }
-  /* line 1408, _sass/partials/_marketing-site.scss */
+  /* line 1410, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box .savings {
     margin: 15px 0 0 10%;
   }
-  /* line 1411, _sass/partials/_marketing-site.scss */
+  /* line 1413, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box .pricing {
     float: right;
     margin: 0 10% 0 0;
   }
 }
-/* line 1417, _sass/partials/_marketing-site.scss */
+/* line 1419, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.platinum {
   background-color: #0971ce;
 }
-/* line 1419, _sass/partials/_marketing-site.scss */
+/* line 1421, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.platinum h3 {
   width: 85%;
 }
-/* line 1422, _sass/partials/_marketing-site.scss */
+/* line 1424, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.platinum .savings {
   background-color: #0971ce;
 }
-/* line 1424, _sass/partials/_marketing-site.scss */
+/* line 1426, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.platinum .savings p {
   color: #fff;
 }
-/* line 1430, _sass/partials/_marketing-site.scss */
+/* line 1432, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.gold .box {
   border: 1px solid #c1dbf2;
   background-color: #f6f6f6;
 }
-/* line 1433, _sass/partials/_marketing-site.scss */
+/* line 1435, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.gold .box .savings {
   background-color: #fdfdfd;
   border: 1px solid #d0d0d0;
 }
-/* line 1436, _sass/partials/_marketing-site.scss */
+/* line 1438, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.gold .box .savings p {
   color: #0971ce;
 }
-/* line 1440, _sass/partials/_marketing-site.scss */
+/* line 1442, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.gold .box button {
   background-color: #ccc;
 }
-/* line 1446, _sass/partials/_marketing-site.scss */
+/* line 1448, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.silver .box {
   border: 1px solid #cdcdcd;
 }
-/* line 1448, _sass/partials/_marketing-site.scss */
+/* line 1450, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.silver .box h3 {
   text-align: center;
 }
-/* line 1451, _sass/partials/_marketing-site.scss */
+/* line 1453, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.silver .box ul.services {
   width: 100%;
 }
-/* line 1453, _sass/partials/_marketing-site.scss */
+/* line 1455, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.silver .box ul.services li {
   margin-right: 0;
   width: 33%;
   border-right: 1px solid #cdcdcd;
 }
-/* line 1459, _sass/partials/_marketing-site.scss */
+/* line 1461, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.silver .box ul.services li.identity:after, article.homelife-services div.package.silver .box ul.services li.support:after {
   content: " ";
 }
-/* line 1463, _sass/partials/_marketing-site.scss */
+/* line 1465, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.silver .box ul.services li.monitoring {
   border-right: none;
 }
-/* line 1466, _sass/partials/_marketing-site.scss */
+/* line 1468, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.silver .box ul.services li .pricing {
   text-align: center;
   float: none;
   margin: 0;
 }
-/* line 1470, _sass/partials/_marketing-site.scss */
+/* line 1472, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.silver .box ul.services li .pricing .price .dollars {
   font-size: 24px;
 }
-/* line 1473, _sass/partials/_marketing-site.scss */
+/* line 1475, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.silver .box ul.services li .pricing button {
   background-color: #0971ce;
 }
-/* line 1475, _sass/partials/_marketing-site.scss */
+/* line 1477, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.silver .box ul.services li .pricing button:hover {
   background-color: #6b6b6b;
 }
-/* line 1485, _sass/partials/_marketing-site.scss */
+/* line 1487, _sass/partials/_marketing-site.scss */
 article.homelife-services p.footnote {
   font-size: 12px;
   text-align: center;
 }
 
-/* line 1491, _sass/partials/_marketing-site.scss */
+/* line 1493, _sass/partials/_marketing-site.scss */
 article.states-enroll div.wrapper {
   text-align: center;
 }
 
-/* line 1495, _sass/partials/_marketing-site.scss */
+/* line 1497, _sass/partials/_marketing-site.scss */
 article.full-width-image {
   height: 300px;
   background-size: cover;
 }
 
-/* line 1501, _sass/partials/_marketing-site.scss */
+/* line 1503, _sass/partials/_marketing-site.scss */
 article.identity-theft h2,
 article.identity-theft h3 {
   text-transform: none;
 }
-/* line 1505, _sass/partials/_marketing-site.scss */
+/* line 1507, _sass/partials/_marketing-site.scss */
 article.identity-theft .semibold {
   font-weight: 600;
 }
-/* line 1508, _sass/partials/_marketing-site.scss */
+/* line 1510, _sass/partials/_marketing-site.scss */
 article.identity-theft .credit-bureaus {
   padding-left: 0;
 }
-/* line 1510, _sass/partials/_marketing-site.scss */
+/* line 1512, _sass/partials/_marketing-site.scss */
 article.identity-theft .credit-bureaus li {
   float: left;
   width: 33%;
@@ -7116,49 +7120,49 @@ article.identity-theft .credit-bureaus li {
   text-align: center;
 }
 @media only screen and (max-width: 767px) {
-  /* line 1519, _sass/partials/_marketing-site.scss */
+  /* line 1521, _sass/partials/_marketing-site.scss */
   article.identity-theft .credit-bureaus li {
     float: none;
     width: 100%;
     margin-bottom: 30px;
   }
-  /* line 1523, _sass/partials/_marketing-site.scss */
+  /* line 1525, _sass/partials/_marketing-site.scss */
   article.identity-theft .credit-bureaus li:last-child {
     margin-bottom: 0;
   }
 }
-/* line 1529, _sass/partials/_marketing-site.scss */
+/* line 1531, _sass/partials/_marketing-site.scss */
 article.identity-theft .phishing-image img {
   max-width: 100%;
 }
 
-/* line 1535, _sass/partials/_marketing-site.scss */
+/* line 1537, _sass/partials/_marketing-site.scss */
 article.why-energy .paragraph {
   margin: 20px auto;
   width: 60%;
   text-align: center;
 }
-/* line 1539, _sass/partials/_marketing-site.scss */
+/* line 1541, _sass/partials/_marketing-site.scss */
 article.why-energy .paragraph span {
   color: #ac1f2d;
 }
-/* line 1542, _sass/partials/_marketing-site.scss */
+/* line 1544, _sass/partials/_marketing-site.scss */
 article.why-energy .paragraph.promo {
   font-size: 20px;
 }
-/* line 1546, _sass/partials/_marketing-site.scss */
+/* line 1548, _sass/partials/_marketing-site.scss */
 article.why-energy .paragraph.joining-info p button {
   background-color: #ac1f2d;
 }
-/* line 1548, _sass/partials/_marketing-site.scss */
+/* line 1550, _sass/partials/_marketing-site.scss */
 article.why-energy .paragraph.joining-info p button:hover {
   background-color: #6b6b6b;
 }
-/* line 1551, _sass/partials/_marketing-site.scss */
+/* line 1553, _sass/partials/_marketing-site.scss */
 article.why-energy .paragraph.joining-info p button a {
   color: #fff;
 }
-/* line 1557, _sass/partials/_marketing-site.scss */
+/* line 1559, _sass/partials/_marketing-site.scss */
 article.why-energy .banner {
   background-image: url("../i/marketing/why-energy-banner.jpg");
   background-repeat: no-repeat;
@@ -7166,54 +7170,54 @@ article.why-energy .banner {
   height: 300px;
 }
 
-/* line 1566, _sass/partials/_marketing-site.scss */
+/* line 1568, _sass/partials/_marketing-site.scss */
 article.commercial-quote .text {
   border-left: 3px solid #ffa409;
   width: 50%;
   background-color: #0971ce;
 }
-/* line 1570, _sass/partials/_marketing-site.scss */
+/* line 1572, _sass/partials/_marketing-site.scss */
 article.commercial-quote .text .inner {
   color: #fff;
 }
-/* line 1572, _sass/partials/_marketing-site.scss */
+/* line 1574, _sass/partials/_marketing-site.scss */
 article.commercial-quote .text .inner h2 {
   color: #fff;
   font-size: 24px;
 }
-/* line 1576, _sass/partials/_marketing-site.scss */
+/* line 1578, _sass/partials/_marketing-site.scss */
 article.commercial-quote .text .inner button {
   background-color: #fff;
 }
-/* line 1578, _sass/partials/_marketing-site.scss */
+/* line 1580, _sass/partials/_marketing-site.scss */
 article.commercial-quote .text .inner button a {
   color: #333;
 }
-/* line 1581, _sass/partials/_marketing-site.scss */
+/* line 1583, _sass/partials/_marketing-site.scss */
 article.commercial-quote .text .inner button:hover {
   background-color: #ebebeb;
 }
-/* line 1585, _sass/partials/_marketing-site.scss */
+/* line 1587, _sass/partials/_marketing-site.scss */
 article.commercial-quote .text .inner input,
 article.commercial-quote .text .inner select {
   width: 100%;
 }
-/* line 1591, _sass/partials/_marketing-site.scss */
+/* line 1593, _sass/partials/_marketing-site.scss */
 article.commercial-quote .wrapper, article.commercial-quote article.state-tabs ul.tabs-nav, article.state-tabs article.commercial-quote ul.tabs-nav {
   padding: 40px 0 30px 0;
 }
-/* line 1594, _sass/partials/_marketing-site.scss */
+/* line 1596, _sass/partials/_marketing-site.scss */
 article.commercial-quote .success-message {
   margin: 20px 0;
   background-color: #e8e8e8;
   border-bottom: 3px solid #fda32b;
 }
-/* line 1598, _sass/partials/_marketing-site.scss */
+/* line 1600, _sass/partials/_marketing-site.scss */
 article.commercial-quote .success-message h2 {
   font-size: 30px;
   text-align: center;
 }
-/* line 1602, _sass/partials/_marketing-site.scss */
+/* line 1604, _sass/partials/_marketing-site.scss */
 article.commercial-quote .success-message h4 {
   text-align: center;
   text-transform: none;
@@ -7222,141 +7226,141 @@ article.commercial-quote .success-message h4 {
   line-height: 1.1;
 }
 
-/* line 1613, _sass/partials/_marketing-site.scss */
+/* line 1615, _sass/partials/_marketing-site.scss */
 article.commercial-account-banner .account-banner {
   background-color: #0971ce;
 }
-/* line 1615, _sass/partials/_marketing-site.scss */
+/* line 1617, _sass/partials/_marketing-site.scss */
 article.commercial-account-banner .account-banner p {
   padding: 15px 0;
 }
-/* line 1617, _sass/partials/_marketing-site.scss */
+/* line 1619, _sass/partials/_marketing-site.scss */
 article.commercial-account-banner .account-banner p button {
   background-color: #fff;
   color: #0971ce;
   margin: auto;
   display: block;
 }
-/* line 1622, _sass/partials/_marketing-site.scss */
+/* line 1624, _sass/partials/_marketing-site.scss */
 article.commercial-account-banner .account-banner p button:hover {
   background-color: #ccc;
 }
 
-/* line 1630, _sass/partials/_marketing-site.scss */
+/* line 1632, _sass/partials/_marketing-site.scss */
 article.free-energy {
   margin-top: 20px;
 }
-/* line 1632, _sass/partials/_marketing-site.scss */
+/* line 1634, _sass/partials/_marketing-site.scss */
 article.free-energy img {
   margin: auto;
   display: block;
   float: left;
 }
-/* line 1637, _sass/partials/_marketing-site.scss */
+/* line 1639, _sass/partials/_marketing-site.scss */
 article.free-energy h3 {
   text-transform: none;
   margin-bottom: 30px;
 }
-/* line 1641, _sass/partials/_marketing-site.scss */
+/* line 1643, _sass/partials/_marketing-site.scss */
 article.free-energy p {
   font-size: 21px;
   line-height: 1.3;
 }
-/* line 1646, _sass/partials/_marketing-site.scss */
+/* line 1648, _sass/partials/_marketing-site.scss */
 article.free-energy .how-it-works img {
   margin: 0px 30px 0px 0px;
 }
-/* line 1649, _sass/partials/_marketing-site.scss */
+/* line 1651, _sass/partials/_marketing-site.scss */
 article.free-energy .how-it-works h1 {
   line-height: 1;
 }
-/* line 1652, _sass/partials/_marketing-site.scss */
+/* line 1654, _sass/partials/_marketing-site.scss */
 article.free-energy .how-it-works p {
   line-height: 1;
 }
 
-/* line 1658, _sass/partials/_marketing-site.scss */
+/* line 1660, _sass/partials/_marketing-site.scss */
 article.free-energy.picture-promo {
   background-image: url("../i/marketing/free-energy.jpg");
   background-repeat: no-repeat;
   background-position: center;
 }
-/* line 1662, _sass/partials/_marketing-site.scss */
+/* line 1664, _sass/partials/_marketing-site.scss */
 article.free-energy.picture-promo .promo-content {
   color: #fff;
   width: 335px;
   margin-left: 100px;
   padding: 320px 0 50px 0;
 }
-/* line 1667, _sass/partials/_marketing-site.scss */
+/* line 1669, _sass/partials/_marketing-site.scss */
 article.free-energy.picture-promo .promo-content h2 {
   color: #fff;
   line-height: 28px;
 }
-/* line 1670, _sass/partials/_marketing-site.scss */
+/* line 1672, _sass/partials/_marketing-site.scss */
 article.free-energy.picture-promo .promo-content h2 .big {
   font-size: 31px;
 }
 
-/* line 1677, _sass/partials/_marketing-site.scss */
+/* line 1679, _sass/partials/_marketing-site.scss */
 article.enroll {
   margin-top: 20px;
 }
-/* line 1679, _sass/partials/_marketing-site.scss */
+/* line 1681, _sass/partials/_marketing-site.scss */
 article.enroll .text {
   padding: 25px 0;
 }
-/* line 1681, _sass/partials/_marketing-site.scss */
+/* line 1683, _sass/partials/_marketing-site.scss */
 article.enroll .text h3 {
   font-size: 32px;
   line-height: 1.1;
 }
 
-/* line 1689, _sass/partials/_marketing-site.scss */
+/* line 1691, _sass/partials/_marketing-site.scss */
 article.service-icons .grid .col {
   padding: 0;
 }
 
-/* line 1695, _sass/partials/_marketing-site.scss */
+/* line 1697, _sass/partials/_marketing-site.scss */
 article.terms-of-use .write-to {
   width: 70%;
   text-align: center;
   margin: auto;
 }
-/* line 1700, _sass/partials/_marketing-site.scss */
+/* line 1702, _sass/partials/_marketing-site.scss */
 article.terms-of-use ul {
   padding: 0 80px;
 }
-/* line 1702, _sass/partials/_marketing-site.scss */
+/* line 1704, _sass/partials/_marketing-site.scss */
 article.terms-of-use ul li {
   list-style-type: none;
 }
-/* line 1704, _sass/partials/_marketing-site.scss */
+/* line 1706, _sass/partials/_marketing-site.scss */
 article.terms-of-use ul li p {
   margin-left: 20px;
 }
-/* line 1708, _sass/partials/_marketing-site.scss */
+/* line 1710, _sass/partials/_marketing-site.scss */
 article.terms-of-use ul h3 {
   color: #0971ce;
 }
-/* line 1711, _sass/partials/_marketing-site.scss */
+/* line 1713, _sass/partials/_marketing-site.scss */
 article.terms-of-use ul span {
   text-transform: uppercase;
 }
 @media only screen and (max-width: 767px) {
-  /* line 1716, _sass/partials/_marketing-site.scss */
+  /* line 1718, _sass/partials/_marketing-site.scss */
   article.terms-of-use ul {
     padding: 0 20px;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
-  /* line 1721, _sass/partials/_marketing-site.scss */
+  /* line 1723, _sass/partials/_marketing-site.scss */
   article.terms-of-use ul {
     padding: 0 40px;
   }
 }
 
-/* line 1727, _sass/partials/_marketing-site.scss */
+/* line 1729, _sass/partials/_marketing-site.scss */
 article.energy-certificates {
   background-image: url("../i/marketing/energy-certificates.jpg");
   background-repeat: no-repeat;
@@ -7365,89 +7369,89 @@ article.energy-certificates {
   border-top: 3px solid #7eb24c;
   border-bottom: 3px solid #862134;
 }
-/* line 1734, _sass/partials/_marketing-site.scss */
+/* line 1736, _sass/partials/_marketing-site.scss */
 article.energy-certificates div {
   width: 335px;
   float: right;
   margin: 50px 50px 0 0;
 }
-/* line 1738, _sass/partials/_marketing-site.scss */
+/* line 1740, _sass/partials/_marketing-site.scss */
 article.energy-certificates div button {
   background-color: #2c3e50;
   box-shadow: 0 2px #7eb24c;
 }
-/* line 1741, _sass/partials/_marketing-site.scss */
+/* line 1743, _sass/partials/_marketing-site.scss */
 article.energy-certificates div button a {
   color: #fff;
 }
-/* line 1744, _sass/partials/_marketing-site.scss */
+/* line 1746, _sass/partials/_marketing-site.scss */
 article.energy-certificates div button:hover {
   background-color: #6b6b6b;
 }
 
-/* line 1751, _sass/partials/_marketing-site.scss */
+/* line 1753, _sass/partials/_marketing-site.scss */
 article.ignite-associate {
   text-align: center;
   margin: 50px 0;
 }
-/* line 1754, _sass/partials/_marketing-site.scss */
+/* line 1756, _sass/partials/_marketing-site.scss */
 article.ignite-associate button {
   background-color: #a9222d;
 }
-/* line 1756, _sass/partials/_marketing-site.scss */
+/* line 1758, _sass/partials/_marketing-site.scss */
 article.ignite-associate button a {
   color: #fff;
 }
-/* line 1759, _sass/partials/_marketing-site.scss */
+/* line 1761, _sass/partials/_marketing-site.scss */
 article.ignite-associate button:hover {
   background-color: #6b6b6b;
 }
 
-/* line 1765, _sass/partials/_marketing-site.scss */
+/* line 1767, _sass/partials/_marketing-site.scss */
 article.independent-associate-chart {
   text-align: center;
 }
-/* line 1767, _sass/partials/_marketing-site.scss */
+/* line 1769, _sass/partials/_marketing-site.scss */
 article.independent-associate-chart h2 {
   background-color: #ac1f2d;
   padding: 20px 0;
   font-size: 24px;
   color: #fff;
 }
-/* line 1773, _sass/partials/_marketing-site.scss */
+/* line 1775, _sass/partials/_marketing-site.scss */
 article.independent-associate-chart img {
   margin: 20px 0;
   max-width: 100%;
 }
 
-/* line 1780, _sass/partials/_marketing-site.scss */
+/* line 1782, _sass/partials/_marketing-site.scss */
 article.residual-income h3 {
   float: left;
   margin-right: 10px;
 }
-/* line 1784, _sass/partials/_marketing-site.scss */
+/* line 1786, _sass/partials/_marketing-site.scss */
 article.residual-income img {
   max-width: 100%;
 }
-/* line 1787, _sass/partials/_marketing-site.scss */
+/* line 1789, _sass/partials/_marketing-site.scss */
 article.residual-income .footnotes {
   font-size: 10px;
 }
-/* line 1790, _sass/partials/_marketing-site.scss */
+/* line 1792, _sass/partials/_marketing-site.scss */
 article.residual-income button {
   background-color: #a9222d;
   float: right;
 }
-/* line 1793, _sass/partials/_marketing-site.scss */
+/* line 1795, _sass/partials/_marketing-site.scss */
 article.residual-income button a {
   color: #fff;
 }
-/* line 1796, _sass/partials/_marketing-site.scss */
+/* line 1798, _sass/partials/_marketing-site.scss */
 article.residual-income button:hover {
   background-color: #6b6b6b;
 }
 
-/* line 1803, _sass/partials/_marketing-site.scss */
+/* line 1805, _sass/partials/_marketing-site.scss */
 article.electricity-gas p {
   font-size: 22px;
   text-align: center;
@@ -7455,63 +7459,63 @@ article.electricity-gas p {
   margin-right: auto;
   margin-left: auto;
 }
-/* line 1809, _sass/partials/_marketing-site.scss */
+/* line 1811, _sass/partials/_marketing-site.scss */
 article.electricity-gas p span {
   color: #0971ce;
 }
-/* line 1812, _sass/partials/_marketing-site.scss */
+/* line 1814, _sass/partials/_marketing-site.scss */
 article.electricity-gas p button {
   margin: auto;
   background-color: #76bd1d;
   font-size: 24px;
   padding: 10px;
 }
-/* line 1817, _sass/partials/_marketing-site.scss */
+/* line 1819, _sass/partials/_marketing-site.scss */
 article.electricity-gas p button:hover {
   background-color: #6b6b6b;
 }
-/* line 1820, _sass/partials/_marketing-site.scss */
+/* line 1822, _sass/partials/_marketing-site.scss */
 article.electricity-gas p button a {
   color: #fff;
 }
-/* line 1825, _sass/partials/_marketing-site.scss */
+/* line 1827, _sass/partials/_marketing-site.scss */
 article.electricity-gas hr {
   border: 2px solid #f0f0f0;
   margin: 40px 0;
 }
-/* line 1829, _sass/partials/_marketing-site.scss */
+/* line 1831, _sass/partials/_marketing-site.scss */
 article.electricity-gas img {
   max-width: 100%;
   padding-bottom: 25px;
 }
-/* line 1833, _sass/partials/_marketing-site.scss */
+/* line 1835, _sass/partials/_marketing-site.scss */
 article.electricity-gas .gas-chart {
   border-bottom: 3px solid #76bd1d;
 }
 
-/* line 1839, _sass/partials/_marketing-site.scss */
+/* line 1841, _sass/partials/_marketing-site.scss */
 article.privacy-policy .intro-paragraph {
   text-align: center;
 }
-/* line 1842, _sass/partials/_marketing-site.scss */
+/* line 1844, _sass/partials/_marketing-site.scss */
 article.privacy-policy hr {
   width: 60%;
   border: 1px solid #f0f0f0;
   margin: 40px auto;
 }
-/* line 1847, _sass/partials/_marketing-site.scss */
+/* line 1849, _sass/partials/_marketing-site.scss */
 article.privacy-policy h2 {
   margin-top: 30px;
 }
-/* line 1850, _sass/partials/_marketing-site.scss */
+/* line 1852, _sass/partials/_marketing-site.scss */
 article.privacy-policy .indented {
   margin-left: 40px;
 }
-/* line 1852, _sass/partials/_marketing-site.scss */
+/* line 1854, _sass/partials/_marketing-site.scss */
 article.privacy-policy .indented ul {
   list-style: none;
 }
-/* line 1854, _sass/partials/_marketing-site.scss */
+/* line 1856, _sass/partials/_marketing-site.scss */
 article.privacy-policy .indented ul li {
   background-image: url("../i/marketing/blue-bullet.png");
   background-repeat: no-repeat;
@@ -7519,15 +7523,15 @@ article.privacy-policy .indented ul li {
   padding-left: 25px;
 }
 
-/* line 1865, _sass/partials/_marketing-site.scss */
+/* line 1867, _sass/partials/_marketing-site.scss */
 article.earn-free-energy .intro-paragraph {
   text-align: center;
 }
-/* line 1868, _sass/partials/_marketing-site.scss */
+/* line 1870, _sass/partials/_marketing-site.scss */
 article.earn-free-energy p {
   font-size: 26px;
 }
-/* line 1871, _sass/partials/_marketing-site.scss */
+/* line 1873, _sass/partials/_marketing-site.scss */
 article.earn-free-energy .full-image {
   background-image: url("../i/marketing/free-energy-start-earning.jpg");
   background-repeat: no-repeat;
@@ -7535,17 +7539,17 @@ article.earn-free-energy .full-image {
   height: 300px;
   border-top: 3px solid #999;
 }
-/* line 1878, _sass/partials/_marketing-site.scss */
+/* line 1880, _sass/partials/_marketing-site.scss */
 article.earn-free-energy .enhance {
   text-align: center;
 }
-/* line 1880, _sass/partials/_marketing-site.scss */
+/* line 1882, _sass/partials/_marketing-site.scss */
 article.earn-free-energy .enhance h2 {
   font-size: 40px;
   margin-top: 40px;
 }
 
-/* line 1888, _sass/partials/_marketing-site.scss */
+/* line 1890, _sass/partials/_marketing-site.scss */
 article.manage-my-account .left-column {
   width: 35%;
   border-right: 1px solid #cfcfcf;
@@ -7553,7 +7557,7 @@ article.manage-my-account .left-column {
   float: left;
 }
 @media only screen and (max-width: 767px) {
-  /* line 1888, _sass/partials/_marketing-site.scss */
+  /* line 1890, _sass/partials/_marketing-site.scss */
   article.manage-my-account .left-column {
     width: 100%;
     border-right: none;
@@ -7561,50 +7565,50 @@ article.manage-my-account .left-column {
     padding: 0;
   }
 }
-/* line 1900, _sass/partials/_marketing-site.scss */
+/* line 1902, _sass/partials/_marketing-site.scss */
 article.manage-my-account .right-column {
   width: 65%;
   float: right;
   padding-left: 40px;
 }
-/* line 1904, _sass/partials/_marketing-site.scss */
+/* line 1906, _sass/partials/_marketing-site.scss */
 article.manage-my-account .right-column img {
   float: left;
 }
-/* line 1907, _sass/partials/_marketing-site.scss */
+/* line 1909, _sass/partials/_marketing-site.scss */
 article.manage-my-account .right-column h3 {
   float: left;
   margin: 25px 0 0 10px;
   color: #76BD1D;
 }
-/* line 1912, _sass/partials/_marketing-site.scss */
+/* line 1914, _sass/partials/_marketing-site.scss */
 article.manage-my-account .right-column .states {
   float: left;
   margin: 20px 40px 0 0;
 }
-/* line 1915, _sass/partials/_marketing-site.scss */
+/* line 1917, _sass/partials/_marketing-site.scss */
 article.manage-my-account .right-column .states input {
   margin-bottom: 15px;
 }
-/* line 1919, _sass/partials/_marketing-site.scss */
+/* line 1921, _sass/partials/_marketing-site.scss */
 article.manage-my-account .right-column .input-fields {
   float: left;
 }
-/* line 1921, _sass/partials/_marketing-site.scss */
+/* line 1923, _sass/partials/_marketing-site.scss */
 article.manage-my-account .right-column .input-fields div {
   margin-top: 10px;
 }
-/* line 1925, _sass/partials/_marketing-site.scss */
+/* line 1927, _sass/partials/_marketing-site.scss */
 article.manage-my-account .right-column .login {
   margin: 10px 0 0 20px;
   float: left;
 }
-/* line 1928, _sass/partials/_marketing-site.scss */
+/* line 1930, _sass/partials/_marketing-site.scss */
 article.manage-my-account .right-column .login button {
   background-color: #76BD1D;
 }
 @media only screen and (max-width: 767px) {
-  /* line 1900, _sass/partials/_marketing-site.scss */
+  /* line 1902, _sass/partials/_marketing-site.scss */
   article.manage-my-account .right-column {
     width: 100%;
     margin: 20px auto;
@@ -7612,47 +7616,47 @@ article.manage-my-account .right-column .login button {
   }
 }
 
-/* line 1940, _sass/partials/_marketing-site.scss */
+/* line 1942, _sass/partials/_marketing-site.scss */
 article.manage-free-energy {
   background-image: url("../i/marketing/free-energy-pic.jpg");
   height: 399px;
 }
-/* line 1943, _sass/partials/_marketing-site.scss */
+/* line 1945, _sass/partials/_marketing-site.scss */
 article.manage-free-energy .left-column {
   float: left;
   width: 55%;
   margin-top: 30px;
 }
-/* line 1947, _sass/partials/_marketing-site.scss */
+/* line 1949, _sass/partials/_marketing-site.scss */
 article.manage-free-energy .left-column p {
   width: 70%;
   color: #fff;
   margin-top: 60px;
 }
 @media only screen and (max-width: 767px) {
-  /* line 1947, _sass/partials/_marketing-site.scss */
+  /* line 1949, _sass/partials/_marketing-site.scss */
   article.manage-free-energy .left-column p {
     width: 80%;
   }
 }
-/* line 1956, _sass/partials/_marketing-site.scss */
+/* line 1958, _sass/partials/_marketing-site.scss */
 article.manage-free-energy .right-column {
   float: right;
   background-color: #003366;
   width: 45%;
   height: 399px;
 }
-/* line 1961, _sass/partials/_marketing-site.scss */
+/* line 1963, _sass/partials/_marketing-site.scss */
 article.manage-free-energy .right-column .center {
   text-align: center;
 }
-/* line 1963, _sass/partials/_marketing-site.scss */
+/* line 1965, _sass/partials/_marketing-site.scss */
 article.manage-free-energy .right-column .center button {
   box-shadow: 0 2px #3e8bcb;
   background-color: #ffa409;
   margin: 150px 0 20px 0;
 }
-/* line 1968, _sass/partials/_marketing-site.scss */
+/* line 1970, _sass/partials/_marketing-site.scss */
 article.manage-free-energy .right-column .center p {
   width: 50%;
   margin-left: auto;
@@ -7660,55 +7664,55 @@ article.manage-free-energy .right-column .center p {
   color: #fff;
 }
 @media only screen and (max-width: 767px) {
-  /* line 1968, _sass/partials/_marketing-site.scss */
+  /* line 1970, _sass/partials/_marketing-site.scss */
   article.manage-free-energy .right-column .center p {
     width: 75%;
   }
 }
 
-/* line 1981, _sass/partials/_marketing-site.scss */
+/* line 1983, _sass/partials/_marketing-site.scss */
 article.manage-services {
   background-color: #7D9AB4;
 }
-/* line 1983, _sass/partials/_marketing-site.scss */
+/* line 1985, _sass/partials/_marketing-site.scss */
 article.manage-services .text {
   color: #fff;
   float: left;
   margin-bottom: 75px;
 }
-/* line 1987, _sass/partials/_marketing-site.scss */
+/* line 1989, _sass/partials/_marketing-site.scss */
 article.manage-services .text .inner {
   float: right;
 }
-/* line 1989, _sass/partials/_marketing-site.scss */
+/* line 1991, _sass/partials/_marketing-site.scss */
 article.manage-services .text .inner span {
   text-transform: uppercase;
 }
 @media only screen and (max-width: 1024px) {
-  /* line 1983, _sass/partials/_marketing-site.scss */
+  /* line 1985, _sass/partials/_marketing-site.scss */
   article.manage-services .text {
     width: 100%;
     float: none;
     padding: 10px;
     margin-bottom: 0;
   }
-  /* line 1998, _sass/partials/_marketing-site.scss */
+  /* line 2000, _sass/partials/_marketing-site.scss */
   article.manage-services .text .inner {
     float: none;
     max-width: 100%;
   }
 }
-/* line 2004, _sass/partials/_marketing-site.scss */
+/* line 2006, _sass/partials/_marketing-site.scss */
 article.manage-services .photo {
   background-image: url("../i/marketing/manage-services.jpg");
   background-repeat: no-repeat;
   right: 0;
 }
-/* line 2008, _sass/partials/_marketing-site.scss */
+/* line 2010, _sass/partials/_marketing-site.scss */
 article.manage-services .photo ul {
   padding-left: 5px;
 }
-/* line 2010, _sass/partials/_marketing-site.scss */
+/* line 2012, _sass/partials/_marketing-site.scss */
 article.manage-services .photo ul li {
   list-style-type: none;
   float: left;
@@ -7717,13 +7721,13 @@ article.manage-services .photo ul li {
   border-right: 1px solid #cfcece;
   padding: 30px 5px 30px 0;
 }
-/* line 2017, _sass/partials/_marketing-site.scss */
+/* line 2019, _sass/partials/_marketing-site.scss */
 article.manage-services .photo ul li:last-child {
   border-right: none;
   padding-right: 0;
   margin-right: 0;
 }
-/* line 2022, _sass/partials/_marketing-site.scss */
+/* line 2024, _sass/partials/_marketing-site.scss */
 article.manage-services .photo ul li a .box {
   background-color: #7D9AB4;
   border-radius: 10px;
@@ -7731,36 +7735,36 @@ article.manage-services .photo ul li a .box {
   height: 70px;
   width: 160px;
 }
-/* line 2028, _sass/partials/_marketing-site.scss */
+/* line 2030, _sass/partials/_marketing-site.scss */
 article.manage-services .photo ul li a .box p {
   text-transform: uppercase;
   padding: 3px;
   color: #fff;
 }
-/* line 2032, _sass/partials/_marketing-site.scss */
+/* line 2034, _sass/partials/_marketing-site.scss */
 article.manage-services .photo ul li a .box p:hover {
   color: #064985;
   text-decoration: underline;
 }
-/* line 2037, _sass/partials/_marketing-site.scss */
+/* line 2039, _sass/partials/_marketing-site.scss */
 article.manage-services .photo ul li a .box.tech-support {
   background-color: #b68889;
 }
-/* line 2040, _sass/partials/_marketing-site.scss */
+/* line 2042, _sass/partials/_marketing-site.scss */
 article.manage-services .photo ul li a .box.credit-monitoring {
   background-color: #8ea173;
 }
-/* line 2046, _sass/partials/_marketing-site.scss */
+/* line 2048, _sass/partials/_marketing-site.scss */
 article.manage-services .photo p.sign-up {
   margin-left: 5px;
 }
-/* line 2048, _sass/partials/_marketing-site.scss */
+/* line 2050, _sass/partials/_marketing-site.scss */
 article.manage-services .photo p.sign-up a:hover {
   color: #064985;
   text-decoration: underline;
 }
 @media only screen and (max-width: 1024px) {
-  /* line 2004, _sass/partials/_marketing-site.scss */
+  /* line 2006, _sass/partials/_marketing-site.scss */
   article.manage-services .photo {
     background-size: cover;
     width: 100%;
@@ -7770,67 +7774,67 @@ article.manage-services .photo p.sign-up a:hover {
   }
 }
 @media only screen and (max-width: 767px) {
-  /* line 2004, _sass/partials/_marketing-site.scss */
+  /* line 2006, _sass/partials/_marketing-site.scss */
   article.manage-services .photo {
     background-image: none;
     background-color: #fff;
   }
-  /* line 2063, _sass/partials/_marketing-site.scss */
+  /* line 2065, _sass/partials/_marketing-site.scss */
   article.manage-services .photo ul li {
     width: 100%;
     margin-top: 0;
   }
-  /* line 2066, _sass/partials/_marketing-site.scss */
+  /* line 2068, _sass/partials/_marketing-site.scss */
   article.manage-services .photo ul li a .box {
     margin: auto;
   }
 }
 
-/* line 2075, _sass/partials/_marketing-site.scss */
+/* line 2077, _sass/partials/_marketing-site.scss */
 article.marketing div.wrapper div.historical-rates {
   overflow: scroll;
 }
-/* line 2077, _sass/partials/_marketing-site.scss */
+/* line 2079, _sass/partials/_marketing-site.scss */
 article.marketing div.wrapper div.historical-rates table tr td {
   text-align: center;
 }
-/* line 2079, _sass/partials/_marketing-site.scss */
+/* line 2081, _sass/partials/_marketing-site.scss */
 article.marketing div.wrapper div.historical-rates table tr td:nth-child(even) {
   background-color: #c2ddf5;
 }
-/* line 2082, _sass/partials/_marketing-site.scss */
+/* line 2084, _sass/partials/_marketing-site.scss */
 article.marketing div.wrapper div.historical-rates table tr td:nth-child(odd), article.marketing div.wrapper div.historical-rates table tr td.odd {
   background-color: #e8f2fa;
 }
-/* line 2086, _sass/partials/_marketing-site.scss */
+/* line 2088, _sass/partials/_marketing-site.scss */
 article.marketing div.wrapper div.historical-rates table tr td.even {
   background-color: #c2ddf5;
 }
 
-/* line 2096, _sass/partials/_marketing-site.scss */
+/* line 2098, _sass/partials/_marketing-site.scss */
 article.rates table th:first-child, article.rates table td:first-child {
   text-align: left;
   background: #f9f9f9;
 }
-/* line 2102, _sass/partials/_marketing-site.scss */
+/* line 2104, _sass/partials/_marketing-site.scss */
 article.rates table thead th,
 article.rates table thead th:first-child {
   border: 1px solid #e8e8e8;
   background-color: #efefef;
   font-weight: 600;
 }
-/* line 2108, _sass/partials/_marketing-site.scss */
+/* line 2110, _sass/partials/_marketing-site.scss */
 article.rates table thead th[colspan],
 article.rates table thead th:first-child[colspan] {
   background: #999;
   color: #fff;
 }
-/* line 2115, _sass/partials/_marketing-site.scss */
+/* line 2117, _sass/partials/_marketing-site.scss */
 article.rates table tbody tr.details td:first-child {
   border: 0;
   border-left: 2px solid #0971ce;
 }
-/* line 2123, _sass/partials/_marketing-site.scss */
+/* line 2125, _sass/partials/_marketing-site.scss */
 article.rates.northeast table thead th,
 article.rates.northeast table thead th:first-child, article.rates.georgia table thead th,
 article.rates.georgia table thead th:first-child {
