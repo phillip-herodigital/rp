@@ -517,6 +517,10 @@ article.full-html {
 			}
 			button, .button {
 				background-color: map-get($theme, primaryColor);
+				&:hover {
+					color: #fff;
+					background-color: #6b6b6b;
+				}
 			}
 		}
 	}
