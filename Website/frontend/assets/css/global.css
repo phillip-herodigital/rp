@@ -920,7 +920,7 @@ select:focus {
 /* line 52, _sass/partials/_forms.scss */
 input[type="search"] {
   padding: 0 25px 0 5px;
-  background: white url('../i/icon/search.png?1399069994') 98% 50% no-repeat;
+  background: white url('../i/icon/search.png?1398732145') 98% 50% no-repeat;
 }
 
 /* line 57, _sass/partials/_forms.scss */
@@ -933,7 +933,7 @@ textarea {
 select {
   position: relative;
   padding-right: 30px;
-  background: white url('../i/icon/select-arrow.png?1399074396') no-repeat 100% 50%;
+  background: white url('../i/icon/select-arrow.png?1398732145') no-repeat 100% 50%;
   -moz-appearance: none;
   text-indent: 0.01px;
   text-overflow: '';
@@ -2781,26 +2781,20 @@ div.tabbable div.tab-content div.tab-pane.active {
 /* line 4, _sass/partials/_header.scss */
 .site-header > .wrapper, article.state-tabs .site-header > ul.tabs-nav {
   position: relative;
-  overflow: initial;
+  overflow: visible;
 }
-@media only screen and (max-width: 767px) {
-  /* line 4, _sass/partials/_header.scss */
-  .site-header > .wrapper, article.state-tabs .site-header > ul.tabs-nav {
-    overflow: visible;
-  }
-}
-/* line 12, _sass/partials/_header.scss */
+/* line 9, _sass/partials/_header.scss */
 .site-header .logo {
   display: inline-block;
   width: 178px;
   height: 43px;
-  background-image: url('../i/logo-horizontal.png?1399074396');
+  background-image: url('../i/logo-horizontal.png?1398732145');
   background-repeat: no-repeat;
   text-indent: -5000px;
   float: left;
   margin-top: 15px;
 }
-/* line 17, _sass/partials/_header.scss */
+/* line 14, _sass/partials/_header.scss */
 .site-header .utility {
   -moz-border-radius: 0 0 5px 5px;
   -webkit-border-radius: 0;
@@ -2816,18 +2810,18 @@ div.tabbable div.tab-content div.tab-pane.active {
   font-size: 14px;
   text-transform: uppercase;
 }
-/* line 27, _sass/partials/_header.scss */
+/* line 24, _sass/partials/_header.scss */
 .site-header .utility a {
   margin-left: 25px;
   text-transform: uppercase;
 }
-/* line 32, _sass/partials/_header.scss */
+/* line 29, _sass/partials/_header.scss */
 .site-header nav.main-nav {
   float: right;
   text-align: right;
   margin: 10px 0 -1px 10px;
 }
-/* line 36, _sass/partials/_header.scss */
+/* line 33, _sass/partials/_header.scss */
 .site-header nav.main-nav > ul {
   margin: 0;
   padding: 0;
@@ -2853,17 +2847,19 @@ div.tabbable div.tab-content div.tab-pane.active {
   *display: inline;
   white-space: nowrap;
 }
-/* line 43, _sass/partials/_header.scss */
+/* line 40, _sass/partials/_header.scss */
 .site-header nav.main-nav > ul li {
   font-size: 15px;
+  line-height: 1.4;
+  /* This fixes the partial-pixel height on IE */
 }
-/* line 45, _sass/partials/_header.scss */
+/* line 43, _sass/partials/_header.scss */
 .site-header nav.main-nav > ul li a {
   display: inline-block;
   color: #737373;
   padding: 10px 17px;
 }
-/* line 50, _sass/partials/_header.scss */
+/* line 48, _sass/partials/_header.scss */
 .site-header nav.main-nav > ul li.selected a {
   -moz-border-radius: 5px 5px 0 0;
   -webkit-border-radius: 5px;
@@ -2873,14 +2869,14 @@ div.tabbable div.tab-content div.tab-pane.active {
   border: 1px solid #d9d9d9;
   border-bottom: 0;
 }
-/* line 60, _sass/partials/_header.scss */
+/* line 58, _sass/partials/_header.scss */
 .site-header nav.sub-nav {
   min-height: 50px;
   background-color: #f2f2f2;
   border-top: 1px solid #d9d9d9;
   border-bottom: 1px solid #d9d9d9;
 }
-/* line 65, _sass/partials/_header.scss */
+/* line 63, _sass/partials/_header.scss */
 .site-header nav.sub-nav > ul {
   margin: 0;
   padding: 0;
@@ -2902,7 +2898,7 @@ div.tabbable div.tab-content div.tab-pane.active {
   *display: inline;
   white-space: nowrap;
 }
-/* line 70, _sass/partials/_header.scss */
+/* line 68, _sass/partials/_header.scss */
 .site-header nav.sub-nav > ul li a {
   display: inline-block;
   color: #737373;
@@ -2913,14 +2909,14 @@ div.tabbable div.tab-content div.tab-pane.active {
   .site-header {
     height: 57px;
   }
-  /* line 80, _sass/partials/_header.scss */
+  /* line 78, _sass/partials/_header.scss */
   .site-header > .wrapper, article.state-tabs .site-header > ul.tabs-nav {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     background-color: #fff;
-    background-image: url('../i/bg/header-mobile.png?1399074396');
+    background-image: url('../i/bg/header-mobile.png?1398732145');
     background-repeat: repeat-x;
     border-bottom: 1px solid #1697ff;
     z-index: 2;
@@ -2928,20 +2924,20 @@ div.tabbable div.tab-content div.tab-pane.active {
   }
 }
 @media only screen and (max-width: 767px) and (-webkit-min-device-pixel-ratio: 2), only screen and (max-width: 767px) and (-o-min-device-pixel-ratio: 3 / 2), only screen and (max-width: 767px) and (min--moz-device-pixel-ratio: 2), only screen and (max-width: 767px) and (min-device-pixel-ratio: 2), only screen and (max-width: 767px) and (min-resolution: 144dppx) {
-  /* line 80, _sass/partials/_header.scss */
+  /* line 78, _sass/partials/_header.scss */
   .site-header > .wrapper, article.state-tabs .site-header > ul.tabs-nav {
-    background-image: url('../i/bg2x/header-mobile.png?1399069994');
+    background-image: url('../i/bg2x/header-mobile.png?1398732145');
     background-size: 11.5px 11.5px;
   }
 }
 @media only screen and (max-width: 767px) {
-  /* line 92, _sass/partials/_header.scss */
+  /* line 90, _sass/partials/_header.scss */
   .site-header .logo {
     display: inline-block;
     width: 84px;
     height: 80px;
     background-size: 84px 80px;
-    background-image: url('../i/logo.png?1399069994');
+    background-image: url('../i/logo.png?1398732145');
     background-repeat: no-repeat;
     text-indent: -5000px;
     position: absolute;
@@ -2950,15 +2946,15 @@ div.tabbable div.tab-content div.tab-pane.active {
     margin-top: 0;
     margin-left: -41.75px;
   }
-  /* line 100, _sass/partials/_header.scss */
+  /* line 98, _sass/partials/_header.scss */
   .site-header .utility {
     display: none;
   }
-  /* line 103, _sass/partials/_header.scss */
+  /* line 101, _sass/partials/_header.scss */
   .site-header .nav-toggle {
     margin-top: 22px;
   }
-  /* line 106, _sass/partials/_header.scss */
+  /* line 104, _sass/partials/_header.scss */
   .site-header .cart-toggle {
     float: right;
     margin-top: 18px;
@@ -2966,7 +2962,7 @@ div.tabbable div.tab-content div.tab-pane.active {
     opacity: 0.4;
     position: relative;
   }
-  /* line 111, _sass/partials/_header.scss */
+  /* line 109, _sass/partials/_header.scss */
   .site-header .cart-toggle span {
     position: absolute;
     top: -6px;
@@ -2975,35 +2971,35 @@ div.tabbable div.tab-content div.tab-pane.active {
     color: #000;
     font-weight: bold;
   }
-  /* line 120, _sass/partials/_header.scss */
+  /* line 118, _sass/partials/_header.scss */
   .site-header nav {
     display: none;
   }
 }
 @media only screen and (min-width: 768px) {
-  /* line 125, _sass/partials/_header.scss */
+  /* line 123, _sass/partials/_header.scss */
   .site-header .nav-toggle {
     display: none;
   }
-  /* line 128, _sass/partials/_header.scss */
+  /* line 126, _sass/partials/_header.scss */
   .site-header .cart-toggle {
     display: none;
   }
 }
 @media only screen and (min-width: 768px) {
-  /* line 133, _sass/partials/_header.scss */
+  /* line 131, _sass/partials/_header.scss */
   .site-header.fixed {
     background: #fff;
     height: 75px;
   }
-  /* line 137, _sass/partials/_header.scss */
+  /* line 135, _sass/partials/_header.scss */
   .site-header.fixed > .wrapper, article.state-tabs .site-header.fixed > ul.tabs-nav {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     background-color: #fff;
-    background-image: url('../i/bg/header-enrollment.png?1400266606');
+    background-image: url('../i/bg/header-enrollment.png?1400262111');
     background-repeat: repeat-x;
     z-index: 2;
     height: 75px;
@@ -3011,26 +3007,26 @@ div.tabbable div.tab-content div.tab-pane.active {
   }
 }
 @media only screen and (min-width: 768px) and (-webkit-min-device-pixel-ratio: 2), only screen and (min-width: 768px) and (-o-min-device-pixel-ratio: 3 / 2), only screen and (min-width: 768px) and (min--moz-device-pixel-ratio: 2), only screen and (min-width: 768px) and (min-device-pixel-ratio: 2), only screen and (min-width: 768px) and (min-resolution: 144dppx) {
-  /* line 137, _sass/partials/_header.scss */
+  /* line 135, _sass/partials/_header.scss */
   .site-header.fixed > .wrapper, article.state-tabs .site-header.fixed > ul.tabs-nav {
-    background-image: url('../i/bg2x/header-enrollment.png?1400266606');
+    background-image: url('../i/bg2x/header-enrollment.png?1400262111');
     background-size: 23px 13px;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 767px) {
-  /* line 137, _sass/partials/_header.scss */
+  /* line 135, _sass/partials/_header.scss */
   .site-header.fixed > .wrapper, article.state-tabs .site-header.fixed > ul.tabs-nav {
     background: #fff;
   }
 }
 @media only screen and (min-width: 768px) {
-  /* line 152, _sass/partials/_header.scss */
+  /* line 150, _sass/partials/_header.scss */
   .site-header.fixed .logo {
     display: inline-block;
     width: 84px;
     height: 80px;
     background-size: 84px 80px;
-    background-image: url('../i/logo.png?1399069994');
+    background-image: url('../i/logo.png?1398732145');
     background-repeat: no-repeat;
     text-indent: -5000px;
     position: absolute;
@@ -3041,19 +3037,19 @@ div.tabbable div.tab-content div.tab-pane.active {
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 767px) {
-  /* line 152, _sass/partials/_header.scss */
+  /* line 150, _sass/partials/_header.scss */
   .site-header.fixed .logo {
     margin-left: -41.75px;
   }
 }
 @media only screen and (min-width: 768px) {
-  /* line 163, _sass/partials/_header.scss */
+  /* line 161, _sass/partials/_header.scss */
   .site-header.fixed .nav-toggle {
     margin-top: 22px;
   }
 }
 
-/* line 170, _sass/partials/_header.scss */
+/* line 168, _sass/partials/_header.scss */
 .banner {
   overflow: hidden;
   margin-bottom: 20px;
@@ -3061,90 +3057,90 @@ div.tabbable div.tab-content div.tab-pane.active {
   background-position: 50%;
   background-repeat: no-repeat;
 }
-/* line 178, _sass/partials/_header.scss */
+/* line 176, _sass/partials/_header.scss */
 .banner .inner {
-  background-image: url('../i/bg/banner-bottom.png?1399074396');
+  background-image: url('../i/bg/banner-bottom.png?1398732217');
   background-repeat: repeat-x;
   background-position: 0 100%;
   /*background: image-url("bg/banner-bottom.png") 0 100% repeat-x;*/
 }
-/* line 184, _sass/partials/_header.scss */
+/* line 182, _sass/partials/_header.scss */
 .banner .wrapper, .banner article.state-tabs ul.tabs-nav, article.state-tabs .banner ul.tabs-nav {
   height: 220px;
   padding-top: 85px;
 }
-/* line 188, _sass/partials/_header.scss */
+/* line 186, _sass/partials/_header.scss */
 .banner h1 {
   font-size: 70px;
   font-weight: 100;
 }
-/* line 192, _sass/partials/_header.scss */
+/* line 190, _sass/partials/_header.scss */
 .banner h1, .banner p {
   margin: 0;
   color: #fff;
   line-height: 1;
   text-transform: uppercase;
 }
-/* line 198, _sass/partials/_header.scss */
+/* line 196, _sass/partials/_header.scss */
 .banner p {
   font-size: 32px;
   font-weight: 300;
 }
-/* line 203, _sass/partials/_header.scss */
+/* line 201, _sass/partials/_header.scss */
 .banner.large .wrapper, .banner.large article.state-tabs ul.tabs-nav, article.state-tabs .banner.large ul.tabs-nav {
   height: 325px;
   padding-top: 150px;
 }
-/* line 207, _sass/partials/_header.scss */
+/* line 205, _sass/partials/_header.scss */
 .banner.large h1, .banner.large p {
   color: #0971ce;
 }
 @media only screen and (max-width: 767px) {
-  /* line 212, _sass/partials/_header.scss */
+  /* line 210, _sass/partials/_header.scss */
   .banner .inner {
-    background-image: url('../i/bg/header-mobile.png?1399074396');
+    background-image: url('../i/bg/header-mobile.png?1398732145');
     background-repeat: repeat-x;
   }
 }
 @media only screen and (max-width: 767px) and (-webkit-min-device-pixel-ratio: 2), only screen and (max-width: 767px) and (-o-min-device-pixel-ratio: 3 / 2), only screen and (max-width: 767px) and (min--moz-device-pixel-ratio: 2), only screen and (max-width: 767px) and (min-device-pixel-ratio: 2), only screen and (max-width: 767px) and (min-resolution: 144dppx) {
-  /* line 212, _sass/partials/_header.scss */
+  /* line 210, _sass/partials/_header.scss */
   .banner .inner {
-    background-image: url('../i/bg2x/header-mobile.png?1399069994');
+    background-image: url('../i/bg2x/header-mobile.png?1398732145');
     background-size: 11.5px 11.5px;
   }
 }
 @media only screen and (max-width: 767px) {
-  /* line 216, _sass/partials/_header.scss */
+  /* line 214, _sass/partials/_header.scss */
   .banner .wrapper, .banner article.state-tabs ul.tabs-nav, article.state-tabs .banner ul.tabs-nav {
     height: 120px;
     padding-top: 50px;
   }
-  /* line 220, _sass/partials/_header.scss */
+  /* line 218, _sass/partials/_header.scss */
   .banner h1 {
     font-size: 27px;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
-  /* line 225, _sass/partials/_header.scss */
+  /* line 223, _sass/partials/_header.scss */
   .banner .inner {
-    background-image: url('../i/bg/header-mobile.png?1399074396');
+    background-image: url('../i/bg/header-mobile.png?1398732145');
     background-repeat: repeat-x;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 1024px) and (-webkit-min-device-pixel-ratio: 2), only screen and (min-width: 768px) and (max-width: 1024px) and (-o-min-device-pixel-ratio: 3 / 2), only screen and (min-width: 768px) and (max-width: 1024px) and (min--moz-device-pixel-ratio: 2), only screen and (min-width: 768px) and (max-width: 1024px) and (min-device-pixel-ratio: 2), only screen and (min-width: 768px) and (max-width: 1024px) and (min-resolution: 144dppx) {
-  /* line 225, _sass/partials/_header.scss */
+  /* line 223, _sass/partials/_header.scss */
   .banner .inner {
-    background-image: url('../i/bg2x/header-mobile.png?1399069994');
+    background-image: url('../i/bg2x/header-mobile.png?1398732145');
     background-size: 11.5px 11.5px;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
-  /* line 229, _sass/partials/_header.scss */
+  /* line 227, _sass/partials/_header.scss */
   .banner .wrapper, .banner article.state-tabs ul.tabs-nav, article.state-tabs .banner ul.tabs-nav {
     height: 180px;
     padding-top: 70px;
   }
-  /* line 233, _sass/partials/_header.scss */
+  /* line 231, _sass/partials/_header.scss */
   .banner h1 {
     font-size: 50px;
   }
@@ -3156,7 +3152,7 @@ div.tabbable div.tab-content div.tab-pane.active {
 }
 /* line 3, _sass/partials/_footer.scss */
 .site-footer .super-footer {
-  background: #0971ce url('../i/bg/footer-top-border.png?1399069994') repeat-x top left;
+  background: #0971ce url('../i/bg/footer-top-border.png?1398732145') repeat-x top left;
   padding-top: 10px;
   color: #b4b4b4;
 }
@@ -3267,16 +3263,23 @@ div.tabbable div.tab-content div.tab-pane.active {
   list-style-type: none;
 }
 /* line 103, _sass/partials/_footer.scss */
+.site-footer div.footnotes {
+  color: #b4b4b4;
+  font-size: 10px;
+  margin-bottom: -2em;
+  padding: 0;
+}
+/* line 109, _sass/partials/_footer.scss */
 .site-footer div.copyright {
   padding: 20px 0;
 }
-/* line 105, _sass/partials/_footer.scss */
+/* line 111, _sass/partials/_footer.scss */
 .site-footer div.copyright p {
   float: left;
   color: #b4b4b4;
   font-size: 10px;
 }
-/* line 110, _sass/partials/_footer.scss */
+/* line 116, _sass/partials/_footer.scss */
 .site-footer div.copyright ul {
   margin: 0;
   padding: 0;
@@ -3297,40 +3300,40 @@ div.tabbable div.tab-content div.tab-pane.active {
   *display: inline;
   white-space: nowrap;
 }
-/* line 116, _sass/partials/_footer.scss */
+/* line 122, _sass/partials/_footer.scss */
 .site-footer div.legal {
   padding: .75em 0;
   background: #999;
   font-size: 80%;
   text-align: center;
 }
-/* line 121, _sass/partials/_footer.scss */
+/* line 127, _sass/partials/_footer.scss */
 .site-footer div.legal ul {
   display: inline;
   margin: 0;
   padding: 0;
   list-style: none;
 }
-/* line 126, _sass/partials/_footer.scss */
+/* line 132, _sass/partials/_footer.scss */
 .site-footer div.legal ul li {
   display: inline;
   border-left: 1px solid #bbb;
   padding: 0 1em;
 }
-/* line 130, _sass/partials/_footer.scss */
+/* line 136, _sass/partials/_footer.scss */
 .site-footer div.legal ul li a {
   color: #fff;
 }
-/* line 134, _sass/partials/_footer.scss */
+/* line 140, _sass/partials/_footer.scss */
 .site-footer div.legal ul li:first-child {
   border: none;
 }
 
-/* line 142, _sass/partials/_footer.scss */
+/* line 148, _sass/partials/_footer.scss */
 .ie8 .site-footer .super-footer {
   padding: 30px 0 60px 0;
 }
-/* line 144, _sass/partials/_footer.scss */
+/* line 150, _sass/partials/_footer.scss */
 .ie8 .site-footer .super-footer .col {
   float: left;
   width: 33%;
@@ -4070,11 +4073,11 @@ aside article.promo p {
 }
 /* line 638, _sass/partials/_modules.scss */
 aside article.promo.renew {
-  background-image: url('../i/renew-promo.png?1399074396');
+  background-image: url('../i/renew-promo.png?1398732217');
 }
 /* line 641, _sass/partials/_modules.scss */
 aside article.promo.paperless {
-  background-image: url('../i/paperless-promo.jpg?1399069994');
+  background-image: url('../i/paperless-promo.jpg?1398732145');
 }
 /* line 644, _sass/partials/_modules.scss */
 aside article.promo.paperless h1 {
@@ -4268,7 +4271,7 @@ article.photoLockup .text .lead {
 /* line 82, _sass/partials/_marketing-site.scss */
 article.photoLockup .text blockquote {
   margin: 0;
-  background: url('../i/marketing/quote-left.png?1399069994') no-repeat;
+  background: url('../i/marketing/quote-left.png?1398732145') no-repeat;
 }
 /* line 85, _sass/partials/_marketing-site.scss */
 article.photoLockup .text blockquote p:first-child {
@@ -4276,7 +4279,7 @@ article.photoLockup .text blockquote p:first-child {
 }
 /* line 88, _sass/partials/_marketing-site.scss */
 article.photoLockup .text blockquote p:last-child {
-  background: url('../i/marketing/quote-right.png?1399069994') no-repeat 100% 100%;
+  background: url('../i/marketing/quote-right.png?1398732145') no-repeat 100% 100%;
   padding: 10px 10px 0 10px;
   font-size: 18px;
   line-height: 1.8em;
@@ -5879,12 +5882,12 @@ article.state-tabs ul.tabs-nav li a span {
   margin: 0 auto;
   width: 82px;
   height: 84px;
-  background-image: url('../i/bg/state-tabs.png?1399074396');
+  background-image: url('../i/bg/state-tabs.png?1398732145');
 }
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 534, _sass/partials/_marketing-site.scss */
   article.state-tabs ul.tabs-nav li a span {
-    background-image: url('../i/bg2x/state-tabs.png?1399074396');
+    background-image: url('../i/bg2x/state-tabs.png?1398732145');
     background-size: 82px 84px;
   }
 }
@@ -7095,48 +7098,60 @@ article.identity-theft .semibold {
   font-weight: 600;
 }
 /* line 1504, _sass/partials/_marketing-site.scss */
-article.identity-theft ul.credit-bureaus {
+article.identity-theft .credit-bureaus {
   padding-left: 0;
 }
 /* line 1506, _sass/partials/_marketing-site.scss */
-article.identity-theft ul.credit-bureaus li {
+article.identity-theft .credit-bureaus li {
   float: left;
   width: 33%;
   list-style-type: none;
   text-align: center;
 }
-/* line 1513, _sass/partials/_marketing-site.scss */
+@media only screen and (max-width: 767px) {
+  /* line 1515, _sass/partials/_marketing-site.scss */
+  article.identity-theft .credit-bureaus li {
+    float: none;
+    width: 100%;
+    margin-bottom: 30px;
+  }
+  /* line 1519, _sass/partials/_marketing-site.scss */
+  article.identity-theft .credit-bureaus li:last-child {
+    margin-bottom: 0;
+  }
+}
+/* line 1525, _sass/partials/_marketing-site.scss */
 article.identity-theft .phishing-image img {
   max-width: 100%;
 }
 
-/* line 1519, _sass/partials/_marketing-site.scss */
+/* line 1531, _sass/partials/_marketing-site.scss */
 article.why-energy .paragraph {
   margin: 20px auto;
   width: 60%;
   text-align: center;
 }
-/* line 1523, _sass/partials/_marketing-site.scss */
+/* line 1535, _sass/partials/_marketing-site.scss */
 article.why-energy .paragraph span {
   color: #ac1f2d;
 }
-/* line 1526, _sass/partials/_marketing-site.scss */
+/* line 1538, _sass/partials/_marketing-site.scss */
 article.why-energy .paragraph.promo {
   font-size: 20px;
 }
-/* line 1530, _sass/partials/_marketing-site.scss */
+/* line 1542, _sass/partials/_marketing-site.scss */
 article.why-energy .paragraph.joining-info p button {
   background-color: #ac1f2d;
 }
-/* line 1532, _sass/partials/_marketing-site.scss */
+/* line 1544, _sass/partials/_marketing-site.scss */
 article.why-energy .paragraph.joining-info p button:hover {
   background-color: #6b6b6b;
 }
-/* line 1535, _sass/partials/_marketing-site.scss */
+/* line 1547, _sass/partials/_marketing-site.scss */
 article.why-energy .paragraph.joining-info p button a {
   color: #fff;
 }
-/* line 1541, _sass/partials/_marketing-site.scss */
+/* line 1553, _sass/partials/_marketing-site.scss */
 article.why-energy .banner {
   background-image: url("../i/marketing/why-energy-banner.jpg");
   background-repeat: no-repeat;
@@ -7144,54 +7159,54 @@ article.why-energy .banner {
   height: 300px;
 }
 
-/* line 1550, _sass/partials/_marketing-site.scss */
+/* line 1562, _sass/partials/_marketing-site.scss */
 article.commercial-quote .text {
   border-left: 3px solid #ffa409;
   width: 50%;
   background-color: #0971ce;
 }
-/* line 1554, _sass/partials/_marketing-site.scss */
+/* line 1566, _sass/partials/_marketing-site.scss */
 article.commercial-quote .text .inner {
   color: #fff;
 }
-/* line 1556, _sass/partials/_marketing-site.scss */
+/* line 1568, _sass/partials/_marketing-site.scss */
 article.commercial-quote .text .inner h2 {
   color: #fff;
   font-size: 24px;
 }
-/* line 1560, _sass/partials/_marketing-site.scss */
+/* line 1572, _sass/partials/_marketing-site.scss */
 article.commercial-quote .text .inner button {
   background-color: #fff;
 }
-/* line 1562, _sass/partials/_marketing-site.scss */
+/* line 1574, _sass/partials/_marketing-site.scss */
 article.commercial-quote .text .inner button a {
   color: #333;
 }
-/* line 1565, _sass/partials/_marketing-site.scss */
+/* line 1577, _sass/partials/_marketing-site.scss */
 article.commercial-quote .text .inner button:hover {
   background-color: #ebebeb;
 }
-/* line 1569, _sass/partials/_marketing-site.scss */
+/* line 1581, _sass/partials/_marketing-site.scss */
 article.commercial-quote .text .inner input,
 article.commercial-quote .text .inner select {
   width: 100%;
 }
-/* line 1575, _sass/partials/_marketing-site.scss */
+/* line 1587, _sass/partials/_marketing-site.scss */
 article.commercial-quote .wrapper, article.commercial-quote article.state-tabs ul.tabs-nav, article.state-tabs article.commercial-quote ul.tabs-nav {
   padding: 40px 0 30px 0;
 }
-/* line 1578, _sass/partials/_marketing-site.scss */
+/* line 1590, _sass/partials/_marketing-site.scss */
 article.commercial-quote .success-message {
   margin: 20px 0;
   background-color: #e8e8e8;
   border-bottom: 3px solid #fda32b;
 }
-/* line 1582, _sass/partials/_marketing-site.scss */
+/* line 1594, _sass/partials/_marketing-site.scss */
 article.commercial-quote .success-message h2 {
   font-size: 30px;
   text-align: center;
 }
-/* line 1586, _sass/partials/_marketing-site.scss */
+/* line 1598, _sass/partials/_marketing-site.scss */
 article.commercial-quote .success-message h4 {
   text-align: center;
   text-transform: none;
@@ -7200,141 +7215,141 @@ article.commercial-quote .success-message h4 {
   line-height: 1.1;
 }
 
-/* line 1597, _sass/partials/_marketing-site.scss */
+/* line 1609, _sass/partials/_marketing-site.scss */
 article.commercial-account-banner .account-banner {
   background-color: #0971ce;
 }
-/* line 1599, _sass/partials/_marketing-site.scss */
+/* line 1611, _sass/partials/_marketing-site.scss */
 article.commercial-account-banner .account-banner p {
   padding: 15px 0;
 }
-/* line 1601, _sass/partials/_marketing-site.scss */
+/* line 1613, _sass/partials/_marketing-site.scss */
 article.commercial-account-banner .account-banner p button {
   background-color: #fff;
   color: #0971ce;
   margin: auto;
   display: block;
 }
-/* line 1606, _sass/partials/_marketing-site.scss */
+/* line 1618, _sass/partials/_marketing-site.scss */
 article.commercial-account-banner .account-banner p button:hover {
   background-color: #ccc;
 }
 
-/* line 1614, _sass/partials/_marketing-site.scss */
+/* line 1626, _sass/partials/_marketing-site.scss */
 article.free-energy {
   margin-top: 20px;
 }
-/* line 1616, _sass/partials/_marketing-site.scss */
+/* line 1628, _sass/partials/_marketing-site.scss */
 article.free-energy img {
   margin: auto;
   display: block;
   float: left;
 }
-/* line 1621, _sass/partials/_marketing-site.scss */
+/* line 1633, _sass/partials/_marketing-site.scss */
 article.free-energy h3 {
   text-transform: none;
   margin-bottom: 30px;
 }
-/* line 1625, _sass/partials/_marketing-site.scss */
+/* line 1637, _sass/partials/_marketing-site.scss */
 article.free-energy p {
   font-size: 21px;
   line-height: 1.3;
 }
-/* line 1630, _sass/partials/_marketing-site.scss */
+/* line 1642, _sass/partials/_marketing-site.scss */
 article.free-energy .how-it-works img {
   margin: 0px 30px 0px 0px;
 }
-/* line 1633, _sass/partials/_marketing-site.scss */
+/* line 1645, _sass/partials/_marketing-site.scss */
 article.free-energy .how-it-works h1 {
   line-height: 1;
 }
-/* line 1636, _sass/partials/_marketing-site.scss */
+/* line 1648, _sass/partials/_marketing-site.scss */
 article.free-energy .how-it-works p {
   line-height: 1;
 }
 
-/* line 1642, _sass/partials/_marketing-site.scss */
+/* line 1654, _sass/partials/_marketing-site.scss */
 article.free-energy.picture-promo {
   background-image: url("../i/marketing/free-energy.jpg");
   background-repeat: no-repeat;
   background-position: center;
 }
-/* line 1646, _sass/partials/_marketing-site.scss */
+/* line 1658, _sass/partials/_marketing-site.scss */
 article.free-energy.picture-promo .promo-content {
   color: #fff;
   width: 335px;
   margin-left: 100px;
   padding: 320px 0 50px 0;
 }
-/* line 1651, _sass/partials/_marketing-site.scss */
+/* line 1663, _sass/partials/_marketing-site.scss */
 article.free-energy.picture-promo .promo-content h2 {
   color: #fff;
   line-height: 28px;
 }
-/* line 1654, _sass/partials/_marketing-site.scss */
+/* line 1666, _sass/partials/_marketing-site.scss */
 article.free-energy.picture-promo .promo-content h2 .big {
   font-size: 31px;
 }
 
-/* line 1661, _sass/partials/_marketing-site.scss */
+/* line 1673, _sass/partials/_marketing-site.scss */
 article.enroll {
   margin-top: 20px;
 }
-/* line 1663, _sass/partials/_marketing-site.scss */
+/* line 1675, _sass/partials/_marketing-site.scss */
 article.enroll .text {
   padding: 25px 0;
 }
-/* line 1665, _sass/partials/_marketing-site.scss */
+/* line 1677, _sass/partials/_marketing-site.scss */
 article.enroll .text h3 {
   font-size: 32px;
   line-height: 1.1;
 }
 
-/* line 1673, _sass/partials/_marketing-site.scss */
+/* line 1685, _sass/partials/_marketing-site.scss */
 article.service-icons .grid .col {
   padding: 0;
 }
 
-/* line 1679, _sass/partials/_marketing-site.scss */
+/* line 1691, _sass/partials/_marketing-site.scss */
 article.terms-of-use .write-to {
   width: 70%;
   text-align: center;
   margin: auto;
 }
-/* line 1684, _sass/partials/_marketing-site.scss */
+/* line 1696, _sass/partials/_marketing-site.scss */
 article.terms-of-use ul {
   padding: 0 80px;
 }
-/* line 1686, _sass/partials/_marketing-site.scss */
+/* line 1698, _sass/partials/_marketing-site.scss */
 article.terms-of-use ul li {
   list-style-type: none;
 }
-/* line 1688, _sass/partials/_marketing-site.scss */
+/* line 1700, _sass/partials/_marketing-site.scss */
 article.terms-of-use ul li p {
   margin-left: 20px;
 }
-/* line 1692, _sass/partials/_marketing-site.scss */
+/* line 1704, _sass/partials/_marketing-site.scss */
 article.terms-of-use ul h3 {
   color: #0971ce;
 }
-/* line 1695, _sass/partials/_marketing-site.scss */
+/* line 1707, _sass/partials/_marketing-site.scss */
 article.terms-of-use ul span {
   text-transform: uppercase;
 }
 @media only screen and (max-width: 767px) {
-  /* line 1700, _sass/partials/_marketing-site.scss */
+  /* line 1712, _sass/partials/_marketing-site.scss */
   article.terms-of-use ul {
     padding: 0 20px;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
-  /* line 1705, _sass/partials/_marketing-site.scss */
+  /* line 1717, _sass/partials/_marketing-site.scss */
   article.terms-of-use ul {
     padding: 0 40px;
   }
 }
 
-/* line 1711, _sass/partials/_marketing-site.scss */
+/* line 1723, _sass/partials/_marketing-site.scss */
 article.energy-certificates {
   background-image: url("../i/marketing/energy-certificates.jpg");
   background-repeat: no-repeat;
@@ -7343,89 +7358,89 @@ article.energy-certificates {
   border-top: 3px solid #7eb24c;
   border-bottom: 3px solid #862134;
 }
-/* line 1718, _sass/partials/_marketing-site.scss */
+/* line 1730, _sass/partials/_marketing-site.scss */
 article.energy-certificates div {
   width: 335px;
   float: right;
   margin: 50px 50px 0 0;
 }
-/* line 1722, _sass/partials/_marketing-site.scss */
+/* line 1734, _sass/partials/_marketing-site.scss */
 article.energy-certificates div button {
   background-color: #2c3e50;
   box-shadow: 0 2px #7eb24c;
 }
-/* line 1725, _sass/partials/_marketing-site.scss */
+/* line 1737, _sass/partials/_marketing-site.scss */
 article.energy-certificates div button a {
   color: #fff;
 }
-/* line 1728, _sass/partials/_marketing-site.scss */
+/* line 1740, _sass/partials/_marketing-site.scss */
 article.energy-certificates div button:hover {
   background-color: #6b6b6b;
 }
 
-/* line 1735, _sass/partials/_marketing-site.scss */
+/* line 1747, _sass/partials/_marketing-site.scss */
 article.ignite-associate {
   text-align: center;
   margin: 50px 0;
 }
-/* line 1738, _sass/partials/_marketing-site.scss */
+/* line 1750, _sass/partials/_marketing-site.scss */
 article.ignite-associate button {
   background-color: #a9222d;
 }
-/* line 1740, _sass/partials/_marketing-site.scss */
+/* line 1752, _sass/partials/_marketing-site.scss */
 article.ignite-associate button a {
   color: #fff;
 }
-/* line 1743, _sass/partials/_marketing-site.scss */
+/* line 1755, _sass/partials/_marketing-site.scss */
 article.ignite-associate button:hover {
   background-color: #6b6b6b;
 }
 
-/* line 1749, _sass/partials/_marketing-site.scss */
+/* line 1761, _sass/partials/_marketing-site.scss */
 article.independent-associate-chart {
   text-align: center;
 }
-/* line 1751, _sass/partials/_marketing-site.scss */
+/* line 1763, _sass/partials/_marketing-site.scss */
 article.independent-associate-chart h2 {
   background-color: #ac1f2d;
   padding: 20px 0;
   font-size: 24px;
   color: #fff;
 }
-/* line 1757, _sass/partials/_marketing-site.scss */
+/* line 1769, _sass/partials/_marketing-site.scss */
 article.independent-associate-chart img {
   margin: 20px 0;
   max-width: 100%;
 }
 
-/* line 1764, _sass/partials/_marketing-site.scss */
+/* line 1776, _sass/partials/_marketing-site.scss */
 article.residual-income h3 {
   float: left;
   margin-right: 10px;
 }
-/* line 1768, _sass/partials/_marketing-site.scss */
+/* line 1780, _sass/partials/_marketing-site.scss */
 article.residual-income img {
   max-width: 100%;
 }
-/* line 1771, _sass/partials/_marketing-site.scss */
+/* line 1783, _sass/partials/_marketing-site.scss */
 article.residual-income .footnotes {
   font-size: 10px;
 }
-/* line 1774, _sass/partials/_marketing-site.scss */
+/* line 1786, _sass/partials/_marketing-site.scss */
 article.residual-income button {
   background-color: #a9222d;
   float: right;
 }
-/* line 1777, _sass/partials/_marketing-site.scss */
+/* line 1789, _sass/partials/_marketing-site.scss */
 article.residual-income button a {
   color: #fff;
 }
-/* line 1780, _sass/partials/_marketing-site.scss */
+/* line 1792, _sass/partials/_marketing-site.scss */
 article.residual-income button:hover {
   background-color: #6b6b6b;
 }
 
-/* line 1787, _sass/partials/_marketing-site.scss */
+/* line 1799, _sass/partials/_marketing-site.scss */
 article.electricity-gas p {
   font-size: 22px;
   text-align: center;
@@ -7433,63 +7448,63 @@ article.electricity-gas p {
   margin-right: auto;
   margin-left: auto;
 }
-/* line 1793, _sass/partials/_marketing-site.scss */
+/* line 1805, _sass/partials/_marketing-site.scss */
 article.electricity-gas p span {
   color: #0971ce;
 }
-/* line 1796, _sass/partials/_marketing-site.scss */
+/* line 1808, _sass/partials/_marketing-site.scss */
 article.electricity-gas p button {
   margin: auto;
   background-color: #76bd1d;
   font-size: 24px;
   padding: 10px;
 }
-/* line 1801, _sass/partials/_marketing-site.scss */
+/* line 1813, _sass/partials/_marketing-site.scss */
 article.electricity-gas p button:hover {
   background-color: #6b6b6b;
 }
-/* line 1804, _sass/partials/_marketing-site.scss */
+/* line 1816, _sass/partials/_marketing-site.scss */
 article.electricity-gas p button a {
   color: #fff;
 }
-/* line 1809, _sass/partials/_marketing-site.scss */
+/* line 1821, _sass/partials/_marketing-site.scss */
 article.electricity-gas hr {
   border: 2px solid #f0f0f0;
   margin: 40px 0;
 }
-/* line 1813, _sass/partials/_marketing-site.scss */
+/* line 1825, _sass/partials/_marketing-site.scss */
 article.electricity-gas img {
   max-width: 100%;
   padding-bottom: 25px;
 }
-/* line 1817, _sass/partials/_marketing-site.scss */
+/* line 1829, _sass/partials/_marketing-site.scss */
 article.electricity-gas .gas-chart {
   border-bottom: 3px solid #76bd1d;
 }
 
-/* line 1823, _sass/partials/_marketing-site.scss */
+/* line 1835, _sass/partials/_marketing-site.scss */
 article.privacy-policy .intro-paragraph {
   text-align: center;
 }
-/* line 1826, _sass/partials/_marketing-site.scss */
+/* line 1838, _sass/partials/_marketing-site.scss */
 article.privacy-policy hr {
   width: 60%;
   border: 1px solid #f0f0f0;
   margin: 40px auto;
 }
-/* line 1831, _sass/partials/_marketing-site.scss */
+/* line 1843, _sass/partials/_marketing-site.scss */
 article.privacy-policy h2 {
   margin-top: 30px;
 }
-/* line 1834, _sass/partials/_marketing-site.scss */
+/* line 1846, _sass/partials/_marketing-site.scss */
 article.privacy-policy .indented {
   margin-left: 40px;
 }
-/* line 1836, _sass/partials/_marketing-site.scss */
+/* line 1848, _sass/partials/_marketing-site.scss */
 article.privacy-policy .indented ul {
   list-style: none;
 }
-/* line 1838, _sass/partials/_marketing-site.scss */
+/* line 1850, _sass/partials/_marketing-site.scss */
 article.privacy-policy .indented ul li {
   background-image: url("../i/marketing/blue-bullet.png");
   background-repeat: no-repeat;
@@ -7497,15 +7512,15 @@ article.privacy-policy .indented ul li {
   padding-left: 25px;
 }
 
-/* line 1849, _sass/partials/_marketing-site.scss */
+/* line 1861, _sass/partials/_marketing-site.scss */
 article.earn-free-energy .intro-paragraph {
   text-align: center;
 }
-/* line 1852, _sass/partials/_marketing-site.scss */
+/* line 1864, _sass/partials/_marketing-site.scss */
 article.earn-free-energy p {
   font-size: 26px;
 }
-/* line 1855, _sass/partials/_marketing-site.scss */
+/* line 1867, _sass/partials/_marketing-site.scss */
 article.earn-free-energy .full-image {
   background-image: url("../i/marketing/free-energy-start-earning.jpg");
   background-repeat: no-repeat;
@@ -7513,17 +7528,17 @@ article.earn-free-energy .full-image {
   height: 300px;
   border-top: 3px solid #999;
 }
-/* line 1862, _sass/partials/_marketing-site.scss */
+/* line 1874, _sass/partials/_marketing-site.scss */
 article.earn-free-energy .enhance {
   text-align: center;
 }
-/* line 1864, _sass/partials/_marketing-site.scss */
+/* line 1876, _sass/partials/_marketing-site.scss */
 article.earn-free-energy .enhance h2 {
   font-size: 40px;
   margin-top: 40px;
 }
 
-/* line 1872, _sass/partials/_marketing-site.scss */
+/* line 1884, _sass/partials/_marketing-site.scss */
 article.manage-my-account .left-column {
   width: 35%;
   border-right: 1px solid #cfcfcf;
@@ -7531,7 +7546,7 @@ article.manage-my-account .left-column {
   float: left;
 }
 @media only screen and (max-width: 767px) {
-  /* line 1872, _sass/partials/_marketing-site.scss */
+  /* line 1884, _sass/partials/_marketing-site.scss */
   article.manage-my-account .left-column {
     width: 100%;
     border-right: none;
@@ -7539,50 +7554,50 @@ article.manage-my-account .left-column {
     padding: 0;
   }
 }
-/* line 1884, _sass/partials/_marketing-site.scss */
+/* line 1896, _sass/partials/_marketing-site.scss */
 article.manage-my-account .right-column {
   width: 65%;
   float: right;
   padding-left: 40px;
 }
-/* line 1888, _sass/partials/_marketing-site.scss */
+/* line 1900, _sass/partials/_marketing-site.scss */
 article.manage-my-account .right-column img {
   float: left;
 }
-/* line 1891, _sass/partials/_marketing-site.scss */
+/* line 1903, _sass/partials/_marketing-site.scss */
 article.manage-my-account .right-column h3 {
   float: left;
   margin: 25px 0 0 10px;
   color: #76BD1D;
 }
-/* line 1896, _sass/partials/_marketing-site.scss */
+/* line 1908, _sass/partials/_marketing-site.scss */
 article.manage-my-account .right-column .states {
   float: left;
   margin: 20px 40px 0 0;
 }
-/* line 1899, _sass/partials/_marketing-site.scss */
+/* line 1911, _sass/partials/_marketing-site.scss */
 article.manage-my-account .right-column .states input {
   margin-bottom: 15px;
 }
-/* line 1903, _sass/partials/_marketing-site.scss */
+/* line 1915, _sass/partials/_marketing-site.scss */
 article.manage-my-account .right-column .input-fields {
   float: left;
 }
-/* line 1905, _sass/partials/_marketing-site.scss */
+/* line 1917, _sass/partials/_marketing-site.scss */
 article.manage-my-account .right-column .input-fields div {
   margin-top: 10px;
 }
-/* line 1909, _sass/partials/_marketing-site.scss */
+/* line 1921, _sass/partials/_marketing-site.scss */
 article.manage-my-account .right-column .login {
   margin: 10px 0 0 20px;
   float: left;
 }
-/* line 1912, _sass/partials/_marketing-site.scss */
+/* line 1924, _sass/partials/_marketing-site.scss */
 article.manage-my-account .right-column .login button {
   background-color: #76BD1D;
 }
 @media only screen and (max-width: 767px) {
-  /* line 1884, _sass/partials/_marketing-site.scss */
+  /* line 1896, _sass/partials/_marketing-site.scss */
   article.manage-my-account .right-column {
     width: 100%;
     margin: 20px auto;
@@ -7590,47 +7605,47 @@ article.manage-my-account .right-column .login button {
   }
 }
 
-/* line 1924, _sass/partials/_marketing-site.scss */
+/* line 1936, _sass/partials/_marketing-site.scss */
 article.manage-free-energy {
   background-image: url("../i/marketing/free-energy-pic.jpg");
   height: 399px;
 }
-/* line 1927, _sass/partials/_marketing-site.scss */
+/* line 1939, _sass/partials/_marketing-site.scss */
 article.manage-free-energy .left-column {
   float: left;
   width: 55%;
   margin-top: 30px;
 }
-/* line 1931, _sass/partials/_marketing-site.scss */
+/* line 1943, _sass/partials/_marketing-site.scss */
 article.manage-free-energy .left-column p {
   width: 70%;
   color: #fff;
   margin-top: 60px;
 }
 @media only screen and (max-width: 767px) {
-  /* line 1931, _sass/partials/_marketing-site.scss */
+  /* line 1943, _sass/partials/_marketing-site.scss */
   article.manage-free-energy .left-column p {
     width: 80%;
   }
 }
-/* line 1940, _sass/partials/_marketing-site.scss */
+/* line 1952, _sass/partials/_marketing-site.scss */
 article.manage-free-energy .right-column {
   float: right;
   background-color: #003366;
   width: 45%;
   height: 399px;
 }
-/* line 1945, _sass/partials/_marketing-site.scss */
+/* line 1957, _sass/partials/_marketing-site.scss */
 article.manage-free-energy .right-column .center {
   text-align: center;
 }
-/* line 1947, _sass/partials/_marketing-site.scss */
+/* line 1959, _sass/partials/_marketing-site.scss */
 article.manage-free-energy .right-column .center button {
   box-shadow: 0 2px #3e8bcb;
   background-color: #ffa409;
   margin: 150px 0 20px 0;
 }
-/* line 1952, _sass/partials/_marketing-site.scss */
+/* line 1964, _sass/partials/_marketing-site.scss */
 article.manage-free-energy .right-column .center p {
   width: 50%;
   margin-left: auto;
@@ -7638,55 +7653,55 @@ article.manage-free-energy .right-column .center p {
   color: #fff;
 }
 @media only screen and (max-width: 767px) {
-  /* line 1952, _sass/partials/_marketing-site.scss */
+  /* line 1964, _sass/partials/_marketing-site.scss */
   article.manage-free-energy .right-column .center p {
     width: 75%;
   }
 }
 
-/* line 1965, _sass/partials/_marketing-site.scss */
+/* line 1977, _sass/partials/_marketing-site.scss */
 article.manage-services {
   background-color: #7D9AB4;
 }
-/* line 1967, _sass/partials/_marketing-site.scss */
+/* line 1979, _sass/partials/_marketing-site.scss */
 article.manage-services .text {
   color: #fff;
   float: left;
   margin-bottom: 75px;
 }
-/* line 1971, _sass/partials/_marketing-site.scss */
+/* line 1983, _sass/partials/_marketing-site.scss */
 article.manage-services .text .inner {
   float: right;
 }
-/* line 1973, _sass/partials/_marketing-site.scss */
+/* line 1985, _sass/partials/_marketing-site.scss */
 article.manage-services .text .inner span {
   text-transform: uppercase;
 }
 @media only screen and (max-width: 1024px) {
-  /* line 1967, _sass/partials/_marketing-site.scss */
+  /* line 1979, _sass/partials/_marketing-site.scss */
   article.manage-services .text {
     width: 100%;
     float: none;
     padding: 10px;
     margin-bottom: 0;
   }
-  /* line 1982, _sass/partials/_marketing-site.scss */
+  /* line 1994, _sass/partials/_marketing-site.scss */
   article.manage-services .text .inner {
     float: none;
     max-width: 100%;
   }
 }
-/* line 1988, _sass/partials/_marketing-site.scss */
+/* line 2000, _sass/partials/_marketing-site.scss */
 article.manage-services .photo {
   background-image: url("../i/marketing/manage-services.jpg");
   background-repeat: no-repeat;
   right: 0;
 }
-/* line 1992, _sass/partials/_marketing-site.scss */
+/* line 2004, _sass/partials/_marketing-site.scss */
 article.manage-services .photo ul {
   padding-left: 5px;
 }
-/* line 1994, _sass/partials/_marketing-site.scss */
+/* line 2006, _sass/partials/_marketing-site.scss */
 article.manage-services .photo ul li {
   list-style-type: none;
   float: left;
@@ -7695,13 +7710,13 @@ article.manage-services .photo ul li {
   border-right: 1px solid #cfcece;
   padding: 30px 5px 30px 0;
 }
-/* line 2001, _sass/partials/_marketing-site.scss */
+/* line 2013, _sass/partials/_marketing-site.scss */
 article.manage-services .photo ul li:last-child {
   border-right: none;
   padding-right: 0;
   margin-right: 0;
 }
-/* line 2006, _sass/partials/_marketing-site.scss */
+/* line 2018, _sass/partials/_marketing-site.scss */
 article.manage-services .photo ul li a .box {
   background-color: #7D9AB4;
   border-radius: 10px;
@@ -7709,36 +7724,36 @@ article.manage-services .photo ul li a .box {
   height: 70px;
   width: 160px;
 }
-/* line 2012, _sass/partials/_marketing-site.scss */
+/* line 2024, _sass/partials/_marketing-site.scss */
 article.manage-services .photo ul li a .box p {
   text-transform: uppercase;
   padding: 3px;
   color: #fff;
 }
-/* line 2016, _sass/partials/_marketing-site.scss */
+/* line 2028, _sass/partials/_marketing-site.scss */
 article.manage-services .photo ul li a .box p:hover {
   color: #064985;
   text-decoration: underline;
 }
-/* line 2021, _sass/partials/_marketing-site.scss */
+/* line 2033, _sass/partials/_marketing-site.scss */
 article.manage-services .photo ul li a .box.tech-support {
   background-color: #b68889;
 }
-/* line 2024, _sass/partials/_marketing-site.scss */
+/* line 2036, _sass/partials/_marketing-site.scss */
 article.manage-services .photo ul li a .box.credit-monitoring {
   background-color: #8ea173;
 }
-/* line 2030, _sass/partials/_marketing-site.scss */
+/* line 2042, _sass/partials/_marketing-site.scss */
 article.manage-services .photo p.sign-up {
   margin-left: 5px;
 }
-/* line 2032, _sass/partials/_marketing-site.scss */
+/* line 2044, _sass/partials/_marketing-site.scss */
 article.manage-services .photo p.sign-up a:hover {
   color: #064985;
   text-decoration: underline;
 }
 @media only screen and (max-width: 1024px) {
-  /* line 1988, _sass/partials/_marketing-site.scss */
+  /* line 2000, _sass/partials/_marketing-site.scss */
   article.manage-services .photo {
     background-size: cover;
     width: 100%;
@@ -7748,67 +7763,67 @@ article.manage-services .photo p.sign-up a:hover {
   }
 }
 @media only screen and (max-width: 767px) {
-  /* line 1988, _sass/partials/_marketing-site.scss */
+  /* line 2000, _sass/partials/_marketing-site.scss */
   article.manage-services .photo {
     background-image: none;
     background-color: #fff;
   }
-  /* line 2047, _sass/partials/_marketing-site.scss */
+  /* line 2059, _sass/partials/_marketing-site.scss */
   article.manage-services .photo ul li {
     width: 100%;
     margin-top: 0;
   }
-  /* line 2050, _sass/partials/_marketing-site.scss */
+  /* line 2062, _sass/partials/_marketing-site.scss */
   article.manage-services .photo ul li a .box {
     margin: auto;
   }
 }
 
-/* line 2059, _sass/partials/_marketing-site.scss */
+/* line 2071, _sass/partials/_marketing-site.scss */
 article.marketing div.wrapper div.historical-rates {
   overflow: scroll;
 }
-/* line 2061, _sass/partials/_marketing-site.scss */
+/* line 2073, _sass/partials/_marketing-site.scss */
 article.marketing div.wrapper div.historical-rates table tr td {
   text-align: center;
 }
-/* line 2063, _sass/partials/_marketing-site.scss */
+/* line 2075, _sass/partials/_marketing-site.scss */
 article.marketing div.wrapper div.historical-rates table tr td:nth-child(even) {
   background-color: #c2ddf5;
 }
-/* line 2066, _sass/partials/_marketing-site.scss */
+/* line 2078, _sass/partials/_marketing-site.scss */
 article.marketing div.wrapper div.historical-rates table tr td:nth-child(odd), article.marketing div.wrapper div.historical-rates table tr td.odd {
   background-color: #e8f2fa;
 }
-/* line 2070, _sass/partials/_marketing-site.scss */
+/* line 2082, _sass/partials/_marketing-site.scss */
 article.marketing div.wrapper div.historical-rates table tr td.even {
   background-color: #c2ddf5;
 }
 
-/* line 2080, _sass/partials/_marketing-site.scss */
+/* line 2092, _sass/partials/_marketing-site.scss */
 article.rates table th:first-child, article.rates table td:first-child {
   text-align: left;
   background: #f9f9f9;
 }
-/* line 2086, _sass/partials/_marketing-site.scss */
+/* line 2098, _sass/partials/_marketing-site.scss */
 article.rates table thead th,
 article.rates table thead th:first-child {
   border: 1px solid #e8e8e8;
   background-color: #efefef;
   font-weight: 600;
 }
-/* line 2092, _sass/partials/_marketing-site.scss */
+/* line 2104, _sass/partials/_marketing-site.scss */
 article.rates table thead th[colspan],
 article.rates table thead th:first-child[colspan] {
   background: #999;
   color: #fff;
 }
-/* line 2099, _sass/partials/_marketing-site.scss */
+/* line 2111, _sass/partials/_marketing-site.scss */
 article.rates table tbody tr.details td:first-child {
   border: 0;
   border-left: 2px solid #0971ce;
 }
-/* line 2107, _sass/partials/_marketing-site.scss */
+/* line 2119, _sass/partials/_marketing-site.scss */
 article.rates.northeast table thead th,
 article.rates.northeast table thead th:first-child, article.rates.georgia table thead th,
 article.rates.georgia table thead th:first-child {

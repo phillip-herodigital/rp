@@ -4,10 +4,7 @@
 	> .wrapper {
 		@extend .clearfix;
 		position: relative;
-		overflow: initial;
-		@include breakpoint(small) {
-			overflow: visible;
-		}
+		overflow: visible;
 	}
 	.logo {
 		@include image-replace("logo-horizontal.png");
@@ -42,6 +39,7 @@
 			white-space: nowrap;
 			li {
 				font-size: 15px;
+				line-height: 1.4; /* This fixes the partial-pixel height on IE */
 				a {
 					display: inline-block;
 					color: #737373;

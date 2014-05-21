@@ -16,5 +16,11 @@ namespace StreamEnergy.DomainModels.Enrollments
         public IEnumerable<IOffer> AllOffers { get; set; }
 
         public Dictionary<string, IOfferOptionRules> OfferOptionRules { get; private set; }
+
+        public Service.IdentityCheckResult IdentityCheckResult { get; set; }
+
+        public Service.LoadDepositResult Deposit { get; set; }
+
+        public Service.PlaceOrderResult PlaceOrderResult { get; set; }
     }
 }
