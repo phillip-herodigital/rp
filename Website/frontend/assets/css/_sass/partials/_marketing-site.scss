@@ -2130,3 +2130,11 @@ article.rates {
 	    }
     }
 }
+
+article.opportunity-compensation-plan {
+	@include breakpoint(small-medium) {
+		.button {
+			margin-top: 10px;
+		}
+	}
+}
