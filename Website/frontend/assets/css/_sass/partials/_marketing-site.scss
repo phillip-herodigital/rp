@@ -70,6 +70,9 @@ article.photoLockup {
 			font-size: 38px;
 			line-height: 1.1;
 			text-transform: uppercase;
+			sup {
+				top: -2em;
+			}
 		}
 		h3 {
 			font-size: 16px;
@@ -95,6 +98,9 @@ article.photoLockup {
 		p.cite {
 			font-size: 14px;
 			text-transform: uppercase;
+		}
+		sup {
+			font-size: 9px;
 		}
 	}
 	&.top-right-photo {
@@ -191,6 +197,13 @@ article.photoLockup {
 			}
 		}
 	}
+	&.feel-the-power {
+		h3 {
+			color: #6b6b6b;
+			line-height: 1.1;
+			text-transform: none;
+		}
+	}
 }
 
 article.marketingIntro {
@@ -226,6 +239,9 @@ article.marketingIntro {
 		@include breakpoint(small) {
 			margin: 0 20px;
 		}
+	}
+	sup {
+		font-size: 9px;
 	}
 	@each $theme in $themes {
 		&.accent-#{map-get($theme, name)} {
