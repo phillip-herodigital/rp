@@ -223,6 +223,9 @@ article.marketingIntro {
 				text-transform: uppercase;
 			}
 		}
+		@include breakpoint(small) {
+			margin: 0 20px;
+		}
 	}
 	@each $theme in $themes {
 		&.accent-#{map-get($theme, name)} {
@@ -300,7 +303,7 @@ article.gridPromos {
 	div.col {
 		text-align: center;
 		padding: 0 5%;
-		@include breakpoint(small) {
+		@include breakpoint(small-medium) {
 			padding: 0;
 		}
 		h4 {
@@ -515,9 +518,16 @@ article.state-tabs {
 		@extend .wrapper;
 		margin: 0 auto;
 		display: table;
+		@include breakpoint(small) {
+			width: 100%;
+		}
 		li {
 			float: none;
 			display: table-cell;
+			@include breakpoint(small) {
+				display: block;
+				width: auto;
+			}
 			a {
 				display: block;
 				padding: 10px 0 20px 0;
@@ -529,6 +539,10 @@ article.state-tabs {
 					width: 82px;
 					height: 84px;
 					@include retina-background("state-tabs.png");
+				}
+				@include breakpoint(small) {
+					@include border-radius(7px 7px 7px 7px);
+					width: auto;
 				}
 			}
 			&.active, &:hover {
@@ -546,6 +560,12 @@ article.state-tabs {
 		padding: 10px 0;
 		background-color: #0971ce;
 		color: #fff;
+		button, a.button{
+			@include breakpoint(small) {
+				display:block;
+				margin: 5px 0;
+			}
+		}
 	}
 	.tab-footer {
 		min-height: 30px;
@@ -921,13 +941,18 @@ article.contact {
 		color: #fff;
 		border-bottom: 3px solid #ffa409;
 		border-top: 3px solid #ffa409;
+		padding-bottom: 20px;
 		position: relative;
+		@include breakpoint(small) {
+			padding-top: 30px;
+		}
 		.request-or {
 			background-image: url('../i/marketing/contact-or.png');
 			background-repeat: no-repeat;
 			position: absolute;
 			top: -4px;
-			left: 46%;
+			left: 50%;
+			margin-left: -57px;
 			height: 70px;
 			width: 114px;
 		}
@@ -938,13 +963,14 @@ article.contact {
 		.grid {
 			-webkit-border-vertical-spacing: 0px;
 			.col {
+				border-spacing: 0;
 				.item {
 					position: relative;
-					width: 90%;
+					//width: 90%;
 					input,
 					select,
 					textarea {
-						width: 90%;
+						width: 85%;
 						color: #bcbcbc;
 					}
 					.asterisk {
@@ -952,8 +978,8 @@ article.contact {
 						vertical-align: middle;
 					}
 				}
-				.group .item {
-					width: 44%;
+				.group .item, .item.half-width {
+					width: 44.8%;
 				}
 				button {
 					background-color: #ebebeb;
@@ -1092,7 +1118,8 @@ article.contact-state {
 				h2 {
 					text-transform: none;
 				}
-				button {
+				button,
+				.button {
 					background-color: #ffa409;
 					a {
 						color: #fff;
@@ -1498,13 +1525,25 @@ article.identity-theft {
 	.semibold {
 		font-weight: 600;
 	}
-	ul.credit-bureaus {
+	.credit-bureaus {
 		padding-left: 0;
 		li {
 			float: left;
 			width: 33%;
 			list-style-type: none;
 			text-align: center;
+		}
+	}
+	@include breakpoint(small) {
+		.credit-bureaus {
+			li {
+				float: none;
+				width: 100%;
+				margin-bottom: 30px;
+				&:last-child {
+					margin-bottom: 0;
+				}
+			}
 		}
 	}
 	.phishing-image img {
@@ -1770,7 +1809,7 @@ article.terms-of-use {
 		margin: auto;
 	}
 	ul {
-		padding-left: 80px;
+		padding: 0 80px;
 		li {
 			list-style-type: none;
 			p {
@@ -1784,6 +1823,16 @@ article.terms-of-use {
 			text-transform: uppercase;
 		}
 	}
+	@include breakpoint(small) {
+		ul {
+			padding: 0 20px;
+		}
+	}
+	@include breakpoint(medium) {
+		ul {
+			padding: 0 40px;
+		}
+	}	
 }
 
 article.energy-certificates {
@@ -2150,4 +2199,42 @@ article.marketing div.wrapper {
 			}
 		}
 	}
+}
+
+article.rates {
+    table {
+        th, td {
+            &:first-child {
+                text-align: left;
+                background: #f9f9f9;
+            }
+        }
+
+        thead th,
+        thead th:first-child {
+            border: 1px solid #e8e8e8;
+            background-color: #efefef;
+            font-weight: 600;
+
+            &[colspan] {
+                background: #999;
+                color: #fff;
+            }
+        }
+
+        tbody {
+            tr.details td:first-child {
+                border: 0;
+                border-left: 2px solid #0971ce;
+            }
+        }
+    }
+    &.northeast,
+    &.georgia {
+        table thead th,
+	    table thead th:first-child {
+		    background: #999;
+		    color: #fff;
+	    }
+    }
 }

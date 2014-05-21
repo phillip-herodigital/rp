@@ -1,11 +1,13 @@
 ﻿using StreamEnergy.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 
 namespace StreamEnergy.MyStream.Models
 {
+    [DebuggerDisplay("{MemberName}: {Text}")]
     public class TranslatedValidationResult
     {
         public string MemberName { get; set; }

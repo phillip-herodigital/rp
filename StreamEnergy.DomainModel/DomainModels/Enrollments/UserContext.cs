@@ -11,8 +11,6 @@ namespace StreamEnergy.DomainModels.Enrollments
     [Serializable]
     public class UserContext : ISanitizable
     {
-        public bool IsNewService { get; set; }
-
         [Required(ErrorMessage = "Contact Info Required")]
         [ValidateObject(ErrorMessagePrefix = "")]
         public CustomerContact ContactInfo { get; set; }
@@ -48,6 +46,15 @@ namespace StreamEnergy.DomainModels.Enrollments
         [CollectionCountRangeAttribute(1, int.MaxValue, ErrorMessage = "Selected Offers Required")]
         public IEnumerable<SelectedOffer> SelectedOffers { get; set; }
 
+        [Required(ErrorMessage = "Selected Identity Answers Required")]
+        public Dictionary<string, string> SelectedIdentityAnswers { get; set; }
+
+        [ValidateObject(ErrorMessagePrefix = "")]
+        public DomainModels.Payments.IPaymentInfo PaymentInfo { get; set; }
+
+        [RequireValue(true, ErrorMessage = "Must Agree To Terms")]
+        public bool AgreeToTerms { get; set; }
+
         void ISanitizable.Sanitize()
         {
             if (SocialSecurityNumber != null)
@@ -64,6 +71,5 @@ namespace StreamEnergy.DomainModels.Enrollments
             if (BillingAddress != null)
                 ((ISanitizable)BillingAddress).Sanitize();
         }
-
     }
 }

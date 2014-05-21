@@ -3,7 +3,7 @@ $sidebar: 275px;
 $mobile-nav: 260px;
 
 @include breakpoint(medium-large) {
-	.page-wrapper > nav {
+	.page-wrapper nav.mobile-nav {
 		display: none;
 	}
 }
@@ -12,7 +12,7 @@ $mobile-nav: 260px;
 	.page-wrapper {
 		background: #efefef;
 		overflow: hidden;
-		> nav {
+		nav.mobile-nav {
 			position: fixed;
 			left: 0;
 			top: 0;

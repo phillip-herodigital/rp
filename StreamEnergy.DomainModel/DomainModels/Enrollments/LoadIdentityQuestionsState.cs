@@ -32,6 +32,11 @@ namespace StreamEnergy.DomainModels.Enrollments
             yield break;
         }
 
+        bool IState<UserContext, InternalContext>.IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult, UserContext context, InternalContext internalContext)
+        {
+            return false;
+        }
+
         public bool IsFinal
         {
             get { return false; }
@@ -41,8 +46,12 @@ namespace StreamEnergy.DomainModels.Enrollments
         {
             LoadInternalState(context, internalContext);
 
+            if (!internalContext.IdentityCheckResult.HardStop.HasValue)
+            {
+                return typeof(VerifyIdentityState);
+            }
             // TODO - based on the credit check, we may have a hard stop, etc.
-            return typeof(VerifyIdentityState);
+            throw new NotImplementedException();
         }
 
         public bool RestoreInternalState(IStateMachine<UserContext, InternalContext> stateMachine, ref InternalContext internalContext, ref Type state)
@@ -58,8 +67,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         private void LoadInternalState(UserContext context, InternalContext internalContext)
         {
-            enrollmentService.CreditCheck(context.ContactInfo.Name, context.SocialSecurityNumber, context.DriversLicense, context.BillingAddress);
-            // TODO - something with the result so we know where we're going next
+            internalContext.IdentityCheckResult = enrollmentService.IdentityCheck(context.ContactInfo.Name, context.SocialSecurityNumber, context.DriversLicense, context.BillingAddress);
         }
     }
 }

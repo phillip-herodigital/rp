@@ -180,6 +180,15 @@ form,
 			@include layout-list;
 		}
 	}
+	.single-link {
+		font-size: 14px;
+	}
+	@include breakpoint(medium-large) {
+		.single-link {
+			display: inline-block;
+			margin-top: 30px;
+		}
+	}
 	div.item {
 		@extend .clearfix;
 		//Make sure to have padding-right by default to match the group-col's padding
@@ -354,19 +363,6 @@ form,
 		&:last-child {
 			margin-bottom: 0;
 		}	
-	}
-	div.buttons {
-		@extend .clearfix;
-		button,
-		.button {
-			float: right;
-			margin: 10px 0 0 5px;
-			@include breakpoint(small) {
-				float: none;
-				width: 100%;
-				margin-left: 0;
-			}
-		}
 	}
 	hr.content-divider { 
 		border: none;

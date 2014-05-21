@@ -16,7 +16,7 @@ namespace StreamEnergy
             {
                 var memberName = validationContext.MemberName;
                 var results = from entry in ((System.Collections.IEnumerable)value).OfType<object>().Select((obj, index) => new { obj, index })
-                              let context = new ValidationContext(entry.obj)
+                              let context = ((IValidationService)validationContext.GetService(typeof(IValidationService))).CreateValidationContext(entry.obj)
                               let innerResults = new HashSet<ValidationResult>()
                               where !Validator.TryValidateObject(entry.obj, context, innerResults, true)
                               from innerResult in innerResults.Flatten(result => result as IEnumerable<ValidationResult>, leafNodesOnly: true)

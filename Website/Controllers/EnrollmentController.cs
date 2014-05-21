@@ -113,7 +113,11 @@ namespace StreamEnergy.MyStream.Controllers
             {
                 Validations = TranslatedValidationResult.Translate(stateMachine.ValidationResults, translationItem),
                 UserContext = CopyForClientDisplay(stateMachine.Context),
-                // TODO - more data, such as plan list, calendar, etc. - probably from stateMachine.InternalContext
+                Offers = stateMachine.InternalContext.AllOffers,
+                OfferOptionRules = stateMachine.InternalContext.OfferOptionRules,
+                IdentityQuestions = stateMachine.InternalContext.IdentityCheckResult != null ? stateMachine.InternalContext.IdentityCheckResult.IdentityQuestions : null,
+                DepositAmount = stateMachine.InternalContext.Deposit != null ? stateMachine.InternalContext.Deposit.Amount : (decimal?)null,
+                ConfirmationNumber = stateMachine.InternalContext.PlaceOrderResult != null ? stateMachine.InternalContext.PlaceOrderResult.ConfirmationNumber : null
             };
         }
 
@@ -122,27 +126,118 @@ namespace StreamEnergy.MyStream.Controllers
         {
             stateMachine.Context.ServiceAddress = value.ServiceAddress;
             stateMachine.Context.ServiceCapabilities = value.ServiceCapabilities;
-            stateMachine.Context.IsNewService = value.IsNewService;
+            
+            // TODO - make sure this gets put in all the other service capabilities, or remove it from the interface and have the front-end do it
+            foreach (var entry in value.ServiceCapabilities.OfType<TexasServiceCapability>())
+            {
+                entry.IsNewService = value.IsNewService;
+            }
 
-            stateMachine.Process(); // TODO - set steps to stop at
+            if (stateMachine.State == typeof(DomainModels.Enrollments.ServiceInformationState))
+                stateMachine.Process(typeof(DomainModels.Enrollments.AccountInformationState));
 
             return ClientData();
         }
 
         [HttpPost]
-        public ClientData SelectedOffers()
+        public ClientData SelectedOffers([FromBody]SelectedOffers value)
         {
-            // TODO - need some parameters
+            stateMachine.Context.SelectedOffers = (from offerId in value.OfferIds
+                                                   let offer = stateMachine.InternalContext.AllOffers.SingleOrDefault(o => o.Id == offerId)
+                                                   where offer != null
+                                                   select new SelectedOffer
+                                                   {
+                                                       Offer = offer,
+                                                   }).ToArray();
 
-            stateMachine.Process(); // TODO - set steps to stop at
+            if (stateMachine.State == typeof(DomainModels.Enrollments.PlanSelectionState))
+                stateMachine.Process(typeof(DomainModels.Enrollments.AccountInformationState));
+
+            return ClientData();
+        }
+
+        [HttpPost]
+        public ClientData AccountInformation([FromBody]AccountInformation request)
+        {
+            stateMachine.Context.ServiceAddress = request.ServiceAddress;
+            stateMachine.Context.ServiceCapabilities = request.ServiceCapabilities;
+            stateMachine.Context.ContactInfo = request.ContactInfo;
+            stateMachine.Context.BillingAddress = request.BillingAddress;
+            stateMachine.Context.DriversLicense = request.DriversLicense;
+            stateMachine.Context.Language = request.Language;
+            stateMachine.Context.SecondaryContactInfo = request.SecondaryContactInfo;
+            stateMachine.Context.SocialSecurityNumber = request.SocialSecurityNumber;
+            if (request.OfferOptions != null)
+            {
+                foreach (var entry in request.OfferOptions)
+                {
+                    var selectedOffer = stateMachine.Context.SelectedOffers.SingleOrDefault(offer => offer.Offer.Id == entry.Key);
+                    if (selectedOffer == null)
+                    {
+                        selectedOffer = new SelectedOffer { Offer = stateMachine.InternalContext.AllOffers.SingleOrDefault(offer => offer.Id == entry.Key) };
+                        if (selectedOffer.Offer == null)
+                            continue;
+                        stateMachine.Context.SelectedOffers = stateMachine.Context.SelectedOffers.Concat(Enumerable.Repeat(selectedOffer, 1));
+                    }
+                    selectedOffer.OfferOption = entry.Value;
+                }
+            }
+
+            if (stateMachine.State == typeof(DomainModels.Enrollments.AccountInformationState))
+                stateMachine.Process(typeof(DomainModels.Enrollments.VerifyIdentityState));
+
+            return ClientData();
+        }
+
+        [HttpPost]
+        public ClientData VerifyIdentity([FromBody]VerifyIdentity request)
+        {
+            stateMachine.Context.SelectedIdentityAnswers = request.SelectedIdentityAnswers;
+
+            if (stateMachine.State == typeof(DomainModels.Enrollments.VerifyIdentityState))
+                stateMachine.Process(typeof(DomainModels.Enrollments.CompleteOrderState));
+
+            return ClientData();
+        }
+
+        [HttpPost]
+        public ClientData PaymentInfo([FromBody]DomainModels.Payments.IPaymentInfo request)
+        {
+            stateMachine.Context.PaymentInfo = request;
+
+            if (stateMachine.State == typeof(DomainModels.Enrollments.PaymentInfoState))
+                stateMachine.Process(typeof(DomainModels.Enrollments.CompleteOrderState));
+
+            return ClientData();
+        }
+
+        [HttpPost]
+        public ClientData ConfirmOrder([FromBody]ConfirmOrder request)
+        {
+            stateMachine.Context.AgreeToTerms = request.AgreeToTerms;
+
+            stateMachine.Process();
 
             return ClientData();
         }
 
         private UserContext CopyForClientDisplay(UserContext userContext)
         {
-            // TODO - clone and remove items that should not be displayed
-            return userContext;
+            return new UserContext
+            {
+                BillingAddress = userContext.BillingAddress,
+                ContactInfo = userContext.ContactInfo,
+                DriversLicense = userContext.DriversLicense,
+                Language = userContext.Language,
+                SecondaryContactInfo = userContext.SecondaryContactInfo,
+                SelectedOffers = userContext.SelectedOffers,
+                ServiceAddress = userContext.ServiceAddress,
+                ServiceCapabilities = userContext.ServiceCapabilities,
+                SocialSecurityNumber = null,
+                AgreeToTerms = userContext.AgreeToTerms,
+                PaymentInfo = null,
+                SelectedIdentityAnswers = null,
+            };
         }
     }
 }

@@ -62,6 +62,11 @@ namespace StreamEnergy.Core.Tests.Processes
                 return Enumerable.Empty<ValidationResult>();
             }
 
+            bool IState<CreateAccountContext, object>.IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult, CreateAccountContext context, object internalContext)
+            {
+                return false;
+            }
+
             public bool IsFinal
             {
                 get { return false; }
@@ -101,6 +106,11 @@ namespace StreamEnergy.Core.Tests.Processes
                 return Enumerable.Empty<ValidationResult>();
             }
 
+            bool IState<CreateAccountContext, object>.IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult, CreateAccountContext context, object internalContext)
+            {
+                return false;
+            }
+
             public bool IsFinal
             {
                 get { return false; }
@@ -130,7 +140,7 @@ namespace StreamEnergy.Core.Tests.Processes
         private IStateMachine<CreateAccountContext, object> Create(ICheckState mock)
         {
             var unity = new UnityContainer();
-            var result = new StateMachine<CreateAccountContext, object>(new ValidationService(), unity);
+            var result = new StateMachine<CreateAccountContext, object>(new ValidationService(unity), unity);
             result.ResolverOverrides = new ResolverOverride[] {
                     new DependencyOverride(typeof(Action), (Action)(() => mock.Callback(result.State)))
                 };

@@ -27,6 +27,11 @@ namespace StreamEnergy.DomainModels.Enrollments
             yield break;
         }
 
+        bool IState<UserContext, InternalContext>.IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult, UserContext context, InternalContext internalContext)
+        {
+            return false;
+        }
+
         public bool IsFinal
         {
             get { return false; }
@@ -46,14 +51,14 @@ namespace StreamEnergy.DomainModels.Enrollments
                 return false;
             }
 
+            // TODO - do we really want to always reload internal state?
             LoadInternalState(stateMachine.Context, internalContext);
             return true;
         }
 
         private void LoadInternalState(UserContext data, InternalContext internalContext)
         {
-            internalContext.AllOffers = enrollmentService.LoadOffers(data.ServiceAddress, data.ServiceCapabilities, data.IsNewService);
-            internalContext.ConnectPolicy = enrollmentService.LoadConnectDates(data.ServiceAddress, data.ServiceCapabilities, data.IsNewService);
+            internalContext.AllOffers = enrollmentService.LoadOffers(data.ServiceAddress, data.ServiceCapabilities);
         }
     }
 }

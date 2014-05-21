@@ -6,8 +6,15 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
-    class VerifyIdentityState : IState<UserContext, InternalContext>
+    public class VerifyIdentityState : IState<UserContext, InternalContext>
     {
+        private readonly IEnrollmentService enrollmentService;
+
+        public VerifyIdentityState(IEnrollmentService enrollmentService)
+        {
+            this.enrollmentService = enrollmentService;
+        }
+
         public IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
         {
             yield return context => context.ServiceAddress;
@@ -18,12 +25,17 @@ namespace StreamEnergy.DomainModels.Enrollments
             yield return context => context.SecondaryContactInfo;
             yield return context => context.SocialSecurityNumber;
             yield return context => context.DriversLicense;
-            // TODO - identity questions
+            yield return context => context.SelectedIdentityAnswers;
         }
 
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> AdditionalValidations(UserContext context, InternalContext internalContext)
         {
             yield break;
+        }
+
+        bool IState<UserContext, InternalContext>.IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult, UserContext context, InternalContext internalContext)
+        {
+            return false;
         }
 
         public bool IsFinal
@@ -33,6 +45,12 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public Type Process(UserContext context, InternalContext internalContext)
         {
+            internalContext.IdentityCheckResult = enrollmentService.IdentityCheck(context.ContactInfo.Name, context.SocialSecurityNumber, context.DriversLicense, context.BillingAddress, new AdditionalIdentityInformation
+                {
+                    PreviousIdentityCheckId = internalContext.IdentityCheckResult.IdentityCheckId,
+                    SelectedAnswers = context.SelectedIdentityAnswers
+                });
+
             return typeof(LoadDespositInfoState);
         }
 

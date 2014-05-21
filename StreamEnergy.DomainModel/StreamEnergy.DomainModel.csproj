@@ -55,6 +55,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Runtime" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DomainModels\Accounts\IAccountService.cs" />
@@ -62,21 +63,31 @@
     <Compile Include="DomainModels\Accounts\Invoice.cs" />
     <Compile Include="DomainModels\Address.cs" />
     <Compile Include="DomainModels\CustomerContact.cs" />
+    <Compile Include="DomainModels\Enrollments\IdentityAnswer.cs" />
+    <Compile Include="DomainModels\Enrollments\IdentityQuestion.cs" />
+    <Compile Include="DomainModels\Enrollments\IOfferOptionRules.cs" />
+    <Compile Include="DomainModels\Enrollments\Service\IdentityCheckHardStop.cs" />
+    <Compile Include="DomainModels\Enrollments\TexasElectricityOfferOption.cs" />
+    <Compile Include="DomainModels\Enrollments\TexasElectricityOfferOptionPolicy.cs" />
+    <Compile Include="DomainModels\Enrollments\TexasOfferOptionRules.cs" />
+    <Compile Include="DomainModels\Payments\IPaymentInfo.cs" />
     <Compile Include="DomainModels\Name.cs" />
     <Compile Include="DomainModels\DriversLicense.cs" />
     <Compile Include="DomainModels\Email.cs" />
     <Compile Include="DomainModels\Enrollments\AdditionalIdentityInformation.cs" />
     <Compile Include="DomainModels\Enrollments\CompleteOrderState.cs" />
     <Compile Include="DomainModels\Enrollments\IOfferOption.cs" />
+    <Compile Include="DomainModels\Enrollments\IOfferOptionPolicy.cs" />
     <Compile Include="DomainModels\Enrollments\SelectedOffer.cs" />
-    <Compile Include="DomainModels\Enrollments\Service\CreditCheckResult.cs" />
+    <Compile Include="DomainModels\Enrollments\Service\IdentityCheckResult.cs" />
     <Compile Include="DomainModels\Enrollments\IConnectDatePolicy.cs" />
     <Compile Include="DomainModels\Enrollments\IEnrollmentService.cs" />
     <Compile Include="DomainModels\Enrollments\Service\LoadDepositResult.cs" />
     <Compile Include="DomainModels\Enrollments\Service\PlaceOrderResult.cs" />
+    <Compile Include="DomainModels\Enrollments\TexasElectricityOffer.cs" />
     <Compile Include="DomainModels\IServiceCapability.cs" />
     <Compile Include="DomainModels\Enrollments\LoadIdentityQuestionsState.cs" />
-    <Compile Include="DomainModels\Enrollments\LoadPaymentInfoState.cs" />
+    <Compile Include="DomainModels\Enrollments\PaymentInfoState.cs" />
     <Compile Include="DomainModels\Enrollments\OrderConfirmationState.cs" />
     <Compile Include="DomainModels\Enrollments\PlaceOrderState.cs" />
     <Compile Include="DomainModels\Enrollments\ServiceInformationState.cs" />
@@ -86,6 +97,7 @@
     <Compile Include="DomainModels\Enrollments\LoadOffersState.cs" />
     <Compile Include="DomainModels\Enrollments\AccountInformationState.cs" />
     <Compile Include="DomainModels\Enrollments\PlanSelectionState.cs" />
+    <Compile Include="DomainModels\Payments\TokenizedCard.cs" />
     <Compile Include="DomainModels\PolymorphicSerializationContainerSetup.cs" />
     <Compile Include="DomainModels\SampleServiceCapability.cs" />
     <Compile Include="DomainModels\TexasServiceCapability.cs" />

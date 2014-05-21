@@ -4,9 +4,9 @@ namespace FakeN.Web
 {
 	public class FakeHttpCachePolicy : HttpCachePolicyBase
 	{
-		private HttpCacheVaryByParams varyByParams;
-		private HttpCacheVaryByHeaders varyByHeaders;
-		private HttpCacheVaryByContentEncodings varyByContentEncodings;
+        public HttpCacheVaryByParams varyByParams;
+        public HttpCacheVaryByHeaders varyByHeaders;
+        public HttpCacheVaryByContentEncodings varyByContentEncodings;
 
 		public override void SetExpires(System.DateTime date)
 		{

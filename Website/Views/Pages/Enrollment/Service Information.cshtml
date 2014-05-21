@@ -1,1 +1,75 @@
-﻿<p>Get Started</p>
+﻿<div id="lets-get-started" class="enrollment-section accent-orange">
+    <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
+        <div class="wrapper center">
+            <h1>
+                <span class="xsmall block">@Html.Sitecore().Field("Banner Header Text")</span>
+                <span class="block">@Html.Sitecore().Field("Banner Sub Header Text")</span>
+            </h1>
+        </div>
+    </div>
+    <div class="wrapper layout cols-2">
+        <aside class="left">
+            <nav>
+                <ul>
+                    <li class="active"><a href="#lets-get-started">Let's Get Started</a></li>
+                    <li><a href="#choose-your-plan">Choose Your Plan</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <section>
+            @Html.Sitecore().Field("Header Text")    
+            @Html.Sitecore().Field("Body Text")
+            <article class="form">
+                <div class="content">
+                    <div class="item">
+                        <label for="service-type">@Html.Sitecore().Field("Interest Label")</label>
+                        <select id="service-type">
+                            <option value="">Please Choose</option>
+                            <option value="">Residential Utilities</option>
+                            <option value="">Commercial Utilities</option>
+                            <option value="">Homelife Services</option>
+                        </select>
+                    </div>
+                    <div class="item">
+                        <label for="address-or-zip">@Html.Sitecore().Field("Address Label")</label>
+                        <input type="text" id="address-or-zip" placeholder="@Html.Sitecore().Field("Address Placeholder")" />
+                        <select id="state">
+                            <option value="">Texas</option>
+                        </select>
+                    </div>
+                    <div class="item">
+                        <label>@Html.Sitecore().Field("Options Label")</label>
+                        <ul class="checkbox-list">
+                            <li><input type="radio" name="service-type" id="switching-electricity-providers"><label for="switching-electricity-providers">Switching electricity providers</label></li>
+                            <li><input type="radio" name="service-type" id="setting-up-new-service"><label for="setting-up-new-service">Setting up new service</label></li>
+                        </ul>
+                    </div>
+                    <div class="item">
+                        <label>@Html.Sitecore().Field("Premises Label")</label>
+                        <ul class="checkbox-list">
+                            <li><input type="radio" name="premise-num" id="less-than-5"><label for="less-than-5">Less than 5</label></li>
+                            <li><input type="radio" name="premise-num" id="5-or-more"><label for="5-or-more">5 or more</label></li>
+                        </ul>
+                    </div>
+                    <div class="item">
+                        <label>@Html.Sitecore().Field("Monthly Spending Label")</label>
+                        <ul class="checkbox-list">
+                            <li><input type="radio" name="monthly-spending" id="less-than-150"><label for="less-than-150">Less than $150.00</label></li>
+                            <li><input type="radio" name="monthly-spending" id="150-or-more"><label for="150-or-more">$150 or more</label></li>
+                        </ul>
+                    </div>
+                </div>
+            </article>
+            <div class="buttons">
+                <button type="submit" class="primary">@Html.Sitecore().Field("Continue Button Label")</button>
+            </div>
+            <div class="hide-medium-large time-remaining-mobile">
+                <p class="time-remaining">@Html.Sitecore().Field("Time Remaining")</p>
+                <p><a href="">@Html.Sitecore().Field("Completion Info Question")</a></p>
+            </div>
+        </section>
+        <aside>
+            
+        </aside>
+    </div>
+</div>
