@@ -6,7 +6,7 @@
                      select new
                      {
                          Item = entry.item,
-                         CssClass = (field.TargetItem.ID == Sitecore.Context.Item.ID) ? "selected" : "",
+                         CssClass = (field.TargetItem != null && field.TargetItem.ID == Sitecore.Context.Item.ID) ? "selected" : "",
                          SubNavNum = entry.index + 1,
                          SubNavItems = from Sitecore.Data.Items.Item subitem in entry.item.Children
                                        select subitem

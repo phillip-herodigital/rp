@@ -16,12 +16,12 @@ namespace StreamEnergy.Pipelines.RenderField
             {
                 var dict = new Dictionary<string, string>()
                 {
-                    {"secure.streamenergy.net", "uat.secure.streamenergy.net"},
-                    {"secure3.i-doxs.net", "preprod.i-doxs.net"},
+                    {"https://secure.streamenergy.net", "http://uat.secure.streamenergy.net"},
+                    {"https://secure3.i-doxs.net", "https://preprod.i-doxs.net"},
                 };
                 foreach (var item in dict)
                 {
-                    args.Result.FirstPart.Replace(item.Key, item.Value);
+                    args.Result.FirstPart = args.Result.FirstPart.Replace(item.Key, item.Value);
                 }
             }
         }
