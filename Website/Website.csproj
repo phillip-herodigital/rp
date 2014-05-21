@@ -1156,6 +1156,7 @@
     <None Include="Properties\PublishProfiles\Package.pubxml" />
     <Content Include="Views\Components\Header Fixed.cshtml" />
     <Content Include="Views\Pages\Enrollment\Cart.cshtml" />
+    <Content Include="Views\Pages\Marketing\Blog\Latest Blog Post Horizontal.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
