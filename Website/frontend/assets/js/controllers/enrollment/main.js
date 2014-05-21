@@ -3,7 +3,7 @@
  */
 ngApp.controller('EnrollmentMainCtrl', ['$scope', '$http', function ($scope, $http) {
 
-    $scope.enrollmentFields = []; // This array should keep track of all the form fields we collect for the enrollment
+    $scope.enrollmentFields = {'test' : 'test'}; // This array should keep track of all the form fields we collect for the enrollment
     $scope.currentStep = '';
 
 }]);

@@ -3,6 +3,7 @@
  * This is used to control aspects of let's get started on enrollment page.
  */
 ngApp.controller('EnrollmentLetsGetStartedCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
-
+    console.log('here');
+    console.log($scope.enrollmentFields);
 
 }]);

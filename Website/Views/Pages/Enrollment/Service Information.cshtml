@@ -7,7 +7,7 @@
             </h1>
         </div>
     </div>
-    <div class="wrapper layout cols-2">
+    <div class="wrapper layout cols-2" ng-controller="EnrollmentLetsGetStartedCtrl">
         <aside class="left">
             <nav>
                 <ul>
@@ -17,13 +17,13 @@
             </nav>
         </aside>
         <section>
-            @Html.Sitecore().Field("Header Text")    
+            @Html.Sitecore().Field("Header Text")
             @Html.Sitecore().Field("Body Text")
             <article class="form">
                 <div class="content">
                     <div class="item">
-                        <label for="service-type">@Html.Sitecore().Field("Interest Label")</label>
-                        <select id="service-type">
+                        <label for="service-interest">@Html.Sitecore().Field("Interest Label")</label>
+                        <select id="service-interest" ng-model="enrollmentFields.serviceInterest">
                             <option value="">Please Choose</option>
                             <option value="">Residential Utilities</option>
                             <option value="">Commercial Utilities</option>
@@ -32,8 +32,8 @@
                     </div>
                     <div class="item">
                         <label for="address-or-zip">@Html.Sitecore().Field("Address Label")</label>
-                        <input type="text" id="address-or-zip" placeholder="@Html.Sitecore().Field("Address Placeholder")" />
-                        <select id="state">
+                        <input type="text" id="address-or-zip" ng-model="enrollmentFields.addressOrZip" placeholder="@Html.Sitecore().Field("Address Placeholder")" />
+                        <select id="state" ng-model="enrollmentFields.state">
                             <option value="">Texas</option>
                         </select>
                     </div>
@@ -68,8 +68,6 @@
                 <p><a href="">@Html.Sitecore().Field("Completion Info Question")</a></p>
             </div>
         </section>
-        <aside>
-            
-        </aside>
+        <aside></aside>
     </div>
 </div>
