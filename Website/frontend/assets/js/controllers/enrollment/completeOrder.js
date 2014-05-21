@@ -2,9 +2,9 @@
  *
  * This is used to control aspects of complete order on enrollment page.
  */
-ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
+ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', '$rootScope', 'enrollmentService', function ($scope, $rootScope, enrollmentService) {
 
-    $scope.enrollmentFields.completeOrder = {};
+    $scope.serverData.completeOrder = {};
 
     //Complete enrollment section
     $scope.completeStep = function () {

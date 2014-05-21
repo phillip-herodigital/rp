@@ -2,9 +2,9 @@
  *
  * This is used to control aspects of verify identity on enrollment page.
  */
-ngApp.controller('EnrollmentVerifyIdentityCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
+ngApp.controller('EnrollmentVerifyIdentityCtrl', ['$scope', '$rootScope', 'enrollmentService', function ($scope, $rootScope, enrollmentService) {
 
-    $scope.enrollmentFields.verifyIdentity = {};
+    $scope.serverData.verifyIdentity = {};
 
     //Complete enrollment section
     $scope.completeStep = function () {
