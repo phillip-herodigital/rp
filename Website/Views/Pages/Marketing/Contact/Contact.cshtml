@@ -240,7 +240,7 @@
         <div class="wrapper" ng-controller="mainController">
             <h2>@Html.Sitecore().Field("Request Form Text")</h2>
             <p>@Html.Sitecore().Field("Required Form Text")</p>
-            <form action="/contact" method="post">
+            <form action="@Request.Url.AbsolutePath" method="post">
                 @Html.ValidationSummary()
                 <div class="grid">
                     <div class="col">
