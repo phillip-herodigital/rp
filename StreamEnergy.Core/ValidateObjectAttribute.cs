@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using StreamEnergy.Extensions;
+using StreamEnergy.Unity;
 
 namespace StreamEnergy
 {
@@ -16,7 +17,10 @@ namespace StreamEnergy
             if (value != null)
             {
                 var results = new HashSet<ValidationResult>();
-                var context = ((IValidationService)validationContext.GetService(typeof(IValidationService))).CreateValidationContext(value);
+                var service = ((IValidationService)validationContext.GetService(typeof(IValidationService)));
+                if (service == null)
+                    service = Container.Build<IValidationService>(); // TODO - Matt DeKrey, make sure the ValidationService is available from the context
+                var context = service.CreateValidationContext(value);
 
                 Validator.TryValidateObject(value, context, results, true);
 
