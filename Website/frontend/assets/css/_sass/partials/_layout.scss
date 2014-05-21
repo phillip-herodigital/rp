@@ -105,6 +105,9 @@ $mobile-nav: 260px;
 			}
 		}
 	}
+	@include breakpoint(small) {
+		margin-top: 50px;
+	}
 }
 
 .wrapper {
