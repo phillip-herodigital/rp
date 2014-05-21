@@ -566,6 +566,7 @@
     <Content Include="frontend\assets\i\icon\bill.png" />
     <Content Include="frontend\assets\i\icon\blue-arrow-down.png" />
     <Content Include="frontend\assets\i\icon\blue-arrow-up.png" />
+    <Content Include="frontend\assets\i\icon\blue-rectangle.png" />
     <Content Include="frontend\assets\i\icon\cards.png" />
     <Content Include="frontend\assets\i\icon\cart.png" />
     <Content Include="frontend\assets\i\icon\check.png" />
@@ -1144,6 +1145,8 @@
     <Content Include="Views\Pages\Enrollment\Complete Order.cshtml" />
     <Content Include="Views\Pages\Marketing\Blog\Blog Landing.cshtml" />
     <Content Include="Views\Pages\Marketing\Blog\Blog Post.cshtml" />
+    <Content Include="Views\Pages\Marketing\Services\Enroll.cshtml" />
+    <Content Include="Views\Pages\Marketing\Services\Renew.cshtml" />
     <Content Include="frontend\assets\css\_sass\partials\_enrollment.scss" />
     <Content Include="frontend\assets\json\accountBalances.json" />
     <Content Include="frontend\assets\json\invoices.json" />
