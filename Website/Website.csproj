@@ -1157,6 +1157,7 @@
     <Content Include="Views\Components\Header Fixed.cshtml" />
     <Content Include="Views\Pages\Enrollment\Cart.cshtml" />
     <Content Include="Views\Pages\Marketing\Blog\Latest Blog Post Horizontal.cshtml" />
+    <Content Include="Views\Pages\Marketing\Paperless\Paperless Page.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

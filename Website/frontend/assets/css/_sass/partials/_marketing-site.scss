@@ -2127,3 +2127,60 @@ article.rates {
 	    }
     }
 }
+
+article.paperless {
+	.left-column {
+		float: left;
+		width: 45%;
+		margin-right: 1px solid #cfcfcf;
+		.instructions {
+			color: #76BD1D;
+		}
+	}
+	.right-column {
+		width: 55%;
+		float: right;
+		padding-left: 40px;
+		img {
+			float: left;
+		}
+		h3 {
+			color: #76BD1D;
+		}
+		h4 {
+			text-align: center;
+			margin: 25px 0 0 10px;
+			color: #76BD1D;
+		}
+		.states {
+			float: left;
+			margin: 20px 40px 0 0;
+			input {
+				margin-bottom: 15px;
+			}
+		}
+		.input-fields {
+			float: left;
+			width: 40%;
+			div {
+				margin-top: 10px;
+				input {
+					width: 100%;
+				}
+			}
+
+		}
+		.login {
+			margin: 10px 0 0 20px;
+			float: left;
+			button {
+				background-color: #76BD1D;
+			}
+		}
+		@include breakpoint(small) {
+			width: 100%;
+			margin: 20px auto;
+			padding: 0;
+		}
+	}
+}
