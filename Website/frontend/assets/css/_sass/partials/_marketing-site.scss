@@ -935,12 +935,16 @@ article.contact {
 		border-bottom: 3px solid #ffa409;
 		border-top: 3px solid #ffa409;
 		position: relative;
+		@include breakpoint(small) {
+			padding-top: 30px;
+		}
 		.request-or {
 			background-image: url('../i/marketing/contact-or.png');
 			background-repeat: no-repeat;
 			position: absolute;
 			top: -4px;
-			left: 46%;
+			left: 50%;
+			margin-left: -57px;
 			height: 70px;
 			width: 114px;
 		}
