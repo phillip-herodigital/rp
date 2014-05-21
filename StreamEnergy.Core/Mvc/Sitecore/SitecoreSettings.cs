@@ -33,6 +33,14 @@ namespace StreamEnergy.Mvc.Sitecore
                 .FirstOrDefault();
         }
 
+        public Field GetSettingsField(string relativePath, string fieldName)
+        {
+            return GetSettingsItems(relativePath)
+                .Select(item => item.Fields[fieldName])
+                .Where(v => v != null)
+                .FirstOrDefault();
+        }
+
         private IEnumerable<Item> GetSettingsItems(string relativePath)
         {
             // we don't need to check security settings for reading the item

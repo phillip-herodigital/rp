@@ -92,6 +92,17 @@ namespace StreamEnergy.MyStream.Tests.Sitecore
         }
 
         [TestMethod]
+        public void GetSettingsFieldTest()
+        {
+            var settingResolver = container.Resolve<ISettings>();
+            var field = settingResolver.GetSettingsField("AutomatedTest", "Icon");
+
+            Assert.IsNotNull(field);
+            Assert.AreEqual(SettingsTest.automatedTestDevItem.ID, field.Item.ID);
+            Assert.AreEqual("Dev Value", field.Value);
+        }
+
+        [TestMethod]
         public void DefaultingValueTest()
         {
             var settingResolver = container.Resolve<ISettings>();
@@ -100,6 +111,18 @@ namespace StreamEnergy.MyStream.Tests.Sitecore
             Assert.IsNotNull(value);
             Assert.AreEqual("Default Value", value);
         }
+
+        [TestMethod]
+        public void DefaultingFieldTest()
+        {
+            var settingResolver = container.Resolve<ISettings>();
+            var field = settingResolver.GetSettingsField("AutomatedTest", "Title");
+
+            Assert.IsNotNull(field);
+            Assert.AreEqual(SettingsTest.automatedTestItem.ID, field.Item.ID);
+            Assert.AreEqual("Default Value", field.Value);
+        }
+
 
     }
 }
