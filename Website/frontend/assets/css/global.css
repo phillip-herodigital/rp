@@ -5472,7 +5472,7 @@ article.director-list ul.director li h3 {
 @media only screen and (max-width: 767px) {
   /* line 417, _sass/partials/_marketing-site.scss */
   article.director-list ul.director li {
-    width: 50%;
+    width: 100%;
   }
 }
 
