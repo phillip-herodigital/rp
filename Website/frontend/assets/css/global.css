@@ -2781,15 +2781,9 @@ div.tabbable div.tab-content div.tab-pane.active {
 /* line 4, _sass/partials/_header.scss */
 .site-header > .wrapper, article.state-tabs .site-header > ul.tabs-nav {
   position: relative;
-  overflow: initial;
+  overflow: visible;
 }
-@media only screen and (max-width: 767px) {
-  /* line 4, _sass/partials/_header.scss */
-  .site-header > .wrapper, article.state-tabs .site-header > ul.tabs-nav {
-    overflow: visible;
-  }
-}
-/* line 12, _sass/partials/_header.scss */
+/* line 9, _sass/partials/_header.scss */
 .site-header .logo {
   display: inline-block;
   width: 178px;
@@ -2800,7 +2794,7 @@ div.tabbable div.tab-content div.tab-pane.active {
   float: left;
   margin-top: 15px;
 }
-/* line 17, _sass/partials/_header.scss */
+/* line 14, _sass/partials/_header.scss */
 .site-header .utility {
   -moz-border-radius: 0 0 5px 5px;
   -webkit-border-radius: 0;
@@ -2816,18 +2810,18 @@ div.tabbable div.tab-content div.tab-pane.active {
   font-size: 14px;
   text-transform: uppercase;
 }
-/* line 27, _sass/partials/_header.scss */
+/* line 24, _sass/partials/_header.scss */
 .site-header .utility a {
   margin-left: 25px;
   text-transform: uppercase;
 }
-/* line 32, _sass/partials/_header.scss */
+/* line 29, _sass/partials/_header.scss */
 .site-header nav.main-nav {
   float: right;
   text-align: right;
   margin: 10px 0 -1px 10px;
 }
-/* line 36, _sass/partials/_header.scss */
+/* line 33, _sass/partials/_header.scss */
 .site-header nav.main-nav > ul {
   margin: 0;
   padding: 0;
@@ -2853,17 +2847,19 @@ div.tabbable div.tab-content div.tab-pane.active {
   *display: inline;
   white-space: nowrap;
 }
-/* line 43, _sass/partials/_header.scss */
+/* line 40, _sass/partials/_header.scss */
 .site-header nav.main-nav > ul li {
   font-size: 15px;
+  line-height: 1.4;
+  /* This fixes the partial-pixel height on IE */
 }
-/* line 45, _sass/partials/_header.scss */
+/* line 43, _sass/partials/_header.scss */
 .site-header nav.main-nav > ul li a {
   display: inline-block;
   color: #737373;
   padding: 10px 17px;
 }
-/* line 50, _sass/partials/_header.scss */
+/* line 48, _sass/partials/_header.scss */
 .site-header nav.main-nav > ul li.selected a {
   -moz-border-radius: 5px 5px 0 0;
   -webkit-border-radius: 5px;
@@ -2873,14 +2869,14 @@ div.tabbable div.tab-content div.tab-pane.active {
   border: 1px solid #d9d9d9;
   border-bottom: 0;
 }
-/* line 60, _sass/partials/_header.scss */
+/* line 58, _sass/partials/_header.scss */
 .site-header nav.sub-nav {
   min-height: 50px;
   background-color: #f2f2f2;
   border-top: 1px solid #d9d9d9;
   border-bottom: 1px solid #d9d9d9;
 }
-/* line 65, _sass/partials/_header.scss */
+/* line 63, _sass/partials/_header.scss */
 .site-header nav.sub-nav > ul {
   margin: 0;
   padding: 0;
@@ -2902,7 +2898,7 @@ div.tabbable div.tab-content div.tab-pane.active {
   *display: inline;
   white-space: nowrap;
 }
-/* line 70, _sass/partials/_header.scss */
+/* line 68, _sass/partials/_header.scss */
 .site-header nav.sub-nav > ul li a {
   display: inline-block;
   color: #737373;
@@ -2913,7 +2909,7 @@ div.tabbable div.tab-content div.tab-pane.active {
   .site-header {
     height: 57px;
   }
-  /* line 80, _sass/partials/_header.scss */
+  /* line 78, _sass/partials/_header.scss */
   .site-header > .wrapper, article.state-tabs .site-header > ul.tabs-nav {
     position: fixed;
     top: 0;
@@ -2928,14 +2924,14 @@ div.tabbable div.tab-content div.tab-pane.active {
   }
 }
 @media only screen and (max-width: 767px) and (-webkit-min-device-pixel-ratio: 2), only screen and (max-width: 767px) and (-o-min-device-pixel-ratio: 3 / 2), only screen and (max-width: 767px) and (min--moz-device-pixel-ratio: 2), only screen and (max-width: 767px) and (min-device-pixel-ratio: 2), only screen and (max-width: 767px) and (min-resolution: 144dppx) {
-  /* line 80, _sass/partials/_header.scss */
+  /* line 78, _sass/partials/_header.scss */
   .site-header > .wrapper, article.state-tabs .site-header > ul.tabs-nav {
     background-image: url('../i/bg2x/header-mobile.png?1399495980');
     background-size: 11.5px 11.5px;
   }
 }
 @media only screen and (max-width: 767px) {
-  /* line 92, _sass/partials/_header.scss */
+  /* line 90, _sass/partials/_header.scss */
   .site-header .logo {
     display: inline-block;
     width: 84px;
@@ -2950,15 +2946,15 @@ div.tabbable div.tab-content div.tab-pane.active {
     margin-top: 0;
     margin-left: -41.75px;
   }
-  /* line 100, _sass/partials/_header.scss */
+  /* line 98, _sass/partials/_header.scss */
   .site-header .utility {
     display: none;
   }
-  /* line 103, _sass/partials/_header.scss */
+  /* line 101, _sass/partials/_header.scss */
   .site-header .nav-toggle {
     margin-top: 22px;
   }
-  /* line 106, _sass/partials/_header.scss */
+  /* line 104, _sass/partials/_header.scss */
   .site-header .cart-toggle {
     float: right;
     margin-top: 18px;
@@ -2966,7 +2962,7 @@ div.tabbable div.tab-content div.tab-pane.active {
     opacity: 0.4;
     position: relative;
   }
-  /* line 111, _sass/partials/_header.scss */
+  /* line 109, _sass/partials/_header.scss */
   .site-header .cart-toggle span {
     position: absolute;
     top: -6px;
@@ -2975,28 +2971,28 @@ div.tabbable div.tab-content div.tab-pane.active {
     color: #000;
     font-weight: bold;
   }
-  /* line 120, _sass/partials/_header.scss */
+  /* line 118, _sass/partials/_header.scss */
   .site-header nav {
     display: none;
   }
 }
 @media only screen and (min-width: 768px) {
-  /* line 125, _sass/partials/_header.scss */
+  /* line 123, _sass/partials/_header.scss */
   .site-header .nav-toggle {
     display: none;
   }
-  /* line 128, _sass/partials/_header.scss */
+  /* line 126, _sass/partials/_header.scss */
   .site-header .cart-toggle {
     display: none;
   }
 }
 @media only screen and (min-width: 768px) {
-  /* line 133, _sass/partials/_header.scss */
+  /* line 131, _sass/partials/_header.scss */
   .site-header.fixed {
     background: #fff;
     height: 75px;
   }
-  /* line 137, _sass/partials/_header.scss */
+  /* line 135, _sass/partials/_header.scss */
   .site-header.fixed > .wrapper, article.state-tabs .site-header.fixed > ul.tabs-nav {
     position: fixed;
     top: 0;
@@ -3011,20 +3007,20 @@ div.tabbable div.tab-content div.tab-pane.active {
   }
 }
 @media only screen and (min-width: 768px) and (-webkit-min-device-pixel-ratio: 2), only screen and (min-width: 768px) and (-o-min-device-pixel-ratio: 3 / 2), only screen and (min-width: 768px) and (min--moz-device-pixel-ratio: 2), only screen and (min-width: 768px) and (min-device-pixel-ratio: 2), only screen and (min-width: 768px) and (min-resolution: 144dppx) {
-  /* line 137, _sass/partials/_header.scss */
+  /* line 135, _sass/partials/_header.scss */
   .site-header.fixed > .wrapper, article.state-tabs .site-header.fixed > ul.tabs-nav {
     background-image: url('../i/bg2x/header-enrollment.png?1400278335');
     background-size: 23px 13px;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 767px) {
-  /* line 137, _sass/partials/_header.scss */
+  /* line 135, _sass/partials/_header.scss */
   .site-header.fixed > .wrapper, article.state-tabs .site-header.fixed > ul.tabs-nav {
     background: #fff;
   }
 }
 @media only screen and (min-width: 768px) {
-  /* line 152, _sass/partials/_header.scss */
+  /* line 150, _sass/partials/_header.scss */
   .site-header.fixed .logo {
     display: inline-block;
     width: 84px;
@@ -3041,19 +3037,19 @@ div.tabbable div.tab-content div.tab-pane.active {
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 767px) {
-  /* line 152, _sass/partials/_header.scss */
+  /* line 150, _sass/partials/_header.scss */
   .site-header.fixed .logo {
     margin-left: -41.75px;
   }
 }
 @media only screen and (min-width: 768px) {
-  /* line 163, _sass/partials/_header.scss */
+  /* line 161, _sass/partials/_header.scss */
   .site-header.fixed .nav-toggle {
     margin-top: 22px;
   }
 }
 
-/* line 170, _sass/partials/_header.scss */
+/* line 168, _sass/partials/_header.scss */
 .banner {
   overflow: hidden;
   margin-bottom: 20px;
@@ -3061,90 +3057,90 @@ div.tabbable div.tab-content div.tab-pane.active {
   background-position: 50%;
   background-repeat: no-repeat;
 }
-/* line 178, _sass/partials/_header.scss */
+/* line 176, _sass/partials/_header.scss */
 .banner .inner {
   background-image: url('../i/bg/banner-bottom.png?1399586124');
   background-repeat: repeat-x;
   background-position: 0 100%;
   /*background: image-url("bg/banner-bottom.png") 0 100% repeat-x;*/
 }
-/* line 184, _sass/partials/_header.scss */
+/* line 182, _sass/partials/_header.scss */
 .banner .wrapper, .banner article.state-tabs ul.tabs-nav, article.state-tabs .banner ul.tabs-nav {
   height: 220px;
   padding-top: 85px;
 }
-/* line 188, _sass/partials/_header.scss */
+/* line 186, _sass/partials/_header.scss */
 .banner h1 {
   font-size: 70px;
   font-weight: 100;
 }
-/* line 192, _sass/partials/_header.scss */
+/* line 190, _sass/partials/_header.scss */
 .banner h1, .banner p {
   margin: 0;
   color: #fff;
   line-height: 1;
   text-transform: uppercase;
 }
-/* line 198, _sass/partials/_header.scss */
+/* line 196, _sass/partials/_header.scss */
 .banner p {
   font-size: 32px;
   font-weight: 300;
 }
-/* line 203, _sass/partials/_header.scss */
+/* line 201, _sass/partials/_header.scss */
 .banner.large .wrapper, .banner.large article.state-tabs ul.tabs-nav, article.state-tabs .banner.large ul.tabs-nav {
   height: 325px;
   padding-top: 150px;
 }
-/* line 207, _sass/partials/_header.scss */
+/* line 205, _sass/partials/_header.scss */
 .banner.large h1, .banner.large p {
   color: #0971ce;
 }
 @media only screen and (max-width: 767px) {
-  /* line 212, _sass/partials/_header.scss */
+  /* line 210, _sass/partials/_header.scss */
   .banner .inner {
     background-image: url('../i/bg/header-mobile.png?1399495980');
     background-repeat: repeat-x;
   }
 }
 @media only screen and (max-width: 767px) and (-webkit-min-device-pixel-ratio: 2), only screen and (max-width: 767px) and (-o-min-device-pixel-ratio: 3 / 2), only screen and (max-width: 767px) and (min--moz-device-pixel-ratio: 2), only screen and (max-width: 767px) and (min-device-pixel-ratio: 2), only screen and (max-width: 767px) and (min-resolution: 144dppx) {
-  /* line 212, _sass/partials/_header.scss */
+  /* line 210, _sass/partials/_header.scss */
   .banner .inner {
     background-image: url('../i/bg2x/header-mobile.png?1399495980');
     background-size: 11.5px 11.5px;
   }
 }
 @media only screen and (max-width: 767px) {
-  /* line 216, _sass/partials/_header.scss */
+  /* line 214, _sass/partials/_header.scss */
   .banner .wrapper, .banner article.state-tabs ul.tabs-nav, article.state-tabs .banner ul.tabs-nav {
     height: 120px;
     padding-top: 50px;
   }
-  /* line 220, _sass/partials/_header.scss */
+  /* line 218, _sass/partials/_header.scss */
   .banner h1 {
     font-size: 27px;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
-  /* line 225, _sass/partials/_header.scss */
+  /* line 223, _sass/partials/_header.scss */
   .banner .inner {
     background-image: url('../i/bg/header-mobile.png?1399495980');
     background-repeat: repeat-x;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 1024px) and (-webkit-min-device-pixel-ratio: 2), only screen and (min-width: 768px) and (max-width: 1024px) and (-o-min-device-pixel-ratio: 3 / 2), only screen and (min-width: 768px) and (max-width: 1024px) and (min--moz-device-pixel-ratio: 2), only screen and (min-width: 768px) and (max-width: 1024px) and (min-device-pixel-ratio: 2), only screen and (min-width: 768px) and (max-width: 1024px) and (min-resolution: 144dppx) {
-  /* line 225, _sass/partials/_header.scss */
+  /* line 223, _sass/partials/_header.scss */
   .banner .inner {
     background-image: url('../i/bg2x/header-mobile.png?1399495980');
     background-size: 11.5px 11.5px;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
-  /* line 229, _sass/partials/_header.scss */
+  /* line 227, _sass/partials/_header.scss */
   .banner .wrapper, .banner article.state-tabs ul.tabs-nav, article.state-tabs .banner ul.tabs-nav {
     height: 180px;
     padding-top: 70px;
   }
-  /* line 233, _sass/partials/_header.scss */
+  /* line 231, _sass/partials/_header.scss */
   .banner h1 {
     font-size: 50px;
   }
