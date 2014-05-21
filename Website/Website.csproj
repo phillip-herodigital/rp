@@ -686,8 +686,11 @@
     <Content Include="frontend\assets\js\app.js" />
     <Content Include="frontend\assets\js\controllers\accountBalances.js" />
     <Content Include="frontend\assets\js\controllers\enrollment\cart.js" />
-    <Content Include="frontend\assets\js\controllers\enrollment\enrollment.js" />
-    <Content Include="frontend\assets\js\controllers\enrollment\lets-get-started.js" />
+    <Content Include="frontend\assets\js\controllers\enrollment\accountInformation.js" />
+    <Content Include="frontend\assets\js\controllers\enrollment\completeOrder.js" />
+    <Content Include="frontend\assets\js\controllers\enrollment\main.js" />
+    <Content Include="frontend\assets\js\controllers\enrollment\planSelection.js" />
+    <Content Include="frontend\assets\js\controllers\enrollment\serviceInformation.js" />
     <Content Include="frontend\assets\js\controllers\invoices.js" />
     <Content Include="frontend\assets\js\controllers\login.js" />
     <Content Include="frontend\assets\js\controllers\main.js" />

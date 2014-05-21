@@ -4,6 +4,6 @@
  */
 ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
 
-    console.log($scope.enrollmentFields);
+    $scope.enrollmentFields.serviceInformation = {};
 
 }]);
