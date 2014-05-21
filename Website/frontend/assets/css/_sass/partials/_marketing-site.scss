@@ -277,7 +277,6 @@ article.loginHorizontal {
 		padding-right: 0;
 		input, select, label {
 			vertical-align: middle; 
-			vertical-align: baseline\9; //IE8 hack to fix alignment issues
 		}		
 	}
 	button {
@@ -294,10 +293,10 @@ article.loginHorizontal {
 	}
 	@include breakpoint(medium) {
 		.group .item {
-			padding-right: 1.5%;
+			padding-right: 11px;
 		}
 		.username-item, .password-item {
-			width: 19.2%;
+			width: 140px;
 		}			
 		.wrapper {
 			width: 768px;
@@ -309,7 +308,7 @@ article.loginHorizontal {
 			padding-right: 18px;	
 		}		
 		.username-item, .password-item {
-			width: 24.5%;
+			width: 245px;
 		}
 		button {
 			width: 130px;
@@ -333,6 +332,9 @@ article.loginHorizontal {
 	}
 	.group, .item {
 		margin-bottom: 0;
+		input, select, label {
+			vertical-align: baseline;			
+		}
 	}
 }
 
