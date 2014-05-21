@@ -71,7 +71,8 @@ namespace StreamEnergy.MyStream.Controllers
                 this.emailService.SendEmail(Message);
 
                 // Send the success message back to the page
-                return new RedirectResult(Request.Url.AbsolutePath + "?success=true#success-message");
+                var ReturnURL = new RedirectResult(Request.Url.AbsolutePath + "?success=true#success-message");
+                return ReturnURL;
             }
             else
             {
