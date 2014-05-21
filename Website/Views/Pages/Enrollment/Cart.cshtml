@@ -1,4 +1,4 @@
-﻿<article class="cart">
+﻿            <article class="cart" ng-controller="EnrollmentCartCtrl">
 				<header>
 					<i class="icon-close" ng-click="toggleCart();"></i>
 					<h1>@Html.Sitecore().Field("Cart Header")</h1>
@@ -95,6 +95,5 @@
 						<li><i class="icon-ssn"></i> @Html.Sitecore().Field("Documents Social Security Number")</li>
 						<li><i class="icon-drivers-license"></i> @Html.Sitecore().Field("Documents Drivers License Number")</li>
 					</ul>
-					</div>
 				</div>
 			</article>
