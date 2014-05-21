@@ -9,19 +9,18 @@ using SendGridMail;
 namespace StreamEnergy.Services.Clients
 {
     class EmailService : IEmailService
-    {          
-        // TODO - Add parameters for Template and Dictionary since they aren't included in MailMessage
+    {
         bool IEmailService.SendEmail(MailMessage message)
         {
             // Create network credentials to access your SendGrid account.
-            var username = Sitecore.Configuration.Settings.GetSetting("SendGrid.username", null);;
-            var pswd = Sitecore.Configuration.Settings.GetSetting("SendGrid.password", null);;
+            var username = Sitecore.Configuration.Settings.GetSetting("SendGrid.username", null);
+            var pswd = Sitecore.Configuration.Settings.GetSetting("SendGrid.password", null);
 
             var credentials = new NetworkCredential(username, pswd);
 
             // Create the email object first, then add the properties.
             SendGrid emailMessage = SendGrid.GetInstance();
-            
+
             // Add multiple addresses to the To field.
             var recipients = message.To;
 
@@ -32,11 +31,11 @@ namespace StreamEnergy.Services.Clients
 
             emailMessage.From = message.From;
             emailMessage.Subject = message.Subject;
-            if (message.IsBodyHtml) 
+            if (message.IsBodyHtml)
             {
                 emailMessage.Html = message.Body;
             }
-            else 
+            else
             {
                 emailMessage.Text = message.Body;
             }
@@ -45,7 +44,7 @@ namespace StreamEnergy.Services.Clients
             var transportWeb = SendGridMail.Web.GetInstance(credentials);
 
             // Send the email.
-            try 
+            try
             {
                 transportWeb.Deliver(emailMessage);
                 return true;

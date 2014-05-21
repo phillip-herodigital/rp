@@ -4,10 +4,14 @@
             int i = 1;
             foreach (Sitecore.Data.Items.Item item in Html.Sitecore().CurrentItem.Children)
             {
+                Sitecore.Data.Fields.ImageField field = item.Fields["Charity Image"];
                 <div class="donate @(i++ %2 == 0 ? "donate-alt":"")">
-                    <div class="donate-image">
-                        @Html.Raw(Sitecore.Web.UI.WebControls.FieldRenderer.Render(item, "Charity Image"))
-                    </div>
+                    @if (field != null && field.MediaItem != null)
+                    {
+                        <div class="donate-image">
+                            <img src="@Sitecore.Resources.Media.MediaManager.GetMediaUrl(field.MediaItem)" />
+                        </div>
+                    }
                     <div class="donate-promo">
                         <h4>@Html.Sitecore().Field("Charity Name", item)</h4>
                         <p>@Html.Sitecore().Field("Charity Description", item)</p>
