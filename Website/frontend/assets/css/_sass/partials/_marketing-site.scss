@@ -276,7 +276,8 @@ article.loginHorizontal {
 	.group .item {
 		padding-right: 0;
 		input, select, label {
-			vertical-align: middle;
+			vertical-align: middle; 
+			vertical-align: baseline\9; //IE8 hack to fix alignment issues
 		}		
 	}
 	button {
@@ -374,6 +375,7 @@ article.gridPromos {
 .ie8 article.gridPromos {
 	div.col {
 		display: inline-block;
+		padding: 0 4%;
 	}
 }
 
