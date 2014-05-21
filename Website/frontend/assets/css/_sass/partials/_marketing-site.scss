@@ -392,8 +392,11 @@ article.leaders {
 			p {
 				font-style: italic;
 			}
-			@include breakpoint(small) {
+			@include breakpoint(medium) {
 				width: 50%;
+			}
+			@include breakpoint(small) {
+				width: 100%;
 			}
 		}
 	}
