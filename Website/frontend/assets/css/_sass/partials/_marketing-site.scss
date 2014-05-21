@@ -1470,11 +1470,21 @@ article.homelife-services {
 		text-align: center;
 	}
 }
+
 article.states-enroll {
 	div.wrapper {
 		text-align: center;
 	}
 }
+
+article.states-renew {
+	ul.tabs-nav {
+		li a {
+			@include border-radius(7px 7px 7px 7px);
+		}
+	}
+}
+
 article.full-width-image {
 	height: 300px;
 	background-size: cover; 
@@ -1534,10 +1544,18 @@ article.why-energy {
 }
 
 article.commercial-quote {
+	.photo {
+		img {
+			float: right;
+		}
+	}
 	.text {
 		border-left: 3px solid #ffa409;
 		width: 50%;
 		background-color: #0971ce;
+		@include breakpoint(small) {
+			width: 100%;
+		}
 		.inner {
 			color: #fff;
 			h2 {
@@ -1545,10 +1563,10 @@ article.commercial-quote {
 				font-size: 24px;
 			}
 			button {
+				color: #333;
 				background-color: #fff;
-				a {
-					color: #333;
-				}
+				border-color: #ccc;
+				text-shadow: none;
 				&:hover {
 					background-color: #ebebeb
 				}
@@ -1556,6 +1574,7 @@ article.commercial-quote {
 			input,
 			select {
 				width: 100%;
+				color: #999;
 			}
 		}
 	}
@@ -1621,6 +1640,17 @@ article.free-energy {
 		}
 		p {
 			line-height: 1;
+			@include breakpoint(small) {
+				display: block;
+				float: left;
+			}
+			em {
+				color: #1773cb;
+				text-transform: none;
+			}
+			.blue {
+				color: #1773cb;
+			}
 		}
 	}
 }
@@ -1634,6 +1664,9 @@ article.free-energy.picture-promo {
 		width: 335px;
 		margin-left: 100px;
 		padding: 320px 0 50px 0;
+		@include breakpoint(small) {
+			margin: 0;
+		}
 		h2 {
 			color: #fff;
 			line-height: 28px;
@@ -1653,6 +1686,9 @@ article.enroll {
 		}
 		h2 {
 			text-transform: none;			
+		}
+		h2.grey {
+			color: #6b6b6b;
 		}
 		hr {
 			margin: 22px 0;
@@ -1681,6 +1717,42 @@ article.enroll {
 				color: #6b6b6b;
 				text-decoration: underline;
 			}
+		}
+		.formlinks {
+			width: 48%;
+			.header {
+				background-color: #0971ce;
+				color: #fff;
+				padding: 10px 0 10px 20px;
+			}
+			.link {
+				border-bottom: 3px solid #f0f0f0;
+			}
+			.grey {
+				background-color: #fafafa;
+			}
+			p.form {
+				background: url("../i/marketing/plan-icon.png") no-repeat left center;
+				padding: 15px 0;
+				margin: 0px 0px 0px 20px;
+				width: 100%;
+				a {
+					font-size: 12px;
+					font-weight: bold;
+					margin-left: 3.5em;
+					padding: 15px 0px;
+				}
+			}
+		}
+		.english {
+			float: left;
+		}
+		.spanish {
+			float: right;
+		}
+		.customer-forms {
+			margin-top: 80px;
+			padding-bottom: 50px;
 		}
 	}
 }
