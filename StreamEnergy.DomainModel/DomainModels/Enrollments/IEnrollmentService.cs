@@ -9,18 +9,20 @@ namespace StreamEnergy.DomainModels.Enrollments
 {
     public interface IEnrollmentService
     {
-        IEnumerable<IOffer> LoadOffers(Address serviceAddress, IEnumerable<IServiceCapability> serviceCapabilities);
-        IConnectDatePolicy LoadConnectDates(Address serviceAddress, IEnumerable<IServiceCapability> serviceCapabilities);
+        IEnumerable<Tuple<ServiceLocation, IOffer>> LoadOffers(IEnumerable<ServiceLocation> serviceLocations);
+
+        IConnectDatePolicy LoadConnectDates(ServiceLocation location);
 
         IdentityCheckResult IdentityCheck(Name name, string ssn, DriversLicense driversLicense, Address billingAddress, AdditionalIdentityInformation identityInformation = null);
 
         // TODO - will need more inputs
-        LoadDepositResult LoadDeposit(IEnumerable<SelectedOffer> selectedOffers);
+        LoadDepositResult LoadDeposit(IEnumerable<ServiceSelection> services);
 
         // TODO - how do we pay deposits?
 
-        // TODO - needs customer info, at the very least
-        PlaceOrderResult PlaceOrder(IEnumerable<SelectedOffer> selectedOffers);
+        // TODO - needs customer info, too
+        PlaceOrderResult PlaceOrder(IEnumerable<ServiceSelection> services);
+
 
     }
 }

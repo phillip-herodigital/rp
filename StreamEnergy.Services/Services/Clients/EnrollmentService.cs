@@ -15,18 +15,21 @@ namespace StreamEnergy.Services.Clients
 
         }
 
-        IEnumerable<IOffer> IEnrollmentService.LoadOffers(DomainModels.Address serviceAddress, IEnumerable<DomainModels.IServiceCapability> serviceCapabilities)
+        IEnumerable<Tuple<ServiceLocation, IOffer>> IEnrollmentService.LoadOffers(IEnumerable<ServiceLocation> serviceLocations)
         {
-            return new IOffer[] 
-            { 
-                new TexasElectricityOffer
-                {
-                    Id = "NewOffer"
-                }
-            };
+            return serviceLocations.SelectMany(location =>
+            {
+                return new [] 
+                { 
+                    Tuple.Create(location, (IOffer)new TexasElectricityOffer
+                        {
+                            Id = "NewOffer"
+                        })
+                };
+            });
         }
 
-        IConnectDatePolicy IEnrollmentService.LoadConnectDates(DomainModels.Address serviceAddress, IEnumerable<DomainModels.IServiceCapability> serviceCapabilities)
+        IConnectDatePolicy IEnrollmentService.LoadConnectDates(ServiceLocation location)
         {
             return new ConnectDatePolicy();
         }
@@ -85,7 +88,7 @@ namespace StreamEnergy.Services.Clients
             }
         }
 
-        DomainModels.Enrollments.Service.LoadDepositResult IEnrollmentService.LoadDeposit(IEnumerable<SelectedOffer> selectedOffers)
+        DomainModels.Enrollments.Service.LoadDepositResult IEnrollmentService.LoadDeposit(IEnumerable<ServiceSelection> services)
         {
             return new DomainModels.Enrollments.Service.LoadDepositResult
             {
@@ -93,9 +96,10 @@ namespace StreamEnergy.Services.Clients
             };
         }
 
-        DomainModels.Enrollments.Service.PlaceOrderResult IEnrollmentService.PlaceOrder(IEnumerable<SelectedOffer> selectedOffers)
+        DomainModels.Enrollments.Service.PlaceOrderResult IEnrollmentService.PlaceOrder(IEnumerable<ServiceSelection> services)
         {
             return new DomainModels.Enrollments.Service.PlaceOrderResult { ConfirmationNumber = "87654321" };
         }
+
     }
 }

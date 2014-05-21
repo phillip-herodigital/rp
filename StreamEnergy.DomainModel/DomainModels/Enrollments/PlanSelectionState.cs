@@ -20,8 +20,9 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
         {
-            yield return context => context.ServiceAddress.PostalCode5;
-            yield return context => context.SelectedOffers;
+            yield return context => context.Services.First().Location.Address.PostalCode5;
+            yield return context => context.Services.First().Location.Capabilities;
+            yield return context => context.Services.First().SelectedOffers;
         }
 
         public IEnumerable<ValidationResult> AdditionalValidations(UserContext context, InternalContext internalContext)
@@ -59,13 +60,10 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         private void LoadInternalState(UserContext context, InternalContext internalContext)
         {
-            if (context.SelectedOffers != null)
-            {
-                foreach (var offer in context.SelectedOffers)
-                {
-                    internalContext.OfferOptionRules[offer.Offer.Id] = offer.Offer.GetOfferOptionPolicy(container).GetOptionRules(context.ServiceAddress, offer.Offer, context.ServiceCapabilities);
-                }
-            }
+            internalContext.OfferOptionRulesByAddressOffer = (from service in context.Services
+                                                              where service.SelectedOffers != null
+                                                              from offer in service.SelectedOffers
+                                                              select Tuple.Create(service.Location, offer.Offer, offer.Offer.GetOfferOptionPolicy(container).GetOptionRules(service.Location, offer.Offer))).ToArray();
         }
     }
 }

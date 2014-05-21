@@ -19,11 +19,11 @@ namespace StreamEnergy.DomainModels.Enrollments
             return offerOption is TexasElectricityOfferOption;
         }
 
-        public IOfferOptionRules GetOptionRules(Address serviceAddress, IOffer offer, IEnumerable<IServiceCapability> serviceCapabilities)
+        public IOfferOptionRules GetOptionRules(ServiceLocation location, IOffer offer)
         {
             return new TexasOfferOptionRules
             {
-                ConnectDates = enrollmentService.LoadConnectDates(serviceAddress, serviceCapabilities)
+                ConnectDates = enrollmentService.LoadConnectDates(location)
             };
         }
     }

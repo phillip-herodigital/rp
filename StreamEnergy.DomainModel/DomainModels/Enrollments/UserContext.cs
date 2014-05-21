@@ -15,14 +15,10 @@ namespace StreamEnergy.DomainModels.Enrollments
         [ValidateObject(ErrorMessagePrefix = "")]
         public CustomerContact ContactInfo { get; set; }
 
-        [Required(ErrorMessage = "Service Address Required")]
-        [ValidateObject(ErrorMessagePrefix = "Service Address ")]
-        public Address ServiceAddress { get; set; }
-
-        [Required(ErrorMessage = "Service Capabilities Missing")]
-        [EnumerableRequired(ErrorMessage = "Service Capabilities Missing")]
-        [ValidateEnumerable(ErrorMessagePrefix = "Service Capabilities ")]
-        public IEnumerable<IServiceCapability> ServiceCapabilities { get; set; }
+        [Required(ErrorMessage = "Services Required")]
+        [ValidateEnumerable(ErrorMessagePrefix = "Service ")]
+        [CollectionCountRangeAttribute(1, int.MaxValue, ErrorMessage = "Services Required")]
+        public IEnumerable<ServiceSelection> Services { get; set; }
 
         [ValidateObject(ErrorMessagePrefix = "Secondary Contact ")]
         public Name SecondaryContactInfo { get; set; }
@@ -39,12 +35,6 @@ namespace StreamEnergy.DomainModels.Enrollments
         [Required(ErrorMessage = "Billing Address Required")]
         [ValidateObject(ErrorMessagePrefix = "Billing Address ")]
         public Address BillingAddress { get; set; }
-
-        [Required(ErrorMessage = "Selected Offers Required")]
-        [EnumerableRequired(ErrorMessage = "Selected Offers Required")]
-        [ValidateEnumerable(ErrorMessagePrefix = "Selected ")]
-        [CollectionCountRangeAttribute(1, int.MaxValue, ErrorMessage = "Selected Offers Required")]
-        public IEnumerable<SelectedOffer> SelectedOffers { get; set; }
 
         [Required(ErrorMessage = "Selected Identity Answers Required")]
         public Dictionary<string, string> SelectedIdentityAnswers { get; set; }

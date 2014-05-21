@@ -98,32 +98,6 @@ namespace StreamEnergy.MyStream.Tests
             {
                 Amount = 50.00m
             };
-
-            // TODO - remove this mock and replace with a service-level mock
-            Mock<IEnrollmentService> service = new Mock<IEnrollmentService>();
-            container.Unity.RegisterInstance(service.Object);
-
-            service.Setup(svc => svc.LoadOffers(It.IsAny<DomainModels.Address>(), It.IsAny<IEnumerable<DomainModels.IServiceCapability>>())).Returns(offers);
-
-            // This isn't really here to be a mock, but rather a placeholder... hence it's a "stub". The real thing should come in with the service-level mock.
-            Mock<IConnectDatePolicy> stub = new Mock<IConnectDatePolicy>();
-            service.Setup(svc => svc.LoadConnectDates(It.IsAny<DomainModels.Address>(), It.IsAny<IEnumerable<DomainModels.IServiceCapability>>())).Returns(stub.Object);
-
-            // This is for the first identity check call.            
-            service.Setup(svc => svc.IdentityCheck(It.IsAny<DomainModels.Name>(), It.IsAny<string>(), It.IsAny<DomainModels.DriversLicense>(), It.IsAny<DomainModels.Address>(), null))
-                .Returns(identityCheckResult);
-
-            // This is for the return identity check call
-            service.Setup(svc => svc.IdentityCheck(It.IsAny<DomainModels.Name>(), It.IsAny<string>(), It.IsAny<DomainModels.DriversLicense>(), It.IsAny<DomainModels.Address>(), It.Is<DomainModels.Enrollments.AdditionalIdentityInformation>(m => m != null)))
-                .Returns(finalIdentityCheckResult);
-
-            service.Setup(svc => svc.LoadDeposit(It.IsAny<IEnumerable<SelectedOffer>>())).Returns(loadDepositResult);
-
-            service.Setup(svc => svc.PlaceOrder(It.IsAny<IEnumerable<SelectedOffer>>())).Returns(new StreamEnergy.DomainModels.Enrollments.Service.PlaceOrderResult
-                {
-                    ConfirmationNumber = "123456"
-                });
-
         }
 
         [TestMethod]
@@ -175,9 +149,14 @@ namespace StreamEnergy.MyStream.Tests
             // Arrange
             var request = new Models.Enrollment.ServiceInformation
             {
-                IsNewService = true,
-                ServiceAddress = generalAddress,
-                ServiceCapabilities = generalServiceCapabilities
+                Locations = new[] 
+                { 
+                    new ServiceLocation
+                    {
+                        Address = generalAddress,
+                        Capabilities = generalServiceCapabilities
+                    }
+                }
             };
 
             using (var controller = container.Resolve<EnrollmentController>())
@@ -187,22 +166,22 @@ namespace StreamEnergy.MyStream.Tests
 
                 // Assert
                 Assert.AreEqual("SelectedOffers", result.Validations.Single().MemberName);
-                Assert.AreEqual("75010", result.UserContext.ServiceAddress.PostalCode5);
-                Assert.AreEqual(DomainModels.TexasServiceCapability.capabilityType, result.UserContext.ServiceCapabilities.First().CapabilityType);
-                Assert.AreEqual("Centerpoint", (result.UserContext.ServiceCapabilities.First() as DomainModels.TexasServiceCapability).Tdu);
-                Assert.IsTrue((result.UserContext.ServiceCapabilities.First() as DomainModels.TexasServiceCapability).IsNewService);
+                Assert.AreEqual("75010", result.UserContext.Services.First().Location.Address.PostalCode5);
+                Assert.AreEqual(DomainModels.TexasServiceCapability.capabilityType, result.UserContext.Services.First().Location.Capabilities.First().CapabilityType);
+                Assert.AreEqual("Centerpoint", (result.UserContext.Services.First().Location.Capabilities.First() as DomainModels.TexasServiceCapability).Tdu);
+                Assert.IsTrue((result.UserContext.Services.First().Location.Capabilities.First() as DomainModels.TexasServiceCapability).IsNewService);
 
                 Assert.IsTrue(result.Offers.Any());
-                Assert.IsNotNull(result.Offers.SingleOrDefault(offer => offer.Id == "NewOffer"));
+                Assert.IsNotNull(result.Offers.SingleOrDefault(offer => offer.Value.First().Id == "NewOffer"));
             }
             var session = container.Resolve<EnrollmentController.SessionHelper>();
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.PlanSelectionState), session.State);
-            Assert.AreEqual("75010", session.UserContext.ServiceAddress.PostalCode5);
-            Assert.AreEqual(DomainModels.TexasServiceCapability.capabilityType, session.UserContext.ServiceCapabilities.First().CapabilityType);
-            Assert.AreEqual("Centerpoint", (session.UserContext.ServiceCapabilities.First() as DomainModels.TexasServiceCapability).Tdu);
-            Assert.IsTrue((session.UserContext.ServiceCapabilities.First() as DomainModels.TexasServiceCapability).IsNewService);
-            Assert.IsNotNull(session.InternalContext.AllOffers.SingleOrDefault(offer => offer.Id == "NewOffer"));
+            Assert.AreEqual("75010", session.UserContext.Services.First().Location.Address.PostalCode5);
+            Assert.AreEqual(DomainModels.TexasServiceCapability.capabilityType, session.UserContext.Services.First().Location.Capabilities.First().CapabilityType);
+            Assert.AreEqual("Centerpoint", (session.UserContext.Services.First().Location.Capabilities.First() as DomainModels.TexasServiceCapability).Tdu);
+            Assert.IsTrue((session.UserContext.Services.First().Location.Capabilities.First() as DomainModels.TexasServiceCapability).IsNewService);
+            Assert.IsNotNull(session.InternalContext.AllOffers.SingleOrDefault(offer => offer.Value.First().Id == "NewOffer"));
         }
 
         [TestMethod]
@@ -212,8 +191,18 @@ namespace StreamEnergy.MyStream.Tests
             var session = container.Resolve<EnrollmentController.SessionHelper>();
             session.UserContext = new UserContext
             {
-                ServiceAddress = generalAddress,
-                ServiceCapabilities = generalServiceCapabilities
+                Services = new[] 
+                {
+                    new ServiceSelection
+                    {
+                        Location = new ServiceLocation
+                        {
+                            AddressId = "test",
+                            Address = generalAddress,
+                            Capabilities = generalServiceCapabilities
+                        }
+                    }
+                }
             };
             session.InternalContext = new InternalContext
             {
@@ -237,7 +226,7 @@ namespace StreamEnergy.MyStream.Tests
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.AccountInformationState), session.State);
             Assert.IsTrue(session.UserContext.SelectedOffers.Any(o => o.Offer.Id == "NewOffer"));
-            Assert.IsNotNull(session.InternalContext.OfferOptionRules["NewOffer"]);
+            Assert.IsNotNull(session.InternalContext.OfferOptionRulesByAddressOffer["NewOffer"]);
         }
 
         [TestMethod]
@@ -471,7 +460,7 @@ namespace StreamEnergy.MyStream.Tests
                 DriversLicense = null,
                 Language = "en",
                 SecondaryContactInfo = null,
-                SelectedIdentityAnswers = new Dictionary<string,string>(),
+                SelectedIdentityAnswers = new Dictionary<string, string>(),
                 SocialSecurityNumber = "123-45-6789",
             };
             session.InternalContext = new InternalContext

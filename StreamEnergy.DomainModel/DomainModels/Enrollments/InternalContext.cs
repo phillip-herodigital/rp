@@ -10,12 +10,11 @@ namespace StreamEnergy.DomainModels.Enrollments
     {
         public InternalContext()
         {
-            OfferOptionRules = new Dictionary<string, IOfferOptionRules>();
         }
 
-        public IEnumerable<IOffer> AllOffers { get; set; }
+        public IEnumerable<Tuple<ServiceLocation, IOffer>> AllOffers { get; set; }
 
-        public Dictionary<string, IOfferOptionRules> OfferOptionRules { get; private set; }
+        public IEnumerable<Tuple<ServiceLocation, IOffer, IOfferOptionRules>> OfferOptionRulesByAddressOffer { get; set; }
 
         public Service.IdentityCheckResult IdentityCheckResult { get; set; }
 

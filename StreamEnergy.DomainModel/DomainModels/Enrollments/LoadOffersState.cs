@@ -18,8 +18,8 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
         {
-            yield return context => context.ServiceAddress.PostalCode5;
-            yield return context => context.ServiceCapabilities;
+            yield return context => context.Services.First().Location.Address.PostalCode5;
+            yield return context => context.Services.First().Location.Capabilities;
         }
 
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> AdditionalValidations(UserContext data, InternalContext internalContext)
@@ -58,7 +58,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         private void LoadInternalState(UserContext data, InternalContext internalContext)
         {
-            internalContext.AllOffers = enrollmentService.LoadOffers(data.ServiceAddress, data.ServiceCapabilities);
+            internalContext.AllOffers = enrollmentService.LoadOffers(data.Services.Select(s => s.Location));
         }
     }
 }

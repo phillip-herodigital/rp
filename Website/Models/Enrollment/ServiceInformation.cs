@@ -3,15 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using StreamEnergy.DomainModels.Enrollments;
 
 namespace StreamEnergy.MyStream.Models.Enrollment
 {
     public class ServiceInformation
     {
-        public Address ServiceAddress { get; set; }
-
-        public DomainModels.IServiceCapability[] ServiceCapabilities { get; set; }
-
-        public bool IsNewService { get; set; }
+        public ServiceLocation[] Locations { get; set; }
     }
 }

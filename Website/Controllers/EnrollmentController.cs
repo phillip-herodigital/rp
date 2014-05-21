@@ -113,25 +113,34 @@ namespace StreamEnergy.MyStream.Controllers
             {
                 Validations = TranslatedValidationResult.Translate(stateMachine.ValidationResults, translationItem),
                 UserContext = CopyForClientDisplay(stateMachine.Context),
-                Offers = stateMachine.InternalContext.AllOffers,
-                OfferOptionRules = stateMachine.InternalContext.OfferOptionRules,
+                Offers = (from offer in stateMachine.InternalContext.AllOffers
+                             group offer.Item2 by LookupAddressId(offer.Item1)).ToDictionary(e => e.Key, e => (IEnumerable<IOffer>)e.ToArray()),
+                OfferOptionRules = (from entry in stateMachine.InternalContext.OfferOptionRulesByAddressOffer
+                                    group entry by LookupAddressId(entry.Item1) into byAddressId
+                                    let byOfferId = byAddressId.ToDictionary(e => e.Item2.Id, e => e.Item3)
+                                    select new { AddressId = byAddressId.Key, Value = byOfferId }).ToDictionary(e => e.AddressId, e => e.Value),
                 IdentityQuestions = stateMachine.InternalContext.IdentityCheckResult != null ? stateMachine.InternalContext.IdentityCheckResult.IdentityQuestions : null,
                 DepositAmount = stateMachine.InternalContext.Deposit != null ? stateMachine.InternalContext.Deposit.Amount : (decimal?)null,
                 ConfirmationNumber = stateMachine.InternalContext.PlaceOrderResult != null ? stateMachine.InternalContext.PlaceOrderResult.ConfirmationNumber : null
             };
         }
 
+        private string LookupAddressId(ServiceLocation serviceLocation)
+        {
+            throw new NotImplementedException();
+        }
+
         [HttpPost]
         public ClientData ServiceInformation([FromBody]ServiceInformation value)
         {
-            stateMachine.Context.ServiceAddress = value.ServiceAddress;
-            stateMachine.Context.ServiceCapabilities = value.ServiceCapabilities;
-            
-            // TODO - make sure this gets put in all the other service capabilities, or remove it from the interface and have the front-end do it
-            foreach (var entry in value.ServiceCapabilities.OfType<TexasServiceCapability>())
-            {
-                entry.IsNewService = value.IsNewService;
-            }
+            stateMachine.Context.Services = (from location in value.Locations
+                                             join service in stateMachine.Context.Services on LookupAddressId(location) equals LookupAddressId(service.Location) into services
+                                             from service in services.DefaultIfEmpty()
+                                             select new ServiceSelection
+                                             {
+                                                 Location = location,
+                                                 SelectedOffers = service.SelectedOffers
+                                             }).ToArray();
 
             if (stateMachine.State == typeof(DomainModels.Enrollments.ServiceInformationState))
                 stateMachine.Process(typeof(DomainModels.Enrollments.AccountInformationState));
@@ -142,13 +151,18 @@ namespace StreamEnergy.MyStream.Controllers
         [HttpPost]
         public ClientData SelectedOffers([FromBody]SelectedOffers value)
         {
-            stateMachine.Context.SelectedOffers = (from offerId in value.OfferIds
-                                                   let offer = stateMachine.InternalContext.AllOffers.SingleOrDefault(o => o.Id == offerId)
-                                                   where offer != null
-                                                   select new SelectedOffer
-                                                   {
-                                                       Offer = offer,
-                                                   }).ToArray();
+            foreach (var entry in stateMachine.Context.Services)
+            {
+                var addressId = LookupAddressId(entry.Location);
+                if (value.OfferIds.ContainsKey(addressId))
+                {
+                    entry.SelectedOffers = (from offerId in value.OfferIds[addressId]
+                                            select new SelectedOffer
+                                            {
+                                                Offer = stateMachine.InternalContext.AllOffers[addressId].SingleOrDefault(o => o.Id == offerId),
+                                            }).ToArray();
+                }
+            }
 
             if (stateMachine.State == typeof(DomainModels.Enrollments.PlanSelectionState))
                 stateMachine.Process(typeof(DomainModels.Enrollments.AccountInformationState));

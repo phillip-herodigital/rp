@@ -10,17 +10,7 @@ namespace StreamEnergy.DomainModels.Enrollments
     {
         public IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
         {
-            yield return context => context.ServiceAddress;
-            yield return context => context.SelectedOffers;
-            yield return context => context.BillingAddress;
-            yield return context => context.ContactInfo;
-            yield return context => context.Language;
-            yield return context => context.SecondaryContactInfo;
-            yield return context => context.SocialSecurityNumber;
-            yield return context => context.DriversLicense;
-            yield return context => context.SelectedIdentityAnswers;
-            // TODO - select payment method
-            // TODO - confirm TOSA, etc.
+            yield return context => context;
         }
 
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> AdditionalValidations(UserContext context, InternalContext internalContext)

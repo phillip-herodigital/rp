@@ -10,8 +10,6 @@ namespace StreamEnergy.DomainModels.Enrollments
     {
         public IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
         {
-            yield return context => context.ServiceAddress;
-            yield return context => context.SelectedOffers;
             yield return context => context.BillingAddress;
             yield return context => context.ContactInfo;
             yield return context => context.Language;

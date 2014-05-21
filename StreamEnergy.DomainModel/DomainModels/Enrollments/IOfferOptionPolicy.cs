@@ -9,6 +9,6 @@ namespace StreamEnergy.DomainModels.Enrollments
     {
         bool AcceptsOptions(IOfferOption offerOption);
 
-        IOfferOptionRules GetOptionRules(Address serviceAddress, IOffer offer, IEnumerable<IServiceCapability> enumerable);
+        IOfferOptionRules GetOptionRules(ServiceLocation location, IOffer offer);
     }
 }
