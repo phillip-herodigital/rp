@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Configuration;
 
 namespace StreamEnergy
 {
@@ -13,9 +14,9 @@ namespace StreamEnergy
         public void SetupUnity(IUnityContainer unityContainer)
         {
             EnvironmentCategory environment;
-            if (!Enum.TryParse<EnvironmentCategory>(Sitecore.Configuration.Settings.GetSetting("StreamEnergy.Environment"), out environment))
+            if (!Enum.TryParse<EnvironmentCategory>(WebConfigurationManager.AppSettings["StreamEnergy.Environment"], out environment))
             {
-                throw new InvalidOperationException("StreamEnergy.Environment is not set. It must be one of the following values: " + string.Join(", ", Enum.GetNames(typeof(EnvironmentCategory))));
+                throw new InvalidOperationException("StreamEnergy.Environment could not be set. It must be one of the following values: " + string.Join(", ", Enum.GetNames(typeof(EnvironmentCategory))));
             }
             unityContainer.RegisterInstance(environment);
 
