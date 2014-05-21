@@ -4,6 +4,7 @@ using StreamEnergy.DomainModels.Accounts;
 using StreamEnergy.MyStream.Models.Marketing;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -34,23 +35,23 @@ namespace StreamEnergy.MyStream.Controllers
         }
 
         [HttpPost]
-        public ActionResult ContactIndex(FormCollection collection)
+        public ActionResult ContactIndex(StreamEnergy.MyStream.Models.Marketing.Contact contact)
         {
-            try
+            // Validate form data
+            if (ModelState.IsValid)
             {
-                var FirstName = collection["firstName"];
-                var LastName = collection["lastName"];
-                var AddressLine1 = collection["address"];
-                var City = collection["city"];
-                var StateAbbreviation = collection["state"];
-                var PostalCode5 = collection["zipCode"];
-                var Phone = collection["phone"];
-                var Email = collection["email"];
-                var Reason = collection["reason"];
-                var Comments = collection["comments"];
+                // Get the form data
+                var FirstName = contact.ContactName.First;
+                var LastName = contact.ContactName.Last;
+                var AddressLine1 = contact.ContactAddress.Line1;
+                var City = contact.ContactAddress.City;
+                var StateAbbreviation = contact.ContactAddress.StateAbbreviation;
+                var PostalCode5 = contact.ContactAddress.PostalCode5;
+                var Phone = contact.ContactPhone.Number;
+                var Email = contact.ContactEmail.Address;
+                var Reason = contact.Reason;
+                var Comment = contact.Comment;
                 var Name = FirstName + ' ' + LastName;
-
-                // TODO - Validate form data
 
                 // Send the email
                 MailAddress From = new MailAddress(Email, Name);
@@ -58,25 +59,27 @@ namespace StreamEnergy.MyStream.Controllers
                 MailMessage Message = new MailMessage(From, To);
                 Message.Subject = "New Contact Form Submission";
                 Message.IsBodyHtml = true;
-                Message.Body = "First Name: " + FirstName + 
-                    "<br />Last Name: " + LastName + 
+                Message.Body = "First Name: " + FirstName +
+                    "<br />Last Name: " + LastName +
                     "<br />Address: " + AddressLine1 +
                     "<br />" + City + ", " + StateAbbreviation + " " + PostalCode5 +
-                    "<br />Phone: " + Phone + 
-                    "<br />Email: " + Email + 
+                    "<br />Phone: " + Phone +
+                    "<br />Email: " + Email +
                     "<br />Reason: " + Reason +
-                    "<br /> Comments: " + Comments;
+                    "<br /> Comments: " + Comment;
 
                 this.emailService.SendEmail(Message);
-                
+
                 // Send the success message back to the page
-                return new RedirectResult(Request.Url.AbsolutePath + "?success=true#success-message");
+                var ReturnURL = new RedirectResult(Request.Url.AbsolutePath + "?success=true#success-message");
+                return ReturnURL;
             }
-            catch
+            else
             {
-                return View("~/Views/Pages/Marketing/Contact/Contact.cshtml");
+                return View("~/Views/Pages/Marketing/Contact/Contact.cshtml", contact);
             }
         }
+
 
         public ActionResult EnrollCommercialIndex()
         {
@@ -112,12 +115,12 @@ namespace StreamEnergy.MyStream.Controllers
                 MailMessage Message = new MailMessage(From, To);
                 Message.Subject = "New Commerical Quote Request";
                 Message.IsBodyHtml = true;
-                Message.Body = "First Name: " + FirstName + 
-                    "<br />Last Name: " + LastName + 
-                    "<br />Company Name: " + CompanyName + 
-                    "<br />Address: " + AddressLine1 + 
+                Message.Body = "First Name: " + FirstName +
+                    "<br />Last Name: " + LastName +
+                    "<br />Company Name: " + CompanyName +
+                    "<br />Address: " + AddressLine1 +
                     "<br />" + City + ", " + StateAbbreviation + " " + PostalCode5 +
-                    "<br />Phone: " + Phone + 
+                    "<br />Phone: " + Phone +
                     "<br />Email: " + Email;
 
                 this.emailService.SendEmail(Message);
