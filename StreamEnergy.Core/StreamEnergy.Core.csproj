@@ -159,6 +159,7 @@
     <Compile Include="Mvc\Sitecore\ISitecoreContext.cs" />
     <Compile Include="Mvc\Sitecore\SitecoreContainerSetup.cs" />
     <Compile Include="Mvc\Sitecore\SitecoreContext.cs" />
+    <Compile Include="RequireValueAttributeAdapter.cs" />
     <Compile Include="Processes\IState.cs" />
     <Compile Include="Processes\IStateMachine.cs" />
     <Compile Include="Processes\SimpleFinalState.cs" />
@@ -175,6 +176,7 @@
     <Compile Include="Extensions\StreamEnergyHelper.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Mvc\Sitecore\SitecoreSettings.cs" />
+    <Compile Include="RequireValueAttribute.cs" />
     <Compile Include="TypeIndicatorJsonConverter.cs" />
     <Compile Include="TypeIndicatorLookup.cs" />
     <Compile Include="Unity\Container.cs" />

@@ -18,7 +18,7 @@ namespace StreamEnergy.DomainModels.Enrollments
             yield return context => context.SecondaryContactInfo;
             yield return context => context.SocialSecurityNumber;
             yield return context => context.DriversLicense;
-            // TODO - identity questions
+            yield return context => context.SelectedIdentityAnswers;
             // TODO - select payment method
             // TODO - confirm TOSA, etc.
         }
@@ -28,7 +28,7 @@ namespace StreamEnergy.DomainModels.Enrollments
             yield break;
         }
 
-        bool IState<UserContext, InternalContext>.IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult)
+        bool IState<UserContext, InternalContext>.IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult, UserContext context, InternalContext internalContext)
         {
             return false;
         }

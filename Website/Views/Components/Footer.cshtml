@@ -16,6 +16,12 @@
             </div>
         </div>
     </div>
+    @if (!string.IsNullOrEmpty(Html.Sitecore().Field("Footnotes", Sitecore.Context.Item).ToString()))
+    {
+        <div class="wrapper footnotes">
+            @Html.Sitecore().Field("Footnotes", Sitecore.Context.Item)
+        </div>
+    }
     <div class="wrapper copyright">
         <p>@Html.Sitecore().Field("Copyright Content")</p>
         <ul>

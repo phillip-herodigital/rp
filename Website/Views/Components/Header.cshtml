@@ -1,4 +1,4 @@
-﻿<header class="site-header" main-nav>
+﻿<header class="site-header" main-nav ng-controller="InvoicesCtrl">
     @{
         var parentMenu = Html.Sitecore().CurrentItem;
         var target = from entry in parentMenu.Children.OfType<Sitecore.Data.Items.Item>().Select((item, index) => new { item, index })
@@ -11,9 +11,38 @@
                          SubNavItems = from Sitecore.Data.Items.Item subitem in entry.item.Children
                                        select subitem
                      };
-                     
+
         // Included ToArray to force Select to happen once, even though we have two foreach
         target = target.ToArray();
+
+        <script id="mobileNav" type="text/ng-template">
+            <nav class="mobile-nav" mobile-nav="0">
+                @* TODO: Need up update mobil-nav="0" to the index of the selected item *@
+                <ul>
+                    @foreach (var item in target)
+                    {
+                        <li ng-class="{ opened: subnav == @item.SubNavNum }">
+                            <span>
+                                @if (item.SubNavItems.Any())
+                                {
+                                    <span class="arrow" ng-click="toggleSubnav(@item.SubNavNum)"><i ng-class="{'icon-nav-arrow-expanded': subnav == @item.SubNavNum, 'icon-nav-arrow-collapsed': subnav != @item.SubNavNum}"></i></span>
+                                }
+                                @Html.Sitecore().Field("Navigation Link", item.Item)
+                            </span>
+                            @if (item.SubNavItems.Any())
+                            {
+                                <ul ng-hide="subnav != @item.SubNavNum">
+                                    @foreach (var subItem in item.SubNavItems)
+                                    {
+                                        <li>@Html.Sitecore().Field("Navigation Link", subItem)</li>
+                                    }
+                                </ul>
+                            }
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </script>
 
         <div class="wrapper">
             <a href="/" class="logo">Logo</a>
