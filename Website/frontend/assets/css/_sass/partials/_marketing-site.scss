@@ -254,17 +254,14 @@ article.marketingIntro {
 
 article.loginHorizontal {
     margin-top: -20px;
-    @include breakpoint(small) {
-		margin-top: 30px;
-	}
 	padding: 4px 0;
 	border-top: 4px solid #1697ff;
 	background-color: #1773cb;
 	color: #fff;
 	span.text {
 		float: left;
-		margin: 0 10px 0 0;
-		padding: 5px 10px 5px 0;
+		margin: 0 20px 0 0;
+		padding: 5px 20px 5px 0;
 		border-right: 1px solid #409cee;
 		color: #fff;
 		font-size: 18px;
@@ -276,10 +273,46 @@ article.loginHorizontal {
 			margin-right: 5px;
 		}
 	}
-	button, .button {
+	.group .item {
+		padding-right: 0;
+		input, select, label {
+			vertical-align: middle;
+		}		
+	}
+	button {
 		background-color: #fff;
 		color: #1773cb;
 		@include text-shadow(none);
+	}
+    @include breakpoint(small) {
+		margin-top: 30px;
+		.wrapper {
+			padding-top: 20px;
+			padding-bottom: 30px;
+		}
+	}
+	@include breakpoint(medium) {
+		.group .item {
+			padding-right: 1.5%;
+		}
+		.username-item, .password-item {
+			width: 19.2%;
+		}			
+		.wrapper {
+			width: 768px;
+			padding: 0 20px;
+		}
+	}
+	@include breakpoint(large) {
+		.group .item {
+			padding-right: 18px;	
+		}		
+		.username-item, .password-item {
+			width: 24.5%;
+		}
+		button {
+			width: 130px;
+		}	
 	}
 }
 
@@ -296,6 +329,9 @@ article.loginHorizontal {
 			width: 130px;
 			height:30px;
 		}
+	}
+	.group, .item {
+		margin-bottom: 0;
 	}
 }
 
