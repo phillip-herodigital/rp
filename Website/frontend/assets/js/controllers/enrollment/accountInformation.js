@@ -4,10 +4,21 @@
  */
 ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', '$rootScope', 'enrollmentService', function ($scope, $rootScope, enrollmentService) {
 
-    $scope.serverData.accountInformation = {};
-
-    //Complete enrollment section
+    /**
+    * Complete Enrollment Section
+    */
     $scope.completeStep = function () {
+        console.log('Sending account information...');
+
+        var confirmOrderPromise = enrollmentService.setConfirmOrder();
+
+        confirmOrderPromise.then(function (data) {
+            console.log(data);
+            $scope.serverData = data;
+        }, function (data) {
+            // error response
+            $rootScope.$broadcast('connectionFailure');
+        });
     };
 
 }]);

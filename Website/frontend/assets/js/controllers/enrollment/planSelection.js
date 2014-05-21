@@ -4,10 +4,21 @@
  */
 ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', '$rootScope', 'enrollmentService', function ($scope, $rootScope, enrollmentService) {
 
-    $scope.serverData.planSelection = {};
-
-    //Complete enrollment section
+    /**
+    * Complete Enrollment Section
+    */
     $scope.completeStep = function () {
+        console.log('Sending selected offers...');
+
+        var selectedOffersPromise = enrollmentService.setSelectedOffers();
+
+        selectedOffersPromise.then(function (data) {
+            console.log(data);
+            $scope.serverData = data;
+        }, function (data) {
+            // error response
+            $rootScope.$broadcast('connectionFailure');
+        });
     };
 
 }]);

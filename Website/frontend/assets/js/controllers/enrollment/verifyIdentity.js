@@ -4,10 +4,21 @@
  */
 ngApp.controller('EnrollmentVerifyIdentityCtrl', ['$scope', '$rootScope', 'enrollmentService', function ($scope, $rootScope, enrollmentService) {
 
-    $scope.serverData.verifyIdentity = {};
-
-    //Complete enrollment section
+    /**
+    * Complete Enrollment Section
+    */
     $scope.completeStep = function () {
+        console.log('Sending verify identity...');
+
+        var verifyIdentityPromise = enrollmentService.setVerifyIdentity();
+
+        serviceIverifyIdentityPromisenformationPromise.then(function (data) {
+            console.log(data);
+            $scope.serverData = data;
+        }, function (data) {
+            // error response
+            $rootScope.$broadcast('connectionFailure');
+        });
     };
 
 }]);
