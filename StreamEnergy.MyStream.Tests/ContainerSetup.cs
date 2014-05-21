@@ -8,27 +8,22 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Configuration;
 
 namespace StreamEnergy.MyStream.Tests
 {
     public class ContainerSetup
     {
-        static readonly string[] setupTypeNames = new[] 
-        {
-            "StreamEnergy.CoreContainerSetup, StreamEnergy.Core",
-            "StreamEnergy.Mvc.AspNetContainerSetup, StreamEnergy.Core",
-            "StreamEnergy.Services.Clients.ClientContainerSetup, StreamEnergy.Services",
-            "StreamEnergy.Services.Clients.ServiceMockContainerSetup, StreamEnergy.Services",
-            "StreamEnergy.DomainModels.PolymorphicSerializationContainerSetup, StreamEnergy.DomainModel",
-        };
-
         public static Container Create()
         {
             SetupSitecoreContext();
             var result = new Container(new Microsoft.Practices.Unity.UnityContainer());
-            result.Initialize((from typeName in setupTypeNames
-                               let type = Type.GetType(typeName)
-                               select (IContainerSetupStrategy)Activator.CreateInstance(type)).ToArray());
+            var configuration = WebConfigurationManager.GetWebApplicationSection("streamEnergy") as Configuration.ConfigurationSection;
+
+            result.Initialize((from iocInitializer in configuration.InversionOfControlInitializers
+                               let value = iocInitializer.Build()
+                               where value != null
+                               select value).ToArray());
             SetupHttpContext(result.Unity);
             return result;
         }
@@ -51,19 +46,19 @@ namespace StreamEnergy.MyStream.Tests
         {
             try
             {
-                Sitecore.Context.IsUnitTesting = true;
+                global::Sitecore.Context.IsUnitTesting = true;
             }
             catch { }
 
             // switch to the preferred site    
-            Sitecore.Context.SetActiveSite("website");
+            global::Sitecore.Context.SetActiveSite("website");
 
             // set the preferred database
-            Sitecore.Context.Database = Sitecore.Context.Site.Database;
+            global::Sitecore.Context.Database = global::Sitecore.Context.Site.Database;
 
             // set the preferred language
-            Sitecore.Globalization.Language language = Sitecore.Globalization.Language.Parse(Sitecore.Context.Site.Language);
-            Sitecore.Context.SetLanguage(language, false);
+            global::Sitecore.Globalization.Language language = global::Sitecore.Globalization.Language.Parse(global::Sitecore.Context.Site.Language);
+            global::Sitecore.Context.SetLanguage(language, false);
         }
     }
 }

@@ -1,4 +1,10 @@
-﻿<article class="marketing gridPromos">
+﻿@{
+    var classes = new List<string>();
+
+    var sc = Html.Sitecore();
+    classes.Add(sc.CurrentItem["Custom CSS Class"]);
+}
+<article class="marketing gridPromos @string.Join(" ", classes)">
     <div class="wrapper">
         @{
             var divClass = "two";
