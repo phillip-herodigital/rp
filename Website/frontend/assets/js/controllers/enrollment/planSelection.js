@@ -6,4 +6,8 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', '$rootScope', functio
 
     $scope.enrollmentFields.planSelection = {};
 
+    //Complete enrollment section
+    $scope.completeStep = function () {
+    };
+
 }]);

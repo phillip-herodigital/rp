@@ -6,4 +6,8 @@ ngApp.controller('EnrollmentVerifyIdentityCtrl', ['$scope', '$rootScope', functi
 
     $scope.enrollmentFields.verifyIdentity = {};
 
+    //Complete enrollment section
+    $scope.completeStep = function () {
+    };
+
 }]);

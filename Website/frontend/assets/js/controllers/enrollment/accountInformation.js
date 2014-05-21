@@ -6,4 +6,8 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', '$rootScope', fu
 
     $scope.enrollmentFields.accountInformation = {};
 
+    //Complete enrollment section
+    $scope.completeStep = function () {
+    };
+
 }]);

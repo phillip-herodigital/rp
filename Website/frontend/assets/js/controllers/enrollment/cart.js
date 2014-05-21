@@ -4,5 +4,8 @@
  */
 ngApp.controller('EnrollmentCartCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
 
+    //Delete item from cart
+    $scope.deleteItem = function () {
 
+    };
 }]);

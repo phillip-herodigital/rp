@@ -6,4 +6,8 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', '$rootScope', functio
 
     $scope.enrollmentFields.completeOrder = {};
 
+    //Complete enrollment section
+    $scope.completeStep = function () {
+    };
+
 }]);
