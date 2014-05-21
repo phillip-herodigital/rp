@@ -154,6 +154,7 @@
     <Compile Include="Mvc\Sitecore\ControllerRenderer.cs" />
     <Compile Include="Mvc\Sitecore\ControllerRunner.cs" />
     <Compile Include="Mvc\Sitecore\GetControllerRenderer.cs" />
+    <Compile Include="RequireValueAttributeAdapter.cs" />
     <Compile Include="Processes\IState.cs" />
     <Compile Include="Processes\IStateMachine.cs" />
     <Compile Include="Processes\SimpleFinalState.cs" />
@@ -169,6 +170,7 @@
     <Compile Include="Pipelines\RegisterPlatformBundles.cs" />
     <Compile Include="Extensions\StreamEnergyHelper.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="RequireValueAttribute.cs" />
     <Compile Include="TypeIndicatorJsonConverter.cs" />
     <Compile Include="TypeIndicatorLookup.cs" />
     <Compile Include="Unity\Container.cs" />
