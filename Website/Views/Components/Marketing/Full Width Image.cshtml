@@ -1,4 +1,10 @@
-﻿<article class="marketing full-width-image" style="@Html.AsBackgroundStyle("Image")">
+﻿@{
+    var classes = new List<string>();
+
+    var sc = Html.Sitecore();
+    classes.Add(sc.CurrentItem["Custom CSS Class"]);
+}
+<article class="marketing full-width-image @string.Join(" ", classes)" style="@Html.AsBackgroundStyle("Image")">
     @{
         if (Sitecore.Context.PageMode.IsPageEditorEditing)
         {
