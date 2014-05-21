@@ -46,19 +46,19 @@ namespace StreamEnergy.MyStream.Tests
         {
             try
             {
-                Sitecore.Context.IsUnitTesting = true;
+                global::Sitecore.Context.IsUnitTesting = true;
             }
             catch { }
 
             // switch to the preferred site    
-            Sitecore.Context.SetActiveSite("website");
+            global::Sitecore.Context.SetActiveSite("website");
 
             // set the preferred database
-            Sitecore.Context.Database = Sitecore.Context.Site.Database;
+            global::Sitecore.Context.Database = global::Sitecore.Context.Site.Database;
 
             // set the preferred language
-            Sitecore.Globalization.Language language = Sitecore.Globalization.Language.Parse(Sitecore.Context.Site.Language);
-            Sitecore.Context.SetLanguage(language, false);
+            global::Sitecore.Globalization.Language language = global::Sitecore.Globalization.Language.Parse(global::Sitecore.Context.Site.Language);
+            global::Sitecore.Context.SetLanguage(language, false);
         }
     }
 }

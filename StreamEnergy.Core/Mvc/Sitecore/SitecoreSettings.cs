@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Sitecore.Data.Fields;
 using Sitecore.Data.Items;
+using Sitecore.SecurityModel;
 
 namespace StreamEnergy.Mvc.Sitecore
 {
@@ -27,19 +29,23 @@ namespace StreamEnergy.Mvc.Sitecore
         {
             return GetSettingsItems(relativePath)
                 .Select(item => item[fieldName])
-                .Where(v => v != null)
+                .Where(v => !string.IsNullOrEmpty(v))
                 .FirstOrDefault();
         }
 
         private IEnumerable<Item> GetSettingsItems(string relativePath)
         {
-            var baseItem = sitecoreContext.Database.SelectSingleItem("fast://sitecore/content/data/Settings/" + relativePath);
-            if (baseItem == null)
-                yield break;
-            var child = baseItem.Axes.GetChild(environment);
-            if (child != null)
-                yield return child;
-            yield return baseItem;
+            // we don't need to check security settings for reading the item
+            using (new SecurityDisabler())
+            {
+                var baseItem = sitecoreContext.Database.SelectSingleItem("fast://sitecore/content/data/Settings/" + relativePath);
+                if (baseItem == null)
+                    yield break;
+                var child = baseItem.Axes.GetChild(environment);
+                if (child != null)
+                    yield return child;
+                yield return baseItem;
+            }
         }
     }
 }
