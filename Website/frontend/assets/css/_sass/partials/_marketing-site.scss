@@ -1261,7 +1261,7 @@ article.homelife-services {
 					&.identity {
 						color: #7e9bb5;
 						position: relative;
-						button {
+						.button {
 							background-color: #7e9bb5;
 						}
 						&:after {
@@ -1276,7 +1276,7 @@ article.homelife-services {
 					&.support {
 						color: #b58789;
 						position: relative;
-						button {
+						.button {
 							background-color: #b58789;
 						}
 						&:after {
@@ -1290,7 +1290,7 @@ article.homelife-services {
 					}
 					&.monitoring {
 						color: #8ba170;
-						button {
+						.button {
 							background-color: #8ba170;
 						}
 					}
@@ -2235,4 +2235,12 @@ article.rates {
 		    color: #fff;
 	    }
     }
+}
+
+article.opportunity-compensation-plan {
+	@include breakpoint(small-medium) {
+		.button {
+			margin-top: 10px;
+		}
+	}
 }
