@@ -9,6 +9,13 @@ namespace StreamEnergy.DomainModels.Enrollments
 {
     public class AccountInformationState : IState<UserContext, InternalContext>
     {
+        private readonly IEnrollmentService enrollmentService;
+
+        public AccountInformationState(IEnrollmentService enrollmentService)
+        {
+            this.enrollmentService = enrollmentService;
+        }
+
         public IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
         {
             yield return context => context.Services;
@@ -22,6 +29,26 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public IEnumerable<ValidationResult> AdditionalValidations(UserContext context, InternalContext internalContext)
         {
+            var changedAddresses = context.Services.Select(s => s.Value.Location).Where(loc => ! internalContext.AllOffers.Any(offer => offer.Item1.Address == loc.Address)).ToArray();
+            if (changedAddresses.Any())
+            {
+                internalContext.AllOffers = internalContext.AllOffers.Concat(enrollmentService.LoadOffers(changedAddresses));
+            }
+            foreach (var entry in context.Services.Values.Select((service, index) => new { service, index }))
+            {
+                var offers = from offer in internalContext.AllOffers
+                             where offer.Item1.Address == entry.service.Location.Address
+                             select offer.Item2.Id;
+
+                foreach (var selectedEntry in entry.service.SelectedOffers.Values.Select((offer, index) => new { offer, index }))
+                {
+                    if (!offers.Contains(selectedEntry.offer.Offer.Id))
+                    {
+                        selectedEntry.offer.Offer = null;
+                        yield return new ValidationResult("Offer Required", new[] { "Services[" + entry.index + "].Value.SelectedOffers[" + selectedEntry.index + "].Offer" });
+                    }
+                }
+            }
             yield break;
         }
 

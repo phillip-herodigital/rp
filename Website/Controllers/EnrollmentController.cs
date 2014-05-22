@@ -120,11 +120,15 @@ namespace StreamEnergy.MyStream.Controllers
                 LocationServices = stateMachine.Context.Services,
                 SelectedIdentityAnswers = null,
                 Offers = stateMachine.InternalContext.AllOffers == null ? null :
-                    (from offer in stateMachine.InternalContext.AllOffers
-                     group offer.Item2 by LookupAddressId(offer.Item1)).ToDictionary(e => e.Key, e => (IEnumerable<IOffer>)e.ToArray()),
+                    (from entry in stateMachine.InternalContext.AllOffers
+                     let addressId = LookupAddressId(entry.Item1)
+                     where addressId != null
+                     group entry.Item2 by addressId).ToDictionary(e => e.Key, e => (IEnumerable<IOffer>)e.ToArray()),
                 OfferOptionRules = stateMachine.InternalContext.OfferOptionRulesByAddressOffer == null ? null :
                     (from entry in stateMachine.InternalContext.OfferOptionRulesByAddressOffer
-                     group entry by LookupAddressId(entry.Item1) into byAddressId
+                     let addressId = LookupAddressId(entry.Item1)
+                     where addressId != null
+                     group entry by addressId into byAddressId
                      let byOfferId = byAddressId.ToDictionary(e => e.Item2.Id, e => e.Item3)
                      select new { AddressId = byAddressId.Key, Value = byOfferId }).ToDictionary(e => e.AddressId, e => e.Value),
                 IdentityQuestions = stateMachine.InternalContext.IdentityCheckResult != null ? stateMachine.InternalContext.IdentityCheckResult.IdentityQuestions : null,
@@ -165,9 +169,11 @@ namespace StreamEnergy.MyStream.Controllers
                 if (value.OfferIds.ContainsKey(addressId))
                 {
                     entry.Value.SelectedOffers = (from offerId in value.OfferIds[addressId]
+                                                  let offer = LookupOffer(addressId, offerId)
+                                                  where offer != null
                                                   select new SelectedOffer
                                                   {
-                                                      Offer = LookupOffer(addressId, offerId)
+                                                      Offer = offer
                                                   }).ToDictionary(o => o.Offer.Id);
                 }
             }
@@ -180,12 +186,12 @@ namespace StreamEnergy.MyStream.Controllers
 
         private string LookupAddressId(Location serviceLocation)
         {
-            return stateMachine.Context.Services.Where(s => s.Value.Location.Address.Equals(serviceLocation.Address)).Select(s => s.Key).FirstOrDefault() ?? ("_" + serviceLocation.Address.GetHashCode().ToString());
+            return stateMachine.Context.Services.Where(s => s.Value.Location.Address.Equals(serviceLocation.Address)).Select(s => s.Key).FirstOrDefault();
         }
 
         private IOffer LookupOffer(string addressId, string offerId)
         {
-            return stateMachine.InternalContext.AllOffers.FirstOrDefault(offer => LookupAddressId(offer.Item1) == addressId && offer.Item2.Id == offerId).Item2;
+            return stateMachine.InternalContext.AllOffers.Where(offer => LookupAddressId(offer.Item1) == addressId && offer.Item2.Id == offerId).Select(offer => offer.Item2).FirstOrDefault();
         }
 
         [HttpPost]
@@ -240,19 +246,9 @@ namespace StreamEnergy.MyStream.Controllers
         }
 
         [HttpPost]
-        public ClientData PaymentInfo([FromBody]DomainModels.Payments.IPaymentInfo request)
-        {
-            stateMachine.Context.PaymentInfo = request;
-
-            if (stateMachine.State == typeof(DomainModels.Enrollments.PaymentInfoState))
-                stateMachine.Process(typeof(DomainModels.Enrollments.CompleteOrderState));
-
-            return ClientData();
-        }
-
-        [HttpPost]
         public ClientData ConfirmOrder([FromBody]ConfirmOrder request)
         {
+            stateMachine.Context.PaymentInfo = request.PaymentInfo;
             stateMachine.Context.AgreeToTerms = request.AgreeToTerms;
 
             stateMachine.Process();

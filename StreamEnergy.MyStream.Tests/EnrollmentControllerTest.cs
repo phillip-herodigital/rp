@@ -410,64 +410,6 @@ namespace StreamEnergy.MyStream.Tests
         }
 
         [TestMethod]
-        public void PostPaymentInfoTest()
-        {
-            // Arrange
-            var session = container.Resolve<EnrollmentController.SessionHelper>();
-            session.UserContext = new UserContext
-            {
-                Services = new Dictionary<string, LocationServices> {
-                    { 
-                        "loc", 
-                        new LocationServices
-                        {
-                            Location = specificLocation,
-                            SelectedOffers = new Dictionary<string,SelectedOffer>
-                            { 
-                                {
-                                    offers[0].Id,
-                                    new SelectedOffer 
-                                    { 
-                                        Offer = offers[0],
-                                        OfferOption = offerOption
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                BillingAddress = specificLocation.Address,
-                ContactInfo = contactInfo,
-                DriversLicense = null,
-                Language = "en",
-                SecondaryContactInfo = null,
-                SelectedIdentityAnswers = new Dictionary<string, string>(),
-                SocialSecurityNumber = "123-45-6789",
-            };
-            session.InternalContext = new InternalContext
-            {
-                AllOffers = offers.Select(o => Tuple.Create(specificLocation, o)),
-                IdentityCheckResult = identityCheckResult,
-            };
-            session.State = typeof(DomainModels.Enrollments.PaymentInfoState);
-            var request = new DomainModels.Payments.TokenizedCard
-                {
-                    CardToken = "12345678901234567890"
-                };
-
-            using (var controller = container.Resolve<EnrollmentController>())
-            {
-                // Act
-                var result = controller.PaymentInfo(request);
-
-                // Assert
-            }
-
-            Assert.AreEqual(typeof(DomainModels.Enrollments.CompleteOrderState), session.State);
-            Assert.IsNotNull(session.UserContext.PaymentInfo);
-        }
-
-        [TestMethod]
         public void PostConfirmOrderTest()
         {
             // Arrange
@@ -510,6 +452,10 @@ namespace StreamEnergy.MyStream.Tests
             session.State = typeof(DomainModels.Enrollments.CompleteOrderState);
             var request = new Models.Enrollment.ConfirmOrder
             {
+                PaymentInfo = new DomainModels.Payments.TokenizedCard
+                {
+                    CardToken = "12345678901234567890"
+                },
                 AgreeToTerms = true,
             };
 
