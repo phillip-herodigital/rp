@@ -22,7 +22,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         {
             yield return context => context.Services.PartialValidate(e => e.Value.Location.Address.PostalCode5,
                                                                      e => e.Value.Location.Capabilities,
-                                                                     e => e.Value.SelectedOffers);
+                                                                     e => e.Value.SelectedOffers.PartialValidate(i => i.Value.Offer));
         }
 
         public IEnumerable<ValidationResult> AdditionalValidations(UserContext context, InternalContext internalContext)

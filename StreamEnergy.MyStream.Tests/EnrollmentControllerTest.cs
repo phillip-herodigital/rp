@@ -15,13 +15,11 @@ namespace StreamEnergy.MyStream.Tests
     public class EnrollmentControllerTest
     {
         private Unity.Container container;
-        private DomainModels.Address generalAddress;
-        private DomainModels.IServiceCapability[] generalServiceCapabilities;
+        private DomainModels.Enrollments.Location generalLocation;
         private IOffer[] offers;
         private IdentityQuestion[] identityQuestions;
         private DomainModels.Enrollments.Service.IdentityCheckResult identityCheckResult;
-        private DomainModels.Address specificAddress;
-        private DomainModels.IServiceCapability[] specificServiceCapabilities;
+        private DomainModels.Enrollments.Location specificLocation;
         private DomainModels.CustomerContact contactInfo;
         private TexasElectricityOfferOption offerOption;
         private DomainModels.Enrollments.Service.IdentityCheckResult finalIdentityCheckResult;
@@ -31,8 +29,11 @@ namespace StreamEnergy.MyStream.Tests
         public void InitializeTest()
         {
             container = ContainerSetup.Create();
-            generalAddress = new DomainModels.Address { PostalCode5 = "75010" };
-            generalServiceCapabilities = new[] { new DomainModels.TexasServiceCapability { Tdu = "Centerpoint" } };
+            generalLocation = new Location
+            {
+                Address = new DomainModels.Address { PostalCode5 = "75010" },
+                Capabilities = new[] { new DomainModels.TexasServiceCapability { Tdu = "Centerpoint" } }
+            };
             offers = new IOffer[] 
             { 
                 new TexasElectricityOffer
@@ -85,8 +86,11 @@ namespace StreamEnergy.MyStream.Tests
                 HardStop = null,
                 IdentityQuestions = new IdentityQuestion[0],
             };
-            specificAddress = new DomainModels.Address { Line1 = "3620 Huffines Blvd", UnitNumber = "226", City = "Carrollton", StateAbbreviation = "TX", PostalCode5 = "75010" };
-            specificServiceCapabilities = new[] { new DomainModels.TexasServiceCapability { Tdu = "Centerpoint", EsiId = "1234SAMPLE5678" } };
+            specificLocation = new Location
+            {
+                Address = new DomainModels.Address { Line1 = "3620 Huffines Blvd", UnitNumber = "226", City = "Carrollton", StateAbbreviation = "TX", PostalCode5 = "75010" },
+                Capabilities = new[] { new DomainModels.TexasServiceCapability { Tdu = "Centerpoint", EsiId = "1234SAMPLE5678" } }
+            };
             contactInfo = new DomainModels.CustomerContact
             {
                 Name = new DomainModels.Name { First = "Test", Last = "Person" },
@@ -152,11 +156,7 @@ namespace StreamEnergy.MyStream.Tests
                 { 
                     {
                         "loc",
-                        new Location
-                        {
-                            Address = generalAddress,
-                            Capabilities = generalServiceCapabilities
-                        }
+                        generalLocation
                     }
                 }
             };
@@ -183,7 +183,7 @@ namespace StreamEnergy.MyStream.Tests
             Assert.AreEqual("Centerpoint", (session.UserContext.Services["loc"].Location.Capabilities.First() as DomainModels.TexasServiceCapability).Tdu);
             Assert.IsNotNull(session.InternalContext.AllOffers.SingleOrDefault(offer => offer.Item2.Id == "NewOffer"));
         }
-        /*
+        
         [TestMethod]
         public void PostSelectedOffersTest()
         {
@@ -191,26 +191,25 @@ namespace StreamEnergy.MyStream.Tests
             var session = container.Resolve<EnrollmentController.SessionHelper>();
             session.UserContext = new UserContext
             {
-                Services = new[] 
+                Services = new Dictionary<string,LocationServices>
                 {
-                    new ServiceSelection
                     {
-                        Location = new Location
+                        "loc",
+                        new LocationServices
                         {
-                            Address = generalAddress,
-                            Capabilities = generalServiceCapabilities
+                            Location = generalLocation
                         }
                     }
                 }
             };
             session.InternalContext = new InternalContext
             {
-                AllOffers = offers
+                AllOffers = offers.Select(o => Tuple.Create(generalLocation, o))
             };
             session.State = typeof(DomainModels.Enrollments.PlanSelectionState);
             var request = new Models.Enrollment.SelectedOffers
             {
-                OfferIds = new[] { "NewOffer" }
+                OfferIds = new Dictionary<string,string[]>{ { "loc", new[] { "NewOffer" } } }
             };
 
             using (var controller = container.Resolve<EnrollmentController>())
@@ -219,15 +218,15 @@ namespace StreamEnergy.MyStream.Tests
                 var result = controller.SelectedOffers(request);
 
                 // Assert
-                Assert.IsTrue(result.UserContext.SelectedOffers.Any(o => o.Offer.Id == "NewOffer"));
-                Assert.IsNotNull(result.OfferOptionRules["NewOffer"]);
+                Assert.IsTrue(result.LocationServices["loc"].SelectedOffers.Any(o => o.Value.Offer.Id == "NewOffer"));
+                Assert.IsNotNull(result.OfferOptionRules["loc"]);
             }
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.AccountInformationState), session.State);
-            Assert.IsTrue(session.UserContext.SelectedOffers.Any(o => o.Offer.Id == "NewOffer"));
-            Assert.IsNotNull(session.InternalContext.OfferOptionRulesByAddressOffer["NewOffer"]);
+            Assert.IsTrue(session.UserContext.Services["loc"].SelectedOffers.Any(o => o.Value.Offer.Id == "NewOffer"));
+            Assert.IsNotNull(session.InternalContext.OfferOptionRulesByAddressOffer.SingleOrDefault(e => e.Item1 == generalLocation && e.Item2.Id == "NewOffer").Item3);
         }
-
+        /*
         [TestMethod]
         public void PostAccountInformationTest()
         {
