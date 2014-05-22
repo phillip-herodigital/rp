@@ -16,6 +16,7 @@ namespace StreamEnergy.Extensions
 {
     public static class HtmlHelperExtensions
     {
+        private static ISettings settings = StreamEnergy.Unity.Container.Instance.Resolve<ISettings>();
         public static IHtmlString AsBackgroundStyle(this HtmlHelper htmlHelper, string fieldName, Item item = null)
         {
             item = item ?? htmlHelper.Sitecore().CurrentItem;
@@ -133,14 +134,14 @@ namespace StreamEnergy.Extensions
 
         public static string TranslateDomain(this HtmlHelper htmlHelper, string domain)
         {
-            var dict = new Dictionary<string, string>()
+            var domains = from line in settings.GetSettingsValue("Domain Translations", "Domain Translations").Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries)
+                          let parts = line.Split(new string[] { "=>" }, StringSplitOptions.RemoveEmptyEntries)
+                          where parts.Length == 2
+                          select new KeyValuePair<string, string>(parts[0], parts[1]);
+
+            if (domains.Any(d => d.Key == domain))
             {
-                {"https://secure.streamenergy.net", "http://uat.secure.streamenergy.net"},
-                {"https://secure3.i-doxs.net", "https://preprod.i-doxs.net"},
-            };
-            if (dict.ContainsKey(domain))
-            {
-                return dict[domain];
+                return domains.First(d => d.Key == domain).Value;
             }
             return domain;
         }
