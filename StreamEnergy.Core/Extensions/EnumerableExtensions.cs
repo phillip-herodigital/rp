@@ -32,7 +32,7 @@ namespace StreamEnergy.Extensions
         {
             if (initialList == null)
             {
-                return delegate { return Enumerable.Empty<ValidationResult>(); };
+                return delegate { return null; };
             }
             return (svc) =>
             {

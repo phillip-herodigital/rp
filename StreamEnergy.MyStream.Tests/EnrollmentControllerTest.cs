@@ -23,12 +23,12 @@ namespace StreamEnergy.MyStream.Tests
         private DomainModels.CustomerContact contactInfo;
         private TexasElectricityOfferOption offerOption;
         private DomainModels.Enrollments.Service.IdentityCheckResult finalIdentityCheckResult;
-        private DomainModels.Enrollments.Service.LoadDepositResult loadDepositResult;
 
         [TestInitialize]
         public void InitializeTest()
         {
             container = ContainerSetup.Create();
+
             generalLocation = new Location
             {
                 Address = new DomainModels.Address { PostalCode5 = "75010" },
@@ -98,10 +98,6 @@ namespace StreamEnergy.MyStream.Tests
                 PrimaryPhone = new DomainModels.Phone { Number = "214-223-4567" },
             };
             offerOption = new TexasElectricityOfferOption { ConnectDate = new DateTime(2014, 5, 1) };
-            loadDepositResult = new DomainModels.Enrollments.Service.LoadDepositResult
-            {
-                Amount = 50.00m
-            };
         }
 
         [TestMethod]
@@ -296,7 +292,7 @@ namespace StreamEnergy.MyStream.Tests
             Assert.AreEqual("en", session.UserContext.Language);
             Assert.IsNotNull(session.InternalContext.IdentityCheckResult.IdentityQuestions);
         }
-        /*
+        
         [TestMethod]
         public void PostIdentityQuestionsTest()
         {
@@ -304,17 +300,27 @@ namespace StreamEnergy.MyStream.Tests
             var session = container.Resolve<EnrollmentController.SessionHelper>();
             session.UserContext = new UserContext
             {
-                ServiceAddress = specificAddress,
-                ServiceCapabilities = specificServiceCapabilities,
-                SelectedOffers = new[] 
-                { 
-                    new SelectedOffer 
+                Services = new Dictionary<string, LocationServices> {
                     { 
-                        Offer = offers[0],
-                        OfferOption = offerOption
+                        "loc", 
+                        new LocationServices
+                        {
+                            Location = specificLocation,
+                            SelectedOffers = new Dictionary<string,SelectedOffer>
+                            { 
+                                {
+                                    offers[0].Id,
+                                    new SelectedOffer 
+                                    { 
+                                        Offer = offers[0],
+                                        OfferOption = offerOption
+                                    }
+                                }
+                            }
+                        }
                     }
                 },
-                BillingAddress = specificAddress,
+                BillingAddress = specificLocation.Address,
                 ContactInfo = contactInfo,
                 DriversLicense = null,
                 Language = "en",
@@ -323,7 +329,7 @@ namespace StreamEnergy.MyStream.Tests
             };
             session.InternalContext = new InternalContext
             {
-                AllOffers = offers,
+                AllOffers = offers.Select(o => Tuple.Create(specificLocation, o)),
                 IdentityCheckResult = identityCheckResult,
             };
             session.State = typeof(DomainModels.Enrollments.VerifyIdentityState);
@@ -344,27 +350,36 @@ namespace StreamEnergy.MyStream.Tests
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.PaymentInfoState), session.State);
         }
-
-        [TestMethod]
+        
+        // TODO - can't run this test until we have services wired up to verify the response
+        //[TestMethod]
         public void PostIdentityQuestionsNoDepositTest()
         {
             // Arrange
-            loadDepositResult.Amount = 0;
-
             var session = container.Resolve<EnrollmentController.SessionHelper>();
             session.UserContext = new UserContext
             {
-                ServiceAddress = specificAddress,
-                ServiceCapabilities = specificServiceCapabilities,
-                SelectedOffers = new[] 
-                { 
-                    new SelectedOffer 
+                Services = new Dictionary<string, LocationServices> {
                     { 
-                        Offer = offers[0],
-                        OfferOption = offerOption
+                        "loc", 
+                        new LocationServices
+                        {
+                            Location = specificLocation,
+                            SelectedOffers = new Dictionary<string,SelectedOffer>
+                            { 
+                                {
+                                    offers[0].Id,
+                                    new SelectedOffer 
+                                    { 
+                                        Offer = offers[0],
+                                        OfferOption = offerOption
+                                    }
+                                }
+                            }
+                        }
                     }
                 },
-                BillingAddress = specificAddress,
+                BillingAddress = specificLocation.Address,
                 ContactInfo = contactInfo,
                 DriversLicense = null,
                 Language = "en",
@@ -373,7 +388,7 @@ namespace StreamEnergy.MyStream.Tests
             };
             session.InternalContext = new InternalContext
             {
-                AllOffers = offers,
+                AllOffers = offers.Select(o => Tuple.Create(specificLocation, o)),
                 IdentityCheckResult = identityCheckResult,
             };
             session.State = typeof(DomainModels.Enrollments.VerifyIdentityState);
@@ -394,6 +409,7 @@ namespace StreamEnergy.MyStream.Tests
             Assert.AreEqual(typeof(DomainModels.Enrollments.CompleteOrderState), session.State);
         }
 
+        /*
         [TestMethod]
         public void PostPaymentInfoTest()
         {
@@ -447,8 +463,6 @@ namespace StreamEnergy.MyStream.Tests
         public void PostConfirmOrderTest()
         {
             // Arrange
-            loadDepositResult.Amount = 0;
-
             var session = container.Resolve<EnrollmentController.SessionHelper>();
             session.UserContext = new UserContext
             {

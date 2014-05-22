@@ -37,7 +37,7 @@ namespace StreamEnergy
             foreach (var validationExpression in validationExpressions)
             {
                 Func<IEnumerable<ValidationResult>> validate;
-                Func<object> getValue = () => TryGetValue(validationExpression.CachedCompile<Func<T, object>>(), target);
+                object value = TryGetValue(validationExpression.CachedCompile<Func<T, object>>(), target);
                 var unwrappedExpression = validationExpression.RemoveLambdaBody().RemoveCast();
                 string messagePrefix;
                 string memberPrefix;
@@ -52,7 +52,6 @@ namespace StreamEnergy
                     validate = () =>
                         {
                             var name = CompositeValidationAttribute.GetPathedName(propertyChain);
-                            var value = getValue();
                             var attrs = property.Member.GetCustomAttributes(true).OfType<ValidationAttribute>();
                             validationContext.MemberName = name;
                             var innerValidations = new HashSet<ValidationResult>();
@@ -61,13 +60,27 @@ namespace StreamEnergy
                             return innerValidations;
                         };
                 }
-                else if (unwrappedExpression is MethodCallExpression && (unwrappedExpression as MethodCallExpression).Method.Name == "PartialValidate")
+                else if (unwrappedExpression is MethodCallExpression)
                 {
-                    property = (unwrappedExpression as MethodCallExpression).Arguments[0] as MemberExpression;
+                    Func<IValidationService, IEnumerable<ValidationResult>> delegatedValidation = (Func<IValidationService, IEnumerable<ValidationResult>>)value;
+                    var exp = (unwrappedExpression as MethodCallExpression);
+                    property = (exp.Object ?? exp.Arguments[0]) as MemberExpression;
                     propertyChain = CompositeValidationAttribute.UnrollPropertyChain(property).ToArray();
                     messagePrefix = CompositeValidationAttribute.GetPrefix(propertyChain);
                     memberPrefix = CompositeValidationAttribute.GetPathedName(propertyChain);
-                    validate = () => ((Func<IValidationService, IEnumerable<ValidationResult>>)getValue())(this);
+                    var attrs = property.Member.GetCustomAttributes(true).OfType<RequiredAttribute>().FirstOrDefault();
+
+                    validate = () =>
+                        {
+                            var result = delegatedValidation(this);
+                            if (result != null)
+                                return result;
+                            if (attrs == null) 
+                                return Enumerable.Empty<ValidationResult>();
+                            messagePrefix = "";
+                            memberPrefix = "";
+                            return Enumerable.Repeat(new ValidationResult(attrs.ErrorMessage, new[] { CompositeValidationAttribute.GetPathedName(propertyChain) }), 1);
+                        };
                 }
                 else
                 {

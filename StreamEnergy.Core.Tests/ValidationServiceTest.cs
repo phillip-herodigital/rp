@@ -25,6 +25,17 @@ namespace StreamEnergy.Core.Tests
             public IEnumerable<Inner> InnerList { get; set; }
         }
 
+        class OuterWithRequiredList
+        {
+            [Required(ErrorMessage = "Inner Required")]
+            [ValidateObject(PrefixMembers = true, ErrorMessagePrefix = "Inner ")]
+            public Inner Inner { get; set; }
+
+            [Required(ErrorMessage = "InnerList Required")]
+            [ValidateEnumerable(PrefixMembers = true, ErrorMessagePrefix = "InnerList ")]
+            public IEnumerable<Inner> InnerList { get; set; }
+        }
+
         class Inner
         {
             [Required(ErrorMessage = "Value1 Required")]
@@ -149,13 +160,28 @@ namespace StreamEnergy.Core.Tests
 
             Assert.IsFalse(AsComparable(results).Any());
 
-            results = service.PartialValidate(new Outer()
+            results = service.PartialValidate(new OuterWithRequiredList()
             {
                 Inner = new Inner(),
                 InnerList = new[] { new Inner() }
             }, t => t.InnerList.PartialValidate(inner => inner.Value1));
 
             Assert.IsTrue(AsComparable(results).SequenceEqual(new[] { "InnerList[0].Value1: InnerList Value1 Required" }));
+
+            results = service.PartialValidate(new OuterWithRequiredList()
+            {
+                Inner = new Inner(),
+                InnerList = new[] { new Inner() { Value1 = "a" } }
+            }, t => t.InnerList.PartialValidate(inner => inner.Value1));
+
+            Assert.IsFalse(AsComparable(results).Any());
+
+            results = service.PartialValidate(new OuterWithRequiredList()
+            {
+                Inner = new Inner()
+            }, t => t.InnerList.PartialValidate(inner => inner.Value1));
+
+            Assert.IsTrue(AsComparable(results).SequenceEqual(new[] { "InnerList: InnerList Required" }));
 
         }
     }
