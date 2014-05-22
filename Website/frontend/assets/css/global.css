@@ -6902,10 +6902,6 @@ article.homelife-services div.package .box ul.services li.identity {
   position: relative;
 }
 /* line 1314, _sass/partials/_marketing-site.scss */
-article.homelife-services div.package .box ul.services li.identity .button {
-  background-color: #7e9bb5;
-}
-/* line 1317, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box ul.services li.identity:after {
   content: "+";
   color: #898989;
@@ -6914,16 +6910,12 @@ article.homelife-services div.package .box ul.services li.identity:after {
   top: 36%;
   right: -10%;
 }
-/* line 1326, _sass/partials/_marketing-site.scss */
+/* line 1323, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box ul.services li.support {
   color: #b58789;
   position: relative;
 }
-/* line 1329, _sass/partials/_marketing-site.scss */
-article.homelife-services div.package .box ul.services li.support .button {
-  background-color: #b58789;
-}
-/* line 1332, _sass/partials/_marketing-site.scss */
+/* line 1326, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box ul.services li.support:after {
   content: "+";
   color: #898989;
@@ -6932,15 +6924,11 @@ article.homelife-services div.package .box ul.services li.support:after {
   top: 36%;
   right: -35%;
 }
-/* line 1341, _sass/partials/_marketing-site.scss */
+/* line 1335, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box ul.services li.monitoring {
   color: #8ba170;
 }
-/* line 1343, _sass/partials/_marketing-site.scss */
-article.homelife-services div.package .box ul.services li.monitoring .button {
-  background-color: #8ba170;
-}
-/* line 1349, _sass/partials/_marketing-site.scss */
+/* line 1340, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box .savings {
   -moz-border-radius: 50%;
   -webkit-border-radius: 50%;
@@ -6950,7 +6938,7 @@ article.homelife-services div.package .box .savings {
   height: 113px;
   margin-top: 25px;
 }
-/* line 1355, _sass/partials/_marketing-site.scss */
+/* line 1346, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box .savings p {
   color: #fff;
   font-size: 22px;
@@ -6958,7 +6946,7 @@ article.homelife-services div.package .box .savings p {
   text-align: center;
   margin-top: 10px;
 }
-/* line 1362, _sass/partials/_marketing-site.scss */
+/* line 1353, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box .savings .line-top {
   height: 40px;
   width: 1px;
@@ -6967,7 +6955,7 @@ article.homelife-services div.package .box .savings .line-top {
   margin-left: 50%;
   margin-top: -50px;
 }
-/* line 1370, _sass/partials/_marketing-site.scss */
+/* line 1361, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box .savings .line-bottom {
   height: 40px;
   width: 1px;
@@ -6977,17 +6965,17 @@ article.homelife-services div.package .box .savings .line-bottom {
   margin-top: 13px;
 }
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
-  /* line 1379, _sass/partials/_marketing-site.scss */
+  /* line 1370, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box .savings .line-top,
   article.homelife-services div.package .box .savings .line-bottom {
     display: none;
   }
 }
-/* line 1385, _sass/partials/_marketing-site.scss */
+/* line 1376, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box .pricing {
   text-align: center;
 }
-/* line 1387, _sass/partials/_marketing-site.scss */
+/* line 1378, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box .pricing p {
   font-size: 14px;
   text-transform: uppercase;
@@ -6995,23 +6983,23 @@ article.homelife-services div.package .box .pricing p {
   margin: 0 0 50px 0;
   color: #6b6b6b;
 }
-/* line 1393, _sass/partials/_marketing-site.scss */
+/* line 1384, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box .pricing p.price {
   margin-bottom: 0;
   font-style: normal;
 }
-/* line 1396, _sass/partials/_marketing-site.scss */
+/* line 1387, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box .pricing p.price .dollars {
   font-size: 38px;
   color: #0971ce;
 }
-/* line 1400, _sass/partials/_marketing-site.scss */
+/* line 1391, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box .pricing p.price .cents {
   font-size: 12px;
   color: #0971ce;
   vertical-align: 50%;
 }
-/* line 1408, _sass/partials/_marketing-site.scss */
+/* line 1399, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box .sash {
   position: absolute;
   background-color: #e61b23;
@@ -7022,7 +7010,7 @@ article.homelife-services div.package .box .sash {
   overflow: hidden;
   -webkit-transform: rotate(-45deg);
 }
-/* line 1417, _sass/partials/_marketing-site.scss */
+/* line 1408, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box .sash span {
   font-size: 24px;
   text-transform: uppercase;
@@ -7033,77 +7021,89 @@ article.homelife-services div.package .box .sash span {
   -webkit-transform: rotate(90deg);
 }
 @media only screen and (max-width: 1024px) {
-  /* line 1428, _sass/partials/_marketing-site.scss */
+  /* line 1419, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box ul.services {
     width: 100%;
   }
-  /* line 1430, _sass/partials/_marketing-site.scss */
+  /* line 1421, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box ul.services li {
     width: 30%;
     margin-right: 20px;
   }
-  /* line 1433, _sass/partials/_marketing-site.scss */
+  /* line 1424, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box ul.services li.support:after {
     right: -10%;
   }
-  /* line 1438, _sass/partials/_marketing-site.scss */
+  /* line 1429, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box .savings {
     margin-left: 30%;
     margin-right: 20px;
   }
-  /* line 1442, _sass/partials/_marketing-site.scss */
+  /* line 1433, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box .pricing {
     float: left;
   }
 }
 @media only screen and (max-width: 767px) {
-  /* line 1447, _sass/partials/_marketing-site.scss */
+  /* line 1438, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box ul.services li {
     margin-right: 8px;
   }
-  /* line 1449, _sass/partials/_marketing-site.scss */
+  /* line 1440, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box ul.services li.identity:after {
     content: " ";
   }
-  /* line 1453, _sass/partials/_marketing-site.scss */
+  /* line 1444, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box ul.services li.support:after {
     content: " ";
   }
-  /* line 1456, _sass/partials/_marketing-site.scss */
+  /* line 1447, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box ul.services li.support h4 {
     width: 67%;
     margin: 10px auto;
   }
-  /* line 1461, _sass/partials/_marketing-site.scss */
+  /* line 1452, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box ul.services li.monitoring h4 {
     width: 91%;
     margin: 10px auto;
   }
-  /* line 1466, _sass/partials/_marketing-site.scss */
+  /* line 1457, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box .savings {
     margin: 15px 0 0 10%;
   }
-  /* line 1469, _sass/partials/_marketing-site.scss */
+  /* line 1460, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box .pricing {
     float: right;
     margin: 0 10% 0 0;
   }
 }
-/* line 1475, _sass/partials/_marketing-site.scss */
+/* line 1466, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.platinum {
   background-color: #0971ce;
 }
-/* line 1477, _sass/partials/_marketing-site.scss */
+/* line 1468, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.platinum h3 {
   width: 85%;
 }
-/* line 1480, _sass/partials/_marketing-site.scss */
+/* line 1471, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.platinum .savings {
   background-color: #0971ce;
 }
-/* line 1482, _sass/partials/_marketing-site.scss */
+/* line 1473, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.platinum .savings p {
   color: #fff;
+}
+/* line 1477, _sass/partials/_marketing-site.scss */
+article.homelife-services div.package.platinum .identity .button {
+  background-color: #7e9bb5;
+}
+/* line 1480, _sass/partials/_marketing-site.scss */
+article.homelife-services div.package.platinum .support .button {
+  background-color: #b58789;
+}
+/* line 1483, _sass/partials/_marketing-site.scss */
+article.homelife-services div.package.platinum .monitoring .button {
+  background-color: #8ba170;
 }
 /* line 1488, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.gold .box {
@@ -8043,6 +8043,112 @@ article.rates.georgia table thead th:first-child {
   /* line 2285, _sass/partials/_marketing-site.scss */
   article.opportunity-compensation-plan .button {
     margin-top: 10px;
+  }
+}
+
+/* line 2292, _sass/partials/_marketing-site.scss */
+article.paperless .left-column {
+  float: left;
+  width: 40%;
+  padding-right: 40px;
+}
+/* line 2296, _sass/partials/_marketing-site.scss */
+article.paperless .left-column .instructions {
+  color: #76BD1D;
+}
+@media only screen and (max-width: 767px) {
+  /* line 2292, _sass/partials/_marketing-site.scss */
+  article.paperless .left-column {
+    width: 100%;
+    padding-right: 0px;
+  }
+}
+/* line 2304, _sass/partials/_marketing-site.scss */
+article.paperless .right-column {
+  width: 60%;
+  float: right;
+  padding-left: 40px;
+  border-left: 1px solid #cfcfcf;
+}
+/* line 2309, _sass/partials/_marketing-site.scss */
+article.paperless .right-column div.clearfix, article.paperless .right-column div.layout, article.paperless .right-column form div.item, form article.paperless .right-column div.item,
+article.paperless .right-column .form div.item,
+.form article.paperless .right-column div.item, article.paperless .right-column form div.group, form article.paperless .right-column div.group,
+article.paperless .right-column .form div.group,
+.form article.paperless .right-column div.group, article.paperless .right-column .site-header > div.wrapper, article.paperless .right-column div.buttons, article.paperless .right-column .enrollment-section div.wrapper, .enrollment-section article.paperless .right-column div.wrapper, article.paperless .right-column .cart div.cart-item, .cart article.paperless .right-column div.cart-item, article.paperless .right-column div.promo-box.horizontal {
+  margin-bottom: 30px;
+}
+/* line 2311, _sass/partials/_marketing-site.scss */
+article.paperless .right-column div.clearfix img, article.paperless .right-column div.layout img, article.paperless .right-column form div.item img, form article.paperless .right-column div.item img,
+article.paperless .right-column .form div.item img,
+.form article.paperless .right-column div.item img, article.paperless .right-column form div.group img, form article.paperless .right-column div.group img,
+article.paperless .right-column .form div.group img,
+.form article.paperless .right-column div.group img, article.paperless .right-column .site-header > div.wrapper img, article.paperless .right-column div.buttons img, article.paperless .right-column .enrollment-section div.wrapper img, .enrollment-section article.paperless .right-column div.wrapper img, article.paperless .right-column .cart div.cart-item img, .cart article.paperless .right-column div.cart-item img, article.paperless .right-column div.promo-box.horizontal img {
+  float: left;
+}
+/* line 2314, _sass/partials/_marketing-site.scss */
+article.paperless .right-column div.clearfix h3, article.paperless .right-column div.layout h3, article.paperless .right-column form div.item h3, form article.paperless .right-column div.item h3,
+article.paperless .right-column .form div.item h3,
+.form article.paperless .right-column div.item h3, article.paperless .right-column form div.group h3, form article.paperless .right-column div.group h3,
+article.paperless .right-column .form div.group h3,
+.form article.paperless .right-column div.group h3, article.paperless .right-column .site-header > div.wrapper h3, article.paperless .right-column div.buttons h3, article.paperless .right-column .enrollment-section div.wrapper h3, .enrollment-section article.paperless .right-column div.wrapper h3, article.paperless .right-column .cart div.cart-item h3, .cart article.paperless .right-column div.cart-item h3, article.paperless .right-column div.promo-box.horizontal h3 {
+  color: #76BD1D;
+  float: left;
+  margin: 25px 0 0 10px;
+}
+/* line 2320, _sass/partials/_marketing-site.scss */
+article.paperless .right-column h4 {
+  text-align: center;
+  margin: 25px 0 0 10px;
+  color: #76BD1D;
+}
+/* line 2325, _sass/partials/_marketing-site.scss */
+article.paperless .right-column .states {
+  float: left;
+  margin: 20px 40px 0 0;
+}
+/* line 2328, _sass/partials/_marketing-site.scss */
+article.paperless .right-column .states input {
+  margin-bottom: 15px;
+}
+/* line 2332, _sass/partials/_marketing-site.scss */
+article.paperless .right-column .input-fields {
+  float: left;
+  width: 40%;
+  margin-right: 18px;
+}
+/* line 2336, _sass/partials/_marketing-site.scss */
+article.paperless .right-column .input-fields div {
+  margin-top: 10px;
+}
+/* line 2338, _sass/partials/_marketing-site.scss */
+article.paperless .right-column .input-fields div input {
+  width: 100%;
+}
+/* line 2344, _sass/partials/_marketing-site.scss */
+article.paperless .right-column .login {
+  float: left;
+}
+/* line 2346, _sass/partials/_marketing-site.scss */
+article.paperless .right-column .login .button {
+  background-color: #76BD1D;
+}
+/* line 2348, _sass/partials/_marketing-site.scss */
+article.paperless .right-column .login .button:hover {
+  background-color: #6b6b6b;
+}
+/* line 2353, _sass/partials/_marketing-site.scss */
+article.paperless .right-column .share {
+  margin-top: 100px;
+  text-align: center;
+}
+@media only screen and (max-width: 767px) {
+  /* line 2304, _sass/partials/_marketing-site.scss */
+  article.paperless .right-column {
+    width: 100%;
+    margin: 20px auto;
+    padding: 0;
+    border-left: none;
   }
 }
 
