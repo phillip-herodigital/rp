@@ -57,6 +57,7 @@ article.photoLockup {
 		width: 50%;
 		height: 100%;
 		overflow: hidden;
+		background-repeat: no-repeat;
 	}
 	.text {
 		float: right;
@@ -73,6 +74,9 @@ article.photoLockup {
 			font-size: 38px;
 			line-height: 1.1;
 			text-transform: uppercase;
+			sup {
+				top: -2em;
+			}
 		}
 		h3 {
 			font-size: 16px;
@@ -98,6 +102,9 @@ article.photoLockup {
 		p.cite {
 			font-size: 14px;
 			text-transform: uppercase;
+		}
+		sup {
+			font-size: 9px;
 		}
 	}
 	&.top-right-photo {
@@ -229,6 +236,9 @@ article.marketingIntro {
 		@include breakpoint(small) {
 			margin: 0 20px;
 		}
+	}
+	sup {
+		font-size: 9px;
 	}
 	@each $theme in $themes {
 		&.accent-#{map-get($theme, name)} {
@@ -384,6 +394,16 @@ article.gridPromos {
 	}
 }
 
+article.opportunity {
+	&.feel-the-power {
+		h3 {
+			color: #6b6b6b;
+			line-height: 1.1;
+			text-transform: none;
+		}
+	}
+}
+
 article.leaders {
 	.paragraph {
 		width: 50%;
@@ -420,8 +440,11 @@ article.leaders {
 			p {
 				font-style: italic;
 			}
-			@include breakpoint(small) {
+			@include breakpoint(medium) {
 				width: 50%;
+			}
+			@include breakpoint(small) {
+				width: 100%;
 			}
 		}
 	}
@@ -451,7 +474,7 @@ article.director-list {
 				width: 33%;
 			}
 			@include breakpoint(small) {
-				width: 50%;
+				width: 100%;
 			}
 		}
 	}
@@ -550,6 +573,10 @@ article.full-html {
 			}
 			button, .button {
 				background-color: map-get($theme, primaryColor);
+				&:hover {
+					color: #fff;
+					background-color: #6b6b6b;
+				}
 			}
 		}
 	}
@@ -1244,6 +1271,15 @@ article.homelife-services {
 		p {
 			font-size: 22px;
 		}
+		@include breakpoint(small) {
+			padding: 15px 0 10px;
+			h1 {
+				font-size: 25px;
+			}
+			p {
+				font-size: 16px;
+			}
+		}
 	}
 	.homelife-promo {
 		background-image: url('../i/marketing/homelife-services.jpg');
@@ -1563,6 +1599,7 @@ article.states-renew {
 article.full-width-image {
 	height: 300px;
 	background-size: cover; 
+	background-position: center;
 }
 
 article.identity-theft {
