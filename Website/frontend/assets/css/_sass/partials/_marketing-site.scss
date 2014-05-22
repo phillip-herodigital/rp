@@ -2131,21 +2131,31 @@ article.rates {
 article.paperless {
 	.left-column {
 		float: left;
-		width: 45%;
-		margin-right: 1px solid #cfcfcf;
+		width: 40%;
+		padding-right: 40px;
 		.instructions {
 			color: #76BD1D;
 		}
+		@include breakpoint(small) {
+			width: 100%;
+			padding-right: 0px;
+		}
 	}
 	.right-column {
-		width: 55%;
+		width: 60%;
 		float: right;
 		padding-left: 40px;
-		img {
-			float: left;
-		}
-		h3 {
-			color: #76BD1D;
+		border-left: 1px solid #cfcfcf;
+		div.clearfix {
+			margin-bottom: 30px;
+			img {
+				float: left;
+			}
+			h3 {
+				color: #76BD1D;
+				float: left;
+				margin: 25px 0 0 10px;
+			}
 		}
 		h4 {
 			text-align: center;
@@ -2162,6 +2172,7 @@ article.paperless {
 		.input-fields {
 			float: left;
 			width: 40%;
+			margin-right: 18px;
 			div {
 				margin-top: 10px;
 				input {
@@ -2171,16 +2182,23 @@ article.paperless {
 
 		}
 		.login {
-			margin: 10px 0 0 20px;
 			float: left;
-			button {
+			.button {
 				background-color: #76BD1D;
+				&:hover {
+					background-color: #6b6b6b;
+				}
 			}
+		}
+		.share {
+			margin-top: 100px;
+			text-align: center;
 		}
 		@include breakpoint(small) {
 			width: 100%;
 			margin: 20px auto;
 			padding: 0;
+			border-left: none;
 		}
 	}
 }

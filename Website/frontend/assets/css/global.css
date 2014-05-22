@@ -7841,70 +7841,106 @@ article.rates.georgia table thead th:first-child {
 /* line 2132, _sass/partials/_marketing-site.scss */
 article.paperless .left-column {
   float: left;
-  width: 45%;
-  margin-right: 1px solid #cfcfcf;
+  width: 40%;
+  padding-right: 40px;
 }
 /* line 2136, _sass/partials/_marketing-site.scss */
 article.paperless .left-column .instructions {
   color: #76BD1D;
 }
-/* line 2140, _sass/partials/_marketing-site.scss */
-article.paperless .right-column {
-  width: 55%;
-  float: right;
-  padding-left: 40px;
+@media only screen and (max-width: 767px) {
+  /* line 2132, _sass/partials/_marketing-site.scss */
+  article.paperless .left-column {
+    width: 100%;
+    padding-right: 0px;
+  }
 }
 /* line 2144, _sass/partials/_marketing-site.scss */
-article.paperless .right-column img {
+article.paperless .right-column {
+  width: 60%;
+  float: right;
+  padding-left: 40px;
+  border-left: 1px solid #cfcfcf;
+}
+/* line 2149, _sass/partials/_marketing-site.scss */
+article.paperless .right-column div.clearfix, article.paperless .right-column div.layout, article.paperless .right-column form div.item, form article.paperless .right-column div.item,
+article.paperless .right-column .form div.item,
+.form article.paperless .right-column div.item, article.paperless .right-column form div.group, form article.paperless .right-column div.group,
+article.paperless .right-column .form div.group,
+.form article.paperless .right-column div.group, article.paperless .right-column .site-header > div.wrapper, article.paperless .right-column div.buttons, article.paperless .right-column .enrollment-section div.wrapper, .enrollment-section article.paperless .right-column div.wrapper, article.paperless .right-column .cart div.cart-item, .cart article.paperless .right-column div.cart-item, article.paperless .right-column div.promo-box.horizontal {
+  margin-bottom: 30px;
+}
+/* line 2151, _sass/partials/_marketing-site.scss */
+article.paperless .right-column div.clearfix img, article.paperless .right-column div.layout img, article.paperless .right-column form div.item img, form article.paperless .right-column div.item img,
+article.paperless .right-column .form div.item img,
+.form article.paperless .right-column div.item img, article.paperless .right-column form div.group img, form article.paperless .right-column div.group img,
+article.paperless .right-column .form div.group img,
+.form article.paperless .right-column div.group img, article.paperless .right-column .site-header > div.wrapper img, article.paperless .right-column div.buttons img, article.paperless .right-column .enrollment-section div.wrapper img, .enrollment-section article.paperless .right-column div.wrapper img, article.paperless .right-column .cart div.cart-item img, .cart article.paperless .right-column div.cart-item img, article.paperless .right-column div.promo-box.horizontal img {
   float: left;
 }
-/* line 2147, _sass/partials/_marketing-site.scss */
-article.paperless .right-column h3 {
+/* line 2154, _sass/partials/_marketing-site.scss */
+article.paperless .right-column div.clearfix h3, article.paperless .right-column div.layout h3, article.paperless .right-column form div.item h3, form article.paperless .right-column div.item h3,
+article.paperless .right-column .form div.item h3,
+.form article.paperless .right-column div.item h3, article.paperless .right-column form div.group h3, form article.paperless .right-column div.group h3,
+article.paperless .right-column .form div.group h3,
+.form article.paperless .right-column div.group h3, article.paperless .right-column .site-header > div.wrapper h3, article.paperless .right-column div.buttons h3, article.paperless .right-column .enrollment-section div.wrapper h3, .enrollment-section article.paperless .right-column div.wrapper h3, article.paperless .right-column .cart div.cart-item h3, .cart article.paperless .right-column div.cart-item h3, article.paperless .right-column div.promo-box.horizontal h3 {
   color: #76BD1D;
+  float: left;
+  margin: 25px 0 0 10px;
 }
-/* line 2150, _sass/partials/_marketing-site.scss */
+/* line 2160, _sass/partials/_marketing-site.scss */
 article.paperless .right-column h4 {
   text-align: center;
   margin: 25px 0 0 10px;
   color: #76BD1D;
 }
-/* line 2155, _sass/partials/_marketing-site.scss */
+/* line 2165, _sass/partials/_marketing-site.scss */
 article.paperless .right-column .states {
   float: left;
   margin: 20px 40px 0 0;
 }
-/* line 2158, _sass/partials/_marketing-site.scss */
+/* line 2168, _sass/partials/_marketing-site.scss */
 article.paperless .right-column .states input {
   margin-bottom: 15px;
 }
-/* line 2162, _sass/partials/_marketing-site.scss */
+/* line 2172, _sass/partials/_marketing-site.scss */
 article.paperless .right-column .input-fields {
   float: left;
   width: 40%;
+  margin-right: 18px;
 }
-/* line 2165, _sass/partials/_marketing-site.scss */
+/* line 2176, _sass/partials/_marketing-site.scss */
 article.paperless .right-column .input-fields div {
   margin-top: 10px;
 }
-/* line 2167, _sass/partials/_marketing-site.scss */
+/* line 2178, _sass/partials/_marketing-site.scss */
 article.paperless .right-column .input-fields div input {
   width: 100%;
 }
-/* line 2173, _sass/partials/_marketing-site.scss */
+/* line 2184, _sass/partials/_marketing-site.scss */
 article.paperless .right-column .login {
-  margin: 10px 0 0 20px;
   float: left;
 }
-/* line 2176, _sass/partials/_marketing-site.scss */
-article.paperless .right-column .login button {
+/* line 2186, _sass/partials/_marketing-site.scss */
+article.paperless .right-column .login .button {
   background-color: #76BD1D;
 }
+/* line 2188, _sass/partials/_marketing-site.scss */
+article.paperless .right-column .login .button:hover {
+  background-color: #6b6b6b;
+}
+/* line 2193, _sass/partials/_marketing-site.scss */
+article.paperless .right-column .share {
+  margin-top: 100px;
+  text-align: center;
+}
 @media only screen and (max-width: 767px) {
-  /* line 2140, _sass/partials/_marketing-site.scss */
+  /* line 2144, _sass/partials/_marketing-site.scss */
   article.paperless .right-column {
     width: 100%;
     margin: 20px auto;
     padding: 0;
+    border-left: none;
   }
 }
 
