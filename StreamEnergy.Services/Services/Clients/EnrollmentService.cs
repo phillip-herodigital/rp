@@ -15,7 +15,7 @@ namespace StreamEnergy.Services.Clients
 
         }
 
-        IEnumerable<Tuple<ServiceLocation, IOffer>> IEnrollmentService.LoadOffers(IEnumerable<ServiceLocation> serviceLocations)
+        IEnumerable<Tuple<Location, IOffer>> IEnrollmentService.LoadOffers(IEnumerable<Location> serviceLocations)
         {
             return serviceLocations.SelectMany(location =>
             {
@@ -29,7 +29,7 @@ namespace StreamEnergy.Services.Clients
             });
         }
 
-        IConnectDatePolicy IEnrollmentService.LoadConnectDates(ServiceLocation location)
+        IConnectDatePolicy IEnrollmentService.LoadConnectDates(Location location)
         {
             return new ConnectDatePolicy();
         }
@@ -88,7 +88,7 @@ namespace StreamEnergy.Services.Clients
             }
         }
 
-        DomainModels.Enrollments.Service.LoadDepositResult IEnrollmentService.LoadDeposit(IEnumerable<ServiceSelection> services)
+        DomainModels.Enrollments.Service.LoadDepositResult IEnrollmentService.LoadDeposit(IEnumerable<LocationServices> services)
         {
             return new DomainModels.Enrollments.Service.LoadDepositResult
             {
@@ -96,7 +96,7 @@ namespace StreamEnergy.Services.Clients
             };
         }
 
-        DomainModels.Enrollments.Service.PlaceOrderResult IEnrollmentService.PlaceOrder(IEnumerable<ServiceSelection> services)
+        DomainModels.Enrollments.Service.PlaceOrderResult IEnrollmentService.PlaceOrder(IEnumerable<LocationServices> services)
         {
             return new DomainModels.Enrollments.Service.PlaceOrderResult { ConfirmationNumber = "87654321" };
         }

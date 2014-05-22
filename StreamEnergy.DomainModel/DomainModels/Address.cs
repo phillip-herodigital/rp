@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StreamEnergy.DomainModels
 {
-    public class Address : ISanitizable
+    public class Address : ISanitizable, IEquatable<Address>
     {
         [Required(ErrorMessage = "Line 1 Required")]
         public string Line1 { get; set; }
@@ -17,7 +17,7 @@ namespace StreamEnergy.DomainModels
 
         [Required(ErrorMessage = "City Required")]
         public string City { get; set; }
-        
+
         [Required(ErrorMessage = "State Required")]
         public string StateAbbreviation { get; set; }
 
@@ -33,23 +33,56 @@ namespace StreamEnergy.DomainModels
             if (Line1 != null)
                 Line1 = Line1.Trim();
 
-            if (Line2 != null) 
+            if (Line2 != null)
                 Line2 = Line2.Trim();
 
-            if (UnitNumber != null) 
+            if (UnitNumber != null)
                 UnitNumber = UnitNumber.Trim();
 
-            if (City != null) 
+            if (City != null)
                 City = City.Trim();
 
-            if (StateAbbreviation != null) 
+            if (StateAbbreviation != null)
                 StateAbbreviation = StateAbbreviation.Trim();
 
-            if (PostalCode5 != null) 
+            if (PostalCode5 != null)
                 PostalCode5 = PostalCode5.Trim();
 
-            if (PostalCodePlus4 != null) 
+            if (PostalCodePlus4 != null)
                 PostalCodePlus4 = PostalCodePlus4.Trim();
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            return Equals((Address)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return string.Join("|"
+                , this.City ?? ""
+                , this.Line1 ?? ""
+                , this.Line2 ?? ""
+                , this.PostalCode5 ?? ""
+                , this.PostalCodePlus4 ?? ""
+                , this.StateAbbreviation ?? ""
+                , this.UnitNumber ?? "").GetHashCode();
+        }
+
+        public bool Equals(Address other)
+        {
+            return this.City == other.City
+                && this.Line1 == other.Line1
+                && this.Line2 == other.Line2
+                && this.PostalCode5 == other.PostalCode5
+                && this.PostalCodePlus4 == other.PostalCodePlus4
+                && this.StateAbbreviation == other.StateAbbreviation
+                && this.UnitNumber == other.UnitNumber;
         }
     }
 }

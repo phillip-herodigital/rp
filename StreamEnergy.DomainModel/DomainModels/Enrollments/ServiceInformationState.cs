@@ -11,8 +11,8 @@ namespace StreamEnergy.DomainModels.Enrollments
     {
         public IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
         {
-            yield return context => context.Services.First().Location.Address.PostalCode5;
-            yield return context => context.Services.First().Location.Capabilities;
+            yield return context => context.Services.First().Value.Location.Address.PostalCode5;
+            yield return context => context.Services.First().Value.Location.Capabilities;
         }
 
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> AdditionalValidations(UserContext data, InternalContext internalContext)

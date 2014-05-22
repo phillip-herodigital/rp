@@ -6,7 +6,7 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
-    public class ServiceLocation : ISanitizable
+    public class Location : ISanitizable
     {
         [Required(ErrorMessage = "Address Required")]
         [ValidateObject(ErrorMessagePrefix = "Address ")]

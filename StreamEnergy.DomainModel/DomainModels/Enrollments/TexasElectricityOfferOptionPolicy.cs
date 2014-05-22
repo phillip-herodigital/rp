@@ -19,7 +19,7 @@ namespace StreamEnergy.DomainModels.Enrollments
             return offerOption is TexasElectricityOfferOption;
         }
 
-        public IOfferOptionRules GetOptionRules(ServiceLocation location, IOffer offer)
+        public IOfferOptionRules GetOptionRules(Location location, IOffer offer)
         {
             return new TexasOfferOptionRules
             {

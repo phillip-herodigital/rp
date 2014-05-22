@@ -46,7 +46,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public Type Process(UserContext context, InternalContext internalContext)
         {
-            internalContext.PlaceOrderResult = enrollmentService.PlaceOrder(context.Services);
+            internalContext.PlaceOrderResult = enrollmentService.PlaceOrder(context.Services.Values);
 
             return typeof(PlaceOrderState);
         }

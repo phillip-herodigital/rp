@@ -112,7 +112,13 @@ namespace StreamEnergy.MyStream.Controllers
             return new ClientData
             {
                 Validations = TranslatedValidationResult.Translate(stateMachine.ValidationResults, translationItem),
-                UserContext = CopyForClientDisplay(stateMachine.Context),
+                BillingAddress = stateMachine.Context.BillingAddress,
+                ContactInfo = stateMachine.Context.ContactInfo,
+                DriversLicense = stateMachine.Context.DriversLicense,
+                Language = stateMachine.Context.Language,
+                SecondaryContactInfo = stateMachine.Context.SecondaryContactInfo,
+                LocationServices = stateMachine.Context.Services,
+                SelectedIdentityAnswers = null,
                 Offers = (from offer in stateMachine.InternalContext.AllOffers
                              group offer.Item2 by LookupAddressId(offer.Item1)).ToDictionary(e => e.Key, e => (IEnumerable<IOffer>)e.ToArray()),
                 OfferOptionRules = (from entry in stateMachine.InternalContext.OfferOptionRulesByAddressOffer
@@ -125,22 +131,22 @@ namespace StreamEnergy.MyStream.Controllers
             };
         }
 
-        private string LookupAddressId(ServiceLocation serviceLocation)
-        {
-            throw new NotImplementedException();
-        }
-
         [HttpPost]
         public ClientData ServiceInformation([FromBody]ServiceInformation value)
         {
+            // TODO - merge address ids
             stateMachine.Context.Services = (from location in value.Locations
-                                             join service in stateMachine.Context.Services on LookupAddressId(location) equals LookupAddressId(service.Location) into services
+                                             join service in stateMachine.Context.Services on location.Key equals service.Key into services
                                              from service in services.DefaultIfEmpty()
-                                             select new ServiceSelection
+                                             select new
                                              {
-                                                 Location = location,
-                                                 SelectedOffers = service.SelectedOffers
-                                             }).ToArray();
+                                                 Key = location.Key,
+                                                 Value = new LocationServices
+                                                     {
+                                                         Location = location.Value,
+                                                         SelectedOffers = service.Value.SelectedOffers
+                                                     }
+                                             }).ToDictionary(e => e.Key, e => e.Value);
 
             if (stateMachine.State == typeof(DomainModels.Enrollments.ServiceInformationState))
                 stateMachine.Process(typeof(DomainModels.Enrollments.AccountInformationState));
@@ -153,14 +159,14 @@ namespace StreamEnergy.MyStream.Controllers
         {
             foreach (var entry in stateMachine.Context.Services)
             {
-                var addressId = LookupAddressId(entry.Location);
+                var addressId = entry.Key;
                 if (value.OfferIds.ContainsKey(addressId))
                 {
-                    entry.SelectedOffers = (from offerId in value.OfferIds[addressId]
-                                            select new SelectedOffer
-                                            {
-                                                Offer = stateMachine.InternalContext.AllOffers[addressId].SingleOrDefault(o => o.Id == offerId),
-                                            }).ToArray();
+                    entry.Value.SelectedOffers = (from offerId in value.OfferIds[addressId]
+                                                  select new SelectedOffer
+                                                  {
+                                                      Offer = LookupOffer(addressId, offerId)
+                                                  }).ToDictionary(o => o.Offer.Id);
                 }
             }
 
@@ -170,11 +176,33 @@ namespace StreamEnergy.MyStream.Controllers
             return ClientData();
         }
 
+        private string LookupAddressId(Location serviceLocation)
+        {
+            return stateMachine.Context.Services.Where(s => s.Value.Location.Address.Equals(serviceLocation.Address)).Select(s => s.Key).FirstOrDefault() ?? ("_" + serviceLocation.Address.GetHashCode().ToString());
+        }
+
+        private IOffer LookupOffer(string addressId, string offerId)
+        {
+            return stateMachine.InternalContext.AllOffers.FirstOrDefault(offer => LookupAddressId(offer.Item1) == addressId && offer.Item2.Id == offerId).Item2;
+        }
+
         [HttpPost]
         public ClientData AccountInformation([FromBody]AccountInformation request)
         {
-            stateMachine.Context.ServiceAddress = request.ServiceAddress;
-            stateMachine.Context.ServiceCapabilities = request.ServiceCapabilities;
+            // TODO - merge address ids
+            stateMachine.Context.Services = (from location in request.Locations
+                                             join service in stateMachine.Context.Services on location.Key equals service.Key into services
+                                             from service in services.DefaultIfEmpty()
+                                             select new
+                                             {
+                                                 Key = location.Key,
+                                                 Value = new LocationServices
+                                                 {
+                                                     Location = location.Value,
+                                                     SelectedOffers = service.Value.SelectedOffers
+                                                 }
+                                             }).ToDictionary(e => e.Key, e => e.Value);
+
             stateMachine.Context.ContactInfo = request.ContactInfo;
             stateMachine.Context.BillingAddress = request.BillingAddress;
             stateMachine.Context.DriversLicense = request.DriversLicense;
@@ -183,17 +211,12 @@ namespace StreamEnergy.MyStream.Controllers
             stateMachine.Context.SocialSecurityNumber = request.SocialSecurityNumber;
             if (request.OfferOptions != null)
             {
-                foreach (var entry in request.OfferOptions)
+                foreach (var addressId in request.OfferOptions.Keys)
                 {
-                    var selectedOffer = stateMachine.Context.SelectedOffers.SingleOrDefault(offer => offer.Offer.Id == entry.Key);
-                    if (selectedOffer == null)
+                    foreach (var offerId in request.OfferOptions[addressId].Keys)
                     {
-                        selectedOffer = new SelectedOffer { Offer = stateMachine.InternalContext.AllOffers.SingleOrDefault(offer => offer.Id == entry.Key) };
-                        if (selectedOffer.Offer == null)
-                            continue;
-                        stateMachine.Context.SelectedOffers = stateMachine.Context.SelectedOffers.Concat(Enumerable.Repeat(selectedOffer, 1));
+                        stateMachine.Context.Services[addressId].SelectedOffers[offerId].OfferOption = request.OfferOptions[addressId][offerId];
                     }
-                    selectedOffer.OfferOption = entry.Value;
                 }
             }
 
@@ -233,25 +256,6 @@ namespace StreamEnergy.MyStream.Controllers
             stateMachine.Process();
 
             return ClientData();
-        }
-
-        private UserContext CopyForClientDisplay(UserContext userContext)
-        {
-            return new UserContext
-            {
-                BillingAddress = userContext.BillingAddress,
-                ContactInfo = userContext.ContactInfo,
-                DriversLicense = userContext.DriversLicense,
-                Language = userContext.Language,
-                SecondaryContactInfo = userContext.SecondaryContactInfo,
-                SelectedOffers = userContext.SelectedOffers,
-                ServiceAddress = userContext.ServiceAddress,
-                ServiceCapabilities = userContext.ServiceCapabilities,
-                SocialSecurityNumber = null,
-                AgreeToTerms = userContext.AgreeToTerms,
-                PaymentInfo = null,
-                SelectedIdentityAnswers = null,
-            };
         }
     }
 }

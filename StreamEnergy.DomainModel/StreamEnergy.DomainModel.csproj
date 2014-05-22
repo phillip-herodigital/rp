@@ -66,8 +66,8 @@
     <Compile Include="DomainModels\Enrollments\IdentityAnswer.cs" />
     <Compile Include="DomainModels\Enrollments\IdentityQuestion.cs" />
     <Compile Include="DomainModels\Enrollments\IOfferOptionRules.cs" />
-    <Compile Include="DomainModels\Enrollments\ServiceLocation.cs" />
-    <Compile Include="DomainModels\Enrollments\ServiceSelection.cs" />
+    <Compile Include="DomainModels\Enrollments\Location.cs" />
+    <Compile Include="DomainModels\Enrollments\LocationServices.cs" />
     <Compile Include="DomainModels\Enrollments\Service\IdentityCheckHardStop.cs" />
     <Compile Include="DomainModels\Enrollments\TexasElectricityOfferOption.cs" />
     <Compile Include="DomainModels\Enrollments\TexasElectricityOfferOptionPolicy.cs" />

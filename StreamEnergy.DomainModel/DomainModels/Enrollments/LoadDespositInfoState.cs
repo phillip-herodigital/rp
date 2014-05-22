@@ -63,7 +63,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         private void LoadInternalState(UserContext context, InternalContext internalContext)
         {
-            var result = enrollmentService.LoadDeposit(context.Services);
+            var result = enrollmentService.LoadDeposit(context.Services.Values);
             internalContext.Deposit = result;
         }
     }

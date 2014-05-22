@@ -6,17 +6,17 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
-    public class ServiceSelection : ISanitizable
+    public class LocationServices : ISanitizable
     {
         [Required(ErrorMessage = "Service Location Required")]
         [ValidateObject(ErrorMessagePrefix = "")]
-        public ServiceLocation Location { get; set; }
+        public Location Location { get; set; }
 
         [Required(ErrorMessage = "Selected Offers Required")]
         [EnumerableRequired(ErrorMessage = "Selected Offers Required")]
         [ValidateEnumerable(ErrorMessagePrefix = "Selected ")]
         [CollectionCountRangeAttribute(1, int.MaxValue, ErrorMessage = "Selected Offers Required")]
-        public IEnumerable<SelectedOffer> SelectedOffers { get; set; }
+        public Dictionary<string, SelectedOffer> SelectedOffers { get; set; }
 
 
         void ISanitizable.Sanitize()
@@ -27,7 +27,7 @@ namespace StreamEnergy.DomainModels.Enrollments
             {
                 foreach (var entry in SelectedOffers)
                 {
-                    ((ISanitizable)entry).Sanitize();
+                    ((ISanitizable)entry.Value).Sanitize();
                 }
             }
         }

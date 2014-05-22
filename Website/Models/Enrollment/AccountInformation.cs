@@ -8,7 +8,7 @@ namespace StreamEnergy.MyStream.Models.Enrollment
 {
     public class AccountInformation
     {
-        public IEnumerable<ServiceLocation> Locations { get; set; }
+        public Dictionary<string, Location> Locations { get; set; }
 
         public DomainModels.CustomerContact ContactInfo { get; set; }
 
@@ -22,6 +22,6 @@ namespace StreamEnergy.MyStream.Models.Enrollment
 
         public string SocialSecurityNumber { get; set; }
 
-        public Dictionary<string, DomainModels.Enrollments.IOfferOption> OfferOptions { get; set; }
+        public Dictionary<string, Dictionary<string, DomainModels.Enrollments.IOfferOption>> OfferOptions { get; set; }
     }
 }
