@@ -43,6 +43,9 @@ article.marketing {
 	position: relative;
 	margin-bottom: 20px;
 	color: #6b6b6b;
+	img {
+		max-width: 100%;
+	}
 }
 
 article.photoLockup {
@@ -494,13 +497,18 @@ article.philanthropy {
 			}
 		}
 		@include breakpoint(small) {
+			display: block;
 			.donate-promo {
 				width: 90%;
+				float: none;
 				margin-left: 0;
 			}
 			.donate-button {
-				float: left;
+				float: none;
 				margin: 0;
+			}
+			.donate-image {
+				float: none;
 			}
 		}
 	}
@@ -1586,9 +1594,6 @@ article.identity-theft {
 			}
 		}
 	}
-	.phishing-image img {
-		max-width: 100%;
-	}
 }
 
 article.why-energy {
@@ -1923,7 +1928,6 @@ article.independent-associate-chart {
 	}
 	img {
 		margin: 20px 0;
-		max-width: 100%;
 	}
 }
 
@@ -1931,9 +1935,6 @@ article.residual-income {
 	h3 {
 		float: left;
 		margin-right: 10px;
-	}
-	img {
-		max-width: 100%;
 	}
 	.footnotes {
 		font-size: 10px;
@@ -1978,7 +1979,6 @@ article.electricity-gas {
 		margin: 40px 0;
 	}
 	img {
-		max-width: 100%;
 		padding-bottom: 25px;
 	}
 	.gas-chart {
