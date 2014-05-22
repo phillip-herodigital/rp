@@ -1659,7 +1659,7 @@ article.commercial-account-banner {
 }
 
 article.free-energy {
-	margin-top: 20px;
+	margin-bottom: 0;
 	img {
 		margin: auto;
 		display: block;
@@ -2049,6 +2049,7 @@ article.manage-my-account {
 article.manage-free-energy {
 	background-image: url('../i/marketing/free-energy-pic.jpg');
 	height: 399px;
+    margin-bottom: 0;
 	.left-column {
 		float: left;
 		width: 55%;
