@@ -1261,9 +1261,6 @@ article.homelife-services {
 					&.identity {
 						color: #7e9bb5;
 						position: relative;
-						.button {
-							background-color: #7e9bb5;
-						}
 						&:after {
 							content: "+";
 							color: #898989;
@@ -1276,9 +1273,6 @@ article.homelife-services {
 					&.support {
 						color: #b58789;
 						position: relative;
-						.button {
-							background-color: #b58789;
-						}
 						&:after {
 							content: "+";
 							color: #898989;
@@ -1290,9 +1284,6 @@ article.homelife-services {
 					}
 					&.monitoring {
 						color: #8ba170;
-						.button {
-							background-color: #8ba170;
-						}
 					}
 				}
 			}
@@ -1433,6 +1424,15 @@ article.homelife-services {
 					color: #fff;
 				}
 			}
+			.identity .button {
+				background-color: #7e9bb5;
+			}
+			.support .button {
+				background-color: #b58789;
+			}
+			.monitoring .button {
+				background-color: #8ba170;
+			}			
 		}
 		&.gold {
 			.box {
