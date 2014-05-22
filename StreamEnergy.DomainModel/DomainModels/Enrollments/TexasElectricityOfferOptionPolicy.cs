@@ -21,7 +21,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public IOfferOptionRules GetOptionRules(Location location, IOffer offer)
         {
-            return new TexasOfferOptionRules
+            return new TexasElectricityOfferOptionRules
             {
                 ConnectDates = enrollmentService.LoadConnectDates(location)
             };

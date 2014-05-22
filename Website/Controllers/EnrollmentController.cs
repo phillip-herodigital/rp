@@ -201,7 +201,7 @@ namespace StreamEnergy.MyStream.Controllers
                                                  Value = new LocationServices
                                                  {
                                                      Location = location.Value,
-                                                     SelectedOffers = service.Value.SelectedOffers
+                                                     SelectedOffers = service.Value != null ? service.Value.SelectedOffers : null
                                                  }
                                              }).ToDictionary(e => e.Key, e => e.Value);
 
