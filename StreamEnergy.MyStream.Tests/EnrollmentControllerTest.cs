@@ -409,7 +409,6 @@ namespace StreamEnergy.MyStream.Tests
             Assert.AreEqual(typeof(DomainModels.Enrollments.CompleteOrderState), session.State);
         }
 
-        /*
         [TestMethod]
         public void PostPaymentInfoTest()
         {
@@ -417,17 +416,27 @@ namespace StreamEnergy.MyStream.Tests
             var session = container.Resolve<EnrollmentController.SessionHelper>();
             session.UserContext = new UserContext
             {
-                ServiceAddress = specificAddress,
-                ServiceCapabilities = specificServiceCapabilities,
-                SelectedOffers = new[] 
-                { 
-                    new SelectedOffer 
+                Services = new Dictionary<string, LocationServices> {
                     { 
-                        Offer = offers[0],
-                        OfferOption = offerOption
+                        "loc", 
+                        new LocationServices
+                        {
+                            Location = specificLocation,
+                            SelectedOffers = new Dictionary<string,SelectedOffer>
+                            { 
+                                {
+                                    offers[0].Id,
+                                    new SelectedOffer 
+                                    { 
+                                        Offer = offers[0],
+                                        OfferOption = offerOption
+                                    }
+                                }
+                            }
+                        }
                     }
                 },
-                BillingAddress = specificAddress,
+                BillingAddress = specificLocation.Address,
                 ContactInfo = contactInfo,
                 DriversLicense = null,
                 Language = "en",
@@ -437,7 +446,7 @@ namespace StreamEnergy.MyStream.Tests
             };
             session.InternalContext = new InternalContext
             {
-                AllOffers = offers,
+                AllOffers = offers.Select(o => Tuple.Create(specificLocation, o)),
                 IdentityCheckResult = identityCheckResult,
             };
             session.State = typeof(DomainModels.Enrollments.PaymentInfoState);
@@ -452,7 +461,6 @@ namespace StreamEnergy.MyStream.Tests
                 var result = controller.PaymentInfo(request);
 
                 // Assert
-                Assert.IsNull(result.UserContext.PaymentInfo);
             }
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.CompleteOrderState), session.State);
@@ -466,17 +474,27 @@ namespace StreamEnergy.MyStream.Tests
             var session = container.Resolve<EnrollmentController.SessionHelper>();
             session.UserContext = new UserContext
             {
-                ServiceAddress = specificAddress,
-                ServiceCapabilities = specificServiceCapabilities,
-                SelectedOffers = new[] 
-                { 
-                    new SelectedOffer 
+                 Services = new Dictionary<string, LocationServices> {
                     { 
-                        Offer = offers[0],
-                        OfferOption = offerOption
+                        "loc", 
+                        new LocationServices
+                        {
+                            Location = specificLocation,
+                            SelectedOffers = new Dictionary<string,SelectedOffer>
+                            { 
+                                {
+                                    offers[0].Id,
+                                    new SelectedOffer 
+                                    { 
+                                        Offer = offers[0],
+                                        OfferOption = offerOption
+                                    }
+                                }
+                            }
+                        }
                     }
                 },
-                BillingAddress = specificAddress,
+                BillingAddress = specificLocation.Address,
                 ContactInfo = contactInfo,
                 DriversLicense = null,
                 Language = "en",
@@ -486,7 +504,7 @@ namespace StreamEnergy.MyStream.Tests
             };
             session.InternalContext = new InternalContext
             {
-                AllOffers = offers,
+                AllOffers = offers.Select(o => Tuple.Create(specificLocation, o)),
                 IdentityCheckResult = identityCheckResult,
             };
             session.State = typeof(DomainModels.Enrollments.CompleteOrderState);
@@ -506,6 +524,5 @@ namespace StreamEnergy.MyStream.Tests
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.OrderConfirmationState), session.State);
         }
-        */
     }
 }

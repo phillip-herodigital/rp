@@ -82,6 +82,11 @@ namespace StreamEnergy
                             return Enumerable.Repeat(new ValidationResult(attrs.ErrorMessage, new[] { CompositeValidationAttribute.GetPathedName(propertyChain) }), 1);
                         };
                 }
+                else if (unwrappedExpression == (validationExpression as LambdaExpression).Parameters[0])
+                {
+                    validations.AddRange(CompleteValidate(value));
+                    continue;
+                }
                 else
                 {
                     throw new NotSupportedException("Unsupported validation expression: " + validationExpression.ToString());
