@@ -686,6 +686,8 @@
     <Content Include="frontend\assets\i\paperless-promo.jpg" />
     <Content Include="frontend\assets\i\renew-promo.png" />
     <Content Include="frontend\assets\js\app.js" />
+    <Content Include="frontend\assets\js\config\validation-exactvalue.js" />
+    <Content Include="frontend\assets\js\config\validation.js" />
     <Content Include="frontend\assets\js\controllers\accountBalances.js" />
     <Content Include="frontend\assets\js\controllers\enrollment\cart.js" />
     <Content Include="frontend\assets\js\controllers\enrollment\accountInformation.js" />
@@ -1161,6 +1163,10 @@
     <Content Include="frontend\assets\js\libs\jquery\dist\jquery.min.map" />
     <Content Include="frontend\assets\js\libs\jquery\src\sizzle\dist\sizzle.min.map" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
+    <Content Include="Views\Components\Header Fixed.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Cart.cshtml" />
+    <Content Include="Views\Pages\Marketing\Blog\Latest Blog Post Horizontal.cshtml" />
+    <Content Include="Views\Pages\Marketing\Paperless\Paperless Page.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
