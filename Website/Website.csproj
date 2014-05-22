@@ -511,7 +511,6 @@
     <Content Include="frontend\assets\i\icon2x\arrow-left.png" />
     <Content Include="frontend\assets\i\icon2x\arrow-right.png" />
     <Content Include="frontend\assets\i\icon2x\bbb.png" />
-    <Content Include="frontend\assets\i\icon2x\blue-rectangle.png" />
     <Content Include="frontend\assets\i\icon2x\bill.png" />
     <Content Include="frontend\assets\i\icon2x\blue-arrow-down.png" />
     <Content Include="frontend\assets\i\icon2x\blue-arrow-up.png" />
@@ -564,7 +563,6 @@
     <Content Include="frontend\assets\i\icon\arrow-left.png" />
     <Content Include="frontend\assets\i\icon\arrow-right.png" />
     <Content Include="frontend\assets\i\icon\bbb.png" />
-    <Content Include="frontend\assets\i\icon\blue-rectangle.png" />
     <Content Include="frontend\assets\i\icon\bill.png" />
     <Content Include="frontend\assets\i\icon\blue-arrow-down.png" />
     <Content Include="frontend\assets\i\icon\blue-arrow-up.png" />
@@ -1160,7 +1158,15 @@
     <Content Include="frontend\assets\js\libs\angular-animate\README.md" />
     <Content Include="frontend\assets\js\libs\jquery\dist\jquery.min.map" />
     <Content Include="frontend\assets\js\libs\jquery\src\sizzle\dist\sizzle.min.map" />
+    <None Include="Properties\PublishProfiles\Azure-Production Sitecore.pubxml" />
+    <None Include="Properties\PublishProfiles\Azure-Production.pubxml" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
+    <None Include="Web.Azure-Production Sitecore.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Azure-Production.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1175,6 +1181,28 @@
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Azure-Production|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <PublishDatabases>false</PublishDatabases>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Azure-Production Sitecore|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <FilesToIncludeForPublish>AllFilesInProjectFolder</FilesToIncludeForPublish>
+    <ExcludeGeneratedDebugSymbol>false</ExcludeGeneratedDebugSymbol>
+    <PublishDatabases>false</PublishDatabases>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\StreamEnergy.Core\StreamEnergy.Core.csproj">
