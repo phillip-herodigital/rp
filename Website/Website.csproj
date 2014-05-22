@@ -1161,6 +1161,8 @@
     <Content Include="frontend\assets\js\libs\jquery\dist\jquery.min.map" />
     <Content Include="frontend\assets\js\libs\jquery\src\sizzle\dist\sizzle.min.map" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
+    <Content Include="Views\Pages\Marketing\Services\Gas.cshtml" />
+    <Content Include="Views\Pages\Marketing\Services\Electricity.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
