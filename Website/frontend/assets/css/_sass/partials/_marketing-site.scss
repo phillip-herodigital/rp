@@ -2287,3 +2287,78 @@ article.opportunity-compensation-plan {
 		}
 	}
 }
+ 
+article.paperless {
+	.left-column {
+		float: left;
+		width: 40%;
+		padding-right: 40px;
+		.instructions {
+			color: #76BD1D;
+		}
+		@include breakpoint(small) {
+			width: 100%;
+			padding-right: 0px;
+		}
+	}
+	.right-column {
+		width: 60%;
+		float: right;
+		padding-left: 40px;
+		border-left: 1px solid #cfcfcf;
+		div.clearfix {
+			margin-bottom: 30px;
+			img {
+				float: left;
+			}
+			h3 {
+				color: #76BD1D;
+				float: left;
+				margin: 25px 0 0 10px;
+			}
+		}
+		h4 {
+			text-align: center;
+			margin: 25px 0 0 10px;
+			color: #76BD1D;
+		}
+		.states {
+			float: left;
+			margin: 20px 40px 0 0;
+			input {
+				margin-bottom: 15px;
+			}
+		}
+		.input-fields {
+			float: left;
+			width: 40%;
+			margin-right: 18px;
+			div {
+				margin-top: 10px;
+				input {
+					width: 100%;
+				}
+			}
+
+		}
+		.login {
+			float: left;
+			.button {
+				background-color: #76BD1D;
+				&:hover {
+					background-color: #6b6b6b;
+				}
+			}
+		}
+		.share {
+			margin-top: 100px;
+			text-align: center;
+		}
+		@include breakpoint(small) {
+			width: 100%;
+			margin: 20px auto;
+			padding: 0;
+			border-left: none;
+		}
+	}
+}

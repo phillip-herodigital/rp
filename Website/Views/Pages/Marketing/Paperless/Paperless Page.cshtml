@@ -1,0 +1,47 @@
+﻿<article class="marketing paperless">
+    <div class="wrapper">
+        <div class="left-column">
+            @Html.Sitecore().Field("Left side content")
+        </div>
+        <div class="right-column">
+            <div class="clearfix">
+           
+                @Html.Sitecore().Field("Header image")
+                <h3>@Html.Sitecore().Field("Module header")</h3>
+            </div>
+            <div class="account-login clearfix">
+                <div class="states">
+                    <div>
+                        @Html.Sitecore().Field("State option")
+                    </div>
+                    <div>
+                        @Html.Sitecore().Field("State option 2")
+                    </div>
+                </div>
+                <div class="input-fields">
+                    <div>
+                        @Html.Sitecore().Field("Username")
+                    </div>
+                    <div>
+                        @Html.Sitecore().Field("Password")
+                    </div>
+                </div>
+                <div class="login">
+                    <p>@Html.Sitecore().Field("Login button")</p>
+                </div>
+            </div>
+            <p>@Html.Sitecore().Field("Do not have account")</p>
+            @Html.Sitecore().Field("Select for assistance")
+            <div class="share">
+                <h4>@Html.Sitecore().Field("Share header")</h4>
+                <p>@Html.Sitecore().Field("Share paragraph")</p>
+                <div class="grid three">
+                    <div class="col">@Html.Sitecore().Field("Share link facebook")</div>
+                    <div class="col">@Html.Sitecore().Field("Share link twitter")</div>
+                    <div class="col">@Html.Sitecore().Field("Share link pinterest")</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+
