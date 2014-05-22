@@ -32,7 +32,7 @@
                     </div>
                     <div class="item">
                         <label for="address-or-zip">@Html.Sitecore().Field("Address Label")</label>
-                        <input type="text" id="address-or-zip" ng-model="enrollmentFields.serviceInformation.addressOrZip" placeholder="@Html.Sitecore().Field("Address Placeholder")" />
+                        <input type="text" id="address-or-zip" ng-model="temp" placeholder="@Html.Sitecore().Field("Address Placeholder")" typeahead="address for address in getLocation($viewValue)" />
                         <select id="state" ng-model="enrollmentFields.state">
                             <option value="">Texas</option>
                         </select>

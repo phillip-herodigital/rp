@@ -178,5 +178,36 @@
         return deferred.promise;
     };
 
+    /**
+     * Get locations.
+     * 
+     * @param {string} val         Location search string
+     * @return {object}            Promise object returned when API call has successfully completed.
+     */
+    service.getLocations = function (val) {
+
+        var deferred = $q.defer(),
+            start = new Date().getTime();
+
+        $http.get('http://maps.googleapis.com/maps/api/geocode/json', {
+            params: {
+                address: val,
+                sensor: false
+            }
+        })
+        .success(function (data) {
+            console.log('time taken for request: ' + (new Date().getTime() - start) + 'ms');
+            deferred.resolve(data);
+        })
+        .error(function (data, status) {
+            deferred.reject({
+                'status': status,
+                'data': data
+            });
+        });
+
+        return deferred.promise;
+    };
+
     return service;
 }]);
