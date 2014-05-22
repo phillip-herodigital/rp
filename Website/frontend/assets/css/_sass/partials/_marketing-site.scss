@@ -198,13 +198,6 @@ article.photoLockup {
 			}
 		}
 	}
-	&.feel-the-power {
-		h3 {
-			color: #6b6b6b;
-			line-height: 1.1;
-			text-transform: none;
-		}
-	}
 }
 
 article.marketingIntro {
@@ -353,6 +346,16 @@ article.gridPromos {
 	div.col {
 		display: inline-block;
 		padding: 0 4%;
+	}
+}
+
+article.opportunity {
+	&.feel-the-power {
+		h3 {
+			color: #6b6b6b;
+			line-height: 1.1;
+			text-transform: none;
+		}
 	}
 }
 
