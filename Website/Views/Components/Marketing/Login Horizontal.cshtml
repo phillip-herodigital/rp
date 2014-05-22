@@ -9,10 +9,10 @@
                         <li><input type="radio" name="loginState" value="GA" id="loginState[georgia]" ng-model="state" /> <label for="loginState[georgia]">@Html.Sitecore().Field("Georgia Label")</label></li>
                     </ul>
                 </div>
-                <div class="item">
+                <div class="item username-item">
                     <input type="text" name="username" placeholder="@Html.Sitecore().CurrentItem.Fields["username placeholder"].Value" ng-model="username" />
                 </div>
-                <div class="item">
+                <div class="item password-item">
                     <input type="password" name="password" placeholder="@Html.Sitecore().CurrentItem.Fields["password placeholder"].Value" ng-model="password" />
                 </div>
                 <div class="item">
