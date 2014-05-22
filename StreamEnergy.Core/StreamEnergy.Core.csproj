@@ -168,6 +168,7 @@
     <Compile Include="Mvc\Sitecore\ControllerRenderer.cs" />
     <Compile Include="Mvc\Sitecore\ControllerRunner.cs" />
     <Compile Include="Mvc\Sitecore\GetControllerRenderer.cs" />
+    <Compile Include="Pipelines\UpdateGeoIpData.cs" />
     <Compile Include="RequireValueAttributeAdapter.cs" />
     <Compile Include="Processes\IState.cs" />
     <Compile Include="Processes\IStateMachine.cs" />
