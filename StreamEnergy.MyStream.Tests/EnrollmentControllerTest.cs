@@ -167,11 +167,10 @@ namespace StreamEnergy.MyStream.Tests
                 var result = controller.ServiceInformation(request);
 
                 // Assert
-                Assert.AreEqual("SelectedOffers", result.Validations.Single().MemberName);
+                Assert.AreEqual("Services[0].Value.SelectedOffers", result.Validations.Single().MemberName);
                 Assert.AreEqual("75010", result.LocationServices["loc"].Location.Address.PostalCode5);
                 Assert.AreEqual(DomainModels.TexasServiceCapability.capabilityType, result.LocationServices["loc"].Location.Capabilities.First().CapabilityType);
                 Assert.AreEqual("Centerpoint", (result.LocationServices["loc"].Location.Capabilities.First() as DomainModels.TexasServiceCapability).Tdu);
-                Assert.IsTrue((result.LocationServices["loc"].Location.Capabilities.First() as DomainModels.TexasServiceCapability).IsNewService);
 
                 Assert.IsTrue(result.Offers.Any());
                 Assert.IsNotNull(result.Offers.SingleOrDefault(offer => offer.Value.First().Id == "NewOffer"));
@@ -182,7 +181,6 @@ namespace StreamEnergy.MyStream.Tests
             Assert.AreEqual("75010", session.UserContext.Services["loc"].Location.Address.PostalCode5);
             Assert.AreEqual(DomainModels.TexasServiceCapability.capabilityType, session.UserContext.Services["loc"].Location.Capabilities.First().CapabilityType);
             Assert.AreEqual("Centerpoint", (session.UserContext.Services["loc"].Location.Capabilities.First() as DomainModels.TexasServiceCapability).Tdu);
-            Assert.IsTrue((session.UserContext.Services["loc"].Location.Capabilities.First() as DomainModels.TexasServiceCapability).IsNewService);
             Assert.IsNotNull(session.InternalContext.AllOffers.SingleOrDefault(offer => offer.Item2.Id == "NewOffer"));
         }
         /*

@@ -30,9 +30,16 @@ namespace StreamEnergy.Extensions
 
         public static Func<IValidationService, IEnumerable<ValidationResult>> PartialValidate<T>(this IEnumerable<T> initialList, params Expression<Func<T, object>>[] properties)
         {
-            return (svc) => from element in initialList.Select((value, index) => new { value, index })
-                            from v in svc.PartialValidate(element.value, properties).Flatten(v => v as IEnumerable<ValidationResult>, leafNodesOnly: true)
-                            select new ValidationResult(v.ErrorMessage, v.MemberNames.Select(n => "[" + element.index + "]" + n.Prefix(".")).ToArray());
+            if (initialList == null)
+            {
+                return delegate { return Enumerable.Empty<ValidationResult>(); };
+            }
+            return (svc) =>
+            {
+                return from element in initialList.Select((value, index) => new { value, index })
+                       from v in svc.PartialValidate(element.value, properties).Flatten(v => v as IEnumerable<ValidationResult>, leafNodesOnly: true)
+                       select new ValidationResult(v.ErrorMessage, v.MemberNames.Select(n => "[" + element.index + "]" + n.Prefix(".")).ToArray());
+            };
         }
     }
 }
