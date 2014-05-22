@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
+using StreamEnergy.Unity;
 
 namespace StreamEnergy
 {
@@ -21,7 +22,7 @@ namespace StreamEnergy
                     var entries = ((IDictionary)value).Keys.OfType<object>().Select((obj, index) => new { obj, extra = "Key", index })
                         .Concat(((IDictionary)value).Values.OfType<object>().Select((obj, index) => new { obj, extra = "Value", index }));
                     var results = from entry in entries
-                                  let context = ((IValidationService)validationContext.GetService(typeof(IValidationService))).CreateValidationContext(entry.obj)
+                                  let context = GetValidationService(validationContext).CreateValidationContext(entry.obj)
                                   let innerResults = new HashSet<ValidationResult>()
                                   where !Validator.TryValidateObject(entry.obj, context, innerResults, true)
                                   from innerResult in innerResults.Flatten(result => result as IEnumerable<ValidationResult>, leafNodesOnly: true)
@@ -32,7 +33,7 @@ namespace StreamEnergy
                 else
                 {
                     var results = from entry in ((IEnumerable)value).OfType<object>().Select((obj, index) => new { obj, index })
-                                  let context = ((IValidationService)validationContext.GetService(typeof(IValidationService))).CreateValidationContext(entry.obj)
+                                  let context = GetValidationService(validationContext).CreateValidationContext(entry.obj)
                                   let innerResults = new HashSet<ValidationResult>()
                                   where !Validator.TryValidateObject(entry.obj, context, innerResults, true)
                                   from innerResult in innerResults.Flatten(result => result as IEnumerable<ValidationResult>, leafNodesOnly: true)
@@ -44,5 +45,14 @@ namespace StreamEnergy
 
             return ValidationResult.Success;
         }
+
+        private static IValidationService GetValidationService(ValidationContext validationContext)
+        {
+            var service = ((IValidationService)validationContext.GetService(typeof(IValidationService)));
+            if (service == null)
+                service = Container.Build<IValidationService>();
+            return service;
+        }
+
     }
 }

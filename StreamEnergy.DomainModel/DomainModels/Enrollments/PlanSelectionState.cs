@@ -27,6 +27,8 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public IEnumerable<ValidationResult> AdditionalValidations(UserContext context, InternalContext internalContext)
         {
+            if (context.Services == null || context.Services.Count < 1)
+                yield return new ValidationResult("Services Required", new[] { "Services" });
             yield break;
         }
 
