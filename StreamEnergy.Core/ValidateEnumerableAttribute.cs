@@ -25,7 +25,7 @@ namespace StreamEnergy
                                   let innerResults = new HashSet<ValidationResult>()
                                   where !Validator.TryValidateObject(entry.obj, context, innerResults, true)
                                   from innerResult in innerResults.Flatten(result => result as IEnumerable<ValidationResult>, leafNodesOnly: true)
-                                  select Tuple.Create(memberName + "[" + entry.index + "]", innerResult);
+                                  select Tuple.Create(memberName + "[" + entry.index + "]." + entry.extra, innerResult);
 
                     return ResultFromInnerResults(results, memberName);
                 }

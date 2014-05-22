@@ -119,12 +119,14 @@ namespace StreamEnergy.MyStream.Controllers
                 SecondaryContactInfo = stateMachine.Context.SecondaryContactInfo,
                 LocationServices = stateMachine.Context.Services,
                 SelectedIdentityAnswers = null,
-                Offers = (from offer in stateMachine.InternalContext.AllOffers
-                             group offer.Item2 by LookupAddressId(offer.Item1)).ToDictionary(e => e.Key, e => (IEnumerable<IOffer>)e.ToArray()),
-                OfferOptionRules = (from entry in stateMachine.InternalContext.OfferOptionRulesByAddressOffer
-                                    group entry by LookupAddressId(entry.Item1) into byAddressId
-                                    let byOfferId = byAddressId.ToDictionary(e => e.Item2.Id, e => e.Item3)
-                                    select new { AddressId = byAddressId.Key, Value = byOfferId }).ToDictionary(e => e.AddressId, e => e.Value),
+                Offers = stateMachine.InternalContext.AllOffers == null ? null :
+                    (from offer in stateMachine.InternalContext.AllOffers
+                     group offer.Item2 by LookupAddressId(offer.Item1)).ToDictionary(e => e.Key, e => (IEnumerable<IOffer>)e.ToArray()),
+                OfferOptionRules = stateMachine.InternalContext.OfferOptionRulesByAddressOffer == null ? null :
+                    (from entry in stateMachine.InternalContext.OfferOptionRulesByAddressOffer
+                     group entry by LookupAddressId(entry.Item1) into byAddressId
+                     let byOfferId = byAddressId.ToDictionary(e => e.Item2.Id, e => e.Item3)
+                     select new { AddressId = byAddressId.Key, Value = byOfferId }).ToDictionary(e => e.AddressId, e => e.Value),
                 IdentityQuestions = stateMachine.InternalContext.IdentityCheckResult != null ? stateMachine.InternalContext.IdentityCheckResult.IdentityQuestions : null,
                 DepositAmount = stateMachine.InternalContext.Deposit != null ? stateMachine.InternalContext.Deposit.Amount : (decimal?)null,
                 ConfirmationNumber = stateMachine.InternalContext.PlaceOrderResult != null ? stateMachine.InternalContext.PlaceOrderResult.ConfirmationNumber : null
@@ -136,7 +138,7 @@ namespace StreamEnergy.MyStream.Controllers
         {
             // TODO - merge address ids
             stateMachine.Context.Services = (from location in value.Locations
-                                             join service in stateMachine.Context.Services on location.Key equals service.Key into services
+                                             join service in (stateMachine.Context.Services ?? Enumerable.Empty<KeyValuePair<string, LocationServices>>()) on location.Key equals service.Key into services
                                              from service in services.DefaultIfEmpty()
                                              select new
                                              {
@@ -144,7 +146,7 @@ namespace StreamEnergy.MyStream.Controllers
                                                  Value = new LocationServices
                                                      {
                                                          Location = location.Value,
-                                                         SelectedOffers = service.Value.SelectedOffers
+                                                         SelectedOffers = service.Value != null ? service.Value.SelectedOffers : null
                                                      }
                                              }).ToDictionary(e => e.Key, e => e.Value);
 
