@@ -19,6 +19,18 @@
 	}
 }
 
+@mixin breakpoint-max($width) {
+	@media only screen and (max-width: $width) { @content; }
+}
+
+@mixin breakpoint-min($width) {
+	@media only screen and (max-width: $width) { @content; }
+}
+
+@mixin breakpoint-min-max($minWidth, $maxWidth) {
+	@media only screen and (min-width: $minWidth) and (max-width: $maxWidth) { @content; }
+}
+
 @mixin image-replace($imgName, $retina: false) {
 	display: inline-block;
 	@if $retina == false {

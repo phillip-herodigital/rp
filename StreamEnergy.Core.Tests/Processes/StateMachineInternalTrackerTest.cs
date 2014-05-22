@@ -49,6 +49,11 @@ namespace StreamEnergy.Core.Tests.Processes
                 return Enumerable.Empty<ValidationResult>();
             }
 
+            bool IState<GetOffersContext, GetOffersInternalContext>.IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult, GetOffersContext data, GetOffersInternalContext internalData)
+            {
+                return false;
+            }
+
             public bool IsFinal
             {
                 get { return false; }
@@ -99,6 +104,11 @@ namespace StreamEnergy.Core.Tests.Processes
                 return Enumerable.Empty<ValidationResult>();
             }
 
+            bool IState<GetOffersContext, GetOffersInternalContext>.IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult, GetOffersContext data, GetOffersInternalContext internalData)
+            {
+                return false;
+            }
+
             public bool IsFinal
             {
                 get { return false; }
@@ -147,6 +157,11 @@ namespace StreamEnergy.Core.Tests.Processes
                 }
             }
 
+            bool IState<GetOffersContext, GetOffersInternalContext>.IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult, GetOffersContext data, GetOffersInternalContext internalContext)
+            {
+                return false;
+            }
+
             public bool IsFinal
             {
                 get { return false; }
@@ -174,7 +189,7 @@ namespace StreamEnergy.Core.Tests.Processes
         private IStateMachine<GetOffersContext, GetOffersInternalContext> Create()
         {
             var unity = new UnityContainer();
-            var result = new StateMachine<GetOffersContext, GetOffersInternalContext>(new ValidationService(), unity);
+            var result = new StateMachine<GetOffersContext, GetOffersInternalContext>(new ValidationService(new Microsoft.Practices.Unity.UnityContainer()), unity);
             return result;
         }
 

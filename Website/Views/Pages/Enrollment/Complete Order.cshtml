@@ -1,0 +1,216 @@
+﻿<div id="add-payment-information" class="enrollment-section accent-darkgreen" ng-controller="EnrollmentCompleteOrderCtrl">
+    <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
+        <div class="wrapper">
+            <h1>
+                <span class="medium block">Add <i>Payment</i></span>
+                <span class="block">Info<span class="hide-small hide-medium">rmation</span></span>
+            </h1>
+        </div>
+    </div>
+    <div class="wrapper layout cols-2">
+        <aside class="left">
+            <nav>
+                <ul>
+                    <li class="completed"><a href="#lets-get-started">Let's Get Started</a></li>
+                    <li class="completed"><a href="#choose-your-plan">Choose Your Plan</a></li>
+                    <li class="completed"><a href="#setup-your-account">Setup Your Account</a></li>
+                    <li class="completed"><a href="#verify-identity">Verify Identity</a></li>
+                    <li class="active"><a href="#add-payment-information">Add Payment Information</a></li>
+                    <li><a href="#confirm-order">Confirm Order</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <section>
+            <h1>Add <span>Payment Information</span></h1>
+            <p>Based on your order, the following payment is due now to complete your order.</p>
+            <article class="form">
+                <div class="content">
+                    <div class="item">
+                        <label for="service-address">Service Address</label>
+                        <strong>123 Main Street, Dallas, TX 75001</strong>
+                    </div>
+                </div>
+            </article>
+            <table>
+                <tbody>
+                    <tr class="line-item">
+                        <td class="description">
+                            <h1>Deposit Due</h1>
+                            <h2>24 Month Fixed Rate plan</h2>
+                            <p>Based on your credit score, the following deposit is required. It will be returned to you after xxxxx.</p>
+                        </td>
+                        <td class="rate">
+                            $150.00
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="total" colspan="2">
+                            Total Due Now: <span>$150.00</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>The card below will be set up to pay for these services. If you’d like to change your payment method, you can do so from your account at any point.</p>
+            <h2>Homelife Services</h2>
+            <table>
+                <tbody>
+                    <tr class="line-item">
+                        <td class="description">
+                            <h1>Stream Tech Support</h1>
+                            <p>This will appear as a charge from “ABCD Corp.” on your bill.</p>
+                        </td>
+                        <td class="rate">
+                            $14.95
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="total" colspan="2">
+                            Total Recurring Payments: <span>$14.95</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <h2>Card Details</h2>
+            <article class="form">
+                <div class="content">
+                    <div class="item">
+                        <label for="payment-method">Select Payment Method</label>
+                        <select id="payment-method">
+                            <option value="">Please Choose</option>
+                        </select>
+                    </div>
+                    <div class="item">
+                        <label for="cc">Credit Card Number</label>
+                        <input type="text" id="cc" />
+                    </div>
+                    <div class="group">
+                        <div class="item">
+                            <label for="expiration-date">Expiration Date</label>
+                            <select class="small" id="cc-month">
+                                <option value="">MM</option>
+                            </select>
+                            <select class="small" id="cc-year">
+                                <option value="">YYYY</option>
+                            </select>
+                        </div>
+                        <div class="item">
+                            <label for="billing-zip">Billing Zip</label>
+                            <input class="small" type="text" id="billing-zip" />
+                        </div>
+                        <div class="item">
+                            <label for="security-code">Security Code</label>
+                            <input class="small" type="text" id="security-code" />
+                        </div>
+                        <div class="item">
+                            <a href="" class="single-link">See Example</a>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <div class="buttons">
+                <button type="submit" class="primary">Place Order</button>
+            </div>
+        </section>
+        <aside>
+            <article class="cart">
+                <header>
+                    <div class="cart-items">
+                        <i class="icon-cart"></i>
+                        <div class="item-num">2</div>
+                    </div>
+                    <h1>Your Cart</h1>
+                </header>
+                <div class="body">
+                    <div class="box">
+                        <div class="cart-item">
+                            <div class="delete">
+                                <i class="icon-delete"></i>
+                            </div>
+                            <div class="description">
+                                <h2>24-Month Fixed Rate</h2>
+                                <a href="">Change Plan</a>
+                            </div>
+                            <div class="rate">
+                                7.18&cent;
+                                <span>per kWh</span>
+                            </div>
+                        </div>
+                        <div class="cart-item">
+                            <div class="description">
+                                <h2>Installation Fee</h2>
+                            </div>
+                            <div class="rate">
+                                $10.35
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="cart-item">
+                            <div class="delete">
+                                <i class="icon-delete"></i>
+                            </div>
+                            <div class="description">
+                                <h2>Stream Smart Themostat</h2>
+                            </div>
+                            <div class="rate">
+                                $14.95
+                                <span>per month</span>
+                            </div>
+                        </div>
+                        <address>
+                            <h3>Service Address</h3>
+                            123 Main Street, Dallas, TX 75001<br />
+                            <a href="">Edit Address</a>
+                        </address>
+                    </div>
+                    <div class="box">
+                        <div class="cart-item">
+                            <div class="delete">
+                                <i class="icon-delete"></i>
+                            </div>
+                            <div class="description">
+                                <h2>3 Month Fixed Rate</h2>
+                                <a href="">Change Plan</a>
+                            </div>
+                            <div class="rate">
+                                7.18&cent;
+                                <span>per kWh</span>
+                            </div>
+                        </div>
+                        <address>
+                            <h3>Service Address</h3>
+                            456 Center Street Dallas, TX 75001<br />
+                            <a href="">Edit Address</a>
+                        </address>
+                    </div>
+                    <div class="box">
+                        <div class="cart-item">
+                            <div class="delete">
+                                <i class="icon-delete"></i>
+                            </div>
+                            <div class="description">
+                                <h2>Stream Tech Support</h2>
+                                <a href="">Change Plan</a>
+                            </div>
+                            <div class="rate">
+                                $14.95
+                                <span>per month</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box time">
+                        <i class="icon-clock"></i>
+                        <p>It will take approximately <strong>2</strong> more minutes to complete your order.
+                    </div>
+                    <p>Here's some documents you'll need to complete your order:</p>
+                    <ul class="info">
+                        <li><i class="icon-home"></i> Your Service Address</li>
+                        <li><i class="icon-bill"></i> Your <a href="">Bill Account Number</a></li>
+                        <li><i class="icon-utility-provider"></i> Your <a href="">Utility Provider</a></li>
+                        <li><i class="icon-ssn"></i> Your Social Security Number</li>
+                        <li><i class="icon-drivers-license"></i> Your Driver's License Number</li>
+                    </ul>
+                </div>
+            </article>
+        </aside>
+    </div>
+</div>

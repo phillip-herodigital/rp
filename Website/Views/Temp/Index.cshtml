@@ -1,0 +1,71 @@
+﻿@model StreamEnergy.MyStream.Controllers.TempController.SampleModel
+@using System.Linq.Expressions;
+@using StreamEnergy.Extensions;
+
+@*<script src="http://ajax.microsoft.com/ajax/jQuery/jquery-1.8.0.min.js"></script>
+    <script src="http://ajax.microsoft.com/ajax/jquery.validate/1.8/jquery.validate.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/mvc/5.1/jquery.validate.unobtrusive.js"></script>*@
+
+<script>
+    ngApp.controller('mainController', ['$scope', function ($scope) {
+        $scope.data = {};
+        $scope.provideEmail = true;
+        $scope.email = '@(Model != null && Model.ContactInfo != null && Model.ContactInfo.Email != null ? Model.ContactInfo.Email.Address : null)';
+    }]);
+</script>
+
+<div ng-controller="mainController">
+    <form name="myForm" action="/mjd" method="post">
+        @Html.ValidationSummary()
+
+        @Html.AllValidationMessagesFor(model => model)
+
+        <p>
+            <label for="provideEmail">Provide Email?</label> <input type="checkbox" id="provideEmail" ng-model="provideEmail" />
+        </p>
+        <p @Html.ValidationErrorClass(model => model.ContactInfo.Email.Address) data-ng-if="provideEmail">
+            <input type="text" @Html.ValidationAttributes(m => m.ContactInfo.Email.Address) data-val-if="provideEmail" data-val-realtime ng-model="email" />
+            @Html.ValidationMessageFor(model => model.ContactInfo.Email.Address)
+        </p>
+
+        <p @Html.ValidationErrorClass(model => model.ContactInfo.PrimaryPhone.Number)>
+            <input type="text" @Html.ValidationAttributes(m => m.ContactInfo.PrimaryPhone.Number) ng-model="primaryPhone" />
+            @Html.ValidationMessageFor(model => model.ContactInfo.PrimaryPhone.Number)
+        </p>
+
+        <div>
+            Correct:
+            <p>RequireChecked - {{data.RequireChecked}}<br /><input type="checkbox" @Html.ValidationAttributes(m => m.RequireChecked) data-val-realtime ng-model="data.RequireChecked" /> @Html.ValidationMessageFor(model => model.RequireChecked) </p>
+
+            <p>CardNumber - {{data.CardNumber }}<br /><input type="text" @Html.ValidationAttributes(m => m.CardNumber) data-val-realtime ng-model="data.CardNumber" /> @Html.ValidationMessageFor(model => model.CardNumber) </p>
+            <p>Date       - {{data.Date       }}<br /><input type="text" @Html.ValidationAttributes(m => m.Date) data-val-realtime ng-model="data.Date" /> @Html.ValidationMessageFor(model => model.Date)                   </p>
+            <p>Integer    - {{data.Integer    }}<br /><input type="text" @Html.ValidationAttributes(m => m.Integer) data-val-realtime ng-model="data.Integer" /> @Html.ValidationMessageFor(model => model.Integer)          </p>
+            <p>Single     - {{data.Single     }}<br /><input type="text" @Html.ValidationAttributes(m => m.Single) data-val-realtime ng-model="data.Single" /> @Html.ValidationMessageFor(model => model.Single)             </p>
+            <p>Url2       - {{data.Url2       }}<br /><input type="text" @Html.ValidationAttributes(m => m.Url2) data-val-realtime ng-model="data.Url2" /> @Html.ValidationMessageFor(model => model.Url2)                   </p>
+            <p>MinLength  - {{data.MinLength  }}<br /><input type="text" @Html.ValidationAttributes(m => m.MinLength) data-val-realtime ng-model="data.MinLength" /> @Html.ValidationMessageFor(model => model.MinLength)    </p>
+            <p>MaxLength  - {{data.MaxLength  }}<br /><input type="text" @Html.ValidationAttributes(m => m.MaxLength) data-val-realtime ng-model="data.MaxLength" /> @Html.ValidationMessageFor(model => model.MaxLength)    </p>
+            <p>Range      - {{data.Range      }}<br /><input type="text" @Html.ValidationAttributes(m => m.Range) data-val-realtime ng-model="data.Range" /> @Html.ValidationMessageFor(model => model.Range)                </p>
+            <p>Password   - {{data.Password   }}<br /><input type="text" @Html.ValidationAttributes(m => m.Password) data-val-realtime ng-model="data.Password" /> @Html.ValidationMessageFor(model => model.Password)       </p>
+            <p>StrLen     - {{data.StrLen     }}<br /><input type="text" @Html.ValidationAttributes(m => m.StrLen) data-val-realtime ng-model="data.StrLen" /> @Html.ValidationMessageFor(model => model.StrLen)             </p>
+            <p>Match      - {{data.Match      }}<br /><input type="text" @Html.ValidationAttributes(m => m.Match) data-val-realtime ng-model="data.Match" /> @Html.ValidationMessageFor(model => model.Match)                </p>
+            <p>FileName   - {{data.FileName   }}<br /><input type="text" @Html.ValidationAttributes(m => m.FileName) data-val-realtime ng-model="data.FileName" /> @Html.ValidationMessageFor(model => model.FileName)       </p>
+            <p>Data       - {{data.Data       }}<br /><input type="text" @Html.ValidationAttributes(m => m.Data) data-val-realtime ng-model="data.Data" /> @Html.ValidationMessageFor(model => model.Data)                   </p>
+
+        </div>
+
+        <div>
+            Not quite supported by Angular:
+            <p>PostedFile - {{data.PostedFile }}<br /><input type="file" @Html.ValidationAttributes(m => m.PostedFile) data-val-realtime ng-model="data.PostedFile" /> @Html.ValidationMessageFor(model => model.PostedFile) </p>
+        </div>
+
+        <div>
+            Needs JS work:
+
+        </div>
+
+
+        <button type="submit" name="btnSubmit" data-val-submit>Register</button>
+
+        <p>myForm.$valid = {{myForm.$valid}}</p>
+    </form>
+</div>

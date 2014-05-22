@@ -12,10 +12,11 @@ namespace StreamEnergy.Processes
         where TInternalContext : class
     {
         IEnumerable<System.Linq.Expressions.Expression<Func<TContext, object>>> PreconditionValidations();
-        IEnumerable<ValidationResult> AdditionalValidations(TContext data, TInternalContext internalContext);
+        IEnumerable<ValidationResult> AdditionalValidations(TContext context, TInternalContext internalContext);
+        bool IgnoreValidation(ValidationResult validationResult, TContext context, TInternalContext internalContext);
         bool IsFinal { get; }
 
-        Type Process(TContext data, TInternalContext internalContext);
+        Type Process(TContext context, TInternalContext internalContext);
 
         bool RestoreInternalState(IStateMachine<TContext, TInternalContext> stateMachine, ref TInternalContext internalContext, ref Type state);
     }

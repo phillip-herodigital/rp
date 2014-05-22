@@ -17,35 +17,89 @@ namespace StreamEnergy.MyStream.Controllers
 {
     public class EnrollmentController : ApiController, IRequiresSessionState
     {
-        private static readonly string ContextSessionKey = typeof(EnrollmentController).FullName + " " + typeof(UserContext).FullName;
-        private static readonly string StateSessionKey = typeof(EnrollmentController).FullName + " State";
-        private HttpSessionStateBase session;
+        private readonly Sitecore.Data.Items.Item translationItem;
         private IStateMachine<UserContext, InternalContext> stateMachine;
+        private readonly SessionHelper sessionHelper;
 
-        public EnrollmentController(HttpSessionStateBase session, StateMachine<UserContext, InternalContext> stateMachine)
+        internal class SessionHelper
         {
-            this.session = session;
-            this.stateMachine = stateMachine;
+            private readonly HttpSessionStateBase session;
+            private static readonly string ContextSessionKey = typeof(EnrollmentController).FullName + " " + typeof(UserContext).FullName;
+            private static readonly string InternalContextSessionKey = typeof(EnrollmentController).FullName + " " + typeof(InternalContext).FullName;
+            private static readonly string StateSessionKey = typeof(EnrollmentController).FullName + " State";
+
+            public SessionHelper(HttpSessionStateBase session)
+            {
+                this.session = session;
+            }
+
+            public UserContext UserContext
+            {
+                get
+                {
+                    var context = session[ContextSessionKey] as UserContext;
+                    if (context == null)
+                        session[ContextSessionKey] = context = new UserContext();
+                    return context;
+                }
+                set { session[ContextSessionKey] = value; }
+            }
+
+            public Type State
+            {
+                get
+                {
+                    return (session[StateSessionKey] as Type) ?? typeof(DomainModels.Enrollments.ServiceInformationState);
+                }
+                set { session[StateSessionKey] = value; }
+            }
+
+            public InternalContext InternalContext
+            {
+                get { return session[InternalContextSessionKey] as InternalContext; }
+                set { session[InternalContextSessionKey] = value; }
+            }
         }
 
-        protected override void Initialize(System.Web.Http.Controllers.HttpControllerContext controllerContext)
+        public EnrollmentController(HttpSessionStateBase session, StateMachine<UserContext, InternalContext> stateMachine)
+            : this(new SessionHelper(session), stateMachine)
         {
-            var context = session[ContextSessionKey] as UserContext;
-            if (context == null)
-                session[ContextSessionKey] = context = new UserContext();
+        }
 
-            var state = (session[StateSessionKey] as Type) ?? typeof(DomainModels.Enrollments.GetServiceInformationState);
-            stateMachine.Initialize(state, context, null);
+        internal EnrollmentController(SessionHelper sessionHelper, StateMachine<UserContext, InternalContext> stateMachine)
+        {
+            this.translationItem = Sitecore.Context.Database.GetItem(new Sitecore.Data.ID("{5B9C5629-3350-4D85-AACB-277835B6B1C9}"));
+            this.stateMachine = stateMachine;
+            this.sessionHelper = sessionHelper;
 
-            base.Initialize(controllerContext);
+            var context = sessionHelper.UserContext;
+
+            var state = sessionHelper.State;
+            stateMachine.Initialize(state, context, sessionHelper.InternalContext);
         }
 
         protected override void Dispose(bool disposing)
         {
-            session[ContextSessionKey] = stateMachine.Context;
-            session[StateSessionKey] = stateMachine.State;
+            if (stateMachine != null)
+            {
+                sessionHelper.UserContext = stateMachine.Context;
+                sessionHelper.State = stateMachine.State;
+                sessionHelper.InternalContext = stateMachine.InternalContext;
+            }
+            else
+            {
+                sessionHelper.UserContext = null;
+                sessionHelper.State = null;
+                sessionHelper.InternalContext = null;
+            }
 
             base.Dispose(disposing);
+        }
+
+        [HttpPost]
+        public void Reset()
+        {
+            stateMachine = null;
         }
 
         /// <summary>
@@ -57,19 +111,13 @@ namespace StreamEnergy.MyStream.Controllers
         {
             return new ClientData
             {
-                Validations = Translate(stateMachine.ValidationResults),
+                Validations = TranslatedValidationResult.Translate(stateMachine.ValidationResults, translationItem),
                 UserContext = CopyForClientDisplay(stateMachine.Context),
-                // TODO - more data, such as plan list, calendar, etc. - probably from stateMachine.InternalContext
-            };
-        }
-
-        [HttpGet]
-        public ServiceInformation ServiceInformation()
-        {
-            return new ServiceInformation
-            {
-                ServiceAddress = stateMachine.Context.ServiceAddress,
-                IsNewService = stateMachine.Context.IsNewService
+                Offers = stateMachine.InternalContext.AllOffers,
+                OfferOptionRules = stateMachine.InternalContext.OfferOptionRules,
+                IdentityQuestions = stateMachine.InternalContext.IdentityCheckResult != null ? stateMachine.InternalContext.IdentityCheckResult.IdentityQuestions : null,
+                DepositAmount = stateMachine.InternalContext.Deposit != null ? stateMachine.InternalContext.Deposit.Amount : (decimal?)null,
+                ConfirmationNumber = stateMachine.InternalContext.PlaceOrderResult != null ? stateMachine.InternalContext.PlaceOrderResult.ConfirmationNumber : null
             };
         }
 
@@ -77,29 +125,119 @@ namespace StreamEnergy.MyStream.Controllers
         public ClientData ServiceInformation([FromBody]ServiceInformation value)
         {
             stateMachine.Context.ServiceAddress = value.ServiceAddress;
-            stateMachine.Context.IsNewService = value.IsNewService;
+            stateMachine.Context.ServiceCapabilities = value.ServiceCapabilities;
             
-            stateMachine.Process(); // TODO - set steps to stop at
-            
+            // TODO - make sure this gets put in all the other service capabilities, or remove it from the interface and have the front-end do it
+            foreach (var entry in value.ServiceCapabilities.OfType<TexasServiceCapability>())
+            {
+                entry.IsNewService = value.IsNewService;
+            }
+
+            if (stateMachine.State == typeof(DomainModels.Enrollments.ServiceInformationState))
+                stateMachine.Process(typeof(DomainModels.Enrollments.AccountInformationState));
+
             return ClientData();
         }
 
-        private IEnumerable<TranslatedValidationResult> Translate(IEnumerable<ValidationResult> results)
+        [HttpPost]
+        public ClientData SelectedOffers([FromBody]SelectedOffers value)
         {
-            return from val in results
-                   let text = val.ErrorMessage // TODO - get field from Sitecore
-                   from member in val.MemberNames
-                   select new TranslatedValidationResult
-                   {
-                       MemberName = member,
-                       Text = text
-                   };
+            stateMachine.Context.SelectedOffers = (from offerId in value.OfferIds
+                                                   let offer = stateMachine.InternalContext.AllOffers.SingleOrDefault(o => o.Id == offerId)
+                                                   where offer != null
+                                                   select new SelectedOffer
+                                                   {
+                                                       Offer = offer,
+                                                   }).ToArray();
+
+            if (stateMachine.State == typeof(DomainModels.Enrollments.PlanSelectionState))
+                stateMachine.Process(typeof(DomainModels.Enrollments.AccountInformationState));
+
+            return ClientData();
+        }
+
+        [HttpPost]
+        public ClientData AccountInformation([FromBody]AccountInformation request)
+        {
+            stateMachine.Context.ServiceAddress = request.ServiceAddress;
+            stateMachine.Context.ServiceCapabilities = request.ServiceCapabilities;
+            stateMachine.Context.ContactInfo = request.ContactInfo;
+            stateMachine.Context.BillingAddress = request.BillingAddress;
+            stateMachine.Context.DriversLicense = request.DriversLicense;
+            stateMachine.Context.Language = request.Language;
+            stateMachine.Context.SecondaryContactInfo = request.SecondaryContactInfo;
+            stateMachine.Context.SocialSecurityNumber = request.SocialSecurityNumber;
+            if (request.OfferOptions != null)
+            {
+                foreach (var entry in request.OfferOptions)
+                {
+                    var selectedOffer = stateMachine.Context.SelectedOffers.SingleOrDefault(offer => offer.Offer.Id == entry.Key);
+                    if (selectedOffer == null)
+                    {
+                        selectedOffer = new SelectedOffer { Offer = stateMachine.InternalContext.AllOffers.SingleOrDefault(offer => offer.Id == entry.Key) };
+                        if (selectedOffer.Offer == null)
+                            continue;
+                        stateMachine.Context.SelectedOffers = stateMachine.Context.SelectedOffers.Concat(Enumerable.Repeat(selectedOffer, 1));
+                    }
+                    selectedOffer.OfferOption = entry.Value;
+                }
+            }
+
+            if (stateMachine.State == typeof(DomainModels.Enrollments.AccountInformationState))
+                stateMachine.Process(typeof(DomainModels.Enrollments.VerifyIdentityState));
+
+            return ClientData();
+        }
+
+        [HttpPost]
+        public ClientData VerifyIdentity([FromBody]VerifyIdentity request)
+        {
+            stateMachine.Context.SelectedIdentityAnswers = request.SelectedIdentityAnswers;
+
+            if (stateMachine.State == typeof(DomainModels.Enrollments.VerifyIdentityState))
+                stateMachine.Process(typeof(DomainModels.Enrollments.CompleteOrderState));
+
+            return ClientData();
+        }
+
+        [HttpPost]
+        public ClientData PaymentInfo([FromBody]DomainModels.Payments.IPaymentInfo request)
+        {
+            stateMachine.Context.PaymentInfo = request;
+
+            if (stateMachine.State == typeof(DomainModels.Enrollments.PaymentInfoState))
+                stateMachine.Process(typeof(DomainModels.Enrollments.CompleteOrderState));
+
+            return ClientData();
+        }
+
+        [HttpPost]
+        public ClientData ConfirmOrder([FromBody]ConfirmOrder request)
+        {
+            stateMachine.Context.AgreeToTerms = request.AgreeToTerms;
+
+            stateMachine.Process();
+
+            return ClientData();
         }
 
         private UserContext CopyForClientDisplay(UserContext userContext)
         {
-            // TODO - clone and remove items that should not be displayed
-            return userContext;
+            return new UserContext
+            {
+                BillingAddress = userContext.BillingAddress,
+                ContactInfo = userContext.ContactInfo,
+                DriversLicense = userContext.DriversLicense,
+                Language = userContext.Language,
+                SecondaryContactInfo = userContext.SecondaryContactInfo,
+                SelectedOffers = userContext.SelectedOffers,
+                ServiceAddress = userContext.ServiceAddress,
+                ServiceCapabilities = userContext.ServiceCapabilities,
+                SocialSecurityNumber = null,
+                AgreeToTerms = userContext.AgreeToTerms,
+                PaymentInfo = null,
+                SelectedIdentityAnswers = null,
+            };
         }
     }
 }

@@ -7,6 +7,7 @@ $themes:
 	(name: "darkblue", primaryColor: #073464, accentColor: #fff, textColor: #fff),
 	(name: "green", primaryColor: #78bb2f, accentColor: #fff, textColor: #fff),
 	(name: "palegreen", primaryColor: #8ba072, accentColor: #fff, textColor: #fff),
+	(name: "darkgreen", primaryColor: #5f9c37, accentColor: #fff, textColor: #fff),
 	(name: "orange", primaryColor: #fda32b, accentColor: #fff, textColor: #fff),
 	(name: "red", primaryColor: #aa2130, accentColor: #fff, textColor: #fff),
 	(name: "palered", primaryColor: #b48789, accentColor: #fff, textColor: #fff),
@@ -213,12 +214,17 @@ article.marketingIntro {
 		margin: 0 100px;
 		font-size: 19px;
 		ul {
-			width: 450px;
+			@include breakpoint(medium-large) {
+				width: 450px;
+			}
 			margin: 0 auto;
 			text-align: left;
 			em {
 				text-transform: uppercase;
 			}
+		}
+		@include breakpoint(small) {
+			margin: 0 20px;
 		}
 	}
 	@each $theme in $themes {
@@ -248,9 +254,6 @@ article.marketingIntro {
 
 article.loginHorizontal {
     margin-top: -20px;
-    @include breakpoint(small) {
-		margin-top: 0;
-	}
 	padding: 4px 0;
 	border-top: 4px solid #1697ff;
 	background-color: #1773cb;
@@ -277,11 +280,27 @@ article.loginHorizontal {
 	}
 }
 
+.ie8 article.loginHorizontal {
+	padding-top: 8px;
+	.item {
+		display: inline-block;
+		input[type=text], input[type=password] {
+			margin: 0 8px;
+			width: 200px;
+			height:30px;
+		}
+		button {
+			width: 130px;
+			height:30px;
+		}
+	}
+}
+
 article.gridPromos {
 	div.col {
 		text-align: center;
 		padding: 0 5%;
-		@include breakpoint(small) {
+		@include breakpoint(small-medium) {
 			padding: 0;
 		}
 		h4 {
@@ -303,9 +322,20 @@ article.gridPromos {
 				button, .button {
 					background-color: map-get($theme, primaryColor);
 					text-shadow: none;
+					white-space: nowrap;
+					&:hover {
+						background-color: #6b6b6b;
+					}
 				}
 			}
 		}
+	}
+}
+
+.ie8 article.gridPromos {
+	div.col {
+		display: inline-block;
+		padding: 0 4%;
 	}
 }
 
@@ -486,9 +516,16 @@ article.state-tabs {
 		@extend .wrapper;
 		margin: 0 auto;
 		display: table;
+		@include breakpoint(small) {
+			width: 100%;
+		}
 		li {
 			float: none;
 			display: table-cell;
+			@include breakpoint(small) {
+				display: block;
+				width: auto;
+			}
 			a {
 				display: block;
 				padding: 10px 0 20px 0;
@@ -501,8 +538,12 @@ article.state-tabs {
 					height: 84px;
 					@include retina-background("state-tabs.png");
 				}
+				@include breakpoint(small) {
+					@include border-radius(7px 7px 7px 7px);
+					width: auto;
+				}
 			}
-			&.active {
+			&.active, &:hover {
 				a {
 					background-color: #0971ce;
 					color: #fff;
@@ -517,29 +558,47 @@ article.state-tabs {
 		padding: 10px 0;
 		background-color: #0971ce;
 		color: #fff;
+		button, a.button{
+			@include breakpoint(small) {
+				display:block;
+				margin: 5px 0;
+			}
+		}
+	}
+	.tab-footer {
+		min-height: 30px;
+		margin: 0;
+		background-color: #0971ce;
+		border-bottom: 5px solid #76bd1d;
 	}
 }
 
 article.service-states {
-	.wrapper {
-		text-align: center;
-	}
-
-	button,
-	a.button {
-		background-color: #78bb2f;
-		color: #fff;
-		&.secondary {
-			background-color: #fff;
-			color: #1773cb;
+	.tab-header {
+		margin-bottom: 20px;
+		.wrapper {
+			text-align: center;
+		}
+		button,
+		a.button {
+			background-color: #78bb2f;
+			color: #fff;
+			&.secondary {
+				background-color: #fff;
+				color: #1773cb;
+				&:hover {
+					background-color: #6b6b6b;
+					color: #fff;
+				}
+			}
 			&:hover {
 				background-color: #6b6b6b;
-				color: #fff;
 			}
 		}
-		&:hover {
-			background-color: #6b6b6b;
-		}
+	}
+
+	h2.wrapper {
+		text-align: center;
 	}
 }
 
@@ -592,11 +651,10 @@ article.careers {
 	ul.white {
 		list-style: none;
 		li {
-			background: url("../i/marketing/bullet-white.png") no-repeat;
-			margin: .75em 0 0 -1em;
-			padding-left: 2em;
-			font-size: 18px;
-			line-height: 1.1;
+			background: url("../i/marketing/bullet-white.png");
+			background-repeat: no-repeat;
+			background-position-y: 5px;
+			padding-left: 25px;
 		}
 	}
 	h3 {
@@ -710,6 +768,13 @@ article.pay {
 		}
 		&:last-child {
 			border-bottom: none;
+		}
+	}
+	.pay-list {
+		padding: 0;
+		li {
+			list-style-type: none;
+			padding: 0;
 		}
 	}
 	.box {
@@ -874,13 +939,18 @@ article.contact {
 		color: #fff;
 		border-bottom: 3px solid #ffa409;
 		border-top: 3px solid #ffa409;
+		padding-bottom: 20px;
 		position: relative;
+		@include breakpoint(small) {
+			padding-top: 30px;
+		}
 		.request-or {
 			background-image: url('../i/marketing/contact-or.png');
 			background-repeat: no-repeat;
 			position: absolute;
 			top: -4px;
-			left: 46%;
+			left: 50%;
+			margin-left: -57px;
 			height: 70px;
 			width: 114px;
 		}
@@ -891,13 +961,14 @@ article.contact {
 		.grid {
 			-webkit-border-vertical-spacing: 0px;
 			.col {
+				border-spacing: 0;
 				.item {
 					position: relative;
-					width: 90%;
+					//width: 90%;
 					input,
 					select,
 					textarea {
-						width: 90%;
+						width: 85%;
 						color: #bcbcbc;
 					}
 					.asterisk {
@@ -905,14 +976,29 @@ article.contact {
 						vertical-align: middle;
 					}
 				}
-				.group .item {
-					width: 44%;
+				.group .item, .item.half-width {
+					width: 44.8%;
 				}
 				button {
 					background-color: #ebebeb;
 					color: #000;
 				}
 			}
+		}
+	}
+	div.success-message {
+		margin: 20px 0;
+		background-color: #e8e8e8;
+		border-bottom: 3px solid #fda32b;
+		h2 {
+			text-align: center;
+		}
+		h4 {
+			text-align:center;
+			text-transform: none;
+			font-size: 38px;
+			font-weight: 300;
+			line-height: 1.1;
 		}
 	}
 	div.faq {
@@ -1030,7 +1116,8 @@ article.contact-state {
 				h2 {
 					text-transform: none;
 				}
-				button {
+				button,
+				.button {
 					background-color: #ffa409;
 					a {
 						color: #fff;
@@ -1174,7 +1261,7 @@ article.homelife-services {
 					&.identity {
 						color: #7e9bb5;
 						position: relative;
-						button {
+						.button {
 							background-color: #7e9bb5;
 						}
 						&:after {
@@ -1189,7 +1276,7 @@ article.homelife-services {
 					&.support {
 						color: #b58789;
 						position: relative;
-						button {
+						.button {
 							background-color: #b58789;
 						}
 						&:after {
@@ -1203,7 +1290,7 @@ article.homelife-services {
 					}
 					&.monitoring {
 						color: #8ba170;
-						button {
+						.button {
 							background-color: #8ba170;
 						}
 					}
@@ -1408,11 +1495,21 @@ article.homelife-services {
 		text-align: center;
 	}
 }
+
 article.states-enroll {
 	div.wrapper {
 		text-align: center;
 	}
 }
+
+article.states-renew {
+	ul.tabs-nav {
+		li a {
+			@include border-radius(7px 7px 7px 7px);
+		}
+	}
+}
+
 article.full-width-image {
 	height: 300px;
 	background-size: cover; 
@@ -1426,13 +1523,25 @@ article.identity-theft {
 	.semibold {
 		font-weight: 600;
 	}
-	ul.credit-bureaus {
+	.credit-bureaus {
 		padding-left: 0;
 		li {
 			float: left;
 			width: 33%;
 			list-style-type: none;
 			text-align: center;
+		}
+	}
+	@include breakpoint(small) {
+		.credit-bureaus {
+			li {
+				float: none;
+				width: 100%;
+				margin-bottom: 30px;
+				&:last-child {
+					margin-bottom: 0;
+				}
+			}
 		}
 	}
 	.phishing-image img {
@@ -1472,10 +1581,18 @@ article.why-energy {
 }
 
 article.commercial-quote {
+	.photo {
+		img {
+			float: right;
+		}
+	}
 	.text {
 		border-left: 3px solid #ffa409;
 		width: 50%;
 		background-color: #0971ce;
+		@include breakpoint(small) {
+			width: 100%;
+		}
 		.inner {
 			color: #fff;
 			h2 {
@@ -1483,10 +1600,10 @@ article.commercial-quote {
 				font-size: 24px;
 			}
 			button {
+				color: #333;
 				background-color: #fff;
-				a {
-					color: #333;
-				}
+				border-color: #ccc;
+				text-shadow: none;
 				&:hover {
 					background-color: #ebebeb
 				}
@@ -1494,7 +1611,27 @@ article.commercial-quote {
 			input,
 			select {
 				width: 100%;
+				color: #999;
 			}
+		}
+	}
+	.wrapper {
+		padding: 40px 0 30px 0;
+	}
+	.success-message {
+		margin: 20px 0;
+		background-color: #e8e8e8;
+		border-bottom: 3px solid #fda32b;
+		h2 {
+			font-size: 30px;
+			text-align: center;
+		}
+		h4 {
+			text-align:center;
+			text-transform: none;
+			font-size: 38px;
+			font-weight: 300;
+			line-height: 1.1;
 		}
 	}
 }
@@ -1503,7 +1640,6 @@ article.commercial-account-banner {
 	.account-banner {
 		background-color: #0971ce;
 		p {
-			padding: 15px 0;
 			button {
 				background-color: #fff;
 				color: #0971ce;
@@ -1541,6 +1677,17 @@ article.free-energy {
 		}
 		p {
 			line-height: 1;
+			@include breakpoint(small) {
+				display: block;
+				float: left;
+			}
+			em {
+				color: #1773cb;
+				text-transform: none;
+			}
+			.blue {
+				color: #1773cb;
+			}
 		}
 	}
 }
@@ -1554,6 +1701,9 @@ article.free-energy.picture-promo {
 		width: 335px;
 		margin-left: 100px;
 		padding: 320px 0 50px 0;
+		@include breakpoint(small) {
+			margin: 0;
+		}
 		h2 {
 			color: #fff;
 			line-height: 28px;
@@ -1568,9 +1718,78 @@ article.enroll {
 	margin-top: 20px;
 	.text {
 		padding: 25px 0;
-		h3 {
-			font-size: 32px;
-			line-height: 1.1;
+		h1 {
+			color: #0971ce;
+		}
+		h2 {
+			text-transform: none;			
+		}
+		h2.grey {
+			color: #6b6b6b;
+		}
+		hr {
+			margin: 22px 0;
+			border: 0;
+			border-top: 3px solid #eee;
+		}
+		.left-column{
+			float: left;
+			width: 50%;
+			margin-bottom: 20px;
+		}
+		.right-column {
+			float: right;
+			width: 50%;
+			margin-bottom: 20px;
+		}
+		li.terms {
+			background: url("../i/marketing/blue-bullet.png") no-repeat;
+			margin: 1.5em 0 0 -2.3em;
+			padding-left: 2em;
+		}
+		ul.service-links{
+			padding-left: 0px;
+			list-style: none;
+			li a {
+				color: #6b6b6b;
+				text-decoration: underline;
+			}
+		}
+		.formlinks {
+			width: 48%;
+			.header {
+				background-color: #0971ce;
+				color: #fff;
+				padding: 10px 0 10px 20px;
+			}
+			.link {
+				border-bottom: 3px solid #f0f0f0;
+			}
+			.grey {
+				background-color: #fafafa;
+			}
+			p.form {
+				background: url("../i/marketing/plan-icon.png") no-repeat left center;
+				padding: 15px 0;
+				margin: 0px 0px 0px 20px;
+				width: 100%;
+				a {
+					font-size: 12px;
+					font-weight: bold;
+					margin-left: 3.5em;
+					padding: 15px 0px;
+				}
+			}
+		}
+		.english {
+			float: left;
+		}
+		.spanish {
+			float: right;
+		}
+		.customer-forms {
+			margin-top: 80px;
+			padding-bottom: 50px;
 		}
 	}
 }
@@ -1588,7 +1807,7 @@ article.terms-of-use {
 		margin: auto;
 	}
 	ul {
-		padding-left: 80px;
+		padding: 0 80px;
 		li {
 			list-style-type: none;
 			p {
@@ -1602,6 +1821,16 @@ article.terms-of-use {
 			text-transform: uppercase;
 		}
 	}
+	@include breakpoint(small) {
+		ul {
+			padding: 0 20px;
+		}
+	}
+	@include breakpoint(medium) {
+		ul {
+			padding: 0 40px;
+		}
+	}	
 }
 
 article.energy-certificates {
@@ -1966,6 +2195,52 @@ article.marketing div.wrapper {
 			&.even {
 				background-color: #c2ddf5;
 			}
+		}
+	}
+}
+
+article.rates {
+    table {
+        th, td {
+            &:first-child {
+                text-align: left;
+                background: #f9f9f9;
+            }
+        }
+
+        thead th,
+        thead th:first-child {
+            border: 1px solid #e8e8e8;
+            background-color: #efefef;
+            font-weight: 600;
+
+            &[colspan] {
+                background: #999;
+                color: #fff;
+            }
+        }
+
+        tbody {
+            tr.details td:first-child {
+                border: 0;
+                border-left: 2px solid #0971ce;
+            }
+        }
+    }
+    &.northeast,
+    &.georgia {
+        table thead th,
+	    table thead th:first-child {
+		    background: #999;
+		    color: #fff;
+	    }
+    }
+}
+
+article.opportunity-compensation-plan {
+	@include breakpoint(small-medium) {
+		.button {
+			margin-top: 10px;
 		}
 	}
 }

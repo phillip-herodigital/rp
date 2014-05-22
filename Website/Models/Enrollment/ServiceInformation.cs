@@ -10,6 +10,8 @@ namespace StreamEnergy.MyStream.Models.Enrollment
     {
         public Address ServiceAddress { get; set; }
 
+        public DomainModels.IServiceCapability[] ServiceCapabilities { get; set; }
+
         public bool IsNewService { get; set; }
     }
 }

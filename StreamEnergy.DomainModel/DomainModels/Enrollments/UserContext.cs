@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -10,21 +11,21 @@ namespace StreamEnergy.DomainModels.Enrollments
     [Serializable]
     public class UserContext : ISanitizable
     {
-        public UserContext()
-        {
-            SelectedOffers = new HashSet<IOffer>();
-        }
-
-        public bool IsNewService { get; set; }
-
-        [ValidateObject(ErrorMessagePrefix = "Contact Info ")]
+        [Required(ErrorMessage = "Contact Info Required")]
+        [ValidateObject(ErrorMessagePrefix = "")]
         public CustomerContact ContactInfo { get; set; }
 
+        [Required(ErrorMessage = "Service Address Required")]
         [ValidateObject(ErrorMessagePrefix = "Service Address ")]
         public Address ServiceAddress { get; set; }
 
+        [Required(ErrorMessage = "Service Capabilities Missing")]
+        [EnumerableRequired(ErrorMessage = "Service Capabilities Missing")]
+        [ValidateEnumerable(ErrorMessagePrefix = "Service Capabilities ")]
+        public IEnumerable<IServiceCapability> ServiceCapabilities { get; set; }
+
         [ValidateObject(ErrorMessagePrefix = "Secondary Contact ")]
-        public CustomerName SecondaryContactInfo { get; set; }
+        public Name SecondaryContactInfo { get; set; }
 
         public string SocialSecurityNumber { get; set; }
 
@@ -35,11 +36,24 @@ namespace StreamEnergy.DomainModels.Enrollments
         /// </summary>
         public string Language { get; set; }
 
+        [Required(ErrorMessage = "Billing Address Required")]
         [ValidateObject(ErrorMessagePrefix = "Billing Address ")]
         public Address BillingAddress { get; set; }
 
-        [ValidateEnumerable(ErrorMessagePrefix = "Selected Offers ")]
-        public HashSet<IOffer> SelectedOffers { get; private set; }
+        [Required(ErrorMessage = "Selected Offers Required")]
+        [EnumerableRequired(ErrorMessage = "Selected Offers Required")]
+        [ValidateEnumerable(ErrorMessagePrefix = "Selected ")]
+        [CollectionCountRangeAttribute(1, int.MaxValue, ErrorMessage = "Selected Offers Required")]
+        public IEnumerable<SelectedOffer> SelectedOffers { get; set; }
+
+        [Required(ErrorMessage = "Selected Identity Answers Required")]
+        public Dictionary<string, string> SelectedIdentityAnswers { get; set; }
+
+        [ValidateObject(ErrorMessagePrefix = "")]
+        public DomainModels.Payments.IPaymentInfo PaymentInfo { get; set; }
+
+        [RequireValue(true, ErrorMessage = "Must Agree To Terms")]
+        public bool AgreeToTerms { get; set; }
 
         void ISanitizable.Sanitize()
         {

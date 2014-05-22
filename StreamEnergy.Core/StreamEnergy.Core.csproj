@@ -140,6 +140,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CollectionCountRangeAttribute.cs" />
     <Compile Include="CompositeValidationAttribute.cs" />
     <Compile Include="CompositeValidationResult.cs" />
     <Compile Include="Configuration\ConfigurationElementCollection.cs" />
@@ -147,8 +148,11 @@
     <Compile Include="Configuration\IKeyGenerator.cs" />
     <Compile Include="Configuration\IocInitializer.cs" />
     <Compile Include="CoreContainerSetup.cs" />
+    <Compile Include="EnumerableRequiredAttribute.cs" />
+    <Compile Include="EnvironmentCategory.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="ISanitizable.cs" />
+    <Compile Include="ISettings.cs" />
     <Compile Include="IValidationService.cs" />
     <Compile Include="Json.cs" />
     <Compile Include="MockParameterBuilder.cs" />
@@ -164,6 +168,7 @@
     <Compile Include="Mvc\Sitecore\ControllerRenderer.cs" />
     <Compile Include="Mvc\Sitecore\ControllerRunner.cs" />
     <Compile Include="Mvc\Sitecore\GetControllerRenderer.cs" />
+    <Compile Include="RequireValueAttributeAdapter.cs" />
     <Compile Include="Processes\IState.cs" />
     <Compile Include="Processes\IStateMachine.cs" />
     <Compile Include="Processes\SimpleFinalState.cs" />
@@ -179,6 +184,10 @@
     <Compile Include="Pipelines\RegisterPlatformBundles.cs" />
     <Compile Include="Extensions\StreamEnergyHelper.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="SitecoreSettings.cs" />
+    <Compile Include="RequireValueAttribute.cs" />
+    <Compile Include="TypeIndicatorJsonConverter.cs" />
+    <Compile Include="TypeIndicatorLookup.cs" />
     <Compile Include="Providers\GeoProvider.cs" />
     <Compile Include="Unity\Container.cs" />
     <Compile Include="Unity\IContainerSetupStrategy.cs" />

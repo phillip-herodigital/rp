@@ -1,0 +1,243 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AF1C856A-2F06-4142-82A3-E227D66B1D4F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>StreamEnergy.MyStream.Tests</RootNamespace>
+    <AssemblyName>StreamEnergy.MyStream.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
+    <IsCodedUITest>False</IsCodedUITest>
+    <TestProjectType>UnitTest</TestProjectType>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <SitecorePath>$(SolutionDir)Website\</SitecorePath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Practices.Unity, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration">
+      <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention">
+      <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.16\lib\net45\Microsoft.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.16\lib\net45\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.2.1402.2112\lib\net40\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Analytics.RobotDetection">
+      <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.RobotDetection.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Runtime" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Extensions">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.13\lib\net45\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.1.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.13\lib\net45\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Http, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.1.2\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.1.2\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Analytics">
+      <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Automation.MarketingAutomation">
+      <HintPath>..\Libraries\Sitecore\Sitecore.Automation.MarketingAutomation.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Buckets">
+      <HintPath>..\Libraries\Sitecore\Sitecore.Buckets.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Client">
+      <HintPath>..\Libraries\Sitecore\Sitecore.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.ContentSearch">
+      <HintPath>..\Libraries\Sitecore\Sitecore.ContentSearch.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.ContentSearch.LuceneProvider">
+      <HintPath>..\Libraries\Sitecore\Sitecore.ContentSearch.LuceneProvider.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Forms.Core">
+      <HintPath>..\Libraries\Sitecore\Sitecore.Forms.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.ItemWebApi">
+      <HintPath>..\Libraries\Sitecore\Sitecore.ItemWebApi.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Kernel, Version=7.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.Kernel.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Logging, Version=1.2.0.30715, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Mvc, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Mvc.ExperienceEditor">
+      <HintPath>..\Libraries\Sitecore\Sitecore.Mvc.ExperienceEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="sitecore.nexus">
+      <HintPath>..\Libraries\Sitecore\sitecore.nexus.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Oracle">
+      <HintPath>..\Libraries\Sitecore\Sitecore.Oracle.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Security.AntiCsrf">
+      <HintPath>..\Libraries\Sitecore\Sitecore.Security.AntiCsrf.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Speak.Client">
+      <HintPath>..\Libraries\Sitecore\Sitecore.Speak.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Speak.Mvc">
+      <HintPath>..\Libraries\Sitecore\Sitecore.Speak.Mvc.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Choose>
+    <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+  <ItemGroup>
+    <Compile Include="ContainerSetup.cs" />
+    <Compile Include="Sitecore\SettingsTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="EnrollmentControllerTest.cs" />
+    <Compile Include="Web\FakeHttpCachePolicy.cs" />
+    <Compile Include="Web\FakeHttpContext.cs" />
+    <Compile Include="Web\FakeHttpContextExtensions.cs" />
+    <Compile Include="Web\FakeHttpFileCollection.cs" />
+    <Compile Include="Web\FakeHttpPostedFile.cs" />
+    <Compile Include="Web\FakeHttpRequest.cs" />
+    <Compile Include="Web\FakeHttpResponse.cs" />
+    <Compile Include="Web\FakeHttpSessionState.cs" />
+    <Compile Include="Web\FakeHttpSessionStateExtensions.cs" />
+    <Compile Include="Web\HttpObjectExtensions.cs" />
+    <Compile Include="Web\MutableIdentity.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\StreamEnergy.Core\StreamEnergy.Core.csproj">
+      <Project>{79779d13-7d5e-4190-ba72-5302244c8165}</Project>
+      <Name>StreamEnergy.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StreamEnergy.DomainModel\StreamEnergy.DomainModel.csproj">
+      <Project>{449d7f2c-372c-41a8-b640-6751fda30828}</Project>
+      <Name>StreamEnergy.DomainModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StreamEnergy.Services\StreamEnergy.Services.csproj">
+      <Project>{c1c6ce03-d27a-4dff-a5e5-822e8a29bfa9}</Project>
+      <Name>StreamEnergy.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Website\Website.csproj">
+      <Project>{fb926363-ed56-4b04-8837-cacbe8f9f222}</Project>
+      <Name>Website</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Choose>
+    <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.CodedUITestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Extension, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITesting, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.-->
+  <Target Name="BeforeBuild">
+    <CreateItem Include="$(SitecorePath)App_Config\**\*.config">
+      <Output ItemName="AppConfigFiles" TaskParameter="Include" />
+    </CreateItem>
+    <Copy SourceFiles="@(AppConfigFiles)" DestinationFiles="@(AppConfigFiles->'$(ProjectDir)App_Config\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+    <CreateItem Include="$(SitecorePath)Data\*.*">
+      <Output ItemName="DataLicenseFiles" TaskParameter="Include" />
+    </CreateItem>
+    <Copy SourceFiles="@(DataLicenseFiles)" DestinationFiles="@(DataLicenseFiles->'$(ProjectDir)Data\%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+  </Target>
+  <Target Name="AfterBuild">
+    <Copy SourceFiles="@(AppConfigFiles)" DestinationFiles="@(AppConfigFiles->'$(ProjectDir)$(OutputPath)App_Config\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="$(SitecorePath)web.config" DestinationFiles="$(ProjectDir)$(OutputPath)$(AssemblyName).dll.config" SkipUnchangedFiles="true" />
+  </Target>
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
+</Project>

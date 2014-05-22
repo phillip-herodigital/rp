@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using StreamEnergy.Extensions;
+using StreamEnergy.Unity;
 
 namespace StreamEnergy
 {
@@ -13,17 +14,23 @@ namespace StreamEnergy
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            var results = new HashSet<ValidationResult>();
-            var context = new ValidationContext(value);
-
-            Validator.TryValidateObject(value, context, results, true);
-
-            if (results.Count != 0)
+            if (value != null)
             {
-                var memberName = validationContext.MemberName;
+                var results = new HashSet<ValidationResult>();
+                var service = ((IValidationService)validationContext.GetService(typeof(IValidationService)));
+                if (service == null)
+                    service = Container.Build<IValidationService>(); // TODO - Matt DeKrey, make sure the ValidationService is available from the context
+                var context = service.CreateValidationContext(value);
 
-                return ResultFromInnerResults(from result in results.Flatten(result => result as IEnumerable<ValidationResult>, leafNodesOnly: true)
-                                              select Tuple.Create(memberName, result), memberName);
+                Validator.TryValidateObject(value, context, results, true);
+
+                if (results.Count != 0)
+                {
+                    var memberName = validationContext.MemberName;
+
+                    return ResultFromInnerResults(from result in results.Flatten(result => result as IEnumerable<ValidationResult>, leafNodesOnly: true)
+                                                  select Tuple.Create(memberName, result), memberName);
+                }
             }
 
             return ValidationResult.Success;

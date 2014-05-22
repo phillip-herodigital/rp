@@ -1,11 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30110.0
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Website", "Website\Website.csproj", "{FB926363-ED56-4B04-8837-CACBE8F9F222}"
-EndProject
-Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "Website.Azure", "Website.Azure\Website.Azure.ccproj", "{81567CE8-9ECD-4406-BA10-61B1A12AF201}"
+	ProjectSection(ProjectDependencies) = postProject
+		{210897D6-FF54-404B-9BAF-BB0B345F8597} = {210897D6-FF54-404B-9BAF-BB0B345F8597}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{6B353FEE-CA4B-4452-BE02-7453284E1343}"
 	ProjectSection(SolutionItems) = preProject
@@ -17,16 +18,37 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{759BD9F7-310E-413A-B8AE-7553177FA63A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamEnergy.Core", "StreamEnergy.Core\StreamEnergy.Core.csproj", "{79779D13-7D5E-4190-BA72-5302244C8165}"
+	ProjectSection(ProjectDependencies) = postProject
+		{210897D6-FF54-404B-9BAF-BB0B345F8597} = {210897D6-FF54-404B-9BAF-BB0B345F8597}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{17FDE13F-7944-4199-91B2-B851C879E228}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamEnergy.Core.Tests", "StreamEnergy.Core.Tests\StreamEnergy.Core.Tests.csproj", "{F81AAE15-6DD3-43DE-9D73-0E42AEA33238}"
+	ProjectSection(ProjectDependencies) = postProject
+		{210897D6-FF54-404B-9BAF-BB0B345F8597} = {210897D6-FF54-404B-9BAF-BB0B345F8597}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamEnergy.DomainModel", "StreamEnergy.DomainModel\StreamEnergy.DomainModel.csproj", "{449D7F2C-372C-41A8-B640-6751FDA30828}"
+	ProjectSection(ProjectDependencies) = postProject
+		{210897D6-FF54-404B-9BAF-BB0B345F8597} = {210897D6-FF54-404B-9BAF-BB0B345F8597}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{25960F8A-E3E2-43E0-A982-4C3E9BC37855}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamEnergy.Services", "StreamEnergy.Services\StreamEnergy.Services.csproj", "{C1C6CE03-D27A-4DFF-A5E5-822E8A29BFA9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{210897D6-FF54-404B-9BAF-BB0B345F8597} = {210897D6-FF54-404B-9BAF-BB0B345F8597}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{366DD69F-CD9D-4395-9F38-B3FABC2771AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamEnergy.MyStream.Tests", "StreamEnergy.MyStream.Tests\StreamEnergy.MyStream.Tests.csproj", "{AF1C856A-2F06-4142-82A3-E227D66B1D4F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{210897D6-FF54-404B-9BAF-BB0B345F8597} = {210897D6-FF54-404B-9BAF-BB0B345F8597}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompileOnceFix", "CompileOnceFix\CompileOnceFix.csproj", "{210897D6-FF54-404B-9BAF-BB0B345F8597}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,10 +60,6 @@ Global
 		{FB926363-ED56-4B04-8837-CACBE8F9F222}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB926363-ED56-4B04-8837-CACBE8F9F222}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB926363-ED56-4B04-8837-CACBE8F9F222}.Release|Any CPU.Build.0 = Release|Any CPU
-		{81567CE8-9ECD-4406-BA10-61B1A12AF201}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{81567CE8-9ECD-4406-BA10-61B1A12AF201}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{81567CE8-9ECD-4406-BA10-61B1A12AF201}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{81567CE8-9ECD-4406-BA10-61B1A12AF201}.Release|Any CPU.Build.0 = Release|Any CPU
 		{79779D13-7D5E-4190-BA72-5302244C8165}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{79779D13-7D5E-4190-BA72-5302244C8165}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79779D13-7D5E-4190-BA72-5302244C8165}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -58,6 +76,14 @@ Global
 		{C1C6CE03-D27A-4DFF-A5E5-822E8A29BFA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1C6CE03-D27A-4DFF-A5E5-822E8A29BFA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1C6CE03-D27A-4DFF-A5E5-822E8A29BFA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF1C856A-2F06-4142-82A3-E227D66B1D4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF1C856A-2F06-4142-82A3-E227D66B1D4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF1C856A-2F06-4142-82A3-E227D66B1D4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF1C856A-2F06-4142-82A3-E227D66B1D4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{210897D6-FF54-404B-9BAF-BB0B345F8597}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{210897D6-FF54-404B-9BAF-BB0B345F8597}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{210897D6-FF54-404B-9BAF-BB0B345F8597}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{210897D6-FF54-404B-9BAF-BB0B345F8597}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,5 +92,8 @@ Global
 		{79779D13-7D5E-4190-BA72-5302244C8165} = {759BD9F7-310E-413A-B8AE-7553177FA63A}
 		{17FDE13F-7944-4199-91B2-B851C879E228} = {759BD9F7-310E-413A-B8AE-7553177FA63A}
 		{F81AAE15-6DD3-43DE-9D73-0E42AEA33238} = {17FDE13F-7944-4199-91B2-B851C879E228}
+		{C1C6CE03-D27A-4DFF-A5E5-822E8A29BFA9} = {25960F8A-E3E2-43E0-A982-4C3E9BC37855}
+		{AF1C856A-2F06-4142-82A3-E227D66B1D4F} = {366DD69F-CD9D-4395-9F38-B3FABC2771AE}
+		{210897D6-FF54-404B-9BAF-BB0B345F8597} = {759BD9F7-310E-413A-B8AE-7553177FA63A}
 	EndGlobalSection
 EndGlobal

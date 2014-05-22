@@ -173,6 +173,13 @@ UpgradeLog*.htm
 App_Data/*.mdf
 App_Data/*.ldf
 
+#################
+## Sitecore Test Files
+#################
+*.Tests/App_Config/
+*.Tests/Data/
+*.Tests/App.config
+
 #############
 ## Windows detritus
 #############

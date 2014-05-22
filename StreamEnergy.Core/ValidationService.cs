@@ -1,4 +1,5 @@
-﻿using StreamEnergy.Extensions;
+﻿using Microsoft.Practices.Unity;
+using StreamEnergy.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -12,9 +13,16 @@ namespace StreamEnergy
 {
     internal class ValidationService : IValidationService
     {
+        private readonly IUnityContainer unityContainer;
+
+        public ValidationService(IUnityContainer unityContainer)
+        {
+            this.unityContainer = unityContainer;
+        }
+
         public IEnumerable<ValidationResult> CompleteValidate<T>(T target)
         {
-            var validationContext = new ValidationContext(target);
+            var validationContext = CreateValidationContext(target);
             var validations = new HashSet<ValidationResult>();
 
             Validator.TryValidateObject(target, validationContext, validations, true);
@@ -24,18 +32,15 @@ namespace StreamEnergy
 
         public IEnumerable<ValidationResult> PartialValidate<T>(T target, params Expression<Func<T, object>>[] properties)
         {
-            var validationContext = new ValidationContext(target);
+            var validationContext = CreateValidationContext(target);
             var validations = new List<ValidationResult>();
             foreach (var property in from v in properties
                                      let property = (v.RemoveLambdaBody().RemoveCast() as MemberExpression)
-                                     let propertyChain = UnrollPropertyChain(property)
+                                     let propertyChain = CompositeValidationAttribute.UnrollPropertyChain(property).ToArray()
                                      select new
                                      {
-                                         messagePrefix = string.Join("", (from p in propertyChain
-                                                                          where p != property.Member
-                                                                          from a in p.GetCustomAttributes().OfType<CompositeValidationAttribute>()
-                                                                          select a.ErrorMessagePrefix)),
-                                         name = string.Join(".", propertyChain.Select(mi => mi.Name)),
+                                         messagePrefix = CompositeValidationAttribute.GetPrefix(propertyChain.Take(propertyChain.Length - 1)),
+                                         name = CompositeValidationAttribute.GetPathedName(propertyChain),
                                          value = TryGetValue(v.CachedCompile<Func<T, object>>(), target),
                                          attrs = property.Member.GetCustomAttributes(true).OfType<ValidationAttribute>()
                                      })
@@ -47,6 +52,13 @@ namespace StreamEnergy
                                      select new ValidationResult(v.ErrorMessage.Prefix(property.messagePrefix), v.MemberNames));
             }
             return validations.Flatten(result => result as IEnumerable<ValidationResult>, leafNodesOnly: true);
+        }
+
+        public ValidationContext CreateValidationContext(object target)
+        {
+            var validationContext = new ValidationContext(target);
+            validationContext.InitializeServiceProvider(t => unityContainer.Resolve(t));
+            return validationContext;
         }
 
         private object TryGetValue<T>(Func<T, object> func, T target)
@@ -61,15 +73,5 @@ namespace StreamEnergy
             }
         }
 
-        private IEnumerable<MemberInfo> UnrollPropertyChain(MemberExpression expression)
-        {
-            var members = new Stack<MemberInfo>();
-            while (expression != null)
-            {
-                members.Push(expression.Member);
-                expression = expression.Expression as MemberExpression;
-            }
-            return members.ToArray();
-        }
     }
 }

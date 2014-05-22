@@ -16,11 +16,20 @@
             </div>
         </div>
     </div>
+    @if (!string.IsNullOrEmpty(Html.Sitecore().Field("Footnotes", Sitecore.Context.Item).ToString()))
+    {
+        <div class="wrapper footnotes">
+            @Html.Sitecore().Field("Footnotes", Sitecore.Context.Item)
+        </div>
+    }
     <div class="wrapper copyright">
         <p>@Html.Sitecore().Field("Copyright Content")</p>
         <ul>
-            <li><a href="#"><i class="icon-bbb"></i></a></li>
-            <li><a href="#"><i class="icon-dsa"></i></a></li>
+            <li><a href="http://www.bbb.org/dallas/business-reviews/electric-companies/stream-energy-in-dallas-tx-90018895" target="_blank"><i class="icon-bbb"></i></a></li>
+            <li><a href="http://www.dsa.org/ethics/" target="_blank"><i class="icon-dsa"></i></a></li>
         </ul>
+    </div>
+    <div class="legal">
+        @Html.Sitecore().Field("Legal Links")
     </div>
 </footer>

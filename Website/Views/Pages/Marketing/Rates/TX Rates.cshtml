@@ -1,0 +1,51 @@
+﻿@{
+    var plansParent = Html.Sitecore().LookupItem("Rates Parent");
+    var plans = from folder in Html.Sitecore().LookupItem("Rates parent").Children
+                let item = folder.Children.OrderBy(c => c.Fields["Effective Date"]).First()
+                let endingDateField = (Sitecore.Data.Fields.DateField)item.Fields["Ending Date"]
+                where endingDateField.DateTime == null || endingDateField.DateTime == DateTime.MinValue || endingDateField.DateTime > DateTime.Today
+                select item;
+
+    Html.Sitecore().CurrentItem.Fields.Sort();
+    var utilities = from field in Html.Sitecore().CurrentItem.Fields
+                    where field.Name.EndsWith(" Service Area Text")
+                    select field.Name.Replace(" Service Area Text", "");
+
+}
+<article class="marketing wrapper rates">
+    <h1>@Html.Sitecore().Field("Header")</h1>
+
+    @Html.Sitecore().Field("Page Intro")
+
+    <table>
+        @foreach (dynamic plan in plans)
+        {
+            <thead>
+                <tr>
+                    <th colspan="5">@Html.Sitecore().Field("Pricing For Text") @Html.Sitecore().Field("Plan Title", plan)</th>
+                </tr>
+                <tr>
+                    <th>@Html.Sitecore().Field("Pricing Effective Text") @Html.Sitecore().Field("Date", plan, new { format = "MM/dd/yy" })</th>
+                    <th>@Html.Sitecore().Field("Stream Energy Charge Text")</th>
+                    <th>@Html.Sitecore().Field("Average Price Text")</th>
+                    <th>@Html.Sitecore().Field("Minimum Usage Fee Text")</th>
+                    <th>@Html.Sitecore().Field("Termination Fee Text")</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (dynamic utility in utilities)
+                {
+                    <tr>
+                        <td>@Html.Sitecore().Field(utility + " Service Area Text")</td>
+                        <td>@Html.Sitecore().Field("Stream Energy Charge " + utility, plan)&cent;</td>
+                        <td>@Html.Sitecore().Field("1000 kWh " + utility + " Price", plan)&cent;</td>
+                        <td>@Html.AsMoney((string)("Minimum Usage Fee " + utility), (Sitecore.Data.Items.Item)plan)</td>
+                        <td>@Html.AsMoney((string)("Termination Fee " + utility), (Sitecore.Data.Items.Item)plan)</td>
+                    </tr>
+                }
+            </tbody>
+        }
+    </table>
+
+    @Html.Sitecore().Field("Page Outro")
+</article>
