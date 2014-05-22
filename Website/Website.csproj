@@ -15,7 +15,6 @@
     <AssemblyName>StreamEnergy.MyStream</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -511,6 +510,7 @@
     <Content Include="frontend\assets\i\icon2x\arrow-left.png" />
     <Content Include="frontend\assets\i\icon2x\arrow-right.png" />
     <Content Include="frontend\assets\i\icon2x\bbb.png" />
+    <Content Include="frontend\assets\i\icon2x\blue-rectangle.png" />
     <Content Include="frontend\assets\i\icon2x\bill.png" />
     <Content Include="frontend\assets\i\icon2x\blue-arrow-down.png" />
     <Content Include="frontend\assets\i\icon2x\blue-arrow-up.png" />
@@ -563,6 +563,7 @@
     <Content Include="frontend\assets\i\icon\arrow-left.png" />
     <Content Include="frontend\assets\i\icon\arrow-right.png" />
     <Content Include="frontend\assets\i\icon\bbb.png" />
+    <Content Include="frontend\assets\i\icon\blue-rectangle.png" />
     <Content Include="frontend\assets\i\icon\bill.png" />
     <Content Include="frontend\assets\i\icon\blue-arrow-down.png" />
     <Content Include="frontend\assets\i\icon\blue-arrow-up.png" />
@@ -687,7 +688,13 @@
     <Content Include="frontend\assets\js\config\validation-exactvalue.js" />
     <Content Include="frontend\assets\js\config\validation.js" />
     <Content Include="frontend\assets\js\controllers\accountBalances.js" />
-    <Content Include="frontend\assets\js\controllers\enrollmentMain.js" />
+    <Content Include="frontend\assets\js\controllers\enrollment\cart.js" />
+    <Content Include="frontend\assets\js\controllers\enrollment\accountInformation.js" />
+    <Content Include="frontend\assets\js\controllers\enrollment\completeOrder.js" />
+    <Content Include="frontend\assets\js\controllers\enrollment\main.js" />
+    <Content Include="frontend\assets\js\controllers\enrollment\planSelection.js" />
+    <Content Include="frontend\assets\js\controllers\enrollment\serviceInformation.js" />
+    <Content Include="frontend\assets\js\controllers\enrollment\verifyIdentity.js" />
     <Content Include="frontend\assets\js\controllers\invoices.js" />
     <Content Include="frontend\assets\js\controllers\login.js" />
     <Content Include="frontend\assets\js\controllers\main.js" />
@@ -1144,6 +1151,7 @@
     <Content Include="Views\Pages\Enrollment\Complete Order.cshtml" />
     <Content Include="Views\Pages\Marketing\Blog\Blog Landing.cshtml" />
     <Content Include="Views\Pages\Marketing\Blog\Blog Post.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Cart.cshtml" />
     <Content Include="frontend\assets\css\_sass\partials\_enrollment.scss" />
     <Content Include="frontend\assets\json\accountBalances.json" />
     <Content Include="frontend\assets\json\invoices.json" />
