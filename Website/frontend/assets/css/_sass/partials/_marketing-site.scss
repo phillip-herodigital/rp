@@ -214,7 +214,9 @@ article.marketingIntro {
 		margin: 0 100px;
 		font-size: 19px;
 		ul {
-			width: 450px;
+			@include breakpoint(medium-large) {
+				width: 450px;
+			}
 			margin: 0 auto;
 			text-align: left;
 			em {
@@ -252,9 +254,6 @@ article.marketingIntro {
 
 article.loginHorizontal {
     margin-top: -20px;
-    @include breakpoint(small) {
-		margin-top: 30px;
-	}
 	padding: 4px 0;
 	border-top: 4px solid #1697ff;
 	background-color: #1773cb;
@@ -336,6 +335,7 @@ article.gridPromos {
 .ie8 article.gridPromos {
 	div.col {
 		display: inline-block;
+		padding: 0 4%;
 	}
 }
 
@@ -565,6 +565,12 @@ article.state-tabs {
 			}
 		}
 	}
+	.tab-footer {
+		min-height: 30px;
+		margin: 0;
+		background-color: #0971ce;
+		border-bottom: 5px solid #76bd1d;
+	}
 }
 
 article.service-states {
@@ -645,11 +651,10 @@ article.careers {
 	ul.white {
 		list-style: none;
 		li {
-			background: url("../i/marketing/bullet-white.png") no-repeat;
-			margin: .75em 0 0 -1em;
-			padding-left: 2em;
-			font-size: 18px;
-			line-height: 1.1;
+			background: url("../i/marketing/bullet-white.png");
+			background-repeat: no-repeat;
+			background-position-y: 5px;
+			padding-left: 25px;
 		}
 	}
 	h3 {
@@ -934,6 +939,7 @@ article.contact {
 		color: #fff;
 		border-bottom: 3px solid #ffa409;
 		border-top: 3px solid #ffa409;
+		padding-bottom: 20px;
 		position: relative;
 		@include breakpoint(small) {
 			padding-top: 30px;
@@ -955,13 +961,14 @@ article.contact {
 		.grid {
 			-webkit-border-vertical-spacing: 0px;
 			.col {
+				border-spacing: 0;
 				.item {
 					position: relative;
-					width: 90%;
+					//width: 90%;
 					input,
 					select,
 					textarea {
-						width: 90%;
+						width: 85%;
 						color: #bcbcbc;
 					}
 					.asterisk {
@@ -969,8 +976,8 @@ article.contact {
 						vertical-align: middle;
 					}
 				}
-				.group .item {
-					width: 44%;
+				.group .item, .item.half-width {
+					width: 44.8%;
 				}
 				button {
 					background-color: #ebebeb;
@@ -1109,7 +1116,8 @@ article.contact-state {
 				h2 {
 					text-transform: none;
 				}
-				button {
+				button,
+				.button {
 					background-color: #ffa409;
 					a {
 						color: #fff;
@@ -1253,7 +1261,7 @@ article.homelife-services {
 					&.identity {
 						color: #7e9bb5;
 						position: relative;
-						button {
+						.button {
 							background-color: #7e9bb5;
 						}
 						&:after {
@@ -1268,7 +1276,7 @@ article.homelife-services {
 					&.support {
 						color: #b58789;
 						position: relative;
-						button {
+						.button {
 							background-color: #b58789;
 						}
 						&:after {
@@ -1282,7 +1290,7 @@ article.homelife-services {
 					}
 					&.monitoring {
 						color: #8ba170;
-						button {
+						.button {
 							background-color: #8ba170;
 						}
 					}
@@ -1487,11 +1495,21 @@ article.homelife-services {
 		text-align: center;
 	}
 }
+
 article.states-enroll {
 	div.wrapper {
 		text-align: center;
 	}
 }
+
+article.states-renew {
+	ul.tabs-nav {
+		li a {
+			@include border-radius(7px 7px 7px 7px);
+		}
+	}
+}
+
 article.full-width-image {
 	height: 300px;
 	background-size: cover; 
@@ -1563,10 +1581,18 @@ article.why-energy {
 }
 
 article.commercial-quote {
+	.photo {
+		img {
+			float: right;
+		}
+	}
 	.text {
 		border-left: 3px solid #ffa409;
 		width: 50%;
 		background-color: #0971ce;
+		@include breakpoint(small) {
+			width: 100%;
+		}
 		.inner {
 			color: #fff;
 			h2 {
@@ -1574,10 +1600,10 @@ article.commercial-quote {
 				font-size: 24px;
 			}
 			button {
+				color: #333;
 				background-color: #fff;
-				a {
-					color: #333;
-				}
+				border-color: #ccc;
+				text-shadow: none;
 				&:hover {
 					background-color: #ebebeb
 				}
@@ -1585,6 +1611,7 @@ article.commercial-quote {
 			input,
 			select {
 				width: 100%;
+				color: #999;
 			}
 		}
 	}
@@ -1613,7 +1640,6 @@ article.commercial-account-banner {
 	.account-banner {
 		background-color: #0971ce;
 		p {
-			padding: 15px 0;
 			button {
 				background-color: #fff;
 				color: #0971ce;
@@ -1651,6 +1677,17 @@ article.free-energy {
 		}
 		p {
 			line-height: 1;
+			@include breakpoint(small) {
+				display: block;
+				float: left;
+			}
+			em {
+				color: #1773cb;
+				text-transform: none;
+			}
+			.blue {
+				color: #1773cb;
+			}
 		}
 	}
 }
@@ -1664,6 +1701,9 @@ article.free-energy.picture-promo {
 		width: 335px;
 		margin-left: 100px;
 		padding: 320px 0 50px 0;
+		@include breakpoint(small) {
+			margin: 0;
+		}
 		h2 {
 			color: #fff;
 			line-height: 28px;
@@ -1678,9 +1718,78 @@ article.enroll {
 	margin-top: 20px;
 	.text {
 		padding: 25px 0;
-		h3 {
-			font-size: 32px;
-			line-height: 1.1;
+		h1 {
+			color: #0971ce;
+		}
+		h2 {
+			text-transform: none;			
+		}
+		h2.grey {
+			color: #6b6b6b;
+		}
+		hr {
+			margin: 22px 0;
+			border: 0;
+			border-top: 3px solid #eee;
+		}
+		.left-column{
+			float: left;
+			width: 50%;
+			margin-bottom: 20px;
+		}
+		.right-column {
+			float: right;
+			width: 50%;
+			margin-bottom: 20px;
+		}
+		li.terms {
+			background: url("../i/marketing/blue-bullet.png") no-repeat;
+			margin: 1.5em 0 0 -2.3em;
+			padding-left: 2em;
+		}
+		ul.service-links{
+			padding-left: 0px;
+			list-style: none;
+			li a {
+				color: #6b6b6b;
+				text-decoration: underline;
+			}
+		}
+		.formlinks {
+			width: 48%;
+			.header {
+				background-color: #0971ce;
+				color: #fff;
+				padding: 10px 0 10px 20px;
+			}
+			.link {
+				border-bottom: 3px solid #f0f0f0;
+			}
+			.grey {
+				background-color: #fafafa;
+			}
+			p.form {
+				background: url("../i/marketing/plan-icon.png") no-repeat left center;
+				padding: 15px 0;
+				margin: 0px 0px 0px 20px;
+				width: 100%;
+				a {
+					font-size: 12px;
+					font-weight: bold;
+					margin-left: 3.5em;
+					padding: 15px 0px;
+				}
+			}
+		}
+		.english {
+			float: left;
+		}
+		.spanish {
+			float: right;
+		}
+		.customer-forms {
+			margin-top: 80px;
+			padding-bottom: 50px;
 		}
 	}
 }
@@ -2128,6 +2237,14 @@ article.rates {
     }
 }
 
+article.opportunity-compensation-plan {
+	@include breakpoint(small-medium) {
+		.button {
+			margin-top: 10px;
+		}
+	}
+}
+ 
 article.paperless {
 	.left-column {
 		float: left;
