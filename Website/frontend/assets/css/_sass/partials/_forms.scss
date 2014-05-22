@@ -84,6 +84,7 @@ button,
 a.button {
 	@include border-radius(10px);
 	@include text-shadow(-1px 1px 1px rgba(0,0,0,.3));
+	display: inline-block;
 	height: auto;
 	width: auto;
 	padding: 7px 18px;
@@ -93,8 +94,8 @@ a.button {
 	text-align: center;
 	font-size: 16px;
 	font-weight: 600;
+	line-height: 1.375; //Enforce body line-height on buttons
 	text-transform: uppercase;
-	white-space: nowrap;
 	&.secondary {
  		@include text-shadow(-1px 1px 1px rgba(0,0,0,.3));
  		background-color: #797b7e;
