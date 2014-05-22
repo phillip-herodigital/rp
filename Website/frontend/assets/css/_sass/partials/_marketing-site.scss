@@ -260,8 +260,8 @@ article.loginHorizontal {
 	color: #fff;
 	span.text {
 		float: left;
-		margin: 0 10px 0 0;
-		padding: 5px 10px 5px 0;
+		margin: 0 20px 0 0;
+		padding: 5px 20px 5px 0;
 		border-right: 1px solid #409cee;
 		color: #fff;
 		font-size: 18px;
@@ -273,10 +273,46 @@ article.loginHorizontal {
 			margin-right: 5px;
 		}
 	}
-	button, .button {
+	.group .item {
+		padding-right: 0;
+		input, select, label {
+			vertical-align: middle; 
+		}		
+	}
+	button {
 		background-color: #fff;
 		color: #1773cb;
 		@include text-shadow(none);
+	}
+    @include breakpoint(small) {
+		margin-top: 30px;
+		.wrapper {
+			padding-top: 20px;
+			padding-bottom: 30px;
+		}
+	}
+	@include breakpoint(medium) {
+		.group .item {
+			padding-right: 11px;
+		}
+		.username-item, .password-item {
+			width: 140px;
+		}			
+		.wrapper {
+			width: 768px;
+			padding: 0 20px;
+		}
+	}
+	@include breakpoint(large) {
+		.group .item {
+			padding-right: 18px;	
+		}		
+		.username-item, .password-item {
+			width: 245px;
+		}
+		button {
+			width: 130px;
+		}	
 	}
 }
 
@@ -292,6 +328,12 @@ article.loginHorizontal {
 		button {
 			width: 130px;
 			height:30px;
+		}
+	}
+	.group, .item {
+		margin-bottom: 0;
+		input, select, label {
+			vertical-align: baseline;			
 		}
 	}
 }
@@ -1261,9 +1303,6 @@ article.homelife-services {
 					&.identity {
 						color: #7e9bb5;
 						position: relative;
-						.button {
-							background-color: #7e9bb5;
-						}
 						&:after {
 							content: "+";
 							color: #898989;
@@ -1276,9 +1315,6 @@ article.homelife-services {
 					&.support {
 						color: #b58789;
 						position: relative;
-						.button {
-							background-color: #b58789;
-						}
 						&:after {
 							content: "+";
 							color: #898989;
@@ -1290,9 +1326,6 @@ article.homelife-services {
 					}
 					&.monitoring {
 						color: #8ba170;
-						.button {
-							background-color: #8ba170;
-						}
 					}
 				}
 			}
@@ -1433,6 +1466,15 @@ article.homelife-services {
 					color: #fff;
 				}
 			}
+			.identity .button {
+				background-color: #7e9bb5;
+			}
+			.support .button {
+				background-color: #b58789;
+			}
+			.monitoring .button {
+				background-color: #8ba170;
+			}			
 		}
 		&.gold {
 			.box {
@@ -1654,7 +1696,7 @@ article.commercial-account-banner {
 }
 
 article.free-energy {
-	margin-top: 20px;
+	margin-bottom: 0;
 	img {
 		margin: auto;
 		display: block;
@@ -2049,6 +2091,7 @@ article.manage-my-account {
 article.manage-free-energy {
 	background-image: url('../i/marketing/free-energy-pic.jpg');
 	height: 399px;
+    margin-bottom: 0;
 	.left-column {
 		float: left;
 		width: 55%;
@@ -2241,6 +2284,81 @@ article.opportunity-compensation-plan {
 	@include breakpoint(small-medium) {
 		.button {
 			margin-top: 10px;
+		}
+	}
+}
+ 
+article.paperless {
+	.left-column {
+		float: left;
+		width: 40%;
+		padding-right: 40px;
+		.instructions {
+			color: #76BD1D;
+		}
+		@include breakpoint(small) {
+			width: 100%;
+			padding-right: 0px;
+		}
+	}
+	.right-column {
+		width: 60%;
+		float: right;
+		padding-left: 40px;
+		border-left: 1px solid #cfcfcf;
+		div.clearfix {
+			margin-bottom: 30px;
+			img {
+				float: left;
+			}
+			h3 {
+				color: #76BD1D;
+				float: left;
+				margin: 25px 0 0 10px;
+			}
+		}
+		h4 {
+			text-align: center;
+			margin: 25px 0 0 10px;
+			color: #76BD1D;
+		}
+		.states {
+			float: left;
+			margin: 20px 40px 0 0;
+			input {
+				margin-bottom: 15px;
+			}
+		}
+		.input-fields {
+			float: left;
+			width: 40%;
+			margin-right: 18px;
+			div {
+				margin-top: 10px;
+				input {
+					width: 100%;
+				}
+			}
+
+		}
+		.login {
+			float: left;
+			.button {
+				background-color: #76BD1D;
+				&:hover {
+					background-color: #6b6b6b;
+				}
+			}
+		}
+		.share {
+			margin-top: 100px;
+			text-align: center;
+		}
+		@include breakpoint(small) {
+			width: 100%;
+			margin: 20px auto;
+			padding: 0;
+			border-left: none;
 		}
 	}
 }
