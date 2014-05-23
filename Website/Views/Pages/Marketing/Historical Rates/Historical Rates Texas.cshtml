@@ -19,6 +19,7 @@
         variablePricePlanRows["Kwh Label"].Add(new
         {
             Text = Html.Sitecore().Field("Service Area Text"),
+            ShowCent = false,
             CssClass = cellCssClass,
         });
 
@@ -28,6 +29,7 @@
             variablePricePlanRows[tdu].Add(new
             {
                 Text = Html.Sitecore().Field(tdu + " Text"),
+                ShowCent = false,
                 CssClass = cellCssClass,
             });
         }
@@ -59,6 +61,7 @@
                 variablePricePlanRows["Kwh Label"].Add(new
                 {
                     Text = Html.Sitecore().Field(kwhPrice + " kWh Label", item),
+                    ShowCent = false,
                     CssClass = cellCssClass,
                 });
             }
@@ -70,6 +73,7 @@
                     variablePricePlanRows[tdu].Add(new
                     {
                         Text = Html.Sitecore().Field(kwhPrice + " kWh " + tdu + " Price", item),
+                        ShowCent = true,
                         CssClass = cellCssClass,
                     });
                 }
@@ -107,7 +111,7 @@
                         <tr>
                             @foreach (var cell in row.Value)
                             {
-                                <td class="@cell.CssClass">@cell.Text</td>
+                                <td class="@cell.CssClass">@cell.Text@if (cell.ShowCent) { @Html.Raw("&cent;"); }</td>
                             }
                         </tr>
                     }
