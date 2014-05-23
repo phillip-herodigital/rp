@@ -6,10 +6,12 @@
         var variablePricePlanRows = new Dictionary<string, List<dynamic>>();
         var tdus = new string[] { "BGE", "PEPCO", "Delmarva" };
         var headerRow = new List<dynamic>();
+        var cellCssClass = "odd";
         headerRow.Add(new
         {
             Text = "",
             ColSpan = 1,
+            CssClass = cellCssClass,
         });
 
         foreach (var tdu in tdus)
@@ -21,6 +23,7 @@
                 variablePricePlanRows[tdu].Add(new
                 {
                     Text = Html.Sitecore().Field(tdu + " Text"),
+                    CssClass = cellCssClass,
                     ShowCent = false,
                 });
             }
@@ -28,10 +31,13 @@
 
         foreach (var item in variablePricePlanItems)
         {
+            cellCssClass = (cellCssClass == "even") ? "odd" : "even";
+
             headerRow.Add(new
             {
                 Text = Sitecore.Web.UI.WebControls.FieldRenderer.Render(item, "Date", "format=M/d/yyyy"),
                 ColSpan = 1,
+                CssClass = cellCssClass,
             });
 
             foreach (var row in variablePricePlanRows)
@@ -39,6 +45,7 @@
                 row.Value.Add(new
                 {
                     Text = Html.Sitecore().Field(row.Key + " Price", item),
+                    CssClass = cellCssClass,
                     ShowCent = true,
                 });
             }
@@ -65,7 +72,7 @@
                         <tr>
                             @foreach (var cell in plan.Value.HeaderRow)
                             {
-                                <td colspan="@cell.ColSpan">@Html.Raw(cell.Text)</td>
+                                <td class="@cell.CssClass" colspan="@cell.ColSpan">@Html.Raw(cell.Text)</td>
                             }
                         </tr>
                     </thead>
@@ -75,7 +82,7 @@
                             <tr>
                                 @foreach (var cell in row.Value)
                                 {
-                                    <td>@cell.Text@if (cell.ShowCent){ @Html.Raw("&cent;"); }</td>
+                                    <td class="@cell.CssClass">@cell.Text@if (cell.ShowCent){ @Html.Raw("&cent;"); }</td>
                                 }
                             </tr>
                         }
