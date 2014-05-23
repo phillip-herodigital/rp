@@ -14,11 +14,12 @@ ngApp.directive('dropdownSelect', [function () {
 
             $scope.selectItem = function (item) {
                 $scope.selectedItem = item;
+                $scope.status.isopen = false;
             };
         },
         template: '<div class="btn-group" dropdown is-open="status.isopen">' +
             '<button type="button" class="btn btn-primary dropdown-toggle {{selectedItem.class}}" ng-disabled="disabled">' +
-            '{{selectedItem.name}} <span class="caret"></span>' +
+            '{{selectedItem.name}} <span class="caret"><i class="icon-nav-arrow-collapsed"></i></span>' +
             '</button>' +
             '<ul class="dropdown-menu" role="menu">' +
             '<li ng-repeat="item in dropdownItems"><a class="{{item.class}}" ng-click="selectItem(item);" href="">{{item.name}}</a></li>' +

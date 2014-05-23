@@ -926,7 +926,7 @@ select:focus {
 /* line 52, _sass/partials/_forms.scss */
 input[type="search"] {
   padding: 0 25px 0 5px;
-  background: white url('../i/icon/search.png?1399495980') 98% 50% no-repeat;
+  background: white url('../i/icon/search.png?1398270080') 98% 50% no-repeat;
 }
 
 /* line 57, _sass/partials/_forms.scss */
@@ -939,7 +939,7 @@ textarea {
 select {
   position: relative;
   padding-right: 30px;
-  background: white url('../i/icon/select-arrow.png?1399495980') no-repeat 100% 50%;
+  background: white url('../i/icon/select-arrow.png?1398270080') no-repeat 100% 50%;
   -moz-appearance: none;
   text-indent: 0.01px;
   text-overflow: '';
@@ -1534,6 +1534,71 @@ form .checkbox-list.inline li,
 .form .checkbox-list.inline li {
   display: inline-block;
   margin-right: 10px;
+}
+
+/* line 420, _sass/partials/_forms.scss */
+.btn-group button {
+  background: #fff;
+  color: #555;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+  -moz-transition: border linear 0.2s, box-shadow linear 0.2s;
+  -o-transition: border linear 0.2s, box-shadow linear 0.2s;
+  -webkit-transition: border linear, box-shadow linear;
+  -webkit-transition-delay: 0.2s, 0.2s;
+  transition: border linear 0.2s, box-shadow linear 0.2s;
+  text-shadow: none;
+  text-transform: none;
+  display: inline-block;
+  width: 50%;
+  padding: 6px 10px;
+  border: 1px solid #bcbcbc;
+  text-align: left;
+  position: relative;
+  font-weight: normal;
+}
+/* line 435, _sass/partials/_forms.scss */
+.btn-group button .caret {
+  position: absolute;
+  right: 6px;
+  top: 7px;
+}
+/* line 441, _sass/partials/_forms.scss */
+.btn-group .dropdown-menu {
+  display: none;
+  border: 1px solid #ddd;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  background: #fff;
+  min-width: 250px;
+}
+/* line 450, _sass/partials/_forms.scss */
+.btn-group .dropdown-menu li {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+/* line 454, _sass/partials/_forms.scss */
+.btn-group .dropdown-menu li a {
+  padding: 5px 20px;
+  display: block;
+}
+/* line 457, _sass/partials/_forms.scss */
+.btn-group .dropdown-menu li a:hover {
+  background: #0971cd;
+  color: #fff;
+}
+/* line 465, _sass/partials/_forms.scss */
+.btn-group.open .dropdown-menu {
+  display: block;
 }
 
 /* line 2, _sass/partials/_ui.scss */
@@ -2795,7 +2860,7 @@ div.tabbable div.tab-content div.tab-pane.active {
   display: inline-block;
   width: 178px;
   height: 43px;
-  background-image: url('../i/logo-horizontal.png?1399495980');
+  background-image: url('../i/logo-horizontal.png?1398270080');
   background-repeat: no-repeat;
   text-indent: -5000px;
   float: left;
@@ -2923,7 +2988,7 @@ div.tabbable div.tab-content div.tab-pane.active {
     left: 0;
     width: 100%;
     background-color: #fff;
-    background-image: url('../i/bg/header-mobile.png?1399495980');
+    background-image: url('../i/bg/header-mobile.png?1398270080');
     background-repeat: repeat-x;
     border-bottom: 1px solid #1697ff;
     z-index: 2;
@@ -2933,7 +2998,7 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media only screen and (max-width: 767px) and (-webkit-min-device-pixel-ratio: 2), only screen and (max-width: 767px) and (-o-min-device-pixel-ratio: 3 / 2), only screen and (max-width: 767px) and (min--moz-device-pixel-ratio: 2), only screen and (max-width: 767px) and (min-device-pixel-ratio: 2), only screen and (max-width: 767px) and (min-resolution: 144dppx) {
   /* line 78, _sass/partials/_header.scss */
   .site-header > .wrapper, article.state-tabs .site-header > ul.tabs-nav {
-    background-image: url('../i/bg2x/header-mobile.png?1399495980');
+    background-image: url('../i/bg2x/header-mobile.png?1398270080');
     background-size: 11.5px 11.5px;
   }
 }
@@ -2944,7 +3009,7 @@ div.tabbable div.tab-content div.tab-pane.active {
     width: 84px;
     height: 80px;
     background-size: 84px 80px;
-    background-image: url('../i/logo.png?1399495980');
+    background-image: url('../i/logo.png?1398270080');
     background-repeat: no-repeat;
     text-indent: -5000px;
     position: absolute;
@@ -3006,7 +3071,7 @@ div.tabbable div.tab-content div.tab-pane.active {
     left: 0;
     width: 100%;
     background-color: #fff;
-    background-image: url('../i/bg/header-enrollment.png?1400278335');
+    background-image: url('../i/bg/header-enrollment.png?1400260524');
     background-repeat: repeat-x;
     z-index: 2;
     height: 75px;
@@ -3016,7 +3081,7 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media only screen and (min-width: 768px) and (-webkit-min-device-pixel-ratio: 2), only screen and (min-width: 768px) and (-o-min-device-pixel-ratio: 3 / 2), only screen and (min-width: 768px) and (min--moz-device-pixel-ratio: 2), only screen and (min-width: 768px) and (min-device-pixel-ratio: 2), only screen and (min-width: 768px) and (min-resolution: 144dppx) {
   /* line 135, _sass/partials/_header.scss */
   .site-header.fixed > .wrapper, article.state-tabs .site-header.fixed > ul.tabs-nav {
-    background-image: url('../i/bg2x/header-enrollment.png?1400278335');
+    background-image: url('../i/bg2x/header-enrollment.png?1400260524');
     background-size: 23px 13px;
   }
 }
@@ -3033,7 +3098,7 @@ div.tabbable div.tab-content div.tab-pane.active {
     width: 84px;
     height: 80px;
     background-size: 84px 80px;
-    background-image: url('../i/logo.png?1399495980');
+    background-image: url('../i/logo.png?1398270080');
     background-repeat: no-repeat;
     text-indent: -5000px;
     position: absolute;
@@ -3066,7 +3131,7 @@ div.tabbable div.tab-content div.tab-pane.active {
 }
 /* line 176, _sass/partials/_header.scss */
 .banner .inner {
-  background-image: url('../i/bg/banner-bottom.png?1399586124');
+  background-image: url('../i/bg/banner-bottom.png?1398809617');
   background-repeat: repeat-x;
   background-position: 0 100%;
   /*background: image-url("bg/banner-bottom.png") 0 100% repeat-x;*/
@@ -3105,14 +3170,14 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media only screen and (max-width: 767px) {
   /* line 210, _sass/partials/_header.scss */
   .banner .inner {
-    background-image: url('../i/bg/header-mobile.png?1399495980');
+    background-image: url('../i/bg/header-mobile.png?1398270080');
     background-repeat: repeat-x;
   }
 }
 @media only screen and (max-width: 767px) and (-webkit-min-device-pixel-ratio: 2), only screen and (max-width: 767px) and (-o-min-device-pixel-ratio: 3 / 2), only screen and (max-width: 767px) and (min--moz-device-pixel-ratio: 2), only screen and (max-width: 767px) and (min-device-pixel-ratio: 2), only screen and (max-width: 767px) and (min-resolution: 144dppx) {
   /* line 210, _sass/partials/_header.scss */
   .banner .inner {
-    background-image: url('../i/bg2x/header-mobile.png?1399495980');
+    background-image: url('../i/bg2x/header-mobile.png?1398270080');
     background-size: 11.5px 11.5px;
   }
 }
@@ -3130,14 +3195,14 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
   /* line 223, _sass/partials/_header.scss */
   .banner .inner {
-    background-image: url('../i/bg/header-mobile.png?1399495980');
+    background-image: url('../i/bg/header-mobile.png?1398270080');
     background-repeat: repeat-x;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 1024px) and (-webkit-min-device-pixel-ratio: 2), only screen and (min-width: 768px) and (max-width: 1024px) and (-o-min-device-pixel-ratio: 3 / 2), only screen and (min-width: 768px) and (max-width: 1024px) and (min--moz-device-pixel-ratio: 2), only screen and (min-width: 768px) and (max-width: 1024px) and (min-device-pixel-ratio: 2), only screen and (min-width: 768px) and (max-width: 1024px) and (min-resolution: 144dppx) {
   /* line 223, _sass/partials/_header.scss */
   .banner .inner {
-    background-image: url('../i/bg2x/header-mobile.png?1399495980');
+    background-image: url('../i/bg2x/header-mobile.png?1398270080');
     background-size: 11.5px 11.5px;
   }
 }
@@ -3159,7 +3224,7 @@ div.tabbable div.tab-content div.tab-pane.active {
 }
 /* line 3, _sass/partials/_footer.scss */
 .site-footer .super-footer {
-  background: #0971ce url('../i/bg/footer-top-border.png?1399495980') repeat-x top left;
+  background: #0971ce url('../i/bg/footer-top-border.png?1398270080') repeat-x top left;
   padding-top: 10px;
   color: #b4b4b4;
 }
@@ -4080,11 +4145,11 @@ aside article.promo p {
 }
 /* line 638, _sass/partials/_modules.scss */
 aside article.promo.renew {
-  background-image: url('../i/renew-promo.png?1399495980');
+  background-image: url('../i/renew-promo.png?1398378733');
 }
 /* line 641, _sass/partials/_modules.scss */
 aside article.promo.paperless {
-  background-image: url('../i/paperless-promo.jpg?1399495980');
+  background-image: url('../i/paperless-promo.jpg?1398270080');
 }
 /* line 644, _sass/partials/_modules.scss */
 aside article.promo.paperless h1 {
@@ -4282,7 +4347,7 @@ article.photoLockup .text .lead {
 /* line 85, _sass/partials/_marketing-site.scss */
 article.photoLockup .text blockquote {
   margin: 0;
-  background: url('../i/marketing/quote-left.png?1399495980') no-repeat;
+  background: url('../i/marketing/quote-left.png?1398270080') no-repeat;
 }
 /* line 88, _sass/partials/_marketing-site.scss */
 article.photoLockup .text blockquote p:first-child {
@@ -4290,7 +4355,7 @@ article.photoLockup .text blockquote p:first-child {
 }
 /* line 91, _sass/partials/_marketing-site.scss */
 article.photoLockup .text blockquote p:last-child {
-  background: url('../i/marketing/quote-right.png?1399495980') no-repeat 100% 100%;
+  background: url('../i/marketing/quote-right.png?1398270080') no-repeat 100% 100%;
   padding: 10px 10px 0 10px;
   font-size: 18px;
   line-height: 1.8em;
@@ -5958,12 +6023,12 @@ article.state-tabs ul.tabs-nav li a span {
   margin: 0 auto;
   width: 82px;
   height: 84px;
-  background-image: url('../i/bg/state-tabs.png?1399495980');
+  background-image: url('../i/bg/state-tabs.png?1398270080');
 }
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 584, _sass/partials/_marketing-site.scss */
   article.state-tabs ul.tabs-nav li a span {
-    background-image: url('../i/bg2x/state-tabs.png?1399495980');
+    background-image: url('../i/bg2x/state-tabs.png?1398270080');
     background-size: 82px 84px;
   }
 }
