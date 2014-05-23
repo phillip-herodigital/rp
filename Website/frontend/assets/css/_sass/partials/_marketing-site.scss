@@ -189,7 +189,7 @@ article.photoLockup {
 	}
 	@each $theme in $themes {
 		&.accent-#{map-get($theme, name)} {
-		 	h2, h3 {
+		 	h2, h3, em {
 				color: map-get($theme, primaryColor);
 			}
 			button, .button {
@@ -199,6 +199,11 @@ article.photoLockup {
 					color: #fff;
 				}
 			}
+		}
+	}
+	@each $theme in $themes {
+		& span.#{map-get($theme, name)}, h1.#{map-get($theme, name)}, h2.#{map-get($theme, name)}, h3.#{map-get($theme, name)}, h4.#{map-get($theme, name)} {
+			color: map-get($theme, primaryColor);
 		}
 	}
 }
@@ -260,6 +265,11 @@ article.marketingIntro {
 			color: map-get($theme, primaryColor);
 		}
 		& ul.#{map-get($theme, name)} {
+			color: map-get($theme, primaryColor);
+		}
+	}
+	@each $theme in $themes {
+		& span.#{map-get($theme, name)}, h1.#{map-get($theme, name)}, h2.#{map-get($theme, name)}, h3.#{map-get($theme, name)}, h4.#{map-get($theme, name)} {
 			color: map-get($theme, primaryColor);
 		}
 	}
@@ -571,7 +581,7 @@ article.full-html {
 	}
 	@each $theme in $themes {
 		&.accent-#{map-get($theme, name)} {
-		 	h1, h2, h3 {
+		 	h1, h2, h3, em {
 				color: map-get($theme, primaryColor);
 			}
 			button, .button {
@@ -769,6 +779,9 @@ article.press {
 		text-align: center;
 		p.paragraph {
 			font-size: 18px;
+			.blue {
+				color: #1773cb;
+			}
 		}
 	}
 	.post {
@@ -1767,6 +1780,9 @@ article.free-energy {
 		}
 		h1 {
 			line-height: 1;
+			em {
+				color: #1773cb;
+			}
 		}
 		p {
 			line-height: 1;
