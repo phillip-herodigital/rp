@@ -1946,6 +1946,10 @@ article.energy-certificates {
 					background-color: #6b6b6b;
 				}
 			}
+			@include breakpoint(small) {
+				width: auto;
+				margin-right: 0;
+			}
 		}
 	}
 }
