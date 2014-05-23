@@ -422,6 +422,7 @@
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EnrollmentController.cs" />
+    <Compile Include="Controllers\JsonHelper\EnrollmentController.cs" />
     <Compile Include="Controllers\TempController.cs" />
     <Compile Include="Controllers\MarketingController.cs" />
     <Compile Include="layouts\HTML Layout.aspx.cs">

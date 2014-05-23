@@ -9,13 +9,13 @@ namespace StreamEnergy.DomainModels.Enrollments
 {
     public class TexasElectricityOffer : IOffer
     {
-        public const string OfferTypeQualifier = "TexasElectricity";
+        public const string Qualifier = "TexasElectricity";
 
         public string Id { get; set; }
 
         public string OfferType
         {
-            get { return TexasElectricityOffer.OfferTypeQualifier; }
+            get { return TexasElectricityOffer.Qualifier; }
         }
 
         public IOfferOptionPolicy GetOfferOptionPolicy(IUnityContainer container)

@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace StreamEnergy.DomainModels.Payments
 {
-    public interface IPaymentInfo
+    class SamplePaymentInfo : IPaymentInfo
     {
-        string PaymentType { get; }
+        public string PaymentType { get; set; }
+
     }
 }
