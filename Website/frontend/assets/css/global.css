@@ -587,14 +587,8 @@ dl dd {
     width: auto;
   }
 }
-@media only screen and (max-width: 767px) {
-  /* line 82, _sass/partials/_layout.scss */
-  .layout {
-    margin-top: 50px;
-  }
-}
 
-/* line 113, _sass/partials/_layout.scss */
+/* line 110, _sass/partials/_layout.scss */
 .wrapper, article.state-tabs ul.tabs-nav {
   width: 1000px;
   margin: 0 auto;
@@ -602,14 +596,14 @@ dl dd {
 }
 
 @media only screen and (max-width: 767px) {
-  /* line 120, _sass/partials/_layout.scss */
+  /* line 117, _sass/partials/_layout.scss */
   .wrapper, article.state-tabs ul.tabs-nav {
     width: auto;
     padding: 0 20px;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
-  /* line 127, _sass/partials/_layout.scss */
+  /* line 124, _sass/partials/_layout.scss */
   .wrapper, article.state-tabs ul.tabs-nav {
     width: auto;
     padding: 0 20px;
@@ -671,7 +665,7 @@ dl dd {
 	}
 }*/
 @media only screen and (min-width: 768px) {
-  /* line 190, _sass/partials/_layout.scss */
+  /* line 187, _sass/partials/_layout.scss */
   .grid {
     display: table;
     width: 100%;
@@ -683,7 +677,7 @@ dl dd {
     border-spacing: 10px;
     margin: -10px;
   }
-  /* line 197, _sass/partials/_layout.scss */
+  /* line 194, _sass/partials/_layout.scss */
   .grid .col {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -693,29 +687,29 @@ dl dd {
     width: 50%;
     vertical-align: top;
   }
-  /* line 204, _sass/partials/_layout.scss */
+  /* line 201, _sass/partials/_layout.scss */
   .grid.three .col {
     width: 33.33%;
   }
-  /* line 207, _sass/partials/_layout.scss */
+  /* line 204, _sass/partials/_layout.scss */
   .grid.four .col {
     width: 25%;
   }
-  /* line 210, _sass/partials/_layout.scss */
+  /* line 207, _sass/partials/_layout.scss */
   .grid.border .col {
     border-left: 1px solid #cccccc;
     padding: 0 30px;
   }
-  /* line 213, _sass/partials/_layout.scss */
+  /* line 210, _sass/partials/_layout.scss */
   .grid.border .col:first-child {
     border-left: 0;
     padding-left: 0;
   }
-  /* line 217, _sass/partials/_layout.scss */
+  /* line 214, _sass/partials/_layout.scss */
   .grid.border .col:last-child {
     padding-right: 0;
   }
-  /* line 222, _sass/partials/_layout.scss */
+  /* line 219, _sass/partials/_layout.scss */
   .grid.bg .col {
     background: #f3f3f3;
     padding: 20px;
@@ -5287,7 +5281,7 @@ article.loginHorizontal button {
 @media only screen and (max-width: 767px) {
   /* line 268, _sass/partials/_marketing-site.scss */
   article.loginHorizontal {
-    margin-top: 30px;
+    margin-top: 0;
   }
   /* line 302, _sass/partials/_marketing-site.scss */
   article.loginHorizontal .wrapper, article.loginHorizontal article.state-tabs ul.tabs-nav, article.state-tabs article.loginHorizontal ul.tabs-nav {
