@@ -615,10 +615,8 @@
     <Content Include="frontend\assets\i\img-footer-power-center.png" />
     <Content Include="frontend\assets\i\img-footer-renew-my-contract.png" />
     <Content Include="frontend\assets\i\loading.gif" />
-    <Content Include="frontend\assets\i\logo-horizontal.png" />
     <Content Include="frontend\assets\i\logo-peco.png" />
     <Content Include="frontend\assets\i\logo-ppl.png" />
-    <Content Include="frontend\assets\i\logo.png" />
     <Content Include="frontend\assets\i\marketing\blue-bullet.png" />
     <Content Include="frontend\assets\i\marketing\bullet-white.png" />
     <Content Include="frontend\assets\i\marketing\captain-hopes.jpg" />
