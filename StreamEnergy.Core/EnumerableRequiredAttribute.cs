@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -13,7 +14,9 @@ namespace StreamEnergy
         {
             if (value != null)
             {
-                return ((System.Collections.IEnumerable)value).Cast<object>().All(entry => entry != null);
+                if (value is IDictionary)
+                    return ((IDictionary)value).Values.Cast<object>().All(entry => entry != null);
+                return ((IEnumerable)value).Cast<object>().All(entry => entry != null);
             }
             return true;
         }

@@ -57,6 +57,10 @@ namespace StreamEnergy.Core.Tests.Processes
                 yield return context => context.ConfirmPassword;
             }
 
+            public void Sanitize(CreateAccountContext context, object internalContext)
+            {
+            }
+
             public IEnumerable<ValidationResult> AdditionalValidations(CreateAccountContext context, object internalContext)
             {
                 return Enumerable.Empty<ValidationResult>();
@@ -78,7 +82,7 @@ namespace StreamEnergy.Core.Tests.Processes
                 return typeof(VerifyState);
             }
 
-            public bool RestoreInternalState(IStateMachine<CreateAccountContext, object> stateMachine, ref object internalContext, ref Type state)
+            public bool RestoreInternalState(IStateMachine<CreateAccountContext, object> stateMachine, ref Type state)
             {
                 return true;
             }
@@ -99,6 +103,10 @@ namespace StreamEnergy.Core.Tests.Processes
                 yield return context => context.Password;
                 yield return context => context.ConfirmPassword;
                 yield return context => context.Email;
+            }
+
+            public void Sanitize(CreateAccountContext context, object internalContext)
+            {
             }
 
             public IEnumerable<ValidationResult> AdditionalValidations(CreateAccountContext context, object internalContext)
@@ -122,7 +130,7 @@ namespace StreamEnergy.Core.Tests.Processes
                 return typeof(ConfirmationState);
             }
 
-            public bool RestoreInternalState(IStateMachine<CreateAccountContext, object> stateMachine, ref object internalContext, ref Type state)
+            public bool RestoreInternalState(IStateMachine<CreateAccountContext, object> stateMachine, ref Type state)
             {
                 return true;
             }

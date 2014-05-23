@@ -211,24 +211,11 @@
             </div>
         </article>
     </div>
-    <div class="associate-support">
+    <div class="faq">
         <div class="wrapper">
-            <h2>@Html.Sitecore().Field("Associate Support Text")</h2>
-            @Html.Sitecore().Field("Associate Support Content")
+            <h2><div class="header-line"></div>@Html.Sitecore().Field("FAQ Text")</h2>
+            @Html.Sitecore().Field("FAQ Content")
         </div>
-    </div>
-    <div class="homelife-services">
-        <div class="wrapper">
-            <h2>@Html.Sitecore().Field("Homelife Services Text")</h2>
-            @Html.Sitecore().Field("Homelife Services Content")
-        </div>
-    </div>
-    <div class="clean-nation">
-        @Html.Sitecore().Field("Clean Nation Content")
-    </div>
-    <div class="vip wrapper">
-        <h2>@Html.Sitecore().Field("VIP Support Text")</h2>
-        @Html.Sitecore().Field("VIP Support Content")
     </div>
     <div class="request">
         <div class="request-or"></div>
@@ -327,13 +314,22 @@
             </div>
         </div>
     }
+    <div class="homelife-services">
+        <div class="wrapper">
+            <h2>@Html.Sitecore().Field("Homelife Services Text")</h2>
+            @Html.Sitecore().Field("Homelife Services Content")
+        </div>
+    </div>
+    <div class="clean-nation">
+        @Html.Sitecore().Field("Clean Nation Content")
+    </div>
     <div class="contact-banner">
         @Html.Sitecore().Field("FAQ Banner Image")
     </div>
-    <div class="faq">
+    <div class="associate-support">
         <div class="wrapper">
-            <h2><div class="header-line"></div>@Html.Sitecore().Field("FAQ Text")</h2>
-            @Html.Sitecore().Field("FAQ Content")
+            <h2>@Html.Sitecore().Field("Associate Support Text")</h2>
+            @Html.Sitecore().Field("Associate Support Content")
         </div>
     </div>
 </article>
