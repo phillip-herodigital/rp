@@ -6,16 +6,17 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
-    public class LoadDespositInfoState : IState<UserContext, InternalContext>
+    public class LoadDespositInfoState : StateBase<UserContext, InternalContext>
     {
         private readonly IEnrollmentService enrollmentService;
 
         public LoadDespositInfoState(IEnrollmentService enrollmentService)
+            : base(previousState: typeof(VerifyIdentityState), nextState: typeof(PaymentInfoState))
         {
             this.enrollmentService = enrollmentService;
         }
 
-        public IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
+        public override IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
         {
             yield return context => context.Services;
             yield return context => context.BillingAddress;
@@ -27,41 +28,7 @@ namespace StreamEnergy.DomainModels.Enrollments
             yield return context => context.SelectedIdentityAnswers;
         }
 
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> AdditionalValidations(UserContext context, InternalContext internalContext)
-        {
-            yield break;
-        }
-
-        bool IState<UserContext, InternalContext>.IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult, UserContext context, InternalContext internalContext)
-        {
-            return false;
-        }
-
-        public bool IsFinal
-        {
-            get { return false; }
-        }
-
-        public Type Process(UserContext context, InternalContext internalContext)
-        {
-            LoadInternalState(context, internalContext);
-
-            return typeof(PaymentInfoState);
-        }
-
-        public bool RestoreInternalState(IStateMachine<UserContext, InternalContext> stateMachine, ref InternalContext internalContext, ref Type state)
-        {
-            if (!stateMachine.RestoreStateFrom(typeof(VerifyIdentityState), ref internalContext, ref state))
-            {
-                return false;
-            }
-
-            LoadInternalState(stateMachine.Context, internalContext);
-
-            return true;
-        }
-
-        private void LoadInternalState(UserContext context, InternalContext internalContext)
+        protected override void LoadInternalState(UserContext context, InternalContext internalContext)
         {
             var result = enrollmentService.LoadDeposit(context.Services.Values);
             internalContext.Deposit = result;

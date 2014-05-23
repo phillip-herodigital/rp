@@ -9,58 +9,36 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
-    public class PlanSelectionState : IState<UserContext, InternalContext>
+    public class PlanSelectionState : StateBase<UserContext, InternalContext>
     {
         private readonly IUnityContainer container;
 
         public PlanSelectionState(IUnityContainer container)
+            : base(previousState: typeof(LoadOffersState), nextState: typeof(AccountInformationState))
         {
             this.container = container;
         }
 
-        public IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
+        public override IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
         {
             yield return context => context.Services.PartialValidate(e => e.Value.Location.Address.PostalCode5,
                                                                      e => e.Value.Location.Capabilities,
                                                                      e => e.Value.SelectedOffers.PartialValidate(i => i.Value.Offer));
         }
 
-        public IEnumerable<ValidationResult> AdditionalValidations(UserContext context, InternalContext internalContext)
+        public override IEnumerable<ValidationResult> AdditionalValidations(UserContext context, InternalContext internalContext)
         {
             if (context.Services == null || context.Services.Count < 1)
                 yield return new ValidationResult("Services Required", new[] { "Services" });
             yield break;
         }
 
-        bool IState<UserContext, InternalContext>.IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult, UserContext context, InternalContext internalContext)
+        public override bool IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult, UserContext context, InternalContext internalContext)
         {
             return validationResult.MemberNames.All(m => System.Text.RegularExpressions.Regex.IsMatch(m, @"SelectedOffers\[[0-9]+\]\.OfferOption"));
         }
 
-        public bool IsFinal
-        {
-            get { return false; }
-        }
-
-        public Type Process(UserContext context, InternalContext internalContext)
-        {
-            LoadInternalState(context, internalContext);
-            return typeof(AccountInformationState);
-        }
-
-        public bool RestoreInternalState(IStateMachine<UserContext, InternalContext> stateMachine, ref InternalContext internalContext, ref Type state)
-        {
-            if (!stateMachine.RestoreStateFrom(typeof(LoadOffersState), ref internalContext, ref state))
-            {
-                return false;
-            }
-
-            LoadInternalState(stateMachine.Context, internalContext);
-
-            return true;
-        }
-
-        private void LoadInternalState(UserContext context, InternalContext internalContext)
+        protected override void LoadInternalState(UserContext context, InternalContext internalContext)
         {
             internalContext.OfferOptionRulesByAddressOffer = (from service in context.Services.Values
                                                               where service.SelectedOffers != null

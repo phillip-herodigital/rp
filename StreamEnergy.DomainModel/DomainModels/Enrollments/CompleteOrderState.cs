@@ -6,16 +6,17 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
-    public class CompleteOrderState : IState<UserContext, InternalContext>
+    public class CompleteOrderState : StateBase<UserContext, InternalContext>
     {
         private readonly IEnrollmentService enrollmentService;
 
         public CompleteOrderState(IEnrollmentService enrollmentService)
+            : base(previousState: typeof(LoadDespositInfoState), nextState: typeof(PlaceOrderState))
         {
             this.enrollmentService = enrollmentService;
         }
 
-        public IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
+        public override IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
         {
             yield return context => context.Services;
             yield return context => context.BillingAddress;
@@ -29,36 +30,12 @@ namespace StreamEnergy.DomainModels.Enrollments
             yield return context => context.AgreeToTerms;
         }
 
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> AdditionalValidations(UserContext context, InternalContext internalContext)
-        {
-            yield break;
-        }
-
-        bool IState<UserContext, InternalContext>.IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult, UserContext context, InternalContext internalContext)
-        {
-            return false;
-        }
-
-        public bool IsFinal
-        {
-            get { return false; }
-        }
-
-        public Type Process(UserContext context, InternalContext internalContext)
+        protected override Type InternalProcess(UserContext context, InternalContext internalContext)
         {
             internalContext.PlaceOrderResult = enrollmentService.PlaceOrder(context.Services.Values);
 
-            return typeof(PlaceOrderState);
+            return base.InternalProcess(context, internalContext);
         }
 
-        public bool RestoreInternalState(IStateMachine<UserContext, InternalContext> stateMachine, ref InternalContext internalContext, ref Type state)
-        {
-            if (!stateMachine.RestoreStateFrom(typeof(LoadDespositInfoState), ref internalContext, ref state))
-            {
-                return false;
-            }
-
-            return true;
-        }
     }
 }
