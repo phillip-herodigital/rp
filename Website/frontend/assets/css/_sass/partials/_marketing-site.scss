@@ -200,7 +200,7 @@ article.photoLockup {
 				}
 			}
 		}
-		}
+	}
 	@each $theme in $themes {
 		& span.#{map-get($theme, name)}, h1.#{map-get($theme, name)}, h2.#{map-get($theme, name)}, h3.#{map-get($theme, name)}, h4.#{map-get($theme, name)} {
 			color: map-get($theme, primaryColor);
@@ -271,7 +271,7 @@ article.marketingIntro {
 	@each $theme in $themes {
 		& span.#{map-get($theme, name)}, h1.#{map-get($theme, name)}, h2.#{map-get($theme, name)}, h3.#{map-get($theme, name)}, h4.#{map-get($theme, name)} {
 			color: map-get($theme, primaryColor);
-}
+		}
 	}
 }
 
@@ -351,17 +351,17 @@ article.loginHorizontal {
 	}
 	.group { 
 		margin-bottom: 0;
-		}
-		button {
+	}
+	button {
 		width: 110px;
-		}
+	}
 	input, select, label {
 		vertical-align: baseline;
 	}
 	@include breakpoint(medium) {
 		.item {
 			display: inline-block;
-		margin-bottom: 0;
+			margin-bottom: 0;
 		}
 		.text {
 			margin-right: 13px;
@@ -793,8 +793,8 @@ article.press {
 			font-size: 18px;
 			.blue {
 				color: #1773cb;
+			}
 		}
-	}
 	}
 	.post {
 		margin-top: 60px;
@@ -1984,9 +1984,9 @@ article.energy-certificates {
 			@include breakpoint(small) {
 				width: auto;
 				margin-right: 0;
+			}
 		}
 	}
-}
 }
 
 article.ignite-associate {
