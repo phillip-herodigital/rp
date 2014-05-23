@@ -587,14 +587,8 @@ dl dd {
     width: auto;
   }
 }
-@media only screen and (max-width: 767px) {
-  /* line 82, _sass/partials/_layout.scss */
-  .layout {
-    margin-top: 50px;
-  }
-}
 
-/* line 113, _sass/partials/_layout.scss */
+/* line 110, _sass/partials/_layout.scss */
 .wrapper, article.state-tabs ul.tabs-nav {
   width: 1000px;
   margin: 0 auto;
@@ -602,14 +596,14 @@ dl dd {
 }
 
 @media only screen and (max-width: 767px) {
-  /* line 120, _sass/partials/_layout.scss */
+  /* line 117, _sass/partials/_layout.scss */
   .wrapper, article.state-tabs ul.tabs-nav {
     width: auto;
     padding: 0 20px;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
-  /* line 127, _sass/partials/_layout.scss */
+  /* line 124, _sass/partials/_layout.scss */
   .wrapper, article.state-tabs ul.tabs-nav {
     width: auto;
     padding: 0 20px;
@@ -671,7 +665,7 @@ dl dd {
 	}
 }*/
 @media only screen and (min-width: 768px) {
-  /* line 190, _sass/partials/_layout.scss */
+  /* line 187, _sass/partials/_layout.scss */
   .grid {
     display: table;
     width: 100%;
@@ -683,7 +677,7 @@ dl dd {
     border-spacing: 10px;
     margin: -10px;
   }
-  /* line 197, _sass/partials/_layout.scss */
+  /* line 194, _sass/partials/_layout.scss */
   .grid .col {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -693,29 +687,29 @@ dl dd {
     width: 50%;
     vertical-align: top;
   }
-  /* line 204, _sass/partials/_layout.scss */
+  /* line 201, _sass/partials/_layout.scss */
   .grid.three .col {
     width: 33.33%;
   }
-  /* line 207, _sass/partials/_layout.scss */
+  /* line 204, _sass/partials/_layout.scss */
   .grid.four .col {
     width: 25%;
   }
-  /* line 210, _sass/partials/_layout.scss */
+  /* line 207, _sass/partials/_layout.scss */
   .grid.border .col {
     border-left: 1px solid #cccccc;
     padding: 0 30px;
   }
-  /* line 213, _sass/partials/_layout.scss */
+  /* line 210, _sass/partials/_layout.scss */
   .grid.border .col:first-child {
     border-left: 0;
     padding-left: 0;
   }
-  /* line 217, _sass/partials/_layout.scss */
+  /* line 214, _sass/partials/_layout.scss */
   .grid.border .col:last-child {
     padding-right: 0;
   }
-  /* line 222, _sass/partials/_layout.scss */
+  /* line 219, _sass/partials/_layout.scss */
   .grid.bg .col {
     background: #f3f3f3;
     padding: 20px;
@@ -926,7 +920,7 @@ select:focus {
 /* line 52, _sass/partials/_forms.scss */
 input[type="search"] {
   padding: 0 25px 0 5px;
-  background: white url('../i/icon/search.png?1398702403') 98% 50% no-repeat;
+  background: white url('../i/icon/search.png?1399069994') 98% 50% no-repeat;
 }
 
 /* line 57, _sass/partials/_forms.scss */
@@ -939,7 +933,7 @@ textarea {
 select {
   position: relative;
   padding-right: 30px;
-  background: white url('../i/icon/select-arrow.png?1398702403') no-repeat 100% 50%;
+  background: white url('../i/icon/select-arrow.png?1399074396') no-repeat 100% 50%;
   -moz-appearance: none;
   text-indent: 0.01px;
   text-overflow: '';
@@ -2892,13 +2886,20 @@ div.tabbable div.tab-content div.tab-pane.active {
 /* line 9, _sass/partials/_header.scss */
 .site-header .logo {
   display: inline-block;
-  width: 178px;
-  height: 43px;
-  background-image: url('../i/logo-horizontal.png?1398702403');
+  width: 175px;
+  height: 42px;
+  background-image: url('../i/bg/logo-desktop.png?1400812984');
   background-repeat: no-repeat;
   text-indent: -5000px;
   float: left;
   margin-top: 15px;
+}
+@media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
+  /* line 9, _sass/partials/_header.scss */
+  .site-header .logo {
+    background-image: url('../i/bg2x/logo-desktop.png?1400812984');
+    background-size: 175px 42px;
+  }
 }
 /* line 14, _sass/partials/_header.scss */
 .site-header .utility {
@@ -3022,7 +3023,7 @@ div.tabbable div.tab-content div.tab-pane.active {
     left: 0;
     width: 100%;
     background-color: #fff;
-    background-image: url('../i/bg/header-mobile.png?1398702403');
+    background-image: url('../i/bg/header-mobile.png?1399074396');
     background-repeat: repeat-x;
     border-bottom: 1px solid #1697ff;
     z-index: 2;
@@ -3032,7 +3033,7 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media only screen and (max-width: 767px) and (-webkit-min-device-pixel-ratio: 2), only screen and (max-width: 767px) and (-o-min-device-pixel-ratio: 3 / 2), only screen and (max-width: 767px) and (min--moz-device-pixel-ratio: 2), only screen and (max-width: 767px) and (min-device-pixel-ratio: 2), only screen and (max-width: 767px) and (min-resolution: 144dppx) {
   /* line 78, _sass/partials/_header.scss */
   .site-header > .wrapper, article.state-tabs .site-header > ul.tabs-nav {
-    background-image: url('../i/bg2x/header-mobile.png?1398702403');
+    background-image: url('../i/bg2x/header-mobile.png?1399069994');
     background-size: 11.5px 11.5px;
   }
 }
@@ -3040,18 +3041,26 @@ div.tabbable div.tab-content div.tab-pane.active {
   /* line 90, _sass/partials/_header.scss */
   .site-header .logo {
     display: inline-block;
-    width: 84px;
-    height: 80px;
-    background-size: 84px 80px;
-    background-image: url('../i/logo.png?1398702403');
+    width: 100px;
+    height: 24px;
+    background-image: url('../i/bg/logo-mobile.png?1400812984');
     background-repeat: no-repeat;
     text-indent: -5000px;
     position: absolute;
     left: 50%;
-    top: 11px;
+    top: 20px;
     margin-top: 0;
-    margin-left: -41.75px;
+    margin-left: -25px;
   }
+}
+@media only screen and (max-width: 767px) and (-webkit-min-device-pixel-ratio: 2), only screen and (max-width: 767px) and (-o-min-device-pixel-ratio: 3 / 2), only screen and (max-width: 767px) and (min--moz-device-pixel-ratio: 2), only screen and (max-width: 767px) and (min-device-pixel-ratio: 2), only screen and (max-width: 767px) and (min-resolution: 144dppx) {
+  /* line 90, _sass/partials/_header.scss */
+  .site-header .logo {
+    background-image: url('../i/bg2x/logo-mobile.png?1400812984');
+    background-size: 100px 24px;
+  }
+}
+@media only screen and (max-width: 767px) {
   /* line 98, _sass/partials/_header.scss */
   .site-header .utility {
     display: none;
@@ -3105,7 +3114,7 @@ div.tabbable div.tab-content div.tab-pane.active {
     left: 0;
     width: 100%;
     background-color: #fff;
-    background-image: url('../i/bg/header-enrollment.png?1400777121');
+    background-image: url('../i/bg/header-enrollment.png?1400266606');
     background-repeat: repeat-x;
     z-index: 2;
     height: 75px;
@@ -3115,7 +3124,7 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media only screen and (min-width: 768px) and (-webkit-min-device-pixel-ratio: 2), only screen and (min-width: 768px) and (-o-min-device-pixel-ratio: 3 / 2), only screen and (min-width: 768px) and (min--moz-device-pixel-ratio: 2), only screen and (min-width: 768px) and (min-device-pixel-ratio: 2), only screen and (min-width: 768px) and (min-resolution: 144dppx) {
   /* line 135, _sass/partials/_header.scss */
   .site-header.fixed > .wrapper, article.state-tabs .site-header.fixed > ul.tabs-nav {
-    background-image: url('../i/bg2x/header-enrollment.png?1400777121');
+    background-image: url('../i/bg2x/header-enrollment.png?1400266606');
     background-size: 23px 13px;
   }
 }
@@ -3129,23 +3138,29 @@ div.tabbable div.tab-content div.tab-pane.active {
   /* line 150, _sass/partials/_header.scss */
   .site-header.fixed .logo {
     display: inline-block;
-    width: 84px;
-    height: 80px;
-    background-size: 84px 80px;
-    background-image: url('../i/logo.png?1398702403');
+    width: 175px;
+    height: 42px;
+    background-image: url('../i/bg/logo-desktop.png?1400812984');
     background-repeat: no-repeat;
     text-indent: -5000px;
     position: absolute;
     left: 50%;
     top: 21px;
     margin-top: 0;
-    margin-left: -41.75px;
+    margin-left: -43.75px;
+  }
+}
+@media only screen and (min-width: 768px) and (-webkit-min-device-pixel-ratio: 2), only screen and (min-width: 768px) and (-o-min-device-pixel-ratio: 3 / 2), only screen and (min-width: 768px) and (min--moz-device-pixel-ratio: 2), only screen and (min-width: 768px) and (min-device-pixel-ratio: 2), only screen and (min-width: 768px) and (min-resolution: 144dppx) {
+  /* line 150, _sass/partials/_header.scss */
+  .site-header.fixed .logo {
+    background-image: url('../i/bg2x/logo-desktop.png?1400812984');
+    background-size: 175px 42px;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 767px) {
   /* line 150, _sass/partials/_header.scss */
   .site-header.fixed .logo {
-    margin-left: -41.75px;
+    margin-left: -25px;
   }
 }
 @media only screen and (min-width: 768px) {
@@ -3165,7 +3180,7 @@ div.tabbable div.tab-content div.tab-pane.active {
 }
 /* line 176, _sass/partials/_header.scss */
 .banner .inner {
-  background-image: url('../i/bg/banner-bottom.png?1398730562');
+  background-image: url('../i/bg/banner-bottom.png?1399074396');
   background-repeat: repeat-x;
   background-position: 0 100%;
   /*background: image-url("bg/banner-bottom.png") 0 100% repeat-x;*/
@@ -3204,14 +3219,14 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media only screen and (max-width: 767px) {
   /* line 210, _sass/partials/_header.scss */
   .banner .inner {
-    background-image: url('../i/bg/header-mobile.png?1398702403');
+    background-image: url('../i/bg/header-mobile.png?1399074396');
     background-repeat: repeat-x;
   }
 }
 @media only screen and (max-width: 767px) and (-webkit-min-device-pixel-ratio: 2), only screen and (max-width: 767px) and (-o-min-device-pixel-ratio: 3 / 2), only screen and (max-width: 767px) and (min--moz-device-pixel-ratio: 2), only screen and (max-width: 767px) and (min-device-pixel-ratio: 2), only screen and (max-width: 767px) and (min-resolution: 144dppx) {
   /* line 210, _sass/partials/_header.scss */
   .banner .inner {
-    background-image: url('../i/bg2x/header-mobile.png?1398702403');
+    background-image: url('../i/bg2x/header-mobile.png?1399069994');
     background-size: 11.5px 11.5px;
   }
 }
@@ -3229,14 +3244,14 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
   /* line 223, _sass/partials/_header.scss */
   .banner .inner {
-    background-image: url('../i/bg/header-mobile.png?1398702403');
+    background-image: url('../i/bg/header-mobile.png?1399074396');
     background-repeat: repeat-x;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 1024px) and (-webkit-min-device-pixel-ratio: 2), only screen and (min-width: 768px) and (max-width: 1024px) and (-o-min-device-pixel-ratio: 3 / 2), only screen and (min-width: 768px) and (max-width: 1024px) and (min--moz-device-pixel-ratio: 2), only screen and (min-width: 768px) and (max-width: 1024px) and (min-device-pixel-ratio: 2), only screen and (min-width: 768px) and (max-width: 1024px) and (min-resolution: 144dppx) {
   /* line 223, _sass/partials/_header.scss */
   .banner .inner {
-    background-image: url('../i/bg2x/header-mobile.png?1398702403');
+    background-image: url('../i/bg2x/header-mobile.png?1399069994');
     background-size: 11.5px 11.5px;
   }
 }
@@ -3258,7 +3273,7 @@ div.tabbable div.tab-content div.tab-pane.active {
 }
 /* line 3, _sass/partials/_footer.scss */
 .site-footer .super-footer {
-  background: #0971ce url('../i/bg/footer-top-border.png?1398702403') repeat-x top left;
+  background: #0971ce url('../i/bg/footer-top-border.png?1399069994') repeat-x top left;
   padding-top: 10px;
   color: #b4b4b4;
 }
@@ -4179,11 +4194,11 @@ aside article.promo p {
 }
 /* line 638, _sass/partials/_modules.scss */
 aside article.promo.renew {
-  background-image: url('../i/renew-promo.png?1398702403');
+  background-image: url('../i/renew-promo.png?1399074396');
 }
 /* line 641, _sass/partials/_modules.scss */
 aside article.promo.paperless {
-  background-image: url('../i/paperless-promo.jpg?1398702403');
+  background-image: url('../i/paperless-promo.jpg?1399069994');
 }
 /* line 644, _sass/partials/_modules.scss */
 aside article.promo.paperless h1 {
@@ -4386,7 +4401,7 @@ article.photoLockup .text .lead {
 /* line 89, _sass/partials/_marketing-site.scss */
 article.photoLockup .text blockquote {
   margin: 0;
-  background: url('../i/marketing/quote-left.png?1398702403') no-repeat;
+  background: url('../i/marketing/quote-left.png?1399069994') no-repeat;
 }
 /* line 92, _sass/partials/_marketing-site.scss */
 article.photoLockup .text blockquote p:first-child {
@@ -4394,7 +4409,7 @@ article.photoLockup .text blockquote p:first-child {
 }
 /* line 95, _sass/partials/_marketing-site.scss */
 article.photoLockup .text blockquote p:last-child {
-  background: url('../i/marketing/quote-right.png?1398702403') no-repeat 100% 100%;
+  background: url('../i/marketing/quote-right.png?1399069994') no-repeat 100% 100%;
   padding: 10px 10px 0 10px;
   font-size: 18px;
   line-height: 1.8em;
@@ -5266,7 +5281,7 @@ article.loginHorizontal button {
 @media only screen and (max-width: 767px) {
   /* line 268, _sass/partials/_marketing-site.scss */
   article.loginHorizontal {
-    margin-top: 30px;
+    margin-top: 0;
   }
   /* line 302, _sass/partials/_marketing-site.scss */
   article.loginHorizontal .wrapper, article.loginHorizontal article.state-tabs ul.tabs-nav, article.state-tabs article.loginHorizontal ul.tabs-nav {
@@ -6143,12 +6158,12 @@ article.state-tabs ul.tabs-nav li a span {
   margin: 0 auto;
   width: 82px;
   height: 84px;
-  background-image: url('../i/bg/state-tabs.png?1398702403');
+  background-image: url('../i/bg/state-tabs.png?1399074396');
 }
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 611, _sass/partials/_marketing-site.scss */
   article.state-tabs ul.tabs-nav li a span {
-    background-image: url('../i/bg2x/state-tabs.png?1398702403');
+    background-image: url('../i/bg2x/state-tabs.png?1399074396');
     background-size: 82px 84px;
   }
 }
