@@ -189,7 +189,7 @@ article.photoLockup {
 	}
 	@each $theme in $themes {
 		&.accent-#{map-get($theme, name)} {
-		 	h2, h3 {
+		 	h2, h3, em {
 				color: map-get($theme, primaryColor);
 			}
 			button, .button {
@@ -199,6 +199,11 @@ article.photoLockup {
 					color: #fff;
 				}
 			}
+		}
+	}
+	@each $theme in $themes {
+		& span.#{map-get($theme, name)}, h1.#{map-get($theme, name)}, h2.#{map-get($theme, name)}, h3.#{map-get($theme, name)}, h4.#{map-get($theme, name)} {
+			color: map-get($theme, primaryColor);
 		}
 	}
 }
@@ -263,6 +268,11 @@ article.marketingIntro {
 			color: map-get($theme, primaryColor);
 		}
 	}
+	@each $theme in $themes {
+		& span.#{map-get($theme, name)}, h1.#{map-get($theme, name)}, h2.#{map-get($theme, name)}, h3.#{map-get($theme, name)}, h4.#{map-get($theme, name)} {
+			color: map-get($theme, primaryColor);
+		}
+	}
 }
 
 article.loginHorizontal {
@@ -289,7 +299,7 @@ article.loginHorizontal {
 		padding-right: 0;
 		input, select, label {
 			vertical-align: middle; 
-		}			
+		}		
 	}
 	button {
 		background-color: #fff;
@@ -297,7 +307,7 @@ article.loginHorizontal {
 		@include text-shadow(none);
 		line-height: normal;
 		width: 85px;
-	}	
+	}
     @include breakpoint(small) {
 		margin-top: 0;
 		.wrapper {
@@ -360,7 +370,7 @@ article.loginHorizontal {
 		button {
 			width: 90px;
 		}
-	}	
+	}
 }
 
 article.gridPromos {
@@ -474,6 +484,9 @@ article.director-list {
 	}
 	ul.director {
 		list-style-type: none;
+		@include breakpoint(small) {
+			padding: 0;
+		}
 		li {
 			width: 25%;
 			float: left;
@@ -580,7 +593,7 @@ article.full-html {
 	}
 	@each $theme in $themes {
 		&.accent-#{map-get($theme, name)} {
-		 	h1, h2, h3 {
+		 	h1, h2, h3, em {
 				color: map-get($theme, primaryColor);
 			}
 			button, .button {
@@ -778,6 +791,9 @@ article.press {
 		text-align: center;
 		p.paragraph {
 			font-size: 18px;
+			.blue {
+				color: #1773cb;
+			}
 		}
 	}
 	.post {
@@ -941,7 +957,7 @@ article.contact {
 	}
 	div.associate-support {
 		background-color: #efefef;
-		border-bottom: 3px solid #0073c7;
+		border-top: 3px solid #0073c7;
 		h2 {
 			text-align: left;
 			color: #ac1f2d;
@@ -1696,9 +1712,9 @@ article.why-energy {
 
 article.commercial-quote {
 	.photo {
-		img {
-			float: right;
-		}
+		background-image: url(../i/marketing/ignite_commercial-form.jpg);
+		background-repeat: no-repeat;
+		background-position: right;
 	}
 	.text {
 		border-left: 3px solid #ffa409;
@@ -1786,7 +1802,6 @@ article.free-energy {
 	margin-bottom: 0;
 	img {
 		margin: auto;
-		display: block;
 		float: left; 
 	}
 	h3 {
@@ -1794,22 +1809,22 @@ article.free-energy {
 		margin-bottom: 30px;
 	}
 	p {
-			font-size: 21px;
-			line-height: 1.3;
+		font-size: 21px;
+		line-height: 1.3;
+		clear: both;
 	}
 	.how-it-works {
 		img {
-			margin: 0px 30px 0px 0px;
+			margin: 0px 25px 15px 0px;
 		}
 		h1 {
 			line-height: 1;
+			em {
+				color: #1773cb;
+			}
 		}
 		p {
-			line-height: 1;
-			@include breakpoint(small) {
-				display: block;
-				float: left;
-			}
+			line-height: 1.1;
 			em {
 				color: #1773cb;
 				text-transform: none;
@@ -1989,6 +2004,10 @@ article.energy-certificates {
 					background-color: #6b6b6b;
 				}
 			}
+			@include breakpoint(small) {
+				width: auto;
+				margin-right: 0;
+			}
 		}
 	}
 }
@@ -2021,6 +2040,7 @@ article.independent-associate-chart {
 }
 
 article.residual-income {
+	margin-top: 20px;
 	h3 {
 		float: left;
 		margin-right: 10px;
@@ -2028,15 +2048,9 @@ article.residual-income {
 	.footnotes {
 		font-size: 10px;
 	}
-	button {
-		background-color: #a9222d;
+	a.button {
 		float: right;
-		a {
-			color: #fff;
-		}
-		&:hover {
-			background-color: #6b6b6b;
-		}
+		margin-right: 30px;
 	}
 }
 
@@ -2123,7 +2137,7 @@ article.earn-free-energy {
 		}
 	}
 }
-
+ 
 article.manage-my-account {
 	.left-column {
 		width: 35%;
@@ -2158,6 +2172,7 @@ article.manage-my-account {
 		}
 		.input-fields {
 			float: left;
+			margin-right: 20px;
 			div {
 				margin-top: 10px;
 			}
@@ -2166,7 +2181,7 @@ article.manage-my-account {
 			}
 		}
 		.login {
-			margin: 10px 0 0 20px;
+			margin: 10px 0 0 0;
 			float: left;
 			button {
 				background-color: #76BD1D;
@@ -2222,6 +2237,7 @@ article.manage-free-energy {
 				color: #fff;
 				@include breakpoint(small) {
 					width: 75%;
+					margin-bottom: 50px;
 				}
 			}
 		}
