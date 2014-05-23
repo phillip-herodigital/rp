@@ -7791,22 +7791,22 @@ article.energy-certificates {
   border-bottom: 3px solid #862134;
 }
 /* line 1931, _sass/partials/_marketing-site.scss */
-article.energy-certificates .wrapper div, article.energy-certificates article.state-tabs ul.tabs-nav div, article.state-tabs article.energy-certificates ul.tabs-nav div {
+article.energy-certificates .wrapper .text, article.energy-certificates article.state-tabs ul.tabs-nav .text, article.state-tabs article.energy-certificates ul.tabs-nav .text {
   width: 335px;
   float: right;
   margin: 50px 50px 0 0;
 }
 /* line 1935, _sass/partials/_marketing-site.scss */
-article.energy-certificates .wrapper div button, article.energy-certificates article.state-tabs ul.tabs-nav div button, article.state-tabs article.energy-certificates ul.tabs-nav div button {
+article.energy-certificates .wrapper .text button, article.energy-certificates article.state-tabs ul.tabs-nav .text button, article.state-tabs article.energy-certificates ul.tabs-nav .text button {
   background-color: #2c3e50;
   box-shadow: 0 2px #7eb24c;
 }
 /* line 1938, _sass/partials/_marketing-site.scss */
-article.energy-certificates .wrapper div button a, article.energy-certificates article.state-tabs ul.tabs-nav div button a, article.state-tabs article.energy-certificates ul.tabs-nav div button a {
+article.energy-certificates .wrapper .text button a, article.energy-certificates article.state-tabs ul.tabs-nav .text button a, article.state-tabs article.energy-certificates ul.tabs-nav .text button a {
   color: #fff;
 }
 /* line 1941, _sass/partials/_marketing-site.scss */
-article.energy-certificates .wrapper div button:hover, article.energy-certificates article.state-tabs ul.tabs-nav div button:hover, article.state-tabs article.energy-certificates ul.tabs-nav div button:hover {
+article.energy-certificates .wrapper .text button:hover, article.energy-certificates article.state-tabs ul.tabs-nav .text button:hover, article.state-tabs article.energy-certificates ul.tabs-nav .text button:hover {
   background-color: #6b6b6b;
 }
 
