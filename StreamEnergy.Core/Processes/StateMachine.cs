@@ -28,8 +28,8 @@ namespace StreamEnergy.Processes
             Context = context;
             context.Sanitize();
 
-            RestoreStateFrom(state, ref internalContext, ref state);
-            InternalContext = internalContext;
+            InternalContext = internalContext ?? container.Resolve<TInternalContext>();
+            RestoreStateFrom(state, ref state);
             State = state;
         }
 
@@ -57,6 +57,7 @@ namespace StreamEnergy.Processes
 
                 lastValidations = null;
                 Context.Sanitize();
+                state.Sanitize(Context, InternalContext);
             }
         }
 
@@ -74,9 +75,9 @@ namespace StreamEnergy.Processes
 
         public IEnumerable<ResolverOverride> ResolverOverrides { get; set; }
 
-        public bool RestoreStateFrom(Type state, ref TInternalContext internalContext, ref Type currentState)
+        public bool RestoreStateFrom(Type state, ref Type currentState)
         {
-            return BuildState(state).RestoreInternalState(this, ref internalContext, ref currentState);
+            return BuildState(state).RestoreInternalState(this, ref currentState);
         }
 
         protected IState<TContext, TInternalContext> GetState()
@@ -96,6 +97,7 @@ namespace StreamEnergy.Processes
 
         public IEnumerable<ValidationResult> ValidateForState(IState<TContext, TInternalContext> state)
         {
+            state.Sanitize(Context, InternalContext);
             var validations = new HashSet<ValidationResult>(validationService.PartialValidate(Context, state.PreconditionValidations().ToArray()));
 
             return validations.Concat(state.AdditionalValidations(Context, InternalContext)).Where(v => !state.IgnoreValidation(v, Context, InternalContext)).ToArray();
