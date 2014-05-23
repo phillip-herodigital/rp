@@ -656,6 +656,7 @@
     <Content Include="frontend\assets\i\marketing\icons-services-free.png" />
     <Content Include="frontend\assets\i\marketing\identity-protection.png" />
     <Content Include="frontend\assets\i\marketing\ignite_clean-energy.jpg" />
+    <Content Include="frontend\assets\i\marketing\ignite_commercial-form.jpg" />
     <Content Include="frontend\assets\i\marketing\ignite_energy-and-more.jpg" />
     <Content Include="frontend\assets\i\marketing\ignite_from-keeping-your.jpg" />
     <Content Include="frontend\assets\i\marketing\ignite_how-does-stream.jpg" />
