@@ -3,6 +3,44 @@
  * This is used to control aspects of let's get started on enrollment page.
  */
 ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$http', 'enrollmentService', function ($scope, $rootScope, $http, enrollmentService) {
+    $scope.states = [
+        {
+            'class': 'texas',
+            'name': 'Texas',
+            'abbreviation': 'TX'
+        },
+        {
+            'class': 'georgia',
+            'name': 'Georgia',
+            'abbreviation': 'GA'
+        },
+        {
+            'class': 'pensylvania',
+            'name': 'Pennsylvania',
+            'abbreviation': 'PA'
+        },
+        {
+            'class': 'maryland',
+            'name': 'Maryland',
+            'abbreviation': 'MD'
+        },
+        {
+            'class': 'new-jersey',
+            'name': 'New Jersey',
+            'abbreviation': 'NJ'
+        },
+        {
+            'class': 'new-york',
+            'name': 'New York',
+            'abbreviation': 'NY'
+        },
+        {
+            'class': 'washington-dc',
+            'name': 'Washington, DC',
+            'abbreviation': 'DC'
+        }
+    ];
+
     /**
     * Get Locations
     */
