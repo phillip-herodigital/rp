@@ -8106,52 +8106,53 @@ article.manage-free-energy .right-column .center p {
   /* line 2175, _sass/partials/_marketing-site.scss */
   article.manage-free-energy .right-column .center p {
     width: 75%;
+    margin-bottom: 50px;
   }
 }
 
-/* line 2188, _sass/partials/_marketing-site.scss */
+/* line 2189, _sass/partials/_marketing-site.scss */
 article.manage-services {
   background-color: #7D9AB4;
 }
-/* line 2190, _sass/partials/_marketing-site.scss */
+/* line 2191, _sass/partials/_marketing-site.scss */
 article.manage-services .text {
   color: #fff;
   float: left;
   margin-bottom: 75px;
 }
-/* line 2194, _sass/partials/_marketing-site.scss */
+/* line 2195, _sass/partials/_marketing-site.scss */
 article.manage-services .text .inner {
   float: right;
 }
-/* line 2196, _sass/partials/_marketing-site.scss */
+/* line 2197, _sass/partials/_marketing-site.scss */
 article.manage-services .text .inner span {
   text-transform: uppercase;
 }
 @media only screen and (max-width: 1024px) {
-  /* line 2190, _sass/partials/_marketing-site.scss */
+  /* line 2191, _sass/partials/_marketing-site.scss */
   article.manage-services .text {
     width: 100%;
     float: none;
     padding: 10px;
     margin-bottom: 0;
   }
-  /* line 2205, _sass/partials/_marketing-site.scss */
+  /* line 2206, _sass/partials/_marketing-site.scss */
   article.manage-services .text .inner {
     float: none;
     max-width: 100%;
   }
 }
-/* line 2211, _sass/partials/_marketing-site.scss */
+/* line 2212, _sass/partials/_marketing-site.scss */
 article.manage-services .photo {
   background-image: url("../i/marketing/manage-services.jpg");
   background-repeat: no-repeat;
   right: 0;
 }
-/* line 2215, _sass/partials/_marketing-site.scss */
+/* line 2216, _sass/partials/_marketing-site.scss */
 article.manage-services .photo ul {
   padding-left: 5px;
 }
-/* line 2217, _sass/partials/_marketing-site.scss */
+/* line 2218, _sass/partials/_marketing-site.scss */
 article.manage-services .photo ul li {
   list-style-type: none;
   float: left;
@@ -8160,13 +8161,13 @@ article.manage-services .photo ul li {
   border-right: 1px solid #cfcece;
   padding: 30px 5px 30px 0;
 }
-/* line 2224, _sass/partials/_marketing-site.scss */
+/* line 2225, _sass/partials/_marketing-site.scss */
 article.manage-services .photo ul li:last-child {
   border-right: none;
   padding-right: 0;
   margin-right: 0;
 }
-/* line 2229, _sass/partials/_marketing-site.scss */
+/* line 2230, _sass/partials/_marketing-site.scss */
 article.manage-services .photo ul li a .box {
   background-color: #7D9AB4;
   border-radius: 10px;
@@ -8174,36 +8175,36 @@ article.manage-services .photo ul li a .box {
   height: 70px;
   width: 160px;
 }
-/* line 2235, _sass/partials/_marketing-site.scss */
+/* line 2236, _sass/partials/_marketing-site.scss */
 article.manage-services .photo ul li a .box p {
   text-transform: uppercase;
   padding: 3px;
   color: #fff;
 }
-/* line 2239, _sass/partials/_marketing-site.scss */
+/* line 2240, _sass/partials/_marketing-site.scss */
 article.manage-services .photo ul li a .box p:hover {
   color: #064985;
   text-decoration: underline;
 }
-/* line 2244, _sass/partials/_marketing-site.scss */
+/* line 2245, _sass/partials/_marketing-site.scss */
 article.manage-services .photo ul li a .box.tech-support {
   background-color: #b68889;
 }
-/* line 2247, _sass/partials/_marketing-site.scss */
+/* line 2248, _sass/partials/_marketing-site.scss */
 article.manage-services .photo ul li a .box.credit-monitoring {
   background-color: #8ea173;
 }
-/* line 2253, _sass/partials/_marketing-site.scss */
+/* line 2254, _sass/partials/_marketing-site.scss */
 article.manage-services .photo p.sign-up {
   margin-left: 5px;
 }
-/* line 2255, _sass/partials/_marketing-site.scss */
+/* line 2256, _sass/partials/_marketing-site.scss */
 article.manage-services .photo p.sign-up a:hover {
   color: #064985;
   text-decoration: underline;
 }
 @media only screen and (max-width: 1024px) {
-  /* line 2211, _sass/partials/_marketing-site.scss */
+  /* line 2212, _sass/partials/_marketing-site.scss */
   article.manage-services .photo {
     background-size: cover;
     width: 100%;
@@ -8213,67 +8214,67 @@ article.manage-services .photo p.sign-up a:hover {
   }
 }
 @media only screen and (max-width: 767px) {
-  /* line 2211, _sass/partials/_marketing-site.scss */
+  /* line 2212, _sass/partials/_marketing-site.scss */
   article.manage-services .photo {
     background-image: none;
     background-color: #fff;
   }
-  /* line 2270, _sass/partials/_marketing-site.scss */
+  /* line 2271, _sass/partials/_marketing-site.scss */
   article.manage-services .photo ul li {
     width: 100%;
     margin-top: 0;
   }
-  /* line 2273, _sass/partials/_marketing-site.scss */
+  /* line 2274, _sass/partials/_marketing-site.scss */
   article.manage-services .photo ul li a .box {
     margin: auto;
   }
 }
 
-/* line 2282, _sass/partials/_marketing-site.scss */
+/* line 2283, _sass/partials/_marketing-site.scss */
 article.marketing div.wrapper div.historical-rates {
   overflow: scroll;
 }
-/* line 2284, _sass/partials/_marketing-site.scss */
+/* line 2285, _sass/partials/_marketing-site.scss */
 article.marketing div.wrapper div.historical-rates table tr td {
   text-align: center;
 }
-/* line 2286, _sass/partials/_marketing-site.scss */
+/* line 2287, _sass/partials/_marketing-site.scss */
 article.marketing div.wrapper div.historical-rates table tr td:nth-child(even) {
   background-color: #c2ddf5;
 }
-/* line 2289, _sass/partials/_marketing-site.scss */
+/* line 2290, _sass/partials/_marketing-site.scss */
 article.marketing div.wrapper div.historical-rates table tr td:nth-child(odd), article.marketing div.wrapper div.historical-rates table tr td.odd {
   background-color: #e8f2fa;
 }
-/* line 2293, _sass/partials/_marketing-site.scss */
+/* line 2294, _sass/partials/_marketing-site.scss */
 article.marketing div.wrapper div.historical-rates table tr td.even {
   background-color: #c2ddf5;
 }
 
-/* line 2303, _sass/partials/_marketing-site.scss */
+/* line 2304, _sass/partials/_marketing-site.scss */
 article.rates table th:first-child, article.rates table td:first-child {
   text-align: left;
   background: #f9f9f9;
 }
-/* line 2309, _sass/partials/_marketing-site.scss */
+/* line 2310, _sass/partials/_marketing-site.scss */
 article.rates table thead th,
 article.rates table thead th:first-child {
   border: 1px solid #e8e8e8;
   background-color: #efefef;
   font-weight: 600;
 }
-/* line 2315, _sass/partials/_marketing-site.scss */
+/* line 2316, _sass/partials/_marketing-site.scss */
 article.rates table thead th[colspan],
 article.rates table thead th:first-child[colspan] {
   background: #999;
   color: #fff;
 }
-/* line 2322, _sass/partials/_marketing-site.scss */
+/* line 2323, _sass/partials/_marketing-site.scss */
 article.rates table tbody tr.details td:first-child {
   border: 0;
   border-left: 2px solid #0971ce;
 }
-/* line 2330, _sass/partials/_marketing-site.scss */
+/* line 2331, _sass/partials/_marketing-site.scss */
 article.rates.northeast table thead th,
 article.rates.northeast table thead th:first-child, article.rates.georgia table thead th,
 article.rates.georgia table thead th:first-child {
@@ -8282,37 +8283,37 @@ article.rates.georgia table thead th:first-child {
 }
 
 @media only screen and (max-width: 1024px) {
-  /* line 2340, _sass/partials/_marketing-site.scss */
+  /* line 2341, _sass/partials/_marketing-site.scss */
   article.opportunity-compensation-plan .button {
     margin-top: 10px;
   }
 }
 
-/* line 2347, _sass/partials/_marketing-site.scss */
+/* line 2348, _sass/partials/_marketing-site.scss */
 article.paperless .left-column {
   float: left;
   width: 40%;
   padding-right: 40px;
 }
-/* line 2351, _sass/partials/_marketing-site.scss */
+/* line 2352, _sass/partials/_marketing-site.scss */
 article.paperless .left-column .instructions {
   color: #76BD1D;
 }
 @media only screen and (max-width: 767px) {
-  /* line 2347, _sass/partials/_marketing-site.scss */
+  /* line 2348, _sass/partials/_marketing-site.scss */
   article.paperless .left-column {
     width: 100%;
     padding-right: 0px;
   }
 }
-/* line 2359, _sass/partials/_marketing-site.scss */
+/* line 2360, _sass/partials/_marketing-site.scss */
 article.paperless .right-column {
   width: 60%;
   float: right;
   padding-left: 40px;
   border-left: 1px solid #cfcfcf;
 }
-/* line 2364, _sass/partials/_marketing-site.scss */
+/* line 2365, _sass/partials/_marketing-site.scss */
 article.paperless .right-column div.clearfix, article.paperless .right-column div.layout, article.paperless .right-column form div.item, form article.paperless .right-column div.item,
 article.paperless .right-column .form div.item,
 .form article.paperless .right-column div.item, article.paperless .right-column form div.group, form article.paperless .right-column div.group,
@@ -8320,7 +8321,7 @@ article.paperless .right-column .form div.group,
 .form article.paperless .right-column div.group, article.paperless .right-column .site-header > div.wrapper, article.paperless .right-column div.buttons, article.paperless .right-column .enrollment-section div.wrapper, .enrollment-section article.paperless .right-column div.wrapper, article.paperless .right-column .cart div.cart-item, .cart article.paperless .right-column div.cart-item, article.paperless .right-column div.promo-box.horizontal {
   margin-bottom: 30px;
 }
-/* line 2366, _sass/partials/_marketing-site.scss */
+/* line 2367, _sass/partials/_marketing-site.scss */
 article.paperless .right-column div.clearfix img, article.paperless .right-column div.layout img, article.paperless .right-column form div.item img, form article.paperless .right-column div.item img,
 article.paperless .right-column .form div.item img,
 .form article.paperless .right-column div.item img, article.paperless .right-column form div.group img, form article.paperless .right-column div.group img,
@@ -8328,7 +8329,7 @@ article.paperless .right-column .form div.group img,
 .form article.paperless .right-column div.group img, article.paperless .right-column .site-header > div.wrapper img, article.paperless .right-column div.buttons img, article.paperless .right-column .enrollment-section div.wrapper img, .enrollment-section article.paperless .right-column div.wrapper img, article.paperless .right-column .cart div.cart-item img, .cart article.paperless .right-column div.cart-item img, article.paperless .right-column div.promo-box.horizontal img {
   float: left;
 }
-/* line 2369, _sass/partials/_marketing-site.scss */
+/* line 2370, _sass/partials/_marketing-site.scss */
 article.paperless .right-column div.clearfix h3, article.paperless .right-column div.layout h3, article.paperless .right-column form div.item h3, form article.paperless .right-column div.item h3,
 article.paperless .right-column .form div.item h3,
 .form article.paperless .right-column div.item h3, article.paperless .right-column form div.group h3, form article.paperless .right-column div.group h3,
@@ -8338,54 +8339,54 @@ article.paperless .right-column .form div.group h3,
   float: left;
   margin: 25px 0 0 10px;
 }
-/* line 2375, _sass/partials/_marketing-site.scss */
+/* line 2376, _sass/partials/_marketing-site.scss */
 article.paperless .right-column h4 {
   text-align: center;
   margin: 25px 0 0 10px;
   color: #76BD1D;
 }
-/* line 2380, _sass/partials/_marketing-site.scss */
+/* line 2381, _sass/partials/_marketing-site.scss */
 article.paperless .right-column .states {
   float: left;
   margin: 20px 40px 0 0;
 }
-/* line 2383, _sass/partials/_marketing-site.scss */
+/* line 2384, _sass/partials/_marketing-site.scss */
 article.paperless .right-column .states input {
   margin-bottom: 15px;
 }
-/* line 2387, _sass/partials/_marketing-site.scss */
+/* line 2388, _sass/partials/_marketing-site.scss */
 article.paperless .right-column .input-fields {
   float: left;
   width: 40%;
   margin-right: 18px;
 }
-/* line 2391, _sass/partials/_marketing-site.scss */
+/* line 2392, _sass/partials/_marketing-site.scss */
 article.paperless .right-column .input-fields div {
   margin-top: 10px;
 }
-/* line 2393, _sass/partials/_marketing-site.scss */
+/* line 2394, _sass/partials/_marketing-site.scss */
 article.paperless .right-column .input-fields div input {
   width: 100%;
 }
-/* line 2399, _sass/partials/_marketing-site.scss */
+/* line 2400, _sass/partials/_marketing-site.scss */
 article.paperless .right-column .login {
   float: left;
 }
-/* line 2401, _sass/partials/_marketing-site.scss */
+/* line 2402, _sass/partials/_marketing-site.scss */
 article.paperless .right-column .login .button {
   background-color: #76BD1D;
 }
-/* line 2403, _sass/partials/_marketing-site.scss */
+/* line 2404, _sass/partials/_marketing-site.scss */
 article.paperless .right-column .login .button:hover {
   background-color: #6b6b6b;
 }
-/* line 2408, _sass/partials/_marketing-site.scss */
+/* line 2409, _sass/partials/_marketing-site.scss */
 article.paperless .right-column .share {
   margin-top: 100px;
   text-align: center;
 }
 @media only screen and (max-width: 767px) {
-  /* line 2359, _sass/partials/_marketing-site.scss */
+  /* line 2360, _sass/partials/_marketing-site.scss */
   article.paperless .right-column {
     width: 100%;
     margin: 20px auto;
