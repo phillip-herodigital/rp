@@ -1,43 +1,62 @@
-﻿<article class="marketing photoLockup commercial-quote">
+﻿@model StreamEnergy.MyStream.Models.Marketing.CommercialQuote
+@using System.Linq.Expressions;
+@using StreamEnergy.Extensions;
+
+<article class="marketing photoLockup commercial-quote">
     <div class="photo">
         @Html.Sitecore().Field("Form Image")
     </div>
     <div class="text">
-        <div class="inner">
+        <script>
+            ngApp.controller('mainController', ['$scope', function ($scope) {
+                $scope.data = {};
+            }]);
+        </script>
+        <div class="inner" ng-controller="mainController">
             <h2>@Html.Sitecore().Field("Form Title")</h2>
             @Html.Sitecore().Field("Form Intro Text")
-            <form action="/services/enroll/commercial" method="post">
-                <div class="item">
-                    <input type="text" id="firstName" name="firstName" required placeholder="@Html.Sitecore().Field("First Name Placeholder Text")">
+            @Html.ValidationSummary()
+            <form action="@Request.Url.AbsolutePath" method="post">
+                <div class="item" @Html.ValidationErrorClass(model => model.ContactName.First)>
+                    <input type="text" placeholder="@Html.Sitecore().Field("First Name Placeholder Text")" @Html.ValidationAttributes(m => m.ContactName.First) data-val-realtime ng-model="firstName" />
+                    @Html.ValidationMessageFor(model => model.ContactName.First)
                 </div>
-                <div class="item">
-                    <input type="text" id="lastName" name="lastName" required placeholder="@Html.Sitecore().Field("Last Name Placeholder Text")">
+                <div class="item" @Html.ValidationErrorClass(model => model.ContactName.Last)>
+                    <input type="text" placeholder="@Html.Sitecore().Field("Last Name Placeholder Text")" @Html.ValidationAttributes(m => m.ContactName.Last) data-val-realtime ng-model="lastName" />
+                    @Html.ValidationMessageFor(model => model.ContactName.Last)
                 </div>
-                <div class="item">
-                    <input type="text" id="companyName" name="companyName" required placeholder="@Html.Sitecore().Field("Company Name Placeholder Text")">
+                <div class="item" @Html.ValidationErrorClass(model => model.CompanyName)>
+                    <input type="text" placeholder="@Html.Sitecore().Field("Company Name Placeholder Text")" @Html.ValidationAttributes(m => m.CompanyName) data-val-realtime ng-model="company" />
+                    @Html.ValidationMessageFor(model => model.CompanyName)
                 </div>
-                <div class="item">
-                    <input type="text" id="phone" name="phone" required placeholder="@Html.Sitecore().Field("Phone Number Placeholder Text")">
+                <div class="item" @Html.ValidationErrorClass(model => model.ContactPhone.Number)>
+                    <input type="text" placeholder="@Html.Sitecore().Field("Phone Number Placeholder Text")" @Html.ValidationAttributes(m => m.ContactPhone.Number) data-val-realtime ng-model="phone" />
+                    @Html.ValidationMessageFor(model => model.ContactPhone.Number)
                 </div>
-                <div class="item">
-                    <input type="text" id="email" name="email" required placeholder="@Html.Sitecore().Field("Email Placeholder Text")">
+                <div class="item" @Html.ValidationErrorClass(model => model.ContactEmail.Address)>
+                    <input type="text" placeholder="@Html.Sitecore().Field("Email Placeholder Text")" @Html.ValidationAttributes(m => m.ContactEmail.Address) data-val-realtime ng-model="email" />
+                    @Html.ValidationMessageFor(model => model.ContactEmail.Address)
                 </div>
-                <div class="item">
-                    <input type="text" id="address" name="address" required placeholder="@Html.Sitecore().Field("Service Address Placeholder Text")">
+                <div class="item" @Html.ValidationErrorClass(model => model.ContactAddress.Line1)>
+                    <input type="text" placeholder="@Html.Sitecore().Field("Service Address Placeholder Text")" @Html.ValidationAttributes(m => m.ContactAddress.Line1) data-val-realtime ng-model="address" />
+                    @Html.ValidationMessageFor(model => model.ContactAddress.Line1)
                 </div>
-                <div class="item">
-                    <input type="text" id="city" name="city" required placeholder="@Html.Sitecore().Field("City Placeholder Text")">
+                <div class="item" @Html.ValidationErrorClass(model => model.ContactAddress.City)>
+                    <input type="text" placeholder="@Html.Sitecore().Field("City Placeholder Text")" @Html.ValidationAttributes(m => m.ContactAddress.City) data-val-realtime ng-model="city" />
+                    @Html.ValidationMessageFor(model => model.ContactAddress.City)
                 </div>
-                <div class="item">
-                    <select id="state" name="state" required>
+                <div class="item" @Html.ValidationErrorClass(model => model.ContactAddress.StateAbbreviation)>
+                    <select @Html.ValidationAttributes(m => m.ContactAddress.StateAbbreviation) data-val-realtime ng-model="state">
                         @Html.Sitecore().Field("State Options")
                     </select>
+                    @Html.ValidationMessageFor(model => model.ContactAddress.StateAbbreviation)
+                </div>
+                <div class="item" @Html.ValidationErrorClass(model => model.ContactAddress.PostalCode5)>
+                    <input type="text" placeholder="@Html.Sitecore().Field("Zip Code Placeholder Text")" @Html.ValidationAttributes(m => m.ContactAddress.PostalCode5) data-val-realtime ng-model="zipCode" />
+                    @Html.ValidationMessageFor(model => model.ContactAddress.PostalCode5)
                 </div>
                 <div class="item">
-                    <input type="text" id="zipCode" name="zipCode" required placeholder="@Html.Sitecore().Field("Zip Code Placeholder Text")">
-                </div>
-                <div class="item">
-                    <button type="submit">@Html.Sitecore().Field("Send Button Text")</button>
+                    <button type="submit" data-val-submit>@Html.Sitecore().Field("Send Button Text")</button>
                 </div>
             </form>
         </div>
