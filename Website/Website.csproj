@@ -511,7 +511,6 @@
     <Content Include="frontend\assets\i\icon2x\arrow-left.png" />
     <Content Include="frontend\assets\i\icon2x\arrow-right.png" />
     <Content Include="frontend\assets\i\icon2x\bbb.png" />
-    <Content Include="frontend\assets\i\icon2x\blue-rectangle.png" />
     <Content Include="frontend\assets\i\icon2x\bill.png" />
     <Content Include="frontend\assets\i\icon2x\blue-arrow-down.png" />
     <Content Include="frontend\assets\i\icon2x\blue-arrow-up.png" />
@@ -564,7 +563,6 @@
     <Content Include="frontend\assets\i\icon\arrow-left.png" />
     <Content Include="frontend\assets\i\icon\arrow-right.png" />
     <Content Include="frontend\assets\i\icon\bbb.png" />
-    <Content Include="frontend\assets\i\icon\blue-rectangle.png" />
     <Content Include="frontend\assets\i\icon\bill.png" />
     <Content Include="frontend\assets\i\icon\blue-arrow-down.png" />
     <Content Include="frontend\assets\i\icon\blue-arrow-up.png" />
@@ -614,12 +612,11 @@
     <Content Include="frontend\assets\i\icon\utility.png" />
     <Content Include="frontend\assets\i\icon\youtube.png" />
     <Content Include="frontend\assets\i\img-footer-get-free-energy.png" />
+    <Content Include="frontend\assets\i\img-footer-power-center.png" />
     <Content Include="frontend\assets\i\img-footer-renew-my-contract.png" />
     <Content Include="frontend\assets\i\loading.gif" />
-    <Content Include="frontend\assets\i\logo-horizontal.png" />
     <Content Include="frontend\assets\i\logo-peco.png" />
     <Content Include="frontend\assets\i\logo-ppl.png" />
-    <Content Include="frontend\assets\i\logo.png" />
     <Content Include="frontend\assets\i\marketing\blue-bullet.png" />
     <Content Include="frontend\assets\i\marketing\bullet-white.png" />
     <Content Include="frontend\assets\i\marketing\captain-hopes.jpg" />
@@ -670,6 +667,7 @@
     <Content Include="frontend\assets\i\marketing\newjersey.jpg" />
     <Content Include="frontend\assets\i\marketing\newyork.jpg" />
     <Content Include="frontend\assets\i\marketing\pennsylvania.jpg" />
+    <Content Include="frontend\assets\i\marketing\plan-icon.png" />
     <Content Include="frontend\assets\i\marketing\quote-left.png" />
     <Content Include="frontend\assets\i\marketing\quote-right.png" />
     <Content Include="frontend\assets\i\marketing\ragans-hope.jpg" />
@@ -859,6 +857,7 @@
     <Content Include="frontend\assets\js\libs\modernizr\feature-detects\css-remunit.js" />
     <Content Include="frontend\assets\js\libs\modernizr\feature-detects\css-resize.js" />
     <Content Include="frontend\assets\js\libs\modernizr\feature-detects\css-scrollbars.js" />
+    <Content Include="frontend\assets\js\libs\modernizr\feature-detects\css-shapes.js" />
     <Content Include="frontend\assets\js\libs\modernizr\feature-detects\css-subpixelfont.js" />
     <Content Include="frontend\assets\js\libs\modernizr\feature-detects\css-supports.js" />
     <Content Include="frontend\assets\js\libs\modernizr\feature-detects\css-userselect.js" />
@@ -1162,13 +1161,23 @@
     <Content Include="frontend\assets\js\libs\angular-animate\README.md" />
     <Content Include="frontend\assets\js\libs\jquery\dist\jquery.min.map" />
     <Content Include="frontend\assets\js\libs\jquery\src\sizzle\dist\sizzle.min.map" />
-    <None Include="Properties\PublishProfiles\Package.pubxml" />
     <Content Include="Views\Components\Header Fixed.cshtml" />
     <Content Include="Views\Pages\Enrollment\Cart.cshtml" />
     <Content Include="Views\Pages\Marketing\Blog\Latest Blog Post Horizontal.cshtml" />
     <Content Include="Views\Pages\Marketing\Paperless\Paperless Page.cshtml" />
     <Content Include="Views\Pages\Marketing\Services\Gas.cshtml" />
     <Content Include="Views\Pages\Marketing\Services\Electricity.cshtml" />
+    <Content Include="App_Config\Prefetch\Webdb.config" />
+    <None Include="Properties\PublishProfiles\Azure - Production.pubxml" />
+    <None Include="Properties\PublishProfiles\Azure - Production Sitecore.pubxml" />
+    <None Include="Properties\PublishProfiles\Azure - VM - my-stream-prod.pubxml" />
+    <Content Include="Views\Pages\Marketing\Blog\Latest Blog Post Horizontal.cshtml" />
+    <None Include="Web.Azure-Production Sitecore.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Azure-Production.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1183,6 +1192,28 @@
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Azure-Production|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <PublishDatabases>false</PublishDatabases>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Azure-Production Sitecore|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <FilesToIncludeForPublish>AllFilesInProjectFolder</FilesToIncludeForPublish>
+    <ExcludeGeneratedDebugSymbol>false</ExcludeGeneratedDebugSymbol>
+    <PublishDatabases>false</PublishDatabases>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\StreamEnergy.Core\StreamEnergy.Core.csproj">

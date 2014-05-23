@@ -271,16 +271,15 @@ article.loginHorizontal {
 	border-top: 4px solid #1697ff;
 	background-color: #1773cb;
 	color: #fff;
-	span.text {
+	.text {
 		float: left;
 		margin: 0 20px 0 0;
 		padding: 5px 20px 5px 0;
 		border-right: 1px solid #409cee;
-		color: #fff;
 		font-size: 18px;
 	}
 	ul.radio-list {
-		line-height: 2em;
+		line-height: 2;
 		li {
 			display: inline-block;
 			margin-right: 5px;
@@ -290,13 +289,15 @@ article.loginHorizontal {
 		padding-right: 0;
 		input, select, label {
 			vertical-align: middle; 
-		}		
+		}			
 	}
 	button {
 		background-color: #fff;
 		color: #1773cb;
 		@include text-shadow(none);
-	}
+		line-height: normal;
+		width: 85px;
+	}	
     @include breakpoint(small) {
 		margin-top: 0;
 		.wrapper {
@@ -305,6 +306,10 @@ article.loginHorizontal {
 		}
 	}
 	@include breakpoint(medium) {
+		.text {
+			margin-right: 15px;
+			padding-right: 15px;
+		}
 		.group .item {
 			padding-right: 11px;
 		}
@@ -330,25 +335,32 @@ article.loginHorizontal {
 }
 
 .ie8 article.loginHorizontal {
-	padding-top: 8px;
-	.item {
-		display: inline-block;
-		input[type=text], input[type=password] {
-			margin: 0 8px;
-			width: 200px;
-			height:30px;
+	.item.button-item {
+		padding-right: 0;
+		margin-bottom: 0;		
+	}
+	.group { 
+		margin-bottom: 0;
+	}
+	button {
+		width: 110px;
+	}
+	input, select, label {
+		vertical-align: baseline;
+	}
+	@include breakpoint(medium) {
+		.item {
+			display: inline-block;
+			margin-bottom: 0;
+		}
+		.text {
+			margin-right: 13px;
+			padding-right: 13px;
 		}
 		button {
-			width: 130px;
-			height:30px;
+			width: 90px;
 		}
-	}
-	.group, .item {
-		margin-bottom: 0;
-		input, select, label {
-			vertical-align: baseline;			
-		}
-	}
+	}	
 }
 
 article.gridPromos {
