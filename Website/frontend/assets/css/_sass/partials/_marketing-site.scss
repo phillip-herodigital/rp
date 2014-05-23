@@ -189,7 +189,7 @@ article.photoLockup {
 	}
 	@each $theme in $themes {
 		&.accent-#{map-get($theme, name)} {
-		 	h2, h3 {
+		 	h2, h3, em {
 				color: map-get($theme, primaryColor);
 			}
 			button, .button {
@@ -199,6 +199,11 @@ article.photoLockup {
 					color: #fff;
 				}
 			}
+		}
+	}
+	@each $theme in $themes {
+		& span.#{map-get($theme, name)}, h1.#{map-get($theme, name)}, h2.#{map-get($theme, name)}, h3.#{map-get($theme, name)}, h4.#{map-get($theme, name)} {
+			color: map-get($theme, primaryColor);
 		}
 	}
 }
@@ -263,6 +268,11 @@ article.marketingIntro {
 			color: map-get($theme, primaryColor);
 		}
 	}
+	@each $theme in $themes {
+		& span.#{map-get($theme, name)}, h1.#{map-get($theme, name)}, h2.#{map-get($theme, name)}, h3.#{map-get($theme, name)}, h4.#{map-get($theme, name)} {
+			color: map-get($theme, primaryColor);
+		}
+	}
 }
 
 article.loginHorizontal {
@@ -289,7 +299,7 @@ article.loginHorizontal {
 		padding-right: 0;
 		input, select, label {
 			vertical-align: middle; 
-		}			
+		}		
 	}
 	button {
 		background-color: #fff;
@@ -297,7 +307,7 @@ article.loginHorizontal {
 		@include text-shadow(none);
 		line-height: normal;
 		width: 85px;
-	}	
+	}
     @include breakpoint(small) {
 		margin-top: 0;
 		.wrapper {
@@ -360,7 +370,7 @@ article.loginHorizontal {
 		button {
 			width: 90px;
 		}
-	}	
+	}
 }
 
 article.gridPromos {
@@ -474,6 +484,9 @@ article.director-list {
 	}
 	ul.director {
 		list-style-type: none;
+		@include breakpoint(small) {
+			padding: 0;
+		}
 		li {
 			width: 25%;
 			float: left;
@@ -580,7 +593,7 @@ article.full-html {
 	}
 	@each $theme in $themes {
 		&.accent-#{map-get($theme, name)} {
-		 	h1, h2, h3 {
+		 	h1, h2, h3, em {
 				color: map-get($theme, primaryColor);
 			}
 			button, .button {
@@ -778,6 +791,9 @@ article.press {
 		text-align: center;
 		p.paragraph {
 			font-size: 18px;
+			.blue {
+				color: #1773cb;
+			}
 		}
 	}
 	.post {
@@ -1681,9 +1697,9 @@ article.why-energy {
 
 article.commercial-quote {
 	.photo {
-		img {
-			float: right;
-		}
+		background-image: url(../i/marketing/ignite_commercial-form.jpg);
+		background-repeat: no-repeat;
+		background-position: right;
 	}
 	.text {
 		border-left: 3px solid #ffa409;
@@ -1770,9 +1786,15 @@ article.free-energy {
 	.how-it-works {
 		img {
 			margin: 0px 30px 0px 0px;
+			@include breakpoint(small) {
+				margin-bottom: 10px;
+			}
 		}
 		h1 {
 			line-height: 1;
+			em {
+				color: #1773cb;
+			}
 		}
 		p {
 			line-height: 1;
@@ -1958,6 +1980,10 @@ article.energy-certificates {
 				&:hover {
 					background-color: #6b6b6b;
 				}
+			}
+			@include breakpoint(small) {
+				width: auto;
+				margin-right: 0;
 			}
 		}
 	}
@@ -2192,6 +2218,7 @@ article.manage-free-energy {
 				color: #fff;
 				@include breakpoint(small) {
 					width: 75%;
+					margin-bottom: 50px;
 				}
 			}
 		}
