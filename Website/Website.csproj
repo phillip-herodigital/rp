@@ -422,6 +422,7 @@
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EnrollmentController.cs" />
+    <Compile Include="Controllers\JsonHelper\EnrollmentController.cs" />
     <Compile Include="Controllers\TempController.cs" />
     <Compile Include="Controllers\MarketingController.cs" />
     <Compile Include="layouts\HTML Layout.aspx.cs">
@@ -446,6 +447,7 @@
     <Compile Include="Models\Enrollment\SelectedOffers.cs" />
     <Compile Include="Models\Enrollment\ServiceInformation.cs" />
     <Compile Include="Models\Enrollment\VerifyIdentity.cs" />
+    <Compile Include="Models\Marketing\CommercialQuote.cs" />
     <Compile Include="Models\Marketing\Contact.cs" />
     <Compile Include="Models\TranslatedValidationResult.cs" />
     <Compile Include="Pipelines\InitializeWebApi.cs" />
@@ -653,6 +655,7 @@
     <Content Include="frontend\assets\i\marketing\icons-services-free.png" />
     <Content Include="frontend\assets\i\marketing\identity-protection.png" />
     <Content Include="frontend\assets\i\marketing\ignite_clean-energy.jpg" />
+    <Content Include="frontend\assets\i\marketing\ignite_commercial-form.jpg" />
     <Content Include="frontend\assets\i\marketing\ignite_energy-and-more.jpg" />
     <Content Include="frontend\assets\i\marketing\ignite_from-keeping-your.jpg" />
     <Content Include="frontend\assets\i\marketing\ignite_how-does-stream.jpg" />
@@ -1172,6 +1175,9 @@
     <None Include="Properties\PublishProfiles\Azure - Production Sitecore.pubxml" />
     <None Include="Properties\PublishProfiles\Azure - VM - my-stream-prod.pubxml" />
     <Content Include="Views\Pages\Marketing\Blog\Latest Blog Post Horizontal.cshtml" />
+    <Content Include="Views\Pages\Marketing\Services\Enroll.cshtml" />
+    <Content Include="Views\Pages\Marketing\Services\Renew.cshtml" />
+    <Content Include="Views\Pages\Frontend\Elements.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1187,6 +1193,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\" />
+    <Folder Include="Views\CommercialQuote\" />
     <Folder Include="Views\Shared\" />
   </ItemGroup>
   <PropertyGroup>

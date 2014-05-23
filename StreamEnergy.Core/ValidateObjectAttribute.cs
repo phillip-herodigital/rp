@@ -17,9 +17,7 @@ namespace StreamEnergy
             if (value != null)
             {
                 var results = new HashSet<ValidationResult>();
-                var service = ((IValidationService)validationContext.GetService(typeof(IValidationService)));
-                if (service == null)
-                    service = Container.Build<IValidationService>(); // TODO - Matt DeKrey, make sure the ValidationService is available from the context
+                var service = GetValidationService(validationContext);
                 var context = service.CreateValidationContext(value);
 
                 Validator.TryValidateObject(value, context, results, true);
@@ -34,6 +32,14 @@ namespace StreamEnergy
             }
 
             return ValidationResult.Success;
+        }
+
+        private static IValidationService GetValidationService(ValidationContext validationContext)
+        {
+            var service = ((IValidationService)validationContext.GetService(typeof(IValidationService)));
+            if (service == null)
+                service = Container.Build<IValidationService>();
+            return service;
         }
 
     }

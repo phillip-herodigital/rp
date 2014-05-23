@@ -12,10 +12,10 @@ namespace StreamEnergy
     {
         public TypeIndicatorJsonConverter()
         {
-            TypeIndicators = new List<TypeIndicatorLookup>();
+            TypeIndicators = new List<ITypeIndicatorLookup>();
         }
 
-        public List<TypeIndicatorLookup> TypeIndicators { get; private set; }
+        public List<ITypeIndicatorLookup> TypeIndicators { get; private set; }
 
         public override bool CanConvert(Type objectType)
         {
@@ -25,9 +25,11 @@ namespace StreamEnergy
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var target = serializer.Deserialize<Newtonsoft.Json.Linq.JObject>(reader);
-            var selected = TypeIndicators.Where(t => t.SuperType == objectType).FirstOrDefault(t => t.IsMatch(target));
+            var selected = (from t in TypeIndicators
+                            where t.SuperType == objectType
+                            select t.FindMatch(target)).FirstOrDefault();
             if (selected != null)
-                return serializer.Deserialize(target.CreateReader(), selected.Concrete);
+                return serializer.Deserialize(target.CreateReader(), selected);
             else
                 return null;
         }

@@ -7,6 +7,7 @@ namespace StreamEnergy.MyStream.Models.Enrollment
 {
     public class ConfirmOrder
     {
+        public DomainModels.Payments.IPaymentInfo PaymentInfo { get; set; }
         public bool AgreeToTerms { get; set; }
     }
 }
