@@ -1961,6 +1961,12 @@ article.energy-certificates {
 			}
 		}
 	}
+	@include breakpoint(small) {
+		.wrapper .text {
+			width: auto;
+			float: none;
+		}
+	}
 }
 
 article.ignite-associate {
@@ -2146,6 +2152,14 @@ article.manage-my-account {
 			width: 100%;
 			margin: 20px auto;
 			padding: 0;
+			.login {
+				margin-left: 0;
+			}
+		}
+	}
+	@include breakpoint(medium-large) {
+		.left-column {
+			padding-left: 20px;
 		}
 	}
 }
@@ -2154,9 +2168,6 @@ article.manage-free-energy {
 	background-image: url('../i/marketing/free-energy-pic.jpg');
 	height: 399px;
     margin-bottom: 0;
-    @include breakpoint(small) {
-		height: auto;
-	}
 	.left-column {
 		float: left;
 		width: 55%;
@@ -2165,9 +2176,6 @@ article.manage-free-energy {
 			width: 70%;
 			color: #fff;
 			margin-top: 60px;
-			@include breakpoint(small) {
-				width: 80%;
-			}
 		}
 	}
 	.right-column {
@@ -2175,25 +2183,42 @@ article.manage-free-energy {
 		background-color: #003366;
 		width: 45%;
 		height: 399px;
-		@include breakpoint(small) {
-			height: auto;
-		}
+		padding: 20px;
 		.center {
 			text-align: center;
-			.button {
-				box-shadow: 0 2px #3e8bcb;
-				background-color: #ffa409;
-				margin: 150px 0 20px 0;
-			}
+		}
+		.button {
+			box-shadow: 0 2px #3e8bcb;
+			background-color: #ffa409;
+			margin: 120px 0 20px 0;
+		}
+		p {
+			width: 50%;
+			margin: 0 auto;
+			color: #fff;
+		}
+	}
+	@include breakpoint(small) {
+		height: auto;
+		.left-column {
+			float: none;
+			width: auto;
 			p {
-				width: 50%;
-				margin-left: auto;
-				margin-right: auto;
-				color: #fff;
-				@include breakpoint(small) {
-					width: 75%;
-				}
+				width: auto;
+			}			
+		}
+		.right-column {
+			height: auto;
+			float: none;
+			width: auto;
+			.button {
+				margin-top: 0;
 			}
+		}
+	}
+	@include breakpoint(medium-large) {
+		.left-column {
+			padding-left: 20px;
 		}
 	}
 }
@@ -2210,23 +2235,28 @@ article.manage-services {
 				text-transform: uppercase;
 			}
 		}
-		@include breakpoint(small-medium) {
+		@include breakpoint(small) {
 			width: 100%;
 			float: none;
-			padding: 10px;
+			padding: 0;
 			margin-bottom: 0;
 			.inner {
+				padding: 0;
 				float: none;
 				max-width: 100%;
 			}
+		}
+		@include breakpoint(medium) {
+			padding: 10px;
 		}
 	}
 	.photo {
 		background-image: url('../i/marketing/manage-services.jpg');
 		background-repeat: no-repeat;
 		right: 0;
+		padding-left: 15px;
 		ul {
-			padding-left: 5px;
+			padding-left: 0;
 			li {
 				list-style-type: none;
 				float: left;
@@ -2234,21 +2264,23 @@ article.manage-services {
 				margin: 50px 5px 0 0;
 				border-right: 1px solid #cfcece;
 				padding: 30px 5px 30px 0;
+				width: 32%;
 				&:last-child {
 					border-right: none;
 					padding-right: 0;
 					margin-right: 0;
 				}
-				a .box {
+				.box {
 					background-color: #7D9AB4;
 					border-radius: 10px;
 					box-shadow: 0 3px #DAD4CF;
-					height: 70px;
-					width: 160px;
+					padding: 12px 8px;
+					max-width: 170px;
+					display: inline-block;
 					p {
 						text-transform: uppercase;
-						padding: 3px;
 						color: #fff;
+						margin: 0;
 						&:hover {
 							color: #064985;
 							text-decoration: underline;
@@ -2260,6 +2292,10 @@ article.manage-services {
 					&.credit-monitoring {
 						background-color: #8ea173;
 					}
+				}
+				img {
+					margin: 0 auto 15px;
+					display: block;
 				}
 			}
 		}
@@ -2276,6 +2312,10 @@ article.manage-services {
 			float: none;
 			display: block;
 			position: initial;
+			ul li .box {
+				padding: 12px 20px;
+				max-width: 215px;
+			}			
 		}
 		@include breakpoint(small) {
 			background-image: none;
