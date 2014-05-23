@@ -1,23 +1,24 @@
 ﻿@{
     if (Html.Sitecore().CurrentItem.HasChildren)
     {
-        foreach (Sitecore.Data.Items.Item item in Html.Sitecore().CurrentItem.Children)
-        {   
+        <article class="marketing wrapper careers">
+            <h3>@Html.Sitecore().Field("With Openings Title")</h3>
+            @foreach (Sitecore.Data.Items.Item item in Html.Sitecore().CurrentItem.Children)
+            {
             var jobTitle = @Html.Sitecore().Field("Job Title", item);
-            var resumeEmail = @Html.Sitecore().Field("Resume Email", item);   
-            
-            <article class="marketing wrapper careers">
-                <div class="panel" slide-toggle>
-                    <p class="job-title"><a class="job-button collapsed" ng-click="togglePane('@item.Name')" href="">@jobTitle</a></p>
-                    <div class="panel-content slide-toggle" ng-show="pane == '@item.Name'">
-                        @Html.Sitecore().Field("Job Description", item)
-                        <p>@Html.Sitecore().Field("Job Info Text", item)</p>
-                        <p><a class="button blue" href="mailto:@resumeEmail?subject=@jobTitle">@resumeEmail</a></p>
-                    </div>
-                    <hr />
+            var resumeEmail = @Html.Sitecore().Field("Resume Email", item);
+
+            <div class="panel" slide-toggle>
+                <p class="job-title"><a class="job-button collapsed" ng-click="togglePane('@item.Name')" href="">@jobTitle</a></p>
+                <div class="panel-content slide-toggle" ng-show="pane == '@item.Name'">
+                    @Html.Sitecore().Field("Job Description", item)
+                    <p>@Html.Sitecore().Field("Job Info Text", item)</p>
+                    <p><a class="button blue" href="mailto:@resumeEmail?subject=@jobTitle">@resumeEmail</a></p>
                 </div>
-            </article>
-        }
+                <hr />
+            </div>
+            }
+        </article>
     }
     else
     {
