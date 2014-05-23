@@ -2132,6 +2132,9 @@ article.manage-free-energy {
 	background-image: url('../i/marketing/free-energy-pic.jpg');
 	height: 399px;
     margin-bottom: 0;
+    @include breakpoint(small) {
+		height: auto;
+	}
 	.left-column {
 		float: left;
 		width: 55%;
@@ -2150,6 +2153,9 @@ article.manage-free-energy {
 		background-color: #003366;
 		width: 45%;
 		height: 399px;
+		@include breakpoint(small) {
+			height: auto;
+		}
 		.center {
 			text-align: center;
 			.button {
