@@ -1093,6 +1093,21 @@ article.contact {
 				}
 			}
 		}
+        .alert.alert-error {
+            background: #136cc1;
+            color: #fcd22b;
+            border: 0;
+        }
+        .item.error {
+            #{$input-selectors},
+            textarea,
+            select {
+                border-color: #fcd22b;
+            }
+            span.field-validation-valid {
+                color: #fcd22b;
+            }
+        }
 	}
 	div.success-message {
 		margin: 20px 0;
@@ -1749,6 +1764,21 @@ article.commercial-quote {
 			line-height: 1.1;
 		}
 	}
+    .alert.alert-error {
+        background: #136cc1;
+        color: #fcd22b;
+        border: 0;
+    }
+    .item.error {
+        #{$input-selectors},
+        textarea,
+        select {
+            border-color: #fcd22b;
+        }
+        span.field-validation-valid {
+            color: #fcd22b;
+        }
+    }
 }
 
 article.commercial-account-banner {
