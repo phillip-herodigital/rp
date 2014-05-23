@@ -1570,6 +1570,14 @@ form .checkbox-list.inline li,
 /* line 441, _sass/partials/_forms.scss */
 .btn-group .dropdown-menu {
   display: none;
+}
+/* line 445, _sass/partials/_forms.scss */
+.btn-group.open .dropdown-menu {
+  display: block;
+}
+
+/* line 451, _sass/partials/_forms.scss */
+.dropdown-menu {
   border: 1px solid #ddd;
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
@@ -1579,26 +1587,23 @@ form .checkbox-list.inline li,
   position: absolute;
   background: #fff;
   min-width: 250px;
+  z-index: 10000;
 }
-/* line 450, _sass/partials/_forms.scss */
-.btn-group .dropdown-menu li {
+/* line 460, _sass/partials/_forms.scss */
+.dropdown-menu li {
   list-style-type: none;
   margin: 0;
   padding: 0;
 }
-/* line 454, _sass/partials/_forms.scss */
-.btn-group .dropdown-menu li a {
+/* line 464, _sass/partials/_forms.scss */
+.dropdown-menu li a {
   padding: 5px 20px;
   display: block;
 }
-/* line 457, _sass/partials/_forms.scss */
-.btn-group .dropdown-menu li a:hover {
+/* line 467, _sass/partials/_forms.scss */
+.dropdown-menu li a:hover {
   background: #0971cd;
   color: #fff;
-}
-/* line 465, _sass/partials/_forms.scss */
-.btn-group.open .dropdown-menu {
-  display: block;
 }
 
 /* line 2, _sass/partials/_ui.scss */
