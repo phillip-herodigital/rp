@@ -7483,9 +7483,11 @@ article.why-energy .banner {
   height: 300px;
 }
 
-/* line 1675, _sass/partials/_marketing-site.scss */
-article.commercial-quote .photo img {
-  float: right;
+/* line 1674, _sass/partials/_marketing-site.scss */
+article.commercial-quote .photo {
+  background-image: url(../i/marketing/ignite_commercial-form.jpg);
+  background-repeat: no-repeat;
+  background-position: right;
 }
 /* line 1679, _sass/partials/_marketing-site.scss */
 article.commercial-quote .text {

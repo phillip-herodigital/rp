@@ -1672,9 +1672,9 @@ article.why-energy {
 
 article.commercial-quote {
 	.photo {
-		img {
-			float: right;
-		}
+		background-image: url(../i/marketing/ignite_commercial-form.jpg);
+		background-repeat: no-repeat;
+		background-position: right;
 	}
 	.text {
 		border-left: 3px solid #ffa409;
