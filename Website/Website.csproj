@@ -612,6 +612,7 @@
     <Content Include="frontend\assets\i\icon\utility.png" />
     <Content Include="frontend\assets\i\icon\youtube.png" />
     <Content Include="frontend\assets\i\img-footer-get-free-energy.png" />
+    <Content Include="frontend\assets\i\img-footer-power-center.png" />
     <Content Include="frontend\assets\i\img-footer-renew-my-contract.png" />
     <Content Include="frontend\assets\i\loading.gif" />
     <Content Include="frontend\assets\i\logo-horizontal.png" />
@@ -668,6 +669,7 @@
     <Content Include="frontend\assets\i\marketing\newjersey.jpg" />
     <Content Include="frontend\assets\i\marketing\newyork.jpg" />
     <Content Include="frontend\assets\i\marketing\pennsylvania.jpg" />
+    <Content Include="frontend\assets\i\marketing\plan-icon.png" />
     <Content Include="frontend\assets\i\marketing\quote-left.png" />
     <Content Include="frontend\assets\i\marketing\quote-right.png" />
     <Content Include="frontend\assets\i\marketing\ragans-hope.jpg" />
@@ -684,6 +686,8 @@
     <Content Include="frontend\assets\i\paperless-promo.jpg" />
     <Content Include="frontend\assets\i\renew-promo.png" />
     <Content Include="frontend\assets\js\app.js" />
+    <Content Include="frontend\assets\js\config\validation-exactvalue.js" />
+    <Content Include="frontend\assets\js\config\validation.js" />
     <Content Include="frontend\assets\js\controllers\accountBalances.js" />
     <Content Include="frontend\assets\js\controllers\enrollment\cart.js" />
     <Content Include="frontend\assets\js\controllers\enrollment\accountInformation.js" />
@@ -855,6 +859,7 @@
     <Content Include="frontend\assets\js\libs\modernizr\feature-detects\css-remunit.js" />
     <Content Include="frontend\assets\js\libs\modernizr\feature-detects\css-resize.js" />
     <Content Include="frontend\assets\js\libs\modernizr\feature-detects\css-scrollbars.js" />
+    <Content Include="frontend\assets\js\libs\modernizr\feature-detects\css-shapes.js" />
     <Content Include="frontend\assets\js\libs\modernizr\feature-detects\css-subpixelfont.js" />
     <Content Include="frontend\assets\js\libs\modernizr\feature-detects\css-supports.js" />
     <Content Include="frontend\assets\js\libs\modernizr\feature-detects\css-userselect.js" />
@@ -1158,9 +1163,11 @@
     <Content Include="frontend\assets\js\libs\angular-animate\README.md" />
     <Content Include="frontend\assets\js\libs\jquery\dist\jquery.min.map" />
     <Content Include="frontend\assets\js\libs\jquery\src\sizzle\dist\sizzle.min.map" />
-    <None Include="Properties\PublishProfiles\Azure-Production Sitecore.pubxml" />
-    <None Include="Properties\PublishProfiles\Azure-Production.pubxml" />
-    <None Include="Properties\PublishProfiles\Package.pubxml" />
+    <Content Include="App_Config\Prefetch\Webdb.config" />
+    <None Include="Properties\PublishProfiles\Azure - Production.pubxml" />
+    <None Include="Properties\PublishProfiles\Azure - Production Sitecore.pubxml" />
+    <None Include="Properties\PublishProfiles\Azure - VM - my-stream-prod.pubxml" />
+    <Content Include="Views\Pages\Marketing\Blog\Latest Blog Post Horizontal.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
