@@ -701,6 +701,7 @@
     <Content Include="frontend\assets\js\controllers\main.js" />
     <Content Include="frontend\assets\js\controllers\marketing.js" />
     <Content Include="frontend\assets\js\controllers\template.js" />
+    <Content Include="frontend\assets\js\directives\dropdown-select.js" />
     <Content Include="frontend\assets\js\directives\float-labels.js" />
     <Content Include="frontend\assets\js\directives\loading-indicator.js" />
     <Content Include="frontend\assets\js\directives\main-nav.js" />
