@@ -2109,6 +2109,9 @@ article.manage-my-account {
 			div {
 				margin-top: 10px;
 			}
+			input {
+				width: auto;
+			}
 		}
 		.login {
 			margin: 10px 0 0 20px;
@@ -2149,7 +2152,7 @@ article.manage-free-energy {
 		height: 399px;
 		.center {
 			text-align: center;
-			button {
+			.button {
 				box-shadow: 0 2px #3e8bcb;
 				background-color: #ffa409;
 				margin: 150px 0 20px 0;
