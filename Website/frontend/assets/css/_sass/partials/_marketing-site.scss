@@ -1927,18 +1927,20 @@ article.energy-certificates {
 	height: 350px;
 	border-top: 3px solid #7eb24c;
 	border-bottom: 3px solid #862134;
-	div {
-		width: 335px;
-		float: right;
-		margin: 50px 50px 0 0;
-		button {
-			background-color: #2c3e50;
-			box-shadow: 0 2px #7eb24c;
-			a {
-				color: #fff;
-			}
-			&:hover {
-				background-color: #6b6b6b;
+	.wrapper {
+		.text {
+			width: 335px;
+			float: right;
+			margin: 50px 50px 0 0;
+			button {
+				background-color: #2c3e50;
+				box-shadow: 0 2px #7eb24c;
+				a {
+					color: #fff;
+				}
+				&:hover {
+					background-color: #6b6b6b;
+				}
 			}
 		}
 	}
@@ -2112,6 +2114,9 @@ article.manage-my-account {
 			div {
 				margin-top: 10px;
 			}
+			input {
+				width: auto;
+			}
 		}
 		.login {
 			margin: 10px 0 0 20px;
@@ -2132,6 +2137,9 @@ article.manage-free-energy {
 	background-image: url('../i/marketing/free-energy-pic.jpg');
 	height: 399px;
     margin-bottom: 0;
+    @include breakpoint(small) {
+		height: auto;
+	}
 	.left-column {
 		float: left;
 		width: 55%;
@@ -2150,9 +2158,12 @@ article.manage-free-energy {
 		background-color: #003366;
 		width: 45%;
 		height: 399px;
+		@include breakpoint(small) {
+			height: auto;
+		}
 		.center {
 			text-align: center;
-			button {
+			.button {
 				box-shadow: 0 2px #3e8bcb;
 				background-color: #ffa409;
 				margin: 150px 0 20px 0;
