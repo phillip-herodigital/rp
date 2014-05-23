@@ -2894,11 +2894,6 @@ div.tabbable div.tab-content div.tab-pane.active {
   display: inline-block;
   width: 175px;
   height: 42px;
-  /*@else {
-  	width: ceil(image-width($imgName) / 2);
-  	height: ceil(image-height($imgName) / 2);
-  	background-size: ceil(image-width($imgName) / 2) ceil(image-height($imgName) / 2);
-  }*/
   background-image: url('../i/bg/logo-desktop.png?1400811727');
   background-repeat: no-repeat;
   text-indent: -5000px;
@@ -3054,11 +3049,6 @@ div.tabbable div.tab-content div.tab-pane.active {
     display: inline-block;
     width: 100px;
     height: 24px;
-    /*@else {
-    	width: ceil(image-width($imgName) / 2);
-    	height: ceil(image-height($imgName) / 2);
-    	background-size: ceil(image-width($imgName) / 2) ceil(image-height($imgName) / 2);
-    }*/
     background-image: url('../i/bg/logo-mobile.png?1400811727');
     background-repeat: no-repeat;
     text-indent: -5000px;
@@ -3156,11 +3146,6 @@ div.tabbable div.tab-content div.tab-pane.active {
     display: inline-block;
     width: 175px;
     height: 42px;
-    /*@else {
-    	width: ceil(image-width($imgName) / 2);
-    	height: ceil(image-height($imgName) / 2);
-    	background-size: ceil(image-width($imgName) / 2) ceil(image-height($imgName) / 2);
-    }*/
     background-image: url('../i/bg/logo-desktop.png?1400811727');
     background-repeat: no-repeat;
     text-indent: -5000px;

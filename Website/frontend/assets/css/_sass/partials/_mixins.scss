@@ -33,25 +33,17 @@
 
 @mixin image-replace($imgName, $retinaImgName: false) {
 	display: inline-block;
-	//@if $retina == false {
 	width: image-width($imgName);
 	height: image-height($imgName);
-	//}
-	/*@else {
-		width: ceil(image-width($imgName) / 2);
-		height: ceil(image-height($imgName) / 2);
-		background-size: ceil(image-width($imgName) / 2) ceil(image-height($imgName) / 2);
-	}*/
 	background-image: image-url($imgName);
-
+	background-repeat: no-repeat;
+	text-indent: -5000px;
     @if $retinaImgName {
         @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3/2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
             background-image: image-url($retinaImgName);
 			background-size: (image-width($retinaImgName) / 2) (image-height($retinaImgName) / 2);
         }
     }
-	background-repeat: no-repeat;
-	text-indent: -5000px;
 }
 
 @mixin retina-background($imgName) {
