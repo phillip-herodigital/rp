@@ -232,12 +232,7 @@
     </div>
     <div class="request">
         <div class="request-or"></div>
-        <script>
-            ngApp.controller('mainController', ['$scope', function ($scope) {
-                $scope.data = {};
-            }]);
-        </script>
-        <div class="wrapper" ng-controller="mainController">
+        <div class="wrapper">
             <h2>@Html.Sitecore().Field("Request Form Text")</h2>
             <p>@Html.Sitecore().Field("Required Form Text")</p>
             <form action="@Request.Url.AbsolutePath" method="post">
