@@ -24,6 +24,7 @@
                 {
                     Text = Html.Sitecore().Field(tdu + " Text"),
                     CssClass = cellCssClass,
+                    ShowCent = false,
                 });
             }
         }
@@ -45,6 +46,7 @@
                 {
                     Text = Html.Sitecore().Field(row.Key + " Price", item),
                     CssClass = cellCssClass,
+                    ShowCent = true,
                 });
             }
         }
@@ -80,7 +82,7 @@
                             <tr>
                                 @foreach (var cell in row.Value)
                                 {
-                                    <td class="@cell.CssClass">@cell.Text</td>
+                                    <td class="@cell.CssClass">@cell.Text@if (cell.ShowCent){ @Html.Raw("&cent;"); }</td>
                                 }
                             </tr>
                         }
