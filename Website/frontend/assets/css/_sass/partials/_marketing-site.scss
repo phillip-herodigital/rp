@@ -391,6 +391,9 @@ article.gridPromos {
 			display: block;
 			margin: 0 auto 5px auto;
 		}
+		sup {
+			font-size: 9px;
+		}
 		@each $theme in $themes {
 			&.accent-#{map-get($theme, name)} {
 			 	h4 {
@@ -437,7 +440,7 @@ article.leaders {
 			color: #ac1f2d;
 		}
 		sup {
-			font-size: 10px;
+			font-size: 9px;
 		}
 	}
 	.director-banner {
