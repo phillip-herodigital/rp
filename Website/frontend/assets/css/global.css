@@ -2888,7 +2888,7 @@ div.tabbable div.tab-content div.tab-pane.active {
   display: inline-block;
   width: 175px;
   height: 42px;
-  background-image: url('../i/bg/logo-desktop.png?1400812984');
+  background-image: url('../i/bg/logo-desktop.png?1400813165');
   background-repeat: no-repeat;
   text-indent: -5000px;
   float: left;
@@ -2897,7 +2897,7 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 9, _sass/partials/_header.scss */
   .site-header .logo {
-    background-image: url('../i/bg2x/logo-desktop.png?1400812984');
+    background-image: url('../i/bg2x/logo-desktop.png?1400813165');
     background-size: 175px 42px;
   }
 }
@@ -3043,7 +3043,7 @@ div.tabbable div.tab-content div.tab-pane.active {
     display: inline-block;
     width: 100px;
     height: 24px;
-    background-image: url('../i/bg/logo-mobile.png?1400812984');
+    background-image: url('../i/bg/logo-mobile.png?1400813165');
     background-repeat: no-repeat;
     text-indent: -5000px;
     position: absolute;
@@ -3056,7 +3056,7 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media only screen and (max-width: 767px) and (-webkit-min-device-pixel-ratio: 2), only screen and (max-width: 767px) and (-o-min-device-pixel-ratio: 3 / 2), only screen and (max-width: 767px) and (min--moz-device-pixel-ratio: 2), only screen and (max-width: 767px) and (min-device-pixel-ratio: 2), only screen and (max-width: 767px) and (min-resolution: 144dppx) {
   /* line 90, _sass/partials/_header.scss */
   .site-header .logo {
-    background-image: url('../i/bg2x/logo-mobile.png?1400812984');
+    background-image: url('../i/bg2x/logo-mobile.png?1400813165');
     background-size: 100px 24px;
   }
 }
@@ -3140,7 +3140,7 @@ div.tabbable div.tab-content div.tab-pane.active {
     display: inline-block;
     width: 175px;
     height: 42px;
-    background-image: url('../i/bg/logo-desktop.png?1400812984');
+    background-image: url('../i/bg/logo-desktop.png?1400813165');
     background-repeat: no-repeat;
     text-indent: -5000px;
     position: absolute;
@@ -3153,7 +3153,7 @@ div.tabbable div.tab-content div.tab-pane.active {
 @media only screen and (min-width: 768px) and (-webkit-min-device-pixel-ratio: 2), only screen and (min-width: 768px) and (-o-min-device-pixel-ratio: 3 / 2), only screen and (min-width: 768px) and (min--moz-device-pixel-ratio: 2), only screen and (min-width: 768px) and (min-device-pixel-ratio: 2), only screen and (min-width: 768px) and (min-resolution: 144dppx) {
   /* line 150, _sass/partials/_header.scss */
   .site-header.fixed .logo {
-    background-image: url('../i/bg2x/logo-desktop.png?1400812984');
+    background-image: url('../i/bg2x/logo-desktop.png?1400813165');
     background-size: 175px 42px;
   }
 }
