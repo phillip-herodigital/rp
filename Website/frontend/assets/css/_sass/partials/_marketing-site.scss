@@ -57,6 +57,7 @@ article.photoLockup {
 		width: 50%;
 		height: 100%;
 		overflow: hidden;
+		background-repeat: no-repeat;
 	}
 	.text {
 		float: right;
@@ -73,6 +74,9 @@ article.photoLockup {
 			font-size: 38px;
 			line-height: 1.1;
 			text-transform: uppercase;
+			sup {
+				top: -2em;
+			}
 		}
 		h3 {
 			font-size: 16px;
@@ -98,6 +102,9 @@ article.photoLockup {
 		p.cite {
 			font-size: 14px;
 			text-transform: uppercase;
+		}
+		sup {
+			font-size: 9px;
 		}
 	}
 	&.top-right-photo {
@@ -230,6 +237,9 @@ article.marketingIntro {
 			margin: 0 20px;
 		}
 	}
+	sup {
+		font-size: 9px;
+	}
 	@each $theme in $themes {
 		&.accent-#{map-get($theme, name)} {
 		 	em {
@@ -288,7 +298,7 @@ article.loginHorizontal {
 		@include text-shadow(none);
 	}
     @include breakpoint(small) {
-		margin-top: 30px;
+		margin-top: 0;
 		.wrapper {
 			padding-top: 20px;
 			padding-bottom: 30px;
@@ -384,6 +394,16 @@ article.gridPromos {
 	}
 }
 
+article.opportunity {
+	&.feel-the-power {
+		h3 {
+			color: #6b6b6b;
+			line-height: 1.1;
+			text-transform: none;
+		}
+	}
+}
+
 article.leaders {
 	.paragraph {
 		width: 50%;
@@ -420,8 +440,11 @@ article.leaders {
 			p {
 				font-style: italic;
 			}
-			@include breakpoint(small) {
+			@include breakpoint(medium) {
 				width: 50%;
+			}
+			@include breakpoint(small) {
+				width: 100%;
 			}
 		}
 	}
@@ -451,7 +474,7 @@ article.director-list {
 				width: 33%;
 			}
 			@include breakpoint(small) {
-				width: 50%;
+				width: 100%;
 			}
 		}
 	}
@@ -550,6 +573,10 @@ article.full-html {
 			}
 			button, .button {
 				background-color: map-get($theme, primaryColor);
+				&:hover {
+					color: #fff;
+					background-color: #6b6b6b;
+				}
 			}
 		}
 	}
@@ -809,6 +836,9 @@ article.pay {
 	.pay-option {
 		border-bottom: 4px solid #f0f0f0;
 		margin: 20px 25px 20px 0;
+		h1{
+			padding-top: 12px;
+		}
 		p.call {
 			font-size: 20px;
 		}
@@ -1572,6 +1602,7 @@ article.states-renew {
 article.full-width-image {
 	height: 300px;
 	background-size: cover; 
+	background-position: center;
 }
 
 article.identity-theft {

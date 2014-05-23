@@ -7,7 +7,7 @@
 		overflow: visible;
 	}
 	.logo {
-		@include image-replace("logo-horizontal.png");
+		@include image-replace("bg/logo-desktop.png", "bg2x/logo-desktop.png");
 		float: left;
 		margin-top: 15px;
 	}
@@ -88,12 +88,12 @@
 			height: 57px;
 		}
 		.logo {
-			@include image-replace("logo.png", true);
+			@include image-replace("bg/logo-mobile.png", "bg2x/logo-mobile.png");
 			position: absolute;
 			left: 50%;
-			top: 11px;
+			top: 20px;
 			margin-top: 0;
-			margin-left: (image-width("logo.png") / 2) / 2 * -1;
+			margin-left: (image-width("bg/logo-mobile.png") / 2) / 2 * -1;
 		}
 		.utility {
 			display: none;
@@ -148,14 +148,14 @@
 				}
 			}
 			.logo {
-				@include image-replace("logo.png", true);
+				@include image-replace("bg/logo-desktop.png", "bg2x/logo-desktop.png");
 				position: absolute;
 				left: 50%;
 				top: 21px;
 				margin-top: 0;
-				margin-left: (image-width("logo.png") / 2) / 2 * -1;
+				margin-left: (image-width("bg/logo-desktop.png") / 2) / 2 * -1;
 				@include breakpoint(small) {
-					margin-left: (image-width("logo.png") / 2) / 2 * -1;
+					margin-left: (image-width("bg/logo-mobile.png") / 2) / 2 * -1;
 				}
 			}
 			.nav-toggle {
