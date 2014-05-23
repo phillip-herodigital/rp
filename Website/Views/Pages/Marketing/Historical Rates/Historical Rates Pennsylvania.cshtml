@@ -21,6 +21,7 @@
                 variablePricePlanRows[tdu].Add(new
                 {
                     Text = Html.Sitecore().Field(tdu + " Text"),
+                    ShowCent = false,
                 });
             }
         }
@@ -38,6 +39,7 @@
                 row.Value.Add(new
                 {
                     Text = Html.Sitecore().Field(row.Key + " Price", item),
+                    ShowCent = true,
                 });
             }
         }
@@ -73,7 +75,7 @@
                             <tr>
                                 @foreach (var cell in row.Value)
                                 {
-                                    <td>@cell.Text</td>
+                                    <td>@cell.Text@if (cell.ShowCent) { @Html.Raw("&cent;"); }</td>
                                 }
                             </tr>
                         }
