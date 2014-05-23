@@ -1924,18 +1924,20 @@ article.energy-certificates {
 	height: 350px;
 	border-top: 3px solid #7eb24c;
 	border-bottom: 3px solid #862134;
-	div {
-		width: 335px;
-		float: right;
-		margin: 50px 50px 0 0;
-		button {
-			background-color: #2c3e50;
-			box-shadow: 0 2px #7eb24c;
-			a {
-				color: #fff;
-			}
-			&:hover {
-				background-color: #6b6b6b;
+	.wrapper {
+		div {
+			width: 335px;
+			float: right;
+			margin: 50px 50px 0 0;
+			button {
+				background-color: #2c3e50;
+				box-shadow: 0 2px #7eb24c;
+				a {
+					color: #fff;
+				}
+				&:hover {
+					background-color: #6b6b6b;
+				}
 			}
 		}
 	}
