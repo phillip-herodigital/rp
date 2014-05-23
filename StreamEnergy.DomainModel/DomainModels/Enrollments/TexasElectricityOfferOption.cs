@@ -7,7 +7,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 {
     public class TexasElectricityOfferOption : IOfferOption
     {
-        public const string OptionTypeQualifier = "TexasElectricity";
+        public const string Qualifier = "TexasElectricity";
 
         public DateTime ConnectDate { get; set; }
 
@@ -17,7 +17,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         string IOfferOption.OptionType
         {
-            get { return TexasElectricityOfferOption.OptionTypeQualifier; }
+            get { return TexasElectricityOfferOption.Qualifier; }
         }
 
     }
