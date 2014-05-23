@@ -458,7 +458,7 @@
     <Content Include="Data\license.xml" />
     <Content Include="default.css" />
     <Content Include="default.js" />
-	<Content Include="frontend\*" />
+    <Content Include="frontend\*" />
     <Content Include="frontend\assets\**\*" />
     <Content Include="Global.asax" />
     <Content Include="layouts\HTML Layout.aspx" />
