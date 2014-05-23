@@ -941,7 +941,7 @@ article.contact {
 	}
 	div.associate-support {
 		background-color: #efefef;
-		border-bottom: 3px solid #0073c7;
+		border-top: 3px solid #0073c7;
 		h2 {
 			text-align: left;
 			color: #ac1f2d;
@@ -1986,6 +1986,7 @@ article.independent-associate-chart {
 }
 
 article.residual-income {
+	margin-top: 20px;
 	h3 {
 		float: left;
 		margin-right: 10px;
@@ -1993,15 +1994,9 @@ article.residual-income {
 	.footnotes {
 		font-size: 10px;
 	}
-	button {
-		background-color: #a9222d;
+	a.button {
 		float: right;
-		a {
-			color: #fff;
-		}
-		&:hover {
-			background-color: #6b6b6b;
-		}
+		margin-right: 30px;
 	}
 }
 
@@ -2123,6 +2118,7 @@ article.manage-my-account {
 		}
 		.input-fields {
 			float: left;
+			margin-right: 20px;
 			div {
 				margin-top: 10px;
 			}
@@ -2131,7 +2127,7 @@ article.manage-my-account {
 			}
 		}
 		.login {
-			margin: 10px 0 0 20px;
+			margin: 10px 0 0 0;
 			float: left;
 			button {
 				background-color: #76BD1D;
