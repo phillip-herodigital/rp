@@ -1790,6 +1790,7 @@ article.free-energy.picture-promo {
 		padding: 320px 0 50px 0;
 		@include breakpoint(small) {
 			margin: 0;
+			width: auto;
 		}
 		h2 {
 			color: #fff;
