@@ -1172,6 +1172,9 @@
     <None Include="Properties\PublishProfiles\Azure - Production Sitecore.pubxml" />
     <None Include="Properties\PublishProfiles\Azure - VM - my-stream-prod.pubxml" />
     <Content Include="Views\Pages\Marketing\Blog\Latest Blog Post Horizontal.cshtml" />
+    <Content Include="Views\Pages\Marketing\Services\Enroll.cshtml" />
+    <Content Include="Views\Pages\Marketing\Services\Renew.cshtml" />
+    <Content Include="Views\Pages\Frontend\Elements.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
