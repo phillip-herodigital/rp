@@ -391,6 +391,9 @@ article.gridPromos {
 			display: block;
 			margin: 0 auto 5px auto;
 		}
+		sup {
+			font-size: 9px;
+		}
 		@each $theme in $themes {
 			&.accent-#{map-get($theme, name)} {
 			 	h4 {
@@ -437,7 +440,7 @@ article.leaders {
 			color: #ac1f2d;
 		}
 		sup {
-			font-size: 10px;
+			font-size: 9px;
 		}
 	}
 	.director-banner {
@@ -861,12 +864,12 @@ article.pay {
 			font-size: 28px;
 		}
 	}
+	aside {
+		margin-top: 12px;
+	}
 	.pay-option {
 		border-bottom: 4px solid #f0f0f0;
 		margin: 20px 25px 20px 0;
-		h1{
-			padding-top: 12px;
-		}
 		p.call {
 			font-size: 20px;
 		}
@@ -888,7 +891,7 @@ article.pay {
 	.box {
 		@include border-radius(10px, 10px);
 		border: 2px solid #f0f0f0;
-		padding: 20px;
+		padding: 8px 20px;
 		margin-bottom: 20px;
 		input {
 			margin-top: 10px;
