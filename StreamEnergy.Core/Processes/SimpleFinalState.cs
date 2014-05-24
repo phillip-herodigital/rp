@@ -15,6 +15,10 @@ namespace StreamEnergy.Processes
             return Enumerable.Empty<System.Linq.Expressions.Expression<Func<TContext, object>>>();
         }
 
+        void IState<TContext, TInternalContext>.Sanitize(TContext data, TInternalContext internalData)
+        {
+        }
+
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IState<TContext, TInternalContext>.AdditionalValidations(TContext data, TInternalContext internalData)
         {
             return Enumerable.Empty<System.ComponentModel.DataAnnotations.ValidationResult>();
@@ -39,9 +43,8 @@ namespace StreamEnergy.Processes
         /// Override in a subclass to verify that all the information is available to keep the user in the final state.
         /// </summary>
         /// <param name="stateMachine">The state machine</param>
-        /// <param name="internalContext">The internal state</param>
         /// <param name="state">The state machine's state</param>
-        public virtual bool RestoreInternalState(IStateMachine<TContext, TInternalContext> stateMachine, ref TInternalContext internalContext, ref Type state)
+        public virtual bool RestoreInternalState(IStateMachine<TContext, TInternalContext> stateMachine, ref Type state)
         {
             return true;
         }

@@ -159,6 +159,7 @@
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="ISanitizable.cs" />
     <Compile Include="ISettings.cs" />
+    <Compile Include="ITypeIndicatorLookup.cs" />
     <Compile Include="IValidationService.cs" />
     <Compile Include="Json.cs" />
     <Compile Include="MockParameterBuilder.cs" />
@@ -174,6 +175,7 @@
     <Compile Include="Mvc\Sitecore\ControllerRenderer.cs" />
     <Compile Include="Mvc\Sitecore\ControllerRunner.cs" />
     <Compile Include="Mvc\Sitecore\GetControllerRenderer.cs" />
+    <Compile Include="Processes\StateBase.cs" />
     <Compile Include="RequireValueAttributeAdapter.cs" />
     <Compile Include="Processes\IState.cs" />
     <Compile Include="Processes\IStateMachine.cs" />
