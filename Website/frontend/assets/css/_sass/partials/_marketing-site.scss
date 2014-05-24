@@ -1159,8 +1159,12 @@ article.contact-state {
 			margin-bottom: 0;
 		}
 		.left-side {
-			width: 65%;
-			float: left;
+			width: 62%;
+            float: left;
+            @include breakpoint(small) {
+                width: 100%;
+                float: none;
+            }
 			.phone-email {
 				margin-bottom: 40px;
 				p {
@@ -1169,7 +1173,12 @@ article.contact-state {
 			}
 		}
 		.right-side {
+            width: 35%;
 			float: right;
+            @include breakpoint(small) {
+                width: 100%;
+                float: none;
+            }
 			.mail {
 				@include border-radius(10px, 10px);
 				background-color: #e8e8e8;
