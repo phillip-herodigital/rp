@@ -1,5 +1,5 @@
 // Main Navigation
-ngApp.directive('mainNav', [function () {
+ngApp.directive('mainNav', ['$timeout', function ($timeout) {
 	return {
 		restrict: 'A',
 		scope: true,
@@ -10,12 +10,19 @@ ngApp.directive('mainNav', [function () {
 
 			scope.subnav = defaultSelection;
 
-			scope.showSubnav = function(item) {
+			var shouldSetToDefault = true;
+			scope.showSubnav = function (item) {
+			    shouldSetToDefault = false;
 				scope.subnav = item;
 			};
 
-			scope.hideSubnav = function(item) {
-				scope.subnav = defaultSelection;
+			scope.hideSubnav = function (item) {
+			    shouldSetToDefault = true;
+			    $timeout(function () {
+			        if (shouldSetToDefault) {
+			            scope.subnav = defaultSelection;
+			        }
+			    }, 500);
 			};
 
 		}

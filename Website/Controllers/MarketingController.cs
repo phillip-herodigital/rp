@@ -71,7 +71,7 @@ namespace StreamEnergy.MyStream.Controllers
                 this.emailService.SendEmail(Message);
 
                 // Send the success message back to the page
-                var ReturnURL = new RedirectResult(Request.Url.AbsolutePath + "?success=true#success-message");
+                var ReturnURL = new RedirectResult(Request.Url.AbsolutePath + "?success=true##success-message");
                 return ReturnURL;
             }
             else
@@ -126,7 +126,7 @@ namespace StreamEnergy.MyStream.Controllers
                 this.emailService.SendEmail(Message);
 
                 // Send the success message back to the page
-                var ReturnURL = new RedirectResult(Request.Url.AbsolutePath + "?success=true#success-message");
+                var ReturnURL = new RedirectResult(Request.Url.AbsolutePath + "?success=true##success-message");
                 return ReturnURL;
             }
             else
@@ -140,6 +140,7 @@ namespace StreamEnergy.MyStream.Controllers
 
             // how do we know if we are in production?
             model.PostUrl = "https://streamvalues.com.st1.ocenture.com/buy";
+            model.HasFreeMonth = false;
 
             if (!string.IsNullOrEmpty(hash))
             {
@@ -161,14 +162,17 @@ namespace StreamEnergy.MyStream.Controllers
                     if (hashValues["RefSite"] == "PowerCenter")
                     {
                         customerAccount = accountService.RetrieveIgniteAssociateContactInfo("Ignite", "3t8sh8f3sg", hashValues["IgniteAssociate"]);
+                        model.HasFreeMonth = true;
                     }
                     else if (new string[] { "MyStreamEnroll", "MyIgniteEnroll" }.Contains(hashValues["RefSite"]))
                     {
                         customerAccount = accountService.GetCisAccountsByUtilityAccountNumber(hashValues["CamelotAccountNumber"], hashValues["Last4Ssn"], "");
+                        model.HasFreeMonth = true;
                     }
                     else if (new string[] { "MyStreamRenew", "MyIgniteRenew", "IstaNetEnroll", "NEWelcomeEmail", "KubraMyAccount" }.Contains(hashValues["RefSite"]))
                     {
                         customerAccount = accountService.GetCisAccountsByCisAccountNumber(hashValues["CISCustomerNumber"], hashValues["Last4Ssn"], "");
+                        model.HasFreeMonth = true;
                     }
                 }
                 catch (Exception)
