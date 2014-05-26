@@ -1,10 +1,10 @@
 ﻿@model StreamEnergy.MyStream.Models.Marketing.HomeLifeServices
 
-<article class="marketing homelife-services">
-    <form method="post" action="@Model.PostUrl">
+<article class="marketing homelife-services" ng-controller="HomeLifeServicesCtrl" ng-init="init(@(Model.HasFreeMonth ? "true" : "false"))">
+    <form id="formHomeLifeServices" method="post" action="@Model.PostUrl">
         <input type="hidden" name="clientId" value="@Model.ClientId" />
-        <input type="hidden" name="productCode" value="" />
-        <input type="hidden" name="campaignName" value="@Model.CampaignName" />
+        <input type="hidden" name="productCode" value="" ng-model="productCode" />
+        <input type="hidden" name="campaignName" value="@Model.CampaignName" ng-model="campaignName" />
         <input type="hidden" name="customerNumber" value="@(Model.CustomerAccount != null ? Model.CustomerAccount.CisAccountNumber : "")" />
         <input type="hidden" name="firstName" value="@(Model.CustomerAccount != null ? Model.CustomerAccount.Name.First : "")" />
         <input type="hidden" name="lastName" value="@(Model.CustomerAccount != null ? Model.CustomerAccount.Name.Last : "")" />
@@ -63,8 +63,8 @@
                 <div class="pricing">
                     <p class="price">@Html.Sitecore().Field("Platinum Price")</p>
                     <p>@Html.Sitecore().Field("Per Month Text")</p>
-                    <p class="month-free">@Html.Sitecore().Field("First Month Free Text")</p>
-                    <div><a class="button" href="#">@Html.Sitecore().Field("Enroll Now Text")</a></div>
+                    <p class="month-free" ng-hide="!freeMonth">@Html.Sitecore().Field("First Month Free Text")</p>
+                    <div><a class="button" href="javascript:void(0);" ng-click="enroll('seidcrit')">@Html.Sitecore().Field("Enroll Now Text")</a></div>
                 </div>
                 <span class="sash"><span>@Html.Sitecore().Field("Best Text")</span></span>
             </div>
@@ -73,13 +73,14 @@
     <div class="package gold">
         <div class="wrapper">
             <div class="box clearfix">
-                <h3>@Html.Sitecore().Field("Gold Title")</h3>
+                <h3 ng-hide="numProductsChecked() <= 2">@Html.Sitecore().Field("Platinum Title")</h3>
+                <h3 ng-hide="numProductsChecked() > 2">@Html.Sitecore().Field("Gold Title")</h3>
                 <ul class="services">
                     <li class="identity">
                         <h4>@Html.Sitecore().Field("Identity Protection Header")</h4>
                         @Html.Sitecore().Field("Identity Protection Image", new { height = "69" })
                         <div>
-                            <input type="checkbox" id="identity">
+                            <input type="checkbox" id="identity" ng-model="identity" />
                             <label for="identity"></label>
                         </div>
                     </li>
@@ -87,7 +88,7 @@
                         <h4>@Html.Sitecore().Field("Tech Support Header")</h4>
                         @Html.Sitecore().Field("Tech Support Image", new { height = "69" })
                         <div>
-                            <input type="checkbox" id="support">
+                            <input type="checkbox" id="support" ng-model="support" />
                             <label for="support"></label>
                         </div>
                     </li>
@@ -95,19 +96,21 @@
                         <h4>@Html.Sitecore().Field("Credit Monitoring Header")</h4>
                         @Html.Sitecore().Field("Credit Monitoring Image", new { height = "69" })
                         <div>
-                            <input type="checkbox" id="monitoring">
+                            <input type="checkbox" id="monitoring" ng-model="monitoring" />
                             <label for="monitoring"></label>
                         </div>
                     </li>
                 </ul>
                 <div class="savings">
-                    <p><span class="line-top"></span>@Html.Sitecore().Field("Gold Savings")<span class="line-bottom"></span></p>
+                    <p ng-hide="numProductsChecked() <= 2"><span class="line-top"></span>@Html.Sitecore().Field("Platinum Savings")<span class="line-bottom"></span></p>
+                    <p ng-hide="numProductsChecked() > 2"><span class="line-top"></span>@Html.Sitecore().Field("Gold Savings")<span class="line-bottom"></span></p>
                 </div>
                 <div class="pricing">
-                    <p class="price">@Html.Sitecore().Field("Gold Price")</p>
+                    <p class="price" ng-hide="numProductsChecked() <= 2">@Html.Sitecore().Field("Platinum Price")</p>
+                    <p class="price" ng-hide="numProductsChecked() > 2">@Html.Sitecore().Field("Gold Price")</p>
                     <p>@Html.Sitecore().Field("Per Month Text")</p>
-                    <p class="month-free">@Html.Sitecore().Field("First Month Free Text")</p>
-                    <div><a class="button" href="#">@Html.Sitecore().Field("Enroll Now Text")</a></div>
+                    <p class="month-free" ng-hide="!freeMonth">@Html.Sitecore().Field("First Month Free Text")</p>
+                    <div><a ng-class="{button: true, disabled: numProductsChecked() < 2}" href="javascript:void(0);" ng-click="goldenroll()">@Html.Sitecore().Field("Enroll Now Text")</a></div>
                 </div>
             </div>
         </div>
@@ -123,8 +126,8 @@
                         <div class="pricing">
                             <p class="price">@Html.Sitecore().Field("Silver Price")</p>
                             <p>@Html.Sitecore().Field("Per Month Text")</p>
-                            <p class="month-free">@Html.Sitecore().Field("First Month Free Text")</p>
-                            <div><a class="button" href="#">@Html.Sitecore().Field("Enroll Now Text")</a></div>
+                            <p class="month-free" ng-hide="!freeMonth">@Html.Sitecore().Field("First Month Free Text")</p>
+                            <div><a class="button" href="javascript:void(0);" ng-click="enroll('seid')">@Html.Sitecore().Field("Enroll Now Text")</a></div>
                         </div>
                     </li>
                     <li class="support">
@@ -133,8 +136,8 @@
                         <div class="pricing">
                             <p class="price">@Html.Sitecore().Field("Silver Price")</p>
                             <p>@Html.Sitecore().Field("Per Month Text")</p>
-                            <p class="month-free">@Html.Sitecore().Field("First Month Free Text")</p>
-                            <div><a class="button" href="#">@Html.Sitecore().Field("Enroll Now Text")</a></div>
+                            <p class="month-free" ng-hide="!freeMonth">@Html.Sitecore().Field("First Month Free Text")</p>
+                            <div><a class="button" href="javascript:void(0);" ng-click="enroll('seit')">@Html.Sitecore().Field("Enroll Now Text")</a></div>
                         </div>
                     </li>
                     <li class="monitoring">
@@ -143,8 +146,8 @@
                         <div class="pricing">
                             <p class="price">@Html.Sitecore().Field("Silver Price")</p>
                             <p>@Html.Sitecore().Field("Per Month Text")</p>
-                            <p class="month-free">@Html.Sitecore().Field("First Month Free Text")</p>
-                            <div><a class="button" href="#">@Html.Sitecore().Field("Enroll Now Text")</a></div>
+                            <p class="month-free" ng-hide="!freeMonth">@Html.Sitecore().Field("First Month Free Text")</p>
+                            <div><a class="button" href="javascript:void(0);" ng-click="enroll('secr')">@Html.Sitecore().Field("Enroll Now Text")</a></div>
                         </div>
                     </li>
                 </ul>
