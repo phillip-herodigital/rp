@@ -18,6 +18,7 @@ namespace StreamEnergy.MyStream.Controllers
     {
         private StreamEnergy.DomainModels.Accounts.IAccountService accountService;
         private IEmailService emailService;
+
         public MarketingController(IEmailService emailService, StreamEnergy.DomainModels.Accounts.IAccountService accountService)
         {
             this.emailService = emailService;
@@ -53,10 +54,14 @@ namespace StreamEnergy.MyStream.Controllers
                 var Comment = contact.Comment;
                 var Name = FirstName + ' ' + LastName;
 
+                // Get the To address(es) from Sitecore;
+                var settings = StreamEnergy.Unity.Container.Instance.Resolve<ISettings>();
+                var ToEmail = settings.GetSettingsField("Marketing Form Email Addresses", "Contact Form Email Address").Value;
+
                 // Send the email
-                MailAddress From = new MailAddress(Email, Name);
-                MailAddress To = new MailAddress("adam.powell@responsivepath.com", "Adam Powell");  // TODO - Get this email address(es) from a Sitecore field
-                MailMessage Message = new MailMessage(From, To);
+                MailMessage Message = new MailMessage();
+                Message.From = new MailAddress(Email, Name);
+                Message.To.Add(ToEmail);
                 Message.Subject = "New Contact Form Submission";
                 Message.IsBodyHtml = true;
                 Message.Body = "First Name: " + FirstName +
@@ -109,10 +114,14 @@ namespace StreamEnergy.MyStream.Controllers
                 var Email = contact.ContactEmail.Address;
                 var Name = FirstName + ' ' + LastName;
 
+                // Get the To address(es) from Sitecore;
+                var settings = StreamEnergy.Unity.Container.Instance.Resolve<ISettings>();
+                var ToEmail = settings.GetSettingsField("Marketing Form Email Addresses", "Commercial Quote Email Address").Value;
+
                 // Send the email
-                MailAddress From = new MailAddress(Email, Name);
-                MailAddress To = new MailAddress("adam.powell@responsivepath.com", "Adam Powell"); // TODO - Get this email address(es) from a Sitecore field
-                MailMessage Message = new MailMessage(From, To);
+                MailMessage Message = new MailMessage();
+                Message.From = new MailAddress(Email, Name);
+                Message.To.Add(ToEmail);
                 Message.Subject = "New Commerical Quote Request";
                 Message.IsBodyHtml = true;
                 Message.Body = "First Name: " + FirstName +
