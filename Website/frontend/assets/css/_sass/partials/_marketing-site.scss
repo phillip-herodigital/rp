@@ -1498,7 +1498,9 @@ article.homelife-services {
 				min-width: 32px;
 				height: 132px;
 				overflow: hidden;
-				-webkit-transform: rotate(-45deg);
+                transform:rotate(-45deg);
+                -ms-transform:rotate(-45deg); /* IE 9 */
+                -webkit-transform:rotate(-45deg); /* Opera, Chrome, and Safari */
 				span {
 					font-size: 24px;
 					text-transform: uppercase;
@@ -1506,7 +1508,9 @@ article.homelife-services {
 					font-weight: 600;
 					color: #fff;
 					margin: 50px 0 0  -12px;
-					-webkit-transform: rotate(90deg);
+                    transform:rotate(90deg);
+                    -ms-transform:rotate(90deg); /* IE 9 */
+                    -webkit-transform:rotate(90deg); /* Opera, Chrome, and Safari */
 				}
 			}
 			@include breakpoint(small-medium) {
