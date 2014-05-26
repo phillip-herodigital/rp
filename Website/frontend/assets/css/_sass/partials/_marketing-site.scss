@@ -1469,6 +1469,8 @@ article.homelife-services {
 			}
 			.pricing {
 				text-align: center;
+                float: left;
+                margin-left: 2em;
 				p {
 					font-size: 14px;
 					text-transform: uppercase;
@@ -1489,6 +1491,14 @@ article.homelife-services {
 						}
 					}	
 				}
+                p.month-free {
+                    text-transform: none;
+                    color: #0971CE;
+                    font-style: normal;
+                    font-size: 1.2em;
+                    border-bottom: 1px solid #d0d0d0;
+                    margin-bottom: 1em;
+                }
 			}
 			.sash {
 				position: absolute;
@@ -1626,6 +1636,9 @@ article.homelife-services {
 							.price .dollars {
 								font-size: 24px;
 							}
+                            p.month-free {
+                                border-bottom: none;
+                            }
 							button {
 								background-color: #0971ce;
 								&:hover {
