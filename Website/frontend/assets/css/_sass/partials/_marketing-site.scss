@@ -453,6 +453,9 @@ article.leaders {
 	}
 	ul.director {
 		list-style-type: none;
+		@include breakpoint(small) {
+			padding: 0;
+		}
 		li {
 			width: 25%;
 			float: left;
