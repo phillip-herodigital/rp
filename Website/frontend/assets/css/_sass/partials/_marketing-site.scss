@@ -1052,6 +1052,12 @@ article.contact {
 				float: left;
 			}
 		}
+		@include breakpoint(small) {
+			.grid .col {
+				width: 100%;
+				padding-bottom: 20px;
+			}
+		}
 	}
 	div.vip {
 		h2 {
@@ -1170,6 +1176,9 @@ article.contact {
 article.contact-state {
 	.customer-service {
 		margin: 25px 0;
+		@include breakpoint(small) {
+			width: 100%;
+		}
 		h1 {
 			color: #0971ce;
 			margin-bottom: 50px;
@@ -1221,6 +1230,9 @@ article.contact-state {
 	.quality-control {
 		margin-bottom: 35px;
 		position: relative;
+		@include breakpoint(small) {
+			width: 100%;
+		}
 		p {
 			margin: 20px 0 30px 0;
 		}
@@ -1241,6 +1253,9 @@ article.contact-state {
 	.emergency {
 		margin-bottom: 30px;
 		position: relative;
+		@include breakpoint(small) {
+			width: 100%;
+		}
 		h2 {
 			margin: 0;
 			font-size: 25px;
@@ -1301,7 +1316,7 @@ article.faq {
 				a {
 					color: #696969;
 					display: block;
-					padding: 15px;
+					padding: 15px 50px 15px 15px;
 					@include breakpoint(small) {
 						width: 93%;	
 					}
@@ -1327,6 +1342,9 @@ article.faq {
 				}
 				.answer {
 					margin-left: 55px;	
+					p {
+						padding-right: 45px;
+					}
 				}
 			}
 		}
