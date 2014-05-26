@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Sitecore.Diagnostics;
 using Sitecore.Pipelines.RenderField;
+using StreamEnergy.Extensions;
 
 namespace StreamEnergy.Pipelines.RenderField
 {
@@ -15,12 +16,7 @@ namespace StreamEnergy.Pipelines.RenderField
         {
             if (!Sitecore.Context.PageMode.IsPageEditor && args.Result != null && !string.IsNullOrEmpty(args.Result.FirstPart))
             {
-                var domains = from line in settings.GetSettingsValue("Domain Translations", "Domain Translations").Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries)
-                              let parts = line.Split(new string[] { "=>" }, StringSplitOptions.RemoveEmptyEntries)
-                              where parts.Length == 2
-                              select new KeyValuePair<string, string>(parts[0], parts[1]);
-
-                foreach (var domain in domains)
+                foreach (var domain in settings.GetDomainTranslations())
                 {
                     args.Result.FirstPart = args.Result.FirstPart.Replace(domain.Key, domain.Value);
                 }

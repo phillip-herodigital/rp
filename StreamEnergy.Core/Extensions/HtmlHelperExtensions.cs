@@ -134,14 +134,11 @@ namespace StreamEnergy.Extensions
 
         public static string TranslateDomain(this HtmlHelper htmlHelper, string domain)
         {
-            var domains = from line in settings.GetSettingsValue("Domain Translations", "Domain Translations").Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries)
-                          let parts = line.Split(new string[] { "=>" }, StringSplitOptions.RemoveEmptyEntries)
-                          where parts.Length == 2
-                          select new KeyValuePair<string, string>(parts[0], parts[1]);
+            var domains = settings.GetDomainTranslations();
 
-            if (domains.Any(d => d.Key == domain))
+            if (domains.ContainsKey(domain))
             {
-                return domains.First(d => d.Key == domain).Value;
+                return domains[domain];
             }
             return domain;
         }
