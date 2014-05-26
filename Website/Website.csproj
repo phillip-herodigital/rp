@@ -422,6 +422,7 @@
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EnrollmentController.cs" />
+    <Compile Include="Controllers\JsonHelper\EnrollmentController.cs" />
     <Compile Include="Controllers\TempController.cs" />
     <Compile Include="Controllers\MarketingController.cs" />
     <Compile Include="layouts\HTML Layout.aspx.cs">
@@ -446,6 +447,7 @@
     <Compile Include="Models\Enrollment\SelectedOffers.cs" />
     <Compile Include="Models\Enrollment\ServiceInformation.cs" />
     <Compile Include="Models\Enrollment\VerifyIdentity.cs" />
+    <Compile Include="Models\Marketing\CommercialQuote.cs" />
     <Compile Include="Models\Marketing\Contact.cs" />
     <Compile Include="Models\TranslatedValidationResult.cs" />
     <Compile Include="Pipelines\InitializeWebApi.cs" />
@@ -1026,6 +1028,8 @@
     <Content Include="frontend\services-enroll.html" />
     <Content Include="frontend\services.html" />
     <Content Include="frontend\utility-services.html" />
+    <Content Include="frontend\*" />
+    <Content Include="frontend\assets\**\*" />
     <Content Include="Global.asax" />
     <Content Include="layouts\HTML Layout.aspx" />
     <Content Include="layouts\Sample Inner Sublayout.ascx" />
@@ -1154,20 +1158,26 @@
     <Content Include="Views\Pages\Marketing\Blog\Blog Landing.cshtml" />
     <Content Include="Views\Pages\Marketing\Blog\Blog Post.cshtml" />
     <Content Include="Views\Pages\Enrollment\Cart.cshtml" />
-    <Content Include="frontend\assets\css\_sass\partials\_enrollment.scss" />
-    <Content Include="frontend\assets\json\accountBalances.json" />
-    <Content Include="frontend\assets\json\invoices.json" />
-    <Content Include="frontend\assets\js\libs\angular-animate\.bower.json" />
-    <Content Include="frontend\assets\js\libs\angular-animate\angular-animate.min.js.map" />
-    <Content Include="frontend\assets\js\libs\angular-animate\bower.json" />
-    <Content Include="frontend\assets\js\libs\angular-animate\README.md" />
-    <Content Include="frontend\assets\js\libs\jquery\dist\jquery.min.map" />
-    <Content Include="frontend\assets\js\libs\jquery\src\sizzle\dist\sizzle.min.map" />
-    <None Include="Properties\PublishProfiles\Package.pubxml" />
     <Content Include="Views\Components\Header Fixed.cshtml" />
     <Content Include="Views\Pages\Enrollment\Cart.cshtml" />
     <Content Include="Views\Pages\Marketing\Blog\Latest Blog Post Horizontal.cshtml" />
     <Content Include="Views\Pages\Marketing\Paperless\Paperless Page.cshtml" />
+    <Content Include="Views\Pages\Marketing\Services\Gas.cshtml" />
+    <Content Include="Views\Pages\Marketing\Services\Electricity.cshtml" />
+    <Content Include="App_Config\Prefetch\Webdb.config" />
+    <None Include="Properties\PublishProfiles\Azure - Production.pubxml" />
+    <None Include="Properties\PublishProfiles\Azure - Production Sitecore.pubxml" />
+    <None Include="Properties\PublishProfiles\Azure - VM - my-stream-prod.pubxml" />
+    <Content Include="Views\Pages\Marketing\Blog\Latest Blog Post Horizontal.cshtml" />
+    <Content Include="Views\Pages\Marketing\Services\Enroll.cshtml" />
+    <Content Include="Views\Pages\Marketing\Services\Renew.cshtml" />
+    <Content Include="Views\Pages\Frontend\Elements.cshtml" />
+    <None Include="Web.Azure-Production Sitecore.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Azure-Production.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1177,11 +1187,34 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\" />
+    <Folder Include="Views\CommercialQuote\" />
     <Folder Include="Views\Shared\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Azure-Production|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <PublishDatabases>false</PublishDatabases>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Azure-Production Sitecore|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <FilesToIncludeForPublish>AllFilesInProjectFolder</FilesToIncludeForPublish>
+    <ExcludeGeneratedDebugSymbol>false</ExcludeGeneratedDebugSymbol>
+    <PublishDatabases>false</PublishDatabases>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\StreamEnergy.Core\StreamEnergy.Core.csproj">
@@ -1211,7 +1244,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>0</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:63168/</IISUrl>
+          <IISUrl>http://localhost:59203/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
@@ -1233,6 +1266,10 @@
     <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
     <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
   </Target>
+  <PropertyGroup>
+    <PreBuildEvent>cd "$(ProjectDir)frontend"
+..\..\VSRuby\Ruby200-x64\bin\compass compile</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

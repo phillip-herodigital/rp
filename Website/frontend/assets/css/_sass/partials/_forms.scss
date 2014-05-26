@@ -105,8 +105,10 @@ a.button {
 		color: #fff;
 	}
 
-	&:disabled {
+	&:disabled,
+	&.disabled {
 		opacity: .5;
+		cursor: default;
 	}
 	&.social {
 		display: inline-block;
@@ -216,6 +218,21 @@ form,
 				text-transform: uppercase;
 			}
 		}
+        span.field-validation-valid {
+            display: block;
+        }
+        &.error {
+            #{$input-selectors},
+            textarea,
+            select {
+                border-color: #c00;
+            }
+            span.field-validation-valid {
+                margin-top: 5px;
+                color: #c00; // #E49593
+                font-size: 14px;
+            }
+        }
 	}
 
     div.item.fl-enabled {
