@@ -145,11 +145,10 @@ namespace StreamEnergy.MyStream.Controllers
         }
         public ActionResult HomeLifeServices(string hash, string mock)
         {
-            HomeLifeServices model = new HomeLifeServices();
-
-            // how do we know if we are in production?
-            model.PostUrl = "https://streamvalues.com.st1.ocenture.com/buy";
-            model.HasFreeMonth = false;
+            HomeLifeServices model = new HomeLifeServices()
+            {
+                HasFreeMonth = false,
+            };
 
             if (!string.IsNullOrEmpty(hash))
             {
