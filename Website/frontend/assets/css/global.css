@@ -8602,6 +8602,11 @@ article.paperless .right-column .share {
   }
 }
 
+/* line 2483, _sass/partials/_marketing-site.scss */
+article.services-divider-img {
+  background-position: 20% 0;
+}
+
 /* line 2, _sass/partials/_enrollment.scss */
 .enrollment-section .button, .enrollment-section button {
   white-space: nowrap;
