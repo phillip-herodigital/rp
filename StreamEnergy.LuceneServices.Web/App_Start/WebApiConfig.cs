@@ -9,6 +9,8 @@ namespace StreamEnergy.LuceneServices.Web.App_Start
     {
         public static void Register(HttpConfiguration config)
         {
+            GlobalConfiguration.Configuration.Formatters.Insert(0, new Mvc.JsonNetFormatter());
+
             // Web API configuration and services
 
             // Web API routes
@@ -18,6 +20,13 @@ namespace StreamEnergy.LuceneServices.Web.App_Start
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
+            );
+
+
+            config.Routes.MapHttpRoute(
+                name: "LookupApi",
+                routeTemplate: "api/address/lookup/{state}/{query}",
+                defaults: new { controller ="address", action="lookup" }
             );
         }
     }
