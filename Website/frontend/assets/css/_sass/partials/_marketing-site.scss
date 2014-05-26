@@ -89,14 +89,15 @@ article.photoLockup {
 		blockquote {
 			margin: 0;
 			background: image-url("marketing/quote-left.png") no-repeat;
-			p:first-child {
-				text-indent: 50px;
-			}
-			p:last-child {
+			> div {
 				background: image-url("marketing/quote-right.png") no-repeat 100% 100%;
 				padding: 10px 10px 0 10px;
 				font-size: 18px;
 				line-height: 1.8em;
+                text-indent: 50px;
+                p:first-child {
+                    margin-top: 0;
+			    }
 			}
 		}
 		p.cite {
