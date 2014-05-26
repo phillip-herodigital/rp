@@ -1077,6 +1077,7 @@ article.contact {
 		}
 		.grid {
 			-webkit-border-vertical-spacing: 0px;
+			margin-top: 0;
 			.col {
 				border-spacing: 0;
 				.item {
@@ -2493,4 +2494,18 @@ article.paperless {
 			border-left: none;
 		}
 	}
+}
+
+article.services-divider-img {
+    background-position: 20% 0;
+}
+
+article.opportunity-more-information.accent-red {
+    .phone {
+        @include border-radius(10px);
+        display: inline-block;
+        padding: 7px 18px;
+        background-color: #aa2130;
+        color: #fff;
+    }
 }

@@ -221,7 +221,7 @@
         <div class="request-or"></div>
         <div class="wrapper">
             <h2>@Html.Sitecore().Field("Request Form Text")</h2>
-            <p>@Html.Sitecore().Field("Required Form Text")</p>
+            <p>@Html.Sitecore().Field("Required Text")</p>
             <form action="@Request.Url.AbsolutePath" method="post">
                 @Html.ValidationSummary()
                 <div class="grid">
@@ -259,12 +259,12 @@
                                 <span class="asterisk">&#42;</span>
                                 @Html.ValidationMessageFor(model => model.ContactAddress.StateAbbreviation)
                             </div>
-                            <div class="item" @Html.ValidationErrorClass(model => model.ContactAddress.PostalCode5)>
-                                <label for="ContactAddress.PostalCode5">@Html.Sitecore().Field("Zip Code Text")</label>
-                                <input type="text" placeholder="@Html.Sitecore().Field("Zip Code Placeholder")" @Html.ValidationAttributes(m => m.ContactAddress.PostalCode5) data-val-realtime ng-model="zipCode" />
-                                <span class="asterisk">&#42;</span>
-                                @Html.ValidationMessageFor(model => model.ContactAddress.PostalCode5)
-                            </div>
+                        </div>
+                        <div class="item half-width" @Html.ValidationErrorClass(model => model.ContactAddress.PostalCode5)>
+                            <label for="ContactAddress.PostalCode5">@Html.Sitecore().Field("Zip Code Text")</label>
+                            <input type="text" placeholder="@Html.Sitecore().Field("Zip Code Placeholder")" @Html.ValidationAttributes(m => m.ContactAddress.PostalCode5) data-val-realtime ng-model="zipCode" />
+                            <span class="asterisk">&#42;</span>
+                            @Html.ValidationMessageFor(model => model.ContactAddress.PostalCode5)
                         </div>
                     </div>
                     <div class="col">
