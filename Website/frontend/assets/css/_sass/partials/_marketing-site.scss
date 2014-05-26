@@ -2102,14 +2102,14 @@ article.energy-certificates {
 	background-image: url('../i/marketing/energy-certificates.jpg');
 	background-repeat: no-repeat;
 	background-position: center;
-	height: 350px;
+	min-height: 300px;
 	border-top: 3px solid #7eb24c;
 	border-bottom: 3px solid #862134;
 	.wrapper {
 		.text {
 			width: 335px;
 			float: right;
-			margin: 50px 50px 0 0;
+			margin: 70px 50px 0 0;
 			button {
 				background-color: #2c3e50;
 				box-shadow: 0 2px #7eb24c;
@@ -2126,11 +2126,17 @@ article.energy-certificates {
 			}
 		}
 	}
+	@include breakpoint(small) {
+		.wrapper .text {
+			width: auto;
+			float: none;
+		}
+	}
 }
 
 article.ignite-associate {
 	text-align: center;
-	margin: 50px 0;
+	margin: 50px 0 10px;
 	button {
 		background-color: #a9222d;
 		a {
@@ -2305,19 +2311,25 @@ article.manage-my-account {
 		}
 		@include breakpoint(small) {
 			width: 100%;
-			margin: 20px auto;
+			margin: 20px auto 0;
 			padding: 0;
+			.login {
+				margin-left: 0;
+			}
+		}
+	}
+	@include breakpoint(medium-large) {
+		.left-column {
+			padding-left: 20px;
 		}
 	}
 }
 
 article.manage-free-energy {
 	background-image: url('../i/marketing/free-energy-pic.jpg');
+	background-color: #111;
 	height: 399px;
     margin-bottom: 0;
-    @include breakpoint(small) {
-		height: auto;
-	}
 	.left-column {
 		float: left;
 		width: 55%;
@@ -2326,9 +2338,6 @@ article.manage-free-energy {
 			width: 70%;
 			color: #fff;
 			margin-top: 60px;
-			@include breakpoint(small) {
-				width: 80%;
-			}
 		}
 	}
 	.right-column {
@@ -2336,26 +2345,44 @@ article.manage-free-energy {
 		background-color: #003366;
 		width: 45%;
 		height: 399px;
-		@include breakpoint(small) {
-			height: auto;
-		}
+		padding: 20px;
 		.center {
 			text-align: center;
-			.button {
-				box-shadow: 0 2px #3e8bcb;
-				background-color: #ffa409;
-				margin: 150px 0 20px 0;
-			}
+		}
+		.button {
+			box-shadow: 0 2px #3e8bcb;
+			background-color: #ffa409;
+			margin: 120px 0 20px 0;
+		}
+		p {
+			width: 50%;
+			margin: 0 auto;
+			color: #fff;
+		}
+	}
+	@include breakpoint(small) {
+		height: auto;
+		.left-column {
+			float: none;
+			width: auto;
 			p {
-				width: 50%;
-				margin-left: auto;
-				margin-right: auto;
-				color: #fff;
-				@include breakpoint(small) {
-					width: 75%;
-					margin-bottom: 50px;
-				}
+				width: auto;
+			}			
+		}
+		.right-column {
+			height: auto;
+			float: none;
+			width: auto;
+			margin-left: -20px;
+			margin-right: -20px;
+			.button {
+				margin-top: 0;
 			}
+		}
+	}
+	@include breakpoint(medium-large) {
+		.left-column {
+			padding-left: 20px;
 		}
 	}
 }
@@ -2365,56 +2392,46 @@ article.manage-services {
 	.text {
 		color: #fff;
 		float: left;
-		margin-bottom: 75px;
 		.inner {
 			float: right;
 			span {
 				text-transform: uppercase;
 			}
 		}
-		@include breakpoint(small-medium) {
-			width: 100%;
-			float: none;
-			padding: 10px;
-			margin-bottom: 0;
-			.inner {
-				float: none;
-				max-width: 100%;
-			}
-		}
 	}
 	.photo {
 		background-image: url('../i/marketing/manage-services.jpg');
+		background-color: #fff;
 		background-repeat: no-repeat;
+		background-size: cover;
 		right: 0;
+		padding-left: 15px;
 		ul {
 			padding-left: 0;
-			margin-left: 30px;
-			@include breakpoint(small) {
-				margin: 0 auto;
-			}
 			li {
 				list-style-type: none;
 				float: left;
 				text-align: center;
 				margin: 50px 5px 0 0;
 				border-right: 1px solid #cfcece;
-				padding: 40px 20px 20px 20px;
+				padding: 30px 5px 30px 0;
+				width: 32%;
 				&:last-child {
 					border-right: none;
 					padding-right: 0;
 					margin-right: 0;
 				}
-				a .box {
+				.box {
 					background-color: #7D9AB4;
 					border-radius: 10px;
 					box-shadow: 0 3px #DAD4CF;
-					height: 70px;
-					width: 160px;
+					padding: 12px 8px;
+					max-width: 170px;
+					display: inline-block;
 					p {
 						text-transform: uppercase;
-						padding: 3px;
 						color: #fff;
+						margin: 0;
 						&:hover {
 							color: #064985;
 							text-decoration: underline;
@@ -2427,27 +2444,33 @@ article.manage-services {
 						background-color: #8ea173;
 					}
 				}
+				img {
+					margin: 0 auto 15px;
+					display: block;
+				}
 			}
 		}
-		p.sign-up {
-			margin-left: 50px;
-			@include breakpoint(small) {
-				margin: 0 auto;
-				text-align: center;
-			}
+		.sign-up {
+			text-align: center;
 			a:hover {
 				color: #064985;
 				text-decoration: underline;
 			}
 		}
-		@include breakpoint(small-medium) {
-			background-size: cover;
+	}
+	@include breakpoint(small) {
+		.text {
 			width: 100%;
 			float: none;
-			display: block;
-			position: initial;
+			padding: 0;
+			margin-bottom: 0;
+			.inner {
+				padding: 0;
+				float: none;
+				max-width: 100%;
+			}
 		}
-		@include breakpoint(small) {
+		.photo {
 			background-image: none;
 			background-color: #fff;
 			ul li {
@@ -2459,6 +2482,39 @@ article.manage-services {
 			}
 		}
 	}
+	@include breakpoint(small-medium) {
+		.text, .text .inner {
+			float: none;
+			width: auto;
+			max-width: none;
+		}
+		.photo {
+			width: auto;
+			float: none;
+			display: block;
+			position: static;
+			padding: 0 20px;
+			margin-left: -20px;
+			margin-right: -20px;
+			ul li {
+				border-right: none;
+			}
+			ul li .box {
+				padding: 12px 20px;
+				max-width: 215px;
+			}						
+		}
+	}
+	@include breakpoint(medium) {
+		.text {
+			padding: 10px;
+		}
+	}
+	@include breakpoint(large) {
+		.text {
+			margin-bottom: 75px;
+		}
+	}	
 }
 
 article.marketing div.wrapper {
