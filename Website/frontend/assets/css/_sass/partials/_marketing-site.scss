@@ -1925,6 +1925,9 @@ article.enroll {
 		}
 		.formlinks {
 			width: 48%;
+			@include breakpoint(small-medium) {
+				width: 94%;
+			}
 			.header {
 				background-color: #0971ce;
 				color: #fff;
@@ -1954,6 +1957,10 @@ article.enroll {
 		}
 		.spanish {
 			float: right;
+			@include breakpoint(small-medium) {
+				float: left;
+				margin-top: 20px;
+			}
 		}
 		.customer-forms {
 			margin-top: 80px;
