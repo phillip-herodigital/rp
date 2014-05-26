@@ -6,3 +6,8 @@
 *.esproj
 *.sublime-project
 *.sublime-workspace
+
+# Ignore Sass output files
+*.css
+icon2x-*.png
+icon-*.png
