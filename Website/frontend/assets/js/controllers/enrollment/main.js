@@ -13,7 +13,7 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', 'enroll
         var clientDataPromise = enrollmentService.getClientData();
 
         clientDataPromise.then(function (data) {
-            console.log(data);
+            $scope.serverData = data;
         }, function (data) {
             // error response
             $rootScope.$broadcast('connectionFailure');

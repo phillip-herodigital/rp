@@ -431,6 +431,19 @@
             margin: 0 auto;
         }
     }
+
+	#state-select {
+		width: auto;
+		button {
+			border: 0;
+			@include box-shadow(none);
+			color: #0971ce;
+			.caret {
+				display: none;
+			}
+		}
+	}
+
     @each $theme in $themes {
         &.accent-#{map-get($theme, name)} {
             section h1 span {

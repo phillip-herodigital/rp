@@ -1566,7 +1566,12 @@ form .checkbox-list.inline li,
   margin-right: 10px;
 }
 
-/* line 437, _sass/partials/_forms.scss */
+/* line 436, _sass/partials/_forms.scss */
+.btn-group {
+  display: inline-block;
+  width: 50%;
+}
+/* line 439, _sass/partials/_forms.scss */
 .btn-group button {
   background: #fff;
   color: #555;
@@ -1583,30 +1588,29 @@ form .checkbox-list.inline li,
   transition: border linear 0.2s, box-shadow linear 0.2s;
   text-shadow: none;
   text-transform: none;
-  display: inline-block;
-  width: 50%;
-  padding: 6px 10px;
+  padding: 6px 35px 6px 10px;
   border: 1px solid #bcbcbc;
   text-align: left;
   position: relative;
   font-weight: normal;
+  width: 100%;
 }
-/* line 452, _sass/partials/_forms.scss */
+/* line 453, _sass/partials/_forms.scss */
 .btn-group button .caret {
   position: absolute;
   right: 6px;
   top: 7px;
 }
-/* line 458, _sass/partials/_forms.scss */
+/* line 459, _sass/partials/_forms.scss */
 .btn-group .dropdown-menu {
   display: none;
 }
-/* line 462, _sass/partials/_forms.scss */
+/* line 463, _sass/partials/_forms.scss */
 .btn-group.open .dropdown-menu {
   display: block;
 }
 
-/* line 468, _sass/partials/_forms.scss */
+/* line 469, _sass/partials/_forms.scss */
 .dropdown-menu {
   border: 1px solid #ddd;
   -moz-border-radius: 10px;
@@ -1619,18 +1623,18 @@ form .checkbox-list.inline li,
   min-width: 250px;
   z-index: 10000;
 }
-/* line 477, _sass/partials/_forms.scss */
+/* line 478, _sass/partials/_forms.scss */
 .dropdown-menu li {
   list-style-type: none;
   margin: 0;
   padding: 0;
 }
-/* line 481, _sass/partials/_forms.scss */
+/* line 482, _sass/partials/_forms.scss */
 .dropdown-menu li a {
   padding: 5px 20px;
   display: block;
 }
-/* line 484, _sass/partials/_forms.scss */
+/* line 485, _sass/partials/_forms.scss */
 .dropdown-menu li a:hover {
   background: #0971cd;
   color: #fff;
@@ -9360,111 +9364,127 @@ article.opportunity-more-information.accent-red .phone {
   width: 75%;
   margin: 0 auto;
 }
-/* line 436, _sass/partials/_enrollment.scss */
+/* line 435, _sass/partials/_enrollment.scss */
+.enrollment-section #state-select {
+  width: auto;
+}
+/* line 437, _sass/partials/_enrollment.scss */
+.enrollment-section #state-select button {
+  border: 0;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  color: #0971ce;
+}
+/* line 441, _sass/partials/_enrollment.scss */
+.enrollment-section #state-select button .caret {
+  display: none;
+}
+/* line 449, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-blue section h1 span {
   color: #1773cb;
 }
-/* line 439, _sass/partials/_enrollment.scss */
+/* line 452, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-blue .banner {
   border-top: 5px solid #1773cb;
 }
-/* line 436, _sass/partials/_enrollment.scss */
+/* line 449, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-paleblue section h1 span {
   color: #7e9ab3;
 }
-/* line 439, _sass/partials/_enrollment.scss */
+/* line 452, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-paleblue .banner {
   border-top: 5px solid #7e9ab3;
 }
-/* line 436, _sass/partials/_enrollment.scss */
+/* line 449, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-darkblue section h1 span {
   color: #073464;
 }
-/* line 439, _sass/partials/_enrollment.scss */
+/* line 452, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-darkblue .banner {
   border-top: 5px solid #073464;
 }
-/* line 436, _sass/partials/_enrollment.scss */
+/* line 449, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-green section h1 span {
   color: #78bb2f;
 }
-/* line 439, _sass/partials/_enrollment.scss */
+/* line 452, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-green .banner {
   border-top: 5px solid #78bb2f;
 }
-/* line 436, _sass/partials/_enrollment.scss */
+/* line 449, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-palegreen section h1 span {
   color: #8ba072;
 }
-/* line 439, _sass/partials/_enrollment.scss */
+/* line 452, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-palegreen .banner {
   border-top: 5px solid #8ba072;
 }
-/* line 436, _sass/partials/_enrollment.scss */
+/* line 449, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-darkgreen section h1 span {
   color: #5f9c37;
 }
-/* line 439, _sass/partials/_enrollment.scss */
+/* line 452, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-darkgreen .banner {
   border-top: 5px solid #5f9c37;
 }
-/* line 436, _sass/partials/_enrollment.scss */
+/* line 449, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-orange section h1 span {
   color: #fda32b;
 }
-/* line 439, _sass/partials/_enrollment.scss */
+/* line 452, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-orange .banner {
   border-top: 5px solid #fda32b;
 }
-/* line 436, _sass/partials/_enrollment.scss */
+/* line 449, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-red section h1 span {
   color: #aa2130;
 }
-/* line 439, _sass/partials/_enrollment.scss */
+/* line 452, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-red .banner {
   border-top: 5px solid #aa2130;
 }
-/* line 436, _sass/partials/_enrollment.scss */
+/* line 449, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-palered section h1 span {
   color: #b48789;
 }
-/* line 439, _sass/partials/_enrollment.scss */
+/* line 452, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-palered .banner {
   border-top: 5px solid #b48789;
 }
-/* line 436, _sass/partials/_enrollment.scss */
+/* line 449, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-white section h1 span {
   color: white;
 }
-/* line 439, _sass/partials/_enrollment.scss */
+/* line 452, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-white .banner {
   border-top: 5px solid white;
 }
-/* line 436, _sass/partials/_enrollment.scss */
+/* line 449, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-grey section h1 span {
   color: #e8e8e8;
 }
-/* line 439, _sass/partials/_enrollment.scss */
+/* line 452, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-grey .banner {
   border-top: 5px solid #e8e8e8;
 }
-/* line 436, _sass/partials/_enrollment.scss */
+/* line 449, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-darkgrey section h1 span {
   color: #6b6b6b;
 }
-/* line 439, _sass/partials/_enrollment.scss */
+/* line 452, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-darkgrey .banner {
   border-top: 5px solid #6b6b6b;
 }
 @media only screen and (max-width: 767px) {
-  /* line 445, _sass/partials/_enrollment.scss */
+  /* line 458, _sass/partials/_enrollment.scss */
   .enrollment-section .button {
     margin: 0 auto;
     display: block;
   }
 }
 
-/* line 452, _sass/partials/_enrollment.scss */
+/* line 465, _sass/partials/_enrollment.scss */
 .cart {
   background: #fafafa;
   color: #333;
@@ -9478,7 +9498,7 @@ article.opportunity-more-information.accent-red .phone {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-/* line 460, _sass/partials/_enrollment.scss */
+/* line 473, _sass/partials/_enrollment.scss */
 .cart header {
   background: none;
   -moz-border-radius: 0;
@@ -9486,34 +9506,34 @@ article.opportunity-more-information.accent-red .phone {
   border-radius: 0;
   padding: 0;
 }
-/* line 464, _sass/partials/_enrollment.scss */
+/* line 477, _sass/partials/_enrollment.scss */
 .cart header h1 {
   margin: 15px 10px;
 }
-/* line 468, _sass/partials/_enrollment.scss */
+/* line 481, _sass/partials/_enrollment.scss */
 .cart hr {
   margin: 10px 0;
   border: 0;
   border-top: 3px solid #eee;
 }
-/* line 473, _sass/partials/_enrollment.scss */
+/* line 486, _sass/partials/_enrollment.scss */
 .cart h1 {
   font-size: 20px;
   text-transform: none;
   margin: 15px 10px;
 }
-/* line 478, _sass/partials/_enrollment.scss */
+/* line 491, _sass/partials/_enrollment.scss */
 .cart p {
   font-size: 16px;
   margin: 0 8px 15px 8px;
 }
-/* line 482, _sass/partials/_enrollment.scss */
+/* line 495, _sass/partials/_enrollment.scss */
 .cart ul.info {
   border-top: 1px solid #e2e2e3;
   padding: 0;
   margin: 0 8px 15px 5px;
 }
-/* line 486, _sass/partials/_enrollment.scss */
+/* line 499, _sass/partials/_enrollment.scss */
 .cart ul.info li {
   border-bottom: 1px solid #e2e2e3;
   list-style-type: none;
@@ -9521,32 +9541,32 @@ article.opportunity-more-information.accent-red .phone {
   font-size: 13px;
   position: relative;
 }
-/* line 492, _sass/partials/_enrollment.scss */
+/* line 505, _sass/partials/_enrollment.scss */
 .cart ul.info li i {
   position: absolute;
   top: 12px;
   left: 0;
 }
-/* line 499, _sass/partials/_enrollment.scss */
+/* line 512, _sass/partials/_enrollment.scss */
 .cart .center {
   text-align: center;
 }
-/* line 502, _sass/partials/_enrollment.scss */
+/* line 515, _sass/partials/_enrollment.scss */
 .cart .cart-item {
   margin-bottom: 10px;
 }
-/* line 505, _sass/partials/_enrollment.scss */
+/* line 518, _sass/partials/_enrollment.scss */
 .cart .cart-item:last-child {
   margin-bottom: 0;
 }
-/* line 509, _sass/partials/_enrollment.scss */
+/* line 522, _sass/partials/_enrollment.scss */
 .cart .delete {
   cursor: pointer;
   float: right;
   width: 5%;
   margin-top: 5px;
 }
-/* line 515, _sass/partials/_enrollment.scss */
+/* line 528, _sass/partials/_enrollment.scss */
 .cart .rate {
   float: left;
   width: 29%;
@@ -9555,7 +9575,7 @@ article.opportunity-more-information.accent-red .phone {
   font-weight: bold;
   text-align: center;
 }
-/* line 522, _sass/partials/_enrollment.scss */
+/* line 535, _sass/partials/_enrollment.scss */
 .cart .rate span {
   display: block;
   font-weight: normal;
@@ -9563,12 +9583,12 @@ article.opportunity-more-information.accent-red .phone {
   font-size: 12px;
   line-height: 12px;
 }
-/* line 530, _sass/partials/_enrollment.scss */
+/* line 543, _sass/partials/_enrollment.scss */
 .cart .description {
   float: left;
   width: 60%;
 }
-/* line 533, _sass/partials/_enrollment.scss */
+/* line 546, _sass/partials/_enrollment.scss */
 .cart .description h2 {
   line-height: 16px;
   margin: 0;
@@ -9577,28 +9597,28 @@ article.opportunity-more-information.accent-red .phone {
   font-weight: bold;
   text-transform: none;
 }
-/* line 541, _sass/partials/_enrollment.scss */
+/* line 554, _sass/partials/_enrollment.scss */
 .cart .description a {
   font-size: 13px;
 }
-/* line 545, _sass/partials/_enrollment.scss */
+/* line 558, _sass/partials/_enrollment.scss */
 .cart .avatar {
   text-align: center;
   margin-bottom: 10px;
 }
-/* line 549, _sass/partials/_enrollment.scss */
+/* line 562, _sass/partials/_enrollment.scss */
 .cart address {
   font-style: normal;
   font-size: 12px;
   margin-top: 20px;
 }
-/* line 553, _sass/partials/_enrollment.scss */
+/* line 566, _sass/partials/_enrollment.scss */
 .cart address h3 {
   font-size: 12px;
   color: #333;
   margin: 0;
 }
-/* line 559, _sass/partials/_enrollment.scss */
+/* line 572, _sass/partials/_enrollment.scss */
 .cart .box {
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
@@ -9611,35 +9631,35 @@ article.opportunity-more-information.accent-red .phone {
   padding: 14px;
   border: 1px solid #ebebeb;
 }
-/* line 566, _sass/partials/_enrollment.scss */
+/* line 579, _sass/partials/_enrollment.scss */
 .cart .box p {
   font-size: 13px;
   margin: 10px 0;
 }
-/* line 569, _sass/partials/_enrollment.scss */
+/* line 582, _sass/partials/_enrollment.scss */
 .cart .box p.alt {
   color: #9a9a9a;
   font-size: 15px;
 }
-/* line 574, _sass/partials/_enrollment.scss */
+/* line 587, _sass/partials/_enrollment.scss */
 .cart .box.time {
   position: relative;
   padding-left: 55px;
 }
-/* line 577, _sass/partials/_enrollment.scss */
+/* line 590, _sass/partials/_enrollment.scss */
 .cart .box.time .icon-clock {
   position: absolute;
   top: 22px;
   left: 10px;
 }
 @media only screen and (max-width: 767px) {
-  /* line 452, _sass/partials/_enrollment.scss */
+  /* line 465, _sass/partials/_enrollment.scss */
   .cart {
     display: none;
   }
 }
 
-/* line 589, _sass/partials/_enrollment.scss */
+/* line 602, _sass/partials/_enrollment.scss */
 .cart-overlay {
   position: fixed;
   top: 0;
@@ -9651,55 +9671,55 @@ article.opportunity-more-information.accent-red .phone {
   overflow: scroll;
   display: none;
 }
-/* line 599, _sass/partials/_enrollment.scss */
+/* line 612, _sass/partials/_enrollment.scss */
 .cart-overlay .cart {
   float: none;
   width: auto;
   margin: 20px;
 }
-/* line 603, _sass/partials/_enrollment.scss */
+/* line 616, _sass/partials/_enrollment.scss */
 .cart-overlay .cart i {
   float: right;
   cursor: pointer;
   margin-right: 10px;
 }
-/* line 608, _sass/partials/_enrollment.scss */
+/* line 621, _sass/partials/_enrollment.scss */
 .cart-overlay .cart .rate {
   position: absolute;
   float: none;
   right: 60px;
 }
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
-  /* line 599, _sass/partials/_enrollment.scss */
+  /* line 612, _sass/partials/_enrollment.scss */
   .cart-overlay .cart {
     display: block;
   }
 }
 @media only screen and (max-width: 767px) {
-  /* line 599, _sass/partials/_enrollment.scss */
+  /* line 612, _sass/partials/_enrollment.scss */
   .cart-overlay .cart {
     display: block;
   }
 }
-/* line 621, _sass/partials/_enrollment.scss */
+/* line 634, _sass/partials/_enrollment.scss */
 .cart-overlay.open {
   display: block;
 }
 @media only screen and (min-width: 768px) {
-  /* line 621, _sass/partials/_enrollment.scss */
+  /* line 634, _sass/partials/_enrollment.scss */
   .cart-overlay.open {
     display: none;
   }
 }
 
-/* line 629, _sass/partials/_enrollment.scss */
+/* line 642, _sass/partials/_enrollment.scss */
 .promo-box {
   background: #fafafa;
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-/* line 632, _sass/partials/_enrollment.scss */
+/* line 645, _sass/partials/_enrollment.scss */
 .promo-box header {
   background: none;
   -moz-border-radius: 0;
@@ -9707,19 +9727,19 @@ article.opportunity-more-information.accent-red .phone {
   border-radius: 0;
   padding: 0;
 }
-/* line 636, _sass/partials/_enrollment.scss */
+/* line 649, _sass/partials/_enrollment.scss */
 .promo-box header h1 {
   margin: 15px 10px;
   text-align: center;
   font-size: 20px;
   text-transform: none;
 }
-/* line 643, _sass/partials/_enrollment.scss */
+/* line 656, _sass/partials/_enrollment.scss */
 .promo-box .body {
   text-align: center;
 }
 @media only screen and (min-width: 768px) {
-  /* line 650, _sass/partials/_enrollment.scss */
+  /* line 663, _sass/partials/_enrollment.scss */
   .promo-box.horizontal {
     position: relative;
     background: #fdfdfd;
@@ -9727,7 +9747,7 @@ article.opportunity-more-information.accent-red .phone {
     -webkit-border-radius: 0;
     border-radius: 0;
   }
-  /* line 654, _sass/partials/_enrollment.scss */
+  /* line 667, _sass/partials/_enrollment.scss */
   .promo-box.horizontal .avatar {
     position: absolute;
     top: 30px;
@@ -9735,26 +9755,26 @@ article.opportunity-more-information.accent-red .phone {
     width: 20%;
     text-align: center;
   }
-  /* line 661, _sass/partials/_enrollment.scss */
+  /* line 674, _sass/partials/_enrollment.scss */
   .promo-box.horizontal header {
     margin-left: 21%;
   }
-  /* line 663, _sass/partials/_enrollment.scss */
+  /* line 676, _sass/partials/_enrollment.scss */
   .promo-box.horizontal header h1 {
     text-align: left;
     margin: 0;
   }
-  /* line 668, _sass/partials/_enrollment.scss */
+  /* line 681, _sass/partials/_enrollment.scss */
   .promo-box.horizontal .body {
     text-align: left;
     margin-left: 21%;
     margin-right: 25%;
   }
-  /* line 672, _sass/partials/_enrollment.scss */
+  /* line 685, _sass/partials/_enrollment.scss */
   .promo-box.horizontal .body p {
     margin: 0;
   }
-  /* line 675, _sass/partials/_enrollment.scss */
+  /* line 688, _sass/partials/_enrollment.scss */
   .promo-box.horizontal .body .button {
     position: absolute;
     right: 2%;

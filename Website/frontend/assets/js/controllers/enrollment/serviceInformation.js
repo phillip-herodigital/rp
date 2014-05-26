@@ -63,6 +63,16 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
     * Complete Enrollment Section
     */
     $scope.completeStep = function () {
+        /*
+        var locationObject = {
+            "address":{"postalCode5":"75010"},
+            "capabilities": [
+                {"esiId": "1234SAMPLE5678","tdu": "Centerpoint","capabilityType":"TexasElectricity"},
+                {"capabilityType":"ServiceStatus", "isNewService": true}
+            ]
+        };
+        */
+
         console.log('Sending service information...');
 
         var serviceInformationPromise = enrollmentService.setServiceInformation();
