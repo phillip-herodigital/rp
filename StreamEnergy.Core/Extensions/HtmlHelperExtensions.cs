@@ -16,6 +16,7 @@ namespace StreamEnergy.Extensions
 {
     public static class HtmlHelperExtensions
     {
+        private static ISettings settings = StreamEnergy.Unity.Container.Instance.Resolve<ISettings>();
         public static IHtmlString AsBackgroundStyle(this HtmlHelper htmlHelper, string fieldName, Item item = null)
         {
             item = item ?? htmlHelper.Sitecore().CurrentItem;
@@ -129,6 +130,17 @@ namespace StreamEnergy.Extensions
                 return htmlHelper.Raw(value.ToString("C" + decimalPlaces));
             }
             return htmlHelper.Sitecore().Field(fieldName, item);
+        }
+
+        public static string TranslateDomain(this HtmlHelper htmlHelper, string domain)
+        {
+            var domains = settings.GetDomainTranslations();
+
+            if (domains.ContainsKey(domain))
+            {
+                return domains[domain];
+            }
+            return domain;
         }
     }
 }
