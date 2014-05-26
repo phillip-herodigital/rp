@@ -106,7 +106,7 @@ a.button {
 	}
 
 	&:disabled,
-    &.disabled {
+	&.disabled {
 		opacity: .5;
         cursor: default;
 	}
