@@ -1926,7 +1926,7 @@ article.enroll {
 		.formlinks {
 			width: 48%;
 			@include breakpoint(small-medium) {
-				width: 94%;
+				width: 96%;
 			}
 			.header {
 				background-color: #0971ce;
@@ -1965,6 +1965,9 @@ article.enroll {
 		.customer-forms {
 			margin-top: 80px;
 			padding-bottom: 50px;
+			.formlinks {
+				width: 100%;
+			}
 		}
 	}
 }
