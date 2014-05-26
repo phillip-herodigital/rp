@@ -1163,6 +1163,9 @@ article.contact {
 article.contact-state {
 	.customer-service {
 		margin: 25px 0;
+		@include breakpoint(small) {
+			width: 100%;
+		}
 		h1 {
 			color: #0971ce;
 			margin-bottom: 50px;
@@ -1214,6 +1217,9 @@ article.contact-state {
 	.quality-control {
 		margin-bottom: 35px;
 		position: relative;
+		@include breakpoint(small) {
+			width: 100%;
+		}
 		p {
 			margin: 20px 0 30px 0;
 		}
@@ -1234,6 +1240,9 @@ article.contact-state {
 	.emergency {
 		margin-bottom: 30px;
 		position: relative;
+		@include breakpoint(small) {
+			width: 100%;
+		}
 		h2 {
 			margin: 0;
 			font-size: 25px;
