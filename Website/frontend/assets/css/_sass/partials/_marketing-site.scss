@@ -2451,7 +2451,7 @@ article.manage-services {
 			}
 		}
 		.sign-up {
-			margin-left: 50px;
+			text-align: center;
 			a:hover {
 				color: #064985;
 				text-decoration: underline;
@@ -2481,12 +2481,13 @@ article.manage-services {
 				}
 			}
 		}
-		.sign-up {
-			margin: 0 auto;
-			text-align: center;
-		}
 	}
 	@include breakpoint(small-medium) {
+		.text, .text .inner {
+			float: none;
+			width: auto;
+			max-width: none;
+		}
 		.photo {
 			width: auto;
 			float: none;
