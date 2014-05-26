@@ -1303,7 +1303,7 @@ article.faq {
 				a {
 					color: #696969;
 					display: block;
-					padding: 15px;
+					padding: 15px 50px 15px 15px;
 					@include breakpoint(small) {
 						width: 93%;	
 					}
@@ -1329,6 +1329,9 @@ article.faq {
 				}
 				.answer {
 					margin-left: 55px;	
+					p {
+						padding-right: 45px;
+					}
 				}
 			}
 		}
