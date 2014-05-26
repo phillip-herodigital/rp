@@ -1443,9 +1443,11 @@ article.homelife-services {
 					font-size: 22px;
 					font-weight: bold;
 					text-align: center;
-					margin-top: 10px;
+                    margin-top: 0;
+					padding-top: 10px;
 				}
-				.line-top {
+				.line-top,
+                .line-bottom {
 					height: 40px;
 					width: 1px;
 					background-color: #ddd;
@@ -1454,14 +1456,9 @@ article.homelife-services {
 					margin-top: -50px;
 				}
 				.line-bottom {
-					height: 40px;
-					width: 1px;
-					background-color: #ddd;
-					float: left;
-					margin-left: 50%;
 					margin-top: 13px;
 				}
-				@include breakpoint(medium) {
+				@include breakpoint(small) {
 					.line-top,
 					.line-bottom {
 						display: none;
@@ -1512,6 +1509,15 @@ article.homelife-services {
                 transform:rotate(-45deg);
                 -ms-transform:rotate(-45deg); /* IE 9 */
                 -webkit-transform:rotate(-45deg); /* Opera, Chrome, and Safari */
+                .ie8 & {
+                    top: 0;
+                    width: 100px;
+                    height: 2em;
+                    span {
+                        margin: 0;
+                        padding: 0 20px
+                    }
+                }
 				span {
 					font-size: 24px;
 					text-transform: uppercase;
@@ -1536,39 +1542,54 @@ article.homelife-services {
 					}
 				}
 				.savings {
-					margin-left: 30%;
+					margin-left: 25%;
 					margin-right: 20px;
 				}
 				.pricing {
 					float: left;
+                    p {
+                        margin-bottom: 25px;
+                    }
 				}
 			}
 			@include breakpoint(small) {
-				ul.services li {
-					margin-right: 8px;
-					&.identity:after {
-						content: " ";
-					}
-					&.support {
-						&:after {
-							content: " ";
-						}
-						h4 {
-							width: 67%;
-							margin: 10px auto;
-						}
-					}
-					&.monitoring h4 {
-						width: 91%;
-						margin: 10px auto;
-					}
+				ul.services {
+                    float: none;
+                    li {
+                        width: 100%;
+					    margin-right: 8px;
+                        float: none;
+					    &.identity:after {
+						    content: " ";
+					    }
+					    &.support {
+						    &:after {
+							    content: " ";
+						    }
+						    h4 {
+							    width: 67%;
+							    margin: 10px auto;
+						    }
+					    }
+					    &.monitoring h4 {
+						    width: 91%;
+						    margin: 10px auto;
+					    }
+                    }
+                    
 				}
 				.savings {
-					margin: 15px 0 0 10%;
+					margin: 0 auto;
+                    display: block;
+                    float: none;
 				}
 				.pricing {
 					float: right;
-					margin: 0 10% 0 0;
+					margin: 0;
+                    width: 100%;
+                    p.month-free {
+                        border-bottom: 0;
+                    }
 				}
 			}
 		}
@@ -1621,6 +1642,10 @@ article.homelife-services {
 						margin-right: 0;
 						width: 33%;
 						border-right: 1px solid #cdcdcd;
+                        @include breakpoint(small) {
+                            width: 100%;
+                            border-right: none;
+                        }
 						&.identity,
 						&.support {
 							&:after {
@@ -1652,6 +1677,14 @@ article.homelife-services {
 			}
 		}
 	}
+    @include breakpoint(small-medium) {
+        div.wrapper {
+            padding: 0;
+        }
+        div.package {
+            padding: 20px;
+        }
+    }
 	p.footnote {
 		font-size: 12px;
 		text-align: center;
