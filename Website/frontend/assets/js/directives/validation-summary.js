@@ -2,9 +2,11 @@
     return {
         restrict: 'A',
         scope: {},
-        template: '<ul>' +
-            '<li data-ng-repeat="err in validationSummary" data-ng-bind-html="err"></span>' +
-            '</ul>',
+        template: '<div class="alert alert-error" ng-show="validationSummary.length">' +
+            '   <ul>' +
+            '       <li data-ng-repeat="err in validationSummary" data-ng-bind-html="err"></span>' +
+            '   </ul>' +
+            '</div>',
         link: function (scope, element) {
             scope.validationSummary = [];
             // Here we don't need to dispose our watch because we have an isolated scope that goes away when the element does.

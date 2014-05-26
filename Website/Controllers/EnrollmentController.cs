@@ -112,9 +112,25 @@ namespace StreamEnergy.MyStream.Controllers
             return new ClientData
             {
                 Validations = TranslatedValidationResult.Translate(stateMachine.ValidationResults, translationItem),
-                UserContext = CopyForClientDisplay(stateMachine.Context),
-                Offers = stateMachine.InternalContext.AllOffers,
-                OfferOptionRules = stateMachine.InternalContext.OfferOptionRules,
+                BillingAddress = stateMachine.Context.BillingAddress,
+                ContactInfo = stateMachine.Context.ContactInfo,
+                DriversLicense = stateMachine.Context.DriversLicense,
+                Language = stateMachine.Context.Language,
+                SecondaryContactInfo = stateMachine.Context.SecondaryContactInfo,
+                LocationServices = stateMachine.Context.Services,
+                SelectedIdentityAnswers = null,
+                Offers = stateMachine.InternalContext.AllOffers == null ? null :
+                    (from entry in stateMachine.InternalContext.AllOffers
+                     let addressId = LookupAddressId(entry.Item1)
+                     where addressId != null
+                     group entry.Item2 by addressId).ToDictionary(e => e.Key, e => (IEnumerable<IOffer>)e.ToArray()),
+                OfferOptionRules = stateMachine.InternalContext.OfferOptionRulesByAddressOffer == null ? null :
+                    (from entry in stateMachine.InternalContext.OfferOptionRulesByAddressOffer
+                     let addressId = LookupAddressId(entry.Item1)
+                     where addressId != null
+                     group entry by addressId into byAddressId
+                     let byOfferId = byAddressId.ToDictionary(e => e.Item2.Id, e => e.Item3)
+                     select new { AddressId = byAddressId.Key, Value = byOfferId }).ToDictionary(e => e.AddressId, e => e.Value),
                 IdentityQuestions = stateMachine.InternalContext.IdentityCheckResult != null ? stateMachine.InternalContext.IdentityCheckResult.IdentityQuestions : null,
                 DepositAmount = stateMachine.InternalContext.Deposit != null ? stateMachine.InternalContext.Deposit.Amount : (decimal?)null,
                 ConfirmationNumber = stateMachine.InternalContext.PlaceOrderResult != null ? stateMachine.InternalContext.PlaceOrderResult.ConfirmationNumber : null
@@ -124,14 +140,19 @@ namespace StreamEnergy.MyStream.Controllers
         [HttpPost]
         public ClientData ServiceInformation([FromBody]ServiceInformation value)
         {
-            stateMachine.Context.ServiceAddress = value.ServiceAddress;
-            stateMachine.Context.ServiceCapabilities = value.ServiceCapabilities;
-            
-            // TODO - make sure this gets put in all the other service capabilities, or remove it from the interface and have the front-end do it
-            foreach (var entry in value.ServiceCapabilities.OfType<TexasServiceCapability>())
-            {
-                entry.IsNewService = value.IsNewService;
-            }
+            // TODO - merge address ids
+            stateMachine.Context.Services = (from location in value.Locations
+                                             join service in (stateMachine.Context.Services ?? Enumerable.Empty<KeyValuePair<string, LocationServices>>()) on location.Key equals service.Key into services
+                                             from service in services.DefaultIfEmpty()
+                                             select new
+                                             {
+                                                 Key = location.Key,
+                                                 Value = new LocationServices
+                                                     {
+                                                         Location = location.Value,
+                                                         SelectedOffers = service.Value != null ? service.Value.SelectedOffers : null
+                                                     }
+                                             }).ToDictionary(e => e.Key, e => e.Value);
 
             if (stateMachine.State == typeof(DomainModels.Enrollments.ServiceInformationState))
                 stateMachine.Process(typeof(DomainModels.Enrollments.AccountInformationState));
@@ -142,13 +163,20 @@ namespace StreamEnergy.MyStream.Controllers
         [HttpPost]
         public ClientData SelectedOffers([FromBody]SelectedOffers value)
         {
-            stateMachine.Context.SelectedOffers = (from offerId in value.OfferIds
-                                                   let offer = stateMachine.InternalContext.AllOffers.SingleOrDefault(o => o.Id == offerId)
-                                                   where offer != null
-                                                   select new SelectedOffer
-                                                   {
-                                                       Offer = offer,
-                                                   }).ToArray();
+            foreach (var entry in stateMachine.Context.Services)
+            {
+                var addressId = entry.Key;
+                if (value.OfferIds.ContainsKey(addressId))
+                {
+                    entry.Value.SelectedOffers = (from offerId in value.OfferIds[addressId]
+                                                  let offer = LookupOffer(addressId, offerId)
+                                                  where offer != null
+                                                  select new SelectedOffer
+                                                  {
+                                                      Offer = offer
+                                                  }).ToDictionary(o => o.Offer.Id);
+                }
+            }
 
             if (stateMachine.State == typeof(DomainModels.Enrollments.PlanSelectionState))
                 stateMachine.Process(typeof(DomainModels.Enrollments.AccountInformationState));
@@ -156,11 +184,33 @@ namespace StreamEnergy.MyStream.Controllers
             return ClientData();
         }
 
+        private string LookupAddressId(Location serviceLocation)
+        {
+            return stateMachine.Context.Services.Where(s => s.Value.Location.Address.Equals(serviceLocation.Address)).Select(s => s.Key).FirstOrDefault();
+        }
+
+        private IOffer LookupOffer(string addressId, string offerId)
+        {
+            return stateMachine.InternalContext.AllOffers.Where(offer => LookupAddressId(offer.Item1) == addressId && offer.Item2.Id == offerId).Select(offer => offer.Item2).FirstOrDefault();
+        }
+
         [HttpPost]
         public ClientData AccountInformation([FromBody]AccountInformation request)
         {
-            stateMachine.Context.ServiceAddress = request.ServiceAddress;
-            stateMachine.Context.ServiceCapabilities = request.ServiceCapabilities;
+            // TODO - merge address ids
+            stateMachine.Context.Services = (from location in request.Locations
+                                             join service in stateMachine.Context.Services on location.Key equals service.Key into services
+                                             from service in services.DefaultIfEmpty()
+                                             select new
+                                             {
+                                                 Key = location.Key,
+                                                 Value = new LocationServices
+                                                 {
+                                                     Location = location.Value,
+                                                     SelectedOffers = service.Value != null ? service.Value.SelectedOffers : null
+                                                 }
+                                             }).ToDictionary(e => e.Key, e => e.Value);
+
             stateMachine.Context.ContactInfo = request.ContactInfo;
             stateMachine.Context.BillingAddress = request.BillingAddress;
             stateMachine.Context.DriversLicense = request.DriversLicense;
@@ -169,17 +219,12 @@ namespace StreamEnergy.MyStream.Controllers
             stateMachine.Context.SocialSecurityNumber = request.SocialSecurityNumber;
             if (request.OfferOptions != null)
             {
-                foreach (var entry in request.OfferOptions)
+                foreach (var addressId in request.OfferOptions.Keys)
                 {
-                    var selectedOffer = stateMachine.Context.SelectedOffers.SingleOrDefault(offer => offer.Offer.Id == entry.Key);
-                    if (selectedOffer == null)
+                    foreach (var offerId in request.OfferOptions[addressId].Keys)
                     {
-                        selectedOffer = new SelectedOffer { Offer = stateMachine.InternalContext.AllOffers.SingleOrDefault(offer => offer.Id == entry.Key) };
-                        if (selectedOffer.Offer == null)
-                            continue;
-                        stateMachine.Context.SelectedOffers = stateMachine.Context.SelectedOffers.Concat(Enumerable.Repeat(selectedOffer, 1));
+                        stateMachine.Context.Services[addressId].SelectedOffers[offerId].OfferOption = request.OfferOptions[addressId][offerId];
                     }
-                    selectedOffer.OfferOption = entry.Value;
                 }
             }
 
@@ -201,43 +246,14 @@ namespace StreamEnergy.MyStream.Controllers
         }
 
         [HttpPost]
-        public ClientData PaymentInfo([FromBody]DomainModels.Payments.IPaymentInfo request)
-        {
-            stateMachine.Context.PaymentInfo = request;
-
-            if (stateMachine.State == typeof(DomainModels.Enrollments.PaymentInfoState))
-                stateMachine.Process(typeof(DomainModels.Enrollments.CompleteOrderState));
-
-            return ClientData();
-        }
-
-        [HttpPost]
         public ClientData ConfirmOrder([FromBody]ConfirmOrder request)
         {
+            stateMachine.Context.PaymentInfo = request.PaymentInfo;
             stateMachine.Context.AgreeToTerms = request.AgreeToTerms;
 
             stateMachine.Process();
 
             return ClientData();
-        }
-
-        private UserContext CopyForClientDisplay(UserContext userContext)
-        {
-            return new UserContext
-            {
-                BillingAddress = userContext.BillingAddress,
-                ContactInfo = userContext.ContactInfo,
-                DriversLicense = userContext.DriversLicense,
-                Language = userContext.Language,
-                SecondaryContactInfo = userContext.SecondaryContactInfo,
-                SelectedOffers = userContext.SelectedOffers,
-                ServiceAddress = userContext.ServiceAddress,
-                ServiceCapabilities = userContext.ServiceCapabilities,
-                SocialSecurityNumber = null,
-                AgreeToTerms = userContext.AgreeToTerms,
-                PaymentInfo = null,
-                SelectedIdentityAnswers = null,
-            };
         }
     }
 }

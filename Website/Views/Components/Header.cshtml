@@ -1,23 +1,41 @@
-﻿<header class="site-header" main-nav ng-controller="InvoicesCtrl">
-    @{
-        var parentMenu = Html.Sitecore().CurrentItem;
-        var target = from entry in parentMenu.Children.OfType<Sitecore.Data.Items.Item>().Select((item, index) => new { item, index })
-                     let field = (Sitecore.Data.Fields.LinkField)entry.item.Fields["Navigation Link"]
-                     select new
-                     {
-                         Item = entry.item,
-                         CssClass = (field.TargetItem.ID == Sitecore.Context.Item.ID) ? "selected" : "",
-                         SubNavNum = entry.index + 1,
-                         SubNavItems = from Sitecore.Data.Items.Item subitem in entry.item.Children
-                                       select subitem
-                     };
+﻿@{
+    var parentMenu = Html.Sitecore().CurrentItem;
+    var targetObject = from entry in parentMenu.Children.OfType<Sitecore.Data.Items.Item>().Select((item, index) => new { item, index })
+                        let field = (Sitecore.Data.Fields.LinkField)entry.item.Fields["Navigation Link"]
+                        select new
+                        {
+                            Item = entry.item,
+                            SubNavNum = entry.index + 1,
+                            SubNavItems = from Sitecore.Data.Items.Item subitem in entry.item.Children
+                                            select subitem
+                        };
 
-        // Included ToArray to force Select to happen once, even though we have two foreach
-        target = target.ToArray();
+    // Included ToArray to force Select to happen once, even though we have two foreach
+    var target = targetObject.ToArray();
+    var currentID = Sitecore.Context.Item.ID;
+    int selectedItemParent = 0;
 
+    foreach (var item in target)
+    {
+        if (((Sitecore.Data.Fields.LinkField)item.Item.Fields["Navigation Link"]).TargetItem.ID == currentID)
+        {
+            selectedItemParent = item.SubNavNum;
+            break;
+        }
+        foreach (var subItem in item.SubNavItems)
+        {
+            var targetItem = ((Sitecore.Data.Fields.LinkField)subItem.Fields["Navigation Link"]).TargetItem;
+            if (targetItem != null && targetItem.ID == currentID)
+            {
+                selectedItemParent = item.SubNavNum;
+                break;
+            }
+        }
+    }
+
+    <header class="site-header" main-nav="@selectedItemParent">
         <script id="mobileNav" type="text/ng-template">
-            <nav class="mobile-nav" mobile-nav="0">
-                @* TODO: Need up update mobil-nav="0" to the index of the selected item *@
+            <nav class="mobile-nav" mobile-nav="@selectedItemParent">
                 <ul>
                     @foreach (var item in target)
                     {
@@ -43,7 +61,6 @@
                 </ul>
             </nav>
         </script>
-
         <div class="wrapper">
             <a href="/" class="logo">Logo</a>
             <p class="utility"><a href="/manage/">Manage My Account</a></p>
@@ -52,7 +69,7 @@
                 <ul class="wrapper">
                     @foreach (var item in target)
                     {
-                        <li ng-mouseover="showSubnav(@item.SubNavNum)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav==@item.SubNavNum }" class="@item.CssClass">@Html.Sitecore().Field("Navigation Link", item.Item)</li>
+                        <li ng-mouseover="showSubnav(@item.SubNavNum)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav==@item.SubNavNum }">@Html.Sitecore().Field("Navigation Link", item.Item)</li>
                     }
                 </ul>
             </nav>
@@ -72,5 +89,5 @@
                 </ul>
             }
         </nav>
-    }
-</header>
+    </header>
+}
