@@ -792,11 +792,11 @@ article.press {
 	}
 	.press-intro {
 		text-align: center;
+		.blue {
+			color: #1773cb;
+		}
 		p.paragraph {
 			font-size: 18px;
-			.blue {
-				color: #1773cb;
-			}
 		}
 	}
 	.post {
