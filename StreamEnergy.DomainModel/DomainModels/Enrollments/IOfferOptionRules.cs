@@ -7,5 +7,6 @@ namespace StreamEnergy.DomainModels.Enrollments
 {
     public interface IOfferOptionRules
     {
+        string OptionRulesType { get; }
     }
 }

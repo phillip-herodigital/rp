@@ -44,6 +44,10 @@ namespace StreamEnergy.Core.Tests.Processes
                 yield return context => context.Address;
             }
 
+            public void Sanitize(GetOffersContext data, GetOffersInternalContext internalData)
+            {
+            }
+
             public IEnumerable<ValidationResult> AdditionalValidations(GetOffersContext data, GetOffersInternalContext internalData)
             {
                 return Enumerable.Empty<ValidationResult>();
@@ -65,13 +69,8 @@ namespace StreamEnergy.Core.Tests.Processes
                 return typeof(LoadOffersState);
             }
 
-            public bool RestoreInternalState(IStateMachine<GetOffersContext, GetOffersInternalContext> stateMachine, ref GetOffersInternalContext internalContext, ref Type state)
+            public bool RestoreInternalState(IStateMachine<GetOffersContext, GetOffersInternalContext> stateMachine, ref Type state)
             {
-                if (internalContext == null)
-                {
-                    internalContext = new GetOffersInternalContext();
-                }
-
                 // Don't try to restore state if this is invalid.
                 if (stateMachine.ValidateForState(this).Any())
                 {
@@ -79,9 +78,9 @@ namespace StreamEnergy.Core.Tests.Processes
                     return false;
                 }
 
-                if (string.IsNullOrEmpty(internalContext.DeliveryUtility))
+                if (string.IsNullOrEmpty(stateMachine.InternalContext.DeliveryUtility))
                 {
-                    LoadAddressInfo(stateMachine.Context, internalContext);
+                    LoadAddressInfo(stateMachine.Context, stateMachine.InternalContext);
                 }
                 return true;
             }
@@ -97,6 +96,10 @@ namespace StreamEnergy.Core.Tests.Processes
             public IEnumerable<System.Linq.Expressions.Expression<Func<GetOffersContext, object>>> PreconditionValidations()
             {
                 yield return context => context.Address;
+            }
+
+            public void Sanitize(GetOffersContext data, GetOffersInternalContext internalData)
+            {
             }
 
             public IEnumerable<ValidationResult> AdditionalValidations(GetOffersContext data, GetOffersInternalContext internalData)
@@ -120,16 +123,16 @@ namespace StreamEnergy.Core.Tests.Processes
                 return typeof(DisplayOffersState);
             }
 
-            public bool RestoreInternalState(IStateMachine<GetOffersContext, GetOffersInternalContext> stateMachine, ref GetOffersInternalContext internalContext, ref Type state)
+            public bool RestoreInternalState(IStateMachine<GetOffersContext, GetOffersInternalContext> stateMachine, ref Type state)
             {
-                if (!stateMachine.RestoreStateFrom(typeof(GatherDataState), ref internalContext, ref state))
+                if (!stateMachine.RestoreStateFrom(typeof(GatherDataState), ref state))
                 {
                     return false;
                 }
 
-                if (internalContext.Offers == null)
+                if (stateMachine.InternalContext.Offers == null)
                 {
-                    LoadOffers(stateMachine.Context, internalContext);
+                    LoadOffers(stateMachine.Context, stateMachine.InternalContext);
                 }
                 return true;
             }
@@ -147,6 +150,10 @@ namespace StreamEnergy.Core.Tests.Processes
             {
                 yield return context => context.Address;
                 yield return context => context.ChosenOffer;
+            }
+
+            public void Sanitize(GetOffersContext data, GetOffersInternalContext internalData)
+            {
             }
 
             public IEnumerable<ValidationResult> AdditionalValidations(GetOffersContext data, GetOffersInternalContext internalContext)
@@ -173,9 +180,9 @@ namespace StreamEnergy.Core.Tests.Processes
                 throw new NotImplementedException();
             }
 
-            public bool RestoreInternalState(IStateMachine<GetOffersContext, GetOffersInternalContext> stateMachine, ref GetOffersInternalContext internalContext, ref Type state)
+            public bool RestoreInternalState(IStateMachine<GetOffersContext, GetOffersInternalContext> stateMachine, ref Type state)
             {
-                if (!stateMachine.RestoreStateFrom(typeof(LoadOffersState), ref internalContext, ref state))
+                if (!stateMachine.RestoreStateFrom(typeof(LoadOffersState), ref state))
                 {
                     return false;
                 }

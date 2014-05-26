@@ -1,4 +1,4 @@
-﻿<article class="marketing loginHorizontal" ng-controller="LoginCtrl" ng-init="init('https://secure3.i-doxs.net/StreamEnergy/Default.aspx', 'https://secure3.i-doxs.net/StreamEnergyGA/Default.aspx')">
+﻿<article class="marketing loginHorizontal" ng-controller="LoginCtrl" ng-init="init('@Html.TranslateDomain("https://secure3.i-doxs.net")/StreamEnergy/Default.aspx', '@Html.TranslateDomain("https://secure3.i-doxs.net")/StreamEnergyGA/Default.aspx')">
     <div class="wrapper">
         <span class="text">@Html.Sitecore().Field("Header Text")</span>
         <div class="form">
@@ -9,13 +9,13 @@
                         <li><input type="radio" name="loginState" value="GA" id="loginState[georgia]" ng-model="state" /> <label for="loginState[georgia]">@Html.Sitecore().Field("Georgia Label")</label></li>
                     </ul>
                 </div>
-                <div class="item">
+                <div class="item username-item">
                     <input type="text" name="username" placeholder="@Html.Sitecore().CurrentItem.Fields["username placeholder"].Value" ng-model="username" />
                 </div>
-                <div class="item">
+                <div class="item password-item">
                     <input type="password" name="password" placeholder="@Html.Sitecore().CurrentItem.Fields["password placeholder"].Value" ng-model="password" />
                 </div>
-                <div class="item">
+                <div class="item button-item">
                     <button type="button" ng-click="loginClicked()">@Html.Sitecore().Field("Button Text")</button>
                 </div>
             </div>

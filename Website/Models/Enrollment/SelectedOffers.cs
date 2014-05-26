@@ -7,6 +7,6 @@ namespace StreamEnergy.MyStream.Models.Enrollment
 {
     public class SelectedOffers
     {
-        public string[] OfferIds { get; set; }
+        public Dictionary<string, string[]> OfferIds { get; set; }
     }
 }

@@ -8,5 +8,6 @@ namespace StreamEnergy.DomainModels.Payments
 {
     public interface IPaymentInfo
     {
+        string PaymentType { get; }
     }
 }
