@@ -1954,11 +1954,17 @@ article.enroll {
 			float: left;
 			width: 50%;
 			margin-bottom: 20px;
+			@include breakpoint(small) {
+				width: 100%;
+			}
 		}
 		.right-column {
 			float: right;
 			width: 50%;
 			margin-bottom: 20px;
+			@include breakpoint(small) {
+				width: 100%;
+			}
 		}
 		li.terms {
 			background: url("../i/marketing/blue-bullet.png") no-repeat;
@@ -1975,6 +1981,9 @@ article.enroll {
 		}
 		.formlinks {
 			width: 48%;
+			@include breakpoint(small-medium) {
+				width: 100%;
+			}
 			.header {
 				background-color: #0971ce;
 				color: #fff;
@@ -1996,6 +2005,7 @@ article.enroll {
 					font-weight: bold;
 					margin-left: 3.5em;
 					padding: 15px 0px;
+					display: block;
 				}
 			}
 		}
@@ -2004,10 +2014,17 @@ article.enroll {
 		}
 		.spanish {
 			float: right;
+			@include breakpoint(small-medium) {
+				float: left;
+				margin-top: 20px;
+			}
 		}
 		.customer-forms {
 			margin-top: 80px;
 			padding-bottom: 50px;
+			.formlinks {
+				width: 100%;
+			}
 		}
 	}
 }
