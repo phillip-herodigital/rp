@@ -7,7 +7,7 @@
                             Item = entry.item,
                             SubNavNum = entry.index + 1,
                             SubNavItems = from Sitecore.Data.Items.Item subitem in entry.item.Children
-                                          select subitem
+                                            select subitem
                         };
 
     // Included ToArray to force Select to happen once, even though we have two foreach
