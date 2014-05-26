@@ -5,37 +5,37 @@
 ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$http', 'enrollmentService', function ($scope, $rootScope, $http, enrollmentService) {
     $scope.states = [
         {
-            'class': 'texas',
+            'class': 'icon texas',
             'name': 'Texas',
             'abbreviation': 'TX'
         },
         {
-            'class': 'georgia',
+            'class': 'icon georgia',
             'name': 'Georgia',
             'abbreviation': 'GA'
         },
         {
-            'class': 'pensylvania',
+            'class': 'icon pennsylvania',
             'name': 'Pennsylvania',
             'abbreviation': 'PA'
         },
         {
-            'class': 'maryland',
+            'class': 'icon maryland',
             'name': 'Maryland',
             'abbreviation': 'MD'
         },
         {
-            'class': 'new-jersey',
+            'class': 'icon new-jersey',
             'name': 'New Jersey',
             'abbreviation': 'NJ'
         },
         {
-            'class': 'new-york',
+            'class': 'icon new-york',
             'name': 'New York',
             'abbreviation': 'NY'
         },
         {
-            'class': 'washington-dc',
+            'class': 'icon washington-dc',
             'name': 'Washington, DC',
             'abbreviation': 'DC'
         }

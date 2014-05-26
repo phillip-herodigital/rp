@@ -9375,116 +9375,200 @@ article.opportunity-more-information.accent-red .phone {
   -webkit-box-shadow: none;
   box-shadow: none;
   color: #0971ce;
+  text-transform: uppercase;
 }
-/* line 441, _sass/partials/_enrollment.scss */
+/* line 442, _sass/partials/_enrollment.scss */
 .enrollment-section #state-select button .caret {
   display: none;
 }
-/* line 449, _sass/partials/_enrollment.scss */
+/* line 446, _sass/partials/_enrollment.scss */
+.enrollment-section #state-select .icon {
+  background-position: 10px center;
+  background-repeat: no-repeat;
+  padding-left: 40px;
+}
+/* line 451, _sass/partials/_enrollment.scss */
+.enrollment-section #state-select .texas {
+  background-image: url('../i/bg/texas-icon.png?1401140620');
+}
+@media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
+  /* line 451, _sass/partials/_enrollment.scss */
+  .enrollment-section #state-select .texas {
+    background-image: url('../i/bg2x/texas-icon.png?1401140179');
+    background-size: 25px 26px;
+  }
+}
+/* line 455, _sass/partials/_enrollment.scss */
+.enrollment-section #state-select .georgia {
+  background-image: url('../i/bg/georgia-icon.png?1401140620');
+}
+@media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
+  /* line 455, _sass/partials/_enrollment.scss */
+  .enrollment-section #state-select .georgia {
+    background-image: url('../i/bg2x/georgia-icon.png?1401140395');
+    background-size: 25px 26px;
+  }
+}
+/* line 458, _sass/partials/_enrollment.scss */
+.enrollment-section #state-select .pennsylvania {
+  background-image: url('../i/bg/pennsylvania-icon.png?1401140620');
+}
+@media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
+  /* line 458, _sass/partials/_enrollment.scss */
+  .enrollment-section #state-select .pennsylvania {
+    background-image: url('../i/bg2x/pennsylvania-icon.png?1401140365');
+    background-size: 25px 26px;
+  }
+}
+/* line 461, _sass/partials/_enrollment.scss */
+.enrollment-section #state-select .maryland {
+  background-image: url('../i/bg/maryland-icon.png?1401141353');
+}
+@media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
+  /* line 461, _sass/partials/_enrollment.scss */
+  .enrollment-section #state-select .maryland {
+    background-image: url('../i/bg2x/maryland-icon.png?1401140542');
+    background-size: 25px 26px;
+  }
+}
+/* line 464, _sass/partials/_enrollment.scss */
+.enrollment-section #state-select .new-jersey {
+  background-image: url('../i/bg/newjersey-icon.png?1401141353');
+}
+@media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
+  /* line 464, _sass/partials/_enrollment.scss */
+  .enrollment-section #state-select .new-jersey {
+    background-image: url('../i/bg2x/newjersey-icon.png?1401140528');
+    background-size: 25px 26px;
+  }
+}
+/* line 467, _sass/partials/_enrollment.scss */
+.enrollment-section #state-select .new-york {
+  background-image: url('../i/bg/newyork-icon.png?1401140620');
+}
+@media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
+  /* line 467, _sass/partials/_enrollment.scss */
+  .enrollment-section #state-select .new-york {
+    background-image: url('../i/bg2x/newyork-icon.png?1401140582');
+    background-size: 25px 26px;
+  }
+}
+/* line 470, _sass/partials/_enrollment.scss */
+.enrollment-section #state-select .washington-dc {
+  background-image: url('../i/bg/dc-icon.png?1401140620');
+}
+@media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
+  /* line 470, _sass/partials/_enrollment.scss */
+  .enrollment-section #state-select .washington-dc {
+    background-image: url('../i/bg2x/dc-icon.png?1401140609');
+    background-size: 25px 25px;
+  }
+}
+/* line 481, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-blue section h1 span {
   color: #1773cb;
 }
-/* line 452, _sass/partials/_enrollment.scss */
+/* line 484, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-blue .banner {
   border-top: 5px solid #1773cb;
 }
-/* line 449, _sass/partials/_enrollment.scss */
+/* line 481, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-paleblue section h1 span {
   color: #7e9ab3;
 }
-/* line 452, _sass/partials/_enrollment.scss */
+/* line 484, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-paleblue .banner {
   border-top: 5px solid #7e9ab3;
 }
-/* line 449, _sass/partials/_enrollment.scss */
+/* line 481, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-darkblue section h1 span {
   color: #073464;
 }
-/* line 452, _sass/partials/_enrollment.scss */
+/* line 484, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-darkblue .banner {
   border-top: 5px solid #073464;
 }
-/* line 449, _sass/partials/_enrollment.scss */
+/* line 481, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-green section h1 span {
   color: #78bb2f;
 }
-/* line 452, _sass/partials/_enrollment.scss */
+/* line 484, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-green .banner {
   border-top: 5px solid #78bb2f;
 }
-/* line 449, _sass/partials/_enrollment.scss */
+/* line 481, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-palegreen section h1 span {
   color: #8ba072;
 }
-/* line 452, _sass/partials/_enrollment.scss */
+/* line 484, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-palegreen .banner {
   border-top: 5px solid #8ba072;
 }
-/* line 449, _sass/partials/_enrollment.scss */
+/* line 481, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-darkgreen section h1 span {
   color: #5f9c37;
 }
-/* line 452, _sass/partials/_enrollment.scss */
+/* line 484, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-darkgreen .banner {
   border-top: 5px solid #5f9c37;
 }
-/* line 449, _sass/partials/_enrollment.scss */
+/* line 481, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-orange section h1 span {
   color: #fda32b;
 }
-/* line 452, _sass/partials/_enrollment.scss */
+/* line 484, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-orange .banner {
   border-top: 5px solid #fda32b;
 }
-/* line 449, _sass/partials/_enrollment.scss */
+/* line 481, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-red section h1 span {
   color: #aa2130;
 }
-/* line 452, _sass/partials/_enrollment.scss */
+/* line 484, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-red .banner {
   border-top: 5px solid #aa2130;
 }
-/* line 449, _sass/partials/_enrollment.scss */
+/* line 481, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-palered section h1 span {
   color: #b48789;
 }
-/* line 452, _sass/partials/_enrollment.scss */
+/* line 484, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-palered .banner {
   border-top: 5px solid #b48789;
 }
-/* line 449, _sass/partials/_enrollment.scss */
+/* line 481, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-white section h1 span {
   color: white;
 }
-/* line 452, _sass/partials/_enrollment.scss */
+/* line 484, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-white .banner {
   border-top: 5px solid white;
 }
-/* line 449, _sass/partials/_enrollment.scss */
+/* line 481, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-grey section h1 span {
   color: #e8e8e8;
 }
-/* line 452, _sass/partials/_enrollment.scss */
+/* line 484, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-grey .banner {
   border-top: 5px solid #e8e8e8;
 }
-/* line 449, _sass/partials/_enrollment.scss */
+/* line 481, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-darkgrey section h1 span {
   color: #6b6b6b;
 }
-/* line 452, _sass/partials/_enrollment.scss */
+/* line 484, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-darkgrey .banner {
   border-top: 5px solid #6b6b6b;
 }
 @media only screen and (max-width: 767px) {
-  /* line 458, _sass/partials/_enrollment.scss */
+  /* line 490, _sass/partials/_enrollment.scss */
   .enrollment-section .button {
     margin: 0 auto;
     display: block;
   }
 }
 
-/* line 465, _sass/partials/_enrollment.scss */
+/* line 497, _sass/partials/_enrollment.scss */
 .cart {
   background: #fafafa;
   color: #333;
@@ -9498,7 +9582,7 @@ article.opportunity-more-information.accent-red .phone {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-/* line 473, _sass/partials/_enrollment.scss */
+/* line 505, _sass/partials/_enrollment.scss */
 .cart header {
   background: none;
   -moz-border-radius: 0;
@@ -9506,34 +9590,34 @@ article.opportunity-more-information.accent-red .phone {
   border-radius: 0;
   padding: 0;
 }
-/* line 477, _sass/partials/_enrollment.scss */
+/* line 509, _sass/partials/_enrollment.scss */
 .cart header h1 {
   margin: 15px 10px;
 }
-/* line 481, _sass/partials/_enrollment.scss */
+/* line 513, _sass/partials/_enrollment.scss */
 .cart hr {
   margin: 10px 0;
   border: 0;
   border-top: 3px solid #eee;
 }
-/* line 486, _sass/partials/_enrollment.scss */
+/* line 518, _sass/partials/_enrollment.scss */
 .cart h1 {
   font-size: 20px;
   text-transform: none;
   margin: 15px 10px;
 }
-/* line 491, _sass/partials/_enrollment.scss */
+/* line 523, _sass/partials/_enrollment.scss */
 .cart p {
   font-size: 16px;
   margin: 0 8px 15px 8px;
 }
-/* line 495, _sass/partials/_enrollment.scss */
+/* line 527, _sass/partials/_enrollment.scss */
 .cart ul.info {
   border-top: 1px solid #e2e2e3;
   padding: 0;
   margin: 0 8px 15px 5px;
 }
-/* line 499, _sass/partials/_enrollment.scss */
+/* line 531, _sass/partials/_enrollment.scss */
 .cart ul.info li {
   border-bottom: 1px solid #e2e2e3;
   list-style-type: none;
@@ -9541,32 +9625,32 @@ article.opportunity-more-information.accent-red .phone {
   font-size: 13px;
   position: relative;
 }
-/* line 505, _sass/partials/_enrollment.scss */
+/* line 537, _sass/partials/_enrollment.scss */
 .cart ul.info li i {
   position: absolute;
   top: 12px;
   left: 0;
 }
-/* line 512, _sass/partials/_enrollment.scss */
+/* line 544, _sass/partials/_enrollment.scss */
 .cart .center {
   text-align: center;
 }
-/* line 515, _sass/partials/_enrollment.scss */
+/* line 547, _sass/partials/_enrollment.scss */
 .cart .cart-item {
   margin-bottom: 10px;
 }
-/* line 518, _sass/partials/_enrollment.scss */
+/* line 550, _sass/partials/_enrollment.scss */
 .cart .cart-item:last-child {
   margin-bottom: 0;
 }
-/* line 522, _sass/partials/_enrollment.scss */
+/* line 554, _sass/partials/_enrollment.scss */
 .cart .delete {
   cursor: pointer;
   float: right;
   width: 5%;
   margin-top: 5px;
 }
-/* line 528, _sass/partials/_enrollment.scss */
+/* line 560, _sass/partials/_enrollment.scss */
 .cart .rate {
   float: left;
   width: 29%;
@@ -9575,7 +9659,7 @@ article.opportunity-more-information.accent-red .phone {
   font-weight: bold;
   text-align: center;
 }
-/* line 535, _sass/partials/_enrollment.scss */
+/* line 567, _sass/partials/_enrollment.scss */
 .cart .rate span {
   display: block;
   font-weight: normal;
@@ -9583,12 +9667,12 @@ article.opportunity-more-information.accent-red .phone {
   font-size: 12px;
   line-height: 12px;
 }
-/* line 543, _sass/partials/_enrollment.scss */
+/* line 575, _sass/partials/_enrollment.scss */
 .cart .description {
   float: left;
   width: 60%;
 }
-/* line 546, _sass/partials/_enrollment.scss */
+/* line 578, _sass/partials/_enrollment.scss */
 .cart .description h2 {
   line-height: 16px;
   margin: 0;
@@ -9597,28 +9681,28 @@ article.opportunity-more-information.accent-red .phone {
   font-weight: bold;
   text-transform: none;
 }
-/* line 554, _sass/partials/_enrollment.scss */
+/* line 586, _sass/partials/_enrollment.scss */
 .cart .description a {
   font-size: 13px;
 }
-/* line 558, _sass/partials/_enrollment.scss */
+/* line 590, _sass/partials/_enrollment.scss */
 .cart .avatar {
   text-align: center;
   margin-bottom: 10px;
 }
-/* line 562, _sass/partials/_enrollment.scss */
+/* line 594, _sass/partials/_enrollment.scss */
 .cart address {
   font-style: normal;
   font-size: 12px;
   margin-top: 20px;
 }
-/* line 566, _sass/partials/_enrollment.scss */
+/* line 598, _sass/partials/_enrollment.scss */
 .cart address h3 {
   font-size: 12px;
   color: #333;
   margin: 0;
 }
-/* line 572, _sass/partials/_enrollment.scss */
+/* line 604, _sass/partials/_enrollment.scss */
 .cart .box {
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
@@ -9631,35 +9715,35 @@ article.opportunity-more-information.accent-red .phone {
   padding: 14px;
   border: 1px solid #ebebeb;
 }
-/* line 579, _sass/partials/_enrollment.scss */
+/* line 611, _sass/partials/_enrollment.scss */
 .cart .box p {
   font-size: 13px;
   margin: 10px 0;
 }
-/* line 582, _sass/partials/_enrollment.scss */
+/* line 614, _sass/partials/_enrollment.scss */
 .cart .box p.alt {
   color: #9a9a9a;
   font-size: 15px;
 }
-/* line 587, _sass/partials/_enrollment.scss */
+/* line 619, _sass/partials/_enrollment.scss */
 .cart .box.time {
   position: relative;
   padding-left: 55px;
 }
-/* line 590, _sass/partials/_enrollment.scss */
+/* line 622, _sass/partials/_enrollment.scss */
 .cart .box.time .icon-clock {
   position: absolute;
   top: 22px;
   left: 10px;
 }
 @media only screen and (max-width: 767px) {
-  /* line 465, _sass/partials/_enrollment.scss */
+  /* line 497, _sass/partials/_enrollment.scss */
   .cart {
     display: none;
   }
 }
 
-/* line 602, _sass/partials/_enrollment.scss */
+/* line 634, _sass/partials/_enrollment.scss */
 .cart-overlay {
   position: fixed;
   top: 0;
@@ -9671,55 +9755,55 @@ article.opportunity-more-information.accent-red .phone {
   overflow: scroll;
   display: none;
 }
-/* line 612, _sass/partials/_enrollment.scss */
+/* line 644, _sass/partials/_enrollment.scss */
 .cart-overlay .cart {
   float: none;
   width: auto;
   margin: 20px;
 }
-/* line 616, _sass/partials/_enrollment.scss */
+/* line 648, _sass/partials/_enrollment.scss */
 .cart-overlay .cart i {
   float: right;
   cursor: pointer;
   margin-right: 10px;
 }
-/* line 621, _sass/partials/_enrollment.scss */
+/* line 653, _sass/partials/_enrollment.scss */
 .cart-overlay .cart .rate {
   position: absolute;
   float: none;
   right: 60px;
 }
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
-  /* line 612, _sass/partials/_enrollment.scss */
+  /* line 644, _sass/partials/_enrollment.scss */
   .cart-overlay .cart {
     display: block;
   }
 }
 @media only screen and (max-width: 767px) {
-  /* line 612, _sass/partials/_enrollment.scss */
+  /* line 644, _sass/partials/_enrollment.scss */
   .cart-overlay .cart {
     display: block;
   }
 }
-/* line 634, _sass/partials/_enrollment.scss */
+/* line 666, _sass/partials/_enrollment.scss */
 .cart-overlay.open {
   display: block;
 }
 @media only screen and (min-width: 768px) {
-  /* line 634, _sass/partials/_enrollment.scss */
+  /* line 666, _sass/partials/_enrollment.scss */
   .cart-overlay.open {
     display: none;
   }
 }
 
-/* line 642, _sass/partials/_enrollment.scss */
+/* line 674, _sass/partials/_enrollment.scss */
 .promo-box {
   background: #fafafa;
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-/* line 645, _sass/partials/_enrollment.scss */
+/* line 677, _sass/partials/_enrollment.scss */
 .promo-box header {
   background: none;
   -moz-border-radius: 0;
@@ -9727,19 +9811,19 @@ article.opportunity-more-information.accent-red .phone {
   border-radius: 0;
   padding: 0;
 }
-/* line 649, _sass/partials/_enrollment.scss */
+/* line 681, _sass/partials/_enrollment.scss */
 .promo-box header h1 {
   margin: 15px 10px;
   text-align: center;
   font-size: 20px;
   text-transform: none;
 }
-/* line 656, _sass/partials/_enrollment.scss */
+/* line 688, _sass/partials/_enrollment.scss */
 .promo-box .body {
   text-align: center;
 }
 @media only screen and (min-width: 768px) {
-  /* line 663, _sass/partials/_enrollment.scss */
+  /* line 695, _sass/partials/_enrollment.scss */
   .promo-box.horizontal {
     position: relative;
     background: #fdfdfd;
@@ -9747,7 +9831,7 @@ article.opportunity-more-information.accent-red .phone {
     -webkit-border-radius: 0;
     border-radius: 0;
   }
-  /* line 667, _sass/partials/_enrollment.scss */
+  /* line 699, _sass/partials/_enrollment.scss */
   .promo-box.horizontal .avatar {
     position: absolute;
     top: 30px;
@@ -9755,26 +9839,26 @@ article.opportunity-more-information.accent-red .phone {
     width: 20%;
     text-align: center;
   }
-  /* line 674, _sass/partials/_enrollment.scss */
+  /* line 706, _sass/partials/_enrollment.scss */
   .promo-box.horizontal header {
     margin-left: 21%;
   }
-  /* line 676, _sass/partials/_enrollment.scss */
+  /* line 708, _sass/partials/_enrollment.scss */
   .promo-box.horizontal header h1 {
     text-align: left;
     margin: 0;
   }
-  /* line 681, _sass/partials/_enrollment.scss */
+  /* line 713, _sass/partials/_enrollment.scss */
   .promo-box.horizontal .body {
     text-align: left;
     margin-left: 21%;
     margin-right: 25%;
   }
-  /* line 685, _sass/partials/_enrollment.scss */
+  /* line 717, _sass/partials/_enrollment.scss */
   .promo-box.horizontal .body p {
     margin: 0;
   }
-  /* line 688, _sass/partials/_enrollment.scss */
+  /* line 720, _sass/partials/_enrollment.scss */
   .promo-box.horizontal .body .button {
     position: absolute;
     right: 2%;
