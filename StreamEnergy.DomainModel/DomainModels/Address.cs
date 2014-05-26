@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StreamEnergy.Extensions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -83,6 +84,11 @@ namespace StreamEnergy.DomainModels
                 && this.PostalCodePlus4 == other.PostalCodePlus4
                 && this.StateAbbreviation == other.StateAbbreviation
                 && this.UnitNumber == other.UnitNumber;
+        }
+
+        public string ToSingleLine()
+        {
+            return Line1 + Line2.Prefix(" ") + UnitNumber.Prefix(" ") + " " + City + ", " + StateAbbreviation + ", " + PostalCode5 + PostalCodePlus4.Prefix("-");
         }
     }
 }

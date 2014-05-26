@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace StreamEnergy.DomainModels
 {
     [Serializable]
-    public class TexasServiceCapability : IServiceCapability
+    public class TexasServiceCapability : IServiceCapability, ISearchable
     {
         public const string Qualifier = "TexasElectricity";
 
@@ -20,5 +20,10 @@ namespace StreamEnergy.DomainModels
         public string Tdu { get; set; }
 
         // TODO - meter type? dwelling type?
+
+        string ISearchable.GetUniqueField()
+        {
+            return EsiId;
+        }
     }
 }
