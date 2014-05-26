@@ -1039,6 +1039,12 @@ article.contact {
 				float: left;
 			}
 		}
+		@include breakpoint(small) {
+			.grid .col {
+				width: 100%;
+				padding-bottom: 20px;
+			}
+		}
 	}
 	div.vip {
 		h2 {
