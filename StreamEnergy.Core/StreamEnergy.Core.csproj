@@ -36,6 +36,24 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Azure-Production|AnyCPU'">
+    <OutputPath>bin\Azure-Production\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Azure-Production Sitecore|AnyCPU'">
+    <OutputPath>bin\Azure-Production Sitecore\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
@@ -141,6 +159,7 @@
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="ISanitizable.cs" />
     <Compile Include="ISettings.cs" />
+    <Compile Include="ITypeIndicatorLookup.cs" />
     <Compile Include="IValidationService.cs" />
     <Compile Include="Json.cs" />
     <Compile Include="MockParameterBuilder.cs" />
@@ -156,6 +175,7 @@
     <Compile Include="Mvc\Sitecore\ControllerRenderer.cs" />
     <Compile Include="Mvc\Sitecore\ControllerRunner.cs" />
     <Compile Include="Mvc\Sitecore\GetControllerRenderer.cs" />
+    <Compile Include="Processes\StateBase.cs" />
     <Compile Include="RequireValueAttributeAdapter.cs" />
     <Compile Include="Pipelines\GetTextFieldValueExtended.cs" />
     <Compile Include="Processes\IState.cs" />

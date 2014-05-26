@@ -6,41 +6,35 @@ using System.Text;
 
 namespace StreamEnergy
 {
-    public class TypeIndicatorLookup
-    {
-        public Type SuperType { get; set; }
-        public Type Concrete { get; set; }
-        public Predicate<JObject> IsMatch { get; set; }
-    }
-
-    public class TypeIndicatorLookup<TSuper, TSample, TConcrete>
+    public class TypeIndicatorLookup<TSuper, TSample> : ITypeIndicatorLookup
         where TSample : class, TSuper
-        where TConcrete : TSuper
     {
-        public TypeIndicatorLookup()
+        private readonly Func<TSuper, string> getQualifier;
+
+        public TypeIndicatorLookup(Func<TSuper, string> getQualifier)
         {
+            this.getQualifier = getQualifier;
+            this.SupportedTypes = new Dictionary<string, Type>();
         }
 
-        private bool CheckMatch(Newtonsoft.Json.Linq.JObject obj)
+        public Dictionary<string, Type> SupportedTypes { get; private set; }
+
+
+        public Type SuperType
         {
-            var sample = Newtonsoft.Json.JsonSerializer.Create(Json.StandardFormatting).Deserialize<TSample>(obj.CreateReader());
+            get { return typeof(TSuper); }
+        }
+
+        public Type FindMatch(JObject data)
+        {
+            var sample = Newtonsoft.Json.JsonSerializer.Create(Json.StandardFormatting).Deserialize<TSample>(data.CreateReader());
             if (sample != null)
-                return IsMatch(sample);
-
-            return false;
-        }
-
-        public Predicate<TSample> IsMatch { get; set; }
-
-        public static implicit operator TypeIndicatorLookup(TypeIndicatorLookup<TSuper, TSample, TConcrete> target)
-        {
-            return new TypeIndicatorLookup()
             {
-                SuperType = typeof(TSuper),
-                Concrete = typeof(TConcrete),
-                IsMatch = target.CheckMatch
-            };
+                var value = getQualifier(sample);
+                if (SupportedTypes.ContainsKey(value))
+                    return SupportedTypes[value];
+            }
+            return null;
         }
-
     }
 }

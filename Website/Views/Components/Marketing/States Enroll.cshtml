@@ -1,29 +1,17 @@
 ﻿<article class="marketing state-tabs states-enroll" state-tabs="texas">
     <ul class="tabs-nav">
-        @* Leave off Texas for Gas *@
-        @{
-            if (Sitecore.Context.Item.ID.ToString() != "{C7693DE6-6FF3-433C-A5F1-5BF7740C1469}")
-            {
-                <li ng-click="selectPane('texas')" ng-class="{ active: pane == 'texas' }">
-                    <a href="">
-                        <span><i class="icon-state-texas"></i></span>
-                        @Html.Sitecore().Field("Texas State Text")
-                    </a>
-                </li>
-            }
-        }
-        @* Leave of Georgia for Electricity *@
-        @{
-            if (Sitecore.Context.Item.ID.ToString() != "{49B60A21-3394-466D-A65D-1963E888244C}")
-            {
-                <li ng-click="selectPane('georgia')" ng-class="{ active: pane == 'georgia' }">
-                    <a href="">
-                        <span><i class="icon-state-georgia"></i></span>
-                        @Html.Sitecore().Field("Georgia State Text")
-                    </a>
-                </li>
-            }
-        }
+        <li ng-click="selectPane('texas')" ng-class="{ active: pane == 'texas' }">
+            <a href="">
+                <span><i class="icon-state-texas"></i></span>
+                @Html.Sitecore().Field("Texas State Text")
+            </a>
+        </li>
+        <li ng-click="selectPane('georgia')" ng-class="{ active: pane == 'georgia' }">
+            <a href="">
+                <span><i class="icon-state-georgia"></i></span>
+                @Html.Sitecore().Field("Georgia State Text")
+            </a>
+        </li>    
         <li ng-click="selectPane('pennsylvania')" ng-class="{ active: pane == 'pennsylvania' }">
             <a href="">
                 <span><i class="icon-state-pennsylvania"></i></span>
@@ -48,18 +36,12 @@
                 @Html.Sitecore().Field("New York State Text")
             </a>
         </li>
-        @* Leave off DC for Gas *@
-        @{
-            if (Sitecore.Context.Item.ID.ToString() != "{C7693DE6-6FF3-433C-A5F1-5BF7740C1469}")
-            {
-                <li ng-click="selectPane('washingtondc')" ng-class="{ active: pane == 'washingtondc' }">
-                    <a href="">
-                        <span><i class="icon-state-washingtondc"></i></span>
-                        @Html.Sitecore().Field("Washington DC State Text")
-                    </a>
-                </li>
-            }
-        }  
+        <li ng-click="selectPane('washingtondc')" ng-class="{ active: pane == 'washingtondc' }">
+            <a href="">
+                <span><i class="icon-state-washingtondc"></i></span>
+                @Html.Sitecore().Field("Washington DC State Text")
+            </a>
+        </li>
     </ul>
     <div class="tab-content" ng-class="{ hidden : pane != 'texas' }">
         <div class="tab-header">

@@ -11,6 +11,7 @@ namespace StreamEnergy.MyStream.Models.Marketing
     {
         public string PostUrl { get; set; }
         public string ClientId { get; set; }
+        public bool HasFreeMonth { get; set; }
 
         public CustomerAccount CustomerAccount { get; set; }
 

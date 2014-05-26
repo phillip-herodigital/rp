@@ -3,7 +3,17 @@
 @{
     foreach(var item in Model)
     {
-        <h2>@Html.Sitecore().Field("FAQ Question", item)</h2>
-        @Html.Sitecore().Field("FAQ Answer", item)
+        <div class="panel" slide-toggle>
+            <div class="q">Q |</div>
+            <p class="question"><a ng-click="togglePane('question1')" href="">@Html.Sitecore().Field("FAQ Question", item)</a></p>
+            <div class="panel-content slide-toggle" ng-show="pane == 'question1'">
+                <hr class="answer-hr" />
+                <div class="a">A |</div>
+                <div class="answer">
+                    @Html.Sitecore().Field("FAQ Answer", item)
+                </div>
+            </div>
+        </div>
+        <hr class="faq-hr" />
     }
 }

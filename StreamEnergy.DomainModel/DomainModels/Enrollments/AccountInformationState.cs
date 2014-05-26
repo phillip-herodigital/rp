@@ -7,12 +7,19 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
-    public class AccountInformationState : IState<UserContext, InternalContext>
+    public class AccountInformationState : StateBase<UserContext, InternalContext>
     {
-        public IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
+        private readonly IEnrollmentService enrollmentService;
+
+        public AccountInformationState(IEnrollmentService enrollmentService)
+            : base(previousState: typeof(PlanSelectionState), nextState: typeof(LoadIdentityQuestionsState))
         {
-            yield return context => context.ServiceAddress;
-            yield return context => context.SelectedOffers;
+            this.enrollmentService = enrollmentService;
+        }
+
+        public override IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
+        {
+            yield return context => context.Services;
             yield return context => context.BillingAddress;
             yield return context => context.ContactInfo;
             yield return context => context.Language;
@@ -21,34 +28,34 @@ namespace StreamEnergy.DomainModels.Enrollments
             yield return context => context.DriversLicense;
         }
 
-        public IEnumerable<ValidationResult> AdditionalValidations(UserContext context, InternalContext internalContext)
+        public override void Sanitize(UserContext context, InternalContext internalContext)
         {
-            yield break;
-        }
-
-        bool IState<UserContext, InternalContext>.IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult, UserContext context, InternalContext internalContext)
-        {
-            return false;
-        }
-
-        public bool IsFinal
-        {
-            get { return false; }
-        }
-
-        public Type Process(UserContext context, InternalContext internalContext)
-        {
-            return typeof(LoadIdentityQuestionsState);
-        }
-
-        public bool RestoreInternalState(IStateMachine<UserContext, InternalContext> stateMachine, ref InternalContext internalContext, ref Type state)
-        {
-            if (!stateMachine.RestoreStateFrom(typeof(PlanSelectionState), ref internalContext, ref state))
+            var changedAddresses = context.Services.Select(s => s.Value.Location).Where(loc => !internalContext.AllOffers.Any(offer => offer.Item1.Address == loc.Address)).ToArray();
+            if (changedAddresses.Any())
             {
-                return false;
+                internalContext.AllOffers = internalContext.AllOffers.Concat(enrollmentService.LoadOffers(changedAddresses));
             }
 
-            return true;
+            if (context.Services != null)
+            {
+                foreach (var entry in context.Services.Values.Select((service, index) => new { service, index }))
+                {
+                    var offers = from offer in internalContext.AllOffers
+                                 where offer.Item1.Address == entry.service.Location.Address
+                                 select offer.Item2.Id;
+
+                    if (entry.service.SelectedOffers != null)
+                    {
+                        foreach (var selectedEntry in entry.service.SelectedOffers.Values.Select((offer, index) => new { offer, index }))
+                        {
+                            if (!offers.Contains(selectedEntry.offer.Offer.Id))
+                            {
+                                selectedEntry.offer.Offer = null;
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

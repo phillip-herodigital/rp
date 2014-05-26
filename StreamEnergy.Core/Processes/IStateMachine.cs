@@ -22,7 +22,7 @@ namespace StreamEnergy.Processes
         TInternalContext InternalContext { get; }
         Type State { get; }
 
-        bool RestoreStateFrom(Type state, ref TInternalContext internalContext, ref Type currentState);
+        bool RestoreStateFrom(Type state, ref Type currentState);
 
         void Process(params Type[] stopAt);
 
