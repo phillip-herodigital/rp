@@ -56,7 +56,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
             doc.Add(new Field("Exact",
                               string.Join(" ", arg.Capabilities.OfType<ISearchable>().Select(c => c.GetUniqueField()).Where(s => !string.IsNullOrEmpty(s))),
                               Field.Store.NO,
-                              Field.Index.ANALYZED_NO_NORMS));
+                              Field.Index.NOT_ANALYZED_NO_NORMS));
 
             return doc;
         }
