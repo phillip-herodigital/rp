@@ -5,8 +5,10 @@
     {
         <div class="panel" slide-toggle>
             <div class="q">Q |</div>
-            <p class="question"><a ng-click="togglePane('question1')" href="">@Html.Sitecore().Field("FAQ Question", item)</a></p>
-            <div class="panel-content slide-toggle" ng-show="pane == 'question1'">
+            <p class="question">
+                <a ng-click="isOpen=!isOpen" ng-class="{'collapsed': !isOpen}" href="">@Html.Sitecore().Field("FAQ Question", item)</a>
+            </p>
+            <div class="panel-content slide-toggle" ng-show="isOpen">
                 <hr class="answer-hr" />
                 <div class="a">A |</div>
                 <div class="answer">
