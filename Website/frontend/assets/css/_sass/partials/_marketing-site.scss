@@ -1964,6 +1964,9 @@ article.free-energy.picture-promo {
 
 article.enroll {
 	margin-top: 20px;
+	&.photoLockup {
+		margin-top: 0;
+	}
 	.text {
 		padding: 25px 0;
 		h1 {
