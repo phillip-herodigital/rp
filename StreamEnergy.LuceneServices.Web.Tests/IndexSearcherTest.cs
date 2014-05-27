@@ -97,11 +97,21 @@ namespace StreamEnergy.LuceneServices.Web.Tests
         }
 
         [TestMethod]
-        public void StreetNameSpellingError()
+        public void StreetNumberAndName()
         {
             using (var searcher = new IndexSearcher(BuildIndexPath(TestContext)))
             {
-                var results = searcher.Search("TX", "Hufines").ToArray();
+                var results = searcher.Search("TX", "3620 Huffines").ToArray();
+                Assert.AreEqual(data.First().Address, results.First().Address);
+            }
+        }
+
+        [TestMethod]
+        public void StreetNumberAndNameSpellingError()
+        {
+            using (var searcher = new IndexSearcher(BuildIndexPath(TestContext)))
+            {
+                var results = searcher.Search("TX", "3620 Hufines").ToArray();
                 Assert.AreEqual(data.First().Address, results.First().Address);
             }
         }

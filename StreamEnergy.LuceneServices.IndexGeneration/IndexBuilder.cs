@@ -46,7 +46,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
                               Field.Store.NO,
                               Field.Index.NOT_ANALYZED_NO_NORMS));
             doc.Add(new Field("Canonical",
-                              arg.Address.ToSingleLine(),
+                              arg.Address.ToSingleLine().Replace(',', ' '),
                               Field.Store.NO,
                               Field.Index.ANALYZED));
             doc.Add(new Field("Data",

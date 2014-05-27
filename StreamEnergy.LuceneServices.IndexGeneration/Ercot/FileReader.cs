@@ -24,7 +24,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.Ercot
         {
             var regex = @"^(\s*0*(?<StreetNumber>[1-9][0-9]*)\s+)?" +
                 @"(?<StreetName>.+?)(\s+" +
-                @"(?<StreetSuffix>("+string.Join("|", streetSuffixes)+@"|[0-9]+(\s+[NESW])?))(\s+" +
+                @"(?<StreetSuffix>(" + string.Join("|", streetSuffixes) + @"|[0-9]+)(\s+[NESW])?)(\s+" +
                 @"(?<Unit>[a-zA-Z]+(\s+\w+)?)?)?)?$";
             addressLine = new Regex(regex, RegexOptions.Compiled);
         }

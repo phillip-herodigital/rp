@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="ContainerSetup.cs" />
     <Compile Include="Ercot\ErcotFileReaderTest.cs" />
+    <Compile Include="Ercot\IndexSearcherErcotFileTest.cs" />
     <Compile Include="IndexSearcherTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
