@@ -1009,6 +1009,12 @@ article.contact {
 				float: left;
 			}
 		}
+		@include breakpoint(small) {
+			.grid .col {
+				width: 100%;
+				padding-bottom: 20px;
+			}
+		}
 	}
 	div.homelife-services {
 		border-bottom: 3px solid #0073c7;
@@ -2037,7 +2043,7 @@ article.enroll {
 					font-size: 12px;
 					font-weight: bold;
 					margin-left: 3.5em;
-					padding: 15px 0px;
+					padding: 15px 25px 15px 0px;
 					display: block;
 				}
 			}
