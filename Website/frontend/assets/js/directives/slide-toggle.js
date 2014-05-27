@@ -5,16 +5,21 @@ ngApp.directive('slideToggle', [function () {
 		scope: true,
 		// The linking function will add behavior to the template
 		link: function(scope, element, attrs) {
+			var anchorElement = element.find('a');
+
+			//Add class collapsed by default
+			anchorElement.addClass('collapsed');
+
 			if (attrs.openPane) {
 				scope.pane = attrs.openPane;
 			}
 			scope.togglePane = function(pane) {
 				if(scope.pane === pane) {
 					scope.pane = '';
-					element.find('a').addClass('collapsed');
+					anchorElement.addClass('collapsed');
 				} else {
 					scope.pane = pane;
-					element.find('a').removeClass('collapsed');
+					anchorElement.removeClass('collapsed');
 				}
 			};
 		}

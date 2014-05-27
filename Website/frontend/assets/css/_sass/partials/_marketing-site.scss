@@ -1299,17 +1299,18 @@ article.faq {
 			@include border-radius(10px, 10px);
 			background-color: #fff;
 			p.question {
-				background-image: url('../i/marketing/expand.png');
-				background-repeat: no-repeat;
-				background-position: 98%;
 				margin-left: 55px;
+				margin-right: 10px;
 				a {
+					background-image: url('../i/marketing/collapse.png');
+					background-repeat: no-repeat;
+					background-position: right center;					
 					color: #696969;
 					display: block;
-					padding: 15px 50px 15px 15px;
-					@include breakpoint(small) {
-						width: 93%;	
-					}
+					padding: 15px 40px 15px 0;
+				}
+				a.collapsed {
+					background-image: url('../i/marketing/expand.png');
 				}
 			}
 			.q {
