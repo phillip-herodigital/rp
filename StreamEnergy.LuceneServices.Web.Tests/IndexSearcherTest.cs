@@ -56,10 +56,10 @@ namespace StreamEnergy.LuceneServices.Web.Tests
         {
             var container = ContainerSetup.Create();
 
-            var output = BuildIndexPath(testContext);
-            var builder = new IndexBuilder(output);
-            builder.WriteIndex(data);
-
+            using (var builder = new IndexBuilder(BuildIndexPath(testContext)))
+            {
+                builder.WriteIndex(data).Wait();
+            }
         }
         //
         // Use ClassCleanup to run code after all tests in a class have run

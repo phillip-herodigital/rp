@@ -12,6 +12,13 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
         [Option('d', "dest", Required=true, HelpText="The destination folder for the Lucene index.")]
         public string Destination { get; set; }
 
+        [Option('s', "source", Required = true, HelpText = "The source folder for the data files.")]
+        public string Source { get; set; }
+
+        [Option('u', "update", DefaultValue=false, HelpText = "Update the Lucene index at the destination folder.")]
+        public bool IsUpdate { get; set; }
+
+
         [HelpOption]
         public string GetUsage()
         {

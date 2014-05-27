@@ -100,6 +100,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ercot\DirectoryLoader.cs" />
+    <Compile Include="Ercot\FileMetadata.cs" />
     <Compile Include="Ercot\FileReader.cs" />
     <Compile Include="Ercot\Record.cs" />
     <Compile Include="IndexBuilder.cs" />

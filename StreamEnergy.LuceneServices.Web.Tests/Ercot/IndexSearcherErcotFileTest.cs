@@ -45,14 +45,13 @@ namespace StreamEnergy.LuceneServices.Web.Tests.Ercot
         {
             var container = ContainerSetup.Create();
 
-            var target = new FileReader();
+            using (var target = new FileReader())
             using (var stream = typeof(IndexSearcherErcotFileTest).Assembly.GetManifestResourceStream("StreamEnergy.LuceneServices.Web.Tests.Ercot.ext.00000203.0000000000000000.20140527.055928559.ONCOR_ELEC___DAILY.zip"))
+            using (var builder = new IndexBuilder(BuildIndexPath(testContext)))
             {
                 var data = target.ReadZipFile(stream, "ONCOR");
 
-                var output = BuildIndexPath(testContext);
-                var builder = new IndexBuilder(output);
-                builder.WriteIndex(data);
+                builder.WriteIndex(data).Wait();
             }
 
             searcher = new IndexSearcher(BuildIndexPath(testContext));

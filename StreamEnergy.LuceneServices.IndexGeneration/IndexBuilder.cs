@@ -12,29 +12,48 @@ using LuceneStore = Lucene.Net.Store;
 
 namespace StreamEnergy.LuceneServices.IndexGeneration
 {
-    public class IndexBuilder
+    public class IndexBuilder : IDisposable
     {
         private LuceneStore.FSDirectory directory;
+        private readonly List<Action> onDispose = new List<Action>();
+        private IndexWriter writer;
 
         public IndexBuilder(string destination)
         {
             System.IO.Directory.CreateDirectory(destination);
             directory = LuceneStore.FSDirectory.Open(destination);
+
+            Analyzer analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
+            writer = new IndexWriter(directory, analyzer, true, IndexWriter.MaxFieldLength.UNLIMITED);
+            onDispose.Add(((IDisposable)analyzer).Dispose);
+            onDispose.Add(((IDisposable)writer).Dispose);
+            onDispose.Add(((IDisposable)directory).Dispose);
         }
 
-        public bool WriteIndex(IEnumerable<DomainModels.Enrollments.Location> locations)
+        public async Task<bool> WriteLocation(DomainModels.Enrollments.Location location)
         {
-            Analyzer analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
-            IndexWriter writer = new IndexWriter(directory, analyzer, true, IndexWriter.MaxFieldLength.UNLIMITED);
-
-            foreach (var doc in locations.Select(ToDocument))
+            return await Task.Run<bool>(() =>
             {
-                writer.AddDocument(doc);
-            }
+                writer.AddDocument(ToDocument(location));
+                return true;
+            });
+        }
 
-            writer.Optimize();
-            writer.Close();
-            return true;
+        public async Task<bool> Optimize()
+        {
+            return await Task.Run(() =>
+            {
+                writer.Optimize();
+                return true;
+            });
+        }
+
+        public async Task<bool> WriteIndex(IEnumerable<DomainModels.Enrollments.Location> locations)
+        {
+            foreach (var location in locations)
+                await WriteLocation(location);
+
+            return await Optimize();
         }
 
         private Document ToDocument(DomainModels.Enrollments.Location arg)
@@ -59,6 +78,14 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
                               Field.Index.NOT_ANALYZED_NO_NORMS));
 
             return doc;
+        }
+
+        void IDisposable.Dispose()
+        {
+            foreach (var action in onDispose)
+            {
+                action();
+            }
         }
     }
 }

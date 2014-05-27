@@ -16,7 +16,7 @@ namespace StreamEnergy.LuceneServices.Web.Tests.Ercot
         public void ReadErcotOncorDelta()
         {
             // Arrange
-            var target = new FileReader();
+            using (var target = new FileReader())
             using (var stream = this.GetType().Assembly.GetManifestResourceStream("StreamEnergy.LuceneServices.Web.Tests.Ercot.ext.00000203.0000000000000000.20140527.055928559.ONCOR_ELEC___DAILY.zip"))
             {
                 // Act
