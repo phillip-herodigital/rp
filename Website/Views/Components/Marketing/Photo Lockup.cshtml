@@ -17,13 +17,23 @@
     var id = !string.IsNullOrEmpty(sc.CurrentItem["Custom ID"]) ? " id=\"" + sc.CurrentItem["Custom ID"] + "\"" : "";
 }
 <article @Html.Raw(id) class="marketing photoLockup @string.Join(" ", classes)">
-    <div class="photo" style="@Html.AsBackgroundStyle("Background Image")">
+    @{
+        string styles = "";
+        Sitecore.Data.Fields.ImageField imageField = sc.CurrentItem.Fields["Background Image"];
+        if (imageField != null && imageField.MediaItem != null)
+        {
+            Sitecore.Data.Items.MediaItem image = new Sitecore.Data.Items.MediaItem(imageField.MediaItem);
+            string backgroundUrl = Sitecore.StringUtil.EnsurePrefix('/', Sitecore.Resources.Media.MediaManager.GetMediaUrl(image));
+            styles = "background-image: url('" + backgroundUrl + "'); filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + backgroundUrl + "', sizingMethod='scale'); -ms-filter: \"progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + backgroundUrl + "', sizingMethod='scale')\";";
+        }
+    }
+    <div class="photo" style="@styles">
         @{
             if (Sitecore.Context.PageMode.IsPageEditorEditing)
             {
                 @Html.Sitecore().Field("Background Image")
             }
-        }
+        }  
     </div>
     <div class="text">
         <div class="inner">
