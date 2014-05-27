@@ -957,6 +957,24 @@ article.pay {
 article.contact {
 	h2 {
 		font-size: 30px;
+        &.header-line {
+            position: relative;
+            span {
+                position: relative;
+                padding-right: 20px;
+                background: #fff;
+                z-index: 2;
+            }
+            &:after {
+                content: "";
+			    height: 4px;
+			    width: 100%;
+			    background-color: #efefef;
+			    position: absolute;
+			    top: 50%;
+                margin-top: -2px;
+		    }
+        }
 	}
 	div.wrapper {
 		padding: 40px 0 30px 0;
@@ -1156,16 +1174,6 @@ article.contact {
 	div.faq {
 		h2 {
 			text-align: left;
-			position: relative;
-			.header-line {
-				height: 4px;
-				width: 100%;
-				display: block;
-				background-color: #efefef;
-				position: absolute;
-				top: 19px;
-				left: 570px;
-			}
 		}
 		p {
 			width: 305px;
@@ -1240,15 +1248,6 @@ article.contact-state {
 			margin: 0;
 			font-size: 25px;
 		}
-		.header-line {
-			height: 4px;
-			width: 100%;
-			display: block;
-			background-color: #efefef;
-			position: absolute;
-			top: 14px;
-			left: 240px;
-		}
 	}
 	.emergency {
 		margin-bottom: 30px;
@@ -1263,15 +1262,6 @@ article.contact-state {
 		h3 {
 			color: #0971ce;
 			margin: 50px 0 10px 0;
-		}
-		.header-line {
-			height: 4px;
-			width: 100%;
-			display: block;
-			background-color: #efefef;
-			position: absolute;
-			top: 14px;
-			left: 300px;
 		}
 		.grid .col {
 			.company {
