@@ -16,16 +16,19 @@ ngApp.directive('stateTabs', ['breakpoint', function (breakpoint) {
 
 				//Calculate the height of the tab items and window scroll offset also accounting for the fixed nav height
 				if(isMobile) {
-					window.scrollTo(0, element.children()[0].getBoundingClientRect().top + window.pageYOffset + element.children()[0].offsetHeight - 57);	
+					window.scrollTo(0, element.children()[0].getBoundingClientRect().top
+									   + window.pageYOffset
+									   + element.children()[0].offsetHeight
+									   - document.querySelector('.site-header').offsetHeight);
 				}
 			};
 
 			//Only use scroll functionality for mobile views
-		    scope.$watch(function () {
-		        return breakpoint.breakpoint.name
-		    }, function (newValue, oldValue) {
-		    	isMobile = newValue == 'phone' ? true : false;
-		    }, true);
+			scope.$watch(function () {
+				return breakpoint.breakpoint.name
+			}, function (newValue, oldValue) {
+				isMobile = newValue == 'phone' ? true : false;
+			}, true);
 		}
 	};
 }]);
