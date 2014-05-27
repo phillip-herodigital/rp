@@ -32,18 +32,7 @@ namespace StreamEnergy.LuceneServices.Web.Models
             exactOrSearchQuery.Add(new TermQuery(new Term("Exact", queryString)), Occur.SHOULD);
 
             // search query
-            var searchQuery = new BooleanQuery();
-            foreach (var part in queryString.Split(' '))
-            {
-                if (!string.IsNullOrEmpty(part))
-                {
-                    // closer match for numbers
-                    searchQuery.Add(new FuzzyQuery(new Term("Canonical", part), numeric.IsMatch(part) ? 0.9f : 0.5f), Occur.SHOULD);
-                }
-            }
-
             exactOrSearchQuery.Add(new Lucene.Net.QueryParsers.QueryParser(Lucene.Net.Util.Version.LUCENE_30, "Canonical", new Lucene.Net.Analysis.Standard.StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30)).Parse(queryString), Occur.SHOULD);
-            searchQuery.MinimumNumberShouldMatch = (int)Math.Floor(searchQuery.Count() * 0.7);
 
             TopScoreDocCollector collector = TopScoreDocCollector.Create(10, true);
             searcher.Search(query, collector);

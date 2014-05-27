@@ -41,6 +41,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
             try
             {
                 await Task.Yield();
+                HashSet<string> zipCodes = new HashSet<string>();
                 int counter = 0;
                 Queue<Task> taskQueue = new Queue<Task>(maxTasks);
                 foreach (var file in tdu)
@@ -50,6 +51,15 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
                     {
                         foreach (var loc in fr.ReadZipFile(fs, file.Tdu))
                         {
+                            if (!zipCodes.Contains(loc.Address.PostalCode5))
+                            {
+                                zipCodes.Add(loc.Address.PostalCode5);
+                                taskQueue.Enqueue(indexBuilder.WriteLocation(new DomainModels.Enrollments.Location
+                                    {
+                                        Address = new DomainModels.Address { PostalCode5 = loc.Address.PostalCode5, StateAbbreviation = loc.Address.StateAbbreviation },
+                                        Capabilities = new[] { new DomainModels.TexasServiceCapability { Tdu = tdu.Key, MeterType = DomainModels.TexasMeterType.Other } },
+                                    }));
+                            }
                             taskQueue.Enqueue(indexBuilder.WriteLocation(loc));
                             if (taskQueue.Count >= maxTasks)
                             {

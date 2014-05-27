@@ -72,8 +72,10 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
                               Json.Stringify(arg),
                               Field.Store.YES,
                               Field.Index.NO));
+            var searchable = arg.Capabilities.OfType<ISearchable>().Select(c => c.GetUniqueField()).Where(s => !string.IsNullOrEmpty(s));
+            var isZipCode = arg.Address.ToSingleLine() == arg.Address.PostalCode5;
             doc.Add(new Field("Exact",
-                              string.Join(" ", arg.Capabilities.OfType<ISearchable>().Select(c => c.GetUniqueField()).Where(s => !string.IsNullOrEmpty(s))),
+                              string.Join(" ", searchable.DefaultIfEmpty(isZipCode ? arg.Address.PostalCode5 : "")),
                               Field.Store.NO,
                               Field.Index.NOT_ANALYZED_NO_NORMS));
 

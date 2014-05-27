@@ -88,7 +88,9 @@ namespace StreamEnergy.DomainModels
 
         public string ToSingleLine()
         {
-            return Line1 + Line2.Prefix(" ") + UnitNumber.Prefix(" ") + " " + City + ", " + StateAbbreviation + ", " + PostalCode5 + PostalCodePlus4.Prefix("-");
+            if (string.IsNullOrEmpty(Line1) && string.IsNullOrEmpty(Line2) && string.IsNullOrEmpty(UnitNumber) && string.IsNullOrEmpty(City))
+                return (PostalCode5.Prefix(" ") + PostalCodePlus4.Prefix("-")).Trim();
+            return (Line1 + Line2.Prefix(" ") + UnitNumber.Prefix(" ") + " " + City + ", " + StateAbbreviation + ", " + PostalCode5.Prefix(" ") + PostalCodePlus4.Prefix("-")).Trim();
         }
     }
 }

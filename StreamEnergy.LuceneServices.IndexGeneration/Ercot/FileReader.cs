@@ -108,11 +108,27 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.Ercot
                     new TexasServiceCapability
                     {
                         EsiId = record.EsiId,
-                        Tdu = tdu
+                        Tdu = tdu,
+                        MeterType = ToAmsIndicator(record.TdspAmsIndicator, record.Metered),
                     }
                 };
 
             return result;
+        }
+
+        private TexasMeterType ToAmsIndicator(string tdspAmsIndicator, string metered)
+        {
+            if (metered == "N")
+                return TexasMeterType.NotMetered;
+            switch (tdspAmsIndicator)
+            {
+                case "AMSM":
+                    return TexasMeterType.Amsm;
+                case "AMSR":
+                    return TexasMeterType.Amsr;
+                default:
+                    return TexasMeterType.Other;
+            }
         }
 
         public string WriteCsv(IEnumerable<Address> enumerable)
