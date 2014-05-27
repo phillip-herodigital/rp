@@ -41,7 +41,6 @@ namespace StreamEnergy.LuceneServices.Web.Models
                     searchQuery.Add(new FuzzyQuery(new Term("Canonical", part), numeric.IsMatch(part) ? 0.9f : 0.5f), Occur.SHOULD);
                 }
             }
-            //exactOrSearchQuery.Add(searchQuery, Occur.SHOULD);
 
             exactOrSearchQuery.Add(new Lucene.Net.QueryParsers.QueryParser(Lucene.Net.Util.Version.LUCENE_30, "Canonical", new Lucene.Net.Analysis.Standard.StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30)).Parse(queryString), Occur.SHOULD);
             searchQuery.MinimumNumberShouldMatch = (int)Math.Floor(searchQuery.Count() * 0.7);

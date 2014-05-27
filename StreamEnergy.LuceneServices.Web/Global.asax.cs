@@ -11,6 +11,7 @@ namespace StreamEnergy.LuceneServices.Web
     {
         protected void Application_Start()
         {
+            App_Start.UnityConfig.RegisterComponents();
             GlobalConfiguration.Configure(App_Start.WebApiConfig.Register);
         }
     }

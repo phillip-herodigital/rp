@@ -9,10 +9,17 @@ namespace StreamEnergy.LuceneServices.Web.Controllers
 {
     public class AddressController : ApiController
     {
+        private readonly Models.IndexSearcher searcher;
+
+        public AddressController(Models.IndexSearcher searcher)
+        {
+            this.searcher = searcher;
+        }
+
         [HttpGet]
         public IEnumerable<DomainModels.Enrollments.Location> Lookup(string state, string query)
         {
-            return Enumerable.Empty<DomainModels.Enrollments.Location>();
+            return searcher.Search(state, query);
         }
     }
 }
