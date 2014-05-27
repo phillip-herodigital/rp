@@ -77,13 +77,13 @@ namespace StreamEnergy.DomainModels
 
         public bool Equals(Address other)
         {
-            return this.City == other.City
-                && this.Line1 == other.Line1
-                && this.Line2 == other.Line2
-                && this.PostalCode5 == other.PostalCode5
-                && this.PostalCodePlus4 == other.PostalCodePlus4
-                && this.StateAbbreviation == other.StateAbbreviation
-                && this.UnitNumber == other.UnitNumber;
+            return (this.City ?? "") == (other.City ?? "")
+                && (this.Line1 ?? "") == (other.Line1 ?? "")
+                && (this.Line2 ?? "") == (other.Line2 ?? "")
+                && (this.PostalCode5 ?? "") == (other.PostalCode5 ?? "")
+                && (this.PostalCodePlus4 ?? "") == (other.PostalCodePlus4 ?? "")
+                && (this.StateAbbreviation ?? "") == (other.StateAbbreviation ?? "")
+                && (this.UnitNumber ?? "") == (other.UnitNumber ?? "");
         }
 
         public string ToSingleLine()
