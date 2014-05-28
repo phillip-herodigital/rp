@@ -783,7 +783,7 @@ article.careers {
 		border:	2px solid #f0f0f0;
 	}
 	p.job-title {
-		margin: 5px 0px;
+		margin: 5px 0 0;
 		line-height: 1;
 		text-transform: uppercase;
 		a {
@@ -1296,11 +1296,10 @@ article.faq {
 	padding: 20px 0;
 	.wrapper {
 		.panel {
-			@include border-radius(10px, 10px);
-			background-color: #fff;
+			@include border-radius(10px);
+			background: #fff;
 			p.question {
-				margin-left: 55px;
-				margin-right: 10px;
+				margin: 1em 10px 0 55px;
 				a {
 					background-image: url('../i/marketing/collapse.png');
 					background-repeat: no-repeat;
@@ -1325,6 +1324,7 @@ article.faq {
 				.answer-hr {
 					border: 3px solid #eaeaea;
 					width: 90%;
+					margin-top: 0; //Prevent jumping in the slide animation
 				}
 				.a {
 					float: left;
