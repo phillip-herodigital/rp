@@ -4,33 +4,40 @@
 ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', 'enrollmentService', function ($scope, $rootScope, $http, enrollmentService) {
 
     $scope.serverData = {}; // This array should keep track of all the form fields we collect for the enrollment
+    $scope.currentSection = 'serviceInformation';
+    $scope.nextSection = 'planSelection';
     $scope.extraFields = {};
 
     $scope.sections = [
         {
-            name: 'serviceInformation',
+            id: 'serviceInformation',
+            name: 'Let\'s Get Started',
             order: 1,
             isVisible: true
         },
         {
-            name: 'planSelection',
+            id: 'planSelection',
+            name: 'Choose Your Plan',
             order: 2,
             isVisible: false
         },
         {
-            name: 'accountInformation',
+            id: 'accountInformation',
+            name: 'Setup Your Account',
             order: 3,
             isVisible: false
         }
         ,
         {
-            name: 'verifyIdentity',
+            id: 'verifyIdentity',
+            name: 'Verify Identity',
             order: 4,
             isVisible: false
         }
         ,
         {
-            name: 'completeOrder',
+            id: 'completeOrder',
+            name: 'Confirm Order',
             order: 5,
             isVisible: false
         }

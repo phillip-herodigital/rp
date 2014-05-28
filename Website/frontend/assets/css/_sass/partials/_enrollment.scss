@@ -99,7 +99,7 @@
                         font-size: 16px;
                     }
                 }
-                &:hover,
+                &.completed:hover,
                 &.active {
                     a {
                         color: #333;

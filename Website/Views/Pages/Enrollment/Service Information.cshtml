@@ -1,4 +1,4 @@
-﻿<div id="lets-get-started" class="enrollment-section accent-orange" ng-switch-when="serviceInformation" ng-show="section.isVisible" ng-controller="EnrollmentServiceInformationCtrl">
+﻿<div id="{{section.id}}" class="enrollment-section accent-orange" ng-switch-when="serviceInformation" ng-show="section.isVisible" ng-controller="EnrollmentServiceInformationCtrl">
     <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper center">
             <h1>
@@ -9,12 +9,7 @@
     </div>
     <div class="wrapper layout cols-2">
         <aside class="left">
-            <nav>
-                <ul>
-                    <li class="active"><a href="#lets-get-started">Let's Get Started</a></li>
-                    <li><a href="#choose-your-plan">Choose Your Plan</a></li>
-                </ul>
-            </nav>
+            <div ng-include ng-if="true" src="'enrollment-nav-template'"></div>
         </aside>
         <section>
             @Html.Sitecore().Field("Header Text")

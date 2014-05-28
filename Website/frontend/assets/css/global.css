@@ -8981,11 +8981,11 @@ article.opportunity-more-information.accent-red .phone {
   font-size: 16px;
 }
 /* line 104, _sass/partials/_enrollment.scss */
-.enrollment-section .layout.cols-2 > aside.left nav li:hover a, .enrollment-section .layout.cols-2 > aside.left nav li.active a {
+.enrollment-section .layout.cols-2 > aside.left nav li.completed:hover a, .enrollment-section .layout.cols-2 > aside.left nav li.active a {
   color: #333;
 }
 /* line 106, _sass/partials/_enrollment.scss */
-.enrollment-section .layout.cols-2 > aside.left nav li:hover a::before, .enrollment-section .layout.cols-2 > aside.left nav li.active a::before {
+.enrollment-section .layout.cols-2 > aside.left nav li.completed:hover a::before, .enrollment-section .layout.cols-2 > aside.left nav li.active a::before {
   color: #053d5a;
   font-size: 32px;
   left: -30px;

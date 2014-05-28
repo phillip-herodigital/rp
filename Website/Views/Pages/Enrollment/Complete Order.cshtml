@@ -1,4 +1,4 @@
-﻿<div id="add-payment-information" class="enrollment-section accent-darkgreen" ng-switch-when="completeOrder" ng-show="section.isVisible" ng-controller="EnrollmentCompleteOrderCtrl">
+﻿<div id="{{section.id}}" class="enrollment-section accent-darkgreen" ng-switch-when="completeOrder" ng-show="section.isVisible" ng-controller="EnrollmentCompleteOrderCtrl">
     <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper">
             <h1>
@@ -9,16 +9,7 @@
     </div>
     <div class="wrapper layout cols-2">
         <aside class="left">
-            <nav>
-                <ul>
-                    <li class="completed"><a href="#lets-get-started">Let's Get Started</a></li>
-                    <li class="completed"><a href="#choose-your-plan">Choose Your Plan</a></li>
-                    <li class="completed"><a href="#setup-your-account">Setup Your Account</a></li>
-                    <li class="completed"><a href="#verify-identity">Verify Identity</a></li>
-                    <li class="active"><a href="#add-payment-information">Add Payment Information</a></li>
-                    <li><a href="#confirm-order">Confirm Order</a></li>
-                </ul>
-            </nav>
+            <div ng-include ng-if="true" src="'enrollment-nav-template'"></div>
         </aside>
         <section>
             <h1>Add <span>Payment Information</span></h1>
