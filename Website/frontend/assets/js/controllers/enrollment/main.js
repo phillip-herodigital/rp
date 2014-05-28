@@ -5,7 +5,7 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', 'enroll
 
     $scope.serverData = {}; // This array should keep track of all the form fields we collect for the enrollment
     $scope.currentSection = 'serviceInformation';
-    $scope.nextSection = 'planSelection';
+    $scope.nextSection = true;
     $scope.extraFields = {};
 
     $scope.sections = [

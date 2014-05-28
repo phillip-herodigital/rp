@@ -91,6 +91,7 @@
             li {
                 a {
                     position: relative;
+					cursor: default;
                     &::before {
                         color: #bfbfbf;
                         content: ' \25CF';
@@ -116,6 +117,7 @@
                 }
                 &.completed {
                     a {
+						cursor: pointer;
                         &::before {
                             color: #36637b;
                         }

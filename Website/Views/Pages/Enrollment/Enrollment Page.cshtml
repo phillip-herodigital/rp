@@ -7,7 +7,8 @@
 <script type="text/ng-template" id="enrollment-nav-template">
     <nav>
         <ul>
-            <li ng-class="{'completed' : section.isVisible && section.id != currentSection && section.id != nextSection, 'active' : section.id == currentSection}" ng-repeat="section in sections | orderBy: 'order'" ng-show="section.isVisible || section.id == nextSection"><a href="#{{section.id}}">{{section.name}}</a></li>
+            <li ng-class="{'completed' : section.isVisible && section.id != currentSection, 'active' : section.id == currentSection}" ng-repeat="section in sections | orderBy: 'order'" ng-show="section.isVisible"><a href="#{{section.id}}">{{section.name}}</a></li>
+            <li ng-show="nextSection"><a href="">Continue Enrollment</a></li>
         </ul>
     </nav>
 </script>

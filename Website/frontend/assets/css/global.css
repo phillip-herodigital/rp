@@ -3121,12 +3121,16 @@ div.tabbable div.tab-content div.tab-pane.active {
   color: #737373;
   padding: 15px 10px;
 }
+/* line 73, _sass/partials/_header.scss */
+.site-header nav.sub-nav > ul li.selected a {
+  color: #0971ce;
+}
 @media only screen and (max-width: 767px) {
   /* line 1, _sass/partials/_header.scss */
   .site-header {
     height: 57px;
   }
-  /* line 78, _sass/partials/_header.scss */
+  /* line 81, _sass/partials/_header.scss */
   .site-header > .wrapper, article.state-tabs .site-header > ul.tabs-nav {
     position: fixed;
     top: 0;
@@ -3141,14 +3145,14 @@ div.tabbable div.tab-content div.tab-pane.active {
   }
 }
 @media only screen and (max-width: 767px) and (-webkit-min-device-pixel-ratio: 2), only screen and (max-width: 767px) and (-o-min-device-pixel-ratio: 3 / 2), only screen and (max-width: 767px) and (min--moz-device-pixel-ratio: 2), only screen and (max-width: 767px) and (min-device-pixel-ratio: 2), only screen and (max-width: 767px) and (min-resolution: 144dppx) {
-  /* line 78, _sass/partials/_header.scss */
+  /* line 81, _sass/partials/_header.scss */
   .site-header > .wrapper, article.state-tabs .site-header > ul.tabs-nav {
     background-image: url('../i/bg2x/header-mobile.png?1398270080');
     background-size: 11.5px 11.5px;
   }
 }
 @media only screen and (max-width: 767px) {
-  /* line 90, _sass/partials/_header.scss */
+  /* line 93, _sass/partials/_header.scss */
   .site-header .logo {
     display: inline-block;
     width: 100px;
@@ -3164,22 +3168,22 @@ div.tabbable div.tab-content div.tab-pane.active {
   }
 }
 @media only screen and (max-width: 767px) and (-webkit-min-device-pixel-ratio: 2), only screen and (max-width: 767px) and (-o-min-device-pixel-ratio: 3 / 2), only screen and (max-width: 767px) and (min--moz-device-pixel-ratio: 2), only screen and (max-width: 767px) and (min-device-pixel-ratio: 2), only screen and (max-width: 767px) and (min-resolution: 144dppx) {
-  /* line 90, _sass/partials/_header.scss */
+  /* line 93, _sass/partials/_header.scss */
   .site-header .logo {
     background-image: url('../i/bg2x/logo-mobile.png?1401133385');
     background-size: 100px 24px;
   }
 }
 @media only screen and (max-width: 767px) {
-  /* line 98, _sass/partials/_header.scss */
+  /* line 101, _sass/partials/_header.scss */
   .site-header .utility {
     display: none;
   }
-  /* line 101, _sass/partials/_header.scss */
+  /* line 104, _sass/partials/_header.scss */
   .site-header .nav-toggle {
     margin-top: 22px;
   }
-  /* line 104, _sass/partials/_header.scss */
+  /* line 107, _sass/partials/_header.scss */
   .site-header .cart-toggle {
     float: right;
     margin-top: 18px;
@@ -3187,7 +3191,7 @@ div.tabbable div.tab-content div.tab-pane.active {
     opacity: 0.4;
     position: relative;
   }
-  /* line 109, _sass/partials/_header.scss */
+  /* line 112, _sass/partials/_header.scss */
   .site-header .cart-toggle span {
     position: absolute;
     top: -6px;
@@ -3196,28 +3200,28 @@ div.tabbable div.tab-content div.tab-pane.active {
     color: #000;
     font-weight: bold;
   }
-  /* line 118, _sass/partials/_header.scss */
+  /* line 121, _sass/partials/_header.scss */
   .site-header nav {
     display: none;
   }
 }
 @media only screen and (min-width: 768px) {
-  /* line 123, _sass/partials/_header.scss */
+  /* line 126, _sass/partials/_header.scss */
   .site-header .nav-toggle {
     display: none;
   }
-  /* line 126, _sass/partials/_header.scss */
+  /* line 129, _sass/partials/_header.scss */
   .site-header .cart-toggle {
     display: none;
   }
 }
 @media only screen and (min-width: 768px) {
-  /* line 131, _sass/partials/_header.scss */
+  /* line 134, _sass/partials/_header.scss */
   .site-header.fixed {
     background: #fff;
     height: 75px;
   }
-  /* line 135, _sass/partials/_header.scss */
+  /* line 138, _sass/partials/_header.scss */
   .site-header.fixed > .wrapper, article.state-tabs .site-header.fixed > ul.tabs-nav {
     position: fixed;
     top: 0;
@@ -3232,20 +3236,20 @@ div.tabbable div.tab-content div.tab-pane.active {
   }
 }
 @media only screen and (min-width: 768px) and (-webkit-min-device-pixel-ratio: 2), only screen and (min-width: 768px) and (-o-min-device-pixel-ratio: 3 / 2), only screen and (min-width: 768px) and (min--moz-device-pixel-ratio: 2), only screen and (min-width: 768px) and (min-device-pixel-ratio: 2), only screen and (min-width: 768px) and (min-resolution: 144dppx) {
-  /* line 135, _sass/partials/_header.scss */
+  /* line 138, _sass/partials/_header.scss */
   .site-header.fixed > .wrapper, article.state-tabs .site-header.fixed > ul.tabs-nav {
     background-image: url('../i/bg2x/header-enrollment.png?1400260524');
     background-size: 23px 13px;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 767px) {
-  /* line 135, _sass/partials/_header.scss */
+  /* line 138, _sass/partials/_header.scss */
   .site-header.fixed > .wrapper, article.state-tabs .site-header.fixed > ul.tabs-nav {
     background: #fff;
   }
 }
 @media only screen and (min-width: 768px) {
-  /* line 150, _sass/partials/_header.scss */
+  /* line 153, _sass/partials/_header.scss */
   .site-header.fixed .logo {
     display: inline-block;
     width: 175px;
@@ -3261,26 +3265,26 @@ div.tabbable div.tab-content div.tab-pane.active {
   }
 }
 @media only screen and (min-width: 768px) and (-webkit-min-device-pixel-ratio: 2), only screen and (min-width: 768px) and (-o-min-device-pixel-ratio: 3 / 2), only screen and (min-width: 768px) and (min--moz-device-pixel-ratio: 2), only screen and (min-width: 768px) and (min-device-pixel-ratio: 2), only screen and (min-width: 768px) and (min-resolution: 144dppx) {
-  /* line 150, _sass/partials/_header.scss */
+  /* line 153, _sass/partials/_header.scss */
   .site-header.fixed .logo {
     background-image: url('../i/bg2x/logo-desktop.png?1401133385');
     background-size: 175px 42px;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 767px) {
-  /* line 150, _sass/partials/_header.scss */
+  /* line 153, _sass/partials/_header.scss */
   .site-header.fixed .logo {
     margin-left: -25px;
   }
 }
 @media only screen and (min-width: 768px) {
-  /* line 161, _sass/partials/_header.scss */
+  /* line 164, _sass/partials/_header.scss */
   .site-header.fixed .nav-toggle {
     margin-top: 22px;
   }
 }
 
-/* line 168, _sass/partials/_header.scss */
+/* line 171, _sass/partials/_header.scss */
 .banner {
   overflow: hidden;
   margin-bottom: 20px;
@@ -3288,90 +3292,90 @@ div.tabbable div.tab-content div.tab-pane.active {
   background-position: 50%;
   background-repeat: no-repeat;
 }
-/* line 176, _sass/partials/_header.scss */
+/* line 179, _sass/partials/_header.scss */
 .banner .inner {
   background-image: url('../i/bg/banner-bottom.png?1398809617');
   background-repeat: repeat-x;
   background-position: 0 100%;
   /*background: image-url("bg/banner-bottom.png") 0 100% repeat-x;*/
 }
-/* line 182, _sass/partials/_header.scss */
+/* line 185, _sass/partials/_header.scss */
 .banner .wrapper, .banner article.state-tabs ul.tabs-nav, article.state-tabs .banner ul.tabs-nav {
   height: 220px;
   padding-top: 85px;
 }
-/* line 186, _sass/partials/_header.scss */
+/* line 189, _sass/partials/_header.scss */
 .banner h1 {
   font-size: 70px;
   font-weight: 100;
 }
-/* line 190, _sass/partials/_header.scss */
+/* line 193, _sass/partials/_header.scss */
 .banner h1, .banner p {
   margin: 0;
   color: #fff;
   line-height: 1;
   text-transform: uppercase;
 }
-/* line 196, _sass/partials/_header.scss */
+/* line 199, _sass/partials/_header.scss */
 .banner p {
   font-size: 32px;
   font-weight: 300;
 }
-/* line 201, _sass/partials/_header.scss */
+/* line 204, _sass/partials/_header.scss */
 .banner.large .wrapper, .banner.large article.state-tabs ul.tabs-nav, article.state-tabs .banner.large ul.tabs-nav {
   height: 325px;
   padding-top: 150px;
 }
-/* line 205, _sass/partials/_header.scss */
+/* line 208, _sass/partials/_header.scss */
 .banner.large h1, .banner.large p {
   color: #0971ce;
 }
 @media only screen and (max-width: 767px) {
-  /* line 210, _sass/partials/_header.scss */
+  /* line 213, _sass/partials/_header.scss */
   .banner .inner {
     background-image: url('../i/bg/header-mobile.png?1398270080');
     background-repeat: repeat-x;
   }
 }
 @media only screen and (max-width: 767px) and (-webkit-min-device-pixel-ratio: 2), only screen and (max-width: 767px) and (-o-min-device-pixel-ratio: 3 / 2), only screen and (max-width: 767px) and (min--moz-device-pixel-ratio: 2), only screen and (max-width: 767px) and (min-device-pixel-ratio: 2), only screen and (max-width: 767px) and (min-resolution: 144dppx) {
-  /* line 210, _sass/partials/_header.scss */
+  /* line 213, _sass/partials/_header.scss */
   .banner .inner {
     background-image: url('../i/bg2x/header-mobile.png?1398270080');
     background-size: 11.5px 11.5px;
   }
 }
 @media only screen and (max-width: 767px) {
-  /* line 214, _sass/partials/_header.scss */
+  /* line 217, _sass/partials/_header.scss */
   .banner .wrapper, .banner article.state-tabs ul.tabs-nav, article.state-tabs .banner ul.tabs-nav {
     height: 120px;
     padding-top: 50px;
   }
-  /* line 218, _sass/partials/_header.scss */
+  /* line 221, _sass/partials/_header.scss */
   .banner h1 {
     font-size: 27px;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
-  /* line 223, _sass/partials/_header.scss */
+  /* line 226, _sass/partials/_header.scss */
   .banner .inner {
     background-image: url('../i/bg/header-mobile.png?1398270080');
     background-repeat: repeat-x;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 1024px) and (-webkit-min-device-pixel-ratio: 2), only screen and (min-width: 768px) and (max-width: 1024px) and (-o-min-device-pixel-ratio: 3 / 2), only screen and (min-width: 768px) and (max-width: 1024px) and (min--moz-device-pixel-ratio: 2), only screen and (min-width: 768px) and (max-width: 1024px) and (min-device-pixel-ratio: 2), only screen and (min-width: 768px) and (max-width: 1024px) and (min-resolution: 144dppx) {
-  /* line 223, _sass/partials/_header.scss */
+  /* line 226, _sass/partials/_header.scss */
   .banner .inner {
     background-image: url('../i/bg2x/header-mobile.png?1398270080');
     background-size: 11.5px 11.5px;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
-  /* line 227, _sass/partials/_header.scss */
+  /* line 230, _sass/partials/_header.scss */
   .banner .wrapper, .banner article.state-tabs ul.tabs-nav, article.state-tabs .banner ul.tabs-nav {
     height: 180px;
     padding-top: 70px;
   }
-  /* line 231, _sass/partials/_header.scss */
+  /* line 234, _sass/partials/_header.scss */
   .banner h1 {
     font-size: 50px;
   }
@@ -6816,53 +6820,74 @@ article.pay hr {
 article.contact h2 {
   font-size: 30px;
 }
-/* line 961, _sass/partials/_marketing-site.scss */
+/* line 960, _sass/partials/_marketing-site.scss */
+article.contact h2.header-line {
+  position: relative;
+}
+/* line 962, _sass/partials/_marketing-site.scss */
+article.contact h2.header-line span {
+  position: relative;
+  padding-right: 20px;
+  background: #fff;
+  z-index: 2;
+}
+/* line 968, _sass/partials/_marketing-site.scss */
+article.contact h2.header-line:after {
+  content: "";
+  height: 4px;
+  width: 100%;
+  background-color: #efefef;
+  position: absolute;
+  top: 50%;
+  margin-top: -2px;
+}
+/* line 979, _sass/partials/_marketing-site.scss */
 article.contact div.wrapper {
   padding: 40px 0 30px 0;
 }
-/* line 964, _sass/partials/_marketing-site.scss */
+/* line 982, _sass/partials/_marketing-site.scss */
 article.contact div.intro {
   font-size: 24px;
   text-align: center;
   width: 67%;
 }
-/* line 969, _sass/partials/_marketing-site.scss */
+/* line 987, _sass/partials/_marketing-site.scss */
 article.contact div.blue-bar {
   height: 50px;
   background-color: #0971ce;
   border-bottom: 5px solid #ffa409;
 }
-/* line 974, _sass/partials/_marketing-site.scss */
+/* line 992, _sass/partials/_marketing-site.scss */
 article.contact div.contact-banner {
   border-top: 3px solid #ffa409;
   background-position: center;
   background-repeat: no-repeat;
   min-height: 288px;
 }
-/* line 980, _sass/partials/_marketing-site.scss */
+/* line 998, _sass/partials/_marketing-site.scss */
 article.contact div.associate-support {
   background-color: #efefef;
   border-top: 3px solid #0073c7;
 }
-/* line 983, _sass/partials/_marketing-site.scss */
+/* line 1001, _sass/partials/_marketing-site.scss */
 article.contact div.associate-support h2 {
   text-align: left;
   color: #ac1f2d;
 }
-/* line 987, _sass/partials/_marketing-site.scss */
+/* line 1005, _sass/partials/_marketing-site.scss */
 article.contact div.associate-support p {
   margin: 0;
 }
-/* line 989, _sass/partials/_marketing-site.scss */
+/* line 1007, _sass/partials/_marketing-site.scss */
 article.contact div.associate-support p.phone {
   color: #ac1f2d;
 }
-/* line 992, _sass/partials/_marketing-site.scss */
+/* line 1010, _sass/partials/_marketing-site.scss */
 article.contact div.associate-support p.fax {
   color: #ac1f2d;
   margin: 20px 0;
 }
-/* line 997, _sass/partials/_marketing-site.scss */
+/* line 1015, _sass/partials/_marketing-site.scss */
 article.contact div.associate-support h4 {
   color: #ac1f2d;
   padding-bottom: 10px;
@@ -6872,45 +6897,45 @@ article.contact div.associate-support h4 {
   background-position: 160px 0;
 }
 @media only screen and (max-width: 1024px) {
-  /* line 980, _sass/partials/_marketing-site.scss */
+  /* line 998, _sass/partials/_marketing-site.scss */
   article.contact div.associate-support {
     padding-left: 20px;
   }
-  /* line 1007, _sass/partials/_marketing-site.scss */
+  /* line 1025, _sass/partials/_marketing-site.scss */
   article.contact div.associate-support .grid .col {
     width: 50%;
     float: left;
   }
 }
-/* line 1013, _sass/partials/_marketing-site.scss */
+/* line 1031, _sass/partials/_marketing-site.scss */
 article.contact div.homelife-services {
   border-bottom: 3px solid #0073c7;
   text-align: center;
 }
-/* line 1016, _sass/partials/_marketing-site.scss */
+/* line 1034, _sass/partials/_marketing-site.scss */
 article.contact div.homelife-services h2.homelife {
   text-transform: none;
 }
-/* line 1019, _sass/partials/_marketing-site.scss */
+/* line 1037, _sass/partials/_marketing-site.scss */
 article.contact div.homelife-services h2.phone {
   margin: 0;
 }
-/* line 1022, _sass/partials/_marketing-site.scss */
+/* line 1040, _sass/partials/_marketing-site.scss */
 article.contact div.homelife-services p {
   text-align: center;
 }
-/* line 1026, _sass/partials/_marketing-site.scss */
+/* line 1044, _sass/partials/_marketing-site.scss */
 article.contact div.clean-nation {
   background-color: #76bd1d;
   color: #fff;
 }
-/* line 1029, _sass/partials/_marketing-site.scss */
+/* line 1047, _sass/partials/_marketing-site.scss */
 article.contact div.clean-nation h2 {
   text-align: left;
   color: #fff;
   margin: 40px 0 0 0;
 }
-/* line 1034, _sass/partials/_marketing-site.scss */
+/* line 1052, _sass/partials/_marketing-site.scss */
 article.contact div.clean-nation h4 {
   padding-bottom: 10px;
   margin-top: 0;
@@ -6918,45 +6943,45 @@ article.contact div.clean-nation h4 {
   background-repeat: no-repeat;
   background-position: 160px 0;
 }
-/* line 1041, _sass/partials/_marketing-site.scss */
+/* line 1059, _sass/partials/_marketing-site.scss */
 article.contact div.clean-nation p {
   margin: 0;
 }
-/* line 1043, _sass/partials/_marketing-site.scss */
+/* line 1061, _sass/partials/_marketing-site.scss */
 article.contact div.clean-nation p.phone {
   font-size: 22px;
   margin: 10px 0 0 0;
 }
 @media only screen and (max-width: 1024px) {
-  /* line 1026, _sass/partials/_marketing-site.scss */
+  /* line 1044, _sass/partials/_marketing-site.scss */
   article.contact div.clean-nation {
     padding-left: 20px;
   }
-  /* line 1050, _sass/partials/_marketing-site.scss */
+  /* line 1068, _sass/partials/_marketing-site.scss */
   article.contact div.clean-nation .grid .col {
     width: 50%;
     float: left;
   }
 }
 @media only screen and (max-width: 767px) {
-  /* line 1056, _sass/partials/_marketing-site.scss */
+  /* line 1074, _sass/partials/_marketing-site.scss */
   article.contact div.clean-nation .grid .col {
     width: 100%;
     padding-bottom: 20px;
   }
 }
-/* line 1063, _sass/partials/_marketing-site.scss */
+/* line 1081, _sass/partials/_marketing-site.scss */
 article.contact div.vip h2 {
   color: #ac1f2d;
   text-align: center;
 }
-/* line 1067, _sass/partials/_marketing-site.scss */
+/* line 1085, _sass/partials/_marketing-site.scss */
 article.contact div.vip p {
   width: 320px;
   text-align: center;
   margin: auto;
 }
-/* line 1073, _sass/partials/_marketing-site.scss */
+/* line 1091, _sass/partials/_marketing-site.scss */
 article.contact div.request {
   background-color: #0971ce;
   color: #fff;
@@ -6966,12 +6991,12 @@ article.contact div.request {
   position: relative;
 }
 @media only screen and (max-width: 767px) {
-  /* line 1073, _sass/partials/_marketing-site.scss */
+  /* line 1091, _sass/partials/_marketing-site.scss */
   article.contact div.request {
     padding-top: 30px;
   }
 }
-/* line 1083, _sass/partials/_marketing-site.scss */
+/* line 1101, _sass/partials/_marketing-site.scss */
 article.contact div.request .request-or {
   background-image: url("../i/marketing/contact-or.png");
   background-repeat: no-repeat;
@@ -6982,72 +7007,72 @@ article.contact div.request .request-or {
   height: 70px;
   width: 114px;
 }
-/* line 1093, _sass/partials/_marketing-site.scss */
+/* line 1111, _sass/partials/_marketing-site.scss */
 article.contact div.request h2 {
   color: #fff;
   text-align: left;
 }
-/* line 1097, _sass/partials/_marketing-site.scss */
+/* line 1115, _sass/partials/_marketing-site.scss */
 article.contact div.request .grid {
   -webkit-border-vertical-spacing: 0px;
   margin-top: 0;
 }
-/* line 1100, _sass/partials/_marketing-site.scss */
+/* line 1118, _sass/partials/_marketing-site.scss */
 article.contact div.request .grid .col {
   border-spacing: 0;
 }
-/* line 1102, _sass/partials/_marketing-site.scss */
+/* line 1120, _sass/partials/_marketing-site.scss */
 article.contact div.request .grid .col .item {
   position: relative;
 }
-/* line 1105, _sass/partials/_marketing-site.scss */
+/* line 1123, _sass/partials/_marketing-site.scss */
 article.contact div.request .grid .col .item input,
 article.contact div.request .grid .col .item select,
 article.contact div.request .grid .col .item textarea {
   width: 85%;
   color: #bcbcbc;
 }
-/* line 1111, _sass/partials/_marketing-site.scss */
+/* line 1129, _sass/partials/_marketing-site.scss */
 article.contact div.request .grid .col .item .asterisk {
   font-size: 24px;
   vertical-align: middle;
 }
-/* line 1116, _sass/partials/_marketing-site.scss */
+/* line 1134, _sass/partials/_marketing-site.scss */
 article.contact div.request .grid .col .group .item, article.contact div.request .grid .col .item.half-width {
   width: 44.8%;
 }
-/* line 1119, _sass/partials/_marketing-site.scss */
+/* line 1137, _sass/partials/_marketing-site.scss */
 article.contact div.request .grid .col button {
   background-color: #ebebeb;
   color: #000;
 }
-/* line 1125, _sass/partials/_marketing-site.scss */
+/* line 1143, _sass/partials/_marketing-site.scss */
 article.contact div.request .alert.alert-error {
   background: #136cc1;
   color: #fcd22b;
   border: 0;
 }
-/* line 1131, _sass/partials/_marketing-site.scss */
+/* line 1149, _sass/partials/_marketing-site.scss */
 article.contact div.request .item.error input[type="text"], article.contact div.request .item.error input[type="password"], article.contact div.request .item.error input[type="search"], article.contact div.request .item.error input[type="number"], article.contact div.request .item.error input[type="datetime"], article.contact div.request .item.error input[type="datetime-local"], article.contact div.request .item.error input[type="date"], article.contact div.request .item.error input[type="month"], article.contact div.request .item.error input[type="time"], article.contact div.request .item.error input[type="week"], article.contact div.request .item.error input[type="email"], article.contact div.request .item.error input[type="url"], article.contact div.request .item.error input[type="tel"], article.contact div.request .item.error input[type="color"],
 article.contact div.request .item.error textarea,
 article.contact div.request .item.error select {
   border-color: #fcd22b;
 }
-/* line 1136, _sass/partials/_marketing-site.scss */
+/* line 1154, _sass/partials/_marketing-site.scss */
 article.contact div.request .item.error span.field-validation-valid {
   color: #fcd22b;
 }
-/* line 1141, _sass/partials/_marketing-site.scss */
+/* line 1159, _sass/partials/_marketing-site.scss */
 article.contact div.success-message {
   margin: 20px 0;
   background-color: #e8e8e8;
   border-bottom: 3px solid #fda32b;
 }
-/* line 1145, _sass/partials/_marketing-site.scss */
+/* line 1163, _sass/partials/_marketing-site.scss */
 article.contact div.success-message h2 {
   text-align: center;
 }
-/* line 1148, _sass/partials/_marketing-site.scss */
+/* line 1166, _sass/partials/_marketing-site.scss */
 article.contact div.success-message h4 {
   text-align: center;
   text-transform: none;
@@ -7055,79 +7080,68 @@ article.contact div.success-message h4 {
   font-weight: 300;
   line-height: 1.1;
 }
-/* line 1157, _sass/partials/_marketing-site.scss */
+/* line 1175, _sass/partials/_marketing-site.scss */
 article.contact div.faq h2 {
   text-align: left;
-  position: relative;
 }
-/* line 1160, _sass/partials/_marketing-site.scss */
-article.contact div.faq h2 .header-line {
-  height: 4px;
-  width: 100%;
-  display: block;
-  background-color: #efefef;
-  position: absolute;
-  top: 19px;
-  left: 570px;
-}
-/* line 1170, _sass/partials/_marketing-site.scss */
+/* line 1178, _sass/partials/_marketing-site.scss */
 article.contact div.faq p {
   width: 305px;
 }
 
-/* line 1177, _sass/partials/_marketing-site.scss */
+/* line 1185, _sass/partials/_marketing-site.scss */
 article.contact-state .customer-service {
   margin: 25px 0;
 }
 @media only screen and (max-width: 767px) {
-  /* line 1177, _sass/partials/_marketing-site.scss */
+  /* line 1185, _sass/partials/_marketing-site.scss */
   article.contact-state .customer-service {
     width: 100%;
   }
 }
-/* line 1182, _sass/partials/_marketing-site.scss */
+/* line 1190, _sass/partials/_marketing-site.scss */
 article.contact-state .customer-service h1 {
   color: #0971ce;
   margin-bottom: 50px;
 }
-/* line 1186, _sass/partials/_marketing-site.scss */
+/* line 1194, _sass/partials/_marketing-site.scss */
 article.contact-state .customer-service h2 {
   text-transform: none;
   margin-bottom: 0;
 }
-/* line 1190, _sass/partials/_marketing-site.scss */
+/* line 1198, _sass/partials/_marketing-site.scss */
 article.contact-state .customer-service .left-side {
   width: 62%;
   float: left;
 }
 @media only screen and (max-width: 767px) {
-  /* line 1190, _sass/partials/_marketing-site.scss */
+  /* line 1198, _sass/partials/_marketing-site.scss */
   article.contact-state .customer-service .left-side {
     width: 100%;
     float: none;
   }
 }
-/* line 1197, _sass/partials/_marketing-site.scss */
+/* line 1205, _sass/partials/_marketing-site.scss */
 article.contact-state .customer-service .left-side .phone-email {
   margin-bottom: 40px;
 }
-/* line 1199, _sass/partials/_marketing-site.scss */
+/* line 1207, _sass/partials/_marketing-site.scss */
 article.contact-state .customer-service .left-side .phone-email p {
   margin: 0;
 }
-/* line 1204, _sass/partials/_marketing-site.scss */
+/* line 1212, _sass/partials/_marketing-site.scss */
 article.contact-state .customer-service .right-side {
   width: 35%;
   float: right;
 }
 @media only screen and (max-width: 767px) {
-  /* line 1204, _sass/partials/_marketing-site.scss */
+  /* line 1212, _sass/partials/_marketing-site.scss */
   article.contact-state .customer-service .right-side {
     width: 100%;
     float: none;
   }
 }
-/* line 1211, _sass/partials/_marketing-site.scss */
+/* line 1219, _sass/partials/_marketing-site.scss */
 article.contact-state .customer-service .right-side .mail {
   -moz-border-radius: 10px / 10px;
   -webkit-border-radius: 10px 10px;
@@ -7135,215 +7149,195 @@ article.contact-state .customer-service .right-side .mail {
   background-color: #e8e8e8;
   padding: 20px;
 }
-/* line 1215, _sass/partials/_marketing-site.scss */
+/* line 1223, _sass/partials/_marketing-site.scss */
 article.contact-state .customer-service .right-side .mail h2 {
   background-image: url("../i/marketing/contact.png");
   background-repeat: no-repeat;
   background-position: top right;
   padding-right: 70px;
 }
-/* line 1221, _sass/partials/_marketing-site.scss */
+/* line 1229, _sass/partials/_marketing-site.scss */
 article.contact-state .customer-service .right-side .mail p {
   margin: 0;
 }
 @media only screen and (max-width: 767px) {
-  /* line 1204, _sass/partials/_marketing-site.scss */
+  /* line 1212, _sass/partials/_marketing-site.scss */
   article.contact-state .customer-service .right-side {
     float: left;
   }
 }
-/* line 1230, _sass/partials/_marketing-site.scss */
+/* line 1238, _sass/partials/_marketing-site.scss */
 article.contact-state .quality-control {
   margin-bottom: 35px;
   position: relative;
 }
 @media only screen and (max-width: 767px) {
-  /* line 1230, _sass/partials/_marketing-site.scss */
+  /* line 1238, _sass/partials/_marketing-site.scss */
   article.contact-state .quality-control {
     width: 100%;
   }
 }
-/* line 1236, _sass/partials/_marketing-site.scss */
+/* line 1244, _sass/partials/_marketing-site.scss */
 article.contact-state .quality-control p {
   margin: 20px 0 30px 0;
 }
-/* line 1239, _sass/partials/_marketing-site.scss */
+/* line 1247, _sass/partials/_marketing-site.scss */
 article.contact-state .quality-control h2 {
   margin: 0;
   font-size: 25px;
 }
-/* line 1243, _sass/partials/_marketing-site.scss */
-article.contact-state .quality-control .header-line {
-  height: 4px;
-  width: 100%;
-  display: block;
-  background-color: #efefef;
-  position: absolute;
-  top: 14px;
-  left: 240px;
-}
-/* line 1253, _sass/partials/_marketing-site.scss */
+/* line 1252, _sass/partials/_marketing-site.scss */
 article.contact-state .emergency {
   margin-bottom: 30px;
   position: relative;
 }
 @media only screen and (max-width: 767px) {
-  /* line 1253, _sass/partials/_marketing-site.scss */
+  /* line 1252, _sass/partials/_marketing-site.scss */
   article.contact-state .emergency {
     width: 100%;
   }
 }
-/* line 1259, _sass/partials/_marketing-site.scss */
+/* line 1258, _sass/partials/_marketing-site.scss */
 article.contact-state .emergency h2 {
   margin: 0;
   font-size: 25px;
 }
-/* line 1263, _sass/partials/_marketing-site.scss */
+/* line 1262, _sass/partials/_marketing-site.scss */
 article.contact-state .emergency h3 {
   color: #0971ce;
   margin: 50px 0 10px 0;
 }
 /* line 1267, _sass/partials/_marketing-site.scss */
-article.contact-state .emergency .header-line {
-  height: 4px;
-  width: 100%;
-  display: block;
-  background-color: #efefef;
-  position: absolute;
-  top: 14px;
-  left: 280px;
-}
-/* line 1277, _sass/partials/_marketing-site.scss */
 article.contact-state .emergency .grid .col .company {
   color: #0971ce;
 }
-/* line 1280, _sass/partials/_marketing-site.scss */
+/* line 1270, _sass/partials/_marketing-site.scss */
 article.contact-state .emergency .grid .col .oncor {
   width: 85%;
 }
-/* line 1283, _sass/partials/_marketing-site.scss */
+/* line 1273, _sass/partials/_marketing-site.scss */
 article.contact-state .emergency .grid .col .company-contact {
   width: 80%;
   margin-bottom: 40px;
 }
-/* line 1286, _sass/partials/_marketing-site.scss */
+/* line 1276, _sass/partials/_marketing-site.scss */
 article.contact-state .emergency .grid .col .company-contact h2 {
   text-transform: none;
 }
-/* line 1289, _sass/partials/_marketing-site.scss */
+/* line 1279, _sass/partials/_marketing-site.scss */
 article.contact-state .emergency .grid .col .company-contact button,
 article.contact-state .emergency .grid .col .company-contact .button {
   background-color: #ffa409;
 }
-/* line 1292, _sass/partials/_marketing-site.scss */
+/* line 1282, _sass/partials/_marketing-site.scss */
 article.contact-state .emergency .grid .col .company-contact button a,
 article.contact-state .emergency .grid .col .company-contact .button a {
   color: #fff;
 }
-/* line 1295, _sass/partials/_marketing-site.scss */
+/* line 1285, _sass/partials/_marketing-site.scss */
 article.contact-state .emergency .grid .col .company-contact button:hover,
 article.contact-state .emergency .grid .col .company-contact .button:hover {
   background-color: #6b6b6b;
 }
 
-/* line 1304, _sass/partials/_marketing-site.scss */
+/* line 1294, _sass/partials/_marketing-site.scss */
 article.faq {
   background-color: #eaeaea;
   padding: 20px 0;
 }
-/* line 1308, _sass/partials/_marketing-site.scss */
+/* line 1298, _sass/partials/_marketing-site.scss */
 article.faq .wrapper .panel, article.faq article.state-tabs ul.tabs-nav .panel, article.state-tabs article.faq ul.tabs-nav .panel {
   -moz-border-radius: 10px / 10px;
   -webkit-border-radius: 10px 10px;
   border-radius: 10px / 10px;
   background-color: #fff;
 }
-/* line 1311, _sass/partials/_marketing-site.scss */
+/* line 1301, _sass/partials/_marketing-site.scss */
 article.faq .wrapper .panel p.question, article.faq article.state-tabs ul.tabs-nav .panel p.question, article.state-tabs article.faq ul.tabs-nav .panel p.question {
   background-image: url("../i/marketing/expand.png");
   background-repeat: no-repeat;
   background-position: 98%;
   margin-left: 55px;
 }
-/* line 1316, _sass/partials/_marketing-site.scss */
+/* line 1306, _sass/partials/_marketing-site.scss */
 article.faq .wrapper .panel p.question a, article.faq article.state-tabs ul.tabs-nav .panel p.question a, article.state-tabs article.faq ul.tabs-nav .panel p.question a {
   color: #696969;
   display: block;
   padding: 15px 50px 15px 15px;
 }
 @media only screen and (max-width: 767px) {
-  /* line 1316, _sass/partials/_marketing-site.scss */
+  /* line 1306, _sass/partials/_marketing-site.scss */
   article.faq .wrapper .panel p.question a, article.faq article.state-tabs ul.tabs-nav .panel p.question a, article.state-tabs article.faq ul.tabs-nav .panel p.question a {
     width: 93%;
   }
 }
-/* line 1325, _sass/partials/_marketing-site.scss */
+/* line 1315, _sass/partials/_marketing-site.scss */
 article.faq .wrapper .panel .q, article.faq article.state-tabs ul.tabs-nav .panel .q, article.state-tabs article.faq ul.tabs-nav .panel .q {
   float: left;
   font-size: 26px;
   margin: 10px 0px 0 10px;
   color: #bbb;
 }
-/* line 1331, _sass/partials/_marketing-site.scss */
+/* line 1321, _sass/partials/_marketing-site.scss */
 article.faq .wrapper .panel .panel-content, article.faq article.state-tabs ul.tabs-nav .panel .panel-content, article.state-tabs article.faq ul.tabs-nav .panel .panel-content {
   color: #0971ce;
   padding-bottom: 10px;
 }
-/* line 1334, _sass/partials/_marketing-site.scss */
+/* line 1324, _sass/partials/_marketing-site.scss */
 article.faq .wrapper .panel .panel-content .answer-hr, article.faq article.state-tabs ul.tabs-nav .panel .panel-content .answer-hr, article.state-tabs article.faq ul.tabs-nav .panel .panel-content .answer-hr {
   border: 3px solid #eaeaea;
   width: 90%;
 }
-/* line 1338, _sass/partials/_marketing-site.scss */
+/* line 1328, _sass/partials/_marketing-site.scss */
 article.faq .wrapper .panel .panel-content .a, article.faq article.state-tabs ul.tabs-nav .panel .panel-content .a, article.state-tabs article.faq ul.tabs-nav .panel .panel-content .a {
   float: left;
   font-size: 26px;
   margin: 10px 0px 0 10px;
 }
-/* line 1343, _sass/partials/_marketing-site.scss */
+/* line 1333, _sass/partials/_marketing-site.scss */
 article.faq .wrapper .panel .panel-content .answer, article.faq article.state-tabs ul.tabs-nav .panel .panel-content .answer, article.state-tabs article.faq ul.tabs-nav .panel .panel-content .answer {
   margin-left: 55px;
 }
-/* line 1345, _sass/partials/_marketing-site.scss */
+/* line 1335, _sass/partials/_marketing-site.scss */
 article.faq .wrapper .panel .panel-content .answer p, article.faq article.state-tabs ul.tabs-nav .panel .panel-content .answer p, article.state-tabs article.faq ul.tabs-nav .panel .panel-content .answer p {
   padding-right: 45px;
 }
-/* line 1351, _sass/partials/_marketing-site.scss */
+/* line 1341, _sass/partials/_marketing-site.scss */
 article.faq .wrapper .faq-hr, article.faq article.state-tabs ul.tabs-nav .faq-hr, article.state-tabs article.faq ul.tabs-nav .faq-hr {
   border: 3px solid #f3f3f3;
   margin: 20px 0;
 }
 
-/* line 1359, _sass/partials/_marketing-site.scss */
+/* line 1349, _sass/partials/_marketing-site.scss */
 article.homelife-services .intro {
   background-color: #0971ce;
   color: #fff;
   text-align: center;
   padding: 50px 0;
 }
-/* line 1364, _sass/partials/_marketing-site.scss */
+/* line 1354, _sass/partials/_marketing-site.scss */
 article.homelife-services .intro h1 {
   font-size: 63px;
 }
-/* line 1367, _sass/partials/_marketing-site.scss */
+/* line 1357, _sass/partials/_marketing-site.scss */
 article.homelife-services .intro p {
   font-size: 22px;
 }
 @media only screen and (max-width: 767px) {
-  /* line 1359, _sass/partials/_marketing-site.scss */
+  /* line 1349, _sass/partials/_marketing-site.scss */
   article.homelife-services .intro {
     padding: 15px 0 10px;
   }
-  /* line 1372, _sass/partials/_marketing-site.scss */
+  /* line 1362, _sass/partials/_marketing-site.scss */
   article.homelife-services .intro h1 {
     font-size: 25px;
   }
-  /* line 1375, _sass/partials/_marketing-site.scss */
+  /* line 1365, _sass/partials/_marketing-site.scss */
   article.homelife-services .intro p {
     font-size: 16px;
   }
 }
-/* line 1380, _sass/partials/_marketing-site.scss */
+/* line 1370, _sass/partials/_marketing-site.scss */
 article.homelife-services .homelife-promo {
   background-image: url("../i/marketing/homelife-services.jpg");
   background-repeat: no-repeat;
@@ -7351,38 +7345,38 @@ article.homelife-services .homelife-promo {
   height: 550px;
   border-bottom: 5px solid #ffa409;
 }
-/* line 1386, _sass/partials/_marketing-site.scss */
+/* line 1376, _sass/partials/_marketing-site.scss */
 article.homelife-services .homelife-promo .wrapper, article.homelife-services .homelife-promo article.state-tabs ul.tabs-nav, article.state-tabs article.homelife-services .homelife-promo ul.tabs-nav {
   width: 55%;
   padding-top: 80px;
 }
-/* line 1389, _sass/partials/_marketing-site.scss */
+/* line 1379, _sass/partials/_marketing-site.scss */
 article.homelife-services .homelife-promo .wrapper h3, article.homelife-services .homelife-promo article.state-tabs ul.tabs-nav h3, article.state-tabs article.homelife-services .homelife-promo ul.tabs-nav h3 {
   color: #0971ce;
 }
-/* line 1394, _sass/partials/_marketing-site.scss */
+/* line 1384, _sass/partials/_marketing-site.scss */
 article.homelife-services .bundle-promo {
   margin: 35px 0;
   text-align: center;
   font-size: 20px;
 }
-/* line 1398, _sass/partials/_marketing-site.scss */
+/* line 1388, _sass/partials/_marketing-site.scss */
 article.homelife-services .bundle-promo span {
   font-size: 22px;
   color: #0971ce;
   text-transform: uppercase;
 }
-/* line 1403, _sass/partials/_marketing-site.scss */
+/* line 1393, _sass/partials/_marketing-site.scss */
 article.homelife-services .bundle-promo hr {
   border: 1px solid #eee;
   margin: 15px auto;
   width: 85%;
 }
-/* line 1409, _sass/partials/_marketing-site.scss */
+/* line 1399, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package {
   padding: 40px;
 }
-/* line 1411, _sass/partials/_marketing-site.scss */
+/* line 1401, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box {
   -moz-border-radius: 10px / 10px;
   -webkit-border-radius: 10px 10px;
@@ -7393,49 +7387,49 @@ article.homelife-services div.package .box {
   width: 100%;
 }
 @media only screen and (max-width: 767px) {
-  /* line 1411, _sass/partials/_marketing-site.scss */
+  /* line 1401, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box {
     padding: 5px;
   }
 }
-/* line 1420, _sass/partials/_marketing-site.scss */
+/* line 1410, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box h3 {
   color: #0971ce;
 }
-/* line 1422, _sass/partials/_marketing-site.scss */
+/* line 1412, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box h3 span {
   text-transform: none;
 }
-/* line 1426, _sass/partials/_marketing-site.scss */
+/* line 1416, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box button a {
   color: #fff;
 }
-/* line 1429, _sass/partials/_marketing-site.scss */
+/* line 1419, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box h4 {
   font-size: 17px;
 }
-/* line 1432, _sass/partials/_marketing-site.scss */
+/* line 1422, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box ul.services {
   list-style-type: none;
   padding-left: 0;
   float: left;
 }
-/* line 1436, _sass/partials/_marketing-site.scss */
+/* line 1426, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box ul.services li {
   text-align: center;
   float: left;
   margin-right: 39px;
 }
-/* line 1440, _sass/partials/_marketing-site.scss */
+/* line 1430, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box ul.services li input {
   margin-top: 15px;
 }
-/* line 1443, _sass/partials/_marketing-site.scss */
+/* line 1433, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box ul.services li.identity {
   color: #7e9bb5;
   position: relative;
 }
-/* line 1446, _sass/partials/_marketing-site.scss */
+/* line 1436, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box ul.services li.identity:after {
   content: "+";
   color: #898989;
@@ -7444,12 +7438,12 @@ article.homelife-services div.package .box ul.services li.identity:after {
   top: 36%;
   right: -10%;
 }
-/* line 1455, _sass/partials/_marketing-site.scss */
+/* line 1445, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box ul.services li.support {
   color: #b58789;
   position: relative;
 }
-/* line 1458, _sass/partials/_marketing-site.scss */
+/* line 1448, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box ul.services li.support:after {
   content: "+";
   color: #898989;
@@ -7458,11 +7452,11 @@ article.homelife-services div.package .box ul.services li.support:after {
   top: 36%;
   right: -35%;
 }
-/* line 1467, _sass/partials/_marketing-site.scss */
+/* line 1457, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box ul.services li.monitoring {
   color: #8ba170;
 }
-/* line 1472, _sass/partials/_marketing-site.scss */
+/* line 1462, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box .savings {
   -moz-border-radius: 50%;
   -webkit-border-radius: 50%;
@@ -7472,7 +7466,7 @@ article.homelife-services div.package .box .savings {
   height: 113px;
   margin-top: 25px;
 }
-/* line 1478, _sass/partials/_marketing-site.scss */
+/* line 1468, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box .savings p {
   color: #fff;
   font-size: 22px;
@@ -7481,7 +7475,7 @@ article.homelife-services div.package .box .savings p {
   margin-top: 0;
   padding-top: 10px;
 }
-/* line 1486, _sass/partials/_marketing-site.scss */
+/* line 1476, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box .savings .line-top,
 article.homelife-services div.package .box .savings .line-bottom {
   height: 40px;
@@ -7491,24 +7485,24 @@ article.homelife-services div.package .box .savings .line-bottom {
   margin-left: 50%;
   margin-top: -50px;
 }
-/* line 1495, _sass/partials/_marketing-site.scss */
+/* line 1485, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box .savings .line-bottom {
   margin-top: 13px;
 }
 @media only screen and (max-width: 767px) {
-  /* line 1499, _sass/partials/_marketing-site.scss */
+  /* line 1489, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box .savings .line-top,
   article.homelife-services div.package .box .savings .line-bottom {
     display: none;
   }
 }
-/* line 1505, _sass/partials/_marketing-site.scss */
+/* line 1495, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box .pricing {
   text-align: center;
   float: left;
   margin-left: 2em;
 }
-/* line 1509, _sass/partials/_marketing-site.scss */
+/* line 1499, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box .pricing p {
   font-size: 14px;
   text-transform: uppercase;
@@ -7516,23 +7510,23 @@ article.homelife-services div.package .box .pricing p {
   margin: 0 0 50px 0;
   color: #6b6b6b;
 }
-/* line 1515, _sass/partials/_marketing-site.scss */
+/* line 1505, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box .pricing p.price {
   margin-bottom: 0;
   font-style: normal;
 }
-/* line 1518, _sass/partials/_marketing-site.scss */
+/* line 1508, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box .pricing p.price .dollars {
   font-size: 38px;
   color: #0971ce;
 }
-/* line 1522, _sass/partials/_marketing-site.scss */
+/* line 1512, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box .pricing p.price .cents {
   font-size: 12px;
   color: #0971ce;
   vertical-align: 50%;
 }
-/* line 1529, _sass/partials/_marketing-site.scss */
+/* line 1519, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box .pricing p.month-free {
   text-transform: none;
   color: #0971CE;
@@ -7541,7 +7535,7 @@ article.homelife-services div.package .box .pricing p.month-free {
   border-bottom: 1px solid #d0d0d0;
   margin-bottom: 1em;
 }
-/* line 1538, _sass/partials/_marketing-site.scss */
+/* line 1528, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box .sash {
   position: absolute;
   background-color: #e61b23;
@@ -7556,18 +7550,18 @@ article.homelife-services div.package .box .sash {
   -webkit-transform: rotate(-45deg);
   /* Opera, Chrome, and Safari */
 }
-/* line 1549, _sass/partials/_marketing-site.scss */
+/* line 1539, _sass/partials/_marketing-site.scss */
 .ie8 article.homelife-services div.package .box .sash {
   top: 0;
   width: 100px;
   height: 2em;
 }
-/* line 1553, _sass/partials/_marketing-site.scss */
+/* line 1543, _sass/partials/_marketing-site.scss */
 .ie8 article.homelife-services div.package .box .sash span {
   margin: 0;
   padding: 0 20px;
 }
-/* line 1558, _sass/partials/_marketing-site.scss */
+/* line 1548, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package .box .sash span {
   font-size: 24px;
   text-transform: uppercase;
@@ -7582,229 +7576,229 @@ article.homelife-services div.package .box .sash span {
   /* Opera, Chrome, and Safari */
 }
 @media only screen and (max-width: 1024px) {
-  /* line 1571, _sass/partials/_marketing-site.scss */
+  /* line 1561, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box ul.services {
     width: 100%;
   }
-  /* line 1573, _sass/partials/_marketing-site.scss */
+  /* line 1563, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box ul.services li {
     width: 30%;
     margin-right: 20px;
   }
-  /* line 1576, _sass/partials/_marketing-site.scss */
+  /* line 1566, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box ul.services li.support:after {
     right: -10%;
   }
-  /* line 1581, _sass/partials/_marketing-site.scss */
+  /* line 1571, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box .savings {
     margin-left: 25%;
     margin-right: 20px;
   }
-  /* line 1585, _sass/partials/_marketing-site.scss */
+  /* line 1575, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box .pricing {
     float: left;
   }
-  /* line 1587, _sass/partials/_marketing-site.scss */
+  /* line 1577, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box .pricing p {
     margin-bottom: 25px;
   }
 }
 @media only screen and (max-width: 767px) {
-  /* line 1593, _sass/partials/_marketing-site.scss */
+  /* line 1583, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box ul.services {
     float: none;
   }
-  /* line 1595, _sass/partials/_marketing-site.scss */
+  /* line 1585, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box ul.services li {
     width: 100%;
     margin-right: 8px;
     float: none;
   }
-  /* line 1599, _sass/partials/_marketing-site.scss */
+  /* line 1589, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box ul.services li.identity:after {
     content: " ";
   }
-  /* line 1603, _sass/partials/_marketing-site.scss */
+  /* line 1593, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box ul.services li.support:after {
     content: " ";
   }
-  /* line 1606, _sass/partials/_marketing-site.scss */
+  /* line 1596, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box ul.services li.support h4 {
     width: 67%;
     margin: 10px auto;
   }
-  /* line 1611, _sass/partials/_marketing-site.scss */
+  /* line 1601, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box ul.services li.monitoring h4 {
     width: 91%;
     margin: 10px auto;
   }
-  /* line 1617, _sass/partials/_marketing-site.scss */
+  /* line 1607, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box .savings {
     margin: 0 auto;
     display: block;
     float: none;
   }
-  /* line 1622, _sass/partials/_marketing-site.scss */
+  /* line 1612, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box .pricing {
     float: right;
     margin: 0;
     width: 100%;
   }
-  /* line 1626, _sass/partials/_marketing-site.scss */
+  /* line 1616, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package .box .pricing p.month-free {
     border-bottom: 0;
   }
 }
-/* line 1632, _sass/partials/_marketing-site.scss */
+/* line 1622, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.platinum {
   background-color: #0971ce;
 }
-/* line 1634, _sass/partials/_marketing-site.scss */
+/* line 1624, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.platinum h3 {
-  width: 85%;
+  padding-right: 70px;
 }
-/* line 1637, _sass/partials/_marketing-site.scss */
+/* line 1627, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.platinum .savings {
   background-color: #0971ce;
 }
-/* line 1639, _sass/partials/_marketing-site.scss */
+/* line 1629, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.platinum .savings p {
   color: #fff;
 }
-/* line 1643, _sass/partials/_marketing-site.scss */
+/* line 1633, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.platinum .identity .button {
   background-color: #7e9bb5;
 }
-/* line 1646, _sass/partials/_marketing-site.scss */
+/* line 1636, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.platinum .support .button {
   background-color: #b58789;
 }
-/* line 1649, _sass/partials/_marketing-site.scss */
+/* line 1639, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.platinum .monitoring .button {
   background-color: #8ba170;
 }
-/* line 1654, _sass/partials/_marketing-site.scss */
+/* line 1644, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.gold .box {
   border: 1px solid #c1dbf2;
   background-color: #f6f6f6;
 }
-/* line 1657, _sass/partials/_marketing-site.scss */
+/* line 1647, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.gold .box .savings {
   background-color: #fdfdfd;
   border: 1px solid #d0d0d0;
 }
-/* line 1660, _sass/partials/_marketing-site.scss */
+/* line 1650, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.gold .box .savings p {
   color: #0971ce;
 }
-/* line 1664, _sass/partials/_marketing-site.scss */
+/* line 1654, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.gold .box button {
   background-color: #ccc;
 }
-/* line 1670, _sass/partials/_marketing-site.scss */
+/* line 1660, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.silver .box {
   border: 1px solid #cdcdcd;
 }
-/* line 1672, _sass/partials/_marketing-site.scss */
+/* line 1662, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.silver .box h3 {
   text-align: center;
 }
-/* line 1675, _sass/partials/_marketing-site.scss */
+/* line 1665, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.silver .box ul.services {
   width: 100%;
 }
-/* line 1677, _sass/partials/_marketing-site.scss */
+/* line 1667, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.silver .box ul.services li {
   margin-right: 0;
   width: 33%;
   border-right: 1px solid #cdcdcd;
 }
 @media only screen and (max-width: 767px) {
-  /* line 1677, _sass/partials/_marketing-site.scss */
+  /* line 1667, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package.silver .box ul.services li {
     width: 100%;
     border-right: none;
   }
 }
-/* line 1687, _sass/partials/_marketing-site.scss */
+/* line 1677, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.silver .box ul.services li.identity:after, article.homelife-services div.package.silver .box ul.services li.support:after {
   content: " ";
 }
-/* line 1691, _sass/partials/_marketing-site.scss */
+/* line 1681, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.silver .box ul.services li.monitoring {
   border-right: none;
 }
-/* line 1694, _sass/partials/_marketing-site.scss */
+/* line 1684, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.silver .box ul.services li .pricing {
   text-align: center;
   float: none;
   margin: 0;
 }
-/* line 1698, _sass/partials/_marketing-site.scss */
+/* line 1688, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.silver .box ul.services li .pricing .price .dollars {
   font-size: 24px;
 }
-/* line 1701, _sass/partials/_marketing-site.scss */
+/* line 1691, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.silver .box ul.services li .pricing p.month-free {
   border-bottom: none;
 }
-/* line 1704, _sass/partials/_marketing-site.scss */
+/* line 1694, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.silver .box ul.services li .pricing button {
   background-color: #0971ce;
 }
-/* line 1706, _sass/partials/_marketing-site.scss */
+/* line 1696, _sass/partials/_marketing-site.scss */
 article.homelife-services div.package.silver .box ul.services li .pricing button:hover {
   background-color: #6b6b6b;
 }
 @media only screen and (max-width: 1024px) {
-  /* line 1717, _sass/partials/_marketing-site.scss */
+  /* line 1707, _sass/partials/_marketing-site.scss */
   article.homelife-services div.wrapper {
     padding: 0;
   }
-  /* line 1720, _sass/partials/_marketing-site.scss */
+  /* line 1710, _sass/partials/_marketing-site.scss */
   article.homelife-services div.package {
     padding: 20px;
   }
 }
-/* line 1724, _sass/partials/_marketing-site.scss */
+/* line 1714, _sass/partials/_marketing-site.scss */
 article.homelife-services p.footnote {
   font-size: 12px;
   text-align: center;
 }
 
-/* line 1731, _sass/partials/_marketing-site.scss */
+/* line 1721, _sass/partials/_marketing-site.scss */
 article.states-enroll div.wrapper {
   text-align: center;
 }
 
-/* line 1738, _sass/partials/_marketing-site.scss */
+/* line 1728, _sass/partials/_marketing-site.scss */
 article.states-renew ul.tabs-nav li a {
   -moz-border-radius: 7px 7px 7px 7px;
   -webkit-border-radius: 7px;
   border-radius: 7px 7px 7px 7px;
 }
 
-/* line 1744, _sass/partials/_marketing-site.scss */
+/* line 1734, _sass/partials/_marketing-site.scss */
 article.full-width-image {
   height: 300px;
   background-size: cover;
   background-position: center;
 }
 
-/* line 1751, _sass/partials/_marketing-site.scss */
+/* line 1741, _sass/partials/_marketing-site.scss */
 article.identity-theft h2,
 article.identity-theft h3 {
   text-transform: none;
 }
-/* line 1755, _sass/partials/_marketing-site.scss */
+/* line 1745, _sass/partials/_marketing-site.scss */
 article.identity-theft .semibold {
   font-weight: 600;
 }
-/* line 1758, _sass/partials/_marketing-site.scss */
+/* line 1748, _sass/partials/_marketing-site.scss */
 article.identity-theft .credit-bureaus {
   padding-left: 0;
 }
-/* line 1760, _sass/partials/_marketing-site.scss */
+/* line 1750, _sass/partials/_marketing-site.scss */
 article.identity-theft .credit-bureaus li {
   float: left;
   width: 33%;
@@ -7812,45 +7806,45 @@ article.identity-theft .credit-bureaus li {
   text-align: center;
 }
 @media only screen and (max-width: 767px) {
-  /* line 1769, _sass/partials/_marketing-site.scss */
+  /* line 1759, _sass/partials/_marketing-site.scss */
   article.identity-theft .credit-bureaus li {
     float: none;
     width: 100%;
     margin-bottom: 30px;
   }
-  /* line 1773, _sass/partials/_marketing-site.scss */
+  /* line 1763, _sass/partials/_marketing-site.scss */
   article.identity-theft .credit-bureaus li:last-child {
     margin-bottom: 0;
   }
 }
 
-/* line 1782, _sass/partials/_marketing-site.scss */
+/* line 1772, _sass/partials/_marketing-site.scss */
 article.why-energy .paragraph {
   margin: 20px auto;
   width: 60%;
   text-align: center;
 }
-/* line 1786, _sass/partials/_marketing-site.scss */
+/* line 1776, _sass/partials/_marketing-site.scss */
 article.why-energy .paragraph span {
   color: #ac1f2d;
 }
-/* line 1789, _sass/partials/_marketing-site.scss */
+/* line 1779, _sass/partials/_marketing-site.scss */
 article.why-energy .paragraph.promo {
   font-size: 20px;
 }
-/* line 1793, _sass/partials/_marketing-site.scss */
+/* line 1783, _sass/partials/_marketing-site.scss */
 article.why-energy .paragraph.joining-info p button {
   background-color: #ac1f2d;
 }
-/* line 1795, _sass/partials/_marketing-site.scss */
+/* line 1785, _sass/partials/_marketing-site.scss */
 article.why-energy .paragraph.joining-info p button:hover {
   background-color: #6b6b6b;
 }
-/* line 1798, _sass/partials/_marketing-site.scss */
+/* line 1788, _sass/partials/_marketing-site.scss */
 article.why-energy .paragraph.joining-info p button a {
   color: #fff;
 }
-/* line 1804, _sass/partials/_marketing-site.scss */
+/* line 1794, _sass/partials/_marketing-site.scss */
 article.why-energy .banner {
   background-image: url("../i/marketing/why-energy-banner.jpg");
   background-repeat: no-repeat;
@@ -7858,66 +7852,66 @@ article.why-energy .banner {
   height: 300px;
 }
 
-/* line 1813, _sass/partials/_marketing-site.scss */
+/* line 1803, _sass/partials/_marketing-site.scss */
 article.commercial-quote .photo {
   background-image: url(../i/marketing/ignite_commercial-form.jpg);
   background-repeat: no-repeat;
   background-position: right;
 }
-/* line 1818, _sass/partials/_marketing-site.scss */
+/* line 1808, _sass/partials/_marketing-site.scss */
 article.commercial-quote .text {
   border-left: 3px solid #ffa409;
   width: 50%;
   background-color: #0971ce;
 }
 @media only screen and (max-width: 767px) {
-  /* line 1818, _sass/partials/_marketing-site.scss */
+  /* line 1808, _sass/partials/_marketing-site.scss */
   article.commercial-quote .text {
     width: 100%;
   }
 }
-/* line 1825, _sass/partials/_marketing-site.scss */
+/* line 1815, _sass/partials/_marketing-site.scss */
 article.commercial-quote .text .inner {
   color: #fff;
 }
-/* line 1827, _sass/partials/_marketing-site.scss */
+/* line 1817, _sass/partials/_marketing-site.scss */
 article.commercial-quote .text .inner h2 {
   color: #fff;
   font-size: 24px;
 }
-/* line 1831, _sass/partials/_marketing-site.scss */
+/* line 1821, _sass/partials/_marketing-site.scss */
 article.commercial-quote .text .inner button {
   color: #333;
   background-color: #fff;
   border-color: #ccc;
   text-shadow: none;
 }
-/* line 1836, _sass/partials/_marketing-site.scss */
+/* line 1826, _sass/partials/_marketing-site.scss */
 article.commercial-quote .text .inner button:hover {
   background-color: #ebebeb;
 }
-/* line 1840, _sass/partials/_marketing-site.scss */
+/* line 1830, _sass/partials/_marketing-site.scss */
 article.commercial-quote .text .inner input,
 article.commercial-quote .text .inner select {
   width: 100%;
   color: #999;
 }
-/* line 1847, _sass/partials/_marketing-site.scss */
+/* line 1837, _sass/partials/_marketing-site.scss */
 article.commercial-quote .wrapper, article.commercial-quote article.state-tabs ul.tabs-nav, article.state-tabs article.commercial-quote ul.tabs-nav {
   padding: 40px 0 30px 0;
 }
-/* line 1850, _sass/partials/_marketing-site.scss */
+/* line 1840, _sass/partials/_marketing-site.scss */
 article.commercial-quote .success-message {
   margin: 20px 0;
   background-color: #e8e8e8;
   border-bottom: 3px solid #fda32b;
 }
-/* line 1854, _sass/partials/_marketing-site.scss */
+/* line 1844, _sass/partials/_marketing-site.scss */
 article.commercial-quote .success-message h2 {
   font-size: 30px;
   text-align: center;
 }
-/* line 1858, _sass/partials/_marketing-site.scss */
+/* line 1848, _sass/partials/_marketing-site.scss */
 article.commercial-quote .success-message h4 {
   text-align: center;
   text-transform: none;
@@ -7925,92 +7919,92 @@ article.commercial-quote .success-message h4 {
   font-weight: 300;
   line-height: 1.1;
 }
-/* line 1866, _sass/partials/_marketing-site.scss */
+/* line 1856, _sass/partials/_marketing-site.scss */
 article.commercial-quote .alert.alert-error {
   background: #136cc1;
   color: #fcd22b;
   border: 0;
 }
-/* line 1872, _sass/partials/_marketing-site.scss */
+/* line 1862, _sass/partials/_marketing-site.scss */
 article.commercial-quote .item.error input[type="text"], article.commercial-quote .item.error input[type="password"], article.commercial-quote .item.error input[type="search"], article.commercial-quote .item.error input[type="number"], article.commercial-quote .item.error input[type="datetime"], article.commercial-quote .item.error input[type="datetime-local"], article.commercial-quote .item.error input[type="date"], article.commercial-quote .item.error input[type="month"], article.commercial-quote .item.error input[type="time"], article.commercial-quote .item.error input[type="week"], article.commercial-quote .item.error input[type="email"], article.commercial-quote .item.error input[type="url"], article.commercial-quote .item.error input[type="tel"], article.commercial-quote .item.error input[type="color"],
 article.commercial-quote .item.error textarea,
 article.commercial-quote .item.error select {
   border-color: #fcd22b;
 }
-/* line 1877, _sass/partials/_marketing-site.scss */
+/* line 1867, _sass/partials/_marketing-site.scss */
 article.commercial-quote .item.error span.field-validation-valid {
   color: #fcd22b;
 }
 
-/* line 1884, _sass/partials/_marketing-site.scss */
+/* line 1874, _sass/partials/_marketing-site.scss */
 article.commercial-account-banner .account-banner {
   background-color: #0971ce;
 }
-/* line 1887, _sass/partials/_marketing-site.scss */
+/* line 1877, _sass/partials/_marketing-site.scss */
 article.commercial-account-banner .account-banner p button {
   background-color: #fff;
   color: #0971ce;
   margin: auto;
   display: block;
 }
-/* line 1892, _sass/partials/_marketing-site.scss */
+/* line 1882, _sass/partials/_marketing-site.scss */
 article.commercial-account-banner .account-banner p button:hover {
   background-color: #ccc;
 }
 
-/* line 1900, _sass/partials/_marketing-site.scss */
+/* line 1890, _sass/partials/_marketing-site.scss */
 article.free-energy {
   margin-bottom: 0;
 }
-/* line 1902, _sass/partials/_marketing-site.scss */
+/* line 1892, _sass/partials/_marketing-site.scss */
 article.free-energy img {
   margin: auto;
   float: left;
 }
-/* line 1906, _sass/partials/_marketing-site.scss */
+/* line 1896, _sass/partials/_marketing-site.scss */
 article.free-energy h3 {
   text-transform: none;
   margin-bottom: 30px;
 }
-/* line 1910, _sass/partials/_marketing-site.scss */
+/* line 1900, _sass/partials/_marketing-site.scss */
 article.free-energy p {
   font-size: 21px;
   line-height: 1.3;
   clear: both;
 }
-/* line 1916, _sass/partials/_marketing-site.scss */
+/* line 1906, _sass/partials/_marketing-site.scss */
 article.free-energy .how-it-works img {
   margin: 0px 25px 15px 0px;
 }
-/* line 1919, _sass/partials/_marketing-site.scss */
+/* line 1909, _sass/partials/_marketing-site.scss */
 article.free-energy .how-it-works h1 {
   line-height: 1;
 }
-/* line 1921, _sass/partials/_marketing-site.scss */
+/* line 1911, _sass/partials/_marketing-site.scss */
 article.free-energy .how-it-works h1 em {
   color: #1773cb;
 }
-/* line 1925, _sass/partials/_marketing-site.scss */
+/* line 1915, _sass/partials/_marketing-site.scss */
 article.free-energy .how-it-works p {
   line-height: 1.1;
 }
-/* line 1927, _sass/partials/_marketing-site.scss */
+/* line 1917, _sass/partials/_marketing-site.scss */
 article.free-energy .how-it-works p em {
   color: #1773cb;
   text-transform: none;
 }
-/* line 1931, _sass/partials/_marketing-site.scss */
+/* line 1921, _sass/partials/_marketing-site.scss */
 article.free-energy .how-it-works p .blue {
   color: #1773cb;
 }
 
-/* line 1938, _sass/partials/_marketing-site.scss */
+/* line 1928, _sass/partials/_marketing-site.scss */
 article.free-energy.picture-promo {
   background-image: url("../i/marketing/free-energy.jpg");
   background-repeat: no-repeat;
   background-position: center;
 }
-/* line 1942, _sass/partials/_marketing-site.scss */
+/* line 1932, _sass/partials/_marketing-site.scss */
 article.free-energy.picture-promo .promo-content {
   color: #fff;
   width: 335px;
@@ -8018,127 +8012,127 @@ article.free-energy.picture-promo .promo-content {
   padding: 320px 0 50px 0;
 }
 @media only screen and (max-width: 767px) {
-  /* line 1942, _sass/partials/_marketing-site.scss */
+  /* line 1932, _sass/partials/_marketing-site.scss */
   article.free-energy.picture-promo .promo-content {
     margin: 0;
     width: auto;
     padding-bottom: 30px;
   }
 }
-/* line 1952, _sass/partials/_marketing-site.scss */
+/* line 1942, _sass/partials/_marketing-site.scss */
 article.free-energy.picture-promo .promo-content h2 {
   color: #fff;
   line-height: 28px;
 }
-/* line 1955, _sass/partials/_marketing-site.scss */
+/* line 1945, _sass/partials/_marketing-site.scss */
 article.free-energy.picture-promo .promo-content h2 .big {
   font-size: 31px;
 }
 @media only screen and (max-width: 767px) {
-  /* line 1938, _sass/partials/_marketing-site.scss */
+  /* line 1928, _sass/partials/_marketing-site.scss */
   article.free-energy.picture-promo {
     background-position: center bottom;
   }
 }
 
-/* line 1965, _sass/partials/_marketing-site.scss */
+/* line 1955, _sass/partials/_marketing-site.scss */
 article.enroll {
   margin-top: 20px;
 }
-/* line 1967, _sass/partials/_marketing-site.scss */
+/* line 1957, _sass/partials/_marketing-site.scss */
 article.enroll .text {
   padding: 25px 0;
 }
-/* line 1969, _sass/partials/_marketing-site.scss */
+/* line 1959, _sass/partials/_marketing-site.scss */
 article.enroll .text h1 {
   color: #0971ce;
 }
-/* line 1972, _sass/partials/_marketing-site.scss */
+/* line 1962, _sass/partials/_marketing-site.scss */
 article.enroll .text h2 {
   text-transform: none;
 }
-/* line 1975, _sass/partials/_marketing-site.scss */
+/* line 1965, _sass/partials/_marketing-site.scss */
 article.enroll .text h2.grey {
   color: #6b6b6b;
 }
-/* line 1978, _sass/partials/_marketing-site.scss */
+/* line 1968, _sass/partials/_marketing-site.scss */
 article.enroll .text hr {
   margin: 22px 0;
   border: 0;
   border-top: 3px solid #eee;
 }
-/* line 1983, _sass/partials/_marketing-site.scss */
+/* line 1973, _sass/partials/_marketing-site.scss */
 article.enroll .text .left-column {
   float: left;
   width: 50%;
   margin-bottom: 20px;
 }
 @media only screen and (max-width: 767px) {
-  /* line 1983, _sass/partials/_marketing-site.scss */
+  /* line 1973, _sass/partials/_marketing-site.scss */
   article.enroll .text .left-column {
     width: 100%;
   }
 }
-/* line 1991, _sass/partials/_marketing-site.scss */
+/* line 1981, _sass/partials/_marketing-site.scss */
 article.enroll .text .right-column {
   float: right;
   width: 50%;
   margin-bottom: 20px;
 }
 @media only screen and (max-width: 767px) {
-  /* line 1991, _sass/partials/_marketing-site.scss */
+  /* line 1981, _sass/partials/_marketing-site.scss */
   article.enroll .text .right-column {
     width: 100%;
   }
 }
-/* line 1999, _sass/partials/_marketing-site.scss */
+/* line 1989, _sass/partials/_marketing-site.scss */
 article.enroll .text li.terms {
   background: url("../i/marketing/blue-bullet.png") no-repeat;
   margin: 1.5em 0 0 -2.3em;
   padding-left: 2em;
 }
-/* line 2004, _sass/partials/_marketing-site.scss */
+/* line 1994, _sass/partials/_marketing-site.scss */
 article.enroll .text ul.service-links {
   padding-left: 0px;
   list-style: none;
 }
-/* line 2007, _sass/partials/_marketing-site.scss */
+/* line 1997, _sass/partials/_marketing-site.scss */
 article.enroll .text ul.service-links li a {
   color: #6b6b6b;
   text-decoration: underline;
 }
-/* line 2012, _sass/partials/_marketing-site.scss */
+/* line 2002, _sass/partials/_marketing-site.scss */
 article.enroll .text .formlinks {
   width: 48%;
 }
 @media only screen and (max-width: 1024px) {
-  /* line 2012, _sass/partials/_marketing-site.scss */
+  /* line 2002, _sass/partials/_marketing-site.scss */
   article.enroll .text .formlinks {
     width: 100%;
   }
 }
-/* line 2017, _sass/partials/_marketing-site.scss */
+/* line 2007, _sass/partials/_marketing-site.scss */
 article.enroll .text .formlinks .header {
   background-color: #0971ce;
   color: #fff;
   padding: 10px 0 10px 20px;
 }
-/* line 2022, _sass/partials/_marketing-site.scss */
+/* line 2012, _sass/partials/_marketing-site.scss */
 article.enroll .text .formlinks .link {
   border-bottom: 3px solid #f0f0f0;
 }
-/* line 2025, _sass/partials/_marketing-site.scss */
+/* line 2015, _sass/partials/_marketing-site.scss */
 article.enroll .text .formlinks .grey {
   background-color: #fafafa;
 }
-/* line 2028, _sass/partials/_marketing-site.scss */
+/* line 2018, _sass/partials/_marketing-site.scss */
 article.enroll .text .formlinks p.form {
   background: url("../i/marketing/plan-icon.png") no-repeat left center;
   padding: 15px 0;
   margin: 0px 0px 0px 20px;
   width: 100%;
 }
-/* line 2033, _sass/partials/_marketing-site.scss */
+/* line 2023, _sass/partials/_marketing-site.scss */
 article.enroll .text .formlinks p.form a {
   font-size: 12px;
   font-weight: bold;
@@ -8146,165 +8140,167 @@ article.enroll .text .formlinks p.form a {
   padding: 15px 0px;
   display: block;
 }
-/* line 2042, _sass/partials/_marketing-site.scss */
+/* line 2032, _sass/partials/_marketing-site.scss */
 article.enroll .text .english {
   float: left;
 }
-/* line 2045, _sass/partials/_marketing-site.scss */
+/* line 2035, _sass/partials/_marketing-site.scss */
 article.enroll .text .spanish {
   float: right;
 }
 @media only screen and (max-width: 1024px) {
-  /* line 2045, _sass/partials/_marketing-site.scss */
+  /* line 2035, _sass/partials/_marketing-site.scss */
   article.enroll .text .spanish {
     float: left;
     margin-top: 20px;
   }
 }
-/* line 2052, _sass/partials/_marketing-site.scss */
+/* line 2042, _sass/partials/_marketing-site.scss */
 article.enroll .text .customer-forms {
   margin-top: 80px;
   padding-bottom: 50px;
 }
-/* line 2055, _sass/partials/_marketing-site.scss */
+/* line 2045, _sass/partials/_marketing-site.scss */
 article.enroll .text .customer-forms .formlinks {
   width: 100%;
 }
 
-/* line 2063, _sass/partials/_marketing-site.scss */
+/* line 2053, _sass/partials/_marketing-site.scss */
 article.service-icons .grid .col {
   padding: 0;
 }
 
-/* line 2069, _sass/partials/_marketing-site.scss */
+/* line 2059, _sass/partials/_marketing-site.scss */
 article.terms-of-use .write-to {
   width: 70%;
   text-align: center;
   margin: auto;
 }
-/* line 2074, _sass/partials/_marketing-site.scss */
+/* line 2064, _sass/partials/_marketing-site.scss */
 article.terms-of-use ul {
   padding: 0 80px;
 }
-/* line 2076, _sass/partials/_marketing-site.scss */
+/* line 2066, _sass/partials/_marketing-site.scss */
 article.terms-of-use ul li {
   list-style-type: none;
 }
-/* line 2078, _sass/partials/_marketing-site.scss */
+/* line 2068, _sass/partials/_marketing-site.scss */
 article.terms-of-use ul li p {
   margin-left: 20px;
 }
-/* line 2082, _sass/partials/_marketing-site.scss */
+/* line 2072, _sass/partials/_marketing-site.scss */
 article.terms-of-use ul h3 {
   color: #0971ce;
 }
-/* line 2085, _sass/partials/_marketing-site.scss */
+/* line 2075, _sass/partials/_marketing-site.scss */
 article.terms-of-use ul span {
   text-transform: uppercase;
 }
 @media only screen and (max-width: 767px) {
-  /* line 2090, _sass/partials/_marketing-site.scss */
+  /* line 2080, _sass/partials/_marketing-site.scss */
   article.terms-of-use ul {
     padding: 0 20px;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
-  /* line 2095, _sass/partials/_marketing-site.scss */
+  /* line 2085, _sass/partials/_marketing-site.scss */
   article.terms-of-use ul {
     padding: 0 40px;
   }
 }
 
-/* line 2101, _sass/partials/_marketing-site.scss */
+/* line 2091, _sass/partials/_marketing-site.scss */
 article.energy-certificates {
   background-image: url("../i/marketing/energy-certificates.jpg");
   background-repeat: no-repeat;
   background-position: center;
-  height: 350px;
+  min-height: 300px;
   border-top: 3px solid #7eb24c;
   border-bottom: 3px solid #862134;
 }
-/* line 2109, _sass/partials/_marketing-site.scss */
+/* line 2099, _sass/partials/_marketing-site.scss */
 article.energy-certificates .wrapper .text, article.energy-certificates article.state-tabs ul.tabs-nav .text, article.state-tabs article.energy-certificates ul.tabs-nav .text {
   width: 335px;
   float: right;
-  margin: 50px 50px 0 0;
+  margin: 70px 50px 0 0;
 }
-/* line 2113, _sass/partials/_marketing-site.scss */
-article.energy-certificates .wrapper .text button, article.energy-certificates article.state-tabs ul.tabs-nav .text button, article.state-tabs article.energy-certificates ul.tabs-nav .text button {
+/* line 2103, _sass/partials/_marketing-site.scss */
+article.energy-certificates .wrapper .text .button, article.energy-certificates article.state-tabs ul.tabs-nav .text .button, article.state-tabs article.energy-certificates ul.tabs-nav .text .button {
   background-color: #2c3e50;
-  box-shadow: 0 2px #7eb24c;
 }
-/* line 2116, _sass/partials/_marketing-site.scss */
-article.energy-certificates .wrapper .text button a, article.energy-certificates article.state-tabs ul.tabs-nav .text button a, article.state-tabs article.energy-certificates ul.tabs-nav .text button a {
-  color: #fff;
-}
-/* line 2119, _sass/partials/_marketing-site.scss */
-article.energy-certificates .wrapper .text button:hover, article.energy-certificates article.state-tabs ul.tabs-nav .text button:hover, article.state-tabs article.energy-certificates ul.tabs-nav .text button:hover {
+/* line 2105, _sass/partials/_marketing-site.scss */
+article.energy-certificates .wrapper .text .button:hover, article.energy-certificates article.state-tabs ul.tabs-nav .text .button:hover, article.state-tabs article.energy-certificates ul.tabs-nav .text .button:hover {
   background-color: #6b6b6b;
 }
 @media only screen and (max-width: 767px) {
-  /* line 2109, _sass/partials/_marketing-site.scss */
+  /* line 2099, _sass/partials/_marketing-site.scss */
   article.energy-certificates .wrapper .text, article.energy-certificates article.state-tabs ul.tabs-nav .text, article.state-tabs article.energy-certificates ul.tabs-nav .text {
     width: auto;
     margin-right: 0;
   }
 }
+@media only screen and (max-width: 767px) {
+  /* line 2116, _sass/partials/_marketing-site.scss */
+  article.energy-certificates .wrapper .text, article.energy-certificates article.state-tabs ul.tabs-nav .text, article.state-tabs article.energy-certificates ul.tabs-nav .text {
+    width: auto;
+    float: none;
+  }
+}
 
-/* line 2131, _sass/partials/_marketing-site.scss */
+/* line 2123, _sass/partials/_marketing-site.scss */
 article.ignite-associate {
   text-align: center;
-  margin: 50px 0;
+  margin: 50px 0 10px;
 }
-/* line 2134, _sass/partials/_marketing-site.scss */
+/* line 2126, _sass/partials/_marketing-site.scss */
 article.ignite-associate button {
   background-color: #a9222d;
 }
-/* line 2136, _sass/partials/_marketing-site.scss */
+/* line 2128, _sass/partials/_marketing-site.scss */
 article.ignite-associate button a {
   color: #fff;
 }
-/* line 2139, _sass/partials/_marketing-site.scss */
+/* line 2131, _sass/partials/_marketing-site.scss */
 article.ignite-associate button:hover {
   background-color: #6b6b6b;
 }
 
-/* line 2145, _sass/partials/_marketing-site.scss */
+/* line 2137, _sass/partials/_marketing-site.scss */
 article.independent-associate-chart {
   text-align: center;
 }
-/* line 2147, _sass/partials/_marketing-site.scss */
+/* line 2139, _sass/partials/_marketing-site.scss */
 article.independent-associate-chart h2 {
   background-color: #ac1f2d;
   padding: 20px 0;
   font-size: 24px;
   color: #fff;
 }
-/* line 2153, _sass/partials/_marketing-site.scss */
+/* line 2145, _sass/partials/_marketing-site.scss */
 article.independent-associate-chart img {
   margin: 20px 0;
 }
 
-/* line 2158, _sass/partials/_marketing-site.scss */
+/* line 2150, _sass/partials/_marketing-site.scss */
 article.residual-income {
   margin-top: 20px;
 }
-/* line 2160, _sass/partials/_marketing-site.scss */
+/* line 2152, _sass/partials/_marketing-site.scss */
 article.residual-income h3 {
   float: left;
   margin-right: 10px;
 }
-/* line 2164, _sass/partials/_marketing-site.scss */
+/* line 2156, _sass/partials/_marketing-site.scss */
 article.residual-income .footnotes {
   font-size: 10px;
 }
-/* line 2167, _sass/partials/_marketing-site.scss */
+/* line 2159, _sass/partials/_marketing-site.scss */
 article.residual-income a.button {
   float: right;
   margin-right: 30px;
 }
 
-/* line 2174, _sass/partials/_marketing-site.scss */
+/* line 2166, _sass/partials/_marketing-site.scss */
 article.electricity-gas p {
   font-size: 22px;
   text-align: center;
@@ -8312,62 +8308,62 @@ article.electricity-gas p {
   margin-right: auto;
   margin-left: auto;
 }
-/* line 2180, _sass/partials/_marketing-site.scss */
+/* line 2172, _sass/partials/_marketing-site.scss */
 article.electricity-gas p span {
   color: #0971ce;
 }
-/* line 2183, _sass/partials/_marketing-site.scss */
+/* line 2175, _sass/partials/_marketing-site.scss */
 article.electricity-gas p button {
   margin: auto;
   background-color: #76bd1d;
   font-size: 24px;
   padding: 10px;
 }
-/* line 2188, _sass/partials/_marketing-site.scss */
+/* line 2180, _sass/partials/_marketing-site.scss */
 article.electricity-gas p button:hover {
   background-color: #6b6b6b;
 }
-/* line 2191, _sass/partials/_marketing-site.scss */
+/* line 2183, _sass/partials/_marketing-site.scss */
 article.electricity-gas p button a {
   color: #fff;
 }
-/* line 2196, _sass/partials/_marketing-site.scss */
+/* line 2188, _sass/partials/_marketing-site.scss */
 article.electricity-gas hr {
   border: 2px solid #f0f0f0;
   margin: 40px 0;
 }
-/* line 2200, _sass/partials/_marketing-site.scss */
+/* line 2192, _sass/partials/_marketing-site.scss */
 article.electricity-gas img {
   padding-bottom: 25px;
 }
-/* line 2203, _sass/partials/_marketing-site.scss */
+/* line 2195, _sass/partials/_marketing-site.scss */
 article.electricity-gas .gas-chart {
   border-bottom: 3px solid #76bd1d;
 }
 
-/* line 2209, _sass/partials/_marketing-site.scss */
+/* line 2201, _sass/partials/_marketing-site.scss */
 article.privacy-policy .intro-paragraph {
   text-align: center;
 }
-/* line 2212, _sass/partials/_marketing-site.scss */
+/* line 2204, _sass/partials/_marketing-site.scss */
 article.privacy-policy hr {
   width: 60%;
   border: 1px solid #f0f0f0;
   margin: 40px auto;
 }
-/* line 2217, _sass/partials/_marketing-site.scss */
+/* line 2209, _sass/partials/_marketing-site.scss */
 article.privacy-policy h2 {
   margin-top: 30px;
 }
-/* line 2220, _sass/partials/_marketing-site.scss */
+/* line 2212, _sass/partials/_marketing-site.scss */
 article.privacy-policy .indented {
   margin-left: 40px;
 }
-/* line 2222, _sass/partials/_marketing-site.scss */
+/* line 2214, _sass/partials/_marketing-site.scss */
 article.privacy-policy .indented ul {
   list-style: none;
 }
-/* line 2224, _sass/partials/_marketing-site.scss */
+/* line 2216, _sass/partials/_marketing-site.scss */
 article.privacy-policy .indented ul li {
   background-image: url("../i/marketing/blue-bullet.png");
   background-repeat: no-repeat;
@@ -8375,15 +8371,15 @@ article.privacy-policy .indented ul li {
   padding-left: 25px;
 }
 
-/* line 2235, _sass/partials/_marketing-site.scss */
+/* line 2227, _sass/partials/_marketing-site.scss */
 article.earn-free-energy .intro-paragraph {
   text-align: center;
 }
-/* line 2238, _sass/partials/_marketing-site.scss */
+/* line 2230, _sass/partials/_marketing-site.scss */
 article.earn-free-energy p {
   font-size: 26px;
 }
-/* line 2241, _sass/partials/_marketing-site.scss */
+/* line 2233, _sass/partials/_marketing-site.scss */
 article.earn-free-energy .full-image {
   background-image: url("../i/marketing/free-energy-start-earning.jpg");
   background-repeat: no-repeat;
@@ -8391,17 +8387,17 @@ article.earn-free-energy .full-image {
   height: 300px;
   border-top: 3px solid #999;
 }
-/* line 2248, _sass/partials/_marketing-site.scss */
+/* line 2240, _sass/partials/_marketing-site.scss */
 article.earn-free-energy .enhance {
   text-align: center;
 }
-/* line 2250, _sass/partials/_marketing-site.scss */
+/* line 2242, _sass/partials/_marketing-site.scss */
 article.earn-free-energy .enhance h2 {
   font-size: 40px;
   margin-top: 40px;
 }
 
-/* line 2258, _sass/partials/_marketing-site.scss */
+/* line 2250, _sass/partials/_marketing-site.scss */
 article.manage-my-account .left-column {
   width: 35%;
   border-right: 1px solid #cfcfcf;
@@ -8409,7 +8405,7 @@ article.manage-my-account .left-column {
   float: left;
 }
 @media only screen and (max-width: 767px) {
-  /* line 2258, _sass/partials/_marketing-site.scss */
+  /* line 2250, _sass/partials/_marketing-site.scss */
   article.manage-my-account .left-column {
     width: 100%;
     border-right: none;
@@ -8417,309 +8413,356 @@ article.manage-my-account .left-column {
     padding: 0;
   }
 }
-/* line 2270, _sass/partials/_marketing-site.scss */
+/* line 2262, _sass/partials/_marketing-site.scss */
 article.manage-my-account .right-column {
   width: 65%;
   float: right;
   padding-left: 40px;
 }
-/* line 2274, _sass/partials/_marketing-site.scss */
+/* line 2266, _sass/partials/_marketing-site.scss */
 article.manage-my-account .right-column img {
   float: left;
 }
-/* line 2277, _sass/partials/_marketing-site.scss */
+/* line 2269, _sass/partials/_marketing-site.scss */
 article.manage-my-account .right-column h3 {
   float: left;
   margin: 25px 0 0 10px;
   color: #76BD1D;
 }
-/* line 2282, _sass/partials/_marketing-site.scss */
+/* line 2274, _sass/partials/_marketing-site.scss */
 article.manage-my-account .right-column .states {
   float: left;
   margin: 20px 40px 0 0;
 }
-/* line 2285, _sass/partials/_marketing-site.scss */
+/* line 2277, _sass/partials/_marketing-site.scss */
 article.manage-my-account .right-column .states input {
   margin-bottom: 15px;
 }
-/* line 2289, _sass/partials/_marketing-site.scss */
+/* line 2281, _sass/partials/_marketing-site.scss */
 article.manage-my-account .right-column .input-fields {
   float: left;
   margin-right: 20px;
 }
-/* line 2292, _sass/partials/_marketing-site.scss */
+/* line 2284, _sass/partials/_marketing-site.scss */
 article.manage-my-account .right-column .input-fields div {
   margin-top: 10px;
 }
-/* line 2295, _sass/partials/_marketing-site.scss */
+/* line 2287, _sass/partials/_marketing-site.scss */
 article.manage-my-account .right-column .input-fields input {
   width: auto;
 }
-/* line 2299, _sass/partials/_marketing-site.scss */
+/* line 2291, _sass/partials/_marketing-site.scss */
 article.manage-my-account .right-column .login {
   margin: 10px 0 0 0;
   float: left;
 }
-/* line 2302, _sass/partials/_marketing-site.scss */
+/* line 2294, _sass/partials/_marketing-site.scss */
 article.manage-my-account .right-column .login button {
   background-color: #76BD1D;
 }
+/* line 2296, _sass/partials/_marketing-site.scss */
+article.manage-my-account .right-column .login button:hover {
+  background-color: #6b6b6b;
+}
 @media only screen and (max-width: 767px) {
-  /* line 2270, _sass/partials/_marketing-site.scss */
+  /* line 2262, _sass/partials/_marketing-site.scss */
   article.manage-my-account .right-column {
     width: 100%;
-    margin: 20px auto;
+    margin: 20px auto 0;
     padding: 0;
+  }
+  /* line 2305, _sass/partials/_marketing-site.scss */
+  article.manage-my-account .right-column .login {
+    margin-left: 0;
+  }
+}
+@media only screen and (min-width: 768px) {
+  /* line 2311, _sass/partials/_marketing-site.scss */
+  article.manage-my-account .left-column {
+    padding-left: 20px;
   }
 }
 
-/* line 2314, _sass/partials/_marketing-site.scss */
+/* line 2317, _sass/partials/_marketing-site.scss */
 article.manage-free-energy {
   background-image: url("../i/marketing/free-energy-pic.jpg");
+  background-color: #111;
   height: 399px;
   margin-bottom: 0;
 }
-@media only screen and (max-width: 767px) {
-  /* line 2314, _sass/partials/_marketing-site.scss */
-  article.manage-free-energy {
-    height: auto;
-  }
-}
-/* line 2321, _sass/partials/_marketing-site.scss */
+/* line 2322, _sass/partials/_marketing-site.scss */
 article.manage-free-energy .left-column {
   float: left;
   width: 55%;
   margin-top: 30px;
 }
-/* line 2325, _sass/partials/_marketing-site.scss */
+/* line 2326, _sass/partials/_marketing-site.scss */
 article.manage-free-energy .left-column p {
   width: 70%;
   color: #fff;
   margin-top: 60px;
 }
-@media only screen and (max-width: 767px) {
-  /* line 2325, _sass/partials/_marketing-site.scss */
-  article.manage-free-energy .left-column p {
-    width: 80%;
-  }
-}
-/* line 2334, _sass/partials/_marketing-site.scss */
+/* line 2332, _sass/partials/_marketing-site.scss */
 article.manage-free-energy .right-column {
   float: right;
   background-color: #003366;
   width: 45%;
   height: 399px;
+  padding: 20px;
 }
-@media only screen and (max-width: 767px) {
-  /* line 2334, _sass/partials/_marketing-site.scss */
-  article.manage-free-energy .right-column {
-    height: auto;
-  }
-}
-/* line 2342, _sass/partials/_marketing-site.scss */
+/* line 2338, _sass/partials/_marketing-site.scss */
 article.manage-free-energy .right-column .center {
   text-align: center;
 }
-/* line 2344, _sass/partials/_marketing-site.scss */
-article.manage-free-energy .right-column .center .button {
-  box-shadow: 0 2px #3e8bcb;
+/* line 2341, _sass/partials/_marketing-site.scss */
+article.manage-free-energy .right-column .button {
   background-color: #ffa409;
-  margin: 150px 0 20px 0;
+  margin: 120px 0 20px 0;
 }
-/* line 2349, _sass/partials/_marketing-site.scss */
-article.manage-free-energy .right-column .center p {
+/* line 2344, _sass/partials/_marketing-site.scss */
+article.manage-free-energy .right-column .button:hover {
+  background-color: #6b6b6b;
+}
+/* line 2348, _sass/partials/_marketing-site.scss */
+article.manage-free-energy .right-column p {
   width: 50%;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
   color: #fff;
 }
 @media only screen and (max-width: 767px) {
-  /* line 2349, _sass/partials/_marketing-site.scss */
-  article.manage-free-energy .right-column .center p {
-    width: 75%;
-    margin-bottom: 50px;
+  /* line 2317, _sass/partials/_marketing-site.scss */
+  article.manage-free-energy {
+    height: auto;
+  }
+  /* line 2356, _sass/partials/_marketing-site.scss */
+  article.manage-free-energy .left-column {
+    float: none;
+    width: auto;
+  }
+  /* line 2359, _sass/partials/_marketing-site.scss */
+  article.manage-free-energy .left-column p {
+    width: auto;
+  }
+  /* line 2363, _sass/partials/_marketing-site.scss */
+  article.manage-free-energy .right-column {
+    height: auto;
+    float: none;
+    width: auto;
+    margin-left: -20px;
+    margin-right: -20px;
+  }
+  /* line 2369, _sass/partials/_marketing-site.scss */
+  article.manage-free-energy .right-column .button {
+    margin-top: 0;
+  }
+}
+@media only screen and (min-width: 768px) {
+  /* line 2375, _sass/partials/_marketing-site.scss */
+  article.manage-free-energy .left-column {
+    padding-left: 20px;
   }
 }
 
-/* line 2363, _sass/partials/_marketing-site.scss */
+/* line 2381, _sass/partials/_marketing-site.scss */
 article.manage-services {
   background-color: #7D9AB4;
 }
-/* line 2365, _sass/partials/_marketing-site.scss */
+/* line 2383, _sass/partials/_marketing-site.scss */
 article.manage-services .text {
   color: #fff;
   float: left;
-  margin-bottom: 75px;
 }
-/* line 2369, _sass/partials/_marketing-site.scss */
+/* line 2386, _sass/partials/_marketing-site.scss */
 article.manage-services .text .inner {
   float: right;
 }
-/* line 2371, _sass/partials/_marketing-site.scss */
+/* line 2388, _sass/partials/_marketing-site.scss */
 article.manage-services .text .inner span {
   text-transform: uppercase;
 }
-@media only screen and (max-width: 1024px) {
-  /* line 2365, _sass/partials/_marketing-site.scss */
-  article.manage-services .text {
-    width: 100%;
-    float: none;
-    padding: 10px;
-    margin-bottom: 0;
-  }
-  /* line 2380, _sass/partials/_marketing-site.scss */
-  article.manage-services .text .inner {
-    float: none;
-    max-width: 100%;
-  }
-}
-/* line 2386, _sass/partials/_marketing-site.scss */
+/* line 2393, _sass/partials/_marketing-site.scss */
 article.manage-services .photo {
   background-image: url("../i/marketing/manage-services.jpg");
+  background-color: #fff;
   background-repeat: no-repeat;
+  background-size: cover;
   right: 0;
+  padding-left: 15px;
 }
-/* line 2390, _sass/partials/_marketing-site.scss */
+/* line 2400, _sass/partials/_marketing-site.scss */
 article.manage-services .photo ul {
   padding-left: 0;
-  margin-left: 30px;
 }
-@media only screen and (max-width: 767px) {
-  /* line 2390, _sass/partials/_marketing-site.scss */
-  article.manage-services .photo ul {
-    margin: 0 auto;
-  }
-}
-/* line 2396, _sass/partials/_marketing-site.scss */
+/* line 2402, _sass/partials/_marketing-site.scss */
 article.manage-services .photo ul li {
   list-style-type: none;
   float: left;
   text-align: center;
   margin: 50px 5px 0 0;
   border-right: 1px solid #cfcece;
-  padding: 40px 20px 20px 20px;
+  padding: 30px 5px 30px 0;
+  width: 32%;
 }
-/* line 2403, _sass/partials/_marketing-site.scss */
+/* line 2410, _sass/partials/_marketing-site.scss */
 article.manage-services .photo ul li:last-child {
   border-right: none;
   padding-right: 0;
   margin-right: 0;
 }
-/* line 2408, _sass/partials/_marketing-site.scss */
-article.manage-services .photo ul li a .box {
+/* line 2415, _sass/partials/_marketing-site.scss */
+article.manage-services .photo ul li .box {
   background-color: #7D9AB4;
   border-radius: 10px;
-  box-shadow: 0 3px #DAD4CF;
-  height: 70px;
-  width: 160px;
+  padding: 12px 8px;
+  max-width: 170px;
+  display: inline-block;
 }
-/* line 2414, _sass/partials/_marketing-site.scss */
-article.manage-services .photo ul li a .box p {
+/* line 2421, _sass/partials/_marketing-site.scss */
+article.manage-services .photo ul li .box p {
   text-transform: uppercase;
-  padding: 3px;
   color: #fff;
-}
-/* line 2418, _sass/partials/_marketing-site.scss */
-article.manage-services .photo ul li a .box p:hover {
-  color: #064985;
-  text-decoration: underline;
-}
-/* line 2423, _sass/partials/_marketing-site.scss */
-article.manage-services .photo ul li a .box.tech-support {
-  background-color: #b68889;
+  margin: 0;
 }
 /* line 2426, _sass/partials/_marketing-site.scss */
-article.manage-services .photo ul li a .box.credit-monitoring {
+article.manage-services .photo ul li .box.tech-support {
+  background-color: #b68889;
+}
+/* line 2429, _sass/partials/_marketing-site.scss */
+article.manage-services .photo ul li .box.credit-monitoring {
   background-color: #8ea173;
 }
 /* line 2432, _sass/partials/_marketing-site.scss */
-article.manage-services .photo p.sign-up {
-  margin-left: 50px;
+article.manage-services .photo ul li .box:hover {
+  background-color: #6b6b6b;
 }
-@media only screen and (max-width: 767px) {
-  /* line 2432, _sass/partials/_marketing-site.scss */
-  article.manage-services .photo p.sign-up {
-    margin: 0 auto;
-    text-align: center;
-  }
+/* line 2436, _sass/partials/_marketing-site.scss */
+article.manage-services .photo ul li img {
+  margin: 0 auto 15px;
+  display: block;
 }
-/* line 2438, _sass/partials/_marketing-site.scss */
-article.manage-services .photo p.sign-up a:hover {
+/* line 2442, _sass/partials/_marketing-site.scss */
+article.manage-services .photo .sign-up {
+  text-align: center;
+}
+/* line 2444, _sass/partials/_marketing-site.scss */
+article.manage-services .photo .sign-up a:hover {
   color: #064985;
   text-decoration: underline;
 }
-@media only screen and (max-width: 1024px) {
-  /* line 2386, _sass/partials/_marketing-site.scss */
-  article.manage-services .photo {
-    background-size: cover;
+@media only screen and (max-width: 767px) {
+  /* line 2451, _sass/partials/_marketing-site.scss */
+  article.manage-services .text {
     width: 100%;
     float: none;
-    display: block;
-    position: initial;
+    padding: 0;
+    margin-bottom: 0;
   }
-}
-@media only screen and (max-width: 767px) {
-  /* line 2386, _sass/partials/_marketing-site.scss */
+  /* line 2456, _sass/partials/_marketing-site.scss */
+  article.manage-services .text .inner {
+    padding: 0;
+    float: none;
+    max-width: 100%;
+  }
+  /* line 2462, _sass/partials/_marketing-site.scss */
   article.manage-services .photo {
     background-image: none;
     background-color: #fff;
   }
-  /* line 2453, _sass/partials/_marketing-site.scss */
+  /* line 2465, _sass/partials/_marketing-site.scss */
   article.manage-services .photo ul li {
     width: 100%;
     margin-top: 0;
   }
-  /* line 2456, _sass/partials/_marketing-site.scss */
+  /* line 2468, _sass/partials/_marketing-site.scss */
   article.manage-services .photo ul li a .box {
     margin: auto;
   }
 }
+@media only screen and (max-width: 1024px) {
+  /* line 2475, _sass/partials/_marketing-site.scss */
+  article.manage-services .text, article.manage-services .text .inner {
+    float: none;
+    width: auto;
+    max-width: none;
+  }
+  /* line 2480, _sass/partials/_marketing-site.scss */
+  article.manage-services .photo {
+    width: auto;
+    float: none;
+    display: block;
+    position: static;
+    padding: 0 20px;
+    margin-left: -20px;
+    margin-right: -20px;
+  }
+  /* line 2488, _sass/partials/_marketing-site.scss */
+  article.manage-services .photo ul li {
+    border-right: none;
+  }
+  /* line 2491, _sass/partials/_marketing-site.scss */
+  article.manage-services .photo ul li .box {
+    padding: 12px 20px;
+    max-width: 215px;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+  /* line 2498, _sass/partials/_marketing-site.scss */
+  article.manage-services .text {
+    padding: 10px;
+  }
+}
+@media only screen and (min-width: 1025px) {
+  /* line 2503, _sass/partials/_marketing-site.scss */
+  article.manage-services .text {
+    margin-bottom: 75px;
+  }
+}
 
-/* line 2465, _sass/partials/_marketing-site.scss */
+/* line 2510, _sass/partials/_marketing-site.scss */
 article.marketing div.wrapper div.historical-rates {
   overflow: scroll;
 }
-/* line 2467, _sass/partials/_marketing-site.scss */
+/* line 2512, _sass/partials/_marketing-site.scss */
 article.marketing div.wrapper div.historical-rates table tr td {
   text-align: center;
 }
-/* line 2469, _sass/partials/_marketing-site.scss */
+/* line 2514, _sass/partials/_marketing-site.scss */
 article.marketing div.wrapper div.historical-rates table tr td:nth-child(even) {
   background-color: #c2ddf5;
 }
-/* line 2472, _sass/partials/_marketing-site.scss */
+/* line 2517, _sass/partials/_marketing-site.scss */
 article.marketing div.wrapper div.historical-rates table tr td:nth-child(odd), article.marketing div.wrapper div.historical-rates table tr td.odd {
   background-color: #e8f2fa;
 }
-/* line 2476, _sass/partials/_marketing-site.scss */
+/* line 2521, _sass/partials/_marketing-site.scss */
 article.marketing div.wrapper div.historical-rates table tr td.even {
   background-color: #c2ddf5;
 }
 
-/* line 2486, _sass/partials/_marketing-site.scss */
+/* line 2531, _sass/partials/_marketing-site.scss */
 article.rates table th:first-child, article.rates table td:first-child {
   text-align: left;
   background: #f9f9f9;
 }
-/* line 2492, _sass/partials/_marketing-site.scss */
+/* line 2537, _sass/partials/_marketing-site.scss */
 article.rates table thead th,
 article.rates table thead th:first-child {
   border: 1px solid #e8e8e8;
   background-color: #efefef;
   font-weight: 600;
 }
-/* line 2498, _sass/partials/_marketing-site.scss */
+/* line 2543, _sass/partials/_marketing-site.scss */
 article.rates table thead th[colspan],
 article.rates table thead th:first-child[colspan] {
   background: #999;
   color: #fff;
 }
-/* line 2505, _sass/partials/_marketing-site.scss */
+/* line 2550, _sass/partials/_marketing-site.scss */
 article.rates table tbody tr.details td:first-child {
   border: 0;
   border-left: 2px solid #0971ce;
 }
-/* line 2513, _sass/partials/_marketing-site.scss */
+/* line 2558, _sass/partials/_marketing-site.scss */
 article.rates.northeast table thead th,
 article.rates.northeast table thead th:first-child, article.rates.georgia table thead th,
 article.rates.georgia table thead th:first-child {
@@ -8728,37 +8771,37 @@ article.rates.georgia table thead th:first-child {
 }
 
 @media only screen and (max-width: 1024px) {
-  /* line 2523, _sass/partials/_marketing-site.scss */
+  /* line 2568, _sass/partials/_marketing-site.scss */
   article.opportunity-compensation-plan .button {
     margin-top: 10px;
   }
 }
 
-/* line 2530, _sass/partials/_marketing-site.scss */
+/* line 2575, _sass/partials/_marketing-site.scss */
 article.paperless .left-column {
   float: left;
   width: 40%;
   padding-right: 40px;
 }
-/* line 2534, _sass/partials/_marketing-site.scss */
+/* line 2579, _sass/partials/_marketing-site.scss */
 article.paperless .left-column .instructions {
   color: #76BD1D;
 }
 @media only screen and (max-width: 767px) {
-  /* line 2530, _sass/partials/_marketing-site.scss */
+  /* line 2575, _sass/partials/_marketing-site.scss */
   article.paperless .left-column {
     width: 100%;
     padding-right: 0px;
   }
 }
-/* line 2542, _sass/partials/_marketing-site.scss */
+/* line 2587, _sass/partials/_marketing-site.scss */
 article.paperless .right-column {
   width: 60%;
   float: right;
   padding-left: 40px;
   border-left: 1px solid #cfcfcf;
 }
-/* line 2547, _sass/partials/_marketing-site.scss */
+/* line 2592, _sass/partials/_marketing-site.scss */
 article.paperless .right-column div.clearfix, article.paperless .right-column div.layout, article.paperless .right-column form div.item, form article.paperless .right-column div.item,
 article.paperless .right-column .form div.item,
 .form article.paperless .right-column div.item, article.paperless .right-column form div.group, form article.paperless .right-column div.group,
@@ -8766,7 +8809,7 @@ article.paperless .right-column .form div.group,
 .form article.paperless .right-column div.group, article.paperless .right-column .site-header > div.wrapper, article.paperless .right-column div.buttons, article.paperless .right-column .enrollment-section div.wrapper, .enrollment-section article.paperless .right-column div.wrapper, article.paperless .right-column .cart div.cart-item, .cart article.paperless .right-column div.cart-item, article.paperless .right-column div.promo-box.horizontal {
   margin-bottom: 30px;
 }
-/* line 2549, _sass/partials/_marketing-site.scss */
+/* line 2594, _sass/partials/_marketing-site.scss */
 article.paperless .right-column div.clearfix img, article.paperless .right-column div.layout img, article.paperless .right-column form div.item img, form article.paperless .right-column div.item img,
 article.paperless .right-column .form div.item img,
 .form article.paperless .right-column div.item img, article.paperless .right-column form div.group img, form article.paperless .right-column div.group img,
@@ -8774,7 +8817,7 @@ article.paperless .right-column .form div.group img,
 .form article.paperless .right-column div.group img, article.paperless .right-column .site-header > div.wrapper img, article.paperless .right-column div.buttons img, article.paperless .right-column .enrollment-section div.wrapper img, .enrollment-section article.paperless .right-column div.wrapper img, article.paperless .right-column .cart div.cart-item img, .cart article.paperless .right-column div.cart-item img, article.paperless .right-column div.promo-box.horizontal img {
   float: left;
 }
-/* line 2552, _sass/partials/_marketing-site.scss */
+/* line 2597, _sass/partials/_marketing-site.scss */
 article.paperless .right-column div.clearfix h3, article.paperless .right-column div.layout h3, article.paperless .right-column form div.item h3, form article.paperless .right-column div.item h3,
 article.paperless .right-column .form div.item h3,
 .form article.paperless .right-column div.item h3, article.paperless .right-column form div.group h3, form article.paperless .right-column div.group h3,
@@ -8784,54 +8827,54 @@ article.paperless .right-column .form div.group h3,
   float: left;
   margin: 25px 0 0 10px;
 }
-/* line 2558, _sass/partials/_marketing-site.scss */
+/* line 2603, _sass/partials/_marketing-site.scss */
 article.paperless .right-column h4 {
   text-align: center;
   margin: 25px 0 0 10px;
   color: #76BD1D;
 }
-/* line 2563, _sass/partials/_marketing-site.scss */
+/* line 2608, _sass/partials/_marketing-site.scss */
 article.paperless .right-column .states {
   float: left;
   margin: 20px 40px 0 0;
 }
-/* line 2566, _sass/partials/_marketing-site.scss */
+/* line 2611, _sass/partials/_marketing-site.scss */
 article.paperless .right-column .states input {
   margin-bottom: 15px;
 }
-/* line 2570, _sass/partials/_marketing-site.scss */
+/* line 2615, _sass/partials/_marketing-site.scss */
 article.paperless .right-column .input-fields {
   float: left;
   width: 40%;
   margin-right: 18px;
 }
-/* line 2574, _sass/partials/_marketing-site.scss */
+/* line 2619, _sass/partials/_marketing-site.scss */
 article.paperless .right-column .input-fields div {
   margin-top: 10px;
 }
-/* line 2576, _sass/partials/_marketing-site.scss */
+/* line 2621, _sass/partials/_marketing-site.scss */
 article.paperless .right-column .input-fields div input {
   width: 100%;
 }
-/* line 2582, _sass/partials/_marketing-site.scss */
+/* line 2627, _sass/partials/_marketing-site.scss */
 article.paperless .right-column .login {
   float: left;
 }
-/* line 2584, _sass/partials/_marketing-site.scss */
+/* line 2629, _sass/partials/_marketing-site.scss */
 article.paperless .right-column .login .button {
   background-color: #76BD1D;
 }
-/* line 2586, _sass/partials/_marketing-site.scss */
+/* line 2631, _sass/partials/_marketing-site.scss */
 article.paperless .right-column .login .button:hover {
   background-color: #6b6b6b;
 }
-/* line 2591, _sass/partials/_marketing-site.scss */
+/* line 2636, _sass/partials/_marketing-site.scss */
 article.paperless .right-column .share {
   margin-top: 100px;
   text-align: center;
 }
 @media only screen and (max-width: 767px) {
-  /* line 2542, _sass/partials/_marketing-site.scss */
+  /* line 2587, _sass/partials/_marketing-site.scss */
   article.paperless .right-column {
     width: 100%;
     margin: 20px auto;
@@ -8840,12 +8883,12 @@ article.paperless .right-column .share {
   }
 }
 
-/* line 2604, _sass/partials/_marketing-site.scss */
+/* line 2649, _sass/partials/_marketing-site.scss */
 article.services-divider-img {
   background-position: 20% 0;
 }
 
-/* line 2609, _sass/partials/_marketing-site.scss */
+/* line 2654, _sass/partials/_marketing-site.scss */
 article.opportunity-more-information.accent-red .phone {
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
@@ -8972,8 +9015,9 @@ article.opportunity-more-information.accent-red .phone {
 /* line 92, _sass/partials/_enrollment.scss */
 .enrollment-section .layout.cols-2 > aside.left nav li a {
   position: relative;
+  cursor: default;
 }
-/* line 94, _sass/partials/_enrollment.scss */
+/* line 95, _sass/partials/_enrollment.scss */
 .enrollment-section .layout.cols-2 > aside.left nav li a::before {
   color: #bfbfbf;
   content: ' \25CF';
@@ -8984,11 +9028,11 @@ article.opportunity-more-information.accent-red .phone {
   height: 10px;
   font-size: 16px;
 }
-/* line 107, _sass/partials/_enrollment.scss */
+/* line 108, _sass/partials/_enrollment.scss */
 .enrollment-section .layout.cols-2 > aside.left nav li.completed:hover a, .enrollment-section .layout.cols-2 > aside.left nav li.active a {
   color: #333;
 }
-/* line 109, _sass/partials/_enrollment.scss */
+/* line 110, _sass/partials/_enrollment.scss */
 .enrollment-section .layout.cols-2 > aside.left nav li.completed:hover a::before, .enrollment-section .layout.cols-2 > aside.left nav li.active a::before {
   color: #053d5a;
   font-size: 32px;
@@ -8996,10 +9040,14 @@ article.opportunity-more-information.accent-red .phone {
   top: -13px;
 }
 /* line 119, _sass/partials/_enrollment.scss */
+.enrollment-section .layout.cols-2 > aside.left nav li.completed a {
+  cursor: pointer;
+}
+/* line 121, _sass/partials/_enrollment.scss */
 .enrollment-section .layout.cols-2 > aside.left nav li.completed a::before {
   color: #36637b;
 }
-/* line 125, _sass/partials/_enrollment.scss */
+/* line 127, _sass/partials/_enrollment.scss */
 .enrollment-section .layout.cols-2 > aside.left nav a {
   color: #bfbfbf;
   font-size: 14px;
@@ -9021,11 +9069,11 @@ article.opportunity-more-information.accent-red .phone {
     width: 25px;
     left: -40px;
   }
-  /* line 140, _sass/partials/_enrollment.scss */
+  /* line 142, _sass/partials/_enrollment.scss */
   .enrollment-section .layout.cols-2 > aside.left nav ul li {
     height: 22px;
   }
-  /* line 142, _sass/partials/_enrollment.scss */
+  /* line 144, _sass/partials/_enrollment.scss */
   .enrollment-section .layout.cols-2 > aside.left nav ul li a {
     color: transparent;
     visibility: hidden;
@@ -9034,18 +9082,18 @@ article.opportunity-more-information.accent-red .phone {
     -webkit-transition-duration: 0;
     transition-duration: 0;
   }
-  /* line 146, _sass/partials/_enrollment.scss */
+  /* line 148, _sass/partials/_enrollment.scss */
   .enrollment-section .layout.cols-2 > aside.left nav ul li a::before {
     color: #bfbfbf;
     visibility: visible;
   }
 }
-/* line 157, _sass/partials/_enrollment.scss */
+/* line 159, _sass/partials/_enrollment.scss */
 .enrollment-section section .icon-blue-arrow-up,
 .enrollment-section section .icon-blue-arrow-down {
   margin-top: -2px;
 }
-/* line 161, _sass/partials/_enrollment.scss */
+/* line 163, _sass/partials/_enrollment.scss */
 .enrollment-section section .social-box {
   -moz-border-radius: 10px 10px 0 0;
   -webkit-border-radius: 10px;
@@ -9055,15 +9103,15 @@ article.opportunity-more-information.accent-red .phone {
   padding: 15px 10px 20px 10px;
   position: relative;
 }
-/* line 167, _sass/partials/_enrollment.scss */
+/* line 169, _sass/partials/_enrollment.scss */
 .enrollment-section section .social-box .social-buttons {
   text-align: center;
 }
-/* line 169, _sass/partials/_enrollment.scss */
+/* line 171, _sass/partials/_enrollment.scss */
 .enrollment-section section .social-box .social-buttons .button {
   margin-bottom: 10px;
 }
-/* line 173, _sass/partials/_enrollment.scss */
+/* line 175, _sass/partials/_enrollment.scss */
 .enrollment-section section .social-box .seperator {
   position: absolute;
   bottom: -21px;
@@ -9080,7 +9128,7 @@ article.opportunity-more-information.accent-red .phone {
   border-radius: 21px;
   padding-top: 10px;
 }
-/* line 189, _sass/partials/_enrollment.scss */
+/* line 191, _sass/partials/_enrollment.scss */
 .enrollment-section .plans {
   position: relative;
   border: none;
@@ -9092,7 +9140,7 @@ article.opportunity-more-information.accent-red .phone {
   box-shadow: none;
   padding: 0;
 }
-/* line 195, _sass/partials/_enrollment.scss */
+/* line 197, _sass/partials/_enrollment.scss */
 .enrollment-section .plans .table-overlay {
   position: absolute;
   top: 0;
@@ -9101,7 +9149,7 @@ article.opportunity-more-information.accent-red .phone {
   right: 0;
   background: rgba(0, 0, 0, 0.5);
 }
-/* line 202, _sass/partials/_enrollment.scss */
+/* line 204, _sass/partials/_enrollment.scss */
 .enrollment-section .plans .table-overlay > .content {
   position: absolute;
   top: 15px;
@@ -9111,13 +9159,13 @@ article.opportunity-more-information.accent-red .phone {
   background: #fff;
   padding: 10px 20px;
 }
-/* line 213, _sass/partials/_enrollment.scss */
+/* line 215, _sass/partials/_enrollment.scss */
 .enrollment-section .cart-items {
   float: right;
   margin-right: 10px;
   position: relative;
 }
-/* line 217, _sass/partials/_enrollment.scss */
+/* line 219, _sass/partials/_enrollment.scss */
 .enrollment-section .cart-items .item-num {
   position: absolute;
   font-size: 13px;
@@ -9125,11 +9173,11 @@ article.opportunity-more-information.accent-red .phone {
   top: -5px;
   right: 8px;
 }
-/* line 225, _sass/partials/_enrollment.scss */
+/* line 227, _sass/partials/_enrollment.scss */
 .enrollment-section table {
   margin-bottom: 30px;
 }
-/* line 228, _sass/partials/_enrollment.scss */
+/* line 230, _sass/partials/_enrollment.scss */
 .enrollment-section table thead th {
   background: #f7f7f7;
   color: #646464;
@@ -9138,11 +9186,11 @@ article.opportunity-more-information.accent-red .phone {
   text-align: center;
   padding: 25px 15px;
 }
-/* line 238, _sass/partials/_enrollment.scss */
+/* line 240, _sass/partials/_enrollment.scss */
 .enrollment-section table tbody td {
   text-align: center;
 }
-/* line 242, _sass/partials/_enrollment.scss */
+/* line 244, _sass/partials/_enrollment.scss */
 .enrollment-section table .vertical {
   padding: 0;
   text-align: center;
@@ -9151,7 +9199,7 @@ article.opportunity-more-information.accent-red .phone {
   min-width: 20px;
   position: relative;
 }
-/* line 249, _sass/partials/_enrollment.scss */
+/* line 251, _sass/partials/_enrollment.scss */
 .enrollment-section table .vertical .fixed, .enrollment-section table .vertical .variable {
   position: absolute;
   top: 40px;
@@ -9165,92 +9213,92 @@ article.opportunity-more-information.accent-red .phone {
   height: 20px;
   width: 100px;
 }
-/* line 259, _sass/partials/_enrollment.scss */
+/* line 261, _sass/partials/_enrollment.scss */
 .enrollment-section table .vertical .fixed {
   background: #053d5a;
 }
-/* line 262, _sass/partials/_enrollment.scss */
+/* line 264, _sass/partials/_enrollment.scss */
 .enrollment-section table .vertical .variable {
   background: #79bb4b;
 }
-/* line 266, _sass/partials/_enrollment.scss */
+/* line 268, _sass/partials/_enrollment.scss */
 .enrollment-section table .plan-name {
   font-size: 18px;
   font-weight: bold;
   text-align: left;
 }
-/* line 270, _sass/partials/_enrollment.scss */
+/* line 272, _sass/partials/_enrollment.scss */
 .enrollment-section table .plan-name a {
   display: block;
   font-weight: normal;
   margin-top: 15px;
   font-size: 12px;
 }
-/* line 277, _sass/partials/_enrollment.scss */
+/* line 279, _sass/partials/_enrollment.scss */
 .enrollment-section table .rate {
   font-size: 22px;
   font-weight: bold;
   line-height: 18px;
 }
-/* line 281, _sass/partials/_enrollment.scss */
+/* line 283, _sass/partials/_enrollment.scss */
 .enrollment-section table .rate span {
   color: #828282;
   font-size: 13px;
   font-weight: normal;
   display: block;
 }
-/* line 288, _sass/partials/_enrollment.scss */
+/* line 290, _sass/partials/_enrollment.scss */
 .enrollment-section table .term {
   font-size: 13px;
   color: #828282;
 }
-/* line 291, _sass/partials/_enrollment.scss */
+/* line 293, _sass/partials/_enrollment.scss */
 .enrollment-section table .term i {
   display: block;
   margin: 0 auto;
 }
-/* line 296, _sass/partials/_enrollment.scss */
+/* line 298, _sass/partials/_enrollment.scss */
 .enrollment-section table .fees {
   font-size: 19px;
   font-weight: bold;
 }
-/* line 299, _sass/partials/_enrollment.scss */
+/* line 301, _sass/partials/_enrollment.scss */
 .enrollment-section table .fees span {
   display: block;
   font-size: 10px;
   color: #828282;
   font-weight: normal;
 }
-/* line 307, _sass/partials/_enrollment.scss */
+/* line 309, _sass/partials/_enrollment.scss */
 .enrollment-section table .line-item .description {
   text-align: left;
   border-right: 0;
 }
-/* line 310, _sass/partials/_enrollment.scss */
+/* line 312, _sass/partials/_enrollment.scss */
 .enrollment-section table .line-item .description h1 {
   text-transform: none;
   font-size: 18px;
   font-weight: bold;
   margin: 15px 0 0 0;
 }
-/* line 316, _sass/partials/_enrollment.scss */
+/* line 318, _sass/partials/_enrollment.scss */
 .enrollment-section table .line-item .description h2 {
   font-weight: normal;
   text-transform: none;
   font-size: 16px;
   margin: 0;
 }
-/* line 322, _sass/partials/_enrollment.scss */
+/* line 324, _sass/partials/_enrollment.scss */
 .enrollment-section table .line-item .description h3 {
   font-size: 16px;
   text-transform: none;
   margin: 10px 0 0 0;
 }
-/* line 327, _sass/partials/_enrollment.scss */
+/* line 329, _sass/partials/_enrollment.scss */
 .enrollment-section table .line-item .description p {
   margin-top: 0;
 }
-/* line 331, _sass/partials/_enrollment.scss */
+/* line 333, _sass/partials/_enrollment.scss */
 .enrollment-section table .line-item .rate {
   text-align: right;
   border-left: 0;
@@ -9258,121 +9306,121 @@ article.opportunity-more-information.accent-red .phone {
   vertical-align: top;
   padding-top: 23px;
 }
-/* line 338, _sass/partials/_enrollment.scss */
+/* line 340, _sass/partials/_enrollment.scss */
 .enrollment-section table .line-item .docs {
   border-left: 0;
 }
-/* line 341, _sass/partials/_enrollment.scss */
+/* line 343, _sass/partials/_enrollment.scss */
 .enrollment-section table .line-item .docs ul li {
   list-style-type: none;
   text-align: right;
 }
-/* line 348, _sass/partials/_enrollment.scss */
+/* line 350, _sass/partials/_enrollment.scss */
 .enrollment-section table .line-item.noborder td {
   border-top: 0;
   border-bottom: 0;
   vertical-align: top;
 }
-/* line 353, _sass/partials/_enrollment.scss */
+/* line 355, _sass/partials/_enrollment.scss */
 .enrollment-section table .line-item.noborder:first-child {
   border-top: 1px solid #eaeaea;
 }
-/* line 356, _sass/partials/_enrollment.scss */
+/* line 358, _sass/partials/_enrollment.scss */
 .enrollment-section table .line-item.noborder:last-child {
   border-bottom: 1px solid #eaeaea;
 }
-/* line 361, _sass/partials/_enrollment.scss */
+/* line 363, _sass/partials/_enrollment.scss */
 .enrollment-section table .line-item.secondary .rate {
   padding-top: 10px;
   font-weight: normal;
 }
-/* line 367, _sass/partials/_enrollment.scss */
+/* line 369, _sass/partials/_enrollment.scss */
 .enrollment-section table .total {
   background: #fafafa;
   text-align: right;
   font-size: 20px;
 }
-/* line 371, _sass/partials/_enrollment.scss */
+/* line 373, _sass/partials/_enrollment.scss */
 .enrollment-section table .total span {
   font-weight: bold;
   margin-left: 20px;
 }
-/* line 377, _sass/partials/_enrollment.scss */
+/* line 379, _sass/partials/_enrollment.scss */
 .enrollment-section table tbody tr.details {
   display: none;
 }
-/* line 379, _sass/partials/_enrollment.scss */
+/* line 381, _sass/partials/_enrollment.scss */
 .enrollment-section table tbody tr.details td {
   border: 1px solid #eaeaea;
   text-align: left;
   padding-left: 30px;
 }
-/* line 383, _sass/partials/_enrollment.scss */
+/* line 385, _sass/partials/_enrollment.scss */
 .enrollment-section table tbody tr.details td p {
   font-size: 15px;
 }
-/* line 386, _sass/partials/_enrollment.scss */
+/* line 388, _sass/partials/_enrollment.scss */
 .enrollment-section table tbody tr.details td:first-child {
   border: 1px solid #eaeaea;
 }
-/* line 392, _sass/partials/_enrollment.scss */
+/* line 394, _sass/partials/_enrollment.scss */
 .enrollment-section table tbody.open td.plan-name {
   border-bottom: 1px solid #fff;
 }
-/* line 395, _sass/partials/_enrollment.scss */
+/* line 397, _sass/partials/_enrollment.scss */
 .enrollment-section table tbody.open tr.details {
   display: table-row;
 }
-/* line 397, _sass/partials/_enrollment.scss */
+/* line 399, _sass/partials/_enrollment.scss */
 .enrollment-section table tbody.open tr.details td {
   border-top: 0;
 }
-/* line 399, _sass/partials/_enrollment.scss */
+/* line 401, _sass/partials/_enrollment.scss */
 .enrollment-section table tbody.open tr.details td:first-child {
   border-top: 1px solid #fff;
 }
-/* line 406, _sass/partials/_enrollment.scss */
+/* line 408, _sass/partials/_enrollment.scss */
 .enrollment-section table .spacer {
   height: 20px;
 }
-/* line 410, _sass/partials/_enrollment.scss */
+/* line 412, _sass/partials/_enrollment.scss */
 .enrollment-section #order-confirmation {
   margin-top: 20px;
 }
-/* line 412, _sass/partials/_enrollment.scss */
+/* line 414, _sass/partials/_enrollment.scss */
 .enrollment-section #order-confirmation .print {
   float: right;
   font-size: 14px;
   margin-top: 20px;
 }
-/* line 416, _sass/partials/_enrollment.scss */
+/* line 418, _sass/partials/_enrollment.scss */
 .enrollment-section #order-confirmation .print i {
   margin-top: -3px;
 }
-/* line 420, _sass/partials/_enrollment.scss */
+/* line 422, _sass/partials/_enrollment.scss */
 .enrollment-section #order-confirmation dl {
   margin-bottom: 20px;
 }
-/* line 423, _sass/partials/_enrollment.scss */
+/* line 425, _sass/partials/_enrollment.scss */
 .enrollment-section #order-confirmation dl dd {
   text-align: left;
 }
-/* line 428, _sass/partials/_enrollment.scss */
+/* line 430, _sass/partials/_enrollment.scss */
 .enrollment-section .time-remaining-mobile {
   text-align: center;
 }
-/* line 430, _sass/partials/_enrollment.scss */
+/* line 432, _sass/partials/_enrollment.scss */
 .enrollment-section .time-remaining-mobile .time-remaining {
   text-transform: uppercase;
   font-size: 14px;
   width: 75%;
   margin: 0 auto;
 }
-/* line 438, _sass/partials/_enrollment.scss */
+/* line 440, _sass/partials/_enrollment.scss */
 .enrollment-section #state-select {
   width: auto;
 }
-/* line 440, _sass/partials/_enrollment.scss */
+/* line 442, _sass/partials/_enrollment.scss */
 .enrollment-section #state-select button {
   border: 0;
   -moz-box-shadow: none;
@@ -9381,202 +9429,202 @@ article.opportunity-more-information.accent-red .phone {
   color: #0971ce;
   text-transform: uppercase;
 }
-/* line 445, _sass/partials/_enrollment.scss */
+/* line 447, _sass/partials/_enrollment.scss */
 .enrollment-section #state-select button .caret {
   display: none;
 }
-/* line 449, _sass/partials/_enrollment.scss */
+/* line 451, _sass/partials/_enrollment.scss */
 .enrollment-section #state-select .icon {
   background-position: 10px center;
   background-repeat: no-repeat;
   padding-left: 40px;
 }
-/* line 454, _sass/partials/_enrollment.scss */
+/* line 456, _sass/partials/_enrollment.scss */
 .enrollment-section #state-select .texas {
-  background-image: url('../i/bg/texas-icon.png?1401246930');
+  background-image: url('../i/bg/texas-icon.png?1401311933');
 }
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
-  /* line 454, _sass/partials/_enrollment.scss */
+  /* line 456, _sass/partials/_enrollment.scss */
   .enrollment-section #state-select .texas {
-    background-image: url('../i/bg2x/texas-icon.png?1401246930');
+    background-image: url('../i/bg2x/texas-icon.png?1401311933');
     background-size: 25px 26px;
   }
 }
-/* line 458, _sass/partials/_enrollment.scss */
+/* line 460, _sass/partials/_enrollment.scss */
 .enrollment-section #state-select .georgia {
-  background-image: url('../i/bg/georgia-icon.png?1401246930');
+  background-image: url('../i/bg/georgia-icon.png?1401311933');
 }
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
-  /* line 458, _sass/partials/_enrollment.scss */
+  /* line 460, _sass/partials/_enrollment.scss */
   .enrollment-section #state-select .georgia {
-    background-image: url('../i/bg2x/georgia-icon.png?1401246930');
+    background-image: url('../i/bg2x/georgia-icon.png?1401311933');
     background-size: 25px 26px;
   }
 }
-/* line 461, _sass/partials/_enrollment.scss */
+/* line 463, _sass/partials/_enrollment.scss */
 .enrollment-section #state-select .pennsylvania {
-  background-image: url('../i/bg/pennsylvania-icon.png?1401246930');
+  background-image: url('../i/bg/pennsylvania-icon.png?1401311933');
 }
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
-  /* line 461, _sass/partials/_enrollment.scss */
+  /* line 463, _sass/partials/_enrollment.scss */
   .enrollment-section #state-select .pennsylvania {
-    background-image: url('../i/bg2x/pennsylvania-icon.png?1401246930');
+    background-image: url('../i/bg2x/pennsylvania-icon.png?1401311933');
     background-size: 25px 26px;
   }
 }
-/* line 464, _sass/partials/_enrollment.scss */
+/* line 466, _sass/partials/_enrollment.scss */
 .enrollment-section #state-select .maryland {
-  background-image: url('../i/bg/maryland-icon.png?1401246930');
+  background-image: url('../i/bg/maryland-icon.png?1401311933');
 }
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
-  /* line 464, _sass/partials/_enrollment.scss */
+  /* line 466, _sass/partials/_enrollment.scss */
   .enrollment-section #state-select .maryland {
-    background-image: url('../i/bg2x/maryland-icon.png?1401246930');
+    background-image: url('../i/bg2x/maryland-icon.png?1401311933');
     background-size: 25px 26px;
   }
 }
-/* line 467, _sass/partials/_enrollment.scss */
+/* line 469, _sass/partials/_enrollment.scss */
 .enrollment-section #state-select .new-jersey {
-  background-image: url('../i/bg/newjersey-icon.png?1401246930');
+  background-image: url('../i/bg/newjersey-icon.png?1401311933');
 }
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
-  /* line 467, _sass/partials/_enrollment.scss */
+  /* line 469, _sass/partials/_enrollment.scss */
   .enrollment-section #state-select .new-jersey {
-    background-image: url('../i/bg2x/newjersey-icon.png?1401246930');
+    background-image: url('../i/bg2x/newjersey-icon.png?1401311933');
     background-size: 25px 26px;
   }
 }
-/* line 470, _sass/partials/_enrollment.scss */
+/* line 472, _sass/partials/_enrollment.scss */
 .enrollment-section #state-select .new-york {
-  background-image: url('../i/bg/newyork-icon.png?1401246930');
+  background-image: url('../i/bg/newyork-icon.png?1401311933');
 }
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
-  /* line 470, _sass/partials/_enrollment.scss */
+  /* line 472, _sass/partials/_enrollment.scss */
   .enrollment-section #state-select .new-york {
-    background-image: url('../i/bg2x/newyork-icon.png?1401246930');
+    background-image: url('../i/bg2x/newyork-icon.png?1401311933');
     background-size: 25px 26px;
   }
 }
-/* line 473, _sass/partials/_enrollment.scss */
+/* line 475, _sass/partials/_enrollment.scss */
 .enrollment-section #state-select .washington-dc {
-  background-image: url('../i/bg/dc-icon.png?1401246930');
+  background-image: url('../i/bg/dc-icon.png?1401311933');
 }
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
-  /* line 473, _sass/partials/_enrollment.scss */
+  /* line 475, _sass/partials/_enrollment.scss */
   .enrollment-section #state-select .washington-dc {
-    background-image: url('../i/bg2x/dc-icon.png?1401246930');
+    background-image: url('../i/bg2x/dc-icon.png?1401311933');
     background-size: 25px 25px;
   }
 }
-/* line 483, _sass/partials/_enrollment.scss */
+/* line 485, _sass/partials/_enrollment.scss */
 .enrollment-section .cart i.icon-close {
   display: none;
 }
-/* line 490, _sass/partials/_enrollment.scss */
+/* line 492, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-blue section h1 span {
   color: #1773cb;
 }
-/* line 493, _sass/partials/_enrollment.scss */
+/* line 495, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-blue .banner {
   border-top: 5px solid #1773cb;
 }
-/* line 490, _sass/partials/_enrollment.scss */
+/* line 492, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-paleblue section h1 span {
   color: #7e9ab3;
 }
-/* line 493, _sass/partials/_enrollment.scss */
+/* line 495, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-paleblue .banner {
   border-top: 5px solid #7e9ab3;
 }
-/* line 490, _sass/partials/_enrollment.scss */
+/* line 492, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-darkblue section h1 span {
   color: #073464;
 }
-/* line 493, _sass/partials/_enrollment.scss */
+/* line 495, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-darkblue .banner {
   border-top: 5px solid #073464;
 }
-/* line 490, _sass/partials/_enrollment.scss */
+/* line 492, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-green section h1 span {
   color: #78bb2f;
 }
-/* line 493, _sass/partials/_enrollment.scss */
+/* line 495, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-green .banner {
   border-top: 5px solid #78bb2f;
 }
-/* line 490, _sass/partials/_enrollment.scss */
+/* line 492, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-palegreen section h1 span {
   color: #8ba072;
 }
-/* line 493, _sass/partials/_enrollment.scss */
+/* line 495, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-palegreen .banner {
   border-top: 5px solid #8ba072;
 }
-/* line 490, _sass/partials/_enrollment.scss */
+/* line 492, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-darkgreen section h1 span {
   color: #5f9c37;
 }
-/* line 493, _sass/partials/_enrollment.scss */
+/* line 495, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-darkgreen .banner {
   border-top: 5px solid #5f9c37;
 }
-/* line 490, _sass/partials/_enrollment.scss */
+/* line 492, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-orange section h1 span {
   color: #fda32b;
 }
-/* line 493, _sass/partials/_enrollment.scss */
+/* line 495, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-orange .banner {
   border-top: 5px solid #fda32b;
 }
-/* line 490, _sass/partials/_enrollment.scss */
+/* line 492, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-red section h1 span {
   color: #aa2130;
 }
-/* line 493, _sass/partials/_enrollment.scss */
+/* line 495, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-red .banner {
   border-top: 5px solid #aa2130;
 }
-/* line 490, _sass/partials/_enrollment.scss */
+/* line 492, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-palered section h1 span {
   color: #b48789;
 }
-/* line 493, _sass/partials/_enrollment.scss */
+/* line 495, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-palered .banner {
   border-top: 5px solid #b48789;
 }
-/* line 490, _sass/partials/_enrollment.scss */
+/* line 492, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-white section h1 span {
   color: white;
 }
-/* line 493, _sass/partials/_enrollment.scss */
+/* line 495, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-white .banner {
   border-top: 5px solid white;
 }
-/* line 490, _sass/partials/_enrollment.scss */
+/* line 492, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-grey section h1 span {
   color: #e8e8e8;
 }
-/* line 493, _sass/partials/_enrollment.scss */
+/* line 495, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-grey .banner {
   border-top: 5px solid #e8e8e8;
 }
-/* line 490, _sass/partials/_enrollment.scss */
+/* line 492, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-darkgrey section h1 span {
   color: #6b6b6b;
 }
-/* line 493, _sass/partials/_enrollment.scss */
+/* line 495, _sass/partials/_enrollment.scss */
 .enrollment-section.accent-darkgrey .banner {
   border-top: 5px solid #6b6b6b;
 }
 @media only screen and (max-width: 767px) {
-  /* line 499, _sass/partials/_enrollment.scss */
+  /* line 501, _sass/partials/_enrollment.scss */
   .enrollment-section .button {
     margin: 0 auto;
     display: block;
   }
 }
 
-/* line 506, _sass/partials/_enrollment.scss */
+/* line 508, _sass/partials/_enrollment.scss */
 .cart {
   background: #fafafa;
   color: #333;
@@ -9590,7 +9638,7 @@ article.opportunity-more-information.accent-red .phone {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-/* line 514, _sass/partials/_enrollment.scss */
+/* line 516, _sass/partials/_enrollment.scss */
 .cart header {
   background: none;
   -moz-border-radius: 0;
@@ -9598,34 +9646,34 @@ article.opportunity-more-information.accent-red .phone {
   border-radius: 0;
   padding: 0;
 }
-/* line 518, _sass/partials/_enrollment.scss */
+/* line 520, _sass/partials/_enrollment.scss */
 .cart header h1 {
   margin: 15px 10px;
 }
-/* line 522, _sass/partials/_enrollment.scss */
+/* line 524, _sass/partials/_enrollment.scss */
 .cart hr {
   margin: 10px 0;
   border: 0;
   border-top: 3px solid #eee;
 }
-/* line 527, _sass/partials/_enrollment.scss */
+/* line 529, _sass/partials/_enrollment.scss */
 .cart h1 {
   font-size: 20px;
   text-transform: none;
   margin: 15px 10px;
 }
-/* line 532, _sass/partials/_enrollment.scss */
+/* line 534, _sass/partials/_enrollment.scss */
 .cart p {
   font-size: 16px;
   margin: 0 8px 15px 8px;
 }
-/* line 536, _sass/partials/_enrollment.scss */
+/* line 538, _sass/partials/_enrollment.scss */
 .cart ul.info {
   border-top: 1px solid #e2e2e3;
   padding: 0;
   margin: 0 8px 15px 5px;
 }
-/* line 540, _sass/partials/_enrollment.scss */
+/* line 542, _sass/partials/_enrollment.scss */
 .cart ul.info li {
   border-bottom: 1px solid #e2e2e3;
   list-style-type: none;
@@ -9633,32 +9681,32 @@ article.opportunity-more-information.accent-red .phone {
   font-size: 13px;
   position: relative;
 }
-/* line 546, _sass/partials/_enrollment.scss */
+/* line 548, _sass/partials/_enrollment.scss */
 .cart ul.info li i {
   position: absolute;
   top: 12px;
   left: 0;
 }
-/* line 553, _sass/partials/_enrollment.scss */
+/* line 555, _sass/partials/_enrollment.scss */
 .cart .center {
   text-align: center;
 }
-/* line 556, _sass/partials/_enrollment.scss */
+/* line 558, _sass/partials/_enrollment.scss */
 .cart .cart-item {
   margin-bottom: 10px;
 }
-/* line 559, _sass/partials/_enrollment.scss */
+/* line 561, _sass/partials/_enrollment.scss */
 .cart .cart-item:last-child {
   margin-bottom: 0;
 }
-/* line 563, _sass/partials/_enrollment.scss */
+/* line 565, _sass/partials/_enrollment.scss */
 .cart .delete {
   cursor: pointer;
   float: right;
   width: 5%;
   margin-top: 5px;
 }
-/* line 569, _sass/partials/_enrollment.scss */
+/* line 571, _sass/partials/_enrollment.scss */
 .cart .rate {
   float: left;
   width: 29%;
@@ -9667,7 +9715,7 @@ article.opportunity-more-information.accent-red .phone {
   font-weight: bold;
   text-align: center;
 }
-/* line 576, _sass/partials/_enrollment.scss */
+/* line 578, _sass/partials/_enrollment.scss */
 .cart .rate span {
   display: block;
   font-weight: normal;
@@ -9675,12 +9723,12 @@ article.opportunity-more-information.accent-red .phone {
   font-size: 12px;
   line-height: 12px;
 }
-/* line 584, _sass/partials/_enrollment.scss */
+/* line 586, _sass/partials/_enrollment.scss */
 .cart .description {
   float: left;
   width: 60%;
 }
-/* line 587, _sass/partials/_enrollment.scss */
+/* line 589, _sass/partials/_enrollment.scss */
 .cart .description h2 {
   line-height: 16px;
   margin: 0;
@@ -9689,28 +9737,28 @@ article.opportunity-more-information.accent-red .phone {
   font-weight: bold;
   text-transform: none;
 }
-/* line 595, _sass/partials/_enrollment.scss */
+/* line 597, _sass/partials/_enrollment.scss */
 .cart .description a {
   font-size: 13px;
 }
-/* line 599, _sass/partials/_enrollment.scss */
+/* line 601, _sass/partials/_enrollment.scss */
 .cart .avatar {
   text-align: center;
   margin-bottom: 10px;
 }
-/* line 603, _sass/partials/_enrollment.scss */
+/* line 605, _sass/partials/_enrollment.scss */
 .cart address {
   font-style: normal;
   font-size: 12px;
   margin-top: 20px;
 }
-/* line 607, _sass/partials/_enrollment.scss */
+/* line 609, _sass/partials/_enrollment.scss */
 .cart address h3 {
   font-size: 12px;
   color: #333;
   margin: 0;
 }
-/* line 613, _sass/partials/_enrollment.scss */
+/* line 615, _sass/partials/_enrollment.scss */
 .cart .box {
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
@@ -9723,35 +9771,35 @@ article.opportunity-more-information.accent-red .phone {
   padding: 14px;
   border: 1px solid #ebebeb;
 }
-/* line 620, _sass/partials/_enrollment.scss */
+/* line 622, _sass/partials/_enrollment.scss */
 .cart .box p {
   font-size: 13px;
   margin: 10px 0;
 }
-/* line 623, _sass/partials/_enrollment.scss */
+/* line 625, _sass/partials/_enrollment.scss */
 .cart .box p.alt {
   color: #9a9a9a;
   font-size: 15px;
 }
-/* line 628, _sass/partials/_enrollment.scss */
+/* line 630, _sass/partials/_enrollment.scss */
 .cart .box.time {
   position: relative;
   padding-left: 55px;
 }
-/* line 631, _sass/partials/_enrollment.scss */
+/* line 633, _sass/partials/_enrollment.scss */
 .cart .box.time .icon-clock {
   position: absolute;
   top: 22px;
   left: 10px;
 }
 @media only screen and (max-width: 767px) {
-  /* line 506, _sass/partials/_enrollment.scss */
+  /* line 508, _sass/partials/_enrollment.scss */
   .cart {
     display: none;
   }
 }
 
-/* line 643, _sass/partials/_enrollment.scss */
+/* line 645, _sass/partials/_enrollment.scss */
 .cart-overlay {
   position: fixed;
   top: 0;
@@ -9763,55 +9811,55 @@ article.opportunity-more-information.accent-red .phone {
   overflow: scroll;
   display: none;
 }
-/* line 653, _sass/partials/_enrollment.scss */
+/* line 655, _sass/partials/_enrollment.scss */
 .cart-overlay .cart {
   float: none;
   width: auto;
   margin: 20px;
 }
-/* line 657, _sass/partials/_enrollment.scss */
+/* line 659, _sass/partials/_enrollment.scss */
 .cart-overlay .cart i {
   float: right;
   cursor: pointer;
   margin-right: 10px;
 }
-/* line 662, _sass/partials/_enrollment.scss */
+/* line 664, _sass/partials/_enrollment.scss */
 .cart-overlay .cart .rate {
   position: absolute;
   float: none;
   right: 60px;
 }
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
-  /* line 653, _sass/partials/_enrollment.scss */
+  /* line 655, _sass/partials/_enrollment.scss */
   .cart-overlay .cart {
     display: block;
   }
 }
 @media only screen and (max-width: 767px) {
-  /* line 653, _sass/partials/_enrollment.scss */
+  /* line 655, _sass/partials/_enrollment.scss */
   .cart-overlay .cart {
     display: block;
   }
 }
-/* line 675, _sass/partials/_enrollment.scss */
+/* line 677, _sass/partials/_enrollment.scss */
 .cart-overlay.open {
   display: block;
 }
 @media only screen and (min-width: 768px) {
-  /* line 675, _sass/partials/_enrollment.scss */
+  /* line 677, _sass/partials/_enrollment.scss */
   .cart-overlay.open {
     display: none;
   }
 }
 
-/* line 683, _sass/partials/_enrollment.scss */
+/* line 685, _sass/partials/_enrollment.scss */
 .promo-box {
   background: #fafafa;
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-/* line 686, _sass/partials/_enrollment.scss */
+/* line 688, _sass/partials/_enrollment.scss */
 .promo-box header {
   background: none;
   -moz-border-radius: 0;
@@ -9819,19 +9867,19 @@ article.opportunity-more-information.accent-red .phone {
   border-radius: 0;
   padding: 0;
 }
-/* line 690, _sass/partials/_enrollment.scss */
+/* line 692, _sass/partials/_enrollment.scss */
 .promo-box header h1 {
   margin: 15px 10px;
   text-align: center;
   font-size: 20px;
   text-transform: none;
 }
-/* line 697, _sass/partials/_enrollment.scss */
+/* line 699, _sass/partials/_enrollment.scss */
 .promo-box .body {
   text-align: center;
 }
 @media only screen and (min-width: 768px) {
-  /* line 704, _sass/partials/_enrollment.scss */
+  /* line 706, _sass/partials/_enrollment.scss */
   .promo-box.horizontal {
     position: relative;
     background: #fdfdfd;
@@ -9839,7 +9887,7 @@ article.opportunity-more-information.accent-red .phone {
     -webkit-border-radius: 0;
     border-radius: 0;
   }
-  /* line 708, _sass/partials/_enrollment.scss */
+  /* line 710, _sass/partials/_enrollment.scss */
   .promo-box.horizontal .avatar {
     position: absolute;
     top: 30px;
@@ -9847,26 +9895,26 @@ article.opportunity-more-information.accent-red .phone {
     width: 20%;
     text-align: center;
   }
-  /* line 715, _sass/partials/_enrollment.scss */
+  /* line 717, _sass/partials/_enrollment.scss */
   .promo-box.horizontal header {
     margin-left: 21%;
   }
-  /* line 717, _sass/partials/_enrollment.scss */
+  /* line 719, _sass/partials/_enrollment.scss */
   .promo-box.horizontal header h1 {
     text-align: left;
     margin: 0;
   }
-  /* line 722, _sass/partials/_enrollment.scss */
+  /* line 724, _sass/partials/_enrollment.scss */
   .promo-box.horizontal .body {
     text-align: left;
     margin-left: 21%;
     margin-right: 25%;
   }
-  /* line 726, _sass/partials/_enrollment.scss */
+  /* line 728, _sass/partials/_enrollment.scss */
   .promo-box.horizontal .body p {
     margin: 0;
   }
-  /* line 729, _sass/partials/_enrollment.scss */
+  /* line 731, _sass/partials/_enrollment.scss */
   .promo-box.horizontal .body .button {
     position: absolute;
     right: 2%;
