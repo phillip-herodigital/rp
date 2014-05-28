@@ -610,6 +610,7 @@
     <Content Include="Views\Pages\Account\Payments.cshtml" />
     <Content Include="Views\Pages\Account\Payment History.cshtml" />
     <Content Include="Views\Components\Account\Sidebar Widgets\Paperless Promo.cshtml" />
+    <Content Include="Views\Pages\Account\Utility Services.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
