@@ -22,7 +22,7 @@ ngApp.directive('mainNav', ['$timeout', function ($timeout) {
 			        if (shouldSetToDefault) {
 			            scope.subnav = defaultSelection;
 			        }
-			    }, 500);
+			    }, 1000);
 			};
 
 		}
