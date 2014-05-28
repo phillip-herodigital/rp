@@ -3,41 +3,43 @@
  * This is used to control aspects of let's get started on enrollment page.
  */
 ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$http', 'enrollmentService', function ($scope, $rootScope, $http, enrollmentService) {
+    $scope.extraFields.isNewService = 0;
+
     $scope.states = [
         {
             'class': 'icon texas',
             'name': 'Texas',
-            'abbreviation': 'TX'
+            'value': 'TX'
         },
         {
             'class': 'icon georgia',
             'name': 'Georgia',
-            'abbreviation': 'GA'
+            'value': 'GA'
         },
         {
             'class': 'icon pennsylvania',
             'name': 'Pennsylvania',
-            'abbreviation': 'PA'
+            'value': 'PA'
         },
         {
             'class': 'icon maryland',
             'name': 'Maryland',
-            'abbreviation': 'MD'
+            'value': 'MD'
         },
         {
             'class': 'icon new-jersey',
             'name': 'New Jersey',
-            'abbreviation': 'NJ'
+            'value': 'NJ'
         },
         {
             'class': 'icon new-york',
             'name': 'New York',
-            'abbreviation': 'NY'
+            'value': 'NY'
         },
         {
             'class': 'icon washington-dc',
             'name': 'Washington, DC',
-            'abbreviation': 'DC'
+            'value': 'DC'
         }
     ];
 

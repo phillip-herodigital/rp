@@ -3,7 +3,8 @@ ngApp.directive('dropdownSelect', [function () {
     return {
         restrict: 'AE', //element or attribute
         scope: {
-            dropdownItems: '='
+            dropdownItems: '=',
+            value: '=',
         },
         replace: true,
         controller: function ($scope) {
@@ -15,6 +16,7 @@ ngApp.directive('dropdownSelect', [function () {
             $scope.selectItem = function (item) {
                 $scope.selectedItem = item;
                 $scope.status.isopen = false;
+                $scope.value = item.value;
             };
         },
         template: '<div class="btn-group" dropdown is-open="status.isopen">' +
