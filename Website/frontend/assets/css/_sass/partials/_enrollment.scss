@@ -476,6 +476,12 @@
 		}
 	}
 
+	.cart {
+		i.icon-close {
+			display:none;
+		}
+	}
+
     @each $theme in $themes {
         &.accent-#{map-get($theme, name)} {
             section h1 span {

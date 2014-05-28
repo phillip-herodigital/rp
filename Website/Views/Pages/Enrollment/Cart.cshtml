@@ -1,99 +1,103 @@
-﻿            <article class="cart" ng-show="cart" ng-controller="EnrollmentCartCtrl">
-				<header>
-					<i class="icon-close" ng-click="toggleCart();"></i>
-					<h1>@Html.Sitecore().Field("Cart Header")</h1>
-				</header>
-				<div class="body">
-                    <div class="box">
-                        <p class="alt">@Html.Sitecore().Field("Empty Cart Text")</p>
+﻿<script type="text/ng-template" id="cart-template">
+    <article class="cart" ng-controller="EnrollmentCartCtrl">
+        <header>
+            <i class="icon-close" ng-click="toggleCart();"></i>
+            <h1>@Html.Sitecore().Field("Cart Header")</h1>
+        </header>
+        <div class="body">
+            <div class="box">
+                <p class="alt">@Html.Sitecore().Field("Empty Cart Text")</p>
+            </div>
+            <div class="box">
+                <div class="cart-item">
+                    <div class="delete">
+                        <i class="icon-delete"></i>
                     </div>
-					<div class="box">
-						<div class="cart-item">
-							<div class="delete">
-								<i class="icon-delete"></i>
-							</div>
-							<div class="description">
-								<h2>24-Month Fixed Rate</h2>
-								<a href="">Change Plan</a>
-							</div>
-							<div class="rate">
-								7.18&cent;
-								<span>per kWh</span>
-							</div>
-						</div>
-						<div class="cart-item">
-							<div class="description">
-								<h2>Installation Fee</h2>
-							</div>
-							<div class="rate">
-								$10.35
-							</div>
-						</div>
-						<hr />
-						<div class="cart-item">
-							<div class="delete">
-								<i class="icon-delete"></i>
-							</div>
-							<div class="description">
-								<h2>Stream Smart Themostat</h2>
-							</div>
-							<div class="rate">
-								$14.95
-								<span>per month</span>
-							</div>
-						</div>
-						<address>
-							<h3>@Html.Sitecore().Field("Service Address Text")</h3>
-							123 Main Street, Dallas, TX 75001<br/>
-							<a href="">@Html.Sitecore().Field("Edit Address Text")</a>
-						</address>
-					</div>
-					<div class="box">
-						<div class="cart-item">
-							<div class="delete">
-								<i class="icon-delete"></i>
-							</div>
-							<div class="description">
-								<h2>3 Month Fixed Rate</h2>
-								<a href="">Change Plan</a>
-							</div>
-							<div class="rate">
-								7.18&cent;
-								<span>per kWh</span>
-							</div>
-						</div>
-						<address>
-							<h3>@Html.Sitecore().Field("Service Address Text")</h3>
-							456 Center Street Dallas, TX 75001<br/>
-							<a href="">@Html.Sitecore().Field("Edit Address Text")</a>
-						</address>
-					</div>
-					<div class="box">
-						<div class="cart-item">
-							<div class="delete">
-								<i class="icon-delete"></i>
-							</div>
-							<div class="description">
-								<h2>Stream Tech Support</h2>
-								<a href="">Change Plan</a>
-							</div>
-							<div class="rate">
-								$14.95
-								<span>per month</span>
-							</div>
-						</div>
-					</div>
-					<div class="box time">
-						<i class="icon-clock"></i>
-						@Html.Sitecore().Field("Time Remaining")
+                    <div class="description">
+                        <h2>24-Month Fixed Rate</h2>
+                        <a href="">Change Plan</a>
                     </div>
-					@Html.Sitecore().Field("Documents Description")
-					<ul class="info">
-						<li><i class="icon-home"></i> @Html.Sitecore().Field("Documents Service Address")</li>
-						<li><i class="icon-bill"></i> @Html.Sitecore().Field("Documents Billing Account Number")</li>
-						<li><i class="icon-utility-provider"></i> @Html.Sitecore().Field("Documents Utility Provider")</li>
-						<li><i class="icon-ssn"></i> @Html.Sitecore().Field("Documents Social Security Number")</li>
-						<li><i class="icon-drivers-license"></i> @Html.Sitecore().Field("Documents Drivers License Number")</li>
-					</ul>
-				</div>
-			</article>
+                    <div class="rate">
+                        7.18&cent;
+                        <span>per kWh</span>
+                    </div>
+                </div>
+                <div class="cart-item">
+                    <div class="description">
+                        <h2>Installation Fee</h2>
+                    </div>
+                    <div class="rate">
+                        $10.35
+                    </div>
+                </div>
+                <hr />
+                <div class="cart-item">
+                    <div class="delete">
+                        <i class="icon-delete"></i>
+                    </div>
+                    <div class="description">
+                        <h2>Stream Smart Themostat</h2>
+                    </div>
+                    <div class="rate">
+                        $14.95
+                        <span>per month</span>
+                    </div>
+                </div>
+                <address>
+                    <h3>@Html.Sitecore().Field("Service Address Text")</h3>
+                    123 Main Street, Dallas, TX 75001<br />
+                    <a href="">@Html.Sitecore().Field("Edit Address Text")</a>
+                </address>
+            </div>
+            <div class="box">
+                <div class="cart-item">
+                    <div class="delete">
+                        <i class="icon-delete"></i>
+                    </div>
+                    <div class="description">
+                        <h2>3 Month Fixed Rate</h2>
+                        <a href="">Change Plan</a>
+                    </div>
+                    <div class="rate">
+                        7.18&cent;
+                        <span>per kWh</span>
+                    </div>
+                </div>
+                <address>
+                    <h3>@Html.Sitecore().Field("Service Address Text")</h3>
+                    456 Center Street Dallas, TX 75001<br />
+                    <a href="">@Html.Sitecore().Field("Edit Address Text")</a>
+                </address>
+            </div>
+            <div class="box">
+                <div class="cart-item">
+                    <div class="delete">
+                        <i class="icon-delete"></i>
+                    </div>
+                    <div class="description">
+                        <h2>Stream Tech Support</h2>
+                        <a href="">Change Plan</a>
+                    </div>
+                    <div class="rate">
+                        $14.95
+                        <span>per month</span>
+                    </div>
+                </div>
+            </div>
+            <div class="box time">
+                <i class="icon-clock"></i>
+                @Html.Sitecore().Field("Time Remaining")
+            </div>
+            @Html.Sitecore().Field("Documents Description")
+            <ul class="info">
+                <li><i class="icon-home"></i> @Html.Sitecore().Field("Documents Service Address")</li>
+                <li><i class="icon-bill"></i> @Html.Sitecore().Field("Documents Billing Account Number")</li>
+                <li><i class="icon-utility-provider"></i> @Html.Sitecore().Field("Documents Utility Provider")</li>
+                <li><i class="icon-ssn"></i> @Html.Sitecore().Field("Documents Social Security Number")</li>
+                <li><i class="icon-drivers-license"></i> @Html.Sitecore().Field("Documents Drivers License Number")</li>
+            </ul>
+        </div>
+    </article>
+</script>
+
+<div ng-include ng-if="false" src="'cart-template'"></div>

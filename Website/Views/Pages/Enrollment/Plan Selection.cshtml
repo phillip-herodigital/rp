@@ -211,49 +211,7 @@
             </div>
         </section>
         <aside>
-            <article class="cart">
-                <header>
-                    <div class="cart-items">
-                        <i class="icon-cart"></i>
-                        <div class="item-num">1</div>
-                    </div>
-                    <h1>Your Cart</h1>
-                </header>
-                <div class="body">
-                    <div class="cart">
-                        <div class="cart-item">
-                            <div class="delete">
-                                <i class="icon-delete"></i>
-                            </div>
-                            <div class="description">
-                                <h2>24-Month Fixed Rate</h2>
-                                <a href="">Change Plan</a>
-                            </div>
-                            <div class="rate">
-                                7.18&cent;
-                                <span>per kWh</span>
-                            </div>
-                        </div>
-                        <address>
-                            <h3>Service Address</h3>
-                            123 Main Street, Dallas, TX 75001<br />
-                            <a href="">Edit Address</a>
-                        </address>
-                    </div>
-                    <div class="box time">
-                        <i class="icon-clock"></i>
-                        <p>It will take approximately <strong>8</strong> more minutes to complete your order.</p>
-                    </div>
-                    <p>Here's some documents you'll need to complete your order:</p>
-                    <ul class="info">
-                        <li><i class="icon-home"></i> Your Service Address</li>
-                        <li><i class="icon-bill"></i> Your <a href="">Bill Account Number</a></li>
-                        <li><i class="icon-utility-provider"></i> Your <a href="">Utility Provider</a></li>
-                        <li><i class="icon-ssn"></i> Your Social Security Number</li>
-                        <li><i class="icon-drivers-license"></i> Your Driver's License Number</li>
-                    </ul>
-                </div>
-            </article>
+            <div ng-include ng-if="true" src="'cart-template'"></div>
         </aside>
     </div>
 </div>
