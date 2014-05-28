@@ -77,18 +77,20 @@ namespace StreamEnergy.DomainModels
 
         public bool Equals(Address other)
         {
-            return this.City == other.City
-                && this.Line1 == other.Line1
-                && this.Line2 == other.Line2
-                && this.PostalCode5 == other.PostalCode5
-                && this.PostalCodePlus4 == other.PostalCodePlus4
-                && this.StateAbbreviation == other.StateAbbreviation
-                && this.UnitNumber == other.UnitNumber;
+            return (this.City ?? "") == (other.City ?? "")
+                && (this.Line1 ?? "") == (other.Line1 ?? "")
+                && (this.Line2 ?? "") == (other.Line2 ?? "")
+                && (this.PostalCode5 ?? "") == (other.PostalCode5 ?? "")
+                && (this.PostalCodePlus4 ?? "") == (other.PostalCodePlus4 ?? "")
+                && (this.StateAbbreviation ?? "") == (other.StateAbbreviation ?? "")
+                && (this.UnitNumber ?? "") == (other.UnitNumber ?? "");
         }
 
         public string ToSingleLine()
         {
-            return Line1 + Line2.Prefix(" ") + UnitNumber.Prefix(" ") + " " + City + ", " + StateAbbreviation + ", " + PostalCode5 + PostalCodePlus4.Prefix("-");
+            if (string.IsNullOrEmpty(Line1) && string.IsNullOrEmpty(Line2) && string.IsNullOrEmpty(UnitNumber) && string.IsNullOrEmpty(City))
+                return (PostalCode5.Prefix(" ") + PostalCodePlus4.Prefix("-")).Trim();
+            return (Line1 + Line2.Prefix(" ") + UnitNumber.Prefix(" ") + " " + City + ", " + StateAbbreviation + ", " + PostalCode5.Prefix(" ") + PostalCodePlus4.Prefix("-")).Trim();
         }
     }
 }

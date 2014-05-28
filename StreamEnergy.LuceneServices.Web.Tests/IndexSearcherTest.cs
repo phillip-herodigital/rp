@@ -56,10 +56,10 @@ namespace StreamEnergy.LuceneServices.Web.Tests
         {
             var container = ContainerSetup.Create();
 
-            var output = BuildIndexPath(testContext);
-            var builder = new IndexBuilder(output);
-            builder.WriteIndex(data);
-
+            using (var builder = new IndexBuilder(BuildIndexPath(testContext), true))
+            {
+                builder.WriteIndex(data, "Test").Wait();
+            }
         }
         //
         // Use ClassCleanup to run code after all tests in a class have run
@@ -97,11 +97,21 @@ namespace StreamEnergy.LuceneServices.Web.Tests
         }
 
         [TestMethod]
-        public void StreetNameSpellingError()
+        public void StreetNumberAndName()
         {
             using (var searcher = new IndexSearcher(BuildIndexPath(TestContext)))
             {
-                var results = searcher.Search("TX", "Hufines").ToArray();
+                var results = searcher.Search("TX", "3620 Huffines").ToArray();
+                Assert.AreEqual(data.First().Address, results.First().Address);
+            }
+        }
+
+        [TestMethod]
+        public void StreetNumberAndNameSpellingError()
+        {
+            using (var searcher = new IndexSearcher(BuildIndexPath(TestContext)))
+            {
+                var results = searcher.Search("TX", "3620 Hufines").ToArray();
                 Assert.AreEqual(data.First().Address, results.First().Address);
             }
         }
