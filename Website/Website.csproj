@@ -604,6 +604,7 @@
     <Content Include="Views\Pages\Marketing\Services\Enroll.cshtml" />
     <Content Include="Views\Pages\Marketing\Services\Renew.cshtml" />
     <Content Include="Views\Pages\Frontend\Elements.cshtml" />
+    <Content Include="Views\Pages\Authentication\Create Account - Step 1.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
