@@ -1,4 +1,18 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var pageTitle = "";
+    var pageTitleField = Html.Sitecore().CurrentItem.Fields["Page Title"];
+    if (pageTitleField != null)
+    { 
+        pageTitle = Html.Sitecore().CurrentItem.Fields["Page Title"].Value;
+        
+        if (!string.IsNullOrEmpty(pageTitle))
+        {
+            pageTitle += " | ";
+        }
+    }
+    pageTitle += "Stream Energy";
+}
+<!DOCTYPE html>
 <!--[if IE 8]>         <html ng-app="ngApp" class="no-js ie8 lt-ie10 lt-ie9"> <![endif]-->
 <!--[if IE 9]>         <html ng-app="ngApp" class="no-js ie9 lt-ie10"> <![endif]-->
 <!--[if gt IE 8]><!-->
@@ -7,7 +21,7 @@
 <head>
     <meta charset="utf-8" />
 
-    <title>Title</title>
+    <title>@pageTitle</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="format-detection" content="telephone=no" />
