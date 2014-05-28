@@ -18,25 +18,26 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
             }
 
             using (var directoryLoader = new Ercot.DirectoryLoader())
-            using (var indexBuilder = new IndexBuilder(options.Destination))
+            using (var indexBuilder = new IndexBuilder(options.Destination, options.ForceCreate))
             {
-                var results = directoryLoader.Load(options.Source);
+                var results = directoryLoader.Load(options.Source, options.StartDate, true);
                 var allTasks = new List<Task>();
-                foreach (var tdu in directoryLoader.Load(options.Source).GroupBy(file => file.Tdu))
+                foreach (var tdu in results.GroupBy(file => file.Tdu))
                 {
                     var copy = tdu; // grab the proper closure, since var tdu is technically outside the loop
-                    allTasks.Add(IndexTdu(indexBuilder, tdu));
+                    allTasks.Add(IndexTdu(indexBuilder, tdu, options.ForceCreate));
                 }
 
                 var tasks = allTasks.ToArray();
                 Task.WaitAll(tasks);
+                Console.WriteLine("Optimizing");
                 indexBuilder.Optimize().Wait();
             }
         }
 
         const int reportEvery = 10000;
         const int maxTasks = 5000;
-        private static async Task IndexTdu(IndexBuilder indexBuilder, IGrouping<string, Ercot.FileMetadata> tdu)
+        private static async Task IndexTdu(IndexBuilder indexBuilder, IGrouping<string, Ercot.FileMetadata> tdu, bool isFresh)
         {
             try
             {
@@ -46,6 +47,11 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
                 Queue<Task> taskQueue = new Queue<Task>(maxTasks);
                 foreach (var file in tdu)
                 {
+                    if (file.IsFull && !isFresh)
+                    {
+                        indexBuilder.ClearGroup(tdu.Key);
+                        await Task.Yield();
+                    }
                     using (var fs = System.IO.File.OpenRead(file.FullPath))
                     using (var fr = new Ercot.FileReader())
                     {
@@ -58,13 +64,13 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
                                     {
                                         Address = new DomainModels.Address { PostalCode5 = loc.Address.PostalCode5, StateAbbreviation = loc.Address.StateAbbreviation },
                                         Capabilities = new[] { new DomainModels.TexasServiceCapability { Tdu = tdu.Key, MeterType = DomainModels.TexasMeterType.Other } },
-                                    }));
+                                    }, tdu.Key, isFresh));
                             }
-                            taskQueue.Enqueue(indexBuilder.WriteLocation(loc));
+                            taskQueue.Enqueue(indexBuilder.WriteLocation(loc, tdu.Key, isFresh));
                             if (taskQueue.Count >= maxTasks)
                             {
-                                Task.WaitAll(taskQueue.ToArray());
-                                taskQueue.Clear();
+                                while (taskQueue.Any())
+                                    await taskQueue.Dequeue();
                             }
                             else if (taskQueue.Count > 0 && taskQueue.Peek().IsCompleted)
                             {
@@ -75,9 +81,10 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
                                 Console.WriteLine(tdu.Key.PadRight(20) + " " + counter.ToString().PadLeft(11));
                         }
                     }
+                    while (taskQueue.Any())
+                        await taskQueue.Dequeue();
+                    isFresh = false;
                 }
-                Task.WaitAll(taskQueue.ToArray());
-                taskQueue.Clear();
                 Console.WriteLine(tdu.Key.PadRight(20) + " " + counter.ToString().PadLeft(11) + " finished!");
             }
             catch (Exception ex)

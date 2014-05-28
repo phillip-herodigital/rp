@@ -7,6 +7,7 @@ using Lucene.Net.Analysis;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
+using Lucene.Net.Search;
 using StreamEnergy.DomainModels;
 using LuceneStore = Lucene.Net.Store;
 
@@ -18,23 +19,31 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
         private readonly List<Action> onDispose = new List<Action>();
         private IndexWriter writer;
 
-        public IndexBuilder(string destination)
+        public IndexBuilder(string destination, bool forceCreate)
         {
             System.IO.Directory.CreateDirectory(destination);
             directory = LuceneStore.FSDirectory.Open(destination);
 
             Analyzer analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
-            writer = new IndexWriter(directory, analyzer, true, IndexWriter.MaxFieldLength.UNLIMITED);
+            writer = new IndexWriter(directory, analyzer, forceCreate, IndexWriter.MaxFieldLength.UNLIMITED);
             onDispose.Add(((IDisposable)analyzer).Dispose);
             onDispose.Add(((IDisposable)writer).Dispose);
             onDispose.Add(((IDisposable)directory).Dispose);
         }
 
-        public async Task<bool> WriteLocation(DomainModels.Enrollments.Location location)
+        public async Task<bool> WriteLocation(DomainModels.Enrollments.Location location, string group, bool isFresh)
         {
             return await Task.Run<bool>(() =>
             {
-                writer.AddDocument(ToDocument(location));
+                if (!isFresh)
+                {
+                    var query = new BooleanQuery();
+                    query.Add(new TermQuery(new Term("Group", group)), Occur.MUST);
+                    query.Add(new TermQuery(new Term("Exact", GetExact(location))), Occur.MUST);
+                    writer.DeleteDocuments(query);
+                }
+
+                writer.AddDocument(ToDocument(location, group));
                 return true;
             });
         }
@@ -48,19 +57,26 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
             });
         }
 
-        public async Task<bool> WriteIndex(IEnumerable<DomainModels.Enrollments.Location> locations)
+        public async Task<bool> WriteIndex(IEnumerable<DomainModels.Enrollments.Location> locations, string group)
         {
             foreach (var location in locations)
-                await WriteLocation(location);
+                await WriteLocation(location, group, false);
 
             return await Optimize();
         }
 
-        private Document ToDocument(DomainModels.Enrollments.Location arg)
+        private Document ToDocument(DomainModels.Enrollments.Location arg, string group)
         {
             Document doc = new Document();
 
-            doc.Add(new Field("State", 
+            var exact = GetExact(arg);
+
+            // used for maintenance
+            doc.Add(new Field("Group",
+                              group,
+                              Field.Store.NO,
+                              Field.Index.NOT_ANALYZED_NO_NORMS));
+            doc.Add(new Field("State",
                               arg.Address.StateAbbreviation.ToUpper(),
                               Field.Store.NO,
                               Field.Index.NOT_ANALYZED_NO_NORMS));
@@ -72,14 +88,20 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
                               Json.Stringify(arg),
                               Field.Store.YES,
                               Field.Index.NO));
-            var searchable = arg.Capabilities.OfType<ISearchable>().Select(c => c.GetUniqueField()).Where(s => !string.IsNullOrEmpty(s));
-            var isZipCode = arg.Address.ToSingleLine() == arg.Address.PostalCode5;
             doc.Add(new Field("Exact",
-                              string.Join(" ", searchable.DefaultIfEmpty(isZipCode ? arg.Address.PostalCode5 : "")),
+                              exact,
                               Field.Store.NO,
                               Field.Index.NOT_ANALYZED_NO_NORMS));
 
             return doc;
+        }
+
+        private static string GetExact(DomainModels.Enrollments.Location arg)
+        {
+            var searchable = arg.Capabilities.OfType<ISearchable>().Select(c => c.GetUniqueField()).Where(s => !string.IsNullOrEmpty(s));
+            var isZipCode = arg.Address.ToSingleLine() == arg.Address.PostalCode5;
+            var exact = searchable.DefaultIfEmpty(isZipCode ? arg.Address.PostalCode5 : "");
+            return string.Join(" ", exact);
         }
 
         void IDisposable.Dispose()
@@ -88,6 +110,11 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
             {
                 action();
             }
+        }
+
+        internal void ClearGroup(string group)
+        {
+            writer.DeleteDocuments(new Term("Group", group));
         }
     }
 }

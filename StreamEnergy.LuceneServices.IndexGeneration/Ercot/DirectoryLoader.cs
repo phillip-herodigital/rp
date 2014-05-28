@@ -26,16 +26,19 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.Ercot
                 if (fileMetadata.Date < startDate)
                 {
                     // Don't load anything prior to our start date
-                    break;
+                    continue;
                 }
                 if (hadFullLog.Contains(fileMetadata.Tdu))
                 {
                     // Don't bother if we've already seen a full log of that TDU.
                     continue;
                 }
-                if (allowFull || !fileMetadata.IsFull)
+                if (fileMetadata.IsFull)
                 {
-                    hadFullLog.Add(fileMetadata.Tdu);
+                    if (allowFull)
+                        hadFullLog.Add(fileMetadata.Tdu);
+                    else
+                        continue;
                 }
 
                 yield return fileMetadata;

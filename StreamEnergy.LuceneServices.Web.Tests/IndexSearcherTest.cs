@@ -56,9 +56,9 @@ namespace StreamEnergy.LuceneServices.Web.Tests
         {
             var container = ContainerSetup.Create();
 
-            using (var builder = new IndexBuilder(BuildIndexPath(testContext)))
+            using (var builder = new IndexBuilder(BuildIndexPath(testContext), true))
             {
-                builder.WriteIndex(data).Wait();
+                builder.WriteIndex(data, "Test").Wait();
             }
         }
         //
