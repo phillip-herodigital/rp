@@ -1,3 +1,5 @@
 <div ng-controller="EnrollmentMainCtrl" ng-init="setServerData()">
-    @Html.Sitecore().Placeholder("enrollment sections")
+    <div ng-repeat="section in sections | orderBy: 'order'" ng-switch on="section.name">
+        @Html.Sitecore().Placeholder("enrollment sections")
+    </div>
 </div>

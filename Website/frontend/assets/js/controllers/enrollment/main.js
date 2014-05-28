@@ -4,7 +4,37 @@
 ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', 'enrollmentService', function ($scope, $rootScope, $http, enrollmentService) {
 
     $scope.serverData = {}; // This array should keep track of all the form fields we collect for the enrollment
-    $scope.currentStep = '';
+    $scope.extraFields = {};
+
+    $scope.sections = [
+        {
+            name: 'serviceInformation',
+            order: 1,
+            isVisible: true
+        },
+        {
+            name: 'planSelection',
+            order: 2,
+            isVisible: false
+        },
+        {
+            name: 'accountInformation',
+            order: 3,
+            isVisible: false
+        }
+        ,
+        {
+            name: 'verifyIdentity',
+            order: 4,
+            isVisible: false
+        }
+        ,
+        {
+            name: 'completeOrder',
+            order: 5,
+            isVisible: false
+        }
+    ];
 
     $scope.setServerData = function () {
         //TODO: Replace AJAX with static variable once available

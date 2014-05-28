@@ -1,4 +1,4 @@
-﻿<div id="setup-your-account" class="enrollment-section accent-darkgreen" ng-controller="EnrollmentAccountInformationCtrl">
+﻿<div id="setup-your-account" class="enrollment-section accent-darkgreen" ng-switch-when="accountInformation" ng-show="section.isVisible" ng-controller="EnrollmentAccountInformationCtrl" >
     <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper">
             <h1>
@@ -248,7 +248,7 @@
             </div>
         </section>
         <aside>
-            <div ng-include ng-if="true" src="'cart'"></div>
+            <div ng-include ng-if="true" src="'cart-template'"></div>
         </aside>
     </div>
 </div>
