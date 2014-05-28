@@ -157,6 +157,7 @@
     <Compile Include="EnumerableRequiredAttribute.cs" />
     <Compile Include="EnvironmentCategory.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Extensions\SettingsExtensions.cs" />
     <Compile Include="ISanitizable.cs" />
     <Compile Include="ISettings.cs" />
     <Compile Include="ITypeIndicatorLookup.cs" />
@@ -177,6 +178,7 @@
     <Compile Include="Mvc\Sitecore\GetControllerRenderer.cs" />
     <Compile Include="Processes\StateBase.cs" />
     <Compile Include="RequireValueAttributeAdapter.cs" />
+    <Compile Include="Pipelines\GetTextFieldValueExtended.cs" />
     <Compile Include="Processes\IState.cs" />
     <Compile Include="Processes\IStateMachine.cs" />
     <Compile Include="Processes\SimpleFinalState.cs" />
