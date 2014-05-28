@@ -21,7 +21,7 @@ namespace StreamEnergy.Unity
         /// <summary>
         /// The container instance, especially for objects not using the framework
         /// </summary>
-        public static readonly Container Instance = new Container(new UnityContainer());
+        public static Container Instance = new Container(new UnityContainer());
 
         /// <summary>
         /// Intentionally internal; used to construct a container. In production environments, only one container should be built.

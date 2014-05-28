@@ -12,19 +12,21 @@ namespace StreamEnergy.Providers
 {
     public class GeoProvider : LookupProviderBase
     {
-        public GeoProvider() : base()
+        public GeoProvider()
+            : base()
         {
-            
         }
+
         public override WhoIsInformation GetInformationByIp(string ip)
         {
+            
             var whois = new WhoIsInformation();
             var dbLocations = Sitecore.Configuration.Settings.GetSetting("GeoIP2.DbLocation", null);
             if (!string.IsNullOrEmpty(dbLocations))
             {
                 try
                 {
-                    using(var reader = new DatabaseReader(System.Web.HttpContext.Current.Server.MapPath(dbLocations)))
+                    using (var reader = new DatabaseReader(StreamEnergy.Unity.Container.Build<Mvc.IServerUtility>().MapPath(dbLocations)))
                     {
                         var omni = reader.Omni(ip);
                         //whois.AreaCode = "";
@@ -41,8 +43,9 @@ namespace StreamEnergy.Providers
                         whois.Url = omni.Traits.Domain;
                     }
                 }
-                catch(Exception)
+                catch (Exception ex)
                 {
+                    Sitecore.Diagnostics.Log.Error("Error in GeoProvider", ex, this);
                 }
             }
             return whois;
