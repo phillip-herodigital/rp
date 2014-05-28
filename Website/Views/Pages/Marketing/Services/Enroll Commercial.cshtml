@@ -6,12 +6,7 @@
     <div class="photo">
     </div>
     <div class="text">
-        <script>
-            ngApp.controller('mainController', ['$scope', function ($scope) {
-                $scope.data = {};
-            }]);
-        </script>
-        <div class="inner" ng-controller="mainController">
+        <div class="inner">
             <h2>@Html.Sitecore().Field("Form Title")</h2>
             @Html.Sitecore().Field("Form Intro Text")
             @Html.ValidationSummary()
