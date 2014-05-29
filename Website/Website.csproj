@@ -606,6 +606,15 @@
     <Content Include="Views\Pages\Marketing\Services\Renew.cshtml" />
     <Content Include="Views\Pages\Frontend\Elements.cshtml" />
     <Content Include="Views\Pages\Authentication\Create Account - Step 1.cshtml" />
+    <Content Include="Views\Pages\Authentication\Change Password.cshtml" />
+    <Content Include="Views\Pages\Authentication\Create Account - Step 2.cshtml" />
+    <Content Include="Views\Pages\Authentication\Forgot Password - Error.cshtml" />
+    <Content Include="Views\Pages\Authentication\Forgot Password - Step 1.cshtml" />
+    <Content Include="Views\Pages\Authentication\Forgot Password - Step 2.cshtml" />
+    <Content Include="Views\Pages\Authentication\Forgot Username - Confirm.cshtml" />
+    <Content Include="Views\Pages\Authentication\Forgot Username - Error.cshtml" />
+    <Content Include="Views\Pages\Authentication\Forgot Username.cshtml" />
+    <Content Include="Views\Pages\Authentication\My Stream Account.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
