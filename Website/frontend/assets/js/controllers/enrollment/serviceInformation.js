@@ -50,8 +50,6 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
     $scope.getLocation = function (state, val) {
         console.log('Getting locations...');
 
-        //TODO: Will need to check state model from either serverData or pass in via getLocation function.  Need to convert select to custom dropdown
-
         return locationPromise = enrollmentService.getLocations(state, val).then(function (res) {
             var addresses = [];
 
@@ -82,7 +80,9 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
                     }
                 }
 
-                addresses.push(formattedAddress);
+                item.formattedAddress = formattedAddress;
+
+                addresses.push(item);
             });
 
             return addresses;
