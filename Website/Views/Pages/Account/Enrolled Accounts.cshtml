@@ -1,49 +1,49 @@
 ﻿<section class="layout cols-2 wrapper">
     <section class="layout cols-1">
-        <p>To add a new account to your online profile, fill the required information and click on "Submit" button below. To remove an account, click on corresponding "Delete" button below.</p>
+        <p>@Html.Sitecore().Field("Explanation Text")</p>
         <article class="grey-box">
             <header>
-                <h2>Add New Account</h2>
+                <h2>@Html.Sitecore().Field("Add New Account Text")</h2>
             </header>
             <form>
                 <div class="content">
-                    <p>Please enter the Account Number, Last 4 of Social/TIN of the Stream Energy account you would like to pay.</p>
+                    <p>@Html.Sitecore().Field("New Account Instructions Text")</p>
 
                     <div class="group">
                         <div class="item group-col" float-label>
-                            <label for="Amount">Account Number:</label>
+                            <label for="Amount">@Html.Sitecore().Field("Account Number Text")</label>
                             <input type="text" id="amount">
                         </div>
                         <div class="item group-col" float-label>
-                            <label for="Amount">Last 4 of Social/TIN:</label>
+                            <label for="Amount">@Html.Sitecore().Field("Last 4 Text")</label>
                             <input type="text" id="amount">
                         </div>
                     </div>
                 </div>
                 <footer>
                     <div class="buttons">
-                        <button type="submit">Save</button>
+                        <button type="submit">@Html.Sitecore().Field("Save Button Text")</button>
                     </div>
                 </footer>
             </form>
         </article>
         <article class="enrolled-accounts">
             <header>
-                <h2>Enrolled Accounts</h2>
+                <h2>@Html.Sitecore().Field("Enrolled Accounts Text")</h2>
             </header>
             <table>
                 <thead>
                     <tr>
-                        <th>Account to Pay</th>
-                        <th>Date Added</th>
-                        <th>Action</th>
+                        <th>@Html.Sitecore().Field("Account to Pay Text")</th>
+                        <th>@Html.Sitecore().Field("Date Added Text")</th>
+                        <th>@Html.Sitecore().Field("Action Text")</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td data-title="Account to Pay"><a href="#">1234567890</a></td>
                         <td data-title="Date Added">12/28/2013 - 17:33:15 PM</td>
-                        <td><button class="secondary">Remove</button><button class="secondary">Send Letter of Residency</button></td>
+                        <td><button class="secondary">@Html.Sitecore().Field("Remove Button Text")</button><button class="secondary">@Html.Sitecore().Field("Send Letter Button Text")</button></td>
                     </tr>
                 </tbody>
             </table>

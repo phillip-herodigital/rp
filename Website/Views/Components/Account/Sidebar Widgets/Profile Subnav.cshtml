@@ -1,8 +1,15 @@
-﻿<article class="subnav">
+﻿@{
+    var currentID = Sitecore.Context.Item.ID;
+    var onlineAccount = Sitecore.Context.Item.Fields["Online Account Information Link"];
+   
+
+}
+
+<article class="subnav">
     <ul>
-        <li><a href="#">@Html.Sitecore().Field("Online Account Information Link").ToHtmlString() Online Account Information</a></li>
-        <li><a href="#">Account Information</a></li>
-        <li><a href="#">Notifications &amp; Reminders</a></li>
-        <li class="active">Enrolled Accounts</li>
+        <li>@Html.Sitecore().Field("Online Account Information Link")</li>
+        <li>@Html.Sitecore().Field("Account Information Link")</li>
+        <li>@Html.Sitecore().Field("Notifications and Reminders Link")</li>
+        <li class="active">@Html.Sitecore().Field("Enrolled Accounts Link")</li>
     </ul>
 </article>

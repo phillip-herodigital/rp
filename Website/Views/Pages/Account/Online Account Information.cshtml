@@ -2,88 +2,58 @@
     <section class="layout cols-1">
         <article class="grey-box">
             <header>
-                <h2>My Online Account Information</h2>
+                <h2>@Html.Sitecore().Field("My Online Account Information Text")</h2>
             </header>
             <form>
                 <div class="content">
                     <div class="group">
                         <div class="item group-col" float-label>
-                            <label for="username">Username:</label>
+                            <label for="username">@Html.Sitecore().Field("Username Text")</label>
                             <input type="text" name="username" id="username">
                         </div>
                         <div class="item group-col" float-label>
-                            <label for="email">Email:</label>
+                            <label for="email">@Html.Sitecore().Field("Email Text")</label>
                             <input type="email" name="email" id="email">
                         </div>
                     </div>
                     <div class="additional-field-action">
-                        <a href="#">Change Password</a>
+                        <a href="#">@Html.Sitecore().Field("Change Password Text")</a>
                     </div>
                     <div class="group additional-field-group">
                         <div class="group">
                             <div class="item group-col" float-label>
-                                <label for="current-password">Current Password:</label>
+                                <label for="current-password">@Html.Sitecore().Field("Current Password Text")</label>
                                 <input type="text" name="current-password" id="current-password">
                             </div>
                             <div class="item group-col"></div>
                         </div>
                         <div class="group">
                             <div class="item group-col" float-label>
-                                <label for="new-password">New Password:</label>
+                                <label for="new-password">@Html.Sitecore().Field("New Password Text")</label>
                                 <input type="text" name="new-password" id="new-password">
-                                <span class="help-text">Password must be 8 characters long and not be the same as your username</span>
+                                <span class="help-text">@Html.Sitecore().Field("Password Requirements Text")</span>
                             </div>
                             <div class="item group-col" float-label>
-                                <label for="new-password-repeat">New Password:</label>
+                                <label for="new-password-repeat">@Html.Sitecore().Field("New Password Text")</label>
                                 <input type="email" name="new-password-repeat" id="new-password-repeat">
                             </div>
                         </div>
                     </div>
                     <hr class="content-divider" />
                     <div class="group">
-                        <div class="item group-col">
-                            <label for="security-question-1">Security Question #1:</label>
-                            <select name="security-question-1" id="security-question-1">
-                                <option value="">Select a Security Question</option>
-                            </select>
-                        </div>
-                        <div class="item group-col" float-label>
-                            <label for="security-answer-1">Answer:</label>
-                            <input type="text" name="security-answer-1" id="security-answer-1">
-                            <span class="help-text">Answer must be 4 or more characters and is not case sensitive</span>
-                        </div>
+                        @Html.Sitecore().Field("Security Question 1 Content")
                     </div>
                     <div class="group">
-                        <div class="item group-col" float-label>
-                            <label for="security-question-2">Security Question #2:</label>
-                            <select name="security-question-2" id="security-question-2">
-                                <option value="">Select a Security Question</option>
-                            </select>
-                        </div>
-                        <div class="item group-col" float-label>
-                            <label for="security-answer-2">Answer:</label>
-                            <input type="text" name="security-answer-2" id="security-answer-2">
-                            <span class="help-text">Answer must be 4 or more characters and is not case sensitive</span>
-                        </div>
+                        @Html.Sitecore().Field("Security Question 2 Content")
                     </div>
                     <hr class="content-divider" />
                     <div class="item">
-                        <label for="security-question-2">Language Preference</label>
-                        <ul class="checkbox-list">
-                            <li>
-                                <input type="radio" id="language-english" value="english" name="language-preference">
-                                <label for="language-english">English</label>
-                            </li>
-                            <li>
-                                <input type="radio" id="language-spanish" value="spanish" name="language-preference">
-                                <label for="language-spanish">Spanish</label>
-                            </li>
-                        </ul>
+                        @Html.Sitecore().Field("Language Preference Content")
                     </div>
                 </div>
                 <footer>
                     <div class="buttons">
-                        <button type="submit">Save</button>
+                        <button type="submit">@Html.Sitecore().Field("Save Button Text")</button>
                     </div>
                 </footer>
             </form>
