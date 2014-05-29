@@ -176,6 +176,7 @@
     <Compile Include="Mvc\Sitecore\ControllerRenderer.cs" />
     <Compile Include="Mvc\Sitecore\ControllerRunner.cs" />
     <Compile Include="Mvc\Sitecore\GetControllerRenderer.cs" />
+    <Compile Include="Pipelines\VanityUrlRedirect.cs" />
     <Compile Include="Processes\StateBase.cs" />
     <Compile Include="RequireValueAttributeAdapter.cs" />
     <Compile Include="Pipelines\GetTextFieldValueExtended.cs" />
