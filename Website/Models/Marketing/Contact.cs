@@ -3,11 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Web;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace StreamEnergy.MyStream.Models.Marketing
 {
-    public class Contact
+    public class Contact : ISanitizable
     {
         public bool ShowSuccessMessage { get; set; }
 
@@ -42,5 +43,14 @@ namespace StreamEnergy.MyStream.Models.Marketing
         [Required(ErrorMessage = "Comment Required")]
         [StringLength(1000, MinimumLength = 1)]
         public string Comment { get; set; }
+
+        void ISanitizable.Sanitize()
+        {
+            if (ContactPhone != null)
+                ((ISanitizable)ContactPhone).Sanitize();
+
+            if (ContactEmail != null)
+                ((ISanitizable)ContactEmail).Sanitize();
+        }
     }
 }
