@@ -209,15 +209,11 @@
      * @param {string} val         Location search string
      * @return {object}            Promise object returned when API call has successfully completed.
      */
-    service.getLocations = function (val) {
+    service.getLocations = function (state, val) {
         var start = new Date().getTime();
 
-        return $http.get('http://maps.googleapis.com/maps/api/geocode/json', {
-            params: {
-                address: val,
-                sensor: false
-            }
-        }).success(function (data) {
+        return $http.get('/api/address/lookup/' + state + '/' + val)
+            .success(function (data) {
             console.log('time taken for request: ' + (new Date().getTime() - start) + 'ms');
         });
     };

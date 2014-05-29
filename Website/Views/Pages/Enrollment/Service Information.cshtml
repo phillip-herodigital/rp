@@ -29,7 +29,7 @@
                     *@
                     <div class="item">
                         <label for="address-or-zip">@Html.Sitecore().Field("Address Label")</label>
-                        <input type="text" id="address-or-zip" ng-model="extraFields.serviceAddress" placeholder="@Html.Sitecore().Field("Address Placeholder")" typeahead="address for address in getLocation($viewValue)" />
+                        <input type="text" id="address-or-zip" ng-model="extraFields.serviceAddress" placeholder="@Html.Sitecore().Field("Address Placeholder")" typeahead="address for address in getLocation(extraFields.serviceState, $viewValue)" />
                         <div id="state-select" dropdown-select dropdown-items="states" value="extraFields.serviceState"></div>
                     </div>             
                     <div class="item">

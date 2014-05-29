@@ -1273,7 +1273,8 @@
   </Target>
   <PropertyGroup>
     <PreBuildEvent>cd "$(ProjectDir)frontend"
-..\..\VSRuby\Ruby200-x64\bin\compass compile</PreBuildEvent>
+..\..\VSRuby\Ruby200-x64\bin\compass compile
+exit 0</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

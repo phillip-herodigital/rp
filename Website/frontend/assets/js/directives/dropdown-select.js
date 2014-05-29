@@ -8,10 +8,18 @@ ngApp.directive('dropdownSelect', [function () {
         },
         replace: true,
         controller: function ($scope) {
-            $scope.selectedItem = {
-                'class': '',
-                'name' : 'Please Choose'
-            };
+            if ($scope.value) {
+                angular.forEach($scope.dropdownItems, function (item) {
+                    if (item.value == $scope.value) {
+                        $scope.selectedItem = item;
+                    }
+                });
+            } else {
+                $scope.selectedItem = {
+                    'class': '',
+                    'name': 'Please Choose'
+                };
+            }
 
             $scope.selectItem = function (item) {
                 $scope.selectedItem = item;

@@ -4,6 +4,7 @@
  */
 ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$http', 'enrollmentService', function ($scope, $rootScope, $http, enrollmentService) {
     $scope.extraFields.isNewService = 0;
+    $scope.extraFields.serviceState = 'TX';
 
     $scope.states = [
         {
@@ -46,15 +47,42 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
     /**
     * Get Locations
     */
-    $scope.getLocation = function (val) {
+    $scope.getLocation = function (state, val) {
         console.log('Getting locations...');
 
         //TODO: Will need to check state model from either serverData or pass in via getLocation function.  Need to convert select to custom dropdown
 
-        return locationPromise = enrollmentService.getLocations(val).then(function (res) {
+        return locationPromise = enrollmentService.getLocations(state, val).then(function (res) {
             var addresses = [];
-            angular.forEach(res.data.results, function (item) {
-                addresses.push(item.formatted_address);
+
+            angular.forEach(res.data, function (item) {
+                var address = item.address,
+                    formattedAddress = '';
+
+                if (address.line1) {
+                    formattedAddress += address.line1 + ', ';
+                }
+
+                if (address.unitNumber) {
+                    formattedAddress += address.unitNumber + ', ';
+                }
+
+                if (address.city) {
+                    formattedAddress += address.city + ', ';
+                }
+
+                if (address.stateAbbreviation) {
+                    formattedAddress += address.stateAbbreviation + ', ';
+                }
+
+                if (address.postalCode5) {
+                    formattedAddress += address.postalCode5;
+                    if (address.postalCodePlus4) {
+                        formattedAddress += '-' + address.postalCode5;
+                    }
+                }
+
+                addresses.push(formattedAddress);
             });
 
             return addresses;
