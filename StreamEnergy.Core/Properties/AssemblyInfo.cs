@@ -37,3 +37,4 @@ using System.Runtime.InteropServices;
 
 [assembly: InternalsVisibleTo("StreamEnergy.Core.Tests")]
 [assembly: InternalsVisibleTo("StreamEnergy.MyStream.Tests")]
+[assembly: InternalsVisibleTo("StreamEnergy.LuceneServices.Web.Tests")]

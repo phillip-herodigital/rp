@@ -461,6 +461,7 @@
     <Compile Include="Models\TranslatedValidationResult.cs" />
     <Compile Include="Pipelines\InitializeWebApi.cs" />
     <Compile Include="Models\Marketing\HomeLifeServices.cs" />
+    <Compile Include="Pipelines\SetupAddressTypeahead.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -591,7 +592,9 @@
     <Content Include="Views\Pages\Marketing\Services\HomeLife Services.cshtml" />
     <Content Include="Views\Temp\Index.cshtml" />
     <Content Include="Views\Pages\Marketing\Services\Enroll Commercial.cshtml" />
-    <Content Include="Views\Pages\Marketing\Contact\Contact.cshtml" />
+    <Content Include="Views\Pages\Marketing\Contact\Contact.cshtml">
+      <BrowseToURL>~/contact</BrowseToURL>
+    </Content>
     <Content Include="Views\Pages\Marketing\Rates\NE Rates.cshtml" />
     <Content Include="Views\Pages\Portal\Account\Invoices\Utility Providers.cshtml" />
     <Content Include="Views\Pages\Marketing\Rates\TX Rates.cshtml" />
@@ -671,6 +674,10 @@
     <ProjectReference Include="..\StreamEnergy.DomainModel\StreamEnergy.DomainModel.csproj">
       <Project>{449d7f2c-372c-41a8-b640-6751fda30828}</Project>
       <Name>StreamEnergy.DomainModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StreamEnergy.LuceneServices.Web\StreamEnergy.LuceneServices.Web.csproj">
+      <Project>{7151c4c7-1ccf-42e4-b979-b0b6cb446bac}</Project>
+      <Name>StreamEnergy.LuceneServices.Web</Name>
     </ProjectReference>
     <ProjectReference Include="..\StreamEnergy.Services\StreamEnergy.Services.csproj">
       <Project>{c1c6ce03-d27a-4dff-a5e5-822e8a29bfa9}</Project>
