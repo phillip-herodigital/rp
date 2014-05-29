@@ -13,12 +13,15 @@ namespace StreamEnergy
     {
         public void SetupUnity(IUnityContainer unityContainer)
         {
-            EnvironmentCategory environment;
-            if (!Enum.TryParse<EnvironmentCategory>(WebConfigurationManager.AppSettings["StreamEnergy.Environment"], out environment))
+            unityContainer.RegisterType<EnvironmentCategory>(new ContainerControlledLifetimeManager(), new InjectionFactory(c =>
             {
-                throw new InvalidOperationException("StreamEnergy.Environment could not be set. It must be one of the following values: " + string.Join(", ", Enum.GetNames(typeof(EnvironmentCategory))));
-            }
-            unityContainer.RegisterInstance(environment);
+                EnvironmentCategory environment;
+                if (!Enum.TryParse<EnvironmentCategory>(WebConfigurationManager.AppSettings["StreamEnergy.Environment"], out environment))
+                {
+                    throw new InvalidOperationException("StreamEnergy.Environment could not be set. It must be one of the following values: " + string.Join(", ", Enum.GetNames(typeof(EnvironmentCategory))));
+                }
+                return environment;
+            }));
 
             unityContainer.RegisterType<ISettings, SitecoreSettings>();
 
