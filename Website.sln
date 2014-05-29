@@ -50,6 +50,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamEnergy.MyStream.Tests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompileOnceFix", "CompileOnceFix\CompileOnceFix.csproj", "{210897D6-FF54-404B-9BAF-BB0B345F8597}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamEnergy.LuceneServices.Web", "StreamEnergy.LuceneServices.Web\StreamEnergy.LuceneServices.Web.csproj", "{7151C4C7-1CCF-42E4-B979-B0B6CB446BAC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamEnergy.LuceneServices.Web.Tests", "StreamEnergy.LuceneServices.Web.Tests\StreamEnergy.LuceneServices.Web.Tests.csproj", "{01C2497B-EDA7-4638-BE77-CB9E3C02A684}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamEnergy.LuceneServices.IndexGeneration", "StreamEnergy.LuceneServices.IndexGeneration\StreamEnergy.LuceneServices.IndexGeneration.csproj", "{37C047F3-940F-4C38-A781-EDF7F4E39AEB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LuceneServices", "LuceneServices", "{A2266EAE-FB81-4326-BCE7-7195EFFC6164}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{59B39452-16F0-4170-A74E-F886F54DCBDC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Azure-Production Sitecore|Any CPU = Azure-Production Sitecore|Any CPU
@@ -114,6 +124,30 @@ Global
 		{210897D6-FF54-404B-9BAF-BB0B345F8597}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{210897D6-FF54-404B-9BAF-BB0B345F8597}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{210897D6-FF54-404B-9BAF-BB0B345F8597}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7151C4C7-1CCF-42E4-B979-B0B6CB446BAC}.Azure-Production Sitecore|Any CPU.ActiveCfg = Release|Any CPU
+		{7151C4C7-1CCF-42E4-B979-B0B6CB446BAC}.Azure-Production Sitecore|Any CPU.Build.0 = Release|Any CPU
+		{7151C4C7-1CCF-42E4-B979-B0B6CB446BAC}.Azure-Production|Any CPU.ActiveCfg = Release|Any CPU
+		{7151C4C7-1CCF-42E4-B979-B0B6CB446BAC}.Azure-Production|Any CPU.Build.0 = Release|Any CPU
+		{7151C4C7-1CCF-42E4-B979-B0B6CB446BAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7151C4C7-1CCF-42E4-B979-B0B6CB446BAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7151C4C7-1CCF-42E4-B979-B0B6CB446BAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7151C4C7-1CCF-42E4-B979-B0B6CB446BAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01C2497B-EDA7-4638-BE77-CB9E3C02A684}.Azure-Production Sitecore|Any CPU.ActiveCfg = Release|Any CPU
+		{01C2497B-EDA7-4638-BE77-CB9E3C02A684}.Azure-Production Sitecore|Any CPU.Build.0 = Release|Any CPU
+		{01C2497B-EDA7-4638-BE77-CB9E3C02A684}.Azure-Production|Any CPU.ActiveCfg = Release|Any CPU
+		{01C2497B-EDA7-4638-BE77-CB9E3C02A684}.Azure-Production|Any CPU.Build.0 = Release|Any CPU
+		{01C2497B-EDA7-4638-BE77-CB9E3C02A684}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01C2497B-EDA7-4638-BE77-CB9E3C02A684}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01C2497B-EDA7-4638-BE77-CB9E3C02A684}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01C2497B-EDA7-4638-BE77-CB9E3C02A684}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37C047F3-940F-4C38-A781-EDF7F4E39AEB}.Azure-Production Sitecore|Any CPU.ActiveCfg = Release|Any CPU
+		{37C047F3-940F-4C38-A781-EDF7F4E39AEB}.Azure-Production Sitecore|Any CPU.Build.0 = Release|Any CPU
+		{37C047F3-940F-4C38-A781-EDF7F4E39AEB}.Azure-Production|Any CPU.ActiveCfg = Release|Any CPU
+		{37C047F3-940F-4C38-A781-EDF7F4E39AEB}.Azure-Production|Any CPU.Build.0 = Release|Any CPU
+		{37C047F3-940F-4C38-A781-EDF7F4E39AEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37C047F3-940F-4C38-A781-EDF7F4E39AEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37C047F3-940F-4C38-A781-EDF7F4E39AEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37C047F3-940F-4C38-A781-EDF7F4E39AEB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -125,5 +159,9 @@ Global
 		{C1C6CE03-D27A-4DFF-A5E5-822E8A29BFA9} = {25960F8A-E3E2-43E0-A982-4C3E9BC37855}
 		{AF1C856A-2F06-4142-82A3-E227D66B1D4F} = {366DD69F-CD9D-4395-9F38-B3FABC2771AE}
 		{210897D6-FF54-404B-9BAF-BB0B345F8597} = {759BD9F7-310E-413A-B8AE-7553177FA63A}
+		{7151C4C7-1CCF-42E4-B979-B0B6CB446BAC} = {A2266EAE-FB81-4326-BCE7-7195EFFC6164}
+		{01C2497B-EDA7-4638-BE77-CB9E3C02A684} = {59B39452-16F0-4170-A74E-F886F54DCBDC}
+		{37C047F3-940F-4C38-A781-EDF7F4E39AEB} = {A2266EAE-FB81-4326-BCE7-7195EFFC6164}
+		{59B39452-16F0-4170-A74E-F886F54DCBDC} = {A2266EAE-FB81-4326-BCE7-7195EFFC6164}
 	EndGlobalSection
 EndGlobal

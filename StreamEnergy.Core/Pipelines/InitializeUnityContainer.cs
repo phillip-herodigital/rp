@@ -14,6 +14,11 @@ namespace StreamEnergy.Pipelines
         [UsedImplicitly]
         public virtual void Process(PipelineArgs args)
         {
+            Run();
+        }
+
+        public void Run()
+        {
             var configuration = GetConfiguration();
             SetupUnityContainer(configuration);
         }

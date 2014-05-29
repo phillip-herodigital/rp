@@ -22,7 +22,6 @@
 		font-size: 14px;
 		text-transform: uppercase;
 		a {
-			margin-left: 25px;
 			text-transform: uppercase;
 		}
 	}
@@ -69,6 +68,9 @@
 					display: inline-block;
 					color: #737373;
 					padding: 15px 10px;
+				}
+				&.selected a {
+					color: #0971ce;
 				}
 			}
 		}

@@ -1,10 +1,10 @@
 ﻿@model StreamEnergy.MyStream.Models.Marketing.HomeLifeServices
 
 <article class="marketing homelife-services" ng-controller="HomeLifeServicesCtrl" ng-init="init(@(Model.HasFreeMonth ? "true" : "false"))">
-    <form id="formHomeLifeServices" method="post" action="@Html.TranslateDomain("https://streamvalues.com.st1.ocenture.com")/buy">
+    <form id="formHomeLifeServices" method="post" action="@Html.TranslateDomain("https://streamvalues.com")/buy">
         <input type="hidden" name="clientId" value="@Model.ClientId" />
-        <input type="hidden" name="productCode" value="" ng-model="productCode" />
-        <input type="hidden" name="campaignName" value="@Model.CampaignName" ng-model="campaignName" />
+        <input type="hidden" name="productCode" value="" ng-value="productCode" />
+        <input type="hidden" name="campaignName" value="@Model.CampaignName" ng-value="campaignName" />
         <input type="hidden" name="customerNumber" value="@(Model.CustomerAccount != null ? Model.CustomerAccount.CisAccountNumber : "")" />
         <input type="hidden" name="firstName" value="@(Model.CustomerAccount != null ? Model.CustomerAccount.Name.First : "")" />
         <input type="hidden" name="lastName" value="@(Model.CustomerAccount != null ? Model.CustomerAccount.Name.Last : "")" />
@@ -20,6 +20,7 @@
         <input type="hidden" name="repFirstName" value="@(Model.RepName != null ? Model.RepName.First : "")" />
         <input type="hidden" name="repLastName" value="@(Model.RepName != null ? Model.RepName.Last : "")" />
         <input type="hidden" name="repEmail" value="@(Model.RepEmail != null ? Model.RepEmail.Address : "")" />
+        <input type="hidden" value="salesource" name="@Model.SaleSource">
     </form>
     <div class="intro">
         <div class="wrapper">
