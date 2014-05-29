@@ -27,16 +27,17 @@
                         </select>
                     </div>
                     *@
-                    <div class="item">
+                    <div class="item" ng-class="{'error': formErrors.serviceInformation.serviceAddress}">
                         <label for="address-or-zip">@Html.Sitecore().Field("Address Label")</label>
-                        <input type="text" id="address-or-zip" ng-model="extraFields.serviceAddress" placeholder="@Html.Sitecore().Field("Address Placeholder")" typeahead="address as address.formattedAddress for address in getLocation(extraFields.serviceState, $viewValue)"/>
+                        <input type="text" id="address-or-zip" ng-model="extraFields.serviceAddress" placeholder="@Html.Sitecore().Field("Address Placeholder")" typeahead="address as address.formattedAddress for address in getLocation(extraFields.serviceState, $viewValue)" ng-disabled="extraFields.serviceState == ''" />
                         <div id="state-select" dropdown-select dropdown-items="states" value="extraFields.serviceState"></div>
+                        <div ng-show="formErrors.serviceInformation.serviceAddress">{{formErrors.serviceInformation.serviceAddress}}</div>
                     </div>             
                     <div class="item">
                         <label>@Html.Sitecore().Field("Options Label")</label>
                         <ul class="checkbox-list">
                             <li><input type="radio" ng-model="extraFields.isNewService" id="switching-electricity-providers" value="0"><label for="switching-electricity-providers">Switching electricity providers</label></li>
-                            <li><input type="radio" ng-model="extraFields.isNewService" id="setting-up-new-service"><label for="setting-up-new-service" value="1">Setting up new service</label></li>
+                            <li><input type="radio" ng-model="extraFields.isNewService" id="setting-up-new-service" value="1"><label for="setting-up-new-service">Setting up new service</label></li>
                         </ul>
                     </div>
                     @*

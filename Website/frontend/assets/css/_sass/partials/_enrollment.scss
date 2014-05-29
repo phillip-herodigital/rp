@@ -5,6 +5,12 @@
     .button, button {
         white-space: nowrap;
     }
+	.error {
+		input, select {
+			border-color: #c84545;
+		}
+		color: #c84545;
+	}
     .banner {
         height: 335px;
         background-position: 50%;

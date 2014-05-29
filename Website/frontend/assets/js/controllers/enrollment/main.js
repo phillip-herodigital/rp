@@ -7,6 +7,7 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', 'enroll
     $scope.currentSection = 'serviceInformation';
     $scope.nextSection = true;
     $scope.extraFields = {};
+    $scope.formErrors = {};
 
     $scope.sections = [
         {

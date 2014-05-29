@@ -47,6 +47,9 @@ select {
 		@include box-shadow(0 0 8px rgba(102, 175, 233, .75));
 		outline: none;
 	}
+	&:disabled {
+		background: #fafafa;
+	}
 }
 
 input[type="search"] {

@@ -5,6 +5,7 @@
 ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$http', 'enrollmentService', function ($scope, $rootScope, $http, enrollmentService) {
     $scope.extraFields.isNewService = 0;
     $scope.extraFields.serviceState = 'TX';
+    $scope.formErrors.serviceInformation = [];
 
     $scope.states = [
         {
@@ -93,27 +94,60 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
     * Complete Enrollment Section
     */
     $scope.completeStep = function () {
-        /*
-        var locationObject = {
-            "address":{"postalCode5":"75010"},
-            "capabilities": [
-                {"esiId": "1234SAMPLE5678","tdu": "Centerpoint","capabilityType":"TexasElectricity"},
-                {"capabilityType":"ServiceStatus", "isNewService": true}
-            ]
-        };
-        */
+        $scope.formErrors.serviceInformation = [];
+
+        if (!$scope.extraFields.serviceAddress) {
+            $scope.formErrors.serviceInformation.serviceAddress = 'Service Address required.';
+            return;
+        }
+
+        if (typeof $scope.serverData.locationServices == 'undefined') {
+            var data = { 'locations': {} };
+        } else {
+            var data = { 'locations': $scope.serverData.locationServices };
+        }
+
+        var id = $scope.createLocationID();
+        data.locations[id] = $scope.extraFields.serviceAddress;
+
+        if ($scope.extraFields.isNewService == 1) {
+            data.locations[id].capabilities.push({ "capabilityType": "ServiceStatus", "isNewService": true });
+        }
 
         console.log('Sending service information...');
 
-        var serviceInformationPromise = enrollmentService.setServiceInformation();
+        var serviceInformationPromise = enrollmentService.setServiceInformation(data);
 
         serviceInformationPromise.then(function (data) {
-            console.log(data);
             $scope.serverData = data;
+
+            $scope.extraFields.isNewService = 0;
+            $scope.extraFields.serviceAddress = null;
+
+            console.log(data);
         }, function (data) {
             // error response
             $rootScope.$broadcast('connectionFailure');
         });
+    };
+
+    /**
+    * Create location ID
+    * return string
+    */
+    $scope.createLocationID = function () {
+        var i = 1,
+            idPrefix = 'location';
+
+        if (typeof $scope.serverData.locationServices == 'undefined') {
+            return idPrefix + i;
+        } else {
+            while (typeof $scope.serverData.locationServices[idPrefix + i] != 'undefined') {
+                i++;
+            }
+        }
+
+        return idPrefix + i;
     };
 
 }]);
