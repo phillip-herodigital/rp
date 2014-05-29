@@ -6,7 +6,6 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels
 {
-    [System.Web.Mvc.ModelBinder(typeof(Mvc.IgnoreBlanksModelBinder))]
     public class Name : ISanitizable
     {
         [Required(ErrorMessage = "First Name Required")]

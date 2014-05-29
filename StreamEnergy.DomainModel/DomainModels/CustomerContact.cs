@@ -10,7 +10,6 @@ namespace StreamEnergy.DomainModels
     /// <summary>
     /// Information used to contact the customer
     /// </summary>
-    [System.Web.Mvc.ModelBinder(typeof(Mvc.IgnoreBlanksModelBinder))]
     public class CustomerContact : ISanitizable
     {
         [Required(ErrorMessage = "Name Required")]

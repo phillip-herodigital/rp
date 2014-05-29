@@ -6,7 +6,6 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels
 {
-    [System.Web.Mvc.ModelBinder(typeof(Mvc.IgnoreBlanksModelBinder))]
     public class Email : ISanitizable
     {
         [Required(ErrorMessage = "Address Required")]

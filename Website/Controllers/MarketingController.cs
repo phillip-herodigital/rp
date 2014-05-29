@@ -44,10 +44,10 @@ namespace StreamEnergy.MyStream.Controllers
                 // Get the form data
                 var FirstName = contact.ContactName.First;
                 var LastName = contact.ContactName.Last;
-                var AddressLine1 = contact.AddressLine1;
-                var City = contact.City;
-                var StateAbbreviation = contact.StateAbbreviation;
-                var PostalCode5 = contact.PostalCode5;
+                var AddressLine1 = contact.ContactAddress.Line1;
+                var City = contact.ContactAddress.City;
+                var StateAbbreviation = contact.ContactAddress.StateAbbreviation;
+                var PostalCode5 = contact.ContactAddress.PostalCode5;
                 var Phone = contact.ContactPhone.Number;
                 var Email = contact.ContactEmail.Address;
                 var Reason = contact.Reason;
