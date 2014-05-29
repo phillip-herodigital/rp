@@ -5,7 +5,7 @@ ngApp.directive('stateTabs', ['breakpoint', 'jQuery', function (breakpoint, jQue
 		scope: true,
 		// The linking function will add behavior to the template
 		link: function(scope, element, attrs) {
-			var $tabs = element.find('.tabs-nav');
+			var $tabs = jQuery(element).find('.tabs-nav');
 
 			if (attrs.stateTabs) {
 				scope.pane = attrs.stateTabs;
