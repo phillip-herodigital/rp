@@ -2,23 +2,22 @@
 	<section>
 		<article class="grey-box auth-forgot-username">
 			<header>
-				<h2>Recover Username</h2>
+				<h2>@Html.Sitecore().Field("Header Text")</h2>
 			</header>
 			<form>
 				<div class="content">
-					<p>To recover your username, please enter the email address associated with your account below.</p>
+					@Html.Sitecore().Field("Body Text")
 					<div class="alert alert-error">
-						<strong>Error</strong><br>
-						We do not have an account with that email address on file.
+						@Html.Sitecore().Field("Error Text")
 					</div>
 					<div class="item" float-label>
-						<label for="email">Email Address:</label>
+						<label for="email">@Html.Sitecore().Field("Email Label"):</label>
 						<input id="email" type="email">
 					</div>							
 				</div>
 				<footer>
 					<div class="buttons">
-						<button type="submit">Send Username</button>
+						<button type="submit">@Html.Sitecore().Field("Send Username Button Text")</button>
 					</div>
 				</footer>
 			</form>

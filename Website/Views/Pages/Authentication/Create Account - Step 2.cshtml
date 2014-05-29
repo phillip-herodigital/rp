@@ -2,38 +2,38 @@
 	<section>
 		<article class="grey-box auth auth-create-account">
 			<header>
-				<h2>Create Online Account &mdash; Step 2</h2>
+				<h2>@Html.Sitecore().Field("Header Text")</h2>
 			</header>
 			<form>
 				<div class="content">
 					<div class="alert alert-error">
-						<strong>Error</strong><br>
-						Error message here.
+						@Html.Sitecore().Field("Error Text")
 					</div>
 					
-					<h3>Personal Information</h3>
-					<p>You&rsquo;ll be able to modify your personal information online once you&rsquo;ve created your account.</p>
+					<h3>@Html.Sitecore().Field("Personal Header Text")</h3>
+
+					@Html.Sitecore().Field("Body Text")
 					
 					<dl class="clearfix">
-						<dt>Name</dt>
+						<dt>@Html.Sitecore().Field("Name Label")</dt>
 						<dd>Mr. John Smith</dd>
-						<dt>Primary Phone Number:</dt>
+						<dt>@Html.Sitecore().Field("Phone Number Label")</dt>
 						<dd>123-456-7890</dd>
-						<dt>Email:</dt>
+						<dt>@Html.Sitecore().Field("Email Label")</dt>
 						<dd>john.smith@email.com</dd>
-						<dt>Address</dt>
+						<dt>@Html.Sitecore().Field("Address Label")</dt>
 						<dd>456 Center Street, Dallas, TX 75001</dd>
 					</dl>
 					<dl class="clearfix">
-						<dt>Account Number:</dt>
+						<dt>@Html.Sitecore().Field("Account Number Label")</dt>
 						<dd>1234567890</dd>
-						<dt>Last 4 of SSN:</dt>
+						<dt>@Html.Sitecore().Field("SSN Label")</dt>
 						<dd>1234</dd>
 					</dl>
 
 					<hr class="content-divider">
 
-					<h3>Register with your social account</h3>
+					<h3>@Html.Sitecore().Field("Social Header Text")</h3>
 
 					<ul class="social-login clearfix">
 						<li>
@@ -53,22 +53,22 @@
 						</li>								
 					</ul>
 
-					<div class="text-content-divider">And</div>
+					<div class="text-content-divider">@Html.Sitecore().Field("And Divider Text")</div>
 				
-					<h3>Create a Stream Energy login</h3>
+					<h3>@Html.Sitecore().Field("Create Header Text")</h3>
 			
 					<div class="item" float-label>
-						<label for="username">Username</label>
+						<label for="username">@Html.Sitecore().Field("Username Label"):</label>
 						<input id="username" type="text">
 					</div>
 					<div class="group">
 						<div class="item group-col" float-label>
-							<label for="password">Password:</label>
+							<label for="password">@Html.Sitecore().Field("Password Label"):</label>
 							<input id="password" type="password">
-							<span class="help-text">Your password must be at least 8 characters long and not be the same as your username.</span>
+							<span class="help-text">@Html.Sitecore().Field("Password Help Text")</span>
 						</div>
 						<div class="item group-col" float-label>
-							<label for="confirm-password">Confirm Password:</label>
+							<label for="confirm-password">@Html.Sitecore().Field("Confirm Password Label"):</label>
 							<input id="confirm-password" type="password">
 						</div>
 					</div>
@@ -77,34 +77,34 @@
 
 					<div class="group">
 						<div class="item group-col">
-							<label for="security-question-1">Security Question #1:</label>
+							<label for="security-question-1">@Html.Sitecore().Field("Question 1 Label"):</label>
 							<select name="security-question-1" id="security-question-1">
 								<option value="">Select a Security Question</option>
 							</select>
 						</div>
 						<div class="item group-col" float-label>
-							<label for="security-answer-1">Answer:</label>
+							<label for="security-answer-1">@Html.Sitecore().Field("Question 1 Answer Label"):</label>
 							<input type="text" name="security-answer-1" id="security-answer-1">
-							<span class="help-text">Answer must be 4 or more characters and is not case sensitive</span>
+							<span class="help-text">@Html.Sitecore().Field("Question 1 Help Text")</span>
 						</div>
 					</div>
 					<div class="group">
 						<div class="item group-col">
-							<label for="security-question-2">Security Question #2:</label>
+							<label for="security-question-2">@Html.Sitecore().Field("Question 2 Label"):</label>
 							<select name="security-question-2" id="security-question-2">
 								<option value="">Select a Security Question</option>
 							</select>
 						</div>
 						<div class="item group-col" float-label>
-							<label for="security-answer-2">Answer:</label>
+							<label for="security-answer-2">@Html.Sitecore().Field("Question 2 Answer Label"):</label>
 							<input type="text" name="security-answer-2" id="security-answer-2">
-							<span class="help-text">Answer must be 4 or more characters and is not case sensitive</span>
+							<span class="help-text">@Html.Sitecore().Field("Question 2 Help Text")</span>
 						</div>
 					</div>
 				</div>
 				<footer>
 					<div class="buttons">
-						<button type="submit" class="primary">Create Account</button>
+						<button type="submit" class="primary">@Html.Sitecore().Field("Create Account Button Text")</button>
 					</div>
 				</footer>
 			</form>	

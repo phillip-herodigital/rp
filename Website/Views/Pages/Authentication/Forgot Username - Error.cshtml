@@ -2,14 +2,14 @@
 	<section>
 		<article class="grey-box">
 			<header>
-				<h2>Recover Username</h2>
+				<h2>@Html.Sitecore().Field("Header Text")</h2>
 			</header>
 			<div class="content">
-				<p>There was an error recovering your username. Please call us at 1-XXX-XXX-XXXX.</p>
+				@Html.Sitecore().Field("Body Text")
 			</div>
 			<footer>
 				<div class="buttons">
-					<a href="#" class="button">Return to Login</a>
+					<a href="#" class="button">@Html.Sitecore().Field("Return Button Text")</a>
 				</div>
 			</footer>
 		</article>
