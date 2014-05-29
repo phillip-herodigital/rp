@@ -1,22 +1,25 @@
 // Slide Toggle
-ngApp.directive('slideToggle', [function () {
+ngApp.directive('slideToggle', ['jQuery', function (jQuery) {
 	return {
 		restrict: 'A',
 		scope: true,
-		// The linking function will add behavior to the template
 		link: function(scope, element, attrs) {
-			if (attrs.openPane) {
-				scope.pane = attrs.openPane;
+			var $slidePanel = jQuery(element).find('.slide-toggle');
+
+			scope.isOpen = attrs.slideToggle == 'open' ? true : false;
+
+			//Hide the slidePanel if true is not passed in
+			if(!scope.isOpen) {
+				$slidePanel.hide();
 			}
-			scope.togglePane = function(pane) {
-				if(scope.pane === pane) {
-					scope.pane = '';
-					element.find('a').addClass('collapsed');
-				} else {
-					scope.pane = pane;
-					element.find('a').removeClass('collapsed');
-				}
-			};
+
+			//Toggle the slidePanel visibility
+			scope.toggleSlide = function() {
+				$slidePanel.slideToggle(300, function() {
+					scope.isOpen = !scope.isOpen;
+					scope.$apply();
+				});
+			};		
 		}
 	};
 }]);
