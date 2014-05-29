@@ -15,7 +15,7 @@ button,
 input,
 select,
 textarea {
-	font-family: "proxima-nova", Helvetica, Arial, sans-serif;
+	font-family: "proxima-nova-n4", "proxima-nova", Helvetica, Arial, sans-serif; // "proxima-nova-n4" to fix IE8 issue: http://help.typekit.com/customer/portal/articles/6855-Using-multiple-weights-and-styles
 }
 
 a {
