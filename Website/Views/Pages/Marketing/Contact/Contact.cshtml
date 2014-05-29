@@ -71,11 +71,11 @@
                 </div>
             </div>
             <div class="quality-control">
-                <div class="header-line"></div><h2>@Html.Sitecore().Field("Quality Control Text")</h2>
+                <h2 class="header-line"><span>@Html.Sitecore().Field("Quality Control Text")</span></h2>
                 @Html.Sitecore().Field("Texas Quality Control")
             </div>
             <div class="emergency">
-                <div class="header-line"></div><h2>@Html.Sitecore().Field("Emergency Contacts Text")</h2>
+                <h2 class="header-line"><span>@Html.Sitecore().Field("Emergency Contacts Text")</span></h2>
                 @Html.Sitecore().Field("Texas Emergency Contact")
             </div>
         </article>
@@ -97,11 +97,11 @@
                 </div>
             </div>
             <div class="quality-control">
-                <div class="header-line"></div><h2>@Html.Sitecore().Field("Quality Control Text")</h2>
+                <h2 class="header-line"><span>@Html.Sitecore().Field("Quality Control Text")</span></h2>
                 @Html.Sitecore().Field("Georgia Quality Control")
             </div>
             <div class="emergency">
-                <div class="header-line"></div><h2>@Html.Sitecore().Field("Emergency Contacts Text")</h2>
+                <h2 class="header-line"><span>@Html.Sitecore().Field("Emergency Contacts Text")</span></h2>
                 @Html.Sitecore().Field("Georgia Emergency Contact")
             </div>
         </article>
@@ -213,7 +213,7 @@
     </div>
     <div class="faq">
         <div class="wrapper">
-            <h2><div class="header-line"></div>@Html.Sitecore().Field("FAQ Text")</h2>
+            <h2 class="header-line"><span>@Html.Sitecore().Field("FAQ Text")</span></h2>
             @Html.Sitecore().Field("FAQ Content")
         </div>
     </div>
@@ -227,32 +227,32 @@
                     <div class="col">
                         <div class="item" @Html.ValidationErrorClass(model => model.ContactName.First)>
                             <label for="ContactInfo.Name.First">@Html.Sitecore().Field("First Name Text")</label>
-                            <input type="text" placeholder="@Html.Sitecore().Field("First Name Placeholder")" @Html.ValidationAttributes(m => m.ContactName.First) data-val-realtime ng-model="firstName" />
+                            <input type="text" placeholder="@Html.Sitecore().Field("First Name Placeholder")" @Html.ValidationAttributes(m => m.ContactName.First) ng-model="firstName" />
                             <span class="asterisk">&#42;</span>
                             @Html.ValidationMessageFor(model => model.ContactName.First)
                         </div>
                         <div class="item" @Html.ValidationErrorClass(model => model.ContactName.Last)>
                             <label for="ContactInfo.Name.Last">@Html.Sitecore().Field("Last Name Text")</label>
-                            <input type="text" placeholder="@Html.Sitecore().Field("Last Name Placeholder")" @Html.ValidationAttributes(m => m.ContactName.Last) data-val-realtime ng-model="lastName" />
+                            <input type="text" placeholder="@Html.Sitecore().Field("Last Name Placeholder")" @Html.ValidationAttributes(m => m.ContactName.Last) ng-model="lastName" />
                             <span class="asterisk">&#42;</span>
                             @Html.ValidationMessageFor(model => model.ContactName.Last)
                         </div>
                         <div class="item" @Html.ValidationErrorClass(model => model.ContactAddress.Line1)>
                             <label for="ContactAddress.Line1">@Html.Sitecore().Field("Service Address Text")</label>
-                            <input type="text" placeholder="@Html.Sitecore().Field("Service Address Placeholder")" @Html.ValidationAttributes(m => m.ContactAddress.Line1) data-val-realtime ng-model="address" />
+                            <input type="text" placeholder="@Html.Sitecore().Field("Service Address Placeholder")" @Html.ValidationAttributes(m => m.ContactAddress.Line1) ng-model="address" />
                             <span class="asterisk">&#42;</span>
                             @Html.ValidationMessageFor(model => model.ContactAddress.Line1)
                         </div>
                         <div class="group">
                             <div class="item" @Html.ValidationErrorClass(model => model.ContactAddress.City)>
                                 <label for="ContactAddress.City">@Html.Sitecore().Field("City Text")</label>
-                                <input type="text" placeholder="@Html.Sitecore().Field("City Placeholder")" @Html.ValidationAttributes(m => m.ContactAddress.City) data-val-realtime ng-model="city" />
+                                <input type="text" placeholder="@Html.Sitecore().Field("City Placeholder")" @Html.ValidationAttributes(m => m.ContactAddress.City) ng-model="city" />
                                 <span class="asterisk">&#42;</span>
                                 @Html.ValidationMessageFor(model => model.ContactAddress.City)
                             </div>
                             <div class="item" @Html.ValidationErrorClass(model => model.ContactAddress.StateAbbreviation)>
                                 <label for="ContactAddress.StateAbbreviation">@Html.Sitecore().Field("State Text")</label>
-                                <select @Html.ValidationAttributes(m => m.ContactAddress.StateAbbreviation) data-val-realtime ng-model="state">
+                                <select @Html.ValidationAttributes(m => m.ContactAddress.StateAbbreviation) ng-model="state">
                                     @Html.Sitecore().Field("State Options")
                                 </select>
                                 <span class="asterisk">&#42;</span>
@@ -261,7 +261,7 @@
                         </div>
                         <div class="item half-width" @Html.ValidationErrorClass(model => model.ContactAddress.PostalCode5)>
                             <label for="ContactAddress.PostalCode5">@Html.Sitecore().Field("Zip Code Text")</label>
-                            <input type="text" placeholder="@Html.Sitecore().Field("Zip Code Placeholder")" @Html.ValidationAttributes(m => m.ContactAddress.PostalCode5) data-val-realtime ng-model="zipCode" />
+                            <input type="text" placeholder="@Html.Sitecore().Field("Zip Code Placeholder")" @Html.ValidationAttributes(m => m.ContactAddress.PostalCode5) ng-model="zipCode" />
                             <span class="asterisk">&#42;</span>
                             @Html.ValidationMessageFor(model => model.ContactAddress.PostalCode5)
                         </div>
@@ -269,19 +269,19 @@
                     <div class="col">
                         <div class="item" @Html.ValidationErrorClass(model => model.ContactPhone.Number)>
                             <label for="ContactInfo.PrimaryPhone.Number">@Html.Sitecore().Field("Phone Text")</label>
-                            <input type="text" placeholder="@Html.Sitecore().Field("Phone Placeholder")" @Html.ValidationAttributes(m => m.ContactPhone.Number) data-val-realtime ng-model="phone" />
+                            <input type="text" placeholder="@Html.Sitecore().Field("Phone Placeholder")" @Html.ValidationAttributes(m => m.ContactPhone.Number) ng-model="phone" />
                             <span class="asterisk">&#42;</span>
                             @Html.ValidationMessageFor(model => model.ContactPhone.Number)
                         </div>
                         <div class="item" @Html.ValidationErrorClass(model => model.ContactEmail.Address)>
                             <label for="ContactInfo.Email.Address">@Html.Sitecore().Field("Email Text")</label>
-                            <input type="email" placeholder="@Html.Sitecore().Field("Email Placeholder")" @Html.ValidationAttributes(m => m.ContactEmail.Address) data-val-realtime ng-model="email" />
+                            <input type="email" placeholder="@Html.Sitecore().Field("Email Placeholder")" @Html.ValidationAttributes(m => m.ContactEmail.Address) ng-model="email" />
                             <span class="asterisk">&#42;</span>
                             @Html.ValidationMessageFor(model => model.ContactEmail.Address)
                         </div>
                         <div class="item" @Html.ValidationErrorClass(model => model.Reason)>
                             <label for="Reason">@Html.Sitecore().Field("Reason Text")</label>
-                            <select @Html.ValidationAttributes(m => m.Reason) data-val-realtime ng-model="reason">
+                            <select @Html.ValidationAttributes(m => m.Reason) ng-model="reason">
                                 @Html.Sitecore().Field("Reason Options")
                             </select>
                             <span class="asterisk">&#42;</span>
@@ -289,7 +289,7 @@
                         </div>
                         <div class="item" @Html.ValidationErrorClass(model => model.Comment)>
                             <label for="Comment">@Html.Sitecore().Field("Explain Text")</label>
-                            <textarea placeholder="@Html.Sitecore().Field("Explain Placeholder")" @Html.ValidationAttributes(m => m.Comment) data-val-realtime ng-model="comment"></textarea>
+                            <textarea placeholder="@Html.Sitecore().Field("Explain Placeholder")" @Html.ValidationAttributes(m => m.Comment) ng-model="comment"></textarea>
                             <span class="asterisk">&#42;</span>
                             @Html.ValidationMessageFor(model => model.Comment)
                         </div>

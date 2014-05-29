@@ -47,5 +47,10 @@ namespace StreamEnergy
         }
 
         public static List<JsonConverter> AdditionalConverters { get { return additionalConverters; } }
+
+        public static T Read<T>(string json)
+        {
+            return JsonConvert.DeserializeObject<T>(json, StandardFormatting);
+        }
     }
 }

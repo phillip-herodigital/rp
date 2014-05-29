@@ -59,6 +59,9 @@ article.photoLockup {
 		overflow: hidden;
 		background-repeat: no-repeat;
 		background-size: cover;
+		.ie8 & {	
+			background-repeat: repeat-y;
+		}
 	}
 	.text {
 		float: right;
@@ -783,7 +786,7 @@ article.careers {
 		border:	2px solid #f0f0f0;
 	}
 	p.job-title {
-		margin: 5px 0px;
+		margin: 5px 0 0;
 		line-height: 1;
 		text-transform: uppercase;
 		a {
@@ -957,6 +960,24 @@ article.pay {
 article.contact {
 	h2 {
 		font-size: 30px;
+        &.header-line {
+            position: relative;
+            span {
+                position: relative;
+                padding-right: 20px;
+                background: #fff;
+                z-index: 2;
+            }
+            &:after {
+                content: "";
+			    height: 4px;
+			    width: 100%;
+			    background-color: #efefef;
+			    position: absolute;
+			    top: 50%;
+                margin-top: -2px;
+		    }
+        }
 	}
 	div.wrapper {
 		padding: 40px 0 30px 0;
@@ -1007,6 +1028,12 @@ article.contact {
 			.grid .col {
 				width: 50%;
 				float: left;
+			}
+		}
+		@include breakpoint(small) {
+			.grid .col {
+				width: 100%;
+				padding-bottom: 20px;
 			}
 		}
 	}
@@ -1156,16 +1183,6 @@ article.contact {
 	div.faq {
 		h2 {
 			text-align: left;
-			position: relative;
-			.header-line {
-				height: 4px;
-				width: 100%;
-				display: block;
-				background-color: #efefef;
-				position: absolute;
-				top: 19px;
-				left: 570px;
-			}
 		}
 		p {
 			width: 305px;
@@ -1240,15 +1257,6 @@ article.contact-state {
 			margin: 0;
 			font-size: 25px;
 		}
-		.header-line {
-			height: 4px;
-			width: 100%;
-			display: block;
-			background-color: #efefef;
-			position: absolute;
-			top: 14px;
-			left: 240px;
-		}
 	}
 	.emergency {
 		margin-bottom: 30px;
@@ -1263,15 +1271,6 @@ article.contact-state {
 		h3 {
 			color: #0971ce;
 			margin: 50px 0 10px 0;
-		}
-		.header-line {
-			height: 4px;
-			width: 100%;
-			display: block;
-			background-color: #efefef;
-			position: absolute;
-			top: 14px;
-			left: 280px;
 		}
 		.grid .col {
 			.company {
@@ -1306,20 +1305,20 @@ article.faq {
 	padding: 20px 0;
 	.wrapper {
 		.panel {
-			@include border-radius(10px, 10px);
-			background-color: #fff;
+			@include border-radius(10px);
+			background: #fff;
 			p.question {
-				background-image: url('../i/marketing/expand.png');
-				background-repeat: no-repeat;
-				background-position: 98%;
-				margin-left: 55px;
+				margin: 1em 10px 0 55px;
 				a {
+					background-image: url('../i/marketing/collapse.png');
+					background-repeat: no-repeat;
+					background-position: right center;					
 					color: #696969;
 					display: block;
-					padding: 15px 50px 15px 15px;
-					@include breakpoint(small) {
-						width: 93%;	
-					}
+					padding: 15px 40px 15px 0;
+				}
+				a.collapsed {
+					background-image: url('../i/marketing/expand.png');
 				}
 			}
 			.q {
@@ -1334,11 +1333,12 @@ article.faq {
 				.answer-hr {
 					border: 3px solid #eaeaea;
 					width: 90%;
+					margin-top: 0; //Prevent jumping in the slide animation
 				}
 				.a {
 					float: left;
 					font-size: 26px;
-					margin: 10px 0px 0 10px;
+					margin: 5px 0px 0 10px;
 				}
 				.answer {
 					margin-left: 55px;	
@@ -1632,7 +1632,7 @@ article.homelife-services {
 		&.platinum {
 			background-color: #0971ce;
 			h3 {
-				width: 85%;
+				padding-right: 70px;
 			}
 			.savings {
 				background-color: #0971ce;
@@ -1964,6 +1964,9 @@ article.free-energy.picture-promo {
 
 article.enroll {
 	margin-top: 20px;
+	&.photoLockup {
+		margin-top: 0;
+	}
 	.text {
 		padding: 25px 0;
 		h1 {
@@ -2034,7 +2037,7 @@ article.enroll {
 					font-size: 12px;
 					font-weight: bold;
 					margin-left: 3.5em;
-					padding: 15px 0px;
+					padding: 15px 25px 15px 0px;
 					display: block;
 				}
 			}
@@ -2110,12 +2113,8 @@ article.energy-certificates {
 			width: 335px;
 			float: right;
 			margin: 70px 50px 0 0;
-			button {
+			.button {
 				background-color: #2c3e50;
-				box-shadow: 0 2px #7eb24c;
-				a {
-					color: #fff;
-				}
 				&:hover {
 					background-color: #6b6b6b;
 				}
@@ -2307,6 +2306,9 @@ article.manage-my-account {
 			float: left;
 			button {
 				background-color: #76BD1D;
+				&:hover {
+					background-color: #6b6b6b;
+				}
 			}
 		}
 		@include breakpoint(small) {
@@ -2350,9 +2352,11 @@ article.manage-free-energy {
 			text-align: center;
 		}
 		.button {
-			box-shadow: 0 2px #3e8bcb;
 			background-color: #ffa409;
 			margin: 120px 0 20px 0;
+			&:hover {
+				background-color: #6b6b6b;
+			}			
 		}
 		p {
 			width: 50%;
@@ -2424,7 +2428,6 @@ article.manage-services {
 				.box {
 					background-color: #7D9AB4;
 					border-radius: 10px;
-					box-shadow: 0 3px #DAD4CF;
 					padding: 12px 8px;
 					max-width: 170px;
 					display: inline-block;
@@ -2432,16 +2435,15 @@ article.manage-services {
 						text-transform: uppercase;
 						color: #fff;
 						margin: 0;
-						&:hover {
-							color: #064985;
-							text-decoration: underline;
-						}
 					}
 					&.tech-support {
 						background-color: #b68889;
 					}
 					&.credit-monitoring {
 						background-color: #8ea173;
+					}
+					&:hover {
+						background-color: #6b6b6b;
 					}
 				}
 				img {

@@ -148,6 +148,8 @@ namespace StreamEnergy.MyStream.Controllers
             HomeLifeServices model = new HomeLifeServices()
             {
                 HasFreeMonth = false,
+                ClientId = "1052614",
+                SaleSource = "MyStream",
             };
 
             if (!string.IsNullOrEmpty(hash))
@@ -167,20 +169,25 @@ namespace StreamEnergy.MyStream.Controllers
 
                 try
                 {
-                    if (hashValues["RefSite"] == "PowerCenter")
+                    if (hashValues.ContainsKey("RefSite"))
                     {
-                        customerAccount = accountService.RetrieveIgniteAssociateContactInfo("Ignite", "3t8sh8f3sg", hashValues["IgniteAssociate"]);
-                        model.HasFreeMonth = true;
-                    }
-                    else if (new string[] { "MyStreamEnroll", "MyIgniteEnroll" }.Contains(hashValues["RefSite"]))
-                    {
-                        customerAccount = accountService.GetCisAccountsByUtilityAccountNumber(hashValues["CamelotAccountNumber"], hashValues["Last4Ssn"], "");
-                        model.HasFreeMonth = true;
-                    }
-                    else if (new string[] { "MyStreamRenew", "MyIgniteRenew", "IstaNetEnroll", "NEWelcomeEmail", "KubraMyAccount" }.Contains(hashValues["RefSite"]))
-                    {
-                        customerAccount = accountService.GetCisAccountsByCisAccountNumber(hashValues["CISCustomerNumber"], hashValues["Last4Ssn"], "");
-                        model.HasFreeMonth = true;
+                        model.SaleSource = hashValues["RefSite"];
+
+                        if (hashValues["RefSite"] == "PowerCenter")
+                        {
+                            customerAccount = accountService.RetrieveIgniteAssociateContactInfo("Ignite", "3t8sh8f3sg", hashValues["IgniteAssociate"]);
+                            model.HasFreeMonth = true;
+                        }
+                        else if (new string[] { "MyStreamEnroll", "MyIgniteEnroll" }.Contains(hashValues["RefSite"]))
+                        {
+                            customerAccount = accountService.GetCisAccountsByUtilityAccountNumber(hashValues["CamelotAccountNumber"], hashValues["Last4Ssn"], "");
+                            model.HasFreeMonth = true;
+                        }
+                        else if (new string[] { "MyStreamRenew", "MyIgniteRenew", "IstaNetEnroll", "NEWelcomeEmail", "KubraMyAccount" }.Contains(hashValues["RefSite"]))
+                        {
+                            customerAccount = accountService.GetCisAccountsByCisAccountNumber(hashValues["CISCustomerNumber"], hashValues["Last4Ssn"], "");
+                            model.HasFreeMonth = true;
+                        }
                     }
                 }
                 catch (Exception)

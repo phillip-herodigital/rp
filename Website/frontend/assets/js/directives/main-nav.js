@@ -16,13 +16,15 @@ ngApp.directive('mainNav', ['$timeout', function ($timeout) {
 				scope.subnav = item;
 			};
 
+			var promise;
 			scope.hideSubnav = function (item) {
 			    shouldSetToDefault = true;
-			    $timeout(function () {
+			    $timeout.cancel(promise);
+			    promise = $timeout(function () {
 			        if (shouldSetToDefault) {
 			            scope.subnav = defaultSelection;
 			        }
-			    }, 500);
+			    }, 1000);
 			};
 
 		}
