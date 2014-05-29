@@ -30,7 +30,7 @@ namespace StreamEnergy.LuceneServices.Web.App_Start
         {
             httpRouteCollection.MapHttpRoute(
                 name: "LookupApi",
-                routeTemplate: "api/address/lookup/{state}/{query}",
+                routeTemplate: "api/address/lookup/{state}/{*query}",
                 defaults: new { controller = "address", action = "lookup" }
             );
         }
