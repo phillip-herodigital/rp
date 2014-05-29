@@ -368,7 +368,7 @@ button,
 input,
 select,
 textarea {
-  font-family: "proxima-nova", Helvetica, Arial, sans-serif;
+  font-family: "proxima-nova-n4", "proxima-nova", Helvetica, Arial, sans-serif;
 }
 
 /* line 21, _sass/partials/_global.scss */
@@ -757,7 +757,7 @@ Bold - font-weight: bold; // Or 700
 */
 /* line 44, _sass/partials/_typography.scss */
 h1, h2, h3, h4, h5, h6 {
-  font-family: "proxima-nova", Helvetica, Arial, sans-serif;
+  font-family: "proxima-nova-n3", "proxima-nova", Helvetica, Arial, sans-serif;
   font-weight: 300;
   margin: 10px 0;
 }
@@ -9468,78 +9468,78 @@ article.opportunity-more-information.accent-red .phone {
 }
 /* line 462, _sass/partials/_enrollment.scss */
 .enrollment-section #state-select .texas {
-  background-image: url('../i/bg/texas-icon.png?1401392460');
+  background-image: url('../i/bg/texas-icon.png?1401407964');
 }
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 462, _sass/partials/_enrollment.scss */
   .enrollment-section #state-select .texas {
-    background-image: url('../i/bg2x/texas-icon.png?1401392460');
+    background-image: url('../i/bg2x/texas-icon.png?1401407964');
     background-size: 25px 26px;
   }
 }
 /* line 466, _sass/partials/_enrollment.scss */
 .enrollment-section #state-select .georgia {
-  background-image: url('../i/bg/georgia-icon.png?1401392460');
+  background-image: url('../i/bg/georgia-icon.png?1401407964');
 }
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 466, _sass/partials/_enrollment.scss */
   .enrollment-section #state-select .georgia {
-    background-image: url('../i/bg2x/georgia-icon.png?1401392460');
+    background-image: url('../i/bg2x/georgia-icon.png?1401407964');
     background-size: 25px 26px;
   }
 }
 /* line 469, _sass/partials/_enrollment.scss */
 .enrollment-section #state-select .pennsylvania {
-  background-image: url('../i/bg/pennsylvania-icon.png?1401392460');
+  background-image: url('../i/bg/pennsylvania-icon.png?1401407964');
 }
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 469, _sass/partials/_enrollment.scss */
   .enrollment-section #state-select .pennsylvania {
-    background-image: url('../i/bg2x/pennsylvania-icon.png?1401392460');
+    background-image: url('../i/bg2x/pennsylvania-icon.png?1401407964');
     background-size: 25px 26px;
   }
 }
 /* line 472, _sass/partials/_enrollment.scss */
 .enrollment-section #state-select .maryland {
-  background-image: url('../i/bg/maryland-icon.png?1401392460');
+  background-image: url('../i/bg/maryland-icon.png?1401407964');
 }
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 472, _sass/partials/_enrollment.scss */
   .enrollment-section #state-select .maryland {
-    background-image: url('../i/bg2x/maryland-icon.png?1401392460');
+    background-image: url('../i/bg2x/maryland-icon.png?1401407964');
     background-size: 25px 26px;
   }
 }
 /* line 475, _sass/partials/_enrollment.scss */
 .enrollment-section #state-select .new-jersey {
-  background-image: url('../i/bg/newjersey-icon.png?1401392460');
+  background-image: url('../i/bg/newjersey-icon.png?1401407964');
 }
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 475, _sass/partials/_enrollment.scss */
   .enrollment-section #state-select .new-jersey {
-    background-image: url('../i/bg2x/newjersey-icon.png?1401392460');
+    background-image: url('../i/bg2x/newjersey-icon.png?1401407964');
     background-size: 25px 26px;
   }
 }
 /* line 478, _sass/partials/_enrollment.scss */
 .enrollment-section #state-select .new-york {
-  background-image: url('../i/bg/newyork-icon.png?1401392460');
+  background-image: url('../i/bg/newyork-icon.png?1401407964');
 }
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 478, _sass/partials/_enrollment.scss */
   .enrollment-section #state-select .new-york {
-    background-image: url('../i/bg2x/newyork-icon.png?1401392460');
+    background-image: url('../i/bg2x/newyork-icon.png?1401407964');
     background-size: 25px 26px;
   }
 }
 /* line 481, _sass/partials/_enrollment.scss */
 .enrollment-section #state-select .washington-dc {
-  background-image: url('../i/bg/dc-icon.png?1401392460');
+  background-image: url('../i/bg/dc-icon.png?1401407964');
 }
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 481, _sass/partials/_enrollment.scss */
   .enrollment-section #state-select .washington-dc {
-    background-image: url('../i/bg2x/dc-icon.png?1401392460');
+    background-image: url('../i/bg2x/dc-icon.png?1401407964');
     background-size: 25px 25px;
   }
 }
