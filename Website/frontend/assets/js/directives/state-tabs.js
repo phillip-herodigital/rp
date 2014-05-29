@@ -1,5 +1,5 @@
 // State Tabs Selector
-ngApp.directive('stateTabs', ['breakpoint', 'jQuery', function (breakpoint, $) {
+ngApp.directive('stateTabs', ['breakpoint', 'jQuery', function (breakpoint, jQuery) {
 	return {
 		restrict: 'A',
 		scope: true,
@@ -16,7 +16,7 @@ ngApp.directive('stateTabs', ['breakpoint', 'jQuery', function (breakpoint, $) {
 
 				//Calculate the height of the tab items and window scroll offset also accounting for the fixed nav height
 				if(breakpoint.breakpoint.name == 'phone') {
-					window.scrollTo(0, $tabs.offset().top + $tabs.height() - $('.site-header').height());
+					window.scrollTo(0, $tabs.offset().top + $tabs.height() - jQuery('.site-header').height());
 				}
 			};
 		}
