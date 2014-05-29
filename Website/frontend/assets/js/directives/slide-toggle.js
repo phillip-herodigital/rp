@@ -1,12 +1,12 @@
 // Slide Toggle
-ngApp.directive('slideToggle', ['jQuery', function ($) {
+ngApp.directive('slideToggle', ['jQuery', function (jQuery) {
 	return {
 		restrict: 'A',
 		scope: true,
 		link: function(scope, element, attrs) {
 			var $slidePanel = element.find('.slide-toggle');
 
-			scope.isOpen = attrs.slideToggle == 'true' ? true : false;
+			scope.isOpen = attrs.slideToggle == 'open' ? true : false;
 
 			//Hide the slidePanel if true is not passed in
 			if(!scope.isOpen) {
