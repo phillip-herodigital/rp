@@ -9,8 +9,8 @@
             var resumeEmail = @Html.Sitecore().Field("Resume Email", item);
 
             <div class="panel" slide-toggle>
-                <p class="job-title"><a class="job-button collapsed" ng-click="togglePane('@item.Name')" href="">@jobTitle</a></p>
-                <div class="panel-content slide-toggle" ng-show="pane == '@item.Name'">
+                <p class="job-title"><a class="job-button" ng-click="toggleSlide()" ng-class="{'collapsed': !isOpen}" href="">@jobTitle</a></p>
+                <div class="panel-content slide-toggle">
                     @Html.Sitecore().Field("Job Description", item)
                     <p>@Html.Sitecore().Field("Job Info Text", item)</p>
                     <p><a class="button blue" href="mailto:@resumeEmail?subject=@jobTitle">@resumeEmail</a></p>

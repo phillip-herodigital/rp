@@ -783,7 +783,7 @@ article.careers {
 		border:	2px solid #f0f0f0;
 	}
 	p.job-title {
-		margin: 5px 0px;
+		margin: 5px 0 0;
 		line-height: 1;
 		text-transform: uppercase;
 		a {
@@ -1296,20 +1296,20 @@ article.faq {
 	padding: 20px 0;
 	.wrapper {
 		.panel {
-			@include border-radius(10px, 10px);
-			background-color: #fff;
+			@include border-radius(10px);
+			background: #fff;
 			p.question {
-				background-image: url('../i/marketing/expand.png');
-				background-repeat: no-repeat;
-				background-position: 98%;
-				margin-left: 55px;
+				margin: 1em 10px 0 55px;
 				a {
+					background-image: url('../i/marketing/collapse.png');
+					background-repeat: no-repeat;
+					background-position: right center;					
 					color: #696969;
 					display: block;
-					padding: 15px 50px 15px 15px;
-					@include breakpoint(small) {
-						width: 93%;	
-					}
+					padding: 15px 40px 15px 0;
+				}
+				a.collapsed {
+					background-image: url('../i/marketing/expand.png');
 				}
 			}
 			.q {
@@ -1324,11 +1324,12 @@ article.faq {
 				.answer-hr {
 					border: 3px solid #eaeaea;
 					width: 90%;
+					margin-top: 0; //Prevent jumping in the slide animation
 				}
 				.a {
 					float: left;
 					font-size: 26px;
-					margin: 10px 0px 0 10px;
+					margin: 5px 0px 0 10px;
 				}
 				.answer {
 					margin-left: 55px;	
