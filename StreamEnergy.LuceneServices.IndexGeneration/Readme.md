@@ -6,7 +6,7 @@ The Address Lookup Index Generator (StreamEnergy.LuceneServices.IndexGeneration.
 
 If you want to test locally but don't want to read the entire document:
 
-1. Find the "SHARYLAND\_UTLIITIES\_FUL.zip" [on this page](http://mis.ercot.com/misapp/GetReports.do?reportTypeId=203) and download it to an empty directory.
+1. Find the "SHARYLAND\_UTILITIES\_FUL.zip" [on this page](http://mis.ercot.com/misapp/GetReports.do?reportTypeId=203) and download it to an empty directory.
 2. Run `StreamEnergy.LuceneServices.IndexGeneration.exe -d "{Website/Data/typeahead}" -s "{where you put the zip from step 1}" -f`
 3. Wait until it completes, then run your website.
 
