@@ -6,6 +6,7 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels
 {
+    [System.Web.Mvc.ModelBinder(typeof(Mvc.IgnoreBlanksModelBinder))]
     public class Phone : ISanitizable
     {
         [Required(ErrorMessage = "Number Required")]

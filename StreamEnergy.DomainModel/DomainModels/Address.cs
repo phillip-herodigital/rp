@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace StreamEnergy.DomainModels
 {
+    [System.Web.Mvc.ModelBinder(typeof(Mvc.IgnoreBlanksModelBinder))]
     public class Address : ISanitizable, IEquatable<Address>
     {
         [Required(ErrorMessage = "Line 1 Required")]
