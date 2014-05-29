@@ -59,6 +59,9 @@ article.photoLockup {
 		overflow: hidden;
 		background-repeat: no-repeat;
 		background-size: cover;
+		.ie8 & {	
+			background-repeat: repeat-y;
+		}
 	}
 	.text {
 		float: right;
@@ -207,12 +210,6 @@ article.photoLockup {
 		& span.#{map-get($theme, name)}, h1.#{map-get($theme, name)}, h2.#{map-get($theme, name)}, h3.#{map-get($theme, name)}, h4.#{map-get($theme, name)} {
 			color: map-get($theme, primaryColor);
 		}
-	}
-}
-
-.ie8 article.photoLockup {
-	.photo {
-		background-repeat: repeat-y;
 	}
 }
 
