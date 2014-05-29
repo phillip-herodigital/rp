@@ -4,7 +4,7 @@ ngApp.directive('slideToggle', ['jQuery', function (jQuery) {
 		restrict: 'A',
 		scope: true,
 		link: function(scope, element, attrs) {
-			var $slidePanel = element.find('.slide-toggle');
+			var $slidePanel = jQuery(element).find('.slide-toggle');
 
 			scope.isOpen = attrs.slideToggle == 'open' ? true : false;
 
