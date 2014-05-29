@@ -1,1 +1,123 @@
-﻿
+﻿<section class="layout cols-2 wrapper">
+    <section class="layout cols-1">
+
+        <article class="balances-payments" ng-controller="AccountBalances">
+            <div class="content" loading-indicator>
+                <div class="account-selector">
+                    <form>
+                        <div class="group">
+                            <div class="item">
+                                <label>Account Number:</label>
+                                <select ng-model="selectedAccount.account" ng-options="item.accountNumber for item in accounts">
+                                    <option value="">All</option>
+                                </select>
+                            </div>
+                            <div class="item">
+                                <label>Meter ID:</label>
+                                <select class="id">
+                                    <option value="Please choose">109437200008913264</option>
+                                    <option value="account1">ID 2</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="grid border">
+                    Service Address: 123 Main Street, Dallas, TX 75001
+                </div>
+            </div>
+        </article>
+        <article class="grey-box notification-settings">
+            <form>
+                <header>
+                    <h2>Notification Settings</h2>
+                </header>
+                <div class="content">
+                    <div class="edit-preferences">
+                        <div class="preference">
+                            <span class="preference-type">
+                                When a new document arrives: <span class="label"><i class="icon-notification-bell"></i> Web</span> <span class="label"><i class="icon-notification-email"></i> Email</span>
+                            </span>
+                            <a href="#" class="additional-field-action">Edit</a>
+                        </div>
+                        <div class="additional-field-group">
+                            <p>Please choose the deliver methods by which you&rsquo;d like to receive this notification.</p>
+                            <div class="item">
+                                <ul class="checkbox-list notification-list">
+                                    <li>
+                                        <input type="checkbox" value="web" id="notifications-document-web">
+                                        <label for="notifications-document-web"><i class="icon-notification-bell"></i> Web</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" value="email" id="notifications-document-email">
+                                        <label for="notifications-document-email"><i class="icon-notification-email"></i> Email</label>
+                                    </li>
+                                    <li>
+                                        <input type="checkbox" value="sms" id="notifications-document-sms">
+                                        <label for="notifications-document-sms"><i class="icon-notification-sms"></i> SMS</label>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="item">
+                                <div class="buttons">
+                                    <button class="secondary">Cancel</button>
+                                    <button>Save Preference</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="content-divider" />
+                    <div class="edit-preferences">
+                        <div class="preference">
+                            <span class="preference-type">
+                                When online payments are made: <span class="label"><i class="icon-notification-bell"></i> Web</span> <span class="label"><i class="icon-notification-email"></i> Email</span>
+                            </span>
+                            <a href="#" class="additional-field-action">Edit</a>
+                        </div>
+                    </div>
+                    <hr class="content-divider" />
+                    <div class="edit-preferences">
+                        <div class="preference">
+                            <span class="preference-type">
+                                When recurring payments are made: <span class="label"><i class="icon-notification-bell"></i> Web</span> <span class="label"><i class="icon-notification-email"></i> Email</span>
+                            </span>
+                            <a href="#" class="additional-field-action">Edit</a>
+                        </div>
+                    </div>
+                    <hr class="content-divider" />
+                    <div class="edit-preferences">
+                        <div class="preference">
+                            <span class="preference-type">
+                                When recurring profile expires: <span class="label"><i class="icon-notification-bell"></i> Web</span> <span class="label"><i class="icon-notification-email"></i> Email</span>
+                            </span>
+                            <a href="#" class="additional-field-action">Edit</a>
+                        </div>
+                    </div>
+                    <hr class="content-divider" />
+                    <div class="edit-preferences">
+                        <div class="item">
+                            <ul class="checkbox-list">
+                                <li>
+                                    <input type="checkbox">
+                                    <label for="">Do not mail me printed invoices</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox">
+                                    <label for="">I&rsquo;d like to receive occasional promotion and offer emails from Stream Energy</label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <footer>
+                    <div class="buttons">
+                        <button type="submit" class="buttons">Save</button>
+                    </div>
+                </footer>
+            </form>
+        </article>
+    </section>
+    <aside>
+        @Html.Sitecore().Placeholder("sidebar")
+    </aside>
+</section>

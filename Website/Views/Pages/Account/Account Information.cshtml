@@ -1,1 +1,95 @@
-﻿
+﻿<section class="layout cols-2 wrapper">
+    <section class="layout cols-1">
+
+
+
+        <article class="balances-payments" ng-controller="AccountBalances">
+            <div class="content" loading-indicator>
+                <div class="account-selector">
+                    <form>
+                        <div class="group">
+                            <div class="item">
+                                <label>Account Number:</label>
+                                <select ng-model="selectedAccount.account" ng-options="item.accountNumber for item in accounts">
+                                    <option value="">All</option>
+                                </select>
+                            </div>
+                            <div class="item">
+                                <label>Meter ID:</label>
+                                <select class="id">
+                                    <option value="Please choose">109437200008913264</option>
+                                    <option value="account1">ID 2</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="grid border">
+                    Service Address: 123 Main Street, Dallas, TX 75001
+                </div>
+            </div>
+        </article>
+
+        <form>
+
+            <article class="grey-box account-holder-information">
+                <div class="content">
+                    <div class="item account-holder">
+                        <label class="account-holder-title">Account Holder Name:</label>
+                        Mr. John A. Doe
+                    </div>
+                    <div class="group">
+                        <div class="item group-col" float-label>
+                            <label for="primary-phone">Primary Phone Number:</label>
+                            <input type="tel" name="primary-phone" id="primary-phone" placeholder="">
+                        </div>
+                        <div class="item group-col">
+                            <label for="primary-phone-type">Phone Type</label>
+                            <select name="primary-phone-type" id="primary-phone-type">
+                                <option value="mobile">Mobile</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="additional-field-action">
+                        <a href="#">Add Additional Phone Number</a>
+                    </div>
+                    <div class="group additional-field-group">
+                        <div class="group">
+                            <div class="item group-col" float-label>
+                                <label for="secondary-phone">secondary Phone Number:</label>
+                                <input type="tel" name="secondary-phone" id="secondary-phone">
+                            </div>
+                            <div class="item group-col">
+                                <label for="secondary-phone-type">Phone Type</label>
+                                <select name="secondary-phone-type" id="secondary-phone-type">
+                                    <option value="mobile">Mobile</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="content-divider" />
+                    <h3 class="billing-address-title">Billing Address</h3>
+                    <div class="item">
+                        <ul class="checkbox-list">
+                            <li>
+                                <input type="checkbox" name="billing-address" id="billing-address">
+                                <label for="billing-address">Same as Service Address</label>
+                            </li>
+                        </ul>
+                        <div class="billing-address">
+                            123 Main St.<br>
+                            Dallas, TX 75001
+                        </div>
+                    </div>
+                </div>
+                <footer>
+                    <div class="buttons">
+                        <button type="submit">Save</button>
+                    </div>
+                </footer>
+            </article>
+        </form>
+    </section>
+    <aside>
+        @Html.Sitecore().Placeholder("sidebar")
+</section>

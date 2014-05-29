@@ -615,6 +615,7 @@
     <Content Include="Views\Pages\Account\Account Information.cshtml" />
     <Content Include="Views\Pages\Account\Notifications and Reminders.cshtml" />
     <Content Include="Views\Pages\Account\Enrolled Accounts.cshtml" />
+    <Content Include="Views\Components\Account\Sidebar Widgets\Profile Subnav.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
