@@ -12,7 +12,7 @@ namespace StreamEnergy.LuceneServices.Web.Models
     {
         void IContainerSetupStrategy.SetupUnity(IUnityContainer unityContainer)
         {
-            unityContainer.RegisterInstance(new IndexSearcher(HostingEnvironment.MapPath("~/Data/typeahead")));
+            unityContainer.RegisterType<IndexSearcher>(new ContainerControlledLifetimeManager(), new InjectionFactory(container => new IndexSearcher(HostingEnvironment.MapPath("~/Data/typeahead"))));
         }
     }
 }
