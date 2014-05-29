@@ -58,6 +58,7 @@ article.photoLockup {
 		height: 100%;
 		overflow: hidden;
 		background-repeat: no-repeat;
+		background-size: cover;
 	}
 	.text {
 		float: right;
@@ -89,14 +90,15 @@ article.photoLockup {
 		blockquote {
 			margin: 0;
 			background: image-url("marketing/quote-left.png") no-repeat;
-			p:first-child {
-				text-indent: 50px;
-			}
-			p:last-child {
+			> div {
 				background: image-url("marketing/quote-right.png") no-repeat 100% 100%;
 				padding: 10px 10px 0 10px;
 				font-size: 18px;
 				line-height: 1.8em;
+                text-indent: 50px;
+                p:first-child {
+                    margin-top: 0;
+			    }
 			}
 		}
 		p.cite {
@@ -276,7 +278,7 @@ article.marketingIntro {
 }
 
 article.loginHorizontal {
-    margin-top: -20px;
+ 	margin-top: -20px;
 	padding: 4px 0;
 	border-top: 4px solid #1697ff;
 	background-color: #1773cb;
@@ -308,7 +310,7 @@ article.loginHorizontal {
 		line-height: normal;
 		width: 85px;
 	}
-    @include breakpoint(small) {
+ 	@include breakpoint(small) {
 		margin-top: 0;
 		.wrapper {
 			padding-top: 20px;
@@ -415,7 +417,15 @@ article.gridPromos {
 .ie8 article.gridPromos {
 	div.col {
 		display: inline-block;
-		padding: 0 4%;
+		padding: 0;
+	}
+	.grid {
+		&.three .col {
+			width: 33%;
+		}
+		&.four .col {
+			width: 24.5%;
+		}
 	}
 }
 
@@ -453,6 +463,9 @@ article.leaders {
 	}
 	ul.director {
 		list-style-type: none;
+		@include breakpoint(small) {
+			padding: 0;
+		}
 		li {
 			width: 25%;
 			float: left;
@@ -792,11 +805,11 @@ article.press {
 	}
 	.press-intro {
 		text-align: center;
+		.blue {
+			color: #1773cb;
+		}
 		p.paragraph {
 			font-size: 18px;
-			.blue {
-				color: #1773cb;
-			}
 		}
 	}
 	.post {
@@ -944,6 +957,24 @@ article.pay {
 article.contact {
 	h2 {
 		font-size: 30px;
+        &.header-line {
+            position: relative;
+            span {
+                position: relative;
+                padding-right: 20px;
+                background: #fff;
+                z-index: 2;
+            }
+            &:after {
+                content: "";
+			    height: 4px;
+			    width: 100%;
+			    background-color: #efefef;
+			    position: absolute;
+			    top: 50%;
+                margin-top: -2px;
+		    }
+        }
 	}
 	div.wrapper {
 		padding: 40px 0 30px 0;
@@ -957,6 +988,12 @@ article.contact {
 		height: 50px;
 		background-color: #0971ce;
 		border-bottom: 5px solid #ffa409;
+	}
+	div.contact-banner {
+		border-top: 3px solid #ffa409;
+		background-position: center;
+		background-repeat: no-repeat;
+		min-height: 288px;
 	}
 	div.associate-support {
 		background-color: #efefef;
@@ -1031,6 +1068,12 @@ article.contact {
 			.grid .col {
 				width: 50%;
 				float: left;
+			}
+		}
+		@include breakpoint(small) {
+			.grid .col {
+				width: 100%;
+				padding-bottom: 20px;
 			}
 		}
 	}
@@ -1131,16 +1174,6 @@ article.contact {
 	div.faq {
 		h2 {
 			text-align: left;
-			position: relative;
-			.header-line {
-				height: 4px;
-				width: 100%;
-				display: block;
-				background-color: #efefef;
-				position: absolute;
-				top: 19px;
-				left: 570px;
-			}
 		}
 		p {
 			width: 305px;
@@ -1151,6 +1184,9 @@ article.contact {
 article.contact-state {
 	.customer-service {
 		margin: 25px 0;
+		@include breakpoint(small) {
+			width: 100%;
+		}
 		h1 {
 			color: #0971ce;
 			margin-bottom: 50px;
@@ -1202,6 +1238,9 @@ article.contact-state {
 	.quality-control {
 		margin-bottom: 35px;
 		position: relative;
+		@include breakpoint(small) {
+			width: 100%;
+		}
 		p {
 			margin: 20px 0 30px 0;
 		}
@@ -1209,19 +1248,13 @@ article.contact-state {
 			margin: 0;
 			font-size: 25px;
 		}
-		.header-line {
-			height: 4px;
-			width: 100%;
-			display: block;
-			background-color: #efefef;
-			position: absolute;
-			top: 14px;
-			left: 240px;
-		}
 	}
 	.emergency {
 		margin-bottom: 30px;
 		position: relative;
+		@include breakpoint(small) {
+			width: 100%;
+		}
 		h2 {
 			margin: 0;
 			font-size: 25px;
@@ -1229,15 +1262,6 @@ article.contact-state {
 		h3 {
 			color: #0971ce;
 			margin: 50px 0 10px 0;
-		}
-		.header-line {
-			height: 4px;
-			width: 100%;
-			display: block;
-			background-color: #efefef;
-			position: absolute;
-			top: 14px;
-			left: 280px;
 		}
 		.grid .col {
 			.company {
@@ -1282,7 +1306,7 @@ article.faq {
 				a {
 					color: #696969;
 					display: block;
-					padding: 15px;
+					padding: 15px 50px 15px 15px;
 					@include breakpoint(small) {
 						width: 93%;	
 					}
@@ -1308,6 +1332,9 @@ article.faq {
 				}
 				.answer {
 					margin-left: 55px;	
+					p {
+						padding-right: 45px;
+					}
 				}
 			}
 		}
@@ -1443,9 +1470,11 @@ article.homelife-services {
 					font-size: 22px;
 					font-weight: bold;
 					text-align: center;
-					margin-top: 10px;
+					margin-top: 0;
+					padding-top: 10px;
 				}
-				.line-top {
+				.line-top,
+				.line-bottom {
 					height: 40px;
 					width: 1px;
 					background-color: #ddd;
@@ -1454,14 +1483,9 @@ article.homelife-services {
 					margin-top: -50px;
 				}
 				.line-bottom {
-					height: 40px;
-					width: 1px;
-					background-color: #ddd;
-					float: left;
-					margin-left: 50%;
 					margin-top: 13px;
 				}
-				@include breakpoint(medium) {
+				@include breakpoint(small) {
 					.line-top,
 					.line-bottom {
 						display: none;
@@ -1470,6 +1494,8 @@ article.homelife-services {
 			}
 			.pricing {
 				text-align: center;
+				float: left;
+				margin-left: 2em;
 				p {
 					font-size: 14px;
 					text-transform: uppercase;
@@ -1490,6 +1516,14 @@ article.homelife-services {
 						}
 					}	
 				}
+				p.month-free {
+					text-transform: none;
+					color: #0971CE;
+					font-style: normal;
+					font-size: 1.2em;
+					border-bottom: 1px solid #d0d0d0;
+					margin-bottom: 1em;
+				}
 			}
 			.sash {
 				position: absolute;
@@ -1499,7 +1533,18 @@ article.homelife-services {
 				min-width: 32px;
 				height: 132px;
 				overflow: hidden;
-				-webkit-transform: rotate(-45deg);
+				transform:rotate(-45deg);
+				-ms-transform:rotate(-45deg); /* IE 9 */
+				-webkit-transform:rotate(-45deg); /* Opera, Chrome, and Safari */
+				.ie8 & {
+					top: 0;
+					width: 100px;
+					height: 2em;
+					span {
+						margin: 0;
+						padding: 0 20px
+					}
+				}
 				span {
 					font-size: 24px;
 					text-transform: uppercase;
@@ -1507,7 +1552,9 @@ article.homelife-services {
 					font-weight: 600;
 					color: #fff;
 					margin: 50px 0 0  -12px;
-					-webkit-transform: rotate(90deg);
+					transform:rotate(90deg);
+					-ms-transform:rotate(90deg); /* IE 9 */
+					-webkit-transform:rotate(90deg); /* Opera, Chrome, and Safari */
 				}
 			}
 			@include breakpoint(small-medium) {
@@ -1522,46 +1569,60 @@ article.homelife-services {
 					}
 				}
 				.savings {
-					margin-left: 30%;
+					margin-left: 25%;
 					margin-right: 20px;
 				}
 				.pricing {
 					float: left;
+					p {
+						margin-bottom: 25px;
+					}
 				}
 			}
 			@include breakpoint(small) {
-				ul.services li {
-					margin-right: 8px;
-					&.identity:after {
-						content: " ";
-					}
-					&.support {
-						&:after {
+				ul.services {
+					float: none;
+					li {
+						width: 100%;
+						margin-right: 8px;
+						float: none;
+						&.identity:after {
 							content: " ";
 						}
-						h4 {
-							width: 67%;
+						&.support {
+							&:after {
+								content: " ";
+							}
+							h4 {
+								width: 67%;
+								margin: 10px auto;
+							}
+						}
+						&.monitoring h4 {
+							width: 91%;
 							margin: 10px auto;
 						}
 					}
-					&.monitoring h4 {
-						width: 91%;
-						margin: 10px auto;
-					}
 				}
 				.savings {
-					margin: 15px 0 0 10%;
+					margin: 0 auto;
+					display: block;
+					float: none;
 				}
 				.pricing {
 					float: right;
-					margin: 0 10% 0 0;
+					margin: 0;
+					width: 100%;
+					p.month-free {
+						border-bottom: 0;
+					}
 				}
 			}
 		}
 		&.platinum {
 			background-color: #0971ce;
 			h3 {
-				width: 85%;
+				padding-right: 70px;
 			}
 			.savings {
 				background-color: #0971ce;
@@ -1607,6 +1668,10 @@ article.homelife-services {
 						margin-right: 0;
 						width: 33%;
 						border-right: 1px solid #cdcdcd;
+						@include breakpoint(small) {
+							width: 100%;
+							border-right: none;
+						}
 						&.identity,
 						&.support {
 							&:after {
@@ -1623,6 +1688,9 @@ article.homelife-services {
 							.price .dollars {
 								font-size: 24px;
 							}
+							p.month-free {
+								border-bottom: none;
+							}
 							button {
 								background-color: #0971ce;
 								&:hover {
@@ -1633,6 +1701,14 @@ article.homelife-services {
 					}
 				}
 			}
+		}
+	}
+	@include breakpoint(small-medium) {
+		div.wrapper {
+			padding: 0;
+		}
+		div.package {
+			padding: 20px;
 		}
 	}
 	p.footnote {
@@ -1898,11 +1974,17 @@ article.enroll {
 			float: left;
 			width: 50%;
 			margin-bottom: 20px;
+			@include breakpoint(small) {
+				width: 100%;
+			}
 		}
 		.right-column {
 			float: right;
 			width: 50%;
 			margin-bottom: 20px;
+			@include breakpoint(small) {
+				width: 100%;
+			}
 		}
 		li.terms {
 			background: url("../i/marketing/blue-bullet.png") no-repeat;
@@ -1919,6 +2001,9 @@ article.enroll {
 		}
 		.formlinks {
 			width: 48%;
+			@include breakpoint(small-medium) {
+				width: 100%;
+			}
 			.header {
 				background-color: #0971ce;
 				color: #fff;
@@ -1940,6 +2025,7 @@ article.enroll {
 					font-weight: bold;
 					margin-left: 3.5em;
 					padding: 15px 0px;
+					display: block;
 				}
 			}
 		}
@@ -1948,10 +2034,17 @@ article.enroll {
 		}
 		.spanish {
 			float: right;
+			@include breakpoint(small-medium) {
+				float: left;
+				margin-top: 20px;
+			}
 		}
 		.customer-forms {
 			margin-top: 80px;
 			padding-bottom: 50px;
+			.formlinks {
+				width: 100%;
+			}
 		}
 	}
 }
@@ -1999,20 +2092,16 @@ article.energy-certificates {
 	background-image: url('../i/marketing/energy-certificates.jpg');
 	background-repeat: no-repeat;
 	background-position: center;
-	height: 350px;
+	min-height: 300px;
 	border-top: 3px solid #7eb24c;
 	border-bottom: 3px solid #862134;
 	.wrapper {
 		.text {
 			width: 335px;
 			float: right;
-			margin: 50px 50px 0 0;
-			button {
+			margin: 70px 50px 0 0;
+			.button {
 				background-color: #2c3e50;
-				box-shadow: 0 2px #7eb24c;
-				a {
-					color: #fff;
-				}
 				&:hover {
 					background-color: #6b6b6b;
 				}
@@ -2023,11 +2112,17 @@ article.energy-certificates {
 			}
 		}
 	}
+	@include breakpoint(small) {
+		.wrapper .text {
+			width: auto;
+			float: none;
+		}
+	}
 }
 
 article.ignite-associate {
 	text-align: center;
-	margin: 50px 0;
+	margin: 50px 0 10px;
 	button {
 		background-color: #a9222d;
 		a {
@@ -2198,23 +2293,32 @@ article.manage-my-account {
 			float: left;
 			button {
 				background-color: #76BD1D;
+				&:hover {
+					background-color: #6b6b6b;
+				}
 			}
 		}
 		@include breakpoint(small) {
 			width: 100%;
-			margin: 20px auto;
+			margin: 20px auto 0;
 			padding: 0;
+			.login {
+				margin-left: 0;
+			}
+		}
+	}
+	@include breakpoint(medium-large) {
+		.left-column {
+			padding-left: 20px;
 		}
 	}
 }
 
 article.manage-free-energy {
 	background-image: url('../i/marketing/free-energy-pic.jpg');
+	background-color: #111;
 	height: 399px;
     margin-bottom: 0;
-    @include breakpoint(small) {
-		height: auto;
-	}
 	.left-column {
 		float: left;
 		width: 55%;
@@ -2223,9 +2327,6 @@ article.manage-free-energy {
 			width: 70%;
 			color: #fff;
 			margin-top: 60px;
-			@include breakpoint(small) {
-				width: 80%;
-			}
 		}
 	}
 	.right-column {
@@ -2233,26 +2334,46 @@ article.manage-free-energy {
 		background-color: #003366;
 		width: 45%;
 		height: 399px;
-		@include breakpoint(small) {
-			height: auto;
-		}
+		padding: 20px;
 		.center {
 			text-align: center;
-			.button {
-				box-shadow: 0 2px #3e8bcb;
-				background-color: #ffa409;
-				margin: 150px 0 20px 0;
-			}
+		}
+		.button {
+			background-color: #ffa409;
+			margin: 120px 0 20px 0;
+			&:hover {
+				background-color: #6b6b6b;
+			}			
+		}
+		p {
+			width: 50%;
+			margin: 0 auto;
+			color: #fff;
+		}
+	}
+	@include breakpoint(small) {
+		height: auto;
+		.left-column {
+			float: none;
+			width: auto;
 			p {
-				width: 50%;
-				margin-left: auto;
-				margin-right: auto;
-				color: #fff;
-				@include breakpoint(small) {
-					width: 75%;
-					margin-bottom: 50px;
-				}
+				width: auto;
+			}			
+		}
+		.right-column {
+			height: auto;
+			float: none;
+			width: auto;
+			margin-left: -20px;
+			margin-right: -20px;
+			.button {
+				margin-top: 0;
 			}
+		}
+	}
+	@include breakpoint(medium-large) {
+		.left-column {
+			padding-left: 20px;
 		}
 	}
 }
@@ -2262,30 +2383,22 @@ article.manage-services {
 	.text {
 		color: #fff;
 		float: left;
-		margin-bottom: 75px;
 		.inner {
 			float: right;
 			span {
 				text-transform: uppercase;
 			}
 		}
-		@include breakpoint(small-medium) {
-			width: 100%;
-			float: none;
-			padding: 10px;
-			margin-bottom: 0;
-			.inner {
-				float: none;
-				max-width: 100%;
-			}
-		}
 	}
 	.photo {
 		background-image: url('../i/marketing/manage-services.jpg');
+		background-color: #fff;
 		background-repeat: no-repeat;
+		background-size: cover;
 		right: 0;
+		padding-left: 15px;
 		ul {
-			padding-left: 5px;
+			padding-left: 0;
 			li {
 				list-style-type: none;
 				float: left;
@@ -2293,25 +2406,22 @@ article.manage-services {
 				margin: 50px 5px 0 0;
 				border-right: 1px solid #cfcece;
 				padding: 30px 5px 30px 0;
+				width: 32%;
 				&:last-child {
 					border-right: none;
 					padding-right: 0;
 					margin-right: 0;
 				}
-				a .box {
+				.box {
 					background-color: #7D9AB4;
 					border-radius: 10px;
-					box-shadow: 0 3px #DAD4CF;
-					height: 70px;
-					width: 160px;
+					padding: 12px 8px;
+					max-width: 170px;
+					display: inline-block;
 					p {
 						text-transform: uppercase;
-						padding: 3px;
 						color: #fff;
-						&:hover {
-							color: #064985;
-							text-decoration: underline;
-						}
+						margin: 0;
 					}
 					&.tech-support {
 						background-color: #b68889;
@@ -2319,24 +2429,37 @@ article.manage-services {
 					&.credit-monitoring {
 						background-color: #8ea173;
 					}
+					&:hover {
+						background-color: #6b6b6b;
+					}
+				}
+				img {
+					margin: 0 auto 15px;
+					display: block;
 				}
 			}
 		}
-		p.sign-up {
-			margin-left: 5px;
+		.sign-up {
+			text-align: center;
 			a:hover {
 				color: #064985;
 				text-decoration: underline;
 			}
 		}
-		@include breakpoint(small-medium) {
-			background-size: cover;
+	}
+	@include breakpoint(small) {
+		.text {
 			width: 100%;
 			float: none;
-			display: block;
-			position: initial;
+			padding: 0;
+			margin-bottom: 0;
+			.inner {
+				padding: 0;
+				float: none;
+				max-width: 100%;
+			}
 		}
-		@include breakpoint(small) {
+		.photo {
 			background-image: none;
 			background-color: #fff;
 			ul li {
@@ -2348,6 +2471,39 @@ article.manage-services {
 			}
 		}
 	}
+	@include breakpoint(small-medium) {
+		.text, .text .inner {
+			float: none;
+			width: auto;
+			max-width: none;
+		}
+		.photo {
+			width: auto;
+			float: none;
+			display: block;
+			position: static;
+			padding: 0 20px;
+			margin-left: -20px;
+			margin-right: -20px;
+			ul li {
+				border-right: none;
+			}
+			ul li .box {
+				padding: 12px 20px;
+				max-width: 215px;
+			}						
+		}
+	}
+	@include breakpoint(medium) {
+		.text {
+			padding: 10px;
+		}
+	}
+	@include breakpoint(large) {
+		.text {
+			margin-bottom: 75px;
+		}
+	}	
 }
 
 article.marketing div.wrapper {
@@ -2492,4 +2648,14 @@ article.paperless {
 
 article.services-divider-img {
     background-position: 20% 0;
+}
+
+article.opportunity-more-information.accent-red {
+    .phone {
+        @include border-radius(10px);
+        display: inline-block;
+        padding: 7px 18px;
+        background-color: #aa2130;
+        color: #fff;
+    }
 }

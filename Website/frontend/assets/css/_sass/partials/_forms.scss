@@ -105,8 +105,10 @@ a.button {
 		color: #fff;
 	}
 
-	&:disabled {
+	&:disabled,
+	&.disabled {
 		opacity: .5;
+		cursor: default;
 	}
 	&.social {
 		display: inline-block;
