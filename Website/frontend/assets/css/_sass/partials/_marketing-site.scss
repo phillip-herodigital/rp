@@ -210,6 +210,12 @@ article.photoLockup {
 	}
 }
 
+.ie8 article.photoLockup {
+	.photo {
+		background-repeat: repeat-y;
+	}
+}
+
 article.marketingIntro {
 	text-align: center;
 	em {
