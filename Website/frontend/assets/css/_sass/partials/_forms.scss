@@ -186,6 +186,9 @@ form,
 			@include layout-list;
 		}
 	}
+    div.validation-summary-valid {
+        display: none;
+    }
 	.single-link {
 		font-size: 14px;
 	}
@@ -221,7 +224,7 @@ form,
 				text-transform: uppercase;
 			}
 		}
-        span.field-validation-valid {
+        span.field-validation-error {
             display: block;
         }
         &.error {
@@ -230,7 +233,7 @@ form,
             select {
                 border-color: #c00;
             }
-            span.field-validation-valid {
+            span.field-validation-error {
                 margin-top: 5px;
                 color: #c00; // #E49593
                 font-size: 14px;
