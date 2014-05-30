@@ -234,8 +234,8 @@
                         <div class="item" @Html.ValidationErrorClass(model => model.ContactName.Last)>
                             <label for="@Html.For(m => m.ContactName.Last)">@Html.Sitecore().Field("Last Name Text")</label>
                             <input type="text" placeholder="@Html.Sitecore().Field("Last Name Placeholder")" @Html.ValidationAttributes(m => m.ContactName.Last) ng-model="lastname" />
-                                <span class="asterisk">&#42;</span>
-                                @Html.ValidationMessageFor(model => model.ContactName.Last)
+                            <span class="asterisk">&#42;</span>
+                            @Html.ValidationMessageFor(model => model.ContactName.Last)
                         </div>
                         <div class="item" @Html.ValidationErrorClass(model => model.AddressLine1)>
                             <label for="@Html.For(m => m.AddressLine1)">@Html.Sitecore().Field("Service Address Text")</label>
