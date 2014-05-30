@@ -63,7 +63,7 @@ namespace StreamEnergy.Extensions
             return html.Raw(StreamEnergy.CompositeValidationAttribute.GetPathedName(propertyChain));
         }
 
-        public static IHtmlString ValidationAttributes<T, U>(this HtmlHelper<T> html, Expression<Func<T, U>> model, Item translateFrom = null)
+        public static IHtmlString ValidationAttributes<T, U>(this HtmlHelper<T> html, Expression<Func<T, U>> model, Item translateFrom = null, bool writeId = true, bool writeValue = true)
         {
             var temp = model.RemoveLambdaBody().RemoveCast();
 
@@ -80,7 +80,14 @@ namespace StreamEnergy.Extensions
             var dictionary = new Dictionary<string, object>();
             UnobtrusiveValidationAttributesGenerator.GetValidationAttributes(clientRules, dictionary);
             dictionary["name"] = StreamEnergy.CompositeValidationAttribute.GetPathedName(propertyChain);
-            dictionary["id"] = StreamEnergy.CompositeValidationAttribute.GetPathedName(propertyChain);
+            if (writeId)
+            {
+                dictionary["id"] = StreamEnergy.CompositeValidationAttribute.GetPathedName(propertyChain);
+            }
+            if (writeValue)
+            {
+                dictionary["data-value"] = System.Web.Mvc.Html.ValueExtensions.ValueFor(html, model);
+            }
 
             return html.Raw(string.Join(" ", from attr in dictionary
                                              select attr.Key + "=\"" + attr.Value + "\""));
