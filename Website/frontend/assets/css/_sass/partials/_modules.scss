@@ -226,6 +226,17 @@ article.plain {
 div.banner + article.message {
 	margin-top: -20px;
 }
+
+div.banner.account {
+	border-bottom: 5px solid #259afd;
+	@include breakpoint(medium) {
+		height: 300px;
+	}
+	@include breakpoint(small) {
+		display: none;
+	}
+}
+
 article.message {
 	@extend .plain;
 	margin-bottom: 20px;
