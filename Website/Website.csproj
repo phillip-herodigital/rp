@@ -620,6 +620,9 @@
     <Content Include="Views\Components\Account\My Invoices.cshtml" />
     <Content Include="Views\Components\Account\My Payments.cshtml" />
     <Content Include="Views\Components\Account\Make a Payment.cshtml" />
+    <Content Include="Views\Components\Account\Account Selector.cshtml" />
+    <Content Include="Views\Components\Account\Your Electricity Plan.cshtml" />
+    <Content Include="Views\Components\Account\Your Gas Plan.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
