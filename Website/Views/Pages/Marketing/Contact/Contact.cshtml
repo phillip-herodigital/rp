@@ -241,7 +241,6 @@
                             <label for="@Html.IdFor(m => m.AddressLine1)">@Html.Sitecore().Field("Service Address Text")</label>
                             <input type="text" placeholder="@Html.Sitecore().Field("Service Address Placeholder")" @Html.ValidationAttributes(m => m.AddressLine1) data-val-if="address" id="@Html.IdFor(m => m.AddressLine1)" ng-model="address" value="@Html.ValueFor(m => m.AddressLine1)" />
                             @Html.ValidationMessageFor(model => model.AddressLine1)
-                            {{address}}
                         </div>
                         <div class="group">
                             <div class="item" @Html.ValidationErrorClass(model => model.City)>
@@ -271,7 +270,6 @@
                             <label for="@Html.IdFor(m => m.ContactPhone.Number)">@Html.Sitecore().Field("Phone Text")</label>
                             <input type="text" placeholder="@Html.Sitecore().Field("Phone Placeholder")" @Html.ValidationAttributes(m => m.ContactPhone.Number) data-val-if="phone" id="@Html.IdFor(m => m.ContactPhone.Number)" ng-model="phone" value="@Html.ValueFor(m => m.ContactPhone.Number)" />
                             @Html.ValidationMessageFor(model => model.ContactPhone.Number)
-                            {{phone}}
                         </div>
                         <div class="item" @Html.ValidationErrorClass(model => model.ContactEmail.Address)>
                             <label for="@Html.IdFor(m => m.ContactEmail.Address)">@Html.Sitecore().Field("Email Text")</label>
