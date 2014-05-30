@@ -108,10 +108,12 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
         }
 
         var id = $scope.createLocationID();
-        data.locations[id] = $scope.extraFields.serviceAddress;
+        data.locations[id] = {
+            'location': $scope.extraFields.serviceAddress
+        }
 
         if ($scope.extraFields.isNewService == 1) {
-            data.locations[id].capabilities.push({ "capabilityType": "ServiceStatus", "isNewService": true });
+            data.locations[id].location.capabilities.push({ "capabilityType": "ServiceStatus", "isNewService": true });
         }
 
         console.log('Sending service information...');
