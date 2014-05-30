@@ -44,6 +44,7 @@ namespace StreamEnergy.Mvc
                         {
                             if (!string.IsNullOrEmpty(entry.ErrorMessage))
                             {
+                                modelEntry.Value.Errors.Remove(entry);
                                 if (entry.Exception != null)
                                     modelEntry.Value.Errors.Add(new ModelError(entry.Exception, FieldRenderer.Render(item, entry.ErrorMessage)));
                                 else
