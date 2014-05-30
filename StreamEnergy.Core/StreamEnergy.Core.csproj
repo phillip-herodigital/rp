@@ -61,6 +61,12 @@
     <Reference Include="Castle.Core">
       <HintPath>..\packages\Castle.Core.3.3.0\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
+    <Reference Include="MaxMind.Db">
+      <HintPath>..\packages\MaxMind.Db.0.2.3.0\lib\net40\MaxMind.Db.dll</HintPath>
+    </Reference>
+    <Reference Include="MaxMind.GeoIP2">
+      <HintPath>..\packages\MaxMind.GeoIP2.0.3.2.0\lib\net40\MaxMind.GeoIP2.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Unity">
       <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
@@ -77,6 +83,12 @@
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp">
+      <HintPath>..\packages\RestSharp.104.4.0\lib\net4\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Analytics">
+      <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.Kernel">
       <HintPath>..\Libraries\Sitecore\Sitecore.Kernel.dll</HintPath>
@@ -169,9 +181,11 @@
     <Compile Include="Mvc\ControllerFactory.cs" />
     <Compile Include="Mvc\ExecuteInterceptor.cs" />
     <Compile Include="Mvc\IgnoreBlanksModelBinder.cs" />
+    <Compile Include="Mvc\IServerUtility.cs" />
     <Compile Include="Mvc\JsonNetFormatter.cs" />
     <Compile Include="Mvc\MvcProxyGenerator.cs" />
     <Compile Include="Mvc\PerHttpContextLifetimeManager.cs" />
+    <Compile Include="Mvc\ServerUtility.cs" />
     <Compile Include="Mvc\SessionControllerHandler.cs" />
     <Compile Include="Mvc\SessionRouteHandler.cs" />
     <Compile Include="Mvc\Sitecore\ControllerRenderer.cs" />
@@ -200,6 +214,7 @@
     <Compile Include="RequireValueAttribute.cs" />
     <Compile Include="TypeIndicatorJsonConverter.cs" />
     <Compile Include="TypeIndicatorLookup.cs" />
+    <Compile Include="Providers\GeoProvider.cs" />
     <Compile Include="Unity\Container.cs" />
     <Compile Include="Unity\IContainerSetupStrategy.cs" />
     <Compile Include="Unity\InheritanceSetupStrategy.cs" />
