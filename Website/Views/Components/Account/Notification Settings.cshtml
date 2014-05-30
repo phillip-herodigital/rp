@@ -1,31 +1,5 @@
 ﻿<section class="layout cols-2 wrapper">
     <section class="layout cols-1">
-        <article class="balances-payments" ng-controller="AccountBalances">
-            <div class="content" @*loading-indicator*@>
-                <div class="account-selector">
-                    <form>
-                        <div class="group">
-                            <div class="item">
-                                <label>@Html.Sitecore().Field("Account Number Text")</label>
-                                <select ng-model="selectedAccount.account" ng-options="item.accountNumber for item in accounts">
-                                    <option value="">All</option>
-                                </select>
-                            </div>
-                            <div class="item">
-                                <label>@Html.Sitecore().Field("Meter ID Text")</label>
-                                <select class="id">
-                                    <option value="Please choose">109437200008913264</option>
-                                    <option value="account1">ID 2</option>
-                                </select>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="grid border">
-                    @Html.Sitecore().Field("Service Address Text") 123 Main Street, Dallas, TX 75001
-                </div>
-            </div>
-        </article>
         <article class="grey-box notification-settings">
             <form>
                 <header>
@@ -35,7 +9,7 @@
                     <div class="edit-preferences">
                         <div class="preference">
                             <span class="preference-type">
-                               @Html.Sitecore().Field("New Document Arrives Text") <span class="label"><i class="icon-notification-bell"></i> @Html.Sitecore().Field("Web Text")</span> <span class="label"><i class="icon-notification-email"></i> @Html.Sitecore().Field("Email Text")</span>
+                                @Html.Sitecore().Field("New Document Arrives Text") <span class="label"><i class="icon-notification-bell"></i> @Html.Sitecore().Field("Web Text")</span> <span class="label"><i class="icon-notification-email"></i> @Html.Sitecore().Field("Email Text")</span>
                             </span>
                             <a href="#" class="additional-field-action">@Html.Sitecore().Field("Edit Link Text")</a>
                         </div>
@@ -69,7 +43,7 @@
                     <div class="edit-preferences">
                         <div class="preference">
                             <span class="preference-type">
-                               @Html.Sitecore().Field("Online Payments Text") <span class="label"><i class="icon-notification-bell"></i> @Html.Sitecore().Field("Web Text")</span> <span class="label"><i class="icon-notification-email"></i> @Html.Sitecore().Field("Email Text")</span>
+                                @Html.Sitecore().Field("Online Payments Text") <span class="label"><i class="icon-notification-bell"></i> @Html.Sitecore().Field("Web Text")</span> <span class="label"><i class="icon-notification-email"></i> @Html.Sitecore().Field("Email Text")</span>
                             </span>
                             <a href="#" class="additional-field-action">@Html.Sitecore().Field("Edit Link Text")</a>
                         </div>
@@ -78,7 +52,7 @@
                     <div class="edit-preferences">
                         <div class="preference">
                             <span class="preference-type">
-                               @Html.Sitecore().Field("Recurring Payments Text") <span class="label"><i class="icon-notification-bell"></i> @Html.Sitecore().Field("Web Text")</span> <span class="label"><i class="icon-notification-email"></i> @Html.Sitecore().Field("Email Text")</span>
+                                @Html.Sitecore().Field("Recurring Payments Text") <span class="label"><i class="icon-notification-bell"></i> @Html.Sitecore().Field("Web Text")</span> <span class="label"><i class="icon-notification-email"></i> @Html.Sitecore().Field("Email Text")</span>
                             </span>
                             <a href="#" class="additional-field-action">@Html.Sitecore().Field("Edit Link Text")</a>
                         </div>
@@ -107,7 +81,4 @@
             </form>
         </article>
     </section>
-    <aside>
-        @Html.Sitecore().Placeholder("sidebar")
-    </aside>
 </section>
