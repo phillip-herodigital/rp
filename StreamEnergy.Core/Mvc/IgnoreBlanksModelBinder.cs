@@ -13,7 +13,7 @@ namespace StreamEnergy.Mvc
         public override object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
         {
             var result = base.BindModel(controllerContext, bindingContext);
-            if (IsAllBlank)
+            if (IsAllBlank && !bindingContext.ModelMetadata.IsRequired)
             {
                 foreach (var modelKey in bindingContext.ModelState.Keys.Where(k => k.StartsWith(bindingContext.ModelName)))
                 {
