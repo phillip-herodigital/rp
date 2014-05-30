@@ -47,6 +47,9 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
 
     /**
     * Get Locations
+    *
+    * @param string state       //State abbreviation
+    * @param string val         //Search string value
     */
     $scope.getLocation = function (state, val) {
         console.log('Getting locations...');
@@ -55,34 +58,7 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
             var addresses = [];
 
             angular.forEach(res.data, function (item) {
-                var address = item.address,
-                    formattedAddress = '';
-
-                if (address.line1) {
-                    formattedAddress += address.line1 + ', ';
-                }
-
-                if (address.unitNumber) {
-                    formattedAddress += address.unitNumber + ', ';
-                }
-
-                if (address.city) {
-                    formattedAddress += address.city + ', ';
-                }
-
-                if (address.stateAbbreviation) {
-                    formattedAddress += address.stateAbbreviation + ', ';
-                }
-
-                if (address.postalCode5) {
-                    formattedAddress += address.postalCode5;
-                    if (address.postalCodePlus4) {
-                        formattedAddress += '-' + address.postalCode5;
-                    }
-                }
-
-                item.formattedAddress = formattedAddress;
-
+                item.formattedAddress = $scope.formatAddress(item.address);
                 addresses.push(item);
             });
 

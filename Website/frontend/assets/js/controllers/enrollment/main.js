@@ -44,6 +44,9 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', 'enroll
         }
     ];
 
+    /**
+    * Set Server Data
+    */
     $scope.setServerData = function () {
         //TODO: Replace AJAX with static variable once available
         console.log('Setting initial server data:');
@@ -58,4 +61,39 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', 'enroll
         });
     };
 
+    /**
+    * Format address object
+    *
+    * @param object address
+    *
+    * return string
+    */
+    $scope.formatAddress = function (address) {
+        var formattedAddress = '';
+
+        if (address.line1) {
+            formattedAddress += address.line1 + ', ';
+        }
+
+        if (address.unitNumber) {
+            formattedAddress += address.unitNumber + ', ';
+        }
+
+        if (address.city) {
+            formattedAddress += address.city + ', ';
+        }
+
+        if (address.stateAbbreviation) {
+            formattedAddress += address.stateAbbreviation + ', ';
+        }
+
+        if (address.postalCode5) {
+            formattedAddress += address.postalCode5;
+            if (address.postalCodePlus4) {
+                formattedAddress += '-' + address.postalCode5;
+            }
+        }
+
+        return formattedAddress;
+    };
 }]);

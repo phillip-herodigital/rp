@@ -5,11 +5,11 @@
             <h1>@Html.Sitecore().Field("Cart Header")</h1>
         </header>
         <div class="body">
-            <div class="box">
+            <div class="box" ng-hide="serverData.locationServices">
                 <p class="alt">@Html.Sitecore().Field("Empty Cart Text")</p>
             </div>
-            <div class="box">
-                <div class="cart-item">
+            <div class="box" ng-repeat="(key, value) in serverData.locationServices">
+                <div class="cart-item" ng-hide="true">
                     <div class="delete">
                         <i class="icon-delete"></i>
                     </div>
@@ -22,7 +22,7 @@
                         <span>per kWh</span>
                     </div>
                 </div>
-                <div class="cart-item">
+                <div class="cart-item" ng-hide="true">
                     <div class="description">
                         <h2>Installation Fee</h2>
                     </div>
@@ -30,8 +30,8 @@
                         $10.35
                     </div>
                 </div>
-                <hr />
-                <div class="cart-item">
+                <hr ng-hide="true"/>
+                <div class="cart-item" ng-hide="true">
                     <div class="delete">
                         <i class="icon-delete"></i>
                     </div>
@@ -45,44 +45,9 @@
                 </div>
                 <address>
                     <h3>@Html.Sitecore().Field("Service Address Text")</h3>
-                    123 Main Street, Dallas, TX 75001<br />
+                    {{formatAddress(value.location.address)}}<br />
                     <a href="">@Html.Sitecore().Field("Edit Address Text")</a>
                 </address>
-            </div>
-            <div class="box">
-                <div class="cart-item">
-                    <div class="delete">
-                        <i class="icon-delete"></i>
-                    </div>
-                    <div class="description">
-                        <h2>3 Month Fixed Rate</h2>
-                        <a href="">Change Plan</a>
-                    </div>
-                    <div class="rate">
-                        7.18&cent;
-                        <span>per kWh</span>
-                    </div>
-                </div>
-                <address>
-                    <h3>@Html.Sitecore().Field("Service Address Text")</h3>
-                    456 Center Street Dallas, TX 75001<br />
-                    <a href="">@Html.Sitecore().Field("Edit Address Text")</a>
-                </address>
-            </div>
-            <div class="box">
-                <div class="cart-item">
-                    <div class="delete">
-                        <i class="icon-delete"></i>
-                    </div>
-                    <div class="description">
-                        <h2>Stream Tech Support</h2>
-                        <a href="">Change Plan</a>
-                    </div>
-                    <div class="rate">
-                        $14.95
-                        <span>per month</span>
-                    </div>
-                </div>
             </div>
             <div class="box time">
                 <i class="icon-clock"></i>
