@@ -656,6 +656,9 @@ aside {
 				padding: 20px 15px;
 				border-bottom: 1px solid #ddd;
 				text-transform: uppercase;
+				&.active a {		
+					color: #333;
+				}
 			}
 		}
 	}
