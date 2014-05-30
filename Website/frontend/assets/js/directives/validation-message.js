@@ -5,8 +5,8 @@
         scope: {
             valmsgFor: '@'
         },
-        template: '<span for="{{valmsgFor}}" data-ng-repeat="err in messages" generated="true" data-ng-bind-html="err"></span>',
-
+        template: '<span for="{{valmsgFor}}" data-ng-repeat="err in messages" generated="true" data-ng-bind-html="err"></span><span ng-transclude ng-if="!messages"></span>',
+        transclude: true,
         link: function (scope, element) {
             scope.validationSummary = [];
             // Here we don't need to dispose our watch because we have an isolated scope that goes away when the element does.
