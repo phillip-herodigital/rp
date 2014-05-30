@@ -605,7 +605,6 @@
     <Content Include="Views\Pages\Marketing\Services\Enroll.cshtml" />
     <Content Include="Views\Pages\Marketing\Services\Renew.cshtml" />
     <Content Include="Views\Pages\Frontend\Elements.cshtml" />
-    <Content Include="Views\Pages\Account\Account Overview.cshtml" />
     <Content Include="Views\Pages\Account\Invoices.cshtml" />
     <Content Include="Views\Pages\Account\Payments.cshtml" />
     <Content Include="Views\Pages\Account\Payment History.cshtml" />
@@ -616,6 +615,9 @@
     <Content Include="Views\Pages\Account\Enrolled Accounts.cshtml" />
     <Content Include="Views\Components\Account\Sidebar Widgets\Profile Subnav.cshtml" />
     <Content Include="Views\Components\Account\Sidebar Widgets\Promo.cshtml" />
+    <Content Include="Views\Components\Account\Two Column Layout.cshtml" />
+    <Content Include="Views\Components\Account\Account Balances and Payments.cshtml" />
+    <Content Include="Views\Components\Account\My Energy Usage.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
