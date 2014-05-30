@@ -28,6 +28,16 @@
                     }
                 });
                 scope.validationSummary = merged;
+                if (scope.started) {
+                    if (!merged.length) {
+                        element.addClass('validation-summary-valid');
+                        element.removeClass('validation-summary-errors');
+                    }
+                    else {
+                        element.removeClass('validation-summary-valid');
+                        element.addClass('validation-summary-errors');
+                    }
+                }
             });
 
             element.on('$destroy', function () { watch(); });

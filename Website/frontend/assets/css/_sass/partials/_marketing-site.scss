@@ -1160,7 +1160,7 @@ article.contact {
             select {
                 border-color: #fcd22b;
             }
-            span.field-validation-valid {
+            span.field-validation-error {
                 color: #fcd22b;
             }
         }
@@ -1877,7 +1877,7 @@ article.commercial-quote {
         select {
             border-color: #fcd22b;
         }
-        span.field-validation-valid {
+        span.field-validation-error {
             color: #fcd22b;
         }
     }
