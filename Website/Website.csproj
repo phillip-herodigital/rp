@@ -605,8 +605,6 @@
     <Content Include="Views\Pages\Marketing\Services\Enroll.cshtml" />
     <Content Include="Views\Pages\Marketing\Services\Renew.cshtml" />
     <Content Include="Views\Pages\Frontend\Elements.cshtml" />
-    <Content Include="Views\Pages\Account\Utility Services.cshtml" />
-    <Content Include="Views\Pages\Account\Account Information.cshtml" />
     <Content Include="Views\Pages\Account\Notifications and Reminders.cshtml" />
     <Content Include="Views\Pages\Account\Enrolled Accounts.cshtml" />
     <Content Include="Views\Components\Account\Sidebar Widgets\Profile Subnav.cshtml" />

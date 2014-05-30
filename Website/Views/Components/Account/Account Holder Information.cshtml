@@ -1,35 +1,7 @@
 ﻿<section class="layout cols-2 wrapper">
     <section class="layout cols-1">
-        <article class="balances-payments" ng-controller="AccountBalances">
-            <div class="content" @*loading-indicator*@>
-                <div class="account-selector">
-                    <form>
-                        <div class="group">
-                            <div class="item">
-                                <label>@Html.Sitecore().Field("Account Number Text")</label>
-                                <select ng-model="selectedAccount.account" ng-options="item.accountNumber for item in accounts">
-                                    <option value="">All</option>
-                                </select>
-                            </div>
-                            <div class="item">
-                                <label>@Html.Sitecore().Field("Meter ID Text")</label>
-                                <select class="id">
-                                    <option value="Please choose">109437200008913264</option>
-                                    <option value="account1">ID 2</option>
-                                </select>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="grid border">
-                    @Html.Sitecore().Field("Service Address Text") 123 Main Street, Dallas, TX 75001
-                </div>
-            </div>
-        </article>
-
-        <form>
-
-            <article class="grey-box account-holder-information">
+        <article class="grey-box account-holder-information" ng-controller="AccountBalances">
+            <form>
                 <div class="content">
                     <div class="item account-holder">
                         <label class="account-holder-title">@Html.Sitecore().Field("Account Holder Name Text")</label>
@@ -41,7 +13,7 @@
                             <input type="tel" name="primary-phone" id="primary-phone" placeholder="">
                         </div>
                         <div class="item group-col">
-                           @Html.Sitecore().Field("Phone Type Content")
+                            @Html.Sitecore().Field("Phone Type Content")
                         </div>
                     </div>
                     <div class="additional-field-action">
@@ -72,10 +44,7 @@
                         <button type="submit">@Html.Sitecore().Field("Save Button Text")</button>
                     </div>
                 </footer>
-            </article>
-        </form>
+            </form>
+        </article>
     </section>
-    <aside>
-        @Html.Sitecore().Placeholder("sidebar")
-    </aside>
 </section>
