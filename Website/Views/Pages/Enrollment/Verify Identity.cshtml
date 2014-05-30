@@ -1,4 +1,4 @@
-﻿<div id="verify-identity" class="enrollment-section accent-darkgreen" ng-controller="EnrollmentVerifyIdentityCtrl">
+﻿<div id="{{section.id}}" class="enrollment-section accent-darkgreen" ng-switch-when="verifyIdentity" ng-show="section.isVisible" ng-controller="EnrollmentVerifyIdentityCtrl">
     <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper">
             <h1>
@@ -9,15 +9,7 @@
     </div>
     <div class="wrapper layout cols-2">
         <aside class="left">
-            <nav>
-                <ul>
-                    <li class="completed"><a href="#lets-get-started">Let's Get Started</a></li>
-                    <li class="completed"><a href="#choose-your-plan">Choose Your Plan</a></li>
-                    <li class="completed"><a href="#setup-your-account">Setup Your Account</a></li>
-                    <li class="active"><a href="#verify-identity">Verify Identity</a></li>
-                    <li><a href="#add-payment-information">Add Payment Information</a></li>
-                </ul>
-            </nav>
+            <div ng-include ng-if="true" src="'enrollment-nav-template'"></div>
         </aside>
         <section>
             <h1>Verify Your <span>Identity</span></h1>
@@ -74,105 +66,7 @@
             </div>
         </section>
         <aside>
-            <article class="cart">
-                <header>
-                    <div class="cart-items">
-                        <i class="icon-cart"></i>
-                        <div class="item-num">2</div>
-                    </div>
-                    <h1>Your Cart</h1>
-                </header>
-                <div class="body">
-                    <div class="box">
-                        <div class="cart-item">
-                            <div class="delete">
-                                <i class="icon-delete"></i>
-                            </div>
-                            <div class="description">
-                                <h2>24-Month Fixed Rate</h2>
-                                <a href="">Change Plan</a>
-                            </div>
-                            <div class="rate">
-                                7.18&cent;
-                                <span>per kWh</span>
-                            </div>
-                        </div>
-                        <div class="cart-item">
-                            <div class="description">
-                                <h2>Installation Fee</h2>
-                            </div>
-                            <div class="rate">
-                                $10.35
-                            </div>
-                        </div>
-                        <hr />
-                        <div class="cart-item">
-                            <div class="delete">
-                                <i class="icon-delete"></i>
-                            </div>
-                            <div class="description">
-                                <h2>Stream Smart Themostat</h2>
-                            </div>
-                            <div class="rate">
-                                $14.95
-                                <span>per month</span>
-                            </div>
-                        </div>
-                        <address>
-                            <h3>Service Address</h3>
-                            123 Main Street, Dallas, TX 75001<br />
-                            <a href="">Edit Address</a>
-                        </address>
-                    </div>
-                    <div class="box">
-                        <div class="cart-item">
-                            <div class="delete">
-                                <i class="icon-delete"></i>
-                            </div>
-                            <div class="description">
-                                <h2>3 Month Fixed Rate</h2>
-                                <a href="">Change Plan</a>
-                            </div>
-                            <div class="rate">
-                                7.18&cent;
-                                <span>per kWh</span>
-                            </div>
-                        </div>
-                        <address>
-                            <h3>Service Address</h3>
-                            456 Center Street Dallas, TX 75001<br />
-                            <a href="">Edit Address</a>
-                        </address>
-                    </div>
-                    <div class="box">
-                        <div class="cart-item">
-                            <div class="delete">
-                                <i class="icon-delete"></i>
-                            </div>
-                            <div class="description">
-                                <h2>Stream Tech Support</h2>
-                                <a href="">Change Plan</a>
-                            </div>
-                            <div class="rate">
-                                $14.95
-                                <span>per month</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="box time">
-                        <i class="icon-clock"></i>
-                        <p>It will take approximately <strong>3</strong> more minutes to complete your order.
-                    </div>
-                    <p>Here's some documents you'll need to complete your order:</p>
-                    <ul class="info">
-                        <li><i class="icon-home"></i> Your Service Address</li>
-                        <li><i class="icon-bill"></i> Your <a href="">Bill Account Number</a></li>
-                        <li><i class="icon-utility-provider"></i> Your <a href="">Utility Provider</a></li>
-                        <li><i class="icon-ssn"></i> Your Social Security Number</li>
-                        <li><i class="icon-drivers-license"></i> Your Driver's License Number</li>
-                    </ul>
-                </div>
-            </article>
+            <div ng-include ng-if="true" src="'cart-template'"></div>
         </aside>
     </div>
 </div>

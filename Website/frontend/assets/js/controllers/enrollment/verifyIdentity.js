@@ -12,7 +12,7 @@ ngApp.controller('EnrollmentVerifyIdentityCtrl', ['$scope', '$rootScope', 'enrol
 
         var verifyIdentityPromise = enrollmentService.setVerifyIdentity();
 
-        serviceIverifyIdentityPromisenformationPromise.then(function (data) {
+        verifyIdentityPromise.then(function (data) {
             console.log(data);
             $scope.serverData = data;
         }, function (data) {
