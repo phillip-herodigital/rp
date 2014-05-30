@@ -241,7 +241,6 @@
                             <label for="AddressLine1">@Html.Sitecore().Field("Service Address Text")</label>
                             <input type="text" placeholder="@Html.Sitecore().Field("Service Address Placeholder")" @Html.ValidationAttributes(m => m.AddressLine1) data-val-if="address" ng-model="address" />
                             @Html.ValidationMessageFor(model => model.AddressLine1)
-                            {{address}}
                         </div>
                         <div class="group">
                             <div class="item" @Html.ValidationErrorClass(model => model.City)>
@@ -271,7 +270,6 @@
                             <label for="ContactInfo.PrimaryPhone.Number">@Html.Sitecore().Field("Phone Text")</label>
                             <input type="text" placeholder="@Html.Sitecore().Field("Phone Placeholder")" @Html.ValidationAttributes(m => m.ContactPhone.Number) data-val-if="phone" ng-model="phone" />
                             @Html.ValidationMessageFor(model => model.ContactPhone.Number)
-                            {{phone}}
                         </div>
                         <div class="item" @Html.ValidationErrorClass(model => model.ContactEmail.Address)>
                             <label for="ContactInfo.Email.Address">@Html.Sitecore().Field("Email Text")</label>
