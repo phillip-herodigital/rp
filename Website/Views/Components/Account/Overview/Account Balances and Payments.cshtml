@@ -1,0 +1,52 @@
+﻿<article class="balances-payments" ng-controller="AccountBalances">
+    <header>
+        <h2>@Html.Sitecore().Field("Account Balances and Payments Text")</h2>
+    </header>
+    <div class="content" @*loading-indicator*@>
+        <div class="account-selector">
+            <form>
+                <div class="group">
+                    <div class="item">
+                        <label>@Html.Sitecore().Field("Account Number Text")</label>
+                        <select ng-model="selectedAccount.account" ng-options="item.accountNumber for item in accounts">
+                            <option value="">All</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="grid border">
+            <div class="col">
+                <h4>@Html.Sitecore().Field("Account Balance Text")</h4>
+                <dl class="clearfix">
+                    <dt>@Html.Sitecore().Field("Account Number Text")</dt>
+                    <dd>{{ selectedAccount.account.accountNumber || "All" }}</dd>
+                    <dt>@Html.Sitecore().Field("Current Amount Due Text")</dt>
+                    <dd>{{ paymentForm.amount | currency }}</dd>
+                    <dt>@Html.Sitecore().Field("Due Date Text")</dt>
+                    <dd>{{ selectedAccount.account.dueDate || paymentForm.dueDate }}</dd>
+                </dl>
+            </div>
+            <div class="col payment">
+                <h4>@Html.Sitecore().Field("Make Payment Text")</h4>
+                <form>
+                    <div class="group">
+                        <div class="item">
+                            <label for="Amount">@Html.Sitecore().Field("Amount Text")</label>
+                            <input type="text" id="amount" ng-model="paymentForm.amount" />
+                        </div>
+                        <div class="item">
+                            <label for="Payment method">@Html.Sitecore().Field("Payment Method Text")</label>
+                            <select ng-model="paymentForm.paymentMethod" ng-options="item.id as item.name for item in paymentMethods">
+                                <option value="">Select</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="buttons">
+                        <button type="submit" class="primary" ng-click="submit()">@Html.Sitecore().Field("Continue Button Text")</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</article>
