@@ -56,6 +56,13 @@ namespace StreamEnergy.Extensions
             return Json.Stringify(target);
         }
 
+        public static IHtmlString For<T, U>(this HtmlHelper<T> html, Expression<Func<T, U>> model)
+        {
+            var temp = model.RemoveLambdaBody().RemoveCast();
+            var propertyChain = StreamEnergy.CompositeValidationAttribute.UnrollPropertyChain(temp as MemberExpression);
+            return html.Raw(StreamEnergy.CompositeValidationAttribute.GetPathedName(propertyChain));
+        }
+
         public static IHtmlString ValidationAttributes<T, U>(this HtmlHelper<T> html, Expression<Func<T, U>> model, Item translateFrom = null)
         {
             var temp = model.RemoveLambdaBody().RemoveCast();
@@ -73,6 +80,7 @@ namespace StreamEnergy.Extensions
             var dictionary = new Dictionary<string, object>();
             UnobtrusiveValidationAttributesGenerator.GetValidationAttributes(clientRules, dictionary);
             dictionary["name"] = StreamEnergy.CompositeValidationAttribute.GetPathedName(propertyChain);
+            dictionary["id"] = StreamEnergy.CompositeValidationAttribute.GetPathedName(propertyChain);
 
             return html.Raw(string.Join(" ", from attr in dictionary
                                              select attr.Key + "=\"" + attr.Value + "\""));
