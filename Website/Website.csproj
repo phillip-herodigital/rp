@@ -606,7 +606,6 @@
     <Content Include="Views\Pages\Marketing\Services\Renew.cshtml" />
     <Content Include="Views\Pages\Frontend\Elements.cshtml" />
     <Content Include="Views\Pages\Account\Utility Services.cshtml" />
-    <Content Include="Views\Pages\Account\Online Account Information.cshtml" />
     <Content Include="Views\Pages\Account\Account Information.cshtml" />
     <Content Include="Views\Pages\Account\Notifications and Reminders.cshtml" />
     <Content Include="Views\Pages\Account\Enrolled Accounts.cshtml" />
@@ -623,6 +622,8 @@
     <Content Include="Views\Components\Account\Account Selector.cshtml" />
     <Content Include="Views\Components\Account\Your Electricity Plan.cshtml" />
     <Content Include="Views\Components\Account\Your Gas Plan.cshtml" />
+    <Content Include="Views\Components\Account\My Online Account Information.cshtml" />
+    <Content Include="Views\Components\Account\Account Holder Information.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
