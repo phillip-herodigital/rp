@@ -1307,8 +1307,11 @@ article.faq {
 		.panel {
 			@include border-radius(10px);
 			background: #fff;
+            // http://stackoverflow.com/questions/15430675/jquery-slidetoggle-and-css-border-radius-propery-show-wired-in-ie10
+            display: inline-block;
+            width: 100%;
 			p.question {
-				margin: 1em 10px 0 55px;
+				margin: 0 10px 0 55px;
 				a {
 					background-image: url('../i/marketing/collapse.png');
 					background-repeat: no-repeat;
