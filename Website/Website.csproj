@@ -608,21 +608,21 @@
     <Content Include="Views\Components\Account\Sidebar Widgets\Profile Subnav.cshtml" />
     <Content Include="Views\Components\Account\Sidebar Widgets\Promo.cshtml" />
     <Content Include="Views\Components\Account\Two Column Layout.cshtml" />
-    <Content Include="Views\Components\Account\Account Balances and Payments.cshtml" />
-    <Content Include="Views\Components\Account\My Energy Usage.cshtml" />
+    <Content Include="Views\Components\Account\Overview\Account Balances and Payments.cshtml" />
+    <Content Include="Views\Components\Account\Overview\My Energy Usage.cshtml" />
     <Content Include="Views\Components\Account\HTML.cshtml" />
-    <Content Include="Views\Components\Account\Utility Providers.cshtml" />
-    <Content Include="Views\Components\Account\My Invoices.cshtml" />
-    <Content Include="Views\Components\Account\My Payments.cshtml" />
-    <Content Include="Views\Components\Account\Make a Payment.cshtml" />
-    <Content Include="Views\Components\Account\Account Selector.cshtml" />
-    <Content Include="Views\Components\Account\Your Electricity Plan.cshtml" />
-    <Content Include="Views\Components\Account\Your Gas Plan.cshtml" />
-    <Content Include="Views\Components\Account\My Online Account Information.cshtml" />
-    <Content Include="Views\Components\Account\Account Holder Information.cshtml" />
-    <Content Include="Views\Components\Account\Notification Settings.cshtml" />
-    <Content Include="Views\Components\Account\Add New Account.cshtml" />
-    <Content Include="Views\Components\Account\Enrolled Accounts.cshtml" />
+    <Content Include="Views\Components\Account\Overview\Utility Providers.cshtml" />
+    <Content Include="Views\Components\Account\Overview\My Invoices.cshtml" />
+    <Content Include="Views\Components\Account\Overview\My Payments.cshtml" />
+    <Content Include="Views\Components\Account\Overview\Make a Payment.cshtml" />
+    <Content Include="Views\Components\Account\Profile\Account Selector.cshtml" />
+    <Content Include="Views\Components\Account\Utility Services\Your Electricity Plan.cshtml" />
+    <Content Include="Views\Components\Account\Utility Services\Your Gas Plan.cshtml" />
+    <Content Include="Views\Components\Account\Profile\My Online Account Information.cshtml" />
+    <Content Include="Views\Components\Account\Profile\Account Holder Information.cshtml" />
+    <Content Include="Views\Components\Account\Profile\Notification Settings.cshtml" />
+    <Content Include="Views\Components\Account\Profile\Add New Account.cshtml" />
+    <Content Include="Views\Components\Account\Profile\Enrolled Accounts.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
