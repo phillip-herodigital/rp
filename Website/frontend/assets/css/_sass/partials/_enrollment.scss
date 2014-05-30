@@ -1,7 +1,16 @@
 .enrollment-section {
+	article {
+		overflow: visible;
+	}
     .button, button {
         white-space: nowrap;
     }
+	.error {
+		input, select {
+			border-color: #c84545;
+		}
+		color: #c84545;
+	}
     .banner {
         height: 335px;
         background-position: 50%;
@@ -88,6 +97,7 @@
             li {
                 a {
                     position: relative;
+					cursor: default;
                     &::before {
                         color: #bfbfbf;
                         content: ' \25CF';
@@ -99,7 +109,7 @@
                         font-size: 16px;
                     }
                 }
-                &:hover,
+                &.completed:hover,
                 &.active {
                     a {
                         color: #333;
@@ -113,6 +123,7 @@
                 }
                 &.completed {
                     a {
+						cursor: pointer;
                         &::before {
                             color: #36637b;
                         }
@@ -431,6 +442,57 @@
             margin: 0 auto;
         }
     }
+
+	#state-select {
+		width: auto;
+		button {
+			border: 0;
+			@include box-shadow(none);
+			color: #0971ce;
+			text-transform: uppercase;
+			.caret {
+				display: none;
+			}
+		}
+		.icon {
+			background-position: 10px center;
+			background-repeat: no-repeat;
+			padding-left: 40px;
+		}
+		.texas {
+			@include retina-background('texas-icon.png');
+			
+		}
+		.georgia {
+			@include retina-background('georgia-icon.png');
+		}
+		.pennsylvania {
+			@include retina-background('pennsylvania-icon.png');
+		}
+		.maryland {
+			@include retina-background('maryland-icon.png');
+		}
+		.new-jersey {
+			@include retina-background('newjersey-icon.png');
+		}
+		.new-york {
+			@include retina-background('newyork-icon.png');
+		}
+		.washington-dc {
+			@include retina-background('dc-icon.png');
+		}
+		.dropdown-menu {
+			li {
+			}
+		}
+	}
+
+	.cart {
+		i.icon-close {
+			display:none;
+		}
+	}
+
     @each $theme in $themes {
         &.accent-#{map-get($theme, name)} {
             section h1 span {

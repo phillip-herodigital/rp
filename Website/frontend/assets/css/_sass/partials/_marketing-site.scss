@@ -59,6 +59,9 @@ article.photoLockup {
 		overflow: hidden;
 		background-repeat: no-repeat;
 		background-size: cover;
+		.ie8 & {	
+			background-repeat: repeat-y;
+		}
 	}
 	.text {
 		float: right;
@@ -1027,6 +1030,12 @@ article.contact {
 				float: left;
 			}
 		}
+		@include breakpoint(small) {
+			.grid .col {
+				width: 100%;
+				padding-bottom: 20px;
+			}
+		}
 	}
 	div.homelife-services {
 		border-bottom: 3px solid #0073c7;
@@ -1298,8 +1307,11 @@ article.faq {
 		.panel {
 			@include border-radius(10px);
 			background: #fff;
+            // http://stackoverflow.com/questions/15430675/jquery-slidetoggle-and-css-border-radius-propery-show-wired-in-ie10
+            display: inline-block;
+            width: 100%;
 			p.question {
-				margin: 1em 10px 0 55px;
+				margin: 0 10px 0 55px;
 				a {
 					background-image: url('../i/marketing/collapse.png');
 					background-repeat: no-repeat;
@@ -1955,6 +1967,9 @@ article.free-energy.picture-promo {
 
 article.enroll {
 	margin-top: 20px;
+	&.photoLockup {
+		margin-top: 0;
+	}
 	.text {
 		padding: 25px 0;
 		h1 {
@@ -2025,7 +2040,7 @@ article.enroll {
 					font-size: 12px;
 					font-weight: bold;
 					margin-left: 3.5em;
-					padding: 15px 0px;
+					padding: 15px 25px 15px 0px;
 					display: block;
 				}
 			}

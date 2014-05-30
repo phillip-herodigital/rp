@@ -6,10 +6,11 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels
 {
+    [System.Web.Mvc.ModelBinder(typeof(Mvc.IgnoreBlanksModelBinder))]
     public class Phone : ISanitizable
     {
         [Required(ErrorMessage = "Number Required")]
-        [RegularExpression("^[2-9][0-9]{9}$", ErrorMessage = "Number Invalid")]
+        [RegularExpression(@"^\D?([2-9]\d{2})\D?\D?(\d{3})\D?(\d{4})$", ErrorMessage = "Number Invalid")]
         public string Number { get; set; }
 
         void ISanitizable.Sanitize()

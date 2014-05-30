@@ -42,7 +42,7 @@ Bold - font-weight: bold; // Or 700
 */
 
 h1, h2, h3, h4, h5, h6 {
-	font-family: "proxima-nova", Helvetica, Arial, sans-serif;
+	font-family: "proxima-nova-n3", "proxima-nova", Helvetica, Arial, sans-serif; // "proxima-nova-n3" to fix IE8 issue: http://help.typekit.com/customer/portal/articles/6855-Using-multiple-weights-and-styles
 	font-weight: 300;
 	margin: 10px 0;
 }
