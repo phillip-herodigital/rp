@@ -1,0 +1,29 @@
+﻿<section class="layout cols-2 wrapper">
+    <section class="layout cols-1">
+        <article class="plan">
+            <header>
+                <h2>@Html.Sitecore().Field("Your Gas Plan Text")</h2>
+            </header>
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>@Html.Sitecore().Field("Plan Name Text")</th>
+                        <th>@Html.Sitecore().Field("Rate Text")</th>
+                        <th>@Html.Sitecore().Field("Term Text")</th>
+                        <th>@Html.Sitecore().Field("Fees Text")</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th class="vertical"><div class="fixed">Fixed</div></th>
+                        <td><h5><strong>Flex Choice Intro Plan</strong></h5><p class="details"><a href="#">View Details</a></p></td>
+                        <td class="center"><span class="plan-cost">4.98&#162;</span><p>Per CCF</p></td>
+                        <td class="center"><i class="icon-month-to-month"></i><p>Month-to-Month</p></td>
+                        <td class="center"><span class="plan-cost">$0</span> <p>Termination Fee</p></td>
+                    </tr>
+                </tbody>
+            </table>
+        </article>
+    </section>
+</section>

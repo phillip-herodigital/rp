@@ -1,0 +1,16 @@
+﻿@{
+    var currentID = Sitecore.Context.Item.ID;
+    var onlineAccount = ((Sitecore.Data.Fields.LinkField)Html.Sitecore().CurrentItem.Fields["Online Account Information Link"]);
+    var accountInfo = ((Sitecore.Data.Fields.LinkField)Html.Sitecore().CurrentItem.Fields["Account Information Link"]);
+    var notifications = ((Sitecore.Data.Fields.LinkField)Html.Sitecore().CurrentItem.Fields["Notifications and Reminders Link"]);
+    var enrolledAccounts = ((Sitecore.Data.Fields.LinkField)Html.Sitecore().CurrentItem.Fields["Enrolled Accounts Link"]);
+}
+
+<article class="subnav">
+    <ul>
+        <li @(currentID == onlineAccount.TargetItem.ID ? "class=active" : "")>@Html.Sitecore().Field("Online Account Information Link")</li>
+        <li @(currentID == accountInfo.TargetItem.ID ? "class=active" : "")>@Html.Sitecore().Field("Account Information Link")</li>
+        <li @(currentID == notifications.TargetItem.ID ? "class=active" : "")>@Html.Sitecore().Field("Notifications and Reminders Link")</li>
+        <li @(currentID == enrolledAccounts.TargetItem.ID ? "class=active" : "")>@Html.Sitecore().Field("Enrolled Accounts Link")</li>
+    </ul>
+</article>

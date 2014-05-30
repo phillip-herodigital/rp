@@ -36,6 +36,7 @@ namespace StreamEnergy.MyStream.Controllers
         }
 
         [HttpPost]
+        [Mvc.ErrorSitecoreTranslation]
         public ActionResult ContactIndex(StreamEnergy.MyStream.Models.Marketing.Contact contact)
         {
             // Validate form data

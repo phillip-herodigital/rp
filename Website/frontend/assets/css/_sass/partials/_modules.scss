@@ -628,7 +628,7 @@ aside {
 			line-height: 1em;
 			margin: 0;
 		}
-		button {
+		button, .button {
 			width: 100%;
 			margin-top: 15px;
 		}
@@ -656,6 +656,9 @@ aside {
 				padding: 20px 15px;
 				border-bottom: 1px solid #ddd;
 				text-transform: uppercase;
+				&.active a {		
+					color: #333;
+				}
 			}
 		}
 	}

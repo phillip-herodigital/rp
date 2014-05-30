@@ -188,6 +188,7 @@
     <Compile Include="Mvc\ServerUtility.cs" />
     <Compile Include="Mvc\SessionControllerHandler.cs" />
     <Compile Include="Mvc\SessionRouteHandler.cs" />
+    <Compile Include="Mvc\ErrorSitecoreTranslationAttribute.cs" />
     <Compile Include="Mvc\Sitecore\ControllerRenderer.cs" />
     <Compile Include="Mvc\Sitecore\ControllerRunner.cs" />
     <Compile Include="Mvc\Sitecore\GetControllerRenderer.cs" />

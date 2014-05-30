@@ -161,9 +161,11 @@ article.photoLockup {
 		.text {
 			float: none !important;
 			width: 100%;
+			padding: 40px 0;
 			.inner {
 				float: none !important;
 				max-width: none;
+				padding: 0 20px;
 			}
 		}
 	}
@@ -800,11 +802,15 @@ article.careers {
 			background-image: url("../i/marketing/expand.png");
 		}
 	}
+	@include breakpoint(small) {
+		padding: 0 20px;
+	}
 }
 
 article.press {
 	hr {
-		border:	2px solid #f0f0f0;
+		border: none;
+		border-top: 3px solid #eee;
 	}
 	.press-intro {
 		text-align: center;
@@ -816,8 +822,8 @@ article.press {
 		}
 	}
 	.post {
-		margin-top: 60px;
-		padding-bottom: 40px;
+		margin-top: 40px;
+		padding-bottom: 30px;
 		border-bottom: 3px solid #f0f0f0;
 		h2,
 		p.date {
@@ -826,6 +832,9 @@ article.press {
 		&:last-child {
 			border-bottom: none;
 		}
+	}
+	@include breakpoint(small) {
+		padding: 0 20px;
 	}
 }
 
@@ -842,6 +851,11 @@ article.blog {
 			border-bottom: none;
 		}
 	}
+	hr {
+		border: none;
+		border-top: 3px solid #eee;
+		margin: 40px 0 30px;
+	}	
 }
  
 article.blog-list {
@@ -870,6 +884,7 @@ article.states-pay {
 
 article.pay {
 	padding: 20px 0;
+	margin-bottom: 0;
 	h1 {
 		color: #0971ce;
 	}
@@ -955,6 +970,9 @@ article.pay {
 	hr {
 		border:	2px solid #f0f0f0;
 	}
+	@include breakpoint(small-medium) {
+		padding: 20px;
+	}
 }
 
 article.contact {
@@ -980,7 +998,8 @@ article.contact {
         }
 	}
 	div.wrapper {
-		padding: 40px 0 30px 0;
+		padding-top: 40px;
+		padding-bottom: 30px;
 	}
 	div.intro {
 		font-size: 24px;
@@ -1104,9 +1123,6 @@ article.contact {
 		border-top: 3px solid #ffa409;
 		padding-bottom: 20px;
 		position: relative;
-		@include breakpoint(small) {
-			padding-top: 30px;
-		}
 		.request-or {
 			background-image: url('../i/marketing/contact-or.png');
 			background-repeat: no-repeat;
@@ -1160,7 +1176,7 @@ article.contact {
             select {
                 border-color: #fcd22b;
             }
-            span.field-validation-valid {
+            span.field-validation-error {
                 color: #fcd22b;
             }
         }
@@ -1191,6 +1207,7 @@ article.contact {
 }
 
 article.contact-state {
+	margin-bottom: 0;
 	.customer-service {
 		margin: 25px 0;
 		@include breakpoint(small) {
@@ -1259,7 +1276,6 @@ article.contact-state {
 		}
 	}
 	.emergency {
-		margin-bottom: 30px;
 		position: relative;
 		@include breakpoint(small) {
 			width: 100%;
@@ -1281,7 +1297,6 @@ article.contact-state {
 			}
 			.company-contact {
 				width: 80%;
-				margin-bottom: 40px;
 				h2 {
 					text-transform: none;
 				}
@@ -1297,6 +1312,9 @@ article.contact-state {
 				}
 			}
 		}
+	}
+	@include breakpoint(small) {
+		padding: 0 20px;
 	}
 }
 
@@ -1345,9 +1363,7 @@ article.faq {
 				}
 				.answer {
 					margin-left: 55px;	
-					p {
-						padding-right: 45px;
-					}
+					padding-right: 45px;
 				}
 			}
 		}
@@ -1827,6 +1843,7 @@ article.commercial-quote {
 		}
 		.inner {
 			color: #fff;
+			padding-left: 20px;
 			h2 {
 				color: #fff;
 				font-size: 24px;
@@ -1877,7 +1894,7 @@ article.commercial-quote {
         select {
             border-color: #fcd22b;
         }
-        span.field-validation-valid {
+        span.field-validation-error {
             color: #fcd22b;
         }
     }
@@ -1936,6 +1953,14 @@ article.free-energy {
 			}
 		}
 	}
+	&.free-energy-access {
+		img { float: none; }
+	}
+}
+
+article.free-energy-enroll {
+	margin-bottom: 0;
+	padding: 30px 20px 0;
 }
 
 article.free-energy.picture-promo {
