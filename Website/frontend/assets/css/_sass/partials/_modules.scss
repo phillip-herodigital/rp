@@ -226,6 +226,14 @@ article.plain {
 div.banner + article.message {
 	margin-top: -20px;
 }
+
+div.banner.account {
+	border-bottom: 5px solid #259afd;
+	@include breakpoint(small) {
+		display: none;
+	}
+}
+
 article.message {
 	@extend .plain;
 	margin-bottom: 20px;
@@ -561,6 +569,9 @@ article.make-payment {
 	div.add-account p {
 		text-transform: uppercase;
 		padding: 15px 0 0 0;
+	}
+	div.buttons {
+		padding: 15px;
 	}
 }
 article.payment-history {

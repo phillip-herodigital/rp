@@ -11,35 +11,34 @@
                     <li><a href="#">@Html.Sitecore().Field("Status Source Help Text")</a></li>
                 </ul>
             </div>
-            <div class="account-selector">
-                <form>
-                    <div class="group">
-                        <div class="item">
-                            <label>@Html.Sitecore().Field("Service Type Text")</label>
-                            <select>
-                                <option value="All">All</option>
-                                <option value="">Option 2</option>
-                            </select>
+            <div class="content" loading-indicator>
+                <div class="filters">
+                    <form>
+                        <div class="group">
+                            <div class="item">
+                                <label>@Html.Sitecore().Field("Service Type Text")</label>
+                                <select ng-model="filters.serviceType" ng-options="item.value as item.name for item in filtersList.serviceType">
+                                    <option value="">All</option>
+                                </select>
+                            </div>
+                            <div class="item">
+                                <label>@Html.Sitecore().Field("Account Text")</label>
+                                <select ng-model="filters.accountNumber" ng-options="item.value as item.name for item in filtersList.accountNumber">
+                                    <option value="">All</option>
+                                </select>
+                            </div>
+                            <div class="item">
+                                <label>@Html.Sitecore().Field("Status Text")</label>
+                                <select ng-model="filters.isPaid" ng-options="item.value as item.name for item in filtersList.isPaid">
+                                    <option value="">All</option>
+                                </select>
+                            </div>
+                            <div class="actions" ng-show="isFiltered()">
+                                <p><a href="" ng-click="resetFilters()">@Html.Sitecore().Field("Reset Filters Text")</a></p>
+                            </div>
                         </div>
-                        <div class="item">
-                            <label>@Html.Sitecore().Field("Account Text")</label>
-                            <select>
-                                <option value="All">All</option>
-                                <option value="">Option 2</option>
-                            </select>
-                        </div>
-                        <div class="item">
-                            <label>@Html.Sitecore().Field("Status Text")</label>
-                            <select>
-                                <option value="All">All</option>
-                                <option value="">Option 2</option>
-                            </select>
-                        </div>
-                        <div class="actions">
-                            <p><a href="#">@Html.Sitecore().Field("Reset Filters Text")</a></p>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
             <div class="stretch">
                 <table>
