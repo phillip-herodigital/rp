@@ -97,12 +97,13 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
         var serviceInformationPromise = enrollmentService.setServiceInformation(data);
 
         serviceInformationPromise.then(function (data) {
-            $scope.serverData = data;
+            angular.copy(data, $scope.serverData);
 
             $scope.extraFields.isNewService = 0;
             $scope.extraFields.serviceAddress = null;
 
-            console.log(data);
+            $scope.activateSections();
+
         }, function (data) {
             // error response
             $rootScope.$broadcast('connectionFailure');

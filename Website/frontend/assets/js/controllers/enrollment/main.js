@@ -45,6 +45,26 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', 'enroll
     ];
 
     /**
+    * Watch Server Data
+    */
+    $scope.$watch('serverData', function (oldValue, newValue) {
+        console.log('server data change');
+        $scope.activateSections();
+    });
+
+    /**
+    * Activate Sections
+    */
+    $scope.activateSections = function () {
+        angular.forEach($scope.sections, function (value) {
+            if (typeof $scope.serverData.locationServices != 'undefined') {
+                if (value.id == 'serviceInformation' || value.id == 'planSelection')
+                value.isVisible = true;
+            }
+        });
+    };
+
+    /**
     * Set Server Data
     */
     $scope.setServerData = function () {
