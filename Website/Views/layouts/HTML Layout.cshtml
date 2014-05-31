@@ -40,9 +40,10 @@
         <div class="page-content">
             @Html.Sitecore().Placeholder("header")
 
-            @if (!string.IsNullOrEmpty(Html.Sitecore().Field("Banner Image").ToString())) 
+            @if (!string.IsNullOrEmpty(Html.Sitecore().Field("Banner Image").ToString()))
             {
-                <div class="banner @(!string.IsNullOrEmpty(Html.Sitecore().Field("Banner CSS Class").ToString()) ? Html.Sitecore().CurrentItem.Fields["Banner CSS Class"].Value : "marketing")" style="@Html.AsBackgroundStyle("Banner Image")">
+                var bannerCssClassField = Html.Sitecore().CurrentItem.Fields["Banner CSS Class"];
+                <div class="banner @(bannerCssClassField != null ? bannerCssClassField.Value : "marketing")" style="@Html.AsBackgroundStyle("Banner Image")">
                     @if (!string.IsNullOrEmpty(Html.Sitecore().Field("Banner Text").ToString()))
                     {
                         <div class="inner">
