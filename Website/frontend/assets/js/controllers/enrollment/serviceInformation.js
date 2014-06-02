@@ -102,12 +102,7 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
             $scope.extraFields.isNewService = 0;
             $scope.extraFields.serviceAddress = null;
 
-            $scope.activateSections();
-
-            $scope.currentSection = 'planSelection';
-
-            $location.hash('planSelection');
-            $anchorScroll();
+            $scope.activateSections('planSelection');
 
         }, function (data) {
             // error response

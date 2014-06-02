@@ -46,14 +46,21 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', 'enroll
 
     /**
     * Activate Sections
+    *
+    * @param string location
     */
-    $scope.activateSections = function () {
+    $scope.activateSections = function (location) {
         angular.forEach($scope.sections, function (value) {
             if (typeof $scope.serverData.locationServices != 'undefined') {
                 if (value.id == 'serviceInformation' || value.id == 'planSelection')
                 value.isVisible = true;
             }
         });
+
+        $scope.currentSection = location;
+
+        $location.hash(location);
+        $anchorScroll();
     };
 
     /**
