@@ -558,7 +558,7 @@
     <Content Include="App_Config\Include\Sitecore.Speak.config" />
     <Content Include="App_Config\Include\Sitecore.Speak.ItemWebApi.config" />
     <Content Include="App_Config\Include\Sitecore.Speak.Mvc.config" />
-	<Content Include="Views\web.config" />
+  <Content Include="Views\web.config" />
     <Content Include="Views\**\*.cshtml" />
     <Content Include="App_Config\Include\StreamEnergy.Initialization.config">
       <SubType>Designer</SubType>
@@ -570,38 +570,6 @@
     <None Include="Properties\PublishProfiles\Azure - Production.pubxml" />
     <None Include="Properties\PublishProfiles\Azure - Production Sitecore.pubxml" />
     <None Include="Properties\PublishProfiles\Azure - VM - my-stream-prod.pubxml" />
-    <Content Include="Views\Pages\Marketing\Blog\Latest Blog Post Horizontal.cshtml" />
-    <Content Include="Views\Pages\Marketing\Services\Enroll.cshtml" />
-    <Content Include="Views\Pages\Marketing\Services\Renew.cshtml" />
-    <Content Include="Views\Pages\Frontend\Elements.cshtml" />
-    <Content Include="Views\Pages\Authentication\Create Account - Step 1.cshtml" />
-    <Content Include="Views\Pages\Authentication\Change Password.cshtml" />
-    <Content Include="Views\Pages\Authentication\Create Account - Step 2.cshtml" />
-    <Content Include="Views\Pages\Authentication\Forgot Password - Error.cshtml" />
-    <Content Include="Views\Pages\Authentication\Forgot Password - Step 1.cshtml" />
-    <Content Include="Views\Pages\Authentication\Forgot Password - Step 2.cshtml" />
-    <Content Include="Views\Pages\Authentication\Forgot Username - Confirm.cshtml" />
-    <Content Include="Views\Pages\Authentication\Forgot Username - Error.cshtml" />
-    <Content Include="Views\Pages\Authentication\Forgot Username.cshtml" />
-    <Content Include="Views\Pages\Authentication\My Stream Account.cshtml" />
-    <Content Include="Views\Components\Account\Sidebar Widgets\Profile Subnav.cshtml" />
-    <Content Include="Views\Components\Account\Sidebar Widgets\Promo.cshtml" />
-    <Content Include="Views\Components\Account\Two Column Layout.cshtml" />
-    <Content Include="Views\Components\Account\Overview\Account Balances and Payments.cshtml" />
-    <Content Include="Views\Components\Account\Overview\My Energy Usage.cshtml" />
-    <Content Include="Views\Components\Account\HTML.cshtml" />
-    <Content Include="Views\Components\Account\Overview\Utility Providers.cshtml" />
-    <Content Include="Views\Components\Account\Overview\My Invoices.cshtml" />
-    <Content Include="Views\Components\Account\Overview\My Payments.cshtml" />
-    <Content Include="Views\Components\Account\Overview\Make a Payment.cshtml" />
-    <Content Include="Views\Components\Account\Profile\Account Selector.cshtml" />
-    <Content Include="Views\Components\Account\Utility Services\Your Electricity Plan.cshtml" />
-    <Content Include="Views\Components\Account\Utility Services\Your Gas Plan.cshtml" />
-    <Content Include="Views\Components\Account\Profile\My Online Account Information.cshtml" />
-    <Content Include="Views\Components\Account\Profile\Account Holder Information.cshtml" />
-    <Content Include="Views\Components\Account\Profile\Notification Settings.cshtml" />
-    <Content Include="Views\Components\Account\Profile\Add New Account.cshtml" />
-    <Content Include="Views\Components\Account\Profile\Enrolled Accounts.cshtml" />
     <None Include="Properties\PublishProfiles\my-stream__Staging.pubxml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
