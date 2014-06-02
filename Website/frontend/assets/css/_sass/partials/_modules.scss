@@ -595,6 +595,7 @@ article.auth-forgot-password {
 	}
 }
 article.auth {
+	margin: 20px 0;
 	.social-login {
 		@include layout-list;
 		text-align: center;

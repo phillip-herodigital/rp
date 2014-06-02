@@ -1,0 +1,22 @@
+<article class="grey-box auth auth-forgot-username">
+	<header>
+		<h2>@Html.Sitecore().Field("Header Text")</h2>
+	</header>
+	<form>
+		<div class="content">
+			@Html.Sitecore().Field("Body Text")
+			<div class="alert alert-error">
+				@Html.Sitecore().Field("Error Text")
+			</div>
+			<div class="item" float-label>
+				<label for="email">@Html.Sitecore().Field("Email Label"):</label>
+				<input id="email" type="email">
+			</div>							
+		</div>
+		<footer>
+			<div class="buttons">
+				<button type="submit">@Html.Sitecore().Field("Send Username Button Text")</button>
+			</div>
+		</footer>
+	</form>
+</article>
