@@ -76,10 +76,10 @@ Global
 		{FB926363-ED56-4B04-8837-CACBE8F9F222}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB926363-ED56-4B04-8837-CACBE8F9F222}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB926363-ED56-4B04-8837-CACBE8F9F222}.Release|Any CPU.Build.0 = Release|Any CPU
-		{79779D13-7D5E-4190-BA72-5302244C8165}.Azure-Production Sitecore|Any CPU.ActiveCfg = Azure-Production Sitecore|Any CPU
-		{79779D13-7D5E-4190-BA72-5302244C8165}.Azure-Production Sitecore|Any CPU.Build.0 = Azure-Production Sitecore|Any CPU
-		{79779D13-7D5E-4190-BA72-5302244C8165}.Azure-Production|Any CPU.ActiveCfg = Azure-Production|Any CPU
-		{79779D13-7D5E-4190-BA72-5302244C8165}.Azure-Production|Any CPU.Build.0 = Azure-Production|Any CPU
+		{79779D13-7D5E-4190-BA72-5302244C8165}.Azure-Production Sitecore|Any CPU.ActiveCfg = Release|Any CPU
+		{79779D13-7D5E-4190-BA72-5302244C8165}.Azure-Production Sitecore|Any CPU.Build.0 = Release|Any CPU
+		{79779D13-7D5E-4190-BA72-5302244C8165}.Azure-Production|Any CPU.ActiveCfg = Release|Any CPU
+		{79779D13-7D5E-4190-BA72-5302244C8165}.Azure-Production|Any CPU.Build.0 = Release|Any CPU
 		{79779D13-7D5E-4190-BA72-5302244C8165}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{79779D13-7D5E-4190-BA72-5302244C8165}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79779D13-7D5E-4190-BA72-5302244C8165}.Release|Any CPU.ActiveCfg = Release|Any CPU

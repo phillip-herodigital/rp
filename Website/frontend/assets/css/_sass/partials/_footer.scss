@@ -21,16 +21,17 @@
 			}
 			.col {
 				padding: 0 20px;
-				@include breakpoint(small-medium) {
-					padding: 0 10px;
-				}
 				@include breakpoint(small) {
+					padding: 0;
 					display: block;
 					width: 100%;
 					&:not(:last-child) {
 						border-bottom: 1px solid #1a86e7;
 					}
 				}
+				@include breakpoint(medium) {
+					padding: 0 10px;
+				}				
 				@include breakpoint(medium-large) {
 					&:nth-child(1),
 					&:nth-child(3) {
@@ -104,10 +105,14 @@
         color: #b4b4b4;
 		font-size: 10px;
         margin-bottom: -2em;
-        padding: 0;
+        padding-top: 20px;
+        @include breakpoint(small) {
+        	padding: 20px 20px 0 20px;
+        }
     }
 	div.copyright {
-		padding: 20px 0;
+		padding-top: 20px;
+		padding-bottom: 20px;
 		p {
 			float: left;
 			color: #b4b4b4;
@@ -116,6 +121,9 @@
 		ul {
 			@include inline-block-list();
 			float: right;
+		}
+		@include breakpoint(small) {
+			padding: 20px;
 		}
 	}
 

@@ -32,9 +32,7 @@ namespace StreamEnergy.Pipelines
 
         private void SetupMvcValidations()
         {
-
             DataAnnotationsModelValidatorProvider.RegisterAdapter(typeof(RequireValueAttribute), typeof(RequireValueAttributeAdapter));
-            //modelValidatorProvider
         }
     }
 }

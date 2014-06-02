@@ -1,0 +1,13 @@
+﻿@{
+    var classes = new List<string>();
+
+    var sc = Html.Sitecore();
+    classes.Add(sc.LookupItem("Background Color").SafeFieldValue("Css Class").Prefix("bg-"));
+    classes.Add(sc.LookupItem("Accent Color").SafeFieldValue("Css Class").Prefix("accent-"));
+    classes.Add(sc.CurrentItem["Custom CSS Class"]);
+}
+<section class="layout cols-1">
+    <article class="account plain @string.Join(" ", classes)">
+        @Html.Sitecore().Field("Module HTML")
+    </article>
+</section>

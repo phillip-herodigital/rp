@@ -36,6 +36,7 @@ namespace StreamEnergy.MyStream.Controllers
         }
 
         [HttpPost]
+        [Mvc.ErrorSitecoreTranslation]
         public ActionResult ContactIndex(StreamEnergy.MyStream.Models.Marketing.Contact contact)
         {
             // Validate form data
@@ -48,7 +49,7 @@ namespace StreamEnergy.MyStream.Controllers
                 var City = contact.City;
                 var StateAbbreviation = contact.StateAbbreviation;
                 var PostalCode5 = contact.PostalCode5;
-                var Phone = contact.ContactPhone.Number;
+                var Phone = contact.ContactPhone != null ? contact.ContactPhone.Number : null;
                 var Email = contact.ContactEmail.Address;
                 var Reason = contact.Reason;
                 var Comment = contact.Comment;

@@ -1,0 +1,65 @@
+﻿
+<section class="layout cols-2 wrapper">
+    <section class="layout cols-1">
+        <article class="grey-box make-payment">
+            <header>
+                <h2>@Html.Sitecore().Field("Make Payment Text")</h2>
+            </header>
+            <div class="content" loading-indicator>
+                <div class="stretch payment-account">
+                    <form>
+                        <div class="group">
+                            <div class="item">
+                                <label>@Html.Sitecore().Field("Account Number Text")</label>
+                                <select>
+                                    <option value="Please choose">1234567890</option>
+                                    <option value="Option 1">Option 1</option>
+                                    <option value="Option 2">Option 2</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                    @Html.Sitecore().Field("Account Number Note")
+                </div>
+                <div class="stretch payment-details">
+                    <p>@Html.Sitecore().Field("Current Balance Text") <strong>$123.45</strong></p>
+                    <form>
+                        <div class="group date-amount">
+                            <div class="item">
+                                <label for="Payment method">@Html.Sitecore().Field("Payment Date Text")</label>
+                                <select>
+                                    <option value="Please choose">Select</option>
+                                    <option value="payment1">Payment Method 1</option>
+                                    <option value="payment2">Payment Method 2</option>
+                                </select>
+                            </div>
+                            <div class="item dollars">
+                                <label for="Amount">@Html.Sitecore().Field("Payment Amount Text")</label>
+                                <input type="text" id="amount">
+                            </div>
+                        </div>
+                        <div class="group">
+                            <div class="item">
+                                <label for="Payment method">@Html.Sitecore().Field("Payment Account Text")</label>
+                                <select>
+                                    <option value="Please choose">Select Payment Account</option>
+                                    <option value="payment1">Payment Method 1</option>
+                                    <option value="payment2">Payment Method 2</option>
+                                </select>
+                            </div>
+                            <div class="item add-account">
+                                <p><a href="#">@Html.Sitecore().Field("Add Account Text")</a></p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <form>
+                <div class="buttons">
+                    <button type="submit">@Html.Sitecore().Field("Continue Button Text")</button>
+                    <button type="submit" class="secondary">@Html.Sitecore().Field("Back Button Text")</button>
+                </div>
+            </form>
+        </article>
+    </section>
+</section>
