@@ -46,8 +46,19 @@
         <div class="page-content">
             @Html.Sitecore().Placeholder("header")
 
-            @if (!string.IsNullOrEmpty(Html.Sitecore().Field("Banner Image").ToString())) {
-            <div class="banner marketing" style="@Html.AsBackgroundStyle("Banner Image")"></div>
+            @if (!string.IsNullOrEmpty(Html.Sitecore().Field("Banner Image").ToString()))
+            {
+                var bannerCssClassField = Html.Sitecore().CurrentItem.Fields["Banner CSS Class"];
+                <div class="banner @(bannerCssClassField != null ? bannerCssClassField.Value : "marketing")" style="@Html.AsBackgroundStyle("Banner Image")">
+                    @if (!string.IsNullOrEmpty(Html.Sitecore().Field("Banner Text").ToString()))
+                    {
+                        <div class="inner">
+                            <div class="wrapper">
+                                @Html.Sitecore().Field("Banner Text")
+                            </div>
+                        </div>
+                    }
+                </div>
             }
             <section class="layout cols-1">
 
