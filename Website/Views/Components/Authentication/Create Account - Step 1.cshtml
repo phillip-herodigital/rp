@@ -1,4 +1,4 @@
-﻿<article class="grey-box auth auth-create-account">
+﻿<article class="grey-box auth auth-create-account" ng-show="activeState == 'step1'">
 	<header>
 		<h2>@Html.Sitecore().Field("Header Text")</h2>
 	</header>
@@ -8,19 +8,19 @@
 			<div class="alert alert-error">
 				@Html.Sitecore().Field("Error Text")
 			</div>
-			<div class="item" float-label>
+			<div class="item">
 				<label for="account-number">@Html.Sitecore().Field("Account Label")</label>
 				<input id="account-number" type="text">
 				<span class="help-text">@Html.Sitecore().Field("Account Help Text")</span>
 			</div>							
-			<div class="item" float-label>
+			<div class="item">
 				<label for="last-ssn">@Html.Sitecore().Field("SSN Label")</label>
 				<input id="last-ssn" type="text">
 			</div>
 		</div>
 		<footer>
 			<div class="buttons">
-				<button type="submit">@Html.Sitecore().Field("Continue Button Text")</button>
+				<button type="submit" ng-click="continue()">@Html.Sitecore().Field("Continue Button Text")</button>
 			</div>
 		</footer>
 	</form>
