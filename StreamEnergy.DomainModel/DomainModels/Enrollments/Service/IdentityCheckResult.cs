@@ -5,6 +5,7 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels.Enrollments.Service
 {
+    [Serializable]
     public class IdentityCheckResult
     {
         public string IdentityCheckId { get; set; }

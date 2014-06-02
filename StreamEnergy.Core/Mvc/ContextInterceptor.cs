@@ -59,12 +59,12 @@ namespace StreamEnergy.Mvc
             }
             else if (setSessionItems.Contains(invocation.Method))
             {
-                var temp = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                var serializer = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
                 using (var ms = new MemoryStream())
                 {
                     try
                     {
-                        temp.Serialize(ms, invocation.Arguments[1]);
+                        serializer.Serialize(ms, invocation.Arguments[1]);
                     }
                     catch (Exception ex)
                     {

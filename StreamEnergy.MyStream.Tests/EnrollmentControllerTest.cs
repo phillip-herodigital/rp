@@ -200,7 +200,7 @@ namespace StreamEnergy.MyStream.Tests
             };
             session.InternalContext = new InternalContext
             {
-                AllOffers = offers.Select(o => Tuple.Create(generalLocation, o))
+                AllOffers = offers.Select(o => Tuple.Create(generalLocation, o)).ToArray()
             };
             session.State = typeof(DomainModels.Enrollments.PlanSelectionState);
             var request = new Models.Enrollment.SelectedOffers
@@ -252,7 +252,7 @@ namespace StreamEnergy.MyStream.Tests
             };
             session.InternalContext = new InternalContext
             {
-                AllOffers = offers.Select(o => Tuple.Create(generalLocation, o))
+                AllOffers = offers.Select(o => Tuple.Create(generalLocation, o)).ToArray()
             };
             session.State = typeof(DomainModels.Enrollments.AccountInformationState);
             var request = new Models.Enrollment.AccountInformation
@@ -329,7 +329,7 @@ namespace StreamEnergy.MyStream.Tests
             };
             session.InternalContext = new InternalContext
             {
-                AllOffers = offers.Select(o => Tuple.Create(specificLocation, o)),
+                AllOffers = offers.Select(o => Tuple.Create(specificLocation, o)).ToArray(),
                 IdentityCheckResult = identityCheckResult,
             };
             session.State = typeof(DomainModels.Enrollments.VerifyIdentityState);
@@ -388,7 +388,7 @@ namespace StreamEnergy.MyStream.Tests
             };
             session.InternalContext = new InternalContext
             {
-                AllOffers = offers.Select(o => Tuple.Create(specificLocation, o)),
+                AllOffers = offers.Select(o => Tuple.Create(specificLocation, o)).ToArray(),
                 IdentityCheckResult = identityCheckResult,
             };
             session.State = typeof(DomainModels.Enrollments.VerifyIdentityState);
@@ -446,7 +446,7 @@ namespace StreamEnergy.MyStream.Tests
             };
             session.InternalContext = new InternalContext
             {
-                AllOffers = offers.Select(o => Tuple.Create(specificLocation, o)),
+                AllOffers = offers.Select(o => Tuple.Create(specificLocation, o)).ToArray(),
                 IdentityCheckResult = identityCheckResult,
             };
             session.State = typeof(DomainModels.Enrollments.CompleteOrderState);

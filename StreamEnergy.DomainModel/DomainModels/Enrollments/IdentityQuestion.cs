@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
+    [Serializable]
     public class IdentityQuestion
     {
         public string QuestionId { get; set; }

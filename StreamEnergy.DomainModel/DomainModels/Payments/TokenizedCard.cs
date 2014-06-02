@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace StreamEnergy.DomainModels.Payments
 {
+    [Serializable]
     public class TokenizedCard : IPaymentInfo
     {
         public const string Qualifier = "TokenizedCard";
