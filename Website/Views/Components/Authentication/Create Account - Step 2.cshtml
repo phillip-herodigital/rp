@@ -1,4 +1,4 @@
-<article class="grey-box auth auth-create-account">
+<article class="grey-box auth auth-create-account" ng-show="activeState == 'step2'">
 	<header>
 		<h2>@Html.Sitecore().Field("Header Text")</h2>
 	</header>
@@ -55,17 +55,17 @@
 		
 			<h3>@Html.Sitecore().Field("Create Header Text")</h3>
 	
-			<div class="item" float-label>
+			<div class="item">
 				<label for="username">@Html.Sitecore().Field("Username Label"):</label>
 				<input id="username" type="text">
 			</div>
 			<div class="group">
-				<div class="item group-col" float-label>
+				<div class="item group-col">
 					<label for="password">@Html.Sitecore().Field("Password Label"):</label>
 					<input id="password" type="password">
 					<span class="help-text">@Html.Sitecore().Field("Password Help Text")</span>
 				</div>
-				<div class="item group-col" float-label>
+				<div class="item group-col">
 					<label for="confirm-password">@Html.Sitecore().Field("Confirm Password Label"):</label>
 					<input id="confirm-password" type="password">
 				</div>
@@ -80,7 +80,7 @@
 						<option value="">Select a Security Question</option>
 					</select>
 				</div>
-				<div class="item group-col" float-label>
+				<div class="item group-col">
 					<label for="security-answer-1">@Html.Sitecore().Field("Question 1 Answer Label"):</label>
 					<input type="text" name="security-answer-1" id="security-answer-1">
 					<span class="help-text">@Html.Sitecore().Field("Question 1 Help Text")</span>
@@ -93,7 +93,7 @@
 						<option value="">Select a Security Question</option>
 					</select>
 				</div>
-				<div class="item group-col" float-label>
+				<div class="item group-col">
 					<label for="security-answer-2">@Html.Sitecore().Field("Question 2 Answer Label"):</label>
 					<input type="text" name="security-answer-2" id="security-answer-2">
 					<span class="help-text">@Html.Sitecore().Field("Question 2 Help Text")</span>
@@ -102,7 +102,7 @@
 		</div>
 		<footer>
 			<div class="buttons">
-				<button type="submit" class="primary">@Html.Sitecore().Field("Create Account Button Text")</button>
+				<button type="submit" class="primary" ng-click="createAccount()">@Html.Sitecore().Field("Create Account Button Text")</button>
 			</div>
 		</footer>
 	</form>	
