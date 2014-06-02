@@ -104,6 +104,8 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
 
             $scope.activateSections();
 
+            $scope.currentSection = 'planSelection';
+
             $location.hash('planSelection');
             $anchorScroll();
 

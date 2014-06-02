@@ -45,14 +45,6 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', 'enroll
     ];
 
     /**
-    * Watch Server Data
-    */
-    $scope.$watch('serverData', function (oldValue, newValue) {
-        console.log('server data change');
-        $scope.activateSections();
-    });
-
-    /**
     * Activate Sections
     */
     $scope.activateSections = function () {
