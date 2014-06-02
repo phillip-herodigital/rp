@@ -12,13 +12,15 @@ namespace StreamEnergy.LuceneServices.Web.Models
     {
         private static readonly System.Text.RegularExpressions.Regex numeric = new System.Text.RegularExpressions.Regex("^[0-9]+$", System.Text.RegularExpressions.RegexOptions.Compiled);
         private readonly LuceneStore.FSDirectory directory;
+        private readonly IndexReader reader;
         private readonly Lucene.Net.Search.IndexSearcher searcher;
 
         public IndexSearcher(string source)
         {
             System.IO.Directory.CreateDirectory(source);
             directory = LuceneStore.FSDirectory.Open(source);
-            searcher = new Lucene.Net.Search.IndexSearcher(Lucene.Net.Index.IndexReader.Open(directory, true));
+            reader = Lucene.Net.Index.IndexReader.Open(directory, true);
+            searcher = new Lucene.Net.Search.IndexSearcher(reader);
         }
 
         public IEnumerable<StreamEnergy.DomainModels.Enrollments.Location> Search(string state, string queryString)
@@ -55,6 +57,7 @@ namespace StreamEnergy.LuceneServices.Web.Models
         void IDisposable.Dispose()
         {
             searcher.Dispose();
+            reader.Dispose();
             directory.Dispose();
         }
     }
