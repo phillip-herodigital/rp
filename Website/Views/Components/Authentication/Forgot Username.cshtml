@@ -1,0 +1,52 @@
+<div ng-controller="AuthForgotUsernameCtrl">
+	<article class="grey-box auth auth-forgot-username" ng-show="activeState == 'step1'">
+		<header>
+			<h2>@Html.Sitecore().Field("Step 1 Header Text")</h2>
+		</header>
+		<form>
+			<div class="content">
+				@Html.Sitecore().Field("Step 1 Body Text")
+				<div class="alert alert-error">
+					@Html.Sitecore().Field("Step 1 Error Text")
+				</div>
+				<div class="item">
+					<label for="email">@Html.Sitecore().Field("Email Label"):</label>
+					<input id="email" type="email">
+				</div>							
+			</div>
+			<footer>
+				<div class="buttons">
+					<button type="submit" ng-click="sendUsername()">@Html.Sitecore().Field("Send Username Button Text")</button>
+				</div>
+			</footer>
+		</form>
+	</article>
+
+	<article class="grey-box auth" ng-show="activeState == 'confirm'">
+		<header>
+			<h2>@Html.Sitecore().Field("Confirm Header Text")</h2>
+		</header>
+		<div class="content">
+			@Html.Sitecore().Field("Confirm Body Text")
+		</div>
+		<footer>
+			<div class="buttons">
+				<a href="#" class="button" ng-click="confirmReturn()">@Html.Sitecore().Field("Confirm Return Button Text")</a>
+			</div>
+		</footer>
+	</article>
+
+	<article class="grey-box auth" ng-show="activeState == 'error'">
+		<header>
+			<h2>@Html.Sitecore().Field("Error Header Text")</h2>
+		</header>
+		<div class="content">
+			@Html.Sitecore().Field("Error Body Text")
+		</div>
+		<footer>
+			<div class="buttons">
+				<a href="#" class="button" ng-click="errorReturn()">@Html.Sitecore().Field("Error Return Button Text")</a>
+			</div>
+		</footer>
+	</article>
+</div>
