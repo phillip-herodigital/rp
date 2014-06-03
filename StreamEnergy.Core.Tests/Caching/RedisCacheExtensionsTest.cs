@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StackExchange.Redis;
@@ -61,6 +62,15 @@ namespace StreamEnergy.Core.Tests.Caching
         [TestCleanup()]
         public void MyTestCleanup()
         {
+            if (redis != null)
+            {
+                // clean up our database - don't want extra keys lying around.
+                var keys = redis.GetEndPoints().SelectMany(ep => redis.GetServer(ep).Keys()).ToArray();
+                foreach (var key in keys)
+                {
+                    db.KeyDelete(key);
+                }
+            }
         }
 
         // This is a basic test to ensure that the redis server is working as expected - this does not test our code
