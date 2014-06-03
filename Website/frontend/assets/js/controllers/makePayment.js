@@ -1,39 +1,28 @@
 /* Make a Payment Controller
  *
  */
-ngApp.controller('MakePaymentCtrl', ['$scope', function ($scope) {
-
-    $scope.today = function() {
-        $scope.dt = new Date();
-    };
-    $scope.today();
-
-    $scope.clear = function () {
-        $scope.dt = null;
-    };
+ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', function ($scope, $rootScope, $http) {
 
     // Disable weekends selection
     $scope.disabled = function(date, mode) {
-        return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 || date.getDay() < $scope.today ) );
+        return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
     };
 
-    // Disable past dates selection
+    // Disable past date selection
     $scope.toggleMin = function() {
         $scope.minDate = new Date();
     };
     $scope.toggleMin();
 
     $scope.open = function($event) {
-        $event.preventDefault();
-        $event.stopPropagation();
-
-        $scope.opened = true;
+            $event.preventDefault();
+            $event.stopPropagation();
+            $scope.opened = true;
     };
 
     $scope.dateOptions = {
-        formatYear: 'yyyy',
-        startingDay: 0,
         showWeeks: false,
+        maxMode: 'month'
     };
 
     $scope.format = 'MM/dd/yyyy';

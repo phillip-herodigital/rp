@@ -242,6 +242,30 @@ div.banner.account {
 	}
 }
 
+table.datepicker {
+	th {
+		border-left: none;
+		border-right: none;
+		a.month-nav, a.year-nav {
+			padding: 5px;
+			&:hover {
+				background-color: #efefef;
+			}
+			&.pull-right {
+				float: right;
+			}
+		}
+	}
+	button {
+		padding: 2px 5px;
+		font-weight: 300;
+		font-size: 14px;
+	}
+	td {
+		padding: 2px 6px;
+	}
+}
+
 article.message {
 	@extend .plain;
 	margin-bottom: 20px;
@@ -571,16 +595,6 @@ article.make-payment {
 			width: 50%;
 			.item {
 				width: 45%;
-			}
-			.date {
-				button {
-					padding: 2px 5px;
-					font-weight: 300;
-					font-size: 14px;
-				}
-				td {
-					padding: 2px 6px;
-				}
 			}
 		}
 		form .group .dollars {

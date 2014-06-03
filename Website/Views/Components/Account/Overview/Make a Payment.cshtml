@@ -27,7 +27,7 @@
                         <div class="group date-amount">
                             <div class="item date">
                                 <label for="Payment method">@Html.Sitecore().Field("Payment Date Text")</label>
-                                <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="$parent.opened" min-date="minDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" ng-focus="open($event)" show-button-bar="false" />
+                                <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="$parent.opened" min-date="minDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" ng-click="open($event)" show-button-bar="false" />
                             </div>
                             <div class="item dollars">
                                 <label for="Amount">@Html.Sitecore().Field("Payment Amount Text")</label>
