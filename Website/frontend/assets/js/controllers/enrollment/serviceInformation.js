@@ -77,6 +77,11 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
             return;
         }
 
+        if ($scope.checkDuplicateLocation($scope.enrollment.extraFields.serviceAddress)) {
+            $scope.enrollment.formErrors.serviceInformation.serviceAddress = 'Service Address already added to cart.';
+            return;
+        }
+
         if (typeof $scope.enrollment.serverData.locationServices == 'undefined') {
             var data = { 'locations': {} };
         } else {
@@ -129,4 +134,21 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
         return idPrefix + i;
     };
 
+    /**
+    * Check for duplicate location
+    * @param {object} location
+    *
+    * return {string}
+    */
+    $scope.checkDuplicateLocation = function (location) {
+        var duplicateLocation = false;
+        if (typeof $scope.enrollment.serverData.locationServices != 'undefined') {
+            angular.forEach($scope.enrollment.serverData.locationServices, function (value, key) {
+                if ($scope.formatAddress(value.location.address) == location.formattedAddress) {
+                    duplicateLocation = true;
+                }
+            });
+        }
+        return duplicateLocation;
+    };
 }]);

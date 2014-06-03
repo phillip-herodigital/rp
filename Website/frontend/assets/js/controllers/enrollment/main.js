@@ -1,7 +1,7 @@
 ﻿/* Enrollment Main Controller
  * This is the main controller for Enrollments. It will keep track of the enrollment state, as well as all fields that will need to be collected.
  */
-ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', '$anchorScroll', 'enrollmentService', 'scrollService', function ($scope, $rootScope, $http, $anchorScroll, enrollmentService, scrollService) {
+ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', '$anchorScroll', 'enrollmentService', 'scrollService', 'jQuery', function ($scope, $rootScope, $http, $anchorScroll, enrollmentService, scrollService, jQuery) {
 
     $scope.enrollment = {
         serverData : {}, // This array should keep track of all the form fields we collect for the enrollment
@@ -60,7 +60,8 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', '$ancho
 
         //Delay needs to be set to allow angular code to open section.
         setTimeout(function () {
-            scrollService.scrollTo(location);
+            var offset = jQuery('header.site-header').height() * -1;
+            scrollService.scrollTo(location, offset);
         }, 10); 
     };
 

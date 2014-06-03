@@ -14,7 +14,7 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', '$rootScope', 'e
 
         confirmOrderPromise.then(function (data) {
             console.log(data);
-            angular.copy(data, $scope.serverData);
+            $scope.enrollment.serverData = data;
         }, function (data) {
             // error response
             $rootScope.$broadcast('connectionFailure');
