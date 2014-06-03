@@ -2,10 +2,10 @@
  *
  * This is used to control aspects of let's get started on enrollment page.
  */
-ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$http', 'enrollmentService', function ($scope, $rootScope, $http, enrollmentService) {
-    $scope.extraFields.isNewService = 0;
-    $scope.extraFields.serviceState = 'TX';
-    $scope.formErrors.serviceInformation = [];
+ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$http', '$location', 'enrollmentService', function ($scope, $rootScope, $http, $location, enrollmentService) {
+    $scope.enrollment.extraFields.isNewService = 0;
+    $scope.enrollment.extraFields.serviceState = 'TX';
+    $scope.enrollment.formErrors.serviceInformation = [];
 
     $scope.states = [
         {
@@ -47,6 +47,9 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
 
     /**
     * Get Locations
+    *
+    * @param string state       //State abbreviation
+    * @param string val         //Search string value
     */
     $scope.getLocation = function (state, val) {
         console.log('Getting locations...');
@@ -55,34 +58,7 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
             var addresses = [];
 
             angular.forEach(res.data, function (item) {
-                var address = item.address,
-                    formattedAddress = '';
-
-                if (address.line1) {
-                    formattedAddress += address.line1 + ', ';
-                }
-
-                if (address.unitNumber) {
-                    formattedAddress += address.unitNumber + ', ';
-                }
-
-                if (address.city) {
-                    formattedAddress += address.city + ', ';
-                }
-
-                if (address.stateAbbreviation) {
-                    formattedAddress += address.stateAbbreviation + ', ';
-                }
-
-                if (address.postalCode5) {
-                    formattedAddress += address.postalCode5;
-                    if (address.postalCodePlus4) {
-                        formattedAddress += '-' + address.postalCode5;
-                    }
-                }
-
-                item.formattedAddress = formattedAddress;
-
+                item.formattedAddress = $scope.formatAddress(item.address);
                 addresses.push(item);
             });
 
@@ -94,24 +70,31 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
     * Complete Enrollment Section
     */
     $scope.completeStep = function () {
-        $scope.formErrors.serviceInformation = [];
+        $scope.enrollment.formErrors.serviceInformation = [];
 
-        if (!$scope.extraFields.serviceAddress) {
-            $scope.formErrors.serviceInformation.serviceAddress = 'Service Address required.';
+        if (!$scope.enrollment.extraFields.serviceAddress) {
+            $scope.enrollment.formErrors.serviceInformation.serviceAddress = 'Service Address required.';
             return;
         }
 
-        if (typeof $scope.serverData.locationServices == 'undefined') {
+        if ($scope.checkDuplicateLocation($scope.enrollment.extraFields.serviceAddress)) {
+            $scope.enrollment.formErrors.serviceInformation.serviceAddress = 'Service Address already added to cart.';
+            return;
+        }
+
+        if (typeof $scope.enrollment.serverData.locationServices == 'undefined') {
             var data = { 'locations': {} };
         } else {
-            var data = { 'locations': $scope.serverData.locationServices };
+            var data = { 'locations': $scope.enrollment.serverData.locationServices };
         }
 
         var id = $scope.createLocationID();
-        data.locations[id] = $scope.extraFields.serviceAddress;
+        data.locations[id] = {
+            'location': $scope.enrollment.extraFields.serviceAddress
+        }
 
-        if ($scope.extraFields.isNewService == 1) {
-            data.locations[id].capabilities.push({ "capabilityType": "ServiceStatus", "isNewService": true });
+        if ($scope.enrollment.extraFields.isNewService == 1) {
+            data.locations[id].location.capabilities.push({ "capabilityType": "ServiceStatus", "isNewService": true });
         }
 
         console.log('Sending service information...');
@@ -119,12 +102,13 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
         var serviceInformationPromise = enrollmentService.setServiceInformation(data);
 
         serviceInformationPromise.then(function (data) {
-            $scope.serverData = data;
+            $scope.enrollment.serverData = data;
 
-            $scope.extraFields.isNewService = 0;
-            $scope.extraFields.serviceAddress = null;
+            $scope.enrollment.extraFields.isNewService = 0;
+            $scope.enrollment.extraFields.serviceAddress = null;
 
-            console.log(data);
+            $scope.activateSections('planSelection');
+
         }, function (data) {
             // error response
             $rootScope.$broadcast('connectionFailure');
@@ -139,10 +123,10 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
         var i = 1,
             idPrefix = 'location';
 
-        if (typeof $scope.serverData.locationServices == 'undefined') {
+        if (typeof $scope.enrollment.serverData.locationServices == 'undefined') {
             return idPrefix + i;
         } else {
-            while (typeof $scope.serverData.locationServices[idPrefix + i] != 'undefined') {
+            while (typeof $scope.enrollment.serverData.locationServices[idPrefix + i] != 'undefined') {
                 i++;
             }
         }
@@ -150,4 +134,21 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
         return idPrefix + i;
     };
 
+    /**
+    * Check for duplicate location
+    * @param {object} location
+    *
+    * return {string}
+    */
+    $scope.checkDuplicateLocation = function (location) {
+        var duplicateLocation = false;
+        if (typeof $scope.enrollment.serverData.locationServices != 'undefined') {
+            angular.forEach($scope.enrollment.serverData.locationServices, function (value, key) {
+                if ($scope.formatAddress(value.location.address) == location.formattedAddress) {
+                    duplicateLocation = true;
+                }
+            });
+        }
+        return duplicateLocation;
+    };
 }]);

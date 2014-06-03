@@ -14,7 +14,7 @@ ngApp.controller('EnrollmentVerifyIdentityCtrl', ['$scope', '$rootScope', 'enrol
 
         verifyIdentityPromise.then(function (data) {
             console.log(data);
-            $scope.serverData = data;
+            $scope.enrollment.serverData = data;
         }, function (data) {
             // error response
             $rootScope.$broadcast('connectionFailure');

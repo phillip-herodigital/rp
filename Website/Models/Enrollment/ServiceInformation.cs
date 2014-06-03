@@ -9,6 +9,6 @@ namespace StreamEnergy.MyStream.Models.Enrollment
 {
     public class ServiceInformation
     {
-        public Dictionary<string, Location> Locations { get; set; }
+        public Dictionary<string, IntermediateLocation> Locations { get; set; }
     }
 }
