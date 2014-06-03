@@ -20,11 +20,6 @@ ngApp.directive('additionalFields', ['jQuery', function (jQuery) {
 					scope.$apply();
 					$fieldGroup.css('overflow','visible');
 					var $details = $fieldGroup.parent().find('a.details-link');
-					if(!scope.isOpen) {
-						$details.text("Show Details");
-					} else {
-						$details.text("Hide Details");
-					}
 				});
 			};		
 		}

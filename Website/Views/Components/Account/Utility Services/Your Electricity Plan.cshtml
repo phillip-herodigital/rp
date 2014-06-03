@@ -17,7 +17,15 @@
                 <tbody additional-fields>
                     <tr>
                         <th class="vertical"><div class="fixed">Fixed</div></th>
-                        <td class="arrow"><h5><strong>Flex Choice Intro Plan</strong></h5><p class="details"><a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" class="details-link" href="">View Details</a></p><div class="details-arrow"></div></td>
+                        <td class="arrow">
+                            <h5><strong>Flex Choice Intro Plan</strong></h5>
+                            <p class="details">
+                                <a ng-click="toggleFields()" ng-class="{'collapsed': }" class="details-link" href="">
+                                    <span ng-if="!isOpen">View</span><span ng-if="isOpen">Hide</span> Details
+                                </a>
+                            </p>
+                            <div class="details-arrow"></div>
+                        </td>
                         <td class="center"><span class="plan-cost">9.18&#162;</span><p>Per KWH</p></td>
                         <td class="center"><i class="icon-month-to-month"></i><p>Month-to-Month</p></td>
                         <td class="center"><span class="plan-cost">$0</span> <p>Termination Fee</p></td>
