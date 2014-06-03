@@ -242,18 +242,29 @@ div.banner.account {
 	}
 }
 
-table.datepicker {
+.datepicker {
 	th {
 		border-left: none;
 		border-right: none;
-		a.month-nav, a.year-nav {
+		.pull-right, .pull-left {
 			padding: 5px;
-			&:hover {
-				background-color: #efefef;
-			}
-			&.pull-right {
-				float: right;
-			}
+			background-color: #efefef;
+			display: inline-block;
+			vertical-align: middle;
+			text-indent: -5000px;
+			background-repeat: no-repeat;
+			background-image: sprite-url($icon-sprite);
+			height: 10px;
+			width: 6px;
+		}
+		.pull-left {
+			$sprite: "arrow-left";
+			background-position: sprite-position($icon-sprite, $sprite);
+		}
+		.pull-right {
+			$sprite: "arrow-right";
+			background-position: sprite-position($icon-sprite, $sprite);
+			float: right;
 		}
 	}
 	button {
