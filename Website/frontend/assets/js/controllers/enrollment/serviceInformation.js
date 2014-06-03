@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of let's get started on enrollment page.
  */
-ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$http', '$location', '$anchorScroll', 'enrollmentService', function ($scope, $rootScope, $http, $location, $anchorScroll, enrollmentService) {
+ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$http', '$location', 'enrollmentService', function ($scope, $rootScope, $http, $location, enrollmentService) {
     $scope.extraFields.isNewService = 0;
     $scope.extraFields.serviceState = 'TX';
     $scope.formErrors.serviceInformation = [];
