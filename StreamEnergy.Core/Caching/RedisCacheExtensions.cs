@@ -13,10 +13,13 @@ namespace StreamEnergy.Caching
     {
         const string expiresPrefix = "$$EXPIRES";
 
-        public static Task<bool> Set(this IDatabase redis, string key, dynamic value, TimeSpan? expiry = null, string sessionId = null, CacheCategory[] categories = null)
+        public static Task<bool> CacheSet(this IDatabase redis, string key, dynamic value, TimeSpan? expiry = null, string sessionId = null, CacheCategory[] categories = null)
         {
             ValidateKey(key);
             RedisValue redisValue = ConvertToRedisValue(value);
+
+            if (sessionId != null)
+                key = sessionId + " " + key;
 
             var transaction = redis.CreateTransaction();
             var result = transaction.StringSetAsync(key, redisValue, expiry: expiry);
@@ -25,6 +28,27 @@ namespace StreamEnergy.Caching
             transaction.Execute();
 
             return last.ContinueWith(t => result.Result);
+        }
+
+        public static async Task<T> CacheGet<T>(this IDatabase redis, string key, string sessionId = null)
+        {
+            if (sessionId != null)
+                key = sessionId + " " + key;
+
+            var result = await redis.StringGetAsync(key);
+            try
+            {
+                return (T)(dynamic)result;
+            }
+            catch
+            {
+                // can't convert, so deserialize it
+                using (MemoryStream ms = new MemoryStream((byte[])result))
+                {
+                    var formatter = new BinaryFormatter();
+                    return (T)formatter.Deserialize(ms);
+                }
+            }
         }
 
         public static Task<bool> ClearSessionCache(this IDatabase redis, string sessionId)
