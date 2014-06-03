@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Lucene.Net.Index;
 using Lucene.Net.Search;
+using Lucene.Net.Search.Spans;
 using LuceneStore = Lucene.Net.Store;
 
 namespace StreamEnergy.LuceneServices.Web.Models
@@ -14,13 +15,15 @@ namespace StreamEnergy.LuceneServices.Web.Models
         private readonly LuceneStore.FSDirectory directory;
         private readonly IndexReader reader;
         private readonly Lucene.Net.Search.IndexSearcher searcher;
+        private readonly Lucene.Net.Analysis.Analyzer analyzer;
 
         public IndexSearcher(string source)
         {
             System.IO.Directory.CreateDirectory(source);
             directory = LuceneStore.FSDirectory.Open(source);
-            reader = Lucene.Net.Index.IndexReader.Open(directory, true);
+            reader = Lucene.Net.Index.IndexReader.Open(directory, readOnly: true);
             searcher = new Lucene.Net.Search.IndexSearcher(reader);
+            analyzer = AddressConstants.BuildLuceneAnalyzer();
         }
 
         public IEnumerable<StreamEnergy.DomainModels.Enrollments.Location> Search(string state, string queryString)
@@ -34,7 +37,7 @@ namespace StreamEnergy.LuceneServices.Web.Models
             exactOrSearchQuery.Add(new TermQuery(new Term("Exact", queryString)), Occur.SHOULD);
 
             // search query
-            exactOrSearchQuery.Add(new Lucene.Net.QueryParsers.QueryParser(Lucene.Net.Util.Version.LUCENE_30, "Canonical", new Lucene.Net.Analysis.Standard.StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30)).Parse(queryString), Occur.SHOULD);
+            exactOrSearchQuery.Add(new AddressQueryParser("Canonical", analyzer).Parse(queryString), Occur.SHOULD);
 
             TopScoreDocCollector collector = TopScoreDocCollector.Create(10, true);
             searcher.Search(query, collector);
