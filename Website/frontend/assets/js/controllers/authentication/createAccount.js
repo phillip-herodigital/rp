@@ -9,6 +9,6 @@ ngApp.controller('AuthCreateAccountCtrl', ['$scope', '$rootScope', '$window', fu
 	};
 
 	$scope.createAccount = function() {
-		$window.location.href = '/auth/reset-password';
+		$window.location.href = '/account';
 	};
 }]);
