@@ -1,5 +1,5 @@
 ﻿
-<section class="layout cols-2 wrapper">
+<section class="layout cols-2 wrapper" ng-controller="MakePaymentCtrl">
     <section class="layout cols-1">
         <article class="grey-box make-payment">
             <header>
@@ -25,13 +25,9 @@
                     <p>@Html.Sitecore().Field("Current Balance Text") <strong>$123.45</strong></p>
                     <form>
                         <div class="group date-amount">
-                            <div class="item">
+                            <div class="item date">
                                 <label for="Payment method">@Html.Sitecore().Field("Payment Date Text")</label>
-                                <select>
-                                    <option value="Please choose">Select</option>
-                                    <option value="payment1">Payment Method 1</option>
-                                    <option value="payment2">Payment Method 2</option>
-                                </select>
+                                <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="$parent.opened" min-date="minDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" ng-focus="open($event)" show-button-bar="false" />
                             </div>
                             <div class="item dollars">
                                 <label for="Amount">@Html.Sitecore().Field("Payment Amount Text")</label>
