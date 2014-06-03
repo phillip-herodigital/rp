@@ -14,23 +14,23 @@
                         <th>@Html.Sitecore().Field("Fees Text")</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody additional-fields>
                     <tr>
                         <th class="vertical"><div class="fixed">Fixed</div></th>
-                        <td class="arrow"><h5><strong>Flex Choice Intro Plan</strong></h5><p class="details"><a href="#">Hide Details</a></p><div class="details-arrow"></div></td>
+                        <td class="arrow"><h5><strong>Flex Choice Intro Plan</strong></h5><p class="details"><a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" class="details-link" href="">View Details</a></p><div class="details-arrow"></div></td>
                         <td class="center"><span class="plan-cost">9.18&#162;</span><p>Per KWH</p></td>
                         <td class="center"><i class="icon-month-to-month"></i><p>Month-to-Month</p></td>
                         <td class="center"><span class="plan-cost">$0</span> <p>Termination Fee</p></td>
                     </tr>
-                    <tr class="expand-details">
+                    <tr class="expand-details additional-fields">
                         <td colspan="5">
-                            <div class="inner"><p><a href="#"><i class="icon-close"></i></a>The Stream Intro/Variable Price Plan is for new customers only and is the applied rate for the first invoice. I understand that, under this plan, I will receive a guaranteed introductory rate on my first invoice. All subsequent months will be billed at Stream Energy's then-current Variable Price Rate. Early Termination Fees shall NOT apply and that my current rate may fluctuate based on market conditions. Please see the Terms of Services for more information on this product.</p></div>
+                            <div class="inner"><p><a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" href=""><i class="icon-close"></i></a>The Stream Intro/Variable Price Plan is for new customers only and is the applied rate for the first invoice. I understand that, under this plan, I will receive a guaranteed introductory rate on my first invoice. All subsequent months will be billed at Stream Energy's then-current Variable Price Rate. Early Termination Fees shall NOT apply and that my current rate may fluctuate based on market conditions. Please see the Terms of Services for more information on this product.</p></div>
                             <div class="grid three">
                                 <div class="col">Pricing Effective:<br /><strong>11/21/2013</strong></div>
                                 <div class="col">Minimum Usage Fee:<br /><strong>$0.00</strong></div>
                                 <div class="col">
                                     <ul>
-                                        <li><a href="#">Electricity Facts Label</a></li>
+                                        <li><a href="#">Electricity Facts</a></li>
                                         <li><a href="#">Terms of Service</a></li>
                                         <li><a href="#">Your Rights as a Customer</a></li>
                                     </ul>

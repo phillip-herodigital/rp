@@ -16,26 +16,28 @@
                             <input type="email" name="email" id="email">
                         </div>
                     </div>
-                    <div class="additional-field-action">
-                        <a href="#">@Html.Sitecore().Field("Change Password Text")</a>
-                    </div>
-                    <div class="group additional-field-group">
-                        <div class="group">
-                            <div class="item group-col" float-label>
-                                <label for="current-password">@Html.Sitecore().Field("Current Password Text")</label>
-                                <input type="text" name="current-password" id="current-password">
-                            </div>
-                            <div class="item group-col"></div>
+                    <div class="additional-fields" additional-fields>
+                        <div class="additional-field-action">
+                            <a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" href="">@Html.Sitecore().Field("Change Password Text")</a>
                         </div>
-                        <div class="group">
-                            <div class="item group-col" float-label>
-                                <label for="new-password">@Html.Sitecore().Field("New Password Text")</label>
-                                <input type="text" name="new-password" id="new-password">
-                                <span class="help-text">@Html.Sitecore().Field("Password Requirements Text")</span>
+                        <div class="group additional-field-group additional-fields">
+                            <div class="group">
+                                <div class="item group-col" float-label>
+                                    <label for="current-password">@Html.Sitecore().Field("Current Password Text")</label>
+                                    <input type="text" name="current-password" id="current-password">
+                                </div>
+                                <div class="item group-col"></div>
                             </div>
-                            <div class="item group-col" float-label>
-                                <label for="new-password-repeat">@Html.Sitecore().Field("New Password Text")</label>
-                                <input type="email" name="new-password-repeat" id="new-password-repeat">
+                            <div class="group">
+                                <div class="item group-col" float-label>
+                                    <label for="new-password">@Html.Sitecore().Field("New Password Text")</label>
+                                    <input type="text" name="new-password" id="new-password">
+                                    <span class="help-text">@Html.Sitecore().Field("Password Requirements Text")</span>
+                                </div>
+                                <div class="item group-col" float-label>
+                                    <label for="new-password-repeat">@Html.Sitecore().Field("New Password Text")</label>
+                                    <input type="email" name="new-password-repeat" id="new-password-repeat">
+                                </div>
                             </div>
                         </div>
                     </div>
