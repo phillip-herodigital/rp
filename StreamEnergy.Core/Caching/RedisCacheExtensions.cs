@@ -13,27 +13,50 @@ namespace StreamEnergy.Caching
     {
         const string expiresPrefix = "$$EXPIRES";
 
-        public static Task<bool> Set(IDatabase redis, string key, dynamic value, TimeSpan? expiry = null, string sessionId = null, CacheCategory[] categories = null)
+        public static Task<bool> Set(this IDatabase redis, string key, dynamic value, TimeSpan? expiry = null, string sessionId = null, CacheCategory[] categories = null)
         {
             ValidateKey(key);
             RedisValue redisValue = ConvertToRedisValue(value);
 
             var transaction = redis.CreateTransaction();
             var result = transaction.StringSetAsync(key, redisValue, expiry: expiry);
-            Task last = SetExpirationChain(key, transaction, sessionId, categories, result);
+            Task last = SetExpirationChain(key, transaction, result, sessionId, categories);
 
             transaction.Execute();
 
             return last.ContinueWith(t => result.Result);
         }
 
-        public static Task<bool> ClearSessionCache(IDatabase redis, string sessionId)
+        public static Task<bool> ClearSessionCache(this IDatabase redis, string sessionId)
         {
-            var key = new RedisKey[] { string.Join(" ", expiresPrefix, sessionId) };
-            return TwoDeepClearCacheChain(redis, key);
+            var keys = new RedisKey[] { string.Join(" ", expiresPrefix, sessionId) };
+            return TwoDeepClearCacheChain(redis, keys);
         }
 
-        private static Task<bool> TwoDeepClearCacheChain(IDatabase redis, RedisKey[] key)
+        public static Task<bool> ClearSessionCategoryCache(this IDatabase redis, string sessionId, CacheCategory category)
+        {
+            var keys = new RedisKey[] { string.Join(" ", expiresPrefix, sessionId, category.ToString()) };
+            return ClearCacheChain(redis, keys);
+        }
+
+        public static Task<bool> ClearCategoryCache(this IDatabase redis, CacheCategory category)
+        {
+            var keys = new RedisKey[] { string.Join(" ", expiresPrefix, category.ToString()) };
+            return ClearCacheChain(redis, keys);
+        }
+
+        private static Task<bool> ClearCacheChain(IDatabase redis, RedisKey[] keys)
+        {
+            return redis.ScriptEvaluateAsync(@"
+for i, key in ipairs(redis.call('SMEMBERS', KEYS[1])) do
+    redis.call('DEL', key)
+end
+redis.call('DEL', KEYS[1])
+return 1
+", keys).ContinueWith(eval => (bool)eval.Result);
+        }
+
+        private static Task<bool> TwoDeepClearCacheChain(IDatabase redis, RedisKey[] keys)
         {
             return redis.ScriptEvaluateAsync(@"
 for i, key in ipairs(redis.call('SMEMBERS', KEYS[1])) do
@@ -42,13 +65,14 @@ for i, key in ipairs(redis.call('SMEMBERS', KEYS[1])) do
             redis.call('DEL', key2)
         end
     end
-    redis.call(key)
+    redis.call('DEL', key)
 end
+redis.call('DEL', KEYS[1])
 return 1
-", key).ContinueWith(eval => (bool)eval.Result);
+", keys).ContinueWith(eval => (bool)eval.Result);
         }
 
-        private static Task SetExpirationChain(string key, ITransaction transaction, string sessionId, CacheCategory[] categories, Task last)
+        private static Task SetExpirationChain(string key, ITransaction transaction, Task last, string sessionId = null, CacheCategory[] categories = null)
         {
             RedisKey sessionKey = new RedisKey();
             IEnumerable<string> expirationParts = Enumerable.Repeat(expiresPrefix, 1);
