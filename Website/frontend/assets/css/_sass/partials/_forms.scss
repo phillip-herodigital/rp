@@ -47,6 +47,9 @@ select {
 		@include box-shadow(0 0 8px rgba(102, 175, 233, .75));
 		outline: none;
 	}
+	&:disabled {
+		background: #fafafa;
+	}
 }
 
 input[type="search"] {
@@ -183,6 +186,9 @@ form,
 			@include layout-list;
 		}
 	}
+    div.validation-summary-valid {
+        display: none;
+    }
 	.single-link {
 		font-size: 14px;
 	}
@@ -218,7 +224,7 @@ form,
 				text-transform: uppercase;
 			}
 		}
-        span.field-validation-valid {
+        span.field-validation-error {
             display: block;
         }
         &.error {
@@ -227,7 +233,7 @@ form,
             select {
                 border-color: #c00;
             }
-            span.field-validation-valid {
+            span.field-validation-error {
                 margin-top: 5px;
                 color: #c00; // #E49593
                 font-size: 14px;
@@ -432,3 +438,60 @@ form,
 		}
 	}
 } 
+
+.btn-group {
+	display: inline-block;
+	width: 50%;
+	button {
+		background: #fff;
+		color: #555;
+		@include border-radius(10px);
+		@include box-shadow(0 1px 1px rgba(0,0,0,.15));
+		@include transition(border linear .2s, box-shadow linear .2s);
+		@include text-shadow(none);
+		text-transform: none;
+		padding: 6px 35px 6px 10px;
+		border: 1px solid #bcbcbc;
+		text-align: left;
+		position: relative;
+		font-weight: normal;
+		width: 100%;
+		.caret {
+			position: absolute;
+			right: 6px;
+			top: 7px;
+		}
+	}
+	.dropdown-menu {
+		display: none;
+	}
+	&.open {
+		.dropdown-menu {
+			display: block;
+		}
+	}
+}
+
+.dropdown-menu {
+	border: 1px solid #ddd;
+	@include border-radius(10px);
+	margin: 0;
+	padding: 0;
+	position: absolute;
+	background: #fff;
+	min-width: 250px;
+	z-index: 10000;
+	li {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+		a {
+			padding: 5px 20px;
+			display: block;
+			&:hover {
+				background: #0971cd;
+				color: #fff;
+			}
+		}
+	}
+}

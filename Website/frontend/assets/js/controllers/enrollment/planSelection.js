@@ -2,12 +2,23 @@
  *
  * This is used to control aspects of plan selection on enrollment page.
  */
-ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
+ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', '$rootScope', 'enrollmentService', function ($scope, $rootScope, enrollmentService) {
 
-    $scope.enrollmentFields.planSelection = {};
-
-    //Complete enrollment section
+    /**
+    * Complete Enrollment Section
+    */
     $scope.completeStep = function () {
+        console.log('Sending selected offers...');
+
+        var selectedOffersPromise = enrollmentService.setSelectedOffers();
+
+        selectedOffersPromise.then(function (data) {
+            console.log(data);
+            $scope.serverData = data;
+        }, function (data) {
+            // error response
+            $rootScope.$broadcast('connectionFailure');
+        });
     };
 
 }]);

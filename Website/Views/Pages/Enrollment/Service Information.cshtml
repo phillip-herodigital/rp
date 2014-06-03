@@ -1,4 +1,4 @@
-﻿<div id="lets-get-started" class="enrollment-section accent-orange" ng-controller="EnrollmentServiceInformationCtrl">
+﻿<div id="{{section.id}}" class="enrollment-section accent-orange" ng-switch-when="serviceInformation" ng-show="section.isVisible" ng-controller="EnrollmentServiceInformationCtrl">
     <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper center">
             <h1>
@@ -9,18 +9,14 @@
     </div>
     <div class="wrapper layout cols-2">
         <aside class="left">
-            <nav>
-                <ul>
-                    <li class="active"><a href="#lets-get-started">Let's Get Started</a></li>
-                    <li><a href="#choose-your-plan">Choose Your Plan</a></li>
-                </ul>
-            </nav>
+            <div ng-include ng-if="true" src="'enrollment-nav-template'"></div>
         </aside>
         <section>
             @Html.Sitecore().Field("Header Text")
             @Html.Sitecore().Field("Body Text")
             <article class="form">
                 <div class="content">
+                    @*
                     <div class="item">
                         <label for="service-interest">@Html.Sitecore().Field("Interest Label")</label>
                         <select id="service-interest" ng-model="enrollmentFields.serviceInformation.serviceInterest">
@@ -30,44 +26,48 @@
                             <option value="">Homelife Services</option>
                         </select>
                     </div>
-                    <div class="item">
+                    *@
+                    <div class="item" ng-class="{'error': formErrors.serviceInformation.serviceAddress}">
                         <label for="address-or-zip">@Html.Sitecore().Field("Address Label")</label>
-                        <input type="text" id="address-or-zip" ng-model="enrollmentFields.serviceInformation.addressOrZip" placeholder="@Html.Sitecore().Field("Address Placeholder")" />
-                        <select id="state" ng-model="enrollmentFields.state">
-                            <option value="">Texas</option>
-                        </select>
-                    </div>
+                        <input type="text" id="address-or-zip" ng-model="extraFields.serviceAddress" placeholder="@Html.Sitecore().Field("Address Placeholder")" typeahead="address as address.formattedAddress for address in getLocation(extraFields.serviceState, $viewValue)" ng-disabled="extraFields.serviceState == ''" />
+                        <div id="state-select" dropdown-select dropdown-items="states" value="extraFields.serviceState"></div>
+                        <div ng-show="formErrors.serviceInformation.serviceAddress">{{formErrors.serviceInformation.serviceAddress}}</div>
+                    </div>             
                     <div class="item">
                         <label>@Html.Sitecore().Field("Options Label")</label>
                         <ul class="checkbox-list">
-                            <li><input type="radio" ng-model="enrollmentFields.serviceInformation.serviceType" id="switching-electricity-providers"><label for="switching-electricity-providers">Switching electricity providers</label></li>
-                            <li><input type="radio" ng-model="enrollmentFields.serviceInformation.serviceType" id="setting-up-new-service"><label for="setting-up-new-service">Setting up new service</label></li>
+                            <li><input type="radio" ng-model="extraFields.isNewService" id="switching-electricity-providers" value="0"><label for="switching-electricity-providers">Switching electricity providers</label></li>
+                            <li><input type="radio" ng-model="extraFields.isNewService" id="setting-up-new-service" value="1"><label for="setting-up-new-service">Setting up new service</label></li>
                         </ul>
                     </div>
-                    <div class="item">
-                        <label>@Html.Sitecore().Field("Premises Label")</label>
-                        <ul class="checkbox-list">
-                            <li><input type="radio" ng-model="enrollmentFields.serviceInformation.premiseNum" id="less-than-5"><label for="less-than-5">Less than 5</label></li>
-                            <li><input type="radio" ng-model="enrollmentFields.serviceInformation.premiseNum" id="5-or-more"><label for="5-or-more">5 or more</label></li>
-                        </ul>
+                    @*
+                        <div class="item">
+                            <label>@Html.Sitecore().Field("Premises Label")</label>
+                            <ul class="checkbox-list">
+                                <li><input type="radio" ng-model="enrollmentFields.serviceInformation.premiseNum" id="less-than-5"><label for="less-than-5">Less than 5</label></li>
+                                <li><input type="radio" ng-model="enrollmentFields.serviceInformation.premiseNum" id="5-or-more"><label for="5-or-more">5 or more</label></li>
+                            </ul>
+                        </div>
+                        <div class="item">
+                            <label>@Html.Sitecore().Field("Monthly Spending Label")</label>
+                            <ul class="checkbox-list">
+                                <li><input type="radio" ng-model="enrollmentFields.serviceInformation.monthlySpending" id="less-than-150"><label for="less-than-150">Less than $150.00</label></li>
+                                <li><input type="radio" ng-model="enrollmentFields.serviceInformation.monthlySpending" id="150-or-more"><label for="150-or-more">$150 or more</label></li>
+                            </ul>
+                        </div>
+                    *@
                     </div>
-                    <div class="item">
-                        <label>@Html.Sitecore().Field("Monthly Spending Label")</label>
-                        <ul class="checkbox-list">
-                            <li><input type="radio" ng-model="enrollmentFields.serviceInformation.monthlySpending" id="less-than-150"><label for="less-than-150">Less than $150.00</label></li>
-                            <li><input type="radio" ng-model="enrollmentFields.serviceInformation.monthlySpending" id="150-or-more"><label for="150-or-more">$150 or more</label></li>
-                        </ul>
-                    </div>
+                </article>
+                <div class="buttons">
+                    <button type="submit" class="primary" ng-click="completeStep();">@Html.Sitecore().Field("Continue Button Label")</button>
                 </div>
-            </article>
-            <div class="buttons">
-                <button type="submit" class="primary">@Html.Sitecore().Field("Continue Button Label")</button>
-            </div>
-            <div class="hide-medium-large time-remaining-mobile">
-                <p class="time-remaining">@Html.Sitecore().Field("Time Remaining")</p>
-                <p><a href="">@Html.Sitecore().Field("Completion Info Question")</a></p>
-            </div>
-        </section>
-        <aside></aside>
+                <div class="hide-medium-large time-remaining-mobile">
+                    <p class="time-remaining">@Html.Sitecore().Field("Time Remaining")</p>
+                    <p><a href="">@Html.Sitecore().Field("Completion Info Question")</a></p>
+                </div>
+            </section>
+            <aside>
+                <div ng-include ng-if="true" src="'cart-template'"></div>
+            </aside>
+        </div>
     </div>
-</div>

@@ -9,21 +9,98 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Configuration;
+using System.Web.Hosting;
+using System.Reflection;
 
 namespace StreamEnergy.MyStream.Tests
 {
     public class ContainerSetup
     {
+        private static ThreadedContainer threadedContainer;
+        private static bool isSitecoreSetup;
+        class ThreadedContainer : Container
+        {
+            System.Threading.ThreadLocal<Container> localContainer = new System.Threading.ThreadLocal<Container>(trackAllValues: true);
+
+            public ThreadedContainer() : base(null)
+            {
+
+            }
+
+            public override void Initialize(params IContainerSetupStrategy[] setupStrategies)
+            {
+                EnsureValue();
+                localContainer.Value.Initialize(setupStrategies);
+            }
+
+            public override bool IsInitialized
+            {
+                get
+                {
+                    EnsureValue();
+                    return localContainer.Value.IsInitialized;
+                }
+            }
+
+            public override T Resolve<T>()
+            {
+                EnsureValue();
+                return localContainer.Value.Resolve<T>();
+            }
+
+            public override T Resolve<T>(string name, params ResolverOverride[] resolverOverrides)
+            {
+                EnsureValue();
+                return localContainer.Value.Resolve<T>(name, resolverOverrides);
+            }
+
+            public override IUnityContainer Unity
+            {
+                get
+                {
+                    EnsureValue();
+                    return localContainer.Value.Unity;
+                }
+            }
+
+            private void EnsureValue()
+            {
+                if (!localContainer.IsValueCreated)
+                {
+                    if (localContainer.Values.Count == 1)
+                    {
+                        localContainer.Value = localContainer.Values.Single();
+                    }
+                    else
+                        throw new InvalidOperationException();
+                }
+            }
+
+            public void SetContainer(Container container)
+            {
+                localContainer.Value = container;
+            }
+        }
+
+        static ContainerSetup()
+        {
+            Container.Instance = threadedContainer = new ThreadedContainer();
+        }
+
         public static Container Create()
         {
-            SetupSitecoreContext();
             var result = new Container(new Microsoft.Practices.Unity.UnityContainer());
+            threadedContainer.SetContainer(result);
+            SetupSitecoreContext();
             var configuration = WebConfigurationManager.GetWebApplicationSection("streamEnergy") as Configuration.ConfigurationSection;
 
-            result.Initialize((from iocInitializer in configuration.InversionOfControlInitializers
-                               let value = iocInitializer.Build()
-                               where value != null
-                               select value).ToArray());
+            if (!result.IsInitialized)
+            {
+                result.Initialize((from iocInitializer in configuration.InversionOfControlInitializers
+                                   let value = iocInitializer.Build()
+                                   where value != null
+                                   select value).ToArray());
+            }
             SetupHttpContext(result.Unity);
             return result;
         }
@@ -40,10 +117,18 @@ namespace StreamEnergy.MyStream.Tests
             factory.ConfigureBrowserCapabilities(new NameValueCollection(), browser);
 
             container.RegisterInstance<System.Web.HttpContextBase>(new FakeHttpContext(new FakeHttpRequest(), new FakeHttpResponse(), new FakeHttpSessionState()));
+
+            Moq.Mock<Mvc.IServerUtility> mockServerUtility = new Moq.Mock<Mvc.IServerUtility>();
+            mockServerUtility.Setup(svc => svc.MapPath(Moq.It.IsAny<string>())).Returns<string>((virtualPath) => virtualPath.Replace("~", System.IO.Directory.GetCurrentDirectory()));
+            container.RegisterInstance<Mvc.IServerUtility>(mockServerUtility.Object);
+
         }
 
         private static void SetupSitecoreContext()
         {
+            if (isSitecoreSetup)
+                return;
+            isSitecoreSetup = true;
             try
             {
                 global::Sitecore.Context.IsUnitTesting = true;

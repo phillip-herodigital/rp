@@ -71,7 +71,7 @@
         <nav class="sub-nav">
             @foreach (var entry in target)
             {
-                <ul class="wrapper" ng-class="{ hidden: subnav != @entry.SubNavNum }" ng-mouseover="showSubnav(@entry.SubNavNum)" ng-mouseout="hideSubnav()">
+                <ul class="wrapper" ng-cloak ng-class="{ hidden: subnav != @entry.SubNavNum }" ng-mouseover="showSubnav(@entry.SubNavNum)" ng-mouseout="hideSubnav()">
                     @foreach (var subItem in entry.SubNavItems)
                     {
                         <li @if (subItem.Selected) { @Html.Raw("class=\"selected\""); }>@Html.Sitecore().Field("Navigation Link", subItem)</li>
