@@ -223,14 +223,22 @@ article.plain {
 	padding: 0;
 }
 
+article.account {
+	@include breakpoint(small-medium) {
+		padding: 0 20px;
+	}
+}
+
 div.banner + article.message {
 	margin-top: -20px;
 }
 
 div.banner.account {
-	border-bottom: 5px solid #259afd;
 	@include breakpoint(small) {
 		display: none;
+	}
+	@include breakpoint(large) {
+		border-bottom: 5px solid #259afd;
 	}
 }
 
@@ -397,6 +405,11 @@ article.balances-payments {
 				width: 50%;
 			}
 		}
+		&.payment {
+			input {
+				text-align: right;
+			}
+		}
 		@include breakpoint(small) {
 			.group {
 				.item {
@@ -413,7 +426,13 @@ article.balances-payments {
 }
 article.energy-usage {
 	.graph-header {
-		padding: 15px 35px;
+		padding: 15px 40px 0px 40px;
+		.last {
+			text-align: right;
+		}
+	}
+	.usage-graph {
+		text-align: center;
 	}
 	.compare {
 		p {
@@ -585,9 +604,10 @@ article.make-payment {
 	}
 }
 article.payment-history {
-	div.table-header {
-		h3 {
-			float: left;
+	header {
+		margin-bottom: 15px;
+		h2 {
+			display: inline-block;
 		}
 		ul {
 			float: right;
@@ -597,6 +617,17 @@ article.payment-history {
 				margin-left: 20px;
 			}
 		}
+	}
+	.content {
+		padding-top: 0px;
+	}
+}
+article.my-invoices {
+	header {
+		margin-bottom: 15px;
+	}
+	.content {
+		padding-top: 0px;
 	}
 }
 article.auth-forgot-password {

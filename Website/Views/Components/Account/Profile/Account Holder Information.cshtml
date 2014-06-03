@@ -16,12 +16,14 @@
                             @Html.Sitecore().Field("Phone Type Content")
                         </div>
                     </div>
-                    <div class="additional-field-action">
-                        <a href="#">@Html.Sitecore().Field("Additional Phone Text")</a>
-                    </div>
-                    <div class="group additional-field-group">
-                        <div class="group">
-                            @Html.Sitecore().Field("Additional Phone Content")
+                    <div class="additional-fields" additional-fields>
+                        <div class="additional-field-action">
+                            <a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" href="">@Html.Sitecore().Field("Additional Phone Text")</a>
+                        </div>
+                        <div class="group additional-field-group additional-fields">
+                            <div class="group">
+                                @Html.Sitecore().Field("Additional Phone Content")
+                            </div>
                         </div>
                     </div>
                     <hr class="content-divider" />
