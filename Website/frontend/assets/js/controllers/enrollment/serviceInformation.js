@@ -3,9 +3,9 @@
  * This is used to control aspects of let's get started on enrollment page.
  */
 ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$http', '$location', 'enrollmentService', function ($scope, $rootScope, $http, $location, enrollmentService) {
-    $scope.extraFields.isNewService = 0;
-    $scope.extraFields.serviceState = 'TX';
-    $scope.formErrors.serviceInformation = [];
+    $scope.enrollment.extraFields.isNewService = 0;
+    $scope.enrollment.extraFields.serviceState = 'TX';
+    $scope.enrollment.formErrors.serviceInformation = [];
 
     $scope.states = [
         {
@@ -70,25 +70,25 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
     * Complete Enrollment Section
     */
     $scope.completeStep = function () {
-        $scope.formErrors.serviceInformation = [];
+        $scope.enrollment.formErrors.serviceInformation = [];
 
-        if (!$scope.extraFields.serviceAddress) {
-            $scope.formErrors.serviceInformation.serviceAddress = 'Service Address required.';
+        if (!$scope.enrollment.extraFields.serviceAddress) {
+            $scope.enrollment.formErrors.serviceInformation.serviceAddress = 'Service Address required.';
             return;
         }
 
-        if (typeof $scope.serverData.locationServices == 'undefined') {
+        if (typeof $scope.enrollment.serverData.locationServices == 'undefined') {
             var data = { 'locations': {} };
         } else {
-            var data = { 'locations': $scope.serverData.locationServices };
+            var data = { 'locations': $scope.enrollment.serverData.locationServices };
         }
 
         var id = $scope.createLocationID();
         data.locations[id] = {
-            'location': $scope.extraFields.serviceAddress
+            'location': $scope.enrollment.extraFields.serviceAddress
         }
 
-        if ($scope.extraFields.isNewService == 1) {
+        if ($scope.enrollment.extraFields.isNewService == 1) {
             data.locations[id].location.capabilities.push({ "capabilityType": "ServiceStatus", "isNewService": true });
         }
 
@@ -97,10 +97,10 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
         var serviceInformationPromise = enrollmentService.setServiceInformation(data);
 
         serviceInformationPromise.then(function (data) {
-            angular.copy(data, $scope.serverData);
+            $scope.enrollment.serverData = data;
 
-            $scope.extraFields.isNewService = 0;
-            $scope.extraFields.serviceAddress = null;
+            $scope.enrollment.extraFields.isNewService = 0;
+            $scope.enrollment.extraFields.serviceAddress = null;
 
             $scope.activateSections('planSelection');
 
@@ -118,10 +118,10 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
         var i = 1,
             idPrefix = 'location';
 
-        if (typeof $scope.serverData.locationServices == 'undefined') {
+        if (typeof $scope.enrollment.serverData.locationServices == 'undefined') {
             return idPrefix + i;
         } else {
-            while (typeof $scope.serverData.locationServices[idPrefix + i] != 'undefined') {
+            while (typeof $scope.enrollment.serverData.locationServices[idPrefix + i] != 'undefined') {
                 i++;
             }
         }

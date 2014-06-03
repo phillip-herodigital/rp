@@ -3,46 +3,45 @@
  */
 ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', '$anchorScroll', 'enrollmentService', 'scrollService', function ($scope, $rootScope, $http, $anchorScroll, enrollmentService, scrollService) {
 
-    $scope.serverData = {}; // This array should keep track of all the form fields we collect for the enrollment
-    $scope.currentSection = 'serviceInformation';
-    $scope.nextSection = true;
-    $scope.extraFields = {};
-    $scope.formErrors = {};
-
-    $scope.sections = [
-        {
-            id: 'serviceInformation',
-            name: 'Let\'s Get Started',
-            order: 1,
-            isVisible: true
-        },
-        {
-            id: 'planSelection',
-            name: 'Choose Your Plan',
-            order: 2,
-            isVisible: false
-        },
-        {
-            id: 'accountInformation',
-            name: 'Setup Your Account',
-            order: 3,
-            isVisible: false
-        }
-        ,
-        {
-            id: 'verifyIdentity',
-            name: 'Verify Identity',
-            order: 4,
-            isVisible: false
-        }
-        ,
-        {
-            id: 'completeOrder',
-            name: 'Confirm Order',
-            order: 5,
-            isVisible: false
-        }
-    ];
+    $scope.enrollment = {
+        serverData : {}, // This array should keep track of all the form fields we collect for the enrollment
+        currentSection : 'serviceInformation',
+        nextSection : true,
+        extraFields : {},
+        formErrors : {},
+        sections : [
+            {
+                id: 'serviceInformation',
+                name: 'Let\'s Get Started',
+                order: 1,
+                isVisible: true
+            },
+            {
+                id: 'planSelection',
+                name: 'Choose Your Plan',
+                order: 2,
+                isVisible: false
+            },
+            {
+                id: 'accountInformation',
+                name: 'Setup Your Account',
+                order: 3,
+                isVisible: false
+            },
+            {
+                id: 'verifyIdentity',
+                name: 'Verify Identity',
+                order: 4,
+                isVisible: false
+            },
+            {
+                id: 'completeOrder',
+                name: 'Confirm Order',
+                order: 5,
+                isVisible: false
+            }
+        ]
+    };
 
     /**
     * Activate Sections
@@ -50,15 +49,19 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', '$ancho
     * @param string location
     */
     $scope.activateSections = function (location) {
-        angular.forEach($scope.sections, function (value) {
-            if (typeof $scope.serverData.locationServices != 'undefined') {
+        angular.forEach($scope.enrollment.sections, function (value) {
+            if (typeof $scope.enrollment.serverData.locationServices != 'undefined') {
                 if (value.id == 'serviceInformation' || value.id == 'planSelection')
                 value.isVisible = true;
             }
         });
 
-        $scope.currentSection = location;
-        scrollService.scrollTo(location);
+        $scope.enrollment.currentSection = location;
+
+        //Delay needs to be set to allow angular code to open section.
+        setTimeout(function () {
+            scrollService.scrollTo(location);
+        }, 10); 
     };
 
     /**
@@ -71,7 +74,7 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', '$ancho
         var clientDataPromise = enrollmentService.getClientData();
 
         clientDataPromise.then(function (data) {
-            $scope.serverData = data;
+            $scope.enrollment.serverData = data;
         }, function (data) {
             // error response
             $rootScope.$broadcast('connectionFailure');

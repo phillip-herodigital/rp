@@ -5,10 +5,10 @@
             <h1>@Html.Sitecore().Field("Cart Header")</h1>
         </header>
         <div class="body">
-            <div class="box" ng-hide="serverData.locationServices">
+            <div class="box" ng-hide="enrollment.serverData.locationServices">
                 <p class="alt">@Html.Sitecore().Field("Empty Cart Text")</p>
             </div>
-            <div class="box" ng-repeat="(key, value) in serverData.locationServices">
+            <div class="box" ng-repeat="(key, value) in enrollment.serverData.locationServices">
                 <div class="cart-item" ng-hide="true">
                     <div class="delete">
                         <i class="icon-delete"></i>
@@ -30,7 +30,7 @@
                         $10.35
                     </div>
                 </div>
-                <hr ng-hide="true"/>
+                <hr ng-hide="true" />
                 <div class="cart-item" ng-hide="true">
                     <div class="delete">
                         <i class="icon-delete"></i>
@@ -64,5 +64,3 @@
         </div>
     </article>
 </script>
-
-<div ng-include ng-if="false" src="'cart-template'"></div>
