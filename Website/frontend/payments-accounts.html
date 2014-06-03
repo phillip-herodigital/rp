@@ -101,121 +101,80 @@
 							<header>
 								<h2>Payment Accounts</h2>
 							</header>
-							<form>
-								<div class="content">
-									<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cras viverra justo at odio faucibus tristique. Suspendisse potenti. Morbi vitae augue lobortis leo vulputate gravida. </p>
-		
-									<div class="item">
-										<label for="account-number">Account Number:</label>
-										<input id="account-number" type="text">
-									</div>
-									<p>By clicking “Continue” below, you agree to the <a href="#">terms and conditions</a>.</p>
-								</div>
-								<footer>
-									<div class="buttons">
-										<button type="submit">Continue</button>
-									</div>
-								</footer>
-							</form>
+							<div class="content">
+								<p>Manage all your eBilling payment accounts from here. Any accounts you have previously set up will appear below for your management and review. To make a payment you must have at least one account set up. When adding an account you will be required to give it a "nickname" of your choosing. Nicknames help you recognize your accounts more easily. When payment accounts are no longer used, we recommend you delete them to keep your profile as clean as possible.</p>
+
+								<ul class="link-list">
+									<li><a href="">Add Bank Account</a></li>
+									<li><a href="">Add Credit Card</a></li>
+								</ul>
+
+								<table>
+									<thead>
+										<tr>
+											<th>Nickname</th>
+											<th>Account Number</th>
+											<th>Type</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>USAA Checking</td>
+											<td>**********1234</td>
+											<td>Checking</td>
+											<td>
+												<a href="" class="button secondary">Edit</a>
+												<a href="" class="button">Delete</a>	
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
 						</article>
 
 
 						<article class="grey-box payments">
 							<header>
-								<h2>Make a Payment</h2>
+								<h2>Add Bank Account</h2>
 							</header>
 							<form>
 								<div class="content">
-									<dl class="clearfix module-list">
-										<dt>Account Number</dt>
-										<dd>1234567890</dd>
-										<dt>Balance</dt>
-										<dd>$123.45</dd>
-									</dl>
+									<p>To add or edit a bank account, fill out the form and click on the "Submit" button below. All fields are required except First Name and Description. Note: Account Nickname will be used throughout this site to provide a friendly payment account name.</p>
 
-									<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cras viverra justo at odio faucibus tristique. Suspendisse potenti. Morbi vitae augue lobortis leo vulputate gravida. </p>
-		
-									<div class="item">
-										<label for="customer-name">Customer Name:</label>
-										<input id="customer-name" type="text">
-									</div>
+										<h3>Bank Account Information</h3>
 
-									<div class="item">
-										<label for="email">Email Address:</label>
-										<input id="email" type="email">
-									</div>
-
-									<div class="item">
-										<label for="payment-amount">Payment Amount:</label>
-										$ <input id="payment-amount" class="small" type="text">
-									</div>
-
-									<fieldset>
-										<legend>Payment Type:</legend>
-
-										<div class="payment-type-selection">
-											<div class="payment-selection">
-												<input type="radio" id="credit-card" name="payment-type" ng-model="paymentOption" value="credit-card"><label for="credit-card">Credit Card</label>
-											</div>
-											<div class="payment-options"  ng-show="paymentOption == 'credit-card'">
-												<div class="item">
-													<label for="credit-card-number">Credit Card Number:</label>
-													<input id="credit-card-number" type="text">
-												</div>
-												<div class="group">
-													<div class="item">
-														<label for="expiration-date">Expiration Date:</label>
-														<select class="small" id="cc-month">
-															<option value="">MM</option>
-														</select>
-														<select class="small" id="cc-year">
-															<option value="">YYYY</option>
-														</select>
-													</div>
-													<div class="item">
-														<label for="billing-zip">Billing Zip:</label>
-														<input class="small" type="text" id="billing-zip">
-													</div>
-													<div class="item">
-														<label for="security-code">Security Code:</label>
-														<input class="small" type="text" id="security-code">
-													</div>
-													<div class="item">
-														<a href="" class="single-link">See Example</a>
-													</div>
-												</div>
-											</div>
-											<div class="payment-selection">
-												<input type="radio" id="bank-account" name="payment-type" ng-model="paymentOption" value="bank-account"><label for="bank-account">Bank Account</label>
-											</div>
-											<div class="payment-options" ng-show="paymentOption == 'bank-account'">
-												<div class="item">
-													<label for="payment-method">Account Type:</label>
-													<select id="payment-method">
-														<option value="">Please Choose</option>
-													</select>
-												</div>
-
-												<div class="group">
-													<div class="item group-col">
-														<label for="security-code">Routing Number:</label>
-														<input type="text" id="security-code">
-													</div>
-													<div class="item group-col">
-														<label for="security-code">Account Number:</label>
-														<input type="text" id="security-code">
-													</div>									
-												</div>
-												<img src="http://placehold.it/350x80" alt="">
-											</div>										
+										<div class="item">
+											<label for="payment-method">Account Nickname:</label>
+											<input type="text" id="account-nickname">
+										</div>										
+										<div class="item">
+											<label for="payment-method">Account Type:</label>
+											<select id="payment-method">
+												<option value="">Please Choose</option>
+											</select>
 										</div>
-									</fieldset>
 
+										<div class="group">
+											<div class="item group-col">
+												<label for="security-code">Routing Number:</label>
+												<input type="text" id="security-code">
+											</div>
+											<div class="item group-col">
+												<label for="security-code">Account Number:</label>
+												<input type="text" id="security-code">
+											</div>									
+										</div>
+										<p><img src="http://placehold.it/350x80" alt=""></p>
+										<div class="item">
+											<label for="description">Description</label>
+											<textarea name="description" id="description" ></textarea>
+										</div>									
 								</div>
 								<footer>
 									<div class="buttons">
-										<button type="submit">Continue</button>
-										<button class="secondary">Back</button>
+										<button type="submit">Submit</button>
+										<button class="secondary">Cancel</button>
 									</div>
 								</footer>
 							</form>
@@ -224,91 +183,51 @@
 
 						<article class="grey-box payments">
 							<header>
-								<h2>Make a Payment</h2>
+								<h2>Add Credit Card</h2>
 							</header>
 							<form>
 								<div class="content">
-									<dl class="clearfix module-list">
-										<dt>Account Number:</dt>
-										<dd>1234657890</dd>
-									</dl>
-
-									<dl class="clearfix module-list">
-										<dt>Payment Method:</dt>
-										<dd>Credit Card</dd>
-										<dt>Card Number:</dt>
-										<dd>**** **** **** 1234</dd>
-										<dt>Bank Account Number:</dt>
-										<dd>****1234</dd>
-									</dl>
-
-									<dl class="clearfix module-list">
-										<dt>Payment Date:</dt>
-										<dd>MM/DD/YYYY</dd>
-										<dt>Payment Amount:</dt>
-										<dd>$123.45</dd>
-										<dt>Service Fee:</dt>
-										<dd>$2.95</dd>
-									</dl>
-
-									<dl class="clearfix module-list payment-total">
-										<dt>Payment Total:</dt>
-										<dd>$126.40</dd>
-									</dl>
-
-								</div>
-								<footer>
-									<div class="buttons">
-										<button type="submit">Submit Payment</button>
-										<button class="secondary">Back</button>
+									<p>To add or edit a credit card, fill out the form and click on the "Submit" button below.</p>
+									<h3>Credit Card Information</h3>
+									
+									<div class="item">
+										<label for="payment-method">Account Nickname:</label>
+										<input type="text" id="account-nickname">
+										<span class="help-text">Account Nickname will be used throughout this site to provide a friendly payment account name.</span>
 									</div>
-								</footer>
-							</form>
-						</article>
-						<p>* Please note a service fee of $ 2.95 will be applied to this transaction. While you will be paying your account with Stream Energy, the full amount of the $ 2.95 fee is passed to Stream’s provider of the service.</p>
 
-
-						<article class="grey-box payments">
-							<header>
-								<h2>Make a Payment</h2>
-							</header>
-							<form>
-								<div class="content">
-									<dl class="clearfix module-list">
-										<dt>Confirmation Number:</dt>
-										<dd>1234657890132456</dd>
-										<dt>Account Number:</dt>
-										<dd>1234657890</dd>
-									</dl>
-
-									<dl class="clearfix module-list">
-										<dt>Payment Method:</dt>
-										<dd>Credit Card</dd>
-										<dt>Card Number:</dt>
-										<dd>**** **** **** 1234</dd>
-										<dt>Bank Account Number:</dt>
-										<dd>****1234</dd>
-									</dl>
-
-									<dl class="clearfix module-list">
-										<dt>Payment Date:</dt>
-										<dd>MM/DD/YYYY</dd>
-										<dt>Payment Amount:</dt>
-										<dd>$123.45</dd>
-										<dt>Service Fee:</dt>
-										<dd>$2.95</dd>
-									</dl>
-
-									<dl class="clearfix module-list payment-total">
-										<dt>Payment Total:</dt>
-										<dd>$126.40</dd>
-									</dl>
+									<div class="item">
+										<label for="credit-card-number">Credit Card Number:</label>
+										<input id="credit-card-number" type="text">
+									</div>
+									<div class="group">
+										<div class="item">
+											<label for="expiration-date">Expiration Date:</label>
+											<select class="small" id="cc-month">
+												<option value="">MM</option>
+											</select>
+											<select class="small" id="cc-year">
+												<option value="">YYYY</option>
+											</select>
+										</div>
+										<div class="item">
+											<label for="billing-zip">Billing Zip:</label>
+											<input class="small" type="text" id="billing-zip">
+										</div>
+										<div class="item">
+											<label for="security-code">Security Code:</label>
+											<input class="small" type="text" id="security-code">
+										</div>
+										<div class="item">
+											<a href="" class="single-link">See Example</a>
+										</div>
+									</div>
 
 								</div>
 								<footer>
 									<div class="buttons">
-										<a href="#" class="button">Make Another Payment</a>
-										<a href="#" class="button secondary">Home</a>
+										<button type="submit">Submit</button>
+										<button class="secondary">Cancel</button>
 									</div>
 								</footer>
 							</form>
