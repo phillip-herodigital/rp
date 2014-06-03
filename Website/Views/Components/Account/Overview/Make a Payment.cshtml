@@ -27,11 +27,7 @@
                         <div class="group date-amount">
                             <div class="item">
                                 <label for="Payment method">@Html.Sitecore().Field("Payment Date Text")</label>
-                                <select>
-                                    <option value="Please choose">Select</option>
-                                    <option value="payment1">Payment Method 1</option>
-                                    <option value="payment2">Payment Method 2</option>
-                                </select>
+                                <input type="text" id="date">
                             </div>
                             <div class="item dollars">
                                 <label for="Amount">@Html.Sitecore().Field("Payment Amount Text")</label>
