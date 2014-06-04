@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<!--[if IE 8]>         <html ng-app="ngApp" class="no-js ie8 lt-ie10 lt-ie9"> <![endif]-->
+<!--[if IE 9]>         <html ng-app="ngApp" class="no-js ie9 lt-ie10"> <![endif]-->
+<!--[if gt IE 8]><!--> <html ng-app="ngApp" class="no-js"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8" />
+
+	<title>Title</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<link rel="shortcut icon" type="image/ico" href="assets/i/favicon.ico" />
+	<link href="assets/css/global.css" rel="stylesheet" />
+
+    <script src="assets/js/libs/modernizr/modernizr.js"></script>
+    <script src="assets/js/libs/jquery/dist/jquery.min.js"></script>
+    <script src="assets/js/libs/angular/angular.min.js"></script>
+    <script src="assets/js/libs/angular-animate/angular-animate.js"></script>
+    <script src="assets/js/libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script src="assets/js/libs/angular-ui-utils/ui-utils.min.js"></script>
+    <script src="assets/js/libs/respond/dest/respond.min.js"></script>
+
+	<script src="assets/js/app.js"></script>
+
+    <script src="assets/js/modules/mask-jquery.js"></script>
+
+    <script src="assets/js/filters/filters.js"></script>
+
+    <script src="assets/js/services/breakpoint.js"></script>
+
+    <script src="assets/js/directives/float-labels.js"></script>
+	<script src="assets/js/directives/main-nav.js"></script>
+	<script src="assets/js/directives/mobile-nav.js"></script>
+
+	<script src="assets/js/controllers/main.js"></script>
+	<script src="assets/js/controllers/payments/paymentInfo.js"></script>
+
+	<script type="text/javascript" src="//use.typekit.net/hag0zvs.js"></script>
+	<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
+</head>
+<body ng-controller="MainCtrl">
+	<div class="page-wrapper" ng-class="{open:sidebarOpen}">
+		<div class="page-content">
+			<header class="site-header" main-nav="0">
+				<div class="wrapper">
+					<a href="/" class="logo">Logo</a>
+					<p class="utility"><a href="#">Manage My Account</a></p>
+					<a href="" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
+					<nav class="main-nav">
+						<ul class="wrapper">
+							<li ng-mouseover="showSubnav(0)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav == 0 }"><a href="#"><span class="hide-medium">Rates, Products, &amp; </span>Services</a></li>
+							<li ng-mouseover="showSubnav(1)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav == 1 }"><a href="#">Opportunity</a></li>
+							<li ng-mouseover="showSubnav(2)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav == 2 }"><a href="#">Company</a></li>
+							<li ng-mouseover="showSubnav(3)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav == 3 }"><a href="#">Contact Us</a></li>
+							<li><a href="#">Pay My Bill</a></li>
+						</ul>
+					</nav>
+				</div>
+				<nav class="sub-nav">
+					<ul class="wrapper" ng-hide="subnav != 0" ng-mouseover="showSubnav(0)" ng-mouseout="hideSubnav()">
+						<li><a href="">Enroll</a></li>
+						<li><a href="">Renew</a></li>
+						<li><a href="">Free Energy</a></li>
+						<li><a href="">For Business</a></li>
+						<li><a href="">Electricity</a></li>
+						<li><a href="">Gas</a></li>
+						<li><a href="">HomeLife Services</a></li>
+						<li><a href="">Clean Energy</a></li>
+					</ul>
+					<ul class="wrapper" ng-hide="subnav != 1" ng-mouseover="showSubnav(1)" ng-mouseout="hideSubnav()">
+						<li><a href="">Why Stream Energy?</a></li>
+						<li><a href="">Why Energy?</a></li>
+						<li><a href="">How It Works</a></li>
+						<li><a href="">Compensation Plan</a></li>
+						<li><a href="">Start a Business</a></li>
+						<li><a href="">Top Leaders</a></li>
+					</ul>
+					<ul class="wrapper" ng-hide="subnav != 2" ng-mouseover="showSubnav(2)" ng-mouseout="hideSubnav()">
+						<li><a href="">About</a></li>
+						<li><a href="">Corporate Team</a></li>
+						<li><a href="">Blog</a></li>
+						<li><a href="">Press</a></li>
+						<li><a href="">Philanthropy</a></li>
+						<li><a href="">Careers</a></li>
+						<li><a href="" target="_blank">Events</a></li>
+					</ul>
+					<ul class="wrapper" ng-hide="subnav != 3" ng-mouseover="showSubnav(3)" ng-mouseout="hideSubnav()">
+						<li><a href="">Customer FAQs</a></li>
+					</ul>
+				</nav>
+			</header>
+
+
+
+			<section class="layout cols-2 wrapper">
+				<section>
+
+					<div ng-controller="PaymentsCtrl">
+						<article class="grey-box payments">
+							<header>
+								<h2>Make a Payment</h2>
+							</header>
+							<form>
+								<div class="content">
+									<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cras viverra justo at odio faucibus tristique. Suspendisse potenti. Morbi vitae augue lobortis leo vulputate gravida. </p>
+		
+									<div class="item">
+										<label for="account-number">Account Number:</label>
+										<input id="account-number" type="text">
+									</div>
+									<p>By clicking “Continue” below, you agree to the <a href="#">terms and conditions</a>.</p>
+								</div>
+								<footer>
+									<div class="buttons">
+										<button type="submit">Continue</button>
+									</div>
+								</footer>
+							</form>
+						</article>
+
+
+						<article class="grey-box payments">
+							<header>
+								<h2>Make a Payment</h2>
+							</header>
+							<form>
+								<div class="content">
+									<dl class="clearfix module-list">
+										<dt>Account Number</dt>
+										<dd>1234567890</dd>
+										<dt>Balance</dt>
+										<dd>$123.45</dd>
+									</dl>
+
+									<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cras viverra justo at odio faucibus tristique. Suspendisse potenti. Morbi vitae augue lobortis leo vulputate gravida. </p>
+		
+									<div class="item">
+										<label for="customer-name">Customer Name:</label>
+										<input id="customer-name" type="text">
+									</div>
+
+									<div class="item">
+										<label for="email">Email Address:</label>
+										<input id="email" type="email">
+									</div>
+
+									<div class="item">
+										<label for="payment-amount">Payment Amount:</label>
+										$ <input id="payment-amount" class="small" type="text">
+									</div>
+
+									<fieldset>
+										<legend>Payment Type:</legend>
+
+										<div class="payment-type-selection">
+											<div class="payment-selection">
+												<input type="radio" id="credit-card" name="payment-type" ng-model="paymentOption" value="credit-card"><label for="credit-card">Credit Card</label>
+											</div>
+											<div class="payment-options"  ng-show="paymentOption == 'credit-card'">
+												<div class="item">
+													<label for="credit-card-number">Credit Card Number:</label>
+													<input id="credit-card-number" type="text">
+												</div>
+												<div class="group">
+													<div class="item">
+														<label for="expiration-date">Expiration Date:</label>
+														<select class="small" id="cc-month">
+															<option value="">MM</option>
+														</select>
+														<select class="small" id="cc-year">
+															<option value="">YYYY</option>
+														</select>
+													</div>
+													<div class="item">
+														<label for="billing-zip">Billing Zip:</label>
+														<input class="small" type="text" id="billing-zip">
+													</div>
+													<div class="item">
+														<label for="security-code">Security Code:</label>
+														<input class="small" type="text" id="security-code">
+													</div>
+													<div class="item">
+														<a href="" class="single-link">See Example</a>
+													</div>
+												</div>
+											</div>
+											<div class="payment-selection">
+												<input type="radio" id="bank-account" name="payment-type" ng-model="paymentOption" value="bank-account"><label for="bank-account">Bank Account</label>
+											</div>
+											<div class="payment-options" ng-show="paymentOption == 'bank-account'">
+												<div class="item">
+													<label for="payment-method">Account Type:</label>
+													<select id="payment-method">
+														<option value="">Please Choose</option>
+													</select>
+												</div>
+
+												<div class="group">
+													<div class="item group-col">
+														<label for="security-code">Routing Number:</label>
+														<input type="text" id="security-code">
+													</div>
+													<div class="item group-col">
+														<label for="security-code">Account Number:</label>
+														<input type="text" id="security-code">
+													</div>									
+												</div>
+												<img src="http://placehold.it/350x80" alt="">
+											</div>										
+										</div>
+									</fieldset>
+
+								</div>
+								<footer>
+									<div class="buttons">
+										<button type="submit">Continue</button>
+										<button class="secondary">Back</button>
+									</div>
+								</footer>
+							</form>
+						</article>
+
+
+						<article class="grey-box payments">
+							<header>
+								<h2>Make a Payment</h2>
+							</header>
+							<form>
+								<div class="content">
+									<dl class="clearfix module-list">
+										<dt>Account Number:</dt>
+										<dd>1234657890</dd>
+									</dl>
+
+									<dl class="clearfix module-list">
+										<dt>Payment Method:</dt>
+										<dd>Credit Card</dd>
+										<dt>Card Number:</dt>
+										<dd>**** **** **** 1234</dd>
+										<dt>Bank Account Number:</dt>
+										<dd>****1234</dd>
+									</dl>
+
+									<dl class="clearfix module-list">
+										<dt>Payment Date:</dt>
+										<dd>MM/DD/YYYY</dd>
+										<dt>Payment Amount:</dt>
+										<dd>$123.45</dd>
+										<dt>Service Fee:</dt>
+										<dd>$2.95</dd>
+									</dl>
+
+									<dl class="clearfix module-list payment-total">
+										<dt>Payment Total:</dt>
+										<dd>$126.40</dd>
+									</dl>
+
+								</div>
+								<footer>
+									<div class="buttons">
+										<button type="submit">Submit Payment</button>
+										<button class="secondary">Back</button>
+									</div>
+								</footer>
+							</form>
+						</article>
+						<p>* Please note a service fee of $ 2.95 will be applied to this transaction. While you will be paying your account with Stream Energy, the full amount of the $ 2.95 fee is passed to Stream’s provider of the service.</p>
+
+
+						<article class="grey-box payments">
+							<header>
+								<h2>Make a Payment</h2>
+							</header>
+							<form>
+								<div class="content">
+									<dl class="clearfix module-list">
+										<dt>Confirmation Number:</dt>
+										<dd>1234657890132456</dd>
+										<dt>Account Number:</dt>
+										<dd>1234657890</dd>
+									</dl>
+
+									<dl class="clearfix module-list">
+										<dt>Payment Method:</dt>
+										<dd>Credit Card</dd>
+										<dt>Card Number:</dt>
+										<dd>**** **** **** 1234</dd>
+										<dt>Bank Account Number:</dt>
+										<dd>****1234</dd>
+									</dl>
+
+									<dl class="clearfix module-list">
+										<dt>Payment Date:</dt>
+										<dd>MM/DD/YYYY</dd>
+										<dt>Payment Amount:</dt>
+										<dd>$123.45</dd>
+										<dt>Service Fee:</dt>
+										<dd>$2.95</dd>
+									</dl>
+
+									<dl class="clearfix module-list payment-total">
+										<dt>Payment Total:</dt>
+										<dd>$126.40</dd>
+									</dl>
+
+								</div>
+								<footer>
+									<div class="buttons">
+										<a href="#" class="button">Make Another Payment</a>
+										<a href="#" class="button secondary">Home</a>
+									</div>
+								</footer>
+							</form>
+						</article>
+					</div>
+
+
+				</section>
+			</section>
+
+
+
+
+
+
+			<footer class="site-footer">
+				<div class="super-footer">
+					<div class="wrapper">
+						<div class="grid three">
+							<div class="col">
+								<ul>
+									<li><a href="#"><img src="assets/i/img-footer-get-free-energy.png" alt="Get Free Energy" width="159" height="44" /></a></li>
+									<li><a href="#"><img src="assets/i/img-footer-renew-my-contract.png" alt="Renew My Contract" width="120" height="45" /></a></li>
+								</ul>
+							</div>
+							<div class="col quick-links">
+								<h2><i class="icon-quicklinks"></i> Quick Links</h2>
+								<ul>
+									<li><a href="#">Account Overview</a></li>
+									<li><a href="#">Utility Services</a></li>
+									<li><a href="#">Homelife Services</a></li>
+									<li><a href="#">My Profile</a></li>
+								</ul>
+							</div>
+							<div class="col social">
+								<h2><i class="icon-social"></i> Social</h2>
+								<ul>
+									<li><a href="#"><i class="icon-facebook"></i> Facebook</a></li>
+									<li><a href="#"><i class="icon-twitter"></i> Twitter</a></li>
+									<li><a href="#"><i class="icon-youtube"></i> YouTube</a></li>
+									<li><a href="#"><i class="icon-pinterest"></i> Pinterest</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="wrapper copyright">
+					<p>&copy; 2005-2013 SGE IP Holdco, LLC. All rights reserved. Licensed in TX, GA, PA, MD, NJ, NY, &amp; DC<br />
+					(TX #10104, GA #GM-38, NJ #ESL-0109 &amp; GSL-0120, PA #A-2010-2181867 &amp; A-2012-2308991, MD #IR-2072 &amp; IR-2742, NY #STRM, DC EA11-11)</p>
+					<ul>
+						<li><a href="#"><i class="icon-bbb"></i></a></li>
+						<li><a href="#"><i class="icon-dsa"></i></a></li>
+					</ul>
+				</div>
+			</footer>
+		</div>
+	</div>
+
+</body>
+</html>

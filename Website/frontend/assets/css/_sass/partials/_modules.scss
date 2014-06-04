@@ -40,9 +40,6 @@ article {
 		background: #fbfbfb;
 		padding: 15px;
 		border-top: 1px solid #ddd;
-		button, .button {
-			margin-top: 10px;
-		}
 	}
 	.buttons {
 		@extend .clearfix;		
@@ -53,6 +50,10 @@ article {
 				float: none;
 				width: 100%;
 				margin-left: 0;
+				margin-top: 10px;
+				&:first-child {
+					margin-top: 0;
+				}
 			}			
 		}
 	}	
@@ -198,6 +199,23 @@ article {
 		width: 100%;
 		border: 1px solid #ddd;
 		border-bottom: 0px;
+	}
+	dl.module-list {
+		dt {
+			font-weight: bold;
+		}	
+		dd {
+			text-align: left;
+		}
+		@include breakpoint(small) {
+			dd {
+				margin-bottom: 10px; 
+			}
+			dt, dd {
+				float: none;
+				width: auto;
+			}
+		}			
 	}
 }
 article.grey-box {
@@ -655,6 +673,36 @@ article.auth {
 			}
 		}
 	}	
+}
+article.payments {
+	.payment-selection {
+
+	}
+	.payment-options {
+		margin: 15px 0 25px 20px;
+	}
+	.payment-total {
+		dd {
+			border-top: 1px solid #333;
+		}
+		dt, dd {
+			padding-top: 15px;
+		}
+
+		@include breakpoint(small) {
+			dd { 
+				border-top: none;
+				padding-top: 0;
+			}
+			dt { 
+				border-top: 1px solid #333;
+				padding-top: 20px;
+			}
+		}
+	}
+	img {
+		max-width: 100%;
+	}
 }
 
 /*ALL MODULES BELOW THIS ARE SIDEBAR MODULES*/
