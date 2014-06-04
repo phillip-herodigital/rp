@@ -12,15 +12,168 @@ namespace StreamEnergy.Caching
     public static class RedisCacheExtensions
     {
         const string expiresPrefix = "$$EXPIRES";
+        const string ClearCacheChainScript = @"
+for i, key in ipairs(redis.call('SMEMBERS', KEYS[1])) do
+    redis.call('DEL', key)
+end
+redis.call('DEL', KEYS[1])
+return 1
+";
+        static readonly string TwoDeepClearCacheChainScript = @"
+for i, key in ipairs(redis.call('SMEMBERS', KEYS[1])) do
+    if string.sub(key,1," + expiresPrefix.Length + @")=='" + expiresPrefix + @"' then
+        for i, key2 in ipairs(redis.call('SMEMBERS', KEYS[1])) do
+            redis.call('DEL', key2)
+        end
+    end
+    redis.call('DEL', key)
+end
+redis.call('DEL', KEYS[1])
+return 1
+";
 
-        public static Task<bool> CacheSet(this IDatabaseAsync redis, string key, dynamic value, TimeSpan? expiry = null, string sessionId = null, CacheCategory[] categories = null)
+
+        public static bool CacheSet(this IDatabase redis, string key, dynamic value, TimeSpan? expiry = null, string sessionId = null, CacheCategory[] categories = null)
         {
             ValidateKey(key);
+            key = AdjustKeyForSession(key, sessionId);
+
             RedisValue redisValue = ConvertToRedisValue(value);
 
+            return (bool)redis.ScriptEvaluate(BuildScript(key, sessionId, categories), new RedisKey[] { key }, new RedisValue[] { redisValue });
+        }
+
+        public static async Task<bool> CacheSetAsync(this IDatabaseAsync redis, string key, dynamic value, TimeSpan? expiry = null, string sessionId = null, CacheCategory[] categories = null)
+        {
+            ValidateKey(key);
+            key = AdjustKeyForSession(key, sessionId);
+      
+            RedisValue redisValue = ConvertToRedisValue(value);
+
+            return (bool)await redis.ScriptEvaluateAsync(BuildScript(key, sessionId, categories), new RedisKey[] { key }, new RedisValue[] { redisValue });
+        }
+
+        public static T CacheGet<T>(this IDatabase redis, string key, string sessionId = null)
+        {
+            ValidateKey(key);
+            key = AdjustKeyForSession(key, sessionId);
+            var result = redis.StringGet(key);
+            return ConvertFromRedisValue<T>(result);
+        }
+
+        public static async Task<T> CacheGetAsync<T>(this IDatabaseAsync redis, string key, string sessionId = null)
+        {
+            ValidateKey(key);
+            key = AdjustKeyForSession(key, sessionId);
+            var result = await redis.StringGetAsync(key);
+            return ConvertFromRedisValue<T>(result);
+        }
+
+        public static bool ClearSessionCache(this IDatabase redis, string sessionId)
+        {
+            var keys = new RedisKey[] { string.Join(" ", expiresPrefix, sessionId) };
+            return (bool)redis.ScriptEvaluate(TwoDeepClearCacheChainScript, keys);
+        }
+
+        public static async Task<bool> ClearSessionCacheAsync(this IDatabaseAsync redis, string sessionId)
+        {
+            var keys = new RedisKey[] { string.Join(" ", expiresPrefix, sessionId) };
+            return (bool)await redis.ScriptEvaluateAsync(TwoDeepClearCacheChainScript, keys);
+        }
+
+        public static bool ClearSessionCategoryCache(this IDatabase redis, string sessionId, CacheCategory category)
+        {
+            var keys = new RedisKey[] { string.Join(" ", expiresPrefix, sessionId, category.ToString()) };
+            return (bool)redis.ScriptEvaluate(ClearCacheChainScript, keys);
+        }
+
+        public static async Task<bool> ClearSessionCategoryCacheAsync(this IDatabaseAsync redis, string sessionId, CacheCategory category)
+        {
+            var keys = new RedisKey[] { string.Join(" ", expiresPrefix, sessionId, category.ToString()) };
+            return (bool)await redis.ScriptEvaluateAsync(ClearCacheChainScript, keys);
+        }
+
+        public static bool ClearCategoryCache(this IDatabase redis, CacheCategory category)
+        {
+            var keys = new RedisKey[] { string.Join(" ", expiresPrefix, category.ToString()) };
+            return (bool)redis.ScriptEvaluate(ClearCacheChainScript, keys);
+        }
+
+        public static async Task<bool> ClearCategoryCacheAsync(this IDatabaseAsync redis, CacheCategory category)
+        {
+            var keys = new RedisKey[] { string.Join(" ", expiresPrefix, category.ToString()) };
+            return (bool)await redis.ScriptEvaluateAsync(ClearCacheChainScript, keys);
+        }
+
+        #region Key Validation/manipulation
+        private static void ValidateKey(string key)
+        {
+            if (key.StartsWith(expiresPrefix))
+            {
+                throw new ArgumentException(expiresPrefix + " is a reserved prefix.");
+            }
+        }
+
+        private static string AdjustKeyForSession(string key, string sessionId)
+        {
             if (sessionId != null)
                 key = sessionId + " " + key;
+            return key;
+        }
+        #endregion
 
+        #region Convert to/from RedisValue
+
+        private static RedisValue ConvertToRedisValue(dynamic value)
+        {
+            RedisValue redisValue;
+            if (value != null)
+            {
+                try
+                {
+                    redisValue = value;
+                }
+                catch
+                {
+                    // can't convert, so serialize it
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        var formatter = new BinaryFormatter();
+                        formatter.Serialize(ms, (object)value);
+                        redisValue = ms.ToArray();
+                    }
+                }
+            }
+            else
+            {
+                redisValue = RedisValue.Null;
+            }
+            return redisValue;
+        }
+
+        private static T ConvertFromRedisValue<T>(RedisValue result)
+        {
+            try
+            {
+                return (T)(dynamic)result;
+            }
+            catch
+            {
+                // can't convert, so deserialize it
+                using (MemoryStream ms = new MemoryStream((byte[])result))
+                {
+                    var formatter = new BinaryFormatter();
+                    return (T)formatter.Deserialize(ms);
+                }
+            }
+        }
+
+        #endregion
+
+        #region Script building/running
+
+        private static string BuildScript(string key, string sessionId, CacheCategory[] categories)
+        {
             // Using a script rather than a transaction so that we can reduce the requirement from IDatabase to 
             // IDatabaseAsync - this way someone could put a transaction around multiple CacheSet calls if they want.
             var script = new StringBuilder();
@@ -48,9 +201,10 @@ namespace StreamEnergy.Caching
                                         select CreateScriptAddCacheKey(sessionKey, key));
                 }
             }
-
-            return redis.ScriptEvaluateAsync(script.ToString(), new RedisKey[] { key }, new RedisValue[] { redisValue }).ContinueWith(t => (bool)t.Result);
+            return script.ToString();
         }
+
+        #endregion
 
         private static void AppendLines(StringBuilder script, IEnumerable<string> lines)
         {
@@ -63,107 +217,6 @@ namespace StreamEnergy.Caching
         private static string CreateScriptAddCacheKey(string key, string value)
         {
             return "redis.call('SADD', '" + key + "', '" + value + "')";
-        }
-
-        public static async Task<T> CacheGet<T>(this IDatabaseAsync redis, string key, string sessionId = null)
-        {
-            if (sessionId != null)
-                key = sessionId + " " + key;
-
-            var result = await redis.StringGetAsync(key);
-            try
-            {
-                return (T)(dynamic)result;
-            }
-            catch
-            {
-                // can't convert, so deserialize it
-                using (MemoryStream ms = new MemoryStream((byte[])result))
-                {
-                    var formatter = new BinaryFormatter();
-                    return (T)formatter.Deserialize(ms);
-                }
-            }
-        }
-
-        public static Task<bool> ClearSessionCache(this IDatabaseAsync redis, string sessionId)
-        {
-            var keys = new RedisKey[] { string.Join(" ", expiresPrefix, sessionId) };
-            return TwoDeepClearCacheChain(redis, keys);
-        }
-
-        public static Task<bool> ClearSessionCategoryCache(this IDatabaseAsync redis, string sessionId, CacheCategory category)
-        {
-            var keys = new RedisKey[] { string.Join(" ", expiresPrefix, sessionId, category.ToString()) };
-            return ClearCacheChain(redis, keys);
-        }
-
-        public static Task<bool> ClearCategoryCache(this IDatabaseAsync redis, CacheCategory category)
-        {
-            var keys = new RedisKey[] { string.Join(" ", expiresPrefix, category.ToString()) };
-            return ClearCacheChain(redis, keys);
-        }
-
-        private static Task<bool> ClearCacheChain(IDatabaseAsync redis, RedisKey[] keys)
-        {
-            return redis.ScriptEvaluateAsync(@"
-for i, key in ipairs(redis.call('SMEMBERS', KEYS[1])) do
-    redis.call('DEL', key)
-end
-redis.call('DEL', KEYS[1])
-return 1
-", keys).ContinueWith(eval => (bool)eval.Result);
-        }
-
-        private static Task<bool> TwoDeepClearCacheChain(IDatabaseAsync redis, RedisKey[] keys)
-        {
-            return redis.ScriptEvaluateAsync(@"
-for i, key in ipairs(redis.call('SMEMBERS', KEYS[1])) do
-    if string.sub(key,1," + expiresPrefix.Length + @")=='" + expiresPrefix + @"' then
-        for i, key2 in ipairs(redis.call('SMEMBERS', KEYS[1])) do
-            redis.call('DEL', key2)
-        end
-    end
-    redis.call('DEL', key)
-end
-redis.call('DEL', KEYS[1])
-return 1
-", keys).ContinueWith(eval => (bool)eval.Result);
-        }
-
-        private static void ValidateKey(string key)
-        {
-            if (key.StartsWith(expiresPrefix))
-            {
-                throw new ArgumentException(expiresPrefix + " is a reserved prefix.");
-            }
-        }
-
-        private static RedisValue ConvertToRedisValue(dynamic value)
-        {
-            RedisValue redisValue;
-            if (value != null)
-            {
-                try
-                {
-                    redisValue = value;
-                }
-                catch
-                {
-                    // can't convert, so serialize it
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        var formatter = new BinaryFormatter();
-                        formatter.Serialize(ms, (object)value);
-                        redisValue = ms.ToArray();
-                    }
-                }
-            }
-            else
-            {
-                redisValue = RedisValue.Null;
-            }
-            return redisValue;
         }
 
     }

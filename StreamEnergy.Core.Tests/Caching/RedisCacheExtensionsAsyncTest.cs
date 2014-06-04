@@ -9,7 +9,7 @@ using StreamEnergy.Caching;
 namespace StreamEnergy.Core.Tests.Caching
 {
     [TestClass]
-    public class RedisCacheExtensionsTest
+    public class RedisCacheExtensionsAsyncTest
     {
         private Microsoft.VisualStudio.TestTools.UnitTesting.TestContext testContextInstance;
         private static ConnectionMultiplexer redis;
@@ -80,115 +80,115 @@ namespace StreamEnergy.Core.Tests.Caching
         }
 
         [TestMethod]
-        public void CacheTest()
+        public async Task CacheTest()
         {
-            db.CacheSet("NonSessionKey", "SomeValue");
-            var actual = db.CacheGet<string>("NonSessionKey");
+            await db.CacheSetAsync("NonSessionKey", "SomeValue");
+            var actual = await db.CacheGetAsync<string>("NonSessionKey");
             Assert.AreEqual("SomeValue", actual);
         }
 
         [TestMethod]
-        public void CacheIntegerTest()
+        public async Task CacheIntegerTest()
         {
-            db.CacheSet("CacheIntegerKey", 6000);
-            var actual = db.CacheGet<int>("CacheIntegerKey");
+            await db.CacheSetAsync("CacheIntegerKey", 6000);
+            var actual = await db.CacheGetAsync<int>("CacheIntegerKey");
             Assert.AreEqual(6000, actual);
         }
 
         [TestMethod]
-        public void CacheLongTest()
+        public async Task CacheLongTest()
         {
-            db.CacheSet("CacheLongKey", 6000);
-            var actual = db.CacheGet<long>("CacheLongKey");
+            await db.CacheSetAsync("CacheLongKey", 6000);
+            var actual = await db.CacheGetAsync<long>("CacheLongKey");
             Assert.AreEqual(6000L, actual);
         }
 
         [TestMethod]
-        public void CacheObjectTest()
+        public async Task CacheObjectTest()
         {
             TestTarget target = new TestTarget { Name = "My Test", Value = 7514 };
-            db.CacheSet("CacheObjectKey", target);
-            var actual = db.CacheGet<TestTarget>("CacheObjectKey");
+            await db.CacheSetAsync("CacheObjectKey", target);
+            var actual = await db.CacheGetAsync<TestTarget>("CacheObjectKey");
             Assert.AreNotSame(target, actual);
             Assert.AreEqual(target.Name, actual.Name);
             Assert.AreEqual(target.Value, actual.Value);
         }
 
         [TestMethod]
-        public void CategoryCacheTest()
+        public async Task CategoryCacheTest()
         {
-            db.CacheSet("AccountCategoryKey", "Categorical Value", categories: new[] { CacheCategory.Accounts });
-            var actual = db.CacheGet<string>("AccountCategoryKey");
+            await db.CacheSetAsync("AccountCategoryKey", "Categorical Value", categories: new[] { CacheCategory.Accounts });
+            var actual = await db.CacheGetAsync<string>("AccountCategoryKey");
             Assert.AreEqual("Categorical Value", actual);
         }
 
         [TestMethod]
-        public void ClearCategoryCacheTest()
+        public async Task ClearCategoryCacheTest()
         {
-            db.CacheSet("AccountCategoryKey2", "New Value", categories: new[] { CacheCategory.Accounts });
-            db.ClearCategoryCache(CacheCategory.Accounts);
+            await db.CacheSetAsync("AccountCategoryKey2", "New Value", categories: new[] { CacheCategory.Accounts });
+            await db.ClearCategoryCacheAsync(CacheCategory.Accounts);
 
-            var actual = db.CacheGet<string>("AccountCategoryKey2");
+            var actual = await db.CacheGetAsync<string>("AccountCategoryKey2");
             Assert.AreEqual(null, actual);
         }
 
         [TestMethod]
-        public void SessionCacheTest()
+        public async Task SessionCacheTest()
         {
-            db.CacheSet("SessionKey", "New Value", sessionId: "SESSIONID01234");
-            var actual = db.CacheGet<string>("SessionKey", sessionId: "SESSIONID01234");
+            await db.CacheSetAsync("SessionKey", "New Value", sessionId: "SESSIONID01234");
+            var actual = await db.CacheGetAsync<string>("SessionKey", sessionId: "SESSIONID01234");
             Assert.AreEqual("New Value", actual);
-
-            actual = db.CacheGet<string>("SessionKey", sessionId: "OTHER_SESSION");
+            
+            actual = await db.CacheGetAsync<string>("SessionKey", sessionId: "OTHER_SESSION");
             Assert.AreEqual(null, actual);
 
-            actual = db.CacheGet<string>("SessionKey");
-            Assert.AreEqual(null, actual);
-        }
-
-        [TestMethod]
-        public void ClearSessionCacheTest()
-        {
-            db.CacheSet("SessionKey", "New Value", sessionId: "SESSIONID01234");
-            db.ClearSessionCache("SESSIONID01234");
-
-            var actual = db.CacheGet<string>("SessionKey", sessionId: "SESSIONID01234");
+            actual = await db.CacheGetAsync<string>("SessionKey");
             Assert.AreEqual(null, actual);
         }
 
         [TestMethod]
-        public void SessionCategoryCacheTest()
+        public async Task ClearSessionCacheTest()
         {
-            db.CacheSet("AccountCategoryKey", "Categorical Value", sessionId: "SESSIONID01234", categories: new[] { CacheCategory.Accounts });
-            var actual = db.CacheGet<string>("AccountCategoryKey", sessionId: "SESSIONID01234");
+            await db.CacheSetAsync("SessionKey", "New Value", sessionId: "SESSIONID01234");
+            await db.ClearSessionCacheAsync("SESSIONID01234");
+
+            var actual = await db.CacheGetAsync<string>("SessionKey", sessionId: "SESSIONID01234");
+            Assert.AreEqual(null, actual);
+        }
+
+        [TestMethod]
+        public async Task SessionCategoryCacheTest()
+        {
+            await db.CacheSetAsync("AccountCategoryKey", "Categorical Value", sessionId: "SESSIONID01234", categories: new[] { CacheCategory.Accounts });
+            var actual = await db.CacheGetAsync<string>("AccountCategoryKey", sessionId: "SESSIONID01234");
             Assert.AreEqual("Categorical Value", actual);
         }
 
         [TestMethod]
-        public void SessionClearCategoryCacheTest()
+        public async Task SessionClearCategoryCacheTest()
         {
-            db.CacheSet("AccountCategoryKey2", "New Value", sessionId: "SESSIONID01234", categories: new[] { CacheCategory.Accounts });
-            db.CacheSet("InvoiceCategoryKey", "Invoices", sessionId: "SESSIONID01234", categories: new[] { CacheCategory.Invoices });
-            db.ClearSessionCategoryCache("SESSIONID01234", CacheCategory.Accounts);
+            await db.CacheSetAsync("AccountCategoryKey2", "New Value", sessionId: "SESSIONID01234", categories: new[] { CacheCategory.Accounts });
+            await db.CacheSetAsync("InvoiceCategoryKey", "Invoices", sessionId: "SESSIONID01234", categories: new[] { CacheCategory.Invoices });
+            await db.ClearSessionCategoryCacheAsync("SESSIONID01234", CacheCategory.Accounts);
 
-            var actual = db.CacheGet<string>("AccountCategoryKey2", sessionId: "SESSIONID01234");
+            var actual = await db.CacheGetAsync<string>("AccountCategoryKey2", sessionId: "SESSIONID01234");
             Assert.AreEqual(null, actual);
 
-            actual = db.CacheGet<string>("InvoiceCategoryKey", sessionId: "SESSIONID01234");
+            actual = await db.CacheGetAsync<string>("InvoiceCategoryKey", sessionId: "SESSIONID01234");
             Assert.AreEqual("Invoices", actual);
         }
 
         [TestMethod]
-        public void ClearSessionCategoryCacheTest()
+        public async Task ClearSessionCategoryCacheTest()
         {
-            db.CacheSet("AccountCategoryKey2", "New Value", sessionId: "SESSIONID01234", categories: new[] { CacheCategory.Accounts });
-            db.CacheSet("AccountCategoryKey2", "Other", sessionId: "OTHER_SESSION", categories: new[] { CacheCategory.Accounts });
-            db.ClearSessionCache("SESSIONID01234");
+            await db.CacheSetAsync("AccountCategoryKey2", "New Value", sessionId: "SESSIONID01234", categories: new[] { CacheCategory.Accounts });
+            await db.CacheSetAsync("AccountCategoryKey2", "Other", sessionId: "OTHER_SESSION", categories: new[] { CacheCategory.Accounts });
+            await db.ClearSessionCacheAsync("SESSIONID01234");
 
-            var actual = db.CacheGet<string>("AccountCategoryKey2", sessionId: "SESSIONID01234");
+            var actual = await db.CacheGetAsync<string>("AccountCategoryKey2", sessionId: "SESSIONID01234");
             Assert.AreEqual(null, actual);
 
-            actual = db.CacheGet<string>("AccountCategoryKey2", sessionId: "OTHER_SESSION");
+            actual = await db.CacheGetAsync<string>("AccountCategoryKey2", sessionId: "OTHER_SESSION");
             Assert.AreEqual("Other", actual);
         }
     }

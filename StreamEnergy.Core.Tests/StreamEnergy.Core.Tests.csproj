@@ -87,6 +87,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Caching\RedisCacheExtensionsAsyncTest.cs" />
     <Compile Include="Caching\RedisCacheExtensionsTest.cs" />
     <Compile Include="Processes\StateMachineBehaviorTest.cs" />
     <Compile Include="Processes\StateMachineInternalTrackerTest.cs" />
