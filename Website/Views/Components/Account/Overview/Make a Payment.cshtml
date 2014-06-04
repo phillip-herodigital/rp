@@ -1,7 +1,7 @@
 ﻿
 <section class="layout cols-2 wrapper" ng-controller="MakePaymentCtrl">
     <section class="layout cols-1">
-        <article class="grey-box make-payment">
+        <article class="grey-box make-payment" ng-show="activeState == 'step1'">
             <form>
                 <header>
                     <h2>@Html.Sitecore().Field("Make Payment Text")</h2>
@@ -46,12 +46,12 @@
                                     </select>
                                 </div>
                                 <div class="item add-account">
-                                    <p><a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" class="details-link" href=""><span ng-if="!isOpen">@Html.Sitecore().Field("Add Account Text")</span><span ng-if="isOpen">- Cancel</span></a></p>
+                                    <p><a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" class="details-link" href=""><span ng-if="!isOpen">@Html.Sitecore().Field("Add Account Text")</span><span ng-if="isOpen">@Html.Sitecore().Field("Cancel Account Text")</span></a></p>
                                 </div>
                             </div>
                             <div class="additional-fields new-account">
                                 <fieldset>
-                                    <legend>Payment Type:</legend>
+                                    <legend>@Html.Sitecore().Field("Payment Type Text")</legend>
 
                                     <div class="payment-type-selection">
                                         <div class="payment-selection">
@@ -59,12 +59,12 @@
                                         </div>
                                         <div class="payment-options" ng-show="paymentOption == 'credit-card'">
                                             <div class="item">
-                                                <label for="credit-card-number">Credit Card Number:</label>
+                                                <label for="credit-card-number">@Html.Sitecore().Field("Credit Card Number Text")</label>
                                                 <input id="credit-card-number" type="text">
                                             </div>
                                             <div class="group">
                                                 <div class="item">
-                                                    <label for="expiration-date">Expiration Date:</label>
+                                                    <label for="expiration-date">@Html.Sitecore().Field("Expiration Date Text")</label>
                                                     <select class="small" id="cc-month">
                                                         <option value="">MM</option>
                                                     </select>
@@ -73,15 +73,15 @@
                                                     </select>
                                                 </div>
                                                 <div class="item">
-                                                    <label for="billing-zip">Billing Zip:</label>
+                                                    <label for="billing-zip">@Html.Sitecore().Field("Billing Zip Text")</label>
                                                     <input class="small" type="text" id="billing-zip">
                                                 </div>
                                                 <div class="item">
-                                                    <label for="security-code">Security Code:</label>
+                                                    <label for="security-code">@Html.Sitecore().Field("Security Code Text")</label>
                                                     <input class="small" type="text" id="security-code">
                                                 </div>
                                                 <div class="item">
-                                                    <a href="" class="single-link">See Example</a>
+                                                    <a href="" class="single-link">@Html.Sitecore().Field("See Example Link Text")</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -90,7 +90,7 @@
                                         </div>
                                         <div class="payment-options" ng-show="paymentOption == 'bank-account'">
                                             <div class="item">
-                                                <label for="payment-method">Account Type:</label>
+                                                <label for="payment-method">@Html.Sitecore().Field("Account Type Text")</label>
                                                 <select id="payment-method">
                                                     <option value="">Please Choose</option>
                                                 </select>
@@ -98,11 +98,11 @@
 
                                             <div class="group">
                                                 <div class="item group-col">
-                                                    <label for="security-code">Routing Number:</label>
+                                                    <label for="security-code">@Html.Sitecore().Field("Routing Number Text")</label>
                                                     <input type="text" id="security-code">
                                                 </div>
                                                 <div class="item group-col">
-                                                    <label for="security-code">Account Number:</label>
+                                                    <label for="security-code">@Html.Sitecore().Field("Account Number Text")</label>
                                                     <input type="text" id="security-code">
                                                 </div>
                                             </div>
@@ -116,14 +116,14 @@
                 </div>
                 <footer>
                     <div class="buttons">
-                        <button type="submit">@Html.Sitecore().Field("Continue Button Text")</button>
+                        <button type="submit" ng-click="continue()">@Html.Sitecore().Field("Continue Button Text")</button>
                         <button type="submit" class="secondary">@Html.Sitecore().Field("Back Button Text")</button>
                     </div>
                 </footer>
             </form>
         </article>
 
-        <article class="grey-box make-payment">
+        <article class="grey-box make-payment" ng-show="activeState == 'step2'">
             <header>
                 <h2>Make a Payment</h2>
             </header>
@@ -153,14 +153,14 @@
                 </div>
                 <footer>
                     <div class="buttons">
-                        <button type="submit">@Html.Sitecore().Field("Submit Payment Button Text")</button>
-                        <button class="secondary">@Html.Sitecore().Field("Back Button Text")</button>
+                        <button type="submit" ng-click="continue()">@Html.Sitecore().Field("Submit Payment Button Text")</button>
+                        <button class="secondary" ng-click="back()">@Html.Sitecore().Field("Back Button Text")</button>
                     </div>
                 </footer>
             </form>
         </article>
 
-        <article class="grey-box make-payment">
+        <article class="grey-box make-payment" ng-show="activeState == 'step3'">
             <header>
                 <h2>Make a Payment</h2>
             </header>

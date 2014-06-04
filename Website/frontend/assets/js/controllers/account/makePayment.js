@@ -27,4 +27,14 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', function (
 
     $scope.format = 'MM/dd/yyyy';
 
+    $scope.activeState = 'step1';
+
+    $scope.continue = function() {
+        $scope.activeState = (($scope.activeState == 'step1') ? 'step2' : 'step3');
+    };
+
+    $scope.back = function() {
+        $scope.activeState = 'step1';
+    };
+
 }]);
