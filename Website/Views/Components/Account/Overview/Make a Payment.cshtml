@@ -55,7 +55,7 @@
 
                                     <div class="payment-type-selection">
                                         <div class="payment-selection">
-                                            <input type="radio" id="credit-card" name="payment-type" ng-model="paymentOption" value="credit-card"><label for="credit-card">Credit Card</label>
+                                            <input type="radio" id="credit-card" name="payment-type" ng-model="paymentOption" value="credit-card"><label for="credit-card">@Html.Sitecore().Field("Credit Card Text")</label>
                                         </div>
                                         <div class="payment-options" ng-show="paymentOption == 'credit-card'">
                                             <div class="item">
@@ -86,7 +86,7 @@
                                             </div>
                                         </div>
                                         <div class="payment-selection">
-                                            <input type="radio" id="bank-account" name="payment-type" ng-model="paymentOption" value="bank-account"><label for="bank-account">Bank Account</label>
+                                            <input type="radio" id="bank-account" name="payment-type" ng-model="paymentOption" value="bank-account"><label for="bank-account">@Html.Sitecore().Field("Bank Account Text")</label>
                                         </div>
                                         <div class="payment-options" ng-show="paymentOption == 'bank-account'">
                                             <div class="item">
