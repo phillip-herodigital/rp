@@ -35,8 +35,7 @@ namespace StreamEnergy.Services.Clients
             var cacheSetup = unityContainer.Resolve<ServiceCache>();
             mockResolver.MockResolvers.Add(cacheSetup);
 
-            cacheSetup.Register<Sample.Temperature.TempConvertSoap>(s => s.CelsiusToFahrenheit(null), false, TimeSpan.FromMinutes(5));
-
+            cacheSetup.Register<Sample.Temperature.TempConvertSoap>(s => s.CelsiusToFahrenheit(null), session: false, keepFor: TimeSpan.FromMinutes(5));
         }
     }
 }
