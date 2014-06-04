@@ -430,6 +430,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\EnrollmentController.cs" />
     <Compile Include="Controllers\JsonHelper\EnrollmentController.cs" />
     <Compile Include="Controllers\TempController.cs" />
@@ -450,6 +451,22 @@
     <Compile Include="Models\Angular\GridTable\GridTableExtensions.cs" />
     <Compile Include="Models\Angular\GridTable\Table.cs" />
     <Compile Include="Models\Angular\GridTable\DeviceType.cs" />
+    <Compile Include="Models\Authentication\ChangePasswordRequest.cs" />
+    <Compile Include="Models\Authentication\ChangePasswordResponse.cs" />
+    <Compile Include="Models\Authentication\CreateLoginRequest.cs" />
+    <Compile Include="Models\Authentication\CreateLoginResponse.cs" />
+    <Compile Include="Models\Authentication\FindAccountRequest.cs" />
+    <Compile Include="Models\Authentication\FindAccountResponse.cs" />
+    <Compile Include="Models\Authentication\GetUserChallengeQuestionsRequest.cs" />
+    <Compile Include="Models\Authentication\GetUserChallengeQuestionsResponse.cs" />
+    <Compile Include="Models\Authentication\LoginRequest.cs" />
+    <Compile Include="Models\Authentication\LoginResponse.cs" />
+    <Compile Include="Models\Authentication\RecoverUsernameRequest.cs" />
+    <Compile Include="Models\Authentication\RecoverUsernameResponse.cs" />
+    <Compile Include="Models\Authentication\SecurityQuestion.cs" />
+    <Compile Include="Models\Authentication\AnsweredSecurityQuestion.cs" />
+    <Compile Include="Models\Authentication\SendResetPasswordEmailRequest.cs" />
+    <Compile Include="Models\Authentication\SendResetPasswordEmailResponse.cs" />
     <Compile Include="Models\Enrollment\AccountInformation.cs" />
     <Compile Include="Models\Enrollment\ClientData.cs" />
     <Compile Include="Models\Enrollment\ConfirmOrder.cs" />
@@ -559,7 +576,7 @@
     <Content Include="App_Config\Include\Sitecore.Speak.config" />
     <Content Include="App_Config\Include\Sitecore.Speak.ItemWebApi.config" />
     <Content Include="App_Config\Include\Sitecore.Speak.Mvc.config" />
-  <Content Include="Views\web.config" />
+    <Content Include="Views\web.config" />
     <Content Include="Views\**\*.cshtml" />
     <Content Include="App_Config\Include\StreamEnergy.Initialization.config">
       <SubType>Designer</SubType>
