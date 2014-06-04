@@ -47,6 +47,10 @@ namespace StreamEnergy.Services.Clients
 
         bool IServiceMockResolver.ApplyMock(Castle.DynamicProxy.IInvocation invocation)
         {
+            if (redisDatabase == null)
+            {
+                return false;
+            }
             if (cacheConfigurations.ContainsKey(invocation.Method))
             {
                 string sessionId = null;

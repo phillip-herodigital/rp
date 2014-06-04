@@ -39,8 +39,15 @@ return 1
             key = AdjustKeyForSession(key, sessionId);
 
             RedisValue redisValue = ConvertToRedisValue(value);
-
-            return (bool)redis.ScriptEvaluate(BuildScript(key, sessionId, categories), new RedisKey[] { key }, new RedisValue[] { redisValue });
+            
+            try
+            {
+                return (bool)redis.ScriptEvaluate(BuildScript(key, sessionId, categories), new RedisKey[] { key }, new RedisValue[] { redisValue });
+            }
+            catch (RedisConnectionException)
+            {
+                return false;
+            }
         }
 
         public static async Task<bool> CacheSetAsync(this IDatabaseAsync redis, string key, dynamic value, TimeSpan? expiry = null, string sessionId = null, CacheCategory[] categories = null)
@@ -50,23 +57,44 @@ return 1
       
             RedisValue redisValue = ConvertToRedisValue(value);
 
-            return (bool)await redis.ScriptEvaluateAsync(BuildScript(key, sessionId, categories), new RedisKey[] { key }, new RedisValue[] { redisValue });
+            try 
+            {
+                return (bool)await redis.ScriptEvaluateAsync(BuildScript(key, sessionId, categories), new RedisKey[] { key }, new RedisValue[] { redisValue });
+            }
+            catch (RedisConnectionException)
+            {
+                return false;
+            }
         }
 
         public static T CacheGet<T>(this IDatabase redis, string key, string sessionId = null)
         {
             ValidateKey(key);
             key = AdjustKeyForSession(key, sessionId);
-            var result = redis.StringGet(key);
-            return ConvertFromRedisValue<T>(result);
+            try
+            {
+                var result = redis.StringGet(key);
+                return ConvertFromRedisValue<T>(result);
+            } 
+            catch (RedisConnectionException)
+            {
+                return default(T);
+            }
         }
 
         public static async Task<T> CacheGetAsync<T>(this IDatabaseAsync redis, string key, string sessionId = null)
         {
             ValidateKey(key);
             key = AdjustKeyForSession(key, sessionId);
-            var result = await redis.StringGetAsync(key);
-            return ConvertFromRedisValue<T>(result);
+            try
+            {
+                var result = await redis.StringGetAsync(key);
+                return ConvertFromRedisValue<T>(result);
+            }
+            catch (RedisConnectionException)
+            {
+                return default(T);
+            }
         }
 
         public static bool ClearSessionCache(this IDatabase redis, string sessionId)
