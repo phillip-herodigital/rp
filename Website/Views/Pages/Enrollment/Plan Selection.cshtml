@@ -18,7 +18,7 @@
                 <div class="content">
                     <div class="item">
                         <label for="service-address">Service Address</label>
-                        <strong>123 Main Street, Dallas, TX 75001</strong>
+                        <strong>{{enrollment.currentAddress.formattedAddress}}</strong>
                     </div>
                 </div>
             </article>
@@ -198,7 +198,7 @@
             </article>
             <div class="buttons">
                 <button type="submit" class="primary" ng-click="completeStep();">Continue</button>
-                <button type="submit" class="secondary">Add Additional Address</button>
+                <button type="submit" class="secondary" ng-click="scrollToServiceInformation();">Add Additional Address</button>
             </div>
             <div class="hide-medium-large time-remaining-mobile">
                 <p class="time-remaining">Estimated Time For Completion <strong>10 Minutes</strong></p>

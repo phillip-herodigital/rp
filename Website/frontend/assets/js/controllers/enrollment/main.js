@@ -8,7 +8,9 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', '$ancho
         currentSection : 'serviceInformation',
         nextSection : true,
         extraFields : {},
-        formErrors : {},
+        formErrors: {},
+        currentAddress: {},
+        headerHeightOffset: jQuery('header.site-header').height() * -1,
         sections : [
             {
                 id: 'serviceInformation',
@@ -60,8 +62,7 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', '$ancho
 
         //Delay needs to be set to allow angular code to open section.
         $timeout(function () {
-            var offset = jQuery('header.site-header').height() * -1;
-            scrollService.scrollTo(location, offset);
+            scrollService.scrollTo(location, $scope.enrollment.headerHeightOffset);
         }, 10); 
     };
 
