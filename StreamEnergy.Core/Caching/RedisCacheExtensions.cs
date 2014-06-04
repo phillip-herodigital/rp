@@ -13,7 +13,7 @@ namespace StreamEnergy.Caching
     {
         const string expiresPrefix = "$$EXPIRES";
 
-        public static Task<bool> CacheSet(this IDatabase redis, string key, dynamic value, TimeSpan? expiry = null, string sessionId = null, CacheCategory[] categories = null)
+        public static Task<bool> CacheSet(this IDatabaseAsync redis, string key, dynamic value, TimeSpan? expiry = null, string sessionId = null, CacheCategory[] categories = null)
         {
             ValidateKey(key);
             RedisValue redisValue = ConvertToRedisValue(value);
@@ -21,13 +21,48 @@ namespace StreamEnergy.Caching
             if (sessionId != null)
                 key = sessionId + " " + key;
 
-            var transaction = redis.CreateTransaction();
-            var result = transaction.StringSetAsync(key, redisValue, expiry: expiry);
-            Task last = SetExpirationChain(key, transaction, result, sessionId, categories);
+            // Using a script rather than a transaction so that we can reduce the requirement from IDatabase to 
+            // IDatabaseAsync - this way someone could put a transaction around multiple CacheSet calls if they want.
+            var script = new StringBuilder();
+            script.AppendLine("redis.call('SET', KEYS[1], ARGV[1])");
+            IEnumerable<string> expirationParts = Enumerable.Repeat(expiresPrefix, 1);
+            string sessionKey = null;
+            if (sessionId != null)
+            {
+                expirationParts = expirationParts.Concat(Enumerable.Repeat(sessionId, 1));
+                sessionKey = string.Join(" ", expirationParts);
+                if (categories == null || categories.Length == 0)
+                {
+                    script.AppendLine(CreateScriptAddCacheKey(sessionKey, key));
+                }
+            }
+            if (categories != null)
+            {
+                AppendLines(script, from category in categories
+                                    let categoryKey = string.Join(" ", expirationParts.Concat(Enumerable.Repeat(category.ToString(), 1)))
+                                    select CreateScriptAddCacheKey(categoryKey, key));
+                if (sessionId != null)
+                {
+                    AppendLines(script, from category in categories
+                                        let categoryKey = string.Join(" ", expirationParts.Concat(Enumerable.Repeat(category.ToString(), 1)))
+                                        select CreateScriptAddCacheKey(sessionKey, key));
+                }
+            }
 
-            transaction.Execute();
+            return redis.ScriptEvaluateAsync(script.ToString(), new RedisKey[] { key }, new RedisValue[] { redisValue }).ContinueWith(t => (bool)t.Result);
+        }
 
-            return last.ContinueWith(t => result.Result);
+        private static void AppendLines(StringBuilder script, IEnumerable<string> lines)
+        {
+            foreach (var line in lines)
+            {
+                script.AppendLine(line);
+            }
+        }
+
+        private static string CreateScriptAddCacheKey(string key, string value)
+        {
+            return "redis.call('SADD', '" + key + "', '" + value + "')";
         }
 
         public static async Task<T> CacheGet<T>(this IDatabaseAsync redis, string key, string sessionId = null)
@@ -94,32 +129,6 @@ end
 redis.call('DEL', KEYS[1])
 return 1
 ", keys).ContinueWith(eval => (bool)eval.Result);
-        }
-
-        private static Task SetExpirationChain(string key, ITransaction transaction, Task last, string sessionId = null, CacheCategory[] categories = null)
-        {
-            RedisKey sessionKey = new RedisKey();
-            IEnumerable<string> expirationParts = Enumerable.Repeat(expiresPrefix, 1);
-            if (sessionId != null)
-            {
-                expirationParts = expirationParts.Concat(Enumerable.Repeat(sessionId, 1));
-                sessionKey = string.Join(" ", expirationParts);
-                last = transaction.SetAddAsync(sessionKey, key);
-            }
-
-            if (categories != null)
-            {
-                foreach (var category in categories)
-                {
-                    var categoryKey = string.Join(" ", expirationParts.Concat(Enumerable.Repeat(category.ToString(), 1)));
-                    if (sessionId != null)
-                    {
-                        transaction.SetAddAsync(sessionKey, categoryKey);
-                    }
-                    last = transaction.SetAddAsync(categoryKey, key);
-                }
-            }
-            return last;
         }
 
         private static void ValidateKey(string key)
