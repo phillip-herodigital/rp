@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StackExchange.Redis;
 using StreamEnergy.Caching;
@@ -13,6 +14,7 @@ namespace StreamEnergy.Core.Tests.Caching
         private Microsoft.VisualStudio.TestTools.UnitTesting.TestContext testContextInstance;
         private static ConnectionMultiplexer redis;
         private IDatabase db;
+        private static UnityContainer unityContainer;
 
         [Serializable]
         private struct TestTarget
@@ -40,23 +42,17 @@ namespace StreamEnergy.Core.Tests.Caching
         [ClassInitialize()]
         public static void MyClassInitialize(TestContext testContext)
         {
-            try
-            {
-                redis = ConnectionMultiplexer.Connect("localhost");
-            }
-            catch
-            {
-                redis = null;
-            }
+            unityContainer = new UnityContainer();
+            new RedisCacheContainerSetup().SetupUnity(unityContainer);
         }
 
         [TestInitialize()]
         public void MyTestInitialize()
         {
-            if (redis == null)
-                Assert.Inconclusive("No local redis.");
+            db = unityContainer.Resolve<IDatabase>();
 
-            db = redis.GetDatabase();
+            if (db == null)
+                Assert.Inconclusive("No redis connection.");
         }
 
         [TestCleanup()]

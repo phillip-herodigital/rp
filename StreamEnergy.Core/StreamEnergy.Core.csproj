@@ -162,6 +162,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Caching\CacheCategory.cs" />
+    <Compile Include="Caching\RedisCacheContainerSetup.cs" />
     <Compile Include="Caching\RedisCacheExtensions.cs" />
     <Compile Include="CollectionCountRangeAttribute.cs" />
     <Compile Include="CompositeValidationAttribute.cs" />

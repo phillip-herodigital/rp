@@ -30,7 +30,7 @@ namespace StreamEnergy.Caching
             return last.ContinueWith(t => result.Result);
         }
 
-        public static async Task<T> CacheGet<T>(this IDatabase redis, string key, string sessionId = null)
+        public static async Task<T> CacheGet<T>(this IDatabaseAsync redis, string key, string sessionId = null)
         {
             if (sessionId != null)
                 key = sessionId + " " + key;
@@ -51,25 +51,25 @@ namespace StreamEnergy.Caching
             }
         }
 
-        public static Task<bool> ClearSessionCache(this IDatabase redis, string sessionId)
+        public static Task<bool> ClearSessionCache(this IDatabaseAsync redis, string sessionId)
         {
             var keys = new RedisKey[] { string.Join(" ", expiresPrefix, sessionId) };
             return TwoDeepClearCacheChain(redis, keys);
         }
 
-        public static Task<bool> ClearSessionCategoryCache(this IDatabase redis, string sessionId, CacheCategory category)
+        public static Task<bool> ClearSessionCategoryCache(this IDatabaseAsync redis, string sessionId, CacheCategory category)
         {
             var keys = new RedisKey[] { string.Join(" ", expiresPrefix, sessionId, category.ToString()) };
             return ClearCacheChain(redis, keys);
         }
 
-        public static Task<bool> ClearCategoryCache(this IDatabase redis, CacheCategory category)
+        public static Task<bool> ClearCategoryCache(this IDatabaseAsync redis, CacheCategory category)
         {
             var keys = new RedisKey[] { string.Join(" ", expiresPrefix, category.ToString()) };
             return ClearCacheChain(redis, keys);
         }
 
-        private static Task<bool> ClearCacheChain(IDatabase redis, RedisKey[] keys)
+        private static Task<bool> ClearCacheChain(IDatabaseAsync redis, RedisKey[] keys)
         {
             return redis.ScriptEvaluateAsync(@"
 for i, key in ipairs(redis.call('SMEMBERS', KEYS[1])) do
@@ -80,7 +80,7 @@ return 1
 ", keys).ContinueWith(eval => (bool)eval.Result);
         }
 
-        private static Task<bool> TwoDeepClearCacheChain(IDatabase redis, RedisKey[] keys)
+        private static Task<bool> TwoDeepClearCacheChain(IDatabaseAsync redis, RedisKey[] keys)
         {
             return redis.ScriptEvaluateAsync(@"
 for i, key in ipairs(redis.call('SMEMBERS', KEYS[1])) do
