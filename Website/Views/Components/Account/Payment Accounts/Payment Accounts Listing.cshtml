@@ -1,0 +1,35 @@
+<article class="grey-box payments">
+	<header>
+		<h2>@Html.Sitecore().Field("Header Text")</h2>
+	</header>
+	<div class="content">
+		@Html.Sitecore().Field("Body Text")
+
+		<ul class="link-list">
+			<li><a href="">@Html.Sitecore().Field("Add Bank Account Text")</a></li>
+			<li><a href="">@Html.Sitecore().Field("Add Credit Card Text")</a></li>
+		</ul>
+
+		<table>
+			<thead>
+				<tr>
+					<th>@Html.Sitecore().Field("Nickname Text")</th>
+					<th>@Html.Sitecore().Field("Number Text")</th>
+					<th>@Html.Sitecore().Field("Type Text")</th>
+					<th>@Html.Sitecore().Field("Action Text")</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>USAA Checking</td>
+					<td>**********1234</td>
+					<td>Checking</td>
+					<td>
+						<a href="" class="button secondary">@Html.Sitecore().Field("Edit Button Text")</a>
+						<a href="" class="button">@Html.Sitecore().Field("Delete Button Text")</a>	
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</article>
