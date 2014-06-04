@@ -110,8 +110,6 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
 
             $scope.enrollment.extraFields.serviceAddress = null;
 
-            console.log($scope.enrollment);
-
             $scope.activateSections('planSelection');
 
         }, function (data) {
