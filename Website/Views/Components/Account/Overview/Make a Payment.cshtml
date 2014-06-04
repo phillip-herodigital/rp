@@ -1,5 +1,5 @@
 ﻿
-<section class="layout cols-2 wrapper">
+<section class="layout cols-2 wrapper" ng-controller="MakePaymentCtrl">
     <section class="layout cols-1">
         <article class="grey-box make-payment">
             <form>
@@ -192,8 +192,8 @@
                 </div>
                 <footer>
                     <div class="buttons">
-                        <a href="#" class="button">@Html.Sitecore().Field("Payment History Button Text")</a>
-                        <a href="#" class="button secondary">@Html.Sitecore().Field("Account Overview Button Text")</a>
+                        @Html.Sitecore().Field("Payment History Link")
+                        @Html.Sitecore().Field("Account Overview Link")
                     </div>
                 </footer>
             </form>
