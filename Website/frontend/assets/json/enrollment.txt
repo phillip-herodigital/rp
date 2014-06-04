@@ -1,0 +1,169 @@
+﻿{
+    "validations": [],
+    "offers": {
+        "someid": [
+            {
+                "id": "NewOffer",
+                "offerType": "TexasElectricity"
+            }
+        ],
+        "otherid": [
+            {
+                "id": "NewOffer",
+                "offerType": "TexasElectricity"
+            }
+        ]
+    },
+    "offerOptionRules": {
+        "someid": {
+            "newOffer": {
+                "optionRulesType": "ServiceStatus",
+                "connectDates": {}
+            }
+        },
+        "otherid": {
+            "newOffer": {
+                "optionRulesType": "ServiceStatus",
+                "connectDates": {}
+            }
+        }
+    },
+    "locationServices": {
+        "someid": {
+            "location": {
+                "address": {
+                    "line1": "3620 Huffines Blvd",
+                    "unitNumber": "226",
+                    "city": "Carrollton",
+                    "stateAbbreviation": "TX",
+                    "postalCode5": "75010"
+                },
+                "capabilities": [
+                    {
+                        "capabilityType": "TexasElectricity",
+                        "esiId": "1234SAMPLE5678",
+                        "tdu": "Centerpoint"
+                    }
+                ]
+            },
+            "selectedOffers": {
+                "newOffer": {
+                    "offer": {
+                        "id": "NewOffer",
+                        "offerType": "TexasElectricity"
+                    },
+                    "offerOption": {
+                        "connectDate": "2014-05-01T00:00:00"
+                    }
+                }
+            }
+        },
+        "otherid": {
+            "location": {
+                "address": {
+                    "line1": "1999 Bryan St",
+                    "unitNumber": "2401",
+                    "city": "Dallas",
+                    "stateAbbreviation": "TX",
+                    "postalCode5": "75201"
+                },
+                "capabilities": [
+                    {
+                        "capabilityType": "TexasElectricity",
+                        "esiId": "123456789",
+                        "tdu": "Oncor"
+                    }
+                ]
+            },
+            "selectedOffers": {
+                "newOffer": {
+                    "offer": {
+                        "id": "NewOffer",
+                        "offerType": "TexasElectricity"
+                    },
+                    "offerOption": {
+                        "connectDate": "2014-06-01T00:00:00"
+                    }
+                }
+            }
+        }
+    },
+    "contactInfo": {
+        "name": {
+            "first": "Test",
+            "last": "Person"
+        },
+        "primaryPhone": {
+            "number": "2142234567"
+        },
+        "email": {
+            "address": "test@example.com"
+        }
+    },
+    "language": "en",
+    "billingAddress": {
+        "line1": "1999 Bryan St",
+        "unitNumber": "2401",
+        "city": "Dallas",
+        "stateAbbreviation": "TX",
+        "postalCode5": "75201"
+    },
+    "identityQuestions": [
+        {
+            "questionId": "1",
+            "questionText": "What is your name?",
+            "answers": [
+                {
+                    "answerId": "1",
+                    "answerText": "King Arthur"
+                },
+                {
+                    "answerId": "2",
+                    "answerText": "Sir Lancelot"
+                },
+                {
+                    "answerId": "3",
+                    "answerText": "Sir Robin"
+                },
+                {
+                    "answerId": "4",
+                    "answerText": "Sir Galahad"
+                }
+            ]
+        },
+        {
+            "questionId": "2",
+            "questionText": "What is your quest?",
+            "answers": [
+                {
+                    "answerId": "1",
+                    "answerText": "To seek the Holy Grail."
+                }
+            ]
+        },
+        {
+            "questionId": "3",
+            "questionText": "What is your favorite color?",
+            "answers": [
+                {
+                    "answerId": "1",
+                    "answerText": "Blue."
+                },
+                {
+                    "answerId": "2",
+                    "answerText": "Green."
+                },
+                {
+                    "answerId": "3",
+                    "answerText": "Yellow."
+                },
+                {
+                    "answerId": "4",
+                    "answerText": "Red."
+                }
+            ]
+        }
+    ],
+    "depositAmount": 50,
+    "confirmationNumber": "87654321"
+}

@@ -52,8 +52,7 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', '$ancho
     */
     $scope.activateSections = function (location) {
         angular.forEach($scope.enrollment.sections, function (value) {
-            if (typeof $scope.enrollment.serverData.locationServices != 'undefined') {
-                if (value.id == 'serviceInformation' || value.id == 'planSelection')
+            if (value.id == location) {
                 value.isVisible = true;
             }
         });

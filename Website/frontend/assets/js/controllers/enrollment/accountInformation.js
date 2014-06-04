@@ -13,8 +13,9 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', '$rootScope', 'e
         var confirmOrderPromise = enrollmentService.setConfirmOrder();
 
         confirmOrderPromise.then(function (data) {
-            console.log(data);
             $scope.enrollment.serverData = data;
+
+            $scope.activateSections('verifyIdentity');
         }, function (data) {
             // error response
             $rootScope.$broadcast('connectionFailure');

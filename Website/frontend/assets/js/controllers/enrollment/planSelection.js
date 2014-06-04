@@ -19,8 +19,9 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', '$rootScope', 'enroll
         var selectedOffersPromise = enrollmentService.setSelectedOffers();
 
         selectedOffersPromise.then(function (data) {
-            console.log(data);
             $scope.enrollment.serverData = data;
+
+            $scope.activateSections('accountInformation');
         }, function (data) {
             // error response
             $rootScope.$broadcast('connectionFailure');
