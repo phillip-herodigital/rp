@@ -26,9 +26,9 @@
                         <p>@Html.Sitecore().Field("Current Balance Text") <strong>$123.45</strong></p>
 
                         <div class="group date-amount">
-                            <div class="item">
+                            <div class="item datepicker">
                                 <label for="Payment method">@Html.Sitecore().Field("Payment Date Text")</label>
-                                <input type="text" id="date">
+                                <input type="text" datepicker-popup="{{format}}" ng-model="dt" is-open="$parent.opened" min-date="minDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" ng-click="open($event)" show-button-bar="false" />
                             </div>
                             <div class="item dollars">
                                 <label for="Amount">@Html.Sitecore().Field("Payment Amount Text")</label>
