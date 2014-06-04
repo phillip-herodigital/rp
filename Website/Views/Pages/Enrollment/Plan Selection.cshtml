@@ -35,64 +35,64 @@
                         </tr>
                         <tr class="spacer"></tr>
                     </thead>
-                    <tbody class="open">
+                    <tbody additional-fields ng-class="{'open': isOpen}">
                         <tr>
                             <th class="vertical"><div class="fixed">Fixed</div></th>
-                            <td class="plan-name hide-small">24-Month Fixed Rate <a href="">Hide Details <i class="icon-blue-arrow-up"></i></a></td>
+                            <td class="plan-name hide-small">24-Month Fixed Rate <a href="" ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}"><span ng-if="!isOpen">View Details <i class="icon-blue-arrow-down"></i></span><span ng-if="isOpen">Hide Details <i class="icon-blue-arrow-up"></i></span> </a></td>
                             <td class="rate">7.18&cent; <span>per kWh</span></td>
                             <td class="term"><i class="icon-24months"></i></td>
                             <td class="fees">$150<span>early cancellation fee</span></td>
                             <td class="hide-small"><a class="button" button-selector="'24-Month Fixed Rate'" ng-model="enrollment.extraFields.electricityPlan" href="">Select</a></td>
                         </tr>
-                        <tr class="details">
+                        <tr class="details additional-fields">
                             <td colspan="6">
                                 <p>When it comes to your family’s energy service, you can’t afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services.</p>
                             </td>
                         </tr>
                         <tr class="spacer"></tr>
                     </tbody>
-                    <tbody>
+                    <tbody additional-fields ng-class="{'open': isOpen}">
                         <tr>
                             <th class="vertical"><div class="fixed">Fixed</div></th>
-                            <td class="plan-name hide-small">6-Month Fixed Rate <a href="">View Details <i class="icon-blue-arrow-down"></i></a></td>
+                            <td class="plan-name hide-small">6-Month Fixed Rate <a href="" ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}"><span ng-if="!isOpen">View Details <i class="icon-blue-arrow-down"></i></span><span ng-if="isOpen">Hide Details <i class="icon-blue-arrow-up"></i></span> </a></td>
                             <td class="rate">7.98&cent; <span>per kWh</span></td>
                             <td class="term"><i class="icon-6months"></i></td>
                             <td class="fees">$150<span>early cancellation fee</span></td>
                             <td class="hide-small"><a class="button select" button-selector="'6-Month Fixed Rate'" ng-model="enrollment.extraFields.electricityPlan" href="">Select</a></td>
                         </tr>
-                        <tr class="details">
+                        <tr class="details additional-fields">
                             <td colspan="6">
                                 <p>When it comes to your family’s energy service, you can’t afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services.</p>
                             </td>
                         </tr>
                         <tr class="spacer"></tr>
                     </tbody>
-                    <tbody>
+                    <tbody additional-fields ng-class="{'open': isOpen}">
                         <tr>
                             <th class="vertical"><div class="variable">Variable</div></th>
-                            <td class="plan-name hide-small">Month-to-Month Rate <a href="">View Details <i class="icon-blue-arrow-down"></i></a></td>
+                            <td class="plan-name hide-small">Month-to-Month Rate <a href="" ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}"><span ng-if="!isOpen">View Details <i class="icon-blue-arrow-down"></i></span><span ng-if="isOpen">Hide Details <i class="icon-blue-arrow-up"></i></span> </a></td>
                             <td class="rate">7.98&cent; <span>per kWh</span></td>
                             <td class="term"><i class="icon-month-to-month"></i> month-to-month</td>
                             <td class="fees">$0<span>early cancellation fee</span></td>
                             <td class="hide-small"><a class="button select" button-selector="'Month-to-Month Rate'" ng-model="enrollment.extraFields.electricityPlan" href="">Select</a></td>
                         </tr>
-                        <tr class="details">
+                        <tr class="details additional-fields">
                             <td colspan="6">
                                 <p>When it comes to your family’s energy service, you can’t afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services.</p>
                             </td>
                         </tr>
                         <tr class="spacer"></tr>
                     </tbody>
-                    <tbody>
+                    <tbody additional-fields ng-class="{'open': isOpen}">
                         <tr>
                             <th class="vertical"><div class="variable">Variable</div></th>
-                            <td class="plan-name hide-small">Introductory Rate Plan<a href="">View Details <i class="icon-blue-arrow-down"></i></a></td>
+                            <td class="plan-name hide-small">Introductory Rate Plan <a href="" ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}"><span ng-if="!isOpen">View Details <i class="icon-blue-arrow-down"></i></span><span ng-if="isOpen">Hide Details <i class="icon-blue-arrow-up"></i></span> </a></td>
                             <td class="rate">8.08&cent; <span>per kWh</span></td>
                             <td class="term"><i class="icon-month-to-month"></i> month-to-month</td>
                             <td class="fees">$0<span>early cancellation fee</span></td>
                             <td class="hide-small"><a class="button select" button-selector="'Introductory Rate Plan'" ng-model="enrollment.extraFields.electricityPlan" href="">Select</a></td>
                         </tr>
-                        <tr class="details">
+                        <tr class="details additional-fields">
                             <td colspan="6">
                                 <p>When it comes to your family’s energy service, you can’t afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services.</p>
                             </td>
