@@ -10,21 +10,21 @@
 			<li><a href="">@Html.Sitecore().Field("Add Credit Card Text")</a></li>
 		</ul>
 
-		<table>
+		<table class="payment-accounts-table">
 			<thead>
 				<tr>
-					<th>@Html.Sitecore().Field("Nickname Text")</th>
-					<th>@Html.Sitecore().Field("Number Text")</th>
-					<th>@Html.Sitecore().Field("Type Text")</th>
-					<th>@Html.Sitecore().Field("Action Text")</th>
+					<th class="nickname">@Html.Sitecore().Field("Nickname Text")</th>
+					<th class="account-number">@Html.Sitecore().Field("Account Number Text")</th>
+					<th class="type">@Html.Sitecore().Field("Type Text")</th>
+					<th class="action">@Html.Sitecore().Field("Action Text")</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td>USAA Checking</td>
-					<td>**********1234</td>
-					<td>Checking</td>
-					<td>
+					<td data-title="@Html.Sitecore().Field("Nickname Text")">USAA Checking</td>
+					<td data-title="@Html.Sitecore().Field("Account Number Text")">**********1234</td>
+					<td data-title="@Html.Sitecore().Field("Type Text")">Checking</td>
+					<td data-title="@Html.Sitecore().Field("Action Text")">
 						<a href="" class="button secondary">@Html.Sitecore().Field("Edit Button Text")</a>
 						<a href="" class="button">@Html.Sitecore().Field("Delete Button Text")</a>	
 					</td>
