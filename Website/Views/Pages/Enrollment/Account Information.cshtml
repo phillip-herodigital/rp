@@ -2,8 +2,8 @@
     <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper">
             <h1>
-                <span class="block">Setup Your</span>
-                <span class="block">Account</span>
+                <span class="block">@Html.Sitecore().Field("Setup Your")</span>
+                <span class="block">@Html.Sitecore().Field("Account")</span>
             </h1>
         </div>
     </div>
@@ -12,7 +12,7 @@
             <div ng-include ng-if="true" src="'enrollment-nav-template'"></div>
         </aside>
         <section>
-            <h1>@Html.Sitecore().Field("Header Account") <span>@Html.Sitecore().Field("Header Information")</span></h1>
+            <h1>@Html.Sitecore().Field("Header Account Information")</h1>
             <p>@Html.Sitecore().Field("Fill in Information")</p>
             <article class="form">
                 <div class="content">
