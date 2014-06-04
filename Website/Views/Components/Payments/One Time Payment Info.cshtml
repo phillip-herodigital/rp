@@ -1,8 +1,8 @@
 <article class="grey-box payments">
 	<header>
-		<h2>@Html.Sitecore().Field("Header Text")t</h2>
+		<h2>@Html.Sitecore().Field("Header Text")</h2>
 	</header>
-	<form>
+	<form ng-show="activeState == 'step1'">
 		<div class="content">
 			@Html.Sitecore().Field("Body Text")
 
@@ -14,16 +14,11 @@
 		</div>
 		<footer>
 			<div class="buttons">
-				<button type="submit">@Html.Sitecore().Field("Continue Button Text")</button>
+				<button type="submit" ng-click="continue()">@Html.Sitecore().Field("Continue Button Text")</button>
 			</div>
 		</footer>
 	</form>
-</article>
-<article class="grey-box payments">
-	<header>
-		<h2>@Html.Sitecore().Field("Header Text")t</h2>
-	</header>
-	<form>
+	<form ng-show="activeState == 'step2'">
 		<div class="content">
 			<dl class="clearfix module-list">
 				<dt>@Html.Sitecore().Field("Account Number Label"):</dt>
@@ -52,10 +47,10 @@
 
 				<div class="payment-type-selection">
 					<div class="payment-selection">
-						<input type="radio" id="credit-card" name="payment-type" ng-model="paymentOption" ng-value="creditCard">
+						<input type="radio" id="credit-card" name="payment-type" ng-model="paymentSelection.paymentOption" ng-value="creditCard">
 						<label for="credit-card">@Html.Sitecore().Field("Credit Card Label")</label>
 					</div>
-					<div class="payment-options"  ng-show="paymentOption == 'credit-card'">
+					<div class="payment-options"  ng-show="paymentSelection.paymentOption == 'credit-card'">
 						<div class="item">
 							<label for="credit-card-number">@Html.Sitecore().Field("Credit Card Number Label"):</label>
 							<input id="credit-card-number" type="text">
@@ -84,10 +79,10 @@
 						</div>
 					</div>
 					<div class="payment-selection">
-						<input type="radio" id="bank-account" name="payment-type" ng-model="paymentOption" ng-value="bankAccount">
+						<input type="radio" id="bank-account" name="payment-type" ng-model="paymentSelection.paymentOption" ng-value="bankAccount">
 						<label for="bank-account">@Html.Sitecore().Field("Bank Account Label")</label>
 					</div>
-					<div class="payment-options" ng-show="paymentOption == 'bank-account'">
+					<div class="payment-options" ng-show="paymentSelection.paymentOption == 'bank-account'">
 						<div class="item">
 							<label for="payment-method">@Html.Sitecore().Field("Account Type Label"):</label>
 							<select id="payment-method">
