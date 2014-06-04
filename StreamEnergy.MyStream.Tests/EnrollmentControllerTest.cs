@@ -148,11 +148,14 @@ namespace StreamEnergy.MyStream.Tests
             // Arrange
             var request = new Models.Enrollment.ServiceInformation
             {
-                Locations = new Dictionary<string,Location>
+                Locations = new Dictionary<string, Models.Enrollment.IntermediateLocation>
                 { 
                     {
                         "loc",
-                        generalLocation
+                        new Models.Enrollment.IntermediateLocation 
+                        {
+                            Location = generalLocation
+                        }
                     }
                 }
             };
