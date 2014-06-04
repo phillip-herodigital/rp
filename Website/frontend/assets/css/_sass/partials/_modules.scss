@@ -675,8 +675,38 @@ article.auth {
 	}	
 }
 article.payments {
-	.payment-selection {
-
+	.link-list {
+		float: right;
+		list-style-type: none;
+		padding-left: 0;
+		li {
+			float: left;
+			margin-left: 10px;
+			padding-left: 10px;
+			border-left: 1px solid #ccc;
+			&:first-child {
+				border-left: none;
+				margin-left: 0;
+				padding-left: 0;
+			}
+		}
+		@include breakpoint(small) {
+			float: none;
+			li {
+				float: none;
+				margin: 0;
+				padding: 0;
+				border: none;
+			}
+		}
+	}
+	.payment-accounts-table {
+		.nickname {
+			width: 100%;
+		}
+		td:last-child {
+			white-space: nowrap;
+		}
 	}
 	.payment-options {
 		margin: 15px 0 25px 20px;
@@ -703,6 +733,48 @@ article.payments {
 	img {
 		max-width: 100%;
 	}
+
+	//Responsive table layout for payment account listing
+	@include breakpoint(small) {
+		table, thead, tbody, th, td, tr {
+			display: block;
+			padding: 0;
+			background: transparent;
+		}		
+		table {
+			clear: both;
+			thead {
+				position: absolute;
+				top: -9999px;
+				left: -9999px;
+			}
+			tr {
+				border-top: 1px solid #ccc; 
+			}			
+			td {
+				font-size: 16px;
+				border: none;
+				position: relative;
+				padding: 8px 0;
+				white-space: normal;
+				text-align:left;
+				&:before {
+					content: attr(data-title);
+					display: block;
+					white-space: nowrap;
+					text-align:left;
+					font-weight: 600;
+					text-transform: uppercase;	
+				}
+				&:first-child {
+					padding-top: 20px;
+				}
+				&:last-child {
+					padding-bottom: 20px;
+				}				
+			}
+		}
+	}	
 }
 
 /*ALL MODULES BELOW THIS ARE SIDEBAR MODULES*/
