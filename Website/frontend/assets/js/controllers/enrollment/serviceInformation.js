@@ -72,7 +72,6 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
     $scope.completeStep = function () {
         $scope.enrollment.formErrors.serviceInformation = [];
 
-        /* Editing out error checking
         if (!$scope.enrollment.extraFields.serviceAddress) {
             $scope.enrollment.formErrors.serviceInformation.serviceAddress = 'Service Address required.';
             return;
@@ -82,7 +81,6 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
             $scope.enrollment.formErrors.serviceInformation.serviceAddress = 'Service Address already added to cart.';
             return;
         }
-        */
 
         if (typeof $scope.enrollment.serverData.locationServices == 'undefined') {
             var data = { 'locations': {} };
@@ -107,6 +105,10 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
             $scope.enrollment.serverData = data;
 
             $scope.enrollment.extraFields.isNewService = 0;
+
+            //Change this line to real ID in acutal implementation
+            //$scope.enrollment.extraFields.serviceAddress.id = id;
+            $scope.enrollment.extraFields.serviceAddress.id = 'location1';
 
             angular.copy($scope.enrollment.extraFields.serviceAddress, $scope.enrollment.currentAddress);
 
