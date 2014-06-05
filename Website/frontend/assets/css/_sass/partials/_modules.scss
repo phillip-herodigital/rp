@@ -583,8 +583,7 @@ article.make-payment {
 		border-bottom: 1px solid #d9d9d9;
 	}
 	div.payment-details {
-		border-bottom: 1px solid #d9d9d9;
-		padding: 15px;
+		padding: 15px 15px 0 15px;
 		.date-amount {
 			width: 50%;
 			.item {
@@ -602,13 +601,19 @@ article.make-payment {
 					top: 42px;
 				}
 		}
-	}
-	div.add-account p {
-		text-transform: uppercase;
-		padding: 15px 0 0 0;
-	}
-	div.buttons {
-		padding: 15px;
+		div.account-select{
+			margin-bottom: 0px;
+			div.add-account p {
+				text-transform: uppercase;
+				padding: 15px 0 0 0;
+			}
+		}
+		div.new-account {
+			margin-top: 10px;
+			.payment-options {
+				margin: 15px 0 25px 20px;
+			}
+		}
 	}
 }
 article.payment-history {
