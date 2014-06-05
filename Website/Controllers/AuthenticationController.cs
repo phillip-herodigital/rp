@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Security;
 using System.Web.SessionState;
+using StreamEnergy.DomainModels.Accounts;
 using StreamEnergy.MyStream.Models;
 using StreamEnergy.MyStream.Models.Authentication;
 
@@ -13,6 +14,13 @@ namespace StreamEnergy.MyStream.Controllers
 {
     public class AuthenticationController : ApiController, IRequiresSessionState
     {
+        private readonly Sitecore.Data.Items.Item item;
+
+        public AuthenticationController()
+        {
+            item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Components/Authentication");
+        }
+
         [HttpPost]
         public HttpResponseMessage Login(LoginRequest request)
         {
@@ -49,13 +57,23 @@ namespace StreamEnergy.MyStream.Controllers
         [HttpPost]
         public FindAccountResponse FindAccount(FindAccountRequest request)
         {
+            PrepareCreateOnlineAccount();
+            if (ModelState.IsValid)
+            {
+                
+            }
             return Dummy<FindAccountResponse>();
         }
 
         [HttpPost]
         public CreateLoginResponse CreateLogin(CreateLoginRequest request)
         {
+            PrepareCreateOnlineAccount();
             return Dummy<CreateLoginResponse>();
+        }
+
+        private void PrepareCreateOnlineAccount()
+        {
         }
 
         #endregion
@@ -94,14 +112,7 @@ namespace StreamEnergy.MyStream.Controllers
 
         private Sitecore.Data.Items.Item GetAuthItem(string childItem)
         {
-            Sitecore.Sites.SiteContext site = Sitecore.Context.Site;
-            
-            if (site == null)
-            {
-                site = Sitecore.Sites.SiteContextFactory.GetSiteContext(Request.RequestUri.Host, Request.RequestUri.AbsolutePath, Request.RequestUri.Port);
-            }
-
-            return site.Database.GetItem("/sitecore/content/Data/Components/Authentication/" + childItem);
+            return item.Children[childItem];
         }
 
         private T Dummy<T>()
