@@ -18,88 +18,29 @@ namespace StreamEnergy.MyStream.Controllers
     public class EnrollmentController : ApiController, IRequiresSessionState
     {
         private readonly Sitecore.Data.Items.Item translationItem;
-        private IStateMachine<UserContext, InternalContext> stateMachine;
-        private readonly SessionHelper sessionHelper;
+        private readonly StateMachineSessionHelper<UserContext, InternalContext> stateHelper;
+        private readonly IStateMachine<UserContext, InternalContext> stateMachine;
 
-        internal class SessionHelper
-        {
-            private readonly HttpSessionStateBase session;
-            private static readonly string ContextSessionKey = typeof(EnrollmentController).FullName + " " + typeof(UserContext).FullName;
-            private static readonly string InternalContextSessionKey = typeof(EnrollmentController).FullName + " " + typeof(InternalContext).FullName;
-            private static readonly string StateSessionKey = typeof(EnrollmentController).FullName + " State";
-
-            public SessionHelper(HttpSessionStateBase session)
-            {
-                this.session = session;
-            }
-
-            public UserContext UserContext
-            {
-                get
-                {
-                    var context = session[ContextSessionKey] as UserContext;
-                    if (context == null)
-                        session[ContextSessionKey] = context = new UserContext();
-                    return context;
-                }
-                set { session[ContextSessionKey] = value; }
-            }
-
-            public Type State
-            {
-                get
-                {
-                    return (session[StateSessionKey] as Type) ?? typeof(DomainModels.Enrollments.ServiceInformationState);
-                }
-                set { session[StateSessionKey] = value; }
-            }
-
-            public InternalContext InternalContext
-            {
-                get { return session[InternalContextSessionKey] as InternalContext; }
-                set { session[InternalContextSessionKey] = value; }
-            }
-        }
-
-        public EnrollmentController(HttpSessionStateBase session, StateMachine<UserContext, InternalContext> stateMachine)
-            : this(new SessionHelper(session), stateMachine)
-        {
-        }
-
-        internal EnrollmentController(SessionHelper sessionHelper, StateMachine<UserContext, InternalContext> stateMachine)
+        public EnrollmentController(StateMachineSessionHelper<UserContext, InternalContext> stateHelper)
         {
             this.translationItem = Sitecore.Context.Database.GetItem(new Sitecore.Data.ID("{5B9C5629-3350-4D85-AACB-277835B6B1C9}"));
-            this.stateMachine = stateMachine;
-            this.sessionHelper = sessionHelper;
 
-            var context = sessionHelper.UserContext;
+            stateHelper.Initialize(typeof(EnrollmentController));
 
-            var state = sessionHelper.State;
-            stateMachine.Initialize(state, context, sessionHelper.InternalContext);
+            this.stateHelper = stateHelper;
+            this.stateMachine = stateHelper.StateMachine;
         }
 
         protected override void Dispose(bool disposing)
         {
-            if (stateMachine != null)
-            {
-                sessionHelper.UserContext = stateMachine.Context;
-                sessionHelper.State = stateMachine.State;
-                sessionHelper.InternalContext = stateMachine.InternalContext;
-            }
-            else
-            {
-                sessionHelper.UserContext = null;
-                sessionHelper.State = null;
-                sessionHelper.InternalContext = null;
-            }
-
+            stateHelper.Dispose();
             base.Dispose(disposing);
         }
 
         [HttpPost]
         public void Reset()
         {
-            stateMachine = null;
+            stateHelper.Reset();
         }
 
         /// <summary>

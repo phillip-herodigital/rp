@@ -122,9 +122,10 @@ namespace StreamEnergy.MyStream.Tests
             Assert.IsTrue(keys.Any(key => session[key] is InternalContext));
             Assert.IsTrue(keys.Any(key => (session[key] as Type) == typeof(DomainModels.Enrollments.ServiceInformationState)));
 
-            var sessionHelper = container.Resolve<EnrollmentController.SessionHelper>();
+            var sessionHelper = container.Resolve<Models.StateMachineSessionHelper<UserContext, InternalContext>>();
+            sessionHelper.Initialize(typeof(EnrollmentController));
 
-            Assert.IsTrue(sessionHelper.UserContext is UserContext);
+            Assert.IsTrue(sessionHelper.Context is UserContext);
             Assert.IsTrue(sessionHelper.InternalContext is InternalContext);
             Assert.IsTrue(sessionHelper.State == typeof(DomainModels.Enrollments.ServiceInformationState));
         }
@@ -174,12 +175,13 @@ namespace StreamEnergy.MyStream.Tests
                 Assert.IsTrue(result.Offers.Any());
                 Assert.IsNotNull(result.Offers.SingleOrDefault(offer => offer.Value.First().Id == "NewOffer"));
             }
-            var session = container.Resolve<EnrollmentController.SessionHelper>();
+            var session = container.Resolve<Models.StateMachineSessionHelper<UserContext, InternalContext>>();
+            session.Initialize(typeof(EnrollmentController));
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.PlanSelectionState), session.State);
-            Assert.AreEqual("75010", session.UserContext.Services["loc"].Location.Address.PostalCode5);
-            Assert.AreEqual(DomainModels.TexasServiceCapability.Qualifier, session.UserContext.Services["loc"].Location.Capabilities.First().CapabilityType);
-            Assert.AreEqual("Centerpoint", (session.UserContext.Services["loc"].Location.Capabilities.First() as DomainModels.TexasServiceCapability).Tdu);
+            Assert.AreEqual("75010", session.Context.Services["loc"].Location.Address.PostalCode5);
+            Assert.AreEqual(DomainModels.TexasServiceCapability.Qualifier, session.Context.Services["loc"].Location.Capabilities.First().CapabilityType);
+            Assert.AreEqual("Centerpoint", (session.Context.Services["loc"].Location.Capabilities.First() as DomainModels.TexasServiceCapability).Tdu);
             Assert.IsNotNull(session.InternalContext.AllOffers.SingleOrDefault(offer => offer.Item2.Id == "NewOffer"));
         }
         
@@ -187,8 +189,9 @@ namespace StreamEnergy.MyStream.Tests
         public void PostSelectedOffersTest()
         {
             // Arrange
-            var session = container.Resolve<EnrollmentController.SessionHelper>();
-            session.UserContext = new UserContext
+            var session = container.Resolve<Models.StateMachineSessionHelper<UserContext, InternalContext>>();
+            session.Initialize(typeof(EnrollmentController));
+            session.Context = new UserContext
             {
                 Services = new Dictionary<string,LocationServices>
                 {
@@ -222,7 +225,7 @@ namespace StreamEnergy.MyStream.Tests
             }
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.AccountInformationState), session.State);
-            Assert.IsTrue(session.UserContext.Services["loc"].SelectedOffers.Any(o => o.Value.Offer.Id == "NewOffer"));
+            Assert.IsTrue(session.Context.Services["loc"].SelectedOffers.Any(o => o.Value.Offer.Id == "NewOffer"));
             Assert.IsNotNull(session.InternalContext.OfferOptionRulesByAddressOffer.SingleOrDefault(e => e.Item1 == generalLocation && e.Item2.Id == "NewOffer").Item3);
         }
         
@@ -230,8 +233,9 @@ namespace StreamEnergy.MyStream.Tests
         public void PostAccountInformationTest()
         {
             // Arrange
-            var session = container.Resolve<EnrollmentController.SessionHelper>();
-            session.UserContext = new UserContext
+            var session = container.Resolve<Models.StateMachineSessionHelper<UserContext, InternalContext>>();
+            session.Initialize(typeof(EnrollmentController));
+            session.Context = new UserContext
             {
                 Services = new Dictionary<string,LocationServices> {
                     { 
@@ -286,13 +290,13 @@ namespace StreamEnergy.MyStream.Tests
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.VerifyIdentityState), session.State);
             Assert.IsNotNull(session.InternalContext.AllOffers.Any(offer => offer.Item1 == specificLocation));
-            Assert.AreEqual("NewOffer", session.UserContext.Services["loc"].SelectedOffers["NewOffer"].Offer.Id);
-            Assert.AreEqual("Test", session.UserContext.ContactInfo.Name.First);
-            Assert.AreEqual("Person", session.UserContext.ContactInfo.Name.Last);
-            Assert.AreEqual("test@example.com", session.UserContext.ContactInfo.Email.Address);
-            Assert.AreEqual("2142234567", session.UserContext.ContactInfo.PrimaryPhone.Number);
-            Assert.AreEqual("123456789", session.UserContext.SocialSecurityNumber);
-            Assert.AreEqual("en", session.UserContext.Language);
+            Assert.AreEqual("NewOffer", session.Context.Services["loc"].SelectedOffers["NewOffer"].Offer.Id);
+            Assert.AreEqual("Test", session.Context.ContactInfo.Name.First);
+            Assert.AreEqual("Person", session.Context.ContactInfo.Name.Last);
+            Assert.AreEqual("test@example.com", session.Context.ContactInfo.Email.Address);
+            Assert.AreEqual("2142234567", session.Context.ContactInfo.PrimaryPhone.Number);
+            Assert.AreEqual("123456789", session.Context.SocialSecurityNumber);
+            Assert.AreEqual("en", session.Context.Language);
             Assert.IsNotNull(session.InternalContext.IdentityCheckResult.IdentityQuestions);
         }
         
@@ -300,8 +304,9 @@ namespace StreamEnergy.MyStream.Tests
         public void PostIdentityQuestionsTest()
         {
             // Arrange
-            var session = container.Resolve<EnrollmentController.SessionHelper>();
-            session.UserContext = new UserContext
+            var session = container.Resolve<Models.StateMachineSessionHelper<UserContext, InternalContext>>();
+            session.Initialize(typeof(EnrollmentController));
+            session.Context = new UserContext
             {
                 Services = new Dictionary<string, LocationServices> {
                     { 
@@ -359,8 +364,9 @@ namespace StreamEnergy.MyStream.Tests
         public void PostIdentityQuestionsNoDepositTest()
         {
             // Arrange
-            var session = container.Resolve<EnrollmentController.SessionHelper>();
-            session.UserContext = new UserContext
+            var session = container.Resolve<Models.StateMachineSessionHelper<UserContext, InternalContext>>();
+            session.Initialize(typeof(EnrollmentController));
+            session.Context = new UserContext
             {
                 Services = new Dictionary<string, LocationServices> {
                     { 
@@ -416,8 +422,9 @@ namespace StreamEnergy.MyStream.Tests
         public void PostConfirmOrderTest()
         {
             // Arrange
-            var session = container.Resolve<EnrollmentController.SessionHelper>();
-            session.UserContext = new UserContext
+            var session = container.Resolve<Models.StateMachineSessionHelper<UserContext, InternalContext>>();
+            session.Initialize(typeof(EnrollmentController));
+            session.Context = new UserContext
             {
                  Services = new Dictionary<string, LocationServices> {
                     { 
