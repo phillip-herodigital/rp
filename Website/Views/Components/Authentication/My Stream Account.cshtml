@@ -1,63 +1,72 @@
 @model StreamEnergy.MyStream.Models.Authentication.LoginRequest
+@using System.Linq.Expressions;
+@using StreamEnergy.Extensions;
+
 <div ng-controller="AuthLoginCtrl">
 	<article class="grey-box auth auth-sign-in">
 		<header>
 			<h2>@Html.Sitecore().Field("Header Text")</h2>
 		</header>
 		<div class="content">
-			<form>
-				<div class="alert alert-error">
-					@Html.Sitecore().Field("Error Text")
-				</div>
-				<div class="group">
-					<div class="item group-col">
-						<label for="username">@Html.Sitecore().Field("Username Label"):</label>
-						<input id="username" type="text">
-					</div>
-					<div class="item group-col">
-						<a href="/auth/recover-username" class="single-link">@Html.Sitecore().Field("Forgot Username Text")</a>
-					</div>
-				</div>
-				<div class="group">
-					<div class="item group-col">
-						<label for="password">@Html.Sitecore().Field("Password Label"):</label>
-						<input id="password" type="password">
-					</div>
-					<div class="item group-col">
-                        <a href="/auth/reset-password" class="single-link">@Html.Sitecore().Field("Forgot Password Text")</a>
-					</div>
-				</div>
-				<div class="item">
-					<ul class="checkbox-list">
-						<li><input type="checkbox" id="remember-me"><label for="remember-me">@Html.Sitecore().Field("Remember Me Text")</label></li>
-					</ul>
-				</div>
-				<div class="buttons">
-					<button class="secondary" ng-click="createAccount()">@Html.Sitecore().Field("Create Account Button Text")</button> 
-					<button type="submit" ng-click="signIn()">@Html.Sitecore().Field("Sign In Button Text")</button> 
-				</div>
-		
-				<div class="text-content-divider">@Html.Sitecore().Field("Or Divider Text")</div>
+            <form action="~/api/authentication/login" method="post">
+                <div class="alert alert-error">
+                    @Html.Sitecore().Field("Error Text")
+                    @Html.ValidationSummary()
+                </div>
+                <div class="group">
+                    <div class="item group-col" @Html.ValidationErrorClass(model => model.Username)>
+                        <label for="@Html.For(m => m.Username)">@Html.Sitecore().Field("Username Label")</label>
+                        <input type="text" @Html.ValidationAttributes(m => m.Username) ng-model="username" />
+                        @Html.ValidationMessageFor(model => model.Username)
+                    </div>
+                    <div class="item group-col">
+                        @Html.Sitecore().Field("Forgot Username Link")
+                    </div>
+                </div>
+                <div class="group">
+                    <div class="item group-col" @Html.ValidationErrorClass(model => model.Password)>
+                        <label for="@Html.For(m => m.Password)">@Html.Sitecore().Field("Password Label")</label>
+                        <input type="password" @Html.ValidationAttributes(m => m.Password) ng-model="password" />
+                        @Html.ValidationMessageFor(model => model.Password)
+                    </div>
+                    <div class="item group-col">
+                        @Html.Sitecore().Field("Forgot Password Link")
+                    </div>
+                </div>
+                <div class="item">
+                    <ul class="checkbox-list">
+                        <li>
+                            <input type="checkbox" @Html.ValidationAttributes(m => m.RememberMe) ng-model="rememberMe">
+                            <label for="@Html.For(m => m.RememberMe)">@Html.Sitecore().Field("Remember Me Text")</label>
+                        </li>
+                    </ul>
+                </div>
+                <div class="buttons">
+                    @Html.Sitecore().Field("Create Account Link")
+                    <button type="submit" data-val-submit>@Html.Sitecore().Field("Sign In Button Text")</button>
+                </div>
 
-				<h3>@Html.Sitecore().Field("Social Header Text")</h3>
-				<ul class="social-login clearfix">
-					<li>
-						<a href="#" class="button social facebook">
-							<span class="icon-holder"><i class="icon-facebook"></i></span> Facebook
-						</a>
-					</li>
-					<li>
-						<a href="#" class="button social twitter">
-							<span class="icon-holder"><i class="icon-twitter"></i></span> Twitter
-						</a>
-					</li>
-					<li>
-						<a href="#" class="button social linkedin">
-							<span class="icon-holder"><i class="icon-linkedin"></i></span> LinkedIn
-						</a>
-					</li>								
-				</ul>
-			</form>
+                <div class="text-content-divider">@Html.Sitecore().Field("Or Divider Text")</div>
+
+                <h3>@Html.Sitecore().Field("Social Header Text")</h3>
+                <ul class="social-login clearfix">
+                    <li>
+                        <a href="#" class="button social facebook">
+                            <span class="icon-holder"><i class="icon-facebook"></i></span> Facebook
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="button social twitter">
+                            <span class="icon-holder"><i class="icon-twitter"></i></span> Twitter
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="button social linkedin">
+                            <span class="icon-holder"><i class="icon-linkedin"></i></span> LinkedIn
+                        </a>
+                    </li>
+                </ul>
+            </form>
 		</div>
 	</article>
 </div>

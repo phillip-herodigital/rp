@@ -431,6 +431,7 @@
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />
+    <Compile Include="Controllers\Components\AuthenticationController.cs" />
     <Compile Include="Controllers\EnrollmentController.cs" />
     <Compile Include="Controllers\JsonHelper\EnrollmentController.cs" />
     <Compile Include="Controllers\TempController.cs" />
