@@ -21,13 +21,12 @@ namespace StreamEnergy.MyStream.Controllers
     {
         private readonly Sitecore.Data.Items.Item item;
         private readonly IUnityContainer container;
-        private readonly List<Action> onDispose = new List<Action>();
         private CreateAccountSessionHelper coaSessionHelper;
 
         public class CreateAccountSessionHelper : StateMachineSessionHelper<CreateAccountContext, CreateAccountInternalContext>
         {
-            public CreateAccountSessionHelper(HttpSessionStateBase session, StateMachine<CreateAccountContext, CreateAccountInternalContext> stateMachine, IUnityContainer container)
-                : base(session, stateMachine, container, typeof(AuthenticationController), typeof(FindAccountState))
+            public CreateAccountSessionHelper(HttpSessionStateBase session, IUnityContainer container)
+                : base(session, container, typeof(AuthenticationController), typeof(FindAccountState), storeInternal: false)
             {
             }
         }
@@ -42,8 +41,7 @@ namespace StreamEnergy.MyStream.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            onDispose.ForEach(a => a());
-            onDispose.Clear();
+            coaSessionHelper.Dispose();
             base.Dispose(disposing);
         }
 
@@ -57,17 +55,7 @@ namespace StreamEnergy.MyStream.Controllers
                     Success = true
                 });
 
-                var cookie = FormsAuthentication.GetAuthCookie(request.Username, false, "/");
-                response.Headers.AddCookies(new[] {
-                    new System.Net.Http.Headers.CookieHeaderValue(cookie.Name, cookie.Value) 
-                    { 
-                        Domain = cookie.Domain, 
-                        Expires = cookie.Expires, 
-                        HttpOnly = cookie.HttpOnly, 
-                        Path = cookie.Path, 
-                        Secure = cookie.Secure 
-                    }
-                });
+                AddAuthenticationCookie(response, request.Username);
                 return response;
             }
 
@@ -83,6 +71,11 @@ namespace StreamEnergy.MyStream.Controllers
         [HttpPost]
         public FindAccountResponse FindAccount(FindAccountRequest request)
         {
+            if (coaSessionHelper.StateMachine.State != typeof(FindAccountState))
+            {
+                coaSessionHelper.Reset();
+            }
+
             coaSessionHelper.StateMachine.Context.AccountNumber = request.AccountNumber;
             coaSessionHelper.StateMachine.Context.SsnLastFour = request.SsnLastFour;
 
@@ -106,9 +99,30 @@ namespace StreamEnergy.MyStream.Controllers
         }
 
         [HttpPost]
-        public CreateLoginResponse CreateLogin(CreateLoginRequest request)
+        public HttpResponseMessage CreateLogin(CreateLoginRequest request)
         {
-            return Dummy<CreateLoginResponse>();
+            coaSessionHelper.StateMachine.Context.Username = request.Username;
+            coaSessionHelper.StateMachine.Context.Password = request.Password;
+            coaSessionHelper.StateMachine.Context.ConfirmPassword = request.ConfirmPassword;
+            coaSessionHelper.StateMachine.Context.Challenges = request.Challenges.ToDictionary(c => c.SelectedQuestion.Id, c => c.Answer);
+
+            if (coaSessionHelper.StateMachine.State == typeof(AccountInformationState) || coaSessionHelper.StateMachine.State == typeof(CreateAccountState))
+                coaSessionHelper.StateMachine.Process();
+
+            var success = coaSessionHelper.StateMachine.State == typeof(CompleteState);
+
+            var response = Request.CreateResponse(new CreateLoginResponse
+            {
+                Success = success,
+                Validations = TranslatedValidationResult.Translate(ModelState, GetAuthItem("Create Account - Step 2"))
+            });
+
+            if (success)
+            {
+                AddAuthenticationCookie(response, request.Username);
+            }
+
+            return response;
         }
 
         #endregion
@@ -148,6 +162,21 @@ namespace StreamEnergy.MyStream.Controllers
         private Sitecore.Data.Items.Item GetAuthItem(string childItem)
         {
             return item.Children[childItem];
+        }
+
+        private static void AddAuthenticationCookie(HttpResponseMessage response, string username)
+        {
+            var cookie = FormsAuthentication.GetAuthCookie(username, false, "/");
+            response.Headers.AddCookies(new[] {
+                    new System.Net.Http.Headers.CookieHeaderValue(cookie.Name, cookie.Value) 
+                    { 
+                        Domain = cookie.Domain, 
+                        Expires = cookie.Expires == DateTime.MinValue ? null : (DateTime?)cookie.Expires, 
+                        HttpOnly = cookie.HttpOnly, 
+                        Path = cookie.Path, 
+                        Secure = cookie.Secure 
+                    }
+                });
         }
 
         private T Dummy<T>()

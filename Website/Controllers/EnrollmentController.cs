@@ -24,8 +24,8 @@ namespace StreamEnergy.MyStream.Controllers
 
         public class SessionHelper : StateMachineSessionHelper<UserContext, InternalContext>
         {
-            public SessionHelper(HttpSessionStateBase session, StateMachine<UserContext, InternalContext> stateMachine, IUnityContainer container)
-                : base(session, stateMachine, container, typeof(EnrollmentController), typeof(DomainModels.Enrollments.ServiceInformationState))
+            public SessionHelper(HttpSessionStateBase session, IUnityContainer container)
+                : base(session, container, typeof(EnrollmentController), typeof(DomainModels.Enrollments.ServiceInformationState), storeInternal: true)
             {
             }
         }

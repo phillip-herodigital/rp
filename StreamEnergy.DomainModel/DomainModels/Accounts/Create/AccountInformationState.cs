@@ -10,9 +10,8 @@ namespace StreamEnergy.DomainModels.Accounts.Create
     public class AccountInformationState : StateBase<CreateAccountContext, CreateAccountInternalContext>
     {
         public AccountInformationState()
-            :base(typeof(AccountInformationState), typeof(CreateAccountState))
+            : base(typeof(FindAccountState), typeof(CreateAccountState))
         {
         }
-
     }
 }

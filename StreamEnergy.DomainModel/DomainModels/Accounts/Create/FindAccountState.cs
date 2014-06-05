@@ -12,7 +12,7 @@ namespace StreamEnergy.DomainModels.Accounts.Create
         private IAccountService service;
 
         public FindAccountState(IAccountService service)
-            :base(null, typeof(AccountInformationState))
+            : base(null, typeof(AccountInformationState))
         {
             this.service = service;
         }
@@ -21,6 +21,12 @@ namespace StreamEnergy.DomainModels.Accounts.Create
         {
             yield return context => context.AccountNumber;
             yield return context => context.SsnLastFour;
+        }
+
+        public override IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> AdditionalValidations(CreateAccountContext context, CreateAccountInternalContext internalContext)
+        {
+            // TODO - verify that an online account doesn't already exist
+            yield break;
         }
 
         protected override Type InternalProcess(CreateAccountContext context, CreateAccountInternalContext internalContext)
@@ -34,7 +40,7 @@ namespace StreamEnergy.DomainModels.Accounts.Create
             };
             context.Address = new Address
             {
-                Line1="123 Test Ave",
+                Line1 = "123 Test Ave",
                 City = "Dallas",
                 StateAbbreviation = "TX",
                 PostalCode5 = "75201"

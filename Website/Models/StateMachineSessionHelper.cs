@@ -13,34 +13,26 @@ namespace StreamEnergy.MyStream.Models
     {
         private readonly HttpSessionStateBase session;
         private readonly IUnityContainer container;
-        private readonly StateMachine<TContext, TInternalContext> stateMachine;
-        private bool isReset;
-        private string ContextSessionKey;
-        private string InternalContextSessionKey;
-        private string StateSessionKey;
-        private Type defaultState;
+        private StateMachine<TContext, TInternalContext> stateMachine;
+        private readonly string ContextSessionKey;
+        private readonly string InternalContextSessionKey;
+        private readonly string StateSessionKey;
+        private readonly Type defaultState;
+        private readonly bool storeInternal;
+
         private bool isInitialized;
 
 
-        public StateMachineSessionHelper(HttpSessionStateBase session, StateMachine<TContext, TInternalContext> stateMachine, IUnityContainer container, Type scope, Type defaultState)
+        public StateMachineSessionHelper(HttpSessionStateBase session, IUnityContainer container, Type scope, Type defaultState, bool storeInternal)
         {
             this.session = session;
             this.container = container;
-            this.stateMachine = stateMachine;
             this.defaultState = defaultState;
+            this.storeInternal = storeInternal;
 
             ContextSessionKey = scope.FullName + " " + typeof(StateMachineSessionHelper<TContext, TInternalContext>).FullName + " " + typeof(TContext).FullName;
             InternalContextSessionKey = scope.FullName + " " + typeof(StateMachineSessionHelper<TContext, TInternalContext>).FullName + " " + typeof(TInternalContext).FullName;
             StateSessionKey = scope.FullName + " " + typeof(StateMachineSessionHelper<TContext, TInternalContext>).FullName + " State";
-        }
-
-        private void EnsureInitialized()
-        {
-            if (!isInitialized)
-            {
-                isInitialized = true;
-                stateMachine.Initialize(State, Context, InternalContext);
-            }
         }
 
         public TContext Context
@@ -71,9 +63,16 @@ namespace StreamEnergy.MyStream.Models
             get
             {
                 EnsureInitialized();
-                return session[InternalContextSessionKey] as TInternalContext;
+                if (storeInternal)
+                    return session[InternalContextSessionKey] as TInternalContext;
+                else
+                    return stateMachine.InternalContext;
             }
-            set { session[InternalContextSessionKey] = value; }
+            set
+            {
+                if (storeInternal)
+                    session[InternalContextSessionKey] = value;
+            }
         }
 
         public IStateMachine<TContext, TInternalContext> StateMachine
@@ -87,7 +86,21 @@ namespace StreamEnergy.MyStream.Models
 
         public void Reset()
         {
-            isReset = true;
+            Context = null;
+            State = null;
+            InternalContext = null;
+
+            isInitialized = false;
+        }
+
+        private void EnsureInitialized()
+        {
+            if (!isInitialized)
+            {
+                stateMachine = container.Resolve<StateMachine<TContext, TInternalContext>>();
+                isInitialized = true;
+                stateMachine.Initialize(State, Context, InternalContext);
+            }
         }
 
         public void Dispose()
@@ -97,18 +110,9 @@ namespace StreamEnergy.MyStream.Models
                 return;
             }
 
-            if (!isReset)
-            {
-                Context = stateMachine.Context;
-                State = stateMachine.State;
-                InternalContext = stateMachine.InternalContext;
-            }
-            else
-            {
-                Context = null;
-                State = null;
-                InternalContext = null;
-            }
+            Context = stateMachine.Context;
+            State = stateMachine.State;
+            InternalContext = stateMachine.InternalContext;
         }
     }
 }
