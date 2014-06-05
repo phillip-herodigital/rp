@@ -28,6 +28,7 @@ ngApp.controller('PaymentsCtrl', ['$scope', '$rootScope', function ($scope, $roo
 		$scope.activeStep = 4;
 	};
 
+	//Step 4
 	$scope.makeAnotherPayment = function() {
 		$scope.activeStep = 1;
 	};
