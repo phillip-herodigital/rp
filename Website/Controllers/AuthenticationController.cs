@@ -1,18 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using System.Web.Security;
 using System.Web.SessionState;
+using Microsoft.Practices.Unity;
+using StreamEnergy.DomainModels.Accounts;
+using StreamEnergy.DomainModels.Accounts.Create;
 using StreamEnergy.MyStream.Models;
 using StreamEnergy.MyStream.Models.Authentication;
+using StreamEnergy.Processes;
 
 namespace StreamEnergy.MyStream.Controllers
 {
     public class AuthenticationController : ApiController, IRequiresSessionState
     {
+        private readonly Sitecore.Data.Items.Item item;
+        private readonly IUnityContainer container;
+        private CreateAccountSessionHelper coaSessionHelper;
+
+        public class CreateAccountSessionHelper : StateMachineSessionHelper<CreateAccountContext, CreateAccountInternalContext>
+        {
+            public CreateAccountSessionHelper(HttpSessionStateBase session, IUnityContainer container)
+                : base(session, container, typeof(AuthenticationController), typeof(FindAccountState), storeInternal: false)
+            {
+            }
+        }
+
+        public AuthenticationController(IUnityContainer container, CreateAccountSessionHelper coaSessionHelper)
+        {
+            this.container = container;
+            this.coaSessionHelper = coaSessionHelper;
+
+            item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Components/Authentication");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            coaSessionHelper.Dispose();
+            base.Dispose(disposing);
+        }
+
         [HttpPost]
         public HttpResponseMessage Login(LoginRequest request)
         {
@@ -23,17 +55,7 @@ namespace StreamEnergy.MyStream.Controllers
                     Success = true
                 });
 
-                var cookie = FormsAuthentication.GetAuthCookie(request.Username, false, "/");
-                response.Headers.AddCookies(new[] {
-                    new System.Net.Http.Headers.CookieHeaderValue(cookie.Name, cookie.Value) 
-                    { 
-                        Domain = cookie.Domain, 
-                        Expires = cookie.Expires, 
-                        HttpOnly = cookie.HttpOnly, 
-                        Path = cookie.Path, 
-                        Secure = cookie.Secure 
-                    }
-                });
+                AddAuthenticationCookie(response, request.Username);
                 return response;
             }
 
@@ -49,13 +71,58 @@ namespace StreamEnergy.MyStream.Controllers
         [HttpPost]
         public FindAccountResponse FindAccount(FindAccountRequest request)
         {
-            return Dummy<FindAccountResponse>();
+            if (coaSessionHelper.StateMachine.State != typeof(FindAccountState))
+            {
+                coaSessionHelper.Reset();
+            }
+
+            coaSessionHelper.StateMachine.Context.AccountNumber = request.AccountNumber;
+            coaSessionHelper.StateMachine.Context.SsnLastFour = request.SsnLastFour;
+
+            if (coaSessionHelper.StateMachine.State == typeof(FindAccountState))
+                coaSessionHelper.StateMachine.Process(typeof(AccountInformationState));
+
+            var validations = Enumerable.Empty<ValidationResult>();
+            // don't give validations for the next step
+            if (coaSessionHelper.StateMachine.State == typeof(FindAccountState))
+                validations = coaSessionHelper.StateMachine.ValidationResults;
+                
+            return new FindAccountResponse
+            {
+                AccountNumber = coaSessionHelper.StateMachine.Context.AccountNumber,
+                SsnLastFour = coaSessionHelper.StateMachine.Context.SsnLastFour,
+                Customer = coaSessionHelper.StateMachine.Context.Customer,
+                Address = coaSessionHelper.StateMachine.Context.Address,
+                AvailableSecurityQuestions = Dummy<IEnumerable<Models.Authentication.SecurityQuestion>>(),
+                Validations = TranslatedValidationResult.Translate(validations, GetAuthItem("Create Account - Step 1"))
+            };
         }
 
         [HttpPost]
-        public CreateLoginResponse CreateLogin(CreateLoginRequest request)
+        public HttpResponseMessage CreateLogin(CreateLoginRequest request)
         {
-            return Dummy<CreateLoginResponse>();
+            coaSessionHelper.StateMachine.Context.Username = request.Username;
+            coaSessionHelper.StateMachine.Context.Password = request.Password;
+            coaSessionHelper.StateMachine.Context.ConfirmPassword = request.ConfirmPassword;
+            coaSessionHelper.StateMachine.Context.Challenges = request.Challenges.ToDictionary(c => c.SelectedQuestion.Id, c => c.Answer);
+
+            if (coaSessionHelper.StateMachine.State == typeof(AccountInformationState) || coaSessionHelper.StateMachine.State == typeof(CreateAccountState))
+                coaSessionHelper.StateMachine.Process();
+
+            var success = coaSessionHelper.StateMachine.State == typeof(CompleteState);
+
+            var response = Request.CreateResponse(new CreateLoginResponse
+            {
+                Success = success,
+                Validations = TranslatedValidationResult.Translate(ModelState, GetAuthItem("Create Account - Step 2"))
+            });
+
+            if (success)
+            {
+                AddAuthenticationCookie(response, request.Username);
+            }
+
+            return response;
         }
 
         #endregion
@@ -94,14 +161,22 @@ namespace StreamEnergy.MyStream.Controllers
 
         private Sitecore.Data.Items.Item GetAuthItem(string childItem)
         {
-            Sitecore.Sites.SiteContext site = Sitecore.Context.Site;
-            
-            if (site == null)
-            {
-                site = Sitecore.Sites.SiteContextFactory.GetSiteContext(Request.RequestUri.Host, Request.RequestUri.AbsolutePath, Request.RequestUri.Port);
-            }
+            return item.Children[childItem];
+        }
 
-            return site.Database.GetItem("/sitecore/content/Data/Components/Authentication/" + childItem);
+        private static void AddAuthenticationCookie(HttpResponseMessage response, string username)
+        {
+            var cookie = FormsAuthentication.GetAuthCookie(username, false, "/");
+            response.Headers.AddCookies(new[] {
+                    new System.Net.Http.Headers.CookieHeaderValue(cookie.Name, cookie.Value) 
+                    { 
+                        Domain = cookie.Domain, 
+                        Expires = cookie.Expires == DateTime.MinValue ? null : (DateTime?)cookie.Expires, 
+                        HttpOnly = cookie.HttpOnly, 
+                        Path = cookie.Path, 
+                        Secure = cookie.Secure 
+                    }
+                });
         }
 
         private T Dummy<T>()
