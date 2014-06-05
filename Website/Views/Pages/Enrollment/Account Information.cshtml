@@ -22,25 +22,25 @@
                     </div>
                     <div class="item" ng-hide="item.location.address.line1">
                         <label for="service-address">Service Address</label>
-                        <input type="text" id="service-address" placeholder="123 Main Street, Dallas, TX 75001" />
+                        <input type="text" id="service-address" ng-model="enrollment.extraFields.accountInformation[id].serviceAddress" placeholder="123 Main Street, Dallas, TX 75001" />
                     </div>
                     <div class="group">
                         <div class="item group-col">
                             <label for="bill-account-number">Bill Account Number</label>
-                            <input type="text" id="bill-account-number" placeholder="654-XXXX-XXX-XXXXXX" />
+                            <input type="text" id="bill-account-number" ng-model="enrollment.extraFields.accountInformation[id].accountNumber" placeholder="654-XXXX-XXX-XXXXXX" />
                         </div>
                         <div class="item group-col">
                             <a href="" class="single-link">See Example</a>
                         </div>
                     </div>
-                    <div class="group">
+                    <div class="group" ng-hide="item.selectedOffers['introductory-rate-plan'].offerOption.connectDate'">
                         <div class="item group-col">
                             <label for="service-start-date">Service Start Date</label>
-                            <input type="text" id="ultility-account-number" placeholder="01/29/14" />
+                            <input type="text" id="ultility-account-number" ng-model="enrollment.extraFields.accountInformation[id].serviceDate" placeholder="01/29/14" />
                         </div>
                         <div class="item">
                             <label for="service-start-time">Time</label>
-                            <select id="service-start-time">
+                            <select id="service-start-time" ng-model="enrollment.extraFields.accountInformation[id].serviceTime">
                                 <option value="">Please Choose</option>
                             </select>
                         </div>
