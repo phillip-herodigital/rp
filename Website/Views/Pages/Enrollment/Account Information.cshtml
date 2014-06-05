@@ -2,8 +2,8 @@
     <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper">
             <h1>
-                <span class="block">Setup Your</span>
-                <span class="block">Account</span>
+                <span class="block">@Html.Sitecore().Field("Setup Your")</span>
+                <span class="block">@Html.Sitecore().Field("Account")</span>
             </h1>
         </div>
     </div>
@@ -12,191 +12,191 @@
             <div ng-include ng-if="true" src="'enrollment-nav-template'"></div>
         </aside>
         <section>
-            <h1>Account <span>Information</span></h1>
-            <p>Please fill in your information to set up your account.</p>
+            <h1>@Html.Sitecore().Field("Header Account Information")</h1>
+            <p>@Html.Sitecore().Field("Fill in Information")</p>
             <article class="form" ng-repeat="(id, item) in enrollment.serverData.locationServices">
                 <div class="content">
                     <div class="item">
-                        <label for="service-address">Service Address</label>
+                        <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
                         <strong>{{formatAddress(item.location.address)}}</strong>
                     </div>
                     <div class="item" ng-hide="item.location.address.line1">
-                        <label for="service-address">Service Address</label>
+                        <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
                         <input type="text" id="service-address" ng-model="enrollment.extraFields.accountInformation[id].serviceAddress" placeholder="123 Main Street, Dallas, TX 75001" />
                     </div>
                     <div class="group">
                         <div class="item group-col">
-                            <label for="bill-account-number">Bill Account Number</label>
+                            <label for="bill-account-number">@Html.Sitecore().Field("Bill Account Number Label")</label>
                             <input type="text" id="bill-account-number" ng-model="enrollment.extraFields.accountInformation[id].accountNumber" placeholder="654-XXXX-XXX-XXXXXX" />
                         </div>
                         <div class="item group-col">
-                            <a href="" class="single-link">See Example</a>
+                            <a href="" class="single-link">@Html.Sitecore().Field("See Example")</a>
                         </div>
                     </div>
                     <div class="group" ng-hide="item.selectedOffers['introductory-rate-plan'].offerOption.connectDate'">
                         <div class="item group-col">
-                            <label for="service-start-date">Service Start Date</label>
+                            <label for="service-start-date">@Html.Sitecore().Field("Service Start Date Label")</label>
                             <input type="text" id="ultility-account-number" ng-model="enrollment.extraFields.accountInformation[id].serviceDate" placeholder="01/29/14" />
                         </div>
                         <div class="item">
-                            <label for="service-start-time">Time</label>
+                            <label for="service-start-time">@Html.Sitecore().Field("Time Label")</label>
                             <select id="service-start-time" ng-model="enrollment.extraFields.accountInformation[id].serviceTime">
-                                <option value="">Please Choose</option>
+                                <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
                             </select>
                         </div>
                     </div>
                     <div class="item">
-                        <label for="connection-fee">Connection Fee</label>
-                        <strong>$10.25 (Priority Connect)</strong>
+                        <label for="connection-fee">@Html.Sitecore().Field("Connection Fee Label")</label>
+                        <strong>$10.25 (@Html.Sitecore().Field("Priority Connect"))</strong>
                     </div>
                     <div class="item">
-                        <label for="meter-set-fee">Meter Set Fee</label>
+                        <label for="meter-set-fee">@Html.Sitecore().Field("Meter Set Fee Label")</label>
                         <strong>$XX.XX</strong>
                     </div>
                     <div class="item">
-                        <label for="utility-connect-fee">Utility Connect Fee</label>
+                        <label for="utility-connect-fee">@Html.Sitecore().Field("Utility Connect Fee Label")</label>
                         <strong>$25.00</strong>
                     </div>
                     <div class="item">
-                        <label for="stream-connect-fee">Stream Connect Fee</label>
+                        <label for="stream-connect-fee">@Html.Sitecore().Field("Stream Connect Fee Label")</label>
                         <strong>$25.00</strong>
                     </div>
                 </div>
             </article>
-            <h2>Personal Information</h2>
+            <h2>@Html.Sitecore().Field("Personal Information Header")</h2>
             <article class="form">
                 <div class="content">
                     <div class="group">
                         <div class="item group-col">
-                            <label for="firstname">First Name</label>
+                            <label for="firstname">@Html.Sitecore().Field("First Name Label")</label>
                             <input type="text" id="firstname" placeholder="Jordan" />
                         </div>
                         <div class="item group-col">
-                            <label for="lastname">Last Name</label>
+                            <label for="lastname">@Html.Sitecore().Field("Last Name Label")</label>
                             <input type="text" id="lastname" placeholder="Campbell" />
                         </div>
                     </div>
                     <div class="group">
                         <div class="item group-col">
-                            <label for="primary-phone-number">Primary Phone Number</label>
+                            <label for="primary-phone-number">@Html.Sitecore().Field("Primary Phone Number Label")</label>
                             <input type="text" id="primary-phone-number" />
                         </div>
                         <div class="item group-col">
-                            <label for="phone-type">Phone Type</label>
+                            <label for="phone-type">@Html.Sitecore().Field("Phone Type Label")</label>
                             <select id="phone-type">
-                                <option value="">Please Choose</option>
+                                <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
                             </select>
                         </div>
                     </div>
                     <div class="additional-field-action">
-                        <a href="" ng-click="enrollment.extraFields.accountInformation.showSecondaryPhone = true">Add additional phone number</a>
+                        <a href="" ng-click="enrollment.extraFields.accountInformation.showSecondaryPhone = true">@Html.Sitecore().Field("Add additional phone number")</a>
                     </div>
                     <div class="additional-field-group" ng-show="enrollment.extraFields.accountInformation.showSecondaryPhone">
                         <div class="group">
                             <div class="item group-col">
-                                <label for="secondary-phone-number">Secondary Phone Number</label>
+                                <label for="secondary-phone-number">@Html.Sitecore().Field("Secondary Phone Number Label")</label>
                                 <input type="text" id="secondary-phone-number" />
                             </div>
                             <div class="item group-col">
-                                <label for="phone-type">Phone Type</label>
+                                <label for="phone-type">@Html.Sitecore().Field("Phone Type Label")</label>
                                 <select id="phone-type">
-                                    <option value="">Please Choose</option>
+                                    <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
                                 </select>
                             </div>
                         </div>
                     </div>
                     <hr class="content-divider">
                     <div class="item">
-                        <label for="email-address">Email Address</label>
+                        <label for="email-address">@Html.Sitecore().Field("Email Address Label")</label>
                         <input type="email" id="email-address" />
                     </div>
                     <div class="item">
-                        <label>Would you prefer to provide your Social Security Number or Tax ID Number?</label>
+                        <label>@Html.Sitecore().Field("Social Security Number or Tax ID Number Label")</label>
                         <ul class="checkbox-list">
-                            <li><input type="radio" name="taxid" id="ssn"><label for="ssn">Social Security Number</label></li>
-                            <li><input type="radio" name="taxid" id="taxid"><label for="taxid">Tax ID</label></li>
+                            <li><input type="radio" name="taxid" id="ssn"><label for="ssn">@Html.Sitecore().Field("Checkbox List Social Security Number")</label></li>
+                            <li><input type="radio" name="taxid" id="taxid"><label for="taxid">@Html.Sitecore().Field("Checkbox List Tax ID")</label></li>
                         </ul>
                     </div>
                     <div class="item">
-                        <label for="ssn">Social Security Number</label>
+                        <label for="ssn">@Html.Sitecore().Field("Social Security Number Label")</label>
                         <input type="text" id="ssn" />
                     </div>
                     <div class="item">
-                        <label for="dba">DBA</label>
+                        <label for="dba">@Html.Sitecore().Field("DBA Label")</label>
                         <input type="text" id="dba" />
                     </div>
                     <div class="group">
                         <div class="item group-col">
-                            <label for="drivers-license-number">Driver's License Number</label>
+                            <label for="drivers-license-number">@Html.Sitecore().Field("Drivers License Number Label")</label>
                             <input type="text" id="drivers-license-number" />
                         </div>
                         <div class="item group-col">
-                            <label for="drivers-license-state">Driver's License State</label>
+                            <label for="drivers-license-state">@Html.Sitecore().Field("Drivers License State Label")</label>
                             <select id="drivers-license-state">
-                                <option value="">Please Choose</option>
+                                <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
                             </select>
                         </div>
                     </div>
                     <div class="additional-field-item item">
                         <ul class="checkbox-list">
-                            <li><input type="checkbox" name="secondary-contact" id="secondary-contact" ng-model="enrollment.extraFields.accountInformation.showSecondaryContact"><label for="secondary-contact">Add Secondary Contact</label></li>
+                            <li><input type="checkbox" name="secondary-contact" id="secondary-contact" ng-model="enrollment.extraFields.accountInformation.showSecondaryContact"><label for="secondary-contact">@Html.Sitecore().Field("Checkbox Add Secondary Contact")</label></li>
                         </ul>
                     </div>
                     <div class="additional-field-group" ng-show="enrollment.extraFields.accountInformation.showSecondaryContact">
                         <div class="group">
                             <div class="item group-col">
-                                <label for="firstname">First Name</label>
+                                <label for="firstname">@Html.Sitecore().Field("First Name Label")</label>
                                 <input type="text" id="firstname" placeholder="Jordan" />
                             </div>
                             <div class="item group-col">
-                                <label for="lastname">Last Name</label>
+                                <label for="lastname">@Html.Sitecore().Field("Last Name Label")</label>
                                 <input type="text" id="lastname" placeholder="Campbell" />
                             </div>
                         </div>
                     </div>
                 </div>
             </article>
-            <h2>Billing Address</h2>
+            <h2>@Html.Sitecore().Field("Billing Address Header")</h2>
             <article class="form">
                 <div class="content">
                     <div class="item">
                         <ul class="checkbox-list">
-                            <li><input type="checkbox" name="same-address" id="same-address"><label for="same-address">Same as Service Address</label></li>
+                            <li><input type="checkbox" name="same-address" id="same-address"><label for="same-address">@Html.Sitecore().Field("Same Address Label")</label></li>
                         </ul>
                     </div>
                     <div class="item">
-                        <label for="service-address">Select Service Address</label>
+                        <label for="service-address">@Html.Sitecore().Field("Select Service Address Label")</label>
                         <select id="service-address">
-                            <option value="">Please Choose</option>
+                            <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
                         </select>
                     </div>
                     <div class="item">
-                        <label for="service-address">Service Address</label>
+                        <label for="service-address">@Html.Sitecore().Field("Billing Service Address Label")</label>
                         <strong>123 Main Street, Dallas, TX 75001</strong>
                     </div>
                     <div class="group">
                         <div class="item group-col">
-                            <label for="address1">Address 1</label>
+                            <label for="address1">@Html.Sitecore().Field("Address 1 Label")</label>
                             <input type="text" id="address1" />
                         </div>
                         <div class="item group-col">
-                            <label for="address2">Address 2</label>
+                            <label for="address2">@Html.Sitecore().Field("Address 2 Label")</label>
                             <input type="text" id="address2" />
                         </div>
                     </div>
                     <div class="group">
                         <div class="item group-col">
-                            <label for="city">City</label>
+                            <label for="city">@Html.Sitecore().Field("City Label")</label>
                             <input type="text" id="city" />
                         </div>
                         <div class="item">
-                            <label for="state">State</label>
+                            <label for="state">@Html.Sitecore().Field("State Label")</label>
                             <select id="state">
-                                <option value="">Please Choose</option>
+                                <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
                             </select>
                         </div>
                         <div class="item">
-                            <label for="zip">Zip</label>
+                            <label for="zip">@Html.Sitecore().Field("Zip Label")</label>
                             <input class="small" type="text" id="zip" />
                         </div>
                     </div>
@@ -205,39 +205,39 @@
             <article class="form">
                 <div class="content">
                     <div class="social-box">
-                        <h2>Create Your Online Account With 1-Click</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis</p>
+                        <h2>@Html.Sitecore().Field("Social Box Header")</h2>
+                        <p>@Html.Sitecore().Field("Social Box Intro")</p>
                         <p class="social-buttons">
-                            <a class="button social facebook" href=""><span class="icon-holder"><i class="icon-facebook"></i></span> Facebook</a>
-                            <a class="button social twitter" href=""><span class="icon-holder"><i class="icon-twitter"></i></span> Twitter</a>
-                            <a class="button social linkedin" href=""><span class="icon-holder"><i class="icon-linkedin"></i></span> LinkedIn</a>
+                            <a class="button social facebook" href=""><span class="icon-holder"><i class="icon-facebook"></i></span> @Html.Sitecore().Field("Social Box Facebook")</a>
+                            <a class="button social twitter" href=""><span class="icon-holder"><i class="icon-twitter"></i></span> @Html.Sitecore().Field("Social Box Twitter")</a>
+                            <a class="button social linkedin" href=""><span class="icon-holder"><i class="icon-linkedin"></i></span> @Html.Sitecore().Field("Social Box LinkedIn")</a>
                         </p>
-                        <div class="seperator">OR</div>
+                        <div class="seperator">@Html.Sitecore().Field("Seperator")</div>
                     </div>
-                    <h2>Create Your Online Account Now</h2>
-                    <p>An online account will be created for you upon successful completion of your order. You can specify your password for your account below. If you leave this empty, we’ll create a password for you.</p>
+                    <h2>@Html.Sitecore().Field("Create Online Account Header")</h2>
+                    <p>@Html.Sitecore().Field("Online Account Paragraph")</p>
                     <div class="item">
-                        <label for="username">Username (Optional)</label>
+                        <label for="username">@Html.Sitecore().Field("Username Optional Label")</label>
                         <input type="text" id="username" />
                     </div>
                     <div class="group">
                         <div class="item group-col">
-                            <label for="password">Online Account Password (Optional)</label>
+                            <label for="password">@Html.Sitecore().Field("Password Optional Label")</label>
                             <input type="password" id="password" />
                         </div>
                         <div class="item group-col">
-                            <label for="verify-password">Verify Password</label>
+                            <label for="verify-password">@Html.Sitecore().Field("Verify Password Label")</label>
                             <input type="password" id="verify-password" />
                         </div>
                     </div>
                 </div>
             </article>
             <div class="buttons">
-                <button type="submit" class="primary" ng-click="completeStep();">Continue</button>
+                <button type="submit" class="primary" ng-click="completeStep();">@Html.Sitecore().Field("Button Label")</button>
             </div>
             <div class="hide-medium-large time-remaining-mobile">
-                <p class="time-remaining">Estimated Time For Completion <strong>10 Minutes</strong></p>
-                <p><a href="">What info will I need to complete my order?</a></p>
+                <p class="time-remaining">@Html.Sitecore().Field("Estimated Time Remaining") <strong>@Html.Sitecore().Field("Remaining Minutes")</strong></p>
+                <p><a href="">@Html.Sitecore().Field("Info needed")</a></p>
             </div>
         </section>
         <aside>
