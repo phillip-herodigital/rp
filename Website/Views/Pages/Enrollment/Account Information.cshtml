@@ -89,9 +89,9 @@
                         </div>
                     </div>
                     <div class="additional-field-action">
-                        <a href="">Add additional phone number</a>
+                        <a href="" ng-click="enrollment.extraFields.accountInformation.showSecondaryPhone = true">Add additional phone number</a>
                     </div>
-                    <div class="additional-field-group">
+                    <div class="additional-field-group" ng-show="enrollment.extraFields.accountInformation.showSecondaryPhone">
                         <div class="group">
                             <div class="item group-col">
                                 <label for="secondary-phone-number">Secondary Phone Number</label>
@@ -139,10 +139,10 @@
                     </div>
                     <div class="additional-field-item item">
                         <ul class="checkbox-list">
-                            <li><input type="checkbox" name="secondary-contact" id="secondary-contact"><label for="secondary-contact">Add Secondary Contact</label></li>
+                            <li><input type="checkbox" name="secondary-contact" id="secondary-contact" ng-model="enrollment.extraFields.accountInformation.showSecondaryContact"><label for="secondary-contact">Add Secondary Contact</label></li>
                         </ul>
                     </div>
-                    <div class="additional-field-group">
+                    <div class="additional-field-group" ng-show="enrollment.extraFields.accountInformation.showSecondaryContact">
                         <div class="group">
                             <div class="item group-col">
                                 <label for="firstname">First Name</label>
