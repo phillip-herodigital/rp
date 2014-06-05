@@ -12,6 +12,7 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using System.Web.SessionState;
+using Microsoft.Practices.Unity;
 
 namespace StreamEnergy.MyStream.Controllers
 {
@@ -21,11 +22,17 @@ namespace StreamEnergy.MyStream.Controllers
         private readonly StateMachineSessionHelper<UserContext, InternalContext> stateHelper;
         private readonly IStateMachine<UserContext, InternalContext> stateMachine;
 
-        public EnrollmentController(StateMachineSessionHelper<UserContext, InternalContext> stateHelper)
+        public class SessionHelper : StateMachineSessionHelper<UserContext, InternalContext>
+        {
+            public SessionHelper(HttpSessionStateBase session, StateMachine<UserContext, InternalContext> stateMachine, IUnityContainer container)
+                : base(session, stateMachine, container, typeof(EnrollmentController), typeof(DomainModels.Enrollments.ServiceInformationState))
+            {
+            }
+        }
+
+        public EnrollmentController(SessionHelper stateHelper)
         {
             this.translationItem = Sitecore.Context.Database.GetItem(new Sitecore.Data.ID("{5B9C5629-3350-4D85-AACB-277835B6B1C9}"));
-
-            stateHelper.Initialize(typeof(EnrollmentController));
 
             this.stateHelper = stateHelper;
             this.stateMachine = stateHelper.StateMachine;

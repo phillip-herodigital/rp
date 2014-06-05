@@ -14,29 +14,22 @@ namespace StreamEnergy.MyStream.Models
         private readonly HttpSessionStateBase session;
         private readonly IUnityContainer container;
         private readonly StateMachine<TContext, TInternalContext> stateMachine;
-        private bool isInitialized;
         private bool isReset;
         private string ContextSessionKey;
         private string InternalContextSessionKey;
         private string StateSessionKey;
+        private Type defaultState;
 
 
-        public StateMachineSessionHelper(HttpSessionStateBase session, StateMachine<TContext, TInternalContext> stateMachine, IUnityContainer container)
+        public StateMachineSessionHelper(HttpSessionStateBase session, StateMachine<TContext, TInternalContext> stateMachine, IUnityContainer container, Type scope, Type defaultState)
         {
             this.session = session;
             this.container = container;
             this.stateMachine = stateMachine;
-
-        }
-
-        public void Initialize(Type scope)
-        {
-            if (isInitialized)
-                throw new InvalidOperationException();
-            isInitialized = true;
+            this.defaultState = defaultState;
 
             ContextSessionKey = scope.FullName + " " + typeof(StateMachineSessionHelper<TContext, TInternalContext>).FullName + " " + typeof(TContext).FullName;
-            InternalContextSessionKey = scope.FullName + " " +typeof(StateMachineSessionHelper<TContext, TInternalContext>).FullName + " " + typeof(TInternalContext).FullName;
+            InternalContextSessionKey = scope.FullName + " " + typeof(StateMachineSessionHelper<TContext, TInternalContext>).FullName + " " + typeof(TInternalContext).FullName;
             StateSessionKey = scope.FullName + " " + typeof(StateMachineSessionHelper<TContext, TInternalContext>).FullName + " State";
             stateMachine.Initialize(State, Context, InternalContext);
         }
@@ -45,51 +38,30 @@ namespace StreamEnergy.MyStream.Models
         {
             get
             {
-                if (!isInitialized)
-                    throw new InvalidOperationException();
                 var context = session[ContextSessionKey] as TContext;
                 if (context == null)
                     session[ContextSessionKey] = context = container.Resolve<TContext>();
                 return context;
             }
-            set
-            {
-                if (!isInitialized)
-                    throw new InvalidOperationException();
-                session[ContextSessionKey] = value;
-            }
+            set { session[ContextSessionKey] = value; }
         }
 
         public Type State
         {
             get
             {
-                if (!isInitialized)
-                    throw new InvalidOperationException();
-                return (session[StateSessionKey] as Type) ?? typeof(DomainModels.Enrollments.ServiceInformationState);
+                return (session[StateSessionKey] as Type) ?? defaultState;
             }
-            set
-            {
-                if (!isInitialized)
-                    throw new InvalidOperationException();
-                session[StateSessionKey] = value;
-            }
+            set { session[StateSessionKey] = value; }
         }
 
         public TInternalContext InternalContext
         {
             get
             {
-                if (!isInitialized)
-                    throw new InvalidOperationException();
                 return session[InternalContextSessionKey] as TInternalContext;
             }
-            set
-            {
-                if (!isInitialized)
-                    throw new InvalidOperationException();
-                session[InternalContextSessionKey] = value;
-            }
+            set { session[InternalContextSessionKey] = value; }
         }
 
         public IStateMachine<TContext, TInternalContext> StateMachine
