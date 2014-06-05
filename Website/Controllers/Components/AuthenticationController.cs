@@ -14,23 +14,5 @@ namespace StreamEnergy.MyStream.Controllers.Components
 
             return View("~/Views/Components/Authentication/My Stream Account.cshtml", model);
         }
-
-        [HttpPost]
-        [Mvc.ErrorSitecoreTranslation]
-        public ActionResult LoginIndex(StreamEnergy.MyStream.Models.Authentication.LoginResponse response)
-        {
-            // Validate form data
-            if (ModelState.IsValid)
-            {
-                // Go to the /account page
-                var ReturnURL = new RedirectResult("~/account");
-                return ReturnURL;
-            }
-            else
-            {
-                // Return validation errors
-                return View("~/Views/Components/Authentication/My Stream Account.cshtml", response);
-            }
-        }
     }
 }

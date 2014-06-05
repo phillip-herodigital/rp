@@ -1,6 +1,4 @@
 @model StreamEnergy.MyStream.Models.Authentication.LoginRequest
-@using System.Linq.Expressions;
-@using StreamEnergy.Extensions;
 
 <div ng-controller="AuthLoginCtrl">
 	<article class="grey-box auth auth-sign-in">
@@ -8,16 +6,14 @@
 			<h2>@Html.Sitecore().Field("Header Text")</h2>
 		</header>
 		<div class="content">
-            <form action="~/api/authentication/login" method="post">
-                <div class="alert alert-error">
-                    @Html.Sitecore().Field("Error Text")
-                    @Html.ValidationSummary()
+            <form ng-submit="login()">
+                <div class="alert alert-error" ng-show="loginError" ng-bind-html="loginError">
+                    <div></div>
                 </div>
                 <div class="group">
                     <div class="item group-col" @Html.ValidationErrorClass(model => model.Username)>
                         <label for="@Html.For(m => m.Username)">@Html.Sitecore().Field("Username Label")</label>
-                        <input type="text" @Html.ValidationAttributes(m => m.Username) ng-model="username" />
-                        @Html.ValidationMessageFor(model => model.Username)
+                        <input type="text" @Html.ValidationAttributes(m => m.Username) ng-model="formData.username" required />
                     </div>
                     <div class="item group-col">
                         @Html.Sitecore().Field("Forgot Username Link")
@@ -26,8 +22,7 @@
                 <div class="group">
                     <div class="item group-col" @Html.ValidationErrorClass(model => model.Password)>
                         <label for="@Html.For(m => m.Password)">@Html.Sitecore().Field("Password Label")</label>
-                        <input type="password" @Html.ValidationAttributes(m => m.Password) ng-model="password" />
-                        @Html.ValidationMessageFor(model => model.Password)
+                        <input type="password" @Html.ValidationAttributes(m => m.Password) ng-model="formData.password" required />
                     </div>
                     <div class="item group-col">
                         @Html.Sitecore().Field("Forgot Password Link")
@@ -36,14 +31,14 @@
                 <div class="item">
                     <ul class="checkbox-list">
                         <li>
-                            <input type="checkbox" @Html.ValidationAttributes(m => m.RememberMe) ng-model="rememberMe">
+                            <input type="checkbox" @Html.ValidationAttributes(m => m.RememberMe) ng-model="formData.rememberMe" />
                             <label for="@Html.For(m => m.RememberMe)">@Html.Sitecore().Field("Remember Me Text")</label>
                         </li>
                     </ul>
                 </div>
                 <div class="buttons">
                     @Html.Sitecore().Field("Create Account Link")
-                    <button type="submit" data-val-submit>@Html.Sitecore().Field("Sign In Button Text")</button>
+                    <button type="submit">@Html.Sitecore().Field("Sign In Button Text")</button>
                 </div>
 
                 <div class="text-content-divider">@Html.Sitecore().Field("Or Divider Text")</div>
