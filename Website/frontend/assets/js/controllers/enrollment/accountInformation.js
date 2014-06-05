@@ -3,6 +3,16 @@
  * This is used to control aspects of account information on enrollment page.
  */
 ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', '$rootScope', 'enrollmentService', function ($scope, $rootScope, enrollmentService) {
+    /**
+    * Initialize function
+    */
+    $scope.init = function () {
+        $scope.enrollment.extraFields.accountInformation = {};
+
+        angular.forEach($scope.enrollment.serverData.locationServices, function (value, key) {
+            $scope.enrollment.extraFields.accountInformation[key] = {};
+        });
+    };
 
     /**
     * Complete Enrollment Section

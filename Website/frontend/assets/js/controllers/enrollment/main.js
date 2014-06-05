@@ -66,6 +66,27 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', '$ancho
     };
 
     /**
+    * Get Locations
+    *
+    * @param string state       //State abbreviation
+    * @param string val         //Search string value
+    */
+    $scope.getLocation = function (state, val) {
+        console.log('Getting locations...');
+
+        return locationPromise = enrollmentService.getLocations(state, val).then(function (res) {
+            var addresses = [];
+
+            angular.forEach(res.data, function (item) {
+                item.formattedAddress = $scope.formatAddress(item.address);
+                addresses.push(item);
+            });
+
+            return addresses;
+        });
+    };
+
+    /**
     * Set Server Data
     */
     $scope.setServerData = function () {

@@ -1,4 +1,4 @@
-﻿<div id="{{section.id}}" class="enrollment-section accent-darkgreen" ng-switch-when="accountInformation" ng-show="section.isVisible" ng-controller="EnrollmentAccountInformationCtrl" >
+﻿<div id="{{section.id}}" class="enrollment-section accent-darkgreen" ng-switch-when="accountInformation" ng-show="section.isVisible" ng-controller="EnrollmentAccountInformationCtrl">
     <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper">
             <h1>
@@ -14,7 +14,7 @@
         <section>
             <h1>@Html.Sitecore().Field("Header Account Information")</h1>
             <p>@Html.Sitecore().Field("Fill in Information")</p>
-            <article class="form" ng-repeat="(id, item) in enrollment.serverData.locationServices">
+            <article class="form" ng-repeat="(id, item) in enrollment.serverData.locationServices" ng-init="init();">
                 <div class="content">
                     <div class="item">
                         <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
@@ -22,45 +22,47 @@
                     </div>
                     <div class="item" ng-hide="item.location.address.line1">
                         <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
-                        <input type="text" id="service-address" ng-model="enrollment.extraFields.accountInformation[id].serviceAddress" placeholder="123 Main Street, Dallas, TX 75001" />
+                        <input type="text" id="service-address" ng-model="enrollment.extraFields.accountInformation[id].serviceAddress" placeholder="123 Main Street, Dallas, TX 75001" typeahead="address as address.formattedAddress for address in getLocation(enrollment.extraFields.serviceState, $viewValue)" />
                     </div>
-                    <div class="group">
-                        <div class="item group-col">
-                            <label for="bill-account-number">@Html.Sitecore().Field("Bill Account Number Label")</label>
-                            <input type="text" id="bill-account-number" ng-model="enrollment.extraFields.accountInformation[id].accountNumber" placeholder="654-XXXX-XXX-XXXXXX" />
+                    <div ng-repeat ="(type, plan) in item.selectedOffers">
+                        <div class="group">
+                            <div class="item group-col">
+                                <label for="bill-account-number">@Html.Sitecore().Field("Bill Account Number Label")</label>
+                                <input type="text" id="bill-account-number" ng-model="enrollment.extraFields.accountInformation[id][type].accountNumber" placeholder="654-XXXX-XXX-XXXXXX" />
+                            </div>
+                            <div class="item group-col">
+                                <a href="" class="single-link">@Html.Sitecore().Field("See Example")</a>
+                            </div>
                         </div>
-                        <div class="item group-col">
-                            <a href="" class="single-link">@Html.Sitecore().Field("See Example")</a>
-                        </div>
-                    </div>
-                    <div class="group" ng-hide="item.selectedOffers['introductory-rate-plan'].offerOption.connectDate'">
-                        <div class="item group-col">
-                            <label for="service-start-date">@Html.Sitecore().Field("Service Start Date Label")</label>
-                            <input type="text" id="ultility-account-number" ng-model="enrollment.extraFields.accountInformation[id].serviceDate" placeholder="01/29/14" />
+                        <div class="group">
+                            <div class="item group-col">
+                                <label for="service-start-date">@Html.Sitecore().Field("Service Start Date Label")</label>
+                                <input type="text" id="ultility-account-number" ng-model="enrollment.extraFields.accountInformation[id].serviceDate" placeholder="01/29/14" />
+                            </div>
+                            <div class="item">
+                                <label for="service-start-time">@Html.Sitecore().Field("Time Label")</label>
+                                <select id="service-start-time" ng-model="enrollment.extraFields.accountInformation[id].serviceTime">
+                                    <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="item">
-                            <label for="service-start-time">@Html.Sitecore().Field("Time Label")</label>
-                            <select id="service-start-time" ng-model="enrollment.extraFields.accountInformation[id].serviceTime">
-                                <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
-                            </select>
+                            <label for="connection-fee">@Html.Sitecore().Field("Connection Fee Label")</label>
+                            <strong>$10.25 (@Html.Sitecore().Field("Priority Connect"))</strong>
                         </div>
-                    </div>
-                    <div class="item">
-                        <label for="connection-fee">@Html.Sitecore().Field("Connection Fee Label")</label>
-                        <strong>$10.25 (@Html.Sitecore().Field("Priority Connect"))</strong>
-                    </div>
-                    <div class="item">
-                        <label for="meter-set-fee">@Html.Sitecore().Field("Meter Set Fee Label")</label>
-                        <strong>$XX.XX</strong>
-                    </div>
-                    <div class="item">
-                        <label for="utility-connect-fee">@Html.Sitecore().Field("Utility Connect Fee Label")</label>
-                        <strong>$25.00</strong>
-                    </div>
-                    <div class="item">
-                        <label for="stream-connect-fee">@Html.Sitecore().Field("Stream Connect Fee Label")</label>
-                        <strong>$25.00</strong>
-                    </div>
+                        <div class="item">
+                            <label for="meter-set-fee">@Html.Sitecore().Field("Meter Set Fee Label")</label>
+                            <strong>$XX.XX</strong>
+                        </div>
+                        <div class="item">
+                            <label for="utility-connect-fee">@Html.Sitecore().Field("Utility Connect Fee Label")</label>
+                            <strong>$25.00</strong>
+                        </div>
+                        <div class="item">
+                            <label for="stream-connect-fee">@Html.Sitecore().Field("Stream Connect Fee Label")</label>
+                            <strong>$25.00</strong>
+                        </div>
+                    </divng-repeat>
                 </div>
             </article>
             <h2>@Html.Sitecore().Field("Personal Information Header")</h2>
@@ -243,5 +245,5 @@
         <aside>
             <div ng-include ng-if="true" src="'cart-template'"></div>
         </aside>
-    </div>
+    </div>       
 </div>
