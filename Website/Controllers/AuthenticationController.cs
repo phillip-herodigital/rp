@@ -4,7 +4,9 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Security;
 using System.Web.SessionState;
+using StreamEnergy.MyStream.Models;
 using StreamEnergy.MyStream.Models.Authentication;
 
 namespace StreamEnergy.MyStream.Controllers
@@ -12,9 +14,34 @@ namespace StreamEnergy.MyStream.Controllers
     public class AuthenticationController : ApiController, IRequiresSessionState
     {
         [HttpPost]
-        public LoginResponse Login(LoginRequest request)
+        public HttpResponseMessage Login(LoginRequest request)
         {
-            return Dummy<LoginResponse>();
+            if (ModelState.IsValid)
+            {
+                var response = Request.CreateResponse(new LoginResponse()
+                {
+                    Success = true
+                });
+
+                var cookie = FormsAuthentication.GetAuthCookie(request.Username, false, "/");
+                response.Headers.AddCookies(new[] {
+                    new System.Net.Http.Headers.CookieHeaderValue(cookie.Name, cookie.Value) 
+                    { 
+                        Domain = cookie.Domain, 
+                        Expires = cookie.Expires, 
+                        HttpOnly = cookie.HttpOnly, 
+                        Path = cookie.Path, 
+                        Secure = cookie.Secure 
+                    }
+                });
+                return response;
+            }
+
+            return Request.CreateResponse(new LoginResponse
+                    {
+                        Success = false,
+                        Validations = TranslatedValidationResult.Translate(ModelState, GetAuthItem("My Stream Account"))
+                    });
         }
 
         #region Create Online Account
@@ -65,7 +92,17 @@ namespace StreamEnergy.MyStream.Controllers
         
         #endregion
 
+        private Sitecore.Data.Items.Item GetAuthItem(string childItem)
+        {
+            Sitecore.Sites.SiteContext site = Sitecore.Context.Site;
+            
+            if (site == null)
+            {
+                site = Sitecore.Sites.SiteContextFactory.GetSiteContext(Request.RequestUri.Host, Request.RequestUri.AbsolutePath, Request.RequestUri.Port);
+            }
 
+            return site.Database.GetItem("/sitecore/content/Data/Components/Authentication/" + childItem);
+        }
 
         private T Dummy<T>()
         {
