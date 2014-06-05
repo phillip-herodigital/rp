@@ -13,7 +13,8 @@
         var deferred = $q.defer(),
             start = new Date().getTime();
 
-        $http.get(urlPrefix + 'ClientData')
+        $http.get('/frontend/assets/json/enrollment.txt')
+        //$http.get(urlPrefix + 'ClientData')
         .success(function (data) {
             console.log('time taken for request: ' + (new Date().getTime() - start) + 'ms');
             deferred.resolve(data);
@@ -63,7 +64,8 @@
         var deferred = $q.defer(),
         start = new Date().getTime();
 
-        $http.post(urlPrefix + 'ServiceInformation', data)
+        //$http.post(urlPrefix + 'ServiceInformation', data)
+        $http.get('/frontend/assets/json/enrollment.txt')
         .success(function(data) {
             console.log('time taken for request: ' + (new Date().getTime() - start) + 'ms');
             deferred.resolve(data);
@@ -88,7 +90,8 @@
         var deferred = $q.defer(),
         start = new Date().getTime();
 
-        $http.post(urlPrefix + 'SelectedOffers', data)
+        //$http.post(urlPrefix + 'SelectedOffers', data)
+        $http.get('/frontend/assets/json/enrollment.txt')
         .success(function (data) {
             console.log('time taken for request: ' + (new Date().getTime() - start) + 'ms');
             deferred.resolve(data);
@@ -113,7 +116,8 @@
         var deferred = $q.defer(),
         start = new Date().getTime();
 
-        $http.post(urlPrefix + 'AccountInformation', data)
+        //$http.post(urlPrefix + 'AccountInformation', data)
+        $http.get('/frontend/assets/json/enrollment.txt')
         .success(function (data) {
             console.log('time taken for request: ' + (new Date().getTime() - start) + 'ms');
             deferred.resolve(data);
@@ -138,7 +142,8 @@
         var deferred = $q.defer(),
         start = new Date().getTime();
 
-        $http.post(urlPrefix + 'VerifyIdentity', data)
+        //$http.post(urlPrefix + 'VerifyIdentity', data)
+        $http.get('/frontend/assets/json/enrollment.txt')
         .success(function (data) {
             console.log('time taken for request: ' + (new Date().getTime() - start) + 'ms');
             deferred.resolve(data);
@@ -163,7 +168,8 @@
         var deferred = $q.defer(),
         start = new Date().getTime();
 
-        $http.post(urlPrefix + 'PaymentInfo', data)
+        //$http.post(urlPrefix + 'PaymentInfo', data)
+        $http.get('/frontend/assets/json/enrollment.txt')
         .success(function (data) {
             console.log('time taken for request: ' + (new Date().getTime() - start) + 'ms');
             deferred.resolve(data);
@@ -188,7 +194,8 @@
         var deferred = $q.defer(),
         start = new Date().getTime();
 
-        $http.post(urlPrefix + 'ConfirmOrder', data)
+        //$http.post(urlPrefix + 'ConfirmOrder', data)
+        $http.get('/frontend/assets/json/enrollment.txt')
         .success(function (data) {
             console.log('time taken for request: ' + (new Date().getTime() - start) + 'ms');
             deferred.resolve(data);

@@ -233,7 +233,7 @@
                 </div>
             </article>
             <div class="buttons">
-                <button type="submit" class="primary">@Html.Sitecore().Field("Button Label")</button>
+                <button type="submit" class="primary" ng-click="completeStep();">@Html.Sitecore().Field("Button Label")</button>
             </div>
             <div class="hide-medium-large time-remaining-mobile">
                 <p class="time-remaining">@Html.Sitecore().Field("Estimated Time Remaining") <strong>@Html.Sitecore().Field("Remaining Minutes")</strong></p>

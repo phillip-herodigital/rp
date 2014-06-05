@@ -105,6 +105,13 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
             $scope.enrollment.serverData = data;
 
             $scope.enrollment.extraFields.isNewService = 0;
+
+            //Change this line to real ID in acutal implementation
+            //$scope.enrollment.extraFields.serviceAddress.id = id;
+            $scope.enrollment.extraFields.serviceAddress.id = 'location1';
+
+            angular.copy($scope.enrollment.extraFields.serviceAddress, $scope.enrollment.currentAddress);
+
             $scope.enrollment.extraFields.serviceAddress = null;
 
             $scope.activateSections('planSelection');
