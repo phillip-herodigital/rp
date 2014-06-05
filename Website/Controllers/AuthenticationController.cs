@@ -1,24 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using System.Web.Security;
 using System.Web.SessionState;
+using Microsoft.Practices.Unity;
 using StreamEnergy.DomainModels.Accounts;
+using StreamEnergy.DomainModels.Accounts.Create;
 using StreamEnergy.MyStream.Models;
 using StreamEnergy.MyStream.Models.Authentication;
+using StreamEnergy.Processes;
 
 namespace StreamEnergy.MyStream.Controllers
 {
     public class AuthenticationController : ApiController, IRequiresSessionState
     {
         private readonly Sitecore.Data.Items.Item item;
+        private readonly IUnityContainer container;
+        private readonly List<Action> onDispose = new List<Action>();
+        private CreateAccountSessionHelper coaSessionHelper;
 
-        public AuthenticationController()
+        public class CreateAccountSessionHelper : StateMachineSessionHelper<CreateAccountContext, CreateAccountInternalContext>
         {
+            public CreateAccountSessionHelper(HttpSessionStateBase session, StateMachine<CreateAccountContext, CreateAccountInternalContext> stateMachine, IUnityContainer container)
+                : base(session, stateMachine, container, typeof(AuthenticationController), typeof(FindAccountState))
+            {
+            }
+        }
+
+        public AuthenticationController(IUnityContainer container, CreateAccountSessionHelper coaSessionHelper)
+        {
+            this.container = container;
+            this.coaSessionHelper = coaSessionHelper;
+
             item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Components/Authentication");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            onDispose.ForEach(a => a());
+            onDispose.Clear();
+            base.Dispose(disposing);
         }
 
         [HttpPost]
@@ -57,23 +83,32 @@ namespace StreamEnergy.MyStream.Controllers
         [HttpPost]
         public FindAccountResponse FindAccount(FindAccountRequest request)
         {
-            PrepareCreateOnlineAccount();
-            if (ModelState.IsValid)
-            {
+            coaSessionHelper.StateMachine.Context.AccountNumber = request.AccountNumber;
+            coaSessionHelper.StateMachine.Context.SsnLastFour = request.SsnLastFour;
+
+            if (coaSessionHelper.StateMachine.State == typeof(FindAccountState))
+                coaSessionHelper.StateMachine.Process(typeof(AccountInformationState));
+
+            var validations = Enumerable.Empty<ValidationResult>();
+            // don't give validations for the next step
+            if (coaSessionHelper.StateMachine.State == typeof(FindAccountState))
+                validations = coaSessionHelper.StateMachine.ValidationResults;
                 
-            }
-            return Dummy<FindAccountResponse>();
+            return new FindAccountResponse
+            {
+                AccountNumber = coaSessionHelper.StateMachine.Context.AccountNumber,
+                SsnLastFour = coaSessionHelper.StateMachine.Context.SsnLastFour,
+                Customer = coaSessionHelper.StateMachine.Context.Customer,
+                Address = coaSessionHelper.StateMachine.Context.Address,
+                AvailableSecurityQuestions = Dummy<IEnumerable<Models.Authentication.SecurityQuestion>>(),
+                Validations = TranslatedValidationResult.Translate(validations, GetAuthItem("Create Account - Step 1"))
+            };
         }
 
         [HttpPost]
         public CreateLoginResponse CreateLogin(CreateLoginRequest request)
         {
-            PrepareCreateOnlineAccount();
             return Dummy<CreateLoginResponse>();
-        }
-
-        private void PrepareCreateOnlineAccount()
-        {
         }
 
         #endregion

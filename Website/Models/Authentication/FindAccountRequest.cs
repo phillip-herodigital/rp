@@ -6,7 +6,7 @@ using System.Web;
 
 namespace StreamEnergy.MyStream.Models.Authentication
 {
-    public class FindAccountRequest : ISanitizable
+    public class FindAccountRequest
     {
         [Required(ErrorMessage = "Account Number Required")]
         [RegularExpression(@"\w", ErrorMessage = "Account Number Invalid")]
@@ -15,11 +15,5 @@ namespace StreamEnergy.MyStream.Models.Authentication
         [Required(ErrorMessage = "Ssn Last Four Required")]
         [RegularExpression(@"^\s*[0-9]{4}\s*$", ErrorMessage = "Ssn Last Four Invalid")]
         public string SsnLastFour { get; set; }
-
-        public void Sanitize()
-        {
-            AccountNumber = AccountNumber.Trim();
-            SsnLastFour = SsnLastFour.Trim();
-        }
     }
 }

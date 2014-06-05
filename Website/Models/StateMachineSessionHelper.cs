@@ -19,6 +19,7 @@ namespace StreamEnergy.MyStream.Models
         private string InternalContextSessionKey;
         private string StateSessionKey;
         private Type defaultState;
+        private bool isInitialized;
 
 
         public StateMachineSessionHelper(HttpSessionStateBase session, StateMachine<TContext, TInternalContext> stateMachine, IUnityContainer container, Type scope, Type defaultState)
@@ -31,13 +32,22 @@ namespace StreamEnergy.MyStream.Models
             ContextSessionKey = scope.FullName + " " + typeof(StateMachineSessionHelper<TContext, TInternalContext>).FullName + " " + typeof(TContext).FullName;
             InternalContextSessionKey = scope.FullName + " " + typeof(StateMachineSessionHelper<TContext, TInternalContext>).FullName + " " + typeof(TInternalContext).FullName;
             StateSessionKey = scope.FullName + " " + typeof(StateMachineSessionHelper<TContext, TInternalContext>).FullName + " State";
-            stateMachine.Initialize(State, Context, InternalContext);
+        }
+
+        private void EnsureInitialized()
+        {
+            if (!isInitialized)
+            {
+                isInitialized = true;
+                stateMachine.Initialize(State, Context, InternalContext);
+            }
         }
 
         public TContext Context
         {
             get
             {
+                EnsureInitialized();
                 var context = session[ContextSessionKey] as TContext;
                 if (context == null)
                     session[ContextSessionKey] = context = container.Resolve<TContext>();
@@ -50,6 +60,7 @@ namespace StreamEnergy.MyStream.Models
         {
             get
             {
+                EnsureInitialized();
                 return (session[StateSessionKey] as Type) ?? defaultState;
             }
             set { session[StateSessionKey] = value; }
@@ -59,6 +70,7 @@ namespace StreamEnergy.MyStream.Models
         {
             get
             {
+                EnsureInitialized();
                 return session[InternalContextSessionKey] as TInternalContext;
             }
             set { session[InternalContextSessionKey] = value; }
@@ -66,7 +78,11 @@ namespace StreamEnergy.MyStream.Models
 
         public IStateMachine<TContext, TInternalContext> StateMachine
         {
-            get { return stateMachine; }
+            get
+            {
+                EnsureInitialized();
+                return stateMachine;
+            }
         }
 
         public void Reset()
@@ -76,6 +92,11 @@ namespace StreamEnergy.MyStream.Models
 
         public void Dispose()
         {
+            if (!isInitialized)
+            {
+                return;
+            }
+
             if (!isReset)
             {
                 Context = stateMachine.Context;
