@@ -453,6 +453,7 @@
     <Compile Include="Models\Enrollment\AccountInformation.cs" />
     <Compile Include="Models\Enrollment\ClientData.cs" />
     <Compile Include="Models\Enrollment\ConfirmOrder.cs" />
+    <Compile Include="Models\Enrollment\IntermediateLocation.cs" />
     <Compile Include="Models\Enrollment\SelectedOffers.cs" />
     <Compile Include="Models\Enrollment\ServiceInformation.cs" />
     <Compile Include="Models\Enrollment\VerifyIdentity.cs" />
@@ -558,7 +559,7 @@
     <Content Include="App_Config\Include\Sitecore.Speak.config" />
     <Content Include="App_Config\Include\Sitecore.Speak.ItemWebApi.config" />
     <Content Include="App_Config\Include\Sitecore.Speak.Mvc.config" />
-  <Content Include="Views\web.config" />
+    <Content Include="Views\web.config" />
     <Content Include="Views\**\*.cshtml" />
     <Content Include="App_Config\Include\StreamEnergy.Initialization.config">
       <SubType>Designer</SubType>
@@ -567,6 +568,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="App_Config\Prefetch\Webdb.config" />
+    <Content Include="frontend\assets\json\enrollment.json" />
     <None Include="Properties\PublishProfiles\Azure - Production.pubxml" />
     <None Include="Properties\PublishProfiles\Azure - Production Sitecore.pubxml" />
     <None Include="Properties\PublishProfiles\Azure - VM - my-stream-prod.pubxml" />
