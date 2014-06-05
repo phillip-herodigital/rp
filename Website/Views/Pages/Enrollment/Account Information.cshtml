@@ -14,13 +14,13 @@
         <section>
             <h1>Account <span>Information</span></h1>
             <p>Please fill in your information to set up your account.</p>
-            <article class="form">
+            <article class="form" ng-repeat="(id, item) in enrollment.serverData.locationServices">
                 <div class="content">
                     <div class="item">
                         <label for="service-address">Service Address</label>
-                        <strong>123 Main Street, Dallas, TX 75001</strong>
+                        <strong>{{formatAddress(item.location.address)}}</strong>
                     </div>
-                    <div class="item">
+                    <div class="item" ng-hide="item.location.address.line1">
                         <label for="service-address">Service Address</label>
                         <input type="text" id="service-address" placeholder="123 Main Street, Dallas, TX 75001" />
                     </div>

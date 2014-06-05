@@ -325,7 +325,7 @@
 
       "location1":{
 
-         "newOffer":{
+         "introductory-rate-plan":{
 
             "optionRulesType":"ServiceStatus",
 
@@ -340,7 +340,7 @@
 
       "location2":{
 
-         "newOffer":{
+         "introductory-rate-plan":{
 
             "optionRulesType":"ServiceStatus",
 
