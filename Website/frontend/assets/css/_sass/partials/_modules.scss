@@ -675,6 +675,14 @@ article.auth {
 	}	
 }
 article.payments {
+	.advanced-settings {
+		input, select {
+			width: auto;
+		}
+		& :last-child {
+			margin-bottom: 0;
+		}
+	}
 	.link-list {
 		float: right;
 		list-style-type: none;
