@@ -112,7 +112,14 @@ namespace StreamEnergy.MyStream.Controllers
                 SsnLastFour = coaSessionHelper.StateMachine.Context.SsnLastFour,
                 Customer = coaSessionHelper.StateMachine.Context.Customer,
                 Address = coaSessionHelper.StateMachine.Context.Address,
-                AvailableSecurityQuestions = Dummy<IEnumerable<Models.Authentication.SecurityQuestion>>(),
+                //AvailableSecurityQuestions = Dummy<IEnumerable<Models.Authentication.SecurityQuestion>>(),
+                AvailableSecurityQuestions =
+                    from questionItem in database.GetItem("/sitecore/content/Data/Taxonomy/Security Questions").Children.OfType<Sitecore.Data.Items.Item>()
+                    select new SecurityQuestion
+                    {
+                        Id = questionItem.ID.Guid,
+                        Text = questionItem["Question"]
+                    },
                 Validations = TranslatedValidationResult.Translate(validations, GetAuthItem("Create Account - Step 1"))
             };
         }

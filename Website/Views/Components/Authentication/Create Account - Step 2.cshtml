@@ -6,9 +6,7 @@
 	</header>
     <form ng-submit="createLogin()">
         <div class="content">
-            <div class="alert alert-error">
-                @Html.Sitecore().Field("Error Text")
-            </div>
+            <div class="alert alert-error" ng-show="createLoginError" ng-bind-html="createLoginError">@Html.Sitecore().Field("Error Text")</div>
 
             <h3>@Html.Sitecore().Field("Personal Header Text")</h3>
 
@@ -57,17 +55,17 @@
 
             <h3>@Html.Sitecore().Field("Create Header Text")</h3>
 
-            <div class="item">
+            <div class="item" @Html.ValidationErrorClass(model => model.Username)>
                 <label for="@Html.For(m => m.Username)">@Html.Sitecore().Field("Username Label")</label>
                 <input type="text" @Html.ValidationAttributes(m => m.Username) ng-model="formData.username" />
             </div>
-            <div class="group">
+            <div class="group" @Html.ValidationErrorClass(model => model.Password)>
                 <div class="item group-col">
                     <label for="@Html.For(m => m.Password)">@Html.Sitecore().Field("Password Label")</label>
                     <input type="password" @Html.ValidationAttributes(m => m.Password) ng-model="formData.password" />
                     <span class="help-text">@Html.Sitecore().Field("Password Help Text")</span>
                 </div>
-                <div class="item group-col">
+                <div class="item group-col" @Html.ValidationErrorClass(model => model.ConfirmPassword)>
                     <label for="@Html.For(m => m.ConfirmPassword)">@Html.Sitecore().Field("Confirm Password Label")</label>
                     <input type="password" @Html.ValidationAttributes(m => m.ConfirmPassword) ng-model="formData.confirmPassword" />
                 </div>
@@ -76,24 +74,22 @@
             <hr class="content-divider">
 
             <div class="group">
-                <div class="item group-col">
-                    <label for="" @Html.For(m => m.Challenges) ">@Html.Sitecore().Field("Question 1 Label")</label>
+                <div class="item group-col" @Html.ValidationErrorClass(model => model.Challenges)>
+                    <label for="@Html.For(m => m.Challenges)">@Html.Sitecore().Field("Question 1 Label")</label>
                     <select ng-model="formData.challenge1" ng-options="question.id as question.text for question in availableSecurityQuestions"></select>
                 </div>
-                <div class="item group-col">
+                <div class="item group-col" @Html.ValidationErrorClass(model => model.Challenges)>
                     <label for="security-answer-1">@Html.Sitecore().Field("Question 1 Answer Label")</label>
                     <input type="text" name="security-answer-1" id="security-answer-1">
                     <span class="help-text">@Html.Sitecore().Field("Question 1 Help Text")</span>
                 </div>
             </div>
             <div class="group">
-                <div class="item group-col">
-                    <label for="security-question-2">@Html.Sitecore().Field("Question 2 Label")</label>
-                    <select name="security-question-2" id="security-question-2">
-                        <option value="">Select a Security Question</option>
-                    </select>
+                <div class="item group-col" @Html.ValidationErrorClass(model => model.Challenges)>
+                    <label for="@Html.For(m => m.Challenges)">@Html.Sitecore().Field("Question 2 Label")</label>
+                    <select ng-model="formData.challenge2" ng-options="question.id as question.text for question in availableSecurityQuestions"></select>
                 </div>
-                <div class="item group-col">
+                <div class="item group-col" @Html.ValidationErrorClass(model => model.Challenges)>
                     <label for="security-answer-2">@Html.Sitecore().Field("Question 2 Answer Label")</label>
                     <input type="text" name="security-answer-2" id="security-answer-2">
                     <span class="help-text">@Html.Sitecore().Field("Question 2 Help Text")</span>
