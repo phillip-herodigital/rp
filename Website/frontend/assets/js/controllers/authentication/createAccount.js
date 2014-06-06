@@ -7,6 +7,9 @@ ngApp.controller('AuthCreateAccountCtrl', ['$scope', '$rootScope', '$http', '$wi
 	// create a blank object to hold the form information
 	$scope.formData = {};
 
+	// initialize the challenges
+	$scope.formData.challenges = [{},{}];
+
 	// process the findAccount form
 	$scope.findAccount = function() {
 		$http({
@@ -34,6 +37,7 @@ ngApp.controller('AuthCreateAccountCtrl', ['$scope', '$rootScope', '$http', '$wi
 
 	// process the createLogin form
 	$scope.createLogin = function() {
+
 		$http({
 			method  : 'POST',
 			url     : '/api/authentication/createLogin',
@@ -43,7 +47,7 @@ ngApp.controller('AuthCreateAccountCtrl', ['$scope', '$rootScope', '$http', '$wi
 			.success(function (data, status, headers, config) {
 				if (!data.success) {
 					// if not successful, bind errors to error variables
-					$scope.findAccountError = $sce.trustAsHtml(data.validations[0].text);
+					$scope.createLoginError = $sce.trustAsHtml(data.validations[0].text);
 
 				} else {
 					// if successful, send the user to the /account page
