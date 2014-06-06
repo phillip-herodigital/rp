@@ -4,6 +4,23 @@
  */
 ngApp.controller('EnrollmentVerifyIdentityCtrl', ['$scope', '$rootScope', 'enrollmentService', function ($scope, $rootScope, enrollmentService) {
 
+    $scope.$watch('enrollment.serverData.identityQuestions', function (newValue, oldValue) {
+        if (newValue !== oldValue) {
+            $scope.init();
+        }
+    });
+
+    /**
+    * Initialize function
+    */
+    $scope.init = function () {
+        $scope.enrollment.extraFields.verifyIdentity = {};
+
+        angular.forEach($scope.enrollment.serverData.identityQuestions, function (item) {
+            $scope.enrollment.extraFields.verifyIdentity[item.questionId] = 1;
+        });
+    };
+
     /**
     * Complete Enrollment Section
     */
