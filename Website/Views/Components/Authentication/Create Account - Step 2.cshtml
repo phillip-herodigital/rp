@@ -75,29 +75,30 @@
 
             <div class="group">
                 <div class="item group-col" @Html.ValidationErrorClass(model => model.Challenges)>
-                    <label for="@Html.For(m => m.Challenges)">@Html.Sitecore().Field("Question 1 Label")</label>
-                    <select ng-model="formData.challenge1" ng-options="question.id as question.text for question in availableSecurityQuestions"></select>
+                    <label for="question-1">@Html.Sitecore().Field("Question 1 Label")</label>
+                    <select ng-model="formData.challenges[0].selectedQuestion" ng-options="question.text for question in availableSecurityQuestions track by question.id"></select>
                 </div>
                 <div class="item group-col" @Html.ValidationErrorClass(model => model.Challenges)>
-                    <label for="security-answer-1">@Html.Sitecore().Field("Question 1 Answer Label")</label>
-                    <input type="text" name="security-answer-1" id="security-answer-1">
+                    <label for="answer-1">@Html.Sitecore().Field("Question 1 Answer Label")</label>
+                    <input type="text" name="answer-1" id="answer-1" ng-model="formData.challenges[0].answer" required>
                     <span class="help-text">@Html.Sitecore().Field("Question 1 Help Text")</span>
                 </div>
             </div>
             <div class="group">
                 <div class="item group-col" @Html.ValidationErrorClass(model => model.Challenges)>
                     <label for="@Html.For(m => m.Challenges)">@Html.Sitecore().Field("Question 2 Label")</label>
-                    <select ng-model="formData.challenge2" ng-options="question.id as question.text for question in availableSecurityQuestions"></select>
+                    <select ng-model="formData.challenges[1].selectedQuestion" ng-options="question.text for question in availableSecurityQuestions track by question.id"></select>
                 </div>
                 <div class="item group-col" @Html.ValidationErrorClass(model => model.Challenges)>
-                    <label for="security-answer-2">@Html.Sitecore().Field("Question 2 Answer Label")</label>
-                    <input type="text" name="security-answer-2" id="security-answer-2">
+                    <label for="answer-2">@Html.Sitecore().Field("Question 2 Answer Label")</label>
+                    <input type="text" name="answer-2" id="answer-2" ng-model="formData.challenges[1].answer" required>
                     <span class="help-text">@Html.Sitecore().Field("Question 2 Help Text")</span>
                 </div>
             </div>
         </div>
         <footer>
             <div class="buttons">
+                {{ formData }}
                 <button type="submit" class="primary">@Html.Sitecore().Field("Create Account Button Text")</button>
             </div>
         </footer>
