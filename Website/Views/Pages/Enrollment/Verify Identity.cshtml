@@ -18,40 +18,10 @@
                 <div class="content">
                     <p><strong>If you do not know the answer to the questions, you can skip this step and a customer support agent will contact you to complete your order.</strong></p>
                     <div class="form">
-                        <div class="item">
-                            <label>Which of the following addresses did you live at in 2010?</label>
+                        <div class="item" ng-repeat="question in enrollment.serverData.identityQuestions">
+                            <label>{{question.questionText}}</label>
                             <ul class="checkbox-list">
-                                <li><input type="radio" name="address" id=""><label for="">9452 Broad Turnabout, Lanigan, North Dakota</label></li>
-                                <li><input type="radio" name="address" id=""><label for="">7600 Clear Falls, Prince Albert, Michigan</label></li>
-                                <li><input type="radio" name="address" id=""><label for="">7757 Stony Diversion, Lost Cane, Alaska</label></li>
-                                <li><input type="radio" name="address" id=""><label for="">None of the above</label></li>
-                            </ul>
-                        </div>
-                        <div class="item">
-                            <label>What was the make and model of your first car?</label>
-                            <ul class="checkbox-list">
-                                <li><input type="radio" name="car" id=""><label for="">Ford Mustang</label></li>
-                                <li><input type="radio" name="car" id=""><label for="">Chevy Cobalt</label></li>
-                                <li><input type="radio" name="car" id=""><label for="">Dodge Durango</label></li>
-                                <li><input type="radio" name="car" id=""><label for="">None of the above</label></li>
-                            </ul>
-                        </div>
-                        <div class="item">
-                            <label>Which year did you graduate high school?</label>
-                            <ul class="checkbox-list">
-                                <li><input type="radio" name="graduate-year" id=""><label for="">1990</label></li>
-                                <li><input type="radio" name="graduate-year" id=""><label for="">1994</label></li>
-                                <li><input type="radio" name="graduate-year" id=""><label for="">1998</label></li>
-                                <li><input type="radio" name="graduate-year" id=""><label for="">None of the above</label></li>
-                            </ul>
-                        </div>
-                        <div class="item">
-                            <label>Which of the following cities have you lived in?</label>
-                            <ul class="checkbox-list">
-                                <li><input type="radio" name="cities" id=""><label for="">New York, NY</label></li>
-                                <li><input type="radio" name="cities" id=""><label for="">Dallas, TX</label></li>
-                                <li><input type="radio" name="cities" id=""><label for="">San Francisco, CA</label></li>
-                                <li><input type="radio" name="cities" id=""><label for="">None of the above</label></li>
+                                <li ng-repeat="answers in question.answers"><input type="radio" ng-model="enrollment.extraFields.verifyIdentity[question.questionId]" id="question{{question.questionId}}_answer{{answers.answerId}}" ng-value="answers.answerId"><label for="question{{question.questionId}}_answer{{answers.answerId}}">{{answers.answerText}}</label></li>
                             </ul>
                         </div>
                     </div>
