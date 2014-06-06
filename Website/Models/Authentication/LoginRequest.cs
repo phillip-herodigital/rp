@@ -9,8 +9,7 @@ namespace StreamEnergy.MyStream.Models.Authentication
 {
     public class LoginRequest : ISanitizable, IValidatableObject
     {
-        // TODO - change this domain out
-        protected string Domain { get { return "sitecore"; } }
+        public Sitecore.Security.Domains.Domain Domain { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
         public bool RememberMe { get; set; }
@@ -24,7 +23,11 @@ namespace StreamEnergy.MyStream.Models.Authentication
         IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             Sanitize();
-            if (!Membership.ValidateUser(Domain + "\\" + Username, Password))
+            if (Domain == null)
+            {
+                yield return new ValidationResult("Domain Not Provided");
+            }
+            else if (!Membership.ValidateUser(Domain.AccountPrefix + Username, Password))
             {
                 yield return new ValidationResult("Error Text", new[] { "Username", "Password" });
             }

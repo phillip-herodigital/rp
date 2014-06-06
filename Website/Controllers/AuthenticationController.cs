@@ -21,7 +21,8 @@ namespace StreamEnergy.MyStream.Controllers
     {
         private readonly Sitecore.Data.Items.Item item;
         private readonly IUnityContainer container;
-        private CreateAccountSessionHelper coaSessionHelper;
+        private readonly CreateAccountSessionHelper coaSessionHelper;
+        private readonly Sitecore.Security.Domains.Domain domain;
 
         public class CreateAccountSessionHelper : StateMachineSessionHelper<CreateAccountContext, CreateAccountInternalContext>
         {
@@ -35,8 +36,9 @@ namespace StreamEnergy.MyStream.Controllers
         {
             this.container = container;
             this.coaSessionHelper = coaSessionHelper;
+            this.domain = Sitecore.Context.Site.Domain;
 
-            item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Components/Authentication");
+            this.item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Components/Authentication");
         }
 
         protected override void Dispose(bool disposing)
@@ -48,6 +50,9 @@ namespace StreamEnergy.MyStream.Controllers
         [HttpPost]
         public HttpResponseMessage Login(LoginRequest request)
         {
+            request.Domain = domain;
+            ModelState.Clear();
+            Validate(request, "request");
             if (ModelState.IsValid)
             {
                 var response = Request.CreateResponse(new LoginResponse()
@@ -101,7 +106,7 @@ namespace StreamEnergy.MyStream.Controllers
         [HttpPost]
         public HttpResponseMessage CreateLogin(CreateLoginRequest request)
         {
-            coaSessionHelper.StateMachine.Context.Username = request.Username;
+            coaSessionHelper.StateMachine.Context.Username = domain.AccountPrefix + request.Username;
             coaSessionHelper.StateMachine.Context.Password = request.Password;
             coaSessionHelper.StateMachine.Context.ConfirmPassword = request.ConfirmPassword;
             coaSessionHelper.StateMachine.Context.Challenges = request.Challenges.ToDictionary(c => c.SelectedQuestion.Id, c => c.Answer);
