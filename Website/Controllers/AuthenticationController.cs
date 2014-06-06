@@ -27,7 +27,8 @@ namespace StreamEnergy.MyStream.Controllers
         private readonly ResetPasswordTokenManager resetPasswordTokenManager;
         private readonly Sitecore.Security.Domains.Domain domain;
         private readonly Sitecore.Data.Database database;
-
+        
+        #region Session Helper Classes
         public class CreateAccountSessionHelper : StateMachineSessionHelper<CreateAccountContext, CreateAccountInternalContext>
         {
             public CreateAccountSessionHelper(HttpSessionStateBase session, IUnityContainer container)
@@ -43,6 +44,7 @@ namespace StreamEnergy.MyStream.Controllers
             {
             }
         }
+        #endregion
 
         public AuthenticationController(IUnityContainer container, CreateAccountSessionHelper coaSessionHelper, ResetPasswordSessionHelper resetPasswordSessionHelper, ResetPasswordTokenManager resetPasswordTokenManager)
         {
@@ -62,6 +64,8 @@ namespace StreamEnergy.MyStream.Controllers
 
             base.Dispose(disposing);
         }
+
+        #region Login
 
         [HttpPost]
         public HttpResponseMessage Login(LoginRequest request)
@@ -86,6 +90,8 @@ namespace StreamEnergy.MyStream.Controllers
                         Validations = TranslatedValidationResult.Translate(ModelState, GetAuthItem("My Stream Account"))
                     });
         }
+
+        #endregion
 
         #region Create Online Account
 
@@ -114,7 +120,6 @@ namespace StreamEnergy.MyStream.Controllers
                 SsnLastFour = coaSessionHelper.StateMachine.Context.SsnLastFour,
                 Customer = coaSessionHelper.StateMachine.Context.Customer,
                 Address = coaSessionHelper.StateMachine.Context.Address,
-                //AvailableSecurityQuestions = Dummy<IEnumerable<Models.Authentication.SecurityQuestion>>(),
                 AvailableSecurityQuestions =
                     from questionItem in database.GetItem("/sitecore/content/Data/Taxonomy/Security Questions").Children.OfType<Sitecore.Data.Items.Item>()
                     select new SecurityQuestion
@@ -223,7 +228,7 @@ namespace StreamEnergy.MyStream.Controllers
         [HttpPost]
         public RecoverUsernameResponse RecoverUsername(RecoverUsernameRequest request)
         {
-            return Dummy<RecoverUsernameResponse>();
+            return RapidPrototyping.Dummy<RecoverUsernameResponse>();
         }
         
         #endregion
@@ -248,35 +253,5 @@ namespace StreamEnergy.MyStream.Controllers
                 });
         }
 
-        private T Dummy<T>()
-        {
-            return (T)Dummy(typeof(T));
-        }
-
-        private object Dummy(Type type)
-        {
-            if (type == typeof(string))
-                return "string";
-            if (type == typeof(bool))
-                return true;
-
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
-            {
-                var args = type.GetGenericArguments();
-                var list = (System.Collections.IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(args));
-                var copy = Dummy(args[0]);
-                list.Add(copy);
-                list.Add(copy);
-                list.Add(copy);
-                return list;
-            }
-
-            var result = Activator.CreateInstance(type);
-            foreach (var property in type.GetProperties())
-            {
-                property.SetValue(result, Dummy(property.PropertyType));
-            }
-            return result;
-        }
     }
 }
