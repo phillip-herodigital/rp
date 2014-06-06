@@ -1,634 +1,381 @@
 ﻿{
-
    "validations":[
 
-
    ],
-
    "offers":{
-
       "location1":{
-
          "electricity":{
-
             "plans":[
-
                {
-
                   "id":"24-month-fixed-rate",
-
-				  "name":"24 Month Fixed Rate",
-
+                  "name":"24 Month Fixed Rate",
                   "type":"fixed",
-
                   "rate":7.18,
-
                   "term":24,
-
                   "fees":150,
-
-                  "details":"When it comes to your family’s energy service, you can’t afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
-
+                  "details":"When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
                },
-
                {
-
                   "id":"6-month-fixed-rate",
-
-				  "name":"6 Month Fixed Rate",
-
+                  "name":"6 Month Fixed Rate",
                   "type":"fixed",
-
                   "rate":7.98,
-
                   "term":6,
-
                   "fees":150,
-
-                  "details":"When it comes to your family’s energy service, you can’t afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
-
+                  "details":"When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
                },
-
                {
-
                   "id":"month-to-month-rate",
-
-				  "name":"Month-To-Month Rate",
-
+                  "name":"Month-To-Month Rate",
                   "type":"variable",
-
                   "rate":7.98,
-
                   "term":1,
-
                   "fees":0,
-
-                  "details":"When it comes to your family’s energy service, you can’t afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
-
+                  "details":"When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
                },
-
                {
-
                   "id":"introductory-rate-plan",
-
-				  "name":"Introductory Rate Plan",
-
+                  "name":"Introductory Rate Plan",
                   "type":"variable",
-
                   "rate":8.08,
-
                   "term":1,
-
                   "fees":0,
-
-                  "details":"When it comes to your family’s energy service, you can’t afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
-
+                  "details":"When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
                }
-
             ]
-
          },
-
          "gas":{
-
             "plans":[
-
                {
-
                   "id":"24-month-fixed-rate",
-
-				  "name":"24 Month Fixed Rate",
-
+                  "name":"24 Month Fixed Rate",
                   "type":"fixed",
-
                   "rate":7.18,
-
                   "term":24,
-
                   "fees":150,
-
-                  "details":"When it comes to your family’s energy service, you can’t afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
-
+                  "details":"When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
                },
-
                {
-
                   "id":"6-month-fixed-rate",
-
-				  "name":"6 Month Fixed Rate",
-
+                  "name":"6 Month Fixed Rate",
                   "type":"fixed",
-
                   "rate":7.98,
-
                   "term":6,
-
                   "fees":150,
-
-                  "details":"When it comes to your family’s energy service, you can’t afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
-
+                  "details":"When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
                },
-
                {
-
                   "id":"month-to-month-rate",
-
-				  "name":"Month-To-Month Rate",
-
+                  "name":"Month-To-Month Rate",
                   "type":"variable",
-
                   "rate":7.98,
-
                   "term":1,
-
                   "fees":0,
-
-                  "details":"When it comes to your family’s energy service, you can’t afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
-
+                  "details":"When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
                },
-
                {
-
                   "id":"introductory-rate-plan",
-
-				  "name":"Introductory Rate Plan",
-
+                  "name":"Introductory Rate Plan",
                   "type":"variable",
-
                   "rate":8.08,
-
                   "term":1,
-
                   "fees":0,
-
-                  "details":"When it comes to your family’s energy service, you can’t afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
-
+                  "details":"When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
                }
-
             ]
-
          }
-
       },
-
       "location2":{
-
          "electricity":{
-
             "plans":[
-
                {
-
                   "id":"24-month-fixed-rate",
-
+                  "name":"24 Month Fixed Rate",
                   "type":"fixed",
-
                   "rate":7.18,
-
                   "term":24,
-
                   "fees":150,
-
-                  "details":"When it comes to your family’s energy service, you can’t afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
-
+                  "details":"When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
                },
-
                {
-
                   "id":"6-month-fixed-rate",
-
+                  "name":"6 Month Fixed Rate",
                   "type":"fixed",
-
                   "rate":7.98,
-
                   "term":6,
-
                   "fees":150,
-
-                  "details":"When it comes to your family’s energy service, you can’t afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
-
+                  "details":"When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
                },
-
                {
-
                   "id":"month-to-month-rate",
-
+                  "name":"Month-To-Month Rate",
                   "type":"variable",
-
                   "rate":7.98,
-
                   "term":1,
-
                   "fees":0,
-
-                  "details":"When it comes to your family’s energy service, you can’t afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
-
+                  "details":"When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
                },
-
                {
-
                   "id":"introductory-rate-plan",
-
+                  "name":"Introductory Rate Plan",
                   "type":"variable",
-
                   "rate":8.08,
-
                   "term":1,
-
                   "fees":0,
-
-                  "details":"When it comes to your family’s energy service, you can’t afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
-
+                  "details":"When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
                }
-
             ]
-
          },
-
          "gas":{
-
             "plans":[
-
                {
-
                   "id":"24-month-fixed-rate",
-
+                  "name":"24 Month Fixed Rate",
                   "type":"fixed",
-
                   "rate":7.18,
-
                   "term":24,
-
                   "fees":150,
-
-                  "details":"When it comes to your family’s energy service, you can’t afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
-
+                  "details":"When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
                },
-
                {
-
                   "id":"6-month-fixed-rate",
-
+                  "name":"6 Month Fixed Rate",
                   "type":"fixed",
-
                   "rate":7.98,
-
                   "term":6,
-
                   "fees":150,
-
-                  "details":"When it comes to your family’s energy service, you can’t afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
-
+                  "details":"When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
                },
-
                {
-
                   "id":"month-to-month-rate",
-
+                  "name":"Month-To-Month Rate",
                   "type":"variable",
-
                   "rate":7.98,
-
                   "term":1,
-
                   "fees":0,
-
-                  "details":"When it comes to your family’s energy service, you can’t afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
-
+                  "details":"When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
                },
-
                {
-
                   "id":"introductory-rate-plan",
-
+                  "name":"Introductory Rate Plan",
                   "type":"variable",
-
                   "rate":8.08,
-
                   "term":1,
-
                   "fees":0,
-
-                  "details":"When it comes to your family’s energy service, you can’t afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
-
+                  "details":"When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
                }
-
             ]
-
          }
-
       }
-
    },
-
    "offerOptionRules":{
-
       "location1":{
-
-         "newOffer":{
-
+         "introductory-rate-plan":{
             "optionRulesType":"ServiceStatus",
-
             "connectDates":{
 
-
             }
-
          }
-
       },
-
       "location2":{
-
-         "newOffer":{
-
+         "introductory-rate-plan":{
             "optionRulesType":"ServiceStatus",
-
             "connectDates":{
 
-
             }
-
          }
-
       }
-
    },
-
    "locationServices":{
-
       "location1":{
-
          "location":{
-
             "address":{
-
                "line1":"3620 Huffines Blvd",
-
                "unitNumber":"226",
-
                "city":"Carrollton",
-
                "stateAbbreviation":"TX",
-
                "postalCode5":"75010"
-
             },
-
             "capabilities":[
-
                {
-
                   "capabilityType":"TexasElectricity",
-
                   "esiId":"1234SAMPLE5678",
-
                   "tdu":"Centerpoint"
-
                }
-
             ]
-
          },
-
          "selectedOffers":{
-
-            "newOffer":{
-
-               "offer":{
-
-                  "id":"NewOffer",
-
-                  "offerType":"TexasElectricity"
-
-               },
-
-               "offerOption":{
-
-                  "connectDate":"2014-05-01T00:00:00"
-
+            "gas":{
+               "introductory-rate-plan":{
+                  "offer":{
+                     "id":"introductory-rate-plan",
+                     "name":"Introductory Rate Plan",
+                     "type":"variable",
+                     "rate":8.08,
+                     "term":1,
+                     "fees":0,
+                     "details":"When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
+                  },
+                  "offerOption":{
+                     "connectDate":"2014-06-01T00:00:00"
+                  }
                }
-
+            },
+            "electricity":{
+               "introductory-rate-plan":{
+                  "offer":{
+                     "id":"introductory-rate-plan",
+                     "name":"Introductory Rate Plan",
+                     "type":"variable",
+                     "rate":8.08,
+                     "term":1,
+                     "fees":0,
+                     "details":"When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
+                  },
+                  "offerOption":{
+                     "connectDate":"2014-06-01T00:00:00"
+                  }
+               }
             }
-
          }
-
       },
-
       "location2":{
-
          "location":{
-
             "address":{
-
                "line1":"1999 Bryan St",
-
                "unitNumber":"2401",
-
                "city":"Dallas",
-
                "stateAbbreviation":"TX",
-
                "postalCode5":"75201"
-
             },
-
             "capabilities":[
-
                {
-
                   "capabilityType":"TexasElectricity",
-
                   "esiId":"123456789",
-
                   "tdu":"Oncor"
-
                }
-
             ]
-
          },
-
          "selectedOffers":{
-
-            "newOffer":{
-
-               "offer":{
-
-                  "id":"NewOffer",
-
-                  "offerType":"TexasElectricity"
-
-               },
-
-               "offerOption":{
-
-                  "connectDate":"2014-06-01T00:00:00"
-
+            "gas":{
+               "introductory-rate-plan":{
+                  "offer":{
+                     "id":"introductory-rate-plan",
+                     "name":"Introductory Rate Plan",
+                     "type":"variable",
+                     "rate":8.08,
+                     "term":1,
+                     "fees":0,
+                     "details":"When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
+                  },
+                  "offerOption":{
+                     "connectDate":"2014-06-01T00:00:00",
+					 "connectionFee": "$10.25 (Priority Connect)",
+					 "meterSetFee": "$10.00",
+					 "utilityConnectFee": "$25.00",
+					 "streamConnectFee": "$25.00"
+                  }
                }
-
+            },
+            "electricity":{
+               "introductory-rate-plan":{
+                  "offer":{
+                     "id":"introductory-rate-plan",
+                     "name":"Introductory Rate Plan",
+                     "type":"variable",
+                     "rate":8.08,
+                     "term":1,
+                     "fees":0,
+                     "details":"When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
+                  },
+                  "offerOption":{
+                     "connectDate":"2014-06-01T00:00:00",
+					 "connectionFee": "$15.25 (Priority Connect)",
+					 "meterSetFee": "$15.00",
+					 "utilityConnectFee": "$35.00",
+					 "streamConnectFee": "$35.00"
+                  }
+               }
             }
-
          }
-
       }
-
    },
-
    "contactInfo":{
-
       "name":{
-
          "first":"Test",
-
          "last":"Person"
-
       },
-
       "primaryPhone":{
-
          "number":"2142234567"
-
       },
-
       "email":{
-
          "address":"test@example.com"
-
       }
-
    },
-
    "language":"en",
-
    "billingAddress":{
-
       "line1":"1999 Bryan St",
-
       "unitNumber":"2401",
-
       "city":"Dallas",
-
       "stateAbbreviation":"TX",
-
       "postalCode5":"75201"
-
    },
-
    "identityQuestions":[
-
       {
-
          "questionId":"1",
-
          "questionText":"What is your name?",
-
          "answers":[
-
             {
-
                "answerId":"1",
-
                "answerText":"King Arthur"
-
             },
-
             {
-
                "answerId":"2",
-
                "answerText":"Sir Lancelot"
-
             },
-
             {
-
                "answerId":"3",
-
                "answerText":"Sir Robin"
-
             },
-
             {
-
                "answerId":"4",
-
                "answerText":"Sir Galahad"
-
             }
-
          ]
-
       },
-
       {
-
          "questionId":"2",
-
          "questionText":"What is your quest?",
-
          "answers":[
-
             {
-
                "answerId":"1",
-
                "answerText":"To seek the Holy Grail."
-
             }
-
          ]
-
       },
-
       {
-
          "questionId":"3",
-
          "questionText":"What is your favorite color?",
-
          "answers":[
-
             {
-
                "answerId":"1",
-
                "answerText":"Blue."
-
             },
-
             {
-
                "answerId":"2",
-
                "answerText":"Green."
-
             },
-
             {
-
                "answerId":"3",
-
                "answerText":"Yellow."
-
             },
-
             {
-
                "answerId":"4",
-
                "answerText":"Red."
-
             }
-
          ]
-
       }
-
    ],
-
    "depositAmount":50,
-
    "confirmationNumber":"87654321"
-
 }
