@@ -24,6 +24,7 @@ namespace StreamEnergy.MyStream.Controllers
         private readonly IUnityContainer container;
         private readonly CreateAccountSessionHelper coaSessionHelper;
         private readonly ResetPasswordSessionHelper resetPasswordSessionHelper;
+        private readonly ResetPasswordTokenManager resetPasswordTokenManager;
         private readonly Sitecore.Security.Domains.Domain domain;
         private readonly Sitecore.Data.Database database;
 
@@ -43,11 +44,12 @@ namespace StreamEnergy.MyStream.Controllers
             }
         }
 
-        public AuthenticationController(IUnityContainer container, CreateAccountSessionHelper coaSessionHelper, ResetPasswordSessionHelper resetPasswordSessionHelper)
+        public AuthenticationController(IUnityContainer container, CreateAccountSessionHelper coaSessionHelper, ResetPasswordSessionHelper resetPasswordSessionHelper, ResetPasswordTokenManager resetPasswordTokenManager)
         {
             this.container = container;
             this.coaSessionHelper = coaSessionHelper;
             this.resetPasswordSessionHelper = resetPasswordSessionHelper;
+            this.resetPasswordTokenManager = resetPasswordTokenManager;
             this.domain = Sitecore.Context.Site.Domain;
             this.database = Sitecore.Context.Database;
             this.item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Components/Authentication");
@@ -172,9 +174,9 @@ namespace StreamEnergy.MyStream.Controllers
                                     select new SecurityQuestion
                                     {
                                         Id = challenge.Key,
-                                        Text = questionItem["Question"]
+                                        Text = questionItem != null ? questionItem["Question"] : ""
                                     },
-                Validations = TranslatedValidationResult.Translate(resetPasswordSessionHelper.StateMachine.ValidationResults, item)
+                Validations = TranslatedValidationResult.Translate(resetPasswordSessionHelper.StateMachine.ValidationResults, GetAuthItem("Forgot Password"))
             };
         }
 
@@ -189,14 +191,29 @@ namespace StreamEnergy.MyStream.Controllers
             return new SendResetPasswordEmailResponse
             {
                 Success = resetPasswordSessionHelper.StateMachine.State == typeof(SentEmailState),
-                Validations = TranslatedValidationResult.Translate(resetPasswordSessionHelper.StateMachine.ValidationResults, item)
+                Validations = TranslatedValidationResult.Translate(resetPasswordSessionHelper.StateMachine.ValidationResults, GetAuthItem("Forgot Password"))
             };
         }
 
         [HttpPost]
         public ChangePasswordResponse ChangePassword(ChangePasswordRequest request)
         {
-            return Dummy<ChangePasswordResponse>();
+            bool success = false;
+            if (ModelState.IsValid)
+            {
+                string username;
+                if (resetPasswordTokenManager.VerifyAndClearPasswordResetToken(request.ResetToken, out username))
+                {
+                    var user = Membership.GetUser(username);
+                    user.ChangePassword(user.ResetPassword(), request.Password);
+                    success = true;
+                }
+            }
+            return new ChangePasswordResponse
+            {
+                Success = success,
+                Validations = TranslatedValidationResult.Translate(ModelState, GetAuthItem("Change Password"))
+            };
         }
 
         #endregion

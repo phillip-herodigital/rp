@@ -45,6 +45,7 @@ namespace StreamEnergy.MyStream.Controllers
         }
 
         [HttpPost]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public void Reset()
         {
             stateHelper.Reset();
@@ -55,6 +56,7 @@ namespace StreamEnergy.MyStream.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public ClientData ClientData()
         {
             return new ClientData
@@ -86,6 +88,7 @@ namespace StreamEnergy.MyStream.Controllers
         }
 
         [HttpPost]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public ClientData ServiceInformation([FromBody]ServiceInformation value)
         {
             // TODO - merge address ids
@@ -109,6 +112,7 @@ namespace StreamEnergy.MyStream.Controllers
         }
 
         [HttpPost]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public ClientData SelectedOffers([FromBody]SelectedOffers value)
         {
             foreach (var entry in stateMachine.Context.Services)
@@ -143,6 +147,7 @@ namespace StreamEnergy.MyStream.Controllers
         }
 
         [HttpPost]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public ClientData AccountInformation([FromBody]AccountInformation request)
         {
             // TODO - merge address ids
@@ -183,6 +188,7 @@ namespace StreamEnergy.MyStream.Controllers
         }
 
         [HttpPost]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public ClientData VerifyIdentity([FromBody]VerifyIdentity request)
         {
             stateMachine.Context.SelectedIdentityAnswers = request.SelectedIdentityAnswers;
@@ -194,6 +200,7 @@ namespace StreamEnergy.MyStream.Controllers
         }
 
         [HttpPost]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public ClientData ConfirmOrder([FromBody]ConfirmOrder request)
         {
             stateMachine.Context.PaymentInfo = request.PaymentInfo;

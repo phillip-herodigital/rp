@@ -69,6 +69,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="StackExchange.Redis, Version=1.0.297.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\StackExchange.Redis.1.0.297\lib\net45\StackExchange.Redis.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -119,6 +123,7 @@
     <Compile Include="DomainModels\Accounts\Invoice.cs" />
     <Compile Include="DomainModels\Accounts\ResetPassword\GetUsernameState.cs" />
     <Compile Include="DomainModels\Accounts\ResetPassword\ResetPasswordContext.cs" />
+    <Compile Include="DomainModels\Accounts\ResetPassword\ResetPasswordTokenManager.cs" />
     <Compile Include="DomainModels\Accounts\ResetPassword\SentEmailState.cs" />
     <Compile Include="DomainModels\Accounts\ResetPassword\VerifyUserState.cs" />
     <Compile Include="DomainModels\Accounts\UserProfile.cs" />

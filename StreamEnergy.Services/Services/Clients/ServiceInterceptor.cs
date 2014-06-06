@@ -12,11 +12,11 @@ using System.Xml;
 
 namespace StreamEnergy.Services.Clients
 {
-    class ServiceMockInterceptor : IInterceptor
+    class ServiceInterceptor : IInterceptor
     {
-        private readonly ServiceMockResolver serviceMockResolver;
+        private readonly ServiceInterceptorResolver serviceMockResolver;
 
-        public ServiceMockInterceptor(ServiceMockResolver serviceMockResolver)
+        public ServiceInterceptor(ServiceInterceptorResolver serviceMockResolver)
         {
             this.serviceMockResolver = serviceMockResolver;
         }

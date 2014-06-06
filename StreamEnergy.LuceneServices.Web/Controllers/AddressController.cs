@@ -18,12 +18,14 @@ namespace StreamEnergy.LuceneServices.Web.Controllers
         }
 
         [HttpGet]
+        [Caching.CacheControl(MaxAgeInMinutes = 1440, IsPublic = true)]
         public IEnumerable<DomainModels.Enrollments.Location> Lookup(string state, string query)
         {
             return searcher.Search(state, query);
         }
 
         [HttpGet]
+        [Caching.CacheControl(MaxAgeInMinutes = 1440, IsPublic = true)]
         public HttpResponseMessage Lookup(string state, string query, string callback)
         {
             var result = Lookup(state, query);
