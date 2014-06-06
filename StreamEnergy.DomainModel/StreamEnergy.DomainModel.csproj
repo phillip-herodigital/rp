@@ -106,6 +106,7 @@
     <Reference Include="System.Runtime" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainModels\Accounts\ChallengeResponse.cs" />
     <Compile Include="DomainModels\Accounts\Create\AccountInformationState.cs" />
     <Compile Include="DomainModels\Accounts\Create\CompleteState.cs" />
     <Compile Include="DomainModels\Accounts\Create\CreateAccountContext.cs" />

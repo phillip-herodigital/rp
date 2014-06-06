@@ -18,9 +18,9 @@ namespace StreamEnergy.DomainModels.Accounts
             profile = ProfileBase.Create(username);
         }
 
-        public StringDictionary ChallengeQuestions 
+        public ChallengeResponse[] ChallengeQuestions 
         {
-            get { return (StringDictionary)profile.GetPropertyValue("ChallengeQuestions"); }
+            get { return (ChallengeResponse[])profile.GetPropertyValue("ChallengeQuestions"); }
             set { profile.SetPropertyValue("ChallengeQuestions", value); }
         }
 

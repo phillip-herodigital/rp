@@ -29,12 +29,8 @@ namespace StreamEnergy.DomainModels.Accounts.Create
             }
 
             var profile = UserProfile.Locate(unityContainer, context.Username);
-            var dict = new System.Collections.Specialized.StringDictionary();
-            foreach (var entry in context.Challenges)
-            {
-                dict.Add(entry.Key, entry.Value);
-            }
-            profile.ChallengeQuestions = dict;
+            profile.ChallengeQuestions = (from entry in context.Challenges
+                                          select ChallengeResponse.Create(entry.Key, entry.Value)).ToArray();
 
             profile.Save();
 
