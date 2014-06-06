@@ -4,10 +4,11 @@
 	<header>
 		<h2>@Html.Sitecore().Field("Header Text")</h2>
 	</header>
-    <form ng-submit ="findAccount()">
+    <form ng-submit="findAccount()" val-bind-messages="validations">
         <div class="content">
             @Html.Sitecore().Field("Body Text")
             <div class="alert alert-error" ng-show="findAccountError" ng-bind-html="findAccountError"></div>
+            @Html.ValidationSummary()
             <div class="item" @Html.ValidationErrorClass(model => model.AccountNumber)>
                 <label for="@Html.For(m => m.AccountNumber)">@Html.Sitecore().Field("Account Label")</label>
                 <input type="text" @Html.ValidationAttributes(m => m.AccountNumber) ng-model="formData.accountNumber" />

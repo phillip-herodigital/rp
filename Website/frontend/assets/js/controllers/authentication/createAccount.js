@@ -19,6 +19,7 @@ ngApp.controller('AuthCreateAccountCtrl', ['$scope', '$rootScope', '$http', '$wi
 			headers : { 'Content-Type': 'application/JSON' } 
 		})
 			.success(function (data, status, headers, config) {
+			    $scope.validations = data.validations;
 				if (!data.customer) {
 					// if not successful, bind errors to error variables
 					$scope.findAccountError = $sce.trustAsHtml(data.validations[0].text);
@@ -45,7 +46,8 @@ ngApp.controller('AuthCreateAccountCtrl', ['$scope', '$rootScope', '$http', '$wi
 			headers : { 'Content-Type': 'application/JSON' } 
 		})
 			.success(function (data, status, headers, config) {
-				if (!data.success) {
+			    $scope.validations = data.validations;
+			    if (!data.success) {
 					// if not successful, bind errors to error variables
 					$scope.createLoginError = $sce.trustAsHtml(data.validations[0].text);
 

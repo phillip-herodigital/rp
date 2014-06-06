@@ -114,6 +114,7 @@ namespace StreamEnergy.MyStream.Controllers
             if (coaSessionHelper.StateMachine.State == typeof(FindAccountState))
                 validations = coaSessionHelper.StateMachine.ValidationResults;
                 
+            var questionsRoot = database.GetItem("/sitecore/content/Data/Taxonomy/Security Questions");
             return new FindAccountResponse
             {
                 AccountNumber = coaSessionHelper.StateMachine.Context.AccountNumber,
@@ -121,7 +122,7 @@ namespace StreamEnergy.MyStream.Controllers
                 Customer = coaSessionHelper.StateMachine.Context.Customer,
                 Address = coaSessionHelper.StateMachine.Context.Address,
                 AvailableSecurityQuestions =
-                    from questionItem in database.GetItem("/sitecore/content/Data/Taxonomy/Security Questions").Children.OfType<Sitecore.Data.Items.Item>()
+                    from questionItem in (questionsRoot != null ? questionsRoot.Children : Enumerable.Empty<Sitecore.Data.Items.Item>())
                     select new SecurityQuestion
                     {
                         Id = questionItem.ID.Guid,
