@@ -9,7 +9,7 @@
             <div class="content">
                 @Html.Sitecore().Field("Step 1 Body Text")
                 <div class="alert alert-error" ng-show="recoverUsernameError" ng-bind-html="recoverUsernameError">@Html.Sitecore().Field("Step 1 Error Text")</div>
-                <div class="item">
+                <div class="item" @Html.ValidationErrorClass(model => model.Email.Address)>
                     <label for="@Html.For(m => m.Email.Address)">@Html.Sitecore().Field("Email Label")</label>
                     <input type="email" @Html.ValidationAttributes(m => m.Email.Address) ng-model="formData.address" required />
                 </div>

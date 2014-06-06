@@ -9,7 +9,7 @@
             <form ng-submit="login()">
                 <div class="alert alert-error" ng-show="loginError" ng-bind-html="loginError"></div>
                 <div class="group">
-                    <div class="item group-col">
+                    <div class="item group-col" @Html.ValidationErrorClass(model => model.Username)>
                         <label for="@Html.For(m => m.Username)">@Html.Sitecore().Field("Username Label")</label>
                         <input type="text" @Html.ValidationAttributes(m => m.Username) ng-model="formData.username" required />
                     </div>
@@ -18,7 +18,7 @@
                     </div>
                 </div>
                 <div class="group">
-                    <div class="item group-col">
+                    <div class="item group-col" @Html.ValidationErrorClass(model => model.Password)>
                         <label for="@Html.For(m => m.Password)">@Html.Sitecore().Field("Password Label")</label>
                         <input type="password" @Html.ValidationAttributes(m => m.Password) ng-model="formData.password" required />
                     </div>
@@ -26,7 +26,7 @@
                         @Html.Sitecore().Field("Forgot Password Link")
                     </div>
                 </div>
-                <div class="item">
+                <div class="item" @Html.ValidationErrorClass(model => model.RememberMe)>
                     <ul class="checkbox-list">
                         <li>
                             <input type="checkbox" @Html.ValidationAttributes(m => m.RememberMe) ng-model="formData.rememberMe" />
