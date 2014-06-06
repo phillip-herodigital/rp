@@ -415,24 +415,6 @@
             height: 20px;
         }
     }
-    #order-confirmation {
-        margin-top: 20px;
-        .print {
-            float: right;
-            font-size: 14px;
-            margin-top: 20px;
-            i {
-                margin-top: -3px;
-            }
-        }
-        dl {
-            @extend .clearfix;
-            margin-bottom: 20px;
-            dd {
-                text-align: left;
-            }
-        }
-    }
     .time-remaining-mobile {
         text-align: center;
         .time-remaining {
@@ -507,6 +489,25 @@
         .button {
             margin: 0 auto;
             display: block;
+        }
+    }
+}
+
+.order-confirmation {
+    margin-top: 20px;
+    .print {
+        float: right;
+        font-size: 14px;
+        margin-top: 20px;
+        i {
+            margin-top: -3px;
+        }
+    }
+    dl {
+        @extend .clearfix;
+        margin-bottom: 20px;
+        dd {
+            text-align: left;
         }
     }
 }
