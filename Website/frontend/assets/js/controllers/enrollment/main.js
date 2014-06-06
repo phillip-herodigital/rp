@@ -139,4 +139,15 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', '$ancho
 
         return formattedAddress;
     };
+
+    /**
+    * Size of object
+    *
+    * @param object obj
+    *
+    * return int
+    */
+    $scope.sizeOf = function (obj) {
+        return Object.keys(obj).length;
+    };
 }]);

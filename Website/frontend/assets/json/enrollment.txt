@@ -269,7 +269,11 @@
                      "details":"When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
                   },
                   "offerOption":{
-                     "connectDate":"2014-06-01T00:00:00"
+                     "connectDate":"2014-06-01T00:00:00",
+					 "connectionFee": "$10.25 (Priority Connect)",
+					 "meterSetFee": "$10.00",
+					 "utilityConnectFee": "$25.00",
+					 "streamConnectFee": "$25.00"
                   }
                }
             },
@@ -285,7 +289,11 @@
                      "details":"When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
                   },
                   "offerOption":{
-                     "connectDate":"2014-06-01T00:00:00"
+                     "connectDate":"2014-06-01T00:00:00",
+					 "connectionFee": "$15.25 (Priority Connect)",
+					 "meterSetFee": "$15.00",
+					 "utilityConnectFee": "$35.00",
+					 "streamConnectFee": "$35.00"
                   }
                }
             }

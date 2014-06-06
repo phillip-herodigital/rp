@@ -7,10 +7,19 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', '$rootScope', 'e
     * Initialize function
     */
     $scope.init = function () {
-        $scope.enrollment.extraFields.accountInformation = {};
+        $scope.enrollment.extraFields.accountInformation = {
+            serviceAddresses: {},
+            personalInformation: {},
+            billingAddress: {},
+            login: {}
+        };
 
-        angular.forEach($scope.enrollment.serverData.locationServices, function (value, key) {
-            $scope.enrollment.extraFields.accountInformation[key] = {};
+        angular.forEach($scope.enrollment.serverData.locationServices, function (item, id) {
+            $scope.enrollment.extraFields.accountInformation.serviceAddresses[id] = {};
+
+            angular.forEach($scope.enrollment.serverData.locationServices[id].selectedOffers, function(plan, type) {
+                $scope.enrollment.extraFields.accountInformation.serviceAddresses[id][type] = {};
+            });
         });
     };
 
