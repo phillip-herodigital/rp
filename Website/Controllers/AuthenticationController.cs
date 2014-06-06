@@ -169,9 +169,9 @@ namespace StreamEnergy.MyStream.Controllers
             return item.Children[childItem];
         }
 
-        private static void AddAuthenticationCookie(HttpResponseMessage response, string username)
+        private void AddAuthenticationCookie(HttpResponseMessage response, string username)
         {
-            var cookie = FormsAuthentication.GetAuthCookie(username, false, "/");
+            var cookie = FormsAuthentication.GetAuthCookie(domain.AccountPrefix + username, false, "/");
             response.Headers.AddCookies(new[] {
                     new System.Net.Http.Headers.CookieHeaderValue(cookie.Name, cookie.Value) 
                     { 
