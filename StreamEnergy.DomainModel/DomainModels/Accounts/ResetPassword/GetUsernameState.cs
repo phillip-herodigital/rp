@@ -20,17 +20,6 @@ namespace StreamEnergy.DomainModels.Accounts.ResetPassword
             this.container = container;
         }
 
-        public override IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> AdditionalValidations(ResetPasswordContext context, object internalContext)
-        {
-            if (context.Username != null)
-            {
-                if (Membership.GetUser(context.Username) == null)
-                {
-                    yield return new ValidationResult("Unknown Username", new[] { "Username" });
-                }
-            }
-        }
-
         protected override Type InternalProcess(ResetPasswordContext context, object internalContext)
         {
             var profile = UserProfile.Locate(container, context.Username);

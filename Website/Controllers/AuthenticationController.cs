@@ -228,7 +228,21 @@ namespace StreamEnergy.MyStream.Controllers
         [HttpPost]
         public RecoverUsernameResponse RecoverUsername(RecoverUsernameRequest request)
         {
-            return RapidPrototyping.Dummy<RecoverUsernameResponse>();
+            var success = false;
+            if (ModelState.IsValid)
+            {
+                // TODO - call out to Stream Connect to get a list of usernames
+                IEnumerable<string> usernames = new[] { "mdekrey", "mdekrey2", "mdekrey3" };
+
+                // TODO - send an email
+                success = true;
+            }
+            return new RecoverUsernameResponse
+            {
+                Email = request.Email,
+                Success = success,
+                Validations = TranslatedValidationResult.Translate(ModelState, GetAuthItem("Forgot Username"))
+            };
         }
         
         #endregion

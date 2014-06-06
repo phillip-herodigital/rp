@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,10 +24,13 @@ namespace StreamEnergy.DomainModels.Accounts.Create
             yield return context => context.SsnLastFour;
         }
 
-        public override IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> AdditionalValidations(CreateAccountContext context, CreateAccountInternalContext internalContext)
+        public override IEnumerable<ValidationResult> AdditionalValidations(CreateAccountContext context, CreateAccountInternalContext internalContext)
         {
-            // TODO - verify that an online account doesn't already exist
-            yield break;
+            // TODO - replace this test to verify that an online account doesn't already exist
+            if (context.AccountNumber == "1234")
+            {
+                yield return new ValidationResult("Online Account Already Exists", new[] { "AccountNumber" });
+            }
         }
 
         protected override Type InternalProcess(CreateAccountContext context, CreateAccountInternalContext internalContext)
