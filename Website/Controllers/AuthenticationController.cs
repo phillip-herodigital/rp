@@ -165,7 +165,7 @@ namespace StreamEnergy.MyStream.Controllers
                                     select new SecurityQuestion
                                     {
                                         Id = challenge.Key,
-                                        Text = questionItem["Question"]
+                                        Text = questionItem != null ? questionItem["Question"] : ""
                                     },
                 Validations = TranslatedValidationResult.Translate(resetPasswordSessionHelper.StateMachine.ValidationResults, item)
             };
