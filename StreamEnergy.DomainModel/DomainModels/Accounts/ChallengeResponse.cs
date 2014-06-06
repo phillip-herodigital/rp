@@ -10,7 +10,7 @@ namespace StreamEnergy.DomainModels.Accounts
     [Serializable]
     public class ChallengeResponse
     {
-        public string QuestionKey { get; set; }
+        public Guid QuestionKey { get; set; }
         public string ResponseSalt { get; set; }
         public string ResponseHash { get; set; }
 
@@ -19,7 +19,7 @@ namespace StreamEnergy.DomainModels.Accounts
             return ResponseHash == EncryptResponse(answer, ResponseSalt);
         }
 
-        public static ChallengeResponse Create(string questionKey, string answer)
+        public static ChallengeResponse Create(Guid questionKey, string answer)
         {
             var salt = GenerateSalt();
             return new ChallengeResponse

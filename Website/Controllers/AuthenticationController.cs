@@ -11,6 +11,7 @@ using System.Web.SessionState;
 using Microsoft.Practices.Unity;
 using StreamEnergy.DomainModels.Accounts;
 using StreamEnergy.DomainModels.Accounts.Create;
+using StreamEnergy.DomainModels.Accounts.ResetPassword;
 using StreamEnergy.MyStream.Models;
 using StreamEnergy.MyStream.Models.Authentication;
 using StreamEnergy.Processes;
@@ -22,7 +23,9 @@ namespace StreamEnergy.MyStream.Controllers
         private readonly Sitecore.Data.Items.Item item;
         private readonly IUnityContainer container;
         private readonly CreateAccountSessionHelper coaSessionHelper;
+        private readonly ResetPasswordSessionHelper resetPasswordSessionHelper;
         private readonly Sitecore.Security.Domains.Domain domain;
+        private readonly Sitecore.Data.Database database;
 
         public class CreateAccountSessionHelper : StateMachineSessionHelper<CreateAccountContext, CreateAccountInternalContext>
         {
@@ -32,18 +35,29 @@ namespace StreamEnergy.MyStream.Controllers
             }
         }
 
-        public AuthenticationController(IUnityContainer container, CreateAccountSessionHelper coaSessionHelper)
+        public class ResetPasswordSessionHelper : StateMachineSessionHelper<ResetPasswordContext, object>
+        {
+            public ResetPasswordSessionHelper(HttpSessionStateBase session, IUnityContainer container)
+                : base(session, container, typeof(AuthenticationController), typeof(GetUsernameState), storeInternal: false)
+            {
+            }
+        }
+
+        public AuthenticationController(IUnityContainer container, CreateAccountSessionHelper coaSessionHelper, ResetPasswordSessionHelper resetPasswordSessionHelper)
         {
             this.container = container;
             this.coaSessionHelper = coaSessionHelper;
+            this.resetPasswordSessionHelper = resetPasswordSessionHelper;
             this.domain = Sitecore.Context.Site.Domain;
-
+            this.database = Sitecore.Context.Database;
             this.item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Components/Authentication");
         }
 
         protected override void Dispose(bool disposing)
         {
             coaSessionHelper.Dispose();
+            resetPasswordSessionHelper.Dispose();
+
             base.Dispose(disposing);
         }
 
@@ -137,13 +151,39 @@ namespace StreamEnergy.MyStream.Controllers
         [HttpPost]
         public GetUserChallengeQuestionsResponse GetUserChallengeQuestions(GetUserChallengeQuestionsRequest request)
         {
-            return Dummy<GetUserChallengeQuestionsResponse>();
+            resetPasswordSessionHelper.Reset();
+
+            resetPasswordSessionHelper.Context.Username = domain.AccountPrefix + request.Username;
+
+            resetPasswordSessionHelper.StateMachine.Process(typeof(VerifyUserState));
+
+            return new GetUserChallengeQuestionsResponse
+            {
+                Username = request.Username,
+                SecurityQuestions = from challenge in resetPasswordSessionHelper.Context.ChallengeQuestions ?? new Dictionary<Guid, string>()
+                                    let questionItem = database.GetItem(new Sitecore.Data.ID(challenge.Key))
+                                    select new SecurityQuestion
+                                    {
+                                        Id = challenge.Key,
+                                        Text = questionItem["Question"]
+                                    },
+                Validations = TranslatedValidationResult.Translate(resetPasswordSessionHelper.StateMachine.ValidationResults, item)
+            };
         }
 
         [HttpPost]
         public SendResetPasswordEmailResponse SendResetPasswordEmail(SendResetPasswordEmailRequest request)
         {
-            return Dummy<SendResetPasswordEmailResponse>();
+            resetPasswordSessionHelper.Context.ChallengeQuestions = request.Answers.ToDictionary(a => a.SelectedQuestion.Id, a => a.Answer);
+
+            if (resetPasswordSessionHelper.StateMachine.State == typeof(VerifyUserState))
+                resetPasswordSessionHelper.StateMachine.Process();
+
+            return new SendResetPasswordEmailResponse
+            {
+                Success = resetPasswordSessionHelper.StateMachine.State == typeof(SentEmailState),
+                Validations = TranslatedValidationResult.Translate(resetPasswordSessionHelper.StateMachine.ValidationResults, item)
+            };
         }
 
         [HttpPost]

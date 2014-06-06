@@ -29,7 +29,7 @@ namespace StreamEnergy.DomainModels.Accounts.Create
         [Compare("Password", ErrorMessage = "Password Mismatch")]
         public string ConfirmPassword { get; set; }
 
-        public Dictionary<string, string> Challenges { get; set; }
+        public Dictionary<Guid, string> Challenges { get; set; }
 
 
 
