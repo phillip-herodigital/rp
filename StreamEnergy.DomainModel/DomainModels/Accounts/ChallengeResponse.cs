@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace StreamEnergy.DomainModels.Accounts
 {
+    [Serializable]
     public class ChallengeResponse
     {
         public string QuestionKey { get; set; }
