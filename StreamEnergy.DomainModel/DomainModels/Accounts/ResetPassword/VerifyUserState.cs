@@ -11,12 +11,14 @@ namespace StreamEnergy.DomainModels.Accounts.ResetPassword
 {
     public class VerifyUserState : StateBase<ResetPasswordContext, object>
     {
-        private IUnityContainer container;
+        private readonly IUnityContainer container;
+        private readonly ResetPasswordTokenManager tokenManager;
 
-        public VerifyUserState(IUnityContainer container)
+        public VerifyUserState(IUnityContainer container, ResetPasswordTokenManager tokenManager)
             : base(typeof(GetUsernameState), typeof(SentEmailState))
         {
             this.container = container;
+            this.tokenManager = tokenManager;
         }
 
         public override IEnumerable<ValidationResult> AdditionalValidations(ResetPasswordContext context, object internalContext)
@@ -37,20 +39,11 @@ namespace StreamEnergy.DomainModels.Accounts.ResetPassword
 
         protected override Type InternalProcess(ResetPasswordContext context, object internalContext)
         {
-            var passwordResetToken = GeneratePasswordResetToken();
-
-            // TODO - set the password reset token with expiration... somewhere
+            var passwordResetToken = tokenManager.GetPasswordResetToken(context.Username);
 
             // TODO - send the email
 
             return base.InternalProcess(context, internalContext);
-        }
-
-        private static string GeneratePasswordResetToken()
-        {
-            byte[] array = new byte[8];
-            new System.Security.Cryptography.RNGCryptoServiceProvider().GetBytes(array);
-            return Convert.ToBase64String(array);
         }
     }
 }
