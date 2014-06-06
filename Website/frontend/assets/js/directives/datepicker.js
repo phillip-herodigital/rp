@@ -18,8 +18,7 @@ ngApp.directive('datepickerPopup', ['$window', 'breakpoint', function ($window, 
             */
             if(attrs.datepickerCloseOnResize == '') {
                 angular.element($window).bind('resize', function() {
-                    if(scope.datePickerOpened && breakpoint.breakpoint.name == 'phone')
-                    {
+                    if(scope.datePickerOpened && breakpoint.breakpoint.name == 'phone') {
                         scope.datePickerOpened = false;
                         scope.$apply();
                     }
