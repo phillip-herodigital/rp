@@ -108,9 +108,8 @@ article {
 	}
 	.account-selector {
 		background: #fbfbfb;
-		padding: 15px;
+		padding: 0 15px 15px;
 		border-bottom: 1px solid #ddd;
-		//margin: 0px -15px 15px;
 		margin: -25px -15px 15px -15px;
 		.group {
 			@extend .inline-group;
@@ -681,8 +680,12 @@ article.auth {
 }
 article.payments {
 	margin: 20px 0;
+	overflow: visible; //Needed for datepicker
 	.advanced-settings {
 		margin-top: 5px;
+		.small {
+			width: 110px;
+		}
 		select {
 			width: auto;
 		}
@@ -753,6 +756,13 @@ article.payments {
 	}
 	.payment-options {
 		margin: 15px 0 25px 20px;
+		.account-number span {
+			display: block;
+			margin-top: 14px;
+			@include breakpoint(small) {
+				margin-top: 0;
+			}
+		}
 	}
 	.payment-total {
 		dd {
@@ -776,16 +786,20 @@ article.payments {
 	img {
 		max-width: 100%;
 	}
+	footer {
+		//needed since overflow:hidden was removed;
+		@include border-radius(0 0 10px 10px);
+	}
 
 	//Responsive table layout for payment account listing
 	@include breakpoint(small) {
-		table, thead, tbody, th, td, tr {
-			display: block;
-			padding: 0;
-			background: transparent;
-		}		
-		table {
+		table.payments-account-table {
 			clear: both;
+			&, thead, tbody, th, td, tr {
+				display: block;
+				padding: 0;
+				background: transparent;
+			}			
 			thead {
 				position: absolute;
 				top: -9999px;
