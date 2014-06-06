@@ -24,7 +24,7 @@ namespace StreamEnergy.DomainModels.Accounts.ResetPassword
         {
             var profile = UserProfile.Locate(container, context.Username);
 
-            context.ChallengeQuestions = profile.ChallengeQuestions.ToDictionary(c => c.QuestionKey, c => (string)null);
+            context.Answers = profile.ChallengeQuestions.ToDictionary(c => c.QuestionKey, c => (string)null);
 
             return base.InternalProcess(context, internalContext);
         }

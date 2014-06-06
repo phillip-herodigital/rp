@@ -174,7 +174,7 @@ namespace StreamEnergy.MyStream.Controllers
             return new GetUserChallengeQuestionsResponse
             {
                 Username = request.Username,
-                SecurityQuestions = from challenge in resetPasswordSessionHelper.Context.ChallengeQuestions ?? new Dictionary<Guid, string>()
+                SecurityQuestions = from challenge in resetPasswordSessionHelper.Context.Answers ?? new Dictionary<Guid, string>()
                                     let questionItem = database.GetItem(new Sitecore.Data.ID(challenge.Key))
                                     select new SecurityQuestion
                                     {
@@ -188,7 +188,7 @@ namespace StreamEnergy.MyStream.Controllers
         [HttpPost]
         public SendResetPasswordEmailResponse SendResetPasswordEmail(SendResetPasswordEmailRequest request)
         {
-            resetPasswordSessionHelper.Context.ChallengeQuestions = request.Answers.ToDictionary(a => a.SelectedQuestion.Id, a => a.Answer);
+            resetPasswordSessionHelper.Context.Answers = request.Answers.ToDictionary(a => a.SelectedQuestion.Id, a => a.Answer);
 
             if (resetPasswordSessionHelper.StateMachine.State == typeof(VerifyUserState))
                 resetPasswordSessionHelper.StateMachine.Process();

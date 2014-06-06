@@ -13,7 +13,7 @@ namespace StreamEnergy.DomainModels.Accounts.ResetPassword
         [Required(ErrorMessage = "Username Required")]
         public string Username { get; set; }
 
-        public Dictionary<Guid, string> ChallengeQuestions { get; set; }
+        public Dictionary<Guid, string> Answers { get; set; }
 
         void ISanitizable.Sanitize()
         {
