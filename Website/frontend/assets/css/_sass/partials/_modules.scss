@@ -583,8 +583,7 @@ article.make-payment {
 		border-bottom: 1px solid #d9d9d9;
 	}
 	div.payment-details {
-		border-bottom: 1px solid #d9d9d9;
-		padding: 15px;
+		padding: 15px 15px 0 15px;
 		.date-amount {
 			width: 50%;
 			.item {
@@ -602,13 +601,19 @@ article.make-payment {
 					top: 42px;
 				}
 		}
-	}
-	div.add-account p {
-		text-transform: uppercase;
-		padding: 15px 0 0 0;
-	}
-	div.buttons {
-		padding: 15px;
+		div.account-select{
+			margin-bottom: 0px;
+			div.add-account p {
+				text-transform: uppercase;
+				padding: 15px 0 0 0;
+			}
+		}
+		div.new-account {
+			margin-top: 10px;
+			.payment-options {
+				margin: 15px 0 25px 20px;
+			}
+		}
 	}
 }
 article.payment-history {
@@ -675,12 +680,42 @@ article.auth {
 	}	
 }
 article.payments {
+	margin: 20px 0;
 	.advanced-settings {
-		input, select {
+		margin-top: 5px;
+		select {
 			width: auto;
 		}
 		& :last-child {
 			margin-bottom: 0;
+		}
+		p {
+			margin: 0;
+			padding: 1em;
+			background: #eee;
+		}
+	}
+	.arrow-toggle {
+		position: relative;
+		padding-left: 14px;
+		&:before {
+			position: absolute;
+			width: 0;
+			height: 0;
+			content: '';
+			left: 0;
+			top: 50%;
+			margin-top: -5px;
+			border-top: 5px solid transparent;
+			border-left: 8px solid #0971ce;
+			border-bottom: 5px solid transparent;
+			 @include transform(rotate(90deg));
+			 filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+		}
+
+		&.collapsed:before {
+			@include transform(rotate(0deg));
+			filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=4);
 		}
 	}
 	.link-list {
