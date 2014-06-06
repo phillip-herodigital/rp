@@ -1,27 +1,27 @@
-﻿<article class="grey-box auth auth-create-account" ng-show="activeState == 'step1'">
+﻿@model StreamEnergy.MyStream.Models.Authentication.FindAccountRequest
+
+<article class="grey-box auth auth-create-account" ng-show="activeState == 'step1'">
 	<header>
 		<h2>@Html.Sitecore().Field("Header Text")</h2>
 	</header>
-	<form>
-		<div class="content">
-			@Html.Sitecore().Field("Body Text")
-			<div class="alert alert-error">
-				@Html.Sitecore().Field("Error Text")
-			</div>
-			<div class="item">
-				<label for="account-number">@Html.Sitecore().Field("Account Label")</label>
-				<input id="account-number" type="text">
-				<span class="help-text">@Html.Sitecore().Field("Account Help Text")</span>
-			</div>							
-			<div class="item">
-				<label for="last-ssn">@Html.Sitecore().Field("SSN Label")</label>
-				<input id="last-ssn" type="text">
-			</div>
-		</div>
-		<footer>
-			<div class="buttons">
-				<button type="submit" ng-click="continue()">@Html.Sitecore().Field("Continue Button Text")</button>
-			</div>
-		</footer>
-	</form>
+    <form ng-submit ="findAccount()">
+        <div class="content">
+            @Html.Sitecore().Field("Body Text")
+            <div class="alert alert-error" ng-show="findAccountError" ng-bind-html="findAccountError"></div>
+            <div class="item">
+                <label for="@Html.For(m => m.AccountNumber)">@Html.Sitecore().Field("Account Label")</label>
+                <input type="text" @Html.ValidationAttributes(m => m.AccountNumber) ng-model="formData.accountNumber" />
+                <span class="help-text">@Html.Sitecore().Field("Account Help Text")</span>
+            </div>
+            <div class="item">
+                <label for="@Html.For(m => m.SsnLastFour)">@Html.Sitecore().Field("SSN Label")</label>
+                <input type="text" @Html.ValidationAttributes(m => m.SsnLastFour) ng-model="formData.ssnLastFour" />
+            </div>
+        </div>
+        <footer>
+            <div class="buttons">
+                <button type="submit">@Html.Sitecore().Field("Continue Button Text")</button>
+            </div>
+        </footer>
+    </form>
 </article>

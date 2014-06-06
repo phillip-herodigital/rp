@@ -8,21 +8,21 @@ ngApp.controller('AuthLoginCtrl', ['$scope', '$rootScope', '$http', '$window', '
 	// process the form
 	$scope.login = function() {
 		$http({
-	        method  : 'POST',
-	        url     : '/api/authentication/login',
-	        data    : $scope.formData,
-	        headers : { 'Content-Type': 'application/JSON' } 
-	    })
-	        .success(function (data, status, headers, config) {
-	            if (!data.success) {
-	            	// if not successful, bind errors to error variables
-	            	$scope.loginError = $sce.trustAsHtml(data.validations[0].text);
+			method  : 'POST',
+			url     : '/api/authentication/login',
+			data    : $scope.formData,
+			headers : { 'Content-Type': 'application/JSON' } 
+		})
+			.success(function (data, status, headers, config) {
+				if (!data.success) {
+					// if not successful, bind errors to error variables
+					$scope.loginError = $sce.trustAsHtml(data.validations[0].text);
 
-	            } else {
-	            	// if successful, send the user to the /account page
-	                $window.location.href = '/account';
-	            }
-	        });
+				} else {
+					// if successful, send the user to the /account page
+					$window.location.href = '/account';
+				}
+			});
 	};
 
 }]);

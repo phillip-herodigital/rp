@@ -7,11 +7,9 @@
 		</header>
 		<div class="content">
             <form ng-submit="login()">
-                <div class="alert alert-error" ng-show="loginError" ng-bind-html="loginError">
-                    <div></div>
-                </div>
+                <div class="alert alert-error" ng-show="loginError" ng-bind-html="loginError"></div>
                 <div class="group">
-                    <div class="item group-col" @Html.ValidationErrorClass(model => model.Username)>
+                    <div class="item group-col">
                         <label for="@Html.For(m => m.Username)">@Html.Sitecore().Field("Username Label")</label>
                         <input type="text" @Html.ValidationAttributes(m => m.Username) ng-model="formData.username" required />
                     </div>
@@ -20,7 +18,7 @@
                     </div>
                 </div>
                 <div class="group">
-                    <div class="item group-col" @Html.ValidationErrorClass(model => model.Password)>
+                    <div class="item group-col">
                         <label for="@Html.For(m => m.Password)">@Html.Sitecore().Field("Password Label")</label>
                         <input type="password" @Html.ValidationAttributes(m => m.Password) ng-model="formData.password" required />
                     </div>
