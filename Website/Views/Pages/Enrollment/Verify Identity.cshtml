@@ -2,8 +2,8 @@
     <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper">
             <h1>
-                <span class="medium block">Verify <i>Your</i></span>
-                <span class="block">Identity</span>
+                <span class="medium block">@Html.Sitecore().Field("Banner Header Text")</span>
+                <span class="block">@Html.Sitecore().Field("Banner Sub Header Text")</span>
             </h1>
         </div>
     </div>
@@ -12,11 +12,11 @@
             <div ng-include ng-if="true" src="'enrollment-nav-template'"></div>
         </aside>
         <section>
-            <h1>Verify Your <span>Identity</span></h1>
-            <p>To be able to process your order online, we need you to verify your identity. Please answer the questions below.</p>
+            <h1>@Html.Sitecore().Field("Verify Header")</h1>
+            <p>@Html.Sitecore().Field("Verify Paragraph")</p>
             <article class="form">
                 <div class="content">
-                    <p><strong>If you do not know the answer to the questions, you can skip this step and a customer support agent will contact you to complete your order.</strong></p>
+                    <p><strong>@Html.Sitecore().Field("Skip This Step")</strong></p>
                     <div class="form">
                         <div class="item" ng-repeat="question in enrollment.serverData.identityQuestions">
                             <label>{{question.questionText}}</label>
@@ -28,11 +28,11 @@
                 </div>
             </article>
             <div class="buttons">
-                <button type="submit" class="primary" ng-click="completeStep();">Continue</button>
+                <button type="submit" class="primary" ng-click="completeStep();">@Html.Sitecore().Field("Button")</button>
             </div>
             <div class="hide-medium-large time-remaining-mobile">
-                <p class="time-remaining">Estimated Time For Completion <strong>10 Minutes</strong></p>
-                <p><a href="">What info will I need to complete my order?</a></p>
+                <p class="time-remaining">@Html.Sitecore().Field("Time Remaining")</p>
+                <p><a href="">@Html.Sitecore().Field("Info Needed")</a></p>
             </div>
         </section>
         <aside>

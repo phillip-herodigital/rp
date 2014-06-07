@@ -9,6 +9,7 @@ using Lucene.Net.Documents;
 using Lucene.Net.Index;
 using Lucene.Net.Search;
 using StreamEnergy.DomainModels;
+using StreamEnergy.LuceneServices.Web.Models;
 using LuceneStore = Lucene.Net.Store;
 
 namespace StreamEnergy.LuceneServices.IndexGeneration
@@ -24,7 +25,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
             System.IO.Directory.CreateDirectory(destination);
             directory = LuceneStore.FSDirectory.Open(destination);
 
-            Analyzer analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
+            Analyzer analyzer = AddressConstants.BuildLuceneAnalyzer();
             writer = new IndexWriter(directory, analyzer, forceCreate, IndexWriter.MaxFieldLength.UNLIMITED);
             onDispose.Add(((IDisposable)analyzer).Dispose);
             onDispose.Add(((IDisposable)writer).Dispose);
@@ -33,6 +34,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
 
         public async Task<bool> WriteLocation(DomainModels.Enrollments.Location location, string group, bool isFresh)
         {
+            
             return await Task.Run<bool>(() =>
             {
                 if (!isFresh)
