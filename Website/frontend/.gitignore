@@ -8,6 +8,6 @@
 *.sublime-workspace
 
 # Ignore Sass output files
-*.css
+assets/css/*.css
 icon2x-*.png
 icon-*.png
