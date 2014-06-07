@@ -4,6 +4,9 @@
  */
 ngApp.controller('EnrollmentCompleteOrderCtrl', ['$window', '$scope', '$rootScope', 'enrollmentService', function ($window, $scope, $rootScope, enrollmentService) {
 
+    $scope.enrollment.extraFields.verifyIdentity = {};
+    $scope.enrollment.extraFields.verifyIdentity.creditCard = {};
+
     /**
     * Complete Enrollment Section
     */
@@ -21,6 +24,23 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$window', '$scope', '$rootScop
             // error response
             $rootScope.$broadcast('connectionFailure');
         });
+    };
+
+    /**
+    * Calculate Total
+    *
+    * @param object plans
+    *
+    * return int
+    */
+    $scope.calculateTotal = function (plans) {
+        var total = 0;
+
+        angular.forEach(plans, function (value, key) {
+            total += value.paymentInformation.amount;
+        });
+
+        return total;
     };
 
 }]);

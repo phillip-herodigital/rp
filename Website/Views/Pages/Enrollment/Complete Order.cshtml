@@ -14,83 +14,90 @@
         <section>
             <h1>@Html.Sitecore().Field("Add Payment Information")</h1>
             <p>@Html.Sitecore().Field("Payment Due")</p>
-            <article class="form">
-                <div class="content">
-                    <div class="item">
-                        <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
-                        <strong>123 Main Street, Dallas, TX 75001</strong>
+            <div ng-repeat="(id, item) in enrollment.serverData.locationServices">
+                <article class="form">
+                    <div class="content">
+                        <div class="item">
+                            <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
+                            <strong>{{formatAddress(item.location.address)}}</strong>
+                        </div>
                     </div>
+                </article>
+                <div ng-repeat="(type, plans) in item.selectedOffers" ng-show="sizeOf(plans) > 0">
+                    <h2><span ng-show="type == 'gas'">Gas</span><span ng-show="type == 'electricity'">Electricity</span></h2>
+                    <table>
+                        <tbody>
+                            <tr class="line-item" ng-repeat="(planId, plan) in plans">
+                                <td class="description">
+                                    <h1>{{plan.paymentInformation.name}}</h1>
+                                    <h2>{{plans.offer.name}}</h2>
+                                    <p>{{plan.paymentInformation.description}}</p>
+                                </td>
+                                <td class="rate">
+                                    {{plan.paymentInformation.amount | currency}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="total" colspan="2">
+                                    @Html.Sitecore().Field("Total Due Now") <strong>{{calculateTotal(plans) | currency}}</strong>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-            </article>
-            <table>
-                <tbody>
-                    <tr class="line-item">
-                        <td class="description">
-                            <h1>@Html.Sitecore().Field("Deposit Due")</h1>
-                            <h2>@Html.Sitecore().Field("Plan")</h2>
-                            <p>@Html.Sitecore().Field("Deposit Required")</p>
-                        </td>
-                        <td class="rate">
-                            @Html.Sitecore().Field("Rate")
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="total" colspan="2">
-                            @Html.Sitecore().Field("Total Due Now")
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <p>@Html.Sitecore().Field("Set Up Card")</p>
-            <h2>@Html.Sitecore().Field("Homelife Services")</h2>
-            <table>
-                <tbody>
-                    <tr class="line-item">
-                        <td class="description">
-                            <h1>@Html.Sitecore().Field("Stream Tech Support")</h1>
-                            <p>@Html.Sitecore().Field("Appear On Bill")</p>
-                        </td>
-                        <td class="rate">
-                            @Html.Sitecore().Field("Tech Support Rate")
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="total" colspan="2">
-                            @Html.Sitecore().Field("Recurring Payments")
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            </div>
+            @*
+                <p>@Html.Sitecore().Field("Set Up Card")</p>
+                <h2>@Html.Sitecore().Field("Homelife Services")</h2>
+                <table>
+                    <tbody>
+                        <tr class="line-item">
+                            <td class="description">
+                                <h1>@Html.Sitecore().Field("Stream Tech Support")</h1>
+                                <p>@Html.Sitecore().Field("Appear On Bill")</p>
+                            </td>
+                            <td class="rate">
+                                @Html.Sitecore().Field("Tech Support Rate")
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="total" colspan="2">
+                                @Html.Sitecore().Field("Recurring Payments")
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            *@
             <h2>@Html.Sitecore().Field("Card Details")</h2>
             <article class="form">
                 <div class="content">
                     <div class="item">
                         <label for="payment-method">@Html.Sitecore().Field("Select Payment Method Label")</label>
-                        <select id="payment-method">
+                        <select id="payment-method" ng-model="enrollment.extraFields.verifyIdentity.creditCard.paymentMethod">
                             <option value="">@Html.Sitecore().Field("Select Option")</option>
                         </select>
                     </div>
                     <div class="item">
                         <label for="cc">@Html.Sitecore().Field("Credit Card Number Label")</label>
-                        <input type="text" id="cc" />
+                        <input type="text" id="cc" ng-model="enrollment.extraFields.verifyIdentity.creditCard.cardNumber" />
                     </div>
                     <div class="group">
                         <div class="item">
                             <label for="expiration-date">@Html.Sitecore().Field("Expiration Date Label")</label>
-                            <select class="small" id="cc-month">
+                            <select class="small" id="cc-month" ng-model="enrollment.extraFields.verifyIdentity.creditCard.expirationMonth">
                                 <option value="">@Html.Sitecore().Field("Select Month")</option>
                             </select>
                             <select class="small" id="cc-year">
-                                <option value="">@Html.Sitecore().Field("Select Year")</option>
+                                <option value="" ng-model="enrollment.extraFields.verifyIdentity.creditCard.expirationYear">@Html.Sitecore().Field("Select Year")</option>
                             </select>
                         </div>
                         <div class="item">
                             <label for="billing-zip">@Html.Sitecore().Field("Billing Zip Label")</label>
-                            <input class="small" type="text" id="billing-zip" />
+                            <input class="small" type="text" id="billing-zip" ng-model="enrollment.extraFields.verifyIdentity.creditCard.billingZip" />
                         </div>
                         <div class="item">
                             <label for="security-code">@Html.Sitecore().Field("Security Code Label")</label>
-                            <input class="small" type="text" id="security-code" />
+                            <input class="small" type="text" id="security-code" ng-model="enrollment.extraFields.verifyIdentity.creditCard.securityCode" />
                         </div>
                         <div class="item">
                             <a href="" class="single-link">@Html.Sitecore().Field("See Example")</a>

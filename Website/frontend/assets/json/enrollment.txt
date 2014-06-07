@@ -218,6 +218,11 @@
                   },
                   "offerOption":{
                      "connectDate":"2014-06-01T00:00:00"
+                  },
+                  "paymentInformation":{
+                     "name":"Deposit Due",
+                     "description":"Based on your credit score, the following deposit is required. It will be returned to you after xxxxx.",
+                     "amount":150.00
                   }
                }
             },
@@ -234,6 +239,11 @@
                   },
                   "offerOption":{
                      "connectDate":"2014-06-01T00:00:00"
+                  },
+                  "paymentInformation":{
+                     "name":"Deposit Due",
+                     "description":"Based on your credit score, the following deposit is required. It will be returned to you after xxxxx.",
+                     "amount":175.00
                   }
                }
             }
@@ -270,10 +280,15 @@
                   },
                   "offerOption":{
                      "connectDate":"2014-06-01T00:00:00",
-					 "connectionFee": "$10.25 (Priority Connect)",
-					 "meterSetFee": "$10.00",
-					 "utilityConnectFee": "$25.00",
-					 "streamConnectFee": "$25.00"
+                     "connectionFee":"$10.25 (Priority Connect)",
+                     "meterSetFee":"$10.00",
+                     "utilityConnectFee":"$25.00",
+                     "streamConnectFee":"$25.00"
+                  },
+                  "paymentInformation":{
+                     "name":"Deposit Due",
+                     "description":"Based on your credit score, the following deposit is required. It will be returned to you after xxxxx.",
+                     "amount":125.00
                   }
                }
             },
@@ -290,10 +305,15 @@
                   },
                   "offerOption":{
                      "connectDate":"2014-06-01T00:00:00",
-					 "connectionFee": "$15.25 (Priority Connect)",
-					 "meterSetFee": "$15.00",
-					 "utilityConnectFee": "$35.00",
-					 "streamConnectFee": "$35.00"
+                     "connectionFee":"$15.25 (Priority Connect)",
+                     "meterSetFee":"$15.00",
+                     "utilityConnectFee":"$35.00",
+                     "streamConnectFee":"$35.00"
+                  },
+                  "paymentInformation":{
+                     "name":"Deposit Due",
+                     "description":"Based on your credit score, the following deposit is required. It will be returned to you after xxxxx.",
+                     "amount":100.00
                   }
                }
             }
@@ -376,6 +396,5 @@
          ]
       }
    ],
-   "depositAmount":50,
    "confirmationNumber":"87654321"
 }
