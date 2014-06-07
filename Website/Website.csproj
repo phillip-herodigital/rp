@@ -568,7 +568,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="App_Config\Prefetch\Webdb.config" />
-    <Content Include="frontend\assets\json\enrollment.json" />
     <None Include="Properties\PublishProfiles\Azure - Production.pubxml" />
     <None Include="Properties\PublishProfiles\Azure - Production Sitecore.pubxml" />
     <None Include="Properties\PublishProfiles\Azure - VM - my-stream-prod.pubxml" />
