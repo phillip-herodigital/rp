@@ -11,12 +11,13 @@
                 <div class="alert alert-error" ng-show="recoverUsernameError" ng-bind-html="recoverUsernameError">@Html.Sitecore().Field("Step 1 Error Text")</div>
                 <div class="item" @Html.ValidationErrorClass(model => model.Email.Address)>
                     <label for="@Html.For(m => m.Email.Address)">@Html.Sitecore().Field("Email Label")</label>
-                    <input type="email" @Html.ValidationAttributes(m => m.Email.Address) ng-model="formData.address" required />
+                    <input type="email" @Html.ValidationAttributes(m => m.Email.Address) ng-model="formData.address" />
+                    @Html.ValidationMessageFor(model => model.Email.Address)
                 </div>
             </div>
             <footer>
                 <div class="buttons">
-                    <button type="submit">@Html.Sitecore().Field("Send Username Button Text")</button>
+                    <button type="submit" data-val-submit>@Html.Sitecore().Field("Send Username Button Text")</button>
                 </div>
             </footer>
         </form>

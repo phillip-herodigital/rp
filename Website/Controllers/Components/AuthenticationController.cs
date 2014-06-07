@@ -12,49 +12,49 @@ namespace StreamEnergy.MyStream.Controllers.Components
         {
             var model = new StreamEnergy.MyStream.Models.Authentication.LoginRequest();
 
-            return View("~/Views/Components/Authentication/My Stream Account.cshtml", model);
+            return View("~/Views/Components/Authentication/My Stream Account.cshtml");
         }
 
         public ActionResult FindAccountIndex()
         {
             var model = new StreamEnergy.MyStream.Models.Authentication.FindAccountRequest();
 
-            return View("~/Views/Components/Authentication/Create Account - Step 1.cshtml", model);
+            return View("~/Views/Components/Authentication/Create Account - Step 1.cshtml");
         }
 
         public ActionResult CreateLoginIndex()
         {
             var model = new StreamEnergy.MyStream.Models.Authentication.CreateLoginRequest();
 
-            return View("~/Views/Components/Authentication/Create Account - Step 2.cshtml", model);
+            return View("~/Views/Components/Authentication/Create Account - Step 2.cshtml");
         }
 
         public ActionResult GetUserChallengeQuestionsIndex()
         {
             var model = new StreamEnergy.MyStream.Models.Authentication.GetUserChallengeQuestionsRequest();
 
-            return View("~/Views/Components/Authentication/Forgot Password - Step 1.cshtml", model);
+            return View("~/Views/Components/Authentication/Forgot Password - Step 1.cshtml");
         }
 
         public ActionResult SendResetPasswordEmailIndex()
         {
             var model = new StreamEnergy.MyStream.Models.Authentication.SendResetPasswordEmailRequest();
 
-            return View("~/Views/Components/Authentication/Forgot Password - Step 2.cshtml", model);
+            return View("~/Views/Components/Authentication/Forgot Password - Step 2.cshtml");
         }
 
         public ActionResult RecoverUsernameIndex()
         {
             var model = new StreamEnergy.MyStream.Models.Authentication.RecoverUsernameRequest();
 
-            return View("~/Views/Components/Authentication/Forgot Username.cshtml", model);
+            return View("~/Views/Components/Authentication/Forgot Username.cshtml");
         }
 
         public ActionResult ChangePasswordIndex()
         {
             var model = new StreamEnergy.MyStream.Models.Authentication.ChangePasswordRequest();
 
-            return View("~/Views/Components/Authentication/Change Password.cshtml", model);
+            return View("~/Views/Components/Authentication/Change Password.cshtml");
         }
     }
 }

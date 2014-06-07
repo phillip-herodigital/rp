@@ -147,7 +147,7 @@ namespace StreamEnergy.MyStream.Controllers
             var response = Request.CreateResponse(new CreateLoginResponse
             {
                 Success = success,
-                Validations = TranslatedValidationResult.Translate(ModelState, GetAuthItem("Create Account - Step 2"))
+                Validations = TranslatedValidationResult.Translate(coaSessionHelper.StateMachine.ValidationResults, GetAuthItem("Create Account - Step 2"))
             });
 
             if (success)

@@ -21,7 +21,7 @@ ngApp.controller('AuthCreateAccountCtrl', ['$scope', '$rootScope', '$http', '$wi
 			.success(function (data, status, headers, config) {
 				if (!data.customer) {
 					// if not successful, bind errors to error variables
-					$scope.findAccountError = $sce.trustAsHtml(data.validations[0].text);
+					$scope.findAccountError = data.validations;
 
 				} else {
 					// if successful, bind the response data to the scope and send the user to step 2

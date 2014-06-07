@@ -7,11 +7,12 @@
 		</header>
 		<div class="content">
             <form ng-submit="login()">
-                <div class="alert alert-error" ng-show="loginError" ng-bind-html="loginError"></div>
+                <div class="alert alert-error" ng-show="loginError">@Html.ValidationSummary()</div>
                 <div class="group">
                     <div class="item group-col" @Html.ValidationErrorClass(model => model.Username)>
                         <label for="@Html.For(m => m.Username)">@Html.Sitecore().Field("Username Label")</label>
-                        <input type="text" @Html.ValidationAttributes(m => m.Username) ng-model="formData.username" required />
+                        <input type="text" @Html.ValidationAttributes(m => m.Username) ng-model="formData.username" />
+                        @Html.ValidationMessageFor(model => model.Username)
                     </div>
                     <div class="item group-col">
                         @Html.Sitecore().Field("Forgot Username Link")
@@ -20,7 +21,8 @@
                 <div class="group">
                     <div class="item group-col" @Html.ValidationErrorClass(model => model.Password)>
                         <label for="@Html.For(m => m.Password)">@Html.Sitecore().Field("Password Label")</label>
-                        <input type="password" @Html.ValidationAttributes(m => m.Password) ng-model="formData.password" required />
+                        <input type="password" @Html.ValidationAttributes(m => m.Password) ng-model="formData.password" />
+                        @Html.ValidationMessageFor(model => model.Password)
                     </div>
                     <div class="item group-col">
                         @Html.Sitecore().Field("Forgot Password Link")
@@ -36,7 +38,7 @@
                 </div>
                 <div class="buttons">
                     @Html.Sitecore().Field("Create Account Link")
-                    <button type="submit">@Html.Sitecore().Field("Sign In Button Text")</button>
+                    <button type="submit" data-val-submit>@Html.Sitecore().Field("Sign In Button Text")</button>
                 </div>
 
                 <div class="text-content-divider">@Html.Sitecore().Field("Or Divider Text")</div>

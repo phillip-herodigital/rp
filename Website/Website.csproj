@@ -619,7 +619,6 @@
     <Content Include="Views\Components\Authentication\Forgot Password - Step 1.cshtml" />
     <Content Include="Views\Components\Authentication\Forgot Password - Step 2.cshtml" />
     <Content Include="Views\Components\Authentication\Forgot Password Layout.cshtml" />
-    <Content Include="Views\Components\Authentication\Forgot Password.cshtml" />
     <Content Include="Views\Components\Authentication\Forgot Username.cshtml" />
     <Content Include="Views\Components\Authentication\My Stream Account.cshtml" />
     <Content Include="Views\Components\Footer.cshtml" />
@@ -684,9 +683,6 @@
     <None Include="Properties\PublishProfiles\Azure - Production Sitecore.pubxml" />
     <None Include="Properties\PublishProfiles\Azure - VM - my-stream-prod.pubxml" />
     <None Include="Properties\PublishProfiles\my-stream__Staging.pubxml" />
-    <Content Include="Views\Components\Authentication\Forgot Password - Step 1.cshtml" />
-    <Content Include="Views\Components\Authentication\Forgot Password - Step 2.cshtml" />
-    <Content Include="Views\Components\Authentication\Forgot Password Layout.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
