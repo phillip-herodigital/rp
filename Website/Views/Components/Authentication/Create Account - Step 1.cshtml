@@ -1,13 +1,14 @@
 ﻿@model StreamEnergy.DomainModels.Accounts.Create.CreateAccountContext
 
 <article class="grey-box auth auth-create-account" ng-show="activeState == 'step1'">
-	<header>
-		<h2>@Html.Sitecore().Field("Header Text")</h2>
-	</header>
-    <form ng-submit ="findAccount()">
+    <header>
+        <h2>@Html.Sitecore().Field("Header Text")</h2>
+    </header>
+    <form ng-submit="findAccount()" val-bind-messages="validations">
         <div class="content">
             @Html.Sitecore().Field("Body Text")
-            <div class="alert alert-error" ng-show="findAccountError">@Html.Sitecore().Field("Error Header Text")<span ng-repeat="error in findAccountError">{{ error.text }}<br></span></div>
+            <div class="alert alert-error" ng-show="findAccountError" ng-bind-html="findAccountError"></div>
+            @Html.ValidationSummary()
             <div class="item" @Html.ValidationErrorClass(model => model.AccountNumber)>
                 <label for="@Html.For(m => m.AccountNumber)">@Html.Sitecore().Field("Account Label")</label>
                 <input type="text" @Html.ValidationAttributes(m => m.AccountNumber) ng-model="formData.accountNumber" />

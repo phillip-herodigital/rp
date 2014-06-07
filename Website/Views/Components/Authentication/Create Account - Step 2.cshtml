@@ -4,9 +4,10 @@
 	<header>
 		<h2>@Html.Sitecore().Field("Header Text")</h2>
 	</header>
-    <form ng-submit="createLogin()">
+    <form ng-submit="createLogin()" val-bind-messages="validations">
         <div class="content">
             <div class="alert alert-error" ng-show="createLoginError" ng-bind-html="createLoginError">@Html.Sitecore().Field("Error Text")</div>
+            @Html.ValidationSummary()
 
             <h3>@Html.Sitecore().Field("Personal Header Text")</h3>
 
