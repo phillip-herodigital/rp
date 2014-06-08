@@ -850,6 +850,9 @@ article.blog {
 		&:last-child {
 			border-bottom: none;
 		}
+        img {
+            height: initial;
+        }
 	}
 	hr {
 		border: none;
