@@ -33,6 +33,7 @@
         itemsToShow = archives.FirstOrDefault(c => Html.Sitecore().Field("Date", c.First(), new { format = "yyyyMM" }).ToString() == Request.Params["archive"]);
         pageHeader = pageHeader = Html.Sitecore().Field("Date", itemsToShow.First(), new { format = "MMMM yyyy" });
     }
+    var paginationHelper = Html.GetPaginationHelper<Sitecore.Data.Items.Item>(itemsToShow);
 }
 <section class="layout cols-2 wrapper">
     <section class="layout cols-1">
@@ -42,7 +43,7 @@
                 <h1>@pageHeader</h1>
             }
             @{
-                foreach (Sitecore.Data.Items.Item item in itemsToShow)
+                foreach (Sitecore.Data.Items.Item item in paginationHelper.CurrentItems)
                 {
                     <div class="post">
                         <h2><a href="@Sitecore.Links.LinkManager.GetItemUrl(item)">@Html.Sitecore().Field("Title", item)</a></h2>
@@ -62,6 +63,7 @@
                     <hr />
                 }
             }
+            @paginationHelper.GetPaginationHtml()
         </article>
     </section>
     <aside>
