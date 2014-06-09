@@ -10,6 +10,7 @@ namespace StreamEnergy.DomainModels
     /// <summary>
     /// Information used to contact the customer
     /// </summary>
+    [Serializable]
     [System.Web.Mvc.ModelBinder(typeof(Mvc.IgnoreBlanksModelBinder))]
     public class CustomerContact : ISanitizable
     {

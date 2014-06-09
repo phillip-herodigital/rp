@@ -33,7 +33,7 @@ namespace StreamEnergy.DomainModels.Enrollments
             var changedAddresses = context.Services.Select(s => s.Value.Location).Where(loc => !internalContext.AllOffers.Any(offer => offer.Item1.Address == loc.Address)).ToArray();
             if (changedAddresses.Any())
             {
-                internalContext.AllOffers = internalContext.AllOffers.Concat(enrollmentService.LoadOffers(changedAddresses));
+                internalContext.AllOffers = internalContext.AllOffers.Concat(enrollmentService.LoadOffers(changedAddresses)).ToArray();
             }
 
             if (context.Services != null)

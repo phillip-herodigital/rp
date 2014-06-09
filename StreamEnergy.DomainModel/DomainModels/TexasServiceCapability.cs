@@ -29,5 +29,19 @@ namespace StreamEnergy.DomainModels
             return EsiId;
         }
 
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            return EsiId == ((TexasServiceCapability)obj).EsiId && Tdu == ((TexasServiceCapability)obj).Tdu;
+        }
+
+        public override int GetHashCode()
+        {
+            return Qualifier.GetHashCode() ^ (EsiId ?? "").GetHashCode() ^ Tdu.GetHashCode();
+        }
     }
 }
