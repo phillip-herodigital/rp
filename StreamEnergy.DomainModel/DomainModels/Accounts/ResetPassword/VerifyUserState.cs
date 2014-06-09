@@ -35,12 +35,13 @@ namespace StreamEnergy.DomainModels.Accounts.ResetPassword
         {
             var profile = UserProfile.Locate(container, context.Username);
 
-            if (context.Answers == null || !profile.ChallengeQuestions.Select(q => q.QuestionKey).OrderBy(guid => guid).SequenceEqual(context.Answers.Where(q => !string.IsNullOrEmpty(q.Value)).Select(q => q.Key).OrderBy(guid => guid)))
+            var questions = profile.ChallengeQuestions ?? new ChallengeResponse[0];
+            if (context.Answers == null || !questions.Select(q => q.QuestionKey).OrderBy(guid => guid).SequenceEqual(context.Answers.Where(q => !string.IsNullOrEmpty(q.Value)).Select(q => q.Key).OrderBy(guid => guid)))
             {
                 yield return new ValidationResult("All Questions Required", new[] { "ChallengeQuestions" });
             }
             else if ((from answer in context.Answers
-                      join originalResponse in profile.ChallengeQuestions on answer.Key equals originalResponse.QuestionKey
+                      join originalResponse in questions on answer.Key equals originalResponse.QuestionKey
                       select originalResponse.IsCorrect(answer.Value)).Any(isCorrect => !isCorrect))
             {
                 yield return new ValidationResult("Incorrect Response", new[] { "ChallengeQuestions" });

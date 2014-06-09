@@ -32,7 +32,9 @@ namespace StreamEnergy.DomainModels.Accounts
 
         private static string EncryptResponse(string answer, string salt)
         {
-            byte[] bytes = Encoding.Unicode.GetBytes(answer);
+            var sanitizedAnswer = (answer ?? "").Trim().ToLower();
+
+            byte[] bytes = Encoding.Unicode.GetBytes(sanitizedAnswer);
             byte[] saltBytes = Convert.FromBase64String(salt);
             byte[] inArray;
             HashAlgorithm hashAlgorithm = HashAlgorithm.Create("SHA1");
