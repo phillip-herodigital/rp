@@ -1,5 +1,10 @@
 ﻿@model StreamEnergy.DomainModels.Accounts.Create.CreateAccountContext
 
+@if (Sitecore.Context.PageMode.IsPageEditor)
+{ 
+    @Html.AllValidationMessagesFor(m => m.AccountNumber)
+    @Html.AllValidationMessagesFor(m => m.SsnLastFour)
+}
 <article class="grey-box auth auth-create-account" ng-show="activeState == 'step1'">
     <header>
         <h2>@Html.Sitecore().Field("Header Text")</h2>
