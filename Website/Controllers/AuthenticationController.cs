@@ -178,6 +178,12 @@ namespace StreamEnergy.MyStream.Controllers
 
             resetPasswordSessionHelper.StateMachine.Process(typeof(VerifyUserState));
 
+            
+            var validations = Enumerable.Empty<ValidationResult>();
+            // don't give validations for the next step
+            if (coaSessionHelper.StateMachine.State == typeof(GetUsernameState))
+                validations = coaSessionHelper.StateMachine.ValidationResults;
+                
             return new GetUserChallengeQuestionsResponse
             {
                 Username = request.Username,
@@ -188,22 +194,28 @@ namespace StreamEnergy.MyStream.Controllers
                                         Id = challenge.Key,
                                         Text = questionItem != null ? questionItem["Question"] : ""
                                     },
-                Validations = TranslatedValidationResult.Translate(resetPasswordSessionHelper.StateMachine.ValidationResults, GetAuthItem("Forgot Password"))
+                Validations = TranslatedValidationResult.Translate(validations, GetAuthItem("Forgot Password"))
             };
         }
 
         [HttpPost]
         public SendResetPasswordEmailResponse SendResetPasswordEmail(SendResetPasswordEmailRequest request)
         {
-            resetPasswordSessionHelper.Context.Answers = request.Answers.ToDictionary(a => a.SelectedQuestion.Id, a => a.Answer);
+            Sitecore.Context.Database = database;
+            resetPasswordSessionHelper.Context.Answers = request.Answers.ToDictionary(a => a.Key, a => a.Value);
 
             if (resetPasswordSessionHelper.StateMachine.State == typeof(VerifyUserState))
                 resetPasswordSessionHelper.StateMachine.Process();
 
+            var validations = Enumerable.Empty<ValidationResult>();
+            // don't give validations for the next step
+            if (coaSessionHelper.StateMachine.State == typeof(VerifyUserState))
+                validations = coaSessionHelper.StateMachine.ValidationResults;
+                
             return new SendResetPasswordEmailResponse
             {
                 Success = resetPasswordSessionHelper.StateMachine.State == typeof(SentEmailState),
-                Validations = TranslatedValidationResult.Translate(resetPasswordSessionHelper.StateMachine.ValidationResults, GetAuthItem("Forgot Password"))
+                Validations = TranslatedValidationResult.Translate(validations, GetAuthItem("Forgot Password"))
             };
         }
 
@@ -235,6 +247,7 @@ namespace StreamEnergy.MyStream.Controllers
         [HttpPost]
         public RecoverUsernameResponse RecoverUsername(RecoverUsernameRequest request)
         {
+            Sitecore.Context.Database = database;
             var success = false;
             if (ModelState.IsValid)
             {

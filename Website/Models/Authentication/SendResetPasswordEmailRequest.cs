@@ -7,6 +7,6 @@ namespace StreamEnergy.MyStream.Models.Authentication
 {
     public class SendResetPasswordEmailRequest
     {
-        public IEnumerable<AnsweredSecurityQuestion> Answers { get; set; }
+        public Dictionary<Guid, string> Answers { get; set; }
     }
 }
