@@ -51,7 +51,7 @@ namespace StreamEnergy.DomainModels.Accounts.ResetPassword
             var passwordResetToken = tokenManager.GetPasswordResetToken(context.Username);
             
             // TODO - get email address from Stream Commons
-            var toEmail = "adam.powell@responsivepath.com, , adam.brill@responsivepath.com, matt.dekrey@responsivepath.com";
+            var toEmail = "adam.powell@responsivepath.com, adam.brill@responsivepath.com, matt.dekrey@responsivepath.com";
 
             // Get the From address from Sitecore;
             var settings = StreamEnergy.Unity.Container.Instance.Resolve<ISettings>();
@@ -65,7 +65,7 @@ namespace StreamEnergy.DomainModels.Accounts.ResetPassword
             message.Subject = "Stream Energy Reset Password";
             message.IsBodyHtml = true;
             // TODO get base URL from Sitecore
-            message.Body = "Click the following link to reset the password on your Stream Energy account: <a href=\"/auth/change-password?token={token}&username={username}".Format(new { token = passwordResetToken, username = context.Username }) + "\">Reset Password</a>";
+            message.Body = "Click the following link to reset the password on your Stream Energy account: <a href=\"http://dev.streamenergy.responsivepath.com/auth/change-password?token={token}&username={username}".Format(new { token = passwordResetToken, username = context.Username }) + "\">Reset Password</a>";
             
             emailService.SendEmail(message);
 
