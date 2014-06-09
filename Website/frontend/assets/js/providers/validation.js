@@ -64,8 +64,8 @@ ngApp.provider('validation', [function () {
 
         var svc = {
             ensureValidation: function (scope) {
-                scope.validation = scope.validation || { cancelSuppress: false, messages: {}, data: {} };
-                return scope.validation;
+                scope['$$ validation'] = scope['$$ validation'] || { cancelSuppress: false, messages: {}, data: {} };
+                return scope['$$ validation'];
             },
             buildValidation: function (scope, element, attrs, ngModelController) {
                 var validationEnabled = true;
