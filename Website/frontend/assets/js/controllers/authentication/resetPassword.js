@@ -40,19 +40,19 @@ ngApp.controller('AuthResetPasswordCtrl', ['$scope', '$rootScope', '$http', '$wi
 			headers : { 'Content-Type': 'application/JSON' } 
 		})
 			.success(function (data, status, headers, config) {
-				if (!data.success) {
+			    if (data.validations.length) {
 					// if not successful, bind errors to error variables
-					$scope.sendResetError = $sce.trustAsHtml(data.validations[0].text);
+				    $scope.validations = data.validations;
 
 				} else {
 					// if successful, send the user to confirm
-					$scope.activeState = 'confirm';
+			        $scope.activeState = data.success ? 'confirm' : 'hard-stop-error';
 				}
 			});
 	};
 
 	$scope.return = function() {
-		$window.location.href = '/auth/reset-password';
+		$window.location.href = '/auth/login';
 	};
 	
 }]);
