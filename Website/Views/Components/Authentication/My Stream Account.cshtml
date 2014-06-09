@@ -1,5 +1,9 @@
 @model StreamEnergy.MyStream.Models.Authentication.LoginRequest
 
+@if (Sitecore.Context.PageMode.IsPageEditor)
+{
+    @Html.AllValidationMessagesFor(m => m)
+}
 <div ng-controller="AuthLoginCtrl">
 	<article class="grey-box auth auth-sign-in">
 		<header>
@@ -31,7 +35,7 @@
                 <div class="item" @Html.ValidationErrorClass(model => model.RememberMe)>
                     <ul class="checkbox-list">
                         <li>
-                            <input type="checkbox" @Html.ValidationAttributes(m => m.RememberMe) ng-model="formData.rememberMe" />
+                            <input type="checkbox" id="@Html.For(m => m.RememberMe)" ng-model="formData.rememberMe" />
                             <label for="@Html.For(m => m.RememberMe)">@Html.Sitecore().Field("Remember Me Text")</label>
                         </li>
                     </ul>

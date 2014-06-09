@@ -10,8 +10,13 @@ namespace StreamEnergy.MyStream.Models.Authentication
     public class LoginRequest : ISanitizable, IValidatableObject
     {
         public Sitecore.Security.Domains.Domain Domain { get; set; }
+        
+        [Required(ErrorMessage = "Username Required")]
         public string Username { get; set; }
+
+        [Required(ErrorMessage = "Password Required")]
         public string Password { get; set; }
+
         public bool RememberMe { get; set; }
 
         public void Sanitize()
