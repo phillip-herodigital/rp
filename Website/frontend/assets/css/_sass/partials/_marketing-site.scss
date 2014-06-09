@@ -833,6 +833,15 @@ article.press {
 			border-bottom: none;
 		}
 	}
+    .pagination {
+        .page-selection {
+            width: 70%;
+        }
+        .showing {
+            text-align: left;
+            width: 30%;
+        }
+    }
 	@include breakpoint(small) {
 		padding: 0 20px;
 	}
@@ -850,12 +859,24 @@ article.blog {
 		&:last-child {
 			border-bottom: none;
 		}
+        img {
+            height: initial;
+        }
 	}
 	hr {
 		border: none;
 		border-top: 3px solid #eee;
 		margin: 40px 0 30px;
-	}	
+	}
+    .pagination {
+        .page-selection {
+            width: 70%;
+        }
+        .showing {
+            text-align: left;
+            width: 30%;
+        }
+    }
 }
  
 article.blog-list {

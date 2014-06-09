@@ -5,6 +5,7 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels.Enrollments.Service
 {
+    [Serializable]
     public class PlaceOrderResult
     {
         public string ConfirmationNumber { get; set; }

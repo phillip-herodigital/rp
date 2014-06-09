@@ -6,9 +6,9 @@ using System.Text;
 
 namespace StreamEnergy.Services.Clients
 {
-    public class ServiceMockResolver
+    public class ServiceInterceptorResolver
     {
-        public ServiceMockResolver()
+        public ServiceInterceptorResolver()
         {
             MockResolvers = new List<IServiceMockResolver>();
         }

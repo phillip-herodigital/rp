@@ -68,6 +68,9 @@
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.2.1402.2112\lib\net40\Moq.dll</HintPath>
     </Reference>
+    <Reference Include="StackExchange.Redis">
+      <HintPath>..\packages\StackExchange.Redis.1.0.297\lib\net45\StackExchange.Redis.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
   </ItemGroup>
@@ -84,6 +87,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Caching\RedisCacheExtensionsAsyncTest.cs" />
+    <Compile Include="Caching\RedisCacheExtensionsTest.cs" />
     <Compile Include="Processes\StateMachineBehaviorTest.cs" />
     <Compile Include="Processes\StateMachineInternalTrackerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
