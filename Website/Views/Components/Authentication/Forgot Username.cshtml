@@ -1,5 +1,9 @@
 @model StreamEnergy.MyStream.Models.Authentication.RecoverUsernameRequest
 
+@if (Sitecore.Context.PageMode.IsPageEditor)
+{
+    @Html.AllValidationMessagesFor(m => m)
+}
 <div ng-controller="AuthForgotUsernameCtrl">
 	<article class="grey-box auth auth-forgot-username" ng-show="activeState == 'step1'">
 		<header>
