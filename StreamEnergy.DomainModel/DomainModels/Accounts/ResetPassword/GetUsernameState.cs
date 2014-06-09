@@ -22,7 +22,7 @@ namespace StreamEnergy.DomainModels.Accounts.ResetPassword
 
         protected override Type InternalProcess(ResetPasswordContext context, object internalContext)
         {
-            var profile = UserProfile.Locate(container, context.Username);
+            var profile = UserProfile.Locate(container, context.DomainPrefix + context.Username);
 
             if (profile.ChallengeQuestions != null)
             {

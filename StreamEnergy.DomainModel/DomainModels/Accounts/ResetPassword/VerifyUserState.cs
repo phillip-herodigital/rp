@@ -31,7 +31,7 @@ namespace StreamEnergy.DomainModels.Accounts.ResetPassword
 
         public override IEnumerable<ValidationResult> AdditionalValidations(ResetPasswordContext context, object internalContext)
         {
-            var profile = UserProfile.Locate(container, context.Username);
+            var profile = UserProfile.Locate(container, context.DomainPrefix + context.Username);
 
             var questions = profile.ChallengeQuestions ?? new ChallengeResponse[0];
             if (context.Answers == null || !questions.Select(q => q.QuestionKey).OrderBy(guid => guid).SequenceEqual(context.Answers.Where(q => !string.IsNullOrEmpty(q.Value)).Select(q => q.Key).OrderBy(guid => guid)))
