@@ -1,11 +1,15 @@
 @model StreamEnergy.MyStream.Models.Authentication.RecoverUsernameRequest
 
+@if (Sitecore.Context.PageMode.IsPageEditor)
+{
+    @Html.AllValidationMessagesFor(m => m)
+}
 <div ng-controller="AuthForgotUsernameCtrl">
 	<article class="grey-box auth auth-forgot-username" ng-show="activeState == 'step1'">
 		<header>
 			<h2>@Html.Sitecore().Field("Step 1 Header Text")</h2>
 		</header>
-        <form ng-submit="recoverUsername()">
+        <form ng-submit="recoverUsername()" val-bind-messages="validations">
             <div class="content">
                 @Html.Sitecore().Field("Step 1 Body Text")
                 <div class="alert alert-error" ng-show="recoverUsernameError" ng-bind-html="recoverUsernameError">@Html.Sitecore().Field("Step 1 Error Text")</div>

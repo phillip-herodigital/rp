@@ -12,7 +12,6 @@
 	</header>
     <form ng-submit="createLogin()" val-bind-messages="validations">
         <div class="content">
-            <div class="alert alert-error" ng-show="createLoginError" ng-bind-html="createLoginError">@Html.Sitecore().Field("Error Text")</div>
             @Html.ValidationSummary()
 
             <h3>@Html.Sitecore().Field("Personal Header Text")</h3>
@@ -86,7 +85,9 @@
             <div class="group">
                 <div class="item group-col" @Html.ValidationErrorClass(model => model.Challenges)>
                     <label for="question-1">@Html.Sitecore().Field("Question 1 Label")</label>
-                    <select ng-model="formData.challenges[0].selectedQuestion" ng-options="question.text for question in availableSecurityQuestions track by question.id"></select>
+                    <select ng-model="formData.challenges[0].selectedQuestion" ng-options="question.text for question in availableSecurityQuestions|filter:filter2 track by question.id">
+                        <option value="">@Html.Sitecore().Field("Select Question Text")</option>
+                    </select>
                     @Html.ValidationMessageFor(model => model.Challenges)
                 </div>
                 <div class="item group-col" @Html.ValidationErrorClass(model => model.Challenges)>
@@ -99,7 +100,9 @@
             <div class="group">
                 <div class="item group-col" @Html.ValidationErrorClass(model => model.Challenges)>
                     <label for="@Html.For(m => m.Challenges)">@Html.Sitecore().Field("Question 2 Label")</label>
-                    <select ng-model="formData.challenges[1].selectedQuestion" ng-options="question.text for question in availableSecurityQuestions track by question.id"></select>
+                    <select ng-model="formData.challenges[1].selectedQuestion" ng-options="question.text for question in availableSecurityQuestions|filter:filter1 track by question.id">
+                        <option value="">@Html.Sitecore().Field("Select Question Text")</option>
+                    </select>
                     @Html.ValidationMessageFor(model => model.Challenges)
                 </div>
                 <div class="item group-col" @Html.ValidationErrorClass(model => model.Challenges)>
