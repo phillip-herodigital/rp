@@ -10,8 +10,12 @@ namespace StreamEnergy.DomainModels.Accounts.ResetPassword
     [Serializable]
     public class ResetPasswordContext : ISanitizable, IValidatableObject
     {
+        [Required(ErrorMessage = "Domain Prefix Required")]
+        public string DomainPrefix { get; set; }
+
         [Required(ErrorMessage = "Username Required")]
         public string Username { get; set; }
+
 
         public Dictionary<Guid, string> Answers { get; set; }
 
@@ -23,13 +27,14 @@ namespace StreamEnergy.DomainModels.Accounts.ResetPassword
 
         IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
-            if (Username != null)
+            if (Username != null && DomainPrefix != null)
             {
-                if (Membership.GetUser(Username) == null)
+                if (Membership.GetUser(DomainPrefix + Username) == null)
                 {
                     yield return new ValidationResult("Unknown Username", new[] { "Username" });
                 }
             }
         }
+
     }
 }
