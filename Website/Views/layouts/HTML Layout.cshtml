@@ -46,7 +46,7 @@
         <div class="page-content">
             @Html.Sitecore().Placeholder("header")
 
-            @if (!string.IsNullOrEmpty(Html.Sitecore().Field("Banner Image").ToString()))
+            @if (!string.IsNullOrEmpty(Html.Sitecore().CurrentItem["Banner Image"].ToString()))
             {
                 var bannerCssClassField = Html.Sitecore().CurrentItem.Fields["Banner CSS Class"];
                 <div class="banner @(bannerCssClassField != null ? bannerCssClassField.Value : "marketing")" style="@Html.AsBackgroundStyle("Banner Image")">
