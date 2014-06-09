@@ -217,6 +217,9 @@ article {
 			}
 		}			
 	}
+	.label { 
+		@extend label;
+	}
 }
 article.grey-box {
 	background-color: #f9f9f9;
@@ -641,11 +644,6 @@ article.my-invoices {
 	}
 	.content {
 		padding-top: 0px;
-	}
-}
-article.auth-forgot-password {
-	.label { 
-		@extend label;
 	}
 }
 article.auth {
