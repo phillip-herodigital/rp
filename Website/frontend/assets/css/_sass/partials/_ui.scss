@@ -153,15 +153,9 @@ div.tabbable {
 }
 
 .typeahead {
-	display: inline-block;
-	position: relative;
-	width: 50%;
-	input {
-		width: 100%;
-	}
-	.loading {
-		position: absolute;
-		top: 8px;
-		right: 5px;
+	&.loading {
+		@include retina-background('loading.gif');
+		background-position: 8px 98%;
+		background-repeat: no-repeat;
 	}
 }
