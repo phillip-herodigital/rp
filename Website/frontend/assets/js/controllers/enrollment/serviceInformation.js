@@ -46,27 +46,6 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
     ];
 
     /**
-    * Get Locations
-    *
-    * @param string state       //State abbreviation
-    * @param string val         //Search string value
-    */
-    $scope.getLocation = function (state, val) {
-        console.log('Getting locations...');
-
-        return locationPromise = enrollmentService.getLocations(state, val).then(function (res) {
-            var addresses = [];
-
-            angular.forEach(res.data, function (item) {
-                item.formattedAddress = $scope.formatAddress(item.address);
-                addresses.push(item);
-            });
-
-            return addresses;
-        });
-    };
-
-    /**
     * Complete Enrollment Section
     */
     $scope.completeStep = function () {
@@ -105,6 +84,13 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
             $scope.enrollment.serverData = data;
 
             $scope.enrollment.extraFields.isNewService = 0;
+
+            //Change this line to real ID in acutal implementation
+            //$scope.enrollment.extraFields.serviceAddress.id = id;
+            $scope.enrollment.extraFields.serviceAddress.id = 'location1';
+
+            angular.copy($scope.enrollment.extraFields.serviceAddress, $scope.enrollment.currentAddress);
+
             $scope.enrollment.extraFields.serviceAddress = null;
 
             $scope.activateSections('planSelection');

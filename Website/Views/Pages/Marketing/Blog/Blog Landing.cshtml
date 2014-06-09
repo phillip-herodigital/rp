@@ -19,7 +19,7 @@
     categories = cats.OrderBy(c => c.Key.Name);
 
     var archives = from item in itemsToShow
-                   group item by Html.Sitecore().Field("Date", item, new { format= "MMMM yyyy" });
+                   group item by Html.Sitecore().Field("Date", item, new { format = "yyyyMM" }).ToString();
 
     if (categories.Any(c => c.Key.Name == Request.Params["category"]))
     {
@@ -28,11 +28,12 @@
         pageHeader = Html.Sitecore().Field("Category Title", cat.Key);
     }
 
-    if (archives.Any(c => Html.Sitecore().Field("Date", c.First(), new { format = "MMMM yyyy" }).ToString() == Request.Params["archive"]))
+    if (archives.Any(c => Html.Sitecore().Field("Date", c.First(), new { format = "yyyyMM" }).ToString() == Request.Params["archive"]))
     {
-        itemsToShow = archives.FirstOrDefault(c => Html.Sitecore().Field("Date", c.First(), new { format = "MMMM yyyy" }).ToString() == Request.Params["archive"]);
+        itemsToShow = archives.FirstOrDefault(c => Html.Sitecore().Field("Date", c.First(), new { format = "yyyyMM" }).ToString() == Request.Params["archive"]);
         pageHeader = pageHeader = Html.Sitecore().Field("Date", itemsToShow.First(), new { format = "MMMM yyyy" });
     }
+    var paginationHelper = Html.GetPaginationHelper<Sitecore.Data.Items.Item>(itemsToShow);
 }
 <section class="layout cols-2 wrapper">
     <section class="layout cols-1">
@@ -42,7 +43,7 @@
                 <h1>@pageHeader</h1>
             }
             @{
-                foreach (Sitecore.Data.Items.Item item in itemsToShow)
+                foreach (Sitecore.Data.Items.Item item in paginationHelper.CurrentItems)
                 {
                     <div class="post">
                         <h2><a href="@Sitecore.Links.LinkManager.GetItemUrl(item)">@Html.Sitecore().Field("Title", item)</a></h2>
@@ -62,6 +63,7 @@
                     <hr />
                 }
             }
+            @paginationHelper.GetPaginationHtml()
         </article>
     </section>
     <aside>
@@ -77,7 +79,7 @@
             <ul>
                 @foreach (var i in archives)
                 {
-                    <li><a href="?archive=@Html.Sitecore().Field("Date", i.First(), new { format= "MMMM yyyy" })">@Html.Sitecore().Field("Date", i.First(), new { format = "MMMM yyyy" })</a></li>
+                    <li><a href="?archive=@Html.Sitecore().Field("Date", i.First(), new { format= "yyyyMM" })">@Html.Sitecore().Field("Date", i.First(), new { format = "MMMM yyyy" })</a></li>
                 }
             </ul>
         </article>

@@ -672,6 +672,7 @@
     <Content Include="Views\Pages\Pattern Library\JavaScript.cshtml" />
     <Content Include="Views\Pages\Portal\Account\Invoices\Utility Providers.cshtml" />
     <Content Include="Views\Temp\Index.cshtml" />
+    <Content Include="Views\**\*.cshtml" />
     <Content Include="App_Config\Include\StreamEnergy.Initialization.config">
       <SubType>Designer</SubType>
     </Content>
@@ -683,6 +684,7 @@
     <None Include="Properties\PublishProfiles\Azure - Production Sitecore.pubxml" />
     <None Include="Properties\PublishProfiles\Azure - VM - my-stream-prod.pubxml" />
     <None Include="Properties\PublishProfiles\my-stream__Staging.pubxml" />
+    <Content Include="Views\Pages\Enrollment\Confirmation.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

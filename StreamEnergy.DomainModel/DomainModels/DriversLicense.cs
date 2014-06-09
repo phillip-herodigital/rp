@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace StreamEnergy.DomainModels
 {
+    [Serializable]
     [System.Web.Mvc.ModelBinder(typeof(Mvc.IgnoreBlanksModelBinder))]
     public class DriversLicense : ISanitizable
     {

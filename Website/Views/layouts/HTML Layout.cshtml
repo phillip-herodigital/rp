@@ -42,7 +42,7 @@
     <!-- End Google Tag Manager -->
 
     <div class="page-wrapper" ng-class="{open:sidebarOpen}">
-        <div ng-include="'mobileNav'" mobile-nav="0"></div>
+        <div ng-if="hasMobileNav" ng-include="'mobileNav'" mobile-nav="0"></div>
         <div class="page-content">
             @Html.Sitecore().Placeholder("header")
 

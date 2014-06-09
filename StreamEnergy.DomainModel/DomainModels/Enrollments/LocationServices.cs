@@ -6,6 +6,7 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
+    [Serializable]
     public class LocationServices : ISanitizable
     {
         [Required(ErrorMessage = "Service Location Required")]

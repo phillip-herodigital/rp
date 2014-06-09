@@ -157,5 +157,9 @@ namespace StreamEnergy.Extensions
             }
             return domain;
         }
+        public static PaginationHelper<T> GetPaginationHelper<T>(this HtmlHelper htmlHelper, IEnumerable<T> items)
+        {
+            return new PaginationHelper<T>(items);
+        }
     }
 }

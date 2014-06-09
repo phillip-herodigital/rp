@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
+    [Serializable]
     public class TexasElectricityOffer : IOffer
     {
         public const string Qualifier = "TexasElectricity";

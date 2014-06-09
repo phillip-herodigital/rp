@@ -5,6 +5,7 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
+    [Serializable]
     class TexasElectricityOfferOptionRules : IOfferOptionRules
     {
         public const string Qualifier = "TexasElectricity";

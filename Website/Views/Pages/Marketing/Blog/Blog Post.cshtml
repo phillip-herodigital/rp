@@ -1,6 +1,6 @@
-﻿<article class="marketing wrapper press">
+﻿<article class="marketing wrapper blog">
     @{
-        <div class="post">
+        <div class="blog-post">
             <h2>@Html.Sitecore().Field("Title")</h2>
             <p class="date">@Html.Sitecore().Field("Posted On Text"): @Sitecore.Web.UI.WebControls.FieldRenderer.Render(Html.Sitecore().CurrentItem, "Date", "format=MMMM d, yyyy")</p>
             <p>@Html.Sitecore().Field("Content")</p>

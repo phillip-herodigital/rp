@@ -8,7 +8,9 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', '$ancho
         currentSection : 'serviceInformation',
         nextSection : true,
         extraFields : {},
-        formErrors : {},
+        formErrors: {},
+        currentAddress: {},
+        headerHeightOffset: jQuery('header.site-header').height() * -1,
         sections : [
             {
                 id: 'serviceInformation',
@@ -50,8 +52,7 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', '$ancho
     */
     $scope.activateSections = function (location) {
         angular.forEach($scope.enrollment.sections, function (value) {
-            if (typeof $scope.enrollment.serverData.locationServices != 'undefined') {
-                if (value.id == 'serviceInformation' || value.id == 'planSelection')
+            if (value.id == location) {
                 value.isVisible = true;
             }
         });
@@ -60,9 +61,29 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', '$ancho
 
         //Delay needs to be set to allow angular code to open section.
         $timeout(function () {
-            var offset = jQuery('header.site-header').height() * -1;
-            scrollService.scrollTo(location, offset);
+            scrollService.scrollTo(location, $scope.enrollment.headerHeightOffset);
         }, 10); 
+    };
+
+    /**
+    * Get Locations
+    *
+    * @param string state       //State abbreviation
+    * @param string val         //Search string value
+    */
+    $scope.getLocation = function (state, val) {
+        console.log('Getting locations...');
+
+        return locationPromise = enrollmentService.getLocations(state, val).then(function (res) {
+            var addresses = [];
+
+            angular.forEach(res.data, function (item) {
+                item.formattedAddress = $scope.formatAddress(item.address);
+                addresses.push(item);
+            });
+
+            return addresses;
+        });
     };
 
     /**
@@ -76,6 +97,7 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', '$ancho
 
         clientDataPromise.then(function (data) {
             $scope.enrollment.serverData = data;
+            console.log(data);
         }, function (data) {
             // error response
             $rootScope.$broadcast('connectionFailure');
@@ -116,5 +138,16 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', '$ancho
         }
 
         return formattedAddress;
+    };
+
+    /**
+    * Size of object
+    *
+    * @param object obj
+    *
+    * return int
+    */
+    $scope.sizeOf = function (obj) {
+        return Object.keys(obj).length;
     };
 }]);

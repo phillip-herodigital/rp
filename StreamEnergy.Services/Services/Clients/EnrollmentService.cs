@@ -10,6 +10,7 @@ namespace StreamEnergy.Services.Clients
     class EnrollmentService : IEnrollmentService
     {
         // TODO - replace with actual implementations
+        [Serializable]
         class ConnectDatePolicy : IConnectDatePolicy
         {
 
@@ -26,7 +27,7 @@ namespace StreamEnergy.Services.Clients
                             Id = "NewOffer"
                         })
                 };
-            });
+            }).ToArray();
         }
 
         IConnectDatePolicy IEnrollmentService.LoadConnectDates(Location location)

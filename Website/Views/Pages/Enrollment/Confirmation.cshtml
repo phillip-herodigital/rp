@@ -1,0 +1,100 @@
+﻿<div class="enrollment-section order-confirmation">
+    <a class="print"><i class="icon-printer"></i>@Html.Sitecore().Field("Print")</a>
+    <h1>@Html.Sitecore().Field("Order Confirmation")</h1>
+    <p>@Html.Sitecore().Field("Confirmation Paragraph")</p>
+    <p>@Html.Sitecore().Field("Confirmation Number")</p>
+    <div class="form">
+        <article>
+            <div class="item">
+                <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
+                <strong>123 Main Street, Dallas, TX 75001</strong>
+            </div>
+        </article>
+    </div>
+    <div class="alert warning">
+        <p>@Html.Sitecore().Field("Alert Warning")</p>
+    </div>
+    <div class="alert notice">
+        <p>@Html.Sitecore().Field("Alert Notice")</p>
+    </div>
+    <table>
+        <tbody>
+            <tr class="line-item noborder">
+                <td class="description">
+                    <h1>@Html.Sitecore().Field("Plan")</h1>
+                </td>
+                <td class="rate">
+                    @Html.Sitecore().Field("Rate")
+                </td>
+            </tr>
+            <tr class="line-item noborder secondary">
+                <td class="description">
+                    <h3>@Html.Sitecore().Field("Installation Fee")</h3>
+                </td>
+                <td class="rate">
+                    @Html.Sitecore().Field("Installation Rate")
+                </td>
+            </tr>
+            <tr class="line-item noborder secondary">
+                <td class="description">
+                    <h3>@Html.Sitecore().Field("Deposit Header")</h3>
+                </td>
+                <td class="rate">
+                    @Html.Sitecore().Field("Deposit Rate")
+                </td>
+            </tr>
+            <tr class="line-item noborder secondary">
+                <td class="description">
+                    <h3>@Html.Sitecore().Field("Plan Documents Header")</h3>
+                </td>
+                <td class="docs">
+                    <ul>
+                        <li><a href="">@Html.Sitecore().Field("Document Electricity Facts")</a></li>
+                        <li><a href="">@Html.Sitecore().Field("Document Terms of Service")</a></li>
+                        <li><a href="">@Html.Sitecore().Field("Document Your Rights")</a></li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <h2>@Html.Sitecore().Field("Homelife Services Header")</h2>
+    <table>
+        <tbody>
+            <tr class="line-item">
+                <td class="description">
+                    <h1>@Html.Sitecore().Field("Tech Support")</h1>
+                    <p>@Html.Sitecore().Field("Appear On Bill")</p>
+                </td>
+                <td class="rate">
+                    @Html.Sitecore().Field("Homelife Services Rate")
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <h2>@Html.Sitecore().Field("Personal Information Header")</h2>
+    <dl>
+        <dt>@Html.Sitecore().Field("First Name")</dt>
+        <dd>John</dd>
+        <dt>@Html.Sitecore().Field("Last Name")</dt>
+        <dd>Smith</dd>
+        <dt>@Html.Sitecore().Field("Phone Number")</dt>
+        <dd>123-456-7890</dd>
+        <dt>@Html.Sitecore().Field("Email")</dt>
+        <dd>john.smith@email.com</dd>
+        <dt>@Html.Sitecore().Field("Billing Address")</dt>
+        <dd>123 Main Street, Dallas, TX 75001</dd>
+    </dl>
+    <h2>@Html.Sitecore().Field("Next Steps Header")</h2>
+    <article class="promo-box horizontal">
+        <header>
+            <h1>@Html.Sitecore().Field("Account Tour")</h1>
+        </header>
+        <div class="body">
+            <div class="avatar">
+                <i class="icon-house"></i>
+            </div>
+            <p>@Html.Sitecore().Field("Login Paragraph")</p>
+            <p><a class="button" href="">@Html.Sitecore().Field("Take Tour")</a></p>
+        </div>
+    </article>
+</div>
