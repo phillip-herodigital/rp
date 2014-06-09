@@ -20,6 +20,10 @@ ngApp.provider('validation', [function () {
                 if (key == 'val' || key == 'valIf' || key == 'valRealtime' || !startsWith(key, 'val'))
                     return;
                 var handled = false;
+                if (key.substr(3).charAt(0).toLowerCase() == key.substr(3).charAt(0)) {
+                    // Check to make sure the next character is an upper-case character... keeps us from capturing data-value and things like that.
+                    return;
+                }
                 var keyName = camelCase(key.substr(3));
                 angular.forEach(result, function (validator, validatorName) {
                     if (startsWith(keyName, validatorName)) {

@@ -6,7 +6,6 @@
 
             var disposeWatch = [
                 scope.$watchCollection(attrs.valBindMessages, function (newValue) {
-                    console.log(newValue);
                     var target = validation.ensureValidation(scope).messages = {};
                     
                     angular.forEach(newValue, function (entry) {
