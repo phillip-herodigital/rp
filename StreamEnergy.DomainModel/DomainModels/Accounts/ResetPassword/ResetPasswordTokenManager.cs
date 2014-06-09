@@ -16,10 +16,11 @@ namespace StreamEnergy.DomainModels.Accounts.ResetPassword
             this.redisDatabase = redisDatabase;
         }
 
-        public bool VerifyPasswordResetToken(string token)
+        public bool VerifyPasswordResetToken(string token, string username)
         {
             var key = GetTokenRedisKey(token);
-            return redisDatabase.KeyExists(key);
+            var retrievedUsername = (string)redisDatabase.StringGet(key);
+            return retrievedUsername == username;
         }
 
         public bool VerifyAndClearPasswordResetToken(string token, out string username)
