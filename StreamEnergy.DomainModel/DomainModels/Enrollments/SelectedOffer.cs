@@ -7,6 +7,7 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
+    [Serializable]
     public class SelectedOffer : ISanitizable, IValidatableObject
     {
         [Required(ErrorMessage = "Offer Required")]

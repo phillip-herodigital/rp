@@ -6,6 +6,7 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels
 {
+    [Serializable]
     [System.Web.Mvc.ModelBinder(typeof(Mvc.IgnoreBlanksModelBinder))]
     public class Name : ISanitizable
     {

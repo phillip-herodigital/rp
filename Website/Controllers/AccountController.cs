@@ -33,6 +33,7 @@ namespace StreamEnergy.MyStream.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public Table<Invoice> Invoices(bool schema = true)
         {
             return new Table<Invoice>

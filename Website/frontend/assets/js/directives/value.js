@@ -5,7 +5,7 @@ ngApp.directive('value', function ($parse) {
         restrict: 'A',
         require: '?ngModel',
         link: function (scope, element, attrs) {
-            if (attrs.ngModel && attrs.value) {
+            if (attrs.ngModel && attrs.value && (attrs.type.toLowerCase() != 'radio' || attrs.checked)) {
                 $parse(attrs.ngModel).assign(scope, attrs.value);
             }
         }

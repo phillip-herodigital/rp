@@ -27,7 +27,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         protected override void LoadInternalState(UserContext data, InternalContext internalContext)
         {
             // TODO - do we really want to always reload internal state?
-            internalContext.AllOffers = enrollmentService.LoadOffers(data.Services.Select(s => s.Value.Location));
+            internalContext.AllOffers = enrollmentService.LoadOffers(data.Services.Select(s => s.Value.Location)).ToArray();
         }
     }
 }
