@@ -59,16 +59,20 @@ namespace StreamEnergy.Mvc
             }
             else if (setSessionItems.Contains(invocation.Method))
             {
-                var serializer = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-                using (var ms = new MemoryStream())
+                var targetValue = invocation.Arguments[1];
+                if (targetValue != null)
                 {
-                    try
+                    var serializer = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                    using (var ms = new MemoryStream())
                     {
-                        serializer.Serialize(ms, invocation.Arguments[1]);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new InvalidOperationException("All objects placed into session must be serializable.", ex);
+                        try
+                        {
+                            serializer.Serialize(ms, targetValue);
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new InvalidOperationException("All objects placed into session must be serializable.", ex);
+                        }
                     }
                 }
             }

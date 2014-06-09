@@ -666,6 +666,12 @@ article.auth {
 	dd {
 		text-align: left;
 	}
+	.field-validation-valid {
+		display: block;
+		color: #a94442;
+		font-size: 14px;
+		margin: 5px 0;
+	}
 	@include breakpoint(small) {
 		dl {
 			dd {

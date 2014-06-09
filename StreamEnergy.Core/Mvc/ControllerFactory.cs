@@ -10,20 +10,19 @@ using System.Web.Routing;
 
 namespace StreamEnergy.Mvc
 {
-    class ControllerFactory : IControllerFactory
+    class ControllerFactory : global::Sitecore.Mvc.Controllers.SitecoreControllerFactory
     {
-        private IControllerFactory originalControllerFactory;
         private Microsoft.Practices.Unity.IUnityContainer container;
 
         public ControllerFactory(IControllerFactory originalControllerFactory, IUnityContainer container)
+            : base(originalControllerFactory)
         {
-            this.originalControllerFactory = originalControllerFactory;
             this.container = container;
         }
 
-        public IController CreateController(System.Web.Routing.RequestContext requestContext, string controllerName)
+        public override IController CreateController(System.Web.Routing.RequestContext requestContext, string controllerName)
         {
-            var result = originalControllerFactory.CreateController(requestContext, controllerName);
+            var result = base.CreateController(requestContext, controllerName);
             var controllerBase = result as ControllerBase;
             if (controllerBase != null)
             {
@@ -32,15 +31,15 @@ namespace StreamEnergy.Mvc
             return result;
         }
 
-        public System.Web.SessionState.SessionStateBehavior GetControllerSessionBehavior(System.Web.Routing.RequestContext requestContext, string controllerName)
+        protected override IController CreateControllerInstance(RequestContext requestContext, string controllerName)
         {
-            return originalControllerFactory.GetControllerSessionBehavior(requestContext, controllerName);
+            if ((global::Sitecore.Mvc.Helpers.TypeHelper.LooksLikeTypeName(controllerName)))
+            {
+                return (IController)container.Resolve(Type.GetType(controllerName));
+            }
+            return base.CreateControllerInstance(requestContext, controllerName);
         }
 
-        public void ReleaseController(IController controller)
-        {
-            originalControllerFactory.ReleaseController(controller);
-        }
 
     }
 }
