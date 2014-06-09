@@ -18,6 +18,8 @@ namespace StreamEnergy.DomainModels.Accounts.ResetPassword
 
         public bool VerifyPasswordResetToken(string token, string username)
         {
+            if (username == null)
+                return false;
             var key = GetTokenRedisKey(token);
             var retrievedUsername = (string)redisDatabase.StringGet(key);
             return retrievedUsername == username;

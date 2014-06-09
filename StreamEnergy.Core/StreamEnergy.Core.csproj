@@ -176,6 +176,8 @@
     <Compile Include="EnumerableRequiredAttribute.cs" />
     <Compile Include="EnvironmentCategory.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Extensions\HtmlStringExtensions.cs" />
+    <Compile Include="Extensions\ModelStateExtensions.cs" />
     <Compile Include="Extensions\SettingsExtensions.cs" />
     <Compile Include="ISanitizable.cs" />
     <Compile Include="ISettings.cs" />

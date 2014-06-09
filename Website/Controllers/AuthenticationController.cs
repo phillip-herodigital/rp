@@ -172,7 +172,8 @@ namespace StreamEnergy.MyStream.Controllers
         {
             resetPasswordSessionHelper.Reset();
 
-            resetPasswordSessionHelper.Context.Username = domain.AccountPrefix + request.Username;
+            resetPasswordSessionHelper.Context.DomainPrefix = domain.AccountPrefix;
+            resetPasswordSessionHelper.Context.Username = request.Username;
 
             resetPasswordSessionHelper.StateMachine.Process(typeof(VerifyUserState));
 

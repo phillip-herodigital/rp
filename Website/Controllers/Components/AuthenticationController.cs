@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using StreamEnergy.Extensions;
 using StreamEnergy.DomainModels.Accounts.ResetPassword;
 
 namespace StreamEnergy.MyStream.Controllers.Components
@@ -33,6 +34,7 @@ namespace StreamEnergy.MyStream.Controllers.Components
 
         public ActionResult GetUserChallengeQuestionsIndex(StreamEnergy.DomainModels.Accounts.ResetPassword.ResetPasswordContext context, string token)
         {
+            ModelState.Translate();
             ViewBag.TokenExpired = (token == "expired");
             return View("~/Views/Components/Authentication/Forgot Password - Step 1.cshtml", context);
         }
