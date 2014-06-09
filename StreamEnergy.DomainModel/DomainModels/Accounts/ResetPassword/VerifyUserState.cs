@@ -20,15 +20,13 @@ namespace StreamEnergy.DomainModels.Accounts.ResetPassword
         private readonly IUnityContainer container;
         private readonly ResetPasswordTokenManager tokenManager;
         private readonly IEmailService emailService;
-        private readonly HttpRequestBase request;
 
-        public VerifyUserState(IUnityContainer container, ResetPasswordTokenManager tokenManager, IEmailService emailService, HttpRequestBase request)
+        public VerifyUserState(IUnityContainer container, ResetPasswordTokenManager tokenManager, IEmailService emailService)
             : base(typeof(GetUsernameState), typeof(SentEmailState))
         {
             this.container = container;
             this.tokenManager = tokenManager;
             this.emailService = emailService;
-            this.request = request;
         }
 
         public override IEnumerable<ValidationResult> AdditionalValidations(ResetPasswordContext context, object internalContext)
@@ -66,7 +64,8 @@ namespace StreamEnergy.DomainModels.Accounts.ResetPassword
             // TODO get supject and body template from Sitecore
             message.Subject = "Stream Energy Reset Password";
             message.IsBodyHtml = true;
-            message.Body = "Click the following link to reset the password on your Stream Energy account: <a href=\"" + new Uri(request.Url, "/auth/change-password?token={token}&username={username}".Format(new { token = passwordResetToken, username = context.Username })).ToString() + "\">Reset Password</a>";
+            // TODO get base URL from Sitecore
+            message.Body = "Click the following link to reset the password on your Stream Energy account: <a href=\"/auth/change-password?token={token}&username={username}".Format(new { token = passwordResetToken, username = context.Username }) + "\">Reset Password</a>";
             
             emailService.SendEmail(message);
 
