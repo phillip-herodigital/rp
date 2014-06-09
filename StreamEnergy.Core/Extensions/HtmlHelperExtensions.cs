@@ -132,7 +132,7 @@ namespace StreamEnergy.Extensions
                                select new { name, path, rule = TranslateRule(html, rule, name, translateFrom, false).ErrorMessage }).ToArray();
 
             return html.Raw(string.Join("<br/>", from rule in clientRules
-                                                 select rule.name + " (" + rule.path + ") &mdash; " + rule.rule));
+                                                 select rule.name + " (" + rule.path + ") &mdash; " + rule.rule) + "<br/>");
         }
 
         public static IHtmlString AsMoney(this HtmlHelper htmlHelper, string fieldName, Item item = null, int decimalPlaces = 2)
