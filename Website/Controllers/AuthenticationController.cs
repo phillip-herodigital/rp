@@ -259,18 +259,18 @@ namespace StreamEnergy.MyStream.Controllers
 
                 // Get the From address from Sitecore;
                 var settings = StreamEnergy.Unity.Container.Instance.Resolve<ISettings>();
-                var FromEmail = settings.GetSettingsField("Authorization Email Addresses", "Send From Email Address").Value;
+                var fromEmail = settings.GetSettingsField("Authorization Email Addresses", "Send From Email Address").Value;
 
                 // Send the email
-                MailMessage Message = new MailMessage();
-                Message.From = new MailAddress(FromEmail);
-                Message.To.Add(ToEmail);
-                // TODO get supject and body template from Sitecore
-                Message.Subject = "Stream Energy Username Recovery";
-                Message.IsBodyHtml = true;
-                Message.Body = "The follwing usernames are associated with this account: " + usernames.ToString();
+                MailMessage message = new MailMessage();
+                message.From = new MailAddress(fromEmail);
+                message.To.Add(ToEmail);
+                // TODO get subject and body template from Sitecore
+                message.Subject = "Stream Energy Username Recovery";
+                message.IsBodyHtml = true;
+                message.Body = "The follwing usernames are associated with this account: " + string.Join(", ", usernames);
 
-                emailService.SendEmail(Message);
+                emailService.SendEmail(message);
                 success = true;
             }
             return new RecoverUsernameResponse
