@@ -9,7 +9,7 @@
     <header>
         <h2>@Html.Sitecore().Field("Header Text")</h2>
     </header>
-    <form ng-submit="findAccount()" val-bind-messages="validations">
+    <form ng-submit="findAccount()" data-val-bind-messages="validations">
         <div class="content">
             @Html.Sitecore().Field("Body Text")
             <div class="alert alert-error" ng-show="findAccountError" ng-bind-html="findAccountError"></div>

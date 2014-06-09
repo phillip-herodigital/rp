@@ -16,9 +16,9 @@ ngApp.controller('AuthResetPasswordCtrl', ['$scope', '$rootScope', '$http', '$wi
 			headers : { 'Content-Type': 'application/JSON' } 
 		})
 			.success(function (data, status, headers, config) {
-				if (!data.username) {
-					// if not successful, bind errors to error variables
-					$scope.getUserError = $sce.trustAsHtml(data.validations[0].text);
+			    if (data.validations.length) {
+			        // if not successful, bind errors to error variables
+			        $scope.validations = data.validations;
 
 				} else {
 					// if successful, bind the response data to the scope and send the user to step 2
