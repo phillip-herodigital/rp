@@ -10,6 +10,15 @@ ngApp.controller('AuthCreateAccountCtrl', ['$scope', '$rootScope', '$http', '$wi
 	// initialize the challenges
 	$scope.formData.challenges = [{},{}];
 
+	// create a filter so that the same security question can't be selected twice
+	$scope.filter1 = function(item){
+      return (!($scope.formData.challenges[0].selectedQuestion && $scope.formData.challenges[0].selectedQuestion.id)||item.id != $scope.formData.challenges[0].selectedQuestion.id);
+    };
+
+    $scope.filter2 = function(item){
+      return (!($scope.formData.challenges[1].selectedQuestion && $scope.formData.challenges[1].selectedQuestion.id)||item.id != $scope.formData.challenges[1].selectedQuestion.id);
+    };
+
 	// process the findAccount form
 	$scope.findAccount = function() {
 		$http({

@@ -10,8 +10,9 @@
 			<h2>@Html.Sitecore().Field("Header Text")</h2>
 		</header>
 		<div class="content">
-            <form ng-submit="login()">
-                <div class="alert alert-error" ng-show="loginError">@Html.ValidationSummary()</div>
+            <form ng-submit="login()" val-bind-messages="validations">
+                <div class="alert alert-error" ng-show="loginError" ng-bind-html="loginError"></div>
+                @Html.ValidationSummary()
                 <div class="group">
                     <div class="item group-col" @Html.ValidationErrorClass(model => model.Username)>
                         <label for="@Html.For(m => m.Username)">@Html.Sitecore().Field("Username Label")</label>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
@@ -15,6 +16,7 @@ using StreamEnergy.DomainModels.Accounts.ResetPassword;
 using StreamEnergy.MyStream.Models;
 using StreamEnergy.MyStream.Models.Authentication;
 using StreamEnergy.Processes;
+using StreamEnergy.Services.Clients;
 
 namespace StreamEnergy.MyStream.Controllers
 {
@@ -27,6 +29,7 @@ namespace StreamEnergy.MyStream.Controllers
         private readonly ResetPasswordTokenManager resetPasswordTokenManager;
         private readonly Sitecore.Security.Domains.Domain domain;
         private readonly Sitecore.Data.Database database;
+        private readonly IEmailService emailService;
         
         #region Session Helper Classes
         public class CreateAccountSessionHelper : StateMachineSessionHelper<CreateAccountContext, CreateAccountInternalContext>
@@ -46,7 +49,7 @@ namespace StreamEnergy.MyStream.Controllers
         }
         #endregion
 
-        public AuthenticationController(IUnityContainer container, CreateAccountSessionHelper coaSessionHelper, ResetPasswordSessionHelper resetPasswordSessionHelper, ResetPasswordTokenManager resetPasswordTokenManager)
+        public AuthenticationController(IUnityContainer container, CreateAccountSessionHelper coaSessionHelper, ResetPasswordSessionHelper resetPasswordSessionHelper, ResetPasswordTokenManager resetPasswordTokenManager, IEmailService emailService)
         {
             this.container = container;
             this.coaSessionHelper = coaSessionHelper;
@@ -55,6 +58,7 @@ namespace StreamEnergy.MyStream.Controllers
             this.domain = Sitecore.Context.Site.Domain;
             this.database = Sitecore.Context.Database;
             this.item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Components/Authentication");
+            this.emailService = emailService;
         }
 
         protected override void Dispose(bool disposing)
@@ -237,6 +241,22 @@ namespace StreamEnergy.MyStream.Controllers
                 IEnumerable<string> usernames = new[] { "mdekrey", "mdekrey2", "mdekrey3" };
 
                 // TODO - send an email
+                var ToEmail = request.Email.Address;
+
+                // Get the From address from Sitecore;
+                var settings = StreamEnergy.Unity.Container.Instance.Resolve<ISettings>();
+                var FromEmail = settings.GetSettingsField("Authorization Email Addresses", "Send From Email Address").Value;
+
+                // Send the email
+                MailMessage Message = new MailMessage();
+                Message.From = new MailAddress(FromEmail);
+                Message.To.Add(ToEmail);
+                // TODO get supject and body template from Sitecore
+                Message.Subject = "Stream Energy Username Recovery";
+                Message.IsBodyHtml = true;
+                Message.Body = "The follwing usernames are associated with this account: " + usernames.ToString();
+
+                emailService.SendEmail(Message);
                 success = true;
             }
             return new RecoverUsernameResponse
