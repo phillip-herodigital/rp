@@ -13,7 +13,7 @@ namespace StreamEnergy.Pipelines
         public override void Process(Sitecore.Pipelines.HttpRequest.HttpRequestArgs args)
         {
             // If current item not available in Sitecore, then check if there is a vanity URL to redirect to
-            if (Sitecore.Context.Item == null)
+            if (Sitecore.Context.Item == null && Sitecore.Context.Database != null)
             {
                 using (new SecurityDisabler())
                 {

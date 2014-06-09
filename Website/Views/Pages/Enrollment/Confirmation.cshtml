@@ -3,21 +3,22 @@
     <h1>@Html.Sitecore().Field("Order Confirmation")</h1>
     <p>@Html.Sitecore().Field("Confirmation Paragraph")</p>
     <p>@Html.Sitecore().Field("Confirmation Number")</p>
-    <div class="form">
-        <article>
+    <article>
+        <div class="content form">
             <div class="item">
-                <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
+                <span class="label" for="service-address">@Html.Sitecore().Field("Service Address Label")</span>
                 <strong>123 Main Street, Dallas, TX 75001</strong>
             </div>
-        </article>
-    </div>
+        </div>
+    </article>
     <div class="alert warning">
         <p>@Html.Sitecore().Field("Alert Warning")</p>
     </div>
     <div class="alert notice">
         <p>@Html.Sitecore().Field("Alert Notice")</p>
     </div>
-    <table>
+
+    <table class="plan-table">
         <tbody>
             <tr class="line-item noborder">
                 <td class="description">
@@ -43,7 +44,7 @@
                     @Html.Sitecore().Field("Deposit Rate")
                 </td>
             </tr>
-            <tr class="line-item noborder secondary">
+            <tr class="line-item noborder secondary plan-documents">
                 <td class="description">
                     <h3>@Html.Sitecore().Field("Plan Documents Header")</h3>
                 </td>

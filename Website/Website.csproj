@@ -125,6 +125,18 @@
     <Reference Include="Microsoft.Data.Services.Client, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Data.Services.Client.5.6.0\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.16\lib\net45\Microsoft.Threading.Tasks.dll</HintPath>
@@ -430,6 +442,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AuthenticationController.cs" />
+    <Compile Include="Controllers\Components\AuthenticationController.cs" />
     <Compile Include="Controllers\EnrollmentController.cs" />
     <Compile Include="Controllers\JsonHelper\EnrollmentController.cs" />
     <Compile Include="Controllers\TempController.cs" />
@@ -450,6 +464,22 @@
     <Compile Include="Models\Angular\GridTable\GridTableExtensions.cs" />
     <Compile Include="Models\Angular\GridTable\Table.cs" />
     <Compile Include="Models\Angular\GridTable\DeviceType.cs" />
+    <Compile Include="Models\Authentication\ChangePasswordRequest.cs" />
+    <Compile Include="Models\Authentication\ChangePasswordResponse.cs" />
+    <Compile Include="Models\Authentication\CreateLoginRequest.cs" />
+    <Compile Include="Models\Authentication\CreateLoginResponse.cs" />
+    <Compile Include="Models\Authentication\FindAccountRequest.cs" />
+    <Compile Include="Models\Authentication\FindAccountResponse.cs" />
+    <Compile Include="Models\Authentication\GetUserChallengeQuestionsRequest.cs" />
+    <Compile Include="Models\Authentication\GetUserChallengeQuestionsResponse.cs" />
+    <Compile Include="Models\Authentication\LoginRequest.cs" />
+    <Compile Include="Models\Authentication\LoginResponse.cs" />
+    <Compile Include="Models\Authentication\RecoverUsernameRequest.cs" />
+    <Compile Include="Models\Authentication\RecoverUsernameResponse.cs" />
+    <Compile Include="Models\Authentication\SecurityQuestion.cs" />
+    <Compile Include="Models\Authentication\AnsweredSecurityQuestion.cs" />
+    <Compile Include="Models\Authentication\SendResetPasswordEmailRequest.cs" />
+    <Compile Include="Models\Authentication\SendResetPasswordEmailResponse.cs" />
     <Compile Include="Models\Enrollment\AccountInformation.cs" />
     <Compile Include="Models\Enrollment\ClientData.cs" />
     <Compile Include="Models\Enrollment\ConfirmOrder.cs" />
@@ -459,6 +489,8 @@
     <Compile Include="Models\Enrollment\VerifyIdentity.cs" />
     <Compile Include="Models\Marketing\CommercialQuote.cs" />
     <Compile Include="Models\Marketing\Contact.cs" />
+    <Compile Include="Models\RapidPrototyping.cs" />
+    <Compile Include="Models\StateMachineSessionHelper.cs" />
     <Compile Include="Models\TranslatedValidationResult.cs" />
     <Compile Include="Pipelines\InitializeWebApi.cs" />
     <Compile Include="Models\Marketing\HomeLifeServices.cs" />
@@ -542,7 +574,9 @@
     </Content>
     <Content Include="Data\webdav.lic" />
     <Content Include="temp\dictionary.dat" />
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="App_Config\Include\Sitecore.Analytics.config">
       <SubType>Designer</SubType>
     </Content>
@@ -560,6 +594,84 @@
     <Content Include="App_Config\Include\Sitecore.Speak.ItemWebApi.config" />
     <Content Include="App_Config\Include\Sitecore.Speak.Mvc.config" />
     <Content Include="Views\web.config" />
+    <Content Include="Views\Components\Account\HTML.cshtml" />
+    <Content Include="Views\Components\Account\Overview\Account Balances and Payments.cshtml" />
+    <Content Include="Views\Components\Account\Overview\Make a Payment.cshtml" />
+    <Content Include="Views\Components\Account\Overview\My Energy Usage.cshtml" />
+    <Content Include="Views\Components\Account\Overview\My Invoices.cshtml" />
+    <Content Include="Views\Components\Account\Overview\My Payments.cshtml" />
+    <Content Include="Views\Components\Account\Overview\Utility Providers.cshtml" />
+    <Content Include="Views\Components\Account\Profile\Account Holder Information.cshtml" />
+    <Content Include="Views\Components\Account\Profile\Account Selector.cshtml" />
+    <Content Include="Views\Components\Account\Profile\Add New Account.cshtml" />
+    <Content Include="Views\Components\Account\Profile\Enrolled Accounts.cshtml" />
+    <Content Include="Views\Components\Account\Profile\My Online Account Information.cshtml" />
+    <Content Include="Views\Components\Account\Profile\Notification Settings.cshtml" />
+    <Content Include="Views\Components\Account\Sidebar Widgets\Profile Subnav.cshtml" />
+    <Content Include="Views\Components\Account\Sidebar Widgets\Promo.cshtml" />
+    <Content Include="Views\Components\Account\Two Column Layout.cshtml" />
+    <Content Include="Views\Components\Account\Utility Services\Your Electricity Plan.cshtml" />
+    <Content Include="Views\Components\Account\Utility Services\Your Gas Plan.cshtml" />
+    <Content Include="Views\Components\Authentication\Change Password.cshtml" />
+    <Content Include="Views\Components\Authentication\Create Account - Step 1.cshtml" />
+    <Content Include="Views\Components\Authentication\Create Account - Step 2.cshtml" />
+    <Content Include="Views\Components\Authentication\Create Account Layout.cshtml" />
+    <Content Include="Views\Components\Authentication\Forgot Password - Step 1.cshtml" />
+    <Content Include="Views\Components\Authentication\Forgot Password - Step 2.cshtml" />
+    <Content Include="Views\Components\Authentication\Forgot Password Layout.cshtml" />
+    <Content Include="Views\Components\Authentication\Forgot Username.cshtml" />
+    <Content Include="Views\Components\Authentication\My Stream Account.cshtml" />
+    <Content Include="Views\Components\Footer.cshtml" />
+    <Content Include="Views\Components\Header Fixed.cshtml" />
+    <Content Include="Views\Components\Header.cshtml" />
+    <Content Include="Views\Components\Marketing\Full HTML.cshtml" />
+    <Content Include="Views\Components\Marketing\Full Width Image.cshtml" />
+    <Content Include="Views\Components\Marketing\Grid Promos.cshtml" />
+    <Content Include="Views\Components\Marketing\Intro.cshtml" />
+    <Content Include="Views\Components\Marketing\Login Horizontal.cshtml" />
+    <Content Include="Views\Components\Marketing\Photo Lockup.cshtml" />
+    <Content Include="Views\Components\Marketing\States Enroll.cshtml" />
+    <Content Include="Views\layouts\HTML Layout.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Account Information.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Cart.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Complete Order.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Enrollment Page.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Plan Selection.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Service Information.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Verify Identity.cshtml" />
+    <Content Include="Views\Pages\Marketing\Blog\Blog Landing.cshtml" />
+    <Content Include="Views\Pages\Marketing\Blog\Blog Post.cshtml" />
+    <Content Include="Views\Pages\Marketing\Blog\Latest Blog Post Horizontal.cshtml" />
+    <Content Include="Views\Pages\Marketing\Careers\Careers Detail.cshtml" />
+    <Content Include="Views\Pages\Marketing\Careers\Careers Listing.cshtml" />
+    <Content Include="Views\Pages\Marketing\Contact\Contact.cshtml" />
+    <Content Include="Views\Pages\Marketing\FAQ\FAQ Landing.cshtml" />
+    <Content Include="Views\Pages\Marketing\FAQ\FAQ Listing.cshtml" />
+    <Content Include="Views\Pages\Marketing\Historical Rates\Historical Rates Maryland.cshtml" />
+    <Content Include="Views\Pages\Marketing\Historical Rates\Historical Rates Pennsylvania.cshtml" />
+    <Content Include="Views\Pages\Marketing\Historical Rates\Historical Rates Texas.cshtml" />
+    <Content Include="Views\Pages\Marketing\Leaders\Leader Listing.cshtml" />
+    <Content Include="Views\Pages\Marketing\Leaders\Leader.cshtml" />
+    <Content Include="Views\Pages\Marketing\Leaders\Leaders Landing.cshtml" />
+    <Content Include="Views\Pages\Marketing\Leaders\View All Directors.cshtml" />
+    <Content Include="Views\Pages\Marketing\Paperless\Paperless Page.cshtml" />
+    <Content Include="Views\Pages\Marketing\Pay\States Pay.cshtml" />
+    <Content Include="Views\Pages\Marketing\Philanthropy\Charity Listing.cshtml" />
+    <Content Include="Views\Pages\Marketing\Press\Press Landing.cshtml" />
+    <Content Include="Views\Pages\Marketing\Press\Press Release.cshtml" />
+    <Content Include="Views\Pages\Marketing\Rates\GA Rates.cshtml" />
+    <Content Include="Views\Pages\Marketing\Rates\NE Rates.cshtml" />
+    <Content Include="Views\Pages\Marketing\Rates\TX Rates.cshtml" />
+    <Content Include="Views\Pages\Marketing\Services\Electricity.cshtml" />
+    <Content Include="Views\Pages\Marketing\Services\Enroll Commercial.cshtml" />
+    <Content Include="Views\Pages\Marketing\Services\Enroll.cshtml" />
+    <Content Include="Views\Pages\Marketing\Services\Gas.cshtml" />
+    <Content Include="Views\Pages\Marketing\Services\HomeLife Services.cshtml" />
+    <Content Include="Views\Pages\Marketing\Services\Renew.cshtml" />
+    <Content Include="Views\Pages\Pattern Library\CSS.cshtml" />
+    <Content Include="Views\Pages\Pattern Library\JavaScript.cshtml" />
+    <Content Include="Views\Pages\Portal\Account\Invoices\Utility Providers.cshtml" />
+    <Content Include="Views\Temp\Index.cshtml" />
     <Content Include="Views\**\*.cshtml" />
     <Content Include="App_Config\Include\StreamEnergy.Initialization.config">
       <SubType>Designer</SubType>

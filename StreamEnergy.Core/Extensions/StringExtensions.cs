@@ -55,7 +55,7 @@ namespace StreamEnergy.Extensions
                         var prop = type.GetProperty(key);
                         if (prop == null)
                         {
-                            throw new ArgumentException("Not found: " + key, "pattern");
+                            return match.Groups[0].Value;
                         }
                         value = Convert.ToString(prop.GetValue(template, null));
                         cache.Add(key, value);

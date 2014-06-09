@@ -217,6 +217,9 @@ article {
 			}
 		}			
 	}
+	.label { 
+		@extend label;
+	}
 }
 article.grey-box {
 	background-color: #f9f9f9;
@@ -643,11 +646,6 @@ article.my-invoices {
 		padding-top: 0px;
 	}
 }
-article.auth-forgot-password {
-	.label { 
-		@extend label;
-	}
-}
 article.auth {
 	margin: 20px 0;
 	.social-login {
@@ -667,6 +665,12 @@ article.auth {
 	}	
 	dd {
 		text-align: left;
+	}
+	.field-validation-valid {
+		display: block;
+		color: #a94442;
+		font-size: 14px;
+		margin: 5px 0;
 	}
 	@include breakpoint(small) {
 		dl {

@@ -15,29 +15,27 @@
             <div class="box" ng-repeat="(id, item) in enrollment.serverData.locationServices">
                 <div ng-repeat="(type, plans) in item.selectedOffers">
                     <h3><span ng-show="type == 'gas'">Gas</span><span ng-show="type == 'electricity'">Electricity</span></h3>
-                    <div class="cart-item" ng-repeat="(planId, plan) in plans">
-                        <div class="delete">
-                            <i class="icon-delete"></i>
+                    <div ng-repeat="(planId, plan) in plans">
+                        <div class="cart-item">
+                            <div class="delete" ng-click="deleteItem()">
+                                <i class="icon-delete"></i>
+                            </div>
+                            <div class="description">
+                                <h2>{{plan.offer.name}}</h2>
+                                <a href="" ng-click="changePlan()">Change Plan</a>
+                            </div>
+                            <div class="rate">
+                                {{plan.offer.rate}}&cent;
+                                <span>per kWh</span>
+                            </div>
                         </div>
-                        <div class="description">
-                            <h2>{{plan.offer.name}}</h2>
-                            <a href="">Change Plan</a>
-                        </div>
-                        <div class="rate">
-                            {{plan.offer.rate}}&cent;
-                            <span>per kWh</span>
-                        </div>
-                    </div>
-                    <div class="cart-item" ng-show="plan.paymentInformation">
-                        <div class="delete">
-                            <i class="icon-delete"></i>
-                        </div>
-                        <div class="description">
-                            <h2>{{plan.paymentInformation.name}}</h2>
-                            <a href="">Change Plan</a>
-                        </div>
-                        <div class="rate">
-                            {{plan.paymentInformation.amount | currency}}
+                        <div class="cart-item" ng-show="plan.paymentInformation">
+                            <div class="description">
+                                <h2>{{plan.paymentInformation.name}}</h2>
+                            </div>
+                            <div class="rate">
+                                {{plan.paymentInformation.amount | currency}}
+                            </div>
                         </div>
                     </div>
                     <hr />
@@ -45,7 +43,7 @@
                 <address>
                     <h3>@Html.Sitecore().Field("Service Address Text")</h3>
                     {{formatAddress(item.location.address)}}<br />
-                    <a href="">@Html.Sitecore().Field("Edit Address Text")</a>
+                    <a href="" ng-click="editAddress()">@Html.Sitecore().Field("Edit Address Text")</a>
                 </address>
             </div>
             <div class="box time">

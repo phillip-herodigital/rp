@@ -12,13 +12,12 @@
             // Here we don't need to dispose our watch because we have an isolated scope that goes away when the element does.
             var watch = scope.$parent.$watchCollection(function () { return validation.messageArray(scope.$parent, scope.valmsgFor) }, function (newValue) {
                 scope.messages = newValue;
-                console.log(newValue);
                 if (newValue !== undefined) {
                     scope.started = true;
                 }
 
                 if (scope.started) {
-                    if (!newValue.length) {
+                    if (newValue && !newValue.length) {
                         element.addClass('field-validation-valid');
                         element.removeClass('field-validation-error');
                     }
