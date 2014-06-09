@@ -31,6 +31,7 @@ namespace StreamEnergy.MyStream.Controllers
         private readonly Sitecore.Security.Domains.Domain domain;
         private readonly Sitecore.Data.Database database;
         private readonly IEmailService emailService;
+        private readonly ISettings settings;
         
         #region Session Helper Classes
         public class CreateAccountSessionHelper : StateMachineSessionHelper<CreateAccountContext, CreateAccountInternalContext>
@@ -50,7 +51,7 @@ namespace StreamEnergy.MyStream.Controllers
         }
         #endregion
 
-        public AuthenticationController(IUnityContainer container, CreateAccountSessionHelper coaSessionHelper, ResetPasswordSessionHelper resetPasswordSessionHelper, ResetPasswordTokenManager resetPasswordTokenManager, IEmailService emailService)
+        public AuthenticationController(IUnityContainer container, CreateAccountSessionHelper coaSessionHelper, ResetPasswordSessionHelper resetPasswordSessionHelper, ResetPasswordTokenManager resetPasswordTokenManager, IEmailService emailService, ISettings settings)
         {
             this.container = container;
             this.coaSessionHelper = coaSessionHelper;
@@ -60,6 +61,7 @@ namespace StreamEnergy.MyStream.Controllers
             this.database = Sitecore.Context.Database;
             this.item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Components/Authentication");
             this.emailService = emailService;
+            this.settings = settings;
         }
 
         protected override void Dispose(bool disposing)
@@ -254,23 +256,19 @@ namespace StreamEnergy.MyStream.Controllers
                 // TODO - call out to Stream Connect to get a list of usernames
                 IEnumerable<string> usernames = new[] { "mdekrey", "mdekrey2", "mdekrey3" };
 
-                // TODO - send an email
-                var ToEmail = request.Email.Address;
-
-                // Get the From address from Sitecore;
-                var settings = StreamEnergy.Unity.Container.Instance.Resolve<ISettings>();
-                var fromEmail = settings.GetSettingsField("Authorization Email Addresses", "Send From Email Address").Value;
+                var toEmail = request.Email.Address;
 
                 // Send the email
-                MailMessage message = new MailMessage();
-                message.From = new MailAddress(fromEmail);
-                message.To.Add(ToEmail);
-                // TODO get subject and body template from Sitecore
-                message.Subject = "Stream Energy Username Recovery";
-                message.IsBodyHtml = true;
-                message.Body = "The follwing usernames are associated with this account: " + string.Join(", ", usernames);
+                emailService.SendEmail(new MailMessage()
+                {
+                    From = new MailAddress(settings.GetSettingsValue("Authorization Email Addresses", "Send From Email Address")),
+                    To = { toEmail },
+                    // TODO get subject and body template from Sitecore
+                    Subject = "Stream Energy Username Recovery",
+                    IsBodyHtml = true,
+                    Body = "The follwing usernames are associated with this account: " + string.Join(", ", usernames)
+                });
 
-                emailService.SendEmail(message);
                 success = true;
             }
             return new RecoverUsernameResponse

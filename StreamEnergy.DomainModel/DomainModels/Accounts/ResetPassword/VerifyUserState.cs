@@ -61,7 +61,7 @@ namespace StreamEnergy.DomainModels.Accounts.ResetPassword
             {
                 From = new MailAddress(settings.GetSettingsValue("Authorization Email Addresses", "Send From Email Address")),
                 To = { toEmail },
-                // TODO get supject and body template from Sitecore
+                // TODO get subject and body template from Sitecore
                 Subject = "Stream Energy Reset Password",
                 IsBodyHtml = true,
                 Body = @"Click the following link to reset the password on your Stream Energy account: <a href=""{url}"">Reset Password</a>".Format(new { url = url })
