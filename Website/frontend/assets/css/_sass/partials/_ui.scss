@@ -155,7 +155,7 @@ div.tabbable {
 .typeahead {
 	&.loading {
 		@include retina-background('loading.gif');
-		background-position: 8px 98%;
+		background-position: 98% 8px;
 		background-repeat: no-repeat;
 	}
 }
