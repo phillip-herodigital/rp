@@ -1,6 +1,6 @@
 ﻿// This extends the Angular UI Bootstrap datepicker-popup directive
 // https://github.com/angular/angular.js/wiki/Understanding-Directives#extending-directives
-ngApp.directive('datepickerPopup', ['$window', 'breakpoint', function ($window, breakpoint) {
+ngApp.directive('datepickerPopup', [function () {
     return {
         restrict: 'A',
         link: function (scope, element, attrs) {
