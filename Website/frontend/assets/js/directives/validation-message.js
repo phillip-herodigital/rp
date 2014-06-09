@@ -12,7 +12,6 @@
             // Here we don't need to dispose our watch because we have an isolated scope that goes away when the element does.
             var watch = scope.$parent.$watchCollection(function () { return validation.messageArray(scope.$parent, scope.valmsgFor) }, function (newValue) {
                 scope.messages = newValue;
-                console.log(newValue);
                 if (newValue !== undefined) {
                     scope.started = true;
                 }
