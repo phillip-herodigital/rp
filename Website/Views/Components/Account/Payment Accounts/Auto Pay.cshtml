@@ -5,7 +5,7 @@
 				<form>
 					<div class="group">
 						<div class="item">
-							<label>Account Number:</label>
+							<label>@Html.Sitecore().Field("Account Number Label"):</label>
 							<select>
 								<option value="Please choose">1197015532</option>
 								<option value="account1">Account 2</option>
@@ -46,7 +46,7 @@
 							</div>
 						</div>
 						<div slide-toggle>
-							<a href="" ng-click="toggleSlide()" class="arrow-toggle" ng-class="{'collapsed': !isOpen}">Advanced Settings</a>
+							<a href="" ng-click="toggleSlide()" class="arrow-toggle" ng-class="{'collapsed': !isOpen}">@Html.Sitecore().Field("Advanced Settings Text")</a>
 							<div class=" advanced-settings slide-toggle">
 								<p class="datepicker">@Html.Sitecore().Field("Recurring Pay Text 1") 
 									<input type="text" class="small"  ng-model="autoPay.dt" datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="disableWeekends(date, mode)" datepicker-close-on-resize> 

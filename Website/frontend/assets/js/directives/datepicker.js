@@ -11,19 +11,6 @@ ngApp.directive('datepickerPopup', ['$window', 'breakpoint', function ($window, 
 
                 scope.datePickerOpened = true;
             };
-
-            /*
-            Close the datepicker on mobile resize, otherwise it gets out of alignment
-            with the element that it's positioned with. 
-            */
-            if(attrs.datepickerCloseOnResize == '') {
-                angular.element($window).bind('resize', function() {
-                    if(scope.datePickerOpened && breakpoint.breakpoint.name == 'phone') {
-                        scope.datePickerOpened = false;
-                        scope.$apply();
-                    }
-                });
-            }
         }
     };
 }]);
