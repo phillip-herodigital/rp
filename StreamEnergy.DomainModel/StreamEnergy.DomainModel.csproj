@@ -129,6 +129,7 @@
     <Compile Include="DomainModels\Accounts\UserProfile.cs" />
     <Compile Include="DomainModels\Address.cs" />
     <Compile Include="DomainModels\CustomerContact.cs" />
+    <Compile Include="DomainModels\Emails\IEmailService.cs" />
     <Compile Include="DomainModels\Enrollments\IdentityAnswer.cs" />
     <Compile Include="DomainModels\Enrollments\IdentityQuestion.cs" />
     <Compile Include="DomainModels\Enrollments\IOfferOptionRules.cs" />
