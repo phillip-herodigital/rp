@@ -5,7 +5,7 @@ ngApp.controller('AuthResetPasswordCtrl', ['$scope', '$rootScope', '$http', '$wi
 	$scope.activeState = 'step1';
 
 	// create a blank object to hold the form information
-	$scope.formData = {};
+	$scope.formData = { answers: {}};
 
 	// process the getUserChallengeQuestions form
 	$scope.getUserChallengeQuestions = function() {
@@ -25,6 +25,8 @@ ngApp.controller('AuthResetPasswordCtrl', ['$scope', '$rootScope', '$http', '$wi
 					$scope.username = data.username;
 					$scope.securityQuestions = data.securityQuestions;
 					$scope.activeState = 'step2';
+                    
+					console.log($scope);
 				}
 			});
 	};
