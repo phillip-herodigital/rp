@@ -151,3 +151,17 @@ div.tabbable {
 		padding: 2px 6px;
 	}
 }
+
+.typeahead {
+	display: inline-block;
+	position: relative;
+	width: 50%;
+	input {
+		width: 100%;
+	}
+	.loading {
+		position: absolute;
+		top: 8px;
+		right: 5px;
+	}
+}
