@@ -230,7 +230,7 @@ namespace StreamEnergy.MyStream.Controllers
                 string username;
                 if (resetPasswordTokenManager.VerifyAndClearPasswordResetToken(request.ResetToken, out username))
                 {
-                    var user = Membership.GetUser(username);
+                    var user = Membership.GetUser(domain.AccountPrefix + username);
                     user.ChangePassword(user.ResetPassword(), request.Password);
                     success = true;
                 }

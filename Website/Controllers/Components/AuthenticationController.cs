@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using StreamEnergy.Extensions;
 using StreamEnergy.DomainModels.Accounts.ResetPassword;
+using StreamEnergy.MyStream.Models.Authentication;
 
 namespace StreamEnergy.MyStream.Controllers.Components
 {
@@ -60,11 +61,14 @@ namespace StreamEnergy.MyStream.Controllers.Components
             }
             else if (resetPasswordTokenManager.VerifyPasswordResetToken(token, username))
             {
+                ChangePasswordRequest req = new ChangePasswordRequest();
+                req.ResetToken = token;
+
                 // TODO - pull from Stream Connect
                 ViewBag.Name = "Account Name";
                 ViewBag.AccountNumber = "";
                 ViewBag.Username = username;
-                return View("~/Views/Components/Authentication/Change Password.cshtml");
+                return View("~/Views/Components/Authentication/Change Password.cshtml", req);
             }
             else
             {
