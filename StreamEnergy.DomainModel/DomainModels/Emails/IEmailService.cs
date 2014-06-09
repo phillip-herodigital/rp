@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Net;
 using System.Net.Mail;
-using SendGridMail;
 
-namespace StreamEnergy.Services.Clients
+namespace StreamEnergy.DomainModels.Emails
 {
     public interface IEmailService
     {

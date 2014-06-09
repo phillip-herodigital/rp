@@ -13,6 +13,7 @@ using Microsoft.Practices.Unity;
 using StreamEnergy.DomainModels.Accounts;
 using StreamEnergy.DomainModels.Accounts.Create;
 using StreamEnergy.DomainModels.Accounts.ResetPassword;
+using StreamEnergy.DomainModels.Emails;
 using StreamEnergy.MyStream.Models;
 using StreamEnergy.MyStream.Models.Authentication;
 using StreamEnergy.Processes;
