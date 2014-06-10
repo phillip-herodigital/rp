@@ -133,7 +133,7 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', '$ancho
         if (address.postalCode5) {
             formattedAddress += address.postalCode5;
             if (address.postalCodePlus4) {
-                formattedAddress += '-' + address.postalCode5;
+                formattedAddress += '-' + address.postalCodePlus4;
             }
         }
 
