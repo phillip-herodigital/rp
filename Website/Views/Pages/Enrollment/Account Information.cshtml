@@ -18,7 +18,7 @@
                 <div class="content">
                     <div class="item" ng-show="item.location.address.line1">
                         <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
-                        <strong>{{formatAddress(item.location.address)}}</strong>
+                        <strong>{{ item.location.address | address }}</strong>
                     </div>
                     <div class="item" ng-hide="item.location.address.line1">
                         <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
