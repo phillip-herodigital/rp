@@ -11,7 +11,6 @@ ngApp.directive('datepickerPopup', [function () {
 
                 scope.datePickerOpened = true;
             };
-
         }
     };
 }]);
