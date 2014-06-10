@@ -97,7 +97,6 @@ namespace StreamEnergy.MyStream.Controllers
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public ClientData ServiceInformation([FromBody]ServiceInformation value)
         {
-            // TODO - merge address ids
             stateMachine.Context.Services = (from location in value.Locations
                                              join service in (stateMachine.Context.Services ?? Enumerable.Empty<KeyValuePair<string, LocationServices>>()) on location.Key equals service.Key into services
                                              from service in services.DefaultIfEmpty()
@@ -156,9 +155,8 @@ namespace StreamEnergy.MyStream.Controllers
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public ClientData AccountInformation([FromBody]AccountInformation request)
         {
-            // TODO - merge address ids
             stateMachine.Context.Services = (from location in request.Locations
-                                             join service in stateMachine.Context.Services on location.Key equals service.Key into services
+                                             join service in (stateMachine.Context.Services ?? new Dictionary<string, LocationServices>()) on location.Key equals service.Key into services
                                              from service in services.DefaultIfEmpty()
                                              select new
                                              {

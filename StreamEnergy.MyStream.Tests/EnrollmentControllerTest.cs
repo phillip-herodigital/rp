@@ -38,7 +38,7 @@ namespace StreamEnergy.MyStream.Tests
             { 
                 new TexasElectricityOffer
                 {
-                    Id = "NewOffer"
+                    Id = "24-month-fixed-rate"
                 }
             };
             identityQuestions = new[] 
@@ -169,7 +169,7 @@ namespace StreamEnergy.MyStream.Tests
                 Assert.AreEqual("Centerpoint", (result.EnrollmentLocations.Single(l => l.Id == "loc").Location.Capabilities.First() as DomainModels.TexasServiceCapability).Tdu);
 
                 Assert.IsTrue(result.EnrollmentLocations.Single(l => l.Id == "loc").AvailableOffers.Any());
-                Assert.IsNotNull(result.EnrollmentLocations.Single(l => l.Id == "loc").AvailableOffers.SingleOrDefault(offer => offer.Id == "NewOffer"));
+                Assert.IsNotNull(result.EnrollmentLocations.Single(l => l.Id == "loc").AvailableOffers.SingleOrDefault(offer => offer.Id == "24-month-fixed-rate"));
             }
             var session = container.Resolve<EnrollmentController.SessionHelper>();
 
@@ -177,7 +177,7 @@ namespace StreamEnergy.MyStream.Tests
             Assert.AreEqual("75010", session.Context.Services["loc"].Location.Address.PostalCode5);
             Assert.AreEqual(DomainModels.TexasServiceCapability.Qualifier, session.Context.Services["loc"].Location.Capabilities.First().CapabilityType);
             Assert.AreEqual("Centerpoint", (session.Context.Services["loc"].Location.Capabilities.First() as DomainModels.TexasServiceCapability).Tdu);
-            Assert.IsNotNull(session.InternalContext.AllOffers.SingleOrDefault(offer => offer.Item2.Id == "NewOffer"));
+            Assert.IsNotNull(session.InternalContext.AllOffers.SingleOrDefault(offer => offer.Item2.Id == "24-month-fixed-rate"));
         }
 
         [TestMethod]
@@ -205,7 +205,7 @@ namespace StreamEnergy.MyStream.Tests
             session.State = typeof(DomainModels.Enrollments.PlanSelectionState);
             var request = new Models.Enrollment.SelectedOffers
             {
-                OfferIds = new Dictionary<string, string[]> { { "loc", new[] { "NewOffer" } } }
+                OfferIds = new Dictionary<string, string[]> { { "loc", new[] { "24-month-fixed-rate" } } }
             };
 
             using (var controller = container.Resolve<EnrollmentController>())
@@ -214,13 +214,13 @@ namespace StreamEnergy.MyStream.Tests
                 var result = controller.SelectedOffers(request);
 
                 // Assert
-                Assert.IsTrue(result.EnrollmentLocations.Single(l => l.Id == "loc").OfferSelections.Any(o => o.OfferId == "NewOffer"));
-                Assert.IsNotNull(result.EnrollmentLocations.Single(l => l.Id == "loc").OfferSelections.Single(o => o.OfferId == "NewOffer").OptionRules);
+                Assert.IsTrue(result.EnrollmentLocations.Single(l => l.Id == "loc").OfferSelections.Any(o => o.OfferId == "24-month-fixed-rate"));
+                Assert.IsNotNull(result.EnrollmentLocations.Single(l => l.Id == "loc").OfferSelections.Single(o => o.OfferId == "24-month-fixed-rate").OptionRules);
             }
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.AccountInformationState), session.State);
-            Assert.IsTrue(session.Context.Services["loc"].SelectedOffers.Any(o => o.Value.Offer.Id == "NewOffer"));
-            Assert.IsNotNull(session.InternalContext.OfferOptionRulesByAddressOffer.SingleOrDefault(e => e.Item1 == generalLocation && e.Item2.Id == "NewOffer").Item3);
+            Assert.IsTrue(session.Context.Services["loc"].SelectedOffers.Any(o => o.Value.Offer.Id == "24-month-fixed-rate"));
+            Assert.IsNotNull(session.InternalContext.OfferOptionRulesByAddressOffer.SingleOrDefault(e => e.Item1 == generalLocation && e.Item2.Id == "24-month-fixed-rate").Item3);
         }
 
         [TestMethod]
@@ -283,7 +283,7 @@ namespace StreamEnergy.MyStream.Tests
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.VerifyIdentityState), session.State);
             Assert.IsNotNull(session.InternalContext.AllOffers.Any(offer => offer.Item1 == specificLocation));
-            Assert.AreEqual("NewOffer", session.Context.Services["loc"].SelectedOffers["NewOffer"].Offer.Id);
+            Assert.AreEqual("24-month-fixed-rate", session.Context.Services["loc"].SelectedOffers["24-month-fixed-rate"].Offer.Id);
             Assert.AreEqual("Test", session.Context.ContactInfo.Name.First);
             Assert.AreEqual("Person", session.Context.ContactInfo.Name.Last);
             Assert.AreEqual("test@example.com", session.Context.ContactInfo.Email.Address);

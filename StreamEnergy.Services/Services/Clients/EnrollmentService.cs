@@ -20,13 +20,51 @@ namespace StreamEnergy.Services.Clients
         {
             return serviceLocations.SelectMany(location =>
             {
-                return new [] 
-                { 
-                    Tuple.Create(location, (IOffer)new TexasElectricityOffer
-                        {
-                            Id = "NewOffer"
-                        })
+                var offers = new IOffer[] 
+                {
+                    new TexasElectricityOffer
+                    {
+                        Id = "24-month-fixed-rate",
+                        Name= "24 Month Fixed Rate",
+                        RateType= DomainModels.Enrollments.RateType.Fixed,
+                        Rate= 7.18m,
+                        TermMonths= 24,
+                        CancellationFee=150,
+                        Description = "When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
+                    },
+                    new TexasElectricityOffer
+                    {
+                        Id="6-month-fixed-rate",
+                        Name="6 Month Fixed Rate",
+                        RateType= DomainModels.Enrollments.RateType.Fixed,
+                        Rate=7.98m,
+                        TermMonths=6,
+                        CancellationFee=150,
+                        Description="When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
+                    },
+                    new TexasElectricityOffer
+                    {
+                        Id="month-to-month-rate",
+                        Name="Month-To-Month Rate",
+                        RateType= DomainModels.Enrollments.RateType.Variable,
+                        Rate=7.98m,
+                        TermMonths=1,
+                        CancellationFee=0,
+                        Description="When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
+                    },
+                    new TexasElectricityOffer
+                    {
+                        Id="introductory-rate-plan",
+                        Name="Introductory Rate Plan",
+                        RateType= DomainModels.Enrollments.RateType.Variable,
+                        Rate=8.08m,
+                        TermMonths=1,
+                        CancellationFee=0,
+                        Description="When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
+                    }
                 };
+
+                return offers.Select(o => Tuple.Create(location, o)).ToArray();
             }).ToArray();
         }
 
