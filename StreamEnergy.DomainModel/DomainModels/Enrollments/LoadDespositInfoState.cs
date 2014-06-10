@@ -31,7 +31,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         protected override void LoadInternalState(UserContext context, InternalContext internalContext)
         {
             var result = enrollmentService.LoadDeposit(context.Services.Values);
-            internalContext.Deposit = result;
+            internalContext.Deposit = result.ToArray();
         }
     }
 }

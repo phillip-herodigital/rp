@@ -62,6 +62,8 @@ namespace StreamEnergy.MyStream.Controllers
             var services = stateMachine.Context.Services ?? new Dictionary<string, LocationServices>();
             var offers = stateMachine.InternalContext.AllOffers ?? Enumerable.Empty<Tuple<Location, IOffer>>();
             var optionRules = stateMachine.InternalContext.OfferOptionRulesByAddressOffer ?? Enumerable.Empty<Tuple<Location, IOffer, IOfferOptionRules>>();
+            var deposits = stateMachine.InternalContext.Deposit ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>>();
+            var confirmations = stateMachine.InternalContext.PlaceOrderResult ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>();
             return new ClientData
             {
                 Validations = TranslatedValidationResult.Translate(stateMachine.ValidationResults, translationItem),
@@ -78,18 +80,18 @@ namespace StreamEnergy.MyStream.Controllers
                                           AvailableOffers = (from entry in offers
                                                where LookupAddressId(entry.Item1) == service.Key
                                                select entry.Item2),
-                                          OfferSelections = from selectedOffer in (service.Value.SelectedOffers == null ? Enumerable.Empty<SelectedOffer>() : service.Value.SelectedOffers.Values)
-                                                           select new OfferSelection
-                                                           {
-                                                               OfferId = selectedOffer.Offer.Id,
-                                                               OfferOption = selectedOffer.OfferOption,
-                                                               OptionRules = optionRules.Where(entry => LookupAddressId(entry.Item1) == service.Key && entry.Item2.Id == selectedOffer.Offer.Id).Select(entry => entry.Item3).FirstOrDefault()
-                                                           }
+                                          OfferSelections = from selectedOffer in (service.Value.SelectedOffers == null ? Enumerable.Empty<SelectedOffer>() : service.Value.SelectedOffers)
+                                                            select new OfferSelection
+                                                            {
+                                                                OfferId = selectedOffer.Offer.Id,
+                                                                OfferOption = selectedOffer.OfferOption,
+                                                                OptionRules = optionRules.Where(entry => LookupAddressId(entry.Item1) == service.Key && entry.Item2.Id == selectedOffer.Offer.Id).Select(entry => entry.Item3).FirstOrDefault(),
+                                                                Deposit = deposits.Where(entry => LookupAddressId(entry.Location) == service.Key && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details).SingleOrDefault(),
+                                                                ConfirmationNumber = confirmations.Where(entry => LookupAddressId(entry.Location) == service.Key && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details.ConfirmationNumber).SingleOrDefault()
+                                                            },
                                       },
                 SelectedIdentityAnswers = null,
                 IdentityQuestions = stateMachine.InternalContext.IdentityCheckResult != null ? stateMachine.InternalContext.IdentityCheckResult.IdentityQuestions : null,
-                DepositAmount = stateMachine.InternalContext.Deposit != null ? stateMachine.InternalContext.Deposit.Amount : (decimal?)null,
-                ConfirmationNumber = stateMachine.InternalContext.PlaceOrderResult != null ? stateMachine.InternalContext.PlaceOrderResult.ConfirmationNumber : null
             };
         }
 
@@ -131,7 +133,7 @@ namespace StreamEnergy.MyStream.Controllers
                                                   select new SelectedOffer
                                                   {
                                                       Offer = offer
-                                                  }).ToDictionary(o => o.Offer.Id);
+                                                  }).ToArray();
                 }
             }
 
@@ -180,7 +182,7 @@ namespace StreamEnergy.MyStream.Controllers
                 {
                     foreach (var offerId in request.OfferOptions[addressId].Keys)
                     {
-                        stateMachine.Context.Services[addressId].SelectedOffers[offerId].OfferOption = request.OfferOptions[addressId][offerId];
+                        stateMachine.Context.Services[addressId].SelectedOffers.Single(offer => offer.Offer.Id == offerId).OfferOption = request.OfferOptions[addressId][offerId];
                     }
                 }
             }

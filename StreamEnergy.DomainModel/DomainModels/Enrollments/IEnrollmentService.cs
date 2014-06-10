@@ -16,12 +16,12 @@ namespace StreamEnergy.DomainModels.Enrollments
         IdentityCheckResult IdentityCheck(Name name, string ssn, DriversLicense driversLicense, Address billingAddress, AdditionalIdentityInformation identityInformation = null);
 
         // TODO - will need more inputs
-        LoadDepositResult LoadDeposit(IEnumerable<LocationServices> services);
+        IEnumerable<LocationOfferDetails<OfferPayment>> LoadDeposit(IEnumerable<LocationServices> services);
 
         // TODO - how do we pay deposits?
 
         // TODO - needs customer info, too
-        PlaceOrderResult PlaceOrder(IEnumerable<LocationServices> services);
+        IEnumerable<LocationOfferDetails<PlaceOrderResult>> PlaceOrder(IEnumerable<LocationServices> services);
 
 
     }

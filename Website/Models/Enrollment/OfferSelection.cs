@@ -11,5 +11,8 @@ namespace StreamEnergy.MyStream.Models.Enrollment
         public string OfferId { get; set; }
         public IOfferOptionRules OptionRules { get; set; }
         public IOfferOption OfferOption { get; set; }
+
+        public OfferPayment Deposit { get; set; }
+        public string ConfirmationNumber { get; set; }
     }
 }

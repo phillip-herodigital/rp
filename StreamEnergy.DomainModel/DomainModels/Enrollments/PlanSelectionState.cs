@@ -23,7 +23,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         {
             yield return context => context.Services.PartialValidate(e => e.Value.Location.Address.PostalCode5,
                                                                      e => e.Value.Location.Capabilities,
-                                                                     e => e.Value.SelectedOffers.PartialValidate(i => i.Value.Offer));
+                                                                     e => e.Value.SelectedOffers.PartialValidate(i => i.Offer));
         }
 
         public override IEnumerable<ValidationResult> AdditionalValidations(UserContext context, InternalContext internalContext)
@@ -42,7 +42,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         {
             internalContext.OfferOptionRulesByAddressOffer = (from service in context.Services.Values
                                                               where service.SelectedOffers != null
-                                                              from offer in service.SelectedOffers.Values
+                                                              from offer in service.SelectedOffers
                                                               select Tuple.Create(service.Location, offer.Offer, offer.Offer.GetOfferOptionPolicy(container).GetOptionRules(service.Location, offer.Offer))).ToArray();
         }
     }

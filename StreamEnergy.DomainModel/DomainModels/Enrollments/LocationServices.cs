@@ -17,7 +17,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         [EnumerableRequired(ErrorMessage = "Selected Offers Required")]
         [ValidateEnumerable(ErrorMessagePrefix = "Selected ")]
         [CollectionCountRangeAttribute(1, int.MaxValue, ErrorMessage = "Selected Offers Required")]
-        public Dictionary<string, SelectedOffer> SelectedOffers { get; set; }
+        public SelectedOffer[] SelectedOffers { get; set; }
 
 
         void ISanitizable.Sanitize()
@@ -28,7 +28,7 @@ namespace StreamEnergy.DomainModels.Enrollments
             {
                 foreach (var entry in SelectedOffers)
                 {
-                    ((ISanitizable)entry.Value).Sanitize();
+                    ((ISanitizable)entry).Sanitize();
                 }
             }
         }
