@@ -79,6 +79,7 @@ namespace StreamEnergy.Services.Clients
             {
                 return new DomainModels.Enrollments.Service.IdentityCheckResult
                 {
+                    IdentityAccepted = false,
                     HardStop = null,
                     IdentityCheckId = "01234",
                     IdentityQuestions = new[] 
@@ -121,6 +122,7 @@ namespace StreamEnergy.Services.Clients
                 return new DomainModels.Enrollments.Service.IdentityCheckResult
                 {
                     IdentityCheckId = "01235",
+                    IdentityAccepted = true,
                     HardStop = null,
                     IdentityQuestions = new IdentityQuestion[0],
                 };

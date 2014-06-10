@@ -38,6 +38,16 @@ namespace StreamEnergy.DomainModels.Enrollments
             return validationResult.MemberNames.All(m => System.Text.RegularExpressions.Regex.IsMatch(m, @"SelectedOffers\[[0-9]+\]\.OfferOption"));
         }
 
+        protected override bool NeedRestoreInternalState(UserContext context, InternalContext internalContext)
+        {
+            return internalContext.OfferOptionRules == null ||
+                !(from service in (context.Services ?? new Dictionary<string, LocationServices>()).Values
+                 from offer in service.SelectedOffers ?? Enumerable.Empty<SelectedOffer>()
+                 join internalService in internalContext.OfferOptionRules on new { service.Location, offer.Offer.Id } equals new { internalService.Location, internalService.Offer.Id } into internalServices
+                 from internalService in internalServices.DefaultIfEmpty()
+                 select internalService != null && internalService.Details != null).All(hasOptionRule => hasOptionRule);
+        }
+
         protected override void LoadInternalState(UserContext context, InternalContext internalContext)
         {
             internalContext.OfferOptionRules = (from service in context.Services.Values

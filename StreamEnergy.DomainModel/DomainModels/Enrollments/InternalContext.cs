@@ -14,9 +14,9 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public IEnumerable<Tuple<Location, IOffer>> AllOffers { get; set; }
 
-        public IEnumerable<Service.LocationOfferDetails<IOfferOptionRules>> OfferOptionRules { get; set; }
-
         public Service.IdentityCheckResult IdentityCheckResult { get; set; }
+
+        public IEnumerable<Service.LocationOfferDetails<IOfferOptionRules>> OfferOptionRules { get; set; }
 
         public IEnumerable<Service.LocationOfferDetails<OfferPayment>> Deposit { get; set; }
 
