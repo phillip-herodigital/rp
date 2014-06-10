@@ -16,13 +16,13 @@
             <p>@Html.Sitecore().Field("Fill in Information")</p>
             <article class="form" ng-repeat="(id, item) in enrollment.serverData.locationServices" ng-init="init();">
                 <div class="content">
-                    <div class="item">
+                    <div class="item" ng-show="item.location.address.line1">
                         <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
                         <strong>{{formatAddress(item.location.address)}}</strong>
                     </div>
                     <div class="item" ng-hide="item.location.address.line1">
                         <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
-                        <input type="text" id="service-address" ng-model="enrollment.extraFields.accountInformation.serviceAddresses[id].serviceAddress" placeholder="123 Main Street, Dallas, TX 75001" typeahead="address as address.formattedAddress for address in getLocation(enrollment.extraFields.serviceState, $viewValue)" />
+                        <input type="text" id="service-address" class="typeahead" ng-model="enrollment.extraFields.accountInformation.serviceAddresses[id].serviceAddress" placeholder="123 Main Street, Dallas, TX 75001" typeahead="address as address.formattedAddress for address in getLocation(enrollment.extraFields.serviceState, $viewValue)" typeahead-loading="enrollment.extraFields.loadingAccountInformationServiceAddress" ng-class="{'loading' : enrollment.extraFields.loadingAccountInformationServiceAddress}" />
                     </div>
                     <div ng-repeat ="(type, plan) in item.selectedOffers">
                         <h2><span ng-show="type == 'gas'">Gas</span><span ng-show="type == 'electricity'">Electricity</span></h2>
