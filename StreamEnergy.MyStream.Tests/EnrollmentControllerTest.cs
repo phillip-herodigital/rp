@@ -220,7 +220,7 @@ namespace StreamEnergy.MyStream.Tests
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.AccountInformationState), session.State);
             Assert.IsTrue(session.Context.Services["loc"].SelectedOffers.Any(o => o.Offer.Id == "24-month-fixed-rate"));
-            Assert.IsNotNull(session.InternalContext.OfferOptionRulesByAddressOffer.SingleOrDefault(e => e.Item1 == generalLocation && e.Item2.Id == "24-month-fixed-rate").Item3);
+            Assert.IsNotNull(session.InternalContext.OfferOptionRules.SingleOrDefault(e => e.Location == generalLocation && e.Offer.Id == "24-month-fixed-rate").Details);
         }
 
         [TestMethod]

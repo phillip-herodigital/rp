@@ -40,10 +40,15 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         protected override void LoadInternalState(UserContext context, InternalContext internalContext)
         {
-            internalContext.OfferOptionRulesByAddressOffer = (from service in context.Services.Values
-                                                              where service.SelectedOffers != null
-                                                              from offer in service.SelectedOffers
-                                                              select Tuple.Create(service.Location, offer.Offer, offer.Offer.GetOfferOptionPolicy(container).GetOptionRules(service.Location, offer.Offer))).ToArray();
+            internalContext.OfferOptionRules = (from service in context.Services.Values
+                                                where service.SelectedOffers != null
+                                                from offer in service.SelectedOffers
+                                                select new Service.LocationOfferDetails<IOfferOptionRules>
+                                                {
+                                                    Location = service.Location,
+                                                    Offer = offer.Offer,
+                                                    Details = offer.Offer.GetOfferOptionPolicy(container).GetOptionRules(service.Location, offer.Offer)
+                                                }).ToArray();
         }
     }
 }

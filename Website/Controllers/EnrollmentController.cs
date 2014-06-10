@@ -61,7 +61,7 @@ namespace StreamEnergy.MyStream.Controllers
         {
             var services = stateMachine.Context.Services ?? new Dictionary<string, LocationServices>();
             var offers = stateMachine.InternalContext.AllOffers ?? Enumerable.Empty<Tuple<Location, IOffer>>();
-            var optionRules = stateMachine.InternalContext.OfferOptionRulesByAddressOffer ?? Enumerable.Empty<Tuple<Location, IOffer, IOfferOptionRules>>();
+            var optionRules = stateMachine.InternalContext.OfferOptionRules ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<IOfferOptionRules>>();
             var deposits = stateMachine.InternalContext.Deposit ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>>();
             var confirmations = stateMachine.InternalContext.PlaceOrderResult ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>();
             return new ClientData
@@ -85,7 +85,7 @@ namespace StreamEnergy.MyStream.Controllers
                                                             {
                                                                 OfferId = selectedOffer.Offer.Id,
                                                                 OfferOption = selectedOffer.OfferOption,
-                                                                OptionRules = optionRules.Where(entry => LookupAddressId(entry.Item1) == service.Key && entry.Item2.Id == selectedOffer.Offer.Id).Select(entry => entry.Item3).FirstOrDefault(),
+                                                                OptionRules = optionRules.Where(entry => LookupAddressId(entry.Location) == service.Key && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details).FirstOrDefault(),
                                                                 Deposit = deposits.Where(entry => LookupAddressId(entry.Location) == service.Key && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details).SingleOrDefault(),
                                                                 ConfirmationNumber = confirmations.Where(entry => LookupAddressId(entry.Location) == service.Key && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details.ConfirmationNumber).SingleOrDefault()
                                                             },
