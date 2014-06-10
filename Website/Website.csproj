@@ -484,7 +484,6 @@
     <Compile Include="Models\Enrollment\ClientData.cs" />
     <Compile Include="Models\Enrollment\ConfirmOrder.cs" />
     <Compile Include="Models\Enrollment\EnrollmentLocation.cs" />
-    <Compile Include="Models\Enrollment\IntermediateLocation.cs" />
     <Compile Include="Models\Enrollment\OfferSelection.cs" />
     <Compile Include="Models\Enrollment\SelectedOffers.cs" />
     <Compile Include="Models\Enrollment\ServiceInformation.cs" />
