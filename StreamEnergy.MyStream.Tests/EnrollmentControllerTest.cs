@@ -167,12 +167,12 @@ namespace StreamEnergy.MyStream.Tests
 
                 // Assert
                 Assert.AreEqual("Services[0].Value.SelectedOffers", result.Validations.Single().MemberName);
-                Assert.AreEqual("75010", result.LocationServices["loc"].Location.Address.PostalCode5);
-                Assert.AreEqual(DomainModels.TexasServiceCapability.Qualifier, result.LocationServices["loc"].Location.Capabilities.First().CapabilityType);
-                Assert.AreEqual("Centerpoint", (result.LocationServices["loc"].Location.Capabilities.First() as DomainModels.TexasServiceCapability).Tdu);
+                Assert.AreEqual("75010", result.EnrollmentLocations.Single(l => l.Id == "loc").Location.Address.PostalCode5);
+                Assert.AreEqual(DomainModels.TexasServiceCapability.Qualifier, result.EnrollmentLocations.Single(l => l.Id == "loc").Location.Capabilities.First().CapabilityType);
+                Assert.AreEqual("Centerpoint", (result.EnrollmentLocations.Single(l => l.Id == "loc").Location.Capabilities.First() as DomainModels.TexasServiceCapability).Tdu);
 
-                Assert.IsTrue(result.Offers.Any());
-                Assert.IsNotNull(result.Offers.SingleOrDefault(offer => offer.Value.First().Id == "NewOffer"));
+                Assert.IsTrue(result.EnrollmentLocations.Single(l => l.Id == "loc").AvailableOffers.Any());
+                Assert.IsNotNull(result.EnrollmentLocations.Single(l => l.Id == "loc").AvailableOffers.SingleOrDefault(offer => offer.Id == "NewOffer"));
             }
             var session = container.Resolve<EnrollmentController.SessionHelper>();
 
@@ -217,8 +217,8 @@ namespace StreamEnergy.MyStream.Tests
                 var result = controller.SelectedOffers(request);
 
                 // Assert
-                Assert.IsTrue(result.LocationServices["loc"].SelectedOffers.Any(o => o.Value.Offer.Id == "NewOffer"));
-                Assert.IsNotNull(result.OfferOptionRules["loc"]);
+                Assert.IsTrue(result.EnrollmentLocations.Single(l => l.Id == "loc").OfferSelections.Any(o => o.OfferId == "NewOffer"));
+                Assert.IsNotNull(result.EnrollmentLocations.Single(l => l.Id == "loc").OfferSelections.Single(o => o.OfferId == "NewOffer").OptionRules);
             }
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.AccountInformationState), session.State);

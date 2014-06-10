@@ -59,6 +59,9 @@ namespace StreamEnergy.MyStream.Controllers
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public ClientData ClientData()
         {
+            var services = stateMachine.Context.Services ?? new Dictionary<string, LocationServices>();
+            var offers = stateMachine.InternalContext.AllOffers ?? Enumerable.Empty<Tuple<Location, IOffer>>();
+            var optionRules = stateMachine.InternalContext.OfferOptionRulesByAddressOffer ?? Enumerable.Empty<Tuple<Location, IOffer, IOfferOptionRules>>();
             return new ClientData
             {
                 Validations = TranslatedValidationResult.Translate(stateMachine.ValidationResults, translationItem),
@@ -67,20 +70,23 @@ namespace StreamEnergy.MyStream.Controllers
                 DriversLicense = stateMachine.Context.DriversLicense,
                 Language = stateMachine.Context.Language,
                 SecondaryContactInfo = stateMachine.Context.SecondaryContactInfo,
-                LocationServices = stateMachine.Context.Services,
+                EnrollmentLocations = from service in services
+                                      select new EnrollmentLocation
+                                      {
+                                          Id = service.Key,
+                                          Location = service.Value.Location,
+                                          AvailableOffers = (from entry in offers
+                                               where LookupAddressId(entry.Item1) == service.Key
+                                               select entry.Item2),
+                                          OfferSelections = from selectedOffer in (service.Value.SelectedOffers == null ? Enumerable.Empty<SelectedOffer>() : service.Value.SelectedOffers.Values)
+                                                           select new OfferSelection
+                                                           {
+                                                               OfferId = selectedOffer.Offer.Id,
+                                                               OfferOption = selectedOffer.OfferOption,
+                                                               OptionRules = optionRules.Where(entry => LookupAddressId(entry.Item1) == service.Key && entry.Item2.Id == selectedOffer.Offer.Id).Select(entry => entry.Item3).FirstOrDefault()
+                                                           }
+                                      },
                 SelectedIdentityAnswers = null,
-                Offers = stateMachine.InternalContext.AllOffers == null ? null :
-                    (from entry in stateMachine.InternalContext.AllOffers
-                     let addressId = LookupAddressId(entry.Item1)
-                     where addressId != null
-                     group entry.Item2 by addressId).ToDictionary(e => e.Key, e => (IEnumerable<IOffer>)e.ToArray()),
-                OfferOptionRules = stateMachine.InternalContext.OfferOptionRulesByAddressOffer == null ? null :
-                    (from entry in stateMachine.InternalContext.OfferOptionRulesByAddressOffer
-                     let addressId = LookupAddressId(entry.Item1)
-                     where addressId != null
-                     group entry by addressId into byAddressId
-                     let byOfferId = byAddressId.ToDictionary(e => e.Item2.Id, e => e.Item3)
-                     select new { AddressId = byAddressId.Key, Value = byOfferId }).ToDictionary(e => e.AddressId, e => e.Value),
                 IdentityQuestions = stateMachine.InternalContext.IdentityCheckResult != null ? stateMachine.InternalContext.IdentityCheckResult.IdentityQuestions : null,
                 DepositAmount = stateMachine.InternalContext.Deposit != null ? stateMachine.InternalContext.Deposit.Amount : (decimal?)null,
                 ConfirmationNumber = stateMachine.InternalContext.PlaceOrderResult != null ? stateMachine.InternalContext.PlaceOrderResult.ConfirmationNumber : null

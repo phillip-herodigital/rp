@@ -10,6 +10,7 @@ namespace StreamEnergy.DomainModels
 {
     [Serializable]
     [System.Web.Mvc.ModelBinder(typeof(Mvc.IgnoreBlanksModelBinder))]
+    [System.Diagnostics.DebuggerDisplay("{ToSingleLine()}")]
     public class Address : ISanitizable, IEquatable<Address>
     {
         [Required(ErrorMessage = "Line 1 Required")]

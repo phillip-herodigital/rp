@@ -10,10 +10,7 @@ namespace StreamEnergy.MyStream.Models.Enrollment
     {
         public IEnumerable<TranslatedValidationResult> Validations { get; set; }
 
-        public Dictionary<string, IEnumerable<DomainModels.Enrollments.IOffer>> Offers { get; set; }
-        public Dictionary<string, Dictionary<string, DomainModels.Enrollments.IOfferOptionRules>> OfferOptionRules { get; set; }
-
-        public Dictionary<string, DomainModels.Enrollments.LocationServices> LocationServices { get; set; }
+        public IEnumerable<EnrollmentLocation> EnrollmentLocations { get; set; }
 
         // Personal information
         public CustomerContact ContactInfo { get; set; }

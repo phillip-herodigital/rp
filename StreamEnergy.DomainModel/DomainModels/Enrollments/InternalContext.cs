@@ -8,19 +8,11 @@ namespace StreamEnergy.DomainModels.Enrollments
     [Serializable]
     public class InternalContext
     {
-        private IEnumerable<Tuple<Location, IOffer>> allOffers;
         public InternalContext()
         {
         }
 
-        public IEnumerable<Tuple<Location, IOffer>> AllOffers
-        {
-            get { return allOffers; }
-            set
-            {
-                allOffers = value;
-            }
-        }
+        public IEnumerable<Tuple<Location, IOffer>> AllOffers { get; set; }
 
         public IEnumerable<Tuple<Location, IOffer, IOfferOptionRules>> OfferOptionRulesByAddressOffer { get; set; }
 
