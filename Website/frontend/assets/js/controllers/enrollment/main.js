@@ -1,7 +1,7 @@
 ﻿/* Enrollment Main Controller
  * This is the main controller for Enrollments. It will keep track of the enrollment state, as well as all fields that will need to be collected.
  */
-ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', '$anchorScroll', '$timeout', 'enrollmentService', 'scrollService', 'jQuery', function ($scope, $rootScope, $http, $anchorScroll, $timeout, enrollmentService, scrollService, jQuery) {
+ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', '$anchorScroll', '$timeout', '$filter', 'enrollmentService', 'scrollService', 'jQuery', function ($scope, $rootScope, $http, $anchorScroll, $timeout, $filter, enrollmentService, scrollService, jQuery) {
 
     $scope.enrollment = {
         serverData : {}, // This array should keep track of all the form fields we collect for the enrollment
@@ -78,7 +78,7 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', '$ancho
             var addresses = [];
 
             angular.forEach(res.data, function (item) {
-                item.formattedAddress = $scope.formatAddress(item.address);
+                item.formattedAddress = $filter('address')(item.address);
                 addresses.push(item);
             });
 
@@ -102,42 +102,6 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', '$ancho
             // error response
             $rootScope.$broadcast('connectionFailure');
         });
-    };
-
-    /**
-    * Format address object
-    *
-    * @param object address
-    *
-    * return string
-    */
-    $scope.formatAddress = function (address) {
-        var formattedAddress = '';
-
-        if (address.line1) {
-            formattedAddress += address.line1 + ', ';
-        }
-
-        if (address.unitNumber) {
-            formattedAddress += address.unitNumber + ', ';
-        }
-
-        if (address.city) {
-            formattedAddress += address.city + ', ';
-        }
-
-        if (address.stateAbbreviation) {
-            formattedAddress += address.stateAbbreviation + ', ';
-        }
-
-        if (address.postalCode5) {
-            formattedAddress += address.postalCode5;
-            if (address.postalCodePlus4) {
-                formattedAddress += '-' + address.postalCodePlus4;
-            }
-        }
-
-        return formattedAddress;
     };
 
     /**

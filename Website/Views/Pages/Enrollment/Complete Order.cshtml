@@ -19,7 +19,7 @@
                     <div class="content">
                         <div class="item">
                             <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
-                            <strong>{{formatAddress(item.location.address)}}</strong>
+                            <strong>{{ item.location.address | address }}</strong>
                         </div>
                     </div>
                 </article>

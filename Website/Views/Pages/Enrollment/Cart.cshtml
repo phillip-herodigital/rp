@@ -42,7 +42,7 @@
                 </div>
                 <address>
                     <h3>@Html.Sitecore().Field("Service Address Text")</h3>
-                    {{formatAddress(item.location.address)}}<br />
+                    {{ item.location.address | address }}<br />
                     <a href="" ng-click="editAddress()">@Html.Sitecore().Field("Edit Address Text")</a>
                 </address>
             </div>
