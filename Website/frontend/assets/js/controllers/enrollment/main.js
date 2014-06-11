@@ -148,6 +148,9 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', '$ancho
     * return int
     */
     $scope.sizeOf = function (obj) {
+        if (typeof obj == 'undefined') {
+            return null;
+        }
         return Object.keys(obj).length;
     };
 }]);

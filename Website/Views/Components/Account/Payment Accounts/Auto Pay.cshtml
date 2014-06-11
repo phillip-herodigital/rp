@@ -1,0 +1,61 @@
+<article class="grey-box payments" ng-controller="AutoPayCtrl">
+	<form>
+		<div class="content">
+				<div class="alert notice">
+					@Html.Sitecore().Field("Notice Text")	
+				</div>					
+				<div class="payment-selection">
+					<input type="radio" id="autopay-on" name="payment-type" ng-model="autoPay.status" ng-value="autoPayOn">
+					<label for="autopay-on">@Html.Sitecore().Field("AutoPay On Label")</label>
+				</div>
+				<div class="payment-options" ng-show="autoPay.status == 'autoPayOn'">							
+					<div class="group">
+						<div class="item account-number">
+							<label for="">@Html.Sitecore().Field("Account Number Label")</label>
+							<span>123456789</span>
+						</div>
+						<div class="item">
+							<label for="">@Html.Sitecore().Field("Payment Account Label")</label>
+							<select>
+								<option>USAA Checking</option>
+							</select>
+						</div>
+						<div class="item">
+							<a class="single-link" href="">@Html.Sitecore().Field("Add New Payment Text")</a>
+						</div>
+					</div>
+					<div slide-toggle>
+						<a href="" ng-click="toggleSlide()" class="arrow-toggle" ng-class="{'collapsed': !isOpen}">@Html.Sitecore().Field("Advanced Settings Text")</a>
+						<div class=" advanced-settings slide-toggle">
+							<p class="datepicker">@Html.Sitecore().Field("Recurring Pay Text 1") 
+								<input type="text" class="small"  ng-model="autoPay.dt" datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="disableWeekends(date, mode)" datepicker-close-on-resize> 
+								@Html.Sitecore().Field("Recurring Pay Text 2") 
+								<select>
+									<option>until further notice</option>
+								</select>
+							</p>
+							<p>@Html.Sitecore().Field("Schedule Pay Text 1") 
+								<select>
+									<option>automatic</option>
+								</select>
+								@Html.Sitecore().Field("Schedule Pay Text 2") 
+								<select>
+									<option>until my bill arrives</option>
+								</select>
+							</p>
+						</div>
+					</div>
+
+				</div>
+				<div class="payment-selection">
+					<input type="radio" id="autopay-off" name="payment-type" ng-model="autoPay.status" ng-value="autoPayOff">
+					<label for="autopay-off">@Html.Sitecore().Field("AutoPay Off Label")</label>
+				</div>
+		</div>
+		<footer>
+			<div class="buttons">
+				<button type="submit" ng-click="save()">@Html.Sitecore().Field("Save Button Text")</button>
+			</div>
+		</footer>
+	</form>
+</article>

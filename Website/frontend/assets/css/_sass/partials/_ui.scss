@@ -123,32 +123,121 @@ div.tabbable {
 }
 
 .datepicker {
+	button {
+		padding: 2px 5px;
+		font-weight: 400;
+		font-size: 14px;
+		color: #333;
+		text-shadow: none;
+		background: transparent;
+		&.btn-info, &.btn-info:hover {
+			background-color: #0971ce;
+			color: #fff;
+		}
+		&:hover {
+			color: #0971ce;
+			background: #eee;
+		}
+	}
+	small {
+		font-size: 90%;
+	}
+	table {
+		width: 320px;
+		height: 185px;
+		border-collapse: separate;
+		overflow: hidden;
+		@include border-radius(10px);
+		@include box-shadow(0 2px 6px rgba(0, 0, 0, .25));
+		tr:last-child {
+			td { 
+				border-bottom: none; 
+			}
+		}
+	}
+	td {
+		border: none;
+		border-right: 1px solid #eaeaea;
+		border-bottom: 1px solid #eaeaea;
+		padding: 2px 6px;
+		&:first-child {
+			border-left: none;
+		}
+		&:last-child {
+			border-right: none;
+		}
+	}
 	th {
-		border-left: none;
-		border-right: none;
+		border-left-color: transparent;
+		border-right-color: transparent;
+		text-align: center;
+		padding: 5px 0;
+		border: none;
+		border-bottom: 1px solid #ddd;
+		.glyphicon {
+			width: 40px;
+			height: auto;
+			text-indent: 0;
+			font-style: normal;
+			display: block;
+		}
 		.pull-right, .pull-left {
-			padding: 5px;
+			padding: 0;
 			background-color: #efefef;
 			display: inline-block;
 			vertical-align: middle;
-			height: 10px;
-			width: 6px;
-		}
-		.pull-left {
-			background: url(../i/icon/arrow-left.png) no-repeat 50%;
+			height: 35px;
+			width: 40px;
 		}
 		.pull-right {
-			background: url(../i/icon/arrow-right.png) no-repeat 50%;
 			float: right;
 		}
+		.pull-left {
+			float: left;
+		}
+		//CSS trick for arrows using borders
+		.glyphicon-chevron-right {
+			&:before {
+				content: '';
+				display: inline-block;
+				border-top: 4px solid transparent;
+				border-left: 8px solid #333;
+				border-bottom: 4px solid transparent;
+			}
+			&:hover:before {
+				border-left-color: #0971ce;
+			}
+		}
+		.glyphicon-chevron-left {
+			&:before {
+				content: '';
+				display: inline-block;
+				border-top: 4px solid transparent;
+				border-right: 8px solid #333;
+				border-bottom: 4px solid transparent;
+			}
+			&:hover:before {
+				border-right-color: #0971ce;
+			}
+		}					
 	}
-	button {
-		padding: 2px 5px;
-		font-weight: 300;
-		font-size: 14px;
+	//This entire section is to make IE play nice
+	thead {
+		tr:first-child {
+			th {
+				height: 46px;
+			}
+			th:first-child {
+				@include border-radius(10px 0 0 0);
+			}
+			th:last-child {
+				@include border-radius(0 10px 0 0);
+
+			}
+		}
 	}
-	td {
-		padding: 2px 6px;
+	tr {
+		background-color: transparent;
 	}
 }
 
