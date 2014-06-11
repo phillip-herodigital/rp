@@ -20,12 +20,22 @@
                 <div class="content">
                     <p><strong>@Html.Sitecore().Field("Skip This Step")</strong></p>
                     <div class="form">
-                        <div class="item" ng-repeat="question in enrollment.serverData.identityQuestions">
-                            <label>{{question.questionText}}</label>
-                            <ul class="checkbox-list">
-                                <li ng-repeat="answers in question.answers"><input type="radio" ng-model="enrollment.extraFields.verifyIdentity[question.questionId]" id="question{{question.questionId}}_answer{{answers.answerId}}" ng-value="answers.answerId"><label for="question{{question.questionId}}_answer{{answers.answerId}}">{{answers.answerText}}</label></li>
-                            </ul>
-                        </div>
+                        @using (var idQuestion = Html.AngularRepeat(m => m.SelectedIdentityAnswers, "$index"))
+                        {
+                            <div class="item" ng-repeat="question in enrollment.serverData.identityQuestions" @idQuestion.ErrorClass(m => m.Value)>
+                                <label>{{question.questionText}}</label>
+                                <ul class="checkbox-list">
+                                    @using (var idAnswer = Html.AngularRepeat(m => m.SelectedIdentityAnswers, "$parent.$index"))
+                                    {
+                                        <li ng-repeat="answers in question.answers">
+                                            <input type="radio" data-val="true" data-val-required="@Html.Sitecore().Field("Selected Identity Answers Required")" id="@(idAnswer.For(e => e.Value))[{{$index}}]" name="@(idAnswer.For(e => e.Value))" ng-model="enrollment.extraFields.verifyIdentity[question.questionId]" ng-value="answers.answerId">
+                                            <label for="@(idAnswer.For(e => e.Value))[{{$index}}]">{{answers.answerText}}</label>
+                                        </li>
+                                    }
+                                </ul>
+                                @idQuestion.MessageFor(e => e.Value)
+                            </div>
+                        }
                     </div>
                 </div>
             </article>

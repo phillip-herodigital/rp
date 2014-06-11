@@ -17,7 +17,7 @@ ngApp.controller('EnrollmentVerifyIdentityCtrl', ['$scope', '$rootScope', 'enrol
         $scope.enrollment.extraFields.verifyIdentity = {};
 
         angular.forEach($scope.enrollment.serverData.identityQuestions, function (item) {
-            $scope.enrollment.extraFields.verifyIdentity[item.questionId] = 1;
+            $scope.enrollment.extraFields.verifyIdentity[item.questionId] = undefined;
         });
     };
 
