@@ -1,4 +1,4 @@
-<div ng-controller="EnrollmentMainCtrl" ng-init="setServerData()">
+<div ng-controller="EnrollmentMainCtrl" ng-init="setServerData()" data-val-bind-messages="validations">
     <div ng-repeat="section in enrollment.sections | orderBy: 'order'" ng-switch on="section.id">
         @Html.Sitecore().Placeholder("enrollment sections")
     </div>
