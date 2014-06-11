@@ -130,9 +130,13 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
         if (typeof $scope.enrollment.uiModel.enrollmentLocations == 'undefined') {
             return idPrefix + i;
         } else {
-            return $scope.sizeOf($scope.enrollment.uiModel.enrollmentLocations) + 1;
+            while (typeof $scope.enrollment.uiModel.enrollmentLocations[idPrefix + i] != 'undefined') {
+                i++;
+            }
         }
-    };
+
+        return idPrefix + i;
+    };    
 
     /**
     * Check for duplicate location

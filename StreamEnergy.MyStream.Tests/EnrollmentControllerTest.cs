@@ -2,12 +2,12 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using StreamEnergy.DomainModels.Enrollments;
-using StreamEnergy.MyStream.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http.Controllers;
+using StreamEnergy.MyStream.Controllers.ApiControllers;
 
 namespace StreamEnergy.MyStream.Tests
 {
@@ -219,8 +219,8 @@ namespace StreamEnergy.MyStream.Tests
             }
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.AccountInformationState), session.State);
-            Assert.IsTrue(session.Context.Services["loc"].SelectedOffers.Any(o => o.Value.Offer.Id == "24-month-fixed-rate"));
-            Assert.IsNotNull(session.InternalContext.OfferOptionRulesByAddressOffer.SingleOrDefault(e => e.Item1 == generalLocation && e.Item2.Id == "24-month-fixed-rate").Item3);
+            Assert.IsTrue(session.Context.Services["loc"].SelectedOffers.Any(o => o.Offer.Id == "24-month-fixed-rate"));
+            Assert.IsNotNull(session.InternalContext.OfferOptionRules.SingleOrDefault(e => e.Location == generalLocation && e.Offer.Id == "24-month-fixed-rate").Details);
         }
 
         [TestMethod]
@@ -236,14 +236,11 @@ namespace StreamEnergy.MyStream.Tests
                         new LocationServices
                         {
                             Location = generalLocation,
-                            SelectedOffers = new Dictionary<string,SelectedOffer>
+                            SelectedOffers = new []
                             { 
-                                {
-                                    offers[0].Id,
-                                    new SelectedOffer 
-                                    { 
-                                        Offer = offers[0]
-                                    }
+                                new SelectedOffer 
+                                { 
+                                    Offer = offers[0]
                                 }
                             }
                         }
@@ -283,7 +280,7 @@ namespace StreamEnergy.MyStream.Tests
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.VerifyIdentityState), session.State);
             Assert.IsNotNull(session.InternalContext.AllOffers.Any(offer => offer.Item1 == specificLocation));
-            Assert.AreEqual("24-month-fixed-rate", session.Context.Services["loc"].SelectedOffers["24-month-fixed-rate"].Offer.Id);
+            Assert.IsTrue(session.Context.Services["loc"].SelectedOffers.Any(o => o.Offer.Id == "24-month-fixed-rate"));
             Assert.AreEqual("Test", session.Context.ContactInfo.Name.First);
             Assert.AreEqual("Person", session.Context.ContactInfo.Name.Last);
             Assert.AreEqual("test@example.com", session.Context.ContactInfo.Email.Address);
@@ -306,15 +303,12 @@ namespace StreamEnergy.MyStream.Tests
                         new LocationServices
                         {
                             Location = specificLocation,
-                            SelectedOffers = new Dictionary<string,SelectedOffer>
+                            SelectedOffers = new []
                             { 
-                                {
-                                    offers[0].Id,
-                                    new SelectedOffer 
-                                    { 
-                                        Offer = offers[0],
-                                        OfferOption = offerOption
-                                    }
+                                new SelectedOffer 
+                                { 
+                                    Offer = offers[0],
+                                    OfferOption = offerOption
                                 }
                             }
                         }
@@ -345,7 +339,7 @@ namespace StreamEnergy.MyStream.Tests
 
                 // Assert
                 Assert.IsFalse(result.IdentityQuestions.Any());
-                Assert.AreEqual(50, result.DepositAmount);
+                Assert.AreEqual(150m, result.EnrollmentLocations.Sum(l => l.OfferSelections.Sum(sel => sel.Deposit.RequiredAmount)));
             }
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.PaymentInfoState), session.State);
@@ -365,15 +359,12 @@ namespace StreamEnergy.MyStream.Tests
                         new LocationServices
                         {
                             Location = specificLocation,
-                            SelectedOffers = new Dictionary<string,SelectedOffer>
-                            { 
-                                {
-                                    offers[0].Id,
-                                    new SelectedOffer 
-                                    { 
-                                        Offer = offers[0],
-                                        OfferOption = offerOption
-                                    }
+                            SelectedOffers = new [] 
+                            {
+                                new SelectedOffer 
+                                { 
+                                    Offer = offers[0],
+                                    OfferOption = offerOption
                                 }
                             }
                         }
@@ -403,7 +394,7 @@ namespace StreamEnergy.MyStream.Tests
                 var result = controller.VerifyIdentity(request);
 
                 // Assert
-                Assert.AreEqual(0, result.DepositAmount);
+                Assert.AreEqual(0, result.EnrollmentLocations.Sum(l => l.OfferSelections.Sum(sel => sel.Deposit.RequiredAmount)));
             }
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.CompleteOrderState), session.State);
@@ -422,15 +413,11 @@ namespace StreamEnergy.MyStream.Tests
                         new LocationServices
                         {
                             Location = specificLocation,
-                            SelectedOffers = new Dictionary<string,SelectedOffer>
-                            { 
-                                {
-                                    offers[0].Id,
-                                    new SelectedOffer 
-                                    { 
-                                        Offer = offers[0],
-                                        OfferOption = offerOption
-                                    }
+                            SelectedOffers = new [] {
+                                new SelectedOffer 
+                                { 
+                                    Offer = offers[0],
+                                    OfferOption = offerOption
                                 }
                             }
                         }
@@ -465,7 +452,7 @@ namespace StreamEnergy.MyStream.Tests
                 var result = controller.ConfirmOrder(request);
 
                 // Assert
-                Assert.IsNotNull(result.ConfirmationNumber);
+                Assert.AreEqual("87654321", result.EnrollmentLocations.Single().OfferSelections.Single().ConfirmationNumber);
             }
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.OrderConfirmationState), session.State);

@@ -79,6 +79,7 @@ namespace StreamEnergy.Services.Clients
             {
                 return new DomainModels.Enrollments.Service.IdentityCheckResult
                 {
+                    IdentityAccepted = false,
                     HardStop = null,
                     IdentityCheckId = "01234",
                     IdentityQuestions = new[] 
@@ -121,23 +122,41 @@ namespace StreamEnergy.Services.Clients
                 return new DomainModels.Enrollments.Service.IdentityCheckResult
                 {
                     IdentityCheckId = "01235",
+                    IdentityAccepted = true,
                     HardStop = null,
                     IdentityQuestions = new IdentityQuestion[0],
                 };
             }
         }
 
-        DomainModels.Enrollments.Service.LoadDepositResult IEnrollmentService.LoadDeposit(IEnumerable<LocationServices> services)
+        IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>> IEnrollmentService.LoadDeposit(IEnumerable<LocationServices> services)
         {
-            return new DomainModels.Enrollments.Service.LoadDepositResult
-            {
-                Amount = 50.00m
-            };
+            return (from loc in services
+                    from offer in loc.SelectedOffers
+                    select new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>
+                    {
+                        Location = loc.Location,
+                        Offer = offer.Offer,
+                        Details = new DomainModels.Enrollments.OfferPayment
+                        {
+                            Description = "Canned description about the amounts required",
+                            RequiredAmount = (offer.Offer is TexasElectricityOffer && ((TexasElectricityOffer)offer.Offer).TermMonths == 1) ? 0 : 150,
+                            OptionalAmount = 0
+                        }
+                    }).ToArray();
         }
 
-        DomainModels.Enrollments.Service.PlaceOrderResult IEnrollmentService.PlaceOrder(IEnumerable<LocationServices> services)
+        IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>> IEnrollmentService.PlaceOrder(IEnumerable<LocationServices> services)
         {
-            return new DomainModels.Enrollments.Service.PlaceOrderResult { ConfirmationNumber = "87654321" };
+
+            return (from loc in services
+                    from offer in loc.SelectedOffers
+                    select new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>
+                    {
+                        Location = loc.Location,
+                        Offer = offer.Offer,
+                        Details = new DomainModels.Enrollments.Service.PlaceOrderResult { ConfirmationNumber = "87654321" }
+                    }).ToArray();
         }
 
     }

@@ -16,7 +16,19 @@ namespace StreamEnergy.Extensions
 {
     public static class HtmlHelperExtensions
     {
-        private static ISettings settings = StreamEnergy.Unity.Container.Instance.Resolve<ISettings>();
+        private static ISettings settings;
+        public static ISettings Settings
+        {
+            get
+            {
+                if (settings == null)
+                {
+                    settings = StreamEnergy.Unity.Container.Instance.Resolve<ISettings>();
+                }
+                return settings;
+            }
+        }
+
         public static IHtmlString AsBackgroundStyle(this HtmlHelper htmlHelper, string fieldName, Item item = null)
         {
             item = item ?? htmlHelper.Sitecore().CurrentItem;
@@ -93,7 +105,7 @@ namespace StreamEnergy.Extensions
                                              select attr.Key + "=\"" + attr.Value + "\""));
         }
 
-        private static ModelClientValidationRule TranslateRule<T>(this HtmlHelper<T> html, ModelClientValidationRule rule, string name, Item translateFrom, bool encode)
+        internal static ModelClientValidationRule TranslateRule<T>(this HtmlHelper<T> html, ModelClientValidationRule rule, string name, Item translateFrom, bool encode)
         {
             rule.ErrorMessage = name.RenderFieldFrom(translateFrom ?? (Item)html.ViewBag.ValidationMessagesItem ?? html.Sitecore().CurrentItem, false);
             if (encode)
@@ -103,9 +115,12 @@ namespace StreamEnergy.Extensions
 
         public static IHtmlString ValidationErrorClass<T, U>(this HtmlHelper<T> html, Expression<Func<T, U>> model)
         {
-            var temp = model.RemoveLambdaBody().RemoveCast();
-            var propertyChain = StreamEnergy.CompositeValidationAttribute.UnrollPropertyChain(temp as MemberExpression);
-            return html.Raw("data-val-error=\"" + StreamEnergy.CompositeValidationAttribute.GetPathedName(propertyChain) + "\"");
+            return html.Raw("data-val-error=\"" + html.For(model) + "\"");
+        }
+
+        public static ValidationChaining.IChainedAccess<T, U> AngularRepeat<T, U>(this HtmlHelper<T> html, Expression<Func<T, IEnumerable<U>>> model, string indexValue)
+        {
+            return new ValidationChaining.ChainedValidation<T, T, U>(new ValidationChaining.ChainedBase<T>(html), model, indexValue);
         }
 
         public static IHtmlString AllValidationMessagesFor<T, U>(this HtmlHelper<T> html, Expression<Func<T, U>> model, Item translateFrom = null)
@@ -149,7 +164,7 @@ namespace StreamEnergy.Extensions
 
         public static string TranslateDomain(this HtmlHelper htmlHelper, string domain)
         {
-            var domains = settings.GetDomainTranslations();
+            var domains = Settings.GetDomainTranslations();
 
             if (domains.ContainsKey(domain))
             {

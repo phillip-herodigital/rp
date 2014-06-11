@@ -37,6 +37,11 @@ namespace StreamEnergy.DomainModels.Enrollments
             throw new NotImplementedException();
         }
 
+        protected override bool NeedRestoreInternalState(UserContext context, InternalContext internalContext)
+        {
+            return internalContext.IdentityCheckResult == null || (!internalContext.IdentityCheckResult.IdentityAccepted && internalContext.IdentityCheckResult.HardStop != null);
+        }
+
         protected override void LoadInternalState(UserContext context, InternalContext internalContext)
         {
             internalContext.IdentityCheckResult = enrollmentService.IdentityCheck(context.ContactInfo.Name, context.SocialSecurityNumber, context.DriversLicense, context.BillingAddress);

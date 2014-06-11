@@ -23,7 +23,5 @@ namespace StreamEnergy.MyStream.Models.Enrollment
         public DomainModels.Enrollments.IdentityQuestion[] IdentityQuestions { get; set; }
         public Dictionary<string, string> SelectedIdentityAnswers { get; set; }
 
-        public decimal? DepositAmount { get; set; }
-        public string ConfirmationNumber { get; set; }
     }
 }

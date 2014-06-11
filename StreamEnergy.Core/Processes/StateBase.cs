@@ -69,9 +69,17 @@ namespace StreamEnergy.Processes
                 return false;
             }
 
-            LoadInternalState(stateMachine.Context, stateMachine.InternalContext);
+            if (NeedRestoreInternalState(stateMachine.Context, stateMachine.InternalContext))
+            {
+                LoadInternalState(stateMachine.Context, stateMachine.InternalContext);
+            }
 
             return true;
+        }
+
+        protected virtual bool NeedRestoreInternalState(TContext context, TInternalContext internalContext)
+        {
+            return false;
         }
 
         protected virtual void LoadInternalState(TContext context, TInternalContext internalContext)

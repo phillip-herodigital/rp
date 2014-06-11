@@ -46,7 +46,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
                     if (entry.service.SelectedOffers != null)
                     {
-                        foreach (var selectedEntry in entry.service.SelectedOffers.Values.Select((offer, index) => new { offer, index }))
+                        foreach (var selectedEntry in entry.service.SelectedOffers.Select((offer, index) => new { offer, index }))
                         {
                             if (!offers.Contains(selectedEntry.offer.Offer.Id))
                             {

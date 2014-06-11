@@ -28,10 +28,20 @@ namespace StreamEnergy.DomainModels.Enrollments
             yield return context => context.SelectedIdentityAnswers;
         }
 
+        protected override bool NeedRestoreInternalState(UserContext context, InternalContext internalContext)
+        {
+            return internalContext.Deposit == null ||
+                !(from service in (context.Services ?? new Dictionary<string, LocationServices>()).Values
+                 from offer in service.SelectedOffers ?? Enumerable.Empty<SelectedOffer>()
+                 join internalService in internalContext.Deposit on new { service.Location, offer.Offer.Id } equals new { internalService.Location, internalService.Offer.Id } into internalServices
+                 from internalService in internalServices.DefaultIfEmpty()
+                 select internalService != null && internalService.Details != null).All(hasDeposit => hasDeposit);
+        }
+
         protected override void LoadInternalState(UserContext context, InternalContext internalContext)
         {
             var result = enrollmentService.LoadDeposit(context.Services.Values);
-            internalContext.Deposit = result;
+            internalContext.Deposit = result.ToArray();
         }
     }
 }

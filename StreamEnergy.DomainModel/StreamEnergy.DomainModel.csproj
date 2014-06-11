@@ -135,10 +135,12 @@
     <Compile Include="DomainModels\Enrollments\IOfferOptionRules.cs" />
     <Compile Include="DomainModels\Enrollments\Location.cs" />
     <Compile Include="DomainModels\Enrollments\LocationServices.cs" />
+    <Compile Include="DomainModels\Enrollments\OfferPayment.cs" />
     <Compile Include="DomainModels\Enrollments\RateType.cs" />
     <Compile Include="DomainModels\Enrollments\SampleOfferOption.cs" />
     <Compile Include="DomainModels\Enrollments\ServiceStatusCapability.cs" />
     <Compile Include="DomainModels\Enrollments\Service\IdentityCheckHardStop.cs" />
+    <Compile Include="DomainModels\Enrollments\Service\LocationOfferDetails.cs" />
     <Compile Include="DomainModels\Enrollments\TexasElectricityOfferOption.cs" />
     <Compile Include="DomainModels\Enrollments\TexasElectricityOfferOptionPolicy.cs" />
     <Compile Include="DomainModels\Enrollments\TexasElectricityOfferOptionRules.cs" />
@@ -155,7 +157,6 @@
     <Compile Include="DomainModels\Enrollments\Service\IdentityCheckResult.cs" />
     <Compile Include="DomainModels\Enrollments\IConnectDatePolicy.cs" />
     <Compile Include="DomainModels\Enrollments\IEnrollmentService.cs" />
-    <Compile Include="DomainModels\Enrollments\Service\LoadDepositResult.cs" />
     <Compile Include="DomainModels\Enrollments\Service\PlaceOrderResult.cs" />
     <Compile Include="DomainModels\Enrollments\TexasElectricityOffer.cs" />
     <Compile Include="DomainModels\IServiceCapability.cs" />

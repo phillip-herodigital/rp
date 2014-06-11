@@ -1,3 +1,4 @@
+@model StreamEnergy.DomainModels.Enrollments.UserContext
 ﻿<!-- <div id="{{section.id}}" class="enrollment-section accent-darkgreen" ng-switch-when="completeOrder" ng-show="section.isVisible" ng-controller="EnrollmentCompleteOrderCtrl"> -->
 <div id="{{section.id}}" class="enrollment-section accent-darkgreen" ng-switch-when="completeOrder" ng-controller="EnrollmentCompleteOrderCtrl">
     <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
@@ -70,45 +71,47 @@
                 </table>
             *@
             <h2>@Html.Sitecore().Field("Card Details")</h2>
-            <article class="form">
-                <div class="content">
-                    <div class="item">
-                        <label for="payment-method">@Html.Sitecore().Field("Select Payment Method Label")</label>
-                        <select id="payment-method" ng-model="verifyIdentity.creditCard.paymentMethod">
-                            <option value="">@Html.Sitecore().Field("Select Option")</option>
-                        </select>
-                    </div>
-                    <div class="item">
-                        <label for="cc">@Html.Sitecore().Field("Credit Card Number Label")</label>
-                        <input type="text" id="cc" ng-model="verifyIdentity.creditCard.cardNumber" />
-                    </div>
-                    <div class="group">
+            <form data-val-bind-messages="validations">
+                <article class="form">
+                    <div class="content">
                         <div class="item">
-                            <label for="expiration-date">@Html.Sitecore().Field("Expiration Date Label")</label>
-                            <select class="small" id="cc-month" ng-model="verifyIdentity.creditCard.expirationMonth">
-                                <option value="">@Html.Sitecore().Field("Select Month")</option>
-                            </select>
-                            <select class="small" id="cc-year">
-                                <option value="" ng-model="verifyIdentity.creditCard.expirationYear">@Html.Sitecore().Field("Select Year")</option>
+                            <label for="payment-method">@Html.Sitecore().Field("Select Payment Method Label")</label>
+                            <select id="payment-method" ng-model="verifyIdentity.creditCard.paymentMethod">
+                                <option value="">@Html.Sitecore().Field("Select Option")</option>
                             </select>
                         </div>
                         <div class="item">
-                            <label for="billing-zip">@Html.Sitecore().Field("Billing Zip Label")</label>
-                            <input class="small" type="text" id="billing-zip" ng-model="verifyIdentity.creditCard.billingZip" />
+                            <label for="cc">@Html.Sitecore().Field("Credit Card Number Label")</label>
+                            <input type="text" id="cc" ng-model="verifyIdentity.creditCard.cardNumber" />
                         </div>
-                        <div class="item">
-                            <label for="security-code">@Html.Sitecore().Field("Security Code Label")</label>
-                            <input class="small" type="text" id="security-code" ng-model="verifyIdentity.creditCard.securityCode" />
-                        </div>
-                        <div class="item">
-                            <a href="" class="single-link">@Html.Sitecore().Field("See Example")</a>
+                        <div class="group">
+                            <div class="item">
+                                <label for="expiration-date">@Html.Sitecore().Field("Expiration Date Label")</label>
+                                <select class="small" id="cc-month" ng-model="verifyIdentity.creditCard.expirationMonth">
+                                    <option value="">@Html.Sitecore().Field("Select Month")</option>
+                                </select>
+                                <select class="small" id="cc-year">
+                                    <option value="" ng-model="verifyIdentity.creditCard.expirationYear">@Html.Sitecore().Field("Select Year")</option>
+                                </select>
+                            </div>
+                            <div class="item">
+                                <label for="billing-zip">@Html.Sitecore().Field("Billing Zip Label")</label>
+                                <input class="small" type="text" id="billing-zip" ng-model="verifyIdentity.creditCard.billingZip" />
+                            </div>
+                            <div class="item">
+                                <label for="security-code">@Html.Sitecore().Field("Security Code Label")</label>
+                                <input class="small" type="text" id="security-code" ng-model="verifyIdentity.creditCard.securityCode" />
+                            </div>
+                            <div class="item">
+                                <a href="" class="single-link">@Html.Sitecore().Field("See Example")</a>
+                            </div>
                         </div>
                     </div>
+                </article>
+                <div class="buttons">
+                    <button type="submit" class="primary" ng-click="completeStep();" data-val-submit>@Html.Sitecore().Field("Button")</button>
                 </div>
-            </article>
-            <div class="buttons">
-                <button type="submit" class="primary" ng-click="completeStep();">@Html.Sitecore().Field("Button")</button>
-            </div>
+            </form>
         </section>
         <aside>
             <div ng-include ng-if="true" src="'cart-template'"></div>

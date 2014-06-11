@@ -14,12 +14,12 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public IEnumerable<Tuple<Location, IOffer>> AllOffers { get; set; }
 
-        public IEnumerable<Tuple<Location, IOffer, IOfferOptionRules>> OfferOptionRulesByAddressOffer { get; set; }
-
         public Service.IdentityCheckResult IdentityCheckResult { get; set; }
 
-        public Service.LoadDepositResult Deposit { get; set; }
+        public IEnumerable<Service.LocationOfferDetails<IOfferOptionRules>> OfferOptionRules { get; set; }
 
-        public Service.PlaceOrderResult PlaceOrderResult { get; set; }
+        public IEnumerable<Service.LocationOfferDetails<OfferPayment>> Deposit { get; set; }
+
+        public IEnumerable<Service.LocationOfferDetails<Service.PlaceOrderResult>> PlaceOrderResult { get; set; }
     }
 }

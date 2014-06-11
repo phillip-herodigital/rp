@@ -175,11 +175,15 @@
     <Compile Include="CoreContainerSetup.cs" />
     <Compile Include="EnumerableRequiredAttribute.cs" />
     <Compile Include="EnvironmentCategory.cs" />
+    <Compile Include="Extensions\ValidationChaining\ChainedBase.cs" />
+    <Compile Include="Extensions\ValidationChaining\ChainedValidation.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\HtmlStringExtensions.cs" />
     <Compile Include="Extensions\ModelStateExtensions.cs" />
     <Compile Include="Extensions\PaginationHelper.cs" />
     <Compile Include="Extensions\SettingsExtensions.cs" />
+    <Compile Include="Extensions\ValidationChaining\IChainedAccess.cs" />
+    <Compile Include="Extensions\ValidationChaining\IChainedUtility.cs" />
     <Compile Include="ISanitizable.cs" />
     <Compile Include="ISettings.cs" />
     <Compile Include="ITypeIndicatorLookup.cs" />
