@@ -19,7 +19,7 @@ using StreamEnergy.MyStream.Models.Authentication;
 using StreamEnergy.Processes;
 using StreamEnergy.Services.Clients;
 
-namespace StreamEnergy.MyStream.Controllers
+namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
     public class AuthenticationController : ApiController, IRequiresSessionState
     {

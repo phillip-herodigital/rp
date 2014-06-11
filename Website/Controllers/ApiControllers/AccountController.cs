@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.Http;
 using System.Web.SessionState;
 
-namespace StreamEnergy.MyStream.Controllers
+namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
     public class AccountController : ApiController, IRequiresSessionState
     {

@@ -14,7 +14,7 @@ using System.Web.Http;
 using System.Web.SessionState;
 using Microsoft.Practices.Unity;
 
-namespace StreamEnergy.MyStream.Controllers
+namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
     public class EnrollmentController : ApiController, IRequiresSessionState
     {

@@ -8,9 +8,9 @@ namespace StreamEnergy.MyStream.Controllers.JsonHelper
 {
     public class EnrollmentController : Controller
     {
-        private Controllers.EnrollmentController inner;
+        private ApiControllers.EnrollmentController inner;
 
-        public EnrollmentController(Controllers.EnrollmentController inner)
+        public EnrollmentController(ApiControllers.EnrollmentController inner)
         {
             this.inner = inner;
         }
