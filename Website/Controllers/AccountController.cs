@@ -138,7 +138,7 @@ namespace StreamEnergy.MyStream.Controllers
                        Id = languageItem.ID.Guid,
                        Text = languageItem["Language"]
                    },
-                // TODO get Language Preference from profile or StreamConnect
+                // TODO get Language Preference from StreamConnect
                 LanguagePreference = "English"
             };
         }
@@ -168,6 +168,86 @@ namespace StreamEnergy.MyStream.Controllers
             }
 
             return new UpdateOnlineAccountResponse
+            {
+                Success = success,
+                Validations = TranslatedValidationResult.Translate(ModelState, GetAuthItem("Change Password"))
+            };
+        }
+
+        #endregion
+
+        #region Account Selector
+
+        [HttpGet]
+        public GetAccountsResponse GetAccounts()
+        {
+            // TODO check to make sure the user is logged in, and get the username from the current session
+            var username = "adambrill";
+            accountSessionHelper.Reset();
+            accountSessionHelper.Context.DomainPrefix = domain.AccountPrefix;
+            accountSessionHelper.Context.Username = username;
+            accountSessionHelper.StateMachine.Process(typeof(VerifyUserState));
+
+            return new GetAccountsResponse
+            {
+                
+            };
+        }
+
+        #endregion
+
+        #region Account Information
+
+        [HttpPost]
+        public GetAccountInformationResponse GetAccountInformation(GetAccountInformationRequest request)
+        {
+            // TODO check to make sure the user is logged in
+
+            var accountId = request.AccountId;
+            var customerContact = new DomainModels.CustomerContact();
+            var customerAddress = new DomainModels.Address();
+            // TODO get the contact info from StreamConnect
+            customerContact.Name = new DomainModels.Name
+            {
+                First = "John",
+                Last = "Smith"
+            };
+            customerContact.PrimaryPhone = new DomainModels.Phone
+            {
+                Number = "111-111-1111",
+            };
+
+            customerAddress.Line1 = "123 Main St.";
+            customerAddress.City = "Dallas";
+            customerAddress.StateAbbreviation = "TX";
+            customerAddress.PostalCode5 = "75001";
+
+            return new GetAccountInformationResponse
+            {
+                CustomerContact = customerContact,
+                CustomerAddress = customerAddress
+            };
+        }
+
+        [HttpPost]
+        public UpdateAccountInformationResponse UpdateAccountInformation(UpdateAccountInformationRequest request)
+        {
+            bool success = false;
+            if (ModelState.IsValid)
+            {
+                // TODO check to make sure the user is logged in and get the current userID
+                var accountId = request.AccountId;
+                if (true)
+                {
+                    // update the phone numbers
+
+                    // update the billing address
+
+                    success = true;
+                }
+            }
+
+            return new UpdateAccountInformationResponse
             {
                 Success = success,
                 Validations = TranslatedValidationResult.Translate(ModelState, GetAuthItem("Change Password"))
