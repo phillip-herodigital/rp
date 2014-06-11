@@ -109,7 +109,6 @@ namespace StreamEnergy.MyStream.Controllers
             
             return new GetOnlineAccountResponse
             {
-                Success = true,
                 Username = username,
                 Email = email,
                 AvailableSecurityQuestions =
@@ -248,6 +247,79 @@ namespace StreamEnergy.MyStream.Controllers
             }
 
             return new UpdateAccountInformationResponse
+            {
+                Success = success,
+                Validations = TranslatedValidationResult.Translate(ModelState, GetAuthItem("Change Password"))
+            };
+        }
+
+        #endregion
+
+        #region Notification Settings
+
+        [HttpPost]
+        public GetNotificationSettingsResponse GetNotificationSettings(GetNotificationSettingsRequest request)
+        {
+            // TODO check to make sure the user is logged in
+
+            var accountId = request.AccountId;
+
+            // TODO get notificaiton settings from StreamConnect
+            var newDocumentArrives = new NotificationSetting
+            {
+                Web = true,
+                Email = false,
+                Sms = true
+            };
+            var onlinePaymentsMade = new NotificationSetting
+            {
+                Web = true,
+                Email = false,
+                Sms = true
+            };
+            var recurringPaymentsMade = new NotificationSetting
+            {
+                Web = true,
+                Email = false,
+                Sms = true
+            };
+            var recurringProfileExpires = new NotificationSetting
+            {
+                Web = true,
+                Email = false,
+                Sms = true
+            };
+
+            return new GetNotificationSettingsResponse
+            {
+                NewDocumentArrives = newDocumentArrives,
+                OnlinePaymentsMade = onlinePaymentsMade,
+                RecurringPaymentsMade = recurringPaymentsMade,
+                RecurringProfileExpires = recurringProfileExpires,
+                PrintedInvoices = true,
+                PromoOptIn = false     
+            };
+        }
+
+        [HttpPost]
+        public UpdateNotificationSettingsResponse UpdateNotificationSettings(UpdateNotificationSettingsRequest request)
+        {
+            bool success = false;
+            if (ModelState.IsValid)
+            {
+                // TODO check to make sure the user is logged in and get the current userID
+                //var accountId = request.AccountId;
+                if (true)
+                {
+                    // update the phone numbers
+
+                    // update the billing address
+
+                    success = true;
+                }
+            }
+
+            return new UpdateNotificationSettingsResponse
             {
                 Success = success,
                 Validations = TranslatedValidationResult.Translate(ModelState, GetAuthItem("Change Password"))

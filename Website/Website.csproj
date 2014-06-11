@@ -462,11 +462,16 @@
     <Compile Include="Models\Account\GetAccountInformationRequest.cs" />
     <Compile Include="Models\Account\GetAccountInformationResponse.cs" />
     <Compile Include="Models\Account\GetAccountsResponse.cs" />
+    <Compile Include="Models\Account\GetNotificationSettingsRequest.cs" />
+    <Compile Include="Models\Account\GetNotificationSettingsResponse.cs" />
     <Compile Include="Models\Account\Invoice.cs" />
     <Compile Include="Models\Account\GetOnlineAccountResponse.cs" />
     <Compile Include="Models\Account\LanguagePreference.cs" />
+    <Compile Include="Models\Account\NotificationSetting.cs" />
     <Compile Include="Models\Account\UpdateAccountInformationRequest.cs" />
     <Compile Include="Models\Account\UpdateAccountInformationResponse.cs" />
+    <Compile Include="Models\Account\UpdateNotificationSettingsRequest.cs" />
+    <Compile Include="Models\Account\UpdateNotificationSettingsResponse.cs" />
     <Compile Include="Models\Account\UpdateOnlineAccountRequest.cs" />
     <Compile Include="Models\Account\UpdateOnlineAccountResponse.cs" />
     <Compile Include="Models\Angular\GridTable\Column.cs" />

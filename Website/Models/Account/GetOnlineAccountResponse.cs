@@ -8,10 +8,6 @@ namespace StreamEnergy.MyStream.Models.Account
 {
     public class GetOnlineAccountResponse
     {
-        public IEnumerable<TranslatedValidationResult> Validations { get; set; }
-
-        public bool Success { get; set; }
-
         public string Username { get; set; }
         public DomainModels.Email Email { get; set; }
         public IEnumerable<SecurityQuestion> AvailableSecurityQuestions { get; set; }
