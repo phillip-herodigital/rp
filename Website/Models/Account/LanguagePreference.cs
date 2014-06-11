@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace StreamEnergy.MyStream.Models.Account
 {
-    public class GetOnlineAccountRequest
+    public class LanguagePreference
     {
-        public string Username { get; set; }
+        public Guid Id { get; set; }
+        public string Text { get; set; }
     }
 }

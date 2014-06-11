@@ -8,7 +8,7 @@ namespace StreamEnergy.MyStream.Controllers.Components
 {
     public class AccountController : Controller
     {
-        public ActionResult OnlineAccount()
+        public ActionResult OnlineAccountIndex()
         {
             return View("~/Views/Components/Account/Profile/My Online Account Information.cshtml");
         }

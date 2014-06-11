@@ -26,13 +26,13 @@ namespace StreamEnergy.MyStream.Controllers
         private readonly DomainModels.Accounts.IAccountService accountService;
         private readonly Sitecore.Security.Domains.Domain domain;
         private readonly Sitecore.Data.Database database;
-        private readonly ResetPasswordSessionHelper resetPasswordSessionHelper;
+        private readonly AccountSessionHelper accountSessionHelper;
 
         #region Session Helper Classes
 
-        public class ResetPasswordSessionHelper : StateMachineSessionHelper<ResetPasswordContext, object>
+        public class AccountSessionHelper : StateMachineSessionHelper<ResetPasswordContext, object>
         {
-            public ResetPasswordSessionHelper(HttpSessionStateBase session, IUnityContainer container)
+            public AccountSessionHelper(HttpSessionStateBase session, IUnityContainer container)
                 : base(session, container, typeof(AuthenticationController), typeof(GetUsernameState), storeInternal: false)
             {
             }
@@ -40,10 +40,10 @@ namespace StreamEnergy.MyStream.Controllers
 
         #endregion
 
-        public AccountController(IUnityContainer container, ResetPasswordSessionHelper resetPasswordSessionHelper, HttpSessionStateBase session, DomainModels.Accounts.IAccountService accountService, Services.Clients.ITemperatureService temperatureService)
+        public AccountController(IUnityContainer container, AccountSessionHelper accountSessionHelper, HttpSessionStateBase session, DomainModels.Accounts.IAccountService accountService, Services.Clients.ITemperatureService temperatureService)
         {
             this.container = container;
-            this.resetPasswordSessionHelper = resetPasswordSessionHelper;
+            this.accountSessionHelper = accountSessionHelper;
             this.temperatureService = temperatureService;
             this.accountService = accountService;
             this.domain = Sitecore.Context.Site.Domain;
@@ -89,19 +89,19 @@ namespace StreamEnergy.MyStream.Controllers
 
         #region Online Account Information
 
-        [HttpPost]
-        public GetOnlineAccountResponse GetOnlineAccount(GetOnlineAccountRequest request)
+        [HttpGet]
+        public GetOnlineAccountResponse GetOnlineAccount()
         {
-            // TODO check to make sure the user is logged in
+            // TODO check to make sure the user is logged in, and get the username from the current session
+            var username = "adambrill";
+            accountSessionHelper.Reset();
+            accountSessionHelper.Context.DomainPrefix = domain.AccountPrefix;
+            accountSessionHelper.Context.Username = username;
+            accountSessionHelper.StateMachine.Process(typeof(VerifyUserState));
 
-            resetPasswordSessionHelper.Reset();
-            resetPasswordSessionHelper.Context.DomainPrefix = domain.AccountPrefix;
-            resetPasswordSessionHelper.Context.Username = request.Username;
-            resetPasswordSessionHelper.StateMachine.Process(typeof(VerifyUserState));
-            
-            var validations = Enumerable.Empty<ValidationResult>();
             var email = new DomainModels.Email();
             var questionsRoot = database.GetItem("/sitecore/content/Data/Taxonomy/Security Questions");
+            var languagesRoot = database.GetItem("/sitecore/content/Data/Taxonomy/Languages");
             
             // TODO get email address from Stream Connect
             email.Address = "adam.powell@responsivepath.com";
@@ -110,7 +110,7 @@ namespace StreamEnergy.MyStream.Controllers
             return new GetOnlineAccountResponse
             {
                 Success = true,
-                Username = request.Username,
+                Username = username,
                 Email = email,
                 AvailableSecurityQuestions =
                     from questionItem in (questionsRoot != null ? questionsRoot.Children : Enumerable.Empty<Sitecore.Data.Items.Item>())
@@ -119,14 +119,26 @@ namespace StreamEnergy.MyStream.Controllers
                         Id = questionItem.ID.Guid,
                         Text = questionItem["Question"]
                     },
-                AnsweredSecurityQuestions = 
-                    from challenge in resetPasswordSessionHelper.Context.Answers ?? new Dictionary<Guid, string>()
+                Challenges =
+                    from challenge in accountSessionHelper.Context.Answers ?? new Dictionary<Guid, string>()
                     let questionItem = database.GetItem(new Sitecore.Data.ID(challenge.Key))
-                    select new SecurityQuestion
+                    select new AnsweredSecurityQuestion
                     {
-                        Id = challenge.Key,
-                        Text = questionItem != null ? questionItem["Question"] : ""
+                        SelectedQuestion = new SecurityQuestion
+                        {
+                            Id = challenge.Key,
+                            Text = questionItem != null ? questionItem["Question"] : ""
+                        },
+                        Answer = "string"
                     },
+                AvailableLanguages =
+                   from languageItem in (languagesRoot != null ? languagesRoot.Children : Enumerable.Empty<Sitecore.Data.Items.Item>())
+                   select new LanguagePreference
+                   {
+                       Id = languageItem.ID.Guid,
+                       Text = languageItem["Language"]
+                   },
+                // TODO get Language Preference from profile or StreamConnect
                 LanguagePreference = "English"
             };
         }
@@ -137,8 +149,8 @@ namespace StreamEnergy.MyStream.Controllers
             bool success = false;
             if (ModelState.IsValid)
             {
+                // TODO check to make sure the user is logged in and get the current userID
                 var username = request.Username;
-                // TODO check to make sure the user is logged in
                 if (true)
                 {
                     var user = Membership.GetUser(domain.AccountPrefix + username);
