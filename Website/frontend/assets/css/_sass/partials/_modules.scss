@@ -235,6 +235,18 @@ article.grey-box {
 	}
 }
 
+article.white-box {
+	background-color: #fff;
+	header {
+		background-color: #fff;
+		background-image: none;
+		border-bottom: 1px solid #ddd;
+		h2 {
+			color: #0971ce;
+		}
+	}
+}
+
 article.plain {
 	border: none;
 	@include box-shadow(none);
