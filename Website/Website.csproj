@@ -443,6 +443,7 @@
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />
+    <Compile Include="Controllers\Components\AccountController.cs" />
     <Compile Include="Controllers\Components\AuthenticationController.cs" />
     <Compile Include="Controllers\EnrollmentController.cs" />
     <Compile Include="Controllers\JsonHelper\EnrollmentController.cs" />
@@ -459,6 +460,10 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Models\Account\Invoice.cs" />
+    <Compile Include="Models\Account\GetOnlineAccountRequest.cs" />
+    <Compile Include="Models\Account\GetOnlineAccountResponse.cs" />
+    <Compile Include="Models\Account\UpdateOnlineAccountRequest.cs" />
+    <Compile Include="Models\Account\UpdateOnlineAccountResponse.cs" />
     <Compile Include="Models\Angular\GridTable\Column.cs" />
     <Compile Include="Models\Angular\GridTable\ColumnSchemaAttribute.cs" />
     <Compile Include="Models\Angular\GridTable\GridTableExtensions.cs" />
@@ -623,7 +628,11 @@
   <ItemGroup>
     <Folder Include="Scripts\" />
     <Folder Include="Views\CommercialQuote\" />
+    <Folder Include="Views\OnlineAccountResponse\" />
+    <Folder Include="Views\OnlineAccount\" />
     <Folder Include="Views\Shared\" />
+    <Folder Include="Views\UpdateOnlineAccountRequest\" />
+    <Folder Include="Views\UpdateOnlineAccountResponse\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
