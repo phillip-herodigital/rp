@@ -240,3 +240,11 @@ div.tabbable {
 		background-color: transparent;
 	}
 }
+
+.typeahead {
+	&.loading {
+		@include retina-background('loading.gif');
+		background-position: 98% 8px;
+		background-repeat: no-repeat;
+	}
+}
