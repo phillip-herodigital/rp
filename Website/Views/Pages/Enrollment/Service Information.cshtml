@@ -16,7 +16,7 @@
         <section>
             @Html.Sitecore().Field("Header Text")
             @Html.Sitecore().Field("Body Text")
-            <form>
+            <form data-val-bind-messages="validations">
                 <article class="form">
                     <div class="content">
                         @* TODO - replace "0" with the angular variable for the 'current' service location index being updated *@

@@ -15,7 +15,7 @@
         <section>
             <h1>@Html.Sitecore().Field("Header Account Information")</h1>
             <p>@Html.Sitecore().Field("Fill in Information")</p>
-            <form>
+            <form data-val-bind-messages="validations">
                 <article class="form" ng-repeat="(id, item) in enrollment.serverData.locationServices" ng-init="init();">
                     <div class="content">
                         <div class="item" ng-show="item.location.address.line1">
@@ -26,7 +26,7 @@
                             <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
                             <input type="text" id="service-address" class="typeahead" ng-model="enrollment.extraFields.accountInformation.serviceAddresses[id].serviceAddress" placeholder="123 Main Street, Dallas, TX 75001" typeahead="address as address.formattedAddress for address in getLocation(enrollment.extraFields.serviceState, $viewValue)" typeahead-loading="enrollment.extraFields.loadingAccountInformationServiceAddress" ng-class="{'loading' : enrollment.extraFields.loadingAccountInformationServiceAddress}" />
                         </div>
-                        <div ng-repeat ="(type, plan) in item.selectedOffers">
+                        <div ng-repeat="(type, plan) in item.selectedOffers">
                             <h2><span ng-show="type == 'gas'">Gas</span><span ng-show="type == 'electricity'">Electricity</span></h2>
                             <div class="group">
                                 <div class="item group-col">
@@ -65,8 +65,8 @@
                                 <label for="stream-connect-fee">@Html.Sitecore().Field("Stream Connect Fee Label")</label>
                                 <strong>{{plan.offerOption.streamConnectFee}}</strong>
                             </div>
-                        </divng-repeat>
-                    </div>
+                            </divng-repeat>
+                        </div>
                 </article>
                 <h2>@Html.Sitecore().Field("Personal Information Header")</h2>
                 <article class="form">
@@ -132,7 +132,7 @@
                         <div class="item" @Html.ValidationErrorClass(m => m.SocialSecurityNumber)>
                             <label for="@Html.For(m => m.SocialSecurityNumber)">@Html.Sitecore().Field("Social Security Number Label")</label>
                             <input type="text" @Html.ValidationAttributes(m => m.SocialSecurityNumber) ng-model="enrollment.extraFields.accountInformation.personalInformation.ssn" />
-                            @Html.ValidationMessageFor(m => m.SocialSecurityNumber)                        
+                            @Html.ValidationMessageFor(m => m.SocialSecurityNumber)
                         </div>
                         @* Change this ng-hide option when commercial becomes available *@
                         <div class="item" ng-hide="true">
@@ -179,14 +179,14 @@
                     <div class="content">
                         <div class="item">
                             <ul class="checkbox-list">
-                                <li><input type="checkbox" name="same-address" id="same-address" ng-model="enrollment.extraFields.accountInformation.billingAddress.sameAddress"><label for="same-address" >@Html.Sitecore().Field("Same Address Label")</label></li>
+                                <li><input type="checkbox" name="same-address" id="same-address" ng-model="enrollment.extraFields.accountInformation.billingAddress.sameAddress"><label for="same-address">@Html.Sitecore().Field("Same Address Label")</label></li>
                             </ul>
                         </div>
                         <div class="item" ng-show="enrollment.extraFields.accountInformation.billingAddress.sameAddress && sizeOf(enrollment.serverData.locationServices) > 1">
                             <label for="service-address">@Html.Sitecore().Field("Select Service Address Label")</label>
                             <select id="service-address" ng-model="enrollment.extraFields.accountInformation.billingAddress.serviceAddress">
                                 <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
-                                <option ng-repeat="(id, item) in enrollment.serverData.locationServices"  ng-value="id">{{formatAddress(item.location.address)}}</option>
+                                <option ng-repeat="(id, item) in enrollment.serverData.locationServices" ng-value="id">{{formatAddress(item.location.address)}}</option>
                             </select>
                         </div>
                         <div class="item" ng-show="enrollment.extraFields.accountInformation.billingAddress.sameAddress && sizeOf(enrollment.serverData.locationServices) == 0">
