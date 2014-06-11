@@ -402,6 +402,11 @@ article.utility-providers .logos {
 	&:hover {
 		border: 1px solid #1697ff;
 	}
+	&:nth-child(1) {
+		@include breakpoint(small) {
+			margin-bottom: 15px;
+		}
+	}
 }
 article.balances-payments {
 	dl dd {
@@ -590,6 +595,9 @@ article.make-payment {
 			width: 50%;
 			.item {
 				width: 45%;
+				@include breakpoint(small) {
+					width: 100%;
+				}
 			}
 		}
 		form .group .dollars {
@@ -629,7 +637,12 @@ article.payment-history {
 			li {
 				float: left;
 				list-style-type: none;
-				margin-left: 20px;
+				padding-left: 10px;
+				margin-right: 10px;
+				border-left: 1px solid #0971ce;
+				&:first-child {
+					border-left: none;
+				}
 			}
 		}
 	}
