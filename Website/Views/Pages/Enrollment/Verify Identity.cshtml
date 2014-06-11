@@ -1,4 +1,5 @@
-﻿<div id="{{section.id}}" class="enrollment-section accent-darkgreen" ng-switch-when="verifyIdentity" ng-show="section.isVisible" ng-controller="EnrollmentVerifyIdentityCtrl">
+﻿<!-- <div id="{{section.id}}" class="enrollment-section accent-darkgreen" ng-switch-when="verifyIdentity" ng-show="section.isVisible" ng-controller="EnrollmentVerifyIdentityCtrl"> -->
+<div id="{{section.id}}" class="enrollment-section accent-darkgreen" ng-switch-when="verifyIdentity" ng-controller="EnrollmentVerifyIdentityCtrl">    
     <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper">
             <h1>
@@ -18,7 +19,7 @@
                 <div class="content">
                     <p><strong>@Html.Sitecore().Field("Skip This Step")</strong></p>
                     <div class="form">
-                        <div class="item" ng-repeat="question in enrollment.serverData.identityQuestions">
+                        <div class="item" ng-repeat="question in enrollment.uiModel.identityQuestions">
                             <label>{{question.questionText}}</label>
                             <ul class="checkbox-list">
                                 <li ng-repeat="answers in question.answers"><input type="radio" ng-model="enrollment.extraFields.verifyIdentity[question.questionId]" id="question{{question.questionId}}_answer{{answers.answerId}}" ng-value="answers.answerId"><label for="question{{question.questionId}}_answer{{answers.answerId}}">{{answers.answerText}}</label></li>

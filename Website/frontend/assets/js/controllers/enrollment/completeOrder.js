@@ -4,8 +4,8 @@
  */
 ngApp.controller('EnrollmentCompleteOrderCtrl', ['$window', '$scope', '$rootScope', 'enrollmentService', function ($window, $scope, $rootScope, enrollmentService) {
 
-    $scope.enrollment.extraFields.verifyIdentity = {};
-    $scope.enrollment.extraFields.verifyIdentity.creditCard = {};
+    $scope.verifyIdentity = {};
+    $scope.verifyIdentity.creditCard = {};
 
     /**
     * Complete Enrollment Section

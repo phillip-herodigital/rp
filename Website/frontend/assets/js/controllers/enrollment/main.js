@@ -2,15 +2,16 @@
  * This is the main controller for Enrollments. It will keep track of the enrollment state, as well as all fields that will need to be collected.
  */
 ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', '$anchorScroll', '$timeout', '$filter', 'enrollmentService', 'scrollService', 'jQuery', function ($scope, $rootScope, $http, $anchorScroll, $timeout, $filter, enrollmentService, scrollService, jQuery) {
-
     $scope.enrollment = {
-        serverData : {}, // This array should keep track of all the form fields we collect for the enrollment
-        currentSection : 'serviceInformation',
-        nextSection : true,
-        extraFields : {},
+        serverData: {}, // This array should keep track of all the form fields we collect for the enrollment
+        currentSection: 'serviceInformation',
+        nextSection: true,
         formErrors: {},
         currentAddress: {},
         headerHeightOffset: jQuery('header.site-header').height() * -1,
+        isNewService: 0,
+        serviceState: 'TX',
+        currentLocation: '', //Keep the ID of the current working location up-to-date here
         sections : [
             {
                 id: 'serviceInformation',
@@ -42,8 +43,20 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', '$ancho
                 order: 5,
                 isVisible: false
             }
-        ]
+        ],
+        uiModel: {
+            enrollmentLocations: {},
+            contactInfo: {},
+            language: {},
+            billingAddress: {},
+            identityQuestions: {}
+        }
     };
+
+    //Update the uiModel when the serverData is updated
+    $scope.$watch('enrollment.serverData', function(value) {
+        $scope.updateUiModel();
+    });
 
     /**
     * Activate Sections
@@ -90,19 +103,80 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', '$ancho
     * Set Server Data
     */
     $scope.setServerData = function () {
-        //TODO: Replace AJAX with static variable once available
         console.log('Setting initial server data:');
 
         var clientDataPromise = enrollmentService.getClientData();
 
         clientDataPromise.then(function (data) {
             $scope.enrollment.serverData = data;
-            console.log(data);
         }, function (data) {
             // error response
             $rootScope.$broadcast('connectionFailure');
         });
     };
+
+    $scope.updateUiModel = function() {
+        //Placeholders for looping
+        var locations = {},
+            offers = {},
+            offerSelections = {};
+
+        //List of available offers, separated by type
+        var availableOffersByType = {},
+            selectedOffersByType = {};
+
+        //Loop through the enrollment locations, separate and tag by location id
+        angular.forEach($scope.enrollment.serverData.enrollmentLocations, function (location, index) { 
+            locations[location.id] = location;
+            offers[location.id] = location.availableOffers;
+            offerSelections[location.id] = location.offerSelections;
+        });
+
+        //We need to separate the offers & offer selections into their respective types by location
+        /*angular.forEach(offers, function (offersByLocation, id) {
+            availableOffersByType[id] = {};
+            angular.forEach(offersByLocation, function (offer, offerId) {
+                if(availableOffersByType[id][offer.offerType] == undefined) {
+                    availableOffersByType[id][offer.offerType] = [];
+                }
+
+                availableOffersByType[id][offer.offerType].push(offer);
+            });
+        });*/
+
+        //Set the offer selections first by location, then by type
+        angular.forEach(offerSelections, function (item, id) {
+            selectedOffersByType[id] = {};
+            angular.forEach(item, function(selectedOffer, selOfferId) { 
+                angular.forEach(offers[id], function (offer, offerId) {
+                    if(offer.id == selectedOffer.offerId) {
+                        //Set the selected offer
+                        var updatedOffer = item[selOfferId]
+                        updatedOffer.details = offer;
+                        if(selectedOffersByType[id][offer.offerType] == undefined) {
+                            selectedOffersByType[id][offer.offerType] = [];
+                        }
+
+                        //Set the details of the selected offer (name, description, etc)
+                        selectedOffersByType[id][offer.offerType].push(updatedOffer);
+                    }
+                }); 
+            });
+        });
+
+        //Set up the ui model
+        $scope.enrollment.uiModel = {
+            enrollmentLocations: locations,
+            offers: offers,
+            offerSelections: selectedOffersByType,
+            contactInfo: $scope.enrollment.serverData.contactInfo,
+            language: $scope.enrollment.serverData.language,
+            billingAddress: $scope.enrollment.serverData.billingAddress,
+            identityQuestions: $scope.enrollment.serverData.identityQuestions
+        }
+
+        console.log($scope.enrollment.uiModel);
+    }
 
     /**
     * Size of object

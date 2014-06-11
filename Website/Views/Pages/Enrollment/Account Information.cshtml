@@ -1,4 +1,5 @@
-﻿<div id="{{section.id}}" class="enrollment-section accent-darkgreen" ng-switch-when="accountInformation" ng-show="section.isVisible" ng-controller="EnrollmentAccountInformationCtrl">
+﻿<!-- <div id="{{section.id}}" class="enrollment-section accent-darkgreen" ng-switch-when="accountInformation" ng-show="section.isVisible" ng-controller="EnrollmentAccountInformationCtrl"> -->
+<div id="{{section.id}}" class="enrollment-section accent-darkgreen" ng-switch-when="accountInformation" ng-controller="EnrollmentAccountInformationCtrl">
     <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper">
             <h1>
@@ -14,28 +15,42 @@
         <section>
             <h1>@Html.Sitecore().Field("Header Account Information")</h1>
             <p>@Html.Sitecore().Field("Fill in Information")</p>
-            <article class="form" ng-repeat="(id, item) in enrollment.serverData.locationServices" ng-init="init();">
+            <article class="form" ng-repeat="(id, item) in enrollment.uiModel.enrollmentLocations" ng-init="init();">
                 <div class="content">
+
+                    <!-- Service Address -->
                     <div class="item" ng-show="item.location.address.line1">
                         <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
                         <strong>{{ item.location.address | address }}</strong>
                     </div>
+
+                    <!-- Address Input Dropdown -->
                     <div class="item" ng-hide="item.location.address.line1">
                         <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
-                        <input type="text" id="service-address" class="typeahead" ng-model="enrollment.extraFields.accountInformation.serviceAddresses[id].serviceAddress" placeholder="123 Main Street, Dallas, TX 75001" typeahead="address as address.formattedAddress for address in getLocation(enrollment.extraFields.serviceState, $viewValue)" typeahead-loading="enrollment.extraFields.loadingAccountInformationServiceAddress" ng-class="{'loading' : enrollment.extraFields.loadingAccountInformationServiceAddress}" />
+                        <input type="text" 
+                               id="service-address" 
+                               class="typeahead" 
+                               ng-model="enrollment.locations[id].address" 
+                               placeholder="123 Main Street, Dallas, TX 75001" 
+                               typeahead="address as address.formattedAddress for address in getLocation(enrollment.serviceState, $viewValue)" 
+                               typeahead-loading="enrollment.loadingAccountInformationServiceAddress" 
+                               ng-class="{'loading' : enrollment.loadingAccountInformation}" 
+                        />
                     </div>
+
+                    <!-- Selected Offers Section -->
                     <div ng-repeat ="(type, plan) in item.selectedOffers">
                         <h2><span ng-show="type == 'gas'">Gas</span><span ng-show="type == 'electricity'">Electricity</span></h2>
                         <div class="group">
                             <div class="item group-col">
                                 <label for="bill-account-number">@Html.Sitecore().Field("Bill Account Number Label")</label>
-                                <input type="text" id="bill-account-number" ng-model="enrollment.extraFields.accountInformation.serviceAddresses[id][type].accountNumber" placeholder="654-XXXX-XXX-XXXXXX" />
+                                <input type="text" id="bill-account-number" ng-model="enrollment.accountInformation.serviceAddresses[id][type].accountNumber" placeholder="654-XXXX-XXX-XXXXXX" />
                             </div>
                             <div class="item group-col">
                                 <a href="" class="single-link">@Html.Sitecore().Field("See Example")</a>
                             </div>
                         </div>
-                        <div class="group" ng-show="enrollment.extraFields.serviceState == 'GA'">
+                        <div class="group" ng-show="enrollment.serviceState == 'GA'">
                             <div class="item group-col">
                                 <label for="service-start-date">@Html.Sitecore().Field("Service Start Date Label")</label>
                                 <input type="text" id="ultility-account-number" ng-model="enrollment.extraFields.accountInformation.serviceAddresses[id][type].serviceDate" placeholder="01/29/14" />
@@ -47,23 +62,23 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="item" ng-show="plan.offerOption.connectionFee && enrollment.extraFields.serviceState == 'TX'">
+                        <div class="item" ng-show="plan.offerOption.connectionFee && enrollment.serviceState == 'TX'">
                             <label for="connection-fee">@Html.Sitecore().Field("Connection Fee Label")</label>
                             <strong>{{plan.offerOption.connectionFee}}</strong>
                         </div>
-                        <div class="item" ng-show="plan.offerOption.meterSetFee && enrollment.extraFields.serviceState == 'GA'">
+                        <div class="item" ng-show="plan.offerOption.meterSetFee && enrollment.serviceState == 'GA'">
                             <label for="meter-set-fee">@Html.Sitecore().Field("Meter Set Fee Label")</label>
                             <strong>{{plan.offerOption.meterSetFee}}</strong>
                         </div>
-                        <div class="item" ng-show="plan.offerOption.meterSetFee && enrollment.extraFields.serviceState == 'GA'">
+                        <div class="item" ng-show="plan.offerOption.meterSetFee && enrollment.serviceState == 'GA'">
                             <label for="utility-connect-fee">@Html.Sitecore().Field("Utility Connect Fee Label")</label>
                             <strong>{{plan.offerOption.utilityConnectFee}}</strong>
                         </div>
-                        <div class="item" ng-show="plan.offerOption.meterSetFee && enrollment.extraFields.serviceState == 'GA'">
+                        <div class="item" ng-show="plan.offerOption.meterSetFee && enrollment.serviceState == 'GA'">
                             <label for="stream-connect-fee">@Html.Sitecore().Field("Stream Connect Fee Label")</label>
                             <strong>{{plan.offerOption.streamConnectFee}}</strong>
                         </div>
-                    </divng-repeat>
+                    </div>
                 </div>
             </article>
             <h2>@Html.Sitecore().Field("Personal Information Header")</h2>
@@ -72,37 +87,37 @@
                     <div class="group">
                         <div class="item group-col">
                             <label for="firstname">@Html.Sitecore().Field("First Name Label")</label>
-                            <input type="text" id="firstname" placeholder="Jordan" ng-model="enrollment.extraFields.accountInformation.personalInformation.firstname" />
+                            <input type="text" id="firstname" placeholder="Jordan" ng-model="enrollment.uiModel.contactInfo.name.first" />
                         </div>
                         <div class="item group-col">
                             <label for="lastname">@Html.Sitecore().Field("Last Name Label")</label>
-                            <input type="text" id="lastname" placeholder="Campbell" ng-model="enrollment.extraFields.accountInformation.personalInformation.lastname" />
+                            <input type="text" id="lastname" placeholder="Campbell" ng-model="enrollment.uiModel.contactInfo.name.last" />
                         </div>
                     </div>
                     <div class="group">
                         <div class="item group-col">
                             <label for="primary-phone-number">@Html.Sitecore().Field("Primary Phone Number Label")</label>
-                            <input type="text" id="primary-phone-number" ng-model="enrollment.extraFields.accountInformation.personalInformation.primaryPhoneNumber" />
+                            <input type="text" id="primary-phone-number" ng-model="enrollment.uiModel.contactInfo.primaryPhone.number" />
                         </div>
                         <div class="item group-col">
                             <label for="phone-type">@Html.Sitecore().Field("Phone Type Label")</label>
-                            <select id="phone-type" ng-model="enrollment.extraFields.accountInformation.personalInformation.primaryPhoneType">
+                            <select id="phone-type" ng-model="enrollment.uiModel.contactInfo.primaryPhone.type">
                                 <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
                             </select>
                         </div>
                     </div>
                     <div class="additional-field-action">
-                        <a href="" ng-click="enrollment.extraFields.accountInformation.showSecondaryPhone = true">@Html.Sitecore().Field("Add additional phone number")</a>
+                        <a href="" ng-click="accountInformation.showSecondaryPhone = true">@Html.Sitecore().Field("Add additional phone number")</a>
                     </div>
-                    <div class="additional-field-group" ng-show="enrollment.extraFields.accountInformation.showSecondaryPhone">
+                    <div class="additional-field-group" ng-show="accountInformation.showSecondaryPhone">
                         <div class="group">
                             <div class="item group-col">
                                 <label for="secondary-phone-number">@Html.Sitecore().Field("Secondary Phone Number Label")</label>
-                                <input type="text" id="secondary-phone-number" ng-model="enrollment.extraFields.accountInformation.personalInformation.secondaryPhoneNumber" />
+                                <input type="text" id="secondary-phone-number" ng-model="enrollment.uiModel.contactInfo.secondaryPhone.number" />
                             </div>
                             <div class="item group-col">
                                 <label for="phone-type">@Html.Sitecore().Field("Phone Type Label")</label>
-                                <select id="phone-type" ng-model="enrollment.extraFields.accountInformation.personalInformation.secondaryPhoneType">
+                                <select id="phone-type" ng-model="enrollment.uiModel.contactInfo.secondaryPhone.type">
                                     <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
                                 </select>
                             </div>
@@ -111,51 +126,51 @@
                     <hr class="content-divider">
                     <div class="item">
                         <label for="email-address">@Html.Sitecore().Field("Email Address Label")</label>
-                        <input type="email" id="email-address" ng-model="enrollment.extraFields.accountInformation.personalInformation.emailAddress" />
+                        <input type="email" id="email-address" ng-model="enrollment.uiModel.contactInfo.email.address" />
                     </div>
                     <!-- Change this ng-hide option when commercial becomes available -->
                     <div class="item" ng-hide="true">
                         <label>@Html.Sitecore().Field("Social Security Number or Tax ID Number Label")</label>
                         <ul class="checkbox-list">
-                            <li><input type="radio" id="ssn" ng-model="enrollment.extraFields.accountInformation.personalInformation.taxid"><label for="ssn">@Html.Sitecore().Field("Checkbox List Social Security Number" )</label></li>
-                            <li><input type="radio" id="taxid" ng-model="enrollment.extraFields.accountInformation.personalInformation.taxid"><label for="taxid">@Html.Sitecore().Field("Checkbox List Tax ID")</label></li>
+                            <li><input type="radio" id="ssn" ng-model="enrollment.uiModel.personalInformation.taxid"><label for="ssn">@Html.Sitecore().Field("Checkbox List Social Security Number" )</label></li>
+                            <li><input type="radio" id="taxid" ng-model="enrollment.uiModel.personalInformation.taxid"><label for="taxid">@Html.Sitecore().Field("Checkbox List Tax ID")</label></li>
                         </ul>
                     </div>
                     <div class="item">
                         <label for="ssn">@Html.Sitecore().Field("Social Security Number Label")</label>
-                        <input type="text" id="ssn" ng-model="enrollment.extraFields.accountInformation.personalInformation.ssn" />
+                        <input type="text" id="ssn" ng-model="enrollment.uiModel.socialSecurityNumber" />
                     </div>
                     <!-- Change this ng-hide option when commercial becomes available -->
                     <div class="item" ng-hide="true">
                         <label for="dba">@Html.Sitecore().Field("DBA Label")</label>
-                        <input type="text" id="dba" ng-model="enrollment.extraFields.accountInformation.personalInformation.dba" />
+                        <input type="text" id="dba" ng-model="enrollment.uiModel.dba" />
                     </div>
                     <div class="group">
                         <div class="item group-col">
                             <label for="drivers-license-number">@Html.Sitecore().Field("Drivers License Number Label")</label>
-                            <input type="text" id="drivers-license-number" ng-model="enrollment.extraFields.accountInformation.personalInformation.driversLicenseNumber" />
+                            <input type="text" id="drivers-license-number" ng-model="enrollment.uiModel.driversLicense.number" />
                         </div>
                         <div class="item group-col">
                             <label for="drivers-license-state">@Html.Sitecore().Field("Drivers License State Label")</label>
-                            <select id="drivers-license-state" ng-model="enrollment.extraFields.accountInformation.personalInformation.driversLicenseState">
+                            <select id="drivers-license-state" ng-model="enrollment.uiModel.driversLicense.driversLicense.state">
                                 <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
                             </select>
                         </div>
                     </div>
-                    <div class="additional-field-item item" ng-show="enrollment.extraFields.serviceState == 'TX'">
+                    <div class="additional-field-item item" ng-show="enrollment.serviceState == 'TX'">
                         <ul class="checkbox-list">
-                            <li><input type="checkbox" name="secondary-contact" id="secondary-contact" ng-model="enrollment.extraFields.accountInformation.personalInformation.showSecondaryContact"><label for="secondary-contact">@Html.Sitecore().Field("Checkbox Add Secondary Contact")</label></li>
+                            <li><input type="checkbox" name="secondary-contact" id="secondary-contact" ng-model="additionalInformation.showSecondaryContact"><label for="secondary-contact">@Html.Sitecore().Field("Checkbox Add Secondary Contact")</label></li>
                         </ul>
                     </div>
-                    <div class="additional-field-group" ng-show="enrollment.extraFields.accountInformation.personalInformation.showSecondaryContact">
+                    <div class="additional-field-group" ng-show="additionalInformation.showSecondaryContact">
                         <div class="group">
                             <div class="item group-col">
                                 <label for="firstname">@Html.Sitecore().Field("First Name Label")</label>
-                                <input type="text" id="firstname" placeholder="Jordan" ng-model="enrollment.extraFields.accountInformation.personalInformation.secondaryFirstName" />
+                                <input type="text" id="firstname" placeholder="Jordan" ng-model="enrollment.uiModel.secondaryContactInfo.name.last" />
                             </div>
                             <div class="item group-col">
                                 <label for="lastname">@Html.Sitecore().Field("Last Name Label")</label>
-                                <input type="text" id="lastname" placeholder="Campbell" ng-model="enrollment.extraFields.accountInformation.personalInformation.secondaryLastName" />
+                                <input type="text" id="lastname" placeholder="Campbell" ng-model="enrollment.uiModel.secondaryContactInfo.name.first" />
                             </div>
                         </div>
                     </div>
@@ -166,50 +181,54 @@
                 <div class="content">
                     <div class="item">
                         <ul class="checkbox-list">
-                            <li><input type="checkbox" name="same-address" id="same-address" ng-model="enrollment.extraFields.accountInformation.billingAddress.sameAddress"><label for="same-address" >@Html.Sitecore().Field("Same Address Label")</label></li>
+                            <li>
+                                <input type="checkbox" name="same-address" id="same-address" ng-model="additionalInformation.sameAddress" ng-change="updateSameAddress()">
+                                <label for="same-address" >@Html.Sitecore().Field("Same Address Label")</label>
+                            </li>
                         </ul>
                     </div>
-                    <div class="item" ng-show="enrollment.extraFields.accountInformation.billingAddress.sameAddress && sizeOf(enrollment.serverData.locationServices) > 1">
+                    <div class="item" ng-show="additionalInformation.sameAddress && sizeOf(enrollment.uiModel.enrollmentLocations) > 1">
                         <label for="service-address">@Html.Sitecore().Field("Select Service Address Label")</label>
-                        <select id="service-address" ng-model="enrollment.extraFields.accountInformation.billingAddress.serviceAddress">
+                        <select id="service-address" ng-model="additionalInformation.billingAddress" ng-change="updateBillingAddress()">
                             <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
-                            <option ng-repeat="(id, item) in enrollment.serverData.locationServices"  ng-value="id">{{ item.location.address | address }}</option>
+                            <option ng-repeat="(id, item) in enrollment.uiModel.enrollmentLocations" ng-value="item.location.address | address">{{ item.location.address | address }}</option>
                         </select>
                     </div>
-                    <div class="item" ng-show="enrollment.extraFields.accountInformation.billingAddress.sameAddress && sizeOf(enrollment.serverData.locationServices) == 0">
+                    <div class="item" ng-show="additionalInformation.sameAddress && sizeOf(enrollment.uiModel.enrollmentLocations) == 1">
                         <label for="service-address">@Html.Sitecore().Field("Billing Service Address Label")</label>
-                        <strong>123 Main Street, Dallas, TX 75001</strong>
+                        <strong>{{ enrollment.uiModel.enrollmentLocations[0].location.address | address }}</strong>
                     </div>
-                    <div ng-hide="enrollment.extraFields.accountInformation.billingAddress.sameAddress">
+                    <div ng-hide="enrollment.uiModel.billingAddress.sameAddress">
                         <div class="group">
                             <div class="item group-col">
                                 <label for="address1">@Html.Sitecore().Field("Address 1 Label")</label>
-                                <input type="text" id="address1" ng-model="enrollment.extraFields.accountInformation.billingAddress.address1" />
+                                <input type="text" id="address1" ng-model="enrollment.uiModel.billingAddress.line1" />
                             </div>
                             <div class="item group-col">
                                 <label for="address2">@Html.Sitecore().Field("Address 2 Label")</label>
-                                <input type="text" id="address2" ng-model="enrollment.extraFields.accountInformation.billingAddress.address2" />
+                                <input type="text" id="address2" ng-model="enrollment.uiModel.billingAddress.unitNumber" />
                             </div>
                         </div>
                         <div class="group">
                             <div class="item group-col">
                                 <label for="city">@Html.Sitecore().Field("City Label")</label>
-                                <input type="text" id="city" ng-model="enrollment.extraFields.accountInformation.billingAddress.city" />
+                                <input type="text" id="city" ng-model="enrollment.uiModel.billingAddress.city" />
                             </div>
                             <div class="item">
                                 <label for="state">@Html.Sitecore().Field("State Label")</label>
-                                <select id="state" ng-model="enrollment.extraFields.accountInformation.billingAddress.state">
+                                <select id="state" ng-model="enrollment.uiModel.billingAddress.stateAbbreviation">
                                     <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
                                 </select>
                             </div>
                             <div class="item">
                                 <label for="zip">@Html.Sitecore().Field("Zip Label")</label>
-                                <input class="small" type="text" id="zip" ng-model="enrollment.extraFields.accountInformation.billingAddress.zip" />
+                                <input class="small" type="text" id="zip" ng-model="enrollment.uiModel.billingAddress.postalCode5" />
                             </div>
                         </div>
                     </div>
                 </div>
             </article>
+            <!-- HOW ARE WE HANDLING USER ACCOUNT CREATION? -->
             <article class="form">
                 <div class="content">
                     <div class="social-box">
@@ -226,20 +245,21 @@
                     <p>@Html.Sitecore().Field("Online Account Paragraph")</p>
                     <div class="item">
                         <label for="username">@Html.Sitecore().Field("Username Optional Label")</label>
-                        <input type="text" id="username" ng-model="enrollment.extraFields.accountInformation.login.username" />
+                        <input type="text" id="username" ng-model="enrollment.accountInformation.login.username" />
                     </div>
                     <div class="group">
                         <div class="item group-col">
                             <label for="password">@Html.Sitecore().Field("Password Optional Label")</label>
-                            <input type="password" id="password" ng-model="enrollment.extraFields.accountInformation.login.password" />
+                            <input type="password" id="password" ng-model="enrollment.accountInformation.login.password" />
                         </div>
                         <div class="item group-col">
                             <label for="verify-password">@Html.Sitecore().Field("Verify Password Label")</label>
-                            <input type="password" id="verify-password" ng-model="enrollment.extraFields.accountInformation.billingAddress.verifyPassword" />
+                            <input type="password" id="verify-password" ng-model="enrollment.accountInformation.billingAddress.verifyPassword" />
                         </div>
                     </div>
                 </div>
             </article>
+            <!-- END USER ACCOUNT CREATION QUESTION -->
             <div class="buttons">
                 <button type="submit" class="primary" ng-click="completeStep();">@Html.Sitecore().Field("Button Label")</button>
             </div>

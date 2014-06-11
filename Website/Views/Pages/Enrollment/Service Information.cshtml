@@ -29,15 +29,24 @@
                     *@
                     <div class="item" ng-class="{'error': enrollment.formErrors.serviceInformation.serviceAddress}">
                         <label for="address-or-zip">@Html.Sitecore().Field("Address Label")</label>
-                        <input type="text" id="address-or-zip" class="typeahead" ng-model=" enrollment.extraFields.serviceAddress" placeholder="@Html.Sitecore().Field("Address Placeholder")" typeahead="address as address.formattedAddress for address in getLocation(enrollment.extraFields.serviceState, $viewValue)" ng-disabled="enrollment.extraFields.serviceState == ''" typeahead-loading="enrollment.extraFields.loadingServiceAddress" ng-class="{'loading' : enrollment.extraFields.loadingServiceAddress}" />
-                        <div id="state-select" dropdown-select dropdown-items="states" value="enrollment.extraFields.serviceState"></div>
-                        <div ng-show="enrollment.formErrors.serviceInformation.serviceAddress">{{enrollment.formErrors.serviceInformation.serviceAddress}}</div>
+                        <input type="text" 
+                               id="address-or-zip" 
+                               class="typeahead" 
+                               ng-model="enrollment.serviceAddress" 
+                               placeholder="@Html.Sitecore().Field("Address Placeholder")" 
+                               typeahead="address as address.formattedAddress for address in getLocation(enrollment.serviceState, $viewValue)" 
+                               ng-disabled="enrollment.serviceState == ''" 
+                               typeahead-loading="enrollment.loadingServiceAddress" 
+                               ng-class="{'loading' : enrollment.loadingServiceAddress}" 
+                        />
+                        <div id="state-select" dropdown-select dropdown-items="states" value="enrollment.serviceState"></div>
+                        <div ng-show="enrollment.formErrors.serviceInformation.serviceAddress">{{ enrollment.formErrors.serviceInformation.serviceAddress }}</div>
                     </div>             
                     <div class="item">
                         <label>@Html.Sitecore().Field("Options Label")</label>
                         <ul class="checkbox-list">
-                            <li><input type="radio" ng-model="enrollment.extraFields.isNewService" id="switching-electricity-providers" value="0"><label for="switching-electricity-providers">Switching electricity providers</label></li>
-                            <li><input type="radio" ng-model="enrollment.extraFields.isNewService" id="setting-up-new-service" value="1"><label for="setting-up-new-service">Setting up new service</label></li>
+                            <li><input type="radio" ng-model="enrollment.isNewService" id="switching-electricity-providers" value="0"><label for="switching-electricity-providers">Switching electricity providers</label></li>
+                            <li><input type="radio" ng-model="enrollment.isNewService" id="setting-up-new-service" value="1"><label for="setting-up-new-service">Setting up new service</label></li>
                         </ul>
                     </div>
                     @*
@@ -59,7 +68,7 @@
                     </div>
                 </article>
                 <div class="buttons">
-                    <button type="submit" class="primary" ng-click="completeStep();">@Html.Sitecore().Field("Continue Button Label")</button>
+                    <button type="submit" class="primary" ng-click="completeStep();" ng-disabled="!enrollment.serviceAddress">@Html.Sitecore().Field("Continue Button Label")</button>
                 </div>
                 <div class="hide-medium-large time-remaining-mobile">
                     <p class="time-remaining">@Html.Sitecore().Field("Time Remaining")</p>

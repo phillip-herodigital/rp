@@ -2,12 +2,12 @@
  *
  * This is used to control aspects of account information on enrollment page.
  */
-ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', '$rootScope', 'enrollmentService', function ($scope, $rootScope, enrollmentService) {
+ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', '$rootScope', '$filter', 'enrollmentService', function ($scope, $rootScope, $filter, enrollmentService) {
     /**
     * Initialize function
     */
     $scope.init = function () {
-        $scope.enrollment.extraFields.accountInformation = {
+        /*$scope.enrollment.extraFields.accountInformation = {
             serviceAddresses: {},
             personalInformation: {},
             billingAddress: {},
@@ -20,6 +20,22 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', '$rootScope', 'e
             angular.forEach($scope.enrollment.serverData.locationServices[id].selectedOffers, function(plan, type) {
                 $scope.enrollment.extraFields.accountInformation.serviceAddresses[id][type] = {};
             });
+        });*/
+    };
+
+    $scope.updateSameAddress = function() {
+        console.log($scope.sizeOf($scope.enrollment.serverData.enrollmentLocations));
+        if($scope.sizeOf($scope.enrollment.serverData.enrollmentLocations) == 1) {
+            console.log($scope.enrollment.serverData.enrollmentLocations);
+        }
+    }
+
+    $scope.updateBillingAddress = function() {
+        console.log($scope.additionalInformation.billingAddress);
+        angular.forEach($scope.enrollment.serverData.enrollmentLocations, function (item, id) {
+            if($filter('address')(item.location.address) == $scope.additionalInformation.billingAddress) {
+                angular.copy(item.location.address, $scope.enrollment.serverData.billingAddress);
+            }
         });
     };
 

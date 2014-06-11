@@ -1,4 +1,5 @@
-﻿<div id="{{section.id}}" class="enrollment-section accent-darkgreen" ng-switch-when="completeOrder" ng-show="section.isVisible" ng-controller="EnrollmentCompleteOrderCtrl">
+﻿<!-- <div id="{{section.id}}" class="enrollment-section accent-darkgreen" ng-switch-when="completeOrder" ng-show="section.isVisible" ng-controller="EnrollmentCompleteOrderCtrl"> -->
+<div id="{{section.id}}" class="enrollment-section accent-darkgreen" ng-switch-when="completeOrder" ng-controller="EnrollmentCompleteOrderCtrl">
     <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper">
             <h1>
@@ -14,7 +15,7 @@
         <section>
             <h1>@Html.Sitecore().Field("Add Payment Information")</h1>
             <p>@Html.Sitecore().Field("Payment Due")</p>
-            <div ng-repeat="(id, item) in enrollment.serverData.locationServices">
+            <div ng-repeat="(id, item) in enrollment.uiModel.enrollmentLocations">
                 <article class="form">
                     <div class="content">
                         <div class="item">
@@ -73,31 +74,31 @@
                 <div class="content">
                     <div class="item">
                         <label for="payment-method">@Html.Sitecore().Field("Select Payment Method Label")</label>
-                        <select id="payment-method" ng-model="enrollment.extraFields.verifyIdentity.creditCard.paymentMethod">
+                        <select id="payment-method" ng-model="verifyIdentity.creditCard.paymentMethod">
                             <option value="">@Html.Sitecore().Field("Select Option")</option>
                         </select>
                     </div>
                     <div class="item">
                         <label for="cc">@Html.Sitecore().Field("Credit Card Number Label")</label>
-                        <input type="text" id="cc" ng-model="enrollment.extraFields.verifyIdentity.creditCard.cardNumber" />
+                        <input type="text" id="cc" ng-model="verifyIdentity.creditCard.cardNumber" />
                     </div>
                     <div class="group">
                         <div class="item">
                             <label for="expiration-date">@Html.Sitecore().Field("Expiration Date Label")</label>
-                            <select class="small" id="cc-month" ng-model="enrollment.extraFields.verifyIdentity.creditCard.expirationMonth">
+                            <select class="small" id="cc-month" ng-model="verifyIdentity.creditCard.expirationMonth">
                                 <option value="">@Html.Sitecore().Field("Select Month")</option>
                             </select>
                             <select class="small" id="cc-year">
-                                <option value="" ng-model="enrollment.extraFields.verifyIdentity.creditCard.expirationYear">@Html.Sitecore().Field("Select Year")</option>
+                                <option value="" ng-model="verifyIdentity.creditCard.expirationYear">@Html.Sitecore().Field("Select Year")</option>
                             </select>
                         </div>
                         <div class="item">
                             <label for="billing-zip">@Html.Sitecore().Field("Billing Zip Label")</label>
-                            <input class="small" type="text" id="billing-zip" ng-model="enrollment.extraFields.verifyIdentity.creditCard.billingZip" />
+                            <input class="small" type="text" id="billing-zip" ng-model="verifyIdentity.creditCard.billingZip" />
                         </div>
                         <div class="item">
                             <label for="security-code">@Html.Sitecore().Field("Security Code Label")</label>
-                            <input class="small" type="text" id="security-code" ng-model="enrollment.extraFields.verifyIdentity.creditCard.securityCode" />
+                            <input class="small" type="text" id="security-code" ng-model="verifyIdentity.creditCard.securityCode" />
                         </div>
                         <div class="item">
                             <a href="" class="single-link">@Html.Sitecore().Field("See Example")</a>

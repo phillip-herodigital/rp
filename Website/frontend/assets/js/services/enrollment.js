@@ -221,7 +221,7 @@
 
         return $http.get('/api/address/lookup/' + state + '/' + val)
             .success(function (data) {
-            console.log('time taken for request: ' + (new Date().getTime() - start) + 'ms');
+            //console.log('time taken for request: ' + (new Date().getTime() - start) + 'ms');
         });
     };
 

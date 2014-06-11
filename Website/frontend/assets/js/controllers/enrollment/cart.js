@@ -23,4 +23,8 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', '$rootScope', 'enrollmentServi
     $scope.deleteItem = function () {
 
     };
+
+    $scope.updateCart = function() {
+
+    };
 }]);
