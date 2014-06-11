@@ -18,46 +18,50 @@
             @Html.Sitecore().Field("Body Text")
             <article class="form">
                 <div class="content">
-                    @*
-                    <div class="item">
-                        <label for="service-interest">@Html.Sitecore().Field("Interest Label")</label>
-                        <select id="service-interest" ng-model="enrollmentFields.serviceInformation.serviceInterest">
-                            <option value="">Please Choose</option>
-                            <option value="">Residential Utilities</option>
-                            <option value="">Commercial Utilities</option>
-                            <option value="">Homelife Services</option>
-                        </select>
-                    </div>
-                    *@
-                    <div class="item" ng-class="{'error': enrollment.formErrors.serviceInformation.serviceAddress}">
-                        <label for="address-or-zip">@Html.Sitecore().Field("Address Label")</label>
-                        <input type="text" id="address-or-zip" class="typeahead" ng-model=" enrollment.extraFields.serviceAddress" placeholder="@Html.Sitecore().Field("Address Placeholder")" typeahead="address as address.formattedAddress for address in getLocation(enrollment.extraFields.serviceState, $viewValue)" ng-disabled="enrollment.extraFields.serviceState == ''" typeahead-loading="enrollment.extraFields.loadingServiceAddress" ng-class="{'loading' : enrollment.extraFields.loadingServiceAddress}" />
-                        <div id="state-select" dropdown-select dropdown-items="states" value="enrollment.extraFields.serviceState"></div>
-                        <div ng-show="enrollment.formErrors.serviceInformation.serviceAddress">{{enrollment.formErrors.serviceInformation.serviceAddress}}</div>
-                    </div>             
-                    <div class="item">
-                        <label>@Html.Sitecore().Field("Options Label")</label>
-                        <ul class="checkbox-list">
-                            <li><input type="radio" ng-model="enrollment.extraFields.isNewService" id="switching-electricity-providers" value="0"><label for="switching-electricity-providers">Switching electricity providers</label></li>
-                            <li><input type="radio" ng-model="enrollment.extraFields.isNewService" id="setting-up-new-service" value="1"><label for="setting-up-new-service">Setting up new service</label></li>
-                        </ul>
-                    </div>
-                    @*
+                    @* TODO - replace "0" with the angular variable for the 'current' service location index being updated *@
+                    @using (var currentService = Html.AngularRepeat(m => m.Services, "0"))
+                    {
+                        @*
                         <div class="item">
-                            <label>@Html.Sitecore().Field("Premises Label")</label>
+                            <label for="service-interest">@Html.Sitecore().Field("Interest Label")</label>
+                            <select id="service-interest" ng-model="enrollmentFields.serviceInformation.serviceInterest">
+                                <option value="">Please Choose</option>
+                                <option value="">Residential Utilities</option>
+                                <option value="">Commercial Utilities</option>
+                                <option value="">Homelife Services</option>
+                            </select>
+                        </div>
+                        *@
+                        <div class="item" @currentService.ErrorClass(s => s.Value.Location) ng-class="{'error': enrollment.formErrors.serviceInformation.serviceAddress}">
+                            <label for="@currentService.For(s => s.Value.Location)">@Html.Sitecore().Field("Address Label")</label>
+                            <input type="text" @currentService.Attributes(s => s.Value.Location) class="typeahead" ng-model=" enrollment.extraFields.serviceAddress" placeholder="@Html.Sitecore().Field("Address Placeholder")" typeahead="address as address.formattedAddress for address in getLocation(enrollment.extraFields.serviceState, $viewValue)" ng-disabled="enrollment.extraFields.serviceState == ''" typeahead-loading="enrollment.extraFields.loadingServiceAddress" ng-class="{'loading' : enrollment.extraFields.loadingServiceAddress}" />
+                            <div id="state-select" dropdown-select dropdown-items="states" value="enrollment.extraFields.serviceState"></div>
+                            @currentService.MessageFor(s => s.Value.Location)
+                        </div>             
+                        <div class="item">
+                            <label>@Html.Sitecore().Field("Options Label")</label>
                             <ul class="checkbox-list">
-                                <li><input type="radio" ng-model="enrollmentFields.serviceInformation.premiseNum" id="less-than-5"><label for="less-than-5">Less than 5</label></li>
-                                <li><input type="radio" ng-model="enrollmentFields.serviceInformation.premiseNum" id="5-or-more"><label for="5-or-more">5 or more</label></li>
+                                <li><input type="radio" ng-model="enrollment.extraFields.isNewService" id="switching-electricity-providers" value="0"><label for="switching-electricity-providers">Switching electricity providers</label></li>
+                                <li><input type="radio" ng-model="enrollment.extraFields.isNewService" id="setting-up-new-service" value="1"><label for="setting-up-new-service">Setting up new service</label></li>
                             </ul>
                         </div>
-                        <div class="item">
-                            <label>@Html.Sitecore().Field("Monthly Spending Label")</label>
-                            <ul class="checkbox-list">
-                                <li><input type="radio" ng-model="enrollmentFields.serviceInformation.monthlySpending" id="less-than-150"><label for="less-than-150">Less than $150.00</label></li>
-                                <li><input type="radio" ng-model="enrollmentFields.serviceInformation.monthlySpending" id="150-or-more"><label for="150-or-more">$150 or more</label></li>
-                            </ul>
-                        </div>
-                    *@
+                        @*
+                            <div class="item">
+                                <label>@Html.Sitecore().Field("Premises Label")</label>
+                                <ul class="checkbox-list">
+                                    <li><input type="radio" ng-model="enrollmentFields.serviceInformation.premiseNum" id="less-than-5"><label for="less-than-5">Less than 5</label></li>
+                                    <li><input type="radio" ng-model="enrollmentFields.serviceInformation.premiseNum" id="5-or-more"><label for="5-or-more">5 or more</label></li>
+                                </ul>
+                            </div>
+                            <div class="item">
+                                <label>@Html.Sitecore().Field("Monthly Spending Label")</label>
+                                <ul class="checkbox-list">
+                                    <li><input type="radio" ng-model="enrollmentFields.serviceInformation.monthlySpending" id="less-than-150"><label for="less-than-150">Less than $150.00</label></li>
+                                    <li><input type="radio" ng-model="enrollmentFields.serviceInformation.monthlySpending" id="150-or-more"><label for="150-or-more">$150 or more</label></li>
+                                </ul>
+                            </div>
+                        *@
+                    }
                     </div>
                 </article>
                 <div class="buttons">

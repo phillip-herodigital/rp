@@ -15,5 +15,6 @@ namespace StreamEnergy.Extensions.ValidationChaining
         IHtmlString ErrorClass<TResultModel>(Expression<Func<TCurrentModel, TResultModel>> model);
         IHtmlString For<TResultModel>(Expression<Func<TCurrentModel, TResultModel>> model);
         IHtmlString Attributes<TResultModel>(Expression<Func<TCurrentModel, TResultModel>> model, Item translateFrom = null, bool writeId = true, bool writeValue = true);
+        IHtmlString MessageFor<TResultModel>(Expression<Func<TCurrentModel, TResultModel>> model);
     }
 }

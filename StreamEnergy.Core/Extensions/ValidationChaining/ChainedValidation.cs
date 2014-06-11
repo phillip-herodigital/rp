@@ -88,20 +88,23 @@ namespace StreamEnergy.Extensions.ValidationChaining
 
             var dictionary = new Dictionary<string, object>();
             UnobtrusiveValidationAttributesGenerator.GetValidationAttributes(clientRules, dictionary);
-            dictionary["name"] = StreamEnergy.CompositeValidationAttribute.GetPathedName(propertyChain);
+            dictionary["name"] = For(model);
             if (writeId)
             {
-                dictionary["id"] = StreamEnergy.CompositeValidationAttribute.GetPathedName(propertyChain);
+                dictionary["id"] = For(model);
             }
 
             return Helper.Raw(string.Join(" ", from attr in dictionary
                                              select attr.Key + "=\"" + attr.Value + "\""));
         }
 
+        public System.Web.IHtmlString MessageFor<TResultModel>(System.Linq.Expressions.Expression<Func<TIntermediateModel, TResultModel>> model)
+        {
+            return Helper.Raw(@"<span data-valmsg-for=""" + For(model).ToString() + @""" data-valmsg-replace=""true""></span>");
+        }
+
         void IDisposable.Dispose()
         {
         }
-
-
     }
 }
