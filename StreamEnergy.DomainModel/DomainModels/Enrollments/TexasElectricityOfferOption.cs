@@ -16,7 +16,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         {
         }
 
-        string IOfferOption.OptionType
+        public string OptionType
         {
             get { return TexasElectricityOfferOption.Qualifier; }
         }
