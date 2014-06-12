@@ -6,11 +6,9 @@ using StreamEnergy.DomainModels.Enrollments;
 
 namespace StreamEnergy.MyStream.Models.Enrollment
 {
-    public class EnrollmentLocation
+    public class CartEntry
     {
-        public string Id { get; set; }
         public Location Location { get; set; }
-        public IEnumerable<DomainModels.Enrollments.IOffer> AvailableOffers { get; set; }
-        public IEnumerable<OfferSelection> OfferSelections { get; set; }
+        public Dictionary<string, OfferInformation> OfferInformationByType { get; set; }
     }
 }

@@ -59,7 +59,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public ClientData ClientData()
         {
-            var services = stateMachine.Context.Services ?? new Dictionary<string, LocationServices>();
+            var services = stateMachine.Context.Services ?? Enumerable.Empty<LocationServices>();
             var offers = stateMachine.InternalContext.AllOffers ?? Enumerable.Empty<Tuple<Location, IOffer>>();
             var optionRules = stateMachine.InternalContext.OfferOptionRules ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<IOfferOptionRules>>();
             var deposits = stateMachine.InternalContext.Deposit ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>>();
@@ -72,24 +72,32 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 DriversLicense = stateMachine.Context.DriversLicense,
                 Language = stateMachine.Context.Language,
                 SecondaryContactInfo = stateMachine.Context.SecondaryContactInfo,
-                EnrollmentLocations = from service in services
-                                      select new EnrollmentLocation
-                                      {
-                                          Id = service.Key,
-                                          Location = service.Value.Location,
-                                          AvailableOffers = (from entry in offers
-                                               where LookupAddressId(entry.Item1) == service.Key
-                                               select entry.Item2),
-                                          OfferSelections = from selectedOffer in (service.Value.SelectedOffers == null ? Enumerable.Empty<SelectedOffer>() : service.Value.SelectedOffers)
-                                                            select new OfferSelection
-                                                            {
-                                                                OfferId = selectedOffer.Offer.Id,
-                                                                OfferOption = selectedOffer.OfferOption,
-                                                                OptionRules = optionRules.Where(entry => LookupAddressId(entry.Location) == service.Key && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details).FirstOrDefault(),
-                                                                Deposit = deposits.Where(entry => LookupAddressId(entry.Location) == service.Key && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details).SingleOrDefault(),
-                                                                ConfirmationNumber = confirmations.Where(entry => LookupAddressId(entry.Location) == service.Key && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details.ConfirmationNumber).SingleOrDefault()
-                                                            },
-                                      },
+                Cart = from service in services
+                       select new CartEntry
+                       {
+                           Location = service.Location,
+                           OfferInformationByType = (from selection in service.SelectedOffers ?? Enumerable.Empty<SelectedOffer>()
+                                                     where selection.Offer != null
+                                                     select selection.Offer.OfferType).Union(
+                                                     from offer in offers
+                                                     select offer.Item2.OfferType)
+                                                     .ToDictionary(offerType => offerType, offerType => new OfferInformation
+                                                     {
+                                                         OfferSelections = from selectedOffer in service.SelectedOffers ?? Enumerable.Empty<SelectedOffer>()
+                                                                           where selectedOffer.Offer != null && selectedOffer.Offer.OfferType == offerType
+                                                                           select new OfferSelection
+                                                                           {
+                                                                               OfferId = selectedOffer.Offer.Id,
+                                                                               OfferOption = selectedOffer.OfferOption,
+                                                                               OptionRules = optionRules.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details).FirstOrDefault(),
+                                                                               Deposit = deposits.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details).SingleOrDefault(),
+                                                                               ConfirmationNumber = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details.ConfirmationNumber).SingleOrDefault()
+                                                                           },
+                                                         AvailableOffers = (from entry in offers
+                                                                            where entry.Item1 == service.Location && entry.Item2.OfferType == offerType
+                                                                            select entry.Item2)
+                                                     })
+                       },
                 SelectedIdentityAnswers = null,
                 IdentityQuestions = stateMachine.InternalContext.IdentityCheckResult != null ? stateMachine.InternalContext.IdentityCheckResult.IdentityQuestions : null,
             };
@@ -100,17 +108,13 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public ClientData ServiceInformation([FromBody]ServiceInformation value)
         {
             stateMachine.Context.Services = (from location in value.Locations
-                                             join service in (stateMachine.Context.Services ?? Enumerable.Empty<KeyValuePair<string, LocationServices>>()) on location.Key equals service.Key into services
+                                             join service in (stateMachine.Context.Services ?? Enumerable.Empty<LocationServices>()) on location equals service.Location into services
                                              from service in services.DefaultIfEmpty()
-                                             select new
+                                             select new LocationServices
                                              {
-                                                 Key = location.Key,
-                                                 Value = new LocationServices
-                                                     {
-                                                         Location = location.Value,
-                                                         SelectedOffers = service.Value != null ? service.Value.SelectedOffers : null
-                                                     }
-                                             }).ToDictionary(e => e.Key, e => e.Value);
+                                                 Location = location,
+                                                 SelectedOffers = service != null ? service.SelectedOffers : null
+                                             }).ToArray();
 
             if (stateMachine.State == typeof(DomainModels.Enrollments.ServiceInformationState))
                 stateMachine.Process(typeof(DomainModels.Enrollments.AccountInformationState));
@@ -122,20 +126,12 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public ClientData SelectedOffers([FromBody]SelectedOffers value)
         {
-            foreach (var entry in stateMachine.Context.Services)
-            {
-                var addressId = entry.Key;
-                if (value.OfferIds.ContainsKey(addressId))
-                {
-                    entry.Value.SelectedOffers = (from offerId in value.OfferIds[addressId]
-                                                  let offer = LookupOffer(addressId, offerId)
-                                                  where offer != null
-                                                  select new SelectedOffer
-                                                  {
-                                                      Offer = offer
-                                                  }).ToArray();
-                }
-            }
+            if (stateMachine.State == typeof(DomainModels.Enrollments.ServiceInformationState))
+                return ClientData();
+
+            stateMachine.Context.Services = (from newSelection in value.Selection
+                                             join oldService in (stateMachine.Context.Services ?? Enumerable.Empty<LocationServices>()) on newSelection.Location equals oldService.Location into oldServices
+                                             select Combine(newSelection, oldServices.SingleOrDefault(), stateMachine.InternalContext.AllOffers)).ToArray();
 
             if (stateMachine.State == typeof(DomainModels.Enrollments.PlanSelectionState))
                 stateMachine.Process(typeof(DomainModels.Enrollments.AccountInformationState));
@@ -143,32 +139,28 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             return ClientData();
         }
 
-        private string LookupAddressId(Location serviceLocation)
+        private LocationServices Combine(SelectedOfferSet newSelection, LocationServices oldService, IEnumerable<Tuple<Location, IOffer>> allOffers)
         {
-            return stateMachine.Context.Services.Where(s => s.Value.Location.Address.Equals(serviceLocation.Address)).Select(s => s.Key).FirstOrDefault();
-        }
-
-        private IOffer LookupOffer(string addressId, string offerId)
-        {
-            return stateMachine.InternalContext.AllOffers.Where(offer => LookupAddressId(offer.Item1) == addressId && offer.Item2.Id == offerId).Select(offer => offer.Item2).FirstOrDefault();
+            var result = oldService ?? new LocationServices();
+            result.Location = newSelection.Location;
+            result.SelectedOffers = (from entry in newSelection.OfferIds
+                                     join oldSelection in result.SelectedOffers ?? Enumerable.Empty<SelectedOffer>() on entry equals oldSelection.Offer.Id into oldSelections
+                                     let offer = allOffers.Where(offer => offer.Item1 == newSelection.Location && offer.Item2.Id == entry).Select(o => o.Item2).FirstOrDefault()
+                                     where offer != null
+                                     select oldSelections.FirstOrDefault() ?? 
+                                        new SelectedOffer 
+                                        { 
+                                            Offer = offer,
+                                            OfferOption = null
+                                        }).ToArray();
+            return result;
         }
 
         [HttpPost]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public ClientData AccountInformation([FromBody]AccountInformation request)
         {
-            stateMachine.Context.Services = (from location in request.Locations
-                                             join service in (stateMachine.Context.Services ?? new Dictionary<string, LocationServices>()) on location.Key equals service.Key into services
-                                             from service in services.DefaultIfEmpty()
-                                             select new
-                                             {
-                                                 Key = location.Key,
-                                                 Value = new LocationServices
-                                                 {
-                                                     Location = location.Value,
-                                                     SelectedOffers = service.Value != null ? service.Value.SelectedOffers : null
-                                                 }
-                                             }).ToDictionary(e => e.Key, e => e.Value);
+            MapCartToServices(request);
 
             stateMachine.Context.ContactInfo = request.ContactInfo;
             stateMachine.Context.BillingAddress = request.BillingAddress;
@@ -176,21 +168,34 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             stateMachine.Context.Language = request.Language;
             stateMachine.Context.SecondaryContactInfo = request.SecondaryContactInfo;
             stateMachine.Context.SocialSecurityNumber = request.SocialSecurityNumber;
-            if (request.OfferOptions != null)
-            {
-                foreach (var addressId in request.OfferOptions.Keys)
-                {
-                    foreach (var offerId in request.OfferOptions[addressId].Keys)
-                    {
-                        stateMachine.Context.Services[addressId].SelectedOffers.Single(offer => offer.Offer.Id == offerId).OfferOption = request.OfferOptions[addressId][offerId];
-                    }
-                }
-            }
+
+            if (stateMachine.State == typeof(DomainModels.Enrollments.AccountInformationState))
+                stateMachine.Process(typeof(DomainModels.Enrollments.VerifyIdentityState));
+
+            MapCartToServices(request);
 
             if (stateMachine.State == typeof(DomainModels.Enrollments.AccountInformationState))
                 stateMachine.Process(typeof(DomainModels.Enrollments.VerifyIdentityState));
 
             return ClientData();
+        }
+
+        private void MapCartToServices(AccountInformation request)
+        {
+            stateMachine.Context.Services = (from cartEntry in request.Cart
+                                             select new LocationServices
+                                             {
+                                                 Location = cartEntry.Location,
+                                                 SelectedOffers = (from type in cartEntry.OfferInformationByType
+                                                                   from offerInfo in type.Value.OfferSelections
+                                                                   let offer = stateMachine.InternalContext.AllOffers.Where(offer => offer.Item1 == cartEntry.Location && offer.Item2.Id == offerInfo.OfferId).Select(o => o.Item2).FirstOrDefault()
+                                                                   where offer != null
+                                                                   select new SelectedOffer
+                                                                   {
+                                                                       Offer = offer,
+                                                                       OfferOption = offerInfo.OfferOption
+                                                                   }).ToArray()
+                                             }).ToArray();
         }
 
         [HttpPost]

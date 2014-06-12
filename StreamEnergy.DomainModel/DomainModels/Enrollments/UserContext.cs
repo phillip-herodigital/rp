@@ -19,7 +19,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         [EnumerableRequired(ErrorMessage = "Services Required")]
         [ValidateEnumerable(ErrorMessagePrefix = "Service ")]
         [CollectionCountRangeAttribute(1, int.MaxValue, ErrorMessage = "Services Required")]
-        public Dictionary<string, LocationServices> Services { get; set; }
+        public LocationServices[] Services { get; set; }
 
 
         [ValidateObject(ErrorMessagePrefix = "Secondary Contact ")]

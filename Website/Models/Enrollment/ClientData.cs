@@ -10,7 +10,7 @@ namespace StreamEnergy.MyStream.Models.Enrollment
     {
         public IEnumerable<TranslatedValidationResult> Validations { get; set; }
 
-        public IEnumerable<EnrollmentLocation> EnrollmentLocations { get; set; }
+        public IEnumerable<CartEntry> Cart { get; set; }
 
         // Personal information
         public CustomerContact ContactInfo { get; set; }

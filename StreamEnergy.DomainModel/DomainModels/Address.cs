@@ -89,6 +89,25 @@ namespace StreamEnergy.DomainModels
                 && (this.UnitNumber ?? "") == (other.UnitNumber ?? "");
         }
 
+        public static bool operator ==(Address lhs, Address rhs)
+        {
+            if (object.ReferenceEquals(lhs, null) && object.ReferenceEquals(rhs, null))
+            {
+                return true;
+            }
+            else if (object.ReferenceEquals(lhs, null) || object.ReferenceEquals(rhs, null))
+            {
+                return false;
+            }
+
+            return lhs.Equals(rhs);
+        }
+
+        public static bool operator !=(Address lhs, Address rhs)
+        {
+            return !(lhs == rhs);
+        }
+
         public string ToSingleLine()
         {
             if (string.IsNullOrEmpty(Line1) && string.IsNullOrEmpty(Line2) && string.IsNullOrEmpty(UnitNumber) && string.IsNullOrEmpty(City))
