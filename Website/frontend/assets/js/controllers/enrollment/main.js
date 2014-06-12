@@ -3,15 +3,14 @@
  */
 ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', '$anchorScroll', '$timeout', '$filter', 'enrollmentService', 'scrollService', 'jQuery', function ($scope, $rootScope, $http, $anchorScroll, $timeout, $filter, enrollmentService, scrollService, jQuery) {
     $scope.enrollment = {
-        serverData: {}, // This array should keep track of all the form fields we collect for the enrollment
+        serverData: {},
         currentSection: 'serviceInformation',
         nextSection: true,
-        formErrors: {},
-        currentAddress: {},
         headerHeightOffset: jQuery('header.site-header').height() * -1,
+        currentAddress: {},
         isNewService: 0,
         serviceState: 'TX',
-        currentLocation: '', //Keep the ID of the current working location up-to-date here
+        currentLocation: '',
         sections : [
             {
                 id: 'serviceInformation',
@@ -176,7 +175,7 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', '$ancho
         }
 
         console.log($scope.enrollment.uiModel);
-    }
+    };
 
     /**
     * Size of object
