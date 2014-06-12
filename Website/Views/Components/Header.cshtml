@@ -51,6 +51,7 @@
                             }
                         </li>
                     }
+                    <li><a href="/pay/" class="button">Pay My Bill</a></li>
                     <li><a href="/manage/">Manage My Account</a></li>
                 </ul>
             </nav>
@@ -65,6 +66,7 @@
                     {
                         <li ng-mouseover="showSubnav(@item.SubNavNum)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav==@item.SubNavNum }">@Html.Sitecore().Field("Navigation Link", item.Item)</li>
                     }
+                    <li class="pay"><a href="/pay/" class="button">Pay My Bill</a></li>
                 </ul>
             </nav>
         </div>
