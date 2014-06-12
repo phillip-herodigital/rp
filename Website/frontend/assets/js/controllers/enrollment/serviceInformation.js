@@ -3,10 +3,11 @@
  * This is used to control aspects of let's get started on enrollment page.
  */
 ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$http', '$location', '$filter', 'enrollmentService', function ($scope, $rootScope, $http, $location, $filter, enrollmentService) {
-    //Each section controller will keep track of it's own data to post to it's service
-    var postData = {};
-
-    $scope.enrollment.formErrors.serviceInformation = [];
+    $scope.serviceInformation = {
+        serviceState: 'TX',
+        currentAddress: {},
+        isNewService: -1
+    };
 
     $scope.states = [
         {
@@ -50,17 +51,11 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
     * Complete Enrollment Section
     */
     $scope.completeStep = function () {
-        $scope.enrollment.formErrors.serviceInformation = [];
-
-        //If serviceAddress is blank, show validation error
-        if (!$scope.enrollment.serviceAddress) {
-            $scope.enrollment.formErrors.serviceInformation.serviceAddress = 'Service Address required.';
-            return;
-        }
+        var postData = {};
 
         //If duplicate serviceAddress, show validation error
         if ($scope.checkDuplicateLocation($scope.enrollment.serviceAddress)) {
-            $scope.enrollment.formErrors.serviceInformation.serviceAddress = 'Service Address already added to cart.';
+            $scope.enrollment.form.serviceInformation.serviceAddress = 'Service Address already added to cart.';
             return;
         }
 
@@ -73,23 +68,23 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
         serviceInformationPromise.then(function (data) {
             //Let's set the server data again to make sure it's up-to-date
             $scope.enrollment.serverData = data;
-            $scope.enrollment.isNewService = 0;
+            $scope.serviceInformation.isNewService = 0;
 
             //Change this line to real ID in acutal implementation
             //$scope.enrollment.serviceAddress.id = id;
-            $scope.enrollment.serviceAddress.id = 'location1';
+            $scope.serviceInformation.serviceAddress.id = 'location1';
 
             //Loop through the returned enrollmentLocations and find the current service address
             //Set currentAddress to that item
             angular.forEach(data.enrollmentLocations, function (item, id) {
-                if(item.id == $scope.enrollment.serviceAddress.id) {
-                    $scope.enrollment.currentAddress = item;
-                    $scope.enrollment.currentLocation = item.id;
+                if(item.id == $scope.serviceAddress.id) {
+                    $scope.currentAddress = item;
+                    $scope.currentLocation = item.id;
                 }
             });
 
             //Remove the current service address so another can be added
-            $scope.enrollment.serviceAddress = null;
+            $scope.serviceAddress = null;
 
             //Move to the next section
             $scope.activateSections('planSelection');
@@ -108,7 +103,7 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
         });
 
         //If this is a new service setup, add that to the capabilities object
-        if ($scope.enrollment.isNewService == 1) {
+        if ($scope.serviceInformation.isNewService == 1) {
             newLocation.capabilities.push({ "capabilityType": "ServiceStatus", "isNewService": true });
         }        
 

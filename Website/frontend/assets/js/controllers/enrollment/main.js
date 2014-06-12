@@ -1,48 +1,20 @@
 ﻿/* Enrollment Main Controller
  * This is the main controller for Enrollments. It will keep track of the enrollment state, as well as all fields that will need to be collected.
  */
-ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', '$anchorScroll', '$timeout', '$filter', 'enrollmentService', 'scrollService', 'jQuery', function ($scope, $rootScope, $http, $anchorScroll, $timeout, $filter, enrollmentService, scrollService, jQuery) {
+ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', '$anchorScroll', '$timeout', '$filter', 'enrollmentStepsService', 'enrollmentService', 'scrollService', 'jQuery', function ($scope, $rootScope, $http, $anchorScroll, $timeout, $filter, enrollmentStepsService, enrollmentService, scrollService, jQuery) {
+    
+    //Keep track of our current step in the enrollment process
+    $scope.currentStep = enrollmentStepsService.currentStep;
+
+    //Go ahead and set the first step to be utility for now
+    //Need to determine how the first step will be activated
+    //Or if we need to go ahead and activate multiple based on a saved card
+    enrollmentStepsService.activateStep('utilityFlow');
+
     $scope.enrollment = {
         serverData: {},
         currentSection: 'serviceInformation',
-        nextSection: true,
         headerHeightOffset: jQuery('header.site-header').height() * -1,
-        currentAddress: {},
-        isNewService: 0,
-        serviceState: 'TX',
-        currentLocation: '',
-        sections : [
-            {
-                id: 'serviceInformation',
-                name: 'Let\'s Get Started',
-                order: 1,
-                isVisible: true
-            },
-            {
-                id: 'planSelection',
-                name: 'Choose Your Plan',
-                order: 2,
-                isVisible: false
-            },
-            {
-                id: 'accountInformation',
-                name: 'Setup Your Account',
-                order: 3,
-                isVisible: false
-            },
-            {
-                id: 'verifyIdentity',
-                name: 'Verify Identity',
-                order: 4,
-                isVisible: false
-            },
-            {
-                id: 'completeOrder',
-                name: 'Confirm Order',
-                order: 5,
-                isVisible: false
-            }
-        ],
         uiModel: {
             enrollmentLocations: {},
             contactInfo: {},

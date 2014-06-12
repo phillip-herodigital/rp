@@ -1,5 +1,5 @@
 ﻿@model StreamEnergy.DomainModels.Enrollments.UserContext
-<div id="{{section.id}}" class="enrollment-section accent-orange" ng-switch-when="serviceInformation" ng-show="section.isVisible" ng-controller="EnrollmentServiceInformationCtrl">
+<div id="" class="enrollment-section accent-orange" ng-switch-when="serviceInformation" ng-controller="EnrollmentServiceInformationCtrl">
     <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper center">
             <h1>
@@ -36,14 +36,14 @@
                             <label for="@currentService.For(s => s.Value.Location)">@Html.Sitecore().Field("Address Label")</label>
                             <input type="text" @currentService.Attributes(s => s.Value.Location) 
                                    class="typeahead" 
-                                   ng-model=" enrollment.serviceAddress" 
+                                   ng-model=" serviceInformation.serviceAddress" 
                                    placeholder="@Html.Sitecore().Field("Address Placeholder")" 
-                                   typeahead="address as address.formattedAddress for address in getLocation(enrollment.serviceState, $viewValue)" 
-                                   ng-disabled="enrollment.serviceState == ''" 
+                                   typeahead="address as address.formattedAddress for address in getLocation(serviceInformation.serviceState, $viewValue)" 
+                                   ng-disabled="serviceInformation.serviceState == ''" 
                                    typeahead-loading="enrollment.loadingServiceAddress" 
                                    ng-class="{'loading' : enrollment.loadingServiceAddress}" 
                             />
-                            <div id="state-select" dropdown-select dropdown-items="states" value="enrollment.serviceState"></div>
+                            <div id="state-select" dropdown-select dropdown-items="states" value="serviceInformation.serviceState"></div>
                             @currentService.MessageFor(s => s.Value.Location)
                         </div>
                         <div class="item">
@@ -79,7 +79,7 @@
                     </div>
                 </article>
                 <div class="buttons">
-                    <button type="submit" class="primary" ng-click="completeStep();" ng-disabled="!enrollment.serviceAddress" data-val-submit>@Html.Sitecore().Field("Continue Button Label")</button>
+                    <button type="submit" class="primary" ng-click="completeStep();" ng-disabled="!serviceInformation.serviceAddress" data-val-submit>@Html.Sitecore().Field("Continue Button Label")</button>
                 </div>
             </form>
             <div class="hide-medium-large time-remaining-mobile">
