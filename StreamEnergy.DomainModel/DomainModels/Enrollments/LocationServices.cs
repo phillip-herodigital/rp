@@ -9,7 +9,6 @@ namespace StreamEnergy.DomainModels.Enrollments
     [Serializable]
     public class LocationServices : ISanitizable
     {
-        [Required(ErrorMessage = "Service Location Required")]
         [ValidateObject(ErrorMessagePrefix = "")]
         public Location Location { get; set; }
 

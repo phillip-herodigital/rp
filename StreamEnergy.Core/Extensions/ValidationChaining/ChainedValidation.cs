@@ -49,6 +49,10 @@ namespace StreamEnergy.Extensions.ValidationChaining
             Expression start = Expression.Call(null, method, baseModelUnwrapped);
             foreach (var member in StreamEnergy.CompositeValidationAttribute.UnrollPropertyChain(model.RemoveLambdaBody().RemoveCast() as MemberExpression))
             {
+                if (!member.DeclaringType.IsAssignableFrom(start.Type))
+                {
+                    start = Expression.ConvertChecked(start, member.DeclaringType);
+                }
                 start = Expression.PropertyOrField(start, member.Name);
             }
 

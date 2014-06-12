@@ -39,5 +39,24 @@ namespace StreamEnergy.DomainModels.Enrollments
         {
             return Capabilities.Aggregate(Address.GetHashCode(), (currentHash, serviceCapability) => serviceCapability.GetHashCode() ^ currentHash);
         }
+
+        public static bool operator==(Location lhs, Location rhs)
+        {
+            if (object.ReferenceEquals(lhs, null) && object.ReferenceEquals(rhs, null))
+            {
+                return true;
+            }
+            else if (object.ReferenceEquals(lhs, null) || object.ReferenceEquals(rhs, null))
+            {
+                return false;
+            }
+
+            return lhs.Equals(rhs);
+        }
+
+        public static bool operator!=(Location lhs, Location rhs)
+        {
+            return !(lhs == rhs);
+        }
     }
 }

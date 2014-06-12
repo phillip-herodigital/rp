@@ -21,14 +21,14 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public override IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
         {
-            yield return context => context.Services.PartialValidate(e => e.Value.Location.Address.PostalCode5,
-                                                                     e => e.Value.Location.Capabilities,
-                                                                     e => e.Value.SelectedOffers.PartialValidate(i => i.Offer));
+            yield return context => context.Services.PartialValidate(e => e.Location.Address.PostalCode5,
+                                                                     e => e.Location.Capabilities,
+                                                                     e => e.SelectedOffers.PartialValidate(i => i.Offer));
         }
 
         public override IEnumerable<ValidationResult> AdditionalValidations(UserContext context, InternalContext internalContext)
         {
-            if (context.Services == null || context.Services.Count < 1)
+            if (context.Services == null || context.Services.Length < 1)
                 yield return new ValidationResult("Services Required", new[] { "Services" });
             yield break;
         }
@@ -41,7 +41,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         protected override bool NeedRestoreInternalState(UserContext context, InternalContext internalContext)
         {
             return internalContext.OfferOptionRules == null ||
-                !(from service in (context.Services ?? new Dictionary<string, LocationServices>()).Values
+                !(from service in (context.Services ?? Enumerable.Empty<LocationServices>())
                  from offer in service.SelectedOffers ?? Enumerable.Empty<SelectedOffer>()
                  join internalService in internalContext.OfferOptionRules on new { service.Location, offer.Offer.Id } equals new { internalService.Location, internalService.Offer.Id } into internalServices
                  from internalService in internalServices.DefaultIfEmpty()
@@ -50,7 +50,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         protected override void LoadInternalState(UserContext context, InternalContext internalContext)
         {
-            internalContext.OfferOptionRules = (from service in context.Services.Values
+            internalContext.OfferOptionRules = (from service in context.Services
                                                 where service.SelectedOffers != null
                                                 from offer in service.SelectedOffers
                                                 select new Service.LocationOfferDetails<IOfferOptionRules>

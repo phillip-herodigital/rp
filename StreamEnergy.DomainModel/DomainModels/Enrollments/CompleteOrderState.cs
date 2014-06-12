@@ -32,7 +32,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         protected override Type InternalProcess(UserContext context, InternalContext internalContext)
         {
-            internalContext.PlaceOrderResult = enrollmentService.PlaceOrder(context.Services.Values);
+            internalContext.PlaceOrderResult = enrollmentService.PlaceOrder(context.Services);
 
             return base.InternalProcess(context, internalContext);
         }

@@ -40,6 +40,12 @@ namespace StreamEnergy.Core.Tests
             public string Value { get; set; }
         }
 
+        class SubTarget : Target
+        {
+            [Required]
+            public string OtherValue { get; set; }
+        }
+
         private IValidationService CreateService()
         {
             var unity = new UnityContainer();
@@ -74,7 +80,7 @@ namespace StreamEnergy.Core.Tests
         }
 
         [TestMethod]
-        public void SimpleAttributes()
+        public void SimpleExpressionTest()
         {
             var helper = new HtmlHelper<Outer>(new ViewContext(), new ViewPage<Outer>());
 
@@ -84,6 +90,26 @@ namespace StreamEnergy.Core.Tests
             Assert.AreEqual("m => m.Nests.First().Target.Value", expression.ToString());
         }
 
+        [TestMethod]
+        public void ConvertExpressionTest()
+        {
+            var helper = new HtmlHelper<Outer>(new ViewContext(), new ViewPage<Outer>());
 
+            var chain = helper.AngularRepeat(m => m.Nests, "$index") as Extensions.ValidationChaining.ChainedValidation<Outer, Outer, Nest>;
+            var expression = chain.MergeExpression(t => ((SubTarget)t.Target).OtherValue);
+
+            Assert.AreEqual("m => Convert(m.Nests.First().Target).OtherValue", expression.ToString());
+        }
+
+        [TestMethod]
+        public void ConvertForTest()
+        {
+            var helper = new HtmlHelper<Outer>(new ViewContext(), new ViewPage<Outer>());
+
+            var chain = helper.AngularRepeat(m => m.Nests, "$index") as Extensions.ValidationChaining.ChainedValidation<Outer, Outer, Nest>;
+            var forIndex = chain.For(t => ((SubTarget)t.Target).OtherValue);
+
+            Assert.AreEqual("Nests[{{$index}}].Target.OtherValue", forIndex.ToString());
+        }
     }
 }
