@@ -402,9 +402,12 @@ article.utility-providers .logos {
 	&:hover {
 		border: 1px solid #1697ff;
 	}
-	&:nth-child(1) {
+	@include breakpoint(small) {
+		margin-top: 15px;
+	}
+	&:nth-child(0) {
 		@include breakpoint(small) {
-			margin-bottom: 15px;
+			margin-top: 0;
 		}
 	}
 }
@@ -634,6 +637,10 @@ article.payment-history {
 		}
 		ul {
 			float: right;
+			@include breakpoint(small) {
+				float: none;
+				padding-left: 0px;
+			}
 			li {
 				float: left;
 				list-style-type: none;
@@ -642,6 +649,11 @@ article.payment-history {
 				border-left: 1px solid #0971ce;
 				&:first-child {
 					border-left: none;
+				}
+				@include breakpoint(small) {
+					float: none;
+					text-align: center;
+					border-left: 0px;
 				}
 			}
 		}
