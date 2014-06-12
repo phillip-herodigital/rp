@@ -12,25 +12,18 @@
             <div class="box">
                 <div>
                     <div>
+                        <h3>Energy Plan</h3>
                         <div class="cart-item">
                             <div class="delete">
                                 <i class="icon-delete"></i>
                             </div>
                             <div class="description">
-                                <h2>{{plan.offer.name}}</h2>
+                                <h2>Flex Choice Intro Plan</h2>
                                 <a href="">Change Plan</a>
                             </div>
                             <div class="rate">
-                                {{plan.offer.rate}}&cent;
+                                9.18&cent;
                                 <span>per kWh</span>
-                            </div>
-                        </div>
-                        <div class="cart-item">
-                            <div class="description">
-                                <h2>{{plan.paymentInformation.name}}</h2>
-                            </div>
-                            <div class="rate">
-                                {{plan.paymentInformation.amount | currency}}
                             </div>
                         </div>
                     </div>
@@ -38,7 +31,7 @@
                 </div>
                 <address>
                     <h3>@Html.Sitecore().Field("Service Address Text")</h3>
-                    {{formatAddress(item.location.address)}}<br />
+                    123 Main Street, Dallas, TX 75001<br />
                     <a href="" ng-click="editAddress()">@Html.Sitecore().Field("Edit Address Text")</a>
                 </address>
             </div>

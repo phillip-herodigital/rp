@@ -873,6 +873,61 @@ article.phone {
 		td:last-child {
 			border-right: 0;
 		}
+		h3 {
+			font-size: 18px;
+			text-align: left;
+			text-transform: none;
+			min-height: 48px;
+		}
+		a {
+			text-transform: uppercase;
+			font-weight: bold;
+			font-size: 16px;
+			margin-bottom: 20px;
+			display: block;
+		}
+		p {
+			margin: 20px 0;
+		}
+		.product-image {
+			min-height: 195px;
+			text-align: center;
+			img {
+				vertical-align: middle;
+			}
+		}
+		.price {
+			color: #2579b3;
+			font-size: 22px;
+			text-transform: uppercase;
+			min-height: 45px;
+			position: relative;
+			padding-top: 15px;
+			span {
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				height: 15px;
+				display:block;
+				color: #333;
+				font-size: 11px;
+				font-weight: bold;
+			}
+		}
+		.option-selector {
+			margin: 20px 0;
+			min-height: 40px;
+		}
+		.colors {
+			display: inline-block;
+			margin: 0;
+			padding: 0;
+			li {
+				display: inline-block;
+				list-style-type: none;
+			}
+		}
 		@include breakpoint(small) {
 			table, thead, tbody, th, td, tr { 
 				display: block; 
