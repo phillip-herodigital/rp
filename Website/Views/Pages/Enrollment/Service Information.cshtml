@@ -29,7 +29,7 @@
                     *@
                     <div class="item" ng-class="{'error': enrollment.formErrors.serviceInformation.serviceAddress}">
                         <label for="address-or-zip">@Html.Sitecore().Field("Address Label")</label>
-                        <input type="text" id="address-or-zip" ng-model="enrollment.extraFields.serviceAddress" placeholder="@Html.Sitecore().Field("Address Placeholder")" typeahead="address as address.formattedAddress for address in getLocation(enrollment.extraFields.serviceState, $viewValue)" ng-disabled="enrollment.extraFields.serviceState == ''" />
+                        <input type="text" id="address-or-zip" class="typeahead" ng-model=" enrollment.extraFields.serviceAddress" placeholder="@Html.Sitecore().Field("Address Placeholder")" typeahead="address as address.formattedAddress for address in getLocation(enrollment.extraFields.serviceState, $viewValue)" ng-disabled="enrollment.extraFields.serviceState == ''" typeahead-loading="enrollment.extraFields.loadingServiceAddress" ng-class="{'loading' : enrollment.extraFields.loadingServiceAddress}" />
                         <div id="state-select" dropdown-select dropdown-items="states" value="enrollment.extraFields.serviceState"></div>
                         <div ng-show="enrollment.formErrors.serviceInformation.serviceAddress">{{enrollment.formErrors.serviceInformation.serviceAddress}}</div>
                     </div>             
