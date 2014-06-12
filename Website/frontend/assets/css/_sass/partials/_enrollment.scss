@@ -820,3 +820,63 @@
         }
     }
 }
+
+.banner.phone {
+	height: 228px;
+	background-position: 50%;
+	background-size: cover;
+	h1 {
+		font-size: 14px;
+	}
+	h2 {
+		color: #fff;
+		font-size: 40px;
+		margin: 0;
+		text-transform: none;
+	}
+	.inner {
+		background: none;
+	}
+	.wrapper {
+		padding-top: 67px;
+	}
+	@include breakpoint(medium) {
+		height: 228px;
+	}
+	@include breakpoint(small) {
+		display: none;
+	}
+}
+
+article.phone {
+	overflow: hidden;
+	.content {
+		padding-top: 0;
+		padding-bottom: 0;
+	}
+	.filters {
+		background: #fff;
+		border-bottom: 0;
+		padding-bottom: 15px;
+	}
+	.phone-selector {
+		width: 100%;
+		table-layout: fixed;
+		margin-bottom: 0;
+		border: 0;
+		td {
+			vertical-align: top;
+			&:first-child {
+				border-left: 0;
+			}
+		}
+		td:last-child {
+			border-right: 0;
+		}
+		@include breakpoint(small) {
+			table, thead, tbody, th, td, tr { 
+				display: block; 
+			}
+		}
+	}
+}

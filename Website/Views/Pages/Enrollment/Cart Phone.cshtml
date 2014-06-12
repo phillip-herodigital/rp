@@ -1,32 +1,31 @@
-﻿
-    <article class="cart" ng-controller="EnrollmentCartCtrl">
+﻿<div class="enrollment-section">
+    <article class="cart">
         <header>
             <div class="cart-items">
                 <i class="icon-cart"></i>
-                <div class="item-num" ng-show="enrollment.serverData.locationServices">{{sizeOf(enrollment.serverData.locationServices)}}</div>
+                <div class="item-num">2</div>
             </div>
-            <i class="icon-close" ng-click="toggleCart();"></i>
+            <i class="icon-close" ng-hide="true"></i>
             <h1>@Html.Sitecore().Field("Cart Header")</h1>
         </header>
         <div class="body">
             <div class="box">
                 <div>
-                    <h3><span ng-show="type == 'gas'">Gas</span><span ng-show="type == 'electricity'">Electricity</span></h3>
                     <div>
                         <div class="cart-item">
-                            <div class="delete" ng-click="deleteItem()">
+                            <div class="delete">
                                 <i class="icon-delete"></i>
                             </div>
                             <div class="description">
                                 <h2>{{plan.offer.name}}</h2>
-                                <a href="" ng-click="changePlan()">Change Plan</a>
+                                <a href="">Change Plan</a>
                             </div>
                             <div class="rate">
                                 {{plan.offer.rate}}&cent;
                                 <span>per kWh</span>
                             </div>
                         </div>
-                        <div class="cart-item" ng-show="plan.paymentInformation">
+                        <div class="cart-item">
                             <div class="description">
                                 <h2>{{plan.paymentInformation.name}}</h2>
                             </div>
@@ -57,3 +56,4 @@
             </ul>
         </div>
     </article>
+</div>
