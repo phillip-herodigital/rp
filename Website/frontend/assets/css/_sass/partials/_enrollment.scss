@@ -865,6 +865,7 @@ article.phone {
 		margin-bottom: 0;
 		border: 0;
 		td {
+			position: relative;
 			vertical-align: top;
 			&:first-child {
 				border-left: 0;
@@ -894,6 +895,27 @@ article.phone {
 			text-align: center;
 			img {
 				vertical-align: middle;
+			}
+		}
+		.count {
+			color: #fff;
+			position: absolute;
+			top: 0;
+			right: 0;
+			padding: 10px 10px 0 0;
+			z-index: 1;
+			font-weight: bold;
+			&:after {
+				position: absolute;
+				content: ' ';
+				top: 0;
+				right: 0;
+				width: 0;
+				height: 0;
+				border-style: solid;
+				border-width: 0 50px 50px 0;
+				border-color: transparent #2579b3 transparent transparent;
+				z-index: -1;
 			}
 		}
 		.price {
