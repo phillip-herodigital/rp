@@ -155,7 +155,7 @@ namespace StreamEnergy.MyStream.Controllers
                     var user = Membership.GetUser(domain.AccountPrefix + username);
                     // update the username
 
-                    // update the email address
+                    // update the email address with StreamConnect
 
                     // update the password
                     user.ChangePassword(user.ResetPassword(), request.Password);
@@ -234,14 +234,11 @@ namespace StreamEnergy.MyStream.Controllers
             bool success = false;
             if (ModelState.IsValid)
             {
-                // TODO check to make sure the user is logged in and get the current userID
+                // TODO check to make sure the user is logged in
                 var accountId = request.AccountId;
                 if (true)
                 {
-                    // update the phone numbers
-
-                    // update the billing address
-
+                    // update the account information with StreamConnect
                     success = true;
                 }
             }
@@ -262,13 +259,12 @@ namespace StreamEnergy.MyStream.Controllers
         {
             // TODO check to make sure the user is logged in
 
-            var accountId = request.AccountId;
-
             // TODO get notificaiton settings from StreamConnect
+            var accountId = request.AccountId;
             var newDocumentArrives = new NotificationSetting
             {
                 Web = true,
-                Email = false,
+                Email = true,
                 Sms = true
             };
             var onlinePaymentsMade = new NotificationSetting
@@ -279,14 +275,14 @@ namespace StreamEnergy.MyStream.Controllers
             };
             var recurringPaymentsMade = new NotificationSetting
             {
-                Web = true,
+                Web = false,
                 Email = false,
                 Sms = true
             };
             var recurringProfileExpires = new NotificationSetting
             {
-                Web = true,
-                Email = false,
+                Web = false,
+                Email = true,
                 Sms = true
             };
 
@@ -307,22 +303,18 @@ namespace StreamEnergy.MyStream.Controllers
             bool success = false;
             if (ModelState.IsValid)
             {
-                // TODO check to make sure the user is logged in and get the current userID
-                //var accountId = request.AccountId;
+                // TODO check to make sure the user is logged in
+                var accountId = request.AccountId;
                 if (true)
                 {
-                    // update the phone numbers
-
-                    // update the billing address
-
+                    // TODO update the notification settings with StreamConnect
                     success = true;
                 }
             }
 
             return new UpdateNotificationSettingsResponse
             {
-                Success = success,
-                Validations = TranslatedValidationResult.Translate(ModelState, GetAuthItem("Change Password"))
+                Success = success
             };
         }
 
