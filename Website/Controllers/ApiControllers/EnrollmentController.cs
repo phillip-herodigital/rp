@@ -115,6 +115,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                                  SelectedOffers = service != null ? service.SelectedOffers : null
                                              }).ToArray();
 
+            stateMachine.ContextUpdated();
+
             if (stateMachine.State == typeof(DomainModels.Enrollments.ServiceInformationState))
                 stateMachine.Process(typeof(DomainModels.Enrollments.AccountInformationState));
 
@@ -125,12 +127,11 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public ClientData SelectedOffers([FromBody]SelectedOffers value)
         {
-            if (stateMachine.State == typeof(DomainModels.Enrollments.ServiceInformationState))
-                return ClientData();
-
             stateMachine.Context.Services = (from newSelection in value.Selection
                                              join oldService in (stateMachine.Context.Services ?? Enumerable.Empty<LocationServices>()) on newSelection.Location equals oldService.Location into oldServices
                                              select Combine(newSelection, oldServices.SingleOrDefault(), stateMachine.InternalContext.AllOffers)).ToArray();
+
+            stateMachine.ContextUpdated();
 
             if (stateMachine.State == typeof(DomainModels.Enrollments.PlanSelectionState))
                 stateMachine.Process(typeof(DomainModels.Enrollments.AccountInformationState));
@@ -168,10 +169,11 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             stateMachine.Context.SecondaryContactInfo = request.SecondaryContactInfo;
             stateMachine.Context.SocialSecurityNumber = request.SocialSecurityNumber;
 
-            if (stateMachine.State == typeof(DomainModels.Enrollments.AccountInformationState))
-                stateMachine.Process(typeof(DomainModels.Enrollments.VerifyIdentityState));
+            stateMachine.ContextUpdated();
 
             MapCartToServices(request);
+
+            stateMachine.ContextUpdated();
 
             if (stateMachine.State == typeof(DomainModels.Enrollments.AccountInformationState))
                 stateMachine.Process(typeof(DomainModels.Enrollments.VerifyIdentityState));
@@ -214,6 +216,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             stateMachine.Context.SelectedIdentityAnswers = request.SelectedIdentityAnswers;
 
+            stateMachine.ContextUpdated();
+
             if (stateMachine.State == typeof(DomainModels.Enrollments.VerifyIdentityState))
                 stateMachine.Process(typeof(DomainModels.Enrollments.CompleteOrderState));
 
@@ -226,6 +230,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             stateMachine.Context.PaymentInfo = request.PaymentInfo;
             stateMachine.Context.AgreeToTerms = request.AgreeToTerms;
+
+            stateMachine.ContextUpdated();
 
             stateMachine.Process();
 
