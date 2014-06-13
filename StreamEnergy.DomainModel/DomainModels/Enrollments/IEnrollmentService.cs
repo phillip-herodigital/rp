@@ -13,7 +13,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         IConnectDatePolicy LoadConnectDates(Location location);
 
-        IdentityCheckResult IdentityCheck(Name name, string ssn, DriversLicense driversLicense, Address billingAddress, AdditionalIdentityInformation identityInformation = null);
+        IdentityCheckResult IdentityCheck(Name name, string ssn, DriversLicense driversLicense, AdditionalIdentityInformation identityInformation = null);
 
         // TODO - will need more inputs
         IEnumerable<LocationOfferDetails<OfferPayment>> LoadDeposit(IEnumerable<LocationServices> services);

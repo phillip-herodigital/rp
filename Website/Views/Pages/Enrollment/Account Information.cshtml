@@ -1,4 +1,5 @@
 ﻿@model StreamEnergy.DomainModels.Enrollments.UserContext
+@using TypedPhone = StreamEnergy.DomainModels.TypedPhone
 <div id="{{section.id}}" class="enrollment-section accent-darkgreen" ng-switch-when="accountInformation" ng-show="section.isVisible" ng-controller="EnrollmentAccountInformationCtrl">
     <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper">
@@ -84,34 +85,35 @@
                             </div>
                         </div>
                         <div class="group">
-                            <div class="item group-col" @Html.ValidationErrorClass(m => m.ContactInfo.PrimaryPhone.Number)>
-                                <label for="@Html.For(m => m.ContactInfo.PrimaryPhone.Number)">@Html.Sitecore().Field("Primary Phone Number Label")</label>
-                                <input type="text" @Html.ValidationAttributes(m => m.ContactInfo.PrimaryPhone.Number) ng-model="enrollment.extraFields.accountInformation.personalInformation.primaryPhoneNumber" />
-                                @Html.ValidationMessageFor(model => model.ContactInfo.PrimaryPhone.Number)
+                            <div class="item group-col" @Html.ValidationErrorClass(m => m.ContactInfo.Phone[0].Number)>
+                                <label for="@Html.For(m => m.ContactInfo.Phone[0].Number)">@Html.Sitecore().Field("Primary Phone Number Label")</label>
+                                <input type="text" @Html.ValidationAttributes(m => m.ContactInfo.Phone[0].Number) ng-model="enrollment.extraFields.accountInformation.personalInformation.primaryPhoneNumber" />
+                                @Html.ValidationMessageFor(model => model.ContactInfo.Phone[0].Number)
                             </div>
-                            <div class="item group-col">
-                                @* TODO - this doesn't match the Model *@
-                                <label for="phone-type">@Html.Sitecore().Field("Phone Type Label")</label>
-                                <select id="phone-type" ng-model="enrollment.extraFields.accountInformation.personalInformation.primaryPhoneType">
+                            <div class="item group-col" @Html.ValidationErrorClass(model => ((TypedPhone)model.ContactInfo.Phone[0]).Category)>
+                                <label for="@Html.For(model => ((TypedPhone)model.ContactInfo.Phone[0]).Category)">@Html.Sitecore().Field("Phone Type Label")</label>
+                                <select @Html.ValidationAttributes(model => ((TypedPhone)model.ContactInfo.Phone[0]).Category) ng-model="enrollment.extraFields.accountInformation.personalInformation.primaryPhoneType">
                                     <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
                                 </select>
+                                @Html.ValidationMessageFor(model => ((TypedPhone)model.ContactInfo.Phone[0]).Category)
                             </div>
                         </div>
                         <div class="additional-field-action">
                             <a href="" ng-click="enrollment.extraFields.accountInformation.showSecondaryPhone = true">@Html.Sitecore().Field("Add additional phone number")</a>
                         </div>
                         <div class="additional-field-group" ng-show="enrollment.extraFields.accountInformation.showSecondaryPhone">
-                            @* TODO - this doesn't match the Model *@
                             <div class="group">
-                                <div class="item group-col">
-                                    <label for="secondary-phone-number">@Html.Sitecore().Field("Secondary Phone Number Label")</label>
-                                    <input type="text" id="secondary-phone-number" ng-model="enrollment.extraFields.accountInformation.personalInformation.secondaryPhoneNumber" />
+                                <div class="item group-col" @Html.ValidationErrorClass(m => m.ContactInfo.Phone[1].Number)>
+                                    <label for="@Html.For(m => m.ContactInfo.Phone[1].Number)">@Html.Sitecore().Field("Secondary Phone Number Label")</label>
+                                    <input type="text" @Html.ValidationAttributes(m => m.ContactInfo.Phone[1].Number) ng-model="enrollment.extraFields.accountInformation.personalInformation.secondaryPhoneNumber" />
+                                    @Html.ValidationMessageFor(model => model.ContactInfo.Phone[1].Number)
                                 </div>
-                                <div class="item group-col">
-                                    <label for="phone-type">@Html.Sitecore().Field("Phone Type Label")</label>
-                                    <select id="phone-type" ng-model="enrollment.extraFields.accountInformation.personalInformation.secondaryPhoneType">
+                                <div class="item group-col" @Html.ValidationErrorClass(model => ((TypedPhone)model.ContactInfo.Phone[1]).Category)>
+                                    <label for="@Html.For(model => ((TypedPhone)model.ContactInfo.Phone[1]).Category)">@Html.Sitecore().Field("Phone Type Label")</label>
+                                    <select @Html.ValidationAttributes(model => ((TypedPhone)model.ContactInfo.Phone[1]).Category) ng-model="enrollment.extraFields.accountInformation.personalInformation.secondaryPhoneType">
                                         <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
                                     </select>
+                                    @Html.ValidationMessageFor(model => ((TypedPhone)model.ContactInfo.Phone[1]).Category)
                                 </div>
                             </div>
                         </div>

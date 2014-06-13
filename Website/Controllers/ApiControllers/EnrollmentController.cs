@@ -67,7 +67,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             return new ClientData
             {
                 Validations = TranslatedValidationResult.Translate(stateMachine.ValidationResults, translationItem),
-                BillingAddress = stateMachine.Context.BillingAddress,
                 ContactInfo = stateMachine.Context.ContactInfo,
                 DriversLicense = stateMachine.Context.DriversLicense,
                 Language = stateMachine.Context.Language,
@@ -147,9 +146,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                      join oldSelection in result.SelectedOffers ?? Enumerable.Empty<SelectedOffer>() on entry equals oldSelection.Offer.Id into oldSelections
                                      let offer = allOffers.Where(offer => offer.Item1 == newSelection.Location && offer.Item2.Id == entry).Select(o => o.Item2).FirstOrDefault()
                                      where offer != null
-                                     select oldSelections.FirstOrDefault() ?? 
-                                        new SelectedOffer 
-                                        { 
+                                     select oldSelections.FirstOrDefault() ??
+                                        new SelectedOffer
+                                        {
                                             Offer = offer,
                                             OfferOption = null
                                         }).ToArray();
@@ -163,7 +162,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             MapCartToServices(request);
 
             stateMachine.Context.ContactInfo = request.ContactInfo;
-            stateMachine.Context.BillingAddress = request.BillingAddress;
+            EnsureTypedPhones(stateMachine.Context.ContactInfo.Phone);
             stateMachine.Context.DriversLicense = request.DriversLicense;
             stateMachine.Context.Language = request.Language;
             stateMachine.Context.SecondaryContactInfo = request.SecondaryContactInfo;
@@ -178,6 +177,17 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 stateMachine.Process(typeof(DomainModels.Enrollments.VerifyIdentityState));
 
             return ClientData();
+        }
+
+        private void EnsureTypedPhones(Phone[] phones)
+        {
+            for (int i = 0; i < phones.Length; i++)
+            {
+                if (!(phones[i] is TypedPhone))
+                {
+                    phones[i] = new TypedPhone { Number = phones[i].Number };
+                }
+            }
         }
 
         private void MapCartToServices(AccountInformation request)

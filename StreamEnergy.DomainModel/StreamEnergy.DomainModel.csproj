@@ -173,6 +173,8 @@
     <Compile Include="DomainModels\Enrollments\PlanSelectionState.cs" />
     <Compile Include="DomainModels\Payments\SamplePaymentInfo.cs" />
     <Compile Include="DomainModels\Payments\TokenizedCard.cs" />
+    <Compile Include="DomainModels\PhoneCategory.cs" />
+    <Compile Include="DomainModels\PhoneSubtypeLookup.cs" />
     <Compile Include="DomainModels\PolymorphicSerializationContainerSetup.cs" />
     <Compile Include="DomainModels\SampleServiceCapability.cs" />
     <Compile Include="DomainModels\TexasMeterType.cs" />
@@ -180,6 +182,7 @@
     <Compile Include="DomainModels\Enrollments\UserContext.cs" />
     <Compile Include="DomainModels\Enrollments\VerifyIdentityState.cs" />
     <Compile Include="DomainModels\Phone.cs" />
+    <Compile Include="DomainModels\TypedPhone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
