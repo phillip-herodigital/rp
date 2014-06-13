@@ -648,6 +648,7 @@ article.state-tabs {
 		li {
 			float: none;
 			display: table-cell;
+			width: 138px;
 			@include breakpoint(small) {
 				display: block;
 				width: auto;
@@ -663,6 +664,9 @@ article.state-tabs {
 					width: 82px;
 					height: 84px;
 					@include retina-background("state-tabs.png");
+					i {
+						max-height: 84px;
+					}
 				}
 				@include breakpoint(small) {
 					@include border-radius(7px 7px 7px 7px);
