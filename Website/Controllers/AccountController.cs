@@ -155,7 +155,7 @@ namespace StreamEnergy.MyStream.Controllers
                     var user = Membership.GetUser(domain.AccountPrefix + username);
                     // update the username
 
-                    // update the email address with StreamConnect
+                    // update the email address with Stream Connect
 
                     // update the password
                     user.ChangePassword(user.ResetPassword(), request.Password);
@@ -205,7 +205,8 @@ namespace StreamEnergy.MyStream.Controllers
             var accountId = request.AccountId;
             var customerContact = new DomainModels.CustomerContact();
             var customerAddress = new DomainModels.Address();
-            // TODO get the contact info from StreamConnect
+
+            // TODO get the contact info from Stream Connect
             customerContact.Name = new DomainModels.Name
             {
                 First = "John",
@@ -238,7 +239,7 @@ namespace StreamEnergy.MyStream.Controllers
                 var accountId = request.AccountId;
                 if (true)
                 {
-                    // update the account information with StreamConnect
+                    // update the account information with Stream Connect
                     success = true;
                 }
             }
@@ -259,7 +260,7 @@ namespace StreamEnergy.MyStream.Controllers
         {
             // TODO check to make sure the user is logged in
 
-            // TODO get notificaiton settings from StreamConnect
+            // TODO get notificaiton settings from Stream Connect
             var accountId = request.AccountId;
             var newDocumentArrives = new NotificationSetting
             {
@@ -307,12 +308,103 @@ namespace StreamEnergy.MyStream.Controllers
                 var accountId = request.AccountId;
                 if (true)
                 {
-                    // TODO update the notification settings with StreamConnect
+                    // TODO update the notification settings with Stream Connect
                     success = true;
                 }
             }
 
             return new UpdateNotificationSettingsResponse
+            {
+                Success = success
+            };
+        }
+
+        #endregion
+
+        #region Enrolled Accounts
+
+        [HttpGet]
+        public GetEnrolledAccountsResponse GetEnrolledAccounts()
+        {
+            // TODO check to make sure the user is logged in, and get the username from the current session
+
+            // TODO get enrolled accounts from Stream Connect
+            var account1 = new EnrolledAccount
+            {
+                AccountNumber = "1234567890",
+                DateAdded = Convert.ToDateTime("12/28/2013  17:33:15")
+            };
+            var account2 = new EnrolledAccount
+            {
+                AccountNumber = "0987654321",
+                DateAdded = Convert.ToDateTime("06/12/2014  11:40:55")
+            };
+            IEnumerable<EnrolledAccount> enrolledAccounts = new EnrolledAccount[] {account1, account2};
+
+            return new GetEnrolledAccountsResponse
+            {
+                EnrolledAccounts = enrolledAccounts
+            };
+        }
+
+        [HttpPost]
+        public AddNewAccountResponse AddNewAccount(AddNewAccountRequest request)
+        {
+            bool success = false;
+            if (ModelState.IsValid)
+            {
+                // TODO check to make sure the user is logged in
+
+                if (true)
+                {
+                    // TODO update the notification settings with Stream Connect
+                    success = true;
+                }
+            }
+
+            return new AddNewAccountResponse
+            {
+                Success = success
+            };
+        }
+
+        [HttpPost]
+        public RemoveAccountResponse RemoveEnrolledAccount(RemoveAccountRequest request)
+        {
+            bool success = false;
+            if (ModelState.IsValid)
+            {
+                // TODO check to make sure the user is logged in
+                var accountNumber = request.AccountNumber;
+                if (true)
+                {
+                    // TODO update the notification settings with Stream Connect
+                    success = true;
+                }
+            }
+
+            return new RemoveAccountResponse
+            {
+                Success = success
+            };
+        }
+
+        [HttpPost]
+        public SendLetterResponse SendLetter(SendLetterRequest request)
+        {
+            bool success = false;
+            if (ModelState.IsValid)
+            {
+                // TODO check to make sure the user is logged in
+                var accountNumber = request.AccountNumber;
+                if (true)
+                {
+                    // TODO update the notification settings with Stream Connect
+                    success = true;
+                }
+            }
+
+            return new SendLetterResponse
             {
                 Success = success
             };
