@@ -1968,6 +1968,7 @@ article.free-energy {
 		clear: both;
 	}
 	.how-it-works {
+		max-width: 455px;
 		img {
 			margin: 0px 25px 15px 0px;
 		}
@@ -1979,6 +1980,7 @@ article.free-energy {
 		}
 		p {
 			line-height: 1.1;
+			font-weight: 300;
 			em {
 				color: #1773cb;
 				text-transform: none;
@@ -1989,7 +1991,13 @@ article.free-energy {
 		}
 	}
 	&.free-energy-access {
-		img { float: none; }
+		img { 
+			float: none; 
+		}
+		p {
+			line-height: 1.1;
+			font-weight: 300;
+		}
 	}
 }
 
@@ -2004,8 +2012,8 @@ article.free-energy.picture-promo {
 	background-position: center;
 	.promo-content {
 		color: #fff;
-		width: 335px;
-		margin-left: 100px;
+		width: 345px;
+		margin-left: 90px;
 		padding: 320px 0 50px 0;
 		@include breakpoint(small) {
 			margin: 0;
@@ -2015,6 +2023,7 @@ article.free-energy.picture-promo {
 		h2 {
 			color: #fff;
 			line-height: 28px;
+			margin-top: 28px;
 			.big {
 				font-size: 31px;
 			}
