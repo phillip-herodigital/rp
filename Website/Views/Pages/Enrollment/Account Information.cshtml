@@ -65,8 +65,8 @@
                                 <label for="stream-connect-fee">@Html.Sitecore().Field("Stream Connect Fee Label")</label>
                                 <strong>{{plan.offerOption.streamConnectFee}}</strong>
                             </div>
-                            </divng-repeat>
                         </div>
+                    </div>
                 </article>
                 <h2>@Html.Sitecore().Field("Personal Information Header")</h2>
                 <article class="form">
@@ -169,55 +169,6 @@
                                     <label for="@Html.For(m => m.SecondaryContactInfo.Last)">@Html.Sitecore().Field("Last Name Label")</label>
                                     <input type="text" @Html.ValidationAttributes(m => m.SecondaryContactInfo.Last) data-val-if="enrollment.extraFields.accountInformation.personalInformation.showSecondaryContact" placeholder="Campbell" ng-model="enrollment.extraFields.accountInformation.personalInformation.secondaryLastName" />
                                     @Html.ValidationMessageFor(m => m.SecondaryContactInfo.Last)
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-                <h2>@Html.Sitecore().Field("Billing Address Header")</h2>
-                <article class="form">
-                    <div class="content">
-                        <div class="item">
-                            <ul class="checkbox-list">
-                                <li><input type="checkbox" name="same-address" id="same-address" ng-model="enrollment.extraFields.accountInformation.billingAddress.sameAddress"><label for="same-address">@Html.Sitecore().Field("Same Address Label")</label></li>
-                            </ul>
-                        </div>
-                        <div class="item" ng-show="enrollment.extraFields.accountInformation.billingAddress.sameAddress && sizeOf(enrollment.serverData.locationServices) > 1">
-                            <label for="service-address">@Html.Sitecore().Field("Select Service Address Label")</label>
-                            <select id="service-address" ng-model="enrollment.extraFields.accountInformation.billingAddress.serviceAddress">
-                                <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
-                                <option ng-repeat="(id, item) in enrollment.serverData.locationServices" ng-value="id">{{formatAddress(item.location.address)}}</option>
-                            </select>
-                        </div>
-                        <div class="item" ng-show="enrollment.extraFields.accountInformation.billingAddress.sameAddress && sizeOf(enrollment.serverData.locationServices) == 0">
-                            <label for="service-address">@Html.Sitecore().Field("Billing Service Address Label")</label>
-                            <strong>123 Main Street, Dallas, TX 75001</strong>
-                        </div>
-                        <div ng-hide="enrollment.extraFields.accountInformation.billingAddress.sameAddress">
-                            <div class="group">
-                                <div class="item group-col" @Html.ValidationErrorClass(m => m.BillingAddress.Line1)>
-                                    <label for="@Html.For(m => m.BillingAddress.Line1)">@Html.Sitecore().Field("Address 1 Label")</label>
-                                    <input type="text" @Html.ValidationAttributes(m => m.BillingAddress.Line1) data-val-if="!enrollment.extraFields.accountInformation.billingAddress.sameAddress" ng-model="enrollment.extraFields.accountInformation.billingAddress.address1" />
-                                </div>
-                                <div class="item group-col" @Html.ValidationErrorClass(m => m.BillingAddress.Line2)>
-                                    <label for="@Html.For(m => m.BillingAddress.Line2)">@Html.Sitecore().Field("Address 2 Label")</label>
-                                    <input type="text" @Html.ValidationAttributes(m => m.BillingAddress.Line2) data-val-if="!enrollment.extraFields.accountInformation.billingAddress.sameAddress" ng-model="enrollment.extraFields.accountInformation.billingAddress.address2" />
-                                </div>
-                            </div>
-                            <div class="group">
-                                <div class="item group-col" @Html.ValidationErrorClass(m => m.BillingAddress.City)>
-                                    <label for="@Html.For(m => m.BillingAddress.City)">@Html.Sitecore().Field("City Label")</label>
-                                    <input type="text" @Html.ValidationAttributes(m => m.BillingAddress.City) data-val-if="!enrollment.extraFields.accountInformation.billingAddress.sameAddress" ng-model="enrollment.extraFields.accountInformation.billingAddress.city" />
-                                </div>
-                                <div class="item" @Html.ValidationErrorClass(m => m.BillingAddress.StateAbbreviation)>
-                                    <label for="@Html.For(m => m.BillingAddress.StateAbbreviation)">@Html.Sitecore().Field("State Label")</label>
-                                    <select @Html.ValidationAttributes(m => m.BillingAddress.StateAbbreviation) data-val-if="!enrollment.extraFields.accountInformation.billingAddress.sameAddress" ng-model="enrollment.extraFields.accountInformation.billingAddress.state">
-                                        <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
-                                    </select>
-                                </div>
-                                <div class="item" @Html.ValidationErrorClass(m => m.BillingAddress.PostalCode5)>
-                                    <label for="@Html.For(m => m.BillingAddress.PostalCode5)">@Html.Sitecore().Field("Zip Label")</label>
-                                    <input class="small" type="text" @Html.ValidationAttributes(m => m.BillingAddress.PostalCode5) data-val-if="!enrollment.extraFields.accountInformation.billingAddress.sameAddress" ng-model="enrollment.extraFields.accountInformation.billingAddress.zip" />
                                 </div>
                             </div>
                         </div>
