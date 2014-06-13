@@ -52,6 +52,8 @@ article.photoLockup {
     margin-bottom: 0;
 	background-color: #e8e8e8;
 	color: #6b6b6b;
+	border-top: 3px solid #999;
+	margin-bottom: 20px;
 	.photo {
 		position: absolute;
 		width: 50%;
@@ -68,7 +70,8 @@ article.photoLockup {
 		width: 48%;
 		padding: 65px 0;
 		font-size: 16px;
-		line-height: 1.8;
+		font-weight: 300;
+		line-height: 1.3;
 		.inner {
 			max-width: 455px;
 			padding: 0 10px;
@@ -88,6 +91,7 @@ article.photoLockup {
 		}
 		.lead {
 			font-size: 24px;
+			font-weight: 300;
 			text-transform: uppercase;
 		}
 		blockquote {
@@ -97,7 +101,7 @@ article.photoLockup {
 				background: image-url("marketing/quote-right.png") no-repeat 100% 100%;
 				padding: 10px 10px 0 10px;
 				font-size: 18px;
-				line-height: 1.8em;
+				line-height: 1.8;
                 text-indent: 50px;
                 p:first-child {
                     margin-top: 0;
