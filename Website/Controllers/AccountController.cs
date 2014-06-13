@@ -299,6 +299,30 @@ namespace StreamEnergy.MyStream.Controllers
         }
 
         [HttpPost]
+        public UpdateNotificationResponse UpdateNotification(UpdateNotificationRequest request)
+        {
+            bool success = false;
+            if (ModelState.IsValid)
+            {
+                // TODO check to make sure the user is logged in
+                var accountId = request.AccountId;
+                var notificationName = request.NotificationName;
+                var notificationSetting = request.NotificationSetting;
+
+                if (true)
+                {
+                    // TODO update the notification settings with Stream Connect
+                    success = true;
+                }
+            }
+
+            return new UpdateNotificationResponse
+            {
+                Success = success
+            };
+        }
+
+        [HttpPost]
         public UpdateNotificationSettingsResponse UpdateNotificationSettings(UpdateNotificationSettingsRequest request)
         {
             bool success = false;

@@ -478,6 +478,8 @@
     <Compile Include="Models\Account\SendLetterResponse.cs" />
     <Compile Include="Models\Account\UpdateAccountInformationRequest.cs" />
     <Compile Include="Models\Account\UpdateAccountInformationResponse.cs" />
+    <Compile Include="Models\Account\UpdateNotificationRequest.cs" />
+    <Compile Include="Models\Account\UpdateNotificationResponse.cs" />
     <Compile Include="Models\Account\UpdateNotificationSettingsRequest.cs" />
     <Compile Include="Models\Account\UpdateNotificationSettingsResponse.cs" />
     <Compile Include="Models\Account\UpdateOnlineAccountRequest.cs" />
