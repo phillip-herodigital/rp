@@ -32,6 +32,7 @@
                             </select>
                         </div>
                         *@
+                        
                         <div class="item" @currentService.ErrorClass(s => s.Location)>
                             <label for="@currentService.For(s => s.Location)">@Html.Sitecore().Field("Address Label")</label>
                             <input type="text" @currentService.Attributes(s => s.Location) 

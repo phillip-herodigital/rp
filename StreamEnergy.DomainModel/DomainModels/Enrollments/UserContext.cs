@@ -34,10 +34,6 @@ namespace StreamEnergy.DomainModels.Enrollments
         /// </summary>
         public string Language { get; set; }
 
-        [Required(ErrorMessage = "Billing Address Required")]
-        [ValidateObject(ErrorMessagePrefix = "Billing Address ")]
-        public Address BillingAddress { get; set; }
-
         [Required(ErrorMessage = "Selected Identity Answers Required")]
         public Dictionary<string, string> SelectedIdentityAnswers { get; set; }
 
@@ -60,8 +56,6 @@ namespace StreamEnergy.DomainModels.Enrollments
                 ((ISanitizable)SecondaryContactInfo).Sanitize();
             if (DriversLicense != null)
                 ((ISanitizable)DriversLicense).Sanitize();
-            if (BillingAddress != null)
-                ((ISanitizable)BillingAddress).Sanitize();
         }
     }
 }

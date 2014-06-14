@@ -95,7 +95,7 @@ namespace StreamEnergy.MyStream.Tests
             {
                 Name = new DomainModels.Name { First = "Test", Last = "Person" },
                 Email = new DomainModels.Email { Address = "test@example.com" },
-                PrimaryPhone = new DomainModels.Phone { Number = "214-223-4567" },
+                Phone = new[] { new DomainModels.Phone { Number = "214-223-4567" } },
             };
             offerOption = new TexasElectricityOfferOption { ConnectDate = new DateTime(2014, 5, 1) };
         }
@@ -148,7 +148,7 @@ namespace StreamEnergy.MyStream.Tests
             // Arrange
             var request = new Models.Enrollment.ServiceInformation
             {
-                Locations = new []
+                Locations = new[]
                 { 
                     generalLocation
                 }
@@ -184,7 +184,7 @@ namespace StreamEnergy.MyStream.Tests
             var session = container.Resolve<EnrollmentController.SessionHelper>();
             session.Context = new UserContext
             {
-                Services = new [] 
+                Services = new[] 
                 {
                     new LocationServices
                     {
@@ -199,7 +199,7 @@ namespace StreamEnergy.MyStream.Tests
             session.State = typeof(DomainModels.Enrollments.PlanSelectionState);
             var request = new Models.Enrollment.SelectedOffers
             {
-                Selection = new [] {
+                Selection = new[] {
                     new Models.Enrollment.SelectedOfferSet { Location = generalLocation, OfferIds = new[] { "24-month-fixed-rate" } }
                 }
             };
@@ -226,7 +226,7 @@ namespace StreamEnergy.MyStream.Tests
             var session = container.Resolve<EnrollmentController.SessionHelper>();
             session.Context = new UserContext
             {
-                Services = new [] {
+                Services = new[] {
                     new LocationServices
                     {
                         Location = generalLocation,
@@ -253,7 +253,7 @@ namespace StreamEnergy.MyStream.Tests
                 Language = "en",
                 SecondaryContactInfo = null,
                 SocialSecurityNumber = "123-45-6789",
-                Cart = new [] {
+                Cart = new[] {
                     new Models.Enrollment.CartEntry {
                         Location = specificLocation,
                         OfferInformationByType = new Dictionary<string,Models.Enrollment.OfferInformation>
@@ -286,7 +286,7 @@ namespace StreamEnergy.MyStream.Tests
                 Assert.AreEqual("Test", result.ContactInfo.Name.First);
                 Assert.AreEqual("Person", result.ContactInfo.Name.Last);
                 Assert.AreEqual("test@example.com", result.ContactInfo.Email.Address);
-                Assert.AreEqual("2142234567", result.ContactInfo.PrimaryPhone.Number);
+                Assert.AreEqual("2142234567", result.ContactInfo.Phone[0].Number);
                 Assert.IsNotNull(result.IdentityQuestions);
                 Assert.AreEqual("en", result.Language);
             }
@@ -297,7 +297,7 @@ namespace StreamEnergy.MyStream.Tests
             Assert.AreEqual("Test", session.Context.ContactInfo.Name.First);
             Assert.AreEqual("Person", session.Context.ContactInfo.Name.Last);
             Assert.AreEqual("test@example.com", session.Context.ContactInfo.Email.Address);
-            Assert.AreEqual("2142234567", session.Context.ContactInfo.PrimaryPhone.Number);
+            Assert.AreEqual("2142234567", session.Context.ContactInfo.Phone[0].Number);
             Assert.AreEqual("123456789", session.Context.SocialSecurityNumber);
             Assert.AreEqual("en", session.Context.Language);
             Assert.IsNotNull(session.InternalContext.IdentityCheckResult.IdentityQuestions);
@@ -310,7 +310,7 @@ namespace StreamEnergy.MyStream.Tests
             var session = container.Resolve<EnrollmentController.SessionHelper>();
             session.Context = new UserContext
             {
-                Services = new []
+                Services = new[]
                 {
                     new LocationServices
                     {
@@ -325,7 +325,6 @@ namespace StreamEnergy.MyStream.Tests
                         }
                     }
                 },
-                BillingAddress = specificLocation.Address,
                 ContactInfo = contactInfo,
                 DriversLicense = null,
                 Language = "en",
@@ -364,7 +363,7 @@ namespace StreamEnergy.MyStream.Tests
             var session = container.Resolve<EnrollmentController.SessionHelper>();
             session.Context = new UserContext
             {
-                Services = new []
+                Services = new[]
                 { 
                     new LocationServices
                     {
@@ -379,7 +378,6 @@ namespace StreamEnergy.MyStream.Tests
                         }
                     }
                 },
-                BillingAddress = specificLocation.Address,
                 ContactInfo = contactInfo,
                 DriversLicense = null,
                 Language = "en",
@@ -416,7 +414,7 @@ namespace StreamEnergy.MyStream.Tests
             var session = container.Resolve<EnrollmentController.SessionHelper>();
             session.Context = new UserContext
             {
-                Services = new []
+                Services = new[]
                 { 
                     new LocationServices
                     {
@@ -430,7 +428,6 @@ namespace StreamEnergy.MyStream.Tests
                         }
                     }
                 },
-                BillingAddress = specificLocation.Address,
                 ContactInfo = contactInfo,
                 DriversLicense = null,
                 Language = "en",

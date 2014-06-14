@@ -1,4 +1,5 @@
 @model StreamEnergy.DomainModels.Enrollments.UserContext
+@using TypedPhone = StreamEnergy.DomainModels.TypedPhone
 <div id="accountInformation" class="enrollment-section accent-darkgreen" ng-show="stepsService.isStepVisible('accountInformation')" ng-controller="EnrollmentAccountInformationCtrl">
     <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper">
@@ -163,17 +164,17 @@
                             </div>
                         </div>
                         <div class="group">
-                            <div class="item group-col" @Html.ValidationErrorClass(m => m.ContactInfo.PrimaryPhone.Number)>
-                                <label for="@Html.For(m => m.ContactInfo.PrimaryPhone.Number)">@Html.Sitecore().Field("Primary Phone Number Label")</label>
+                            <div class="item group-col" @Html.ValidationErrorClass(m => m.ContactInfo.Phone[0].Number)>
+                                <label for="@Html.For(m => m.ContactInfo.Phone[0].Number)">@Html.Sitecore().Field("Primary Phone Number Label")</label>
                                 <input type="text" @Html.ValidationAttributes(m => m.ContactInfo.PrimaryPhone.Number) ng-model="accountInformation.contactInfo.primaryPhone.number" />
-                                @Html.ValidationMessageFor(model => model.ContactInfo.PrimaryPhone.Number)
+                                @Html.ValidationMessageFor(model => model.ContactInfo.Phone[0].Number)
                             </div>                        
-                            <div class="item group-col">
-                                @* TODO - this doesn't match the Model *@
-                                <label for="phone-type">@Html.Sitecore().Field("Phone Type Label")</label>
-                                <select id="phone-type" ng-model="accountInformation.contactInfo.primaryPhone.category" ng-options="type.name as type.label for type in phoneTypes">
+                            <div class="item group-col" @Html.ValidationErrorClass(model => ((TypedPhone)model.ContactInfo.Phone[0]).Category)>
+                                <label for="@Html.For(model => ((TypedPhone)model.ContactInfo.Phone[0]).Category)">@Html.Sitecore().Field("Phone Type Label")</label>
+                                <select @Html.ValidationAttributes(model => ((TypedPhone)model.ContactInfo.Phone[0]).Category) ng-model="accountInformation.contactInfo.primaryPhone.category" ng-options="type.name as type.label for type in phoneTypes">
                                     <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
                                 </select>
+                                @Html.ValidationMessageFor(model => ((TypedPhone)model.ContactInfo.Phone[0]).Category)
                             </div>
                         </div>
                         <div class="additional-field-action">
@@ -181,15 +182,17 @@
                         </div>
                         <div class="additional-field-group" ng-show="accountInformation.showSecondaryPhone">
                             <div class="group">
-                                <div class="item group-col">
-                                    <label for="secondary-phone-number">@Html.Sitecore().Field("Secondary Phone Number Label")</label>
-                                    <input type="text" id="secondary-phone-number" ng-model="accountInformation.contactInfo.secondaryPhone.number" />
+                                <div class="item group-col" @Html.ValidationErrorClass(m => m.ContactInfo.Phone[1].Number)>
+                                    <label for="@Html.For(m => m.ContactInfo.Phone[1].Number)">@Html.Sitecore().Field("Secondary Phone Number Label")</label>
+                                    <input type="text" @Html.ValidationAttributes(m => m.ContactInfo.Phone[1].Number) ng-model="accountInformation.contactInfo.secondaryPhone.number" />
+                                    @Html.ValidationMessageFor(model => model.ContactInfo.Phone[1].Number)
                                 </div>
-                                <div class="item group-col">
-                                    <label for="phone-type">@Html.Sitecore().Field("Phone Type Label")</label>
-                                    <select id="phone-type" ng-model="accountInformation.contactInfo.secondaryPhone.category" ng-options="type.name as type.label for type in phoneTypes">
+                                <div class="item group-col" @Html.ValidationErrorClass(model => ((TypedPhone)model.ContactInfo.Phone[1]).Category)>
+                                    <label for="@Html.For(model => ((TypedPhone)model.ContactInfo.Phone[1]).Category)">@Html.Sitecore().Field("Phone Type Label")</label>
+                                    <select @Html.ValidationAttributes(model => ((TypedPhone)model.ContactInfo.Phone[1]).Category) ng-model="ccountInformation.contactInfo.secondaryPhone.category" ng-options="type.name as type.label for type in phoneTypes">
                                         <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
                                     </select>
+                                    @Html.ValidationMessageFor(model => ((TypedPhone)model.ContactInfo.Phone[1]).Category)
                                 </div>
                             </div>
                         </div>
@@ -198,7 +201,8 @@
                             <label for="@Html.For(m => m.ContactInfo.Email.Address)">@Html.Sitecore().Field("Email Address Label")</label>
                             <input type="email" @Html.ValidationAttributes(m => m.ContactInfo.Email.Address) ng-model="accountInformation.contactInfo.email.address" />
                             @Html.ValidationMessageFor(model => model.ContactInfo.Email.Address)
-                        </div>                        
+                        </div>             
+
                         <!-- Change this ng-hide option when commercial becomes available -->                       
                         <div class="item" ng-hide="true">                        
                             <label>@Html.Sitecore().Field("Social Security Number or Tax ID Number Label")</label>
