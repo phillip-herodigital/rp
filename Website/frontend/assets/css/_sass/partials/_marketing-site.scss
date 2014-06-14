@@ -1428,6 +1428,7 @@ article.homelife-services {
 		}
 		p {
 			font-size: 22px;
+			font-weight: 300;
 		}
 		@include breakpoint(small) {
 			padding: 15px 0 10px;
@@ -1446,10 +1447,13 @@ article.homelife-services {
 		height: 550px;
 		border-bottom: 5px solid #ffa409;
 		.wrapper {
-			width: 55%;
+			width: 40%;
 			padding-top: 80px;
 			h3 {
 				color: #0971ce;
+			}
+			p {
+				font-size: 14px;
 			}
 		}
 	}
@@ -1457,6 +1461,7 @@ article.homelife-services {
 		margin: 35px 0;
 		text-align: center;
 		font-size: 20px;
+		font-weight: 300;
 		span {
 			font-size: 22px;
 			color: #0971ce;
@@ -1505,26 +1510,10 @@ article.homelife-services {
 					&.identity {
 						color: #7e9bb5;
 						position: relative;
-						&:after {
-							content: "+";
-							color: #898989;
-							font-size: 62px;
-							position: absolute;
-							top: 36%;
-							right: -10%;
-						}
 					}
 					&.support {
 						color: #b58789;
 						position: relative;
-						&:after {
-							content: "+";
-							color: #898989;
-							font-size: 62px;
-							position: absolute;
-							top: 36%;
-							right: -35%;
-						}
 					}
 					&.monitoring {
 						color: #8ba170;
@@ -1540,7 +1529,6 @@ article.homelife-services {
 				p {
 					color: #fff;
 					font-size: 22px;
-					font-weight: bold;
 					text-align: center;
 					margin-top: 0;
 					padding-top: 10px;
@@ -1702,8 +1690,28 @@ article.homelife-services {
 					color: #fff;
 				}
 			}
+			.identity {
+				&:after {
+					content: "+";
+					color: #898989;
+					font-size: 62px;
+					position: absolute;
+					top: 36%;
+					right: -10%;
+				}
+			}
 			.identity .button {
 				background-color: #7e9bb5;
+			}
+			.support {
+				&:after {
+					content: "+";
+					color: #898989;
+					font-size: 62px;
+					position: absolute;
+					top: 36%;
+					right: -35%;
+				}
 			}
 			.support .button {
 				background-color: #b58789;
@@ -1773,6 +1781,36 @@ article.homelife-services {
 					}
 				}
 			}
+		}
+	}
+	&.photoLockup {
+		.text {
+			.inner {
+				padding: 0;
+				h3 {
+					font-size: 21px;
+				}
+				p {
+					font-size: 14px;
+				}
+				ul {
+					padding: 0;
+					li {
+						padding-left: 40px;
+						padding-bottom: 10px;
+						list-style: none;
+						background: url(../i/marketing/img-checkbox-checked.png) no-repeat left top;
+						font-size: 18px;
+					}
+				}
+				.button {
+					background-color: #0971cd;
+				}
+				@include breakpoint(small-medium) {
+					padding: 0 10px;
+				}
+			}
+			
 		}
 	}
 	@include breakpoint(small-medium) {
