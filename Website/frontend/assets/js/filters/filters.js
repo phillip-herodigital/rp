@@ -47,27 +47,3 @@ ngApp.filter('address', function() {
 		return formattedAddress;
 	};
 });
-
-ngApp.filter('serviceTypeGas', function() {
-	return function(offers) {
-		var filtered = [];
-		angular.forEach(offers, function(offer) {
-			if(/Gas/.test(offer.offerType)) {
-				filtered.push(offer);
-			}
-		});
-		return filtered;
-	}
-});
-
-ngApp.filter('serviceTypeElectricity', function() {
-	return function(offers) {
-		var filtered = [];
-		angular.forEach(offers, function(offer) {
-			if(/Electricity/.test(offer.offerType)) {
-				filtered.push(offer);
-			}
-		});
-		return filtered;
-	}
-})

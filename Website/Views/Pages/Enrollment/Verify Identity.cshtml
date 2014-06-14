@@ -1,5 +1,5 @@
 @model StreamEnergy.DomainModels.Enrollments.UserContext
-<div id="{{section.id}}" class="enrollment-section accent-darkgreen" ng-switch-when="verifyIdentity" ng-controller="EnrollmentVerifyIdentityCtrl">    
+<div id="verifyIdentity" class="enrollment-section accent-darkgreen" ng-show="stepsService.isStepVisible('verifyIdentity')" ng-controller="EnrollmentVerifyIdentityCtrl">    
     <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper">
             <h1>

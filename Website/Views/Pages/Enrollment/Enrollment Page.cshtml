@@ -1,5 +1,10 @@
 <div ng-controller="EnrollmentMainCtrl" ng-init="setServerData()">
-    <div ng-switch="enrollmentStepsService.currentStep.name">
+	<div ng-hide="true">
+        {{ stepsService.getCurrentStep().name }}
+    	<button ng-click="stepsService.previousStep()">Previous Step</button>
+    	<button ng-click="stepsService.nextStep()">Next Step</button>
+    </div>
+    <div >
     	@Html.Sitecore().Placeholder("enrollment sections")
     </div>
 </div>
@@ -7,7 +12,18 @@
 <script type="text/ng-template" id="enrollment-nav-template">
     <nav>
         <ul>
-            <li ng-class="{'completed' : section.isVisible && section.id != enrollment.currentSection, 'active' : section.id == enrollment.currentSection}" ng-repeat="section in enrollment.sections | orderBy: 'order'" ng-show="section.isVisible"><a href="#{{section.id}}">{{section.name}}</a></li>
+			<li ng-class="{ 'active' : stepsService.getCurrentStep() == step.name }"
+            	ng-repeat="step in stepsService.getSteps()"
+            	ng-show="step.isActive">
+            	<a href="" ng-click="stepsService.scrollToStep(step.name)">{{step.name}}</a>
+            </li>
+
+            <li ng-class="
+            	{'completed' : section.isVisible && section.id != enrollment.currentSection, 'active' : section.id == enrollment.currentSection}" 
+            	ng-repeat="section in enrollment.sections | orderBy: 'order'" 
+            	ng-show="section.isVisible">
+            	<a href="#{{section.name}}">{{section.name}}</a>
+            </li>
             <li ng-show="enrollment.nextSection"><a href="">@Html.Sitecore().Field("Continue")</a></li>
         </ul>
     </nav>

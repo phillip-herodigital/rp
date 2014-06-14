@@ -2,52 +2,55 @@
  *
  * This is used to control aspects of plan selection on enrollment page.
  */
-ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', '$rootScope', '$filter', 'enrollmentService', 'scrollService', function ($scope, $rootScope, $filter, enrollmentService, scrollService) {
-    $scope.selectedOffers = {};
+ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', '$rootScope', '$filter', 'enrollmentService', 'scrollService', 'utilityProductsService', function ($scope, $rootScope, $filter, enrollmentService, scrollService, utilityProductsService) {
+    $scope.validations = enrollmentService.validations;
 
-    //Keep a watch on the selected offers and update the uiModel accordingly
-    $scope.$watchCollection('selectedOffers', function(value) {
-        //update
-        console.log($scope.enrollment.uiModel.offerSelections[$scope.enrollment.currentLocation]);
+    //We need this for the button select model in the ng-repeats
+    $scope.planSelection = {};
+
+    //Once a plan is selected, check through all available and see if a selection happend
+    $scope.$watchCollection('planSelection.selectedOffers', function(plan) {
+        if(typeof plan != 'undefined') { 
+            utilityProductsService.selectPlan(plan);    
+        }
     });
 
-    $scope.createOffersPostObject = function(selectedOffers) {
-        //get all offers from uiModel & from current selectedOffers, send those
-        console.log(selectedOffers);
-        //Create our empty locations object
-        var data = { 'offerIds':{} };
+    $scope.currentLocationInfo = utilityProductsService.getActiveServiceAddress;
 
-       // angular.forEach(selectedOffers, function (item, id) {
-       //     data.locations[item.id] = item.location;
-        //});
+    $scope.isFormValid = function() {
+        var offerTypesWanted = ['texasElectricity'];
 
-        return data;
-    };    
-
-    /**
-    * Scroll To Service Information
-    */
-    $scope.scrollToServiceInformation = function () {
-        scrollService.scrollTo('serviceInformation', $scope.enrollment.headerHeightOffset);
+        //Check if the offerTypesWanted and selected offer types are the same
+        return angular.equals(offerTypesWanted, utilityProductsService.getSelectedPlanTypes());
     };
 
     /**
-    * Complete Enrollment Section
-    */
-    $scope.completeStep = function () {
-        console.log('Sending selected offers...');
+     * Complete plan selections page
+     * @param  {Boolean} Add an additional service address
+     */
+    $scope.completeStep = function (addAdditional) {
+        var postData = utilityProductsService.createOffersPostObject();
 
-        $scope.createOffersPostObject($scope.selectedOffers);
-
-        var selectedOffersPromise = enrollmentService.setSelectedOffers();
+        var selectedOffersPromise = enrollmentService.setSelectedOffers(postData);
 
         selectedOffersPromise.then(function (data) {
-            $scope.enrollment.serverData = data;
-            $scope.activateSections('accountInformation');
+            $scope.validations = data.validations;
+
+            //This is where we get the validations back too, need to check for that
+            utilityProductsService.addServiceAddress(data.cart);
+
+            //Move to the next section, this is the last of the utilityAccounts, so
+            //If addAdditional, go back to step one else move to the next section
+            if(addAdditional) {
+                utilityProductsService.setActiveServiceAddress();
+                $scope.stepsService.setStep('utilityFlowService', true);
+                $scope.stepsService.deActivateStep('utilityFlowPlans', true);
+            } else {
+                $scope.stepsService.nextStep();
+            }  
         }, function (data) {
             // error response
             $rootScope.$broadcast('connectionFailure');
         });
     };
-
 }]);

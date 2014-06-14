@@ -1,5 +1,5 @@
 @model StreamEnergy.DomainModels.Enrollments.UserContext
-<div id="{{section.id}}" class="enrollment-section accent-darkgreen" ng-switch-when="accountInformation" ng-controller="EnrollmentAccountInformationCtrl">
+<div id="accountInformation" class="enrollment-section accent-darkgreen" ng-show="stepsService.isStepVisible('accountInformation')" ng-controller="EnrollmentAccountInformationCtrl">
     <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper">
             <h1>
@@ -16,7 +16,9 @@
             <h1>@Html.Sitecore().Field("Header Account Information")</h1>
             <p>@Html.Sitecore().Field("Fill in Information")</p>
             <form data-val-bind-messages="validations">
-                <article class="form" ng-repeat="(id, item) in enrollment.uiModel.enrollmentLocations" ng-init="init();">
+ 
+                <!-- Loop through utility addresses -->
+                <article class="form" ng-repeat="(index, item) in utilityAddresses()" ng-init="init();">
                     <div class="content">
 
                         <!-- Service Address -->
@@ -26,26 +28,87 @@
                         </div>
 
                         <!-- Address Input Dropdown -->
+                        <!-- We should probably restrict by zip code right here somehow -->
                         <div class="item" ng-hide="item.location.address.line1">
                             <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
                             <input type="text" 
                                    id="service-address" 
                                    class="typeahead" 
-                                   ng-model="enrollment.locations[id].address" 
-                                   placeholder="123 Main Street, Dallas, TX 75001" 
-                                   typeahead="address as address.formattedAddress for address in getLocation(enrollment.serviceState, $viewValue)" 
-                                   typeahead-loading="enrollment.loadingAccountInformationServiceAddress" 
-                                   ng-class="{'loading' : enrollment.loadingAccountInformation}" 
+                                   ng-model="accountInformation.serviceAddress"
+                                   placeholder="123 Main Street, Dallas, TX 75001"
+                                   typeahead="address as address.formattedAddress for address in getLocation(item.location.address.stateAbbreviation, $viewValue)"  
+                                   typeahead-loading="accountInformation.loadingAccountInformationServiceAddress" 
+                                   ng-class="{'loading' : accountInformation.loadingAccountInformation}" 
                             />
                         </div>
 
+                        <!-- Don't even show the billing address section if the service address isn't set -->
+                        <div ng-show="item.location.address.line1">
+                            <h3>@Html.Sitecore().Field("Billing Address Header")</h3>
+                            
+                            <div class="item">
+                                <ul class="checkbox-list">
+                                    <li>
+                                        <input type="checkbox" name="same-address" id="same-address" ng-model="additionalInformation.sameAddress" ng-change="updateSameAddress()">
+                                        <label for="same-address" >@Html.Sitecore().Field("Same Address Label")</label>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="item" ng-show="additionalInformation.sameAddress && sizeOf(accountInformation.enrollmentLocations) > 1">
+                                <label for="service-address">@Html.Sitecore().Field("Select Service Address Label")</label>
+                                <select id="service-address" ng-model="additionalInformation.billingAddress" ng-change="updateBillingAddress()">
+                                    <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
+                                    <option ng-repeat="(id, item) in accountInformation.enrollmentLocations" ng-value="item.location.address | address">{{ item.location.address | address }}</option>
+                                </select>
+                            </div>
+
+                            <div class="item" ng-show="additionalInformation.sameAddress && sizeOf(accountInformation.enrollmentLocations) == 1">
+                                <label for="service-address">@Html.Sitecore().Field("Billing Service Address Label")</label>
+                                <strong>{{ accountInformation.enrollmentLocations[0].location.address | address }}</strong>
+                            </div>
+
+                            <div ng-hide="accountInformation.billingAddress.sameAddress">
+                                <div class="group">
+                                    <div class="item group-col" @Html.ValidationErrorClass(m => m.BillingAddress.Line1)>
+                                        <label for="@Html.For(m => m.BillingAddress.Line1)">@Html.Sitecore().Field("Address 1 Label")</label>
+                                        <input type="text" @Html.ValidationAttributes(m => m.BillingAddress.Line1) data-val-if="!accountInformation.billingAddress.sameAddress" ng-model="accountInformation.billingAddress.line1" />
+                                    </div>
+                                    <div class="item group-col" @Html.ValidationErrorClass(m => m.BillingAddress.Line2)>
+                                        <label for="@Html.For(m => m.BillingAddress.Line2)">@Html.Sitecore().Field("Address 2 Label")</label>
+                                        <input type="text" @Html.ValidationAttributes(m => m.BillingAddress.Line2) data-val-if="!accountInformation.billingAddress.sameAddress" ng-model="accountInformation.billingAddress.unitNumber" />
+                                    </div>
+                                </div>
+
+                                <div class="group">
+                                    <div class="item group-col" @Html.ValidationErrorClass(m => m.BillingAddress.City)>
+                                        <label for="@Html.For(m => m.BillingAddress.City)">@Html.Sitecore().Field("City Label")</label>
+                                        <input type="text" @Html.ValidationAttributes(m => m.BillingAddress.City) data-val-if="!accountInformation.billingAddress.sameAddress" ng-model="accountInformation.billingAddress.city" />
+                                    </div>
+                                    <div class="item" @Html.ValidationErrorClass(m => m.BillingAddress.StateAbbreviation)>
+                                        <label for="@Html.For(m => m.BillingAddress.StateAbbreviation)">@Html.Sitecore().Field("State Label")</label>
+                                        <select @Html.ValidationAttributes(m => m.BillingAddress.StateAbbreviation) data-val-if="!accountInformation.billingAddress.sameAddress" ng-model="accountInformation.billingAddress.stateAbbreviation" ng-options="state.abbreviation as state.name for state in usStates">
+                                            <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
+                                        </select>
+                                    </div>
+                                    <div class="item" @Html.ValidationErrorClass(m => m.BillingAddress.PostalCode5)>
+                                        <label for="@Html.For(m => m.BillingAddress.PostalCode5)">@Html.Sitecore().Field("Zip Label")</label>
+                                        <input class="small" type="text" @Html.ValidationAttributes(m => m.BillingAddress.PostalCode5) data-val-if="!accountInformation.billingAddress.sameAddress" ng-model="accountInformation.billingAddress.postalCode5" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
                         <!-- Selected Offers Section -->
+                        <!-- base this on offerType - TexasElectricity, GeorgiaGas, etc -->
                         <div ng-repeat ="(type, plan) in item.selectedOffers">
                             <h2><span ng-show="type == 'gas'">Gas</span><span ng-show="type == 'electricity'">Electricity</span></h2>
                             <div class="group">
                                 <div class="item group-col">
                                     <label for="bill-account-number">@Html.Sitecore().Field("Bill Account Number Label")</label>
-                                    <input type="text" id="bill-account-number" ng-model="enrollment.accountInformation.serviceAddresses[id][type].accountNumber" placeholder="654-XXXX-XXX-XXXXXX" />
+                                    <input type="text" id="bill-account-number" ng-model="accountInformation.serviceAddresses[id][type].accountNumber" placeholder="654-XXXX-XXX-XXXXXX" />
                                 </div>
                                 <div class="item group-col">
                                     <a href="" class="single-link">@Html.Sitecore().Field("See Example")</a>
@@ -82,31 +145,33 @@
                         </div>
                     </div>
                 </article>
+
+
                 <h2>@Html.Sitecore().Field("Personal Information Header")</h2>
                 <article class="form">
                     <div class="content">
                         <div class="group">
                          <div class="item group-col" @Html.ValidationErrorClass(m => m.ContactInfo.Name.First)>
                                 <label for="@Html.For(m => m.ContactInfo.Name.First)">@Html.Sitecore().Field("First Name Label")</label>
-                                <input type="text" @Html.ValidationAttributes(m => m.ContactInfo.Name.First) placeholder="Jordan" ng-model="enrollment.uiModel.contactInfo.name.first" />
+                                <input type="text" @Html.ValidationAttributes(m => m.ContactInfo.Name.First) placeholder="Jordan" ng-model="accountInformation.contactInfo.name.first" />
                                 @Html.ValidationMessageFor(model => model.ContactInfo.Name.First)
                             </div>
                             <div class="item group-col" @Html.ValidationErrorClass(m => m.ContactInfo.Name.Last)>
                                 <label for="@Html.For(m => m.ContactInfo.Name.Last)">@Html.Sitecore().Field("Last Name Label")</label>
-                                <input type="text" @Html.ValidationAttributes(m => m.ContactInfo.Name.Last) placeholder="Campbell" ng-model="enrollment.uiModel.contactInfo.name.last" />
+                                <input type="text" @Html.ValidationAttributes(m => m.ContactInfo.Name.Last) placeholder="Campbell" ng-model="accountInformation.contactInfo.name.last" />
                                 @Html.ValidationMessageFor(model => model.ContactInfo.Name.Last)
                             </div>
                         </div>
                         <div class="group">
                             <div class="item group-col" @Html.ValidationErrorClass(m => m.ContactInfo.PrimaryPhone.Number)>
                                 <label for="@Html.For(m => m.ContactInfo.PrimaryPhone.Number)">@Html.Sitecore().Field("Primary Phone Number Label")</label>
-                                <input type="text" @Html.ValidationAttributes(m => m.ContactInfo.PrimaryPhone.Number) ng-model="enrollment.uiModel.contactInfo.primaryPhone.number" />
+                                <input type="text" @Html.ValidationAttributes(m => m.ContactInfo.PrimaryPhone.Number) ng-model="accountInformation.contactInfo.primaryPhone.number" />
                                 @Html.ValidationMessageFor(model => model.ContactInfo.PrimaryPhone.Number)
                             </div>                        
                             <div class="item group-col">
                                 @* TODO - this doesn't match the Model *@
                                 <label for="phone-type">@Html.Sitecore().Field("Phone Type Label")</label>
-                                <select id="phone-type" ng-model="enrollment.uiModel.contactInfo.primaryPhone.type">
+                                <select id="phone-type" ng-model="accountInformation.contactInfo.primaryPhone.category" ng-options="type.name as type.label for type in phoneTypes">
                                     <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
                                 </select>
                             </div>
@@ -118,11 +183,11 @@
                             <div class="group">
                                 <div class="item group-col">
                                     <label for="secondary-phone-number">@Html.Sitecore().Field("Secondary Phone Number Label")</label>
-                                    <input type="text" id="secondary-phone-number" ng-model="enrollment.uiModel.contactInfo.secondaryPhone.number" />
+                                    <input type="text" id="secondary-phone-number" ng-model="accountInformation.contactInfo.secondaryPhone.number" />
                                 </div>
                                 <div class="item group-col">
                                     <label for="phone-type">@Html.Sitecore().Field("Phone Type Label")</label>
-                                    <select id="phone-type" ng-model="enrollment.uiModel.contactInfo.secondaryPhone.type">
+                                    <select id="phone-type" ng-model="accountInformation.contactInfo.secondaryPhone.category" ng-options="type.name as type.label for type in phoneTypes">
                                         <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
                                     </select>
                                 </div>
@@ -131,117 +196,68 @@
                         <hr class="content-divider">
                         <div class="item" @Html.ValidationErrorClass(m => m.ContactInfo.Email.Address)>
                             <label for="@Html.For(m => m.ContactInfo.Email.Address)">@Html.Sitecore().Field("Email Address Label")</label>
-                            <input type="email" @Html.ValidationAttributes(m => m.ContactInfo.Email.Address) ng-model="enrollment.uiModel.contactInfo.email.address" />
+                            <input type="email" @Html.ValidationAttributes(m => m.ContactInfo.Email.Address) ng-model="accountInformation.contactInfo.email.address" />
                             @Html.ValidationMessageFor(model => model.ContactInfo.Email.Address)
                         </div>                        
                         <!-- Change this ng-hide option when commercial becomes available -->                       
                         <div class="item" ng-hide="true">                        
                             <label>@Html.Sitecore().Field("Social Security Number or Tax ID Number Label")</label>
                             <ul class="checkbox-list">
-                                <li><input type="radio" id="ssn" ng-model="enrollment.uiModel.personalInformation.taxid"><label for="ssn">@Html.Sitecore().Field("Checkbox List Social Security Number" )</label></li>
-                                <li><input type="radio" id="taxid" ng-model="enrollment.uiModel.personalInformation.taxid"><label for="taxid">@Html.Sitecore().Field("Checkbox List Tax ID")</label></li>
+                                <li><input type="radio" id="ssn" ng-model="accountInformation.personalInformation.taxid"><label for="ssn">@Html.Sitecore().Field("Checkbox List Social Security Number" )</label></li>
+                                <li><input type="radio" id="taxid" ng-model="accountInformation.personalInformation.taxid"><label for="taxid">@Html.Sitecore().Field("Checkbox List Tax ID")</label></li>
                             </ul>
                         </div>
                         <div class="item" @Html.ValidationErrorClass(m => m.SocialSecurityNumber)>
                             <label for="@Html.For(m => m.SocialSecurityNumber)">@Html.Sitecore().Field("Social Security Number Label")</label>
-                            <input type="text" @Html.ValidationAttributes(m => m.SocialSecurityNumber) ng-model="enrollment.uiModel.socialSecurityNumber" />
+                            <input type="text" @Html.ValidationAttributes(m => m.SocialSecurityNumber) ng-model="accountInformation.socialSecurityNumber" />
                             @Html.ValidationMessageFor(m => m.SocialSecurityNumber)
                         </div>                        
+
                         <!-- Change this ng-hide option when commercial becomes available -->
                         <div class="item" ng-hide="true">
                             <label for="dba">@Html.Sitecore().Field("DBA Label")</label>
-                            <input type="text" id="dba" ng-model="enrollment.uiModel.dba" />
+                            <input type="text" id="dba" ng-model="accountInformation.dba" />
                         </div>
 
                         <div class="group">
                             <div class="item group-col" @Html.ValidationErrorClass(m => m.DriversLicense.Number)>
                                 <label for="@Html.For(m => m.DriversLicense.Number)">@Html.Sitecore().Field("Drivers License Number Label")</label>
-                                <input type="text" @Html.ValidationAttributes(m => m.DriversLicense.Number) ng-model="enrollment.uiModel.driversLicense.number" />
+                                <input type="text" @Html.ValidationAttributes(m => m.DriversLicense.Number) ng-model="accountInformation.driversLicense.number" />
                                 @Html.ValidationMessageFor(m => m.DriversLicense.Number)
                             </div>
                             <div class="item group-col" @Html.ValidationErrorClass(m => m.DriversLicense.StateAbbreviation)>
                                 <label for="@Html.For(m => m.DriversLicense.StateAbbreviation)">@Html.Sitecore().Field("Drivers License State Label")</label>
-                                <select @Html.ValidationAttributes(m => m.DriversLicense.StateAbbreviation) ng-model="enrollment.uiModel.driversLicense.driversLicense.state">
+                                <select @Html.ValidationAttributes(m => m.DriversLicense.StateAbbreviation) ng-model="accountInformation.driversLicense.state" ng-options="state.abbreviation as state.name for state in usStates">
                                     <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
                                 </select>
                                 @Html.ValidationMessageFor(m => m.DriversLicense.StateAbbreviation)
                             </div>
                         </div>
+
                         <div class="additional-field-item item" ng-show="enrollment.serviceState == 'TX'">
                             <ul class="checkbox-list">
                                 <li><input type="checkbox" name="secondary-contact" id="secondary-contact" ng-model="additionalInformation.showSecondaryContact"><label for="secondary-contact">@Html.Sitecore().Field("Checkbox Add Secondary Contact")</label></li>
                             </ul>
                         </div>
+
                         <div class="additional-field-group" ng-show="additionalInformation.showSecondaryContact">
                             <div class="group">
                                 <div class="item group-col" @Html.ValidationErrorClass(m => m.SecondaryContactInfo.First)>
                                     <label for="@Html.For(m => m.SecondaryContactInfo.First)">@Html.Sitecore().Field("First Name Label")</label>
-                                    <input type="text" @Html.ValidationAttributes(m => m.SecondaryContactInfo.First) data-val-if="enrollment.extraFields.accountInformation.personalInformation.showSecondaryContact" placeholder="Jordan" ng-model="enrollment.uiModel.secondaryContactInfo.name.last" />
+                                    <input type="text" @Html.ValidationAttributes(m => m.SecondaryContactInfo.First) data-val-if="enrollment.extraFields.accountInformation.personalInformation.showSecondaryContact" placeholder="Jordan" ng-model="accountInformation.secondaryContactInfo.name.last" />
                                     @Html.ValidationMessageFor(m => m.SecondaryContactInfo.First)
                                 </div>
                                 <div class="item group-col" @Html.ValidationErrorClass(m => m.SecondaryContactInfo.Last)>
                                     <label for="@Html.For(m => m.SecondaryContactInfo.Last)">@Html.Sitecore().Field("Last Name Label")</label>
-                                    <input type="text" @Html.ValidationAttributes(m => m.SecondaryContactInfo.Last) data-val-if="enrollment.extraFields.accountInformation.personalInformation.showSecondaryContact" placeholder="Campbell" ng-model="enrollment.uiModel.secondaryContactInfo.name.first" />
+                                    <input type="text" @Html.ValidationAttributes(m => m.SecondaryContactInfo.Last) data-val-if="enrollment.extraFields.accountInformation.personalInformation.showSecondaryContact" placeholder="Campbell" ng-model="accountInformation.secondaryContactInfo.name.first" />
                                     @Html.ValidationMessageFor(m => m.SecondaryContactInfo.Last)
                                 </div>
                             </div> 
                         </div>                      
                     </div>
                 </article>
-                <h2>@Html.Sitecore().Field("Billing Address Header")</h2>
-                <article class="form">
-                    <div class="content">
-                        <div class="item">
-                            <ul class="checkbox-list">
-                                <li>
-                                    <input type="checkbox" name="same-address" id="same-address" ng-model="additionalInformation.sameAddress" ng-change="updateSameAddress()">
-                                    <label for="same-address" >@Html.Sitecore().Field("Same Address Label")</label>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="item" ng-show="additionalInformation.sameAddress && sizeOf(enrollment.uiModel.enrollmentLocations) > 1">
-                            <label for="service-address">@Html.Sitecore().Field("Select Service Address Label")</label>
-                            <select id="service-address" ng-model="additionalInformation.billingAddress" ng-change="updateBillingAddress()">
-                                <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
-                                <option ng-repeat="(id, item) in enrollment.uiModel.enrollmentLocations" ng-value="item.location.address | address">{{ item.location.address | address }}</option>
-                            </select>
-                        </div>
-                        <div class="item" ng-show="additionalInformation.sameAddress && sizeOf(enrollment.uiModel.enrollmentLocations) == 1">
-                            <label for="service-address">@Html.Sitecore().Field("Billing Service Address Label")</label>
-                            <strong>{{ enrollment.uiModel.enrollmentLocations[0].location.address | address }}</strong>
-                        </div>
-                        <div ng-hide="enrollment.uiModel.billingAddress.sameAddress">
-                            
-                            <div class="group">
-                                <div class="item group-col" @Html.ValidationErrorClass(m => m.BillingAddress.Line1)>
-                                    <label for="@Html.For(m => m.BillingAddress.Line1)">@Html.Sitecore().Field("Address 1 Label")</label>
-                                    <input type="text" @Html.ValidationAttributes(m => m.BillingAddress.Line1) data-val-if="!enrollment.uiModel.billingAddress.sameAddress" ng-model="enrollment.uiModel.billingAddress.line1" />
-                                </div>
-                                <div class="item group-col" @Html.ValidationErrorClass(m => m.BillingAddress.Line2)>
-                                    <label for="@Html.For(m => m.BillingAddress.Line2)">@Html.Sitecore().Field("Address 2 Label")</label>
-                                    <input type="text" @Html.ValidationAttributes(m => m.BillingAddress.Line2) data-val-if="!enrollment.uiModel.billingAddress.sameAddress" ng-model="enrollment.uiModel.billingAddress.unitNumber" />
-                                </div>
-                            </div>
 
-                            <div class="group">
-                                <div class="item group-col" @Html.ValidationErrorClass(m => m.BillingAddress.City)>
-                                    <label for="@Html.For(m => m.BillingAddress.City)">@Html.Sitecore().Field("City Label")</label>
-                                    <input type="text" @Html.ValidationAttributes(m => m.BillingAddress.City) data-val-if="!enrollment.uiModel.billingAddress.sameAddress" ng-model="enrollment.uiModel.billingAddress.city" />
-                                </div>
-                                <div class="item" @Html.ValidationErrorClass(m => m.BillingAddress.StateAbbreviation)>
-                                    <label for="@Html.For(m => m.BillingAddress.StateAbbreviation)">@Html.Sitecore().Field("State Label")</label>
-                                    <select @Html.ValidationAttributes(m => m.BillingAddress.StateAbbreviation) data-val-if="!enrollment.uiModel.billingAddress.sameAddress" ng-model="enrollment.uiModel.billingAddress.stateAbbreviation">
-                                        <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
-                                    </select>
-                                </div>
-                                <div class="item" @Html.ValidationErrorClass(m => m.BillingAddress.PostalCode5)>
-                                    <label for="@Html.For(m => m.BillingAddress.PostalCode5)">@Html.Sitecore().Field("Zip Label")</label>
-                                    <input class="small" type="text" @Html.ValidationAttributes(m => m.BillingAddress.PostalCode5) data-val-if="!enrollment.uiModel.billingAddress.sameAddress" ng-model="enrollment.uiModel.billingAddress.postalCode5" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </article>
+
                 <!-- HOW ARE WE HANDLING USER ACCOUNT CREATION? -->
                 <article class="form">
                     <div class="content">
@@ -275,7 +291,7 @@
                 </article>
                 <!-- END USER ACCOUNT CREATION QUESTION -->
                 <div class="buttons">
-                    <button type="submit" class="primary" ng-click="completeStep();">@Html.Sitecore().Field("Button Label")</button>
+                    <button type="submit" class="primary" ng-click="completeStep();" ng-disabled="!isFormValid()" data-val-submit>@Html.Sitecore().Field("Button Label")</button>
                 </div>
             </form>
             <div class="hide-medium-large time-remaining-mobile">

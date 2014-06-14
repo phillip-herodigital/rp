@@ -1,4 +1,4 @@
-﻿<div id="{{section.id}}" class="enrollment-section accent-orange" ng-switch-when="planSelection" ng-controller="EnrollmentPlanSelectionCtrl">
+﻿<div id="utilityFlowPlans" class="enrollment-section accent-orange" ng-show="stepsService.isStepVisible('utilityFlowPlans')" ng-controller="EnrollmentPlanSelectionCtrl">
     <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper">
             <h1>
@@ -19,11 +19,14 @@
                     <div class="content">
                         <div class="item">
                             <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
-                            <strong>{{ enrollment.currentAddress.location.address | address }}</strong>
+                            <strong>{{ currentLocationInfo().location.address | address }}</strong>
                         </div>
                     </div>
                 </article>
-                <div ng-show="enrollment.uiModel.offers[enrollment.currentAddress.id]">
+
+                <!-- Show if Texas Electricity is available -->
+                <!-- Do this for other offerTypes as they become available -->
+                <div ng-if="currentLocationInfo().offerInformationByType.texasElectricity">
                     <h2>@Html.Sitecore().Field("Electricity Header")</h2>
                     <article class="plans">
                         <table>
@@ -37,7 +40,7 @@
                                 </tr>
                                 <tr class="spacer"></tr>
                             </thead>
-                            <tbody additional-fields ng-class="{'open': isOpen}" ng-repeat="plan in enrollment.uiModel.offers[enrollment.currentAddress.id] | serviceTypeElectricity:plan">
+                            <tbody additional-fields ng-class="{'open': isOpen}" ng-repeat="plan in currentLocationInfo().offerInformationByType.texasElectricity.availableOffers">
                                 <tr>
                                     <th class="vertical">
                                         <div ng-show="plan.rateType == 'fixed'" class="fixed">@Html.Sitecore().Field("Electricity Fixed")</div>
@@ -60,7 +63,7 @@
                                         ${{ plan.cancellationFee }}<span>@Html.Sitecore().Field("Electricity Early Cancellation Fee")</span>
                                     </td>
                                     <td>
-                                        <a class="button" button-selector="'{{plan.id}}'" ng-model="selectedOffers.electricityPlan" href="">@Html.Sitecore().Field("Electricity Button")</a>
+                                        <a class="button" button-selector="'{{plan.id}}'" ng-model="planSelection.selectedOffers.texasElectricity" href="">@Html.Sitecore().Field("Electricity Button")</a>
                                     </td>
                                 </tr>
                                 <tr class="details additional-fields">
@@ -73,6 +76,7 @@
                         </table>
                     </article>
                 </div>
+                <!--
                 <div ng-show="enrollment.uiModel.offers[enrollment.currentAddress.id]">
                     <h2>@Html.Sitecore().Field("Gas Header")</h2>
                     <article class="plans">
@@ -136,9 +140,10 @@
 
                     </article>
                 </div>
+                -->
                 <div class="buttons">
-                    <button type="submit" class="primary" ng-click="completeStep();" ng-disabled="!selectedOffers" data-val-submit>@Html.Sitecore().Field("Continue Button")</button>
-                    <button type="submit" class="secondary" ng-click="scrollToServiceInformation();" ng-disabled="!selectedOffers" data-val-submit>@Html.Sitecore().Field("Add Address Button")</button>
+                    <button type="submit" class="primary" ng-click="completeStep();" ng-disabled="!isFormValid()" data-val-submit>@Html.Sitecore().Field("Continue Button")</button>
+                    <button type="submit" class="secondary" ng-click="completeStep(true);" ng-disabled="!isFormValid()" data-val-submit>@Html.Sitecore().Field("Add Address Button")</button>
                 </div>
             </form>
             <div class="hide-medium-large time-remaining-mobile">
