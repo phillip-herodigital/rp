@@ -2,6 +2,7 @@
 
     var retObj = {
         breakpoint: null,
+        windowWidth: $window.innerWidth,
         getBreakpoint: function () {
             return retObj.breakpoint;
         }
@@ -20,7 +21,8 @@
              'dimensions': [1025, 9999]
          }
     ],
-    setBreakpoint = function (winWidth) {
+    updateValues = function (winWidth) {
+        retObj.windowWidth = winWidth;
         for (var i = 0, len = sizes.length; i < len; i++) {
             if (winWidth > sizes[i].dimensions[0] && winWidth < sizes[i].dimensions[1]) {
                 retObj.breakpoint = sizes[i];
@@ -28,12 +30,12 @@
         }
     };
 
-    setBreakpoint($window.innerWidth);
+    updateValues($window.innerWidth);
 
     $rootScope.$watch(function () {
-        return $window.innerWidth;
+        return $window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
     }, function (newValue, oldValue) {
-        setBreakpoint(newValue);
+        updateValues(newValue);
     });
 
     window.onresize = function () {

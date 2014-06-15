@@ -64,7 +64,7 @@
                 <ul class="wrapper">
                     @foreach (var item in target)
                     {
-                        <li ng-mouseover="showSubnav(@item.SubNavNum)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav==@item.SubNavNum }">@Html.Sitecore().Field("Navigation Link", item.Item)</li>
+                        <li class="nav-@item.SubNavNum" ng-mouseover="showSubnav(@item.SubNavNum)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav==@item.SubNavNum }">@Html.Sitecore().Field("Navigation Link", item.Item)</li>
                     }
                     <li class="pay"><a href="/pay/" class="button">Pay My Bill</a></li>
                 </ul>
@@ -73,16 +73,18 @@
         <nav class="sub-nav">
             @foreach (var entry in target)
             {
-                <ul class="wrapper" ng-cloak ng-class="{ hidden: subnav != @entry.SubNavNum }" ng-mouseover="showSubnav(@entry.SubNavNum)" ng-mouseout="hideSubnav()">
-                    @foreach (var subItem in entry.SubNavItems)
-                    {
-                        <li @if (subItem.Selected) { @Html.Raw("class=\"selected\""); }>@Html.Sitecore().Field("Navigation Link", subItem)</li>
-                    }
-                    @if (!entry.SubNavItems.Any())
-                    {
-                        <li><a>&nbsp;</a></li>
-                    }
-                </ul>
+                <div class="wrapper" sub-nav="@entry.SubNavNum" ng-cloak ng-class="{ hidden: subnav != @entry.SubNavNum }" ng-mouseover="showSubnav(@entry.SubNavNum)" ng-mouseout="hideSubnav()">
+                    <ul ng-style="{'margin-left': marginLeft}">
+                        @foreach (var subItem in entry.SubNavItems)
+                        {
+                            <li @if (subItem.Selected) { @Html.Raw("class=\"selected\""); }>@Html.Sitecore().Field("Navigation Link", subItem)</li>
+                        }
+                        @if (!entry.SubNavItems.Any())
+                        {
+                            <li><a>&nbsp;</a></li>
+                        }
+                    </ul>
+                </div>
             }
         </nav>
     </header>
