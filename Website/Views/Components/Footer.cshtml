@@ -1,4 +1,19 @@
-﻿<footer class="site-footer">
+﻿@{
+    var showSuperFooter = true;
+    var hideSuperFooterField = Html.Sitecore().CurrentItem.Fields["Hide Super Footer"];
+    if (hideSuperFooterField == null)
+    {
+        hideSuperFooterField = Sitecore.Context.Item.Fields["Hide Super Footer"];
+    }
+    if (hideSuperFooterField != null && hideSuperFooterField.Value == "1")
+    {
+        showSuperFooter = false;
+    }
+}
+
+<footer class="site-footer">
+    @if (showSuperFooter)
+    {
     <div class="super-footer">
         <div class="wrapper">
             <div class="grid three">
@@ -16,6 +31,7 @@
             </div>
         </div>
     </div>
+    }
     @if (!string.IsNullOrEmpty(Html.Sitecore().Field("Footnotes", Sitecore.Context.Item).ToString()))
     {
         <div class="wrapper footnotes">
