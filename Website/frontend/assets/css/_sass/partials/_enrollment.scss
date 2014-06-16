@@ -888,6 +888,9 @@ article.phone {
 			&:first-child {
 				border-left: 0;
 			}
+			&.selected {
+				background: #fff;
+			}
 		}
 		td:last-child {
 			border-right: 0;
@@ -1031,6 +1034,162 @@ article.phone {
 			padding-left: 4px;
 			padding-right: 25px;
 			margin-top: 8px;
+		}
+		.additional-fields {
+			position: relative;
+			td {
+				background-color: #fff;
+				@include box-shadow(inset 1px 2px 15px rgba(0,0,0,.04));
+				padding: 0;
+			}
+			.icon-close {
+				position: absolute;
+				top: 25px;
+				right: 30px;
+				z-index: 10;
+			}
+			.content {
+				padding: 0;
+				&:after, &:before {
+					bottom: 100%;
+					left: 16.66666%;
+					border: solid transparent;
+					content: " ";
+					height: 0;
+					width: 0;
+					position: absolute;
+					pointer-events: none;
+					@include transition(all ease-in 0.5s);
+				}
+				&:after {
+					border-color: rgba(255, 255, 255, 0);
+					border-bottom-color: #fafafa;
+					border-width: 15px;
+					margin-left: -15px;
+				}
+				&:before {
+					border-color: rgba(255, 255, 255, 0);
+					border-bottom-color: #cdcdcd;
+					border-width: 16px;
+					margin-left: -16px;
+				}
+				&.first {
+					&:after, &:before {
+						left: 16.66666%;
+					}
+				}
+				&.second {
+					&:after, &:before {
+						left: 50%;
+					}
+				}
+				&.third {
+					&:after, &:before {
+						left: 83.33333%;
+					}
+				}
+			}
+			.details {
+				min-height: 260px;
+				text-align: left;
+				padding: 35px 25px;
+				h1 {
+					font-size: 24px;
+					margin: 0 0 20px 0;
+					text-transform: none;
+				}
+				h2 {
+					color: #333;
+					font-size: 18px;
+					font-weight: bold;
+					text-transform: none;
+					span {
+						color: #0971cd;
+						float: right;
+						font-size: 16px;
+						text-transform: uppercase;
+					}
+				}
+				h3 {
+					font-size: 16px;
+					margin: 0 0 10px 0;
+					min-height: 0;
+				}
+				p {
+					margin: 0 0 15px 0;
+					&.large {
+						font-size: 16px;
+					}
+				}
+				ol {
+					padding-left: 20px;
+					li {
+						font-size: 16px;
+					}
+				}
+				hr {
+					margin: 20px 0;
+					border: 0;
+					border-top: 3px solid #eee;
+				}
+				.more {
+					text-transform: uppercase;
+					font-size: 14px;
+				}
+				.product-description {
+					@extend .clearfix;
+					margin: 20px 0;
+					.avatar {
+						float: left;
+						width: 15%;
+					}
+					.description {
+						float: left;
+						width: 85%;
+					}
+				}
+				&.product {
+					padding-right: 350px;
+				}
+			}
+			.options {
+				border-top: 1px solid #d9d9d9;
+				border-bottom: 5px solid #d9d9d9;
+				background-color: #fbfbfb;
+				@include box-shadow(inset 1px 2px 15px rgba(0,0,0,.04));
+				text-align: left;
+				padding: 25px 30px;
+				label {
+					text-transform: none;
+					font-size: 18px;
+					margin-top: 5px;
+				}
+				.item {
+					margin-right: 40px;
+				}
+				.action {
+					float: right;
+					margin-right: 0;
+					text-align: right;
+					label {
+						font-size: 22px;
+						span {
+							font-size: 14px;
+						}
+					}
+				}
+				.colors {
+					text-align: left;
+					margin-left: -2px;
+					width: auto;
+					li {
+						a {
+							width: 20px;
+							height: 20px;
+						}
+					}
+				}
+			}
 		}
 		@include breakpoint(small) {
 			table, thead, tbody, th, td, tr { 
