@@ -265,6 +265,8 @@
         });
     }
 
+    //TODO: Refactor this into a single function and just pass the API string and request type
+
     /**
      * Get client data.
      * 
@@ -274,7 +276,6 @@
         var deferred = $q.defer(),
             start = new Date().getTime();
 
-        //$http.get('/frontend/assets/json/enrollment.txt')
         $http.get(urlPrefix + 'clientData')
         .success(function (data) {
             deferred.resolve(data);
@@ -321,8 +322,7 @@
         var deferred = $q.defer(),
         start = new Date().getTime();
 
-        $http.post(urlPrefix + 'ServiceInformation', data)
-        //$http.get('/frontend/assets/json/enrollment.txt')
+        $http.post(urlPrefix + 'serviceInformation', data)
         .success(function(data) {
             deferred.resolve(data);
         })
@@ -346,7 +346,6 @@
         start = new Date().getTime();
 
         $http.post(urlPrefix + 'selectedOffers', data)
-        //$http.get('/frontend/assets/json/enrollment.txt')
         .success(function (data) {
             deferred.resolve(data);
         })
@@ -369,8 +368,7 @@
         var deferred = $q.defer(),
         start = new Date().getTime();
 
-        $http.post(urlPrefix + 'AccountInformation', data)
-        //$http.get('/frontend/assets/json/enrollment.txt')
+        $http.post(urlPrefix + 'accountInformation', data)
         .success(function (data) {
             deferred.resolve(data);
         })
@@ -393,8 +391,7 @@
         var deferred = $q.defer(),
         start = new Date().getTime();
 
-        $http.post(urlPrefix + 'VerifyIdentity', data)
-        //$http.get('/frontend/assets/json/enrollment.txt')
+        $http.post(urlPrefix + 'verifyIdentity', data)
         .success(function (data) {
             deferred.resolve(data);
         })
@@ -417,8 +414,7 @@
         var deferred = $q.defer(),
         start = new Date().getTime();
 
-        $http.post(urlPrefix + 'PaymentInfo', data)
-        //$http.get('/frontend/assets/json/enrollment.txt')
+        $http.post(urlPrefix + 'paymentInfo', data)
         .success(function (data) {
             deferred.resolve(data);
         })
@@ -441,8 +437,7 @@
         var deferred = $q.defer(),
         start = new Date().getTime();
 
-        $http.post(urlPrefix + 'ConfirmOrder', data)
-        //$http.get('/frontend/assets/json/enrollment.txt')
+        $http.post(urlPrefix + 'confirmOrder', data)
         .success(function (data) {
             deferred.resolve(data);
         })

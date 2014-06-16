@@ -7,7 +7,6 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', '$rootScope', '$
     $scope.utilityProducts = utilityProductsService;
     $scope.usStates = enrollmentService.usStates;
     $scope.phoneTypes = enrollmentService.phoneTypes;
-
     $scope.accountInformation = accountInformationService.accountInformation;
 
     $scope.utilityAddresses = function() {
@@ -19,15 +18,16 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', '$rootScope', '$
     }
 
     $scope.isFormValid = function() {
-        return false;
+        return true;
     }
 
     /**
     * Complete Enrollment Section
     */
     $scope.completeStep = function () {
-        var confirmOrderPromise = enrollmentService.setConfirmOrder();
+        var postData = accountInformationService.createPostObject(utilityProductsService.addresses);
 
+        var confirmOrderPromise = enrollmentService.setConfirmOrder(data);
         confirmOrderPromise.then(function (data) {
             $scope.validations = data.validations;
             

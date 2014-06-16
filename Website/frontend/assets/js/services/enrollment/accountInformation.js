@@ -5,14 +5,14 @@ ngApp.factory('accountInformationService', [function () {
 				first: 'first name',
 				last: 'last name'
 			},
-			primaryPhone: {
+			phone: [{
 				number: '555-555-5555',
 				category: 'home'
-			},
-			secondaryPhone: {
-				number: '666-666-6666',
-				category: 'mobile'
-			},
+			}, 
+			{
+				number: '',
+				category: ''
+			}],
 			email: {
 				address: 'test@test.com'
 			}
@@ -21,17 +21,26 @@ ngApp.factory('accountInformationService', [function () {
 		driversLicense: {
 			number: '123456789',
 			state: 'TX'
-		},
-		billingAddress: {
-
 		}
 	};
 	
 	return {
-		accountInformation: accountInformation
+		accountInformation: accountInformation,
+		createPostObject: function(utilityProduct) {
+			//Need to pass it the utilityProduct information as well, if it exists
+			var utilityProduct = (typeof utilityProduct == 'undefined') ? [] : utilityProduct;
+			
+			var data = {
+				contactInfo: accountInformation.contactInfo,
+				socialSecurityNumber: accountInformation.socialSecurityNumber,
+				driversLicense: accountInformation.driversLicense,
+				cart: utilityProduct
+			};
+			return data;
+		}
 	}
 
-	//When typeahead item is selected, check against current TDU vs new TDU,
+	//When typeahead item is selected for serviceAddress, check against current TDU vs new TDU,
 	//if different, ask to continue? then do popup with new service plans?
 }]);
 

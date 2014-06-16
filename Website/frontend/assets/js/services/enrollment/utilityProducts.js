@@ -80,7 +80,14 @@ ngApp.factory('utilityProductsService', ['$rootScope','$filter', function ($root
 		getActiveServiceAddress: function() {
 			return activeServiceAddress;
 		},
+		/**
+		 * Get the active service address index from the addresses object
+		 * Used for form validation purposes
+		 * @return {[type]}
+		 */
+		getActiveServiceAddressIndex: function() {
 
+		},
 		/**
 		 * Set the current service address
 		 * @param {[type]} address
@@ -196,7 +203,7 @@ ngApp.factory('utilityProductsService', ['$rootScope','$filter', function ($root
 
 	        //If this is a new service setup, add that to the capabilities object
 	        if (serviceInformation.isNewService == 1) {
-	            serviceInformation.location.capabilities.push({ "capabilityType": "ServiceStatus", "isNewService": true });
+	            serviceInformation.location.capabilities.push({ "capabilityType": "ServiceStatus", "isNewService": !!serviceInformation.isNewService });
 	        }        
 
 	        //Add the new location to be saved and create a new ID for it
