@@ -2260,7 +2260,8 @@ article.energy-certificates {
 article.ignite-associate {
 	text-align: center;
 	margin: 50px 0 10px;
-	button {
+	button,
+    .button {
 		background-color: #a9222d;
 		a {
 			color: #fff;
@@ -2310,7 +2311,8 @@ article.electricity-gas {
 		span {
 			color: #0971ce;
 		}
-		button {
+		button,
+        .button {
 			margin: auto;
 			background-color: #76bd1d;
 			font-size: 24px;
