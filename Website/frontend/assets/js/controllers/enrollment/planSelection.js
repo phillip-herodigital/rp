@@ -6,7 +6,7 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', '$rootScope', '$filte
     $scope.validations = enrollmentService.validations;
 
     //We need this for the button select model in the ng-repeats
-    $scope.planSelection = {};
+    $scope.planSelection = { selectedOffers: {} };
 
     //Once a plan is selected, check through all available and see if a selection happend
     $scope.$watchCollection('planSelection.selectedOffers', function(plan) {
@@ -17,11 +17,8 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', '$rootScope', '$filte
 
     $scope.currentLocationInfo = utilityProductsService.getActiveServiceAddress;
 
-    $scope.isFormValid = function() {
-        var offerTypesWanted = ['texasElectricity'];
-
-        //Check if the offerTypesWanted and selected offer types are the same
-        return angular.equals(offerTypesWanted, utilityProductsService.getSelectedPlanTypes());
+    $scope.isFormValid = function () {
+        return true;
     };
 
     /**

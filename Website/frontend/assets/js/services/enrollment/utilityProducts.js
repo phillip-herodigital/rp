@@ -80,14 +80,7 @@ ngApp.factory('utilityProductsService', ['$rootScope','$filter', function ($root
 		getActiveServiceAddress: function() {
 			return activeServiceAddress;
 		},
-		/**
-		 * Get the active service address index from the addresses object
-		 * Used for form validation purposes
-		 * @return {[type]}
-		 */
-		getActiveServiceAddressIndex: function() {
 
-		},
 		/**
 		 * Set the current service address
 		 * @param {[type]} address
@@ -174,10 +167,11 @@ ngApp.factory('utilityProductsService', ['$rootScope','$filter', function ($root
 				//Only adding to the first, can't have multiple plans per type
 
 			    var offerInformationForType = getFirstMatching(activeServiceAddress.offerInformationByType, function (e) { return e.key == key; });
+			    console.log(value, key, offerInformationForType);
 				if(value ==  null) {
-				    offerInformationForType.offerSelections.pop();
+				    offerInformationForType.value.offerSelections.pop();
 				} else {
-				    offerInformationForType.offerSelections[0] = {
+				    offerInformationForType.value.offerSelections[0] = {
 						'offerId': value,
 						'optionRules': { 'optionRulesType': key }
 					};
@@ -214,7 +208,7 @@ ngApp.factory('utilityProductsService', ['$rootScope','$filter', function ($root
 
 	        //If this is a new service setup, add that to the capabilities object
 	        if (serviceInformation.isNewService == 1) {
-	            serviceInformation.location.capabilities.push({ "capabilityType": "ServiceStatus", "isNewService": !!serviceInformation.isNewService });
+	            serviceInformation.location.capabilities.push({ "capabilityType": "ServiceStatus", "isNewService": true });
 	        }        
 
 	        //Add the new location to be saved and create a new ID for it

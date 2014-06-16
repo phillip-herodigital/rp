@@ -147,7 +147,7 @@
                         ${{ plan.cancellationFee }}<span>@Html.Sitecore().Field("Electricity Early Cancellation Fee")</span>
                     </td>
                     <td>
-                        <a class="button" button-selector="'{{plan.id}}'" ng-model="planSelection.selectedOffers.texasElectricity" href="">@Html.Sitecore().Field("Electricity Button")</a>
+                        <a class="button" button-selector="'{{plan.id}}'" ng-model="planSelection.selectedOffers[typedOffers.key]" href="">@Html.Sitecore().Field("Electricity Button")</a>
                     </td>
                 </tr>
                 <tr class="details additional-fields">
