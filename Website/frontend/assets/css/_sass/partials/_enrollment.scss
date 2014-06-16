@@ -614,6 +614,16 @@
         font-size: 16px;
         margin: 0 8px 15px 8px;
     }
+	.empty-cart-phone {
+		padding: 10px 0;
+		text-align: center;
+		p {
+			color: #cfcfcf;
+			font-weight: bold;
+			font-size: 17px;
+			text-transform: uppercase;
+		}
+	}
     ul.info {
         border-top: 1px solid #e2e2e3;
         padding: 0;
@@ -631,6 +641,9 @@
             }
         }
     }
+	.button {
+		width: 100%;
+	}
     .center {
         text-align: center;
     }
@@ -886,6 +899,12 @@ article.phone {
 			font-size: 16px;
 			margin-bottom: 20px;
 			display: block;
+			span {
+				display: block;
+				font-size: 12px;
+				font-weight: normal;
+				text-transform: none;
+			}
 		}
 		p {
 			margin: 20px 0;
