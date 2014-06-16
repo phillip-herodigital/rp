@@ -113,8 +113,8 @@ ngApp.factory('utilityProductsService', ['$rootScope','$filter', function ($root
 		 */
 		getAvailableOfferTypes: function() {
 			availableOfferTypes = [];
-			angular.forEach(activeServiceAddress.offerInformationByType, function(value, key) {
-				availableOfferTypes.push(key);
+			angular.forEach(activeServiceAddress.offerInformationByType, function(entry) {
+				availableOfferTypes.push(entry.key);
 			});
 
 			return availableOfferTypes;
@@ -131,9 +131,9 @@ ngApp.factory('utilityProductsService', ['$rootScope','$filter', function ($root
 		 */
 		getSelectedPlanIds: function() {
 			var selectedPlans = [];
-			angular.forEach(activeServiceAddress.offerInformationByType, function(value, key) {
-				if(value.offerSelections.length) {
-					selectedPlans.push(value.offerSelections[0].offerId);
+			angular.forEach(activeServiceAddress.offerInformationByType, function (entry) {
+			    if (entry.value.offerSelections.length) {
+			        selectedPlans.push(entry.value.offerSelections[0].offerId);
 				}
 			});
 
@@ -145,9 +145,9 @@ ngApp.factory('utilityProductsService', ['$rootScope','$filter', function ($root
 		 */
 		getSelectedPlanTypes: function() {
 			var selectedPlans = [];
-			angular.forEach(activeServiceAddress.offerInformationByType, function(value, key) {
-				if(value.offerSelections.length) {
-					selectedPlans.push(value.offerSelections[0].optionRules.optionRulesType);
+			angular.forEach(activeServiceAddress.offerInformationByType, function(entry) {
+			    if (entry.value.offerSelections.length) {
+			        selectedPlans.push(entry.value.offerSelections[0].optionRules.optionRulesType);
 				}
 			});
 
@@ -158,15 +158,26 @@ ngApp.factory('utilityProductsService', ['$rootScope','$filter', function ($root
 		 * Since only one plan can be selected per type, we simply add to [0] element
 		 * @param  {[type]} plan
 		 */
-		selectPlan: function(plan) {
+		selectPlan: function (plan) {
+		    function getFirstMatching(arr, predicate)
+		    {
+                // TODO - replace this with a data manipulation js library if we ever use one
+		        var result;
+		        angular.forEach(arr, function (entry) {
+		            if (predicate(entry))
+		                result = entry;
+		        });
+		        return result;
+		    }
 			//Set the active plans
 			angular.forEach(plan, function(value, key) {
 				//Only adding to the first, can't have multiple plans per type
 
+			    var offerInformationForType = getFirstMatching(activeServiceAddress.offerInformationByType, function (e) { return e.key == key; });
 				if(value ==  null) {
-					activeServiceAddress.offerInformationByType[key].offerSelections.pop();
+				    offerInformationForType.offerSelections.pop();
 				} else {
-					activeServiceAddress.offerInformationByType[key].offerSelections[0] = {
+				    offerInformationForType.offerSelections[0] = {
 						'offerId': value,
 						'optionRules': { 'optionRulesType': key }
 					};

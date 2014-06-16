@@ -95,7 +95,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                                          AvailableOffers = (from entry in offers
                                                                             where entry.Item1 == service.Location && entry.Item2.OfferType == offerType
                                                                             select entry.Item2)
-                                                     })
+                                                     }).ToArray()
                        },
                 SelectedIdentityAnswers = null,
                 IdentityQuestions = stateMachine.InternalContext.IdentityCheckResult != null ? stateMachine.InternalContext.IdentityCheckResult.IdentityQuestions : null,
