@@ -95,7 +95,7 @@ namespace StreamEnergy.MyStream.Tests
             {
                 Name = new DomainModels.Name { First = "Test", Last = "Person" },
                 Email = new DomainModels.Email { Address = "test@example.com" },
-                Phone = new[] { new DomainModels.Phone { Number = "214-223-4567" } },
+                Phone = new[] { new DomainModels.TypedPhone { Number = "214-223-4567", Category = StreamEnergy.DomainModels.PhoneCategory.Home } },
             };
             offerOption = new TexasElectricityOfferOption { ConnectDate = new DateTime(2014, 5, 1) };
         }
@@ -165,8 +165,8 @@ namespace StreamEnergy.MyStream.Tests
                 Assert.AreEqual(DomainModels.TexasServiceCapability.Qualifier, result.Cart.Single().Location.Capabilities.First().CapabilityType);
                 Assert.AreEqual("Centerpoint", (result.Cart.Single().Location.Capabilities.First() as DomainModels.TexasServiceCapability).Tdu);
 
-                Assert.IsTrue(result.Cart.Single().OfferInformationByType[TexasElectricityOffer.Qualifier].AvailableOffers.Any());
-                Assert.IsNotNull(result.Cart.Single().OfferInformationByType[TexasElectricityOffer.Qualifier].AvailableOffers.SingleOrDefault(offer => offer.Id == "24-month-fixed-rate"));
+                Assert.IsTrue(result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.AvailableOffers.Any());
+                Assert.IsNotNull(result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.AvailableOffers.SingleOrDefault(offer => offer.Id == "24-month-fixed-rate"));
             }
             var session = container.Resolve<EnrollmentController.SessionHelper>();
 
@@ -210,8 +210,8 @@ namespace StreamEnergy.MyStream.Tests
                 var result = controller.SelectedOffers(request);
 
                 // Assert
-                Assert.IsTrue(result.Cart.Single().OfferInformationByType[TexasElectricityOffer.Qualifier].OfferSelections.Any(o => o.OfferId == "24-month-fixed-rate"));
-                Assert.IsNotNull(result.Cart.Single().OfferInformationByType[TexasElectricityOffer.Qualifier].OfferSelections.Single(o => o.OfferId == "24-month-fixed-rate").OptionRules);
+                Assert.IsTrue(result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Any(o => o.OfferId == "24-month-fixed-rate"));
+                Assert.IsNotNull(result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Single(o => o.OfferId == "24-month-fixed-rate").OptionRules);
             }
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.AccountInformationState), session.State);
@@ -272,7 +272,7 @@ namespace StreamEnergy.MyStream.Tests
                                     }
                                 }
                             }
-                        }
+                        }.ToArray()
                     }
                 }
             };
@@ -349,7 +349,7 @@ namespace StreamEnergy.MyStream.Tests
 
                 // Assert
                 Assert.IsFalse(result.IdentityQuestions.Any());
-                Assert.AreEqual(150m, result.Cart.Sum(l => l.OfferInformationByType[TexasElectricityOffer.Qualifier].OfferSelections.Sum(sel => sel.Deposit.RequiredAmount)));
+                Assert.AreEqual(150m, result.Cart.Sum(l => l.OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Sum(sel => sel.Deposit.RequiredAmount)));
             }
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.PaymentInfoState), session.State);
@@ -401,7 +401,7 @@ namespace StreamEnergy.MyStream.Tests
                 var result = controller.VerifyIdentity(request);
 
                 // Assert
-                Assert.AreEqual(0, result.Cart.Sum(l => l.OfferInformationByType[TexasElectricityOffer.Qualifier].OfferSelections.Sum(sel => sel.Deposit.RequiredAmount)));
+                Assert.AreEqual(0, result.Cart.Sum(l => l.OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Sum(sel => sel.Deposit.RequiredAmount)));
             }
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.CompleteOrderState), session.State);
@@ -456,7 +456,7 @@ namespace StreamEnergy.MyStream.Tests
                 var result = controller.ConfirmOrder(request);
 
                 // Assert
-                Assert.AreEqual("87654321", result.Cart.Single().OfferInformationByType[TexasElectricityOffer.Qualifier].OfferSelections.Single().ConfirmationNumber);
+                Assert.AreEqual("87654321", result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Single().ConfirmationNumber);
             }
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.OrderConfirmationState), session.State);
