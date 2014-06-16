@@ -685,6 +685,14 @@ article.auth {
 article.payments {
 	margin: 20px 0;
 	overflow: visible; //Needed for datepicker
+	header {
+		h2.payment-accounts-header {
+			float: left;
+			@include breakpoint(small) {
+			float: none;
+			}
+		}
+	}
 	.advanced-settings {
 		margin-top: 5px;
 		.small {
@@ -700,6 +708,9 @@ article.payments {
 			margin: 0;
 			padding: 1em;
 			background: #eee;
+			&.example-image {
+				text-align: center;
+			}
 		}
 	}
 	.arrow-toggle {
@@ -734,6 +745,9 @@ article.payments {
 			margin-left: 10px;
 			padding-left: 10px;
 			border-left: 1px solid #ccc;
+			a {
+				color: #fff;
+			}
 			&:first-child {
 				border-left: none;
 				margin-left: 0;
@@ -747,6 +761,7 @@ article.payments {
 				margin: 0;
 				padding: 0;
 				border: none;
+				text-align: center;
 			}
 		}
 	}

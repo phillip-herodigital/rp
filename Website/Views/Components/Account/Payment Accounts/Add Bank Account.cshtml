@@ -4,7 +4,6 @@
 	</header>
 	<form>
 		<div class="content">
-			@Html.Sitecore().Field("Body Text")
 
 			<h3>@Html.Sitecore().Field("Bank Account Header Text")</h3>
 
@@ -29,7 +28,7 @@
 					<input type="text" id="account-number">
 				</div>									
 			</div>
-			<p>@Html.Sitecore().Field("Bank Account Image")</p>
+			<p class="example-image">@Html.Sitecore().Field("Bank Account Image")</p>
 			<div class="item">
 				<label for="description">@Html.Sitecore().Field("Description Label")</label>
 				<textarea name="description" id="description" ></textarea>
