@@ -405,11 +405,6 @@ article.utility-providers .logos {
 	@include breakpoint(small) {
 		margin-top: 15px;
 	}
-	&:nth-child(0) {
-		@include breakpoint(small) {
-			margin-top: 0;
-		}
-	}
 }
 article.balances-payments {
 	dl dd {
