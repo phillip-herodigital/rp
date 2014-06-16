@@ -289,7 +289,9 @@ article.plan {
 					@include rotate(-90deg);
 					text-transform: uppercase;
 					filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
-					margin: 0 -13px 25px 10px\9;
+					.ie8 & {
+						margin: 0 -13px 25px 10px;
+					}
 				}
 			}
 		}
