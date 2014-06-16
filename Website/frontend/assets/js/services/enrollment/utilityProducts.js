@@ -154,6 +154,7 @@ ngApp.factory('utilityProductsService', ['$rootScope','$filter', function ($root
 		selectPlan: function (plan) {
 		    function getFirstMatching(arr, predicate)
 		    {
+                // TODO - replace this with a data manipulation js library if we ever use one
 		        var result;
 		        angular.forEach(arr, function (entry) {
 		            if (predicate(entry))
