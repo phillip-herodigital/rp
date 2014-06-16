@@ -134,17 +134,14 @@ ngApp.factory('enrollmentStepsService', ['scrollService', 'jQuery', '$timeout', 
          * @param {[type]} name
          * @param {[type]} activate
          */
-        setStep: function(name, activate) {
+        setStep: function(name) {
             angular.forEach(steps, function(step, index) {
                 if(step.name == name) {
-                   currentStep = step;
-                   currentStepIndex = index;
-
-                    if(activate) {
-                        step.isActive = true;
-                        step.isVisible = true;
-                        this.scrollToStep(step.name);
-                    }
+                    currentStep = step;
+                    currentStepIndex = index;
+                    step.isActive = true;
+                    step.isVisible = true;
+                    this.scrollToStep(step.name);
                 }
             }, this);
         },
@@ -159,7 +156,7 @@ ngApp.factory('enrollmentStepsService', ['scrollService', 'jQuery', '$timeout', 
             if(this.isStepVisible(name)) {
                 $timeout(function() {
                     scrollService.scrollTo(name, jQuery('header.site-header').height() * -1);
-                }, 10); 
+                }, 10);
             }
         },
 

@@ -68,7 +68,7 @@
                                 <label for="service-address">@Html.Sitecore().Field("Billing Service Address Label")</label>
                                 <strong>{{ accountInformation.enrollmentLocations[0].location.address | address }}</strong>
                             </div>
-
+                            @*
                             <div ng-hide="accountInformation.billingAddress.sameAddress">
                                 <div class="group">
                                     <div class="item group-col" @Html.ValidationErrorClass(m => m.BillingAddress.Line1)>
@@ -98,6 +98,7 @@
                                     </div>
                                 </div>
                             </div>
+                            *@
                         </div>
 
 
@@ -166,12 +167,12 @@
                         <div class="group">
                             <div class="item group-col" @Html.ValidationErrorClass(m => m.ContactInfo.Phone[0].Number)>
                                 <label for="@Html.For(m => m.ContactInfo.Phone[0].Number)">@Html.Sitecore().Field("Primary Phone Number Label")</label>
-                                <input type="text" @Html.ValidationAttributes(m => m.ContactInfo.PrimaryPhone.Number) ng-model="accountInformation.contactInfo.primaryPhone.number" />
+                                <input type="text" @Html.ValidationAttributes(m => m.ContactInfo.Phone[0].Number) ng-model="accountInformation.contactInfo.Phone[0].number" />
                                 @Html.ValidationMessageFor(model => model.ContactInfo.Phone[0].Number)
                             </div>                        
                             <div class="item group-col" @Html.ValidationErrorClass(model => ((TypedPhone)model.ContactInfo.Phone[0]).Category)>
                                 <label for="@Html.For(model => ((TypedPhone)model.ContactInfo.Phone[0]).Category)">@Html.Sitecore().Field("Phone Type Label")</label>
-                                <select @Html.ValidationAttributes(model => ((TypedPhone)model.ContactInfo.Phone[0]).Category) ng-model="accountInformation.contactInfo.primaryPhone.category" ng-options="type.name as type.label for type in phoneTypes">
+                                <select @Html.ValidationAttributes(model => ((TypedPhone)model.ContactInfo.Phone[0]).Category) ng-model="accountInformation.contactInfo.Phone[0].category" ng-options="type.name as type.label for type in phoneTypes">
                                     <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
                                 </select>
                                 @Html.ValidationMessageFor(model => ((TypedPhone)model.ContactInfo.Phone[0]).Category)

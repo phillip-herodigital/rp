@@ -55,7 +55,7 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
             utilityProductsService.setActiveServiceAddress($scope.serviceInformation.location.address);
 
             //Move to the next section
-            $scope.stepsService.setStep('utilityFlowPlans', true)
+            $scope.stepsService.setStep('utilityFlowPlans')
         }, function (data) {
             // error response
             $rootScope.$broadcast('connectionFailure');

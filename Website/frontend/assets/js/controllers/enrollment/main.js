@@ -9,18 +9,17 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', '$ancho
     //Or if we need to go ahead and activate multiple based on a saved card
     enrollmentStepsService.activateStep('utilityFlowService');
     enrollmentStepsService.activateStep('utilityFlowPlans');
-    enrollmentStepsService.setStep('utilityFlowService', true);
+    enrollmentStepsService.setStep('utilityFlowService');
 
     $scope.enrollment = {
         serverData: {}
     };
 
-/*
-    //Update the uiModel when the serverData is updated
-    $scope.$watch('enrollment.serverData', function(data) {
-        $scope.updateUiModel(data);
-    });
-*/
+    $scope.enrollmentNavClick = function(step) {
+        if(step.isActive) {
+            enrollmentStepsService.setStep(step.name);
+        }
+    }
 
     /**
     * Get Locations
@@ -57,14 +56,6 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', '$ancho
             // error response
             $rootScope.$broadcast('connectionFailure');
         });
-    };
-
-    $scope.updateUiModel = function(data) {
-        $scope.enrollment.contactInfo = data.contactInfo;
-        $scope.enrollment.billingAddress = data.billingAddress;
-        $scope.enrollment.identityQuestions = data.identityQuestions;
-        $scope.enrollment.cart = data.cart
-        $scope.enrollment.validations = data.validations;
     };
 
     /**

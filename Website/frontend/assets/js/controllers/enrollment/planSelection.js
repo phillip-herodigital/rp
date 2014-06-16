@@ -43,7 +43,7 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', '$rootScope', '$filte
             //If addAdditional, go back to step one else move to the next section
             if(addAdditional) {
                 utilityProductsService.setActiveServiceAddress();
-                $scope.stepsService.setStep('utilityFlowService', true);
+                $scope.stepsService.setStep('utilityFlowService');
                 $scope.stepsService.deActivateStep('utilityFlowPlans', true);
             } else {
                 $scope.stepsService.nextStep();
