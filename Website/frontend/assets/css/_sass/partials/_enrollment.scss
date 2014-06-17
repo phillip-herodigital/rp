@@ -1230,6 +1230,11 @@ article.phone-plan {
 				margin: 0;
 				text-transform: none;
 			}
+
+			@include breakpoint(small) {
+				width: auto;
+				float: none;
+			}
 		}
 		.plan-info {
 			float: left;
@@ -1250,6 +1255,12 @@ article.phone-plan {
 			p {
 				font-size: 16px;
 				margin: 0 0 20px 0;
+			}
+
+			@include breakpoint(small) {
+				width: auto;
+				float: none;
+				padding: 20px;
 			}
 		}
 		.plan-details {
@@ -1296,6 +1307,21 @@ article.phone-plan {
 				font-weight: 600;
 			}
 		}
+	}
+}
+
+article.services-box {
+	.col {
+		position: relative;
+		@extend .clearfix;
+	}
+	.description {
+		margin-right: 40%;
+	}
+	.avatar {
+		position: absolute;
+		top: 40px;
+		right: 15px;
 	}
 }
 

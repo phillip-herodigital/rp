@@ -314,6 +314,11 @@ article.gradient-box {
 		font-size: 14px;
 		font-weight: 600;
 	}
+	@include breakpoint(small) {
+		.col {
+			margin-bottom: 20px;
+		}
+	}
 }
 
 article.plain {
