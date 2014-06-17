@@ -111,12 +111,6 @@ ngApp.factory('utilityProductsService', ['$rootScope','$filter', function ($root
 
 			return availableOfferTypes;
 		},
-		setOfferTypesWanted: function(types) {
-
-		},
-		getPlans: function(address) {
-
-		},
 		/**
 		 * Get an array of the selected plan IDs for the current service address
 		 * @return {Array}
@@ -145,6 +139,38 @@ ngApp.factory('utilityProductsService', ['$rootScope','$filter', function ($root
 
 			return selectedPlans;
 		},
+		/**
+		 * Return the selected plans, with details, for the location
+		 * @return {[Object]} An object with the selected plans details and offer types as keys
+		 */
+		getSelectedPlans: function(location) {
+			var selectedPlans = {};
+
+			if(location.offerInformationByType.length) {
+				angular.forEach(location.offerInformationByType, function(offers, index) {
+					if(offers.value.offerSelections.length) {
+						angular.forEach(offers.value.availableOffers, function(availableOffer) {
+							if(availableOffer.id == offers.value.offerSelections[0].offerId) {
+								selectedPlans[offers.key] = availableOffer
+							}
+						});
+					}
+				});
+			}
+
+			console.log(selectedPlans);
+
+			/*angular.forEach(addresses, function(address) {
+			  	//Loop through addresses, search for location
+			    if($filter('address')(address.location.address) == $filter('address')(location.address)) {
+			    	//Get offer details
+			    	if(address.offerInformationByType[0].value.offerSelections.length)
+			    	console.log(address);
+			   	}
+			});*/
+			return selectedPlans;
+		},
+
 		/**
 		 * Set the plan for the current service address based on the offer type
 		 * Since only one plan can be selected per type, we simply add to [0] element

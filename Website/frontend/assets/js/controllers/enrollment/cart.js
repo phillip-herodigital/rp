@@ -8,30 +8,25 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', '$rootScope', 'enrollmentServi
     $scope.utilityService = utilityProductsService;
     $scope.accountInformationService = accountInformationService;*/
 
+    $scope.getPlans = enrollmentCartService.getPlans;
+    $scope.getCartCount = enrollmentCartService.getCartCount;
     $scope.getCartItems = enrollmentCartService.getCartItems;
 
     /**
     * Change Plan
     */
     $scope.changePlan = function () {
-
     };
 
     /**
     * Edit Address
     */
     $scope.editAddress = function () {
-
     };
 
     /**
     * Delete item from cart
     */
     $scope.deleteItem = function () {
-
-    };
-
-    $scope.updateCart = function() {
-
     };
 }]);
