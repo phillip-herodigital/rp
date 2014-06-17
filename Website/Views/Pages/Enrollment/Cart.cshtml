@@ -3,16 +3,21 @@
         <header>
             <div class="cart-items">
                 <i class="icon-cart"></i>
-                <div class="item-num" ng-show="enrollment.uiModel.enrollmentLocations">{{ sizeOf(enrollment.uiModel.enrollmentLocations) }}</div>
+                <div class="item-num" ng-show="addresses">{{ sizeOf(addresses) }}</div>
             </div>
             <i class="icon-close" ng-click="toggleCart();"></i>
             <h1>@Html.Sitecore().Field("Cart Header")</h1>
         </header>
         <div class="body">
-            <div class="box" ng-hide="enrollment.uiModel.enrollmentLocations">
+            <div class="box" ng-hide="utilityService.addresses">
                 <p class="alt">@Html.Sitecore().Field("Empty Cart Text")</p>
             </div>
-            <div class="box" ng-repeat="(id, location) in enrollment.uiModel.offerSelections">
+
+            @*
+                We`re going to loop through all of the locations here and print out everything associated
+                with them
+            *@
+            <div class="box" ng-repeat="(id, location) in getCartItems()">
                 <div ng-repeat="(type, plans) in location">
                     <h3><span ng-show="type == 'gas'">Gas</span><span ng-show="type == 'electricity'">Electricity</span></h3>
                     <div ng-repeat="(planId, plan) in plans">
