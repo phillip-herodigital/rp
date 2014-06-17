@@ -28,6 +28,10 @@ ngApp.controller('AcctOnlineAccountCtrl', ['$scope', '$rootScope', '$http', '$ti
 
 	// process the form
 	$scope.updateOnlineAccount = function() {
+		// add the original username to the form data
+		$scope.formData.usernameOriginal = $scope.formDataOriginal.username;
+
+		// sent the update
 		$http({
 			method  : 'POST',
 			url     : '/api/account/updateOnlineAccount',

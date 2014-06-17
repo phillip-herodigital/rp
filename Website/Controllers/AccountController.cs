@@ -118,18 +118,8 @@ namespace StreamEnergy.MyStream.Controllers
                         Id = questionItem.ID.Guid,
                         Text = questionItem["Question"]
                     },
-                Challenges =
-                    from challenge in accountSessionHelper.Context.Answers ?? new Dictionary<Guid, string>()
-                    let questionItem = database.GetItem(new Sitecore.Data.ID(challenge.Key))
-                    select new AnsweredSecurityQuestion
-                    {
-                        SelectedQuestion = new SecurityQuestion
-                        {
-                            Id = challenge.Key,
-                            Text = questionItem != null ? questionItem["Question"] : ""
-                        },
-                        Answer = "string"
-                    },
+                //Challenges = accountSessionHelper.StateMachine.Context.c.Challenges = request.Challenges.ToDictionary(c => c.SelectedQuestion.Id, c => c.Answer),
+                   
                 AvailableLanguages =
                    from languageItem in (languagesRoot != null ? languagesRoot.Children : Enumerable.Empty<Sitecore.Data.Items.Item>())
                    select new LanguagePreference
@@ -148,8 +138,8 @@ namespace StreamEnergy.MyStream.Controllers
             bool success = false;
             if (ModelState.IsValid)
             {
-                // TODO check to make sure the user is logged in and get the current userID
-                var username = request.Username;
+                // TODO check to make sure the user is logged in
+                var username = request.OriginalUsername;
                 if (true)
                 {
                     var user = Membership.GetUser(domain.AccountPrefix + username);
@@ -157,10 +147,15 @@ namespace StreamEnergy.MyStream.Controllers
 
                     // update the email address with Stream Connect
 
-                    // update the password
-                    user.ChangePassword(user.ResetPassword(), request.Password);
+                    // update the password if it has been set
+                    if (request.Password != "")
+                    {
+                        user.ChangePassword(user.ResetPassword(), request.Password);
+                    }
 
                     // update the challeges
+
+                    // up
 
                     success = true;
                 }

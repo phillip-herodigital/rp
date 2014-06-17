@@ -51,7 +51,6 @@
                             <div class="item group-col" @Html.ValidationErrorClass(model => model.Challenges)>
                                 <label for="question-1">@Html.Sitecore().Field("Question 1 Label")</label>
                                 <select ng-model="formData.challenges[0].selectedQuestion" ng-options="question.text for question in formData.availableSecurityQuestions|filter:filter2 track by question.id">
-                                    <option value="">@Html.Sitecore().Field("Select Question Text")</option>
                                 </select>
                                 @Html.ValidationMessageFor(model => model.Challenges)
                             </div>
@@ -66,7 +65,6 @@
                             <div class="item group-col" @Html.ValidationErrorClass(model => model.Challenges)>
                                 <label for="@Html.For(m => m.Challenges)">@Html.Sitecore().Field("Question 2 Label")</label>
                                 <select ng-model="formData.challenges[1].selectedQuestion" ng-options="question.text for question in formData.availableSecurityQuestions|filter:filter1 track by question.id">
-                                    <option value="">@Html.Sitecore().Field("Select Question Text")</option>
                                 </select>
                                 @Html.ValidationMessageFor(model => model.Challenges)
                             </div>

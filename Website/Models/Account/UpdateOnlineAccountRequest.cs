@@ -10,6 +10,7 @@ namespace StreamEnergy.MyStream.Models.Account
 {
     public class UpdateOnlineAccountRequest
     {
+        public string OriginalUsername { get; set; }
         public string Username { get; set; }
         public DomainModels.Email Email { get; set; }
 
