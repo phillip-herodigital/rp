@@ -27,7 +27,7 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', '$rootScope', '$
     $scope.completeStep = function () {
         var postData = accountInformationService.createPostObject(utilityProductsService.addresses);
 
-        var confirmOrderPromise = enrollmentService.setConfirmOrder(data);
+        var confirmOrderPromise = enrollmentService.setConfirmOrder(postData);
         confirmOrderPromise.then(function (data) {
             $scope.validations = data.validations;
             
@@ -35,8 +35,7 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', '$rootScope', '$
             //Upate the accountInformation service
 
             //$scope.enrollment.serverData = data;
-
-            $scope.activateSections('verifyIdentity');
+            $scope.stepsService.setStep('verifyIdentity')
         }, function (data) {
             // error response
             $rootScope.$broadcast('connectionFailure');

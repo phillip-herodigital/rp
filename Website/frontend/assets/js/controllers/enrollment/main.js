@@ -16,7 +16,7 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', '$ancho
     };
 
     $scope.enrollmentNavClick = function(step) {
-        if(step.isActive) {
+        if(step.isActive && step.isVisible) {
             enrollmentStepsService.setStep(step.name);
         }
     }
