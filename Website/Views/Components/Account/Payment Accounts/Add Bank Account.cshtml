@@ -5,11 +5,10 @@
 	<form>
 		<div class="content">
 
-			<h3>@Html.Sitecore().Field("Bank Account Header Text")</h3>
-
 			<div class="item">
 				<label for="account-nickname">@Html.Sitecore().Field("Account Nickname Label"):</label>
 				<input type="text" id="account-nickname">
+                <span class="help-text">@Html.Sitecore().Field("Account Nickname Help Text")</span>
 			</div>										
 			<div class="item">
 				<label for="payment-method">@Html.Sitecore().Field("Account Type Label"):</label>
