@@ -7,7 +7,6 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', '$rootScope', '$filte
 
     //We need this for the button select model in the ng-repeats
     $scope.$watch(utilityProductsService.getActiveServiceAddress, function (address) {
-        console.log(address, $scope.planSelection);
         $scope.planSelection = { selectedOffers: {} };
         if (address && address.offerInformationByType) {
             angular.forEach(address.offerInformationByType, function (entry) {

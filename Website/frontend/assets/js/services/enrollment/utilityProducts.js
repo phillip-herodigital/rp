@@ -166,7 +166,6 @@ ngApp.factory('utilityProductsService', ['$rootScope','$filter', function ($root
 				//Only adding to the first, can't have multiple plans per type
 
 			    var offerInformationForType = getFirstMatching(activeServiceAddress.offerInformationByType, function (e) { return e.key == key; });
-			    console.log(value, key, offerInformationForType);
 				if(value ==  null) {
 				    offerInformationForType.value.offerSelections.pop();
 				} else {
