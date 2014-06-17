@@ -706,8 +706,7 @@ article.payments {
 		}
 		p {
 			margin: 0;
-			padding: 1em;
-			background: #eee;
+			padding-top: 1em;
 			&.example-image {
 				text-align: center;
 			}
@@ -801,6 +800,14 @@ article.payments {
 				padding-top: 20px;
 			}
 		}
+	}
+	.auto-pay-address p {
+		margin: 0px;
+	}
+	.notice {
+		background-color: #fbd396;
+		margin-top: -15px;
+		margin-bottom: 15px;
 	}
 	img {
 		max-width: 100%;
