@@ -21,20 +21,19 @@
                 <address>
                     <h3>@Html.Sitecore().Field("Service Address Text")</h3>
                     {{ location.location.address | address }}<br />
-                    <a href="" ng-click="editAddress()">@Html.Sitecore().Field("Edit Address Text")</a>
+                    <a href="" ng-click="editUtilityAddress(location)">@Html.Sitecore().Field("Edit Address Text")</a>
                 </address>
                 <div ng-repeat="(type, plan) in getPlans(location)">
                     <hr />
-                    <div ng-if="type == 'TexasElectricity'">Electricity</div>
-
-                    <h3><span ng-show="type == 'gas'">Gas</span><span ng-show="type == 'electricity'">Electricity</span></h3>
+                    <div ng-if="type == 'TexasElectricity'">
+                        <h3>Electricity</h3>
                         <div class="cart-item">
-                            <div class="delete" ng-click="deleteItem()">
+                            <div class="delete" ng-click="deleteUtilityItem(location)">
                                 <i class="icon-delete"></i>
                             </div>
                             <div class="description">
                                 <h2>{{ plan.name }}</h2>
-                                <a href="" ng-click="changePlan()">Change Plan</a>
+                                <a href="" ng-click="changeUtilityPlan(location)">Change Plan</a>
                             </div>
                             <div class="rate">
                                 {{plan.rate}}&cent;
@@ -51,6 +50,7 @@
                             </div>
                         </div>
                         *@
+                    </div>
                 </div>
             </div>
             <div class="box time">

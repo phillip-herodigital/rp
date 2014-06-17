@@ -15,18 +15,21 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', '$rootScope', 'enrollmentServi
     /**
     * Change Plan
     */
-    $scope.changePlan = function () {
+    $scope.changeUtilityPlan = function () {
+        //update active service address, sent to the correct page
+        enrollmentStepsService.setStep('utilityFlowPlans');
     };
 
     /**
     * Edit Address
     */
-    $scope.editAddress = function () {
+    $scope.editUtilityAddress = function () {
+        enrollmentStepsService.setStep('utilityFlowService');
     };
 
     /**
     * Delete item from cart
     */
-    $scope.deleteItem = function () {
+    $scope.deleteUtilityItem = function () {
     };
 }]);
