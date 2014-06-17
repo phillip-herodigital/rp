@@ -43,7 +43,6 @@ ngApp.factory('utilityProductsService', ['$rootScope','$filter', function ($root
 
 	return {
 		addresses: addresses,
-		activeServiceAddress: activeServiceAddress,
 		states: states,
 		/**
 		 * Update the list of service addresses. This is use primarily when
@@ -204,7 +203,10 @@ ngApp.factory('utilityProductsService', ['$rootScope','$filter', function ($root
 		 */
 		createPostObject: function(serviceInformation) {
 	        //Create our empty locations object
-	        var data = { 'locations':[] };
+		    var data = { 'locations': [] };
+		    angular.forEach(addresses, function (address) {
+		        data.locations.push(address.location);
+		    });
 
 	        //If this is a new service setup, add that to the capabilities object
 	        if (serviceInformation.isNewService == 1) {
@@ -222,13 +224,24 @@ ngApp.factory('utilityProductsService', ['$rootScope','$filter', function ($root
 		 * @return {Object}
 		 */
 	    createOffersPostObject: function() {
-	    	//Get from the activeServiceAddress object
+	        //Get from the activeServiceAddress object
 	        var data = { 
-	        	'selection': [{
-	        		'location': activeServiceAddress.location,
-	        		'offerIds': this.getSelectedPlanIds()
-	        	}]
-	       	};
+	        	'selection': []
+	        };
+
+	        angular.forEach(addresses, function (address) {
+	            var selectedPlans = [];
+	            angular.forEach(address.offerInformationByType, function (entry) {
+	                if (entry.value.offerSelections.length) {
+	                    selectedPlans.push(entry.value.offerSelections[0].offerId);
+	                }
+	            });
+
+	            data.selection.push({
+	                'location': address.location,
+	                'offerIds': selectedPlans
+	            });
+	        });
 
 	        return data;
 	    }		
