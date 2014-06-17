@@ -288,8 +288,7 @@ article.marketingIntro {
 
 article.loginHorizontal {
  	margin-top: -20px;
-	padding: 4px 0;
-	border-top: 4px solid #1697ff;
+	padding: 10px 0;
 	background-color: #1773cb;
 	color: #fff;
 	.text {
@@ -325,6 +324,11 @@ article.loginHorizontal {
 			padding-top: 20px;
 			padding-bottom: 30px;
 		}
+        .text {
+		    float: none;
+		    display: block;
+		    border-right: 0;
+	    }
 	}
 	@include breakpoint(medium) {
 		.text {
