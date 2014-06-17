@@ -482,6 +482,7 @@ article.leaders {
 			width: 25%;
 			float: left;
 			text-align: center;
+            margin-bottom: 1em;
 			h2,
 			h4 {
 				color: #ac1f2d;
@@ -489,6 +490,8 @@ article.leaders {
 			}
 			p {
 				font-style: italic;
+                margin-top: 0;
+                text-transform: uppercase;
 			}
 			@include breakpoint(medium) {
 				width: 50%;
@@ -499,7 +502,6 @@ article.leaders {
 		}
 	}
 	.view-all {
-		padding-top: 40px;
 		float: left;
 	}
 }
