@@ -7,12 +7,13 @@
                 <header>
                     <h2>@Html.Sitecore().Field("My Online Account Information Text")</h2>
                 </header>
-                <form ng-submit="updateOnlineAccount()">
+                <form ng-submit="updateOnlineAccount()" val-bind-messages="validations">
+                    @Html.ValidationSummary()
                     <div class="content">
                         <div class="group">
                             <div class="item group-col" float-label>
                                 <label for="@Html.For(m => m.Username)">@Html.Sitecore().Field("Username Text")</label>
-                                <input type="text" @Html.ValidationAttributes(m => m.Password) ng-model="formData.username" />
+                                <input type="text" @Html.ValidationAttributes(m => m.Username) ng-model="formData.username" />
                                 @Html.ValidationMessageFor(model => model.Username)
                             </div>
                             <div class="item group-col" float-label>
@@ -28,20 +29,22 @@
                             <div class="group additional-field-group additional-fields">
                                 <div class="group">
                                     <div class="item group-col" float-label>
-                                        <label for="current-password">@Html.Sitecore().Field("Current Password Text")</label>
-                                        <input type="text" name="current-password" id="current-password">
+                                        <label for="@Html.For(m => m.CurrentPassword)">@Html.Sitecore().Field("Current Password Text")</label>
+                                        <input type="password" ng-model="formData.currentPassword" />
                                     </div>
                                     <div class="item group-col"></div>
                                 </div>
                                 <div class="group">
                                     <div class="item group-col" float-label>
-                                        <label for="new-password">@Html.Sitecore().Field("New Password Text")</label>
-                                        <input type="text" name="new-password" id="new-password">
+                                        <label for="@Html.For(m => m.Password)">@Html.Sitecore().Field("New Password Text")</label>
+                                        <input type="password" @Html.ValidationAttributes(m => m.Password) ng-model="formData.password" />
+                                        @Html.ValidationMessageFor(model => model.Password)
                                         <span class="help-text">@Html.Sitecore().Field("Password Requirements Text")</span>
                                     </div>
                                     <div class="item group-col" float-label>
-                                        <label for="new-password-repeat">@Html.Sitecore().Field("New Password Text")</label>
-                                        <input type="email" name="new-password-repeat" id="new-password-repeat">
+                                        <label for="@Html.For(m => m.ConfirmPassword)">@Html.Sitecore().Field("New Password Text")</label>
+                                        <input type="password" @Html.ValidationAttributes(m => m.ConfirmPassword) ng-model="formData.confirmPassword" />
+                                        @Html.ValidationMessageFor(model => model.ConfirmPassword)
                                     </div>
                                 </div>
                             </div>
@@ -50,8 +53,7 @@
                         <div class="group">
                             <div class="item group-col" @Html.ValidationErrorClass(model => model.Challenges)>
                                 <label for="question-1">@Html.Sitecore().Field("Question 1 Label")</label>
-                                <select ng-model="formData.challenges[0].selectedQuestion" ng-options="question.text for question in formData.availableSecurityQuestions|filter:filter2 track by question.id">
-                                </select>
+                                <select ng-model="formData.challenges[0].selectedQuestion" ng-options="question.text for question in formData.availableSecurityQuestions|filter:filter2 track by question.id"></select>
                                 @Html.ValidationMessageFor(model => model.Challenges)
                             </div>
                             <div class="item group-col" @Html.ValidationErrorClass(model => model.Challenges)>
@@ -64,8 +66,7 @@
                         <div class="group">
                             <div class="item group-col" @Html.ValidationErrorClass(model => model.Challenges)>
                                 <label for="@Html.For(m => m.Challenges)">@Html.Sitecore().Field("Question 2 Label")</label>
-                                <select ng-model="formData.challenges[1].selectedQuestion" ng-options="question.text for question in formData.availableSecurityQuestions|filter:filter1 track by question.id">
-                                </select>
+                                <select ng-model="formData.challenges[1].selectedQuestion" ng-options="question.text for question in formData.availableSecurityQuestions|filter:filter1 track by question.id"></select>
                                 @Html.ValidationMessageFor(model => model.Challenges)
                             </div>
                             <div class="item group-col" @Html.ValidationErrorClass(model => model.Challenges)>
@@ -88,6 +89,7 @@
                     </div>
                     <footer>
                         <div class="buttons">
+                            {{ formData.challenges[0].answer }}
                             <button type="submit" data-val-submit>@Html.Sitecore().Field("Save Button Text")</button>
                         </div>
                     </footer>

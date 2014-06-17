@@ -1,4 +1,4 @@
-﻿using StreamEnergy.DomainModels.Accounts.ResetPassword;
+﻿using StreamEnergy.DomainModels.Accounts;
 using StreamEnergy.MyStream.Models;
 using StreamEnergy.MyStream.Models.Account;
 using StreamEnergy.MyStream.Models.Angular.GridTable;
@@ -26,29 +26,17 @@ namespace StreamEnergy.MyStream.Controllers
         private readonly DomainModels.Accounts.IAccountService accountService;
         private readonly Sitecore.Security.Domains.Domain domain;
         private readonly Sitecore.Data.Database database;
-        private readonly AccountSessionHelper accountSessionHelper;
+        private readonly IValidationService validation;
 
-        #region Session Helper Classes
-
-        public class AccountSessionHelper : StateMachineSessionHelper<ResetPasswordContext, object>
-        {
-            public AccountSessionHelper(HttpSessionStateBase session, IUnityContainer container)
-                : base(session, container, typeof(AuthenticationController), typeof(GetUsernameState), storeInternal: false)
-            {
-            }
-        }
-
-        #endregion
-
-        public AccountController(IUnityContainer container, AccountSessionHelper accountSessionHelper, HttpSessionStateBase session, DomainModels.Accounts.IAccountService accountService, Services.Clients.ITemperatureService temperatureService)
+        public AccountController(IUnityContainer container, HttpSessionStateBase session, DomainModels.Accounts.IAccountService accountService, Services.Clients.ITemperatureService temperatureService, IValidationService validation)
         {
             this.container = container;
-            this.accountSessionHelper = accountSessionHelper;
             this.temperatureService = temperatureService;
             this.accountService = accountService;
             this.domain = Sitecore.Context.Site.Domain;
             this.database = Sitecore.Context.Database;
-            this.item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Components/Authentication");
+            this.item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Components/Account/Profile");
+            this.validation = validation;
         }
 
         [HttpGet]
@@ -61,14 +49,14 @@ namespace StreamEnergy.MyStream.Controllers
 
         [HttpGet]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
-        public Table<Invoice> Invoices(bool schema = true)
+        public Table<StreamEnergy.MyStream.Models.Account.Invoice> Invoices(bool schema = true)
         {
-            return new Table<Invoice>
+            return new Table<StreamEnergy.MyStream.Models.Account.Invoice>
                 {
                     // TODO - provide translation sitecore item
-                    ColumnList = schema ? typeof(Invoice).BuildTableSchema(null) : null,
+                    ColumnList = schema ? typeof(StreamEnergy.MyStream.Models.Account.Invoice).BuildTableSchema(null) : null,
                     Values = from invoice in accountService.GetInvoices(User.Identity.Name)
-                             select new Invoice
+                             select new StreamEnergy.MyStream.Models.Account.Invoice
                              {
                                  AccountNumber = invoice.AccountNumber,
                                  ServiceType = invoice.ServiceType,
@@ -92,12 +80,8 @@ namespace StreamEnergy.MyStream.Controllers
         [HttpGet]
         public GetOnlineAccountResponse GetOnlineAccount()
         {
-            // TODO check to make sure the user is logged in, and get the username from the current session
-            var username = "adambrill";
-            accountSessionHelper.Reset();
-            accountSessionHelper.Context.DomainPrefix = domain.AccountPrefix;
-            accountSessionHelper.Context.Username = username;
-            accountSessionHelper.StateMachine.Process(typeof(VerifyUserState));
+            var username = User.Identity.Name;
+            var profile = UserProfile.Locate(container, username);
 
             var email = new DomainModels.Email();
             var questionsRoot = database.GetItem("/sitecore/content/Data/Taxonomy/Security Questions");
@@ -109,7 +93,7 @@ namespace StreamEnergy.MyStream.Controllers
             
             return new GetOnlineAccountResponse
             {
-                Username = username,
+                Username = User.Identity.Name.Substring(User.Identity.Name.IndexOf('\\') + 1),
                 Email = email,
                 AvailableSecurityQuestions =
                     from questionItem in (questionsRoot != null ? questionsRoot.Children : Enumerable.Empty<Sitecore.Data.Items.Item>())
@@ -118,7 +102,17 @@ namespace StreamEnergy.MyStream.Controllers
                         Id = questionItem.ID.Guid,
                         Text = questionItem["Question"]
                     },
-                //Challenges = accountSessionHelper.StateMachine.Context.c.Challenges = request.Challenges.ToDictionary(c => c.SelectedQuestion.Id, c => c.Answer),
+                Challenges = 
+                    from challenge in profile.ChallengeQuestions.ToDictionary(c => c.QuestionKey, c => (string)null) ?? new Dictionary<Guid, string>()
+                    let questionItem = database.GetItem(new Sitecore.Data.ID(challenge.Key))
+                    select new AnsweredSecurityQuestion
+                    {
+                        SelectedQuestion = new SecurityQuestion
+                        {
+                            Id = challenge.Key,
+                            Text = questionItem != null ? questionItem["Question"] : ""
+                        }
+                    },
                    
                 AvailableLanguages =
                    from languageItem in (languagesRoot != null ? languagesRoot.Children : Enumerable.Empty<Sitecore.Data.Items.Item>())
@@ -136,35 +130,46 @@ namespace StreamEnergy.MyStream.Controllers
         public UpdateOnlineAccountResponse UpdateOnlineAccount(UpdateOnlineAccountRequest request)
         {
             bool success = false;
-            if (ModelState.IsValid)
+            
+            request.Username = domain.AccountPrefix + request.Username;
+            // make sure this is the currently logged in user
+            if (User.Identity.Name != request.Username)
             {
-                // TODO check to make sure the user is logged in
-                var username = request.OriginalUsername;
-                if (true)
+                request.Username = null;
+            }
+            var validations = validation.CompleteValidate(request);
+            if (!validations.Any())
+            {
+                var user = Membership.GetUser(User.Identity.Name);
+                // update the username
+
+                // TODO update the email address with Stream Connect
+
+                // update the password if it has been set
+                if (!string.IsNullOrEmpty(request.CurrentPassword) )
                 {
-                    var user = Membership.GetUser(domain.AccountPrefix + username);
-                    // update the username
-
-                    // update the email address with Stream Connect
-
-                    // update the password if it has been set
-                    if (request.Password != "")
-                    {
-                        user.ChangePassword(user.ResetPassword(), request.Password);
-                    }
-
-                    // update the challeges
-
-                    // up
-
-                    success = true;
+                    user.ChangePassword(request.CurrentPassword, request.Password);
                 }
+                // update the challeges
+                if (request.Challenges != null && request.Challenges.Any())
+                {
+                    var profile = UserProfile.Locate(container, request.Username);
+                    profile.ChallengeQuestions = (from entry in request.Challenges
+                                                  select ChallengeResponse.Create(entry.SelectedQuestion.Id, entry.Answer)).ToArray();
+
+                    profile.Save();
+                }
+
+                // TODO update the language preference with Stream Connect
+
+                success = true;
+                
             }
 
             return new UpdateOnlineAccountResponse
             {
                 Success = success,
-                Validations = TranslatedValidationResult.Translate(ModelState, GetAuthItem("Change Password"))
+                Validations = TranslatedValidationResult.Translate(validations, GetAuthItem("My Online Account Information"))
             };
         }
 
@@ -176,11 +181,6 @@ namespace StreamEnergy.MyStream.Controllers
         public GetAccountsResponse GetAccounts()
         {
             // TODO check to make sure the user is logged in, and get the username from the current session
-            var username = "adambrill";
-            accountSessionHelper.Reset();
-            accountSessionHelper.Context.DomainPrefix = domain.AccountPrefix;
-            accountSessionHelper.Context.Username = username;
-            accountSessionHelper.StateMachine.Process(typeof(VerifyUserState));
 
             return new GetAccountsResponse
             {
