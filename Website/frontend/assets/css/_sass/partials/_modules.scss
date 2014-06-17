@@ -235,6 +235,18 @@ article.grey-box {
 	}
 }
 
+article.white-box {
+	background-color: #fff;
+	header {
+		background-color: #fff;
+		background-image: none;
+		border-bottom: 1px solid #ddd;
+		h2 {
+			color: #0971ce;
+		}
+	}
+}
+
 article.plain {
 	border: none;
 	@include box-shadow(none);
@@ -288,6 +300,10 @@ article.plan {
 				.fixed {
 					@include rotate(-90deg);
 					text-transform: uppercase;
+					filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+					.ie8 & {
+						margin: 0 -13px 25px 10px;
+					}
 				}
 			}
 		}
@@ -422,12 +438,20 @@ article.balances-payments {
 		}
 		.group {
 			.item {
-				width: 50%;
+				&.amount {
+					width: 40%;
+				}
+				&.payment {
+					width: 60%;
+				}
 			}
 		}
 		&.payment {
 			input {
 				text-align: right;
+			}
+			@include breakpoint(medium) {
+				padding: 0 0 0 10px;
 			}
 		}
 		@include breakpoint(small) {
@@ -447,8 +471,18 @@ article.balances-payments {
 article.energy-usage {
 	.graph-header {
 		padding: 15px 40px 0px 40px;
-		.last {
+		.col {
+			@include breakpoint(small) {
+				width: 33%;
+				float: left;
+			}
+			&.last {
 			text-align: right;
+			@include breakpoint(small) {
+				width: 33%;
+				float: right;
+			}
+		}
 		}
 	}
 	.usage-graph {
@@ -613,7 +647,10 @@ article.make-payment {
 		div.new-account {
 			margin-top: 10px;
 			.payment-options {
-				margin: 15px 0 25px 20px;
+				margin: 15px 0 25px 0px;
+				img {
+					max-width: 100%;
+				}
 			}
 		}
 	}
