@@ -3,13 +3,13 @@
         <header>
             <div class="cart-items">
                 <i class="icon-cart"></i>
-                <div class="item-num" ng-show="addresses">{{ sizeOf(addresses) }}</div>
+                <div class="item-num" ng-show="getCartCount()">{{ getCartCount() }}</div>
             </div>
             <i class="icon-close" ng-click="toggleCart();"></i>
             <h1>@Html.Sitecore().Field("Cart Header")</h1>
         </header>
         <div class="body">
-            <div class="box" ng-hide="utilityService.addresses">
+            <div class="box" ng-hide="getCartCount()">
                 <p class="alt">@Html.Sitecore().Field("Empty Cart Text")</p>
             </div>
 
@@ -18,22 +18,30 @@
                 with them
             *@
             <div class="box" ng-repeat="(id, location) in getCartItems()">
-                <div ng-repeat="(type, plans) in location">
+                <address>
+                    <h3>@Html.Sitecore().Field("Service Address Text")</h3>
+                    {{ location.location.address | address }}<br />
+                    <a href="" ng-click="editAddress()">@Html.Sitecore().Field("Edit Address Text")</a>
+                </address>
+                <div ng-repeat="(type, plan) in getPlans(location)">
+                    <hr />
+                    <div ng-if="type == 'TexasElectricity'">Electricity</div>
+
                     <h3><span ng-show="type == 'gas'">Gas</span><span ng-show="type == 'electricity'">Electricity</span></h3>
-                    <div ng-repeat="(planId, plan) in plans">
                         <div class="cart-item">
                             <div class="delete" ng-click="deleteItem()">
                                 <i class="icon-delete"></i>
                             </div>
                             <div class="description">
-                                <h2>{{ plan.details.name }}</h2>
+                                <h2>{{ plan.name }}</h2>
                                 <a href="" ng-click="changePlan()">Change Plan</a>
                             </div>
                             <div class="rate">
-                                {{plan.details.rate}}&cent;
+                                {{plan.rate}}&cent;
                                 <span>per kWh</span>
                             </div>
                         </div>
+                        @*
                         <div class="cart-item" ng-show="plan.deposit">
                             <div class="description">
                                 <h2>{{ plan.deposit.description }}</h2>
@@ -42,14 +50,8 @@
                                 {{ plan.deposit.requiredAmount | currency }}
                             </div>
                         </div>
-                    </div>
-                    <hr />
+                        *@
                 </div>
-                <address>
-                    <h3>@Html.Sitecore().Field("Service Address Text")</h3>
-                    {{ enrollment.uiModel.enrollmentLocations[id].location.address | address }}<br />
-                    <a href="" ng-click="editAddress()">@Html.Sitecore().Field("Edit Address Text")</a>
-                </address>
             </div>
             <div class="box time">
                 <i class="icon-clock"></i>
