@@ -86,6 +86,7 @@
             element.on('click', function ($event) {
                 if (ctrl.$invalid) {
                     $event.preventDefault();
+                    validation.showValidationSummary = true;
                     // Cancels the suppression of validation messages, which reveals error classes, validation summaries, etc.
                     validation.cancelSuppress(scope);
                     scope.$digest();
