@@ -51,7 +51,16 @@
 					border: 1px solid #d9d9d9;
 					border-bottom: 0;
 				}
+                button,
+                a.button {
+                    color: #fff;
+                    padding: 5px 15px;
+                    font-size: 15px;
+                }
 			}
+            li.pay {
+                margin-left: 5px;
+            }
 		}
 	}
 	nav.sub-nav {
@@ -59,8 +68,9 @@
 		background-color: #f2f2f2;
 		border-top: 1px solid #d9d9d9;
 		border-bottom: 1px solid #d9d9d9;
-		> ul {
+		ul {
 			@include inline-block-list();
+            display: inline;
 			margin: 0 auto;
 			font-size: 13px;
 			li {

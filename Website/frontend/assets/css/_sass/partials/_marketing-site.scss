@@ -52,6 +52,8 @@ article.photoLockup {
     margin-bottom: 0;
 	background-color: #e8e8e8;
 	color: #6b6b6b;
+	border-top: 3px solid #999;
+	margin-bottom: 20px;
 	.photo {
 		position: absolute;
 		width: 50%;
@@ -68,7 +70,8 @@ article.photoLockup {
 		width: 48%;
 		padding: 65px 0;
 		font-size: 16px;
-		line-height: 1.8;
+		font-weight: 300;
+		line-height: 1.3;
 		.inner {
 			max-width: 455px;
 			padding: 0 10px;
@@ -88,6 +91,7 @@ article.photoLockup {
 		}
 		.lead {
 			font-size: 24px;
+			font-weight: 300;
 			text-transform: uppercase;
 		}
 		blockquote {
@@ -97,7 +101,7 @@ article.photoLockup {
 				background: image-url("marketing/quote-right.png") no-repeat 100% 100%;
 				padding: 10px 10px 0 10px;
 				font-size: 18px;
-				line-height: 1.8em;
+				line-height: 1.8;
                 text-indent: 50px;
                 p:first-child {
                     margin-top: 0;
@@ -223,8 +227,8 @@ article.marketingIntro {
 	}
 	p.intro {
 		margin: 1em 20px;
-		font-size: 24px;
-		line-height: 1.4em;
+		font-size: 22px;
+		line-height: 1.5;
 		font-weight: 300;
 	}
 	hr {
@@ -386,6 +390,9 @@ article.gridPromos {
 		padding: 0 5%;
 		@include breakpoint(small-medium) {
 			padding: 0;
+		}
+		h3 {
+			font-size: 14px;
 		}
 		h4 {
 			font-weight: 100;
@@ -645,6 +652,7 @@ article.state-tabs {
 		li {
 			float: none;
 			display: table-cell;
+			width: 138px;
 			@include breakpoint(small) {
 				display: block;
 				width: auto;
@@ -660,6 +668,9 @@ article.state-tabs {
 					width: 82px;
 					height: 84px;
 					@include retina-background("state-tabs.png");
+					i {
+						max-height: 84px;
+					}
 				}
 				@include breakpoint(small) {
 					@include border-radius(7px 7px 7px 7px);
@@ -722,6 +733,17 @@ article.service-states {
 
 	h2.wrapper {
 		text-align: center;
+	}
+}
+
+article.renew {
+	em {
+		font-style: italic;
+	}
+	ul {
+		color: #1773cb;
+		font-size: 16px;
+		width: 470px !important;
 	}
 }
 
@@ -1409,6 +1431,7 @@ article.homelife-services {
 		}
 		p {
 			font-size: 22px;
+			font-weight: 300;
 		}
 		@include breakpoint(small) {
 			padding: 15px 0 10px;
@@ -1427,10 +1450,13 @@ article.homelife-services {
 		height: 550px;
 		border-bottom: 5px solid #ffa409;
 		.wrapper {
-			width: 55%;
+			width: 40%;
 			padding-top: 80px;
 			h3 {
 				color: #0971ce;
+			}
+			p {
+				font-size: 14px;
 			}
 		}
 	}
@@ -1438,6 +1464,7 @@ article.homelife-services {
 		margin: 35px 0;
 		text-align: center;
 		font-size: 20px;
+		font-weight: 300;
 		span {
 			font-size: 22px;
 			color: #0971ce;
@@ -1486,26 +1513,10 @@ article.homelife-services {
 					&.identity {
 						color: #7e9bb5;
 						position: relative;
-						&:after {
-							content: "+";
-							color: #898989;
-							font-size: 62px;
-							position: absolute;
-							top: 36%;
-							right: -10%;
-						}
 					}
 					&.support {
 						color: #b58789;
 						position: relative;
-						&:after {
-							content: "+";
-							color: #898989;
-							font-size: 62px;
-							position: absolute;
-							top: 36%;
-							right: -35%;
-						}
 					}
 					&.monitoring {
 						color: #8ba170;
@@ -1521,7 +1532,6 @@ article.homelife-services {
 				p {
 					color: #fff;
 					font-size: 22px;
-					font-weight: bold;
 					text-align: center;
 					margin-top: 0;
 					padding-top: 10px;
@@ -1683,8 +1693,28 @@ article.homelife-services {
 					color: #fff;
 				}
 			}
+			.identity {
+				&:after {
+					content: "+";
+					color: #898989;
+					font-size: 62px;
+					position: absolute;
+					top: 36%;
+					right: -10%;
+				}
+			}
 			.identity .button {
 				background-color: #7e9bb5;
+			}
+			.support {
+				&:after {
+					content: "+";
+					color: #898989;
+					font-size: 62px;
+					position: absolute;
+					top: 36%;
+					right: -35%;
+				}
 			}
 			.support .button {
 				background-color: #b58789;
@@ -1754,6 +1784,36 @@ article.homelife-services {
 					}
 				}
 			}
+		}
+	}
+	&.photoLockup {
+		.text {
+			.inner {
+				padding: 0;
+				h3 {
+					font-size: 21px;
+				}
+				p {
+					font-size: 14px;
+				}
+				ul {
+					padding: 0;
+					li {
+						padding-left: 40px;
+						padding-bottom: 10px;
+						list-style: none;
+						background: url(../i/marketing/img-checkbox-checked.png) no-repeat left top;
+						font-size: 18px;
+					}
+				}
+				.button {
+					background-color: #0971cd;
+				}
+				@include breakpoint(small-medium) {
+					padding: 0 10px;
+				}
+			}
+			
 		}
 	}
 	@include breakpoint(small-medium) {
@@ -1957,6 +2017,7 @@ article.free-energy {
 		clear: both;
 	}
 	.how-it-works {
+		max-width: 455px;
 		img {
 			margin: 0px 25px 15px 0px;
 		}
@@ -1968,6 +2029,7 @@ article.free-energy {
 		}
 		p {
 			line-height: 1.1;
+			font-weight: 300;
 			em {
 				color: #1773cb;
 				text-transform: none;
@@ -1978,13 +2040,22 @@ article.free-energy {
 		}
 	}
 	&.free-energy-access {
-		img { float: none; }
+		img { 
+			float: none; 
+		}
+		p {
+			line-height: 1.1;
+			font-weight: 300;
+		}
 	}
 }
 
 article.free-energy-enroll {
 	margin-bottom: 0;
 	padding: 30px 20px 0;
+	h3 {
+		color: #1773cb;
+	}
 }
 
 article.free-energy.picture-promo {
@@ -1993,8 +2064,8 @@ article.free-energy.picture-promo {
 	background-position: center;
 	.promo-content {
 		color: #fff;
-		width: 335px;
-		margin-left: 100px;
+		width: 345px;
+		margin-left: 90px;
 		padding: 320px 0 50px 0;
 		@include breakpoint(small) {
 			margin: 0;
@@ -2004,6 +2075,7 @@ article.free-energy.picture-promo {
 		h2 {
 			color: #fff;
 			line-height: 28px;
+			margin-top: 28px;
 			.big {
 				font-size: 31px;
 			}
@@ -2185,7 +2257,8 @@ article.energy-certificates {
 article.ignite-associate {
 	text-align: center;
 	margin: 50px 0 10px;
-	button {
+	button,
+    .button {
 		background-color: #a9222d;
 		a {
 			color: #fff;
@@ -2228,16 +2301,19 @@ article.electricity-gas {
 	p {
 		font-size: 22px;
 		text-align: center;
+		font-weight: 300;
 		width: 80%;
 		margin-right: auto;
 		margin-left: auto;
 		span {
 			color: #0971ce;
 		}
-		button {
+		button,
+        .button {
 			margin: auto;
 			background-color: #76bd1d;
 			font-size: 24px;
+			font-weight: 500;
 			padding: 10px;
 			&:hover {
 				background-color: #6b6b6b;
