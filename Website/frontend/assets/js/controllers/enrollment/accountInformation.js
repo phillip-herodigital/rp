@@ -53,23 +53,4 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', '$rootScope', '$
             offerOption.billingAddress = {};
         }
     }
-
-    /**
-    * Initialize function
-    */
-    /*
-    $scope.updateSameAddress = function() {
-        if($scope.sizeOf($scope.enrollment.serverData.enrollmentLocations) == 1) {
-            console.log($scope.enrollment.serverData.enrollmentLocations);
-        }
-    }
-
-    $scope.updateBillingAddress = function() {
-        angular.forEach($scope.enrollment.serverData.enrollmentLocations, function (item, id) {
-            if($filter('address')(item.location.address) == $scope.additionalInformation.billingAddress) {
-                angular.copy(item.location.address, $scope.enrollment.serverData.billingAddress);
-            }
-        });
-    };
-*/
 }]);
