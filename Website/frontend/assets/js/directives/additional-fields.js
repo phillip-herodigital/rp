@@ -4,7 +4,7 @@ ngApp.directive('additionalFields', ['jQuery', function (jQuery) {
 		restrict: 'A',
 		scope: true,
 		link: function(scope, element, attrs) {
-			var $fieldGroup = jQuery(element).find('.additional-fields');
+			var $fieldGroup = jQuery(element).next();
 
 			scope.isOpen = attrs.additionalFields == 'open' ? true : false;
 
