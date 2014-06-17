@@ -299,7 +299,7 @@
     {
         <text>
         <h2>Electricity</h2>
-        <div class="item group-col">
+        <div class="item group-col datepicker">
             <label for="@offer.For(o => ((TexasElectricityOfferOption)o.OfferOption).ConnectDate)">@Html.Sitecore().Field("Service Start Date Label")</label>
             <input type="text" id="@offer.For(o => ((TexasElectricityOfferOption)o.OfferOption).ConnectDate)" ng-model="selectedOffer.offerOption.connectDate" placeholder="01/29/14"
                    datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="false" />
