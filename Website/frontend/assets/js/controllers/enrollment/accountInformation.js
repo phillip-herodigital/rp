@@ -43,6 +43,18 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', '$rootScope', '$
         });
     };
 
+    $scope.updateSameAddress = function (offerOption) {
+        if (offerOption.billingAddressSame)
+        {
+            if ($scope.utilityAddresses().length == 1)
+                offerOption.billingAddress = $scope.utilityAddresses()[0].location.address;
+        }
+        else
+        {
+            offerOption.billingAddress = {};
+        }
+    }
+
     /**
     * Initialize function
     */

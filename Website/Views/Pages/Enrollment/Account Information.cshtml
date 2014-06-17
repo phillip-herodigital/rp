@@ -33,81 +33,91 @@
                         <!-- We should probably restrict by zip code right here somehow -->
                         <div class="item" ng-hide="item.location.address.line1">
                             <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
-                            <input type="text" 
-                                   id="service-address" 
-                                   class="typeahead" 
-                                   ng-model="accountInformation.serviceAddress"
-                                   placeholder="123 Main Street, Dallas, TX 75001"
-                                   typeahead="address as address.formattedAddress for address in getLocation(item.location.address.stateAbbreviation, $viewValue)"  
-                                   typeahead-loading="accountInformation.loadingAccountInformationServiceAddress" 
-                                   ng-class="{'loading' : accountInformation.loadingAccountInformation}" 
-                            />
+                            <input type="text"
+                                    id="service-address"
+                                    class="typeahead"
+                                    ng-model="accountInformation.serviceAddress"
+                                    placeholder="123 Main Street, Dallas, TX 75001"
+                                    typeahead="address as address.formattedAddress for address in getLocation(item.location.address.stateAbbreviation, $viewValue)"
+                                    typeahead-loading="accountInformation.loadingAccountInformationServiceAddress"
+                                    ng-class="{'loading' : accountInformation.loadingAccountInformation}" />
                         </div>
 
-                        <!-- Don't even show the billing address section if the service address isn't set -->
-                        <div ng-show="item.location.address.line1">
-                            <h3>@Html.Sitecore().Field("Billing Address Header")</h3>
-                            
-                            <div class="item">
-                                <ul class="checkbox-list">
-                                    <li>
-                                        <input type="checkbox" name="same-address" id="same-address" ng-model="additionalInformation.sameAddress" ng-change="updateSameAddress()">
-                                        <label for="same-address" >@Html.Sitecore().Field("Same Address Label")</label>
-                                    </li>
-                                </ul>
-                            </div>
 
-                            <div class="item" ng-show="additionalInformation.sameAddress && sizeOf(accountInformation.enrollmentLocations) > 1">
-                                <label for="service-address">@Html.Sitecore().Field("Select Service Address Label")</label>
-                                <select id="service-address" ng-model="additionalInformation.billingAddress" ng-change="updateBillingAddress()">
-                                    <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
-                                    <option ng-repeat="(id, item) in accountInformation.enrollmentLocations" ng-value="item.location.address | address">{{ item.location.address | address }}</option>
-                                </select>
-                            </div>
+                        @*Selected Offers Section*@
+                        <div ng-repeat="offerInformation in item.offerInformationByType">
+                            <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+                                @*base this on offerType - TexasElectricity, GeorgiaGas, etc*@
+                                <div ng-include src="'offerOptions/' + offerInformation.key"></div>
 
-                            <div class="item" ng-show="additionalInformation.sameAddress && sizeOf(accountInformation.enrollmentLocations) == 1">
-                                <label for="service-address">@Html.Sitecore().Field("Billing Service Address Label")</label>
-                                <strong>{{ accountInformation.enrollmentLocations[0].location.address | address }}</strong>
-                            </div>
-                            @*
-                            <div ng-hide="accountInformation.billingAddress.sameAddress">
-                                <div class="group">
-                                    <div class="item group-col" @Html.ValidationErrorClass(m => m.BillingAddress.Line1)>
-                                        <label for="@Html.For(m => m.BillingAddress.Line1)">@Html.Sitecore().Field("Address 1 Label")</label>
-                                        <input type="text" @Html.ValidationAttributes(m => m.BillingAddress.Line1) data-val-if="!accountInformation.billingAddress.sameAddress" ng-model="accountInformation.billingAddress.line1" />
-                                    </div>
-                                    <div class="item group-col" @Html.ValidationErrorClass(m => m.BillingAddress.Line2)>
-                                        <label for="@Html.For(m => m.BillingAddress.Line2)">@Html.Sitecore().Field("Address 2 Label")</label>
-                                        <input type="text" @Html.ValidationAttributes(m => m.BillingAddress.Line2) data-val-if="!accountInformation.billingAddress.sameAddress" ng-model="accountInformation.billingAddress.unitNumber" />
-                                    </div>
-                                </div>
+                                @*Don't even show the billing address section if the service address isn't set*@
+                                <div ng-show="item.location.address.line1">
+                                    <h3>@Html.Sitecore().Field("Billing Address Header")</h3>
 
-                                <div class="group">
-                                    <div class="item group-col" @Html.ValidationErrorClass(m => m.BillingAddress.City)>
-                                        <label for="@Html.For(m => m.BillingAddress.City)">@Html.Sitecore().Field("City Label")</label>
-                                        <input type="text" @Html.ValidationAttributes(m => m.BillingAddress.City) data-val-if="!accountInformation.billingAddress.sameAddress" ng-model="accountInformation.billingAddress.city" />
+                                    <div class="item">
+                                        <ul class="checkbox-list">
+                                            <li>
+                                                <input type="checkbox" name="same-address" id="same-address[{{$parent.index}}][{{$index}}]" ng-model="selectedOffer.offerOption.billingAddressSame" ng-change="updateSameAddress(selectedOffer.offerOption)">
+                                                <label for="same-address[{{$parent.index}}][{{$index}}]">@Html.Sitecore().Field("Same Address Label")</label>
+                                            </li>
+                                        </ul>
                                     </div>
-                                    <div class="item" @Html.ValidationErrorClass(m => m.BillingAddress.StateAbbreviation)>
-                                        <label for="@Html.For(m => m.BillingAddress.StateAbbreviation)">@Html.Sitecore().Field("State Label")</label>
-                                        <select @Html.ValidationAttributes(m => m.BillingAddress.StateAbbreviation) data-val-if="!accountInformation.billingAddress.sameAddress" ng-model="accountInformation.billingAddress.stateAbbreviation" ng-options="state.abbreviation as state.name for state in usStates">
+
+                                    <div class="item" ng-show="selectedOffer.offerOption.billingAddressSame && utilityAddresses().length > 1">
+                                        <label for="service-address[{{$parent.index}}][{{$index}}]">@Html.Sitecore().Field("Select Service Address Label")</label>
+                                        <select id="service-address[{{$parent.index}}][{{$index}}]"
+                                                ng-model="selectedOffer.offerOption.billingAddress"
+                                                ng-change="updateBillingAddress()"
+                                                ng-options="entry.location.address as entry.location.address | address for entry in utilityAddresses()">
                                             <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
                                         </select>
                                     </div>
-                                    <div class="item" @Html.ValidationErrorClass(m => m.BillingAddress.PostalCode5)>
-                                        <label for="@Html.For(m => m.BillingAddress.PostalCode5)">@Html.Sitecore().Field("Zip Label")</label>
-                                        <input class="small" type="text" @Html.ValidationAttributes(m => m.BillingAddress.PostalCode5) data-val-if="!accountInformation.billingAddress.sameAddress" ng-model="accountInformation.billingAddress.postalCode5" />
+
+                                    <div class="item" ng-show="selectedOffer.offerOption.billingAddressSame && utilityAddresses().length == 1">
+                                        <label>@Html.Sitecore().Field("Billing Service Address Label")</label>
+                                        <strong>{{ selectedOffer.offerOption.billingAddress | address }}</strong>
                                     </div>
+
+                                    @using (var offer = Html.AngularRepeat(m => m.Services, "$parent.$index").AngularRepeat(m => m.SelectedOffers, "$index"))
+                                    {
+                                        <div ng-hide="selectedOffer.offerOption.billingAddressSame">
+                                            <div class="group">
+                                                <div class="item group-col" @(offer.ErrorClass(m => m.OfferOption.BillingAddress))>
+                                                    <label for="@offer.For(m => m.OfferOption.BillingAddress.Line1)">@Html.Sitecore().Field("Address 1 Label")</label>
+                                                    <input type="text" @offer.Attributes(m => m.OfferOption.BillingAddress.Line1) data-val-if="!selectedOffer.offerOption.billingAddressSame" ng-model="selectedOffer.offerOption.billingAddress.line1" />
+                                                    @offer.MessageFor(m => m.OfferOption.BillingAddress.Line1)
+                                                </div>
+                                                <div class="item group-col" @offer.ErrorClass(m => m.OfferOption.BillingAddress.Line2)>
+                                                    <label for="@offer.For(m => m.OfferOption.BillingAddress.Line2)">@Html.Sitecore().Field("Address 2 Label")</label>
+                                                    <input type="text" @offer.Attributes(m => m.OfferOption.BillingAddress.Line2) data-val-if="!selectedOffer.offerOption.billingAddressSame" ng-model="selectedOffer.offerOption.billingAddress.unitNumber" />
+                                                    @offer.MessageFor(m => m.OfferOption.BillingAddress.Line2)
+                                                </div>
+                                            </div>
+
+                                            <div class="group">
+                                                <div class="item group-col" @offer.ErrorClass(m => m.OfferOption.BillingAddress.City)>
+                                                    <label for="@offer.For(m => m.OfferOption.BillingAddress.City)">@Html.Sitecore().Field("City Label")</label>
+                                                    <input type="text" @offer.Attributes(m => m.OfferOption.BillingAddress.City) data-val-if="!selectedOffer.offerOption.billingAddressSame" ng-model="selectedOffer.offerOption.billingAddress.city" />
+                                                    @offer.MessageFor(m => m.OfferOption.BillingAddress.City)
+                                                </div>
+                                                <div class="item" @offer.ErrorClass(m => m.OfferOption.BillingAddress.StateAbbreviation)>
+                                                    <label for="@offer.For(m => m.OfferOption.BillingAddress.StateAbbreviation)">@Html.Sitecore().Field("State Label")</label>
+                                                    <select @offer.Attributes(m => m.OfferOption.BillingAddress.StateAbbreviation) data-val-if="!selectedOffer.offerOption.billingAddressSame" ng-model="selectedOffer.offerOption.billingAddress.stateAbbreviation" ng-options="state.abbreviation as state.name for state in usStates">
+                                                        <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
+                                                    </select>
+                                                    @offer.MessageFor(m => m.OfferOption.BillingAddress.StateAbbreviation)
+                                                </div>
+                                                <div class="item" @offer.ErrorClass(m => m.OfferOption.BillingAddress.PostalCode5)>
+                                                    <label for="@offer.For(m => m.OfferOption.BillingAddress.PostalCode5)">@Html.Sitecore().Field("Zip Label")</label>
+                                                    <input class="small" type="text" @offer.Attributes(m => m.OfferOption.BillingAddress.PostalCode5) data-val-if="!selectedOffer.offerOption.billingAddressSame" ng-model="selectedOffer.offerOption.billingAddress.postalCode5" />
+                                                    @offer.MessageFor(m => m.OfferOption.BillingAddress.PostalCode5)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
                                 </div>
+                                @* End Billing Address section *@
                             </div>
-                            *@
-                        </div>
-
-
-
-                        <!-- Selected Offers Section -->
-                        <!-- base this on offerType - TexasElectricity, GeorgiaGas, etc -->
-                        <div ng-repeat="offerInformation in item.offerInformationByType">
-                            <div ng-include src="'offerOptions/' + offerInformation.key"></div>                            
                         </div>
                     </div>
                 </article>
@@ -278,13 +288,13 @@
 </div>
 
 <script type="text/ng-template" id="offerOptions/TexasElectricity">
-    @using (var offer = Html.AngularRepeat(m => m.Services, "$parent.$index").AngularRepeat(m => m.SelectedOffers, "index"))
+    @using (var offer = Html.AngularRepeat(m => m.Services, "$parent.$index").AngularRepeat(m => m.SelectedOffers, "$index"))
     {
         <text>
         <h2>Electricity</h2>
         <div class="item group-col">
             <label for="@offer.For(o => ((TexasElectricityOfferOption)o.OfferOption).ConnectDate)">@Html.Sitecore().Field("Service Start Date Label")</label>
-            <input type="text" id="@offer.For(o => ((TexasElectricityOfferOption)o.OfferOption).ConnectDate)" ng-model="offerInformation.value.offerSelections.offerOption.connectDate" placeholder="01/29/14" />
+            <input type="text" id="@offer.For(o => ((TexasElectricityOfferOption)o.OfferOption).ConnectDate)" ng-model="selectedOffer.offerOption.connectDate" placeholder="01/29/14" />
         </div>
         <div class="item">
             <label for="connection-fee">@Html.Sitecore().Field("Connection Fee Label")</label>
