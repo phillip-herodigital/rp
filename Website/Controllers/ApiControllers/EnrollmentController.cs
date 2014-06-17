@@ -141,6 +141,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         private LocationServices Combine(SelectedOfferSet newSelection, LocationServices oldService, IEnumerable<Tuple<Location, IOffer>> allOffers)
         {
+            allOffers = allOffers ?? Enumerable.Empty<Tuple<Location, IOffer>>();
             var result = oldService ?? new LocationServices();
             result.Location = newSelection.Location;
             result.SelectedOffers = (from entry in newSelection.OfferIds

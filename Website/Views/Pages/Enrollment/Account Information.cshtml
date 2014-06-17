@@ -1,5 +1,6 @@
 @model StreamEnergy.DomainModels.Enrollments.UserContext
 @using TypedPhone = StreamEnergy.DomainModels.TypedPhone
+@using StreamEnergy.DomainModels.Enrollments
 <div id="accountInformation" class="enrollment-section accent-darkgreen" ng-show="stepsService.isStepVisible('accountInformation')" ng-controller="EnrollmentAccountInformationCtrl">
     <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper">
@@ -105,45 +106,8 @@
 
                         <!-- Selected Offers Section -->
                         <!-- base this on offerType - TexasElectricity, GeorgiaGas, etc -->
-                        <div ng-repeat ="(type, plan) in item.selectedOffers">
-                            <h2><span ng-show="type == 'gas'">Gas</span><span ng-show="type == 'electricity'">Electricity</span></h2>
-                            <div class="group">
-                                <div class="item group-col">
-                                    <label for="bill-account-number">@Html.Sitecore().Field("Bill Account Number Label")</label>
-                                    <input type="text" id="bill-account-number" ng-model="accountInformation.serviceAddresses[id][type].accountNumber" placeholder="654-XXXX-XXX-XXXXXX" />
-                                </div>
-                                <div class="item group-col">
-                                    <a href="" class="single-link">@Html.Sitecore().Field("See Example")</a>
-                                </div>
-                            </div>
-                            <div class="group" ng-show="enrollment.serviceState == 'GA'">
-                                <div class="item group-col">
-                                    <label for="service-start-date">@Html.Sitecore().Field("Service Start Date Label")</label>
-                                    <input type="text" id="ultility-account-number" ng-model="enrollment.extraFields.accountInformation.serviceAddresses[id][type].serviceDate" placeholder="01/29/14" />
-                                </div>
-                                <div class="item">
-                                    <label for="service-start-time">@Html.Sitecore().Field("Time Label")</label>
-                                    <select id="service-start-time" ng-model="enrollment.extraFields.accountInformation.serviceAddresses[id][type].serviceTime">
-                                        <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="item" ng-show="plan.offerOption.connectionFee && enrollment.serviceState == 'TX'">
-                                <label for="connection-fee">@Html.Sitecore().Field("Connection Fee Label")</label>
-                                <strong>{{plan.offerOption.connectionFee}}</strong>
-                            </div>
-                            <div class="item" ng-show="plan.offerOption.meterSetFee && enrollment.serviceState == 'GA'">
-                                <label for="meter-set-fee">@Html.Sitecore().Field("Meter Set Fee Label")</label>
-                                <strong>{{plan.offerOption.meterSetFee}}</strong>
-                            </div>
-                            <div class="item" ng-show="plan.offerOption.meterSetFee && enrollment.serviceState == 'GA'">
-                                <label for="utility-connect-fee">@Html.Sitecore().Field("Utility Connect Fee Label")</label>
-                                <strong>{{plan.offerOption.utilityConnectFee}}</strong>
-                            </div>
-                            <div class="item" ng-show="plan.offerOption.meterSetFee && enrollment.serviceState == 'GA'">
-                                <label for="stream-connect-fee">@Html.Sitecore().Field("Stream Connect Fee Label")</label>
-                                <strong>{{plan.offerOption.streamConnectFee}}</strong>
-                            </div>
+                        <div ng-repeat="offerInformation in item.offerInformationByType">
+                            <div ng-include src="'offerOptions/' + offerInformation.key"></div>                            
                         </div>
                     </div>
                 </article>
@@ -312,3 +276,20 @@
         </aside>
     </div>       
 </div>
+
+<script type="text/ng-template" id="offerOptions/TexasElectricity">
+    @using (var offer = Html.AngularRepeat(m => m.Services, "$parent.$index").AngularRepeat(m => m.SelectedOffers, "index"))
+    {
+        <text>
+        <h2>Electricity</h2>
+        <div class="item group-col">
+            <label for="@offer.For(o => ((TexasElectricityOfferOption)o.OfferOption).ConnectDate)">@Html.Sitecore().Field("Service Start Date Label")</label>
+            <input type="text" id="@offer.For(o => ((TexasElectricityOfferOption)o.OfferOption).ConnectDate)" ng-model="offerInformation.value.offerSelections.offerOption.connectDate" placeholder="01/29/14" />
+        </div>
+        <div class="item">
+            <label for="connection-fee">@Html.Sitecore().Field("Connection Fee Label")</label>
+            <strong>{{plan.offerOption.connectionFee}}</strong>
+        </div>
+        </text>
+    }
+</script>
