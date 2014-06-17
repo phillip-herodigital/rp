@@ -1199,3 +1199,111 @@ article.phone {
 		}
 	}
 }
+
+article.phone-plan {
+	overflow: hidden;
+	.content {
+		padding-bottom: 0;
+		margin-bottom: -30px;
+	}
+	.plan {
+		.plan-selection{
+			@extend .clearfix;
+			padding-bottom: 35px;
+		}
+		.product-info {
+			float: left;
+			width: 34%;
+			text-align: center;
+			margin: 0 1%;
+			h1 {
+				font-size: 16px;
+				font-weight: bold;
+				margin: 0;
+				text-transform: none;
+			}
+
+			h2 {
+				font-size: 14px;
+				font-weight: 600;
+				color: #797979;
+				margin: 0;
+				text-transform: none;
+			}
+		}
+		.plan-info {
+			float: left;
+			width: 60%;
+			h1 {
+				font-size: 22px;
+				font-weight: 600;
+				text-transform: none;
+				margin: 0;
+			}
+			h2 {
+				font-size: 14px;
+				font-weight: bold;
+				color: #adadad;
+				text-transform: none;
+				margin: 0;
+			}
+			p {
+				font-size: 16px;
+				margin: 0 0 20px 0;
+			}
+		}
+		.plan-details {
+			background-color: #f7f7f7;
+			@include box-shadow(inset 1px 2px 15px rgba(0,0,0,.04));
+			border-top: 1px solid #d9d9d9;
+			border-bottom: 1px solid #d9d9d9;
+			padding: 30px 35% 30px 30px;
+			position: relative;
+			margin-bottom: 25px;
+			.price {
+				position: absolute;
+				top: 35px;
+				right: 30px;
+				text-align: right;
+				font-size: 34px;
+				font-weight: 600;
+				line-height: 34px;
+				span {
+					display: block;
+					font-size: 13px;
+					text-transform: uppercase;
+					font-style: italic;
+					font-weight: normal;
+				}
+			}
+			h1 {
+				font-size: 20px;
+				font-weight: 600;
+				margin: 0;
+			}
+			h2 {
+				font-size: 18px;
+				color: #333;
+				margin: 0 0 15px 0;
+			}
+			p {
+				font-size: 14px;
+				margin: 0 0 20px 0;
+			}
+			.more {
+				font-size: 14px;
+				text-transform: uppercase;
+				font-weight: 600;
+			}
+		}
+	}
+}
+
+.phone-plan.footnotes {
+	border-top: 1px solid #e7e7e7;
+	padding-top: 25px;
+	p {
+		font-size: 12px;
+		margin: 0 0 10px 0;
+	}
+}
