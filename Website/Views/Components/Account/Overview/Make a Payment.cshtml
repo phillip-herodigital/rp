@@ -27,11 +27,14 @@
                     <div class="group date-amount">
                         <div class="item datepicker">
                             <label for="Payment method">@Html.Sitecore().Field("Payment Date Text")</label>
-                            <input type="text" ng-model="form.dt" datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="disableWeekends(date, mode)" />
+                            <span class="calendar">
+                                <input type="text" ng-model="form.dt" datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="disableWeekends(date, mode)" />
+                                <span class="icon"><i class="icon-hamburger"></i></span>
+                            </span>
                         </div>
                         <div class="item dollars">
                             <label for="Amount">@Html.Sitecore().Field("Payment Amount Text")</label>
-                            <input type="text" id="amount">
+                            <span class="payment-amount"><input type="text" id="amount"></span> 
                         </div>
                     </div>
                     <div additional-fields>
