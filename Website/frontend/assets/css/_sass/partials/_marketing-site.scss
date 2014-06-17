@@ -20,7 +20,6 @@ $themes:
 		&.#{map-get($theme, name)} {
 			background-color: map-get($theme, primaryColor);
 			color: map-get($theme, accentColor);
-			text-shadow: none;
 		}
 	}
 }
@@ -185,7 +184,6 @@ article.photoLockup {
 			button, .button {
 				background-color: map-get($theme, accentColor);
 				color: map-get($theme, primaryColor);
-				text-shadow: none;
 				&:hover {
 					background-color: #6b6b6b;
 					color: #fff;
@@ -263,7 +261,6 @@ article.marketingIntro {
 			}
 			button, .button {
 				background-color: map-get($theme, primaryColor);
-				text-shadow: none;
 				&:hover {
 					background-color: #6b6b6b;
 					color: #fff;
@@ -315,7 +312,6 @@ article.loginHorizontal {
 	button {
 		background-color: #fff;
 		color: #1773cb;
-		@include text-shadow(none);
 		line-height: normal;
 		width: 85px;
 	}
@@ -415,7 +411,6 @@ article.gridPromos {
 				}
 				button, .button {
 					background-color: map-get($theme, primaryColor);
-					text-shadow: none;
 					white-space: nowrap;
 					&:hover {
 						background-color: #6b6b6b;
@@ -617,7 +612,6 @@ article.full-html {
 			button, .button {
 				background-color: map-get($theme, accentColor);
 				color: map-get($theme, primaryColor);
-				text-shadow: none;
 			}
 		}
 	}
@@ -1929,7 +1923,6 @@ article.commercial-quote {
 				color: #333;
 				background-color: #fff;
 				border-color: #ccc;
-				text-shadow: none;
 				&:hover {
 					background-color: #ebebeb
 				}

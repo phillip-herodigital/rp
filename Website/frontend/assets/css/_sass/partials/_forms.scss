@@ -86,7 +86,6 @@ select::-ms-expand {
 button,
 a.button {
 	@include border-radius(10px);
-	@include text-shadow(-1px 1px 1px rgba(0,0,0,.3));
 	display: inline-block;
 	height: auto;
 	width: auto;
@@ -100,7 +99,6 @@ a.button {
 	line-height: 1.375; //Enforce body line-height on buttons
 	text-transform: uppercase;
 	&.secondary {
- 		@include text-shadow(-1px 1px 1px rgba(0,0,0,.3));
  		background-color: #797b7e;
  	}
 	&:hover {
@@ -461,7 +459,6 @@ form,
 		@include border-radius(10px);
 		@include box-shadow(0 1px 1px rgba(0,0,0,.15));
 		@include transition(border linear .2s, box-shadow linear .2s);
-		@include text-shadow(none);
 		text-transform: none;
 		padding: 6px 35px 6px 10px;
 		border: 1px solid #bcbcbc;
