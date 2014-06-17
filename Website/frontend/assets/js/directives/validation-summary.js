@@ -14,6 +14,7 @@
             scope.validationSummary = [];
             // Here we don't need to dispose our watch because we have an isolated scope that goes away when the element does.
             var watch = scope.$parent.$watchCollection(validation.messageArray, function (newValue) {
+                if (!validation.showValidationSummary) return;
                 var merged = [];
                 // flatten the nested arrays into "merged"
                 var obj = newValue;

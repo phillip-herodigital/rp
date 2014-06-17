@@ -9,8 +9,9 @@
         <div class="inner">
             <h2>@Html.Sitecore().Field("Form Title")</h2>
             @Html.Sitecore().Field("Form Intro Text")
-            @Html.ValidationSummary()
             <form action="@Request.Url.AbsolutePath" method="post">
+                @Html.ValidationSummary()
+
                 <div class="item" @Html.ValidationErrorClass(model => model.ContactName.First)>
                     <input type="text" placeholder="@Html.Sitecore().Field("First Name Placeholder Text")" @Html.ValidationAttributes(m => m.ContactName.First) ng-model="firstName" />
                     @Html.ValidationMessageFor(model => model.ContactName.First)
