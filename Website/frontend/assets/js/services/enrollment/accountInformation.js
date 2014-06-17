@@ -2,25 +2,21 @@ ngApp.factory('accountInformationService', [function () {
 	var accountInformation = {
 		 contactInfo: {
 			name: {
-				first: 'first name',
-				last: 'last name'
+				first: '',
+				last: ''
 			},
 			phone: [{
-				number: '555-555-5555',
-				category: 'home'
-			}, 
-			{
 				number: '',
 				category: ''
 			}],
 			email: {
-				address: 'test@test.com'
+				address: ''
 			}
 		},
-		socialSecurityNumber: '123-123-1234',
+		socialSecurityNumber: '',
 		driversLicense: {
-			number: '123456789',
-			state: 'TX'
+			number: '',
+			state: ''
 		}
 	};
 	

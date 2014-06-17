@@ -82,7 +82,7 @@
                                     {
                                         <div ng-hide="selectedOffer.offerOption.billingAddressSame">
                                             <div class="group">
-                                                <div class="item group-col" @(offer.ErrorClass(m => m.OfferOption.BillingAddress))>
+                                                <div class="item group-col" @(offer.ErrorClass(m => m.OfferOption.BillingAddress.Line1))>
                                                     <label for="@offer.For(m => m.OfferOption.BillingAddress.Line1)">@Html.Sitecore().Field("Address 1 Label")</label>
                                                     <input type="text" @offer.Attributes(m => m.OfferOption.BillingAddress.Line1) data-val-if="!selectedOffer.offerOption.billingAddressSame" ng-model="selectedOffer.offerOption.billingAddress.line1" />
                                                     @offer.MessageFor(m => m.OfferOption.BillingAddress.Line1)
@@ -139,36 +139,43 @@
                             </div>
                         </div>
                         <div class="group">
-                            <div class="item group-col" @Html.ValidationErrorClass(m => m.ContactInfo.Phone[0].Number)>
-                                <label for="@Html.For(m => m.ContactInfo.Phone[0].Number)">@Html.Sitecore().Field("Primary Phone Number Label")</label>
-                                <input type="text" @Html.ValidationAttributes(m => m.ContactInfo.Phone[0].Number) ng-model="accountInformation.contactInfo.phone[0].number" />
-                                @Html.ValidationMessageFor(model => model.ContactInfo.Phone[0].Number)
+                            @using (var firstPhone = Html.AngularRepeat(m => m.ContactInfo.Phone, "0"))
+                            { 
+                            <div class="item group-col" @firstPhone.ErrorClass(m => m.Number)>
+                                <label for="@firstPhone.For(m => m.Number)">@Html.Sitecore().Field("Primary Phone Number Label")</label>
+                                <input type="text" @firstPhone.Attributes(m => m.Number) ng-model="accountInformation.contactInfo.phone[0].number" />
+                                @firstPhone.MessageFor(m => m.Number)
                             </div>                        
-                            <div class="item group-col" @Html.ValidationErrorClass(model => ((TypedPhone)model.ContactInfo.Phone[0]).Category)>
-                                <label for="@Html.For(model => ((TypedPhone)model.ContactInfo.Phone[0]).Category)">@Html.Sitecore().Field("Phone Type Label")</label>
-                                <select @Html.ValidationAttributes(model => ((TypedPhone)model.ContactInfo.Phone[0]).Category) ng-model="accountInformation.contactInfo.phone[0].category" ng-options="type.name as type.label for type in phoneTypes">
+                            <div class="item group-col" @firstPhone.ErrorClass(m => ((TypedPhone)m).Category)>
+                                <label for="@firstPhone.For(m => ((TypedPhone)m).Category)">@Html.Sitecore().Field("Phone Type Label")</label>
+                                <select @firstPhone.Attributes(m => ((TypedPhone)m).Category) ng-model="accountInformation.contactInfo.phone[0].category" ng-options="type.name as type.label for type in phoneTypes">
                                     <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
                                 </select>
-                                @Html.ValidationMessageFor(model => ((TypedPhone)model.ContactInfo.Phone[0]).Category)
+                                @firstPhone.MessageFor(m => ((TypedPhone)m).Category)
                             </div>
+                            }
                         </div>
                         <div class="additional-field-action">
-                            <a href="" ng-click="accountInformation.showSecondaryPhone = true">@Html.Sitecore().Field("Add additional phone number")</a>
+                            <a href="" ng-click="accountInformation.contactInfo.phone[1] = {}" ng-hide="accountInformation.contactInfo.phone.length > 1">@Html.Sitecore().Field("Add additional phone number")</a>
+                            <a href="" ng-click="accountInformation.contactInfo.phone.splice(0, 1)" ng-show="accountInformation.contactInfo.phone.length > 1">@Html.Sitecore().Field("Remove additional phone number")</a>
                         </div>
-                        <div class="additional-field-group" ng-show="accountInformation.showSecondaryPhone">
+                        <div class="additional-field-group" ng-show="accountInformation.contactInfo.phone.length > 1">
                             <div class="group">
-                                <div class="item group-col" @Html.ValidationErrorClass(m => m.ContactInfo.Phone[1].Number)>
-                                    <label for="@Html.For(m => m.ContactInfo.Phone[1].Number)">@Html.Sitecore().Field("Secondary Phone Number Label")</label>
-                                    <input type="text" @Html.ValidationAttributes(m => m.ContactInfo.Phone[1].Number) ng-model="accountInformation.contactInfo.phone[1].number" data-val-if="accountInformation.showSecondaryPhone" />
-                                    @Html.ValidationMessageFor(model => model.ContactInfo.Phone[1].Number)
+                                @using (var secondPhone = Html.AngularRepeat(m => m.ContactInfo.Phone, "1"))
+                                { 
+                                <div class="item group-col" @secondPhone.ErrorClass(m => m.Number)>
+                                    <label for="@secondPhone.For(m => m.Number)">@Html.Sitecore().Field("Secondary Phone Number Label")</label>
+                                    <input type="text" @secondPhone.Attributes(m => m.Number) ng-model="accountInformation.contactInfo.phone[1].number" data-val-if="accountInformation.contactInfo.phone.length > 1" />
+                                    @secondPhone.MessageFor(m => m.Number)
                                 </div>
-                                <div class="item group-col" @Html.ValidationErrorClass(model => ((TypedPhone)model.ContactInfo.Phone[1]).Category)>
-                                    <label for="@Html.For(model => ((TypedPhone)model.ContactInfo.Phone[1]).Category)">@Html.Sitecore().Field("Phone Type Label")</label>
-                                    <select @Html.ValidationAttributes(model => ((TypedPhone)model.ContactInfo.Phone[1]).Category) ng-model="accountInformation.contactInfo.phone[1].category" ng-options="type.name as type.label for type in phoneTypes" data-val-if="accountInformation.showSecondaryPhone">
+                                <div class="item group-col" @secondPhone.ErrorClass(m => ((TypedPhone)m).Category)>
+                                    <label for="@secondPhone.For(m => ((TypedPhone)m).Category)">@Html.Sitecore().Field("Phone Type Label")</label>
+                                    <select @secondPhone.Attributes(m => ((TypedPhone)m).Category) ng-model="accountInformation.contactInfo.phone[1].category" ng-options="type.name as type.label for type in phoneTypes" data-val-if="accountInformation.contactInfo.phone.length > 1">
                                         <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
                                     </select>
-                                    @Html.ValidationMessageFor(model => ((TypedPhone)model.ContactInfo.Phone[1]).Category)
+                                    @secondPhone.MessageFor(m => ((TypedPhone)m).Category)
                                 </div>
+                                }
                             </div>
                         </div>
                         <hr class="content-divider">
