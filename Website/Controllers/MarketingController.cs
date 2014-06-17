@@ -148,7 +148,7 @@ namespace StreamEnergy.MyStream.Controllers
         {
             HomeLifeServices model = new HomeLifeServices()
             {
-                HasFreeMonth = false,
+                HasFreeMonth = true,
                 ClientId = "1052614",
                 SaleSource = "MyStream",
             };
