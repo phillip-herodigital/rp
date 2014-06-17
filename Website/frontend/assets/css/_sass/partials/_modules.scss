@@ -257,6 +257,18 @@ article.grey-box {
 	}
 }
 
+article.white-box {
+	background-color: #fff;
+	header {
+		background-color: #fff;
+		background-image: none;
+		border-bottom: 1px solid #ddd;
+		h2 {
+			color: #0971ce;
+		}
+	}
+}
+
 article.plain {
 	border: none;
 	@include box-shadow(none);
@@ -310,6 +322,10 @@ article.plan {
 				.fixed {
 					@include rotate(-90deg);
 					text-transform: uppercase;
+					filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+					.ie8 & {
+						margin: 0 -13px 25px 10px;
+					}
 				}
 			}
 		}
@@ -424,6 +440,9 @@ article.utility-providers .logos {
 	&:hover {
 		border: 1px solid #1697ff;
 	}
+	@include breakpoint(small) {
+		margin-top: 15px;
+	}
 }
 article.balances-payments {
 	dl dd {
@@ -444,12 +463,20 @@ article.balances-payments {
 		}
 		.group {
 			.item {
-				width: 50%;
+				&.amount {
+					width: 40%;
+				}
+				&.payment {
+					width: 60%;
+				}
 			}
 		}
 		&.payment {
 			input {
 				text-align: right;
+			}
+			@include breakpoint(medium) {
+				padding: 0 0 0 10px;
 			}
 		}
 		@include breakpoint(small) {
@@ -469,8 +496,18 @@ article.balances-payments {
 article.energy-usage {
 	.graph-header {
 		padding: 15px 40px 0px 40px;
-		.last {
+		.col {
+			@include breakpoint(small) {
+				width: 33%;
+				float: left;
+			}
+			&.last {
 			text-align: right;
+			@include breakpoint(small) {
+				width: 33%;
+				float: right;
+			}
+		}
 		}
 	}
 	.usage-graph {
@@ -612,6 +649,9 @@ article.make-payment {
 			width: 50%;
 			.item {
 				width: 45%;
+				@include breakpoint(small) {
+					width: 100%;
+				}
 			}
 		}
 		.group {
@@ -645,7 +685,10 @@ article.make-payment {
 		div.new-account {
 			margin-top: 10px;
 			.payment-options {
-				margin: 15px 0 25px 20px;
+				margin: 15px 0 25px 0px;
+				img {
+					max-width: 100%;
+				}
 			}
 		}
 	}
@@ -658,10 +701,24 @@ article.payment-history {
 		}
 		ul {
 			float: right;
+			@include breakpoint(small) {
+				float: none;
+				padding-left: 0px;
+			}
 			li {
 				float: left;
 				list-style-type: none;
-				margin-left: 20px;
+				padding-left: 10px;
+				margin-right: 10px;
+				border-left: 1px solid #0971ce;
+				&:first-child {
+					border-left: none;
+				}
+				@include breakpoint(small) {
+					float: none;
+					text-align: center;
+					border-left: 0px;
+				}
 			}
 		}
 	}

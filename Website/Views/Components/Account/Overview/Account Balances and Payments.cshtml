@@ -32,11 +32,11 @@
                 <h4>@Html.Sitecore().Field("Make Payment Text")</h4>
                 <form>
                     <div class="group">
-                        <div class="item">
+                        <div class="item amount">
                             <label for="Amount">@Html.Sitecore().Field("Amount Text")</label>
                             <input type="text" id="amount" @*ng-model="paymentForm.amount"*@ value="$87.24" />
                         </div>
-                        <div class="item">
+                        <div class="item payment">
                             <label for="Payment method">@Html.Sitecore().Field("Payment Method Text")</label>
                             <select ng-model="paymentForm.paymentMethod" ng-options="item.id as item.name for item in paymentMethods">
                                 <option value="">Select</option>

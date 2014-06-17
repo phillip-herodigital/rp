@@ -443,6 +443,7 @@
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />
+    <Compile Include="Controllers\Components\AccountController.cs" />
     <Compile Include="Controllers\Components\AuthenticationController.cs" />
     <Compile Include="Controllers\EnrollmentController.cs" />
     <Compile Include="Controllers\JsonHelper\EnrollmentController.cs" />
@@ -458,7 +459,31 @@
     <Compile Include="layouts\BaseLayout.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Models\Account\AddNewAccountRequest.cs" />
+    <Compile Include="Models\Account\AddNewAccountResponse.cs" />
+    <Compile Include="Models\Account\EnrolledAccount.cs" />
+    <Compile Include="Models\Account\GetAccountInformationRequest.cs" />
+    <Compile Include="Models\Account\GetAccountInformationResponse.cs" />
+    <Compile Include="Models\Account\GetAccountsResponse.cs" />
+    <Compile Include="Models\Account\GetEnrolledAccountsResponse.cs" />
+    <Compile Include="Models\Account\GetNotificationSettingsRequest.cs" />
+    <Compile Include="Models\Account\GetNotificationSettingsResponse.cs" />
     <Compile Include="Models\Account\Invoice.cs" />
+    <Compile Include="Models\Account\GetOnlineAccountResponse.cs" />
+    <Compile Include="Models\Account\LanguagePreference.cs" />
+    <Compile Include="Models\Account\NotificationSetting.cs" />
+    <Compile Include="Models\Account\RemoveAccountRequest.cs" />
+    <Compile Include="Models\Account\RemoveAccountResponse.cs" />
+    <Compile Include="Models\Account\SendLetterRequest.cs" />
+    <Compile Include="Models\Account\SendLetterResponse.cs" />
+    <Compile Include="Models\Account\UpdateAccountInformationRequest.cs" />
+    <Compile Include="Models\Account\UpdateAccountInformationResponse.cs" />
+    <Compile Include="Models\Account\UpdateNotificationRequest.cs" />
+    <Compile Include="Models\Account\UpdateNotificationResponse.cs" />
+    <Compile Include="Models\Account\UpdateNotificationSettingsRequest.cs" />
+    <Compile Include="Models\Account\UpdateNotificationSettingsResponse.cs" />
+    <Compile Include="Models\Account\UpdateOnlineAccountRequest.cs" />
+    <Compile Include="Models\Account\UpdateOnlineAccountResponse.cs" />
     <Compile Include="Models\Angular\GridTable\Column.cs" />
     <Compile Include="Models\Angular\GridTable\ColumnSchemaAttribute.cs" />
     <Compile Include="Models\Angular\GridTable\GridTableExtensions.cs" />
@@ -622,7 +647,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\" />
-    <Folder Include="Views\CommercialQuote\" />
     <Folder Include="Views\Shared\" />
   </ItemGroup>
   <PropertyGroup>
