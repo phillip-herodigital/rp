@@ -808,6 +808,7 @@
     <Content Include="frontend\assets\js\controllers\enrollment\completeOrder.js" />
     <Content Include="frontend\assets\js\controllers\enrollment\main.js" />
     <Content Include="frontend\assets\js\controllers\enrollment\planSelection.js" />
+    <Content Include="frontend\assets\js\controllers\enrollment\selectPlan.js" />
     <Content Include="frontend\assets\js\controllers\enrollment\serviceInformation.js" />
     <Content Include="frontend\assets\js\controllers\enrollment\verifyIdentity.js" />
     <Content Include="frontend\assets\js\controllers\frontendElements.js" />

@@ -18,7 +18,13 @@
                                 <h2>Mobile Phone 1</h2>
                                 <h1>Select your Plan</h1>
                                 <p>Choose the amount of High Speed Data you would like with your plan</p>
-                                <div ui-slider ng-model="slider1"></div>
+                                <div ui-slider="sliders[0].options" ng-model="sliderValues.slider1"></div>
+                                <div class="slider-values">
+                                    <div class="value"><span class="indicator">|</span><span class="capacity">0GB</span><span class="cost">$29</span></li></div>
+                                    <div class="value"><span class="indicator">|</span><span class="capacity">500MB</span><span class="cost">$39</span></li></div>
+                                    <div class="value"><span class="indicator">|</span><span class="capacity">2GB</span><span class="cost">$49</span></li></div>
+                                    <div class="value"><span class="indicator">|</span><span class="capacity">4GB</span><span class="cost">$69</span></li></div>
+                                </div>
                             </div>
                         </div>
                         <div class="plan-details">
@@ -46,7 +52,13 @@
                                 <h2>Mobile Phone 2</h2>
                                 <h1>Select your Plan</h1>
                                 <p>Choose the amount of High Speed Data you would like with your plan</p>
-                                <div ui-slider ng-model="slider2"></div>
+                                <div ui-slider="sliders[1].options" ng-model="sliderValues.slider2"></div>
+                                <div class="slider-values">
+                                    <div class="value"><span class="indicator">|</span><span class="capacity">0GB</span><span class="cost">$29</span></li></div>
+                                    <div class="value"><span class="indicator">|</span><span class="capacity">500MB</span><span class="cost">$39</span></li></div>
+                                    <div class="value"><span class="indicator">|</span><span class="capacity">2GB</span><span class="cost">$49</span></li></div>
+                                    <div class="value"><span class="indicator">|</span><span class="capacity">4GB</span><span class="cost">$69</span></li></div>
+                                </div>
                             </div>
                         </div>
                         <div class="plan-details">

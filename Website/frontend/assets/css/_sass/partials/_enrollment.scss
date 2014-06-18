@@ -1308,6 +1308,29 @@ article.phone-plan {
 			}
 		}
 	}
+	.ui-slider {
+		margin: 0 25px;
+	}
+	.slider-values {
+		margin: 0 -33px;
+		.value {
+			display: inline;
+			float: left;
+			width: 25%;
+			font-size: 12px;
+			font-weight: bold;
+			text-align: center;
+			span {
+				display: block;
+			}
+		}
+		.indicator {
+			color: #d1d1d1;
+		}
+		.capacity {
+			color: #0068bc;
+		}
+	}
 }
 
 article.services-box {
