@@ -2,16 +2,50 @@
 ngApp.directive('datepickerDateClass', [function () {
     return {
         restrict: 'A',
-        controller: 'DatepickerController',
-        link: function (scope, element, attrs, ctrl) {
+        require: 'datepicker',
+        link: function (scope, element, attr, ctrl) {
+            var importantScope = scope;
+            if (attr['datepickerDateClassScope']) {
+                while (importantScope && importantScope.$id != attr['datepickerDateClassScope']) {
+                    importantScope = importantScope.$parent;
+                }
+            }
+
             var originalCreateDate = ctrl.createDateObject;
             ctrl.createDateObject = function (date, format) {
-                var result = originalCreateDate(date, format);
-                result.extraClasses = scope.eval(attr[name], { date: date });
-                console.log(result);
-                return result;
-            }
-            console.log(scope.rows);
+                var dt = originalCreateDate.call(ctrl, date, format);
+                var temp = dt.combine;
+                dt.combine = function (values) {
+                    if (temp)
+                        values = temp(value);
+                    if (attr['datepickerDateClass']) {
+                        var customClass = importantScope.$eval(attr['datepickerDateClass'], { date: date });
+                        if (customClass != null) {
+                            values = angular.extend(customClass, values);
+                        }
+                    }
+                    return values;
+                };
+                return dt;
+            };
+        }
+    };
+}])
+ngApp.directive('daypicker', [function () {
+    return {
+        restrict: 'AE',
+        require: '^datepicker',
+        link: function (scope, element, attr, ctrl) {
+            var originalCreateDate = ctrl.createDateObject;
+            ctrl.createDateObject = function (date, format) {
+                var dt = originalCreateDate.call(ctrl, date, format);
+                if (!dt.combine) {
+                    dt.combine = function (values) {
+                        return values;
+                    };
+                }
+                return dt;
+            };
         }
     };
 }]).run(["$templateCache", function ($templateCache) {
@@ -33,7 +67,7 @@ ngApp.directive('datepickerDateClass', [function () {
       "    <tr ng-repeat=\"row in rows track by $index\">\n" +
       "      <td ng-show=\"showWeeks\" class=\"text-center h6\"><em>{{ weekNumbers[$index] }}</em></td>\n" +
       "      <td ng-repeat=\"dt in row track by dt.date\" class=\"text-center\" role=\"gridcell\" id=\"{{dt.uid}}\" aria-disabled=\"{{!!dt.disabled}}\">\n" +
-      "        <button type=\"button\" style=\"width:100%;\" class=\"btn btn-default btn-sm\" ng-class=\"angular.extend(dt.extraClasses || {}, {'btn-info': dt.selected, active: isActive(dt)})\" ng-click=\"select(dt.date)\" ng-disabled=\"dt.disabled\" tabindex=\"-1\"><span ng-class=\"{'text-muted': dt.secondary, 'text-info': dt.current}\">{{dt.label}}</span></button>\n" +
+      "        <button type=\"button\" style=\"width:100%;\" class=\"btn btn-default btn-sm\" ng-class=\"dt.combine({ 'btn-info': dt.selected, active: isActive(dt) })\" ng-click=\"select(dt.date)\" ng-disabled=\"dt.disabled\" tabindex=\"-1\"><span ng-class=\"{'text-muted': dt.secondary, 'text-info': dt.current}\">{{dt.label}}</span></button>\n" +
       "      </td>\n" +
       "    </tr>\n" +
       "  </tbody>\n" +
