@@ -236,6 +236,7 @@ namespace StreamEnergy.MyStream.Controllers
             {
                 CustomerName = customerName,
                 PrimaryPhone = primaryPhone,
+                SecondaryPhone = primaryPhone,
                 ServiceAddress = serviceAddress,
                 SameAsService = sameAsService,
                 BillingAddress = billingAddress
