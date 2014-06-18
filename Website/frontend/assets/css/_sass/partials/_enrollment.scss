@@ -718,6 +718,12 @@
             }
         }
     }
+    .buttons {
+        .button { 
+            display: block;
+            width: 100%;
+        }
+    }
     @include breakpoint(small) {
         display: none;
     }

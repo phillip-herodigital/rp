@@ -4,14 +4,15 @@
  */
 ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', '$rootScope', '$filter', 'enrollmentService', 'scrollService', 'utilityProductsService', function ($scope, $rootScope, $filter, enrollmentService, scrollService, utilityProductsService) {
     $scope.validations = enrollmentService.validations;
+    $scope.currentLocationInfo = utilityProductsService.getActiveServiceAddress;
 
     //We need this for the button select model in the ng-repeats
     $scope.$watch(utilityProductsService.getActiveServiceAddress, function (address) {
         $scope.planSelection = { selectedOffers: {} };
         if (address && address.offerInformationByType) {
             angular.forEach(address.offerInformationByType, function (entry) {
-                if (address.offerInformationByType.value && address.offerInformationByType.value.offerSelections && address.offerInformationByType.value.offerSelections.length) {
-                    $scope.planSelection.selectedOffers[entry.key] = address.offerInformationByType.value.offerSelections[0].offerId;
+                if (entry.value && entry.value.offerSelections && entry.value.offerSelections.length) {
+                    $scope.planSelection.selectedOffers[entry.key] = entry.value.offerSelections[0].offerId;
                 }
             });
         }
@@ -24,8 +25,10 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', '$rootScope', '$filte
         }
     });
 
-    $scope.currentLocationInfo = utilityProductsService.getActiveServiceAddress;
-
+    /**
+     * [isFormValid description]
+     * @return {Boolean} [description]
+     */
     $scope.isFormValid = function () {
         return true;
     };
@@ -48,8 +51,8 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', '$rootScope', '$filte
             //Move to the next section, this is the last of the utilityAccounts, so
             //If addAdditional, go back to step one else move to the next section
             if(addAdditional) {
-                utilityProductsService.setActiveServiceAddress();
                 utilityProductsService.isNewServiceAddress = true;
+                utilityProductsService.setActiveServiceAddress();
                 $scope.stepsService.setStep('utilityFlowService');
                 //$scope.stepsService.deActivateStep('utilityFlowPlans', true);
             } else {

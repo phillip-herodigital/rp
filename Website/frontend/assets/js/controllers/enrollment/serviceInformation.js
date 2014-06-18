@@ -7,16 +7,17 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
     $scope.utilityService = utilityProductsService;
 
     //Set the default service information
-    $scope.serviceInformation = utilityProductsService.getDefaultServiceInformation();
+    $scope.serviceInformation = utilityProductsService.getServiceInformationObject();
 
     //Checking to see when the active service address has been updated
     //So we can reinitialize all service information for this page
     //There has to be a better way of doing this
     $scope.$on('updateActiveServiceAddress', function(event, value) {
-        console.log(value);
         if(utilityProductsService.isNewServiceAddress) {
-            $scope.serviceInformation = utilityProductsService.getDefaultServiceInformation();
-        }   
+            $scope.serviceInformation = utilityProductsService.getServiceInformationObject();
+        } else {
+            $scope.serviceInformation = utilityProductsService.getServiceInformationObject(value);
+        }
     });
 
     /**
@@ -36,6 +37,7 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
 
     /**
      * Complete the Service Information Step
+     * @return {[type]} [description]
      */
     $scope.completeStep = function () {
         var postData = utilityProductsService.createPostObject($scope.serviceInformation);
@@ -48,9 +50,9 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
             $scope.validations = data.validations;
 
             //Add the locations to our utility service
+            utilityProductsService.isNewServiceAddress = false;
             utilityProductsService.addServiceAddress(data.cart);
             utilityProductsService.setActiveServiceAddress($scope.serviceInformation.location.address);
-            utilityProductsService.isNewServiceAddress = false;
 
             //Move to the next section
             $scope.stepsService.setStep('utilityFlowPlans');
