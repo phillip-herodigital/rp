@@ -7,7 +7,6 @@ angular.module('ui.slider', []).value('uiSliderConfig',{}).directive('uiSlider',
         require: 'ngModel',
         compile: function () {
             return function (scope, elm, attrs, ngModel) {
-
                 function parseNumber(n, decimals) {
                     return (decimals) ? parseFloat(n) : parseInt(n);
                 };

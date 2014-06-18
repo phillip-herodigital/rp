@@ -1,4 +1,4 @@
-﻿<div class="enrollment-section">
+﻿<div class="enrollment-section" ng-controller="SelectPlanCtrl">
     <section class="layout cols-1">
         <article class="white-box phone-plan">
             <header>
@@ -18,7 +18,7 @@
                                 <h2>Mobile Phone 1</h2>
                                 <h1>Select your Plan</h1>
                                 <p>Choose the amount of High Speed Data you would like with your plan</p>
-                                <div ui-slider></div>
+                                <div ui-slider ng-model="slider1"></div>
                             </div>
                         </div>
                         <div class="plan-details">
@@ -46,7 +46,7 @@
                                 <h2>Mobile Phone 2</h2>
                                 <h1>Select your Plan</h1>
                                 <p>Choose the amount of High Speed Data you would like with your plan</p>
-                                <div ui-slider></div>
+                                <div ui-slider ng-model="slider2"></div>
                             </div>
                         </div>
                         <div class="plan-details">
@@ -92,12 +92,10 @@
                         <div class="avatar">
                             <img src="/frontend/assets/i/enrollment/homelife.png" />
                         </div>
-
                     </div>
                 </div>
             </div>
         </article>
-
         <div class="phone-plan footnotes">
             <p><strong>Taxes and fees:</strong> Taxes and fees apply and will be shown on the order review page prior to processing your order.</p>
             <p><strong>Transfer your number:</strong> At service activation, you can opt to keep your current number or be assigned a new one. If you plan to keep your current number, be sure to confirm it is eligible for transfer at Solavei.com under Mobile Service, Rate Plan and then Keep Your Phone Number.</p>
