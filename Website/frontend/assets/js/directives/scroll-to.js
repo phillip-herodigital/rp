@@ -1,5 +1,5 @@
 ﻿// Scroll To
-ngApp.directive('scrollTo', ['$window', 'jQuery', function ($window, jQuery) {
+ngApp.directive('scrollTo', ['jQuery', function (jQuery) {
     return {
         restrict: 'A',
         scope: true,
