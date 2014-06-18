@@ -3,6 +3,7 @@ ngApp.factory('utilityProductsService', ['$rootScope','$filter', function ($root
 		activeServiceAddress = {},
 		availableOfferTypes = [],
 		offerTypesWanted = [],
+		isNewServiceAddress = true,
     	states = [
         {
             'class': 'icon texas',
@@ -44,6 +45,7 @@ ngApp.factory('utilityProductsService', ['$rootScope','$filter', function ($root
 	return {
 		addresses: addresses,
 		states: states,
+		isNewServiceAddress: isNewServiceAddress,
 		/**
 		 * Update the list of service addresses. This is use primarily when
 		 * data is returned from the server. We simply copy the cart back over
@@ -158,16 +160,6 @@ ngApp.factory('utilityProductsService', ['$rootScope','$filter', function ($root
 				});
 			}
 
-			console.log(selectedPlans);
-
-			/*angular.forEach(addresses, function(address) {
-			  	//Loop through addresses, search for location
-			    if($filter('address')(address.location.address) == $filter('address')(location.address)) {
-			    	//Get offer details
-			    	if(address.offerInformationByType[0].value.offerSelections.length)
-			    	console.log(address);
-			   	}
-			});*/
 			return selectedPlans;
 		},
 
@@ -216,7 +208,10 @@ ngApp.factory('utilityProductsService', ['$rootScope','$filter', function ($root
 		getDefaultServiceInformation: function() {
 			//This can be changed to return by IP or however
 			return {
-				location: '',
+				location: {
+					address: {},
+					formattedAddress: ''
+				},
 				serviceState: 'TX',
 				isNewService: -1
 			}
@@ -229,18 +224,21 @@ ngApp.factory('utilityProductsService', ['$rootScope','$filter', function ($root
 		createPostObject: function(serviceInformation) {
 	        //Create our empty locations object
 		    var data = { 'locations': [] };
+
+	        //Add capabilities object to the location object
+	        serviceInformation.location.capabilities.push({ "capabilityType": "ServiceStatus", "isNewService": !!parseInt(serviceInformation.isNewService, 10) });
+
+	        if(!this.isNewServiceAddress) {
+	        	angular.copy(serviceInformation.location, activeServiceAddress.location);
+	        } else {
+		        data.locations.push(serviceInformation.location);	        	
+	        }
+
 		    angular.forEach(addresses, function (address) {
 		        data.locations.push(address.location);
 		    });
+	        
 
-	        //If this is a new service setup, add that to the capabilities object
-	        if (serviceInformation.isNewService == 1) {
-	            serviceInformation.location.capabilities.push({ "capabilityType": "ServiceStatus", "isNewService": true });
-	        }        
-
-	        //Add the new location to be saved and create a new ID for it
-	        //formattedAddress is on this object, we might need to remove it
-	        data.locations.push(serviceInformation.location);
 
 	        return data;
 		},
