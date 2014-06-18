@@ -4,8 +4,8 @@
  */
 ngApp.controller('SelectPlanCtrl', ['$scope', '$rootScope', 'enrollmentService', function ($scope, $rootScope, enrollmentService) {
     $scope.sliderValues = {
-        slider1: '',
-        slider2: ''
+        slider1: 0,
+        slider2: 0
     };
 
     $scope.sliders = [
@@ -16,7 +16,6 @@ ngApp.controller('SelectPlanCtrl', ['$scope', '$rootScope', 'enrollmentService',
                 step: 1,
                 range: 'min',
                 slide: function (event, ui) {
-                    console.log(ui);
                 }
             }
         },{

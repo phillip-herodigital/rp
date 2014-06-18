@@ -1273,14 +1273,16 @@ article.phone-plan {
 			margin-bottom: 25px;
 			&:after, &:before {
 				bottom: 100%;
-				left: 40%;
+				left: 38%;
 				border: solid transparent;
 				content: " ";
 				height: 0;
 				width: 0;
 				position: absolute;
 				pointer-events: none;
-				@include transition(all ease-in 0.5s);
+				@include breakpoint(small) {
+					left: 8%;
+				}
 			}
 			&:after {
 				border-color: rgba(255, 255, 255, 0);
@@ -1298,23 +1300,31 @@ article.phone-plan {
 				&:after, &:before {
 					left: 38%;
 					@include breakpoint(small) {
-						left: 16.6666%;
+						left: 8%;
 					}
 				}
 			}
 			&.second {
 				&:after, &:before {
-					left: 57%;
+					left: 56.5%;
 					@include breakpoint(small) {
-						left: 50%;
+						left: 36%;
 					}
 				}
 			}
 			&.third {
 				&:after, &:before {
-					left: 83.33333%;
+					left: 75.5%;
 					@include breakpoint(small) {
-						left: 83.33333%;
+						left: 64%;
+					}
+				}
+			}
+			&.fourth {
+				&:after, &:before {
+					left: 94%;
+					@include breakpoint(small) {
+						left: 92%;
 					}
 				}
 			}
