@@ -65,6 +65,7 @@ ngApp.factory('enrollmentStepsService', ['scrollService', 'jQuery', '$timeout', 
                 }
             });
         },
+        
         /**
          * [activateStep description]
          * @param  {[type]} name

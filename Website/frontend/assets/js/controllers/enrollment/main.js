@@ -15,6 +15,11 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', '$ancho
         serverData: {}
     };
 
+    /**
+     * [enrollmentNavClick description]
+     * @param  {[type]} step [description]
+     * @return {[type]}      [description]
+     */
     $scope.enrollmentNavClick = function(step) {
         if(step.isActive && step.isVisible) {
             enrollmentStepsService.setStep(step.name);
@@ -43,8 +48,8 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', '$ancho
     };
 
     /**
-    * Set Server Data
-    */
+     * Get the server data and populate the form
+     */
     $scope.setServerData = function () {
         console.log('Setting initial server data:');
 

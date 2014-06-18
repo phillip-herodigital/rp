@@ -4,6 +4,7 @@
  */
 ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', '$rootScope', '$filter', 'enrollmentService', 'scrollService', 'utilityProductsService', function ($scope, $rootScope, $filter, enrollmentService, scrollService, utilityProductsService) {
     $scope.validations = enrollmentService.validations;
+    $scope.currentLocationInfo = utilityProductsService.getActiveServiceAddress;
 
     //We need this for the button select model in the ng-repeats
     $scope.$watch(utilityProductsService.getActiveServiceAddress, function (address) {
@@ -24,8 +25,10 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', '$rootScope', '$filte
         }
     });
 
-    $scope.currentLocationInfo = utilityProductsService.getActiveServiceAddress;
-
+    /**
+     * [isFormValid description]
+     * @return {Boolean} [description]
+     */
     $scope.isFormValid = function () {
         return true;
     };

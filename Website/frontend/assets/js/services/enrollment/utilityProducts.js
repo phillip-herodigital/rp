@@ -46,6 +46,7 @@ ngApp.factory('utilityProductsService', ['$rootScope','$filter', function ($root
 		addresses: addresses,
 		states: states,
 		isNewServiceAddress: isNewServiceAddress,
+		
 		/**
 		 * Update the list of service addresses. This is use primarily when
 		 * data is returned from the server. We simply copy the cart back over
@@ -59,6 +60,7 @@ ngApp.factory('utilityProductsService', ['$rootScope','$filter', function ($root
 			//Map out the location items
 			angular.copy(cart, addresses);
 		},
+
 		/**
 		 * Remove a service address from the current list
 		 * @param  {[type]} address
@@ -67,6 +69,7 @@ ngApp.factory('utilityProductsService', ['$rootScope','$filter', function ($root
 		deleteServiceAddress: function(address) {
 
 		},
+
 		/**
 		 * Get a list of all service addresses currently in use
 		 * @return {[type]}
@@ -74,6 +77,7 @@ ngApp.factory('utilityProductsService', ['$rootScope','$filter', function ($root
 		getAddresses: function() {
 			return addresses;
 		},
+
 		/**
 		 * Get the active service address
 		 * @return {[type]}
@@ -101,6 +105,7 @@ ngApp.factory('utilityProductsService', ['$rootScope','$filter', function ($root
 
             $rootScope.$broadcast('updateActiveServiceAddress', activeServiceAddress);
 		},
+
 		/**
 		 * Get an array of the available offer types for the current service address
 		 * @return {[type]}
@@ -113,6 +118,7 @@ ngApp.factory('utilityProductsService', ['$rootScope','$filter', function ($root
 
 			return availableOfferTypes;
 		},
+
 		/**
 		 * Get an array of the selected plan IDs for the current service address
 		 * @return {Array}
@@ -127,6 +133,7 @@ ngApp.factory('utilityProductsService', ['$rootScope','$filter', function ($root
 
 			return selectedPlans;
 		},
+
 		/**
 		 * Get an array of the selected plan types for the current service address
 		 * @return {Array}
@@ -141,6 +148,7 @@ ngApp.factory('utilityProductsService', ['$rootScope','$filter', function ($root
 
 			return selectedPlans;
 		},
+
 		/**
 		 * Return the selected plans, with details, for the location
 		 * @return {[Object]} An object with the selected plans details and offer types as keys
@@ -194,6 +202,7 @@ ngApp.factory('utilityProductsService', ['$rootScope','$filter', function ($root
 				}
 			});
 		},
+
 		/**
 		 * Return the states object. Used in the typeahead input field
 		 * @return {Object}
@@ -201,6 +210,7 @@ ngApp.factory('utilityProductsService', ['$rootScope','$filter', function ($root
 		getStates: function() {
 			return states;
 		},
+
 		/**
 		 * The default service information
 		 * @return {Object}
@@ -216,6 +226,7 @@ ngApp.factory('utilityProductsService', ['$rootScope','$filter', function ($root
 				isNewService: -1
 			}
 		},
+
 		/**
 		 * Create the object to POST for /api/enrollment/serviceInformation
 		 * @param  {Object} serviceInformation
@@ -238,10 +249,9 @@ ngApp.factory('utilityProductsService', ['$rootScope','$filter', function ($root
 		        data.locations.push(address.location);
 		    });
 	        
-
-
 	        return data;
 		},
+
 		/**
 		 * Create the object to POST for /api/enrollment/selectedOffers
 		 * @return {Object}

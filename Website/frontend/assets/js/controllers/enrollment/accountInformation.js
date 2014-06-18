@@ -9,17 +9,35 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', '$rootScope', '$
     $scope.phoneTypes = enrollmentService.phoneTypes;
     $scope.accountInformation = accountInformationService.accountInformation;
 
+    /**
+     * [utilityAddresses description]
+     * @return {[type]} [description]
+     */
     $scope.utilityAddresses = function() {
         //Keep a temporary array for the typeahead service addresses
         
         //Don't do this, digest loop error
         //$scope.accountInformation.serviceAddress = [];
         return utilityProductsService.getAddresses();
-    }
+    };
 
+    $scope.updateSameAddress = function (offerOption) {
+        if (offerOption.billingAddressSame)
+        {
+            if ($scope.utilityAddresses().length == 1)
+                offerOption.billingAddress = $scope.utilityAddresses()[0].location.address;
+        } else {
+            offerOption.billingAddress = {};
+        }
+    };
+
+    /**
+     * [isFormValid description]
+     * @return {Boolean} [description]
+     */
     $scope.isFormValid = function() {
         return true;
-    }
+    };
 
     /**
     * Complete Enrollment Section
@@ -41,16 +59,4 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', '$rootScope', '$
             $rootScope.$broadcast('connectionFailure');
         });
     };
-
-    $scope.updateSameAddress = function (offerOption) {
-        if (offerOption.billingAddressSame)
-        {
-            if ($scope.utilityAddresses().length == 1)
-                offerOption.billingAddress = $scope.utilityAddresses()[0].location.address;
-        }
-        else
-        {
-            offerOption.billingAddress = {};
-        }
-    }
 }]);

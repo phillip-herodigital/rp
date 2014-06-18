@@ -36,6 +36,7 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
 
     /**
      * Complete the Service Information Step
+     * @return {[type]} [description]
      */
     $scope.completeStep = function () {
         var postData = utilityProductsService.createPostObject($scope.serviceInformation);

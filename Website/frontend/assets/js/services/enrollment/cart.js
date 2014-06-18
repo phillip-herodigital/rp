@@ -2,6 +2,7 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', 'utilityProduc
 
 	return {
 		getPlans: utilityProductsService.getSelectedPlans,
+
 		/**
 		 * Return the number of items in the cart
 		 * @return {[type]} [description]
@@ -9,6 +10,7 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', 'utilityProduc
 		getCartCount: function() {
 			return utilityProductsService.addresses.length;
 		},
+
 		/**
 		 * Currently only offering utilityServices so we're simply returning addresses
 		 * Eventually return all products here
@@ -17,6 +19,7 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', 'utilityProduc
 		getCartItems: function() {
 			return utilityProductsService.addresses;
 		},
+		
 		/**
 		 * Return the total cost of all cart items
 		 * @return {[type]} [description]
