@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of account information on enrollment page.
  */
-ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', '$rootScope', '$filter', 'enrollmentService', 'utilityProductsService', 'accountInformationService', function ($scope, $rootScope, $filter, enrollmentService, utilityProductsService, accountInformationService) {
+ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', '$rootScope', '$filter', 'enrollmentService', 'utilityProductsService', 'accountInformationService', 'enrollmentCartService', function ($scope, $rootScope, $filter, enrollmentService, utilityProductsService, accountInformationService, enrollmentCartService) {
     $scope.validations = enrollmentService.validations;
     $scope.utilityProducts = utilityProductsService;
     $scope.usStates = enrollmentService.usStates;
@@ -32,11 +32,15 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', '$rootScope', '$
     };
 
     /**
-     * [isFormValid description]
+     * In addition to normal validation, ensure that at least one item is in the shopping cart
      * @return {Boolean} [description]
      */
     $scope.isFormValid = function() {
-        return true;
+        if(enrollmentCartService.getCartCount()) {
+            return true;    
+        } else {
+            return false;
+        }
     };
 
     /**

@@ -8,7 +8,14 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', 'utilityProduc
 		 * @return {[type]} [description]
 		 */
 		getCartCount: function() {
-			return utilityProductsService.addresses.length;
+			var count = 0;
+
+			//Get the count for all utility products
+			angular.forEach(utilityProductsService.addresses, function(address, index) {
+				count += utilityProductsService.getSelectedPlanIds(address).length; 
+			});
+			
+			return count;
 		},
 
 		/**
@@ -25,6 +32,32 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', 'utilityProduc
 		 * @return {[type]} [description]
 		 */
 		getCartTotal: function() {
+
+		},
+
+		/**
+		 * [changeUtilityPlan description]
+		 * @param  {[type]} location [description]
+		 * @return {[type]}          [description]
+		 */
+		changeUtilityPlan: function(location) {
+
+		},
+
+		/**
+		 * [editUtilityAddress description]
+		 * @param  {[type]} location [description]
+		 * @return {[type]}          [description]
+		 */
+		editUtilityAddress: function(location) {
+			utilityProductsService.setActiveServiceAddress(location.location.address);
+		},
+
+		/**
+		 * [deleteUtilityAddress description]
+		 * @return {[type]} [description]
+		 */
+		deleteUtilityAddress: function(location) {
 
 		}
 	}

@@ -9,14 +9,9 @@
             <h1>@Html.Sitecore().Field("Cart Header")</h1>
         </header>
         <div class="body">
-            <div class="box" ng-hide="getCartCount()">
+            <div class="box" ng-hide="getCartCount() || getCartItems().length">
                 <p class="alt">@Html.Sitecore().Field("Empty Cart Text")</p>
             </div>
-
-            @*
-                We`re going to loop through all of the locations here and print out everything associated
-                with them
-            *@
             <div class="box" ng-repeat="(id, location) in getCartItems()">
                 <address>
                     <h3>@Html.Sitecore().Field("Service Address Text")</h3>
@@ -53,6 +48,10 @@
                     </div>
                 </div>
             </div>
+            <div class="buttons">
+                <a href="" class="button" ng-show="getCartCount()">Checkout Now</a>
+            </div>
+            <hr />
             <div class="box time">
                 <i class="icon-clock"></i>
                 @Html.Sitecore().Field("Time Remaining")

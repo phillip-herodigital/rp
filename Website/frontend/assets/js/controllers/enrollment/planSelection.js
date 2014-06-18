@@ -11,8 +11,8 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', '$rootScope', '$filte
         $scope.planSelection = { selectedOffers: {} };
         if (address && address.offerInformationByType) {
             angular.forEach(address.offerInformationByType, function (entry) {
-                if (address.offerInformationByType.value && address.offerInformationByType.value.offerSelections && address.offerInformationByType.value.offerSelections.length) {
-                    $scope.planSelection.selectedOffers[entry.key] = address.offerInformationByType.value.offerSelections[0].offerId;
+                if (entry.value && entry.value.offerSelections && entry.value.offerSelections.length) {
+                    $scope.planSelection.selectedOffers[entry.key] = entry.value.offerSelections[0].offerId;
                 }
             });
         }

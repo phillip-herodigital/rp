@@ -7,15 +7,17 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
     $scope.utilityService = utilityProductsService;
 
     //Set the default service information
-    $scope.serviceInformation = utilityProductsService.getDefaultServiceInformation();
+    $scope.serviceInformation = utilityProductsService.getServiceInformationObject();
 
     //Checking to see when the active service address has been updated
     //So we can reinitialize all service information for this page
     //There has to be a better way of doing this
     $scope.$on('updateActiveServiceAddress', function(event, value) {
         if(utilityProductsService.isNewServiceAddress) {
-            $scope.serviceInformation = utilityProductsService.getDefaultServiceInformation();
-        }   
+            $scope.serviceInformation = utilityProductsService.getServiceInformationObject();
+        } else {
+            $scope.serviceInformation = utilityProductsService.getServiceInformationObject(value);
+        }
     });
 
     /**
