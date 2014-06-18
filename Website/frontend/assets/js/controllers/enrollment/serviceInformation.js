@@ -13,7 +13,6 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
     //So we can reinitialize all service information for this page
     //There has to be a better way of doing this
     $scope.$on('updateActiveServiceAddress', function(event, value) {
-        console.log(value);
         if(utilityProductsService.isNewServiceAddress) {
             $scope.serviceInformation = utilityProductsService.getDefaultServiceInformation();
         }   
@@ -49,9 +48,9 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
             $scope.validations = data.validations;
 
             //Add the locations to our utility service
+            utilityProductsService.isNewServiceAddress = false;
             utilityProductsService.addServiceAddress(data.cart);
             utilityProductsService.setActiveServiceAddress($scope.serviceInformation.location.address);
-            utilityProductsService.isNewServiceAddress = false;
 
             //Move to the next section
             $scope.stepsService.setStep('utilityFlowPlans');
