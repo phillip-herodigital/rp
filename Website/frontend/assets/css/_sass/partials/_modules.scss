@@ -539,6 +539,14 @@ article.account-holder-information {
 	.billing-address {
 		margin-left: 23px;
 	}
+	.new-address .group {
+		.select-state {
+			width: 30%;
+		}
+		.zip-code {
+			width: 20%;
+		}
+	}
 	.checkbox-list {
 		label {
 			text-transform: uppercase;
