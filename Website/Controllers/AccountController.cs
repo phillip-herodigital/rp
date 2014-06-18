@@ -151,11 +151,15 @@ namespace StreamEnergy.MyStream.Controllers
                     user.ChangePassword(request.CurrentPassword, request.Password);
                 }
                 // update the challeges
-                if (request.Challenges != null && request.Challenges.Any())
+                if (request.Challenges != null && request.Challenges.Any(c => !string.IsNullOrEmpty(c.Answer)))
                 {
                     var profile = UserProfile.Locate(container, request.Username);
+                    
                     profile.ChallengeQuestions = (from entry in request.Challenges
-                                                  select ChallengeResponse.Create(entry.SelectedQuestion.Id, entry.Answer)).ToArray();
+                                                  join existing in profile.ChallengeQuestions on entry.SelectedQuestion.Id equals existing.QuestionKey into existing
+                                                  let existingQuestion = existing.FirstOrDefault()
+                                                  let useExistingQuestion = existingQuestion != null && string.IsNullOrEmpty(entry.Answer)
+                                                  select useExistingQuestion ? existingQuestion : ChallengeResponse.Create(entry.SelectedQuestion.Id, entry.Answer)).ToArray();
 
                     profile.Save();
                 }
@@ -198,20 +202,19 @@ namespace StreamEnergy.MyStream.Controllers
             // TODO check to make sure the user is logged in
 
             var accountId = request.AccountId;
-            var customerContact = new DomainModels.CustomerContact();
             var serviceAddress = new DomainModels.Address();
             var billingAddress = new DomainModels.Address();
             bool sameAsService = false;
 
             // TODO get the contact info from Stream Connect
-            customerContact.Name = new DomainModels.Name
+            var customerName = new DomainModels.Name
             {
                 First = "John",
                 Last = "Smith"
             };
-            customerContact.PrimaryPhone = new DomainModels.Phone
+            var primaryPhone = new DomainModels.Phone
             {
-                Number = "111-111-1111",
+                Number = "222-222-2222",
             };
 
             serviceAddress.Line1 = "123 Main St.";
@@ -224,14 +227,15 @@ namespace StreamEnergy.MyStream.Controllers
             billingAddress.StateAbbreviation = "TX";
             billingAddress.PostalCode5 = "75001";
 
-            if (serviceAddress == billingAddress)
+            if (serviceAddress.Equals(billingAddress))
             {
                 sameAsService = true;
             }
 
             return new GetAccountInformationResponse
             {
-                CustomerContact = customerContact,
+                CustomerName = customerName,
+                PrimaryPhone = primaryPhone,
                 ServiceAddress = serviceAddress,
                 SameAsService = sameAsService,
                 BillingAddress = billingAddress

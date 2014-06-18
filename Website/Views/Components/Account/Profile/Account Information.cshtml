@@ -9,9 +9,10 @@
                     Mr. John A. Doe
                 </div>
                 <div class="group">
-                    <div class="item group-col" float-label>
-                        <label for="primary-phone">@Html.Sitecore().Field("Primary Phone Number Text")</label>
-                        <input type="tel" name="primary-phone" id="primary-phone" placeholder="">
+                    <div class="item group-col" @*float-label*@>
+                        <label for="@Html.For(m => m.PrimaryPhone.Number)">@Html.Sitecore().Field("Primary Phone Number Text")</label>
+                        <input type="tel" @Html.ValidationAttributes(m => m.PrimaryPhone.Number) ng-model="formData.primaryPhone.number" />
+                        @Html.ValidationMessageFor(model => model.PrimaryPhone.Number)
                     </div>
                     <div class="item group-col">
                         @Html.Sitecore().Field("Phone Type Content")
@@ -64,9 +65,6 @@
                                     <label for="@Html.For(m => m.BillingAddress.StateAbbreviation)">@Html.Sitecore().Field("State Text")</label>
                                     <select ng-model="formData.billingAddress.stateAbbreviation" ng-options=""></select>
                                     @Html.ValidationMessageFor(model => model.BillingAddress.StateAbbreviation)
-                                    <select name="state" id="state">
-                                        <option value="mobile">TX</option>
-                                    </select>
                                 </div>
                                 <div class="item zip">
                                     <label for="@Html.For(m => m.BillingAddress.PostalCode5)">@Html.Sitecore().Field("Zip Code Text")</label>

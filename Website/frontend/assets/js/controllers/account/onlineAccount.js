@@ -9,6 +9,7 @@ ngApp.controller('AcctOnlineAccountCtrl', ['$scope', '$rootScope', '$http', '$ti
 	$scope.formData.challenges = [{},{}];
 
 	// get the current data
+
 	$timeout(function() {
 		$http.get('/api/account/getOnlineAccount').success(function (data, status, headers, config) {
 			$scope.formData = data;

@@ -20,7 +20,7 @@ namespace StreamEnergy.MyStream.Models.Account
 
         [MembershipPassword(ErrorMessage = "Password Invalid")]
         public string Password { get; set; }
-            
+
         [Compare("Password", ErrorMessage = "Confirm Password Mismatch")]
         public string ConfirmPassword { get; set; }
 
