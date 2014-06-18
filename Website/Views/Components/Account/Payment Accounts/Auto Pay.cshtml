@@ -1,6 +1,6 @@
 <article class="grey-box payments" ng-controller="AutoPayCtrl">
     <header>
-        <h2>AUTOPAY</h2>
+        <h2>@Html.Sitecore().Field("Header Text")</h2>
     </header>
     <form>
 		<div class="content">
@@ -8,14 +8,14 @@
                 <form>
                     <div class="group">
                         <div class="item">
-                            <label>Account Number:</label>
+                            <label>@Html.Sitecore().Field("Account Number Label")</label>
                             <select @*ng-model="selectedAccount.account" ng-options="item.accountNumber for item in accounts"*@>
                                 <option value="Please choose">1197015532</option>
                                 <option value="account1">Account 2</option>
                             </select>
                         </div>
                         <div class="item auto-pay-address">
-                            <p>Services Address:</p>
+                            <p>@Html.Sitecore().Field("Services Address Label")</p>
                             <p>123 Main Street, Dallas, TX 75001</p>
                         </div>
                     </div>
@@ -31,15 +31,15 @@
 			<div class="payment-options" ng-show="autoPay.status == 'autoPayOn'">							
 				<div class="group">
 					<div class="item account-number">
-						<label for="">Payment Account</label>
+						<label for="">@Html.Sitecore().Field("Payment Account Label")</label>
                         <select>
-                            <option value="Please choose">Select Payment Account</option>
+                            <option value="Please choose">@Html.Sitecore().Field("Select Account Label")</option>
                             <option value="payment1">Payment Method 1</option>
                             <option value="payment2">Payment Method 2</option>
                         </select>
 					</div>
 					<div class="item">
-						<a class="single-link" href="">Add New Payment Account</a>
+						<a class="single-link" href="">@Html.Sitecore().Field("Add Payment Account")</a>
 					</div>
 				</div>
 				<div slide-toggle>
