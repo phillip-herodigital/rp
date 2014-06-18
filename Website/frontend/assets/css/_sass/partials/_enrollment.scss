@@ -1271,6 +1271,53 @@ article.phone-plan {
 			padding: 30px 35% 30px 30px;
 			position: relative;
 			margin-bottom: 25px;
+			&:after, &:before {
+				bottom: 100%;
+				left: 40%;
+				border: solid transparent;
+				content: " ";
+				height: 0;
+				width: 0;
+				position: absolute;
+				pointer-events: none;
+				@include transition(all ease-in 0.5s);
+			}
+			&:after {
+				border-color: rgba(255, 255, 255, 0);
+				border-bottom-color: #f0f0f0;
+				border-width: 15px;
+				margin-left: -15px;
+			}
+			&:before {
+				border-color: rgba(255, 255, 255, 0);
+				border-bottom-color: #cdcdcd;
+				border-width: 16px;
+				margin-left: -16px;
+			}
+			&.first {
+				&:after, &:before {
+					left: 38%;
+					@include breakpoint(small) {
+						left: 16.6666%;
+					}
+				}
+			}
+			&.second {
+				&:after, &:before {
+					left: 57%;
+					@include breakpoint(small) {
+						left: 50%;
+					}
+				}
+			}
+			&.third {
+				&:after, &:before {
+					left: 83.33333%;
+					@include breakpoint(small) {
+						left: 83.33333%;
+					}
+				}
+			}
 			.price {
 				position: absolute;
 				top: 35px;
@@ -1309,12 +1356,13 @@ article.phone-plan {
 		}
 	}
 	.ui-slider {
-		margin: 0 25px;
+		margin: 0 3%;
 	}
 	.slider-values {
-		margin: 0 -33px;
+		margin: 0 -12.25%;
 		.value {
 			display: inline;
+			position: relative;
 			float: left;
 			width: 25%;
 			font-size: 12px;
