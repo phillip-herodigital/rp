@@ -240,7 +240,8 @@ ngApp.factory('utilityProductsService', ['$rootScope','$filter', function ($root
 				return {
 					location: {
 						address: location.location.address,
-						formattedAddress: $filter('address')(location.location.address)
+						formattedAddress: $filter('address')(location.location.address),
+						capabilities: location.location.capabilities
 					},
 					serviceState: location.location.address.stateAbbreviation,
 					isNewService: location.location.capabilities[1].isNewService
