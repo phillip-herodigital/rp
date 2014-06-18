@@ -739,11 +739,18 @@ article.payment-history {
 	.content {
 		padding-top: 0px;
 	}
-	table tr td .icon-arrow-collapsed {
-		margin-left: 18px
-	}
-	table tr .icon-recurring {
-		margin-left: 3px;
+	table tr {
+		.icon-recurring {
+			margin-left: 3px;
+		}
+		&.expand-details {
+			.grid {
+				margin: 15px 0 15px 50px;
+			}
+		}
+		td .icon-arrow-collapsed {
+			margin-left: 18px
+		}
 	}
 }
 article.my-invoices {
