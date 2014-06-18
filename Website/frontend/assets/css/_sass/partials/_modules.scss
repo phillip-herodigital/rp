@@ -542,9 +542,15 @@ article.account-holder-information {
 	.new-address .group {
 		.select-state {
 			width: 30%;
+			@include breakpoint(small) {
+				width: auto;
+			}
 		}
 		.zip-code {
 			width: 20%;
+			@include breakpoint(small) {
+				width: auto;
+			}
 		}
 	}
 	.checkbox-list {
