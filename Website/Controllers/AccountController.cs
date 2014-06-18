@@ -199,7 +199,9 @@ namespace StreamEnergy.MyStream.Controllers
 
             var accountId = request.AccountId;
             var customerContact = new DomainModels.CustomerContact();
-            var customerAddress = new DomainModels.Address();
+            var serviceAddress = new DomainModels.Address();
+            var billingAddress = new DomainModels.Address();
+            bool sameAsService = false;
 
             // TODO get the contact info from Stream Connect
             customerContact.Name = new DomainModels.Name
@@ -212,15 +214,27 @@ namespace StreamEnergy.MyStream.Controllers
                 Number = "111-111-1111",
             };
 
-            customerAddress.Line1 = "123 Main St.";
-            customerAddress.City = "Dallas";
-            customerAddress.StateAbbreviation = "TX";
-            customerAddress.PostalCode5 = "75001";
+            serviceAddress.Line1 = "123 Main St.";
+            serviceAddress.City = "Dallas";
+            serviceAddress.StateAbbreviation = "TX";
+            serviceAddress.PostalCode5 = "75001";
+
+            billingAddress.Line1 = "123 Main St.";
+            billingAddress.City = "Dallas";
+            billingAddress.StateAbbreviation = "TX";
+            billingAddress.PostalCode5 = "75001";
+
+            if (serviceAddress == billingAddress)
+            {
+                sameAsService = true;
+            }
 
             return new GetAccountInformationResponse
             {
                 CustomerContact = customerContact,
-                CustomerAddress = customerAddress
+                ServiceAddress = serviceAddress,
+                SameAsService = sameAsService,
+                BillingAddress = billingAddress
             };
         }
 

@@ -1,48 +1,88 @@
-﻿<article class="grey-box account-holder-information" ng-controller="AccountBalances">
-    <form>
-        <div class="content">
-            <div class="item account-holder">
-                <label class="account-holder-title">@Html.Sitecore().Field("Account Holder Name Text")</label>
-                Mr. John A. Doe
-            </div>
-            <div class="group">
-                <div class="item group-col" float-label>
-                    <label for="primary-phone">@Html.Sitecore().Field("Primary Phone Number Text")</label>
-                    <input type="tel" name="primary-phone" id="primary-phone" placeholder="">
+﻿@model StreamEnergy.MyStream.Models.Account.UpdateAccountInformationRequest
+
+<div ng-controller="AcctAccountInformationCtrl">
+    <article class="grey-box account-holder-information">
+        <form>
+            <div class="content">
+                <div class="item account-holder">
+                    <label class="account-holder-title">@Html.Sitecore().Field("Account Holder Name Text")</label>
+                    Mr. John A. Doe
                 </div>
-                <div class="item group-col">
-                    @Html.Sitecore().Field("Phone Type Content")
+                <div class="group">
+                    <div class="item group-col" float-label>
+                        <label for="primary-phone">@Html.Sitecore().Field("Primary Phone Number Text")</label>
+                        <input type="tel" name="primary-phone" id="primary-phone" placeholder="">
+                    </div>
+                    <div class="item group-col">
+                        @Html.Sitecore().Field("Phone Type Content")
+                    </div>
                 </div>
-            </div>
-            <div class="additional-fields" additional-fields>
-                <div class="additional-field-action">
-                    <a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" href="">@Html.Sitecore().Field("Additional Phone Text")</a>
+                <div class="additional-fields" additional-fields>
+                    <div class="additional-field-action">
+                        <a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" href="">@Html.Sitecore().Field("Additional Phone Text")</a>
+                    </div>
+                    <div class="group additional-field-group additional-fields">
+                        <div class="group">
+                            @Html.Sitecore().Field("Additional Phone Content")
+                        </div>
+                    </div>
                 </div>
-                <div class="group additional-field-group additional-fields">
-                    <div class="group">
-                        @Html.Sitecore().Field("Additional Phone Content")
+                <hr class="content-divider" />
+                <h3 class="billing-address-title">@Html.Sitecore().Field("Billing Address Text")</h3>
+                <div class="item">
+                    <ul class="checkbox-list">
+                        <li>
+                            <input type="checkbox" name="billing-address" id="billing-address" ng-model="formData.sameAsService">
+                            <label for="billing-address">@Html.Sitecore().Field("Same Address Text")</label>
+                        </li>
+                    </ul>
+                    <div class="billing-address-container" ng-switch="formData.sameAsService">
+                        <div class="billing-address" ng-switch-when="true">
+                            {{ formData.serviceAddress.line1 }}<br>
+                            {{ formData.serviceAddress.city }}, {{ formData.serviceAddress.stateAbbreviation }} {{ formData.serviceAddress.postalCode5 }}
+                        </div>
+                        <div ng-switch-when="false">
+                            <div class="group">
+                                <div class="item group-col">
+                                    <label for="@Html.For(m => m.BillingAddress.Line1)">@Html.Sitecore().Field("Address 1 Text")</label>
+                                    <input type="text" @Html.ValidationAttributes(m => m.BillingAddress.Line1) ng-model="formData.billingAddress.line1" />
+                                    @Html.ValidationMessageFor(model => model.BillingAddress.Line1)
+                                </div>
+                                <div class="item group-col">
+                                    <label for="@Html.For(m => m.BillingAddress.Line2)">@Html.Sitecore().Field("Address 2 Text")</label>
+                                    <input type="text" @Html.ValidationAttributes(m => m.BillingAddress.Line2) ng-model="formData.billingAddress.line2" />
+                                    @Html.ValidationMessageFor(model => model.BillingAddress.Line2)
+                                </div>
+                            </div>
+                            <div class="group">
+                                <div class="item group-col">
+                                    <label for="@Html.For(m => m.BillingAddress.City)">@Html.Sitecore().Field("City Text")</label>
+                                    <input type="text" @Html.ValidationAttributes(m => m.BillingAddress.City) ng-model="formData.billingAddress.city" />
+                                    @Html.ValidationMessageFor(model => model.BillingAddress.City)
+                                </div>
+                                <div class="item state">
+                                    <label for="@Html.For(m => m.BillingAddress.StateAbbreviation)">@Html.Sitecore().Field("State Text")</label>
+                                    <select ng-model="formData.billingAddress.stateAbbreviation" ng-options=""></select>
+                                    @Html.ValidationMessageFor(model => model.BillingAddress.StateAbbreviation)
+                                    <select name="state" id="state">
+                                        <option value="mobile">TX</option>
+                                    </select>
+                                </div>
+                                <div class="item zip">
+                                    <label for="@Html.For(m => m.BillingAddress.PostalCode5)">@Html.Sitecore().Field("Zip Code Text")</label>
+                                    <input type="text" @Html.ValidationAttributes(m => m.BillingAddress.PostalCode5) ng-model="formData.billingAddress.postalCode5" />
+                                    @Html.ValidationMessageFor(model => model.BillingAddress.PostalCode5)
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <hr class="content-divider" />
-            <h3 class="billing-address-title">@Html.Sitecore().Field("Billing Address Text")</h3>
-            <div class="item">
-                <ul class="checkbox-list">
-                    <li>
-                        <input type="checkbox" name="billing-address" id="billing-address">
-                        <label for="billing-address">@Html.Sitecore().Field("Same Address Text")</label>
-                    </li>
-                </ul>
-                <div class="billing-address">
-                    123 Main St.<br>
-                    Dallas, TX 75001
+            <footer>
+                <div class="buttons">
+                    <button type="submit">@Html.Sitecore().Field("Save Button Text")</button>
                 </div>
-            </div>
-        </div>
-        <footer>
-            <div class="buttons">
-                <button type="submit">@Html.Sitecore().Field("Save Button Text")</button>
-            </div>
-        </footer>
-    </form>
-</article>
+            </footer>
+        </form>
+    </article>
+</div>
