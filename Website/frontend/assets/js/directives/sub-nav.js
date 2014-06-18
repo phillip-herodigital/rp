@@ -1,5 +1,5 @@
 ﻿// Main Navigation
-ngApp.directive('subNav', ['jQuery', 'breakpoint', '$timeout', function (jQuery2, breakpoint, $timeout) {
+ngApp.directive('subNav', ['jQuery', 'breakpoint', '$timeout', function (jQuery, breakpoint, $timeout) {
     return {
         restrict: 'A',
         scope: true,
