@@ -2632,6 +2632,9 @@ article.rates {
                 text-align: left;
                 background: #f9f9f9;
             }
+            &.term {
+                white-space: nowrap;
+            }
         }
 
         thead th,
