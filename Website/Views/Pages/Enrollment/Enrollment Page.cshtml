@@ -1,11 +1,11 @@
-<div ng-controller="EnrollmentMainCtrl" ng-init="setServerData()">
-	<div ng-hide="true">
+<div ng-controller="EnrollmentMainCtrl" ng-init="setServerData(@(Html.Action("ClientData", "Enrollment").ToHtmlString()))">
+    <div ng-hide="true">
         {{ stepsService.getCurrentStep().name }}
-    	<button ng-click="stepsService.previousStep()">Previous Step</button>
-    	<button ng-click="stepsService.nextStep()">Next Step</button>
+        <button ng-click="stepsService.previousStep()">Previous Step</button>
+        <button ng-click="stepsService.nextStep()">Next Step</button>
     </div>
-    <div >
-    	@Html.Sitecore().Placeholder("enrollment sections")
+    <div>
+        @Html.Sitecore().Placeholder("enrollment sections")
     </div>
 </div>
 

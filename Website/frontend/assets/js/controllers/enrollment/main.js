@@ -44,16 +44,8 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentSt
     /**
      * Get the server data and populate the form
      */
-    $scope.setServerData = function () {
-        console.log('Setting initial server data:');
-
-        var clientDataPromise = enrollmentService.getClientData();
-
-        clientDataPromise.then(function (data) {
-            $scope.enrollment.serverData = data;
-        }, function (data) {
-            // error response
-        });
+    $scope.setServerData = function (serverData) {
+        enrollmentService.setClientData(serverData);
     };
 
     /**
