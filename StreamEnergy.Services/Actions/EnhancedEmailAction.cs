@@ -24,13 +24,11 @@ namespace StreamEnergy.Actions
                 string fullPath = innerItem.Paths.FullPath;
                 string from = GetText(innerItem, "from", args);
                 string to = GetText(innerItem, "to", args);
-                string host = GetText(innerItem, "mail server", args);
                 string subject = GetText(innerItem, "subject", args);
                 string body = GetText(innerItem, "message", args);
                 Error.Assert(to.Length > 0, "The 'To' field is not specified in the mail action item: " + fullPath);
                 Error.Assert(from.Length > 0, "The 'From' field is not specified in the mail action item: " + fullPath);
                 Error.Assert(subject.Length > 0, "The 'Subject' field is not specified in the mail action item: " + fullPath);
-                Error.Assert(host.Length > 0, "The 'Mail server' field is not specified in the mail action item: " + fullPath);
 
                 // Send the email
                 MailMessage Message = new MailMessage();
