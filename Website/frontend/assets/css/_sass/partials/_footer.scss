@@ -58,7 +58,6 @@
 			ul {
 				@include layout-list();
 				text-transform: uppercase;
-                font-weight: 300;
 				@include text-shadow(-1px 1px 1px rgba(0,0,0,.3));
 				li {
 					padding: 10px 0;
