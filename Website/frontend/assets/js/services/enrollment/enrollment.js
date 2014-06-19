@@ -365,6 +365,17 @@
     * @return {object}            Promise object returned when API call has successfully completed.
     */
     service.setAccountInformation = function (data) {
+        data = angular.copy(data);
+        angular.forEach(data.cart, function (cartItem) {
+            angular.forEach(cartItem.offerInformationByType, function (typedOrderInfo) {
+                typedOrderInfo.value.availableOffers = null;
+                angular.forEach(typedOrderInfo.value.offerSelections, function (offerSelection) {
+                    offerSelection.optionRules = null;
+                })
+            });
+        });
+        console.log(data);
+
         var deferred = $q.defer(),
         start = new Date().getTime();
 

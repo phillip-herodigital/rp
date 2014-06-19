@@ -49,8 +49,8 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', '$rootScope', '$
     $scope.completeStep = function () {
         var postData = accountInformationService.createPostObject(utilityProductsService.addresses);
 
-        var confirmOrderPromise = enrollmentService.setConfirmOrder(postData);
-        confirmOrderPromise.then(function (data) {
+        var accountInformationPromise = enrollmentService.setAccountInformation(postData);
+        accountInformationPromise.then(function (data) {
             $scope.validations = data.validations;
             
             //Update the utilityProviders
