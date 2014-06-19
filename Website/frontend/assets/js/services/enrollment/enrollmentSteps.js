@@ -7,6 +7,8 @@ ngApp.factory('enrollmentStepsService', ['scrollService', 'jQuery', '$timeout', 
     //Only currentStep is visible
     var currentStep = '',
         currentStepIndex;
+    var initialFlow,
+        currentFlow;
 
     //List of steps for the enrollment process
     var steps = [
@@ -32,33 +34,65 @@ ngApp.factory('enrollmentStepsService', ['scrollService', 'jQuery', '$timeout', 
         },
         { 
             'name': 'accountInformation', 
-            'isActive': true,
+            'isActive': false,
             'isVisible': false
         }, 
         { 
             'name': 'verifyIdentity', 
-            'isActive': true,
+            'isActive': false,
             'isVisible': false
         },
         { 
-            'name': 'completeOrder', 
-            'isActive': true,
+            'name': 'reviewOrder', 
+            'isActive': false,
             'isVisible': false
         },
         { 
-            'name': 'confirmOrder', 
-            'isActive': true,
+            'name': 'orderConfirmed', 
+            'isActive': false,
             'isVisible': false
         }
     ];
 
-    return {
+    var flows = {
+        'utility':
+            {
+                'serviceInformation': 'utilityFlowService',
+                'planSelection': 'utilityFlowPlans',
+                'planSettings': 'accountInformation'
+            }
+    }
+
+    var service = {
+        setInitialFlow: function (flow) {
+            initialFlow = flow;
+            currentFlow = flow;
+        },
+
+        setFlow: function (flow) {
+            if (flows[currentFlow]) {
+                angular.forEach(flows[currentFlow], function (state) {
+                    service.deActivateStep(state);
+                });
+            }
+            currentFlow = flow;
+            return service;
+        },
+
+        setFromServerStep: function (expectedState) {
+            if (flows[currentFlow] && flows[currentFlow][expectedState])
+                service.setStep(flows[currentFlow][expectedState])
+            else
+                service.setStep(expectedState);
+        },
+
         /**
          * [activateStep description]
          * @param  {[type]} name
          * @return {[type]}
          */
-        activateStep: function(name) {
+        activateStep: function (name) {
+            console.log('activate', name);
             angular.forEach(steps, function(step, index) {
                 if(step.name == name) {
                     steps[index].isActive = true;
@@ -135,7 +169,8 @@ ngApp.factory('enrollmentStepsService', ['scrollService', 'jQuery', '$timeout', 
          * @param {[type]} name
          * @param {[type]} activate
          */
-        setStep: function(name) {
+        setStep: function (name) {
+            console.log('set step', name);
             angular.forEach(steps, function(step, index) {
                 if(step.name == name) {
                     currentStep = step;
@@ -152,7 +187,8 @@ ngApp.factory('enrollmentStepsService', ['scrollService', 'jQuery', '$timeout', 
          * @param  {[type]} name
          * @return {[type]}
          */
-        scrollToStep: function(name) {
+        scrollToStep: function (name) {
+            console.log('scrollToStep', name);
             //Delay needs to be set to allow angular code to open section.
             if(this.isStepVisible(name)) {
                 $timeout(function() {
@@ -221,4 +257,6 @@ ngApp.factory('enrollmentStepsService', ['scrollService', 'jQuery', '$timeout', 
             return currentStep;
         }
     };
+
+    return service;
 }]);

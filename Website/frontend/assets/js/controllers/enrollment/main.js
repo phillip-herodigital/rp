@@ -8,13 +8,7 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentSt
     //Go ahead and set the first step to be utility for now
     //Need to determine how the first step will be activated
     //Or if we need to go ahead and activate multiple based on a saved card
-    enrollmentStepsService.activateStep('utilityFlowService');
-    enrollmentStepsService.activateStep('utilityFlowPlans');
-    enrollmentStepsService.setStep('utilityFlowService');
-
-    $scope.enrollment = {
-        serverData: {}
-    };
+    enrollmentStepsService.setInitialFlow('utility');
 
     /**
      * [enrollmentNavClick description]

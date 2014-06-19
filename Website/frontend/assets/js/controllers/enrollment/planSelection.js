@@ -47,10 +47,7 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
             if(addAdditional) {
                 utilityProductsService.isNewServiceAddress = true;
                 utilityProductsService.setActiveServiceAddress();
-                $scope.stepsService.setStep('utilityFlowService');
-                //$scope.stepsService.deActivateStep('utilityFlowPlans', true);
-            } else {
-                $scope.stepsService.nextStep();
+                enrollmentStepsService.setFlow('utility').setFromServerStep('serviceInformation');
             }  
         }, function (data) {
             // error response
