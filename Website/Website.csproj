@@ -1141,7 +1141,6 @@
     <Content Include="frontend\assets\js\modules\mask-jquery.js" />
     <Content Include="frontend\assets\js\providers\validation.js" />
     <Content Include="frontend\assets\js\services\breakpoint.js" />
-    <Content Include="frontend\assets\js\services\enrollment\accountInformation.js" />
     <Content Include="frontend\assets\js\services\enrollment\cart.js" />
     <Content Include="frontend\assets\js\services\enrollment\enrollment.js" />
     <Content Include="frontend\assets\js\services\enrollment\enrollmentSteps.js" />
