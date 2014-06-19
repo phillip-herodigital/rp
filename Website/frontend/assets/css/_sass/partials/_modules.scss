@@ -745,7 +745,17 @@ article.payment-history {
 		}
 		&.expand-details {
 			.grid {
-				margin: 15px 0 15px 50px;
+				margin: 15px 0 15px 35px;
+				.label {
+					float: left;
+					margin-right: 15px;
+					@include breakpoint(small) {
+						width: 25%;
+					}
+				}
+				.account-info {
+					float: left;
+				}
 			}
 		}
 		td .icon-arrow-collapsed {
