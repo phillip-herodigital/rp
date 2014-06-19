@@ -104,7 +104,7 @@ namespace StreamEnergy.MyStream.Tests
         public void NewClientDataTest()
         {
             var controller = container.Resolve<EnrollmentController>();
-            var clientData = controller.ClientData();
+            var clientData = controller.ClientData(null);
 
             Assert.IsNotNull(clientData);
         }

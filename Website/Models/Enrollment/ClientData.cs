@@ -10,6 +10,8 @@ namespace StreamEnergy.MyStream.Models.Enrollment
     {
         public IEnumerable<TranslatedValidationResult> Validations { get; set; }
 
+        public ExpectedState ExpectedState { get; set; }
+
         public IEnumerable<CartEntry> Cart { get; set; }
 
         // Personal information
@@ -21,6 +23,5 @@ namespace StreamEnergy.MyStream.Models.Enrollment
         // Identity verification
         public DomainModels.Enrollments.IdentityQuestion[] IdentityQuestions { get; set; }
         public Dictionary<string, string> SelectedIdentityAnswers { get; set; }
-
     }
 }

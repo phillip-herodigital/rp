@@ -509,6 +509,7 @@
     <Compile Include="Models\Enrollment\ClientData.cs" />
     <Compile Include="Models\Enrollment\ConfirmOrder.cs" />
     <Compile Include="Models\Enrollment\CartEntry.cs" />
+    <Compile Include="Models\Enrollment\ExpectedState.cs" />
     <Compile Include="Models\Enrollment\OfferInformation.cs" />
     <Compile Include="Models\Enrollment\OfferSelection.cs" />
     <Compile Include="Models\Enrollment\SelectedOffers.cs" />

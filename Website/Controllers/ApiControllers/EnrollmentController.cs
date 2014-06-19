@@ -1,9 +1,4 @@
-﻿using StreamEnergy.DomainModels;
-using StreamEnergy.DomainModels.Enrollments;
-using StreamEnergy.MyStream.Models;
-using StreamEnergy.MyStream.Models.Enrollment;
-using StreamEnergy.Processes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -13,6 +8,12 @@ using System.Web;
 using System.Web.Http;
 using System.Web.SessionState;
 using Microsoft.Practices.Unity;
+using StreamEnergy.DomainModels;
+using StreamEnergy.DomainModels.Enrollments;
+using StreamEnergy.Extensions;
+using StreamEnergy.MyStream.Models;
+using StreamEnergy.MyStream.Models.Enrollment;
+using StreamEnergy.Processes;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -21,6 +22,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private readonly Sitecore.Data.Items.Item translationItem;
         private readonly StateMachineSessionHelper<UserContext, InternalContext> stateHelper;
         private readonly IStateMachine<UserContext, InternalContext> stateMachine;
+        private readonly IValidationService validation;
 
         public class SessionHelper : StateMachineSessionHelper<UserContext, InternalContext>
         {
@@ -30,12 +32,13 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
         }
 
-        public EnrollmentController(SessionHelper stateHelper)
+        public EnrollmentController(SessionHelper stateHelper, IValidationService validation)
         {
             this.translationItem = Sitecore.Context.Database.GetItem(new Sitecore.Data.ID("{5B9C5629-3350-4D85-AACB-277835B6B1C9}"));
 
             this.stateHelper = stateHelper;
             this.stateMachine = stateHelper.StateMachine;
+            this.validation = validation;
         }
 
         protected override void Dispose(bool disposing)
@@ -57,16 +60,18 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         /// <returns></returns>
         [HttpGet]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
-        public ClientData ClientData()
+        public ClientData ClientData(Type currentFinalState)
         {
             var services = stateMachine.Context.Services ?? Enumerable.Empty<LocationServices>();
             var offers = stateMachine.InternalContext.AllOffers ?? Enumerable.Empty<Tuple<Location, IOffer>>();
             var optionRules = stateMachine.InternalContext.OfferOptionRules ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<IOfferOptionRules>>();
             var deposits = stateMachine.InternalContext.Deposit ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>>();
             var confirmations = stateMachine.InternalContext.PlaceOrderResult ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>();
+            var validations = TranslatedValidationResult.Translate(stateMachine.ValidationResults, translationItem);
             return new ClientData
             {
-                Validations = TranslatedValidationResult.Translate(stateMachine.ValidationResults, translationItem),
+                Validations = stateMachine.State == currentFinalState ? Enumerable.Empty<TranslatedValidationResult>() : validations,
+                ExpectedState = ExpectedState(),
                 ContactInfo = stateMachine.Context.ContactInfo,
                 DriversLicense = stateMachine.Context.DriversLicense,
                 Language = stateMachine.Context.Language,
@@ -102,6 +107,49 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             };
         }
 
+        private Models.Enrollment.ExpectedState ExpectedState()
+        {
+            var validationResults = stateMachine.ValidationResults;
+            var members = validationResults.SelectMany(result => result.MemberNames);
+
+            if (members.Any(m => m.StartsWith("AgreeToTerms")) || members.Any(m => m.StartsWith("PaymentInfo")))
+            {
+                return Models.Enrollment.ExpectedState.CompleteOrder;
+            }
+            else if (members.Any(m => m.StartsWith("SelectedIdentityAnswers")))
+            {
+                return Models.Enrollment.ExpectedState.VerifyIdentity;
+            }
+            else if (members.Any(m => m.StartsWith("Services")) && stateMachine.Context.Services != null && stateMachine.Context.Services.Length >= 0)
+            {
+                if (validation.PartialValidate(stateMachine.Context, ctx => ctx.Services.PartialValidate(s => s.Location.Address.PostalCode5, 
+                                                                                                         s => s.Location.Capabilities)).Any())
+                {
+                    return Models.Enrollment.ExpectedState.ServiceInformation;
+                }
+                else if (validation.PartialValidate(stateMachine.Context, ctx => ctx.Services.PartialValidate(s => s.SelectedOffers.PartialValidate(o => o.Offer))).Any())
+                {
+                    return Models.Enrollment.ExpectedState.PlanSelection;                    
+                }
+                else
+                {
+                    return Models.Enrollment.ExpectedState.AccountInformation;
+                }
+            }
+            else if (stateMachine.State == typeof(AccountInformationState))
+            {
+                return Models.Enrollment.ExpectedState.AccountInformation;
+            }
+            else if (stateMachine.State == typeof(OrderConfirmationState))
+            {
+                return Models.Enrollment.ExpectedState.OrderConfirmed;
+            }
+            else //if (stateMachine.Context.Services == null || stateMachine.Context.Services.Length == 0)
+            {
+                return Models.Enrollment.ExpectedState.ServiceInformation;
+            }
+        }
+
         [HttpPost]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public ClientData ServiceInformation([FromBody]ServiceInformation value)
@@ -120,7 +168,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             if (stateMachine.State == typeof(DomainModels.Enrollments.ServiceInformationState))
                 stateMachine.Process(typeof(DomainModels.Enrollments.AccountInformationState));
 
-            return ClientData();
+            return ClientData(typeof(DomainModels.Enrollments.AccountInformationState));
         }
 
         [HttpPost]
@@ -136,7 +184,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             if (stateMachine.State == typeof(DomainModels.Enrollments.PlanSelectionState))
                 stateMachine.Process(typeof(DomainModels.Enrollments.AccountInformationState));
 
-            return ClientData();
+            return ClientData(typeof(DomainModels.Enrollments.AccountInformationState));
         }
 
         private LocationServices Combine(SelectedOfferSet newSelection, LocationServices oldService, IEnumerable<Tuple<Location, IOffer>> allOffers)
@@ -179,7 +227,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             if (stateMachine.State == typeof(DomainModels.Enrollments.AccountInformationState))
                 stateMachine.Process(typeof(DomainModels.Enrollments.VerifyIdentityState));
 
-            return ClientData();
+            return ClientData(typeof(DomainModels.Enrollments.VerifyIdentityState));
         }
 
         private void EnsureTypedPhones(Phone[] phones)
@@ -222,7 +270,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             if (stateMachine.State == typeof(DomainModels.Enrollments.VerifyIdentityState))
                 stateMachine.Process(typeof(DomainModels.Enrollments.CompleteOrderState));
 
-            return ClientData();
+            return ClientData(typeof(DomainModels.Enrollments.PaymentInfoState));
         }
 
         [HttpPost]
@@ -236,7 +284,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             stateMachine.Process();
 
-            return ClientData();
+            return ClientData(null);
         }
     }
 }

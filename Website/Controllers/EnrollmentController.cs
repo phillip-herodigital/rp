@@ -17,7 +17,7 @@ namespace StreamEnergy.MyStream.Controllers
 
         public ActionResult ClientData()
         {
-            return this.Content(StreamEnergy.Json.Stringify(inner.ClientData()));
+            return this.Content(StreamEnergy.Json.Stringify(inner.ClientData(null)));
         }
 
         public ActionResult AccountInformation()
