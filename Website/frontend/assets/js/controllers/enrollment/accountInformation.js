@@ -2,8 +2,7 @@
  *
  * This is used to control aspects of account information on enrollment page.
  */
-ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', '$rootScope', '$filter', 'enrollmentService', 'utilityProductsService', 'enrollmentCartService', function ($scope, $rootScope, $filter, enrollmentService, utilityProductsService, enrollmentCartService) {
-    $scope.validations = enrollmentService.validations;
+ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', '$rootScope', '$filter', 'enrollmentService', 'utilityProductsService', 'enrollmentCartService', 'verifyIdentityService', function ($scope, $rootScope, $filter, enrollmentService, utilityProductsService, enrollmentCartService, verifyIdentityService) {    $scope.validations = enrollmentService.validations;
     $scope.utilityProducts = utilityProductsService;
     $scope.usStates = enrollmentService.usStates;
     $scope.phoneTypes = enrollmentService.phoneTypes;
@@ -52,11 +51,16 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', '$rootScope', '$
         accountInformationPromise.then(function (data) {
             $scope.validations = data.validations;
             
+            if(data.cart.length) {
             //Update the utilityProviders
+                utilityProductsService.addServiceAddress(data.cart);
+
             //Upate the accountInformation service
+                verifyIdentityService.identityQuestions = data.identityQuestions;
 
             //$scope.enrollment.serverData = data;
             $scope.stepsService.setStep('verifyIdentity')
+            }
         }, function (data) {
             // error response
             $rootScope.$broadcast('connectionFailure');

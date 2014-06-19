@@ -13,38 +13,40 @@
             <div ng-include ng-if="true" src="'enrollment-nav-template'"></div>
         </aside>
         <section>
-            <h1>@Html.Sitecore().Field("Verify Header")</h1>
-            <p>@Html.Sitecore().Field("Verify Paragraph")</p>
-            <article class="form">
-                <div class="content">
-                    <p><strong>@Html.Sitecore().Field("Skip This Step")</strong></p>
-                    <div class="form">
-                        @using (var idQuestion = Html.AngularRepeat(m => m.SelectedIdentityAnswers, "$index"))
-                        {
-                            <div class="item" ng-repeat="question in enrollment.uiModel.identityQuestions" @idQuestion.ErrorClass(m => m.Value)>
-                                <label>{{question.questionText}}</label>
-                                <ul class="checkbox-list">
-                                    @using (var idAnswer = Html.AngularRepeat(m => m.SelectedIdentityAnswers, "$parent.$index"))
-                                    {
-                                        <li ng-repeat="answers in question.answers">
-                                            <input type="radio" data-val="true" data-val-required="@Html.Sitecore().Field("Selected Identity Answers Required")" id="@(idAnswer.For(e => e.Value))[{{$index}}]" name="@(idAnswer.For(e => e.Value))" ng-model="enrollment.verifyIdentity[question.questionId]" ng-value="answers.answerId">
-                                            <label for="@(idAnswer.For(e => e.Value))[{{$index}}]">{{answers.answerText}}</label>
-                                        </li>
-                                    }
-                                </ul>
-                                @idQuestion.MessageFor(e => e.Value)
-                            </div>
-                        }
+            <form data-val-bind-messages="validations" ng-submit="completeStep()">
+                <h1>@Html.Sitecore().Field("Verify Header")</h1>
+                <p>@Html.Sitecore().Field("Verify Paragraph")</p>
+                <article class="form">
+                    <div class="content">
+                        <p><strong>@Html.Sitecore().Field("Skip This Step")</strong></p>
+                        <div class="form">
+                            @using (var idQuestion = Html.AngularRepeat(m => m.SelectedIdentityAnswers, "$index"))
+                            {
+                                <div class="item" ng-repeat="question in getIdentityQuestions()" @idQuestion.ErrorClass(m => m.Value)>
+                                    <label>{{question.questionText}}</label>
+                                    <ul class="checkbox-list">
+                                        @using (var idAnswer = Html.AngularRepeat(m => m.SelectedIdentityAnswers, "$parent.$index"))
+                                        {
+                                            <li ng-repeat="answers in question.answers">
+                                                <input type="radio" data-val="true" data-val-required="@Html.Sitecore().Field("Selected Identity Answers Required")" id="@(idAnswer.For(e => e.Value))[{{$index}}]" name="@(idAnswer.For(e => e.Value))" ng-model="selectedIdentityAnswers[question.questionId]" ng-value="answers.answerId">
+                                                <label for="@(idAnswer.For(e => e.Value))[{{$index}}]">{{answers.answerText}}</label>
+                                            </li>
+                                        }
+                                    </ul>
+                                    @idQuestion.MessageFor(e => e.Value)
+                                </div>
+                            }
+                        </div>
                     </div>
+                </article>
+                <div class="buttons">
+                    <button type="submit" class="primary">@Html.Sitecore().Field("Button")</button>
                 </div>
-            </article>
-            <div class="buttons">
-                <button type="submit" class="primary" ng-click="completeStep();">@Html.Sitecore().Field("Button")</button>
-            </div>
-            <div class="hide-medium-large time-remaining-mobile">
-                <p class="time-remaining">@Html.Sitecore().Field("Time Remaining")</p>
-                <p><a href="">@Html.Sitecore().Field("Info Needed")</a></p>
-            </div>
+                <div class="hide-medium-large time-remaining-mobile">
+                    <p class="time-remaining">@Html.Sitecore().Field("Time Remaining")</p>
+                    <p><a href="">@Html.Sitecore().Field("Info Needed")</a></p>
+                </div>
+            </form>
         </section>
         <aside>
             <div ng-include ng-if="true" src="'cart-template'"></div>
