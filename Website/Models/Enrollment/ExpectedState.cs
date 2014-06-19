@@ -9,9 +9,10 @@ namespace StreamEnergy.MyStream.Models.Enrollment
     {
         ServiceInformation,
         PlanSelection,
+        PlanSettings,
         AccountInformation,
         VerifyIdentity,
-        CompleteOrder,
+        ReviewOrder,
         OrderConfirmed
     }
 }

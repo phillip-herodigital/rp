@@ -114,7 +114,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             if (members.Any(m => m.StartsWith("AgreeToTerms")) || members.Any(m => m.StartsWith("PaymentInfo")))
             {
-                return Models.Enrollment.ExpectedState.CompleteOrder;
+                return Models.Enrollment.ExpectedState.ReviewOrder;
             }
             else if (members.Any(m => m.StartsWith("SelectedIdentityAnswers")))
             {
@@ -133,7 +133,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 }
                 else
                 {
-                    return Models.Enrollment.ExpectedState.AccountInformation;
+                    return Models.Enrollment.ExpectedState.PlanSettings;
                 }
             }
             else if (stateMachine.State == typeof(AccountInformationState))

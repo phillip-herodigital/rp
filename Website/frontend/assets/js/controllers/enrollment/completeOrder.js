@@ -18,7 +18,6 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$window', '$scope', 'enrollmen
 
         confirmOrderPromise.then(function (data) {
             console.log(data);
-            $scope.enrollment.serverData = data;
             $window.location.href = '/account/enrollment-confirmation';
         }, function (data) {
             // error response

@@ -19,7 +19,7 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
         //update active service address, send to the correct page
         //enrollmentCartService.changeUtilityPlan(location);
         enrollmentCartService.editUtilityAddress(location);
-        enrollmentStepsService.setStep('utilityFlowPlans');
+        enrollmentStepsService.setFlow('utility').setStep('utilityFlowPlans');
     };
 
     /**
@@ -27,7 +27,7 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     */
     $scope.editUtilityAddress = function (location) {
         enrollmentCartService.editUtilityAddress(location);
-        enrollmentStepsService.setStep('utilityFlowService');
+        enrollmentStepsService.setFlow('utility').setStep('utilityFlowService');
         //we should probably focus on the input field as well
     };
 

@@ -1,4 +1,4 @@
-﻿ngApp.factory('enrollmentService', ['$rootScope', '$http', '$q', 'utilityProductsService', function ($rootScope, $http, $q, utilityProductsService) {
+﻿ngApp.factory('enrollmentService', ['$rootScope', '$http', '$q', 'utilityProductsService', 'enrollmentStepsService', function ($rootScope, $http, $q, utilityProductsService, enrollmentStepsService) {
 
     var service = {},
         urlPrefix = '/api/enrollment/';
@@ -301,6 +301,8 @@
 
         // set the identity questions from the server
         service.identityQuestions = result.identityQuestions;
+
+        enrollmentStepsService.setFromServerStep(result.expectedState);
     };
 
     function makeCall(urlSuffix, data, mode) {

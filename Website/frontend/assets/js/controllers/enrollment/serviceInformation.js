@@ -48,9 +48,6 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
             //Add the locations to our utility service
             utilityProductsService.isNewServiceAddress = false;
             utilityProductsService.setActiveServiceAddress($scope.serviceInformation.location.address);
-
-            //Move to the next section
-            $scope.stepsService.setStep('utilityFlowPlans');
         }, function (data) {
             // error response
         });

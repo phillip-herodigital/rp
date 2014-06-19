@@ -46,15 +46,6 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
     */
     $scope.completeStep = function () {
 
-        var accountInformationPromise = enrollmentService.setAccountInformation(utilityProductsService.addresses);
-        accountInformationPromise.then(function (data) {
-            // TODO - check the expectedState rather than simply testing the cart length
-            if (data.cart.length) {
-                //$scope.enrollment.serverData = data;
-                $scope.stepsService.setStep('verifyIdentity')
-            }
-        }, function (data) {
-            // error response
-        });
+        enrollmentService.setAccountInformation(utilityProductsService.addresses);
     };
 }]);
