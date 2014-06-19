@@ -50,7 +50,7 @@
                         <td>@Html.Sitecore().Field("Plan Title", row.Item)</td>
                         <td>@Html.AsMoney((string)row.Prefix + "Current Price", (Sitecore.Data.Items.Item)row.Item, 4)</td>
                         <td>@Html.AsMoney((string)row.Prefix + "Monthly Customer Service Fee", (Sitecore.Data.Items.Item)row.Item)</td>
-                        <td>@Html.Sitecore().Field(row.Prefix + "Term", row.Item)</td>
+                        <td class="term">@Html.Sitecore().Field(row.Prefix + "Term", row.Item)</td>
                         <td>@Html.AsMoney((string)row.Prefix + "Early Cancellation Fee", (Sitecore.Data.Items.Item)row.Item)</td>
                     </tr>
                 }
