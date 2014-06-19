@@ -20,7 +20,7 @@ ngApp.controller('AcctAccountInformationCtrl', ['$scope', '$rootScope', '$http',
 				$scope.formData = data;
 				$scope.formDataOriginal = angular.copy($scope.formData);
 			});
-	}, 1000);
+	});
 
 	// process the form
 	$scope.updateAccountInformation = function() {

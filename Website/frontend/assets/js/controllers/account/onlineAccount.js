@@ -15,7 +15,7 @@ ngApp.controller('AcctOnlineAccountCtrl', ['$scope', '$rootScope', '$http', '$ti
 			$scope.formDataOriginal = angular.copy($scope.formData);
 			$scope.languagePreference = data.languagePreference;
 		});
-	}, 1000);
+	});
 
 	// create a filter so that the same security question can't be selected twice
 	$scope.filter1 = function(item){

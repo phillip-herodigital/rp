@@ -5,6 +5,7 @@ using Sitecore.Mvc.Helpers;
 using Sitecore.Resources.Media;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -145,6 +146,28 @@ namespace StreamEnergy.Extensions
                 return htmlHelper.Raw(value.ToString("C" + decimalPlaces));
             }
             return htmlHelper.Sitecore().Field(fieldName, item);
+        }
+
+        public static IHtmlString StateSelect(this HtmlHelper htmlHelper, string ngModel = null)
+        {
+            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/State Abbreviations/State Abbreviations");
+
+            string list = item.Fields["State Abbreviations"].Value;
+
+            System.Text.StringBuilder optionList = new System.Text.StringBuilder();
+            optionList.Append("<option value=\"\"></option>");
+
+            if (list != null)
+            {
+                NameValueCollection nameValueCollection = Sitecore.Web.WebUtil.ParseUrlParameters(list);
+
+                foreach (var stateAbbreviation in nameValueCollection)
+                {
+                    optionList.Append("<option value=\"" + stateAbbreviation + "\">" + stateAbbreviation + "</option>");
+                }
+            }
+            string stateSelect = "<select" + (!string.IsNullOrEmpty(ngModel) ? (" ng-model=\"" + ngModel + "\"") : "") + ">" + optionList + "</select>";
+            return htmlHelper.Raw(stateSelect);
         }
 
         public static string TranslateDomain(this HtmlHelper htmlHelper, string domain)

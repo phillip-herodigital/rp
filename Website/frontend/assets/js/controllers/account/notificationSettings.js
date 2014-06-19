@@ -20,7 +20,7 @@ ngApp.controller('AcctNotificationSettingsCtrl', ['$scope', '$rootScope', '$http
 				$scope.formData = data;
 				$scope.formDataOriginal = angular.copy($scope.formData);
 			});
-	}, 1000);
+	});
 
 	// cancel the current preference changes
 	$scope.cancelPreference = function(currentObject, originalObject) {

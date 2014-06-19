@@ -11,6 +11,6 @@ ngApp.controller('AcctAccountSelectorCtrl', ['$scope', '$rootScope', '$http', '$
 			$scope.formData = data;
 			$scope.formDataOriginal = angular.copy($scope.formData);
 		});
-	}, 1000);
+	});
 
 }]);

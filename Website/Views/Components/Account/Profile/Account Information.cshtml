@@ -92,8 +92,7 @@
                                 </div>
                                 <div class="item state">
                                     <label for="@Html.For(m => m.BillingAddress.StateAbbreviation)">@Html.Sitecore().Field("State Text")</label>
-                                    @* TODO - put a state dropdown here *@
-                                    <select ng-model="formData.billingAddress.stateAbbreviation" ng-options=""></select>
+                                    @Html.StateSelect("formData.billingAddress.stateAbbreviation")
                                     @Html.ValidationMessageFor(model => model.BillingAddress.StateAbbreviation)
                                 </div>
                                 <div class="item zip">
