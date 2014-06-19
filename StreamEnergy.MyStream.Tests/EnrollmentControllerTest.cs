@@ -248,7 +248,6 @@ namespace StreamEnergy.MyStream.Tests
             var request = new Models.Enrollment.AccountInformation
             {
                 ContactInfo = contactInfo,
-                BillingAddress = specificLocation.Address,
                 DriversLicense = null,
                 Language = "en",
                 SecondaryContactInfo = null,

@@ -443,8 +443,6 @@
   <ItemGroup>
     <Compile Include="Controllers\ApiControllers\AccountController.cs" />
     <Compile Include="Controllers\ApiControllers\AuthenticationController.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\Components\AccountController.cs" />
     <Compile Include="Controllers\Components\AuthenticationController.cs" />
     <Compile Include="Controllers\ApiControllers\EnrollmentController.cs" />

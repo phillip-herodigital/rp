@@ -207,9 +207,12 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 First = "John",
                 Last = "Smith"
             };
-            customerContact.PrimaryPhone = new DomainModels.Phone
-            {
-                Number = "111-111-1111",
+            customerContact.Phone = new[] 
+            { 
+                new DomainModels.Phone
+                {
+                    Number = "111-111-1111",
+                }
             };
 
             customerAddress.Line1 = "123 Main St.";
