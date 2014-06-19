@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of verify identity on enrollment page.
  */
-ngApp.controller('EnrollmentVerifyIdentityCtrl', ['$scope', '$rootScope', 'enrollmentService', 'enrollmentStepsService', 'verifyIdentityService', function ($scope, $rootScope, enrollmentService, enrollmentStepsService, verifyIdentityService) {
+ngApp.controller('EnrollmentVerifyIdentityCtrl', ['$scope', 'enrollmentService', 'enrollmentStepsService', 'verifyIdentityService', function ($scope, enrollmentService, enrollmentStepsService, verifyIdentityService) {
     $scope.selectedIdentityAnswers = {};
 
     $scope.getIdentityQuestions = function() {
@@ -20,7 +20,6 @@ ngApp.controller('EnrollmentVerifyIdentityCtrl', ['$scope', '$rootScope', 'enrol
             enrollmentStepsService.nextStep();
         }, function (data) {
             // error response
-            $rootScope.$broadcast('connectionFailure');
         });
     };
 

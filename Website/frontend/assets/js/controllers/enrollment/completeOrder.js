@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of complete order on enrollment page.
  */
-ngApp.controller('EnrollmentCompleteOrderCtrl', ['$window', '$scope', '$rootScope', 'enrollmentService', function ($window, $scope, $rootScope, enrollmentService) {
+ngApp.controller('EnrollmentCompleteOrderCtrl', ['$window', '$scope', 'enrollmentService', function ($window, $scope, enrollmentService) {
 
     $scope.verifyIdentity = {};
     $scope.verifyIdentity.creditCard = {};
@@ -22,7 +22,6 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$window', '$scope', '$rootScop
             $window.location.href = '/account/enrollment-confirmation';
         }, function (data) {
             // error response
-            $rootScope.$broadcast('connectionFailure');
         });
     };
 

@@ -287,7 +287,25 @@
         });
     }
 
-    //TODO: Refactor this into a single function and just pass the API string and request type
+    function makeCall(urlSuffix, data, mode) {
+        var deferred = $q.defer(),
+        start = new Date().getTime();
+        mode = mode || 'post';
+
+        $http.post(urlPrefix + urlSuffix, data)
+        .success(function (data) {
+            deferred.resolve(data);
+        })
+        .error(function (data, status) {
+            $rootScope.$broadcast('connectionFailure');
+            deferred.reject({
+                'status': status,
+                'data': data
+            });
+        });
+
+        return deferred.promise;
+    };
 
     /**
      * Get client data.
@@ -295,21 +313,7 @@
      * @return {object}            Promise object returned when API call has successfully completed.
      */
     service.getClientData = function () {
-        var deferred = $q.defer(),
-            start = new Date().getTime();
-
-        $http.get(urlPrefix + 'clientData')
-        .success(function (data) {
-            deferred.resolve(data);
-        })
-        .error(function (data, status) {
-            deferred.reject({
-                'status': status,
-                'data': data
-            });
-        });
-        
-        return deferred.promise;
+        return makeCall('clientData', undefined, 'get');
     };
 
     /**
@@ -318,21 +322,7 @@
      * @return {object}            Promise object returned when API call has successfully completed.
      */
     service.resetEnrollment = function () {
-        var deferred = $q.defer(),
-            start = new Date().getTime();
-
-        $http.get(urlPrefix + 'reset')
-        .success(function (data) {
-            deferred.resolve(data);
-        })
-        .error(function (data, status) {
-            deferred.reject({
-                'status': status,
-                'data': data
-            });
-        });
-
-        return deferred.promise;
+        return makeCall('reset');
     };
 
     /**
@@ -341,21 +331,7 @@
     * @return {object}            Promise object returned when API call has successfully completed.
     */
     service.setServiceInformation = function(data) {
-        var deferred = $q.defer(),
-        start = new Date().getTime();
-
-        $http.post(urlPrefix + 'serviceInformation', data)
-        .success(function(data) {
-            deferred.resolve(data);
-        })
-        .error(function(data, status){
-            deferred.reject({
-                'status': status,
-                'data': data
-            });
-        });
-
-        return deferred.promise;
+        return makeCall('serviceInformation', data);
     };
 
     /**
@@ -364,21 +340,7 @@
     * @return {object}            Promise object returned when API call has successfully completed.
     */
     service.setSelectedOffers = function (data) {
-        var deferred = $q.defer(),
-        start = new Date().getTime();
-
-        $http.post(urlPrefix + 'selectedOffers', data)
-        .success(function (data) {
-            deferred.resolve(data);
-        })
-        .error(function (data, status) {
-            deferred.reject({
-                'status': status,
-                'data': data
-            });
-        });
-
-        return deferred.promise;
+        return makeCall('selectedOffers', data);
     };
 
     /**
@@ -410,21 +372,7 @@
         if (!data.secondaryContactInfo.first && !data.secondaryContactInfo.last)
             data.secondaryContactInfo = null;
 
-        var deferred = $q.defer(),
-        start = new Date().getTime();
-
-        $http.post(urlPrefix + 'accountInformation', data)
-        .success(function (data) {
-            deferred.resolve(data);
-        })
-        .error(function (data, status) {
-            deferred.reject({
-                'status': status,
-                'data': data
-            });
-        });
-
-        return deferred.promise;
+        return makeCall('accountInformation', data);
     };
 
     /**
@@ -433,21 +381,7 @@
     * @return {object}            Promise object returned when API call has successfully completed.
     */
     service.setVerifyIdentity = function (data) {
-        var deferred = $q.defer(),
-        start = new Date().getTime();
-
-        $http.post(urlPrefix + 'verifyIdentity', data)
-        .success(function (data) {
-            deferred.resolve(data);
-        })
-        .error(function (data, status) {
-            deferred.reject({
-                'status': status,
-                'data': data
-            });
-        });
-
-        return deferred.promise;
+        return makeCall('verifyIdentity', data);
     };
 
     /**
@@ -456,21 +390,7 @@
     * @return {object}            Promise object returned when API call has successfully completed.
     */
     service.setPaymentInfo = function (data) {
-        var deferred = $q.defer(),
-        start = new Date().getTime();
-
-        $http.post(urlPrefix + 'paymentInfo', data)
-        .success(function (data) {
-            deferred.resolve(data);
-        })
-        .error(function (data, status) {
-            deferred.reject({
-                'status': status,
-                'data': data
-            });
-        });
-
-        return deferred.promise;
+        return makeCall('paymentInfo', data);
     };
 
     /**
@@ -479,21 +399,7 @@
     * @return {object}            Promise object returned when API call has successfully completed.
     */
     service.setConfirmOrder = function (data) {
-        var deferred = $q.defer(),
-        start = new Date().getTime();
-
-        $http.post(urlPrefix + 'confirmOrder', data)
-        .success(function (data) {
-            deferred.resolve(data);
-        })
-        .error(function (data, status) {
-            deferred.reject({
-                'status': status,
-                'data': data
-            });
-        });
-
-        return deferred.promise;
+        return makeCall('confirmOrder', data);
     };
 
     /**

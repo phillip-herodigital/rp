@@ -1,7 +1,7 @@
 ﻿/* Enrollment Main Controller
  * This is the main controller for Enrollments. It will keep track of the enrollment state, as well as all fields that will need to be collected.
  */
-ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', '$anchorScroll', '$timeout', '$filter', 'enrollmentStepsService', 'enrollmentService', 'scrollService', 'jQuery', function ($scope, $rootScope, $http, $anchorScroll, $timeout, $filter, enrollmentStepsService, enrollmentService, scrollService, jQuery) {
+ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentStepsService', 'enrollmentService', 'scrollService', 'jQuery', function ($scope, $anchorScroll, enrollmentStepsService, enrollmentService, scrollService, jQuery) {
     $scope.stepsService = enrollmentStepsService;
 
     //Go ahead and set the first step to be utility for now
@@ -35,15 +35,8 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', '$ancho
     $scope.getLocation = function (state, val) {
         console.log('Getting locations...');
 
-        return locationPromise = enrollmentService.getLocations(state, val).then(function (res) {
-            var addresses = [];
-
-            angular.forEach(res.data, function (item) {
-                item.formattedAddress = $filter('address')(item.address);
-                addresses.push(item);
-            });
-
-            return addresses;
+        return enrollmentService.getLocations(state, val).then(function (res) {
+            return res.data;
         });
     };
 
@@ -59,7 +52,6 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$rootScope', '$http', '$ancho
             $scope.enrollment.serverData = data;
         }, function (data) {
             // error response
-            $rootScope.$broadcast('connectionFailure');
         });
     };
 

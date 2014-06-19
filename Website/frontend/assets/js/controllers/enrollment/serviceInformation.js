@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of let's get started on enrollment page.
  */
-ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$http', '$location', '$filter', 'enrollmentService', 'utilityProductsService', function ($scope, $rootScope, $http, $location, $filter, enrollmentService, utilityProductsService) {
+ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$filter', 'enrollmentService', 'utilityProductsService', function ($scope, $location, $filter, enrollmentService, utilityProductsService) {
     $scope.validations = enrollmentService.validations;
     $scope.utilityService = utilityProductsService;
 
@@ -12,11 +12,11 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
     //Checking to see when the active service address has been updated
     //So we can reinitialize all service information for this page
     //There has to be a better way of doing this
-    $scope.$watch(utilityProductsService.getActiveServiceAddress, function(event, value) {
+    $scope.$watch(utilityProductsService.getActiveServiceAddress, function(newValue) {
         if(utilityProductsService.isNewServiceAddress) {
             $scope.serviceInformation = utilityProductsService.getServiceInformationObject();
         } else {
-            $scope.serviceInformation = utilityProductsService.getServiceInformationObject(value);
+            $scope.serviceInformation = utilityProductsService.getServiceInformationObject(newValue);
         }
     });
 
@@ -58,7 +58,6 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
             $scope.stepsService.setStep('utilityFlowPlans');
         }, function (data) {
             // error response
-            $rootScope.$broadcast('connectionFailure');
         });
     };
 }]);

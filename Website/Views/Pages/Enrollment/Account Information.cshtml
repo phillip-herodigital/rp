@@ -34,13 +34,13 @@
                         <div class="item" ng-if="!item.location.address.line1">
                             <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
                             <input type="text"
-                                    id="service-address"
-                                    class="typeahead"
-                                    ng-model="accountInformation.serviceAddress"
-                                    placeholder="123 Main Street, Dallas, TX 75001"
-                                    typeahead="address as address.formattedAddress for address in getLocation(item.location.address.stateAbbreviation, $viewValue)"
-                                    typeahead-loading="accountInformation.loadingAccountInformationServiceAddress"
-                                    ng-class="{'loading' : accountInformation.loadingAccountInformation}" />
+                                   id="service-address"
+                                   class="typeahead"
+                                   ng-model="accountInformation.serviceAddress"
+                                   placeholder="123 Main Street, Dallas, TX 75001"
+                                   typeahead="location as location.address|address for location in getLocation(item.location.address.stateAbbreviation, $viewValue)"
+                                   typeahead-loading="accountInformation.loadingAccountInformationServiceAddress"
+                                   ng-class="{'loading' : accountInformation.loadingAccountInformation}" />
                         </div>
 
 

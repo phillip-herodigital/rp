@@ -35,15 +35,14 @@
                         
                         <div class="item" @currentService.ErrorClass(s => s.Location)>
                             <label for="@currentService.For(s => s.Location)">@Html.Sitecore().Field("Address Label")</label>
-                            <input type="text" @currentService.Attributes(s => s.Location) 
-                                   class="typeahead" 
-                                   ng-model="serviceInformation.location" 
-                                   placeholder="@Html.Sitecore().Field("Address Placeholder")" 
-                                   typeahead="address as address.formattedAddress for address in getLocation(serviceInformation.serviceState, $viewValue)" 
-                                   ng-disabled="serviceInformation.serviceState == ''" 
-                                   typeahead-loading="serviceInformation.loadingServiceAddress" 
-                                   ng-class="{'loading' : serviceInformation.loadingServiceAddress}" 
-                            />
+                            <input type="text" @currentService.Attributes(s => s.Location)
+                                   class="typeahead"
+                                   ng-model="serviceInformation.location"
+                                   placeholder="@Html.Sitecore().Field("Address Placeholder")"
+                                   typeahead="location as location.address|address for location in getLocation(serviceInformation.serviceState, $viewValue)"
+                                   ng-disabled="serviceInformation.serviceState == ''"
+                                   typeahead-loading="serviceInformation.loadingServiceAddress"
+                                   ng-class="{'loading' : serviceInformation.loadingServiceAddress}" />
                             <div id="state-select" dropdown-select dropdown-items="utilityService.states" value="serviceInformation.serviceState"></div>
                             @currentService.MessageFor(s => s.Location)
                         </div>

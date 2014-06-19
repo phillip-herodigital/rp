@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of plan selection on enrollment page.
  */
-ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', '$rootScope', '$filter', 'enrollmentService', 'scrollService', 'utilityProductsService', function ($scope, $rootScope, $filter, enrollmentService, scrollService, utilityProductsService) {
+ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 'scrollService', 'utilityProductsService', function ($scope, enrollmentService, scrollService, utilityProductsService) {
     $scope.validations = enrollmentService.validations;
     $scope.currentLocationInfo = utilityProductsService.getActiveServiceAddress;
 
@@ -60,7 +60,6 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', '$rootScope', '$filte
             }  
         }, function (data) {
             // error response
-            $rootScope.$broadcast('connectionFailure');
         });
     };
 }]);
