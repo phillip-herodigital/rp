@@ -142,6 +142,13 @@ article {
 				select {
 					width: auto;
 				}
+				@include breakpoint(small) {
+					width: 50%;
+					float: left;
+					select {
+						width: 95%;
+					}
+				}
 			}
 		}
 	}
@@ -155,12 +162,20 @@ article {
 			select {
 				width: auto;
 			}
+			@include breakpoint (small) {
+				width: 100%;
+				text-align: center;
+			}
 		}
 		.showing {
 			float: left;
 			width: 25%;
 			margin: 10px 0 0 0;
 			text-align: right;
+			@include breakpoint (small) {
+				width: 100%;
+				text-align: center;
+			}
 		}
 		.page-selection {
 			@include layout-list();
@@ -189,6 +204,13 @@ article {
 				}
 				&.disabled a {
 					color: #333;
+				}
+			}
+			@include breakpoint (small) {
+				width: 100%;
+				text-align: center;
+				ul {
+					padding-left: 0px;
 				}
 			}
 		}
@@ -232,6 +254,18 @@ article.grey-box {
 	}
 	.account-selector {
 		background-color: #f4f4f4;
+	}
+}
+
+article.white-box {
+	background-color: #fff;
+	header {
+		background-color: #fff;
+		background-image: none;
+		border-bottom: 1px solid #ddd;
+		h2 {
+			color: #0971ce;
+		}
 	}
 }
 
@@ -405,6 +439,9 @@ article.utility-providers .logos {
 	padding: 0px 15px;
 	&:hover {
 		border: 1px solid #1697ff;
+	}
+	@include breakpoint(small) {
+		margin-top: 15px;
 	}
 }
 article.balances-payments {
@@ -612,9 +649,21 @@ article.make-payment {
 			width: 50%;
 			.item {
 				width: 45%;
+				@include breakpoint(small) {
+					width: 100%;
+				}
 			}
 		}
-		form .group .dollars {
+		.group {
+			.datepicker .calendar {
+				position: relative;
+				.icon {
+					position: absolute;
+					top: 0px;
+					right: 10px;
+				}
+			}
+			.dollars .payment-amount {
 				position: relative;
 				margin-left: 15px;
 				&:before {
@@ -622,8 +671,9 @@ article.make-payment {
 					color: #000;
 					position: absolute;
 					left: -12px;
-					top: 42px;
+					top: 0px;
 				}
+			}
 		}
 		div.account-select{
 			margin-bottom: 0px;
@@ -651,10 +701,24 @@ article.payment-history {
 		}
 		ul {
 			float: right;
+			@include breakpoint(small) {
+				float: none;
+				padding-left: 0px;
+			}
 			li {
 				float: left;
 				list-style-type: none;
-				margin-left: 20px;
+				padding-left: 10px;
+				margin-right: 10px;
+				border-left: 1px solid #0971ce;
+				&:first-child {
+					border-left: none;
+				}
+				@include breakpoint(small) {
+					float: none;
+					text-align: center;
+					border-left: 0px;
+				}
 			}
 		}
 	}
@@ -668,6 +732,17 @@ article.my-invoices {
 	}
 	.content {
 		padding-top: 0px;
+		.stretch table tbody tr td button {
+			@include breakpoint(small) {
+				margin-top: 2px;
+				margin-bottom: 2px;
+			}
+		}
+		.filters form .group .actions {
+			@include breakpoint(small) {
+				float: left;
+			}
+		}
 	}
 }
 article.auth {
