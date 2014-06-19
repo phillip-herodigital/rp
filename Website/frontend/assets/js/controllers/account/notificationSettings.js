@@ -23,33 +23,19 @@ ngApp.controller('AcctNotificationSettingsCtrl', ['$scope', '$rootScope', '$http
 	}, 1000);
 
 	// cancel the current preference changes
-	$scope.cancelPreference = function() {
-		$scope.formData.accountId = $scope.accountId;
-
-		$http({
-			method  : 'POST',
-			url     : '/api/account/updateNotificationSettins',
-			data    : $scope.formData,
-			headers : { 'Content-Type': 'application/JSON' } 
-		})
-			.success(function (data, status, headers, config) {
-				if (!data.success) {
-					// if not successful, bind errors to error variables
-					$scope.loginError = $sce.trustAsHtml(data.validations[0].text);
-
-				} else {
-					// if successful, display the success message
-					$window.location.href = '/account';
-				}
-			});
+	$scope.cancelPreference = function(currentObject, originalObject) {
+		// revert the changes
+		angular.copy(originalObject, currentObject);
 	};
 
 	// update a single notification preference
-	$scope.updateNotification = function(notificationName) {
+	$scope.updateNotification = function(settingName, notificationObject, originalObject) {
 		// format the request data
 		var requestData = {};
-		requestData.accountId = $scope.accountId;
-		requestData.notificationName = notificationName;
+		
+		requestData.accountId = $scope.formData.accountId;
+		requestData.settingName = settingName;
+		requestData.notificationSetting = notificationObject;
 
 		$http({
 			method  : 'POST',
@@ -63,15 +49,13 @@ ngApp.controller('AcctNotificationSettingsCtrl', ['$scope', '$rootScope', '$http
 
 				} else {
 					// if successful, close the panel and update the icons
-					
+					angular.copy(notificationObject, originalObject);
 				}
 			});
 	};
 
 	// process the full form
-	$scope.updateNotificationSettins = function() {
-		$scope.formData.accountId = $scope.accountId;
-
+	$scope.updateNotificationSettings = function() {
 		$http({
 			method  : 'POST',
 			url     : '/api/account/updateNotificationSettings',
@@ -81,11 +65,10 @@ ngApp.controller('AcctNotificationSettingsCtrl', ['$scope', '$rootScope', '$http
 			.success(function (data, status, headers, config) {
 				if (!data.success) {
 					// if not successful, bind errors to error variables
-					$scope.loginError = $sce.trustAsHtml(data.validations[0].text);
-
+					
 				} else {
 					// if successful, display the success message
-					$window.location.href = '/account';
+					alert('successful');
 				}
 			});
 	};

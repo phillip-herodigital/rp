@@ -4,7 +4,7 @@
     <section class="layout cols-2 wrapper">
         <section class="layout cols-1">
             <article class="grey-box notification-settings">
-                <form ng-submit="updateNotificationSettings()">
+                <form>
                     <header>
                         <h2>@Html.Sitecore().Field("Notification Settings Text")</h2>
                     </header>
@@ -14,9 +14,9 @@
                                 <div class="preference">
                                     <span class="preference-type">
                                         @Html.Sitecore().Field("New Document Arrives Text") 
-                                        <span ng-show="formData.newDocumentArrives.web" class="label"><i class="icon-notification-bell"></i> @Html.Sitecore().Field("Web Text")</span> 
-                                        <span ng-show="formData.newDocumentArrives.email" class="label"><i class="icon-notification-email"></i> @Html.Sitecore().Field("Email Text")</span>
-                                        <span ng-show="formData.newDocumentArrives.sms" class="label"><i class="icon-notification-sms"></i> @Html.Sitecore().Field("SMS Text")</span>
+                                        <span ng-show="formDataOriginal.newDocumentArrives.web" class="label"><i class="icon-notification-bell"></i> @Html.Sitecore().Field("Web Text")</span> 
+                                        <span ng-show="formDataOriginal.newDocumentArrives.email" class="label"><i class="icon-notification-email"></i> @Html.Sitecore().Field("Email Text")</span>
+                                        <span ng-show="formDataOriginal.newDocumentArrives.sms" class="label"><i class="icon-notification-sms"></i> @Html.Sitecore().Field("SMS Text")</span>
                                     </span>
                                     <a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" href="" class="additional-field-action">@Html.Sitecore().Field("Edit Link Text")</a>
                                 </div>
@@ -40,8 +40,8 @@
                                     </div>
                                     <div class="item">
                                         <div class="buttons">
-                                            <button class="secondary">@Html.Sitecore().Field("Cancel Button Text")</button>
-                                            <button>@Html.Sitecore().Field("Save Preference Button Text")</button>
+                                            <button class="secondary" ng-click="cancelPreference(formData.newDocumentArrives, formDataOriginal.newDocumentArrives); toggleFields()">@Html.Sitecore().Field("Cancel Button Text")</button>
+                                            <button ng-click="updateNotification(newDocumentArrives, formData.newDocumentArrives, formDataOriginal.newDocumentArrives); toggleFields()">@Html.Sitecore().Field("Save Preference Button Text")</button>
                                         </div>
                                     </div>
                                 </div>
@@ -53,9 +53,9 @@
                                 <div class="preference">
                                     <span class="preference-type">
                                         @Html.Sitecore().Field("Online Payments Text")
-                                        <span ng-show="formData.onlinePaymentsMade.web" class="label"><i class="icon-notification-bell"></i> @Html.Sitecore().Field("Web Text")</span>
-                                        <span ng-show="formData.onlinePaymentsMade.email" class="label"><i class="icon-notification-email"></i> @Html.Sitecore().Field("Email Text")</span>
-                                        <span ng-show="formData.onlinePaymentsMade.sms" class="label"><i class="icon-notification-sms"></i> @Html.Sitecore().Field("SMS Text")</span>
+                                        <span ng-show="formDataOriginal.onlinePaymentsMade.web" class="label"><i class="icon-notification-bell"></i> @Html.Sitecore().Field("Web Text")</span>
+                                        <span ng-show="formDataOriginal.onlinePaymentsMade.email" class="label"><i class="icon-notification-email"></i> @Html.Sitecore().Field("Email Text")</span>
+                                        <span ng-show="formDataOriginal.onlinePaymentsMade.sms" class="label"><i class="icon-notification-sms"></i> @Html.Sitecore().Field("SMS Text")</span>
                                     </span>
                                     <a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" href="" class="additional-field-action">@Html.Sitecore().Field("Edit Link Text")</a>
                                 </div>
@@ -79,8 +79,8 @@
                                     </div>
                                     <div class="item">
                                         <div class="buttons">
-                                            <button class="secondary">@Html.Sitecore().Field("Cancel Button Text")</button>
-                                            <button>@Html.Sitecore().Field("Save Preference Button Text")</button>
+                                            <button class="secondary" ng-click="cancelPreference(formData.onlinePaymentsMade, formDataOriginal.onlinePaymentsMade); toggleFields()">@Html.Sitecore().Field("Cancel Button Text")</button>
+                                            <button ng-click="updateNotification(onlinePaymentsMade, formData.onlinePaymentsMade); toggleFields()">@Html.Sitecore().Field("Save Preference Button Text")</button>
                                         </div>
                                     </div>
                                 </div>
@@ -92,9 +92,9 @@
                                 <div class="preference">
                                     <span class="preference-type">
                                         @Html.Sitecore().Field("Recurring Payments Text")
-                                        <span ng-show="formData.recurringPaymentsMade.web" class="label"><i class="icon-notification-bell"></i> @Html.Sitecore().Field("Web Text")</span>
-                                        <span ng-show="formData.recurringPaymentsMade.email" class="label"><i class="icon-notification-email"></i> @Html.Sitecore().Field("Email Text")</span>
-                                        <span ng-show="formData.recurringPaymentsMade.sms" class="label"><i class="icon-notification-sms"></i> @Html.Sitecore().Field("SMS Text")</span>
+                                        <span ng-show="formDataOriginal.recurringPaymentsMade.web" class="label"><i class="icon-notification-bell"></i> @Html.Sitecore().Field("Web Text")</span>
+                                        <span ng-show="formDataOriginal.recurringPaymentsMade.email" class="label"><i class="icon-notification-email"></i> @Html.Sitecore().Field("Email Text")</span>
+                                        <span ng-show="formDataOriginal.recurringPaymentsMade.sms" class="label"><i class="icon-notification-sms"></i> @Html.Sitecore().Field("SMS Text")</span>
                                     </span>
                                     <a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" href="" class="additional-field-action">@Html.Sitecore().Field("Edit Link Text")</a>
                                 </div>
@@ -118,8 +118,8 @@
                                     </div>
                                     <div class="item">
                                         <div class="buttons">
-                                            <button class="secondary">@Html.Sitecore().Field("Cancel Button Text")</button>
-                                            <button>@Html.Sitecore().Field("Save Preference Button Text")</button>
+                                            <button class="secondary" ng-click="cancelPreference(formData.recurringPaymentsMade, formDataOriginal.recurringPaymentsMade); toggleFields()">@Html.Sitecore().Field("Cancel Button Text")</button>
+                                            <button ng-click="updateNotification(recurringPaymentsMade, formData.recurringPaymentsMade); toggleFields()">@Html.Sitecore().Field("Save Preference Button Text")</button>
                                         </div>
                                     </div>
                                 </div>
@@ -131,9 +131,9 @@
                                 <div class="preference">
                                     <span class="preference-type">
                                         @Html.Sitecore().Field("Recurring Profile Text")
-                                        <span ng-show="formData.recurringProfileExpires.web" class="label"><i class="icon-notification-bell"></i> @Html.Sitecore().Field("Web Text")</span>
-                                        <span ng-show="formData.recurringProfileExpires.email" class="label"><i class="icon-notification-email"></i> @Html.Sitecore().Field("Email Text")</span>
-                                        <span ng-show="formData.recurringProfileExpires.sms" class="label"><i class="icon-notification-sms"></i> @Html.Sitecore().Field("SMS Text")</span>
+                                        <span ng-show="formDataOriginal.recurringProfileExpires.web" class="label"><i class="icon-notification-bell"></i> @Html.Sitecore().Field("Web Text")</span>
+                                        <span ng-show="formDataOriginal.recurringProfileExpires.email" class="label"><i class="icon-notification-email"></i> @Html.Sitecore().Field("Email Text")</span>
+                                        <span ng-show="formDataOriginal.recurringProfileExpires.sms" class="label"><i class="icon-notification-sms"></i> @Html.Sitecore().Field("SMS Text")</span>
                                     </span>
                                     <a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" href="" class="additional-field-action">@Html.Sitecore().Field("Edit Link Text")</a>
                                 </div>
@@ -157,8 +157,8 @@
                                     </div>
                                     <div class="item">
                                         <div class="buttons">
-                                            <button class="secondary">@Html.Sitecore().Field("Cancel Button Text")</button>
-                                            <button>@Html.Sitecore().Field("Save Preference Button Text")</button>
+                                            <button class="secondary" ng-click="cancelPreference(formData.recurringProfileExpires, formDataOriginal.recurringProfileExpires); toggleFields()">@Html.Sitecore().Field("Cancel Button Text")</button>
+                                            <button ng-click="updateNotification(recurringProfileExpires, formData.recurringProfileExpires); toggleFields()">@Html.Sitecore().Field("Save Preference Button Text")</button>
                                         </div>
                                     </div>
                                 </div>
@@ -182,7 +182,7 @@
                     </div>
                     <footer>
                         <div class="buttons">
-                            <button type="submit" class="buttons">@Html.Sitecore().Field("Save Button Text")</button>
+                            <button ng-click="updateNotificationSettings()">@Html.Sitecore().Field("Save Button Text")</button>
                         </div>
                     </footer>
                 </form>

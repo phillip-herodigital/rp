@@ -247,21 +247,22 @@ namespace StreamEnergy.MyStream.Controllers
         public UpdateAccountInformationResponse UpdateAccountInformation(UpdateAccountInformationRequest request)
         {
             bool success = false;
-            if (ModelState.IsValid)
+            var validations = validation.CompleteValidate(request);
+
+            // TODO check to make sure the user is logged in
+           
+            var accountId = request.AccountId;
+
+            // update the account information with Stream Connect
+            if (true)
             {
-                // TODO check to make sure the user is logged in
-                var accountId = request.AccountId;
-                if (true)
-                {
-                    // update the account information with Stream Connect
-                    success = true;
-                }
+                success = true;
             }
 
             return new UpdateAccountInformationResponse
             {
                 Success = success,
-                Validations = TranslatedValidationResult.Translate(ModelState, GetAuthItem("Change Password"))
+                Validations = TranslatedValidationResult.Translate(validations, GetAuthItem("Change Password"))
             };
         }
 
@@ -303,6 +304,7 @@ namespace StreamEnergy.MyStream.Controllers
 
             return new GetNotificationSettingsResponse
             {
+                AccountId = accountId,
                 NewDocumentArrives = newDocumentArrives,
                 OnlinePaymentsMade = onlinePaymentsMade,
                 RecurringPaymentsMade = recurringPaymentsMade,
@@ -316,18 +318,17 @@ namespace StreamEnergy.MyStream.Controllers
         public UpdateNotificationResponse UpdateNotification(UpdateNotificationRequest request)
         {
             bool success = false;
-            if (ModelState.IsValid)
-            {
-                // TODO check to make sure the user is logged in
-                var accountId = request.AccountId;
-                var notificationName = request.NotificationName;
-                var notificationSetting = request.NotificationSetting;
+            
+            // TODO check to make sure the user is logged in
 
-                if (true)
-                {
-                    // TODO update the notification settings with Stream Connect
-                    success = true;
-                }
+            var accountId = request.AccountId;
+            var notificationName = request.NotificationName;
+            var notificationSetting = request.NotificationSetting;
+
+            // TODO update the notification setting with Stream Connect
+            if (true)
+            {
+                success = true;
             }
 
             return new UpdateNotificationResponse
@@ -340,16 +341,17 @@ namespace StreamEnergy.MyStream.Controllers
         public UpdateNotificationSettingsResponse UpdateNotificationSettings(UpdateNotificationSettingsRequest request)
         {
             bool success = false;
-            if (ModelState.IsValid)
+
+            // TODO check to make sure the user is logged in
+
+            var accountId = request.AccountId;
+
+            // TODO update the notification settings with Stream Connect
+            if (true)
             {
-                // TODO check to make sure the user is logged in
-                var accountId = request.AccountId;
-                if (true)
-                {
-                    // TODO update the notification settings with Stream Connect
-                    success = true;
-                }
+                success = true;
             }
+
 
             return new UpdateNotificationSettingsResponse
             {
@@ -364,7 +366,7 @@ namespace StreamEnergy.MyStream.Controllers
         [HttpGet]
         public GetEnrolledAccountsResponse GetEnrolledAccounts()
         {
-            // TODO check to make sure the user is logged in, and get the username from the current session
+            // TODO check to make sure the user is logged in
 
             // TODO get enrolled accounts from Stream Connect
             var account1 = new EnrolledAccount
@@ -389,20 +391,23 @@ namespace StreamEnergy.MyStream.Controllers
         public AddNewAccountResponse AddNewAccount(AddNewAccountRequest request)
         {
             bool success = false;
-            if (ModelState.IsValid)
-            {
-                // TODO check to make sure the user is logged in
+            var validations = validation.CompleteValidate(request);
 
-                if (true)
-                {
-                    // TODO update the notification settings with Stream Connect
-                    success = true;
-                }
+            // TODO check to make sure the user is logged in
+
+            var accountNumber = request.AccountNumber;
+            var ssnLastFour = request.SsnLastFour;
+
+            // TODO add the new account with Stream Connect
+            if (true)
+            {
+                success = true;
             }
 
             return new AddNewAccountResponse
             {
-                Success = success
+                Success = success,
+                Validations = TranslatedValidationResult.Translate(validations, GetAuthItem("Add New Account"))
             };
         }
 
@@ -410,15 +415,15 @@ namespace StreamEnergy.MyStream.Controllers
         public RemoveAccountResponse RemoveEnrolledAccount(RemoveAccountRequest request)
         {
             bool success = false;
-            if (ModelState.IsValid)
+
+            // TODO check to make sure the user is logged in
+
+            var accountNumber = request.AccountNumber;
+
+            // TODO remove enrolled account with Stream Connect
+            if (true)
             {
-                // TODO check to make sure the user is logged in
-                var accountNumber = request.AccountNumber;
-                if (true)
-                {
-                    // TODO update the notification settings with Stream Connect
-                    success = true;
-                }
+                success = true;
             }
 
             return new RemoveAccountResponse
@@ -431,15 +436,15 @@ namespace StreamEnergy.MyStream.Controllers
         public SendLetterResponse SendLetter(SendLetterRequest request)
         {
             bool success = false;
-            if (ModelState.IsValid)
+
+            // TODO check to make sure the user is logged in
+
+            var accountNumber = request.AccountNumber;
+
+            // TODO send the letter with Stream Connect
+            if (true)
             {
-                // TODO check to make sure the user is logged in
-                var accountNumber = request.AccountNumber;
-                if (true)
-                {
-                    // TODO update the notification settings with Stream Connect
-                    success = true;
-                }
+                success = true;
             }
 
             return new SendLetterResponse
