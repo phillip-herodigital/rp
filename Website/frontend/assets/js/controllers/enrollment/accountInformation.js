@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of account information on enrollment page.
  */
-ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', '$rootScope', '$filter', 'enrollmentService', 'utilityProductsService', 'accountInformationService', 'enrollmentCartService', function ($scope, $rootScope, $filter, enrollmentService, utilityProductsService, accountInformationService, enrollmentCartService) {
+ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', '$rootScope', '$filter', 'enrollmentService', 'utilityProductsService', 'accountInformationService', 'enrollmentCartService', 'verifyIdentityService', function ($scope, $rootScope, $filter, enrollmentService, utilityProductsService, accountInformationService, enrollmentCartService, verifyIdentityService) {
     $scope.validations = enrollmentService.validations;
     $scope.utilityProducts = utilityProductsService;
     $scope.usStates = enrollmentService.usStates;
@@ -52,12 +52,17 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', '$rootScope', '$
         var accountInformationPromise = enrollmentService.setAccountInformation(postData);
         accountInformationPromise.then(function (data) {
             $scope.validations = data.validations;
-            
-            //Update the utilityProviders
-            //Upate the accountInformation service
 
-            //$scope.enrollment.serverData = data;
-            $scope.stepsService.setStep('verifyIdentity')
+            if(data.cart.length) {
+                //Update the utilityProviders
+                utilityProductsService.addServiceAddress(data.cart);
+
+                //Upate the accountInformation service
+                verifyIdentityService.identityQuestions = data.identityQuestions;
+
+                //$scope.enrollment.serverData = data;
+                $scope.stepsService.setStep('verifyIdentity')
+            }
         }, function (data) {
             // error response
             $rootScope.$broadcast('connectionFailure');

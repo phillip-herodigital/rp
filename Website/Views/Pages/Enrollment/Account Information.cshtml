@@ -17,21 +17,21 @@
         <section>
             <h1>@Html.Sitecore().Field("Header Account Information")</h1>
             <p>@Html.Sitecore().Field("Fill in Information")</p>
-            <form data-val-bind-messages="validations">
+            <form data-val-bind-messages="validations" ng-submit="completeStep()">
  
-                <!-- Loop through utility addresses -->
+                @* Loop through utility addresses *@
                 <article class="form" ng-repeat="(index, item) in utilityAddresses()" ng-init="init();">
                     <div class="content">
 
-                        <!-- Service Address -->
-                        <div class="item" ng-show="item.location.address.line1">
+                        @* Service Address *@
+                        <div class="item" ng-if="item.location.address.line1">
                             <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
                             <strong>{{ item.location.address | address }}</strong>
                         </div>
 
-                        <!-- Address Input Dropdown -->
-                        <!-- We should probably restrict by zip code right here somehow -->
-                        <div class="item" ng-hide="item.location.address.line1">
+                        @* Address Input Dropdown
+                           We should probably restrict by zip code right here somehow *@
+                        <div class="item" ng-if="!item.location.address.line1">
                             <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
                             <input type="text"
                                     id="service-address"
@@ -247,7 +247,7 @@
                 </article>
 
 
-                <!-- HOW ARE WE HANDLING USER ACCOUNT CREATION? -->
+                @* User Account Creation *@
                 <article class="form">
                     <div class="content">
                         <div class="social-box">
@@ -264,23 +264,23 @@
                         <p>@Html.Sitecore().Field("Online Account Paragraph")</p>
                         <div class="item">
                             <label for="username">@Html.Sitecore().Field("Username Optional Label")</label>
-                            <input type="text" id="username" ng-model="enrollment.accountInformation.login.username" />
+                            <input type="text" id="username" ng-model="accountInformation.login.username" />
                         </div>
                         <div class="group">
                             <div class="item group-col">
                                 <label for="password">@Html.Sitecore().Field("Password Optional Label")</label>
-                                <input type="password" id="password" ng-model="enrollment.accountInformation.login.password" />
+                                <input type="password" id="password" ng-model="accountInformation.login.password" />
                             </div>
                             <div class="item group-col">
                                 <label for="verify-password">@Html.Sitecore().Field("Verify Password Label")</label>
-                                <input type="password" id="verify-password" ng-model="enrollment.accountInformation.billingAddress.verifyPassword" />
+                                <input type="password" id="verify-password" ng-model="accountInformation.login.verifyPassword" />
                             </div>
                         </div>
                     </div>
                 </article>
-                <!-- END USER ACCOUNT CREATION QUESTION -->
+
                 <div class="buttons">
-                    <button type="submit" class="primary" ng-click="completeStep();" ng-disabled="!isFormValid()" data-val-submit>@Html.Sitecore().Field("Button Label")</button>
+                    <button type="submit" class="primary" ng-disabled="!isFormValid()" data-val-submit>@Html.Sitecore().Field("Button Label")</button>
                 </div>
             </form>
             <div class="hide-medium-large time-remaining-mobile">
