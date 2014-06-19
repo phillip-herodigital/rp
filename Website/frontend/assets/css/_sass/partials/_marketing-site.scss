@@ -934,6 +934,7 @@ article.pay {
 	h2 {
 		text-transform: none;
 		&.get-started {
+            text-transform: uppercase;
 			text-align: center;
 			font-size: 18px;
 		}
