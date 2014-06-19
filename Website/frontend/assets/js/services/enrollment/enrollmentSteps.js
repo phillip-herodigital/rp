@@ -34,22 +34,22 @@ ngApp.factory('enrollmentStepsService', ['scrollService', 'jQuery', '$timeout', 
         },
         { 
             'name': 'accountInformation', 
-            'isActive': false,
+            'isActive': true,
             'isVisible': false
         }, 
         { 
             'name': 'verifyIdentity', 
-            'isActive': false,
+            'isActive': true,
             'isVisible': false
         },
         { 
             'name': 'reviewOrder', 
-            'isActive': false,
+            'isActive': true,
             'isVisible': false
         },
         { 
             'name': 'orderConfirmed', 
-            'isActive': false,
+            'isActive': true,
             'isVisible': false
         }
     ];
@@ -72,7 +72,8 @@ ngApp.factory('enrollmentStepsService', ['scrollService', 'jQuery', '$timeout', 
         setFlow: function (flow) {
             if (flows[currentFlow]) {
                 angular.forEach(flows[currentFlow], function (state) {
-                    service.deActivateStep(state);
+                    //We actually need to set the flow steps to active here
+                    service.activateStep(state);
                 });
             }
             currentFlow = flow;
@@ -80,10 +81,12 @@ ngApp.factory('enrollmentStepsService', ['scrollService', 'jQuery', '$timeout', 
         },
 
         setFromServerStep: function (expectedState) {
-            if (flows[currentFlow] && flows[currentFlow][expectedState])
-                service.setStep(flows[currentFlow][expectedState])
-            else
+            if (flows[currentFlow] && flows[currentFlow][expectedState]) {
+                service.setFlow(currentFlow);
+                service.setStep(flows[currentFlow][expectedState]);
+            } else {
                 service.setStep(expectedState);
+            }
         },
 
         /**
@@ -178,6 +181,10 @@ ngApp.factory('enrollmentStepsService', ['scrollService', 'jQuery', '$timeout', 
                     step.isActive = true;
                     step.isVisible = true;
                     this.scrollToStep(step.name);
+                } else {
+                    //Keep the process a single page
+                    //step.isActive = false;
+                    step.isVisible = false;
                 }
             }, this);
         },

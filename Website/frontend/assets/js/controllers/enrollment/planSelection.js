@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of plan selection on enrollment page.
  */
-ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 'scrollService', 'utilityProductsService', function ($scope, enrollmentService, scrollService, utilityProductsService) {
+ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 'scrollService', 'utilityProductsService', 'enrollmentStepsService', function ($scope, enrollmentService, scrollService, utilityProductsService, enrollmentStepsService) {
     $scope.currentLocationInfo = utilityProductsService.getActiveServiceAddress;
 
     //We need this for the button select model in the ng-repeats
