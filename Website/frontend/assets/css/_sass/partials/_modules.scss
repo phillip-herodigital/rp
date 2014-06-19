@@ -290,9 +290,6 @@ div.banner + article.message {
 }
 
 div.banner.account {
-	@include breakpoint(small) {
-		display: none;
-	}
 	@include breakpoint(large) {
 		border-bottom: 5px solid #259afd;
 	}
