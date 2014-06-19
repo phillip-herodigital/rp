@@ -9,7 +9,6 @@ ngApp.controller('AcctOnlineAccountCtrl', ['$scope', '$rootScope', '$http', '$ti
 	$scope.formData.challenges = [{},{}];
 
 	// get the current data
-
 	$timeout(function() {
 		$http.get('/api/account/getOnlineAccount').success(function (data, status, headers, config) {
 			$scope.formData = data;
@@ -54,8 +53,6 @@ ngApp.controller('AcctOnlineAccountCtrl', ['$scope', '$rootScope', '$http', '$ti
 			requestData.challenges.push(chanllenge);
 		}
 		requestData.languagePreference = $scope.formData.languagePreference;
-		console.log(requestData);
-
 
 		// sent the update
 		$http({
