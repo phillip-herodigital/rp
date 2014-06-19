@@ -215,7 +215,7 @@
                             </div>
                             <div class="item group-col" @Html.ValidationErrorClass(m => m.DriversLicense.StateAbbreviation)>
                                 <label for="@Html.For(m => m.DriversLicense.StateAbbreviation)">@Html.Sitecore().Field("Drivers License State Label")</label>
-                                <select @Html.ValidationAttributes(m => m.DriversLicense.StateAbbreviation) ng-model="accountInformation.driversLicense.state" ng-options="state.abbreviation as state.name for state in usStates">
+                                <select @Html.ValidationAttributes(m => m.DriversLicense.StateAbbreviation) ng-model="accountInformation.driversLicense.stateAbbreviation" ng-options="state.abbreviation as state.name for state in usStates">
                                     <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
                                 </select>
                                 @Html.ValidationMessageFor(m => m.DriversLicense.StateAbbreviation)

@@ -16,7 +16,7 @@ ngApp.factory('accountInformationService', [function () {
 		socialSecurityNumber: '',
 		driversLicense: {
 			number: '',
-			state: ''
+			stateAbbreviation: ''
 		}
 	};
 	

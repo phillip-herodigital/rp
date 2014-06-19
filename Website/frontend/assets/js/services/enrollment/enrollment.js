@@ -374,7 +374,8 @@
                 })
             });
         });
-        console.log(data);
+        if (!data.driversLicense.number && !data.driversLicense.stateAbbreviation)
+            data.driversLicense = null;
 
         var deferred = $q.defer(),
         start = new Date().getTime();
