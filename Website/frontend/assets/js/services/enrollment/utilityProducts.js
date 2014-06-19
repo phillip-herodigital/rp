@@ -229,7 +229,6 @@ ngApp.factory('utilityProductsService', ['$filter', function ($filter) {
 				return {
 					location: {
 						address: {},
-						formattedAddress: ''
 					},
 					serviceState: 'TX',
 					isNewService: -1
@@ -238,7 +237,6 @@ ngApp.factory('utilityProductsService', ['$filter', function ($filter) {
 				return {
 					location: {
 						address: location.location.address,
-						formattedAddress: $filter('address')(location.location.address),
 						capabilities: location.location.capabilities
 					},
 					serviceState: location.location.address.stateAbbreviation,

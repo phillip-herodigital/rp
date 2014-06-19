@@ -280,6 +280,7 @@
         },
         secondaryContactInfo: {}
     };
+    service.identityQuestions = [];
 
     service.getCartLocations = function(cart) {
         jQuery.map(cart, function(item) {
@@ -304,7 +305,11 @@
             });
         });
 
-        return deferred.promise;
+        return deferred.promise.then(function (result) {
+            service.identityQuestions = result.identityQuestions;
+
+            return result;
+        });
     };
 
     /**
@@ -380,7 +385,9 @@
     * 
     * @return {object}            Promise object returned when API call has successfully completed.
     */
-    service.setVerifyIdentity = function (data) {
+    service.setVerifyIdentity = function (identityAnswers) {
+        var data = { 'selectedIdentityAnswers': identityAnswers };
+
         return makeCall('verifyIdentity', data);
     };
 
