@@ -195,34 +195,35 @@
                                 <li><input type="radio" id="taxid" ng-model="accountInformation.personalInformation.taxid"><label for="taxid">@Html.Sitecore().Field("Checkbox List Tax ID")</label></li>
                             </ul>
                         </div>
+                        *@
                         <div class="item" @Html.ValidationErrorClass(m => m.SocialSecurityNumber)>
                             <label for="@Html.For(m => m.SocialSecurityNumber)">@Html.Sitecore().Field("Social Security Number Label")</label>
                             <input type="text" @Html.ValidationAttributes(m => m.SocialSecurityNumber) ng-model="accountInformation.socialSecurityNumber" />
                             @Html.ValidationMessageFor(m => m.SocialSecurityNumber)
                         </div>                        
-
+                        @*
                         <!-- Change this ng-hide option when commercial becomes available -->
                         <div class="item" ng-hide="true">
                             <label for="dba">@Html.Sitecore().Field("DBA Label")</label>
                             <input type="text" id="dba" ng-model="accountInformation.dba" />
                         </div>
-
+                        *@
                         <div class="group">
                             <div class="item group-col" @Html.ValidationErrorClass(m => m.DriversLicense.Number)>
                                 <label for="@Html.For(m => m.DriversLicense.Number)">@Html.Sitecore().Field("Drivers License Number Label")</label>
-                                <input type="text" @Html.ValidationAttributes(m => m.DriversLicense.Number) ng-model="accountInformation.driversLicense.number" />
+                                <input type="text" @Html.ValidationAttributes(m => m.DriversLicense.Number) data-val-if="accountInformation.driversLicense.number || accountInformation.driversLicense.stateAbbreviation" ng-model="accountInformation.driversLicense.number" />
                                 @Html.ValidationMessageFor(m => m.DriversLicense.Number)
                             </div>
                             <div class="item group-col" @Html.ValidationErrorClass(m => m.DriversLicense.StateAbbreviation)>
                                 <label for="@Html.For(m => m.DriversLicense.StateAbbreviation)">@Html.Sitecore().Field("Drivers License State Label")</label>
-                                <select @Html.ValidationAttributes(m => m.DriversLicense.StateAbbreviation) ng-model="accountInformation.driversLicense.stateAbbreviation" ng-options="state.abbreviation as state.name for state in usStates">
+                                <select @Html.ValidationAttributes(m => m.DriversLicense.StateAbbreviation) data-val-if="accountInformation.driversLicense.number || accountInformation.driversLicense.stateAbbreviation" ng-model="accountInformation.driversLicense.stateAbbreviation" ng-options="state.abbreviation as state.name for state in usStates">
                                     <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
                                 </select>
                                 @Html.ValidationMessageFor(m => m.DriversLicense.StateAbbreviation)
                             </div>
                         </div>
 
-                        <div class="additional-field-item item" ng-show="enrollment.serviceState == 'TX'">
+                        <div class="additional-field-item item">
                             <ul class="checkbox-list">
                                 <li><input type="checkbox" name="secondary-contact" id="secondary-contact" ng-model="additionalInformation.showSecondaryContact"><label for="secondary-contact">@Html.Sitecore().Field("Checkbox Add Secondary Contact")</label></li>
                             </ul>
@@ -232,17 +233,16 @@
                             <div class="group">
                                 <div class="item group-col" @Html.ValidationErrorClass(m => m.SecondaryContactInfo.First)>
                                     <label for="@Html.For(m => m.SecondaryContactInfo.First)">@Html.Sitecore().Field("First Name Label")</label>
-                                    <input type="text" @Html.ValidationAttributes(m => m.SecondaryContactInfo.First) data-val-if="accountInformation.showSecondaryContact" placeholder="Jordan" ng-model="accountInformation.secondaryContactInfo.name.last" />
+                                    <input type="text" @Html.ValidationAttributes(m => m.SecondaryContactInfo.First) data-val-if="accountInformation.showSecondaryContact" placeholder="Jordan" ng-model="accountInformation.secondaryContactInfo.first" />
                                     @Html.ValidationMessageFor(m => m.SecondaryContactInfo.First)
                                 </div>
                                 <div class="item group-col" @Html.ValidationErrorClass(m => m.SecondaryContactInfo.Last)>
                                     <label for="@Html.For(m => m.SecondaryContactInfo.Last)">@Html.Sitecore().Field("Last Name Label")</label>
-                                    <input type="text" @Html.ValidationAttributes(m => m.SecondaryContactInfo.Last) data-val-if="accountInformation.showSecondaryContact" placeholder="Campbell" ng-model="accountInformation.secondaryContactInfo.name.first" />
+                                    <input type="text" @Html.ValidationAttributes(m => m.SecondaryContactInfo.Last) data-val-if="accountInformation.showSecondaryContact" placeholder="Campbell" ng-model="accountInformation.secondaryContactInfo.last" />
                                     @Html.ValidationMessageFor(m => m.SecondaryContactInfo.Last)
                                 </div>
                             </div> 
                         </div>
-                        *@                  
                     </div>
                 </article>
 

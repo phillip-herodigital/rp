@@ -10,8 +10,6 @@ namespace StreamEnergy.MyStream.Models.Enrollment
     {
         public DomainModels.CustomerContact ContactInfo { get; set; }
 
-        public DomainModels.Address BillingAddress { get; set; }
-
         public DomainModels.DriversLicense DriversLicense { get; set; }
 
         public string Language { get; set; }

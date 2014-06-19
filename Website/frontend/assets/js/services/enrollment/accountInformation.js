@@ -2,22 +2,23 @@ ngApp.factory('accountInformationService', [function () {
 	var accountInformation = {
 		 contactInfo: {
 			name: {
-				first: '',
-				last: ''
+			    first: '',
+			    last: ''
 			},
-			phone: [{
-				number: '',
-				category: ''
-			}],
-			email: {
-				address: ''
-			}
+		     phone: [{
+		         number: '',
+		         category: ''
+		     }],
+		     email: {
+		         address: ''
+		     }
 		},
 		socialSecurityNumber: '',
 		driversLicense: {
 			number: '',
 			stateAbbreviation: ''
-		}
+		},
+	    secondaryContactInfo: {}
 	};
 	
 	return {
@@ -30,6 +31,7 @@ ngApp.factory('accountInformationService', [function () {
 				contactInfo: accountInformation.contactInfo,
 				socialSecurityNumber: accountInformation.socialSecurityNumber,
 				driversLicense: accountInformation.driversLicense,
+				secondaryContactInfo: accountInformation.secondaryContactInfo,
 				cart: utilityProduct
 			};
 			return data;

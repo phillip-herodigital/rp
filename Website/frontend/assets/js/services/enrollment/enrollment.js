@@ -376,6 +376,8 @@
         });
         if (!data.driversLicense.number && !data.driversLicense.stateAbbreviation)
             data.driversLicense = null;
+        if (!data.secondaryContactInfo.first && !data.secondaryContactInfo.last)
+            data.secondaryContactInfo = null;
 
         var deferred = $q.defer(),
         start = new Date().getTime();
