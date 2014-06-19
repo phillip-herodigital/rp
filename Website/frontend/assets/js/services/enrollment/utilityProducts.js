@@ -1,4 +1,4 @@
-ngApp.factory('utilityProductsService', ['$rootScope','$filter', function ($rootScope, $filter) {
+ngApp.factory('utilityProductsService', ['$filter', function ($filter) {
 	var addresses = [],
 		activeServiceAddress = {},
 		availableOfferTypes = [],
@@ -101,8 +101,6 @@ ngApp.factory('utilityProductsService', ['$rootScope','$filter', function ($root
 	                }
 	            });
             }
-
-            $rootScope.$broadcast('updateActiveServiceAddress', activeServiceAddress);
 		},
 
 		/**

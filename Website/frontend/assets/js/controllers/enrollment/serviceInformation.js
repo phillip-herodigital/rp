@@ -12,7 +12,7 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$
     //Checking to see when the active service address has been updated
     //So we can reinitialize all service information for this page
     //There has to be a better way of doing this
-    $scope.$on('updateActiveServiceAddress', function(event, value) {
+    $scope.$watch(utilityProductsService.getActiveServiceAddress, function(event, value) {
         if(utilityProductsService.isNewServiceAddress) {
             $scope.serviceInformation = utilityProductsService.getServiceInformationObject();
         } else {
