@@ -3,11 +3,10 @@
 <div ng-controller="AcctAccountInformationCtrl">
     <article class="grey-box account-holder-information">
         <form ng-submit="updateAccountInformation()" data-val-bind-messages="validations">
-            @Html.ValidationSummary()
             <div class="content">
                 <div class="item account-holder">
                     <label class="account-holder-title">@Html.Sitecore().Field("Account Holder Name Text")</label>
-                    Mr. John A. Doe
+                    {{ formData.CustomerName.first }} {{ formData.CustomerName.last }}
                 </div>
                 <div class="group">
                     <div class="item group-col" @*float-label*@>

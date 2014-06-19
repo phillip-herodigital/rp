@@ -8,7 +8,6 @@
                     <h2>@Html.Sitecore().Field("My Online Account Information Text")</h2>
                 </header>
                 <form ng-submit="updateOnlineAccount()" data-val-bind-messages="validations">
-                    @Html.ValidationSummary()
                     <div class="content">
                         <div class="group">
                             <div class="item group-col" @Html.ValidationErrorClass(model => model.Username) @*float-label*@>
@@ -89,7 +88,6 @@
                     </div>
                     <footer>
                         <div class="buttons">
-                            {{ formData.challenges[0].answer }}
                             <button type="submit" data-val-submit>@Html.Sitecore().Field("Save Button Text")</button>
                         </div>
                     </footer>
