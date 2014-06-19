@@ -2,6 +2,7 @@
  * This is the main controller for Enrollments. It will keep track of the enrollment state, as well as all fields that will need to be collected.
  */
 ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentStepsService', 'enrollmentService', 'scrollService', 'jQuery', function ($scope, $anchorScroll, enrollmentStepsService, enrollmentService, scrollService, jQuery) {
+    $scope.validations = enrollmentService.validations;
     $scope.stepsService = enrollmentStepsService;
 
     //Go ahead and set the first step to be utility for now

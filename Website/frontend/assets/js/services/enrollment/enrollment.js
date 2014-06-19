@@ -3,7 +3,7 @@
     var service = {},
         urlPrefix = '/api/enrollment/';
 
-    service.validations = {};
+    service.validations = [];
 
     service.phoneTypes = [
         {
@@ -306,6 +306,8 @@
         });
 
         return deferred.promise.then(function (result) {
+            Array.prototype.splice.apply(service.validations, [0, service.validations.length].concat(result.validations))
+
             service.identityQuestions = result.identityQuestions;
 
             return result;

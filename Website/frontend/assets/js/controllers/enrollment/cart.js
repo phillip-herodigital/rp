@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of the cart on enrollment page.
  */
-ngApp.controller('EnrollmentCartCtrl', ['$scope', '$rootScope', 'enrollmentStepsService', 'enrollmentService', 'enrollmentCartService', function ($scope, $rootScope, enrollmentStepsService, enrollmentService, enrollmentCartService) {
+ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enrollmentService', 'enrollmentCartService', function ($scope, enrollmentStepsService, enrollmentService, enrollmentCartService) {
     
     /*$scope.enrollmentStepsService = enrollmentStepsService;
     $scope.utilityService = utilityProductsService;

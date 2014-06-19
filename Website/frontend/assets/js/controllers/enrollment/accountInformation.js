@@ -3,7 +3,6 @@
  * This is used to control aspects of account information on enrollment page.
  */
 ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentService', 'utilityProductsService', 'enrollmentCartService', function ($scope, enrollmentService, utilityProductsService, enrollmentCartService) {
-    $scope.validations = enrollmentService.validations;
     $scope.utilityProducts = utilityProductsService;
     $scope.usStates = enrollmentService.usStates;
     $scope.phoneTypes = enrollmentService.phoneTypes;
@@ -49,8 +48,6 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
 
         var accountInformationPromise = enrollmentService.setAccountInformation(utilityProductsService.addresses);
         accountInformationPromise.then(function (data) {
-            $scope.validations = data.validations;
-
             if (data.cart.length) {
                 //Update the utilityProviders
                 utilityProductsService.addServiceAddress(data.cart);

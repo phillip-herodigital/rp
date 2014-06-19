@@ -3,7 +3,6 @@
  * This is used to control aspects of let's get started on enrollment page.
  */
 ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$filter', 'enrollmentService', 'utilityProductsService', function ($scope, $location, $filter, enrollmentService, utilityProductsService) {
-    $scope.validations = enrollmentService.validations;
     $scope.utilityService = utilityProductsService;
 
     //Set the default service information
@@ -46,9 +45,6 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
         var serviceInformationPromise = enrollmentService.setServiceInformation(postData);
         
         serviceInformationPromise.then(function (data) {
-            //Set the validations
-            $scope.validations = data.validations;
-
             //Add the locations to our utility service
             utilityProductsService.isNewServiceAddress = false;
             utilityProductsService.addServiceAddress(data.cart);

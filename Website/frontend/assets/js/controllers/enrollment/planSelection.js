@@ -3,7 +3,6 @@
  * This is used to control aspects of plan selection on enrollment page.
  */
 ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 'scrollService', 'utilityProductsService', function ($scope, enrollmentService, scrollService, utilityProductsService) {
-    $scope.validations = enrollmentService.validations;
     $scope.currentLocationInfo = utilityProductsService.getActiveServiceAddress;
 
     //We need this for the button select model in the ng-repeats
@@ -43,8 +42,6 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
         var selectedOffersPromise = enrollmentService.setSelectedOffers(postData);
 
         selectedOffersPromise.then(function (data) {
-            $scope.validations = data.validations;
-
             //This is where we get the validations back too, need to check for that
             utilityProductsService.addServiceAddress(data.cart);
 
