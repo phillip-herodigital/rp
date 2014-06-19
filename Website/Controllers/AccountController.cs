@@ -254,7 +254,7 @@ namespace StreamEnergy.MyStream.Controllers
             var accountId = request.AccountId;
 
             // update the account information with Stream Connect
-            if (true)
+            if (!validations.Any())
             {
                 success = true;
             }
@@ -399,7 +399,7 @@ namespace StreamEnergy.MyStream.Controllers
             var ssnLastFour = request.SsnLastFour;
 
             // TODO add the new account with Stream Connect
-            if (true)
+            if (!validations.Any())
             {
                 success = true;
             }
