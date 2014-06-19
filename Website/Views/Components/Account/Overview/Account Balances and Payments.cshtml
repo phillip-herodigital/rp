@@ -2,20 +2,20 @@
     <header>
         <h2>@Html.Sitecore().Field("Account Balances and Payments Text")</h2>
     </header>
-    <div class="content" @*loading-indicator*@>
-        <div class="account-selector">
-            <form>
-                <div class="group">
-                    <div class="item">
-                        <label>@Html.Sitecore().Field("Account Number Text")</label>
-                        <select @*ng-model="selectedAccount.account" ng-options="item.accountNumber for item in accounts"*@>
-                            <option value="Please choose">1197015532</option>
-                            <option value="account1">Account 2</option>
-                        </select>
-                    </div>
+    <div class="account-selector">
+        <form>
+            <div class="group">
+                <div class="item">
+                    <label>@Html.Sitecore().Field("Account Number Text")</label>
+                    <select @*ng-model="selectedAccount.account" ng-options="item.accountNumber for item in accounts"*@>
+                        <option value="Please choose">1197015532</option>
+                        <option value="account1">Account 2</option>
+                    </select>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
+    </div>
+    <div class="content" @*loading-indicator*@>
         <div class="grid border">
             <div class="col">
                 <h4>@Html.Sitecore().Field("Account Balance Text")</h4>
