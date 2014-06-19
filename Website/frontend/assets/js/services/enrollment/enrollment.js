@@ -291,12 +291,13 @@
 
         // copy out the account information the server has
         service.accountInformation.contactInfo = result.contactInfo || {};
-        service.accountInformation.contactInfo.phone = service.accountInformation.contactInfo.phone || [{ 
-    }];
-        service.accountInformation.contactInfo.email = service.accountInformation.contactInfo.email || {};
         service.accountInformation.secondaryContactInfo = result.secondaryContactInfo || {};
         service.accountInformation.driversLicense = result.driversLicense || {};
         service.accountInformation.language = result.language;
+
+        // Default these object to prevent errors
+        service.accountInformation.contactInfo.phone = service.accountInformation.contactInfo.phone || [{ }];
+        service.accountInformation.contactInfo.email = service.accountInformation.contactInfo.email || { };
 
         // set the identity questions from the server
         service.identityQuestions = result.identityQuestions;
