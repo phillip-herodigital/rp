@@ -1,4 +1,4 @@
-﻿ngApp.factory('enrollmentService', ['$rootScope', '$http', '$q', 'jQuery', function ($rootScope, $http, $q, jQuery) {
+﻿ngApp.factory('enrollmentService', ['$rootScope', '$http', '$q', 'utilityProductsService', function ($rootScope, $http, $q, utilityProductsService) {
 
     var service = {},
         urlPrefix = '/api/enrollment/';
@@ -282,12 +282,6 @@
     };
     service.identityQuestions = [];
 
-    service.getCartLocations = function(cart) {
-        jQuery.map(cart, function(item) {
-            return item.location;
-        });
-    }
-
     function makeCall(urlSuffix, data, mode) {
         var deferred = $q.defer(),
         start = new Date().getTime();
@@ -306,8 +300,19 @@
         });
 
         return deferred.promise.then(function (result) {
-            Array.prototype.splice.apply(service.validations, [0, service.validations.length].concat(result.validations))
+            // update our validations - don't make a new array, just copy all the validations over from the returned one. Saves copying back to the scope elsewhere.
+            angular.copy(result.validations, service.validation);
 
+            // update the cart
+            utilityProductsService.updateCart(result.cart);
+
+            // copy out the account information the server has
+            service.accountInformation.contactInfo = result.contactInfo;
+            service.accountInformation.secondaryContactInfo = result.secondaryContactInfo || {};
+            service.accountInformation.driversLicense = result.driversLicense || {};
+            service.accountInformation.language = result.language;
+
+            // set the identity questions from the server
             service.identityQuestions = result.identityQuestions;
 
             return result;

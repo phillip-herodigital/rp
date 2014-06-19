@@ -55,7 +55,7 @@ ngApp.factory('utilityProductsService', ['$filter', function ($filter) {
 		 * 
 		 * @param {Array} cart
 		 */
-		addServiceAddress: function(cart) {
+		updateCart: function (cart) {
 			//Map out the location items
 			angular.copy(cart, addresses);
 		},

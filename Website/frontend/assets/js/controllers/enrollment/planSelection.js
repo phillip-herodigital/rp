@@ -42,9 +42,6 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
         var selectedOffersPromise = enrollmentService.setSelectedOffers(postData);
 
         selectedOffersPromise.then(function (data) {
-            //This is where we get the validations back too, need to check for that
-            utilityProductsService.addServiceAddress(data.cart);
-
             //Move to the next section, this is the last of the utilityAccounts, so
             //If addAdditional, go back to step one else move to the next section
             if(addAdditional) {
