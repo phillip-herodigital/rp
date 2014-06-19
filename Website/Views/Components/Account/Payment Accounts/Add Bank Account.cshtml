@@ -4,13 +4,11 @@
 	</header>
 	<form>
 		<div class="content">
-			@Html.Sitecore().Field("Body Text")
-
-			<h3>@Html.Sitecore().Field("Bank Account Header Text")</h3>
 
 			<div class="item">
 				<label for="account-nickname">@Html.Sitecore().Field("Account Nickname Label"):</label>
 				<input type="text" id="account-nickname">
+                <span class="help-text">@Html.Sitecore().Field("Account Nickname Help Text")</span>
 			</div>										
 			<div class="item">
 				<label for="payment-method">@Html.Sitecore().Field("Account Type Label"):</label>
@@ -29,7 +27,7 @@
 					<input type="text" id="account-number">
 				</div>									
 			</div>
-			<p>@Html.Sitecore().Field("Bank Account Image")</p>
+			<p class="example-image">@Html.Sitecore().Field("Bank Account Image")</p>
 			<div class="item">
 				<label for="description">@Html.Sitecore().Field("Description Label")</label>
 				<textarea name="description" id="description" ></textarea>

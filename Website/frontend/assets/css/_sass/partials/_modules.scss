@@ -783,8 +783,16 @@ article.auth {
 	}	
 }
 article.payments {
-	margin: 20px 0;
+	margin-bottom: 20px;
 	overflow: visible; //Needed for datepicker
+	header {
+		h2.payment-accounts-header {
+			float: left;
+			@include breakpoint(small) {
+			float: none;
+			}
+		}
+	}
 	.advanced-settings {
 		margin-top: 5px;
 		.small {
@@ -798,8 +806,10 @@ article.payments {
 		}
 		p {
 			margin: 0;
-			padding: 1em;
-			background: #eee;
+			padding-top: 1em;
+			&.example-image {
+				text-align: center;
+			}
 		}
 	}
 	.arrow-toggle {
@@ -834,6 +844,9 @@ article.payments {
 			margin-left: 10px;
 			padding-left: 10px;
 			border-left: 1px solid #ccc;
+			a {
+				color: #fff;
+			}
 			&:first-child {
 				border-left: none;
 				margin-left: 0;
@@ -847,6 +860,7 @@ article.payments {
 				margin: 0;
 				padding: 0;
 				border: none;
+				text-align: center;
 			}
 		}
 	}
@@ -886,6 +900,14 @@ article.payments {
 				padding-top: 20px;
 			}
 		}
+	}
+	.auto-pay-address p {
+		margin: 0px;
+	}
+	.notice {
+		background-color: #fbd396;
+		margin-top: -15px;
+		margin-bottom: 15px;
 	}
 	img {
 		max-width: 100%;
