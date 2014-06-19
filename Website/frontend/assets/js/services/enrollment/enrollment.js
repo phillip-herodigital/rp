@@ -1,7 +1,7 @@
 ﻿ngApp.factory('enrollmentService', ['$rootScope', '$http', '$q', 'jQuery', function ($rootScope, $http, $q, jQuery) {
 
     var service = {},
-        urlPrefix = '/en/api/enrollment/';
+        urlPrefix = '/api/enrollment/';
 
     service.validations = {};
 
@@ -257,7 +257,29 @@
             "name": "Wyoming",
             "abbreviation": "WY"
         }
-    ];    
+    ];
+
+    service.accountInformation = {
+        contactInfo: {
+            name: {
+                first: '',
+                last: ''
+            },
+            phone: [{
+                number: '',
+                category: ''
+            }],
+            email: {
+                address: ''
+            }
+        },
+        socialSecurityNumber: '',
+        driversLicense: {
+            number: '',
+            stateAbbreviation: ''
+        },
+        secondaryContactInfo: {}
+    };
 
     service.getCartLocations = function(cart) {
         jQuery.map(cart, function(item) {
@@ -364,8 +386,17 @@
     * 
     * @return {object}            Promise object returned when API call has successfully completed.
     */
-    service.setAccountInformation = function (data) {
-        data = angular.copy(data);
+    service.setAccountInformation = function (utilityProduct) {
+        var utilityProduct = utilityProduct || [];
+
+        var data = angular.copy({
+            contactInfo: service.accountInformation.contactInfo,
+            socialSecurityNumber: service.accountInformation.socialSecurityNumber,
+            driversLicense: service.accountInformation.driversLicense,
+            secondaryContactInfo: service.accountInformation.secondaryContactInfo,
+            cart: utilityProduct
+        });
+        // sanitize data
         angular.forEach(data.cart, function (cartItem) {
             angular.forEach(cartItem.offerInformationByType, function (typedOrderInfo) {
                 typedOrderInfo.value.availableOffers = null;

@@ -2,12 +2,12 @@
  *
  * This is used to control aspects of account information on enrollment page.
  */
-ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', '$rootScope', '$filter', 'enrollmentService', 'utilityProductsService', 'accountInformationService', 'enrollmentCartService', function ($scope, $rootScope, $filter, enrollmentService, utilityProductsService, accountInformationService, enrollmentCartService) {
+ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', '$rootScope', '$filter', 'enrollmentService', 'utilityProductsService', 'enrollmentCartService', function ($scope, $rootScope, $filter, enrollmentService, utilityProductsService, enrollmentCartService) {
     $scope.validations = enrollmentService.validations;
     $scope.utilityProducts = utilityProductsService;
     $scope.usStates = enrollmentService.usStates;
     $scope.phoneTypes = enrollmentService.phoneTypes;
-    $scope.accountInformation = accountInformationService.accountInformation;
+    $scope.accountInformation = enrollmentService.accountInformation;
 
     /**
      * [utilityAddresses description]
@@ -47,9 +47,8 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', '$rootScope', '$
     * Complete Enrollment Section
     */
     $scope.completeStep = function () {
-        var postData = accountInformationService.createPostObject(utilityProductsService.addresses);
 
-        var accountInformationPromise = enrollmentService.setAccountInformation(postData);
+        var accountInformationPromise = enrollmentService.setAccountInformation(utilityProductsService.addresses);
         accountInformationPromise.then(function (data) {
             $scope.validations = data.validations;
             

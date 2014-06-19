@@ -1,4 +1,4 @@
-ngApp.factory('enrollmentCartService', ['enrollmentStepsService', 'utilityProductsService', 'accountInformationService', function (enrollmentStepsService, utilityProductsService, accountInformationService) {
+ngApp.factory('enrollmentCartService', ['enrollmentStepsService', 'utilityProductsService', function (enrollmentStepsService, utilityProductsService) {
 
 	return {
 		getPlans: utilityProductsService.getSelectedPlans,
