@@ -1025,6 +1025,7 @@ aside {
 	article.thermostat {
 		.content {
 			padding: 0px 15px;
+			background-color: #fdfdfd;
 			.grid .col {
 				i {
 					float: left;
@@ -1065,6 +1066,29 @@ aside {
 				float: right;
 				a {
 					text-transform: none;
+				}
+			}
+		}
+	}
+	article.homelife {
+		.content {
+			background-color: #fdfdfd;
+			padding: 0px 15px;
+		}
+		ul {
+			list-style-type: none;
+			padding-left: 0px;
+			li {
+				padding: 15px 15px 15px 0;
+				border-bottom: 1px solid #ddd;
+				&:last-child {
+					border-bottom: 0px;
+				}
+				.icon-tech-support {
+					float: right;
+				}
+				.buttons {
+					float: left;
 				}
 			}
 		}
