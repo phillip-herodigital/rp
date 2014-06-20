@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿<div ng-controller="AcctAccountSelectorCtrl">
     <article class="service-identification">
         <div class="content">
@@ -27,3 +28,30 @@
         </div>
     </article>
 </div>
+=======
+﻿<article class="service-identification">
+    <div class="account-selector">
+        <form>
+            <div class="group">
+                <div class="item">
+                    <label>@Html.Sitecore().Field("Account Number Text")</label>
+                    <select>
+                        <option value="Please choose">1197015532</option>
+                        <option value="account1">Account 2</option>
+                    </select>
+                </div>
+                <div class="item">
+                    <label>@Html.Sitecore().Field("ESI ID Text")</label>
+                    <select class="id">
+                        <option value="Please choose">109437200008913264</option>
+                        <option value="account1">ID 2</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="service-address">
+        <p>@Html.Sitecore().Field("Service Address Text") 123 Main Street, Dallas, TX 75001</p>
+    </div>
+</article>
+>>>>>>> master

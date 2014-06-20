@@ -43,20 +43,5 @@ namespace StreamEnergy.MyStream.Tests.Sitecore
             Assert.AreEqual("Cincinnati", whois.GeoIpData.City);
             Assert.AreEqual("US", whois.GeoIpData.Country);
         }
-
-        [TestMethod]
-        public void VisitorTest()
-        {
-            var visitor = global::Sitecore.Analytics.Tracker.CurrentVisit;
-            visitor.Ip = System.Net.IPAddress.Parse("74.83.221.108").GetAddressBytes();
-            var success = visitor.UpdateGeoIpData(TimeSpan.FromSeconds(1));
-            Assert.IsTrue(success);
-            System.Threading.Thread.Sleep(1000);
-            var geo = visitor.GeoIp;
-
-            Assert.IsNotNull(geo);
-
-            Assert.Inconclusive("No asserts");
-        }
     }
 }

@@ -135,9 +135,12 @@
     <Compile Include="DomainModels\Enrollments\IOfferOptionRules.cs" />
     <Compile Include="DomainModels\Enrollments\Location.cs" />
     <Compile Include="DomainModels\Enrollments\LocationServices.cs" />
+    <Compile Include="DomainModels\Enrollments\OfferPayment.cs" />
+    <Compile Include="DomainModels\Enrollments\RateType.cs" />
     <Compile Include="DomainModels\Enrollments\SampleOfferOption.cs" />
     <Compile Include="DomainModels\Enrollments\ServiceStatusCapability.cs" />
     <Compile Include="DomainModels\Enrollments\Service\IdentityCheckHardStop.cs" />
+    <Compile Include="DomainModels\Enrollments\Service\LocationOfferDetails.cs" />
     <Compile Include="DomainModels\Enrollments\TexasElectricityOfferOption.cs" />
     <Compile Include="DomainModels\Enrollments\TexasElectricityOfferOptionPolicy.cs" />
     <Compile Include="DomainModels\Enrollments\TexasElectricityOfferOptionRules.cs" />
@@ -154,7 +157,6 @@
     <Compile Include="DomainModels\Enrollments\Service\IdentityCheckResult.cs" />
     <Compile Include="DomainModels\Enrollments\IConnectDatePolicy.cs" />
     <Compile Include="DomainModels\Enrollments\IEnrollmentService.cs" />
-    <Compile Include="DomainModels\Enrollments\Service\LoadDepositResult.cs" />
     <Compile Include="DomainModels\Enrollments\Service\PlaceOrderResult.cs" />
     <Compile Include="DomainModels\Enrollments\TexasElectricityOffer.cs" />
     <Compile Include="DomainModels\IServiceCapability.cs" />
@@ -171,6 +173,8 @@
     <Compile Include="DomainModels\Enrollments\PlanSelectionState.cs" />
     <Compile Include="DomainModels\Payments\SamplePaymentInfo.cs" />
     <Compile Include="DomainModels\Payments\TokenizedCard.cs" />
+    <Compile Include="DomainModels\PhoneCategory.cs" />
+    <Compile Include="DomainModels\PhoneSubtypeLookup.cs" />
     <Compile Include="DomainModels\PolymorphicSerializationContainerSetup.cs" />
     <Compile Include="DomainModels\SampleServiceCapability.cs" />
     <Compile Include="DomainModels\TexasMeterType.cs" />
@@ -178,6 +182,7 @@
     <Compile Include="DomainModels\Enrollments\UserContext.cs" />
     <Compile Include="DomainModels\Enrollments\VerifyIdentityState.cs" />
     <Compile Include="DomainModels\Phone.cs" />
+    <Compile Include="DomainModels\TypedPhone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

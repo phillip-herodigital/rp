@@ -6,6 +6,7 @@
                 <ul>
                     <li><a href="#">@Html.Sitecore().Field("Autopay Settings Text")</a></li>
                     <li><a href="#">@Html.Sitecore().Field("Payment Accounts Text")</a></li>
+                    <li><a href="#">@Html.Sitecore().Field("Status Source Help Text")</a></li>
                 </ul>
             </header>
             
@@ -43,7 +44,7 @@
                     <thead>
                         <tr>
                             <th></th>
-                            <th><input type="checkbox"></th>
+                            <th><i class="icon-recurring"></i></th>
                             <th>@Html.Sitecore().Field("Header Account Text")</th>
                             <th>@Html.Sitecore().Field("Header Service Type Text")</th>
                             <th>@Html.Sitecore().Field("Header Confirm Code Text")</th>
@@ -55,8 +56,8 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td></td>
-                            <td><input type="checkbox"></td>
+                            <td><i class="icon-arrow-collapsed"></i></td>
+                            <td><i class="icon-recurring"></i></td>
                             <td>1197015532</td>
                             <td><i class="icon-homelife-services"></i> HomeLife Services</td>
                             <td>1030523546381</td>
@@ -66,8 +67,8 @@
                             <td><button class="secondary">Details</button></td>
                         </tr>
                         <tr>
-                            <td></td>
-                            <td><input type="checkbox"></td>
+                            <td><i class="icon-arrow-collapsed"></i></td>
+                            <td><i class="icon-recurring"></i></td>
                             <td>219849302</td>
                             <td><i class="icon-utility"></i> Utility</td>
                             <td>1020453546012</td>
@@ -77,8 +78,8 @@
                             <td><button class="secondary">Details</button></td>
                         </tr>
                         <tr>
-                            <td></td>
-                            <td><input type="checkbox"></td>
+                            <td><i class="icon-arrow-collapsed"></i></td>
+                            <td><i class="icon-recurring"></i></td>
                             <td>219849302</td>
                             <td><i class="icon-utility"></i> Utility</td>
                             <td>1020453546012</td>
@@ -86,6 +87,36 @@
                             <td>04/05/14</td>
                             <td>APPROVED</td>
                             <td><button class="secondary">Details</button></td>
+                        </tr>
+                        <tr class="expand-details">
+                            <td colspan="9">
+                                <div class="grid clearfix">
+                                    <div class="col clearfix">
+                                        <span class="label">
+                                            <p><strong>Payment ID:</strong></p>
+                                            <p><strong>Confirmation Code:</strong></p>
+                                            <p><strong>Payment Mode:</strong></p>
+                                        </span>
+                                        <span class="account-info">
+                                            <p>1234567890</p>
+                                            <p>1234567890</p>
+                                            <p>ACH</p>
+                                        </span>
+                                    </div>
+                                    <div class="col clearfix">
+                                        <span class="label">
+                                            <p><strong>Payment Account:</strong></p>
+                                            <p><strong>Routing Transit Number:</strong></p>
+                                            <p><strong>Payments Made By:</strong></p>
+                                        </span>
+                                        <span class="account-info">
+                                            <p>*********1234</p>
+                                            <p>1234567890</p>
+                                            <p>Jordan Campbell</p>
+                                        </span>
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

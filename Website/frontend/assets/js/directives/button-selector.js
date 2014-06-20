@@ -38,12 +38,11 @@ ngApp
                 element.bind('click', function () {
                     var isSelected = element.hasClass(buttonsCtrl.selectedClass);
 
-                    if (!isSelected) {
-                        scope.$apply(function () {
-                            ngModelCtrl.$setViewValue(isSelected ? null : scope.$eval(attrs.buttonSelector));
-                            ngModelCtrl.$render();
-                        });
-                    }
+                    //We want them to be able to remove a selection    
+                    scope.$apply(function () {
+                        ngModelCtrl.$setViewValue(isSelected ? null : scope.$eval(attrs.buttonSelector));
+                        ngModelCtrl.$render();
+                    });
                 });
             }
         };

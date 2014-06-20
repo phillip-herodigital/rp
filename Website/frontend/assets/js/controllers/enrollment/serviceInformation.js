@@ -2,139 +2,54 @@
  *
  * This is used to control aspects of let's get started on enrollment page.
  */
-ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$http', '$location', 'enrollmentService', function ($scope, $rootScope, $http, $location, enrollmentService) {
-    $scope.enrollment.extraFields.isNewService = 0;
-    $scope.enrollment.extraFields.serviceState = 'TX';
-    $scope.enrollment.formErrors.serviceInformation = [];
+ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$filter', 'enrollmentService', 'utilityProductsService', function ($scope, $location, $filter, enrollmentService, utilityProductsService) {
+    $scope.utilityService = utilityProductsService;
 
-    $scope.states = [
-        {
-            'class': 'icon texas',
-            'name': 'Texas',
-            'value': 'TX'
-        },
-        {
-            'class': 'icon georgia',
-            'name': 'Georgia',
-            'value': 'GA'
-        },
-        {
-            'class': 'icon pennsylvania',
-            'name': 'Pennsylvania',
-            'value': 'PA'
-        },
-        {
-            'class': 'icon maryland',
-            'name': 'Maryland',
-            'value': 'MD'
-        },
-        {
-            'class': 'icon new-jersey',
-            'name': 'New Jersey',
-            'value': 'NJ'
-        },
-        {
-            'class': 'icon new-york',
-            'name': 'New York',
-            'value': 'NY'
-        },
-        {
-            'class': 'icon washington-dc',
-            'name': 'Washington, DC',
-            'value': 'DC'
+    //Set the default service information
+    $scope.serviceInformation = utilityProductsService.getServiceInformationObject();
+
+    //Checking to see when the active service address has been updated
+    //So we can reinitialize all service information for this page
+    //There has to be a better way of doing this
+    $scope.$watch(utilityProductsService.getActiveServiceAddress, function(newValue) {
+        if(utilityProductsService.isNewServiceAddress) {
+            $scope.serviceInformation = utilityProductsService.getServiceInformationObject();
+        } else {
+            $scope.serviceInformation = utilityProductsService.getServiceInformationObject(newValue);
         }
-    ];
+    });
 
     /**
-    * Complete Enrollment Section
-    */
-    $scope.completeStep = function () {
-        $scope.enrollment.formErrors.serviceInformation = [];
-
-        if (!$scope.enrollment.extraFields.serviceAddress) {
-            $scope.enrollment.formErrors.serviceInformation.serviceAddress = 'Service Address required.';
-            return;
-        }
-
-        if ($scope.checkDuplicateLocation($scope.enrollment.extraFields.serviceAddress)) {
-            $scope.enrollment.formErrors.serviceInformation.serviceAddress = 'Service Address already added to cart.';
-            return;
-        }
-
-        if (typeof $scope.enrollment.serverData.locationServices == 'undefined') {
-            var data = { 'locations': {} };
+     * Checking if the current form is valid to continue
+     * Form level validation is done outside of here, this is checking to ensure
+     * we have the correct data
+     * @return {Boolean}
+     */
+    $scope.isFormValid = function() {
+        //TODO: Check for a duplicate address in cart as well
+        if(typeof $scope.serviceInformation.location == 'object' && $scope.serviceInformation.isNewService > -1) {
+            return true;
         } else {
-            var data = { 'locations': $scope.enrollment.serverData.locationServices };
+            return false;
         }
+    };
 
-        var id = $scope.createLocationID();
-        data.locations[id] = {
-            'location': $scope.enrollment.extraFields.serviceAddress
-        }
+    /**
+     * Complete the Service Information Step
+     * @return {[type]} [description]
+     */
+    $scope.completeStep = function () {
+        var postData = utilityProductsService.createPostObject($scope.serviceInformation);
 
-        if ($scope.enrollment.extraFields.isNewService == 1) {
-            data.locations[id].location.capabilities.push({ "capabilityType": "ServiceStatus", "isNewService": true });
-        }
-
-        console.log('Sending service information...');
-
-        var serviceInformationPromise = enrollmentService.setServiceInformation(data);
-
+        //Save the updated locations to the server
+        var serviceInformationPromise = enrollmentService.setServiceInformation(postData);
+        
         serviceInformationPromise.then(function (data) {
-            $scope.enrollment.serverData = data;
-
-            $scope.enrollment.extraFields.isNewService = 0;
-
-            //Change this line to real ID in acutal implementation
-            //$scope.enrollment.extraFields.serviceAddress.id = id;
-            $scope.enrollment.extraFields.serviceAddress.id = 'location1';
-
-            angular.copy($scope.enrollment.extraFields.serviceAddress, $scope.enrollment.currentAddress);
-
-            $scope.enrollment.extraFields.serviceAddress = null;
-
-            $scope.activateSections('planSelection');
-
+            //Add the locations to our utility service
+            utilityProductsService.isNewServiceAddress = false;
+            utilityProductsService.setActiveServiceAddress($scope.serviceInformation.location.address);
         }, function (data) {
             // error response
-            $rootScope.$broadcast('connectionFailure');
         });
-    };
-
-    /**
-    * Create location ID
-    * return string
-    */
-    $scope.createLocationID = function () {
-        var i = 1,
-            idPrefix = 'location';
-
-        if (typeof $scope.enrollment.serverData.locationServices == 'undefined') {
-            return idPrefix + i;
-        } else {
-            while (typeof $scope.enrollment.serverData.locationServices[idPrefix + i] != 'undefined') {
-                i++;
-            }
-        }
-
-        return idPrefix + i;
-    };
-
-    /**
-    * Check for duplicate location
-    * @param {object} location
-    *
-    * return {string}
-    */
-    $scope.checkDuplicateLocation = function (location) {
-        var duplicateLocation = false;
-        if (typeof $scope.enrollment.serverData.locationServices != 'undefined') {
-            angular.forEach($scope.enrollment.serverData.locationServices, function (value, key) {
-                if ($scope.formatAddress(value.location.address) == location.formattedAddress) {
-                    duplicateLocation = true;
-                }
-            });
-        }
-        return duplicateLocation;
     };
 }]);

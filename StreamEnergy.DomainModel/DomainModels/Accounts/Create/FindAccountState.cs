@@ -39,7 +39,7 @@ namespace StreamEnergy.DomainModels.Accounts.Create
             context.Customer = new CustomerContact
             {
                 Name = new Name { First = "John", Last = "Smith" },
-                PrimaryPhone = new Phone { Number = "555-555-4545" },
+                Phone = new[] { new Phone { Number = "555-555-4545" } },
                 Email = new Email { Address = "test@example.com" }
             };
             context.Address = new Address
