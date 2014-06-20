@@ -9,7 +9,8 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$window', '$scope', 'enrollmen
 
     $scope.getPlans = enrollmentCartService.getPlans;
     $scope.getCartCount = enrollmentCartService.getCartCount;
-    $scope.getCartItems = enrollmentCartService.getCartItems;    
+    $scope.getCartItems = enrollmentCartService.getCartItems;  
+    $scope.getCartTotal = enrollmentCartService.calculateCartTotal;  
 
     /**
     * Complete Enrollment Section

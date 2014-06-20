@@ -480,16 +480,15 @@
         hr {
             border: none;
             border-top: 1px solid #ddd;
-            margin: 25px 0;
         } 
+        .total {
+            text-align: right;
+        }
         .verify-order-table {
             .sub-charge { 
                 padding-left: 30px;
             }
             .rate {
-                text-align: right;
-            }
-            .total {
                 text-align: right;
             }
             h4 { 

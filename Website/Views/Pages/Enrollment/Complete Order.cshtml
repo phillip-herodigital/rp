@@ -16,9 +16,9 @@
             <h1>@Html.Sitecore().Field("Add Payment Information")</h1>
             <p>@Html.Sitecore().Field("Payment Due")</p>
 
-            <div ng-repeat="(id, location) in getCartItems()" class="verify-order">
-                <article class="form">
-                    <div class="content">
+            <article class="form verify-order">
+                <div class="content">
+                    <div ng-repeat="(id, location) in getCartItems()">
                         <div class="item">
                             <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
                             <strong>{{ location.location.address | address }}</strong>
@@ -26,7 +26,7 @@
                         <hr />
                         <div ng-repeat="(type, plan) in getPlans(location)">
                             <div ng-if="type == 'TexasElectricity'">
-                                <h3>Electricity</h3>
+                                @*<h3>Electricity</h3>*@
                                 <table class="verify-order-table">
                                     <tbody>
                                         <tr class="line-item">
@@ -49,18 +49,19 @@
                                             <td class="sub-charge">Installation</td>
                                             <td></td>
                                         </tr>*@
-                                        <tr>
-                                            <td class="total" colspan="2">
-                                                @Html.Sitecore().Field("Total Due Now") <strong>{{calculateTotal(plans) | currency}}</strong>
-                                            </td>
-                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
+                        <hr class="content-divider" ng-if="getCartItems().length > 1 && !$last">
                     </div>
-                </article>
-            </div>
+                    <hr class="content-divider">
+                    <div class="total">
+                        @Html.Sitecore().Field("Total Due Now") <strong>{{ getCartTotal() | currency }}</strong>
+                    </div>                    
+                </div>
+            </article>
+            
             @*
                 <p>@Html.Sitecore().Field("Set Up Card")</p>
                 <h2>@Html.Sitecore().Field("Homelife Services")</h2>
