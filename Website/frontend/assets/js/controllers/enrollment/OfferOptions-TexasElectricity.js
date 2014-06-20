@@ -9,7 +9,7 @@
 
     var connectDate = new Date();
     connectDate.setDate(new Date().getDate() + 4);
-    $scope.selectedOffer.offerOption = { connectDate: connectDate, optionType: "TexasElectricity" };
+    $scope.selectedOffer.offerOption = $scope.selectedOffer.offerOption || { connectDate: connectDate, optionType: "TexasElectricity" };
     $scope.connectionFee = '0.00';
 
     $scope.checkDateClass = function (date) {
