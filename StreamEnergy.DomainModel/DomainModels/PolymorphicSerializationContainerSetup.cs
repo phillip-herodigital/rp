@@ -33,6 +33,8 @@ namespace StreamEnergy.DomainModels
                     { Payments.TokenizedCard.Qualifier, typeof(Payments.TokenizedCard) }
                 }
             });
+
+            unityContainer.Resolve<TypeIndicatorJsonConverter>().TypeIndicators.Add(new PhoneSubtypeLookup());
         }
     }
 }

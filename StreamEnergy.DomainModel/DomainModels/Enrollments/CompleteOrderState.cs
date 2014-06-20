@@ -19,7 +19,6 @@ namespace StreamEnergy.DomainModels.Enrollments
         public override IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
         {
             yield return context => context.Services;
-            yield return context => context.BillingAddress;
             yield return context => context.ContactInfo;
             yield return context => context.Language;
             yield return context => context.SecondaryContactInfo;
@@ -32,7 +31,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         protected override Type InternalProcess(UserContext context, InternalContext internalContext)
         {
-            internalContext.PlaceOrderResult = enrollmentService.PlaceOrder(context.Services.Values);
+            internalContext.PlaceOrderResult = enrollmentService.PlaceOrder(context.Services);
 
             return base.InternalProcess(context, internalContext);
         }

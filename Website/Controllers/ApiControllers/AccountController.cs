@@ -16,7 +16,7 @@ using System.Web.Security;
 using System.Web.SessionState;
 using Microsoft.Practices.Unity;
 
-namespace StreamEnergy.MyStream.Controllers
+namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
     public class AccountController : ApiController, IRequiresSessionState
     {
@@ -207,9 +207,12 @@ namespace StreamEnergy.MyStream.Controllers
                 First = "John",
                 Last = "Smith"
             };
-            customerContact.PrimaryPhone = new DomainModels.Phone
-            {
-                Number = "111-111-1111",
+            customerContact.Phone = new[] 
+            { 
+                new DomainModels.Phone
+                {
+                    Number = "111-111-1111",
+                }
             };
 
             customerAddress.Line1 = "123 Main St.";

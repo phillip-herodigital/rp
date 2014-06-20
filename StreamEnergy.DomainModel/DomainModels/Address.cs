@@ -10,6 +10,7 @@ namespace StreamEnergy.DomainModels
 {
     [Serializable]
     [System.Web.Mvc.ModelBinder(typeof(Mvc.IgnoreBlanksModelBinder))]
+    [System.Diagnostics.DebuggerDisplay("{ToSingleLine()}")]
     public class Address : ISanitizable, IEquatable<Address>
     {
         [Required(ErrorMessage = "Line 1 Required")]
@@ -86,6 +87,25 @@ namespace StreamEnergy.DomainModels
                 && (this.PostalCodePlus4 ?? "") == (other.PostalCodePlus4 ?? "")
                 && (this.StateAbbreviation ?? "") == (other.StateAbbreviation ?? "")
                 && (this.UnitNumber ?? "") == (other.UnitNumber ?? "");
+        }
+
+        public static bool operator ==(Address lhs, Address rhs)
+        {
+            if (object.ReferenceEquals(lhs, null) && object.ReferenceEquals(rhs, null))
+            {
+                return true;
+            }
+            else if (object.ReferenceEquals(lhs, null) || object.ReferenceEquals(rhs, null))
+            {
+                return false;
+            }
+
+            return lhs.Equals(rhs);
+        }
+
+        public static bool operator !=(Address lhs, Address rhs)
+        {
+            return !(lhs == rhs);
         }
 
         public string ToSingleLine()

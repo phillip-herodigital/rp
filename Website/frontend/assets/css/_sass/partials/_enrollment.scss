@@ -230,7 +230,7 @@
             right: 8px;
         }
     }
-    table {
+    table.plan-selection-table {
         margin-bottom: 30px;
         border: 1px solid #eaeaea;
         thead {
@@ -475,6 +475,37 @@
 			display:none;
 		}
 	}
+
+    .verify-order {
+        hr {
+            border: none;
+            border-top: 1px solid #ddd;
+        } 
+        .total {
+            text-align: right;
+        }
+        .verify-order-table {
+            .sub-charge { 
+                padding-left: 30px;
+            }
+            .rate {
+                text-align: right;
+            }
+            h4 { 
+                margin: 0;
+            }
+            th, td {
+                border: none;
+                padding: 8px 0;
+                vertical-align: top;
+            }
+            tr:last-child {
+                td {
+                    padding-bottom: 0;
+                }
+            }
+        }
+    }
 
     @each $theme in $themes {
         &.accent-#{map-get($theme, name)} {
@@ -730,6 +761,12 @@
                 top: 22px;
                 left: 10px;
             }
+        }
+    }
+    .buttons {
+        .button { 
+            display: block;
+            width: 100%;
         }
     }
     @include breakpoint(small) {

@@ -2,25 +2,40 @@
  *
  * This is used to control aspects of the cart on enrollment page.
  */
-ngApp.controller('EnrollmentCartCtrl', ['$scope', '$rootScope', 'enrollmentService', function ($scope, $rootScope, enrollmentService) {
+ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enrollmentService', 'enrollmentCartService', function ($scope, enrollmentStepsService, enrollmentService, enrollmentCartService) {
+    
+    /*$scope.enrollmentStepsService = enrollmentStepsService;
+    $scope.utilityService = utilityProductsService;
+    $scope.accountInformationService = accountInformationService;*/
+
+    $scope.getPlans = enrollmentCartService.getPlans;
+    $scope.getCartCount = enrollmentCartService.getCartCount;
+    $scope.getCartItems = enrollmentCartService.getCartItems;
+    
     /**
     * Change Plan
     */
-    $scope.changePlan = function () {
-
+    $scope.changeUtilityPlan = function (location) {
+        //update active service address, send to the correct page
+        //enrollmentCartService.changeUtilityPlan(location);
+        enrollmentCartService.editUtilityAddress(location);
+        enrollmentStepsService.setFlow('utility', false).setStep('utilityFlowPlans');
     };
 
     /**
     * Edit Address
     */
-    $scope.editAddress = function () {
-
+    $scope.editUtilityAddress = function (location) {
+        enrollmentCartService.editUtilityAddress(location);
+        enrollmentStepsService.setFlow('utility', false).setStep('utilityFlowService');
+        //we should probably focus on the input field as well
     };
 
     /**
     * Delete item from cart
     */
-    $scope.deleteItem = function () {
-
+    $scope.deleteUtilityAddress = function (location) {
+        enrollmentCartService.editUtilityAddress(location);
+        enrollmentCartService.deleteUtilityAddress(location);
     };
 }]);

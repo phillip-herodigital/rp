@@ -28,7 +28,9 @@ namespace StreamEnergy
             var selected = (from t in TypeIndicators
                             where t.SuperType == objectType
                             select t.FindMatch(target)).FirstOrDefault();
-            if (selected != null)
+            if (selected == objectType)
+                return new JsonSerializer().Deserialize(target.CreateReader(), objectType);
+            else if (selected != null)
                 return serializer.Deserialize(target.CreateReader(), selected);
             else
                 return null;

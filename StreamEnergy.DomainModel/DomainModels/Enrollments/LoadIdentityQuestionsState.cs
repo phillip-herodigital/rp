@@ -19,7 +19,6 @@ namespace StreamEnergy.DomainModels.Enrollments
         public override IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
         {
             yield return context => context.Services;
-            yield return context => context.BillingAddress;
             yield return context => context.ContactInfo;
             yield return context => context.Language;
             yield return context => context.SecondaryContactInfo;
@@ -37,9 +36,14 @@ namespace StreamEnergy.DomainModels.Enrollments
             throw new NotImplementedException();
         }
 
+        protected override bool NeedRestoreInternalState(UserContext context, InternalContext internalContext)
+        {
+            return internalContext.IdentityCheckResult == null || (!internalContext.IdentityCheckResult.IdentityAccepted && internalContext.IdentityCheckResult.HardStop != null);
+        }
+
         protected override void LoadInternalState(UserContext context, InternalContext internalContext)
         {
-            internalContext.IdentityCheckResult = enrollmentService.IdentityCheck(context.ContactInfo.Name, context.SocialSecurityNumber, context.DriversLicense, context.BillingAddress);
+            internalContext.IdentityCheckResult = enrollmentService.IdentityCheck(context.ContactInfo.Name, context.SocialSecurityNumber, context.DriversLicense);
         }
     }
 }
