@@ -372,12 +372,14 @@ namespace StreamEnergy.MyStream.Controllers
             var account1 = new EnrolledAccount
             {
                 AccountNumber = "1234567890",
-                DateAdded = Convert.ToDateTime("12/28/2013  17:33:15")
+                DateAdded = Convert.ToDateTime("12/28/2013  17:33:15"),
+                SendLetter = true
             };
             var account2 = new EnrolledAccount
             {
                 AccountNumber = "0987654321",
-                DateAdded = Convert.ToDateTime("06/12/2014  11:40:55")
+                DateAdded = Convert.ToDateTime("06/12/2014  11:40:55"),
+                SendLetter = false
             };
             IEnumerable<EnrolledAccount> enrolledAccounts = new EnrolledAccount[] {account1, account2};
 
