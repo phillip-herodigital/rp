@@ -1022,4 +1022,51 @@ aside {
 			border-top: 1px solid #ddd;
 		}
 	}
+	article.thermostat {
+		.content {
+			padding: 0px 15px;
+			.grid .col {
+				i {
+					float: left;
+					margin: 10px 7px 0 0;
+				}
+				h5 {
+					margin: 0 0 -10px 0;
+				}
+				.current-temp {
+					font-size: 44px;
+					.temp-scale {
+						font-size: 30px;
+						vertical-align: text-top;
+					}
+				}
+				dl {
+					margin: -20px 0 -10px 0;
+					dd.temperature {
+						font-size: 30px;
+					}
+					dt {
+						font-size: 14px;
+					}
+				}
+				@include breakpoint(small) {
+					padding-bottom: 20px;
+				}
+			}
+		}
+		footer {
+			p {
+				padding: 0;
+			}
+			.online {
+				float: left;
+			}
+			.settings {
+				float: right;
+				a {
+					text-transform: none;
+				}
+			}
+		}
+	}
 }
