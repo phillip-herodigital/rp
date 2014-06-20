@@ -50,8 +50,8 @@
                                 @*base this on offerType - TexasElectricity, GeorgiaGas, etc*@
                                 <div ng-include src="'offerOptions/' + offerInformation.key"></div>
 
-                                @*Don't even show the billing address section if the service address isn't set*@
-                                <div ng-show="item.location.address.line1">
+                                @* Start Billing Address section - don't even show the billing address section if the service address isn't set *@
+                                <div ng-show="item.location.address.line1" ng-controller="EnrollmentBillingAddressCtrl">
                                     <h3>@Html.Sitecore().Field("Billing Address Header")</h3>
 
                                     <div class="item">

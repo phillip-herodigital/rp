@@ -95,12 +95,18 @@ ngApp.factory('utilityProductsService', ['$filter', function ($filter) {
 			if(typeof address == 'undefined') {
 				activeServiceAddress = this.getServiceInformationObject();
 			} else {
-	            angular.forEach(addresses, function(item) {
-	                if($filter('address')(address) == $filter('address')(item.location.address)) {
-	                    activeServiceAddress = item;
-	                }
-	            });
+			    activeServiceAddress = this.findMatchingAddress(address);
             }
+		},
+
+		findMatchingAddress: function(address) {
+		    var result;
+		    angular.forEach(addresses, function(item) {
+		        if($filter('address')(address) == $filter('address')(item.location.address)) {
+		            result = item;
+		        }
+		    });
+		    return result;
 		},
 
 		/**

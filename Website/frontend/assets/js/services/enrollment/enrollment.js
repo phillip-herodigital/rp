@@ -296,7 +296,6 @@
             }
         });
         if (serviceIndexErrors.length) {
-            console.log(utilityProductsService.getAddresses(), serviceIndexErrors[0]);
             utilityProductsService.setActiveServiceAddress(utilityProductsService.getAddresses()[serviceIndexErrors[0]].location.address);
         }
 
