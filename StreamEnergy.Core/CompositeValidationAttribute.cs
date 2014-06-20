@@ -49,7 +49,7 @@ namespace StreamEnergy
             while (expression != null)
             {
                 members.Push(expression.Member);
-                expression = expression.Expression as MemberExpression;
+                expression = expression.Expression.RemoveCast() as MemberExpression;
             }
             return members.ToArray();
         }

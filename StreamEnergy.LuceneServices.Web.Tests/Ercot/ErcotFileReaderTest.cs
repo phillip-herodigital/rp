@@ -21,13 +21,13 @@ namespace StreamEnergy.LuceneServices.Web.Tests.Ercot
             {
                 // Act
                 var results = target.ReadZipFile(stream, "ONCOR");
-                var lookup = results.ToDictionary(loc => loc.Address, loc => loc.Capabilities.OfType<TexasServiceCapability>().Single());
+                var lookup = results.ToDictionary(loc => loc.Capabilities.OfType<TexasServiceCapability>().Single().EsiId, loc => loc.Address);
 
                 // Assert
-                Assert.AreEqual("10443720001551003", lookup[new Address { Line1 = "115 W ILLINOIS AVE", City = "DALLAS", StateAbbreviation = "TX", PostalCode5 = "75224", PostalCodePlus4 = "2216" }].EsiId);
-                Assert.AreEqual("10443720009453090", lookup[new Address { Line1 = "2311 W GRAPEVINE MILLS CIR", UnitNumber = "APT 3202", City = "GRAPEVINE", StateAbbreviation = "TX", PostalCode5 = "76051" }].EsiId);
-                Assert.AreEqual("10443720005165470", lookup[new Address { Line1 = "712 RIDGEDALE DR", City = "RICHARDSON", StateAbbreviation = "TX", PostalCode5 = "75080", PostalCodePlus4 = "5513" }].EsiId);
-                Assert.AreEqual("10443720007113675", lookup[new Address { Line1 = "300 OHIO AVE N", City = "GRAHAM", StateAbbreviation = "TX", PostalCode5 = "76450", PostalCodePlus4 = "1810" }].EsiId);
+                Assert.AreEqual(new Address { Line1 = "115 W ILLINOIS AVE", City = "DALLAS", StateAbbreviation = "TX", PostalCode5 = "75224", PostalCodePlus4 = "2216" }.ToSingleLine(), lookup["10443720001551003"].ToSingleLine());
+                Assert.AreEqual(new Address { Line1 = "2311 W GRAPEVINE MILLS CIR", UnitNumber = "APT 3202", City = "GRAPEVINE", StateAbbreviation = "TX", PostalCode5 = "76051" }.ToSingleLine(), lookup["10443720009453090"].ToSingleLine());
+                Assert.AreEqual(new Address { Line1 = "712 RIDGEDALE DR", City = "RICHARDSON", StateAbbreviation = "TX", PostalCode5 = "75080", PostalCodePlus4 = "5513" }.ToSingleLine(), lookup["10443720005165470"].ToSingleLine());
+                Assert.AreEqual(new Address { Line1 = "300 OHIO AVE N", City = "GRAHAM", StateAbbreviation = "TX", PostalCode5 = "76450", PostalCodePlus4 = "1810" }.ToSingleLine(), lookup["10443720007113675"].ToSingleLine()); 
             }
         }
     }

@@ -8,5 +8,6 @@ namespace StreamEnergy.DomainModels.Enrollments
     public interface IOfferOption : ISanitizable
     {
         string OptionType { get; }
+        Address BillingAddress { get; }
     }
 }

@@ -108,9 +108,8 @@ article {
 	}
 	.account-selector {
 		background: #fbfbfb;
-		padding: 0 15px 15px;
+		padding: 15px;
 		border-bottom: 1px solid #ddd;
-		margin: -25px -15px 15px -15px;
 		.group {
 			@extend .inline-group;
 			.item {
@@ -119,6 +118,9 @@ article {
 				label {
 					display: inline-block;
 					margin-right: 5px;
+					@include breakpoint(medium) {
+						display: block;
+					}
 				}
 				select {
 					width: auto;
@@ -269,6 +271,58 @@ article.white-box {
 	}
 }
 
+article.gradient-box {
+	@include border-radius(5px);
+	@include background-clip(padding-box);
+	background-color: #fff;
+	@include box-shadow(2px 3px 4px 0 rgba(85,53,91,.25));
+	@include background-image(linear-gradient(bottom, rgba(76,73,77,.15) 0%, rgba(255,255,255,.15) 100%));
+	header {
+		background: none;
+		padding: 0 0 20px 0;
+		margin: 20px 15px 0 15px;
+		h2 {
+			padding-top: 10px;
+			a {
+				text-transform: none;
+				font-size: 20px;
+				font-weight: 600;
+			}
+		}
+		button,
+		.button {
+			float: right;
+			margin-top: 10px;
+		}
+	}
+	h3 {
+		font-size: 20px;
+		margin: 0 0 40px 0;
+		font-weight: normal;
+		text-transform: none;
+	}
+	h4 {
+		font-size: 16px;
+		font-weight: 600;
+		margin: 0 0 15px 0;
+		letter-spacing: 1px;
+	}
+	p {
+		font-size: 14px;
+		font-weight: 600;
+	}
+	.more {
+		color: #333;
+		font-size: 14px;
+		font-weight: 600;
+	}
+	@include breakpoint(small) {
+		.col {
+			margin-bottom: 20px;
+		}
+	}
+}
+
 article.plain {
 	border: none;
 	@include box-shadow(none);
@@ -288,9 +342,6 @@ div.banner + article.message {
 }
 
 div.banner.account {
-	@include breakpoint(small) {
-		display: none;
-	}
 	@include breakpoint(large) {
 		border-bottom: 5px solid #259afd;
 	}
@@ -456,6 +507,9 @@ article.balances-payments {
 		margin-bottom: 5px;
 		width: 61%;
 	}
+	.content {
+		padding: 0 15px 25px 15px;
+	}
 	.grid .col {
 		border-spacing: 0px;
 		h4 {
@@ -525,8 +579,10 @@ article.energy-usage {
 }
 article.service-identification {
 	padding-top: 0px;
+	background-color: #fbfbfb;
 	.service-address p {
 		margin-bottom: 0px;
+		padding: 0 0 15px 15px;
 	}
 }
 article.account-holder-information {
@@ -538,6 +594,20 @@ article.account-holder-information {
 	}
 	.billing-address {
 		margin-left: 23px;
+	}
+	.new-address .group {
+		.select-state {
+			width: 30%;
+			@include breakpoint(small) {
+				width: auto;
+			}
+		}
+		.zip-code {
+			width: 20%;
+			@include breakpoint(small) {
+				width: auto;
+			}
+		}
 	}
 	.checkbox-list {
 		label {
@@ -659,7 +729,7 @@ article.make-payment {
 				position: relative;
 				.icon {
 					position: absolute;
-					top: 0px;
+					top: -2px;
 					right: 10px;
 				}
 			}
@@ -724,6 +794,29 @@ article.payment-history {
 	}
 	.content {
 		padding-top: 0px;
+	}
+	table tr {
+		.icon-recurring {
+			margin-left: 3px;
+		}
+		&.expand-details {
+			.grid {
+				margin: 15px 0 15px 35px;
+				.label {
+					float: left;
+					margin-right: 15px;
+					@include breakpoint(small) {
+						width: 25%;
+					}
+				}
+				.account-info {
+					float: left;
+				}
+			}
+		}
+		td .icon-arrow-collapsed {
+			margin-left: 18px
+		}
 	}
 }
 article.my-invoices {

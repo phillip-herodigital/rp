@@ -2,43 +2,50 @@
  *
  * This is used to control aspects of account information on enrollment page.
  */
-ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', '$rootScope', 'enrollmentService', function ($scope, $rootScope, enrollmentService) {
+ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentService', 'utilityProductsService', 'enrollmentCartService', function ($scope, enrollmentService, utilityProductsService, enrollmentCartService) {
+    $scope.utilityProducts = utilityProductsService;
+    $scope.usStates = enrollmentService.usStates;
+    $scope.phoneTypes = enrollmentService.phoneTypes;
+    $scope.accountInformation = enrollmentService.accountInformation;
+
     /**
-    * Initialize function
-    */
-    $scope.init = function () {
-        $scope.enrollment.extraFields.accountInformation = {
-            serviceAddresses: {},
-            personalInformation: {},
-            billingAddress: {},
-            login: {}
-        };
+     * [utilityAddresses description]
+     * @return {[type]} [description]
+     */
+    $scope.utilityAddresses = function () {
+        //Keep a temporary array for the typeahead service addresses
 
-        angular.forEach($scope.enrollment.serverData.locationServices, function (item, id) {
-            $scope.enrollment.extraFields.accountInformation.serviceAddresses[id] = {};
+        //Don't do this, digest loop error
+        //$scope.accountInformation.serviceAddress = [];
+        return utilityProductsService.getAddresses();
+    };
 
-            angular.forEach($scope.enrollment.serverData.locationServices[id].selectedOffers, function(plan, type) {
-                $scope.enrollment.extraFields.accountInformation.serviceAddresses[id][type] = {};
-            });
-        });
+    $scope.updateSameAddress = function (offerOption) {
+        if (offerOption.billingAddressSame) {
+            if ($scope.utilityAddresses().length == 1)
+                offerOption.billingAddress = $scope.utilityAddresses()[0].location.address;
+        } else {
+            offerOption.billingAddress = {};
+        }
+    };
+
+    /**
+     * In addition to normal validation, ensure that at least one item is in the shopping cart
+     * @return {Boolean} [description]
+     */
+    $scope.isFormValid = function () {
+        if (enrollmentCartService.getCartCount()) {
+            return true;
+        } else {
+            return false;
+        }
     };
 
     /**
     * Complete Enrollment Section
     */
     $scope.completeStep = function () {
-        console.log('Sending account information...');
 
-        var confirmOrderPromise = enrollmentService.setConfirmOrder();
-
-        confirmOrderPromise.then(function (data) {
-            $scope.enrollment.serverData = data;
-
-            $scope.activateSections('verifyIdentity');
-        }, function (data) {
-            // error response
-            $rootScope.$broadcast('connectionFailure');
-        });
+        enrollmentService.setAccountInformation(utilityProductsService.addresses);
     };
-
 }]);

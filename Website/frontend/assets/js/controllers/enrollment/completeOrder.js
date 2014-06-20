@@ -2,10 +2,15 @@
  *
  * This is used to control aspects of complete order on enrollment page.
  */
-ngApp.controller('EnrollmentCompleteOrderCtrl', ['$window', '$scope', '$rootScope', 'enrollmentService', function ($window, $scope, $rootScope, enrollmentService) {
+ngApp.controller('EnrollmentCompleteOrderCtrl', ['$window', '$scope', 'enrollmentService', 'enrollmentCartService', function ($window, $scope, enrollmentService, enrollmentCartService) {
 
-    $scope.enrollment.extraFields.verifyIdentity = {};
-    $scope.enrollment.extraFields.verifyIdentity.creditCard = {};
+    $scope.verifyIdentity = {};
+    $scope.verifyIdentity.creditCard = {};
+
+    $scope.getPlans = enrollmentCartService.getPlans;
+    $scope.getCartCount = enrollmentCartService.getCartCount;
+    $scope.getCartItems = enrollmentCartService.getCartItems;  
+    $scope.getCartTotal = enrollmentCartService.calculateCartTotal;  
 
     /**
     * Complete Enrollment Section
@@ -18,11 +23,9 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$window', '$scope', '$rootScop
 
         confirmOrderPromise.then(function (data) {
             console.log(data);
-            $scope.enrollment.serverData = data;
             $window.location.href = '/account/enrollment-confirmation';
         }, function (data) {
             // error response
-            $rootScope.$broadcast('connectionFailure');
         });
     };
 

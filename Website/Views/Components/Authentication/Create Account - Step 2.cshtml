@@ -22,7 +22,7 @@
                 <dt>@Html.Sitecore().Field("Name Label")</dt>
                 <dd>{{ customer.name.first }} {{ customer.name.last }}</dd>
                 <dt>@Html.Sitecore().Field("Phone Number Label")</dt>
-                <dd>{{ customer.primaryPhone.number }}</dd>
+                <dd>{{ customer.phone[0].number }}</dd>
                 <dt>@Html.Sitecore().Field("Email Label")</dt>
                 <dd>{{ customer.email.address }}</dd>
                 <dt>@Html.Sitecore().Field("Address Label")</dt>

@@ -441,12 +441,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AuthenticationController.cs" />
+    <Compile Include="Controllers\ApiControllers\AccountController.cs" />
+    <Compile Include="Controllers\ApiControllers\AuthenticationController.cs" />
     <Compile Include="Controllers\Components\AccountController.cs" />
     <Compile Include="Controllers\Components\AuthenticationController.cs" />
+    <Compile Include="Controllers\ApiControllers\EnrollmentController.cs" />
     <Compile Include="Controllers\EnrollmentController.cs" />
-    <Compile Include="Controllers\JsonHelper\EnrollmentController.cs" />
     <Compile Include="Controllers\TempController.cs" />
     <Compile Include="Controllers\MarketingController.cs" />
     <Compile Include="layouts\HTML Layout.aspx.cs">
@@ -508,8 +508,12 @@
     <Compile Include="Models\Enrollment\AccountInformation.cs" />
     <Compile Include="Models\Enrollment\ClientData.cs" />
     <Compile Include="Models\Enrollment\ConfirmOrder.cs" />
-    <Compile Include="Models\Enrollment\IntermediateLocation.cs" />
+    <Compile Include="Models\Enrollment\CartEntry.cs" />
+    <Compile Include="Models\Enrollment\ExpectedState.cs" />
+    <Compile Include="Models\Enrollment\OfferInformation.cs" />
+    <Compile Include="Models\Enrollment\OfferSelection.cs" />
     <Compile Include="Models\Enrollment\SelectedOffers.cs" />
+    <Compile Include="Models\Enrollment\SelectedOfferSet.cs" />
     <Compile Include="Models\Enrollment\ServiceInformation.cs" />
     <Compile Include="Models\Enrollment\VerifyIdentity.cs" />
     <Compile Include="Models\Marketing\CommercialQuote.cs" />

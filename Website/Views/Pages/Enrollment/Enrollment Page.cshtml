@@ -1,5 +1,5 @@
-<div ng-controller="EnrollmentMainCtrl" ng-init="setServerData()">
-    <div ng-repeat="section in enrollment.sections | orderBy: 'order'" ng-switch on="section.id">
+<div ng-controller="EnrollmentMainCtrl" ng-init="setServerData(@(Html.Action("ClientData", "Enrollment").ToHtmlString())); assignStepNames(@(Html.Action("EnrollmentNav", "Enrollment").ToHtmlString()))">
+    <div>
         @Html.Sitecore().Placeholder("enrollment sections")
     </div>
 </div>
@@ -7,8 +7,12 @@
 <script type="text/ng-template" id="enrollment-nav-template">
     <nav>
         <ul>
-            <li ng-class="{'completed' : section.isVisible && section.id != enrollment.currentSection, 'active' : section.id == enrollment.currentSection}" ng-repeat="section in enrollment.sections | orderBy: 'order'" ng-show="section.isVisible"><a href="#{{section.id}}">{{section.name}}</a></li>
-            <li ng-show="enrollment.nextSection"><a href="">@Html.Sitecore().Field("Continue")</a></li>
+            <li ng-class="{ 'active' : step.isCurrent,
+                            'completed': step.canJumpTo && !step.isCurrent }"
+                ng-repeat="step in stepsService.getSteps() | objectAsArray | orderBy:'order'"
+                ng-show="step.isActive">
+                <a href="" ng-click="step.isVisible && enrollmentNavClick(step)">{{step.name}}</a>
+            </li>
         </ul>
     </nav>
 </script>

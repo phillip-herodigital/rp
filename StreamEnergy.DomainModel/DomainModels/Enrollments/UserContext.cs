@@ -19,12 +19,13 @@ namespace StreamEnergy.DomainModels.Enrollments
         [EnumerableRequired(ErrorMessage = "Services Required")]
         [ValidateEnumerable(ErrorMessagePrefix = "Service ")]
         [CollectionCountRangeAttribute(1, int.MaxValue, ErrorMessage = "Services Required")]
-        public Dictionary<string, LocationServices> Services { get; set; }
+        public LocationServices[] Services { get; set; }
 
 
         [ValidateObject(ErrorMessagePrefix = "Secondary Contact ")]
         public Name SecondaryContactInfo { get; set; }
 
+        [RegularExpression(@"^\d{3}\D*\d{2}\D*\d{4}$", ErrorMessage = "Social Security Number Invalid")]
         public string SocialSecurityNumber { get; set; }
 
         [ValidateObject(ErrorMessagePrefix = "Drivers License ")]
@@ -33,10 +34,6 @@ namespace StreamEnergy.DomainModels.Enrollments
         /// ISO 639-1 codes, such as "en" and "es".
         /// </summary>
         public string Language { get; set; }
-
-        [Required(ErrorMessage = "Billing Address Required")]
-        [ValidateObject(ErrorMessagePrefix = "Billing Address ")]
-        public Address BillingAddress { get; set; }
 
         [Required(ErrorMessage = "Selected Identity Answers Required")]
         public Dictionary<string, string> SelectedIdentityAnswers { get; set; }
@@ -60,8 +57,6 @@ namespace StreamEnergy.DomainModels.Enrollments
                 ((ISanitizable)SecondaryContactInfo).Sanitize();
             if (DriversLicense != null)
                 ((ISanitizable)DriversLicense).Sanitize();
-            if (BillingAddress != null)
-                ((ISanitizable)BillingAddress).Sanitize();
         }
     }
 }
