@@ -2,6 +2,26 @@
     <header>
         <h2>@Html.Sitecore().Field("My Energy Usage Text")</h2>
     </header>
+    <div class="account-selector">
+        <form>
+            <div class="group">
+                <div class="item">
+                    <label>@Html.Sitecore().Field("Account Number Label")</label>
+                    <select>
+                        <option value="Please choose">1197015532</option>
+                        <option value="account1">Account 2</option>
+                    </select>
+                </div>
+                <div class="item">
+                    <label>@Html.Sitecore().Field("ID Label")</label>
+                    <select class="id">
+                        <option value="Please choose">109437200008913264</option>
+                        <option value="account1">ID 2</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
     <div class="graph-header grid three">
         <div class="col"><p><strong>@Html.Sitecore().Field("kWh Text")</strong></p></div>
         <div class="col"><p>January - December 2013</p></div>

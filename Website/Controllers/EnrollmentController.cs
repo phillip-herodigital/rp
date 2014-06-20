@@ -20,6 +20,22 @@ namespace StreamEnergy.MyStream.Controllers
             return this.Content(StreamEnergy.Json.Stringify(inner.ClientData(null)));
         }
 
+        public ActionResult EnrollmentNav()
+        {
+            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Pages/Enrollment/Enrollment Page");
+            return this.Content(StreamEnergy.Json.Stringify(new
+            {
+                utilityFlowService = item["Utility Service 1"],
+                utilityFlowPlans = item["Utility Service 2"],
+                homelifeFlow = "",
+                phoneFlow = "",
+                accountInformation = item["Account Information"],
+                verifyIdentity = item["Verify Identity"],
+                reviewOrder = item["Review Order"],
+                orderConfirmed = item["Order Confirmation"],
+            }));
+        }
+
         public ActionResult AccountInformation()
         {
             return View("~/Views/Pages/Enrollment/Account Information.cshtml");

@@ -42,6 +42,12 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentSt
         enrollmentService.setClientData(serverData);
     };
 
+    $scope.assignStepNames = function (navTitles) {
+        angular.forEach(navTitles, function (translation, stepId) {
+            enrollmentStepsService.getStep(stepId).name = translation;
+        });
+    };
+
     /**
     * Size of object
     *
