@@ -5,54 +5,69 @@
 */
 ngApp.factory('enrollmentStepsService', ['scrollService', 'jQuery', '$timeout', function (scrollService, jQuery, $timeout) {
     //Only currentStep is visible
-    var currentStep = '',
-        currentStepIndex;
+    var currentStep = {};
     var initialFlow,
         currentFlow;
 
     //List of steps for the enrollment process
-    var steps = [
-        { 
-            'name': 'utilityFlowService',
-            'isActive': false,
-            'isVisible': false
-        },
-        { 
-            'name': 'utilityFlowPlans',
+    var steps = {};
+    angular.forEach([
+        {
+            'id': 'utilityFlowService',
+            'isFlowSpecific': true,
             'isActive': false,
             'isVisible': false,
-        },        
-        { 
-            'name': 'homelifeFlow',
+            'previous': []
+        },
+        {
+            'id': 'utilityFlowPlans',
+            'isFlowSpecific': true,
             'isActive': false,
-            'isVisible': false
+            'isVisible': false,
+            'previous': ['utilityFlowService']
         },
-        { 
-            'name': 'phoneFlow',
+        {
+            'id': 'homelifeFlow',
+            'isFlowSpecific': true,
             'isActive': false,
-            'isVisible': false 
+            'isVisible': false,
+            'previous': []
         },
-        { 
-            'name': 'accountInformation', 
-            'isActive': true,
-            'isVisible': false
-        }, 
-        { 
-            'name': 'verifyIdentity', 
-            'isActive': true,
-            'isVisible': false
+        {
+            'id': 'phoneFlow',
+            'isFlowSpecific': true,
+            'isActive': false,
+            'isVisible': false,
+            'previous': []
         },
-        { 
-            'name': 'reviewOrder', 
+        {
+            'id': 'accountInformation',
+            'isFlowSpecific': false,
             'isActive': true,
-            'isVisible': false
+            'isVisible': false,
+            'previous': []
         },
-        { 
-            'name': 'orderConfirmed', 
+        {
+            'id': 'verifyIdentity',
+            'isFlowSpecific': false,
+            'isActive': true,
+            'isVisible': false,
+            'previous': ['accountInformation']
+        },
+        {
+            'id': 'reviewOrder',
+            'isFlowSpecific': false,
+            'isActive': true,
+            'isVisible': false,
+            'previous': ['accountInformation', 'verifyIdentity']
+        },
+        {
+            'id': 'orderConfirmed',
+            'isFlowSpecific': false,
             'isActive': true,
             'isVisible': false
         }
-    ];
+    ], function (step, index) { steps[step.id] = step; step.order = index; step.name = 'TRANSLATE ' + step.id; });
 
     var flows = {
         'utility':
@@ -69,20 +84,27 @@ ngApp.factory('enrollmentStepsService', ['scrollService', 'jQuery', '$timeout', 
             currentFlow = flow;
         },
 
-        setFlow: function (flow) {
+        setFlow: function (flow, isNewFlow) {
             if (flows[currentFlow]) {
+                // hide the steps from the old flow, since they won't really be occuring in that order and we don't want to scroll up to them
                 angular.forEach(flows[currentFlow], function (state) {
-                    //We actually need to set the flow steps to active here
-                    service.activateStep(state);
+                    if (state.isFlowSpecific) {
+                        service.deActivateStep(state);
+                    }
                 });
             }
             currentFlow = flow;
+            if (!isNewFlow && flows[currentFlow]) {
+                // show the steps from the current flow
+                angular.forEach(flows[currentFlow], function (state) {
+                    state.isActive = true;
+                });
+            }
             return service;
         },
 
         setFromServerStep: function (expectedState) {
             if (flows[currentFlow] && flows[currentFlow][expectedState]) {
-                service.setFlow(currentFlow);
                 service.setStep(flows[currentFlow][expectedState]);
             } else {
                 service.setStep(expectedState);
@@ -91,169 +113,92 @@ ngApp.factory('enrollmentStepsService', ['scrollService', 'jQuery', '$timeout', 
 
         /**
          * [activateStep description]
-         * @param  {[type]} name
+         * @param  {[type]} id
          * @return {[type]}
          */
-        activateStep: function (name) {
-            console.log('activate', name);
-            angular.forEach(steps, function(step, index) {
-                if(step.name == name) {
-                    steps[index].isActive = true;
-                }
+        activateStep: function (id) {
+            console.log('activate', id);
+            steps[id].isActive = true;
+            steps[id].isVisible = true;
+            steps[id].canJumpTo = true;
+            angular.forEach(steps[id].previous, function (previousId) {
+                steps[previousId].isActive = true;
+                steps[previousId].isVisible = true;
+                steps[previousId].canJumpTo = true;
             });
         },
         
         /**
          * [activateStep description]
-         * @param  {[type]} name
+         * @param  {[type]} id
          * @return {[type]}
          */
-        deActivateStep: function(name) {
-            angular.forEach(steps, function(step, index) {
-                if(step.name == name) {
-                    steps[index].isActive = false;
-                    steps[index].isVisible = false;
-                }
-            });
+        deActivateStep: function(id) {
+            console.log('deactivate', id);
+            steps[id].isActive = false;
+            steps[id].isVisible = false;
         },        
 
         /**
-         * [nextStep description]
-         * @param  {[type]} name
-         * @return {[type]}
-         */
-        nextStep: function(name) {
-            var savedStep = currentStepIndex;
-
-            if(currentStepIndex == steps.length - 1) {
-                return;
-            }
-
-            do {
-                savedStep++;
-            } while(steps[savedStep].isActive != true);
-
-            if(savedStep < steps.length) {
-                currentStep = steps[savedStep];
-                currentStepIndex = savedStep;
-                //Set the next step to true if it's active but not visible?
-                if(!currentStep.isVisible) {
-                    currentStep.isVisible = true;
-                }
-                this.scrollToStep(currentStep.name);
-            }
-        },
-
-        /**
-         * [previousStep description]
-         * @param  {[type]} name
-         * @return {[type]}
-         */
-        previousStep: function(name) {
-            var savedStep = currentStepIndex;    
-            
-            if(currentStepIndex == 0) {
-                return;
-            }
-
-            do {
-                savedStep--;
-            } while(steps[savedStep].isActive != true);
-
-            if(savedStep >= 0) {
-                currentStep = steps[savedStep];
-                currentStepIndex = savedStep;
-                this.scrollToStep(step.name);
-            }
-        },
-
-        /**
          * [setStep description]
-         * @param {[type]} name
+         * @param {[type]} id
          * @param {[type]} activate
          */
-        setStep: function (name) {
-            console.log('set step', name);
-            angular.forEach(steps, function(step, index) {
-                if(step.name == name) {
-                    currentStep = step;
-                    currentStepIndex = index;
-                    step.isActive = true;
-                    step.isVisible = true;
-                    this.scrollToStep(step.name);
-                } else {
-                    //Keep the process a single page
-                    //step.isActive = false;
-                    step.isVisible = false;
-                }
+        setStep: function (id) {
+            console.log('set step', id);
+
+            // We can jump back to the state we're in before setStep.
+            currentStep.canJumpTo = true;
+            angular.forEach(steps, function (step, index) {
+                
+                step.isCurrent = false;
             }, this);
+
+            currentStep = steps[id];
+            currentStep.isCurrent = true;
+            service.activateStep(id);
+            service.scrollToStep(id);
         },
 
         /**
          * [scrollToStep description]
-         * @param  {[type]} name
+         * @param  {[type]} id
          * @return {[type]}
          */
-        scrollToStep: function (name) {
-            console.log('scrollToStep', name);
+        scrollToStep: function (id) {
+            console.log('scrollToStep', id);
             //Delay needs to be set to allow angular code to open section.
-            if(this.isStepVisible(name)) {
+            if(service.isStepVisible(id)) {
                 $timeout(function() {
-                    scrollService.scrollTo(name, jQuery('header.site-header').height() * -1);
+                    scrollService.scrollTo(id, jQuery('header.site-header').height() * -1);
                 }, 10);
             }
         },
 
         /**
          * [isStepVisible description]
-         * @param  {[type]}  name
+         * @param  {[type]}  id
          * @return {Boolean}
          */
-        isStepVisible: function(name) {
-            return this.getStep(name).isVisible;
-        },
-
-        /**
-         * [isStepActive description]
-         * @param  {[type]}  name
-         * @return {Boolean}
-         */
-        isStepActive: function(name) {
-            return this.getStep(name).isActive;
+        isStepVisible: function (id) {
+            return this.getStep(id).isVisible;
         },
 
         /**
          * [getStep description]
-         * @param  {[type]} name
+         * @param  {[type]} id
          * @return {[type]}
          */
-        getStep: function(name) {
-            //come back and optimize this
-            var step;
-            
-            angular.forEach(steps, function(item, index) {
-                if(item.name == name) {
-                    step = item;
-                }
-            });
-
-            return step;
+        getStep: function (id) {
+            return steps[id];
         },
 
         /**
          * [getSteps description]
          * @return {[type]}
          */
-        getSteps: function() {
+        getSteps: function () {
             return steps;
-        },
-
-        /**
-         * [getStepsCount description]
-         * @return {[type]}
-         */
-        getStepsCount: function() {
-            return count.length;
         },
 
         /**
