@@ -108,9 +108,8 @@ article {
 	}
 	.account-selector {
 		background: #fbfbfb;
-		padding: 0 15px 15px;
+		padding: 15px;
 		border-bottom: 1px solid #ddd;
-		margin: -25px -15px 15px -15px;
 		.group {
 			@extend .inline-group;
 			.item {
@@ -119,6 +118,9 @@ article {
 				label {
 					display: inline-block;
 					margin-right: 5px;
+					@include breakpoint(medium) {
+						display: block;
+					}
 				}
 				select {
 					width: auto;
@@ -288,9 +290,6 @@ div.banner + article.message {
 }
 
 div.banner.account {
-	@include breakpoint(small) {
-		display: none;
-	}
 	@include breakpoint(large) {
 		border-bottom: 5px solid #259afd;
 	}
@@ -456,6 +455,9 @@ article.balances-payments {
 		margin-bottom: 5px;
 		width: 61%;
 	}
+	.content {
+		padding: 0 15px 25px 15px;
+	}
 	.grid .col {
 		border-spacing: 0px;
 		h4 {
@@ -525,8 +527,10 @@ article.energy-usage {
 }
 article.service-identification {
 	padding-top: 0px;
+	background-color: #fbfbfb;
 	.service-address p {
 		margin-bottom: 0px;
+		padding: 0 0 15px 15px;
 	}
 }
 article.account-holder-information {
