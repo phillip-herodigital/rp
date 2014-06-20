@@ -2,10 +2,14 @@
  *
  * This is used to control aspects of complete order on enrollment page.
  */
-ngApp.controller('EnrollmentCompleteOrderCtrl', ['$window', '$scope', 'enrollmentService', function ($window, $scope, enrollmentService) {
+ngApp.controller('EnrollmentCompleteOrderCtrl', ['$window', '$scope', 'enrollmentService', 'enrollmentCartService', function ($window, $scope, enrollmentService, enrollmentCartService) {
 
     $scope.verifyIdentity = {};
     $scope.verifyIdentity.creditCard = {};
+
+    $scope.getPlans = enrollmentCartService.getPlans;
+    $scope.getCartCount = enrollmentCartService.getCartCount;
+    $scope.getCartItems = enrollmentCartService.getCartItems;    
 
     /**
     * Complete Enrollment Section
