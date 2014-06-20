@@ -21,7 +21,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
             using (var indexBuilder = new IndexBuilder(options.Destination, options.ForceCreate))
             {
                 var results = directoryLoader.Load(options.Source, options.StartDate, true);
-                var allTasks = new List<Task>();
+                var allTasks = new List<Task<Dictionary<string, DomainModels.IServiceCapability>>>();
                 foreach (var tdu in results.GroupBy(file => file.Tdu))
                 {
                     var copy = tdu; // grab the proper closure, since var tdu is technically outside the loop
@@ -30,6 +30,17 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
 
                 var tasks = allTasks.ToArray();
                 Task.WaitAll(tasks);
+                Console.WriteLine("Zips completed - adding zip codes");
+                var zipTasks = (from task in tasks
+                                from zip in task.Result
+                                group zip.Value by zip.Key into zipCapabilities
+                                select indexBuilder.WriteLocation(new DomainModels.Enrollments.Location
+                                         {
+                                             Address = new DomainModels.Address { PostalCode5 = zipCapabilities.Key, StateAbbreviation = "TX" },
+                                             Capabilities = zipCapabilities.ToArray(),
+                                         }, "ZIP", options.ForceCreate)).ToArray();
+                Task.WaitAll(zipTasks);
+
                 Console.WriteLine("Optimizing");
                 indexBuilder.Optimize().Wait();
             }
@@ -37,12 +48,12 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
 
         const int reportEvery = 10000;
         const int maxTasks = 5000;
-        private static async Task IndexTdu(IndexBuilder indexBuilder, IGrouping<string, Ercot.FileMetadata> tdu, bool isFresh)
+        private static async Task<Dictionary<string, DomainModels.IServiceCapability>> IndexTdu(IndexBuilder indexBuilder, IGrouping<string, Ercot.FileMetadata> tdu, bool isFresh)
         {
             try
             {
                 await Task.Yield();
-                HashSet<string> zipCodes = new HashSet<string>();
+                Dictionary<string, DomainModels.IServiceCapability> zipCodes = new Dictionary<string, DomainModels.IServiceCapability>();
                 int counter = 0;
                 Queue<Task> taskQueue = new Queue<Task>(maxTasks);
                 foreach (var file in tdu)
@@ -57,14 +68,9 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
                     {
                         foreach (var loc in fr.ReadZipFile(fs, file.Tdu))
                         {
-                            if (!zipCodes.Contains(loc.Address.PostalCode5))
+                            if (!zipCodes.ContainsKey(loc.Address.PostalCode5))
                             {
-                                zipCodes.Add(loc.Address.PostalCode5);
-                                taskQueue.Enqueue(indexBuilder.WriteLocation(new DomainModels.Enrollments.Location
-                                    {
-                                        Address = new DomainModels.Address { PostalCode5 = loc.Address.PostalCode5, StateAbbreviation = loc.Address.StateAbbreviation },
-                                        Capabilities = new[] { new DomainModels.TexasServiceCapability { Tdu = tdu.Key, MeterType = DomainModels.TexasMeterType.Other } },
-                                    }, tdu.Key, isFresh));
+                                zipCodes.Add(loc.Address.PostalCode5, new DomainModels.TexasServiceCapability { Tdu = tdu.Key, MeterType = DomainModels.TexasMeterType.Other });
                             }
                             taskQueue.Enqueue(indexBuilder.WriteLocation(loc, tdu.Key, isFresh));
                             if (taskQueue.Count >= maxTasks)
@@ -86,6 +92,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
                     isFresh = false;
                 }
                 Console.WriteLine(tdu.Key.PadRight(20) + " " + counter.ToString().PadLeft(11) + " finished!");
+                return zipCodes;
             }
             catch (Exception ex)
             {
