@@ -108,9 +108,8 @@ article {
 	}
 	.account-selector {
 		background: #fbfbfb;
-		padding: 0 15px 15px;
+		padding: 15px;
 		border-bottom: 1px solid #ddd;
-		margin: -25px -15px 15px -15px;
 		.group {
 			@extend .inline-group;
 			.item {
@@ -119,6 +118,9 @@ article {
 				label {
 					display: inline-block;
 					margin-right: 5px;
+					@include breakpoint(medium) {
+						display: block;
+					}
 				}
 				select {
 					width: auto;
@@ -340,9 +342,6 @@ div.banner + article.message {
 }
 
 div.banner.account {
-	@include breakpoint(small) {
-		display: none;
-	}
 	@include breakpoint(large) {
 		border-bottom: 5px solid #259afd;
 	}
@@ -508,6 +507,9 @@ article.balances-payments {
 		margin-bottom: 5px;
 		width: 61%;
 	}
+	.content {
+		padding: 0 15px 25px 15px;
+	}
 	.grid .col {
 		border-spacing: 0px;
 		h4 {
@@ -577,8 +579,10 @@ article.energy-usage {
 }
 article.service-identification {
 	padding-top: 0px;
+	background-color: #fbfbfb;
 	.service-address p {
 		margin-bottom: 0px;
+		padding: 0 0 15px 15px;
 	}
 }
 article.account-holder-information {
@@ -590,6 +594,20 @@ article.account-holder-information {
 	}
 	.billing-address {
 		margin-left: 23px;
+	}
+	.new-address .group {
+		.select-state {
+			width: 30%;
+			@include breakpoint(small) {
+				width: auto;
+			}
+		}
+		.zip-code {
+			width: 20%;
+			@include breakpoint(small) {
+				width: auto;
+			}
+		}
 	}
 	.checkbox-list {
 		label {
@@ -711,7 +729,7 @@ article.make-payment {
 				position: relative;
 				.icon {
 					position: absolute;
-					top: 0px;
+					top: -2px;
 					right: 10px;
 				}
 			}
@@ -777,6 +795,29 @@ article.payment-history {
 	.content {
 		padding-top: 0px;
 	}
+	table tr {
+		.icon-recurring {
+			margin-left: 3px;
+		}
+		&.expand-details {
+			.grid {
+				margin: 15px 0 15px 35px;
+				.label {
+					float: left;
+					margin-right: 15px;
+					@include breakpoint(small) {
+						width: 25%;
+					}
+				}
+				.account-info {
+					float: left;
+				}
+			}
+		}
+		td .icon-arrow-collapsed {
+			margin-left: 18px
+		}
+	}
 }
 article.my-invoices {
 	header {
@@ -835,8 +876,16 @@ article.auth {
 	}	
 }
 article.payments {
-	margin: 20px 0;
+	margin-bottom: 20px;
 	overflow: visible; //Needed for datepicker
+	header {
+		h2.payment-accounts-header {
+			float: left;
+			@include breakpoint(small) {
+			float: none;
+			}
+		}
+	}
 	.advanced-settings {
 		margin-top: 5px;
 		.small {
@@ -850,8 +899,10 @@ article.payments {
 		}
 		p {
 			margin: 0;
-			padding: 1em;
-			background: #eee;
+			padding-top: 1em;
+			&.example-image {
+				text-align: center;
+			}
 		}
 	}
 	.arrow-toggle {
@@ -886,6 +937,9 @@ article.payments {
 			margin-left: 10px;
 			padding-left: 10px;
 			border-left: 1px solid #ccc;
+			a {
+				color: #fff;
+			}
 			&:first-child {
 				border-left: none;
 				margin-left: 0;
@@ -899,6 +953,7 @@ article.payments {
 				margin: 0;
 				padding: 0;
 				border: none;
+				text-align: center;
 			}
 		}
 	}
@@ -938,6 +993,14 @@ article.payments {
 				padding-top: 20px;
 			}
 		}
+	}
+	.auto-pay-address p {
+		margin: 0px;
+	}
+	.notice {
+		background-color: #fbd396;
+		margin-top: -15px;
+		margin-bottom: 15px;
 	}
 	img {
 		max-width: 100%;
