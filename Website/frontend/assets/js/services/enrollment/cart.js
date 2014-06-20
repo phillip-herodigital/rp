@@ -31,8 +31,9 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', 'utilityProduc
 		 * Return the total cost of all cart items
 		 * @return {[type]} [description]
 		 */
-		getCartTotal: function() {
-
+		calculateCartTotal: function() {
+			//actually calculate something later, temporary
+			return 150;
 		},
 
 		/**
