@@ -271,6 +271,58 @@ article.white-box {
 	}
 }
 
+article.gradient-box {
+	@include border-radius(5px);
+	@include background-clip(padding-box);
+	background-color: #fff;
+	@include box-shadow(2px 3px 4px 0 rgba(85,53,91,.25));
+	@include background-image(linear-gradient(bottom, rgba(76,73,77,.15) 0%, rgba(255,255,255,.15) 100%));
+	header {
+		background: none;
+		padding: 0 0 20px 0;
+		margin: 20px 15px 0 15px;
+		h2 {
+			padding-top: 10px;
+			a {
+				text-transform: none;
+				font-size: 20px;
+				font-weight: 600;
+			}
+		}
+		button,
+		.button {
+			float: right;
+			margin-top: 10px;
+		}
+	}
+	h3 {
+		font-size: 20px;
+		margin: 0 0 40px 0;
+		font-weight: normal;
+		text-transform: none;
+	}
+	h4 {
+		font-size: 16px;
+		font-weight: 600;
+		margin: 0 0 15px 0;
+		letter-spacing: 1px;
+	}
+	p {
+		font-size: 14px;
+		font-weight: 600;
+	}
+	.more {
+		color: #333;
+		font-size: 14px;
+		font-weight: 600;
+	}
+	@include breakpoint(small) {
+		.col {
+			margin-bottom: 20px;
+		}
+	}
+}
+
 article.plain {
 	border: none;
 	@include box-shadow(none);
