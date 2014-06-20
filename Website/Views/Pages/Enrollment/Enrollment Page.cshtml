@@ -1,4 +1,4 @@
-<div ng-controller="EnrollmentMainCtrl" ng-init="setServerData(@(Html.Action("ClientData", "Enrollment").ToHtmlString()))">
+<div ng-controller="EnrollmentMainCtrl" ng-init="setServerData(@(Html.Action("ClientData", "Enrollment").ToHtmlString())); assignStepNames(@(Html.Action("EnrollmentNav", "Enrollment").ToHtmlString()))">
     <div>
         @Html.Sitecore().Placeholder("enrollment sections")
     </div>
