@@ -117,7 +117,6 @@ ngApp.factory('enrollmentStepsService', ['scrollService', 'jQuery', '$timeout', 
          * @return {[type]}
          */
         activateStep: function (id) {
-            console.log('activate', id);
             steps[id].isActive = true;
             steps[id].isVisible = true;
             steps[id].canJumpTo = true;
@@ -134,7 +133,6 @@ ngApp.factory('enrollmentStepsService', ['scrollService', 'jQuery', '$timeout', 
          * @return {[type]}
          */
         deActivateStep: function(id) {
-            console.log('deactivate', id);
             steps[id].isActive = false;
             steps[id].isVisible = false;
         },        
@@ -145,8 +143,6 @@ ngApp.factory('enrollmentStepsService', ['scrollService', 'jQuery', '$timeout', 
          * @param {[type]} activate
          */
         setStep: function (id) {
-            console.log('set step', id);
-
             // We can jump back to the state we're in before setStep.
             currentStep.canJumpTo = true;
             angular.forEach(steps, function (step, index) {
@@ -166,7 +162,6 @@ ngApp.factory('enrollmentStepsService', ['scrollService', 'jQuery', '$timeout', 
          * @return {[type]}
          */
         scrollToStep: function (id) {
-            console.log('scrollToStep', id);
             //Delay needs to be set to allow angular code to open section.
             if(service.isStepVisible(id)) {
                 $timeout(function() {

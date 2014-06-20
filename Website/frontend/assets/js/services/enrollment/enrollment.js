@@ -288,6 +288,17 @@
 
         // update the cart
         utilityProductsService.updateCart(result.cart);
+        var serviceIndexErrors = [];
+        angular.forEach(result.validations, function (entry) {
+            var capture = /^Services\[(\d+)\]/g.exec(entry.memberName);
+            if (capture) {
+                serviceIndexErrors.push(parseInt(capture[1]));
+            }
+        });
+        if (serviceIndexErrors.length) {
+            console.log(utilityProductsService.getAddresses(), serviceIndexErrors[0]);
+            utilityProductsService.setActiveServiceAddress(utilityProductsService.getAddresses()[serviceIndexErrors[0]].location.address);
+        }
 
         // copy out the account information the server has
         service.accountInformation.contactInfo = result.contactInfo || {};
