@@ -49,12 +49,16 @@ namespace StreamEnergy.MyStream.Controllers
 
         [HttpGet]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
-        public Table<StreamEnergy.MyStream.Models.Account.Invoice> Invoices(bool schema = true)
+        public GetInvoicesResponse GetInvoices()
         {
-            return new Table<StreamEnergy.MyStream.Models.Account.Invoice>
+            // TODO - get the invoices from Stream Connect and format the response
+
+            return new GetInvoicesResponse
+            {
+                Invoices = new Table<Models.Account.Invoice>
                 {
                     // TODO - provide translation sitecore item
-                    ColumnList = schema ? typeof(StreamEnergy.MyStream.Models.Account.Invoice).BuildTableSchema(null) : null,
+                    ColumnList = typeof(StreamEnergy.MyStream.Models.Account.Invoice).BuildTableSchema(null),
                     Values = from invoice in accountService.GetInvoices(User.Identity.Name)
                              select new StreamEnergy.MyStream.Models.Account.Invoice
                              {
@@ -70,7 +74,8 @@ namespace StreamEnergy.MyStream.Controllers
                                      { "viewPdf", "http://.../" }
                                  }
                              }
-                };
+                }
+            };
         }
 
         #endregion
@@ -132,7 +137,7 @@ namespace StreamEnergy.MyStream.Controllers
             bool success = false;
             
             request.Username = domain.AccountPrefix + request.Username;
-            // make sure this is the currently logged in user
+
             if (User.Identity.Name != request.Username)
             {
                 request.Username = null;
@@ -141,7 +146,7 @@ namespace StreamEnergy.MyStream.Controllers
             if (!validations.Any())
             {
                 var user = Membership.GetUser(User.Identity.Name);
-                // update the username
+                // TODO update the username
 
                 // TODO update the email address with Stream Connect
 
@@ -184,7 +189,6 @@ namespace StreamEnergy.MyStream.Controllers
         [HttpGet]
         public GetAccountsResponse GetAccounts()
         {
-            // TODO check to make sure the user is logged in, and get the username from the current session
 
             return new GetAccountsResponse
             {
@@ -199,8 +203,6 @@ namespace StreamEnergy.MyStream.Controllers
         [HttpPost]
         public GetAccountInformationResponse GetAccountInformation(GetAccountInformationRequest request)
         {
-            // TODO check to make sure the user is logged in
-
             var accountId = request.AccountId;
             var serviceAddress = new DomainModels.Address();
             var billingAddress = new DomainModels.Address();
@@ -248,8 +250,6 @@ namespace StreamEnergy.MyStream.Controllers
         {
             bool success = false;
             var validations = validation.CompleteValidate(request);
-
-            // TODO check to make sure the user is logged in
            
             var accountId = request.AccountId;
 
@@ -273,8 +273,6 @@ namespace StreamEnergy.MyStream.Controllers
         [HttpPost]
         public GetNotificationSettingsResponse GetNotificationSettings(GetNotificationSettingsRequest request)
         {
-            // TODO check to make sure the user is logged in
-
             // TODO get notificaiton settings from Stream Connect
             var accountId = request.AccountId;
             var newDocumentArrives = new NotificationSetting
@@ -318,8 +316,6 @@ namespace StreamEnergy.MyStream.Controllers
         public UpdateNotificationResponse UpdateNotification(UpdateNotificationRequest request)
         {
             bool success = false;
-            
-            // TODO check to make sure the user is logged in
 
             var accountId = request.AccountId;
             var notificationName = request.NotificationName;
@@ -341,8 +337,6 @@ namespace StreamEnergy.MyStream.Controllers
         public UpdateNotificationSettingsResponse UpdateNotificationSettings(UpdateNotificationSettingsRequest request)
         {
             bool success = false;
-
-            // TODO check to make sure the user is logged in
 
             var accountId = request.AccountId;
 
@@ -366,8 +360,6 @@ namespace StreamEnergy.MyStream.Controllers
         [HttpGet]
         public GetEnrolledAccountsResponse GetEnrolledAccounts()
         {
-            // TODO check to make sure the user is logged in
-
             // TODO get enrolled accounts from Stream Connect
             var account1 = new EnrolledAccount
             {
@@ -393,8 +385,6 @@ namespace StreamEnergy.MyStream.Controllers
             bool success = false;
             var validations = validation.CompleteValidate(request);
 
-            // TODO check to make sure the user is logged in
-
             var accountNumber = request.AccountNumber;
             var ssnLastFour = request.SsnLastFour;
 
@@ -416,8 +406,6 @@ namespace StreamEnergy.MyStream.Controllers
         {
             bool success = false;
 
-            // TODO check to make sure the user is logged in
-
             var accountNumber = request.AccountNumber;
 
             // TODO remove enrolled account with Stream Connect
@@ -436,8 +424,6 @@ namespace StreamEnergy.MyStream.Controllers
         public SendLetterResponse SendLetter(SendLetterRequest request)
         {
             bool success = false;
-
-            // TODO check to make sure the user is logged in
 
             var accountNumber = request.AccountNumber;
 
@@ -458,21 +444,6 @@ namespace StreamEnergy.MyStream.Controllers
         private Sitecore.Data.Items.Item GetAuthItem(string childItem)
         {
             return item.Children[childItem];
-        }
-
-        private void AddAuthenticationCookie(HttpResponseMessage response, string username)
-        {
-            var cookie = FormsAuthentication.GetAuthCookie(domain.AccountPrefix + username, false, "/");
-            response.Headers.AddCookies(new[] {
-                    new System.Net.Http.Headers.CookieHeaderValue(cookie.Name, cookie.Value) 
-                    { 
-                        Domain = cookie.Domain, 
-                        Expires = cookie.Expires == DateTime.MinValue ? null : (DateTime?)cookie.Expires, 
-                        HttpOnly = cookie.HttpOnly, 
-                        Path = cookie.Path, 
-                        Secure = cookie.Secure 
-                    }
-                });
         }
 
     }
