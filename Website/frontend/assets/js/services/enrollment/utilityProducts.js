@@ -168,13 +168,14 @@ ngApp.factory('utilityProductsService', ['$filter', function ($filter) {
 					if(offers.value.offerSelections.length) {
 						angular.forEach(offers.value.availableOffers, function(availableOffer) {
 							if(availableOffer.id == offers.value.offerSelections[0].offerId) {
-								selectedPlans[offers.key] = availableOffer
+								selectedPlans[offers.key] = availableOffer;
+								selectedPlans[offers.key].selectionDetails = offers.value.offerSelections[0];
 							}
 						});
 					}
 				});
 			}
-
+			
 			return selectedPlans;
 		},
 
