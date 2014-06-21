@@ -15,10 +15,8 @@
                         @Html.ValidationMessageFor(model => model.PrimaryPhone.Number)
                     </div>
                     <div class="item group-col">
-                        <label for="primary-phone-type">@Html.Sitecore().Field("Phone Type Text")</label>
-                        <select name="primary-phone-type" id="primary-phone-type">
-                            <option value="mobile">Mobile</option>
-                        </select>
+                        <label for="@Html.For(m => m.PrimaryPhone.Category)">@Html.Sitecore().Field("Phone Type Text")</label>
+                        <select ng-model="formData.primaryPhone.category" ng-options="type for type in formData.phoneTypes"></select>
                     </div>
                 </div>
                 <div ng-switch="formDataOriginal.secondaryPhone.number || false">
@@ -34,10 +32,8 @@
                                     @Html.ValidationMessageFor(model => model.SecondaryPhone.Number)
                                 </div>
                                 <div class="item group-col">
-                                    <label for="secondary-phone-type">@Html.Sitecore().Field("Phone Type Text")</label>
-                                    <select name="secondary-phone-type" id="secondary-phone-type">
-                                        <option value="mobile">Mobile</option>
-                                    </select>
+                                    <label for="@Html.For(m => m.PrimaryPhone.Category)">@Html.Sitecore().Field("Phone Type Text")</label>
+                                    <select ng-model="formData.primaryPhone.category" ng-options="type for type in formData.phoneTypes"></select>
                                 </div>
                             </div>
                         </div>
@@ -49,10 +45,8 @@
                             @Html.ValidationMessageFor(model => model.SecondaryPhone.Number)
                         </div>
                         <div class="item group-col">
-                            <label for="secondary-phone-type">@Html.Sitecore().Field("Phone Type Text")</label>
-                            <select name="secondary-phone-type" id="secondary-phone-type">
-                                <option value="mobile">Mobile</option>
-                            </select>
+                            <label for="@Html.For(m => m.SecondaryPhone.Category)">@Html.Sitecore().Field("Phone Type Text")</label>
+                            <select ng-model="formData.secondaryPhone.category" ng-options="type for type in formData.phoneTypes"></select>
                         </div>
                     </div>
                 </div>
