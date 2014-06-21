@@ -1,192 +1,186 @@
 ﻿@model StreamEnergy.MyStream.Models.Account.UpdateNotificationSettingsRequest
 
-<div ng-controller="AcctNotificationSettingsCtrl">
-    <section class="layout cols-2 wrapper">
-        <section class="layout cols-1">
-            <article class="grey-box notification-settings">
-                <form>
-                    <header>
-                        <h2>@Html.Sitecore().Field("Notification Settings Text")</h2>
-                    </header>
-                    <div class="content">
-                        <div class="edit-preferences">
-                            <div class="additional-fields" additional-fields>
-                                <div class="preference">
-                                    <span class="preference-type">
-                                        @Html.Sitecore().Field("New Document Arrives Text") 
-                                        <span ng-show="formDataOriginal.newDocumentArrives.web" class="label"><i class="icon-notification-bell"></i> @Html.Sitecore().Field("Web Text")</span> 
-                                        <span ng-show="formDataOriginal.newDocumentArrives.email" class="label"><i class="icon-notification-email"></i> @Html.Sitecore().Field("Email Text")</span>
-                                        <span ng-show="formDataOriginal.newDocumentArrives.sms" class="label"><i class="icon-notification-sms"></i> @Html.Sitecore().Field("SMS Text")</span>
-                                    </span>
-                                    <a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" href="" class="additional-field-action">@Html.Sitecore().Field("Edit Link Text")</a>
-                                </div>
-                                <div class="additional-field-group additional-fields">
-                                    <p>@Html.Sitecore().Field("Delivery Methods Text")</p>
-                                    <div class="item">
-                                        <ul class="checkbox-list notification-list">
-                                            <li>
-                                                <input type="checkbox" ng-model="formData.newDocumentArrives.web">
-                                                <label for="notifications-document-web"><i class="icon-notification-bell"></i> @Html.Sitecore().Field("Web Text")</label>
-                                            </li>
-                                            <li>
-                                                <input type="checkbox" ng-model="formData.newDocumentArrives.email">
-                                                <label for="notifications-document-email"><i class="icon-notification-email"></i> @Html.Sitecore().Field("Email Text")</label>
-                                            </li>
-                                            <li>
-                                                <input type="checkbox" ng-model="formData.newDocumentArrives.sms">
-                                                <label for="notifications-document-sms"><i class="icon-notification-sms"></i> @Html.Sitecore().Field("SMS Text")</label>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="item">
-                                        <div class="buttons">
-                                            <button class="secondary" ng-click="cancelPreference(formData.newDocumentArrives, formDataOriginal.newDocumentArrives); toggleFields()">@Html.Sitecore().Field("Cancel Button Text")</button>
-                                            <button ng-click="updateNotification(newDocumentArrives, formData.newDocumentArrives, formDataOriginal.newDocumentArrives); toggleFields()">@Html.Sitecore().Field("Save Preference Button Text")</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+<article class="grey-box notification-settings" ng-controller="AcctNotificationSettingsCtrl">
+    <form>
+        <header>
+            <h2>@Html.Sitecore().Field("Notification Settings Text")</h2>
+        </header>
+        <div class="content">
+            <div class="edit-preferences">
+                <div class="additional-fields" additional-fields>
+                    <div class="preference">
+                        <span class="preference-type">
+                            @Html.Sitecore().Field("New Document Arrives Text")
+                            <span ng-show="formDataOriginal.newDocumentArrives.web" class="label"><i class="icon-notification-bell"></i> @Html.Sitecore().Field("Web Text")</span>
+                            <span ng-show="formDataOriginal.newDocumentArrives.email" class="label"><i class="icon-notification-email"></i> @Html.Sitecore().Field("Email Text")</span>
+                            <span ng-show="formDataOriginal.newDocumentArrives.sms" class="label"><i class="icon-notification-sms"></i> @Html.Sitecore().Field("SMS Text")</span>
+                        </span>
+                        <a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" href="" class="additional-field-action">@Html.Sitecore().Field("Edit Link Text")</a>
+                    </div>
+                    <div class="additional-field-group additional-fields">
+                        <p>@Html.Sitecore().Field("Delivery Methods Text")</p>
+                        <div class="item">
+                            <ul class="checkbox-list notification-list">
+                                <li>
+                                    <input type="checkbox" ng-model="formData.newDocumentArrives.web">
+                                    <label for="notifications-document-web"><i class="icon-notification-bell"></i> @Html.Sitecore().Field("Web Text")</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" ng-model="formData.newDocumentArrives.email">
+                                    <label for="notifications-document-email"><i class="icon-notification-email"></i> @Html.Sitecore().Field("Email Text")</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" ng-model="formData.newDocumentArrives.sms">
+                                    <label for="notifications-document-sms"><i class="icon-notification-sms"></i> @Html.Sitecore().Field("SMS Text")</label>
+                                </li>
+                            </ul>
                         </div>
-                        <hr class="content-divider" />
-                        <div class="edit-preferences">
-                            <div class="additional-fields" additional-fields>
-                                <div class="preference">
-                                    <span class="preference-type">
-                                        @Html.Sitecore().Field("Online Payments Text")
-                                        <span ng-show="formDataOriginal.onlinePaymentsMade.web" class="label"><i class="icon-notification-bell"></i> @Html.Sitecore().Field("Web Text")</span>
-                                        <span ng-show="formDataOriginal.onlinePaymentsMade.email" class="label"><i class="icon-notification-email"></i> @Html.Sitecore().Field("Email Text")</span>
-                                        <span ng-show="formDataOriginal.onlinePaymentsMade.sms" class="label"><i class="icon-notification-sms"></i> @Html.Sitecore().Field("SMS Text")</span>
-                                    </span>
-                                    <a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" href="" class="additional-field-action">@Html.Sitecore().Field("Edit Link Text")</a>
-                                </div>
-                                <div class="additional-field-group additional-fields">
-                                    <p>@Html.Sitecore().Field("Delivery Methods Text")</p>
-                                    <div class="item">
-                                        <ul class="checkbox-list notification-list">
-                                            <li>
-                                                <input type="checkbox" ng-model="formData.onlinePaymentsMade.web">
-                                                <label for="notifications-document-web"><i class="icon-notification-bell"></i> @Html.Sitecore().Field("Web Text")</label>
-                                            </li>
-                                            <li>
-                                                <input type="checkbox" ng-model="formData.onlinePaymentsMade.email">
-                                                <label for="notifications-document-email"><i class="icon-notification-email"></i> @Html.Sitecore().Field("Email Text")</label>
-                                            </li>
-                                            <li>
-                                                <input type="checkbox" ng-model="formData.onlinePaymentsMade.sms">
-                                                <label for="notifications-document-sms"><i class="icon-notification-sms"></i> @Html.Sitecore().Field("SMS Text")</label>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="item">
-                                        <div class="buttons">
-                                            <button class="secondary" ng-click="cancelPreference(formData.onlinePaymentsMade, formDataOriginal.onlinePaymentsMade); toggleFields()">@Html.Sitecore().Field("Cancel Button Text")</button>
-                                            <button ng-click="updateNotification(onlinePaymentsMade, formData.onlinePaymentsMade); toggleFields()">@Html.Sitecore().Field("Save Preference Button Text")</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <hr class="content-divider" />
-                        <div class="edit-preferences">
-                            <div class="additional-fields" additional-fields>
-                                <div class="preference">
-                                    <span class="preference-type">
-                                        @Html.Sitecore().Field("Recurring Payments Text")
-                                        <span ng-show="formDataOriginal.recurringPaymentsMade.web" class="label"><i class="icon-notification-bell"></i> @Html.Sitecore().Field("Web Text")</span>
-                                        <span ng-show="formDataOriginal.recurringPaymentsMade.email" class="label"><i class="icon-notification-email"></i> @Html.Sitecore().Field("Email Text")</span>
-                                        <span ng-show="formDataOriginal.recurringPaymentsMade.sms" class="label"><i class="icon-notification-sms"></i> @Html.Sitecore().Field("SMS Text")</span>
-                                    </span>
-                                    <a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" href="" class="additional-field-action">@Html.Sitecore().Field("Edit Link Text")</a>
-                                </div>
-                                <div class="additional-field-group additional-fields">
-                                    <p>@Html.Sitecore().Field("Delivery Methods Text")</p>
-                                    <div class="item">
-                                        <ul class="checkbox-list notification-list">
-                                            <li>
-                                                <input type="checkbox" ng-model="formData.recurringPaymentsMade.web">
-                                                <label for="notifications-document-web"><i class="icon-notification-bell"></i> @Html.Sitecore().Field("Web Text")</label>
-                                            </li>
-                                            <li>
-                                                <input type="checkbox" ng-model="formData.recurringPaymentsMade.email">
-                                                <label for="notifications-document-email"><i class="icon-notification-email"></i> @Html.Sitecore().Field("Email Text")</label>
-                                            </li>
-                                            <li>
-                                                <input type="checkbox" ng-model="formData.recurringPaymentsMade.sms">
-                                                <label for="notifications-document-sms"><i class="icon-notification-sms"></i> @Html.Sitecore().Field("SMS Text")</label>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="item">
-                                        <div class="buttons">
-                                            <button class="secondary" ng-click="cancelPreference(formData.recurringPaymentsMade, formDataOriginal.recurringPaymentsMade); toggleFields()">@Html.Sitecore().Field("Cancel Button Text")</button>
-                                            <button ng-click="updateNotification(recurringPaymentsMade, formData.recurringPaymentsMade); toggleFields()">@Html.Sitecore().Field("Save Preference Button Text")</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <hr class="content-divider" />
-                        <div class="edit-preferences">
-                            <div class="additional-fields" additional-fields>
-                                <div class="preference">
-                                    <span class="preference-type">
-                                        @Html.Sitecore().Field("Recurring Profile Text")
-                                        <span ng-show="formDataOriginal.recurringProfileExpires.web" class="label"><i class="icon-notification-bell"></i> @Html.Sitecore().Field("Web Text")</span>
-                                        <span ng-show="formDataOriginal.recurringProfileExpires.email" class="label"><i class="icon-notification-email"></i> @Html.Sitecore().Field("Email Text")</span>
-                                        <span ng-show="formDataOriginal.recurringProfileExpires.sms" class="label"><i class="icon-notification-sms"></i> @Html.Sitecore().Field("SMS Text")</span>
-                                    </span>
-                                    <a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" href="" class="additional-field-action">@Html.Sitecore().Field("Edit Link Text")</a>
-                                </div>
-                                <div class="additional-field-group additional-fields">
-                                    <p>@Html.Sitecore().Field("Delivery Methods Text")</p>
-                                    <div class="item">
-                                        <ul class="checkbox-list notification-list">
-                                            <li>
-                                                <input type="checkbox" ng-model="formData.recurringProfileExpires.web">
-                                                <label for="notifications-document-web"><i class="icon-notification-bell"></i> @Html.Sitecore().Field("Web Text")</label>
-                                            </li>
-                                            <li>
-                                                <input type="checkbox" ng-model="formData.recurringProfileExpires.email">
-                                                <label for="notifications-document-email"><i class="icon-notification-email"></i> @Html.Sitecore().Field("Email Text")</label>
-                                            </li>
-                                            <li>
-                                                <input type="checkbox" ng-model="formData.recurringProfileExpires.sms">
-                                                <label for="notifications-document-sms"><i class="icon-notification-sms"></i> @Html.Sitecore().Field("SMS Text")</label>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="item">
-                                        <div class="buttons">
-                                            <button class="secondary" ng-click="cancelPreference(formData.recurringProfileExpires, formDataOriginal.recurringProfileExpires); toggleFields()">@Html.Sitecore().Field("Cancel Button Text")</button>
-                                            <button ng-click="updateNotification(recurringProfileExpires, formData.recurringProfileExpires); toggleFields()">@Html.Sitecore().Field("Save Preference Button Text")</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <hr class="content-divider" />
-                        <div class="edit-preferences">
-                            <div class="item">
-                                <ul class="checkbox-list">
-                                    <li>
-                                        <input type="checkbox" ng-model="formData.printedInvoices">
-                                        <label>@Html.Sitecore().Field("Printed Invoices Text")</label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" ng-model="formData.promoOptIn">
-                                        <label>@Html.Sitecore().Field("Promotional Offers Text")</label>
-                                    </li>
-                                </ul>
+                        <div class="item">
+                            <div class="buttons">
+                                <button class="secondary" ng-click="cancelPreference(formData.newDocumentArrives, formDataOriginal.newDocumentArrives); toggleFields()">@Html.Sitecore().Field("Cancel Button Text")</button>
+                                <button ng-click="updateNotification(newDocumentArrives, formData.newDocumentArrives, formDataOriginal.newDocumentArrives); toggleFields()">@Html.Sitecore().Field("Save Preference Button Text")</button>
                             </div>
                         </div>
                     </div>
-                    <footer>
-                        <div class="buttons">
-                            <button ng-click="updateNotificationSettings()">@Html.Sitecore().Field("Save Button Text")</button>
+                </div>
+            </div>
+            <hr class="content-divider" />
+            <div class="edit-preferences">
+                <div class="additional-fields" additional-fields>
+                    <div class="preference">
+                        <span class="preference-type">
+                            @Html.Sitecore().Field("Online Payments Text")
+                            <span ng-show="formDataOriginal.onlinePaymentsMade.web" class="label"><i class="icon-notification-bell"></i> @Html.Sitecore().Field("Web Text")</span>
+                            <span ng-show="formDataOriginal.onlinePaymentsMade.email" class="label"><i class="icon-notification-email"></i> @Html.Sitecore().Field("Email Text")</span>
+                            <span ng-show="formDataOriginal.onlinePaymentsMade.sms" class="label"><i class="icon-notification-sms"></i> @Html.Sitecore().Field("SMS Text")</span>
+                        </span>
+                        <a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" href="" class="additional-field-action">@Html.Sitecore().Field("Edit Link Text")</a>
+                    </div>
+                    <div class="additional-field-group additional-fields">
+                        <p>@Html.Sitecore().Field("Delivery Methods Text")</p>
+                        <div class="item">
+                            <ul class="checkbox-list notification-list">
+                                <li>
+                                    <input type="checkbox" ng-model="formData.onlinePaymentsMade.web">
+                                    <label for="notifications-document-web"><i class="icon-notification-bell"></i> @Html.Sitecore().Field("Web Text")</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" ng-model="formData.onlinePaymentsMade.email">
+                                    <label for="notifications-document-email"><i class="icon-notification-email"></i> @Html.Sitecore().Field("Email Text")</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" ng-model="formData.onlinePaymentsMade.sms">
+                                    <label for="notifications-document-sms"><i class="icon-notification-sms"></i> @Html.Sitecore().Field("SMS Text")</label>
+                                </li>
+                            </ul>
                         </div>
-                    </footer>
-                </form>
-            </article>
-        </section>
-    </section>
-</div>
+                        <div class="item">
+                            <div class="buttons">
+                                <button class="secondary" ng-click="cancelPreference(formData.onlinePaymentsMade, formDataOriginal.onlinePaymentsMade); toggleFields()">@Html.Sitecore().Field("Cancel Button Text")</button>
+                                <button ng-click="updateNotification(onlinePaymentsMade, formData.onlinePaymentsMade); toggleFields()">@Html.Sitecore().Field("Save Preference Button Text")</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="content-divider" />
+            <div class="edit-preferences">
+                <div class="additional-fields" additional-fields>
+                    <div class="preference">
+                        <span class="preference-type">
+                            @Html.Sitecore().Field("Recurring Payments Text")
+                            <span ng-show="formDataOriginal.recurringPaymentsMade.web" class="label"><i class="icon-notification-bell"></i> @Html.Sitecore().Field("Web Text")</span>
+                            <span ng-show="formDataOriginal.recurringPaymentsMade.email" class="label"><i class="icon-notification-email"></i> @Html.Sitecore().Field("Email Text")</span>
+                            <span ng-show="formDataOriginal.recurringPaymentsMade.sms" class="label"><i class="icon-notification-sms"></i> @Html.Sitecore().Field("SMS Text")</span>
+                        </span>
+                        <a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" href="" class="additional-field-action">@Html.Sitecore().Field("Edit Link Text")</a>
+                    </div>
+                    <div class="additional-field-group additional-fields">
+                        <p>@Html.Sitecore().Field("Delivery Methods Text")</p>
+                        <div class="item">
+                            <ul class="checkbox-list notification-list">
+                                <li>
+                                    <input type="checkbox" ng-model="formData.recurringPaymentsMade.web">
+                                    <label for="notifications-document-web"><i class="icon-notification-bell"></i> @Html.Sitecore().Field("Web Text")</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" ng-model="formData.recurringPaymentsMade.email">
+                                    <label for="notifications-document-email"><i class="icon-notification-email"></i> @Html.Sitecore().Field("Email Text")</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" ng-model="formData.recurringPaymentsMade.sms">
+                                    <label for="notifications-document-sms"><i class="icon-notification-sms"></i> @Html.Sitecore().Field("SMS Text")</label>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="item">
+                            <div class="buttons">
+                                <button class="secondary" ng-click="cancelPreference(formData.recurringPaymentsMade, formDataOriginal.recurringPaymentsMade); toggleFields()">@Html.Sitecore().Field("Cancel Button Text")</button>
+                                <button ng-click="updateNotification(recurringPaymentsMade, formData.recurringPaymentsMade); toggleFields()">@Html.Sitecore().Field("Save Preference Button Text")</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="content-divider" />
+            <div class="edit-preferences">
+                <div class="additional-fields" additional-fields>
+                    <div class="preference">
+                        <span class="preference-type">
+                            @Html.Sitecore().Field("Recurring Profile Text")
+                            <span ng-show="formDataOriginal.recurringProfileExpires.web" class="label"><i class="icon-notification-bell"></i> @Html.Sitecore().Field("Web Text")</span>
+                            <span ng-show="formDataOriginal.recurringProfileExpires.email" class="label"><i class="icon-notification-email"></i> @Html.Sitecore().Field("Email Text")</span>
+                            <span ng-show="formDataOriginal.recurringProfileExpires.sms" class="label"><i class="icon-notification-sms"></i> @Html.Sitecore().Field("SMS Text")</span>
+                        </span>
+                        <a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" href="" class="additional-field-action">@Html.Sitecore().Field("Edit Link Text")</a>
+                    </div>
+                    <div class="additional-field-group additional-fields">
+                        <p>@Html.Sitecore().Field("Delivery Methods Text")</p>
+                        <div class="item">
+                            <ul class="checkbox-list notification-list">
+                                <li>
+                                    <input type="checkbox" ng-model="formData.recurringProfileExpires.web">
+                                    <label for="notifications-document-web"><i class="icon-notification-bell"></i> @Html.Sitecore().Field("Web Text")</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" ng-model="formData.recurringProfileExpires.email">
+                                    <label for="notifications-document-email"><i class="icon-notification-email"></i> @Html.Sitecore().Field("Email Text")</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" ng-model="formData.recurringProfileExpires.sms">
+                                    <label for="notifications-document-sms"><i class="icon-notification-sms"></i> @Html.Sitecore().Field("SMS Text")</label>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="item">
+                            <div class="buttons">
+                                <button class="secondary" ng-click="cancelPreference(formData.recurringProfileExpires, formDataOriginal.recurringProfileExpires); toggleFields()">@Html.Sitecore().Field("Cancel Button Text")</button>
+                                <button ng-click="updateNotification(recurringProfileExpires, formData.recurringProfileExpires); toggleFields()">@Html.Sitecore().Field("Save Preference Button Text")</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="content-divider" />
+            <div class="edit-preferences">
+                <div class="item">
+                    <ul class="checkbox-list">
+                        <li>
+                            <input type="checkbox" ng-model="formData.printedInvoices">
+                            <label>@Html.Sitecore().Field("Printed Invoices Text")</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" ng-model="formData.promoOptIn">
+                            <label>@Html.Sitecore().Field("Promotional Offers Text")</label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <div class="buttons">
+                <button ng-click="updateNotificationSettings()">@Html.Sitecore().Field("Save Button Text")</button>
+            </div>
+        </footer>
+    </form>
+</article>
