@@ -466,6 +466,7 @@
     <Compile Include="Models\Account\GetAccountInformationResponse.cs" />
     <Compile Include="Models\Account\GetAccountsResponse.cs" />
     <Compile Include="Models\Account\GetEnrolledAccountsResponse.cs" />
+    <Compile Include="Models\Account\GetInvoicesResponse.cs" />
     <Compile Include="Models\Account\GetNotificationSettingsRequest.cs" />
     <Compile Include="Models\Account\GetNotificationSettingsResponse.cs" />
     <Compile Include="Models\Account\Invoice.cs" />

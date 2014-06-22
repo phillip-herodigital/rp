@@ -1,78 +1,74 @@
-﻿<section class="layout wrapper" ng-controller="InvoicesCtrl">
-    <section class="layout cols-1">
-        <article class="grey-box my-invoices">
-            <header>
-                <h2>@Html.Sitecore().Field("My Invoices Text")</h2>
-            </header>
-            <div class="content" loading-indicator>
-                <div class="filters">
-                    <form>
-                        <div class="group">
-                            <div class="item">
-                                <label>@Html.Sitecore().Field("Service Type Text")</label>
-                                <select ng-model="filters.serviceType" ng-options="item.value as item.name for item in filtersList.serviceType">
-                                    <option value="">All</option>
-                                </select>
-                            </div>
-                            <div class="item">
-                                <label>@Html.Sitecore().Field("Account Text")</label>
-                                <select ng-model="filters.accountNumber" ng-options="item.value as item.name for item in filtersList.accountNumber">
-                                    <option value="">All</option>
-                                </select>
-                            </div>
-                            <div class="item">
-                                <label>@Html.Sitecore().Field("Status Text")</label>
-                                <select ng-model="filters.isPaid" ng-options="item.value as item.name for item in filtersList.isPaid">
-                                    <option value="">All</option>
-                                </select>
-                            </div>
-                            <div class="actions" ng-show="isFiltered()">
-                                <p><a href="" ng-click="resetFilters()">@Html.Sitecore().Field("Reset Filters Text")</a></p>
-                            </div>
-                        </div>
-                    </form>
+﻿<article class="grey-box my-invoices wrapper" ng-controller="AcctMyInvoicesCtrl">
+    <header>
+        <h2>@Html.Sitecore().Field("My Invoices Text")</h2>
+    </header>
+    <div class="content" loading-indicator>
+        <div class="filters">
+            <form>
+                <div class="group">
+                    <div class="item">
+                        <label>@Html.Sitecore().Field("Service Type Text")</label>
+                        <select ng-model="filters.serviceType" ng-options="item.value as item.name for item in filtersList.serviceType">
+                            <option value="">All</option>
+                        </select>
+                    </div>
+                    <div class="item">
+                        <label>@Html.Sitecore().Field("Account Text")</label>
+                        <select ng-model="filters.accountNumber" ng-options="item.value as item.name for item in filtersList.accountNumber">
+                            <option value="">All</option>
+                        </select>
+                    </div>
+                    <div class="item">
+                        <label>@Html.Sitecore().Field("Status Text")</label>
+                        <select ng-model="filters.isPaid" ng-options="item.value as item.name for item in filtersList.isPaid">
+                            <option value="">All</option>
+                        </select>
+                    </div>
+                    <div class="actions" ng-show="isFiltered()">
+                        <p><a href="" ng-click="resetFilters()">@Html.Sitecore().Field("Reset Filters Text")</a></p>
+                    </div>
                 </div>
-                <div class="stretch">
-                    <table grid-table ng-model="invoicesTable">
-                        <thead grid-table-header></thead>
-                        <tbody ng-repeat="item in table.valuesToShow">
-                            <tr>
-                                <!--<td class="align-center" style="width:30px;"><input type="checkbox" ng-model="item.selected" /></td>-->
-                                <td ng-show="hasHiddenColumns" ng-click="expandInnerTable($index)" ng-class="{'opened': expand[$index], 'closed': !expand[$index]}">
-                                    <i ng-class="{'icon-arrow-expanded': expand[$index], 'icon-arrow-collapsed': !expand[$index]}"></i>
-                                </td>
-                                <td ng-show="showColumn('accountNumber')">{{ item.accountNumber }}</td>
-                                <td ng-show="showColumn('serviceType')" ng-switch on="item.serviceType">
-                                    <i ng-switch-when="HomeLife Services" class="icon-homelife-services"></i>
-                                    <i ng-switch-when="Utility" class="icon-utility"></i>
-                                    {{ item.serviceType }}
-                                </td>
-                                <td ng-show="showColumn('invoiceNumber')">{{ item.invoiceNumber }}</td>
-                                <td ng-show="showColumn('invoiceAmount')">{{ item.invoiceAmount }}</td>
-                                <td ng-show="showColumn('dueDate')">{{ item.dueDate }}</td>
-                                <td ng-show="showColumn('action')">
+            </form>
+        </div>
+        <div class="stretch">
+            <table grid-table ng-model="invoicesTable">
+                <thead grid-table-header></thead>
+                <tbody ng-repeat="item in table.valuesToShow">
+                    <tr>
+                        <!--<td class="align-center" style="width:30px;"><input type="checkbox" ng-model="item.selected" /></td>-->
+                        <td ng-show="hasHiddenColumns" ng-click="expandInnerTable($index)" ng-class="{'opened': expand[$index], 'closed': !expand[$index]}">
+                            <i ng-class="{'icon-arrow-expanded': expand[$index], 'icon-arrow-collapsed': !expand[$index]}"></i>
+                        </td>
+                        <td ng-show="showColumn('accountNumber')">{{ item.accountNumber }}</td>
+                        <td ng-show="showColumn('serviceType')" ng-switch on="item.serviceType">
+                            <i ng-switch-when="HomeLife Services" class="icon-homelife-services"></i>
+                            <i ng-switch-when="Utility" class="icon-utility"></i>
+                            {{ item.serviceType }}
+                        </td>
+                        <td ng-show="showColumn('invoiceNumber')">{{ item.invoiceNumber }}</td>
+                        <td ng-show="showColumn('invoiceAmount')">{{ item.invoiceAmount }}</td>
+                        <td ng-show="showColumn('dueDate')">{{ item.dueDate }}</td>
+                        <td ng-show="showColumn('action')">
+                            <button class="secondary">@Html.Sitecore().Field("View PDF Text")</button>
+                            <button class="submit" ng-show="!item.isPaid">@Html.Sitecore().Field("Pay Text")</button>
+                        </td>
+                    </tr>
+                    <tr class="details" ng-show="hasHiddenColumns && expand[$index] == true">
+                        <td colspan="{{table.columnList.length+1}}">
+                            <p ng-repeat="column in table.columnList | filter:{isVisible: false}" ng-switch on="column.field">
+                                <span ng-switch-when="action">
                                     <button class="secondary">@Html.Sitecore().Field("View PDF Text")</button>
                                     <button class="submit" ng-show="!item.isPaid">@Html.Sitecore().Field("Pay Text")</button>
-                                </td>
-                            </tr>
-                            <tr class="details" ng-show="hasHiddenColumns && expand[$index] == true">
-                                <td colspan="{{table.columnList.length+1}}">
-                                    <p ng-repeat="column in table.columnList | filter:{isVisible: false}" ng-switch on="column.field">
-                                        <span ng-switch-when="action">
-                                            <button class="secondary">@Html.Sitecore().Field("View PDF Text")</button>
-                                            <button class="submit" ng-show="!item.isPaid">@Html.Sitecore().Field("Pay Text")</button>
-                                        </span>
-                                        <span ng-switch-default>
-                                            <strong>{{ column.displayName }}:</strong> {{ item[column.field] }}
-                                        </span>
-                                    </p>
-                                </td>
-                            </tr>
-                        </tbody>
-                        <tfoot grid-table-pagination></tfoot>
-                    </table>
-                </div>
-            </div>
-        </article>
-    </section>
-</section>
+                                </span>
+                                <span ng-switch-default>
+                                    <strong>{{ column.displayName }}:</strong> {{ item[column.field] }}
+                                </span>
+                            </p>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot grid-table-pagination></tfoot>
+            </table>
+        </div>
+    </div>
+</article>
