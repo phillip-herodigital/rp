@@ -144,22 +144,6 @@
                     <tr class="spacer"></tr>
                 </tbody>
             </table>
-            <div class="table-overlay" ng-hide="true">
-                <div class="content">
-                    <p>@Html.Sitecore().Field("Utility Providers Found")</p>
-                    <article class="form">
-                        <div class="content">
-                            <div class="item">
-                                <ul class="checkbox-list">
-                                    <li><input type="radio" name="provider" id="oncor-electric"><label for="oncor-electric">Oncor Electric Delivery Company</label></li>
-                                    <li><input type="radio" name="provider" id="texas-new-mexico"><label for="texas-new-mexico">Texas-New Mexico Power Company</label></li>
-                                </ul>
-                            </div>
-                            <p><a class="button" href="">@Html.Sitecore().Field("Utility Providers Button")</a></p>
-                        </div>
-                    </article>
-                </div>
-            </div>
         </article>
     </div>
 </script>
@@ -226,19 +210,19 @@
         <div class="modal-dialog">
             <div class="modal-content" ng-controller="EnrollmentMultipleTduCtrl as vm">
                 <form>
-                    <div class="modal-body">
-                        <p>Multiple utility providers were found for your zip code {{ currentLocationInfo().location.address.zip }}. Please choose your utility provider from the list below.</p>
-                        <ul class="checkbox-list">
-                            <li ng-repeat="item in currentLocationInfo().location.capabilities | filter:'TexasElectricity'">
-                                <label>
-                                    <input type="radio" data-val="true" data-val-required ng-model="vm.selectedTdu" ng-value="item.tdu">
-                                    {{ item.tdu }}
-                                </label>
-                            </li>
-                        </ul>
+                    <div class="modal-body form">
+                        <div class="item">
+                            <p>@Html.Sitecore().Field("Utility Providers Found") <strong>{{ currentLocationInfo().location.address.postalCode5 }}</strong>@Html.Sitecore().Field("Utility Providers Found 2")</p>
+                            <ul class="checkbox-list">
+                                <li ng-repeat="item in currentLocationInfo().location.capabilities | filter:'TexasElectricity'">                           
+                                    <input type="radio" id="{{ item.tdu }}" data-val="true" data-val-required ng-model="vm.selectedTdu" ng-value="item.tdu">
+                                    <label for="{{ item.tdu }}">{{ item.tdu }}</label>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                     <div class="modal-footer">
-                        <button class="button" ng-click="vm.updatePlans(currentLocationInfo().location.capabilities, 'TexasElectricity', 'tdu')" data-val-submit>Continue</button>
+                        <button class="button" ng-click="vm.updatePlans(currentLocationInfo().location.capabilities, 'TexasElectricity', 'tdu')" data-val-submit>@Html.Sitecore().Field("Utility Providers Button")</button>
                     </div>
                 </form>
             </div>
