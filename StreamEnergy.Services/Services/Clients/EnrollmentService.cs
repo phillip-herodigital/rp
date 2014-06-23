@@ -16,10 +16,14 @@ namespace StreamEnergy.Services.Clients
 
         }
 
-        IEnumerable<Tuple<Location, IOffer>> IEnrollmentService.LoadOffers(IEnumerable<Location> serviceLocations)
+        Dictionary<Location, IEnumerable<IOffer>> IEnrollmentService.LoadOffers(IEnumerable<Location> serviceLocations)
         {
-            return serviceLocations.SelectMany(location =>
+            return serviceLocations.ToDictionary(location => location, location =>
             {
+                if (location.Capabilities.OfType<DomainModels.TexasServiceCapability>().Count() > 1)
+                {
+                    return Enumerable.Empty<IOffer>();
+                }
                 var offers = new IOffer[] 
                 {
                     new TexasElectricityOffer
@@ -64,8 +68,8 @@ namespace StreamEnergy.Services.Clients
                     }
                 };
 
-                return offers.Select(o => Tuple.Create(location, o)).ToArray();
-            }).ToArray();
+                return offers.ToArray();
+            });
         }
 
         IConnectDatePolicy IEnrollmentService.LoadConnectDates(Location location)

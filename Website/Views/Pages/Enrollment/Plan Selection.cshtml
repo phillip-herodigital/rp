@@ -46,6 +46,7 @@
 <script type="text/ng-template" id="planList/TexasElectricity">
     <h2>@Html.Sitecore().Field("Electricity Header")</h2>
     <article class="plans">
+        <div ng-include src="'multiple-tdu-modal'"></div>
         <table class="plan-selection-table">
             <thead class="hide-small">
                 <tr>

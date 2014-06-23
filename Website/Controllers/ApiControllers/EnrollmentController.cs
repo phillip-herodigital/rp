@@ -63,7 +63,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public ClientData ClientData(Type currentFinalState)
         {
             var services = stateMachine.Context.Services ?? Enumerable.Empty<LocationServices>();
-            var offers = stateMachine.InternalContext.AllOffers ?? Enumerable.Empty<Tuple<Location, IOffer>>();
+            var offers = stateMachine.InternalContext.AllOffers ?? new Dictionary<Location, IEnumerable<IOffer>>();
             var optionRules = stateMachine.InternalContext.OfferOptionRules ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<IOfferOptionRules>>();
             var deposits = stateMachine.InternalContext.Deposit ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>>();
             var confirmations = stateMachine.InternalContext.PlaceOrderResult ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>();
@@ -77,14 +77,15 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 Language = stateMachine.Context.Language,
                 SecondaryContactInfo = stateMachine.Context.SecondaryContactInfo,
                 Cart = from service in services
+                       let locationOffers = offers.ContainsKey(service.Location) ? offers[service.Location] : Enumerable.Empty<IOffer>()
                        select new CartEntry
                        {
                            Location = service.Location,
                            OfferInformationByType = (from selection in service.SelectedOffers ?? Enumerable.Empty<SelectedOffer>()
                                                      where selection.Offer != null
                                                      select selection.Offer.OfferType).Union(
-                                                     from offer in offers
-                                                     select offer.Item2.OfferType)
+                                                     from offer in locationOffers
+                                                     select offer.OfferType)
                                                      .ToDictionary(offerType => offerType, offerType => new OfferInformation
                                                      {
                                                          OfferSelections = from selectedOffer in service.SelectedOffers ?? Enumerable.Empty<SelectedOffer>()
@@ -97,9 +98,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                                                                Deposit = deposits.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details).SingleOrDefault(),
                                                                                ConfirmationNumber = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details.ConfirmationNumber).SingleOrDefault()
                                                                            },
-                                                         AvailableOffers = (from entry in offers
-                                                                            where entry.Item1 == service.Location && entry.Item2.OfferType == offerType
-                                                                            select entry.Item2)
+                                                         AvailableOffers = (from entry in locationOffers
+                                                                            where entry.OfferType == offerType
+                                                                            select entry)
                                                      }).ToArray()
                        },
                 SelectedIdentityAnswers = null,
@@ -189,14 +190,15 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             return ClientData(typeof(DomainModels.Enrollments.AccountInformationState));
         }
 
-        private LocationServices Combine(SelectedOfferSet newSelection, LocationServices oldService, IEnumerable<Tuple<Location, IOffer>> allOffers)
+        private LocationServices Combine(SelectedOfferSet newSelection, LocationServices oldService, Dictionary<Location, IEnumerable<IOffer>> allOffers)
         {
-            allOffers = allOffers ?? Enumerable.Empty<Tuple<Location, IOffer>>();
+            allOffers = allOffers ?? new Dictionary<Location, IEnumerable<IOffer>>();
+            var locationOffers = allOffers.ContainsKey(newSelection.Location) ? allOffers[newSelection.Location] : Enumerable.Empty<IOffer>();
             var result = oldService ?? new LocationServices();
             result.Location = newSelection.Location;
             result.SelectedOffers = (from entry in newSelection.OfferIds
                                      join oldSelection in result.SelectedOffers ?? Enumerable.Empty<SelectedOffer>() on entry equals oldSelection.Offer.Id into oldSelections
-                                     let offer = allOffers.Where(offer => offer.Item1 == newSelection.Location && offer.Item2.Id == entry).Select(o => o.Item2).FirstOrDefault()
+                                     let offer = locationOffers.Where(offer => offer.Id == entry).FirstOrDefault()
                                      where offer != null
                                      select oldSelections.FirstOrDefault() ??
                                         new SelectedOffer
@@ -226,7 +228,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             stateMachine.ContextUpdated();
 
-            if (stateMachine.State == typeof(DomainModels.Enrollments.AccountInformationState))
+            if (stateMachine.State == typeof(DomainModels.Enrollments.AccountInformationState) || stateMachine.State == typeof(DomainModels.Enrollments.PlanSelectionState))
                 stateMachine.Process(typeof(DomainModels.Enrollments.VerifyIdentityState));
 
             return ClientData(typeof(DomainModels.Enrollments.VerifyIdentityState));
@@ -245,13 +247,15 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         private void MapCartToServices(AccountInformation request)
         {
+            var allOffers = stateMachine.InternalContext.AllOffers ?? new Dictionary<Location, IEnumerable<IOffer>>(); ;
             stateMachine.Context.Services = (from cartEntry in request.Cart
+                                             let locationOffers = allOffers.ContainsKey(cartEntry.Location) ? allOffers[cartEntry.Location] : Enumerable.Empty<IOffer>()
                                              select new LocationServices
                                              {
                                                  Location = cartEntry.Location,
                                                  SelectedOffers = (from type in cartEntry.OfferInformationByType
                                                                    from offerInfo in type.Value.OfferSelections
-                                                                   let offer = stateMachine.InternalContext.AllOffers.Where(offer => offer.Item1 == cartEntry.Location && offer.Item2.Id == offerInfo.OfferId).Select(o => o.Item2).FirstOrDefault()
+                                                                   let offer = locationOffers.Where(offer => offer.Id == offerInfo.OfferId).FirstOrDefault()
                                                                    where offer != null
                                                                    select new SelectedOffer
                                                                    {
