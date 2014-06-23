@@ -36,7 +36,7 @@
                             <input type="text"
                                    id="service-address"
                                    class="typeahead"
-                                   ng-model="accountInformation.serviceAddress"
+                                   ng-model="item.tempLocation"
                                    placeholder="123 Main Street, Dallas, TX 75001"
                                    typeahead="location as location.address|address for location in getLocation(item.location.address.stateAbbreviation, $viewValue)"
                                    typeahead-loading="accountInformation.loadingAccountInformationServiceAddress"
@@ -51,7 +51,7 @@
                                 <div ng-include src="'offerOptions/' + offerInformation.key"></div>
 
                                 @* Start Billing Address section - don't even show the billing address section if the service address isn't set *@
-                                <div ng-show="item.location.address.line1" ng-controller="EnrollmentBillingAddressCtrl">
+                                <div ng-if="item.location.address.line1" ng-controller="EnrollmentBillingAddressCtrl">
                                     <h3>@Html.Sitecore().Field("Billing Address Header")</h3>
 
                                     <div class="item">
