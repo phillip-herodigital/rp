@@ -77,7 +77,7 @@
                         <div class="item">
                             <div class="buttons">
                                 <button class="secondary" ng-click="cancelPreference(formData.onlinePaymentsMade, formDataOriginal.onlinePaymentsMade); toggleFields()">@Html.Sitecore().Field("Cancel Button Text")</button>
-                                <button ng-click="updateNotification(onlinePaymentsMade, formData.onlinePaymentsMade); toggleFields()">@Html.Sitecore().Field("Save Preference Button Text")</button>
+                                <button ng-click="updateNotification(onlinePaymentsMade, formData.onlinePaymentsMade, formDataOriginal.onlinePaymentsMade); toggleFields()">@Html.Sitecore().Field("Save Preference Button Text")</button>
                             </div>
                         </div>
                     </div>
@@ -116,7 +116,7 @@
                         <div class="item">
                             <div class="buttons">
                                 <button class="secondary" ng-click="cancelPreference(formData.recurringPaymentsMade, formDataOriginal.recurringPaymentsMade); toggleFields()">@Html.Sitecore().Field("Cancel Button Text")</button>
-                                <button ng-click="updateNotification(recurringPaymentsMade, formData.recurringPaymentsMade); toggleFields()">@Html.Sitecore().Field("Save Preference Button Text")</button>
+                                <button ng-click="updateNotification(recurringPaymentsMade, formData.recurringPaymentsMade, formDataOriginal.recurringPaymentsMade); toggleFields()">@Html.Sitecore().Field("Save Preference Button Text")</button>
                             </div>
                         </div>
                     </div>
@@ -155,7 +155,7 @@
                         <div class="item">
                             <div class="buttons">
                                 <button class="secondary" ng-click="cancelPreference(formData.recurringProfileExpires, formDataOriginal.recurringProfileExpires); toggleFields()">@Html.Sitecore().Field("Cancel Button Text")</button>
-                                <button ng-click="updateNotification(recurringProfileExpires, formData.recurringProfileExpires); toggleFields()">@Html.Sitecore().Field("Save Preference Button Text")</button>
+                                <button ng-click="updateNotification(recurringProfileExpires, formData.recurringProfileExpires, formDataOriginal.recurringProfileExpires); toggleFields()">@Html.Sitecore().Field("Save Preference Button Text")</button>
                             </div>
                         </div>
                     </div>

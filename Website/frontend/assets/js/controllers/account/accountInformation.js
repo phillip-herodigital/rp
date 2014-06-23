@@ -54,7 +54,7 @@ ngApp.controller('AcctAccountInformationCtrl', ['$scope', '$rootScope', '$http',
 
 				} else {
 					// if successful, alert the user
-					alert("successful");
+					//alert("successful");
 				}
 			});
 	};
