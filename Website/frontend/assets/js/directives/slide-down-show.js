@@ -9,7 +9,7 @@ ngApp.directive('slideDownShow', [function () {
             var currentState = scope.slideDownShow;
             if (!currentState)
                 element.hide();
-            var duration = scope.duration || 1000;
+            var duration = scope.duration || 300;
 
             scope.$watch('slideDownShow', function (val) {
 
@@ -20,7 +20,7 @@ ngApp.directive('slideDownShow', [function () {
                 currentState = val;
             });
             scope.$watch('duration', function (val) {
-                duration = val || 1000;
+                duration = val || 300;
             });
         }
     };
