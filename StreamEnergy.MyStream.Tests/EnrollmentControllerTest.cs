@@ -174,7 +174,7 @@ namespace StreamEnergy.MyStream.Tests
             Assert.AreEqual("75010", session.Context.Services.First().Location.Address.PostalCode5);
             Assert.AreEqual(DomainModels.TexasServiceCapability.Qualifier, session.Context.Services.First().Location.Capabilities.First().CapabilityType);
             Assert.AreEqual("Centerpoint", (session.Context.Services.First().Location.Capabilities.First() as DomainModels.TexasServiceCapability).Tdu);
-            Assert.IsNotNull(session.InternalContext.AllOffers.SingleOrDefault(offer => offer.Item2.Id == "24-month-fixed-rate"));
+            Assert.IsNotNull(session.InternalContext.AllOffers[session.Context.Services.First().Location].Offers.SingleOrDefault(offer => offer.Id == "24-month-fixed-rate"));
         }
 
         [TestMethod]
@@ -194,7 +194,7 @@ namespace StreamEnergy.MyStream.Tests
             };
             session.InternalContext = new InternalContext
             {
-                AllOffers = offers.Select(o => Tuple.Create(generalLocation, o)).ToArray()
+                AllOffers = new Dictionary<Location, LocationOfferSet> { { generalLocation, new LocationOfferSet { Offers = offers } } }
             };
             session.State = typeof(DomainModels.Enrollments.PlanSelectionState);
             var request = new Models.Enrollment.SelectedOffers
@@ -242,7 +242,7 @@ namespace StreamEnergy.MyStream.Tests
             };
             session.InternalContext = new InternalContext
             {
-                AllOffers = offers.Select(o => Tuple.Create(generalLocation, o)).ToArray()
+                AllOffers = new Dictionary<Location, LocationOfferSet> { { generalLocation, new LocationOfferSet { Offers = offers } } }
             };
             session.State = typeof(DomainModels.Enrollments.AccountInformationState);
             var request = new Models.Enrollment.AccountInformation
@@ -291,7 +291,7 @@ namespace StreamEnergy.MyStream.Tests
             }
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.VerifyIdentityState), session.State);
-            Assert.IsNotNull(session.InternalContext.AllOffers.Any(offer => offer.Item1 == specificLocation));
+            Assert.IsTrue(session.InternalContext.AllOffers.ContainsKey(specificLocation));
             Assert.IsTrue(session.Context.Services.First().SelectedOffers.Any(o => o.Offer.Id == "24-month-fixed-rate"));
             Assert.AreEqual("Test", session.Context.ContactInfo.Name.First);
             Assert.AreEqual("Person", session.Context.ContactInfo.Name.Last);
@@ -332,7 +332,7 @@ namespace StreamEnergy.MyStream.Tests
             };
             session.InternalContext = new InternalContext
             {
-                AllOffers = offers.Select(o => Tuple.Create(specificLocation, o)).ToArray(),
+                AllOffers = new Dictionary<Location, LocationOfferSet> { { specificLocation, new LocationOfferSet { Offers = offers } } },
                 IdentityCheckResult = identityCheckResult,
             };
             session.State = typeof(DomainModels.Enrollments.VerifyIdentityState);
@@ -385,7 +385,7 @@ namespace StreamEnergy.MyStream.Tests
             };
             session.InternalContext = new InternalContext
             {
-                AllOffers = offers.Select(o => Tuple.Create(specificLocation, o)).ToArray(),
+                AllOffers = new Dictionary<Location, LocationOfferSet> { { specificLocation, new LocationOfferSet { Offers = offers } } },
                 IdentityCheckResult = identityCheckResult,
             };
             session.State = typeof(DomainModels.Enrollments.VerifyIdentityState);
@@ -436,7 +436,7 @@ namespace StreamEnergy.MyStream.Tests
             };
             session.InternalContext = new InternalContext
             {
-                AllOffers = offers.Select(o => Tuple.Create(specificLocation, o)).ToArray(),
+                AllOffers = new Dictionary<Location, LocationOfferSet> { { specificLocation, new LocationOfferSet { Offers = offers } } },
                 IdentityCheckResult = identityCheckResult,
             };
             session.State = typeof(DomainModels.Enrollments.CompleteOrderState);

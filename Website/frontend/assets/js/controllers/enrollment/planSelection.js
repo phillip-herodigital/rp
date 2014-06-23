@@ -29,7 +29,21 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
      * @return {Boolean} [description]
      */
     $scope.isFormValid = function () {
-        return true;
+        var isValid = true;
+
+        //Simple check on length first
+        if($scope.sizeOf($scope.planSelection.selectedOffers) != utilityProductsService.getAvailableOfferTypes().length) {
+            isValid = false;
+        }
+
+        //Then check if any values are null in case of deselection
+        angular.forEach($scope.planSelection.selectedOffers, function(value, key) {
+            if(!value) {
+                isValid = false;
+            }
+        });
+
+        return isValid;
     };
 
     /**

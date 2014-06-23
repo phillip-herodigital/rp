@@ -80,6 +80,8 @@ namespace StreamEnergy.Processes
             var state = State;
             RestoreStateFrom(state, ref state);
             State = state;
+            Context.Sanitize();
+            GetState().Sanitize(Context, InternalContext);
             lastValidations = null;
         }
 
