@@ -162,3 +162,81 @@
         </article>
     </div>
 </script>
+
+
+<script type="text/ng-template" id="multiple-tdu-modal">
+    <table class="plan-selection-table">
+        <thead class="hide-small">
+            <tr>
+                <th colspan="2">@Html.Sitecore().Field("Electricity Plan Name")</th>
+                <th>@Html.Sitecore().Field("Electricity Rate")</th>
+                <th>@Html.Sitecore().Field("Electricity Term")</th>
+                <th>@Html.Sitecore().Field("Electricity Fees")</th>
+                <th>@Html.Sitecore().Field("Electricity Select Plan")</th>
+            </tr>
+            <tr class="spacer"></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th class="vertical">
+                    <div class="fixed">@Html.Sitecore().Field("Electricity Fixed")</div>
+                </th>
+                <td class="plan-name hide-small">
+                    24 Month Fixed Rate
+                </td>
+                <td class="rate">
+                    7.18&cent; <span>@Html.Sitecore().Field("Electricity Per kWh")</span>
+                </td>
+                <td class="term">
+                    <span><i class="icon-24months"></i></span>
+                </td>
+                <td class="fees">
+                    $0<span>@Html.Sitecore().Field("Electricity Early Cancellation Fee")</span>
+                </td>
+                <td>
+                    <button>@Html.Sitecore().Field("Electricity Button")</button>
+                </td>
+            </tr>
+            <tr class="spacer" ng-repeat-end></tr>
+            <tr>
+                <th class="vertical">
+                    <div class="variable">@Html.Sitecore().Field("Electricity Variable")</div>
+                </th>
+                <td class="plan-name hide-small">
+                    Month-to-Month Rate
+                </td>
+                <td class="rate">
+                    7.98&cent; <span>@Html.Sitecore().Field("Electricity Per kWh")</span>
+                </td>
+                <td class="term">
+                    <span><i class="icon-24months"></i></span>
+                </td>
+                <td class="fees">
+                    $0<span>@Html.Sitecore().Field("Electricity Early Cancellation Fee")</span>
+                </td>
+                <td>
+                    <button>@Html.Sitecore().Field("Electricity Button")</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="modal-backdrop modal-backdrop-absolute"></div>
+    <div tabindex="-1" role="dialog" class="modal modal-absolute" style="z-index: 1050; display: block;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p>Multiple utility providers were found for your zip code {{ zip }}. Please choose your utility provider from the list below.</p>
+                    <ul class="checkbox-list">
+                        <li ng-repeat="item in items">
+                            <input type="radio">
+                            <label>{{ item }}</label>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button class="button">Continue</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>

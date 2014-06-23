@@ -54,6 +54,10 @@ div.tabbable {
 	background-color: #000000;
 }
 
+.modal-backdrop.modal-backdrop-absolute {
+	position: absolute;
+}
+
 .modal-backdrop, .modal-backdrop.fade.in {
 	@include opacity(0.8);
 }
@@ -73,6 +77,10 @@ div.tabbable {
 	border: 1px solid #999;
 	border: 1px solid rgba(0, 0, 0, 0.3);
 	outline: none;
+}
+
+.modal.modal-absolute {
+	position: absolute;
 }
 
 .modal-header {
