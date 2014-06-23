@@ -144,7 +144,7 @@ namespace StreamEnergy.Services.Clients
                         Details = new DomainModels.Enrollments.OfferPayment
                         {
                             Description = "Canned description about the amounts required",
-                            RequiredAmount = (offer.Offer is TexasElectricityOffer && ((TexasElectricityOffer)offer.Offer).TermMonths == 1) ? 0 : 150,
+                            RequiredAmount = (offer.Offer is TexasElectricityOffer && ((TexasElectricityOffer)offer.Offer).TermMonths == 1) ? 0 : 75.25m,
                             OptionalAmount = 0
                         }
                     }).ToArray();
