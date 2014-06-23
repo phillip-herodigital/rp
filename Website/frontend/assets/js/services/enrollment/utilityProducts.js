@@ -169,7 +169,7 @@ ngApp.factory('utilityProductsService', ['$filter', function ($filter) {
 		getSelectedPlans: function(location) {
 			var selectedPlans = {};
 
-			if(location.offerInformationByType.length) {
+			if(location.offerInformationByType) {
 				angular.forEach(location.offerInformationByType, function(offers, index) {
 					if(offers.value.offerSelections.length) {
 						angular.forEach(offers.value.availableOffers, function(availableOffer) {
@@ -241,13 +241,21 @@ ngApp.factory('utilityProductsService', ['$filter', function ($filter) {
 					isNewService: -1
 				};
 			} else {
+			    var serviceStatusCapability;
+			    for (var i = 0; i < location.location.capabilities.length; i++)
+			    {
+			        if (location.location.capabilities[i].capabilityType == 'ServiceStatus') {
+			            serviceStatusCapability = location.location.capabilities[i];
+			            break;
+			        }
+			    }
 				return {
 					location: {
 						address: location.location.address,
 						capabilities: location.location.capabilities
 					},
 					serviceState: location.location.address.stateAbbreviation,
-					isNewService: location.location.capabilities[1].isNewService
+					isNewService: serviceStatusCapability.isNewService
 				};
 			}
 		},
