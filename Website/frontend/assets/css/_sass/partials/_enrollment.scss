@@ -384,16 +384,20 @@
         }
         tbody {
             tr.details {
-                display: none;
                 td {
                     border: 1px solid #eaeaea;
-                    text-align: left;
-                    padding-left: 30px;
-                    p {
-                        font-size: 15px;
-                    }
-                    &:first-child {
-                        border: 1px solid #eaeaea;
+                    padding: 0px;
+                    div {
+                        padding: 5px 12px;
+                        border: 0;
+                        text-align: left;
+                        padding-left: 30px;
+                        p {
+                            font-size: 15px;
+                        }
+                        &:first-child {
+                            border: 1px solid #eaeaea;
+                        }
                     }
                 }
             }
