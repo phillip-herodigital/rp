@@ -18,15 +18,13 @@ namespace StreamEnergy.DomainModels.Accounts.ResetPassword
     public class VerifyUserState : StateBase<ResetPasswordContext, object>
     {
         private readonly IUnityContainer container;
-        private readonly ResetPasswordTokenManager tokenManager;
         private readonly IEmailService emailService;
         private readonly ISettings settings;
 
-        public VerifyUserState(IUnityContainer container, ResetPasswordTokenManager tokenManager, IEmailService emailService, ISettings settings)
-            : base(typeof(GetUsernameState), typeof(SentEmailState))
+        public VerifyUserState(IUnityContainer container, IEmailService emailService, ISettings settings)
+            : base(typeof(GetUsernameState), typeof(SecurityQuestionsVerifiedState))
         {
             this.container = container;
-            this.tokenManager = tokenManager;
             this.emailService = emailService;
             this.settings = settings;
         }
@@ -46,29 +44,6 @@ namespace StreamEnergy.DomainModels.Accounts.ResetPassword
             {
                 yield return new ValidationResult("Incorrect Response", new[] { "ChallengeQuestions" });
             }
-        }
-
-        protected override Type InternalProcess(ResetPasswordContext context, object internalContext)
-        {
-            var passwordResetToken = tokenManager.GetPasswordResetToken(context.Username);
-            // TODO - get email address from Stream Commons
-            var toEmail = "adam.powell@responsivepath.com, adam.brill@responsivepath.com, matt.dekrey@responsivepath.com";
-            // TODO get base URL from Sitecore
-            var url = "http://dev.streamenergy.responsivepath.com/auth/change-password?token={token}&username={username}".Format(new { token = passwordResetToken, username = context.Username });
-
-            // Send the email
-            emailService.SendEmail(new MailMessage()
-            {
-                From = new MailAddress(settings.GetSettingsValue("Authorization Email Addresses", "Send From Email Address")),
-                To = { toEmail },
-                // TODO get subject and body template from Sitecore
-                Subject = "Stream Energy Reset Password",
-                IsBodyHtml = true,
-                Body = @"Click the following link to reset the password on your Stream Energy account: <a href=""{url}"">Reset Password</a>".Format(new { url = url })
-            });
-
-            return base.InternalProcess(context, internalContext);
-            
         }
     }
 }
