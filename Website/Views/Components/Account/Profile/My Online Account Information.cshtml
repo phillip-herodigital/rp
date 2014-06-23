@@ -1,4 +1,5 @@
 ﻿@model StreamEnergy.MyStream.Models.Account.UpdateOnlineAccountRequest
+@using StreamEnergy.MyStream.Models.Authentication
 
 <article class="grey-box account" ng-controller="AcctOnlineAccountCtrl">
     <header>
@@ -46,32 +47,36 @@
                 </div>
             </div>
             <hr class="content-divider" />
-            <div class="group">
-                <div class="item group-col" @Html.ValidationErrorClass(model => model.Challenges)>
-                    <label for="question-1">@Html.Sitecore().Field("Question 1 Label")</label>
-                    <select ng-model="formData.challenges[0].selectedQuestion" ng-options="question.text for question in formData.availableSecurityQuestions|filter:filter2 track by question.id"></select>
-                    @Html.ValidationMessageFor(model => model.Challenges)
+            @using (var securityQuestion = Html.AngularRepeat(m => m.Challenges, "0"))
+            {
+                <div class="group">
+                    <div class="item group-col" @(securityQuestion.ErrorClass(m => m.SelectedQuestion.Id))>
+                        <label for="@securityQuestion.For(m => m.SelectedQuestion.Id)">>@Html.Sitecore().Field("Question 1 Label")</label>
+                        <select @securityQuestion.Attributes(m => m.SelectedQuestion.Id) ng-model="formData.challenges[0].selectedQuestion" ng-options="question.text for question in formData.availableSecurityQuestions|filter:filter2 track by question.id"></select>
+                        @securityQuestion.MessageFor(m => m.SelectedQuestion.Id)
+                    </div>
+                    <div class="item group-col" @(securityQuestion.ErrorClass(m => m.Answer))>
+                        <label for="@securityQuestion.For(m => m.Answer)">@Html.Sitecore().Field("Question 1 Answer Label")</label>
+                        <input type="text" @securityQuestion.Attributes(m => m.Answer) ng-model=" formdata.challenges[0].answer">
+                        <span class="help-text">@Html.Sitecore().Field("Question 1 Help Text")</span>
+                        @securityQuestion.MessageFor(m => m.Answer)
+                    </div>
                 </div>
-                <div class="item group-col" @Html.ValidationErrorClass(model => model.Challenges)>
-                    <label for="answer-1">@Html.Sitecore().Field("Question 1 Answer Label")</label>
-                    <input type="text" name="answer-1" id="answer-1" ng-model="formData.challenges[0].answer">
-                    <span class="help-text">@Html.Sitecore().Field("Question 1 Help Text")</span>
-                    @Html.ValidationMessageFor(model => model.Challenges)
+            }
+                <div class="group">
+                    <div class="item group-col" @Html.ValidationErrorClass(model => model.Challenges)>
+                        <label for="@Html.For(m => m.Challenges)">@Html.Sitecore().Field("Question 2 Label")</label>
+                        <select ng-model="formData.challenges[1].selectedQuestion" ng-options="question.text for question in formData.availableSecurityQuestions|filter:filter1 track by question.id"></select>
+                        @Html.ValidationMessageFor(model => model.Challenges)
+                    </div>
+                    <div class="item group-col" @Html.ValidationErrorClass(model => model.Challenges)>
+                        <label for="answer-2">@Html.Sitecore().Field("Question 2 Answer Label")</label>
+                        <input type="text" name="answer-2" id="answer-2" ng-model="formData.challenges[1].answer">
+                        <span class="help-text">@Html.Sitecore().Field("Question 2 Help Text")</span>
+                        @Html.ValidationMessageFor(model => model.Challenges)
+                    </div>
                 </div>
-            </div>
-            <div class="group">
-                <div class="item group-col" @Html.ValidationErrorClass(model => model.Challenges)>
-                    <label for="@Html.For(m => m.Challenges)">@Html.Sitecore().Field("Question 2 Label")</label>
-                    <select ng-model="formData.challenges[1].selectedQuestion" ng-options="question.text for question in formData.availableSecurityQuestions|filter:filter1 track by question.id"></select>
-                    @Html.ValidationMessageFor(model => model.Challenges)
-                </div>
-                <div class="item group-col" @Html.ValidationErrorClass(model => model.Challenges)>
-                    <label for="answer-2">@Html.Sitecore().Field("Question 2 Answer Label")</label>
-                    <input type="text" name="answer-2" id="answer-2" ng-model="formData.challenges[1].answer">
-                    <span class="help-text">@Html.Sitecore().Field("Question 2 Help Text")</span>
-                    @Html.ValidationMessageFor(model => model.Challenges)
-                </div>
-            </div>
+            
             <hr class="content-divider" />
             <div class="item">
                 <label for="language-preference">@Html.Sitecore().Field("Language Preference Label")</label>
