@@ -26,12 +26,12 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         protected override bool NeedRestoreInternalState(UserContext context, InternalContext internalContext)
         {
-            return internalContext.AllOffers == null || !context.Services.Select(s => s.Location).All(loc => internalContext.AllOffers.Any(locOffer => locOffer.Item1 == loc));
+            return internalContext.AllOffers == null || !context.Services.Select(s => s.Location).All(loc => internalContext.AllOffers.ContainsKey(loc));
         }
 
         protected override void LoadInternalState(UserContext data, InternalContext internalContext)
         {
-            internalContext.AllOffers = enrollmentService.LoadOffers(data.Services.Select(s => s.Location)).ToArray();
+            internalContext.AllOffers = enrollmentService.LoadOffers(data.Services.Select(s => s.Location));
         }
     }
 }

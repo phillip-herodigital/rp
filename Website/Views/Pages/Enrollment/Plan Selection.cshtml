@@ -46,7 +46,8 @@
 <script type="text/ng-template" id="planList/TexasElectricity">
     <h2>@Html.Sitecore().Field("Electricity Header")</h2>
     <article class="plans">
-        <table class="plan-selection-table">
+        <div ng-include src="'multiple-tdu-modal'" ng-if="typedOffers.value.errors[0] == 'MultipleTdu'"></div>
+        <table class="plan-selection-table" ng-if="typedOffers.value.availableOffers.length">
             <thead class="hide-small">
                 <tr>
                     <th colspan="2">@Html.Sitecore().Field("Electricity Plan Name")</th>
@@ -227,9 +228,9 @@
                 <div class="modal-body">
                     <p>Multiple utility providers were found for your zip code {{ zip }}. Please choose your utility provider from the list below.</p>
                     <ul class="checkbox-list">
-                        <li ng-repeat="item in items">
+                        <li ng-repeat="item in currentLocationInfo().location.capabilities | filter:'TexasElectricity'">
                             <input type="radio">
-                            <label>{{ item }}</label>
+                            <label>{{ item.tdu }}</label>
                         </li>
                     </ul>
                 </div>
