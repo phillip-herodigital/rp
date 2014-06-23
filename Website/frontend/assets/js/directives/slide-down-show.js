@@ -12,7 +12,6 @@ ngApp.directive('slideDownShow', [function () {
             var duration = scope.duration || 1000;
 
             scope.$watch('slideDownShow', function (val) {
-                console.log(duration, val);
 
                 if (val)
                     element.slideDown(duration);
