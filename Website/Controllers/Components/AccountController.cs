@@ -6,8 +6,39 @@ using System.Web.Mvc;
 
 namespace StreamEnergy.MyStream.Controllers.Components
 {
+    [Authorize]
     public class AccountController : Controller
     {
+        public ActionResult AccountBalancesIndex()
+        {
+            return View("~/Views/Components/Account/Overview/Account Balances and Payments.cshtml");
+        }
+
+        public ActionResult MyEnergyUsageIndex()
+        {
+            return View("~/Views/Components/Account/Overview/My Energy Usage.cshtml");
+        }
+
+        public ActionResult UtilityProvidersIndex()
+        {
+            return View("~/Views/Components/Account/Overview/Utility Providers.cshtml");
+        }
+
+        public ActionResult MyInvoicesIndex()
+        {
+            return View("~/Views/Components/Account/Overview/My Invoices.cshtml");
+        }
+
+        public ActionResult MyPaymentsIndex()
+        {
+            return View("~/Views/Components/Account/Overview/My Payments.cshtml");
+        }
+
+        public ActionResult MakeAPaymentIndex()
+        {
+            return View("~/Views/Components/Account/Overview/Make a Payment.cshtml");
+        }
+
         public ActionResult OnlineAccountIndex()
         {
             return View("~/Views/Components/Account/Profile/My Online Account Information.cshtml");

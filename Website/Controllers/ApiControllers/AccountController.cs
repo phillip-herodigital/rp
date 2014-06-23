@@ -1,4 +1,4 @@
-﻿using StreamEnergy.DomainModels.Accounts.ResetPassword;
+﻿using StreamEnergy.DomainModels.Accounts;
 using StreamEnergy.MyStream.Models;
 using StreamEnergy.MyStream.Models.Account;
 using StreamEnergy.MyStream.Models.Angular.GridTable;
@@ -26,29 +26,17 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private readonly DomainModels.Accounts.IAccountService accountService;
         private readonly Sitecore.Security.Domains.Domain domain;
         private readonly Sitecore.Data.Database database;
-        private readonly AccountSessionHelper accountSessionHelper;
+        private readonly IValidationService validation;
 
-        #region Session Helper Classes
-
-        public class AccountSessionHelper : StateMachineSessionHelper<ResetPasswordContext, object>
-        {
-            public AccountSessionHelper(HttpSessionStateBase session, IUnityContainer container)
-                : base(session, container, typeof(AuthenticationController), typeof(GetUsernameState), storeInternal: false)
-            {
-            }
-        }
-
-        #endregion
-
-        public AccountController(IUnityContainer container, AccountSessionHelper accountSessionHelper, HttpSessionStateBase session, DomainModels.Accounts.IAccountService accountService, Services.Clients.ITemperatureService temperatureService)
+        public AccountController(IUnityContainer container, HttpSessionStateBase session, DomainModels.Accounts.IAccountService accountService, Services.Clients.ITemperatureService temperatureService, IValidationService validation)
         {
             this.container = container;
-            this.accountSessionHelper = accountSessionHelper;
             this.temperatureService = temperatureService;
             this.accountService = accountService;
             this.domain = Sitecore.Context.Site.Domain;
             this.database = Sitecore.Context.Database;
-            this.item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Components/Authentication");
+            this.item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Components/Account/Profile");
+            this.validation = validation;
         }
 
         [HttpGet]
@@ -61,14 +49,18 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         [HttpGet]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
-        public Table<Invoice> Invoices(bool schema = true)
+        public GetInvoicesResponse GetInvoices()
         {
-            return new Table<Invoice>
+            // TODO - get the invoices from Stream Connect and format the response
+
+            return new GetInvoicesResponse
+            {
+                Invoices = new Table<Models.Account.Invoice>
                 {
                     // TODO - provide translation sitecore item
-                    ColumnList = schema ? typeof(Invoice).BuildTableSchema(null) : null,
+                    ColumnList = typeof(StreamEnergy.MyStream.Models.Account.Invoice).BuildTableSchema(null),
                     Values = from invoice in accountService.GetInvoices(User.Identity.Name)
-                             select new Invoice
+                             select new StreamEnergy.MyStream.Models.Account.Invoice
                              {
                                  AccountNumber = invoice.AccountNumber,
                                  ServiceType = invoice.ServiceType,
@@ -82,7 +74,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                      { "viewPdf", "http://.../" }
                                  }
                              }
-                };
+                }
+            };
         }
 
         #endregion
@@ -92,12 +85,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [HttpGet]
         public GetOnlineAccountResponse GetOnlineAccount()
         {
-            // TODO check to make sure the user is logged in, and get the username from the current session
-            var username = "adambrill";
-            accountSessionHelper.Reset();
-            accountSessionHelper.Context.DomainPrefix = domain.AccountPrefix;
-            accountSessionHelper.Context.Username = username;
-            accountSessionHelper.StateMachine.Process(typeof(VerifyUserState));
+            var username = User.Identity.Name;
+            var profile = UserProfile.Locate(container, username);
 
             var email = new DomainModels.Email();
             var questionsRoot = database.GetItem("/sitecore/content/Data/Taxonomy/Security Questions");
@@ -109,7 +98,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             
             return new GetOnlineAccountResponse
             {
-                Username = username,
+                Username = User.Identity.Name.Substring(User.Identity.Name.IndexOf('\\') + 1),
                 Email = email,
                 AvailableSecurityQuestions =
                     from questionItem in (questionsRoot != null ? questionsRoot.Children : Enumerable.Empty<Sitecore.Data.Items.Item>())
@@ -118,7 +107,17 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         Id = questionItem.ID.Guid,
                         Text = questionItem["Question"]
                     },
-                //Challenges = accountSessionHelper.StateMachine.Context.c.Challenges = request.Challenges.ToDictionary(c => c.SelectedQuestion.Id, c => c.Answer),
+                Challenges = 
+                    from challenge in profile.ChallengeQuestions.ToDictionary(c => c.QuestionKey, c => (string)null) ?? new Dictionary<Guid, string>()
+                    let questionItem = database.GetItem(new Sitecore.Data.ID(challenge.Key))
+                    select new AnsweredSecurityQuestion
+                    {
+                        SelectedQuestion = new SecurityQuestion
+                        {
+                            Id = challenge.Key,
+                            Text = questionItem != null ? questionItem["Question"] : ""
+                        }
+                    },
                    
                 AvailableLanguages =
                    from languageItem in (languagesRoot != null ? languagesRoot.Children : Enumerable.Empty<Sitecore.Data.Items.Item>())
@@ -136,35 +135,50 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public UpdateOnlineAccountResponse UpdateOnlineAccount(UpdateOnlineAccountRequest request)
         {
             bool success = false;
-            if (ModelState.IsValid)
+            
+            request.Username = domain.AccountPrefix + request.Username;
+
+            if (User.Identity.Name != request.Username)
             {
-                // TODO check to make sure the user is logged in
-                var username = request.OriginalUsername;
-                if (true)
+                request.Username = null;
+            }
+            var validations = validation.CompleteValidate(request);
+            if (!validations.Any())
+            {
+                var user = Membership.GetUser(User.Identity.Name);
+                // TODO update the username
+
+                // TODO update the email address with Stream Connect
+
+                // update the password if it has been set
+                if (!string.IsNullOrEmpty(request.CurrentPassword) )
                 {
-                    var user = Membership.GetUser(domain.AccountPrefix + username);
-                    // update the username
-
-                    // update the email address with Stream Connect
-
-                    // update the password if it has been set
-                    if (request.Password != "")
-                    {
-                        user.ChangePassword(user.ResetPassword(), request.Password);
-                    }
-
-                    // update the challeges
-
-                    // up
-
-                    success = true;
+                    user.ChangePassword(request.CurrentPassword, request.Password);
                 }
+                // update the challeges
+                if (request.Challenges != null && request.Challenges.Any(c => !string.IsNullOrEmpty(c.Answer)))
+                {
+                    var profile = UserProfile.Locate(container, request.Username);
+                    
+                    profile.ChallengeQuestions = (from entry in request.Challenges
+                                                  join existing in profile.ChallengeQuestions on entry.SelectedQuestion.Id equals existing.QuestionKey into existing
+                                                  let existingQuestion = existing.FirstOrDefault()
+                                                  let useExistingQuestion = existingQuestion != null && string.IsNullOrEmpty(entry.Answer)
+                                                  select useExistingQuestion ? existingQuestion : ChallengeResponse.Create(entry.SelectedQuestion.Id, entry.Answer)).ToArray();
+
+                    profile.Save();
+                }
+
+                // TODO update the language preference with Stream Connect
+
+                success = true;
+                
             }
 
             return new UpdateOnlineAccountResponse
             {
                 Success = success,
-                Validations = TranslatedValidationResult.Translate(ModelState, GetAuthItem("Change Password"))
+                Validations = TranslatedValidationResult.Translate(validations, GetAuthItem("My Online Account Information"))
             };
         }
 
@@ -175,12 +189,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [HttpGet]
         public GetAccountsResponse GetAccounts()
         {
-            // TODO check to make sure the user is logged in, and get the username from the current session
-            var username = "adambrill";
-            accountSessionHelper.Reset();
-            accountSessionHelper.Context.DomainPrefix = domain.AccountPrefix;
-            accountSessionHelper.Context.Username = username;
-            accountSessionHelper.StateMachine.Process(typeof(VerifyUserState));
 
             return new GetAccountsResponse
             {
@@ -195,35 +203,46 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [HttpPost]
         public GetAccountInformationResponse GetAccountInformation(GetAccountInformationRequest request)
         {
-            // TODO check to make sure the user is logged in
-
             var accountId = request.AccountId;
-            var customerContact = new DomainModels.CustomerContact();
-            var customerAddress = new DomainModels.Address();
+            var serviceAddress = new DomainModels.Address();
+            var billingAddress = new DomainModels.Address();
+            bool sameAsService = false;
 
             // TODO get the contact info from Stream Connect
-            customerContact.Name = new DomainModels.Name
+            var customerName = new DomainModels.Name
             {
                 First = "John",
                 Last = "Smith"
             };
-            customerContact.Phone = new[] 
-            { 
-                new DomainModels.Phone
-                {
-                    Number = "111-111-1111",
-                }
-            };
 
-            customerAddress.Line1 = "123 Main St.";
-            customerAddress.City = "Dallas";
-            customerAddress.StateAbbreviation = "TX";
-            customerAddress.PostalCode5 = "75001";
+            var primaryPhone =  new DomainModels.TypedPhone { Number = "214-223-4567", Category = StreamEnergy.DomainModels.PhoneCategory.Home };
+            var secondaryPhone = new DomainModels.TypedPhone { Number = "214-223-7323", Category = StreamEnergy.DomainModels.PhoneCategory.Mobile };
+            IEnumerable<DomainModels.PhoneCategory> phoneTypes = new DomainModels.PhoneCategory[] {DomainModels.PhoneCategory.Home, DomainModels.PhoneCategory.Mobile, DomainModels.PhoneCategory.Work};
+
+            serviceAddress.Line1 = "123 Main St.";
+            serviceAddress.City = "Dallas";
+            serviceAddress.StateAbbreviation = "TX";
+            serviceAddress.PostalCode5 = "75001";
+
+            billingAddress.Line1 = "123 Main St.";
+            billingAddress.City = "Dallas";
+            billingAddress.StateAbbreviation = "TX";
+            billingAddress.PostalCode5 = "75001";
+
+            if (serviceAddress.Equals(billingAddress))
+            {
+                sameAsService = true;
+            }
 
             return new GetAccountInformationResponse
             {
-                CustomerContact = customerContact,
-                CustomerAddress = customerAddress
+                CustomerName = customerName,
+                PrimaryPhone = primaryPhone,
+                SecondaryPhone = secondaryPhone,
+                PhoneTypes = phoneTypes,
+                ServiceAddress = serviceAddress,
+                SameAsService = sameAsService,
+                BillingAddress = billingAddress
             };
         }
 
@@ -231,21 +250,20 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public UpdateAccountInformationResponse UpdateAccountInformation(UpdateAccountInformationRequest request)
         {
             bool success = false;
-            if (ModelState.IsValid)
+            var validations = validation.CompleteValidate(request);
+           
+            var accountId = request.AccountId;
+
+            // update the account information with Stream Connect
+            if (!validations.Any())
             {
-                // TODO check to make sure the user is logged in
-                var accountId = request.AccountId;
-                if (true)
-                {
-                    // update the account information with Stream Connect
-                    success = true;
-                }
+                success = true;
             }
 
             return new UpdateAccountInformationResponse
             {
                 Success = success,
-                Validations = TranslatedValidationResult.Translate(ModelState, GetAuthItem("Change Password"))
+                Validations = TranslatedValidationResult.Translate(validations, GetAuthItem("Change Password"))
             };
         }
 
@@ -256,8 +274,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [HttpPost]
         public GetNotificationSettingsResponse GetNotificationSettings(GetNotificationSettingsRequest request)
         {
-            // TODO check to make sure the user is logged in
-
             // TODO get notificaiton settings from Stream Connect
             var accountId = request.AccountId;
             var newDocumentArrives = new NotificationSetting
@@ -287,6 +303,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             return new GetNotificationSettingsResponse
             {
+                AccountId = accountId,
                 NewDocumentArrives = newDocumentArrives,
                 OnlinePaymentsMade = onlinePaymentsMade,
                 RecurringPaymentsMade = recurringPaymentsMade,
@@ -300,18 +317,15 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public UpdateNotificationResponse UpdateNotification(UpdateNotificationRequest request)
         {
             bool success = false;
-            if (ModelState.IsValid)
-            {
-                // TODO check to make sure the user is logged in
-                var accountId = request.AccountId;
-                var notificationName = request.NotificationName;
-                var notificationSetting = request.NotificationSetting;
 
-                if (true)
-                {
-                    // TODO update the notification settings with Stream Connect
-                    success = true;
-                }
+            var accountId = request.AccountId;
+            var notificationName = request.NotificationName;
+            var notificationSetting = request.NotificationSetting;
+
+            // TODO update the notification setting with Stream Connect
+            if (true)
+            {
+                success = true;
             }
 
             return new UpdateNotificationResponse
@@ -324,16 +338,15 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public UpdateNotificationSettingsResponse UpdateNotificationSettings(UpdateNotificationSettingsRequest request)
         {
             bool success = false;
-            if (ModelState.IsValid)
+
+            var accountId = request.AccountId;
+
+            // TODO update the notification settings with Stream Connect
+            if (true)
             {
-                // TODO check to make sure the user is logged in
-                var accountId = request.AccountId;
-                if (true)
-                {
-                    // TODO update the notification settings with Stream Connect
-                    success = true;
-                }
+                success = true;
             }
+
 
             return new UpdateNotificationSettingsResponse
             {
@@ -348,18 +361,18 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [HttpGet]
         public GetEnrolledAccountsResponse GetEnrolledAccounts()
         {
-            // TODO check to make sure the user is logged in, and get the username from the current session
-
             // TODO get enrolled accounts from Stream Connect
             var account1 = new EnrolledAccount
             {
                 AccountNumber = "1234567890",
-                DateAdded = Convert.ToDateTime("12/28/2013  17:33:15")
+                DateAdded = Convert.ToDateTime("12/28/2013  17:33:15"),
+                SendLetter = true
             };
             var account2 = new EnrolledAccount
             {
                 AccountNumber = "0987654321",
-                DateAdded = Convert.ToDateTime("06/12/2014  11:40:55")
+                DateAdded = Convert.ToDateTime("06/12/2014  11:40:55"),
+                SendLetter = false
             };
             IEnumerable<EnrolledAccount> enrolledAccounts = new EnrolledAccount[] {account1, account2};
 
@@ -373,20 +386,21 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public AddNewAccountResponse AddNewAccount(AddNewAccountRequest request)
         {
             bool success = false;
-            if (ModelState.IsValid)
-            {
-                // TODO check to make sure the user is logged in
+            var validations = validation.CompleteValidate(request);
 
-                if (true)
-                {
-                    // TODO update the notification settings with Stream Connect
-                    success = true;
-                }
+            var accountNumber = request.AccountNumber;
+            var ssnLastFour = request.SsnLastFour;
+
+            // TODO add the new account with Stream Connect
+            if (!validations.Any())
+            {
+                success = true;
             }
 
             return new AddNewAccountResponse
             {
-                Success = success
+                Success = success,
+                Validations = TranslatedValidationResult.Translate(validations, GetAuthItem("Add New Account"))
             };
         }
 
@@ -394,15 +408,13 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public RemoveAccountResponse RemoveEnrolledAccount(RemoveAccountRequest request)
         {
             bool success = false;
-            if (ModelState.IsValid)
+
+            var accountNumber = request.AccountNumber;
+
+            // TODO remove enrolled account with Stream Connect
+            if (true)
             {
-                // TODO check to make sure the user is logged in
-                var accountNumber = request.AccountNumber;
-                if (true)
-                {
-                    // TODO update the notification settings with Stream Connect
-                    success = true;
-                }
+                success = true;
             }
 
             return new RemoveAccountResponse
@@ -415,15 +427,13 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public SendLetterResponse SendLetter(SendLetterRequest request)
         {
             bool success = false;
-            if (ModelState.IsValid)
+
+            var accountNumber = request.AccountNumber;
+
+            // TODO send the letter with Stream Connect
+            if (true)
             {
-                // TODO check to make sure the user is logged in
-                var accountNumber = request.AccountNumber;
-                if (true)
-                {
-                    // TODO update the notification settings with Stream Connect
-                    success = true;
-                }
+                success = true;
             }
 
             return new SendLetterResponse
@@ -437,21 +447,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private Sitecore.Data.Items.Item GetAuthItem(string childItem)
         {
             return item.Children[childItem];
-        }
-
-        private void AddAuthenticationCookie(HttpResponseMessage response, string username)
-        {
-            var cookie = FormsAuthentication.GetAuthCookie(domain.AccountPrefix + username, false, "/");
-            response.Headers.AddCookies(new[] {
-                    new System.Net.Http.Headers.CookieHeaderValue(cookie.Name, cookie.Value) 
-                    { 
-                        Domain = cookie.Domain, 
-                        Expires = cookie.Expires == DateTime.MinValue ? null : (DateTime?)cookie.Expires, 
-                        HttpOnly = cookie.HttpOnly, 
-                        Path = cookie.Path, 
-                        Secure = cookie.Secure 
-                    }
-                });
         }
 
     }
