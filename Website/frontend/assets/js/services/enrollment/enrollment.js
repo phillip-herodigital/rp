@@ -362,7 +362,15 @@
     * 
     * @return {object}            Promise object returned when API call has successfully completed.
     */
-    service.setServiceInformation = function(data) {
+    service.setServiceInformation = function () {
+        var addresses = utilityProductsService.getAddresses();
+        //Create our empty locations object
+        var data = { 'locations': [] };
+
+        angular.forEach(addresses, function (address) {
+            data.locations.push(address.location);
+        });
+
         return makeCall('serviceInformation', data);
     };
 

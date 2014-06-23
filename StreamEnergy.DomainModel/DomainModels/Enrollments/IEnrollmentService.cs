@@ -9,7 +9,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 {
     public interface IEnrollmentService
     {
-        IEnumerable<Tuple<Location, IOffer>> LoadOffers(IEnumerable<Location> serviceLocations);
+        Dictionary<Location, LocationOfferSet> LoadOffers(IEnumerable<Location> serviceLocations);
 
         IConnectDatePolicy LoadConnectDates(Location location);
 

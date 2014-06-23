@@ -22,7 +22,7 @@ namespace StreamEnergy.Pipelines
             bundles.Add(new StyleBundle("~/bundles/Styles")
                 .Include("~/frontend/assets/css/*.css"));
 
-            bundles.Add(new ScriptBundle("~/bundles/Scripts")
+            bundles.Add(new ScriptBundle("~/bundles/Scripts") { Orderer = new NoChangeOrderer() }
                 .Include("~/frontend/assets/js/libs/modernizr/modernizr.js")
                 .Include("~/frontend/assets/js/libs/respond/dest/respond.min.js")
                 .Include("~/frontend/assets/js/libs/jquery/dist/jquery.min.js")
