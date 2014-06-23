@@ -41,7 +41,7 @@ namespace StreamEnergy.DomainModels.Enrollments
                 {
                     var offers = from offerSet in internalContext.AllOffers
                                  where offerSet.Key == service.Location
-                                 from offer in offerSet.Value
+                                 from offer in offerSet.Value.Offers
                                  select offer.Id;
 
                     if (service.SelectedOffers != null)

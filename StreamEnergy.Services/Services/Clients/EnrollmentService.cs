@@ -16,13 +16,13 @@ namespace StreamEnergy.Services.Clients
 
         }
 
-        Dictionary<Location, IEnumerable<IOffer>> IEnrollmentService.LoadOffers(IEnumerable<Location> serviceLocations)
+        Dictionary<Location, LocationOfferSet> IEnrollmentService.LoadOffers(IEnumerable<Location> serviceLocations)
         {
             return serviceLocations.ToDictionary(location => location, location =>
             {
                 if (location.Capabilities.OfType<DomainModels.TexasServiceCapability>().Count() > 1)
                 {
-                    return Enumerable.Empty<IOffer>();
+                    return new LocationOfferSet { OfferSetErrors = { { "TexasElectricity", "MultipleTdu" } } };
                 }
                 var offers = new IOffer[] 
                 {
@@ -68,7 +68,7 @@ namespace StreamEnergy.Services.Clients
                     }
                 };
 
-                return offers.ToArray();
+                return new LocationOfferSet { Offers = offers.ToArray() };
             });
         }
 
