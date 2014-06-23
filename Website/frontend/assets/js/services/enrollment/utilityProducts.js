@@ -257,24 +257,16 @@ ngApp.factory('utilityProductsService', ['$filter', function ($filter) {
 		 * @param  {Object} serviceInformation
 		 * @return {Object}
 		 */
-		createPostObject: function(serviceInformation) {
-	        //Create our empty locations object
-		    var data = { 'locations': [] };
+		addOrUpdateAddress: function (serviceInformation) {
+		    //Add capabilities object to the location object
+		    serviceInformation.location.capabilities.push({ "capabilityType": "ServiceStatus", "isNewService": !!parseInt(serviceInformation.isNewService, 10) });
 
-	        //Add capabilities object to the location object
-	        serviceInformation.location.capabilities.push({ "capabilityType": "ServiceStatus", "isNewService": !!parseInt(serviceInformation.isNewService, 10) });
+		    if (!this.isNewServiceAddress) {
+		        angular.copy(serviceInformation.location, activeServiceAddress.location);
+		    } else {
+		        addresses.push({ location: serviceInformation.location });
+		    }
 
-	        if(!this.isNewServiceAddress) {
-	        	angular.copy(serviceInformation.location, activeServiceAddress.location);
-	        } else {
-		        data.locations.push(serviceInformation.location);	        	
-	        }
-
-		    angular.forEach(addresses, function (address) {
-		        data.locations.push(address.location);
-		    });
-	        
-	        return data;
 		},
 
 		/**
