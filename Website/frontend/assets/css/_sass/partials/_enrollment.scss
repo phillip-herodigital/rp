@@ -200,6 +200,12 @@
         @include border-radius(0);
         @include box-shadow(none);
         padding: 0;
+        .modal {
+            margin-left: auto;
+            width: auto;
+            left: 6%;
+            right: 6%;
+        }
         .table-overlay {
             position: absolute;
             top: 0;
@@ -1454,8 +1460,4 @@ article.services-box {
 		font-size: 12px;
 		margin: 0 0 10px 0;
 	}
-}
-
-.multiple-tdu {
-    position: relative;
 }
