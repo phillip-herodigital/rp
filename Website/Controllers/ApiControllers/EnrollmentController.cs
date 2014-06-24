@@ -187,8 +187,17 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             stateMachine.ContextUpdated();
 
+            if (stateMachine.State == typeof(DomainModels.Enrollments.ServiceInformationState) || stateMachine.State == typeof(DomainModels.Enrollments.PlanSelectionState))
+                stateMachine.Process(typeof(DomainModels.Enrollments.AccountInformationState));
+
+            stateMachine.Context.Services = (from newSelection in value.Selection
+                                             join oldService in (stateMachine.Context.Services ?? Enumerable.Empty<LocationServices>()) on newSelection.Location equals oldService.Location into oldServices
+                                             select Combine(newSelection, oldServices.SingleOrDefault(), stateMachine.InternalContext.AllOffers)).ToArray();
+
             if (stateMachine.State == typeof(DomainModels.Enrollments.PlanSelectionState))
                 stateMachine.Process(typeof(DomainModels.Enrollments.AccountInformationState));
+            else
+                stateMachine.ContextUpdated();
 
             return ClientData(typeof(DomainModels.Enrollments.AccountInformationState));
         }

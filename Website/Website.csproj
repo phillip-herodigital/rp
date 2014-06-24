@@ -148,6 +148,9 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Web.RedisSessionStateProvider">
+      <HintPath>..\packages\Microsoft.Web.RedisSessionStateProvider.0.1.0.375-Pre\lib\net45\Microsoft.Web.RedisSessionStateProvider.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Configuration, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.2.0.3\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
     </Reference>
@@ -331,6 +334,10 @@
     <Reference Include="Sitecore.Zip, Version=7.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\Sitecore.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="StackExchange.Redis, Version=1.0.281.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\StackExchange.Redis.1.0.281\lib\net45\StackExchange.Redis.dll</HintPath>
     </Reference>
     <Reference Include="Stimulsoft.Base, Version=2009.3.600.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

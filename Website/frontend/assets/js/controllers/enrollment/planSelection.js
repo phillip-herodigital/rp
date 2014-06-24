@@ -51,9 +51,7 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
      * @param  {Boolean} Add an additional service address
      */
     $scope.completeStep = function (addAdditional) {
-        var postData = utilityProductsService.createOffersPostObject();
-
-        var selectedOffersPromise = enrollmentService.setSelectedOffers(postData);
+        var selectedOffersPromise = enrollmentService.setSelectedOffers();
 
         selectedOffersPromise.then(function (data) {
             //Move to the next section, this is the last of the utilityAccounts, so

@@ -379,7 +379,28 @@
     * 
     * @return {object}            Promise object returned when API call has successfully completed.
     */
-    service.setSelectedOffers = function (data) {
+    service.setSelectedOffers = function () {
+        var addresses = utilityProductsService.getAddresses();
+
+        //Get from the activeServiceAddress object
+        var data = {
+            'selection': []
+        };
+
+        angular.forEach(addresses, function (address) {
+            var selectedPlans = [];
+            angular.forEach(address.offerInformationByType, function (entry) {
+                if (entry.value.offerSelections.length) {
+                    selectedPlans.push(entry.value.offerSelections[0].offerId);
+                }
+            });
+
+            data.selection.push({
+                'location': address.location,
+                'offerIds': selectedPlans
+            });
+        });
+
         return makeCall('selectedOffers', data);
     };
 
