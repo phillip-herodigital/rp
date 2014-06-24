@@ -32,16 +32,18 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
         var isValid = true;
 
         //Simple check on length first
-        if($scope.sizeOf($scope.planSelection.selectedOffers) != utilityProductsService.getAvailableOfferTypes().length) {
+        if($scope.sizeOf($scope.planSelection.selectedOffers) == 00) {
             isValid = false;
         }
 
+        var allNull = true;
         //Then check if any values are null in case of deselection
         angular.forEach($scope.planSelection.selectedOffers, function(value, key) {
-            if(!value) {
-                isValid = false;
+            if(value) {
+                allNull = false;
             }
         });
+        isValid = isValid && !allNull;
 
         return isValid;
     };

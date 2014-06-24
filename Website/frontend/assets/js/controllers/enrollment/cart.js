@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of the cart on enrollment page.
  */
-ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enrollmentService', 'enrollmentCartService', function ($scope, enrollmentStepsService, enrollmentService, enrollmentCartService) {
+ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enrollmentService', 'enrollmentCartService', 'utilityProductsService', function ($scope, enrollmentStepsService, enrollmentService, enrollmentCartService, utilityProductsService) {
     
     /*$scope.enrollmentStepsService = enrollmentStepsService;
     $scope.utilityService = utilityProductsService;
@@ -17,7 +17,6 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     */
     $scope.changeUtilityPlan = function (location) {
         //update active service address, send to the correct page
-        //enrollmentCartService.changeUtilityPlan(location);
         enrollmentCartService.editUtilityAddress(location);
         enrollmentStepsService.setFlow('utility', false).setStep('utilityFlowPlans');
     };
@@ -34,8 +33,34 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     /**
     * Delete item from cart
     */
-    $scope.deleteUtilityAddress = function (location) {
-        enrollmentCartService.editUtilityAddress(location);
-        enrollmentCartService.deleteUtilityAddress(location);
+    $scope.deleteUtilityPlan = function (location, plan) {
+        var offerInformationTypeIndex;
+        var offerSelections;
+        for (var i = 0; i < location.offerInformationByType.length; i++) {
+            if (location.offerInformationByType[i].key == plan.offerType) {
+                offerInformationTypeIndex = i;
+                offerSelections = location.offerInformationByType[i].value.offerSelections;
+            }
+        }
+        for (var i = 0; i < offerSelections.length; i++) {
+            if (offerSelections[i].offerId == plan.id) {
+                offerSelections.splice(i, 1);
+                i--;
+            }
+        }
+        if (offerSelections.length == 0) {
+            location.offerInformationByType.splice(offerInformationTypeIndex, 1);
+            if (location.offerInformationByType.length == 0) {
+                // remove location
+                var addresses = utilityProductsService.getAddresses();
+                for (var i = 0; i < addresses.length; i++) {
+                    if (addresses[i] == location) {
+                        addresses.splice(i, 1);
+                        i--;
+                    }
+                }
+            }
+        }
+        enrollmentService.setSelectedOffers();
     };
 }]);

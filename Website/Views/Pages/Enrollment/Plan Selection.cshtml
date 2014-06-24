@@ -49,7 +49,7 @@
     </header>
     <article class="enrollment__utility-plans">
         <div ng-include src="'multiple-tdu-modal'" ng-if="typedOffers.value.errors[0] == 'MultipleTdu'"></div>
-        <table class="plan-selection-table" ng-if="typedOffers.value.availableOffers.length">
+        <table class="plan-selection-table" ng-if="typedOffers.value.availableOffers.length" scroll-anchor="scrollFix">
             <thead class="hide-small">
                 <tr>
                     <th colspan="2">@Html.Sitecore().Field("Electricity Plan Name")</th>
@@ -84,7 +84,7 @@
                         ${{ plan.cancellationFee }}<span>@Html.Sitecore().Field("Electricity Early Cancellation Fee")</span>
                     </td>
                     <td>
-                        <a class="button" button-selector="'{{plan.id}}'" ng-model="planSelection.selectedOffers[typedOffers.key]" href="">@Html.Sitecore().Field("Electricity Button")</a>
+                        <a class="button" button-selector="'{{plan.id}}'" ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix()" href="">@Html.Sitecore().Field("Electricity Button")</a>
                     </td>
                 </tr>
                 <tr class="details additional-fields ng-cloak" ng-repeat-end>

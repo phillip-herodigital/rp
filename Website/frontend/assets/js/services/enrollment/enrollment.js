@@ -298,6 +298,10 @@
         if (serviceIndexErrors.length) {
             utilityProductsService.setActiveServiceAddress(utilityProductsService.getAddresses()[serviceIndexErrors[0]].location.address);
         }
+        else if (utilityProductsService.getAddresses().length == 0) {
+            // new service
+            utilityProductsService.setActiveServiceAddress(undefined);
+        }
 
         // copy out the account information the server has
         service.accountInformation.contactInfo = result.contactInfo || {};
@@ -409,8 +413,8 @@
     * 
     * @return {object}            Promise object returned when API call has successfully completed.
     */
-    service.setAccountInformation = function (utilityProduct) {
-        var utilityProduct = utilityProduct || [];
+    service.setAccountInformation = function () {
+        var utilityProduct = utilityProductsService.addresses || [];
 
         var data = angular.copy({
             contactInfo: service.accountInformation.contactInfo,
@@ -445,15 +449,6 @@
         var data = { 'selectedIdentityAnswers': identityAnswers };
 
         return makeCall('verifyIdentity', data);
-    };
-
-    /**
-    * Set payment info
-    * 
-    * @return {object}            Promise object returned when API call has successfully completed.
-    */
-    service.setPaymentInfo = function (data) {
-        return makeCall('paymentInfo', data);
     };
 
     /**
