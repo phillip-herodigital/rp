@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ServiceDefinition name="Website.Azure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition" schemaVersion="2014-01.2.3">
-  <WebRole name="Website" vmsize="Small">
+  <WebRole name="Website" vmsize="Large">
     <Sites>
       <Site name="Web">
         <Bindings>
@@ -14,5 +14,10 @@
     <Imports>
       <Import moduleName="Diagnostics" />
     </Imports>
+    <LocalResources>
+      <LocalStorage name="DiagnosticStore" sizeInMB="20000" cleanOnRoleRecycle="false" />
+    </LocalResources>
+    <Certificates>
+    </Certificates>
   </WebRole>
 </ServiceDefinition>

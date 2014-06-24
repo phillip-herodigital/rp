@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ServiceConfiguration serviceName="Website.Azure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="4" osVersion="*" schemaVersion="2014-01.2.3">
   <Role name="Website">
-    <Instances count="1" />
+    <Instances count="3" />
     <ConfigurationSettings>
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
     </ConfigurationSettings>
+    <Certificates>
+    </Certificates>
   </Role>
 </ServiceConfiguration>
