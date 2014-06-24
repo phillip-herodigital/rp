@@ -41,15 +41,15 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
     $scope.completeStep = function () {
         utilityProductsService.addOrUpdateAddress($scope.serviceInformation);
 
-        //Save the updated locations to the server
-        var serviceInformationPromise = enrollmentService.setServiceInformation();
-        
-        serviceInformationPromise.then(function (data) {
+        if (utilityProductsService.isNewServiceAddress) {
+            //Save the updated locations to the server
+            enrollmentService.setServiceInformation();
+
             //Add the locations to our utility service
             utilityProductsService.isNewServiceAddress = false;
             utilityProductsService.setActiveServiceAddress($scope.serviceInformation.location.address);
-        }, function (data) {
-            // error response
-        });
+        } else {
+            enrollmentService.setSelectedOffers();
+        }
     };
 }]);
