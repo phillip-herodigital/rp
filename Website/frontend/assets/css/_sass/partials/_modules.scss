@@ -263,7 +263,7 @@ article.grey-box {
 		}
 	}
 	.account-selector {
-		background-color: #f4f4f4;
+		background-color: #f9f9f9;
 	}
 }
 
@@ -594,9 +594,12 @@ article.energy-usage {
 article.service-identification {
 	padding-top: 0px;
 	background-color: #fbfbfb;
+	.content {
+		padding: 0px 15px;
+	}
 	.service-address p {
 		margin-bottom: 0px;
-		padding: 0 0 15px 15px;
+		padding-bottom: 15px;
 	}
 }
 article.account-holder-information {
