@@ -64,6 +64,7 @@ namespace StreamEnergy.Tasks
             this._targetDatabase = targetDatabase;
             this._languages = ParseLanguages(languages);
             this._mode = ParseMode(mode);
+            this.LastPublishTime = DateTime.Now;
             Assert.IsTrue(this._languages.Any(), "No languages specified in PublishAgent constructor.");
         }
 
@@ -105,7 +106,7 @@ namespace StreamEnergy.Tasks
         private bool IsPublishingTime()
         {
             TimeSpan timeDiff = DateTime.Now - LastPublishTime;
-            if ((DateTime.Now.Minute == 1 || DateTime.Now.Minute == 31) && timeDiff.Minutes >= 5)
+            if ((DateTime.Now.Minute == 1 || DateTime.Now.Minute == 31) && LastPublishTime.AddMinutes(5) < DateTime.Now)
             {
                 LastPublishTime = DateTime.Now;
                 return true;
