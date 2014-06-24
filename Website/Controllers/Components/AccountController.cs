@@ -6,7 +6,6 @@ using System.Web.Mvc;
 
 namespace StreamEnergy.MyStream.Controllers.Components
 {
-    [Authorize]
     public class AccountController : Controller
     {
         public ActionResult AccountBalancesIndex()
