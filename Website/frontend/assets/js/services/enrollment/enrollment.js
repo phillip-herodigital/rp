@@ -409,8 +409,8 @@
     * 
     * @return {object}            Promise object returned when API call has successfully completed.
     */
-    service.setAccountInformation = function (utilityProduct) {
-        var utilityProduct = utilityProduct || [];
+    service.setAccountInformation = function () {
+        var utilityProduct = utilityProductsService.addresses || [];
 
         var data = angular.copy({
             contactInfo: service.accountInformation.contactInfo,
@@ -445,15 +445,6 @@
         var data = { 'selectedIdentityAnswers': identityAnswers };
 
         return makeCall('verifyIdentity', data);
-    };
-
-    /**
-    * Set payment info
-    * 
-    * @return {object}            Promise object returned when API call has successfully completed.
-    */
-    service.setPaymentInfo = function (data) {
-        return makeCall('paymentInfo', data);
     };
 
     /**

@@ -46,6 +46,6 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
     */
     $scope.completeStep = function () {
 
-        enrollmentService.setAccountInformation(utilityProductsService.addresses);
+        enrollmentService.setAccountInformation();
     };
 }]);
