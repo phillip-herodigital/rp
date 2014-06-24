@@ -9,7 +9,6 @@ namespace StreamEnergy.MyStream.Models.Account
     public class AddNewAccountRequest
     {
         [Required(ErrorMessage = "Account Number Required")]
-        [RegularExpression(@"\w", ErrorMessage = "Account Number Invalid")]
         public string AccountNumber { get; set; }
 
         [Required(ErrorMessage = "Ssn Last Four Required")]

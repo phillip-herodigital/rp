@@ -20,26 +20,55 @@ ngApp.controller('AcctNotificationSettingsCtrl', ['$scope', '$rootScope', '$http
 				$scope.formData = data;
 				$scope.formDataOriginal = angular.copy($scope.formData);
 			});
-	}, 1000);
+	});
 
-	// process the form
-	$scope.updateNotificationSettins = function() {
-		$scope.formData.accountId = $scope.accountId;
+	// cancel the current preference changes
+	$scope.cancelPreference = function(currentObject, originalObject) {
+		// revert the changes
+		angular.copy(originalObject, currentObject);
+	};
+
+	// update a single notification preference
+	$scope.updateNotification = function(settingName, notificationObject, originalObject) {
+		// format the request data
+		var requestData = {};
+		
+		requestData.accountId = $scope.formData.accountId;
+		requestData.settingName = settingName;
+		requestData.notificationSetting = notificationObject;
 
 		$http({
 			method  : 'POST',
-			url     : '/api/account/updateNotificationSettins',
+			url     : '/api/account/updateNotification',
+			data    : requestData,
+			headers : { 'Content-Type': 'application/JSON' } 
+		})
+			.success(function (data, status, headers, config) {
+				if (!data.success) {
+					// if not successful, bind errors to error variables
+
+				} else {
+					// if successful, close the panel and update the icons
+					angular.copy(notificationObject, originalObject);
+				}
+			});
+	};
+
+	// process the full form
+	$scope.updateNotificationSettings = function() {
+		$http({
+			method  : 'POST',
+			url     : '/api/account/updateNotificationSettings',
 			data    : $scope.formData,
 			headers : { 'Content-Type': 'application/JSON' } 
 		})
 			.success(function (data, status, headers, config) {
 				if (!data.success) {
 					// if not successful, bind errors to error variables
-					$scope.loginError = $sce.trustAsHtml(data.validations[0].text);
-
+					
 				} else {
 					// if successful, display the success message
-					$window.location.href = '/account';
+					alert('successful');
 				}
 			});
 	};

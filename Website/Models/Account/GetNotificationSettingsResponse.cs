@@ -7,6 +7,8 @@ namespace StreamEnergy.MyStream.Models.Account
 {
     public class GetNotificationSettingsResponse
     {
+        public string AccountId { get; set; }
+
         public NotificationSetting NewDocumentArrives { get; set; }
         public NotificationSetting OnlinePaymentsMade { get; set; }
         public NotificationSetting RecurringPaymentsMade { get; set; }

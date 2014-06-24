@@ -9,5 +9,6 @@ namespace StreamEnergy.MyStream.Models.Account
     {
         public string AccountNumber { get; set; }
         public DateTime DateAdded { get; set; }
+        public bool SendLetter { get; set; }
     }
 }
