@@ -93,9 +93,11 @@ ngApp.factory('utilityProductsService', ['$filter', function ($filter) {
 			//Set the active service address by checking against the current cart
 			//If address is missing, set it to empty
 			if(typeof address == 'undefined') {
-				activeServiceAddress = this.getServiceInformationObject();
+			    activeServiceAddress = this.getServiceInformationObject();
+			    this.isNewServiceAddress = true;
 			} else {
 			    activeServiceAddress = this.findMatchingAddress(address);
+			    this.isNewServiceAddress = false;
             }
 		},
 

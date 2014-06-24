@@ -60,7 +60,6 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', 'utilityProduc
 		 * @return {[type]}          [description]
 		 */
 		editUtilityAddress: function(location) {
-			utilityProductsService.isNewServiceAddress = false;
 			utilityProductsService.setActiveServiceAddress(location.location.address);
 		}
 	}

@@ -46,7 +46,6 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
             enrollmentService.setServiceInformation();
 
             //Add the locations to our utility service
-            utilityProductsService.isNewServiceAddress = false;
             utilityProductsService.setActiveServiceAddress($scope.serviceInformation.location.address);
         } else {
             enrollmentService.setSelectedOffers();

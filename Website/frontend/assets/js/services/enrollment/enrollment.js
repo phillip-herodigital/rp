@@ -298,6 +298,10 @@
         if (serviceIndexErrors.length) {
             utilityProductsService.setActiveServiceAddress(utilityProductsService.getAddresses()[serviceIndexErrors[0]].location.address);
         }
+        else if (utilityProductsService.getAddresses().length == 0) {
+            // new service
+            utilityProductsService.setActiveServiceAddress(undefined);
+        }
 
         // copy out the account information the server has
         service.accountInformation.contactInfo = result.contactInfo || {};
