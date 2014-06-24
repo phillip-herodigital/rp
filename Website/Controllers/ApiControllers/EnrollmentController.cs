@@ -245,7 +245,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             stateMachine.ContextUpdated();
 
             if (stateMachine.State == typeof(DomainModels.Enrollments.AccountInformationState) || stateMachine.State == typeof(DomainModels.Enrollments.PlanSelectionState))
-                stateMachine.Process(typeof(DomainModels.Enrollments.VerifyIdentityState));
+                stateMachine.Process(typeof(DomainModels.Enrollments.OrderConfirmationState));
 
             return ClientData(typeof(DomainModels.Enrollments.VerifyIdentityState));
         }
