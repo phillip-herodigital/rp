@@ -19,10 +19,10 @@ namespace StreamEnergy.Pipelines
 
         private void RegisterBundles(BundleCollection bundles)
         {
-            bundles.Add(new StyleBundle("~/bundles/Styles")
+            bundles.Add(new StyleBundle("~/frontend/assets/css/bundle")
                 .Include("~/frontend/assets/css/*.css"));
 
-            bundles.Add(new ScriptBundle("~/bundles/Scripts")
+            bundles.Add(new ScriptBundle("~/frontend/assets/js/bundle")
                 .Include("~/frontend/assets/js/libs/modernizr/modernizr.js")
                 .Include("~/frontend/assets/js/libs/respond/dest/respond.min.js")
                 .Include("~/frontend/assets/js/libs/jquery/dist/jquery.min.js")
