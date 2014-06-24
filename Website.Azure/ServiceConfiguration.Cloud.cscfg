@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ServiceConfiguration serviceName="Website.Azure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="4" osVersion="*" schemaVersion="2014-01.2.3">
   <Role name="Website">
-    <Instances count="3" />
+    <Instances count="1" />
     <ConfigurationSettings>
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=devtestvhds81c8a9a1cb4c;AccountKey=Mg0cvcP4tVsVpMaX1YnU0dXR2oeai8WHx4n8PHA0+UWdUQPbD3Tb2o6dE1x7azYFJCGScsVk59a+ZwtIuZihhw==" />
     </ConfigurationSettings>
     <Certificates>
     </Certificates>
   </Role>
+  <NetworkConfiguration>
+    <VirtualNetworkSite name="s10dmz01" />
+    <AddressAssignments>
+      <InstanceAddress roleName="Website">
+        <Subnets>
+          <Subnet name="Sitecore_Web" />
+        </Subnets>
+      </InstanceAddress>
+    </AddressAssignments>
+  </NetworkConfiguration>
 </ServiceConfiguration>
