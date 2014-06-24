@@ -21,12 +21,9 @@
                     </div>
                 </form>
             </div>
-			<div class="alert notice">
-                <span class="icon">
-                    <i class="icon-alert"></i>
-                </span>
-				@Html.Sitecore().Field("Notice Text")	
-			</div>					
+            <div class="notice alert">
+                @Html.Sitecore().Field("Notice Text")
+            </div>					
 			<div class="payment-selection additional-fields">
 				<input type="radio" id="autopay-on" name="payment-type" ng-model="autoPay.status" ng-value="autoPayOn">
 				<label for="autopay-on">@Html.Sitecore().Field("AutoPay On Label")</label>

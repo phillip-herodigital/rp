@@ -59,17 +59,6 @@ dl {
 	text-transform: uppercase;
 }
 
-.alert {
-	padding: 10px;
-	margin-bottom: 20px;
-	&.notice {
-		background: #fff9c9
-	}
-	&.warning {
-		background: #fad29a;
-	}
-}
-
 @include breakpoint(small) {
 	.hide-small {
 		display: none;
