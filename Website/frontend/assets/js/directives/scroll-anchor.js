@@ -12,8 +12,11 @@
             model.assign(scope, function () {
                 scrollTop = $window.scrollTop();
                 anchorTop = element.offset().top;
-                $timeout(function () {
+                var watch = scope.$watch(function () { return element.offset().top; }, function () {
                     $window.scrollTop(scrollTop - anchorTop + element.offset().top);
+                });
+                $timeout(function () {
+                    watch();
                 }, 0, false);
             });
         }
