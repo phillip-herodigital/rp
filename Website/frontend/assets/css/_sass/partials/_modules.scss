@@ -96,14 +96,22 @@ article {
 		}
 	}
 	.alert {
-	    padding: 15px;
+	    padding: 0 15px;
 	    margin-bottom: 20px;
-	    border: 1px solid transparent;
-
+	    border: 1px solid #ffcc33;
+		position: relative;
 		&.alert-error {
 		    background-color: #f2dede;
 		    border-color: #ebccd1;
 		    color: #a94442
+		}
+		p {
+			margin-left: 20px;
+		}
+		.icon {
+			position: absolute;
+			top: 15px;
+			left: 15px;
 		}
 	}
 	.account-selector {
@@ -892,6 +900,9 @@ article.payments {
 			}
 		}
 	}
+	p.example-image {
+		text-align: center;
+	}
 	.advanced-settings {
 		margin-top: 5px;
 		.small {
@@ -906,9 +917,6 @@ article.payments {
 		p {
 			margin: 0;
 			padding-top: 1em;
-			&.example-image {
-				text-align: center;
-			}
 		}
 	}
 	.arrow-toggle {
@@ -1004,9 +1012,11 @@ article.payments {
 		margin: 0px;
 	}
 	.notice {
-		background-color: #fbd396;
-		margin-top: -15px;
 		margin-bottom: 15px;
+		border-radius: 15px;
+	}
+	.account-selector {
+		margin: -25px -15px 15px -15px;
 	}
 	img {
 		max-width: 100%;

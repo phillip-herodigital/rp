@@ -21,50 +21,58 @@
                     </div>
                 </form>
             </div>
-			<div class="alert notice stretch">
+			<div class="alert notice">
+                <span class="icon">
+                    <i class="icon-alert"></i>
+                </span>
 				@Html.Sitecore().Field("Notice Text")	
 			</div>					
-			<div class="payment-selection">
+			<div class="payment-selection additional-fields">
 				<input type="radio" id="autopay-on" name="payment-type" ng-model="autoPay.status" ng-value="autoPayOn">
 				<label for="autopay-on">@Html.Sitecore().Field("AutoPay On Label")</label>
+                <form>
+                    <div class="additional-field-group" ng-show="autoPay.status == 'autoPayOn'">
+                        <div class="group">@Html.Sitecore().Field("Account Number") <strong>1197015532</strong></div>
+                        <div class="group">
+                            <div class="item account-number">
+                                <label for="">@Html.Sitecore().Field("Payment Account Label")</label>
+                                <select>
+                                    <option value="Please choose">@Html.Sitecore().Field("Select Account Label")</option>
+                                    <option value="payment1">Payment Method 1</option>
+                                    <option value="payment2">Payment Method 2</option>
+                                </select>
+                            </div>
+                            <div class="item">
+                                <a class="single-link" href=""><i class="icon-blue-plus"></i> @Html.Sitecore().Field("Add Payment Account")</a>
+                            </div>
+                        </div>
+                        <div slide-toggle>
+                            <a href="" ng-click="toggleSlide()" class="arrow-toggle" ng-class="{'collapsed': !isOpen}">@Html.Sitecore().Field("Advanced Settings Text")</a>
+                            <div class=" advanced-settings slide-toggle">
+                                <p class="datepicker">
+                                    @Html.Sitecore().Field("Recurring Pay Text 1")
+                                <input type="text" class="small" ng-model="autoPay.dt" datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="disableWeekends(date, mode)" datepicker-close-on-resize>
+                                @Html.Sitecore().Field("Recurring Pay Text 2")
+                                <select>
+                                    <option>until further notice</option>
+                                </select>
+                            </p>
+                            <p>
+                                @Html.Sitecore().Field("Schedule Pay Text 1")
+                            <select>
+                                <option>automatic</option>
+                            </select>
+                            @Html.Sitecore().Field("Schedule Pay Text 2")
+                            <select>
+                                <option>until my bill arrives</option>
+                            </select>
+                        </p>
+                    </div>
+                </div>
+</form>
+                </div>
 			</div>
-			<div class="payment-options" ng-show="autoPay.status == 'autoPayOn'">							
-				<div class="group">
-					<div class="item account-number">
-						<label for="">@Html.Sitecore().Field("Payment Account Label")</label>
-                        <select>
-                            <option value="Please choose">@Html.Sitecore().Field("Select Account Label")</option>
-                            <option value="payment1">Payment Method 1</option>
-                            <option value="payment2">Payment Method 2</option>
-                        </select>
-					</div>
-					<div class="item">
-						<a class="single-link" href="">@Html.Sitecore().Field("Add Payment Account")</a>
-					</div>
-				</div>
-				<div slide-toggle>
-					<a href="" ng-click="toggleSlide()" class="arrow-toggle" ng-class="{'collapsed': !isOpen}">@Html.Sitecore().Field("Advanced Settings Text")</a>
-					<div class=" advanced-settings slide-toggle">
-						<p class="datepicker">@Html.Sitecore().Field("Recurring Pay Text 1") 
-							<input type="text" class="small"  ng-model="autoPay.dt" datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="disableWeekends(date, mode)" datepicker-close-on-resize> 
-							@Html.Sitecore().Field("Recurring Pay Text 2") 
-							<select>
-								<option>until further notice</option>
-							</select>
-						</p>
-						<p>@Html.Sitecore().Field("Schedule Pay Text 1") 
-							<select>
-								<option>automatic</option>
-							</select>
-							@Html.Sitecore().Field("Schedule Pay Text 2") 
-							<select>
-								<option>until my bill arrives</option>
-							</select>
-						</p>
-					</div>
-				</div>
-
-			</div>
+            <hr class="content-divider" />
 			<div class="payment-selection">
 				<input type="radio" id="autopay-off" name="payment-type" ng-model="autoPay.status" ng-value="autoPayOff">
 				<label for="autopay-off">@Html.Sitecore().Field("AutoPay Off Label")</label>
