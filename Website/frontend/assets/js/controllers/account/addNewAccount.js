@@ -1,7 +1,7 @@
 /* Add New Account Controller
  *
  */
-ngApp.controller('AcctAddNewAccountCtrl', ['$scope', '$rootScope', '$http', '$timeout', '$window', '$sce', function ($scope, $rootScope, $http, $timeout, $window, $sce) {
+ngApp.controller('AcctAddNewAccountCtrl', ['$scope', '$rootScope', '$http', function ($scope, $rootScope, $http) {
 	// create a blank object to hold the form information
 	$scope.formData = {};
 
@@ -20,8 +20,10 @@ ngApp.controller('AcctAddNewAccountCtrl', ['$scope', '$rootScope', '$http', '$ti
 			        $scope.validations = data.validations;
 
 				} else {
-					// if successful, alert the user
-					alert("successful");
+					// if successful, clear the fields 
+					$scope.formData = {};
+					//$svc.enableSuppress();
+					//$scope.addAccountForm.$setValidity('AccountNumber', true);
 				}
 			});
 	};

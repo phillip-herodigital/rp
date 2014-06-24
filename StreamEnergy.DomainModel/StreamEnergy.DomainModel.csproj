@@ -123,8 +123,7 @@
     <Compile Include="DomainModels\Accounts\Invoice.cs" />
     <Compile Include="DomainModels\Accounts\ResetPassword\GetUsernameState.cs" />
     <Compile Include="DomainModels\Accounts\ResetPassword\ResetPasswordContext.cs" />
-    <Compile Include="DomainModels\Accounts\ResetPassword\ResetPasswordTokenManager.cs" />
-    <Compile Include="DomainModels\Accounts\ResetPassword\SentEmailState.cs" />
+    <Compile Include="DomainModels\Accounts\ResetPassword\SecurityQuestionsVerifiedState.cs" />
     <Compile Include="DomainModels\Accounts\ResetPassword\VerifyUserState.cs" />
     <Compile Include="DomainModels\Accounts\UserProfile.cs" />
     <Compile Include="DomainModels\Address.cs" />
@@ -134,6 +133,7 @@
     <Compile Include="DomainModels\Enrollments\IdentityQuestion.cs" />
     <Compile Include="DomainModels\Enrollments\IOfferOptionRules.cs" />
     <Compile Include="DomainModels\Enrollments\Location.cs" />
+    <Compile Include="DomainModels\Enrollments\LocationOfferSet.cs" />
     <Compile Include="DomainModels\Enrollments\LocationServices.cs" />
     <Compile Include="DomainModels\Enrollments\OfferPayment.cs" />
     <Compile Include="DomainModels\Enrollments\RateType.cs" />
