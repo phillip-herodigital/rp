@@ -1,28 +1,29 @@
 @model StreamEnergy.DomainModels.Enrollments.UserContext
 @using TypedPhone = StreamEnergy.DomainModels.TypedPhone
 @using StreamEnergy.DomainModels.Enrollments
-<div id="accountInformation" class="enrollment-section accent-darkgreen" ng-show="stepsService.isStepVisible('accountInformation')" ng-controller="EnrollmentAccountInformationCtrl">
+<div id="accountInformation" class="enrollment accent-darkgreen" ng-show="stepsService.isStepVisible('accountInformation')" ng-controller="EnrollmentAccountInformationCtrl">
     <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper">
             <h1>
-                <span class="block">@Html.Sitecore().Field("Setup Your")</span>
+                <span class="block">@Html.Sitecore().Field("Setup Your")</span><br>
                 <span class="block">@Html.Sitecore().Field("Account")</span>
             </h1>
         </div>
     </div>
     <div class="wrapper layout cols-2">
-        <aside class="left">
+        <aside class="enrollment-nav">
             <div ng-include ng-if="true" src="'enrollment-nav-template'"></div>
         </aside>
         <section>
-            <h1>@Html.Sitecore().Field("Header Account Information")</h1>
-            <p>@Html.Sitecore().Field("Fill in Information")</p>
             <form data-val-bind-messages="validations" ng-submit="completeStep()">
  
                 @* Loop through utility addresses *@
-                <article class="form" ng-repeat="(index, item) in utilityAddresses()" ng-init="init();">
+                <article class="enrollment__box form" ng-repeat="(index, item) in utilityAddresses()" ng-init="init();">
+                    <header>
+                        <h1>@Html.Sitecore().Field("Header Account Information")</h1>
+                    </header>
                     <div class="content">
-
+                        <p>@Html.Sitecore().Field("Fill in Information")</p>
                         @* Service Address *@
                         <div class="item" ng-if="item.location.address.line1">
                             <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
@@ -42,7 +43,6 @@
                                    typeahead-loading="accountInformation.loadingAccountInformationServiceAddress"
                                    ng-class="{'loading' : accountInformation.loadingAccountInformation}" />
                         </div>
-
 
                         @*Selected Offers Section*@
                         <div ng-repeat="offerInformation in item.offerInformationByType">
@@ -122,9 +122,10 @@
                     </div>
                 </article>
 
-
-                <h2>@Html.Sitecore().Field("Personal Information Header")</h2>
-                <article class="form">
+                <article class="enrollment__box form">
+                    <header>
+                        <h1>@Html.Sitecore().Field("Personal Information Header")</h1>
+                    </header>
                     <div class="content">
                         <div class="group">
                          <div class="item group-col" @Html.ValidationErrorClass(m => m.ContactInfo.Name.First)>
@@ -248,10 +249,12 @@
 
 
                 @* User Account Creation *@
-                <article class="form">
+                <article class="form enrollment__box enrollment__box--account-creation">
+                    <header>
+                        <h1>@Html.Sitecore().Field("Social Box Header")</h1>
+                    </header>
                     <div class="content">
                         <div class="social-box">
-                            <h2>@Html.Sitecore().Field("Social Box Header")</h2>
                             <p>@Html.Sitecore().Field("Social Box Intro")</p>
                             <p class="social-buttons">
                                 <a class="button social facebook" href=""><span class="icon-holder"><i class="icon-facebook"></i></span> @Html.Sitecore().Field("Social Box Facebook")</a>
@@ -260,7 +263,7 @@
                             </p>
                             <div class="seperator">@Html.Sitecore().Field("Seperator")</div>
                         </div>
-                        <h2>@Html.Sitecore().Field("Create Online Account Header")</h2>
+                        <h1>@Html.Sitecore().Field("Create Online Account Header")</h1>
                         <p>@Html.Sitecore().Field("Online Account Paragraph")</p>
                         <div class="item">
                             <label for="username">@Html.Sitecore().Field("Username Optional Label")</label>

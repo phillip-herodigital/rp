@@ -218,7 +218,7 @@ form,
 		@extend .clearfix;
 		//Make sure to have padding-right by default to match the group-col's padding
 		padding-right: 10px;
-		> label {
+		> label, > .label {
 			display: block;
 			margin-bottom: 5px;
 			font-size: 14px;
@@ -234,7 +234,7 @@ form,
 			@include layout-list;
 		}
 		&.horizontal {
-			> label {
+			> label, .label {
 				display: inline-block;
 				margin-right: 5px;
 				text-transform: uppercase;
@@ -262,7 +262,7 @@ form,
 
     div.item.fl-enabled {
         position: relative;
-        > label {
+        > label, .label {
 			position: absolute;
             top: 10px;
             padding: 0 10px;
@@ -276,13 +276,13 @@ form,
             padding-bottom: 5px;
         }
 		&.fl-active {
-            > label {
+            > label, .label {
                 top: 5px;
                 opacity: 1;
             }
         }
         &.fl-animate {
-            > label {
+            > label, .label {
                 transition: all .25s;
             }
         }
@@ -294,7 +294,7 @@ form,
 			&.inline-group {
 				width: auto;
 				.item {
-					label {
+					label, .label {
 						display: inline-block;
 						margin-right: 5px;	
 					}
@@ -366,7 +366,7 @@ form,
 	}
 	div.vertical {
 		div.item {
-			> label {
+			> label, .label {
 				float: left;
 				width: 33%;
 				text-transform: uppercase;
@@ -384,7 +384,7 @@ form,
 		&.fixed {
 			div.item {
 				padding-left: 250px;
-				> label {
+				> label, .label {
 					float: left;
 					width: 250px;
 					margin-left: -250px;
@@ -443,7 +443,7 @@ form,
 	}
 	.radio-list,
 	.checkbox-list {
-		input, label {
+		input, label, .label {
 			display: inline-block;
 		}
 		&.inline {

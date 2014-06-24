@@ -1,15 +1,15 @@
 @model StreamEnergy.DomainModels.Enrollments.UserContext
-<div id="verifyIdentity" class="enrollment-section accent-darkgreen" ng-show="stepsService.isStepVisible('verifyIdentity')" ng-controller="EnrollmentVerifyIdentityCtrl">    
+<div id="verifyIdentity" class="enrollment accent-darkgreen" ng-show="stepsService.isStepVisible('verifyIdentity')" ng-controller="EnrollmentVerifyIdentityCtrl">    
     <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper">
             <h1>
-                <span class="medium block">@Html.Sitecore().Field("Banner Header Text")</span>
+                <span class="medium block">@Html.Sitecore().Field("Banner Header Text")</span><br>
                 <span class="block">@Html.Sitecore().Field("Banner Sub Header Text")</span>
             </h1>
         </div>
     </div>
     <div class="wrapper layout cols-2">
-        <aside class="left">
+        <aside class="enrollment-nav">
             <div ng-include ng-if="true" src="'enrollment-nav-template'"></div>
         </aside>
         <section>

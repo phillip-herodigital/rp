@@ -1,277 +1,364 @@
-.enrollment-section {
-	article {
-		overflow: visible;
-	}
+/***
+    Cleaning this up to keep from having to nest everything and repeat styles.
+    Changing it to more of a SMACSS/BEM styling.
+ ***/
+
+$enrollment-primary-color: #257ab3;
+$enrollment-secondary-color: #333;
+
+$enrollment-module-h1-size: 26px;
+$enrollment-module-h1-color: #333;
+
+/*
+    Enrollment Section
+ */
+.enrollment {
+    .center {
+        text-align: center;
+    }
+
+    .icon-blue-arrow-up, .icon-blue-arrow-down {
+        margin-top: -2px;
+    }
+
     .button, button {
+        background-color: $enrollment-primary-color;
         white-space: nowrap;
     }
-	.error {
-		input, select {
-			border-color: #c84545;
-		}
-		color: #c84545;
-	}
-    .banner {
-        height: 335px;
-        background-position: 50%;
-        background-size: cover;
-        background-color: #e6e6e6;
-        border-bottom: 5px solid #dfdfdf;
-        .wrapper {
-            padding-top: 100px;
-            &.center {
-                text-align: center;
-                position: relative;
-                h1 {
-                    position: absolute;
-                    left: 0;
-                    right: 0;
-                    top: 180px;
-                    width: auto;
-                }
-            }
+    
+    .error {
+        input, select {
+            border-color: #c84545;
         }
-        h1 {
-            font-size: 60px;
-            width: 48%;
-            .block {
-                display: block;
-            }
-            .xsmall {
-                color: #c5c1b4;
-                font-size: 24px;
-            }
-            .small {
-                font-size: 33px;
-            }
-            .medium {
-                font-size: 40px;
-            }
-        }
-        @include breakpoint(small) {
-            height: 215px;
-            .wrapper {
-                padding-top: 60px;
-                &.center {
-                    h1 {
-                        top: 120px;
-                    }
-                }
-            }
-            h1 {
-                font-size: 30px;
-                .xsmall {
-                    font-size: 16px;
-                }
-                .small {
-                    font-size: 20px;
-                }
-                .medium {
-                    font-size: 25px;
-                }
-            }
-        }
+        color: #c84545;
     }
+        
     .wrapper {
         @extend .clearfix;
         position: relative;
         overflow: visible;
         padding-bottom: 50px;
     }
-    .layout.cols-2 > aside.left {
-        position: absolute;
-        left: -260px;
-        top: 0;
-        width: 260px;
-        @include breakpoint(medium) {
-            display: none;
-        }
 
-        @include breakpoint(small) {
-            display: none;
+    .time-remaining-mobile {
+        text-align: center;
+        .time-remaining {
+            text-transform: uppercase;
+            font-size: 14px;
+            width: 75%;
+            margin: 0 auto;
         }
+    }
 
-        nav {
-            ul {
-                margin-top: 0;
+    #state-select {
+        width: auto;
+        button {
+            border: 0;
+            background-color: #fff;
+            color: #0971ce;
+            text-transform: uppercase;
+            @include box-shadow(none);
+            .caret {
+                display: none;
             }
+        }
+        .icon {
+            background-position: 10px center;
+            background-repeat: no-repeat;
+            padding-left: 40px;
+        }
+        .texas {
+            @include retina-background('texas-icon.png');
+            
+        }
+        .georgia {
+            @include retina-background('georgia-icon.png');
+        }
+        .pennsylvania {
+            @include retina-background('pennsylvania-icon.png');
+        }
+        .maryland {
+            @include retina-background('maryland-icon.png');
+        }
+        .new-jersey {
+            @include retina-background('newjersey-icon.png');
+        }
+        .new-york {
+            @include retina-background('newyork-icon.png');
+        }
+        .washington-dc {
+            @include retina-background('dc-icon.png');
+        }
+        .dropdown-menu {
             li {
-                a {
-                    position: relative;
-					cursor: default;
-                    &::before {
-                        color: #bfbfbf;
-                        content: ' \25CF';
-                        position: absolute;
-                        top: -2px;
-                        left: -25px;
-                        width: 10px;
-                        height: 10px;
-                        font-size: 16px;
-                    }
-                }
-                &.completed:hover,
-                &.active {
-                    a {
-                        color: #333;
-                        &::before {
-                            color: #053d5a;
-                            font-size: 32px;
-                            left: -30px;
-                            top: -13px;
-                        }
-                    }
-                }
-                &.completed {
-                    a {
-						cursor: pointer;
-                        &::before {
-                            color: #36637b;
-                        }
-                    }
+            }
+        }
+    }
+
+    @each $theme in $themes {
+        &.accent-#{map-get($theme, name)} {
+            section h1 span {
+                color: map-get($theme, primaryColor);
+            }
+            .banner {
+                border-top: 5px solid map-get($theme, primaryColor);
+            }
+        }
+    }
+
+    @include breakpoint(small) {
+        .button {
+            margin: 0 auto;
+            display: block;
+        }
+    }
+}
+
+/*
+    Enrollment Modules
+ */
+
+.enrollment__banner {
+    height: 335px;
+    background-color: #e6e6e6;
+    .wrapper {
+        padding-top: 100px;
+    }
+
+    h1 {
+        font-size: 60px;
+        width: 48%;
+        .xsmall {
+            color: #c5c1b4;
+            font-size: 24px;
+        }
+        .small {
+            font-size: 33px;
+        }
+        .medium {
+            font-size: 40px;
+        }
+    }
+    @include breakpoint(small) {
+        height: 215px;
+        .wrapper {
+            padding-top: 60px;
+            &.center {
+                h1 {
+                    top: 120px;
                 }
             }
+        }
+        h1 {
+            font-size: 30px;
+            .xsmall {
+                font-size: 16px;
+            }
+            .small {
+                font-size: 20px;
+            }
+            .medium {
+                font-size: 25px;
+            }
+        }
+    }
+}
+
+.enrollment__banner--service-info {
+    .wrapper {
+        padding-top: 180px;
+    }
+    h1 {
+        width: auto;
+    }
+}
+
+.enrollment__box {
+    overflow: visible;
+    border-color: #e6e6e6;
+    background-color: #fefefe;
+    header {
+        background-color: #fefefe;
+        background-image: none;
+        border-bottom: 1px solid #e6e6e6;
+    }
+    h1 {
+        font-size: $enrollment-module-h1-size;
+        color: $enrollment-module-h1-color;
+        text-transform: none;
+        margin-top: 15px;
+    }
+    header, .content, footer {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    &.form label, &form label {
+        text-transform: none;
+        font-weight: 600;
+        font-size: inherit;
+        margin-bottom: 12px;
+    }
+    hr {
+        border: none;
+        border-top: 3px solid #eaeaea;
+        margin: 25px 0;
+    }
+}
+
+.enrollment__box--account-creation {
+    .content {
+        padding-top: 0;
+    }
+}
+
+.enrollment__nav {
+    position: absolute;
+    left: -260px;
+    top: 0;
+    width: 260px;
+    nav {
+        ul {
+            margin-top: 0;
+        }
+        li {
             a {
+                position: relative;
+                cursor: default;
                 color: #bfbfbf;
                 font-size: 14px;
                 @include transition(color ease-in 0.2s);
+                &::before {
+                    color: #bfbfbf;
+                    content: ' \25CF';
+                    position: absolute;
+                    top: -2px;
+                    left: -25px;
+                    width: 10px;
+                    height: 10px;
+                    font-size: 16px;
+                }
             }
-        }
-        @include breakpoint-max(1055px) {
-            display: none;
-        }
-
-        @include breakpoint-min-max(1055px, 1515px) {
-            width: 25px;
-            left: -40px;
-            nav {
-                ul {
-                    li {
-                        height: 22px;
-                        a {
-                            color: transparent;
-                            visibility: hidden;
-                            @include transition-duration(0);
-                            &::before {
-                                color: #bfbfbf;
-                                visibility: visible;
-                            }
-                        }
+            &.completed:hover,
+            &.active {
+                a {
+                    color: #333;
+                    &::before {
+                        color: #053d5a;
+                        font-size: 32px;
+                        left: -30px;
+                        top: -13px;
+                    }
+                }
+            }
+            &.completed {
+                a {
+                    cursor: pointer;
+                    &::before {
+                        color: #36637b;
                     }
                 }
             }
         }
-    }
-    section {
-        .icon-blue-arrow-up,
-        .icon-blue-arrow-down {
-            margin-top: -2px;
+        @include breakpoint(small-medium) {
+            display: none;
         }
-        .social-box {
-            @include border-radius(10px 10px 0 0);
-            background: #f9f9f9;
-            margin: -25px -15px 30px -15px;
-            padding: 15px 10px 20px 10px;
-            position: relative;
-            .social-buttons {
-                text-align: center;
-                .button {
-                    margin-bottom: 10px;
+    }
+
+    @include breakpoint-max(1055px) {
+        display: none;
+    }
+
+    @include breakpoint-min-max(1055px, 1515px) {
+        width: 25px;
+        left: -40px;
+        nav li {        
+            height: 22px;
+            a {
+                color: transparent;
+                visibility: hidden;
+                @include transition-duration(0);
+                &::before {
+                    color: #bfbfbf;
+                    visibility: visible;
                 }
             }
-            .seperator {
-                position: absolute;
-                bottom: -21px;
-                left: 50%;
-                height: 42px;
-                width: 42px;
-                margin-left: -21px;
-                background: #fff;
-                color: #898989;
-                font-weight: bold;
-                text-align: center;
-                @include border-radius(21px);
-                padding-top: 10px;
-            }
         }
     }
-    .plans {
-        position: relative;
-        border: none;
-        @include border-radius(0);
-        @include box-shadow(none);
-        padding: 0;
-        .modal {
-            margin-left: auto;
-            width: auto;
-            left: 6%;
-            right: 6%;
-        }
-        .table-overlay {
+}
+
+.enrollment__utility-plans {
+    position: relative;
+    border: none;
+    padding: 0;
+    margin-bottom: 10px;
+    @include border-radius(0);
+    @include box-shadow(none);    
+    .modal {
+        margin-left: auto;
+        width: auto;
+        left: 6%;
+        right: 6%;
+    }
+    /*.table-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.5);
+        > .content {
             position: absolute;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            right: 0;
-            background: rgba(0, 0, 0, 0.5);
-            > .content {
-                position: absolute;
-                top: 15px;
-                left: 25px;
-                bottom: 15px;
-                right: 25px;
-                background: #fff;
-                padding: 10px 20px;
-            }
+            top: 15px;
+            left: 25px;
+            bottom: 15px;
+            right: 25px;
+            background: #fff;
+            padding: 10px 20px;
         }
-    }
-    .cart-items {
-        float: right;
-        margin-right: 10px;
-        position: relative;
-        .item-num {
-            position: absolute;
-            font-size: 13px;
-            font-weight: bold;
-            top: -5px;
-            right: 8px;
-        }
-    }
+    }*/
     table.plan-selection-table {
-        margin-bottom: 30px;
-        border: 1px solid #eaeaea;
+        border: none;
         thead {
             th {
-                background: #f7f7f7;
+                background: #f6f6f6;
                 color: #646464;
                 text-transform: uppercase;
-                font-weight: bold;
+                font-weight: 600;
                 text-align: center;
-                padding: 25px 15px;
+                padding: 10px 15px;
+                border: none;
             }
         }
         tbody {
             td {
                 text-align: center;
             }
+            tr:last-child {
+                td {
+                    border-bottom: none;
+                }
+            }
         }
         .vertical {
             padding: 0;
             text-align: center;
-            height: 100px;
+            height: 120px;
             width: 20px;
             min-width: 20px;
             position: relative;
             display: block;
+            border-left: none;
+            border-right: none;
             .fixed, .variable {
                 position: absolute;
                 top: 40px;
                 left: -40px;
-                @include rotate(-90deg);
                 text-transform: uppercase;
                 color: #fff;
                 height: 20px;
                 width: 100px;
+                margin: 10px 0;
+                @include rotate(-90deg);
             }
             .fixed {
                 background: #053d5a;
@@ -282,8 +369,8 @@
         }
         .plan-name {
             font-size: 18px;
-            font-weight: bold;
             text-align: left;
+            border-left: none;
             a {
                 display: block;
                 font-weight: normal;
@@ -293,13 +380,15 @@
         }
         .rate {
             font-size: 22px;
-            font-weight: bold;
             line-height: 18px;
+            font-style: italic;
             span {
                 color: #828282;
                 font-size: 13px;
                 font-weight: normal;
                 display: block;
+                text-transform: uppercase;
+                font-style: normal;
             }
         }
         .term {
@@ -312,12 +401,13 @@
         }
         .fees {
             font-size: 19px;
-            font-weight: bold;
+            font-style: italic;
             span {
                 display: block;
                 font-size: 10px;
                 color: #828282;
                 font-weight: normal;
+                font-style: normal;
             }
         }
         .line-item {
@@ -327,7 +417,7 @@
                 h1 {
                     text-transform: none;
                     font-size: 18px;
-                    font-weight: bold;
+                    font-weight: 600;
                     margin: 15px 0 0 0;
                 }
                 h2 {
@@ -385,7 +475,7 @@
             background: #fafafa;
             text-align: right;
             font-size: 20px;
-            span {
+            a {
                 font-weight: bold;
                 margin-left: 20px;
             }
@@ -395,6 +485,8 @@
                 td {
                     border: none;
                     padding: 0px;
+                    text-align: left;
+                    padding-left: 30px;
                     div {
                         padding: 5px 12px;
                         border: 0;
@@ -406,6 +498,9 @@
                         &:first-child {
                             border-bottom: 1px solid #eaeaea;
                         }
+                    }
+                    p {
+                        font-size: 15px;
                     }
                 }
             }
@@ -425,119 +520,84 @@
             }
         }
         .spacer {
-            height: 20px;
-        }
-    }
-    .time-remaining-mobile {
-        text-align: center;
-        .time-remaining {
-            text-transform: uppercase;
-            font-size: 14px;
-            width: 75%;
-            margin: 0 auto;
-        }
-    }
-
-	#state-select {
-		width: auto;
-		button {
-			border: 0;
-			@include box-shadow(none);
-			color: #0971ce;
-			text-transform: uppercase;
-			.caret {
-				display: none;
-			}
-		}
-		.icon {
-			background-position: 10px center;
-			background-repeat: no-repeat;
-			padding-left: 40px;
-		}
-		.texas {
-			@include retina-background('texas-icon.png');
-			
-		}
-		.georgia {
-			@include retina-background('georgia-icon.png');
-		}
-		.pennsylvania {
-			@include retina-background('pennsylvania-icon.png');
-		}
-		.maryland {
-			@include retina-background('maryland-icon.png');
-		}
-		.new-jersey {
-			@include retina-background('newjersey-icon.png');
-		}
-		.new-york {
-			@include retina-background('newyork-icon.png');
-		}
-		.washington-dc {
-			@include retina-background('dc-icon.png');
-		}
-		.dropdown-menu {
-			li {
-			}
-		}
-	}
-
-	.cart {
-		i.icon-close {
-			display:none;
-		}
-	}
-
-    .verify-order {
-        hr {
-            border: none;
-            border-top: 1px solid #ddd;
-        } 
-        .total {
-            text-align: right;
-        }
-        .verify-order-table {
-            .sub-charge { 
-                padding-left: 30px;
+            td {
+                height: 5px;
+                border-top: 1px solid #eaeaea;
+                border-bottom: 1px solid #eaeaea;
+                margin: 10px 0;
             }
-            .rate {
-                text-align: right;
-            }
-            h4 { 
-                margin: 0;
-            }
-            th, td {
-                border: none;
-                padding: 8px 0;
-                vertical-align: top;
-            }
-            tr:last-child {
-                td {
-                    padding-bottom: 0;
-                }
-            }
-        }
-    }
-
-    @each $theme in $themes {
-        &.accent-#{map-get($theme, name)} {
-            section h1 span {
-                color: map-get($theme, primaryColor);
-            }
-            .banner {
-                border-top: 5px solid map-get($theme, primaryColor);
-            }
-        }
-    }
-    @include breakpoint(small) {
-        .button {
-            margin: 0 auto;
-            display: block;
         }
     }
 }
 
-.order-confirmation {
+
+.enrollment__box--account-creation {
+    .social-box { 
+        background: #f4f4f4;
+        margin: 0 -20px 30px -20px;
+        padding: 20px;
+        position: relative;
+        .social-buttons {
+            text-align: center;
+            .button {
+                margin-bottom: 10px;
+            }
+        }
+        .seperator {
+            position: absolute;
+            bottom: -21px;
+            left: 50%;
+            height: 42px;
+            width: 42px;
+            margin-left: -21px;
+            background: #fff;
+            color: #898989;
+            font-weight: bold;
+            text-align: center;
+            @include border-radius(21px);
+            padding-top: 10px;
+        }
+    }    
+}
+
+/*
+    Review Order Page
+ */
+.enrollment__review-order {
+    hr {
+        border: none;
+        border-top: 1px solid #ddd;
+    } 
+    .total {
+        text-align: right;
+    }
+    .verify-order-table {
+        .sub-charge { 
+            padding-left: 30px;
+        }
+        .rate {
+            text-align: right;
+        }
+        h4 { 
+            margin: 0;
+        }
+        th, td {
+            border: none;
+            padding: 8px 0;
+            vertical-align: top;
+        }
+        tr:last-child {
+            td {
+                padding-bottom: 0;
+            }
+        }
+    }
+}
+
+/*
+    Order Confirmation Page
+ */
+.enrollment__order-confirmation {
     margin-top: 20px;
     .print {
         float: right;
@@ -627,35 +687,38 @@
     }    
 }
 
-.cart {
-    background: #fafafa;
-    color: #333;
-    border: 1px solid #ebebeb;
-    padding: 15px;
+/*
+    Enrollment Shopping Cart
+ */
+.enrollment__cart {
     margin-bottom: 15px;
-    @include border-radius(4px);
-    @include box-shadow(none);
+    line-height: 1.35;
     header {
-        background: none;
-        @include border-radius(0);
-        padding: 0;
-        h1 {
-            margin: 15px 10px;
-        }
+        margin-bottom: 15px;
+    }
+    header, .content, footer {
+        padding: 0 13px;
     }
     hr {
-        margin: 10px 0;
-        border: 0;
-        border-top: 3px solid #eee;
+        margin: 15px 0;
     }
     h1 {
         font-size: 20px;
-        text-transform: none;
-        margin: 15px 10px;
     }
     p {
-        font-size: 16px;
-        margin: 0 8px 15px 8px;
+        font-size: 14px;
+    }
+    .cart-items {
+        float: right;
+        margin-right: 10px;
+        position: relative;
+        .item-num {
+            position: absolute;
+            font-size: 13px;
+            font-weight: bold;
+            top: -5px;
+            right: 8px;
+        }
     }
 	.empty-cart-phone {
 		padding: 10px 0;
@@ -663,34 +726,34 @@
 		p {
 			color: #cfcfcf;
 			font-weight: bold;
-			font-size: 17px;
 			text-transform: uppercase;
 		}
 	}
-    ul.info {
-        border-top: 1px solid #e2e2e3;
+    .icon-close {
+        display:none;
+    }
+    .info {
         padding: 0;
-        margin: 0 8px 15px 5px;
+        margin: -15px 0 0;
         li {
             border-bottom: 1px solid #e2e2e3;
             list-style-type: none;
-            padding: 10px 0 10px 30px;
+            padding: 10px 20px 8px 45px;
             font-size: 13px;
             position: relative;
             i {
                 position: absolute;
-                top: 12px;
-                left: 0;
+                top: 10px;
+                left: 20px;
+            }
+            &:last-child {
+                border-bottom: none;
             }
         }
     }
-	button,
-	.button {
+	button, .button {
 		width: 100%;
 	}
-    .center {
-        text-align: center;
-    }
     .cart-item {
         @extend .clearfix;
         margin-bottom: 10px;
@@ -738,9 +801,6 @@
         text-align: center;
         margin-bottom: 10px;
     }
-	hr {
-		margin-bottom: 20px;
-	}
     address {
         font-style: normal;
         font-size: 12px;
@@ -754,7 +814,7 @@
         @include border-radius(4px);
         @include box-shadow(none);
         background: #fdfdfd;
-        margin-bottom: 8px;
+        margin: 15px 0;
         padding: 14px;
         border: 1px solid #ebebeb;
         p {
@@ -765,16 +825,16 @@
                 font-size: 15px;
             }
         }
-        &.time {
-            position: relative;
-            padding-left: 55px;
-            .icon-clock {
-                position: absolute;
-                top: 22px;
-                left: 10px;
-            }
-        }
     }
+    .time {
+        position: relative;
+        padding-left: 43px;
+        .icon-clock {
+            position: absolute;
+            top: 4px;
+            left: 0;
+        }
+    }    
     .buttons {
         .button { 
             display: block;
@@ -786,6 +846,8 @@
     }
 }
 
+/*
+    Not Sure what this is for
 .cart-overlay {
     position: fixed;
     top: 0;
@@ -810,11 +872,7 @@
             float: none;
             right: 60px;
         }
-        @include breakpoint(medium) {
-            display: block;
-        }
-
-        @include breakpoint(small) {
+        @include breakpoint(small-medium) {
             display: block;
         }
     }
@@ -825,7 +883,11 @@
         }
     }
 }
+*/
 
+/*
+    Not sure about this either
+ */
 .promo-box {
     background: #fafafa;
     @include box-shadow(none);
@@ -884,6 +946,9 @@
     }
 }
 
+/*
+    START MOBILE PHONE STYLING
+ */
 .banner.phone {
 	height: 228px;
 	background-position: 50%;
@@ -1249,6 +1314,9 @@ article.phone {
 	}
 }
 
+/*
+
+ */
 article.phone-plan {
 	overflow: hidden;
 	.content {
