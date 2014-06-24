@@ -55,15 +55,6 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', 'utilityProduc
 		},
 
 		/**
-		 * [changeUtilityPlan description]
-		 * @param  {[type]} location [description]
-		 * @return {[type]}          [description]
-		 */
-		changeUtilityPlan: function(location) {
-
-		},
-
-		/**
 		 * [editUtilityAddress description]
 		 * @param  {[type]} location [description]
 		 * @return {[type]}          [description]
@@ -71,14 +62,6 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', 'utilityProduc
 		editUtilityAddress: function(location) {
 			utilityProductsService.isNewServiceAddress = false;
 			utilityProductsService.setActiveServiceAddress(location.location.address);
-		},
-
-		/**
-		 * [deleteUtilityAddress description]
-		 * @return {[type]} [description]
-		 */
-		deleteUtilityAddress: function(location) {
-
 		}
 	}
 }]);

@@ -124,10 +124,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             {
                 return Models.Enrollment.ExpectedState.VerifyIdentity;
             }
-            else if (members.Any(m => m.StartsWith("Services")) && stateMachine.Context.Services != null && stateMachine.Context.Services.Length >= 0)
+            else if (members.Any(m => m.StartsWith("Services")))
             {
-                if (validation.PartialValidate(stateMachine.Context, ctx => ctx.Services.PartialValidate(s => s.Location.Address.PostalCode5, 
-                                                                                                         s => s.Location.Capabilities)).Any())
+                if (stateMachine.Context.Services == null || stateMachine.Context.Services.Length == 0 || validation.PartialValidate(stateMachine.Context, ctx => ctx.Services.PartialValidate(s => s.Location.Address.PostalCode5,
+                                                                                                            s => s.Location.Capabilities)).Any())
                 {
                     return Models.Enrollment.ExpectedState.ServiceInformation;
                 }
@@ -135,7 +135,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     .Where(val => !val.MemberNames.All(m => System.Text.RegularExpressions.Regex.IsMatch(m, @"SelectedOffers\[[0-9]+\]\.OfferOption")))
                     .Any())
                 {
-                    return Models.Enrollment.ExpectedState.PlanSelection;                    
+                    return Models.Enrollment.ExpectedState.PlanSelection;
                 }
                 else
                 {
