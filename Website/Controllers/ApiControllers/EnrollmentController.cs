@@ -150,6 +150,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             {
                 return Models.Enrollment.ExpectedState.OrderConfirmed;
             }
+            else if (stateMachine.State == typeof(VerifyIdentityState))
+            {
+                return Models.Enrollment.ExpectedState.VerifyIdentity;
+            }
             else //if (stateMachine.Context.Services == null || stateMachine.Context.Services.Length == 0)
             {
                 return Models.Enrollment.ExpectedState.ServiceInformation;
