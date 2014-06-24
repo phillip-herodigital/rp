@@ -199,10 +199,13 @@ namespace StreamEnergy.MyStream.Controllers
                 if (customerAccount != null)
                 {
                     model.CustomerAccount = customerAccount;
-                    model.RepId = hashValues["IgniteAssociate"];
+                    if (hashValues.ContainsKey("IgniteAssociate"))
+                    {
+                        model.RepId = hashValues["IgniteAssociate"];
+                    }
                 }
 
-                if (string.IsNullOrEmpty(model.RepId) && !string.IsNullOrEmpty(model.CustomerAccount.CisAccountNumber))
+                if (string.IsNullOrEmpty(model.RepId) && model.CustomerAccount != null && !string.IsNullOrEmpty(model.CustomerAccount.CisAccountNumber))
                 {
                     model.RepId = accountService.GetIgniteAssociateFromCustomerNumber("Ignite", "3t8sh8f3sg", model.CustomerAccount.CisAccountNumber);
                 }
