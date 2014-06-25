@@ -23,7 +23,7 @@ namespace StreamEnergy.DomainModels.Accounts
                 ((ISanitizable)ServiceAddress).Sanitize();
         }
 
-        public string AccountType
+        public string SubAccountType
         {
             get { return TexasElectricityAccount.Qualifier; }
         }

@@ -8,7 +8,7 @@ namespace StreamEnergy.DomainModels.Accounts
 {
     public class SampleAccountType : IAccountType
     {
-        public string AccountType { get; set; }
+        public string SubAccountType { get; set; }
         public string Id { get; set; }
         public Address ServiceAddress { get; set; }
 

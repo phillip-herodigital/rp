@@ -8,7 +8,7 @@ namespace StreamEnergy.DomainModels.Accounts
 {
     public interface IAccountType: ISanitizable
     {
-        string AccountType { get; }
+        string SubAccountType { get; }
         string Id { get; }
         Address ServiceAddress { get; }
     }
