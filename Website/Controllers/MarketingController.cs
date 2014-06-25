@@ -162,7 +162,7 @@ namespace StreamEnergy.MyStream.Controllers
                     var pair = part.Split(new string[] { "=" }, StringSplitOptions.RemoveEmptyEntries);
                     if (pair.Length == 2)
                     {
-                        hashValues[pair[0]] = pair[1];
+                        hashValues[pair[0].ToLower()] = pair[1];
                     }
                 }
 
@@ -170,23 +170,23 @@ namespace StreamEnergy.MyStream.Controllers
 
                 try
                 {
-                    if (hashValues.ContainsKey("RefSite"))
+                    if (hashValues.ContainsKey("refsite"))
                     {
-                        model.SaleSource = hashValues["RefSite"];
+                        model.SaleSource = hashValues["refsite"];
 
-                        if (hashValues["RefSite"] == "PowerCenter")
+                        if (hashValues["refsite"] == "PowerCenter")
                         {
-                            customerAccount = accountService.RetrieveIgniteAssociateContactInfo("Ignite", "3t8sh8f3sg", hashValues["IgniteAssociate"]);
+                            customerAccount = accountService.RetrieveIgniteAssociateContactInfo("Ignite", "3t8sh8f3sg", hashValues["igniteassociate"]);
                             model.HasFreeMonth = true;
                         }
-                        else if (new string[] { "MyStreamEnroll", "MyIgniteEnroll" }.Contains(hashValues["RefSite"]))
+                        else if (new string[] { "MyStreamEnroll", "MyIgniteEnroll" }.Contains(hashValues["refsite"]))
                         {
-                            customerAccount = accountService.GetCisAccountsByUtilityAccountNumber(hashValues["CamelotAccountNumber"], hashValues["Last4Ssn"], "");
+                            customerAccount = accountService.GetCisAccountsByUtilityAccountNumber(hashValues["camelotaccountnumber"], hashValues.ContainsKey("last4ssn") ? hashValues["last4ssn"] : "", "");
                             model.HasFreeMonth = true;
                         }
-                        else if (new string[] { "MyStreamRenew", "MyIgniteRenew", "IstaNetEnroll", "NEWelcomeEmail", "KubraMyAccount" }.Contains(hashValues["RefSite"]))
+                        else if (new string[] { "MyStreamRenew", "MyIgniteRenew", "IstaNetEnroll", "NEWelcomeEmail", "KubraMyAccount" }.Contains(hashValues["refsite"]))
                         {
-                            customerAccount = accountService.GetCisAccountsByCisAccountNumber(hashValues["CISCustomerNumber"], hashValues["Last4Ssn"], "");
+                            customerAccount = accountService.GetCisAccountsByCisAccountNumber(hashValues["ciscustomernumber"], hashValues.ContainsKey("last4ssn") ? hashValues["last4ssn"] : "", "");
                             model.HasFreeMonth = true;
                         }
                     }
@@ -199,9 +199,9 @@ namespace StreamEnergy.MyStream.Controllers
                 if (customerAccount != null)
                 {
                     model.CustomerAccount = customerAccount;
-                    if (hashValues.ContainsKey("IgniteAssociate"))
+                    if (hashValues.ContainsKey("igniteassociate"))
                     {
-                        model.RepId = hashValues["IgniteAssociate"];
+                        model.RepId = hashValues["igniteassociate"];
                     }
                 }
 
