@@ -35,6 +35,13 @@ namespace StreamEnergy.DomainModels
             });
 
             unityContainer.Resolve<TypeIndicatorJsonConverter>().TypeIndicators.Add(new PhoneSubtypeLookup());
+
+            unityContainer.Resolve<TypeIndicatorJsonConverter>().TypeIndicators.Add(new TypeIndicatorLookup<Accounts.IAccountType, Accounts.SampleAccountType>(sc => sc.AccountType)
+            {
+                SupportedTypes = {
+                    { Accounts.TexasElectricityAccount.Qualifier, typeof(Accounts.TexasElectricityAccount) }
+                }
+            });
         }
     }
 }

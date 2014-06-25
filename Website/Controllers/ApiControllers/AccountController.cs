@@ -187,12 +187,22 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         #region Account Selector
 
         [HttpGet]
-        public GetAccountsResponse GetAccounts()
+        public AccountListing GetAccounts()
         {
-
-            return new GetAccountsResponse
+            var serviceAddress = new DomainModels.Address
             {
-                
+                Line1 = "123 Main Street",
+                City = "Dallas",
+                StateAbbreviation = "TX",
+                PostalCode5 = "75001"
+            };
+            
+            return new AccountListing
+            {
+                AccountNumber = "1197015532",
+                SubAccountLabel = "ESI ID:",
+                SubAccounts = new IAccountType[] { new TexasElectricityAccount { Id = "109437200008913264", ServiceAddress = serviceAddress } }
+
             };
         }
 
