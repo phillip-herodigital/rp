@@ -181,12 +181,12 @@ namespace StreamEnergy.MyStream.Controllers
                         }
                         else if (new string[] { "MyStreamEnroll", "MyIgniteEnroll" }.Contains(hashValues["refsite"]))
                         {
-                            customerAccount = accountService.GetCisAccountsByUtilityAccountNumber(hashValues["camelotaccountnumber"], hashValues.ContainsKey("last4ssn") ? hashValues["last4ssn"] : "", "");
+                            customerAccount = accountService.GetCisAccountsByUtilityAccountNumber(hashValues["camelotaccountnumber"], hashValues.ContainsKey("last4ssn") ? hashValues["last4ssn"] : null, "");
                             model.HasFreeMonth = true;
                         }
                         else if (new string[] { "MyStreamRenew", "MyIgniteRenew", "IstaNetEnroll", "NEWelcomeEmail", "KubraMyAccount" }.Contains(hashValues["refsite"]))
                         {
-                            customerAccount = accountService.GetCisAccountsByCisAccountNumber(hashValues["ciscustomernumber"], hashValues.ContainsKey("last4ssn") ? hashValues["last4ssn"] : "", "");
+                            customerAccount = accountService.GetCisAccountsByCisAccountNumber(hashValues["ciscustomernumber"], hashValues.ContainsKey("last4ssn") ? hashValues["last4ssn"] : null, "");
                             model.HasFreeMonth = true;
                         }
                     }
