@@ -119,6 +119,7 @@
     <Compile Include="DomainModels\Accounts\Create\CreateAccountState.cs" />
     <Compile Include="DomainModels\Accounts\Create\CreateFailedState.cs" />
     <Compile Include="DomainModels\Accounts\Create\FindAccountState.cs" />
+    <Compile Include="DomainModels\Accounts\GeorgiaElectricityAccount.cs" />
     <Compile Include="DomainModels\Accounts\IAccountService.cs" />
     <Compile Include="DomainModels\Accounts\CustomerAccount.cs" />
     <Compile Include="DomainModels\Accounts\IAccountType.cs" />

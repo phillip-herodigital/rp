@@ -1,15 +1,16 @@
 /* Account Selector Controller
  *
  */
-ngApp.controller('AcctAccountSelectorCtrl', ['$scope', '$rootScope', '$http', '$timeout', '$window', '$sce', function ($scope, $rootScope, $http, $timeout, $window, $sce) {
-	// create a blank object to hold the form information
-	$scope.formData = {};
+ngApp.controller('AcctAccountSelectorCtrl', ['$scope', '$rootScope', '$http', '$timeout', function ($scope, $rootScope, $http, $timeout) {
+	$scope.subAccount = {};
 
 	// get the current data
 	$timeout(function() {
 		$http.get('/api/account/getAccounts').success(function (data, status, headers, config) {
-			$scope.formData = data;
-			$scope.formDataOriginal = angular.copy($scope.formData);
+			$scope.accounts = data;
+			// initialize the current account
+			$scope.currentAccount = $scope.accounts[0];
+			$scope.currentSubAccount = $scope.currentAccount.subAccounts[0];
 		});
 	});
 

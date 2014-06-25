@@ -197,15 +197,47 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 PostalCode5 = "75001"
             };
 
+            var serviceAddress2 = new DomainModels.Address
+            {
+                Line1 = "456 Main Street",
+                City = "Dallas",
+                StateAbbreviation = "TX",
+                PostalCode5 = "75001"
+            };
+
+            var serviceAddress3 = new DomainModels.Address
+            {
+                Line1 = "1 Georgia Dome Dr NW3",
+                City = "Atlanta",
+                StateAbbreviation = "GA",
+                PostalCode5 = "30313"
+            };
+
+            var serviceAddress4 = new DomainModels.Address
+            {
+                Line1 = "2604 Washington Rd",
+                City = "Augusta",
+                StateAbbreviation = "GA",
+                PostalCode5 = "30904"
+            };
+
             var account1 = new AccountListing 
             {
                 AccountNumber = "1197015532",
                 SubAccountLabel = "ESI ID:",
-                SubAccounts = new IAccountType[] { new TexasElectricityAccount { Id = "109437200008913264", ServiceAddress = serviceAddress } }
+                SubAccounts = new IAccountType[] { new TexasElectricityAccount { Id = "109437200008913264", ServiceAddress = serviceAddress }, new TexasElectricityAccount { Id = "109437200008975832", ServiceAddress = serviceAddress2 } }
 
             };
 
-            return new AccountListing[] { account1} ;
+            var account2 = new AccountListing
+            {
+                AccountNumber = "07644559",
+                SubAccountLabel = "Meter ID:",
+                SubAccounts = new IAccountType[] { new GeorgiaElectricityAccount { Id = "9A743339875", ServiceAddress = serviceAddress3 }, new GeorgiaElectricityAccount { Id = "88-443672486", ServiceAddress = serviceAddress4 } }
+
+            };
+
+            return new AccountListing[] { account1, account2 } ;
         }
 
         #endregion
