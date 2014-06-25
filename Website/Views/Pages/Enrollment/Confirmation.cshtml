@@ -1,4 +1,98 @@
-﻿<div class="enrollment-section order-confirmation">
+﻿<div ng-controller="EnrollmentConfirmationCtrl" ng-init="setServerData(@(Html.Action("ClientData", "Enrollment").ToHtmlString()));">
+    <div class="enrollment-section order-confirmation">
+        <section>
+            <a class="print" href="" ng-click="onPrint()"><i class="icon-printer"></i>@Html.Sitecore().Field("Print")</a>
+            <h1>@Html.Sitecore().Field("Order Confirmation")</h1>
+            <p>@Html.Sitecore().Field("Confirmation Paragraph")</p>
+            <p>@Html.Sitecore().Field("Confirmation Number")</p>
+
+            <article class="verify-order">
+                <div class="form content">
+                    <div ng-repeat="(id, location) in getCartItems()">
+                        <div class="item">
+                            <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
+                            <strong>{{ location.location.address | address }}</strong>
+                        </div>
+                        <hr />
+                        <div ng-repeat="(type, plan) in getPlans(location)">
+                            <div ng-if="type == 'TexasElectricity'">
+                                <table class="verify-order-table">
+                                    <tbody>
+                                        <tr class="line-item">
+                                            <td class="description"><h4>{{plan.name}}</h4></td>
+                                            <td class="rate">{{plan.rate | currency}} kWh</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="sub-charge"><strong>@Html.Sitecore().Field("Installation Fee")</strong></td>
+                                            <td class="rate"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="sub-charge"><strong>@Html.Sitecore().Field("Deposit Header")</strong></td>
+                                            <td class="rate">{{ plan.selectionDetails.deposit.requiredAmount | currency }}</td>
+                                        </tr>
+                                        <tr class="plan-documents">
+                                            <td class="sub-charge"><strong>@Html.Sitecore().Field("Plan Documents Header")</strong></td>
+                                            <td class="docs">
+                                                <ul>
+                                                    <li><a href="">@Html.Sitecore().Field("Document Electricity Facts")</a></li>
+                                                    <li><a href="">@Html.Sitecore().Field("Document Terms of Service")</a></li>
+                                                    <li><a href="">@Html.Sitecore().Field("Document Your Rights")</a></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <hr class="content-divider" ng-if="getCartItems().length > 1 && !$last">
+                    </div>
+                    <hr class="content-divider">
+                    <div class="total">
+                        @Html.Sitecore().Field("Total Due Now") <strong>{{ getCartTotal() | currency }}</strong>
+                    </div>                    
+                </div>
+            </article>
+
+            <article class="white-box">
+                <header>
+                    <h2>@Html.Sitecore().Field("Personal Information Header")</h2>                    
+                </header>
+                <div class="content">
+                    <dl>
+                        <dt>@Html.Sitecore().Field("First Name")</dt>
+                        <dd>{{ accountInformation.contactInfo.name.first }}</dd>
+                        <dt>@Html.Sitecore().Field("Last Name")</dt>
+                        <dd>{{ accountInformation.contactInfo.name.last }}</dd>
+                        <dt>@Html.Sitecore().Field("Phone Number")</dt>
+                        <dd>{{ accountInformation.contactInfo.phone[0].number }}</dd>
+                        <dt>@Html.Sitecore().Field("Email")</dt>
+                        <dd>{{ accountInformation.contactInfo.email.address }}</dd>
+                    </dl>
+                </div>
+            </article>
+
+            <article class="white-box">
+                <header>
+                    <h2>@Html.Sitecore().Field("Next Steps Header")</h2>
+                </header>
+                <div class="promo-box horizontal content">
+                    <h3>@Html.Sitecore().Field("Account Tour")</h3>
+                    <div class="avatar">
+                        <i class="icon-house"></i>
+                    </div>
+                    <p>@Html.Sitecore().Field("Login Paragraph")</p>
+                    <p><a class="button" href="">@Html.Sitecore().Field("Take Tour")</a></p>
+                </div>
+            </article>
+        </section>
+    </div>
+</div>
+
+@*
+
+Leaving this here for reference
+
+<div class="enrollment-section order-confirmation">
     <a class="print"><i class="icon-printer"></i>@Html.Sitecore().Field("Print")</a>
     <h1>@Html.Sitecore().Field("Order Confirmation")</h1>
     <p>@Html.Sitecore().Field("Confirmation Paragraph")</p>
@@ -99,3 +193,4 @@
         </div>
     </article>
 </div>
+*@
