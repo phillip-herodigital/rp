@@ -123,8 +123,7 @@
     <Compile Include="DomainModels\Accounts\Invoice.cs" />
     <Compile Include="DomainModels\Accounts\ResetPassword\GetUsernameState.cs" />
     <Compile Include="DomainModels\Accounts\ResetPassword\ResetPasswordContext.cs" />
-    <Compile Include="DomainModels\Accounts\ResetPassword\ResetPasswordTokenManager.cs" />
-    <Compile Include="DomainModels\Accounts\ResetPassword\SentEmailState.cs" />
+    <Compile Include="DomainModels\Accounts\ResetPassword\SecurityQuestionsVerifiedState.cs" />
     <Compile Include="DomainModels\Accounts\ResetPassword\VerifyUserState.cs" />
     <Compile Include="DomainModels\Accounts\UserProfile.cs" />
     <Compile Include="DomainModels\Address.cs" />

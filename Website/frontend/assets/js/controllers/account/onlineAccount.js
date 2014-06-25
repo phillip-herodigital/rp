@@ -45,12 +45,12 @@ ngApp.controller('AcctOnlineAccountCtrl', ['$scope', '$rootScope', '$http', '$ti
 		if ($scope.formData.challenges[0].answer) {
 			challenge.selectedQuestion = $scope.formData.challenges[0].selectedQuestion;
 			challenge.answer = $scope.formData.challenges[0].answer;
-			requestData.challenges.push(chanllenge);
+			requestData.challenges.push(challenge);
 		}
 		if ($scope.formData.challenges[1].answer) {
 			challenge.selectedQuestion = $scope.formData.challenges[1].selectedQuestion;
 			challenge.answer = $scope.formData.challenges[1].answer;
-			requestData.challenges.push(chanllenge);
+			requestData.challenges.push(challenge);
 		}
 		requestData.languagePreference = $scope.formData.languagePreference;
 
@@ -68,7 +68,7 @@ ngApp.controller('AcctOnlineAccountCtrl', ['$scope', '$rootScope', '$http', '$ti
 
 				} else {
 					// if successful, alert the user
-					alert("successful");
+					//alert("successful");
 				}
 			});
 	};

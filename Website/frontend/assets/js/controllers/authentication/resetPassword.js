@@ -31,11 +31,11 @@ ngApp.controller('AuthResetPasswordCtrl', ['$scope', '$rootScope', '$http', '$wi
 			});
 	};
 
-	// process the sendResetPasswordEmail form
-	$scope.sendResetPasswordEmail = function() {
+    // process the verifySecurityQuestions form
+	$scope.verifySecurityQuestions = function () {
 		$http({
 			method  : 'POST',
-			url     : '/api/authentication/sendResetPasswordEmail',
+			url     : '/api/authentication/VerifySecurityQuestions',
 			data    : $scope.formData,
 			headers : { 'Content-Type': 'application/JSON' } 
 		})
@@ -46,7 +46,28 @@ ngApp.controller('AuthResetPasswordCtrl', ['$scope', '$rootScope', '$http', '$wi
 
 				} else {
 					// if successful, send the user to confirm
-			        $scope.activeState = data.success ? 'confirm' : 'hard-stop-error';
+			        $scope.activeState = data.success ? 'changepassword' : 'hard-stop-error';
+				}
+			});
+	};
+
+    // process the changePassword form
+	$scope.changePassword = function() {
+		$http({
+			method  : 'POST',
+			url     : '/api/authentication/changePassword',
+			data    : $scope.formData,
+			headers : { 'Content-Type': 'application/JSON' } 
+		})
+			.success(function (data, status, headers, config) {
+				if (!data.success) {
+					// if not successful, bind errors to error variables
+					$scope.recoverUsernameError = $sce.trustAsHtml(data.validations[0].text);
+
+				} else {
+					// if successful, send the user to the login page
+					$window.location.href = '/auth/login';
+
 				}
 			});
 	};

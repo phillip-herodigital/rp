@@ -5,7 +5,7 @@ using System.Web;
 
 namespace StreamEnergy.MyStream.Models.Authentication
 {
-    public class SendResetPasswordEmailRequest
+    public class VerifySecurityQuestionsRequest
     {
         public Dictionary<Guid, string> Answers { get; set; }
     }
