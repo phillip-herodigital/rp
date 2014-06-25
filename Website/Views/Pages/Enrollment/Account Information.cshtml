@@ -1,7 +1,7 @@
 @model StreamEnergy.DomainModels.Enrollments.UserContext
 @using TypedPhone = StreamEnergy.DomainModels.TypedPhone
 @using StreamEnergy.DomainModels.Enrollments
-<div id="accountInformation" class="enrollment-section accent-darkgreen" ng-show="stepsService.isStepVisible('accountInformation')" ng-controller="EnrollmentAccountInformationCtrl">
+<div id="accountInformation" class="enrollment-section accent-darkgreen" ng-show="stepsService.isStepVisible('accountInformation')" ng-controller="EnrollmentAccountInformationCtrl" ng-init="usStates = @(Html.Action("States", "Data").ToHtmlString()); phoneTypes = @(Html.Action("PhoneCategories", "Data").ToHtmlString());">
     <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper">
             <h1>
@@ -102,7 +102,7 @@
                                                 </div>
                                                 <div class="item" @offer.ErrorClass(m => m.OfferOption.BillingAddress.StateAbbreviation)>
                                                     <label for="@offer.For(m => m.OfferOption.BillingAddress.StateAbbreviation)">@Html.Sitecore().Field("State Label")</label>
-                                                    <select @offer.Attributes(m => m.OfferOption.BillingAddress.StateAbbreviation) data-val-if="!selectedOffer.offerOption.billingAddressSame" ng-model="selectedOffer.offerOption.billingAddress.stateAbbreviation" ng-options="state.abbreviation as state.name for state in usStates">
+                                                    <select @offer.Attributes(m => m.OfferOption.BillingAddress.StateAbbreviation) data-val-if="!selectedOffer.offerOption.billingAddressSame" ng-model="selectedOffer.offerOption.billingAddress.stateAbbreviation" ng-options="state.abbreviation as state.display for state in usStates">
                                                         <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
                                                     </select>
                                                     @offer.MessageFor(m => m.OfferOption.BillingAddress.StateAbbreviation)
@@ -148,7 +148,7 @@
                             </div>                        
                             <div class="item group-col" @firstPhone.ErrorClass(m => ((TypedPhone)m).Category)>
                                 <label for="@firstPhone.For(m => ((TypedPhone)m).Category)">@Html.Sitecore().Field("Phone Type Label")</label>
-                                <select @firstPhone.Attributes(m => ((TypedPhone)m).Category) ng-model="accountInformation.contactInfo.phone[0].category" ng-options="type.name as type.label for type in phoneTypes">
+                                <select @firstPhone.Attributes(m => ((TypedPhone)m).Category) ng-model="accountInformation.contactInfo.phone[0].category" ng-options="type.name as type.display for type in phoneTypes">
                                     <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
                                 </select>
                                 @firstPhone.MessageFor(m => ((TypedPhone)m).Category)
@@ -170,7 +170,7 @@
                                 </div>
                                 <div class="item group-col" @secondPhone.ErrorClass(m => ((TypedPhone)m).Category)>
                                     <label for="@secondPhone.For(m => ((TypedPhone)m).Category)">@Html.Sitecore().Field("Phone Type Label")</label>
-                                    <select @secondPhone.Attributes(m => ((TypedPhone)m).Category) ng-model="accountInformation.contactInfo.phone[1].category" ng-options="type.name as type.label for type in phoneTypes" data-val-if="accountInformation.contactInfo.phone.length > 1">
+                                    <select @secondPhone.Attributes(m => ((TypedPhone)m).Category) ng-model="accountInformation.contactInfo.phone[1].category" ng-options="type.name as type.display for type in phoneTypes" data-val-if="accountInformation.contactInfo.phone.length > 1">
                                         <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
                                     </select>
                                     @secondPhone.MessageFor(m => ((TypedPhone)m).Category)
@@ -216,7 +216,7 @@
                             </div>
                             <div class="item group-col" @Html.ValidationErrorClass(m => m.DriversLicense.StateAbbreviation)>
                                 <label for="@Html.For(m => m.DriversLicense.StateAbbreviation)">@Html.Sitecore().Field("Drivers License State Label")</label>
-                                <select @Html.ValidationAttributes(m => m.DriversLicense.StateAbbreviation) data-val-if="accountInformation.driversLicense.number || accountInformation.driversLicense.stateAbbreviation" ng-model="accountInformation.driversLicense.stateAbbreviation" ng-options="state.abbreviation as state.name for state in usStates">
+                                <select @Html.ValidationAttributes(m => m.DriversLicense.StateAbbreviation) data-val-if="accountInformation.driversLicense.number || accountInformation.driversLicense.stateAbbreviation" ng-model="accountInformation.driversLicense.stateAbbreviation" ng-options="state.abbreviation as state.display for state in usStates">
                                     <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
                                 </select>
                                 @Html.ValidationMessageFor(m => m.DriversLicense.StateAbbreviation)

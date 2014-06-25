@@ -453,6 +453,7 @@
     <Compile Include="Controllers\Components\AccountController.cs" />
     <Compile Include="Controllers\Components\AuthenticationController.cs" />
     <Compile Include="Controllers\ApiControllers\EnrollmentController.cs" />
+    <Compile Include="Controllers\DataController.cs" />
     <Compile Include="Controllers\EnrollmentController.cs" />
     <Compile Include="Controllers\TempController.cs" />
     <Compile Include="Controllers\MarketingController.cs" />
