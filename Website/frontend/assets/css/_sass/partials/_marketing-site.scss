@@ -344,7 +344,7 @@ article.loginHorizontal {
 			padding-right: 18px;	
 		}		
 		.username-item, .password-item {
-			width: 245px;
+			width: 240px;
 		}
 		button {
 			width: 130px;
@@ -2628,6 +2628,7 @@ article.marketing div.wrapper {
 article.rates {
     table {
         th, td {
+            text-align: center;
             &:first-child {
                 text-align: left;
                 background: #f9f9f9;

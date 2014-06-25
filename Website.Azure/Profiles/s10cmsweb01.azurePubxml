@@ -1,22 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <AzureCredentials>{"ServiceManagementEndpoint":"https:\/\/management.core.windows.net\/","SubscriptionId":"db8c3cbd-52c7-40a7-86f5-7dc9fbfde32e"}</AzureCredentials>
+    <AzureCredentials>{"ServiceManagementEndpoint":"https:\/\/management.core.windows.net\/","SubscriptionId":"7a461826-1c4a-4742-b132-a759ebe8188a"}</AzureCredentials>
     <AzureDeleteDeploymentOnFailure>False</AzureDeleteDeploymentOnFailure>
     <AzureDeploymentLabel>Website.Azure</AzureDeploymentLabel>
     <AzureDeploymentReplacementMethod>AutomaticUpgrade</AzureDeploymentReplacementMethod>
-    <AzureSlot>Production</AzureSlot>
+    <AzureSlot>Staging</AzureSlot>
     <AzureEnableRemoteDesktop>True</AzureEnableRemoteDesktop>
-    <AzureEnableWebDeploy>True</AzureEnableWebDeploy>
+    <AzureEnableWebDeploy>False</AzureEnableWebDeploy>
     <AzureFallbackToDeleteAndRecreateIfUpgradeFails>False</AzureFallbackToDeleteAndRecreateIfUpgradeFails>
-    <AzureHostedServiceLabel>mystreamcom</AzureHostedServiceLabel>
-    <AzureHostedServiceName>mystreamcom</AzureHostedServiceName>
+    <AzureHostedServiceLabel>s10cmsweb01</AzureHostedServiceLabel>
+    <AzureHostedServiceName>s10cmsweb01</AzureHostedServiceName>
     <AzureEnableIntelliTrace>False</AzureEnableIntelliTrace>
     <AzureEnableProfiling>False</AzureEnableProfiling>
     <AzureServiceConfiguration>Cloud</AzureServiceConfiguration>
     <AzureSolutionConfiguration>Release</AzureSolutionConfiguration>
-    <AzureStorageAccountLabel>mystreamcom</AzureStorageAccountLabel>
-    <AzureStorageAccountName>mystreamcom</AzureStorageAccountName>
+    <AzureStorageAccountLabel>s10cmsstore01</AzureStorageAccountLabel>
+    <AzureStorageAccountName>s10cmsstore01</AzureStorageAccountName>
     <AzureAppendTimestampToDeploymentLabel>True</AzureAppendTimestampToDeploymentLabel>
   </PropertyGroup>
 </Project>

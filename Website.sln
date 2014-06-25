@@ -60,6 +60,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LuceneServices", "LuceneSer
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{59B39452-16F0-4170-A74E-F886F54DCBDC}"
 EndProject
+Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "Website.Azure", "Website.Azure\Website.Azure.ccproj", "{62E169AA-8B86-4823-8AFC-C548F3E0A075}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Azure-Production Sitecore|Any CPU = Azure-Production Sitecore|Any CPU
@@ -148,6 +150,14 @@ Global
 		{37C047F3-940F-4C38-A781-EDF7F4E39AEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37C047F3-940F-4C38-A781-EDF7F4E39AEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37C047F3-940F-4C38-A781-EDF7F4E39AEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62E169AA-8B86-4823-8AFC-C548F3E0A075}.Azure-Production Sitecore|Any CPU.ActiveCfg = Release|Any CPU
+		{62E169AA-8B86-4823-8AFC-C548F3E0A075}.Azure-Production Sitecore|Any CPU.Build.0 = Release|Any CPU
+		{62E169AA-8B86-4823-8AFC-C548F3E0A075}.Azure-Production|Any CPU.ActiveCfg = Release|Any CPU
+		{62E169AA-8B86-4823-8AFC-C548F3E0A075}.Azure-Production|Any CPU.Build.0 = Release|Any CPU
+		{62E169AA-8B86-4823-8AFC-C548F3E0A075}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62E169AA-8B86-4823-8AFC-C548F3E0A075}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62E169AA-8B86-4823-8AFC-C548F3E0A075}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62E169AA-8B86-4823-8AFC-C548F3E0A075}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

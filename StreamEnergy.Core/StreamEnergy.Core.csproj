@@ -214,6 +214,7 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="SitecoreSettings.cs" />
     <Compile Include="RequireValueAttribute.cs" />
+    <Compile Include="Tasks\ScheduledPublishing.cs" />
     <Compile Include="TypeIndicatorJsonConverter.cs" />
     <Compile Include="TypeIndicatorLookup.cs" />
     <Compile Include="Providers\GeoProvider.cs" />
