@@ -1,13 +1,13 @@
 ﻿<script type="text/ng-template" id="removeAccount.html">
     <div class="modal-header">
-        <a href="" ng-click="close()"></a>
+        <a href="" ng-click="$dismiss()"></a>
         <h2>@Html.Sitecore().Field("Remove Account Header Text")</h2>
     </div>
     <div class="modal-body">
         @Html.Sitecore().Field("Confirmation Text") {{ currentAccount }}?
     </div>
     <div class="modal-footer">
-        <button class="secondary" ng-click="close()">@Html.Sitecore().Field("Cancel Button Text")</button>
-        <button ng-click="close(); removeEnrolledAccount(currentAccount)">@Html.Sitecore().Field("Remove Button Text")</button>
+        <button class="secondary" ng-click="$dismiss()">@Html.Sitecore().Field("Cancel Button Text")</button>
+        <button ng-click="$close()">@Html.Sitecore().Field("Remove Button Text")</button>
     </div>
 </script>

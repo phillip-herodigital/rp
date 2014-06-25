@@ -1,7 +1,7 @@
 /* Enrolled Accounts Controller
  *
  */
-ngApp.controller('AcctEnrolledAccountsCtrl', ['$scope', '$rootScope', '$http', '$timeout', '$modal',  'modalFactory', 'jQuery', function ($scope, $rootScope, $http, $timeout, $modal, modalFactory, jQuery) {
+ngApp.controller('AcctEnrolledAccountsCtrl', ['$scope', '$rootScope', '$http', '$timeout', '$modal', 'jQuery', function ($scope, $rootScope, $http, $timeout, $modal, jQuery) {
 	// create a blank object to hold the form information
 	$scope.formData = {};
 
@@ -16,14 +16,18 @@ ngApp.controller('AcctEnrolledAccountsCtrl', ['$scope', '$rootScope', '$http', '
 	$scope.open = function (accountNumber) {
 		$scope.currentAccount = accountNumber;
 
-		var modalInstance = modalFactory.open({
+		var modalInstance = $modal.open({
 			templateUrl: 'removeAccount.html',
 			scope: $scope
 		});	
+
+		modalInstance.result.then( function() {
+			removeEnrolledAccount(accountNumber);
+		})
 	};
 
 	// remove an enrolled account
-	$scope.removeEnrolledAccount = function (accountNumber) {
+	var removeEnrolledAccount = function (accountNumber) {
 		// format the request data
 		var requestData = {};
 		requestData.accountNumber = accountNumber;
