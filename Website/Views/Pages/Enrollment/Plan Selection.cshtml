@@ -89,7 +89,7 @@
                     </td>
                 </tr>
                 <tr class="details ng-cloak">
-                    <td colspan="6">
+                    <td colspan="n6">
                         <div slide-down-show="isOpen">
                             <p>{{plan.description}}</p>
                         </div>
@@ -236,9 +236,10 @@
     <div>
         <div class="modal-header">
             <a href="" ng-click="$close()">Close</a>
-            <h2>I'm a modal!</h2>
+            <h2>@Html.Sitecore().Field("Zip to Address Header")</h2>
         </div>
         <div class="modal-body">
+            @Html.Sitecore().Field("Zip to Address Body")
             @using (var currentService = Html.AngularRepeat(m => m.Services, "0"))
             {
                 <div class="item" @currentService.ErrorClass(s => s.Location)>
@@ -247,7 +248,7 @@
                            class="typeahead"
                            ng-model="modal.selectedLocation"
                            placeholder="@Html.Sitecore().Field("Address Placeholder")"
-                           typeahead="location as location.address|address for location in getLocation(modal.serviceState, $viewValue)"
+                           typeahead="location as location.address|address for location in getLocation(modal.serviceState,  $viewValue + ' ' + currentLocationInfo().location.address.postalCode5)"
                            ng-disabled="modal.serviceState == ''"
                            typeahead-loading="modal.loadingServiceAddress"
                            ng-class="{'loading' : modal.loadingServiceAddress}" />
@@ -256,8 +257,8 @@
             }
         </div>
         <div class="modal-footer">
-            <button ng-click="modal.save()">OK</button>
-            <button ng-click="$dismiss()">Cancel</button>
+            <button ng-click="modal.save()" ng-disabled="!modal.selectedLocation.address.line1">@Html.Sitecore().Field("Continue Button")</button>
+            <button class="secondary" ng-click="$dismiss()">@Html.Sitecore().Field("Cancel Button")</button>
         </div>
     </div>
 </script>
