@@ -20,5 +20,13 @@ namespace StreamEnergy.MyStream.Controllers
             return this.Content(StreamEnergy.Json.Stringify(data));
         }
 
+        public ActionResult PhoneCategories()
+        {
+            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Phone Types");
+            var data = item.Children.Select(child => new { name = child.Name, display = child.Fields["Display Text"].Value });
+
+            return this.Content(StreamEnergy.Json.Stringify(data));
+        }
+
     }
 }
