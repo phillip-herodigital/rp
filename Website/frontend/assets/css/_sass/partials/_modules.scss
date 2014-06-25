@@ -98,54 +98,36 @@ article {
 	.notice {
 		margin-bottom: 15px;
 		border-radius: 15px;
-		padding: 0 15px 0 25px;
-		p {
-			margin: 1em 25px 1em 20px;
+		padding: 0 30px 0 45px;
+		background-repeat: no-repeat;
+		background-position: 15px 20px;
+		position: relative;
+		.icon-close {
+			position: absolute;
+			top: 20px;
+			right: 20px;
 		}
-		&.message {
+	}
+	.alert {
+		border: 1px solid #ffcc33;
+		background-color: #fff9c9;
+		background-image: image-url('icon/alert.png');
+		background-position: 20px 20px;
+	}
+	.message {
 			border: 1px solid #a1bbb9;
 			background-color: #ecf9f8;
 			background-image: image-url('icon/message.png');
-			background-repeat: no-repeat;
-			background-position: 15px 20px;
-			&.full-width {
-				background-image: image-url('icon/message.png'), image-url('icon/close.png');
-				background-position: 15px 20px, right 15px top 15px;
-			}
-		}
-		&.alert {
-			border: 1px solid #ffcc33;
-			background-color: #fff9c9;
-			background-image: image-url('icon/alert.png');
-			background-repeat: no-repeat;
-			background-position: 20px 20px;
-			&.full-width {
-				background-image: image-url('icon/alert.png'), image-url('icon/close.png');
-				background-position: 20px 20px, right 15px top 15px;
-			}
-		}
-		&.error {
+	}
+	.error {
 			border: 1px solid #dd744e;
 			background-color: #fbded4;
 			background-image: image-url('icon/error.png');
-			background-repeat: no-repeat;
-			background-position: 15px 20px;
-			&.full-width {
-				background-image: image-url('icon/error.png'), image-url('icon/close.png');
-				background-position: 15px 20px, right 15px top 15px;
-			}
-		}
-		&.success {
-			border: 1px solid #7baa59;
-			background-color: #def7d0;
-			background-image: image-url('icon/success.png');
-			background-repeat: no-repeat;
-			background-position: 15px 20px;
-			&.full-width {
-				background-image: image-url('icon/success.png'), image-url('icon/close.png');
-				background-position: 15px 20px, right 15px top 15px;
-			}
-		}
+	}
+	.success {
+		border: 1px solid #7baa59;
+		background-color: #def7d0;
+		background-image: image-url('icon/success.png');
 	}
 	.account-selector {
 		background: #fbfbfb;
