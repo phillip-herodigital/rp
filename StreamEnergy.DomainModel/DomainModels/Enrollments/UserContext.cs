@@ -44,6 +44,9 @@ namespace StreamEnergy.DomainModels.Enrollments
         [RequireValue(true, ErrorMessage = "Must Agree To Terms")]
         public bool AgreeToTerms { get; set; }
 
+        [ValidateObject]
+        public OnlineAccount OnlineAccount { get; set; }
+
         void ISanitizable.Sanitize()
         {
             if (SocialSecurityNumber != null)
@@ -57,6 +60,8 @@ namespace StreamEnergy.DomainModels.Enrollments
                 ((ISanitizable)SecondaryContactInfo).Sanitize();
             if (DriversLicense != null)
                 ((ISanitizable)DriversLicense).Sanitize();
+            if (OnlineAccount != null)
+                ((ISanitizable)OnlineAccount).Sanitize();
         }
     }
 }

@@ -234,6 +234,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             stateMachine.Context.ContactInfo = request.ContactInfo;
             EnsureTypedPhones(stateMachine.Context.ContactInfo.Phone);
             stateMachine.Context.DriversLicense = request.DriversLicense;
+            stateMachine.Context.OnlineAccount = request.OnlineAccount;
             stateMachine.Context.Language = request.Language;
             stateMachine.Context.SecondaryContactInfo = request.SecondaryContactInfo;
             stateMachine.Context.SocialSecurityNumber = request.SocialSecurityNumber;

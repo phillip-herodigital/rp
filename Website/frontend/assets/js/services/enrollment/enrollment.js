@@ -421,6 +421,7 @@
             socialSecurityNumber: service.accountInformation.socialSecurityNumber,
             driversLicense: service.accountInformation.driversLicense,
             secondaryContactInfo: service.accountInformation.secondaryContactInfo,
+            onlineAccount: service.accountInformation.onlineAccount,
             cart: utilityProduct
         });
         // sanitize data
@@ -436,6 +437,8 @@
             data.driversLicense = null;
         if (!data.secondaryContactInfo.first && !data.secondaryContactInfo.last)
             data.secondaryContactInfo = null;
+        if (!data.onlineAccount.username)
+            data.onlineAccount = null;
 
         return makeCall('accountInformation', data);
     };

@@ -250,7 +250,7 @@
                 @* User Account Creation *@
                 <article class="form">
                     <div class="content">
-                        <div class="social-box">
+                        @*<div class="social-box">
                             <h2>@Html.Sitecore().Field("Social Box Header")</h2>
                             <p>@Html.Sitecore().Field("Social Box Intro")</p>
                             <p class="social-buttons">
@@ -259,21 +259,24 @@
                                 <a class="button social linkedin" href=""><span class="icon-holder"><i class="icon-linkedin"></i></span> @Html.Sitecore().Field("Social Box LinkedIn")</a>
                             </p>
                             <div class="seperator">@Html.Sitecore().Field("Seperator")</div>
-                        </div>
+                        </div>*@
                         <h2>@Html.Sitecore().Field("Create Online Account Header")</h2>
                         <p>@Html.Sitecore().Field("Online Account Paragraph")</p>
-                        <div class="item">
-                            <label for="username">@Html.Sitecore().Field("Username Optional Label")</label>
-                            <input type="text" id="username" ng-model="accountInformation.login.username" />
+                        <div class="item" @Html.ValidationErrorClass(m => m.OnlineAccount.Username)>
+                            <label for="@Html.For(m => m.OnlineAccount.Username)">@Html.Sitecore().Field("Username Optional Label")</label>
+                            <input type="text" @Html.ValidationAttributes(m => m.OnlineAccount.Username) data-val-if="accountInformation.onlineAccount.username" ng-model="accountInformation.onlineAccount.username" />
+                            @Html.ValidationMessageFor(m => m.OnlineAccount.Username)
                         </div>
                         <div class="group">
-                            <div class="item group-col">
-                                <label for="password">@Html.Sitecore().Field("Password Optional Label")</label>
-                                <input type="password" id="password" ng-model="accountInformation.login.password" />
+                            <div class="item group-col" @Html.ValidationErrorClass(m => m.OnlineAccount.Password)>
+                                <label for="@Html.For(m => m.OnlineAccount.Password)">@Html.Sitecore().Field("Password Optional Label")</label>
+                                <input type="password" @Html.ValidationAttributes(m => m.OnlineAccount.Password) data-val-if="accountInformation.onlineAccount.username" ng-model="accountInformation.onlineAccount.password" />
+                                @Html.ValidationMessageFor(m => m.OnlineAccount.Password)
                             </div>
-                            <div class="item group-col">
-                                <label for="verify-password">@Html.Sitecore().Field("Verify Password Label")</label>
-                                <input type="password" id="verify-password" ng-model="accountInformation.login.verifyPassword" />
+                            <div class="item group-col" @Html.ValidationErrorClass(m => m.OnlineAccount.ConfirmPassword)>
+                                <label for="@Html.For(m => m.OnlineAccount.ConfirmPassword)">@Html.Sitecore().Field("Verify Password Label")</label>
+                                <input type="password" @Html.ValidationAttributes(m => m.OnlineAccount.ConfirmPassword) data-val-if="accountInformation.onlineAccount.username" ng-model="accountInformation.onlineAccount.confirmPassword" />
+                                @Html.ValidationMessageFor(m => m.OnlineAccount.ConfirmPassword)
                             </div>
                         </div>
                     </div>

@@ -136,6 +136,7 @@
     <Compile Include="DomainModels\Enrollments\LocationOfferSet.cs" />
     <Compile Include="DomainModels\Enrollments\LocationServices.cs" />
     <Compile Include="DomainModels\Enrollments\OfferPayment.cs" />
+    <Compile Include="DomainModels\Enrollments\OnlineAccount.cs" />
     <Compile Include="DomainModels\Enrollments\RateType.cs" />
     <Compile Include="DomainModels\Enrollments\SampleOfferOption.cs" />
     <Compile Include="DomainModels\Enrollments\ServiceStatusCapability.cs" />
