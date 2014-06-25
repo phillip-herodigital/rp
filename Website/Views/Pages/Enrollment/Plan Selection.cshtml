@@ -1,4 +1,6 @@
-﻿<div id="utilityFlowPlans" class="enrollment-section accent-orange" ng-show="stepsService.isStepVisible('utilityFlowPlans')" ng-controller="EnrollmentPlanSelectionCtrl">
+﻿@model StreamEnergy.DomainModels.Enrollments.UserContext
+
+<div id="utilityFlowPlans" class="enrollment-section accent-orange" ng-show="stepsService.isStepVisible('utilityFlowPlans')" ng-controller="EnrollmentPlanSelectionCtrl">
     <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper">
             <h1>
@@ -226,6 +228,36 @@
                     </div>
                 </form>
             </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="enrollmentZipToAddressPicker">
+    <div>
+        <div class="modal-header">
+            <a href="" ng-click="$close()">Close</a>
+            <h2>I'm a modal!</h2>
+        </div>
+        <div class="modal-body">
+            @using (var currentService = Html.AngularRepeat(m => m.Services, "0"))
+            {
+                <div class="item" @currentService.ErrorClass(s => s.Location)>
+                    <label for="@currentService.For(s => s.Location)">Address</label>
+                    <input type="text" @currentService.Attributes(s => s.Location)
+                           class="typeahead"
+                           ng-model="modal.selectedLocation"
+                           placeholder="@Html.Sitecore().Field("Address Placeholder")"
+                           typeahead="location as location.address|address for location in getLocation(modal.serviceState, $viewValue)"
+                           ng-disabled="modal.serviceState == ''"
+                           typeahead-loading="modal.loadingServiceAddress"
+                           ng-class="{'loading' : modal.loadingServiceAddress}" />
+                    @currentService.MessageFor(s => s.Location)
+                </div>
+            }
+        </div>
+        <div class="modal-footer">
+            <button ng-click="modal.save()">OK</button>
+            <button ng-click="$dismiss()">Cancel</button>
         </div>
     </div>
 </script>

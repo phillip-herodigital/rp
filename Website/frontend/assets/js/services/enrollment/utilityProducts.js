@@ -243,7 +243,7 @@ ngApp.factory('utilityProductsService', ['$filter', function ($filter) {
 					isNewService: -1
 				};
 			} else {
-			    var serviceStatusCapability;
+			    var serviceStatusCapability = {};
 			    for (var i = 0; i < location.location.capabilities.length; i++)
 			    {
 			        if (location.location.capabilities[i].capabilityType == 'ServiceStatus') {
@@ -268,8 +268,19 @@ ngApp.factory('utilityProductsService', ['$filter', function ($filter) {
 		 * @return {Object}
 		 */
 		addOrUpdateAddress: function (serviceInformation) {
-		    //Add capabilities object to the location object
-		    serviceInformation.location.capabilities.push({ "capabilityType": "ServiceStatus", "isNewService": !!parseInt(serviceInformation.isNewService, 10) });
+		    if (serviceInformation.isNewService === undefined && !this.isNewServiceAddress) {
+		        console.log(activeServiceAddress.location.capabilities);
+		        for (var i = 0; i < activeServiceAddress.location.capabilities.length; i++) {
+		            if (activeServiceAddress.location.capabilities[i].capabilityType == "ServiceStatus")
+		            {
+		                serviceInformation.location.capabilities.push(activeServiceAddress.location.capabilities[i]);
+		            }
+		        }
+		    }
+		    else {
+		        //Add capabilities object to the location object
+		        serviceInformation.location.capabilities.push({ "capabilityType": "ServiceStatus", "isNewService": !!parseInt(serviceInformation.isNewService, 10) });
+		    }
 
 		    if (!this.isNewServiceAddress) {
 		        angular.copy(serviceInformation.location, activeServiceAddress.location);
