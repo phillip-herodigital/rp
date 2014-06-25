@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StreamEnergy.DomainModels.Accounts
 {
-    public class SampleAccountType : IAccountType
+    public class SampleSubAccount : ISubAccount
     {
         public string SubAccountType { get; set; }
         public string Id { get; set; }

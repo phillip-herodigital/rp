@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace StreamEnergy.DomainModels.Accounts
 {
-    public class AccountListing
+    public class AccountGrouping 
     {
         public string AccountNumber { get; set; }
         public string SubAccountLabel { get; set; }
-        public IEnumerable<IAccountType> SubAccounts { get; set; }
+        public IEnumerable<ISubAccount> SubAccounts { get; set; }
     }
 }

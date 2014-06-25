@@ -187,7 +187,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         #region Account Selector
 
         [HttpGet]
-        public IEnumerable<AccountListing> GetAccounts()
+        public IEnumerable<AccountGrouping> GetAccounts()
         {
             var serviceAddress = new DomainModels.Address
             {
@@ -221,23 +221,21 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 PostalCode5 = "30904"
             };
 
-            var account1 = new AccountListing 
+            var account1 = new AccountGrouping 
             {
                 AccountNumber = "1197015532",
                 SubAccountLabel = "ESI ID:",
-                SubAccounts = new IAccountType[] { new TexasElectricityAccount { Id = "109437200008913264", ServiceAddress = serviceAddress }, new TexasElectricityAccount { Id = "109437200008975832", ServiceAddress = serviceAddress2 } }
-
+                SubAccounts = new ISubAccount[] { new TexasElectricityAccount { Id = "109437200008913264", ServiceAddress = serviceAddress }, new TexasElectricityAccount { Id = "109437200008975832", ServiceAddress = serviceAddress2 } }
             };
 
-            var account2 = new AccountListing
+            var account2 = new AccountGrouping
             {
                 AccountNumber = "07644559",
                 SubAccountLabel = "Meter ID:",
-                SubAccounts = new IAccountType[] { new GeorgiaElectricityAccount { Id = "9A743339875", ServiceAddress = serviceAddress3 }, new GeorgiaElectricityAccount { Id = "88-443672486", ServiceAddress = serviceAddress4 } }
-
+                SubAccounts = new ISubAccount[] { new GeorgiaElectricityAccount { Id = "9A743339875", ServiceAddress = serviceAddress3 }, new GeorgiaElectricityAccount { Id = "88-443672486", ServiceAddress = serviceAddress4 } }
             };
 
-            return new AccountListing[] { account1, account2 } ;
+            return new AccountGrouping [] { account1, account2 } ;
         }
 
         #endregion

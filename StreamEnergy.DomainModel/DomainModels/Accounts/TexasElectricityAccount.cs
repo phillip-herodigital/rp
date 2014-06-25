@@ -7,7 +7,7 @@ using System.Text;
 namespace StreamEnergy.DomainModels.Accounts
 {
     [Serializable]
-    public class TexasElectricityAccount : IAccountType
+    public class TexasElectricityAccount : ISubAccount
     {
         public const string Qualifier = "TexasElectricity";
 

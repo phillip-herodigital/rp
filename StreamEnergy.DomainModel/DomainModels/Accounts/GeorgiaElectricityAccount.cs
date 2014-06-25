@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace StreamEnergy.DomainModels.Accounts
 {
     [Serializable]
-    public class GeorgiaElectricityAccount : IAccountType
+    public class GeorgiaElectricityAccount : ISubAccount
     {
         public const string Qualifier = "GeorgiaElectricity";
 

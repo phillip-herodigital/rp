@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace StreamEnergy.DomainModels.Accounts
 {
-    public interface IAccountType: ISanitizable
+    public interface ISubAccount: ISanitizable
     {
         string SubAccountType { get; }
         string Id { get; }
-        Address ServiceAddress { get; }
     }
 }
