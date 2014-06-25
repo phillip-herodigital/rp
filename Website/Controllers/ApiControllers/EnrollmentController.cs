@@ -131,7 +131,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 {
                     return Models.Enrollment.ExpectedState.ServiceInformation;
                 }
-                else if (validation.PartialValidate(stateMachine.Context, ctx => ctx.Services.PartialValidate(s => s.SelectedOffers))
+                else if (validation.PartialValidate(stateMachine.Context, ctx => ctx.Services.PartialValidate(s => s.SelectedOffers), ctx => ctx.Services.PartialValidate(s => s.Location))
                     .Where(val => !val.MemberNames.All(m => System.Text.RegularExpressions.Regex.IsMatch(m, @"SelectedOffers\[[0-9]+\]\.OfferOption")))
                     .Any())
                 {

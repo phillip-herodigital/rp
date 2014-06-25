@@ -163,14 +163,15 @@ namespace StreamEnergy.Extensions
             return htmlHelper.Sitecore().Field(fieldName, item);
         }
 
-        public static IHtmlString StateSelect(this HtmlHelper htmlHelper, string ngModel = null)
+        public static IHtmlString StateSelect(this HtmlHelper htmlHelper, string ngModel = null, string validationAttributes = "", string additionalOptions = null)
         {
             var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/State Abbreviations/State Abbreviations");
 
             string list = item.Fields["State Abbreviations"].Value;
 
             System.Text.StringBuilder optionList = new System.Text.StringBuilder();
-            optionList.Append("<option value=\"\"></option>");
+            if (!string.IsNullOrEmpty(additionalOptions))
+                optionList.Append(additionalOptions);
 
             if (list != null)
             {
@@ -181,7 +182,7 @@ namespace StreamEnergy.Extensions
                     optionList.Append("<option value=\"" + stateAbbreviation + "\">" + stateAbbreviation + "</option>");
                 }
             }
-            string stateSelect = "<select" + (!string.IsNullOrEmpty(ngModel) ? (" ng-model=\"" + ngModel + "\"") : "") + ">" + optionList + "</select>";
+            string stateSelect = "<select " + (!string.IsNullOrEmpty(ngModel) ? ("ng-model=\"" + ngModel + "\" ") : "") + validationAttributes + ">" + optionList + "</select>";
             return htmlHelper.Raw(stateSelect);
         }
 

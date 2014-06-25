@@ -9,7 +9,7 @@
         </div>
     </div>
     <div class="wrapper layout cols-2">
-        <aside class="enrollment-nav">
+        <aside class="enrollment__nav">
             <div ng-include ng-if="true" src="'enrollment-nav-template'"></div>
         </aside>
         <section>
@@ -131,66 +131,68 @@
                 </div>
             </form>
         </section>
-        <aside>    
-            <article class="cart" ng-controller="EnrollmentCartCtrl">
-                <header>
-                    <h1>@Html.Sitecore().Field("Cart Header")</h1>
-                </header>
-                <div class="body">
-                    <p><strong>To be billed today:</strong></p>
-                    <div class="box" ng-repeat="(id, location) in getCartItems()">
-                        <address>
-                            <h3>@Html.Sitecore().Field("Service Address Text")</h3>
-                            {{ location.location.address | address }}<br />
-                            <a href="" ng-click="editUtilityAddress(location)">@Html.Sitecore().Field("Edit Address Text")</a>
-                        </address>
-                        <div ng-repeat="(type, plan) in getPlans(location)">
-                            <hr />
-                            <div ng-if="type == 'TexasElectricity'">
-                                <h3>Electricity</h3>
-                                <div class="cart-item">
-                                    <div class="delete" ng-click="deleteUtilityItem(location)">
-                                        <i class="icon-delete"></i>
+        <aside>
+            <div class="enrollment__cart">
+                <article class="enrollment__box" ng-controller="EnrollmentCartCtrl">
+                    <header>
+                        <h1>@Html.Sitecore().Field("Cart Header")</h1>
+                    </header>
+                    <div class="content">
+                        <p><strong>To be billed today:</strong></p>
+                        <div ng-repeat="(id, location) in getCartItems()">
+                            <address>
+                                <h3>@Html.Sitecore().Field("Service Address Text")</h3>
+                                {{ location.location.address | address }}<br />
+                                <a href="" ng-click="editUtilityAddress(location)">@Html.Sitecore().Field("Edit Address Text")</a>
+                            </address>
+                            <div ng-repeat="(type, plan) in getPlans(location)">
+                                <hr />
+                                <div ng-if="type == 'TexasElectricity'">
+                                    <h3>Electricity</h3>
+                                    <div class="cart-item">
+                                        <div class="delete" ng-click="deleteUtilityItem(location)">
+                                            <i class="icon-delete"></i>
+                                        </div>
+                                        <div class="description">
+                                            <h2>{{ plan.name }}</h2>
+                                            <a href="" ng-click="changeUtilityPlan(location)">Change Plan</a>
+                                        </div>
+                                        <div class="rate">
+                                            {{plan.rate}}&cent;
+                                            <span>per kWh</span>
+                                        </div>
                                     </div>
-                                    <div class="description">
-                                        <h2>{{ plan.name }}</h2>
-                                        <a href="" ng-click="changeUtilityPlan(location)">Change Plan</a>
+                                    @*
+                                    <div class="cart-item" ng-show="plan.deposit">
+                                        <div class="description">
+                                            <h2>{{ plan.deposit.description }}</h2>
+                                        </div>
+                                        <div class="rate">
+                                            {{ plan.deposit.requiredAmount | currency }}
+                                        </div>
                                     </div>
-                                    <div class="rate">
-                                        {{plan.rate}}&cent;
-                                        <span>per kWh</span>
-                                    </div>
+                                    *@
                                 </div>
-                                @*
-                                <div class="cart-item" ng-show="plan.deposit">
-                                    <div class="description">
-                                        <h2>{{ plan.deposit.description }}</h2>
-                                    </div>
-                                    <div class="rate">
-                                        {{ plan.deposit.requiredAmount | currency }}
-                                    </div>
-                                </div>
-                                *@
                             </div>
                         </div>
+                        
+                        <p><strong>To be billed monthly:</strong></p>
+                        <hr />
+                        <div class="box time">
+                            <i class="icon-clock"></i>
+                            @Html.Sitecore().Field("Time Remaining")
+                        </div>
+                        @Html.Sitecore().Field("Documents Description")
+                        <ul class="info">
+                            <li><i class="icon-home"></i> @Html.Sitecore().Field("Documents Service Address")</li>
+                            <li><i class="icon-bill"></i> @Html.Sitecore().Field("Documents Billing Account Number")</li>
+                            <li><i class="icon-utility-provider"></i> @Html.Sitecore().Field("Documents Utility Provider")</li>
+                            <li><i class="icon-ssn"></i> @Html.Sitecore().Field("Documents Social Security Number")</li>
+                            <li><i class="icon-drivers-license"></i> @Html.Sitecore().Field("Documents Drivers License Number")</li>
+                        </ul>
                     </div>
-                    
-                    <p><strong>To be billed monthly:</strong></p>
-                    <hr />
-                    <div class="box time">
-                        <i class="icon-clock"></i>
-                        @Html.Sitecore().Field("Time Remaining")
-                    </div>
-                    @Html.Sitecore().Field("Documents Description")
-                    <ul class="info">
-                        <li><i class="icon-home"></i> @Html.Sitecore().Field("Documents Service Address")</li>
-                        <li><i class="icon-bill"></i> @Html.Sitecore().Field("Documents Billing Account Number")</li>
-                        <li><i class="icon-utility-provider"></i> @Html.Sitecore().Field("Documents Utility Provider")</li>
-                        <li><i class="icon-ssn"></i> @Html.Sitecore().Field("Documents Social Security Number")</li>
-                        <li><i class="icon-drivers-license"></i> @Html.Sitecore().Field("Documents Drivers License Number")</li>
-                    </ul>
-                </div>
-            </article>
+                </article>
+            </div>
         </aside>
     </div>
 </div>

@@ -7,7 +7,7 @@ using StreamEnergy.Processes;
 
 namespace StreamEnergy.DomainModels.Accounts.ResetPassword
 {
-    public class SentEmailState : SimpleFinalState<ResetPasswordContext, object>
+    public class SecurityQuestionsVerifiedState : SimpleFinalState<ResetPasswordContext, object>
     {
     }
 }

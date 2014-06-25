@@ -14,8 +14,13 @@
             <tr ng-repeat="account in formData.enrolledAccounts">
                 <td data-title="Account"><a href="~/account/payments#{{ account.accountNumber }}">{{ account.accountNumber }}</a></td>
                 <td data-title="Date Added">{{ account.dateAdded | date:'MM/dd/yyyy - h:mm:ss a'}}</td>
-                <td><button class="secondary" ng-click="removeEnrolledAccount(account.accountNumber)">@Html.Sitecore().Field("Remove Button Text")</button><button class="secondary" ng-show="account.sendLetter" ng-click="sendLetter(account.accountNumber)">@Html.Sitecore().Field("Send Letter Button Text")</button></td>
+                <td>
+                    @*<button class="secondary" ng-click="open(account.accountNumber, 'Remove Account', ' Are you sure that you want to remove this account?', 'Cancel', '@Html.Sitecore().Field("Remove Button Text")')">@Html.Sitecore().Field("Remove Button Text")</button>*@
+                    <button class="secondary" ng-click="removeEnrolledAccount(account.accountNumber)">@Html.Sitecore().Field("Remove Button Text")</button>
+                    <button class="secondary" ng-show="account.sendLetter" ng-click="sendLetter(account.accountNumber)">@Html.Sitecore().Field("Send Letter Button Text")</button>
+                </td>
             </tr>
         </tbody>
     </table>
+    
 </article>

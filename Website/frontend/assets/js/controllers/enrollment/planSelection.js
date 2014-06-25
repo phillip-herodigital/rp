@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of plan selection on enrollment page.
  */
-ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 'scrollService', 'utilityProductsService', 'enrollmentStepsService', function ($scope, enrollmentService, scrollService, utilityProductsService, enrollmentStepsService) {
+ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 'scrollService', 'utilityProductsService', 'enrollmentStepsService', '$modal', function ($scope, enrollmentService, scrollService, utilityProductsService, enrollmentStepsService, $modal) {
     $scope.currentLocationInfo = utilityProductsService.getActiveServiceAddress;
 
     //We need this for the button select model in the ng-repeats
@@ -53,6 +53,19 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
      * @param  {Boolean} Add an additional service address
      */
     $scope.completeStep = function (addAdditional) {
+        if (!utilityProductsService.getActiveServiceAddress().location.address.line1) {
+
+            $modal.open({
+                'scope': $scope,
+                'controller': 'EnrollmentZipToAddressCtrl as modal',
+                'templateUrl': 'enrollmentZipToAddressPicker'
+            }).result.then(function () { submitStep(addAdditional); })
+        }
+        else {
+            submitStep(addAdditional);
+        }
+    };
+    var submitStep = function (addAdditional) {
         var selectedOffersPromise = enrollmentService.setSelectedOffers();
 
         selectedOffersPromise.then(function (data) {

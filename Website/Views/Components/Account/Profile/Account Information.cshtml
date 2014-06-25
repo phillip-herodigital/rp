@@ -1,6 +1,6 @@
 ﻿@model StreamEnergy.MyStream.Models.Account.UpdateAccountInformationRequest
 
-<article class="grey-box account-holder-information" ng-controller="AcctAccountInformationCtrl">
+<article class="grey-box account account-holder-information" ng-controller="AcctAccountInformationCtrl">
     <form ng-submit="updateAccountInformation()" data-val-bind-messages="validations">
         <div class="content">
             <div class="item account-holder">
@@ -8,7 +8,7 @@
                 {{ formData.CustomerName.first }} {{ formData.CustomerName.last }}
             </div>
             <div class="group">
-                <div class="item group-col" @*float-label*@>
+                <div class="item group-col" @Html.ValidationErrorClass(model => model.PrimaryPhone.Number) @*float-label*@>
                     <label for="@Html.For(m => m.PrimaryPhone.Number)">@Html.Sitecore().Field("Primary Phone Number Text")</label>
                     <input type="tel" @Html.ValidationAttributes(m => m.PrimaryPhone.Number) ng-model="formData.primaryPhone.number" />
                     @Html.ValidationMessageFor(model => model.PrimaryPhone.Number)
@@ -25,20 +25,20 @@
                     </div>
                     <div class="group additional-field-group additional-fields">
                         <div class="group">
-                            <div class="item group-col" @*float-label*@>
+                            <div class="item group-col" @Html.ValidationErrorClass(model => model.SecondaryPhone.Number) @*float-label*@>
                                 <label for="@Html.For(m => m.SecondaryPhone.Number)">@Html.Sitecore().Field("Secondary Phone Number Text")</label>
                                 <input type="tel" @Html.ValidationAttributes(m => m.SecondaryPhone.Number) ng-model="formData.secondaryPhone.number" />
                                 @Html.ValidationMessageFor(model => model.SecondaryPhone.Number)
                             </div>
                             <div class="item group-col">
-                                <label for="@Html.For(m => m.PrimaryPhone.Category)">@Html.Sitecore().Field("Phone Type Text")</label>
-                                <select ng-model="formData.primaryPhone.category" ng-options="type for type in formData.phoneTypes"></select>
+                                <label for="@Html.For(m => m.SecondaryPhone.Category)">@Html.Sitecore().Field("Phone Type Text")</label>
+                                <select ng-model="formData.secondaryPhone.category" ng-options="type for type in formData.phoneTypes"></select>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="group" ng-switch-default>
-                    <div class="item group-col" @*float-label*@>
+                    <div class="item group-col" @Html.ValidationErrorClass(model => model.SecondaryPhone.Number) @*float-label*@>
                         <label for="@Html.For(m => m.SecondaryPhone.Number)">@Html.Sitecore().Field("Secondary Phone Number Text")</label>
                         <input type="tel" @Html.ValidationAttributes(m => m.SecondaryPhone.Number) ng-model="formData.secondaryPhone.number" />
                         @Html.ValidationMessageFor(model => model.SecondaryPhone.Number)
@@ -65,29 +65,29 @@
                     </div>
                     <div ng-switch-when="false">
                         <div class="group">
-                            <div class="item group-col">
+                            <div class="item group-col" @Html.ValidationErrorClass(model => model.BillingAddress.Line1)>
                                 <label for="@Html.For(m => m.BillingAddress.Line1)">@Html.Sitecore().Field("Address 1 Text")</label>
                                 <input type="text" @Html.ValidationAttributes(m => m.BillingAddress.Line1) ng-model="formData.billingAddress.line1" />
                                 @Html.ValidationMessageFor(model => model.BillingAddress.Line1)
                             </div>
-                            <div class="item group-col">
+                            <div class="item group-col" @Html.ValidationErrorClass(model => model.BillingAddress.Line2)>
                                 <label for="@Html.For(m => m.BillingAddress.Line2)">@Html.Sitecore().Field("Address 2 Text")</label>
                                 <input type="text" @Html.ValidationAttributes(m => m.BillingAddress.Line2) ng-model="formData.billingAddress.line2" />
                                 @Html.ValidationMessageFor(model => model.BillingAddress.Line2)
                             </div>
                         </div>
                         <div class="group">
-                            <div class="item group-col">
+                            <div class="item group-col" @Html.ValidationErrorClass(model => model.BillingAddress.City)>
                                 <label for="@Html.For(m => m.BillingAddress.City)">@Html.Sitecore().Field("City Text")</label>
                                 <input type="text" @Html.ValidationAttributes(m => m.BillingAddress.City) ng-model="formData.billingAddress.city" />
                                 @Html.ValidationMessageFor(model => model.BillingAddress.City)
                             </div>
-                            <div class="item state">
+                            <div class="item state" @Html.ValidationErrorClass(model => model.BillingAddress.StateAbbreviation)>
                                 <label for="@Html.For(m => m.BillingAddress.StateAbbreviation)">@Html.Sitecore().Field("State Text")</label>
-                                @Html.StateSelect("formData.billingAddress.stateAbbreviation")
+                                @Html.StateSelect("formData.billingAddress.stateAbbreviation", @Html.ValidationAttributes(m => m.BillingAddress.StateAbbreviation).ToHtmlString(), "")
                                 @Html.ValidationMessageFor(model => model.BillingAddress.StateAbbreviation)
                             </div>
-                            <div class="item zip">
+                            <div class="item zip" @Html.ValidationErrorClass(model => model.BillingAddress.PostalCode5)>
                                 <label for="@Html.For(m => m.BillingAddress.PostalCode5)">@Html.Sitecore().Field("Zip Code Text")</label>
                                 <input type="text" @Html.ValidationAttributes(m => m.BillingAddress.PostalCode5) ng-model="formData.billingAddress.postalCode5" />
                                 @Html.ValidationMessageFor(model => model.BillingAddress.PostalCode5)

@@ -214,7 +214,7 @@ form,
 			margin-top: 32px;
 		}
 	}
-	div.item {
+	.item {
 		@extend .clearfix;
 		//Make sure to have padding-right by default to match the group-col's padding
 		padding-right: 10px;

@@ -36,6 +36,11 @@ namespace StreamEnergy.MyStream.Controllers
             }));
         }
 
+        public ActionResult PlanSelection()
+        {
+            return View("~/Views/Pages/Enrollment/Plan Selection.cshtml");
+        }
+
         public ActionResult AccountInformation()
         {
             return View("~/Views/Pages/Enrollment/Account Information.cshtml");

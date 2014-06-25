@@ -67,8 +67,13 @@ ngApp.controller('AcctNotificationSettingsCtrl', ['$scope', '$rootScope', '$http
 					// if not successful, bind errors to error variables
 					
 				} else {
-					// if successful, display the success message
-					alert('successful');
+					// if successful, update the icons
+					angular.copy($scope.formData.newDocumentArrives, $scope.formDataOriginal.newDocumentArrives);
+					angular.copy($scope.formData.onlinePaymentsMade, $scope.formDataOriginal.onlinePaymentsMade);
+					angular.copy($scope.formData.recurringPaymentsMade, $scope.formDataOriginal.recurringPaymentsMade);
+					angular.copy($scope.formData.recurringProfileExpires, $scope.formDataOriginal.recurringProfileExpires);
+					// display the success message
+					//alert('successful');
 				}
 			});
 	};
