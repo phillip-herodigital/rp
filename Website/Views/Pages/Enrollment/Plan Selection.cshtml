@@ -61,7 +61,7 @@
                 <tr class="spacer"></tr>
             </thead>
             <tbody>
-                <tr ng-repeat-start="plan in typedOffers.value.availableOffers" ng-class="{'open': isOpen}">
+                <tr ng-repeat-start="plan in typedOffers.value.availableOffers" ng-class="{'isOpen': isOpen, 'isClosed': !isOpen}">
                     <th class="vertical">
                         <div ng-show="plan.rateType == 'fixed'" class="fixed">@Html.Sitecore().Field("Electricity Fixed")</div>
                         <div class="variable" ng-show="plan.rateType == 'variable'">@Html.Sitecore().Field("Electricity Variable")</div>
