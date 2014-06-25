@@ -170,18 +170,18 @@ namespace StreamEnergy.MyStream.Controllers
 
                 try
                 {
-                    if (hashValues.ContainsKey("RefSite"))
+                    if (hashValues.ContainsKey("refsite"))
                     {
-                        model.SaleSource = hashValues["RefSite"];
+                        model.SaleSource = hashValues["refsite"];
 
-                        if (hashValues["RefSite"] == "PowerCenter")
+                        if (hashValues["refsite"] == "PowerCenter")
                         {
                             customerAccount = accountService.RetrieveIgniteAssociateContactInfo("Ignite", "3t8sh8f3sg", hashValues["igniteassociate"]);
                             model.HasFreeMonth = true;
                         }
-                        else if (new string[] { "MyStreamEnroll", "MyIgniteEnroll" }.Contains(hashValues["RefSite"]))
+                        else if (new string[] { "MyStreamEnroll", "MyIgniteEnroll" }.Contains(hashValues["refsite"]))
                         {
-                            customerAccount = accountService.GetCisAccountsByUtilityAccountNumber(hashValues["camelotaccountnumber"], hashValues["last4ssn"], "");
+                            customerAccount = accountService.GetCisAccountsByUtilityAccountNumber(hashValues["camelotaccountnumber"], hashValues.ContainsKey("last4ssn") ? hashValues["last4ssn"] : "", "");
                             model.HasFreeMonth = true;
                         }
                         else if (new string[] { "MyStreamRenew", "MyIgniteRenew", "IstaNetEnroll", "NEWelcomeEmail", "KubraMyAccount" }.Contains(hashValues["refsite"]))
