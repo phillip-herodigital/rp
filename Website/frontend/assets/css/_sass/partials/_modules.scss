@@ -98,10 +98,13 @@ article {
 	.notice {
 		margin-bottom: 15px;
 		border-radius: 15px;
-		padding: 0 30px 0 45px;
+		padding: 20px 30px 20px 45px;
 		background-repeat: no-repeat;
-		background-position: 15px 20px;
+		background-position: 15px 24px;
 		position: relative;
+		p {
+			margin: 0px;
+		}
 		.icon-close {
 			position: absolute;
 			top: 20px;
@@ -111,7 +114,7 @@ article {
 			border: 1px solid #ffcc33;
 			background-color: #fff9c9;
 			background-image: image-url('icon/alert.png');
-			background-position: 20px 20px;
+			background-position: 20px 23px;
 		}
 		&.message {
 				border: 1px solid #a1bbb9;
