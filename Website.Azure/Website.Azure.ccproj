@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>2.3</ProductVersion>
-    <ProjectGuid>81567ce8-9ecd-4406-ba10-61b1a12af201</ProjectGuid>
+    <ProjectGuid>62e169aa-8b86-4823-8afc-c548f3e0a075</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Website.Azure</RootNamespace>
@@ -37,6 +37,16 @@
     <ServiceConfiguration Include="ServiceConfiguration.Cloud.cscfg" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Website\Website.csproj">
+      <Name>Website</Name>
+      <Project>{fb926363-ed56-4b04-8837-cacbe8f9f222}</Project>
+      <Private>True</Private>
+      <RoleType>Web</RoleType>
+      <RoleName>Website</RoleName>
+      <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="Profiles" />
     <Folder Include="WebsiteContent\" />
   </ItemGroup>
@@ -46,7 +56,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <PublishProfile Include="Profiles\mystreamcomProduction.azurePubxml" />
+    <PublishProfile Include="Profiles\s10cmsweb01.azurePubxml" />
   </ItemGroup>
   <!-- Import the target files for this project template -->
   <PropertyGroup>
