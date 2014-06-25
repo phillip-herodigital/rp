@@ -107,27 +107,27 @@ article {
 			top: 20px;
 			right: 20px;
 		}
-	}
-	.alert {
-		border: 1px solid #ffcc33;
-		background-color: #fff9c9;
-		background-image: image-url('icon/alert.png');
-		background-position: 20px 20px;
-	}
-	.message {
-			border: 1px solid #a1bbb9;
-			background-color: #ecf9f8;
-			background-image: image-url('icon/message.png');
-	}
-	.error {
-			border: 1px solid #dd744e;
-			background-color: #fbded4;
-			background-image: image-url('icon/error.png');
-	}
-	.success {
-		border: 1px solid #7baa59;
-		background-color: #def7d0;
-		background-image: image-url('icon/success.png');
+		&.alert {
+			border: 1px solid #ffcc33;
+			background-color: #fff9c9;
+			background-image: image-url('icon/alert.png');
+			background-position: 20px 20px;
+		}
+		&.message {
+				border: 1px solid #a1bbb9;
+				background-color: #ecf9f8;
+				background-image: image-url('icon/message.png');
+		}
+		&.error {
+				border: 1px solid #dd744e;
+				background-color: #fbded4;
+				background-image: image-url('icon/error.png');
+		}
+		&.success {
+			border: 1px solid #7baa59;
+			background-color: #def7d0;
+			background-image: image-url('icon/success.png');
+		}
 	}
 	.account-selector {
 		background: #fbfbfb;
