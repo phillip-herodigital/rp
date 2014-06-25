@@ -5,21 +5,6 @@
 
     service.validations = [];
 
-    service.phoneTypes = [
-        {
-            'name': 'home',
-            'label': 'Home'
-        },
-        {
-            'name': 'work',
-            'label': 'Work'
-        },
-        {
-            'name': 'mobile',
-            'label': 'Mobile'
-        }
-    ];
-
     service.accountInformation = {
         contactInfo: {
             name: {
@@ -198,7 +183,7 @@
             data.driversLicense = null;
         if (!data.secondaryContactInfo.first && !data.secondaryContactInfo.last)
             data.secondaryContactInfo = null;
-        if (!data.onlineAccount.username)
+        if (data.onlineAccount && !data.onlineAccount.username)
             data.onlineAccount = null;
 
         return makeCall('accountInformation', data);
