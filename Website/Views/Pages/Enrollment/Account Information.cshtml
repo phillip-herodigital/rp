@@ -1,7 +1,7 @@
 @model StreamEnergy.DomainModels.Enrollments.UserContext
 @using TypedPhone = StreamEnergy.DomainModels.TypedPhone
 @using StreamEnergy.DomainModels.Enrollments
-<div id="accountInformation" class="enrollment-section accent-darkgreen" ng-show="stepsService.isStepVisible('accountInformation')" ng-controller="EnrollmentAccountInformationCtrl">
+<div id="accountInformation" class="enrollment-section accent-darkgreen" ng-show="stepsService.isStepVisible('accountInformation')" ng-controller="EnrollmentAccountInformationCtrl" ng-init="usStates = @(Html.Action("States", "Data").ToHtmlString());">
     <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper">
             <h1>
@@ -102,7 +102,7 @@
                                                 </div>
                                                 <div class="item" @offer.ErrorClass(m => m.OfferOption.BillingAddress.StateAbbreviation)>
                                                     <label for="@offer.For(m => m.OfferOption.BillingAddress.StateAbbreviation)">@Html.Sitecore().Field("State Label")</label>
-                                                    <select @offer.Attributes(m => m.OfferOption.BillingAddress.StateAbbreviation) data-val-if="!selectedOffer.offerOption.billingAddressSame" ng-model="selectedOffer.offerOption.billingAddress.stateAbbreviation" ng-options="state.abbreviation as state.name for state in usStates">
+                                                    <select @offer.Attributes(m => m.OfferOption.BillingAddress.StateAbbreviation) data-val-if="!selectedOffer.offerOption.billingAddressSame" ng-model="selectedOffer.offerOption.billingAddress.stateAbbreviation" ng-options="state.abbreviation as state.display for state in usStates">
                                                         <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
                                                     </select>
                                                     @offer.MessageFor(m => m.OfferOption.BillingAddress.StateAbbreviation)
@@ -216,7 +216,7 @@
                             </div>
                             <div class="item group-col" @Html.ValidationErrorClass(m => m.DriversLicense.StateAbbreviation)>
                                 <label for="@Html.For(m => m.DriversLicense.StateAbbreviation)">@Html.Sitecore().Field("Drivers License State Label")</label>
-                                <select @Html.ValidationAttributes(m => m.DriversLicense.StateAbbreviation) data-val-if="accountInformation.driversLicense.number || accountInformation.driversLicense.stateAbbreviation" ng-model="accountInformation.driversLicense.stateAbbreviation" ng-options="state.abbreviation as state.name for state in usStates">
+                                <select @Html.ValidationAttributes(m => m.DriversLicense.StateAbbreviation) data-val-if="accountInformation.driversLicense.number || accountInformation.driversLicense.stateAbbreviation" ng-model="accountInformation.driversLicense.stateAbbreviation" ng-options="state.abbreviation as state.display for state in usStates">
                                     <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
                                 </select>
                                 @Html.ValidationMessageFor(m => m.DriversLicense.StateAbbreviation)
