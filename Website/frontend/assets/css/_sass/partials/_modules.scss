@@ -329,6 +329,15 @@ article.plain {
 	@include border-radius(0px);
 	margin-bottom: 0px;
 	padding: 0;
+	@include breakpoint(small-medium) {
+		padding: 0 20px;
+		.cols-2 & {
+			padding: 0;
+			&.promo {
+				padding: 20px;
+			}
+		}
+	}
 }
 
 article.account {
@@ -337,9 +346,6 @@ article.account {
 		color: #a94442;
 		font-size: 14px;
 		margin: 5px 0;
-	}
-	@include breakpoint(small-medium) {
-		padding: 0 20px;
 	}
 }
 
@@ -722,11 +728,26 @@ article.make-payment {
 	div.payment-details {
 		padding: 15px 15px 0 15px;
 		.date-amount {
-			width: 50%;
+			width: 325px;
+			@include breakpoint(small) {
+				width: 100%;
+			}
 			.item {
 				width: 45%;
 				@include breakpoint(small) {
 					width: 100%;
+				}
+				&.dollars .payment-amount input {
+					@include breakpoint(small) {
+						/* Firefox */
+						width: -moz-calc(100% - 15px);
+						/* WebKit */
+						width: -webkit-calc(100% - 15px);
+						/* Opera */
+						width: -o-calc(100% - 15px);
+						/* Standard */
+						width: calc(100% - 15px);
+					}
 				}
 			}
 		}
@@ -840,6 +861,7 @@ article.my-invoices {
 		.filters form .group .actions {
 			@include breakpoint(small) {
 				float: left;
+				margin-top: 25px;
 			}
 		}
 	}
