@@ -112,19 +112,6 @@ ngApp.factory('utilityProductsService', ['$filter', function ($filter) {
 		},
 
 		/**
-		 * Get an array of the available offer types for the current service address
-		 * @return {[type]}
-		 */
-		getAvailableOfferTypes: function() {
-			availableOfferTypes = [];
-			angular.forEach(activeServiceAddress.offerInformationByType, function(entry) {
-				availableOfferTypes.push(entry.key);
-			});
-
-			return availableOfferTypes;
-		},
-
-		/**
 		 * Get an array of the selected plan IDs for the current service address
 		 * @param  {Object} location Address to get selected plan IDs for. If not provided
 		 *                           default to activeServiceAddress
@@ -138,26 +125,6 @@ ngApp.factory('utilityProductsService', ['$filter', function ($filter) {
 			angular.forEach(location.offerInformationByType, function (entry) {
 			    if (entry.value.offerSelections.length) {
 			        selectedPlans.push(entry.value.offerSelections[0].offerId);
-				}
-			});
-
-			return selectedPlans;
-		},
-
-		/**
-		 * Get an array of the selected plan types for the current service address
-		 * @param  {Object} location Address to get selected plan IDs for. If not provided
-		 *                           default to activeServiceAddress
-		 * @return {Array}
-		 */
-		getSelectedPlanTypes: function(location) {
-			var selectedPlans = [];
-
-			location = (typeof location == 'undefined') ? activeServiceAddress : location;
-
-			angular.forEach(location.offerInformationByType, function(entry) {
-			    if (entry.value.offerSelections.length) {
-			        selectedPlans.push(entry.value.offerSelections[0].optionRules.optionRulesType);
 				}
 			});
 
