@@ -10,7 +10,6 @@ namespace StreamEnergy.MyStream.Models.Account
     {
         public string AccountId { get; set; }
 
-        // TODO - update these phone variables to the new phone model with phone type
         [Required]
         [ValidateObject(ErrorMessagePrefix = "Phone ")]
         public DomainModels.TypedPhone PrimaryPhone { get; set; }

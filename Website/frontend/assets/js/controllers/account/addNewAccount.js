@@ -22,8 +22,6 @@ ngApp.controller('AcctAddNewAccountCtrl', ['$scope', '$rootScope', '$http', func
 				} else {
 					// if successful, clear the fields 
 					$scope.formData = {};
-					//$svc.enableSuppress();
-					//$scope.addAccountForm.$setValidity('AccountNumber', true);
 				}
 			});
 	};

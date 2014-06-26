@@ -26,7 +26,7 @@ namespace StreamEnergy.DomainModels.Accounts
 
         public string SubAccountType
         {
-            get { return TexasElectricityAccount.Qualifier; }
+            get { return GeorgiaElectricityAccount.Qualifier; }
         }
 
     }
