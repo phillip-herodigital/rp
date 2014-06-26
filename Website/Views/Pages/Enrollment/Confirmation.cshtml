@@ -8,41 +8,14 @@
 
             <article class="verify-order">
                 <div class="form content">
-                    <div ng-repeat="(id, location) in getCartItems()">
+                    <div ng-repeat="(id, service) in getCartItems()">
                         <div class="item">
                             <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
-                            <strong>{{ location.location.address | address }}</strong>
+                            <strong>{{ service.location.address | address }}</strong>
                         </div>
                         <hr />
-                        <div ng-repeat="(type, plan) in getPlans(location)">
-                            <div ng-if="type == 'TexasElectricity'">
-                                <table class="verify-order-table">
-                                    <tbody>
-                                        <tr class="line-item">
-                                            <td class="description"><h4>{{plan.name}}</h4></td>
-                                            <td class="rate">{{plan.rate | currency}} kWh</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="sub-charge"><strong>@Html.Sitecore().Field("Installation Fee")</strong></td>
-                                            <td class="rate"></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="sub-charge"><strong>@Html.Sitecore().Field("Deposit Header")</strong></td>
-                                            <td class="rate">{{ plan.selectionDetails.deposit.requiredAmount | currency }}</td>
-                                        </tr>
-                                        <tr class="plan-documents">
-                                            <td class="sub-charge"><strong>@Html.Sitecore().Field("Plan Documents Header")</strong></td>
-                                            <td class="docs">
-                                                <ul>
-                                                    <li><a href="">@Html.Sitecore().Field("Document Electricity Facts")</a></li>
-                                                    <li><a href="">@Html.Sitecore().Field("Document Terms of Service")</a></li>
-                                                    <li><a href="">@Html.Sitecore().Field("Document Your Rights")</a></li>
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                        <div ng-repeat="(type, plan) in getPlans(service)">
+                            <div ng-include src="'serviceConfirmation/' + type"></div>
                         </div>
                         <hr class="content-divider" ng-if="getCartItems().length > 1 && !$last">
                     </div>
@@ -194,3 +167,32 @@ Leaving this here for reference
     </article>
 </div>
 *@
+
+<script type="text/ng-template" id="serviceConfirmation/TexasElectricity">
+    <table class="verify-order-table">
+        <tbody>
+            <tr class="line-item">
+                <td class="description"><h4>{{plan.name}}</h4></td>
+                <td class="rate">{{plan.rate | currency}} kWh</td>
+            </tr>
+            <tr>
+                <td class="sub-charge"><strong>@Html.Sitecore().Field("Installation Fee") ({{plan.selectionDetails.offerOption.connectDate | date:'M/d/yyyy'}})</strong></td>
+                <td class="rate"></td>
+            </tr>
+            <tr>
+                <td class="sub-charge"><strong>@Html.Sitecore().Field("Deposit Header")</strong></td>
+                <td class="rate">{{ plan.selectionDetails.deposit.requiredAmount | currency }}</td>
+            </tr>
+            <tr class="plan-documents">
+                <td class="sub-charge"><strong>@Html.Sitecore().Field("Plan Documents Header")</strong></td>
+                <td class="docs">
+                    <ul>
+                        <li><a href="">@Html.Sitecore().Field("Document Electricity Facts")</a></li>
+                        <li><a href="">@Html.Sitecore().Field("Document Terms of Service")</a></li>
+                        <li><a href="">@Html.Sitecore().Field("Document Your Rights")</a></li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</script>
