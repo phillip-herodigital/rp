@@ -120,7 +120,10 @@ ngApp.factory('utilityProductsService', ['$filter', function ($filter) {
 		    //Set the active plans
 		    _(plans).keys().forEach(function (key) {
 		        var offerInformationForType = _(activeServiceAddress.offerInformationByType).where({ key: key }).first();
-		        offerInformationForType.value.offerSelections = _(plans[key]).map(function (plan) { return { offerId: plan }; }).value();
+		        offerInformationForType.value.offerSelections = _(plans[key]).map(function (plan) {
+		            var selectedOffer = _(offerInformationForType.value.availableOffers).where({ id: plan }).first();
+		            return { offerId: plan, offer: selectedOffer };
+		        }).value();
 		    });
 
 		    console.log(activeServiceAddress.offerInformationByType);
