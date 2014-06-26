@@ -32,8 +32,8 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', 'utilityProduc
 		calculateCartTotal: function () {
 		    return _(utilityProductsService.addresses)
                 .map(function (address) { return address.offerInformationByType; }).flatten()
-		        .map(function (offerInformation) { return offerInformation.value && offerInformation.value.offerSelections; }).flatten()
-		        .map(function (offerSelection) { return offerSelection.deposit && offerSelection.deposit.requiredAmount })
+		        .map(function (offerInformation) { return offerInformation && offerInformation.value && offerInformation.value.offerSelections; }).flatten()
+		        .map(function (offerSelection) { return offerSelection && offerSelection.deposit && offerSelection.deposit.requiredAmount })
 		        .reduce(sum, 0);
 		},
 
