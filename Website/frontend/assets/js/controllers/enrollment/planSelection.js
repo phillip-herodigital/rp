@@ -18,9 +18,9 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
     });
 
     //Once a plan is selected, check through all available and see if a selection happend
-    $scope.$watchCollection('planSelection.selectedOffers', function(plan) {
-        if(typeof plan != 'undefined') { 
-            utilityProductsService.selectPlan(plan);    
+    $scope.$watchCollection('planSelection.selectedOffers', function (selectedOffers) {
+        if (typeof selectedOffers != 'undefined') {
+            utilityProductsService.selectOffers(_(selectedOffers).mapValues(function (offer) { return [offer]; }).value());
         }
     });
 

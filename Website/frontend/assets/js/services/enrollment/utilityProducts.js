@@ -153,31 +153,14 @@ ngApp.factory('utilityProductsService', ['$filter', function ($filter) {
 		 * Since only one plan can be selected per type, we simply add to [0] element
 		 * @param  {[type]} plan
 		 */
-		selectPlan: function (plan) {
-		    function getFirstMatching(arr, predicate)
-		    {
-                // TODO - replace this with a data manipulation js library if we ever use one
-		        var result;
-		        angular.forEach(arr, function (entry) {
-		            if (predicate(entry))
-		                result = entry;
-		        });
-		        return result;
-		    }
-			//Set the active plans
-			angular.forEach(plan, function(value, key) {
-				//Only adding to the first, can't have multiple plans per type
+		selectOffers: function (plans) {
+		    //Set the active plans
+		    _(plans).keys().forEach(function (key) {
+		        var offerInformationForType = _(activeServiceAddress.offerInformationByType).where({ key: key }).first();
+		        offerInformationForType.value.offerSelections = _(plans[key]).map(function (plan) { return { offerId: plan }; }).value();
+		    });
 
-			    var offerInformationForType = getFirstMatching(activeServiceAddress.offerInformationByType, function (e) { return e.key == key; });
-				if(value ==  null) {
-				    offerInformationForType.value.offerSelections.pop();
-				} else {
-				    offerInformationForType.value.offerSelections[0] = {
-						'offerId': value,
-						'optionRules': { 'optionRulesType': key }
-					};
-				}
-			});
+		    console.log(activeServiceAddress.offerInformationByType);
 		},
 
 		/**
