@@ -118,17 +118,11 @@ ngApp.factory('utilityProductsService', ['$filter', function ($filter) {
 		 * @return {Array}
 		 */
 		getSelectedPlanIds: function(location) {
-			var selectedPlans = [],
-
 			location = (typeof location == 'undefined') ? activeServiceAddress : location;
-			
-			angular.forEach(location.offerInformationByType, function (entry) {
-			    if (entry.value.offerSelections.length) {
-			        selectedPlans.push(entry.value.offerSelections[0].offerId);
-				}
-			});
 
-			return selectedPlans;
+			return _(location.offerInformationByType)
+                .map(function (offers) { return offers.value.offerSelections }).flatten()
+                .map(function (selection) { return selection.offerId; }).value();
 		},
 
 		/**
