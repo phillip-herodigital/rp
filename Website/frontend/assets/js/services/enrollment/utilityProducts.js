@@ -214,13 +214,11 @@ ngApp.factory('utilityProductsService', ['$filter', function ($filter) {
 		 */
 		addOrUpdateAddress: function (serviceInformation) {
 		    if (serviceInformation.isNewService === undefined && !this.isNewServiceAddress) {
-		        console.log(activeServiceAddress.location.capabilities);
-		        for (var i = 0; i < activeServiceAddress.location.capabilities.length; i++) {
-		            if (activeServiceAddress.location.capabilities[i].capabilityType == "ServiceStatus")
-		            {
-		                serviceInformation.location.capabilities.push(activeServiceAddress.location.capabilities[i]);
-		            }
-		        }
+		        var target = _(activeServiceAddress.location.capabilities).find({ capabilityType: "ServiceStatus" });
+                if (target) 
+                {
+                    serviceInformation.location.capabilities.push(target);
+                }
 		    }
 		    else {
 		        //Add capabilities object to the location object
@@ -233,33 +231,6 @@ ngApp.factory('utilityProductsService', ['$filter', function ($filter) {
 		        addresses.push({ location: serviceInformation.location });
 		    }
 
-		},
-
-		/**
-		 * Create the object to POST for /api/enrollment/selectedOffers
-		 * @return {Object}
-		 */
-	    createOffersPostObject: function() {
-	        //Get from the activeServiceAddress object
-	        var data = { 
-	        	'selection': []
-	        };
-
-	        angular.forEach(addresses, function (address) {
-	            var selectedPlans = [];
-	            angular.forEach(address.offerInformationByType, function (entry) {
-	                if (entry.value.offerSelections.length) {
-	                    selectedPlans.push(entry.value.offerSelections[0].offerId);
-	                }
-	            });
-
-	            data.selection.push({
-	                'location': address.location,
-	                'offerIds': selectedPlans
-	            });
-	        });
-
-	        return data;
-	    }		
+		}	
 	};
 }]);
