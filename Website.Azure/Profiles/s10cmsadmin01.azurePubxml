@@ -14,7 +14,7 @@
     <AzureEnableIntelliTrace>False</AzureEnableIntelliTrace>
     <AzureEnableProfiling>False</AzureEnableProfiling>
     <AzureServiceConfiguration>Cloud</AzureServiceConfiguration>
-    <AzureSolutionConfiguration>Release</AzureSolutionConfiguration>
+    <AzureSolutionConfiguration>Azure-Production Sitecore</AzureSolutionConfiguration>
     <AzureStorageAccountLabel>s10cmsstore01</AzureStorageAccountLabel>
     <AzureStorageAccountName>s10cmsstore01</AzureStorageAccountName>
     <AzureAppendTimestampToDeploymentLabel>True</AzureAppendTimestampToDeploymentLabel>

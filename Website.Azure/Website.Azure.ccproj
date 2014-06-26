@@ -64,5 +64,11 @@
     <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
     <CloudExtensionsDir Condition=" '$(CloudExtensionsDir)' == '' ">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Windows Azure Tools\2.3\</CloudExtensionsDir>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Azure-Production Sitecore' ">
+    <OutputPath>bin\Azure-Production Sitecore\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Azure-Production' ">
+    <OutputPath>bin\Azure-Production\</OutputPath>
+  </PropertyGroup>
   <Import Project="$(CloudExtensionsDir)Microsoft.WindowsAzure.targets" />
 </Project>

@@ -540,6 +540,9 @@
     <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.Indexes.Sharded.Web.config.example" />
     <Content Include="App_Config\Include\Sitecore.ContentSearch.VerboseLogging.config.example" />
     <Content Include="App_Config\Include\Sitecore.Mvc.config" />
+    <Content Include="App_Config\ConnectionStrings.production.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="App_Config\Include\Sitecore.MvcAnalytics.config" />
     <Content Include="App_Config\Include\Sitecore.MvcExperienceEditor.config" />
     <Content Include="App_Config\Include\Sitecore.MvcSimulator.config" />
@@ -701,6 +704,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <PublishDatabases>false</PublishDatabases>
+    <FilesToIncludeForPublish>AllFilesInProjectFolder</FilesToIncludeForPublish>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Azure-Production Sitecore|AnyCPU'">
     <OutputPath>bin\</OutputPath>
