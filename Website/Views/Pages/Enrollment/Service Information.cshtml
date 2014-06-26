@@ -43,7 +43,7 @@
                                    ng-disabled="serviceInformation.serviceState == ''"
                                    typeahead-loading="serviceInformation.loadingServiceAddress"
                                    ng-class="{'loading' : serviceInformation.loadingServiceAddress}" />
-                            <div id="state-select" dropdown-select dropdown-items="utilityService.states" value="serviceInformation.serviceState"></div>
+                            <div id="state-select" dropdown-select dropdown-items="supportedUtilityStates" value="serviceInformation.serviceState"></div>
                             @currentService.MessageFor(s => s.Location)
                         </div>
                         <div class="item">

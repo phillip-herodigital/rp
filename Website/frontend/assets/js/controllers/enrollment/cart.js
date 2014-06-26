@@ -5,7 +5,6 @@
 ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enrollmentService', 'enrollmentCartService', 'utilityProductsService', function ($scope, enrollmentStepsService, enrollmentService, enrollmentCartService, utilityProductsService) {
     
     /*$scope.enrollmentStepsService = enrollmentStepsService;
-    $scope.utilityService = utilityProductsService;
     $scope.accountInformationService = accountInformationService;*/
 
     $scope.getPlans = enrollmentCartService.getPlans;

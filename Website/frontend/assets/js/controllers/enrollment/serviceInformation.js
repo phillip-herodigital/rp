@@ -3,8 +3,6 @@
  * This is used to control aspects of let's get started on enrollment page.
  */
 ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$filter', 'enrollmentService', 'utilityProductsService', function ($scope, $location, $filter, enrollmentService, utilityProductsService) {
-    $scope.utilityService = utilityProductsService;
-
     //Set the default service information
     $scope.serviceInformation = utilityProductsService.getServiceInformationObject();
 

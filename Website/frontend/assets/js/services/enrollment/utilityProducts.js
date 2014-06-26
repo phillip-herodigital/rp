@@ -2,48 +2,10 @@ ngApp.factory('utilityProductsService', ['$filter', function ($filter) {
 	var addresses = [],
 		activeServiceAddress = {},
 		availableOfferTypes = [],
-		isNewServiceAddress = true,
-    	states = [
-        {
-            'class': 'icon texas',
-            'name': 'Texas',
-            'value': 'TX'
-        },
-        {
-            'class': 'icon georgia',
-            'name': 'Georgia',
-            'value': 'GA'
-        },
-        {
-            'class': 'icon pennsylvania',
-            'name': 'Pennsylvania',
-            'value': 'PA'
-        },
-        {
-            'class': 'icon maryland',
-            'name': 'Maryland',
-            'value': 'MD'
-        },
-        {
-            'class': 'icon new-jersey',
-            'name': 'New Jersey',
-            'value': 'NJ'
-        },
-        {
-            'class': 'icon new-york',
-            'name': 'New York',
-            'value': 'NY'
-        },
-        {
-            'class': 'icon washington-dc',
-            'name': 'Washington, DC',
-            'value': 'DC'
-        }
-    ];
+		isNewServiceAddress = true;
 
 	return {
 		addresses: addresses,
-		states: states,
 		isNewServiceAddress: isNewServiceAddress,
 		
 		/**
