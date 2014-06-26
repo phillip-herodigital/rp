@@ -205,10 +205,14 @@ namespace StreamEnergy.MyStream.Controllers
                     }
                 }
 
-                if (string.IsNullOrEmpty(model.RepId) && model.CustomerAccount != null && !string.IsNullOrEmpty(model.CustomerAccount.CisAccountNumber))
+                try
                 {
-                    model.RepId = accountService.GetIgniteAssociateFromCustomerNumber("Ignite", "3t8sh8f3sg", model.CustomerAccount.CisAccountNumber);
+                    if (string.IsNullOrEmpty(model.RepId) && model.CustomerAccount != null && !string.IsNullOrEmpty(model.CustomerAccount.CisAccountNumber))
+                    {
+                        model.RepId = accountService.GetIgniteAssociateFromCustomerNumber("Ignite", "3t8sh8f3sg", model.CustomerAccount.CisAccountNumber);
+                    }
                 }
+                catch (Exception) { }
             }
 
             return View("~/Views/Pages/Marketing/Services/HomeLife Services.cshtml", model);
