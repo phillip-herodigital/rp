@@ -12,8 +12,8 @@
             model.assign(scope, function () {
                 scrollTop = $window.scrollTop();
                 anchorTop = element.offset().top;
-                var watch = scope.$watch(function () { return element.offset().top; }, function () {
-                    $window.scrollTop(scrollTop - anchorTop + element.offset().top);
+                var watch = scope.$watch(function () { return Math.floor(element.offset().top); }, function () {
+                    $window.scrollTop(Math.floor(scrollTop - anchorTop + element.offset().top));
                 });
                 $timeout(function () {
                     watch();
