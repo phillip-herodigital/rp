@@ -647,7 +647,9 @@
     <Content Include="Views\Pages\Marketing\Paperless\Paperless Page.cshtml" />
     <Content Include="Views\Pages\Marketing\Services\Gas.cshtml" />
     <Content Include="Views\Pages\Marketing\Services\Electricity.cshtml" />
-    <Content Include="App_Config\Prefetch\Webdb.config" />
+    <Content Include="App_Config\Prefetch\Webdb.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Properties\PublishProfiles\Azure - Production.pubxml" />
     <None Include="Properties\PublishProfiles\Azure - Production Sitecore.pubxml" />
     <None Include="Properties\PublishProfiles\Azure - VM - my-stream-prod.pubxml" />
@@ -675,9 +677,11 @@
     <Content Include="Views\Components\Account\Profile\Enrolled Accounts.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </None>
     <None Include="Web.Azure-Production.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </None>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -704,7 +708,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <PublishDatabases>false</PublishDatabases>
-    <FilesToIncludeForPublish>AllFilesInProjectFolder</FilesToIncludeForPublish>
+    <FilesToIncludeForPublish>AllFilesInTheProject</FilesToIncludeForPublish>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Azure-Production Sitecore|AnyCPU'">
     <OutputPath>bin\</OutputPath>
