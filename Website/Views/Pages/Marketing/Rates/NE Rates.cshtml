@@ -11,7 +11,9 @@
                     where field.Name.EndsWith("Utility Title")
                     select field.Name.Replace("Utility Title", "");
 
-    var gasUtilities = (Sitecore.Data.Fields.MultilistField)Html.Sitecore().CurrentItem.Fields["Gas Utilities"];
+    var gasUtilities = from utility in ((Sitecore.Data.Fields.MultilistField)Html.Sitecore().CurrentItem.Fields["Gas Utilities"]).Items
+                       let item = Sitecore.Context.Database.GetItem(new Sitecore.Data.ID(new Guid(utility)))
+                       select item.Name;
     var tables = from utility in utilities
                  select new
                  {
