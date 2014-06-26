@@ -1,6 +1,6 @@
 ﻿@{
     System.Web.HtmlString pageHeader = null;
-    IEnumerable<Sitecore.Data.Items.Item> itemsToShow = Html.Sitecore().CurrentItem.Children.OrderByDescending(i => ((Sitecore.Data.Fields.DateField)i.Fields["Date"]).DateTime);
+    IEnumerable<Sitecore.Data.Items.Item> itemsToShow = Html.Sitecore().CurrentItem.Children.OrderByDescending(i => ((Sitecore.Data.Fields.DateField)i.Fields["Date"]).DateTime).ToArray();
     IEnumerable<KeyValuePair<Sitecore.Data.Items.Item, List<Sitecore.Data.Items.Item>>> categories = null;
     var cats = new List<KeyValuePair<Sitecore.Data.Items.Item, List<Sitecore.Data.Items.Item>>>();
     foreach (Sitecore.Data.Items.Item item in itemsToShow)
