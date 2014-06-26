@@ -22,7 +22,17 @@ namespace StreamEnergy.Pipelines
             bundles.Add(new StyleBundle("~/bundles/Styles")
                 .Include("~/frontend/assets/css/*.css"));
 
-            bundles.Add(new ScriptBundle("~/bundles/Scripts") { Orderer = new NoChangeOrderer() }
+            bundles.Add(CommonScripts(new ScriptBundle("~/bundles/Scripts")
+                .Include("~/frontend/assets/js/libs/lodash/lodash.js")));
+            bundles.Add(CommonScripts(new ScriptBundle("~/bundles/LegacyScripts")
+                .Include("~/frontend/assets/js/libs/lodash/lodash.compat.js")));
+        }
+
+        private Bundle CommonScripts(Bundle scriptBundle)
+        {
+            scriptBundle.Orderer = new NoChangeOrderer();
+
+            return scriptBundle
                 .Include("~/frontend/assets/js/libs/modernizr/modernizr.js")
                 .Include("~/frontend/assets/js/libs/respond/dest/respond.min.js")
                 .Include("~/frontend/assets/js/libs/jquery/dist/jquery.min.js")
@@ -31,7 +41,7 @@ namespace StreamEnergy.Pipelines
                 .Include("~/frontend/assets/js/libs/angular/angular.min.js")
                 .Include("~/frontend/assets/js/libs/angular-bootstrap/ui-bootstrap-tpls.min.js")
                 .Include("~/frontend/assets/js/libs/angular-ui-utils/ui-utils.min.js")
-                .Include("~/frontend/assets/js/libs/angular-ui-slider/src/slider.js")    
+                .Include("~/frontend/assets/js/libs/angular-ui-slider/src/slider.js")
                 .Include("~/frontend/assets/js/app.js")
                 .IncludeDirectory("~/frontend/assets/js/modules/", "*.js", true)
                 .IncludeDirectory("~/frontend/assets/js/providers/", "*.js", true)
@@ -39,7 +49,7 @@ namespace StreamEnergy.Pipelines
                 .IncludeDirectory("~/frontend/assets/js/services/", "*.js", true)
                 .IncludeDirectory("~/frontend/assets/js/filters/", "*.js", true)
                 .IncludeDirectory("~/frontend/assets/js/directives/", "*.js", true)
-                .IncludeDirectory("~/frontend/assets/js/controllers/", "*.js", true));
+                .IncludeDirectory("~/frontend/assets/js/controllers/", "*.js", true);
         }
     }
 }

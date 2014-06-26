@@ -112,79 +112,41 @@ ngApp.factory('utilityProductsService', ['$filter', function ($filter) {
 		},
 
 		/**
-		 * Get an array of the available offer types for the current service address
-		 * @return {[type]}
-		 */
-		getAvailableOfferTypes: function() {
-			availableOfferTypes = [];
-			angular.forEach(activeServiceAddress.offerInformationByType, function(entry) {
-				availableOfferTypes.push(entry.key);
-			});
-
-			return availableOfferTypes;
-		},
-
-		/**
 		 * Get an array of the selected plan IDs for the current service address
 		 * @param  {Object} location Address to get selected plan IDs for. If not provided
 		 *                           default to activeServiceAddress
 		 * @return {Array}
 		 */
 		getSelectedPlanIds: function(location) {
-			var selectedPlans = [],
-
-			location = (typeof location == 'undefined') ? activeServiceAddress : location;
-			
-			angular.forEach(location.offerInformationByType, function (entry) {
-			    if (entry.value.offerSelections.length) {
-			        selectedPlans.push(entry.value.offerSelections[0].offerId);
-				}
-			});
-
-			return selectedPlans;
-		},
-
-		/**
-		 * Get an array of the selected plan types for the current service address
-		 * @param  {Object} location Address to get selected plan IDs for. If not provided
-		 *                           default to activeServiceAddress
-		 * @return {Array}
-		 */
-		getSelectedPlanTypes: function(location) {
-			var selectedPlans = [];
-
 			location = (typeof location == 'undefined') ? activeServiceAddress : location;
 
-			angular.forEach(location.offerInformationByType, function(entry) {
-			    if (entry.value.offerSelections.length) {
-			        selectedPlans.push(entry.value.offerSelections[0].optionRules.optionRulesType);
-				}
-			});
-
-			return selectedPlans;
+			return _(location.offerInformationByType)
+                .map(function (offers) { return offers.value.offerSelections }).flatten()
+                .map(function (selection) { return selection.offerId; }).value();
 		},
 
 		/**
 		 * Return the selected plans, with details, for the location
 		 * @return {[Object]} An object with the selected plans details and offer types as keys
 		 */
+        // TODO - eliminate this
 		getSelectedPlans: function(location) {
-			var selectedPlans = {};
+		    var selectedPlans = {};
 
-			if(location.offerInformationByType) {
-				angular.forEach(location.offerInformationByType, function(offers, index) {
-					if(offers.value.offerSelections.length) {
-						angular.forEach(offers.value.availableOffers, function(availableOffer) {
-							if(availableOffer.id == offers.value.offerSelections[0].offerId) {
-								selectedPlans[offers.key] = availableOffer;
-								selectedPlans[offers.key].selectionDetails = offers.value.offerSelections[0];
-							}
-						});
-					}
-				});
-			}
-			
-			return selectedPlans;
+		    if(location.offerInformationByType) {
+		        angular.forEach(location.offerInformationByType, function(offers, index) {
+		            if(offers.value.offerSelections.length) {
+		                angular.forEach(offers.value.availableOffers, function(availableOffer) {
+		                    if(availableOffer.id == offers.value.offerSelections[0].offerId) {
+		                        selectedPlans[offers.key] = availableOffer;
+		                        selectedPlans[offers.key].selectionDetails = offers.value.offerSelections[0];
+		                    }
+		                });
+		            }
+		        });
+		    }
+
+		    return selectedPlans;
 		},
 
 		/**
@@ -192,31 +154,14 @@ ngApp.factory('utilityProductsService', ['$filter', function ($filter) {
 		 * Since only one plan can be selected per type, we simply add to [0] element
 		 * @param  {[type]} plan
 		 */
-		selectPlan: function (plan) {
-		    function getFirstMatching(arr, predicate)
-		    {
-                // TODO - replace this with a data manipulation js library if we ever use one
-		        var result;
-		        angular.forEach(arr, function (entry) {
-		            if (predicate(entry))
-		                result = entry;
-		        });
-		        return result;
-		    }
-			//Set the active plans
-			angular.forEach(plan, function(value, key) {
-				//Only adding to the first, can't have multiple plans per type
+		selectOffers: function (plans) {
+		    //Set the active plans
+		    _(plans).keys().forEach(function (key) {
+		        var offerInformationForType = _(activeServiceAddress.offerInformationByType).where({ key: key }).first();
+		        offerInformationForType.value.offerSelections = _(plans[key]).map(function (plan) { return { offerId: plan }; }).value();
+		    });
 
-			    var offerInformationForType = getFirstMatching(activeServiceAddress.offerInformationByType, function (e) { return e.key == key; });
-				if(value ==  null) {
-				    offerInformationForType.value.offerSelections.pop();
-				} else {
-				    offerInformationForType.value.offerSelections[0] = {
-						'offerId': value,
-						'optionRules': { 'optionRulesType': key }
-					};
-				}
-			});
+		    console.log(activeServiceAddress.offerInformationByType);
 		},
 
 		/**
@@ -269,13 +214,11 @@ ngApp.factory('utilityProductsService', ['$filter', function ($filter) {
 		 */
 		addOrUpdateAddress: function (serviceInformation) {
 		    if (serviceInformation.isNewService === undefined && !this.isNewServiceAddress) {
-		        console.log(activeServiceAddress.location.capabilities);
-		        for (var i = 0; i < activeServiceAddress.location.capabilities.length; i++) {
-		            if (activeServiceAddress.location.capabilities[i].capabilityType == "ServiceStatus")
-		            {
-		                serviceInformation.location.capabilities.push(activeServiceAddress.location.capabilities[i]);
-		            }
-		        }
+		        var target = _(activeServiceAddress.location.capabilities).find({ capabilityType: "ServiceStatus" });
+                if (target) 
+                {
+                    serviceInformation.location.capabilities.push(target);
+                }
 		    }
 		    else {
 		        //Add capabilities object to the location object
@@ -288,33 +231,6 @@ ngApp.factory('utilityProductsService', ['$filter', function ($filter) {
 		        addresses.push({ location: serviceInformation.location });
 		    }
 
-		},
-
-		/**
-		 * Create the object to POST for /api/enrollment/selectedOffers
-		 * @return {Object}
-		 */
-	    createOffersPostObject: function() {
-	        //Get from the activeServiceAddress object
-	        var data = { 
-	        	'selection': []
-	        };
-
-	        angular.forEach(addresses, function (address) {
-	            var selectedPlans = [];
-	            angular.forEach(address.offerInformationByType, function (entry) {
-	                if (entry.value.offerSelections.length) {
-	                    selectedPlans.push(entry.value.offerSelections[0].offerId);
-	                }
-	            });
-
-	            data.selection.push({
-	                'location': address.location,
-	                'offerIds': selectedPlans
-	            });
-	        });
-
-	        return data;
-	    }		
+		}	
 	};
 }]);

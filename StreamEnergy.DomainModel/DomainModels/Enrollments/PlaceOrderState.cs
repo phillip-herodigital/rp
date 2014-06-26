@@ -17,6 +17,12 @@ namespace StreamEnergy.DomainModels.Enrollments
         protected override Type InternalProcess(UserContext context, InternalContext internalContext)
         {
             // TODO - place order
+
+            if (context.OnlineAccount != null)
+            {
+                // TODO - create online account
+            }
+
             return base.InternalProcess(context, internalContext);
         }
     }

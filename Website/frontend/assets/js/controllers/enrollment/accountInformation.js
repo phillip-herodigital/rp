@@ -4,8 +4,6 @@
  */
 ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentService', 'utilityProductsService', 'enrollmentCartService', function ($scope, enrollmentService, utilityProductsService, enrollmentCartService) {
     $scope.utilityProducts = utilityProductsService;
-    $scope.usStates = enrollmentService.usStates;
-    $scope.phoneTypes = enrollmentService.phoneTypes;
     $scope.accountInformation = enrollmentService.accountInformation;
 
     /**

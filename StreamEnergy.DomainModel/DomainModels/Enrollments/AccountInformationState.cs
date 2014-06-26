@@ -25,6 +25,7 @@ namespace StreamEnergy.DomainModels.Enrollments
             yield return context => context.SecondaryContactInfo;
             yield return context => context.SocialSecurityNumber;
             yield return context => context.DriversLicense;
+            yield return context => context.OnlineAccount;
         }
 
         public override void Sanitize(UserContext context, InternalContext internalContext)

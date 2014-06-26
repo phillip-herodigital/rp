@@ -1,4 +1,5 @@
 ngApp.factory('enrollmentCartService', ['enrollmentStepsService', 'utilityProductsService', function (enrollmentStepsService, utilityProductsService) {
+    var sum = function (sum, item) { return sum + item; }
 
 	return {
 		getPlans: utilityProductsService.getSelectedPlans,
@@ -8,14 +9,11 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', 'utilityProduc
 		 * @return {[type]} [description]
 		 */
 		getCartCount: function() {
-			var count = 0;
 
-			//Get the count for all utility products
-			angular.forEach(utilityProductsService.addresses, function(address, index) {
-				count += utilityProductsService.getSelectedPlanIds(address).length; 
-			});
-			
-			return count;
+		    //Get the count for all utility products
+		    return _(utilityProductsService.addresses)
+                .map(function (address) { return utilityProductsService.getSelectedPlanIds(address).length; })
+                .reduce(sum, 0);
 		},
 
 		/**
@@ -32,26 +30,11 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', 'utilityProduc
 		 * @return {[type]} [description]
 		 */
 		calculateCartTotal: function () {
-		    var total = 0;
-		    if (utilityProductsService.addresses) {
-		        for (var i = 0; i < utilityProductsService.addresses.length; i++) {
-		            var address = utilityProductsService.addresses[i];
-		            if (address.offerInformationByType) {
-		                for (var j = 0; j < address.offerInformationByType.length; j++) {
-		                    var offerInformation = address.offerInformationByType[j];
-		                    if (offerInformation.value && offerInformation.value.offerSelections) {
-		                        for (var k = 0; k < offerInformation.value.offerSelections.length; k++) {
-		                            var offerSelection = offerInformation.value.offerSelections[k];
-		                            if (offerSelection.deposit && offerSelection.deposit.requiredAmount) {
-		                                total += offerSelection.deposit.requiredAmount;
-		                            }
-		                        }
-		                    }
-		                }
-		            }
-		        }
-		    }
-		    return total;
+		    return _(utilityProductsService.addresses)
+                .map(function (address) { return address.offerInformationByType; }).flatten()
+		        .map(function (offerInformation) { return offerInformation && offerInformation.value && offerInformation.value.offerSelections; }).flatten()
+		        .map(function (offerSelection) { return offerSelection && offerSelection.deposit && offerSelection.deposit.requiredAmount })
+		        .reduce(sum, 0);
 		},
 
 		/**
