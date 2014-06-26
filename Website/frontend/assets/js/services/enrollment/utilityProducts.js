@@ -129,23 +129,24 @@ ngApp.factory('utilityProductsService', ['$filter', function ($filter) {
 		 * Return the selected plans, with details, for the location
 		 * @return {[Object]} An object with the selected plans details and offer types as keys
 		 */
+        // TODO - eliminate this
 		getSelectedPlans: function(location) {
-			var selectedPlans = {};
+		    var selectedPlans = {};
 
-			if(location.offerInformationByType) {
-				angular.forEach(location.offerInformationByType, function(offers, index) {
-					if(offers.value.offerSelections.length) {
-						angular.forEach(offers.value.availableOffers, function(availableOffer) {
-							if(availableOffer.id == offers.value.offerSelections[0].offerId) {
-								selectedPlans[offers.key] = availableOffer;
-								selectedPlans[offers.key].selectionDetails = offers.value.offerSelections[0];
-							}
-						});
-					}
-				});
-			}
-			
-			return selectedPlans;
+		    if(location.offerInformationByType) {
+		        angular.forEach(location.offerInformationByType, function(offers, index) {
+		            if(offers.value.offerSelections.length) {
+		                angular.forEach(offers.value.availableOffers, function(availableOffer) {
+		                    if(availableOffer.id == offers.value.offerSelections[0].offerId) {
+		                        selectedPlans[offers.key] = availableOffer;
+		                        selectedPlans[offers.key].selectionDetails = offers.value.offerSelections[0];
+		                    }
+		                });
+		            }
+		        });
+		    }
+
+		    return selectedPlans;
 		},
 
 		/**
