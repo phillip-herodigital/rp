@@ -48,6 +48,22 @@ ngApp.filter('address', function() {
 	};
 });
 
+ngApp.filter('phone', function () {
+    return function (phone) {
+        var formattedPhone = '';
+
+        if (!phone) {
+            return;
+        }
+
+        phone = phone.replace(/[^0-9]/g, '');
+        formattedPhone = phone.replace(/^([0-9]{3})([0-9]{3})([0-9]{4})$/, '$1-$2-$3');
+
+
+        return formattedPhone;
+    };
+});
+
 
 ngApp.filter('objectAsArray', function () {
     return function (input) {

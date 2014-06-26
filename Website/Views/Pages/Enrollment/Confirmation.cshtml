@@ -64,7 +64,7 @@
                         <dt>@Html.Sitecore().Field("Last Name")</dt>
                         <dd>{{ accountInformation.contactInfo.name.last }}</dd>
                         <dt>@Html.Sitecore().Field("Phone Number")</dt>
-                        <dd>{{ accountInformation.contactInfo.phone[0].number }}</dd>
+                        <dd>{{ accountInformation.contactInfo.phone[0].number | phone }}</dd>
                         <dt>@Html.Sitecore().Field("Email")</dt>
                         <dd>{{ accountInformation.contactInfo.email.address }}</dd>
                     </dl>
