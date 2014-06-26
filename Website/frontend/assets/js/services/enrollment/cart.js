@@ -1,5 +1,5 @@
 ngApp.factory('enrollmentCartService', ['enrollmentStepsService', 'utilityProductsService', function (enrollmentStepsService, utilityProductsService) {
-    var sum = function (arr, itemSelector) { return _.reduce(arr || [], function (sum, item) { return sum + itemSelector(item); }); };
+    var sum = function (sum, item) { return sum + item; }
 
 	return {
 		getPlans: utilityProductsService.getSelectedPlans,
@@ -11,7 +11,9 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', 'utilityProduc
 		getCartCount: function() {
 
 		    //Get the count for all utility products
-			return sum(utilityProductsService.addresses, function (address) { return utilityProductsService.getSelectedPlanIds(address).length; });
+		    return _(utilityProductsService.addresses)
+                .map(function (address) { return utilityProductsService.getSelectedPlanIds(address).length; })
+                .reduce(sum, 0);
 		},
 
 		/**
@@ -28,16 +30,11 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', 'utilityProduc
 		 * @return {[type]} [description]
 		 */
 		calculateCartTotal: function () {
-		    return sum(utilityProductsService.addresses,
-                function (addr) {
-                    return sum(address.offerInformationByType, function (offerInformation) {
-                        if (!offerInformation.value)
-                            return 0;
-                        return sum(offerInformation.value.offerSelections, function (offerSelection) {
-                            return offerSelection.deposit && offerSelection.deposit.requiredAmount ? offerSelection.deposit.requiredAmount : 0;
-                        })
-                    })
-                });
+		    return _(utilityProductsService.addresses)
+                .map(function (address) { return address.offerInformationByType; }).flatten()
+		        .map(function (offerInformation) { return offerInformation.value && offerInformation.value.offerSelections; }).flatten()
+		        .map(function (offerSelection) { return offerSelection.deposit && offerSelection.deposit.requiredAmount })
+		        .reduce(sum, 0);
 		},
 
 		/**
