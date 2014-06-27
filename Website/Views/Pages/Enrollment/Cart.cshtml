@@ -1,5 +1,5 @@
 ﻿<script type="text/ng-template" id="cart-template">
-    <article class="cart" ng-controller="EnrollmentCartCtrl">
+    <article class="cart" ng-controller="EnrollmentCartCtrl" scroll-anchor="scrollFix">
         <header>
             <div class="cart-items">
                 <i class="icon-cart"></i>
@@ -23,7 +23,7 @@
                     <div ng-if="offerInformation.key == 'TexasElectricity'">
                         <h3>Electricity</h3>
                         <div class="cart-item" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
-                            <div class="delete" ng-click="deleteUtilityPlan(location, selectedOffer)">
+                            <div class="delete" ng-click="scrollFix(); deleteUtilityPlan(location, selectedOffer)">
                                 <i class="icon-delete"></i>
                             </div>
                             <div class="description">
@@ -36,14 +36,14 @@
                             </div>
                         </div>
                         @*
-                <div class="cart-item" ng-show="plan.deposit">
-                    <div class="description">
-                        <h2>{{ plan.deposit.description }}</h2>
-                    </div>
-                    <div class="rate">
-                        {{ plan.deposit.requiredAmount | currency }}
-                    </div>
-                </div>
+                            <div class="cart-item" ng-show="plan.deposit">
+                                <div class="description">
+                                    <h2>{{ plan.deposit.description }}</h2>
+                                </div>
+                                <div class="rate">
+                                    {{ plan.deposit.requiredAmount | currency }}
+                                </div>
+                            </div>
                         *@
                     </div>
                 </div>
