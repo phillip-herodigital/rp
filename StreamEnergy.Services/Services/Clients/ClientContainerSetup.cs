@@ -34,7 +34,7 @@ namespace StreamEnergy.Services.Clients
         {
             RegisterService<Sample.Temperature.TempConvertSoap>(unityContainer, new Sample.Temperature.TempConvertSoapClient(new System.ServiceModel.BasicHttpBinding(), new System.ServiceModel.EndpointAddress("http://www.w3schools.com/webservices/tempconvert.asmx")));
             RegisterService<Sample.Commons.SampleStreamCommonsSoap>(unityContainer, new Sample.Commons.SampleStreamCommonsSoapClient(new System.ServiceModel.BasicHttpBinding(), new System.ServiceModel.EndpointAddress("http://www.example.com/webservices")));
-            RegisterService<StreamEnergy.Dpi.DPILinkSoap>(unityContainer, new StreamEnergy.Dpi.DPILinkSoapClient(new System.ServiceModel.BasicHttpBinding(), new System.ServiceModel.EndpointAddress("http://uat.soap.dataparadigm.com:6080/dpilink.asmx?WSDL")));
+            RegisterService<StreamEnergy.Dpi.DPILinkSoap>(unityContainer, new StreamEnergy.Dpi.DPILinkSoapClient(new System.ServiceModel.BasicHttpBinding(), new System.ServiceModel.EndpointAddress("https://live.soap.dataparadigm.com:6080/dpilink.asmx?WSDL")));
 
             var CisAccountServicesPortTypeClient = new StreamCommons.Account.CisAccountServicesPortTypeClient(new System.ServiceModel.BasicHttpsBinding(), new System.ServiceModel.EndpointAddress("https://sgecom.datx.streamenergy.net/CisAccountServices/WebServices/SoapServer.php?wsdl"));
             CisAccountServicesPortTypeClient.ChannelFactory.Endpoint.EndpointBehaviors.Add(new AddAuthenticationHeaderBehavior("mystream", "R|38ULt6w1@o55v"));

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ServiceConfiguration serviceName="Website.Azure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="4" osVersion="*" schemaVersion="2014-01.2.3">
   <Role name="Website">
-    <Instances count="1" />
+    <Instances count="3" />
     <ConfigurationSettings>
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=devtestvhds81c8a9a1cb4c;AccountKey=Mg0cvcP4tVsVpMaX1YnU0dXR2oeai8WHx4n8PHA0+UWdUQPbD3Tb2o6dE1x7azYFJCGScsVk59a+ZwtIuZihhw==" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled" value="true" />
@@ -12,6 +12,7 @@
     </ConfigurationSettings>
     <Certificates>
       <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="DA883DD8482B1E989AC800A2BFCF005152C40DE7" thumbprintAlgorithm="sha1" />
+      <Certificate name="StreamCertificate" thumbprint="47F23842A876E9ABCA7202FA52EED200F01E95AD" thumbprintAlgorithm="sha1" />
     </Certificates>
   </Role>
   <NetworkConfiguration>
@@ -22,6 +23,9 @@
           <Subnet name="Sitecore_Web" />
         </Subnets>
       </InstanceAddress>
+      <ReservedIPs>
+        <ReservedIP name="s10cmsweb01_public"/>
+      </ReservedIPs>
     </AddressAssignments>
   </NetworkConfiguration>
 </ServiceConfiguration>
