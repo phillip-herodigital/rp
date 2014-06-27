@@ -338,6 +338,9 @@ article.plain {
 			}
 		}
 	}
+	.cols-2 & {
+		width: auto;
+	}
 }
 
 article.account {
