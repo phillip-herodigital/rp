@@ -1,6 +1,6 @@
 @model StreamEnergy.DomainModels.Enrollments.UserContext
 <div id="verifyIdentity" class="enrollment" ng-show="stepsService.isStepVisible('verifyIdentity')" ng-controller="EnrollmentVerifyIdentityCtrl">    
-    <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
+    <div class="banner enrollment__banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper clearfix">
             <h1>
                 <span class="small block">@Html.Sitecore().Field("Banner Header Text")</span><br>

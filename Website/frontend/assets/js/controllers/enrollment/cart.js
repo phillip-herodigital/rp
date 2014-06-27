@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of the cart on enrollment page.
  */
-ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enrollmentService', 'enrollmentCartService', 'utilityProductsService', function ($scope, enrollmentStepsService, enrollmentService, enrollmentCartService, utilityProductsService) {
+ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enrollmentService', 'enrollmentCartService', function ($scope, enrollmentStepsService, enrollmentService, enrollmentCartService) {
     
     /*$scope.enrollmentStepsService = enrollmentStepsService;
     $scope.accountInformationService = accountInformationService;*/
@@ -13,17 +13,17 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     /**
     * Change Plan
     */
-    $scope.changeUtilityPlan = function (location) {
+    $scope.changeUtilityPlan = function (service) {
         //update active service address, send to the correct page
-        enrollmentCartService.editUtilityAddress(location);
+        enrollmentCartService.setActiveService(service);
         enrollmentStepsService.setFlow('utility', false).setStep('utilityFlowPlans');
     };
 
     /**
     * Edit Address
     */
-    $scope.editUtilityAddress = function (location) {
-        enrollmentCartService.editUtilityAddress(location);
+    $scope.editUtilityAddress = function (service) {
+        enrollmentCartService.setActiveService(service);
         enrollmentStepsService.setFlow('utility', false).setStep('utilityFlowService');
         //we should probably focus on the input field as well
     };
@@ -31,34 +31,8 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     /**
     * Delete item from cart
     */
-    $scope.deleteUtilityPlan = function (location, selectedOffer) {
-        var offerInformationTypeIndex;
-        var offerSelections;
-        for (var i = 0; i < location.offerInformationByType.length; i++) {
-            if (location.offerInformationByType[i].key == plan.offer.offerType) {
-                offerInformationTypeIndex = i;
-                offerSelections = location.offerInformationByType[i].value.offerSelections;
-            }
-        }
-        for (var i = 0; i < offerSelections.length; i++) {
-            if (offerSelections[i] == selectedOffer) {
-                offerSelections.splice(i, 1);
-                i--;
-            }
-        }
-        if (offerSelections.length == 0) {
-            location.offerInformationByType.splice(offerInformationTypeIndex, 1);
-            if (location.offerInformationByType.length == 0) {
-                // remove location
-                var addresses = utilityProductsService.getAddresses();
-                for (var i = 0; i < addresses.length; i++) {
-                    if (addresses[i] == location) {
-                        addresses.splice(i, 1);
-                        i--;
-                    }
-                }
-            }
-        }
+    $scope.deleteUtilityPlan = function (service, selectedOffer) {
+        enrollmentCartService.removeOffer(service, selectedOffer);
         enrollmentService.setSelectedOffers();
     };
 }]);

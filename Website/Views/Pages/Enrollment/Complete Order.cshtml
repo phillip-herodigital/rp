@@ -1,6 +1,6 @@
 @model StreamEnergy.DomainModels.Enrollments.UserContext
 <div id="reviewOrder" class="enrollment accent-darkgreen" ng-show="stepsService.isStepVisible('reviewOrder')" ng-controller="EnrollmentCompleteOrderCtrl">
-    <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
+    <div class="banner enrollment__banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper clearfix">
             <h1>
                 <span class="small block">@Html.Sitecore().Field("Add Payment")</span><br>
@@ -13,13 +13,14 @@
             <div ng-include ng-if="true" src="'enrollment-nav-template'"></div>
         </aside>
         <section>
-            <h1>@Html.Sitecore().Field("Add Payment Information")</h1>
-            <p>@Html.Sitecore().Field("Payment Due")</p>
-
             <article class="form enrollment__box enrollment__review-order">
+                <header>
+                    <h1>@Html.Sitecore().Field("Add Payment Information")</h1>
+                </header>
                 <div class="content">
+                    <p>@Html.Sitecore().Field("Payment Due")</p>
                     <div ng-repeat="(id, location) in getCartItems()">
-                        <div class="item">
+                        <div class="item item--no-input">
                             <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
                             <strong>{{ location.location.address | address }}</strong>
                         </div>
@@ -137,7 +138,7 @@
             <div class="enrollment__cart">
                 <article class="enrollment__box" ng-controller="EnrollmentCartCtrl">
                     <header>
-                        <h1>@Html.Sitecore().Field("Cart Header")</h1>
+                        <h1>Order Breakdown @Html.Sitecore().Field("Cart Header")</h1>
                     </header>
                     <div class="content">
                         <p><strong>To be billed today:</strong></p>
@@ -180,18 +181,6 @@
                         
                         <p><strong>To be billed monthly:</strong></p>
                         <hr />
-                        <div class="box time">
-                            <i class="icon-clock"></i>
-                            @Html.Sitecore().Field("Time Remaining")
-                        </div>
-                        @Html.Sitecore().Field("Documents Description")
-                        <ul class="info">
-                            <li><i class="icon-home"></i> @Html.Sitecore().Field("Documents Service Address")</li>
-                            <li><i class="icon-bill"></i> @Html.Sitecore().Field("Documents Billing Account Number")</li>
-                            <li><i class="icon-utility-provider"></i> @Html.Sitecore().Field("Documents Utility Provider")</li>
-                            <li><i class="icon-ssn"></i> @Html.Sitecore().Field("Documents Social Security Number")</li>
-                            <li><i class="icon-drivers-license"></i> @Html.Sitecore().Field("Documents Drivers License Number")</li>
-                        </ul>
                     </div>
                 </article>
             </div>

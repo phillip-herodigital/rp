@@ -6,7 +6,7 @@
             <p>@Html.Sitecore().Field("Confirmation Paragraph")</p>
             <p>@Html.Sitecore().Field("Confirmation Number")</p>
 
-            <article class="verify-order">
+            <article class="verify-order enrollment__box">
                 <div class="form content">
                     <div ng-repeat="(id, service) in getCartItems()">
                         <div class="item item--no-input">
@@ -26,9 +26,9 @@
                 </div>
             </article>
 
-            <article class="white-box">
+            <article class="enrollment__box">
                 <header>
-                    <h2>@Html.Sitecore().Field("Personal Information Header")</h2>                    
+                    <h1>@Html.Sitecore().Field("Personal Information Header")</h1>                    
                 </header>
                 <div class="content">
                     <dl>
@@ -44,9 +44,9 @@
                 </div>
             </article>
 
-            <article class="white-box">
+            <article class="enrollment__box">
                 <header>
-                    <h2>@Html.Sitecore().Field("Next Steps Header")</h2>
+                    <h1>@Html.Sitecore().Field("Next Steps Header")</h1>
                 </header>
                 <div class="promo-box horizontal content">
                     <h3>@Html.Sitecore().Field("Account Tour")</h3>

@@ -351,30 +351,6 @@ $enrollment-module-vertical-padding: 20px;
         border: none;
         border-top: 1px solid #ddd;
     } 
-    .total {
-        text-align: right;
-    }
-    .verify-order-table {
-        .sub-charge { 
-            padding-left: 30px;
-        }
-        .rate {
-            text-align: right;
-        }
-        h4 { 
-            margin: 0;
-        }
-        th, td {
-            border: none;
-            padding: 8px 0;
-            vertical-align: top;
-        }
-        tr:last-child {
-            td {
-                padding-bottom: 0;
-            }
-        }
-    }
 }
 
 /*
@@ -776,6 +752,32 @@ $enrollment-module-vertical-padding: 20px;
             li {
             }
         }
+    }
+
+    .verify-order-table {
+        .sub-charge { 
+            padding-left: 30px;
+        }
+        .rate {
+            text-align: right;
+        }
+        h4 { 
+            margin: 0;
+        }
+        th, td {
+            border: none;
+            padding: 8px 0;
+            vertical-align: top;
+        }
+        tr:last-child {
+            td {
+                padding-bottom: 0;
+            }
+        }
+    }
+
+    .total {
+        text-align: right;
     }
 
     @each $theme in $themes {

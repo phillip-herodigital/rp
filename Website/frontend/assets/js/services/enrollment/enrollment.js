@@ -1,4 +1,4 @@
-﻿ngApp.factory('enrollmentService', ['$rootScope', '$http', '$q', 'utilityProductsService', 'enrollmentStepsService', function ($rootScope, $http, $q, utilityProductsService, enrollmentStepsService) {
+﻿ngApp.factory('enrollmentService', ['$rootScope', '$http', '$q', 'enrollmentStepsService', 'enrollmentCartService', function ($rootScope, $http, $q, enrollmentStepsService, enrollmentCartService) {
 
     var service = {},
         urlPrefix = '/api/enrollment/';
@@ -28,13 +28,13 @@
     };
     service.identityQuestions = [];
 
-    service.setClientData = function (result) {
+    service.setClientData = function (result, isConfirmationPage) {
         // update our validations - don't make a new array, just copy all the validations over from the returned one. Saves copying back to the scope elsewhere.
         angular.copy(result.validations, service.validation);
 
         // update the cart
-        // TODO - shouldn't be telling the utility service about the cart - this should really be going to the cart service
-        utilityProductsService.updateCart(result.cart);
+        enrollmentCartService.updateCart(result.cart);
+
         var serviceIndexErrors = [];
         angular.forEach(result.validations, function (entry) {
             var capture = /^Services\[(\d+)\]/g.exec(entry.memberName);
@@ -43,11 +43,11 @@
             }
         });
         if (serviceIndexErrors.length) {
-            utilityProductsService.setActiveServiceAddress(utilityProductsService.getAddresses()[serviceIndexErrors[0]].location.address);
+            enrollmentCartService.setActiveServiceIndex(serviceIndexErrors[0]);
         }
-        else if (utilityProductsService.getAddresses().length == 0) {
+        else if (enrollmentCartService.services.length == 0) {
             // new service
-            utilityProductsService.setActiveServiceAddress(undefined);
+            enrollmentCartService.setActiveService(undefined);
         }
 
         // copy out the account information the server has
@@ -63,7 +63,7 @@
         // set the identity questions from the server
         service.identityQuestions = result.identityQuestions;
 
-        enrollmentStepsService.setFromServerStep(result.expectedState);
+        enrollmentStepsService.setFromServerStep(result.expectedState, isConfirmationPage);
     };
 
     function makeCall(urlSuffix, data, mode) {
@@ -114,11 +114,10 @@
     * @return {object}            Promise object returned when API call has successfully completed.
     */
     service.setServiceInformation = function () {
-        var addresses = utilityProductsService.getAddresses();
         //Create our empty locations object
         var data = { 'locations': [] };
 
-        angular.forEach(addresses, function (address) {
+        angular.forEach(enrollmentCartService.services, function (address) {
             data.locations.push(address.location);
         });
 
@@ -131,14 +130,12 @@
     * @return {object}            Promise object returned when API call has successfully completed.
     */
     service.setSelectedOffers = function () {
-        var addresses = utilityProductsService.getAddresses();
-
         //Get from the activeServiceAddress object
         var data = {
             'selection': []
         };
 
-        angular.forEach(addresses, function (address) {
+        angular.forEach(enrollmentCartService.services, function (address) {
             var selectedPlans = [];
             angular.forEach(address.offerInformationByType, function (entry) {
                 if (entry.value.offerSelections.length) {
@@ -168,7 +165,7 @@
             secondaryContactInfo: service.accountInformation.secondaryContactInfo,
             onlineAccount: service.accountInformation.onlineAccount,
         });
-        data.cart = _.map(utilityProductsService.addresses, function (cartItem) {
+        data.cart = _.map(enrollmentCartService.services, function (cartItem) {
             return {
                 location: cartItem.location,
                 offerInformationByType: _.map(cartItem.offerInformationByType, function (typedOrderInfo) {

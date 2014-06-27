@@ -1,4 +1,4 @@
-ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollmentService', 'utilityProductsService', 'enrollmentCartService', function ($scope, $window, enrollmentService, utilityProductsService, enrollmentCartService) {
+ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollmentService', 'enrollmentCartService', function ($scope, $window, enrollmentService, enrollmentCartService) {
     $scope.accountInformation = {};
 
     $scope.getCartItems = enrollmentCartService.getCartItems;  
@@ -12,12 +12,7 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
      * Get the server data and populate the form
      */
     $scope.setServerData = function (result) {
-        if(result.expectedState != 'orderConfirmed') {
-            $window.location.href = '/enrollment';
-        }
-
-        // update the cart
-        utilityProductsService.updateCart(result.cart);
+        enrollmentService.setClientData(result, true);
 
         // copy out the account information the server has
         $scope.accountInformation.contactInfo = result.contactInfo || {};

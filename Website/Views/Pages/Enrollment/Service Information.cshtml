@@ -40,13 +40,13 @@
                             <label for="@currentService.For(s => s.Location)">@Html.Sitecore().Field("Address Label")</label>
                             <input type="text" @currentService.Attributes(s => s.Location)
                                    class="typeahead"
-                                   ng-model="serviceInformation.location"
+                                   ng-model="data.serviceLocation"
                                    placeholder="@Html.Sitecore().Field("Address Placeholder")"
-                                   typeahead="location as location.address|address for location in getLocation(serviceInformation.serviceState, $viewValue)"
-                                   ng-disabled="serviceInformation.serviceState == ''"
-                                   typeahead-loading="serviceInformation.loadingServiceAddress"
-                                   ng-class="{'loading' : serviceInformation.loadingServiceAddress}" autocomplete="off" />
-                            <div id="state-select" dropdown-select dropdown-items="supportedUtilityStates" value="serviceInformation.serviceState"></div>
+                                   typeahead="location as location.address|address for location in getLocation(data.serviceState, $viewValue)"
+                                   ng-disabled="data.serviceState == ''"
+                                   typeahead-loading="loadingServiceAddress"
+                                   ng-class="{'loading' : loadingServiceAddress}" />
+                            <div id="state-select" dropdown-select dropdown-items="supportedUtilityStates" value="data.serviceState"></div>
                             @currentService.MessageFor(s => s.Location)
                         </div>
                         <hr>
@@ -54,11 +54,11 @@
                             <label>@Html.Sitecore().Field("Options Label")</label>
                             <ul class="checkbox-list">
                                 <li>
-                                    <input type="radio" ng-model="serviceInformation.isNewService" id="switching-electricity-providers" value="0">
+                                    <input type="radio" ng-model="data.isNewService" id="switching-electricity-providers" ng-value="false">
                                     <label for="switching-electricity-providers">Switching electricity providers</label>
                                 </li>
                                 <li>
-                                    <input type="radio" ng-model="serviceInformation.isNewService" id="setting-up-new-service" value="1">
+                                    <input type="radio" ng-model="data.isNewService" id="setting-up-new-service" ng-value="true">
                                     <label for="setting-up-new-service">Setting up new service</label>
                                 </li>
                             </ul>

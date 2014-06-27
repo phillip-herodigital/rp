@@ -2,11 +2,11 @@
  *
  * This is used to control aspects of plan selection on enrollment page.
  */
-ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 'scrollService', 'utilityProductsService', 'enrollmentStepsService', '$modal', function ($scope, enrollmentService, scrollService, utilityProductsService, enrollmentStepsService, $modal) {
-    $scope.currentLocationInfo = utilityProductsService.getActiveServiceAddress;
+ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 'scrollService', 'enrollmentStepsService', '$modal', 'enrollmentCartService', function ($scope, enrollmentService, scrollService, enrollmentStepsService, $modal, enrollmentCartService) {
+    $scope.currentLocationInfo = enrollmentCartService.getActiveService;
 
     //We need this for the button select model in the ng-repeats
-    $scope.$watch(utilityProductsService.getActiveServiceAddress, function (address) {
+    $scope.$watch(enrollmentCartService.getActiveService, function (address) {
         $scope.planSelection = { selectedOffers: {} };
         if (address && address.offerInformationByType) {
             angular.forEach(address.offerInformationByType, function (entry) {
@@ -20,7 +20,8 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
     //Once a plan is selected, check through all available and see if a selection happend
     $scope.$watchCollection('planSelection.selectedOffers', function (selectedOffers) {
         if (typeof selectedOffers != 'undefined') {
-            utilityProductsService.selectOffers(_(selectedOffers).mapValues(function (offer) { return [offer]; }).value());
+            // Map the offers to arrays because, although utilities (which this controller is for) does not allow multiple offers of a type, the cart service does.
+            enrollmentCartService.selectOffers(_(selectedOffers).mapValues(function (offer) { return [offer]; }).value());
         }
     });
 
@@ -53,7 +54,7 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
      * @param  {Boolean} Add an additional service address
      */
     $scope.completeStep = function (addAdditional) {
-        if (!utilityProductsService.getActiveServiceAddress().location.address.line1) {
+        if (!enrollmentCartService.getActiveService().location.address.line1) {
 
             $modal.open({
                 'scope': $scope,
@@ -72,8 +73,7 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
             //Move to the next section, this is the last of the utilityAccounts, so
             //If addAdditional, go back to step one else move to the next section
             if(addAdditional) {
-                utilityProductsService.isNewServiceAddress = true;
-                utilityProductsService.setActiveServiceAddress();
+                enrollmentCartService.setActiveService();
                 enrollmentStepsService.setFlow('utility', true).setFromServerStep('serviceInformation');
             }  
         }, function (data) {
