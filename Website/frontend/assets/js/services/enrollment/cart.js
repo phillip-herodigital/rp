@@ -52,6 +52,9 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', fun
             angular.copy(cart, services);
 
             _(services).pluck('offerInformationByType').flatten().forEach(updateOffer);
+            if (activeServiceIndex >= services.length) {
+                activeServiceIndex = services.length - 1;
+            }
         },
 
         findMatchingAddress: function (address) {
@@ -76,6 +79,28 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', fun
                 offerInformationForType.value.offerSelections = _(plans[key]).map(function (plan) { return { offerId: plan }; }).value();
                 updateOffer(offerInformationForType);
             });
+        },
+
+        removeOffer: function (service, planToRemove) {
+
+            // TODO - move this logic into the cart service
+            var byType = _(service.offerInformationByType).find({ key: planToRemove.offer.offerType });
+            var offerSelections = byType.value.offerSelections;
+            var i = _(offerSelections).indexOf(planToRemove);
+            offerSelections.splice(i, 1);
+
+            if (_(service.offerInformationByType).pluck('value').pluck('offerSelections').flatten().size() == 0) {
+                enrollmentCartService.removeService(service);
+            }
+        },
+
+        removeService: function (service) {
+            var index = _(services).indexOf(service);
+            services.splice(index, 1);
+
+            if (activeServiceIndex >= services.length) {
+                activeServiceIndex = services.length - 1;
+            }
         },
 
         /**

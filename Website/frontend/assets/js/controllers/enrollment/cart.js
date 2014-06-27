@@ -31,35 +31,8 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     /**
     * Delete item from cart
     */
-    $scope.deleteUtilityPlan = function (location, selectedOffer) {
-        // TODO - move this logic into the cart service
-        var offerInformationTypeIndex;
-        var offerSelections;
-        for (var i = 0; i < location.offerInformationByType.length; i++) {
-            if (location.offerInformationByType[i].key == plan.offer.offerType) {
-                offerInformationTypeIndex = i;
-                offerSelections = location.offerInformationByType[i].value.offerSelections;
-            }
-        }
-        for (var i = 0; i < offerSelections.length; i++) {
-            if (offerSelections[i] == selectedOffer) {
-                offerSelections.splice(i, 1);
-                i--;
-            }
-        }
-        if (offerSelections.length == 0) {
-            location.offerInformationByType.splice(offerInformationTypeIndex, 1);
-            if (location.offerInformationByType.length == 0) {
-                // remove location
-                var addresses = enrollmentCartService.services;
-                for (var i = 0; i < addresses.length; i++) {
-                    if (addresses[i] == location) {
-                        addresses.splice(i, 1);
-                        i--;
-                    }
-                }
-            }
-        }
+    $scope.deleteUtilityPlan = function (service, selectedOffer) {
+        enrollmentCartService.removeOffer(service, selectedOffer);
         enrollmentService.setSelectedOffers();
     };
 }]);
