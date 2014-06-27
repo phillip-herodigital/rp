@@ -24,31 +24,31 @@
                             <strong>{{ location.location.address | address }}</strong>
                         </div>
                         <hr />
-                        <div ng-repeat="(type, plan) in getPlans(location)">
-                            <div ng-if="type == 'TexasElectricity'">
+                        <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
+                            <div ng-if="offerInformation.key == 'TexasElectricity'">
                                 @*<h3>Electricity</h3>*@
                                 <table class="verify-order-table">
                                     <tbody>
-                                        <tr class="line-item">
+                                        <tr class="line-item" ng-repeat-start="selectedOffer in offerInformation.value.offerSelections">
                                             <td class="description">
-                                                <h4>{{plan.name}}</h4>
-                                                @*<p>{{plan.description}}</p>*@
+                                                <h4>{{selectedOffer.offer.name}}</h4>
+                                                @*<p>{{selectedOffer.offer.description}}</p>*@
                                             </td>
                                             <td class="rate">
-                                                {{plan.rate | currency}} kWh
+                                                {{selectedOffer.offer.rate | currency}} kWh
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <tr ng-repeat-end>
                                             <td class="sub-charge">
                                                 <strong>Deposit Due</strong><br>
-                                                {{ plan.selectionDetails.deposit.description }}
+                                                {{ selectedOffer.deposit.description }}
                                             </td>
-                                            <td class="rate">{{ plan.selectionDetails.deposit.requiredAmount | currency }}</td>
+                                            <td class="rate">{{ selectedOffer.deposit.requiredAmount | currency }}</td>
                                         </tr>
                                         @*<tr>
-                                            <td class="sub-charge">Installation</td>
-                                            <td></td>
-                                        </tr>*@
+                            <td class="sub-charge">Installation</td>
+                            <td></td>
+                        </tr>*@
                                     </tbody>
                                 </table>
                             </div>
