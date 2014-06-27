@@ -31,9 +31,27 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', 'utilityProduc
 		 * Return the total cost of all cart items
 		 * @return {[type]} [description]
 		 */
-		calculateCartTotal: function() {
-			//actually calculate something later, temporary
-			return 150;
+		calculateCartTotal: function () {
+		    var total = 0;
+		    if (utilityProductsService.addresses) {
+		        for (var i = 0; i < utilityProductsService.addresses.length; i++) {
+		            var address = utilityProductsService.addresses[i];
+		            if (address.offerInformationByType) {
+		                for (var j = 0; j < address.offerInformationByType.length; j++) {
+		                    var offerInformation = address.offerInformationByType[j];
+		                    if (offerInformation.value && offerInformation.value.offerSelections) {
+		                        for (var k = 0; k < offerInformation.value.offerSelections.length; k++) {
+		                            var offerSelection = offerInformation.value.offerSelections[k];
+		                            if (offerSelection.deposit && offerSelection.deposit.requiredAmount) {
+		                                total += offerSelection.deposit.requiredAmount;
+		                            }
+		                        }
+		                    }
+		                }
+		            }
+		        }
+		    }
+		    return total;
 		},
 
 		/**

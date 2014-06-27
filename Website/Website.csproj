@@ -649,6 +649,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="frontend\assets\js\libs\lodash\" />
     <Folder Include="Scripts\" />
     <Folder Include="Views\Shared\" />
   </ItemGroup>

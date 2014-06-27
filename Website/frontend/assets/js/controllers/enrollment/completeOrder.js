@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of complete order on enrollment page.
  */
-ngApp.controller('EnrollmentCompleteOrderCtrl', ['$window', '$scope', 'enrollmentService', 'enrollmentCartService', function ($window, $scope, enrollmentService, enrollmentCartService) {
+ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 'enrollmentCartService', function ($scope, enrollmentService, enrollmentCartService) {
 
     $scope.verifyIdentity = {};
     $scope.verifyIdentity.creditCard = {};
@@ -19,11 +19,9 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$window', '$scope', 'enrollmen
 
         console.log('Sending confirm order...');
 
-        var confirmOrderPromise = enrollmentService.setConfirmOrder();
+        var confirmOrderPromise = enrollmentService.setConfirmOrder({ agreeToTerms: false, paymentInfo: null });
 
         confirmOrderPromise.then(function (data) {
-            console.log(data);
-            $window.location.href = '/account/enrollment-confirmation';
         }, function (data) {
             // error response
         });

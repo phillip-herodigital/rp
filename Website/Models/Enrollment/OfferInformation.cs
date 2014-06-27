@@ -10,5 +10,7 @@ namespace StreamEnergy.MyStream.Models.Enrollment
     {
         public IEnumerable<IOffer> AvailableOffers { get; set; }
         public IEnumerable<OfferSelection> OfferSelections { get; set; }
+
+        public IEnumerable<string> Errors { get; set; }
     }
 }

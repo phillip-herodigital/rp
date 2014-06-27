@@ -12,7 +12,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         {
         }
 
-        public IEnumerable<Tuple<Location, IOffer>> AllOffers { get; set; }
+        public Dictionary<Location, LocationOfferSet> AllOffers { get; set; }
 
         public Service.IdentityCheckResult IdentityCheckResult { get; set; }
 

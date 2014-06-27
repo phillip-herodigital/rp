@@ -27,8 +27,16 @@
     <meta name="format-detection" content="telephone=no" />
 
     <link rel="shortcut icon" type="image/ico" href="/frontend/assets/i/favicon.ico" />
+    
     @Styles.Render("~/bundles/Styles")
-    @Scripts.Render("~/bundles/Scripts")
+    @if ((Request.Browser.Browser == "IE") && ((Request.Browser.MajorVersion <= 8)))
+    {
+        @Scripts.Render("~/bundles/LegacyScripts");
+    }
+    else
+    {
+        @Scripts.Render("~/bundles/Scripts")
+    }    
 
     <script type="text/javascript" src="//use.typekit.net/hag0zvs.js"></script>
     <script type="text/javascript">try { Typekit.load(); } catch (e) { }</script>

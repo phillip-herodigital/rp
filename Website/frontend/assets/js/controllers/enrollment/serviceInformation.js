@@ -39,10 +39,10 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
      * @return {[type]} [description]
      */
     $scope.completeStep = function () {
-        var postData = utilityProductsService.createPostObject($scope.serviceInformation);
+        utilityProductsService.addOrUpdateAddress($scope.serviceInformation);
 
         //Save the updated locations to the server
-        var serviceInformationPromise = enrollmentService.setServiceInformation(postData);
+        var serviceInformationPromise = enrollmentService.setServiceInformation();
         
         serviceInformationPromise.then(function (data) {
             //Add the locations to our utility service

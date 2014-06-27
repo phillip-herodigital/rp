@@ -200,6 +200,12 @@
         @include border-radius(0);
         @include box-shadow(none);
         padding: 0;
+        .modal {
+            margin-left: auto;
+            width: auto;
+            left: 6%;
+            right: 6%;
+        }
         .table-overlay {
             position: absolute;
             top: 0;
@@ -255,6 +261,7 @@
             width: 20px;
             min-width: 20px;
             position: relative;
+            display: block;
             .fixed, .variable {
                 position: absolute;
                 top: 40px;
@@ -384,16 +391,20 @@
         }
         tbody {
             tr.details {
-                display: none;
                 td {
-                    border: 1px solid #eaeaea;
-                    text-align: left;
-                    padding-left: 30px;
-                    p {
-                        font-size: 15px;
-                    }
-                    &:first-child {
-                        border: 1px solid #eaeaea;
+                    border: none;
+                    padding: 0px;
+                    div {
+                        padding: 5px 12px;
+                        border: 0;
+                        text-align: left;
+                        padding-left: 30px;
+                        p {
+                            font-size: 15px;
+                        }
+                        &:first-child {
+                            border-bottom: 1px solid #eaeaea;
+                        }
                     }
                 }
             }
