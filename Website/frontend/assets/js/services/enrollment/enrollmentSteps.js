@@ -103,9 +103,16 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
             return service;
         },
 
-        setFromServerStep: function (expectedState) {
-            if (expectedState == 'orderConfirmed')
+        setFromServerStep: function (expectedState, isConfirmationPage) {
+            if (isConfirmationPage) {
+                if (expectedState != 'orderConfirmed') {
+                    $window.location.href = '/enrollment';
+                }
+                return;
+            }
+            if (expectedState == 'orderConfirmed') {
                 $window.location.href = '/account/enrollment-confirmation';
+            }
             else if (flows[currentFlow] && flows[currentFlow][expectedState]) {
                 service.setStep(flows[currentFlow][expectedState]);
             } else {

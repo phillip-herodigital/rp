@@ -1924,7 +1924,6 @@
     <Content Include="frontend\assets\js\services\enrollment\cart.js" />
     <Content Include="frontend\assets\js\services\enrollment\enrollment.js" />
     <Content Include="frontend\assets\js\services\enrollment\enrollmentSteps.js" />
-    <Content Include="frontend\assets\js\services\enrollment\utilityProducts.js" />
     <Content Include="frontend\assets\js\services\modalFactory.js" />
     <Content Include="frontend\assets\js\services\scroll.js" />
     <Content Include="frontend\assets\js\vendor\jqueryuicustom.js" />

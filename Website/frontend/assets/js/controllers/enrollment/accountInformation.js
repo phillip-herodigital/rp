@@ -2,8 +2,7 @@
  *
  * This is used to control aspects of account information on enrollment page.
  */
-ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentService', 'utilityProductsService', 'enrollmentCartService', function ($scope, enrollmentService, utilityProductsService, enrollmentCartService) {
-    $scope.utilityProducts = utilityProductsService;
+ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentService', 'enrollmentCartService', function ($scope, enrollmentService, enrollmentCartService) {
     $scope.accountInformation = enrollmentService.accountInformation;
 
     /**
@@ -15,7 +14,7 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
 
         //Don't do this, digest loop error
         //$scope.accountInformation.serviceAddress = [];
-        return utilityProductsService.getAddresses();
+        return enrollmentCartService.services;
     };
 
     $scope.updateSameAddress = function (offerOption) {

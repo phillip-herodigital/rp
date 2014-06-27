@@ -1,4 +1,4 @@
-﻿ngApp.controller('EnrollmentBillingAddressCtrl', ['$scope', 'utilityProductsService', function ($scope, utilityProductsService) {
+﻿ngApp.controller('EnrollmentBillingAddressCtrl', ['$scope', 'enrollmentCartService', function ($scope, enrollmentCartService) {
     if ($scope.item.location.address.line1) {
         $scope.$watch('selectedOffer.offerOption', function (offerOption) {
             if (offerOption != null) {
@@ -7,7 +7,7 @@
                     offerOption.billingAddressSame = true;
                 }
                 else {
-                    var match = utilityProductsService.findMatchingAddress(offerOption.billingAddress);
+                    var match = enrollmentCartService.findMatchingAddress(offerOption.billingAddress);
                     if (match) {
                         offerOption.billingAddressSame = true;
                         offerOption.billingAddress = match.location.address;
