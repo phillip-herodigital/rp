@@ -245,7 +245,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [HttpPost]
         public GetAccountInformationResponse GetAccountInformation(GetAccountInformationRequest request)
         {
-            var accountId = request.AccountId;
+            var accountNumber = request.AccountNumber;
             var serviceAddress = new DomainModels.Address();
             var billingAddress = new DomainModels.Address();
             bool sameAsService = false;
@@ -294,7 +294,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             bool success = false;
             var validations = validation.CompleteValidate(request);
            
-            var accountId = request.AccountId;
+            var accountNumber = request.AccountNumber;
 
             // update the account information with Stream Connect
             if (!validations.Any())
@@ -317,7 +317,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public GetNotificationSettingsResponse GetNotificationSettings(GetNotificationSettingsRequest request)
         {
             // TODO get notificaiton settings from Stream Connect
-            var accountId = request.AccountId;
+            var accountNumber = request.AccountNumber;
             var newDocumentArrives = new NotificationSetting
             {
                 Web = true,
@@ -345,7 +345,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             return new GetNotificationSettingsResponse
             {
-                AccountId = accountId,
+                AccountNumber = accountNumber,
                 NewDocumentArrives = newDocumentArrives,
                 OnlinePaymentsMade = onlinePaymentsMade,
                 RecurringPaymentsMade = recurringPaymentsMade,
@@ -360,7 +360,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             bool success = false;
 
-            var accountId = request.AccountId;
+            var accountNumber = request.AccountNumber;
             var notificationName = request.NotificationName;
             var notificationSetting = request.NotificationSetting;
 
@@ -381,7 +381,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             bool success = false;
 
-            var accountId = request.AccountId;
+            var accountNumber = request.AccountNumber;
 
             // TODO update the notification settings with Stream Connect
             if (true)

@@ -2,10 +2,10 @@
 
 <article class="grey-box account account-holder-information" ng-controller="AcctAccountInformationCtrl">
     <form ng-submit="updateAccountInformation()" data-val-bind-messages="validations">
-        <div class="content">
+        <div class="content" loading-indicator>
             <div class="item account-holder">
                 <label class="account-holder-title">@Html.Sitecore().Field("Account Holder Name Text")</label>
-                {{ formData.CustomerName.first }} {{ formData.CustomerName.last }}
+                {{ formData.customerName.first }} {{ formData.customerName.last }}
             </div>
             <div class="group">
                 <div class="item group-col" @Html.ValidationErrorClass(model => model.PrimaryPhone.Number) @*float-label*@>

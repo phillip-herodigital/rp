@@ -9,6 +9,7 @@ namespace StreamEnergy.DomainModels.Accounts
     public interface ISubAccount: ISanitizable
     {
         string SubAccountType { get; }
+        string Key { get;  }
         string Id { get; }
     }
 }

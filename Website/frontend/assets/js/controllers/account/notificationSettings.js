@@ -5,21 +5,24 @@ ngApp.controller('AcctNotificationSettingsCtrl', ['$scope', '$rootScope', '$http
 	// create a blank object to hold the form information
 	$scope.formData = {};
 
-	// set the account ID - this will eventually get passed in
-	$scope.accountId = { 'accountId' : '11111' };
-
-	// get the current data
-	$timeout(function() {
-		$http({
-			method  : 'POST',
-			url     : '/api/account/getNotificationSettings',
-			data    : $scope.accountId,
-			headers : { 'Content-Type': 'application/JSON' } 
-		})
-			.success(function (data, status, headers, config) {
-				$scope.formData = data;
-				$scope.formDataOriginal = angular.copy($scope.formData);
-			});
+	// when the account selector changes, reload the data
+	$scope.$watch('selectedAccount.accountNumber', function(newVal) { 
+		if (newVal) {
+			$scope.isLoading = true;
+			$timeout(function () {
+				$http({
+					method  : 'POST',
+					url     : '/api/account/getNotificationSettings',
+					data    : { 'accountNumber' : newVal },
+					headers : { 'Content-Type': 'application/JSON' } 
+				})
+					.success(function (data, status, headers, config) {
+						$scope.formData = data;
+						$scope.formDataOriginal = angular.copy($scope.formData);
+						$scope.isLoading = false;
+					});
+			}, 800);
+		}
 	});
 
 	// cancel the current preference changes
@@ -33,7 +36,7 @@ ngApp.controller('AcctNotificationSettingsCtrl', ['$scope', '$rootScope', '$http
 		// format the request data
 		var requestData = {};
 		
-		requestData.accountId = $scope.formData.accountId;
+		requestData.accountNumber = $scope.selectedAccount.accountNumber;
 		requestData.settingName = settingName;
 		requestData.notificationSetting = notificationObject;
 

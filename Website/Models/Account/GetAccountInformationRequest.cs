@@ -7,6 +7,6 @@ namespace StreamEnergy.MyStream.Models.Account
 {
     public class GetAccountInformationRequest
     {
-        public string AccountId { get; set; }
+        public string AccountNumber { get; set; }
     }
 }

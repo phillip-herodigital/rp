@@ -13,10 +13,14 @@
                     </div>
                 </div>
             </div>
-            <div class="service-address">
-                <p>{{ $parent.selectedAccount }}</p>
-                <p>@Html.Sitecore().Field("Service Address Text") {{ currentSubAccount.serviceAddress.line1 }}, {{ currentSubAccount.serviceAddress.city }}, {{ currentSubAccount.serviceAddress.stateAbbreviation }} {{ currentSubAccount.serviceAddress.postalCode5 }}</p>
-            </div>
+            @*base this on subAccount Key - Utility, Homelife, Mobile, etc*@
+            <div ng-include src="'subAccountKey/' + currentSubAccount.key"></div>
         </form>
     </div>
 </article>
+
+<script type="text/ng-template" id="subAccountKey/Utility">
+    <div class="service-address">
+        <p>@Html.Sitecore().Field("Service Address Text") {{ currentSubAccount.serviceAddress.line1 }}, {{ currentSubAccount.serviceAddress.city }}, {{ currentSubAccount.serviceAddress.stateAbbreviation }} {{ currentSubAccount.serviceAddress.postalCode5 }}</p>
+    </div>
+</script>

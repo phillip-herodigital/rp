@@ -1,6 +1,6 @@
 /* Account Controller
  *
  */
-ngApp.controller('AcctCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
+ngApp.controller('AcctCtrl', ['$scope', function ($scope) {
 	$scope.selectedAccount = {};
 }]);

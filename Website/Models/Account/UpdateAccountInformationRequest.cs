@@ -8,7 +8,7 @@ namespace StreamEnergy.MyStream.Models.Account
 {
     public class UpdateAccountInformationRequest
     {
-        public string AccountId { get; set; }
+        public string AccountNumber { get; set; }
 
         [Required]
         [ValidateObject(ErrorMessagePrefix = "Phone ")]

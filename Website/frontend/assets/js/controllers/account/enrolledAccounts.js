@@ -6,11 +6,10 @@ ngApp.controller('AcctEnrolledAccountsCtrl', ['$scope', '$rootScope', '$http', '
 	$scope.formData = {};
 
 	// get the current data
-	$timeout(function() {
-		$http.get('/api/account/getEnrolledAccounts').success(function (data, status, headers, config) {
-			$scope.formData = data;
-			$scope.formDataOriginal = angular.copy($scope.formData);
-		});
+
+	$http.get('/api/account/getEnrolledAccounts').success(function (data, status, headers, config) {
+		$scope.formData = data;
+		$scope.formDataOriginal = angular.copy($scope.formData);
 	});
 
 	$scope.open = function (accountNumber) {

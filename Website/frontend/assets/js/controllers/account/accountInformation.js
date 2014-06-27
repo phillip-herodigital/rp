@@ -6,24 +6,23 @@ ngApp.controller('AcctAccountInformationCtrl', ['$scope', '$rootScope', '$http',
 	$scope.formData = {};
 
 	// when the account selector changes, reload the data
-	$scope.$watch('selectedAccount', function(newVal, oldVal) { 
-		$timeout(function() {
-			$http({
-				method  : 'POST',
-				url     : '/api/account/getAccountInformation',
-				data    : newVal,
-				headers : { 'Content-Type': 'application/JSON' } 
-			})
-				.success(function (data, status, headers, config) {
-					$scope.formData = data;
-					$scope.formDataOriginal = angular.copy($scope.formData);
-				});
-		}, 1000);
-	});
-
-	// get the current data
-	$timeout(function() {
-		
+	$scope.$watch('selectedAccount.accountNumber', function(newVal) { 
+		if (newVal) {
+			$scope.isLoading = true;
+			$timeout(function () {
+				$http({
+					method  : 'POST',
+					url     : '/api/account/getAccountInformation',
+					data    : { 'accountNumber' : newVal },
+					headers : { 'Content-Type': 'application/JSON' } 
+				})
+					.success(function (data, status, headers, config) {
+						$scope.formData = data;
+						$scope.formDataOriginal = angular.copy($scope.formData);
+						$scope.isLoading = false;
+					});
+			}, 800);
+		}
 	});
 
 	// process the form
@@ -31,7 +30,7 @@ ngApp.controller('AcctAccountInformationCtrl', ['$scope', '$rootScope', '$http',
 		// format the request data
 		var requestData = {};
 		
-		requestData.accountId = '11111';
+		requestData.accountNumber = $scope.selectedAccount.accountNumber;
 		requestData.primaryPhone = $scope.formData.primaryPhone
 
 		if ($scope.formData.secondaryPhone && $scope.formData.secondaryPhone != '') {
@@ -58,7 +57,6 @@ ngApp.controller('AcctAccountInformationCtrl', ['$scope', '$rootScope', '$http',
 
 				} else {
 					// if successful, alert the user
-					//alert("successful");
 				}
 			});
 	};
