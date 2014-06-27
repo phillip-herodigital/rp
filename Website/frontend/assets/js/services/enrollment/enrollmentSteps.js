@@ -3,7 +3,7 @@
     needing to know which steps are next. This will allow the main controller
     or any other controller to turn on and off steps as needed when new products are added.
 */
-ngApp.factory('enrollmentStepsService', ['scrollService', 'jQuery', '$timeout', '$window', function (scrollService, jQuery, $timeout, $window) {
+ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery', '$timeout', '$window', '$location', function ($rootScope, scrollService, jQuery, $timeout, $window, $location) {
     //Only currentStep is visible
     var currentStep = {};
     var initialFlow,
@@ -103,9 +103,16 @@ ngApp.factory('enrollmentStepsService', ['scrollService', 'jQuery', '$timeout', 
             return service;
         },
 
-        setFromServerStep: function (expectedState) {
-            if (expectedState == 'orderConfirmed')
+        setFromServerStep: function (expectedState, isConfirmationPage) {
+            if (isConfirmationPage) {
+                if (expectedState != 'orderConfirmed') {
+                    $window.location.href = '/enrollment';
+                }
+                return;
+            }
+            if (expectedState == 'orderConfirmed') {
                 $window.location.href = '/account/enrollment-confirmation';
+            }
             else if (flows[currentFlow] && flows[currentFlow][expectedState]) {
                 service.setStep(flows[currentFlow][expectedState]);
             } else {
@@ -155,7 +162,7 @@ ngApp.factory('enrollmentStepsService', ['scrollService', 'jQuery', '$timeout', 
             currentStep = steps[id];
             currentStep.isCurrent = true;
             service.activateStep(id);
-            service.scrollToStep(id);
+            $location.hash('step-' + id);
         },
 
         /**
@@ -206,6 +213,17 @@ ngApp.factory('enrollmentStepsService', ['scrollService', 'jQuery', '$timeout', 
             return currentStep;
         }
     };
+
+    /*
+        Allow for navigation through the process using back/forward buttons
+        We're not using a hash that actually matches with an element ID to
+        keep the browser from automatically scrolling.
+     */
+    $rootScope.$on('$locationChangeSuccess', function(event) {
+        if($location.hash() != '') {
+            service.scrollToStep($location.hash().split('-')[1]);
+        }
+    });
 
     return service;
 }]);

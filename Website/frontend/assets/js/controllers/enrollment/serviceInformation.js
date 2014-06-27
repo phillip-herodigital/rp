@@ -2,20 +2,26 @@
  *
  * This is used to control aspects of let's get started on enrollment page.
  */
-ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$filter', 'enrollmentService', 'utilityProductsService', function ($scope, $location, $filter, enrollmentService, utilityProductsService) {
-    $scope.utilityService = utilityProductsService;
-
-    //Set the default service information
-    $scope.serviceInformation = utilityProductsService.getServiceInformationObject();
+ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$filter', 'enrollmentService', 'enrollmentCartService', function ($scope, $location, $filter, enrollmentService, enrollmentCartService) {
+    // TODO - chose state by geoIP
+    $scope.data = { serviceState: 'TX' };
 
     //Checking to see when the active service address has been updated
     //So we can reinitialize all service information for this page
     //There has to be a better way of doing this
-    $scope.$watch(utilityProductsService.getActiveServiceAddress, function(newValue) {
-        if(utilityProductsService.isNewServiceAddress) {
-            $scope.serviceInformation = utilityProductsService.getServiceInformationObject();
+    $scope.$watch(enrollmentCartService.getActiveService, function (newValue) {
+        if (!newValue) {
+            $scope.data.serviceLocation = null;
+            $scope.data.isNewService = undefined;
         } else {
-            $scope.serviceInformation = utilityProductsService.getServiceInformationObject(newValue);
+            $scope.data.serviceLocation = newValue.location;
+            var target = _(newValue.location.capabilities).find({ capabilityType: "ServiceStatus" });
+            if (target) {
+                $scope.data.isNewService = target.isNewService;
+            }
+            else {
+                $scope.data.isNewService = undefined;
+            }
         }
     });
 
@@ -27,7 +33,7 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
      */
     $scope.isFormValid = function() {
         //TODO: Check for a duplicate address in cart as well
-        if(typeof $scope.serviceInformation.location == 'object' && $scope.serviceInformation.isNewService > -1) {
+        if (typeof $scope.data.serviceLocation == 'object' && $scope.data.isNewService !== undefined) {
             return true;
         } else {
             return false;
@@ -39,17 +45,17 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
      * @return {[type]} [description]
      */
     $scope.completeStep = function () {
-        utilityProductsService.addOrUpdateAddress($scope.serviceInformation);
-
-        //Save the updated locations to the server
-        var serviceInformationPromise = enrollmentService.setServiceInformation();
         
-        serviceInformationPromise.then(function (data) {
-            //Add the locations to our utility service
-            utilityProductsService.isNewServiceAddress = false;
-            utilityProductsService.setActiveServiceAddress($scope.serviceInformation.location.address);
-        }, function (data) {
-            // error response
-        });
+        $scope.data.serviceLocation.capabilities.push({ "capabilityType": "ServiceStatus", "isNewService": $scope.data.isNewService });
+
+        var activeService = enrollmentCartService.getActiveService();
+        if (activeService) {
+            activeService.location = $scope.data.serviceLocation;
+            enrollmentService.setSelectedOffers();
+        }
+        else {
+            enrollmentCartService.addService({ location: $scope.data.serviceLocation });
+            enrollmentService.setServiceInformation();
+        }
     };
 }]);

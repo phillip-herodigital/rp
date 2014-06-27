@@ -1,5 +1,5 @@
 ﻿<script type="text/ng-template" id="cart-template">
-    <article class="cart" ng-controller="EnrollmentCartCtrl">
+    <article class="cart" ng-controller="EnrollmentCartCtrl" scroll-anchor="scrollFix">
         <header>
             <div class="cart-items">
                 <i class="icon-cart"></i>
@@ -18,32 +18,32 @@
                     {{ location.location.address | address }}<br />
                     <a href="" ng-click="editUtilityAddress(location)">@Html.Sitecore().Field("Edit Address Text")</a>
                 </address>
-                <div ng-repeat="(type, plan) in getPlans(location)">
+                <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
                     <hr />
-                    <div ng-if="type == 'TexasElectricity'">
+                    <div ng-if="offerInformation.key == 'TexasElectricity'">
                         <h3>Electricity</h3>
-                        <div class="cart-item">
-                            <div class="delete" ng-click="deleteUtilityItem(location)">
+                        <div class="cart-item" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+                            <div class="delete" ng-click="scrollFix(); deleteUtilityPlan(location, selectedOffer)">
                                 <i class="icon-delete"></i>
                             </div>
                             <div class="description">
-                                <h2>{{ plan.name }}</h2>
+                                <h2>{{ selectedOffer.offer.name }}</h2>
                                 <a href="" ng-click="changeUtilityPlan(location)">Change Plan</a>
                             </div>
                             <div class="rate">
-                                {{plan.rate}}&cent;
+                                {{selectedOffer.offer.rate}}&cent;
                                 <span>per kWh</span>
                             </div>
                         </div>
                         @*
-                        <div class="cart-item" ng-show="plan.deposit">
-                            <div class="description">
-                                <h2>{{ plan.deposit.description }}</h2>
+                            <div class="cart-item" ng-show="plan.deposit">
+                                <div class="description">
+                                    <h2>{{ plan.deposit.description }}</h2>
+                                </div>
+                                <div class="rate">
+                                    {{ plan.deposit.requiredAmount | currency }}
+                                </div>
                             </div>
-                            <div class="rate">
-                                {{ plan.deposit.requiredAmount | currency }}
-                            </div>
-                        </div>
                         *@
                     </div>
                 </div>

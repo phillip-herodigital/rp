@@ -27,6 +27,7 @@ namespace StreamEnergy.DomainModels.Enrollments
             yield return context => context.SelectedIdentityAnswers;
             yield return context => context.PaymentInfo;
             yield return context => context.AgreeToTerms;
+            yield return context => context.OnlineAccount;
         }
 
         protected override Type InternalProcess(UserContext context, InternalContext internalContext)

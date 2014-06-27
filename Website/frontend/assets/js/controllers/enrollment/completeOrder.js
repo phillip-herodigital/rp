@@ -4,10 +4,11 @@
  */
 ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 'enrollmentCartService', function ($scope, enrollmentService, enrollmentCartService) {
 
-    $scope.verifyIdentity = {};
-    $scope.verifyIdentity.creditCard = {};
+    $scope.completeOrder = {
+        agreeToTerms: false,
+        creditCard: {}
+    };
 
-    $scope.getPlans = enrollmentCartService.getPlans;
     $scope.getCartCount = enrollmentCartService.getCartCount;
     $scope.getCartItems = enrollmentCartService.getCartItems;  
     $scope.getCartTotal = enrollmentCartService.calculateCartTotal;  
@@ -19,7 +20,10 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
 
         console.log('Sending confirm order...');
 
-        var confirmOrderPromise = enrollmentService.setConfirmOrder({ agreeToTerms: false, paymentInfo: null });
+        var confirmOrderPromise = enrollmentService.setConfirmOrder({
+            agreeToTerms: $scope.completeOrder.agreeToTerms,
+            paymentInfo: null
+        });
 
         confirmOrderPromise.then(function (data) {
         }, function (data) {
