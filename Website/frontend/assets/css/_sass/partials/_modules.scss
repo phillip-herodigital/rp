@@ -531,9 +531,15 @@ article.balances-payments {
 			.item {
 				&.amount {
 					width: 40%;
+					@include breakpoint(small) {
+						width: 100%;
+					}
 				}
 				&.payment {
 					width: 60%;
+					@include breakpoint(small) {
+						width: 100%;
+					}
 				}
 			}
 		}
