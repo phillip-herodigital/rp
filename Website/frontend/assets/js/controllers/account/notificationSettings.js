@@ -19,6 +19,8 @@ ngApp.controller('AcctNotificationSettingsCtrl', ['$scope', '$rootScope', '$http
 					.success(function (data, status, headers, config) {
 						$scope.formData = data;
 						$scope.formDataOriginal = angular.copy($scope.formData);
+						$scope.successMessage = false;
+						$scope.preferenceSuccessMessage = false;
 						$scope.isLoading = false;
 					});
 			}, 800);
@@ -40,45 +42,64 @@ ngApp.controller('AcctNotificationSettingsCtrl', ['$scope', '$rootScope', '$http
 		requestData.settingName = settingName;
 		requestData.notificationSetting = notificationObject;
 
-		$http({
-			method  : 'POST',
-			url     : '/api/account/updateNotification',
-			data    : requestData,
-			headers : { 'Content-Type': 'application/JSON' } 
-		})
-			.success(function (data, status, headers, config) {
-				if (!data.success) {
-					// if not successful, bind errors to error variables
+		// clear any existing messages
+		$scope.successMessage = false;
+		$scope.preferenceSuccessMessage = false;
 
-				} else {
-					// if successful, close the panel and update the icons
-					angular.copy(notificationObject, originalObject);
-				}
-			});
+		$scope.isLoading = true;
+
+		$timeout(function() {
+			$http({
+				method  : 'POST',
+				url     : '/api/account/updateNotification',
+				data    : requestData,
+				headers : { 'Content-Type': 'application/JSON' } 
+			})
+				.success(function (data, status, headers, config) {
+					if (!data.success) {
+						// if not successful, bind errors to error variables
+
+					} else {
+						// if successful, close the panel, update the icons, and display the success message
+						angular.copy(notificationObject, originalObject);
+						$scope.isLoading = false;
+						$scope.preferenceSuccessMessage = true;
+					}
+				});
+		}, 800);
 	};
 
 	// process the full form
 	$scope.updateNotificationSettings = function() {
-		$http({
-			method  : 'POST',
-			url     : '/api/account/updateNotificationSettings',
-			data    : $scope.formData,
-			headers : { 'Content-Type': 'application/JSON' } 
-		})
-			.success(function (data, status, headers, config) {
-				if (!data.success) {
-					// if not successful, bind errors to error variables
-					
-				} else {
-					// if successful, update the icons
-					angular.copy($scope.formData.newDocumentArrives, $scope.formDataOriginal.newDocumentArrives);
-					angular.copy($scope.formData.onlinePaymentsMade, $scope.formDataOriginal.onlinePaymentsMade);
-					angular.copy($scope.formData.recurringPaymentsMade, $scope.formDataOriginal.recurringPaymentsMade);
-					angular.copy($scope.formData.recurringProfileExpires, $scope.formDataOriginal.recurringProfileExpires);
-					// display the success message
-					//alert('successful');
-				}
-			});
+		// clear any existing messages
+		$scope.successMessage = false;
+		$scope.preferenceSuccessMessage = false;
+
+		$scope.isLoading = true;
+
+		$timeout(function() {
+			$http({
+				method  : 'POST',
+				url     : '/api/account/updateNotificationSettings',
+				data    : $scope.formData,
+				headers : { 'Content-Type': 'application/JSON' } 
+			})
+				.success(function (data, status, headers, config) {
+					if (!data.success) {
+						// if not successful, bind errors to error variables
+						
+					} else {
+						// if successful, update the icons
+						angular.copy($scope.formData.newDocumentArrives, $scope.formDataOriginal.newDocumentArrives);
+						angular.copy($scope.formData.onlinePaymentsMade, $scope.formDataOriginal.onlinePaymentsMade);
+						angular.copy($scope.formData.recurringPaymentsMade, $scope.formDataOriginal.recurringPaymentsMade);
+						angular.copy($scope.formData.recurringProfileExpires, $scope.formDataOriginal.recurringProfileExpires);
+						// display the success message
+						$scope.isLoading = false;
+						$scope.successMessage = true;
+					}
+				});
+		}, 800);
 	};
 
 }]);

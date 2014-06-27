@@ -6,6 +6,18 @@
             <h2>@Html.Sitecore().Field("Notification Settings Text")</h2>
         </header>
         <div class="content" loading-indicator>
+            <div ng-show="successMessage">
+                <div class="notice success">
+                    @Html.Sitecore().Field("Success Message Text")
+                </div>
+                <hr class="content-divider" />
+            </div>
+            <div ng-show="preferenceSuccessMessage">
+                <div class="notice success" ng-show="preferenceSuccessMessage">
+                    @Html.Sitecore().Field("Save Preference Success Message Text")
+                </div>
+                <hr class="content-divider" />
+            </div>
             <div class="edit-preferences">
                 <div class="additional-fields" additional-fields>
                     <div class="preference">

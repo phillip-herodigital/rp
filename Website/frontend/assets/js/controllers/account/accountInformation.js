@@ -19,6 +19,7 @@ ngApp.controller('AcctAccountInformationCtrl', ['$scope', '$rootScope', '$http',
 					.success(function (data, status, headers, config) {
 						$scope.formData = data;
 						$scope.formDataOriginal = angular.copy($scope.formData);
+						$scope.successMessage = false;
 						$scope.isLoading = false;
 					});
 			}, 800);
@@ -43,22 +44,29 @@ ngApp.controller('AcctAccountInformationCtrl', ['$scope', '$rootScope', '$http',
 			requestData.billingAddress = $scope.formData.billingAddress;
 		}
 
-		// sent the update
-		$http({
-			method  : 'POST',
-			url     : '/api/account/updateAccountInformation',
-			data    : requestData,
-			headers : { 'Content-Type': 'application/JSON' } 
-		})
-			.success(function (data, status, headers, config) {
-				if (data.validations.length) {
-			        // if not successful, bind errors to error variables
-			        $scope.validations = data.validations;
+		$scope.isLoading = true;
 
-				} else {
-					// if successful, alert the user
-				}
-			});
+		// sent the update
+		$timeout(function() {
+			$http({
+				method  : 'POST',
+				url     : '/api/account/updateAccountInformation',
+				data    : requestData,
+				headers : { 'Content-Type': 'application/JSON' } 
+			})
+				.success(function (data, status, headers, config) {
+					if (data.validations.length) {
+				        // if not successful, bind errors to error variables
+				        $scope.isLoading = false;
+				        $scope.validations = data.validations;
+
+					} else {
+						// if successful, show the success message
+						$scope.isLoading = false;
+						$scope.successMessage = true;
+					}
+				});
+		}, 800);
 	};
 
 }]);

@@ -3,6 +3,12 @@
 <article class="grey-box account account-holder-information" ng-controller="AcctAccountInformationCtrl">
     <form ng-submit="updateAccountInformation()" data-val-bind-messages="validations">
         <div class="content" loading-indicator>
+            <div ng-show="successMessage">
+                <div class="notice success">
+                    @Html.Sitecore().Field("Success Message Text")
+                </div>
+                <hr class="content-divider" />
+            </div>
             <div class="item account-holder">
                 <label class="account-holder-title">@Html.Sitecore().Field("Account Holder Name Text")</label>
                 {{ formData.customerName.first }} {{ formData.customerName.last }}

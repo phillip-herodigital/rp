@@ -4,8 +4,14 @@
     <header>
         <h2>@Html.Sitecore().Field("Add New Account Text")</h2>
     </header>
-    <form name="addNewAccountForm" id="addNewAccountForm" ng-submit="addNewAccount(); addNewAccountForm.$setPristine()" data-val-bind-messages="validations">
-        <div class="content">
+    <form ng-submit="addNewAccount(); addNewAccountForm.$setPristine()" data-val-bind-messages="validations">
+        <div class="content" loading-indicator>
+            <div ng-show="successMessage">
+                <div class="notice success">
+                    @Html.Sitecore().Field("Success Message Text")
+                </div>
+                <hr class="content-divider" />
+            </div>
             <p>@Html.Sitecore().Field("New Account Instructions Text")</p>
             <div class="group">
                 <div class="item group-col" @Html.ValidationErrorClass(model => model.AccountNumber) @*float-label*@>
