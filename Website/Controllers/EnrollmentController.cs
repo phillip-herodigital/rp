@@ -20,6 +20,14 @@ namespace StreamEnergy.MyStream.Controllers
             return this.Content(StreamEnergy.Json.Stringify(inner.ClientData(null)));
         }
 
+        public ActionResult EnrollmentSupportedUtilityStates()
+        {
+            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Enrollment Supported Utility States");
+            var data = item.Children.Select(child => new { abbreviation = child.Name, display = child.Fields["Display"].Value, css = child.Fields["CssClass"].Value });
+
+            return this.Content(StreamEnergy.Json.Stringify(data));
+        }
+
         public ActionResult EnrollmentNav()
         {
             var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Pages/Enrollment/Enrollment Page");

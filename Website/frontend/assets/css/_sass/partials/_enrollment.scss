@@ -105,7 +105,7 @@ $enrollment-module-vertical-padding: 20px;
     }
     .social-box { 
         background: #f4f4f4;
-        margin: 0 -$enrollment-module-horizontal-padding 30px -$enrollment-module-horizontal-padding;
+        margin: 0 (-$enrollment-module-horizontal-padding) 30px (-$enrollment-module-horizontal-padding);
         padding: $enrollment-module-horizontal-padding;
         position: relative;
         .social-buttons {
@@ -211,7 +211,7 @@ $enrollment-module-vertical-padding: 20px;
     position: relative;
     border: none;
     padding: 0;
-    margin-bottom: 10px;
+    margin-bottom: 0;
     @include border-radius(0);
     @include box-shadow(none);    
     .modal {
@@ -246,29 +246,31 @@ $enrollment-module-vertical-padding: 20px;
                 font-style: normal;
             }
         }
-        tr:last-child {
-            td, th {
-                border-bottom: none;
+        tr {
+            background: transparent;
+            &.details {
+                td {
+                    border: none;
+                    padding: 0px;
+                    text-align: left;
+                    padding-left: 30px;
+                    text-align: left;
+                    p {
+                        font-size: 15px;
+                    }   
+                }
             }
-        }
-        tr.details {
-            td {
-                border: none;
-                padding: 0px;
-                text-align: left;
-                padding-left: 30px;
-                text-align: left;
-                p {
-                    font-size: 15px;
-                }   
+            &.isOpen {
+                td, th {
+                    border-bottom: 1px solid #eaeaea;
+                }
             }
-        }
-        tr.isOpen {
-            td, th {
-                border-bottom: 1px solid #eaeaea;
+            &:last-child {
+                td, th {
+                    border-bottom: none;
+                }
             }
-        }
-        
+        }        
         button {
             white-space: nowrap;
         }
@@ -312,6 +314,7 @@ $enrollment-module-vertical-padding: 20px;
             font-style: italic;
         }
         .fees {
+            width: 110px;
             font-size: 19px;
             font-style: italic;
             span {
@@ -319,6 +322,7 @@ $enrollment-module-vertical-padding: 20px;
             }
         }
         .select-plan {
+            width: 126px;
             position: relative;
             .selected-icon {
                 position: absolute;
@@ -664,6 +668,23 @@ $enrollment-module-vertical-padding: 20px;
     Enrollment Section
  */
 .enrollment {
+    hr.content-divider {
+        margin: 25px (-$enrollment-module-horizontal-padding);
+    }
+
+    form div.additional-field-group {
+        margin-left: (-$enrollment-module-horizontal-padding);
+        margin-right: (-$enrollment-module-horizontal-padding);
+        padding-left: $enrollment-module-horizontal-padding;
+        padding-right: $enrollment-module-horizontal-padding;
+    }
+
+    .checkbox-list {
+        label {
+            margin-bottom: 4px;
+        }
+    }
+
     .center {
         text-align: center;
     }
@@ -684,14 +705,13 @@ $enrollment-module-vertical-padding: 20px;
     }
     
     .error {
+        color: #c84545;
         input, select {
             border-color: #c84545;
         }
-        color: #c84545;
     }
         
     .wrapper {
-        @extend .clearfix;
         position: relative;
         overflow: visible;
         padding-bottom: 50px;
@@ -707,9 +727,9 @@ $enrollment-module-vertical-padding: 20px;
         }
     }
 
-    .service-address {
+    .item--no-input {
         label {
-            margin-bottom: 0;
+            margin-bottom: 3px;
         }
     }
 

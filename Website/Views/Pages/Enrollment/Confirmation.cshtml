@@ -9,13 +9,13 @@
             <article class="verify-order">
                 <div class="form content">
                     <div ng-repeat="(id, service) in getCartItems()">
-                        <div class="item">
+                        <div class="item item--no-input">
                             <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
                             <strong>{{ service.location.address | address }}</strong>
                         </div>
                         <hr />
-                        <div ng-repeat="(type, plan) in getPlans(service)">
-                            <div ng-include src="'serviceConfirmation/' + type"></div>
+                        <div ng-repeat="offerInformation in service.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
+                            <div ng-include src="'serviceConfirmation/' + offerInformation.key"></div>
                         </div>
                         <hr class="content-divider" ng-if="getCartItems().length > 1 && !$last">
                     </div>
@@ -172,19 +172,19 @@ Leaving this here for reference
 <script type="text/ng-template" id="serviceConfirmation/TexasElectricity">
     <table class="verify-order-table">
         <tbody>
-            <tr class="line-item">
-                <td class="description"><h4>{{plan.name}}</h4></td>
-                <td class="rate">{{plan.rate | currency}} kWh</td>
+            <tr class="line-item" ng-repeat-start="selectedOffer in offerInformation.value.offerSelections">
+                <td class="description"><h4>{{selectedOffer.offer.name}}</h4></td>
+                <td class="rate">{{selectedOffer.offer.rate | currency}} kWh</td>
             </tr>
             <tr>
-                <td class="sub-charge"><strong>@Html.Sitecore().Field("Installation Fee") ({{plan.selectionDetails.offerOption.connectDate | date:'M/d/yyyy'}})</strong></td>
+                <td class="sub-charge"><strong>@Html.Sitecore().Field("Installation Fee") ({{selectedOffer.offerOption.connectDate | date:'M/d/yyyy'}})</strong></td>
                 <td class="rate"></td>
             </tr>
             <tr>
                 <td class="sub-charge"><strong>@Html.Sitecore().Field("Deposit Header")</strong></td>
-                <td class="rate">{{ plan.selectionDetails.deposit.requiredAmount | currency }}</td>
+                <td class="rate">{{ selectedOffer.deposit.requiredAmount | currency }}</td>
             </tr>
-            <tr class="plan-documents">
+            <tr class="plan-documents" ng-repeat-end>
                 <td class="sub-charge"><strong>@Html.Sitecore().Field("Plan Documents Header")</strong></td>
                 <td class="docs">
                     <ul>

@@ -1,7 +1,7 @@
 @model StreamEnergy.DomainModels.Enrollments.UserContext
 <div id="utilityFlowPlans" class="enrollment" ng-show="stepsService.isStepVisible('utilityFlowPlans')" ng-controller="EnrollmentPlanSelectionCtrl">
     <div class="banner enrollment__banner" style="@Html.AsBackgroundStyle("Banner Image")">
-        <div class="wrapper">
+        <div class="wrapper clearfix">
             <h1>
                 <span class="small block">@Html.Sitecore().Field("Banner Header Text")</span><br>
                 <span class="block">@Html.Sitecore().Field("Banner Sub Header Text")</span>
@@ -20,7 +20,7 @@
                     </header>
                     <div class="content">
                             <p>@Html.Sitecore().Field("Choose Paragraph")</p>
-                        <div class="item service-address">
+                        <div class="item item--no-iput">
                             <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
                             <strong>{{ currentLocationInfo().location.address | address }}</strong>
                         </div>

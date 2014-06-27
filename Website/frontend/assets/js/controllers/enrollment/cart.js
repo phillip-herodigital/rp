@@ -5,10 +5,8 @@
 ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enrollmentService', 'enrollmentCartService', 'utilityProductsService', function ($scope, enrollmentStepsService, enrollmentService, enrollmentCartService, utilityProductsService) {
     
     /*$scope.enrollmentStepsService = enrollmentStepsService;
-    $scope.utilityService = utilityProductsService;
     $scope.accountInformationService = accountInformationService;*/
 
-    $scope.getPlans = enrollmentCartService.getPlans;
     $scope.getCartCount = enrollmentCartService.getCartCount;
     $scope.getCartItems = enrollmentCartService.getCartItems;
     
@@ -33,17 +31,17 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     /**
     * Delete item from cart
     */
-    $scope.deleteUtilityPlan = function (location, plan) {
+    $scope.deleteUtilityPlan = function (location, selectedOffer) {
         var offerInformationTypeIndex;
         var offerSelections;
         for (var i = 0; i < location.offerInformationByType.length; i++) {
-            if (location.offerInformationByType[i].key == plan.offerType) {
+            if (location.offerInformationByType[i].key == plan.offer.offerType) {
                 offerInformationTypeIndex = i;
                 offerSelections = location.offerInformationByType[i].value.offerSelections;
             }
         }
         for (var i = 0; i < offerSelections.length; i++) {
-            if (offerSelections[i].offerId == plan.id) {
+            if (offerSelections[i] == selectedOffer) {
                 offerSelections.splice(i, 1);
                 i--;
             }

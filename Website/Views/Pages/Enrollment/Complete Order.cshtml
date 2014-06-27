@@ -1,7 +1,7 @@
 @model StreamEnergy.DomainModels.Enrollments.UserContext
 <div id="reviewOrder" class="enrollment accent-darkgreen" ng-show="stepsService.isStepVisible('reviewOrder')" ng-controller="EnrollmentCompleteOrderCtrl">
     <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
-        <div class="wrapper">
+        <div class="wrapper clearfix">
             <h1>
                 <span class="small block">@Html.Sitecore().Field("Add Payment")</span><br>
                 <span class="block">@Html.Sitecore().Field("Information")</span>
@@ -16,7 +16,7 @@
             <h1>@Html.Sitecore().Field("Add Payment Information")</h1>
             <p>@Html.Sitecore().Field("Payment Due")</p>
 
-            <article class="form enrollment__review-order">
+            <article class="form enrollment__box enrollment__review-order">
                 <div class="content">
                     <div ng-repeat="(id, location) in getCartItems()">
                         <div class="item">
@@ -24,31 +24,31 @@
                             <strong>{{ location.location.address | address }}</strong>
                         </div>
                         <hr />
-                        <div ng-repeat="(type, plan) in getPlans(location)">
-                            <div ng-if="type == 'TexasElectricity'">
+                        <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
+                            <div ng-if="offerInformation.key == 'TexasElectricity'">
                                 @*<h3>Electricity</h3>*@
                                 <table class="verify-order-table">
                                     <tbody>
-                                        <tr class="line-item">
+                                        <tr class="line-item" ng-repeat-start="selectedOffer in offerInformation.value.offerSelections">
                                             <td class="description">
-                                                <h4>{{plan.name}}</h4>
-                                                @*<p>{{plan.description}}</p>*@
+                                                <h4>{{selectedOffer.offer.name}}</h4>
+                                                @*<p>{{selectedOffer.offer.description}}</p>*@
                                             </td>
                                             <td class="rate">
-                                                {{plan.rate | currency}} kWh
+                                                {{selectedOffer.offer.rate | currency}} kWh
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <tr ng-repeat-end>
                                             <td class="sub-charge">
                                                 <strong>Deposit Due</strong><br>
-                                                {{ plan.selectionDetails.deposit.description }}
+                                                {{ selectedOffer.deposit.description }}
                                             </td>
-                                            <td class="rate">{{ plan.selectionDetails.deposit.requiredAmount | currency }}</td>
+                                            <td class="rate">{{ selectedOffer.deposit.requiredAmount | currency }}</td>
                                         </tr>
                                         @*<tr>
-                                            <td class="sub-charge">Installation</td>
-                                            <td></td>
-                                        </tr>*@
+                            <td class="sub-charge">Installation</td>
+                            <td></td>
+                        </tr>*@
                                     </tbody>
                                 </table>
                             </div>
@@ -86,7 +86,7 @@
             *@
             <h2>@Html.Sitecore().Field("Card Details")</h2>
             <form data-val-bind-messages="validations">
-                <article class="form">
+                <article class="enrollment__box form">
                     <div class="content">
                         <div class="item">
                             <label for="payment-method">@Html.Sitecore().Field("Select Payment Method Label")</label>
@@ -120,9 +120,11 @@
                                 <a href="" class="single-link">@Html.Sitecore().Field("See Example")</a>
                             </div>
                         </div>
+                        <p>By clicking "Place Order" below, you agree to the <a href="">terms and conditions</a>.</p>
                         <div class="item" @Html.ValidationErrorClass(m => m.AgreeToTerms)>
-                            <p>By clicking "Place Order" below, you agree to the <a href="">terms and conditions</a>.</p>
-                            <p><input type="checkbox" @Html.ValidationAttributes(c => c.AgreeToTerms) ng-model="completeOrder.agreeToTerms"> I agree to the TCPA <a href="">terms and conditions</a>.</p>
+                            <ul class="checkbox-list">
+                                <li><input type="checkbox" @Html.ValidationAttributes(c => c.AgreeToTerms) ng-model="completeOrder.agreeToTerms"> I agree to the TCPA <a href="">terms and conditions</a>.</li>    
+                            </ul>                            
                         </div>
                     </div>
                 </article>

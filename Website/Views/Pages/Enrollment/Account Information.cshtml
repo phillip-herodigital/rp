@@ -3,7 +3,7 @@
 @using StreamEnergy.DomainModels.Enrollments
 <div id="accountInformation" class="enrollment" ng-if="stepsService.isStepVisible('accountInformation')" ng-controller="EnrollmentAccountInformationCtrl" ng-init="usStates = @(Html.Action("States", "Data").ToHtmlString()); phoneTypes = @(Html.Action("PhoneCategories", "Data").ToHtmlString());">
     <div class="banner enrollment__banner" style="@Html.AsBackgroundStyle("Banner Image")">
-        <div class="wrapper">
+        <div class="wrapper clearfix">
             <h1>
                 <span class="small block">@Html.Sitecore().Field("Setup Your")</span><br>
                 <span class="block">@Html.Sitecore().Field("Account")</span>
@@ -25,7 +25,7 @@
                     <div class="content">
                         <p>@Html.Sitecore().Field("Fill in Information")</p>
                         @* Service Address *@
-                        <div class="item" ng-if="item.location.address.line1">
+                        <div class="item item--no-input" ng-if="item.location.address.line1">
                             <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
                             <strong>{{ item.location.address | address }}</strong>
                         </div>
@@ -73,7 +73,7 @@
                                         </select>
                                     </div>
 
-                                    <div class="item" ng-show="selectedOffer.offerOption.billingAddressSame && utilityAddresses().length == 1">
+                                    <div class="item item--no-input" ng-show="selectedOffer.offerOption.billingAddressSame && utilityAddresses().length == 1">
                                         <label>@Html.Sitecore().Field("Billing Service Address Label")</label>
                                         <strong>{{ selectedOffer.offerOption.billingAddress | address }}</strong>
                                     </div>
@@ -230,7 +230,7 @@
                             </ul>
                         </div>
 
-                        <div class="additional-field-group" ng-show="additionalInformation.showSecondaryContact">
+                        <div class="additional-field-group" ng-if="additionalInformation.showSecondaryContact">
                             <div class="group">
                                 <div class="item group-col" @Html.ValidationErrorClass(m => m.SecondaryContactInfo.First)>
                                     <label for="@Html.For(m => m.SecondaryContactInfo.First)">@Html.Sitecore().Field("First Name Label")</label>
@@ -311,7 +311,7 @@
             <input type="text" id="@offer.For(o => ((TexasElectricityOfferOption)o.OfferOption).ConnectDate)" ng-model="selectedOffer.offerOption.connectDate" placeholder="01/29/14"
                    datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="checkDisabledDate(date, mode)" datepicker-options="{ 'datepickerDateClass': 'checkDateClass(date)', 'datepickerDateClassScope': $id }" />
         </div>
-        <div class="item">
+        <div class="item item--no-input">
             <label for="connection-fee">@Html.Sitecore().Field("Connection Fee Label")</label>
             <strong>{{connectionFee}}</strong>
         </div>

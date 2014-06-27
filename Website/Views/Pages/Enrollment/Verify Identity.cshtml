@@ -1,7 +1,7 @@
 @model StreamEnergy.DomainModels.Enrollments.UserContext
-<div id="verifyIdentity" class="enrollment accent-darkgreen" ng-show="stepsService.isStepVisible('verifyIdentity')" ng-controller="EnrollmentVerifyIdentityCtrl">    
+<div id="verifyIdentity" class="enrollment" ng-show="stepsService.isStepVisible('verifyIdentity')" ng-controller="EnrollmentVerifyIdentityCtrl">    
     <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
-        <div class="wrapper">
+        <div class="wrapper clearfix">
             <h1>
                 <span class="small block">@Html.Sitecore().Field("Banner Header Text")</span><br>
                 <span class="block">@Html.Sitecore().Field("Banner Sub Header Text")</span>
@@ -14,10 +14,12 @@
         </aside>
         <section>
             <form data-val-bind-messages="validations" ng-submit="completeStep()">
-                <h1>@Html.Sitecore().Field("Verify Header")</h1>
-                <p>@Html.Sitecore().Field("Verify Paragraph")</p>
-                <article class="form">
+                <article class="enrollment__box form">
+                    <header>
+                        <h1>@Html.Sitecore().Field("Verify Header")</h1>
+                    </header>
                     <div class="content">
+                        <p>@Html.Sitecore().Field("Verify Paragraph")</p>
                         <p><strong>@Html.Sitecore().Field("Skip This Step")</strong></p>
                         <div class="form">
                             @using (var idQuestion = Html.AngularRepeat(m => m.SelectedIdentityAnswers, "$index"))
