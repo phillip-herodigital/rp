@@ -2,7 +2,7 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', 'utilityProduc
     var sum = function (sum, item) { return sum + item; }
 
 	return {
-		getPlans: utilityProductsService.getSelectedPlans,
+	    getSelectedPlans: utilityProductsService.getSelectedPlans,
 
 		/**
 		 * Return the number of items in the cart

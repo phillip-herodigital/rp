@@ -4,6 +4,12 @@ ngApp.factory('utilityProductsService', ['$filter', function ($filter) {
 		availableOfferTypes = [],
 		isNewServiceAddress = true;
 
+	var updateOffer = function (offerInformation) {
+	    _(offerInformation.value.offerSelections).forEach(function (offerSelection) {
+	        offerSelection.offer = _(offerInformation.value.availableOffers).where({ id: offerSelection.offerId }).first();
+	    });
+	};
+
 	return {
 		addresses: addresses,
 		isNewServiceAddress: isNewServiceAddress,
@@ -19,16 +25,9 @@ ngApp.factory('utilityProductsService', ['$filter', function ($filter) {
 		 */
 		updateCart: function (cart) {
 			//Map out the location items
-			angular.copy(cart, addresses);
-		},
+		    angular.copy(cart, addresses);
 
-		/**
-		 * Remove a service address from the current list
-		 * @param  {[type]} address
-		 * @return {[type]}
-		 */
-		deleteServiceAddress: function(address) {
-
+		    _(addresses).pluck('offerInformationByType').flatten().forEach(updateOffer);
 		},
 
 		/**
@@ -120,13 +119,9 @@ ngApp.factory('utilityProductsService', ['$filter', function ($filter) {
 		    //Set the active plans
 		    _(plans).keys().forEach(function (key) {
 		        var offerInformationForType = _(activeServiceAddress.offerInformationByType).where({ key: key }).first();
-		        offerInformationForType.value.offerSelections = _(plans[key]).map(function (plan) {
-		            var selectedOffer = _(offerInformationForType.value.availableOffers).where({ id: plan }).first();
-		            return { offerId: plan, offer: selectedOffer };
-		        }).value();
+		        offerInformationForType.value.offerSelections = _(plans[key]).map(function (plan) { return { offerId: plan }; }).value();
+		        updateOffer(offerInformationForType);
 		    });
-
-		    console.log(activeServiceAddress.offerInformationByType);
 		},
 
 		/**

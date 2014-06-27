@@ -1,7 +1,7 @@
 ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollmentService', 'utilityProductsService', 'enrollmentCartService', function ($scope, $window, enrollmentService, utilityProductsService, enrollmentCartService) {
     $scope.accountInformation = {};
 
-    $scope.getPlans = enrollmentCartService.getPlans;
+    $scope.getPlans = enrollmentCartService.getSelectedPlans;
     $scope.getCartItems = enrollmentCartService.getCartItems;  
     $scope.getCartTotal = enrollmentCartService.calculateCartTotal;  
 

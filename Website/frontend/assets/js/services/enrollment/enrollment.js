@@ -33,6 +33,7 @@
         angular.copy(result.validations, service.validation);
 
         // update the cart
+        // TODO - shouldn't be telling the utility service about the cart - this should really be going to the cart service
         utilityProductsService.updateCart(result.cart);
         var serviceIndexErrors = [];
         angular.forEach(result.validations, function (entry) {
@@ -160,25 +161,32 @@
     * @return {object}            Promise object returned when API call has successfully completed.
     */
     service.setAccountInformation = function () {
-        var utilityProduct = utilityProductsService.addresses || [];
-
         var data = angular.copy({
             contactInfo: service.accountInformation.contactInfo,
             socialSecurityNumber: service.accountInformation.socialSecurityNumber,
             driversLicense: service.accountInformation.driversLicense,
             secondaryContactInfo: service.accountInformation.secondaryContactInfo,
             onlineAccount: service.accountInformation.onlineAccount,
-            cart: utilityProduct
         });
-        // sanitize data
-        angular.forEach(data.cart, function (cartItem) {
-            angular.forEach(cartItem.offerInformationByType, function (typedOrderInfo) {
-                typedOrderInfo.value.availableOffers = null;
-                angular.forEach(typedOrderInfo.value.offerSelections, function (offerSelection) {
-                    offerSelection.optionRules = null;
+        data.cart = _.map(utilityProductsService.addresses, function (cartItem) {
+            return {
+                location: cartItem.location,
+                offerInformationByType: _.map(cartItem.offerInformationByType, function (typedOrderInfo) {
+                    return {
+                        key: typedOrderInfo.key,
+                        value: {
+                            offerSelections: _.map(typedOrderInfo.value.offerSelections, function (offerSelection) {
+                                return {
+                                    offerId: offerSelection.offerId,
+                                    offerOption: offerSelection.offerOption
+                                };
+                            })
+                        }
+                    };
                 })
-            });
+            };
         });
+
         if (!data.driversLicense.number && !data.driversLicense.stateAbbreviation)
             data.driversLicense = null;
         if (!data.secondaryContactInfo.first && !data.secondaryContactInfo.last)
