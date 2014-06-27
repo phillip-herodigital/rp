@@ -10,7 +10,7 @@
     </div>
     <div class="wrapper layout cols-2">
         <aside class="left">
-            <div ng-include src="'enrollment-nav-template'"></div>
+            <div ng-include src="'enrollment-nav-template'" ng-init="name = 'utilityFlowService'"></div>
         </aside>
         <section>
             @Html.Sitecore().Field("Header Text")

@@ -10,7 +10,7 @@
     </div>
     <div class="wrapper layout cols-2">
         <aside class="left">
-            <div ng-include ng-if="true" src="'enrollment-nav-template'"></div>
+            <div ng-include ng-if="true" src="'enrollment-nav-template'"  ng-init="name = 'verifyIdentity'"></div>
         </aside>
         <section>
             <form data-val-bind-messages="validations" ng-submit="completeStep()">

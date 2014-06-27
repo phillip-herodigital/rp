@@ -7,8 +7,8 @@
 <script type="text/ng-template" id="enrollment-nav-template">
     <nav>
         <ul>
-            <li ng-class="{ 'active' : step.isCurrent,
-                            'completed': step.canJumpTo && !step.isCurrent }"
+            <li ng-class="{ 'active' : step.id == name,
+                            'completed': step.canJumpTo }"
                 ng-repeat="step in stepsService.getSteps() | objectAsArray | orderBy:'order'"
                 ng-show="step.isActive">
                 <a href="" ng-click="step.isVisible && enrollmentNavClick(step)">{{step.name}}</a>

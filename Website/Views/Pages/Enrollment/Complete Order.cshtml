@@ -10,7 +10,7 @@
     </div>
     <div class="wrapper layout cols-2">
         <aside class="left">
-            <div ng-include ng-if="true" src="'enrollment-nav-template'"></div>
+            <div ng-include ng-if="true" src="'enrollment-nav-template'"  ng-init="name = 'reviewOrder'"></div>
         </aside>
         <section>
             <h1>@Html.Sitecore().Field("Add Payment Information")</h1>

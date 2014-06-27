@@ -11,7 +11,7 @@
     </div>
     <div class="wrapper layout cols-2">
         <aside class="left">
-            <div ng-include src="'enrollment-nav-template'"></div>
+            <div ng-include src="'enrollment-nav-template'" ng-init="name = 'utilityFlowPlans'"></div>
         </aside>
         <section>
             <h1>@Html.Sitecore().Field("Choose Header")</h1>
