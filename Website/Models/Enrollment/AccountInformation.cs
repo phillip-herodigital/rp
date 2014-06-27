@@ -19,5 +19,7 @@ namespace StreamEnergy.MyStream.Models.Enrollment
         public string SocialSecurityNumber { get; set; }
 
         public IEnumerable<CartEntry> Cart { get; set; }
+
+        public OnlineAccount OnlineAccount { get; set; }
     }
 }
