@@ -5,21 +5,25 @@ ngApp.controller('AcctAccountInformationCtrl', ['$scope', '$rootScope', '$http',
 	// create a blank object to hold the form information
 	$scope.formData = {};
 
-	// set the account ID - this will eventually get passed in
-	$scope.accountId = { 'accountId' : '11111' };
+	// when the account selector changes, reload the data
+	$scope.$watch('selectedAccount', function(newVal, oldVal) { 
+		$timeout(function() {
+			$http({
+				method  : 'POST',
+				url     : '/api/account/getAccountInformation',
+				data    : newVal,
+				headers : { 'Content-Type': 'application/JSON' } 
+			})
+				.success(function (data, status, headers, config) {
+					$scope.formData = data;
+					$scope.formDataOriginal = angular.copy($scope.formData);
+				});
+		}, 1000);
+	});
 
 	// get the current data
 	$timeout(function() {
-		$http({
-			method  : 'POST',
-			url     : '/api/account/getAccountInformation',
-			data    : $scope.accountId,
-			headers : { 'Content-Type': 'application/JSON' } 
-		})
-			.success(function (data, status, headers, config) {
-				$scope.formData = data;
-				$scope.formDataOriginal = angular.copy($scope.formData);
-			});
+		
 	});
 
 	// process the form
