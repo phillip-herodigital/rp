@@ -20,7 +20,7 @@
                     </header>
                     <div class="content">
                             <p>@Html.Sitecore().Field("Choose Paragraph")</p>
-                        <div class="item">
+                        <div class="item service-address">
                             <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
                             <strong>{{ currentLocationInfo().location.address | address }}</strong>
                         </div>
@@ -84,8 +84,15 @@
                     <td class="fees">
                         ${{ plan.cancellationFee }}<span>@Html.Sitecore().Field("Electricity Early Cancellation Fee")</span>
                     </td>
-                    <td>
-                        <a class="button" button-selector="'{{plan.id}}'" ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix()" href="">@Html.Sitecore().Field("Electricity Button")</a>
+                    <td class="select-plan">
+                        <span ng-if="isSelected" class="selected-icon">
+                            <i class="icon-check"></i>
+                        </span>
+                        <button button-selector="'{{plan.id}}'" ng-class="{ 'secondary': isSelected }" ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix()">
+                            @*@Html.Sitecore().Field("Electricity Button")*@
+                            <span ng-if="isSelected">Remove</span>
+                            <span ng-if="!isSelected">Select</span>
+                        </button>
                     </td>
                 </tr>
                 <tr class="details additional-fields ng-cloak" ng-repeat-end>

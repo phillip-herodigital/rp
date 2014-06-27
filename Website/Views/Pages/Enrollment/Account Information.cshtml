@@ -2,10 +2,10 @@
 @using TypedPhone = StreamEnergy.DomainModels.TypedPhone
 @using StreamEnergy.DomainModels.Enrollments
 <div id="accountInformation" class="enrollment" ng-if="stepsService.isStepVisible('accountInformation')" ng-controller="EnrollmentAccountInformationCtrl" ng-init="usStates = @(Html.Action("States", "Data").ToHtmlString()); phoneTypes = @(Html.Action("PhoneCategories", "Data").ToHtmlString());">
-    <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
+    <div class="banner enrollment__banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper">
             <h1>
-                <span class="block">@Html.Sitecore().Field("Setup Your")</span><br>
+                <span class="small block">@Html.Sitecore().Field("Setup Your")</span><br>
                 <span class="block">@Html.Sitecore().Field("Account")</span>
             </h1>
         </div>
@@ -254,12 +254,7 @@
                         <h1>@Html.Sitecore().Field("Social Box Header")</h1>
                     </header>
                     <div class="content">
-<<<<<<< HEAD
                         <div class="social-box">
-=======
-                        @*<div class="social-box">
-                            <h2>@Html.Sitecore().Field("Social Box Header")</h2>
->>>>>>> origin/enrollment
                             <p>@Html.Sitecore().Field("Social Box Intro")</p>
                             <p class="social-buttons">
                                 <a class="button social facebook" href=""><span class="icon-holder"><i class="icon-facebook"></i></span> @Html.Sitecore().Field("Social Box Facebook")</a>
@@ -267,13 +262,9 @@
                                 <a class="button social linkedin" href=""><span class="icon-holder"><i class="icon-linkedin"></i></span> @Html.Sitecore().Field("Social Box LinkedIn")</a>
                             </p>
                             <div class="seperator">@Html.Sitecore().Field("Seperator")</div>
-<<<<<<< HEAD
                         </div>
-                        <h1>@Html.Sitecore().Field("Create Online Account Header")</h1>
-=======
-                        </div>*@
                         <h2>@Html.Sitecore().Field("Create Online Account Header")</h2>
->>>>>>> origin/enrollment
+
                         <p>@Html.Sitecore().Field("Online Account Paragraph")</p>
                         <div class="item" @Html.ValidationErrorClass(m => m.OnlineAccount.Username)>
                             <label for="@Html.For(m => m.OnlineAccount.Username)">@Html.Sitecore().Field("Username Optional Label")</label>

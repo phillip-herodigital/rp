@@ -3,7 +3,7 @@
     <div class="banner enrollment__banner enrollment__banner--service-info" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper">
             <h1 class="center">
-                <span class="xsmall block">@Html.Sitecore().Field("Banner Header Text")</span><br>
+                <span class="small block">@Html.Sitecore().Field("Banner Header Text")</span><br>
                 <span class="block">@Html.Sitecore().Field("Banner Sub Header Text")</span>
             </h1>
         </div>
@@ -45,7 +45,7 @@
                                    typeahead="location as location.address|address for location in getLocation(serviceInformation.serviceState, $viewValue)"
                                    ng-disabled="serviceInformation.serviceState == ''"
                                    typeahead-loading="serviceInformation.loadingServiceAddress"
-                                   ng-class="{'loading' : serviceInformation.loadingServiceAddress}" />
+                                   ng-class="{'loading' : serviceInformation.loadingServiceAddress}" autocomplete="off" />
                             <div id="state-select" dropdown-select dropdown-items="utilityService.states" value="serviceInformation.serviceState"></div>
                             @currentService.MessageFor(s => s.Location)
                         </div>
