@@ -259,7 +259,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             var primaryPhone =  new DomainModels.TypedPhone { Number = "214-223-4567", Category = StreamEnergy.DomainModels.PhoneCategory.Home };
             var secondaryPhone = new DomainModels.TypedPhone { Number = "214-223-7323", Category = StreamEnergy.DomainModels.PhoneCategory.Mobile };
-            IEnumerable<DomainModels.PhoneCategory> phoneTypes = new DomainModels.PhoneCategory[] {DomainModels.PhoneCategory.Home, DomainModels.PhoneCategory.Mobile, DomainModels.PhoneCategory.Work};
 
             serviceAddress.Line1 = "123 Main St.";
             serviceAddress.City = "Dallas";
@@ -281,7 +280,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 CustomerName = customerName,
                 PrimaryPhone = primaryPhone,
                 SecondaryPhone = secondaryPhone,
-                PhoneTypes = phoneTypes,
                 ServiceAddress = serviceAddress,
                 SameAsService = sameAsService,
                 BillingAddress = billingAddress
