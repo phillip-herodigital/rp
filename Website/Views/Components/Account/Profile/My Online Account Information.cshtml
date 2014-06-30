@@ -44,7 +44,7 @@
                             <span class="help-text">@Html.Sitecore().Field("Password Requirements Text")</span>
                         </div>
                         <div class="item group-col" @Html.ValidationErrorClass(model => model.ConfirmPassword) @*float-label*@>
-                            <label for="@Html.For(m => m.ConfirmPassword)">@Html.Sitecore().Field("New Password Text")</label>
+                            <label for="@Html.For(m => m.ConfirmPassword)">@Html.Sitecore().Field("Confirm Password Text")</label>
                             <input type="password" @Html.ValidationAttributes(m => m.ConfirmPassword) ng-model="formData.confirmPassword" />
                             @Html.ValidationMessageFor(model => model.ConfirmPassword)
                         </div>
