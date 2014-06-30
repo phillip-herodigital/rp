@@ -58,7 +58,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 Invoices = new Table<Models.Account.Invoice>
                 {
                     // TODO - provide translation sitecore item
-                    ColumnList = typeof(StreamEnergy.MyStream.Models.Account.Invoice).BuildTableSchema(null),
+                    ColumnList = typeof(StreamEnergy.MyStream.Models.Account.Invoice).BuildTableSchema(database.GetItem("/sitecore/content/Data/Components/Account/Overview/My Invoices")),
                     Values = from invoice in accountService.GetInvoices(User.Identity.Name)
                              select new StreamEnergy.MyStream.Models.Account.Invoice
                              {
