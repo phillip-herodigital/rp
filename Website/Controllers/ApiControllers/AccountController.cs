@@ -45,6 +45,21 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             return temperatureService.CelciusToFahrenheit(celcius: celcius);
         }
 
+        #region Utiltiy Providers
+
+        [HttpGet]
+        public GetUtilityProvidersResponse GetUtilityProviders()
+        {
+            // TODO - get the providers from Stream Connect 
+
+            return new GetUtilityProvidersResponse
+            {
+                Providers = new[] { "PPL" }
+            };
+        }
+
+        #endregion
+
         #region Invoices
 
         [HttpGet]
@@ -57,7 +72,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             {
                 Invoices = new Table<Models.Account.Invoice>
                 {
-                    // TODO - provide translation sitecore item
                     ColumnList = typeof(StreamEnergy.MyStream.Models.Account.Invoice).BuildTableSchema(database.GetItem("/sitecore/content/Data/Components/Account/Overview/My Invoices")),
                     Values = from invoice in accountService.GetInvoices(User.Identity.Name)
                              select new StreamEnergy.MyStream.Models.Account.Invoice

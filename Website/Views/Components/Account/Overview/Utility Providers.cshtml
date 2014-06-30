@@ -1,12 +1,14 @@
-﻿<section class="layout wrapper">
-    <section class="layout cols-1">
-        <article class="grey-box utility-providers">
-            <header>
-                <h2>@Html.Sitecore().Field("Utility Providers Text")</h2>
-            </header>
-            <div class="content">
-                @Html.Sitecore().Field("Utility Providers Content")
+﻿
+<article class="grey-box utility-providers wrapper" ng-controller="AcctUtilityProvidersCtrl" ng-init="utilityProviders = @(Html.Action("UtilityProviders", "Data").ToHtmlString());">
+    <header>
+        <h2>@Html.Sitecore().Field("Utility Providers Text")</h2>
+    </header>
+    <div class="content">
+        @Html.Sitecore().Field("Utility Providers Content")
+        <div class="clearfix">
+            <div class="logos" ng-repeat="provider in utilityProviders|filter:currentProviders">
+                <a href="{{ provider.link }}"><img src="{{ provider.logo }}" alt="{{ provider.name }}" /></a>
             </div>
-        </article>
-    </section>
-</section>
+        </div>
+    </div>
+</article>
