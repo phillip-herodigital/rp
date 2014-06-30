@@ -1471,16 +1471,16 @@ article.services-box {
             .plan-name {
                 text-align: left;
             }
-            .view-details {
-                display: inline;
-                float: left;
-                margin-top: 12px;
-            }
             .plan-actions {
                 button, .button {
                     float: right;
                     min-width: 120px;
                 }
+            }
+            .view-details {
+                display: inline;
+                float: left;
+                margin-top: 12px;
             }
         }
         .buttons {
@@ -1494,6 +1494,9 @@ article.services-box {
         }
         .datepicker {
             position: relative;
+            .pull-right, .pull-left {
+                width: 35px;
+            }
             table {
                 width: 100%;
                 max-width: 320px;
@@ -1501,18 +1504,19 @@ article.services-box {
                     padding: 2px 3px;
                 }
             }
-            .pull-right, .pull-left {
-                width: 35px;
-            }
         }
         .datepicker-input {
             @include retina-background('calendar.png', 'icon'); 
             background-position: 98% center;
             background-repeat: no-repeat;
+
+            //Remove the Clear field (X) in IE10+
+            &::-ms-clear {
+                display: none;
+            }
         }
         .dropdown-menu {
             font-size: 13px;
-            width: 100%;
         }
         #state-select {
             margin-top: 5px;
