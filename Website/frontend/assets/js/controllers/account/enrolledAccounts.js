@@ -6,11 +6,10 @@ ngApp.controller('AcctEnrolledAccountsCtrl', ['$scope', '$rootScope', '$http', '
 	$scope.formData = {};
 
 	// get the current data
-	$timeout(function() {
-		$http.get('/api/account/getEnrolledAccounts').success(function (data, status, headers, config) {
-			$scope.formData = data;
-			$scope.formDataOriginal = angular.copy($scope.formData);
-		});
+
+	$http.get('/api/account/getEnrolledAccounts').success(function (data, status, headers, config) {
+		$scope.formData = data;
+		$scope.formDataOriginal = angular.copy($scope.formData);
 	});
 
 	$scope.open = function (accountNumber) {
@@ -44,11 +43,8 @@ ngApp.controller('AcctEnrolledAccountsCtrl', ['$scope', '$rootScope', '$http', '
 
 				} else {
 					// if successful, remove the row
-					for (var i = 0, len = $scope.formData.enrolledAccounts.length; i < len; i += 1) {
-						if ($scope.formData.enrolledAccounts[i] && $scope.formData.enrolledAccounts[i].accountNumber === accountNumber) {
-							$scope.formData.enrolledAccounts.splice(i, 1);
-						}
-					} 
+					var index = _.findIndex($scope.formData.enrolledAccounts, { 'accountNumber' : accountNumber });
+					$scope.formData.enrolledAccounts.splice(index, 1);
 				}
 			});
 	};

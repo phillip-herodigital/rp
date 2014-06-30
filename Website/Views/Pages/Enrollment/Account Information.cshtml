@@ -1,7 +1,7 @@
 @model StreamEnergy.DomainModels.Enrollments.UserContext
 @using TypedPhone = StreamEnergy.DomainModels.TypedPhone
 @using StreamEnergy.DomainModels.Enrollments
-<div id="accountInformation" class="enrollment-section accent-darkgreen" ng-show="stepsService.isStepVisible('accountInformation')" ng-controller="EnrollmentAccountInformationCtrl">
+<div id="accountInformation" class="enrollment-section accent-darkgreen" ng-if="stepsService.isStepVisible('accountInformation')" ng-controller="EnrollmentAccountInformationCtrl" ng-init="usStates = @(Html.Action("States", "Data").ToHtmlString()); phoneTypes = @(Html.Action("PhoneCategories", "Data").ToHtmlString());">
     <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper">
             <h1>
@@ -12,7 +12,7 @@
     </div>
     <div class="wrapper layout cols-2">
         <aside class="left">
-            <div ng-include ng-if="true" src="'enrollment-nav-template'"></div>
+            <div ng-include ng-if="true" src="'enrollment-nav-template'"  ng-init="name = 'accountInformation'"></div>
         </aside>
         <section>
             <h1>@Html.Sitecore().Field("Header Account Information")</h1>
@@ -36,7 +36,7 @@
                             <input type="text"
                                    id="service-address"
                                    class="typeahead"
-                                   ng-model="accountInformation.serviceAddress"
+                                   ng-model="item.tempLocation"
                                    placeholder="123 Main Street, Dallas, TX 75001"
                                    typeahead="location as location.address|address for location in getLocation(item.location.address.stateAbbreviation, $viewValue)"
                                    typeahead-loading="accountInformation.loadingAccountInformationServiceAddress"
@@ -51,7 +51,7 @@
                                 <div ng-include src="'offerOptions/' + offerInformation.key"></div>
 
                                 @* Start Billing Address section - don't even show the billing address section if the service address isn't set *@
-                                <div ng-show="item.location.address.line1" ng-controller="EnrollmentBillingAddressCtrl">
+                                <div ng-if="item.location.address.line1" ng-controller="EnrollmentBillingAddressCtrl">
                                     <h3>@Html.Sitecore().Field("Billing Address Header")</h3>
 
                                     <div class="item">
@@ -102,7 +102,7 @@
                                                 </div>
                                                 <div class="item" @offer.ErrorClass(m => m.OfferOption.BillingAddress.StateAbbreviation)>
                                                     <label for="@offer.For(m => m.OfferOption.BillingAddress.StateAbbreviation)">@Html.Sitecore().Field("State Label")</label>
-                                                    <select @offer.Attributes(m => m.OfferOption.BillingAddress.StateAbbreviation) data-val-if="!selectedOffer.offerOption.billingAddressSame" ng-model="selectedOffer.offerOption.billingAddress.stateAbbreviation" ng-options="state.abbreviation as state.name for state in usStates">
+                                                    <select @offer.Attributes(m => m.OfferOption.BillingAddress.StateAbbreviation) data-val-if="!selectedOffer.offerOption.billingAddressSame" ng-model="selectedOffer.offerOption.billingAddress.stateAbbreviation" ng-options="state.abbreviation as state.display for state in usStates">
                                                         <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
                                                     </select>
                                                     @offer.MessageFor(m => m.OfferOption.BillingAddress.StateAbbreviation)
@@ -148,7 +148,7 @@
                             </div>                        
                             <div class="item group-col" @firstPhone.ErrorClass(m => ((TypedPhone)m).Category)>
                                 <label for="@firstPhone.For(m => ((TypedPhone)m).Category)">@Html.Sitecore().Field("Phone Type Label")</label>
-                                <select @firstPhone.Attributes(m => ((TypedPhone)m).Category) ng-model="accountInformation.contactInfo.phone[0].category" ng-options="type.name as type.label for type in phoneTypes">
+                                <select @firstPhone.Attributes(m => ((TypedPhone)m).Category) ng-model="accountInformation.contactInfo.phone[0].category" ng-options="type.name as type.display for type in phoneTypes">
                                     <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
                                 </select>
                                 @firstPhone.MessageFor(m => ((TypedPhone)m).Category)
@@ -157,7 +157,7 @@
                         </div>
                         <div class="additional-field-action">
                             <a href="" ng-click="accountInformation.contactInfo.phone[1] = {}" ng-hide="accountInformation.contactInfo.phone.length > 1">@Html.Sitecore().Field("Add additional phone number")</a>
-                            <a href="" ng-click="accountInformation.contactInfo.phone.splice(0, 1)" ng-show="accountInformation.contactInfo.phone.length > 1">@Html.Sitecore().Field("Remove additional phone number")</a>
+                            <a href="" ng-click="accountInformation.contactInfo.phone.splice(1, 1)" ng-show="accountInformation.contactInfo.phone.length > 1">@Html.Sitecore().Field("Remove additional phone number")</a>
                         </div>
                         <div class="additional-field-group" ng-show="accountInformation.contactInfo.phone.length > 1">
                             <div class="group">
@@ -170,7 +170,7 @@
                                 </div>
                                 <div class="item group-col" @secondPhone.ErrorClass(m => ((TypedPhone)m).Category)>
                                     <label for="@secondPhone.For(m => ((TypedPhone)m).Category)">@Html.Sitecore().Field("Phone Type Label")</label>
-                                    <select @secondPhone.Attributes(m => ((TypedPhone)m).Category) ng-model="accountInformation.contactInfo.phone[1].category" ng-options="type.name as type.label for type in phoneTypes" data-val-if="accountInformation.contactInfo.phone.length > 1">
+                                    <select @secondPhone.Attributes(m => ((TypedPhone)m).Category) ng-model="accountInformation.contactInfo.phone[1].category" ng-options="type.name as type.display for type in phoneTypes" data-val-if="accountInformation.contactInfo.phone.length > 1">
                                         <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
                                     </select>
                                     @secondPhone.MessageFor(m => ((TypedPhone)m).Category)
@@ -216,7 +216,7 @@
                             </div>
                             <div class="item group-col" @Html.ValidationErrorClass(m => m.DriversLicense.StateAbbreviation)>
                                 <label for="@Html.For(m => m.DriversLicense.StateAbbreviation)">@Html.Sitecore().Field("Drivers License State Label")</label>
-                                <select @Html.ValidationAttributes(m => m.DriversLicense.StateAbbreviation) data-val-if="accountInformation.driversLicense.number || accountInformation.driversLicense.stateAbbreviation" ng-model="accountInformation.driversLicense.stateAbbreviation" ng-options="state.abbreviation as state.name for state in usStates">
+                                <select @Html.ValidationAttributes(m => m.DriversLicense.StateAbbreviation) data-val-if="accountInformation.driversLicense.number || accountInformation.driversLicense.stateAbbreviation" ng-model="accountInformation.driversLicense.stateAbbreviation" ng-options="state.abbreviation as state.display for state in usStates">
                                     <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
                                 </select>
                                 @Html.ValidationMessageFor(m => m.DriversLicense.StateAbbreviation)
@@ -250,7 +250,7 @@
                 @* User Account Creation *@
                 <article class="form">
                     <div class="content">
-                        <div class="social-box">
+                        @*<div class="social-box">
                             <h2>@Html.Sitecore().Field("Social Box Header")</h2>
                             <p>@Html.Sitecore().Field("Social Box Intro")</p>
                             <p class="social-buttons">
@@ -259,21 +259,24 @@
                                 <a class="button social linkedin" href=""><span class="icon-holder"><i class="icon-linkedin"></i></span> @Html.Sitecore().Field("Social Box LinkedIn")</a>
                             </p>
                             <div class="seperator">@Html.Sitecore().Field("Seperator")</div>
-                        </div>
+                        </div>*@
                         <h2>@Html.Sitecore().Field("Create Online Account Header")</h2>
                         <p>@Html.Sitecore().Field("Online Account Paragraph")</p>
-                        <div class="item">
-                            <label for="username">@Html.Sitecore().Field("Username Optional Label")</label>
-                            <input type="text" id="username" ng-model="accountInformation.login.username" />
+                        <div class="item" @Html.ValidationErrorClass(m => m.OnlineAccount.Username)>
+                            <label for="@Html.For(m => m.OnlineAccount.Username)">@Html.Sitecore().Field("Username Optional Label")</label>
+                            <input type="text" @Html.ValidationAttributes(m => m.OnlineAccount.Username) data-val-if="accountInformation.onlineAccount.username" ng-model="accountInformation.onlineAccount.username" />
+                            @Html.ValidationMessageFor(m => m.OnlineAccount.Username)
                         </div>
                         <div class="group">
-                            <div class="item group-col">
-                                <label for="password">@Html.Sitecore().Field("Password Optional Label")</label>
-                                <input type="password" id="password" ng-model="accountInformation.login.password" />
+                            <div class="item group-col" @Html.ValidationErrorClass(m => m.OnlineAccount.Password)>
+                                <label for="@Html.For(m => m.OnlineAccount.Password)">@Html.Sitecore().Field("Password Optional Label")</label>
+                                <input type="password" @Html.ValidationAttributes(m => m.OnlineAccount.Password) data-val-if="accountInformation.onlineAccount.username" ng-model="accountInformation.onlineAccount.password" />
+                                @Html.ValidationMessageFor(m => m.OnlineAccount.Password)
                             </div>
-                            <div class="item group-col">
-                                <label for="verify-password">@Html.Sitecore().Field("Verify Password Label")</label>
-                                <input type="password" id="verify-password" ng-model="accountInformation.login.verifyPassword" />
+                            <div class="item group-col" @Html.ValidationErrorClass(m => m.OnlineAccount.ConfirmPassword)>
+                                <label for="@Html.For(m => m.OnlineAccount.ConfirmPassword)">@Html.Sitecore().Field("Verify Password Label")</label>
+                                <input type="password" @Html.ValidationAttributes(m => m.OnlineAccount.ConfirmPassword) data-val-if="accountInformation.onlineAccount.username" ng-model="accountInformation.onlineAccount.confirmPassword" />
+                                @Html.ValidationMessageFor(m => m.OnlineAccount.ConfirmPassword)
                             </div>
                         </div>
                     </div>

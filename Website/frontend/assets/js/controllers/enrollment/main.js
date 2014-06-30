@@ -48,6 +48,10 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentSt
         });
     };
 
+    $scope.assignSupportedUtilityStates = function (supportedStates) {
+        $scope.supportedUtilityStates = _(supportedStates).map(function (entry) { return { name: entry.display, value: entry.abbreviation, 'class': 'icon ' + entry.css} }).value();
+    };
+
     /**
     * Size of object
     *

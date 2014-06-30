@@ -5,28 +5,25 @@
 ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enrollmentService', 'enrollmentCartService', function ($scope, enrollmentStepsService, enrollmentService, enrollmentCartService) {
     
     /*$scope.enrollmentStepsService = enrollmentStepsService;
-    $scope.utilityService = utilityProductsService;
     $scope.accountInformationService = accountInformationService;*/
 
-    $scope.getPlans = enrollmentCartService.getPlans;
     $scope.getCartCount = enrollmentCartService.getCartCount;
     $scope.getCartItems = enrollmentCartService.getCartItems;
     
     /**
     * Change Plan
     */
-    $scope.changeUtilityPlan = function (location) {
+    $scope.changeUtilityPlan = function (service) {
         //update active service address, send to the correct page
-        //enrollmentCartService.changeUtilityPlan(location);
-        enrollmentCartService.editUtilityAddress(location);
+        enrollmentCartService.setActiveService(service);
         enrollmentStepsService.setFlow('utility', false).setStep('utilityFlowPlans');
     };
 
     /**
     * Edit Address
     */
-    $scope.editUtilityAddress = function (location) {
-        enrollmentCartService.editUtilityAddress(location);
+    $scope.editUtilityAddress = function (service) {
+        enrollmentCartService.setActiveService(service);
         enrollmentStepsService.setFlow('utility', false).setStep('utilityFlowService');
         //we should probably focus on the input field as well
     };
@@ -34,8 +31,8 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     /**
     * Delete item from cart
     */
-    $scope.deleteUtilityAddress = function (location) {
-        enrollmentCartService.editUtilityAddress(location);
-        enrollmentCartService.deleteUtilityAddress(location);
+    $scope.deleteUtilityPlan = function (service, selectedOffer) {
+        enrollmentCartService.removeOffer(service, selectedOffer);
+        enrollmentService.setSelectedOffers();
     };
 }]);

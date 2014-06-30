@@ -25,23 +25,25 @@ namespace StreamEnergy.DomainModels.Enrollments
             yield return context => context.SecondaryContactInfo;
             yield return context => context.SocialSecurityNumber;
             yield return context => context.DriversLicense;
+            yield return context => context.OnlineAccount;
         }
 
         public override void Sanitize(UserContext context, InternalContext internalContext)
         {
-            var changedAddresses = context.Services.Select(s => s.Location).Where(loc => !internalContext.AllOffers.Any(offer => offer.Item1.Address == loc.Address)).ToArray();
+            var changedAddresses = context.Services.Select(s => s.Location).Where(loc => !internalContext.AllOffers.ContainsKey(loc)).ToArray();
             if (changedAddresses.Any())
             {
-                internalContext.AllOffers = internalContext.AllOffers.Concat(enrollmentService.LoadOffers(changedAddresses)).ToArray();
+                internalContext.AllOffers = internalContext.AllOffers.Concat(enrollmentService.LoadOffers(changedAddresses)).ToDictionary(k => k.Key, k => k.Value);
             }
 
             if (context.Services != null)
             {
                 foreach (var service in context.Services)
                 {
-                    var offers = from offer in internalContext.AllOffers
-                                 where offer.Item1.Address == service.Location.Address
-                                 select offer.Item2.Id;
+                    var offers = from offerSet in internalContext.AllOffers
+                                 where offerSet.Key == service.Location
+                                 from offer in offerSet.Value.Offers
+                                 select offer.Id;
 
                     if (service.SelectedOffers != null)
                     {

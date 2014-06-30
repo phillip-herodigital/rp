@@ -95,15 +95,41 @@ article {
 			}
 		}
 	}
-	.alert {
-	    padding: 15px;
-	    margin-bottom: 20px;
-	    border: 1px solid transparent;
-
-		&.alert-error {
-		    background-color: #f2dede;
-		    border-color: #ebccd1;
-		    color: #a94442
+	.notice {
+		margin-bottom: 15px;
+		border-radius: 15px;
+		padding: 20px 30px 20px 45px;
+		background-repeat: no-repeat;
+		background-position: 15px 24px;
+		position: relative;
+		p {
+			margin: 0px;
+		}
+		.icon-close {
+			position: absolute;
+			top: 20px;
+			right: 20px;
+		}
+		&.alert {
+			border: 1px solid #ffcc33;
+			background-color: #fff9c9;
+			background-image: image-url('icon/alert.png');
+			background-position: 20px 23px;
+		}
+		&.message {
+				border: 1px solid #a1bbb9;
+				background-color: #ecf9f8;
+				background-image: image-url('icon/message.png');
+		}
+		&.error {
+				border: 1px solid #dd744e;
+				background-color: #fbded4;
+				background-image: image-url('icon/error.png');
+		}
+		&.success {
+			border: 1px solid #7baa59;
+			background-color: #def7d0;
+			background-image: image-url('icon/success.png');
 		}
 	}
 	.account-selector {
@@ -255,7 +281,7 @@ article.grey-box {
 		}
 	}
 	.account-selector {
-		background-color: #f4f4f4;
+		background-color: #f9f9f9;
 	}
 }
 
@@ -329,6 +355,18 @@ article.plain {
 	@include border-radius(0px);
 	margin-bottom: 0px;
 	padding: 0;
+	@include breakpoint(small-medium) {
+		padding: 0 20px;
+		.cols-2 & {
+			padding: 0;
+			&.promo {
+				padding: 20px;
+			}
+		}
+	}
+	.cols-2 & {
+		width: auto;
+	}
 }
 
 article.account {
@@ -337,9 +375,6 @@ article.account {
 		color: #a94442;
 		font-size: 14px;
 		margin: 5px 0;
-	}
-	@include breakpoint(small-medium) {
-		padding: 0 20px;
 	}
 }
 
@@ -525,9 +560,15 @@ article.balances-payments {
 			.item {
 				&.amount {
 					width: 40%;
+					@include breakpoint(small) {
+						width: 100%;
+					}
 				}
 				&.payment {
 					width: 60%;
+					@include breakpoint(small) {
+						width: 100%;
+					}
 				}
 			}
 		}
@@ -586,9 +627,12 @@ article.energy-usage {
 article.service-identification {
 	padding-top: 0px;
 	background-color: #fbfbfb;
+	.content {
+		padding: 0px 15px;
+	}
 	.service-address p {
 		margin-bottom: 0px;
-		padding: 0 0 15px 15px;
+		padding-bottom: 15px;
 	}
 }
 article.account-holder-information {
@@ -722,11 +766,26 @@ article.make-payment {
 	div.payment-details {
 		padding: 15px 15px 0 15px;
 		.date-amount {
-			width: 50%;
+			width: 325px;
+			@include breakpoint(small) {
+				width: 100%;
+			}
 			.item {
 				width: 45%;
 				@include breakpoint(small) {
 					width: 100%;
+				}
+				&.dollars .payment-amount input {
+					@include breakpoint(small) {
+						/* Firefox */
+						width: -moz-calc(100% - 15px);
+						/* WebKit */
+						width: -webkit-calc(100% - 15px);
+						/* Opera */
+						width: -o-calc(100% - 15px);
+						/* Standard */
+						width: calc(100% - 15px);
+					}
 				}
 			}
 		}
@@ -840,6 +899,7 @@ article.my-invoices {
 		.filters form .group .actions {
 			@include breakpoint(small) {
 				float: left;
+				margin-top: 25px;
 			}
 		}
 	}
@@ -892,6 +952,9 @@ article.payments {
 			}
 		}
 	}
+	p.example-image {
+		text-align: center;
+	}
 	.advanced-settings {
 		margin-top: 5px;
 		.small {
@@ -906,9 +969,6 @@ article.payments {
 		p {
 			margin: 0;
 			padding-top: 1em;
-			&.example-image {
-				text-align: center;
-			}
 		}
 	}
 	.arrow-toggle {
@@ -1003,10 +1063,8 @@ article.payments {
 	.auto-pay-address p {
 		margin: 0px;
 	}
-	.notice {
-		background-color: #fbd396;
-		margin-top: -15px;
-		margin-bottom: 15px;
+	.account-selector {
+		margin: -25px -15px 15px -15px;
 	}
 	img {
 		max-width: 100%;
@@ -1148,6 +1206,10 @@ aside {
 					dt {
 						font-size: 14px;
 					}
+				}
+				@include breakpoint(medium) {
+					width: 100%;
+					float: left;
 				}
 				@include breakpoint(small) {
 					padding-bottom: 20px;

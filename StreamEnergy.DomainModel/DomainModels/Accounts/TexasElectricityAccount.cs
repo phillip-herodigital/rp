@@ -11,6 +11,8 @@ namespace StreamEnergy.DomainModels.Accounts
     {
         public const string Qualifier = "TexasElectricity";
 
+        public const string Classification = "Utility";
+
         public string Id { get; set; }
 
         [Required(ErrorMessage = "Service Address Required")]
@@ -26,6 +28,11 @@ namespace StreamEnergy.DomainModels.Accounts
         public string SubAccountType
         {
             get { return TexasElectricityAccount.Qualifier; }
+        }
+
+        public string Key
+        {
+            get { return TexasElectricityAccount.Classification; }
         }
 
     }

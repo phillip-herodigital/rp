@@ -54,6 +54,10 @@ div.tabbable {
 	background-color: #000000;
 }
 
+.modal-backdrop.modal-backdrop-absolute {
+	position: absolute;
+}
+
 .modal-backdrop, .modal-backdrop.fade.in {
 	@include opacity(0.8);
 }
@@ -73,14 +77,24 @@ div.tabbable {
 	border: 1px solid #999;
 	border: 1px solid rgba(0, 0, 0, 0.3);
 	outline: none;
+
+	@include breakpoint(small) {
+		width: 90%;
+		margin-left: -45%;
+	}
+}
+
+.modal.modal-absolute {
+	position: absolute;
 }
 
 .modal-header {
-	padding: 10px 15px;
+	padding: 20px 20px 15px 20px;
 	border-bottom: 1px solid #eee;
 
     h2 {
         margin: 0;
+        line-height: 1.2;
     }
 
 	a {
@@ -89,11 +103,11 @@ div.tabbable {
 		float: right;
 		width: 25px;
 		height: 25px;
-		margin-top: -5px;
+		margin-top: 2px;
 		cursor: pointer;
 		background: url(../i/icon/close.png) no-repeat 50%;
 		text-indent: -5000px;
-		&:hover {
+		&:hover, &:focus, &:active {
 			background-color: #eee;
 			border: 1px solid #ccc;
 		}
@@ -104,7 +118,13 @@ div.tabbable {
 	position: relative;
 	//overflow-y: auto;
 	max-height: 400px;
-	padding: 15px;
+	padding: 25px 20px;
+	& :first-child {
+		margin-top: 0;
+	}
+	& :last-child {
+		margin-bottom: 0;
+	}
 }
 
 .modal-footer {

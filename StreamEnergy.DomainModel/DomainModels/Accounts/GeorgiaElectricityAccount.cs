@@ -11,6 +11,8 @@ namespace StreamEnergy.DomainModels.Accounts
     public class GeorgiaElectricityAccount : ISubAccount
     {
         public const string Qualifier = "GeorgiaElectricity";
+        
+        public const string Classification = "Utility";
 
         public string Id { get; set; }
 
@@ -26,7 +28,12 @@ namespace StreamEnergy.DomainModels.Accounts
 
         public string SubAccountType
         {
-            get { return TexasElectricityAccount.Qualifier; }
+            get { return GeorgiaElectricityAccount.Qualifier; }
+        }
+
+        public string Key
+        {
+            get { return GeorgiaElectricityAccount.Classification; }
         }
 
     }
