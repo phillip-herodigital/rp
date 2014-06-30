@@ -1086,6 +1086,70 @@ article.payments {
 	}	
 }
 
+article.mobile {
+	header {
+		.header-left {
+			float: left;
+			&.welcome {
+				font-size: 22px;
+				margin: 18px 0;
+				span {
+					color: #0971ce;
+				}
+			}
+		}
+		.header-right {
+			float: right;
+			&.account {
+				margin-top: 23px;
+			}
+		}
+		select {
+			width: auto;
+			margin-top: 8px;
+		}
+	}
+	.content {
+		padding: 15px;
+		.grid .col {
+			.balance {
+				font-size: 22px;
+				margin: 10px 0;
+			}
+			.details {
+				margin: 0;
+			}
+			&.due {
+				p {
+					float: left;
+					&.pay {
+						float: right;
+						margin-top: 10px;
+					}
+				}
+			}
+		}
+		.group .item {
+			&.current-data {
+				width: 60%;
+			}
+			&.historical-data {
+				width: 40%;
+				border-left: 1px solid #ddd;
+				padding-left: 15px;
+			}
+		}
+	}
+	footer {
+		p {
+			margin: 5px 0;
+			.link {
+				margin-left: 10px;
+			}
+		}
+	}
+}
+
 /*ALL MODULES BELOW THIS ARE SIDEBAR MODULES*/
 aside {
 	article.promo { 
