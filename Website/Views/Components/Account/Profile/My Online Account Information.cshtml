@@ -62,7 +62,7 @@
                     </div>
                     <div class="item group-col" @(securityQuestion.ErrorClass(m => m.Answer))>
                         <label for="@securityQuestion.For(m => m.Answer)">@Html.Sitecore().Field("Question 1 Answer Label")</label>
-                        <input type="text" @securityQuestion.Attributes(m => m.Answer) ng-model="formData.challenges[0].answer">
+                        <input type="text" @securityQuestion.Attributes(m => m.Answer) ng-model="formData.challenges[0].answer" placeholder="********">
                         @securityQuestion.MessageFor(m => m.Answer)
                         <span class="help-text">@Html.Sitecore().Field("Question 1 Help Text")</span>                      
                     </div>
@@ -78,7 +78,7 @@
                     </div>
                     <div class="item group-col" @(securityQuestion.ErrorClass(m => m.Answer))>
                         <label for="@securityQuestion.For(m => m.Answer)">@Html.Sitecore().Field("Question 2 Answer Label")</label>
-                        <input type="text" @securityQuestion.Attributes(m => m.Answer) ng-model="formData.challenges[1].answer">
+                        <input type="text" @securityQuestion.Attributes(m => m.Answer) ng-model="formData.challenges[1].answer" placeholder="********">
                         @securityQuestion.MessageFor(m => m.Answer)
                         <span class="help-text">@Html.Sitecore().Field("Question 2 Help Text")</span>
                     </div>
