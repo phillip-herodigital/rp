@@ -9,13 +9,14 @@ ngApp.controller('AcctMyInvoicesCtrl', ['$scope', '$rootScope', '$http', '$filte
 	$scope.isLoading = true;
 
 	$timeout(function() {
-	    $http.get('/api/account/getInvoices').success(function (data, status, headers, config) {
+		$http.get('/api/account/getInvoices').success(function (data, status, headers, config) {
 			$scope.invoicesTable = data.invoices;
 			$scope.invoicesTableOriginal = angular.copy($scope.invoicesTable);
 			$scope.isLoading = false;
 		});
 	}, 2000);
 
+	// filters
 	$scope.filters = {};
 	$scope.filtersList = {
 		"serviceType": [
@@ -54,8 +55,7 @@ ngApp.controller('AcctMyInvoicesCtrl', ['$scope', '$rootScope', '$http', '$filte
 		]
 	};
 
-	// Methods
-
+	// methods
 	$scope.resetFilters = function() {
 		$scope.filters = {};
 	};
@@ -68,8 +68,7 @@ ngApp.controller('AcctMyInvoicesCtrl', ['$scope', '$rootScope', '$http', '$filte
 		console.log($scope);
 	};
 
-	// Watches
-
+	// watches
 	$scope.$watch('filters', function(newVal, oldVal) {
 		
 		$scope.filters = $filter('removeNullProps')($scope.filters);

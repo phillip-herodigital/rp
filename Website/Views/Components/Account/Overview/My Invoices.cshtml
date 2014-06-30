@@ -51,7 +51,7 @@
                         <td ng-show="showColumn('action')">
                             <button class="secondary">@Html.Sitecore().Field("View PDF Text")</button>
                             <button class="submit" ng-show="!item.isPaid">@Html.Sitecore().Field("Pay Text")</button>
-                            <button ng-show="item.canRequestExtension">@Html.Sitecore().Field("Pay Text")</button>
+                            <div class="request-extension" ng-show="item.canRequestExtension"><a href="#">@Html.Sitecore().Field("Request Extension Text")</a></div>
                         </td>
                     </tr>
                     <tr class="details" ng-show="hasHiddenColumns && expand[$index] == true">
