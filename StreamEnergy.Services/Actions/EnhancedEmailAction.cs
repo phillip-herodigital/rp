@@ -1,6 +1,7 @@
 ﻿using Sitecore.Data.Items;
 using Sitecore.Diagnostics;
 using Sitecore.Workflows.Simple;
+using StreamEnergy.DomainModels.Emails;
 using StreamEnergy.Services.Clients;
 using System;
 using System.Collections.Generic;
