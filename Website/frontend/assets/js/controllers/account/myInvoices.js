@@ -14,7 +14,7 @@ ngApp.controller('AcctMyInvoicesCtrl', ['$scope', '$rootScope', '$http', '$filte
 			$scope.invoicesTableOriginal = angular.copy($scope.invoicesTable);
 			$scope.isLoading = false;
 		});
-	}, 2000);
+	}, 800);
 
 	// filters
 	$scope.filters = {};

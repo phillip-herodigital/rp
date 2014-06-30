@@ -54,7 +54,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             return new GetUtilityProvidersResponse
             {
-                Providers = new[] { "PPL" }
+                Providers = new[] { "PECO", "PPL" }
             };
         }
 
