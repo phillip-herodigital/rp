@@ -42,6 +42,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <FilesToIncludeForPublish>AllFilesInTheProject</FilesToIncludeForPublish>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime">
@@ -533,6 +534,7 @@
     <Compile Include="Models\Marketing\HomeLifeServices.cs" />
     <Compile Include="Pipelines\SetupAddressTypeahead.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validators\CannotApproveYourOwnChangesValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Browsers\Form.browser" />
@@ -540,6 +542,36 @@
     <Content Include="Data\license.xml" />
     <Content Include="default.css" />
     <Content Include="default.js" />
+    <Content Include="frontend\utilities\foresee\cancel.html" />
+    <Content Include="frontend\utilities\foresee\foresee-alive.js" />
+    <Content Include="frontend\utilities\foresee\foresee-dhtml.css" />
+    <Content Include="frontend\utilities\foresee\foresee-qualifier.css" />
+    <Content Include="frontend\utilities\foresee\foresee-qualifier.js" />
+    <Content Include="frontend\utilities\foresee\foresee-surveydef.js" />
+    <Content Include="frontend\utilities\foresee\foresee-test.css" />
+    <Content Include="frontend\utilities\foresee\foresee-test.js" />
+    <Content Include="frontend\utilities\foresee\foresee-tracker.css" />
+    <Content Include="frontend\utilities\foresee\foresee-tracker.js" />
+    <Content Include="frontend\utilities\foresee\foresee-transport.swf" />
+    <Content Include="frontend\utilities\foresee\foresee-trigger.js" />
+    <Content Include="frontend\utilities\foresee\foresee-worker.js" />
+    <Content Include="frontend\utilities\foresee\fsrlogo.gif" />
+    <Content Include="frontend\utilities\foresee\fsroptout.html" />
+    <Content Include="frontend\utilities\foresee\fsrtest.html" />
+    <Content Include="frontend\utilities\foresee\ie6backdrop.gif" />
+    <Content Include="frontend\utilities\foresee\iebackdrop.png" />
+    <Content Include="frontend\utilities\foresee\ieborder.png" />
+    <Content Include="frontend\utilities\foresee\iframe_proxier.html" />
+    <Content Include="frontend\utilities\foresee\invite.html" />
+    <Content Include="frontend\utilities\foresee\qualifying.html" />
+    <Content Include="frontend\utilities\foresee\reminder.html" />
+    <Content Include="frontend\utilities\foresee\sitelogo.gif" />
+    <Content Include="frontend\utilities\foresee\stripeback.png" />
+    <Content Include="frontend\utilities\foresee\tracker.html" />
+    <Content Include="frontend\utilities\foresee\truste.png" />
+    <Content Include="frontend\utility-services.html" />
+    <Content Include="frontend\*" />
+    <Content Include="frontend\assets\**\*" />
     <Content Include="frontend\*" />
     <Content Include="frontend\assets\css\global.css" />
     <Content Include="frontend\assets\css\global.css.scss" />
@@ -1966,6 +1998,9 @@
     <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.Indexes.Sharded.Web.config.example" />
     <Content Include="App_Config\Include\Sitecore.ContentSearch.VerboseLogging.config.example" />
     <Content Include="App_Config\Include\Sitecore.Mvc.config" />
+    <Content Include="App_Config\ConnectionStrings.production.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="App_Config\Include\Sitecore.MvcAnalytics.config" />
     <Content Include="App_Config\Include\Sitecore.MvcExperienceEditor.config" />
     <Content Include="App_Config\Include\Sitecore.MvcSimulator.config" />
@@ -2023,6 +2058,34 @@
     <Content Include="App_Config\ConnectionStrings.local.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Views\Pages\Marketing\Services\HomeLife Services.cshtml" />
+    <Content Include="Views\Temp\Index.cshtml" />
+    <Content Include="Views\Pages\Marketing\Services\Enroll Commercial.cshtml" />
+    <Content Include="Views\Pages\Marketing\Contact\Contact.cshtml">
+      <BrowseToURL>~/contact</BrowseToURL>
+    </Content>
+    <Content Include="Views\Pages\Marketing\Rates\NE Rates.cshtml" />
+    <Content Include="Views\Pages\Portal\Account\Invoices\Utility Providers.cshtml" />
+    <Content Include="Views\Pages\Marketing\Rates\TX Rates.cshtml" />
+    <Content Include="Views\Pages\Marketing\Rates\GA Rates.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Enrollment Page.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Service Information.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Plan Selection.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Account Information.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Verify Identity.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Complete Order.cshtml" />
+    <Content Include="Views\Pages\Marketing\Blog\Blog Landing.cshtml" />
+    <Content Include="Views\Pages\Marketing\Blog\Blog Post.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Cart.cshtml" />
+    <Content Include="Views\Components\Header Fixed.cshtml" />
+    <Content Include="Views\Pages\Enrollment\Cart.cshtml" />
+    <Content Include="Views\Pages\Marketing\Blog\Latest Blog Post Horizontal.cshtml" />
+    <Content Include="Views\Pages\Marketing\Paperless\Paperless Page.cshtml" />
+    <Content Include="Views\Pages\Marketing\Services\Gas.cshtml" />
+    <Content Include="Views\Pages\Marketing\Services\Electricity.cshtml" />
+    <Content Include="App_Config\Prefetch\Webdb.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="App_Config\Prefetch\Webdb.config" />
     <None Include="Properties\PublishProfiles\Azure - Production.pubxml" />
     <None Include="Properties\PublishProfiles\Azure - Production Sitecore.pubxml" />
@@ -2030,9 +2093,11 @@
     <None Include="Properties\PublishProfiles\my-stream__Staging.pubxml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </None>
     <None Include="Web.Azure-Production.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </None>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -2057,6 +2122,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <PublishDatabases>false</PublishDatabases>
+    <FilesToIncludeForPublish>AllFilesInTheProject</FilesToIncludeForPublish>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Azure-Production Sitecore|AnyCPU'">
     <OutputPath>bin\</OutputPath>

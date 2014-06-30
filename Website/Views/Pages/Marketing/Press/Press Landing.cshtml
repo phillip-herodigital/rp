@@ -10,7 +10,7 @@
         foreach (Sitecore.Data.Items.Item item in paginationHelper.CurrentItems)
         {
             <div class="post">
-                <h2>@Html.Sitecore().Field("Title", item)</h2>
+                <h2><a href="@Sitecore.Links.LinkManager.GetItemUrl(item)">@Html.Sitecore().Field("Title", item)</a></h2>
                 <p class="date">@Html.Sitecore().Field("Posted On Text", item): @Sitecore.Web.UI.WebControls.FieldRenderer.Render(item, "Date", "format=MMMM d, yyyy")</p>
                 <p>
                  @{
