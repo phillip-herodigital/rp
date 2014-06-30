@@ -48,7 +48,6 @@
 
 			.col.quick-links {
 				ul {
-					@extend .clearfix;
 					li {
 						float: left;
 						width: 50%;
@@ -61,14 +60,14 @@
 				text-transform: uppercase;
 				@include text-shadow(-1px 1px 1px rgba(0,0,0,.3));
 				li {
-					margin: 10px 0;
+					padding: 10px 0;
 				}
 			}
 
-			.col:first-child ul {
+			.col.badges ul {
 				@include breakpoint(medium-large) {
 					width: 185px;
-					margin: 0 auto;
+					margin: 16px auto 0 auto;
 					text-align: center;
 				}
 				li {
@@ -87,10 +86,12 @@
 			.col.social {
 				li {
 					padding-left: 35px;
-					[class*="icon-"] {
-						float: left;
+                    span.iconWrapper {
+                        float: left;
 						margin-left: -35px;
-					}
+                        width: 18px;
+                        text-align: center;
+                    }
 				}
 			}
 

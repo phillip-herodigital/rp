@@ -22,7 +22,6 @@ $mobile-nav: 260px;
 			// left: 0;
 			width: $mobile-nav;
 			font-size: 16px;
-			font-weight: 300;
 			ul {
 				@include layout-list();
 				> li {

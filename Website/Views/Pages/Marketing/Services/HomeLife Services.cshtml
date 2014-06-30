@@ -13,9 +13,9 @@
         <input type="hidden" name="city" value="@(Model.CustomerAccount != null && Model.CustomerAccount.BillingAddress != null ? Model.CustomerAccount.BillingAddress.City : "")" />
         <input type="hidden" name="state" value="@(Model.CustomerAccount != null && Model.CustomerAccount.BillingAddress != null ? Model.CustomerAccount.BillingAddress.StateAbbreviation : "")" />
         <input type="hidden" name="zipCode" value="@(Model.CustomerAccount != null && Model.CustomerAccount.BillingAddress != null ? Model.CustomerAccount.BillingAddress.PostalCode5 : "")" />
-        <input type="hidden" name="phone1" value="@(Model.CustomerAccount != null ? Model.CustomerAccount.Primary.Number : "")" />
-        <input type="hidden" name="phone2" value="@(Model.CustomerAccount != null ? Model.CustomerAccount.Work.Number : "")" />
-        <input type="hidden" name="phone3" value="@(Model.CustomerAccount != null ? Model.CustomerAccount.Cell.Number : "")" />
+        <input type="hidden" name="phone1" value="@(Model.CustomerAccount != null && Model.CustomerAccount.Primary != null ? Model.CustomerAccount.Primary.Number : "")" />
+        <input type="hidden" name="phone2" value="@(Model.CustomerAccount != null && Model.CustomerAccount.Work != null ? Model.CustomerAccount.Work.Number : "")" />
+        <input type="hidden" name="phone3" value="@(Model.CustomerAccount != null && Model.CustomerAccount.Cell != null ? Model.CustomerAccount.Cell.Number : "")" />
         <input type="hidden" name="repId" value="@Model.RepId" />
         <input type="hidden" name="repFirstName" value="@(Model.RepName != null ? Model.RepName.First : "")" />
         <input type="hidden" name="repLastName" value="@(Model.RepName != null ? Model.RepName.Last : "")" />
@@ -45,17 +45,17 @@
                     <li class="identity">
                         <h4>@Html.Sitecore().Field("Identity Protection Header")</h4>
                         @Html.Sitecore().Field("Identity Protection Image", new { height = "69" })
-                        <p><a class="button" href="##identity-protection-details">@Html.Sitecore().Field("Learn More Text")</a></p>
+                        <p><a class="button" href="##identity-protection-details" scroll-to>@Html.Sitecore().Field("Learn More Text")</a></p>
                     </li>
                     <li class="support">
                         <h4>@Html.Sitecore().Field("Tech Support Header")</h4>
                         @Html.Sitecore().Field("Tech Support Image", new { height = "69" })
-                        <p><a class="button" href="##tech-support-details">@Html.Sitecore().Field("Learn More Text")</a></p>
+                        <p><a class="button" href="##tech-support-details" scroll-to>@Html.Sitecore().Field("Learn More Text")</a></p>
                     </li>
                     <li class="monitoring">
                         <h4>@Html.Sitecore().Field("Credit Monitoring Header")</h4>
                         @Html.Sitecore().Field("Credit Monitoring Image", new { height = "69" })
-                        <p><a class="button" href="##credit-monitoring-details">@Html.Sitecore().Field("Learn More Text")</a></p>
+                        <p><a class="button" href="##credit-monitoring-details" scroll-to>@Html.Sitecore().Field("Learn More Text")</a></p>
                     </li>
                 </ul>
                 <div class="savings">
