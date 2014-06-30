@@ -107,7 +107,7 @@ namespace StreamEnergy.Services.Clients
         private void RegisterService<TInterface>(IUnityContainer unityContainer, TInterface soapClient)
             where TInterface : class
         {
-            unityContainer.RegisterType<TInterface>(new InjectionFactory(uc => proxyGenerator.CreateInterfaceProxyWithTarget(soapClient, uc.Resolve<ServiceMockInterceptor>())));
+            unityContainer.RegisterType<TInterface>(new InjectionFactory(uc => proxyGenerator.CreateInterfaceProxyWithTarget(soapClient, uc.Resolve<ServiceInterceptor>())));
         }
     }
 }

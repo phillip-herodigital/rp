@@ -1,0 +1,33 @@
+<article class="plan payments">
+	<header class="clearfix">
+		<h2 class="payment-accounts-header">@Html.Sitecore().Field("Header Text")</h2>
+        <ul class="link-list">
+            <li>@Html.Sitecore().Field("Add Bank Account Text")</li>
+            <li>@Html.Sitecore().Field("Add Credit Card Text")</li>
+        </ul>
+	</header>
+	
+    @Html.Sitecore().Field("Body Text")
+
+	<table class="payment-accounts-table">
+		<thead>
+			<tr>
+				<th class="nickname">@Html.Sitecore().Field("Nickname Text")</th>
+				<th class="account-number">@Html.Sitecore().Field("Account Number Text")</th>
+				<th class="type">@Html.Sitecore().Field("Type Text")</th>
+				<th class="action">@Html.Sitecore().Field("Action Text")</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td data-title="@Html.Sitecore().Field("Nickname Text")">USAA Checking</td>
+				<td data-title="@Html.Sitecore().Field("Account Number Text")">**********1234</td>
+				<td data-title="@Html.Sitecore().Field("Type Text")">Checking</td>
+				<td data-title="@Html.Sitecore().Field("Action Text")">
+					<a href="" class="button secondary">@Html.Sitecore().Field("Edit Button Text")</a>
+					<a href="" class="button">@Html.Sitecore().Field("Delete Button Text")</a>	
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</article>

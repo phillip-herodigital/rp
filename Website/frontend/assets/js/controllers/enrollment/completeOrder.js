@@ -2,7 +2,16 @@
  *
  * This is used to control aspects of complete order on enrollment page.
  */
-ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', '$rootScope', 'enrollmentService', function ($scope, $rootScope, enrollmentService) {
+ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 'enrollmentCartService', function ($scope, enrollmentService, enrollmentCartService) {
+
+    $scope.completeOrder = {
+        agreeToTerms: false,
+        creditCard: {}
+    };
+
+    $scope.getCartCount = enrollmentCartService.getCartCount;
+    $scope.getCartItems = enrollmentCartService.getCartItems;  
+    $scope.getCartTotal = enrollmentCartService.calculateCartTotal;  
 
     /**
     * Complete Enrollment Section
@@ -11,15 +20,32 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', '$rootScope', 'enroll
 
         console.log('Sending confirm order...');
 
-        var confirmOrderPromise = enrollmentService.setConfirmOrder();
+        var confirmOrderPromise = enrollmentService.setConfirmOrder({
+            agreeToTerms: $scope.completeOrder.agreeToTerms,
+            paymentInfo: null
+        });
 
         confirmOrderPromise.then(function (data) {
-            console.log(data);
-            $scope.serverData = data;
         }, function (data) {
             // error response
-            $rootScope.$broadcast('connectionFailure');
         });
+    };
+
+    /**
+    * Calculate Total
+    *
+    * @param object plans
+    *
+    * return int
+    */
+    $scope.calculateTotal = function (plans) {
+        var total = 0;
+
+        angular.forEach(plans, function (value, key) {
+            total += value.paymentInformation.amount;
+        });
+
+        return total;
     };
 
 }]);

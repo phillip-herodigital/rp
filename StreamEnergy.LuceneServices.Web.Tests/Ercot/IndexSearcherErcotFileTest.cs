@@ -99,7 +99,7 @@ namespace StreamEnergy.LuceneServices.Web.Tests.Ercot
         public void CloseMatchTest()
         {
             // Arrange is done in the class initialization, thanks to stateless objects
-            var testString = "115 ILLINOIS AV DALLAS TX 75224";
+            var testString = "115 ILLNOIS AVE DALLAS TX 75224";
 
             // Act
             var results = PerformSearch(testString);
@@ -157,7 +157,7 @@ namespace StreamEnergy.LuceneServices.Web.Tests.Ercot
         public void CountyRoadTest()
         {
             // Arrange is done in the class initialization, thanks to stateless objects
-            var testString = "1976 CR 140";
+            var testString = "1976 COUNTY 140";
 
             // Act
             var results = PerformSearch(testString);

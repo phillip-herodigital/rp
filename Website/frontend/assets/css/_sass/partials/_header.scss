@@ -27,6 +27,7 @@
 	}
 	nav.main-nav {
 		float: right;
+		clear: right;
 		text-align: right;
 		margin: 10px 0 -1px 10px;
 		> ul {
@@ -221,6 +222,10 @@
 		.wrapper {
 			height: 325px;
 			padding-top: 150px;
+			@include breakpoint(small) {
+				height: 200px;
+				padding-top: 100px;
+			}
 		}
 		h1, p {
 			color: #0971ce;
@@ -232,8 +237,8 @@
 			background-repeat: repeat-x;
 		}			
 		.wrapper {
-			height: 120px;
-			padding-top: 50px;
+			height: 200px;
+			padding-top: 100px;
 		}
 		h1 {
 			font-size: 27px;

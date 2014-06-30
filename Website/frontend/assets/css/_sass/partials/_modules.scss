@@ -40,9 +40,6 @@ article {
 		background: #fbfbfb;
 		padding: 15px;
 		border-top: 1px solid #ddd;
-		button, .button {
-			margin-top: 10px;
-		}
 	}
 	.buttons {
 		@extend .clearfix;		
@@ -53,6 +50,10 @@ article {
 				float: none;
 				width: 100%;
 				margin-left: 0;
+				margin-top: 10px;
+				&:first-child {
+					margin-top: 0;
+				}
 			}			
 		}
 	}	
@@ -94,23 +95,47 @@ article {
 			}
 		}
 	}
-	.alert {
-	    padding: 15px;
-	    margin-bottom: 20px;
-	    border: 1px solid transparent;
-
-		&.alert-error {
-		    background-color: #f2dede;
-		    border-color: #ebccd1;
-		    color: #a94442
+	.notice {
+		margin-bottom: 15px;
+		border-radius: 15px;
+		padding: 20px 30px 20px 45px;
+		background-repeat: no-repeat;
+		background-position: 15px 24px;
+		position: relative;
+		p {
+			margin: 0px;
+		}
+		.icon-close {
+			position: absolute;
+			top: 20px;
+			right: 20px;
+		}
+		&.alert {
+			border: 1px solid #ffcc33;
+			background-color: #fff9c9;
+			background-image: image-url('icon/alert.png');
+			background-position: 20px 23px;
+		}
+		&.message {
+				border: 1px solid #a1bbb9;
+				background-color: #ecf9f8;
+				background-image: image-url('icon/message.png');
+		}
+		&.error {
+				border: 1px solid #dd744e;
+				background-color: #fbded4;
+				background-image: image-url('icon/error.png');
+		}
+		&.success {
+			border: 1px solid #7baa59;
+			background-color: #def7d0;
+			background-image: image-url('icon/success.png');
 		}
 	}
 	.account-selector {
 		background: #fbfbfb;
 		padding: 15px;
 		border-bottom: 1px solid #ddd;
-		//margin: 0px -15px 15px;
-		margin: -25px -15px 15px -15px;
 		.group {
 			@extend .inline-group;
 			.item {
@@ -119,6 +144,9 @@ article {
 				label {
 					display: inline-block;
 					margin-right: 5px;
+					@include breakpoint(medium) {
+						display: block;
+					}
 				}
 				select {
 					width: auto;
@@ -142,6 +170,13 @@ article {
 				select {
 					width: auto;
 				}
+				@include breakpoint(small) {
+					width: 50%;
+					float: left;
+					select {
+						width: 95%;
+					}
+				}
 			}
 		}
 	}
@@ -155,12 +190,20 @@ article {
 			select {
 				width: auto;
 			}
+			@include breakpoint (small) {
+				width: 100%;
+				text-align: center;
+			}
 		}
 		.showing {
 			float: left;
 			width: 25%;
 			margin: 10px 0 0 0;
 			text-align: right;
+			@include breakpoint (small) {
+				width: 100%;
+				text-align: center;
+			}
 		}
 		.page-selection {
 			@include layout-list();
@@ -191,6 +234,13 @@ article {
 					color: #333;
 				}
 			}
+			@include breakpoint (small) {
+				width: 100%;
+				text-align: center;
+				ul {
+					padding-left: 0px;
+				}
+			}
 		}
 	}
 	hr.wide {
@@ -198,6 +248,26 @@ article {
 		width: 100%;
 		border: 1px solid #ddd;
 		border-bottom: 0px;
+	}
+	dl.module-list {
+		dt {
+			font-weight: bold;
+		}	
+		dd {
+			text-align: left;
+		}
+		@include breakpoint(small) {
+			dd {
+				margin-bottom: 10px; 
+			}
+			dt, dd {
+				float: none;
+				width: auto;
+			}
+		}			
+	}
+	.label { 
+		@extend label;
 	}
 }
 article.grey-box {
@@ -211,7 +281,71 @@ article.grey-box {
 		}
 	}
 	.account-selector {
-		background-color: #f4f4f4;
+		background-color: #f9f9f9;
+	}
+}
+
+article.white-box {
+	background-color: #fff;
+	header {
+		background-color: #fff;
+		background-image: none;
+		border-bottom: 1px solid #ddd;
+		h2 {
+			color: #0971ce;
+		}
+	}
+}
+
+article.gradient-box {
+	@include border-radius(5px);
+	@include background-clip(padding-box);
+	background-color: #fff;
+	@include box-shadow(2px 3px 4px 0 rgba(85,53,91,.25));
+	@include background-image(linear-gradient(bottom, rgba(76,73,77,.15) 0%, rgba(255,255,255,.15) 100%));
+	header {
+		background: none;
+		padding: 0 0 20px 0;
+		margin: 20px 15px 0 15px;
+		h2 {
+			padding-top: 10px;
+			a {
+				text-transform: none;
+				font-size: 20px;
+				font-weight: 600;
+			}
+		}
+		button,
+		.button {
+			float: right;
+			margin-top: 10px;
+		}
+	}
+	h3 {
+		font-size: 20px;
+		margin: 0 0 40px 0;
+		font-weight: normal;
+		text-transform: none;
+	}
+	h4 {
+		font-size: 16px;
+		font-weight: 600;
+		margin: 0 0 15px 0;
+		letter-spacing: 1px;
+	}
+	p {
+		font-size: 14px;
+		font-weight: 600;
+	}
+	.more {
+		color: #333;
+		font-size: 14px;
+		font-weight: 600;
+	}
+	@include breakpoint(small) {
+		.col {
+			margin-bottom: 20px;
+		}
 	}
 }
 
@@ -221,11 +355,39 @@ article.plain {
 	@include border-radius(0px);
 	margin-bottom: 0px;
 	padding: 0;
+	@include breakpoint(small-medium) {
+		padding: 0 20px;
+		.cols-2 & {
+			padding: 0;
+			&.promo {
+				padding: 20px;
+			}
+		}
+	}
+	.cols-2 & {
+		width: auto;
+	}
+}
+
+article.account {
+	.field-validation-valid {
+		display: block;
+		color: #a94442;
+		font-size: 14px;
+		margin: 5px 0;
+	}
 }
 
 div.banner + article.message {
 	margin-top: -20px;
 }
+
+div.banner.account {
+	@include breakpoint(large) {
+		border-bottom: 5px solid #259afd;
+	}
+}
+
 article.message {
 	@extend .plain;
 	margin-bottom: 20px;
@@ -252,6 +414,10 @@ article.plan {
 				.fixed {
 					@include rotate(-90deg);
 					text-transform: uppercase;
+					filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+					.ie8 & {
+						margin: 0 -13px 25px 10px;
+					}
 				}
 			}
 		}
@@ -366,6 +532,9 @@ article.utility-providers .logos {
 	&:hover {
 		border: 1px solid #1697ff;
 	}
+	@include breakpoint(small) {
+		margin-top: 15px;
+	}
 }
 article.balances-payments {
 	dl dd {
@@ -379,6 +548,9 @@ article.balances-payments {
 		margin-bottom: 5px;
 		width: 61%;
 	}
+	.content {
+		padding: 0 15px 25px 15px;
+	}
 	.grid .col {
 		border-spacing: 0px;
 		h4 {
@@ -386,7 +558,26 @@ article.balances-payments {
 		}
 		.group {
 			.item {
-				width: 50%;
+				&.amount {
+					width: 40%;
+					@include breakpoint(small) {
+						width: 100%;
+					}
+				}
+				&.payment {
+					width: 60%;
+					@include breakpoint(small) {
+						width: 100%;
+					}
+				}
+			}
+		}
+		&.payment {
+			input {
+				text-align: right;
+			}
+			@include breakpoint(medium) {
+				padding: 0 0 0 10px;
 			}
 		}
 		@include breakpoint(small) {
@@ -405,7 +596,23 @@ article.balances-payments {
 }
 article.energy-usage {
 	.graph-header {
-		padding: 15px 35px;
+		padding: 15px 40px 0px 40px;
+		.col {
+			@include breakpoint(small) {
+				width: 33%;
+				float: left;
+			}
+			&.last {
+			text-align: right;
+			@include breakpoint(small) {
+				width: 33%;
+				float: right;
+			}
+		}
+		}
+	}
+	.usage-graph {
+		text-align: center;
 	}
 	.compare {
 		p {
@@ -419,8 +626,13 @@ article.energy-usage {
 }
 article.service-identification {
 	padding-top: 0px;
+	background-color: #fbfbfb;
+	.content {
+		padding: 0px 15px;
+	}
 	.service-address p {
 		margin-bottom: 0px;
+		padding-bottom: 15px;
 	}
 }
 article.account-holder-information {
@@ -432,6 +644,20 @@ article.account-holder-information {
 	}
 	.billing-address {
 		margin-left: 23px;
+	}
+	.new-address .group {
+		.select-state {
+			width: 30%;
+			@include breakpoint(small) {
+				width: auto;
+			}
+		}
+		.zip-code {
+			width: 20%;
+			@include breakpoint(small) {
+				width: auto;
+			}
+		}
 	}
 	.checkbox-list {
 		label {
@@ -538,15 +764,41 @@ article.make-payment {
 		border-bottom: 1px solid #d9d9d9;
 	}
 	div.payment-details {
-		border-bottom: 1px solid #d9d9d9;
-		padding: 15px;
+		padding: 15px 15px 0 15px;
 		.date-amount {
-			width: 50%;
+			width: 325px;
+			@include breakpoint(small) {
+				width: 100%;
+			}
 			.item {
 				width: 45%;
+				@include breakpoint(small) {
+					width: 100%;
+				}
+				&.dollars .payment-amount input {
+					@include breakpoint(small) {
+						/* Firefox */
+						width: -moz-calc(100% - 15px);
+						/* WebKit */
+						width: -webkit-calc(100% - 15px);
+						/* Opera */
+						width: -o-calc(100% - 15px);
+						/* Standard */
+						width: calc(100% - 15px);
+					}
+				}
 			}
 		}
-		form .group .dollars {
+		.group {
+			.datepicker .calendar {
+				position: relative;
+				.icon {
+					position: absolute;
+					top: -2px;
+					right: 10px;
+				}
+			}
+			.dollars .payment-amount {
 				position: relative;
 				margin-left: 15px;
 				&:before {
@@ -554,36 +806,106 @@ article.make-payment {
 					color: #000;
 					position: absolute;
 					left: -12px;
-					top: 42px;
+					top: 0px;
 				}
+			}
 		}
-	}
-	div.add-account p {
-		text-transform: uppercase;
-		padding: 15px 0 0 0;
-	}
-}
-article.payment-history {
-	div.table-header {
-		h3 {
-			float: left;
+		div.account-select{
+			margin-bottom: 0px;
+			div.add-account p {
+				text-transform: uppercase;
+				padding: 15px 0 0 0;
+			}
 		}
-		ul {
-			float: right;
-			li {
-				float: left;
-				list-style-type: none;
-				margin-left: 20px;
+		div.new-account {
+			margin-top: 10px;
+			.payment-options {
+				margin: 15px 0 25px 0px;
+				img {
+					max-width: 100%;
+				}
 			}
 		}
 	}
 }
-article.auth-forgot-password {
-	.label { 
-		@extend label;
+article.payment-history {
+	header {
+		margin-bottom: 15px;
+		h2 {
+			display: inline-block;
+		}
+		ul {
+			float: right;
+			@include breakpoint(small) {
+				float: none;
+				padding-left: 0px;
+			}
+			li {
+				float: left;
+				list-style-type: none;
+				padding-left: 10px;
+				margin-right: 10px;
+				border-left: 1px solid #0971ce;
+				&:first-child {
+					border-left: none;
+				}
+				@include breakpoint(small) {
+					float: none;
+					text-align: center;
+					border-left: 0px;
+				}
+			}
+		}
+	}
+	.content {
+		padding-top: 0px;
+	}
+	table tr {
+		.icon-recurring {
+			margin-left: 3px;
+		}
+		&.expand-details {
+			.grid {
+				margin: 15px 0 15px 35px;
+				.label {
+					float: left;
+					margin-right: 15px;
+					@include breakpoint(small) {
+						width: 25%;
+					}
+				}
+				.account-info {
+					float: left;
+				}
+			}
+		}
+		td .icon-arrow-collapsed {
+			margin-left: 18px
+		}
+	}
+}
+article.my-invoices {
+	header {
+		margin-bottom: 15px;
+	}
+	.content {
+		padding-top: 0px;
+		.stretch table tbody tr td button {
+			@include breakpoint(small) {
+				margin-top: 2px;
+				margin-bottom: 2px;
+			}
+		}
+		.filters form .group .actions {
+			@include breakpoint(small) {
+				float: left;
+				margin-top: 25px;
+			}
+		}
 	}
 }
 article.auth {
+	margin: 20px 0;
 	.social-login {
 		@include layout-list;
 		text-align: center;
@@ -602,6 +924,12 @@ article.auth {
 	dd {
 		text-align: left;
 	}
+	.field-validation-valid {
+		display: block;
+		color: #a94442;
+		font-size: 14px;
+		margin: 5px 0;
+	}
 	@include breakpoint(small) {
 		dl {
 			dd {
@@ -609,6 +937,181 @@ article.auth {
 			}
 			dt, dd {
 				float: none;
+			}
+		}
+	}	
+}
+article.payments {
+	margin-bottom: 20px;
+	overflow: visible; //Needed for datepicker
+	header {
+		h2.payment-accounts-header {
+			float: left;
+			@include breakpoint(small) {
+			float: none;
+			}
+		}
+	}
+	p.example-image {
+		text-align: center;
+	}
+	.advanced-settings {
+		margin-top: 5px;
+		.small {
+			width: 110px;
+		}
+		select {
+			width: auto;
+		}
+		& :last-child {
+			margin-bottom: 0;
+		}
+		p {
+			margin: 0;
+			padding-top: 1em;
+		}
+	}
+	.arrow-toggle {
+		position: relative;
+		padding-left: 14px;
+		&:before {
+			position: absolute;
+			width: 0;
+			height: 0;
+			content: '';
+			left: 0;
+			top: 50%;
+			margin-top: -5px;
+			border-top: 5px solid transparent;
+			border-left: 8px solid #0971ce;
+			border-bottom: 5px solid transparent;
+			 @include transform(rotate(90deg));
+			 filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+		}
+
+		&.collapsed:before {
+			@include transform(rotate(0deg));
+			filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=4);
+		}
+	}
+	.link-list {
+		float: right;
+		list-style-type: none;
+		padding-left: 0;
+		li {
+			float: left;
+			margin-left: 10px;
+			padding-left: 10px;
+			border-left: 1px solid #ccc;
+			a {
+				color: #fff;
+			}
+			&:first-child {
+				border-left: none;
+				margin-left: 0;
+				padding-left: 0;
+			}
+		}
+		@include breakpoint(small) {
+			float: none;
+			li {
+				float: none;
+				margin: 0;
+				padding: 0;
+				border: none;
+				text-align: center;
+			}
+		}
+	}
+	.payment-accounts-table {
+		.nickname {
+			width: 100%;
+		}
+		td:last-child {
+			white-space: nowrap;
+		}
+	}
+	.payment-options {
+		margin: 15px 0 25px 20px;
+		.account-number span {
+			display: block;
+			margin-top: 14px;
+			@include breakpoint(small) {
+				margin-top: 0;
+			}
+		}
+	}
+	.payment-total {
+		dd {
+			border-top: 1px solid #333;
+		}
+		dt, dd {
+			padding-top: 15px;
+		}
+
+		@include breakpoint(small) {
+			dd { 
+				border-top: none;
+				padding-top: 0;
+			}
+			dt { 
+				border-top: 1px solid #333;
+				padding-top: 20px;
+			}
+		}
+	}
+	.auto-pay-address p {
+		margin: 0px;
+	}
+	.account-selector {
+		margin: -25px -15px 15px -15px;
+	}
+	img {
+		max-width: 100%;
+	}
+	footer {
+		//needed since overflow:hidden was removed;
+		@include border-radius(0 0 10px 10px);
+	}
+
+	//Responsive table layout for payment account listing
+	@include breakpoint(small) {
+		table.payments-account-table {
+			clear: both;
+			&, thead, tbody, th, td, tr {
+				display: block;
+				padding: 0;
+				background: transparent;
+			}			
+			thead {
+				position: absolute;
+				top: -9999px;
+				left: -9999px;
+			}
+			tr {
+				border-top: 1px solid #ccc; 
+			}			
+			td {
+				font-size: 16px;
+				border: none;
+				position: relative;
+				padding: 8px 0;
+				white-space: normal;
+				text-align:left;
+				&:before {
+					content: attr(data-title);
+					display: block;
+					white-space: nowrap;
+					text-align:left;
+					font-weight: 600;
+					text-transform: uppercase;	
+				}
+				&:first-child {
+					padding-top: 20px;
+				}
+				&:last-child {
+					padding-bottom: 20px;
+				}				
 			}
 		}
 	}	
@@ -674,6 +1177,81 @@ aside {
 		}
 		p + p {
 			border-top: 1px solid #ddd;
+		}
+	}
+	article.thermostat {
+		.content {
+			padding: 0px 15px;
+			background-color: #fdfdfd;
+			.grid .col {
+				i {
+					float: left;
+					margin: 10px 7px 0 0;
+				}
+				h5 {
+					margin: 0 0 -10px 0;
+				}
+				.current-temp {
+					font-size: 44px;
+					.temp-scale {
+						font-size: 30px;
+						vertical-align: text-top;
+					}
+				}
+				dl {
+					margin: -20px 0 -10px 0;
+					dd.temperature {
+						font-size: 30px;
+					}
+					dt {
+						font-size: 14px;
+					}
+				}
+				@include breakpoint(medium) {
+					width: 100%;
+					float: left;
+				}
+				@include breakpoint(small) {
+					padding-bottom: 20px;
+				}
+			}
+		}
+		footer {
+			p {
+				padding: 0;
+			}
+			.online {
+				float: left;
+			}
+			.settings {
+				float: right;
+				a {
+					text-transform: none;
+				}
+			}
+		}
+	}
+	article.homelife {
+		.content {
+			background-color: #fdfdfd;
+			padding: 0px 15px;
+		}
+		ul {
+			list-style-type: none;
+			padding-left: 0px;
+			li {
+				padding: 15px 15px 15px 0;
+				border-bottom: 1px solid #ddd;
+				&:last-child {
+					border-bottom: 0px;
+				}
+				.icon-tech-support {
+					float: right;
+				}
+				.buttons {
+					float: left;
+				}
+			}
 		}
 	}
 }

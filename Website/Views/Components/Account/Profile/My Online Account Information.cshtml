@@ -1,62 +1,105 @@
-﻿<section class="layout cols-2 wrapper">
-    <section class="layout cols-1">
-        <article class="grey-box">
-            <header>
-                <h2>@Html.Sitecore().Field("My Online Account Information Text")</h2>
-            </header>
-            <form>
-                <div class="content">
+﻿@model StreamEnergy.MyStream.Models.Account.UpdateOnlineAccountRequest
+
+<article class="grey-box account" ng-controller="AcctOnlineAccountCtrl">
+    <header>
+        <h2>@Html.Sitecore().Field("My Online Account Information Text")</h2>
+    </header>
+    <form ng-submit="updateOnlineAccount()" data-val-bind-messages="validations">
+        <div class="content" loading-indicator>
+            <div ng-show="successMessage">
+                <div class="notice success">
+                    @Html.Sitecore().Field("Success Message Text")
+                </div>
+                <hr class="content-divider" />
+            </div>
+            <div class="group">
+                <div class="item group-col" @Html.ValidationErrorClass(model => model.Username) @*float-label*@>
+                    <label for="@Html.For(m => m.Username)">@Html.Sitecore().Field("Username Text")</label>
+                    <input type="text" @Html.ValidationAttributes(m => m.Username) ng-model="formData.username" />
+                    @Html.ValidationMessageFor(model => model.Username)
+                </div>
+                <div class="item group-col" @Html.ValidationErrorClass(model => model.Email.Address) @*float-label*@>
+                    <label for="@Html.For(m => m.Email.Address)">@Html.Sitecore().Field("Email Text")</label>
+                    <input type="email" @Html.ValidationAttributes(m => m.Email.Address) ng-model="formData.email.address" />
+                    @Html.ValidationMessageFor(model => model.Email.Address)
+                </div>
+            </div>
+            <div class="additional-fields" additional-fields>
+                <div class="additional-field-action">
+                    <a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" href="">@Html.Sitecore().Field("Change Password Text")</a>
+                </div>
+                <div class="group additional-field-group additional-fields">
                     <div class="group">
-                        <div class="item group-col" float-label>
-                            <label for="username">@Html.Sitecore().Field("Username Text")</label>
-                            <input type="text" name="username" id="username">
+                        <div class="item group-col" @Html.ValidationErrorClass(model => model.CurrentPassword) @*float-label*@>
+                            <label for="@Html.For(m => m.CurrentPassword)">@Html.Sitecore().Field("Current Password Text")</label>
+                            <input type="password" ng-model="formData.currentPassword" />
                         </div>
-                        <div class="item group-col" float-label>
-                            <label for="email">@Html.Sitecore().Field("Email Text")</label>
-                            <input type="email" name="email" id="email">
-                        </div>
-                    </div>
-                    <div class="additional-field-action">
-                        <a href="#">@Html.Sitecore().Field("Change Password Text")</a>
-                    </div>
-                    <div class="group additional-field-group">
-                        <div class="group">
-                            <div class="item group-col" float-label>
-                                <label for="current-password">@Html.Sitecore().Field("Current Password Text")</label>
-                                <input type="text" name="current-password" id="current-password">
-                            </div>
-                            <div class="item group-col"></div>
-                        </div>
-                        <div class="group">
-                            <div class="item group-col" float-label>
-                                <label for="new-password">@Html.Sitecore().Field("New Password Text")</label>
-                                <input type="text" name="new-password" id="new-password">
-                                <span class="help-text">@Html.Sitecore().Field("Password Requirements Text")</span>
-                            </div>
-                            <div class="item group-col" float-label>
-                                <label for="new-password-repeat">@Html.Sitecore().Field("New Password Text")</label>
-                                <input type="email" name="new-password-repeat" id="new-password-repeat">
-                            </div>
-                        </div>
-                    </div>
-                    <hr class="content-divider" />
-                    <div class="group">
-                        @Html.Sitecore().Field("Security Question 1 Content")
+                        <div class="item group-col"></div>
                     </div>
                     <div class="group">
-                        @Html.Sitecore().Field("Security Question 2 Content")
-                    </div>
-                    <hr class="content-divider" />
-                    <div class="item">
-                        @Html.Sitecore().Field("Language Preference Content")
+                        <div class="item group-col" @Html.ValidationErrorClass(model => model.Password) @*float-label*@>
+                            <label for="@Html.For(m => m.Password)">@Html.Sitecore().Field("New Password Text")</label>
+                            <input type="password" @Html.ValidationAttributes(m => m.Password) ng-model="formData.password" />
+                            @Html.ValidationMessageFor(model => model.Password)
+                            <span class="help-text">@Html.Sitecore().Field("Password Requirements Text")</span>
+                        </div>
+                        <div class="item group-col" @Html.ValidationErrorClass(model => model.ConfirmPassword) @*float-label*@>
+                            <label for="@Html.For(m => m.ConfirmPassword)">@Html.Sitecore().Field("Confirm Password Text")</label>
+                            <input type="password" @Html.ValidationAttributes(m => m.ConfirmPassword) ng-model="formData.confirmPassword" />
+                            @Html.ValidationMessageFor(model => model.ConfirmPassword)
+                        </div>
                     </div>
                 </div>
-                <footer>
-                    <div class="buttons">
-                        <button type="submit">@Html.Sitecore().Field("Save Button Text")</button>
+            </div>
+            <hr class="content-divider" />
+            @using (var securityQuestion = Html.AngularRepeat(m => m.Challenges, "0"))
+            {
+                <div class="group">
+                    <div class="item group-col" @(securityQuestion.ErrorClass(m => m.SelectedQuestion.Id))>
+                        <label for="@securityQuestion.For(m => m.SelectedQuestion.Id)">@Html.Sitecore().Field("Question 1 Label")</label>
+                        <select @securityQuestion.Attributes(m => m.SelectedQuestion.Id) ng-model="formData.challenges[0].selectedQuestion" ng-options="question.text for question in formData.availableSecurityQuestions|filter:filter2 track by question.id"></select>
+                        @securityQuestion.MessageFor(m => m.SelectedQuestion.Id)
                     </div>
-                </footer>
-            </form>
-        </article>
-    </section>
-</section>
+                    <div class="item group-col" @(securityQuestion.ErrorClass(m => m.Answer))>
+                        <label for="@securityQuestion.For(m => m.Answer)">@Html.Sitecore().Field("Question 1 Answer Label")</label>
+                        <input type="text" @securityQuestion.Attributes(m => m.Answer) ng-model="formData.challenges[0].answer">
+                        @securityQuestion.MessageFor(m => m.Answer)
+                        <span class="help-text">@Html.Sitecore().Field("Question 1 Help Text")</span>                      
+                    </div>
+                </div>
+            }
+            @using (var securityQuestion = Html.AngularRepeat(m => m.Challenges, "1"))
+            {
+                <div class="group">
+                    <div class="item group-col" @(securityQuestion.ErrorClass(m => m.SelectedQuestion.Id))>
+                        <label for="@securityQuestion.For(m => m.SelectedQuestion.Id)">@Html.Sitecore().Field("Question 2 Label")</label>
+                        <select @securityQuestion.Attributes(m => m.SelectedQuestion.Id) ng-model="formData.challenges[1].selectedQuestion" ng-options="question.text for question in formData.availableSecurityQuestions|filter:filter1 track by question.id"></select>
+                        @securityQuestion.MessageFor(m => m.SelectedQuestion.Id)
+                    </div>
+                    <div class="item group-col" @(securityQuestion.ErrorClass(m => m.Answer))>
+                        <label for="@securityQuestion.For(m => m.Answer)">@Html.Sitecore().Field("Question 2 Answer Label")</label>
+                        <input type="text" @securityQuestion.Attributes(m => m.Answer) ng-model="formData.challenges[1].answer">
+                        @securityQuestion.MessageFor(m => m.Answer)
+                        <span class="help-text">@Html.Sitecore().Field("Question 2 Help Text")</span>
+                    </div>
+                </div>
+            }
+            <hr class="content-divider" />
+            <div class="item">
+                <label for="language-preference">@Html.Sitecore().Field("Language Preference Label")</label>
+                <ul class="checkbox-list">
+                    <li data-ng-repeat="language in formData.availableLanguages">
+                        <input type="radio" ng-model="formData.languagePreference" value="{{ language.text }}" name="language-preference" />
+                        <label for="{{language.text}}">{{ language.text }}</label>
+                    </li>
+                </ul>
+            </div>
+            <label for="new-password-repeat">@Html.Sitecore().Field("Confirm New Password Text")</label>
+        </div>
+        <footer>
+            <div class="buttons">
+                <button type="submit" data-val-submit>@Html.Sitecore().Field("Save Button Text")</button>
+            </div>
+        </footer>
+    </form>
+</article>

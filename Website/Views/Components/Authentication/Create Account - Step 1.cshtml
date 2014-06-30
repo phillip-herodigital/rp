@@ -1,0 +1,34 @@
+﻿@model StreamEnergy.DomainModels.Accounts.Create.CreateAccountContext
+
+@if (Sitecore.Context.PageMode.IsPageEditor)
+{ 
+    @Html.AllValidationMessagesFor(m => m.AccountNumber)
+    @Html.AllValidationMessagesFor(m => m.SsnLastFour)
+}
+<article class="grey-box auth auth-create-account" ng-show="activeState == 'step1'">
+    <header>
+        <h2>@Html.Sitecore().Field("Header Text")</h2>
+    </header>
+    <form ng-submit="findAccount()" data-val-bind-messages="validations">
+        <div class="content">
+            @Html.Sitecore().Field("Body Text")    
+            @Html.ValidationSummary()
+            <div class="item" @Html.ValidationErrorClass(model => model.AccountNumber)>
+                <label for="@Html.For(m => m.AccountNumber)">@Html.Sitecore().Field("Account Label")</label>
+                <input type="text" @Html.ValidationAttributes(m => m.AccountNumber) ng-model="formData.accountNumber" />
+                @Html.ValidationMessageFor(model => model.AccountNumber)
+                <span class="help-text">@Html.Sitecore().Field("Account Help Text")</span>
+            </div>
+            <div class="item" @Html.ValidationErrorClass(model => model.SsnLastFour)>
+                <label for="@Html.For(m => m.SsnLastFour)">@Html.Sitecore().Field("SSN Label")</label>
+                <input type="text" @Html.ValidationAttributes(m => m.SsnLastFour) ng-model="formData.ssnLastFour" />
+                @Html.ValidationMessageFor(model => model.SsnLastFour)
+            </div>
+        </div>
+        <footer>
+            <div class="buttons">
+                <button type="submit" data-val-submit>@Html.Sitecore().Field("Continue Button Text")</button>
+            </div>
+        </footer>
+    </form>
+</article>

@@ -10,22 +10,65 @@ namespace StreamEnergy.Services.Clients
     class EnrollmentService : IEnrollmentService
     {
         // TODO - replace with actual implementations
+        [Serializable]
         class ConnectDatePolicy : IConnectDatePolicy
         {
 
         }
 
-        IEnumerable<Tuple<Location, IOffer>> IEnrollmentService.LoadOffers(IEnumerable<Location> serviceLocations)
+        Dictionary<Location, LocationOfferSet> IEnrollmentService.LoadOffers(IEnumerable<Location> serviceLocations)
         {
-            return serviceLocations.SelectMany(location =>
+            return serviceLocations.ToDictionary(location => location, location =>
             {
-                return new [] 
-                { 
-                    Tuple.Create(location, (IOffer)new TexasElectricityOffer
-                        {
-                            Id = "NewOffer"
-                        })
+                if (location.Capabilities.OfType<DomainModels.TexasServiceCapability>().Count() > 1)
+                {
+                    return new LocationOfferSet { OfferSetErrors = { { "TexasElectricity", "MultipleTdu" } } };
+                }
+                var offers = new IOffer[] 
+                {
+                    new TexasElectricityOffer
+                    {
+                        Id = "24-month-fixed-rate",
+                        Name= "24 Month Fixed Rate",
+                        RateType= DomainModels.Enrollments.RateType.Fixed,
+                        Rate= 7.18m,
+                        TermMonths= 24,
+                        CancellationFee=150,
+                        Description = "When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
+                    },
+                    new TexasElectricityOffer
+                    {
+                        Id="6-month-fixed-rate",
+                        Name="6 Month Fixed Rate",
+                        RateType= DomainModels.Enrollments.RateType.Fixed,
+                        Rate=7.98m,
+                        TermMonths=6,
+                        CancellationFee=150,
+                        Description="When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
+                    },
+                    new TexasElectricityOffer
+                    {
+                        Id="month-to-month-rate",
+                        Name="Month-To-Month Rate",
+                        RateType= DomainModels.Enrollments.RateType.Variable,
+                        Rate=7.98m,
+                        TermMonths=1,
+                        CancellationFee=0,
+                        Description="When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
+                    },
+                    new TexasElectricityOffer
+                    {
+                        Id="introductory-rate-plan",
+                        Name="Introductory Rate Plan",
+                        RateType= DomainModels.Enrollments.RateType.Variable,
+                        Rate=8.08m,
+                        TermMonths=1,
+                        CancellationFee=0,
+                        Description="When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
+                    }
                 };
+
+                return new LocationOfferSet { Offers = offers.ToArray() };
             });
         }
 
@@ -34,12 +77,13 @@ namespace StreamEnergy.Services.Clients
             return new ConnectDatePolicy();
         }
 
-        DomainModels.Enrollments.Service.IdentityCheckResult IEnrollmentService.IdentityCheck(DomainModels.Name name, string ssn, DomainModels.DriversLicense driversLicense, DomainModels.Address billingAddress, AdditionalIdentityInformation identityInformation)
+        DomainModels.Enrollments.Service.IdentityCheckResult IEnrollmentService.IdentityCheck(DomainModels.Name name, string ssn, DomainModels.DriversLicense driversLicense, AdditionalIdentityInformation identityInformation)
         {
             if (identityInformation == null)
             {
                 return new DomainModels.Enrollments.Service.IdentityCheckResult
                 {
+                    IdentityAccepted = false,
                     HardStop = null,
                     IdentityCheckId = "01234",
                     IdentityQuestions = new[] 
@@ -82,23 +126,41 @@ namespace StreamEnergy.Services.Clients
                 return new DomainModels.Enrollments.Service.IdentityCheckResult
                 {
                     IdentityCheckId = "01235",
+                    IdentityAccepted = true,
                     HardStop = null,
                     IdentityQuestions = new IdentityQuestion[0],
                 };
             }
         }
 
-        DomainModels.Enrollments.Service.LoadDepositResult IEnrollmentService.LoadDeposit(IEnumerable<LocationServices> services)
+        IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>> IEnrollmentService.LoadDeposit(IEnumerable<LocationServices> services)
         {
-            return new DomainModels.Enrollments.Service.LoadDepositResult
-            {
-                Amount = 50.00m
-            };
+            return (from loc in services
+                    from offer in loc.SelectedOffers
+                    select new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>
+                    {
+                        Location = loc.Location,
+                        Offer = offer.Offer,
+                        Details = new DomainModels.Enrollments.OfferPayment
+                        {
+                            Description = "Canned description about the amounts required",
+                            RequiredAmount = (offer.Offer is TexasElectricityOffer && ((TexasElectricityOffer)offer.Offer).TermMonths == 1) ? 0 : 75.25m,
+                            OptionalAmount = 0
+                        }
+                    }).ToArray();
         }
 
-        DomainModels.Enrollments.Service.PlaceOrderResult IEnrollmentService.PlaceOrder(IEnumerable<LocationServices> services)
+        IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>> IEnrollmentService.PlaceOrder(IEnumerable<LocationServices> services)
         {
-            return new DomainModels.Enrollments.Service.PlaceOrderResult { ConfirmationNumber = "87654321" };
+
+            return (from loc in services
+                    from offer in loc.SelectedOffers
+                    select new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>
+                    {
+                        Location = loc.Location,
+                        Offer = offer.Offer,
+                        Details = new DomainModels.Enrollments.Service.PlaceOrderResult { ConfirmationNumber = "87654321" }
+                    }).ToArray();
         }
 
     }

@@ -81,6 +81,10 @@
     <Reference Include="Smtpapi">
       <HintPath>..\packages\smtpapi.1.0.0\lib\Smtpapi.dll</HintPath>
     </Reference>
+    <Reference Include="StackExchange.Redis, Version=1.0.297.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\StackExchange.Redis.1.0.297\lib\net45\StackExchange.Redis.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -96,6 +100,7 @@
     <Reference Include="System.Runtime" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -131,11 +136,11 @@
     <Compile Include="Services\Clients\EmbeddedResourceMockResolver.cs" />
     <Compile Include="Services\Clients\EnrollmentService.cs" />
     <Compile Include="Services\Clients\IServiceMockResolver.cs" />
-    <Compile Include="Services\Clients\IEmailService.cs" />
     <Compile Include="Services\Clients\LambdaToResourceMockResolver.cs" />
+    <Compile Include="Services\Clients\ServiceCache.cs" />
     <Compile Include="Services\Clients\ServiceMockContainerSetup.cs" />
-    <Compile Include="Services\Clients\ServiceMockInterceptor.cs" />
-    <Compile Include="Services\Clients\ServiceMockResolver.cs" />
+    <Compile Include="Services\Clients\ServiceInterceptor.cs" />
+    <Compile Include="Services\Clients\ServiceInterceptorResolver.cs" />
     <Compile Include="Services\Clients\TemperatureService.cs" />
     <Compile Include="Services\Clients\ITemperatureService.cs" />
     <Compile Include="Services\SoapConverter.cs" />

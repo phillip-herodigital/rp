@@ -1,0 +1,58 @@
+@model StreamEnergy.MyStream.Models.Authentication.RecoverUsernameRequest
+
+@if (Sitecore.Context.PageMode.IsPageEditor)
+{
+    @Html.AllValidationMessagesFor(m => m)
+}
+<div ng-controller="AuthForgotUsernameCtrl">
+	<article class="grey-box auth auth-forgot-username" ng-show="activeState == 'step1'">
+		<header>
+			<h2>@Html.Sitecore().Field("Step 1 Header Text")</h2>
+		</header>
+        <form ng-submit="recoverUsername()" val-bind-messages="validations">
+            @Html.ValidationSummary()
+            <div class="content">
+                @Html.Sitecore().Field("Step 1 Body Text")
+                <div class="alert alert-error" ng-show="recoverUsernameError" ng-bind-html="recoverUsernameError">@Html.Sitecore().Field("Step 1 Error Text")</div>
+                <div class="item" @Html.ValidationErrorClass(model => model.Email.Address)>
+                    <label for="@Html.For(m => m.Email.Address)">@Html.Sitecore().Field("Email Label")</label>
+                    <input type="email" @Html.ValidationAttributes(m => m.Email.Address) ng-model="formData.email.address" />
+                    @Html.ValidationMessageFor(model => model.Email.Address)
+                </div>
+            </div>
+            <footer>
+                <div class="buttons">
+                    <button type="submit" data-val-submit>@Html.Sitecore().Field("Send Username Button Text")</button>
+                </div>
+            </footer>
+        </form>
+	</article>
+
+	<article class="grey-box auth" ng-show="activeState == 'confirm'">
+		<header>
+			<h2>@Html.Sitecore().Field("Confirm Header Text")</h2>
+		</header>
+		<div class="content">
+			<p></p>@Html.Sitecore().Field("Confirm Body Text") {{ email.address }}
+		</div>
+		<footer>
+			<div class="buttons">
+				@Html.Sitecore().Field("Confirm Return Button Link")
+			</div>
+		</footer>
+	</article>
+
+	<article class="grey-box auth" ng-show="activeState == 'error'">
+		<header>
+			<h2>@Html.Sitecore().Field("Error Header Text")</h2>
+		</header>
+		<div class="content">
+			@Html.Sitecore().Field("Error Body Text")
+		</div>
+		<footer>
+			<div class="buttons">
+				>@Html.Sitecore().Field("Error Return Button Link")
+			</div>
+		</footer>
+	</article>
+</div>

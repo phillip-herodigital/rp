@@ -10,6 +10,7 @@ namespace StreamEnergy.DomainModels
     /// <summary>
     /// Information used to contact the customer
     /// </summary>
+    [Serializable]
     [System.Web.Mvc.ModelBinder(typeof(Mvc.IgnoreBlanksModelBinder))]
     public class CustomerContact : ISanitizable
     {
@@ -18,14 +19,10 @@ namespace StreamEnergy.DomainModels
         public Name Name { get; set; }
 
         [Required(ErrorMessage = "Primary Phone Required")]
-        [ValidateObject(ErrorMessagePrefix = "Primary Phone ")]
-        public Phone PrimaryPhone { get; set; }
-        [ValidateObject(ErrorMessagePrefix = "Home Phone ")]
-        public Phone HomePhone { get; set; }
-        [ValidateObject(ErrorMessagePrefix = "Cell Phone ")]
-        public Phone CellPhone { get; set; }
-        [ValidateObject(ErrorMessagePrefix = "Work Phone ")]
-        public Phone WorkPhone { get; set; }
+        [EnumerableRequired(ErrorMessage = "Phone Required")]
+        [MinLength(1, ErrorMessage = "Primary Phone Required")]
+        [ValidateEnumerable(ErrorMessagePrefix = "Phone ")]
+        public Phone[] Phone { get; set; }
 
         [Required(ErrorMessage = "Email Required")]
         [ValidateObject(ErrorMessagePrefix = "Email ")]
@@ -36,14 +33,14 @@ namespace StreamEnergy.DomainModels
             if (Name != null)
                 ((ISanitizable)Name).Sanitize();
 
-            if (PrimaryPhone != null)
-                ((ISanitizable)PrimaryPhone).Sanitize();
-            if (HomePhone != null)
-                ((ISanitizable)HomePhone).Sanitize();
-            if (CellPhone != null)
-                ((ISanitizable)CellPhone).Sanitize();
-            if (WorkPhone != null)
-                ((ISanitizable)WorkPhone).Sanitize();
+            if (Phone != null)
+            {
+                Phone = Phone.Where(p => p != null).ToArray();
+                foreach (var entry in Phone)
+                {
+                    ((ISanitizable)entry).Sanitize();
+                }
+            }
 
             if (Email != null)
                 ((ISanitizable)Email).Sanitize();

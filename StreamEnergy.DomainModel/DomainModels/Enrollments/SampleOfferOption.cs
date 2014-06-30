@@ -9,9 +9,11 @@ namespace StreamEnergy.DomainModels.Enrollments
     public class SampleOfferOption : IOfferOption
     {
         public string OptionType { get; set; }
+        public Address BillingAddress { get; set; }
 
         public void Sanitize()
         {
         }
+
     }
 }

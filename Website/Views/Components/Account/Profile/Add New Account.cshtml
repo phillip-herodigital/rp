@@ -1,31 +1,36 @@
-﻿<section class="layout cols-2 wrapper">
-    <section class="layout cols-1">
-        <article class="grey-box">
-            <header>
-                <h2>@Html.Sitecore().Field("Add New Account Text")</h2>
-            </header>
-            <form>
-                <div class="content">
-                    <p>@Html.Sitecore().Field("New Account Instructions Text")</p>
+﻿@model StreamEnergy.MyStream.Models.Account.AddNewAccountRequest
 
-                    <div class="group">
-                        <div class="item group-col" float-label>
-                            <label for="Amount">@Html.Sitecore().Field("Account Number Text")</label>
-                            <input type="text" id="amount">
-                        </div>
-                        <div class="item group-col" float-label>
-                            <label for="Amount">@Html.Sitecore().Field("Last 4 Text")</label>
-                            <input type="text" id="amount">
-                        </div>
-                    </div>
+<article class="grey-box account" ng-controller="AcctAddNewAccountCtrl">
+    <header>
+        <h2>@Html.Sitecore().Field("Add New Account Text")</h2>
+    </header>
+    <form ng-submit="addNewAccount(); addNewAccountForm.$setPristine()" data-val-bind-messages="validations">
+        <div class="content" loading-indicator>
+            <div ng-show="successMessage">
+                <div class="notice success">
+                    @Html.Sitecore().Field("Success Message Text")
                 </div>
-                <footer>
-                    <div class="buttons">
-                        <button type="submit">@Html.Sitecore().Field("Save Button Text")</button>
-                    </div>
-                </footer>
-            </form>
-        </article>
-    </section>
-</section>
+                <hr class="content-divider" />
+            </div>
+            <p>@Html.Sitecore().Field("New Account Instructions Text")</p>
+            <div class="group">
+                <div class="item group-col" @Html.ValidationErrorClass(model => model.AccountNumber) @*float-label*@>
+                    <label for="@Html.For(m => m.AccountNumber)">@Html.Sitecore().Field("Account Number Text")</label>
+                    <input type="text" @Html.ValidationAttributes(m => m.AccountNumber) ng-model="formData.accountNumber" data-val-if="formData.accountNumber" />
+                    @Html.ValidationMessageFor(model => model.AccountNumber)
+                </div>
+                <div class="item group-col" @Html.ValidationErrorClass(model => model.SsnLastFour) @*float-label*@>
+                    <label for="@Html.For(m => m.SsnLastFour)">@Html.Sitecore().Field("Last 4 Text")</label>
+                    <input type="text" @Html.ValidationAttributes(m => m.SsnLastFour) ng-model="formData.ssnLastFour" data-val-if="formData.ssnLastFour" />
+                    @Html.ValidationMessageFor(model => model.SsnLastFour)
+                </div>
+            </div>
+        </div>
+        <footer>
+            <div class="buttons">
+                <button type="submit" data-val-submit>@Html.Sitecore().Field("Save Button Text")</button>
+            </div>
+        </footer>
+    </form>
+</article>
 

@@ -3,6 +3,10 @@
  */
 ngApp.controller('FrontendElementsCtrl', ['$scope', '$modal', 'modalFactory', function ($scope, $modal, modalFactory) {
 
+    /* 
+     * Dialog Demo
+     */
+
     $scope.items = ['item1', 'item2', 'item3'];
 
     $scope.open = function () {
@@ -29,6 +33,19 @@ ngApp.controller('FrontendElementsCtrl', ['$scope', '$modal', 'modalFactory', fu
         }, function () {
             console.log('Modal dismissed at: ' + new Date());
         });
+    };
+
+    /* 
+     * Datepicker Demo
+     */
+
+    // Disable weekend selection
+    $scope.disableWeekends = function (date, mode) {
+        return (mode === 'day' && (date.getDay() === 0 || date.getDay() === 6));
+    };
+    $scope.minDate = new Date();
+    $scope.form = {
+        dt: new Date()
     };
 
 }]);

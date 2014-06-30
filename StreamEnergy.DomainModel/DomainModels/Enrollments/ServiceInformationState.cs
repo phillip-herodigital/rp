@@ -17,8 +17,8 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public override IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
         {
-            yield return context => context.Services.PartialValidate(e => e.Value.Location.Address.PostalCode5,
-                                                                     e => e.Value.Location.Capabilities);
+            yield return context => context.Services.PartialValidate(e => e.Location.Address.PostalCode5,
+                                                                     e => e.Location.Capabilities);
         }
     }
 }

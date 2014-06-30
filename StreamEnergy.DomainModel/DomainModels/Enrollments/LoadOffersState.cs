@@ -20,14 +20,18 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public override IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
         {
-            yield return context => context.Services.PartialValidate(e => e.Value.Location.Address.PostalCode5,
-                                                                     e => e.Value.Location.Capabilities);
+            yield return context => context.Services.PartialValidate(e => e.Location.Address.PostalCode5,
+                                                                     e => e.Location.Capabilities);
+        }
+
+        protected override bool NeedRestoreInternalState(UserContext context, InternalContext internalContext)
+        {
+            return internalContext.AllOffers == null || !context.Services.Select(s => s.Location).All(loc => internalContext.AllOffers.ContainsKey(loc));
         }
 
         protected override void LoadInternalState(UserContext data, InternalContext internalContext)
         {
-            // TODO - do we really want to always reload internal state?
-            internalContext.AllOffers = enrollmentService.LoadOffers(data.Services.Select(s => s.Value.Location));
+            internalContext.AllOffers = enrollmentService.LoadOffers(data.Services.Select(s => s.Location));
         }
     }
 }

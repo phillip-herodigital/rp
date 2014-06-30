@@ -22,6 +22,8 @@ namespace StreamEnergy.Processes
         TInternalContext InternalContext { get; }
         Type State { get; }
 
+        void ContextUpdated();
+
         bool RestoreStateFrom(Type state, ref Type currentState);
 
         void Process(params Type[] stopAt);
@@ -29,5 +31,6 @@ namespace StreamEnergy.Processes
         IEnumerable<ValidationResult> ValidationResults { get; }
 
         IEnumerable<ValidationResult> ValidateForState(IState<TContext, TInternalContext> state);
+
     }
 }

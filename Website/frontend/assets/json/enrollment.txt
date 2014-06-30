@@ -1,0 +1,239 @@
+﻿{
+    "validations": [],
+    "enrollmentLocations": [
+        {
+            "id": "location1",
+            "location": {
+                "address": {
+                    "line1": "3620 Huffines Blvd",
+                    "unitNumber": "226",
+                    "city": "Carrollton",
+                    "stateAbbreviation": "TX",
+                    "postalCode5": "75010"
+                },
+                "capabilities": [
+                    {
+                        "capabilityType": "TexasElectricity",
+                        "esiId": "1234SAMPLE5678",
+                        "tdu": "Centerpoint"
+                    }
+                ]
+            },
+            "availableOffers": [
+                {
+                    "id": "24-month-fixed-rate",
+                    "offerType": "TexasElectricity",
+                    "name": "24 Month Fixed Rate",
+                    "description": "When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services.",
+                    "rateType": "fixed",
+                    "rate": 7.18,
+                    "cancellationFee": 150,
+                    "termMonths": 24
+                },
+                {
+                    "id": "6-month-fixed-rate",
+                    "offerType": "TexasElectricity",
+                    "name": "6 Month Fixed Rate",
+                    "description": "When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services.",
+                    "rateType": "fixed",
+                    "rate": 7.98,
+                    "cancellationFee": 150,
+                    "termMonths": 6
+                },
+                {
+                    "id": "month-to-month-rate",
+                    "offerType": "TexasElectricity",
+                    "name": "Month-To-Month Rate",
+                    "description": "When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services.",
+                    "rateType": "variable",
+                    "rate": 7.98,
+                    "cancellationFee": 0,
+                    "termMonths": 1
+                },
+                {
+                    "id": "introductory-rate-plan",
+                    "offerType": "TexasGas",
+                    "name": "Introductory Rate Plan",
+                    "description": "When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services.",
+                    "rateType": "variable",
+                    "rate": 8.08,
+                    "cancellationFee": 0,
+                    "termMonths": 1
+                }
+            ],
+            "offerSelections": [
+                {
+                    "offerId": "introductory-rate-plan",
+                    "optionRules": {
+                        "optionRulesType": "ServiceStatus",
+                        "connectDates": {}
+                    },
+                    "offerOption": {
+                        "connectDate": "2014-05-01T00:00:00"
+                    },
+                    "deposit": {
+                        "description": "Canned description about the amounts required",
+                        "requiredAmount": 150,
+                        "optionalAmount": 0
+                    },
+                    "confirmationNumber": "87654321"
+                }
+            ]
+        },
+        {
+            "id": "location2",
+            "location": {
+                "address": {
+                    "line1": "1234 Anywhere St.",
+                    "unitNumber": "226",
+                    "city": "Carrollton",
+                    "stateAbbreviation": "TX",
+                    "postalCode5": "75010"
+                },
+                "capabilities": [
+                    {
+                        "capabilityType": "TexasElectricity",
+                        "esiId": "1234SAMPLE5678",
+                        "tdu": "Centerpoint"
+                    }
+                ]
+            },
+            "availableOffers": [
+                {
+                    "id": "24-month-fixed-rate",
+                    "offerType": "TexasElectricity",
+                    "name": "24 Month Fixed Rate",
+                    "description": "When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services.",
+                    "rateType": "fixed",
+                    "rate": 7.18,
+                    "cancellationFee": 150,
+                    "termMonths": 24
+                },
+                {
+                    "id": "6-month-fixed-rate",
+                    "offerType": "TexasElectricity",
+                    "name": "6 Month Fixed Rate",
+                    "description": "When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services.",
+                    "rateType": "fixed",
+                    "rate": 7.98,
+                    "cancellationFee": 150,
+                    "termMonths": 6
+                },
+                {
+                    "id": "month-to-month-rate",
+                    "offerType": "TexasElectricity",
+                    "name": "Month-To-Month Rate",
+                    "description": "When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services.",
+                    "rateType": "variable",
+                    "rate": 7.98,
+                    "cancellationFee": 0,
+                    "termMonths": 1
+                },
+                {
+                    "id": "introductory-rate-plan",
+                    "offerType": "TexasElectricity",
+                    "name": "Introductory Rate Plan",
+                    "description": "When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services.",
+                    "rateType": "variable",
+                    "rate": 8.08,
+                    "cancellationFee": 0,
+                    "termMonths": 1
+                }
+            ],
+            "offerSelections": [
+                {
+                    "offerId": "24-month-fixed-rate",
+                    "optionRules": {
+                        "optionRulesType": "ServiceStatus",
+                        "connectDates": {}
+                    },
+                    "offerOption": {
+                        "connectDate": "2014-05-01T00:00:00"
+                    },
+                    "deposit": {
+                        "description": "Canned description about the amounts required",
+                        "requiredAmount": 150,
+                        "optionalAmount": 0
+                    },
+                    "confirmationNumber": "87654321"
+                }
+            ]
+        }        
+    ],
+    "contactInfo": {
+        "name": {
+            "first": "Test",
+            "last": "Person"
+        },
+        "primaryPhone": {
+            "number": "2142234567"
+        },
+        "email": {
+            "address": "test@example.com"
+        }
+    },
+    "language": "en",
+    "billingAddress": {
+        "line1": "3620 Huffines Blvd",
+        "unitNumber": "226",
+        "city": "Carrollton",
+        "stateAbbreviation": "TX",
+        "postalCode5": "75010"
+    },
+    "identityQuestions": [
+        {
+            "questionId": "1",
+            "questionText": "What is your name?",
+            "answers": [
+                {
+                    "answerId": "1",
+                    "answerText": "King Arthur"
+                },
+                {
+                    "answerId": "2",
+                    "answerText": "Sir Lancelot"
+                },
+                {
+                    "answerId": "3",
+                    "answerText": "Sir Robin"
+                },
+                {
+                    "answerId": "4",
+                    "answerText": "Sir Galahad"
+                }
+            ]
+        },
+        {
+            "questionId": "2",
+            "questionText": "What is your quest?",
+            "answers": [
+                {
+                    "answerId": "1",
+                    "answerText": "To seek the Holy Grail."
+                }
+            ]
+        },
+        {
+            "questionId": "3",
+            "questionText": "What is your favorite color?",
+            "answers": [
+                {
+                    "answerId": "1",
+                    "answerText": "Blue."
+                },
+                {
+                    "answerId": "2",
+                    "answerText": "Green."
+                },
+                {
+                    "answerId": "3",
+                    "answerText": "Yellow."
+                },
+                {
+                    "answerId": "4",
+                    "answerText": "Red."
+                }
+            ]
+        }
+    ]
+}

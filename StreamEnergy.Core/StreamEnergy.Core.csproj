@@ -96,6 +96,9 @@
     <Reference Include="Sitecore.Mvc">
       <HintPath>..\Libraries\Sitecore\Sitecore.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="StackExchange.Redis">
+      <HintPath>..\packages\StackExchange.Redis.1.0.297\lib\net45\StackExchange.Redis.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -158,6 +161,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Caching\CacheCategory.cs" />
+    <Compile Include="Caching\CacheControlAttribute.cs" />
+    <Compile Include="Caching\RedisCacheContainerSetup.cs" />
+    <Compile Include="Caching\RedisCacheExtensions.cs" />
     <Compile Include="CollectionCountRangeAttribute.cs" />
     <Compile Include="CompositeValidationAttribute.cs" />
     <Compile Include="CompositeValidationResult.cs" />
@@ -168,9 +175,15 @@
     <Compile Include="CoreContainerSetup.cs" />
     <Compile Include="EnumerableRequiredAttribute.cs" />
     <Compile Include="EnvironmentCategory.cs" />
+    <Compile Include="Extensions\ValidationChaining\ChainedBase.cs" />
+    <Compile Include="Extensions\ValidationChaining\ChainedValidation.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Extensions\HtmlStringExtensions.cs" />
+    <Compile Include="Extensions\ModelStateExtensions.cs" />
     <Compile Include="Extensions\PaginationHelper.cs" />
     <Compile Include="Extensions\SettingsExtensions.cs" />
+    <Compile Include="Extensions\ValidationChaining\IChainedAccess.cs" />
+    <Compile Include="Extensions\ValidationChaining\IChainedUtility.cs" />
     <Compile Include="ISanitizable.cs" />
     <Compile Include="ISettings.cs" />
     <Compile Include="ITypeIndicatorLookup.cs" />
@@ -194,6 +207,7 @@
     <Compile Include="Mvc\Sitecore\ControllerRunner.cs" />
     <Compile Include="Mvc\Sitecore\GetControllerRenderer.cs" />
     <Compile Include="Pipelines\GenerateCustomCacheKey.cs" />
+    <Compile Include="Pipelines\NoChangeOrderer.cs" />
     <Compile Include="Pipelines\VanityUrlRedirect.cs" />
     <Compile Include="Processes\StateBase.cs" />
     <Compile Include="RequireValueAttributeAdapter.cs" />
@@ -227,6 +241,7 @@
     <Compile Include="ValidationService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

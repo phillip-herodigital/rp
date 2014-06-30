@@ -1,0 +1,265 @@
+﻿<div id="mobileFlowPhone" class="enrollment-section">
+    <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
+        <div class="wrapper">
+            <h1>
+                <span class="small block">@Html.Sitecore().Field("Banner Header Text")</span></span>
+                <span class="block">@Html.Sitecore().Field("Banner Sub Header Text")</span>
+            </h1>
+        </div>
+    </div>
+    <div class="wrapper layout cols-2">
+        <aside class="left">
+            <div ng-include src="'enrollment-nav-template'"></div>
+        </aside>
+        <section>
+            <article class="white-box phone">
+                <header>
+                    <h2>Select a Phone</h2>
+                </header>
+                <div class="content">
+                    <div class="filters">
+                        <form>
+                            <div class="group">
+                                <div class="item">
+                                    <label>Sort By:</label>
+                                    <select class="dark">
+                                        <option value="">Price (High - Low)</option>
+                                    </select>
+                                </div>
+                                <div class="item">
+                                    <label>Filter By:</label>
+                                    <select class="dark">
+                                        <option value="">All Brands</option>
+                                    </select>
+                                    <select class="dark">
+                                        <option value="">All OS</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="stretch form">
+                        <table class="phone-selector">
+                            <tbody additional-fields>
+                                <tr>
+                                    <td ng-class="{'selected' : isOpen && fieldId1=='bring-own-phone'}">
+                                        <div class="count">1</div>
+                                        <h3>Bring your own phone</h3>
+                                        <div class="product-image"><img src="/frontend/assets/i/enrollment/phones/phones.png" /></div>
+                                        <div class="price">Free*</div>
+                                        <p>Lorem ipsum dolor sit amet, connectur</p>
+                                        <a class="selection" href=""><span ng-show="isOpen && fieldId1=='bring-own-phone'" class="small" ng-click="hideFields();">Hide Details</span><span ng-hide="isOpen && fieldId1=='bring-own-phone'" ng-click="showFields(); fieldId1='bring-own-phone';">Select Phone</span></a>
+                                    </td>
+                                    <td ng-class="{'selected' : isOpen && fieldId1=='google-nexus-5'}">
+                                        <h3>Google Nexus 5</h3>
+                                        <div class="product-image"><img src="/frontend/assets/i/enrollment/phones/googlenexus5.png" /></div>
+                                        <div class="price">
+                                            <span>Starting At</span>
+                                            $599.00
+                                        </div>
+                                        <p>Lorem ipsum dolor sit amet, connectur</p>
+                                        <a class="selection" href=""><span ng-show="isOpen && fieldId1=='google-nexus-5'" class="small" ng-click="hideFields();">Hide Details</span><span ng-hide="isOpen && fieldId1=='google-nexus-5'" ng-click="showFields(); fieldId1='google-nexus-5';">Select Phone</span></a>
+                                        </td>
+                                    <td ng-class="{'selected' : isOpen && fieldId1=='iphone-5s'}">
+                                        <div class="count">1</div>
+                                        <h3>Apple iPhone 5s</h3>
+                                        <div class="product-image"><img src="/frontend/assets/i/enrollment/phones/iphone5s.png" /></div>
+                                        <div class="price">
+                                            <span>Starting At</span>
+                                            $599.00
+                                        </div>
+                                        <div class="option-selector">
+                                            <ul class="colors">
+                                                <li class="selected"><a class="gold" href=""></a></li>
+                                                <li><a class="grey" href=""></a></li>
+                                                <li><a class="silver" href=""></a></li>
+                                            </ul>
+                                            <select class="capacity">
+                                                <option value="">16GB</option>
+                                            </select>
+                                        </div>
+                                        <a class="selection" href=""><span ng-show="isOpen && fieldId1=='iphone-5s'" class="small" ng-click="hideFields();">Hide Details</span><span ng-hide="isOpen && fieldId1=='iphone-5s'" ng-click="showFields(); fieldId1='iphone-5s';">Select Phone</span></a>
+                                    </td>
+                                </tr>
+                                <tr class="additional-fields">
+                                    <td colspan="3">
+                                        <a ng-click="hideFields();" href=""><i class="icon-close"></i></a>
+                                        <div class="content" ng-class="{'first': fieldId1=='bring-own-phone', 'second': fieldId1=='google-nexus-5', 'third': fieldId1=='iphone-5s'}">
+                                            <div ng-show="fieldId1=='bring-own-phone'">
+                                                <div class="details">
+                                                    <h1>Bring Your Own Phone</h1>
+                                                    <p class="large">Already using a phone you like? No problem! There are several popular phones that will work great on our network, and any unlocked GSM phone compatible with the T-Mobile Network in the USA will likely provide the best mobile experience.</p>
+                                                    <h2>Verify your phone</h2>
+                                                    <ol>
+                                                        <li>Dial *#06# on your phone’s keypad</li>
+                                                        <li>Your phone’s <a href="">IMEI number</a> will appear on the screen</li>
+                                                        <li>Enter your phone’s <a href="">IMEI number</a> below</li>
+                                                    </ol>
+                                                    <div class="group">
+                                                        <div class="item">
+                                                            <input type="text" placeholder="123456.78.3612347.8" />
+                                                        </div>
+                                                        <div class="item">
+                                                            <button>Verify</button>
+                                                        </div>
+                                                    </div>
+                                                    <h2><span><i class="icon-blue-check"></i> IMEI Verified</span>Verify your phone</h2>
+                                                    <hr />
+                                                    <h2>Verify your SIM card</h2>
+                                                    <p class="large">To find the correct SIM card size and see important information about expected data functionality, select your phone below.</p>
+                                                    <div class="group">
+                                                        <div class="item">
+                                                            <select>
+                                                                <option value="">Apple</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="item">
+                                                            <select>
+                                                                <option value="">iPhone 4s (AT&amp;T or Verizon)</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <p class="small"><strong>IMPORTANT: Your phone needs to be unlocked!</strong></p>
+                                                    <hr />
+                                                    <p>Congratulations! Your phone will work on our network with voice, text and data. Data will work at 3G/4G data speeds in <a href="">converted</a> markets and 2G/Edge speeds in the remainder of the Solavei network depending on coverage availability.</p>
+                                                    <div class="product-description">
+                                                        <div class="avatar">
+                                                            <img src="/frontend/assets/i/enrollment/phones/sim.png" />
+                                                        </div>
+                                                        <div class="description">
+                                                            <h3>Combo SIM - $9</h3>
+                                                            <p>This card includes both Standard and Micro SIM cards. This will fit most phones that have a SIM slot. Punch out the appropriate sized SIM for your phone.</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="options">
+                                                    <div class="group">
+                                                        <div class="item">
+                                                            <label>Combo SIM $9.00</label>
+                                                        </div>
+                                                        <div class="item action">
+                                                            <button>Add To Cart</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div ng-show="fieldId1=='google-nexus-5'">
+                                                <div class="details">
+                                                    Google Nexus 5
+                                                </div>
+                                            </div>
+                                            <div ng-show="fieldId1=='iphone-5s'">
+                                                <div class="details product" style="background: url(/frontend/assets/i/enrollment/phones/iphones.png) bottom right no-repeat;">
+                                                    <h1>Apple iPhone 5s</h1>
+                                                    <p class="large">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut</p>
+                                                    <a class="more" href="">More Details</a>
+                                                </div>
+                                                <div class="options">
+                                                    <div class="group">
+                                                        <div class="item">
+                                                            <label>Quantity</label>
+                                                            <select>
+                                                                <option value="">1</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="item">
+                                                            <label>Color</label>
+                                                            <ul class="colors">
+                                                                <li class="selected"><a class="gold" href=""></a></li>
+                                                                <li><a class="grey" href=""></a></li>
+                                                                <li><a class="silver" href=""></a></li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="item">
+                                                            <label>Size</label>
+                                                            <select>
+                                                                <option value="">16GB</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="item action">
+                                                            <label><span>Price:</span> $599.00</label>
+                                                            <button>Add To Cart</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tbody additional-fields>
+                                <tr>
+                                    <td ng-class="{'selected' : isOpen && fieldId2=='samsung-galaxy-s'}">
+                                        <h3>Samsung Galaxy S III T999 4G</h3>
+                                        <div class="product-image"><img src="/frontend/assets/i/enrollment/phones/galaxys.png" /></div>
+                                        <div class="price">
+                                            $449.00
+                                        </div>
+                                        <p>Lorem ipsum dolor sit amet, connectur</p>
+                                        <a class="selection" href=""><span ng-show="isOpen && fieldId2=='samsung-galaxy-s'" class="small" ng-click="hideFields();">Hide Details</span><span ng-hide="isOpen && fieldId2=='samsung-galaxy-s'" ng-click="showFields(); fieldId2='samsung-galaxy-s';">Select Phone</span></a>
+                                    </td>
+                                    <td ng-class="{'selected' : isOpen && fieldId2=='iphone-5c'}">
+                                        <h3>Apple iPhone 5c</h3>
+                                        <div class="product-image"><img src="/frontend/assets/i/enrollment/phones/iphone5c.png" /></div>
+                                        <div class="price">
+                                            <span>Starting At</span>
+                                            $399.00
+                                        </div>
+                                        <div class="option-selector">
+                                            <ul class="colors">
+                                                <li class="selected"><a class="white" href=""></a></li>
+                                                <li><a class="yellow" href=""></a></li>
+                                                <li><a class="red" href=""></a></li>
+                                                <li><a class="blue" href=""></a></li>
+                                                <li><a class="green" href=""></a></li>
+                                            </ul>
+                                            <select class="capacity">
+                                                <option value="">16GB</option>
+                                            </select>
+                                        </div>
+                                        <a class="selection" href=""><span ng-show="isOpen && fieldId2=='iphone-5c'" class="small" ng-click="hideFields();">Hide Details</span><span ng-hide="isOpen && fieldId2=='iphone-5c'" ng-click="showFields(); fieldId2='iphone-5c';">Select Phone</span></a>
+                                    </td>
+                                    <td ng-class="{'selected' : isOpen && fieldId2=='prism-a'}">
+                                        <h3>Huawei Prism A</h3>
+                                        <div class="product-image"><img src="/frontend/assets/i/enrollment/phones/prisma.png" /></div>
+                                        <div class="price">
+                                            $299.00
+                                        </div>
+                                        <p>Lorem ipsum dolor sit amet, connectur</p>
+                                        <a class="selection" href=""><span ng-show="isOpen && fieldId2=='prism-a'" class="small" ng-click="hideFields();">Hide Details</span><span ng-hide="isOpen && fieldId2=='prism-a'" ng-click="showFields(); fieldId2='prism-a';">Select Phone</span></a>
+                                    </td>
+                                </tr>
+                                <tr class="additional-fields">
+                                    <td colspan="3">
+                                        <a ng-click="hideFields();" href=""><i class="icon-close"></i></a>
+                                        <div class="content" ng-class="{'first': fieldId2=='galaxy-s', 'second': fieldId2=='iphone-5c', 'third': fieldId2=='prism-a'}">
+                                            <div ng-show="fieldId2=='samsung-galaxy-s'">
+                                                <div class="details">Samsung Galaxy S III T999 4G</div>
+
+                                            </div>
+                                            <div ng-show="fieldId2=='iphone-5c'">
+                                                <div class="details"> Apple iPhone 5c</div>
+
+                                            </div>
+                                            <div ng-show="fieldId2=='prism-a'">
+                                                <div class="details">Huawei Prism A</div>
+
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                    </div>
+                </div>
+            </article>
+            <div class="actions">
+                <button>Add Service Plan</button>
+            </div>
+        </section>
+        <aside>
+            @*<div ng-include ng-if="true" src="'cart-template'"></div>*@
+        </aside>
+    </div>
+</div>

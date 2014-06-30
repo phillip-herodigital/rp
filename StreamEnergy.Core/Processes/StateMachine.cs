@@ -75,6 +75,17 @@ namespace StreamEnergy.Processes
 
         public IEnumerable<ResolverOverride> ResolverOverrides { get; set; }
 
+        public void ContextUpdated()
+        {
+            var state = State;
+            RestoreStateFrom(state, ref state);
+            State = state;
+            Context.Sanitize();
+            GetState().Sanitize(Context, InternalContext);
+            lastValidations = null;
+        }
+
+
         public bool RestoreStateFrom(Type state, ref Type currentState)
         {
             return BuildState(state).RestoreInternalState(this, ref currentState);

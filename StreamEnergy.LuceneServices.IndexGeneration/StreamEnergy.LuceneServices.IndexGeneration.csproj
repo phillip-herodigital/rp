@@ -143,6 +143,10 @@
       <Project>{449d7f2c-372c-41a8-b640-6751fda30828}</Project>
       <Name>StreamEnergy.DomainModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\StreamEnergy.LuceneServices.Web\StreamEnergy.LuceneServices.Web.csproj">
+      <Project>{7151c4c7-1ccf-42e4-b979-b0b6cb446bac}</Project>
+      <Name>StreamEnergy.LuceneServices.Web</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

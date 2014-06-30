@@ -1,0 +1,192 @@
+<div ng-controller="PaymentsCtrl">
+	<article class="grey-box payments form">
+		<header>
+			<h2>@Html.Sitecore().Field("Header Text")</h2>
+		</header>
+		<div ng-show="activeStep == 1">
+			<div class="content">
+				@Html.Sitecore().Field("Body Text")
+
+				<div class="item">
+					<label for="account-number">@Html.Sitecore().Field("Account Number Label"):</label>
+					<input id="account-number" type="text">
+				</div>
+				@Html.Sitecore().Field("Terms and Conditions Text")
+			</div>
+			<footer>
+				<div class="buttons">
+					<button type="submit" ng-click="lookupAccount()">@Html.Sitecore().Field("Continue Button Text")</button>
+				</div>
+			</footer>
+		</div>
+
+		<div ng-show="activeStep == 2">
+			<div class="content">
+				<dl class="clearfix module-list">
+					<dt>@Html.Sitecore().Field("Account Number Label"):</dt>
+					<dd>1234567890</dd>
+					<dt>@Html.Sitecore().Field("Balance Text"):</dt>
+					<dd>$123.45</dd>
+				</dl>
+
+				<div class="item">
+					<label for="customer-name">@Html.Sitecore().Field("Customer Name Label"):</label>
+					<input id="customer-name" type="text">
+				</div>
+
+				<div class="item">
+					<label for="email">@Html.Sitecore().Field("Email Address Label"):</label>
+					<input id="email" type="email">
+				</div>
+
+				<div class="item">
+					<label for="payment-amount">@Html.Sitecore().Field("Payment Amount Label"):</label>
+					$ <input id="payment-amount" class="small" type="text">
+				</div>
+
+				<fieldset>
+					<legend>@Html.Sitecore().Field("Payment Type Label"):</legend>
+
+					<div class="payment-type-selection">
+						<div class="payment-selection">
+							<input type="radio" id="credit-card" name="payment-type" ng-model="singlePayment.paymentType" ng-value="creditCard">
+							<label for="credit-card">@Html.Sitecore().Field("Credit Card Label")</label>
+						</div>
+						<div class="payment-options"  ng-show="singlePayment.paymentType == 'credit-card'">
+							<div class="item">
+								<label for="credit-card-number">@Html.Sitecore().Field("Credit Card Number Label"):</label>
+								<input id="credit-card-number" type="text">
+							</div>
+							<div class="group">
+								<div class="item">
+									<label for="expiration-date">@Html.Sitecore().Field("Expiration Date Label"):</label>
+									<select class="small" id="cc-month">
+										<option value="">MM</option>
+									</select>
+									<select class="small" id="cc-year">
+										<option value="">YYYY</option>
+									</select>
+								</div>
+								<div class="item">
+									<label for="billing-zip">@Html.Sitecore().Field("Zip Code Label"):</label>
+									<input class="small" type="text" id="billing-zip">
+								</div>
+								<div class="item">
+									<label for="security-code">@Html.Sitecore().Field("Security Code Label"):</label>
+									<input class="small" type="text" id="security-code">
+								</div>
+								<div class="item">
+									<a href="" class="single-link">@Html.Sitecore().Field("See Example Text")</a>
+								</div>
+							</div>
+						</div>
+						<div class="payment-selection">
+							<input type="radio" id="bank-account" name="payment-type" ng-model="singlePayment.paymentType" ng-value="bankAccount">
+							<label for="bank-account">@Html.Sitecore().Field("Bank Account Label")</label>
+						</div>
+						<div class="payment-options" ng-show="singlePayment.paymentType == 'bank-account'">
+							<div class="item">
+								<label for="payment-method">@Html.Sitecore().Field("Account Type Label"):</label>
+								<select id="payment-method">
+									<option value="">Please Choose</option>
+								</select>
+							</div>
+
+							<div class="group">
+								<div class="item group-col">
+									<label for="security-code">@Html.Sitecore().Field("Routing Number Label"):</label>
+									<input type="text" id="security-code">
+								</div>
+								<div class="item group-col">
+									<label for="security-code">@Html.Sitecore().Field("Bank Account Number Label"):</label>
+									<input type="text" id="security-code">
+								</div>									
+							</div>
+							@Html.Sitecore().Field("Bank Account Image")
+						</div>										
+					</div>
+				</fieldset>
+			</div>
+			<footer>
+				<div class="buttons">
+					<button type="submit" ng-click="validatePaymentInfo()">@Html.Sitecore().Field("Payment Continue Button Text")</button>
+					<button class="secondary" ng-click="back()">@Html.Sitecore().Field("Back Button Text")</button>
+				</div>
+			</footer>
+		</div>
+
+		<div ng-show="activeStep == 3">
+			<div class="content">
+				<dl class="clearfix module-list">
+					<dt>@Html.Sitecore().Field("Account Number Text"):</dt>
+					<dd>1234657890</dd>
+				</dl>
+				<dl class="clearfix module-list">
+					<dt>@Html.Sitecore().Field("Payment Method Text"):</dt>
+					<dd>Credit Card</dd>
+					<dt>@Html.Sitecore().Field("Card Number Text"):</dt>
+					<dd>**** **** **** 1234</dd>
+					<dt>@Html.Sitecore().Field("Bank Account Number Text"):</dt>
+					<dd>****1234</dd>
+				</dl>
+				<dl class="clearfix module-list">
+					<dt>@Html.Sitecore().Field("Payment Date Text"):</dt>
+					<dd>MM/DD/YYYY</dd>
+					<dt>@Html.Sitecore().Field("Payment Amount Text"):</dt>
+					<dd>$123.45</dd>
+					<dt>@Html.Sitecore().Field("Service Fee Text"):</dt>
+					<dd>$2.95</dd>
+				</dl>
+				<dl class="clearfix module-list payment-total">
+					<dt>@Html.Sitecore().Field("Payment Total Text"):</dt>
+					<dd>$126.40</dd>
+				</dl>
+			</div>
+			<footer>
+				<div class="buttons">
+					<button type="submit" ng-click="submitPaymentInfo()">@Html.Sitecore().Field("Submit Payment Button Text")</button>
+					<button class="secondary" ng-click="back()">@Html.Sitecore().Field("Back Button Text")</button>
+				</div>
+			</footer>
+		</div>
+		<div ng-show="activeStep == 4">
+			<div class="content">
+				<dl class="clearfix module-list">
+					<dt>@Html.Sitecore().Field("Confirmation Number Text"):</dt>
+					<dd>1234657890132456</dd>
+					<dt>@Html.Sitecore().Field("Account Number Text"):</dt>
+					<dd>1234657890</dd>
+				</dl>
+				<dl class="clearfix module-list">
+					<dt>@Html.Sitecore().Field("Payment Method Text"):</dt>
+					<dd>Credit Card</dd>
+					<dt>@Html.Sitecore().Field("Card Number Text"):</dt>
+					<dd>**** **** **** 1234</dd>
+					<dt>@Html.Sitecore().Field("Bank Account Number Text"):</dt>
+					<dd>****1234</dd>
+				</dl>
+				<dl class="clearfix module-list">
+					<dt>@Html.Sitecore().Field("Payment Date Text"):</dt>
+					<dd>MM/DD/YYYY</dd>
+					<dt>@Html.Sitecore().Field("Payment Amount Text"):</dt>
+					<dd>$123.45</dd>
+					<dt>@Html.Sitecore().Field("Service Fee Text"):</dt>
+					<dd>$2.95</dd>
+				</dl>
+				<dl class="clearfix module-list payment-total">
+					<dt>@Html.Sitecore().Field("Payment Total Text"):</dt>
+					<dd>$126.40</dd>
+				</dl>
+			</div>
+			<footer>
+				<div class="buttons">
+					<button ng-click="makeAnotherPayment()">@Html.Sitecore().Field("Make Another Payment Button Text")</button>
+					<a href="#" class="button secondary">@Html.Sitecore().Field("Home Button Text")</a>
+				</div>
+			</footer>
+		</div>
+	</article>
+	<div ng-show="activeStep == 3">
+		@Html.Sitecore().Field("Footnote Text")
+	</div>
+</div>

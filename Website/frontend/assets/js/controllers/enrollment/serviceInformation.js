@@ -2,152 +2,60 @@
  *
  * This is used to control aspects of let's get started on enrollment page.
  */
-ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$rootScope', '$http', 'enrollmentService', function ($scope, $rootScope, $http, enrollmentService) {
-    $scope.extraFields.isNewService = 0;
-    $scope.extraFields.serviceState = 'TX';
-    $scope.formErrors.serviceInformation = [];
+ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$filter', 'enrollmentService', 'enrollmentCartService', function ($scope, $location, $filter, enrollmentService, enrollmentCartService) {
+    // TODO - chose state by geoIP
+    $scope.data = { serviceState: 'TX' };
 
-    $scope.states = [
-        {
-            'class': 'icon texas',
-            'name': 'Texas',
-            'value': 'TX'
-        },
-        {
-            'class': 'icon georgia',
-            'name': 'Georgia',
-            'value': 'GA'
-        },
-        {
-            'class': 'icon pennsylvania',
-            'name': 'Pennsylvania',
-            'value': 'PA'
-        },
-        {
-            'class': 'icon maryland',
-            'name': 'Maryland',
-            'value': 'MD'
-        },
-        {
-            'class': 'icon new-jersey',
-            'name': 'New Jersey',
-            'value': 'NJ'
-        },
-        {
-            'class': 'icon new-york',
-            'name': 'New York',
-            'value': 'NY'
-        },
-        {
-            'class': 'icon washington-dc',
-            'name': 'Washington, DC',
-            'value': 'DC'
-        }
-    ];
-
-    /**
-    * Get Locations
-    */
-    $scope.getLocation = function (state, val) {
-        console.log('Getting locations...');
-
-        return locationPromise = enrollmentService.getLocations(state, val).then(function (res) {
-            var addresses = [];
-
-            angular.forEach(res.data, function (item) {
-                var address = item.address,
-                    formattedAddress = '';
-
-                if (address.line1) {
-                    formattedAddress += address.line1 + ', ';
-                }
-
-                if (address.unitNumber) {
-                    formattedAddress += address.unitNumber + ', ';
-                }
-
-                if (address.city) {
-                    formattedAddress += address.city + ', ';
-                }
-
-                if (address.stateAbbreviation) {
-                    formattedAddress += address.stateAbbreviation + ', ';
-                }
-
-                if (address.postalCode5) {
-                    formattedAddress += address.postalCode5;
-                    if (address.postalCodePlus4) {
-                        formattedAddress += '-' + address.postalCode5;
-                    }
-                }
-
-                item.formattedAddress = formattedAddress;
-
-                addresses.push(item);
-            });
-
-            return addresses;
-        });
-    };
-
-    /**
-    * Complete Enrollment Section
-    */
-    $scope.completeStep = function () {
-        $scope.formErrors.serviceInformation = [];
-
-        if (!$scope.extraFields.serviceAddress) {
-            $scope.formErrors.serviceInformation.serviceAddress = 'Service Address required.';
-            return;
-        }
-
-        if (typeof $scope.serverData.locationServices == 'undefined') {
-            var data = { 'locations': {} };
+    //Checking to see when the active service address has been updated
+    //So we can reinitialize all service information for this page
+    //There has to be a better way of doing this
+    $scope.$watch(enrollmentCartService.getActiveService, function (newValue) {
+        if (!newValue) {
+            $scope.data.serviceLocation = null;
+            $scope.data.isNewService = undefined;
         } else {
-            var data = { 'locations': $scope.serverData.locationServices };
-        }
-
-        var id = $scope.createLocationID();
-        data.locations[id] = $scope.extraFields.serviceAddress;
-
-        if ($scope.extraFields.isNewService == 1) {
-            data.locations[id].capabilities.push({ "capabilityType": "ServiceStatus", "isNewService": true });
-        }
-
-        console.log('Sending service information...');
-
-        var serviceInformationPromise = enrollmentService.setServiceInformation(data);
-
-        serviceInformationPromise.then(function (data) {
-            $scope.serverData = data;
-
-            $scope.extraFields.isNewService = 0;
-            $scope.extraFields.serviceAddress = null;
-
-            console.log(data);
-        }, function (data) {
-            // error response
-            $rootScope.$broadcast('connectionFailure');
-        });
-    };
-
-    /**
-    * Create location ID
-    * return string
-    */
-    $scope.createLocationID = function () {
-        var i = 1,
-            idPrefix = 'location';
-
-        if (typeof $scope.serverData.locationServices == 'undefined') {
-            return idPrefix + i;
-        } else {
-            while (typeof $scope.serverData.locationServices[idPrefix + i] != 'undefined') {
-                i++;
+            $scope.data.serviceLocation = newValue.location;
+            var target = _(newValue.location.capabilities).find({ capabilityType: "ServiceStatus" });
+            if (target) {
+                $scope.data.isNewService = target.isNewService;
+            }
+            else {
+                $scope.data.isNewService = undefined;
             }
         }
+    });
 
-        return idPrefix + i;
+    /**
+     * Checking if the current form is valid to continue
+     * Form level validation is done outside of here, this is checking to ensure
+     * we have the correct data
+     * @return {Boolean}
+     */
+    $scope.isFormValid = function() {
+        //TODO: Check for a duplicate address in cart as well
+        if (typeof $scope.data.serviceLocation == 'object' && $scope.data.isNewService !== undefined) {
+            return true;
+        } else {
+            return false;
+        }
     };
 
+    /**
+     * Complete the Service Information Step
+     * @return {[type]} [description]
+     */
+    $scope.completeStep = function () {
+        
+        $scope.data.serviceLocation.capabilities.push({ "capabilityType": "ServiceStatus", "isNewService": $scope.data.isNewService });
+
+        var activeService = enrollmentCartService.getActiveService();
+        if (activeService) {
+            activeService.location = $scope.data.serviceLocation;
+            enrollmentService.setSelectedOffers();
+        }
+        else {
+            enrollmentCartService.addService({ location: $scope.data.serviceLocation });
+            enrollmentService.setServiceInformation();
+        }
+    };
 }]);

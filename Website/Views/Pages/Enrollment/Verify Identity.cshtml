@@ -1,69 +1,52 @@
-﻿<div id="{{section.id}}" class="enrollment-section accent-darkgreen" ng-switch-when="verifyIdentity" ng-show="section.isVisible" ng-controller="EnrollmentVerifyIdentityCtrl">
+@model StreamEnergy.DomainModels.Enrollments.UserContext
+<div id="verifyIdentity" class="enrollment-section accent-darkgreen" ng-show="stepsService.isStepVisible('verifyIdentity')" ng-controller="EnrollmentVerifyIdentityCtrl">    
     <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper">
             <h1>
-                <span class="medium block">Verify <i>Your</i></span>
-                <span class="block">Identity</span>
+                <span class="medium block">@Html.Sitecore().Field("Banner Header Text")</span>
+                <span class="block">@Html.Sitecore().Field("Banner Sub Header Text")</span>
             </h1>
         </div>
     </div>
     <div class="wrapper layout cols-2">
         <aside class="left">
-            <div ng-include ng-if="true" src="'enrollment-nav-template'"></div>
+            <div ng-include ng-if="true" src="'enrollment-nav-template'"  ng-init="name = 'verifyIdentity'"></div>
         </aside>
         <section>
-            <h1>Verify Your <span>Identity</span></h1>
-            <p>To be able to process your order online, we need you to verify your identity. Please answer the questions below.</p>
-            <article class="form">
-                <div class="content">
-                    <p><strong>If you do not know the answer to the questions, you can skip this step and a customer support agent will contact you to complete your order.</strong></p>
-                    <div class="form">
-                        <div class="item">
-                            <label>Which of the following addresses did you live at in 2010?</label>
-                            <ul class="checkbox-list">
-                                <li><input type="radio" name="address" id=""><label for="">9452 Broad Turnabout, Lanigan, North Dakota</label></li>
-                                <li><input type="radio" name="address" id=""><label for="">7600 Clear Falls, Prince Albert, Michigan</label></li>
-                                <li><input type="radio" name="address" id=""><label for="">7757 Stony Diversion, Lost Cane, Alaska</label></li>
-                                <li><input type="radio" name="address" id=""><label for="">None of the above</label></li>
-                            </ul>
-                        </div>
-                        <div class="item">
-                            <label>What was the make and model of your first car?</label>
-                            <ul class="checkbox-list">
-                                <li><input type="radio" name="car" id=""><label for="">Ford Mustang</label></li>
-                                <li><input type="radio" name="car" id=""><label for="">Chevy Cobalt</label></li>
-                                <li><input type="radio" name="car" id=""><label for="">Dodge Durango</label></li>
-                                <li><input type="radio" name="car" id=""><label for="">None of the above</label></li>
-                            </ul>
-                        </div>
-                        <div class="item">
-                            <label>Which year did you graduate high school?</label>
-                            <ul class="checkbox-list">
-                                <li><input type="radio" name="graduate-year" id=""><label for="">1990</label></li>
-                                <li><input type="radio" name="graduate-year" id=""><label for="">1994</label></li>
-                                <li><input type="radio" name="graduate-year" id=""><label for="">1998</label></li>
-                                <li><input type="radio" name="graduate-year" id=""><label for="">None of the above</label></li>
-                            </ul>
-                        </div>
-                        <div class="item">
-                            <label>Which of the following cities have you lived in?</label>
-                            <ul class="checkbox-list">
-                                <li><input type="radio" name="cities" id=""><label for="">New York, NY</label></li>
-                                <li><input type="radio" name="cities" id=""><label for="">Dallas, TX</label></li>
-                                <li><input type="radio" name="cities" id=""><label for="">San Francisco, CA</label></li>
-                                <li><input type="radio" name="cities" id=""><label for="">None of the above</label></li>
-                            </ul>
+            <form data-val-bind-messages="validations" ng-submit="completeStep()">
+                <h1>@Html.Sitecore().Field("Verify Header")</h1>
+                <p>@Html.Sitecore().Field("Verify Paragraph")</p>
+                <article class="form">
+                    <div class="content">
+                        <p><strong>@Html.Sitecore().Field("Skip This Step")</strong></p>
+                        <div class="form">
+                            @using (var idQuestion = Html.AngularRepeat(m => m.SelectedIdentityAnswers, "$index"))
+                            {
+                                <div class="item" ng-repeat="question in getIdentityQuestions()" @idQuestion.ErrorClass(m => m.Value)>
+                                    <label>{{question.questionText}}</label>
+                                    <ul class="checkbox-list">
+                                        @using (var idAnswer = Html.AngularRepeat(m => m.SelectedIdentityAnswers, "$parent.$index"))
+                                        {
+                                            <li ng-repeat="answers in question.answers">
+                                                <input type="radio" data-val="true" data-val-required="@Html.Sitecore().Field("Selected Identity Answers Required")" id="@(idAnswer.For(e => e.Value))[{{$index}}]" name="@(idAnswer.For(e => e.Value))" ng-model="selectedIdentityAnswers[question.questionId]" ng-value="answers.answerId">
+                                                <label for="@(idAnswer.For(e => e.Value))[{{$index}}]">{{answers.answerText}}</label>
+                                            </li>
+                                        }
+                                    </ul>
+                                    @idQuestion.MessageFor(e => e.Value)
+                                </div>
+                            }
                         </div>
                     </div>
+                </article>
+                <div class="buttons">
+                    <button type="submit" class="primary" data-val-submit>@Html.Sitecore().Field("Button")</button>
                 </div>
-            </article>
-            <div class="buttons">
-                <button type="submit" class="primary" ng-click="completeStep();">Continue</button>
-            </div>
-            <div class="hide-medium-large time-remaining-mobile">
-                <p class="time-remaining">Estimated Time For Completion <strong>10 Minutes</strong></p>
-                <p><a href="">What info will I need to complete my order?</a></p>
-            </div>
+                <div class="hide-medium-large time-remaining-mobile">
+                    <p class="time-remaining">@Html.Sitecore().Field("Time Remaining")</p>
+                    <p><a href="">@Html.Sitecore().Field("Info Needed")</a></p>
+                </div>
+            </form>
         </section>
         <aside>
             <div ng-include ng-if="true" src="'cart-template'"></div>

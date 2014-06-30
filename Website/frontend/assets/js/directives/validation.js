@@ -72,6 +72,7 @@
 
     return {
         restrict: 'E',
+        scope: true,
         link: function (scope) {
             // Add the $$validation object at the form level so that we don't end up adding it
             // at an inner level, such as an ng-if.

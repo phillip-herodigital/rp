@@ -27,8 +27,16 @@
     <meta name="format-detection" content="telephone=no" />
 
     <link rel="shortcut icon" type="image/ico" href="/frontend/assets/i/favicon.ico" />
-    @Styles.Render("~/frontend/assets/css/bundle")
-    @Scripts.Render("~/frontend/assets/js/bundle")
+    
+    @Styles.Render("~/bundles/Styles")
+    @if ((Request.Browser.Browser == "IE") && ((Request.Browser.MajorVersion <= 8)))
+    {
+        @Scripts.Render("~/frontend/assets/js/legacybundle");
+    }
+    else
+    {
+        @Scripts.Render("~/frontend/assets/js/bundle")
+    }    
 
     <script type="text/javascript" src="//use.typekit.net/obg4jvp.js"></script>
     <script type="text/javascript">try { Typekit.load(); } catch (e) { }</script>
@@ -46,8 +54,20 @@
         <div class="page-content">
             @Html.Sitecore().Placeholder("header")
 
-            @if (!string.IsNullOrEmpty(Html.Sitecore().Field("Banner Image").ToString())) {
-            <div class="banner marketing" style="@Html.AsBackgroundStyle("Banner Image")"></div>
+            @{ var bannerImage = Html.Sitecore().CurrentItem["Banner Image"]; }
+            @if (bannerImage != null && !string.IsNullOrEmpty(bannerImage.ToString()))
+            {
+                var bannerCssClassField = Html.Sitecore().CurrentItem.Fields["Banner CSS Class"];
+                <div class="banner @(bannerCssClassField != null ? bannerCssClassField.Value : "marketing")" style="@Html.AsBackgroundStyle("Banner Image")">
+                    @if (!string.IsNullOrEmpty(Html.Sitecore().Field("Banner Text").ToString()))
+                    {
+                        <div class="inner">
+                            <div class="wrapper">
+                                @Html.Sitecore().Field("Banner Text")
+                            </div>
+                        </div>
+            }
+                </div>
             }
             <section class="layout cols-1">
 

@@ -2,12 +2,12 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using StreamEnergy.DomainModels.Enrollments;
-using StreamEnergy.MyStream.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http.Controllers;
+using StreamEnergy.MyStream.Controllers.ApiControllers;
 
 namespace StreamEnergy.MyStream.Tests
 {
@@ -38,7 +38,7 @@ namespace StreamEnergy.MyStream.Tests
             { 
                 new TexasElectricityOffer
                 {
-                    Id = "NewOffer"
+                    Id = "24-month-fixed-rate"
                 }
             };
             identityQuestions = new[] 
@@ -95,7 +95,7 @@ namespace StreamEnergy.MyStream.Tests
             {
                 Name = new DomainModels.Name { First = "Test", Last = "Person" },
                 Email = new DomainModels.Email { Address = "test@example.com" },
-                PrimaryPhone = new DomainModels.Phone { Number = "214-223-4567" },
+                Phone = new[] { new DomainModels.TypedPhone { Number = "214-223-4567", Category = StreamEnergy.DomainModels.PhoneCategory.Home } },
             };
             offerOption = new TexasElectricityOfferOption { ConnectDate = new DateTime(2014, 5, 1) };
         }
@@ -104,7 +104,7 @@ namespace StreamEnergy.MyStream.Tests
         public void NewClientDataTest()
         {
             var controller = container.Resolve<EnrollmentController>();
-            var clientData = controller.ClientData();
+            var clientData = controller.ClientData(null);
 
             Assert.IsNotNull(clientData);
         }
@@ -124,7 +124,7 @@ namespace StreamEnergy.MyStream.Tests
 
             var sessionHelper = container.Resolve<EnrollmentController.SessionHelper>();
 
-            Assert.IsTrue(sessionHelper.UserContext is UserContext);
+            Assert.IsTrue(sessionHelper.Context is UserContext);
             Assert.IsTrue(sessionHelper.InternalContext is InternalContext);
             Assert.IsTrue(sessionHelper.State == typeof(DomainModels.Enrollments.ServiceInformationState));
         }
@@ -148,12 +148,9 @@ namespace StreamEnergy.MyStream.Tests
             // Arrange
             var request = new Models.Enrollment.ServiceInformation
             {
-                Locations = new Dictionary<string,Location>
+                Locations = new[]
                 { 
-                    {
-                        "loc",
-                        generalLocation
-                    }
+                    generalLocation
                 }
             };
 
@@ -163,49 +160,48 @@ namespace StreamEnergy.MyStream.Tests
                 var result = controller.ServiceInformation(request);
 
                 // Assert
-                Assert.AreEqual("Services[0].Value.SelectedOffers", result.Validations.Single().MemberName);
-                Assert.AreEqual("75010", result.LocationServices["loc"].Location.Address.PostalCode5);
-                Assert.AreEqual(DomainModels.TexasServiceCapability.Qualifier, result.LocationServices["loc"].Location.Capabilities.First().CapabilityType);
-                Assert.AreEqual("Centerpoint", (result.LocationServices["loc"].Location.Capabilities.First() as DomainModels.TexasServiceCapability).Tdu);
+                Assert.AreEqual("Services[0].SelectedOffers", result.Validations.Single().MemberName);
+                Assert.AreEqual("75010", result.Cart.Single().Location.Address.PostalCode5);
+                Assert.AreEqual(DomainModels.TexasServiceCapability.Qualifier, result.Cart.Single().Location.Capabilities.First().CapabilityType);
+                Assert.AreEqual("Centerpoint", (result.Cart.Single().Location.Capabilities.First() as DomainModels.TexasServiceCapability).Tdu);
 
-                Assert.IsTrue(result.Offers.Any());
-                Assert.IsNotNull(result.Offers.SingleOrDefault(offer => offer.Value.First().Id == "NewOffer"));
+                Assert.IsTrue(result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.AvailableOffers.Any());
+                Assert.IsNotNull(result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.AvailableOffers.SingleOrDefault(offer => offer.Id == "24-month-fixed-rate"));
             }
             var session = container.Resolve<EnrollmentController.SessionHelper>();
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.PlanSelectionState), session.State);
-            Assert.AreEqual("75010", session.UserContext.Services["loc"].Location.Address.PostalCode5);
-            Assert.AreEqual(DomainModels.TexasServiceCapability.Qualifier, session.UserContext.Services["loc"].Location.Capabilities.First().CapabilityType);
-            Assert.AreEqual("Centerpoint", (session.UserContext.Services["loc"].Location.Capabilities.First() as DomainModels.TexasServiceCapability).Tdu);
-            Assert.IsNotNull(session.InternalContext.AllOffers.SingleOrDefault(offer => offer.Item2.Id == "NewOffer"));
+            Assert.AreEqual("75010", session.Context.Services.First().Location.Address.PostalCode5);
+            Assert.AreEqual(DomainModels.TexasServiceCapability.Qualifier, session.Context.Services.First().Location.Capabilities.First().CapabilityType);
+            Assert.AreEqual("Centerpoint", (session.Context.Services.First().Location.Capabilities.First() as DomainModels.TexasServiceCapability).Tdu);
+            Assert.IsNotNull(session.InternalContext.AllOffers[session.Context.Services.First().Location].Offers.SingleOrDefault(offer => offer.Id == "24-month-fixed-rate"));
         }
-        
+
         [TestMethod]
         public void PostSelectedOffersTest()
         {
             // Arrange
             var session = container.Resolve<EnrollmentController.SessionHelper>();
-            session.UserContext = new UserContext
+            session.Context = new UserContext
             {
-                Services = new Dictionary<string,LocationServices>
+                Services = new[] 
                 {
+                    new LocationServices
                     {
-                        "loc",
-                        new LocationServices
-                        {
-                            Location = generalLocation
-                        }
+                        Location = generalLocation
                     }
                 }
             };
             session.InternalContext = new InternalContext
             {
-                AllOffers = offers.Select(o => Tuple.Create(generalLocation, o))
+                AllOffers = new Dictionary<Location, LocationOfferSet> { { generalLocation, new LocationOfferSet { Offers = offers } } }
             };
             session.State = typeof(DomainModels.Enrollments.PlanSelectionState);
             var request = new Models.Enrollment.SelectedOffers
             {
-                OfferIds = new Dictionary<string,string[]>{ { "loc", new[] { "NewOffer" } } }
+                Selection = new[] {
+                    new Models.Enrollment.SelectedOfferSet { Location = generalLocation, OfferIds = new[] { "24-month-fixed-rate" } }
+                }
             };
 
             using (var controller = container.Resolve<EnrollmentController>())
@@ -214,37 +210,31 @@ namespace StreamEnergy.MyStream.Tests
                 var result = controller.SelectedOffers(request);
 
                 // Assert
-                Assert.IsTrue(result.LocationServices["loc"].SelectedOffers.Any(o => o.Value.Offer.Id == "NewOffer"));
-                Assert.IsNotNull(result.OfferOptionRules["loc"]);
+                Assert.IsTrue(result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Any(o => o.OfferId == "24-month-fixed-rate"));
+                Assert.IsNotNull(result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Single(o => o.OfferId == "24-month-fixed-rate").OptionRules);
             }
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.AccountInformationState), session.State);
-            Assert.IsTrue(session.UserContext.Services["loc"].SelectedOffers.Any(o => o.Value.Offer.Id == "NewOffer"));
-            Assert.IsNotNull(session.InternalContext.OfferOptionRulesByAddressOffer.SingleOrDefault(e => e.Item1 == generalLocation && e.Item2.Id == "NewOffer").Item3);
+            Assert.IsTrue(session.Context.Services.First().SelectedOffers.Any(o => o.Offer.Id == "24-month-fixed-rate"));
+            Assert.IsNotNull(session.InternalContext.OfferOptionRules.SingleOrDefault(e => e.Location == generalLocation && e.Offer.Id == "24-month-fixed-rate").Details);
         }
-        
+
         [TestMethod]
         public void PostAccountInformationTest()
         {
             // Arrange
             var session = container.Resolve<EnrollmentController.SessionHelper>();
-            session.UserContext = new UserContext
+            session.Context = new UserContext
             {
-                Services = new Dictionary<string,LocationServices> {
-                    { 
-                        "loc", 
-                        new LocationServices
-                        {
-                            Location = generalLocation,
-                            SelectedOffers = new Dictionary<string,SelectedOffer>
+                Services = new[] {
+                    new LocationServices
+                    {
+                        Location = generalLocation,
+                        SelectedOffers = new []
+                        { 
+                            new SelectedOffer 
                             { 
-                                {
-                                    offers[0].Id,
-                                    new SelectedOffer 
-                                    { 
-                                        Offer = offers[0]
-                                    }
-                                }
+                                Offer = offers[0]
                             }
                         }
                     }
@@ -252,19 +242,38 @@ namespace StreamEnergy.MyStream.Tests
             };
             session.InternalContext = new InternalContext
             {
-                AllOffers = offers.Select(o => Tuple.Create(generalLocation, o))
+                AllOffers = new Dictionary<Location, LocationOfferSet> { { generalLocation, new LocationOfferSet { Offers = offers } } }
             };
             session.State = typeof(DomainModels.Enrollments.AccountInformationState);
             var request = new Models.Enrollment.AccountInformation
             {
-                Locations = new Dictionary<string,Location> { { "loc", specificLocation } },
                 ContactInfo = contactInfo,
-                BillingAddress = specificLocation.Address,
                 DriversLicense = null,
                 Language = "en",
                 SecondaryContactInfo = null,
                 SocialSecurityNumber = "123-45-6789",
-                OfferOptions = new Dictionary<string, Dictionary<string, IOfferOption>> { { "loc", new Dictionary<string, IOfferOption> { { offers[0].Id, offerOption } } } }
+                Cart = new[] {
+                    new Models.Enrollment.CartEntry {
+                        Location = specificLocation,
+                        OfferInformationByType = new Dictionary<string,Models.Enrollment.OfferInformation>
+                        {
+                            {
+                                offers[0].OfferType,
+                                new Models.Enrollment.OfferInformation
+                                {
+                                    OfferSelections = new []
+                                    {
+                                        new Models.Enrollment.OfferSelection
+                                        {
+                                            OfferId = offers[0].Id,
+                                            OfferOption = offerOption
+                                        }
+                                    }
+                                }
+                            }
+                        }.ToArray()
+                    }
+                }
             };
 
             using (var controller = container.Resolve<EnrollmentController>())
@@ -276,51 +285,45 @@ namespace StreamEnergy.MyStream.Tests
                 Assert.AreEqual("Test", result.ContactInfo.Name.First);
                 Assert.AreEqual("Person", result.ContactInfo.Name.Last);
                 Assert.AreEqual("test@example.com", result.ContactInfo.Email.Address);
-                Assert.AreEqual("2142234567", result.ContactInfo.PrimaryPhone.Number);
+                Assert.AreEqual("2142234567", result.ContactInfo.Phone[0].Number);
                 Assert.IsNotNull(result.IdentityQuestions);
                 Assert.AreEqual("en", result.Language);
             }
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.VerifyIdentityState), session.State);
-            Assert.IsNotNull(session.InternalContext.AllOffers.Any(offer => offer.Item1 == specificLocation));
-            Assert.AreEqual("NewOffer", session.UserContext.Services["loc"].SelectedOffers["NewOffer"].Offer.Id);
-            Assert.AreEqual("Test", session.UserContext.ContactInfo.Name.First);
-            Assert.AreEqual("Person", session.UserContext.ContactInfo.Name.Last);
-            Assert.AreEqual("test@example.com", session.UserContext.ContactInfo.Email.Address);
-            Assert.AreEqual("2142234567", session.UserContext.ContactInfo.PrimaryPhone.Number);
-            Assert.AreEqual("123456789", session.UserContext.SocialSecurityNumber);
-            Assert.AreEqual("en", session.UserContext.Language);
+            Assert.IsTrue(session.InternalContext.AllOffers.ContainsKey(specificLocation));
+            Assert.IsTrue(session.Context.Services.First().SelectedOffers.Any(o => o.Offer.Id == "24-month-fixed-rate"));
+            Assert.AreEqual("Test", session.Context.ContactInfo.Name.First);
+            Assert.AreEqual("Person", session.Context.ContactInfo.Name.Last);
+            Assert.AreEqual("test@example.com", session.Context.ContactInfo.Email.Address);
+            Assert.AreEqual("2142234567", session.Context.ContactInfo.Phone[0].Number);
+            Assert.AreEqual("123456789", session.Context.SocialSecurityNumber);
+            Assert.AreEqual("en", session.Context.Language);
             Assert.IsNotNull(session.InternalContext.IdentityCheckResult.IdentityQuestions);
         }
-        
+
         [TestMethod]
         public void PostIdentityQuestionsTest()
         {
             // Arrange
             var session = container.Resolve<EnrollmentController.SessionHelper>();
-            session.UserContext = new UserContext
+            session.Context = new UserContext
             {
-                Services = new Dictionary<string, LocationServices> {
-                    { 
-                        "loc", 
-                        new LocationServices
-                        {
-                            Location = specificLocation,
-                            SelectedOffers = new Dictionary<string,SelectedOffer>
+                Services = new[]
+                {
+                    new LocationServices
+                    {
+                        Location = specificLocation,
+                        SelectedOffers = new []
+                        { 
+                            new SelectedOffer 
                             { 
-                                {
-                                    offers[0].Id,
-                                    new SelectedOffer 
-                                    { 
-                                        Offer = offers[0],
-                                        OfferOption = offerOption
-                                    }
-                                }
+                                Offer = offers[0],
+                                OfferOption = offerOption
                             }
                         }
                     }
                 },
-                BillingAddress = specificLocation.Address,
                 ContactInfo = contactInfo,
                 DriversLicense = null,
                 Language = "en",
@@ -329,7 +332,7 @@ namespace StreamEnergy.MyStream.Tests
             };
             session.InternalContext = new InternalContext
             {
-                AllOffers = offers.Select(o => Tuple.Create(specificLocation, o)),
+                AllOffers = new Dictionary<Location, LocationOfferSet> { { specificLocation, new LocationOfferSet { Offers = offers } } },
                 IdentityCheckResult = identityCheckResult,
             };
             session.State = typeof(DomainModels.Enrollments.VerifyIdentityState);
@@ -345,41 +348,35 @@ namespace StreamEnergy.MyStream.Tests
 
                 // Assert
                 Assert.IsFalse(result.IdentityQuestions.Any());
-                Assert.AreEqual(50, result.DepositAmount);
+                Assert.AreEqual(75.25m, result.Cart.Sum(l => l.OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Sum(sel => sel.Deposit.RequiredAmount)));
             }
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.PaymentInfoState), session.State);
         }
-        
+
         // TODO - can't run this test until we have services wired up to verify the response
         //[TestMethod]
         public void PostIdentityQuestionsNoDepositTest()
         {
             // Arrange
             var session = container.Resolve<EnrollmentController.SessionHelper>();
-            session.UserContext = new UserContext
+            session.Context = new UserContext
             {
-                Services = new Dictionary<string, LocationServices> {
-                    { 
-                        "loc", 
-                        new LocationServices
+                Services = new[]
+                { 
+                    new LocationServices
+                    {
+                        Location = specificLocation,
+                        SelectedOffers = new [] 
                         {
-                            Location = specificLocation,
-                            SelectedOffers = new Dictionary<string,SelectedOffer>
+                            new SelectedOffer 
                             { 
-                                {
-                                    offers[0].Id,
-                                    new SelectedOffer 
-                                    { 
-                                        Offer = offers[0],
-                                        OfferOption = offerOption
-                                    }
-                                }
+                                Offer = offers[0],
+                                OfferOption = offerOption
                             }
                         }
                     }
                 },
-                BillingAddress = specificLocation.Address,
                 ContactInfo = contactInfo,
                 DriversLicense = null,
                 Language = "en",
@@ -388,7 +385,7 @@ namespace StreamEnergy.MyStream.Tests
             };
             session.InternalContext = new InternalContext
             {
-                AllOffers = offers.Select(o => Tuple.Create(specificLocation, o)),
+                AllOffers = new Dictionary<Location, LocationOfferSet> { { specificLocation, new LocationOfferSet { Offers = offers } } },
                 IdentityCheckResult = identityCheckResult,
             };
             session.State = typeof(DomainModels.Enrollments.VerifyIdentityState);
@@ -403,7 +400,7 @@ namespace StreamEnergy.MyStream.Tests
                 var result = controller.VerifyIdentity(request);
 
                 // Assert
-                Assert.AreEqual(0, result.DepositAmount);
+                Assert.AreEqual(0, result.Cart.Sum(l => l.OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Sum(sel => sel.Deposit.RequiredAmount)));
             }
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.CompleteOrderState), session.State);
@@ -414,29 +411,22 @@ namespace StreamEnergy.MyStream.Tests
         {
             // Arrange
             var session = container.Resolve<EnrollmentController.SessionHelper>();
-            session.UserContext = new UserContext
+            session.Context = new UserContext
             {
-                 Services = new Dictionary<string, LocationServices> {
-                    { 
-                        "loc", 
-                        new LocationServices
-                        {
-                            Location = specificLocation,
-                            SelectedOffers = new Dictionary<string,SelectedOffer>
+                Services = new[]
+                { 
+                    new LocationServices
+                    {
+                        Location = specificLocation,
+                        SelectedOffers = new [] {
+                            new SelectedOffer 
                             { 
-                                {
-                                    offers[0].Id,
-                                    new SelectedOffer 
-                                    { 
-                                        Offer = offers[0],
-                                        OfferOption = offerOption
-                                    }
-                                }
+                                Offer = offers[0],
+                                OfferOption = offerOption
                             }
                         }
                     }
                 },
-                BillingAddress = specificLocation.Address,
                 ContactInfo = contactInfo,
                 DriversLicense = null,
                 Language = "en",
@@ -446,7 +436,7 @@ namespace StreamEnergy.MyStream.Tests
             };
             session.InternalContext = new InternalContext
             {
-                AllOffers = offers.Select(o => Tuple.Create(specificLocation, o)),
+                AllOffers = new Dictionary<Location, LocationOfferSet> { { specificLocation, new LocationOfferSet { Offers = offers } } },
                 IdentityCheckResult = identityCheckResult,
             };
             session.State = typeof(DomainModels.Enrollments.CompleteOrderState);
@@ -465,7 +455,7 @@ namespace StreamEnergy.MyStream.Tests
                 var result = controller.ConfirmOrder(request);
 
                 // Assert
-                Assert.IsNotNull(result.ConfirmationNumber);
+                Assert.AreEqual("87654321", result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Single().ConfirmationNumber);
             }
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.OrderConfirmationState), session.State);

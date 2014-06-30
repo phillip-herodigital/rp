@@ -1,4 +1,5 @@
-﻿<div id="{{section.id}}" class="enrollment-section accent-orange" ng-switch-when="serviceInformation" ng-show="section.isVisible" ng-controller="EnrollmentServiceInformationCtrl">
+﻿@model StreamEnergy.DomainModels.Enrollments.UserContext
+<div id="utilityFlowService" class="enrollment-section accent-orange" ng-show="stepsService.isStepVisible('utilityFlowService')" ng-controller="EnrollmentServiceInformationCtrl">
     <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper center">
             <h1>
@@ -9,38 +10,56 @@
     </div>
     <div class="wrapper layout cols-2">
         <aside class="left">
-            <div ng-include ng-if="true" src="'enrollment-nav-template'"></div>
+            <div ng-include src="'enrollment-nav-template'" ng-init="name = 'utilityFlowService'"></div>
         </aside>
         <section>
             @Html.Sitecore().Field("Header Text")
             @Html.Sitecore().Field("Body Text")
-            <article class="form">
-                <div class="content">
-                    @*
-                    <div class="item">
-                        <label for="service-interest">@Html.Sitecore().Field("Interest Label")</label>
-                        <select id="service-interest" ng-model="enrollmentFields.serviceInformation.serviceInterest">
-                            <option value="">Please Choose</option>
-                            <option value="">Residential Utilities</option>
-                            <option value="">Commercial Utilities</option>
-                            <option value="">Homelife Services</option>
-                        </select>
-                    </div>
-                    *@
-                    <div class="item" ng-class="{'error': formErrors.serviceInformation.serviceAddress}">
-                        <label for="address-or-zip">@Html.Sitecore().Field("Address Label")</label>
-                        <input type="text" id="address-or-zip" ng-model="extraFields.serviceAddress" placeholder="@Html.Sitecore().Field("Address Placeholder")" typeahead="address as address.formattedAddress for address in getLocation(extraFields.serviceState, $viewValue)" ng-disabled="extraFields.serviceState == ''" />
-                        <div id="state-select" dropdown-select dropdown-items="states" value="extraFields.serviceState"></div>
-                        <div ng-show="formErrors.serviceInformation.serviceAddress">{{formErrors.serviceInformation.serviceAddress}}</div>
-                    </div>             
-                    <div class="item">
-                        <label>@Html.Sitecore().Field("Options Label")</label>
-                        <ul class="checkbox-list">
-                            <li><input type="radio" ng-model="extraFields.isNewService" id="switching-electricity-providers" value="0"><label for="switching-electricity-providers">Switching electricity providers</label></li>
-                            <li><input type="radio" ng-model="extraFields.isNewService" id="setting-up-new-service" value="1"><label for="setting-up-new-service">Setting up new service</label></li>
-                        </ul>
-                    </div>
-                    @*
+            <form data-val-bind-messages="validations">
+                <article class="form">
+                    <div class="content">
+                        @* TODO - replace "0" with the angular variable for the 'current' service location index being updated *@
+                        @using (var currentService = Html.AngularRepeat(m => m.Services, "0"))
+                        {
+                        @*
+                        <div class="item">
+                            <label for="service-interest">@Html.Sitecore().Field("Interest Label")</label>
+                            <select id="service-interest" ng-model="enrollmentFields.serviceInformation.serviceInterest">
+                                <option value="">Please Choose</option>
+                                <option value="">Residential Utilities</option>
+                                <option value="">Commercial Utilities</option>
+                                <option value="">Homelife Services</option>
+                            </select>
+                        </div>
+                        *@
+                        
+                        <div class="item" @currentService.ErrorClass(s => s.Location)>
+                            <label for="@currentService.For(s => s.Location)">@Html.Sitecore().Field("Address Label")</label>
+                            <input type="text" @currentService.Attributes(s => s.Location)
+                                   class="typeahead"
+                                   ng-model="data.serviceLocation"
+                                   placeholder="@Html.Sitecore().Field("Address Placeholder")"
+                                   typeahead="location as location.address|address for location in getLocation(data.serviceState, $viewValue)"
+                                   ng-disabled="data.serviceState == ''"
+                                   typeahead-loading="loadingServiceAddress"
+                                   ng-class="{'loading' : loadingServiceAddress}" />
+                            <div id="state-select" dropdown-select dropdown-items="supportedUtilityStates" value="data.serviceState"></div>
+                            @currentService.MessageFor(s => s.Location)
+                        </div>
+                        <div class="item">
+                            <label>@Html.Sitecore().Field("Options Label")</label>
+                            <ul class="checkbox-list">
+                                <li>
+                                    <input type="radio" ng-model="data.isNewService" id="switching-electricity-providers" ng-value="false">
+                                    <label for="switching-electricity-providers">Switching electricity providers</label>
+                                </li>
+                                <li>
+                                    <input type="radio" ng-model="data.isNewService" id="setting-up-new-service" ng-value="true">
+                                    <label for="setting-up-new-service">Setting up new service</label>
+                                </li>
+                            </ul>
+                        </div>
+                        @*
                         <div class="item">
                             <label>@Html.Sitecore().Field("Premises Label")</label>
                             <ul class="checkbox-list">
@@ -55,19 +74,21 @@
                                 <li><input type="radio" ng-model="enrollmentFields.serviceInformation.monthlySpending" id="150-or-more"><label for="150-or-more">$150 or more</label></li>
                             </ul>
                         </div>
-                    *@
+                        *@
+                        }
                     </div>
                 </article>
                 <div class="buttons">
-                    <button type="submit" class="primary" ng-click="completeStep();">@Html.Sitecore().Field("Continue Button Label")</button>
+                    <button type="submit" class="primary" ng-click="completeStep();" ng-disabled="!isFormValid()" data-val-submit>@Html.Sitecore().Field("Continue Button Label")</button>
                 </div>
-                <div class="hide-medium-large time-remaining-mobile">
-                    <p class="time-remaining">@Html.Sitecore().Field("Time Remaining")</p>
-                    <p><a href="">@Html.Sitecore().Field("Completion Info Question")</a></p>
-                </div>
-            </section>
-            <aside>
-                <div ng-include ng-if="true" src="'cart-template'"></div>
-            </aside>
-        </div>
+            </form>
+            <div class="hide-medium-large time-remaining-mobile">
+                <p class="time-remaining">@Html.Sitecore().Field("Time Remaining")</p>
+                <p><a href="">@Html.Sitecore().Field("Completion Info Question")</a></p>
+            </div>
+        </section>
+        <aside>
+            <div ng-include ng-if="true" src="'cart-template'"></div>
+        </aside>
     </div>
+</div>

@@ -1,41 +1,42 @@
-﻿<article class="balances-payments" ng-controller="AccountBalances">
+﻿<article class="balances-payments" @*ng-controller="AccountBalances"*@>
     <header>
         <h2>@Html.Sitecore().Field("Account Balances and Payments Text")</h2>
     </header>
-    <div class="content" @*loading-indicator*@>
-        <div class="account-selector">
-            <form>
-                <div class="group">
-                    <div class="item">
-                        <label>@Html.Sitecore().Field("Account Number Text")</label>
-                        <select ng-model="selectedAccount.account" ng-options="item.accountNumber for item in accounts">
-                            <option value="">All</option>
-                        </select>
-                    </div>
+    <div class="account-selector">
+        <form>
+            <div class="group">
+                <div class="item">
+                    <label>@Html.Sitecore().Field("Account Number Text")</label>
+                    <select @*ng-model="selectedAccount.account" ng-options="item.accountNumber for item in accounts"*@>
+                        <option value="Please choose">1197015532</option>
+                        <option value="account1">Account 2</option>
+                    </select>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
+    </div>
+    <div class="content" @*loading-indicator*@>
         <div class="grid border">
             <div class="col">
                 <h4>@Html.Sitecore().Field("Account Balance Text")</h4>
                 <dl class="clearfix">
                     <dt>@Html.Sitecore().Field("Account Number Text")</dt>
-                    <dd>{{ selectedAccount.account.accountNumber || "All" }}</dd>
+                    <dd>1197015532</dd>
                     <dt>@Html.Sitecore().Field("Current Amount Due Text")</dt>
-                    <dd>{{ paymentForm.amount | currency }}</dd>
+                    <dd>$87.24</dd>
                     <dt>@Html.Sitecore().Field("Due Date Text")</dt>
-                    <dd>{{ selectedAccount.account.dueDate || paymentForm.dueDate }}</dd>
+                    <dd>3/10/2014</dd>
                 </dl>
             </div>
             <div class="col payment">
                 <h4>@Html.Sitecore().Field("Make Payment Text")</h4>
                 <form>
                     <div class="group">
-                        <div class="item">
+                        <div class="item amount">
                             <label for="Amount">@Html.Sitecore().Field("Amount Text")</label>
-                            <input type="text" id="amount" ng-model="paymentForm.amount" />
+                            <input type="text" id="amount" @*ng-model="paymentForm.amount"*@ value="$87.24" />
                         </div>
-                        <div class="item">
+                        <div class="item payment">
                             <label for="Payment method">@Html.Sitecore().Field("Payment Method Text")</label>
                             <select ng-model="paymentForm.paymentMethod" ng-options="item.id as item.name for item in paymentMethods">
                                 <option value="">Select</option>
