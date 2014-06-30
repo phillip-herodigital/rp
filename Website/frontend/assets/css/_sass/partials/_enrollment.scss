@@ -284,12 +284,12 @@
             font-size: 18px;
             font-weight: bold;
             text-align: left;
-            a {
-                display: block;
-                font-weight: normal;
-                margin-top: 15px;
-                font-size: 12px;
-            }
+        }
+        .view-details {
+            display: block;
+            font-weight: normal;
+            margin-top: 15px;
+            font-size: 12px;
         }
         .rate {
             font-size: 22px;
@@ -390,36 +390,34 @@
                 margin-left: 20px;
             }
         }
-        tbody {
-            tr.details {
-                td {
-                    border: none;
-                    padding: 0px;
-                    div {
-                        padding: 5px 12px;
-                        border: 0;
-                        text-align: left;
-                        padding-left: 30px;
-                        p {
-                            font-size: 15px;
-                        }
-                        &:first-child {
-                            border-bottom: 1px solid #eaeaea;
-                        }
-                    }
+        .details {
+            td {
+                border: none;
+                padding: 0px;
+            }
+            div {
+                padding: 5px 12px;
+                border: 0;
+                text-align: left;
+                padding-left: 30px;
+                p {
+                    font-size: 15px;
+                }
+                &:first-child {
+                    border-bottom: 1px solid #eaeaea;
                 }
             }
-            &.open {
-                td.plan-name {
-                    border-bottom: 1px solid #fff;
-                }
-                tr.details {
-                    display: table-row;
-                    td {
-                        border-top: 0;
-                        &:first-child {
-                            border-top: 1px solid #fff;
-                        }
+        }
+        &.open {
+            td.plan-name {
+                border-bottom: 1px solid #fff;
+            }
+            tr.details {
+                display: table-row;
+                td {
+                    border-top: 0;
+                    &:first-child {
+                        border-top: 1px solid #fff;
                     }
                 }
             }
@@ -430,10 +428,11 @@
     }
     .time-remaining-mobile {
         text-align: center;
+        margin-top: 10px;
         .time-remaining {
             text-transform: uppercase;
-            font-size: 14px;
-            width: 75%;
+            font-size: 10px;
+            width: 150px;
             margin: 0 auto;
         }
     }
@@ -455,8 +454,7 @@
 			padding-left: 40px;
 		}
 		.texas {
-			@include retina-background('texas-icon.png');
-			
+			@include retina-background('texas-icon.png');	
 		}
 		.georgia {
 			@include retina-background('georgia-icon.png');
@@ -529,12 +527,12 @@
             }
         }
     }
-    @include breakpoint(small) {
+    /*@include breakpoint(small) {
         .button {
             margin: 0 auto;
             display: block;
         }
-    }
+    }*/
 }
 
 .order-confirmation {
@@ -615,7 +613,7 @@
             }
         }
         tbody {
-            display: block;
+            //display: block;
         }
         //Clean up the plan documents section for mobile
         /*.plan-table {
@@ -1451,4 +1449,72 @@ article.services-box {
 		font-size: 12px;
 		margin: 0 0 10px 0;
 	}
+}
+
+/* Mobile Styling */
+/* Will merge into main section later when newer styles are updated */
+.enrollment-section  {
+    @include breakpoint(small) {
+        h1 {
+            font-size: 30px;
+            line-height: 1.1;
+        }
+        article {
+            margin-bottom: 30px;
+        }
+        table.plan-selection-table {
+            .details {
+                div {
+                    padding: 0;
+                }
+            }
+            .plan-name {
+                text-align: left;
+            }
+            .view-details {
+                display: inline;
+                float: left;
+                margin-top: 12px;
+            }
+            .plan-actions {
+                button, .button {
+                    float: right;
+                    min-width: 120px;
+                }
+            }
+        }
+        .buttons {
+            text-align: center;
+            button {
+                min-width: 150px;
+            }
+            button + button {
+                margin-top: 8px;
+            }
+        }
+        .datepicker {
+            position: relative;
+            table {
+                width: 100%;
+                max-width: 320px;
+                td {
+                    padding: 2px 3px;
+                }
+            }
+            .pull-right, .pull-left {
+                width: 35px;
+            }
+        }
+        .datepicker-input {
+            @include retina-background('calendar.png', 'icon'); 
+            background-position: 98% center;
+            background-repeat: no-repeat;
+        }
+        .dropdown-menu {
+            font-size: 13px;
+        }
+        #state-select {
+            margin-top: 5px;
+        }
+    }
 }
