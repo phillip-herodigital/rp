@@ -348,7 +348,7 @@ namespace StreamEnergy.MyStream.Tests
 
                 // Assert
                 Assert.IsFalse(result.IdentityQuestions.Any());
-                Assert.AreEqual(150m, result.Cart.Sum(l => l.OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Sum(sel => sel.Deposit.RequiredAmount)));
+                Assert.AreEqual(75.25m, result.Cart.Sum(l => l.OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Sum(sel => sel.Deposit.RequiredAmount)));
             }
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.PaymentInfoState), session.State);
