@@ -7,6 +7,7 @@
 *.cs     eol=lf diff=csharp
 *.cshtml eol=lf
 *.html   eol=lf
+*.scss   eol=lf
 *.sln    eol=crlf merge=union
 *.csproj eol=crlf merge=union
 *.vbproj eol=crlf merge=union
