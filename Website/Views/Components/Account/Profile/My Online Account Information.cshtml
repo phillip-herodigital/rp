@@ -5,7 +5,13 @@
         <h2>@Html.Sitecore().Field("My Online Account Information Text")</h2>
     </header>
     <form ng-submit="updateOnlineAccount()" data-val-bind-messages="validations">
-        <div class="content">
+        <div class="content" loading-indicator>
+            <div ng-show="successMessage">
+                <div class="notice success">
+                    @Html.Sitecore().Field("Success Message Text")
+                </div>
+                <hr class="content-divider" />
+            </div>
             <div class="group">
                 <div class="item group-col" @Html.ValidationErrorClass(model => model.Username) @*float-label*@>
                     <label for="@Html.For(m => m.Username)">@Html.Sitecore().Field("Username Text")</label>

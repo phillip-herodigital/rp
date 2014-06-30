@@ -5,21 +5,25 @@ ngApp.controller('AcctAccountInformationCtrl', ['$scope', '$rootScope', '$http',
 	// create a blank object to hold the form information
 	$scope.formData = {};
 
-	// set the account ID - this will eventually get passed in
-	$scope.accountId = { 'accountId' : '11111' };
-
-	// get the current data
-	$timeout(function() {
-		$http({
-			method  : 'POST',
-			url     : '/api/account/getAccountInformation',
-			data    : $scope.accountId,
-			headers : { 'Content-Type': 'application/JSON' } 
-		})
-			.success(function (data, status, headers, config) {
-				$scope.formData = data;
-				$scope.formDataOriginal = angular.copy($scope.formData);
-			});
+	// when the account selector changes, reload the data
+	$scope.$watch('selectedAccount.accountNumber', function(newVal) { 
+		if (newVal) {
+			$scope.isLoading = true;
+			$timeout(function () {
+				$http({
+					method  : 'POST',
+					url     : '/api/account/getAccountInformation',
+					data    : { 'accountNumber' : newVal },
+					headers : { 'Content-Type': 'application/JSON' } 
+				})
+					.success(function (data, status, headers, config) {
+						$scope.formData = data;
+						$scope.formDataOriginal = angular.copy($scope.formData);
+						$scope.successMessage = false;
+						$scope.isLoading = false;
+					});
+			}, 800);
+		}
 	});
 
 	// process the form
@@ -27,7 +31,7 @@ ngApp.controller('AcctAccountInformationCtrl', ['$scope', '$rootScope', '$http',
 		// format the request data
 		var requestData = {};
 		
-		requestData.accountId = '11111';
+		requestData.accountNumber = $scope.selectedAccount.accountNumber;
 		requestData.primaryPhone = $scope.formData.primaryPhone
 
 		if ($scope.formData.secondaryPhone && $scope.formData.secondaryPhone != '') {
@@ -40,23 +44,29 @@ ngApp.controller('AcctAccountInformationCtrl', ['$scope', '$rootScope', '$http',
 			requestData.billingAddress = $scope.formData.billingAddress;
 		}
 
-		// sent the update
-		$http({
-			method  : 'POST',
-			url     : '/api/account/updateAccountInformation',
-			data    : requestData,
-			headers : { 'Content-Type': 'application/JSON' } 
-		})
-			.success(function (data, status, headers, config) {
-				if (data.validations.length) {
-			        // if not successful, bind errors to error variables
-			        $scope.validations = data.validations;
+		$scope.isLoading = true;
 
-				} else {
-					// if successful, alert the user
-					//alert("successful");
-				}
-			});
+		// sent the update
+		$timeout(function() {
+			$http({
+				method  : 'POST',
+				url     : '/api/account/updateAccountInformation',
+				data    : requestData,
+				headers : { 'Content-Type': 'application/JSON' } 
+			})
+				.success(function (data, status, headers, config) {
+					if (data.validations.length) {
+				        // if not successful, bind errors to error variables
+				        $scope.isLoading = false;
+				        $scope.validations = data.validations;
+
+					} else {
+						// if successful, show the success message
+						$scope.isLoading = false;
+						$scope.successMessage = true;
+					}
+				});
+		}, 800);
 	};
 
 }]);

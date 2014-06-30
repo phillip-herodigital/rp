@@ -472,7 +472,6 @@
     <Compile Include="Models\Account\EnrolledAccount.cs" />
     <Compile Include="Models\Account\GetAccountInformationRequest.cs" />
     <Compile Include="Models\Account\GetAccountInformationResponse.cs" />
-    <Compile Include="Models\Account\GetAccountsResponse.cs" />
     <Compile Include="Models\Account\GetEnrolledAccountsResponse.cs" />
     <Compile Include="Models\Account\GetInvoicesResponse.cs" />
     <Compile Include="Models\Account\GetNotificationSettingsRequest.cs" />
@@ -2029,7 +2028,6 @@
     <None Include="Properties\PublishProfiles\Azure - Production Sitecore.pubxml" />
     <None Include="Properties\PublishProfiles\Azure - VM - my-stream-prod.pubxml" />
     <None Include="Properties\PublishProfiles\my-stream__Staging.pubxml" />
-    <Content Include="Views\Pages\Enrollment\Confirmation.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
