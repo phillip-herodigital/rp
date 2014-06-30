@@ -9,9 +9,9 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StreamEnergy.Services.Clients
+namespace StreamEnergy.Services.Clients.Mocks
 {
-    public class LambdaToResourceMockResolver : IServiceMockResolver
+    public class LambdaToResourceMockResolver : IServiceInterceptor
     {
         private struct ResponseTest
         {
@@ -49,7 +49,7 @@ namespace StreamEnergy.Services.Clients
             }
         }
 
-        bool IServiceMockResolver.ApplyMock(Castle.DynamicProxy.IInvocation invocation)
+        bool IServiceInterceptor.ApplyMock(Castle.DynamicProxy.IInvocation invocation)
         {
             if (envelopes.ContainsKey(invocation.Method))
             {

@@ -13,7 +13,7 @@ using StreamEnergy.Extensions;
 
 namespace StreamEnergy.Services.Clients
 {
-    public class ServiceCache : IServiceMockResolver
+    public class ServiceCache : IServiceInterceptor
     {
         private struct CacheConfiguration
         {
@@ -64,7 +64,7 @@ namespace StreamEnergy.Services.Clients
             };
         }
 
-        bool IServiceMockResolver.ApplyMock(Castle.DynamicProxy.IInvocation invocation)
+        bool IServiceInterceptor.ApplyMock(Castle.DynamicProxy.IInvocation invocation)
         {
             if (redisDatabase == null)
             {

@@ -161,6 +161,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AsyncHelper.cs" />
     <Compile Include="Caching\CacheCategory.cs" />
     <Compile Include="Caching\CacheControlAttribute.cs" />
     <Compile Include="Caching\RedisCacheContainerSetup.cs" />

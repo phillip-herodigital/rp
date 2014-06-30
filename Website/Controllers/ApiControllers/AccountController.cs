@@ -45,6 +45,12 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             return temperatureService.CelciusToFahrenheit(celcius: celcius);
         }
 
+        [HttpGet]
+        public string FahrenheitToCelcius(string fahrenheit)
+        {
+            return temperatureService.FahrenheitToCelcius(fahrenheit: fahrenheit);
+        }
+
         #region Invoices
 
         [HttpGet]

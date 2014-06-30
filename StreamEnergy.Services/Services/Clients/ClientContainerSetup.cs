@@ -23,12 +23,16 @@ namespace StreamEnergy.Services.Clients
             {
                 typeof(Unity.IContainerSetupStrategy),
                 typeof(IInterceptor),
-                typeof(IServiceMockResolver)
+                typeof(IServiceInterceptor)
             });
         }
 
         protected override void AdditionalSetup(IUnityContainer unityContainer)
         {
+            unityContainer.RegisterType<ServiceInterceptorResolver>(new ContainerControlledLifetimeManager());
+
+            unityContainer.RegisterType<System.Net.Http.HttpClient>(new InjectionFactory(uc => new System.Net.Http.HttpClient(uc.Resolve<HttpMessageInterceptor>(), false)));
+
             RegisterService<Sample.Temperature.TempConvertSoap>(unityContainer, new Sample.Temperature.TempConvertSoapClient(new System.ServiceModel.BasicHttpBinding(), new System.ServiceModel.EndpointAddress("http://www.w3schools.com/webservices/tempconvert.asmx")));
             RegisterService<Sample.Commons.SampleStreamCommonsSoap>(unityContainer, new Sample.Commons.SampleStreamCommonsSoapClient(new System.ServiceModel.BasicHttpBinding(), new System.ServiceModel.EndpointAddress("http://www.example.com/webservices")));
             RegisterService<StreamCommons.Account.CisAccountServicesPortType>(unityContainer, new StreamCommons.Account.CisAccountServicesPortTypeClient(new System.ServiceModel.BasicHttpBinding(), new System.ServiceModel.EndpointAddress("http://sgecom.stge.datx.streamenergy.net/CisAccountServices/WebServices/SoapServer.php?wsdl")));
