@@ -2611,6 +2611,7 @@ article.marketing div.wrapper {
 	overflow: scroll;
 		table tr td {
 			text-align: center;
+            white-space: nowrap;
 			&:nth-child(even) {
 				background-color: #c2ddf5;
 			}

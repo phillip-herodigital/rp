@@ -58,6 +58,11 @@ namespace StreamEnergy.MyStream.Controllers
                 // Get the To address(es) from Sitecore;
                 var settings = StreamEnergy.Unity.Container.Instance.Resolve<ISettings>();
                 var ToEmail = settings.GetSettingsField("Marketing Form Email Addresses", "Contact Form Email Address").Value;
+                var stateField = Sitecore.Context.Item.Fields[StateAbbreviation + " Email Address"];
+                if (stateField != null && !string.IsNullOrEmpty(stateField.Value))
+                {
+                    ToEmail = stateField.Value;
+                }
 
                 // Send the email
                 MailMessage Message = new MailMessage();
@@ -207,9 +212,9 @@ namespace StreamEnergy.MyStream.Controllers
 
                 try
                 {
-                    if (string.IsNullOrEmpty(model.RepId) && model.CustomerAccount != null && !string.IsNullOrEmpty(model.CustomerAccount.CisAccountNumber))
+                    if (string.IsNullOrEmpty(model.RepId) && model.CustomerAccount != null && !string.IsNullOrEmpty(model.CustomerAccount.CamelotAccountNumber))
                     {
-                        model.RepId = accountService.GetIgniteAssociateFromCustomerNumber("Ignite", "3t8sh8f3sg", model.CustomerAccount.CisAccountNumber);
+                        model.RepId = accountService.GetIgniteAssociateFromCustomerNumber("Ignite", "3t8sh8f3sg", model.CustomerAccount.CamelotAccountNumber);
                     }
                 }
                 catch (Exception) { }
