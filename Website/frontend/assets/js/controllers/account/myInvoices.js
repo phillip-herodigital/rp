@@ -2,59 +2,21 @@
  *
  */
 ngApp.controller('AcctMyInvoicesCtrl', ['$scope', '$rootScope', '$http', '$filter', '$timeout', 'jQuery', function ($scope, $rootScope, $http, $filter, $timeout, jQuery) {
-
+	// create a blank object to hold the information
 	$scope.invoicesTable = {};
 	$scope.invoicesTable.columnList = [];
 	$scope.invoicesTable.values = [];
 	$scope.isLoading = true;
 
-	$scope.invoicesTable.columnList = [
-		{
-			"field": "accountNumber",
-			"displayName": "Account Numberz",
-			"isVisible": true,
-			"hide": ["phone"]
-		},
-		{
-			"field": "serviceType",
-			"displayName": "Service Type",
-			"isVisible": true,
-			"hide": []
-		},
-		{
-			"field": "invoiceNumber",
-			"displayName": "Invoice Number",
-			"isVisible": true,
-			"hide": ["tablet", "phone"]
-		},
-		{
-			"field": "invoiceAmount",
-			"displayName": "Invoice Amount",
-			"isVisible": true,
-			"hide": []
-		},
-		{
-			"field": "dueDate",
-			"displayName": "Due Date",
-			"isVisible": true,
-			"hide": ["tablet", "phone"]
-		},
-		{
-			"field": "action",
-			"displayName": "Action",
-			"isVisible": true,
-			"hide": ["phone"]
-		}
-	];
-
 	$timeout(function() {
-	    $http.get('/api/account/getInvoices').success(function (data, status, headers, config) {
-			$scope.invoicesTable.values = data.invoices.values;
+		$http.get('/api/account/getInvoices').success(function (data, status, headers, config) {
+			$scope.invoicesTable = data.invoices;
 			$scope.invoicesTableOriginal = angular.copy($scope.invoicesTable);
 			$scope.isLoading = false;
 		});
-	}, 2000);
+	}, 800);
 
+	// filters
 	$scope.filters = {};
 	$scope.filtersList = {
 		"serviceType": [
@@ -93,8 +55,7 @@ ngApp.controller('AcctMyInvoicesCtrl', ['$scope', '$rootScope', '$http', '$filte
 		]
 	};
 
-	// Methods
-
+	// methods
 	$scope.resetFilters = function() {
 		$scope.filters = {};
 	};
@@ -107,8 +68,7 @@ ngApp.controller('AcctMyInvoicesCtrl', ['$scope', '$rootScope', '$http', '$filte
 		console.log($scope);
 	};
 
-	// Watches
-
+	// watches
 	$scope.$watch('filters', function(newVal, oldVal) {
 		
 		$scope.filters = $filter('removeNullProps')($scope.filters);

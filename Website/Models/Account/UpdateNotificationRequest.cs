@@ -7,7 +7,7 @@ namespace StreamEnergy.MyStream.Models.Account
 {
     public class UpdateNotificationRequest
     {
-        public string AccountId { get; set; }
+        public string AccountNumber { get; set; }
         public string NotificationName { get; set; }
 
         public NotificationSetting NotificationSetting { get; set; }

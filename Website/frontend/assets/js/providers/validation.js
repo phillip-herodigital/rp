@@ -124,7 +124,8 @@ ngApp.provider('validation', [function () {
                     },
                     pass: function (key) {
                         ngModelController.$setValidity(key, true);
-                    }
+                    },
+                    showValidationSummary: false
                 };
                 validators = buildValidatorsFromAttributes(attrs, result, scope, ngModelController);                
                 return result;

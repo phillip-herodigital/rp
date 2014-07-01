@@ -64,6 +64,21 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             return temperatureService.CachedExample();
         }
 
+        #region Utiltiy Providers
+
+        [HttpGet]
+        public GetUtilityProvidersResponse GetUtilityProviders()
+        {
+            // TODO - get the providers from Stream Connect 
+
+            return new GetUtilityProvidersResponse
+            {
+                Providers = new[] { "PECO", "PPL" }
+            };
+        }
+
+        #endregion
+
         #region Invoices
 
         [HttpGet]
@@ -76,8 +91,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             {
                 Invoices = new Table<Models.Account.Invoice>
                 {
-                    // TODO - provide translation sitecore item
-                    ColumnList = typeof(StreamEnergy.MyStream.Models.Account.Invoice).BuildTableSchema(null),
+                    ColumnList = typeof(StreamEnergy.MyStream.Models.Account.Invoice).BuildTableSchema(database.GetItem("/sitecore/content/Data/Components/Account/Overview/My Invoices")),
                     Values = from invoice in accountService.GetInvoices(User.Identity.Name)
                              select new StreamEnergy.MyStream.Models.Account.Invoice
                              {
@@ -206,13 +220,55 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         #region Account Selector
 
         [HttpGet]
-        public GetAccountsResponse GetAccounts()
+        public IEnumerable<AccountGrouping> GetAccounts()
         {
-
-            return new GetAccountsResponse
+            var serviceAddress = new DomainModels.Address
             {
-                
+                Line1 = "123 Main Street",
+                City = "Dallas",
+                StateAbbreviation = "TX",
+                PostalCode5 = "75001"
             };
+
+            var serviceAddress2 = new DomainModels.Address
+            {
+                Line1 = "456 Main Street",
+                City = "Dallas",
+                StateAbbreviation = "TX",
+                PostalCode5 = "75001"
+            };
+
+            var serviceAddress3 = new DomainModels.Address
+            {
+                Line1 = "1 Georgia Dome Dr NW3",
+                City = "Atlanta",
+                StateAbbreviation = "GA",
+                PostalCode5 = "30313"
+            };
+
+            var serviceAddress4 = new DomainModels.Address
+            {
+                Line1 = "2604 Washington Rd",
+                City = "Augusta",
+                StateAbbreviation = "GA",
+                PostalCode5 = "30904"
+            };
+
+            var account1 = new AccountGrouping 
+            {
+                AccountNumber = "1197015532",
+                SubAccountLabel = "ESI ID:",
+                SubAccounts = new ISubAccount[] { new TexasElectricityAccount { Id = "109437200008913264", ServiceAddress = serviceAddress }, new TexasElectricityAccount { Id = "109437200008975832", ServiceAddress = serviceAddress2 } }
+            };
+
+            var account2 = new AccountGrouping
+            {
+                AccountNumber = "07644559",
+                SubAccountLabel = "Meter ID:",
+                SubAccounts = new ISubAccount[] { new GeorgiaElectricityAccount { Id = "9A743339875", ServiceAddress = serviceAddress3 }, new GeorgiaElectricityAccount { Id = "88-443672486", ServiceAddress = serviceAddress4 } }
+            };
+
+            return new AccountGrouping [] { account1, account2 } ;
         }
 
         #endregion
@@ -222,7 +278,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [HttpPost]
         public GetAccountInformationResponse GetAccountInformation(GetAccountInformationRequest request)
         {
-            var accountId = request.AccountId;
+            var accountNumber = request.AccountNumber;
             var serviceAddress = new DomainModels.Address();
             var billingAddress = new DomainModels.Address();
             bool sameAsService = false;
@@ -236,7 +292,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             var primaryPhone =  new DomainModels.TypedPhone { Number = "214-223-4567", Category = StreamEnergy.DomainModels.PhoneCategory.Home };
             var secondaryPhone = new DomainModels.TypedPhone { Number = "214-223-7323", Category = StreamEnergy.DomainModels.PhoneCategory.Mobile };
-            IEnumerable<DomainModels.PhoneCategory> phoneTypes = new DomainModels.PhoneCategory[] {DomainModels.PhoneCategory.Home, DomainModels.PhoneCategory.Mobile, DomainModels.PhoneCategory.Work};
 
             serviceAddress.Line1 = "123 Main St.";
             serviceAddress.City = "Dallas";
@@ -258,7 +313,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 CustomerName = customerName,
                 PrimaryPhone = primaryPhone,
                 SecondaryPhone = secondaryPhone,
-                PhoneTypes = phoneTypes,
                 ServiceAddress = serviceAddress,
                 SameAsService = sameAsService,
                 BillingAddress = billingAddress
@@ -271,7 +325,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             bool success = false;
             var validations = validation.CompleteValidate(request);
            
-            var accountId = request.AccountId;
+            var accountNumber = request.AccountNumber;
 
             // update the account information with Stream Connect
             if (!validations.Any())
@@ -294,7 +348,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public GetNotificationSettingsResponse GetNotificationSettings(GetNotificationSettingsRequest request)
         {
             // TODO get notificaiton settings from Stream Connect
-            var accountId = request.AccountId;
+            var accountNumber = request.AccountNumber;
             var newDocumentArrives = new NotificationSetting
             {
                 Web = true,
@@ -322,7 +376,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             return new GetNotificationSettingsResponse
             {
-                AccountId = accountId,
+                AccountNumber = accountNumber,
                 NewDocumentArrives = newDocumentArrives,
                 OnlinePaymentsMade = onlinePaymentsMade,
                 RecurringPaymentsMade = recurringPaymentsMade,
@@ -337,7 +391,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             bool success = false;
 
-            var accountId = request.AccountId;
+            var accountNumber = request.AccountNumber;
             var notificationName = request.NotificationName;
             var notificationSetting = request.NotificationSetting;
 
@@ -358,7 +412,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             bool success = false;
 
-            var accountId = request.AccountId;
+            var accountNumber = request.AccountNumber;
 
             // TODO update the notification settings with Stream Connect
             if (true)
