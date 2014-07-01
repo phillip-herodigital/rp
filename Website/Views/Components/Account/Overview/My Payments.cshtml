@@ -26,7 +26,7 @@
                     </div>
                     <div class="item">
                         <label>@Html.Sitecore().Field("Status Text")</label>
-                        <select ng-model="filters.isPaid" ng-options="item.value as item.name for item in filtersList.isPaid">
+                        <select ng-model="filters.status" ng-options="item.value as item.name for item in filtersList.status">
                             <option value="">All</option>
                         </select>
                     </div>
