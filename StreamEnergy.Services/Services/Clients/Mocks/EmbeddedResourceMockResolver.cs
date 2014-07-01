@@ -52,27 +52,34 @@ namespace StreamEnergy.Services.Clients.Mocks
 
         public bool ApplyMock(Castle.DynamicProxy.IInvocation invocation)
         {
-            var request = SoapConverter.ToSoap(invocation.Arguments[0]);
-            if (soapEnvelopes.ContainsKey(request))
+            try
             {
-                invocation.ReturnValue = SoapConverter.FromSoap(soapEnvelopes[request], invocation.Method.ReturnType);
-                return true;
+                var request = SoapConverter.ToSoap(invocation.Arguments[0]);
+                if (soapEnvelopes.ContainsKey(request))
+                {
+                    invocation.ReturnValue = SoapConverter.FromSoap(soapEnvelopes[request], invocation.Method.ReturnType);
+                    return true;
+                }
             }
+            catch { }
             return false;
         }
 
         public async Task<System.Net.Http.HttpResponseMessage> FindMockResponse(System.Net.Http.HttpRequestMessage request)
         {
-            await Task.Yield();
-            var requestString = HttpConverter.ToString(request);
-
-            if (restEnvelopes.ContainsKey(requestString))
+            try
             {
-                var responseString = restEnvelopes[requestString];
+                await Task.Yield();
+                var requestString = HttpConverter.ToString(request);
 
-                return HttpConverter.ParseResponse(responseString);
+                if (restEnvelopes.ContainsKey(requestString))
+                {
+                    var responseString = restEnvelopes[requestString];
+
+                    return HttpConverter.ParseResponse(responseString);
+                }
             }
-
+            catch { }
             return null;
         }
 

@@ -52,16 +52,20 @@ namespace StreamEnergy.Services.Clients.Mocks
 
         bool IServiceInterceptor.ApplyMock(Castle.DynamicProxy.IInvocation invocation)
         {
-            if (envelopes.ContainsKey(invocation.Method))
+            try
             {
-                var mockParameters = mockParameterBuilder.Build();
-                var result = envelopes[invocation.Method].FirstOrDefault(m => m.Test(mockParameters));
-                if (result.Response != null)
+                if (envelopes.ContainsKey(invocation.Method))
                 {
-                    invocation.ReturnValue = SoapConverter.FromSoap(result.Response, invocation.Method.ReturnType);
-                    return true;
+                    var mockParameters = mockParameterBuilder.Build();
+                    var result = envelopes[invocation.Method].FirstOrDefault(m => m.Test(mockParameters));
+                    if (result.Response != null)
+                    {
+                        invocation.ReturnValue = SoapConverter.FromSoap(result.Response, invocation.Method.ReturnType);
+                        return true;
+                    }
                 }
             }
+            catch { }
             return false;
         }
     }
