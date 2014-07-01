@@ -233,7 +233,6 @@ $enrollment-module-vertical-padding: 20px;
                 border: none;
             }
         }
-      
         td, th {
             text-align: center;
             border-bottom: none;
@@ -300,14 +299,16 @@ $enrollment-module-vertical-padding: 20px;
             }
         }
         .plan-name {
+            position: relative;
             font-size: 18px;
             text-align: left;
             border-left: none;
-            a {
-                margin-top: 15px;
-                color: $enrollment-primary-color;
-            }
         }
+        .view-details {
+            display: block;
+            font-weight: normal;
+            margin-top: 15px;
+            font-size: 12px;}
         .rate {
             font-size: 22px;
             line-height: 18px;
@@ -324,19 +325,130 @@ $enrollment-module-vertical-padding: 20px;
         .select-plan {
             width: 126px;
             position: relative;
-            .selected-icon {
+        }
+        .selected-icon {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 45px 45px 0;
+            border-color: transparent $enrollment-primary-color transparent transparent;
+            i {
                 position: absolute;
-                top: 0;
-                right: 0;
-                width: 0;
-                height: 0;
-                border-style: solid;
-                border-width: 0 45px 45px 0;
-                border-color: transparent $enrollment-primary-color transparent transparent;
-                i {
-                    position: absolute;
-                    right: -38px;
-                    top: 8px;
+                right: -38px;
+                top: 8px;
+            }
+            font-weight: bold;
+            margin-left: 20px;
+        }
+        .details {
+            td {
+                border: none;
+                padding: 0px;
+            }
+            div {
+                padding: 5px 12px;
+                border: 0;
+                text-align: left;
+                padding-left: 30px;
+                p {
+                    font-size: 15px;
+                }
+                &:first-child {
+                    border-bottom: 1px solid #eaeaea;
+                }
+            }
+        }
+        &.open {
+            td.plan-name {
+                border-bottom: 1px solid #fff;
+            }
+            tr.details {
+                display: table-row;
+                td {
+                    border-top: 0;
+                    &:first-child {
+                        border-top: 1px solid #fff;
+                    }
+                }
+            }
+        }
+        .spacer {
+            height: 20px;
+        }
+    }
+
+	#state-select {
+		width: auto;
+		button {
+			border: 0;
+			@include box-shadow(none);
+			color: #0971ce;
+			text-transform: uppercase;
+			.caret {
+				display: none;
+			}
+		}
+		.icon {
+			background-position: 10px center;
+			background-repeat: no-repeat;
+			padding-left: 40px;
+		}
+		.texas {
+			@include retina-background('texas-icon.png');	
+		}
+		.georgia {
+			@include retina-background('georgia-icon.png');
+		}
+		.pennsylvania {
+			@include retina-background('pennsylvania-icon.png');
+		}
+		.maryland {
+			@include retina-background('maryland-icon.png');
+		}
+		.new-jersey {
+			@include retina-background('newjersey-icon.png');
+		}
+		.new-york {
+			@include retina-background('newyork-icon.png');
+		}
+		.washington-dc {
+			@include retina-background('dc-icon.png');
+		}
+		.dropdown-menu {
+			li {
+			}
+		}
+	}
+
+    .verify-order {
+        hr {
+            border: none;
+            border-top: 1px solid #ddd;
+        } 
+        .total {
+            text-align: right;
+        }
+        .verify-order-table {
+            .sub-charge { 
+                padding-left: 30px;
+            }
+            .rate {
+                text-align: right;
+            }
+            h4 { 
+                margin: 0;
+            }
+            th, td {
+                border: none;
+                padding: 8px 0;
+                vertical-align: top;
+            }
+            tr:last-child {
+                td {
+                    padding-bottom: 0;
                 }
             }
         }
@@ -345,12 +457,13 @@ $enrollment-module-vertical-padding: 20px;
 
 /*
     Review Order Page
+    TODO: Make this <hr> style into a class
  */
 .enrollment__review-order {
     hr {
         border: none;
         border-top: 1px solid #ddd;
-    } 
+    }
 }
 
 /*
@@ -370,7 +483,6 @@ $enrollment-module-vertical-padding: 20px;
         min-height: 120px;
     }
     dl {
-        @extend .clearfix;
         margin-bottom: 20px;
         dt {
             font-weight: 600;
@@ -397,7 +509,7 @@ $enrollment-module-vertical-padding: 20px;
             }
         }
         tbody {
-            display: block;
+            //display: block;
         }
     }    
 }
@@ -445,7 +557,8 @@ $enrollment-module-vertical-padding: 20px;
 		}
 	}
     .icon-close {
-        display:none;
+        float: right;
+        cursor: pointer;
     }
     .info {
         padding: 0;
@@ -470,7 +583,6 @@ $enrollment-module-vertical-padding: 20px;
 		width: 100%;
 	}
     .cart-item {
-        @extend .clearfix;
         margin-bottom: 10px;
         &:last-child {
             margin-bottom: 0;
@@ -561,18 +673,17 @@ $enrollment-module-vertical-padding: 20px;
     }
 }
 
-/*
-    Not Sure what this is for
 .cart-overlay {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
-    bottom: 0;
     right: 0;
+    height: auto;
     background: rgba(255, 255, 255, 0.7);
     z-index: 10000;
-    overflow: scroll;
     display: none;
+    padding: 20px;
+    min-height: 100%;
     .cart {
         float: none;
         width: auto;
@@ -591,6 +702,9 @@ $enrollment-module-vertical-padding: 20px;
             display: block;
         }
     }
+    .enrollment__cart {
+        display: block;
+    }
     &.open {
         display: block;
         @include breakpoint(medium-large) {
@@ -598,7 +712,7 @@ $enrollment-module-vertical-padding: 20px;
         }
     }
 }
-*/
+
 
 /*
     This is for the order confirmation page
@@ -611,7 +725,6 @@ $enrollment-module-vertical-padding: 20px;
     }
     &.horizontal {
         padding: 15px;    
-        @extend .clearfix;
     }
     @include breakpoint(medium-large) {
         &.horizontal {
@@ -641,7 +754,7 @@ $enrollment-module-vertical-padding: 20px;
 }
 
 /*
-    Enrollment Section
+    Generic Styling for the Enrollment pages
  */
 .enrollment {
     hr.content-divider {
@@ -778,17 +891,6 @@ $enrollment-module-vertical-padding: 20px;
 
     .total {
         text-align: right;
-    }
-
-    @each $theme in $themes {
-        &.accent-#{map-get($theme, name)} {
-            section h1 span {
-                color: map-get($theme, primaryColor);
-            }
-            .banner {
-                border-top: 5px solid map-get($theme, primaryColor);
-            }
-        }
     }
 
     @include breakpoint(small) {
@@ -1384,4 +1486,85 @@ article.services-box {
 		font-size: 12px;
 		margin: 0 0 10px 0;
 	}
+}
+
+
+/* Mobile Styling */
+/* Will merge into main section later when newer styles are updated */
+.enrollment  {
+    @include breakpoint(small) {
+        h1 {
+            font-size: 30px;
+            line-height: 1.1;
+        }
+        article {
+            margin-bottom: 30px;
+        }
+        table.plan-selection-table {
+            .details {
+                div {
+                    padding: 0;
+                }
+            }
+            .plan-name {
+                text-align: left;
+            }
+            .plan-actions {
+                button, .button {
+                    float: right;
+                    min-width: 120px;
+                }
+            }
+            .view-details {
+                display: inline;
+                float: left;
+                margin-top: 12px;
+            }
+        }
+        .buttons {
+            text-align: center;
+            button {
+                min-width: 150px;
+            }
+            button + button {
+                margin-top: 8px;
+            }
+        }
+        .datepicker {
+            position: relative;
+            .pull-right, .pull-left {
+                width: 35px;
+            }
+            table {
+                width: 100%;
+                max-width: 320px;
+                td {
+                    padding: 2px 3px;
+                }
+            }
+        }
+        .datepicker-input {
+            @include retina-background('calendar.png', 'icon'); 
+            background-position: 98% center;
+            background-repeat: no-repeat;
+
+            //Remove the Clear field (X) in IE10+
+            &::-ms-clear {
+                display: none;
+            }
+        }
+        .dropdown-menu {
+            font-size: 13px;
+        }
+        .time-remaining-mobile {
+            margin-top: 10px;
+            .time-remaining {
+                width: 160px;
+                font-size: 11px;
+            }
+        }
+        #state-select {
+            margin-top: 5px;
+        }
+    }
 }

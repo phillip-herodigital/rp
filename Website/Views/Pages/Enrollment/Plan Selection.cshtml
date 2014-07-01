@@ -62,14 +62,22 @@
                 <tr class="spacer"></tr>
             </thead>
             <tbody>
-                <tr ng-repeat-start="plan in typedOffers.value.availableOffers" ng-class="{'isOpen': isOpen, 'isClosed': !isOpen}">
+                <tr class="hide-medium-large" ng-repeat-start="plan in typedOffers.value.availableOffers" ng-class="{'open': isOpen}">
+                    <td class="plan-name" colspan="5">
+                        <span ng-if="isSelected" class="selected-icon">
+                            <i class="icon-check"></i>
+                        </span>
+                        {{plan.name}}
+                    </td>
+                </tr>
+                <tr>
                     <th class="vertical">
                         <div ng-show="plan.rateType == 'fixed'" class="fixed">@Html.Sitecore().Field("Electricity Fixed")</div>
                         <div class="variable" ng-show="plan.rateType == 'variable'">@Html.Sitecore().Field("Electricity Variable")</div>
                     </th>
                     <td class="plan-name hide-small">
                         {{plan.name}}
-                        <a href="" ng-click="isOpen = !isOpen" ng-class="{'collapsed': !isOpen}">
+                        <a class="view-details" href="" ng-click="isOpen = !isOpen" ng-class="{'collapsed': !isOpen}">
                             <span ng-if="!isOpen">@Html.Sitecore().Field("Electricity View Details") <i class="icon-blue-arrow-down"></i></span>
                             <span ng-if="isOpen">Hide Details <i class="icon-blue-arrow-up"></i></span>
                         </a>
@@ -84,14 +92,25 @@
                     <td class="fees">
                         ${{ plan.cancellationFee }}<span>@Html.Sitecore().Field("Electricity Early Cancellation Fee")</span>
                     </td>
-                    <td class="select-plan">
+                    <td class="select-plan hide-small">
                         <span ng-if="isSelected" class="selected-icon">
                             <i class="icon-check"></i>
                         </span>
                         <button button-selector="'{{plan.id}}'" ng-class="{ 'secondary': isSelected }" ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix()">
-                            @*@Html.Sitecore().Field("Electricity Button")*@
                             <span ng-if="isSelected">Remove</span>
-                            <span ng-if="!isSelected">Select</span>
+                            <span ng-if="!isSelected">@Html.Sitecore().Field("Electricity Button")</span>
+                        </button>
+                    </td>
+                </tr>
+                <tr class="hide-medium-large">
+                    <td class="plan-actions" colspan="5">
+                        <a class="view-details" href="" ng-click="isOpen = !isOpen" ng-class="{'collapsed': !isOpen}">
+                            <span ng-if="!isOpen">@Html.Sitecore().Field("Electricity View Details") <i class="icon-blue-arrow-down"></i></span>
+                            <span ng-if="isOpen">Hide Details <i class="icon-blue-arrow-up"></i></span>
+                        </a>
+                        <button button-selector="'{{plan.id}}'" ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix()">
+                            <span ng-if="isSelected">Remove</span>
+                            <span ng-if="!isSelected">@Html.Sitecore().Field("Electricity Button")</span>
                         </button>
                     </td>
                 </tr>
