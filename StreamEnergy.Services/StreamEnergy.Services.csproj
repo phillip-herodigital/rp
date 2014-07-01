@@ -152,6 +152,7 @@
     <Compile Include="Services\Clients\ServiceInterceptorResolver.cs" />
     <Compile Include="Services\Clients\TemperatureService.cs" />
     <Compile Include="Services\Clients\ITemperatureService.cs" />
+    <Compile Include="Services\HttpConverter.cs" />
     <Compile Include="Services\SoapConverter.cs" />
   </ItemGroup>
   <ItemGroup>

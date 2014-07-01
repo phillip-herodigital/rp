@@ -22,7 +22,11 @@ namespace StreamEnergy.Services.Clients
             if (response != null)
                 return response;
          
-            return await base.SendAsync(request, cancellationToken);
+            response = await base.SendAsync(request, cancellationToken);
+
+            response = await serviceInterceptorResolver.HandleResponse(request, response, cancellationToken);
+
+            return response;
         }
     }
 }

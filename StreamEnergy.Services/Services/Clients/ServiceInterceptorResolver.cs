@@ -6,7 +6,7 @@ using System.Text;
 
 namespace StreamEnergy.Services.Clients
 {
-    public class ServiceInterceptorResolver
+    public class ServiceInterceptorResolver : IServiceInterceptor
     {
         public ServiceInterceptorResolver()
         {
@@ -33,7 +33,7 @@ namespace StreamEnergy.Services.Clients
             {
                 foreach (var entry in RestMockResolvers)
                 {
-                    var response = entry.FindMockResponse(request, cancellationToken);
+                    var response = entry.FindMockResponse(request);
                     if (response != null)
                         return response;
                     if (cancellationToken.IsCancellationRequested)
@@ -44,5 +44,16 @@ namespace StreamEnergy.Services.Clients
             });
         }
 
+        public async System.Threading.Tasks.Task<System.Net.Http.HttpResponseMessage> HandleResponse(System.Net.Http.HttpRequestMessage request, System.Net.Http.HttpResponseMessage response, System.Threading.CancellationToken cancellationToken)
+        {
+            foreach (var entry in RestMockResolvers)
+            {
+                response = await entry.HandleResponse(request, response) ?? response;
+                if (cancellationToken.IsCancellationRequested)
+                    return response;
+            }
+
+            return response;
+        }
     }
 }

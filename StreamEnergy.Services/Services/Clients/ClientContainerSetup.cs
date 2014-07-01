@@ -23,7 +23,8 @@ namespace StreamEnergy.Services.Clients
             {
                 typeof(Unity.IContainerSetupStrategy),
                 typeof(IInterceptor),
-                typeof(IServiceInterceptor)
+                typeof(IServiceInterceptor),
+                typeof(IRestServiceInterceptor)
             });
         }
 

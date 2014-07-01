@@ -60,51 +60,29 @@ namespace StreamEnergy.Services.Clients.Mocks
             return false;
         }
 
-        public System.Net.Http.HttpResponseMessage FindMockResponse(System.Net.Http.HttpRequestMessage request, System.Threading.CancellationToken cancellationToken)
+        public Task<System.Net.Http.HttpResponseMessage> FindMockResponse(System.Net.Http.HttpRequestMessage request)
         {
-            var requestString = request.Method + " " + request.RequestUri.PathAndQuery +
-                "\r\nHost " + request.RequestUri.Host +
-                "\r\n" + request.Headers.ToString() +
-                "\r\n" + ((object)request.Content ?? "").ToString();
-
-            if (restEnvelopes.ContainsKey(requestString))
+            return Task.Run(() =>
             {
-                var responseString = restEnvelopes[requestString];
+                var requestString = HttpConverter.ToString(request);
 
-                var result = new System.Net.Http.HttpResponseMessage();
-
-                var lines = responseString.Split(new[] { "\r\n" }, StringSplitOptions.None).TakeWhile(line => !string.IsNullOrEmpty(line)).ToArray();
-
-                var match = Regex.Match(lines[0], "^(?<protocol>[^/]+)/(?<version>[0-9.]+) (?<status>[0-9]{3})(?: (?<message>.*))?");
-                result.Version = Version.Parse(match.Groups["version"].Value);
-                result.StatusCode = (System.Net.HttpStatusCode)int.Parse(match.Groups["status"].Value);
-                result.ReasonPhrase = match.Groups["message"].Value;
-
-                var remainder = responseString.Substring(string.Join("\r\n", lines).Length + 4);
-
-                MemoryStream stream = new MemoryStream();
-                StreamWriter writer = new StreamWriter(stream);
-                writer.Write(remainder);
-                writer.Flush();
-                stream.Position = 0;
-
-                result.Content = new System.Net.Http.StreamContent(stream);
-
-                
-                foreach (var header in from line in lines.Skip(1)
-                                       let header = Regex.Match(line, "^(?<header>[^:]+): (?<value>.*)$")
-                                       group header.Groups["value"].Value by header.Groups["header"].Value)
+                if (restEnvelopes.ContainsKey(requestString))
                 {
-                    if (header.Key.StartsWith("Content"))
-                        result.Content.Headers.Add(header.Key, header);
-                    else
-                        result.Headers.Add(header.Key, header);
+                    var responseString = restEnvelopes[requestString];
+
+                    return HttpConverter.ParseResponse(responseString);
                 }
 
-                return result;
-            }
+                return null;
+            });
+        }
 
-            return null;
+        public Task<System.Net.Http.HttpResponseMessage> HandleResponse(System.Net.Http.HttpRequestMessage request, System.Net.Http.HttpResponseMessage response)
+        {
+            return Task.Run(() =>
+            {
+                return response;
+            });
         }
     }
 }

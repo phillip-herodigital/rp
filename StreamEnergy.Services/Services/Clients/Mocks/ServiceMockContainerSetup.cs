@@ -36,8 +36,11 @@ namespace StreamEnergy.Services.Clients.Mocks
         {
             var cacheSetup = unityContainer.Resolve<ServiceCache>();
             mockResolver.MockResolvers.Add(cacheSetup);
+            mockResolver.RestMockResolvers.Add(cacheSetup);
 
             cacheSetup.Register<Sample.Temperature.TempConvertSoap>(s => s.CelsiusToFahrenheit(null), session: false, keepFor: TimeSpan.FromMinutes(5));
+
+            cacheSetup.Register(new System.Text.RegularExpressions.Regex("^http://graph\\.facebook\\.com/me$"), session: true, keepFor: TimeSpan.FromMinutes(5));
         }
     }
 }
