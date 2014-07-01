@@ -1122,9 +1122,9 @@ article.mobile {
 			&.due {
 				p {
 					float: left;
+					margin-top: -4px;
 					&.pay {
 						float: right;
-						margin-top: 10px;
 					}
 				}
 			}
@@ -1132,12 +1132,24 @@ article.mobile {
 		.group .item {
 			&.current-data {
 				width: 60%;
+				@include breakpoint(small) {
+					width: 100%;
+				}
 			}
 			&.historical-data {
 				width: 40%;
 				border-left: 1px solid #ddd;
 				padding-left: 15px;
+				@include breakpoint(small) {
+					width: 100%;
+					padding-left: 0;
+					border-left: 0;
+				}
 			}
+		}
+		table.device tbody tr td {
+			text-align: center;
+			border-top: 0;
 		}
 	}
 	footer {
