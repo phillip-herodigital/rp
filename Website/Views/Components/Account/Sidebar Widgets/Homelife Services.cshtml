@@ -1,12 +1,12 @@
 ﻿<article class="homelife grey-box">
     <header>
-        <h3>HomeLife Services</h3>
+        <h3>@Html.Sitecore().Field("Header Content")</h3>
     </header>
     <div class="content">
         <ul>
-            <li>Tech Support<a href="#"><i class="icon-tech-support"></i></a></li>
-            <li><a href="#">My Open Tickets (1)</a></li>
-            <li class="clearfix"><div class="buttons"><button type="submit">Get Support</button></div></li>
+            <li>@Html.Sitecore().Field("Support Text")<a href="#"><i class="icon-tech-support"></i></a></li>
+            <li><a href="#">@Html.Sitecore().Field("Tickets Text")</a></li>
+            <li class="clearfix"><div class="buttons"><button type="submit">@Html.Sitecore().Field("Button Text")</button></div></li>
         </ul>
     </div>
 </article>

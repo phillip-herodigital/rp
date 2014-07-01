@@ -206,6 +206,7 @@
     <Compile Include="Mvc\Sitecore\ControllerRenderer.cs" />
     <Compile Include="Mvc\Sitecore\ControllerRunner.cs" />
     <Compile Include="Mvc\Sitecore\GetControllerRenderer.cs" />
+    <Compile Include="Pipelines\GenerateCustomCacheKey.cs" />
     <Compile Include="Pipelines\NoChangeOrderer.cs" />
     <Compile Include="Pipelines\VanityUrlRedirect.cs" />
     <Compile Include="Processes\StateBase.cs" />
@@ -228,6 +229,7 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="SitecoreSettings.cs" />
     <Compile Include="RequireValueAttribute.cs" />
+    <Compile Include="Tasks\ScheduledPublishing.cs" />
     <Compile Include="TypeIndicatorJsonConverter.cs" />
     <Compile Include="TypeIndicatorLookup.cs" />
     <Compile Include="Providers\GeoProvider.cs" />

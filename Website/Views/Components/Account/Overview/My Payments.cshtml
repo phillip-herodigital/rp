@@ -1,152 +1,148 @@
-﻿<section class="layout wrapper">
-    <section class="layout cols-1">
-        <article class="grey-box payment-history">
-            <header>
-                <h2>@Html.Sitecore().Field("My Payments Text")</h2>
-                <ul>
-                    <li><a href="#">@Html.Sitecore().Field("Autopay Settings Text")</a></li>
-                    <li><a href="#">@Html.Sitecore().Field("Payment Accounts Text")</a></li>
-                    <li><a href="#">@Html.Sitecore().Field("Status Source Help Text")</a></li>
-                </ul>
-            </header>
+﻿<article class="grey-box payment-history wrapper">
+    <header class="clearfix">
+        <h2>@Html.Sitecore().Field("My Payments Text")</h2>
+        <ul>
+            <li><a href="#">@Html.Sitecore().Field("Autopay Settings Text")</a></li>
+            <li><a href="#">@Html.Sitecore().Field("Payment Accounts Text")</a></li>
+            <li><a href="#">@Html.Sitecore().Field("Status Source Help Text")</a></li>
+        </ul>
+    </header>
             
-            <div class="content clearfix" loading-indicator>
-                <div class="filters">
-                    <form>
-                        <div class="group">
-                            <div class="item">
-                                <label>@Html.Sitecore().Field("Service Type Text")</label>
-                                <select ng-model="filters.serviceType" ng-options="item.value as item.name for item in filtersList.serviceType">
-                                    <option value="">All</option>
-                                </select>
+    <div class="content clearfix" loading-indicator>
+        <div class="filters">
+            <form>
+                <div class="group">
+                    <div class="item">
+                        <label>@Html.Sitecore().Field("Service Type Text")</label>
+                        <select ng-model="filters.serviceType" ng-options="item.value as item.name for item in filtersList.serviceType">
+                            <option value="">All</option>
+                        </select>
+                    </div>
+                    <div class="item">
+                        <label>@Html.Sitecore().Field("Account Text")</label>
+                        <select ng-model="filters.accountNumber" ng-options="item.value as item.name for item in filtersList.accountNumber">
+                            <option value="">All</option>
+                        </select>
+                    </div>
+                    <div class="item">
+                        <label>@Html.Sitecore().Field("Status Text")</label>
+                        <select ng-model="filters.isPaid" ng-options="item.value as item.name for item in filtersList.isPaid">
+                            <option value="">All</option>
+                        </select>
+                    </div>
+                    <div class="actions" ng-show="isFiltered()">
+                        <p><a href="" ng-click="resetFilters()">@Html.Sitecore().Field("Reset Filters Text")</a></p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="stretch">
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th><i class="icon-recurring"></i></th>
+                    <th>@Html.Sitecore().Field("Header Account Text")</th>
+                    <th>@Html.Sitecore().Field("Header Service Type Text")</th>
+                    <th>@Html.Sitecore().Field("Header Confirm Code Text")</th>
+                    <th>@Html.Sitecore().Field("Header Payment Amount Text")</th>
+                    <th>@Html.Sitecore().Field("Header Payment Date Text")</th>
+                    <th>@Html.Sitecore().Field("Header Status Text")</th>
+                    <th>@Html.Sitecore().Field("Header Action Text")</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><i class="icon-arrow-collapsed"></i></td>
+                    <td><i class="icon-recurring"></i></td>
+                    <td>1197015532</td>
+                    <td><i class="icon-homelife-services"></i> HomeLife Services</td>
+                    <td>1030523546381</td>
+                    <td>$24.99</td>
+                    <td>04/05/14</td>
+                    <td>APPROVED</td>
+                    <td><button class="secondary">Details</button></td>
+                </tr>
+                <tr>
+                    <td><i class="icon-arrow-collapsed"></i></td>
+                    <td><i class="icon-recurring"></i></td>
+                    <td>219849302</td>
+                    <td><i class="icon-utility"></i> Utility</td>
+                    <td>1020453546012</td>
+                    <td>$93.72</td>
+                    <td>04/05/14</td>
+                    <td>APPROVED</td>
+                    <td><button class="secondary">Details</button></td>
+                </tr>
+                <tr>
+                    <td><i class="icon-arrow-collapsed"></i></td>
+                    <td><i class="icon-recurring"></i></td>
+                    <td>219849302</td>
+                    <td><i class="icon-utility"></i> Utility</td>
+                    <td>1020453546012</td>
+                    <td>$93.72</td>
+                    <td>04/05/14</td>
+                    <td>APPROVED</td>
+                    <td><button class="secondary">Details</button></td>
+                </tr>
+                <tr class="expand-details">
+                    <td colspan="9">
+                        <div class="grid clearfix">
+                            <div class="col clearfix">
+                                <span class="label">
+                                    <p><strong>Payment ID:</strong></p>
+                                    <p><strong>Confirmation Code:</strong></p>
+                                    <p><strong>Payment Mode:</strong></p>
+                                </span>
+                                <span class="account-info">
+                                    <p>1234567890</p>
+                                    <p>1234567890</p>
+                                    <p>ACH</p>
+                                </span>
                             </div>
-                            <div class="item">
-                                <label>@Html.Sitecore().Field("Account Text")</label>
-                                <select ng-model="filters.accountNumber" ng-options="item.value as item.name for item in filtersList.accountNumber">
-                                    <option value="">All</option>
-                                </select>
-                            </div>
-                            <div class="item">
-                                <label>@Html.Sitecore().Field("Status Text")</label>
-                                <select ng-model="filters.isPaid" ng-options="item.value as item.name for item in filtersList.isPaid">
-                                    <option value="">All</option>
-                                </select>
-                            </div>
-                            <div class="actions" ng-show="isFiltered()">
-                                <p><a href="" ng-click="resetFilters()">@Html.Sitecore().Field("Reset Filters Text")</a></p>
+                            <div class="col clearfix">
+                                <span class="label">
+                                    <p><strong>Payment Account:</strong></p>
+                                    <p><strong>Routing Transit Number:</strong></p>
+                                    <p><strong>Payments Made By:</strong></p>
+                                </span>
+                                <span class="account-info">
+                                    <p>*********1234</p>
+                                    <p>1234567890</p>
+                                    <p>Jordan Campbell</p>
+                                </span>
                             </div>
                         </div>
-                    </form>
-                </div>
-            </div>
-            <div class="stretch">
-                <table>
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th><i class="icon-recurring"></i></th>
-                            <th>@Html.Sitecore().Field("Header Account Text")</th>
-                            <th>@Html.Sitecore().Field("Header Service Type Text")</th>
-                            <th>@Html.Sitecore().Field("Header Confirm Code Text")</th>
-                            <th>@Html.Sitecore().Field("Header Payment Amount Text")</th>
-                            <th>@Html.Sitecore().Field("Header Payment Date Text")</th>
-                            <th>@Html.Sitecore().Field("Header Status Text")</th>
-                            <th>@Html.Sitecore().Field("Header Action Text")</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><i class="icon-arrow-collapsed"></i></td>
-                            <td><i class="icon-recurring"></i></td>
-                            <td>1197015532</td>
-                            <td><i class="icon-homelife-services"></i> HomeLife Services</td>
-                            <td>1030523546381</td>
-                            <td>$24.99</td>
-                            <td>04/05/14</td>
-                            <td>APPROVED</td>
-                            <td><button class="secondary">Details</button></td>
-                        </tr>
-                        <tr>
-                            <td><i class="icon-arrow-collapsed"></i></td>
-                            <td><i class="icon-recurring"></i></td>
-                            <td>219849302</td>
-                            <td><i class="icon-utility"></i> Utility</td>
-                            <td>1020453546012</td>
-                            <td>$93.72</td>
-                            <td>04/05/14</td>
-                            <td>APPROVED</td>
-                            <td><button class="secondary">Details</button></td>
-                        </tr>
-                        <tr>
-                            <td><i class="icon-arrow-collapsed"></i></td>
-                            <td><i class="icon-recurring"></i></td>
-                            <td>219849302</td>
-                            <td><i class="icon-utility"></i> Utility</td>
-                            <td>1020453546012</td>
-                            <td>$93.72</td>
-                            <td>04/05/14</td>
-                            <td>APPROVED</td>
-                            <td><button class="secondary">Details</button></td>
-                        </tr>
-                        <tr class="expand-details">
-                            <td colspan="9">
-                                <div class="grid clearfix">
-                                    <div class="col clearfix">
-                                        <span class="label">
-                                            <p><strong>Payment ID:</strong></p>
-                                            <p><strong>Confirmation Code:</strong></p>
-                                            <p><strong>Payment Mode:</strong></p>
-                                        </span>
-                                        <span class="account-info">
-                                            <p>1234567890</p>
-                                            <p>1234567890</p>
-                                            <p>ACH</p>
-                                        </span>
-                                    </div>
-                                    <div class="col clearfix">
-                                        <span class="label">
-                                            <p><strong>Payment Account:</strong></p>
-                                            <p><strong>Routing Transit Number:</strong></p>
-                                            <p><strong>Payments Made By:</strong></p>
-                                        </span>
-                                        <span class="account-info">
-                                            <p>*********1234</p>
-                                            <p>1234567890</p>
-                                            <p>Jordan Campbell</p>
-                                        </span>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <footer class="clearfix pagination">
-                <div class="page-size">
-                    <p>
-                        Show:
-                        <select>
-                            <option value="">10</option>
-                            <option value="">5</option>
-                        </select>
-                        entries.
-                    </p>
-                </div>
-                <div class="showing">
-                    <p>Showing <strong>1-3</strong> of <strong>3</strong> Invoices</p>
-                </div>
-                <div class="page-selection">
-                    <ul>
-                        <li><a href="#">First <i class="icon-blue-rectangle"></i></a></li>
-                        <li><a href="#">Previous <i class="icon-blue-rectangle"></i></a></li>
-                        <li class="page-number"><a href="#">1</a></li>
-                        <li class="page-number"><a href="#">2</a></li>
-                        <li class="page-number"><a href="#">3</a></li>
-                        <li><a href="#">Next <i class="icon-blue-rectangle"></i></a></li>
-                        <li><a href="#">Last <i class="icon-blue-rectangle"></i></a></li>
-                    </ul>
-                </div>
-            </footer>
-        </article>
-    </section>
-</section>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <footer class="clearfix pagination">
+        <div class="page-size">
+            <p>
+                Show:
+                <select>
+                    <option value="">10</option>
+                    <option value="">5</option>
+                </select>
+                entries.
+            </p>
+        </div>
+        <div class="showing">
+            <p>Showing <strong>1-3</strong> of <strong>3</strong> Invoices</p>
+        </div>
+        <div class="page-selection">
+            <ul>
+                <li><a href="#">First <i class="icon-blue-rectangle"></i></a></li>
+                <li><a href="#">Previous <i class="icon-blue-rectangle"></i></a></li>
+                <li class="page-number"><a href="#">1</a></li>
+                <li class="page-number"><a href="#">2</a></li>
+                <li class="page-number"><a href="#">3</a></li>
+                <li><a href="#">Next <i class="icon-blue-rectangle"></i></a></li>
+                <li><a href="#">Last <i class="icon-blue-rectangle"></i></a></li>
+            </ul>
+        </div>
+    </footer>
+</article>

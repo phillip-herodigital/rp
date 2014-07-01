@@ -17,11 +17,15 @@ namespace StreamEnergy.Services.Clients
 
         public bool ApplyMock(IInvocation invocation)
         {
-            foreach (var entry in MockResolvers)
+            try
             {
-                if (entry.ApplyMock(invocation))
-                    return true;
+                foreach (var entry in MockResolvers)
+                {
+                    if (entry.ApplyMock(invocation))
+                        return true;
+                }
             }
+            catch (Exception) { }
             return false;
         }
     }

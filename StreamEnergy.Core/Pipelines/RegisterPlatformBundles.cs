@@ -19,12 +19,12 @@ namespace StreamEnergy.Pipelines
 
         private void RegisterBundles(BundleCollection bundles)
         {
-            bundles.Add(new StyleBundle("~/bundles/Styles")
+            bundles.Add(new StyleBundle("~/frontend/assets/css/bundle")
                 .Include("~/frontend/assets/css/*.css"));
 
-            bundles.Add(CommonScripts(new ScriptBundle("~/bundles/Scripts")
+            bundles.Add(CommonScripts(new ScriptBundle("~/frontend/assets/js/bundle")
                 .Include("~/frontend/assets/js/libs/lodash/lodash.js")));
-            bundles.Add(CommonScripts(new ScriptBundle("~/bundles/LegacyScripts")
+            bundles.Add(CommonScripts(new ScriptBundle("~/frontend/assets/js/legacybundle")
                 .Include("~/frontend/assets/js/libs/lodash/lodash.compat.js")));
         }
 

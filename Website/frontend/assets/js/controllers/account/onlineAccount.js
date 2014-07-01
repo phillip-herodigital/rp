@@ -8,14 +8,17 @@ ngApp.controller('AcctOnlineAccountCtrl', ['$scope', '$rootScope', '$http', '$ti
 	// initialize the challenges
 	$scope.formData.challenges = [{},{}];
 
+	$scope.isLoading = true;
+
 	// get the current data
 	$timeout(function() {
 		$http.get('/api/account/getOnlineAccount').success(function (data, status, headers, config) {
 			$scope.formData = data;
 			$scope.formDataOriginal = angular.copy($scope.formData);
 			$scope.languagePreference = data.languagePreference;
+			$scope.isLoading = false;
 		});
-	});
+	}, 800);
 
 	// create a filter so that the same security question can't be selected twice
 	$scope.filter1 = function(item){
@@ -28,6 +31,9 @@ ngApp.controller('AcctOnlineAccountCtrl', ['$scope', '$rootScope', '$http', '$ti
 
 	// process the form
 	$scope.updateOnlineAccount = function() {
+		$scope.isLoading = true;
+		$scope.successMessage = false;
+
 		// format the request data
 		var requestData = {};
 		var challenge = {};
@@ -55,22 +61,26 @@ ngApp.controller('AcctOnlineAccountCtrl', ['$scope', '$rootScope', '$http', '$ti
 		requestData.languagePreference = $scope.formData.languagePreference;
 
 		// sent the update
-		$http({
-			method  : 'POST',
-			url     : '/api/account/updateOnlineAccount',
-			data    : requestData,
-			headers : { 'Content-Type': 'application/JSON' } 
-		})
-			.success(function (data, status, headers, config) {
-				if (data.validations.length) {
-			        // if not successful, bind errors to error variables
-			        $scope.validations = data.validations;
+		$timeout(function () {
+			$http({
+				method  : 'POST',
+				url     : '/api/account/updateOnlineAccount',
+				data    : requestData,
+				headers : { 'Content-Type': 'application/JSON' } 
+			})
+				.success(function (data, status, headers, config) {
+					if (data.validations.length) {
+						// if not successful, bind errors to error variables
+						$scope.isLoading = false;
+						$scope.validations = data.validations;
 
-				} else {
-					// if successful, alert the user
-					//alert("successful");
-				}
-			});
+					} else {
+						// if successful, alert the user
+						$scope.isLoading = false;
+						$scope.successMessage = true;
+					}
+				});
+		}, 800);		
 	};
-
+	
 }]);

@@ -28,5 +28,20 @@ namespace StreamEnergy.MyStream.Controllers
             return this.Content(StreamEnergy.Json.Stringify(data));
         }
 
+        public ActionResult UtilityProviders()
+        {
+            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Utility Providers");
+
+            var mediaOptions = new Sitecore.Resources.Media.MediaUrlOptions {MaxHeight = 68};
+
+            var data = item.Children.Select(child => new { 
+                name = child.Fields["Provider Name"].Value, 
+                link = child.Fields["Invoices Link"].Value, 
+                logo = Sitecore.Resources.Media.MediaManager.GetMediaUrl(((Sitecore.Data.Fields.ImageField)child.Fields["Provider Logo"]).MediaItem, mediaOptions) 
+            });
+
+            return this.Content(StreamEnergy.Json.Stringify(data));
+        }
+
     }
 }

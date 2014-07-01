@@ -17,7 +17,7 @@
                 }
 
                 if (scope.started) {
-                    if (newValue && !newValue.length) {
+                    if (newValue && !Object.keys(newValue).length) {
                         element.addClass('field-validation-valid');
                         element.removeClass('field-validation-error');
                     }
