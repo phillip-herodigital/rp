@@ -40,18 +40,10 @@ ngApp.controller('AcctMyPaymentsCtrl', ['$scope', '$rootScope', '$http', '$filte
 		return !jQuery.isEmptyObject($scope.filters);
 	}
 
-	$scope.test = function() {
-		console.log($scope);
-	};
-
 	// watches
 	$scope.$watch('filters', function(newVal, oldVal) {
-		
 		$scope.filters = $filter('removeNullProps')($scope.filters);
-		if ($scope.paymentsTable.values.length) {
-			$scope.paymentsTable.values = $filter('filter')($scope.paymentsTableOriginal.values, $scope.filters);
-		}
-
+		$scope.paymentsTable.values = $filter('filter')($scope.paymentsTableOriginal.values, $scope.filters);
 	}, true);
 
 }]);
