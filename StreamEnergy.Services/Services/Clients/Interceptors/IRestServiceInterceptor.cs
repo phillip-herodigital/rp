@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StreamEnergy.Services.Clients
+namespace StreamEnergy.Services.Clients.Interceptors
 {
     public interface IRestServiceInterceptor
     {

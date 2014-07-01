@@ -12,7 +12,7 @@ using StackExchange.Redis;
 using StreamEnergy.Caching;
 using StreamEnergy.Extensions;
 
-namespace StreamEnergy.Services.Clients
+namespace StreamEnergy.Services.Clients.Interceptors
 {
     public class ServiceCache : IServiceInterceptor, IRestServiceInterceptor
     {
@@ -123,36 +123,35 @@ namespace StreamEnergy.Services.Clients
             }
         }
 
-        public Task<System.Net.Http.HttpResponseMessage> FindMockResponse(System.Net.Http.HttpRequestMessage request)
+        public async Task<System.Net.Http.HttpResponseMessage> FindMockResponse(System.Net.Http.HttpRequestMessage request)
         {
-            return Task.Run(() =>
+            await Task.Yield();
+
+            if (redisDatabase == null)
+            {
+                return null;
+            }
+
+            var clearConfig = FindMatchingConfig(request, restCacheClearConfigurations);
+            if (clearConfig.HasValue)
+            {
+                Clear(clearConfig.Value);
+            }
+
+            var cacheConfig = FindMatchingConfig(request, restCacheConfigurations);
+            if (cacheConfig.HasValue)
+            {
+                var config = cacheConfig.Value;
+                var result = RetrieveCache(config, request.RequestUri.ToString());
+                if (result != null)
                 {
-                    if (redisDatabase == null)
-                    {
-                        return null;
-                    }
-
-                    var clearConfig = FindMatchingConfig(request, restCacheClearConfigurations);
-                    if (clearConfig.HasValue)
-                    {
-                        Clear(clearConfig.Value);
-                    }
-
-                    var cacheConfig = FindMatchingConfig(request, restCacheConfigurations);
-                    if (cacheConfig.HasValue)
-                    {
-                        var config = cacheConfig.Value;
-                        var result = RetrieveCache(config, request.RequestUri.ToString());
-                        if (result != null)
-                        {
-                            return HttpConverter.ParseResponse(result);
-                        }
-                    }
-                    return null;
-                });
+                    return HttpConverter.ParseResponse(result);
+                }
+            }
+            return null;
         }
 
-        public async Task< System.Net.Http.HttpResponseMessage> HandleResponse(System.Net.Http.HttpRequestMessage request, System.Net.Http.HttpResponseMessage response)
+        public async Task<System.Net.Http.HttpResponseMessage> HandleResponse(System.Net.Http.HttpRequestMessage request, System.Net.Http.HttpResponseMessage response)
         {
             var cacheConfig = FindMatchingConfig(request, restCacheConfigurations);
             if (cacheConfig.HasValue)
@@ -178,7 +177,7 @@ namespace StreamEnergy.Services.Clients
         private string RetrieveCache(CacheConfiguration config, string request)
         {
             string sessionId = null;
-            if (config.SessionBased && TryGetSessionId(out sessionId))
+            if (config.SessionBased && !TryGetSessionId(out sessionId))
             {
                 // Ensure we don't get cache globally if session wasn't found
                 return null;
@@ -190,7 +189,7 @@ namespace StreamEnergy.Services.Clients
         private void StoreCache(CacheConfiguration config, string request, string response)
         {
             string sessionId = null;
-            if (config.SessionBased && TryGetSessionId(out sessionId))
+            if (config.SessionBased && !TryGetSessionId(out sessionId))
             {
                 // Ensure we don't cache globally if session wasn't found
                 return;

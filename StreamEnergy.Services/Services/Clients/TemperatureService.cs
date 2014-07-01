@@ -33,24 +33,14 @@ namespace StreamEnergy.Services.Clients
             return service.FahrenheitToCelsius(new Sample.Temperature.FahrenheitToCelsiusRequest { Fahrenheit = fahrenheit }).FahrenheitToCelsiusResult;
         }
 
-        string ITemperatureService.MockedExample()
-        {
-            return AsyncHelper.RunSync(() => ExampleAsync());
-        }
-
-        Dictionary<string, object> ITemperatureService.CachedExample()
-        {
-            return AsyncHelper.RunSync(() => FacebookAsync());
-        }
-
-        async Task<string> ExampleAsync()
+        async Task<string> ITemperatureService.MockedExample()
         {
             var response = await exampleClient.GetAsync("/test?param=1");
 
             return await response.Content.ReadAsAsync<string>();
         }
 
-        async Task<Dictionary<string, object>> FacebookAsync()
+        async Task<Dictionary<string, object>> ITemperatureService.CachedExample()
         {
             var response = await facebookClient.GetAsync("/me");
 

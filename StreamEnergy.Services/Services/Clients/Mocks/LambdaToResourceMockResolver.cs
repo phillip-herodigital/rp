@@ -8,6 +8,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using StreamEnergy.Services.Clients.Interceptors;
 
 namespace StreamEnergy.Services.Clients.Mocks
 {

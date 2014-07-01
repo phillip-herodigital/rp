@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using StreamEnergy.Services.Clients.Interceptors;
 
 namespace StreamEnergy.Services.Clients.Mocks
 {
@@ -12,12 +13,7 @@ namespace StreamEnergy.Services.Clients.Mocks
         public void SetupUnity(IUnityContainer unityContainer)
         {
             var mockResolver = unityContainer.Resolve<ServiceInterceptorResolver>();
-            SetupMocks(unityContainer, mockResolver);
-            SetupCache(unityContainer, mockResolver);
-        }
 
-        private void SetupMocks(IUnityContainer unityContainer, ServiceInterceptorResolver mockResolver)
-        {
             var embeddedResourceMocks = new EmbeddedResourceMockResolver(this.GetType().Assembly);
             mockResolver.MockResolvers.Add(embeddedResourceMocks);
             mockResolver.RestMockResolvers.Add(embeddedResourceMocks);
@@ -29,18 +25,6 @@ namespace StreamEnergy.Services.Clients.Mocks
             temp.Register<Sample.Commons.SampleStreamCommonsSoap>(s => s.GetInvoices(null), mockParams => true, "StreamEnergy.Services.Clients.Mocks.GetInvoices_Response.soap");
 
             mockResolver.MockResolvers.Add(temp);
-
-        }
-
-        private void SetupCache(IUnityContainer unityContainer, ServiceInterceptorResolver mockResolver)
-        {
-            var cacheSetup = unityContainer.Resolve<ServiceCache>();
-            mockResolver.MockResolvers.Add(cacheSetup);
-            mockResolver.RestMockResolvers.Add(cacheSetup);
-
-            cacheSetup.Register<Sample.Temperature.TempConvertSoap>(s => s.CelsiusToFahrenheit(null), session: false, keepFor: TimeSpan.FromMinutes(5));
-
-            cacheSetup.Register(new System.Text.RegularExpressions.Regex("^http://graph\\.facebook\\.com/me$"), session: true, keepFor: TimeSpan.FromMinutes(5));
         }
     }
 }

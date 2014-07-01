@@ -15,6 +15,7 @@ using System.Web.Http;
 using System.Web.Security;
 using System.Web.SessionState;
 using Microsoft.Practices.Unity;
+using System.Threading.Tasks;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -52,13 +53,13 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
 
         [HttpGet]
-        public string ExampleMock()
+        public Task<string> ExampleMock()
         {
             return temperatureService.MockedExample();
         }
 
         [HttpGet]
-        public Dictionary<string, object> ExampleCache()
+        public Task<Dictionary<string, object>> ExampleCache()
         {
             return temperatureService.CachedExample();
         }

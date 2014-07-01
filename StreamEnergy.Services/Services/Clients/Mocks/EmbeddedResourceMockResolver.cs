@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using StreamEnergy.Services.Clients.Interceptors;
 
 namespace StreamEnergy.Services.Clients.Mocks
 {
@@ -60,29 +61,25 @@ namespace StreamEnergy.Services.Clients.Mocks
             return false;
         }
 
-        public Task<System.Net.Http.HttpResponseMessage> FindMockResponse(System.Net.Http.HttpRequestMessage request)
+        public async Task<System.Net.Http.HttpResponseMessage> FindMockResponse(System.Net.Http.HttpRequestMessage request)
         {
-            return Task.Run(() =>
+            await Task.Yield();
+            var requestString = HttpConverter.ToString(request);
+
+            if (restEnvelopes.ContainsKey(requestString))
             {
-                var requestString = HttpConverter.ToString(request);
+                var responseString = restEnvelopes[requestString];
 
-                if (restEnvelopes.ContainsKey(requestString))
-                {
-                    var responseString = restEnvelopes[requestString];
+                return HttpConverter.ParseResponse(responseString);
+            }
 
-                    return HttpConverter.ParseResponse(responseString);
-                }
-
-                return null;
-            });
+            return null;
         }
 
-        public Task<System.Net.Http.HttpResponseMessage> HandleResponse(System.Net.Http.HttpRequestMessage request, System.Net.Http.HttpResponseMessage response)
+        public async Task<System.Net.Http.HttpResponseMessage> HandleResponse(System.Net.Http.HttpRequestMessage request, System.Net.Http.HttpResponseMessage response)
         {
-            return Task.Run(() =>
-            {
-                return response;
-            });
+            await Task.Yield();
+            return response;
         }
     }
 }

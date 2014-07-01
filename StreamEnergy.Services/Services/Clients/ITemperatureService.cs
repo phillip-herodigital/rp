@@ -11,7 +11,7 @@ namespace StreamEnergy.Services.Clients
         string CelciusToFahrenheit(string celcius);
         string FahrenheitToCelcius(string fahrenheit);
 
-        string MockedExample();
-        Dictionary<string, object> CachedExample();
+        Task<string> MockedExample();
+        Task<Dictionary<string, object>> CachedExample();
     }
 }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using StreamEnergy.Services.Clients.Interceptors;
 
 namespace StreamEnergy.Services.Clients
 {

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace StreamEnergy.Services.Clients
+namespace StreamEnergy.Services.Clients.Interceptors
 {
     public class ServiceInterceptorResolver : IServiceInterceptor
     {
@@ -27,21 +27,18 @@ namespace StreamEnergy.Services.Clients
             return false;
         }
 
-        public System.Threading.Tasks.Task<System.Net.Http.HttpResponseMessage> FindMockResponse(System.Net.Http.HttpRequestMessage request, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Net.Http.HttpResponseMessage> FindMockResponse(System.Net.Http.HttpRequestMessage request, System.Threading.CancellationToken cancellationToken)
         {
-            return System.Threading.Tasks.Task.Run<System.Net.Http.HttpResponseMessage>(() =>
+            foreach (var entry in RestMockResolvers)
             {
-                foreach (var entry in RestMockResolvers)
-                {
-                    var response = entry.FindMockResponse(request);
-                    if (response != null)
-                        return response;
-                    if (cancellationToken.IsCancellationRequested)
-                        return null;
-                }
+                var response = await entry.FindMockResponse(request);
+                if (response != null)
+                    return response;
+                if (cancellationToken.IsCancellationRequested)
+                    return null;
+            }
 
-                return null;
-            });
+            return null;
         }
 
         public async System.Threading.Tasks.Task<System.Net.Http.HttpResponseMessage> HandleResponse(System.Net.Http.HttpRequestMessage request, System.Net.Http.HttpResponseMessage response, System.Threading.CancellationToken cancellationToken)

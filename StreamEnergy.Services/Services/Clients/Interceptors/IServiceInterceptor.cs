@@ -1,5 +1,5 @@
 ﻿using System;
-namespace StreamEnergy.Services.Clients
+namespace StreamEnergy.Services.Clients.Interceptors
 {
     public interface IServiceInterceptor
     {
