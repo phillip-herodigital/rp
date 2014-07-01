@@ -38,18 +38,12 @@ ngApp.controller('AcctMyInvoicesCtrl', ['$scope', '$rootScope', '$http', '$filte
 		return !jQuery.isEmptyObject($scope.filters);
 	}
 
-	$scope.test = function() {
-		console.log($scope);
-	};
-
 	// watches
 	$scope.$watch('filters', function(newVal, oldVal) {
-		
 		$scope.filters = $filter('removeNullProps')($scope.filters);
-		if ($scope.invoicesTable.values.length) {
+		if ($scope.invoicesTableOriginal) {
 			$scope.invoicesTable.values = $filter('filter')($scope.invoicesTableOriginal.values, $scope.filters);
 		}
-
 	}, true);
 
 }]);
