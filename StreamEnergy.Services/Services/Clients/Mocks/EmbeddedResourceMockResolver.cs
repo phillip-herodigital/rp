@@ -62,7 +62,7 @@ namespace StreamEnergy.Services.Clients.Mocks
 
         public System.Net.Http.HttpResponseMessage FindMockResponse(System.Net.Http.HttpRequestMessage request, System.Threading.CancellationToken cancellationToken)
         {
-            var requestString = request.Method + " " + request.RequestUri.AbsolutePath +
+            var requestString = request.Method + " " + request.RequestUri.PathAndQuery +
                 "\r\nHost " + request.RequestUri.Host +
                 "\r\n" + request.Headers.ToString() +
                 "\r\n" + ((object)request.Content ?? "").ToString();

@@ -51,6 +51,18 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             return temperatureService.FahrenheitToCelcius(fahrenheit: fahrenheit);
         }
 
+        [HttpGet]
+        public string ExampleMock()
+        {
+            return temperatureService.MockedExample();
+        }
+
+        [HttpGet]
+        public Dictionary<string, object> ExampleCache()
+        {
+            return temperatureService.CachedExample();
+        }
+
         #region Invoices
 
         [HttpGet]

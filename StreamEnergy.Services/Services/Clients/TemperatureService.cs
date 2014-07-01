@@ -11,13 +11,16 @@ namespace StreamEnergy.Services.Clients
     class TemperatureService : ITemperatureService
     {
         private Sample.Temperature.TempConvertSoap service;
-        private HttpClient client;
+        private HttpClient exampleClient;
+        private HttpClient facebookClient;
 
-        public TemperatureService(Sample.Temperature.TempConvertSoap service, HttpClient client)
+        public TemperatureService(Sample.Temperature.TempConvertSoap service, HttpClient exampleClient, HttpClient facebookClient)
         {
             this.service = service;
-            this.client = client;
-            client.BaseAddress = new Uri("http://www.example.com/");
+            this.exampleClient = exampleClient;
+            exampleClient.BaseAddress = new Uri("http://www.example.com/");
+            this.facebookClient = facebookClient;
+            facebookClient.BaseAddress = new Uri("http://graph.facebook.com/");
         }
 
         string ITemperatureService.CelciusToFahrenheit(string celcius)
@@ -27,14 +30,34 @@ namespace StreamEnergy.Services.Clients
 
         string ITemperatureService.FahrenheitToCelcius(string fahrenheit)
         {
-            return AsyncHelper.RunSync(() => FahrenheitToCelcius(fahrenheit));
+            return service.FahrenheitToCelsius(new Sample.Temperature.FahrenheitToCelsiusRequest { Fahrenheit = fahrenheit }).FahrenheitToCelsiusResult;
         }
 
-        async Task<string> FahrenheitToCelcius(string fahrenheit)
+        string ITemperatureService.MockedExample()
         {
-            var response = await client.GetAsync("?q=" + fahrenheit);
+            return AsyncHelper.RunSync(() => ExampleAsync());
+        }
+
+        Dictionary<string, object> ITemperatureService.CachedExample()
+        {
+            return AsyncHelper.RunSync(() => FacebookAsync());
+        }
+
+        async Task<string> ExampleAsync()
+        {
+            var response = await exampleClient.GetAsync("/test?param=1");
 
             return await response.Content.ReadAsAsync<string>();
         }
+
+        async Task<Dictionary<string, object>> FacebookAsync()
+        {
+            var response = await facebookClient.GetAsync("/me");
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            return Json.Read<Dictionary<string, object>>(content);
+        }
+
     }
 }
