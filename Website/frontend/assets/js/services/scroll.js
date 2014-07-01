@@ -21,12 +21,13 @@
             scrollTop = jQuery(window).scrollTop();
 
         if(value) {
-            $window.scrollTop(0);
             $body.css('overflow-y', 'scroll');
             $pageWrapper.css({ 'top': -(scrollTop), 'position': 'fixed' });
+            $window.scrollTop(0);
         } else {
-            $window.scrollTop(-(parseInt($pageWrapper.css('top'), 10)));
+            var top = -(parseInt($pageWrapper.css('top'), 10));
             $pageWrapper.css({ 'top': 'auto', 'position': 'static' });
+            $window.scrollTop(top);
         }
 
     };
