@@ -1194,6 +1194,29 @@ article.mobile {
 			border-top: 0;
 		}
 	}
+	&.usage-details {
+		.filters {
+			margin: 0;
+			.group .item {
+				label {
+					margin-top: 9px;
+				}
+				&.usage-period {
+					float: right;
+				}
+			}
+		}
+		table tbody tr td, th {
+			text-align: center;
+			.top {
+				border-bottom: 1px solid #eaeaea;
+				padding: 10px 0;
+			}
+			&:first-child {
+				text-align: left;
+			}
+		}
+	}
 	footer {
 		p {
 			margin: 5px 0;
@@ -1339,6 +1362,18 @@ aside {
 					float: left;
 				}
 			}
+		}
+	}
+	article.mobile {
+		&.add-device p {
+			margin: 5px 0;
+		}
+		select {
+			width: 100%;
+		}
+		ul {
+			list-style-type: none;
+			padding-left: 0;
 		}
 	}
 }

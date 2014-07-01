@@ -1,7 +1,7 @@
 ﻿<article class="grey-box mobile" ng-controller="MakePaymentCtrl">
     <header class="clearfix">
-        <p class="header-left welcome">Welcome back, <span>Jordan Campbell</span></p>
-        <p class="header-right account">Account: 8724983-2904903</p>
+        <p class="header-left welcome">@Html.Sitecore().Field("Header Text")</p>
+        <p class="header-right account">@Html.Sitecore().Field("Account Label")</p>
     </header>
 
     <div>
@@ -9,18 +9,18 @@
             <div class="content">
                 <div class="grid">
                     <div class="col">
-                        <p class="balance">My Total Balance is: <strong>$161.40</strong></p>
-                        <p class="details"><a href="#">View Bill Details</a></p>
+                        <p class="balance">@Html.Sitecore().Field("Balance")</p>
+                        <p class="details"><a href="#">@Html.Sitecore().Field("Details")</a></p>
                     </div>
                     <div class="col due clearfix">
-                        <p>Due: 06/14/2014</p>
-                        <p class="pay"><a class="button">Pay Now</a></p>
+                        <p>@Html.Sitecore().Field("Due")</p>
+                        <p class="pay"><a class="button">@Html.Sitecore().Field("Button Label")</a></p>
                     </div>
                 </div>   
             </div>
             <footer>
-                <p>Next Auto Payment: 07/01/14 <span class="link"><a href="#">Manage AutoPay</a></span></p>
-                <p>Last Payment Received 06/03/14 <span class="link"><a href="#">View Payment History</a></span></p>
+                <p>@Html.Sitecore().Field("Next Auto Payment")<span class="link"><a href="#">@Html.Sitecore().Field("Manage Link")</a></span></p>
+                <p>@Html.Sitecore().Field("Last Payment Received")<span class="link"><a href="#">@Html.Sitecore().Field("View Link")</a></span></p>
             </footer>
         </form>
     </div>
