@@ -78,6 +78,8 @@
             @Html.Sitecore().Placeholder("footer")
         </div>
     </div>
+    <div ng-include="'cart-template'" class="cart-overlay" ng-class="{open:cartOpen}"></div>
+
 
     <script type="text/javascript" src="/frontend/utilities/foresee/foresee-trigger.js"></script>
 

@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of the overall page, such as the mobile navigation sidebar.
  */
-ngApp.controller('MainCtrl', ['$scope', '$rootScope', '$http', '$templateCache', function ($scope, $rootScope, $http, $templateCache) {
+ngApp.controller('MainCtrl', ['$scope', '$rootScope', '$http', '$templateCache', 'scrollService', function ($scope, $rootScope, $http, $templateCache, scrollService) {
 
 	// Private Methods
 	var buildNavLinks = function() {
@@ -32,6 +32,7 @@ ngApp.controller('MainCtrl', ['$scope', '$rootScope', '$http', '$templateCache',
 
 	$scope.toggleCart = function() {
 		$scope.cartOpen = !$scope.cartOpen;
+		scrollService.toggleScrolling($scope.cartOpen);
 	};
 
 }]);
