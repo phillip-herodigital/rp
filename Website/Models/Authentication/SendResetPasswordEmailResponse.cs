@@ -5,7 +5,7 @@ using System.Web;
 
 namespace StreamEnergy.MyStream.Models.Authentication
 {
-    public class VerifySecurityQuestionsResponse
+    public class SendResetPasswordEmailResponse
     {
         public IEnumerable<TranslatedValidationResult> Validations { get; set; }
 

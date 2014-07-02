@@ -27,6 +27,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private readonly IUnityContainer container;
         private readonly CreateAccountSessionHelper coaSessionHelper;
         private readonly ResetPasswordSessionHelper resetPasswordSessionHelper;
+        private readonly ResetPasswordTokenManager resetPasswordTokenManager;
         private readonly Sitecore.Security.Domains.Domain domain;
         private readonly Sitecore.Data.Database database;
         private readonly IEmailService emailService;
@@ -50,11 +51,12 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
         #endregion
 
-        public AuthenticationController(IUnityContainer container, CreateAccountSessionHelper coaSessionHelper, ResetPasswordSessionHelper resetPasswordSessionHelper, IEmailService emailService, ISettings settings)
+        public AuthenticationController(IUnityContainer container, CreateAccountSessionHelper coaSessionHelper, ResetPasswordSessionHelper resetPasswordSessionHelper, ResetPasswordTokenManager resetPasswordTokenManager, IEmailService emailService, ISettings settings)
         {
             this.container = container;
             this.coaSessionHelper = coaSessionHelper;
             this.resetPasswordSessionHelper = resetPasswordSessionHelper;
+            this.resetPasswordTokenManager = resetPasswordTokenManager;
             this.domain = Sitecore.Context.Site.Domain;
             this.database = Sitecore.Context.Database;
             this.item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Components/Authentication");
@@ -181,8 +183,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             
             var validations = Enumerable.Empty<ValidationResult>();
             // don't give validations for the next step
-            if (resetPasswordSessionHelper.StateMachine.State == typeof(GetUsernameState))
-                validations = resetPasswordSessionHelper.StateMachine.ValidationResults;
+            if (coaSessionHelper.StateMachine.State == typeof(GetUsernameState))
+                validations = coaSessionHelper.StateMachine.ValidationResults;
                 
             return new GetUserChallengeQuestionsResponse
             {
@@ -199,7 +201,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
 
         [HttpPost]
-        public VerifySecurityQuestionsResponse VerifySecurityQuestions(VerifySecurityQuestionsRequest request)
+        public SendResetPasswordEmailResponse SendResetPasswordEmail(SendResetPasswordEmailRequest request)
         {
             Sitecore.Context.Database = database;
             resetPasswordSessionHelper.Context.Answers = request.Answers.ToDictionary(a => a.Key, a => a.Value);
@@ -209,12 +211,12 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             var validations = Enumerable.Empty<ValidationResult>();
             // don't give validations for the next step
-            if (resetPasswordSessionHelper.StateMachine.State == typeof(VerifyUserState))
-                validations = resetPasswordSessionHelper.StateMachine.ValidationResults;
+            if (coaSessionHelper.StateMachine.State == typeof(VerifyUserState))
+                validations = coaSessionHelper.StateMachine.ValidationResults;
                 
-            return new VerifySecurityQuestionsResponse
+            return new SendResetPasswordEmailResponse
             {
-                Success = resetPasswordSessionHelper.StateMachine.State == typeof(SecurityQuestionsVerifiedState),
+                Success = resetPasswordSessionHelper.StateMachine.State == typeof(SentEmailState),
                 Validations = TranslatedValidationResult.Translate(validations, GetAuthItem("Forgot Password"))
             };
         }
@@ -225,8 +227,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             bool success = false;
             if (ModelState.IsValid)
             {
-                string username = resetPasswordSessionHelper.Context.Username;
-                if (!string.IsNullOrEmpty(username) && resetPasswordSessionHelper.StateMachine.State == typeof(SecurityQuestionsVerifiedState))
+                string username;
+                if (resetPasswordTokenManager.VerifyAndClearPasswordResetToken(request.ResetToken, out username))
                 {
                     var user = Membership.GetUser(domain.AccountPrefix + username);
                     user.ChangePassword(user.ResetPassword(), request.Password);
