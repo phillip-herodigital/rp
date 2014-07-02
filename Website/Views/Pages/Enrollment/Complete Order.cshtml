@@ -38,13 +38,9 @@
                                                 {{selectedOffer.offer.rate | currency}} kWh
                                             </td>
                                         </tr>
-                                        <tr ng-repeat-end>
-                                            <td class="sub-charge">
-                                                <strong>Deposit Due</strong><br>
-                                                {{ selectedOffer.deposit.description }}
-                                            </td>
-                                            <td class="rate">{{ selectedOffer.deposit.requiredAmount | currency }}</td>
+                                        <tr ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-include src="'payments/' + selectedOffer.offerOption.optionType + '/' + payment.offerPaymentAmountType">
                                         </tr>
+                                        <tr ng-repeat-end></tr>
                                         @*<tr>
                                         <td class="sub-charge">Installation</td>
                                         <td></td>
@@ -138,3 +134,11 @@
         </aside>
     </div>
 </div>
+
+<script type="text/ng-template" id="payments/TexasElectricity/Deposit">
+    <td class="sub-charge">
+        <strong>Deposit Due</strong><br>
+    </td>
+    <td class="rate">{{ payment.dollarAmount | currency }}</td>
+
+</script>

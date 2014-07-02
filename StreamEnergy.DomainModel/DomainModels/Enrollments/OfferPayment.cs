@@ -9,9 +9,8 @@ namespace StreamEnergy.DomainModels.Enrollments
     [Serializable]
     public class OfferPayment
     {
-        public string Description { get; set; }
-        public decimal RequiredAmount { get; set; }
-        public decimal OptionalAmount { get; set; }
+        public IEnumerable<IOfferPaymentAmount> RequiredAmounts { get; set; }
+        public IEnumerable<IOfferPaymentAmount> OngoingAmounts { get; set; }
 
     }
 }

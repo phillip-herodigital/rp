@@ -28,7 +28,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public override IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> AdditionalValidations(UserContext context, InternalContext internalContext)
         {
-            if (internalContext.Deposit.Any(e => e.Details.RequiredAmount > 0))
+            if (internalContext.Deposit.Any(e => e.Details.RequiredAmounts.Sum(d => d.DollarAmount) > 0))
             {
                 if (context.PaymentInfo == null)
                     yield return new System.ComponentModel.DataAnnotations.ValidationResult("Payment Info Required", new[] { "PaymentInfo" });
@@ -38,7 +38,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public override bool IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult, UserContext context, InternalContext internalContext)
         {
-            if (internalContext.Deposit.All(e => e.Details.RequiredAmount == 0) && validationResult.MemberNames.Any(m => m.StartsWith("PaymentInfo")))
+            if (internalContext.Deposit.All(e => e.Details.RequiredAmounts.Sum(d => d.DollarAmount) == 0) && validationResult.MemberNames.Any(m => m.StartsWith("PaymentInfo")))
             {
                 context.PaymentInfo = null;
                 return true;

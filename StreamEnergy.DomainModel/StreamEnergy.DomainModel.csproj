@@ -129,13 +129,17 @@
     <Compile Include="DomainModels\Address.cs" />
     <Compile Include="DomainModels\CustomerContact.cs" />
     <Compile Include="DomainModels\Emails\IEmailService.cs" />
+    <Compile Include="DomainModels\Enrollments\DepositOfferPaymentAmount.cs" />
     <Compile Include="DomainModels\Enrollments\IdentityAnswer.cs" />
     <Compile Include="DomainModels\Enrollments\IdentityQuestion.cs" />
+    <Compile Include="DomainModels\Enrollments\InstallationOfferPaymentAmount.cs" />
     <Compile Include="DomainModels\Enrollments\IOfferOptionRules.cs" />
     <Compile Include="DomainModels\Enrollments\Location.cs" />
     <Compile Include="DomainModels\Enrollments\LocationOfferSet.cs" />
     <Compile Include="DomainModels\Enrollments\LocationServices.cs" />
+    <Compile Include="DomainModels\Enrollments\MonthlyOfferPaymentAmount.cs" />
     <Compile Include="DomainModels\Enrollments\OfferPayment.cs" />
+    <Compile Include="DomainModels\Enrollments\IOfferPaymentAmount.cs" />
     <Compile Include="DomainModels\Enrollments\OnlineAccount.cs" />
     <Compile Include="DomainModels\Enrollments\RateType.cs" />
     <Compile Include="DomainModels\Enrollments\SampleOfferOption.cs" />
