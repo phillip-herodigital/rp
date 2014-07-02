@@ -8,10 +8,12 @@
      * @param {string} id       //DOM id of element to scroll to
      * @param {int} offset      //Offset to add padding for adjusting position
      */
-    service.scrollTo = function (id, offset) {
+    service.scrollTo = function (id, offset, time, callback) {
+        //jQuery animate will call the callback twice because of html,body
+        //so we're using a promise instead
         jQuery('html, body').animate({
             scrollTop: jQuery('#' + id).offset().top + offset
-        }, 'fast');
+        }, time == 0 ? 0 : '500').promise().done(callback || angular.noop);
     };
 
     service.toggleScrolling = function(value) {
