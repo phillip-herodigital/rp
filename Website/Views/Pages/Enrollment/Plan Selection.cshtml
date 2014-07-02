@@ -168,7 +168,6 @@
                             <p>{{ plan.description }}</p>
                         </td>
                     </tr>
-                    <tr class="spacer"></tr>
                 </tbody>
             </table>
         </article>
@@ -186,7 +185,6 @@
                 <th>@Html.Sitecore().Field("Electricity Fees")</th>
                 <th>@Html.Sitecore().Field("Electricity Select Plan")</th>
             </tr>
-            <tr class="spacer"></tr>
         </thead>
         <tbody>
             <tr>
@@ -276,7 +274,7 @@
                            typeahead="location as location.address|address for location in getLocation(modal.serviceState,  $viewValue + ' ' + currentLocationInfo().location.address.postalCode5)"
                            ng-disabled="modal.serviceState == ''"
                            typeahead-loading="modal.loadingServiceAddress"
-                           ng-class="{'loading' : modal.loadingServiceAddress}" />
+                           ng-class="{'loading' : modal.loadingServiceAddress}" autocomplete="off" />
                     @currentService.MessageFor(s => s.Location)
                 </div>
             }

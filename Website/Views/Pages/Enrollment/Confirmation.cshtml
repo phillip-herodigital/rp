@@ -31,7 +31,7 @@
                     <h1>@Html.Sitecore().Field("Personal Information Header")</h1>                    
                 </header>
                 <div class="content">
-                    <dl>
+                    <dl class="clearfix">
                         <dt>@Html.Sitecore().Field("First Name")</dt>
                         <dd>{{ accountInformation.contactInfo.name.first }}</dd>
                         <dt>@Html.Sitecore().Field("Last Name")</dt>
@@ -48,7 +48,7 @@
                 <header>
                     <h1>@Html.Sitecore().Field("Next Steps Header")</h1>
                 </header>
-                <div class="promo-box horizontal content">
+                <div class="promo-box horizontal content clearfix">
                     <h3>@Html.Sitecore().Field("Account Tour")</h3>
                     <div class="avatar">
                         <i class="icon-house"></i>

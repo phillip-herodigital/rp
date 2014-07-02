@@ -45,7 +45,7 @@
                                    typeahead="location as location.address|address for location in getLocation(data.serviceState, $viewValue)"
                                    ng-disabled="data.serviceState == ''"
                                    typeahead-loading="loadingServiceAddress"
-                                   ng-class="{'loading' : loadingServiceAddress}" />
+                                   ng-class="{'loading' : loadingServiceAddress}" autocomplete="off" />
                             <div id="state-select" dropdown-select dropdown-items="supportedUtilityStates" value="data.serviceState"></div>
                             @currentService.MessageFor(s => s.Location)
                         </div>

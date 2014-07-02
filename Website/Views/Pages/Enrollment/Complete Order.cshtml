@@ -1,5 +1,5 @@
 @model StreamEnergy.DomainModels.Enrollments.UserContext
-<div id="reviewOrder" class="enrollment accent-darkgreen" ng-show="stepsService.isStepVisible('reviewOrder')" ng-controller="EnrollmentCompleteOrderCtrl">
+<div id="reviewOrder" class="enrollment" ng-show="stepsService.isStepVisible('reviewOrder')" ng-controller="EnrollmentCompleteOrderCtrl">
     <div class="banner enrollment__banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper clearfix">
             <h1>
@@ -121,14 +121,16 @@
                                 <a href="" class="single-link">@Html.Sitecore().Field("See Example")</a>
                             </div>
                         </div>
-                        <p>By clicking "Place Order" below, you agree to the <a href="">terms and conditions</a>.</p>
-                        <div class="item" @Html.ValidationErrorClass(m => m.AgreeToTerms)>
-                            <ul class="checkbox-list">
-                                <li><input type="checkbox" @Html.ValidationAttributes(c => c.AgreeToTerms) ng-model="completeOrder.agreeToTerms"> I agree to the TCPA <a href="">terms and conditions</a>.</li>    
-                            </ul>                            
-                        </div>
                     </div>
                 </article>
+                <div class="form terms-agreement"> 
+                    <p>By clicking "Place Order" below, you agree to the <a href="">terms and conditions</a>.</p>
+                    <div class="item" @Html.ValidationErrorClass(m => m.AgreeToTerms)>
+                        <ul class="checkbox-list">
+                            <li><input type="checkbox" @Html.ValidationAttributes(c => c.AgreeToTerms) ng-model="completeOrder.agreeToTerms"> I agree to the TCPA <a href="">terms and conditions</a>.</li>    
+                        </ul>                            
+                    </div>
+                </div>
                 <div class="buttons">
                     <button type="submit" class="primary" ng-click="completeStep();" data-val-submit>@Html.Sitecore().Field("Button")</button>
                 </div>

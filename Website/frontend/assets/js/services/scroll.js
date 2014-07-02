@@ -29,7 +29,6 @@
             $pageWrapper.css({ 'top': 'auto', 'position': 'static' });
             $window.scrollTop(top);
         }
-
     };
 
     return service;
