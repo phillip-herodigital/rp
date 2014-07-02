@@ -59,8 +59,8 @@
                 </tbody>
             </table>
                 *@
-            <form data-val-bind-messages="validations" ng-if="getCartTotal() > 0">
-                <article class="enrollment__box">
+            <form data-val-bind-messages="validations">
+                <article class="enrollment__box" ng-if="getCartTotal() > 0">
                     <header>
                          <h2>@Html.Sitecore().Field("Card Details")</h2>
                     </header>
@@ -119,52 +119,54 @@
                         <h1>Order Breakdown @Html.Sitecore().Field("Cart Header")</h1>
                     </header>
                     <div class="content">
-                        <p><strong>To be billed today:</strong></p>
-                        <div ng-repeat="(id, location) in getCartItems()">
-                            <address>
-                                <h3>@Html.Sitecore().Field("Service Address Text")</h3>
-                                {{ location.location.address | address }}<br />
-                                <a href="" ng-click="editUtilityAddress(location)">@Html.Sitecore().Field("Edit Address Text")</a>
-                            </address>
-                            <div ng-repeat="(type, plan) in getPlans(location)">
-                                <hr />
-                                <div ng-if="type == 'TexasElectricity'">
-                                    <h3>Electricity</h3>
-                                    <div class="cart-item">
-                                        <div class="delete" ng-click="deleteUtilityItem(location)">
-                                            <i class="icon-delete"></i>
-                                        </div>
-                                        <div class="description">
-                                            <h2>{{ plan.name }}</h2>
-                                            <a href="" ng-click="changeUtilityPlan(location)">Change Plan</a>
-                                        </div>
-                                        <div class="rate">
-                                            {{plan.rate}}&cent;
-                                            <span>per kWh</span>
-                                        </div>
-                                    </div>
-                                    @*
-                                    <div class="cart-item" ng-show="plan.deposit">
-                                        <div class="description">
-                                            <h2>{{ plan.deposit.description }}</h2>
-                                        </div>
-                                        <div class="rate">
-                                            {{ plan.deposit.requiredAmount | currency }}
-                                        </div>
-                                    </div>
-                                    *@
+                        <div class="billed-today">
+                            <p><strong>To be billed today:</strong></p>
+                            <div ng-repeat="(id, location) in getCartItems()">
+                                <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
+                                    <div ng-include src="'completeOrderCartMonthly/' + offerInformation.key"></div>                            
                                 </div>
                             </div>
+                            @* Add Subtotal *@
                         </div>
-                        
-                        <p><strong>To be billed monthly:</strong></p>
-                        <hr />
+                        <hr> 
+                        <div class="billed-monthly">
+                            <p><strong>To be billed monthly:</strong></p>
+                            <div ng-repeat="(id, location) in getCartItems()">
+                                <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
+                                    <div ng-include src="'completeOrderCartToday/' + offerInformation.key"></div>                            
+                                </div>
+                            </div>
+                            @* Add Subtotal *@
+                        </div>
                     </div>
                 </article>
             </div>
         </aside>
     </div>
 </div>
+
+
+
+<script type="text/ng-template" id="completeOrderCartToday/TexasElectricity">
+    <dl class="clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <dt>{{selectedOffer.offer.name}}</dt>
+        <dd>{{selectedOffer.offer.rate | currency}} kWh</dd>
+    </dl>
+</script>
+
+<script type="text/ng-template" id="completeOrderCartMonthly/TexasElectricity">
+    <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <dl class="clearfix" ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-include src="'paymentsCart/' + selectedOffer.offerOption.optionType + '/' + payment.offerPaymentAmountType">
+        </dl>
+    </div>
+</script>
+
+<script type="text/ng-template" id="paymentsCart/TexasElectricity/Deposit">
+    <dt>Deposit Due</dt>
+    <dd>{{ payment.dollarAmount | currency }}</dd>
+</script>
+
+
 
 <script type="text/ng-template" id="completeOrder/TexasElectricity">
     @*<h3>Electricity</h3>*@
