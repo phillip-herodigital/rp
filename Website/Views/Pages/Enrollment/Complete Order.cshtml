@@ -46,9 +46,9 @@
                                             <td class="rate">{{ selectedOffer.deposit.requiredAmount | currency }}</td>
                                         </tr>
                                         @*<tr>
-                            <td class="sub-charge">Installation</td>
-                            <td></td>
-                        </tr>*@
+                                        <td class="sub-charge">Installation</td>
+                                        <td></td>
+                                    </tr>*@
                                     </tbody>
                                 </table>
                             </div>
@@ -58,74 +58,76 @@
                     <hr class="content-divider">
                     <div class="total">
                         @Html.Sitecore().Field("Total Due Now") <strong>{{ getCartTotal() | currency }}</strong>
-                    </div>                    
+                    </div>
                 </div>
             </article>
-            
-            @*
-                <p>@Html.Sitecore().Field("Set Up Card")</p>
-                <h2>@Html.Sitecore().Field("Homelife Services")</h2>
-                <table>
-                    <tbody>
-                        <tr class="line-item">
-                            <td class="description">
-                                <h1>@Html.Sitecore().Field("Stream Tech Support")</h1>
-                                <p>@Html.Sitecore().Field("Appear On Bill")</p>
-                            </td>
-                            <td class="rate">
-                                @Html.Sitecore().Field("Tech Support Rate")
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="total" colspan="2">
-                                @Html.Sitecore().Field("Recurring Payments")
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            *@
-            <h2>@Html.Sitecore().Field("Card Details")</h2>
+
+                @*
+            <p>@Html.Sitecore().Field("Set Up Card")</p>
+            <h2>@Html.Sitecore().Field("Homelife Services")</h2>
+            <table>
+                <tbody>
+                    <tr class="line-item">
+                        <td class="description">
+                            <h1>@Html.Sitecore().Field("Stream Tech Support")</h1>
+                            <p>@Html.Sitecore().Field("Appear On Bill")</p>
+                        </td>
+                        <td class="rate">
+                            @Html.Sitecore().Field("Tech Support Rate")
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="total" colspan="2">
+                            @Html.Sitecore().Field("Recurring Payments")
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+                *@
             <form data-val-bind-messages="validations">
-                <article class="form">
-                    <div class="content">
-                        <div class="item">
-                            <label for="payment-method">@Html.Sitecore().Field("Select Payment Method Label")</label>
-                            <select id="payment-method" ng-model="completeOrder.creditCard.paymentMethod">
-                                <option value="">@Html.Sitecore().Field("Select Option")</option>
-                            </select>
-                        </div>
-                        <div class="item">
-                            <label for="cc">@Html.Sitecore().Field("Credit Card Number Label")</label>
-                            <input type="text" id="cc" ng-model="completeOrder.creditCard.cardNumber" />
-                        </div>
-                        <div class="group">
+                <div ng-if="getCartTotal() > 0">
+                    <h2>@Html.Sitecore().Field("Card Details")</h2>
+                    <article class="form">
+                        <div class="content">
                             <div class="item">
-                                <label for="expiration-date">@Html.Sitecore().Field("Expiration Date Label")</label>
-                                <select class="small" id="cc-month" ng-model="completeOrder.creditCard.expirationMonth">
-                                    <option value="">@Html.Sitecore().Field("Select Month")</option>
-                                </select>
-                                <select class="small" id="cc-year">
-                                    <option value="" ng-model="completeOrder.creditCard.expirationYear">@Html.Sitecore().Field("Select Year")</option>
+                                <label for="payment-method">@Html.Sitecore().Field("Select Payment Method Label")</label>
+                                <select id="payment-method" ng-model="completeOrder.creditCard.paymentMethod">
+                                    <option value="">@Html.Sitecore().Field("Select Option")</option>
                                 </select>
                             </div>
                             <div class="item">
-                                <label for="billing-zip">@Html.Sitecore().Field("Billing Zip Label")</label>
-                                <input class="small" type="text" id="billing-zip" ng-model="completeOrder.creditCard.billingZip" />
+                                <label for="cc">@Html.Sitecore().Field("Credit Card Number Label")</label>
+                                <input type="text" id="cc" ng-model="completeOrder.creditCard.cardNumber" />
                             </div>
-                            <div class="item">
-                                <label for="security-code">@Html.Sitecore().Field("Security Code Label")</label>
-                                <input class="small" type="text" id="security-code" ng-model="completeOrder.creditCard.securityCode" />
-                            </div>
-                            <div class="item">
-                                <a href="" class="single-link">@Html.Sitecore().Field("See Example")</a>
+                            <div class="group">
+                                <div class="item">
+                                    <label for="expiration-date">@Html.Sitecore().Field("Expiration Date Label")</label>
+                                    <select class="small" id="cc-month" ng-model="completeOrder.creditCard.expirationMonth">
+                                        <option value="">@Html.Sitecore().Field("Select Month")</option>
+                                    </select>
+                                    <select class="small" id="cc-year">
+                                        <option value="" ng-model="completeOrder.creditCard.expirationYear">@Html.Sitecore().Field("Select Year")</option>
+                                    </select>
+                                </div>
+                                <div class="item">
+                                    <label for="billing-zip">@Html.Sitecore().Field("Billing Zip Label")</label>
+                                    <input class="small" type="text" id="billing-zip" ng-model="completeOrder.creditCard.billingZip" />
+                                </div>
+                                <div class="item">
+                                    <label for="security-code">@Html.Sitecore().Field("Security Code Label")</label>
+                                    <input class="small" type="text" id="security-code" ng-model="completeOrder.creditCard.securityCode" />
+                                </div>
+                                <div class="item">
+                                    <a href="" class="single-link">@Html.Sitecore().Field("See Example")</a>
+                                </div>
                             </div>
                         </div>
-                        <div class="item" @Html.ValidationErrorClass(m => m.AgreeToTerms)>
-                            <p>By clicking "Place Order" below, you agree to the <a href="">terms and conditions</a>.</p>
-                            <p><input type="checkbox" @Html.ValidationAttributes(c => c.AgreeToTerms) ng-model="completeOrder.agreeToTerms"> I agree to the TCPA <a href="">terms and conditions</a>.</p>
-                        </div>
-                    </div>
-                </article>
+                    </article>
+                </div>
+                <div class="item" @Html.ValidationErrorClass(m => m.AgreeToTerms)>
+                    <p>By clicking "Place Order" below, you agree to the <a href="">terms and conditions</a>.</p>
+                    <p><input type="checkbox" @Html.ValidationAttributes(c => c.AgreeToTerms) ng-model="completeOrder.agreeToTerms"> I agree to the TCPA <a href="">terms and conditions</a>.</p>
+                </div>
                 <div class="buttons">
                     <button type="submit" class="primary" ng-click="completeStep();" data-val-submit>@Html.Sitecore().Field("Button")</button>
                 </div>
