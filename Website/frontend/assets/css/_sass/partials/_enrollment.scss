@@ -229,7 +229,7 @@ $enrollment-module-vertical-padding: 20px;
         left: 6%;
         right: 6%;
     }
-    table.plan-selection-table {
+    .plan-selection-table {
         border: none;
         thead {
             th {
@@ -256,13 +256,16 @@ $enrollment-module-vertical-padding: 20px;
         }
         tr {
             background: transparent;
-            &.details {
+            &.details-row {
                 td {
                     border: none;
                     padding: 0px;
                     text-align: left;
-                    padding-left: 30px;
                     text-align: left;
+                    div {
+                        padding: 5px 12px 5px 30px;
+
+                    }
                     p {
                         font-size: 15px;
                     }   
@@ -750,7 +753,7 @@ $enrollment-module-vertical-padding: 20px;
         margin-top: -2px;
     }
 
-    .buttons .button, .buttons button {
+    .buttons .button, .buttons button, .enrollment-btn {
         background-color: $enrollment-primary-button-background;
         color: $enrollment-primary-button-color;
 
@@ -877,13 +880,10 @@ $enrollment-module-vertical-padding: 20px;
             font-size: 30px;
             line-height: 1.1;
         }
-        article {
-            margin-bottom: 30px;
-        }
-        table.plan-selection-table {
-            .details {
-                div {
-                    padding: 0;
+        .plan-selection-table {
+            tr.details-row {
+                td div {
+                    padding: 0 15px;
                 }
             }
             .plan-name {

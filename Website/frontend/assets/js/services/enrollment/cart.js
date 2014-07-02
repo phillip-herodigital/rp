@@ -133,7 +133,8 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', fun
             return _(services)
                 .pluck('offerInformationByType').flatten().filter()
                 .pluck('value').filter().pluck('offerSelections').flatten().filter()
-                .pluck('deposit').filter().pluck('requiredAmount').flatten().filter()
+                .pluck('payments').filter().pluck('requiredAmounts').flatten().filter()
+                .pluck('dollarAmount').filter()
 		        .reduce(sum, 0);
         },
     };

@@ -26,68 +26,44 @@
                         </div>
                         <hr />
                         <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
-                            <div ng-if="offerInformation.key == 'TexasElectricity'">
-                                @*<h3>Electricity</h3>*@
-                                <table class="verify-order-table">
-                                    <tbody>
-                                        <tr class="line-item" ng-repeat-start="selectedOffer in offerInformation.value.offerSelections">
-                                            <td class="description">
-                                                <h4>{{selectedOffer.offer.name}}</h4>
-                                                @*<p>{{selectedOffer.offer.description}}</p>*@
-                                            </td>
-                                            <td class="rate">
-                                                {{selectedOffer.offer.rate | currency}} kWh
-                                            </td>
-                                        </tr>
-                                        <tr ng-repeat-end>
-                                            <td class="sub-charge">
-                                                <strong>Deposit Due</strong><br>
-                                                {{ selectedOffer.deposit.description }}
-                                            </td>
-                                            <td class="rate">{{ selectedOffer.deposit.requiredAmount | currency }}</td>
-                                        </tr>
-                                        @*<tr>
-                            <td class="sub-charge">Installation</td>
-                            <td></td>
-                        </tr>*@
-                                    </tbody>
-                                </table>
-                            </div>
+                            <div ng-include src="'completeOrder/' + offerInformation.key"></div>                            
                         </div>
                         <hr class="content-divider" ng-if="getCartItems().length > 1 && !$last">
                     </div>
                     <hr class="content-divider">
                     <div class="total">
                         @Html.Sitecore().Field("Total Due Now") <strong>{{ getCartTotal() | currency }}</strong>
-                    </div>                    
+                    </div>
                 </div>
             </article>
-            
-            @*
-                <p>@Html.Sitecore().Field("Set Up Card")</p>
-                <h2>@Html.Sitecore().Field("Homelife Services")</h2>
-                <table>
-                    <tbody>
-                        <tr class="line-item">
-                            <td class="description">
-                                <h1>@Html.Sitecore().Field("Stream Tech Support")</h1>
-                                <p>@Html.Sitecore().Field("Appear On Bill")</p>
-                            </td>
-                            <td class="rate">
-                                @Html.Sitecore().Field("Tech Support Rate")
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="total" colspan="2">
-                                @Html.Sitecore().Field("Recurring Payments")
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            *@
-            <h2>@Html.Sitecore().Field("Card Details")</h2>
-            <form data-val-bind-messages="validations">
-                <article class="enrollment__box form">
+
+                @*
+            <p>@Html.Sitecore().Field("Set Up Card")</p>
+            <h2>@Html.Sitecore().Field("Homelife Services")</h2>
+            <table>
+                <tbody>
+                    <tr class="line-item">
+                        <td class="description">
+                            <h1>@Html.Sitecore().Field("Stream Tech Support")</h1>
+                            <p>@Html.Sitecore().Field("Appear On Bill")</p>
+                        </td>
+                        <td class="rate">
+                            @Html.Sitecore().Field("Tech Support Rate")
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="total" colspan="2">
+                            @Html.Sitecore().Field("Recurring Payments")
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+                *@
+            <form data-val-bind-messages="validations" ng-if="getCartTotal() > 0">
+                <article class="enrollment__box">
+                    <header>
+                         <h2>@Html.Sitecore().Field("Card Details")</h2>
+                    </header>
                     <div class="content">
                         <div class="item">
                             <label for="payment-method">@Html.Sitecore().Field("Select Payment Method Label")</label>
@@ -189,3 +165,29 @@
         </aside>
     </div>
 </div>
+
+<script type="text/ng-template" id="completeOrder/TexasElectricity">
+    @*<h3>Electricity</h3>*@
+    <table class="verify-order-table">
+        <tbody>
+            <tr class="line-item" ng-repeat-start="selectedOffer in offerInformation.value.offerSelections">
+                <td class="description">
+                    <h4>{{selectedOffer.offer.name}}</h4>
+                    @*<p>{{selectedOffer.offer.description}}</p>*@
+                </td>
+                <td class="rate">
+                    {{selectedOffer.offer.rate | currency}} kWh
+                </td>
+            </tr>
+            <tr ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-include src="'payments/' + selectedOffer.offerOption.optionType + '/' + payment.offerPaymentAmountType"></tr>
+            <tr ng-repeat-end></tr>
+        </tbody>
+    </table>
+</script>
+
+<script type="text/ng-template" id="payments/TexasElectricity/Deposit">
+    <td class="sub-charge">
+        <strong>Deposit Due</strong><br>
+    </td>
+    <td class="rate">{{ payment.dollarAmount | currency }}</td>
+</script>

@@ -59,7 +59,6 @@
                     <th>@Html.Sitecore().Field("Electricity Fees")</th>
                     <th>@Html.Sitecore().Field("Electricity Select Plan")</th>
                 </tr>
-                <tr class="spacer"></tr>
             </thead>
             <tbody>
                 <tr class="hide-medium-large" ng-repeat-start="plan in typedOffers.value.availableOffers" ng-class="{'open': isOpen}">
@@ -96,7 +95,7 @@
                         <span ng-if="isSelected" class="selected-icon">
                             <i class="icon-check"></i>
                         </span>
-                        <button button-selector="'{{plan.id}}'" ng-class="{ 'secondary': isSelected }" ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix()">
+                        <button class="enrollment-btn" button-selector="'{{plan.id}}'" ng-class="{ 'secondary': isSelected }" ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix()">
                             <span ng-if="isSelected">Remove</span>
                             <span ng-if="!isSelected">@Html.Sitecore().Field("Electricity Button")</span>
                         </button>
@@ -108,13 +107,13 @@
                             <span ng-if="!isOpen">@Html.Sitecore().Field("Electricity View Details") <i class="icon-blue-arrow-down"></i></span>
                             <span ng-if="isOpen">Hide Details <i class="icon-blue-arrow-up"></i></span>
                         </a>
-                        <button button-selector="'{{plan.id}}'" ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix()">
+                        <button class="enrollment-btn" button-selector="'{{plan.id}}'" ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix()" ng-class="{ 'secondary': isSelected }">
                             <span ng-if="isSelected">Remove</span>
                             <span ng-if="!isSelected">@Html.Sitecore().Field("Electricity Button")</span>
                         </button>
                     </td>
                 </tr>
-                <tr class="details additional-fields ng-cloak" ng-repeat-end>
+                <tr class="details-row additional-fields ng-cloak" ng-repeat-end>
                     <td colspan="6">
                         <div slide-down-show="isOpen">
                             <p>{{plan.description}}</p>
@@ -139,7 +138,6 @@
                         <th>@Html.Sitecore().Field("Gas Fees")</th>
                         <th>@Html.Sitecore().Field("Gas Select Plan")</th>
                     </tr>
-                    <tr class="spacer"></tr>
                 </thead>
                 <tbody additional-fields ng-class="{'open': isOpen}" ng-repeat="plan in enrollment.uiModel.offers[enrollment.currentAddress.id] | serviceTypeGas:plan">
                     <tr>
@@ -163,7 +161,7 @@
                             <a class="button" button-selector="'{{plan.id}}'" ng-model="selectedOffers.gasPlan" href="">@Html.Sitecore().Field("Gas Button")</a>
                         </td>
                     </tr>
-                    <tr class="details additional-fields">
+                    <tr class="details-row additional-fields">
                         <td colspan="6">
                             <p>{{ plan.description }}</p>
                         </td>
@@ -271,7 +269,7 @@
                            class="typeahead"
                            ng-model="modal.selectedLocation"
                            placeholder="@Html.Sitecore().Field("Address Placeholder")"
-                           typeahead="location as location.address|address for location in getLocation(modal.serviceState,  $viewValue + ' ' + currentLocationInfo().location.address.postalCode5)"
+                           typeahead="location as location.address|address for location in getLocation(modal.serviceState,  $viewValue)"
                            ng-disabled="modal.serviceState == ''"
                            typeahead-loading="modal.loadingServiceAddress"
                            ng-class="{'loading' : modal.loadingServiceAddress}" autocomplete="off" />

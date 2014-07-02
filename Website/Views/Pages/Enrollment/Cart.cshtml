@@ -19,32 +19,7 @@
                 </address>
                 <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
                     <hr />
-                    <div ng-if="offerInformation.key == 'TexasElectricity'">
-                        <h3>Electricity</h3>
-                        <div class="cart-item clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
-                            <div class="delete" ng-click="scrollFix(); deleteUtilityPlan(location, selectedOffer)">
-                                <i class="icon-delete"></i>
-                            </div>
-                            <div class="description">
-                                <h2>{{ selectedOffer.offer.name }}</h2>
-                                <a href="" ng-click="changeUtilityPlan(location)">Change Plan</a>
-                            </div>
-                            <div class="rate">
-                                {{selectedOffer.offer.rate}}&cent;
-                                <span>per kWh</span>
-                            </div>
-                        </div>
-                        @*
-                            <div class="cart-item" ng-show="plan.deposit">
-                                <div class="description">
-                                    <h2>{{ plan.deposit.description }}</h2>
-                                </div>
-                                <div class="rate">
-                                    {{ plan.deposit.requiredAmount | currency }}
-                                </div>
-                            </div>
-                        *@
-                    </div>
+                    <div ng-include src="'cart/' + offerInformation.key"></div>
                 </div>
             </div>
             @*<div class="buttons">
@@ -70,4 +45,22 @@
         </ul>
     </article>
 </div>
+</script>
+
+
+<script type="text/ng-template" id="cart/TexasElectricity">
+    <h3>Electricity</h3>
+    <div class="cart-item clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <div class="delete" ng-click="scrollFix(); deleteUtilityPlan(location, selectedOffer)">
+            <i class="icon-delete"></i>
+        </div>
+        <div class="description">
+            <h2>{{ selectedOffer.offer.name }}</h2>
+            <a href="" ng-click="changeUtilityPlan(location)">Change Plan</a>
+        </div>
+        <div class="rate">
+            {{selectedOffer.offer.rate}}&cent;
+            <span>per kWh</span>
+        </div>
+    </div>
 </script>
