@@ -6,7 +6,7 @@
         @Html.Sitecore().Field("Utility Providers Content")
         <div class="clearfix">
             <div class="logos" ng-repeat="provider in utilityProviders | filter:utilityFilter track by provider.name">
-                <a href="{{ provider.link }}"><img ng-src="{{ provider.logo }}" alt="{{ provider.name }}" /></a>
+                <a href="{{ provider.link }}" target="_blank"><img ng-src="{{ provider.logo }}" alt="{{ provider.name }}" /></a>
             </div>
         </div>
     </div>
