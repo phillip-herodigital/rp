@@ -46,7 +46,7 @@ namespace StreamEnergy.MyStream.Tests.Services
 
                 using (var client = new System.Net.Http.HttpClient(handler))
                 {
-                    await target.EnsureAuthorization(client);
+                    client.DefaultRequestHeaders.Authorization =  await target.GetAuthorization();
 
                     Assert.IsNotNull(client.DefaultRequestHeaders.Authorization);
 

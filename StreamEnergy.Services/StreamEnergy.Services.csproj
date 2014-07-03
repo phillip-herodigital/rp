@@ -91,6 +91,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net" />
     <Reference Include="System.Net.Http" />
@@ -141,6 +142,7 @@
     <Compile Include="Services\Clients\AccountService.cs" />
     <Compile Include="Services\Clients\AzureAccessControlServiceTokenManager.cs" />
     <Compile Include="Services\Clients\AzureAcsConfiguration.cs" />
+    <Compile Include="Services\Clients\AzureAcsTokenHandler.cs" />
     <Compile Include="Services\Clients\EmailService.cs" />
     <Compile Include="Services\Clients\ClientContainerSetup.cs" />
     <Compile Include="Services\Clients\Interceptors\ServiceCacheContainerSetup.cs" />
@@ -154,6 +156,8 @@
     <Compile Include="Services\Clients\Mocks\ServiceMockContainerSetup.cs" />
     <Compile Include="Services\Clients\Interceptors\ServiceInterceptor.cs" />
     <Compile Include="Services\Clients\Interceptors\ServiceInterceptorResolver.cs" />
+    <Compile Include="Services\Clients\StreamConnectContainerSetup.cs" />
+    <Compile Include="Services\Clients\StreamConnectClient.cs" />
     <Compile Include="Services\Clients\TemperatureService.cs" />
     <Compile Include="Services\Clients\ITemperatureService.cs" />
     <Compile Include="Services\HttpConverter.cs" />

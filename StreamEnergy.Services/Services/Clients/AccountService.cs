@@ -4,20 +4,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Practices.Unity;
+using System.Net.Http;
 
 namespace StreamEnergy.Services.Clients
 {
     class AccountService : IAccountService
     {
-        private Sample.Commons.SampleStreamCommonsSoap service;
-        private StreamCommons.Account.CisAccountServicesPortType accountService;
-        private StreamEnergy.Dpi.DPILinkSoap dpiLinkService;
+        private readonly Sample.Commons.SampleStreamCommonsSoap service;
+        private readonly StreamCommons.Account.CisAccountServicesPortType accountService;
+        private readonly StreamEnergy.Dpi.DPILinkSoap dpiLinkService;
+        private readonly HttpClient client;
 
-        public AccountService(Sample.Commons.SampleStreamCommonsSoap service, StreamCommons.Account.CisAccountServicesPortType accountService, StreamEnergy.Dpi.DPILinkSoap dpiLinkService)
+        public AccountService(Sample.Commons.SampleStreamCommonsSoap service, StreamCommons.Account.CisAccountServicesPortType accountService, StreamEnergy.Dpi.DPILinkSoap dpiLinkService, [Dependency(StreamConnectContainerSetup.StreamConnectKey)] HttpClient client)
         {
             this.service = service;
             this.accountService = accountService;
             this.dpiLinkService = dpiLinkService;
+            this.client = client;
         }
 
         IEnumerable<Invoice> IAccountService.GetInvoices(string username)

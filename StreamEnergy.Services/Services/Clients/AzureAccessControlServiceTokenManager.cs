@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using StackExchange.Redis;
+using StreamEnergy.Services.Clients.Interceptors;
 
 namespace StreamEnergy.Services.Clients
 {
@@ -31,10 +32,10 @@ namespace StreamEnergy.Services.Clients
             this.config = config;
         }
 
-        public async Task EnsureAuthorization(HttpClient targetClient)
+        public async Task<System.Net.Http.Headers.AuthenticationHeaderValue> GetAuthorization()
         {
             var token = await GetSwtToken();
-            targetClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("OAuth2", "access_token=\"" + token + "\"");
+            return new System.Net.Http.Headers.AuthenticationHeaderValue("OAuth2", "access_token=\"" + token + "\"");
         }
 
         public async Task<string> GetSwtToken()
