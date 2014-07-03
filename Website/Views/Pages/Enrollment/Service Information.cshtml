@@ -13,7 +13,7 @@
             <div ng-include src="'enrollment-nav-template'" ng-init="name = 'utilityFlowService'"></div>
         </aside>
         <section>
-            <form data-val-bind-messages="validations">
+            <form data-val-bind-messages="validations" ng-submit="completeStep();" >
                 <article class="form enrollment__box">
                     <header>
                         @Html.Sitecore().Field("Header Text")
@@ -83,7 +83,7 @@
                     </div>
                 </article>
                 <div class="buttons">
-                    <button type="submit" class="primary" ng-click="completeStep();" ng-disabled="!isFormValid()" data-val-submit>@Html.Sitecore().Field("Continue Button Label")</button>
+                    <button type="submit" class="primary" ng-disabled="!isFormValid()" data-val-submit>@Html.Sitecore().Field("Continue Button Label")</button>
                 </div>
             </form>
             <div class="hide-medium-large time-remaining-mobile">

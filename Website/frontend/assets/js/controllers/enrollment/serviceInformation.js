@@ -32,8 +32,9 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
      * @return {Boolean}
      */
     $scope.isFormValid = function() {
+        console.log($scope.data.serviceLocation);
         //TODO: Check for a duplicate address in cart as well
-        if (typeof $scope.data.serviceLocation == 'object' && $scope.data.isNewService !== undefined) {
+        if ($scope.data.serviceLocation !== null && typeof $scope.data.serviceLocation == 'object' && $scope.data.isNewService !== undefined) {
             return true;
         } else {
             return false;
