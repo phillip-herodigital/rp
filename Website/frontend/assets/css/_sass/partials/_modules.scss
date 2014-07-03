@@ -1217,6 +1217,80 @@ article.mobile {
 			}
 		}
 	}
+	&.international {
+		.content {
+			p {
+				&.plan {
+					font-weight: bold;
+					font-size: 18px;
+				}
+				.add-button {
+					float: right;
+					padding-bottom: 15px;
+				}
+			}
+			hr {
+				border: none;
+				border-top: 1px solid #ddd;
+			}
+			.group .item {
+				ul li {
+					float: left;
+					list-style-type: none;
+					margin-right: 10px;
+					padding-left: 10px;
+					border-left: 1px solid #0971ce;
+					&:first-child {
+						border-left: none;
+						padding-left: 0;
+					}
+				}
+				&.paragraph {
+					width: 70%;
+					@include breakpoint(small) {
+						float: left;
+					}
+				}
+				&.international-image {
+					margin: 1em 0 0 1em;
+				}
+				&.price {
+					float: right;
+					margin-top: 1em;
+					p {
+						margin-top: 0;
+						text-align: right;
+						span {
+							font-size: 34px;
+							color: #0971cd;
+							font-weight: bold;
+						}
+					}
+				}
+			}
+			ul.includes {
+				list-style-type: none;
+				padding-left: 0px;
+				li {
+					background: url("../i/icon/blue-check.png");
+					background-repeat: no-repeat;
+					background-position-y: 5px;
+					padding-left: 25px;
+					ul.countries {
+						width: 25%;
+						float: left;
+						padding-left: 0;
+						list-style-type: none;
+						margin: 25px 0;
+						li {
+							background: none;
+							padding-left: 0;
+						}
+					}
+				}
+			}
+		}
+	}
 	footer {
 		p {
 			margin: 5px 0;
@@ -1374,6 +1448,10 @@ aside {
 		ul {
 			list-style-type: none;
 			padding-left: 0;
+		}
+		img {
+			max-width: 100%;
+			height: initial;
 		}
 	}
 }

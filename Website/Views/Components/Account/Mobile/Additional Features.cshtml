@@ -1,28 +1,153 @@
-﻿<article class="grey-box mobile">
+﻿<article class="grey-box mobile international">
     <header>
-        <h2>International Services</h2>
+        <h2>@Html.Sitecore().Field("Header Text")</h2>
     </header>
-    
-    <div class="content">
-        <div>
-            <form>
+
+    <form>
+        <div class="content">
+            <div>
                 <div class="group">
-                    <div class="item">
-                        <p>Whether you're calling in Mexico, Canada, Cuba or India, Stream Cell has international calling plans to fit your budget and lifestyle.</p>
-                        <ul>
-                            <li>Rates</li>
-                            <li>FAQ's</li>
-                            <li>Access Numbers</li>
+                    <div class="item paragraph">
+                        <p>@Html.Sitecore().Field("Intro Paragraph")</p>
+                        <ul class="clearfix">
+                            <li>@Html.Sitecore().Field("Rates Link")</li>
+                            <li>@Html.Sitecore().Field("Faq Link")</li>
+                            <li>@Html.Sitecore().Field("Access Link")</li>
                         </ul>
                     </div>
-
-                    <div class="item">
-                        <img src="http://placehold.it/200x100" />
+                    <div class="item international-image">
+                        @Html.Sitecore().Field("Image")
                     </div>
                 </div>
-            </form>
+            </div>
+            <hr class="content-divider" />
+            
+            <div>
+                <div class="group">
+                    <div class="item paragraph">
+                        <p class="plan">@Html.Sitecore().Field("Minutes Pack Text")</p>
+                        <p>@Html.Sitecore().Field("Minutes Pack Paragraph")</p>
+                    </div>
+                    <div class="item price">
+                        <p>@Html.Sitecore().Field("Minutes Pack Price")</p>
+                    </div>
+                </div>
+                <hr />
+                <p>@Html.Sitecore().Field("Information Paragraph")</p>
+                <div class="group">
+                    <div class="item">
+                        <select>
+                            <option>@Html.Sitecore().Field("Select Option Brazil")</option>
+                        </select>
+                    </div>
+                    <div class="item">
+                        <select>
+                            <option>@Html.Sitecore().Field("Select Option Minutes")</option>
+                        </select>
+                    </div>
+                    <div class="item">
+                        @Html.Sitecore().Field("Minutes Pack Button")
+                    </div>
+                </div>
+                <p>@Html.Sitecore().Field("View Minute Pack Link")</p>
+            </div>
+            <hr class="content-divider" />
+            <div>
+                <div class="group">
+                    <div class="item paragraph">
+                        <p class="plan">@Html.Sitecore().Field("Connect Text")</p>
+                        <p>@Html.Sitecore().Field("Connect Paragraph")</p>
+                    </div>
+                    <div class="item price">
+                        <p>@Html.Sitecore().Field("Connect Price")</p>
+                    </div>
+                </div>
+                <hr />
+                <ul class="includes">
+                    <li>@Html.Sitecore().Field("Connect List 1")</li>
+                    <li>@Html.Sitecore().Field("Connect List 2")</li>
+                    <li>@Html.Sitecore().Field("Connect List 3")</li>
+                </ul>
+                <hr />
+                <p>@Html.Sitecore().Field("Connect Link")<span class="add-button">@Html.Sitecore().Field("Connect Button")</span></p>
+            </div>
+            <hr class="content-divider" />
+            <div>
+                <div class="group">
+                    <div class="item paragraph">
+                        <p class="plan">@Html.Sitecore().Field("Connect Plus Text")</p>
+                        <p>@Html.Sitecore().Field("Connect Plus Paragraph")</p>
+                    </div>
+                    <div class="item price">
+                        <p>@Html.Sitecore().Field("Connect Plus Price")</p>
+                    </div>
+                </div>
+                <hr />
+                <ul class="includes">
+                    <li class="clearfix">@Html.Sitecore().Field("Connect Plus List 1")
+                        <ul class="countries">
+                            <li>@Html.Sitecore().Field("Argenina")</li>
+                            <li>@Html.Sitecore().Field("Austrailia")</li>
+                            <li>@Html.Sitecore().Field("Austria")</li>
+                            <li>@Html.Sitecore().Field("Belguim")</li>
+                            <li>@Html.Sitecore().Field("Brazil")</li>
+                            <li>@Html.Sitecore().Field("Chile")</li>
+                            <li>@Html.Sitecore().Field("China")</li>
+                            <li>@Html.Sitecore().Field("Colombia")</li>
+                            <li>@Html.Sitecore().Field("Costa Rica")</li>
+                            <li>@Html.Sitecore().Field("Croatia")</li>
+                            <li>@Html.Sitecore().Field("Cyprus")</li>
+                        </ul>
+                        <ul class="countries">
+                            <li>@Html.Sitecore().Field("Denmark")</li>
+                            <li>@Html.Sitecore().Field("Dominican Republic")</li>
+                            <li>@Html.Sitecore().Field("France")</li>
+                            <li>@Html.Sitecore().Field("Germany")</li>
+                            <li>@Html.Sitecore().Field("Greece")</li>
+                            <li>@Html.Sitecore().Field("Hong Kong")</li>
+                            <li>@Html.Sitecore().Field("Hungary")</li>
+                            <li>@Html.Sitecore().Field("India")</li>
+                            <li>@Html.Sitecore().Field("Ireland")</li>
+                            <li>@Html.Sitecore().Field("Israel")</li>
+                            <li>@Html.Sitecore().Field("Italy")</li>
+                        </ul>
+                        <ul class="countries">
+                            <li>@Html.Sitecore().Field("Japan")</li>
+                            <li>@Html.Sitecore().Field("Kazakhstan")</li>
+                            <li>@Html.Sitecore().Field("Luxenbourg")</li>
+                            <li>@Html.Sitecore().Field("Malaysia")</li>
+                            <li>@Html.Sitecore().Field("Netherlands")</li>
+                            <li>@Html.Sitecore().Field("New Zealand")</li>
+                            <li>@Html.Sitecore().Field("Norway")</li>
+                            <li>@Html.Sitecore().Field("Peru")</li>
+                            <li>@Html.Sitecore().Field("Poland")</li>
+                            <li>@Html.Sitecore().Field("Portugal")</li>
+                            <li>@Html.Sitecore().Field("Romania")</li>
+                        </ul>
+                        <ul class="countries">
+                            <li>@Html.Sitecore().Field("Russia")</li>
+                            <li>@Html.Sitecore().Field("Singapore")</li>
+                            <li>@Html.Sitecore().Field("South Korea")</li>
+                            <li>@Html.Sitecore().Field("Spain")</li>
+                            <li>@Html.Sitecore().Field("Sweden")</li>
+                            <li>@Html.Sitecore().Field("Switzerland")</li>
+                            <li>@Html.Sitecore().Field("Taiwan")</li>
+                            <li>@Html.Sitecore().Field("Thailand")</li>
+                            <li>@Html.Sitecore().Field("Turkey")</li>
+                            <li>@Html.Sitecore().Field("United Kingdom")</li>
+                            <li>@Html.Sitecore().Field("Venezuela")</li>
+                        </ul>
+                    </li>
+                    <li>@Html.Sitecore().Field("Connect Plus List 2")</li>
+                    <li>@Html.Sitecore().Field("Connect Plus List 3")</li>
+                    <li>@Html.Sitecore().Field("Connect Plus List 4")</li>
+                </ul>
+                <hr />
+                <p>@Html.Sitecore().Field("Connect Plus Link")<span class="add-button">@Html.Sitecore().Field("Connect Plus Button")</span></p>
+            </div>
         </div>
-    </div>
+    </form>
+
 
 </article>
 
