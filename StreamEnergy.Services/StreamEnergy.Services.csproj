@@ -139,6 +139,8 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Services\Clients\AccountService.cs" />
+    <Compile Include="Services\Clients\AzureAccessControlServiceTokenManager.cs" />
+    <Compile Include="Services\Clients\AzureAcsConfiguration.cs" />
     <Compile Include="Services\Clients\EmailService.cs" />
     <Compile Include="Services\Clients\ClientContainerSetup.cs" />
     <Compile Include="Services\Clients\Interceptors\ServiceCacheContainerSetup.cs" />
