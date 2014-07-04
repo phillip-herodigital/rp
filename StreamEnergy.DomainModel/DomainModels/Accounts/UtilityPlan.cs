@@ -15,8 +15,9 @@ namespace StreamEnergy.DomainModels.Accounts
         public string Terms { get; set; }
         public string Fees { get; set; }
         public string PlanDetails { get; set; }
-        public string PricingEffictiveDate { get; set; }
+        public string PricingEffectiveDate { get; set; }
         public string MinimumUsageFee { get; set; }
         public bool IsRenewable { get; set; }
+        public string RenewDate { get; set; }
     }
 }

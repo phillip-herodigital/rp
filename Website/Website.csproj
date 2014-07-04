@@ -474,12 +474,13 @@
     <Compile Include="Models\Account\GetAccountInformationRequest.cs" />
     <Compile Include="Models\Account\GetAccountInformationResponse.cs" />
     <Compile Include="Models\Account\GetEnrolledAccountsResponse.cs" />
+    <Compile Include="Models\Account\GetGasPlanResponse.cs" />
     <Compile Include="Models\Account\GetInvoicesResponse.cs" />
     <Compile Include="Models\Account\GetNotificationSettingsRequest.cs" />
     <Compile Include="Models\Account\GetNotificationSettingsResponse.cs" />
     <Compile Include="Models\Account\GetPaymentsResponse.cs" />
     <Compile Include="Models\Account\GetUtiltiyPlansRequest.cs" />
-    <Compile Include="Models\Account\GetUtilityPlansResponse.cs" />
+    <Compile Include="Models\Account\GetElectricityPlanResponse.cs" />
     <Compile Include="Models\Account\GetUtilityProvidersResponse.cs" />
     <Compile Include="Models\Account\Invoice.cs" />
     <Compile Include="Models\Account\GetOnlineAccountResponse.cs" />
