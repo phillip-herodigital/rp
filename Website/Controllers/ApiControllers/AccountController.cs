@@ -174,6 +174,24 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         #endregion
 
+        #region Utility Services
+
+        [HttpPost]
+        public GetUtilityPlansResponse GetUtiltiyPlans(GetUtiltiyPlansRequest request)
+        {
+            var accountNumber = request.AccountNumber;
+
+            // TODO get the plan info from Stream Connect
+
+
+            return new GetUtilityPlansResponse
+            {
+                
+            };
+        }
+
+        #endregion
+
         #region Online Account Information
 
         [HttpGet]
