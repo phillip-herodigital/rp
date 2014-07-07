@@ -20,7 +20,7 @@ namespace StreamEnergy.DomainModels.Accounts.ResetPassword
             this.container = container;
         }
 
-        protected override Type InternalProcess(ResetPasswordContext context, object internalContext)
+        protected override Task<Type> InternalProcess(ResetPasswordContext context, object internalContext)
         {
             var profile = UserProfile.Locate(container, context.DomainPrefix + context.Username);
 

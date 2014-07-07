@@ -17,8 +17,8 @@ namespace StreamEnergy.Processes
         bool IgnoreValidation(ValidationResult validationResult, TContext context, TInternalContext internalContext);
         bool IsFinal { get; }
 
-        Type Process(TContext context, TInternalContext internalContext);
+        Task<Type> Process(TContext context, TInternalContext internalContext);
 
-        bool RestoreInternalState(IStateMachine<TContext, TInternalContext> stateMachine, ref Type state);
+        Task<RestoreInternalStateResult> RestoreInternalState(IStateMachine<TContext, TInternalContext> stateMachine, Type state);
     }
 }

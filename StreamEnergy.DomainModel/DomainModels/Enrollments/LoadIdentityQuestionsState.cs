@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
@@ -27,7 +28,7 @@ namespace StreamEnergy.DomainModels.Enrollments
             yield return context => context.OnlineAccount;
         }
 
-        protected override Type InternalProcess(UserContext context, InternalContext internalContext)
+        protected override Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
         {
             if (!internalContext.IdentityCheckResult.HardStop.HasValue)
             {
@@ -42,9 +43,10 @@ namespace StreamEnergy.DomainModels.Enrollments
             return internalContext.IdentityCheckResult == null || (!internalContext.IdentityCheckResult.IdentityAccepted && internalContext.IdentityCheckResult.HardStop != null);
         }
 
-        protected override void LoadInternalState(UserContext context, InternalContext internalContext)
+        protected override Task LoadInternalState(UserContext context, InternalContext internalContext)
         {
             internalContext.IdentityCheckResult = enrollmentService.IdentityCheck(context.ContactInfo.Name, context.SocialSecurityNumber, context.DriversLicense);
+            return Task.FromResult<object>(null);
         }
     }
 }

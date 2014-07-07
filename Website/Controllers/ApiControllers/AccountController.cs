@@ -15,6 +15,7 @@ using System.Web.Http;
 using System.Web.Security;
 using System.Web.SessionState;
 using Microsoft.Practices.Unity;
+using System.Threading.Tasks;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -43,6 +44,24 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public string CelciusToFahrenheit(string celcius)
         {
             return temperatureService.CelciusToFahrenheit(celcius: celcius);
+        }
+
+        [HttpGet]
+        public string FahrenheitToCelcius(string fahrenheit)
+        {
+            return temperatureService.FahrenheitToCelcius(fahrenheit: fahrenheit);
+        }
+
+        [HttpGet]
+        public Task<string> ExampleMock()
+        {
+            return temperatureService.MockedExample();
+        }
+
+        [HttpGet]
+        public Task<Dictionary<string, object>> ExampleCache()
+        {
+            return temperatureService.CachedExample();
         }
 
         #region Utiltiy Providers

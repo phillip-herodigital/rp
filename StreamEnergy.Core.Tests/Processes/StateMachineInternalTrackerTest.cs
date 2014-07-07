@@ -63,26 +63,25 @@ namespace StreamEnergy.Core.Tests.Processes
                 get { return false; }
             }
 
-            public Type Process(GetOffersContext data, GetOffersInternalContext internalData)
+            public Task<Type> Process(GetOffersContext data, GetOffersInternalContext internalData)
             {
                 LoadAddressInfo(data, internalData);
-                return typeof(LoadOffersState);
+                return Task.FromResult(typeof(LoadOffersState));
             }
 
-            public bool RestoreInternalState(IStateMachine<GetOffersContext, GetOffersInternalContext> stateMachine, ref Type state)
+            public Task<RestoreInternalStateResult> RestoreInternalState(IStateMachine<GetOffersContext, GetOffersInternalContext> stateMachine, Type state)
             {
                 // Don't try to restore state if this is invalid.
                 if (stateMachine.ValidateForState(this).Any())
                 {
-                    state = this.GetType();
-                    return false;
+                    return Task.FromResult(RestoreInternalStateResult.From(false, this.GetType()));
                 }
 
                 if (string.IsNullOrEmpty(stateMachine.InternalContext.DeliveryUtility))
                 {
                     LoadAddressInfo(stateMachine.Context, stateMachine.InternalContext);
                 }
-                return true;
+                return Task.FromResult(RestoreInternalStateResult.From(true, state));
             }
 
             private void LoadAddressInfo(GetOffersContext data, GetOffersInternalContext internalData)
@@ -117,24 +116,24 @@ namespace StreamEnergy.Core.Tests.Processes
                 get { return false; }
             }
 
-            public Type Process(GetOffersContext data, GetOffersInternalContext internalData)
+            public Task<Type> Process(GetOffersContext data, GetOffersInternalContext internalData)
             {
                 LoadOffers(data, internalData);
-                return typeof(DisplayOffersState);
+                return Task.FromResult(typeof(DisplayOffersState));
             }
 
-            public bool RestoreInternalState(IStateMachine<GetOffersContext, GetOffersInternalContext> stateMachine, ref Type state)
+            public async Task<RestoreInternalStateResult> RestoreInternalState(IStateMachine<GetOffersContext, GetOffersInternalContext> stateMachine, Type state)
             {
-                if (!stateMachine.RestoreStateFrom(typeof(GatherDataState), ref state))
+                if (!(await stateMachine.RestoreStateFrom(typeof(GatherDataState), state)).Apply(ref state))
                 {
-                    return false;
+                    return RestoreInternalStateResult.From(false, state);
                 }
 
                 if (stateMachine.InternalContext.Offers == null)
                 {
                     LoadOffers(stateMachine.Context, stateMachine.InternalContext);
                 }
-                return true;
+                return RestoreInternalStateResult.From(true, state);
             }
 
             private void LoadOffers(GetOffersContext data, GetOffersInternalContext internalData)
@@ -174,20 +173,20 @@ namespace StreamEnergy.Core.Tests.Processes
                 get { return false; }
             }
 
-            public Type Process(GetOffersContext data, GetOffersInternalContext internalContext)
+            public Task<Type> Process(GetOffersContext data, GetOffersInternalContext internalContext)
             {
                 // Intentionally not implemented - shouldn't be able to get past the "AdditionalValidations".
                 throw new NotImplementedException();
             }
 
-            public bool RestoreInternalState(IStateMachine<GetOffersContext, GetOffersInternalContext> stateMachine, ref Type state)
+            public async Task<RestoreInternalStateResult> RestoreInternalState(IStateMachine<GetOffersContext, GetOffersInternalContext> stateMachine, Type state)
             {
-                if (!stateMachine.RestoreStateFrom(typeof(LoadOffersState), ref state))
+                if (!(await stateMachine.RestoreStateFrom(typeof(LoadOffersState), state)).Apply(ref state))
                 {
-                    return false;
+                    return RestoreInternalStateResult.From(false, state);
                 }
 
-                return true;
+                return RestoreInternalStateResult.From(true, state);
             }
         }
 
@@ -202,18 +201,18 @@ namespace StreamEnergy.Core.Tests.Processes
 
 
         [TestMethod]
-        public void NoProgressTest()
+        public async Task NoProgressTest()
         {
             var stateMachine = Create();
             var context = new GetOffersContext();
 
-            stateMachine.Initialize(typeof(GatherDataState), context);
+            await stateMachine.Initialize(typeof(GatherDataState), context);
 
             Assert.AreEqual(typeof(GatherDataState), stateMachine.State);
             Assert.AreEqual(context, stateMachine.Context);
             Assert.IsNotNull(stateMachine.InternalContext);
 
-            stateMachine.Process();
+            await stateMachine.Process();
 
             Assert.IsTrue(stateMachine.ValidationResults.Select(r => r.ErrorMessage).SequenceEqual(new[] { "Address Required" }));
             Assert.AreEqual(typeof(GatherDataState), stateMachine.State);
@@ -221,12 +220,12 @@ namespace StreamEnergy.Core.Tests.Processes
         }
 
         [TestMethod]
-        public void StandardProgressTest()
+        public async Task StandardProgressTest()
         {
             var stateMachine = Create();
             var context = new GetOffersContext();
 
-            stateMachine.Initialize(typeof(GatherDataState), context);
+            await stateMachine.Initialize(typeof(GatherDataState), context);
 
             Assert.AreEqual(typeof(GatherDataState), stateMachine.State);
             Assert.AreEqual(context, stateMachine.Context);
@@ -234,7 +233,7 @@ namespace StreamEnergy.Core.Tests.Processes
 
             context.Address = "123 Test St";
 
-            stateMachine.Process();
+            await stateMachine.Process();
 
             Assert.IsTrue(stateMachine.ValidationResults.Select(r => r.ErrorMessage).SequenceEqual(new[] { "Selected Offer Required" }));
             Assert.AreEqual(typeof(DisplayOffersState), stateMachine.State);
@@ -244,14 +243,14 @@ namespace StreamEnergy.Core.Tests.Processes
         }
 
         [TestMethod]
-        public void RestoreDisplayOffersTest()
+        public async Task RestoreDisplayOffersTest()
         {
             var stateMachine = Create();
             var context = new GetOffersContext();
 
             context.Address = "123 Test St";
 
-            stateMachine.Initialize(typeof(DisplayOffersState), context);
+            await stateMachine.Initialize(typeof(DisplayOffersState), context);
 
             Assert.IsTrue(stateMachine.ValidationResults.Select(r => r.ErrorMessage).SequenceEqual(new[] { "Selected Offer Required" }));
             Assert.AreEqual(typeof(DisplayOffersState), stateMachine.State);
@@ -261,7 +260,7 @@ namespace StreamEnergy.Core.Tests.Processes
         }
 
         [TestMethod]
-        public void RestoreDisplayOffersBlockedTest()
+        public async Task RestoreDisplayOffersBlockedTest()
         {
             var stateMachine = Create();
             var context = new GetOffersContext();
@@ -269,7 +268,7 @@ namespace StreamEnergy.Core.Tests.Processes
             context.Address = "123 Test St";
             context.ChosenOffer = "ABC123";
 
-            stateMachine.Initialize(typeof(DisplayOffersState), context);
+            await stateMachine.Initialize(typeof(DisplayOffersState), context);
 
             Assert.IsTrue(stateMachine.ValidationResults.Select(r => r.ErrorMessage).SequenceEqual(new[] { "Selected Offer Invalid" }));
             Assert.AreEqual(typeof(DisplayOffersState), stateMachine.State);
@@ -279,12 +278,12 @@ namespace StreamEnergy.Core.Tests.Processes
         }
 
         [TestMethod]
-        public void RestoreFailedTest()
+        public async Task RestoreFailedTest()
         {
             var stateMachine = Create();
             var context = new GetOffersContext();
 
-            stateMachine.Initialize(typeof(DisplayOffersState), context);
+            await stateMachine.Initialize(typeof(DisplayOffersState), context);
 
             Assert.AreEqual(typeof(GatherDataState), stateMachine.State);
             Assert.AreEqual(context, stateMachine.Context);

@@ -4,22 +4,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using StreamEnergy.Services.Clients.Interceptors;
 
-namespace StreamEnergy.Services.Clients
+namespace StreamEnergy.Services.Clients.Mocks
 {
     class ServiceMockContainerSetup : Unity.IContainerSetupStrategy
     {
         public void SetupUnity(IUnityContainer unityContainer)
         {
-            unityContainer.RegisterType<ServiceInterceptorResolver>(new ContainerControlledLifetimeManager());
             var mockResolver = unityContainer.Resolve<ServiceInterceptorResolver>();
-            SetupMocks(unityContainer, mockResolver);
-            SetupCache(unityContainer, mockResolver);
-        }
 
-        private void SetupMocks(IUnityContainer unityContainer, ServiceInterceptorResolver mockResolver)
-        {
-            mockResolver.MockResolvers.Add(new EmbeddedResourceMockResolver(this.GetType().Assembly));
+            var embeddedResourceMocks = new EmbeddedResourceMockResolver(this.GetType().Assembly);
+            mockResolver.MockResolvers.Add(embeddedResourceMocks);
+            mockResolver.RestMockResolvers.Add(embeddedResourceMocks);
 
             var temp = unityContainer.Resolve<LambdaToResourceMockResolver>(new DependencyOverride(typeof(System.Reflection.Assembly), this.GetType().Assembly));
 
@@ -28,14 +25,6 @@ namespace StreamEnergy.Services.Clients
             temp.Register<Sample.Commons.SampleStreamCommonsSoap>(s => s.GetInvoices(null), mockParams => true, "StreamEnergy.Services.Clients.Mocks.GetInvoices_Response.soap");
 
             mockResolver.MockResolvers.Add(temp);
-        }
-
-        private void SetupCache(IUnityContainer unityContainer, ServiceInterceptorResolver mockResolver)
-        {
-            var cacheSetup = unityContainer.Resolve<ServiceCache>();
-            mockResolver.MockResolvers.Add(cacheSetup);
-
-            cacheSetup.Register<Sample.Temperature.TempConvertSoap>(s => s.CelsiusToFahrenheit(null), session: false, keepFor: TimeSpan.FromMinutes(5));
         }
     }
 }
