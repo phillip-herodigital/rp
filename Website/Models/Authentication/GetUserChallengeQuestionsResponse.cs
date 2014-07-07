@@ -10,7 +10,9 @@ namespace StreamEnergy.MyStream.Models.Authentication
         public IEnumerable<TranslatedValidationResult> Validations { get; set; }
 
         public string Username { get; set; }
+        public string Email { get; set; }
         public IEnumerable<SecurityQuestion> SecurityQuestions { get; set; }
+
 
     }
 }
