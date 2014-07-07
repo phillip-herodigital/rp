@@ -27,6 +27,15 @@
     {
         selectedNavItem = selectedParentItem.SubNavNum;
     }
+
+    var languageLinkUrlLanguage = (Sitecore.Context.Language.Name == "es") ? "en" : "es";
+    var languageLinkText = (Sitecore.Context.Language.Name == "es") ? "English" : "Español";
+    
+    var languageLinkUrl = Sitecore.Links.LinkManager.GetItemUrl(Sitecore.Context.Item, new Sitecore.Links.UrlOptions()
+    {
+        Language = Sitecore.Globalization.Language.Parse(languageLinkUrlLanguage),
+    });
+    var languageLink = string.Format(@"<a href=""{0}"">{1}</a>", languageLinkUrl, languageLinkText);
     <header class="site-header" main-nav="@selectedNavItem">
         <script id="mobileNav" type="text/ng-template">
             <nav class="mobile-nav" mobile-nav="@selectedNavItem">
@@ -53,14 +62,14 @@
                         </li>
                     }
                     <li><a href="/pay/" class="button">Pay My Bill</a></li>
-                    <li><a href="">Español</a></li>
+                    <li>@Html.Raw(languageLink)</li>
                     <li><a href="/manage/">Manage My Account</a></li>
                 </ul>
             </nav>
         </script>
         <div class="wrapper">
             <a href="/" class="logo">Logo</a>
-            <p class="utility"><a href="">Español</a> | <a href="/manage/">Manage My Account</a></p>
+            <p class="utility">@Html.Raw(languageLink) | <a href="/manage/">Manage My Account</a></p>
             <a href="" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
             <nav class="main-nav">
                 <ul class="wrapper">

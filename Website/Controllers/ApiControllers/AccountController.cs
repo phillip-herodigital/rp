@@ -193,6 +193,65 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         #endregion
 
+        #region Utility Services
+
+        [HttpPost]
+        public GetElectricityPlanResponse GetElectricityPlan(GetUtiltiyPlansRequest request)
+        {
+            var accountNumber = request.AccountNumber;
+
+            // TODO get the plan info from Stream Connect
+
+            var electricityPlan = new UtilityPlan
+            {
+                UtilityType = "Electricity",
+                PlanType = "Fixed",
+                PlanName = "Flex Choice Intro Plan",
+                Rate = "9.18",
+                Terms = "Month-to-Month",
+                Fees = "$0",
+                PlanDetails = "The Stream Intro/Variable Price Plan is for new customers only and is the applied rate for the first invoice. I understand that, under this plan, I will receive a guaranteed introductory rate on my first invoice. All subsequent months will be billed at Stream Energy's then-current Variable Price Rate. Early Termination Fees shall NOT apply and that my current rate may fluctuate based on market conditions. Please see the Terms of Services for more information on this product.",
+                PricingEffectiveDate = "11/21/2013",
+                MinimumUsageFee = "$0.00",
+                IsRenewable = true,
+                RenewDate = "4/15/2014"
+            };
+
+            return new GetElectricityPlanResponse
+            {
+                ElectricityPlan = accountNumber == "1197015532" ? electricityPlan : null
+            };
+        }
+
+        [HttpPost]
+        public GetGasPlanResponse GetGasPlan(GetUtiltiyPlansRequest request)
+        {
+            var accountNumber = request.AccountNumber;
+
+            // TODO get the plan info from Stream Connect
+
+            var gasPlan = new UtilityPlan
+            {
+                UtilityType = "Gas",
+                PlanType = "Fixed",
+                PlanName = "Flex Choice Intro Plan",
+                Rate = "4.98",
+                Terms = "Month-to-Month",
+                Fees = "$0",
+                PlanDetails = "The Stream Intro/Variable Price Plan is for new customers only and is the applied rate for the first invoice. I understand that, under this plan, I will receive a guaranteed introductory rate on my first invoice. All subsequent months will be billed at Stream Energy's then-current Variable Price Rate. Early Termination Fees shall NOT apply and that my current rate may fluctuate based on market conditions. Please see the Terms of Services for more information on this product.",
+                PricingEffectiveDate = "11/21/2013",
+                MinimumUsageFee = "$0.00",
+                IsRenewable = false
+            };
+
+            return new GetGasPlanResponse
+            {
+                GasPlan = accountNumber == "07644559" ? gasPlan : null
+            };
+        }
+
+        #endregion
+
         #region Online Account Information
 
         [HttpGet]
