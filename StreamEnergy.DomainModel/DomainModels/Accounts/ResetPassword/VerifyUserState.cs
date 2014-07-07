@@ -35,40 +35,49 @@ namespace StreamEnergy.DomainModels.Accounts.ResetPassword
         {
             var profile = UserProfile.Locate(container, context.DomainPrefix + context.Username);
 
-            var questions = profile.ChallengeQuestions ?? new ChallengeResponse[0];
-            if (context.Answers == null || !questions.Select(q => q.QuestionKey).OrderBy(guid => guid).SequenceEqual(context.Answers.Where(q => !string.IsNullOrEmpty(q.Value)).Select(q => q.Key).OrderBy(guid => guid)))
+            if (!context.SendEmail)
             {
-                yield return new ValidationResult("All Questions Required", new[] { "ChallengeQuestions" });
-            }
-            else if ((from answer in context.Answers
-                      join originalResponse in questions on answer.Key equals originalResponse.QuestionKey
-                      select originalResponse.IsCorrect(answer.Value)).Any(isCorrect => !isCorrect))
-            {
-                yield return new ValidationResult("Incorrect Response", new[] { "ChallengeQuestions" });
+                var questions = profile.ChallengeQuestions ?? new ChallengeResponse[0];
+                if (context.Answers == null || !questions.Select(q => q.QuestionKey).OrderBy(guid => guid).SequenceEqual(context.Answers.Where(q => !string.IsNullOrEmpty(q.Value)).Select(q => q.Key).OrderBy(guid => guid)))
+                {
+                    yield return new ValidationResult("All Questions Required", new[] { "ChallengeQuestions" });
+                }
+                else if ((from answer in context.Answers
+                          join originalResponse in questions on answer.Key equals originalResponse.QuestionKey
+                          select originalResponse.IsCorrect(answer.Value)).Any(isCorrect => !isCorrect))
+                {
+                    yield return new ValidationResult("Incorrect Response", new[] { "ChallengeQuestions" });
+                }
             }
         }
 
-        protected override async Task<Type> InternalProcess(ResetPasswordContext context, object internalContext)
+        protected override Task<Type> InternalProcess(ResetPasswordContext context, object internalContext)
         {
-            var passwordResetToken = tokenManager.GetPasswordResetToken(context.Username);
-            // TODO - get email address from Stream Commons
-            var toEmail = "adam.powell@responsivepath.com, adam.brill@responsivepath.com, matt.dekrey@responsivepath.com";
-            // TODO get base URL from Sitecore
-            var url = "http://dev.streamenergy.responsivepath.com/auth/change-password?token={token}&username={username}".Format(new { token = passwordResetToken, username = context.Username });
-
-            // Send the email
-            emailService.SendEmail(new MailMessage()
+            if (context.SendEmail)
             {
-                From = new MailAddress(settings.GetSettingsValue("Authorization Email Addresses", "Send From Email Address")),
-                To = { toEmail },
-                // TODO get subject and body template from Sitecore
-                Subject = "Stream Energy Reset Password",
-                IsBodyHtml = true,
-                Body = @"Click the following link to reset the password on your Stream Energy account: <a href=""{url}"">Reset Password</a>".Format(new { url = url })
-            });
+                var passwordResetToken = tokenManager.GetPasswordResetToken(context.Username);
+                // TODO - get email address from Stream Commons
+                var toEmail = "adam.powell@responsivepath.com, adam.brill@responsivepath.com, matt.dekrey@responsivepath.com";
+                // TODO get base URL from Sitecore
+                var url = "http://dev.streamenergy.responsivepath.com/auth/change-password?token={token}&username={username}".Format(new { token = passwordResetToken, username = context.Username });
 
-            return await base.InternalProcess(context, internalContext);
-            
+                // Send the email
+                emailService.SendEmail(new MailMessage()
+                {
+                    From = new MailAddress(settings.GetSettingsValue("Authorization Email Addresses", "Send From Email Address")),
+                    To = { toEmail },
+                    // TODO get subject and body template from Sitecore
+                    Subject = "Stream Energy Reset Password",
+                    IsBodyHtml = true,
+                    Body = @"Click the following link to reset the password on your Stream Energy account: <a href=""{url}"">Reset Password</a>".Format(new { url = url })
+                });
+
+                return Task.FromResult(typeof(SentEmailState));
+            }
+            else
+            {
+                return Task.FromResult(typeof(VerifiedChallengeQuestionsState));
+            }
         }
     }
 }

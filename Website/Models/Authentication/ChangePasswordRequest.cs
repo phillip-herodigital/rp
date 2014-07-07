@@ -9,7 +9,6 @@ namespace StreamEnergy.MyStream.Models.Authentication
 {
     public class ChangePasswordRequest
     {
-        [Required(ErrorMessage = "Token Required")]
         public string ResetToken { get; set; }
 
         [Required(ErrorMessage = "Password Required")]

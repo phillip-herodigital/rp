@@ -217,10 +217,32 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
 
         [HttpPost]
-        public SendResetPasswordEmailResponse SendResetPasswordEmail(SendResetPasswordEmailRequest request)
+        public VerifyUserChallengeQuestionsResponse VerifyUserChallengeQuestions(VerifyUserChallengeQuestionsRequest request)
         {
             Sitecore.Context.Database = database;
             resetPasswordSessionHelper.Context.Answers = request.Answers.ToDictionary(a => a.Key, a => a.Value);
+            resetPasswordSessionHelper.Context.SendEmail = false;
+
+            if (resetPasswordSessionHelper.StateMachine.State == typeof(VerifyUserState))
+                resetPasswordSessionHelper.StateMachine.Process();
+
+            var validations = Enumerable.Empty<ValidationResult>();
+            // don't give validations for the next step
+            if (coaSessionHelper.StateMachine.State == typeof(VerifyUserState))
+                validations = coaSessionHelper.StateMachine.ValidationResults;
+
+            return new VerifyUserChallengeQuestionsResponse
+            {
+                Success = resetPasswordSessionHelper.StateMachine.State == typeof(VerifiedChallengeQuestionsState),
+                Validations = TranslatedValidationResult.Translate(validations, GetAuthItem("Forgot Password"))
+            };
+        }
+
+        [HttpPost]
+        public SendResetPasswordEmailResponse SendResetPasswordEmail(SendResetPasswordEmailRequest request)
+        {
+            Sitecore.Context.Database = database;
+            resetPasswordSessionHelper.Context.SendEmail = true;
 
             if (resetPasswordSessionHelper.StateMachine.State == typeof(VerifyUserState))
                 resetPasswordSessionHelper.StateMachine.Process();
@@ -243,8 +265,21 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             bool success = false;
             if (ModelState.IsValid)
             {
+                bool isValid = false;
                 string username;
-                if (resetPasswordTokenManager.VerifyAndClearPasswordResetToken(request.ResetToken, out username))
+
+                if (resetPasswordSessionHelper.StateMachine.State == typeof(VerifiedChallengeQuestionsState))
+                {
+                    username = resetPasswordSessionHelper.Context.Username;
+                    isValid = true;
+                    resetPasswordSessionHelper.Reset();
+                }
+                else if (resetPasswordTokenManager.VerifyAndClearPasswordResetToken(request.ResetToken, out username))
+                {
+                    isValid = true;
+                }
+
+                if (isValid)
                 {
                     var user = Membership.GetUser(domain.AccountPrefix + username);
                     user.ChangePassword(user.ResetPassword(), request.Password);

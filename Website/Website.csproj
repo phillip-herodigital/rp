@@ -516,7 +516,9 @@
     <Compile Include="Models\Authentication\SecurityQuestion.cs" />
     <Compile Include="Models\Authentication\AnsweredSecurityQuestion.cs" />
     <Compile Include="Models\Authentication\SendResetPasswordEmailRequest.cs" />
+    <Compile Include="Models\Authentication\VerifyUserChallengeQuestionsRequest.cs" />
     <Compile Include="Models\Authentication\SendResetPasswordEmailResponse.cs" />
+    <Compile Include="Models\Authentication\VerifyUserChallengeQuestionsResponse.cs" />
     <Compile Include="Models\Enrollment\AccountInformation.cs" />
     <Compile Include="Models\Enrollment\ClientData.cs" />
     <Compile Include="Models\Enrollment\ConfirmOrder.cs" />
