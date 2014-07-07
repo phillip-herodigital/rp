@@ -63,6 +63,19 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.settings = settings;
         }
 
+        protected override void Initialize(System.Web.Http.Controllers.HttpControllerContext controllerContext)
+        {
+            Initialize().Wait();
+            base.Initialize(controllerContext);
+        }
+
+        public async Task Initialize()
+        {
+            await Task.WhenAll(
+                coaSessionHelper.EnsureInitialized(),
+                resetPasswordSessionHelper.EnsureInitialized());
+        }
+
         protected override void Dispose(bool disposing)
         {
             coaSessionHelper.Dispose();
@@ -107,6 +120,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             if (coaSessionHelper.StateMachine.State != typeof(FindAccountState))
             {
                 coaSessionHelper.Reset();
+                await coaSessionHelper.EnsureInitialized();
             }
 
             coaSessionHelper.StateMachine.Context.AccountNumber = request.AccountNumber;
@@ -173,6 +187,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public async Task<GetUserChallengeQuestionsResponse> GetUserChallengeQuestions(GetUserChallengeQuestionsRequest request)
         {
             resetPasswordSessionHelper.Reset();
+            await resetPasswordSessionHelper.EnsureInitialized();
 
             resetPasswordSessionHelper.Context.DomainPrefix = domain.AccountPrefix;
             resetPasswordSessionHelper.Context.Username = request.Username;
