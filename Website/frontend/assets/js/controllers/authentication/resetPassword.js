@@ -25,8 +25,6 @@ ngApp.controller('AuthResetPasswordCtrl', ['$scope', '$rootScope', '$http', '$wi
 					$scope.username = data.username;
 					$scope.securityQuestions = data.securityQuestions;
 					$scope.activeState = 'step2';
-                    
-					console.log($scope);
 				}
 			});
 	};
