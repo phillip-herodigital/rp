@@ -11,8 +11,11 @@ namespace StreamEnergy.MyStream.Controllers.Components
 {
     public class AuthenticationController : Controller
     {
-        public AuthenticationController()
+        private readonly ResetPasswordTokenManager resetPasswordTokenManager;
+
+        public AuthenticationController(ResetPasswordTokenManager resetPasswordTokenManager)
         {
+            this.resetPasswordTokenManager = resetPasswordTokenManager;
         }
 
         public ActionResult LoginIndex()
@@ -49,7 +52,28 @@ namespace StreamEnergy.MyStream.Controllers.Components
 
         public ActionResult ChangePasswordIndex(string token, string username)
         {
-            return View("~/Views/Components/Authentication/Change Password.cshtml", new ChangePasswordRequest());
+            if (!Sitecore.Context.PageMode.IsNormal)
+            {
+                ViewBag.Name = "John Smith";
+                ViewBag.AccountNumber = "12534567890";
+                ViewBag.Username = "john.smith";
+                return View("~/Views/Components/Authentication/Change Password.cshtml");
+            }
+            else if (Request.AppRelativeCurrentExecutionFilePath.Contains("/auth/reset-password") || resetPasswordTokenManager.VerifyPasswordResetToken(token, username))
+            {
+                ChangePasswordRequest req = new ChangePasswordRequest();
+                req.ResetToken = token;
+
+                // TODO - pull from Stream Connect
+                ViewBag.Name = "Account Name";
+                ViewBag.AccountNumber = "";
+                ViewBag.Username = username;
+                return View("~/Views/Components/Authentication/Change Password.cshtml", req);
+            }
+            else
+            {
+                return Redirect("~/auth/reset-password/?token=expired&username=" + username);
+            }
         }
     }
 }

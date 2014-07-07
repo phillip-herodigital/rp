@@ -23,19 +23,18 @@ ngApp.controller('AuthResetPasswordCtrl', ['$scope', '$rootScope', '$http', '$wi
 				} else {
 					// if successful, bind the response data to the scope and send the user to step 2
 					$scope.username = data.username;
+					$scope.email = data.email;
 					$scope.securityQuestions = data.securityQuestions;
 					$scope.activeState = 'step2';
-                    
-					console.log($scope);
 				}
 			});
 	};
 
-    // process the verifySecurityQuestions form
-	$scope.verifySecurityQuestions = function () {
+	// process the sendResetPasswordEmail form
+	$scope.submitSecurityQuestions = function () {
 		$http({
 			method  : 'POST',
-			url     : '/api/authentication/VerifySecurityQuestions',
+			url     : '/api/authentication/verifyUserChallengeQuestions',
 			data    : $scope.formData,
 			headers : { 'Content-Type': 'application/JSON' } 
 		})
@@ -48,6 +47,24 @@ ngApp.controller('AuthResetPasswordCtrl', ['$scope', '$rootScope', '$http', '$wi
 					// if successful, send the user to confirm
 			        $scope.activeState = data.success ? 'changepassword' : 'hard-stop-error';
 				}
+			});
+	};
+
+	$scope.sendResetPasswordEmail = function () {
+	    $http({
+	        method: 'POST',
+	        url: '/api/authentication/sendResetPasswordEmail',
+	        headers: { 'Content-Type': 'application/JSON' }
+	    })
+			.success(function (data, status, headers, config) {
+			    if (data.validations.length) {
+			        // if not successful, bind errors to error variables
+			        $scope.validations = data.validations;
+
+			    } else {
+			        // if successful, send the user to confirm
+			        $scope.activeState = data.success ? 'confirm' : 'hard-stop-error';
+			    }
 			});
 	};
 
