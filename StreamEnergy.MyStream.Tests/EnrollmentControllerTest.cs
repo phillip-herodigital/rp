@@ -102,19 +102,21 @@ namespace StreamEnergy.MyStream.Tests
         }
 
         [TestMethod]
-        public void NewClientDataTest()
+        public async Task NewClientDataTest()
         {
             var controller = container.Resolve<EnrollmentController>();
+            await controller.Initialize();
             var clientData = controller.ClientData(null);
 
             Assert.IsNotNull(clientData);
         }
 
         [TestMethod]
-        public void SaveOnDisposeTest()
+        public async Task SaveOnDisposeTest()
         {
-            using (container.Resolve<EnrollmentController>())
+            using (var controller = container.Resolve<EnrollmentController>())
             {
+                await controller.Initialize();
             }
             var session = container.Resolve<HttpSessionStateBase>();
 
@@ -124,6 +126,7 @@ namespace StreamEnergy.MyStream.Tests
             Assert.IsTrue(keys.Any(key => (session[key] as Type) == typeof(DomainModels.Enrollments.ServiceInformationState)));
 
             var sessionHelper = container.Resolve<EnrollmentController.SessionHelper>();
+            await sessionHelper.EnsureInitialized();
 
             Assert.IsTrue(sessionHelper.Context is UserContext);
             Assert.IsTrue(sessionHelper.InternalContext is InternalContext);
@@ -131,10 +134,11 @@ namespace StreamEnergy.MyStream.Tests
         }
 
         [TestMethod]
-        public void NoSaveOnDisposeTest()
+        public async Task NoSaveOnDisposeTest()
         {
             using (var controller = container.Resolve<EnrollmentController>())
             {
+                await controller.Initialize();
                 controller.Reset();
             }
             var session = container.Resolve<HttpSessionStateBase>();
@@ -157,6 +161,8 @@ namespace StreamEnergy.MyStream.Tests
 
             using (var controller = container.Resolve<EnrollmentController>())
             {
+                await controller.Initialize();
+                
                 // Act
                 var result = await controller.ServiceInformation(request);
 
@@ -170,6 +176,7 @@ namespace StreamEnergy.MyStream.Tests
                 Assert.IsNotNull(result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.AvailableOffers.SingleOrDefault(offer => offer.Id == "24-month-fixed-rate"));
             }
             var session = container.Resolve<EnrollmentController.SessionHelper>();
+            await session.EnsureInitialized();
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.PlanSelectionState), session.State);
             Assert.AreEqual("75010", session.Context.Services.First().Location.Address.PostalCode5);
@@ -183,6 +190,7 @@ namespace StreamEnergy.MyStream.Tests
         {
             // Arrange
             var session = container.Resolve<EnrollmentController.SessionHelper>();
+            await session.EnsureInitialized();
             session.Context = new UserContext
             {
                 Services = new[] 
@@ -207,6 +215,8 @@ namespace StreamEnergy.MyStream.Tests
 
             using (var controller = container.Resolve<EnrollmentController>())
             {
+                await controller.Initialize();
+                
                 // Act
                 var result = await controller.SelectedOffers(request);
 
@@ -225,6 +235,7 @@ namespace StreamEnergy.MyStream.Tests
         {
             // Arrange
             var session = container.Resolve<EnrollmentController.SessionHelper>();
+            await session.EnsureInitialized();
             session.Context = new UserContext
             {
                 Services = new[] {
@@ -279,6 +290,8 @@ namespace StreamEnergy.MyStream.Tests
 
             using (var controller = container.Resolve<EnrollmentController>())
             {
+                await controller.Initialize();
+                
                 // Act
                 var result = await controller.AccountInformation(request);
 
@@ -308,6 +321,7 @@ namespace StreamEnergy.MyStream.Tests
         {
             // Arrange
             var session = container.Resolve<EnrollmentController.SessionHelper>();
+            await session.EnsureInitialized();
             session.Context = new UserContext
             {
                 Services = new[]
@@ -344,6 +358,8 @@ namespace StreamEnergy.MyStream.Tests
 
             using (var controller = container.Resolve<EnrollmentController>())
             {
+                await controller.Initialize();
+                
                 // Act
                 var result = await controller.VerifyIdentity(request);
 
@@ -361,6 +377,7 @@ namespace StreamEnergy.MyStream.Tests
         {
             // Arrange
             var session = container.Resolve<EnrollmentController.SessionHelper>();
+            await session.EnsureInitialized();
             session.Context = new UserContext
             {
                 Services = new[]
@@ -412,6 +429,7 @@ namespace StreamEnergy.MyStream.Tests
         {
             // Arrange
             var session = container.Resolve<EnrollmentController.SessionHelper>();
+            await session.EnsureInitialized();
             session.Context = new UserContext
             {
                 Services = new[]
@@ -452,6 +470,8 @@ namespace StreamEnergy.MyStream.Tests
 
             using (var controller = container.Resolve<EnrollmentController>())
             {
+                await controller.Initialize();
+
                 // Act
                 var result = await controller.ConfirmOrder(request);
 

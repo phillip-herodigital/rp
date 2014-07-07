@@ -41,7 +41,7 @@ namespace StreamEnergy.MyStream.Models
             get
             {
                 if (!isInitialized)
-                    throw new InvalidOperationException("Ensure Initialized must be called first.");
+                    throw new InvalidOperationException("EnsureInitialized must be called first.");
                 var context = session[ContextSessionKey] as TContext;
                 if (context == null)
                     session[ContextSessionKey] = context = container.Resolve<TContext>();
@@ -55,7 +55,7 @@ namespace StreamEnergy.MyStream.Models
             get
             {
                 if (!isInitialized)
-                    throw new InvalidOperationException("Ensure Initialized must be called first.");
+                    throw new InvalidOperationException("EnsureInitialized must be called first.");
                 return (session[StateSessionKey] as Type) ?? defaultState;
             }
             set { session[StateSessionKey] = value; }
@@ -66,7 +66,7 @@ namespace StreamEnergy.MyStream.Models
             get
             {
                 if (!isInitialized)
-                    throw new InvalidOperationException("Ensure Initialized must be called first.");
+                    throw new InvalidOperationException("EnsureInitialized must be called first.");
                 if (storeInternal)
                     return session[InternalContextSessionKey] as TInternalContext;
                 else
@@ -84,7 +84,7 @@ namespace StreamEnergy.MyStream.Models
             get
             {
                 if (!isInitialized)
-                    throw new InvalidOperationException("Ensure Initialized must be called first.");
+                    throw new InvalidOperationException("EnsureInitialized must be called first.");
                 return stateMachine;
             }
         }
