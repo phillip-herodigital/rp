@@ -1172,6 +1172,17 @@ article.mobile {
 			}
 		}
 		.group .item {
+			ul.links li {
+				float: left;
+				list-style-type: none;
+				margin-right: 7px;
+				padding-left: 7px;
+				border-left: 1px solid #0971ce;
+				&:first-child {
+					border-left: none;
+					padding-left: 0;
+				}
+			}
 			&.current-data {
 				width: 60%;
 				@include breakpoint(small) {
@@ -1188,10 +1199,61 @@ article.mobile {
 					border-left: 0;
 				}
 			}
+			&.paragraph {
+				width: 60%;
+				@include breakpoint(small) {
+					float: left;
+					width: 100%;
+				}
+			}
+			&.international-image {
+				margin-top: 1em;
+				float: right;
+				width: 40%;
+				img {
+					max-width: 100%;
+				}
+				@include breakpoint(small) {
+					width: 100%;
+					float: left;
+				}
+			}
+			&.price {
+				float: right;
+				margin-top: 1em;
+				p {
+					margin-top: 0;
+					text-align: right;
+					span {
+						font-size: 34px;
+						color: #0971cd;
+						font-weight: bold;
+					}
+				}
+				.plan-price {
+					text-transform: uppercase;
+					font-style: italic;
+					span {
+						color: #000;
+						font-size: 28px;
+						font-style: normal;
+						font-weight: normal;
+					}
+				}
+				@include breakpoint(small) {
+					float: left;
+					p {
+						text-align: left;
+					}
+				}
+			}
 		}
 		table.device tbody tr td {
 			text-align: center;
 			border-top: 0;
+			img {
+				max-width: 100%;
+			}
 		}
 	}
 	&.usage-details {
@@ -1233,41 +1295,6 @@ article.mobile {
 				border: none;
 				border-top: 1px solid #ddd;
 			}
-			.group .item {
-				ul li {
-					float: left;
-					list-style-type: none;
-					margin-right: 10px;
-					padding-left: 10px;
-					border-left: 1px solid #0971ce;
-					&:first-child {
-						border-left: none;
-						padding-left: 0;
-					}
-				}
-				&.paragraph {
-					width: 70%;
-					@include breakpoint(small) {
-						float: left;
-					}
-				}
-				&.international-image {
-					margin: 1em 0 0 1em;
-				}
-				&.price {
-					float: right;
-					margin-top: 1em;
-					p {
-						margin-top: 0;
-						text-align: right;
-						span {
-							font-size: 34px;
-							color: #0971cd;
-							font-weight: bold;
-						}
-					}
-				}
-			}
 			ul.includes {
 				list-style-type: none;
 				padding-left: 0px;
@@ -1276,18 +1303,69 @@ article.mobile {
 					background-repeat: no-repeat;
 					background-position-y: 5px;
 					padding-left: 25px;
-					ul.countries {
-						width: 25%;
-						float: left;
-						padding-left: 0;
-						list-style-type: none;
+					div {
 						margin: 25px 0;
-						li {
-							background: none;
+						ul.countries {
+							
 							padding-left: 0;
+							list-style-type: none;
+							li {
+								background: none;
+								padding: 0 5px 0 0;
+								width: 25%;
+								float: left;
+								@include breakpoint(small) {
+									width: 50%;
+								}
+							}
 						}
 					}
 				}
+			}
+		}
+	}
+	&.upgrade {
+		.sub-header {
+			margin: -15px 0 -25px 0;
+			p.left {
+				float: left;
+			}
+			p.right {
+				float: right;
+			}
+		}
+		.content {
+			hr {
+				border: none;
+				border-top: 1px solid #ddd;
+			}
+			.choose-date {
+				.when {
+					font-size: 20px;
+				}
+				input {
+					float: left;
+					margin-top: 5px;
+				}
+				.effective-paragraph {
+					margin-left: 30px;
+					.effective-date {
+						font-weight: bold;
+						span {
+							color: #00a226;
+						}
+					}
+				}
+			}
+			.left-buttons {
+				float: left;
+				&.cancel {
+					margin: 20px 15px 0 0;
+
+				}
+			}
+			.right-button {
+				float: right;
 			}
 		}
 	}
