@@ -336,9 +336,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\Sitecore.Zip.dll</HintPath>
     </Reference>
-    <Reference Include="StackExchange.Redis, Version=1.0.281.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="StackExchange.Redis, Version=1.0.297.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\StackExchange.Redis.1.0.281\lib\net45\StackExchange.Redis.dll</HintPath>
+      <HintPath>..\packages\StackExchange.Redis.1.0.297\lib\net45\StackExchange.Redis.dll</HintPath>
     </Reference>
     <Reference Include="Stimulsoft.Base, Version=2009.3.600.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -477,11 +477,13 @@
     <Compile Include="Models\Account\GetInvoicesResponse.cs" />
     <Compile Include="Models\Account\GetNotificationSettingsRequest.cs" />
     <Compile Include="Models\Account\GetNotificationSettingsResponse.cs" />
+    <Compile Include="Models\Account\GetPaymentsResponse.cs" />
     <Compile Include="Models\Account\GetUtilityProvidersResponse.cs" />
     <Compile Include="Models\Account\Invoice.cs" />
     <Compile Include="Models\Account\GetOnlineAccountResponse.cs" />
     <Compile Include="Models\Account\LanguagePreference.cs" />
     <Compile Include="Models\Account\NotificationSetting.cs" />
+    <Compile Include="Models\Account\Payment.cs" />
     <Compile Include="Models\Account\RemoveAccountRequest.cs" />
     <Compile Include="Models\Account\RemoveAccountResponse.cs" />
     <Compile Include="Models\Account\SendLetterRequest.cs" />

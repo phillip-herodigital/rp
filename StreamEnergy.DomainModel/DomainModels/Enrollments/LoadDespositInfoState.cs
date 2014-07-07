@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
@@ -38,10 +39,11 @@ namespace StreamEnergy.DomainModels.Enrollments
                  select internalService != null && internalService.Details != null).All(hasDeposit => hasDeposit);
         }
 
-        protected override void LoadInternalState(UserContext context, InternalContext internalContext)
+        protected override Task LoadInternalState(UserContext context, InternalContext internalContext)
         {
             var result = enrollmentService.LoadDeposit(context.Services);
             internalContext.Deposit = result.ToArray();
+            return Task.FromResult<object>(null);
         }
     }
 }

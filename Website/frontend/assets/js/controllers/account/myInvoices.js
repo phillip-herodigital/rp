@@ -7,53 +7,27 @@ ngApp.controller('AcctMyInvoicesCtrl', ['$scope', '$rootScope', '$http', '$filte
 	$scope.invoicesTable.columnList = [];
 	$scope.invoicesTable.values = [];
 	$scope.isLoading = true;
+	$scope.filters = {};
+	$scope.filtersList = {};
+	$scope.filtersList.serviceType = [];
+	$scope.filtersList.accountNumber = [];
 
 	$timeout(function() {
 		$http.get('/api/account/getInvoices').success(function (data, status, headers, config) {
 			$scope.invoicesTable = data.invoices;
 			$scope.invoicesTableOriginal = angular.copy($scope.invoicesTable);
+
+			// filters
+			$scope.serviceTypes = _.pluck(_.uniq($scope.invoicesTable.values, 'serviceType'),'serviceType');
+			$scope.accountNumbers = _.pluck(_.uniq($scope.invoicesTable.values, 'accountNumber'),'accountNumber');
+			_.forEach($scope.serviceTypes,function(type) { $scope.filtersList.serviceType.push({ 'name' : type, 'value' : type }) }); 
+			_.forEach($scope.accountNumbers,function(num) { $scope.filtersList.accountNumber.push({ 'name' : num, 'value' : num }) }); 
+			$scope.filtersList.isPaid = [{ "name": "Paid", "value": true }, { "name": "Unpaid", "value": false }];
+
 			$scope.isLoading = false;
+
 		});
 	}, 800);
-
-	// filters
-	$scope.filters = {};
-	$scope.filtersList = {
-		"serviceType": [
-			{
-				"name": "HomeLife Services",
-				"value": "HomeLife Services"
-			},
-			{
-				"name": "Utility",
-				"value": "Utility"
-			}
-		],
-		"accountNumber": [
-			{
-				"name": "1197015532",
-				"value": "1197015532"
-			},
-			{
-				"name": "219849302",
-				"value": "219849302"
-			},
-			{
-				"name": "194829927",
-				"value": "194829927"
-			}
-		],
-		"isPaid": [
-			{
-				"name": "Paid",
-				"value": true
-			},
-			{
-				"name": "Unpaid",
-				"value": false
-			}
-		]
-	};
 
 	// methods
 	$scope.resetFilters = function() {
@@ -64,18 +38,12 @@ ngApp.controller('AcctMyInvoicesCtrl', ['$scope', '$rootScope', '$http', '$filte
 		return !jQuery.isEmptyObject($scope.filters);
 	}
 
-	$scope.test = function() {
-		console.log($scope);
-	};
-
 	// watches
 	$scope.$watch('filters', function(newVal, oldVal) {
-		
 		$scope.filters = $filter('removeNullProps')($scope.filters);
-		if ($scope.invoicesTable.values.length) {
+		if ($scope.invoicesTableOriginal) {
 			$scope.invoicesTable.values = $filter('filter')($scope.invoicesTableOriginal.values, $scope.filters);
 		}
-
 	}, true);
 
 }]);

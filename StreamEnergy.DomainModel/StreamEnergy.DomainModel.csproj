@@ -124,6 +124,7 @@
     <Compile Include="DomainModels\Accounts\CustomerAccount.cs" />
     <Compile Include="DomainModels\Accounts\ISubAccount.cs" />
     <Compile Include="DomainModels\Accounts\Invoice.cs" />
+    <Compile Include="DomainModels\Accounts\Payment.cs" />
     <Compile Include="DomainModels\Accounts\ResetPassword\GetUsernameState.cs" />
     <Compile Include="DomainModels\Accounts\ResetPassword\ResetPasswordContext.cs" />
     <Compile Include="DomainModels\Accounts\ResetPassword\ResetPasswordTokenManager.cs" />

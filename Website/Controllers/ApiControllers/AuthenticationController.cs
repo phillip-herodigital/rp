@@ -18,6 +18,7 @@ using StreamEnergy.MyStream.Models;
 using StreamEnergy.MyStream.Models.Authentication;
 using StreamEnergy.Processes;
 using StreamEnergy.Services.Clients;
+using System.Threading.Tasks;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -64,6 +65,19 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.settings = settings;
         }
 
+        protected override void Initialize(System.Web.Http.Controllers.HttpControllerContext controllerContext)
+        {
+            Initialize().Wait();
+            base.Initialize(controllerContext);
+        }
+
+        public async Task Initialize()
+        {
+            await Task.WhenAll(
+                coaSessionHelper.EnsureInitialized(),
+                resetPasswordSessionHelper.EnsureInitialized());
+        }
+
         protected override void Dispose(bool disposing)
         {
             coaSessionHelper.Dispose();
@@ -103,18 +117,19 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         #region Create Online Account
 
         [HttpPost]
-        public FindAccountResponse FindAccount(FindAccountRequest request)
+        public async Task<FindAccountResponse> FindAccount(FindAccountRequest request)
         {
             if (coaSessionHelper.StateMachine.State != typeof(FindAccountState))
             {
                 coaSessionHelper.Reset();
+                await coaSessionHelper.EnsureInitialized();
             }
 
             coaSessionHelper.StateMachine.Context.AccountNumber = request.AccountNumber;
             coaSessionHelper.StateMachine.Context.SsnLastFour = request.SsnLastFour;
 
             if (coaSessionHelper.StateMachine.State == typeof(FindAccountState))
-                coaSessionHelper.StateMachine.Process(typeof(AccountInformationState));
+                await coaSessionHelper.StateMachine.Process(typeof(AccountInformationState));
 
             var validations = Enumerable.Empty<ValidationResult>();
             // don't give validations for the next step
@@ -140,7 +155,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
 
         [HttpPost]
-        public HttpResponseMessage CreateLogin(CreateLoginRequest request)
+        public async Task<HttpResponseMessage> CreateLogin(CreateLoginRequest request)
         {
             coaSessionHelper.StateMachine.Context.Username = domain.AccountPrefix + request.Username;
             coaSessionHelper.StateMachine.Context.Password = request.Password;
@@ -148,7 +163,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             coaSessionHelper.StateMachine.Context.Challenges = request.Challenges.ToDictionary(c => c.SelectedQuestion.Id, c => c.Answer);
 
             if (coaSessionHelper.StateMachine.State == typeof(AccountInformationState) || coaSessionHelper.StateMachine.State == typeof(CreateAccountState))
-                coaSessionHelper.StateMachine.Process();
+                await coaSessionHelper.StateMachine.Process();
 
             var success = coaSessionHelper.StateMachine.State == typeof(CompleteState);
 
@@ -171,14 +186,15 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         #region Reset Password
 
         [HttpPost]
-        public GetUserChallengeQuestionsResponse GetUserChallengeQuestions(GetUserChallengeQuestionsRequest request)
+        public async Task<GetUserChallengeQuestionsResponse> GetUserChallengeQuestions(GetUserChallengeQuestionsRequest request)
         {
             resetPasswordSessionHelper.Reset();
+            await resetPasswordSessionHelper.EnsureInitialized();
 
             resetPasswordSessionHelper.Context.DomainPrefix = domain.AccountPrefix;
             resetPasswordSessionHelper.Context.Username = request.Username;
 
-            resetPasswordSessionHelper.StateMachine.Process(typeof(VerifyUserState));
+            await resetPasswordSessionHelper.StateMachine.Process(typeof(VerifyUserState));
 
             
             var validations = Enumerable.Empty<ValidationResult>();

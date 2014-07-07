@@ -16,17 +16,17 @@ namespace StreamEnergy.Processes
         where TContext : class, ISanitizable
         where TInternalContext : class
     {
-        void Initialize(Type state, TContext context, TInternalContext internalContext = null);
+        Task Initialize(Type state, TContext context, TInternalContext internalContext = null);
 
         TContext Context { get; }
         TInternalContext InternalContext { get; }
         Type State { get; }
 
-        void ContextUpdated();
+        Task ContextUpdated();
 
-        bool RestoreStateFrom(Type state, ref Type currentState);
+        Task<RestoreInternalStateResult> RestoreStateFrom(Type state, Type currentState);
 
-        void Process(params Type[] stopAt);
+        Task Process(params Type[] stopAt);
 
         IEnumerable<ValidationResult> ValidationResults { get; }
 

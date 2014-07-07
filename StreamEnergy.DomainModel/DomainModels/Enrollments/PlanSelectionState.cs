@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
@@ -48,7 +49,7 @@ namespace StreamEnergy.DomainModels.Enrollments
                  select internalService != null && internalService.Details != null).All(hasOptionRule => hasOptionRule);
         }
 
-        protected override void LoadInternalState(UserContext context, InternalContext internalContext)
+        protected override Task LoadInternalState(UserContext context, InternalContext internalContext)
         {
             internalContext.OfferOptionRules = (from service in context.Services
                                                 where service.SelectedOffers != null
@@ -59,6 +60,7 @@ namespace StreamEnergy.DomainModels.Enrollments
                                                     Offer = offer.Offer,
                                                     Details = offer.Offer.GetOfferOptionPolicy(container).GetOptionRules(service.Location, offer.Offer)
                                                 }).ToArray();
+            return Task.FromResult<object>(null);
         }
     }
 }

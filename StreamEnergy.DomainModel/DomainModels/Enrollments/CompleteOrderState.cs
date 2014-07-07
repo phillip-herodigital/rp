@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
@@ -30,7 +31,7 @@ namespace StreamEnergy.DomainModels.Enrollments
             yield return context => context.OnlineAccount;
         }
 
-        protected override Type InternalProcess(UserContext context, InternalContext internalContext)
+        protected override Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
         {
             internalContext.PlaceOrderResult = enrollmentService.PlaceOrder(context.Services);
 

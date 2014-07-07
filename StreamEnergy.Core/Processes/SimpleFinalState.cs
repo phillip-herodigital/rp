@@ -34,9 +34,9 @@ namespace StreamEnergy.Processes
             get { return true; }
         }
 
-        Type IState<TContext, TInternalContext>.Process(TContext data, TInternalContext internalData)
+        Task<Type> IState<TContext, TInternalContext>.Process(TContext data, TInternalContext internalData)
         {
-            return this.GetType();
+            return Task.FromResult(this.GetType());
         }
 
         /// <summary>
@@ -44,9 +44,9 @@ namespace StreamEnergy.Processes
         /// </summary>
         /// <param name="stateMachine">The state machine</param>
         /// <param name="state">The state machine's state</param>
-        public virtual bool RestoreInternalState(IStateMachine<TContext, TInternalContext> stateMachine, ref Type state)
+        public virtual Task<RestoreInternalStateResult> RestoreInternalState(IStateMachine<TContext, TInternalContext> stateMachine, Type state)
         {
-            return true;
+            return Task.FromResult(new RestoreInternalStateResult { Success = true, State = state });
         }
     }
 }

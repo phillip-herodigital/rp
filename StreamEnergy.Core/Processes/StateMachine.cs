@@ -22,14 +22,14 @@ namespace StreamEnergy.Processes
             this.container = container;
         }
 
-        public void Initialize(Type state, TContext context, TInternalContext internalContext)
+        public async Task Initialize(Type state, TContext context, TInternalContext internalContext)
         {
             lastValidations = null;
             Context = context;
             context.Sanitize();
 
             InternalContext = internalContext ?? container.Resolve<TInternalContext>();
-            RestoreStateFrom(state, ref state);
+            (await RestoreStateFrom(state, state)).Apply(ref state);
             State = state;
         }
 
@@ -39,7 +39,7 @@ namespace StreamEnergy.Processes
 
         public Type State { get; private set; }
 
-        public void Process(params Type[] stopAt)
+        public async Task Process(params Type[] stopAt)
         {
             Context.Sanitize();
             while (stopAt == null || !stopAt.Contains(State))
@@ -53,7 +53,7 @@ namespace StreamEnergy.Processes
                 if (lastValidations.Any())
                     break;
 
-                State = state.Process(Context, InternalContext);
+                State = await state.Process(Context, InternalContext);
 
                 lastValidations = null;
                 Context.Sanitize();
@@ -75,10 +75,10 @@ namespace StreamEnergy.Processes
 
         public IEnumerable<ResolverOverride> ResolverOverrides { get; set; }
 
-        public void ContextUpdated()
+        public async Task ContextUpdated()
         {
             var state = State;
-            RestoreStateFrom(state, ref state);
+            (await RestoreStateFrom(state, state)).Apply(ref state);
             State = state;
             Context.Sanitize();
             GetState().Sanitize(Context, InternalContext);
@@ -86,9 +86,9 @@ namespace StreamEnergy.Processes
         }
 
 
-        public bool RestoreStateFrom(Type state, ref Type currentState)
+        public async Task<RestoreInternalStateResult> RestoreStateFrom(Type state, Type currentState)
         {
-            return BuildState(state).RestoreInternalState(this, ref currentState);
+            return await BuildState(state).RestoreInternalState(this, currentState);
         }
 
         protected IState<TContext, TInternalContext> GetState()
