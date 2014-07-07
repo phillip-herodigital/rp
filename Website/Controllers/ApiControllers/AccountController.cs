@@ -113,6 +113,86 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         #endregion
 
+        #region Payment History
+
+        [HttpGet]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
+        public GetPaymentsResponse GetPayments()
+        {
+            // TODO - get the invoices from Stream Connect and format the response
+
+            var row1 = new StreamEnergy.MyStream.Models.Account.Payment
+            {
+                AccountNumber = "1197015532",
+                ServiceType = "HomeLife Services",
+                ConfirmCode = "1030523546381",
+                PaymentAmount = "$24.99",
+                PaymentDate = "04/05/14",
+                Status = "PENDING",
+                IsRecurring = true,
+                PaymentID = "1234567890",
+                PaymentMode = "ACH",
+                PaymentAccount = "*********1234",
+                RoutingNumber = "1234567890",
+                PaymentMadeBy = "Jordan Campbell",
+                Actions = 
+                {
+                    { "showDetails", "" }
+                }
+            };
+
+            var row2 = new StreamEnergy.MyStream.Models.Account.Payment
+            {
+                AccountNumber = "219849302",
+                ServiceType = "Utility",
+                ConfirmCode = "1020453546012",
+                PaymentAmount = "$93.72",
+                PaymentDate = "03/13/14",
+                Status = "APPROVED",
+                IsRecurring = false,
+                PaymentID = "1234567890",
+                PaymentMode = "ACH",
+                PaymentAccount = "*********7844",
+                RoutingNumber = "1234567890",
+                PaymentMadeBy = "Jordan Campbell",
+                Actions = 
+                {
+                    { "showDetails", "" }
+                }
+            };
+
+            var row3 = new StreamEnergy.MyStream.Models.Account.Payment
+            {
+                AccountNumber = "219849302",
+                ServiceType = "Utility",
+                ConfirmCode = "1020474538566",
+                PaymentAmount = "$88.58",
+                PaymentDate = "02/10/14",
+                Status = "APPROVED",
+                IsRecurring = false,
+                PaymentID = "1234567890",
+                PaymentMode = "ACH",
+                PaymentAccount = "*********7844",
+                RoutingNumber = "1234567890",
+                PaymentMadeBy = "Michelle Campbell",
+                Actions = 
+                {
+                    { "showDetails", "" }
+                }
+            };
+            
+            return new GetPaymentsResponse
+            {
+                Payments = new Table<Models.Account.Payment>
+                {
+                    ColumnList = typeof(StreamEnergy.MyStream.Models.Account.Payment).BuildTableSchema(database.GetItem("/sitecore/content/Data/Components/Account/Overview/My Payments")),
+                    Values = new[] { row1, row2, row3 }
+                }
+            };
+        }
+
+        #endregion
+
         #region Online Account Information
 
         [HttpGet]
