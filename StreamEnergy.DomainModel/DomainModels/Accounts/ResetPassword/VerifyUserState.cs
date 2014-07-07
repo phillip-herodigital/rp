@@ -48,7 +48,7 @@ namespace StreamEnergy.DomainModels.Accounts.ResetPassword
             }
         }
 
-        protected override Type InternalProcess(ResetPasswordContext context, object internalContext)
+        protected override async Task<Type> InternalProcess(ResetPasswordContext context, object internalContext)
         {
             var passwordResetToken = tokenManager.GetPasswordResetToken(context.Username);
             // TODO - get email address from Stream Commons
@@ -67,7 +67,7 @@ namespace StreamEnergy.DomainModels.Accounts.ResetPassword
                 Body = @"Click the following link to reset the password on your Stream Energy account: <a href=""{url}"">Reset Password</a>".Format(new { url = url })
             });
 
-            return base.InternalProcess(context, internalContext);
+            return await base.InternalProcess(context, internalContext);
             
         }
     }
