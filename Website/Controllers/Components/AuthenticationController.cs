@@ -55,7 +55,6 @@ namespace StreamEnergy.MyStream.Controllers.Components
             if (!Sitecore.Context.PageMode.IsNormal)
             {
                 ViewBag.Name = "John Smith";
-                ViewBag.AccountNumber = "12534567890";
                 ViewBag.Username = "john.smith";
                 return View("~/Views/Components/Authentication/Change Password.cshtml");
             }
@@ -66,7 +65,6 @@ namespace StreamEnergy.MyStream.Controllers.Components
 
                 // TODO - pull from Stream Connect
                 ViewBag.Name = "Account Name";
-                ViewBag.AccountNumber = "";
                 ViewBag.Username = username;
                 return View("~/Views/Components/Authentication/Change Password.cshtml", req);
             }
