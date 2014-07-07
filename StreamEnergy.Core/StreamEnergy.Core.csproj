@@ -210,6 +210,8 @@
     <Compile Include="Pipelines\GenerateCustomCacheKey.cs" />
     <Compile Include="Pipelines\NoChangeOrderer.cs" />
     <Compile Include="Pipelines\VanityUrlRedirect.cs" />
+    <Compile Include="Processes\RestoreInternalStateResult.cs" />
+    <Compile Include="Processes\RestoreInternalStateResultExtensions.cs" />
     <Compile Include="Processes\StateBase.cs" />
     <Compile Include="RequireValueAttributeAdapter.cs" />
     <Compile Include="Pipelines\GetTextFieldValueExtended.cs" />

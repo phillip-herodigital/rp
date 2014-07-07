@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Http.Controllers;
 using StreamEnergy.MyStream.Controllers.ApiControllers;
+using System.Threading.Tasks;
 
 namespace StreamEnergy.MyStream.Tests
 {
@@ -143,7 +144,7 @@ namespace StreamEnergy.MyStream.Tests
         }
 
         [TestMethod]
-        public void PostServiceInformationTest()
+        public async Task PostServiceInformationTest()
         {
             // Arrange
             var request = new Models.Enrollment.ServiceInformation
@@ -157,7 +158,7 @@ namespace StreamEnergy.MyStream.Tests
             using (var controller = container.Resolve<EnrollmentController>())
             {
                 // Act
-                var result = controller.ServiceInformation(request);
+                var result = await controller.ServiceInformation(request);
 
                 // Assert
                 Assert.AreEqual("Services[0].SelectedOffers", result.Validations.Single().MemberName);
@@ -178,7 +179,7 @@ namespace StreamEnergy.MyStream.Tests
         }
 
         [TestMethod]
-        public void PostSelectedOffersTest()
+        public async Task PostSelectedOffersTest()
         {
             // Arrange
             var session = container.Resolve<EnrollmentController.SessionHelper>();
@@ -207,7 +208,7 @@ namespace StreamEnergy.MyStream.Tests
             using (var controller = container.Resolve<EnrollmentController>())
             {
                 // Act
-                var result = controller.SelectedOffers(request);
+                var result = await controller.SelectedOffers(request);
 
                 // Assert
                 Assert.IsTrue(result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Any(o => o.OfferId == "24-month-fixed-rate"));
@@ -220,7 +221,7 @@ namespace StreamEnergy.MyStream.Tests
         }
 
         [TestMethod]
-        public void PostAccountInformationTest()
+        public async Task PostAccountInformationTest()
         {
             // Arrange
             var session = container.Resolve<EnrollmentController.SessionHelper>();
@@ -279,7 +280,7 @@ namespace StreamEnergy.MyStream.Tests
             using (var controller = container.Resolve<EnrollmentController>())
             {
                 // Act
-                var result = controller.AccountInformation(request);
+                var result = await controller.AccountInformation(request);
 
                 // Assert
                 Assert.AreEqual("Test", result.ContactInfo.Name.First);
@@ -303,7 +304,7 @@ namespace StreamEnergy.MyStream.Tests
         }
 
         [TestMethod]
-        public void PostIdentityQuestionsTest()
+        public async Task PostIdentityQuestionsTest()
         {
             // Arrange
             var session = container.Resolve<EnrollmentController.SessionHelper>();
@@ -344,7 +345,7 @@ namespace StreamEnergy.MyStream.Tests
             using (var controller = container.Resolve<EnrollmentController>())
             {
                 // Act
-                var result = controller.VerifyIdentity(request);
+                var result = await controller.VerifyIdentity(request);
 
                 // Assert
                 Assert.IsFalse(result.IdentityQuestions.Any());
@@ -356,7 +357,7 @@ namespace StreamEnergy.MyStream.Tests
 
         // TODO - can't run this test until we have services wired up to verify the response
         //[TestMethod]
-        public void PostIdentityQuestionsNoDepositTest()
+        public async Task PostIdentityQuestionsNoDepositTest()
         {
             // Arrange
             var session = container.Resolve<EnrollmentController.SessionHelper>();
@@ -397,7 +398,7 @@ namespace StreamEnergy.MyStream.Tests
             using (var controller = container.Resolve<EnrollmentController>())
             {
                 // Act
-                var result = controller.VerifyIdentity(request);
+                var result = await controller.VerifyIdentity(request);
 
                 // Assert
                 Assert.AreEqual(0, result.Cart.Sum(l => l.OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Sum(sel => sel.Deposit.RequiredAmount)));
@@ -407,7 +408,7 @@ namespace StreamEnergy.MyStream.Tests
         }
 
         [TestMethod]
-        public void PostConfirmOrderTest()
+        public async Task PostConfirmOrderTest()
         {
             // Arrange
             var session = container.Resolve<EnrollmentController.SessionHelper>();
@@ -452,7 +453,7 @@ namespace StreamEnergy.MyStream.Tests
             using (var controller = container.Resolve<EnrollmentController>())
             {
                 // Act
-                var result = controller.ConfirmOrder(request);
+                var result = await controller.ConfirmOrder(request);
 
                 // Assert
                 Assert.AreEqual("87654321", result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Single().ConfirmationNumber);
