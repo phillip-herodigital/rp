@@ -23,6 +23,7 @@ ngApp.controller('AuthResetPasswordCtrl', ['$scope', '$rootScope', '$http', '$wi
 				} else {
 					// if successful, bind the response data to the scope and send the user to step 2
 					$scope.username = data.username;
+					$scope.email = data.email;
 					$scope.securityQuestions = data.securityQuestions;
 					$scope.activeState = 'step2';
 				}

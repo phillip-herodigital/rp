@@ -201,10 +201,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             // don't give validations for the next step
             if (coaSessionHelper.StateMachine.State == typeof(GetUsernameState))
                 validations = coaSessionHelper.StateMachine.ValidationResults;
-                
+
+            // TODO - get email address from Stream Commons
+            var email = "matt.dekrey@responsivepath.com";
+
             return new GetUserChallengeQuestionsResponse
             {
                 Username = request.Username,
+                Email = Redact(email),
                 SecurityQuestions = from challenge in resetPasswordSessionHelper.Context.Answers ?? new Dictionary<Guid, string>()
                                     let questionItem = database.GetItem(new Sitecore.Data.ID(challenge.Key))
                                     select new SecurityQuestion
@@ -214,6 +218,11 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                     },
                 Validations = TranslatedValidationResult.Translate(validations, GetAuthItem("Forgot Password"))
             };
+        }
+
+        private string Redact(string email)
+        {
+            return System.Text.RegularExpressions.Regex.Replace(email ?? "", "^(..?)[^@]*@(.*)$", "$1******@$2");
         }
 
         [HttpPost]
