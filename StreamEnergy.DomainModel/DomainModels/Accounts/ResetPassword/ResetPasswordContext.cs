@@ -16,6 +16,7 @@ namespace StreamEnergy.DomainModels.Accounts.ResetPassword
         [Required(ErrorMessage = "Username Required")]
         public string Username { get; set; }
 
+        public bool SendEmail { get; set; }
 
         public Dictionary<Guid, string> Answers { get; set; }
 
@@ -35,6 +36,5 @@ namespace StreamEnergy.DomainModels.Accounts.ResetPassword
                 }
             }
         }
-
     }
 }

@@ -9,6 +9,8 @@ namespace StreamEnergy.MyStream.Models.Authentication
 {
     public class ChangePasswordRequest
     {
+        public string ResetToken { get; set; }
+
         [Required(ErrorMessage = "Password Required")]
         [MembershipPassword(ErrorMessage = "Password Invalid")]
         public string Password { get; set; }
