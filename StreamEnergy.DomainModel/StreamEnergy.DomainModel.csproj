@@ -110,6 +110,7 @@
     <Reference Include="System.Runtime" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainModels\Accounts\AccountGrouping.cs" />
     <Compile Include="DomainModels\Accounts\ChallengeResponse.cs" />
     <Compile Include="DomainModels\Accounts\Create\AccountInformationState.cs" />
     <Compile Include="DomainModels\Accounts\Create\CompleteState.cs" />
@@ -118,13 +119,18 @@
     <Compile Include="DomainModels\Accounts\Create\CreateAccountState.cs" />
     <Compile Include="DomainModels\Accounts\Create\CreateFailedState.cs" />
     <Compile Include="DomainModels\Accounts\Create\FindAccountState.cs" />
+    <Compile Include="DomainModels\Accounts\GeorgiaElectricityAccount.cs" />
     <Compile Include="DomainModels\Accounts\IAccountService.cs" />
     <Compile Include="DomainModels\Accounts\CustomerAccount.cs" />
+    <Compile Include="DomainModels\Accounts\ISubAccount.cs" />
     <Compile Include="DomainModels\Accounts\Invoice.cs" />
+    <Compile Include="DomainModels\Accounts\Payment.cs" />
     <Compile Include="DomainModels\Accounts\ResetPassword\GetUsernameState.cs" />
     <Compile Include="DomainModels\Accounts\ResetPassword\ResetPasswordContext.cs" />
     <Compile Include="DomainModels\Accounts\ResetPassword\SecurityQuestionsVerifiedState.cs" />
     <Compile Include="DomainModels\Accounts\ResetPassword\VerifyUserState.cs" />
+    <Compile Include="DomainModels\Accounts\SampleSubAccount.cs" />
+    <Compile Include="DomainModels\Accounts\TexasElectricityAccount.cs" />
     <Compile Include="DomainModels\Accounts\UserProfile.cs" />
     <Compile Include="DomainModels\Address.cs" />
     <Compile Include="DomainModels\CustomerContact.cs" />

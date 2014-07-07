@@ -28,17 +28,17 @@
 
     <link rel="shortcut icon" type="image/ico" href="/frontend/assets/i/favicon.ico" />
     
-    @Styles.Render("~/bundles/Styles")
+    @Styles.Render("~/frontend/assets/css/bundle")
     @if ((Request.Browser.Browser == "IE") && ((Request.Browser.MajorVersion <= 8)))
     {
-        @Scripts.Render("~/bundles/LegacyScripts");
+        @Scripts.Render("~/frontend/assets/js/legacybundle");
     }
     else
     {
-        @Scripts.Render("~/bundles/Scripts")
+        @Scripts.Render("~/frontend/assets/js/bundle")
     }    
 
-    <script type="text/javascript" src="//use.typekit.net/hag0zvs.js"></script>
+    <script type="text/javascript" src="//use.typekit.net/obg4jvp.js"></script>
     <script type="text/javascript">try { Typekit.load(); } catch (e) { }</script>
 
 </head>
@@ -66,7 +66,7 @@
                                 @Html.Sitecore().Field("Banner Text")
                             </div>
                         </div>
-                    }
+            }
                 </div>
             }
             <section class="layout cols-1">

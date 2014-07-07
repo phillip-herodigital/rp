@@ -1,7 +1,7 @@
 ﻿using System;
-namespace StreamEnergy.Services.Clients
+namespace StreamEnergy.Services.Clients.Interceptors
 {
-    public interface IServiceMockResolver
+    public interface IServiceInterceptor
     {
         bool ApplyMock(Castle.DynamicProxy.IInvocation invocation);
     }

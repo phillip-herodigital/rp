@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using System.Web.SessionState;
@@ -21,7 +22,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
     {
         private readonly Sitecore.Data.Items.Item translationItem;
         private readonly StateMachineSessionHelper<UserContext, InternalContext> stateHelper;
-        private readonly IStateMachine<UserContext, InternalContext> stateMachine;
+        private IStateMachine<UserContext, InternalContext> stateMachine;
         private readonly IValidationService validation;
 
         public class SessionHelper : StateMachineSessionHelper<UserContext, InternalContext>
@@ -37,8 +38,19 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.translationItem = Sitecore.Context.Database.GetItem(new Sitecore.Data.ID("{5B9C5629-3350-4D85-AACB-277835B6B1C9}"));
 
             this.stateHelper = stateHelper;
-            this.stateMachine = stateHelper.StateMachine;
             this.validation = validation;
+        }
+
+        protected override void Initialize(System.Web.Http.Controllers.HttpControllerContext controllerContext)
+        {
+            Initialize().Wait();
+            base.Initialize(controllerContext);
+        }
+
+        public async Task Initialize()
+        {
+            await stateHelper.EnsureInitialized();
+            this.stateMachine = stateHelper.StateMachine;
         }
 
         protected override void Dispose(bool disposing)
@@ -162,7 +174,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         [HttpPost]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
-        public ClientData ServiceInformation([FromBody]ServiceInformation value)
+        public async Task<ClientData> ServiceInformation([FromBody]ServiceInformation value)
         {
             stateMachine.Context.Services = (from location in value.Locations
                                              join service in (stateMachine.Context.Services ?? Enumerable.Empty<LocationServices>()) on location equals service.Location into services
@@ -173,35 +185,35 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                                  SelectedOffers = service != null ? service.SelectedOffers : null
                                              }).ToArray();
 
-            stateMachine.ContextUpdated();
+            await stateMachine.ContextUpdated();
 
             if (stateMachine.State == typeof(DomainModels.Enrollments.ServiceInformationState))
-                stateMachine.Process(typeof(DomainModels.Enrollments.AccountInformationState));
+                await stateMachine.Process(typeof(DomainModels.Enrollments.AccountInformationState));
 
             return ClientData(typeof(DomainModels.Enrollments.AccountInformationState));
         }
 
         [HttpPost]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
-        public ClientData SelectedOffers([FromBody]SelectedOffers value)
+        public async Task<ClientData> SelectedOffers([FromBody]SelectedOffers value)
         {
             stateMachine.Context.Services = (from newSelection in value.Selection
                                              join oldService in (stateMachine.Context.Services ?? Enumerable.Empty<LocationServices>()) on newSelection.Location equals oldService.Location into oldServices
                                              select Combine(newSelection, oldServices.SingleOrDefault(), stateMachine.InternalContext.AllOffers)).ToArray();
 
-            stateMachine.ContextUpdated();
+            await stateMachine.ContextUpdated();
 
             if (stateMachine.State == typeof(DomainModels.Enrollments.ServiceInformationState) || stateMachine.State == typeof(DomainModels.Enrollments.PlanSelectionState))
-                stateMachine.Process(typeof(DomainModels.Enrollments.AccountInformationState));
+                await stateMachine.Process(typeof(DomainModels.Enrollments.AccountInformationState));
 
             stateMachine.Context.Services = (from newSelection in value.Selection
                                              join oldService in (stateMachine.Context.Services ?? Enumerable.Empty<LocationServices>()) on newSelection.Location equals oldService.Location into oldServices
                                              select Combine(newSelection, oldServices.SingleOrDefault(), stateMachine.InternalContext.AllOffers)).ToArray();
 
             if (stateMachine.State == typeof(DomainModels.Enrollments.PlanSelectionState))
-                stateMachine.Process(typeof(DomainModels.Enrollments.AccountInformationState));
+                await stateMachine.Process(typeof(DomainModels.Enrollments.AccountInformationState));
             else
-                stateMachine.ContextUpdated();
+                await stateMachine.ContextUpdated();
 
             return ClientData(typeof(DomainModels.Enrollments.AccountInformationState));
         }
@@ -227,7 +239,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         [HttpPost]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
-        public ClientData AccountInformation([FromBody]AccountInformation request)
+        public async Task<ClientData> AccountInformation([FromBody]AccountInformation request)
         {
             MapCartToServices(request);
 
@@ -239,14 +251,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             stateMachine.Context.SecondaryContactInfo = request.SecondaryContactInfo;
             stateMachine.Context.SocialSecurityNumber = request.SocialSecurityNumber;
 
-            stateMachine.ContextUpdated();
+            await stateMachine.ContextUpdated();
 
             MapCartToServices(request);
 
-            stateMachine.ContextUpdated();
+            await stateMachine.ContextUpdated();
 
             if (stateMachine.State == typeof(DomainModels.Enrollments.AccountInformationState) || stateMachine.State == typeof(DomainModels.Enrollments.PlanSelectionState))
-                stateMachine.Process(typeof(DomainModels.Enrollments.OrderConfirmationState));
+                await stateMachine.Process(typeof(DomainModels.Enrollments.OrderConfirmationState));
 
             return ClientData(typeof(DomainModels.Enrollments.VerifyIdentityState));
         }
@@ -284,28 +296,28 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         [HttpPost]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
-        public ClientData VerifyIdentity([FromBody]VerifyIdentity request)
+        public async Task<ClientData> VerifyIdentity([FromBody]VerifyIdentity request)
         {
             stateMachine.Context.SelectedIdentityAnswers = request.SelectedIdentityAnswers;
 
-            stateMachine.ContextUpdated();
+            await stateMachine.ContextUpdated();
 
             if (stateMachine.State == typeof(DomainModels.Enrollments.VerifyIdentityState))
-                stateMachine.Process(typeof(DomainModels.Enrollments.CompleteOrderState));
+                await stateMachine.Process(typeof(DomainModels.Enrollments.CompleteOrderState));
 
             return ClientData(typeof(DomainModels.Enrollments.PaymentInfoState));
         }
 
         [HttpPost]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
-        public ClientData ConfirmOrder([FromBody]ConfirmOrder request)
+        public async Task<ClientData> ConfirmOrder([FromBody]ConfirmOrder request)
         {
             stateMachine.Context.PaymentInfo = request.PaymentInfo;
             stateMachine.Context.AgreeToTerms = request.AgreeToTerms;
 
-            stateMachine.ContextUpdated();
+            await stateMachine.ContextUpdated();
 
-            stateMachine.Process();
+            await stateMachine.Process();
 
             return ClientData(null);
         }

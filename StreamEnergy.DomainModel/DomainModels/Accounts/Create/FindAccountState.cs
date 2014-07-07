@@ -33,7 +33,7 @@ namespace StreamEnergy.DomainModels.Accounts.Create
             }
         }
 
-        protected override Type InternalProcess(CreateAccountContext context, CreateAccountInternalContext internalContext)
+        protected override Task<Type> InternalProcess(CreateAccountContext context, CreateAccountInternalContext internalContext)
         {
             // TODO - load from service
             context.Customer = new CustomerContact

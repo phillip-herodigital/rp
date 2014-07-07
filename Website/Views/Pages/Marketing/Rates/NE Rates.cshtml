@@ -11,7 +11,9 @@
                     where field.Name.EndsWith("Utility Title")
                     select field.Name.Replace("Utility Title", "");
 
-    var gasUtilities = (Sitecore.Data.Fields.MultilistField)Html.Sitecore().CurrentItem.Fields["Gas Utilities"];
+    var gasUtilities = from utility in ((Sitecore.Data.Fields.MultilistField)Html.Sitecore().CurrentItem.Fields["Gas Utilities"]).Items
+                       let item = Sitecore.Context.Database.GetItem(new Sitecore.Data.ID(new Guid(utility)))
+                       select item.Name;
     var tables = from utility in utilities
                  select new
                  {
@@ -50,7 +52,7 @@
                         <td>@Html.Sitecore().Field("Plan Title", row.Item)</td>
                         <td>@Html.AsMoney((string)row.Prefix + "Current Price", (Sitecore.Data.Items.Item)row.Item, 4)</td>
                         <td>@Html.AsMoney((string)row.Prefix + "Monthly Customer Service Fee", (Sitecore.Data.Items.Item)row.Item)</td>
-                        <td>@Html.Sitecore().Field(row.Prefix + "Term", row.Item)</td>
+                        <td class="term">@Html.Sitecore().Field(row.Prefix + "Term", row.Item)</td>
                         <td>@Html.AsMoney((string)row.Prefix + "Early Cancellation Fee", (Sitecore.Data.Items.Item)row.Item)</td>
                     </tr>
                 }

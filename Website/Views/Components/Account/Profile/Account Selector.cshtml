@@ -1,27 +1,26 @@
 ﻿<article class="service-identification" ng-controller="AcctAccountSelectorCtrl">
     <div class="content">
-        <div class="account-selector stretch">
-            <form>
+        <form>
+            <div class="account-selector stretch">
                 <div class="group">
                     <div class="item">
                         <label>@Html.Sitecore().Field("Account Number Text")</label>
-                        <select>
-                            <option value="Please choose">1197015532</option>
-                            <option value="account1">Account 2</option>
-                        </select>
+                        <select ng-model="currentAccount" ng-options="account.accountNumber for account in accounts track by account.accountNumber" ng-change="currentSubAccount = currentAccount.subAccounts[0]; updateSelectedAccount(currentAccount.accountNumber,currentAccount.subAccountLabel, currentSubAccount)"></select>
                     </div>
                     <div class="item">
-                        <label>@Html.Sitecore().Field("ESI ID Text")</label>
-                        <select class="id">
-                            <option value="Please choose">109437200008913264</option>
-                            <option value="account1">ID 2</option>
-                        </select>
+                        <label>{{ currentAccount.subAccountLabel }}</label>
+                        <select ng-model="currentSubAccount" ng-options="subAccount.id for subAccount in currentAccount.subAccounts" ng-change="updateSelectedAccount(currentAccount.accountNumber,currentAccount.subAccountLabel, currentSubAccount)"></select>
                     </div>
                 </div>
-            </form>
-        </div>
-        <div class="service-address">
-            <p>@Html.Sitecore().Field("Service Address Text") 123 Main Street, Dallas, TX 75001</p>
-        </div>
+            </div>
+            @*base this on subAccount Key - Utility, Homelife, Mobile, etc*@
+            <div ng-include src="'subAccountKey/' + currentSubAccount.key"></div>
+        </form>
     </div>
 </article>
+
+<script type="text/ng-template" id="subAccountKey/Utility">
+    <div class="service-address">
+        <p>@Html.Sitecore().Field("Service Address Text") {{ currentSubAccount.serviceAddress.line1 }}, {{ currentSubAccount.serviceAddress.city }}, {{ currentSubAccount.serviceAddress.stateAbbreviation }} {{ currentSubAccount.serviceAddress.postalCode5 }}</p>
+    </div>
+</script>

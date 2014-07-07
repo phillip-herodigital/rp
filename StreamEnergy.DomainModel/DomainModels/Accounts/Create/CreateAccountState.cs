@@ -19,7 +19,7 @@ namespace StreamEnergy.DomainModels.Accounts.Create
             this.unityContainer = unityContainer;
         }
 
-        protected override Type InternalProcess(CreateAccountContext context, CreateAccountInternalContext internalContext)
+        protected override async Task<Type> InternalProcess(CreateAccountContext context, CreateAccountInternalContext internalContext)
         {
             var user = Membership.CreateUser(context.Username, context.Password);
 
@@ -36,7 +36,7 @@ namespace StreamEnergy.DomainModels.Accounts.Create
 
             // TODO - register user with Stream Connect
 
-            return base.InternalProcess(context, internalContext);
+            return await base.InternalProcess(context, internalContext);
         }
     }
 }

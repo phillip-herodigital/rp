@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
@@ -14,7 +15,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         }
 
-        protected override Type InternalProcess(UserContext context, InternalContext internalContext)
+        protected override Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
         {
             // TODO - place order
 

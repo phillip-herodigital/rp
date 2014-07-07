@@ -76,15 +76,15 @@ namespace StreamEnergy.Core.Tests.Processes
                 get { return false; }
             }
 
-            public Type Process(CreateAccountContext data, object internalContext)
+            public Task<Type> Process(CreateAccountContext data, object internalContext)
             {
                 called();
-                return typeof(VerifyState);
+                return Task.FromResult(typeof(VerifyState));
             }
 
-            public bool RestoreInternalState(IStateMachine<CreateAccountContext, object> stateMachine, ref Type state)
+            public Task<RestoreInternalStateResult> RestoreInternalState(IStateMachine<CreateAccountContext, object> stateMachine, Type state)
             {
-                return true;
+                return Task.FromResult(RestoreInternalStateResult.From(true, state));
             }
         }
 
@@ -124,15 +124,15 @@ namespace StreamEnergy.Core.Tests.Processes
                 get { return false; }
             }
 
-            public Type Process(CreateAccountContext data, object internalContext)
+            public Task<Type> Process(CreateAccountContext data, object internalContext)
             {
                 called();
-                return typeof(ConfirmationState);
+                return Task.FromResult(typeof(ConfirmationState));
             }
 
-            public bool RestoreInternalState(IStateMachine<CreateAccountContext, object> stateMachine, ref Type state)
+            public Task<RestoreInternalStateResult> RestoreInternalState(IStateMachine<CreateAccountContext, object> stateMachine, Type state)
             {
-                return true;
+                return Task.FromResult(RestoreInternalStateResult.From(true, state));
             }
         }
 
@@ -156,18 +156,18 @@ namespace StreamEnergy.Core.Tests.Processes
         }
 
         [TestMethod]
-        public void NoProgressTest()
+        public async Task NoProgressTest()
         {
             var mock = new Moq.Mock<ICheckState>(Moq.MockBehavior.Strict);
             var stateMachine = Create(mock.Object);
             var context = new CreateAccountContext();
 
-            stateMachine.Initialize(typeof(GatherDataState), context);
+            await stateMachine.Initialize(typeof(GatherDataState), context);
 
             Assert.AreEqual(typeof(GatherDataState), stateMachine.State);
             Assert.AreEqual(context, stateMachine.Context);
 
-            stateMachine.Process();
+            await stateMachine.Process();
 
             Assert.IsTrue(stateMachine.ValidationResults.Select(r => r.ErrorMessage).SequenceEqual(new[] { "Username Required", "Password Required", "Password Confirmation Required" }));
             Assert.AreEqual(typeof(GatherDataState), stateMachine.State);
@@ -175,13 +175,13 @@ namespace StreamEnergy.Core.Tests.Processes
         }
 
         [TestMethod]
-        public void BlankValidationsTest()
+        public async Task BlankValidationsTest()
         {
             var mock = new Moq.Mock<ICheckState>(Moq.MockBehavior.Strict);
             var stateMachine = Create(mock.Object);
             var context = new CreateAccountContext();
 
-            stateMachine.Initialize(typeof(GatherDataState), context);
+            await stateMachine.Initialize(typeof(GatherDataState), context);
 
             Assert.IsTrue(stateMachine.ValidationResults.Select(r => r.ErrorMessage).SequenceEqual(new[] { "Username Required", "Password Required", "Password Confirmation Required" }));
             Assert.AreEqual(typeof(GatherDataState), stateMachine.State);
@@ -189,13 +189,13 @@ namespace StreamEnergy.Core.Tests.Processes
         }
 
         [TestMethod]
-        public void FailedValidationTest()
+        public async Task FailedValidationTest()
         {
             var mock = new Moq.Mock<ICheckState>(Moq.MockBehavior.Strict);
             var stateMachine = Create(mock.Object);
             var context = new CreateAccountContext();
 
-            stateMachine.Initialize(typeof(GatherDataState), context);
+            await stateMachine.Initialize(typeof(GatherDataState), context);
 
             context.Username = " tester";
             context.Password = "somePassword";
@@ -203,7 +203,7 @@ namespace StreamEnergy.Core.Tests.Processes
             Assert.AreEqual(typeof(GatherDataState), stateMachine.State);
             Assert.AreEqual(context, stateMachine.Context);
 
-            stateMachine.Process();
+            await stateMachine.Process();
 
             Assert.AreEqual("tester", context.Username);
 
@@ -213,7 +213,7 @@ namespace StreamEnergy.Core.Tests.Processes
         }
 
         [TestMethod]
-        public void InitialValidationsTest()
+        public async Task InitialValidationsTest()
         {
             var mock = new Moq.Mock<ICheckState>(Moq.MockBehavior.Strict);
             var stateMachine = Create(mock.Object);
@@ -223,7 +223,7 @@ namespace StreamEnergy.Core.Tests.Processes
             context.Password = "somePassword";
             context.ConfirmPassword = "somePassword";
 
-            stateMachine.Initialize(typeof(VerifyState), context);
+            await stateMachine.Initialize(typeof(VerifyState), context);
 
             Assert.IsTrue(stateMachine.ValidationResults.Select(r => r.ErrorMessage).SequenceEqual(new[] { "Email Required" }));
             Assert.AreEqual(typeof(VerifyState), stateMachine.State);
@@ -231,13 +231,13 @@ namespace StreamEnergy.Core.Tests.Processes
         }
 
         [TestMethod]
-        public void StopAtVerifyTest()
+        public async Task StopAtVerifyTest()
         {
             var mock = new Moq.Mock<ICheckState>(Moq.MockBehavior.Strict);
             var stateMachine = Create(mock.Object);
             var context = new CreateAccountContext();
 
-            stateMachine.Initialize(typeof(GatherDataState), context);
+            await stateMachine.Initialize(typeof(GatherDataState), context);
 
             context.Username = "tester";
             context.Password = "somePassword";
@@ -248,7 +248,7 @@ namespace StreamEnergy.Core.Tests.Processes
 
             mock.Setup(m => m.Callback(typeof(GatherDataState))).Verifiable();
 
-            stateMachine.Process();
+            await stateMachine.Process();
 
             Assert.IsTrue(stateMachine.ValidationResults.Select(r => r.ErrorMessage).SequenceEqual(new[] { "Email Required" }));
             Assert.AreEqual(typeof(VerifyState), stateMachine.State);
@@ -257,13 +257,13 @@ namespace StreamEnergy.Core.Tests.Processes
         }
 
         [TestMethod]
-        public void PassThroughToConfirmationTest()
+        public async Task PassThroughToConfirmationTest()
         {
             var mock = new Moq.Mock<ICheckState>(Moq.MockBehavior.Strict);
             var stateMachine = Create(mock.Object);
             var context = new CreateAccountContext();
 
-            stateMachine.Initialize(typeof(GatherDataState), context);
+            await stateMachine.Initialize(typeof(GatherDataState), context);
 
             context.Username = "tester";
             context.Password = "somePassword";
@@ -276,7 +276,7 @@ namespace StreamEnergy.Core.Tests.Processes
             mock.Setup(m => m.Callback(typeof(GatherDataState))).Verifiable();
             mock.Setup(m => m.Callback(typeof(VerifyState))).Verifiable();
 
-            stateMachine.Process();
+            await stateMachine.Process();
 
             Assert.IsFalse(stateMachine.ValidationResults.Any());
             Assert.AreEqual(typeof(ConfirmationState), stateMachine.State);
@@ -285,7 +285,7 @@ namespace StreamEnergy.Core.Tests.Processes
         }
 
         [TestMethod]
-        public void StartAtVerifyTest()
+        public async Task StartAtVerifyTest()
         {
             var mock = new Moq.Mock<ICheckState>(Moq.MockBehavior.Strict);
             var stateMachine = Create(mock.Object);
@@ -295,7 +295,7 @@ namespace StreamEnergy.Core.Tests.Processes
             context.Password = "somePassword";
             context.ConfirmPassword = "somePassword";
 
-            stateMachine.Initialize(typeof(VerifyState), context);
+            await stateMachine.Initialize(typeof(VerifyState), context);
 
             context.Email = "a@b.c";
 
@@ -304,7 +304,7 @@ namespace StreamEnergy.Core.Tests.Processes
 
             mock.Setup(m => m.Callback(typeof(VerifyState))).Verifiable();
 
-            stateMachine.Process();
+            await stateMachine.Process();
 
             Assert.IsFalse(stateMachine.ValidationResults.Any());
             Assert.AreEqual(typeof(ConfirmationState), stateMachine.State);
@@ -313,13 +313,13 @@ namespace StreamEnergy.Core.Tests.Processes
         }
 
         [TestMethod]
-        public void PauseAtVerifyTest()
+        public async Task PauseAtVerifyTest()
         {
             var mock = new Moq.Mock<ICheckState>(Moq.MockBehavior.Strict);
             var stateMachine = Create(mock.Object);
             var context = new CreateAccountContext();
 
-            stateMachine.Initialize(typeof(GatherDataState), context);
+            await stateMachine.Initialize(typeof(GatherDataState), context);
 
             context.Username = "tester";
             context.Password = "somePassword";
@@ -331,7 +331,7 @@ namespace StreamEnergy.Core.Tests.Processes
 
             mock.Setup(m => m.Callback(typeof(GatherDataState))).Verifiable();
 
-            stateMachine.Process(stopAt: typeof(VerifyState));
+            await stateMachine.Process(stopAt: typeof(VerifyState));
 
             Assert.IsFalse(stateMachine.ValidationResults.Any());
             Assert.AreEqual(typeof(VerifyState), stateMachine.State);
