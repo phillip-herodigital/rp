@@ -269,6 +269,33 @@ article {
 	.label { 
 		@extend label;
 	}
+	div.text-content-divider {
+	    overflow: hidden;
+	    text-align: center;
+	    text-transform: uppercase;
+		margin: 25px -15px;
+
+		&:before,
+		&:after {
+		    background-color: #000;
+		    content: "";
+		    display: inline-block;
+		    height: 1px;
+		    position: relative;
+		    vertical-align: middle;
+		    width: 50%;
+		}
+		&:before {
+		    right: 0.5em;
+		    margin-left: -50%;
+		    background-color: #ccc;
+		}
+		&:after {
+		    left: 0.5em;
+		    margin-right: -50%;
+		    background-color: #ccc;
+		}
+	}
 }
 article.grey-box {
 	background-color: #f9f9f9;
@@ -886,9 +913,6 @@ article.payment-history {
 					float: left;
 				}
 			}
-		}
-		td .icon-arrow-collapsed {
-			margin-left: 18px
 		}
 	}
 }

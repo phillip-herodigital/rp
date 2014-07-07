@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using Microsoft.Practices.Unity;
 using StreamEnergy.Processes;
@@ -39,7 +40,8 @@ namespace StreamEnergy.MyStream.Models
         {
             get
             {
-                EnsureInitialized();
+                if (!isInitialized)
+                    throw new InvalidOperationException("EnsureInitialized must be called first.");
                 var context = session[ContextSessionKey] as TContext;
                 if (context == null)
                     session[ContextSessionKey] = context = container.Resolve<TContext>();
@@ -52,7 +54,8 @@ namespace StreamEnergy.MyStream.Models
         {
             get
             {
-                EnsureInitialized();
+                if (!isInitialized)
+                    throw new InvalidOperationException("EnsureInitialized must be called first.");
                 return (session[StateSessionKey] as Type) ?? defaultState;
             }
             set { session[StateSessionKey] = value; }
@@ -62,7 +65,8 @@ namespace StreamEnergy.MyStream.Models
         {
             get
             {
-                EnsureInitialized();
+                if (!isInitialized)
+                    throw new InvalidOperationException("EnsureInitialized must be called first.");
                 if (storeInternal)
                     return session[InternalContextSessionKey] as TInternalContext;
                 else
@@ -79,7 +83,8 @@ namespace StreamEnergy.MyStream.Models
         {
             get
             {
-                EnsureInitialized();
+                if (!isInitialized)
+                    throw new InvalidOperationException("EnsureInitialized must be called first.");
                 return stateMachine;
             }
         }
@@ -93,13 +98,13 @@ namespace StreamEnergy.MyStream.Models
             isInitialized = false;
         }
 
-        private void EnsureInitialized()
+        public async Task EnsureInitialized()
         {
             if (!isInitialized)
             {
                 stateMachine = container.Resolve<StateMachine<TContext, TInternalContext>>();
                 isInitialized = true;
-                stateMachine.Initialize(State, Context, InternalContext);
+                await stateMachine.Initialize(State, Context, InternalContext);
             }
         }
 

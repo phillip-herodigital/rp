@@ -43,38 +43,43 @@ namespace StreamEnergy.Processes
             get { return false; }
         }
 
-        public virtual Type Process(TContext context, TInternalContext internalContext)
+        public virtual async Task<Type> Process(TContext context, TInternalContext internalContext)
         {
-            LoadInternalState(context, internalContext);
+            await LoadInternalState(context, internalContext);
 
-            return InternalProcess(context, internalContext);
+            return await InternalProcess(context, internalContext);
         }
 
-        protected virtual Type InternalProcess(TContext context, TInternalContext internalContext)
+        protected virtual Task<Type> InternalProcess(TContext context, TInternalContext internalContext)
         {
-            return nextState;
+            return Task.FromResult(nextState);
         }
 
-        public virtual bool RestoreInternalState(IStateMachine<TContext, TInternalContext> stateMachine, ref Type state)
+        public virtual async Task<RestoreInternalStateResult> RestoreInternalState(IStateMachine<TContext, TInternalContext> stateMachine, Type state)
         {
-            if (previousState != null && !stateMachine.RestoreStateFrom(previousState, ref state))
+            if (previousState != null)
             {
-                return false;
+                var result = await stateMachine.RestoreStateFrom(previousState, state);
+                state = result.State;
+                if (!result.Success)
+                {
+                    return new RestoreInternalStateResult { Success = false, State = state };
+                }
             }
 
             // Don't try to restore state if this is invalid.
             if (stateMachine.ValidateForState(this).Any())
             {
                 state = this.GetType();
-                return false;
+                return new RestoreInternalStateResult { Success = false, State = state };
             }
 
             if (NeedRestoreInternalState(stateMachine.Context, stateMachine.InternalContext))
             {
-                LoadInternalState(stateMachine.Context, stateMachine.InternalContext);
+                await LoadInternalState(stateMachine.Context, stateMachine.InternalContext);
             }
 
-            return true;
+            return new RestoreInternalStateResult { Success = true, State = state };
         }
 
         protected virtual bool NeedRestoreInternalState(TContext context, TInternalContext internalContext)
@@ -82,8 +87,9 @@ namespace StreamEnergy.Processes
             return false;
         }
 
-        protected virtual void LoadInternalState(TContext context, TInternalContext internalContext)
+        protected virtual Task LoadInternalState(TContext context, TInternalContext internalContext)
         {
+            return Task.FromResult<object>(null);
         }
     }
 }

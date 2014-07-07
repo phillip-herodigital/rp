@@ -73,7 +73,7 @@ ngApp.directive('gridTable', ['$filter', 'breakpoint', 'jQuery', function ($filt
 			};
 
 			var checkForHiddenColumns = function() {
-				scope.hasHiddenColumns = $filter('filter')(scope.table.columnList, { 'isVisible': false }).length ? true : false;
+				scope.hasHiddenColumns = $filter('filter')(scope.table.columnList, { 'isVisible': false }).length || scope.showExpand ? true : false;
 			};
 
 			// Range function similar to Python range

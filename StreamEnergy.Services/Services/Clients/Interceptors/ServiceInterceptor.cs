@@ -10,7 +10,7 @@ using System.ServiceModel.Description;
 using System.Text;
 using System.Xml;
 
-namespace StreamEnergy.Services.Clients
+namespace StreamEnergy.Services.Clients.Interceptors
 {
     class ServiceInterceptor : IInterceptor
     {

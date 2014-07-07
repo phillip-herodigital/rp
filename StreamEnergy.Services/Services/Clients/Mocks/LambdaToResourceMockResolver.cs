@@ -8,10 +8,11 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using StreamEnergy.Services.Clients.Interceptors;
 
-namespace StreamEnergy.Services.Clients
+namespace StreamEnergy.Services.Clients.Mocks
 {
-    public class LambdaToResourceMockResolver : IServiceMockResolver
+    public class LambdaToResourceMockResolver : IServiceInterceptor
     {
         private struct ResponseTest
         {
@@ -49,18 +50,22 @@ namespace StreamEnergy.Services.Clients
             }
         }
 
-        bool IServiceMockResolver.ApplyMock(Castle.DynamicProxy.IInvocation invocation)
+        bool IServiceInterceptor.ApplyMock(Castle.DynamicProxy.IInvocation invocation)
         {
-            if (envelopes.ContainsKey(invocation.Method))
+            try
             {
-                var mockParameters = mockParameterBuilder.Build();
-                var result = envelopes[invocation.Method].FirstOrDefault(m => m.Test(mockParameters));
-                if (result.Response != null)
+                if (envelopes.ContainsKey(invocation.Method))
                 {
-                    invocation.ReturnValue = SoapConverter.FromSoap(result.Response, invocation.Method.ReturnType);
-                    return true;
+                    var mockParameters = mockParameterBuilder.Build();
+                    var result = envelopes[invocation.Method].FirstOrDefault(m => m.Test(mockParameters));
+                    if (result.Response != null)
+                    {
+                        invocation.ReturnValue = SoapConverter.FromSoap(result.Response, invocation.Method.ReturnType);
+                        return true;
+                    }
                 }
             }
+            catch { }
             return false;
         }
     }
