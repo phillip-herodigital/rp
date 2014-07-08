@@ -225,7 +225,6 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
      */
     $rootScope.$on('$locationChangeSuccess', function(event) {
         //Scroll to step, but don't actual animate it
-        console.log('location changed');
         if($location.hash() != '') {
             service.scrollToStep($location.hash().split('-')[1], 0);
         }
