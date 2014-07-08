@@ -14,12 +14,12 @@
             </div>
             <p>@Html.Sitecore().Field("New Account Instructions Text")</p>
             <div class="group">
-                <div class="item group-col" @Html.ValidationErrorClass(model => model.AccountNumber) @*float-label*@>
+                <div class="item group-col" @Html.ValidationErrorClass(model => model.AccountNumber) float-label>
                     <label for="@Html.For(m => m.AccountNumber)">@Html.Sitecore().Field("Account Number Text")</label>
                     <input type="text" @Html.ValidationAttributes(m => m.AccountNumber) ng-model="formData.accountNumber" data-val-if="formData.accountNumber" />
                     @Html.ValidationMessageFor(model => model.AccountNumber)
                 </div>
-                <div class="item group-col" @Html.ValidationErrorClass(model => model.SsnLastFour) @*float-label*@>
+                <div class="item group-col" @Html.ValidationErrorClass(model => model.SsnLastFour) float-label>
                     <label for="@Html.For(m => m.SsnLastFour)">@Html.Sitecore().Field("Last 4 Text")</label>
                     <input type="text" @Html.ValidationAttributes(m => m.SsnLastFour) ng-model="formData.ssnLastFour" data-val-if="formData.ssnLastFour" />
                     @Html.ValidationMessageFor(model => model.SsnLastFour)
