@@ -1363,6 +1363,9 @@ article.mobile {
 				border: none;
 				border-top: 1px solid #ddd;
 			}
+			h5 {
+				font-size: 18px;
+			}
 			.choose-date {
 				.when {
 					font-size: 20px;
@@ -1381,15 +1384,21 @@ article.mobile {
 					}
 				}
 			}
-			.left-buttons {
-				float: left;
-				&.cancel {
-					margin: 20px 15px 0 0;
-
+			.compare-plans {
+				.grid.four {
+					margin: 0;
+					border-bottom: 1px solid #eee;
+					border-spacing: 0;
+					width: 100%;
+					.col {
+						vertical-align: middle;
+						padding: 10px 0;
+						&.new {
+							background-color: #f3f3f3;
+							padding: 10px;
+						}
+					}
 				}
-			}
-			.right-button {
-				float: right;
 			}
 		}
 	}
@@ -1398,6 +1407,18 @@ article.mobile {
 			margin: 5px 0;
 			.link {
 				margin-left: 10px;
+			}
+		}
+		.footer-left {
+			float: left;
+			&.link {
+				margin: 10px 10px 0 0;
+			}
+			@include breakpoint(small) {
+				float: none;
+				&.link {
+					text-align: center;
+				}
 			}
 		}
 	}
