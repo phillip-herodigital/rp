@@ -1,58 +1,58 @@
 ﻿<article class="white-box mobile upgrade" ng-controller="MakePaymentCtrl">
     <header>
-        <h2>Review Changes</h2>
+        <h2>@Html.Sitecore().Field("Header Text")</h2>
     </header>
-    
+
     <form>
         <div class="content">
-            <p><strong>Plan upgrade start date:</strong> Sunday, June 29, 2014 <a href="#" class="right-button">Change</a></p>
+            <p>@Html.Sitecore().Field("Upgrade Start Date") @Html.Sitecore().Field("Change Date Button")</p>
             <hr />
-            <p><strong>My New Plan:</strong> 4GB Unlimited Voice, Data &amp; Text <a href="#" class="right-button">Change</a></p>
+            <p>@Html.Sitecore().Field("New Plan") @Html.Sitecore().Field("Change Plan Button")</p>
             <div>
 
             </div>
             <hr />
-            <div class="compare-plans">
-                <div class="grid four">
-                    <div class="col"></div>
-                    <div class="col"></div>
-                    <div class="col"><strong>Current</strong></div>
-                    <div class="col"><strong>New</strong></div>
-                </div>
-                <div class="grid four">
-                    <div class="col">Monthly Shared Data</div>
-                    <div class="col"></div>
-                    <div class="col">2GB</div>
-                    <div class="col new">4GB</div>
-                </div>
-                <div class="grid four">
-                    <div class="col">Mobile Share Plan Fee</div>
-                    <div class="col"></div>
-                    <div class="col">$49.00/mo</div>
-                    <div class="col new">$69.00/mo</div>
-                </div>
-                <div class="grid four">
-                    <div class="col"></div>
-                    <div class="col"><strong>Monthly Total</strong></div>
-                    <div class="col">$49.00/mo</div>
-                    <div class="col new">$69.00/mo</div>
-                </div>
-            </div>
-            <h5><strong>Taxes & Additional Fees</strong></h5>
-            <p><strong>Overage Charges:</strong> dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit</p>
-            <h5><strong>Terms & Conditions</strong></h5>
+            <table class="plan-differences">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th>@Html.Sitecore().Field("Table Current Header")</th>
+                        <th class="new-header">@Html.Sitecore().Field("Table New Header")</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="2">@Html.Sitecore().Field("Monthly Shared Data")</td>
+                        <td>@Html.Sitecore().Field("Current Data Amount")</td>
+                        <td class="new">@Html.Sitecore().Field("New Data Amount")</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">@Html.Sitecore().Field("Mobile Share Plan Fee")</td>
+                        <td>@Html.Sitecore().Field("Current Plan Fee")</td>
+                        <td class="new">@Html.Sitecore().Field("New Plan Fee")</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><span class="total"><strong>@Html.Sitecore().Field("Monthly Total")</strong></span></td>
+                        <td>@Html.Sitecore().Field("Current Monthly Price")</td>
+                        <td class="new">@Html.Sitecore().Field("New Monthly Price")</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5><strong>@Html.Sitecore().Field("Taxes and Fees")</strong></h5>
+            <p>@Html.Sitecore().Field("Overage Paragraph")</p>
+            <h5><strong>@Html.Sitecore().Field("Terms and Conditions Header")</strong></h5>
             <form>
-                <p><input type="checkbox" />I agree to the terms and conditions below</p>
+                <p><input type="checkbox" />@Html.Sitecore().Field("Agree to Terms")</p>
             </form>
-            <textarea>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</textarea>
+            <textarea>@Html.Sitecore().Field("Terms Paragraph")</textarea>
         </div>
         <footer>
             <div class="buttons">
-                <p class="footer-left link"><a href="#">Cancel</a></p>
-                <p class="footer-left"><a href="#" class="button secondary">Back</a></p>
-                <p><a href="#" class="button primary">Confirm Plan Upgrade</a></p>
+                <p class="footer-left link">@Html.Sitecore().Field("Cancel Button")</p>
+                <p class="footer-left">@Html.Sitecore().Field("Back Button")</p>
+                <p>@Html.Sitecore().Field("Confirm Button")</p>
             </div>
         </footer>
     </form>
 </article>
-

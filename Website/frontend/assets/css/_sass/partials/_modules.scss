@@ -1177,6 +1177,9 @@ article.mobile {
 	}
 	.content {
 		padding: 15px;
+		.right-button {
+			float: right;
+		}
 		.grid .col {
 			.balance {
 				font-size: 22px;
@@ -1205,6 +1208,11 @@ article.mobile {
 				&:first-child {
 					border-left: none;
 					padding-left: 0;
+				}
+				@include breakpoint(small) {
+					border-left: 0;
+					float: none;
+					text-align: center;
 				}
 			}
 			&.current-data {
@@ -1384,19 +1392,25 @@ article.mobile {
 					}
 				}
 			}
-			.compare-plans {
-				.grid.four {
-					margin: 0;
+			table.plan-differences {
+				th {
+					background-color: #fff;
+					&.new-header {
+						padding-left: 10px;
+					}
+				}
+				th,
+				td {
+					border: none;
 					border-bottom: 1px solid #eee;
-					border-spacing: 0;
-					width: 100%;
-					.col {
-						vertical-align: middle;
-						padding: 10px 0;
-						&.new {
-							background-color: #f3f3f3;
-							padding: 10px;
-						}
+					padding: 15px 0;
+					&.new {
+						background-color: #f3f3f3;
+						padding: 0 5px 0 10px;
+					}
+					.total {
+						float: right;
+						padding-right: 20px;
 					}
 				}
 			}
