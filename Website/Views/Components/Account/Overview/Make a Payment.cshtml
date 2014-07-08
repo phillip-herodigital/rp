@@ -4,42 +4,40 @@
     </header>
 
     <div ng-show="activeState == 'step1'">
-        <form>
+        <form data-val-bind-messages="validations" ng-submit="continue()">
             <div class="content" loading-indicator>
-                <div class="stretch payment-account">
-
-                    <div class="group">
-                        <div class="item">
-                            <label>@Html.Sitecore().Field("Account Number Text")</label>
-                            <select>
-                                <option value="Please choose">1234567890</option>
-                                <option value="Option 1">Option 1</option>
-                                <option value="Option 2">Option 2</option>
-                            </select>
-                        </div>
+                <div class="payment-account">
+                    <div class="item">
+                        <label>@Html.Sitecore().Field("Account Number Text")</label>
+                        <select>
+                            <option value="">1234567890</option>
+                            <option value="Option 1">Option 1</option>
+                            <option value="Option 2">Option 2</option>
+                        </select>
                     </div>
 
                     @Html.Sitecore().Field("Account Number Note")
                 </div>
-                <div class="stretch payment-details">
+                <hr class="content-divider">
+                <div class="payment-details">
                     <p>@Html.Sitecore().Field("Current Balance Text") <strong>$123.45</strong></p>
 
                     <div class="group date-amount">
-                        <div class="item datepicker">
+                        <div class="item datepicker group-col">
                             <label for="Payment method">@Html.Sitecore().Field("Payment Date Text")</label>
                             <span class="calendar">
-                                <input type="text" ng-model="form.dt" datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="disableWeekends(date, mode)" />
+                                <input type="text" ng-model="form.dt" datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="disableWeekends(date, mode)" data-val="true" data-val-required />
                                 <span class="icon"><i class="icon-calendar"></i></span>
                             </span>
                         </div>
-                        <div class="item dollars">
+                        <div class="item dollars group-col">
                             <label for="Amount">@Html.Sitecore().Field("Payment Amount Text")</label>
                             <span class="payment-amount"><input type="text" id="amount"></span> 
                         </div>
                     </div>
                     <div additional-fields>
                         <div class="group account-select">
-                            <div class="item">
+                            <div class="item group-col">
                                 <label for="Payment method">@Html.Sitecore().Field("Payment Account Text")</label>
                                 <select>
                                     <option value="Please choose">Select Payment Account</option>
@@ -47,8 +45,8 @@
                                     <option value="payment2">Payment Method 2</option>
                                 </select>
                             </div>
-                            <div class="item add-account">
-                                <p><a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" class="details-link" href=""><span ng-if="!isOpen">@Html.Sitecore().Field("Add Account Text")</span><span ng-if="isOpen">@Html.Sitecore().Field("Cancel Account Text")</span></a></p>
+                            <div class="item add-account group-col">
+                                <a class="single-link" ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" class="details-link" href=""><span ng-if="!isOpen">@Html.Sitecore().Field("Add Account Text")</span><span ng-if="isOpen">@Html.Sitecore().Field("Cancel Account Text")</span></a>
                             </div>
                         </div>
                         <div class="additional-fields new-account">
@@ -118,8 +116,8 @@
             </div>
             <footer>
                 <div class="buttons">
-                    <button type="submit" ng-click="continue()">@Html.Sitecore().Field("Continue Button Text")</button>
-                    <button type="submit" class="secondary">@Html.Sitecore().Field("Back Button Text")</button>
+                    <button type="submit" data-val-submit>@Html.Sitecore().Field("Continue Button Text")</button>
+                    <button class="secondary" ng-show="activeState == 'step2'">@Html.Sitecore().Field("Back Button Text")</button>
                 </div>
             </footer>
         </form>
