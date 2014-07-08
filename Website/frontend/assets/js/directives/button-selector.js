@@ -24,23 +24,14 @@ ngApp
                 //model -> UI
                 ngModelCtrl.$render = function () {
                     element.toggleClass(buttonsCtrl.selectedClass, angular.equals(ngModelCtrl.$modelValue, scope.$eval(attrs.buttonSelector)));
-
-                    var isSelected = element.hasClass(buttonsCtrl.selectedClass);
-
-                    if (isSelected) {
-                        element.html(buttonsCtrl.selectedIcon + ' ' + buttonsCtrl.selectedText);
-                    } else {
-                        element.html(buttonsCtrl.unselectedText);
-                    }
+                    scope.isSelected = element.hasClass(buttonsCtrl.selectedClass);
                 };
 
                 //ui->model
                 element.bind('click', function () {
-                    var isSelected = element.hasClass(buttonsCtrl.selectedClass);
-
                     //We want them to be able to remove a selection    
                     scope.$apply(function () {
-                        ngModelCtrl.$setViewValue(isSelected ? null : scope.$eval(attrs.buttonSelector));
+                        ngModelCtrl.$setViewValue(scope.isSelected ? null : scope.$eval(attrs.buttonSelector));
                         ngModelCtrl.$render();
                     });
                 });

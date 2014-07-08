@@ -4,15 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using StreamEnergy.DomainModels.Accounts.Create;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
     class PlaceOrderState : StateBase<UserContext, InternalContext>
     {
-        public PlaceOrderState()
+        private MembershipBuilder membership;
+        public PlaceOrderState(MembershipBuilder membership)
             : base(previousState: typeof(CompleteOrderState), nextState: typeof(OrderConfirmationState))
         {
-
+            this.membership = membership;
         }
 
         protected override Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
@@ -21,7 +23,9 @@ namespace StreamEnergy.DomainModels.Enrollments
 
             if (context.OnlineAccount != null)
             {
-                // TODO - create online account
+                var profile = membership.CreateUser(context.OnlineAccount.Username, context.OnlineAccount.Password);
+
+                // TODO - link with Stream Connect
             }
 
             return base.InternalProcess(context, internalContext);

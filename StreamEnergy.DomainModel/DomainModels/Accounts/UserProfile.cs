@@ -10,12 +10,17 @@ namespace StreamEnergy.DomainModels.Accounts
 {
     public class UserProfile
     {
-        private ProfileBase profile;
+        private readonly ProfileBase profile;
+
+        protected UserProfile(ProfileBase profileBase)
+        {
+            profile = profileBase;
+        }
 
         public UserProfile(string username)
-        {
             // Yep, this says Create. That's how ASP.Net "locates" the user profile.
-            profile = ProfileBase.Create(username);
+            : this(ProfileBase.Create(username))
+        {
         }
 
         public ChallengeResponse[] ChallengeQuestions 

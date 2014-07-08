@@ -1,277 +1,307 @@
-.enrollment-section {
-	article {
-		overflow: visible;
-	}
-    .button, button {
-        white-space: nowrap;
+/***
+    Cleaning this up to keep from having to nest everything and repeat styles.
+    Changing it to more of a SMACSS/BEM styling.
+ ***/
+
+$enrollment-primary-color: #257ab3;
+$enrollment-secondary-color: #fff;
+
+$enrollment-primary-button-background: #257ab3;
+$enrollment-secondary-button-background: #fff;
+
+$enrollment-primary-button-color: #fff;
+$enrollment-secondary-button-color: #257ab3;
+
+$enrollment-dark-border-color: #cecece;
+$enrollment-light-border-color: #e6e6e6;
+
+$enrollment-module-h1-size: 26px;
+$enrollment-module-h1-color: #333;
+$enrollment-module-horizontal-padding: 20px;
+$enrollment-module-vertical-padding: 20px;
+
+/*
+    Enrollment Banner Styling
+ */
+.enrollment__banner {
+    background-color: $enrollment-light-border-color;
+    margin-bottom: 40px;
+    .wrapper {
+        padding-top: 70px;
     }
-	.error {
-		input, select {
-			border-color: #c84545;
-		}
-		color: #c84545;
-	}
-    .banner {
-        height: 335px;
-        background-position: 50%;
-        background-size: cover;
-        background-color: #e6e6e6;
-        border-bottom: 5px solid #dfdfdf;
+    h1 {
+        line-height: 0;
+        font-size: 60px;
+        span {
+            line-height: 1.1;
+        }
+        .small {
+            font-size: 24px;
+        }
+    }
+    @include breakpoint(small) {
         .wrapper {
-            padding-top: 100px;
-            &.center {
-                text-align: center;
-                position: relative;
-                h1 {
-                    position: absolute;
-                    left: 0;
-                    right: 0;
-                    top: 180px;
-                    width: auto;
-                }
-            }
+            padding-top: 60px;
         }
         h1 {
-            font-size: 60px;
-            width: 48%;
-            .block {
-                display: block;
-            }
-            .xsmall {
-                color: #c5c1b4;
-                font-size: 24px;
-            }
+            font-size: 30px;
             .small {
-                font-size: 33px;
-            }
-            .medium {
-                font-size: 40px;
-            }
-        }
-        @include breakpoint(small) {
-            height: 215px;
-            .wrapper {
-                padding-top: 60px;
-                &.center {
-                    h1 {
-                        top: 120px;
-                    }
-                }
-            }
-            h1 {
-                font-size: 30px;
-                .xsmall {
-                    font-size: 16px;
-                }
-                .small {
-                    font-size: 20px;
-                }
-                .medium {
-                    font-size: 25px;
-                }
+                font-size: 16px;
             }
         }
     }
+}
+
+.enrollment__banner--service-info {
     .wrapper {
-        @extend .clearfix;
-        position: relative;
-        overflow: visible;
-        padding-bottom: 50px;
+        padding-top: 180px;
+        height: 335px;
     }
-    .layout.cols-2 > aside.left {
-        position: absolute;
-        left: -260px;
-        top: 0;
-        width: 260px;
-        @include breakpoint(medium) {
-            display: none;
+    h1 {
+        width: auto;
+    }
+    @include breakpoint(small) {
+        .wrapper {
+            padding-top: 120px;
+            height: 250px;
         }
+    }
+}
 
-        @include breakpoint(small) {
-            display: none;
+/*
+    Generic Styling for all enrollment <article> elements
+ */
+.enrollment__box {
+    overflow: visible;
+    border-color: $enrollment-dark-border-color;
+    background-color: #fefefe;
+    header {
+        background-color: #fefefe;
+        background-image: none;
+        border-bottom: 1px solid $enrollment-light-border-color;
+    }
+    h1 {
+        font-size: $enrollment-module-h1-size;
+        color: $enrollment-module-h1-color;
+        text-transform: none;
+        margin-top: 15px;
+    }
+    header, .content, footer {
+        padding-left: $enrollment-module-horizontal-padding;
+        padding-right: $enrollment-module-horizontal-padding;
+    }
+    &.form label, form label {
+        text-transform: none;
+        font-weight: 600;
+        font-size: inherit;
+        margin-bottom: 8px;
+    }
+    hr {
+        border: none;
+        border-top: 3px solid #eaeaea;
+        margin: 25px 0;
+    }
+}
+
+.enrollment__box--account-creation {
+    .content {
+        padding-top: 0;
+    }
+    .social-box { 
+        background: #f4f4f4;
+        margin: 0 (-$enrollment-module-horizontal-padding) 30px (-$enrollment-module-horizontal-padding);
+        padding: $enrollment-module-horizontal-padding;
+        position: relative;
+        .social-buttons {
+            text-align: center;
+            .button {
+                margin-bottom: 10px;
+            }
         }
+        .seperator {
+            position: absolute;
+            bottom: -21px;
+            left: 50%;
+            height: 42px;
+            width: 42px;
+            margin-left: -21px;
+            background: #fff;
+            color: #898989;
+            font-weight: bold;
+            text-align: center;
+            @include border-radius(21px);
+            padding-top: 10px;
+        }
+    }    
+}
 
-        nav {
-            ul {
-                margin-top: 0;
-            }
-            li {
-                a {
-                    position: relative;
-					cursor: default;
-                    &::before {
-                        color: #bfbfbf;
-                        content: ' \25CF';
-                        position: absolute;
-                        top: -2px;
-                        left: -25px;
-                        width: 10px;
-                        height: 10px;
-                        font-size: 16px;
-                    }
-                }
-                &.completed:hover,
-                &.active {
-                    a {
-                        color: #333;
-                        &::before {
-                            color: #053d5a;
-                            font-size: 32px;
-                            left: -30px;
-                            top: -13px;
-                        }
-                    }
-                }
-                &.completed {
-                    a {
-						cursor: pointer;
-                        &::before {
-                            color: #36637b;
-                        }
-                    }
-                }
-            }
+/*
+    Bulleted enrollment navigation
+ */
+.enrollment__nav {
+    position: absolute;
+    left: -260px;
+    top: 0;
+    width: 260px;
+    nav {
+        ul {
+            margin-top: 0;
+        }
+        li {
             a {
+                position: relative;
+                cursor: default;
                 color: #bfbfbf;
                 font-size: 14px;
                 @include transition(color ease-in 0.2s);
+                &::before {
+                    color: #bfbfbf;
+                    content: ' \25CF';
+                    position: absolute;
+                    top: -2px;
+                    left: -25px;
+                    width: 10px;
+                    height: 10px;
+                    font-size: 16px;
+                }
             }
-        }
-        @include breakpoint-max(1055px) {
-            display: none;
-        }
-
-        @include breakpoint-min-max(1055px, 1515px) {
-            width: 25px;
-            left: -40px;
-            nav {
-                ul {
-                    li {
-                        height: 22px;
-                        a {
-                            color: transparent;
-                            visibility: hidden;
-                            @include transition-duration(0);
-                            &::before {
-                                color: #bfbfbf;
-                                visibility: visible;
-                            }
-                        }
+            &.completed:hover,
+            &.active {
+                a {
+                    color: #333;
+                    &::before {
+                        color: #053d5a;
+                        font-size: 32px;
+                        left: -30px;
+                        top: -13px;
+                    }
+                }
+            }
+            &.completed {
+                a {
+                    cursor: pointer;
+                    &::before {
+                        color: #36637b;
                     }
                 }
             }
         }
-    }
-    section {
-        .icon-blue-arrow-up,
-        .icon-blue-arrow-down {
-            margin-top: -2px;
+        @include breakpoint(small-medium) {
+            display: none;
         }
-        .social-box {
-            @include border-radius(10px 10px 0 0);
-            background: #f9f9f9;
-            margin: -25px -15px 30px -15px;
-            padding: 15px 10px 20px 10px;
-            position: relative;
-            .social-buttons {
-                text-align: center;
-                .button {
-                    margin-bottom: 10px;
+    }
+
+    @include breakpoint-max(1055px) {
+        display: none;
+    }
+
+    @include breakpoint-min-max(1055px, 1515px) {
+        width: 25px;
+        left: -40px;
+        nav li {        
+            height: 22px;
+            a {
+                color: transparent;
+                visibility: hidden;
+                @include transition-duration(0);
+                &::before {
+                    color: #bfbfbf;
+                    visibility: visible;
                 }
             }
-            .seperator {
-                position: absolute;
-                bottom: -21px;
-                left: 50%;
-                height: 42px;
-                width: 42px;
-                margin-left: -21px;
-                background: #fff;
-                color: #898989;
-                font-weight: bold;
-                text-align: center;
-                @include border-radius(21px);
-                padding-top: 10px;
-            }
         }
     }
-    .plans {
-        position: relative;
+}
+
+/*
+    Utility services plan section
+ */
+.enrollment__utility-plans {
+    position: relative;
+    border: none;
+    padding: 0;
+    margin-bottom: 0;
+    @include border-radius(0);
+    @include box-shadow(none);    
+    .modal {
+        margin-left: auto;
+        width: auto;
+        left: 6%;
+        right: 6%;
+    }
+    .plan-selection-table {
         border: none;
-        @include border-radius(0);
-        @include box-shadow(none);
-        padding: 0;
-        .modal {
-            margin-left: auto;
-            width: auto;
-            left: 6%;
-            right: 6%;
-        }
-        .table-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            right: 0;
-            background: rgba(0, 0, 0, 0.5);
-            > .content {
-                position: absolute;
-                top: 15px;
-                left: 25px;
-                bottom: 15px;
-                right: 25px;
-                background: #fff;
-                padding: 10px 20px;
-            }
-        }
-    }
-    .cart-items {
-        float: right;
-        margin-right: 10px;
-        position: relative;
-        .item-num {
-            position: absolute;
-            font-size: 13px;
-            font-weight: bold;
-            top: -5px;
-            right: 8px;
-        }
-    }
-    table.plan-selection-table {
-        margin-bottom: 30px;
-        border: 1px solid #eaeaea;
         thead {
             th {
-                background: #f7f7f7;
+                background: #f6f6f6;
                 color: #646464;
                 text-transform: uppercase;
-                font-weight: bold;
+                font-weight: 600;
                 text-align: center;
-                padding: 25px 15px;
+                padding: 10px 15px;
+                border: none;
             }
         }
-        tbody {
-            td {
-                text-align: center;
+        td, th {
+            text-align: center;
+            border-bottom: none;
+            > span, > a {
+                color: #828282;
+                font-size: 13px;
+                font-weight: normal;
+                display: block;
+                text-transform: uppercase;
+                font-style: normal;
             }
+        }
+        tr {
+            background: transparent;
+            &.details-row {
+                td {
+                    border: none;
+                    padding: 0px;
+                    text-align: left;
+                    text-align: left;
+                    div {
+                        padding: 5px 12px 5px 30px;
+
+                    }
+                    p {
+                        font-size: 15px;
+                    }   
+                }
+            }
+            &.isOpen {
+                td, th {
+                    border-bottom: 1px solid #eaeaea;
+                }
+            }
+            &:last-child {
+                td, th {
+                    border-bottom: none;
+                }
+            }
+        }        
+        button {
+            white-space: nowrap;
         }
         .vertical {
             padding: 0;
-            text-align: center;
-            height: 100px;
-            width: 20px;
+            height: 120px;
             min-width: 20px;
             position: relative;
-            display: block;
+            border-left: none;
+            border-right: none;
             .fixed, .variable {
                 position: absolute;
                 top: 40px;
                 left: -40px;
-                @include rotate(-90deg);
                 text-transform: uppercase;
                 color: #fff;
                 height: 20px;
                 width: 100px;
+                margin: 10px 0;
+                @include rotate(-90deg);
             }
             .fixed {
                 background: #053d5a;
@@ -281,145 +311,78 @@
             }
         }
         .plan-name {
+            position: relative;
             font-size: 18px;
-            font-weight: bold;
             text-align: left;
-            a {
-                display: block;
-                font-weight: normal;
-                margin-top: 15px;
-                font-size: 12px;
-            }
+            border-left: none;
         }
+        .view-details {
+            display: block;
+            font-weight: normal;
+            margin-top: 15px;
+            font-size: 12px;}
         .rate {
             font-size: 22px;
-            font-weight: bold;
             line-height: 18px;
-            span {
-                color: #828282;
-                font-size: 13px;
-                font-weight: normal;
-                display: block;
-            }
-        }
-        .term {
-            font-size: 13px;
-            color: #828282;
-            i {
-                display: block;
-                margin: 0 auto;
-            }
+            font-style: italic;
         }
         .fees {
+            width: 110px;
             font-size: 19px;
-            font-weight: bold;
+            font-style: italic;
             span {
-                display: block;
-                font-size: 10px;
-                color: #828282;
-                font-weight: normal;
+                font-size: 11px;
             }
         }
-        .line-item {
-            .description {
+        .select-plan {
+            width: 126px;
+            position: relative;
+        }
+        .selected-icon {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 45px 45px 0;
+            border-color: transparent $enrollment-primary-color transparent transparent;
+            i {
+                position: absolute;
+                right: -38px;
+                top: 8px;
+            }
+            font-weight: bold;
+            margin-left: 20px;
+        }
+        .details {
+            td {
+                border: none;
+                padding: 0px;
+            }
+            div {
+                padding: 5px 12px;
+                border: 0;
                 text-align: left;
-                border-right: 0;
-                h1 {
-                    text-transform: none;
-                    font-size: 18px;
-                    font-weight: bold;
-                    margin: 15px 0 0 0;
-                }
-                h2 {
-                    font-weight: normal;
-                    text-transform: none;
-                    font-size: 16px;
-                    margin: 0;
-                }
-                h3 {
-                    font-size: 16px;
-                    text-transform: none;
-                    margin: 10px 0 0 0;
-                }
+                padding-left: 0;
                 p {
-                    margin-top: 0;
-                }
-            }
-            .rate {
-                text-align: right;
-                border-left: 0;
-                font-size: 18px;
-                vertical-align: top;
-                padding-top: 23px;
-            }
-            .docs {
-                border-left: 0;
-                ul {
-                    li {
-                        list-style-type: none;
-                        text-align: right;
-                    }
-                }
-            }
-            &.noborder {
-                td {
-                    border-top: 0;
-                    border-bottom: 0;
-                    vertical-align: top;
+                    font-size: 15px;
                 }
                 &:first-child {
-                    border-top: 1px solid #eaeaea;
-                }
-                &:last-child {
                     border-bottom: 1px solid #eaeaea;
                 }
             }
-            &.secondary {
-                .rate {
-                    padding-top: 10px;
-                    font-weight: normal;
-                }
-            }
         }
-        .total {
-            background: #fafafa;
-            text-align: right;
-            font-size: 20px;
-            span {
-                font-weight: bold;
-                margin-left: 20px;
+        &.open {
+            td.plan-name {
+                border-bottom: 1px solid #fff;
             }
-        }
-        tbody {
             tr.details {
+                display: table-row;
                 td {
-                    border: none;
-                    padding: 0px;
-                    div {
-                        padding: 5px 12px;
-                        border: 0;
-                        text-align: left;
-                        padding-left: 30px;
-                        p {
-                            font-size: 15px;
-                        }
-                        &:first-child {
-                            border-bottom: 1px solid #eaeaea;
-                        }
-                    }
-                }
-            }
-            &.open {
-                td.plan-name {
-                    border-bottom: 1px solid #fff;
-                }
-                tr.details {
-                    display: table-row;
-                    td {
-                        border-top: 0;
-                        &:first-child {
-                            border-top: 1px solid #fff;
-                        }
+                    border-top: 0;
+                    &:first-child {
+                        border-top: 1px solid #fff;
                     }
                 }
             }
@@ -428,116 +391,24 @@
             height: 20px;
         }
     }
-    .time-remaining-mobile {
-        text-align: center;
-        .time-remaining {
-            text-transform: uppercase;
-            font-size: 14px;
-            width: 75%;
-            margin: 0 auto;
-        }
-    }
 
-	#state-select {
-		width: auto;
-		button {
-			border: 0;
-			@include box-shadow(none);
-			color: #0971ce;
-			text-transform: uppercase;
-			.caret {
-				display: none;
-			}
-		}
-		.icon {
-			background-position: 10px center;
-			background-repeat: no-repeat;
-			padding-left: 40px;
-		}
-		.texas {
-			@include retina-background('texas-icon.png');
-			
-		}
-		.georgia {
-			@include retina-background('georgia-icon.png');
-		}
-		.pennsylvania {
-			@include retina-background('pennsylvania-icon.png');
-		}
-		.maryland {
-			@include retina-background('maryland-icon.png');
-		}
-		.new-jersey {
-			@include retina-background('newjersey-icon.png');
-		}
-		.new-york {
-			@include retina-background('newyork-icon.png');
-		}
-		.washington-dc {
-			@include retina-background('dc-icon.png');
-		}
-		.dropdown-menu {
-			li {
-			}
-		}
-	}
+}
 
-	.cart {
-		i.icon-close {
-			display:none;
-		}
-	}
-
-    .verify-order {
-        hr {
-            border: none;
-            border-top: 1px solid #ddd;
-        } 
-        .total {
-            text-align: right;
-        }
-        .verify-order-table {
-            .sub-charge { 
-                padding-left: 30px;
-            }
-            .rate {
-                text-align: right;
-            }
-            h4 { 
-                margin: 0;
-            }
-            th, td {
-                border: none;
-                padding: 8px 0;
-                vertical-align: top;
-            }
-            tr:last-child {
-                td {
-                    padding-bottom: 0;
-                }
-            }
-        }
-    }
-
-    @each $theme in $themes {
-        &.accent-#{map-get($theme, name)} {
-            section h1 span {
-                color: map-get($theme, primaryColor);
-            }
-            .banner {
-                border-top: 5px solid map-get($theme, primaryColor);
-            }
-        }
-    }
-    @include breakpoint(small) {
-        .button {
-            margin: 0 auto;
-            display: block;
-        }
+/*
+    Review order page
+    TODO: Make this <hr> style into a class
+ */
+.enrollment__review-order {
+    hr {
+        border: none;
+        border-top: 1px solid #ddd;
     }
 }
 
-.order-confirmation {
+/*
+    Order confirmation page
+ */
+.enrollment__order-confirmation {
     margin-top: 20px;
     .print {
         float: right;
@@ -551,7 +422,6 @@
         min-height: 120px;
     }
     dl {
-        @extend .clearfix;
         margin-bottom: 20px;
         dt {
             font-weight: 600;
@@ -571,101 +441,47 @@
             }
         }
     }
-    //Reset all of the table styles to enforce consistent
-    //table spacing
-    /*table {
-        .line-item {
-            .description {
-                h1, h2, h3 {
-                    margin: 0;
-                }
-            }
-            .description, .rate, &.secondary .rate {
-                padding-top: 10px;
-                padding-bottom: 10px;
-                line-height: 1.375;
-            }
-        }
-        .line-item {
-            &:first-child td, 
-            &:first-child .description, 
-            &:first-child .rate {
-                padding-top: 20px;
-            }
-            &:last-child td,
-            &:last-child .description,
-            &:last-child .rate {
-                padding-bottom: 20px;
-            }         
-        }
-        tfoot {
-            td {
-                border: 1px solid #eaeaea
-            }
-        }
-        ul, p {
-            margin: 0;
-            padding: 0;
-        }        
-    }*/
     @include breakpoint(small) {
         dl {
             dt, dd {
                 float: none;
             }
         }
-        tbody {
-            display: block;
-        }
-        //Clean up the plan documents section for mobile
-        /*.plan-table {
-            tbody, .plan-documents, .plan-documents td {
-                display: block;
-            }
-            tr.plan-documents {
-                .description {
-                    padding-bottom: 0;
-                }
-                ul li {
-                    text-align: left;
-                }
-                td {
-                    position: relative;
-                }
-            }
-        }*/
     }    
 }
 
-.cart {
-    background: #fafafa;
-    color: #333;
-    border: 1px solid #ebebeb;
-    padding: 15px;
+/*
+    Enrollment shopping cart
+ */
+.enrollment__cart {
     margin-bottom: 15px;
-    @include border-radius(4px);
-    @include box-shadow(none);
+    line-height: 1.35;
     header {
-        background: none;
-        @include border-radius(0);
-        padding: 0;
-        h1 {
-            margin: 15px 10px;
-        }
+        margin-bottom: 15px;
+    }
+    header, .content, footer {
+        padding: 0 13px;
     }
     hr {
-        margin: 10px 0;
-        border: 0;
-        border-top: 3px solid #eee;
+        margin: 15px 0;
     }
     h1 {
         font-size: 20px;
-        text-transform: none;
-        margin: 15px 10px;
     }
     p {
-        font-size: 16px;
-        margin: 0 8px 15px 8px;
+        font-size: 14px;
+    }
+    .cart-items {
+        float: right;
+        margin-right: 10px;
+        position: relative;
+        .item-num {
+            position: absolute;
+            font-size: 13px;
+            font-weight: bold;
+            top: -5px;
+            right: 8px;
+        }
     }
 	.empty-cart-phone {
 		padding: 10px 0;
@@ -673,36 +489,36 @@
 		p {
 			color: #cfcfcf;
 			font-weight: bold;
-			font-size: 17px;
 			text-transform: uppercase;
 		}
 	}
-    ul.info {
-        border-top: 1px solid #e2e2e3;
+    .icon-close {
+        float: right;
+        cursor: pointer;
+    }
+    .info {
         padding: 0;
-        margin: 0 8px 15px 5px;
+        margin: -15px 0 0;
         li {
             border-bottom: 1px solid #e2e2e3;
             list-style-type: none;
-            padding: 10px 0 10px 30px;
+            padding: 10px 20px 8px 45px;
             font-size: 13px;
             position: relative;
             i {
                 position: absolute;
-                top: 12px;
-                left: 0;
+                top: 10px;
+                left: 20px;
+            }
+            &:last-child {
+                border-bottom: none;
             }
         }
     }
-	button,
-	.button {
+	button, .button {
 		width: 100%;
 	}
-    .center {
-        text-align: center;
-    }
     .cart-item {
-        @extend .clearfix;
         margin-bottom: 10px;
         &:last-child {
             margin-bottom: 0;
@@ -748,9 +564,6 @@
         text-align: center;
         margin-bottom: 10px;
     }
-	hr {
-		margin-bottom: 20px;
-	}
     address {
         font-style: normal;
         font-size: 12px;
@@ -758,13 +571,14 @@
             font-size: 12px;
             color: #333;
             margin: 0;
+            font-weight: 600;
         }
     }
     .box {
         @include border-radius(4px);
         @include box-shadow(none);
         background: #fdfdfd;
-        margin-bottom: 8px;
+        margin: 15px 0;
         padding: 14px;
         border: 1px solid #ebebeb;
         p {
@@ -775,16 +589,16 @@
                 font-size: 15px;
             }
         }
-        &.time {
-            position: relative;
-            padding-left: 55px;
-            .icon-clock {
-                position: absolute;
-                top: 22px;
-                left: 10px;
-            }
-        }
     }
+    .time {
+        position: relative;
+        padding-left: 43px;
+        .icon-clock {
+            position: absolute;
+            top: 4px;
+            left: 0;
+        }
+    }    
     .buttons {
         .button { 
             display: block;
@@ -796,16 +610,20 @@
     }
 }
 
+/*
+    Cover modal overlay styling
+ */
 .cart-overlay {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
-    bottom: 0;
     right: 0;
+    height: auto;
     background: rgba(255, 255, 255, 0.7);
     z-index: 10000;
-    overflow: scroll;
     display: none;
+    padding: 20px;
+    min-height: 100%;
     .cart {
         float: none;
         width: auto;
@@ -820,13 +638,12 @@
             float: none;
             right: 60px;
         }
-        @include breakpoint(medium) {
+        @include breakpoint(small-medium) {
             display: block;
         }
-
-        @include breakpoint(small) {
-            display: block;
-        }
+    }
+    .enrollment__cart {
+        display: block;
     }
     &.open {
         display: block;
@@ -836,6 +653,10 @@
     }
 }
 
+
+/*
+    Order confirmation page aside boxes
+ */
 .promo-box {
     background: #fafafa;
     @include box-shadow(none);
@@ -844,7 +665,6 @@
     }
     &.horizontal {
         padding: 15px;    
-        @extend .clearfix;
     }
     @include breakpoint(medium-large) {
         &.horizontal {
@@ -873,6 +693,230 @@
     }
 }
 
+/*
+    Generic styling for enrollment pages
+ */
+.enrollment {
+    #state-select {
+        width: auto;
+        button {
+            border: none;
+            text-transform: uppercase;
+            @include box-shadow(none);
+            .caret {
+                display: none;
+            }
+        }
+        .icon {
+            background-position: 10px center;
+            background-repeat: no-repeat;
+            padding-left: 40px;
+        }
+        .texas {
+            @include retina-background('texas-icon.png');
+            
+        }
+        .georgia {
+            @include retina-background('georgia-icon.png');
+        }
+        .pennsylvania {
+            @include retina-background('pennsylvania-icon.png');
+        }
+        .maryland {
+            @include retina-background('maryland-icon.png');
+        }
+        .new-jersey {
+            @include retina-background('newjersey-icon.png');
+        }
+        .new-york {
+            @include retina-background('newyork-icon.png');
+        }
+        .washington-dc {
+            @include retina-background('dc-icon.png');
+        }
+        .dropdown-menu {
+            li {
+            }
+        }
+    }
+
+    .checkbox-list {
+        label {
+            margin-bottom: 4px;
+        }
+    }
+
+    .center {
+        text-align: center;
+    }
+
+    .icon-blue-arrow-up, .icon-blue-arrow-down {
+        margin-top: -2px;
+    }
+
+    .buttons .button, .buttons button, .enrollment-btn {
+        background-color: $enrollment-primary-button-background;
+        color: $enrollment-primary-button-color;
+
+        &.secondary {
+            background-color: $enrollment-secondary-button-background;
+            color: $enrollment-secondary-button-color;
+            text-shadow: none;
+        }
+    }
+    
+    .error {
+        color: #c84545;
+        input, select {
+            border-color: #c84545;
+        }
+    }
+        
+    .wrapper {
+        position: relative;
+        overflow: visible;
+        padding-bottom: 50px;
+    }
+
+    .time-remaining-mobile {
+        text-align: center;
+        .time-remaining {
+            text-transform: uppercase;
+            font-size: 14px;
+            width: 75%;
+            margin: 0 auto;
+        }
+    }
+
+    .item--no-input {
+        label {
+            margin-bottom: 3px;
+        }
+    }
+
+    .terms-agreement {
+        margin-bottom: 20px;
+    }
+
+    .verify-order-table {
+        .sub-charge { 
+            padding-left: 30px;
+        }
+        .rate {
+            text-align: right;
+        }
+        h4 { 
+            margin: 0;
+        }
+        th, td {
+            border: none;
+            padding: 8px 0;
+            vertical-align: top;
+        }
+        tr:last-child {
+            td {
+                padding-bottom: 0;
+            }
+        }
+    }
+
+    .total {
+        text-align: right;
+    }
+
+    hr.content-divider {
+        margin: 25px (-$enrollment-module-horizontal-padding);
+    }
+
+    form div.additional-field-group {
+        margin-left: (-$enrollment-module-horizontal-padding);
+        margin-right: (-$enrollment-module-horizontal-padding);
+        padding-left: $enrollment-module-horizontal-padding;
+        padding-right: $enrollment-module-horizontal-padding;
+    }
+
+    @include breakpoint(small) {
+        #state-select {
+            margin-top: 5px;
+        }
+        .buttons {
+            text-align: center;
+            button {
+                min-width: 150px;
+            }
+            button + button {
+                margin-top: 8px;
+            }
+        }
+        .datepicker {
+            position: relative;
+            .pull-right, .pull-left {
+                width: 35px;
+            }
+            table {
+                width: 100%;
+                max-width: 320px;
+                td {
+                    padding: 2px 3px;
+                }
+            }
+        }
+        .datepicker-input {
+            @include retina-background('calendar.png', 'icon'); 
+            background-position: 98% center;
+            background-repeat: no-repeat;
+
+            //Remove the Clear field (X) in IE10+
+            &::-ms-clear {
+                display: none;
+            }
+        }
+        .dropdown-menu {
+            font-size: 13px;
+        }
+        .time-remaining-mobile {
+            margin-top: 10px;
+            .time-remaining {
+                width: 160px;
+                font-size: 11px;
+            }
+        }
+        h1 {
+            font-size: 30px;
+            line-height: 1.1;
+        }
+        .plan-selection-table {
+            tr.details-row {
+                td div {
+                    padding: 0 15px;
+                }
+            }
+            .plan-name {
+                text-align: left;
+            }
+            .plan-actions {
+                button, .button {
+                    float: right;
+                    min-width: 120px;
+                }
+            }
+            .view-details {
+                display: inline;
+                float: left;
+                margin-top: 12px;
+            }
+        }
+
+    }
+}
+
+
+/*
+ *
+    The styling below still needs to be updated.
+    No optimizations have been done yet.
+ *
+ */
 .banner.phone {
 	height: 228px;
 	background-position: 50%;
@@ -1238,6 +1282,9 @@ article.phone {
 	}
 }
 
+/*
+
+ */
 article.phone-plan {
 	overflow: hidden;
 	.content {

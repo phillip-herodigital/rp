@@ -1,18 +1,17 @@
 ﻿<script type="text/ng-template" id="cart-template">
-    <article class="cart" ng-controller="EnrollmentCartCtrl" scroll-anchor="scrollFix">
+<div class="enrollment__cart">
+    <article class="enrollment__box" ng-controller="EnrollmentCartCtrl" scroll-anchor="scrollFix">
         <header>
-            <div class="cart-items">
+            <div class="cart-items" ng-if="!isCartOpen()">
                 <i class="icon-cart"></i>
                 <div class="item-num" ng-show="getCartCount()">{{ getCartCount() }}</div>
             </div>
-            <i class="icon-close" ng-click="toggleCart();"></i>
+            <i class="icon-close" ng-click="toggleCart();" ng-if="isCartOpen()"></i>
             <h1>@Html.Sitecore().Field("Cart Header")</h1>
         </header>
-        <div class="body">
-            <div class="box" ng-hide="getCartCount() || getCartItems().length">
-                <p class="alt">@Html.Sitecore().Field("Empty Cart Text")</p>
-            </div>
-            <div class="box" ng-repeat="(id, location) in getCartItems()">
+        <div class="content">
+            <p class="alt" ng-if="!getCartCount() && !getCartItems().length">@Html.Sitecore().Field("Empty Cart Text")</p>
+            <div ng-repeat="(id, location) in getCartItems()">
                 <address>
                     <h3>@Html.Sitecore().Field("Service Address Text")</h3>
                     {{ location.location.address | address }}<br />
@@ -20,50 +19,48 @@
                 </address>
                 <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
                     <hr />
-                    <div ng-if="offerInformation.key == 'TexasElectricity'">
-                        <h3>Electricity</h3>
-                        <div class="cart-item" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
-                            <div class="delete" ng-click="scrollFix(); deleteUtilityPlan(location, selectedOffer)">
-                                <i class="icon-delete"></i>
-                            </div>
-                            <div class="description">
-                                <h2>{{ selectedOffer.offer.name }}</h2>
-                                <a href="" ng-click="changeUtilityPlan(location)">Change Plan</a>
-                            </div>
-                            <div class="rate">
-                                {{selectedOffer.offer.rate}}&cent;
-                                <span>per kWh</span>
-                            </div>
-                        </div>
-                        @*
-                            <div class="cart-item" ng-show="plan.deposit">
-                                <div class="description">
-                                    <h2>{{ plan.deposit.description }}</h2>
-                                </div>
-                                <div class="rate">
-                                    {{ plan.deposit.requiredAmount | currency }}
-                                </div>
-                            </div>
-                        *@
-                    </div>
+                    <div ng-include src="'cart/' + offerInformation.key"></div>
                 </div>
             </div>
-            <div class="buttons">
-                @*<a href="" class="button" ng-show="getCartCount()">Checkout Now</a>*@
-            </div>
+            @*<div class="buttons">
+                <a href="" class="button" ng-show="getCartCount()">Checkout Now</a>
+            </div>*@
             <hr />
-            <div class="box time">
+            <div class="time">
                 <i class="icon-clock"></i>
                 @Html.Sitecore().Field("Time Remaining")
             </div>
-            @Html.Sitecore().Field("Documents Description")
-            <ul class="info">
-                <li><i class="icon-home"></i> @Html.Sitecore().Field("Documents Service Address")</li>
-                <li><i class="icon-bill"></i> @Html.Sitecore().Field("Documents Billing Account Number")</li>
-                <li><i class="icon-utility-provider"></i> @Html.Sitecore().Field("Documents Utility Provider")</li>
-                <li><i class="icon-ssn"></i> @Html.Sitecore().Field("Documents Social Security Number")</li>
-                <li><i class="icon-drivers-license"></i> @Html.Sitecore().Field("Documents Drivers License Number")</li>
-            </ul>
         </div>
     </article>
+    <article class="enrollment__box">
+        <header>
+            @Html.Sitecore().Field("Documents Description")
+        </header>
+        <ul class="info">
+            <li><i class="icon-home"></i> @Html.Sitecore().Field("Documents Service Address")</li>
+            <li><i class="icon-bill"></i> @Html.Sitecore().Field("Documents Billing Account Number")</li>
+            <li><i class="icon-utility-provider"></i> @Html.Sitecore().Field("Documents Utility Provider")</li>
+            <li><i class="icon-ssn"></i> @Html.Sitecore().Field("Documents Social Security Number")</li>
+            <li><i class="icon-drivers-license"></i> @Html.Sitecore().Field("Documents Drivers License Number")</li>
+        </ul>
+    </article>
+</div>
+</script>
+
+
+<script type="text/ng-template" id="cart/TexasElectricity">
+    <h3>Electricity</h3>
+    <div class="cart-item clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <div class="delete" ng-click="scrollFix(); deleteUtilityPlan(location, selectedOffer)">
+            <i class="icon-delete"></i>
+        </div>
+        <div class="description">
+            <h2>{{ selectedOffer.offer.name }}</h2>
+            <a href="" ng-click="changeUtilityPlan(location)">Change Plan</a>
+        </div>
+        <div class="rate">
+            {{selectedOffer.offer.rate}}&cent;
+            <span>per kWh</span>
+        </div>
+    </div>
 </script>

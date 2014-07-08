@@ -155,14 +155,18 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
             // We can jump back to the state we're in before setStep.
             currentStep.canJumpTo = true;
             angular.forEach(steps, function (step, index) {
-                
                 step.isCurrent = false;
             }, this);
 
             currentStep = steps[id];
             currentStep.isCurrent = true;
             service.activateStep(id);
-            $location.hash('step-' + id);
+            this.scrollToStep(id, 'fast', function() {
+                $timeout(function() {
+                    $location.hash('step-' + id);
+                }, 10);
+            });
+            //scroll first, then set hash
         },
 
         /**
@@ -170,12 +174,12 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
          * @param  {[type]} id
          * @return {[type]}
          */
-        scrollToStep: function (id) {
+        scrollToStep: function (id, time, callback) {
             //Delay needs to be set to allow angular code to open section.
             if(service.isStepVisible(id)) {
                 $timeout(function() {
-                    scrollService.scrollTo(id, jQuery('header.site-header').height() * -1);
-                }, 10);
+                    scrollService.scrollTo(id, jQuery('header.site-header').height() * -1, time == 0 ? 0 : '750',  callback || angular.noop);
+                }, 10, false);
             }
         },
 
@@ -220,8 +224,9 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
         keep the browser from automatically scrolling.
      */
     $rootScope.$on('$locationChangeSuccess', function(event) {
+        //Scroll to step, but don't actual animate it
         if($location.hash() != '') {
-            service.scrollToStep($location.hash().split('-')[1]);
+            service.scrollToStep($location.hash().split('-')[1], 0);
         }
     });
 

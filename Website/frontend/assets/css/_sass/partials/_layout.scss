@@ -68,6 +68,9 @@ $mobile-nav: 260px;
 			background: #fff;
 			@include transition(left linear .2s); 
 		}
+		.wrapper {
+			@include transition(left linear .2s); 
+		}
 		&.open {
 			.site-header .wrapper,
 			.page-content {

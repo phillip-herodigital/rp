@@ -41,7 +41,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         protected override Task LoadInternalState(UserContext context, InternalContext internalContext)
         {
-            var result = enrollmentService.LoadDeposit(context.Services);
+            var result = enrollmentService.LoadOfferPayments(context.Services);
             internalContext.Deposit = result.ToArray();
             return Task.FromResult<object>(null);
         }
