@@ -28,8 +28,6 @@ ngApp.directive('floatLabel', ['$compile', function ($compile) {
             this.isEnabled = false; // whether we're to a size that should display the float-label
         },
         link: function (scope, element, attrs, ctrl) {
-            var hasPlaceholder = false;
-
             var toggleClass = function (className) {
                 return function (val) {
                     if (val)
@@ -45,13 +43,9 @@ ngApp.directive('floatLabel', ['$compile', function ($compile) {
                 scope.$watch(function () { return ctrl.isEnabled; }, toggleClass('fl-enabled')),
 
                 scope.$watch(function () {
-                    return breakpoint.breakpoint.name
+                    return breakpoint.breakpoint.name;
                 }, function (newValue, oldValue) {
-                    if (newValue == 'phone') {
-                        ctrl.isEnabled = true;
-                    } else {
-                        ctrl.isEnabled = false;
-                    }
+                    ctrl.isEnabled = newValue == 'phone';
                 }, true)
             ];
             element.on('$destroy', function () {
@@ -86,7 +80,9 @@ ngApp.directive('floatLabel', ['$compile', function ($compile) {
             else {
                 // mostly this is just to get it to work with html solutions where they didn't put the ngModel; not really a practical application.
                 element.on('input keyup keydown paste cut change', function () {
-                    floatLabelContainerController.isActive = !!element.val();
+                    scope.$apply(function () {
+                        floatLabelContainerController.isActive = !!element.val();
+                    });
                 });
             }
 
