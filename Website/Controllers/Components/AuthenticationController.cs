@@ -58,7 +58,7 @@ namespace StreamEnergy.MyStream.Controllers.Components
                 ViewBag.Username = "john.smith";
                 return View("~/Views/Components/Authentication/Change Password.cshtml");
             }
-            else if (Request.AppRelativeCurrentExecutionFilePath.Contains("/auth/reset-password") || resetPasswordTokenManager.VerifyPasswordResetToken(token, username))
+            else if (resetPasswordTokenManager.VerifyPasswordResetToken(token, username))
             {
                 ChangePasswordRequest req = new ChangePasswordRequest();
                 req.ResetToken = token;
@@ -67,6 +67,10 @@ namespace StreamEnergy.MyStream.Controllers.Components
                 ViewBag.Name = "Account Name";
                 ViewBag.Username = username;
                 return View("~/Views/Components/Authentication/Change Password.cshtml", req);
+            }
+            else if (Request.AppRelativeCurrentExecutionFilePath.Contains("/auth/reset-password"))
+            {
+                return View("~/Views/Components/Authentication/Change Password.cshtml");
             }
             else
             {

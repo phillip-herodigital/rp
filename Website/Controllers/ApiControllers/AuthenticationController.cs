@@ -242,6 +242,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             return new VerifyUserChallengeQuestionsResponse
             {
+                // TODO - pull from Stream Connect
+                AccountName = "Account Name",
                 Success = resetPasswordSessionHelper.StateMachine.State == typeof(VerifiedChallengeQuestionsState),
                 Validations = TranslatedValidationResult.Translate(validations, GetAuthItem("Forgot Password"))
             };
