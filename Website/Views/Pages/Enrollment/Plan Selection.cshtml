@@ -85,7 +85,7 @@
                         {{plan.rate}}&cent; <span>@Html.Sitecore().Field("Electricity Per kWh")</span>
                     </td>
                     <td class="term">
-                        <span ng-show="plan.termMonths != '1'">{{ plan.termMonths }} Months</span>
+                        <span ng-show="plan.termMonths != '1'">@Html.Sitecore().Field("Electricity Term Months").Format(new { Count = "{{plan.termMonths}}" })</span>
                         <span ng-show="plan.termMonths == '1'">@Html.Sitecore().Field("Electricity Month To Month")</span>
                     </td>
                     <td class="fees">

@@ -62,7 +62,7 @@
             <form data-val-bind-messages="validations">
                 <article class="enrollment__box" ng-if="getCartTotal() > 0">
                     <header>
-                         <h2>@Html.Sitecore().Field("Card Details")</h2>
+                         <h1>@Html.Sitecore().Field("Card Details")</h1>
                     </header>
                     <div class="content">
                         <div class="item">
@@ -99,11 +99,11 @@
                         </div>
                     </div>
                 </article>
-                <div class="form terms-agreement"> 
-                    <p>By clicking "Place Order" below, you agree to the <a href="">terms and conditions</a>.</p>
+                <div class="form terms-agreement">
+                    @Html.Sitecore().Field("Terms and Conditions Text")
                     <div class="item" @Html.ValidationErrorClass(m => m.AgreeToTerms)>
                         <ul class="checkbox-list">
-                            <li><input type="checkbox" @Html.ValidationAttributes(c => c.AgreeToTerms) ng-model="completeOrder.agreeToTerms"> I agree to the TCPA <a href="">terms and conditions</a>.</li>    
+                            <li><input id="utility-services-agreement" type="checkbox" @Html.ValidationAttributes(c => c.AgreeToTerms) ng-model="completeOrder.agreeToTerms"> <label for="utility-services-agreement">@Html.Sitecore().Field("Utility Services - I Agree Text")</label></li>    
                         </ul>                            
                     </div>
                 </div>
@@ -116,11 +116,11 @@
             <div class="enrollment__cart">
                 <article class="enrollment__box" ng-controller="EnrollmentCartCtrl">
                     <header>
-                        <h1>Order Breakdown @Html.Sitecore().Field("Cart Header")</h1>
+                        <h1>@Html.Sitecore().Field("Order Breakdown Header")</h1>
                     </header>
                     <div class="content">
                         <div class="billed-today">
-                            <p><strong>To be billed today:</strong></p>
+                            <p><strong>@Html.Sitecore().Field("Billed Today Text")</strong></p>
                             <div ng-repeat="(id, location) in getCartItems()">
                                 <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
                                     <div ng-include src="'completeOrderCartMonthly/' + offerInformation.key"></div>                            
@@ -130,7 +130,7 @@
                         </div>
                         <hr> 
                         <div class="billed-monthly">
-                            <p><strong>To be billed monthly:</strong></p>
+                            <p><strong>@Html.Sitecore().Field("Billed Monthly Text")</strong></p>
                             <div ng-repeat="(id, location) in getCartItems()">
                                 <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
                                     <div ng-include src="'completeOrderCartToday/' + offerInformation.key"></div>                            
@@ -162,7 +162,7 @@
 </script>
 
 <script type="text/ng-template" id="paymentsCart/TexasElectricity/Deposit">
-    <dt>Deposit Due</dt>
+    <dt>@Html.Sitecore().Field("Deposit Due")</dt>
     <dd>{{ payment.dollarAmount | currency }}</dd>
 </script>
 
@@ -189,7 +189,7 @@
 
 <script type="text/ng-template" id="payments/TexasElectricity/Deposit">
     <td class="sub-charge">
-        <strong>Deposit Due</strong><br>
+        <strong>@Html.Sitecore().Field("Deposit Due")</strong><br>
     </td>
     <td class="rate">{{ payment.dollarAmount | currency }}</td>
 </script>

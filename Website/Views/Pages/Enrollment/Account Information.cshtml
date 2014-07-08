@@ -30,8 +30,7 @@
                             <strong>{{ item.location.address | address }}</strong>
                         </div>
 
-                        @* Address Input Dropdown
-                           We should probably restrict by zip code right here somehow *@
+                        @* Address Input Dropdown *@
                         <div class="item" ng-if="!item.location.address.line1">
                             <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
                             <input type="text"
@@ -41,16 +40,14 @@
                                    placeholder="123 Main Street, Dallas, TX 75001"
                                    typeahead="location as location.address|address for location in getLocation(item.location.address.stateAbbreviation, $viewValue)"
                                    typeahead-loading="accountInformation.loadingAccountInformationServiceAddress"
-                                   ng-class="{'loading' : accountInformation.loadingAccountInformation}" />
+                                   ng-class="{'loading' : accountInformation.loadingAccountInformation}" autocomplete="off" />
                         </div>
 
                         @*Selected Offers Section*@
                         <div ng-repeat="offerInformation in item.offerInformationByType">
                             <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
-                                @*base this on offerType - TexasElectricity, GeorgiaGas, etc*@
                                 <div ng-include src="'offerOptions/' + offerInformation.key"></div>
 
-                                @* Start Billing Address section - don't even show the billing address section if the service address isn't set *@
                                 <div ng-if="item.location.address.line1" ng-controller="EnrollmentBillingAddressCtrl">
                                     <h3>@Html.Sitecore().Field("Billing Address Header")</h3>
 
