@@ -1179,6 +1179,14 @@ article.mobile {
 		padding: 15px;
 		.right-button {
 			float: right;
+			margin-bottom: 10px;
+			@include breakpoint(small) {
+				width: 100%;
+				margin: 10px 0;
+				a {
+					width: 100%;
+				}
+			}
 		}
 		.grid .col {
 			.balance {
@@ -1199,6 +1207,11 @@ article.mobile {
 			}
 		}
 		.group .item {
+			a.button {
+				@include breakpoint(small) {
+					width: 100%;
+				}
+			}
 			ul.links li {
 				float: left;
 				list-style-type: none;
@@ -1236,7 +1249,10 @@ article.mobile {
 				float: left;
 				@include breakpoint(small) {
 					float: left;
-					width: 100%;
+					width: 80%;
+					&.full {
+						width: 100%;
+					}
 				}
 			}
 			&.price {
@@ -1262,10 +1278,7 @@ article.mobile {
 					}
 				}
 				@include breakpoint(small) {
-					float: left;
-					p {
-						text-align: left;
-					}
+					width: 20%;
 				}
 			}
 		}
@@ -1293,6 +1306,11 @@ article.mobile {
 				float: none;
 				&.link {
 					text-align: center;
+				}
+			}
+			&.receipt {
+				@include breakpoint(small) {
+					float: left;
 				}
 			}
 		}
@@ -1363,7 +1381,7 @@ article.mobile {
 			border: none;
 			border-top: 1px solid #ddd;
 		}
-		.group .item .international-image {
+		.group .item.international-image {
 			margin-top: 1em;
 			float: right;
 			width: 40%;
@@ -1372,7 +1390,7 @@ article.mobile {
 			}
 			@include breakpoint(small) {
 				width: 100%;
-				float: left;
+				text-align: center;
 			}
 		}
 		ul.includes {
@@ -1465,11 +1483,14 @@ article.mobile {
 	}
 }
 article.upgrade-effective {
+	position: relative;
 	header,
 	footer {
 		background-color: #ecf9f8;
 	}
-	position: relative;
+	header p {
+		padding-right: 30px;
+	}
 	.icon-close {
 		position: absolute;
 		top: 20px;
