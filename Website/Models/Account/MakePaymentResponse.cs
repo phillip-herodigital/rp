@@ -7,5 +7,13 @@ namespace StreamEnergy.MyStream.Models.Account
 {
     public class MakePaymentResponse
     {
+        public IEnumerable<TranslatedValidationResult> Validations { get; set; }
+
+        /// <summary>
+        /// String flag that indicates an alert has blocked the payment
+        /// </summary>
+        public string BlockingAlertType { get; set; }
+
+        public PaymentConfirmation[] Confirmations { get; set; }
     }
 }

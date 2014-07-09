@@ -151,6 +151,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [HttpPost]
         public MakePaymentResponse MakePayment(MakePaymentRequest makePaymentRequest)
         {
+            if (!ModelState.IsValid)
+            {
+                return new MakePaymentResponse
+                {
+                    Validations = TranslatedValidationResult.Translate(ModelState, database.GetItem("/sitecore/content/Data/Components/Account/Overview/Make a Payment")),
+                };
+            }
+
             throw new NotImplementedException();
         }
 

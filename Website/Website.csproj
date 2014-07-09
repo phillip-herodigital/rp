@@ -491,6 +491,7 @@
     <Compile Include="Models\Account\MakePaymentResponse.cs" />
     <Compile Include="Models\Account\NotificationSetting.cs" />
     <Compile Include="Models\Account\Payment.cs" />
+    <Compile Include="Models\Account\PaymentConfirmation.cs" />
     <Compile Include="Models\Account\RemoveAccountRequest.cs" />
     <Compile Include="Models\Account\RemoveAccountResponse.cs" />
     <Compile Include="Models\Account\SendLetterRequest.cs" />
