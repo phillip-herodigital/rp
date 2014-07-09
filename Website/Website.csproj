@@ -468,11 +468,13 @@
     <Compile Include="layouts\BaseLayout.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Models\Account\AccountToPay.cs" />
     <Compile Include="Models\Account\AddNewAccountRequest.cs" />
     <Compile Include="Models\Account\AddNewAccountResponse.cs" />
     <Compile Include="Models\Account\EnrolledAccount.cs" />
     <Compile Include="Models\Account\GetAccountInformationRequest.cs" />
     <Compile Include="Models\Account\GetAccountInformationResponse.cs" />
+    <Compile Include="Models\Account\GetCurrentInvoicesResponse.cs" />
     <Compile Include="Models\Account\GetEnrolledAccountsResponse.cs" />
     <Compile Include="Models\Account\GetGasPlanResponse.cs" />
     <Compile Include="Models\Account\GetInvoicesResponse.cs" />
@@ -485,6 +487,8 @@
     <Compile Include="Models\Account\Invoice.cs" />
     <Compile Include="Models\Account\GetOnlineAccountResponse.cs" />
     <Compile Include="Models\Account\LanguagePreference.cs" />
+    <Compile Include="Models\Account\MakePaymentRequest.cs" />
+    <Compile Include="Models\Account\MakePaymentResponse.cs" />
     <Compile Include="Models\Account\NotificationSetting.cs" />
     <Compile Include="Models\Account\Payment.cs" />
     <Compile Include="Models\Account\RemoveAccountRequest.cs" />

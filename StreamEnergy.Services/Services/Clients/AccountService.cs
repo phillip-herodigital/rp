@@ -27,6 +27,7 @@ namespace StreamEnergy.Services.Clients
 
         IEnumerable<Account> IAccountService.GetInvoices(string username)
         {
+            // TODO - load from Stream Commons
             var response = service.GetInvoices(new Sample.Commons.GetInvoicesRequest { Username = username });
 
             return from entry in response.Invoice
@@ -42,9 +43,50 @@ namespace StreamEnergy.Services.Clients
                        AccountNumber = invoicesByAcount.Key.AccountNumber,
                        AccountType = invoicesByAcount.Key.ServiceType,
                        Capabilities = { new InvoiceExtensionAccountCapability { CanRequestExtension = invoicesByAcount.Key.CanRequestExtension } },
-                       Invoices = invoicesByAcount.ToArray()
+                       Invoices = invoicesByAcount.ToArray(),
+                       // TODO - populate the CurrentInvoice?
                    };
         }
+
+        IEnumerable<Account> IAccountService.GetCurrentInvoices(string username)
+        {
+            // TODO - load from Stream Commons
+            return new[] {
+                new Account {
+                    AccountNumber = "1234567890", 
+                    CurrentInvoice = new Invoice { DueDate = DateTime.Today.AddDays(2), InvoiceAmount = 73.05m, InvoiceNumber="", IsPaid = false },
+                    Capabilities = { 
+                        new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = true }  , 
+                        new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } }
+                    }
+                },
+                new Account {
+                    AccountNumber = "5678901234",
+                    CurrentInvoice = new Invoice { DueDate = DateTime.Today.AddDays(12), InvoiceAmount = 24.95m, InvoiceNumber="", IsPaid = false }, 
+                    Capabilities = { 
+                        new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = true } , 
+                        new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } } 
+                    } 
+                },
+                new Account { 
+                    AccountNumber = "2345060992", 
+                    CurrentInvoice = new Invoice { DueDate = DateTime.Today.AddDays(19), InvoiceAmount = 54.05m, InvoiceNumber="", IsPaid = false }, 
+                    Capabilities = { 
+                        new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = false }, 
+                        new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } } 
+                    } 
+                },
+                new Account {
+                    AccountNumber = "3429500293",
+                    CurrentInvoice = new Invoice { DueDate = DateTime.Today.AddDays(29), InvoiceAmount = 36.00m, InvoiceNumber="", IsPaid = false }, 
+                    Capabilities = { 
+                        new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = true } ,
+                        new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } } 
+                    } 
+                },
+            };
+        }
+
 
         string IAccountService.GetIgniteAssociateFromCustomerNumber(string Auth_ID, string Auth_PW, string customerNumber)
         {

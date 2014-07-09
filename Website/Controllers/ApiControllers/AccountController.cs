@@ -114,6 +114,48 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         #endregion
 
+        #region Make a Payment section
+
+        [HttpGet]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
+        public GetCurrentInvoicesResponse GetCurrentInvoices()
+        {
+            var accounts = accountService.GetCurrentInvoices(User.Identity.Name);
+
+            return new GetCurrentInvoicesResponse
+            {
+                Accounts = new Table<AccountToPay>
+                {
+                    ColumnList = typeof(AccountToPay).BuildTableSchema(database.GetItem("/sitecore/content/Data/Components/Account/Overview/Make a Payment")),
+                    Values = from account in accounts
+                             let paymentScheduling = account.GetCapability<PaymentSchedulingAccountCapability>()
+                             let paymentMethods = account.GetCapability<PaymentMethodAccountCapability>()
+                             select new AccountToPay
+                             {
+                                 AccountNumber = account.AccountNumber,
+                                 InvoiceAmount = account.CurrentInvoice.InvoiceAmount.ToString("0.00"),
+                                 DueDate = account.CurrentInvoice.DueDate.ToShortDateString(),
+                                 CanMakeOneTimePayment = paymentScheduling.CanMakeOneTimePayment,
+                                 // TODO - scheduling restrictions
+                                 AvailablePaymentMethods = paymentMethods.AvailablePaymentMethods.ToArray(),
+                                 Actions = 
+                                 {
+                                     { "viewPdf", "http://.../" }
+                                 }
+                             }
+                }
+            };
+            throw new NotImplementedException();
+        }
+
+        [HttpPost]
+        public MakePaymentResponse MakePayment(MakePaymentRequest makePaymentRequest)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
         #region Payment History
 
         [HttpGet]
