@@ -41,7 +41,8 @@ namespace StreamEnergy.Services.Clients
                    {
                        AccountNumber = invoicesByAcount.Key.AccountNumber,
                        AccountType = invoicesByAcount.Key.ServiceType,
-                       Capabilities = { new InvoiceExtensionAccountCapability { CanRequestExtension = invoicesByAcount.Key.CanRequestExtension } }
+                       Capabilities = { new InvoiceExtensionAccountCapability { CanRequestExtension = invoicesByAcount.Key.CanRequestExtension } },
+                       Invoices = invoicesByAcount.ToArray()
                    };
         }
 
