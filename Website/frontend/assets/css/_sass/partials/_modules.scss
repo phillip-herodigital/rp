@@ -1233,6 +1233,7 @@ article.mobile {
 			}
 			&.paragraph {
 				width: 60%;
+				float: left;
 				@include breakpoint(small) {
 					float: left;
 					width: 100%;
@@ -1463,6 +1464,56 @@ article.mobile {
 		}
 	}
 }
+article.upgrade-effective {
+	header,
+	footer {
+		background-color: #ecf9f8;
+	}
+	position: relative;
+	.icon-close {
+		position: absolute;
+		top: 20px;
+		right: 20px;
+	}
+	footer {
+		.footer-left {
+			margin-top: 40px;
+		}
+		.footer-right {
+			float: right;
+				dt {
+					width: 150px;
+					text-align: right;
+				}
+				dd {
+					margin-left: 25px;
+					width: auto;
+				}
+		}
+	}
+}
+
+
+
+/*.notice {
+		margin-bottom: 15px;
+		border-radius: 15px;
+		padding: 20px 30px 20px 45px;
+		background-repeat: no-repeat;
+		background-position: 15px 24px;
+		position: relative;
+
+		.icon-close {
+			position: absolute;
+			top: 20px;
+			right: 20px;
+		}
+
+		&.message {
+				border: 1px solid #a1bbb9;
+				background-color: #ecf9f8;
+				background-image: image-url('icon/message.png');
+		}*/
 
 
 /*ALL MODULES BELOW THIS ARE SIDEBAR MODULES*/
