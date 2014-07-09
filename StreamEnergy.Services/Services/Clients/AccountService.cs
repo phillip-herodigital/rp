@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
 using System.Net.Http;
+using Legacy = StreamEnergy.DomainModels.Accounts.Legacy;
 
 namespace StreamEnergy.Services.Clients
 {
@@ -47,12 +48,12 @@ namespace StreamEnergy.Services.Clients
             return response.SponsorNumber;
         }
 
-        CustomerAccount IAccountService.RetrieveIgniteAssociateContactInfo(string Auth_ID, string Auth_PW, string IA_Number)
+        Legacy.CustomerAccount IAccountService.RetrieveIgniteAssociateContactInfo(string Auth_ID, string Auth_PW, string IA_Number)
         {
             var response = dpiLinkService.Stream_RetrieveIaContactInfo(Auth_ID, Auth_PW, IA_Number);
             var contactInfo = response.RetrieveIaContactInfo;
 
-            return new CustomerAccount()
+            return new Legacy.CustomerAccount()
             {
                 Name = new DomainModels.Name()
                 {
@@ -86,7 +87,7 @@ namespace StreamEnergy.Services.Clients
             };
         }
 
-        CustomerAccount IAccountService.GetCisAccountsByUtilityAccountNumber(string utilityAccountNumber, string customerPin, string cisOfRecord)
+        Legacy.CustomerAccount IAccountService.GetCisAccountsByUtilityAccountNumber(string utilityAccountNumber, string customerPin, string cisOfRecord)
         {
             var response = accountService.getCisAccountsByUtilityAccountNumber(new StreamCommons.Account.getCisAccountsByUtilityAccountNumberRequest1()
                 {
@@ -99,7 +100,7 @@ namespace StreamEnergy.Services.Clients
                 });
             var account = response.GetCisAccountsByUtilityAccountNumberResponse1.FirstOrDefault();
 
-            return new CustomerAccount()
+            return new Legacy.CustomerAccount()
             {
                 CisAccountNumber = account.cisAccountNumber,
                 CamelotAccountNumber = account.camelotAccountNumber,
@@ -128,7 +129,7 @@ namespace StreamEnergy.Services.Clients
             };
         }
 
-        CustomerAccount IAccountService.GetCisAccountsByCisAccountNumber(string cisAccountNumber, string customerPin, string cisOfRecord)
+        Legacy.CustomerAccount IAccountService.GetCisAccountsByCisAccountNumber(string cisAccountNumber, string customerPin, string cisOfRecord)
         {
             var response = accountService.getCisAccountsByCisAccountNumber(new StreamCommons.Account.getCisAccountsByCisAccountNumberRequest1()
                 {
@@ -141,7 +142,7 @@ namespace StreamEnergy.Services.Clients
                 });
             var account = response.GetCisAccountsByCisAccountNumberResponse1.FirstOrDefault();
 
-            return new CustomerAccount()
+            return new Legacy.CustomerAccount()
             {
                 CisAccountNumber = account.cisAccountNumber,
                 CamelotAccountNumber = account.camelotAccountNumber,

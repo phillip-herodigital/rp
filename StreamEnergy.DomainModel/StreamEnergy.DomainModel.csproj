@@ -123,7 +123,7 @@
     <Compile Include="DomainModels\Accounts\Create\MembershipBuilder.cs" />
     <Compile Include="DomainModels\Accounts\GeorgiaElectricityAccount.cs" />
     <Compile Include="DomainModels\Accounts\IAccountService.cs" />
-    <Compile Include="DomainModels\Accounts\CustomerAccount.cs" />
+    <Compile Include="DomainModels\Accounts\Legacy\CustomerAccount.cs" />
     <Compile Include="DomainModels\Accounts\ISubAccount.cs" />
     <Compile Include="DomainModels\Accounts\Invoice.cs" />
     <Compile Include="DomainModels\Accounts\Payment.cs" />
