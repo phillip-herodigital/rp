@@ -48,10 +48,10 @@ namespace StreamEnergy.Services.Clients
                    };
         }
 
-        IEnumerable<Account> IAccountService.GetCurrentInvoices(string username)
+        Task<IEnumerable<Account>> IAccountService.GetCurrentInvoices(string username)
         {
             // TODO - load from Stream Commons
-            return new[] {
+            return Task.FromResult<IEnumerable<Account>>(new[] {
                 new Account {
                     AccountNumber = "1234567890", 
                     CurrentInvoice = new Invoice { DueDate = DateTime.Today.AddDays(2), InvoiceAmount = 73.05m, InvoiceNumber="", IsPaid = false },
@@ -84,7 +84,7 @@ namespace StreamEnergy.Services.Clients
                         new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } } 
                     } 
                 },
-            };
+            });
         }
 
 

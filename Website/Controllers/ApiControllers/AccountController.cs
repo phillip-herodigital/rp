@@ -118,9 +118,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         [HttpGet]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
-        public GetCurrentInvoicesResponse GetCurrentInvoices()
+        public async Task<GetCurrentInvoicesResponse> GetCurrentInvoices()
         {
-            var accounts = accountService.GetCurrentInvoices(User.Identity.Name);
+            var accounts = await accountService.GetCurrentInvoices(User.Identity.Name);
 
             return new GetCurrentInvoicesResponse
             {
@@ -145,19 +145,52 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                              }
                 }
             };
-            throw new NotImplementedException();
         }
 
         [HttpPost]
-        public MakePaymentResponse MakePayment(MakePaymentRequest makePaymentRequest)
+        public async Task<MakePaymentResponse> MakePayment(MakePaymentRequest makePaymentRequest)
         {
+            var validationItem = database.GetItem("/sitecore/content/Data/Components/Account/Overview/Make a Payment");
             if (!ModelState.IsValid)
             {
                 return new MakePaymentResponse
                 {
-                    Validations = TranslatedValidationResult.Translate(ModelState, database.GetItem("/sitecore/content/Data/Components/Account/Overview/Make a Payment")),
+                    Validations = TranslatedValidationResult.Translate(ModelState, validationItem),
                 };
             }
+            var accounts = (await accountService.GetCurrentInvoices(User.Identity.Name))
+                .Where(account => makePaymentRequest.AccountNumbers.Contains(account.AccountNumber)).ToArray();
+
+
+            if (accounts.Length > 1)
+            {
+                if (accounts.Sum(account => account.CurrentInvoice.InvoiceAmount) != makePaymentRequest.TotalPaymentAmount)
+                {
+                    return new MakePaymentResponse
+                    {
+                        // Can't support different TotalPaymentAmount than InvoiceAmount when multiple accounts are selected
+                        Validations = new[] { new TranslatedValidationResult { MemberName = "TotalPaymentAmount", Text = "TODO" } }
+                    };
+                }
+            }
+            else
+            {
+                // one account
+                var account = accounts.Single();
+                if (account.CurrentInvoice.InvoiceAmount * 3 <= makePaymentRequest.TotalPaymentAmount)
+                {
+                    return new MakePaymentResponse
+                    {
+                        Validations = Enumerable.Empty<TranslatedValidationResult>(),
+                        BlockingAlertType = "Overpayment",
+                    };
+                }
+            }
+
+            // TODO - detect duplicate payment
+
+            // TODO - make payments
+
 
             throw new NotImplementedException();
         }
