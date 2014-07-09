@@ -1238,18 +1238,6 @@ article.mobile {
 					width: 100%;
 				}
 			}
-			&.international-image {
-				margin-top: 1em;
-				float: right;
-				width: 40%;
-				img {
-					max-width: 100%;
-				}
-				@include breakpoint(small) {
-					width: 100%;
-					float: left;
-				}
-			}
 			&.price {
 				float: right;
 				margin-top: 1em;
@@ -1288,134 +1276,6 @@ article.mobile {
 			}
 		}
 	}
-	&.usage-details {
-		.filters {
-			margin: 0;
-			.group .item {
-				label {
-					margin-top: 9px;
-				}
-				&.usage-period {
-					float: right;
-				}
-			}
-		}
-		table tbody tr td, th {
-			text-align: center;
-			.top {
-				border-bottom: 1px solid #eaeaea;
-				padding: 10px 0;
-			}
-			&:first-child {
-				text-align: left;
-			}
-		}
-	}
-	&.international {
-		.content {
-			p {
-				&.plan {
-					font-weight: bold;
-					font-size: 18px;
-				}
-				.add-button {
-					float: right;
-					padding-bottom: 15px;
-				}
-			}
-			hr {
-				border: none;
-				border-top: 1px solid #ddd;
-			}
-			ul.includes {
-				list-style-type: none;
-				padding-left: 0px;
-				li {
-					background: url("../i/icon/blue-check.png");
-					background-repeat: no-repeat;
-					background-position-y: 5px;
-					padding-left: 25px;
-					div {
-						margin: 25px 0;
-						ul.countries {
-							
-							padding-left: 0;
-							list-style-type: none;
-							li {
-								background: none;
-								padding: 0 5px 0 0;
-								width: 25%;
-								float: left;
-								@include breakpoint(small) {
-									width: 50%;
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	&.upgrade {
-		.sub-header {
-			margin: -15px 0 -25px 0;
-			p.left {
-				float: left;
-			}
-			p.right {
-				float: right;
-			}
-		}
-		.content {
-			hr {
-				border: none;
-				border-top: 1px solid #ddd;
-			}
-			h5 {
-				font-size: 18px;
-			}
-			.choose-date {
-				.when {
-					font-size: 20px;
-				}
-				input {
-					float: left;
-					margin-top: 5px;
-				}
-				.effective-paragraph {
-					margin-left: 30px;
-					.effective-date {
-						font-weight: bold;
-						span {
-							color: #00a226;
-						}
-					}
-				}
-			}
-			table.plan-differences {
-				th {
-					background-color: #fff;
-					&.new-header {
-						padding-left: 10px;
-					}
-				}
-				th,
-				td {
-					border: none;
-					border-bottom: 1px solid #eee;
-					padding: 15px 0;
-					&.new {
-						background-color: #f3f3f3;
-						padding: 0 5px 0 10px;
-					}
-					.total {
-						float: right;
-						padding-right: 20px;
-					}
-				}
-			}
-		}
-	}
 	footer {
 		p {
 			margin: 5px 0;
@@ -1436,7 +1296,174 @@ article.mobile {
 			}
 		}
 	}
+	.overlay {
+		table {
+			thead th {
+				background-color: #fff;
+				border: none;
+				border-bottom: 1px solid #e8e8e8;
+				padding-top: 20px;
+				text-align: center;
+				&:first-child {
+					text-align: left;
+				}
+			}
+			tr {
+				&:nth-child(even) {
+					background-color: #fafafa;
+				}
+				td {
+					border: none;
+					text-align: center;
+					&:first-child {
+						text-align: left;
+					}
+				}
+			}
+		}
+	}
 }
+.usage-details {
+	.filters {
+		margin: 0;
+		.group .item {
+			label {
+				margin-top: 9px;
+			}
+			&.usage-period {
+				float: right;
+			}
+		}
+	}
+	table tbody tr td, th {
+		text-align: center;
+		.top {
+			border-bottom: 1px solid #eaeaea;
+			padding: 10px 0;
+		}
+		&:first-child {
+			text-align: left;
+		}
+	}
+}
+.international {
+	.content {
+		p {
+			&.plan {
+				font-weight: bold;
+				font-size: 18px;
+			}
+			/* .add-button {
+				float: right;
+				padding-bottom: 15px;
+			} */
+		}
+		hr {
+			border: none;
+			border-top: 1px solid #ddd;
+		}
+		.group .item .international-image {
+			margin-top: 1em;
+			float: right;
+			width: 40%;
+			img {
+				max-width: 100%;
+			}
+			@include breakpoint(small) {
+				width: 100%;
+				float: left;
+			}
+		}
+		ul.includes {
+			list-style-type: none;
+			padding-left: 0px;
+			li {
+				background: url("../i/icon/blue-check.png");
+				background-repeat: no-repeat;
+				background-position-y: 5px;
+				padding-left: 25px;
+				div {
+					margin: 25px 0;
+					ul.countries {
+							
+						padding-left: 0;
+						list-style-type: none;
+						li {
+							background: none;
+							padding: 0 5px 0 0;
+							width: 25%;
+							float: left;
+							@include breakpoint(small) {
+								width: 50%;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+.upgrade {
+	.sub-header {
+		margin: -15px 0 -25px 0;
+		p.left {
+			float: left;
+		}
+		p.right {
+			float: right;
+		}
+	}
+	.content {
+		hr {
+			border: none;
+			border-top: 1px solid #ddd;
+		}
+		h5 {
+			font-size: 18px;
+		}
+		.choose-date {
+			.when {
+				font-size: 20px;
+			}
+			input {
+				float: left;
+				margin-top: 5px;
+			}
+			.effective-paragraph {
+				margin-left: 30px;
+				.effective-date {
+					font-weight: bold;
+					span {
+						color: #00a226;
+					}
+				}
+			}
+		}
+		table.plan-differences {
+			th {
+				background-color: #fff;
+				&.new-header {
+					padding-left: 10px;
+				}
+			}
+			th,
+			td {
+				border: none;
+				border-bottom: 1px solid #eee;
+				padding: 15px 0;
+				&.new {
+					background-color: #f3f3f3;
+					padding: 0 5px 0 10px;
+				}
+				.total {
+					float: right;
+					padding-right: 20px;
+				}
+			}
+		}
+	}
+}
+
 
 /*ALL MODULES BELOW THIS ARE SIDEBAR MODULES*/
 aside {
@@ -1575,7 +1602,7 @@ aside {
 			}
 		}
 	}
-	article.mobile {
+	article.mobile-sidebar {
 		&.add-device p {
 			margin: 5px 0;
 		}
