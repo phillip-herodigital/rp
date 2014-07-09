@@ -9,7 +9,7 @@ namespace StreamEnergy.DomainModels.Accounts
 {
     public interface IAccountService
     {
-        IEnumerable<Invoice> GetInvoices(string username);
+        IEnumerable<Account> GetInvoices(string username);
 
         string GetIgniteAssociateFromCustomerNumber(string Auth_ID, string Auth_PW, string customerNumber);
 

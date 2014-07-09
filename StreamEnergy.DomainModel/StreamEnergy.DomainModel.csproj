@@ -111,7 +111,11 @@
     <Reference Include="System.Runtime" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainModels\AccountLookup.cs" />
+    <Compile Include="DomainModels\Accounts\Account.TSubAccount.cs" />
+    <Compile Include="DomainModels\Accounts\SampleAccountCapability.cs" />
     <Compile Include="DomainModels\Accounts\AccountGrouping.cs" />
+    <Compile Include="DomainModels\Accounts\Account.cs" />
     <Compile Include="DomainModels\Accounts\ChallengeResponse.cs" />
     <Compile Include="DomainModels\Accounts\Create\AccountInformationState.cs" />
     <Compile Include="DomainModels\Accounts\Create\CompleteState.cs" />
@@ -122,7 +126,9 @@
     <Compile Include="DomainModels\Accounts\Create\FindAccountState.cs" />
     <Compile Include="DomainModels\Accounts\Create\MembershipBuilder.cs" />
     <Compile Include="DomainModels\Accounts\GeorgiaElectricityAccount.cs" />
+    <Compile Include="DomainModels\Accounts\IAccountCapability.cs" />
     <Compile Include="DomainModels\Accounts\IAccountService.cs" />
+    <Compile Include="DomainModels\Accounts\InvoiceExtensionAccountCapability.cs" />
     <Compile Include="DomainModels\Accounts\Legacy\CustomerAccount.cs" />
     <Compile Include="DomainModels\Accounts\ISubAccount.cs" />
     <Compile Include="DomainModels\Accounts\Invoice.cs" />

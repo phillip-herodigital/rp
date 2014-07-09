@@ -25,20 +25,23 @@ namespace StreamEnergy.Services.Clients
             this.client = client;
         }
 
-        IEnumerable<Invoice> IAccountService.GetInvoices(string username)
+        IEnumerable<Account> IAccountService.GetInvoices(string username)
         {
             var response = service.GetInvoices(new Sample.Commons.GetInvoicesRequest { Username = username });
 
             return from entry in response.Invoice
-                   select new DomainModels.Accounts.Invoice
+                   group new DomainModels.Accounts.Invoice
                    {
-                       AccountNumber = entry.AccountNumber,
-                       CanRequestExtension = entry.CanRequestExtension,
                        DueDate = entry.DueDate,
                        InvoiceAmount = entry.InvoiceAmount,
                        InvoiceNumber = entry.InvoiceNumber,
                        IsPaid = entry.IsPaid,
-                       ServiceType = entry.ServiceType
+                   } by new { entry.AccountNumber, entry.ServiceType, entry.CanRequestExtension } into invoicesByAcount
+                   select new Account
+                   {
+                       AccountNumber = invoicesByAcount.Key.AccountNumber,
+                       AccountType = invoicesByAcount.Key.ServiceType,
+                       Capabilities = { new InvoiceExtensionAccountCapability { CanRequestExtension = invoicesByAcount.Key.CanRequestExtension } }
                    };
         }
 

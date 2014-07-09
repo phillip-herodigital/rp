@@ -92,16 +92,17 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 Invoices = new Table<Models.Account.Invoice>
                 {
                     ColumnList = typeof(StreamEnergy.MyStream.Models.Account.Invoice).BuildTableSchema(database.GetItem("/sitecore/content/Data/Components/Account/Overview/My Invoices")),
-                    Values = from invoice in accountService.GetInvoices(User.Identity.Name)
+                    Values = from account in accountService.GetInvoices(User.Identity.Name)
+                             from invoice in account.Invoices
                              select new StreamEnergy.MyStream.Models.Account.Invoice
                              {
-                                 AccountNumber = invoice.AccountNumber,
-                                 ServiceType = invoice.ServiceType,
+                                 AccountNumber = account.AccountNumber,
+                                 ServiceType = account.AccountType,
                                  InvoiceNumber = invoice.InvoiceNumber,
                                  InvoiceAmount = invoice.InvoiceAmount.ToString("0.00"),
                                  DueDate = invoice.DueDate.ToShortDateString(),
                                  IsPaid = invoice.IsPaid,
-                                 CanRequestExtension = invoice.CanRequestExtension,
+                                 CanRequestExtension = account.GetCapability<InvoiceExtensionAccountCapability>().CanRequestExtension,
                                  Actions = 
                                  {
                                      { "viewPdf", "http://.../" }
