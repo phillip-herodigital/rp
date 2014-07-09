@@ -114,6 +114,7 @@
     <Compile Include="DomainModels\AccountLookup.cs" />
     <Compile Include="DomainModels\Accounts\Account.TSubAccount.cs" />
     <Compile Include="DomainModels\Accounts\AvailablePaymentMethod.cs" />
+    <Compile Include="DomainModels\Accounts\MakePaymentResult.cs" />
     <Compile Include="DomainModels\Accounts\PaymentMethodAccountCapability.cs" />
     <Compile Include="DomainModels\Accounts\PaymentSchedulingAccountCapability.cs" />
     <Compile Include="DomainModels\Accounts\SampleAccountCapability.cs" />

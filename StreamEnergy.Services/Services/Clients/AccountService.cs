@@ -87,6 +87,13 @@ namespace StreamEnergy.Services.Clients
             });
         }
 
+        Task<MakePaymentResult> IAccountService.MakePayment(string account, decimal amount, DomainModels.Payments.IPaymentInfo paymentMethod)
+        {
+            return Task.FromResult(new MakePaymentResult
+                {
+                    ConfirmationNumber = account + "123"
+                });
+        }
 
         string IAccountService.GetIgniteAssociateFromCustomerNumber(string Auth_ID, string Auth_PW, string customerNumber)
         {
@@ -216,5 +223,7 @@ namespace StreamEnergy.Services.Clients
                 },
             };
         }
+
+
     }
 }

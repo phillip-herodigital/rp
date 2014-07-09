@@ -148,7 +148,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
 
         [HttpPost]
-        public async Task<MakePaymentResponse> MakePayment(MakePaymentRequest makePaymentRequest)
+        public async Task<MakePaymentResponse> MakePayment(MakePaymentRequest request)
         {
             var validationItem = database.GetItem("/sitecore/content/Data/Components/Account/Overview/Make a Payment");
             if (!ModelState.IsValid)
@@ -159,12 +159,12 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 };
             }
             var accounts = (await accountService.GetCurrentInvoices(User.Identity.Name))
-                .Where(account => makePaymentRequest.AccountNumbers.Contains(account.AccountNumber)).ToArray();
+                .Where(account => request.AccountNumbers.Contains(account.AccountNumber)).ToArray();
 
-
+            Dictionary<Account, decimal> paymentAmounts;
             if (accounts.Length > 1)
             {
-                if (accounts.Sum(account => account.CurrentInvoice.InvoiceAmount) != makePaymentRequest.TotalPaymentAmount)
+                if (accounts.Sum(account => account.CurrentInvoice.InvoiceAmount) != request.TotalPaymentAmount)
                 {
                     return new MakePaymentResponse
                     {
@@ -172,12 +172,13 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         Validations = new[] { new TranslatedValidationResult { MemberName = "TotalPaymentAmount", Text = "TODO" } }
                     };
                 }
+                paymentAmounts = accounts.ToDictionary(acct => acct, acct => acct.CurrentInvoice.InvoiceAmount);
             }
             else
             {
                 // one account
                 var account = accounts.Single();
-                if (account.CurrentInvoice.InvoiceAmount * 3 <= makePaymentRequest.TotalPaymentAmount)
+                if (account.CurrentInvoice.InvoiceAmount * 3 <= request.TotalPaymentAmount && !request.OverrideWarnings.Contains("Overpayment"))
                 {
                     return new MakePaymentResponse
                     {
@@ -185,14 +186,36 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         BlockingAlertType = "Overpayment",
                     };
                 }
+
+                paymentAmounts = new Dictionary<Account, decimal> { { account, request.TotalPaymentAmount } };
             }
 
-            // TODO - detect duplicate payment
+            if (!request.OverrideWarnings.Contains("Duplicate"))
+            {
+                // TODO - detect duplicate payment
+                bool isDuplicate = true;
+                if (isDuplicate)
+                {
+                    return new MakePaymentResponse
+                    {
+                        Validations = Enumerable.Empty<TranslatedValidationResult>(),
+                        BlockingAlertType = "Duplicate",
+                    };
+                }
+            }
 
-            // TODO - make payments
+            var temp = paymentAmounts.Select(entry => new { account = entry.Key, amount = entry.Value, task = accountService.MakePayment(account: entry.Key.AccountNumber, amount: entry.Value, paymentMethod: request.PaymentAccount) }).ToArray();
+            await Task.WhenAll(temp.Select(e => e.task));
 
-
-            throw new NotImplementedException();
+            return new MakePaymentResponse
+            {
+                Validations = Enumerable.Empty<TranslatedValidationResult>(),
+                Confirmations = temp.Select(entry => new PaymentConfirmation
+                {
+                    AccountNumber = entry.account.AccountNumber,
+                    PaymentConfirmationNumber = entry.task.Result.ConfirmationNumber
+                }).ToArray()
+            };
         }
 
         #endregion

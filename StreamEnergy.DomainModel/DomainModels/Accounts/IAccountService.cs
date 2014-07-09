@@ -11,6 +11,7 @@ namespace StreamEnergy.DomainModels.Accounts
     {
         IEnumerable<Account> GetInvoices(string username);
         Task<IEnumerable<Account>> GetCurrentInvoices(string username);
+        Task<MakePaymentResult> MakePayment(string account, decimal amount, Payments.IPaymentInfo paymentMethod);
 
         string GetIgniteAssociateFromCustomerNumber(string Auth_ID, string Auth_PW, string customerNumber);
 

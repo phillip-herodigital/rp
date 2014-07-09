@@ -17,6 +17,7 @@ namespace StreamEnergy.MyStream.Models.Account
         [Range(0, double.MaxValue)]
         public decimal TotalPaymentAmount { get; set; }
         public DateTime PaymentDate { get; set; }
+        [Required]
         public string[] OverrideWarnings { get; set; }
     }
 }
