@@ -112,7 +112,6 @@ $mobile-nav: 260px;
 .wrapper {
 	width: 1000px;
 	margin: 0 auto;
-	overflow: hidden;
 }
 
 @include breakpoint(small) {
