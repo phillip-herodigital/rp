@@ -27,15 +27,15 @@
                 <div class="item paragraph">
                     <p>@Html.Sitecore().Field("Current Plan Text")</p>
                     <p>@Html.Sitecore().Field("Usage Paragraph")</p>
-                    <ul class="links clearfix">
-                        <li>@Html.Sitecore().Field("Terms and Conditions Link")</li>
-                        <li>@Html.Sitecore().Field("Plan Details Link")</li>
-                    </ul>
                 </div>
                 <div class="item price">
                     <p class="plan-price">@Html.Sitecore().Field("Plan Price Text")</p>
                 </div>
             </div>
+            <ul class="links clearfix">
+                <li>@Html.Sitecore().Field("Terms and Conditions Link")</li>
+                <li>@Html.Sitecore().Field("Plan Details Link")</li>
+            </ul>
         </div>
     </form>
 </article>
