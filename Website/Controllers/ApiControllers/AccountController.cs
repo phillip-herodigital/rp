@@ -147,6 +147,13 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             };
         }
 
+        [HttpGet]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
+        public async Task<IEnumerable<DomainModels.Payments.SavedPaymentInfo>> GetSavedPaymentMethods()
+        {
+            return await accountService.GetSavedPaymentMethods(User.Identity.Name);
+        }
+
         [HttpPost]
         public async Task<MakePaymentResponse> MakePayment(MakePaymentRequest request)
         {
