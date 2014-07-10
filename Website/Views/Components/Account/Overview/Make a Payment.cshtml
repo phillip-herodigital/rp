@@ -3,8 +3,8 @@
     <header>
         <h2>@Html.Sitecore().Field("Make Payment Text")</h2>
     </header>
-    <div ng-show="activeState == 'step1'">
-        <form data-val-bind-messages="validations" ng-submit="continue()">
+    <div ng-show="ctrl.activeState == 'step1'">
+        <form data-val-bind-messages="validations" ng-submit="ctrl.activeState = 'step2'">
             <div class="content" loading-indicator>
                 <div class="payment-account">
                     <table grid-table ng-model="ctrl.invoices">
@@ -149,7 +149,7 @@
         </form>
     </div>
 
-    <div ng-show="activeState == 'step2'">
+    <div ng-show="ctrl.activeState == 'step2'">
         <form>
             <div class="content">
                 <dl class="clearfix module-list" ng-repeat="account in ctrl.selectedAccounts">
@@ -185,14 +185,14 @@
             </div>
             <footer>
                 <div class="buttons">
-                    <button type="submit" ng-click="continue()">@Html.Sitecore().Field("Submit Payment Button Text")</button>
-                    <button class="secondary" ng-click="back()">@Html.Sitecore().Field("Back Button Text")</button>
+                    <button type="submit" ng-click="ctrl.makePayment()">@Html.Sitecore().Field("Submit Payment Button Text")</button>
+                    <button class="secondary" ng-click="ctrl.activeState == 'step1'">@Html.Sitecore().Field("Back Button Text")</button>
                 </div>
             </footer>
         </form>
     </div>
 
-    <div ng-show="activeState == 'step3'">
+    <div ng-show="ctrl.activeState == 'step3'">
         <form>
             <div class="content">
                 <dl class="clearfix module-list">

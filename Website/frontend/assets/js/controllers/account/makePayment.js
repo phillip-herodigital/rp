@@ -8,6 +8,27 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', function (
     this.paymentMethods = null;
     this.selectedAccounts = [];
     this.total = 0;
+    this.overriddenWarnings = [];
+
+    this.makePayment = function () {
+        $http.post('/api/account/makePayment', {
+            paymentAccount: ctrl.selectedPaymentMethod,
+            accountNumbers: _.pluck(ctrl.selectedAccounts, 'accountNumber'),
+            totalPaymentAmount: ctrl.paymentAmount,
+            paymentDate: ctrl.selectedDate,
+            overrideWarnings: ctrl.overriddenWarnings
+        }).success(function (data) {
+            if (data.blockingAlertType) {
+
+            } else {
+                ctrl.activeState = 'step3'
+                _.forEach(data.confirmations, function (account) {
+                    _.find(ctrl.selectedAccounts, { accountNumber: account.accountNumber }).confirmationNumber = account.paymentConfirmationNumber
+                });
+                console.log(data, ctrl.selectedAccounts);
+            }
+        });
+    };
 
     $scope.$watch(function () { return _.pluck(ctrl.invoices.values, 'selected'); }, function (newValue) {
         ctrl.selectedAccounts = _.where(ctrl.invoices.values, { 'selected': true, 'canMakeOneTimePayment': true });
@@ -19,16 +40,8 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', function (
     $scope.disableWeekends = function (date, mode) {
         return (mode === 'day' && (date.getDay() === 0 || date.getDay() === 6));
     };
-    $scope.minDate = new Date();
-    
-    $scope.activeState = 'step1';
+    ctrl.selectedDate = $scope.minDate = new Date();
 
-    $scope.continue = function() {
-        $scope.activeState = (($scope.activeState == 'step1') ? 'step2' : 'step3');
-    };
-
-    $scope.back = function() {
-        $scope.activeState = 'step1';
-    };
+    ctrl.activeState = 'step1';
 
 }]);
