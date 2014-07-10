@@ -30,7 +30,9 @@ namespace StreamEnergy.DomainModels
             unityContainer.Resolve<TypeIndicatorJsonConverter>().TypeIndicators.Add(new TypeIndicatorLookup<Payments.IPaymentInfo, Payments.SamplePaymentInfo>(sc => sc.PaymentType)
             {
                 SupportedTypes = {
-                    { Payments.TokenizedCard.Qualifier, typeof(Payments.TokenizedCard) }
+                    { Payments.TokenizedCard.Qualifier, typeof(Payments.TokenizedCard) },
+                    { Payments.BankPaymentInfo.Qualifier, typeof(Payments.BankPaymentInfo) },
+                    { Payments.SavedPaymentInfo.Qualifier, typeof(Payments.SavedPaymentInfo) },
                 }
             });
 
