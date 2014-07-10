@@ -1,7 +1,7 @@
 /* Make a Payment Controller
  *
  */
-ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', function ($scope, $rootScope, $http) {
+ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', function ($scope, $rootScope, $http, $modal) {
 
     var ctrl = this;
     this.invoices = null;
@@ -20,12 +20,19 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', function (
         }).success(function (data) {
             if (data.blockingAlertType) {
 
+                $modal.open({
+                    templateUrl: 'PaymentBlockingAlert/' + data.blockingAlertType,
+                    scope: $scope
+                }).result.then(function () {
+                    ctrl.overriddenWarnings.push(data.blockingAlertType);
+                    ctrl.makePayment();
+                });
+
             } else {
                 ctrl.activeState = 'step3'
                 _.forEach(data.confirmations, function (account) {
                     _.find(ctrl.selectedAccounts, { accountNumber: account.accountNumber }).confirmationNumber = account.paymentConfirmationNumber
                 });
-                console.log(data, ctrl.selectedAccounts);
             }
         });
     };

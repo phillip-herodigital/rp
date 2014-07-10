@@ -195,29 +195,47 @@
     <div ng-show="ctrl.activeState == 'step3'">
         <form>
             <div class="content">
-                <dl class="clearfix module-list">
-                    <dt>@Html.Sitecore().Field("Confirmation Number Text")</dt>
-                    <dd>1234657890132456</dd>
-                    <dt>@Html.Sitecore().Field("Account Number Text")</dt>
-                    <dd>1234657890</dd>
-                </dl>
+                <div ng-repeat="account in ctrl.selectedAccounts">
+                    <h3>{{account.accountNumber}}</h3>
+                    <div ng-if="account.confirmationNumber" class="notice success">
+                        <dl class="clearfix module-list">
 
-                <dl class="clearfix module-list">
-                    <dt>@Html.Sitecore().Field("Payment Method Text")</dt>
-                    <dd>Credit Card</dd>
-                    <dt>@Html.Sitecore().Field("Card Number Text")</dt>
-                    <dd>**** **** **** 1234</dd>
-                    <dt>@Html.Sitecore().Field("Bank Account Number Text")</dt>
-                    <dd>****1234</dd>
-                </dl>
+                            <dt>@Html.Sitecore().Field("Confirmation Number Text")</dt>
+                            <dd>{{account.confirmationNumber}}</dd>
+                            <dt>@Html.Sitecore().Field("Payment Amount Text")</dt>
+                            <dd>{{ (ctrl.selectedAccounts.length != 1 ? account.invoiceAmount : ctrl.paymentAmount) | currency }}</dd>
+                        </dl>
+                    </div>
+                    <div ng-if="!account.confirmationNumber" class="notice error">
+                        @* TODO - Sitecore *@
+                        <p>There was a problem processing your payment of {{ (ctrl.selectedAccounts.length != 1 ? account.invoiceAmount : ctrl.paymentAmount) | currency }}</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi consectetur, tellus semper porta ornare, nisl tortor adipiscing nibh, eu pretium ligula purus sed arcu.</p>
+                    </div>
+                </div>
 
                 <dl class="clearfix module-list">
                     <dt>@Html.Sitecore().Field("Payment Date Text")</dt>
-                    <dd>MM/DD/YYYY</dd>
-                    <dt>@Html.Sitecore().Field("Payment Amount Text")</dt>
-                    <dd>$123.45</dd>
+                    <dd>{{ ctrl.selectedDate | date:'MM/dd/yyyy' }}</dd>
+                    <dt>@Html.Sitecore().Field("Total Payment Text")</dt>
+                    <dd>{{ ctrl.paymentAmount | currency }}</dd>
                 </dl>
 
+                <div ng-switch="ctrl.selectedPaymentMethod.underlyingPaymentType">
+                    <dl class="clearfix module-list" ng-switch-when="TokenizedCard">
+                        <dt>@Html.Sitecore().Field("Payment Method Text")</dt>
+                        @* TODO - sitecore field *@
+                        <dd>Credit Card</dd>
+                        <dt>@Html.Sitecore().Field("Card Number Text")</dt>
+                        <dd>{{ctrl.selectedPaymentMethod.redactedData}}</dd>
+                    </dl>
+                    <dl class="clearfix module-list" ng-switch-when="BankPaymentMethod">
+                        <dt>@Html.Sitecore().Field("Payment Method Text")</dt>
+                        @* TODO - sitecore field *@
+                        <dd>Bank Account</dd>
+                        <dt>@Html.Sitecore().Field("Bank Account Number Text")</dt>
+                        <dd>{{ctrl.selectedPaymentMethod.redactedData}}</dd>
+                    </dl>
+                </div>
             </div>
             <footer>
                 <div class="buttons">
@@ -229,3 +247,18 @@
     </div>
 
 </article>
+
+<script type="text/ng-template" id="PaymentBlockingAlert/Duplicate">
+    <div class="modal-header">
+        <a href="" ng-click="$dismiss()"></a>
+        @* TODO - Sitecore *@
+        <h2>Duplicate Payment Warning</h2>
+    </div>
+    <div class="modal-body">
+        @Html.Sitecore().Field("Duplicate Payment Warning Text")
+    </div>
+    <div class="modal-footer">
+        <button class="secondary" ng-click="$dismiss()">@Html.Sitecore().Field("Cancel Payment Button Text")</button>
+        <button ng-click="$close()">@Html.Sitecore().Field("Continue Payment Button Text")</button>
+    </div>
+</script>
