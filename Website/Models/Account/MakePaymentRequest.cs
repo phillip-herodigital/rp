@@ -14,7 +14,7 @@ namespace StreamEnergy.MyStream.Models.Account
         [Required]
         [MinLength(1)]
         public string[] AccountNumbers { get; set; }
-        [Range(0, double.MaxValue)]
+        [Range(0.01, double.MaxValue)]
         public decimal TotalPaymentAmount { get; set; }
         public DateTime PaymentDate { get; set; }
         [Required]
