@@ -10,8 +10,7 @@
                         <thead grid-table-header checkboxes="true"></thead>
                         <tbody ng-repeat="item in table.valuesToShow">
                             <tr>
-                                <!--<td class="align-center" style="width:30px;"><input type="checkbox" ng-model="item.selected" /></td>-->
-                                <td><input type="checkbox" /></td>
+                                <td class="align-center" style="width:30px;"><input type="checkbox" ng-show="item.canMakeOneTimePayment" ng-model="item.selected" /></td>
                                 <td ng-show="hasHiddenColumns" ng-click="expandInnerTable($index)" ng-class="{'opened': expand[$index], 'closed': !expand[$index]}">
                                     <i ng-class="{'icon-arrow-expanded': expand[$index], 'icon-arrow-collapsed': !expand[$index]}"></i>
                                 </td>
@@ -23,8 +22,13 @@
                                     <div class="request-extension" ng-show="item.canRequestExtension"><a href="#">@Html.Sitecore().Field("Request Extension Text")</a></div>
                                 </td>
                             </tr>
+                            <tr class="details" ng-show="!item.canMakeOneTimePayment">
+                                <td colspan="{{table.columnList.length+2}}">
+                                    @Html.Sitecore().Field("Account Number Note")
+                                </td>
+                            </tr>
                             <tr class="details" ng-show="hasHiddenColumns && expand[$index] == true">
-                                <td colspan="{{table.columnList.length+1}}">
+                                <td colspan="{{table.columnList.length+2}}">
                                     <p ng-repeat="column in table.columnList | filter:{isVisible: false}" ng-switch on="column.field">
                                         <span ng-switch-when="action">
                                             <button class="secondary">@Html.Sitecore().Field("View PDF Text")</button>
@@ -39,13 +43,17 @@
                         <tfoot grid-table-pagination></tfoot>
                     </table>
 
-                    @Html.Sitecore().Field("Account Number Note")
                 </div>
                 <hr class="content-divider">
                 <div class="payment-details">
-                    <p>@Html.Sitecore().Field("Current Balance Text") <strong>$123.45</strong></p>
+                    <p>@Html.Sitecore().Field("Current Balance Text") <strong>{{ ctrl.total | currency }}</strong></p>
 
                     <div class="group date-amount">
+                        <div class="item dollars group-col">
+                            <label for="Amount">@Html.Sitecore().Field("Payment Amount Text")</label>
+                            <span class="payment-amount" ng-if="ctrl.selectedAccounts.length == 1"><input type="text" id="amount" ng-model="ctrl.paymentAmount"></span>
+                            <span ng-if="ctrl.selectedAccounts.length != 1">{{ctrl.paymentAmount|currency}}</span>
+                        </div>
                         <div class="item datepicker group-col">
                             <label for="Payment method">@Html.Sitecore().Field("Payment Date Text")</label>
                             <span class="calendar">
@@ -53,19 +61,13 @@
                                 <span class="icon"><i class="icon-calendar"></i></span>
                             </span>
                         </div>
-                        <div class="item dollars group-col">
-                            <label for="Amount">@Html.Sitecore().Field("Payment Amount Text")</label>
-                            <span class="payment-amount"><input type="text" id="amount"></span> 
-                        </div>
                     </div>
                     <div additional-fields>
                         <div class="group account-select">
                             <div class="item group-col">
                                 <label for="Payment method">@Html.Sitecore().Field("Payment Account Text")</label>
-                                <select>
-                                    <option value="Please choose">Select Payment Account</option>
-                                    <option value="payment1">Payment Method 1</option>
-                                    <option value="payment2">Payment Method 2</option>
+                                <select ng-options="option.displayName for option in ctrl.paymentMethods" ng-model="ctrl.selectedPaymentMethod">
+                                    <option value="">Select Payment Account</option>
                                 </select>
                             </div>
                             <div class="item add-account group-col">
