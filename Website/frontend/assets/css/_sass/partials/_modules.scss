@@ -1152,6 +1152,391 @@ article.payments {
 	}	
 }
 
+article.mobile {
+	header {
+		.header-left {
+			float: left;
+			&.welcome {
+				font-size: 22px;
+				margin: 18px 0;
+				span {
+					color: #0971ce;
+				}
+			}
+		}
+		.header-right {
+			float: right;
+			&.account {
+				margin-top: 23px;
+			}
+		}
+		select {
+			width: auto;
+			margin-top: 8px;
+		}
+	}
+	.content {
+		padding: 15px;
+		.right-button {
+			float: right;
+			margin-bottom: 10px;
+			@include breakpoint(small) {
+				width: 100%;
+				margin: 10px 0;
+				a {
+					width: 100%;
+				}
+			}
+		}
+		.grid .col {
+			.balance {
+				font-size: 22px;
+				margin: 10px 0;
+			}
+			.details {
+				margin: 0;
+			}
+			&.due {
+				p {
+					float: left;
+					margin-top: -4px;
+					&.pay {
+						float: right;
+					}
+				}
+			}
+		}
+		.group .item {
+			a.button {
+				@include breakpoint(small) {
+					width: 100%;
+				}
+			}
+			ul.links li {
+				float: left;
+				list-style-type: none;
+				margin-right: 7px;
+				padding-left: 7px;
+				border-left: 1px solid #0971ce;
+				&:first-child {
+					border-left: none;
+					padding-left: 0;
+				}
+				@include breakpoint(small) {
+					border-left: 0;
+					float: none;
+					text-align: center;
+				}
+			}
+			&.current-data {
+				width: 60%;
+				@include breakpoint(small) {
+					width: 100%;
+				}
+			}
+			&.historical-data {
+				width: 40%;
+				border-left: 1px solid #ddd;
+				padding-left: 15px;
+				@include breakpoint(small) {
+					width: 100%;
+					padding-left: 0;
+					border-left: 0;
+				}
+			}
+			&.paragraph {
+				width: 60%;
+				float: left;
+				@include breakpoint(small) {
+					float: left;
+					width: 80%;
+					&.full {
+						width: 100%;
+					}
+				}
+			}
+			&.price {
+				float: right;
+				margin-top: 1em;
+				p {
+					margin-top: 0;
+					text-align: right;
+					span {
+						font-size: 34px;
+						color: #0971cd;
+						font-weight: bold;
+					}
+				}
+				.plan-price {
+					text-transform: uppercase;
+					font-style: italic;
+					span {
+						color: #000;
+						font-size: 28px;
+						font-style: normal;
+						font-weight: normal;
+					}
+				}
+				@include breakpoint(small) {
+					width: 20%;
+				}
+			}
+		}
+		table.device tbody tr td {
+			text-align: center;
+			border-top: 0;
+			img {
+				max-width: 100%;
+			}
+		}
+	}
+	footer {
+		p {
+			margin: 5px 0;
+			.link {
+				margin-left: 10px;
+			}
+		}
+		.footer-left {
+			float: left;
+			&.link {
+				margin: 10px 10px 0 0;
+			}
+			@include breakpoint(small) {
+				float: none;
+				&.link {
+					text-align: center;
+				}
+			}
+			&.receipt {
+				@include breakpoint(small) {
+					float: left;
+				}
+			}
+		}
+	}
+	.overlay {
+		table {
+			thead th {
+				background-color: #fff;
+				border: none;
+				border-bottom: 1px solid #e8e8e8;
+				padding-top: 20px;
+				text-align: center;
+				&:first-child {
+					text-align: left;
+				}
+			}
+			tr {
+				&:nth-child(even) {
+					background-color: #fafafa;
+				}
+				td {
+					border: none;
+					text-align: center;
+					&:first-child {
+						text-align: left;
+					}
+				}
+			}
+		}
+	}
+}
+.usage-details {
+	.filters {
+		margin: 0;
+		.group .item {
+			label {
+				margin-top: 9px;
+			}
+			&.usage-period {
+				float: right;
+			}
+		}
+	}
+	table tbody tr td, th {
+		text-align: center;
+		.top {
+			border-bottom: 1px solid #eaeaea;
+			padding: 10px 0;
+		}
+		&:first-child {
+			text-align: left;
+		}
+	}
+}
+.international {
+	.content {
+		p {
+			&.plan {
+				font-weight: bold;
+				font-size: 18px;
+			}
+			/* .add-button {
+				float: right;
+				padding-bottom: 15px;
+			} */
+		}
+		hr {
+			border: none;
+			border-top: 1px solid #ddd;
+		}
+		.group .item.international-image {
+			margin-top: 1em;
+			float: right;
+			width: 40%;
+			img {
+				max-width: 100%;
+			}
+			@include breakpoint(small) {
+				width: 100%;
+				text-align: center;
+			}
+		}
+		ul.includes {
+			list-style-type: none;
+			padding-left: 0px;
+			li {
+				background: url("../i/icon/blue-check.png");
+				background-repeat: no-repeat;
+				background-position-y: 5px;
+				padding-left: 25px;
+				div {
+					margin: 25px 0;
+					ul.countries {
+							
+						padding-left: 0;
+						list-style-type: none;
+						li {
+							background: none;
+							padding: 0 5px 0 0;
+							width: 25%;
+							float: left;
+							@include breakpoint(small) {
+								width: 50%;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+.upgrade {
+	.sub-header {
+		margin: -15px 0 -25px 0;
+		p.left {
+			float: left;
+		}
+		p.right {
+			float: right;
+		}
+	}
+	.content {
+		hr {
+			border: none;
+			border-top: 1px solid #ddd;
+		}
+		h5 {
+			font-size: 18px;
+		}
+		.choose-date {
+			.when {
+				font-size: 20px;
+			}
+			input {
+				float: left;
+				margin-top: 5px;
+			}
+			.effective-paragraph {
+				margin-left: 30px;
+				.effective-date {
+					font-weight: bold;
+					span {
+						color: #00a226;
+					}
+				}
+			}
+		}
+		table.plan-differences {
+			th {
+				background-color: #fff;
+				&.new-header {
+					padding-left: 10px;
+				}
+			}
+			th,
+			td {
+				border: none;
+				border-bottom: 1px solid #eee;
+				padding: 15px 0;
+				&.new {
+					background-color: #f3f3f3;
+					padding: 0 5px 0 10px;
+				}
+				.total {
+					float: right;
+					padding-right: 20px;
+				}
+			}
+		}
+	}
+}
+article.upgrade-effective {
+	position: relative;
+	header,
+	footer {
+		background-color: #ecf9f8;
+	}
+	header p {
+		padding-right: 30px;
+	}
+	.icon-close {
+		position: absolute;
+		top: 20px;
+		right: 20px;
+	}
+	footer {
+		.footer-left {
+			margin-top: 40px;
+		}
+		.footer-right {
+			float: right;
+				dt {
+					width: 150px;
+					text-align: right;
+				}
+				dd {
+					margin-left: 25px;
+					width: auto;
+				}
+		}
+	}
+}
+
+
+
+/*.notice {
+		margin-bottom: 15px;
+		border-radius: 15px;
+		padding: 20px 30px 20px 45px;
+		background-repeat: no-repeat;
+		background-position: 15px 24px;
+		position: relative;
+
+		.icon-close {
+			position: absolute;
+			top: 20px;
+			right: 20px;
+		}
+
+		&.message {
+				border: 1px solid #a1bbb9;
+				background-color: #ecf9f8;
+				background-image: image-url('icon/message.png');
+		}*/
+
+
 /*ALL MODULES BELOW THIS ARE SIDEBAR MODULES*/
 aside {
 	article.promo { 
@@ -1287,6 +1672,22 @@ aside {
 					float: left;
 				}
 			}
+		}
+	}
+	article.mobile-sidebar {
+		&.add-device p {
+			margin: 5px 0;
+		}
+		select {
+			width: 100%;
+		}
+		ul {
+			list-style-type: none;
+			padding-left: 0;
+		}
+		img {
+			max-width: 100%;
+			height: initial;
 		}
 	}
 }

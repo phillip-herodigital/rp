@@ -1,0 +1,58 @@
+﻿<article class="white-box mobile upgrade" ng-controller="MakePaymentCtrl">
+    <header>
+        <h2>@Html.Sitecore().Field("Header Text")</h2>
+    </header>
+
+    <form>
+        <div class="content">
+            <p>@Html.Sitecore().Field("Upgrade Start Date") @Html.Sitecore().Field("Change Date Button")</p>
+            <hr />
+            <p>@Html.Sitecore().Field("New Plan") @Html.Sitecore().Field("Change Plan Button")</p>
+            <div>
+
+            </div>
+            <hr />
+            <table class="plan-differences">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th>@Html.Sitecore().Field("Table Current Header")</th>
+                        <th class="new-header">@Html.Sitecore().Field("Table New Header")</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="2">@Html.Sitecore().Field("Monthly Shared Data")</td>
+                        <td>@Html.Sitecore().Field("Current Data Amount")</td>
+                        <td class="new">@Html.Sitecore().Field("New Data Amount")</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">@Html.Sitecore().Field("Mobile Share Plan Fee")</td>
+                        <td>@Html.Sitecore().Field("Current Plan Fee")</td>
+                        <td class="new">@Html.Sitecore().Field("New Plan Fee")</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><span class="total"><strong>@Html.Sitecore().Field("Monthly Total")</strong></span></td>
+                        <td>@Html.Sitecore().Field("Current Monthly Price")</td>
+                        <td class="new">@Html.Sitecore().Field("New Monthly Price")</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h5><strong>@Html.Sitecore().Field("Taxes and Fees")</strong></h5>
+            <p>@Html.Sitecore().Field("Overage Paragraph")</p>
+            <h5><strong>@Html.Sitecore().Field("Terms and Conditions Header")</strong></h5>
+            <form>
+                <p><input type="checkbox" />@Html.Sitecore().Field("Agree to Terms")</p>
+            </form>
+            <textarea>@Html.Sitecore().Field("Terms Paragraph")</textarea>
+        </div>
+        <footer>
+            <div class="buttons">
+                <p class="footer-left link">@Html.Sitecore().Field("Cancel Button")</p>
+                <p class="footer-left">@Html.Sitecore().Field("Back Button")</p>
+                <p>@Html.Sitecore().Field("Confirm Button")</p>
+            </div>
+        </footer>
+    </form>
+</article>

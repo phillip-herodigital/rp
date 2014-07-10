@@ -1,0 +1,70 @@
+﻿<article class="grey-box mobile usage-details" ng-controller="MakePaymentCtrl">
+    <header>
+        <h2>@Html.Sitecore().Field("Header Text")</h2>
+    </header>
+    
+    <div>
+        <div class="filters">
+            <form>
+                <div class="group">
+                    <div class="item">
+                        <label>@Html.Sitecore().Field("Showing Text")</label>
+                    </div>
+                    <div class="item usage-period">
+                        <select>
+                            <option>
+                                <span class="current">@Html.Sitecore().Field("Bill Usage")</span>
+                                <span class="dates">Apr 29, 2013 - May 28, 2014</span>
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>@Html.Sitecore().Field("Member Header")</th>
+                        <th>@Html.Sitecore().Field("Data Header")</th>
+                        <th>@Html.Sitecore().Field("Text Header")</th>
+                        <th>@Html.Sitecore().Field("Talk Header")</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Jordan Campbell<br />123.456.7890<p>@Html.Sitecore().Field("Usage Details Link")</p></td>
+                        <td>
+                            <div class="top"><strong>1.93GB</strong> @Html.Sitecore().Field("Of") 2GB</div>
+                            <p>@Html.Sitecore().Field("Button Text")</p>
+                        </td>
+                        <td>
+                            <div class="top"><strong>49</strong> @Html.Sitecore().Field("Of") unlimited</div>
+                            <p>@Html.Sitecore().Field("Messages Used")</p>
+                        </td>
+                        <td>
+                            <div class="top"><strong>926</strong> @Html.Sitecore().Field("Of") unlimited</div>
+                            <p>@Html.Sitecore().Field("Minutes Used")</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Jennifer Campbell<br />123.456.7890<p>@Html.Sitecore().Field("Usage Details Link")</p></td>
+                        <td>
+                            <div class="top"><strong>2.5GB</strong> @Html.Sitecore().Field("Of") 4GB</div>
+                            <p>@Html.Sitecore().Field("Button Text")</p>
+                        </td>
+                        <td>
+                            <div class="top"><strong>372</strong> @Html.Sitecore().Field("Of") unlimited</div>
+                            <p>@Html.Sitecore().Field("Messages Used")</p>
+                        </td>
+                        <td>
+                            <div class="top"><strong>1,873</strong> @Html.Sitecore().Field("Of") unlimited</div>
+                            <p>@Html.Sitecore().Field("Minutes Used")</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</article>
+
