@@ -25,7 +25,7 @@
                             </tr>
                             <tr class="details" ng-show="!item.canMakeOneTimePayment">
                                 <td colspan="{{table.columnList.length+2}}">
-                                    @Html.Sitecore().Field("Account Number Note")
+                                    @Html.Sitecore().Field("One Time Payment Not Allowed Text").Format(new { AccountNumber = "{{ item.accountNumber }}" })
                                 </td>
                             </tr>
                             <tr class="details" ng-show="hasHiddenColumns && expand[$index] == true">
@@ -50,12 +50,12 @@
                     <p>@Html.Sitecore().Field("Total For Accounts").Format(new { Count = "{{ctrl.selectedAccounts.length}}", s = "{{(ctrl.selectedAccounts.length==1?\"\":\"s\")}}" }) <strong>{{ ctrl.total | currency }}</strong></p>
 
                     <div class="group date-amount">
-                        <div class="item dollars group-col">
+                        <div class="item dollars group-col" @Html.ValidationErrorClass(m => m.TotalPaymentAmount)>
                             <label for="@Html.For(m => m.TotalPaymentAmount)">@Html.Sitecore().Field("Payment Amount Text")</label>
                             <span class="payment-amount" ng-show="ctrl.selectedAccounts.length == 1"><input type="text" @Html.ValidationAttributes(m => m.TotalPaymentAmount) ng-model="ctrl.paymentAmount"></span>
                             <span ng-if="ctrl.selectedAccounts.length != 1">{{ctrl.paymentAmount|currency}}</span>
                         </div>
-                        <div class="item datepicker group-col">
+                        <div class="item datepicker group-col" @Html.ValidationErrorClass(m => m.PaymentDate)>
                             <label for="Payment method">@Html.Sitecore().Field("Payment Date Text")</label>
                             <span class="calendar">
                                 <input type="text" ng-model="ctrl.selectedDate" datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="disableWeekends(date, mode)" @Html.ValidationAttributes(m => m.PaymentDate) />
@@ -65,7 +65,7 @@
                     </div>
                     <div>
                         <div class="group account-select">
-                            <div class="item group-col">
+                            <div class="item group-col" @Html.ValidationErrorClass(m => m.PaymentAccount)>
                                 <label for="Payment method">@Html.Sitecore().Field("Payment Account Text")</label>
                                 <select ng-options="option.displayName for option in ctrl.paymentMethods" ng-model="ctrl.selectedPaymentMethod" @Html.ValidationAttributes(m => m.PaymentAccount)>
                                     <option value="">@Html.Sitecore().Field("Select Payment Account Text")</option>
@@ -184,7 +184,7 @@
             <footer>
                 <div class="buttons">
                     <button type="submit" ng-click="ctrl.makePayment()">@Html.Sitecore().Field("Submit Payment Button Text")</button>
-                    <button class="secondary" ng-click="ctrl.activeState == 'step1'">@Html.Sitecore().Field("Back Button Text")</button>
+                    <button class="secondary" ng-click="ctrl.activeState = 'step1'">@Html.Sitecore().Field("Back Button Text")</button>
                 </div>
             </footer>
         </form>

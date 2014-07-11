@@ -26,7 +26,7 @@ namespace StreamEnergy.MyStream.Models.Account
 
         public DomainModels.Accounts.AvailablePaymentMethod[] AvailablePaymentMethods { get; set; }
 
-        [ColumnSchema("Action")]
+        [ColumnSchema("Details")]
         public Dictionary<string, string> Actions { get; private set; }
 
     }
