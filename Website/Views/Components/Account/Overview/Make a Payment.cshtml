@@ -6,8 +6,8 @@
     <div ng-show="ctrl.activeState == 'step1'">
         <form data-val-bind-messages="validations" ng-submit="ctrl.activeState = 'step2'">
             <div class="content" loading-indicator>
-                <div class="payment-account">
-                    <table grid-table ng-model="ctrl.invoices">
+                <div class="payment-account stretch">
+                    <table grid-table ng-model="ctrl.invoices" class="grid-table">
                         <thead grid-table-header checkboxes="true"></thead>
                         <tbody ng-repeat="item in table.valuesToShow">
                             <tr>
@@ -43,9 +43,7 @@
                         </tbody>
                         <tfoot grid-table-pagination></tfoot>
                     </table>
-
                 </div>
-                <hr class="content-divider">
                 <div class="payment-details">
                     <p>@Html.Sitecore().Field("Total For Accounts").Format(new { Count = "{{ctrl.selectedAccounts.length}}", s = "{{(ctrl.selectedAccounts.length==1?\"\":\"s\")}}" }) <strong>{{ ctrl.total | currency }}</strong></p>
 

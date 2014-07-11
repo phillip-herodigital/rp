@@ -795,6 +795,23 @@ article.enrolled-accounts {
 	}
 }
 article.make-payment {
+	.content {
+		padding-top: 0;
+	}
+	.stretch > .grid-table {
+		thead th {
+			border-top: none;
+		}
+		tr td:first-child, tr th:first-child {
+			border-left: none;
+		}
+		tr td:last-child, tr th:last-child {
+			border-right: none;
+		}
+		.details td:first-child {
+			border-left: 2px solid #0971ce;
+		}
+	}
 	div.payment-details {
 		.date-amount {
 			@include breakpoint(small) {
