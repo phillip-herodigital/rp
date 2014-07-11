@@ -81,8 +81,8 @@
                 <div class="col">
                     <div class="box">
                         <h1>@Html.Sitecore().Field("My Stream Account Text")</h1>
-                        <input type="text" ng-model="username" placeholder="Username">
-                        <input type="password" ng-model="password" placeholder="Password">
+                        <input type="text" ng-model="form.username" placeholder="Username">
+                        <input type="password" ng-model="form.password" placeholder="Password">
                         <p><button type="button" ng-click="loginClicked('TX')">@Html.Sitecore().Field("Login Button Text")</button></p>
                         <p class="forgot">@Html.Sitecore().Field("Texas Forgot Text")</p>
                         <hr />
@@ -130,8 +130,8 @@
                 <div class="col">
                     <div class="box">
                         <h1>@Html.Sitecore().Field("My Stream Account Text")</h1>
-                        <input type="text" ng-model="username" placeholder="Username">
-                        <input type="password" ng-model="password" placeholder="Password">
+                        <input type="text" ng-model="form.username" placeholder="Username">
+                        <input type="password" ng-model="form.password" placeholder="Password">
                         <p><button ng-click="loginClicked('GA')">@Html.Sitecore().Field("Login Button Text")</button></p>
                         <p class="forgot">@Html.Sitecore().Field("Georgia Forgot Text")</p>
                         <hr />
