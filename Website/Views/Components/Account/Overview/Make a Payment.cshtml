@@ -45,7 +45,8 @@
                     </table>
                 </div>
                 <div class="payment-details">
-                    <p>@Html.Sitecore().Field("Total For Accounts").Format(new { Count = "{{ctrl.selectedAccounts.length}}", s = "{{(ctrl.selectedAccounts.length==1?\"\":\"s\")}}" }) <strong>{{ ctrl.total | currency }}</strong></p>
+                    <p ng-if="ctrl.selectedAccounts.length==1">@Html.Sitecore().Field("Total For 1 Account") <strong>{{ ctrl.total | currency }}</strong></p>
+                    <p ng-if="ctrl.selectedAccounts.length!=1">@Html.Sitecore().Field("Total For Accounts").Format(new { Count = "{{ctrl.selectedAccounts.length}}" }) <strong>{{ ctrl.total | currency }}</strong></p>
 
                     <div class="group date-amount">
                         <div class="item dollars group-col" @Html.ValidationErrorClass(m => m.TotalPaymentAmount)>
@@ -262,7 +263,7 @@
         <h2>@Html.Sitecore().Field("Overpayment Header Text")</h2>
     </div>
     <div class="modal-body">
-        @Html.Sitecore().Field("Overpayment Body Text")
+        @Html.Sitecore().Field("Overpayment Body Text").Format(new { Payment = "{{ctrl.paymentAmount|currency}}" })
     </div>
     <div class="modal-footer">
         <button class="secondary" ng-click="$dismiss()">@Html.Sitecore().Field("Cancel Payment Button Text")</button>
