@@ -553,6 +553,7 @@
     <Content Include="frontend\utility-services.html" />
     <Content Include="frontend\*" />
     <Content Include="frontend\assets\**\*" />
+    <None Include="Properties\PublishProfiles\Package.pubxml" />
     <None Include="Scripts\_references.js" />
     <Content Include="frontend\utilities\**\*" />
     <Content Include="Global.asax" />
