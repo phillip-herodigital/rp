@@ -47,8 +47,7 @@
                 </div>
                 <hr class="content-divider">
                 <div class="payment-details">
-                    @* TODO - Sitecore *@
-                    <p>@("Total for {Count} account{s}:".Format(new { Count = "{{ctrl.selectedAccounts.length}}", s = "{{(ctrl.selectedAccounts.length==1?\"\":\"s\")}}" })) <strong>{{ ctrl.total | currency }}</strong></p>
+                    <p>@Html.Sitecore().Field("Total For Accounts").Format(new { Count = "{{ctrl.selectedAccounts.length}}", s = "{{(ctrl.selectedAccounts.length==1?\"\":\"s\")}}" }) <strong>{{ ctrl.total | currency }}</strong></p>
 
                     <div class="group date-amount">
                         <div class="item dollars group-col">
@@ -69,8 +68,7 @@
                             <div class="item group-col">
                                 <label for="Payment method">@Html.Sitecore().Field("Payment Account Text")</label>
                                 <select ng-options="option.displayName for option in ctrl.paymentMethods" ng-model="ctrl.selectedPaymentMethod" @Html.ValidationAttributes(m => m.PaymentAccount)>
-                                    @* TODO - Sitecore *@
-                                    <option value="">Select Payment Account</option>
+                                    <option value="">@Html.Sitecore().Field("Select Payment Account Text")</option>
                                 </select>
                             </div>
                             <div class="item add-account group-col">
@@ -171,15 +169,13 @@
                 <div ng-switch="ctrl.selectedPaymentMethod.underlyingPaymentType">
                     <dl class="clearfix module-list" ng-switch-when="TokenizedCard">
                         <dt>@Html.Sitecore().Field("Payment Method Text")</dt>
-                        @* TODO - sitecore field *@
-                        <dd>Credit Card</dd>
+                        <dd>@Html.Sitecore().Field("Credit Card Text")</dd>
                         <dt>@Html.Sitecore().Field("Card Number Text")</dt>
                         <dd>{{ctrl.selectedPaymentMethod.redactedData}}</dd>
                     </dl>
                     <dl class="clearfix module-list" ng-switch-when="BankPaymentMethod">
                         <dt>@Html.Sitecore().Field("Payment Method Text")</dt>
-                        @* TODO - sitecore field *@
-                        <dd>Bank Account</dd>
+                        <dd>@Html.Sitecore().Field("Bank Account Text")</dd>
                         <dt>@Html.Sitecore().Field("Bank Account Number Text")</dt>
                         <dd>{{ctrl.selectedPaymentMethod.redactedData}}</dd>
                     </dl>
@@ -209,8 +205,8 @@
                         </dl>
                     </div>
                     <div ng-if="!account.confirmationNumber" class="notice error">
+                        <p>@Html.Sitecore().Field("Processing Payment Error Text").Format(new { Payment = "{{ (ctrl.selectedAccounts.length != 1 ? account.invoiceAmount : ctrl.paymentAmount) | currency }}" })</p>
                         @* TODO - Sitecore *@
-                        <p>@("There was a problem processing your payment of {Payment}".Format(new { Payment = "{{ (ctrl.selectedAccounts.length != 1 ? account.invoiceAmount : ctrl.paymentAmount) | currency }}" }))</p>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi consectetur, tellus semper porta ornare, nisl tortor adipiscing nibh, eu pretium ligula purus sed arcu.</p>
                     </div>
                 </div>
@@ -225,15 +221,13 @@
                 <div ng-switch="ctrl.selectedPaymentMethod.underlyingPaymentType">
                     <dl class="clearfix module-list" ng-switch-when="TokenizedCard">
                         <dt>@Html.Sitecore().Field("Payment Method Text")</dt>
-                        @* TODO - sitecore field *@
-                        <dd>Credit Card</dd>
+                        <dd>@Html.Sitecore().Field("Credit Card Text")</dd>
                         <dt>@Html.Sitecore().Field("Card Number Text")</dt>
                         <dd>{{ctrl.selectedPaymentMethod.redactedData}}</dd>
                     </dl>
                     <dl class="clearfix module-list" ng-switch-when="BankPaymentMethod">
                         <dt>@Html.Sitecore().Field("Payment Method Text")</dt>
-                        @* TODO - sitecore field *@
-                        <dd>Bank Account</dd>
+                        <dd>@Html.Sitecore().Field("Bank Account Text")</dd>
                         <dt>@Html.Sitecore().Field("Bank Account Number Text")</dt>
                         <dd>{{ctrl.selectedPaymentMethod.redactedData}}</dd>
                     </dl>
@@ -253,11 +247,10 @@
 <script type="text/ng-template" id="PaymentBlockingAlert/Duplicate">
     <div class="modal-header">
         <a href="" ng-click="$dismiss()"></a>
-        @* TODO - Sitecore *@
-        <h2>Duplicate Payment Warning</h2>
+        <h2>@Html.Sitecore().Field("Duplicate Payment Header Text")</h2>
     </div>
     <div class="modal-body">
-        @Html.Sitecore().Field("Duplicate Payment Warning Text")
+        @Html.Sitecore().Field("Duplicate Payment Body Text")
     </div>
     <div class="modal-footer">
         <button class="secondary" ng-click="$dismiss()">@Html.Sitecore().Field("Cancel Payment Button Text")</button>
@@ -268,11 +261,10 @@
 <script type="text/ng-template" id="PaymentBlockingAlert/Overpayment">
     <div class="modal-header">
         <a href="" ng-click="$dismiss()"></a>
-        @* TODO - Sitecore *@
-        <h2>Overpayment Payment Warning</h2>
+        <h2>@Html.Sitecore().Field("Overpayment Header Text")</h2>
     </div>
     <div class="modal-body">
-        @Html.Sitecore().Field("Overpayment Warning Text")
+        @Html.Sitecore().Field("Overpayment Body Text")
     </div>
     <div class="modal-footer">
         <button class="secondary" ng-click="$dismiss()">@Html.Sitecore().Field("Cancel Payment Button Text")</button>
