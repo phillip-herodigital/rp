@@ -112,6 +112,7 @@ ngApp.controller('AcctMyEnergyUsageCtrl', ['$scope', '$rootScope', '$http', '$ti
 	// when the account selector changes, reload the data
 	$scope.$watch('selectedAccount.accountNumber', function(newVal) { 
 		if (newVal) {
+			$scope.isLoading = true;
 			$timeout(function () {
 				$http({
 					method  : 'POST',
@@ -121,25 +122,10 @@ ngApp.controller('AcctMyEnergyUsageCtrl', ['$scope', '$rootScope', '$http', '$ti
 				})
 					.success(function (data, status, headers, config) {
 						$scope.energyUsage = data.energyUsage;
+						$scope.isLoading = false;
 					});
 			}, 800);
 		}
 	});
-
-	$scope.data = [   
-		{ month: 01, electric: 80, gas: 42 },  
-		{ month: 02, electric: 70, gas: 45 },  
-		{ month: 03, electric: 80, gas: 60 },  
-		{ month: 04, electric: 110, gas: 58 },  
-		{ month: 05, electric: 110, gas: 70 },  
-		{ month: 06, electric: 125, gas: 78 },  
-		{ month: 07, electric: 175, gas: 90 },  
-		{ month: 08, electric: 200, gas: 81 },  
-		{ month: 09, electric: 175, gas: 77 },  
-		{ month: 10, electric: 160, gas: 79 },  
-		{ month: 11, electric: 140, gas: 62 },  
-		{ month: 12, electric: 130, gas: 58 } 
-	];
-
 
 }]);

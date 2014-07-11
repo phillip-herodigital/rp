@@ -16,17 +16,20 @@
             </div>
         </form>
     </div>
-    <div class="graph-header grid three">
-        <div class="col"><p><strong>@Html.Sitecore().Field("kWh Text")</strong></p></div>
-        <div class="col"><p>January - December 2013</p></div>
-        <div class="col last"><p><strong>@Html.Sitecore().Field("Gas Text")</strong></p></div>
-    </div>
-    <div class="usage-graph">
-        <div class="chart-wrapper">
-            <linechart data="energyUsage" options="options" mode=""></linechart>
+    <div class="content" loading-indicator>
+        <div class="graph-header grid three">
+            <div class="col"><p><strong>@Html.Sitecore().Field("kWh Text")</strong></p></div>
+            <div class="col"><p>January - December 2013</p></div>
+            <div class="col last"><p><strong>@Html.Sitecore().Field("Gas Text")</strong></p></div>
         </div>
-        <img src="/sitecore/shell/~/media/Images/Pages/Account/energy_usage_graph.png" />
+        <div class="usage-graph">
+            <div class="chart-wrapper">
+                <linechart data="energyUsage" options="options" mode=""></linechart>
+            </div>
+            @*<img src="/sitecore/shell/~/media/Images/Pages/Account/energy_usage_graph.png" />*@
+        </div>
     </div>
+    @*
     <footer class="compare">
         <p>@Html.Sitecore().Field("Compare Usage Text")</p>
         <select>
@@ -35,4 +38,5 @@
             <option value="Option 2">Option 2</option>
         </select>
     </footer>
+    *@
 </article>
