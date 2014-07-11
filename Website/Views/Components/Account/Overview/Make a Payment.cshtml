@@ -58,7 +58,7 @@
                             <label for="Payment method">@Html.Sitecore().Field("Payment Date Text")</label>
                             <span class="calendar">
                                 <input type="text" ng-model="ctrl.selectedDate" datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="disableWeekends(date, mode)" @Html.ValidationAttributes(m => m.PaymentDate) />
-                                <span class="icon"><i class="icon-calendar"></i></span>
+                                <span class="icon" ng-click="openDatePicker($event)"><i class="icon-calendar"></i></span>
                             </span>
                         </div>
                     </div>
