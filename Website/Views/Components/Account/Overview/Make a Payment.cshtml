@@ -47,7 +47,8 @@
                 </div>
                 <hr class="content-divider">
                 <div class="payment-details">
-                    <p>@Html.Sitecore().Field("Total For Accounts").Format(new { Count = "{{ctrl.selectedAccounts.length}}", s = "{{(ctrl.selectedAccounts.length==1?\"\":\"s\")}}" }) <strong>{{ ctrl.total | currency }}</strong></p>
+                    <p ng-if="ctrl.selectedAccounts.length==1">@Html.Sitecore().Field("Total For 1 Account") <strong>{{ ctrl.total | currency }}</strong></p>
+                    <p ng-if="ctrl.selectedAccounts.length!=1">@Html.Sitecore().Field("Total For Accounts").Format(new { Count = "{{ctrl.selectedAccounts.length}}" }) <strong>{{ ctrl.total | currency }}</strong></p>
 
                     <div class="group date-amount">
                         <div class="item dollars group-col" @Html.ValidationErrorClass(m => m.TotalPaymentAmount)>
