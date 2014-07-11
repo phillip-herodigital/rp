@@ -553,7 +553,6 @@
     <Content Include="frontend\utility-services.html" />
     <Content Include="frontend\*" />
     <Content Include="frontend\assets\**\*" />
-    <None Include="Properties\PublishProfiles\Package.pubxml" />
     <None Include="Scripts\_references.js" />
     <Content Include="frontend\utilities\**\*" />
     <Content Include="Global.asax" />
@@ -687,9 +686,6 @@
     <None Include="Properties\PublishProfiles\Azure - Production Sitecore.pubxml" />
     <None Include="Properties\PublishProfiles\Azure - VM - my-stream-prod.pubxml" />
     <None Include="Properties\PublishProfiles\my-stream__Staging.pubxml" />
-    <None Include="Web.Azure-Development.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -734,16 +730,6 @@
     <FilesToIncludeForPublish>AllFilesInProjectFolder</FilesToIncludeForPublish>
     <ExcludeGeneratedDebugSymbol>false</ExcludeGeneratedDebugSymbol>
     <PublishDatabases>false</PublishDatabases>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Azure-Development|AnyCPU'">
-    <OutputPath>bin\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <FilesToIncludeForPublish>AllFilesInProjectFolder</FilesToIncludeForPublish>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\StreamEnergy.Core\StreamEnergy.Core.csproj">
