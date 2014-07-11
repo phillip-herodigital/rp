@@ -13,6 +13,7 @@
         <input type="hidden" name="city" value="@(Model.CustomerAccount != null && Model.CustomerAccount.BillingAddress != null ? Model.CustomerAccount.BillingAddress.City : "")" />
         <input type="hidden" name="state" value="@(Model.CustomerAccount != null && Model.CustomerAccount.BillingAddress != null ? Model.CustomerAccount.BillingAddress.StateAbbreviation : "")" />
         <input type="hidden" name="zipCode" value="@(Model.CustomerAccount != null && Model.CustomerAccount.BillingAddress != null ? Model.CustomerAccount.BillingAddress.PostalCode5 : "")" />
+        <input type="hidden" name="email" value="@(Model.CustomerAccount != null && Model.CustomerAccount.Email != null ? Model.CustomerAccount.Email.Address : "")" />
         <input type="hidden" name="phone1" value="@(Model.CustomerAccount != null && Model.CustomerAccount.Primary != null ? Model.CustomerAccount.Primary.Number : "")" />
         <input type="hidden" name="phone2" value="@(Model.CustomerAccount != null && Model.CustomerAccount.Work != null ? Model.CustomerAccount.Work.Number : "")" />
         <input type="hidden" name="phone3" value="@(Model.CustomerAccount != null && Model.CustomerAccount.Cell != null ? Model.CustomerAccount.Cell.Number : "")" />
@@ -20,7 +21,7 @@
         <input type="hidden" name="repFirstName" value="@(Model.RepName != null ? Model.RepName.First : "")" />
         <input type="hidden" name="repLastName" value="@(Model.RepName != null ? Model.RepName.Last : "")" />
         <input type="hidden" name="repEmail" value="@(Model.RepEmail != null ? Model.RepEmail.Address : "")" />
-        <input type="hidden" value="salesource" name="@Model.SaleSource">
+        <input type="hidden" name="salesource" value="@Model.SaleSource">
     </form>
     <div class="intro">
         <div class="wrapper">
