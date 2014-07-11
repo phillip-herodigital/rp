@@ -211,7 +211,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 }
             }
 
-            var temp = paymentAmounts.Select(entry => new { account = entry.Key, amount = entry.Value, task = accountService.MakePayment(account: entry.Key.AccountNumber, amount: entry.Value, paymentMethod: request.PaymentAccount) }).ToArray();
+            // TODO - remove the Take(1) when we aren't testing error states.
+            var temp = paymentAmounts.Take(1).Select(entry => new { account = entry.Key, amount = entry.Value, task = accountService.MakePayment(account: entry.Key.AccountNumber, amount: entry.Value, paymentMethod: request.PaymentAccount) }).ToArray();
             await Task.WhenAll(temp.Select(e => e.task));
 
             return new MakePaymentResponse
