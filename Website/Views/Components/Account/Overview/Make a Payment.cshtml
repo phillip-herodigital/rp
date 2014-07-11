@@ -51,7 +51,7 @@
                     <div class="group date-amount">
                         <div class="item dollars group-col" @Html.ValidationErrorClass(m => m.TotalPaymentAmount)>
                             <label for="@Html.For(m => m.TotalPaymentAmount)">@Html.Sitecore().Field("Payment Amount Text")</label>
-                            <span class="payment-amount" ng-show="ctrl.selectedAccounts.length == 1"><input type="text" @Html.ValidationAttributes(m => m.TotalPaymentAmount) ng-model="ctrl.paymentAmount"></span>
+                            <span class="payment-amount" ng-show="ctrl.selectedAccounts.length == 1"><input type="text" @Html.ValidationAttributes(m => m.TotalPaymentAmount) ng-model="ctrl.paymentAmount" currency-input></span>
                             <span ng-if="ctrl.selectedAccounts.length != 1">{{ctrl.paymentAmount|currency}}</span>
                         </div>
                         <div class="item datepicker group-col" @Html.ValidationErrorClass(m => m.PaymentDate)>
