@@ -105,6 +105,15 @@ ngApp.directive('gridTable', ['$filter', 'breakpoint', 'jQuery', function ($filt
 				scope.table.pageRange = rangePage(scope.table.pageNum);
 			};
 
+			scope.$watch('table.pageNum', function (newVal) {
+			    if (newVal < scope.table.pagingOptions.currentPage) {
+			        scope.table.pagingOptions.currentPage = scope.table.pageNum;
+			        if (isAjax) {
+			            updateAjaxCallback();
+			        }
+			    }
+			});
+
 			scope.$watch('table.pagingOptions', function(newVal, oldVal) {
 				if (newVal !== oldVal) {
 					if (!isAjax) {
@@ -264,7 +273,7 @@ ngApp.directive('gridTablePagination', [function () {
 	return {
 		restrict: 'A',
 		transclude: true,
-		template:	'<tfoot>' +
+		template:	'<tfoot ng-if="table.pagingOptions.totalServerItems > table.pagingOptions.pageSizes[0]">' +
 					'	<tr>' +
 					'		<td colspan="{{table.columnList.length+1}}" class="pagination">' +
 					'			<div class="page-size">' +
@@ -276,7 +285,7 @@ ngApp.directive('gridTablePagination', [function () {
 					'			<p class="showing">' +
 					'				Showing <strong>{{ table.startPos }}-{{ table.endPos }}</strong> of <strong>{{ table.pagingOptions.totalServerItems }}</strong> Items' +
 					'			</p>' +
-					'			<ul class="page-selection">' +
+					'			<ul class="page-selection" ng-if="table.pageRange.length > 1">' +
 					'				<li ng-class="{disabled: table.pagingOptions.currentPage == 1}"><a href="" ng-click="firstPage()"><i class="icon-arrow-left"></i> First</a></li>' +
 					'				<li ng-class="{disabled: table.pagingOptions.currentPage == 1}"><a href="" ng-click="previousPage()"><i class="icon-arrow-left"></i> Previous</a></li>' +
 					'				<li ng-repeat="number in table.pageRange" class="page-number">' +
@@ -284,7 +293,7 @@ ngApp.directive('gridTablePagination', [function () {
 					'				</li>' +
 					'				<li ng-class="{disabled: table.pagingOptions.currentPage == table.pageNum}"><a href="" ng-click="nextPage()">Next <i class="icon-arrow-right"></i></a></li>' +
 					'				<li ng-class="{disabled: table.pagingOptions.currentPage == table.pageNum}"><a href="" ng-click="lastPage()">Last <i class="icon-arrow-right"></i></a></li>' +
-					'			</div>' +
+					'			</ul>' +
 					'		</td>' +
 					'	</tr>' +
 					'</tfoot>',
