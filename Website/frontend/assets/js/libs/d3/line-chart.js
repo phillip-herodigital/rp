@@ -70,7 +70,6 @@ directive('linechart', [
           if (options.drawDots) {
             _u.drawDots(svg, axes, dataPerSeries, options, handlers);
           }
-          svg.transition().attr("month",0);
         }
         if (options.drawLegend) {
           _u.drawLegend(svg, options.series, dimensions, handlers);

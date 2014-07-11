@@ -28,6 +28,10 @@
             </div>
             @*<img src="/sitecore/shell/~/media/Images/Pages/Account/energy_usage_graph.png" />*@
         </div>
+        <div class="graph-footer">
+            <div class="graph-key"><img src="~/frontend/assets/i/electric-key.png" /> @Html.Sitecore().Field("kWh Text")</div>
+            <div class="graph-key"><img src="~/frontend/assets/i/gas-key.png" /> @Html.Sitecore().Field("Gas Text")</div>
+        </div>
     </div>
     @*
     <footer class="compare">

@@ -650,15 +650,36 @@ article.energy-usage {
 		text-align: center;
 		max-width: 600px;
 		margin: 0 auto;
+		clear: both;
 		.chart-wrapper {
 			max-height: 350px;
 			.chart{
-				font-size: 12px;
 				font-weight: 500;
+				g.x {
+					font-size: 12px;
+					@include breakpoint(small) {
+						font-size: 10px;
+					}
+				}
 				g.y, g.y2 {
 					font-size: 14px;
 					fill: #9e9e9e;
 				}
+			}
+		}
+	}
+	.graph-footer {
+		margin-top: -20px;
+		text-align: center;	
+		.graph-key {
+			display: inline-block;
+			width: 140px;
+			color: #7f7f81;
+			font-size: 14px;
+			font-weight: 700;
+			img {
+				margin-right: 8px;
+				vertical-align: middle;
 			}
 		}
 	}
