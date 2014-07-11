@@ -1,0 +1,30 @@
+﻿<article class="white-box mobile upgrade-effective">
+    <header>
+        <p>@Html.Sitecore().Field("Upgrade Effective")<strong>Sunday, June 29, 2014.</strong></p>
+        <span class="icon-close"></span>
+    </header>
+    <div class="content">
+        <div class="group clearfix">
+            <div class="item paragraph">
+                <p><strong>@Html.Sitecore().Field("My New Plan")</strong>4GB Unlimited Voice, Data &amp; Text</p>
+            </div>
+            <div class="item price">
+                $69.00/mo
+            </div>
+        </div>
+    </div>
+    <footer class="clearfix">
+        <div class="footer-right">
+            <dl class="clearfix">
+                <dt><strong>@Html.Sitecore().Field("New Monthly Total")</strong></dt>
+                <dd>$69.00/mo</dd>
+                <dt><strong>@Html.Sitecore().Field("Total Due Today")</strong></dt>
+                <dd>$0.00/mo</dd>
+            </dl>
+        </div>
+        <div class="footer-left receipt">
+            @Html.Sitecore().Field("Print Receipt")
+        </div>
+    </footer>
+
+</article>

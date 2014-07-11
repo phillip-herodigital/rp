@@ -1,0 +1,34 @@
+﻿<article class="grey-box mobile" ng-controller="MakePaymentCtrl">
+    <header class="clearfix">
+        <h2 class="header-left">@Html.Sitecore().Field("Header Text")</h2>
+        <div class="header-right">
+            <select>
+                <option>@Html.Sitecore().Field("Select Option")</option>
+                <option>@Html.Sitecore().Field("Select Option 2")</option>
+            </select>
+        </div>
+    </header>
+    
+    <div class="content">
+        <div class="notice alert">
+            <p>@Html.Sitecore().Field("Notice Text")</p>
+        </div>
+        <div>
+            <form>
+                <div class="group">
+                    <div class="item current-data">
+                        <p>@Html.Sitecore().Field("Current Usage Text")</p>
+                    </div>
+                    <div class="item historical-data">
+                        <p>@Html.Sitecore().Field("Historical Usage Text")</p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>@Html.Sitecore().Field("Footer Text")</p>
+    </footer>
+</article>
+

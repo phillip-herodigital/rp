@@ -60,16 +60,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LuceneServices", "LuceneSer
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{59B39452-16F0-4170-A74E-F886F54DCBDC}"
 EndProject
-Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "Website.Azure", "Website.Azure\Website.Azure.ccproj", "{62E169AA-8B86-4823-8AFC-C548F3E0A075}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Azure-Development|Any CPU = Azure-Development|Any CPU
 		Azure-Production Sitecore|Any CPU = Azure-Production Sitecore|Any CPU
 		Azure-Production|Any CPU = Azure-Production|Any CPU
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FB926363-ED56-4B04-8837-CACBE8F9F222}.Azure-Development|Any CPU.ActiveCfg = Azure-Development|Any CPU
+		{FB926363-ED56-4B04-8837-CACBE8F9F222}.Azure-Development|Any CPU.Build.0 = Azure-Development|Any CPU
 		{FB926363-ED56-4B04-8837-CACBE8F9F222}.Azure-Production Sitecore|Any CPU.ActiveCfg = Azure-Production Sitecore|Any CPU
 		{FB926363-ED56-4B04-8837-CACBE8F9F222}.Azure-Production Sitecore|Any CPU.Build.0 = Azure-Production Sitecore|Any CPU
 		{FB926363-ED56-4B04-8837-CACBE8F9F222}.Azure-Production|Any CPU.ActiveCfg = Azure-Production|Any CPU
@@ -78,6 +79,8 @@ Global
 		{FB926363-ED56-4B04-8837-CACBE8F9F222}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB926363-ED56-4B04-8837-CACBE8F9F222}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB926363-ED56-4B04-8837-CACBE8F9F222}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79779D13-7D5E-4190-BA72-5302244C8165}.Azure-Development|Any CPU.ActiveCfg = Azure-Development|Any CPU
+		{79779D13-7D5E-4190-BA72-5302244C8165}.Azure-Development|Any CPU.Build.0 = Azure-Development|Any CPU
 		{79779D13-7D5E-4190-BA72-5302244C8165}.Azure-Production Sitecore|Any CPU.ActiveCfg = Azure-Production Sitecore|Any CPU
 		{79779D13-7D5E-4190-BA72-5302244C8165}.Azure-Production Sitecore|Any CPU.Build.0 = Azure-Production Sitecore|Any CPU
 		{79779D13-7D5E-4190-BA72-5302244C8165}.Azure-Production|Any CPU.ActiveCfg = Azure-Production|Any CPU
@@ -86,6 +89,8 @@ Global
 		{79779D13-7D5E-4190-BA72-5302244C8165}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79779D13-7D5E-4190-BA72-5302244C8165}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{79779D13-7D5E-4190-BA72-5302244C8165}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F81AAE15-6DD3-43DE-9D73-0E42AEA33238}.Azure-Development|Any CPU.ActiveCfg = Azure-Development|Any CPU
+		{F81AAE15-6DD3-43DE-9D73-0E42AEA33238}.Azure-Development|Any CPU.Build.0 = Azure-Development|Any CPU
 		{F81AAE15-6DD3-43DE-9D73-0E42AEA33238}.Azure-Production Sitecore|Any CPU.ActiveCfg = Azure-Production Sitecore|Any CPU
 		{F81AAE15-6DD3-43DE-9D73-0E42AEA33238}.Azure-Production Sitecore|Any CPU.Build.0 = Azure-Production Sitecore|Any CPU
 		{F81AAE15-6DD3-43DE-9D73-0E42AEA33238}.Azure-Production|Any CPU.ActiveCfg = Azure-Production|Any CPU
@@ -94,6 +99,8 @@ Global
 		{F81AAE15-6DD3-43DE-9D73-0E42AEA33238}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F81AAE15-6DD3-43DE-9D73-0E42AEA33238}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F81AAE15-6DD3-43DE-9D73-0E42AEA33238}.Release|Any CPU.Build.0 = Release|Any CPU
+		{449D7F2C-372C-41A8-B640-6751FDA30828}.Azure-Development|Any CPU.ActiveCfg = Azure-Development|Any CPU
+		{449D7F2C-372C-41A8-B640-6751FDA30828}.Azure-Development|Any CPU.Build.0 = Azure-Development|Any CPU
 		{449D7F2C-372C-41A8-B640-6751FDA30828}.Azure-Production Sitecore|Any CPU.ActiveCfg = Azure-Production Sitecore|Any CPU
 		{449D7F2C-372C-41A8-B640-6751FDA30828}.Azure-Production Sitecore|Any CPU.Build.0 = Azure-Production Sitecore|Any CPU
 		{449D7F2C-372C-41A8-B640-6751FDA30828}.Azure-Production|Any CPU.ActiveCfg = Azure-Production|Any CPU
@@ -102,6 +109,8 @@ Global
 		{449D7F2C-372C-41A8-B640-6751FDA30828}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{449D7F2C-372C-41A8-B640-6751FDA30828}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{449D7F2C-372C-41A8-B640-6751FDA30828}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1C6CE03-D27A-4DFF-A5E5-822E8A29BFA9}.Azure-Development|Any CPU.ActiveCfg = Azure-Development|Any CPU
+		{C1C6CE03-D27A-4DFF-A5E5-822E8A29BFA9}.Azure-Development|Any CPU.Build.0 = Azure-Development|Any CPU
 		{C1C6CE03-D27A-4DFF-A5E5-822E8A29BFA9}.Azure-Production Sitecore|Any CPU.ActiveCfg = Azure-Production Sitecore|Any CPU
 		{C1C6CE03-D27A-4DFF-A5E5-822E8A29BFA9}.Azure-Production Sitecore|Any CPU.Build.0 = Azure-Production Sitecore|Any CPU
 		{C1C6CE03-D27A-4DFF-A5E5-822E8A29BFA9}.Azure-Production|Any CPU.ActiveCfg = Azure-Production|Any CPU
@@ -110,6 +119,8 @@ Global
 		{C1C6CE03-D27A-4DFF-A5E5-822E8A29BFA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1C6CE03-D27A-4DFF-A5E5-822E8A29BFA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1C6CE03-D27A-4DFF-A5E5-822E8A29BFA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF1C856A-2F06-4142-82A3-E227D66B1D4F}.Azure-Development|Any CPU.ActiveCfg = Azure-Development|Any CPU
+		{AF1C856A-2F06-4142-82A3-E227D66B1D4F}.Azure-Development|Any CPU.Build.0 = Azure-Development|Any CPU
 		{AF1C856A-2F06-4142-82A3-E227D66B1D4F}.Azure-Production Sitecore|Any CPU.ActiveCfg = Azure-Production Sitecore|Any CPU
 		{AF1C856A-2F06-4142-82A3-E227D66B1D4F}.Azure-Production Sitecore|Any CPU.Build.0 = Azure-Production Sitecore|Any CPU
 		{AF1C856A-2F06-4142-82A3-E227D66B1D4F}.Azure-Production|Any CPU.ActiveCfg = Azure-Production|Any CPU
@@ -118,6 +129,8 @@ Global
 		{AF1C856A-2F06-4142-82A3-E227D66B1D4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF1C856A-2F06-4142-82A3-E227D66B1D4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF1C856A-2F06-4142-82A3-E227D66B1D4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{210897D6-FF54-404B-9BAF-BB0B345F8597}.Azure-Development|Any CPU.ActiveCfg = Azure-Development|Any CPU
+		{210897D6-FF54-404B-9BAF-BB0B345F8597}.Azure-Development|Any CPU.Build.0 = Azure-Development|Any CPU
 		{210897D6-FF54-404B-9BAF-BB0B345F8597}.Azure-Production Sitecore|Any CPU.ActiveCfg = Azure-Production Sitecore|Any CPU
 		{210897D6-FF54-404B-9BAF-BB0B345F8597}.Azure-Production Sitecore|Any CPU.Build.0 = Azure-Production Sitecore|Any CPU
 		{210897D6-FF54-404B-9BAF-BB0B345F8597}.Azure-Production|Any CPU.ActiveCfg = Azure-Production|Any CPU
@@ -126,6 +139,8 @@ Global
 		{210897D6-FF54-404B-9BAF-BB0B345F8597}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{210897D6-FF54-404B-9BAF-BB0B345F8597}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{210897D6-FF54-404B-9BAF-BB0B345F8597}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7151C4C7-1CCF-42E4-B979-B0B6CB446BAC}.Azure-Development|Any CPU.ActiveCfg = Azure-Development|Any CPU
+		{7151C4C7-1CCF-42E4-B979-B0B6CB446BAC}.Azure-Development|Any CPU.Build.0 = Azure-Development|Any CPU
 		{7151C4C7-1CCF-42E4-B979-B0B6CB446BAC}.Azure-Production Sitecore|Any CPU.ActiveCfg = Azure-Production Sitecore|Any CPU
 		{7151C4C7-1CCF-42E4-B979-B0B6CB446BAC}.Azure-Production Sitecore|Any CPU.Build.0 = Azure-Production Sitecore|Any CPU
 		{7151C4C7-1CCF-42E4-B979-B0B6CB446BAC}.Azure-Production|Any CPU.ActiveCfg = Azure-Production|Any CPU
@@ -134,6 +149,8 @@ Global
 		{7151C4C7-1CCF-42E4-B979-B0B6CB446BAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7151C4C7-1CCF-42E4-B979-B0B6CB446BAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7151C4C7-1CCF-42E4-B979-B0B6CB446BAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01C2497B-EDA7-4638-BE77-CB9E3C02A684}.Azure-Development|Any CPU.ActiveCfg = Azure-Development|Any CPU
+		{01C2497B-EDA7-4638-BE77-CB9E3C02A684}.Azure-Development|Any CPU.Build.0 = Azure-Development|Any CPU
 		{01C2497B-EDA7-4638-BE77-CB9E3C02A684}.Azure-Production Sitecore|Any CPU.ActiveCfg = Azure-Production Sitecore|Any CPU
 		{01C2497B-EDA7-4638-BE77-CB9E3C02A684}.Azure-Production Sitecore|Any CPU.Build.0 = Azure-Production Sitecore|Any CPU
 		{01C2497B-EDA7-4638-BE77-CB9E3C02A684}.Azure-Production|Any CPU.ActiveCfg = Azure-Production|Any CPU
@@ -142,6 +159,8 @@ Global
 		{01C2497B-EDA7-4638-BE77-CB9E3C02A684}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01C2497B-EDA7-4638-BE77-CB9E3C02A684}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{01C2497B-EDA7-4638-BE77-CB9E3C02A684}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37C047F3-940F-4C38-A781-EDF7F4E39AEB}.Azure-Development|Any CPU.ActiveCfg = Azure-Development|Any CPU
+		{37C047F3-940F-4C38-A781-EDF7F4E39AEB}.Azure-Development|Any CPU.Build.0 = Azure-Development|Any CPU
 		{37C047F3-940F-4C38-A781-EDF7F4E39AEB}.Azure-Production Sitecore|Any CPU.ActiveCfg = Azure-Production Sitecore|Any CPU
 		{37C047F3-940F-4C38-A781-EDF7F4E39AEB}.Azure-Production Sitecore|Any CPU.Build.0 = Azure-Production Sitecore|Any CPU
 		{37C047F3-940F-4C38-A781-EDF7F4E39AEB}.Azure-Production|Any CPU.ActiveCfg = Azure-Production|Any CPU
@@ -150,14 +169,6 @@ Global
 		{37C047F3-940F-4C38-A781-EDF7F4E39AEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37C047F3-940F-4C38-A781-EDF7F4E39AEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37C047F3-940F-4C38-A781-EDF7F4E39AEB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{62E169AA-8B86-4823-8AFC-C548F3E0A075}.Azure-Production Sitecore|Any CPU.ActiveCfg = Azure-Production Sitecore|Any CPU
-		{62E169AA-8B86-4823-8AFC-C548F3E0A075}.Azure-Production Sitecore|Any CPU.Build.0 = Azure-Production Sitecore|Any CPU
-		{62E169AA-8B86-4823-8AFC-C548F3E0A075}.Azure-Production|Any CPU.ActiveCfg = Azure-Production|Any CPU
-		{62E169AA-8B86-4823-8AFC-C548F3E0A075}.Azure-Production|Any CPU.Build.0 = Azure-Production|Any CPU
-		{62E169AA-8B86-4823-8AFC-C548F3E0A075}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{62E169AA-8B86-4823-8AFC-C548F3E0A075}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{62E169AA-8B86-4823-8AFC-C548F3E0A075}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{62E169AA-8B86-4823-8AFC-C548F3E0A075}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
