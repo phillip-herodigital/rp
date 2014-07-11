@@ -28,10 +28,11 @@ ngApp.directive('gridTable', ['$filter', 'breakpoint', 'jQuery', function ($filt
 						scope.table.pagingOptions.totalServerItems = newVal.totalItemCount;
 					}
 				}, true);
-			}
+				scope.$watch('table.pagingOptions.pageSize', updateAjaxCallback);
+            }
 
 			var init = function(data) {
-
+                
 				if (typeof data != "object" || jQuery.isEmptyObject(data)) {
 					// Maybe want to hide the table, or something?
 					// Also, might want to make this a better check... Just because it's an object, doesn't mean it's in the right format. :)
@@ -134,7 +135,7 @@ ngApp.directive('gridTable', ['$filter', 'breakpoint', 'jQuery', function ($filt
 				scope.expand[index] = !scope.expand[index];
 			};
 
-			scope.updateAjaxCallback = function() {
+			function updateAjaxCallback() {
 				// If this is an ajax table, call updateTableAjax on parent controller
 				if (typeof scope[attrs.ajax] == "function") {
 					// Call our callback function, and pass in the pagingOptions
@@ -156,7 +157,7 @@ ngApp.directive('gridTable', ['$filter', 'breakpoint', 'jQuery', function ($filt
 				if (scope.table.pagingOptions.currentPage > 1) {
 					scope.table.pagingOptions.currentPage = 0;
 					if (isAjax) {
-						scope.updateAjaxCallback();
+						updateAjaxCallback();
 					}
 				}
 			};
@@ -166,7 +167,7 @@ ngApp.directive('gridTable', ['$filter', 'breakpoint', 'jQuery', function ($filt
 				if (scope.table.pagingOptions.currentPage > 1) {
 					scope.table.pagingOptions.currentPage -= 1;
 					if (isAjax) {
-						scope.updateAjaxCallback();
+						updateAjaxCallback();
 					}
 				}
 			};
@@ -176,7 +177,7 @@ ngApp.directive('gridTable', ['$filter', 'breakpoint', 'jQuery', function ($filt
 				if (scope.table.pagingOptions.currentPage < scope.table.pageNum) {
 					scope.table.pagingOptions.currentPage += 1;
 					if (isAjax) {
-						scope.updateAjaxCallback();
+						updateAjaxCallback();
 					}
 				}
 			};
@@ -186,14 +187,8 @@ ngApp.directive('gridTable', ['$filter', 'breakpoint', 'jQuery', function ($filt
 				if (scope.table.pagingOptions.currentPage < scope.table.pageNum) {
 					scope.table.pagingOptions.currentPage = scope.table.pageNum;
 					if (isAjax) {
-						scope.updateAjaxCallback();
+						updateAjaxCallback();
 					}
-				}
-			};
-
-			scope.updatePageSize = function() {
-				if (isAjax) {
-					scope.updateAjaxCallback();
 				}
 			};
 
@@ -201,7 +196,7 @@ ngApp.directive('gridTable', ['$filter', 'breakpoint', 'jQuery', function ($filt
 			scope.selectPageNumber = function(numberPage) {
 				scope.table.pagingOptions.currentPage = numberPage;
 				if (isAjax) {
-					scope.updateAjaxCallback();
+					updateAjaxCallback();
 				}
 			};
 
@@ -214,7 +209,7 @@ ngApp.directive('gridTable', ['$filter', 'breakpoint', 'jQuery', function ($filt
 				item.sortOrder = !item.sortOrder;
 
 				if (isAjax) {
-					scope.updateAjaxCallback();
+					updateAjaxCallback();
 				} else {
 					scope.table.pagingOptions.currentPage = 1;
 					updatePagingOptions(scope.table.pagingOptions);
@@ -273,7 +268,7 @@ ngApp.directive('gridTablePagination', [function () {
 					'	<tr>' +
 					'		<td colspan="{{table.columnList.length+1}}" class="pagination">' +
 					'			<div class="page-size">' +
-					'				Show: <select ng-model="table.pagingOptions.pageSize" ng-change="updatePageSize()">' +
+					'				Show: <select ng-model="table.pagingOptions.pageSize">' +
 					'					<option ng-repeat="size in table.pagingOptions.pageSizes">{{ size }}</option>' +
 					'				</select>' +
 					'				entries.' +
