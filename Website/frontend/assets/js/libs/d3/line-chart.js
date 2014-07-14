@@ -47,7 +47,7 @@ directive('linechart', [
         }
       };
       scope.redraw = function(dimensions) {
-        var axes, columnWidth, dataPerSeries, handlers, isThumbnail, options, svg;
+        var axes, columnWidth, dataPerSeries, handlers, isThumbnail, options, svg, grid;
         options = _u.sanitizeOptions(scope.options, attrs.mode);
         handlers = angular.extend(initialHandlers, _u.getTooltipHandlers(options));
         dataPerSeries = _u.getDataPerSeries(scope.data, options);
@@ -55,6 +55,7 @@ directive('linechart', [
         _u.clean(element[0]);
         svg = _u.bootstrap(element[0], dimensions);
         axes = _u.createAxes(svg, dimensions, options.axes).andAddThemIf(isThumbnail);
+        grid = _u.createGrid(svg, dimensions);
         if (dataPerSeries.length) {
           _u.setScalesDomain(axes, scope.data, options.series, svg, options.axes);
         }
@@ -992,6 +993,33 @@ mod.factory('n3utils', [
             };
           }
         };
+      },
+      createGrid: function(svg, dimensions) {
+        var numberOfTicks = 6;
+        var width = dimensions.width;
+        width = width - dimensions.left - dimensions.right;
+        var y = d3.scale.linear().rangeRound([width, 0]);
+
+        var yAxisGrid = d3.svg.axis().scale(y)
+          .ticks(numberOfTicks) 
+          .tickSize(width, 0)
+          .tickFormat("")
+          .orient("right");
+
+        style = function(group) {
+          group.style({
+            //'font': '10px Courier',
+            'shape-rendering': 'crispEdges'
+          });
+          return group.selectAll('path').style({
+            //'fill': 'none',
+            'stroke': '#000'
+          });
+        };
+
+        //style(svg.append('g').attr('class', 'y axis').call(yAxisGrid));
+
+
       },
       setScalesDomain: function(scales, data, series, svg, axesOptions) {
         var y2Domain, yDomain;
