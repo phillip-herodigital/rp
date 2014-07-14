@@ -6,7 +6,8 @@
             cardToken: ctrl.cardToken(),
             expirationDate: new Date(ctrl.expirationYear, ctrl.expirationMonth),
             billingZipCode: ctrl.billingZip,
-            securityCode: ctrl.securityCode
+            securityCode: ctrl.securityCode,
+            redactedData: ctrl.cardToken.redacted
         };
     };
 

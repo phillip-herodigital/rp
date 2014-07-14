@@ -5,7 +5,8 @@
             paymentType: 'BankPaymentMethod',
             category: ctrl.category,
             routingNumber: ctrl.routingNumber,
-            accountNumber: ctrl.accountNumber
+            accountNumber: ctrl.accountNumber,
+            redactedData: "*******" + ctrl.accountNumber.slice(-4)
         };
     };
 }]);

@@ -10,9 +10,17 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
     this.total = 0;
     this.overriddenWarnings = [];
 
+    this.paymentMethod = function () {
+        if (ctrl.useNewPaymentMethod) {
+            return ctrl.newPaymentMethod[ctrl.newPaymentMethodType]();
+        } else {
+            return ctrl.selectedPaymentMethod;
+        }
+    }
+
     this.makePayment = function () {
         $http.post('/api/account/makePayment', {
-            paymentAccount: ctrl.selectedPaymentMethod,
+            paymentAccount: ctrl.paymentMethod(),
             accountNumbers: _.pluck(ctrl.selectedAccounts, 'accountNumber'),
             totalPaymentAmount: ctrl.paymentAmount,
             paymentDate: ctrl.selectedDate,
