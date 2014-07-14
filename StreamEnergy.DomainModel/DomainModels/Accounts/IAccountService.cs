@@ -13,6 +13,7 @@ namespace StreamEnergy.DomainModels.Accounts
         Task<IEnumerable<Account>> GetCurrentInvoices(string username);
         Task<IEnumerable<Payments.SavedPaymentInfo>> GetSavedPaymentMethods(string username);
         Task<MakePaymentResult> MakePayment(string account, decimal amount, Payments.IPaymentInfo paymentMethod);
+        Task<Account> GetCurrentInvoice(string accountNumber);
 
         string GetIgniteAssociateFromCustomerNumber(string Auth_ID, string Auth_PW, string customerNumber);
 
@@ -21,6 +22,7 @@ namespace StreamEnergy.DomainModels.Accounts
         Legacy.CustomerAccount GetCisAccountsByUtilityAccountNumber(string utilityAccountNumber, string customerPin, string cisOfRecord);
 
         Legacy.CustomerAccount GetCisAccountsByCisAccountNumber(string cisAccountNumber, string customerPin, string cisOfRecord);
+
 
     }
 }

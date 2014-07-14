@@ -19,7 +19,7 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
     }
 
     this.makePayment = function () {
-        $http.post('/api/account/makePayment', {
+        $http.post('/api/account/makeMultiplePayments', {
             paymentAccount: ctrl.paymentMethod(),
             accountNumbers: _.pluck(ctrl.selectedAccounts, 'accountNumber'),
             totalPaymentAmount: ctrl.paymentAmount,

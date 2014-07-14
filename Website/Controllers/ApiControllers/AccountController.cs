@@ -155,12 +155,12 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
 
         [HttpPost]
-        public async Task<MakePaymentResponse> MakePayment(MakePaymentRequest request)
+        public async Task<MakeMultiplePaymentsResponse> MakeMultiplePayments(MakeMultiplePaymentsRequest request)
         {
             var validationItem = database.GetItem("/sitecore/content/Data/Components/Account/Overview/Make a Payment");
             if (!ModelState.IsValid)
             {
-                return new MakePaymentResponse
+                return new MakeMultiplePaymentsResponse
                 {
                     Validations = TranslatedValidationResult.Translate(ModelState, validationItem),
                 };
@@ -173,7 +173,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             {
                 if (accounts.Sum(account => account.CurrentInvoice.InvoiceAmount) != request.TotalPaymentAmount)
                 {
-                    return new MakePaymentResponse
+                    return new MakeMultiplePaymentsResponse
                     {
                         // Can't support different TotalPaymentAmount than InvoiceAmount when multiple accounts are selected
                         Validations = new[] { new TranslatedValidationResult { MemberName = "TotalPaymentAmount", Text = "TODO" } }
@@ -187,7 +187,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 var account = accounts.Single();
                 if (account.CurrentInvoice.InvoiceAmount * 3 <= request.TotalPaymentAmount && !request.OverrideWarnings.Contains("Overpayment"))
                 {
-                    return new MakePaymentResponse
+                    return new MakeMultiplePaymentsResponse
                     {
                         Validations = Enumerable.Empty<TranslatedValidationResult>(),
                         BlockingAlertType = "Overpayment",
@@ -203,7 +203,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 bool isDuplicate = true;
                 if (isDuplicate)
                 {
-                    return new MakePaymentResponse
+                    return new MakeMultiplePaymentsResponse
                     {
                         Validations = Enumerable.Empty<TranslatedValidationResult>(),
                         BlockingAlertType = "Duplicate",
@@ -212,10 +212,17 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
 
             // TODO - remove the Take(1) when we aren't testing error states.
-            var temp = paymentAmounts.Take(1).Select(entry => new { account = entry.Key, amount = entry.Value, task = accountService.MakePayment(account: entry.Key.AccountNumber, amount: entry.Value, paymentMethod: request.PaymentAccount) }).ToArray();
+            var temp = paymentAmounts
+                .Take(1)
+                .Select(entry => new 
+                { 
+                    account = entry.Key, 
+                    amount = entry.Value, 
+                    task = accountService.MakePayment(account: entry.Key.AccountNumber, amount: entry.Value, paymentMethod: request.PaymentAccount) 
+                }).ToArray();
             await Task.WhenAll(temp.Select(e => e.task));
 
-            return new MakePaymentResponse
+            return new MakeMultiplePaymentsResponse
             {
                 Validations = Enumerable.Empty<TranslatedValidationResult>(),
                 Confirmations = temp.Select(entry => new PaymentConfirmation
@@ -766,6 +773,82 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             return new SendLetterResponse
             {
                 Success = success
+            };
+        }
+
+        #endregion
+
+        #region One-time Payment
+
+        [HttpPost]
+        public Task<FindAccountForOneTimePaymentResponse> FindAccountForOneTimePayment(FindAccountForOneTimePaymentRequest request)
+        {
+            // TODO
+            return Task.FromResult(new FindAccountForOneTimePaymentResponse
+                {
+                    Account = new AccountToPay
+                    {
+                        AccountNumber = request.AccountNumber,
+                        CanMakeOneTimePayment = true,
+                        InvoiceAmount = "123.45",
+                        AvailablePaymentMethods = new[] 
+                        { 
+                            new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } 
+                        }
+                    }
+                });
+        }
+
+        [HttpPost]
+        public async Task<MakeOneTimePaymentResponse> MakeOneTimePayment(MakeOneTimePaymentRequest request)
+        {
+            var validationItem = database.GetItem("/sitecore/content/Data/Components/Account/Overview/Make a Payment");
+            if (!ModelState.IsValid)
+            {
+                return new MakeOneTimePaymentResponse
+                {
+                    Validations = TranslatedValidationResult.Translate(ModelState, validationItem),
+                };
+            }
+            Account account = await accountService.GetCurrentInvoice(accountNumber: request.AccountNumber);
+
+            Dictionary<Account, decimal> paymentAmounts;
+            
+            if (account.CurrentInvoice.InvoiceAmount * 3 <= request.TotalPaymentAmount && !request.OverrideWarnings.Contains("Overpayment"))
+            {
+                return new MakeOneTimePaymentResponse
+                {
+                    Validations = Enumerable.Empty<TranslatedValidationResult>(),
+                    BlockingAlertType = "Overpayment",
+                };
+            }
+
+            paymentAmounts = new Dictionary<Account, decimal> { { account, request.TotalPaymentAmount } };
+
+            if (!request.OverrideWarnings.Contains("Duplicate"))
+            {
+                // TODO - detect duplicate payment
+                bool isDuplicate = true;
+                if (isDuplicate)
+                {
+                    return new MakeOneTimePaymentResponse
+                    {
+                        Validations = Enumerable.Empty<TranslatedValidationResult>(),
+                        BlockingAlertType = "Duplicate",
+                    };
+                }
+            }
+
+            var confirmation = await accountService.MakePayment(account: account.AccountNumber, amount: request.TotalPaymentAmount, paymentMethod: request.PaymentAccount);
+
+            return new MakeOneTimePaymentResponse
+            {
+                Validations = Enumerable.Empty<TranslatedValidationResult>(),
+                Confirmation = new PaymentConfirmation
+                {
+                    AccountNumber = account.AccountNumber,
+                    PaymentConfirmationNumber = confirmation.ConfirmationNumber
+                }
             };
         }
 
