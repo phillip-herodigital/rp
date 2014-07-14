@@ -64,7 +64,7 @@
                     </div>
                     <div>
                         <div class="group account-select">
-                            <div class="item group-col" @Html.ValidationErrorClass(m => m.PaymentAccount)>
+                            <div class="item group-col" @Html.ValidationErrorClass(m => m.PaymentAccount) slide-down-show="!isOpen">
                                 <label for="Payment method">@Html.Sitecore().Field("Payment Account Text")</label>
                                 <select ng-options="option.displayName for option in ctrl.paymentMethods" ng-model="ctrl.selectedPaymentMethod" @Html.ValidationAttributes(m => m.PaymentAccount)>
                                     <option value="">@Html.Sitecore().Field("Select Payment Account Text")</option>
