@@ -9,14 +9,20 @@ namespace StreamEnergy.DomainModels.Accounts
 {
     public interface IAccountService
     {
-        IEnumerable<Invoice> GetInvoices(string username);
+        IEnumerable<Account> GetInvoices(string username);
+        Task<IEnumerable<Account>> GetCurrentInvoices(string username);
+        Task<IEnumerable<Payments.SavedPaymentInfo>> GetSavedPaymentMethods(string username);
+        Task<MakePaymentResult> MakePayment(string account, decimal amount, Payments.IPaymentInfo paymentMethod);
+        Task<Account> GetCurrentInvoice(string accountNumber);
 
         string GetIgniteAssociateFromCustomerNumber(string Auth_ID, string Auth_PW, string customerNumber);
 
-        CustomerAccount RetrieveIgniteAssociateContactInfo(string Auth_ID, string Auth_PW, string IA_Number);
+        Legacy.CustomerAccount RetrieveIgniteAssociateContactInfo(string Auth_ID, string Auth_PW, string IA_Number);
 
-        CustomerAccount GetCisAccountsByUtilityAccountNumber(string utilityAccountNumber, string customerPin, string cisOfRecord);
+        Legacy.CustomerAccount GetCisAccountsByUtilityAccountNumber(string utilityAccountNumber, string customerPin, string cisOfRecord);
 
-        CustomerAccount GetCisAccountsByCisAccountNumber(string cisAccountNumber, string customerPin, string cisOfRecord);
+        Legacy.CustomerAccount GetCisAccountsByCisAccountNumber(string cisAccountNumber, string customerPin, string cisOfRecord);
+
+
     }
 }

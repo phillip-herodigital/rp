@@ -12,11 +12,18 @@ namespace StreamEnergy.DomainModels.Payments
     {
         public const string Qualifier = "TokenizedCard";
 
+        public string PaymentType { get { return Qualifier; } }
+
+        // TODO - fill the ErrorMessage field
         [Required]
         public string CardToken { get; set; }
 
-        public string PaymentType { get { return Qualifier; } }
-
-        // TODO - I have no idea what is needed here other than the token
+        public DateTime ExpirationDate { get; set; }
+        [Required]
+        [RegularExpression("^[0-9]{5}$")]
+        public string BillingZipCode { get; set; }
+        [Required]
+        [RegularExpression("^[0-9]{3}$")]
+        public string SecurityCode { get; set; }
     }
 }

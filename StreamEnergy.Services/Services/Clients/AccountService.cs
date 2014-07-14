@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
 using System.Net.Http;
+using Legacy = StreamEnergy.DomainModels.Accounts.Legacy;
 
 namespace StreamEnergy.Services.Clients
 {
@@ -24,21 +25,97 @@ namespace StreamEnergy.Services.Clients
             this.client = client;
         }
 
-        IEnumerable<Invoice> IAccountService.GetInvoices(string username)
+        IEnumerable<Account> IAccountService.GetInvoices(string username)
         {
+            // TODO - load from Stream Commons
             var response = service.GetInvoices(new Sample.Commons.GetInvoicesRequest { Username = username });
 
             return from entry in response.Invoice
-                   select new DomainModels.Accounts.Invoice
+                   group new DomainModels.Accounts.Invoice
                    {
-                       AccountNumber = entry.AccountNumber,
-                       CanRequestExtension = entry.CanRequestExtension,
                        DueDate = entry.DueDate,
                        InvoiceAmount = entry.InvoiceAmount,
                        InvoiceNumber = entry.InvoiceNumber,
                        IsPaid = entry.IsPaid,
-                       ServiceType = entry.ServiceType
+                   } by new { entry.AccountNumber, entry.ServiceType, entry.CanRequestExtension } into invoicesByAcount
+                   select new Account
+                   {
+                       AccountNumber = invoicesByAcount.Key.AccountNumber,
+                       AccountType = invoicesByAcount.Key.ServiceType,
+                       Capabilities = { new InvoiceExtensionAccountCapability { CanRequestExtension = invoicesByAcount.Key.CanRequestExtension } },
+                       Invoices = invoicesByAcount.ToArray(),
+                       // TODO - populate the CurrentInvoice?
                    };
+        }
+
+        Task<IEnumerable<Account>> IAccountService.GetCurrentInvoices(string username)
+        {
+            // TODO - load from Stream Commons
+            return Task.FromResult<IEnumerable<Account>>(new[] {
+                new Account {
+                    AccountNumber = "1234567890", 
+                    CurrentInvoice = new Invoice { DueDate = DateTime.Today.AddDays(2), InvoiceAmount = 73.05m, InvoiceNumber="", IsPaid = false },
+                    Capabilities = { 
+                        new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = true }  , 
+                        new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } }
+                    }
+                },
+                new Account {
+                    AccountNumber = "5678901234",
+                    CurrentInvoice = new Invoice { DueDate = DateTime.Today.AddDays(12), InvoiceAmount = 24.95m, InvoiceNumber="", IsPaid = false }, 
+                    Capabilities = { 
+                        new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = true } , 
+                        new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } } 
+                    } 
+                },
+                new Account { 
+                    AccountNumber = "2345060992", 
+                    CurrentInvoice = new Invoice { DueDate = DateTime.Today.AddDays(19), InvoiceAmount = 54.05m, InvoiceNumber="", IsPaid = false }, 
+                    Capabilities = { 
+                        new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = false }, 
+                        new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } } 
+                    } 
+                },
+                new Account {
+                    AccountNumber = "3429500293",
+                    CurrentInvoice = new Invoice { DueDate = DateTime.Today.AddDays(29), InvoiceAmount = 36.00m, InvoiceNumber="", IsPaid = false }, 
+                    Capabilities = { 
+                        new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = true } ,
+                        new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } } 
+                    } 
+                },
+            });
+        }
+
+        Task<Account> IAccountService.GetCurrentInvoice(string accountNumber)
+        {
+            // TODO - load from Stream Commons
+            return Task.FromResult<Account>(
+                new Account {
+                    AccountNumber = accountNumber,
+                    CurrentInvoice = new Invoice { DueDate = DateTime.Today.AddDays(2), InvoiceAmount = 123.45m, InvoiceNumber="", IsPaid = false },
+                    Capabilities = { 
+                        new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = true }, 
+                        new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } }
+                    }
+                }
+            );
+        }
+
+        Task<IEnumerable<DomainModels.Payments.SavedPaymentInfo>> IAccountService.GetSavedPaymentMethods(string username)
+        {
+            return Task.FromResult<IEnumerable<DomainModels.Payments.SavedPaymentInfo>>(new[] { 
+                new DomainModels.Payments.SavedPaymentInfo { DisplayName = "Saved Credit Card", Id="753159", RedactedData= "**** **** **** 1234", UnderlyingPaymentType = DomainModels.Payments.TokenizedCard.Qualifier },
+                new DomainModels.Payments.SavedPaymentInfo { DisplayName = "Saved Bank", Id="456852", RedactedData= "*****1234", UnderlyingPaymentType = DomainModels.Payments.BankPaymentInfo.Qualifier },
+            });
+        }
+
+        Task<MakePaymentResult> IAccountService.MakePayment(string account, decimal amount, DomainModels.Payments.IPaymentInfo paymentMethod)
+        {
+            return Task.FromResult(new MakePaymentResult
+                {
+                    ConfirmationNumber = account + "123"
+                });
         }
 
         string IAccountService.GetIgniteAssociateFromCustomerNumber(string Auth_ID, string Auth_PW, string customerNumber)
@@ -47,12 +124,12 @@ namespace StreamEnergy.Services.Clients
             return response.SponsorNumber;
         }
 
-        CustomerAccount IAccountService.RetrieveIgniteAssociateContactInfo(string Auth_ID, string Auth_PW, string IA_Number)
+        Legacy.CustomerAccount IAccountService.RetrieveIgniteAssociateContactInfo(string Auth_ID, string Auth_PW, string IA_Number)
         {
             var response = dpiLinkService.Stream_RetrieveIaContactInfo(Auth_ID, Auth_PW, IA_Number);
             var contactInfo = response.RetrieveIaContactInfo;
 
-            return new CustomerAccount()
+            return new Legacy.CustomerAccount()
             {
                 Name = new DomainModels.Name()
                 {
@@ -86,7 +163,7 @@ namespace StreamEnergy.Services.Clients
             };
         }
 
-        CustomerAccount IAccountService.GetCisAccountsByUtilityAccountNumber(string utilityAccountNumber, string customerPin, string cisOfRecord)
+        Legacy.CustomerAccount IAccountService.GetCisAccountsByUtilityAccountNumber(string utilityAccountNumber, string customerPin, string cisOfRecord)
         {
             var response = accountService.getCisAccountsByUtilityAccountNumber(new StreamCommons.Account.getCisAccountsByUtilityAccountNumberRequest1()
                 {
@@ -99,7 +176,7 @@ namespace StreamEnergy.Services.Clients
                 });
             var account = response.GetCisAccountsByUtilityAccountNumberResponse1.FirstOrDefault();
 
-            return new CustomerAccount()
+            return new Legacy.CustomerAccount()
             {
                 CisAccountNumber = account.cisAccountNumber,
                 CamelotAccountNumber = account.camelotAccountNumber,
@@ -128,7 +205,7 @@ namespace StreamEnergy.Services.Clients
             };
         }
 
-        CustomerAccount IAccountService.GetCisAccountsByCisAccountNumber(string cisAccountNumber, string customerPin, string cisOfRecord)
+        Legacy.CustomerAccount IAccountService.GetCisAccountsByCisAccountNumber(string cisAccountNumber, string customerPin, string cisOfRecord)
         {
             var response = accountService.getCisAccountsByCisAccountNumber(new StreamCommons.Account.getCisAccountsByCisAccountNumberRequest1()
                 {
@@ -141,7 +218,7 @@ namespace StreamEnergy.Services.Clients
                 });
             var account = response.GetCisAccountsByCisAccountNumberResponse1.FirstOrDefault();
 
-            return new CustomerAccount()
+            return new Legacy.CustomerAccount()
             {
                 CisAccountNumber = account.cisAccountNumber,
                 CamelotAccountNumber = account.camelotAccountNumber,
