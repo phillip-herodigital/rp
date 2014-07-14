@@ -20,8 +20,10 @@ namespace StreamEnergy.DomainModels.Payments
 
         public DateTime ExpirationDate { get; set; }
         [Required]
+        [RegularExpression("^[0-9]{5}$")]
         public string BillingZipCode { get; set; }
         [Required]
+        [RegularExpression("^[0-9]{3}$")]
         public string SecurityCode { get; set; }
     }
 }

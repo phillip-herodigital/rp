@@ -64,7 +64,7 @@
                     </div>
                     <div>
                         <div class="group account-select">
-                            <div class="item group-col" @Html.ValidationErrorClass(m => m.PaymentAccount)>
+                            <div class="item group-col" @Html.ValidationErrorClass(m => m.PaymentAccount) slide-down-show="!isOpen">
                                 <label for="Payment method">@Html.Sitecore().Field("Payment Account Text")</label>
                                 <select ng-options="option.displayName for option in ctrl.paymentMethods" ng-model="ctrl.selectedPaymentMethod" @Html.ValidationAttributes(m => m.PaymentAccount)>
                                     <option value="">@Html.Sitecore().Field("Select Payment Account Text")</option>
@@ -82,30 +82,30 @@
                                 <legend>@Html.Sitecore().Field("Payment Type Text")</legend>
                                 <div class="payment-type-selection">
                                     <div class="payment-selection">
-                                        <input type="radio" id="credit-card" name="payment-type" ng-model="paymentOption" value="credit-card"><label for="credit-card">@Html.Sitecore().Field("Credit Card Text")</label>
+                                        <label><input type="radio" name="payment-type" ng-model="paymentOption" value="TokenizedCard">@Html.Sitecore().Field("Credit Card Text")</label>
                                     </div>
-                                    <div class="payment-options" ng-show="paymentOption == 'credit-card'">
-                                        <div class="item">
+                                    <div class="payment-options" ng-show="paymentOption == 'TokenizedCard'" ng-controller="CreditCardPaymentCtrl as ccCtrl" ng-init="ctrl.newPaymentMethodTokenizedCard = ccCtrl.tokenizedCard">
+                                        <div class="item" data-val-error="PaymentAccount.CreditCardNumber">
                                             <label for="credit-card-number">@Html.Sitecore().Field("Credit Card Number Text")</label>
-                                            <input id="credit-card-number" type="text">
+                                            <input id="credit-card-number" name="PaymentAccount.CreditCardNumber" data-val="true" data-val-creditcard="@Html.Sitecore().Field("Credit Card Number Invalid")" data-val-required="@Html.Sitecore().Field("Credit Card Number Required")" tokenize-card ng-model="ccCtrl.cardToken" type="text">
                                         </div>
                                         <div class="group">
-                                            <div class="item">
+                                            <div class="item" @Html.ValidationErrorClass(m => ((StreamEnergy.DomainModels.Payments.TokenizedCard)m.PaymentAccount).ExpirationDate)>
                                                 <label for="expiration-date">@Html.Sitecore().Field("Expiration Date Text")</label>
-                                                <select class="small" id="cc-month">
+                                                <select class="small" id="cc-month" name="@Html.For(m => ((StreamEnergy.DomainModels.Payments.TokenizedCard)m.PaymentAccount).ExpirationDate)" data-val="true" data-val-required="" ng-model="ccCtrl.expirationMonth" ng-options="month for month in ccCtrl.expirationMonths">
                                                     <option value="">MM</option>
                                                 </select>
-                                                <select class="small" id="cc-year">
+                                                <select class="small" id="cc-year" name="@Html.For(m => ((StreamEnergy.DomainModels.Payments.TokenizedCard)m.PaymentAccount).ExpirationDate)" data-val="true" data-val-required="" ng-model="ccCtrl.expirationYear" ng-options="year for year in ccCtrl.expirationYears">
                                                     <option value="">YYYY</option>
                                                 </select>
                                             </div>
-                                            <div class="item">
-                                                <label for="billing-zip">@Html.Sitecore().Field("Billing Zip Text")</label>
-                                                <input class="small" type="text" id="billing-zip">
+                                            <div class="item" @Html.ValidationErrorClass(m => ((StreamEnergy.DomainModels.Payments.TokenizedCard)m.PaymentAccount).BillingZipCode)>
+                                                <label for="@Html.For(m => ((StreamEnergy.DomainModels.Payments.TokenizedCard)m.PaymentAccount).BillingZipCode)">@Html.Sitecore().Field("Billing Zip Text")</label>
+                                                <input class="small" type="text" @Html.ValidationAttributes(m => ((StreamEnergy.DomainModels.Payments.TokenizedCard)m.PaymentAccount).BillingZipCode) ng-model="ccCtrl.billingZip">
                                             </div>
-                                            <div class="item">
-                                                <label for="security-code">@Html.Sitecore().Field("Security Code Text")</label>
-                                                <input class="small" type="text" id="security-code">
+                                            <div class="item" @Html.ValidationErrorClass(m => ((StreamEnergy.DomainModels.Payments.TokenizedCard)m.PaymentAccount).SecurityCode)>
+                                                <label for="@Html.For(m => ((StreamEnergy.DomainModels.Payments.TokenizedCard)m.PaymentAccount).SecurityCode)">@Html.Sitecore().Field("Security Code Text")</label>
+                                                <input class="small" type="text" @Html.ValidationAttributes(m => ((StreamEnergy.DomainModels.Payments.TokenizedCard)m.PaymentAccount).SecurityCode) ng-model="ccCtrl.securityCode">
                                             </div>
                                             <div class="item">
                                                 <a href="" class="single-link">@Html.Sitecore().Field("See Example Link Text")</a>
