@@ -30,19 +30,31 @@ namespace StreamEnergy.DomainModels
             unityContainer.Resolve<TypeIndicatorJsonConverter>().TypeIndicators.Add(new TypeIndicatorLookup<Payments.IPaymentInfo, Payments.SamplePaymentInfo>(sc => sc.PaymentType)
             {
                 SupportedTypes = {
-                    { Payments.TokenizedCard.Qualifier, typeof(Payments.TokenizedCard) }
+                    { Payments.TokenizedCard.Qualifier, typeof(Payments.TokenizedCard) },
+                    { Payments.BankPaymentInfo.Qualifier, typeof(Payments.BankPaymentInfo) },
+                    { Payments.SavedPaymentInfo.Qualifier, typeof(Payments.SavedPaymentInfo) },
                 }
             });
 
             unityContainer.Resolve<TypeIndicatorJsonConverter>().TypeIndicators.Add(new PhoneSubtypeLookup());
 
-            unityContainer.Resolve<TypeIndicatorJsonConverter>().TypeIndicators.Add(new TypeIndicatorLookup<Accounts.ISubAccount, Accounts.SampleSubAccount>(sc => sc.SubAccountType)
+            var subAccountLookup = new TypeIndicatorLookup<Accounts.ISubAccount, Accounts.SampleSubAccount>(sc => sc.SubAccountType)
             {
                 SupportedTypes = {
                     { Accounts.TexasElectricityAccount.Qualifier, typeof(Accounts.TexasElectricityAccount) },
                     { Accounts.GeorgiaElectricityAccount.Qualifier, typeof(Accounts.GeorgiaElectricityAccount) }
                 }
+            };
+            unityContainer.Resolve<TypeIndicatorJsonConverter>().TypeIndicators.Add(subAccountLookup);
+            unityContainer.Resolve<TypeIndicatorJsonConverter>().TypeIndicators.Add(new AccountLookup(subAccountLookup.SupportedTypes));
+
+            unityContainer.Resolve<TypeIndicatorJsonConverter>().TypeIndicators.Add(new TypeIndicatorLookup<Accounts.IAccountCapability, Accounts.SampleAccountCapability>(sc => sc.CapabilityType)
+            {
+                SupportedTypes = {
+                    { Accounts.InvoiceExtensionAccountCapability.Qualifier, typeof(Accounts.InvoiceExtensionAccountCapability) }
+                }
             });
+
         }
     }
 }

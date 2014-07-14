@@ -8,10 +8,6 @@ namespace StreamEnergy.DomainModels.Accounts
 {
     public class Invoice
     {
-        public string AccountNumber { get; set; }
-
-        public string ServiceType { get; set; }
-
         public string InvoiceNumber { get; set; }
 
         public decimal InvoiceAmount { get; set; }
@@ -19,6 +15,5 @@ namespace StreamEnergy.DomainModels.Accounts
         public DateTime DueDate { get; set; }
 
         public bool IsPaid { get; set; }
-        public bool CanRequestExtension { get; set; }
     }
 }

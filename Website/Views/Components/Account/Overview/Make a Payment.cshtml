@@ -1,86 +1,111 @@
-﻿<article class="grey-box make-payment" ng-controller="MakePaymentCtrl">  
+﻿@model StreamEnergy.MyStream.Models.Account.MakeMultiplePaymentsRequest
+<article class="grey-box make-payment" ng-controller="MakePaymentCtrl as ctrl" ng-init="ctrl.invoices = (@(Html.Action("GetCurrentInvoices", "Account").ToHtmlString())).accounts; ctrl.paymentMethods = @(Html.Action("GetSavedPaymentMethods", "Account").ToHtmlString());">  
     <header>
         <h2>@Html.Sitecore().Field("Make Payment Text")</h2>
     </header>
-
-    <div ng-show="activeState == 'step1'">
-        <form>
-            <div class="content" loading-indicator>
-                <div class="stretch payment-account">
-
-                    <div class="group">
-                        <div class="item">
-                            <label>@Html.Sitecore().Field("Account Number Text")</label>
-                            <select>
-                                <option value="Please choose">1234567890</option>
-                                <option value="Option 1">Option 1</option>
-                                <option value="Option 2">Option 2</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    @Html.Sitecore().Field("Account Number Note")
+    <div ng-show="ctrl.activeState == 'step1'">
+        <form data-val-bind-messages="validations" ng-submit="ctrl.activeState = 'step2'">
+            <div class="content grid-table-content" loading-indicator>
+                <div class="payment-account stretch">
+                    <table grid-table ng-model="ctrl.invoices" class="grid-table">
+                        <thead grid-table-header checkboxes="true"></thead>
+                        <tbody ng-repeat="item in table.valuesToShow">
+                            <tr>
+                                <td class="align-center" style="width:30px;"><input type="checkbox" ng-show="item.canMakeOneTimePayment" ng-model="item.selected" /></td>
+                                <td ng-show="hasHiddenColumns" ng-click="expandInnerTable($index)" ng-class="{'opened': expand[$index], 'closed': !expand[$index]}">
+                                    <i ng-class="{'icon-arrow-expanded': expand[$index], 'icon-arrow-collapsed': !expand[$index]}"></i>
+                                </td>
+                                <td ng-show="showColumn('accountNumber')">{{ item.accountNumber }}</td>
+                                <td ng-show="showColumn('invoiceAmount')">{{ item.invoiceAmount | currency }}</td>
+                                <td ng-show="showColumn('dueDate')">{{ item.dueDate }}</td>
+                                <td ng-show="showColumn('action')">
+                                    <button class="secondary">@Html.Sitecore().Field("View PDF Text")</button>
+                                    <div class="request-extension" ng-show="item.canRequestExtension"><a href="#">@Html.Sitecore().Field("Request Extension Text")</a></div>
+                                </td>
+                            </tr>
+                            <tr class="details" ng-show="!item.canMakeOneTimePayment">
+                                <td colspan="{{table.columnList.length+2}}">
+                                    @Html.Sitecore().Field("One Time Payment Not Allowed Text").Format(new { AccountNumber = "{{ item.accountNumber }}" })
+                                </td>
+                            </tr>
+                            <tr class="details" ng-show="hasHiddenColumns && expand[$index] == true">
+                                <td colspan="{{table.columnList.length+2}}">
+                                    <p ng-repeat="column in table.columnList | filter:{isVisible: false}" ng-switch on="column.field">
+                                        <span ng-switch-when="action">
+                                            <button class="secondary">@Html.Sitecore().Field("View PDF Text")</button>
+                                        </span>
+                                        <span ng-switch-default>
+                                            <strong>{{ column.displayName }}:</strong> {{ item[column.field] }}
+                                        </span>
+                                    </p>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot grid-table-pagination></tfoot>
+                    </table>
                 </div>
-                <div class="stretch payment-details">
-                    <p>@Html.Sitecore().Field("Current Balance Text") <strong>$123.45</strong></p>
+                <div class="payment-details">
+                    <p ng-if="ctrl.selectedAccounts.length==1">@Html.Sitecore().Field("Total For 1 Account") <strong>{{ ctrl.total | currency }}</strong></p>
+                    <p ng-if="ctrl.selectedAccounts.length!=1">@Html.Sitecore().Field("Total For Accounts").Format(new { Count = "{{ctrl.selectedAccounts.length}}" }) <strong>{{ ctrl.total | currency }}</strong></p>
 
                     <div class="group date-amount">
-                        <div class="item datepicker">
+                        <div class="item dollars group-col" @Html.ValidationErrorClass(m => m.TotalPaymentAmount)>
+                            <label for="@Html.For(m => m.TotalPaymentAmount)">@Html.Sitecore().Field("Payment Amount Text")</label>
+                            <span class="payment-amount" ng-show="ctrl.selectedAccounts.length == 1"><input type="text" @Html.ValidationAttributes(m => m.TotalPaymentAmount) ng-model="ctrl.paymentAmount" currency-input></span>
+                            <span ng-if="ctrl.selectedAccounts.length != 1">{{ctrl.paymentAmount|currency}}</span>
+                        </div>
+                        <div class="item datepicker group-col" @Html.ValidationErrorClass(m => m.PaymentDate)>
                             <label for="Payment method">@Html.Sitecore().Field("Payment Date Text")</label>
                             <span class="calendar">
-                                <input type="text" ng-model="form.dt" datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="disableWeekends(date, mode)" />
-                                <span class="icon"><i class="icon-calendar"></i></span>
+                                <input type="text" ng-model="ctrl.selectedDate" datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="disableWeekends(date, mode)" @Html.ValidationAttributes(m => m.PaymentDate) />
+                                <span class="icon" ng-click="openDatePicker($event)"><i class="icon-calendar"></i></span>
                             </span>
                         </div>
-                        <div class="item dollars">
-                            <label for="Amount">@Html.Sitecore().Field("Payment Amount Text")</label>
-                            <span class="payment-amount"><input type="text" id="amount"></span> 
-                        </div>
                     </div>
-                    <div additional-fields>
+                    <div>
                         <div class="group account-select">
-                            <div class="item">
+                            <div class="item group-col" @Html.ValidationErrorClass(m => m.PaymentAccount) slide-down-show="!ctrl.useNewPaymentMethod">
                                 <label for="Payment method">@Html.Sitecore().Field("Payment Account Text")</label>
-                                <select>
-                                    <option value="Please choose">Select Payment Account</option>
-                                    <option value="payment1">Payment Method 1</option>
-                                    <option value="payment2">Payment Method 2</option>
+                                <select ng-options="option.displayName for option in ctrl.paymentMethods" ng-model="ctrl.selectedPaymentMethod" @Html.ValidationAttributes(m => m.PaymentAccount) data-val-if="!ctrl.useNewPaymentMethod">
+                                    <option value="">@Html.Sitecore().Field("Select Payment Account Text")</option>
                                 </select>
                             </div>
-                            <div class="item add-account">
-                                <p><a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" class="details-link" href=""><span ng-if="!isOpen">@Html.Sitecore().Field("Add Account Text")</span><span ng-if="isOpen">@Html.Sitecore().Field("Cancel Account Text")</span></a></p>
+                            <div class="item add-account group-col">
+                                <a class="single-link" ng-click="ctrl.useNewPaymentMethod = !ctrl.useNewPaymentMethod" ng-class="{'collapsed': !ctrl.useNewPaymentMethod}" class="details-link" href="">
+                                    <span ng-if="!ctrl.useNewPaymentMethod">@Html.Sitecore().Field("Add Account Text")</span>
+                                    <span ng-if="ctrl.useNewPaymentMethod">@Html.Sitecore().Field("Cancel Account Text")</span>
+                                </a>
                             </div>
                         </div>
-                        <div class="additional-fields new-account">
+                        <div class="additional-fields new-account" slide-down-show="ctrl.useNewPaymentMethod">
                             <fieldset>
                                 <legend>@Html.Sitecore().Field("Payment Type Text")</legend>
-
-                                <div class="payment-type-selection">
+                                <div class="payment-type-selection" ng-init="ctrl.newPaymentMethod = {}">
                                     <div class="payment-selection">
-                                        <input type="radio" id="credit-card" name="payment-type" ng-model="paymentOption" value="credit-card"><label for="credit-card">@Html.Sitecore().Field("Credit Card Text")</label>
+                                        <label><input type="radio" name="payment-type" ng-model="ctrl.newPaymentMethodType" value="TokenizedCard">@Html.Sitecore().Field("Credit Card Text")</label>
                                     </div>
-                                    <div class="payment-options" ng-show="paymentOption == 'credit-card'">
-                                        <div class="item">
+                                    <div class="payment-options" ng-show="ctrl.newPaymentMethodType == 'TokenizedCard'" ng-controller="CreditCardPaymentCtrl as ccCtrl" ng-init="ctrl.newPaymentMethod['TokenizedCard'] = ccCtrl.tokenizedCard">
+                                        <div class="item" data-val-error="PaymentAccount.CreditCardNumber">
                                             <label for="credit-card-number">@Html.Sitecore().Field("Credit Card Number Text")</label>
-                                            <input id="credit-card-number" type="text">
+                                            <input id="credit-card-number" name="PaymentAccount.CreditCardNumber" data-val="true" data-val-if="ctrl.newPaymentMethodType == 'TokenizedCard'" data-val-creditcard="@Html.Sitecore().Field("Credit Card Number Invalid")" data-val-required="@Html.Sitecore().Field("Credit Card Number Required")" tokenize-card ng-model="ccCtrl.cardToken" type="text">
                                         </div>
                                         <div class="group">
-                                            <div class="item">
+                                            <div class="item" @Html.ValidationErrorClass(m => ((StreamEnergy.DomainModels.Payments.TokenizedCard)m.PaymentAccount).ExpirationDate)>
                                                 <label for="expiration-date">@Html.Sitecore().Field("Expiration Date Text")</label>
-                                                <select class="small" id="cc-month">
+                                                <select class="small" id="cc-month" name="@Html.For(m => ((StreamEnergy.DomainModels.Payments.TokenizedCard)m.PaymentAccount).ExpirationDate)" data-val="true" data-val-if="ctrl.newPaymentMethodType == 'TokenizedCard'" data-val-required="" ng-model="ccCtrl.expirationMonth" ng-options="month for month in ccCtrl.expirationMonths">
                                                     <option value="">MM</option>
                                                 </select>
-                                                <select class="small" id="cc-year">
+                                                <select class="small" id="cc-year" name="@Html.For(m => ((StreamEnergy.DomainModels.Payments.TokenizedCard)m.PaymentAccount).ExpirationDate)" data-val="true" data-val-if="ctrl.newPaymentMethodType == 'TokenizedCard'" data-val-required="" ng-model="ccCtrl.expirationYear" ng-options="year for year in ccCtrl.expirationYears">
                                                     <option value="">YYYY</option>
                                                 </select>
                                             </div>
-                                            <div class="item">
-                                                <label for="billing-zip">@Html.Sitecore().Field("Billing Zip Text")</label>
-                                                <input class="small" type="text" id="billing-zip">
+                                            <div class="item" @Html.ValidationErrorClass(m => ((StreamEnergy.DomainModels.Payments.TokenizedCard)m.PaymentAccount).BillingZipCode)>
+                                                <label for="@Html.For(m => ((StreamEnergy.DomainModels.Payments.TokenizedCard)m.PaymentAccount).BillingZipCode)">@Html.Sitecore().Field("Billing Zip Text")</label>
+                                                <input class="small" type="text" @Html.ValidationAttributes(m => ((StreamEnergy.DomainModels.Payments.TokenizedCard)m.PaymentAccount).BillingZipCode) data-val-if="ctrl.newPaymentMethodType == 'TokenizedCard'" ng-model="ccCtrl.billingZip">
                                             </div>
-                                            <div class="item">
-                                                <label for="security-code">@Html.Sitecore().Field("Security Code Text")</label>
-                                                <input class="small" type="text" id="security-code">
+                                            <div class="item" @Html.ValidationErrorClass(m => ((StreamEnergy.DomainModels.Payments.TokenizedCard)m.PaymentAccount).SecurityCode)>
+                                                <label for="@Html.For(m => ((StreamEnergy.DomainModels.Payments.TokenizedCard)m.PaymentAccount).SecurityCode)">@Html.Sitecore().Field("Security Code Text")</label>
+                                                <input class="small" type="text" @Html.ValidationAttributes(m => ((StreamEnergy.DomainModels.Payments.TokenizedCard)m.PaymentAccount).SecurityCode) data-val-if="ctrl.newPaymentMethodType == 'TokenizedCard'" ng-model="ccCtrl.securityCode">
                                             </div>
                                             <div class="item">
                                                 <a href="" class="single-link">@Html.Sitecore().Field("See Example Link Text")</a>
@@ -88,24 +113,24 @@
                                         </div>
                                     </div>
                                     <div class="payment-selection">
-                                        <input type="radio" id="bank-account" name="payment-type" ng-model="paymentOption" value="bank-account"><label for="bank-account">@Html.Sitecore().Field("Bank Account Text")</label>
+                                        <input type="radio" id="bank-account" name="payment-type" ng-model="ctrl.newPaymentMethodType" value="BankPaymentMethod"><label for="bank-account">@Html.Sitecore().Field("Bank Account Text")</label>
                                     </div>
-                                    <div class="payment-options" ng-show="paymentOption == 'bank-account'">
-                                        <div class="item">
-                                            <label for="payment-method">@Html.Sitecore().Field("Account Type Text")</label>
-                                            <select id="payment-method">
+                                    <div class="payment-options" ng-show="ctrl.newPaymentMethodType == 'BankPaymentMethod'" ng-controller="BankAccountPaymentCtrl as bankCtrl" ng-init="ctrl.newPaymentMethod['BankPaymentMethod'] = bankCtrl.bankAccount">
+                                        <div class="item" @Html.ValidationErrorClass(m => ((StreamEnergy.DomainModels.Payments.BankPaymentInfo)m.PaymentAccount).Category)>
+                                            <label for="@Html.For(m => ((StreamEnergy.DomainModels.Payments.BankPaymentInfo)m.PaymentAccount).Category)">@Html.Sitecore().Field("Account Type Text")</label>
+                                            <select @Html.ValidationAttributes(m => ((StreamEnergy.DomainModels.Payments.BankPaymentInfo)m.PaymentAccount).Category) ng-model="bankCtrl.category" data-val-if="ctrl.newPaymentMethodType == 'BankPaymentMethod'">
                                                 <option value="">Please Choose</option>
+                                                @* TODO *@
                                             </select>
                                         </div>
-
                                         <div class="group">
-                                            <div class="item group-col">
-                                                <label for="security-code">@Html.Sitecore().Field("Routing Number Text")</label>
-                                                <input type="text" id="security-code">
+                                            <div class="item group-col" @Html.ValidationErrorClass(m => ((StreamEnergy.DomainModels.Payments.BankPaymentInfo)m.PaymentAccount).RoutingNumber)>
+                                                <label for="@Html.For(m => ((StreamEnergy.DomainModels.Payments.BankPaymentInfo)m.PaymentAccount).RoutingNumber)">@Html.Sitecore().Field("Routing Number Text")</label>
+                                                <input type="text" @Html.ValidationAttributes(m => ((StreamEnergy.DomainModels.Payments.BankPaymentInfo)m.PaymentAccount).RoutingNumber) data-val-if="ctrl.newPaymentMethodType == 'BankPaymentMethod'" ng-model="bankCtrl.routingNumber">
                                             </div>
-                                            <div class="item group-col">
-                                                <label for="security-code">@Html.Sitecore().Field("Account Number Text")</label>
-                                                <input type="text" id="security-code">
+                                            <div class="item group-col" @Html.ValidationErrorClass(m => ((StreamEnergy.DomainModels.Payments.BankPaymentInfo)m.PaymentAccount).AccountNumber)>
+                                                <label for="@Html.For(m => ((StreamEnergy.DomainModels.Payments.BankPaymentInfo)m.PaymentAccount).AccountNumber)">@Html.Sitecore().Field("Account Number Text")</label>
+                                                <input type="text" @Html.ValidationAttributes(m => ((StreamEnergy.DomainModels.Payments.BankPaymentInfo)m.PaymentAccount).AccountNumber) data-val-if="ctrl.newPaymentMethodType == 'BankPaymentMethod'" ng-model="bankCtrl.accountNumber">
                                             </div>
                                         </div>
                                         <img src="http://placehold.it/350x80" alt="">
@@ -118,73 +143,95 @@
             </div>
             <footer>
                 <div class="buttons">
-                    <button type="submit" ng-click="continue()">@Html.Sitecore().Field("Continue Button Text")</button>
-                    <button type="submit" class="secondary">@Html.Sitecore().Field("Back Button Text")</button>
+                    <button type="submit" data-val-submit>@Html.Sitecore().Field("Continue Button Text")</button>
                 </div>
             </footer>
         </form>
     </div>
 
-    <div ng-show="activeState == 'step2'">
+    <div ng-if="ctrl.activeState == 'step2'">
         <form>
             <div class="content">
-                <dl class="clearfix module-list">
+                <dl class="clearfix module-list" ng-repeat="account in ctrl.selectedAccounts">
                     <dt>@Html.Sitecore().Field("Account Number Text")</dt>
-                    <dd>1234657890</dd>
-                </dl>
-
-                <dl class="clearfix module-list">
-                    <dt>@Html.Sitecore().Field("Payment Method Text")</dt>
-                    <dd>Credit Card</dd>
-                    <dt>@Html.Sitecore().Field("Card Number Text")</dt>
-                    <dd>**** **** **** 1234</dd>
-                    <dt>@Html.Sitecore().Field("Bank Account Number Text")</dt>
-                    <dd>****1234</dd>
+                    <dd>{{account.accountNumber}}</dd>
+                    <dt>@Html.Sitecore().Field("Payment Amount Text")</dt>
+                    <dd>{{ (ctrl.selectedAccounts.length != 1 ? account.invoiceAmount : ctrl.paymentAmount) | currency }}</dd>
                 </dl>
 
                 <dl class="clearfix module-list">
                     <dt>@Html.Sitecore().Field("Payment Date Text")</dt>
-                    <dd>MM/DD/YYYY</dd>
-                    <dt>@Html.Sitecore().Field("Payment Amount Text")</dt>
-                    <dd>$123.45</dd>
+                    <dd>{{ ctrl.selectedDate | date:'MM/dd/yyyy' }}</dd>
+                    <dt>@Html.Sitecore().Field("Total Payment Text")</dt>
+                    <dd>{{ ctrl.paymentAmount | currency }}</dd>
                 </dl>
 
+                <div ng-switch="ctrl.paymentMethod().underlyingPaymentType || ctrl.paymentMethod().paymentType">
+                    <dl class="clearfix module-list payment-module" ng-switch-when="TokenizedCard">
+                        <dt>@Html.Sitecore().Field("Payment Method Text")</dt>
+                        <dd>@Html.Sitecore().Field("Credit Card Text")</dd>
+                        <dt>@Html.Sitecore().Field("Card Number Text")</dt>
+                        <dd>{{ctrl.paymentMethod().redactedData}}</dd>
+                    </dl>
+                    <dl class="clearfix module-list payment-module" ng-switch-when="BankPaymentMethod">
+                        <dt>@Html.Sitecore().Field("Payment Method Text")</dt>
+                        <dd>@Html.Sitecore().Field("Bank Account Text")</dd>
+                        <dt>@Html.Sitecore().Field("Bank Account Number Text")</dt>
+                        <dd>{{ctrl.paymentMethod().redactedData}}</dd>
+                    </dl>
+                </div>
             </div>
             <footer>
                 <div class="buttons">
-                    <button type="submit" ng-click="continue()">@Html.Sitecore().Field("Submit Payment Button Text")</button>
-                    <button class="secondary" ng-click="back()">@Html.Sitecore().Field("Back Button Text")</button>
+                    <button type="submit" ng-click="ctrl.makePayment()">@Html.Sitecore().Field("Submit Payment Button Text")</button>
+                    <button class="secondary" ng-click="ctrl.activeState = 'step1'">@Html.Sitecore().Field("Back Button Text")</button>
                 </div>
             </footer>
         </form>
     </div>
 
-    <div ng-show="activeState == 'step3'">
+    <div ng-if="ctrl.activeState == 'step3'">
         <form>
             <div class="content">
-                <dl class="clearfix module-list">
-                    <dt>@Html.Sitecore().Field("Confirmation Number Text")</dt>
-                    <dd>1234657890132456</dd>
-                    <dt>@Html.Sitecore().Field("Account Number Text")</dt>
-                    <dd>1234657890</dd>
-                </dl>
-
-                <dl class="clearfix module-list">
-                    <dt>@Html.Sitecore().Field("Payment Method Text")</dt>
-                    <dd>Credit Card</dd>
-                    <dt>@Html.Sitecore().Field("Card Number Text")</dt>
-                    <dd>**** **** **** 1234</dd>
-                    <dt>@Html.Sitecore().Field("Bank Account Number Text")</dt>
-                    <dd>****1234</dd>
-                </dl>
+                <div ng-repeat="account in ctrl.selectedAccounts">
+                    <h3>{{account.accountNumber}}</h3>
+                    <div ng-if="account.confirmationNumber" class="notice success">
+                        <dl class="clearfix module-list">
+                            <dt>@Html.Sitecore().Field("Confirmation Number Text")</dt>
+                            <dd>{{account.confirmationNumber}}</dd>
+                            <dt>@Html.Sitecore().Field("Payment Amount Text")</dt>
+                            <dd>{{ (ctrl.selectedAccounts.length != 1 ? account.invoiceAmount : ctrl.paymentAmount) | currency }}</dd>
+                        </dl>
+                    </div>
+                    <div ng-if="!account.confirmationNumber" class="notice error">
+                        <p>@Html.Sitecore().Field("Processing Payment Error Text").Format(new { Payment = "{{ (ctrl.selectedAccounts.length != 1 ? account.invoiceAmount : ctrl.paymentAmount) | currency }}" })</p>
+                        @* TODO - Sitecore *@
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi consectetur, tellus semper porta ornare, nisl tortor adipiscing nibh, eu pretium ligula purus sed arcu.</p>
+                    </div>
+                    <hr class="content-divider">
+                </div>
 
                 <dl class="clearfix module-list">
                     <dt>@Html.Sitecore().Field("Payment Date Text")</dt>
-                    <dd>MM/DD/YYYY</dd>
-                    <dt>@Html.Sitecore().Field("Payment Amount Text")</dt>
-                    <dd>$123.45</dd>
+                    <dd>{{ ctrl.selectedDate | date:'MM/dd/yyyy' }}</dd>
+                    <dt>@Html.Sitecore().Field("Total Payment Text")</dt>
+                    <dd>{{ ctrl.paymentAmount | currency }}</dd>
                 </dl>
 
+                <div ng-switch="ctrl.paymentMethod().underlyingPaymentType || ctrl.paymentMethod().paymentType">
+                    <dl class="clearfix module-list payment-module" ng-switch-when="TokenizedCard">
+                        <dt>@Html.Sitecore().Field("Payment Method Text")</dt>
+                        <dd>@Html.Sitecore().Field("Credit Card Text")</dd>
+                        <dt>@Html.Sitecore().Field("Card Number Text")</dt>
+                        <dd>{{ctrl.paymentMethod().redactedData}}</dd>
+                    </dl>
+                    <dl class="clearfix module-list payment-module" ng-switch-when="BankPaymentMethod">
+                        <dt>@Html.Sitecore().Field("Payment Method Text")</dt>
+                        <dd>@Html.Sitecore().Field("Bank Account Text")</dd>
+                        <dt>@Html.Sitecore().Field("Bank Account Number Text")</dt>
+                        <dd>{{ctrl.paymentMethod().redactedData}}</dd>
+                    </dl>
+                </div>
             </div>
             <footer>
                 <div class="buttons">
@@ -196,3 +243,31 @@
     </div>
 
 </article>
+
+<script type="text/ng-template" id="PaymentBlockingAlert/Duplicate">
+    <div class="modal-header">
+        <a href="" ng-click="$dismiss()"></a>
+        <h2>@Html.Sitecore().Field("Duplicate Payment Header Text")</h2>
+    </div>
+    <div class="modal-body">
+        @Html.Sitecore().Field("Duplicate Payment Body Text")
+    </div>
+    <div class="modal-footer">
+        <button class="secondary" ng-click="$dismiss()">@Html.Sitecore().Field("Cancel Payment Button Text")</button>
+        <button ng-click="$close()">@Html.Sitecore().Field("Continue Payment Button Text")</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="PaymentBlockingAlert/Overpayment">
+    <div class="modal-header">
+        <a href="" ng-click="$dismiss()"></a>
+        <h2>@Html.Sitecore().Field("Overpayment Header Text")</h2>
+    </div>
+    <div class="modal-body">
+        @Html.Sitecore().Field("Overpayment Body Text").Format(new { Payment = "{{ctrl.paymentAmount|currency}}" })
+    </div>
+    <div class="modal-footer">
+        <button class="secondary" ng-click="$dismiss()">@Html.Sitecore().Field("Cancel Payment Button Text")</button>
+        <button ng-click="$close()">@Html.Sitecore().Field("Continue Payment Button Text")</button>
+    </div>
+</script>

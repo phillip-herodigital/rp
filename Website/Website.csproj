@@ -468,11 +468,15 @@
     <Compile Include="layouts\BaseLayout.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Models\Account\AccountToPay.cs" />
     <Compile Include="Models\Account\AddNewAccountRequest.cs" />
     <Compile Include="Models\Account\AddNewAccountResponse.cs" />
     <Compile Include="Models\Account\EnrolledAccount.cs" />
+    <Compile Include="Models\Account\FindAccountForOneTimePaymentRequest.cs" />
+    <Compile Include="Models\Account\FindAccountForOneTimePaymentResponse.cs" />
     <Compile Include="Models\Account\GetAccountInformationRequest.cs" />
     <Compile Include="Models\Account\GetAccountInformationResponse.cs" />
+    <Compile Include="Models\Account\GetCurrentInvoicesResponse.cs" />
     <Compile Include="Models\Account\GetEnrolledAccountsResponse.cs" />
     <Compile Include="Models\Account\GetGasPlanResponse.cs" />
     <Compile Include="Models\Account\GetInvoicesResponse.cs" />
@@ -485,8 +489,13 @@
     <Compile Include="Models\Account\Invoice.cs" />
     <Compile Include="Models\Account\GetOnlineAccountResponse.cs" />
     <Compile Include="Models\Account\LanguagePreference.cs" />
+    <Compile Include="Models\Account\MakeMultiplePaymentsRequest.cs" />
+    <Compile Include="Models\Account\MakeMultiplePaymentsResponse.cs" />
+    <Compile Include="Models\Account\MakeOneTimePaymentRequest.cs" />
+    <Compile Include="Models\Account\MakeOneTimePaymentResponse.cs" />
     <Compile Include="Models\Account\NotificationSetting.cs" />
     <Compile Include="Models\Account\Payment.cs" />
+    <Compile Include="Models\Account\PaymentConfirmation.cs" />
     <Compile Include="Models\Account\RemoveAccountRequest.cs" />
     <Compile Include="Models\Account\RemoveAccountResponse.cs" />
     <Compile Include="Models\Account\SendLetterRequest.cs" />
@@ -504,6 +513,7 @@
     <Compile Include="Models\Angular\GridTable\GridTableExtensions.cs" />
     <Compile Include="Models\Angular\GridTable\Table.cs" />
     <Compile Include="Models\Angular\GridTable\DeviceType.cs" />
+    <Compile Include="Models\Authentication\AnsweredSecurityQuestion.cs" />
     <Compile Include="Models\Authentication\ChangePasswordRequest.cs" />
     <Compile Include="Models\Authentication\ChangePasswordResponse.cs" />
     <Compile Include="Models\Authentication\CreateLoginRequest.cs" />
@@ -517,7 +527,6 @@
     <Compile Include="Models\Authentication\RecoverUsernameRequest.cs" />
     <Compile Include="Models\Authentication\RecoverUsernameResponse.cs" />
     <Compile Include="Models\Authentication\SecurityQuestion.cs" />
-    <Compile Include="Models\Authentication\AnsweredSecurityQuestion.cs" />
     <Compile Include="Models\Authentication\SendResetPasswordEmailRequest.cs" />
     <Compile Include="Models\Authentication\VerifyUserChallengeQuestionsRequest.cs" />
     <Compile Include="Models\Authentication\SendResetPasswordEmailResponse.cs" />

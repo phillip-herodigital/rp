@@ -69,7 +69,10 @@ textarea {
 select {
 	position: relative;
 	padding-right: 30px;
-	background: #fff image-url("icon/select-arrow.png") no-repeat 100% 50%;
+	@include retina-background("select-arrow.png", "icon");
+	background-color: #fff;
+	background-repeat: no-repeat;
+	background-position: 100% 50%;
 	// Mozilla
 	-moz-appearance: none;
 	text-indent: 0.01px;
@@ -215,8 +218,8 @@ form,
 	.item {
 		@extend .clearfix;
 		//Make sure to have padding-right by default to match the group-col's padding
-		padding-right: 10px;
-		> label, > .label {
+		padding-right: 20px;
+		> label {
 			display: block;
 			margin-bottom: 5px;
 			font-size: 14px;

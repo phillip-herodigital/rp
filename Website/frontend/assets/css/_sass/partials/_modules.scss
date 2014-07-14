@@ -20,11 +20,11 @@ article {
 /* Box styling */
 
 article {
+	@extend .clearfix;
 	@include box-shadow(0 1px 2px rgba(0, 0, 0, 0.15));
 	@include border-radius(10px);
 	margin-bottom: 20px;
 	border: 1px solid #ddd;
-	overflow: hidden;
 	header {
 		@include border-radius(10px 10px 0px 0px);
 		background-color: #1385e1;
@@ -40,6 +40,7 @@ article {
 		background: #fbfbfb;
 		padding: 15px;
 		border-top: 1px solid #ddd;
+		@include border-radius(0 0 10px 10px);
 	}
 	.buttons {
 		@extend .clearfix;		
@@ -113,23 +114,23 @@ article {
 		&.alert {
 			border: 1px solid #ffcc33;
 			background-color: #fff9c9;
-			background-image: image-url('icon/alert.png');
+			@include retina-background("alert.png", "icon");
 			background-position: 20px 23px;
 		}
 		&.message {
-				border: 1px solid #a1bbb9;
-				background-color: #ecf9f8;
-				background-image: image-url('icon/message.png');
+			border: 1px solid #a1bbb9;
+			background-color: #ecf9f8;
+			@include retina-background("message.png", "icon");
 		}
 		&.error {
-				border: 1px solid #dd744e;
-				background-color: #fbded4;
-				background-image: image-url('icon/error.png');
+			border: 1px solid #dd744e;
+			background-color: #fbded4;
+			@include retina-background("error.png", "icon");
 		}
 		&.success {
 			border: 1px solid #7baa59;
 			background-color: #def7d0;
-			background-image: image-url('icon/success.png');
+			@include retina-background("success.png", "icon");
 		}
 	}
 	.account-selector {
@@ -794,24 +795,39 @@ article.enrolled-accounts {
 	}
 }
 article.make-payment {
-	div.payment-account {
-		padding: 15px;
-		border-bottom: 1px solid #d9d9d9;
+	.payment-module {
+		margin-bottom: 0;
+	}
+	.grid-table-content {
+		padding-top: 0;
+	}
+	.notice dl {
+		margin: 0;
+	}
+	.stretch > .grid-table {
+		thead th {
+			border-top: none;
+		}
+		tr td:first-child, tr th:first-child {
+			border-left: none;
+		}
+		tr td:last-child, tr th:last-child {
+			border-right: none;
+		}
+		.details td:first-child {
+			border-left: 2px solid #0971ce;
+		}
 	}
 	div.payment-details {
-		padding: 15px 15px 0 15px;
 		.date-amount {
-			width: 325px;
 			@include breakpoint(small) {
 				width: 100%;
 			}
 			.item {
-				width: 45%;
 				@include breakpoint(small) {
 					width: 100%;
 				}
 				&.dollars .payment-amount input {
-					@include breakpoint(small) {
 						/* Firefox */
 						width: -moz-calc(100% - 15px);
 						/* WebKit */
@@ -820,16 +836,17 @@ article.make-payment {
 						width: -o-calc(100% - 15px);
 						/* Standard */
 						width: calc(100% - 15px);
-					}
 				}
 			}
 		}
 		.group {
 			.datepicker .calendar {
 				position: relative;
+				display: block;
 				.icon {
 					position: absolute;
-					top: -2px;
+					top: 50%;
+					margin-top: -12px;
 					right: 10px;
 				}
 			}
@@ -845,17 +862,17 @@ article.make-payment {
 				}
 			}
 		}
-		div.account-select{
+		.account-select{
 			margin-bottom: 0px;
-			div.add-account p {
+			.add-account p {
 				text-transform: uppercase;
 				padding: 15px 0 0 0;
 			}
 		}
-		div.new-account {
+		.new-account {
 			margin-top: 10px;
 			.payment-options {
-				margin: 15px 0 25px 0px;
+				margin: 15px 0 25px 18px;
 				img {
 					max-width: 100%;
 				}
@@ -978,7 +995,6 @@ article.auth {
 }
 article.payments {
 	margin-bottom: 20px;
-	overflow: visible; //Needed for datepicker
 	header {
 		h2.payment-accounts-header {
 			float: left;
