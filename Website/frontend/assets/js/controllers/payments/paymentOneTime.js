@@ -2,34 +2,35 @@
 	Payments - One Time Payment Controller
  */
 ngApp.controller('PaymentsCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
+	var ctrl = this;
 	//Had to use the following since ng-value is used to not conflict with the value.js directive
-	$scope.creditCard = 'credit-card';
-	$scope.bankAccount = 'bank-account';
-	$scope.activeStep = 1;
+	this.creditCard = 'credit-card';
+	this.bankAccount = 'bank-account';
+	this.activeStep = 1;
 
-	$scope.back = function() {
-		if($scope.activeStep > 0) {
-			$scope.activeStep--;
+	this.back = function() {
+		if(this.activeStep > 0) {
+			this.activeStep--;
 		}
 	};
 
 	//Step 1
-	$scope.lookupAccount = function() {
-		$scope.activeStep = 2;
+	this.lookupAccount = function() {
+		this.activeStep = 2;
 	};
 
 	//Step 2
-	$scope.validatePaymentInfo = function() {
-		$scope.activeStep = 3;
+	this.validatePaymentInfo = function() {
+		this.activeStep = 3;
 	};
 
 	//Step 3
-	$scope.submitPaymentInfo = function() {
-		$scope.activeStep = 4;
+	this.submitPaymentInfo = function() {
+		this.activeStep = 4;
 	};
 
 	//Step 4
-	$scope.makeAnotherPayment = function() {
+	this.makeAnotherPayment = function() {
 		$scope.activeStep = 1;
 	};
 }]);
