@@ -1,11 +1,8 @@
 /* 
 	Payments - One Time Payment Controller
  */
-ngApp.controller('PaymentsCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
+ngApp.controller('PaymentsCtrl', ['$scope', '$http', '$timeout', function ($scope, $http, $timeout) {
 	var ctrl = this;
-	//Had to use the following since ng-value is used to not conflict with the value.js directive
-	this.creditCard = 'credit-card';
-	this.bankAccount = 'bank-account';
 	this.activeStep = 1;
 
 	this.back = function() {
@@ -16,7 +13,18 @@ ngApp.controller('PaymentsCtrl', ['$scope', '$rootScope', function ($scope, $roo
 
 	//Step 1
 	this.lookupAccount = function() {
-		this.activeStep = 2;
+		$timeout(function () {
+			$http({
+				method  : 'POST',
+				url     : '/api/account/findAccountForOneTimePayment',
+				data    : { 'accountNumber' : ctrl.accountNumber },
+				headers : { 'Content-Type': 'application/JSON' } 
+			})
+				.success(function (data, status, headers, config) {
+					ctrl.account = data.account;
+					ctrl.activeStep = 2;
+				});
+		}, 800);
 	};
 
 	//Step 2
@@ -31,6 +39,8 @@ ngApp.controller('PaymentsCtrl', ['$scope', '$rootScope', function ($scope, $roo
 
 	//Step 4
 	this.makeAnotherPayment = function() {
-		$scope.activeStep = 1;
+		this.activeStep = 1;
+		this.accountNumber = null;
+		this.account = null;
 	};
 }]);

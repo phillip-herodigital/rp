@@ -4,30 +4,30 @@
 		<header>
 			<h2>@Html.Sitecore().Field("Header Text")</h2>
 		</header>
-		<form ng-show="ctrl.activeStep == 1" ng-submit="ctrl.lookupAccount()">
+		<form data-val-bind-messages="validations"  ng-if="ctrl.activeStep == 1" ng-submit="ctrl.lookupAccount()">
 			<div class="content">
 				@Html.Sitecore().Field("Body Text")
 
-				<div class="item">
+				<div class="item" @Html.ValidationErrorClass(m => m.AccountNumber)>
 					<label for="account-number">@Html.Sitecore().Field("Account Number Label"):</label>
-					<input id="account-number" type="text">
+					<input id="account-number" type="text" ng-model="ctrl.accountNumber" @Html.ValidationAttributes(m => m.AccountNumber)>
 				</div>
 				@Html.Sitecore().Field("Terms and Conditions Text")
 			</div>
 			<footer>
 				<div class="buttons">
-					<button type="submit">@Html.Sitecore().Field("Continue Button Text")</button>
+					<button type="submit" data-val-submit>@Html.Sitecore().Field("Continue Button Text")</button>
 				</div>
 			</footer>
 		</form>
 
-		<form ng-show="ctrl.activeStep == 2" ng-submit="ctrl.validatePaymentInfo()">
+		<form data-val-bind-messages="validations" ng-if="ctrl.activeStep == 2" ng-submit="ctrl.validatePaymentInfo()">
 			<div class="content">
 				<dl class="clearfix module-list">
 					<dt>@Html.Sitecore().Field("Account Number Label"):</dt>
-					<dd>1234567890</dd>
+					<dd>{{ ctrl.account.accountNumber }}</dd>
 					<dt>@Html.Sitecore().Field("Balance Text"):</dt>
-					<dd>$123.45</dd>
+					<dd>{{ ctrl.account.invoiceAmount }}</dd>
 				</dl>
 
 				<div class="item">
@@ -40,16 +40,18 @@
 					<input id="email" type="email">
 				</div>
 
-				<div class="item">
+				<div class="item" @Html.ValidationErrorClass(m => m.TotalPaymentAmount)>
 					<label for="payment-amount">@Html.Sitecore().Field("Payment Amount Label"):</label>
-					$ <input id="payment-amount" class="small" type="text">
+					$ <input id="payment-amount" class="small" type="text" ng-model="ctrl.totalPaymentAmount" @Html.ValidationAttributes(m => m.TotalPaymentAmount)>
 				</div>
+
+				
 
                 <fieldset>
                     <legend>@Html.Sitecore().Field("Payment Type Label")</legend>
                     <div class="payment-type-selection" ng-init="ctrl.newPaymentMethod = {}">
                         <div class="payment-selection">
-                            <label><input type="radio" name="payment-type" ng-model="ctrl.newPaymentMethodType" value="TokenizedCard">@Html.Sitecore().Field("Credit Card Label")</label>
+                           <input type="radio" id="credit-card" name="payment-type" ng-model="ctrl.newPaymentMethodType" value="TokenizedCard" ng-required="true"><label for="credit-card">@Html.Sitecore().Field("Credit Card Label")</label>
                         </div>
                         <div class="payment-options" ng-show="ctrl.newPaymentMethodType == 'TokenizedCard'" ng-controller="CreditCardPaymentCtrl as ccCtrl" ng-init="ctrl.newPaymentMethod['TokenizedCard'] = ccCtrl.tokenizedCard">
                             <div class="item" data-val-error="PaymentAccount.CreditCardNumber">
@@ -80,7 +82,7 @@
                             </div>
                         </div>
                         <div class="payment-selection">
-                            <input type="radio" id="bank-account" name="payment-type" ng-model="ctrl.newPaymentMethodType" value="BankPaymentMethod"><label for="bank-account">@Html.Sitecore().Field("Bank Account Label")</label>
+                            <input type="radio" id="bank-account" name="payment-type" ng-model="ctrl.newPaymentMethodType" value="BankPaymentMethod" ng-required="true"><label for="bank-account">@Html.Sitecore().Field("Bank Account Label")</label>
                         </div>
                         <div class="payment-options" ng-show="ctrl.newPaymentMethodType == 'BankPaymentMethod'" ng-controller="BankAccountPaymentCtrl as bankCtrl" ng-init="ctrl.newPaymentMethod['BankPaymentMethod'] = bankCtrl.bankAccount">
                             <div class="item" @Html.ValidationErrorClass(m => ((StreamEnergy.DomainModels.Payments.BankPaymentInfo)m.PaymentAccount).Category)>
@@ -107,13 +109,13 @@
 			</div>
 			<footer>
 				<div class="buttons">
-					<button type="submit">@Html.Sitecore().Field("Payment Continue Button Text")</button>
-					<button class="secondary" ng-click="ctrl.back()">@Html.Sitecore().Field("Back Button Text")</button>
+					<button type="submit" data-val-submit>@Html.Sitecore().Field("Payment Continue Button Text")</button>
+					<button type="button" class="secondary" ng-click="ctrl.back()">@Html.Sitecore().Field("Back Button Text")</button>
 				</div>
 			</footer>
 		</form>
 
-		<div ng-show="ctrl.activeStep == 3">
+		<div ng-if="ctrl.activeStep == 3">
 			<div class="content">
 				<dl class="clearfix module-list">
 					<dt>@Html.Sitecore().Field("Account Number Text"):</dt>
@@ -143,11 +145,11 @@
 			<footer>
 				<div class="buttons">
 					<button type="submit" ng-click="ctrl.submitPaymentInfo()">@Html.Sitecore().Field("Submit Payment Button Text")</button>
-					<button class="secondary" ng-click="ctrl.back()">@Html.Sitecore().Field("Back Button Text")</button>
+					<button type="button" class="secondary" ng-click="ctrl.back()">@Html.Sitecore().Field("Back Button Text")</button>
 				</div>
 			</footer>
 		</div>
-		<div ng-show="ctrl.activeStep == 4">
+		<div ng-if="ctrl.activeStep == 4">
 			<div class="content">
 				<dl class="clearfix module-list">
 					<dt>@Html.Sitecore().Field("Confirmation Number Text"):</dt>
@@ -184,7 +186,7 @@
 			</footer>
 		</div>
 	</article>
-	<div ng-show="ctrl.activeStep == 3">
+	<div ng-if="ctrl.activeStep == 3">
 		@Html.Sitecore().Field("Footnote Text")
 	</div>
 </div>
