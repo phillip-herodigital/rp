@@ -114,23 +114,23 @@ article {
 		&.alert {
 			border: 1px solid #ffcc33;
 			background-color: #fff9c9;
-			background-image: image-url('icon/alert.png');
+			@include retina-background("alert.png", "icon");
 			background-position: 20px 23px;
 		}
 		&.message {
-				border: 1px solid #a1bbb9;
-				background-color: #ecf9f8;
-				background-image: image-url('icon/message.png');
+			border: 1px solid #a1bbb9;
+			background-color: #ecf9f8;
+			@include retina-background("message.png", "icon");
 		}
 		&.error {
-				border: 1px solid #dd744e;
-				background-color: #fbded4;
-				background-image: image-url('icon/error.png');
+			border: 1px solid #dd744e;
+			background-color: #fbded4;
+			@include retina-background("error.png", "icon");
 		}
 		&.success {
 			border: 1px solid #7baa59;
 			background-color: #def7d0;
-			background-image: image-url('icon/success.png');
+			@include retina-background("success.png", "icon");
 		}
 	}
 	.account-selector {
@@ -795,8 +795,14 @@ article.enrolled-accounts {
 	}
 }
 article.make-payment {
-	.content {
+	.payment-module {
+		margin-bottom: 0;
+	}
+	.grid-table-content {
 		padding-top: 0;
+	}
+	.notice dl {
+		margin: 0;
 	}
 	.stretch > .grid-table {
 		thead th {
