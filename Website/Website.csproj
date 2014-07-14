@@ -476,6 +476,8 @@
     <Compile Include="Models\Account\FindAccountForOneTimePaymentResponse.cs" />
     <Compile Include="Models\Account\GetAccountInformationRequest.cs" />
     <Compile Include="Models\Account\GetAccountInformationResponse.cs" />
+    <Compile Include="Models\Account\GetEnergyUsageRequest.cs" />
+    <Compile Include="Models\Account\GetEnergyUsageResponse.cs" />
     <Compile Include="Models\Account\GetCurrentInvoicesResponse.cs" />
     <Compile Include="Models\Account\GetEnrolledAccountsResponse.cs" />
     <Compile Include="Models\Account\GetGasPlanResponse.cs" />
@@ -508,6 +510,7 @@
     <Compile Include="Models\Account\UpdateNotificationSettingsResponse.cs" />
     <Compile Include="Models\Account\UpdateOnlineAccountRequest.cs" />
     <Compile Include="Models\Account\UpdateOnlineAccountResponse.cs" />
+    <Compile Include="Models\Account\UtilityUsage.cs" />
     <Compile Include="Models\Angular\GridTable\Column.cs" />
     <Compile Include="Models\Angular\GridTable\ColumnSchemaAttribute.cs" />
     <Compile Include="Models\Angular\GridTable\GridTableExtensions.cs" />
