@@ -700,12 +700,9 @@ $enrollment-module-vertical-padding: 20px;
     #state-select {
         width: auto;
         button {
-            border: none;
+            border-color: #cfcfcf;
             text-transform: uppercase;
             @include box-shadow(none);
-            .caret {
-                display: none;
-            }
         }
         .icon {
             background-position: 10px center;
