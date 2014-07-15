@@ -9,17 +9,17 @@
                 <div class="group clearfix">
                     <div class="item paragraph full">
                         <p>@Html.Sitecore().Field("Intro Paragraph")</p>
-                        <ul class="clearfix links">
-                            <li>@Html.Sitecore().Field("Rates Link")</li>
-                            <li>@Html.Sitecore().Field("Faq Link")</li>
-                            <li>@Html.Sitecore().Field("Access Link")</li>
-                        </ul>
                     </div>
                     <div class="item international-image">
                         @Html.Sitecore().Field("Image")
                     </div>
                 </div>
             </div>
+            <ul class="clearfix links">
+                <li>@Html.Sitecore().Field("Rates Link")</li>
+                <li>@Html.Sitecore().Field("Faq Link")</li>
+                <li>@Html.Sitecore().Field("Access Link")</li>
+            </ul>
             <hr class="content-divider" />
             
             <div>
