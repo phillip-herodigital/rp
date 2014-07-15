@@ -1,6 +1,9 @@
-ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', function (enrollmentStepsService, $filter) {
-    var services = [];
-    var activeServiceIndex = -1;
+ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'scrollService', function (enrollmentStepsService, $filter, scrollService) {
+    var services = [],
+        cart = {
+            activeServiceIndex: -1,
+            isCartOpen: false
+        };
 
     var sum = function (sum, item) { return sum + item; }
 
@@ -13,28 +16,37 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', fun
     var enrollmentCartService = {
         services: services,
 
+        toggleCart: function() {
+            cart.isCartOpen = !cart.isCartOpen;
+            scrollService.toggleScrolling(cart.isCartOpen);
+        },
+
+        getCartVisibility: function() {
+            return cart.isCartOpen;
+        },
+
         setActiveService: function (service) {
-            activeServiceIndex = _(services).indexOf(service);
+            cart.activeServiceIndex = _(services).indexOf(service);
         },
 
         getActiveService: function () {
-            if (activeServiceIndex >= 0)
-                return services[activeServiceIndex];
+            if (cart.activeServiceIndex >= 0)
+                return services[cart.activeServiceIndex];
             return undefined;
         },
 
         setActiveServiceIndex: function (serviceIndex) {
             if (serviceIndex >= services.length || serviceIndex < 0)
                 serviceIndex = -1;
-            activeServiceIndex = serviceIndex;
+            cart.activeServiceIndex = serviceIndex;
         },
 
         isNewServiceAddress: function () {
-            return activeServiceIndex == -1;
+            return cart.activeServiceIndex == -1;
         },
 
         addService: function (service) {
-            activeServiceIndex = services.length;
+            cart.activeServiceIndex = services.length;
             services.push(service);
         },
 
@@ -52,8 +64,8 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', fun
             angular.copy(cart, services);
 
             _(services).pluck('offerInformationByType').flatten().forEach(updateOffer);
-            if (activeServiceIndex >= services.length) {
-                activeServiceIndex = services.length - 1;
+            if (cart.activeServiceIndex >= services.length) {
+                cart.activeServiceIndex = services.length - 1;
             }
         },
 
@@ -98,8 +110,8 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', fun
             var index = _(services).indexOf(service);
             services.splice(index, 1);
 
-            if (activeServiceIndex >= services.length) {
-                activeServiceIndex = services.length - 1;
+            if (cart.activeServiceIndex >= services.length) {
+                cart.activeServiceIndex = services.length - 1;
             }
         },
 
@@ -133,7 +145,8 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', fun
             return _(services)
                 .pluck('offerInformationByType').flatten().filter()
                 .pluck('value').filter().pluck('offerSelections').flatten().filter()
-                .pluck('deposit').filter().pluck('requiredAmount').flatten().filter()
+                .pluck('payments').filter().pluck('requiredAmounts').flatten().filter()
+                .pluck('dollarAmount').filter()
 		        .reduce(sum, 0);
         },
     };

@@ -75,6 +75,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -110,7 +111,15 @@
     <Reference Include="System.Runtime" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainModels\AccountLookup.cs" />
+    <Compile Include="DomainModels\Accounts\Account.TSubAccount.cs" />
+    <Compile Include="DomainModels\Accounts\AvailablePaymentMethod.cs" />
+    <Compile Include="DomainModels\Accounts\MakePaymentResult.cs" />
+    <Compile Include="DomainModels\Accounts\PaymentMethodAccountCapability.cs" />
+    <Compile Include="DomainModels\Accounts\PaymentSchedulingAccountCapability.cs" />
+    <Compile Include="DomainModels\Accounts\SampleAccountCapability.cs" />
     <Compile Include="DomainModels\Accounts\AccountGrouping.cs" />
+    <Compile Include="DomainModels\Accounts\Account.cs" />
     <Compile Include="DomainModels\Accounts\ChallengeResponse.cs" />
     <Compile Include="DomainModels\Accounts\Create\AccountInformationState.cs" />
     <Compile Include="DomainModels\Accounts\Create\CompleteState.cs" />
@@ -119,9 +128,12 @@
     <Compile Include="DomainModels\Accounts\Create\CreateAccountState.cs" />
     <Compile Include="DomainModels\Accounts\Create\CreateFailedState.cs" />
     <Compile Include="DomainModels\Accounts\Create\FindAccountState.cs" />
+    <Compile Include="DomainModels\Accounts\Create\MembershipBuilder.cs" />
     <Compile Include="DomainModels\Accounts\GeorgiaElectricityAccount.cs" />
+    <Compile Include="DomainModels\Accounts\IAccountCapability.cs" />
     <Compile Include="DomainModels\Accounts\IAccountService.cs" />
-    <Compile Include="DomainModels\Accounts\CustomerAccount.cs" />
+    <Compile Include="DomainModels\Accounts\InvoiceExtensionAccountCapability.cs" />
+    <Compile Include="DomainModels\Accounts\Legacy\CustomerAccount.cs" />
     <Compile Include="DomainModels\Accounts\ISubAccount.cs" />
     <Compile Include="DomainModels\Accounts\Invoice.cs" />
     <Compile Include="DomainModels\Accounts\Payment.cs" />
@@ -138,13 +150,17 @@
     <Compile Include="DomainModels\Address.cs" />
     <Compile Include="DomainModels\CustomerContact.cs" />
     <Compile Include="DomainModels\Emails\IEmailService.cs" />
+    <Compile Include="DomainModels\Enrollments\DepositOfferPaymentAmount.cs" />
     <Compile Include="DomainModels\Enrollments\IdentityAnswer.cs" />
     <Compile Include="DomainModels\Enrollments\IdentityQuestion.cs" />
+    <Compile Include="DomainModels\Enrollments\InstallationOfferPaymentAmount.cs" />
     <Compile Include="DomainModels\Enrollments\IOfferOptionRules.cs" />
     <Compile Include="DomainModels\Enrollments\Location.cs" />
     <Compile Include="DomainModels\Enrollments\LocationOfferSet.cs" />
     <Compile Include="DomainModels\Enrollments\LocationServices.cs" />
+    <Compile Include="DomainModels\Enrollments\MonthlyOfferPaymentAmount.cs" />
     <Compile Include="DomainModels\Enrollments\OfferPayment.cs" />
+    <Compile Include="DomainModels\Enrollments\IOfferPaymentAmount.cs" />
     <Compile Include="DomainModels\Enrollments\OnlineAccount.cs" />
     <Compile Include="DomainModels\Enrollments\RateType.cs" />
     <Compile Include="DomainModels\Enrollments\SampleOfferOption.cs" />
@@ -155,6 +171,8 @@
     <Compile Include="DomainModels\Enrollments\TexasElectricityOfferOptionPolicy.cs" />
     <Compile Include="DomainModels\Enrollments\TexasElectricityOfferOptionRules.cs" />
     <Compile Include="DomainModels\ISearchable.cs" />
+    <Compile Include="DomainModels\Payments\BankAccountCategory.cs" />
+    <Compile Include="DomainModels\Payments\BankPaymentInfo.cs" />
     <Compile Include="DomainModels\Payments\IPaymentInfo.cs" />
     <Compile Include="DomainModels\Name.cs" />
     <Compile Include="DomainModels\DriversLicense.cs" />
@@ -182,6 +200,7 @@
     <Compile Include="DomainModels\Enrollments\AccountInformationState.cs" />
     <Compile Include="DomainModels\Enrollments\PlanSelectionState.cs" />
     <Compile Include="DomainModels\Payments\SamplePaymentInfo.cs" />
+    <Compile Include="DomainModels\Payments\SavedPaymentInfo.cs" />
     <Compile Include="DomainModels\Payments\TokenizedCard.cs" />
     <Compile Include="DomainModels\PhoneCategory.cs" />
     <Compile Include="DomainModels\PhoneSubtypeLookup.cs" />

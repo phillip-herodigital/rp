@@ -1,35 +1,34 @@
-﻿@model StreamEnergy.DomainModels.Enrollments.UserContext
-
-<div id="utilityFlowPlans" class="enrollment-section accent-orange" ng-show="stepsService.isStepVisible('utilityFlowPlans')" ng-controller="EnrollmentPlanSelectionCtrl">
-    <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
-        <div class="wrapper">
+@model StreamEnergy.DomainModels.Enrollments.UserContext
+<div id="utilityFlowPlans" class="enrollment" ng-show="stepsService.isStepVisible('utilityFlowPlans')" ng-controller="EnrollmentPlanSelectionCtrl">
+    <div class="banner enrollment__banner" style="@Html.AsBackgroundStyle("Banner Image")">
+        <div class="wrapper clearfix">
             <h1>
-                <span class="small block">@Html.Sitecore().Field("Banner Header Text")</span></span>
+                <span class="small block">@Html.Sitecore().Field("Banner Header Text")</span><br />
                 <span class="block">@Html.Sitecore().Field("Banner Sub Header Text")</span>
             </h1>
         </div>
     </div>
     <div class="wrapper layout cols-2">
-        <aside class="left">
+        <aside class="enrollment__nav">
             <div ng-include src="'enrollment-nav-template'" ng-init="name = 'utilityFlowPlans'"></div>
         </aside>
         <section>
-            <h1>@Html.Sitecore().Field("Choose Header")</h1>
-            <p>@Html.Sitecore().Field("Choose Paragraph")</p>
             <form data-val-bind-messages="validations">
-                <article class="form">
+                <article class="form enrollment__box">
+                    <header>
+                        <h1>@Html.Sitecore().Field("Choose Header")</h1>
+                    </header>
                     <div class="content">
-                        <div class="item">
+                            <p>@Html.Sitecore().Field("Choose Paragraph")</p>
+                        <div class="item item--no-input">
                             <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
                             <strong>{{ currentLocationInfo().location.address | address }}</strong>
                         </div>
                     </div>
                 </article>
-
-                <div data-ng-repeat="typedOffers in currentLocationInfo().offerInformationByType">
+                <article class="enrollment__box" data-ng-repeat="typedOffers in currentLocationInfo().offerInformationByType">
                     <div ng-include src="'planList/' + typedOffers.key"></div>
-                </div>
-
+                </article>
                 <div class="buttons">
                     <button type="submit" class="primary" ng-click="completeStep();" ng-disabled="!isFormValid()" data-val-submit>@Html.Sitecore().Field("Continue Button")</button>
                     <button type="submit" class="secondary" ng-click="completeStep(true);" ng-disabled="!isFormValid()" data-val-submit>@Html.Sitecore().Field("Add Address Button")</button>
@@ -46,8 +45,10 @@
 </div>
 
 <script type="text/ng-template" id="planList/TexasElectricity">
-    <h2>@Html.Sitecore().Field("Electricity Header")</h2>
-    <article class="plans">
+    <header>
+        <h1>@Html.Sitecore().Field("Electricity Header")</h1>
+    </header>
+    <article class="enrollment__utility-plans">
         <div ng-include src="'multiple-tdu-modal'" ng-if="typedOffers.value.errors[0] == 'MultipleTdu'"></div>
         <table class="plan-selection-table" ng-if="typedOffers.value.availableOffers.length" scroll-anchor="scrollFix">
             <thead class="hide-small">
@@ -58,17 +59,24 @@
                     <th>@Html.Sitecore().Field("Electricity Fees")</th>
                     <th>@Html.Sitecore().Field("Electricity Select Plan")</th>
                 </tr>
-                <tr class="spacer"></tr>
             </thead>
             <tbody>
-                <tr ng-repeat-start="plan in typedOffers.value.availableOffers" ng-class="{'open': isOpen}">
+                <tr class="hide-medium-large" ng-repeat-start="plan in typedOffers.value.availableOffers" ng-class="{'open': isOpen}">
+                    <td class="plan-name" colspan="5">
+                        <span ng-if="isSelected" class="selected-icon">
+                            <i class="icon-check"></i>
+                        </span>
+                        {{plan.name}}
+                    </td>
+                </tr>
+                <tr>
                     <th class="vertical">
                         <div ng-show="plan.rateType == 'fixed'" class="fixed">@Html.Sitecore().Field("Electricity Fixed")</div>
                         <div class="variable" ng-show="plan.rateType == 'variable'">@Html.Sitecore().Field("Electricity Variable")</div>
                     </th>
                     <td class="plan-name hide-small">
                         {{plan.name}}
-                        <a href="" ng-click="isOpen = !isOpen" ng-class="{'collapsed': !isOpen}">
+                        <a class="view-details" href="" ng-click="isOpen = !isOpen" ng-class="{'collapsed': !isOpen}">
                             <span ng-if="!isOpen">@Html.Sitecore().Field("Electricity View Details") <i class="icon-blue-arrow-down"></i></span>
                             <span ng-if="isOpen">Hide Details <i class="icon-blue-arrow-up"></i></span>
                         </a>
@@ -77,25 +85,41 @@
                         {{plan.rate}}&cent; <span>@Html.Sitecore().Field("Electricity Per kWh")</span>
                     </td>
                     <td class="term">
-                        <span ng-show="plan.termMonths == '24'"><i class="icon-24months"></i></span>
-                        <span ng-show="plan.termMonths == '6'"><i class="icon-6months"></i></span>
-                        <span ng-show="plan.termMonths == '1'"><i class="icon-month-to-month"></i> @Html.Sitecore().Field("Electricity Month To Month")</span>
+                        <span ng-show="plan.termMonths != '1'">@Html.Sitecore().Field("Electricity Term Months").Format(new { Count = "{{plan.termMonths}}" })</span>
+                        <span ng-show="plan.termMonths == '1'">@Html.Sitecore().Field("Electricity Month To Month")</span>
                     </td>
                     <td class="fees">
                         ${{ plan.cancellationFee }}<span>@Html.Sitecore().Field("Electricity Early Cancellation Fee")</span>
                     </td>
-                    <td>
-                        <a class="button" button-selector="'{{plan.id}}'" ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix()" href="">@Html.Sitecore().Field("Electricity Button")</a>
+                    <td class="select-plan hide-small">
+                        <span ng-if="isSelected" class="selected-icon">
+                            <i class="icon-check"></i>
+                        </span>
+                        <button class="enrollment-btn" button-selector="'{{plan.id}}'" ng-class="{ 'secondary': isSelected }" ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix()">
+                            <span ng-if="isSelected">Remove</span>
+                            <span ng-if="!isSelected">@Html.Sitecore().Field("Electricity Button")</span>
+                        </button>
                     </td>
                 </tr>
-                <tr class="details ng-cloak">
+                <tr class="hide-medium-large">
+                    <td class="plan-actions" colspan="5">
+                        <a class="view-details" href="" ng-click="isOpen = !isOpen" ng-class="{'collapsed': !isOpen}">
+                            <span ng-if="!isOpen">@Html.Sitecore().Field("Electricity View Details") <i class="icon-blue-arrow-down"></i></span>
+                            <span ng-if="isOpen">Hide Details <i class="icon-blue-arrow-up"></i></span>
+                        </a>
+                        <button class="enrollment-btn" button-selector="'{{plan.id}}'" ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix()" ng-class="{ 'secondary': isSelected }">
+                            <span ng-if="isSelected">Remove</span>
+                            <span ng-if="!isSelected">@Html.Sitecore().Field("Electricity Button")</span>
+                        </button>
+                    </td>
+                </tr>
+                <tr class="details-row additional-fields ng-cloak" ng-repeat-end>
                     <td colspan="6">
                         <div slide-down-show="isOpen">
                             <p>{{plan.description}}</p>
                         </div>
                     </td>
                 </tr>
-                <tr class="spacer" ng-repeat-end></tr>
             </tbody>
         </table>
     </article>
@@ -104,7 +128,7 @@
 <script type="text/ng-template" id="planList/UntestedGas">
     <div ng-show="enrollment.uiModel.offers[enrollment.currentAddress.id]">
         <h2>@Html.Sitecore().Field("Gas Header")</h2>
-        <article class="plans">
+        <article class="enrollment__utility-plans">
             <table>
                 <thead class="hide-small">
                     <tr>
@@ -114,7 +138,6 @@
                         <th>@Html.Sitecore().Field("Gas Fees")</th>
                         <th>@Html.Sitecore().Field("Gas Select Plan")</th>
                     </tr>
-                    <tr class="spacer"></tr>
                 </thead>
                 <tbody additional-fields ng-class="{'open': isOpen}" ng-repeat="plan in enrollment.uiModel.offers[enrollment.currentAddress.id] | serviceTypeGas:plan">
                     <tr>
@@ -138,12 +161,11 @@
                             <a class="button" button-selector="'{{plan.id}}'" ng-model="selectedOffers.gasPlan" href="">@Html.Sitecore().Field("Gas Button")</a>
                         </td>
                     </tr>
-                    <tr class="details additional-fields">
+                    <tr class="details-row additional-fields">
                         <td colspan="6">
                             <p>{{ plan.description }}</p>
                         </td>
                     </tr>
-                    <tr class="spacer"></tr>
                 </tbody>
             </table>
         </article>
@@ -161,7 +183,6 @@
                 <th>@Html.Sitecore().Field("Electricity Fees")</th>
                 <th>@Html.Sitecore().Field("Electricity Select Plan")</th>
             </tr>
-            <tr class="spacer"></tr>
         </thead>
         <tbody>
             <tr>
@@ -248,10 +269,10 @@
                            class="typeahead"
                            ng-model="modal.selectedLocation"
                            placeholder="@Html.Sitecore().Field("Address Placeholder")"
-                           typeahead="location as location.address|address for location in getLocation(modal.serviceState,  $viewValue + ' ' + currentLocationInfo().location.address.postalCode5)"
+                           typeahead="location as location.address|address for location in getLocation(modal.serviceState,  $viewValue)"
                            ng-disabled="modal.serviceState == ''"
                            typeahead-loading="modal.loadingServiceAddress"
-                           ng-class="{'loading' : modal.loadingServiceAddress}" />
+                           ng-class="{'loading' : modal.loadingServiceAddress}" autocomplete="off" />
                     @currentService.MessageFor(s => s.Location)
                 </div>
             }

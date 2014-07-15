@@ -133,7 +133,7 @@ namespace StreamEnergy.Services.Clients
             }
         }
 
-        IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>> IEnrollmentService.LoadDeposit(IEnumerable<LocationServices> services)
+        IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>> IEnrollmentService.LoadOfferPayments(IEnumerable<LocationServices> services)
         {
             return (from loc in services
                     from offer in loc.SelectedOffers
@@ -143,9 +143,11 @@ namespace StreamEnergy.Services.Clients
                         Offer = offer.Offer,
                         Details = new DomainModels.Enrollments.OfferPayment
                         {
-                            Description = "Canned description about the amounts required",
-                            RequiredAmount = (offer.Offer is TexasElectricityOffer && ((TexasElectricityOffer)offer.Offer).TermMonths == 1) ? 0 : 75.25m,
-                            OptionalAmount = 0
+                            RequiredAmounts = new IOfferPaymentAmount[] 
+                            { 
+                                new DepositOfferPaymentAmount { DollarAmount = (offer.Offer is TexasElectricityOffer && ((TexasElectricityOffer)offer.Offer).TermMonths == 1) ? 0 : 75.25m }
+                            },
+                            OngoingAmounts = new IOfferPaymentAmount[] { }
                         }
                     }).ToArray();
         }

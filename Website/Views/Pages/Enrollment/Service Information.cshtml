@@ -1,23 +1,26 @@
 ﻿@model StreamEnergy.DomainModels.Enrollments.UserContext
-<div id="utilityFlowService" class="enrollment-section accent-orange" ng-show="stepsService.isStepVisible('utilityFlowService')" ng-controller="EnrollmentServiceInformationCtrl">
-    <div class="banner" style="@Html.AsBackgroundStyle("Banner Image")">
-        <div class="wrapper center">
-            <h1>
-                <span class="xsmall block">@Html.Sitecore().Field("Banner Header Text")</span>
+<div id="utilityFlowService" class="enrollment" ng-show="stepsService.isStepVisible('utilityFlowService')" ng-controller="EnrollmentServiceInformationCtrl">
+    <div class="banner enrollment__banner enrollment__banner--service-info" style="@Html.AsBackgroundStyle("Banner Image")">
+        <div class="wrapper clearfix">
+            <h1 class="center">
+                <span class="small block">@Html.Sitecore().Field("Banner Header Text")</span><br />
                 <span class="block">@Html.Sitecore().Field("Banner Sub Header Text")</span>
             </h1>
         </div>
     </div>
     <div class="wrapper layout cols-2">
-        <aside class="left">
+        <aside class="enrollment__nav">
             <div ng-include src="'enrollment-nav-template'" ng-init="name = 'utilityFlowService'"></div>
         </aside>
         <section>
-            @Html.Sitecore().Field("Header Text")
-            @Html.Sitecore().Field("Body Text")
-            <form data-val-bind-messages="validations">
-                <article class="form">
+            <form data-val-bind-messages="validations" ng-submit="completeStep();" >
+                <article class="form enrollment__box">
+                    <header>
+                        @Html.Sitecore().Field("Header Text")
+                    </header>
                     <div class="content">
+                        @Html.Sitecore().Field("Body Text")
+                        
                         @* TODO - replace "0" with the angular variable for the 'current' service location index being updated *@
                         @using (var currentService = Html.AngularRepeat(m => m.Services, "0"))
                         {
@@ -42,10 +45,11 @@
                                    typeahead="location as location.address|address for location in getLocation(data.serviceState, $viewValue)"
                                    ng-disabled="data.serviceState == ''"
                                    typeahead-loading="loadingServiceAddress"
-                                   ng-class="{'loading' : loadingServiceAddress}" />
+                                   ng-class="{'loading' : loadingServiceAddress}" autocomplete="off" />
                             <div id="state-select" dropdown-select dropdown-items="supportedUtilityStates" value="data.serviceState"></div>
                             @currentService.MessageFor(s => s.Location)
                         </div>
+                        <hr>
                         <div class="item">
                             <label>@Html.Sitecore().Field("Options Label")</label>
                             <ul class="checkbox-list">
@@ -79,7 +83,7 @@
                     </div>
                 </article>
                 <div class="buttons">
-                    <button type="submit" class="primary" ng-click="completeStep();" ng-disabled="!isFormValid()" data-val-submit>@Html.Sitecore().Field("Continue Button Label")</button>
+                    <button type="submit" class="primary" ng-disabled="!isFormValid()" data-val-submit>@Html.Sitecore().Field("Continue Button Label")</button>
                 </div>
             </form>
             <div class="hide-medium-large time-remaining-mobile">

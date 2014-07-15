@@ -12,6 +12,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using StreamEnergy.DomainModels.Emails;
+using Legacy = StreamEnergy.DomainModels.Accounts.Legacy;
 
 namespace StreamEnergy.MyStream.Controllers
 {
@@ -172,7 +173,7 @@ namespace StreamEnergy.MyStream.Controllers
                     }
                 }
 
-                CustomerAccount customerAccount = null;
+                Legacy.CustomerAccount customerAccount = null;
 
                 try
                 {

@@ -1,7 +1,7 @@
 ngApp = angular.module("ngApp", ['ui.bootstrap',
-								 'ui.utils',
                                  'ui.slider',
-                                 'maskJQuery']);
+                                 'maskJQuery',
+                                 'n3-line-chart']);
 
 // Init Application
 ngApp.value("appName", "ngApp");

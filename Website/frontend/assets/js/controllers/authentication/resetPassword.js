@@ -46,6 +46,7 @@ ngApp.controller('AuthResetPasswordCtrl', ['$scope', '$rootScope', '$http', '$wi
 				} else {
 					// if successful, send the user to confirm
 			        $scope.activeState = data.success ? 'changepassword' : 'hard-stop-error';
+			        $scope.name = data.accountName;
 				}
 			});
 	};

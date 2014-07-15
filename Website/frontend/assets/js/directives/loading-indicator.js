@@ -1,11 +1,12 @@
 // Loading Message
-ngApp.directive('loadingIndicator', [function () {
+// Rewritten to remove the need for transcluding.
+ngApp.directive('loadingIndicator', ['$compile', function ($compile) {
 	return {
 		restrict: 'A',
-		transclude: true,
-		template: '<div class="loadingMessage" ng-show="isLoading"><span><img src="/frontend/assets/i/loading.gif" width="32" height="32" /> Loading...</span></div><div ng-transclude></div>',
 		link: function(scope, element, attrs) {
-
+			var html = angular.element('<div class="loadingMessage" ng-show="isLoading"><span><img src="/frontend/assets/i/loading.gif" width="32" height="32" /> Loading...</span></div>');
+			$compile(html)(scope);
+			element.prepend(html);
 		}
 	};
 }]);

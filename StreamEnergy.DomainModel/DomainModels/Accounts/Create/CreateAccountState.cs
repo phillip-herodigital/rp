@@ -11,28 +11,21 @@ namespace StreamEnergy.DomainModels.Accounts.Create
 {
     public class CreateAccountState : StateBase<CreateAccountContext, CreateAccountInternalContext>
     {
-        private readonly IUnityContainer unityContainer;
+        private readonly MembershipBuilder membership;
 
-        public CreateAccountState(IUnityContainer unityContainer)
+        public CreateAccountState(MembershipBuilder membership)
             :base(typeof(AccountInformationState), typeof(CompleteState))
         {
-            this.unityContainer = unityContainer;
+            this.membership = membership;
         }
 
         protected override async Task<Type> InternalProcess(CreateAccountContext context, CreateAccountInternalContext internalContext)
         {
-            var user = Membership.CreateUser(context.Username, context.Password);
-
-            if (user == null)
+            var profile = membership.CreateUser(context.Username, context.Password, context.Challenges);
+            if (profile == null)
             {
                 return typeof(CreateFailedState);
             }
-
-            var profile = UserProfile.Locate(unityContainer, context.Username);
-            profile.ChallengeQuestions = (from entry in context.Challenges
-                                          select ChallengeResponse.Create(entry.Key, entry.Value)).ToArray();
-
-            profile.Save();
 
             // TODO - register user with Stream Connect
 

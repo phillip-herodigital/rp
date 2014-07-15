@@ -29,7 +29,11 @@ namespace StreamEnergy
                             where t.SuperType == objectType
                             select t.FindMatch(target)).FirstOrDefault();
             if (selected == objectType)
-                return new JsonSerializer().Deserialize(target.CreateReader(), objectType);
+            {
+                var result = serializer.ContractResolver.ResolveContract(objectType).DefaultCreator();
+                serializer.Populate(target.CreateReader(), result);
+                return result;
+            }
             else if (selected != null)
                 return serializer.Deserialize(target.CreateReader(), selected);
             else

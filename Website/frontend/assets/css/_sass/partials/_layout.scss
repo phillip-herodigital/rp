@@ -68,6 +68,9 @@ $mobile-nav: 260px;
 			background: #fff;
 			@include transition(left linear .2s); 
 		}
+		.wrapper {
+			@include transition(left linear .2s); 
+		}
 		&.open {
 			.site-header .wrapper,
 			.page-content {
@@ -109,7 +112,6 @@ $mobile-nav: 260px;
 .wrapper {
 	width: 1000px;
 	margin: 0 auto;
-	overflow: hidden;
 }
 
 @include breakpoint(small) {

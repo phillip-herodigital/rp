@@ -1,15 +1,15 @@
-﻿<div ng-controller="EnrollmentConfirmationCtrl" ng-init="setServerData(@(Html.Action("ClientData", "Enrollment").ToHtmlString()));">
-    <div class="enrollment-section order-confirmation">
+<div ng-controller="EnrollmentConfirmationCtrl" ng-init="setServerData(@(Html.Action("ClientData", "Enrollment").ToHtmlString()));">
+    <div class="enrollment enrollment__order-confirmation">
         <section>
             <a class="print" href="" ng-click="onPrint()"><i class="icon-printer"></i>@Html.Sitecore().Field("Print")</a>
             <h1>@Html.Sitecore().Field("Order Confirmation")</h1>
             <p>@Html.Sitecore().Field("Confirmation Paragraph")</p>
             <p>@Html.Sitecore().Field("Confirmation Number")</p>
 
-            <article class="verify-order">
+            <article class="verify-order enrollment__box">
                 <div class="form content">
                     <div ng-repeat="(id, service) in getCartItems()">
-                        <div class="item">
+                        <div class="item item--no-input">
                             <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
                             <strong>{{ service.location.address | address }}</strong>
                         </div>
@@ -26,12 +26,12 @@
                 </div>
             </article>
 
-            <article class="white-box">
+            <article class="enrollment__box">
                 <header>
-                    <h2>@Html.Sitecore().Field("Personal Information Header")</h2>                    
+                    <h1>@Html.Sitecore().Field("Personal Information Header")</h1>                    
                 </header>
                 <div class="content">
-                    <dl>
+                    <dl class="clearfix">
                         <dt>@Html.Sitecore().Field("First Name")</dt>
                         <dd>{{ accountInformation.contactInfo.name.first }}</dd>
                         <dt>@Html.Sitecore().Field("Last Name")</dt>
@@ -44,11 +44,11 @@
                 </div>
             </article>
 
-            <article class="white-box">
+            <article class="enrollment__box">
                 <header>
-                    <h2>@Html.Sitecore().Field("Next Steps Header")</h2>
+                    <h1>@Html.Sitecore().Field("Next Steps Header")</h1>
                 </header>
-                <div class="promo-box horizontal content">
+                <div class="promo-box horizontal content clearfix">
                     <h3>@Html.Sitecore().Field("Account Tour")</h3>
                     <div class="avatar">
                         <i class="icon-house"></i>
@@ -73,7 +73,7 @@ Leaving this here for reference
     <article>
         <div class="content form">
             <div class="item">
-                <span class="label" for="service-address">@Html.Sitecore().Field("Service Address Label")</span>
+                <span class="label" for="service-address">@Html.Sitecore().Field("Service Address Label")</span><br>
                 <strong>123 Main Street, Dallas, TX 75001</strong>
             </div>
         </div>

@@ -199,8 +199,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             
             var validations = Enumerable.Empty<ValidationResult>();
             // don't give validations for the next step
-            if (coaSessionHelper.StateMachine.State == typeof(GetUsernameState))
-                validations = coaSessionHelper.StateMachine.ValidationResults;
+            if (resetPasswordSessionHelper.StateMachine.State == typeof(GetUsernameState))
+                validations = resetPasswordSessionHelper.StateMachine.ValidationResults;
 
             // TODO - get email address from Stream Commons
             var email = "matt.dekrey@responsivepath.com";
@@ -242,6 +242,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             return new VerifyUserChallengeQuestionsResponse
             {
+                // TODO - pull from Stream Connect
+                AccountName = "Account Name",
                 Success = resetPasswordSessionHelper.StateMachine.State == typeof(VerifiedChallengeQuestionsState),
                 Validations = TranslatedValidationResult.Translate(validations, GetAuthItem("Forgot Password"))
             };
