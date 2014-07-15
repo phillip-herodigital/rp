@@ -19,9 +19,9 @@
                         </div>
                         <hr class="content-divider" ng-if="getCartItems().length > 1 && !$last">
                     </div>
-                    <hr class="content-divider">
-                    <div class="total">
-                        @Html.Sitecore().Field("Total Due Now") <strong>{{ getCartTotal() | currency }}</strong>
+                    <hr class="content-divider" ng-if="getCartTotal() > 0">
+                    <div class="total" ng-if="getCartTotal() > 0">
+                        <strong>{{ getCartTotal() | currency }}</strong>
                     </div>                    
                 </div>
             </article>
@@ -175,14 +175,8 @@ Leaving this here for reference
                 <td class="description"><h4>{{selectedOffer.offer.name}}</h4></td>
                 <td class="rate">{{selectedOffer.offer.rate | currency}} kWh</td>
             </tr>
-            <tr>
-                <td class="sub-charge"><strong>@Html.Sitecore().Field("Installation Fee") ({{selectedOffer.offerOption.connectDate | date:'M/d/yyyy'}})</strong></td>
-                <td class="rate"></td>
-            </tr>
-            <tr>
-                <td class="sub-charge"><strong>@Html.Sitecore().Field("Deposit Header")</strong></td>
-                <td class="rate">{{ selectedOffer.deposit.requiredAmount | currency }}</td>
-            </tr>
+            <tr ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0" ng-include src="'payments/' + payment.offerPaymentAmountType"></tr>
+            
             <tr class="plan-documents" ng-repeat-end>
                 <td class="sub-charge"><strong>@Html.Sitecore().Field("Plan Documents Header")</strong></td>
                 <td class="docs">
@@ -195,4 +189,18 @@ Leaving this here for reference
             </tr>
         </tbody>
     </table>
+</script>
+
+<script type="text/ng-template" id="payments/InstallationFee">
+    <td class="sub-charge">
+        <strong>@Html.Sitecore().Field("Installation Fee")  ({{selectedOffer.offerOption.connectDate | date:'M/d/yyyy'}})</strong><br>
+    </td>
+    <td class="rate">{{ payment.dollarAmount | currency }}</td>
+</script>
+
+<script type="text/ng-template" id="payments/Deposit">
+    <td class="sub-charge">
+        <strong>@Html.Sitecore().Field("Deposit Header")</strong><br>
+    </td>
+    <td class="rate">{{ payment.dollarAmount | currency }}</td>
 </script>

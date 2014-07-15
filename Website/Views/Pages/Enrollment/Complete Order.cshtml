@@ -156,12 +156,13 @@
 
 <script type="text/ng-template" id="completeOrderCartMonthly/TexasElectricity">
     <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
-        <dl class="clearfix" ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-include src="'paymentsCart/' + selectedOffer.offerOption.optionType + '/' + payment.offerPaymentAmountType">
+        <dl class="clearfix">
+            <ng-include ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0" src="'paymentsCart/' + payment.offerPaymentAmountType" />
         </dl>
     </div>
 </script>
 
-<script type="text/ng-template" id="paymentsCart/TexasElectricity/Deposit">
+<script type="text/ng-template" id="paymentsCart/Deposit">
     <dt>@Html.Sitecore().Field("Deposit Due")</dt>
     <dd>{{ payment.dollarAmount | currency }}</dd>
 </script>
@@ -181,13 +182,13 @@
                     {{selectedOffer.offer.rate | currency}} kWh
                 </td>
             </tr>
-            <tr ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-include src="'payments/' + selectedOffer.offerOption.optionType + '/' + payment.offerPaymentAmountType"></tr>
+            <tr ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0" ng-include src="'paymentsDue/' + payment.offerPaymentAmountType"></tr>
             <tr ng-repeat-end></tr>
         </tbody>
     </table>
 </script>
 
-<script type="text/ng-template" id="payments/TexasElectricity/Deposit">
+<script type="text/ng-template" id="paymentsDue/Deposit">
     <td class="sub-charge">
         <strong>@Html.Sitecore().Field("Deposit Due")</strong><br>
     </td>
