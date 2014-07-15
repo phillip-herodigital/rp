@@ -12,8 +12,11 @@ ngApp.controller('AcctOnlineAccountCtrl', ['$scope', '$rootScope', '$http', '$ti
 
 	// get the current data
 	$timeout(function() {
-		$http.get('/api/account/getOnlineAccount').success(function (data, status, headers, config) {
-			$scope.formData = data;
+	    $http.get('/api/account/getOnlineAccount').success(function (data, status, headers, config) {
+	        while (data.challenges.length < 2) {
+	            data.challenges.push({});
+	        }
+	        $scope.formData = data;
 			$scope.formDataOriginal = angular.copy($scope.formData);
 			$scope.languagePreference = data.languagePreference;
 			$scope.isLoading = false;
@@ -22,11 +25,11 @@ ngApp.controller('AcctOnlineAccountCtrl', ['$scope', '$rootScope', '$http', '$ti
 
 	// create a filter so that the same security question can't be selected twice
 	$scope.filter1 = function(item){
-	  return (!($scope.formData.challenges[0].selectedQuestion && $scope.formData.challenges[0].selectedQuestion.id)||item.id != $scope.formData.challenges[0].selectedQuestion.id);
+	    return (!($scope.formData.challenges.length > 0 && $scope.formData.challenges[0].selectedQuestion && $scope.formData.challenges[0].selectedQuestion.id) || item.id != $scope.formData.challenges[0].selectedQuestion.id);
 	};
 
 	$scope.filter2 = function(item){
-	  return (!($scope.formData.challenges[1].selectedQuestion && $scope.formData.challenges[1].selectedQuestion.id)||item.id != $scope.formData.challenges[1].selectedQuestion.id);
+	    return (!($scope.formData.challenges.length > 1 && $scope.formData.challenges[1].selectedQuestion && $scope.formData.challenges[1].selectedQuestion.id) || item.id != $scope.formData.challenges[1].selectedQuestion.id);
 	};
 
 	// process the form
@@ -36,8 +39,7 @@ ngApp.controller('AcctOnlineAccountCtrl', ['$scope', '$rootScope', '$http', '$ti
 
 		// format the request data
 		var requestData = {};
-		var challenge = {};
-		requestData.challenges = [];
+		requestData.challenges = $scope.formData.challenges;
 
 		if ($scope.formData.username && $scope.formData.username != '') {
 			requestData.username = $scope.formData.username;
@@ -48,16 +50,7 @@ ngApp.controller('AcctOnlineAccountCtrl', ['$scope', '$rootScope', '$http', '$ti
 			requestData.password = $scope.formData.password;
 			requestData.confirmPassword = $scope.formData.confirmPassword;
 		}
-		if ($scope.formData.challenges[0].answer) {
-			challenge.selectedQuestion = $scope.formData.challenges[0].selectedQuestion;
-			challenge.answer = $scope.formData.challenges[0].answer;
-			requestData.challenges.push(challenge);
-		}
-		if ($scope.formData.challenges[1].answer) {
-			challenge.selectedQuestion = $scope.formData.challenges[1].selectedQuestion;
-			challenge.answer = $scope.formData.challenges[1].answer;
-			requestData.challenges.push(challenge);
-		}
+
 		requestData.languagePreference = $scope.formData.languagePreference;
 
 		// sent the update
