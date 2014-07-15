@@ -5,6 +5,10 @@ ngApp.controller('OneTimePaymentCtrl', ['$scope', '$http', '$timeout', function 
 	var ctrl = this;
 	this.activeStep = 1;
 
+	this.paymentMethod = function () {
+	    return ctrl.newPaymentMethod[ctrl.newPaymentMethodType]();
+	}
+
 	this.back = function() {
 		if(this.activeStep > 0) {
 			this.activeStep--;

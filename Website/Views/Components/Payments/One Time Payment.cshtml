@@ -119,27 +119,35 @@
 			<div class="content">
 				<dl class="clearfix module-list">
 					<dt>@Html.Sitecore().Field("Account Number Text"):</dt>
-					<dd>1234657890</dd>
+					<dd>{{ ctrl.account.accountNumber }}</dd>
 				</dl>
-				<dl class="clearfix module-list">
-					<dt>@Html.Sitecore().Field("Payment Method Text"):</dt>
-					<dd>Credit Card</dd>
-					<dt>@Html.Sitecore().Field("Card Number Text"):</dt>
-					<dd>**** **** **** 1234</dd>
-					<dt>@Html.Sitecore().Field("Bank Account Number Text"):</dt>
-					<dd>****1234</dd>
-				</dl>
+
+                <div ng-switch="ctrl.paymentMethod().underlyingPaymentType || ctrl.paymentMethod().paymentType">
+                    <dl class="clearfix module-list payment-module" ng-switch-when="TokenizedCard">
+                        <dt>@Html.Sitecore().Field("Payment Method Text"):</dt>
+                        <dd>@Html.Sitecore().Field("Credit Card Text")</dd>
+                        <dt>@Html.Sitecore().Field("Card Number Text"):</dt>
+                        <dd>{{ctrl.paymentMethod().redactedData}}</dd>
+                    </dl>
+                    <dl class="clearfix module-list payment-module" ng-switch-when="BankPaymentMethod">
+                        <dt>@Html.Sitecore().Field("Payment Method Text"):</dt>
+                        <dd>@Html.Sitecore().Field("Bank Account Text")</dd>
+                        <dt>@Html.Sitecore().Field("Bank Account Number Text"):</dt>
+                        <dd>{{ctrl.paymentMethod().redactedData}}</dd>
+                    </dl>
+                </div>
+
 				<dl class="clearfix module-list">
 					<dt>@Html.Sitecore().Field("Payment Date Text"):</dt>
 					<dd>MM/DD/YYYY</dd>
 					<dt>@Html.Sitecore().Field("Payment Amount Text"):</dt>
-					<dd>$123.45</dd>
-					<dt>@Html.Sitecore().Field("Service Fee Text"):</dt>
-					<dd>$2.95</dd>
+					<dd>{{ctrl.totalPaymentAmount | currency}}</dd>
+					@*<dt>@Html.Sitecore().Field("Service Fee Text"):</dt>
+					<dd>$2.95</dd>*@
 				</dl>
 				<dl class="clearfix module-list payment-total">
 					<dt>@Html.Sitecore().Field("Payment Total Text"):</dt>
-					<dd>$126.40</dd>
+					<dd>{{ctrl.totalPaymentAmount | currency}}</dd>
 				</dl>
 			</div>
 			<footer>
