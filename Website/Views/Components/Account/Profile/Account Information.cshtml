@@ -14,7 +14,7 @@
                 {{ formData.customerName.first }} {{ formData.customerName.last }}
             </div>
             <div class="group">
-                <div class="item group-col" @Html.ValidationErrorClass(model => model.PrimaryPhone.Number) @*float-label*@>
+                <div class="item group-col" @Html.ValidationErrorClass(model => model.PrimaryPhone.Number) float-label>
                     <label for="@Html.For(m => m.PrimaryPhone.Number)">@Html.Sitecore().Field("Primary Phone Number Text")</label>
                     <input type="tel" @Html.ValidationAttributes(m => m.PrimaryPhone.Number) ng-model="formData.primaryPhone.number" />
                     @Html.ValidationMessageFor(model => model.PrimaryPhone.Number)
@@ -31,7 +31,7 @@
                     </div>
                     <div class="group additional-field-group additional-fields">
                         <div class="group">
-                            <div class="item group-col" @Html.ValidationErrorClass(model => model.SecondaryPhone.Number) @*float-label*@>
+                            <div class="item group-col" @Html.ValidationErrorClass(model => model.SecondaryPhone.Number) float-label>
                                 <label for="@Html.For(m => m.SecondaryPhone.Number)">@Html.Sitecore().Field("Secondary Phone Number Text")</label>
                                 <input type="tel" @Html.ValidationAttributes(m => m.SecondaryPhone.Number) ng-model="formData.secondaryPhone.number" />
                                 @Html.ValidationMessageFor(model => model.SecondaryPhone.Number)
@@ -44,7 +44,7 @@
                     </div>
                 </div>
                 <div class="group" ng-switch-default>
-                    <div class="item group-col" @Html.ValidationErrorClass(model => model.SecondaryPhone.Number) @*float-label*@>
+                    <div class="item group-col" @Html.ValidationErrorClass(model => model.SecondaryPhone.Number) float-label>
                         <label for="@Html.For(m => m.SecondaryPhone.Number)">@Html.Sitecore().Field("Secondary Phone Number Text")</label>
                         <input type="tel" @Html.ValidationAttributes(m => m.SecondaryPhone.Number) ng-model="formData.secondaryPhone.number" />
                         @Html.ValidationMessageFor(model => model.SecondaryPhone.Number)

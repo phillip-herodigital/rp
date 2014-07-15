@@ -1,0 +1,42 @@
+﻿<article class="white-box mobile upgrade" ng-controller="MakePaymentCtrl">
+    <header class="clearfix">
+        <h2 class="header-left">@Html.Sitecore().Field("Header Text")</h2>
+        <div class="header-right">
+            <select>
+                <option>@Html.Sitecore().Field("Select Option")</option>
+                <option>@Html.Sitecore().Field("Select Option 2")</option>
+            </select>
+        </div>
+    </header>
+    
+    <form>
+        <div class="content">
+            <div class="sub-header clearfix">
+                <p class="left">@Html.Sitecore().Field("Sub-header Text")</p>
+                <p class="right">@Html.Sitecore().Field("Plan Text")</p>
+            </div>
+            <hr class="content-divider" />
+            <div class="notice alert">
+                <p>@Html.Sitecore().Field("Notice Text")</p>
+            </div>
+            <div>
+
+            </div>
+            <hr class="content-divider" />
+            <div class="group">
+                <div class="item paragraph">
+                    <p>@Html.Sitecore().Field("Current Plan Text")</p>
+                    <p>@Html.Sitecore().Field("Usage Paragraph")</p>
+                    <ul class="links clearfix">
+                        <li>@Html.Sitecore().Field("Terms and Conditions Link")</li>
+                        <li>@Html.Sitecore().Field("Plan Details Link")</li>
+                    </ul>
+                </div>
+                <div class="item price">
+                    <p class="plan-price">@Html.Sitecore().Field("Plan Price Text")</p>
+                </div>
+            </div>
+        </div>
+    </form>
+</article>
+

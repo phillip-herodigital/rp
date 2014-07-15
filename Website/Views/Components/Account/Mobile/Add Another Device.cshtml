@@ -1,0 +1,38 @@
+﻿<article class="white-box phone mobile">
+    <header class="clearfix">
+        <h2 class="header-left">@Html.Sitecore().Field("Header Text")</h2>
+        <p class="header-right">@Html.Sitecore().Field("Header Link")</p>
+    </header>
+    <div class="content">
+        <div class="stretch form">
+            <table class="phone-selector device">
+                <tbody>
+                    <tr>
+                        <td>
+                            <h3>@Html.Sitecore().Field("Own Phone Text")</h3>
+                            <div class="product-image"><img src="/frontend/assets/i/enrollment/phones/phones.png" /></div>
+                            <div class="price">@Html.Sitecore().Field("Own Phone Price")</div>
+                            <p>@Html.Sitecore().Field("Own Phone Link")</p>
+                        </td>
+                        <td>
+                            <h3>@Html.Sitecore().Field("IPhone Text")</h3>
+                            <div class="product-image"><img src="/frontend/assets/i/enrollment/phones/iphone5c.png" /></div>
+                            <div class="price">
+                                @Html.Sitecore().Field("IPhone Price")
+                            </div>
+                            <p>@Html.Sitecore().Field("IPhone Link")</p>
+                        </td>
+                        <td>
+                            <h3>@Html.Sitecore().Field("Huawei Text")</h3>
+                            <div class="product-image"><img src="/frontend/assets/i/enrollment/phones/prisma.png" /></div>
+                            <div class="price">
+                                @Html.Sitecore().Field("Huawei Price")
+                            </div>
+                            <p>@Html.Sitecore().Field("Huawei Link")</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</article>

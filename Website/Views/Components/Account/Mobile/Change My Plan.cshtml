@@ -1,0 +1,44 @@
+﻿<article class="white-box mobile upgrade" ng-controller="MakePaymentCtrl">
+    <header class="clearfix">
+        <h2 class="header-left">@Html.Sitecore().Field("Header Text")</h2>
+        <div class="header-right">
+            <p>@Html.Sitecore().Field("Account Number")</p>
+        </div>
+    </header>
+
+    <form>
+        <div class="content">
+            
+            <div class="choose-date">
+                <p class="when">@Html.Sitecore().Field("Tell Us When")</p>
+                <input type="radio" />
+                <div class="effective-paragraph">
+                    <p class="effective-date">@Html.Sitecore().Field("Effective Date Today")</p>
+                    <p>@Html.Sitecore().Field("Start Plan Right Away")</p>
+                </div>
+            <hr />
+            <div class="choose-date">
+                <input type="radio" />
+                <div class="effective-paragraph">
+                    <p class="effective-date">@Html.Sitecore().Field("Effective Date Next Billing")</p>
+                    <p>@Html.Sitecore().Field("Avoid Pro-rated Charges")</p>
+                    <p><strong>@Html.Sitecore().Field("Next Bill May Include")</strong></p>
+                    <ul>
+                        <li>@Html.Sitecore().Field("Month In Advance")</li>
+                        <li>@Html.Sitecore().Field("Charges Under Previous Plan")</li>
+                        <li>@Html.Sitecore().Field("New Usage Allowances")</li>
+                    </ul>
+                    <p>@Html.Sitecore().Field("Usage Based On")</p>
+                </div>
+            </div>
+        </div>
+        </div>
+        <footer>
+            <div class="buttons">
+                <p class="footer-left link">@Html.Sitecore().Field("Cancel Button")</p>
+                <p class="footer-left">@Html.Sitecore().Field("Back Button")</p>
+                <p>@Html.Sitecore().Field("Continue Button")</p>
+            </div>
+        </footer>
+    </form>
+</article>

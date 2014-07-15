@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StreamEnergy.DomainModels.Accounts
+namespace StreamEnergy.DomainModels.Accounts.Legacy
 {
     public class CustomerAccount
     {

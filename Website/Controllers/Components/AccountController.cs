@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -8,6 +9,28 @@ namespace StreamEnergy.MyStream.Controllers.Components
 {
     public class AccountController : Controller
     {
+        private ApiControllers.AccountController inner;
+
+        public AccountController(ApiControllers.AccountController inner)
+        {
+            this.inner = inner;
+        }
+
+        #region Child Actions
+
+        [ChildActionOnly]
+        public ActionResult GetCurrentInvoices()
+        {
+            return this.Content(StreamEnergy.Json.Stringify(inner.GetCurrentInvoices().Result));
+        }
+
+        [ChildActionOnly]
+        public ActionResult GetSavedPaymentMethods()
+        {
+            return this.Content(StreamEnergy.Json.Stringify(inner.GetSavedPaymentMethods().Result));
+        }
+        #endregion
+
         public ActionResult AccountBalancesIndex()
         {
             return View("~/Views/Components/Account/Overview/Account Balances and Payments.cshtml");

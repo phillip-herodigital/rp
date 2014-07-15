@@ -79,6 +79,49 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         #endregion
 
+        #region Energy Usage
+
+        [HttpPost]
+        public GetEnergyUsageResponse GetEnergyUsage(GetEnergyUsageRequest request)
+        {
+            var accountNumber = request.AccountNumber;
+
+            // TODO get the energy usage from Stream Connect
+
+            var jan = new UtilityUsage { Month = 1, Electric = 80, Gas = 42 };
+            var feb = new UtilityUsage { Month = 2, Electric = 70, Gas = 45 };
+            var mar = new UtilityUsage { Month = 3, Electric = 80, Gas = 60 };
+            var apr = new UtilityUsage { Month = 4, Electric = 110, Gas = 58 };
+            var may = new UtilityUsage { Month = 5, Electric = 110, Gas = 70 };
+            var jun = new UtilityUsage { Month = 6, Electric = 125, Gas = 78 };
+            var jul = new UtilityUsage { Month = 7, Electric = 175, Gas = 90 };
+            var aug = new UtilityUsage { Month = 8, Electric = 200, Gas = 81 };
+            var sep = new UtilityUsage { Month = 9, Electric = 175, Gas = 77 };
+            var oct = new UtilityUsage { Month = 10, Electric = 160, Gas = 79 };
+            var nov = new UtilityUsage { Month = 11, Electric = 140, Gas = 62 };
+            var dec = new UtilityUsage { Month = 12, Electric = 130, Gas = 58 };
+
+            var jan2 = new UtilityUsage { Month = 1, Electric = 60, Gas = 60 };
+            var feb2 = new UtilityUsage { Month = 2, Electric = 100, Gas = 55 };
+            var mar2 = new UtilityUsage { Month = 3, Electric = 110, Gas = 70 };
+            var apr2 = new UtilityUsage { Month = 4, Electric = 90, Gas = 58 };
+            var may2 = new UtilityUsage { Month = 5, Electric = 100, Gas = 72 };
+            var jun2 = new UtilityUsage { Month = 6, Electric = 145, Gas = 82 };
+            var jul2 = new UtilityUsage { Month = 7, Electric = 165, Gas = 85 };
+            var aug2 = new UtilityUsage { Month = 8, Electric = 140, Gas = 81 };
+            var sep2 = new UtilityUsage { Month = 9, Electric = 75, Gas = 70 };
+            var oct2 = new UtilityUsage { Month = 10, Electric = 110, Gas = 69 };
+            var nov2 = new UtilityUsage { Month = 11, Electric = 120, Gas = 62 };
+            var dec2 = new UtilityUsage { Month = 12, Electric = 130, Gas = 70 };
+
+            return new GetEnergyUsageResponse
+            {
+                EnergyUsage = accountNumber == "1197015532" ? new[] { jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec } : new[] { jan2, feb2, mar2, apr2, may2, jun2, jul2, aug2, sep2, oct2, nov2, dec2 }
+            };
+        }
+
+        #endregion
+
         #region Invoices
 
         [HttpGet]
@@ -92,22 +135,144 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 Invoices = new Table<Models.Account.Invoice>
                 {
                     ColumnList = typeof(StreamEnergy.MyStream.Models.Account.Invoice).BuildTableSchema(database.GetItem("/sitecore/content/Data/Components/Account/Overview/My Invoices")),
-                    Values = from invoice in accountService.GetInvoices(User.Identity.Name)
+                    Values = from account in accountService.GetInvoices(User.Identity.Name)
+                             from invoice in account.Invoices
                              select new StreamEnergy.MyStream.Models.Account.Invoice
                              {
-                                 AccountNumber = invoice.AccountNumber,
-                                 ServiceType = invoice.ServiceType,
+                                 AccountNumber = account.AccountNumber,
+                                 ServiceType = account.AccountType,
                                  InvoiceNumber = invoice.InvoiceNumber,
                                  InvoiceAmount = invoice.InvoiceAmount.ToString("0.00"),
                                  DueDate = invoice.DueDate.ToShortDateString(),
                                  IsPaid = invoice.IsPaid,
-                                 CanRequestExtension = invoice.CanRequestExtension,
+                                 CanRequestExtension = account.GetCapability<InvoiceExtensionAccountCapability>().CanRequestExtension,
                                  Actions = 
                                  {
                                      { "viewPdf", "http://.../" }
                                  }
                              }
                 }
+            };
+        }
+
+        #endregion
+
+        #region Make a Payment section
+
+        [HttpGet]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
+        public async Task<GetCurrentInvoicesResponse> GetCurrentInvoices()
+        {
+            var accounts = await accountService.GetCurrentInvoices(User.Identity.Name);
+
+            return new GetCurrentInvoicesResponse
+            {
+                Accounts = new Table<AccountToPay>
+                {
+                    ColumnList = typeof(AccountToPay).BuildTableSchema(database.GetItem("/sitecore/content/Data/Components/Account/Overview/Make a Payment")),
+                    Values = from account in accounts
+                             let paymentScheduling = account.GetCapability<PaymentSchedulingAccountCapability>()
+                             let paymentMethods = account.GetCapability<PaymentMethodAccountCapability>()
+                             select new AccountToPay
+                             {
+                                 AccountNumber = account.AccountNumber,
+                                 InvoiceAmount = account.CurrentInvoice.InvoiceAmount.ToString("0.00"),
+                                 DueDate = account.CurrentInvoice.DueDate.ToShortDateString(),
+                                 CanMakeOneTimePayment = paymentScheduling.CanMakeOneTimePayment,
+                                 // TODO - scheduling restrictions
+                                 AvailablePaymentMethods = paymentMethods.AvailablePaymentMethods.ToArray(),
+                                 Actions = 
+                                 {
+                                     { "viewPdf", "http://.../" }
+                                 }
+                             }
+                }
+            };
+        }
+
+        [HttpGet]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
+        public async Task<IEnumerable<DomainModels.Payments.SavedPaymentInfo>> GetSavedPaymentMethods()
+        {
+            return await accountService.GetSavedPaymentMethods(User.Identity.Name);
+        }
+
+        [HttpPost]
+        public async Task<MakeMultiplePaymentsResponse> MakeMultiplePayments(MakeMultiplePaymentsRequest request)
+        {
+            var validationItem = database.GetItem("/sitecore/content/Data/Components/Account/Overview/Make a Payment");
+            if (!ModelState.IsValid)
+            {
+                return new MakeMultiplePaymentsResponse
+                {
+                    Validations = TranslatedValidationResult.Translate(ModelState, validationItem),
+                };
+            }
+            var accounts = (await accountService.GetCurrentInvoices(User.Identity.Name))
+                .Where(account => request.AccountNumbers.Contains(account.AccountNumber)).ToArray();
+
+            Dictionary<Account, decimal> paymentAmounts;
+            if (accounts.Length > 1)
+            {
+                if (accounts.Sum(account => account.CurrentInvoice.InvoiceAmount) != request.TotalPaymentAmount)
+                {
+                    return new MakeMultiplePaymentsResponse
+                    {
+                        // Can't support different TotalPaymentAmount than InvoiceAmount when multiple accounts are selected
+                        Validations = new[] { new TranslatedValidationResult { MemberName = "TotalPaymentAmount", Text = "TODO" } }
+                    };
+                }
+                paymentAmounts = accounts.ToDictionary(acct => acct, acct => acct.CurrentInvoice.InvoiceAmount);
+            }
+            else
+            {
+                // one account
+                var account = accounts.Single();
+                if (account.CurrentInvoice.InvoiceAmount * 3 <= request.TotalPaymentAmount && !request.OverrideWarnings.Contains("Overpayment"))
+                {
+                    return new MakeMultiplePaymentsResponse
+                    {
+                        Validations = Enumerable.Empty<TranslatedValidationResult>(),
+                        BlockingAlertType = "Overpayment",
+                    };
+                }
+
+                paymentAmounts = new Dictionary<Account, decimal> { { account, request.TotalPaymentAmount } };
+            }
+
+            if (!request.OverrideWarnings.Contains("Duplicate"))
+            {
+                // TODO - detect duplicate payment
+                bool isDuplicate = true;
+                if (isDuplicate)
+                {
+                    return new MakeMultiplePaymentsResponse
+                    {
+                        Validations = Enumerable.Empty<TranslatedValidationResult>(),
+                        BlockingAlertType = "Duplicate",
+                    };
+                }
+            }
+
+            // TODO - remove the Take(1) when we aren't testing error states.
+            var temp = paymentAmounts
+                .Take(1)
+                .Select(entry => new 
+                { 
+                    account = entry.Key, 
+                    amount = entry.Value, 
+                    task = accountService.MakePayment(account: entry.Key.AccountNumber, amount: entry.Value, paymentMethod: request.PaymentAccount) 
+                }).ToArray();
+            await Task.WhenAll(temp.Select(e => e.task));
+
+            return new MakeMultiplePaymentsResponse
+            {
+                Validations = Enumerable.Empty<TranslatedValidationResult>(),
+                Confirmations = temp.Select(entry => new PaymentConfirmation
+                {
+                    AccountNumber = entry.account.AccountNumber,
+                    PaymentConfirmationNumber = entry.task.Result.ConfirmationNumber
+                }).ToArray()
             };
         }
 
@@ -651,6 +816,82 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             return new SendLetterResponse
             {
                 Success = success
+            };
+        }
+
+        #endregion
+
+        #region One-time Payment
+
+        [HttpPost]
+        public Task<FindAccountForOneTimePaymentResponse> FindAccountForOneTimePayment(FindAccountForOneTimePaymentRequest request)
+        {
+            // TODO
+            return Task.FromResult(new FindAccountForOneTimePaymentResponse
+                {
+                    Account = new AccountToPay
+                    {
+                        AccountNumber = request.AccountNumber,
+                        CanMakeOneTimePayment = true,
+                        InvoiceAmount = "123.45",
+                        AvailablePaymentMethods = new[] 
+                        { 
+                            new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } 
+                        }
+                    }
+                });
+        }
+
+        [HttpPost]
+        public async Task<MakeOneTimePaymentResponse> MakeOneTimePayment(MakeOneTimePaymentRequest request)
+        {
+            var validationItem = database.GetItem("/sitecore/content/Data/Components/Account/Overview/Make a Payment");
+            if (!ModelState.IsValid)
+            {
+                return new MakeOneTimePaymentResponse
+                {
+                    Validations = TranslatedValidationResult.Translate(ModelState, validationItem),
+                };
+            }
+            Account account = await accountService.GetCurrentInvoice(accountNumber: request.AccountNumber);
+
+            Dictionary<Account, decimal> paymentAmounts;
+            
+            if (account.CurrentInvoice.InvoiceAmount * 3 <= request.TotalPaymentAmount && !request.OverrideWarnings.Contains("Overpayment"))
+            {
+                return new MakeOneTimePaymentResponse
+                {
+                    Validations = Enumerable.Empty<TranslatedValidationResult>(),
+                    BlockingAlertType = "Overpayment",
+                };
+            }
+
+            paymentAmounts = new Dictionary<Account, decimal> { { account, request.TotalPaymentAmount } };
+
+            if (!request.OverrideWarnings.Contains("Duplicate"))
+            {
+                // TODO - detect duplicate payment
+                bool isDuplicate = true;
+                if (isDuplicate)
+                {
+                    return new MakeOneTimePaymentResponse
+                    {
+                        Validations = Enumerable.Empty<TranslatedValidationResult>(),
+                        BlockingAlertType = "Duplicate",
+                    };
+                }
+            }
+
+            var confirmation = await accountService.MakePayment(account: account.AccountNumber, amount: request.TotalPaymentAmount, paymentMethod: request.PaymentAccount);
+
+            return new MakeOneTimePaymentResponse
+            {
+                Validations = Enumerable.Empty<TranslatedValidationResult>(),
+                Confirmation = new PaymentConfirmation
+                {
+                    AccountNumber = account.AccountNumber,
+                    PaymentConfirmationNumber = confirmation.ConfirmationNumber
+                }
             };
         }
 
