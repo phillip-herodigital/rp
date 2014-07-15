@@ -955,8 +955,8 @@ mod.factory('n3utils', [
         y.clamp(true);
         y2.clamp(true);
         xAxis = d3.svg.axis().scale(x).orient('bottom').tickFormat(axesOptions.x.labelFunction);
-        yAxis = d3.svg.axis().scale(y).orient('left').tickFormat(axesOptions.y.labelFunction);
-        y2Axis = d3.svg.axis().scale(y2).orient('right').tickFormat((_ref = axesOptions.y2) != null ? _ref.labelFunction : void 0);
+        yAxis = d3.svg.axis().scale(y).orient('left').ticks(5).tickFormat(axesOptions.y.labelFunction);
+        y2Axis = d3.svg.axis().scale(y2).orient('right').ticks(5).tickFormat((_ref = axesOptions.y2) != null ? _ref.labelFunction : void 0);
         style = function(group) {
           group.style({
             //'font': '10px Courier',
@@ -995,31 +995,28 @@ mod.factory('n3utils', [
         };
       },
       createGrid: function(svg, dimensions) {
-        var numberOfTicks = 6;
-        var width = dimensions.width;
+        var height, width, y, yAxis;
+        width = dimensions.width;
+        height = dimensions.height;
         width = width - dimensions.left - dimensions.right;
-        var y = d3.scale.linear().rangeRound([width, 0]);
+        height = height - dimensions.top - dimensions.bottom;
 
-        var yAxisGrid = d3.svg.axis().scale(y)
-          .ticks(numberOfTicks) 
-          .tickSize(width, 0)
-          .tickFormat("")
-          .orient("right");
-
-        style = function(group) {
-          group.style({
-            //'font': '10px Courier',
-            'shape-rendering': 'crispEdges'
-          });
-          return group.selectAll('path').style({
-            //'fill': 'none',
-            'stroke': '#000'
-          });
-        };
-
-        //style(svg.append('g').attr('class', 'y axis').call(yAxisGrid));
-
-
+        y = d3.scale.linear().rangeRound([height, 0]);
+        yAxis = d3.svg.axis().scale(y).orient('left').ticks(5).tickSize(-width, 0, 0).tickFormat('');
+        // add the lines
+        svg.append('g').attr('class', 'grid').call(yAxis);  
+        // add the background image below each grid line  
+        svg.selectAll('.grid .tick').each( function(y) {
+          if (y > 0) {
+            var gridRow = d3.select(this);
+            gridRow.append('image')
+            .attr({'xlink:href': '/frontend/assets/i/chart-bg.png',
+                   'width': width,
+                   'height': 44,
+                   'transform':'translate(0, 0)'
+                  })
+          }
+        });
       },
       setScalesDomain: function(scales, data, series, svg, axesOptions) {
         var y2Domain, yDomain;
