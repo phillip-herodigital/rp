@@ -100,10 +100,10 @@
                     </div>
                 </article>
                 <div class="form terms-agreement">
-                    @Html.Sitecore().Field("Terms and Conditions Text")
+                    @Html.Sitecore().Field("Terms and Conditions Text").Format(new { LinkAttributes = "ng-click=\"showTerms('Standard')\"" })
                     <div class="item" @Html.ValidationErrorClass(m => m.AgreeToTerms)>
                         <ul class="checkbox-list">
-                            <li><input id="utility-services-agreement" type="checkbox" @Html.ValidationAttributes(c => c.AgreeToTerms) ng-model="completeOrder.agreeToTerms"> <label for="utility-services-agreement">@Html.Sitecore().Field("Utility Services - I Agree Text")</label></li>    
+                            <li><input id="tcpa-services-agreement" type="checkbox" @Html.ValidationAttributes(c => c.AgreeToTerms) ng-model="completeOrder.agreeToTerms"> <label for="tcpa-services-agreement">@Html.Sitecore().Field("TCPA - I Agree Text").Format(new { LinkAttributes = "ng-click=\"showTerms('Tcpa')\"" })</label></li>    
                         </ul>                            
                     </div>
                 </div>
@@ -192,4 +192,31 @@
         <strong>@Html.Sitecore().Field("Deposit Due")</strong><br>
     </td>
     <td class="rate">{{ payment.dollarAmount | currency }}</td>
+</script>
+
+
+<script type="text/ng-template" id="Terms/Standard">
+    <div class="modal-header">
+        <a href="" ng-click="$dismiss()"></a>
+        <h2>@Html.Sitecore().Field("Terms and Conditions Header Text")</h2>
+    </div>
+    <div class="modal-body">
+        @Html.Sitecore().Field("Terms and Conditions Body Text")
+    </div>
+    <div class="modal-footer">
+        <button ng-click="$close()">@Html.Sitecore().Field("Close Terms and Conditions Button Text")</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="Terms/Tcpa">
+    <div class="modal-header">
+        <a href="" ng-click="$dismiss()"></a>
+        <h2>@Html.Sitecore().Field("TCPA Terms and Conditions Header Text")</h2>
+    </div>
+    <div class="modal-body">
+        @Html.Sitecore().Field("TCPA Terms and Conditions Body Text")
+    </div>
+    <div class="modal-footer">
+        <button ng-click="$close()">@Html.Sitecore().Field("Close TCPA Terms and Conditions Button Text")</button>
+    </div>
 </script>

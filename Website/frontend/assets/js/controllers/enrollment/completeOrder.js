@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of complete order on enrollment page.
  */
-ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 'enrollmentCartService', function ($scope, enrollmentService, enrollmentCartService) {
+ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 'enrollmentCartService', '$modal', function ($scope, enrollmentService, enrollmentCartService, $modal) {
 
     $scope.completeOrder = {
         agreeToTerms: false,
@@ -48,4 +48,11 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
         return total;
     };
 
+    $scope.showTerms = function (terms) {
+
+        $modal.open({
+            templateUrl: 'Terms/' + terms,
+            scope: $scope
+        });
+    };
 }]);
