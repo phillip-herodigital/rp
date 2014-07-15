@@ -1,7 +1,7 @@
 /* 
 	Payments - One Time Payment Controller
  */
-ngApp.controller('PaymentsCtrl', ['$scope', '$http', '$timeout', function ($scope, $http, $timeout) {
+ngApp.controller('OneTimePaymentCtrl', ['$scope', '$http', '$timeout', function ($scope, $http, $timeout) {
 	var ctrl = this;
 	this.activeStep = 1;
 
@@ -21,7 +21,8 @@ ngApp.controller('PaymentsCtrl', ['$scope', '$http', '$timeout', function ($scop
 				headers : { 'Content-Type': 'application/JSON' } 
 			})
 				.success(function (data, status, headers, config) {
-					ctrl.account = data.account;
+				    ctrl.account = data.account;
+				    ctrl.totalPaymentAmount = ctrl.account.invoiceAmount;
 					ctrl.activeStep = 2;
 				});
 		}, 800);

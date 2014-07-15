@@ -1,5 +1,5 @@
 @model StreamEnergy.MyStream.Models.Account.MakeOneTimePaymentRequest
-<div ng-controller="PaymentsCtrl as ctrl">
+<div ng-controller="OneTimePaymentCtrl as ctrl">
 	<article class="grey-box payments form">
 		<header>
 			<h2>@Html.Sitecore().Field("Header Text")</h2>
@@ -9,8 +9,8 @@
 				@Html.Sitecore().Field("Body Text")
 
 				<div class="item" @Html.ValidationErrorClass(m => m.AccountNumber)>
-					<label for="account-number">@Html.Sitecore().Field("Account Number Label"):</label>
-					<input id="account-number" type="text" ng-model="ctrl.accountNumber" @Html.ValidationAttributes(m => m.AccountNumber)>
+                    <label for="@Html.For(m => m.AccountNumber)">@Html.Sitecore().Field("Account Number Label"):</label>
+					<input type="text" ng-model="ctrl.accountNumber" @Html.ValidationAttributes(m => m.AccountNumber)>
 				</div>
 				@Html.Sitecore().Field("Terms and Conditions Text")
 			</div>
@@ -27,7 +27,7 @@
 					<dt>@Html.Sitecore().Field("Account Number Label"):</dt>
 					<dd>{{ ctrl.account.accountNumber }}</dd>
 					<dt>@Html.Sitecore().Field("Balance Text"):</dt>
-					<dd>{{ ctrl.account.invoiceAmount }}</dd>
+					<dd>{{ ctrl.account.invoiceAmount | currency }}</dd>
 				</dl>
 
 				<div class="item">
@@ -41,8 +41,8 @@
 				</div>
 
 				<div class="item" @Html.ValidationErrorClass(m => m.TotalPaymentAmount)>
-					<label for="payment-amount">@Html.Sitecore().Field("Payment Amount Label"):</label>
-					$ <input id="payment-amount" class="small" type="text" ng-model="ctrl.totalPaymentAmount" @Html.ValidationAttributes(m => m.TotalPaymentAmount)>
+                    <label for="@Html.For(m => m.TotalPaymentAmount)">@Html.Sitecore().Field("Payment Amount Label"):</label>
+					$ <input class="small" type="text" ng-model="ctrl.totalPaymentAmount" @Html.ValidationAttributes(m => m.TotalPaymentAmount) currency-input>
 				</div>
 
 				
