@@ -67,7 +67,7 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
         }
     };
     var submitStep = function (addAdditional) {
-        var selectedOffersPromise = enrollmentService.setSelectedOffers();
+        var selectedOffersPromise = enrollmentService.setSelectedOffers(addAdditional);
 
         selectedOffersPromise.then(function (data) {
             //Move to the next section, this is the last of the utilityAccounts, so
