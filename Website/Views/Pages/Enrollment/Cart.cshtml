@@ -12,7 +12,7 @@
         <div class="content">
             <p class="alt" ng-if="!getCartCount() && !getCartItems().length">@Html.Sitecore().Field("Empty Cart Text")</p>
             <div class="cart-item" ng-repeat="(id, location) in getCartItems()">
-                <h2>Energy Plan {{ $index+1 }}</h2>
+                <h2>Energy Plan</h2>
                 <address>
                     <h3>@Html.Sitecore().Field("Service Address Text")</h3>
                     {{ location.location.address | address }}<br />
