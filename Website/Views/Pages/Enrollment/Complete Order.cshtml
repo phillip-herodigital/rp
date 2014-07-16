@@ -157,7 +157,7 @@
 <script type="text/ng-template" id="completeOrderCartMonthly/TexasElectricity">
     <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
         <dl class="clearfix">
-            <ng-include ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0" src="'paymentsCart/' + payment.offerPaymentAmountType" />
+            <ng-include ng-repeat="payment in selectedOffer.payments.requiredAmounts" src="'paymentsCart/' + payment.offerPaymentAmountType" />
         </dl>
     </div>
 </script>
