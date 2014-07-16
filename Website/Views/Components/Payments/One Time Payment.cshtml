@@ -84,10 +84,10 @@
                         <div class="payment-selection">
                             <input type="radio" id="bank-account" name="payment-type" ng-model="ctrl.newPaymentMethodType" value="BankPaymentMethod" ng-required="true"><label for="bank-account">@Html.Sitecore().Field("Bank Account Label")</label>
                         </div>
-                        <div class="payment-options" ng-show="ctrl.newPaymentMethodType == 'BankPaymentMethod'" ng-controller="BankAccountPaymentCtrl as bankCtrl" ng-init="ctrl.newPaymentMethod['BankPaymentMethod'] = bankCtrl.bankAccount">
+                        <div class="payment-options" ng-show="ctrl.newPaymentMethodType == 'BankPaymentMethod'" ng-controller="BankAccountPaymentCtrl as bankCtrl" ng-init="ctrl.newPaymentMethod['BankPaymentMethod'] = bankCtrl.bankAccount; bankTypes = @(Html.Action("BankCategories", "Data").ToHtmlString());">
                             <div class="item" @Html.ValidationErrorClass(m => ((StreamEnergy.DomainModels.Payments.BankPaymentInfo)m.PaymentAccount).Category)>
                                 <label for="@Html.For(m => ((StreamEnergy.DomainModels.Payments.BankPaymentInfo)m.PaymentAccount).Category)">@Html.Sitecore().Field("Account Type Label")</label>
-                                <select @Html.ValidationAttributes(m => ((StreamEnergy.DomainModels.Payments.BankPaymentInfo)m.PaymentAccount).Category) ng-model="bankCtrl.category" data-val-if="ctrl.newPaymentMethodType == 'BankPaymentMethod'">
+                                <select @Html.ValidationAttributes(m => ((StreamEnergy.DomainModels.Payments.BankPaymentInfo)m.PaymentAccount).Category) ng-model="bankCtrl.category" data-val-if="ctrl.newPaymentMethodType == 'BankPaymentMethod'" ng-options="bankType.name as bankType.display for bankType in bankTypes">
                                     <option value="">Please Choose</option>
                                     @* TODO *@
                                 </select>
