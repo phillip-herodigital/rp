@@ -37,6 +37,8 @@
     <![endif]-->
 
     @Styles.Render("~/frontend/assets/css/bundle")
+    @Styles.RenderFormat(@"<link rel=""stylesheet"" href=""{0}"" media=""print"">", "~/frontend/assets/css/printbundle")
+
     @if ((Request.Browser.Browser == "IE") && ((Request.Browser.MajorVersion <= 8)))
     {
         @Scripts.Render("~/frontend/assets/js/legacybundle");
@@ -50,7 +52,7 @@
     <script type="text/javascript">try { Typekit.load(); } catch (e) { }</script>
 
 </head>
-<body ng-controller="MainCtrl">
+<body class="@Html.Sitecore().Field("Body CSS Classes")" ng-controller="MainCtrl">
     
     <!-- Google Tag Manager -->
     <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-NMT3GS" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
