@@ -4,6 +4,7 @@
 ngApp.controller('OneTimePaymentCtrl', ['$scope', '$http', '$timeout', function ($scope, $http, $timeout) {
 	var ctrl = this;
 	this.activeStep = 1;
+	ctrl.overrideWarnings = [];
 
 	this.paymentMethod = function () {
 	    return ctrl.newPaymentMethod[ctrl.newPaymentMethodType]();
@@ -17,19 +18,17 @@ ngApp.controller('OneTimePaymentCtrl', ['$scope', '$http', '$timeout', function 
 
 	//Step 1
 	this.lookupAccount = function() {
-		$timeout(function () {
-			$http({
-				method  : 'POST',
-				url     : '/api/account/findAccountForOneTimePayment',
-				data    : { 'accountNumber' : ctrl.accountNumber },
-				headers : { 'Content-Type': 'application/JSON' } 
-			})
-				.success(function (data, status, headers, config) {
-				    ctrl.account = data.account;
-				    ctrl.totalPaymentAmount = ctrl.account.invoiceAmount;
-					ctrl.activeStep = 2;
-				});
-		}, 800);
+		$http({
+			method  : 'POST',
+			url     : '/api/account/findAccountForOneTimePayment',
+			data    : { 'accountNumber' : ctrl.accountNumber },
+			headers : { 'Content-Type': 'application/JSON' } 
+		})
+			.success(function (data, status, headers, config) {
+				ctrl.account = data.account;
+				ctrl.totalPaymentAmount = ctrl.account.invoiceAmount;
+				ctrl.activeStep = 2;
+			});
 	};
 
 	//Step 2
@@ -38,8 +37,32 @@ ngApp.controller('OneTimePaymentCtrl', ['$scope', '$http', '$timeout', function 
 	};
 
 	//Step 3
-	this.submitPaymentInfo = function() {
-		this.activeStep = 4;
+	this.submitPaymentInfo = function () {
+	    $http({
+	        method: 'POST',
+	        url: '/api/account/makeOneTimePayment',
+	        data: {
+	            'accountNumber': ctrl.accountNumber,
+                'customerName':        ctrl.name,
+                'customerEmail': {
+                    'address': ctrl.email
+                },
+	            'paymentAccount': ctrl.paymentMethod(),
+                'totalPaymentAmount': ctrl.totalPaymentAmount,
+                'overrideWarnings': ctrl.overrideWarnings || []
+	        },
+	        headers: { 'Content-Type': 'application/JSON' }
+	    })
+        .success(function (data) {
+            if (data.blockingAlertType) {
+                // TODO - either display the alerts or change server-side code to not check for them.
+                ctrl.overrideWarnings.push(data.blockingAlertType);
+                ctrl.submitPaymentInfo();
+            } else {
+                ctrl.confirmationNumber = data.confirmation.paymentConfirmationNumber;
+                ctrl.activeStep = 4;
+            }            
+        });
 	};
 
 	//Step 4
