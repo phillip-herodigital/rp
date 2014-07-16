@@ -463,7 +463,9 @@ namespace StreamEnergy.MyStream.Tests
             {
                 PaymentInfo = new DomainModels.Payments.TokenizedCard
                 {
-                    CardToken = "12345678901234567890"
+                    CardToken = "12345678901234567890",
+                    BillingZipCode = "75010",
+                    SecurityCode = "223"
                 },
                 AgreeToTerms = true,
             };
