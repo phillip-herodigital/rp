@@ -1,0 +1,28 @@
+/* line 2, ../_sass/partials/print.scss */
+.enrollment-confirmation #main-content {
+  width: auto;
+}
+/* line 3, ../_sass/partials/print.scss */
+.enrollment-confirmation #main-aside {
+  display: none;
+}
+/* line 4, ../_sass/partials/print.scss */
+.enrollment-confirmation .mobile-nav {
+  display: none;
+}
+/* line 5, ../_sass/partials/print.scss */
+.enrollment-confirmation .site-header {
+  display: none;
+}
+/* line 6, ../_sass/partials/print.scss */
+.enrollment-confirmation .site-footer {
+  display: none;
+}
+/* line 7, ../_sass/partials/print.scss */
+.enrollment-confirmation .confirm-next-steps {
+  display: none;
+}
+/* line 8, ../_sass/partials/print.scss */
+.enrollment-confirmation .print {
+  display: none;
+}

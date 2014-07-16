@@ -116,7 +116,7 @@ div.tabbable {
 
 .modal-body {
 	position: relative;
-	//overflow-y: auto;
+	overflow-y: auto;
 	max-height: 400px;
 	padding: 25px 20px;
 	& :first-child {
