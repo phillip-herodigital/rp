@@ -4,6 +4,7 @@
 ngApp.controller('OneTimePaymentCtrl', ['$scope', '$http', '$timeout', function ($scope, $http, $timeout) {
 	var ctrl = this;
 	this.activeStep = 1;
+	ctrl.selectedDate = new Date();
 	ctrl.overrideWarnings = [];
 
 	this.paymentMethod = function () {
@@ -67,8 +68,9 @@ ngApp.controller('OneTimePaymentCtrl', ['$scope', '$http', '$timeout', function 
 
 	//Step 4
 	this.makeAnotherPayment = function() {
-		this.activeStep = 1;
-		this.accountNumber = null;
-		this.account = null;
+		ctrl.activeStep = 1;
+		ctrl.selectedDate = new Date();
+		ctrl.accountNumber = null;
+		ctrl.account = null;
 	};
 }]);

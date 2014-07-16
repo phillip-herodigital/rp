@@ -139,7 +139,7 @@
 
 				<dl class="clearfix module-list">
 					<dt>@Html.Sitecore().Field("Payment Date Text"):</dt>
-					<dd>MM/DD/YYYY</dd>
+					<dd>{{ ctrl.selectedDate | date:'MM/dd/yyyy' }}</dd>
 					<dt>@Html.Sitecore().Field("Payment Amount Text"):</dt>
 					<dd>{{ctrl.totalPaymentAmount | currency}}</dd>
 					@*<dt>@Html.Sitecore().Field("Service Fee Text"):</dt>
@@ -183,7 +183,7 @@
 
 				<dl class="clearfix module-list">
 					<dt>@Html.Sitecore().Field("Payment Date Text"):</dt>
-					<dd>MM/DD/YYYY</dd>
+					<dd>{{ ctrl.selectedDate | date:'MM/dd/yyyy' }}</dd>
 					<dt>@Html.Sitecore().Field("Payment Amount Text"):</dt>
                     <dd>{{ctrl.totalPaymentAmount | currency}}</dd>
 					@*<dt>@Html.Sitecore().Field("Service Fee Text"):</dt>

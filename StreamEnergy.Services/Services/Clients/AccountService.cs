@@ -110,7 +110,7 @@ namespace StreamEnergy.Services.Clients
             });
         }
 
-        Task<MakePaymentResult> IAccountService.MakePayment(string account, decimal amount, DomainModels.Payments.IPaymentInfo paymentMethod)
+        Task<MakePaymentResult> IAccountService.MakePayment(string account, decimal amount, DomainModels.Payments.IPaymentInfo paymentMethod, DateTime paymentDate)
         {
             return Task.FromResult(new MakePaymentResult
                 {
