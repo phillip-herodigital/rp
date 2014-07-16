@@ -11,21 +11,20 @@
         </header>
         <div class="content">
             <p class="alt" ng-if="!getCartCount() && !getCartItems().length">@Html.Sitecore().Field("Empty Cart Text")</p>
-            <div ng-repeat="(id, location) in getCartItems()">
+            <div class="cart-item" ng-repeat="(id, location) in getCartItems()">
+                <h2>Energy Plan {{ $index+1 }}</h2>
                 <address>
                     <h3>@Html.Sitecore().Field("Service Address Text")</h3>
                     {{ location.location.address | address }}<br />
                     <a href="" ng-click="editUtilityAddress(location)">@Html.Sitecore().Field("Edit Address Text")</a>
                 </address>
                 <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
-                    <hr />
                     <div ng-include src="'cart/' + offerInformation.key"></div>
                 </div>
             </div>
             @*<div class="buttons">
                 <a href="" class="button" ng-show="getCartCount()">Checkout Now</a>
             </div>*@
-            <hr />
             <div class="time">
                 <i class="icon-clock"></i>
                 @Html.Sitecore().Field("Time Remaining")
@@ -49,13 +48,12 @@
 
 
 <script type="text/ng-template" id="cart/TexasElectricity">
-    <h3>Electricity</h3>
-    <div class="cart-item clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+    <div class="cart-product clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
         <div class="delete" ng-click="scrollFix(); deleteUtilityPlan(location, selectedOffer)">
             <i class="icon-delete"></i>
         </div>
         <div class="description">
-            <h2>{{ selectedOffer.offer.name }}</h2>
+            <span class="plan">{{ selectedOffer.offer.name }}</span>
             <a href="" ng-click="changeUtilityPlan(location)">Change Plan</a>
         </div>
         <div class="rate">
