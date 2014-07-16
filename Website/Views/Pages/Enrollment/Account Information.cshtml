@@ -248,10 +248,10 @@
                 @* User Account Creation *@
                 <article class="form enrollment__box enrollment__box--account-creation">
                     <header>
-                        <h1>@Html.Sitecore().Field("Social Box Header")</h1>
+                        <h1>@Html.Sitecore().Field("Create Online Account Header")</h1>@*Social box header: Social Box Header*@
                     </header>
                     <div class="content">
-                        <div class="social-box">
+                        @*<div class="social-box">
                             <p>@Html.Sitecore().Field("Social Box Intro")</p>
                             <p class="social-buttons">
                                 <a class="button social facebook" href=""><span class="icon-holder"><i class="icon-facebook"></i></span> @Html.Sitecore().Field("Social Box Facebook")</a>
@@ -260,7 +260,7 @@
                             </p>
                             <div class="seperator">@Html.Sitecore().Field("Seperator")</div>
                         </div>
-                        <h2>@Html.Sitecore().Field("Create Online Account Header")</h2>
+                        <h2>@Html.Sitecore().Field("Create Online Account Header")</h2>*@
 
                         <p>@Html.Sitecore().Field("Online Account Paragraph")</p>
                         <div class="item" @Html.ValidationErrorClass(m => m.OnlineAccount.Username)>
