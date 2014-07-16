@@ -454,6 +454,7 @@
     <Compile Include="Controllers\Components\AccountController.cs" />
     <Compile Include="Controllers\Components\AuthenticationController.cs" />
     <Compile Include="Controllers\ApiControllers\EnrollmentController.cs" />
+    <Compile Include="Controllers\Components\ComponentController.cs" />
     <Compile Include="Controllers\DataController.cs" />
     <Compile Include="Controllers\EnrollmentController.cs" />
     <Compile Include="Controllers\TempController.cs" />
@@ -696,6 +697,8 @@
     <None Include="Properties\PublishProfiles\Azure - Production Sitecore.pubxml" />
     <None Include="Properties\PublishProfiles\Azure - VM - my-stream-prod.pubxml" />
     <None Include="Properties\PublishProfiles\my-stream__Staging.pubxml" />
+    <Content Include="Views\Components\Payments\New Credit Card.cshtml" />
+    <Content Include="Views\layouts\Raw Layout.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -712,6 +715,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Views\Component\" />
     <Folder Include="Views\Shared\" />
   </ItemGroup>
   <PropertyGroup>
