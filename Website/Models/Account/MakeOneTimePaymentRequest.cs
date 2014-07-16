@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using StreamEnergy.DomainModels;
 
 namespace StreamEnergy.MyStream.Models.Account
 {
@@ -10,6 +11,13 @@ namespace StreamEnergy.MyStream.Models.Account
     {
         [Required]
         public string AccountNumber { get; set; }
+
+        [Required]
+        public string CustomerName { get; set; }
+        
+        [Required]
+        public Email CustomerEmail { get; set; }
+
         [Required]
         [ValidateObject]
         public DomainModels.Payments.IPaymentInfo PaymentAccount { get; set; }

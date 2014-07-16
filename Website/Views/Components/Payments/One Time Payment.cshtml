@@ -30,15 +30,15 @@
 					<dd>{{ ctrl.account.invoiceAmount | currency }}</dd>
 				</dl>
 
-				<div class="item">
-					<label for="customer-name">@Html.Sitecore().Field("Customer Name Label"):</label>
-					<input id="customer-name" type="text">
-				</div>
+                <div class="item" @Html.ValidationErrorClass(m => m.CustomerName)>
+                    <label for="@Html.For(m => m.CustomerName)">@Html.Sitecore().Field("Customer Name Label"):</label>
+                    <input type="text" @Html.ValidationAttributes(m => m.CustomerName) />
+                </div>
 
-				<div class="item">
-					<label for="email">@Html.Sitecore().Field("Email Address Label"):</label>
-					<input id="email" type="email">
-				</div>
+                <div class="item" @Html.ValidationErrorClass(m => m.CustomerEmail.Address)>
+                    <label for="@Html.For(m => m.CustomerEmail.Address)">@Html.Sitecore().Field("Email Address Label"):</label>
+                    <input type="email" @Html.ValidationAttributes(m => m.CustomerEmail.Address)>
+                </div>
 
 				<div class="item" @Html.ValidationErrorClass(m => m.TotalPaymentAmount)>
                     <label for="@Html.For(m => m.TotalPaymentAmount)">@Html.Sitecore().Field("Payment Amount Label"):</label>
