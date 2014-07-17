@@ -66,6 +66,11 @@
 
         // set the identity questions from the server
         service.identityQuestions = result.identityQuestions;
+
+        service.isRenewal = result.isRenewal;
+        if (result.isRenewal) {
+            enrollmentStepsService.setRenewal();
+        }
     };
 
     function makeCall(urlSuffix, data, mode, overrideServerStep) {

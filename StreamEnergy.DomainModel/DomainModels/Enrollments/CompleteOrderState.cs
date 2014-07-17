@@ -31,6 +31,28 @@ namespace StreamEnergy.DomainModels.Enrollments
             yield return context => context.OnlineAccount;
         }
 
+        public override bool IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult, UserContext context, InternalContext internalContext)
+        {
+            if (context.IsRenewal)
+            {
+                if (validationResult.MemberNames.Any(m => m.StartsWith("ContactInfo")))
+                    return true;
+                if (validationResult.MemberNames.Any(m => m.StartsWith("Language")))
+                    return true;
+                if (validationResult.MemberNames.Any(m => m.StartsWith("SecondaryContactInfo")))
+                    return true;
+                if (validationResult.MemberNames.Any(m => m.StartsWith("SocialSecurityNumber")))
+                    return true;
+                if (validationResult.MemberNames.Any(m => m.StartsWith("DriversLicense")))
+                    return true;
+                if (validationResult.MemberNames.Any(m => m.StartsWith("OnlineAccount")))
+                    return true;
+                if (validationResult.MemberNames.Any(m => m.StartsWith("SelectedIdentityAnswers")))
+                    return true;
+            }
+            return base.IgnoreValidation(validationResult, context, internalContext);
+        }
+
         protected override Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
         {
             internalContext.PlaceOrderResult = enrollmentService.PlaceOrder(context.Services);

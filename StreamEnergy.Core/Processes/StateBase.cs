@@ -10,8 +10,8 @@ namespace StreamEnergy.Processes
         where TContext : class, ISanitizable
         where TInternalContext : class
     {
-        private Type previousState;
-        private Type nextState;
+        protected Type previousState;
+        protected Type nextState;
 
         public StateBase(Type previousState, Type nextState)
         {

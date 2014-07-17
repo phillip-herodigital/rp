@@ -16,7 +16,7 @@
                 <address>
                     <h3>@Html.Sitecore().Field("Service Address Text")</h3>
                     {{ location.location.address | address }}<br />
-                    <a href="" ng-click="editUtilityAddress(location)">@Html.Sitecore().Field("Edit Address Text")</a>
+                    <a href="" ng-click="editUtilityAddress(location)" ng-if="!isRenewal">@Html.Sitecore().Field("Edit Address Text")</a>
                 </address>
                 <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
                     <div ng-include src="'cart/' + offerInformation.key"></div>
@@ -48,7 +48,7 @@
 
 <script type="text/ng-template" id="cart/TexasElectricity">
     <div class="cart-product clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
-        <div class="delete" ng-click="scrollFix(); deleteUtilityPlan(location, selectedOffer)">
+        <div class="delete" ng-click="scrollFix(); deleteUtilityPlan(location, selectedOffer)" ng-if="!isRenewal">
             <i class="icon-delete"></i>
         </div>
         <div class="description">

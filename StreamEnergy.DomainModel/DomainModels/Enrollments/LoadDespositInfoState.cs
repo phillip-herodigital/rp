@@ -29,6 +29,28 @@ namespace StreamEnergy.DomainModels.Enrollments
             yield return context => context.SelectedIdentityAnswers;
         }
 
+        public override bool IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult, UserContext context, InternalContext internalContext)
+        {
+            if (context.IsRenewal)
+            {
+                if (validationResult.MemberNames.Any(m => m.StartsWith("ContactInfo")))
+                    return true;
+                if (validationResult.MemberNames.Any(m => m.StartsWith("Language")))
+                    return true;
+                if (validationResult.MemberNames.Any(m => m.StartsWith("SecondaryContactInfo")))
+                    return true;
+                if (validationResult.MemberNames.Any(m => m.StartsWith("SocialSecurityNumber")))
+                    return true;
+                if (validationResult.MemberNames.Any(m => m.StartsWith("DriversLicense")))
+                    return true;
+                if (validationResult.MemberNames.Any(m => m.StartsWith("OnlineAccount")))
+                    return true;
+                if (validationResult.MemberNames.Any(m => m.StartsWith("SelectedIdentityAnswers")))
+                    return true;
+            }
+            return base.IgnoreValidation(validationResult, context, internalContext);
+        }
+
         protected override bool NeedRestoreInternalState(UserContext context, InternalContext internalContext)
         {
             return internalContext.Deposit == null ||
@@ -37,6 +59,14 @@ namespace StreamEnergy.DomainModels.Enrollments
                  join internalService in internalContext.Deposit on new { service.Location, offer.Offer.Id } equals new { internalService.Location, internalService.Offer.Id } into internalServices
                  from internalService in internalServices.DefaultIfEmpty()
                  select internalService != null && internalService.Details != null).All(hasDeposit => hasDeposit);
+        }
+
+        public override Task<RestoreInternalStateResult> RestoreInternalState(IStateMachine<UserContext, InternalContext> stateMachine, Type state)
+        {
+            if (stateMachine.Context.IsRenewal)
+                previousState = typeof(PlanSelectionState);
+
+            return base.RestoreInternalState(stateMachine, state);
         }
 
         protected override Task LoadInternalState(UserContext context, InternalContext internalContext)

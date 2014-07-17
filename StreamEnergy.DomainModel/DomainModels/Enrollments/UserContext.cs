@@ -11,6 +11,8 @@ namespace StreamEnergy.DomainModels.Enrollments
     [Serializable]
     public class UserContext : ISanitizable
     {
+        public bool IsRenewal { get; set; }
+
         [Required(ErrorMessage = "Contact Info Required")]
         [ValidateObject(ErrorMessagePrefix = "")]
         public CustomerContact ContactInfo { get; set; }
@@ -63,5 +65,6 @@ namespace StreamEnergy.DomainModels.Enrollments
             if (OnlineAccount != null)
                 ((ISanitizable)OnlineAccount).Sanitize();
         }
+
     }
 }
