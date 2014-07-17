@@ -22,7 +22,7 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
 
         var confirmOrderPromise = enrollmentService.setConfirmOrder({
             agreeToTerms: $scope.completeOrder.agreeToTerms,
-            paymentInfo: null
+            paymentInfo: $scope.getCartTotal() > 0 ? $scope.completeOrder.creditCard() : null
         });
 
         confirmOrderPromise.then(function (data) {
