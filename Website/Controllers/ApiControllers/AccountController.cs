@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
+    
     public class AccountController : ApiController, IRequiresSessionState
     {
         private readonly Sitecore.Data.Items.Item item;
@@ -28,8 +29,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private readonly Sitecore.Security.Domains.Domain domain;
         private readonly Sitecore.Data.Database database;
         private readonly IValidationService validation;
+        private readonly StreamEnergy.MyStream.Controllers.ApiControllers.AuthenticationController authentication;
 
-        public AccountController(IUnityContainer container, HttpSessionStateBase session, DomainModels.Accounts.IAccountService accountService, Services.Clients.ITemperatureService temperatureService, IValidationService validation)
+        public AccountController(IUnityContainer container, HttpSessionStateBase session, DomainModels.Accounts.IAccountService accountService, Services.Clients.ITemperatureService temperatureService, IValidationService validation, StreamEnergy.MyStream.Controllers.ApiControllers.AuthenticationController authentication)
         {
             this.container = container;
             this.temperatureService = temperatureService;
@@ -38,6 +40,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.database = Sitecore.Context.Database;
             this.item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Components/Account/Profile");
             this.validation = validation;
+            this.authentication = authentication;
         }
 
         [HttpGet]
@@ -469,29 +472,39 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
 
         [HttpPost]
-        public UpdateOnlineAccountResponse UpdateOnlineAccount(UpdateOnlineAccountRequest request)
+        public HttpResponseMessage UpdateOnlineAccount(UpdateOnlineAccountRequest request)
         {
-            bool success = false;
-            
-            request.Username = domain.AccountPrefix + request.Username;
+            var currentUser = Membership.GetUser(User.Identity.Name);
+            var currentUsername = currentUser.UserName;
+            var newUsername = domain.AccountPrefix + request.Username;
 
-            if (User.Identity.Name != request.Username)
-            {
-                request.Username = null;
-            }
             var validations = validation.CompleteValidate(request);
+
             if (!validations.Any())
             {
-                var user = Membership.GetUser(User.Identity.Name);
-                // TODO update the username
+                var response = Request.CreateResponse(new UpdateOnlineAccountResponse
+                {
+                    Success = true
+                });
+
+                // update the username
+                if (currentUsername != newUsername)
+                {
+                    if (authentication.ChangeUsername(currentUsername, newUsername))
+                    {
+                        // update the cookie
+                        authentication.AddAuthenticationCookie(response, request.Username);
+                    }
+                }
 
                 // TODO update the email address with Stream Connect
 
                 // update the password if it has been set
                 if (!string.IsNullOrEmpty(request.CurrentPassword) )
                 {
-                    user.ChangePassword(request.CurrentPassword, request.Password);
+                    currentUser.ChangePassword(request.CurrentPassword, request.Password);
                 }
+
                 // update the challeges
                 if (request.Challenges != null && request.Challenges.Any(c => !string.IsNullOrEmpty(c.Answer)))
                 {
@@ -506,17 +519,19 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     profile.Save();
                 }
 
-                // TODO update the language preference with Stream Connect
-
-                success = true;
+                // TODO update the language preference with Stream Connect;
                 
+                return response;
             }
-
-            return new UpdateOnlineAccountResponse
+            else 
             {
-                Success = success,
-                Validations = TranslatedValidationResult.Translate(validations, GetAuthItem("My Online Account Information"))
-            };
+                var response = Request.CreateResponse(new UpdateOnlineAccountResponse
+                {
+                    Success = false,
+                    Validations = TranslatedValidationResult.Translate(validations, GetAuthItem("My Online Account Information"))
+                });
+                return response;
+            }
         }
 
         #endregion
