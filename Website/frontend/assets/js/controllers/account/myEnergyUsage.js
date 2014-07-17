@@ -3,72 +3,46 @@
  */
 ngApp.controller('AcctMyEnergyUsageCtrl', ['$scope', '$rootScope', '$http', '$timeout', function ($scope, $rootScope, $http, $timeout) {
 	// set the graph options
+	var monthNames = ['','January','February','March','April','May','June','July','August','September','October','November','December']
+	var monthAbbreviations = ['','JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
 	$scope.options = {
-		lineMode: "cardinal",
+		lineMode: 'cardinal',
 		tension: 0.7,
 		axes: {
-			x: {type: "linear", key: "month", 
+			x: {type: 'linear', key: 'month', 
 					labelFunction: function (v) {
-						switch (v) {
-							case 1: return 'JAN';
-							case 2: return 'FEB';
-							case 3: return 'MAR';
-							case 4: return 'APR';
-							case 5: return 'MAY';
-							case 6: return 'JUN';
-							case 7: return 'JUL';
-							case 8: return 'AUG';
-							case 9: return 'SEP';
-							case 10: return 'OCT';
-							case 11: return 'NOV';
-							case 12: return 'DEC';
-							default: return '';
-						}
+						return monthAbbreviations[v];
 					}
 				},
-			y: {type: "linear", min: 0, max: 250},
-			y2: {type: "linear", min: 0, max: 100}
+			y: {type: 'linear', min: 0}//,
+			//y2: {type: 'linear', min: 0, max: 100}
 		},
 		drawLegend: false,
 		drawDots: true,
 		series: [
 			{
-				y: "electric",
-				label: "Electricity",
-				type: "column",
-				color: "#77bd43",
-				axis: "y",
+				y: 'usage',
+				label: 'Usage',
+				type: 'column',
+				color: '#77bd43',
+				axis: 'y',
 				visible: true
-			},
+			}/*,
 			{
-				y: "gas",
-				label: "Gas",
-				color: "#2a93c7",
-				axis: "y2",
-				type: "line",
-				thickness: "3px",
+				y: 'gas',
+				label: 'Gas',
+				color: '#2a93c7',
+				axis: 'y2',
+				type: 'line',
+				thickness: '3px',
 				visible: true
-			}
+			}*/
 		],
-		tooltip: {mode: "scrubber", interpolate: false,
+		tooltip: {mode: 'scrubber', interpolate: false,
 			formatter: function (x, y, series) {
-				var month = "";
-				switch (x) {
-						case 1: month = "January"; break
-						case 2: month = "February"; break
-						case 3: month = "March"; break
-						case 4: month = "April"; break
-						case 5: month = "May"; break
-						case 6: month = "June"; break
-						case 7: month = "July"; break
-						case 8: month = "August"; break
-						case 9: month = "September"; break
-						case 10: month = "October"; break
-						case 11: month = "November"; break
-						case 12: month = "December"; break
-					}
-				var units = (series.label == "Electricity") ? "kWh" : "Therms";
-				var tooltip = month + " " + series.label + ": "+ y + " " + units;
+				var month = monthNames[x];
+				var units = (series.label == 'Electricity') ? 'kWh' : 'Therms';
+				var tooltip = month + ' ' + series.label + ': ' + y + ' ' + units;
 				return tooltip;
 			}
 		}
@@ -106,6 +80,10 @@ ngApp.controller('AcctMyEnergyUsageCtrl', ['$scope', '$rootScope', '$http', '$ti
 				})
 					.success(function (data, status, headers, config) {
 						$scope.energyUsage = data.energyUsage;
+						$scope.utilityType = data.utilityType;
+						$scope.startMonth = monthNames[$scope.energyUsage[0].month];
+						$scope.endMonth = monthNames[$scope.energyUsage[11].month];
+						$scope.endYear = $scope.energyUsage[11].year;
 						$scope.isLoading = false;
 					});
 			}, 800);

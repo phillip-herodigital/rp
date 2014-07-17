@@ -18,9 +18,12 @@
     </div>
     <div class="content" loading-indicator>
         <div class="graph-header grid three">
-            <div class="col"><p><strong>@Html.Sitecore().Field("kWh Text")</strong></p></div>
-            <div class="col"><p>January - December 2013</p></div>
-            <div class="col last"><p><strong>@Html.Sitecore().Field("Gas Text")</strong></p></div>
+            <div class="col" ng-switch="utilityType">
+                <p ng-switch-when="Electric"><strong>@Html.Sitecore().Field("kWh Text")</strong></p>
+                <p ng-switch-when="Gas"><strong>@Html.Sitecore().Field("Gas Text")</strong></p>
+            </div>
+            <div class="col"><p>{{ startMonth }} - {{ endMonth }} {{ endYear }}</p></div>
+            <div class="col last"></div>
         </div>
         <div class="usage-graph">
             <div class="chart-wrapper">
@@ -28,9 +31,9 @@
             </div>
             
         </div>
-        <div class="graph-footer">
-            <div class="graph-key"><img src="~/frontend/assets/i/electric-key.png" /> @Html.Sitecore().Field("kWh Text")</div>
-            <div class="graph-key"><img src="~/frontend/assets/i/gas-key.png" /> @Html.Sitecore().Field("Gas Text")</div>
+        <div class="graph-footer" ng-switch="utilityType">
+            <div class="graph-key" ng-switch-when="Electric"><img src="~/frontend/assets/i/electric-key.png" /> @Html.Sitecore().Field("kWh Text")</div>
+            <div class="graph-key" ng-switch-when="Gas"><img src="~/frontend/assets/i/electric-key.png" /> @Html.Sitecore().Field("Gas Text")</div>
         </div>
         @*<img src="/sitecore/shell/~/media/Images/Pages/Account/energy_usage_graph.png" />*@
     </div>
@@ -43,5 +46,5 @@
             <option value="Option 2">Option 2</option>
         </select>
     </footer>
-    *@
+        *@
 </article>
