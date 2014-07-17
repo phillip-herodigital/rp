@@ -1,4 +1,4 @@
-ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollmentService', 'enrollmentCartService', function ($scope, $window, enrollmentService, enrollmentCartService) {
+ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollmentService', 'enrollmentStepsService', 'enrollmentCartService', function ($scope, $window, enrollmentService, enrollmentStepsService, enrollmentCartService) {
     $scope.accountInformation = {};
 
     $scope.getCartItems = enrollmentCartService.getCartItems;  
@@ -12,7 +12,13 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
      * Get the server data and populate the form
      */
     $scope.setServerData = function (result) {
-        enrollmentService.setClientData(result, true);
+        //get the result, which should include the expected state
+        enrollmentService.setClientData(result);
+        enrollmentStepsService.setFromServerStep(result.expectedState, true);
+
+
+        //set step to make sure we're supposed to be here
+        //enrollmentStepsService
 
         // copy out the account information the server has
         $scope.accountInformation.contactInfo = result.contactInfo || {};

@@ -3,8 +3,8 @@
     <div class="banner enrollment__banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper clearfix">
             <h1>
-                <span class="small block">@Html.Sitecore().Field("Add Payment")</span><br />
-                <span class="block">@Html.Sitecore().Field("Information")</span>
+                <span class="small block">@Html.Sitecore().Field("Banner Header Text")</span><br />
+                <span class="block">@Html.Sitecore().Field("Banner Sub Header Text")</span>
             </h1>
         </div>
     </div>
@@ -75,10 +75,10 @@
                     </div>
                 </article>
                 <div class="form terms-agreement">
-                    @Html.Sitecore().Field("Terms and Conditions Text")
+                    @Html.Sitecore().Field("Terms and Conditions Text").Format(new { LinkAttributes = "ng-click=\"showTerms('Standard')\"" })
                     <div class="item" @Html.ValidationErrorClass(m => m.AgreeToTerms)>
                         <ul class="checkbox-list">
-                            <li><input id="utility-services-agreement" type="checkbox" @Html.ValidationAttributes(c => c.AgreeToTerms) ng-model="completeOrder.agreeToTerms"> <label for="utility-services-agreement">@Html.Sitecore().Field("Utility Services - I Agree Text")</label></li>    
+                            <li><input id="tcpa-services-agreement" type="checkbox" @Html.ValidationAttributes(c => c.AgreeToTerms) ng-model="completeOrder.agreeToTerms"> <label for="tcpa-services-agreement">@Html.Sitecore().Field("TCPA - I Agree Text").Format(new { LinkAttributes = "ng-click=\"showTerms('Tcpa')\"" })</label></li>    
                         </ul>                            
                     </div>
                 </div>
@@ -131,12 +131,13 @@
 
 <script type="text/ng-template" id="completeOrderCartMonthly/TexasElectricity">
     <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
-        <dl class="clearfix" ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-include src="'paymentsCart/' + selectedOffer.offerOption.optionType + '/' + payment.offerPaymentAmountType">
+        <dl class="clearfix">
+            <ng-include ng-repeat="payment in selectedOffer.payments.requiredAmounts" src="'paymentsCart/' + payment.offerPaymentAmountType" />
         </dl>
     </div>
 </script>
 
-<script type="text/ng-template" id="paymentsCart/TexasElectricity/Deposit">
+<script type="text/ng-template" id="paymentsCart/Deposit">
     <dt>@Html.Sitecore().Field("Deposit Due")</dt>
     <dd>{{ payment.dollarAmount | currency }}</dd>
 </script>
@@ -156,15 +157,42 @@
                     {{selectedOffer.offer.rate | currency}} kWh
                 </td>
             </tr>
-            <tr ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-include src="'payments/' + selectedOffer.offerOption.optionType + '/' + payment.offerPaymentAmountType"></tr>
+            <tr ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0" ng-include src="'paymentsDue/' + payment.offerPaymentAmountType"></tr>
             <tr ng-repeat-end></tr>
         </tbody>
     </table>
 </script>
 
-<script type="text/ng-template" id="payments/TexasElectricity/Deposit">
+<script type="text/ng-template" id="paymentsDue/Deposit">
     <td class="sub-charge">
         <strong>@Html.Sitecore().Field("Deposit Due")</strong><br>
     </td>
     <td class="rate">{{ payment.dollarAmount | currency }}</td>
+</script>
+
+
+<script type="text/ng-template" id="Terms/Standard">
+    <div class="modal-header">
+        <a href="" ng-click="$dismiss()"></a>
+        <h2>@Html.Sitecore().Field("Terms and Conditions Header Text")</h2>
+    </div>
+    <div class="modal-body">
+        @Html.Sitecore().Field("Terms and Conditions Body Text")
+    </div>
+    <div class="modal-footer">
+        <button ng-click="$close()">@Html.Sitecore().Field("Close Terms and Conditions Button Text")</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="Terms/Tcpa">
+    <div class="modal-header">
+        <a href="" ng-click="$dismiss()"></a>
+        <h2>@Html.Sitecore().Field("TCPA Terms and Conditions Header Text")</h2>
+    </div>
+    <div class="modal-body">
+        @Html.Sitecore().Field("TCPA Terms and Conditions Body Text")
+    </div>
+    <div class="modal-footer">
+        <button ng-click="$close()">@Html.Sitecore().Field("Close TCPA Terms and Conditions Button Text")</button>
+    </div>
 </script>

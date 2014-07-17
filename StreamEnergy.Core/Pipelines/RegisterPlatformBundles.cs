@@ -20,7 +20,10 @@ namespace StreamEnergy.Pipelines
         private void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new StyleBundle("~/frontend/assets/css/bundle")
-                .Include("~/frontend/assets/css/*.css"));
+                .Include("~/frontend/assets/css/global.css"));
+
+            bundles.Add(new StyleBundle("~/frontend/assets/css/printbundle")
+                .Include("~/frontend/assets/css/partials/print.css"));
 
             bundles.Add(CommonScripts(new ScriptBundle("~/frontend/assets/js/bundle")
                 .Include("~/frontend/assets/js/libs/lodash/lodash.js")));
@@ -41,6 +44,8 @@ namespace StreamEnergy.Pipelines
                 .Include("~/frontend/assets/js/libs/angular/angular.min.js")
                 .Include("~/frontend/assets/js/libs/angular-bootstrap/ui-bootstrap-tpls.min.js")
                 .Include("~/frontend/assets/js/libs/angular-ui-slider/src/slider.js")
+                .Include("~/frontend/assets/js/libs/d3/d3.js")
+                .Include("~/frontend/assets/js/libs/d3/line-chart.js")
                 .Include("~/frontend/assets/js/app.js")
                 .IncludeDirectory("~/frontend/assets/js/modules/", "*.js", true)
                 .IncludeDirectory("~/frontend/assets/js/providers/", "*.js", true)

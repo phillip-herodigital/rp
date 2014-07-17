@@ -9,18 +9,24 @@
             <div class="content">
                 <div class="grid">
                     <div class="col">
-                        <p class="balance">@Html.Sitecore().Field("Balance")</p>
-                        <p class="details">@Html.Sitecore().Field("Details")</p>
+                        <p class="balance">@Html.Sitecore().Field("Balance")<br />
+                        <span class="details">@Html.Sitecore().Field("Details")</span></p>
                     </div>
-                    <div class="col due clearfix">
-                        <p>@Html.Sitecore().Field("Due")</p>
-                        <p class="pay">@Html.Sitecore().Field("Button Label")</p>
+                    <div class="col">
+                        <div class="grid clearfix">
+                            <div class="col">
+                                <p>Due: 06/14/2014</p>
+                            </div>
+                            <div class="col pay">
+                                <p>@Html.Sitecore().Field("Button Label")</p>
+                            </div>
+                        </div>
                     </div>
                 </div>   
             </div>
             <footer>
-                <p>@Html.Sitecore().Field("Next Auto Payment")<span class="link"><a href="#">@Html.Sitecore().Field("Manage Link")</a></span></p>
-                <p>@Html.Sitecore().Field("Last Payment Received")<span class="link"><a href="#">@Html.Sitecore().Field("View Link")</a></span></p>
+                <p>@Html.Sitecore().Field("Next Auto Payment")<span class="link">@Html.Sitecore().Field("Manage Link")</span></p>
+                <p>@Html.Sitecore().Field("Last Payment Received")<span class="link">@Html.Sitecore().Field("View Link")</span></p>
             </footer>
         </form>
     </div>

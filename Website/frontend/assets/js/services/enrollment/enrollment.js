@@ -28,7 +28,7 @@
     };
     service.identityQuestions = [];
 
-    service.setClientData = function (result, isConfirmationPage) {
+    service.setClientData = function (result) {
         // update our validations - don't make a new array, just copy all the validations over from the returned one. Saves copying back to the scope elsewhere.
         angular.copy(result.validations, service.validation);
 
@@ -62,14 +62,21 @@
 
         // set the identity questions from the server
         service.identityQuestions = result.identityQuestions;
-
-        enrollmentStepsService.setFromServerStep(result.expectedState, isConfirmationPage);
     };
 
-    function makeCall(urlSuffix, data, mode) {
+    function makeCall(urlSuffix, data, mode, overrideServerStep) {
         var deferred = $q.defer(),
         start = new Date().getTime();
         mode = mode || 'post';
+        overrideServerStep = overrideServerStep || false;
+
+        //Let the 3rd parameter be mode or overrideServerStep
+        if(arguments.length == 3) {
+            if(typeof arguments[2] == "boolean") {
+                overrideServerStep = arguments[2];
+                mode = 'post';
+            }
+        } 
 
         $http.post(urlPrefix + urlSuffix, data)
         .success(function (data) {
@@ -85,6 +92,10 @@
 
         return deferred.promise.then(function (result) {
             service.setClientData(result);
+
+            if(!overrideServerStep) {
+                enrollmentStepsService.setFromServerStep(result.expectedState, overrideServerStep);
+            }
 
             return result;
         });
@@ -129,7 +140,7 @@
     * 
     * @return {object}            Promise object returned when API call has successfully completed.
     */
-    service.setSelectedOffers = function () {
+    service.setSelectedOffers = function (overrideServerStep) {
         //Get from the activeServiceAddress object
         var data = {
             'selection': []
@@ -149,7 +160,7 @@
             });
         });
 
-        return makeCall('selectedOffers', data);
+        return makeCall('selectedOffers', data, overrideServerStep);
     };
 
     /**

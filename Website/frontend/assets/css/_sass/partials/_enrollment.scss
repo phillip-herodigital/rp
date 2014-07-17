@@ -103,6 +103,7 @@ $enrollment-module-vertical-padding: 20px;
     }
 }
 
+/* Commenting out the social login
 .enrollment__box--account-creation {
     .content {
         padding-top: 0;
@@ -133,7 +134,7 @@ $enrollment-module-vertical-padding: 20px;
             padding-top: 10px;
         }
     }    
-}
+}*/
 
 /*
     Bulleted enrollment navigation
@@ -464,6 +465,7 @@ $enrollment-module-vertical-padding: 20px;
     }
     hr {
         margin: 15px 0;
+        //border-top-width: 1px;
     }
     h1 {
         font-size: 20px;
@@ -519,7 +521,24 @@ $enrollment-module-vertical-padding: 20px;
 		width: 100%;
 	}
     .cart-item {
-        margin-bottom: 10px;
+        margin: 0 -13px;
+        padding: 13px;
+        border-bottom: 3px solid #eaeaea;
+        &:first-child {
+            padding-top: 0;
+        }
+        h2 {
+            margin-top: 0;
+            color: #333;
+            font-size: 15px;
+            font-weight: bold;
+            text-transform: none;
+        }
+    }
+    .cart-product {
+        margin: 10px 0;
+        padding-top: 10px;
+        border-top: 2px solid #eaeaea;
         &:last-child {
             margin-bottom: 0;
         }
@@ -533,7 +552,8 @@ $enrollment-module-vertical-padding: 20px;
     .rate {
         float: left;
         width: 29%;
-        font-size: 18px;
+        margin-top: 3px;
+        font-size: 16px;
         line-height: 14px;
         font-weight: bold;
         text-align: center;
@@ -548,14 +568,7 @@ $enrollment-module-vertical-padding: 20px;
     .description {
         float: left;
         width: 60%;
-        h2 {
-            line-height: 16px;
-            margin: 0;
-            color: #333;
-            font-size: 16px;
-            font-weight: bold;
-            text-transform: none;
-        }
+        font-size: 15px;
         a {
             font-size: 13px;
         }
@@ -700,12 +713,9 @@ $enrollment-module-vertical-padding: 20px;
     #state-select {
         width: auto;
         button {
-            border: none;
+            border-color: #cfcfcf;
             text-transform: uppercase;
             @include box-shadow(none);
-            .caret {
-                display: none;
-            }
         }
         .icon {
             background-position: 10px center;

@@ -639,16 +639,55 @@ article.energy-usage {
 				float: left;
 			}
 			&.last {
-			text-align: right;
-			@include breakpoint(small) {
-				width: 33%;
-				float: right;
+				text-align: right;
+				@include breakpoint(small) {
+					width: 33%;
+					float: right;
+				}
 			}
-		}
 		}
 	}
 	.usage-graph {
 		text-align: center;
+		max-width: 600px;
+		margin: 0 auto;
+		clear: both;
+		.chart-wrapper {
+			max-height: 350px;
+			.chart{
+				font-weight: 500;
+				g.x {
+					font-size: 12px;
+					@include breakpoint(small) {
+						font-size: 10px;
+					}
+				}
+				g.y, g.y2 {
+					font-size: 14px;
+					fill: #9e9e9e;
+				}
+				.grid .tick {
+					@include breakpoint(large) {
+						stroke: #eeeff0;
+					}
+				}
+			}
+		}
+	}
+	.graph-footer {
+		margin-top: -20px;
+		text-align: center;	
+		.graph-key {
+			display: inline-block;
+			width: 140px;
+			color: #7f7f81;
+			font-size: 14px;
+			font-weight: 700;
+			img {
+				margin-right: 8px;
+				vertical-align: middle;
+			}
+		}
 	}
 	.compare {
 		p {
@@ -1210,14 +1249,15 @@ article.mobile {
 				margin: 10px 0;
 			}
 			.details {
-				margin: 0;
+				font-size: 16px;
 			}
-			&.due {
-				p {
-					float: left;
-					margin-top: -4px;
-					&.pay {
-						float: right;
+			&.pay p {
+				float: right;
+				margin-top: 10px;
+				@include breakpoint (small) {
+					width: 100%;
+					a.button {
+						width: 100%;
 					}
 				}
 			}
@@ -1226,22 +1266,6 @@ article.mobile {
 			a.button {
 				@include breakpoint(small) {
 					width: 100%;
-				}
-			}
-			ul.links li {
-				float: left;
-				list-style-type: none;
-				margin-right: 7px;
-				padding-left: 7px;
-				border-left: 1px solid #0971ce;
-				&:first-child {
-					border-left: none;
-					padding-left: 0;
-				}
-				@include breakpoint(small) {
-					border-left: 0;
-					float: none;
-					text-align: center;
 				}
 			}
 			&.current-data {
@@ -1265,7 +1289,7 @@ article.mobile {
 				float: left;
 				@include breakpoint(small) {
 					float: left;
-					width: 80%;
+					width: 75%;
 					&.full {
 						width: 100%;
 					}
@@ -1294,7 +1318,26 @@ article.mobile {
 					}
 				}
 				@include breakpoint(small) {
-					width: 20%;
+					width: 25%;
+				}
+			}
+		}
+		ul.links {
+			padding-left: 0;
+			li {
+				float: left;
+				list-style-type: none;
+				margin-right: 7px;
+				padding-left: 7px;
+				border-left: 1px solid #0971ce;
+				&:first-child {
+					border-left: none;
+					padding-left: 0;
+				}
+				@include breakpoint(small) {
+					border-left: 0;
+					float: none;
+					text-align: center;
 				}
 			}
 		}
@@ -1309,8 +1352,12 @@ article.mobile {
 	footer {
 		p {
 			margin: 5px 0;
-			.link {
+			span.link {
 				margin-left: 10px;
+				@include breakpoint(small) {
+					display: block;
+					margin-left: 0;
+				}
 			}
 		}
 		.footer-left {
@@ -1512,20 +1559,38 @@ article.upgrade-effective {
 		top: 20px;
 		right: 20px;
 	}
+	@include breakpoint(small) {
+		.content .group .item {
+			&.paragraph {
+				width: 65%;
+			}
+			&.price {
+				width: 35%;
+			}
+		}
+	}
 	footer {
 		.footer-left {
 			margin-top: 40px;
 		}
 		.footer-right {
 			float: right;
+			dt {
+				width: 150px;
+				text-align: right;
+			}
+			dd {
+				margin-left: 25px;
+				width: auto;
+			}
+			@include breakpoint(small) {
 				dt {
-					width: 150px;
-					text-align: right;
+					text-align: left;
 				}
 				dd {
-					margin-left: 25px;
-					width: auto;
+					margin-left: 0;
 				}
+			}
 		}
 	}
 }

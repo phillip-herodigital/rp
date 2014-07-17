@@ -40,6 +40,7 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentSt
      */
     $scope.setServerData = function (serverData) {
         enrollmentService.setClientData(serverData);
+        enrollmentStepsService.setFromServerStep(serverData.expectedState);
     };
 
     $scope.assignStepNames = function (navTitles) {
