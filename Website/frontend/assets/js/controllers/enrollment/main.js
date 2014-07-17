@@ -1,7 +1,7 @@
 ﻿/* Enrollment Main Controller
  * This is the main controller for Enrollments. It will keep track of the enrollment state, as well as all fields that will need to be collected.
  */
-ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentStepsService', 'enrollmentService', 'scrollService', 'jQuery', function ($scope, $anchorScroll, enrollmentStepsService, enrollmentService, scrollService, jQuery) {
+ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentStepsService', 'enrollmentService', 'scrollService', '$timeout', function ($scope, $anchorScroll, enrollmentStepsService, enrollmentService, scrollService, $timeout) {
     $scope.validations = enrollmentService.validations;
     $scope.stepsService = enrollmentStepsService;
 
@@ -40,7 +40,9 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentSt
      */
     $scope.setServerData = function (serverData) {
         enrollmentService.setClientData(serverData);
-        enrollmentStepsService.setFromServerStep(serverData.expectedState);
+        $timeout(function () {
+            enrollmentStepsService.setFromServerStep(serverData.expectedState);
+        })
     };
 
     $scope.assignStepNames = function (navTitles) {

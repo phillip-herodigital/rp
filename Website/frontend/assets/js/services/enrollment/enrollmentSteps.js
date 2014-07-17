@@ -144,7 +144,22 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
         deActivateStep: function(id) {
             steps[id].isActive = false;
             steps[id].isVisible = false;
-        },        
+        },
+
+        hideStep: function (id) {
+            steps[id].isActive = true;
+            steps[id].isVisible = false;
+            steps[id].canJumpTo = false;
+        },
+
+        setMaxStep: function (step) {
+            var isFlowSpecific = steps[step].isFlowSpecific;
+            angular.forEach(steps, function (value, key) {
+                if (_.contains(value.previous, step) || (isFlowSpecific && !value.isFlowSpecific)) {
+                    service.hideStep(key);
+                }
+            });
+        },
 
         /**
          * [setStep description]
