@@ -8,7 +8,7 @@ namespace StreamEnergy.MyStream.Models.Account
     public class UtilityUsage
     {
         public int Month { get; set; }
-        public int Electric { get; set; }
-        public int Gas { get; set; }
+        public int Year { get; set; }
+        public int Usage { get; set; }
     }
 }

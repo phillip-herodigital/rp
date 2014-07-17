@@ -88,34 +88,35 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             // TODO get the energy usage from Stream Connect
 
-            var jan = new UtilityUsage { Month = 1, Electric = 80, Gas = 42 };
-            var feb = new UtilityUsage { Month = 2, Electric = 70, Gas = 45 };
-            var mar = new UtilityUsage { Month = 3, Electric = 80, Gas = 60 };
-            var apr = new UtilityUsage { Month = 4, Electric = 110, Gas = 58 };
-            var may = new UtilityUsage { Month = 5, Electric = 110, Gas = 70 };
-            var jun = new UtilityUsage { Month = 6, Electric = 125, Gas = 78 };
-            var jul = new UtilityUsage { Month = 7, Electric = 175, Gas = 90 };
-            var aug = new UtilityUsage { Month = 8, Electric = 200, Gas = 81 };
-            var sep = new UtilityUsage { Month = 9, Electric = 175, Gas = 77 };
-            var oct = new UtilityUsage { Month = 10, Electric = 160, Gas = 79 };
-            var nov = new UtilityUsage { Month = 11, Electric = 140, Gas = 62 };
-            var dec = new UtilityUsage { Month = 12, Electric = 130, Gas = 58 };
+            var jan = new UtilityUsage { Month = 1, Year = 2013, Usage = 80 };
+            var feb = new UtilityUsage { Month = 2, Year = 2013, Usage = 70 };
+            var mar = new UtilityUsage { Month = 3, Year = 2013, Usage = 80 };
+            var apr = new UtilityUsage { Month = 4, Year = 2013, Usage = 110 };
+            var may = new UtilityUsage { Month = 5, Year = 2013, Usage = 110 };
+            var jun = new UtilityUsage { Month = 6, Year = 2013, Usage = 125 };
+            var jul = new UtilityUsage { Month = 7, Year = 2013, Usage = 175 };
+            var aug = new UtilityUsage { Month = 8, Year = 2013, Usage = 200 };
+            var sep = new UtilityUsage { Month = 9, Year = 2013, Usage = 175 };
+            var oct = new UtilityUsage { Month = 10, Year = 2013, Usage = 160 };
+            var nov = new UtilityUsage { Month = 11, Year = 2013, Usage = 140 };
+            var dec = new UtilityUsage { Month = 12, Year = 2013, Usage = 130 };
 
-            var jan2 = new UtilityUsage { Month = 1, Electric = 60, Gas = 60 };
-            var feb2 = new UtilityUsage { Month = 2, Electric = 100, Gas = 55 };
-            var mar2 = new UtilityUsage { Month = 3, Electric = 110, Gas = 70 };
-            var apr2 = new UtilityUsage { Month = 4, Electric = 90, Gas = 58 };
-            var may2 = new UtilityUsage { Month = 5, Electric = 100, Gas = 72 };
-            var jun2 = new UtilityUsage { Month = 6, Electric = 145, Gas = 82 };
-            var jul2 = new UtilityUsage { Month = 7, Electric = 165, Gas = 85 };
-            var aug2 = new UtilityUsage { Month = 8, Electric = 140, Gas = 81 };
-            var sep2 = new UtilityUsage { Month = 9, Electric = 75, Gas = 70 };
-            var oct2 = new UtilityUsage { Month = 10, Electric = 110, Gas = 69 };
-            var nov2 = new UtilityUsage { Month = 11, Electric = 120, Gas = 62 };
-            var dec2 = new UtilityUsage { Month = 12, Electric = 130, Gas = 70 };
+            var jan2 = new UtilityUsage { Month = 1, Year = 2013, Usage = 60 };
+            var feb2 = new UtilityUsage { Month = 2, Year = 2013, Usage = 55 };
+            var mar2 = new UtilityUsage { Month = 3, Year = 2013, Usage = 70 };
+            var apr2 = new UtilityUsage { Month = 4, Year = 2013, Usage = 58 };
+            var may2 = new UtilityUsage { Month = 5, Year = 2013, Usage = 72 };
+            var jun2 = new UtilityUsage { Month = 6, Year = 2013, Usage = 82 };
+            var jul2 = new UtilityUsage { Month = 7, Year = 2013, Usage = 85 };
+            var aug2 = new UtilityUsage { Month = 8, Year = 2013, Usage = 81 };
+            var sep2 = new UtilityUsage { Month = 9, Year = 2013, Usage = 70 };
+            var oct2 = new UtilityUsage { Month = 10, Year = 2013, Usage = 69 };
+            var nov2 = new UtilityUsage { Month = 11, Year = 2013, Usage = 62 };
+            var dec2 = new UtilityUsage { Month = 12, Year = 2013, Usage = 70 };
 
             return new GetEnergyUsageResponse
             {
+                UtilityType = accountNumber == "1197015532" ? "Electric" : "Gas",
                 EnergyUsage = accountNumber == "1197015532" ? new[] { jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec } : new[] { jan2, feb2, mar2, apr2, may2, jun2, jul2, aug2, sep2, oct2, nov2, dec2 }
             };
         }

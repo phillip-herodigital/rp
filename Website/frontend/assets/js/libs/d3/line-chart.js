@@ -55,7 +55,6 @@ directive('linechart', [
         _u.clean(element[0]);
         svg = _u.bootstrap(element[0], dimensions);
         axes = _u.createAxes(svg, dimensions, options.axes).andAddThemIf(isThumbnail);
-        grid = _u.createGrid(svg, dimensions);
         if (dataPerSeries.length) {
           _u.setScalesDomain(axes, scope.data, options.series, svg, options.axes);
         }
@@ -64,6 +63,7 @@ directive('linechart', [
         } else {
           _u.adjustMargins(svg, dimensions, options, scope.data);
         }
+        _u.createGrid(svg, dimensions);
         _u.createContent(svg, handlers);
         if (dataPerSeries.length) {
           columnWidth = _u.getBestColumnWidth(dimensions, dataPerSeries);
@@ -192,7 +192,7 @@ mod.factory('n3utils', [
           return 10;
         }
         n = seriesData[0].values.length + 2;
-        seriesCount = seriesData.length;
+        seriesCount = 2//seriesData.length;
         gap = 0;
         avWidth = dimensions.width - dimensions.left - dimensions.right;
         return parseInt(Math.max((avWidth - (n - 1) * gap) / (n * seriesCount), 5));
@@ -1013,7 +1013,7 @@ mod.factory('n3utils', [
             .attr({'xlink:href': '/frontend/assets/i/chart-bg.png',
                    'width': width,
                    'height': 44,
-                   'transform':'translate(0, 0)'
+                   'transform':'translate(0, -1)'
                   })
           }
         });
