@@ -168,6 +168,7 @@ namespace StreamEnergy.MyStream.Tests
 
                 // Assert
                 Assert.AreEqual("Services[0].SelectedOffers", result.Validations.Single().MemberName);
+                Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.PlanSelection, result.ExpectedState);
                 Assert.AreEqual("75010", result.Cart.Single().Location.Address.PostalCode5);
                 Assert.AreEqual(DomainModels.TexasServiceCapability.Qualifier, result.Cart.Single().Location.Capabilities.First().CapabilityType);
                 Assert.AreEqual("Centerpoint", (result.Cart.Single().Location.Capabilities.First() as DomainModels.TexasServiceCapability).Tdu);
@@ -209,7 +210,7 @@ namespace StreamEnergy.MyStream.Tests
             var request = new Models.Enrollment.SelectedOffers
             {
                 Selection = new[] {
-                    new Models.Enrollment.SelectedOfferSet { Location = generalLocation, OfferIds = new[] { "24-month-fixed-rate" } }
+                    new Models.Enrollment.SelectedOfferSet { Location = specificLocation, OfferIds = new[] { "24-month-fixed-rate" } }
                 }
             };
 
@@ -221,13 +222,14 @@ namespace StreamEnergy.MyStream.Tests
                 var result = await controller.SelectedOffers(request);
 
                 // Assert
+                Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.PlanSettings, result.ExpectedState);
                 Assert.IsTrue(result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Any(o => o.OfferId == "24-month-fixed-rate"));
                 Assert.IsNotNull(result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Single(o => o.OfferId == "24-month-fixed-rate").OptionRules);
             }
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.AccountInformationState), session.State);
             Assert.IsTrue(session.Context.Services.First().SelectedOffers.Any(o => o.Offer.Id == "24-month-fixed-rate"));
-            Assert.IsNotNull(session.InternalContext.OfferOptionRules.SingleOrDefault(e => e.Location == generalLocation && e.Offer.Id == "24-month-fixed-rate").Details);
+            Assert.IsNotNull(session.InternalContext.OfferOptionRules.SingleOrDefault(e => e.Location == specificLocation && e.Offer.Id == "24-month-fixed-rate").Details);
         }
 
         [TestMethod]
@@ -296,6 +298,7 @@ namespace StreamEnergy.MyStream.Tests
                 var result = await controller.AccountInformation(request);
 
                 // Assert
+                Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.VerifyIdentity, result.ExpectedState);
                 Assert.AreEqual("Test", result.ContactInfo.Name.First);
                 Assert.AreEqual("Person", result.ContactInfo.Name.Last);
                 Assert.AreEqual("test@example.com", result.ContactInfo.Email.Address);
@@ -364,6 +367,7 @@ namespace StreamEnergy.MyStream.Tests
                 var result = await controller.VerifyIdentity(request);
 
                 // Assert
+                Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.ReviewOrder, result.ExpectedState);
                 Assert.IsFalse(result.IdentityQuestions.Any());
                 Assert.AreEqual(75.25m, result.Cart.Sum(l => l.OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Sum(sel => sel.Payments.RequiredAmounts.Sum(p => p.DollarAmount))));
             }
@@ -418,6 +422,7 @@ namespace StreamEnergy.MyStream.Tests
                 var result = await controller.VerifyIdentity(request);
 
                 // Assert
+                Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.ReviewOrder, result.ExpectedState);
                 Assert.AreEqual(0, result.Cart.Sum(l => l.OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Sum(sel => sel.Payments.RequiredAmounts.Sum(p => p.DollarAmount))));
             }
 
@@ -478,6 +483,7 @@ namespace StreamEnergy.MyStream.Tests
                 var result = await controller.ConfirmOrder(request);
 
                 // Assert
+                Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.OrderConfirmed, result.ExpectedState);
                 Assert.AreEqual("87654321", result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Single().ConfirmationNumber);
             }
 
