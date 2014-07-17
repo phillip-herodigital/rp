@@ -476,7 +476,13 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             var currentUser = Membership.GetUser(User.Identity.Name);
             var currentUsername = currentUser.UserName;
-            var newUsername = domain.AccountPrefix + request.Username;
+            var newUsername = request.Username;
+
+            request.Username = domain.AccountPrefix + request.Username;
+            if (currentUsername == request.Username)
+            { 
+                request.Username = null;
+            }
 
             var validations = validation.CompleteValidate(request);
 
@@ -488,19 +494,19 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 });
 
                 // update the username
-                if (currentUsername != newUsername)
+                if (!string.IsNullOrEmpty(request.Username))
                 {
-                    if (authentication.ChangeUsername(currentUsername, newUsername))
+                    if (authentication.ChangeUsername(currentUsername, request.Username))
                     {
                         // update the cookie
-                        authentication.AddAuthenticationCookie(response, request.Username);
+                        authentication.AddAuthenticationCookie(response, newUsername);
                     }
                 }
 
                 // TODO update the email address with Stream Connect
 
                 // update the password if it has been set
-                if (!string.IsNullOrEmpty(request.CurrentPassword) )
+                if (!string.IsNullOrEmpty(request.CurrentPassword))
                 {
                     currentUser.ChangePassword(request.CurrentPassword, request.Password);
                 }

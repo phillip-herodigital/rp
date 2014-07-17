@@ -69,6 +69,7 @@ ngApp.controller('AcctOnlineAccountCtrl', ['$scope', '$rootScope', '$http', '$ti
 
 					} else {
 						// if successful, alert the user
+						$scope.validations = [];
 						$scope.isLoading = false;
 						$scope.successMessage = true;
 					}
