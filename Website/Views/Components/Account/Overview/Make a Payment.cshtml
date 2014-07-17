@@ -84,57 +84,11 @@
                                     <div class="payment-selection">
                                         <label><input type="radio" name="payment-type" ng-model="ctrl.newPaymentMethodType" value="TokenizedCard">@Html.Sitecore().Field("Credit Card Text")</label>
                                     </div>
-                                    <div class="payment-options" ng-show="ctrl.newPaymentMethodType == 'TokenizedCard'" ng-controller="CreditCardPaymentCtrl as ccCtrl" ng-init="ctrl.newPaymentMethod['TokenizedCard'] = ccCtrl.tokenizedCard">
-                                        <div class="item" data-val-error="PaymentAccount.CreditCardNumber">
-                                            <label for="credit-card-number">@Html.Sitecore().Field("Credit Card Number Text")</label>
-                                            <input id="credit-card-number" name="PaymentAccount.CreditCardNumber" data-val="true" data-val-if="ctrl.newPaymentMethodType == 'TokenizedCard'" data-val-creditcard="@Html.Sitecore().Field("Credit Card Number Invalid")" data-val-required="@Html.Sitecore().Field("Credit Card Number Required")" tokenize-card ng-model="ccCtrl.cardToken" type="text">
-                                        </div>
-                                        <div class="group">
-                                            <div class="item" @Html.ValidationErrorClass(m => ((StreamEnergy.DomainModels.Payments.TokenizedCard)m.PaymentAccount).ExpirationDate)>
-                                                <label for="expiration-date">@Html.Sitecore().Field("Expiration Date Text")</label>
-                                                <select class="small" id="cc-month" name="@Html.For(m => ((StreamEnergy.DomainModels.Payments.TokenizedCard)m.PaymentAccount).ExpirationDate)" data-val="true" data-val-if="ctrl.newPaymentMethodType == 'TokenizedCard'" data-val-required="" ng-model="ccCtrl.expirationMonth" ng-options="month for month in ccCtrl.expirationMonths">
-                                                    <option value="">MM</option>
-                                                </select>
-                                                <select class="small" id="cc-year" name="@Html.For(m => ((StreamEnergy.DomainModels.Payments.TokenizedCard)m.PaymentAccount).ExpirationDate)" data-val="true" data-val-if="ctrl.newPaymentMethodType == 'TokenizedCard'" data-val-required="" ng-model="ccCtrl.expirationYear" ng-options="year for year in ccCtrl.expirationYears">
-                                                    <option value="">YYYY</option>
-                                                </select>
-                                            </div>
-                                            <div class="item" @Html.ValidationErrorClass(m => ((StreamEnergy.DomainModels.Payments.TokenizedCard)m.PaymentAccount).BillingZipCode)>
-                                                <label for="@Html.For(m => ((StreamEnergy.DomainModels.Payments.TokenizedCard)m.PaymentAccount).BillingZipCode)">@Html.Sitecore().Field("Billing Zip Text")</label>
-                                                <input class="small" type="text" @Html.ValidationAttributes(m => ((StreamEnergy.DomainModels.Payments.TokenizedCard)m.PaymentAccount).BillingZipCode) data-val-if="ctrl.newPaymentMethodType == 'TokenizedCard'" ng-model="ccCtrl.billingZip">
-                                            </div>
-                                            <div class="item" @Html.ValidationErrorClass(m => ((StreamEnergy.DomainModels.Payments.TokenizedCard)m.PaymentAccount).SecurityCode)>
-                                                <label for="@Html.For(m => ((StreamEnergy.DomainModels.Payments.TokenizedCard)m.PaymentAccount).SecurityCode)">@Html.Sitecore().Field("Security Code Text")</label>
-                                                <input class="small" type="text" @Html.ValidationAttributes(m => ((StreamEnergy.DomainModels.Payments.TokenizedCard)m.PaymentAccount).SecurityCode) data-val-if="ctrl.newPaymentMethodType == 'TokenizedCard'" ng-model="ccCtrl.securityCode">
-                                            </div>
-                                            <div class="item">
-                                                <a href="" class="single-link">@Html.Sitecore().Field("See Example Link Text")</a>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <div ng-show="ctrl.newPaymentMethodType == 'TokenizedCard'" credit-card-payment="ctrl.newPaymentMethod['TokenizedCard']" data-val-if="ctrl.newPaymentMethodType == 'TokenizedCard'"></div>
                                     <div class="payment-selection">
                                         <input type="radio" id="bank-account" name="payment-type" ng-model="ctrl.newPaymentMethodType" value="BankPaymentMethod"><label for="bank-account">@Html.Sitecore().Field("Bank Account Text")</label>
                                     </div>
-                                    <div class="payment-options" ng-show="ctrl.newPaymentMethodType == 'BankPaymentMethod'" ng-controller="BankAccountPaymentCtrl as bankCtrl" ng-init="ctrl.newPaymentMethod['BankPaymentMethod'] = bankCtrl.bankAccount; bankTypes = @(Html.Action("BankCategories", "Data").ToHtmlString());">
-                                        <div class="item" @Html.ValidationErrorClass(m => ((StreamEnergy.DomainModels.Payments.BankPaymentInfo)m.PaymentAccount).Category)>
-                                            <label for="@Html.For(m => ((StreamEnergy.DomainModels.Payments.BankPaymentInfo)m.PaymentAccount).Category)">@Html.Sitecore().Field("Account Type Text")</label>
-                                            <select @Html.ValidationAttributes(m => ((StreamEnergy.DomainModels.Payments.BankPaymentInfo)m.PaymentAccount).Category) ng-model="bankCtrl.category" data-val-if="ctrl.newPaymentMethodType == 'BankPaymentMethod'" ng-options="bankType.name as bankType.display for bankType in bankTypes">
-                                                <option value="">Please Choose</option>
-                                                @* TODO *@
-                                            </select>
-                                        </div>
-                                        <div class="group">
-                                            <div class="item group-col" @Html.ValidationErrorClass(m => ((StreamEnergy.DomainModels.Payments.BankPaymentInfo)m.PaymentAccount).RoutingNumber)>
-                                                <label for="@Html.For(m => ((StreamEnergy.DomainModels.Payments.BankPaymentInfo)m.PaymentAccount).RoutingNumber)">@Html.Sitecore().Field("Routing Number Text")</label>
-                                                <input type="text" @Html.ValidationAttributes(m => ((StreamEnergy.DomainModels.Payments.BankPaymentInfo)m.PaymentAccount).RoutingNumber) data-val-if="ctrl.newPaymentMethodType == 'BankPaymentMethod'" ng-model="bankCtrl.routingNumber">
-                                            </div>
-                                            <div class="item group-col" @Html.ValidationErrorClass(m => ((StreamEnergy.DomainModels.Payments.BankPaymentInfo)m.PaymentAccount).AccountNumber)>
-                                                <label for="@Html.For(m => ((StreamEnergy.DomainModels.Payments.BankPaymentInfo)m.PaymentAccount).AccountNumber)">@Html.Sitecore().Field("Account Number Text")</label>
-                                                <input type="text" @Html.ValidationAttributes(m => ((StreamEnergy.DomainModels.Payments.BankPaymentInfo)m.PaymentAccount).AccountNumber) data-val-if="ctrl.newPaymentMethodType == 'BankPaymentMethod'" ng-model="bankCtrl.accountNumber">
-                                            </div>
-                                        </div>
-                                        <img src="http://placehold.it/350x80" alt="">
-                                    </div>
+                                    <div ng-show="ctrl.newPaymentMethodType == 'BankPaymentMethod'" bank-account-payment="ctrl.newPaymentMethod['BankPaymentMethod']" data-val-if="ctrl.newPaymentMethodType == 'BankPaymentMethod'"></div>
                                 </div>
                             </fieldset>
                         </div>
