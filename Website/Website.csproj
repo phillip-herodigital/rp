@@ -699,6 +699,7 @@
     <None Include="Properties\PublishProfiles\my-stream__Staging.pubxml" />
     <Content Include="Views\Components\Payments\New Credit Card.cshtml" />
     <Content Include="Views\layouts\Raw Layout.cshtml" />
+    <Content Include="Views\Components\Payments\New Bank Account.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

@@ -57,27 +57,7 @@
                         <div class="payment-selection">
                             <input type="radio" id="bank-account" name="payment-type" ng-model="ctrl.newPaymentMethodType" value="BankPaymentMethod" ng-required="true"><label for="bank-account">@Html.Sitecore().Field("Bank Account Label")</label>
                         </div>
-                        <div class="payment-options" ng-show="ctrl.newPaymentMethodType == 'BankPaymentMethod'" ng-controller="BankAccountPaymentCtrl as bankCtrl" ng-init="ctrl.newPaymentMethod['BankPaymentMethod'] = bankCtrl.bankAccount; bankTypes = @(Html.Action("BankCategories", "Data").ToHtmlString());">
-                            <div class="item" @Html.ValidationErrorClass(m => ((StreamEnergy.DomainModels.Payments.BankPaymentInfo)m.PaymentAccount).Category)>
-                                <label for="@Html.For(m => ((StreamEnergy.DomainModels.Payments.BankPaymentInfo)m.PaymentAccount).Category)">@Html.Sitecore().Field("Account Type Label")</label>
-                                <select @Html.ValidationAttributes(m => ((StreamEnergy.DomainModels.Payments.BankPaymentInfo)m.PaymentAccount).Category) ng-model="bankCtrl.category" data-val-if="ctrl.newPaymentMethodType == 'BankPaymentMethod'" ng-options="bankType.name as bankType.display for bankType in bankTypes">
-                                    <option value="">Please Choose</option>
-                                    @* TODO *@
-                                </select>
-                            </div>
-                            <div class="group">
-                                <div class="item group-col" @Html.ValidationErrorClass(m => ((StreamEnergy.DomainModels.Payments.BankPaymentInfo)m.PaymentAccount).RoutingNumber)>
-                                    <label for="@Html.For(m => ((StreamEnergy.DomainModels.Payments.BankPaymentInfo)m.PaymentAccount).RoutingNumber)">@Html.Sitecore().Field("Routing Number Label")</label>
-                                    <input type="text" @Html.ValidationAttributes(m => ((StreamEnergy.DomainModels.Payments.BankPaymentInfo)m.PaymentAccount).RoutingNumber) data-val-if="ctrl.newPaymentMethodType == 'BankPaymentMethod'" ng-model="bankCtrl.routingNumber">
-                                </div>
-                                <div class="item group-col" @Html.ValidationErrorClass(m => ((StreamEnergy.DomainModels.Payments.BankPaymentInfo)m.PaymentAccount).AccountNumber)>
-                                    <label for="@Html.For(m => ((StreamEnergy.DomainModels.Payments.BankPaymentInfo)m.PaymentAccount).AccountNumber)">@Html.Sitecore().Field("Account Number Label")</label>
-                                    <input type="text" @Html.ValidationAttributes(m => ((StreamEnergy.DomainModels.Payments.BankPaymentInfo)m.PaymentAccount).AccountNumber) data-val-if="ctrl.newPaymentMethodType == 'BankPaymentMethod'" ng-model="bankCtrl.accountNumber">
-                                </div>
-                            </div>
-                            @Html.Sitecore().Field("Check Sample Image")
-                            <img src="http://placehold.it/350x80" alt=""/>
-                        </div>
+                        <div ng-show="ctrl.newPaymentMethodType == 'BankPaymentMethod'" bank-account-payment="ctrl.newPaymentMethod['BankPaymentMethod']" data-val-if="ctrl.newPaymentMethodType == 'BankPaymentMethod'"></div>
                     </div>
                 </fieldset>
 			</div>
