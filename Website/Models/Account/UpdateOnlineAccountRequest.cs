@@ -35,8 +35,8 @@ namespace StreamEnergy.MyStream.Models.Account
         {
             if (Username != null)
             {
-                //if (Membership.FindUsersByName(Username).Count > 0)
-                    //yield return new ValidationResult("Username In Use", new[] { "Username" });
+                if (Membership.FindUsersByName(Username).Count > 0)
+                    yield return new ValidationResult("Username In Use", new[] { "Username" });
             }
 
             yield break;

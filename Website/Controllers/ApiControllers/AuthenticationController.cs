@@ -19,6 +19,8 @@ using StreamEnergy.MyStream.Models.Authentication;
 using StreamEnergy.Processes;
 using StreamEnergy.Services.Clients;
 using System.Threading.Tasks;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -343,12 +345,45 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         
         #endregion
 
+        #region Change Username
+
+        public bool ChangeUsername(string oldUsername, string newUsername)
+        {
+            string ConnectionString = Sitecore.Configuration.Settings.GetConnectionString("core");
+
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+
+                using (SqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = "UPDATE aspnet_Users SET UserName=@NewUsername,LoweredUserName=@LoweredNewUsername WHERE UserName=@OldUsername";
+
+                    SqlParameter parameter = new SqlParameter("@OldUsername", SqlDbType.VarChar);
+                    parameter.Value = oldUsername;
+                    command.Parameters.Add(parameter);
+
+                    parameter = new SqlParameter("@NewUsername", SqlDbType.VarChar);
+                    parameter.Value = newUsername;
+                    command.Parameters.Add(parameter);
+
+                    parameter = new SqlParameter("@LoweredNewUsername", SqlDbType.VarChar);
+                    parameter.Value = newUsername.ToLower();
+                    command.Parameters.Add(parameter);
+
+                    return command.ExecuteNonQuery() > 0;
+                }
+            }
+        }
+
+        #endregion
+
         private Sitecore.Data.Items.Item GetAuthItem(string childItem)
         {
             return item.Children[childItem];
         }
 
-        private void AddAuthenticationCookie(HttpResponseMessage response, string username)
+        public void AddAuthenticationCookie(HttpResponseMessage response, string username)
         {
             var cookie = FormsAuthentication.GetAuthCookie(domain.AccountPrefix + username, false, "/");
             response.Headers.AddCookies(new[] {

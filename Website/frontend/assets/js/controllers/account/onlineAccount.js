@@ -62,13 +62,14 @@ ngApp.controller('AcctOnlineAccountCtrl', ['$scope', '$rootScope', '$http', '$ti
 				headers : { 'Content-Type': 'application/JSON' } 
 			})
 				.success(function (data, status, headers, config) {
-					if (data.validations.length) {
+					if (data.validations) {
 						// if not successful, bind errors to error variables
 						$scope.isLoading = false;
 						$scope.validations = data.validations;
 
 					} else {
 						// if successful, alert the user
+						$scope.validations = [];
 						$scope.isLoading = false;
 						$scope.successMessage = true;
 					}
