@@ -405,6 +405,11 @@ article.account {
 		font-size: 14px;
 		margin: 5px 0;
 	}
+	.group-col {
+		select {
+			padding-right: 10px;
+		}
+	}
 }
 
 div.banner + article.message {
