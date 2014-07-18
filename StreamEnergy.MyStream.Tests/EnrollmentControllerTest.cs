@@ -40,6 +40,11 @@ namespace StreamEnergy.MyStream.Tests
                 new TexasElectricityOffer
                 {
                     Id = "24-month-fixed-rate"
+                },
+                new TexasElectricityOffer
+                {
+                    Id = "Month-to-month",
+                    TermMonths = 1
                 }
             };
             identityQuestions = new[] 
@@ -375,8 +380,7 @@ namespace StreamEnergy.MyStream.Tests
             Assert.AreEqual(typeof(DomainModels.Enrollments.PaymentInfoState), session.State);
         }
 
-        // TODO - can't run this test until we have services wired up to verify the response
-        //[TestMethod]
+        [TestMethod]
         public async Task PostIdentityQuestionsNoDepositTest()
         {
             // Arrange
@@ -393,7 +397,7 @@ namespace StreamEnergy.MyStream.Tests
                         {
                             new SelectedOffer 
                             { 
-                                Offer = offers[0],
+                                Offer = offers[1],
                                 OfferOption = offerOption
                             }
                         }
@@ -418,6 +422,8 @@ namespace StreamEnergy.MyStream.Tests
 
             using (var controller = container.Resolve<EnrollmentController>())
             {
+                await controller.Initialize();
+                
                 // Act
                 var result = await controller.VerifyIdentity(request);
 
