@@ -88,10 +88,5 @@ ngApp.controller('AuthResetPasswordCtrl', ['$scope', '$rootScope', '$http', '$wi
 
 				}
 			});
-	};
-
-	$scope.return = function() {
-		$window.location.href = '/auth/login';
-	};
-	
+	};	
 }]);

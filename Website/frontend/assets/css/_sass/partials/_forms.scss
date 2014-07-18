@@ -81,6 +81,14 @@ select {
 	// Webkit
 	-webkit-appearance: none;
 }
+
+//Remove the select box image for Firefox
+@-moz-document url-prefix() {
+	select {
+		background-image: none;
+	}	
+}
+
 // IE
 select::-ms-expand {
 	display: none;

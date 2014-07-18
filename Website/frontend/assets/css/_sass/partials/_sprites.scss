@@ -47,7 +47,7 @@ $all-icons: remove-duplicates(join($icons, $icons-2x)); // Get a merged, unique 
 		@media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3/2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
 			@if not $hover {
 				background-image: sprite-url($icon-2x-sprite);
-				background-size: (image-width(sprite-path($icon-2x-sprite)) / 2) (image-height(sprite-path($icon-2x-sprite)) / 2);
+				background-size: (image-width(sprite-path($icon-2x-sprite)) / 2) ceil(image-height(sprite-path($icon-2x-sprite)) / 2);
 			}
 			background-position: round(nth(sprite-position($icon-2x-sprite, $sprite), 1) / 2) round(nth(sprite-position($icon-2x-sprite, $sprite), 2) / 2);
 			@if $dimensions {

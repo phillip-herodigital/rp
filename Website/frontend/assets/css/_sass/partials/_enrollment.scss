@@ -297,11 +297,16 @@ $enrollment-module-vertical-padding: 20px;
                 position: absolute;
                 top: 40px;
                 left: -40px;
+                //IE8 does transforms the element from a different starting point
+                //so we have to set top and left differently
+                top: 0\9;
+                left: 0\0;
                 text-transform: uppercase;
                 color: #fff;
                 height: 20px;
                 width: 100px;
                 margin: 10px 0;
+                filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
                 @include rotate(-90deg);
             }
             .fixed {

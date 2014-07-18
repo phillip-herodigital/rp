@@ -41,7 +41,7 @@
     @if $retinaImgName {
         @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3/2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
             background-image: image-url($retinaImgName);
-			background-size: (image-width($retinaImgName) / 2) (image-height($retinaImgName) / 2);
+			background-size: (image-width($retinaImgName) / 2) ceil(image-height($retinaImgName) / 2);
         }
     }
 }
@@ -52,7 +52,7 @@
 	@if image-exists("#{$path}2x/#{$imgName}") {
 		@media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3/2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
 			background-image: image-url("#{$path}2x/#{$imgName}");
-			background-size: (image-width("#{$path}2x/#{$imgName}") / 2) (image-height("#{$path}2x/#{$imgName}") / 2);
+			background-size: (image-width("#{$path}2x/#{$imgName}") / 2) ceil(image-height("#{$path}2x/#{$imgName}") / 2);
 		}
 	}
 }
