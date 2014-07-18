@@ -68,7 +68,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         [HttpGet]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
-        public async Task DemoSetupRenewal()
+        public async Task<HttpResponseMessage> DemoSetupRenewal()
         {
             stateHelper.Reset();
             await stateHelper.EnsureInitialized();
@@ -86,6 +86,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 }
             };
             await stateHelper.StateMachine.Process();
+
+            var response = Request.CreateResponse(HttpStatusCode.Found);
+            response.Headers.Location = new Uri(Request.RequestUri, "/enrollment");
+            return response;
         }
 
         /// <summary>
