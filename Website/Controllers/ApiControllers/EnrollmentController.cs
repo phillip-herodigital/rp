@@ -270,7 +270,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             stateMachine.Context.AgreeToTerms = false;
             stateMachine.Context.ContactInfo = request.ContactInfo;
-            EnsureTypedPhones(stateMachine.Context.ContactInfo.Phone);
+            if (stateMachine.Context.ContactInfo != null && stateMachine.Context.ContactInfo.Phone != null)
+            {
+                EnsureTypedPhones(stateMachine.Context.ContactInfo.Phone);
+            }
             stateMachine.Context.DriversLicense = request.DriversLicense;
             stateMachine.Context.OnlineAccount = request.OnlineAccount;
             stateMachine.Context.Language = request.Language;
