@@ -15,6 +15,7 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
         //get the result, which should include the expected state
         enrollmentService.setClientData(result);
         enrollmentStepsService.setFromServerStep(result.expectedState, true);
+        $scope.isRenewal = enrollmentService.isRenewal;
 
 
         //set step to make sure we're supposed to be here

@@ -66,6 +66,28 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             stateHelper.Reset();
         }
 
+        [HttpGet]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
+        public async Task DemoSetupRenewal()
+        {
+            stateHelper.Reset();
+            await stateHelper.EnsureInitialized();
+            stateHelper.Context.IsRenewal = true;
+            stateHelper.Context.Services = new LocationServices[]
+            {
+                new LocationServices 
+                { 
+                    Location = new Location 
+                    { 
+                        Address = new Address { Line1 = "3620 Huffines Blvd", City = "Carrollton", StateAbbreviation = "TX", PostalCode5 = "75010" },
+                        Capabilities = new [] { new TexasServiceCapability { EsiId = "123FAKE456", Tdu = "ONCOR" } }
+                    },
+                    SelectedOffers = new SelectedOffer[] { }
+                }
+            };
+            await stateHelper.StateMachine.Process();
+        }
+
         /// <summary>
         /// Gets all the client data, such as for a page refresh
         /// </summary>
@@ -84,6 +106,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             {
                 Validations = stateMachine.State == currentFinalState ? Enumerable.Empty<TranslatedValidationResult>() : validations,
                 ExpectedState = ExpectedState(),
+                IsRenewal = stateMachine.Context.IsRenewal,
                 ContactInfo = stateMachine.Context.ContactInfo,
                 DriversLicense = stateMachine.Context.DriversLicense,
                 Language = stateMachine.Context.Language,
@@ -176,6 +199,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public async Task<ClientData> ServiceInformation([FromBody]ServiceInformation value)
         {
+            stateMachine.Context.AgreeToTerms = false;
             stateMachine.Context.Services = (from location in value.Locations
                                              join service in (stateMachine.Context.Services ?? Enumerable.Empty<LocationServices>()) on location equals service.Location into services
                                              from service in services.DefaultIfEmpty()
@@ -197,6 +221,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public async Task<ClientData> SelectedOffers([FromBody]SelectedOffers value)
         {
+            stateMachine.Context.AgreeToTerms = false;
             stateMachine.Context.Services = (from newSelection in value.Selection
                                              join oldService in (stateMachine.Context.Services ?? Enumerable.Empty<LocationServices>()) on newSelection.Location equals oldService.Location into oldServices
                                              select Combine(newSelection, oldServices.SingleOrDefault(), stateMachine.InternalContext.AllOffers)).ToArray();
@@ -243,6 +268,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             MapCartToServices(request);
 
+            stateMachine.Context.AgreeToTerms = false;
             stateMachine.Context.ContactInfo = request.ContactInfo;
             EnsureTypedPhones(stateMachine.Context.ContactInfo.Phone);
             stateMachine.Context.DriversLicense = request.DriversLicense;
@@ -258,6 +284,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             await stateMachine.ContextUpdated();
 
             if (stateMachine.State == typeof(DomainModels.Enrollments.AccountInformationState) || stateMachine.State == typeof(DomainModels.Enrollments.PlanSelectionState))
+                await stateMachine.Process(typeof(DomainModels.Enrollments.OrderConfirmationState));
+            else if (stateMachine.Context.IsRenewal && stateMachine.State == typeof(DomainModels.Enrollments.LoadDespositInfoState))
                 await stateMachine.Process(typeof(DomainModels.Enrollments.OrderConfirmationState));
 
             return ClientData(typeof(DomainModels.Enrollments.VerifyIdentityState));
@@ -298,6 +326,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public async Task<ClientData> VerifyIdentity([FromBody]VerifyIdentity request)
         {
+            stateMachine.Context.AgreeToTerms = false;
             stateMachine.Context.SelectedIdentityAnswers = request.SelectedIdentityAnswers;
 
             await stateMachine.ContextUpdated();

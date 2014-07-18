@@ -7,6 +7,7 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     /*$scope.enrollmentStepsService = enrollmentStepsService;
     $scope.accountInformationService = accountInformationService;*/
 
+    $scope.isRenewal = enrollmentService.isRenewal;
     $scope.isCartOpen = enrollmentCartService.getCartVisibility;
     $scope.getCartCount = enrollmentCartService.getCartCount;
     $scope.getCartItems = enrollmentCartService.getCartItems;

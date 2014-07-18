@@ -2,14 +2,14 @@
  *
  * This is used to control aspects of let's get started on enrollment page.
  */
-ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$filter', 'enrollmentService', 'enrollmentCartService', function ($scope, $location, $filter, enrollmentService, enrollmentCartService) {
+ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$filter', 'enrollmentService', 'enrollmentCartService', 'enrollmentStepsService', function ($scope, $location, $filter, enrollmentService, enrollmentCartService, enrollmentStepsService) {
     // TODO - chose state by geoIP
     $scope.data = { serviceState: 'TX' };
 
     //Checking to see when the active service address has been updated
     //So we can reinitialize all service information for this page
     //There has to be a better way of doing this
-    $scope.$watch(enrollmentCartService.getActiveService, function (newValue) {
+    $scope.$watch(enrollmentCartService.getActiveService, function (newValue) {        
         if (!newValue) {
             $scope.data.serviceLocation = null;
             $scope.data.isNewService = undefined;
@@ -24,6 +24,10 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
             }
         }
     });
+
+    $scope.$watch('data', function (newValue) {
+        enrollmentStepsService.setMaxStep('utilityFlowService');
+    }, true);
 
     /**
      * Checking if the current form is valid to continue

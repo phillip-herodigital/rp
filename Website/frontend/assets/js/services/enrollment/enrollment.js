@@ -28,6 +28,10 @@
     };
     service.identityQuestions = [];
 
+    $rootScope.$watch(function () { return service.accountInformation; }, function () {
+        enrollmentStepsService.setMaxStep('accountInformation');
+    }, true);
+
     service.setClientData = function (result) {
         // update our validations - don't make a new array, just copy all the validations over from the returned one. Saves copying back to the scope elsewhere.
         angular.copy(result.validations, service.validation);
@@ -62,6 +66,11 @@
 
         // set the identity questions from the server
         service.identityQuestions = result.identityQuestions;
+
+        service.isRenewal = result.isRenewal;
+        if (result.isRenewal) {
+            enrollmentStepsService.setRenewal();
+        }
     };
 
     function makeCall(urlSuffix, data, mode, overrideServerStep) {
