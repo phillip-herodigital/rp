@@ -19,6 +19,7 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
 
     //Once a plan is selected, check through all available and see if a selection happend
     $scope.$watchCollection('planSelection.selectedOffers', function (selectedOffers) {
+        enrollmentStepsService.setMaxStep('utilityFlowPlans');
         if (typeof selectedOffers != 'undefined') {
             // Map the offers to arrays because, although utilities (which this controller is for) does not allow multiple offers of a type, the cart service does.
             enrollmentCartService.selectOffers(_(selectedOffers).mapValues(function (offer) { return [offer]; }).value());

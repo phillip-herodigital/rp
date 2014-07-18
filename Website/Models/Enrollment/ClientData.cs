@@ -23,5 +23,7 @@ namespace StreamEnergy.MyStream.Models.Enrollment
         // Identity verification
         public DomainModels.Enrollments.IdentityQuestion[] IdentityQuestions { get; set; }
         public Dictionary<string, string> SelectedIdentityAnswers { get; set; }
+
+        public bool IsRenewal { get; set; }
     }
 }

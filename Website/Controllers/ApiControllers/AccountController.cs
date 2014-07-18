@@ -265,7 +265,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 { 
                     account = entry.Key, 
                     amount = entry.Value, 
-                    task = accountService.MakePayment(account: entry.Key.AccountNumber, amount: entry.Value, paymentMethod: request.PaymentAccount) 
+                    task = accountService.MakePayment(account: entry.Key.AccountNumber, amount: entry.Value, paymentMethod: request.PaymentAccount, paymentDate: request.PaymentDate) 
                 }).ToArray();
             await Task.WhenAll(temp.Select(e => e.task));
 
@@ -904,7 +904,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 }
             }
 
-            var confirmation = await accountService.MakePayment(account: account.AccountNumber, amount: request.TotalPaymentAmount, paymentMethod: request.PaymentAccount);
+            var confirmation = await accountService.MakePayment(account: account.AccountNumber, amount: request.TotalPaymentAmount, paymentMethod: request.PaymentAccount, paymentDate: DateTime.Today);
 
             return new MakeOneTimePaymentResponse
             {

@@ -79,6 +79,11 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
     }
 
     var service = {
+        setRenewal: function () {
+            delete steps.utilityFlowService;
+            delete steps.verifyIdentity;
+        },
+
         setInitialFlow: function (flow) {
             initialFlow = flow;
             currentFlow = flow;
@@ -130,9 +135,11 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
             steps[id].isVisible = true;
             steps[id].canJumpTo = true;
             angular.forEach(steps[id].previous, function (previousId) {
-                steps[previousId].isActive = true;
-                steps[previousId].isVisible = true;
-                steps[previousId].canJumpTo = true;
+                if (steps[previousId]) {
+                    steps[previousId].isActive = true;
+                    steps[previousId].isVisible = true;
+                    steps[previousId].canJumpTo = true;
+                }
             });
         },
         
@@ -144,7 +151,24 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
         deActivateStep: function(id) {
             steps[id].isActive = false;
             steps[id].isVisible = false;
-        },        
+        },
+
+        hideStep: function (id) {
+            steps[id].isActive = true;
+            steps[id].isVisible = false;
+            steps[id].canJumpTo = false;
+        },
+
+        setMaxStep: function (step) {
+            if (!steps[step])
+                return;
+            var isFlowSpecific = steps[step].isFlowSpecific;
+            angular.forEach(steps, function (value, key) {
+                if (_.contains(value.previous, step) || (isFlowSpecific && !value.isFlowSpecific)) {
+                    service.hideStep(key);
+                }
+            });
+        },
 
         /**
          * [setStep description]
@@ -159,6 +183,8 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
             }, this);
 
             currentStep = steps[id];
+            if (!currentStep)
+                console.log('not found', id);
             currentStep.isCurrent = true;
             service.activateStep(id);
             this.scrollToStep(id, 'fast', function() {
@@ -189,7 +215,11 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
          * @return {Boolean}
          */
         isStepVisible: function (id) {
-            return this.getStep(id).isVisible;
+            var step = this.getStep(id);
+            if (step)
+                return step.isVisible;
+            else
+                return false;
         },
 
         /**

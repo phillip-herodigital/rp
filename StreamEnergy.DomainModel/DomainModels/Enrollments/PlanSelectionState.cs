@@ -39,6 +39,14 @@ namespace StreamEnergy.DomainModels.Enrollments
             return validationResult.MemberNames.All(m => System.Text.RegularExpressions.Regex.IsMatch(m, @"SelectedOffers\[[0-9]+\]\.OfferOption"));
         }
 
+        protected override Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
+        {
+            if (context.IsRenewal)
+                return Task.FromResult(typeof(LoadDespositInfoState));
+            else
+                return Task.FromResult(typeof(AccountInformationState));
+        }
+
         protected override bool NeedRestoreInternalState(UserContext context, InternalContext internalContext)
         {
             return internalContext.OfferOptionRules == null ||

@@ -61,6 +61,11 @@ namespace StreamEnergy.MyStream.Controllers.Components
             return View("~/Views/Components/Account/Overview/Make a Payment.cshtml");
         }
 
+        public ActionResult OneTimePaymentIndex()
+        {
+            return View("~/Views/Components/Payments/One Time Payment.cshtml");
+        }
+
         public ActionResult OnlineAccountIndex()
         {
             return View("~/Views/Components/Account/Profile/My Online Account Information.cshtml");
