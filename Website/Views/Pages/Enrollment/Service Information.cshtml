@@ -38,15 +38,14 @@
                         
                         <div class="item" @currentService.ErrorClass(s => s.Location)>
                             <label for="@currentService.For(s => s.Location)">@Html.Sitecore().Field("Address Label")</label>
-                            <input type="text" @currentService.Attributes(s => s.Location)
+                            <input class="state-select-typeahead" type="text" @currentService.Attributes(s => s.Location)
                                    class="typeahead"
                                    ng-model="data.serviceLocation"
                                    placeholder="@Html.Sitecore().Field("Address Placeholder")"
                                    typeahead="location as location.address|address for location in getLocation(data.serviceState, $viewValue)"
                                    ng-disabled="data.serviceState == ''"
                                    typeahead-loading="loadingServiceAddress"
-                                   ng-class="{'loading' : loadingServiceAddress}" autocomplete="off" />
-                            <div id="state-select" dropdown-select dropdown-items="supportedUtilityStates" value="data.serviceState"></div>
+                                   ng-class="{'loading' : loadingServiceAddress}" autocomplete="off" /><div id="state-select" dropdown-select dropdown-items="supportedUtilityStates" value="data.serviceState"></div>
                             @currentService.MessageFor(s => s.Location)
                         </div>
                         <hr>
