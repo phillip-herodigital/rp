@@ -801,6 +801,9 @@ article.notification-settings {
 article.enrolled-accounts {
 	.content {
 		padding: 0;
+		.notice {
+			margin: 15px;
+		}
 	}
 	@include border-radius(10px 10px 0 0);
 	padding-bottom: 0px;

@@ -6,6 +6,7 @@ ngApp.controller('AcctEnrolledAccountsCtrl', ['$scope', '$rootScope', '$http', '
 	$scope.formData = {};
 
 	$scope.isLoading = true;
+	$scope.successMessage = false;
 
 	// get the current data
 	$timeout(function() {
@@ -87,7 +88,7 @@ ngApp.controller('AcctEnrolledAccountsCtrl', ['$scope', '$rootScope', '$http', '
 
 				} else {
 					// if successful, alert the user
-					//alert("successful");
+					$scope.successMessage = true;
 				}
 			});
 	};

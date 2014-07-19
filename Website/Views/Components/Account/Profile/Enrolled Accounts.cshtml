@@ -3,6 +3,12 @@
         <h2>@Html.Sitecore().Field("Enrolled Accounts Text")</h2>
     </header>
     <div class="content" loading-indicator>
+        <div ng-show="successMessage">
+            <div class="notice success">
+                @Html.Sitecore().Field("Success Message Text")
+            </div>
+            <hr class="content-divider" />
+        </div>
         <table>
             <thead>
                 <tr>
