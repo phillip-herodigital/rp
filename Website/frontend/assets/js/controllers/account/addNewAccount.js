@@ -28,6 +28,7 @@ ngApp.controller('AcctAddNewAccountCtrl', ['$scope', '$rootScope', '$http', '$ti
 						$scope.formData = {};
 						$scope.isLoading = false;
 						$scope.successMessage = true;
+						$scope.newAccountAdded.added = true;
 					}
 				});
 		}, 800);

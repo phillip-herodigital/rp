@@ -799,6 +799,9 @@ article.notification-settings {
 	}
 }
 article.enrolled-accounts {
+	.content {
+		padding: 0;
+	}
 	@include border-radius(10px 10px 0 0);
 	padding-bottom: 0px;
 
