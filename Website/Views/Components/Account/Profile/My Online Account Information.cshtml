@@ -32,7 +32,7 @@
                     <div class="group">
                         <div class="item group-col" @Html.ValidationErrorClass(model => model.CurrentPassword) float-label>
                             <label for="@Html.For(m => m.CurrentPassword)">@Html.Sitecore().Field("Current Password Text")</label>
-                            <input type="password" ng-model="formData.currentPassword" />
+                            <input type="password" @Html.ValidationAttributes(m => m.CurrentPassword) ng-model="formData.currentPassword" />
                         </div>
                         <div class="item group-col"></div>
                     </div>
@@ -89,7 +89,7 @@
                 <label for="language-preference">@Html.Sitecore().Field("Language Preference Label")</label>
                 <ul class="checkbox-list">
                     <li data-ng-repeat="language in formData.availableLanguages">
-                        <input type="radio" ng-model="formData.languagePreference" value="{{ language.text }}" name="language-preference" />
+                        <input type="radio" id="{{language.text}}" ng-model="formData.languagePreference" value="{{ language.text }}" name="language-preference" />
                         <label for="{{language.text}}">{{ language.text }}</label>
                     </li>
                 </ul>
