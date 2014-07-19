@@ -21,37 +21,37 @@
                 </div>
                 <div class="item group-col">
                     <label for="@Html.For(m => m.PrimaryPhone.Category)">@Html.Sitecore().Field("Phone Type Text")</label>
-                    <select ng-model="formData.primaryPhone.category" ng-options="type.name as type.display for type in phoneTypes"></select>
+                    <select @Html.ValidationAttributes(m => m.PrimaryPhone.Category) ng-model="formData.primaryPhone.category" ng-options="type.name as type.display for type in phoneTypes"></select>
                 </div>
             </div>
-            <div ng-switch="formDataOriginal.secondaryPhone.number || false">
+            <div ng-switch="formDataOriginal.secondaryPhone.number.length || false">
                 <div class="additional-fields" ng-switch-when="false" additional-fields>
-                    <div class="additional-field-action" ng-hide="formData.secondaryPhone.number">
+                    <div class="additional-field-action" ng-hide="formDataOriginal.secondaryPhone.number">
                         <a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" href="">@Html.Sitecore().Field("Additional Phone Text")</a>
                     </div>
                     <div class="group additional-field-group additional-fields">
                         <div class="group">
                             <div class="item group-col" @Html.ValidationErrorClass(model => model.SecondaryPhone.Number) float-label>
                                 <label for="@Html.For(m => m.SecondaryPhone.Number)">@Html.Sitecore().Field("Secondary Phone Number Text")</label>
-                                <input type="tel" @Html.ValidationAttributes(m => m.SecondaryPhone.Number) ng-model="formData.secondaryPhone.number" />
+                                <input type="tel" @Html.ValidationAttributes(m => m.SecondaryPhone.Number) data-val-if="formData.secondaryPhone.number" ng-model="formData.secondaryPhone.number" />
                                 @Html.ValidationMessageFor(model => model.SecondaryPhone.Number)
                             </div>
                             <div class="item group-col">
                                 <label for="@Html.For(m => m.SecondaryPhone.Category)">@Html.Sitecore().Field("Phone Type Text")</label>
-                                <select ng-model="formData.secondaryPhone.category" ng-options="type.name as type.display for type in phoneTypes"></select>
-                            </div>
+                                <select @Html.ValidationAttributes(m => m.SecondaryPhone.Category) ng-model="formData.secondaryPhone.category" ng-options="type.name as type.display for type in phoneTypes"></select>
+</div>
                         </div>
                     </div>
                 </div>
                 <div class="group" ng-switch-default>
                     <div class="item group-col" @Html.ValidationErrorClass(model => model.SecondaryPhone.Number) float-label>
                         <label for="@Html.For(m => m.SecondaryPhone.Number)">@Html.Sitecore().Field("Secondary Phone Number Text")</label>
-                        <input type="tel" @Html.ValidationAttributes(m => m.SecondaryPhone.Number) ng-model="formData.secondaryPhone.number" />
+                        <input type="tel" @Html.ValidationAttributes(m => m.SecondaryPhone.Number) data-val-if="formData.secondaryPhone.number" ng-model="formData.secondaryPhone.number" />
                         @Html.ValidationMessageFor(model => model.SecondaryPhone.Number)
                     </div>
                     <div class="item group-col">
                         <label for="@Html.For(m => m.SecondaryPhone.Category)">@Html.Sitecore().Field("Phone Type Text")</label>
-                        <select ng-model="formData.secondaryPhone.category" ng-options="type.name as type.display for type in phoneTypes"></select>
+                        <select @Html.ValidationAttributes(m => m.SecondaryPhone.Category) ng-model="formData.secondaryPhone.category" ng-options="type.name as type.display for type in phoneTypes"></select>
                     </div>
                 </div>
             </div>
