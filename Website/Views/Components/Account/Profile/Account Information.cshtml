@@ -21,7 +21,7 @@
                 </div>
                 <div class="item group-col">
                     <label for="@Html.For(m => m.PrimaryPhone.Category)">@Html.Sitecore().Field("Phone Type Text")</label>
-                    <select ng-model="formData.primaryPhone.category" ng-options="type.name as type.display for type in phoneTypes"></select>
+                    <select @Html.ValidationAttributes(m => m.PrimaryPhone.Category) ng-model="formData.primaryPhone.category" ng-options="type.name as type.display for type in phoneTypes"></select>
                 </div>
             </div>
             <div ng-switch="formDataOriginal.secondaryPhone.number.length || false">
@@ -38,8 +38,8 @@
                             </div>
                             <div class="item group-col">
                                 <label for="@Html.For(m => m.SecondaryPhone.Category)">@Html.Sitecore().Field("Phone Type Text")</label>
-                                <select ng-model="formData.secondaryPhone.category" ng-options="type.name as type.display for type in phoneTypes"></select>
-                            </div>
+                                <select @Html.ValidationAttributes(m => m.SecondaryPhone.Category) ng-model="formData.secondaryPhone.category" ng-options="type.name as type.display for type in phoneTypes"></select>
+</div>
                         </div>
                     </div>
                 </div>
@@ -51,7 +51,7 @@
                     </div>
                     <div class="item group-col">
                         <label for="@Html.For(m => m.SecondaryPhone.Category)">@Html.Sitecore().Field("Phone Type Text")</label>
-                        <select ng-model="formData.secondaryPhone.category" ng-options="type.name as type.display for type in phoneTypes"></select>
+                        <select @Html.ValidationAttributes(m => m.SecondaryPhone.Category) ng-model="formData.secondaryPhone.category" ng-options="type.name as type.display for type in phoneTypes"></select>
                     </div>
                 </div>
             </div>
