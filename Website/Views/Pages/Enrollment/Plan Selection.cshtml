@@ -117,6 +117,11 @@
                     <td colspan="6">
                         <div slide-down-show="isOpen">
                             <p>{{plan.description}}</p>
+                            <p>
+                                <a ng-href="{{plan.documents.electricityFactsLabel}}">@Html.Sitecore().Field("Electricity Facts Label Document")</a> |
+                                <a ng-href="{{plan.documents.termsOfService}}">@Html.Sitecore().Field("Terms Of Service Document")</a> |
+                                <a ng-href="{{plan.documents.yourRightsAsACustomer}}">@Html.Sitecore().Field("Your Rights As A Customer Document")</a>
+                            </p>
                         </div>
                     </td>
                 </tr>
