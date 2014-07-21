@@ -1082,15 +1082,19 @@ article.payments {
 			margin-bottom: 0;
 		}
 		p {
-			margin: 0;
+			margin: 0 0 0 12px;
 			padding-top: 1em;
 		}
 	}
 	.arrow-toggle {
 		position: relative;
-		padding-left: 14px;
+		margin: 0;
+		color: #0971ce;
+		cursor: pointer;
+		display: inline-block;
 		span {
 			display: inline-block;
+			margin-right: 4px;
 			width: 0;
 			height: 0;
 			left: 0;
@@ -1101,13 +1105,12 @@ article.payments {
 			border-bottom: 5px solid transparent;
 			@include transform(rotate(90deg));
 			filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
-			-ms-filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+			background: #fff;
 		}
 
 		&.collapsed span {
 			@include transform(rotate(0deg));
 			filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=4);
-			-ms-filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=4);
 		}
 	}
 	.link-list {
