@@ -411,6 +411,9 @@ article.account {
 		color: #a94442;
 		font-size: 14px;
 		margin: 5px 0;
+        &:empty {
+            display: none;
+        }
 	}
 	.group-col {
 		select {
