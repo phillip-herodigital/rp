@@ -8,7 +8,7 @@ using System.Web.Security;
 namespace StreamEnergy.DomainModels.Enrollments
 {
     [Serializable]
-    public class OnlineAccount : ISanitizable
+    public class OnlineAccount : ISanitizable, IValidatableObject
     {
         [Required(ErrorMessage = "Username Required")]
         public string Username { get; set; }
@@ -25,6 +25,17 @@ namespace StreamEnergy.DomainModels.Enrollments
         {
             if (Username != null)
                 Username = Username.Trim();
+        }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (Username != null)
+            {
+                if (Membership.FindUsersByName(Username).Count > 0)
+                    yield return new ValidationResult("Username In Use", new[] { "Username" });
+            }
+
+            yield break;
         }
     }
 }

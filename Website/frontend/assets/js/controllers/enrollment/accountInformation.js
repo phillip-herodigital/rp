@@ -4,6 +4,7 @@
  */
 ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentService', 'enrollmentCartService', function ($scope, enrollmentService, enrollmentCartService) {
     $scope.accountInformation = enrollmentService.accountInformation;
+    $scope.validations = [];
 
     /**
      * [utilityAddresses description]
@@ -43,6 +44,9 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
     */
     $scope.completeStep = function () {
 
-        enrollmentService.setAccountInformation();
+        enrollmentService.setAccountInformation().then(function (data) {
+            console.log(data);
+            $scope.validations = data.validations;
+        });
     };
 }]);
