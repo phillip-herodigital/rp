@@ -19,7 +19,7 @@
                         @Html.Sitecore().Field("Header Text")
                     </header>
                     <div class="content">
-                        <div ng-if="errorMessage">
+                        <div ng-if="errorMessage" ng-cloak>
                             <div class="notice error">
                                 @Html.Sitecore().Field("Invalid Address Message Text")
                             </div>
