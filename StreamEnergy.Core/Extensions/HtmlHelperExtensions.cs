@@ -69,13 +69,22 @@ namespace StreamEnergy.Extensions
             return Json.Stringify(target);
         }
 
+        [Obsolete("Use IdFor")]
         public static IHtmlString For<T, U>(this HtmlHelper<T> html, Expression<Func<T, U>> model)
         {
             var temp = model.RemoveLambdaBody().RemoveCast();
             var propertyChain = StreamEnergy.CompositeValidationAttribute.UnrollPropertyChain(temp as MemberExpression);
-            return html.Raw(StreamEnergy.CompositeValidationAttribute.GetPathedName(propertyChain));
+            return html.Raw(html.ViewData.TemplateInfo.GetFullHtmlFieldId(StreamEnergy.CompositeValidationAttribute.GetPathedName(propertyChain)));
         }
 
+        public static IHtmlString NameFor<T, U>(this HtmlHelper<T> html, Expression<Func<T, U>> model)
+        {
+            var temp = model.RemoveLambdaBody().RemoveCast();
+            var propertyChain = StreamEnergy.CompositeValidationAttribute.UnrollPropertyChain(temp as MemberExpression);
+            return html.Raw(html.ViewData.TemplateInfo.GetFullHtmlFieldName(StreamEnergy.CompositeValidationAttribute.GetPathedName(propertyChain)));
+        }
+
+        [Obsolete("Use Element builders")]
         public static IHtmlString ValidationAttributes<T, U>(this HtmlHelper<T> html, Expression<Func<T, U>> model, Item translateFrom = null, bool writeId = true, bool writeValue = true)
         {
             var temp = model.RemoveLambdaBody().RemoveCast();
@@ -92,10 +101,10 @@ namespace StreamEnergy.Extensions
 
             var dictionary = new Dictionary<string, object>();
             UnobtrusiveValidationAttributesGenerator.GetValidationAttributes(clientRules, dictionary);
-            dictionary["name"] = StreamEnergy.CompositeValidationAttribute.GetPathedName(propertyChain);
+            dictionary["name"] = html.ViewData.TemplateInfo.GetFullHtmlFieldName(StreamEnergy.CompositeValidationAttribute.GetPathedName(propertyChain));
             if (writeId)
             {
-                dictionary["id"] = StreamEnergy.CompositeValidationAttribute.GetPathedName(propertyChain);
+                dictionary["id"] = html.ViewData.TemplateInfo.GetFullHtmlFieldId(StreamEnergy.CompositeValidationAttribute.GetPathedName(propertyChain));
             }
             if (writeValue)
             {
@@ -114,11 +123,13 @@ namespace StreamEnergy.Extensions
             return rule;
         }
 
+        [Obsolete("Use Validation().ErrorClass from ResponsivePath.Validation.Extensions")]
         public static IHtmlString ValidationErrorClass<T, U>(this HtmlHelper<T> html, Expression<Func<T, U>> model)
         {
-            return html.Raw("data-val-error=\"" + html.For(model) + "\"");
+            return html.Raw("data-val-error=\"" + html.NameFor(model) + "\"");
         }
 
+        [Obsolete("Use ClientRepeater from ResponsivePath.Validation.Extensions")]
         public static ValidationChaining.IChainedAccess<T, U> AngularRepeat<T, U>(this HtmlHelper<T> html, Expression<Func<T, IEnumerable<U>>> model, string indexValue)
         {
             return new ValidationChaining.ChainedValidation<T, T, U>(new ValidationChaining.ChainedBase<T>(html), model, indexValue);
