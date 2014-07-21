@@ -457,6 +457,7 @@ article.plan {
 					filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 					.ie8 & {
 						margin: 0 -13px 25px 10px;
+						background: #f6f6f6; //this cleans up the text rendering in IE8
 					}
 				}
 			}
@@ -1082,24 +1083,25 @@ article.payments {
 	.arrow-toggle {
 		position: relative;
 		padding-left: 14px;
-		&:before {
-			position: absolute;
+		span {
+			display: inline-block;
 			width: 0;
 			height: 0;
-			content: '';
 			left: 0;
 			top: 50%;
 			margin-top: -5px;
 			border-top: 5px solid transparent;
 			border-left: 8px solid #0971ce;
 			border-bottom: 5px solid transparent;
-			 @include transform(rotate(90deg));
-			 filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+			@include transform(rotate(90deg));
+			filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+			-ms-filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
 		}
 
-		&.collapsed:before {
+		&.collapsed span {
 			@include transform(rotate(0deg));
 			filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=4);
+			-ms-filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=4);
 		}
 	}
 	.link-list {
