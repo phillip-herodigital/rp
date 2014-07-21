@@ -19,6 +19,12 @@
                         @Html.Sitecore().Field("Header Text")
                     </header>
                     <div class="content">
+                        <div ng-if="errorMessage">
+                            <div class="notice error">
+                                @Html.Sitecore().Field("Invalid Address Message Text")
+                            </div>
+                            <hr class="content-divider" />
+                        </div>
                         @Html.Sitecore().Field("Body Text")
                         
                         @* TODO - replace "0" with the angular variable for the 'current' service location index being updated *@
