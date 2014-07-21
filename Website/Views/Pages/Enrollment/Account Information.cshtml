@@ -80,37 +80,37 @@
                                         <div ng-hide="selectedOffer.offerOption.billingAddressSame">
                                             <div class="group">
                                                 <div class="item group-col" @(billingAddress.Validation().ErrorClass(m => m.Line1))>
-                                                    <label for="@billingAddress.IdFor(m => m.Line1)">@Html.Sitecore().Field("Address 1 Label")</label>
-                                                    @billingAddress.TextBoxFor(m => m.Line1, new { data_val_if = "!selectedOffer.offerOption.billingAddressSame", ng_model = "selectedOffer.offerOption.billingAddress.line1" })
+                                                    <label for="@billingAddress.Fix(h => h.IdFor(m => m.Line1))">@Html.Sitecore().Field("Address 1 Label")</label>
+                                                    @billingAddress.Fix(h => h.TextBoxFor(m => m.Line1, new { data_val_if = "!selectedOffer.offerOption.billingAddressSame", ng_model = "selectedOffer.offerOption.billingAddress.line1" }))
                                                     @*@billingAddress.ValidationMessageFor(m => m.Line1)*@
                                                 </div>
                                                 <div class="item group-col" @billingAddress.Validation().ErrorClass(m => m.Line2)>
-                                                    <label for="@billingAddress.IdFor(m => m.Line2)">@Html.Sitecore().Field("Address 2 Label")</label>
-                                                    @billingAddress.TextBoxFor(m => m.Line2, new { data_val_if = "!selectedOffer.offerOption.billingAddressSame", ng_model = "selectedOffer.offerOption.billingAddress.line2" })
+                                                    <label for="@billingAddress.Fix(h => h.IdFor(m => m.Line2))">@Html.Sitecore().Field("Address 2 Label")</label>
+                                                    @billingAddress.Fix(h => h.TextBoxFor(m => m.Line2, new { data_val_if = "!selectedOffer.offerOption.billingAddressSame", ng_model = "selectedOffer.offerOption.billingAddress.line2" }))
                                                     @*@billingAddress.ValidationMessageFor(m => m.Line2)*@
                                                 </div>
                                             </div>
 
                                             <div class="group">
                                                 <div class="item group-col" @billingAddress.Validation().ErrorClass(m => m.City)>
-                                                    <label for="@billingAddress.IdFor(m => m.City)">@Html.Sitecore().Field("City Label")</label>
-                                                    @billingAddress.TextBoxFor(m => m.City, new { data_val_if = "!selectedOffer.offerOption.billingAddressSame", ng_model = "selectedOffer.offerOption.billingAddress.city" })
+                                                    <label for="@billingAddress.Fix(h => h.IdFor(m => m.City))">@Html.Sitecore().Field("City Label")</label>
+                                                    @billingAddress.Fix(h => h.TextBoxFor(m => m.City, new { data_val_if = "!selectedOffer.offerOption.billingAddressSame", ng_model = "selectedOffer.offerOption.billingAddress.city" }))
                                                     @*@billingAddress.ValidationMessageFor(m => m.City)*@
                                                 </div>
                                                 <div class="item" @billingAddress.Validation().ErrorClass(m => m.StateAbbreviation)>
-                                                    <label for="@billingAddress.IdFor(m => m.StateAbbreviation)">@Html.Sitecore().Field("State Label")</label>
-                                                    @billingAddress.DropDownListFor(m => m.StateAbbreviation, 
+                                                    <label for="@billingAddress.Fix(h => h.IdFor(m => m.StateAbbreviation))">@Html.Sitecore().Field("State Label")</label>
+                                                    @billingAddress.Fix(h => h.DropDownListFor(m => m.StateAbbreviation, 
                                                         new SelectListItem[] { new SelectListItem { Text = Html.Sitecore().Field("Select Option Please Choose").ToString(), Value = "" } },
                                                         new {
                                                             data_val_if="!selectedOffer.offerOption.billingAddressSame",
                                                             ng_model="selectedOffer.offerOption.billingAddress.stateAbbreviation",
                                                             ng_options="state.abbreviation as state.display for state in usStates"
-                                                        })
+                                                        }))
                                                     @*@billingAddress.ValidationMessageFor(m => m.StateAbbreviation)*@
                                                 </div>
                                                 <div class="item" @billingAddress.Validation().ErrorClass(m => m.PostalCode5)>
-                                                    <label for="@billingAddress.IdFor(m => m.PostalCode5)">@Html.Sitecore().Field("Zip Label")</label>
-                                                    @billingAddress.TextBoxFor(m => m.PostalCode5, new { @class = "small", data_val_if = "!selectedOffer.offerOption.billingAddressSame", ng_model = "selectedOffer.offerOption.billingAddress.postalCode5" })
+                                                    <label for="@billingAddress.Fix(h => h.IdFor(m => m.PostalCode5))">@Html.Sitecore().Field("Zip Label")</label>
+                                                    @billingAddress.Fix(h => h.TextBoxFor(m => m.PostalCode5, new { @class = "small", data_val_if = "!selectedOffer.offerOption.billingAddressSame", ng_model = "selectedOffer.offerOption.billingAddress.postalCode5" }))
                                                     @*@billingAddress.ValidationMessageFor(m => m.PostalCode5)*@
                                                 </div>
                                             </div>
@@ -129,12 +129,12 @@
                     </header>
                     <div class="content">
                         <div class="group">
-                         <div class="item group-col" @Html.IdFor(m => m.ContactInfo.Name.First)>
+                         <div class="item group-col" @Html.Validation().ErrorClass(m => m.ContactInfo.Name.First)>
                                 <label for="@Html.IdFor(m => m.ContactInfo.Name.First)">@Html.Sitecore().Field("First Name Label")</label>
                                 @Html.TextBoxFor(m => m.ContactInfo.Name.First, new { placeholder="Jordan", ng_model="accountInformation.contactInfo.name.first" })
                                 @*@Html.ValidationMessageFor(model => model.ContactInfo.Name.First)*@
                             </div>
-                            <div class="item group-col" @Html.IdFor(m => m.ContactInfo.Name.Last)>
+                            <div class="item group-col" @Html.Validation().ErrorClass(m => m.ContactInfo.Name.Last)>
                                 <label for="@Html.IdFor(m => m.ContactInfo.Name.Last)">@Html.Sitecore().Field("Last Name Label")</label>
                                 @Html.TextBoxFor(m => m.ContactInfo.Name.Last, new { placeholder = "Campbell", ng_model = "accountInformation.contactInfo.name.last" })
                                 @*@Html.ValidationMessageFor(model => model.ContactInfo.Name.Last)*@
@@ -144,19 +144,19 @@
                             @using (var firstPhone = Html.ClientRepeater(m => m.ContactInfo.Phone, "0").Shortcut(m => (TypedPhone)m))
                             { 
                             <div class="item group-col" @firstPhone.Validation().ErrorClass(m => m.Number)>
-                                <label for="@firstPhone.IdFor(m => m.Number)">@Html.Sitecore().Field("Primary Phone Number Label")</label>
-                                @firstPhone.TextBoxFor(m => m.Number, new { ng_model = "accountInformation.contactInfo.phone[0].number" })
+                                <label for="@firstPhone.Fix(h => h.IdFor(m => m.Number))">@Html.Sitecore().Field("Primary Phone Number Label")</label>
+                                @firstPhone.Fix(h => h.TextBoxFor(m => m.Number, new { ng_model = "accountInformation.contactInfo.phone[0].number" }))
                                 @*@firstPhone.ValidationMessageFor(m => m.Number)*@
                             </div>                        
                             <div class="item group-col" @firstPhone.Validation().ErrorClass(m => m.Category)>
-                                <label for="@firstPhone.IdFor(m => m.Category)">@Html.Sitecore().Field("Phone Type Label")</label>
-                                @firstPhone.DropDownListFor(m => m.Category,
+                                <label for="@firstPhone.Fix(h => h.IdFor(m => m.Category))">@Html.Sitecore().Field("Phone Type Label")</label>
+                                @firstPhone.Fix(h => h.DropDownListFor(m => m.Category,
                                                         new SelectListItem[] { new SelectListItem { Text = Html.Sitecore().Field("Select Option Please Choose").ToString(), Value = "" } },
                                                         new
                                                         {
                                                             ng_model = "accountInformation.contactInfo.phone[0].category",
                                                             ng_options = "type.name as type.display for type in phoneTypes"
-                                                        })
+                                                        }))
                                 @*@firstPhone.ValidationMessageFor(m => ((TypedPhone)m).Category)*@
                             </div>
                             }
@@ -170,19 +170,20 @@
                                 @using (var secondPhone = Html.ClientRepeater(m => m.ContactInfo.Phone, "1").Shortcut(m => (TypedPhone)m))
                                 { 
                                 <div class="item group-col" @secondPhone.Validation().ErrorClass(m => m.Number)>
-                                    <label for="@secondPhone.IdFor(m => m.Number)">@Html.Sitecore().Field("Secondary Phone Number Label")</label>
-                                    @secondPhone.TextBoxFor(m => m.Number, new { ng_model = "accountInformation.contactInfo.phone[1].number" })
+                                    <label for="@secondPhone.Fix(h => h.IdFor(m => m.Number))">@Html.Sitecore().Field("Secondary Phone Number Label")</label>
+                                    @secondPhone.Fix(h => h.TextBoxFor(m => m.Number, new { ng_model = "accountInformation.contactInfo.phone[1].number", data_val_if="accountInformation.contactInfo.phone.length > 1" }))
                                     @*@secondPhone.ValidationMessageFor(m => m.Number)*@
                                 </div>
-                                <div class="item group-col" @secondPhone.Validation().ErrorClass(m => ((TypedPhone)m).Category)>
-                                    <label for="@secondPhone.IdFor(m => ((TypedPhone)m).Category)">@Html.Sitecore().Field("Phone Type Label")</label>
-                                    @secondPhone.DropDownListFor(m => m.Category,
+                                <div class="item group-col" @secondPhone.Validation().ErrorClass(m => m.Category)>
+                                    <label for="@secondPhone.Fix(h => h.IdFor(m => m.Category))">@Html.Sitecore().Field("Phone Type Label")</label>
+                                    @secondPhone.Fix(h => h.DropDownListFor(m => m.Category,
                                                         new SelectListItem[] { new SelectListItem { Text = Html.Sitecore().Field("Select Option Please Choose").ToString(), Value = "" } },
                                                         new
                                                         {
                                                             ng_model = "accountInformation.contactInfo.phone[1].category",
-                                                            ng_options = "type.name as type.display for type in phoneTypes"
-                                                        })
+                                                            ng_options = "type.name as type.display for type in phoneTypes",
+                                                            data_val_if = "accountInformation.contactInfo.phone.length > 1"
+                                                        }))
                                     @*@secondPhone.ValidationMessageFor(m => ((TypedPhone)m).Category)*@
                                 </div>
                                 }
@@ -320,9 +321,9 @@
     {
     <div ng-controller="OfferOptions-TexasElectricity">
         <h2>Electricity</h2>
-        <div class="item group-col datepicker">
-            <label for="@offer.IdFor(o => ((TexasElectricityOfferOption)o.OfferOption).ConnectDate)">@Html.Sitecore().Field("Service Start Date Label")</label>
-            <input type="text" class="datepicker-input" id="@offer.IdFor(o => ((TexasElectricityOfferOption)o.OfferOption).ConnectDate)" ng-model="selectedOffer.offerOption.connectDate" placeholder="01/29/14"
+        <div class="item group-col datepicker" @offer.Validation().ErrorClass(o => ((TexasElectricityOfferOption)o.OfferOption).ConnectDate)>
+            <label for="@offer.Fix(h => h.IdFor(o => ((TexasElectricityOfferOption)o.OfferOption).ConnectDate))">@Html.Sitecore().Field("Service Start Date Label")</label>
+            <input type="text" class="datepicker-input" id="@offer.Fix(h => h.IdFor(o => ((TexasElectricityOfferOption)o.OfferOption).ConnectDate))" ng-model="selectedOffer.offerOption.connectDate" placeholder="01/29/14"
                    datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="checkDisabledDate(date, mode)" datepicker-options="{ 'datepickerDateClass': 'checkDateClass(date)', 'datepickerDateClassScope': $id }" />
         </div>
         <div class="item item--no-input">
