@@ -142,7 +142,6 @@ article {
 		}
 	}
 	.account-selector {
-		background: #fbfbfb;
 		padding: 15px;
 		border-bottom: 1px solid #ddd;
 		.group {
@@ -411,6 +410,9 @@ article.account {
 		color: #a94442;
 		font-size: 14px;
 		margin: 5px 0;
+        &:empty {
+            display: none;
+        }
 	}
 	.group-col {
 		select {
@@ -811,6 +813,10 @@ article.enrolled-accounts {
 			margin: 15px;
 		}
 	}
+    hr.content-divider {
+        margin-left: 0;
+        margin-right: 0;
+    }
 	@include border-radius(10px 10px 0 0);
 	padding-bottom: 0px;
 
