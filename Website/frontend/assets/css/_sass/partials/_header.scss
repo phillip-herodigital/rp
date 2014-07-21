@@ -174,9 +174,9 @@
 				left: 50%;
 				top: 21px;
 				margin-top: 0;
-				margin-left: (image-width("bg/logo-desktop.png") / 2) / 2 * -1;
+				margin-left: (image-width("bg/logo-desktop.png") / 2) * -1;
 				@include breakpoint(small) {
-					margin-left: (image-width("bg/logo-mobile.png") / 2) / 2 * -1;
+					margin-left: (image-width("bg/logo-mobile.png") / 2) * -1;
 				}
 			}
 			.nav-toggle {
