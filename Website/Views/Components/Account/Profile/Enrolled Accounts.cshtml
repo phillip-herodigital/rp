@@ -2,7 +2,7 @@
     <header>
         <h2>@Html.Sitecore().Field("Enrolled Accounts Text")</h2>
     </header>
-    <div class="content" loading-indicator>
+    <form class="content" loading-indicator>
         <div ng-show="successMessage">
             <div class="notice success">
                 @Html.Sitecore().Field("Success Message Text")
@@ -28,6 +28,6 @@
                 </tr>
             </tbody>
         </table>
-    </div>
+    </form>
     @Html.Partial("~/Views/Components/Account/Profile/Remove Account Modal.cshtml")
 </article>
