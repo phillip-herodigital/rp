@@ -611,6 +611,7 @@ $enrollment-module-vertical-padding: 20px;
     .time {
         position: relative;
         padding-left: 43px;
+        min-height: 35px;
         .icon-clock {
             position: absolute;
             top: 4px;
