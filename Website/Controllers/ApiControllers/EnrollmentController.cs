@@ -25,6 +25,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private readonly StateMachineSessionHelper<UserContext, InternalContext> stateHelper;
         private IStateMachine<UserContext, InternalContext> stateMachine;
         private readonly IValidationService validation;
+        private Sitecore.Security.Domains.Domain domain;
 
         public class SessionHelper : StateMachineSessionHelper<UserContext, InternalContext>
         {
@@ -38,6 +39,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             this.translationItem = Sitecore.Context.Database.GetItem(new Sitecore.Data.ID("{5B9C5629-3350-4D85-AACB-277835B6B1C9}"));
 
+            this.domain = Sitecore.Context.Site.Domain;
             this.stateHelper = stateHelper;
             this.validation = validation;
         }
@@ -281,6 +283,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
             stateMachine.Context.DriversLicense = request.DriversLicense;
             stateMachine.Context.OnlineAccount = request.OnlineAccount;
+            if (stateMachine.Context.OnlineAccount != null)
+            {
+                stateMachine.Context.OnlineAccount.Username = domain.AccountPrefix + stateMachine.Context.OnlineAccount.Username;
+            }
             stateMachine.Context.Language = request.Language;
             stateMachine.Context.SecondaryContactInfo = request.SecondaryContactInfo;
             stateMachine.Context.SocialSecurityNumber = request.SocialSecurityNumber;

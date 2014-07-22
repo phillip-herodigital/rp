@@ -34,5 +34,6 @@ namespace StreamEnergy.DomainModels.Enrollments
         public decimal CancellationFee { get; set; }
         public int TermMonths { get; set; }
 
+        public Dictionary<string, Uri> Documents { get; set; }
     }
 }

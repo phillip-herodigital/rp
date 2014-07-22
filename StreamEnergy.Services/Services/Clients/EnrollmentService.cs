@@ -34,7 +34,13 @@ namespace StreamEnergy.Services.Clients
                         Rate= 7.18m,
                         TermMonths= 24,
                         CancellationFee=150,
-                        Description = "When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
+                        Description = "When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services.",
+                        Documents = new Dictionary<string,Uri> 
+                        {
+                            { "ElectricityFactsLabel", new Uri("/", UriKind.Relative) },
+                            { "TermsOfService", new Uri("/", UriKind.Relative) },
+                            { "YourRightsAsACustomer", new Uri("/", UriKind.Relative) },
+                        }
                     },
                     new TexasElectricityOffer
                     {
@@ -44,7 +50,13 @@ namespace StreamEnergy.Services.Clients
                         Rate=7.98m,
                         TermMonths=6,
                         CancellationFee=150,
-                        Description="When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
+                        Description="When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services.",
+                        Documents = new Dictionary<string,Uri> 
+                        {
+                            { "ElectricityFactsLabel", new Uri("/", UriKind.Relative) },
+                            { "TermsOfService", new Uri("/", UriKind.Relative) },
+                            { "YourRightsAsACustomer", new Uri("/", UriKind.Relative) },
+                        }
                     },
                     new TexasElectricityOffer
                     {
@@ -54,7 +66,13 @@ namespace StreamEnergy.Services.Clients
                         Rate=7.98m,
                         TermMonths=1,
                         CancellationFee=0,
-                        Description="When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
+                        Description="When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services.",
+                        Documents = new Dictionary<string,Uri> 
+                        {
+                            { "ElectricityFactsLabel", new Uri("/", UriKind.Relative) },
+                            { "TermsOfService", new Uri("/", UriKind.Relative) },
+                            { "YourRightsAsACustomer", new Uri("/", UriKind.Relative) },
+                        }
                     },
                     new TexasElectricityOffer
                     {
@@ -64,7 +82,13 @@ namespace StreamEnergy.Services.Clients
                         Rate=8.08m,
                         TermMonths=1,
                         CancellationFee=0,
-                        Description="When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services."
+                        Description="When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services.",
+                        Documents = new Dictionary<string,Uri> 
+                        {
+                            { "ElectricityFactsLabel", new Uri("/", UriKind.Relative) },
+                            { "TermsOfService", new Uri("/", UriKind.Relative) },
+                            { "YourRightsAsACustomer", new Uri("/", UriKind.Relative) },
+                        }
                     }
                 };
 
