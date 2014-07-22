@@ -179,9 +179,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\RadEditor.Net2.dll</HintPath>
     </Reference>
-    <Reference Include="ResponsivePath.Validation, Version=1.0.1.29768, Culture=neutral, PublicKeyToken=bfa0504d6f802018, processorArchitecture=MSIL">
+    <Reference Include="ResponsivePath.Validation, Version=1.0.2.20136, Culture=neutral, PublicKeyToken=bfa0504d6f802018, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ResponsivePath.Validation.1.0.1.29768\lib\net45\ResponsivePath.Validation.dll</HintPath>
+      <HintPath>..\packages\ResponsivePath.Validation.1.0.2.20136\lib\net45\ResponsivePath.Validation.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp">
       <HintPath>..\packages\RestSharp.104.4.0\lib\net4\RestSharp.dll</HintPath>
