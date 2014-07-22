@@ -88,7 +88,7 @@ namespace StreamEnergy.Extensions.ValidationChaining
             var clientRules = (from validator in ModelValidatorProviders.Providers.GetValidators(metadata, Helper.ViewContext)
                                from rule in validator.GetClientValidationRules()
                                let name = (prefix + rule.ErrorMessage)
-                               select Helper.TranslateRule(rule, name, translateFrom, true)).ToArray();
+                               select rule).ToArray();
 
             var dictionary = new Dictionary<string, object>();
             UnobtrusiveValidationAttributesGenerator.GetValidationAttributes(clientRules, dictionary);

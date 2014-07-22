@@ -208,6 +208,7 @@
     <Compile Include="Mvc\Sitecore\ControllerRenderer.cs" />
     <Compile Include="Mvc\Sitecore\ControllerRunner.cs" />
     <Compile Include="Mvc\Sitecore\GetControllerRenderer.cs" />
+    <Compile Include="Mvc\Sitecore\SitecoreTranslatingModelValidatorProvider.cs" />
     <Compile Include="Pipelines\GenerateCustomCacheKey.cs" />
     <Compile Include="Providers\ItemProvider.cs" />
     <Compile Include="Pipelines\NoChangeOrderer.cs" />

@@ -132,12 +132,12 @@
                          <div class="item group-col" @Html.Validation().ErrorClass(m => m.ContactInfo.Name.First)>
                                 <label for="@Html.IdFor(m => m.ContactInfo.Name.First)">@Html.Sitecore().Field("First Name Label")</label>
                                 @Html.TextBoxFor(m => m.ContactInfo.Name.First, new { placeholder="Jordan", ng_model="accountInformation.contactInfo.name.first" })
-                                @*@Html.ValidationMessageFor(model => model.ContactInfo.Name.First)*@
+                                @Html.ValidationMessageFor(model => model.ContactInfo.Name.First)
                             </div>
                             <div class="item group-col" @Html.Validation().ErrorClass(m => m.ContactInfo.Name.Last)>
                                 <label for="@Html.IdFor(m => m.ContactInfo.Name.Last)">@Html.Sitecore().Field("Last Name Label")</label>
                                 @Html.TextBoxFor(m => m.ContactInfo.Name.Last, new { placeholder = "Campbell", ng_model = "accountInformation.contactInfo.name.last" })
-                                @*@Html.ValidationMessageFor(model => model.ContactInfo.Name.Last)*@
+                                @Html.ValidationMessageFor(model => model.ContactInfo.Name.Last)
                             </div>
                         </div>
                         <div class="group">
@@ -193,7 +193,7 @@
                         <div class="item" @Html.Validation().ErrorClass(m => m.ContactInfo.Email.Address)>
                             <label for="@Html.IdFor(m => m.ContactInfo.Email.Address)">@Html.Sitecore().Field("Email Address Label")</label>
                             @Html.TextBoxFor(m => m.ContactInfo.Email.Address, new { ng_model = "accountInformation.contactInfo.email.address" })
-                            @*@Html.ValidationMessageFor(model => model.ContactInfo.Email.Address)*@
+                            @Html.ValidationMessageFor(model => model.ContactInfo.Email.Address)
                         </div>      
 
 
@@ -210,7 +210,7 @@
                         <div class="item" @Html.Validation().ErrorClass(m => m.SocialSecurityNumber)>
                             <label for="@Html.IdFor(m => m.SocialSecurityNumber)">@Html.Sitecore().Field("Social Security Number Label")</label>
                             @Html.TextBoxFor(m => m.SocialSecurityNumber, new { ng_model = "accountInformation.socialSecurityNumber" })
-                            @*@Html.ValidationMessageFor(m => m.SocialSecurityNumber)*@
+                            @Html.ValidationMessageFor(m => m.SocialSecurityNumber)
                         </div>                        
                         @*
                         <!-- Change this ng-hide option when commercial becomes available -->
@@ -223,7 +223,7 @@
                             <div class="item group-col" @Html.Validation().ErrorClass(m => m.DriversLicense.Number)>
                                 <label for="@Html.IdFor(m => m.DriversLicense.Number)">@Html.Sitecore().Field("Drivers License Number Label")</label>
                                 @Html.TextBoxFor(m => m.DriversLicense.Number, new { data_val_if="accountInformation.driversLicense.number || accountInformation.driversLicense.stateAbbreviation", ng_model="accountInformation.driversLicense.number"  })
-                                @*@Html.ValidationMessageFor(m => m.DriversLicense.Number)*@
+                                @Html.ValidationMessageFor(m => m.DriversLicense.Number)
                             </div>
                             <div class="item group-col" @Html.Validation().ErrorClass(m => m.DriversLicense.StateAbbreviation)>
                                 <label for="@Html.IdFor(m => m.DriversLicense.StateAbbreviation)">@Html.Sitecore().Field("Drivers License State Label")</label>
@@ -235,7 +235,7 @@
                                                             ng_model="accountInformation.driversLicense.stateAbbreviation",
                                                             ng_options="state.abbreviation as state.display for state in usStates"
                                                         })
-                                @*@Html.ValidationMessageFor(m => m.DriversLicense.StateAbbreviation)*@
+                                @Html.ValidationMessageFor(m => m.DriversLicense.StateAbbreviation)
                             </div>
                         </div>
 
@@ -250,12 +250,12 @@
                                 <div class="item group-col" @Html.Validation().ErrorClass(m => m.SecondaryContactInfo.First)>
                                     <label for="@Html.IdFor(m => m.SecondaryContactInfo.First)">@Html.Sitecore().Field("First Name Label")</label>
                                     @Html.TextBoxFor(m => m.SecondaryContactInfo.First, new { data_val_if = "accountInformation.showSecondaryContact", placeholder = "Jordan", ng_model = "accountInformation.secondaryContactInfo.first" })
-                                    @*@Html.ValidationMessageFor(m => m.SecondaryContactInfo.First)*@
+                                    @Html.ValidationMessageFor(m => m.SecondaryContactInfo.First)
                                 </div>
                                 <div class="item group-col" @Html.Validation().ErrorClass(m => m.SecondaryContactInfo.Last)>
                                     <label for="@Html.IdFor(m => m.SecondaryContactInfo.Last)">@Html.Sitecore().Field("Last Name Label")</label>
                                     @Html.TextBoxFor(m => m.SecondaryContactInfo.Last, new { data_val_if = "accountInformation.showSecondaryContact", placeholder = "Campbell", ng_model = "accountInformation.secondaryContactInfo.last" })
-                                    @*@Html.ValidationMessageFor(m => m.SecondaryContactInfo.Last)*@
+                                    @Html.ValidationMessageFor(m => m.SecondaryContactInfo.Last)
                                 </div>
                             </div> 
                         </div>
@@ -284,18 +284,18 @@
                         <div class="item" @Html.Validation().ErrorClass(m => m.OnlineAccount.Username)>
                             <label for="@Html.IdFor(m => m.OnlineAccount.Username)">@Html.Sitecore().Field("Username Optional Label")</label>
                             @Html.TextBoxFor(m => m.OnlineAccount.Username, new { data_val_if = "accountInformation.onlineAccount.username", ng_model = "accountInformation.onlineAccount.username" })
-                            @*@Html.ValidationMessageFor(m => m.OnlineAccount.Username)*@
+                            @Html.ValidationMessageFor(m => m.OnlineAccount.Username)
                         </div>
                         <div class="group">
                             <div class="item group-col" @Html.Validation().ErrorClass(m => m.OnlineAccount.Password)>
                                 <label for="@Html.IdFor(m => m.OnlineAccount.Password)">@Html.Sitecore().Field("Password Optional Label")</label>
                                 @Html.PasswordFor(m => m.OnlineAccount.Password, new { data_val_if = "accountInformation.onlineAccount.username", ng_model = "accountInformation.onlineAccount.password" })
-                                @*@Html.ValidationMessageFor(m => m.OnlineAccount.Password)*@
+                                @Html.ValidationMessageFor(m => m.OnlineAccount.Password)
                             </div>
                             <div class="item group-col" @Html.Validation().ErrorClass(m => m.OnlineAccount.ConfirmPassword)>
                                 <label for="@Html.IdFor(m => m.OnlineAccount.ConfirmPassword)">@Html.Sitecore().Field("Verify Password Label")</label>
                                 @Html.PasswordFor(m => m.OnlineAccount.ConfirmPassword, new { data_val_if = "accountInformation.onlineAccount.username", ng_model = "accountInformation.onlineAccount.confirmPassword" })
-                                @*@Html.ValidationMessageFor(m => m.OnlineAccount.ConfirmPassword)*@
+                                @Html.ValidationMessageFor(m => m.OnlineAccount.ConfirmPassword)
                             </div>
                         </div>
                     </div>

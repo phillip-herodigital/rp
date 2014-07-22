@@ -85,7 +85,7 @@ namespace StreamEnergy.Extensions
         }
 
         [Obsolete("Use Element builders")]
-        public static IHtmlString ValidationAttributes<T, U>(this HtmlHelper<T> html, Expression<Func<T, U>> model, Item translateFrom = null, bool writeId = true, bool writeValue = true)
+        public static IHtmlString ValidationAttributes<T, U>(this HtmlHelper<T> html, Expression<Func<T, U>> model, bool writeId = true, bool writeValue = true)
         {
             var temp = model.RemoveLambdaBody().RemoveCast();
 
@@ -96,8 +96,7 @@ namespace StreamEnergy.Extensions
 
             var clientRules = (from validator in ModelValidatorProviders.Providers.GetValidators(metadata, html.ViewContext)
                                from rule in validator.GetClientValidationRules()
-                               let name = (prefix + rule.ErrorMessage)
-                               select TranslateRule(html, rule, name, translateFrom, true)).ToArray();
+                               select rule).ToArray();
 
             var dictionary = new Dictionary<string, object>();
             UnobtrusiveValidationAttributesGenerator.GetValidationAttributes(clientRules, dictionary);
@@ -115,14 +114,6 @@ namespace StreamEnergy.Extensions
                                              select attr.Key + "=\"" + attr.Value + "\""));
         }
 
-        internal static ModelClientValidationRule TranslateRule<T>(this HtmlHelper<T> html, ModelClientValidationRule rule, string name, Item translateFrom, bool encode)
-        {
-            rule.ErrorMessage = name.RenderFieldFrom(translateFrom ?? (Item)html.ViewBag.ValidationMessagesItem ?? html.Sitecore().CurrentItem, false);
-            if (encode)
-                rule.ErrorMessage = html.Encode(rule.ErrorMessage);
-            return rule;
-        }
-
         [Obsolete("Use Validation().ErrorClass from ResponsivePath.Validation.Extensions")]
         public static IHtmlString ValidationErrorClass<T, U>(this HtmlHelper<T> html, Expression<Func<T, U>> model)
         {
@@ -135,7 +126,7 @@ namespace StreamEnergy.Extensions
             return new ValidationChaining.ChainedValidation<T, T, U>(new ValidationChaining.ChainedBase<T>(html), model, indexValue);
         }
 
-        public static IHtmlString AllValidationMessagesFor<T, U>(this HtmlHelper<T> html, Expression<Func<T, U>> model, Item translateFrom = null)
+        public static IHtmlString AllValidationMessagesFor<T, U>(this HtmlHelper<T> html, Expression<Func<T, U>> model)
         {
             var temp = model.RemoveLambdaBody().RemoveCast();
 
@@ -156,7 +147,7 @@ namespace StreamEnergy.Extensions
                                from rule in validator.GetClientValidationRules()
                                let name = (StreamEnergy.CompositeValidationAttribute.GetPrefix(entry.propertyChain) + rule.ErrorMessage)
                                let path = StreamEnergy.CompositeValidationAttribute.GetPathedName(entry.propertyChain)
-                               select new { name, path, rule = TranslateRule(html, rule, name, translateFrom, false).ErrorMessage }).ToArray();
+                               select new { name, path, rule = rule.ErrorMessage }).ToArray();
 
             return html.Raw(string.Join("<br/>", from rule in clientRules
                                                  select rule.name + " (" + rule.path + ") &mdash; " + rule.rule) + "<br/>");
