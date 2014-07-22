@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Configuration;
+using ResponsivePath.Validation;
+using System.ComponentModel.DataAnnotations;
 
 namespace StreamEnergy
 {
@@ -28,7 +30,14 @@ namespace StreamEnergy
             var typeIndicatorJsonConverter = new TypeIndicatorJsonConverter();
             unityContainer.RegisterInstance(typeIndicatorJsonConverter);
             Json.AdditionalConverters.Add(typeIndicatorJsonConverter);
-            unityContainer.RegisterInstance<IValidationService>(new ValidationService(unityContainer));
+            unityContainer.RegisterInstance<IValidationService>(new ValidationService());
+            Factories.BuildValidationService = () => unityContainer.Resolve<IValidationService>();
+            Factories.BuildValidationContext = (obj) => 
+                {
+                    var result = new ValidationContext(obj);
+                    result.ServiceContainer.AddService(typeof(IUnityContainer), unityContainer);
+                    return result;
+                };
         }
     }
 }

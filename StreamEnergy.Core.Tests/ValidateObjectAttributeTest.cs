@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.ComponentModel.DataAnnotations;
 using StreamEnergy.Extensions;
 using Microsoft.Practices.Unity;
+using ResponsivePath.Validation;
 
 namespace StreamEnergy.Core.Tests
 {
@@ -41,7 +42,7 @@ namespace StreamEnergy.Core.Tests
         public void InnerFields()
         {
             var unity = new UnityContainer();
-            var validationService = new ValidationService(unity);
+            var validationService = new ValidationService();
             unity.RegisterInstance<IValidationService>(validationService);
 
             var target = new Outer()
@@ -54,7 +55,7 @@ namespace StreamEnergy.Core.Tests
 
             try
             {
-                Validator.ValidateObject(target, validationService.CreateValidationContext(target), true);
+                Validator.ValidateObject(target, Factories.BuildValidationContext(target), true);
                 Assert.Fail("Should have thrown an Exception.");
             }
             catch (ValidationException ex)

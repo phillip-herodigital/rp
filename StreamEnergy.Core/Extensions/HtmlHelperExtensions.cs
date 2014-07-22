@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
+using ResponsivePath.Validation;
 
 namespace StreamEnergy.Extensions
 {
@@ -74,8 +75,8 @@ namespace StreamEnergy.Extensions
         {
             var temp = model.RemoveLambdaBody().RemoveCast();
 
-            var propertyChain = StreamEnergy.CompositeValidationAttribute.UnrollPropertyChain(temp as MemberExpression);
-            var basePrefix = StreamEnergy.CompositeValidationAttribute.GetPrefix(propertyChain);
+            var propertyChain = CompositeValidationAttribute.UnrollPropertyChain(temp as MemberExpression);
+            var basePrefix = CompositeValidationAttribute.GetPrefix(propertyChain);
 
             var allMetaData = new[] 
             { 
@@ -89,8 +90,8 @@ namespace StreamEnergy.Extensions
             var clientRules = (from entry in allMetaData
                                from validator in ModelValidatorProviders.Providers.GetValidators(entry.metadata, html.ViewContext)
                                from rule in validator.GetClientValidationRules()
-                               let name = (StreamEnergy.CompositeValidationAttribute.GetPrefix(entry.propertyChain) + rule.ErrorMessage)
-                               let path = StreamEnergy.CompositeValidationAttribute.GetPathedName(entry.propertyChain)
+                               let name = (CompositeValidationAttribute.GetPrefix(entry.propertyChain) + rule.ErrorMessage)
+                               let path = CompositeValidationAttribute.GetPathedName(entry.propertyChain)
                                select new { name, path, rule = rule.ErrorMessage }).ToArray();
 
             return html.Raw(string.Join("<br/>", from rule in clientRules

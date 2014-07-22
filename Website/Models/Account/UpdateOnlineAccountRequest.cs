@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Security;
+using ResponsivePath.Validation;
 using StreamEnergy.MyStream.Models.Authentication;
 
 namespace StreamEnergy.MyStream.Models.Account

@@ -16,6 +16,7 @@ using System.Web.Security;
 using System.Web.SessionState;
 using Microsoft.Practices.Unity;
 using System.Threading.Tasks;
+using ResponsivePath.Validation;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
