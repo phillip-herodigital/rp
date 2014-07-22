@@ -27,6 +27,10 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
 
     $scope.$watch('data', function (newValue) {
         enrollmentStepsService.setMaxStep('utilityFlowService');
+
+        if(typeof newValue.serviceLocation != 'string') {
+            $scope.errorMessage = false;
+        }
     }, true);
 
     /**
@@ -49,7 +53,13 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
      * @return {[type]} [description]
      */
     $scope.completeStep = function () {
-        
+
+        //Someone bypassed the disabled button, lets send an error
+        if(typeof $scope.data.serviceLocation == 'string' || $scope.data.serviceLocation === null) {
+            $scope.errorMessage = true;
+            return;
+        } 
+
         $scope.data.serviceLocation.capabilities.push({ "capabilityType": "ServiceStatus", "isNewService": $scope.data.isNewService });
 
         var activeService = enrollmentCartService.getActiveService();

@@ -297,16 +297,11 @@ $enrollment-module-vertical-padding: 20px;
                 position: absolute;
                 top: 40px;
                 left: -40px;
-                //IE8 does transforms the element from a different starting point
-                //so we have to set top and left differently
-                top: 0\9;
-                left: 0\0;
                 text-transform: uppercase;
                 color: #fff;
                 height: 20px;
                 width: 100px;
                 margin: 10px 0;
-                filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
                 @include rotate(-90deg);
             }
             .fixed {
@@ -398,6 +393,16 @@ $enrollment-module-vertical-padding: 20px;
         }
     }
 
+}
+
+.lt-ie9 .enrollment__utility-plans {
+    .plan-selection-table .vertical {
+        .fixed, .variable {
+            top: 0;
+            left: 0;
+            filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+        }
+    }
 }
 
 /*
@@ -611,6 +616,7 @@ $enrollment-module-vertical-padding: 20px;
     .time {
         position: relative;
         padding-left: 43px;
+        min-height: 35px;
         .icon-clock {
             position: absolute;
             top: 4px;

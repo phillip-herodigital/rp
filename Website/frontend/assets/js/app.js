@@ -1,5 +1,6 @@
 ngApp = angular.module("ngApp", ['ui.bootstrap',
                                  'ui.slider',
+                                 'unobtrusive.validation',
                                  'maskJQuery',
                                  'n3-line-chart']);
 

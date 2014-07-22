@@ -26,8 +26,7 @@
                         </div>
                     </div>
                 </article>
-                <article class="enrollment__box" data-ng-repeat="typedOffers in currentLocationInfo().offerInformationByType">
-                    <div ng-include src="'planList/' + typedOffers.key"></div>
+                <article class="enrollment__box" data-ng-repeat="typedOffers in currentLocationInfo().offerInformationByType" ng-include src="'planList/' + typedOffers.key">
                 </article>
                 <div class="buttons">
                     <button type="submit" class="primary" ng-click="completeStep();" ng-disabled="!isFormValid()" data-val-submit>@Html.Sitecore().Field("Continue Button")</button>
@@ -266,19 +265,18 @@
         </div>
         <div class="modal-body">
             @Html.Sitecore().Field("Zip to Address Body")
-            @using (var currentService = Html.AngularRepeat(m => m.Services, "0"))
+            @using (var currentService = Html.ClientRepeater(m => m.Services, "0"))
             {
-                <div class="item" @currentService.ErrorClass(s => s.Location)>
-                    <label for="@currentService.For(s => s.Location)">Address</label>
-                    <input type="text" @currentService.Attributes(s => s.Location)
-                           class="typeahead"
-                           ng-model="modal.selectedLocation"
-                           placeholder="@Html.Sitecore().Field("Address Placeholder")"
-                           typeahead="location as location.address|address for location in getLocation(modal.serviceState,  $viewValue)"
-                           ng-disabled="modal.serviceState == ''"
-                           typeahead-loading="modal.loadingServiceAddress"
-                           ng-class="{'loading' : modal.loadingServiceAddress}" autocomplete="off" />
-                    @currentService.MessageFor(s => s.Location)
+                <div class="item" @currentService.Validation().ErrorClass(s => s.Location)>
+                    <label for="@currentService.Fix(h => h.IdFor(s => s.Location))">Address</label>
+                    @currentService.TextBoxFor(s => s.Location, new { @class="typeahead",
+                           ng_model="modal.selectedLocation",
+                           placeholder=@Html.Sitecore().Field("Address Placeholder"),
+                           typeahead="location as location.address|address for location in getLocation(modal.serviceState,  $viewValue)",
+                           ng_disabled="modal.serviceState == ''",
+                           typeahead_loading="modal.loadingServiceAddress",
+                           ng_class="{'loading' : modal.loadingServiceAddress}", autocomplete="off" })
+                    @currentService.ValidationMessageFor(s => s.Location)
                 </div>
             }
         </div>

@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ResponsivePath.Validation;
 
 namespace StreamEnergy.Core.Tests.Processes
 {
@@ -195,7 +196,7 @@ namespace StreamEnergy.Core.Tests.Processes
         private IStateMachine<GetOffersContext, GetOffersInternalContext> Create()
         {
             var unity = new UnityContainer();
-            var result = new StateMachine<GetOffersContext, GetOffersInternalContext>(new ValidationService(new Microsoft.Practices.Unity.UnityContainer()), unity);
+            var result = new StateMachine<GetOffersContext, GetOffersInternalContext>(new ValidationService(), unity);
             return result;
         }
 
