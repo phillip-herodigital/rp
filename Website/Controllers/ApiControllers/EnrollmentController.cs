@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Http;
 using System.Web.SessionState;
 using Microsoft.Practices.Unity;
+using ResponsivePath.Validation;
 using StreamEnergy.DomainModels;
 using StreamEnergy.DomainModels.Enrollments;
 using StreamEnergy.Extensions;

@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ResponsivePath.Validation;
 
 namespace StreamEnergy.Core.Tests
 {
@@ -18,21 +19,21 @@ namespace StreamEnergy.Core.Tests
         class Outer
         {
             [Required(ErrorMessage = "Inner Required")]
-            [ValidateObject(PrefixMembers = true, ErrorMessagePrefix = "Inner ")]
+            [ValidateObject(ErrorMessagePrefix = "Inner ")]
             public Inner Inner { get; set; }
 
-            [ValidateEnumerable(PrefixMembers = true, ErrorMessagePrefix = "InnerList ")]
+            [ValidateEnumerable(ErrorMessagePrefix = "InnerList ")]
             public IEnumerable<Inner> InnerList { get; set; }
         }
 
         class OuterWithRequiredList
         {
             [Required(ErrorMessage = "Inner Required")]
-            [ValidateObject(PrefixMembers = true, ErrorMessagePrefix = "Inner ")]
+            [ValidateObject(ErrorMessagePrefix = "Inner ")]
             public Inner Inner { get; set; }
 
             [Required(ErrorMessage = "InnerList Required")]
-            [ValidateEnumerable(PrefixMembers = true, ErrorMessagePrefix = "InnerList ")]
+            [ValidateEnumerable(ErrorMessagePrefix = "InnerList ")]
             public IEnumerable<Inner> InnerList { get; set; }
         }
 
@@ -50,7 +51,7 @@ namespace StreamEnergy.Core.Tests
         private IValidationService CreateService()
         {
             var unity = new UnityContainer();
-            var result = new ValidationService(unity);
+            var result = new ValidationService();
             unity.RegisterInstance<IValidationService>(result);
             return result;
         }

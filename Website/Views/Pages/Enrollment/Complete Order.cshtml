@@ -76,9 +76,14 @@
                 </article>
                 <div class="form terms-agreement">
                     @Html.Raw(Html.Sitecore().CurrentItem["Terms and Conditions Text"].Format(new { LinkAttributes = "ng-click=\"showTerms('Standard')\"" }))
-                    <div class="item" @Html.ValidationErrorClass(m => m.AgreeToTerms)>
+                    <div class="item" @Html.Validation().ErrorClass(m => m.AgreeToTerms)>
                         <ul class="checkbox-list">
-                            <li><input id="tcpa-services-agreement" type="checkbox" @Html.ValidationAttributes(c => c.AgreeToTerms) ng-model="completeOrder.agreeToTerms"> <label for="tcpa-services-agreement">@Html.Raw(Html.Sitecore().CurrentItem["TCPA - I Agree Text"].Format(new { LinkAttributes = "ng-click=\"showTerms('Tcpa')\"" }))</label></li>    
+                            <li>
+                                @Html.CheckBoxFor(m => m.AgreeToTerms, new { ng_model = "completeOrder.agreeToTerms" })
+                                <label for="@Html.IdFor(m => m.AgreeToTerms)">
+                                    @Html.Raw(Html.Sitecore().CurrentItem["TCPA - I Agree Text"].Format(new { LinkAttributes = "ng-click=\"showTerms('Tcpa')\"" }))
+                                </label>
+                            </li>    
                         </ul>                            
                     </div>
                 </div>

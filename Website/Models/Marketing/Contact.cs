@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ResponsivePath.Validation;
 
 namespace StreamEnergy.MyStream.Models.Marketing
 {

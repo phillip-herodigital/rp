@@ -22,20 +22,20 @@
                         <p>@Html.Sitecore().Field("Verify Paragraph")</p>
                         <p><strong>@Html.Sitecore().Field("Skip This Step")</strong></p>
                         <div class="form">
-                            @using (var idQuestion = Html.AngularRepeat(m => m.SelectedIdentityAnswers, "$index"))
+                            @using (var idQuestion = Html.ClientRepeater(m => m.SelectedIdentityAnswers, "{{$index}}"))
                             {
-                                <div class="item" ng-repeat="question in getIdentityQuestions()" @idQuestion.ErrorClass(m => m.Value)>
+                                <div class="item" ng-repeat="question in getIdentityQuestions()" @idQuestion.Validation().ErrorClass(m => m.Value)>
                                     <label>{{question.questionText}}</label>
                                     <ul class="checkbox-list">
-                                        @using (var idAnswer = Html.AngularRepeat(m => m.SelectedIdentityAnswers, "$parent.$index"))
+                                        @using (var idAnswer = Html.ClientRepeater(m => m.SelectedIdentityAnswers, "{{$parent.$index}}"))
                                         {
                                             <li ng-repeat="answers in question.answers">
-                                                <input type="radio" data-val="true" data-val-required="@Html.Sitecore().Field("Selected Identity Answers Required")" id="@(idAnswer.For(e => e.Value))[{{$index}}]" name="@(idAnswer.For(e => e.Value))" ng-model="selectedIdentityAnswers[question.questionId]" ng-value="answers.answerId">
-                                                <label for="@(idAnswer.For(e => e.Value))[{{$index}}]">{{answers.answerText}}</label>
+                                                <input type="radio" data-val="true" data-val-required="@Html.Sitecore().Field("Selected Identity Answers Required")" id="@(idAnswer.Fix(h => h.IdFor(e => e.Value)))[{{$index}}]" name="@(idAnswer.NameFor(e => e.Value))" ng-model="selectedIdentityAnswers[question.questionId]" ng-value="answers.answerId">
+                                                <label for="@(idAnswer.Fix(h => h.IdFor(e => e.Value)))[{{$index}}]">{{answers.answerText}}</label>
                                             </li>
                                         }
                                     </ul>
-                                    @idQuestion.MessageFor(e => e.Value)
+                                    @idQuestion.ValidationMessageFor(e => e.Value)
                                 </div>
                             }
                         </div>

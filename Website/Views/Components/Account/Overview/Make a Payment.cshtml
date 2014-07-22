@@ -49,26 +49,28 @@
                     <p ng-if="ctrl.selectedAccounts.length!=1">@Html.Sitecore().Field("Total For Accounts").Format(new { Count = "{{ctrl.selectedAccounts.length}}" }) <strong>{{ ctrl.total | currency }}</strong></p>
 
                     <div class="group date-amount">
-                        <div class="item dollars group-col" @Html.ValidationErrorClass(m => m.TotalPaymentAmount)>
-                            <label for="@Html.For(m => m.TotalPaymentAmount)">@Html.Sitecore().Field("Payment Amount Text")</label>
-                            <span class="payment-amount" ng-show="ctrl.selectedAccounts.length == 1"><input type="text" @Html.ValidationAttributes(m => m.TotalPaymentAmount) ng-model="ctrl.paymentAmount" currency-input></span>
+                        <div class="item dollars group-col" @Html.Validation().ErrorClass(m => m.TotalPaymentAmount)>
+                            <label for="@Html.IdFor(m => m.TotalPaymentAmount)">@Html.Sitecore().Field("Payment Amount Text")</label>
+                            <span class="payment-amount" ng-show="ctrl.selectedAccounts.length == 1">
+                                @Html.TextBoxFor(m => m.TotalPaymentAmount, new { ng_model="ctrl.paymentAmount", currency_input="" })
+                            </span>
                             <span ng-if="ctrl.selectedAccounts.length != 1">{{ctrl.paymentAmount|currency}}</span>
                         </div>
-                        <div class="item datepicker group-col" @Html.ValidationErrorClass(m => m.PaymentDate)>
+                        <div class="item datepicker group-col" @Html.Validation().ErrorClass(m => m.PaymentDate)>
                             <label for="Payment method">@Html.Sitecore().Field("Payment Date Text")</label>
                             <span class="calendar">
-                                <input type="text" ng-model="ctrl.selectedDate" datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="disableWeekends(date, mode)" @Html.ValidationAttributes(m => m.PaymentDate) />
+                                @Html.TextBoxFor(m => m.PaymentDate, new { ng_model="ctrl.selectedDate", datepicker_popup="", is_open="datePickerOpened", ng_click="openDatePicker($event)", min_date="minDate", date_disabled="disableWeekends(date, mode)" })
                                 <span class="icon" ng-click="openDatePicker($event)"><i class="icon-calendar"></i></span>
                             </span>
                         </div>
                     </div>
                     <div>
                         <div class="group account-select">
-                            <div class="item group-col" @Html.ValidationErrorClass(m => m.PaymentAccount) slide-down-show="!ctrl.useNewPaymentMethod">
+                            <div class="item group-col" @Html.Validation().ErrorClass(m => m.PaymentAccount) slide-down-show="!ctrl.useNewPaymentMethod">
                                 <label for="Payment method">@Html.Sitecore().Field("Payment Account Text")</label>
-                                <select ng-options="option.displayName for option in ctrl.paymentMethods" ng-model="ctrl.selectedPaymentMethod" @Html.ValidationAttributes(m => m.PaymentAccount) data-val-if="!ctrl.useNewPaymentMethod">
-                                    <option value="">@Html.Sitecore().Field("Select Payment Account Text")</option>
-                                </select>
+                                @Html.DropDownListFor(m => m.PaymentAccount,
+                                    new[] { new SelectListItem { Text = Html.Sitecore().Field("Select Payment Account Text").ToHtmlString() } },
+                                    new { ng_options="option.displayName for option in ctrl.paymentMethods", ng_model="ctrl.selectedPaymentMethod", data_val_if="!ctrl.useNewPaymentMethod" })
                             </div>
                             <div class="item add-account group-col">
                                 <a class="single-link" ng-click="ctrl.useNewPaymentMethod = !ctrl.useNewPaymentMethod" ng-class="{'collapsed': !ctrl.useNewPaymentMethod}" class="details-link" href="">

@@ -28,7 +28,7 @@
                         @Html.Sitecore().Field("Body Text")
                         
                         @* TODO - replace "0" with the angular variable for the 'current' service location index being updated *@
-                        @using (var currentService = Html.AngularRepeat(m => m.Services, "0"))
+                        @using (var currentService = Html.ClientRepeater(m => m.Services, "0"))
                         {
                         @*
                         <div class="item">
@@ -42,17 +42,21 @@
                         </div>
                         *@
                         
-                        <div class="item" @currentService.ErrorClass(s => s.Location)>
-                            <label for="@currentService.For(s => s.Location)">@Html.Sitecore().Field("Address Label")</label>
-                            <input class="state-select-typeahead" type="text" @currentService.Attributes(s => s.Location)
-                                   class="typeahead"
-                                   ng-model="data.serviceLocation"
-                                   placeholder="@Html.Sitecore().Field("Address Placeholder")"
-                                   typeahead="location as location.address|address for location in getLocation(data.serviceState, $viewValue)"
-                                   ng-disabled="data.serviceState == ''"
-                                   typeahead-loading="loadingServiceAddress"
-                                   ng-class="{'loading' : loadingServiceAddress}" autocomplete="off" /><div id="state-select" dropdown-select dropdown-items="supportedUtilityStates" value="data.serviceState"></div>
-                            @currentService.MessageFor(s => s.Location)
+                        <div class="item" @currentService.Validation().ErrorClass(s => s.Location)>
+                            <label for="@currentService.Fix(h => h.IdFor(s => s.Location))">@Html.Sitecore().Field("Address Label")</label>
+                            @currentService.TextBoxFor(s => s.Location, new
+                            {
+                                @class = "typeahead",
+                                ng_model = "data.serviceLocation",
+                                placeholder = @Html.Sitecore().Field("Address Placeholder"),
+                                typeahead = "location as location.address|address for location in getLocation(data.serviceState, $viewValue)",
+                                ng_disabled = "data.serviceState == ''",
+                                typeahead_loading = "loadingServiceAddress",
+                                ng_class = "{'loading' : loadingServiceAddress}",
+                                autocomplete = "off"
+                            })
+                            <div id="state-select" dropdown-select dropdown-items="supportedUtilityStates" value="data.serviceState"></div>
+                            @currentService.ValidationMessageFor(s => s.Location)
                         </div>
                         <hr>
                         <div class="item">

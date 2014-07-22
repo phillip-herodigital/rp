@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Mvc;
+using StreamEnergy.Mvc.Sitecore;
 
 namespace StreamEnergy.Pipelines
 {
@@ -28,6 +29,11 @@ namespace StreamEnergy.Pipelines
             GlobalConfiguration.Configuration.DependencyResolver = new global::Unity.WebApi.UnityDependencyResolver(container);
 
             GlobalConfiguration.Configuration.Formatters.Insert(0, new Mvc.JsonNetFormatter());
+
+            var providers = ModelValidatorProviders.Providers.ToArray();
+            ModelValidatorProviders.Providers.Clear();
+            ModelValidatorProviders.Providers.Add(new SitecoreTranslatingModelValidatorProvider(providers));
+            
         }
 
         private void SetupMvcValidations()

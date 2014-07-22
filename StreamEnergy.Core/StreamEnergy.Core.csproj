@@ -84,6 +84,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="ResponsivePath.Validation">
+      <HintPath>..\packages\ResponsivePath.Validation.1.0.2.20136\lib\net45\ResponsivePath.Validation.dll</HintPath>
+    </Reference>
     <Reference Include="RestSharp">
       <HintPath>..\packages\RestSharp.104.4.0\lib\net4\RestSharp.dll</HintPath>
     </Reference>
@@ -113,7 +116,7 @@
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.Helpers.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.Helpers.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Http, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -123,28 +126,28 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.1.2\lib\net45\System.Web.Http.WebHost.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Mvc, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Web.Mvc, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.1.2\lib\net45\System.Web.Mvc.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.0\lib\net45\System.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Optimization">
       <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.Razor.3.1.2\lib\net45\System.Web.Razor.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.0\lib\net45\System.Web.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.WebPages.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -168,8 +171,6 @@
     <Compile Include="Caching\RedisCacheContainerSetup.cs" />
     <Compile Include="Caching\RedisCacheExtensions.cs" />
     <Compile Include="CollectionCountRangeAttribute.cs" />
-    <Compile Include="CompositeValidationAttribute.cs" />
-    <Compile Include="CompositeValidationResult.cs" />
     <Compile Include="Configuration\ConfigurationElementCollection.cs" />
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="Configuration\IKeyGenerator.cs" />
@@ -177,19 +178,14 @@
     <Compile Include="CoreContainerSetup.cs" />
     <Compile Include="EnumerableRequiredAttribute.cs" />
     <Compile Include="EnvironmentCategory.cs" />
-    <Compile Include="Extensions\ValidationChaining\ChainedBase.cs" />
-    <Compile Include="Extensions\ValidationChaining\ChainedValidation.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\HtmlStringExtensions.cs" />
     <Compile Include="Extensions\ModelStateExtensions.cs" />
     <Compile Include="Extensions\PaginationHelper.cs" />
     <Compile Include="Extensions\SettingsExtensions.cs" />
-    <Compile Include="Extensions\ValidationChaining\IChainedAccess.cs" />
-    <Compile Include="Extensions\ValidationChaining\IChainedUtility.cs" />
     <Compile Include="ISanitizable.cs" />
     <Compile Include="ISettings.cs" />
     <Compile Include="ITypeIndicatorLookup.cs" />
-    <Compile Include="IValidationService.cs" />
     <Compile Include="Json.cs" />
     <Compile Include="MockParameterBuilder.cs" />
     <Compile Include="Mvc\AspNetContainerSetup.cs" />
@@ -208,6 +204,7 @@
     <Compile Include="Mvc\Sitecore\ControllerRenderer.cs" />
     <Compile Include="Mvc\Sitecore\ControllerRunner.cs" />
     <Compile Include="Mvc\Sitecore\GetControllerRenderer.cs" />
+    <Compile Include="Mvc\Sitecore\SitecoreTranslatingModelValidatorProvider.cs" />
     <Compile Include="Pipelines\GenerateCustomCacheKey.cs" />
     <Compile Include="Providers\ItemProvider.cs" />
     <Compile Include="Pipelines\NoChangeOrderer.cs" />
@@ -242,9 +239,6 @@
     <Compile Include="Unity\Container.cs" />
     <Compile Include="Unity\IContainerSetupStrategy.cs" />
     <Compile Include="Unity\InheritanceSetupStrategy.cs" />
-    <Compile Include="ValidateEnumerableAttribute.cs" />
-    <Compile Include="ValidateObjectAttribute.cs" />
-    <Compile Include="ValidationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
