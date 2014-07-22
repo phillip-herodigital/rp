@@ -34,16 +34,16 @@
                         <div class="item">
                             <ul class="checkbox-list notification-list">
                                 <li>
-                                    <input type="checkbox" @Html.ValidationAttributes(m => m.NewDocumentArrives.Web) ng-model="formData.newDocumentArrives.web">
-                                    <label for="@Html.For(m => m.NewDocumentArrives.Web)"><i class="icon-notification-bell"></i> @Html.Sitecore().Field("Web Text")</label>
+                                    @Html.CheckBoxFor(m => m.NewDocumentArrives.Web, new { ng_model="formData.newDocumentArrives.web" })
+                                    <label for="@Html.IdFor(m => m.NewDocumentArrives.Web)"><i class="icon-notification-bell"></i> @Html.Sitecore().Field("Web Text")</label>
                                 </li>
                                 <li>
-                                    <input type="checkbox" @Html.ValidationAttributes(m => m.NewDocumentArrives.Email) ng-model="formData.newDocumentArrives.email">
-                                    <label for="@Html.For(m => m.NewDocumentArrives.Email)"><i class="icon-notification-email"></i> @Html.Sitecore().Field("Email Text")</label>
+                                    @Html.CheckBoxFor(m => m.NewDocumentArrives.Email, new { ng_model = "formData.newDocumentArrives.email" })
+                                    <label for="@Html.IdFor(m => m.NewDocumentArrives.Email)"><i class="icon-notification-email"></i> @Html.Sitecore().Field("Email Text")</label>
                                 </li>
                                 <li>
-                                    <input type="checkbox" @Html.ValidationAttributes(m => m.NewDocumentArrives.Sms) ng-model="formData.newDocumentArrives.sms">
-                                    <label for="@Html.For(m => m.NewDocumentArrives.Sms)"><i class="icon-notification-sms"></i> @Html.Sitecore().Field("SMS Text")</label>
+                                    @Html.CheckBoxFor(m => m.NewDocumentArrives.Sms, new { ng_model = "formData.newDocumentArrives.sms" })
+                                    <label for="@Html.IdFor(m => m.NewDocumentArrives.Sms)"><i class="icon-notification-sms"></i> @Html.Sitecore().Field("SMS Text")</label>
                                 </li>
                             </ul>
                         </div>
@@ -73,16 +73,16 @@
                         <div class="item">
                             <ul class="checkbox-list notification-list">
                                 <li>
-                                    <input type="checkbox" @Html.ValidationAttributes(m => m.OnlinePaymentsMade.Web) ng-model="formData.onlinePaymentsMade.web">
-                                    <label for="@Html.For(m => m.OnlinePaymentsMade.Web)"><i class="icon-notification-bell"></i> @Html.Sitecore().Field("Web Text")</label>
+                                    @Html.CheckBoxFor(m => m.OnlinePaymentsMade.Web, new { ng_model = "formData.onlinePaymentsMade.web" })
+                                    <label for="@Html.IdFor(m => m.OnlinePaymentsMade.Web)"><i class="icon-notification-bell"></i> @Html.Sitecore().Field("Web Text")</label>
                                 </li>
                                 <li>
-                                    <input type="checkbox" @Html.ValidationAttributes(m => m.OnlinePaymentsMade.Email) ng-model="formData.onlinePaymentsMade.email">
-                                    <label for="@Html.For(m => m.OnlinePaymentsMade.Email)"><i class="icon-notification-email"></i> @Html.Sitecore().Field("Email Text")</label>
+                                    @Html.CheckBoxFor(m => m.OnlinePaymentsMade.Email, new { ng_model = "formData.onlinePaymentsMade.email" })
+                                    <label for="@Html.IdFor(m => m.OnlinePaymentsMade.Email)"><i class="icon-notification-email"></i> @Html.Sitecore().Field("Email Text")</label>
                                 </li>
                                 <li>
-                                    <input type="checkbox" @Html.ValidationAttributes(m => m.OnlinePaymentsMade.Sms) ng-model="formData.onlinePaymentsMade.sms">
-                                    <label for="@Html.For(m => m.OnlinePaymentsMade.Sms)"><i class="icon-notification-sms"></i> @Html.Sitecore().Field("SMS Text")</label>
+                                    @Html.CheckBoxFor(m => m.OnlinePaymentsMade.Sms, new { ng_model = "formData.onlinePaymentsMade.sms" })
+                                    <label for="@Html.IdFor(m => m.OnlinePaymentsMade.Sms)"><i class="icon-notification-sms"></i> @Html.Sitecore().Field("SMS Text")</label>
                                 </li>
                             </ul>
                         </div>
@@ -112,16 +112,16 @@
                         <div class="item">
                             <ul class="checkbox-list notification-list">
                                 <li>
-                                    <input type="checkbox" @Html.ValidationAttributes(m => m.RecurringPaymentsMade.Web) ng-model="formData.recurringPaymentsMade.web">
-                                    <label for="@Html.For(m => m.RecurringPaymentsMade.Web)"><i class="icon-notification-bell"></i> @Html.Sitecore().Field("Web Text")</label>
+                                    @Html.CheckBoxFor(m => m.RecurringPaymentsMade.Web, new { ng_model = "formData.recurringPaymentsMade.web" })
+                                    <label for="@Html.IdFor(m => m.RecurringPaymentsMade.Web)"><i class="icon-notification-bell"></i> @Html.Sitecore().Field("Web Text")</label>
                                 </li>
                                 <li>
-                                    <input type="checkbox" @Html.ValidationAttributes(m => m.RecurringPaymentsMade.Email) ng-model="formData.recurringPaymentsMade.email">
-                                    <label for="@Html.For(m => m.RecurringPaymentsMade.Email)"><i class="icon-notification-email"></i> @Html.Sitecore().Field("Email Text")</label>
+                                    @Html.CheckBoxFor(m => m.RecurringPaymentsMade.Email, new { ng_model = "formData.recurringPaymentsMade.email" })
+                                    <label for="@Html.IdFor(m => m.RecurringPaymentsMade.Email)"><i class="icon-notification-email"></i> @Html.Sitecore().Field("Email Text")</label>
                                 </li>
                                 <li>
-                                    <input type="checkbox" @Html.ValidationAttributes(m => m.RecurringPaymentsMade.Sms) ng-model="formData.recurringPaymentsMade.sms">
-                                    <label for="@Html.For(m => m.RecurringPaymentsMade.Sms)"><i class="icon-notification-sms"></i> @Html.Sitecore().Field("SMS Text")</label>
+                                    @Html.CheckBoxFor(m => m.RecurringPaymentsMade.Sms, new { ng_model = "formData.recurringPaymentsMade.sms" })
+                                    <label for="@Html.IdFor(m => m.RecurringPaymentsMade.Sms)"><i class="icon-notification-sms"></i> @Html.Sitecore().Field("SMS Text")</label>
                                 </li>
                             </ul>
                         </div>
@@ -151,16 +151,16 @@
                         <div class="item">
                             <ul class="checkbox-list notification-list">
                                 <li>
-                                    <input type="checkbox" @Html.ValidationAttributes(m => m.RecurringProfileExpires.Web) ng-model="formData.recurringProfileExpires.web">
-                                    <label for="@Html.For(m => m.RecurringProfileExpires.Web)"><i class="icon-notification-bell"></i> @Html.Sitecore().Field("Web Text")</label>
+                                    @Html.CheckBoxFor(m => m.RecurringProfileExpires.Web, new { ng_model = "formData.recurringProfileExpires.web" })
+                                    <label for="@Html.IdFor(m => m.RecurringProfileExpires.Web)"><i class="icon-notification-bell"></i> @Html.Sitecore().Field("Web Text")</label>
                                 </li>
                                 <li>
-                                    <input type="checkbox" @Html.ValidationAttributes(m => m.RecurringProfileExpires.Email) ng-model="formData.recurringProfileExpires.email">
-                                    <label for="@Html.For(m => m.RecurringProfileExpires.Email)"><i class="icon-notification-email"></i> @Html.Sitecore().Field("Email Text")</label>
+                                    @Html.CheckBoxFor(m => m.RecurringProfileExpires.Email, new { ng_model = "formData.recurringProfileExpires.email" })
+                                    <label for="@Html.IdFor(m => m.RecurringProfileExpires.Email)"><i class="icon-notification-email"></i> @Html.Sitecore().Field("Email Text")</label>
                                 </li>
                                 <li>
-                                    <input type="checkbox" @Html.ValidationAttributes(m => m.RecurringProfileExpires.Sms) ng-model="formData.recurringProfileExpires.sms">
-                                    <label for="@Html.For(m => m.RecurringProfileExpires.Sms)"><i class="icon-notification-sms"></i> @Html.Sitecore().Field("SMS Text")</label>
+                                    @Html.CheckBoxFor(m => m.RecurringProfileExpires.Sms, new { ng_model = "formData.recurringProfileExpires.sms" })
+                                    <label for="@Html.IdFor(m => m.RecurringProfileExpires.Sms)"><i class="icon-notification-sms"></i> @Html.Sitecore().Field("SMS Text")</label>
                                 </li>
                             </ul>
                         </div>
@@ -178,12 +178,12 @@
                 <div class="item">
                     <ul class="checkbox-list">
                         <li>
-                            <input type="checkbox" @Html.ValidationAttributes(m => m.PrintedInvoices) ng-model="formData.printedInvoices">
-                            <label for="@Html.For(m => m.PrintedInvoices)">@Html.Sitecore().Field("Printed Invoices Text")</label>
+                            @Html.CheckBoxFor(m => m.PrintedInvoices, new { ng_model = "formData.printedInvoices" })
+                            <label for="@Html.IdFor(m => m.PrintedInvoices)">@Html.Sitecore().Field("Printed Invoices Text")</label>
                         </li>
                         <li>
-                            <input type="checkbox" @Html.ValidationAttributes(m => m.PromoOptIn) ng-model="formData.promoOptIn">
-                            <label for="@Html.For(m => m.PromoOptIn)">@Html.Sitecore().Field("Promotional Offers Text")</label>
+                            @Html.CheckBoxFor(m => m.PromoOptIn, new { ng_model = "formData.promoOptIn" })
+                            <label for="@Html.IdFor(m => m.PromoOptIn)">@Html.Sitecore().Field("Promotional Offers Text")</label>
                         </li>
                     </ul>
                 </div>

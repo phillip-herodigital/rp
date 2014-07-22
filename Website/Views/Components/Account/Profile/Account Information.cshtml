@@ -21,7 +21,13 @@
                 </div>
                 <div class="item group-col">
                     <label for="@Html.IdFor(m => m.PrimaryPhone.Category)">@Html.Sitecore().Field("Phone Type Text")</label>
-                    <select @Html.ValidationAttributes(m => m.PrimaryPhone.Category) ng-model="formData.primaryPhone.category" ng-options="type.name as type.display for type in phoneTypes"></select>
+                    @Html.DropDownListFor(m => m.PrimaryPhone.Category,
+                                                        new SelectListItem[] { },
+                                                        new
+                                                        {
+                                                            ng_model = "formData.primaryPhone.category",
+                                                            ng_options = "type.name as type.display for type in phoneTypes"
+                                                        })
                 </div>
             </div>
             <div ng-switch="formDataOriginal.secondaryPhone.number.length || false">
@@ -37,8 +43,14 @@
                                 @Html.ValidationMessageFor(model => model.SecondaryPhone.Number)
                             </div>
                             <div class="item group-col">
-                                <label for="@Html.IdFor(m => m.SecondaryPhone.Category)">@Html.Sitecore().Field("Phone Type Text")</label>
-                                <select @Html.ValidationAttributes(m => m.SecondaryPhone.Category) ng-model="formData.secondaryPhone.category" ng-options="type.name as type.display for type in phoneTypes"></select>
+                                <label for="@Html.IdFor(m => m.SecondaryPhone.Category)">@Html.Sitecore().Field("Phone Type Text")</label>                                
+                                @Html.DropDownListFor(m => m.SecondaryPhone.Category,
+                                                        new SelectListItem[] { },
+                                                        new
+                                                        {
+                                                            ng_model = "formData.secondaryPhone.category",
+                                                            ng_options = "type.name as type.display for type in phoneTypes"
+                                                        })
                             </div>
                         </div>
                     </div>
@@ -50,8 +62,14 @@
                         @Html.ValidationMessageFor(model => model.SecondaryPhone.Number)
                     </div>
                     <div class="item group-col">
-                        <label for="@Html.IdFor(m => m.SecondaryPhone.Category)">@Html.Sitecore().Field("Phone Type Text")</label>
-                        <select @Html.ValidationAttributes(m => m.SecondaryPhone.Category) ng-model="formData.secondaryPhone.category" ng-options="type.name as type.display for type in phoneTypes"></select>
+                        <label for="@Html.IdFor(m => m.SecondaryPhone.Category)">@Html.Sitecore().Field("Phone Type Text")</label>                               
+                        @Html.DropDownListFor(m => m.SecondaryPhone.Category,
+                                                new SelectListItem[] { },
+                                                new
+                                                {
+                                                    ng_model = "formData.secondaryPhone.category",
+                                                    ng_options = "type.name as type.display for type in phoneTypes"
+                                                })
                     </div>
                 </div>
             </div>

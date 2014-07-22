@@ -16,12 +16,12 @@
                 <div class="item group-col" @Html.Validation().ErrorClass(model => model.Username) data-float-label>
                     <label for="@Html.IdFor(m => m.Username)">@Html.Sitecore().Field("Username Text")</label>
                     @Html.TextBoxFor(m => m.Username, new { ng_model = "formData.username" })
-                    @*@Html.ValidationMessageFor(model => model.Username)*@
+                    @Html.ValidationMessageFor(model => model.Username)
                 </div>
                 <div class="item group-col" @Html.Validation().ErrorClass(model => model.Email.Address) data-float-label>
                     <label for="@Html.IdFor(m => m.Email.Address)">@Html.Sitecore().Field("Email Text")</label>
                     @Html.TextBoxFor(m => m.Email.Address, new { ng_model = "formData.email.address" })
-                    @*@Html.ValidationMessageFor(model => model.Email.Address)*@
+                    @Html.ValidationMessageFor(model => model.Email.Address)
                 </div>
             </div>
             <div class="additional-fields" data-additional-fields>
@@ -32,7 +32,7 @@
                     <div class="group">
                         <div class="item group-col" @Html.Validation().ErrorClass(model => model.CurrentPassword) data-float-label>
                             <label for="@Html.IdFor(m => m.CurrentPassword)">@Html.Sitecore().Field("Current Password Text")</label>
-                            <input type="password" @Html.ValidationAttributes(m => m.CurrentPassword) ng-model="formData.currentPassword" />
+                            @Html.PasswordFor(m => m.CurrentPassword, new { ng_model = "formData.currentPassword" })
                         </div>
                         <div class="item group-col"></div>
                     </div>
@@ -40,13 +40,13 @@
                         <div class="item group-col" @Html.Validation().ErrorClass(model => model.Password) data-float-label>
                             <label for="@Html.IdFor(m => m.Password)">@Html.Sitecore().Field("New Password Text")</label>
                             @Html.PasswordFor(m => m.Password, new { ng_model = "formData.password" })
-                            @*@Html.ValidationMessageFor(model => model.Password)*@
+                            @Html.ValidationMessageFor(model => model.Password)
                             <span class="help-text">@Html.Sitecore().Field("Password Requirements Text")</span>
                         </div>
                         <div class="item group-col" @Html.Validation().ErrorClass(model => model.ConfirmPassword) data-float-label>
                             <label for="@Html.IdFor(m => m.ConfirmPassword)">@Html.Sitecore().Field("Confirm Password Text")</label>
                             @Html.PasswordFor(m => m.Password, new { ng_model = "formData.confirmPassword" })
-                            @*@Html.ValidationMessageFor(model => model.ConfirmPassword)*@
+                            @Html.ValidationMessageFor(model => model.ConfirmPassword)
                         </div>
                     </div>
                 </div>
@@ -58,12 +58,12 @@
                     <div class="item group-col" @(securityQuestion.Validation().ErrorClass(m => m.SelectedQuestion.Id))>
                         <label for="@securityQuestion.Fix(h => h.IdFor(m => m.SelectedQuestion.Id))">@Html.Sitecore().Field("Question 1 Label")</label>
                         @securityQuestion.DropDownListFor(m => m.SelectedQuestion.Id, new SelectListItem[0], new { ng_model="formData.challenges[0].selectedQuestion", ng_options="question.text for question in formData.availableSecurityQuestions|filter:filter2 track by question.id" })
-                        @*@securityQuestion.MessageFor(m => m.SelectedQuestion.Id)*@
+                        @securityQuestion.ValidationMessageFor(m => m.SelectedQuestion.Id)
                     </div>
                     <div class="item group-col" @(securityQuestion.Validation().ErrorClass(m => m.Answer))>
                         <label for="@securityQuestion.Fix(h => h.IdFor(m => m.Answer))">@Html.Sitecore().Field("Question 1 Answer Label")</label>
                         @securityQuestion.Fix(h => h.TextBoxFor(m => m.Answer, new { ng_model = "formData.challenges[0].answer", placeholder = "********" }))
-                        @*@securityQuestion.MessageFor(m => m.Answer)*@
+                        @securityQuestion.ValidationMessageFor(m => m.Answer)
                         <span class="help-text">@Html.Sitecore().Field("Question 1 Help Text")</span>                      
                     </div>
                 </div>
@@ -74,12 +74,12 @@
                     <div class="item group-col" @(securityQuestion.Validation().ErrorClass(m => m.SelectedQuestion.Id))>
                         <label for="@securityQuestion.Fix(h => h.IdFor(m => m.SelectedQuestion.Id))">@Html.Sitecore().Field("Question 2 Label")</label>
                         @securityQuestion.DropDownListFor(m => m.SelectedQuestion.Id, new SelectListItem[0], new { ng_model = "formData.challenges[1].selectedQuestion", ng_options = "question.text for question in formData.availableSecurityQuestions|filter:filter1 track by question.id" })
-                        @*@securityQuestion.MessageFor(m => m.SelectedQuestion.Id)*@
+                        @securityQuestion.ValidationMessageFor(m => m.SelectedQuestion.Id)
                     </div>
                     <div class="item group-col" @(securityQuestion.Validation().ErrorClass(m => m.Answer))>
                         <label for="@securityQuestion.Fix(h => h.IdFor(m => m.Answer))">@Html.Sitecore().Field("Question 2 Answer Label")</label>
                         @securityQuestion.Fix(h => h.TextBoxFor(m => m.Answer, new { ng_model = "formData.challenges[1].answer", placeholder = "********" }))
-                        @*@securityQuestion.MessageFor(m => m.Answer)*@
+                        @securityQuestion.ValidationMessageFor(m => m.Answer)
                         <span class="help-text">@Html.Sitecore().Field("Question 2 Help Text")</span>
                     </div>
                 </div>
