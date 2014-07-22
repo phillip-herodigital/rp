@@ -5,11 +5,31 @@ ngApp.controller('AcctEnrolledAccountsCtrl', ['$scope', '$rootScope', '$http', '
 	// create a blank object to hold the form information
 	$scope.formData = {};
 
-	// get the current data
+	$scope.isLoading = true;
+	$scope.successMessage = false;
 
-	$http.get('/api/account/getEnrolledAccounts').success(function (data, status, headers, config) {
-		$scope.formData = data;
-		$scope.formDataOriginal = angular.copy($scope.formData);
+	// get the current data
+	$timeout(function() {
+		$http.get('/api/account/getEnrolledAccounts').success(function (data, status, headers, config) {
+			$scope.formData = data;
+			$scope.formDataOriginal = angular.copy($scope.formData);
+			$scope.isLoading = false;
+		});
+	}, 800);
+
+	// when a new account is added, reload the data
+	$scope.$watch('newAccountAdded.added', function(newVal) { 
+		if (newVal) {
+			$scope.isLoading = true;
+			$timeout(function () {
+				$http.get('/api/account/getEnrolledAccounts').success(function (data, status, headers, config) {
+					$scope.formData = data;
+					$scope.formDataOriginal = angular.copy($scope.formData);
+					$scope.newAccountAdded.added = false;
+					$scope.isLoading = false;
+				});
+			}, 800);
+		}
 	});
 
 	$scope.open = function (accountNumber) {
@@ -68,7 +88,7 @@ ngApp.controller('AcctEnrolledAccountsCtrl', ['$scope', '$rootScope', '$http', '
 
 				} else {
 					// if successful, alert the user
-					//alert("successful");
+					$scope.successMessage = true;
 				}
 			});
 	};

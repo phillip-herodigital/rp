@@ -34,7 +34,7 @@ ngApp.controller('AcctAccountInformationCtrl', ['$scope', '$rootScope', '$http',
 		requestData.accountNumber = $scope.selectedAccount.accountNumber;
 		requestData.primaryPhone = $scope.formData.primaryPhone
 
-		if ($scope.formData.secondaryPhone && $scope.formData.secondaryPhone != '') {
+		if ($scope.formData.secondaryPhone.number && $scope.formData.secondaryPhone.number != '') {
 			requestData.secondaryPhone = $scope.formData.secondaryPhone;
 		}
 
@@ -62,6 +62,7 @@ ngApp.controller('AcctAccountInformationCtrl', ['$scope', '$rootScope', '$http',
 
 					} else {
 						// if successful, show the success message
+						$scope.formDataOriginal = angular.copy($scope.formData);
 						$scope.isLoading = false;
 						$scope.successMessage = true;
 					}

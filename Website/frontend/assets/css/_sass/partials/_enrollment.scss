@@ -395,6 +395,16 @@ $enrollment-module-vertical-padding: 20px;
 
 }
 
+.lt-ie9 .enrollment__utility-plans {
+    .plan-selection-table .vertical {
+        .fixed, .variable {
+            top: 0;
+            left: 0;
+            filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+        }
+    }
+}
+
 /*
     Review order page
     TODO: Make this <hr> style into a class
@@ -606,6 +616,7 @@ $enrollment-module-vertical-padding: 20px;
     .time {
         position: relative;
         padding-left: 43px;
+        min-height: 35px;
         .icon-clock {
             position: absolute;
             top: 4px;
@@ -748,6 +759,10 @@ $enrollment-module-vertical-padding: 20px;
             li {
             }
         }
+    }
+
+    .state-select-typeahead {
+        margin-right: 5px;
     }
 
     .checkbox-list {

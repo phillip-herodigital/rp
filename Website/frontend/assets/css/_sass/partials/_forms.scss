@@ -81,12 +81,20 @@ select {
 	// Webkit
 	-webkit-appearance: none;
 }
+
+//Remove the select box image for Firefox
+@-moz-document url-prefix() {
+	select {
+		background-image: none;
+	}	
+}
+
 // IE
 select::-ms-expand {
 	display: none;
 }
 .lt-ie10 select {
-	padding: 0 0 0 5px;
+	padding: 5px;
 	background: white;
 }
 

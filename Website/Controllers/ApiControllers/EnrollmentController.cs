@@ -68,7 +68,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         [HttpGet]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
-        public async Task DemoSetupRenewal()
+        public async Task<HttpResponseMessage> DemoSetupRenewal()
         {
             stateHelper.Reset();
             await stateHelper.EnsureInitialized();
@@ -86,6 +86,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 }
             };
             await stateHelper.StateMachine.Process();
+
+            var response = Request.CreateResponse(HttpStatusCode.Found);
+            response.Headers.Location = new Uri(Request.RequestUri, "/enrollment");
+            return response;
         }
 
         /// <summary>
@@ -270,7 +274,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             stateMachine.Context.AgreeToTerms = false;
             stateMachine.Context.ContactInfo = request.ContactInfo;
-            EnsureTypedPhones(stateMachine.Context.ContactInfo.Phone);
+            if (stateMachine.Context.ContactInfo != null && stateMachine.Context.ContactInfo.Phone != null)
+            {
+                EnsureTypedPhones(stateMachine.Context.ContactInfo.Phone);
+            }
             stateMachine.Context.DriversLicense = request.DriversLicense;
             stateMachine.Context.OnlineAccount = request.OnlineAccount;
             stateMachine.Context.Language = request.Language;

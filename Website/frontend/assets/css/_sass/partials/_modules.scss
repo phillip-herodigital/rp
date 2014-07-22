@@ -25,8 +25,15 @@ article {
 	@include border-radius(10px);
 	margin-bottom: 20px;
 	border: 1px solid #ddd;
-	header {
+	//We don't know which type of element will happen first or last in an article
+	//So always update the border radius on it
+	& > *:first-child {
 		@include border-radius(10px 10px 0px 0px);
+	}
+	& > *:last-child {
+		@include border-radius(0px 0px 10px 10px);
+	}
+	header {
 		background-color: #1385e1;
 		@include background-image(linear-gradient(bottom, #1383df 0%, #1597ff 100%));
 		//margin: -15px -15px 0px -15px;
@@ -76,7 +83,8 @@ article {
 		left: 0;
 		bottom: 0;
 		right: 0;
-		background-color: rgba(255, 255, 255, .9);
+		background: url(../i/white-alpha-90.png) repeat;
+		background: rgba(255, 255, 255, 0.9);
 		z-index: 2;
 		span {
 			$height: 32px;
@@ -134,7 +142,6 @@ article {
 		}
 	}
 	.account-selector {
-		background: #fbfbfb;
 		padding: 15px;
 		border-bottom: 1px solid #ddd;
 		.group {
@@ -403,6 +410,14 @@ article.account {
 		color: #a94442;
 		font-size: 14px;
 		margin: 5px 0;
+        &:empty {
+            display: none;
+        }
+	}
+	.group-col {
+		select {
+			padding-right: 10px;
+		}
 	}
 }
 
@@ -431,7 +446,6 @@ article.message {
 }
 
 article.plan {
-	@include border-radius(10px 10px 0 0);
 	padding-bottom: 0px;
 	table {
 		th {
@@ -445,6 +459,7 @@ article.plan {
 					filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 					.ie8 & {
 						margin: 0 -13px 25px 10px;
+						background: #f6f6f6; //this cleans up the text rendering in IE8
 					}
 				}
 			}
@@ -793,6 +808,16 @@ article.notification-settings {
 	}
 }
 article.enrolled-accounts {
+	.content {
+		padding: 0;
+		.notice {
+			margin: 15px;
+		}
+	}
+    hr.content-divider {
+        margin-left: 0;
+        margin-right: 0;
+    }
 	@include border-radius(10px 10px 0 0);
 	padding-bottom: 0px;
 
@@ -1057,29 +1082,33 @@ article.payments {
 			margin-bottom: 0;
 		}
 		p {
-			margin: 0;
+			margin: 0 0 0 12px;
 			padding-top: 1em;
 		}
 	}
 	.arrow-toggle {
 		position: relative;
-		padding-left: 14px;
-		&:before {
-			position: absolute;
+		margin: 0;
+		color: #0971ce;
+		cursor: pointer;
+		display: inline-block;
+		span {
+			display: inline-block;
+			margin-right: 4px;
 			width: 0;
 			height: 0;
-			content: '';
 			left: 0;
 			top: 50%;
 			margin-top: -5px;
 			border-top: 5px solid transparent;
 			border-left: 8px solid #0971ce;
 			border-bottom: 5px solid transparent;
-			 @include transform(rotate(90deg));
-			 filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+			@include transform(rotate(90deg));
+			filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+			background: #fff;
 		}
 
-		&.collapsed:before {
+		&.collapsed span {
 			@include transform(rotate(0deg));
 			filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=4);
 		}
