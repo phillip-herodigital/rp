@@ -55,10 +55,10 @@
 
         </div>
 
-        @*<div>
+        <div>
             Not quite supported by Angular:
-            <p>PostedFile - {{data.PostedFile }}<br /><input type="file" @Html.ValidationAttributes(m => m.PostedFile) data-val-realtime ng-model="data.PostedFile" /> @Html.ValidationMessageFor(model => model.PostedFile) </p>
-        </div>*@
+            <p>PostedFile - {{data.PostedFile }}<br />@Html.TextBoxFor(m => m.Data, new { data_val_realtime = "", ng_model = "data.PostedFile", type = "file" }) @Html.ValidationMessageFor(model => model.PostedFile) </p>
+        </div>
 
 
         <button type="submit" name="btnSubmit" data-val-submit>Register</button>

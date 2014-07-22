@@ -75,7 +75,7 @@
                                         <strong>{{ selectedOffer.offerOption.billingAddress | address }}</strong>
                                     </div>
 
-                                    @using (var billingAddress = Html.ClientRepeater(m => m.Services, "$parent.$index").ClientRepeater(m => m.SelectedOffers, "$index").Shortcut(m => m.OfferOption.BillingAddress))
+                                    @using (var billingAddress = Html.ClientRepeater(m => m.Services, "{{$parent.$index}}").ClientRepeater(m => m.SelectedOffers, "{{$index}}").Shortcut(m => m.OfferOption.BillingAddress))
                                     {
                                         <div ng-hide="selectedOffer.offerOption.billingAddressSame">
                                             <div class="group">
@@ -317,7 +317,7 @@
 </div>
 
 <script type="text/ng-template" id="offerOptions/TexasElectricity">
-    @using (var offer = Html.ClientRepeater(m => m.Services, "$parent.$index").ClientRepeater(m => m.SelectedOffers, "$index"))
+    @using (var offer = Html.ClientRepeater(m => m.Services, "{{$parent.$index}}").ClientRepeater(m => m.SelectedOffers, "{{$index}}"))
     {
     <div ng-controller="OfferOptions-TexasElectricity">
         <h2>Electricity</h2>

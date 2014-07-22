@@ -13,15 +13,15 @@
         <div class="content">
             @Html.Sitecore().Field("Body Text")    
             @Html.ValidationSummary()
-            <div class="item" @Html.ValidationErrorClass(model => model.AccountNumber)>
-                <label for="@Html.For(m => m.AccountNumber)">@Html.Sitecore().Field("Account Label")</label>
-                <input type="text" @Html.ValidationAttributes(m => m.AccountNumber) ng-model="formData.accountNumber" />
+            <div class="item" @Html.Validation().ErrorClass(model => model.AccountNumber)>
+                <label for="@Html.IdFor(m => m.AccountNumber)">@Html.Sitecore().Field("Account Label")</label>
+                @Html.TextBoxFor(m => m.AccountNumber, new { ng_model = "formData.accountNumber" })
                 @Html.ValidationMessageFor(model => model.AccountNumber)
                 <span class="help-text">@Html.Sitecore().Field("Account Help Text")</span>
             </div>
-            <div class="item" @Html.ValidationErrorClass(model => model.SsnLastFour)>
-                <label for="@Html.For(m => m.SsnLastFour)">@Html.Sitecore().Field("SSN Label")</label>
-                <input type="text" @Html.ValidationAttributes(m => m.SsnLastFour) ng-model="formData.ssnLastFour" />
+            <div class="item" @Html.Validation().ErrorClass(model => model.SsnLastFour)>
+                <label for="@Html.IdFor(m => m.SsnLastFour)">@Html.Sitecore().Field("SSN Label")</label>
+                @Html.TextBoxFor(m => m.SsnLastFour, new { ng_model = "formData.ssnLastFour" })
                 @Html.ValidationMessageFor(model => model.SsnLastFour)
             </div>
         </div>

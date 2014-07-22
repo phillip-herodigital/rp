@@ -8,9 +8,9 @@
 			<div class="content">
 				@Html.Sitecore().Field("Body Text")
 
-				<div class="item" @Html.ValidationErrorClass(m => m.AccountNumber)>
-                    <label for="@Html.For(m => m.AccountNumber)">@Html.Sitecore().Field("Account Number Label"):</label>
-					<input type="text" ng-model="ctrl.accountNumber" @Html.ValidationAttributes(m => m.AccountNumber)>
+				<div class="item" @Html.Validation().ErrorClass(m => m.AccountNumber)>
+                    <label for="@Html.IdFor(m => m.AccountNumber)">@Html.Sitecore().Field("Account Number Label"):</label>
+					@Html.TextBoxFor(m => m.AccountNumber, new { ng_model = "ctrl.accountNumber" })
 				</div>
 				@Html.Sitecore().Field("Terms and Conditions Text")
 			</div>
@@ -30,19 +30,19 @@
 					<dd>{{ ctrl.account.invoiceAmount | currency }}</dd>
 				</dl>
 
-                <div class="item" @Html.ValidationErrorClass(m => m.CustomerName)>
-                    <label for="@Html.For(m => m.CustomerName)">@Html.Sitecore().Field("Customer Name Label"):</label>
-                    <input type="text" @Html.ValidationAttributes(m => m.CustomerName) ng-model="ctrl.name" />
+                <div class="item" @Html.Validation().ErrorClass(m => m.CustomerName)>
+                    <label for="@Html.IdFor(m => m.CustomerName)">@Html.Sitecore().Field("Customer Name Label"):</label>
+                    @Html.TextBoxFor(m => m.CustomerName, new { ng_model = "ctrl.name" })
                 </div>
 
-                <div class="item" @Html.ValidationErrorClass(m => m.CustomerEmail.Address)>
-                    <label for="@Html.For(m => m.CustomerEmail.Address)">@Html.Sitecore().Field("Email Address Label"):</label>
-                    <input type="email" @Html.ValidationAttributes(m => m.CustomerEmail.Address) ng-model="ctrl.email" />
+                <div class="item" @Html.Validation().ErrorClass(m => m.CustomerEmail.Address)>
+                    <label for="@Html.IdFor(m => m.CustomerEmail.Address)">@Html.Sitecore().Field("Email Address Label"):</label>
+                    @Html.TextBoxFor(m => m.CustomerEmail.Address, new { ng_model = "ctrl.email" })
                 </div>
 
-				<div class="item" @Html.ValidationErrorClass(m => m.TotalPaymentAmount)>
-                    <label for="@Html.For(m => m.TotalPaymentAmount)">@Html.Sitecore().Field("Payment Amount Label"):</label>
-					$ <input class="small" type="text" ng-model="ctrl.totalPaymentAmount" @Html.ValidationAttributes(m => m.TotalPaymentAmount) currency-input>
+				<div class="item" @Html.Validation().ErrorClass(m => m.TotalPaymentAmount)>
+                    <label for="@Html.IdFor(m => m.TotalPaymentAmount)">@Html.Sitecore().Field("Payment Amount Label"):</label>
+                    $ @Html.TextBoxFor(m => m.TotalPaymentAmount, new { ng_model = "ctrl.totalPaymentAmount", @class = "small", data_currency_input = "" })
 				</div>
 
 				

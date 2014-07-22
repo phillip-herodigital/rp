@@ -61,21 +61,21 @@
 
             <h3>@Html.Sitecore().Field("Create Header Text")</h3>
 
-            <div class="item" @Html.ValidationErrorClass(model => model.Username)>
-                <label for="@Html.For(m => m.Username)">@Html.Sitecore().Field("Username Label")</label>
-                <input type="text" @Html.ValidationAttributes(m => m.Username) ng-model="formData.username" />
+            <div class="item" @Html.Validation().ErrorClass(model => model.Username)>
+                <label for="@Html.IdFor(m => m.Username)">@Html.Sitecore().Field("Username Label")</label>
+                @Html.TextBoxFor(m => m.Username, new { ng_model = "formData.username" })
                 @Html.ValidationMessageFor(model => model.Username)
             </div>
-            <div class="group" @Html.ValidationErrorClass(model => model.Password)>
+            <div class="group" @Html.Validation().ErrorClass(model => model.Password)>
                 <div class="item group-col">
-                    <label for="@Html.For(m => m.Password)">@Html.Sitecore().Field("Password Label")</label>
-                    <input type="password" @Html.ValidationAttributes(m => m.Password) ng-model="formData.password" />
+                    <label for="@Html.IdFor(m => m.Password)">@Html.Sitecore().Field("Password Label")</label>
+                    @Html.PasswordFor(m => m.Password, new { ng_model = "formData.password" })
                     @Html.ValidationMessageFor(model => model.Password)
                     <span class="help-text">@Html.Sitecore().Field("Password Help Text")</span>
                 </div>
-                <div class="item group-col" @Html.ValidationErrorClass(model => model.ConfirmPassword)>
-                    <label for="@Html.For(m => m.ConfirmPassword)">@Html.Sitecore().Field("Confirm Password Label")</label>
-                    <input type="password" @Html.ValidationAttributes(m => m.ConfirmPassword) ng-model="formData.confirmPassword" />
+                <div class="item group-col" @Html.Validation().ErrorClass(model => model.ConfirmPassword)>
+                    <label for="@Html.IdFor(m => m.ConfirmPassword)">@Html.Sitecore().Field("Confirm Password Label")</label>
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { ng_model = "formData.confirmPassword" })
                     @Html.ValidationMessageFor(model => model.ConfirmPassword)
                 </div>
             </div>
@@ -83,14 +83,14 @@
             <hr class="content-divider">
 
             <div class="group">
-                <div class="item group-col" @Html.ValidationErrorClass(model => model.Challenges)>
+                <div class="item group-col" @Html.Validation().ErrorClass(model => model.Challenges)>
                     <label for="question-1">@Html.Sitecore().Field("Question 1 Label")</label>
                     <select ng-model="formData.challenges[0].selectedQuestion" ng-options="question.text for question in availableSecurityQuestions|filter:filter2 track by question.id">
                         <option value="">@Html.Sitecore().Field("Select Question Text")</option>
                     </select>
                     @Html.ValidationMessageFor(model => model.Challenges)
                 </div>
-                <div class="item group-col" @Html.ValidationErrorClass(model => model.Challenges)>
+                <div class="item group-col" @Html.Validation().ErrorClass(model => model.Challenges)>
                     <label for="answer-1">@Html.Sitecore().Field("Question 1 Answer Label")</label>
                     <input type="text" name="answer-1" id="answer-1" ng-model="formData.challenges[0].answer">
                     <span class="help-text">@Html.Sitecore().Field("Question 1 Help Text")</span>
@@ -98,14 +98,14 @@
                 </div>
             </div>
             <div class="group">
-                <div class="item group-col" @Html.ValidationErrorClass(model => model.Challenges)>
-                    <label for="@Html.For(m => m.Challenges)">@Html.Sitecore().Field("Question 2 Label")</label>
+                <div class="item group-col" @Html.Validation().ErrorClass(model => model.Challenges)>
+                    <label for="@Html.IdFor(m => m.Challenges)">@Html.Sitecore().Field("Question 2 Label")</label>
                     <select ng-model="formData.challenges[1].selectedQuestion" ng-options="question.text for question in availableSecurityQuestions|filter:filter1 track by question.id">
                         <option value="">@Html.Sitecore().Field("Select Question Text")</option>
                     </select>
                     @Html.ValidationMessageFor(model => model.Challenges)
                 </div>
-                <div class="item group-col" @Html.ValidationErrorClass(model => model.Challenges)>
+                <div class="item group-col" @Html.Validation().ErrorClass(model => model.Challenges)>
                     <label for="answer-2">@Html.Sitecore().Field("Question 2 Answer Label")</label>
                     <input type="text" name="answer-2" id="answer-2" ng-model="formData.challenges[1].answer">
                     <span class="help-text">@Html.Sitecore().Field("Question 2 Help Text")</span>
