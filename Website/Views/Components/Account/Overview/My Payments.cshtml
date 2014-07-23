@@ -64,28 +64,14 @@
                         <td colspan="11">
                             <div class="grid clearfix">
                                 <div class="col clearfix">
-                                    <span class="label">
-                                        <p><strong>@Html.Sitecore().Field("Payment ID Text")</strong></p>
-                                        <p><strong>@Html.Sitecore().Field("Confirmation Code Text")</strong></p>
-                                        <p><strong>@Html.Sitecore().Field("Payment Mode Text")</strong></p>
-                                    </span>
-                                    <span class="account-info">
-                                        <p>{{ item.paymentID }}</p>
-                                        <p>{{ item.confirmCode }}</p>
-                                        <p>{{ item.paymentMode }}</p>
-                                    </span>
+                                    <div class="detail-row"><span class="label"><strong>@Html.Sitecore().Field("Payment ID Text")</strong></span><span class="account-info">{{ item.paymentID }}</span></div>
+                                    <div class="detail-row"><span class="label"><strong>@Html.Sitecore().Field("Confirmation Code Text")</strong></span><span class="account-info">{{ item.confirmCode }}</span></div>
+                                    <div class="detail-row"><span class="label"><strong>@Html.Sitecore().Field("Payment Mode Text")</strong></span><span class="account-info">{{ item.paymentMode }}</span></div>
                                 </div>
                                 <div class="col clearfix">
-                                    <span class="label">
-                                        <p><strong>@Html.Sitecore().Field("Payment Account Text")</strong></p>
-                                        <p><strong>@Html.Sitecore().Field("Routing Transit Number Text")</strong></p>
-                                        <p><strong>@Html.Sitecore().Field("Payment Made By Text")</strong></p>
-                                    </span>
-                                    <span class="account-info">
-                                        <p>{{ item.paymentAccount }}</p>
-                                        <p>{{ item.routingNumber }}</p>
-                                        <p>{{ item.paymentMadeBy }}</p>
-                                    </span>
+                                    <div class="detail-row"><span class="label"><strong>@Html.Sitecore().Field("Payment Account Text")</strong></span><span class="account-info">{{ item.paymentAccount }}</span></div>
+                                    <div class="detail-row"><span class="label"><strong>@Html.Sitecore().Field("Routing Transit Number Text")</strong></span><span class="account-info">{{ item.routingNumber }}</span></div>
+                                    <div class="detail-row"><span class="label"><strong>@Html.Sitecore().Field("Payment Made By Text")</strong></span><span class="account-info">{{ item.paymentMadeBy }}</span></div>
                                 </div>
                             </div>
                         </td>
