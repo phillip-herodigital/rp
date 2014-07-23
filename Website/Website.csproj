@@ -904,7 +904,6 @@
     <Content Include="frontend\assets\js\controllers\template.js" />
     <Content Include="frontend\assets\js\directives\additional-fields.js" />
     <Content Include="frontend\assets\js\directives\bankAccountPayment.js" />
-    <Content Include="frontend\assets\js\directives\button-selector.js" />
     <Content Include="frontend\assets\js\directives\creditCardPayment.js" />
     <Content Include="frontend\assets\js\directives\currencyInput.js" />
     <Content Include="frontend\assets\js\directives\datepicker-date-class.js" />

@@ -22,7 +22,7 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
         enrollmentStepsService.setMaxStep('utilityFlowPlans');
         if (typeof selectedOffers != 'undefined') {
             // Map the offers to arrays because, although utilities (which this controller is for) does not allow multiple offers of a type, the cart service does.
-            enrollmentCartService.selectOffers(_(selectedOffers).mapValues(function (offer) { return [offer]; }).value());
+            enrollmentCartService.selectOffers(_(selectedOffers).mapValues(function (offer) { if (offer) { return [offer]; } else return []; }).value());
         }
     });
 
