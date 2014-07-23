@@ -152,7 +152,7 @@ article {
 				label {
 					display: inline-block;
 					margin-right: 5px;
-					@include breakpoint(medium) {
+					@include breakpoint(small-medium) {
 						display: block;
 					}
 				}
@@ -307,6 +307,12 @@ article {
 }
 article.grey-box {
 	background-color: #f9f9f9;
+	/**margin: 0 20px 20px 20px;
+	padding: 0;**/
+	/**.cols-1 & {
+		padding: 0;
+		margin: 0 20px 20px 20px;
+	}**/
 	header {
 		background-color: #f5f5f5;
 		background-image: none;
@@ -567,7 +573,7 @@ article.plan {
 }
 
 article.utility-providers {
-	margin-bottom: 20px;
+	margin: 0 20px 20px 20px;
 	p {
 		margin-top: 0;
 	}
@@ -794,6 +800,9 @@ article.notification-settings {
 			display: inline-block;
 			padding: 3px 8px;
 			font-weight: 600;
+			@include breakpoint(small) {
+				margin-bottom: 4px;
+			}
 		}
 		.notification-list {
 			font-weight: 600;
@@ -945,6 +954,7 @@ article.make-payment {
 	}
 }
 article.payment-history {
+	margin: 0 20px 20px 20px;
 	header {
 		margin-bottom: 15px;
 		h2 {
@@ -998,6 +1008,7 @@ article.payment-history {
 	}
 }
 article.my-invoices {
+	margin: 0 20px 20px 20px;
 	header {
 		margin-bottom: 15px;
 	}
@@ -1053,6 +1064,7 @@ article.auth {
 			}
 			dt, dd {
 				float: none;
+				width: 100%;
 			}
 		}
 	}	
@@ -1077,6 +1089,9 @@ article.payments {
 		}
 		select {
 			width: auto;
+			@include breakpoint(small) {
+				margin-top: 5px;
+			}
 		}
 		& :last-child {
 			margin-bottom: 0;
