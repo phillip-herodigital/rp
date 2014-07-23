@@ -246,5 +246,20 @@ namespace StreamEnergy.Services.Clients
                 },
             };
         }
+
+
+        async Task<Guid> IAccountService.CreateStreamConnectCustomer(string username)
+        {
+            var response = await client.PostAsJsonAsync("/api/customers", new { Customer = new { PortalId = username } });
+            if (response.IsSuccessStatusCode)
+            {
+                var data = Json.Read<Dictionary<string, object>>(await response.Content.ReadAsStringAsync());
+                return Guid.Parse((string)((Dictionary<string, object>)data["Customer"])["GlobalCustomerId"]);
+            }
+            else
+            {
+                return Guid.Empty;
+            }
+        }
     }
 }
