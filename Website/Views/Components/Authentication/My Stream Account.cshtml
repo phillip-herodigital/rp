@@ -11,7 +11,7 @@
 		</header>
 		<div class="content">
             <form ng-submit="login()" data-val-bind-messages="validations">
-                <div class="alert alert-error" ng-show="loginError" ng-bind-html="loginError"></div>
+                <div class="notice error" ng-show="loginError" ng-bind-html="loginError" ng-cloak></div>
                 @Html.ValidationSummary()
                 <div class="group">
                     <div class="item group-col" @Html.Validation().ErrorClass(model => model.Username)>
