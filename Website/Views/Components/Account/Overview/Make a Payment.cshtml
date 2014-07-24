@@ -150,6 +150,7 @@
         <form>
             <div class="content">
                 <div ng-repeat="account in ctrl.selectedAccounts">
+                    <h3>@Html.Sitecore().Field("Account Number Label")</h3>
                     <h3>{{account.accountNumber}}</h3>
                     <div ng-if="account.confirmationNumber" class="notice success">
                         <dl class="clearfix module-list">

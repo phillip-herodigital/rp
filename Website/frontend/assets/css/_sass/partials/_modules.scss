@@ -150,7 +150,7 @@ article {
 				@extend .group-col;
 				width: auto;
 				label {
-					display: inline-block;
+					/**display: inline-block;**/
 					margin-right: 5px;
 					@include breakpoint(small-medium) {
 						display: block;
