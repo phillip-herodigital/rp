@@ -883,24 +883,17 @@ article.make-payment {
 		}
 	}
 	div.payment-details {
-		.date-amount {
-			@include breakpoint(small) {
-				width: 100%;
+		.date-amount {		
+			.dollars .payment-amount {
+				display: block;
+				margin-left: 15px;
+				min-height: 32px;
 			}
-			.item {
-				@include breakpoint(small) {
-					width: 100%;
-				}
-				&.dollars .payment-amount input {
-						/* Firefox */
-						width: -moz-calc(100% - 15px);
-						/* WebKit */
-						width: -webkit-calc(100% - 15px);
-						/* Opera */
-						width: -o-calc(100% - 15px);
-						/* Standard */
-						width: calc(100% - 15px);
-				}
+
+			.dollars .payment-amount input {
+				position: absolute;
+				left: 0;
+				right: 0;
 			}
 		}
 		.group {
@@ -922,7 +915,7 @@ article.make-payment {
 					color: #000;
 					position: absolute;
 					left: -12px;
-					top: 0px;
+					top: 6px;
 				}
 			}
 		}
@@ -1146,7 +1139,7 @@ article.payments {
 		.nickname {
 			width: 100%;
 		}
-		td:last-child {
+		.row-actions {
 			white-space: nowrap;
 		}
 	}

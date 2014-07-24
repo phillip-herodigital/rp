@@ -7,6 +7,8 @@ ngApp.controller('AuthLoginCtrl', ['$scope', '$rootScope', '$http', '$window', '
 
 	// process the form
 	$scope.login = function() {
+		$scope.formData.rememberMe = !!$scope.formData.rememberMe;
+
 		$http({
 			method  : 'POST',
 			url     : '/api/authentication/login',
