@@ -1,7 +1,7 @@
 /* Notification Settings Controller
  *
  */
-ngApp.controller('AcctNotificationSettingsCtrl', ['$scope', '$rootScope', '$http', '$timeout', '$window', '$sce', function ($scope, $rootScope, $http, $timeout, $window, $sce) {
+ngApp.controller('AcctNotificationSettingsCtrl', ['$scope', '$rootScope', '$http', '$timeout', function ($scope, $rootScope, $http, $timeout) {
 	// create a blank object to hold the form information
 	$scope.formData = {};
 
@@ -94,6 +94,9 @@ ngApp.controller('AcctNotificationSettingsCtrl', ['$scope', '$rootScope', '$http
 						angular.copy($scope.formData.onlinePaymentsMade, $scope.formDataOriginal.onlinePaymentsMade);
 						angular.copy($scope.formData.recurringPaymentsMade, $scope.formDataOriginal.recurringPaymentsMade);
 						angular.copy($scope.formData.recurringProfileExpires, $scope.formDataOriginal.recurringProfileExpires);
+						// close the panels
+						$('.additional-field-group').css('display', 'none');
+
 						// display the success message
 						$scope.isLoading = false;
 						$scope.successMessage = true;

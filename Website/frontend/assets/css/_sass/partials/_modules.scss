@@ -423,6 +423,9 @@ article.account {
 	.group-col {
 		select {
 			padding-right: 10px;
+			@include breakpoint(small) {
+				padding-right: 30px;
+			}
 		}
 	}
 }
@@ -536,7 +539,11 @@ article.plan {
 					}
 				}
 				@include breakpoint(small) {
+					div.inner {
+						margin-right: 25px;
+					}
 					.grid {
+						display: inline-block;
 						.col {
 							float: left;
 							width: 50%;			
@@ -546,11 +553,58 @@ article.plan {
 						width: 100%;
 						ul li {
 							float: left;
-							width: 33%;
+							margin: 5px 0;
 						}
 					}
 				}
 			}
+		}
+	}
+	@include breakpoint(small-medium) {
+		table, thead, tbody, th, td, tr {
+			display: block;
+		}
+		table thead {
+			position: absolute;
+			top: -9999px;
+			left: -9999px;
+		}
+		table th {
+			&.vertical {
+				padding: 15px;
+				.fixed {
+					@include rotate(0);
+					filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0);
+				}
+			}
+		}
+		table td {
+			font-size: 16px;
+			border: none;
+			position: relative;
+			padding: 10px 15px;
+			white-space: normal;
+			text-align:left;		
+			p.details {
+				margin-top: 1em;
+			}	
+		}
+		table td:first-child {
+			padding-top: 25px;
+		}
+		table td:last-child {
+			padding-bottom: 25px;
+		}
+		table td:before {
+			content: attr(data-title);
+			display: block;
+			white-space: nowrap;
+			text-align:left;
+			font-weight: 600;
+			text-transform: uppercase;	
+		}
+		table button + button {
+			margin-top: 10px;
 		}
 	}
 	footer.renew-plan {
@@ -986,15 +1040,23 @@ article.payment-history {
 		&.expand-details {
 			.grid {
 				margin: 15px 0 15px 35px;
-				.label {
-					float: left;
-					margin-right: 15px;
-					@include breakpoint(small) {
-						width: 25%;
+				.col {
+					.detail-row {
+						float: left;
+						width: 100%;
+						margin: 8px 0;
 					}
-				}
-				.account-info {
-					float: left;
+					.label {
+						float: left;
+						margin-right: 15px;
+						width: 33%;
+						@include breakpoint(small) {
+							width: 25%;
+						}
+					}
+					.account-info {
+						float: left;
+					}
 				}
 			}
 		}
@@ -1156,6 +1218,42 @@ article.payments {
 		}
 		.row-actions {
 			white-space: nowrap;
+		}
+		@include breakpoint(small-medium) {
+			display: block;
+			thead, tbody, th, td, tr {
+				display: block;
+			}
+			thead {
+				position: absolute;
+				top: -9999px;
+				left: -9999px;
+			}
+			td {
+				font-size: 16px;
+				border: none;
+				position: relative;
+				padding: 10px 15px;
+				white-space: normal;
+				text-align:left;			
+			}
+			td:first-child {
+				padding-top: 25px;
+			}
+			td:last-child {
+				padding-bottom: 25px;
+			}
+			td:before {
+				content: attr(data-title);
+				display: block;
+				white-space: nowrap;
+				text-align:left;
+				font-weight: 600;
+				text-transform: uppercase;	
+			}
+			button + button {
+				margin-top: 10px;
+			}
 		}
 	}
 	.payment-options {
