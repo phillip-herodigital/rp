@@ -1,5 +1,5 @@
 @model StreamEnergy.DomainModels.Enrollments.UserContext
-<div id="utilityFlowPlans" class="enrollment" ng-show="stepsService.isStepVisible('utilityFlowPlans')" ng-controller="EnrollmentPlanSelectionCtrl">
+<div id="utilityFlowPlans" class="enrollment" ng-show="stepsService.isStepVisible('utilityFlowPlans')" ng-controller="EnrollmentPlanSelectionCtrl" ng-init="setTimeRemaining('utilityFlowPlans', '@Html.Sitecore().Field("Remaining Minutes Number")');">
     <div class="banner enrollment__banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper clearfix">
             <h1>

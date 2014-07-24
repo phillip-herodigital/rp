@@ -88,6 +88,13 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
     }
 
     var service = {
+        timeRemaining: function () {
+            return service.getCurrentStep().timeRemaining;
+        },
+        setTimeRemaining: function (id, value) {
+            steps[id].timeRemaining = value;
+        },
+
         setRenewal: function () {
             delete steps.utilityFlowService;
             delete steps.verifyIdentity;
