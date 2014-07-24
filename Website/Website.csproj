@@ -567,6 +567,7 @@
     <Content Include="Data\license.xml" />
     <Content Include="default.css" />
     <Content Include="default.js" />
+    <Content Include="frontend\assets\js\directives\typeahead-popup-fix.js" />
     <Content Include="frontend\utility-services.html" />
     <Content Include="frontend\*" />
     <Content Include="frontend\assets\css\global.css" />
@@ -904,7 +905,6 @@
     <Content Include="frontend\assets\js\controllers\template.js" />
     <Content Include="frontend\assets\js\directives\additional-fields.js" />
     <Content Include="frontend\assets\js\directives\bankAccountPayment.js" />
-    <Content Include="frontend\assets\js\directives\button-selector.js" />
     <Content Include="frontend\assets\js\directives\creditCardPayment.js" />
     <Content Include="frontend\assets\js\directives\currencyInput.js" />
     <Content Include="frontend\assets\js\directives\datepicker-date-class.js" />

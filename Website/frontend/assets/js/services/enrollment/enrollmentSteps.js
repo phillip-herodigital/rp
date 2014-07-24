@@ -59,7 +59,7 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
             'isFlowSpecific': false,
             'isActive': true,
             'isVisible': false,
-            'previous': ['accountInformation', 'verifyIdentity']
+            'previous': ['accountInformation']
         },
         {
             'id': 'orderConfirmed',
@@ -72,13 +72,29 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
     var flows = {
         'utility':
             {
-                'serviceInformation': 'utilityFlowService',
-                'planSelection': 'utilityFlowPlans',
-                'planSettings': 'accountInformation'
+                'serviceInformation': {
+                    name: 'utilityFlowService',
+                    previous: []
+                },
+                'planSelection': {
+                    name: 'utilityFlowPlans',
+                    previous: ['utilityFlowService']
+                },
+                'planSettings': {
+                    name: 'accountInformation',
+                    previous: ['utilityFlowService', 'utilityFlowPlans']
+                }
             }
     }
 
     var service = {
+        timeRemaining: function () {
+            return service.getCurrentStep().timeRemaining;
+        },
+        setTimeRemaining: function (id, value) {
+            steps[id].timeRemaining = value;
+        },
+
         setRenewal: function () {
             delete steps.utilityFlowService;
             delete steps.verifyIdentity;
@@ -92,17 +108,17 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
         setFlow: function (flow, isNewFlow) {
             if (flows[currentFlow]) {
                 // hide the steps from the old flow, since they won't really be occuring in that order and we don't want to scroll up to them
-                angular.forEach(flows[currentFlow], function (state) {
-                    if (state.isFlowSpecific) {
-                        service.deActivateStep(state);
+                angular.forEach(flows[currentFlow], function (flowStep) {
+                    if (steps[flowStep.name].isFlowSpecific) {
+                        service.deActivateStep(flowStep.name);
                     }
                 });
             }
             currentFlow = flow;
             if (!isNewFlow && flows[currentFlow]) {
-                // show the steps from the current flow
-                angular.forEach(flows[currentFlow], function (state) {
-                    state.isActive = true;
+                // show the steps from the current flow in the nav
+                angular.forEach(flows[currentFlow], function (flowStep) {
+                    steps[flowStep.name].isActive = true;
                 });
             }
             return service;
@@ -119,7 +135,15 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
                 $window.location.href = '/account/enrollment-confirmation';
             }
             else if (flows[currentFlow] && flows[currentFlow][expectedState]) {
-                service.setStep(flows[currentFlow][expectedState]);
+                for (var i = 0; i < flows[currentFlow][expectedState].previous.length; i++) {
+                    var stateName = flows[currentFlow][expectedState].previous[i];
+                    if (!steps[stateName].isVisible) {
+                        // don't skip any steps
+                        service.setStep(stateName);
+                        return;
+                    }
+                }
+                service.setStep(flows[currentFlow][expectedState].name);
             } else {
                 service.setStep(expectedState);
             }
