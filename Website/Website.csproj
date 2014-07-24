@@ -567,6 +567,7 @@
     <Content Include="Data\license.xml" />
     <Content Include="default.css" />
     <Content Include="default.js" />
+    <Content Include="frontend\assets\js\directives\typeahead-popup-fix.js" />
     <Content Include="frontend\utility-services.html" />
     <Content Include="frontend\*" />
     <Content Include="frontend\assets\css\global.css" />

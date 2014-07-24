@@ -483,25 +483,34 @@ form,
 }
 
 .dropdown-menu {
-	border: 1px solid #ddd;
-	@include border-radius(10px);
-	margin: 0;
-	padding: 0;
-	position: absolute;
-	background: #fff;
-	min-width: 250px;
-	z-index: 10000;
-	li {
-		list-style-type: none;
-		margin: 0;
-		padding: 0;
-		a {
-			padding: 5px 20px;
-			display: block;
-			&:hover {
-				background: #0971cd;
-				color: #fff;
-			}
-		}
-	}
+    border: 1px solid #ddd;
+    @include border-radius(10px);
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    background: #fff;
+    min-width: 250px;
+    z-index: 10000;
+
+    li {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+
+        a {
+            padding: 5px 20px;
+            display: block;
+
+            &:hover {
+                background: #0971cd;
+                color: #fff;
+            }
+        }
+        &.active {
+            a {
+                background: #0971cd;
+                color: #fff;
+            }
+        }
+    }
 }
