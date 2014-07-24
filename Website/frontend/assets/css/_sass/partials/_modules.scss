@@ -417,6 +417,9 @@ article.account {
 	.group-col {
 		select {
 			padding-right: 10px;
+			@include breakpoint(small) {
+				padding-right: 30px;
+			}
 		}
 	}
 }
