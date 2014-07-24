@@ -45,7 +45,7 @@
                         <td style="width:30px;" ng-click="expandInnerTable($index)" ng-class="{'opened': expand[$index], 'closed': !expand[$index]}">
                             <i ng-class="{'icon-arrow-expanded': expand[$index], 'icon-arrow-collapsed': !expand[$index]}"></i>
                         </td>
-                        <td><i class="icon-recurring" ng-show="item.isRecurring"></i></td>
+                        <td ng-show ="showColumn('isRecurring')"><i class="icon-recurring" ng-show="item.isRecurring"></i></td>
                         <td ng-show="showColumn('accountNumber')">{{ item.accountNumber }}</td>
                         <td ng-show="showColumn('serviceType')" ng-switch on="item.serviceType">
                             <i ng-switch-when="HomeLife Services" class="icon-homelife-services"></i>
