@@ -33,7 +33,9 @@ namespace StreamEnergy.Pipelines
             var providers = ModelValidatorProviders.Providers.ToArray();
             ModelValidatorProviders.Providers.Clear();
             ModelValidatorProviders.Providers.Add(new SitecoreTranslatingModelValidatorProvider(providers));
-            
+
+            GlobalFilters.Filters.Add(new Mvc.AntiForgeryFilterMvcAttribute() { CheckXsrfHeader = false });
+            GlobalConfiguration.Configuration.Filters.Add(new Mvc.AntiForgeryFilterWebApiAttribute());
         }
 
         private void SetupMvcValidations()
