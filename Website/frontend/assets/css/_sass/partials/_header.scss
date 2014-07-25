@@ -138,6 +138,9 @@
 				font-weight: bold;
 			}
 		}
+		&.fixed-fix {
+			position: absolute;
+		}
 		nav {
 			display: none;
 		}
