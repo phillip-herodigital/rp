@@ -19,8 +19,12 @@ ngApp.controller('AuthLoginCtrl', ['$scope', '$rootScope', '$http', '$window', '
 					$scope.loginError = $sce.trustAsHtml(data.validations[0].text);
 
 				} else {
-					// if successful, send the user to the /account page
-					$window.location.href = '/account';
+					// if successful, send the user to the return URL or the /account page
+					var regex = new RegExp('[\\?&]' + 'item' + '=([^&#]*)');
+					var returnUrl = regex.exec(location.search);
+					var returnPath = returnUrl == null ? '/account' : decodeURIComponent(returnUrl[1].replace(/\+/g, ' '));
+					
+					$window.location.href = returnPath;
 				}
 			});
 	};
