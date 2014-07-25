@@ -13,22 +13,7 @@ namespace StreamEnergy.Mvc
     {
         public override void OnActionExecuting(System.Web.Http.Controllers.HttpActionContext actionContext)
         {
-            if (actionContext.Request.Method == HttpMethod.Get)
-            {
-                string cookieToken, formToken;
-                AntiForgery.GetTokens(null, out cookieToken, out formToken);
-
-                actionContext.Response.Headers.AddCookies(new[] { 
-                    new CookieHeaderValue("XSRF-TOKEN", cookieToken + ":" + formToken)
-                    {
-                        // It is the intention for this cookie to be read by the client script, but not cross-domain scripts
-                        HttpOnly = false,
-                        // It isn't necessary to keep this cookie secure over https - it contains no user information
-                        Secure = false,
-                    }
-                });
-            }
-            else
+            if (actionContext.Request.Method != HttpMethod.Get)
             {
                 var values = actionContext.Request.Headers.GetValues("X-XSRF-TOKEN");
                 if (values == null || values.Count() != 1)
@@ -52,5 +37,24 @@ namespace StreamEnergy.Mvc
             base.OnActionExecuting(actionContext);
         }
 
+        public override void OnActionExecuted(System.Web.Http.Filters.HttpActionExecutedContext actionExecutedContext)
+        {
+            if (actionExecutedContext.Request.Method == HttpMethod.Get)
+            {
+                string cookieToken, formToken;
+                AntiForgery.GetTokens(null, out cookieToken, out formToken);
+
+                actionExecutedContext.Response.Headers.AddCookies(new[] { 
+                    new CookieHeaderValue("XSRF-TOKEN", cookieToken + ":" + formToken)
+                    {
+                        // It is the intention for this cookie to be read by the client script, but not cross-domain scripts
+                        HttpOnly = false,
+                        // It isn't necessary to keep this cookie secure over https - it contains no user information
+                        Secure = false,
+                    }
+                });
+            }
+            base.OnActionExecuted(actionExecutedContext);
+        }
     }
 }
