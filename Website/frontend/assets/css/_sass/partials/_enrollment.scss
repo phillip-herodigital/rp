@@ -393,7 +393,21 @@ $enrollment-module-vertical-padding: 20px;
             height: 20px;
         }
     }
-
+    @include breakpoint(small-medium) {
+        .plan-selection-table {
+            th, td {
+                padding-left: 8px;
+                padding-right: 8px;
+            }
+        }
+    }
+    @include breakpoint(small) {
+        .plan-selection-table {
+            .plan-name, .fees, .plan-actions {
+                border-right: none;
+            }
+        }
+    }
 }
 
 .lt-ie9 .enrollment__utility-plans {
