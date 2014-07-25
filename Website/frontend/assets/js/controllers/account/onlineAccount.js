@@ -25,11 +25,21 @@ ngApp.controller('AcctOnlineAccountCtrl', ['$scope', '$rootScope', '$http', '$ti
 
 	// create a filter so that the same security question can't be selected twice
 	$scope.filter1 = function(item){
-	    return (!($scope.formData.challenges.length > 0 && $scope.formData.challenges[0].selectedQuestion && $scope.formData.challenges[0].selectedQuestion.id) || item.id != $scope.formData.challenges[0].selectedQuestion.id);
+		return (!($scope.formData.challenges.length > 0 && $scope.formData.challenges[0].selectedQuestion && $scope.formData.challenges[0].selectedQuestion.id) || item.id != $scope.formData.challenges[0].selectedQuestion.id);
 	};
 
 	$scope.filter2 = function(item){
-	    return (!($scope.formData.challenges.length > 1 && $scope.formData.challenges[1].selectedQuestion && $scope.formData.challenges[1].selectedQuestion.id) || item.id != $scope.formData.challenges[1].selectedQuestion.id);
+		return (!($scope.formData.challenges.length > 1 && $scope.formData.challenges[1].selectedQuestion && $scope.formData.challenges[1].selectedQuestion.id) || item.id != $scope.formData.challenges[1].selectedQuestion.id);
+	};
+
+	// hack to fix IE so the filters work when the select options are changed
+	$scope.fixIE = function(){
+		$timeout(function (){
+			angular.forEach($('select'), function (currSelect){
+				currSelect.options[currSelect.selectedIndex].text += " ";
+				currSelect.options[currSelect.selectedIndex].text = currSelect.options[currSelect.selectedIndex].text.trim(); 
+			});
+		});
 	};
 
 	// process the form
