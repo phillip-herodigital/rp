@@ -108,11 +108,16 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var optionRules = stateMachine.InternalContext.OfferOptionRules ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<IOfferOptionRules>>();
             var deposits = stateMachine.InternalContext.Deposit ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>>();
             var confirmations = stateMachine.InternalContext.PlaceOrderResult ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>();
-            var validations = TranslatedValidationResult.Translate(stateMachine.ValidationResults, translationItem);
+            var standardValidation = (stateMachine.State == currentFinalState ? Enumerable.Empty<ValidationResult>() : stateMachine.ValidationResults);
+            IEnumerable<ValidationResult> supplementalValidation;
+            var expectedState = ExpectedState(out supplementalValidation);
+            var validations = TranslatedValidationResult.Translate(from val in standardValidation.Union(supplementalValidation)
+                                                                   group val by val.ErrorMessage + ";" + string.Join(",", val.MemberNames) into val
+                                                                   select val.First(), translationItem);
             return new ClientData
             {
-                Validations = stateMachine.State == currentFinalState ? Enumerable.Empty<TranslatedValidationResult>() : validations,
-                ExpectedState = ExpectedState(),
+                Validations = validations,
+                ExpectedState = expectedState,
                 IsRenewal = stateMachine.Context.IsRenewal,
                 ContactInfo = stateMachine.Context.ContactInfo,
                 DriversLicense = stateMachine.Context.DriversLicense,
@@ -153,8 +158,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             };
         }
 
-        private Models.Enrollment.ExpectedState ExpectedState()
+        private Models.Enrollment.ExpectedState ExpectedState(out IEnumerable<ValidationResult> supplementalValidation)
         {
+            supplementalValidation = Enumerable.Empty<ValidationResult>();
             var validationResults = stateMachine.ValidationResults;
             var members = validationResults.SelectMany(result => result.MemberNames);
 
@@ -173,15 +179,18 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 {
                     return Models.Enrollment.ExpectedState.ServiceInformation;
                 }
-                else if (validation.PartialValidate(stateMachine.Context, ctx => ctx.Services.PartialValidate(s => s.SelectedOffers), ctx => ctx.Services.PartialValidate(s => s.Location))
-                    .Where(val => !val.MemberNames.All(m => System.Text.RegularExpressions.Regex.IsMatch(m, @"SelectedOffers\[[0-9]+\]\.OfferOption")))
-                    .Any())
+                else 
                 {
-                    return Models.Enrollment.ExpectedState.PlanSelection;
-                }
-                else
-                {
-                    return Models.Enrollment.ExpectedState.PlanSettings;
+                    supplementalValidation = validation.PartialValidate(stateMachine.Context, ctx => ctx.Services.PartialValidate(s => s.SelectedOffers), ctx => ctx.Services.PartialValidate(s => s.Location))
+                        .Where(val => !val.MemberNames.All(m => System.Text.RegularExpressions.Regex.IsMatch(m, @"SelectedOffers\[[0-9]+\]\.OfferOption"))).ToArray();
+                    if (supplementalValidation.Any())
+                    {
+                        return Models.Enrollment.ExpectedState.PlanSelection;
+                    }
+                    else
+                    {
+                        return Models.Enrollment.ExpectedState.PlanSettings;
+                    }
                 }
             }
             else if (stateMachine.State == typeof(AccountInformationState))
