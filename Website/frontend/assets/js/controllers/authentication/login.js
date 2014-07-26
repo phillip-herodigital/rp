@@ -7,6 +7,8 @@ ngApp.controller('AuthLoginCtrl', ['$scope', '$rootScope', '$http', '$window', '
 
 	// process the form
 	$scope.login = function() {
+		// add the URL to the login submission object
+		$scope.formData.uri = document.URL;
 		$http({
 			method  : 'POST',
 			url     : '/api/authentication/login',
@@ -19,12 +21,8 @@ ngApp.controller('AuthLoginCtrl', ['$scope', '$rootScope', '$http', '$window', '
 					$scope.loginError = $sce.trustAsHtml(data.validations[0].text);
 
 				} else {
-					// if successful, send the user to the return URL or the /account page
-					var regex = new RegExp('[\\?&]' + 'item' + '=([^&#]*)');
-					var returnUrl = regex.exec(location.search);
-					var returnPath = returnUrl == null ? '/account' : decodeURIComponent(returnUrl[1].replace(/\+/g, ' '));
-					
-					$window.location.href = returnPath;
+					// if successful, send the user to the return URL
+					$window.location.href = data.returnURI;
 				}
 			});
 	};
