@@ -102,6 +102,7 @@
 		left: 0;
 		width: 100%;
 		z-index: 100;
+		
 		> .wrapper {
 			background-color: #fff;
 			@include retina-background("header-mobile.png");
