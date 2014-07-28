@@ -33,11 +33,11 @@ namespace StreamEnergy.MyStream.Controllers.Components
             return View("~/Views/Components/Authentication/Create Account - Step 2.cshtml");
         }
 
-        public ActionResult GetUserChallengeQuestionsIndex(StreamEnergy.DomainModels.Accounts.ResetPassword.ResetPasswordContext context, string token)
+        public ActionResult GetUserChallengeQuestionsIndex(string token)
         {
             ModelState.Translate();
             ViewBag.TokenExpired = (token == "expired");
-            return View("~/Views/Components/Authentication/Forgot Password - Step 1.cshtml", context);
+            return View("~/Views/Components/Authentication/Forgot Password - Step 1.cshtml");
         }
 
         public ActionResult SendResetPasswordEmailIndex()
