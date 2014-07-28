@@ -97,11 +97,11 @@
 	}
 	@include breakpoint(small) {
 		height: 57px;
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
 		> .wrapper {
-			position: fixed;
-			top: 0;
-			left: 0;
-			width: 100%;
 			background-color: #fff;
 			@include retina-background("header-mobile.png");
 			background-repeat: repeat-x;

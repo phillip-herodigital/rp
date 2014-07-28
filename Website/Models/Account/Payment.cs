@@ -13,7 +13,7 @@ namespace StreamEnergy.MyStream.Models.Account
             Actions = new Dictionary<string, string>();
         }
 
-        [ColumnSchema("Recurring")]
+        [ColumnSchema("Recurring", DeviceType.Phone)]
         public bool IsRecurring { get; set; }
 
         [ColumnSchema("Account Number", DeviceType.Phone)]

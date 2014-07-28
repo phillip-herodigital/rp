@@ -57,7 +57,7 @@
                             <span ng-if="ctrl.selectedAccounts.length != 1">{{ctrl.paymentAmount|currency}}</span>
                         </div>
                         <div class="item datepicker group-col" @Html.Validation().ErrorClass(m => m.PaymentDate)>
-                            <label for="Payment method">@Html.Sitecore().Field("Payment Date Text")</label>
+                            <label for="PaymentDate">@Html.Sitecore().Field("Payment Date Text")</label>
                             <span class="calendar">
                                 @Html.TextBoxFor(m => m.PaymentDate, new { ng_model="ctrl.selectedDate", datepicker_popup="", is_open="datePickerOpened", ng_click="openDatePicker($event)", min_date="minDate", date_disabled="disableWeekends(date, mode)" })
                                 <span class="icon" ng-click="openDatePicker($event)"><i class="icon-calendar"></i></span>
@@ -67,7 +67,7 @@
                     <div>
                         <div class="group account-select">
                             <div class="item group-col" @Html.Validation().ErrorClass(m => m.PaymentAccount) slide-down-show="!ctrl.useNewPaymentMethod">
-                                <label for="Payment method">@Html.Sitecore().Field("Payment Account Text")</label>
+                                <label for="PaymentAccount">@Html.Sitecore().Field("Payment Account Text")</label>
                                 @Html.DropDownListFor(m => m.PaymentAccount,
                                     new[] { new SelectListItem { Text = Html.Sitecore().Field("Select Payment Account Text").ToHtmlString() } },
                                     new { ng_options="option.displayName for option in ctrl.paymentMethods", ng_model="ctrl.selectedPaymentMethod", data_val_if="!ctrl.useNewPaymentMethod" })
@@ -150,6 +150,7 @@
         <form>
             <div class="content">
                 <div ng-repeat="account in ctrl.selectedAccounts">
+                    <h3>@Html.Sitecore().Field("Account Number Label")</h3>
                     <h3>{{account.accountNumber}}</h3>
                     <div ng-if="account.confirmationNumber" class="notice success">
                         <dl class="clearfix module-list">

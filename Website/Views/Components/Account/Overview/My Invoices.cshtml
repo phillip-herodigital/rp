@@ -1,4 +1,4 @@
-﻿<article class="grey-box my-invoices wrapper" ng-controller="AcctMyInvoicesCtrl">
+﻿<article class="grey-box my-invoices" ng-controller="AcctMyInvoicesCtrl">
     <header>
         <h2>@Html.Sitecore().Field("My Invoices Text")</h2>
     </header>
@@ -7,20 +7,20 @@
             <form>
                 <div class="group">
                     <div class="item">
-                        <label>@Html.Sitecore().Field("Service Type Text")</label>
-                        <select ng-model="filters.serviceType" ng-options="item.value as item.name for item in filtersList.serviceType">
+                        <label for="ServiceType">@Html.Sitecore().Field("Service Type Text")</label>
+                        <select id="ServiceType" ng-model="filters.serviceType" ng-options="item.value as item.name for item in filtersList.serviceType">
                             <option value="">All</option>
                         </select>
                     </div>
                     <div class="item">
-                        <label>@Html.Sitecore().Field("Account Text")</label>
-                        <select ng-model="filters.accountNumber" ng-options="item.value as item.name for item in filtersList.accountNumber">
+                        <label for="Account">@Html.Sitecore().Field("Account Text")</label>
+                        <select id="Account" ng-model="filters.accountNumber" ng-options="item.value as item.name for item in filtersList.accountNumber">
                             <option value="">All</option>
                         </select>
                     </div>
                     <div class="item">
-                        <label>@Html.Sitecore().Field("Status Text")</label>
-                        <select ng-model="filters.isPaid" ng-options="item.value as item.name for item in filtersList.isPaid">
+                        <label for="Status">@Html.Sitecore().Field("Status Text")</label>
+                        <select id="Status" ng-model="filters.isPaid" ng-options="item.value as item.name for item in filtersList.isPaid">
                             <option value="">All</option>
                         </select>
                     </div>
