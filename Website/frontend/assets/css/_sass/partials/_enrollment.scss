@@ -45,9 +45,26 @@ $enrollment-module-vertical-padding: 20px;
         }
         h1 {
             font-size: 30px;
+            max-width: 50%;
             .small {
                 font-size: 16px;
             }
+        }
+    }
+    @include breakpoint(medium) {      
+        .wrapper {
+            height: 200px;
+            padding-top: 70px;
+        }
+        h1 {
+            font-size: 50px;
+        }   
+    }
+    //Lets do a breakpoint specifically for mobile under 480
+    @include breakpoint-min-max(320px, 480px) {
+        .wrapper {
+            height: 150px;
+            padding-top: 40px;
         }
     }
 }
@@ -62,8 +79,20 @@ $enrollment-module-vertical-padding: 20px;
     }
     @include breakpoint(small) {
         .wrapper {
+            padding-top: 80px;
+            height: 180px;
+        }
+        h1 {
+            max-width: 100%;
+        }
+    }
+    @include breakpoint(medium) {
+        .wrapper {
             padding-top: 120px;
             height: 250px;
+        }
+        h1 {
+            max-width: 100%;
         }
     }
 }
