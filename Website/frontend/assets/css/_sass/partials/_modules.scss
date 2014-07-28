@@ -1050,9 +1050,6 @@ article.payment-history {
 						float: left;
 						margin-right: 15px;
 						width: 33%;
-						@include breakpoint(small) {
-							width: 25%;
-						}
 					}
 					.account-info {
 						float: left;
