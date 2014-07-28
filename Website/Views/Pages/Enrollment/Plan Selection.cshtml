@@ -62,7 +62,7 @@
             <tbody>
                 <tr class="hide-medium-large" ng-repeat-start="plan in typedOffers.value.availableOffers" ng-class="{'open': isOpen}">
                     <td class="plan-name" colspan="5">
-                        <span ng-if="isSelected" class="selected-icon">
+                        <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id" class="selected-icon">
                             <i class="icon-check"></i>
                         </span>
                         {{plan.name}}
@@ -91,7 +91,7 @@
                         ${{ plan.cancellationFee }}<span>@Html.Sitecore().Field("Electricity Early Cancellation Fee")</span>
                     </td>
                     <td class="select-plan hide-small">
-                        <span ng-if="isSelected" class="selected-icon">
+                        <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id" class="selected-icon">
                             <i class="icon-check"></i>
                         </span>
                         <button class="enrollment-btn" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-class="{ 'secondary': planSelection.selectedOffers[typedOffers.key] == plan.id }" ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix()">
