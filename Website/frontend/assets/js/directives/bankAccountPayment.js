@@ -10,7 +10,7 @@
                     category: ctrl.category,
                     routingNumber: ctrl.routingNumber,
                     accountNumber: ctrl.accountNumber,
-                    redactedData: "*******" + ctrl.accountNumber.slice(-4)
+                    redactedData: "*******" + (ctrl.accountNumber||'0').slice(-4)
                 };
             };
         }],

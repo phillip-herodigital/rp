@@ -195,13 +195,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             };
         }
 
-        [HttpGet]
-        [Caching.CacheControl(MaxAgeInMinutes = 0)]
-        public async Task<IEnumerable<DomainModels.Payments.SavedPaymentInfo>> GetSavedPaymentMethods()
-        {
-            return await accountService.GetSavedPaymentMethods(User.Identity.Name);
-        }
-
         [HttpPost]
         public async Task<MakeMultiplePaymentsResponse> MakeMultiplePayments(MakeMultiplePaymentsRequest request)
         {
@@ -915,6 +908,57 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     AccountNumber = account.AccountNumber,
                     PaymentConfirmationNumber = confirmation.ConfirmationNumber
                 }
+            };
+        }
+
+        #endregion
+
+        #region Saved Payment Accounts
+
+        [HttpGet]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
+        public async Task<IEnumerable<DomainModels.Payments.SavedPaymentInfo>> GetSavedPaymentMethods()
+        {
+            return await accountService.GetSavedPaymentMethods(User.Identity.Name);
+        }
+
+        [HttpPost]
+        public async Task<AddBankAccountResponse> AddBankAccount(AddBankAccountRequest request)
+        {
+            var validationItem = database.GetItem("/sitecore/content/Data/Components/Account/Payment Accounts/Add Bank Account");
+            if (!ModelState.IsValid)
+            {
+                return new AddBankAccountResponse
+                {
+                    Validations = TranslatedValidationResult.Translate(ModelState, validationItem),
+                };
+            }
+
+            // TODO
+            await Task.Yield();
+            return new AddBankAccountResponse
+            {
+                Validations = Enumerable.Empty<TranslatedValidationResult>(),
+            };
+        }
+
+        [HttpPost]
+        public async Task<AddCreditCardResponse> AddCreditCard(AddCreditCardRequest request)
+        {
+            var validationItem = database.GetItem("/sitecore/content/Data/Components/Account/Payment Accounts/Add Credit Card");
+            if (!ModelState.IsValid)
+            {
+                return new AddCreditCardResponse
+                {
+                    Validations = TranslatedValidationResult.Translate(ModelState, validationItem),
+                };
+            }
+
+            // TODO
+            await Task.Yield();
+            return new AddCreditCardResponse
+            {
+                Validations = Enumerable.Empty<TranslatedValidationResult>(),
             };
         }
 

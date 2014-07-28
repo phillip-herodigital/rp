@@ -474,6 +474,10 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Models\Account\AccountToPay.cs" />
+    <Compile Include="Models\Account\AddBankAccountRequest.cs" />
+    <Compile Include="Models\Account\AddBankAccountResponse.cs" />
+    <Compile Include="Models\Account\AddCreditCardRequest.cs" />
+    <Compile Include="Models\Account\AddCreditCardResponse.cs" />
     <Compile Include="Models\Account\AddNewAccountRequest.cs" />
     <Compile Include="Models\Account\AddNewAccountResponse.cs" />
     <Compile Include="Models\Account\EnrolledAccount.cs" />
@@ -567,6 +571,7 @@
     <Content Include="Data\license.xml" />
     <Content Include="default.css" />
     <Content Include="default.js" />
+    <Content Include="frontend\assets\js\controllers\payments\addBankAccount.js" />
     <Content Include="frontend\assets\js\directives\typeahead-popup-fix.js" />
     <Content Include="frontend\utility-services.html" />
     <Content Include="frontend\*" />
