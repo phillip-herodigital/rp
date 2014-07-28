@@ -102,7 +102,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 Uri requestUri = new Uri(request.Uri);
                 string returnUri = HttpUtility.ParseQueryString(requestUri.Query).Get("item");
 
-                if (string.IsNullOrEmpty(returnUri))
+                var helper = new System.Web.Mvc.UrlHelper(System.Web.HttpContext.Current.Request.RequestContext);
+                bool isLocal = helper.IsLocalUrl(returnUri);
+
+                if (string.IsNullOrEmpty(returnUri) || !isLocal)
                 {
                     returnUri = "/account";
                 }
