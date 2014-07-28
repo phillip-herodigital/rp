@@ -34,7 +34,7 @@ namespace StreamEnergy.MyStream.Models.Account
         [ColumnSchema("Status", DeviceType.Tablet, DeviceType.Phone)]
         public string Status { get; set; }
 
-        [ColumnSchema("Action")]
+        [ColumnSchema("Action", DeviceType.Phone)]
         public Dictionary<string, string> Actions { get; private set; }
 
         public string PaymentID { get; set; }
