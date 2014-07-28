@@ -265,7 +265,7 @@ $enrollment-module-vertical-padding: 20px;
                     text-align: left;
                     div {
                         padding: 5px 12px 5px 30px;
-
+                        border-top: 1px solid #eaeaea;
                     }
                     p {
                         font-size: 15px;
@@ -338,6 +338,7 @@ $enrollment-module-vertical-padding: 20px;
         .select-plan {
             width: 126px;
             position: relative;
+            border-right: none;
         }
         .selected-icon {
             position: absolute;
@@ -768,6 +769,7 @@ $enrollment-module-vertical-padding: 20px;
     .checkbox-list {
         label {
             margin-bottom: 4px;
+			display: inline;
         }
     }
 
@@ -920,6 +922,7 @@ $enrollment-module-vertical-padding: 20px;
                 text-align: left;
             }
             .plan-actions {
+                border-left: none;
                 button, .button {
                     float: right;
                     min-width: 120px;

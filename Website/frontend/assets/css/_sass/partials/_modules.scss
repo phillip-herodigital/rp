@@ -150,9 +150,9 @@ article {
 				@extend .group-col;
 				width: auto;
 				label {
-					display: inline-block;
+					/**display: inline-block;**/
 					margin-right: 5px;
-					@include breakpoint(medium) {
+					@include breakpoint(small-medium) {
 						display: block;
 					}
 				}
@@ -307,6 +307,12 @@ article {
 }
 article.grey-box {
 	background-color: #f9f9f9;
+	/**margin: 0 20px 20px 20px;
+	padding: 0;**/
+	/**.cols-1 & {
+		padding: 0;
+		margin: 0 20px 20px 20px;
+	}**/
 	header {
 		background-color: #f5f5f5;
 		background-image: none;
@@ -621,7 +627,7 @@ article.plan {
 }
 
 article.utility-providers {
-	margin-bottom: 20px;
+	margin: 0 20px 20px 20px;
 	p {
 		margin-top: 0;
 	}
@@ -848,6 +854,9 @@ article.notification-settings {
 			display: inline-block;
 			padding: 3px 8px;
 			font-weight: 600;
+			@include breakpoint(small) {
+				margin-bottom: 4px;
+			}
 		}
 		.notification-list {
 			font-weight: 600;
@@ -937,24 +946,17 @@ article.make-payment {
 		}
 	}
 	div.payment-details {
-		.date-amount {
-			@include breakpoint(small) {
-				width: 100%;
+		.date-amount {		
+			.dollars .payment-amount {
+				display: block;
+				margin-left: 15px;
+				min-height: 32px;
 			}
-			.item {
-				@include breakpoint(small) {
-					width: 100%;
-				}
-				&.dollars .payment-amount input {
-						/* Firefox */
-						width: -moz-calc(100% - 15px);
-						/* WebKit */
-						width: -webkit-calc(100% - 15px);
-						/* Opera */
-						width: -o-calc(100% - 15px);
-						/* Standard */
-						width: calc(100% - 15px);
-				}
+
+			.dollars .payment-amount input {
+				position: absolute;
+				left: 0;
+				right: 0;
 			}
 		}
 		.group {
@@ -976,7 +978,7 @@ article.make-payment {
 					color: #000;
 					position: absolute;
 					left: -12px;
-					top: 0px;
+					top: 6px;
 				}
 			}
 		}
@@ -999,6 +1001,7 @@ article.make-payment {
 	}
 }
 article.payment-history {
+	margin: 0 20px 20px 20px;
 	header {
 		margin-bottom: 15px;
 		h2 {
@@ -1060,6 +1063,7 @@ article.payment-history {
 	}
 }
 article.my-invoices {
+	margin: 0 20px 20px 20px;
 	header {
 		margin-bottom: 15px;
 	}
@@ -1115,6 +1119,7 @@ article.auth {
 			}
 			dt, dd {
 				float: none;
+				width: 100%;
 			}
 		}
 	}	
@@ -1139,6 +1144,9 @@ article.payments {
 		}
 		select {
 			width: auto;
+			@include breakpoint(small) {
+				margin-top: 5px;
+			}
 		}
 		& :last-child {
 			margin-bottom: 0;
@@ -1208,7 +1216,7 @@ article.payments {
 		.nickname {
 			width: 100%;
 		}
-		td:last-child {
+		.row-actions {
 			white-space: nowrap;
 		}
 		@include breakpoint(small-medium) {

@@ -140,6 +140,11 @@ div.tabbable {
 		float: left;
 		margin: 0;
 	}
+	@include breakpoint(small) {
+		button {
+			margin-bottom: 5px;
+		}
+	}
 }
 
 .datepicker {

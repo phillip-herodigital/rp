@@ -10,6 +10,8 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentSt
     //Or if we need to go ahead and activate multiple based on a saved card
     enrollmentStepsService.setInitialFlow('utility');
 
+    $scope.setTimeRemaining = enrollmentStepsService.setTimeRemaining;
+
     /**
      * [enrollmentNavClick description]
      * @param  {[type]} step [description]

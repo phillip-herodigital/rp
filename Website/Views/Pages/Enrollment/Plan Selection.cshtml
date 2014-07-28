@@ -1,5 +1,5 @@
 @model StreamEnergy.DomainModels.Enrollments.UserContext
-<div id="utilityFlowPlans" class="enrollment" ng-show="stepsService.isStepVisible('utilityFlowPlans')" ng-controller="EnrollmentPlanSelectionCtrl">
+<div id="utilityFlowPlans" class="enrollment" ng-show="stepsService.isStepVisible('utilityFlowPlans')" ng-controller="EnrollmentPlanSelectionCtrl" ng-init="setTimeRemaining('utilityFlowPlans', '@Html.Sitecore().Field("Remaining Minutes Number")');">
     <div class="banner enrollment__banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper clearfix">
             <h1>
@@ -94,9 +94,9 @@
                         <span ng-if="isSelected" class="selected-icon">
                             <i class="icon-check"></i>
                         </span>
-                        <button class="enrollment-btn" button-selector="'{{plan.id}}'" ng-class="{ 'secondary': isSelected }" ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix()">
-                            <span ng-if="isSelected">Remove</span>
-                            <span ng-if="!isSelected">@Html.Sitecore().Field("Electricity Button")</span>
+                        <button class="enrollment-btn" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-class="{ 'secondary': planSelection.selectedOffers[typedOffers.key] == plan.id }" ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix()">
+                            <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id">Remove</span>
+                            <span ng-if="planSelection.selectedOffers[typedOffers.key] != plan.id">@Html.Sitecore().Field("Electricity Button")</span>
                         </button>
                     </td>
                 </tr>
@@ -106,9 +106,9 @@
                             <span ng-if="!isOpen">@Html.Sitecore().Field("Electricity View Details") <i class="icon-blue-arrow-down"></i></span>
                             <span ng-if="isOpen">Hide Details <i class="icon-blue-arrow-up"></i></span>
                         </a>
-                        <button class="enrollment-btn" button-selector="'{{plan.id}}'" ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix()" ng-class="{ 'secondary': isSelected }">
-                            <span ng-if="isSelected">Remove</span>
-                            <span ng-if="!isSelected">@Html.Sitecore().Field("Electricity Button")</span>
+                        <button class="enrollment-btn" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix()" ng-class="{ 'secondary': planSelection.selectedOffers[typedOffers.key] == plan.id }">
+                            <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id">Remove</span>
+                            <span ng-if="planSelection.selectedOffers[typedOffers.key] != plan.id">@Html.Sitecore().Field("Electricity Button")</span>
                         </button>
                     </td>
                 </tr>
@@ -162,7 +162,7 @@
                             ${{ plan.cancellationFee }}<span>@Html.Sitecore().Field("Gas Early Cancellation Fee")</span>
                         </td>
                         <td>
-                            <a class="button" button-selector="'{{plan.id}}'" ng-model="selectedOffers.gasPlan" href="">@Html.Sitecore().Field("Gas Button")</a>
+                            <a class="button" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-model="selectedOffers.gasPlan" href="">@Html.Sitecore().Field("Gas Button")</a>
                         </td>
                     </tr>
                     <tr class="details-row additional-fields">
