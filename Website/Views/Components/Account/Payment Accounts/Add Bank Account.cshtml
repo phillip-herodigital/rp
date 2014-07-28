@@ -9,33 +9,19 @@
 				<label for="account-nickname">@Html.Sitecore().Field("Account Nickname Label"):</label>
 				<input type="text" id="account-nickname">
                 <span class="help-text">@Html.Sitecore().Field("Account Nickname Help Text")</span>
-			</div>										
-			<div class="item">
-				<label for="payment-method">@Html.Sitecore().Field("Account Type Label"):</label>
-				<select id="payment-method">
-					<option value="">Please Choose</option>
-				</select>
-			</div>
+			</div>			
+            							
+            <div bank-account-payment="bankPaymentInfo" data-val-if="true"></div>
 
-			<div class="group">
-				<div class="item group-col">
-					<label for="routing-number">@Html.Sitecore().Field("Routing Number Label"):</label>
-					<input type="text" id="routing-number">
-				</div>
-				<div class="item group-col">
-					<label for="account-number">@Html.Sitecore().Field("Account Number Label"):</label>
-					<input type="text" id="account-number">
-				</div>									
-			</div>
-			<p class="example-image">@Html.Sitecore().Field("Bank Account Image")</p>
-			<div class="item">
-				<label for="description">@Html.Sitecore().Field("Description Label")</label>
-				<textarea name="description" id="description" ></textarea>
-			</div>									
+            <div class="item">
+                <label for="description">@Html.Sitecore().Field("Description Label")</label>
+                <textarea name="description" id="description"></textarea>
+            </div>
+
 		</div>
 		<footer>
 			<div class="buttons">
-				<button type="submit">@Html.Sitecore().Field("Submit Button Text")</button>
+				<button type="submit" data-val-submit>@Html.Sitecore().Field("Submit Button Text")</button>
 				<button class="secondary">@Html.Sitecore().Field("Cancel Button Text")</button>
 			</div>
 		</footer>

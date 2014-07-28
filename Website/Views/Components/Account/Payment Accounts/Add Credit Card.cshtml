@@ -11,32 +11,7 @@
 				<span class="help-text">@Html.Sitecore().Field("Account Nickname Help Text")</span>
 			</div>
 
-			<div class="item">
-				<label for="credit-card-number">@Html.Sitecore().Field("Credit Card Number Label"):</label>
-				<input id="credit-card-number" type="text">
-			</div>
-			<div class="group">
-				<div class="item">
-					<label for="expiration-date">@Html.Sitecore().Field("Expiration Date LAbel"):</label>
-					<select class="small" id="cc-month">
-						<option value="">MM</option>
-					</select>
-					<select class="small" id="cc-year">
-						<option value="">YYYY</option>
-					</select>
-				</div>
-				<div class="item">
-					<label for="billing-zip">@Html.Sitecore().Field("Zip Code Label"):</label>
-					<input class="small" type="text" id="billing-zip">
-				</div>
-				<div class="item">
-					<label for="security-code">@Html.Sitecore().Field("Security Code Label"):</label>
-					<input class="small" type="text" id="security-code">
-				</div>
-				<div class="item">
-					<a href="" class="single-link">@Html.Sitecore().Field("See Example Text")</a>
-				</div>
-			</div>
+            <div credit-card-payment="completeOrder.creditCard" data-val-if="true"></div>
 
 		</div>
 		<footer>
