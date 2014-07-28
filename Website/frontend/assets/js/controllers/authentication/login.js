@@ -7,6 +7,7 @@ ngApp.controller('AuthLoginCtrl', ['$scope', '$rootScope', '$http', '$window', '
 
 	// process the form
 	$scope.login = function() {
+		$scope.formData.rememberMe = !!$scope.formData.rememberMe;
 		// add the URL to the login submission object
 		$scope.formData.uri = document.URL;
 		$http({
