@@ -34,10 +34,9 @@ ngApp.controller('AcctOnlineAccountCtrl', ['$scope', '$rootScope', '$http', '$ti
 
 	// hack to fix IE so the filters work when the select options are changed
 	$scope.fixIE = function(){
-		$timeout(function (){
-			angular.forEach($('select'), function (currSelect){
-				currSelect.options[currSelect.selectedIndex].text += " ";
-				currSelect.options[currSelect.selectedIndex].text = currSelect.options[currSelect.selectedIndex].text.trim(); 
+		$timeout(function () {
+			$('select').each(function (dx, elem) {
+					elem.options[elem.selectedIndex].text += ' '
 			});
 		});
 	};

@@ -427,6 +427,12 @@ article.account {
 				padding-right: 30px;
 			}
 		}
+		.mobile-only {
+			display: none;
+			@include breakpoint(small) {
+				display: block;
+			}
+		}
 	}
 }
 
