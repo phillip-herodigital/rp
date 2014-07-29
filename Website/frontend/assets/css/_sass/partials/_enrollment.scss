@@ -766,7 +766,6 @@ $enrollment-module-vertical-padding: 20px;
  */
 .enrollment {
     #state-select {
-        width: auto;
         button {
             border-color: #cfcfcf;
             text-transform: uppercase;
@@ -803,10 +802,6 @@ $enrollment-module-vertical-padding: 20px;
             li {
             }
         }
-    }
-
-    .state-select-typeahead {
-        margin-right: 5px;
     }
 
     .checkbox-list {

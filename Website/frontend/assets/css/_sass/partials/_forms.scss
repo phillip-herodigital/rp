@@ -249,6 +249,9 @@ form,
 				text-transform: uppercase;
 			}
 		}
+        &.full {
+            padding-right: 0;
+        }
         span.field-validation-error {
             display: block;
         }
@@ -450,9 +453,8 @@ form,
 	}
 } 
 
-.btn-group {
+.btn-dropdown {
 	display: inline-block;
-	width: 50%;
 	button {
 		background: #fff;
 		color: #555;
@@ -465,7 +467,6 @@ form,
 		text-align: left;
 		position: relative;
 		font-weight: normal;
-		width: 100%;
 		.caret {
 			position: absolute;
 			right: 6px;
@@ -489,7 +490,7 @@ form,
     padding: 0;
     position: absolute;
     background: #fff;
-    min-width: 250px;
+    min-width: 215px;
     z-index: 10000;
 
     li {
@@ -511,6 +512,106 @@ form,
                 background: #0971cd;
                 color: #fff;
             }
+        }
+    }
+    &.dropdown-menu-right {
+        right: 0;
+    }
+}
+
+
+
+//
+// Input groups - modified from bootstrap 3.2.0
+// --------------------------------------------------
+
+// Base styles
+// -------------------------
+@include breakpoint(medium-large) {
+    .input-group {
+        position: relative; // For dropdowns
+        display: table;
+        border-collapse: separate; // prevent input groups from inheriting border styles from table cells when placed within a table
+
+        .input-group-control input {
+            // Ensure that the input is always above the *appended* addon button for
+            // proper border colors.
+            position: relative;
+            z-index: 2;
+
+            // IE9 fubars the placeholder attribute in text inputs and the arrows on
+            // select elements in input groups. To fix it, we float the input. Details:
+            // https://github.com/twbs/bootstrap/issues/11561#issuecomment-28936855
+            float: left;
+            width: 100%;
+        }
+
+        .input-group-control + .input-group-btn {
+            padding-left: 5px;
+            padding-right: 0;
+        }
+    }
+
+    // Display as table-cell
+    // -------------------------
+    .input-group-addon,
+    .input-group-btn,
+    .input-group-control {
+        display: table-cell;
+
+        &:not(:first-child):not(:last-child) {
+            border-radius: 0;
+        }
+    }
+    // Addon and addon wrapper for buttons
+    .input-group-addon,
+    .input-group-btn {
+        width: 1%;
+        white-space: nowrap;
+        vertical-align: middle; // Match the inputs
+    }
+
+    .input-group-btn button {
+        line-height: normal;
+        width: auto;
+    }
+
+    // Text input groups
+    // -------------------------
+    .input-group-addon {
+        font-weight: normal;
+        line-height: 1;
+        text-align: center;
+    }
+
+    // Button input groups
+    // -------------------------
+    .input-group-btn {
+        position: relative;
+        // Jankily prevent input button groups from wrapping with `white-space` and
+        // `font-size` in combination with `inline-block` on buttons.
+        white-space: nowrap;
+        padding-right: 5px;
+
+        // Negative margin for spacing, position for bringing hovered/focused/actived
+        // element above the siblings.
+        > .btn {
+            position: relative;
+            + .btn {
+                margin-left: -1px;
+            }
+            // Bring the "active" button to the front
+            &:hover, &:focus, &:active {
+                z-index: 2;
+            }
+        }
+    }
+}
+
+@include breakpoint(small) {
+    .input-group {
+        .dropdown-menu-right {
+            right: auto;
         }
     }
 }
