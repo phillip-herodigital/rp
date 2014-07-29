@@ -101,14 +101,13 @@
 		top: 0;
 		left: 0;
 		width: 100%;
-		z-index: 100;
+		z-index: 9000;
 		
 		> .wrapper {
 			background-color: #fff;
 			@include retina-background("header-mobile.png");
 			background-repeat: repeat-x;
 			border-bottom: 1px solid #1697ff;
-			z-index: 2;
 			height: 57px;
 		}
 		.logo {
@@ -167,7 +166,7 @@
 				background-color: #fff;
 				@include retina-background("header-mobile.png");
 				background-repeat: repeat-x;
-				z-index: 2;
+				z-index: 9000;
 				height: 75px;
 				border-bottom: 1px solid #2599fc;
 				@include breakpoint(small) {
