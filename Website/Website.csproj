@@ -572,6 +572,7 @@
     <Content Include="default.css" />
     <Content Include="default.js" />
     <Content Include="frontend\assets\js\controllers\payments\addBankAccount.js" />
+    <Content Include="frontend\assets\js\controllers\payments\addCreditCard.js" />
     <Content Include="frontend\assets\js\directives\typeahead-popup-fix.js" />
     <Content Include="frontend\utility-services.html" />
     <Content Include="frontend\*" />

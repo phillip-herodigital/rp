@@ -1,7 +1,7 @@
 /* Make a Payment Controller
  *
  */
-ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', function ($scope, $rootScope, $http, $modal) {
+ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', '$q', function ($scope, $rootScope, $http, $modal, $q) {
 
     var ctrl = this;
     this.invoices = null;
@@ -14,13 +14,23 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
         if (ctrl.useNewPaymentMethod) {
             return ctrl.newPaymentMethod[ctrl.newPaymentMethodType]();
         } else {
-            return ctrl.selectedPaymentMethod;
+            var deferred = $q.defer();
+            deferred.resolve(ctrl.selectedPaymentMethod);
+            return deferred.promise;
         }
     }
 
+    this.resolvePaymentMethod = function () {
+        ctrl.paymentMethod().then(function (data) {
+            ctrl.evaluatedPaymentMethod = data;
+            ctrl.activeState = 'step2';
+        });
+    };
+
     this.makePayment = function () {
+
         $http.post('/api/account/makeMultiplePayments', {
-            paymentAccount: ctrl.paymentMethod(),
+            paymentAccount: ctrl.evaluatedPaymentMethod,
             accountNumbers: _.pluck(ctrl.selectedAccounts, 'accountNumber'),
             totalPaymentAmount: ctrl.paymentAmount,
             paymentDate: ctrl.selectedDate,

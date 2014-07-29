@@ -4,7 +4,7 @@
         <h2>@Html.Sitecore().Field("Make Payment Text")</h2>
     </header>
     <div ng-show="ctrl.activeState == 'step1'">
-        <form data-val-bind-messages="validations" ng-submit="ctrl.activeState = 'step2'">
+        <form data-val-bind-messages="validations" ng-submit="ctrl.resolvePaymentMethod()">
             <div class="content grid-table-content" loading-indicator>
                 <div class="payment-account stretch">
                     <table grid-table ng-model="ctrl.invoices" class="grid-table">
@@ -122,18 +122,18 @@
                     <dd>{{ ctrl.paymentAmount | currency }}</dd>
                 </dl>
 
-                <div ng-switch="ctrl.paymentMethod().underlyingPaymentType || ctrl.paymentMethod().paymentType">
+                <div ng-switch="ctrl.evaluatedPaymentMethod.underlyingPaymentType || ctrl.evaluatedPaymentMethod.paymentType">
                     <dl class="clearfix module-list payment-module" ng-switch-when="TokenizedCard">
                         <dt>@Html.Sitecore().Field("Payment Method Text")</dt>
                         <dd>@Html.Sitecore().Field("Credit Card Text")</dd>
                         <dt>@Html.Sitecore().Field("Card Number Text")</dt>
-                        <dd>{{ctrl.paymentMethod().redactedData}}</dd>
+                        <dd>{{ctrl.evaluatedPaymentMethod.redactedData}}</dd>
                     </dl>
                     <dl class="clearfix module-list payment-module" ng-switch-when="BankPaymentMethod">
                         <dt>@Html.Sitecore().Field("Payment Method Text")</dt>
                         <dd>@Html.Sitecore().Field("Bank Account Text")</dd>
                         <dt>@Html.Sitecore().Field("Bank Account Number Text")</dt>
-                        <dd>{{ctrl.paymentMethod().redactedData}}</dd>
+                        <dd>{{ctrl.evaluatedPaymentMethod.redactedData}}</dd>
                     </dl>
                 </div>
             </div>
@@ -175,18 +175,18 @@
                     <dd>{{ ctrl.paymentAmount | currency }}</dd>
                 </dl>
 
-                <div ng-switch="ctrl.paymentMethod().underlyingPaymentType || ctrl.paymentMethod().paymentType">
+                <div ng-switch="ctrl.evaluatedPaymentMethod.underlyingPaymentType || ctrl.evaluatedPaymentMethod.paymentType">
                     <dl class="clearfix module-list payment-module" ng-switch-when="TokenizedCard">
                         <dt>@Html.Sitecore().Field("Payment Method Text")</dt>
                         <dd>@Html.Sitecore().Field("Credit Card Text")</dd>
                         <dt>@Html.Sitecore().Field("Card Number Text")</dt>
-                        <dd>{{ctrl.paymentMethod().redactedData}}</dd>
+                        <dd>{{ctrl.evaluatedPaymentMethod.redactedData}}</dd>
                     </dl>
                     <dl class="clearfix module-list payment-module" ng-switch-when="BankPaymentMethod">
                         <dt>@Html.Sitecore().Field("Payment Method Text")</dt>
                         <dd>@Html.Sitecore().Field("Bank Account Text")</dd>
                         <dt>@Html.Sitecore().Field("Bank Account Number Text")</dt>
-                        <dd>{{ctrl.paymentMethod().redactedData}}</dd>
+                        <dd>{{ctrl.evaluatedPaymentMethod.redactedData}}</dd>
                     </dl>
                 </div>
             </div>

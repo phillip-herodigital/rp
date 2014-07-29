@@ -1,18 +1,18 @@
-﻿ngApp.directive('tokenizeCard', ['$http', function ($http) {
+﻿ngApp.directive('tokenizeCard', ['$http', '$q', function ($http, $q) {
     return {
         require: 'ngModel',
         link: function ($scope, element, attrs, ctrl) {
 
             ctrl.$parsers.push(function (inputValue) {
                 var rawCard = inputValue;
-                var token;
                 var result = function () {
-                    if (token === undefined) {
-                        console.log('tokenizing - TODO');
-                        // TODO - tokenize it
-                        token = rawCard;
-                    }
-                    return token;
+                    var deferred = $q.defer();
+
+                    console.log('tokenizing - TODO');
+                    // TODO - tokenize it
+                    deferred.resolve(rawCard);
+
+                    return deferred.promise;
                 };
                 result.redacted = "************" + rawCard.slice(-4)
 
