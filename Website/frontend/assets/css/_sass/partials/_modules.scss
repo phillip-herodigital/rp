@@ -423,8 +423,8 @@ article.account {
 	.group-col {
 		select {
 			padding-right: 10px;
-			@include breakpoint(small) {
-				padding-right: 30px;
+			@include breakpoint(small-medium) {
+				padding-right: 25px;
 			}
 		}
 	}
@@ -1035,6 +1035,10 @@ article.payment-history {
 		.icon-recurring {
 			margin-left: 3px;
 		}
+		.icon-homelife-services,
+		.icon-utility {
+			margin: 0 2px 4px 0;
+		}
 		&.expand-details {
 			.grid {
 				margin: 15px 0 15px 35px;
@@ -1066,6 +1070,10 @@ article.my-invoices {
 	}
 	.content {
 		padding-top: 0px;
+		.icon-homelife-services,
+		.icon-utility {
+			margin: 0 2px 4px 0;
+		}
 		.stretch table tbody tr td button {
 			@include breakpoint(small) {
 				margin-top: 2px;
