@@ -1,7 +1,7 @@
 /* My Energy Usage Controller
  *
  */
-ngApp.controller('AcctMyEnergyUsageCtrl', ['$scope', '$rootScope', '$http', '$timeout', '$window', function ($scope, $rootScope, $http, $timeout, $window) {
+ngApp.controller('AcctMyEnergyUsageCtrl', ['$scope', '$rootScope', '$http', '$timeout', 'breakpoint', function ($scope, $rootScope, $http, $timeout, breakpoint) {
 	// set the graph options
 	var monthNames = ['','January','February','March','April','May','June','July','August','September','October','November','December']
 	var monthAbbreviations = ['','JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
@@ -81,7 +81,7 @@ ngApp.controller('AcctMyEnergyUsageCtrl', ['$scope', '$rootScope', '$http', '$ti
 					.success(function (data, status, headers, config) {
 						$scope.energyUsage = data.energyUsage;
 						// if the window is sized to mobie, only load 4 columns on the graph
-						if ($window.innerWidth < 768) {
+						if(breakpoint.breakpoint.name == 'phone') {
 							$scope.energyUsage = $scope.energyUsage.slice(-4);
 							monthAbbreviations[8] = '';
 						}
