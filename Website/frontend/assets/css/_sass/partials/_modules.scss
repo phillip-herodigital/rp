@@ -714,9 +714,12 @@ article.balances-payments {
 article.energy-usage {
 	.graph-header {
 		padding: 15px 40px 0px 40px;
+		@include breakpoint(small) {
+			padding: 15px;
+		}
 		.col {
 			@include breakpoint(small) {
-				width: 33%;
+				width: 50%;
 				float: left;
 			}
 			&.last {
@@ -739,9 +742,6 @@ article.energy-usage {
 				font-weight: 500;
 				g.x {
 					font-size: 12px;
-					@include breakpoint(small) {
-						font-size: 10px;
-					}
 				}
 				g.y, g.y2 {
 					font-size: 14px;
