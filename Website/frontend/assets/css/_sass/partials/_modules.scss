@@ -423,8 +423,8 @@ article.account {
 	.group-col {
 		select {
 			padding-right: 10px;
-			@include breakpoint(small) {
-				padding-right: 30px;
+			@include breakpoint(small-medium) {
+				padding-right: 25px;
 			}
 		}
 	}
@@ -552,8 +552,8 @@ article.plan {
 					.grid .col:last-child {
 						width: 100%;
 						ul li {
-							float: left;
-							margin: 5px 0;
+							float: none;
+							text-align: center;
 						}
 					}
 				}
@@ -627,7 +627,6 @@ article.plan {
 }
 
 article.utility-providers {
-	margin: 0 20px 20px 20px;
 	p {
 		margin-top: 0;
 	}
@@ -1001,7 +1000,6 @@ article.make-payment {
 	}
 }
 article.payment-history {
-	margin: 0 20px 20px 20px;
 	header {
 		margin-bottom: 15px;
 		h2 {
@@ -1032,10 +1030,20 @@ article.payment-history {
 	}
 	.content {
 		padding-top: 0px;
+		.filters form .group .actions {
+			@include breakpoint(small) {
+				float: left;
+				margin-top: 25px;
+			}
+		}
 	}
 	table tr {
 		.icon-recurring {
 			margin-left: 3px;
+		}
+		.icon-homelife-services,
+		.icon-utility {
+			margin: 0 2px 4px 0;
 		}
 		&.expand-details {
 			.grid {
@@ -1063,12 +1071,15 @@ article.payment-history {
 	}
 }
 article.my-invoices {
-	margin: 0 20px 20px 20px;
 	header {
 		margin-bottom: 15px;
 	}
 	.content {
 		padding-top: 0px;
+		.icon-homelife-services,
+		.icon-utility {
+			margin: 0 2px 4px 0;
+		}
 		.stretch table tbody tr td button {
 			@include breakpoint(small) {
 				margin-top: 2px;
@@ -1111,6 +1122,11 @@ article.auth {
 		color: #a94442;
 		font-size: 14px;
 		margin: 5px 0;
+	}
+	&.auth-forgot-password {
+		.text-content-divider {
+			margin: -10px 0 0 0;
+		}
 	}
 	@include breakpoint(small) {
 		dl {
