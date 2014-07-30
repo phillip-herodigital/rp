@@ -552,8 +552,8 @@ article.plan {
 					.grid .col:last-child {
 						width: 100%;
 						ul li {
-							float: left;
-							margin: 5px 0;
+							float: none;
+							text-align: center;
 						}
 					}
 				}
