@@ -4,7 +4,7 @@ ngApp.directive('dropdownSelect', [function () {
         restrict: 'AE', //element or attribute
         scope: {
             dropdownItems: '=',
-            value: '=',
+            value: '='
         },
         replace: true,
         controller: function ($scope) {
@@ -27,15 +27,15 @@ ngApp.directive('dropdownSelect', [function () {
                 $scope.value = item.value;
             };
         },
-        template: '<div class="btn-group" dropdown is-open="status.isopen">' +
+        template: '<div class="btn-dropdown" dropdown is-open="status.isopen">' +
             '<button type="button" class="btn btn-primary dropdown-toggle {{selectedItem.class}}" ng-disabled="disabled">' +
             '{{selectedItem.name}} <span class="caret"><i class="icon-nav-arrow-collapsed"></i></span>' +
             '</button>' +
-            '<ul class="dropdown-menu" role="menu">' +
+            '<ul class="dropdown-menu dropdown-menu-{{alignment}}" role="menu">' +
             '<li ng-repeat="item in dropdownItems"><a class="{{item.class}}" ng-click="selectItem(item);" href="">{{item.name}}</a></li>' +
              '</ul></div>',
         link: function (scope, element, attrs, ctrl) {
-
+            scope.alignment = attrs.alignment || 'left';
         }
     };
 }]);

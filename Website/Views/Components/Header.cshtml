@@ -36,7 +36,8 @@
         Language = Sitecore.Globalization.Language.Parse(languageLinkUrlLanguage),
     });
     var languageLink = string.Format(@"<a href=""{0}"">{1}</a>", languageLinkUrl, languageLinkText);
-    <header class="site-header" main-nav="@selectedNavItem">
+    
+    <header class="site-header" main-nav="@selectedNavItem" data-fixed-fix>
         <script id="mobileNav" type="text/ng-template">
             <nav class="mobile-nav" mobile-nav="@selectedNavItem">
                 <ul>

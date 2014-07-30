@@ -66,6 +66,7 @@ $mobile-nav: 260px;
 			position: relative;
 			left: 0;
 			background: #fff;
+			padding-top: 57px;
 			@include transition(left linear .2s); 
 		}
 		.wrapper {
