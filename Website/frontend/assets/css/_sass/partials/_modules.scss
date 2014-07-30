@@ -1030,6 +1030,12 @@ article.payment-history {
 	}
 	.content {
 		padding-top: 0px;
+		.filters form .group .actions {
+			@include breakpoint(small) {
+				float: left;
+				margin-top: 25px;
+			}
+		}
 	}
 	table tr {
 		.icon-recurring {
