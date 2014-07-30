@@ -25,11 +25,9 @@ namespace StreamEnergy.Services.Clients
             this.streamConnectClient = client;
         }
 
-        async Task<Dictionary<Location, LocationOfferSet>> IEnrollmentService.LoadOffers(IEnumerable<Location> serviceLocations)
+        Task<Dictionary<Location, LocationOfferSet>> IEnrollmentService.LoadOffers(IEnumerable<Location> serviceLocations)
         {
-            var response = await streamConnectClient.GetAsync("/api/products?CustomerType=Residential&EnrollmentType=New&Address.Zip=75010");
-
-            return serviceLocations.ToDictionary(location => location, location =>
+            return Task.FromResult(serviceLocations.ToDictionary(location => location, location =>
             {
                 if (location.Capabilities.OfType<DomainModels.TexasServiceCapability>().Count() > 1)
                 {
@@ -104,7 +102,7 @@ namespace StreamEnergy.Services.Clients
                 };
 
                 return new LocationOfferSet { Offers = offers.ToArray() };
-            });
+            }));
         }
 
         IConnectDatePolicy IEnrollmentService.LoadConnectDates(Location location)
