@@ -1117,6 +1117,11 @@ article.auth {
 		font-size: 14px;
 		margin: 5px 0;
 	}
+	&.auth-forgot-password {
+		.text-content-divider {
+			margin: -10px 0 0 0;
+		}
+	}
 	@include breakpoint(small) {
 		dl {
 			dd {
