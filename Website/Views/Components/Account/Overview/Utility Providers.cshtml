@@ -1,13 +1,15 @@
-﻿<article class="grey-box utility-providers" ng-controller="AcctUtilityProvidersCtrl" ng-init="utilityProviders = @(Html.Action("UtilityProviders", "Data").ToHtmlString());">
-    <header>
-        <h2>@Html.Sitecore().Field("Utility Providers Text")</h2>
-    </header>
-    <div class="content" loading-indicator>
-        @Html.Sitecore().Field("Utility Providers Content")
-        <div class="clearfix">
-            <div class="logos" ng-repeat="provider in utilityProviders | filter:utilityFilter track by provider.name">
-                <a href="{{ provider.link }}" target="_blank"><img ng-src="{{ provider.logo }}" alt="{{ provider.name }}" /></a>
+﻿<section class="wrapper">
+    <article class="grey-box utility-providers" ng-controller="AcctUtilityProvidersCtrl" ng-init="utilityProviders = @(Html.Action("UtilityProviders", "Data").ToHtmlString());">
+        <header>
+            <h2>@Html.Sitecore().Field("Utility Providers Text")</h2>
+        </header>
+        <div class="content" loading-indicator>
+            @Html.Sitecore().Field("Utility Providers Content")
+            <div class="clearfix">
+                <div class="logos" ng-repeat="provider in utilityProviders | filter:utilityFilter track by provider.name">
+                    <a href="{{ provider.link }}" target="_blank"><img ng-src="{{ provider.logo }}" alt="{{ provider.name }}" /></a>
+                </div>
             </div>
         </div>
-    </div>
-</article>
+    </article>
+</section>
