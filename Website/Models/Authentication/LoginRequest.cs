@@ -20,6 +20,8 @@ namespace StreamEnergy.MyStream.Models.Authentication
 
         public bool RememberMe { get; set; }
 
+        public string Uri { get; set; }
+
         public void Sanitize()
         {
             Username = Username.Trim();
