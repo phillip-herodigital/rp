@@ -295,6 +295,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 if (isValid)
                 {
                     var user = Membership.GetUser(domain.AccountPrefix + username);
+                    user.UnlockUser();
                     user.ChangePassword(user.ResetPassword(), request.Password);
                     success = true;
                 }
