@@ -4,11 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Practices.Unity;
+using System.Net.Http;
 
 namespace StreamEnergy.Services.Clients
 {
     class EnrollmentService : IEnrollmentService
     {
+        private HttpClient streamConnectClient;
+
         // TODO - replace with actual implementations
         [Serializable]
         class ConnectDatePolicy : IConnectDatePolicy
@@ -16,8 +20,15 @@ namespace StreamEnergy.Services.Clients
 
         }
 
-        Dictionary<Location, LocationOfferSet> IEnrollmentService.LoadOffers(IEnumerable<Location> serviceLocations)
+        public EnrollmentService([Dependency(StreamConnectContainerSetup.StreamConnectKey)] HttpClient client)
         {
+            this.streamConnectClient = client;
+        }
+
+        async Task<Dictionary<Location, LocationOfferSet>> IEnrollmentService.LoadOffers(IEnumerable<Location> serviceLocations)
+        {
+            var response = await streamConnectClient.GetAsync("/api/products?CustomerType=Residential&EnrollmentType=New&Address.Zip=75010");
+
             return serviceLocations.ToDictionary(location => location, location =>
             {
                 if (location.Capabilities.OfType<DomainModels.TexasServiceCapability>().Count() > 1)
