@@ -1,21 +1,19 @@
 // Usage @include breakpoint(small) { /* Styles here */ }
 @mixin breakpoint($point) {
-	$small: 767px; // Up to 767px
-	$medium: 1024px; // Up to 1024px
 	@if $point == large {
-		@media only screen and (min-width : $medium+1) { @content; }
+		@media only screen and (min-width : $breakpoint-medium + 1) { @content; }
 	}
 	@else if $point == medium-large {
-		@media only screen and (min-width: $small+1) { @content; }
+		@media only screen and (min-width: $breakpoint-small + 1) { @content; }
 	}
 	@else if $point == medium {
-		@media only screen and (min-width: $small+1) and (max-width: $medium) { @content; }
+		@media only screen and (min-width: $breakpoint-small + 1) and (max-width: $breakpoint-medium) { @content; }
 	}
 	@else if $point == small-medium {
-		@media only screen and (max-width: $medium) { @content; }
+		@media only screen and (max-width: $breakpoint-medium) { @content; }
 	}
 	@else if $point == small {
-		@media only screen and (max-width: $small) { @content; }
+		@media only screen and (max-width: $breakpoint-small) { @content; }
 	}
 }
 
@@ -61,4 +59,13 @@
 	@include no-bullet;
 	margin: 0;
 	padding: 0;
+}
+
+
+/**
+ * Backwards compatitbility for IE8 opacity
+ */
+@mixin background-opacity($color, $opacity) {
+	background: image-url("../i/{$color}-alpha-{$opacity}.png") repeat;
+	background: rgba($color, $opacity / 100);
 }

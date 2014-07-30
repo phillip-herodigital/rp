@@ -4,7 +4,6 @@
 <!--[if gt IE 8]><!--> <html ng-app="ngApp" class="no-js"> <!--<![endif]-->
 <head>
 	<meta charset="utf-8" />
-
 	<title>Title</title>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,19 +18,12 @@
     <script src="assets/js/libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
     <script src="assets/js/libs/angular-ui-utils/ui-utils.min.js"></script>
     <script src="assets/js/libs/respond/dest/respond.min.js"></script>
-
     <script src="assets/js/app.js"></script>
-    
     <script src="assets/js/modules/mask-jquery.js"></script>
-    
     <script src="assets/js/filters/filters.js"></script>
-    
     <script src="assets/js/services/breakpoint.js"></script>
-    
     <script src="assets/js/directives/float-labels.js"></script>
-
 	<script src="assets/js/controllers/main.js"></script>
-
 	<script type="text/javascript" src="//use.typekit.net/hag0zvs.js"></script>
 	<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 
@@ -81,7 +73,7 @@
 				<section>Main Content</section>
 				<aside>Sidebar</aside>
 			</section>
-
+            <hr>
 			<section class="layout cols-1 wrapper">
 
 				<h2>Typography</h2>
@@ -93,11 +85,15 @@
 				<h5>H5. Heading</h5>
 				<h6>H6. Heading</h6>
 
+                <hr>
+
 				<h2>Body Copy</h2>
 
 				<p>Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam id dolor id nibh ultricies vehicula.</p>
 
 				<p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec ullamcorper nulla non metus auctor fringilla. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Donec ullamcorper nulla non metus auctor fringilla.</p>
+
+                <hr>
 
 				<h2>Lists</h2>
 
@@ -122,6 +118,8 @@
 					</li>
 					<li>Nulla volutpat aliquam velit</li>
 				</ol>
+
+                <hr>
 
                 <h2>Float Labels</h2>
                 <form ng-init="labels = {'firstName':'First Name', 'lastName':'Last Name', 'comment':'Comment', 'gender':'Gender'}">
@@ -159,6 +157,8 @@
                     </div>
 
                     </form>
+
+                    <hr>
 
                     <h2>Forms</h2>
                     <form>
@@ -237,6 +237,9 @@
                             <button type="submit">Submit</button> <button class="secondary">Secondary</button> <button disabled="disabled">Disabled</button>
                         </div>
                     </form>
+
+                    <hr>
+
                     <h2>Tables</h2>
                     <table>
                         <thead>
@@ -264,6 +267,9 @@
                             </tr>
                         </tbody>
                     </table>
+    
+                    <hr>
+
                     <h2>Grids</h2>
                     <div class="grid">
                         <div class="col">Column 1</div>
@@ -280,7 +286,55 @@
                         <div class="col">Column 3</div>
                         <div class="col">Column 4</div>
                     </div>
-</section>
+
+                    <hr>
+
+                    <h2>Notices</h2>
+                    <div class="notice alert">
+                        <p>
+                            <strong>Alert</strong><br>
+                            Message here
+                        </p>
+                    </div>
+
+                    <div class="notice success">
+                        <p>
+                            <strong>Success</strong><br>
+                            Message here
+                        </p>
+                    </div>
+
+                    <div class="notice error">
+                        <p>
+                            <strong>Error</strong><br>
+                            Message here
+                        </p>
+                    </div>
+
+                    <div class="notice message">
+                        <p>
+                            <strong>Message</strong><br>
+                            Message here
+                        </p>
+                    </div>
+
+                    <hr>
+
+                    <h2>Modules</h2>
+
+                    <article>
+                        <header>
+                            <h2>Module Title</h2>
+                        </header>
+                        <div class="content"></div>
+                        <footer>
+                            <div class="buttons">
+                                <button>Primary Button</button>
+                                <button class="secondary">Secondary Button</button>
+                            </div>
+                        </footer>
+                    </article>
+            </section>
 
 			<footer class="site-footer">
 				<div class="super-footer">

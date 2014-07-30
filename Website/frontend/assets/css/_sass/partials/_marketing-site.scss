@@ -2,7 +2,7 @@
 // Accent Color is used for headings and buttons
 // Text Color is the main body text
 $themes:
-	(name: "blue", primaryColor: #1773cb, accentColor: #fff, textColor: #fff),
+	(name: "blue", primaryColor: $brand-primary-color, accentColor: #fff, textColor: #fff),
 	(name: "paleblue", primaryColor: #7e9ab3, accentColor: #fff, textColor: #fff),
 	(name: "darkblue", primaryColor: #073464, accentColor: #fff, textColor: #fff),
 	(name: "green", primaryColor: #78bb2f, accentColor: #fff, textColor: #fff),
@@ -11,8 +11,8 @@ $themes:
 	(name: "orange", primaryColor: #fda32b, accentColor: #fff, textColor: #fff),
 	(name: "red", primaryColor: #aa2130, accentColor: #fff, textColor: #fff),
 	(name: "palered", primaryColor: #b48789, accentColor: #fff, textColor: #fff),
-	(name: "white", primaryColor: #fff, accentColor: #1773cb, textColor: #6b6b6b),
-	(name: "grey", primaryColor: #e8e8e8, accentColor: #1773cb, textColor: #6b6b6b),
+	(name: "white", primaryColor: #fff, accentColor: $brand-primary-color, textColor: #6b6b6b),
+	(name: "grey", primaryColor: #e8e8e8, accentColor: $brand-primary-color, textColor: #6b6b6b),
 	(name: "darkgrey", primaryColor: #6b6b6b, accentColor: #fff, textColor: #fff);
 
 @each $theme in $themes {
@@ -28,7 +28,6 @@ $themes:
 	height: 400px;
 	background-position: 50%;
 	background-size: cover;
-	border-bottom: 5px solid #259afd;
 	@include breakpoint(medium) {
 		height: 300px;
 	}
@@ -283,7 +282,7 @@ article.marketingIntro {
 article.loginHorizontal {
  	margin-top: -20px;
 	padding: 10px 0;
-	background-color: #1773cb;
+	background-color: $brand-primary-color;
 	color: #fff;
 	.text {
 		float: left;
@@ -518,7 +517,7 @@ article.director-list {
 			float: left;
 			text-align: center;
 			h3 {
-				color: #0971ce;
+				color: $brand-primary-color;
 				text-transform: none;
 			}
 			@include breakpoint(medium) {
@@ -638,8 +637,7 @@ article.full-html {
 }
 
 article.state-tabs {
-	ul.tabs-nav {
-		@extend .wrapper;
+	.tabs-nav {
 		margin: 0 auto;
 		display: table;
 		@include breakpoint(small) {
@@ -675,7 +673,7 @@ article.state-tabs {
 			}
 			&.active, &:hover {
 				a {
-					background-color: #0971ce;
+					background-color: $brand-primary-color;
 					color: #fff;
 				}
 				span {
@@ -686,7 +684,7 @@ article.state-tabs {
 	}
 	.tab-header {
 		padding: 10px 0;
-		background-color: #0971ce;
+		background-color: $brand-primary-color;
 		color: #fff;
 		button, a.button{
 			@include breakpoint(small) {
@@ -698,7 +696,7 @@ article.state-tabs {
 	.tab-footer {
 		min-height: 30px;
 		margin: 0;
-		background-color: #0971ce;
+		background-color: $brand-primary-color;
 		border-bottom: 5px solid #76bd1d;
 	}
 }
@@ -929,7 +927,7 @@ article.pay {
 	padding: 20px 0;
 	margin-bottom: 0;
 	h1 {
-		color: #0971ce;
+		color: $brand-primary-color;
 	}
 	h2 {
 		text-transform: none;
@@ -950,7 +948,7 @@ article.pay {
 		}
 		span.phone {
 			font-size: 22px;
-			color: #0971ce;
+			color: $brand-primary-color;
 		}
 		&:last-child {
 			border-bottom: none;
@@ -983,12 +981,12 @@ article.pay {
 			text-decoration: underline;
 		}
 		span.benefits {
-			color: #0971ce;
+			color: $brand-primary-color;
 			text-transform: uppercase;
 		}
 		p.sign-up {
 			font-size: 20px;
-			color: #0971ce;
+			color: $brand-primary-color;
 			a {
 				font-size: 22px;
 				text-decoration: underline;
@@ -998,7 +996,7 @@ article.pay {
 	aside {
 		h4 {
 			margin-bottom: 40px;
-			color: #0971ce;
+			color: $brand-primary-color;
 			text-transform: none;
 			font-size: 24px;
 		}
@@ -1051,7 +1049,7 @@ article.contact {
 	}
 	div.blue-bar {
 		height: 50px;
-		background-color: #0971ce;
+		background-color: $brand-primary-color;
 		border-bottom: 5px solid #ffa409;
 	}
 	div.contact-banner {
@@ -1160,7 +1158,7 @@ article.contact {
 		}
 	}
 	div.request {
-		background-color: #0971ce;
+		background-color: $brand-primary-color;
 		color: #fff;
 		border-bottom: 3px solid #ffa409;
 		border-top: 3px solid #ffa409;
@@ -1250,7 +1248,7 @@ article.contact-state {
 			width: 100%;
 		}
 		h1 {
-			color: #0971ce;
+			color: $brand-primary-color;
 			margin-bottom: 50px;
 		}
 		h2 {
@@ -1321,12 +1319,12 @@ article.contact-state {
 			font-size: 25px;
 		}
 		h3 {
-			color: #0971ce;
+			color: $brand-primary-color;
 			margin: 50px 0 10px 0;
 		}
 		.grid .col {
 			.company {
-				color: #0971ce;
+				color: $brand-primary-color;
 			}
 			.oncor {
 				width: 85%;
@@ -1385,7 +1383,7 @@ article.faq {
 				color: #bbb;
 			}
 			.panel-content {
-				color: #0971ce;
+				color: $brand-primary-color;
 				padding-bottom: 10px;
 				.answer-hr {
 					border: 3px solid #eaeaea;
@@ -1412,7 +1410,7 @@ article.faq {
 
 article.homelife-services {
 	.intro {
-		background-color: #0971ce;
+		background-color: $brand-primary-color;
 		color: #fff;
 		text-align: center;
 		padding: 50px 0;
@@ -1442,7 +1440,7 @@ article.homelife-services {
 			width: 40%;
 			padding-top: 80px;
 			h3 {
-				color: #0971ce;
+				color: $brand-primary-color;
 			}
 			p {
 				font-size: 14px;
@@ -1455,7 +1453,7 @@ article.homelife-services {
 		font-size: 20px;
 		span {
 			font-size: 22px;
-			color: #0971ce;
+			color: $brand-primary-color;
 			text-transform: uppercase;
 		}
 		hr {
@@ -1476,7 +1474,7 @@ article.homelife-services {
 				padding: 5px;
 			}
 			h3 {
-				color: #0971ce;
+				color: $brand-primary-color;
 				span {
 					text-transform: none;
 				}
@@ -1558,18 +1556,18 @@ article.homelife-services {
 						font-style: normal;
 						.dollars {
 							font-size: 38px;
-							color: #0971ce;
+							color: $brand-primary-color;
 						}
 						.cents {
 							font-size: 12px;
-							color: #0971ce;
+							color: $brand-primary-color;
 							vertical-align: 50%;
 						}
 					}	
 				}
 				p.month-free {
 					text-transform: none;
-					color: #0971CE;
+					color: $brand-primary-color;
 					font-style: normal;
 					font-size: 1.2em;
 					border-bottom: 1px solid #d0d0d0;
@@ -1675,12 +1673,12 @@ article.homelife-services {
                 padding: 3px 3px 0 3px;
                 margin-top: -3px;
             }
-			background-color: #0971ce;
+			background-color: $brand-primary-color;
 			h3 {
 				padding-right: 70px;
 			}
 			.savings {
-				background-color: #0971ce;
+				background-color: $brand-primary-color;
 				p {
 					color: #fff;
 				}
@@ -1723,7 +1721,7 @@ article.homelife-services {
 					background-color: #fdfdfd;
 					border: 1px solid #d0d0d0;
 					p {
-						color: #0971ce;
+						color: $brand-primary-color;
 					}
 				}
 				button {
@@ -1767,7 +1765,7 @@ article.homelife-services {
 								border-bottom: none;
 							}
 							button {
-								background-color: #0971ce;
+								background-color: $brand-primary-color;
 								&:hover {
 									background-color: #6b6b6b;
 								}
@@ -1903,7 +1901,7 @@ article.commercial-quote {
 	.text {
 		border-left: 3px solid #ffa409;
 		width: 50%;
-		background-color: #0971ce;
+		background-color: $brand-primary-color;
 		@include breakpoint(small) {
 			width: 100%;
 		}
@@ -1965,11 +1963,11 @@ article.commercial-quote {
 
 article.commercial-account-banner {
 	.account-banner {
-		background-color: #0971ce;
+		background-color: $brand-primary-color;
 		p {
 			button {
 				background-color: #fff;
-				color: #0971ce;
+				color: $brand-primary-color;
 				margin: auto;
 				display: block;
 				&:hover {
@@ -2071,7 +2069,7 @@ article.enroll {
 	.text {
 		padding: 25px 0;
 		h1 {
-			color: #0971ce;
+			color: $brand-primary-color;
 		}
 		h2.grey {
 			color: #6b6b6b;
@@ -2116,7 +2114,7 @@ article.enroll {
 				width: 100%;
 			}
 			.header {
-				background-color: #0971ce;
+				background-color: $brand-primary-color;
 				color: #fff;
 				padding: 10px 0 10px 20px;
 			}
@@ -2181,7 +2179,7 @@ article.terms-of-use {
 			}
 		}
 		h3 {
-			color: #0971ce;
+			color: $brand-primary-color;
 		}
 		span {
 			text-transform: uppercase;
@@ -2282,7 +2280,7 @@ article.electricity-gas {
 		margin-right: auto;
 		margin-left: auto;
 		span {
-			color: #0971ce;
+			color: $brand-primary-color;
 		}
 	}
 	hr {
@@ -2654,7 +2652,7 @@ article.rates {
         tbody {
             tr.details td:first-child {
                 border: 0;
-                border-left: 2px solid #0971ce;
+                border-left: 2px solid $brand-primary-color;
             }
         }
     }

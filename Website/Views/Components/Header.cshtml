@@ -69,7 +69,9 @@
         </script>
         <div class="wrapper">
             <a href="/" class="logo">Logo</a>
-            <p class="utility">@Html.Raw(languageLink) | <a href="/manage/">Manage My Account</a></p>
+            <div class="utility">
+                @Html.Raw(languageLink) | <a class="account-link" href="/manage/">Manage My Account</a>
+            </div>
             <a href="" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
             <nav class="main-nav">
                 <ul class="wrapper">

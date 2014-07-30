@@ -1,99 +1,28 @@
 .site-header {
 	@include transition(left linear .2s); 
-	border-top: 5px solid #f1f1f1;
 	> .wrapper {
-		@extend .clearfix;
 		position: relative;
-		overflow: visible;
 	}
 	.logo {
 		@include image-replace("bg/logo-desktop.png", "bg2x/logo-desktop.png");
 		float: left;
-		margin-top: 15px;
+		margin-top: 33px;
 	}
 	.utility {
-		@include border-radius(0 0 5px 5px);
-		@include box-shadow(0 1px 1px rgba(0,0,0,.25));
-		float: right;
+		position: absolute;
+		top: 0;
+		right: 0;
 		height: 30px;
-		margin: 0;
-		padding: 5px 10px 5px;
-		background-color: #f1f1f1;
-		font-size: 14px;
-		text-transform: uppercase;
+		font-size: $font-size-small;
+		font-weight: 600;
+		.account-link {
+			@include border-radius(0 0 5px 5px);
+			@include box-shadow(0 1px 1px rgba(0,0,0,.25));
+			background-color: #f1f1f1;	
+		}
 		a {
-			text-transform: uppercase;
+			padding: 5px 10px 5px;			
 		}
-	}
-	nav.main-nav {
-		float: right;
-		clear: right;
-		text-align: right;
-		margin: 10px 0 -1px 10px;
-		> ul {
-			@include inline-block-list();
-			margin: 0 auto;
-			width: 100%;
-			font-size: 0; /* This is to fix the spacing between inline-block elements. Font size is reset on child element */
-			text-transform: uppercase;
-			white-space: nowrap;
-			li {
-				font-size: 15px;
-				line-height: 1.4; /* This fixes the partial-pixel height on IE */
-				a {
-					display: inline-block;
-					color: #737373;
-					padding: 10px 17px;
-				}
-				&.selected a {
-					@include border-radius(5px 5px 0 0);
-					background-color: #f2f2f2;
-					padding: 9px 16px 10px 16px;
-					border: 1px solid #d9d9d9;
-					border-bottom: 0;
-				}
-                button,
-                a.button {
-                    color: #fff;
-                    padding: 5px 15px;
-                    font-size: 15px;
-                }
-			}
-            li.pay {
-                margin-left: 5px;
-            }
-		}
-	}
-	nav.sub-nav {
-		min-height: 50px;
-		background-color: #f2f2f2;
-		border-top: 1px solid #d9d9d9;
-		border-bottom: 1px solid #d9d9d9;
-		ul {
-			@include inline-block-list();
-            display: inline;
-			margin: 0 auto;
-			font-size: 13px;
-			li {
-				a {
-					display: inline-block;
-					color: #737373;
-					padding: 15px 10px;
-				}
-				&.selected a {
-					color: #0971ce;
-				}
-			}
-		}
-        @include breakpoint(medium) {
-            .wrapper {
-                padding: 0 10px;
-                ul li a {
-                    padding-left: 5px;
-                    padding-right: 5px;
-                }
-            }
-        }
 	}
 	@include breakpoint(small) {
 		height: 57px;
@@ -105,7 +34,6 @@
 			background-color: #fff;
 			@include retina-background("header-mobile.png");
 			background-repeat: repeat-x;
-			border-bottom: 1px solid #1697ff;
 			z-index: 2;
 			height: 57px;
 		}
@@ -148,10 +76,7 @@
 		.cart-toggle {
 			display: none;
 		}
-	}
-
-	&.fixed {
-		@include breakpoint(medium-large) {
+		&.fixed {
 			background: #fff;
 			height: 75px;
 			> .wrapper {
@@ -186,8 +111,87 @@
 	}
 }
 
+/*
+	Main page navigation
+ */
+nav.main-nav {
+	float: right;
+	margin: 70px 0 -1px 10px;
+	> ul {
+		@include inline-block-list();
+		margin: 0 auto;
+		width: 100%;
+		font-size: 0; /* This is to fix the spacing between inline-block elements. Font size is reset on child element */
+		text-transform: uppercase;
+		white-space: nowrap;
+		li {
+			a {
+				display: block;
+				color: #666;
+				padding: 0 17px 20px;
+				font-weight: 600;
+				font-size: $nav-font-size;
+				line-height: 1;
+			}
+			&.selected a {
+				color: $nav-primary-hover-color;
+				position: relative;
+				&:before {
+					content: '';
+					display: block;
+					position: absolute;
+					bottom: 0;
+					left: 50%;
+					margin-left: -6px;
+					width: 0;
+					height: 0;
+					border-style: solid;
+					border-width: 0 10px 12px 10px;
+					border-color: transparent transparent #f2f2f2 transparent;
+				}
+			}
+            button, a.button {
+                color: #fff;
+                padding: 5px 15px;
+                font-size: 15px;
+            }
+		}
+	}
+}
+nav.sub-nav {
+	background-color: #f1f1f1;
+	ul {
+		@include inline-block-list();
+        display: inline;
+		margin: 0 auto;
+		font-size: $font-size-small;
+		li {
+			a {
+				display: inline-block;
+				color: #666;
+				padding: 15px 10px;
+				font-weight: 600;
+			}
+			&.selected a {
+				color: $brand-primary-color;
+			}
+		}
+	}
+    @include breakpoint(medium) {
+        .wrapper {
+            padding: 0 10px;
+            ul li a {
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+        }
+    }
+}
+
+/*
+	Page banners
+ */
 .banner {	
-	//height: 200px;
 	overflow: hidden;
 	margin-bottom: 20px;
 	background-size: cover;
@@ -195,10 +199,6 @@
 	background-repeat: no-repeat;
     // Set background iamge on .banner in HTML
 	.inner {
-		@include retina-background("banner-bottom.png");
-		background-repeat: repeat-x;
-		background-position: 0 100%;
-		/*background: image-url("bg/banner-bottom.png") 0 100% repeat-x;*/
 	}
 	.wrapper {
 		height: 220px;
@@ -227,7 +227,7 @@
 			}
 		}
 		h1, p {
-			color: #0971ce;
+			color: $brand-primary-color;
 		}
 	}
 	@include breakpoint(small) {
