@@ -1,51 +1,51 @@
 ngApp.filter('removeNullProps', function() {
-	return function (obj) {
-		
-		newObj = {};
-		angular.forEach(obj, function(value, key) {
-			if (value != null) {
-				newObj[key] = value;
-			}
-		});
-		return newObj;
+    return function (obj) {
+        
+        newObj = {};
+        angular.forEach(obj, function(value, key) {
+            if (value != null) {
+                newObj[key] = value;
+            }
+        });
+        return newObj;
 
-	}
+    }
 });
 
 
 ngApp.filter('address', function() {
-	return function(address) {
-		var formattedAddress = '';
+    return function(address) {
+        var formattedAddress = '';
 
-		if(address == undefined) {
-			return;
-		}
+        if(address == undefined) {
+            return;
+        }
 
-		if (address.line1) {
-			formattedAddress += address.line1 + ', ';
-		}
+        if (address.line1) {
+            formattedAddress += address.line1 + ', ';
+        }
 
-		if (address.unitNumber) {
-			formattedAddress += address.unitNumber + ', ';
-		}
+        if (address.unitNumber) {
+            formattedAddress += address.unitNumber + ', ';
+        }
 
-		if (address.city) {
-			formattedAddress += address.city + ', ';
-		}
+        if (address.city) {
+            formattedAddress += address.city + ', ';
+        }
 
-		if (address.stateAbbreviation) {
-			formattedAddress += address.stateAbbreviation + ', ';
-		}
+        if (address.stateAbbreviation) {
+            formattedAddress += address.stateAbbreviation + ', ';
+        }
 
-		if (address.postalCode5) {
-			formattedAddress += address.postalCode5;
-			if (address.postalCodePlus4) {
-				formattedAddress += '-' + address.postalCodePlus4;
-			}
-		}
+        if (address.postalCode5) {
+            formattedAddress += address.postalCode5;
+            if (address.postalCodePlus4) {
+                formattedAddress += '-' + address.postalCodePlus4;
+            }
+        }
 
-		return formattedAddress;
-	};
+        return formattedAddress;
+    };
 });
 
 ngApp.filter('phone', function () {
@@ -76,4 +76,33 @@ ngApp.filter('objectAsArray', function () {
 
         return array;
     }
+});
+
+ngApp.filter('securityQuestion', function () {
+    function isIdInUse(selectedIds, id)
+    {
+        var retVal = false;
+        angular.forEach(selectedIds, function (currentSelectedId) {
+            if (id == currentSelectedId)
+            {
+                retVal = true;
+            }
+        });
+        return retVal;
+    }
+    
+    return function(allOptions, selectedIds, index) {
+        
+        var newOptions = [];
+        //var selectedIds = [$scope.formData.challenges[0].selectedQuestion.id, $scope.formData.challenges[1].selectedQuestion.id];
+        angular.forEach(allOptions, function (currentOption) {
+            
+            if (currentOption.id == selectedIds[parseInt(index)] || !isIdInUse(selectedIds, currentOption.id))
+            {
+                newOptions.push(currentOption);
+            }
+        });
+        
+        return newOptions;
+    };
 });
