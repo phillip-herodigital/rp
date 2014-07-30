@@ -12,14 +12,15 @@ ngApp.controller('AcctOnlineAccountCtrl', ['$scope', '$rootScope', '$http', '$ti
 
 	// get the current data
 	$timeout(function() {
-	    $http.get('/api/account/getOnlineAccount').success(function (data, status, headers, config) {
-	        while (data.challenges.length < 2) {
-	            data.challenges.push({});
-	        }
-	        $scope.formData = data;
+		$http.get('/api/account/getOnlineAccount').success(function (data, status, headers, config) {
+			while (data.challenges.length < 2) {
+				data.challenges.push({});
+			}
+			$scope.formData = data;
 			$scope.formDataOriginal = angular.copy($scope.formData);
 			$scope.languagePreference = data.languagePreference;
 			$scope.isLoading = false;
+			$scope.selectedIds = [$scope.formData.challenges[0].selectedQuestion.id, $scope.formData.challenges[1].selectedQuestion.id];
 		});
 	}, 800);
 
@@ -34,9 +35,10 @@ ngApp.controller('AcctOnlineAccountCtrl', ['$scope', '$rootScope', '$http', '$ti
 
 	// hack to fix IE so the filters work when the select options are changed
 	$scope.fixIE = function(){
+		$scope.selectedIds = [$scope.formData.challenges[0].selectedQuestion.id, $scope.formData.challenges[1].selectedQuestion.id];
 		$timeout(function () {
-			$('select').each(function (dx, elem) {
-					elem.options[elem.selectedIndex].text += ' '
+			angular.forEach($('select'), function (currSelect) {
+				currSelect.options[currSelect.selectedIndex].text += " ";
 			});
 		});
 	};
