@@ -60,14 +60,12 @@ namespace StreamEnergy.Logging
                 }
                 catch { }
             }
-            foreach (var recorder in Recorders)
+            try
             {
-                try
-                {
-                    await recorder.Save(logEntry).ConfigureAwait(false);
-                }
-                catch { }
+                await Task.WhenAll(from recorder in Recorders
+                                   select recorder.Save(logEntry));
             }
+            catch { }
         }
 
         public IList<IDataAccumulator> Accumulators { get; private set; }

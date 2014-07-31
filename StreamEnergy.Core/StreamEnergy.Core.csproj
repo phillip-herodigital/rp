@@ -195,6 +195,7 @@
     <Compile Include="Logging\LogEntry.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Logging\Severity.cs" />
+    <Compile Include="Logging\SqlLogRecorder.cs" />
     <Compile Include="Logging\StackTraceIndexer.cs" />
     <Compile Include="MockParameterBuilder.cs" />
     <Compile Include="Mvc\AntiForgeryFilterMvcAttribute.cs" />
