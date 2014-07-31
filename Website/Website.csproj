@@ -2230,6 +2230,9 @@
 ..\..\VSRuby\Ruby200-x64\bin\compass compile
 exit 0</PreBuildEvent>
   </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(SolutionDir)\Libraries\Sitecore\ComponentArt.UIFramework.lic" "$(ProjectDir)\$(OutDir)"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
