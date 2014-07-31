@@ -38,10 +38,12 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
 
             } else {
                 ctrl.activeState = 'step3';
-                ctrl.paymentAmount = 0.00;
+                if (ctrl.selectedAccounts.length != 1) {
+                    ctrl.paymentAmount = 0.00;
+                }
                 _.forEach(data.confirmations, function (account) {
                     _.find(ctrl.selectedAccounts, { accountNumber: account.accountNumber }).confirmationNumber = account.paymentConfirmationNumber
-                    ctrl.paymentAmount += _.find(ctrl.selectedAccounts, { accountNumber: account.accountNumber }).invoiceAmount;
+                    ctrl.paymentAmount += ctrl.selectedAccounts.length != 1 ? _.find(ctrl.selectedAccounts, { accountNumber: account.accountNumber }).invoiceAmount : 0;
                 });
             }
         });

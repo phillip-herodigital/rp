@@ -1,4 +1,4 @@
-﻿ngApp.factory('enrollmentService', ['$rootScope', '$http', '$q', 'enrollmentStepsService', 'enrollmentCartService', function ($rootScope, $http, $q, enrollmentStepsService, enrollmentCartService) {
+﻿ngApp.factory('enrollmentService', ['$rootScope', '$http', '$q', 'enrollmentStepsService', 'enrollmentCartService', '$timeout', function ($rootScope, $http, $q, enrollmentStepsService, enrollmentCartService, $timeout) {
 
     var service = {},
         urlPrefix = '/api/enrollment/';
@@ -102,8 +102,10 @@
         return deferred.promise.then(function (result) {
             service.setClientData(result);
 
-            if(!overrideServerStep) {
-                enrollmentStepsService.setFromServerStep(result.expectedState, overrideServerStep);
+            if (!overrideServerStep) {
+                $timeout(function () {
+                    enrollmentStepsService.setFromServerStep(result.expectedState, overrideServerStep);
+                });
             }
 
             return result;

@@ -172,7 +172,7 @@ namespace StreamEnergy.MyStream.Tests
                 var result = await controller.ServiceInformation(request);
 
                 // Assert
-                Assert.AreEqual("Services[0].SelectedOffers", result.Validations.Single().MemberName);
+                Assert.IsTrue(result.Validations.Any(r => r.MemberName == "Services[0].SelectedOffers"));
                 Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.PlanSelection, result.ExpectedState);
                 Assert.AreEqual("75010", result.Cart.Single().Location.Address.PostalCode5);
                 Assert.AreEqual(DomainModels.TexasServiceCapability.Qualifier, result.Cart.Single().Location.Capabilities.First().CapabilityType);
