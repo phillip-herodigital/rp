@@ -7,6 +7,9 @@ ngApp.controller('AuthLoginCtrl', ['$scope', '$rootScope', '$http', '$window', '
 
 	// process the form
 	$scope.login = function() {
+		$scope.formData.rememberMe = !!$scope.formData.rememberMe;
+		// add the URL to the login submission object
+		$scope.formData.uri = document.URL;
 		$http({
 			method  : 'POST',
 			url     : '/api/authentication/login',
@@ -19,8 +22,8 @@ ngApp.controller('AuthLoginCtrl', ['$scope', '$rootScope', '$http', '$window', '
 					$scope.loginError = $sce.trustAsHtml(data.validations[0].text);
 
 				} else {
-					// if successful, send the user to the /account page
-					$window.location.href = '/account';
+					// if successful, send the user to the return URL
+					$window.location.href = data.returnURI;
 				}
 			});
 	};

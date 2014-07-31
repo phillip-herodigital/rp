@@ -98,9 +98,22 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             Validate(request, "request");
             if (ModelState.IsValid)
             {
+                // validate the return URI
+                Uri requestUri = new Uri(request.Uri);
+                string returnUri = HttpUtility.ParseQueryString(requestUri.Query).Get("item");
+
+                var helper = new System.Web.Mvc.UrlHelper(System.Web.HttpContext.Current.Request.RequestContext);
+                bool isLocal = helper.IsLocalUrl(returnUri);
+
+                if (string.IsNullOrEmpty(returnUri) || !isLocal)
+                {
+                    returnUri = "/account";
+                }
+   
                 var response = Request.CreateResponse(new LoginResponse()
                 {
-                    Success = true
+                    Success = true,
+                    ReturnURI = returnUri
                 });
 
                 AddAuthenticationCookie(response, request.Username);

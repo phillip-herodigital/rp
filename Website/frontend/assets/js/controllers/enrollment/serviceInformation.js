@@ -26,7 +26,12 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
     });
 
     $scope.$watch('data', function (newValue) {
-        enrollmentStepsService.setMaxStep('utilityFlowService');
+        if (!enrollmentCartService.getActiveService() || enrollmentCartService.getActiveService().location != $scope.data.serviceLocation) {
+            enrollmentStepsService.setMaxStep('utilityFlowService');
+        }
+        else {
+            console.log(enrollmentCartService.getActiveService(), $scope.data);
+        }
 
         if(typeof newValue.serviceLocation != 'string') {
             $scope.errorMessage = false;

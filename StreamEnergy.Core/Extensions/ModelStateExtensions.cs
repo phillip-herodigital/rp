@@ -20,7 +20,7 @@ namespace StreamEnergy.Extensions
                 value.Errors.Clear();
                 foreach (var error in errs)
                 {
-                    var translated = item[error.ErrorMessage];
+                    var translated = string.IsNullOrEmpty(error.ErrorMessage) ? error.ErrorMessage : item[error.ErrorMessage];
                     if (!string.IsNullOrEmpty(translated))
                     {
                         value.Errors.Add(translated);

@@ -27,7 +27,7 @@
             </div>*@
             <div class="time">
                 <i class="icon-clock"></i>
-                @Html.Sitecore().Field("Time Remaining")
+                @Html.Sitecore().Field("Time Remaining").Format(new { time = "{{time()}}" })
             </div>
         </div>
     </article>

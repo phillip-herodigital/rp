@@ -6,12 +6,12 @@
         <form>
             <div class="group">
                 <div class="item">
-                    <label>@Html.Sitecore().Field("Account Number Label")</label>
-                    <select ng-model="currentAccount" ng-options="account.accountNumber for account in accounts track by account.accountNumber" ng-change="currentSubAccount = currentAccount.subAccounts[0]; updateSelectedAccount(currentAccount.accountNumber,currentAccount.subAccountLabel, currentSubAccount)"></select>
+                    <label for="MyEnergyAccount">@Html.Sitecore().Field("Account Number Label")</label>
+                    <select id="MyEnergyAccount" ng-model="currentAccount" ng-options="account.accountNumber for account in accounts track by account.accountNumber" ng-change="currentSubAccount = currentAccount.subAccounts[0]; updateSelectedAccount(currentAccount.accountNumber,currentAccount.subAccountLabel, currentSubAccount)"></select>
                 </div>
                 <div class="item">
-                    <label>{{ currentAccount.subAccountLabel }}</label>
-                    <select ng-model="currentSubAccount" ng-options="subAccount.id for subAccount in currentAccount.subAccounts" ng-change="updateSelectedAccount(currentAccount.accountNumber,currentAccount.subAccountLabel, currentSubAccount)"></select>
+                    <label for="MyEnergySubAccount">{{ currentAccount.subAccountLabel }}</label>
+                    <select id="MyEnergySubAccount" ng-model="currentSubAccount" ng-options="subAccount.id for subAccount in currentAccount.subAccounts" ng-change="updateSelectedAccount(currentAccount.accountNumber,currentAccount.subAccountLabel, currentSubAccount)"></select>
                 </div>
             </div>
         </form>

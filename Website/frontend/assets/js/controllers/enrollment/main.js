@@ -1,7 +1,7 @@
 ﻿/* Enrollment Main Controller
  * This is the main controller for Enrollments. It will keep track of the enrollment state, as well as all fields that will need to be collected.
  */
-ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentStepsService', 'enrollmentService', 'scrollService', '$timeout', function ($scope, $anchorScroll, enrollmentStepsService, enrollmentService, scrollService, $timeout) {
+ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentStepsService', 'enrollmentService', 'scrollService', '$timeout', 'enrollmentCartService', function ($scope, $anchorScroll, enrollmentStepsService, enrollmentService, scrollService, $timeout, enrollmentCartService) {
     $scope.validations = enrollmentService.validations;
     $scope.stepsService = enrollmentStepsService;
 
@@ -9,6 +9,8 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentSt
     //Need to determine how the first step will be activated
     //Or if we need to go ahead and activate multiple based on a saved card
     enrollmentStepsService.setInitialFlow('utility');
+
+    $scope.setTimeRemaining = enrollmentStepsService.setTimeRemaining;
 
     /**
      * [enrollmentNavClick description]
@@ -31,7 +33,12 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentSt
         console.log('Getting locations...');
 
         return enrollmentService.getLocations(state, val).then(function (res) {
-            return res.data;
+            return _.filter(res.data, function (value) {
+                // This got a bit more complex when I decided that when "editing" an address you should be able to type back in the original address.
+                var match = enrollmentCartService.findMatchingAddress(value.address);
+                var isActive = match && enrollmentCartService.getActiveService() == match;
+                return !match || isActive;
+            })
         });
     };
 

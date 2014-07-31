@@ -19,7 +19,7 @@
                                 <td ng-show="showColumn('invoiceAmount')">{{ item.invoiceAmount | currency }}</td>
                                 <td ng-show="showColumn('dueDate')">{{ item.dueDate }}</td>
                                 <td ng-show="showColumn('action')">
-                                    <button class="secondary">@Html.Sitecore().Field("View PDF Text")</button>
+                                    <button class="secondary" type="button">@Html.Sitecore().Field("View PDF Text")</button>
                                     <div class="request-extension" ng-show="item.canRequestExtension"><a href="#">@Html.Sitecore().Field("Request Extension Text")</a></div>
                                 </td>
                             </tr>
@@ -32,7 +32,7 @@
                                 <td colspan="{{table.columnList.length+2}}">
                                     <p ng-repeat="column in table.columnList | filter:{isVisible: false}" ng-switch on="column.field">
                                         <span ng-switch-when="action">
-                                            <button class="secondary">@Html.Sitecore().Field("View PDF Text")</button>
+                                            <button class="secondary" type="button">@Html.Sitecore().Field("View PDF Text")</button>
                                         </span>
                                         <span ng-switch-default>
                                             <strong>{{ column.displayName }}:</strong> {{ item[column.field] }}
@@ -57,7 +57,7 @@
                             <span ng-if="ctrl.selectedAccounts.length != 1">{{ctrl.paymentAmount|currency}}</span>
                         </div>
                         <div class="item datepicker group-col" @Html.Validation().ErrorClass(m => m.PaymentDate)>
-                            <label for="Payment method">@Html.Sitecore().Field("Payment Date Text")</label>
+                            <label for="PaymentDate">@Html.Sitecore().Field("Payment Date Text")</label>
                             <span class="calendar">
                                 @Html.TextBoxFor(m => m.PaymentDate, new { ng_model="ctrl.selectedDate", datepicker_popup="", is_open="datePickerOpened", ng_click="openDatePicker($event)", min_date="minDate", date_disabled="disableWeekends(date, mode)" })
                                 <span class="icon" ng-click="openDatePicker($event)"><i class="icon-calendar"></i></span>
@@ -67,7 +67,7 @@
                     <div>
                         <div class="group account-select">
                             <div class="item group-col" @Html.Validation().ErrorClass(m => m.PaymentAccount) slide-down-show="!ctrl.useNewPaymentMethod">
-                                <label for="Payment method">@Html.Sitecore().Field("Payment Account Text")</label>
+                                <label for="PaymentAccount">@Html.Sitecore().Field("Payment Account Text")</label>
                                 @Html.DropDownListFor(m => m.PaymentAccount,
                                     new[] { new SelectListItem { Text = Html.Sitecore().Field("Select Payment Account Text").ToHtmlString() } },
                                     new { ng_options="option.displayName for option in ctrl.paymentMethods", ng_model="ctrl.selectedPaymentMethod", data_val_if="!ctrl.useNewPaymentMethod" })
@@ -140,7 +140,7 @@
             <footer>
                 <div class="buttons">
                     <button type="submit" ng-click="ctrl.makePayment()">@Html.Sitecore().Field("Submit Payment Button Text")</button>
-                    <button class="secondary" ng-click="ctrl.activeState = 'step1'">@Html.Sitecore().Field("Back Button Text")</button>
+                    <button class="secondary" type="button" ng-click="ctrl.activeState = 'step1'">@Html.Sitecore().Field("Back Button Text")</button>
                 </div>
             </footer>
         </form>
@@ -150,6 +150,7 @@
         <form>
             <div class="content">
                 <div ng-repeat="account in ctrl.selectedAccounts">
+                    <h3>@Html.Sitecore().Field("Account Number Label")</h3>
                     <h3>{{account.accountNumber}}</h3>
                     <div ng-if="account.confirmationNumber" class="notice success">
                         <dl class="clearfix module-list">
@@ -209,8 +210,8 @@
         @Html.Sitecore().Field("Duplicate Payment Body Text")
     </div>
     <div class="modal-footer">
-        <button class="secondary" ng-click="$dismiss()">@Html.Sitecore().Field("Cancel Payment Button Text")</button>
-        <button ng-click="$close()">@Html.Sitecore().Field("Continue Payment Button Text")</button>
+        <button class="secondary" type="button" ng-click="$dismiss()">@Html.Sitecore().Field("Cancel Payment Button Text")</button>
+        <button type="button" ng-click="$close()">@Html.Sitecore().Field("Continue Payment Button Text")</button>
     </div>
 </script>
 
@@ -223,7 +224,7 @@
         @Html.Sitecore().Field("Overpayment Body Text").Format(new { Payment = "{{ctrl.paymentAmount|currency}}" })
     </div>
     <div class="modal-footer">
-        <button class="secondary" ng-click="$dismiss()">@Html.Sitecore().Field("Cancel Payment Button Text")</button>
-        <button ng-click="$close()">@Html.Sitecore().Field("Continue Payment Button Text")</button>
+        <button class="secondary" type="button" ng-click="$dismiss()">@Html.Sitecore().Field("Cancel Payment Button Text")</button>
+        <button type="button" ng-click="$close()">@Html.Sitecore().Field("Continue Payment Button Text")</button>
     </div>
 </script>

@@ -97,16 +97,17 @@
 	}
 	@include breakpoint(small) {
 		height: 57px;
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		z-index: 9000;
+		
 		> .wrapper {
-			position: fixed;
-			top: 0;
-			left: 0;
-			width: 100%;
 			background-color: #fff;
 			@include retina-background("header-mobile.png");
 			background-repeat: repeat-x;
 			border-bottom: 1px solid #1697ff;
-			z-index: 2;
 			height: 57px;
 		}
 		.logo {
@@ -137,6 +138,9 @@
 				font-weight: bold;
 			}
 		}
+		&.fixed-fix {
+			position: absolute;
+		}
 		nav {
 			display: none;
 		}
@@ -162,7 +166,7 @@
 				background-color: #fff;
 				@include retina-background("header-mobile.png");
 				background-repeat: repeat-x;
-				z-index: 2;
+				z-index: 9000;
 				height: 75px;
 				border-bottom: 1px solid #2599fc;
 				@include breakpoint(small) {

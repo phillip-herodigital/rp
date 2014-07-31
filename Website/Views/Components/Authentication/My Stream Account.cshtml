@@ -11,7 +11,7 @@
 		</header>
 		<div class="content">
             <form ng-submit="login()" data-val-bind-messages="validations">
-                <div class="alert alert-error" ng-show="loginError" ng-bind-html="loginError"></div>
+                <div class="notice error" ng-show="loginError" ng-bind-html="loginError" ng-cloak></div>
                 @Html.ValidationSummary()
                 <div class="group">
                     <div class="item group-col" @Html.Validation().ErrorClass(model => model.Username)>
@@ -46,6 +46,7 @@
                     <button type="submit" data-val-submit>@Html.Sitecore().Field("Sign In Button Text")</button>
                 </div>
 
+                <!--NOT SUPPORTING SOCIAL SIGN IN AT FIRST
                 <div class="text-content-divider">@Html.Sitecore().Field("Or Divider Text")</div>
 
                 <h3>@Html.Sitecore().Field("Social Header Text")</h3>
@@ -66,6 +67,7 @@
                         </a>
                     </li>
                 </ul>
+                -->
             </form>
 		</div>
 	</article>

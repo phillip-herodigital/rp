@@ -66,13 +66,14 @@ $mobile-nav: 260px;
 			position: relative;
 			left: 0;
 			background: #fff;
+			padding-top: 57px;
 			@include transition(left linear .2s); 
 		}
 		.wrapper {
 			@include transition(left linear .2s); 
 		}
 		&.open {
-			.site-header .wrapper,
+			.site-header,
 			.page-content {
 				left: $mobile-nav;
 			}

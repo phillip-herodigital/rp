@@ -1,5 +1,5 @@
 ﻿@model StreamEnergy.DomainModels.Enrollments.UserContext
-<div id="utilityFlowService" class="enrollment" ng-show="stepsService.isStepVisible('utilityFlowService')" ng-controller="EnrollmentServiceInformationCtrl">
+<div id="utilityFlowService" class="enrollment" ng-show="stepsService.isStepVisible('utilityFlowService')" ng-controller="EnrollmentServiceInformationCtrl" ng-init="setTimeRemaining('utilityFlowService', '@Html.Sitecore().Field("Remaining Minutes Number")');">
     <div class="banner enrollment__banner enrollment__banner--service-info" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper clearfix">
             <h1 class="center">
@@ -41,22 +41,23 @@
                             </select>
                         </div>
                         *@
-                        
-                        <div class="item" @currentService.Validation().ErrorClass(s => s.Location)>
-                            <label for="@currentService.Fix(h => h.IdFor(s => s.Location))">@Html.Sitecore().Field("Address Label")</label>
-                            @currentService.TextBoxFor(s => s.Location, new
-                            {
-                                @class = "typeahead",
-                                ng_model = "data.serviceLocation",
-                                placeholder = @Html.Sitecore().Field("Address Placeholder"),
-                                typeahead = "location as location.address|address for location in getLocation(data.serviceState, $viewValue)",
-                                ng_disabled = "data.serviceState == ''",
-                                typeahead_loading = "loadingServiceAddress",
-                                ng_class = "{'loading' : loadingServiceAddress}",
-                                autocomplete = "off"
-                            })
-                            <div id="state-select" dropdown-select dropdown-items="supportedUtilityStates" value="data.serviceState"></div>
-                            @currentService.ValidationMessageFor(s => s.Location)
+                        <div class="item full">
+                            <div class="input-group">
+                                <div class="input-group-control">@currentService.TextBoxFor(s => s.Location, new
+                                {
+                                    @class = "typeahead state-select-typeahead",
+                                    ng_model = "data.serviceLocation",
+                                    placeholder = @Html.Sitecore().Field("Address Placeholder"),
+                                    typeahead = "location as location.address|address for location in getLocation(data.serviceState, $viewValue)",
+                                    ng_disabled = "data.serviceState == ''",
+                                    typeahead_loading = "loadingServiceAddress",
+                                    ng_class = "{'loading' : loadingServiceAddress}",
+                                    autocomplete = "off"
+                                })</div>
+                                <div class="input-group-btn" id="state-select" dropdown-select dropdown-items="supportedUtilityStates" value="data.serviceState" data-alignment="right">
+                                </div>
+                                @currentService.ValidationMessageFor(s => s.Location)
+                            </div><!-- /input-group -->
                         </div>
                         <hr>
                         <div class="item">

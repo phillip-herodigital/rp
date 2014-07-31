@@ -45,9 +45,26 @@ $enrollment-module-vertical-padding: 20px;
         }
         h1 {
             font-size: 30px;
+            max-width: 50%;
             .small {
                 font-size: 16px;
             }
+        }
+    }
+    @include breakpoint(medium) {      
+        .wrapper {
+            height: 200px;
+            padding-top: 70px;
+        }
+        h1 {
+            font-size: 50px;
+        }   
+    }
+    //Lets do a breakpoint specifically for mobile under 480
+    @include breakpoint-min-max(320px, 480px) {
+        .wrapper {
+            height: 150px;
+            padding-top: 40px;
         }
     }
 }
@@ -62,8 +79,20 @@ $enrollment-module-vertical-padding: 20px;
     }
     @include breakpoint(small) {
         .wrapper {
+            padding-top: 80px;
+            height: 180px;
+        }
+        h1 {
+            max-width: 100%;
+        }
+    }
+    @include breakpoint(medium) {
+        .wrapper {
             padding-top: 120px;
             height: 250px;
+        }
+        h1 {
+            max-width: 100%;
         }
     }
 }
@@ -265,7 +294,7 @@ $enrollment-module-vertical-padding: 20px;
                     text-align: left;
                     div {
                         padding: 5px 12px 5px 30px;
-
+                        border-top: 1px solid #eaeaea;
                     }
                     p {
                         font-size: 15px;
@@ -338,6 +367,7 @@ $enrollment-module-vertical-padding: 20px;
         .select-plan {
             width: 126px;
             position: relative;
+            border-right: none;
         }
         .selected-icon {
             position: absolute;
@@ -392,7 +422,21 @@ $enrollment-module-vertical-padding: 20px;
             height: 20px;
         }
     }
-
+    @include breakpoint(small-medium) {
+        .plan-selection-table {
+            th, td {
+                padding-left: 8px;
+                padding-right: 8px;
+            }
+        }
+    }
+    @include breakpoint(small) {
+        .plan-selection-table {
+            .plan-name, .fees, .plan-actions {
+                border-right: none;
+            }
+        }
+    }
 }
 
 .lt-ie9 .enrollment__utility-plans {
@@ -643,6 +687,7 @@ $enrollment-module-vertical-padding: 20px;
     left: 0;
     right: 0;
     height: auto;
+    background: url(../i/white-alpha-90.png) repeat;
     background: rgba(255, 255, 255, 0.7);
     z-index: 10000;
     display: none;
@@ -722,7 +767,6 @@ $enrollment-module-vertical-padding: 20px;
  */
 .enrollment {
     #state-select {
-        width: auto;
         button {
             border-color: #cfcfcf;
             text-transform: uppercase;
@@ -761,13 +805,12 @@ $enrollment-module-vertical-padding: 20px;
         }
     }
 
-    .state-select-typeahead {
-        margin-right: 5px;
-    }
-
     .checkbox-list {
+        li { 
+            margin-bottom : 4px;
+        }
         label {
-            margin-bottom: 4px;
+			display: inline;
         }
     }
 
@@ -831,11 +874,11 @@ $enrollment-module-vertical-padding: 20px;
             text-align: right;
         }
         h4 { 
-            margin: 0;
+            margin: 0 0 10px;
         }
         th, td {
             border: none;
-            padding: 8px 0;
+            padding: 0;
             vertical-align: top;
         }
         tr:last-child {
@@ -920,6 +963,7 @@ $enrollment-module-vertical-padding: 20px;
                 text-align: left;
             }
             .plan-actions {
+                border-left: none;
                 button, .button {
                     float: right;
                     min-width: 120px;
