@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Web.Configuration;
 using ResponsivePath.Validation;
 using System.ComponentModel.DataAnnotations;
+using StreamEnergy.Logging;
 
 namespace StreamEnergy
 {
@@ -30,7 +31,11 @@ namespace StreamEnergy
             var typeIndicatorJsonConverter = new TypeIndicatorJsonConverter();
             unityContainer.RegisterInstance(typeIndicatorJsonConverter);
             Json.AdditionalConverters.Add(typeIndicatorJsonConverter);
+
+            unityContainer.RegisterType<ILogger, Logger>();
+            
             unityContainer.RegisterInstance<IValidationService>(new ValidationService());
+
             Factories.BuildValidationService = () => unityContainer.Resolve<IValidationService>();
             Factories.BuildValidationContext = (obj) => 
                 {
