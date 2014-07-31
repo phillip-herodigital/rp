@@ -203,7 +203,49 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
 
             // Assert
             Assert.IsTrue(response.IsSuccessStatusCode);
-            Assert.IsNotNull((string)result["IdVerificationChallenge"]["CreditServiceSessionId"].Value);            
+            var creditServiceSessionId = (string)result["IdVerificationChallenge"]["CreditServiceSessionId"].Value;
+            Assert.IsNotNull(creditServiceSessionId);
+
+            // Since we're really verifying the API, not actually testing our code, there's no reason to follow the AAA test standard.
+            // Don't take this as an example of OK - this should be multiple tests, with either initial setup or in the "assign" section.
+
+            // Act - Step 2
+            {
+                response = streamConnectClient.PutAsJsonAsync("/api/verifications/id/" + gcid.ToString(), new
+                {
+                    CreditServiceSessionId = creditServiceSessionId,
+                    Questions = (from dynamic question in (JArray)result["IdVerificationChallenge"]["Questions"]
+                                 select new
+                                 {
+                                     Index = question["Index"],
+                                     SelectedAnswerIndex = "1"
+                                 }).ToArray()
+                }).Result;
+                var responseString = response.Content.ReadAsStringAsync().Result;
+                result = JsonConvert.DeserializeObject(responseString);
+            }
+
+            // Assert
+            Assert.IsTrue(response.IsSuccessStatusCode);
+            string partitionKey = (string)result["PartitionKey"].Value;
+            Guid messageId = Guid.Parse((string)result["MessageId"].Value);
+            Assert.IsNotNull(partitionKey);
+            Assert.AreNotEqual(Guid.Empty, messageId);
+
+            // Act - Step 3 - async response
+            do
+            {
+                {
+                    response = streamConnectClient.GetAsync("/api/verifications/id/" + gcid.ToString() + "/result/" + partitionKey + "/" + messageId).Result;
+                    var responseString = response.Content.ReadAsStringAsync().Result;
+                    result = JsonConvert.DeserializeObject(responseString);
+                }
+                Assert.IsTrue(response.IsSuccessStatusCode);
+            } while ((string)result["Status"].Value == "InProgress");
+
+            // Assert
+            Assert.IsTrue(response.IsSuccessStatusCode);
+            Assert.IsTrue(result["Status"].Value == "Success" || result["Status"].Value == "Error");
         }
 
         [TestMethod]
@@ -242,8 +284,28 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
 
             // Assert
             Assert.IsTrue(response.IsSuccessStatusCode);
-            Assert.IsNotNull((string)result["PartitionKey"].Value);
-            Assert.AreNotEqual(Guid.Empty, Guid.Parse((string)result["MessageId"].Value));
+            string partitionKey = (string)result["PartitionKey"].Value;
+            Guid messageId = Guid.Parse((string)result["MessageId"].Value);
+            Assert.IsNotNull(partitionKey);
+            Assert.AreNotEqual(Guid.Empty, messageId);
+
+            // Since we're really verifying the API, not actually testing our code, there's no reason to follow the AAA test standard.
+            // Don't take this as an example of OK - this should be multiple tests, with either initial setup or in the "assign" section.
+
+            // Act - Step 2 - async response
+            do
+            {
+                {
+                    response = streamConnectClient.GetAsync("/api/verifications/credit/" + gcid.ToString() + "/result/" + partitionKey + "/" + messageId).Result;
+                    var responseString = response.Content.ReadAsStringAsync().Result;
+                    result = JsonConvert.DeserializeObject(responseString);
+                }
+                Assert.IsTrue(response.IsSuccessStatusCode);
+            } while ((string)result["Status"].Value == "InProgress");
+
+            // Assert
+            Assert.IsTrue(response.IsSuccessStatusCode);
+            Assert.IsTrue(result["Status"].Value == "Success" || result["Status"].Value == "Error");
         }
     }
 }
