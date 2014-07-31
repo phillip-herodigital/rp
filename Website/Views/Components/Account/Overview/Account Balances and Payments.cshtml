@@ -1,53 +1,53 @@
-﻿<article class="balances-payments" @*ng-controller="AccountBalances"*@>
+﻿@model StreamEnergy.MyStream.Models.Account.MakeOneTimePaymentRequest
+<article class="balances-payments" ng-controller="AcctBalancesAndPaymentsCtrl as ctrl" ng-init="ctrl.invoices = (@(Html.Action("GetCurrentInvoices", "Account").ToHtmlString())).accounts; ctrl.paymentMethods = @(Html.Action("GetSavedPaymentMethods", "Account").ToHtmlString());"> 
     <header>
         <h2>@Html.Sitecore().Field("Account Balances and Payments Text")</h2>
     </header>
-    <div class="account-selector">
-        <form>
-            <div class="group">
-                <div class="item">
-                    <label>@Html.Sitecore().Field("Account Number Text")</label>
-                    <select @*ng-model="selectedAccount.account" ng-options="item.accountNumber for item in accounts"*@>
-                        <option value="Please choose">1197015532</option>
-                        <option value="account1">Account 2</option>
-                    </select>
+    <div ng-show="ctrl.activeState == 'step1'">
+        <form data-val-bind-messages="validations" ng-submit="ctrl.activeState = 'step2'">
+            <div class="account-selector">
+                <div class="group">
+                    <div class="item">
+                        <label for="AccountNumber">@Html.Sitecore().Field("Account Number Text")</label>
+                        @Html.DropDownListFor(m => m.AccountNumber, new SelectListItem[0], new { ng_init = "selectedAccount = ctrl.invoices.values[0]", ng_model = "selectedAccount", ng_options = "item.accountNumber for item in ctrl.invoices.values|filter:{canMakeOneTimePayment:true}", ng_change = "ctrl.paymentAmount = selectedAccount.invoiceAmount" })
+                    </div>
+                </div>
+
+            </div>
+            <div class="content">
+                <div class="grid border">
+                    <div class="col">
+                        <h4>@Html.Sitecore().Field("Account Balance Text")</h4>
+                        <dl class="clearfix">
+                            <dt>@Html.Sitecore().Field("Account Number Text")</dt>
+                            <dd>{{ selectedAccount.accountNumber }}</dd>
+                            <dt>@Html.Sitecore().Field("Current Amount Due Text")</dt>
+                            <dd>{{ selectedAccount.invoiceAmount | currency }}</dd>
+                            <dt>@Html.Sitecore().Field("Due Date Text")</dt>
+                            <dd>{{ selectedAccount.dueDate }}</dd>
+                        </dl>
+                    </div>
+                    <div class="col payment">
+                        <h4>@Html.Sitecore().Field("Make Payment Text")</h4>
+
+                        <div class="group">
+                            <div class="item amount">
+                                <label for="TotalPaymentAmount">@Html.Sitecore().Field("Amount Text")</label>
+                                @Html.TextBoxFor(m => m.TotalPaymentAmount, new { ng_model = "ctrl.paymentAmount", currency_input = "", ng_init = "ctrl.paymentAmount = selectedAccount.invoiceAmount" })
+                            </div>
+                            <div class="item payment" @Html.Validation().ErrorClass(m => m.PaymentAccount)>
+                                <label for="PaymentAccount">@Html.Sitecore().Field("Payment Method Text")</label>
+                                @Html.DropDownListFor(m => m.PaymentAccount,
+                                    new[] { new SelectListItem { Text = Html.Sitecore().Field("Select Payment Account Text").ToHtmlString() } },
+                                    new { ng_options = "option.displayName for option in ctrl.paymentMethods", ng_model = "ctrl.selectedPaymentMethod", data_val_if = "!ctrl.useNewPaymentMethod" })
+                            </div>
+                        </div>
+                        <div class="buttons">
+                            <button type="submit" class="primary" data-val-submit>@Html.Sitecore().Field("Continue Button Text")</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </form>
-    </div>
-    <div class="content" @*loading-indicator*@>
-        <div class="grid border">
-            <div class="col">
-                <h4>@Html.Sitecore().Field("Account Balance Text")</h4>
-                <dl class="clearfix">
-                    <dt>@Html.Sitecore().Field("Account Number Text")</dt>
-                    <dd>1197015532</dd>
-                    <dt>@Html.Sitecore().Field("Current Amount Due Text")</dt>
-                    <dd>$87.24</dd>
-                    <dt>@Html.Sitecore().Field("Due Date Text")</dt>
-                    <dd>3/10/2014</dd>
-                </dl>
-            </div>
-            <div class="col payment">
-                <h4>@Html.Sitecore().Field("Make Payment Text")</h4>
-                <form>
-                    <div class="group">
-                        <div class="item amount">
-                            <label for="Amount">@Html.Sitecore().Field("Amount Text")</label>
-                            <input type="text" id="amount" @*ng-model="paymentForm.amount"*@ value="$87.24" />
-                        </div>
-                        <div class="item payment">
-                            <label for="Payment method">@Html.Sitecore().Field("Payment Method Text")</label>
-                            <select ng-model="paymentForm.paymentMethod" ng-options="item.id as item.name for item in paymentMethods">
-                                <option value="">Select</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="buttons">
-                        <button type="submit" class="primary" ng-click="submit()">@Html.Sitecore().Field("Continue Button Text")</button>
-                    </div>
-                </form>
-            </div>
-        </div>
     </div>
 </article>

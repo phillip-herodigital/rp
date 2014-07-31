@@ -653,6 +653,17 @@ article.utility-providers {
 }
 
 article.balances-payments {
+	.account-selector {
+		.group {
+			.item {
+				width: 50%;
+				label {
+					display: inline-block;
+					margin-right: 5px;
+				}
+			}
+		}
+	}
 	dl dd {
 		font-weight: bold;
 		margin-bottom: 5px;
