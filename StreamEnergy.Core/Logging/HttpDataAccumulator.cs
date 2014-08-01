@@ -30,9 +30,10 @@ namespace StreamEnergy.Logging
                 logEntry.Data["Request"] = new
                 {
                     Url = context.Request.Url,
-                    Headers = context.Request.Headers.AllKeys.Except(new[] { "Cookies" }).ToDictionary(key => key, key => context.Request.Headers.GetValues(key)),
+                    Headers = context.Request.Headers.AllKeys.Except(new[] { "Cookie" }).ToDictionary(key => key, key => context.Request.Headers.GetValues(key)),
                     Cookies = (from cookieKey in context.Request.Cookies.AllKeys
-                               group context.Request.Cookies.Get(cookieKey) by cookieKey).ToDictionary(e => e.Key, e => e.ToArray()),
+                               let cookie = context.Request.Cookies.Get(cookieKey)
+                               select new { Key = cookieKey, Value = cookie.Value }).ToArray(),
                 };
 
             }

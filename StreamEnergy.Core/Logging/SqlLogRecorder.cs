@@ -21,14 +21,12 @@ namespace StreamEnergy.Logging
             minSeverity = (Severity)Enum.Parse(typeof(Severity), settingsItem["Min Logging Level"]);
         }
 
-        async Task ILogRecorder.Save(LogEntry logEntry)
+        Task ILogRecorder.Save(LogEntry logEntry)
         {
             if (logEntry.Severity < minSeverity)
             {
-                return;
+                return Task.FromResult<object>(null);
             }
-
-            await Task.Yield();
 
             using (var connection = new SqlConnection(connectionString))
             using (var cmdCreateEntry = new SqlCommand(@"
@@ -60,7 +58,7 @@ VALUES (@entryid, @key, @value);
  })
             {
                 connection.Open();
-                var entryId = Convert.ToInt32(await cmdCreateEntry.ExecuteScalarAsync().ConfigureAwait(false));
+                var entryId = Convert.ToInt32(cmdCreateEntry.ExecuteScalar());
 
                 cmdCreateIndex.Parameters["@entryid"].Value = entryId;
                 foreach (var index in from key in logEntry.Indexes.AllKeys
@@ -73,6 +71,7 @@ VALUES (@entryid, @key, @value);
                     cmdCreateIndex.ExecuteNonQuery();
                 }
             }
+            return Task.FromResult<object>(null);
         }
 
         private string JsonEncode(object data)
