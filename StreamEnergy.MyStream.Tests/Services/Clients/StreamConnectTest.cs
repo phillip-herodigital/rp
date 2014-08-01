@@ -34,7 +34,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             var streamConnectClient = container.Resolve<HttpClient>(StreamEnergy.Services.Clients.StreamConnectContainerSetup.StreamConnectKey);
 
             // Act
-            var response = streamConnectClient.GetAsync("/api/products?CustomerType=Residential&EnrollmentType=MoveIn&Address.Zip=75010").Result;
+            var response = streamConnectClient.GetAsync("/api/products?CustomerType=Residential&EnrollmentType=MoveIn&ServiceAddress.State=TX&ServiceAddress.Zip=75010").Result;
             var responseString = response.Content.ReadAsStringAsync().Result;
             var data = (JArray)JsonConvert.DeserializeObject(responseString);
 
@@ -56,7 +56,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             var streamConnectClient = container.Resolve<HttpClient>(StreamEnergy.Services.Clients.StreamConnectContainerSetup.StreamConnectKey);
 
             // Act
-            var response = streamConnectClient.GetAsync("/api/products?CustomerType=Residential&EnrollmentType=MoveIn&Address.Zip=75010&SystemOfRecord=CIS1").Result;
+            var response = streamConnectClient.GetAsync("/api/products?CustomerType=Residential&EnrollmentType=MoveIn&ServiceAddress.State=TX&ServiceAddress.Zip=75010&SystemOfRecord=CIS1").Result;
             var responseString = response.Content.ReadAsStringAsync().Result;
             var data = (JArray)JsonConvert.DeserializeObject(responseString);
 
@@ -78,7 +78,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             var streamConnectClient = container.Resolve<HttpClient>(StreamEnergy.Services.Clients.StreamConnectContainerSetup.StreamConnectKey);
 
             // Act
-            var response = streamConnectClient.GetAsync("/api/products?CustomerType=Residential&EnrollmentType=MoveIn&UtilityAccountNumber=10443720006102389&SystemOfRecord=CIS1&Address.City=Carrollton&Address.State=TX&Address.StreetLine1=3620%20Huffines%20Blvd&Address.StreetLine2=APT%20226&Address.Zip=75010").Result;
+            var response = streamConnectClient.GetAsync("/api/products?CustomerType=Residential&EnrollmentType=MoveIn&UtilityAccountNumber=10443720006102389&SystemOfRecord=CIS1&ServiceAddress.City=Carrollton&ServiceAddress.State=TX&ServiceAddress.StreetLine1=3620%20Huffines%20Blvd&ServiceAddress.StreetLine2=APT%20226&ServiceAddress.Zip=75010").Result;
             var responseString = response.Content.ReadAsStringAsync().Result;
             var data = (JArray)JsonConvert.DeserializeObject(responseString);
 
