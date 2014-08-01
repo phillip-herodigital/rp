@@ -6,14 +6,17 @@
             var ctrl = this;
             this.validate = true;
             this.tokenizedCard = function () {
-                return {
-                    paymentType: 'TokenizedCard',
-                    cardToken: ctrl.cardToken(),
-                    expirationDate: new Date(ctrl.expirationYear, ctrl.expirationMonth),
-                    billingZipCode: ctrl.billingZip,
-                    securityCode: ctrl.securityCode,
-                    redactedData: ctrl.cardToken.redacted
-                };
+                var cardToken = ctrl.cardToken;
+                return cardToken().then(function (value) {
+                    return {
+                        paymentType: 'TokenizedCard',
+                        cardToken: value,
+                        expirationDate: new Date(ctrl.expirationYear, ctrl.expirationMonth),
+                        billingZipCode: ctrl.billingZip,
+                        securityCode: ctrl.securityCode,
+                        redactedData: cardToken.redacted
+                    };
+                });
             };
 
             var currentYear = new Date().getFullYear();

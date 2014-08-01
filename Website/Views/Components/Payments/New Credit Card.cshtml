@@ -1,5 +1,5 @@
 ﻿@model StreamEnergy.DomainModels.Payments.TokenizedCard
-<div class="payment-options">
+<div>
     <div class="item" data-val-error="PaymentAccount.CreditCardNumber">
         <label for="credit-card-number">@Html.Sitecore().Field("Credit Card Number Label"):</label>
         <input id="credit-card-number" name="PaymentAccount.CreditCardNumber" data-val="true" data-val-if="ccCtrl.validate" data-val-creditcard="@Html.Sitecore().Field("Credit Card Number Invalid")" data-val-required="@Html.Sitecore().Field("Credit Card Number Required")" tokenize-card ng-model="ccCtrl.cardToken" type="text">
