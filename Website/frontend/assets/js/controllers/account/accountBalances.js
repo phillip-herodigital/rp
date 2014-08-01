@@ -16,7 +16,12 @@ ngApp.controller('AcctBalancesAndPaymentsCtrl', ['$scope', '$rootScope', '$http'
         } else {
             return ctrl.selectedPaymentMethod;
         }
-    }
+    };
+
+    this.resetAccount = function () {
+    	ctrl.activeState = 'step1';
+    	ctrl.paymentAmount = selectedAccount.invoiceAmount;
+    };
 
     this.makePayment = function () {
         $http.post('/api/account/makeMultiplePayments', {
