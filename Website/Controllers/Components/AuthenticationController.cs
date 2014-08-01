@@ -20,6 +20,11 @@ namespace StreamEnergy.MyStream.Controllers.Components
 
         public ActionResult LoginIndex()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                System.Web.Security.FormsAuthentication.SignOut();
+                return Redirect(Request.RawUrl);
+            }
             return View("~/Views/Components/Authentication/My Stream Account.cshtml");
         }
 
