@@ -34,7 +34,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             var streamConnectClient = container.Resolve<HttpClient>(StreamEnergy.Services.Clients.StreamConnectContainerSetup.StreamConnectKey);
 
             // Act
-            var response = streamConnectClient.GetAsync("/api/products?CustomerType=Residential&EnrollmentType=New&Address.Zip=75010").Result;
+            var response = streamConnectClient.GetAsync("/api/products?CustomerType=Residential&EnrollmentType=MoveIn&Address.Zip=75010").Result;
             var responseString = response.Content.ReadAsStringAsync().Result;
             var data = (JArray)JsonConvert.DeserializeObject(responseString);
 
@@ -56,7 +56,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             var streamConnectClient = container.Resolve<HttpClient>(StreamEnergy.Services.Clients.StreamConnectContainerSetup.StreamConnectKey);
 
             // Act
-            var response = streamConnectClient.GetAsync("/api/products?CustomerType=Residential&EnrollmentType=New&Address.Zip=75010&SystemOfRecord=CIS1").Result;
+            var response = streamConnectClient.GetAsync("/api/products?CustomerType=Residential&EnrollmentType=MoveIn&Address.Zip=75010&SystemOfRecord=CIS1").Result;
             var responseString = response.Content.ReadAsStringAsync().Result;
             var data = (JArray)JsonConvert.DeserializeObject(responseString);
 
@@ -78,7 +78,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             var streamConnectClient = container.Resolve<HttpClient>(StreamEnergy.Services.Clients.StreamConnectContainerSetup.StreamConnectKey);
 
             // Act
-            var response = streamConnectClient.GetAsync("/api/products?CustomerType=Residential&EnrollmentType=New&UtilityAccountNumber=10443720006102389&SystemOfRecord=CIS1&Address.City=Carrollton&Address.State=TX&Address.StreetLine1=3620%20Huffines%20Blvd&Address.StreetLine2=APT%20226&Address.Zip=75010").Result;
+            var response = streamConnectClient.GetAsync("/api/products?CustomerType=Residential&EnrollmentType=MoveIn&UtilityAccountNumber=10443720006102389&SystemOfRecord=CIS1&Address.City=Carrollton&Address.State=TX&Address.StreetLine1=3620%20Huffines%20Blvd&Address.StreetLine2=APT%20226&Address.Zip=75010").Result;
             var responseString = response.Content.ReadAsStringAsync().Result;
             var data = (JArray)JsonConvert.DeserializeObject(responseString);
 
@@ -118,10 +118,11 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Act
             var response = streamConnectClient.PostAsJsonAsync("/api/customers", new { }).Result;
             var responseString = response.Content.ReadAsStringAsync().Result;
-            var data = JsonConvert.DeserializeObject(responseString);
+            dynamic data = JsonConvert.DeserializeObject(responseString);
 
             // Assert
             Assert.IsTrue(response.IsSuccessStatusCode);
+            Assert.AreNotEqual(Guid.Empty, Guid.Parse((string)(data["Customer"]["GlobalCustomerId"].Value)));
         }
 
         [TestMethod]
@@ -165,6 +166,50 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             Assert.IsTrue(response.IsSuccessStatusCode);
             Assert.AreEqual(gcid, Guid.Parse((string)(result["Customer"]["GlobalCustomerId"].Value)));
             Assert.AreEqual("test@example.com", result["Customer"]["EmailAddress"].Value);
+
+        }
+
+        [TestMethod]
+        public void PostCustomersPortalIdTest()
+        {
+            // Assign
+            var streamConnectClient = container.Resolve<HttpClient>(StreamEnergy.Services.Clients.StreamConnectContainerSetup.StreamConnectKey);
+
+            // Act
+            var response = streamConnectClient.PostAsJsonAsync("/api/customers", new { PortalId = "extranet//tester" }).Result;
+            var responseString = response.Content.ReadAsStringAsync().Result;
+            dynamic data = JsonConvert.DeserializeObject(responseString);
+
+            // Assert
+            Assert.IsTrue(response.IsSuccessStatusCode);
+            Assert.AreNotEqual(Guid.Empty, Guid.Parse((string)(data["Customer"]["GlobalCustomerId"].Value)));
+        }
+
+        [TestMethod]
+        public void GetCustomersPortalIdTest()
+        {
+            // Assign
+            var streamConnectClient = container.Resolve<HttpClient>(StreamEnergy.Services.Clients.StreamConnectContainerSetup.StreamConnectKey);
+            Guid gcid;
+            {
+                var responseString = streamConnectClient.PostAsJsonAsync("/api/customers", new { PortalId = "extranet//tester" }).Result.Content.ReadAsStringAsync().Result;
+                dynamic data = JsonConvert.DeserializeObject(responseString);
+                gcid = Guid.Parse((string)(data["Customer"]["GlobalCustomerId"].Value));
+            }
+
+            // Act
+            HttpResponseMessage response;
+            dynamic result;
+            {
+                response = streamConnectClient.GetAsync("/api/customers/" + gcid.ToString()).Result;
+                var responseString = response.Content.ReadAsStringAsync().Result;
+                result = JsonConvert.DeserializeObject(responseString);
+            }
+
+            // Assert
+            Assert.IsTrue(response.IsSuccessStatusCode);
+            Assert.AreEqual(gcid, Guid.Parse((string)(result["Customer"]["GlobalCustomerId"].Value)));
+            Assert.AreEqual("extranet//tester", result["Customer"]["PortalId"].Value);
 
         }
 
@@ -241,7 +286,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                     result = JsonConvert.DeserializeObject(responseString);
                 }
                 Assert.IsTrue(response.IsSuccessStatusCode);
-            } while ((string)result["Status"].Value == "InProgress");
+            } while (response.StatusCode == System.Net.HttpStatusCode.NoContent);
 
             // Assert
             Assert.IsTrue(response.IsSuccessStatusCode);
@@ -301,7 +346,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                     result = JsonConvert.DeserializeObject(responseString);
                 }
                 Assert.IsTrue(response.IsSuccessStatusCode);
-            } while ((string)result["Status"].Value == "InProgress");
+            } while (response.StatusCode == System.Net.HttpStatusCode.NoContent);
 
             // Assert
             Assert.IsTrue(response.IsSuccessStatusCode);
