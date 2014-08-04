@@ -11,6 +11,7 @@ namespace StreamEnergy.DomainModels.Accounts
     {
         IEnumerable<Account> GetInvoices(string username);
         Task<IEnumerable<Account>> GetCurrentInvoices(string username);
+        Task<IEnumerable<Account>> GetAccountBalances(string username);
         Task<IEnumerable<Payments.SavedPaymentInfo>> GetSavedPaymentMethods(string username);
         Task<MakePaymentResult> MakePayment(string account, decimal amount, Payments.IPaymentInfo paymentMethod, DateTime paymentDate);
         Task<Account> GetCurrentInvoice(string accountNumber);

@@ -23,6 +23,9 @@ namespace StreamEnergy.DomainModels.Accounts
         public string AccountNumber { get; set; }
         public string AccountType { get; set; }
 
+        public decimal AccountBalance { get; set; }
+        public DateTime DueDate { get; set; }
+
         public Invoice CurrentInvoice { get; set; }
 
         public IEnumerable<Invoice> Invoices { get; set; }
