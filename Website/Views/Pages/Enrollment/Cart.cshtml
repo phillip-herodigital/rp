@@ -61,3 +61,19 @@
         </div>
     </div>
 </script>
+
+<script type="text/ng-template" id="confirmAddressDeleteModal">
+    <div>
+        <div class="modal-header">
+            <a href="" ng-click="$dismiss()">Close</a>
+            <h2>@Html.Sitecore().Field("Confirm Address Deletion Header")</h2>
+        </div>
+        <div class="modal-body">
+            @Html.Sitecore().Field("Confirm Address Deletion Body")
+        </div>
+        <div class="modal-footer">
+            <button ng-click="$close()">@Html.Sitecore().Field("Continue Button")</button>
+            <button class="secondary" ng-click="$dismiss()">@Html.Sitecore().Field("Cancel Button")</button>
+        </div>
+    </div>
+</script>

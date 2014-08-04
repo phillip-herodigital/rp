@@ -367,7 +367,7 @@
 
 
     <div class="modal-backdrop modal-backdrop-absolute"></div>
-    <div tabindex="-1" role="dialog" class="modal modal-absolute" style="z-index: 1050; display: block;">
+    <div tabindex="-1" role="dialog" class="modal modal-absolute">
         <div class="modal-dialog">
             <div class="modal-content" ng-controller="EnrollmentMultipleTduCtrl as vm">
                 <form>
@@ -394,7 +394,7 @@
 <script type="text/ng-template" id="enrollmentZipToAddressPicker">
     <div>
         <div class="modal-header">
-            <a href="" ng-click="$close()">Close</a>
+            <a href="" ng-click="$dismiss()">Close</a>
             <h2>@Html.Sitecore().Field("Zip to Address Header")</h2>
         </div>
         <div class="modal-body">
