@@ -24,9 +24,17 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public IOfferOptionPolicy GetOfferOptionPolicy(IUnityContainer container)
         {
-            return container.Resolve<TexasElectricityOfferOptionPolicy>();
+            if (IsNewService)
+            {
+                return container.Resolve<TexasElectricityMoveInOfferOptionPolicy>();
+            }
+            else
+            {
+                return container.Resolve<TexasElectricityOfferOptionPolicy>();
+            }
         }
 
+        public bool IsNewService { get; set; }
 
         public string Name { get; set; }
 

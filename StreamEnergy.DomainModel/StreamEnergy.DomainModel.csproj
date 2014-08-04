@@ -173,6 +173,9 @@
     <Compile Include="DomainModels\Enrollments\ServiceStatusCapability.cs" />
     <Compile Include="DomainModels\Enrollments\Service\IdentityCheckHardStop.cs" />
     <Compile Include="DomainModels\Enrollments\Service\LocationOfferDetails.cs" />
+    <Compile Include="DomainModels\Enrollments\TexasElectricityMoveInOfferOption.cs" />
+    <Compile Include="DomainModels\Enrollments\TexasElectricityMoveInOfferOptionPolicy.cs" />
+    <Compile Include="DomainModels\Enrollments\TexasElectricityMoveInOfferOptionRules.cs" />
     <Compile Include="DomainModels\Enrollments\TexasElectricityOfferOption.cs" />
     <Compile Include="DomainModels\Enrollments\TexasElectricityOfferOptionPolicy.cs" />
     <Compile Include="DomainModels\Enrollments\TexasElectricityOfferOptionRules.cs" />

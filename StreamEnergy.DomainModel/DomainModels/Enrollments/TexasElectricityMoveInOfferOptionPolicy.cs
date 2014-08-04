@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
-    class TexasElectricityOfferOptionPolicy : IOfferOptionPolicy
+    class TexasElectricityMoveInOfferOptionPolicy : IOfferOptionPolicy
     {
         private readonly IEnrollmentService enrollmentService;
 
-        public TexasElectricityOfferOptionPolicy(IEnrollmentService enrollmentService)
+        public TexasElectricityMoveInOfferOptionPolicy(IEnrollmentService enrollmentService)
         {
             this.enrollmentService = enrollmentService;
         }
@@ -20,11 +20,12 @@ namespace StreamEnergy.DomainModels.Enrollments
             return offerOption is TexasElectricityOfferOption;
         }
 
-        public Task<IOfferOptionRules> GetOptionRules(Location location, IOffer offer)
+        public async Task<IOfferOptionRules> GetOptionRules(Location location, IOffer offer)
         {
-            return Task.FromResult<IOfferOptionRules>(new TexasElectricityOfferOptionRules
+            return new TexasElectricityMoveInOfferOptionRules
             {
-            });
+                ConnectDates = await enrollmentService.LoadConnectDates(location)
+            };
         }
     }
 }

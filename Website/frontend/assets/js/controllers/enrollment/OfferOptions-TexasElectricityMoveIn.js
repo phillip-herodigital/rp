@@ -1,4 +1,4 @@
-﻿ngApp.controller('OfferOptions-TexasElectricity', ['$scope', function ($scope) {
+﻿ngApp.controller('OfferOptions-TexasElectricityMoveIn', ['$scope', function ($scope) {
     // this is probably not terribly smart... we're pulling based off of $scope variables actually defined by markup ng-repeats...
     var rules = $scope.selectedOffer.optionRules;
 

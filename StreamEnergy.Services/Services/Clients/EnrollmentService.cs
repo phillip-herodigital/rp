@@ -75,6 +75,8 @@ namespace StreamEnergy.Services.Clients
                               Id = product.ProductCode,
                               Provider = product.Provider.ToString(),
 
+                              IsNewService = serviceStatus.IsNewService,
+
                               // TODO - link with Sitecore
                               Name = product.Name,
                               Description = product.Description,
