@@ -11,7 +11,7 @@ namespace StreamEnergy.DomainModels.Enrollments
     {
         Task<Dictionary<Location, LocationOfferSet>> LoadOffers(IEnumerable<Location> serviceLocations);
 
-        IConnectDatePolicy LoadConnectDates(Location location);
+        Task<IConnectDatePolicy> LoadConnectDates(Location location);
 
         IdentityCheckResult IdentityCheck(Name name, string ssn, DriversLicense driversLicense, AdditionalIdentityInformation identityInformation = null);
 

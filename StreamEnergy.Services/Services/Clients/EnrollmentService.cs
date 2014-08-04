@@ -13,13 +13,6 @@ namespace StreamEnergy.Services.Clients
     {
         private HttpClient streamConnectClient;
 
-        // TODO - replace with actual implementations
-        [Serializable]
-        class ConnectDatePolicy : IConnectDatePolicy
-        {
-
-        }
-
         public EnrollmentService([Dependency(StreamConnectContainerSetup.StreamConnectKey)] HttpClient client)
         {
             this.streamConnectClient = client;
@@ -73,6 +66,8 @@ namespace StreamEnergy.Services.Clients
             return new LocationOfferSet
             {
                 Offers = (from product in streamConnectProducts
+                          // Only supporting $/kwh for Texas enrollments, at least for now. Making sure that our `* 100` below doesn't cause a bug...
+                          where product.Rate.Unit == "$/kwh"
                           group product by product.ProductCode into products
                           let product = products.First()
                           select new TexasElectricityOffer
@@ -84,7 +79,7 @@ namespace StreamEnergy.Services.Clients
                               Name = product.Name,
                               Description = product.Description,
 
-                              Rate = product.Rate.Value,
+                              Rate = product.Rate.Value * 100,
                               TermMonths = product.Term,
                               RateType = product.Rate.Type == "Fixed" ? RateType.Fixed : RateType.Variable,
                               // TODO
@@ -100,9 +95,53 @@ namespace StreamEnergy.Services.Clients
             };
         }
 
-        IConnectDatePolicy IEnrollmentService.LoadConnectDates(Location location)
+        async Task<IConnectDatePolicy> IEnrollmentService.LoadConnectDates(Location location)
         {
-            return new ConnectDatePolicy();
+            if (location.Capabilities.OfType<DomainModels.TexasServiceCapability>().Any())
+                return await LoadTexasConnectDates(location);
+            else
+                throw new NotImplementedException();
+        }
+
+        private async Task<IConnectDatePolicy> LoadTexasConnectDates(Location location)
+        {
+            var texasService = location.Capabilities.OfType<DomainModels.TexasServiceCapability>().Single();
+
+            var parameters = System.Web.HttpUtility.ParseQueryString("");
+            parameters["Address.City"] = location.Address.City;
+            parameters["Address.State"] = location.Address.StateAbbreviation;
+            parameters["Address.StreetLine1"] = location.Address.Line1;
+            parameters["Address.StreetLine2"] = location.Address.Line2;
+            parameters["Address.Zip"] = location.Address.PostalCode5;
+            parameters["UtilityAccountNumber"] = texasService.EsiId;
+            parameters["SystemOfRecord"] = "CIS1";
+
+            var response = await streamConnectClient.GetAsync("/api/MoveInDates?" + parameters);
+
+            var result = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+            //{"MoveInDates":[{"Date":"2014-08-04T00:00:00","Priority":true,"Fees":[{"Name":"Move In Date Fee","Amount":79.27}]}...]}
+
+            return new ConnectDatePolicy()
+            {
+                AvailableConnectDates = (from entry in result["MoveInDates"].ToObject<IEnumerable<StreamConnect.MoveInDate>>()
+                                         select new ConnectDate
+                                         {
+                                             Date = entry.Date,
+                                             Classification = entry.Priority ? ConnectDateClassification.Priority : ConnectDateClassification.Standard,
+                                             Fees = entry.Fees.ToDictionary(fee => ToFeeQualifier(feeName: fee.Name), fee => fee.Amount)
+                                         }).ToArray()
+            };
+        }
+
+        private string ToFeeQualifier(string feeName)
+        {
+            switch (feeName)
+            {
+                case "Move In Date Fee":
+                    return "ConnectFee";
+                default:
+                    throw new NotImplementedException();
+            }
         }
 
         DomainModels.Enrollments.Service.IdentityCheckResult IEnrollmentService.IdentityCheck(DomainModels.Name name, string ssn, DomainModels.DriversLicense driversLicense, AdditionalIdentityInformation identityInformation)

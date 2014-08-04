@@ -37,7 +37,6 @@ namespace StreamEnergy.MyStream.Tests
                 uc.RegisterInstance<IEnrollmentService>(mockEnrollmentService.Object);
             });
             var enrollmentService = (IEnrollmentService)container.Resolve<StreamEnergy.Services.Clients.EnrollmentService>();
-            mockEnrollmentService.Setup(m => m.LoadConnectDates(It.IsAny<Location>())).Returns<Location>(loc => enrollmentService.LoadConnectDates(loc));
             mockEnrollmentService.Setup(m => m.IdentityCheck(It.IsAny<Name>(), It.IsAny<string>(), It.IsAny<DriversLicense>(), It.IsAny<AdditionalIdentityInformation>())).Returns<Name, string, DriversLicense, AdditionalIdentityInformation>((a, b, c, d) => enrollmentService.IdentityCheck(a, b, c, d));
             mockEnrollmentService.Setup(m => m.LoadOfferPayments(It.IsAny<IEnumerable<LocationServices>>())).Returns<IEnumerable<LocationServices>>(loc => enrollmentService.LoadOfferPayments(loc));
             mockEnrollmentService.Setup(m => m.PlaceOrder(It.IsAny<IEnumerable<LocationServices>>())).Returns<IEnumerable<LocationServices>>(loc => enrollmentService.PlaceOrder(loc));
@@ -47,6 +46,7 @@ namespace StreamEnergy.MyStream.Tests
             {
                 return new LocationOfferSet { Offers = offers.ToArray() };
             })));
+            mockEnrollmentService.Setup(m => m.LoadConnectDates(It.IsAny<Location>())).Returns(Task.FromResult<IConnectDatePolicy>(new ConnectDatePolicy() { AvailableConnectDates = new ConnectDate[] { } }));
 
             generalLocation = new Location
             {

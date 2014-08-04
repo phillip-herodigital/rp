@@ -53,7 +53,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         public async Task Initialize()
         {
-            await stateHelper.EnsureInitialized();
+            await stateHelper.EnsureInitialized().ConfigureAwait(false);
             this.stateMachine = stateHelper.StateMachine;
         }
 

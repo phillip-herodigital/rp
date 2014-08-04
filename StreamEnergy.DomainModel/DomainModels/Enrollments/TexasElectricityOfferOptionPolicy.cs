@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
@@ -19,11 +20,11 @@ namespace StreamEnergy.DomainModels.Enrollments
             return offerOption is TexasElectricityOfferOption;
         }
 
-        public IOfferOptionRules GetOptionRules(Location location, IOffer offer)
+        public async Task<IOfferOptionRules> GetOptionRules(Location location, IOffer offer)
         {
             return new TexasElectricityOfferOptionRules
             {
-                ConnectDates = enrollmentService.LoadConnectDates(location)
+                ConnectDates = await enrollmentService.LoadConnectDates(location)
             };
         }
     }

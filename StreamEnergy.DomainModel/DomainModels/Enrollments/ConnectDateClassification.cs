@@ -5,8 +5,9 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
-    public interface IConnectDatePolicy
+    public enum ConnectDateClassification
     {
-        IEnumerable<ConnectDate> AvailableConnectDates { get; }
+        Standard,
+        Priority
     }
 }

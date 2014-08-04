@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
-    public interface IOfferOptionPolicy
+    [Serializable]
+    public class ConnectDatePolicy : IConnectDatePolicy
     {
-        bool AcceptsOptions(IOfferOption offerOption);
-
-        Task<IOfferOptionRules> GetOptionRules(Location location, IOffer offer);
+        public IEnumerable<ConnectDate> AvailableConnectDates { get; set; }
     }
 }
