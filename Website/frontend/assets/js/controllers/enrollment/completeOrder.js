@@ -17,18 +17,26 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
     * Complete Enrollment Section
     */
     $scope.completeStep = function () {
-
         console.log('Sending confirm order...');
 
-        var confirmOrderPromise = enrollmentService.setConfirmOrder({
-            agreeToTerms: $scope.completeOrder.agreeToTerms,
-            paymentInfo: $scope.getCartTotal() > 0 ? $scope.completeOrder.creditCard() : null
-        });
+        if ($scope.getCartTotal() > 0) {
+            $scope.completeOrder.creditCard().then(function (paymentInfo) {
+                console.log({
+                    agreeToTerms: $scope.completeOrder.agreeToTerms,
+                    paymentInfo: paymentInfo
+                });
+                enrollmentService.setConfirmOrder({
+                    agreeToTerms: $scope.completeOrder.agreeToTerms,
+                    paymentInfo: paymentInfo
+                });
+            });
+        } else {
+            enrollmentService.setConfirmOrder({
+                agreeToTerms: $scope.completeOrder.agreeToTerms,
+                paymentInfo: null
+            });
+        }
 
-        confirmOrderPromise.then(function (data) {
-        }, function (data) {
-            // error response
-        });
     };
 
     /**

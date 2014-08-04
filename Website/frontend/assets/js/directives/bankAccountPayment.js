@@ -1,17 +1,19 @@
-﻿ngApp.directive('bankAccountPayment', ['$parse', function ($parse) {
+﻿ngApp.directive('bankAccountPayment', ['$parse', '$q', function ($parse, $q) {
     return {
         templateUrl: '/templates/new-bank-account',
         restrict: 'AEC',
         controller: ['$scope', function ($scope) {
             var ctrl = this;
             this.bankAccount = function () {
-                return {
+                var deferred = $q.defer();
+                deferred.resolve({
                     paymentType: 'BankPaymentMethod',
                     category: ctrl.category,
                     routingNumber: ctrl.routingNumber,
                     accountNumber: ctrl.accountNumber,
-                    redactedData: "*******" + ctrl.accountNumber.slice(-4)
-                };
+                    redactedData: "*******" + (ctrl.accountNumber || '0').slice(-4)
+                });
+                return deferred.promise;
             };
         }],
         scope: true,

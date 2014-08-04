@@ -1,49 +1,24 @@
-<article class="grey-box payments">
-	<header>
-		<h2>@Html.Sitecore().Field("Header Text")</h2>
-	</header>
-	<form>
-		<div class="content">
-			
-			<div class="item">
-				<label for="account-nickname">@Html.Sitecore().Field("Account Nickname Label"):</label>
-				<input type="text" id="account-nickname">
-				<span class="help-text">@Html.Sitecore().Field("Account Nickname Help Text")</span>
-			</div>
+@model StreamEnergy.MyStream.Models.Account.AddCreditCardRequest
+<article class="grey-box payments" ng-controller="AddCreditCardCtrl">
+    <header>
+        <h2>@Html.Sitecore().Field("Header Text")</h2>
+    </header>
+    <form data-val-bind-messages="validations" ng-submit="addPaymentAccount()">
+        <div class="content">
 
-			<div class="item">
-				<label for="credit-card-number">@Html.Sitecore().Field("Credit Card Number Label"):</label>
-				<input id="credit-card-number" type="text">
-			</div>
-			<div class="group">
-				<div class="item">
-					<label for="expiration-date">@Html.Sitecore().Field("Expiration Date LAbel"):</label>
-					<select class="small" id="cc-month">
-						<option value="">MM</option>
-					</select>
-					<select class="small" id="cc-year">
-						<option value="">YYYY</option>
-					</select>
-				</div>
-				<div class="item">
-					<label for="billing-zip">@Html.Sitecore().Field("Zip Code Label"):</label>
-					<input class="small" type="text" id="billing-zip">
-				</div>
-				<div class="item">
-					<label for="security-code">@Html.Sitecore().Field("Security Code Label"):</label>
-					<input class="small" type="text" id="security-code">
-				</div>
-				<div class="item">
-					<a href="" class="single-link">@Html.Sitecore().Field("See Example Text")</a>
-				</div>
-			</div>
+            <div class="item" @Html.Validation().ErrorClass(m => m.Nickname)>
+                <label for="@Html.IdFor(m => m.Nickname)">@Html.Sitecore().Field("Account Nickname Label"):</label>
+                @Html.TextBoxFor(m => m.Nickname, new { ng_model = "formData.nickname" })
+                <span class="help-text">@Html.Sitecore().Field("Account Nickname Help Text")</span>
+            </div>
+            <div credit-card-payment="formData.card" data-val-if="true"></div>
 
-		</div>
-		<footer>
-			<div class="buttons">
-				<button type="submit">@Html.Sitecore().Field("Submit Button Text")</button>
-				<button class="secondary">@Html.Sitecore().Field("Cancel Button Text")</button>
-			</div>
-		</footer>
-	</form>
+        </div>
+        <footer>
+            <div class="buttons">
+                <button type="submit" data-val-submit>@Html.Sitecore().Field("Submit Button Text")</button>
+                <button class="secondary">@Html.Sitecore().Field("Cancel Button Text")</button>
+            </div>
+        </footer>
+    </form>
 </article>

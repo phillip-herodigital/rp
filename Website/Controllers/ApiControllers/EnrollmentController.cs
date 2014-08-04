@@ -13,6 +13,7 @@ using ResponsivePath.Validation;
 using StreamEnergy.DomainModels;
 using StreamEnergy.DomainModels.Enrollments;
 using StreamEnergy.Extensions;
+using StreamEnergy.Logging;
 using StreamEnergy.MyStream.Models;
 using StreamEnergy.MyStream.Models.Enrollment;
 using StreamEnergy.Processes;
