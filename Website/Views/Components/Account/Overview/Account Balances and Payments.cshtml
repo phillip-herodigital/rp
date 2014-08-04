@@ -68,13 +68,13 @@
                             <dt>@Html.Sitecore().Field("Account Number Text")</dt>
                             <dd>{{ selectedAccount.accountNumber }}</dd>
                             <dt>@Html.Sitecore().Field("Current Amount Due Text")</dt>
-                            <dd>{{ selectedAccount.invoiceAmount | currency }}</dd>
+                            <dd>{{ selectedAccount.accountBalance | currency }}</dd>
                             <dt>@Html.Sitecore().Field("Due Date Text")</dt>
                             <dd>{{ selectedAccount.dueDate }}</dd>
                         </dl>
                     </div>
                     <div class="col payment confirm-payment">
-                        <h4>Confirm Payment</h4>
+                        <h4>@Html.Sitecore().Field("Confirm Payment Text")</h4>
                         <dl class="clearfix">
                             <dt>@Html.Sitecore().Field("Amount Text"):</dt>
                             <dd>{{ paymentAmount | currency }}</dd>
@@ -85,6 +85,30 @@
                             <button type="submit" ng-click="makePayment()">@Html.Sitecore().Field("Submit Payment Button Text")</button>
                             <button class="secondary" type="button" ng-click="activeState = 'step1'">@Html.Sitecore().Field("Back Button Text")</button>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content" ng-show="activeState == 'step3'">
+                <div class="grid border">
+                    <div class="col">
+                        <h4>@Html.Sitecore().Field("Account Balance Text")</h4>
+                        <dl class="clearfix">
+                            <dt>@Html.Sitecore().Field("Account Number Text")</dt>
+                            <dd>{{ selectedAccount.accountNumber }}</dd>
+                            <dt>@Html.Sitecore().Field("Current Amount Due Text")</dt>
+                            <dd>{{ selectedAccount.accountBalance | currency }}</dd>
+                            <dt>@Html.Sitecore().Field("Due Date Text")</dt>
+                            <dd>{{ selectedAccount.dueDate }}</dd>
+                        </dl>
+                    </div>
+                    <div class="col payment payment-successful">
+                        <h4>@Html.Sitecore().Field("Payment Successful Text")</h4>
+                        <dl class="clearfix">
+                            <dt>@Html.Sitecore().Field("Confirmation Number Text")</dt>
+                            <dd>{{ confirmationNumber }}</dd>
+                            <dt>@Html.Sitecore().Field("Payment Amount Text")</dt>
+                            <dd>{{ paymentAmount | currency }}</dd>
+                        </dl>
                     </div>
                 </div>
             </div>

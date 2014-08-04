@@ -1,7 +1,7 @@
 /* Account Balances and Payments Controller
  *
  */
-ngApp.controller('AcctBalancesAndPaymentsCtrl', ['$scope', '$rootScope', '$http', '$timeout', function ($scope, $rootScope, $http, $timeout) {
+ngApp.controller('AcctBalancesAndPaymentsCtrl', ['$scope', '$rootScope', '$http', '$modal', '$timeout', function ($scope, $rootScope, $http, $modal, $timeout) {
 	
     $scope.accounts = null;
     $scope.paymentMethods = null;
@@ -37,9 +37,9 @@ ngApp.controller('AcctBalancesAndPaymentsCtrl', ['$scope', '$rootScope', '$http'
     $scope.makePayment = function () {
         $http.post('/api/account/makeMultiplePayments', {
             paymentAccount: $scope.paymentMethod(),
-            accountNumbers: _.pluck($scope.selectedAccounts, 'accountNumber'),
+            accountNumbers: [$scope.selectedAccount.accountNumber],
             totalPaymentAmount: $scope.paymentAmount,
-            paymentDate: $scope.selectedDate,
+            paymentDate: new Date(),
             overrideWarnings: $scope.overriddenWarnings
         }).success(function (data) {
             if (data.blockingAlertType) {
@@ -53,13 +53,9 @@ ngApp.controller('AcctBalancesAndPaymentsCtrl', ['$scope', '$rootScope', '$http'
                 });
 
             } else {
-                ctrl.activeState = 'step3';
-                if ($scope.selectedAccounts.length != 1) {
-                    $scope.paymentAmount = 0.00;
-                }
+                $scope.activeState = 'step3';
                 _.forEach(data.confirmations, function (account) {
-                    _.find(ctrl.selectedAccounts, { accountNumber: account.accountNumber }).confirmationNumber = account.paymentConfirmationNumber
-                    $scope.paymentAmount += $scope.selectedAccounts.length != 1 ? _.find($scope.selectedAccounts, { accountNumber: account.accountNumber }).invoiceAmount : 0;
+                    $scope.confirmationNumber = account.paymentConfirmationNumber
                 });
             }
         });

@@ -675,6 +675,22 @@ article.balances-payments {
 		margin-bottom: 5px;
 		width: 61%;
 	}
+	.confirm-payment {
+		dl dd {
+			width: 49%;
+		}
+		dl dt {
+			width: 45%;
+		}
+	}
+	.payment-successful {
+		dl dd {
+			width: 41%;
+		}
+		dl dt {
+			width: 53%;
+		}
+	}
 	.content {
 		padding: 0 15px 25px 15px;
 	}
