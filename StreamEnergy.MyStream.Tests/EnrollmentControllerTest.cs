@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Http.Controllers;
 using StreamEnergy.MyStream.Controllers.ApiControllers;
 using System.Threading.Tasks;
+using StreamEnergy.DomainModels;
 
 namespace StreamEnergy.MyStream.Tests
 {
@@ -24,11 +25,28 @@ namespace StreamEnergy.MyStream.Tests
         private DomainModels.CustomerContact contactInfo;
         private TexasElectricityOfferOption offerOption;
         private DomainModels.Enrollments.Service.IdentityCheckResult finalIdentityCheckResult;
+        private Mock<IEnrollmentService> mockEnrollmentService;
 
         [TestInitialize]
         public void InitializeTest()
         {
-            container = ContainerSetup.Create();
+            mockEnrollmentService = new Mock<IEnrollmentService>();
+
+            container = ContainerSetup.Create((uc) =>
+            {
+                uc.RegisterInstance<IEnrollmentService>(mockEnrollmentService.Object);
+            });
+            var enrollmentService = (IEnrollmentService)container.Resolve<StreamEnergy.Services.Clients.EnrollmentService>();
+            mockEnrollmentService.Setup(m => m.LoadConnectDates(It.IsAny<Location>())).Returns<Location>(loc => enrollmentService.LoadConnectDates(loc));
+            mockEnrollmentService.Setup(m => m.IdentityCheck(It.IsAny<Name>(), It.IsAny<string>(), It.IsAny<DriversLicense>(), It.IsAny<AdditionalIdentityInformation>())).Returns<Name, string, DriversLicense, AdditionalIdentityInformation>((a, b, c, d) => enrollmentService.IdentityCheck(a, b, c, d));
+            mockEnrollmentService.Setup(m => m.LoadOfferPayments(It.IsAny<IEnumerable<LocationServices>>())).Returns<IEnumerable<LocationServices>>(loc => enrollmentService.LoadOfferPayments(loc));
+            mockEnrollmentService.Setup(m => m.PlaceOrder(It.IsAny<IEnumerable<LocationServices>>())).Returns<IEnumerable<LocationServices>>(loc => enrollmentService.PlaceOrder(loc));
+
+            mockEnrollmentService.Setup(s => s.LoadOffers(It.IsAny<IEnumerable<Location>>()))
+                .Returns<IEnumerable<Location>>(locations => Task.FromResult(locations.ToDictionary(location => location, location =>
+            {
+                return new LocationOfferSet { Offers = offers.ToArray() };
+            })));
 
             generalLocation = new Location
             {
