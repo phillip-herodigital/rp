@@ -22,14 +22,14 @@ namespace StreamEnergy.Logging
             try
             {
                 var context = unityContainer.Resolve<HttpContextBase>();
-                if (context.Session != null)
+                if (context.User.Identity.IsAuthenticated)
                 {
-                    logEntry.Data["SessionId"] = context.Session.SessionID;
                     logEntry.Data["User"] = context.User.Identity.Name;
                 }
                 logEntry.Data["Request"] = new
                 {
-                    Url = context.Request.Url,
+                    Host = new Uri(context.Request.Url, "/").ToString(),
+                    PathAndQuery = context.Request.Url.PathAndQuery,
                     Headers = context.Request.Headers.AllKeys.Except(new[] { "Cookie" }).ToDictionary(key => key, key => context.Request.Headers.GetValues(key)),
                     Cookies = (from cookieKey in context.Request.Cookies.AllKeys
                                let cookie = context.Request.Cookies.Get(cookieKey)
