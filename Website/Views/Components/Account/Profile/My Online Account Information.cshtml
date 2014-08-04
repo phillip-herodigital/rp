@@ -76,7 +76,7 @@
                         <label for="@securityQuestion.Fix(h => h.IdFor(m => m.SelectedQuestion.Id))">@Html.Sitecore().Field("Question 2 Label")</label>
                         @securityQuestion.DropDownListFor(m => m.SelectedQuestion.Id, new SelectListItem[0], new { ieselectfix = "", ng_model = "formData.challenges[1].selectedQuestion", ng_options = "question.text for question in formData.availableSecurityQuestions|securityQuestion:selectedIds:1 track by question.id", data_ng_change = "fixIE()" })
                         @securityQuestion.ValidationMessageFor(m => m.SelectedQuestion.Id)
-                        <span class="help-text mobile-only">{{ formData.challenges[0].selectedQuestion.text }}</span> 
+                        <span class="help-text mobile-only">{{ formData.challenges[1].selectedQuestion.text }}</span> 
                     </div>
                     <div class="item group-col" @(securityQuestion.Validation().ErrorClass(m => m.Answer))>
                         <label for="@securityQuestion.Fix(h => h.IdFor(m => m.Answer))">@Html.Sitecore().Field("Question 2 Answer Label")</label>
