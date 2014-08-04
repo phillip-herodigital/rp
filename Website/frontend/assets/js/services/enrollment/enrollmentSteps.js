@@ -92,6 +92,7 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
             return service.getCurrentStep().timeRemaining;
         },
         setTimeRemaining: function (id, value) {
+            if (steps[id])
             steps[id].timeRemaining = value;
         },
 
@@ -137,7 +138,7 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
             else if (flows[currentFlow] && flows[currentFlow][expectedState]) {
                 for (var i = 0; i < flows[currentFlow][expectedState].previous.length; i++) {
                     var stateName = flows[currentFlow][expectedState].previous[i];
-                    if (!steps[stateName].isVisible) {
+                    if (steps[stateName] && !steps[stateName].isVisible) {
                         // don't skip any steps
                         service.setStep(stateName);
                         return;
