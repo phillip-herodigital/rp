@@ -53,11 +53,11 @@
                         <div class="payment-selection">
                            <input type="radio" id="credit-card" name="payment-type" ng-model="ctrl.newPaymentMethodType" value="TokenizedCard" ng-required="true"><label for="credit-card">@Html.Sitecore().Field("Credit Card Label")</label>
                         </div>
-                        <div ng-show="ctrl.newPaymentMethodType == 'TokenizedCard'" credit-card-payment="ctrl.newPaymentMethod['TokenizedCard']" data-val-if="ctrl.newPaymentMethodType == 'TokenizedCard'"></div>
+                        <div ng-show="ctrl.newPaymentMethodType == 'TokenizedCard'" class="payment-options" credit-card-payment="ctrl.newPaymentMethod['TokenizedCard']" data-val-if="ctrl.newPaymentMethodType == 'TokenizedCard'"></div>
                         <div class="payment-selection">
                             <input type="radio" id="bank-account" name="payment-type" ng-model="ctrl.newPaymentMethodType" value="BankPaymentMethod" ng-required="true"><label for="bank-account">@Html.Sitecore().Field("Bank Account Label")</label>
                         </div>
-                        <div ng-show="ctrl.newPaymentMethodType == 'BankPaymentMethod'" bank-account-payment="ctrl.newPaymentMethod['BankPaymentMethod']" data-val-if="ctrl.newPaymentMethodType == 'BankPaymentMethod'"></div>
+                        <div ng-show="ctrl.newPaymentMethodType == 'BankPaymentMethod'" class="payment-options" bank-account-payment="ctrl.newPaymentMethod['BankPaymentMethod']" data-val-if="ctrl.newPaymentMethodType == 'BankPaymentMethod'"></div>
                     </div>
                 </fieldset>
 			</div>
@@ -76,18 +76,18 @@
 					<dd>{{ ctrl.account.accountNumber }}</dd>
 				</dl>
 
-                <div ng-switch="ctrl.paymentMethod().underlyingPaymentType || ctrl.paymentMethod().paymentType">
+                <div ng-switch="ctrl.evaluatedPaymentMethod.underlyingPaymentType || ctrl.evaluatedPaymentMethod.paymentType">
                     <dl class="clearfix module-list payment-module" ng-switch-when="TokenizedCard">
                         <dt>@Html.Sitecore().Field("Payment Method Text"):</dt>
                         <dd>@Html.Sitecore().Field("Credit Card Text")</dd>
                         <dt>@Html.Sitecore().Field("Card Number Text"):</dt>
-                        <dd>{{ctrl.paymentMethod().redactedData}}</dd>
+                        <dd>{{ctrl.evaluatedPaymentMethod.redactedData}}</dd>
                     </dl>
                     <dl class="clearfix module-list payment-module" ng-switch-when="BankPaymentMethod">
                         <dt>@Html.Sitecore().Field("Payment Method Text"):</dt>
                         <dd>@Html.Sitecore().Field("Bank Account Text")</dd>
                         <dt>@Html.Sitecore().Field("Bank Account Number Text"):</dt>
-                        <dd>{{ctrl.paymentMethod().redactedData}}</dd>
+                        <dd>{{ctrl.evaluatedPaymentMethod.redactedData}}</dd>
                     </dl>
                 </div>
 
@@ -120,18 +120,18 @@
 					<dd>{{ ctrl.account.accountNumber }}</dd>
 				</dl>
 
-                <div ng-switch="ctrl.paymentMethod().underlyingPaymentType || ctrl.paymentMethod().paymentType">
+                <div ng-switch="ctrl.evaluatedPaymentMethod.underlyingPaymentType || ctrl.evaluatedPaymentMethod.paymentType">
                     <dl class="clearfix module-list payment-module" ng-switch-when="TokenizedCard">
                         <dt>@Html.Sitecore().Field("Payment Method Text"):</dt>
                         <dd>@Html.Sitecore().Field("Credit Card Text")</dd>
                         <dt>@Html.Sitecore().Field("Card Number Text"):</dt>
-                        <dd>{{ctrl.paymentMethod().redactedData}}</dd>
+                        <dd>{{ctrl.evaluatedPaymentMethod.redactedData}}</dd>
                     </dl>
                     <dl class="clearfix module-list payment-module" ng-switch-when="BankPaymentMethod">
                         <dt>@Html.Sitecore().Field("Payment Method Text"):</dt>
                         <dd>@Html.Sitecore().Field("Bank Account Text")</dd>
                         <dt>@Html.Sitecore().Field("Bank Account Number Text"):</dt>
-                        <dd>{{ctrl.paymentMethod().redactedData}}</dd>
+                        <dd>{{ctrl.evaluatedPaymentMethod.redactedData}}</dd>
                     </dl>
                 </div>
 
