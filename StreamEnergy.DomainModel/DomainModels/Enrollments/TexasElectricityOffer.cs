@@ -14,6 +14,9 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public string Id { get; set; }
 
+        // A value from Stream Connect that, as of yet, has no value to us other than passing it back in.
+        public string Provider { get; set; }
+
         public string OfferType
         {
             get { return TexasElectricityOffer.Qualifier; }
@@ -35,5 +38,6 @@ namespace StreamEnergy.DomainModels.Enrollments
         public int TermMonths { get; set; }
 
         public Dictionary<string, Uri> Documents { get; set; }
+
     }
 }

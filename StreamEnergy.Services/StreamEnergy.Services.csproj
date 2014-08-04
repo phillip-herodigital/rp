@@ -189,6 +189,9 @@
     <Compile Include="Services\Clients\Interceptors\ServiceInterceptorResolver.cs" />
     <Compile Include="Services\Clients\StreamConnectContainerSetup.cs" />
     <Compile Include="Services\Clients\StreamConnectClient.cs" />
+    <Compile Include="Services\Clients\StreamConnect\Fee.cs" />
+    <Compile Include="Services\Clients\StreamConnect\Product.cs" />
+    <Compile Include="Services\Clients\StreamConnect\Rate.cs" />
     <Compile Include="Services\Clients\TemperatureService.cs" />
     <Compile Include="Services\Clients\ITemperatureService.cs" />
     <Compile Include="Services\HttpConverter.cs" />

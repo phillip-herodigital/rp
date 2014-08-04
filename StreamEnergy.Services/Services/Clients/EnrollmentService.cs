@@ -25,84 +25,79 @@ namespace StreamEnergy.Services.Clients
             this.streamConnectClient = client;
         }
 
-        Task<Dictionary<Location, LocationOfferSet>> IEnrollmentService.LoadOffers(IEnumerable<Location> serviceLocations)
+        async Task<Dictionary<Location, LocationOfferSet>> IEnrollmentService.LoadOffers(IEnumerable<Location> serviceLocations)
         {
-            return Task.FromResult(serviceLocations.ToDictionary(location => location, location =>
+            Dictionary<Location, LocationOfferSet> result = new Dictionary<Location,LocationOfferSet>();
+            foreach (var location in serviceLocations.Distinct())
             {
-                if (location.Capabilities.OfType<DomainModels.TexasServiceCapability>().Count() > 1)
+                if (location.Capabilities.OfType<DomainModels.TexasServiceCapability>().Any())
+                    result.Add(location, await LoadTexasOffers(location));
+                else
                 {
-                    return new LocationOfferSet { OfferSetErrors = { { "TexasElectricity", "MultipleTdu" } } };
+                    // Not implemented!
                 }
-                var offers = new IOffer[] 
-                {
-                    new TexasElectricityOffer
-                    {
-                        Id = "24-month-fixed-rate",
-                        Name= "24 Month Fixed Rate",
-                        RateType= DomainModels.Enrollments.RateType.Fixed,
-                        Rate= 7.18m,
-                        TermMonths= 24,
-                        CancellationFee=150,
-                        Description = "When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services.",
-                        Documents = new Dictionary<string,Uri> 
-                        {
-                            { "ElectricityFactsLabel", new Uri("/", UriKind.Relative) },
-                            { "TermsOfService", new Uri("/", UriKind.Relative) },
-                            { "YourRightsAsACustomer", new Uri("/", UriKind.Relative) },
-                        }
-                    },
-                    new TexasElectricityOffer
-                    {
-                        Id="6-month-fixed-rate",
-                        Name="6 Month Fixed Rate",
-                        RateType= DomainModels.Enrollments.RateType.Fixed,
-                        Rate=7.98m,
-                        TermMonths=6,
-                        CancellationFee=150,
-                        Description="When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services.",
-                        Documents = new Dictionary<string,Uri> 
-                        {
-                            { "ElectricityFactsLabel", new Uri("/", UriKind.Relative) },
-                            { "TermsOfService", new Uri("/", UriKind.Relative) },
-                            { "YourRightsAsACustomer", new Uri("/", UriKind.Relative) },
-                        }
-                    },
-                    new TexasElectricityOffer
-                    {
-                        Id="month-to-month-rate",
-                        Name="Month-To-Month Rate",
-                        RateType= DomainModels.Enrollments.RateType.Variable,
-                        Rate=7.98m,
-                        TermMonths=1,
-                        CancellationFee=0,
-                        Description="When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services.",
-                        Documents = new Dictionary<string,Uri> 
-                        {
-                            { "ElectricityFactsLabel", new Uri("/", UriKind.Relative) },
-                            { "TermsOfService", new Uri("/", UriKind.Relative) },
-                            { "YourRightsAsACustomer", new Uri("/", UriKind.Relative) },
-                        }
-                    },
-                    new TexasElectricityOffer
-                    {
-                        Id="introductory-rate-plan",
-                        Name="Introductory Rate Plan",
-                        RateType= DomainModels.Enrollments.RateType.Variable,
-                        Rate=8.08m,
-                        TermMonths=1,
-                        CancellationFee=0,
-                        Description="When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services.",
-                        Documents = new Dictionary<string,Uri> 
-                        {
-                            { "ElectricityFactsLabel", new Uri("/", UriKind.Relative) },
-                            { "TermsOfService", new Uri("/", UriKind.Relative) },
-                            { "YourRightsAsACustomer", new Uri("/", UriKind.Relative) },
-                        }
-                    }
-                };
+            }
+            return result;
+        }
 
-                return new LocationOfferSet { Offers = offers.ToArray() };
-            }));
+        private async Task<LocationOfferSet> LoadTexasOffers(Location location)
+        {
+            if (location.Capabilities.OfType<DomainModels.TexasServiceCapability>().Count() != 1)
+            {
+                return new LocationOfferSet { OfferSetErrors = { { "TexasElectricity", "MultipleTdu" } } };
+            }
+            else if (location.Capabilities.OfType<DomainModels.Enrollments.ServiceStatusCapability>().Count() != 1)
+            {
+                return new LocationOfferSet { OfferSetErrors = { { "TexasElectricity", "ServiceStatusUnknown" } } };
+            }
+
+            var texasService = location.Capabilities.OfType<DomainModels.TexasServiceCapability>().Single();
+            var serviceStatus = location.Capabilities.OfType<DomainModels.Enrollments.ServiceStatusCapability>().Single();
+
+            // Grab from the HttpUtility because it creates the interna `HttpValueCollection`, which will escape values properly when ToString'd.
+            var parameters = System.Web.HttpUtility.ParseQueryString("");
+            parameters["CustomerType"] = "Residential"; // TODO - commercial? How are we passing that?
+            parameters["EnrollmentType"] = serviceStatus.IsNewService ? "MoveIn" : "Switch"; // TODO - renewal? How are we doing that?
+            parameters["ServiceAddress.City"] = location.Address.City;
+            parameters["ServiceAddress.State"] = location.Address.StateAbbreviation;
+            parameters["ServiceAddress.StreetLine1"] = location.Address.Line1;
+            parameters["ServiceAddress.StreetLine2"] = location.Address.Line2;
+            parameters["ServiceAddress.Zip"] = location.Address.PostalCode5;
+            parameters["UtilityAccountNumber"] = texasService.EsiId;
+            parameters["SystemOfRecord"] = "CIS1";
+
+            var response = await streamConnectClient.GetAsync("/api/products?" + parameters.ToString());
+
+            var streamConnectProducts = Json.Read<IEnumerable<StreamConnect.Product>>(await response.Content.ReadAsStringAsync());
+
+            return new LocationOfferSet
+            {
+                Offers = (from product in streamConnectProducts
+                          group product by product.ProductCode into products
+                          let product = products.First()
+                          select new TexasElectricityOffer
+                          {
+                              Id = product.ProductCode,
+                              Provider = product.Provider.ToString(),
+
+                              // TODO - link with Sitecore
+                              Name = product.Name,
+                              Description = product.Description,
+
+                              Rate = product.Rate.Value,
+                              TermMonths = product.Term,
+                              RateType = product.Rate.Type == "Fixed" ? RateType.Fixed : RateType.Variable,
+                              // TODO
+                              CancellationFee = 0,
+                              // TODO
+                              Documents = new Dictionary<string, Uri> 
+                              {
+                                  { "ElectricityFactsLabel", new Uri("/", UriKind.Relative) },
+                                  { "TermsOfService", new Uri("/", UriKind.Relative) },
+                                  { "YourRightsAsACustomer", new Uri("/", UriKind.Relative) },
+                              }
+                          }).ToArray()
+            };
         }
 
         IConnectDatePolicy IEnrollmentService.LoadConnectDates(Location location)
