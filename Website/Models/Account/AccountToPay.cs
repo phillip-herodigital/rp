@@ -22,9 +22,13 @@ namespace StreamEnergy.MyStream.Models.Account
         [ColumnSchema("Due Date", DeviceType.Tablet, DeviceType.Phone)]
         public string DueDate { get; set; }
 
+        public decimal AccountBalance { get; set; }
+
         public bool CanMakeOneTimePayment { get; set; }
 
         public DomainModels.Accounts.AvailablePaymentMethod[] AvailablePaymentMethods { get; set; }
+
+        public string UtilityProvider { get; set; }
 
         [ColumnSchema("Details")]
         public Dictionary<string, string> Actions { get; private set; }

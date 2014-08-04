@@ -68,6 +68,34 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             return temperatureService.CachedExample();
         }
 
+        #region Account Balances & Payments
+
+        [HttpGet]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
+        public async Task<GetAccountBalancesResponse> GetAccountBalances()
+        {
+            var accounts = await accountService.GetAccountBalances(User.Identity.Name);
+
+            return new GetAccountBalancesResponse
+            {
+                Accounts = from account in accounts
+                           let paymentScheduling = account.GetCapability<PaymentSchedulingAccountCapability>()
+                           let paymentMethods = account.GetCapability<PaymentMethodAccountCapability>()
+                           let externalPayment = account.GetCapability<ExternalPaymentAccountCapability>()
+                           select new AccountToPay
+                           {
+                               AccountNumber = account.AccountNumber,
+                               AccountBalance = account.AccountBalance,
+                               DueDate = account.DueDate.ToShortDateString(),
+                               UtilityProvider = externalPayment.UtilityProvider,
+                               CanMakeOneTimePayment = paymentScheduling.CanMakeOneTimePayment,
+                               AvailablePaymentMethods = paymentMethods.AvailablePaymentMethods.ToArray(),
+                           }
+            };
+        }
+
+        #endregion
+
         #region Utiltiy Providers
 
         [HttpGet]

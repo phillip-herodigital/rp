@@ -3,33 +3,44 @@
  */
 ngApp.controller('AcctBalancesAndPaymentsCtrl', ['$scope', '$rootScope', '$http', '$timeout', function ($scope, $rootScope, $http, $timeout) {
 	
-	var ctrl = this;
-    this.invoices = null;
-    this.paymentMethods = null;
-    this.selectedAccount = null;
-    this.total = 0;
-    this.overriddenWarnings = [];
+    $scope.accounts = null;
+    $scope.paymentMethods = null;
+    $scope.selectedAccount = null;
+    $scope.total = 0;
+    $scope.overriddenWarnings = [];
 
-    this.paymentMethod = function () {
-        if (ctrl.useNewPaymentMethod) {
-            return ctrl.newPaymentMethod[ctrl.newPaymentMethodType]();
+    // get the current data
+	$timeout(function() {
+		$http.get('/api/account/getAccountBalances').success(function (data, status, headers, config) {
+			$scope.accounts = data.accounts; 
+			$scope.selectedAccount = $scope.accounts[0];
+			$scope.paymentAmount = $scope.selectedAccount.accountBalance;
+		});
+		$http.get('/api/account/getSavedPaymentMethods').success(function (data, status, headers, config) { 
+			$scope.paymentMethods = data; 
+		});
+	}, 800);
+
+    $scope.paymentMethod = function () {
+        if ($scope.useNewPaymentMethod) {
+            return $scope.newPaymentMethod[$scope.newPaymentMethodType]();
         } else {
-            return ctrl.selectedPaymentMethod;
+            return $scope.selectedPaymentMethod;
         }
     };
 
-    this.resetAccount = function () {
-    	ctrl.activeState = 'step1';
-    	ctrl.paymentAmount = selectedAccount.invoiceAmount;
+    $scope.resetAccount = function () {
+    	$scope.activeState = 'step1';
+    	$scope.paymentAmount = $scope.selectedAccount.accountBalance;
     };
 
-    this.makePayment = function () {
+    $scope.makePayment = function () {
         $http.post('/api/account/makeMultiplePayments', {
-            paymentAccount: ctrl.paymentMethod(),
-            accountNumbers: _.pluck(ctrl.selectedAccounts, 'accountNumber'),
-            totalPaymentAmount: ctrl.paymentAmount,
-            paymentDate: ctrl.selectedDate,
-            overrideWarnings: ctrl.overriddenWarnings
+            paymentAccount: $scope.paymentMethod(),
+            accountNumbers: _.pluck($scope.selectedAccounts, 'accountNumber'),
+            totalPaymentAmount: $scope.paymentAmount,
+            paymentDate: $scope.selectedDate,
+            overrideWarnings: $scope.overriddenWarnings
         }).success(function (data) {
             if (data.blockingAlertType) {
 
@@ -37,23 +48,23 @@ ngApp.controller('AcctBalancesAndPaymentsCtrl', ['$scope', '$rootScope', '$http'
                     templateUrl: 'PaymentBlockingAlert/' + data.blockingAlertType,
                     scope: $scope
                 }).result.then(function () {
-                    ctrl.overriddenWarnings.push(data.blockingAlertType);
-                    ctrl.makePayment();
+                    $scope.overriddenWarnings.push(data.blockingAlertType);
+                    $scope.makePayment();
                 });
 
             } else {
                 ctrl.activeState = 'step3';
-                if (ctrl.selectedAccounts.length != 1) {
-                    ctrl.paymentAmount = 0.00;
+                if ($scope.selectedAccounts.length != 1) {
+                    $scope.paymentAmount = 0.00;
                 }
                 _.forEach(data.confirmations, function (account) {
                     _.find(ctrl.selectedAccounts, { accountNumber: account.accountNumber }).confirmationNumber = account.paymentConfirmationNumber
-                    ctrl.paymentAmount += ctrl.selectedAccounts.length != 1 ? _.find(ctrl.selectedAccounts, { accountNumber: account.accountNumber }).invoiceAmount : 0;
+                    $scope.paymentAmount += $scope.selectedAccounts.length != 1 ? _.find($scope.selectedAccounts, { accountNumber: account.accountNumber }).invoiceAmount : 0;
                 });
             }
         });
     };
 
-    ctrl.activeState = 'step1';
+    $scope.activeState = 'step1';
 
 }]);
