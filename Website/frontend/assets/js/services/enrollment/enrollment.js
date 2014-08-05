@@ -246,8 +246,9 @@
         var start = new Date().getTime();
 
         return $http.get('/api/address/lookup/' + state + '/' + val)
-            .success(function (data) {
-        });
+            .then(function (data) {
+                return data;
+            });
     };
 
     return service;
