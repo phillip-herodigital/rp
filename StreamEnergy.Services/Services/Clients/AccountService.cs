@@ -253,8 +253,8 @@ namespace StreamEnergy.Services.Clients
             var response = await client.PostAsJsonAsync("/api/customers", new { Customer = new { PortalId = username, EmailAddress = email } });
             if (response.IsSuccessStatusCode)
             {
-                var data = Json.Read<Dictionary<string, object>>(await response.Content.ReadAsStringAsync());
-                return Guid.Parse((string)((Dictionary<string, object>)data["Customer"])["GlobalCustomerId"]);
+                var data = Json.Read<StreamConnect.CustomerResponse>(await response.Content.ReadAsStringAsync());
+                return data.Customer.GlobalCustomerId;
             }
             else
             {

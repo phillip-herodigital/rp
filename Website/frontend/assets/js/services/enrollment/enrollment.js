@@ -4,6 +4,7 @@
         urlPrefix = '/api/enrollment/';
 
     service.validations = [];
+    service.isLoading = false;
 
     service.accountInformation = {
         contactInfo: {
@@ -33,6 +34,11 @@
     }, true);
 
     service.setClientData = function (result) {
+        service.isLoading = result.isLoading;
+        if (result.isLoading) {
+            makeCall('resume', undefined);
+        }
+
         // update our validations - don't make a new array, just copy all the validations over from the returned one. Saves copying back to the scope elsewhere.
         angular.copy(result.validations, service.validation);
 
@@ -74,6 +80,7 @@
     };
 
     function makeCall(urlSuffix, data, mode, overrideServerStep) {
+        service.isLoading = true;
         var deferred = $q.defer(),
         start = new Date().getTime();
         mode = mode || 'post';

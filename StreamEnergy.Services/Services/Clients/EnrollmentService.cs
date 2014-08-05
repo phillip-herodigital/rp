@@ -150,7 +150,7 @@ namespace StreamEnergy.Services.Clients
         {
             if (identityInformation == null)
             {
-                var response = streamConnectClient.PostAsJsonAsync("/api/verifications/id/" + streamCustomerId.ToString(), new
+                var response = await streamConnectClient.PostAsJsonAsync("/api/verifications/id/" + streamCustomerId.ToString(), new
                 {
                     FirstName = name.First,
                     LastName = name.Last,
@@ -163,8 +163,8 @@ namespace StreamEnergy.Services.Clients
                         State = mailingAddress.StateAbbreviation,
                         Zip = mailingAddress.PostalCode5
                     }
-                }).Result;
-                var responseString = response.Content.ReadAsStringAsync().Result;
+                });
+                var responseString = await response.Content.ReadAsStringAsync();
                 var result = Json.Read<StreamConnect.IdVerificationChallengeResponse>(responseString);
 
                 return new DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>
@@ -218,7 +218,7 @@ namespace StreamEnergy.Services.Clients
             {
                 return asyncResult;
             }
-            var responseString = response.Content.ReadAsStringAsync().Result;
+            var responseString = await response.Content.ReadAsStringAsync();
 
             // TODO - do something with the response? 
 
