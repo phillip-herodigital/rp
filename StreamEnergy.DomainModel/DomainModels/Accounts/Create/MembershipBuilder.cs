@@ -31,7 +31,7 @@ namespace StreamEnergy.DomainModels.Accounts.Create
             }
 
             // TODO - register user with Stream Connect
-            var globalCustomerId = await accountService.CreateStreamConnectCustomer(username);
+            var globalCustomerId = await accountService.CreateStreamConnectCustomer(username: username);
 
             var profile = UserProfile.Locate(unityContainer, username);
             profile.ChallengeQuestions = (from entry in challengeAnswers ?? new Dictionary<Guid, string>()

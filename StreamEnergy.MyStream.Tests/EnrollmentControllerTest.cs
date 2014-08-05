@@ -31,13 +31,73 @@ namespace StreamEnergy.MyStream.Tests
         public void InitializeTest()
         {
             mockEnrollmentService = new Mock<IEnrollmentService>();
+            var mockAccountService = new Mock<DomainModels.Accounts.IAccountService>();
 
             container = ContainerSetup.Create((uc) =>
             {
                 uc.RegisterInstance<IEnrollmentService>(mockEnrollmentService.Object);
+                uc.RegisterInstance<DomainModels.Accounts.IAccountService>(mockAccountService.Object);
             });
             var enrollmentService = (IEnrollmentService)container.Resolve<StreamEnergy.Services.Clients.EnrollmentService>();
-            mockEnrollmentService.Setup(m => m.IdentityCheck(It.IsAny<Name>(), It.IsAny<string>(), It.IsAny<DriversLicense>(), It.IsAny<AdditionalIdentityInformation>())).Returns<Name, string, DriversLicense, AdditionalIdentityInformation>((a, b, c, d) => enrollmentService.IdentityCheck(a, b, c, d));
+
+            mockEnrollmentService.Setup(m => m.BeginIdentityCheck(It.IsAny<Guid>(), It.IsAny<Name>(), It.IsAny<string>(), It.IsAny<Address>(), It.IsAny<AdditionalIdentityInformation>())).Returns(Task.FromResult(new DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>
+            {
+                IsCompleted = false,
+            }));
+            mockEnrollmentService.Setup(m => m.BeginIdentityCheck(It.IsAny<Guid>(), It.IsAny<Name>(), It.IsAny<string>(), It.IsAny<Address>(), null)).Returns(Task.FromResult(new DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>
+            {
+                IsCompleted = true,
+                Data = new DomainModels.Enrollments.Service.IdentityCheckResult
+                {
+                    IdentityAccepted = false,
+                    HardStop = null,
+                    IdentityCheckId = "01234",
+                    IdentityQuestions = new[] 
+                    {
+                        new IdentityQuestion
+                        {
+                            QuestionId = "1",
+                            QuestionText = "What is your name?",
+                            Answers = new[] { 
+                                new IdentityAnswer { AnswerId = "1", AnswerText = "King Arthur" },
+                                new IdentityAnswer { AnswerId = "2", AnswerText = "Sir Lancelot" },
+                                new IdentityAnswer { AnswerId = "3", AnswerText = "Sir Robin" },
+                                new IdentityAnswer { AnswerId = "4", AnswerText = "Sir Galahad" },
+                            }
+                        },
+                        new IdentityQuestion
+                        {
+                            QuestionId = "2",
+                            QuestionText = "What is your quest?",
+                            Answers = new[] { 
+                                new IdentityAnswer { AnswerId = "1", AnswerText = "To seek the Holy Grail." },
+                            }
+                        },
+                        new IdentityQuestion
+                        {
+                            QuestionId = "3",
+                            QuestionText = "What is your favorite color?",
+                            Answers = new[] { 
+                                new IdentityAnswer { AnswerId = "1", AnswerText = "Blue." },
+                                new IdentityAnswer { AnswerId = "2", AnswerText = "Green." },
+                                new IdentityAnswer { AnswerId = "3", AnswerText = "Yellow." },
+                                new IdentityAnswer { AnswerId = "4", AnswerText = "Red." },
+                            }
+                        },
+                    }
+                }
+            }));
+            mockEnrollmentService.Setup(m => m.EndIdentityCheck(It.IsAny<DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>>())).Returns(Task.FromResult(new DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>
+            {
+                IsCompleted = true,
+                Data = new DomainModels.Enrollments.Service.IdentityCheckResult
+                {
+                    IdentityCheckId = "01235",
+                    IdentityAccepted = true,
+                    HardStop = null,
+                    IdentityQuestions = new IdentityQuestion[0],
+                }
+            }));
             mockEnrollmentService.Setup(m => m.LoadOfferPayments(It.IsAny<IEnumerable<LocationServices>>())).Returns<IEnumerable<LocationServices>>(loc => enrollmentService.LoadOfferPayments(loc));
             mockEnrollmentService.Setup(m => m.PlaceOrder(It.IsAny<IEnumerable<LocationServices>>())).Returns<IEnumerable<LocationServices>>(loc => enrollmentService.PlaceOrder(loc));
 
@@ -125,10 +185,10 @@ namespace StreamEnergy.MyStream.Tests
         }
 
         [TestMethod]
-        public async Task NewClientDataTest()
+        public void NewClientDataTest()
         {
             var controller = container.Resolve<EnrollmentController>();
-            await controller.Initialize();
+            controller.Initialize().Wait();
             var clientData = controller.ClientData(null);
 
             Assert.IsNotNull(clientData);
@@ -339,15 +399,15 @@ namespace StreamEnergy.MyStream.Tests
             Assert.AreEqual("2142234567", session.Context.ContactInfo.Phone[0].Number);
             Assert.AreEqual("123456789", session.Context.SocialSecurityNumber);
             Assert.AreEqual("en", session.Context.Language);
-            Assert.IsNotNull(session.InternalContext.IdentityCheckResult.IdentityQuestions);
+            Assert.IsNotNull(session.InternalContext.IdentityCheck.Data.IdentityQuestions);
         }
 
         [TestMethod]
-        public async Task PostIdentityQuestionsTest()
+        public void PostIdentityQuestionsTest()
         {
             // Arrange
             var session = container.Resolve<EnrollmentController.SessionHelper>();
-            await session.EnsureInitialized();
+            session.EnsureInitialized().Wait();
             session.Context = new UserContext
             {
                 Services = new[]
@@ -374,7 +434,7 @@ namespace StreamEnergy.MyStream.Tests
             session.InternalContext = new InternalContext
             {
                 AllOffers = new Dictionary<Location, LocationOfferSet> { { specificLocation, new LocationOfferSet { Offers = offers } } },
-                IdentityCheckResult = identityCheckResult,
+                IdentityCheck = new StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult> { IsCompleted = true, Data = identityCheckResult },
             };
             session.State = typeof(DomainModels.Enrollments.VerifyIdentityState);
             var request = new Models.Enrollment.VerifyIdentity
@@ -384,10 +444,61 @@ namespace StreamEnergy.MyStream.Tests
 
             using (var controller = container.Resolve<EnrollmentController>())
             {
-                await controller.Initialize();
+                controller.Initialize().Wait();
                 
                 // Act
-                var result = await controller.VerifyIdentity(request);
+                var result = controller.VerifyIdentity(request).Result;
+
+                // Assert
+                Assert.AreEqual(true, result.IsLoading);
+                Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.VerifyIdentity, result.ExpectedState);
+            }
+        }
+
+
+        [TestMethod]
+        public void ResumePostIdentityQuestionsTest()
+        {
+            // Arrange
+            var session = container.Resolve<EnrollmentController.SessionHelper>();
+            session.EnsureInitialized().Wait();
+            session.Context = new UserContext
+            {
+                Services = new[]
+                {
+                    new LocationServices
+                    {
+                        Location = specificLocation,
+                        SelectedOffers = new []
+                        { 
+                            new SelectedOffer 
+                            { 
+                                Offer = offers[0],
+                                OfferOption = offerOption
+                            }
+                        }
+                    }
+                },
+                ContactInfo = contactInfo,
+                DriversLicense = null,
+                Language = "en",
+                SecondaryContactInfo = null,
+                SocialSecurityNumber = "123-45-6789",
+                SelectedIdentityAnswers = new Dictionary<string, string> { { "1", "2" }, { "2", "1" }, { "3", "1" } }
+            };
+            session.InternalContext = new InternalContext
+            {
+                AllOffers = new Dictionary<Location, LocationOfferSet> { { specificLocation, new LocationOfferSet { Offers = offers } } },
+                IdentityCheck = new StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult> { IsCompleted = false },
+            };
+            session.State = typeof(DomainModels.Enrollments.VerifyIdentityState);
+
+            using (var controller = container.Resolve<EnrollmentController>())
+            {
+                controller.Initialize().Wait();
+                
+                // Act
+                var result = controller.Resume().Result;
 
                 // Assert
                 Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.ReviewOrder, result.ExpectedState);
@@ -430,7 +541,7 @@ namespace StreamEnergy.MyStream.Tests
             session.InternalContext = new InternalContext
             {
                 AllOffers = new Dictionary<Location, LocationOfferSet> { { specificLocation, new LocationOfferSet { Offers = offers } } },
-                IdentityCheckResult = identityCheckResult,
+                IdentityCheck = new StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult> { IsCompleted = true, Data = identityCheckResult },
             };
             session.State = typeof(DomainModels.Enrollments.VerifyIdentityState);
             var request = new Models.Enrollment.VerifyIdentity
@@ -444,7 +555,58 @@ namespace StreamEnergy.MyStream.Tests
                 
                 // Act
                 var result = await controller.VerifyIdentity(request);
+                
+                // Assert
+                Assert.AreEqual(true, result.IsLoading);
+                Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.VerifyIdentity, result.ExpectedState);
+            }
+        }
 
+
+        [TestMethod]
+        public void ResumePostIdentityQuestionsNoDepositTest()
+        {
+            // Arrange
+            var session = container.Resolve<EnrollmentController.SessionHelper>();
+            session.EnsureInitialized().Wait();
+            session.Context = new UserContext
+            {
+                Services = new[]
+                { 
+                    new LocationServices
+                    {
+                        Location = specificLocation,
+                        SelectedOffers = new [] 
+                        {
+                            new SelectedOffer 
+                            { 
+                                Offer = offers[1],
+                                OfferOption = offerOption
+                            }
+                        }
+                    }
+                },
+                ContactInfo = contactInfo,
+                DriversLicense = null,
+                Language = "en",
+                SecondaryContactInfo = null,
+                SocialSecurityNumber = "123-45-6789",
+                SelectedIdentityAnswers = new Dictionary<string, string> { { "1", "2" }, { "2", "1" }, { "3", "1" } }
+            };
+            session.InternalContext = new InternalContext
+            {
+                AllOffers = new Dictionary<Location, LocationOfferSet> { { specificLocation, new LocationOfferSet { Offers = offers } } },
+                IdentityCheck = new StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult> { IsCompleted = false },
+            };
+            session.State = typeof(DomainModels.Enrollments.VerifyIdentityState);
+
+            using (var controller = container.Resolve<EnrollmentController>())
+            {
+                controller.Initialize().Wait();
+
+                // Act
+                var result = controller.Resume().Result;
+                
                 // Assert
                 Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.ReviewOrder, result.ExpectedState);
                 Assert.AreEqual(0, result.Cart.Sum(l => l.OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Sum(sel => sel.Payments.RequiredAmounts.Sum(p => p.DollarAmount))));
@@ -485,7 +647,7 @@ namespace StreamEnergy.MyStream.Tests
             session.InternalContext = new InternalContext
             {
                 AllOffers = new Dictionary<Location, LocationOfferSet> { { specificLocation, new LocationOfferSet { Offers = offers } } },
-                IdentityCheckResult = identityCheckResult,
+                IdentityCheck = new StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult> { IsCompleted = true, Data = identityCheckResult },
             };
             session.State = typeof(DomainModels.Enrollments.CompleteOrderState);
             var request = new Models.Enrollment.ConfirmOrder
@@ -659,7 +821,7 @@ namespace StreamEnergy.MyStream.Tests
             session.InternalContext = new InternalContext
             {
                 AllOffers = new Dictionary<Location, LocationOfferSet> { { specificLocation, new LocationOfferSet { Offers = offers } } },
-                IdentityCheckResult = identityCheckResult,
+                IdentityCheck = new StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult> { IsCompleted = true, Data = identityCheckResult },
                 Deposit = new[] 
                 { 
                     new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>

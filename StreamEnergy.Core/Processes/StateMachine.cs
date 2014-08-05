@@ -59,6 +59,11 @@ namespace StreamEnergy.Processes
                 lastValidations = null;
                 Context.Sanitize();
                 state.Sanitize(Context, InternalContext);
+
+                if (state.ForceBreak(Context, InternalContext))
+                {
+                    break;
+                }
             }
         }
 

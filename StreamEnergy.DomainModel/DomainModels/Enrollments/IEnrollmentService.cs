@@ -13,7 +13,9 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         Task<IConnectDatePolicy> LoadConnectDates(Location location);
 
-        IdentityCheckResult IdentityCheck(Name name, string ssn, DriversLicense driversLicense, AdditionalIdentityInformation identityInformation = null);
+        Task<StreamAsync<IdentityCheckResult>> BeginIdentityCheck(Guid streamCustomerId, Name name, string ssn, Address mailingAddress, AdditionalIdentityInformation identityInformation = null);
+
+        Task<StreamAsync<IdentityCheckResult>> EndIdentityCheck(StreamAsync<IdentityCheckResult> asyncResult);
 
         // TODO - will need more inputs
         IEnumerable<LocationOfferDetails<OfferPayment>> LoadOfferPayments(IEnumerable<LocationServices> services);

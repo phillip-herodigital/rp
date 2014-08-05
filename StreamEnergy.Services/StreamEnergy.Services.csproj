@@ -189,7 +189,11 @@
     <Compile Include="Services\Clients\Interceptors\ServiceInterceptorResolver.cs" />
     <Compile Include="Services\Clients\StreamConnectContainerSetup.cs" />
     <Compile Include="Services\Clients\StreamConnectClient.cs" />
+    <Compile Include="Services\Clients\StreamConnect\Answer.cs" />
     <Compile Include="Services\Clients\StreamConnect\Fee.cs" />
+    <Compile Include="Services\Clients\StreamConnect\IdVerificationChallenge.cs" />
+    <Compile Include="Services\Clients\StreamConnect\IdVerificationChallengeResponse.cs" />
+    <Compile Include="Services\Clients\StreamConnect\IdVerificationQuestion.cs" />
     <Compile Include="Services\Clients\StreamConnect\MoveInDate.cs" />
     <Compile Include="Services\Clients\StreamConnect\Product.cs" />
     <Compile Include="Services\Clients\StreamConnect\Rate.cs" />

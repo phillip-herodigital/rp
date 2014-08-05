@@ -215,6 +215,7 @@
     <Compile Include="DomainModels\PhoneSubtypeLookup.cs" />
     <Compile Include="DomainModels\PolymorphicSerializationContainerSetup.cs" />
     <Compile Include="DomainModels\SampleServiceCapability.cs" />
+    <Compile Include="DomainModels\StreamAsync.cs" />
     <Compile Include="DomainModels\TexasMeterType.cs" />
     <Compile Include="DomainModels\TexasServiceCapability.cs" />
     <Compile Include="DomainModels\Enrollments\UserContext.cs" />

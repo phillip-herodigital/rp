@@ -248,9 +248,9 @@ namespace StreamEnergy.Services.Clients
         }
 
 
-        async Task<Guid> IAccountService.CreateStreamConnectCustomer(string username)
+        async Task<Guid> IAccountService.CreateStreamConnectCustomer(string username, string email)
         {
-            var response = await client.PostAsJsonAsync("/api/customers", new { Customer = new { PortalId = username } });
+            var response = await client.PostAsJsonAsync("/api/customers", new { Customer = new { PortalId = username, EmailAddress = email } });
             if (response.IsSuccessStatusCode)
             {
                 var data = Json.Read<Dictionary<string, object>>(await response.Content.ReadAsStringAsync());

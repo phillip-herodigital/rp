@@ -10,11 +10,13 @@ namespace StreamEnergy.DomainModels.Enrollments
     class LoadIdentityQuestionsState : StateBase<UserContext, InternalContext>
     {
         private readonly IEnrollmentService enrollmentService;
+        private readonly Accounts.IAccountService accountService;
 
-        public LoadIdentityQuestionsState(IEnrollmentService enrollmentService)
+        public LoadIdentityQuestionsState(IEnrollmentService enrollmentService, Accounts.IAccountService accountService)
             : base(previousState: typeof(AccountInformationState), nextState: typeof(VerifyIdentityState))
         {
             this.enrollmentService = enrollmentService;
+            this.accountService = accountService;
         }
 
         public override IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
@@ -30,7 +32,11 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         protected override Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
         {
-            if (!internalContext.IdentityCheckResult.HardStop.HasValue)
+            if (!internalContext.IdentityCheck.IsCompleted)
+            {
+                return Task.FromResult(this.GetType());
+            }
+            else if (!internalContext.IdentityCheck.Data.HardStop.HasValue)
             {
                 return base.InternalProcess(context, internalContext);
             }
@@ -40,13 +46,25 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         protected override bool NeedRestoreInternalState(UserContext context, InternalContext internalContext)
         {
-            return internalContext.IdentityCheckResult == null || (!internalContext.IdentityCheckResult.IdentityAccepted && internalContext.IdentityCheckResult.HardStop != null);
+            return internalContext.IdentityCheck == null || !internalContext.IdentityCheck.IsCompleted || (!internalContext.IdentityCheck.Data.IdentityAccepted && internalContext.IdentityCheck.Data.HardStop != null);
         }
 
-        protected override Task LoadInternalState(UserContext context, InternalContext internalContext)
+        protected override async Task LoadInternalState(UserContext context, InternalContext internalContext)
         {
-            internalContext.IdentityCheckResult = enrollmentService.IdentityCheck(context.ContactInfo.Name, context.SocialSecurityNumber, context.DriversLicense);
-            return Task.FromResult<object>(null);
+            if (internalContext.IdentityCheck == null)
+            {
+                if (internalContext.GlobalCustomerId == Guid.Empty)
+                {
+                    internalContext.GlobalCustomerId = await accountService.CreateStreamConnectCustomer(email: context.ContactInfo.Email.Address);
+                }
+                internalContext.IdentityCheck = await enrollmentService.BeginIdentityCheck(internalContext.GlobalCustomerId, context.ContactInfo.Name, context.SocialSecurityNumber, context.Services.First().SelectedOffers.First().OfferOption.BillingAddress);
+
+                if (!internalContext.IdentityCheck.IsCompleted)
+                {
+                    // This first identity check shouldn't be async... here's to making sure it isn't.
+                    throw new NotSupportedException();
+                }
+            }
         }
     }
 }

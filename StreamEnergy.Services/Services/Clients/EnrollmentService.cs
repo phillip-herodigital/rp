@@ -146,61 +146,142 @@ namespace StreamEnergy.Services.Clients
             }
         }
 
-        DomainModels.Enrollments.Service.IdentityCheckResult IEnrollmentService.IdentityCheck(DomainModels.Name name, string ssn, DomainModels.DriversLicense driversLicense, AdditionalIdentityInformation identityInformation)
+        async Task<DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>> IEnrollmentService.BeginIdentityCheck(Guid streamCustomerId, DomainModels.Name name, string ssn, DomainModels.Address mailingAddress, AdditionalIdentityInformation identityInformation)
         {
             if (identityInformation == null)
             {
-                return new DomainModels.Enrollments.Service.IdentityCheckResult
+                var response = streamConnectClient.PostAsJsonAsync("/api/verifications/id/" + streamCustomerId.ToString(), new
                 {
-                    IdentityAccepted = false,
-                    HardStop = null,
-                    IdentityCheckId = "01234",
-                    IdentityQuestions = new[] 
+                    FirstName = name.First,
+                    LastName = name.Last,
+                    SSN = ssn,
+                    Address = new
                     {
-                        new IdentityQuestion
-                        {
-                            QuestionId = "1",
-                            QuestionText = "What is your name?",
-                            Answers = new[] { 
-                                new IdentityAnswer { AnswerId = "1", AnswerText = "King Arthur" },
-                                new IdentityAnswer { AnswerId = "2", AnswerText = "Sir Lancelot" },
-                                new IdentityAnswer { AnswerId = "3", AnswerText = "Sir Robin" },
-                                new IdentityAnswer { AnswerId = "4", AnswerText = "Sir Galahad" },
-                            }
-                        },
-                        new IdentityQuestion
-                        {
-                            QuestionId = "2",
-                            QuestionText = "What is your quest?",
-                            Answers = new[] { 
-                                new IdentityAnswer { AnswerId = "1", AnswerText = "To seek the Holy Grail." },
-                            }
-                        },
-                        new IdentityQuestion
-                        {
-                            QuestionId = "3",
-                            QuestionText = "What is your favorite color?",
-                            Answers = new[] { 
-                                new IdentityAnswer { AnswerId = "1", AnswerText = "Blue." },
-                                new IdentityAnswer { AnswerId = "2", AnswerText = "Green." },
-                                new IdentityAnswer { AnswerId = "3", AnswerText = "Yellow." },
-                                new IdentityAnswer { AnswerId = "4", AnswerText = "Red." },
-                            }
-                        },
+                        StreetLine1 = mailingAddress.Line1,
+                        StreetLine2 = mailingAddress.Line2,
+                        City = mailingAddress.City,
+                        State = mailingAddress.StateAbbreviation,
+                        Zip = mailingAddress.PostalCode5
+                    }
+                }).Result;
+                var responseString = response.Content.ReadAsStringAsync().Result;
+                var result = Json.Read<StreamConnect.IdVerificationChallengeResponse>(responseString);
+
+                return new DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>
+                {
+                    IsCompleted = true,
+                    Data = new DomainModels.Enrollments.Service.IdentityCheckResult
+                    {
+                        HardStop = null,
+                        IdentityCheckId = result.IdVerificationChallenge.CreditServicesSessionId,
+                        IdentityAccepted = false,
+                        IdentityQuestions = (from question in result.IdVerificationChallenge.Questions
+                                             select new IdentityQuestion
+                                             {
+                                                 QuestionId = question.Index.ToString(),
+                                                 QuestionText = question.QuestionText,
+                                                 Answers = (from answer in question.Answers
+                                                            select new IdentityAnswer
+                                                            {
+                                                                AnswerId = answer.Index.ToString(),
+                                                                AnswerText = answer.AnswerText
+                                                            }).ToArray()
+                                             }).ToArray()
                     }
                 };
             }
             else
             {
-                return new DomainModels.Enrollments.Service.IdentityCheckResult
+                var response = await streamConnectClient.PutAsJsonAsync("/api/verifications/id/" + streamCustomerId.ToString(), new
                 {
-                    IdentityCheckId = "01235",
-                    IdentityAccepted = true,
-                    HardStop = null,
-                    IdentityQuestions = new IdentityQuestion[0],
+                    CreditServiceSessionId = identityInformation.PreviousIdentityCheckId,
+                    Questions = (from question in identityInformation.SelectedAnswers
+                                 select new
+                                 {
+                                     Index = int.Parse(question.Key),
+                                     SelectedAnswerIndex = int.Parse(question.Value)
+                                 }).ToArray()
+                });
+                var asyncUrl = response.Headers.Location;
+                return new DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>
+                {
+                    IsCompleted = false,
+                    ResponseLocation = asyncUrl 
                 };
             }
         }
+
+        async Task<DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>> IEnrollmentService.EndIdentityCheck(DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult> asyncResult)
+        {
+            var response = await streamConnectClient.GetAsync(asyncResult.ResponseLocation);
+            if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+            {
+                return asyncResult;
+            }
+            var responseString = response.Content.ReadAsStringAsync().Result;
+
+            // TODO - do something with the response? 
+
+            asyncResult.IsCompleted = true;
+            asyncResult.Data = new DomainModels.Enrollments.Service.IdentityCheckResult { IdentityAccepted = true, IdentityQuestions = new IdentityQuestion[0] };
+            return asyncResult;
+        }
+
+        //DomainModels.Enrollments.Service.IdentityCheckResult IEnrollmentService.IdentityCheck(DomainModels.Name name, string ssn, DomainModels.DriversLicense driversLicense, AdditionalIdentityInformation identityInformation)
+        //{
+        //    if (identityInformation == null)
+        //    {
+        //        return new DomainModels.Enrollments.Service.IdentityCheckResult
+        //        {
+        //            IdentityAccepted = false,
+        //            HardStop = null,
+        //            IdentityCheckId = "01234",
+        //            IdentityQuestions = new[] 
+        //            {
+        //                new IdentityQuestion
+        //                {
+        //                    QuestionId = "1",
+        //                    QuestionText = "What is your name?",
+        //                    Answers = new[] { 
+        //                        new IdentityAnswer { AnswerId = "1", AnswerText = "King Arthur" },
+        //                        new IdentityAnswer { AnswerId = "2", AnswerText = "Sir Lancelot" },
+        //                        new IdentityAnswer { AnswerId = "3", AnswerText = "Sir Robin" },
+        //                        new IdentityAnswer { AnswerId = "4", AnswerText = "Sir Galahad" },
+        //                    }
+        //                },
+        //                new IdentityQuestion
+        //                {
+        //                    QuestionId = "2",
+        //                    QuestionText = "What is your quest?",
+        //                    Answers = new[] { 
+        //                        new IdentityAnswer { AnswerId = "1", AnswerText = "To seek the Holy Grail." },
+        //                    }
+        //                },
+        //                new IdentityQuestion
+        //                {
+        //                    QuestionId = "3",
+        //                    QuestionText = "What is your favorite color?",
+        //                    Answers = new[] { 
+        //                        new IdentityAnswer { AnswerId = "1", AnswerText = "Blue." },
+        //                        new IdentityAnswer { AnswerId = "2", AnswerText = "Green." },
+        //                        new IdentityAnswer { AnswerId = "3", AnswerText = "Yellow." },
+        //                        new IdentityAnswer { AnswerId = "4", AnswerText = "Red." },
+        //                    }
+        //                },
+        //            }
+        //        };
+        //    }
+        //    else
+        //    {
+        //        return new DomainModels.Enrollments.Service.IdentityCheckResult
+        //        {
+        //            IdentityCheckId = "01235",
+        //            IdentityAccepted = true,
+        //            HardStop = null,
+        //            IdentityQuestions = new IdentityQuestion[0],
+        //        };
+        //    }
+        //}
 
         IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>> IEnrollmentService.LoadOfferPayments(IEnumerable<LocationServices> services)
         {

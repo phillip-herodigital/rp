@@ -272,16 +272,14 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
 
             // Assert
             Assert.IsTrue(response.IsSuccessStatusCode);
-            string partitionKey = (string)result["PartitionKey"].Value;
-            Guid messageId = Guid.Parse((string)result["MessageId"].Value);
-            Assert.IsNotNull(partitionKey);
-            Assert.AreNotEqual(Guid.Empty, messageId);
+            var asyncUrl = response.Headers.Location;
+            Assert.IsNotNull(response.Headers.Location);
 
             // Act - Step 3 - async response
             do
             {
                 {
-                    response = streamConnectClient.GetAsync("/api/verifications/id/" + gcid.ToString() + "/result/" + partitionKey + "/" + messageId).Result;
+                    response = streamConnectClient.GetAsync(asyncUrl).Result;
                     var responseString = response.Content.ReadAsStringAsync().Result;
                     result = JsonConvert.DeserializeObject(responseString);
                 }
@@ -329,10 +327,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
 
             // Assert
             Assert.IsTrue(response.IsSuccessStatusCode);
-            string partitionKey = (string)result["PartitionKey"].Value;
-            Guid messageId = Guid.Parse((string)result["MessageId"].Value);
-            Assert.IsNotNull(partitionKey);
-            Assert.AreNotEqual(Guid.Empty, messageId);
+            var asyncUrl = response.Headers.Location;
+            Assert.IsNotNull(response.Headers.Location);
 
             // Since we're really verifying the API, not actually testing our code, there's no reason to follow the AAA test standard.
             // Don't take this as an example of OK - this should be multiple tests, with either initial setup or in the "assign" section.
@@ -341,7 +337,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             do
             {
                 {
-                    response = streamConnectClient.GetAsync("/api/verifications/credit/" + gcid.ToString() + "/result/" + partitionKey + "/" + messageId).Result;
+                    response = streamConnectClient.GetAsync(asyncUrl).Result;
                     var responseString = response.Content.ReadAsStringAsync().Result;
                     result = JsonConvert.DeserializeObject(responseString);
                 }

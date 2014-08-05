@@ -87,6 +87,11 @@ namespace StreamEnergy.Core.Tests.Processes
             {
                 return Task.FromResult(RestoreInternalStateResult.From(true, state));
             }
+
+            public bool ForceBreak(CreateAccountContext context, object internalContext)
+            {
+                return false;
+            }
         }
 
         class VerifyState : IState<CreateAccountContext, object>
@@ -134,6 +139,11 @@ namespace StreamEnergy.Core.Tests.Processes
             public Task<RestoreInternalStateResult> RestoreInternalState(IStateMachine<CreateAccountContext, object> stateMachine, Type state)
             {
                 return Task.FromResult(RestoreInternalStateResult.From(true, state));
+            }
+
+            public bool ForceBreak(CreateAccountContext context, object internalContext)
+            {
+                return false;
             }
         }
 

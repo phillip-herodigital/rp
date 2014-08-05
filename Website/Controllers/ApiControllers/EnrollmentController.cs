@@ -115,8 +115,12 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var validations = TranslatedValidationResult.Translate(from val in standardValidation.Union(supplementalValidation)
                                                                    group val by val.ErrorMessage + ";" + string.Join(",", val.MemberNames) into val
                                                                    select val.First(), translationItem);
+
+            bool isLoading = stateMachine.InternalContext.IdentityCheck != null && !stateMachine.InternalContext.IdentityCheck.IsCompleted;
+
             return new ClientData
             {
+                IsLoading = isLoading,
                 Validations = validations,
                 ExpectedState = expectedState,
                 IsRenewal = stateMachine.Context.IsRenewal,
@@ -155,7 +159,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                                      }).ToArray()
                        },
                 SelectedIdentityAnswers = null,
-                IdentityQuestions = stateMachine.InternalContext.IdentityCheckResult != null ? stateMachine.InternalContext.IdentityCheckResult.IdentityQuestions : null,
+                IdentityQuestions = (stateMachine.InternalContext.IdentityCheck != null && stateMachine.InternalContext.IdentityCheck.IsCompleted) ? stateMachine.InternalContext.IdentityCheck.Data.IdentityQuestions : null,
             };
         }
 
@@ -344,6 +348,15 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                                                        OfferOption = offerInfo.OfferOption
                                                                    }).ToArray()
                                              }).ToArray();
+        }
+
+        [HttpPost]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
+        public async Task<ClientData> Resume()
+        {
+            await stateMachine.Process(typeof(DomainModels.Enrollments.CompleteOrderState));
+
+            return ClientData(typeof(DomainModels.Enrollments.PaymentInfoState));
         }
 
         [HttpPost]
