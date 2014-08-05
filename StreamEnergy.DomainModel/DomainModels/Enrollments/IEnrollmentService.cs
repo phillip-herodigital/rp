@@ -13,6 +13,8 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         Task<IConnectDatePolicy> LoadConnectDates(Location location);
 
+        Task<bool> IsBlockedSocialSecurityNumber(string ssn);
+
         Task<StreamAsync<IdentityCheckResult>> BeginIdentityCheck(Guid streamCustomerId, Name name, string ssn, Address mailingAddress, AdditionalIdentityInformation identityInformation = null);
 
         Task<StreamAsync<IdentityCheckResult>> EndIdentityCheck(StreamAsync<IdentityCheckResult> asyncResult);
@@ -24,7 +26,6 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         // TODO - needs customer info, too
         IEnumerable<LocationOfferDetails<PlaceOrderResult>> PlaceOrder(IEnumerable<LocationServices> services);
-
 
     }
 }

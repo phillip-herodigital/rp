@@ -17,9 +17,13 @@
 
     $scope.connectionFee = '0.00';
     $scope.$watch('selectedOffer.offerOption.connectDate', function (newDate) {
-        var target = toISODate(newDate);
-        var availableDate = _.find($scope.selectedOffer.optionRules.connectDates.availableConnectDates, { date: target });
-        $scope.connectionFee = availableDate.fees.connectFee;
+        if (newDate) {
+            if (typeof newDate == 'string')
+                newDate = new Date(newDate);
+            var target = toISODate(newDate);
+            var availableDate = _.find($scope.selectedOffer.optionRules.connectDates.availableConnectDates, { date: target });
+            $scope.connectionFee = availableDate.fees.connectFee;
+        }
     });
 
     $scope.checkDateClass = function (date) {

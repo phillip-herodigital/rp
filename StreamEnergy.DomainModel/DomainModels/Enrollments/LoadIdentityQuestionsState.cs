@@ -40,8 +40,10 @@ namespace StreamEnergy.DomainModels.Enrollments
             {
                 return base.InternalProcess(context, internalContext);
             }
-            // TODO - based on the credit check, we may have a hard stop, etc.
-            throw new NotImplementedException();
+            else
+            {
+                return Task.FromResult(typeof(IdentityCheckHardStopState));
+            }
         }
 
         protected override bool NeedRestoreInternalState(UserContext context, InternalContext internalContext)
@@ -53,6 +55,19 @@ namespace StreamEnergy.DomainModels.Enrollments
         {
             if (internalContext.IdentityCheck == null)
             {
+                if (await enrollmentService.IsBlockedSocialSecurityNumber(ssn: context.SocialSecurityNumber))
+                {
+                    internalContext.IdentityCheck = new StreamAsync<Service.IdentityCheckResult>
+                    {
+                        IsCompleted = true,
+                        Data = new Service.IdentityCheckResult
+                        {
+                            HardStop = Service.IdentityCheckHardStop.Blacklisted
+                        }
+                    };
+                    return;
+                }
+
                 if (internalContext.GlobalCustomerId == Guid.Empty)
                 {
                     internalContext.GlobalCustomerId = await accountService.CreateStreamConnectCustomer(email: context.ContactInfo.Email.Address);

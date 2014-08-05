@@ -133,7 +133,10 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
                 return;
             }
             if (expectedState == 'orderConfirmed') {
-                $window.location.href = '/account/enrollment-confirmation';
+                $window.location.href = '/enrollment/confirmation';
+            }
+            else if (expectedState == 'identityCheckHardStop') {
+                $window.location.href = '/enrollment/please-contact';
             }
             else if (flows[currentFlow] && flows[currentFlow][expectedState]) {
                 for (var i = 0; i < flows[currentFlow][expectedState].previous.length; i++) {
@@ -179,7 +182,6 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
         },
 
         hideStep: function (id) {
-            steps[id].isActive = true;
             steps[id].isVisible = false;
             steps[id].canJumpTo = false;
         },

@@ -8,6 +8,7 @@ namespace StreamEnergy.DomainModels.Enrollments.Service
     public enum IdentityCheckHardStop
     {
         Minor,
-        Deceased
+        Deceased,
+        Blacklisted
     }
 }

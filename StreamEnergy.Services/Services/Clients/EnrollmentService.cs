@@ -145,6 +145,12 @@ namespace StreamEnergy.Services.Clients
                     throw new NotImplementedException();
             }
         }
+        Task<bool> IEnrollmentService.IsBlockedSocialSecurityNumber(string ssn)
+        {
+            if (ssn == "000000000")
+                return Task.FromResult(true);
+            return Task.FromResult(false);
+        }
 
         async Task<DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>> IEnrollmentService.BeginIdentityCheck(Guid streamCustomerId, DomainModels.Name name, string ssn, DomainModels.Address mailingAddress, AdditionalIdentityInformation identityInformation)
         {

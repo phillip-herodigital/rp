@@ -158,6 +158,7 @@
     <Compile Include="DomainModels\Enrollments\ConnectDatePolicy.cs" />
     <Compile Include="DomainModels\Enrollments\DepositOfferPaymentAmount.cs" />
     <Compile Include="DomainModels\Enrollments\IdentityAnswer.cs" />
+    <Compile Include="DomainModels\Enrollments\IdentityCheckHardStopState.cs" />
     <Compile Include="DomainModels\Enrollments\IdentityQuestion.cs" />
     <Compile Include="DomainModels\Enrollments\InstallationOfferPaymentAmount.cs" />
     <Compile Include="DomainModels\Enrollments\IOfferOptionRules.cs" />

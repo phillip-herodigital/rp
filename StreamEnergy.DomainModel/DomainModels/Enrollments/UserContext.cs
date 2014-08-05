@@ -28,6 +28,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         [ValidateObject(ErrorMessagePrefix = "Secondary Contact ")]
         public Name SecondaryContactInfo { get; set; }
 
+        [Required(ErrorMessage = "Social Security Number Required")]
         [RegularExpression(@"^\d{3}\D*\d{2}\D*\d{4}$", ErrorMessage = "Social Security Number Invalid")]
         public string SocialSecurityNumber { get; set; }
 

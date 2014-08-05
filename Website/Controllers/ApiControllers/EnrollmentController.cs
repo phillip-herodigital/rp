@@ -165,6 +165,11 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         private Models.Enrollment.ExpectedState ExpectedState(out IEnumerable<ValidationResult> supplementalValidation)
         {
+            if (stateMachine.State == typeof(IdentityCheckHardStopState))
+            {
+                supplementalValidation = Enumerable.Empty<ValidationResult>();
+                return Models.Enrollment.ExpectedState.IdentityCheckHardStop;
+            }
             supplementalValidation = Enumerable.Empty<ValidationResult>();
             var validationResults = stateMachine.ValidationResults;
             var members = validationResults.SelectMany(result => result.MemberNames);
