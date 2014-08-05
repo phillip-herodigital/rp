@@ -571,6 +571,7 @@
     <Content Include="Data\license.xml" />
     <Content Include="default.css" />
     <Content Include="default.js" />
+    <Content Include="frontend\assets\js\controllers\account\paymentAccountsListingCtrl.js" />
     <Content Include="frontend\assets\js\controllers\payments\addBankAccount.js" />
     <Content Include="frontend\assets\js\controllers\payments\addCreditCard.js" />
     <Content Include="frontend\assets\js\directives\typeahead-popup-fix.js" />

@@ -8,5 +8,6 @@ namespace StreamEnergy.MyStream.Models.Account
     public class AddBankAccountResponse
     {
         public IEnumerable<TranslatedValidationResult> Validations { get; set; }
+        public string RedirectUri { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿ngApp.controller('AddCreditCardCtrl', ['$scope', '$http', function ($scope, $http) {
+﻿ngApp.controller('AddCreditCardCtrl', ['$scope', '$http', '$window', function ($scope, $http, $window) {
     //Currently set autoPay status to false, will eventually set according to the account
     $scope.formData = {
         nickname: '',
@@ -8,18 +8,19 @@
     $scope.validations = [];
 
     $scope.addPaymentAccount = function () {
-        var formData = {
-            nickname: $scope.formData.nickname,
-            card: $scope.formData.card()
-        };
+        $scope.formData.card().then(function (paymentInfo) {
+            var formData = {
+                nickname: $scope.formData.nickname,
+                card: paymentInfo
+            };
 
-        $http.post('/api/account/AddCreditCard', formData).success(function (response) {
-            if (response.validations.length) {
-                $scope.validations = response.validations;
-            } else {
-                // TODO
-                console.log(response);
-            }
+            $http.post('/api/account/AddCreditCard', formData).success(function (response) {
+                if (response.validations.length) {
+                    $scope.validations = response.validations;
+                } else {
+                    $window.location.href = response.redirectUri;
+                }
+            });
         });
     };
 }]);
