@@ -148,5 +148,10 @@ namespace StreamEnergy.Extensions
         {
             return new PaginationHelper<T>(items);
         }
+
+        public static string GetSetting(this HtmlHelper htmlHelper, string relativePath, string fieldName)
+        {
+            return Settings.GetSettingsValue(relativePath, fieldName);
+        }
     }
 }
