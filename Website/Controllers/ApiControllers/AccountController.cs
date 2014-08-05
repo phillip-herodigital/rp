@@ -17,6 +17,7 @@ using System.Web.SessionState;
 using Microsoft.Practices.Unity;
 using System.Threading.Tasks;
 using ResponsivePath.Validation;
+using Sitecore.Links;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -939,6 +940,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             return new AddBankAccountResponse
             {
                 Validations = Enumerable.Empty<TranslatedValidationResult>(),
+                RedirectUri = LinkManager.GetItemUrl(Sitecore.Context.Database.GetItem(new Sitecore.Data.ID(new Guid("{4927A836-7309-4D0C-898B-A06503C37997}")))) + "?success=1234",
             };
         }
 
@@ -959,6 +961,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             return new AddCreditCardResponse
             {
                 Validations = Enumerable.Empty<TranslatedValidationResult>(),
+                RedirectUri = LinkManager.GetItemUrl(Sitecore.Context.Database.GetItem(new Sitecore.Data.ID(new Guid("{4927A836-7309-4D0C-898B-A06503C37997}")))) + "?success=1234",
             };
         }
 

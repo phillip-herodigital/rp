@@ -22,7 +22,7 @@
         <footer>
             <div class="buttons">
                 <button type="submit" data-val-submit>@Html.Sitecore().Field("Submit Button Text")</button>
-                <button class="secondary">@Html.Sitecore().Field("Cancel Button Text")</button>
+                @Html.Sitecore().Field("Cancel Button Link")
             </div>
         </footer>
     </form>
