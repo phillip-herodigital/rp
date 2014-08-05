@@ -13,7 +13,7 @@
         .first()
         .date + 'Z');
     
-    $scope.selectedOffer.offerOption = $scope.selectedOffer.offerOption || { connectDate: connectDate, optionType: "TexasElectricity" };
+    $scope.selectedOffer.offerOption.connectDate = $scope.selectedOffer.offerOption.connectDate || connectDate;
 
     $scope.connectionFee = '0.00';
     $scope.$watch('selectedOffer.offerOption.connectDate', function (newDate) {
