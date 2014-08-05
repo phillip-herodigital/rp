@@ -30,8 +30,6 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentSt
     * @param string val         //Search string value
     */
     $scope.getLocation = function (state, val) {
-        console.log('Getting locations...');
-
         return enrollmentService.getLocations(state, val).then(function (res) {
             return _.filter(res.data, function (value) {
                 // This got a bit more complex when I decided that when "editing" an address you should be able to type back in the original address.

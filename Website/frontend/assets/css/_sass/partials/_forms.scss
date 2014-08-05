@@ -68,7 +68,7 @@ textarea {
 
 select {
 	position: relative;
-	padding-right: 30px;
+	padding-right: 25px;
 	@include retina-background("select-arrow.png", "icon");
 	background-color: #fff;
 	background-repeat: no-repeat;

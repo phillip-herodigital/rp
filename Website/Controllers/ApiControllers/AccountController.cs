@@ -17,6 +17,7 @@ using System.Web.SessionState;
 using Microsoft.Practices.Unity;
 using System.Threading.Tasks;
 using ResponsivePath.Validation;
+using Sitecore.Links;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -193,13 +194,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                              }
                 }
             };
-        }
-
-        [HttpGet]
-        [Caching.CacheControl(MaxAgeInMinutes = 0)]
-        public async Task<IEnumerable<DomainModels.Payments.SavedPaymentInfo>> GetSavedPaymentMethods()
-        {
-            return await accountService.GetSavedPaymentMethods(User.Identity.Name);
         }
 
         [HttpPost]
@@ -915,6 +909,59 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     AccountNumber = account.AccountNumber,
                     PaymentConfirmationNumber = confirmation.ConfirmationNumber
                 }
+            };
+        }
+
+        #endregion
+
+        #region Saved Payment Accounts
+
+        [HttpGet]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
+        public async Task<IEnumerable<DomainModels.Payments.SavedPaymentInfo>> GetSavedPaymentMethods()
+        {
+            return await accountService.GetSavedPaymentMethods(User.Identity.Name);
+        }
+
+        [HttpPost]
+        public async Task<AddBankAccountResponse> AddBankAccount(AddBankAccountRequest request)
+        {
+            var validationItem = database.GetItem("/sitecore/content/Data/Components/Account/Payment Accounts/Add Bank Account");
+            if (!ModelState.IsValid)
+            {
+                return new AddBankAccountResponse
+                {
+                    Validations = TranslatedValidationResult.Translate(ModelState, validationItem),
+                };
+            }
+
+            // TODO
+            await Task.Yield();
+            return new AddBankAccountResponse
+            {
+                Validations = Enumerable.Empty<TranslatedValidationResult>(),
+                RedirectUri = LinkManager.GetItemUrl(Sitecore.Context.Database.GetItem(new Sitecore.Data.ID(new Guid("{4927A836-7309-4D0C-898B-A06503C37997}")))) + "?success=1234",
+            };
+        }
+
+        [HttpPost]
+        public async Task<AddCreditCardResponse> AddCreditCard(AddCreditCardRequest request)
+        {
+            var validationItem = database.GetItem("/sitecore/content/Data/Components/Account/Payment Accounts/Add Credit Card");
+            if (!ModelState.IsValid)
+            {
+                return new AddCreditCardResponse
+                {
+                    Validations = TranslatedValidationResult.Translate(ModelState, validationItem),
+                };
+            }
+
+            // TODO
+            await Task.Yield();
+            return new AddCreditCardResponse
+            {
+                Validations = Enumerable.Empty<TranslatedValidationResult>(),
+                RedirectUri = LinkManager.GetItemUrl(Sitecore.Context.Database.GetItem(new Sitecore.Data.ID(new Guid("{4927A836-7309-4D0C-898B-A06503C37997}")))) + "?success=1234",
             };
         }
 

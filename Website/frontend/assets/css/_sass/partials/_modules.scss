@@ -76,13 +76,13 @@ article {
 	.account-selector {
 		padding: 15px;
 		border-bottom: 1px solid #ddd;
-		.group {
+		form div.group {
 			@extend .inline-group;
 			.item {
 				@extend .group-col;
 				width: auto;
 				label {
-					/**display: inline-block;**/
+					display: inline;
 					margin-right: 5px;
 					@include breakpoint(small-medium) {
 						display: block;
@@ -1782,7 +1782,7 @@ aside {
 					margin: 0 0 -10px 0;
 				}
 				.current-temp {
-					font-size: 44px;
+					font-size: 41px;
 					.temp-scale {
 						font-size: 30px;
 						vertical-align: text-top;

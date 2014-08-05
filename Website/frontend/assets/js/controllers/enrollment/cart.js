@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of the cart on enrollment page.
  */
-ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enrollmentService', 'enrollmentCartService', function ($scope, enrollmentStepsService, enrollmentService, enrollmentCartService) {
+ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enrollmentService', 'enrollmentCartService', '$modal', function ($scope, enrollmentStepsService, enrollmentService, enrollmentCartService, $modal) {
     
     /*$scope.enrollmentStepsService = enrollmentStepsService;
     $scope.accountInformationService = accountInformationService;*/
@@ -41,7 +41,12 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     * Delete item from cart
     */
     $scope.deleteUtilityPlan = function (service, selectedOffer) {
-        enrollmentCartService.removeOffer(service, selectedOffer);
-        enrollmentService.setSelectedOffers();
+        $modal.open({
+            'scope': $scope,
+            'templateUrl': 'confirmAddressDeleteModal'
+        }).result.then( function() { 
+            enrollmentCartService.removeOffer(service, selectedOffer);
+            enrollmentService.setSelectedOffers(); 
+        })
     };
 }]);

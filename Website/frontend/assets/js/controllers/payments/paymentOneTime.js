@@ -34,7 +34,11 @@ ngApp.controller('OneTimePaymentCtrl', ['$scope', '$http', '$timeout', function 
 
 	//Step 2
 	this.validatePaymentInfo = function() {
-		this.activeStep = 3;
+	    ctrl.paymentMethod().then(function (paymentMethod) {
+	        ctrl.evaluatedPaymentMethod = paymentMethod;
+
+	        ctrl.activeStep = 3;
+	    });
 	};
 
 	//Step 3
@@ -44,13 +48,13 @@ ngApp.controller('OneTimePaymentCtrl', ['$scope', '$http', '$timeout', function 
 	        url: '/api/account/makeOneTimePayment',
 	        data: {
 	            'accountNumber': ctrl.accountNumber,
-                'customerName':        ctrl.name,
-                'customerEmail': {
-                    'address': ctrl.email
-                },
-	            'paymentAccount': ctrl.paymentMethod(),
-                'totalPaymentAmount': ctrl.totalPaymentAmount,
-                'overrideWarnings': ctrl.overrideWarnings || []
+	            'customerName': ctrl.name,
+	            'customerEmail': {
+	                'address': ctrl.email
+	            },
+	            'paymentAccount': ctrl.evaluatedPaymentMethod,
+	            'totalPaymentAmount': ctrl.totalPaymentAmount,
+	            'overrideWarnings': ctrl.overrideWarnings || []
 	        },
 	        headers: { 'Content-Type': 'application/JSON' }
 	    })
@@ -62,7 +66,7 @@ ngApp.controller('OneTimePaymentCtrl', ['$scope', '$http', '$timeout', function 
             } else {
                 ctrl.confirmationNumber = data.confirmation.paymentConfirmationNumber;
                 ctrl.activeStep = 4;
-            }            
+            }
         });
 	};
 

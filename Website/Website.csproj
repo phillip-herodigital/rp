@@ -474,6 +474,10 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Models\Account\AccountToPay.cs" />
+    <Compile Include="Models\Account\AddBankAccountRequest.cs" />
+    <Compile Include="Models\Account\AddBankAccountResponse.cs" />
+    <Compile Include="Models\Account\AddCreditCardRequest.cs" />
+    <Compile Include="Models\Account\AddCreditCardResponse.cs" />
     <Compile Include="Models\Account\AddNewAccountRequest.cs" />
     <Compile Include="Models\Account\AddNewAccountResponse.cs" />
     <Compile Include="Models\Account\EnrolledAccount.cs" />
@@ -567,6 +571,9 @@
     <Content Include="Data\license.xml" />
     <Content Include="default.css" />
     <Content Include="default.js" />
+    <Content Include="frontend\assets\js\controllers\account\paymentAccountsListingCtrl.js" />
+    <Content Include="frontend\assets\js\controllers\payments\addBankAccount.js" />
+    <Content Include="frontend\assets\js\controllers\payments\addCreditCard.js" />
     <Content Include="frontend\assets\js\directives\typeahead-popup-fix.js" />
     <Content Include="frontend\utility-services.html" />
     <Content Include="frontend\*" />
@@ -2229,6 +2236,9 @@
     <PreBuildEvent>cd "$(ProjectDir)frontend"
 ..\..\VSRuby\Ruby200-x64\bin\compass compile
 exit 0</PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(SolutionDir)\Libraries\Sitecore\ComponentArt.UIFramework.lic" "$(ProjectDir)\$(OutDir)"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
