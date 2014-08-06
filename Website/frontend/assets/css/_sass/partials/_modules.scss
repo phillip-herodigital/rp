@@ -568,20 +568,18 @@ article.plan {
 	}
 	@include breakpoint(small-medium) {
 		table, thead, tbody, th, td, tr {
-			display: block;
+			// display: inline-block;
 		}
 		table thead {
 			position: absolute;
 			top: -9999px;
 			left: -9999px;
 		}
+		
 		table th {
 			&.vertical {
-				padding: 15px;
-				.fixed {
-					@include rotate(0);
-					filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0);
-				}
+				font-weight: 300;
+				
 			}
 		}
 		table td {
@@ -612,6 +610,7 @@ article.plan {
 		table button + button {
 			margin-top: 10px;
 		}
+		
 	}
 	footer.renew-plan {
 		background-color: #d8edfe;
