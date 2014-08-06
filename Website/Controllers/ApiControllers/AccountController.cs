@@ -85,8 +85,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                            select new AccountToPay
                            {
                                AccountNumber = account.AccountNumber,
-                               AccountBalance = account.AccountBalance,
-                               DueDate = account.DueDate.ToShortDateString(),
+                               AccountBalance = account.Balance.Balance,
+                               DueDate = account.Balance.DueDate.ToShortDateString(),
                                UtilityProvider = externalPayment.UtilityProvider,
                                CanMakeOneTimePayment = paymentScheduling.CanMakeOneTimePayment,
                                AvailablePaymentMethods = paymentMethods.AvailablePaymentMethods.ToArray(),

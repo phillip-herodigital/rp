@@ -18,13 +18,13 @@ namespace StreamEnergy.DomainModels.Accounts
         public Account()
         {
             Capabilities = new List<IAccountCapability>();
+            Balance = null;
         }
 
         public string AccountNumber { get; set; }
         public string AccountType { get; set; }
 
-        public decimal AccountBalance { get; set; }
-        public DateTime DueDate { get; set; }
+        public AccountBalance Balance { get; set; }
 
         public Invoice CurrentInvoice { get; set; }
 
