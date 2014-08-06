@@ -1,7 +1,7 @@
 /* My Energy Usage Controller
  *
  */
-ngApp.controller('AcctMyEnergyUsageCtrl', ['$scope', '$rootScope', '$http', '$timeout', 'breakpoint', function ($scope, $rootScope, $http, $timeout, breakpoint) {
+ngApp.controller('AcctMyEnergyUsageCtrl', ['$scope', '$rootScope', '$http', 'breakpoint', function ($scope, $rootScope, $http, breakpoint) {
 	// set the graph options
 	var monthNames = ['','January','February','March','April','May','June','July','August','September','October','November','December']
 	var monthAbbreviations = ['','JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
@@ -71,28 +71,26 @@ ngApp.controller('AcctMyEnergyUsageCtrl', ['$scope', '$rootScope', '$http', '$ti
 	$scope.$watch('selectedAccount.accountNumber', function(newVal) { 
 		if (newVal) {
 			$scope.isLoading = true;
-			$timeout(function () {
-				$http({
-					method  : 'POST',
-					url     : '/api/account/getEnergyUsage',
-					data    : { 'accountNumber' : newVal },
-					headers : { 'Content-Type': 'application/JSON' } 
-				})
-					.success(function (data, status, headers, config) {
-						$scope.energyUsage = data.energyUsage;
-						// if the window is sized to mobie, only load 4 columns on the graph
-						if(breakpoint.breakpoint.name == 'phone') {
-							$scope.energyUsage = $scope.energyUsage.slice(-4);
-							monthAbbreviations[8] = '';
-						}
-						var lastItem = $scope.energyUsage.length - 1;
-						$scope.utilityType = data.utilityType;
-						$scope.startMonth = monthNames[$scope.energyUsage[0].month];
-						$scope.endMonth = monthNames[$scope.energyUsage[lastItem].month];
-						$scope.endYear = $scope.energyUsage[lastItem].year;
-						$scope.isLoading = false;
-					});
-			}, 800);
+			$http({
+				method  : 'POST',
+				url     : '/api/account/getEnergyUsage',
+				data    : { 'accountNumber' : newVal },
+				headers : { 'Content-Type': 'application/JSON' } 
+			})
+				.success(function (data, status, headers, config) {
+					$scope.energyUsage = data.energyUsage;
+					// if the window is sized to mobie, only load 4 columns on the graph
+					if(breakpoint.breakpoint.name == 'phone') {
+						$scope.energyUsage = $scope.energyUsage.slice(-4);
+						monthAbbreviations[8] = '';
+					}
+					var lastItem = $scope.energyUsage.length - 1;
+					$scope.utilityType = data.utilityType;
+					$scope.startMonth = monthNames[$scope.energyUsage[0].month];
+					$scope.endMonth = monthNames[$scope.energyUsage[lastItem].month];
+					$scope.endYear = $scope.energyUsage[lastItem].year;
+					$scope.isLoading = false;
+				});
 		}
 	});
 
