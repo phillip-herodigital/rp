@@ -1,4 +1,4 @@
-<div ng-controller="EnrollmentConfirmationCtrl" ng-init="setServerData(@(Html.Action("ClientData", "Enrollment").ToHtmlString()));">
+<div ng-controller="EnrollmentConfirmationCtrl" ng-init="setServerData(@((Request.QueryString["phantomjs"] != null ? Html.Raw("'deferred'") : Html.Action("ClientData", "Enrollment")).ToHtmlString()));">
     <div class="enrollment enrollment__order-confirmation">
         <section>
             <a class="print" href="" ng-click="onPrint()"><i class="icon-printer"></i>@Html.Sitecore().Field("Print")</a>
