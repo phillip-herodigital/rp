@@ -427,6 +427,11 @@ article.account {
 				padding-right: 25px;
 			}
 		}
+		@include breakpoint(medium-large) {
+			.hide-medium-large {
+				display: none;
+			}
+		}
 	}
 }
 
@@ -1142,6 +1147,11 @@ article.auth {
 	&.auth-forgot-password {
 		.text-content-divider {
 			margin: -10px 0 0 0;
+		}
+	}
+	@include breakpoint(medium-large) {
+		.hide-medium-large {
+			display: none;
 		}
 	}
 	@include breakpoint(small) {
