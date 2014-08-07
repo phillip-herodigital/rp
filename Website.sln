@@ -62,6 +62,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{59B39452
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamEnergy.RenderingService", "StreamEnergy.RenderingService\StreamEnergy.RenderingService.csproj", "{2A7F95F1-DB6A-4063-9CD7-B3AAA6FDA18A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WindowsServices", "WindowsServices", "{FC6C8FA8-0ADC-46C6-B79D-409C24C227E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Azure-Production Sitecore|Any CPU = Azure-Production Sitecore|Any CPU
@@ -173,5 +175,6 @@ Global
 		{01C2497B-EDA7-4638-BE77-CB9E3C02A684} = {59B39452-16F0-4170-A74E-F886F54DCBDC}
 		{37C047F3-940F-4C38-A781-EDF7F4E39AEB} = {A2266EAE-FB81-4326-BCE7-7195EFFC6164}
 		{59B39452-16F0-4170-A74E-F886F54DCBDC} = {A2266EAE-FB81-4326-BCE7-7195EFFC6164}
+		{2A7F95F1-DB6A-4063-9CD7-B3AAA6FDA18A} = {FC6C8FA8-0ADC-46C6-B79D-409C24C227E5}
 	EndGlobalSection
 EndGlobal
