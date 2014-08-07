@@ -27,28 +27,31 @@ namespace StreamEnergy.RenderingService
             string value = await listener.Poll();
             bool succeeded = false;
 
-            if (!cancellationToken.IsCancellationRequested)
+            if (value != null)
             {
-                try
+                if (!cancellationToken.IsCancellationRequested)
                 {
-                    byte[] pdf = rasterizer.RasterizeEnrollmentConfirmation(value);
+                    try
+                    {
+                        byte[] pdf = rasterizer.RasterizeEnrollmentConfirmation(value);
 
-                    var azureSubDir = azureDir.GetDirectoryReference(name + "/" + DateTime.Now.Year + "/" + DateTime.Now.Month.ToString("00") + "/" + DateTime.Now.Day.ToString("00"));
-                    azureDir.CreateIfNotExists();
+                        var azureSubDir = azureDir.GetDirectoryReference(name + "/" + DateTime.Now.Year + "/" + DateTime.Now.Month.ToString("00") + "/" + DateTime.Now.Day.ToString("00"));
+                        azureDir.CreateIfNotExists();
 
-                    var fileReference = azureDir.GetFileReference(Guid.NewGuid().ToString() + ".pdf");
-                    await fileReference.UploadFromByteArrayAsync(pdf, 0, 0);
+                        var fileReference = azureDir.GetFileReference(Guid.NewGuid().ToString() + ".pdf");
+                        await fileReference.UploadFromByteArrayAsync(pdf, 0, 0);
 
-                    succeeded = true;
+                        succeeded = true;
+                    }
+                    catch
+                    {
+                    }
                 }
-                catch
+
+                if (!succeeded)
                 {
+                    await listener.Enqueue(value);
                 }
-            }
-
-            if (!succeeded)
-            {
-                await listener.Enqueue(value);
             }
         }
     }
