@@ -36,6 +36,16 @@ namespace StreamEnergy.RenderingService
 
             this.Installers.Add(serviceProcessInstaller);
             this.Installers.Add(serviceInstaller);
+
+            this.AfterInstall += new InstallEventHandler(ServiceInstaller_AfterInstall);
+        }
+
+        private void ServiceInstaller_AfterInstall(object sender, InstallEventArgs e)
+        {
+            using (ServiceController sc = new ServiceController(ScreenshotListeningService.Name))
+            {
+                sc.Start();
+            }
         }
     }
 }
