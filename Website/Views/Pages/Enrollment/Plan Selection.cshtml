@@ -116,11 +116,11 @@
                     <td colspan="6">
                         <div slide-down-show="isOpen">
                             <p>{{plan.description}}</p>
-                            <p>
-                                <a ng-href="{{plan.documents.electricityFactsLabel}}">@Html.Sitecore().Field("Electricity Facts Label Document")</a> |
-                                <a ng-href="{{plan.documents.termsOfService}}">@Html.Sitecore().Field("Terms Of Service Document")</a> |
-                                <a ng-href="{{plan.documents.yourRightsAsACustomer}}">@Html.Sitecore().Field("Your Rights As A Customer Document")</a>
-                            </p>
+                            <ul class="plan-selection-list clearfix">
+                                <li><a ng-href="{{plan.documents.electricityFactsLabel}}">@Html.Sitecore().Field("Electricity Facts Label Document")</a></li>
+                                <li><a ng-href="{{plan.documents.termsOfService}}">@Html.Sitecore().Field("Terms Of Service Document")</a></li>
+                                <li><a ng-href="{{plan.documents.yourRightsAsACustomer}}">@Html.Sitecore().Field("Your Rights As A Customer Document")</a></li>
+                            </ul>
                         </div>
                     </td>
                 </tr>
@@ -367,7 +367,7 @@
 
 
     <div class="modal-backdrop modal-backdrop-absolute"></div>
-    <div tabindex="-1" role="dialog" class="modal modal-absolute" style="z-index: 1050; display: block;">
+    <div tabindex="-1" role="dialog" class="modal modal-absolute">
         <div class="modal-dialog">
             <div class="modal-content" ng-controller="EnrollmentMultipleTduCtrl as vm">
                 <form>
@@ -394,7 +394,7 @@
 <script type="text/ng-template" id="enrollmentZipToAddressPicker">
     <div>
         <div class="modal-header">
-            <a href="" ng-click="$close()">Close</a>
+            <a href="" ng-click="$dismiss()">Close</a>
             <h2>@Html.Sitecore().Field("Zip to Address Header")</h2>
         </div>
         <div class="modal-body">
