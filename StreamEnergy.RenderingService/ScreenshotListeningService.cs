@@ -11,6 +11,7 @@ namespace StreamEnergy.RenderingService
 {
     class ScreenshotListeningService : System.ServiceProcess.ServiceBase
     {
+        public const string Name = "StreamEnergy Screenshot Service";
         bool isRunning = true;
         Task mainLoop;
         RedisQueueListener listener;
@@ -19,6 +20,17 @@ namespace StreamEnergy.RenderingService
 
         public ScreenshotListeningService(Uri baseUri)
         {
+            this.ServiceName = Name;
+            this.EventLog.Log = "Application";
+
+            // These Flags set whether or not to handle that specific
+            //  type of event. Set to true if you need it, false otherwise.
+            this.CanHandlePowerEvent = true;
+            this.CanHandleSessionChangeEvent = false;
+            this.CanPauseAndContinue = false;
+            this.CanShutdown = false;
+            this.CanStop = true;
+
             var connString = ConfigurationManager.ConnectionStrings["redisCache"];
             var multiplexer = ConnectionMultiplexer.Connect(connString.ConnectionString);
             var redisDb = multiplexer.GetDatabase();
