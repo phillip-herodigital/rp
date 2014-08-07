@@ -427,12 +427,6 @@ article.account {
 				padding-right: 25px;
 			}
 		}
-		.mobile-only {
-			display: none;
-			@include breakpoint(small) {
-				display: block;
-			}
-		}
 	}
 }
 
@@ -590,19 +584,14 @@ article.plan {
 		}
 	}
 	@include breakpoint(small-medium) {
-		table, thead, tbody, th, td, tr {
-			// display: inline-block;
-		}
 		table thead {
 			position: absolute;
 			top: -9999px;
 			left: -9999px;
 		}
-		
 		table th {
 			&.vertical {
-				font-weight: 300;
-				
+				font-weight: 300;	
 			}
 		}
 		table td {
@@ -633,7 +622,6 @@ article.plan {
 		table button + button {
 			margin-top: 10px;
 		}
-		
 	}
 	footer.renew-plan {
 		background-color: #d8edfe;
