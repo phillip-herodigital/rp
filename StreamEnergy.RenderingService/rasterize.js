@@ -12,7 +12,11 @@ if (system.args.length < 3 || system.args.length > 3) {
 
 
     page.viewportSize = { width: 1024, height: 600 };
-    page.paperSize = 'Letter';
+    page.paperSize = {
+        format: 'Letter',
+        orientation: 'portrait',
+        border: '0.5in'
+    };
     page.open(address, function (status) {
         page.evaluate(function (s) {
             deferred(angular.fromJson(s));
