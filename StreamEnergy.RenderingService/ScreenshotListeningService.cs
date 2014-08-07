@@ -4,7 +4,9 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.WindowsAzure.Storage;
 using StackExchange.Redis;
 
 namespace StreamEnergy.RenderingService
@@ -12,11 +14,13 @@ namespace StreamEnergy.RenderingService
     class ScreenshotListeningService : System.ServiceProcess.ServiceBase
     {
         public const string Name = "StreamEnergy Screenshot Service";
-        bool isRunning = true;
-        Task mainLoop;
-        RedisQueueListener listener;
-        Rasterizer rasterizer;
-        string dir;
+        private readonly RedisQueueListener listener;
+        private readonly Rasterizer rasterizer;
+        private readonly Microsoft.WindowsAzure.Storage.File.CloudFileDirectory azureDir;
+
+        private CancellationTokenSource cancellationToken;
+        private Task mainLoop;
+        private RenderingListener[] renderingListeners;
 
         public ScreenshotListeningService(Uri baseUri)
         {
@@ -34,10 +38,14 @@ namespace StreamEnergy.RenderingService
             var connString = ConfigurationManager.ConnectionStrings["redisCache"];
             var multiplexer = ConnectionMultiplexer.Connect(connString.ConnectionString);
             var redisDb = multiplexer.GetDatabase();
+            var cloudStorageAccount = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["azureStorage"].ConnectionString);
 
-            dir = Path.GetDirectoryName(typeof(Program).Assembly.Location);
+            var dir = Path.GetDirectoryName(typeof(ScreenshotListeningService).Assembly.Location);
             rasterizer = new Rasterizer(dir, baseUri);
-            listener = new RedisQueueListener(redisDb, "EnrollmentScreenshots");
+            renderingListeners = new[]
+                {
+                    new RenderingListener(rasterizer, "EnrollmentScreenshots", redisDb, cloudStorageAccount)
+                };
         }
 
         protected override void OnStart(string[] args)
@@ -49,36 +57,26 @@ namespace StreamEnergy.RenderingService
 
         protected override void OnStop()
         {
-            isRunning = false;
+            cancellationToken.Cancel();
             mainLoop.Wait();
             base.OnStop();
         }
 
         internal Task StartMainLoop()
         {
-            isRunning = true;
+            cancellationToken = new CancellationTokenSource();
             return mainLoop = MainLoop();
         }
 
         private async Task MainLoop()
         {
             await Task.Yield();
-            while (isRunning)
+            while (!cancellationToken.IsCancellationRequested)
             {
-                string value;
-                do
+                await Task.Delay(100);
+                foreach (var entry in renderingListeners)
                 {
-                    await Task.Delay(100);
-                    value = await listener.Poll();
-                } while (isRunning && value == null);
-
-                if (isRunning)
-                {
-                    byte[] pdf = rasterizer.RasterizeEnrollmentConfirmation(value);
-
-                    // TODO - send to Azure storage
-                    Console.WriteLine("Screenshot");
-                    File.WriteAllBytes(Path.Combine(dir, "test.pdf"), pdf);
+                    await entry.SingleIteration(cancellationToken.Token);
                 }
             }
         }

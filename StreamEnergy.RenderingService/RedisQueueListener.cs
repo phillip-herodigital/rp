@@ -22,5 +22,10 @@ namespace StreamEnergy.RenderingService
         {
             return await database.ListLeftPopAsync(queueKey);
         }
+
+        internal async Task Enqueue(string value)
+        {
+            await database.ListRightPushAsync(queueKey, value);
+        }
     }
 }
