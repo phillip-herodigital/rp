@@ -27,6 +27,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private IStateMachine<UserContext, InternalContext> stateMachine;
         private readonly IValidationService validation;
         private Sitecore.Security.Domains.Domain domain;
+        private readonly StackExchange.Redis.IDatabase redisDatabase;
 
         public class SessionHelper : StateMachineSessionHelper<UserContext, InternalContext>
         {
@@ -36,13 +37,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
         }
 
-        public EnrollmentController(SessionHelper stateHelper, IValidationService validation)
+        public EnrollmentController(SessionHelper stateHelper, IValidationService validation, StackExchange.Redis.IDatabase redisDatabase)
         {
             this.translationItem = Sitecore.Context.Database.GetItem(new Sitecore.Data.ID("{5B9C5629-3350-4D85-AACB-277835B6B1C9}"));
 
             this.domain = Sitecore.Context.Site.Domain;
             this.stateHelper = stateHelper;
             this.validation = validation;
+            this.redisDatabase = redisDatabase;
         }
 
         protected override void Initialize(System.Web.Http.Controllers.HttpControllerContext controllerContext)
@@ -372,7 +374,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             await stateMachine.Process();
 
-            return ClientData(null);
+            var resultData = ClientData(null);
+
+            if (redisDatabase != null)
+            {
+                await redisDatabase.ListRightPushAsync("EnrollmentScreenshots", StreamEnergy.Json.Stringify(resultData));
+            }
+
+            return resultData;
         }
     }
 }
