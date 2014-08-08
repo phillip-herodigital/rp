@@ -1,27 +1,27 @@
 ﻿<section class="wrapper">
     <article class="grey-box my-invoices" ng-controller="AcctMyInvoicesCtrl">
-        <header>
+        @*<header>
             <h2>@Html.Sitecore().Field("My Invoices Text")</h2>
-        </header>
+        </header>*@
         <div class="content" loading-indicator>
             <div class="filters">
                 <form>
                     <div class="group">
                         <div class="item">
                             <label for="ServiceType">@Html.Sitecore().Field("Service Type Text")</label>
-                            <select id="ServiceType" ng-model="filters.serviceType" ng-options="item.value as item.name for item in filtersList.serviceType">
+                            <select class="input--small" id="ServiceType" ng-model="filters.serviceType" ng-options="item.value as item.name for item in filtersList.serviceType">
                                 <option value="">All</option>
                             </select>
                         </div>
                         <div class="item">
                             <label for="Account">@Html.Sitecore().Field("Account Text")</label>
-                            <select id="Account" ng-model="filters.accountNumber" ng-options="item.value as item.name for item in filtersList.accountNumber">
+                            <select class="input--small" id="Account" ng-model="filters.accountNumber" ng-options="item.value as item.name for item in filtersList.accountNumber">
                                 <option value="">All</option>
                             </select>
                         </div>
                         <div class="item">
                             <label for="Status">@Html.Sitecore().Field("Status Text")</label>
-                            <select id="Status" ng-model="filters.isPaid" ng-options="item.value as item.name for item in filtersList.isPaid">
+                            <select class="input--small" id="Status" ng-model="filters.isPaid" ng-options="item.value as item.name for item in filtersList.isPaid">
                                 <option value="">All</option>
                             </select>
                         </div>
@@ -37,7 +37,7 @@
                     <tbody ng-repeat="item in table.valuesToShow">
                         <tr>
                             <!--<td class="align-center" style="width:30px;"><input type="checkbox" ng-model="item.selected" /></td>-->
-                            <td ng-show="hasHiddenColumns" ng-click="expandInnerTable($index)" ng-class="{'opened': expand[$index], 'closed': !expand[$index]}">
+                            <td ng-if="hasHiddenColumns" ng-click="expandInnerTable($index)" ng-class="{'opened': expand[$index], 'closed': !expand[$index]}">
                                 <i ng-class="{'icon-arrow-expanded': expand[$index], 'icon-arrow-collapsed': !expand[$index]}"></i>
                             </td>
                             <td ng-show="showColumn('accountNumber')">{{ item.accountNumber }}</td>
@@ -50,8 +50,11 @@
                             <td ng-show="showColumn('invoiceAmount')">{{ item.invoiceAmount }}</td>
                             <td ng-show="showColumn('dueDate')">{{ item.dueDate }}</td>
                             <td ng-show="showColumn('action')">
-                                <button class="secondary">@Html.Sitecore().Field("View PDF Text")</button>
-                                <button class="submit" ng-show="!item.isPaid">@Html.Sitecore().Field("Pay Text")</button>
+                                <button class="secondary small">@Html.Sitecore().Field("View PDF Text")</button>
+                                <button class="submit small" ng-show="!item.isPaid">@Html.Sitecore().Field("Pay Text")</button>
+
+                                @* SiteCore field needed *@
+                                <button class="tertiary disabled small" ng-show="item.isPaid" disabled="disabled">Paid</button>
                                 <div class="request-extension" ng-show="item.canRequestExtension"><a href="#">@Html.Sitecore().Field("Request Extension Text")</a></div>
                             </td>
                         </tr>

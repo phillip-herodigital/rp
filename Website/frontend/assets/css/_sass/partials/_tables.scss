@@ -7,6 +7,9 @@ table {
 		border: 1px solid $table-border-color;
 	}
 	th {
+		padding: $table-header-padding;
+	}
+	th {
 		text-align: left;
 	}
 	td {
@@ -34,7 +37,7 @@ table {
 		}
 		tr.details {
 			td:first-child {
-				border: 0;
+				border-right: 0;
 				border-left: 2px solid #0971ce;
 			}
 		}
@@ -43,5 +46,9 @@ table {
 		td {
 			border: 0; 
 		}
+	}
+	.pagination {
+		padding-top: 20px;
+		padding-bottom: 0;
 	}
 }

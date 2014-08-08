@@ -6,52 +6,75 @@ $brand-message: #ecf9f8;
 $brand-error: #fbded4;
 $brand-alert: #fff9c9;
 
+
 //Global Styles
 $body-bg: #fff;
 $text-primary-color: #333;
+
 $link-primary-color: #257ab3; // 0971ce
 $link-hover-color: #333;
+
 
 //Typography
 $font-family: "proxima-nova-n3", "proxima-nova", Helvetica, Arial, sans-serif;
 $font-size-base: 16px;
 $font-size-large: 20px;
-$font-size-small: 14px;
-$font-weight: 300;
+$font-size-small: 15px;
+$font-size-xsmall: 13px;
+$font-size-xxsmall: 11px; 
 
-$font-size-h1: 35px;
-$font-size-h2: 25px;
-$font-size-h3: 20px;
-$font-size-h4: 18px;
-$font-size-h5: 16px;
-$font-size-h6: 14px;
+$font-weight: 300;
 
 $line-height: 1.375;
 
+
 //Headings
 $headings-font-family: $font-family;
-$headings-font-weight: 500;
-$headings-line-height: 1.1;
 $headings-color: #333;
 
+$h1-font: 300 30px/1.1 $font-family;
+$h2-font: 300 24px/1.1 $font-family;
+$h3-font: 300 20px/1.1 $font-family;
+$h4-font: 400 18px/1.1 $font-family;
+$h5-font: 500 16px/1.1 $font-family;
+$h6-font: 400 14px/1.1 $font-family;
+
+$h1-color: $brand-primary-color;
+$h2-color: $brand-primary-color;
+$h3-color: $text-primary-color;
+$h4-color: $text-primary-color;
+$h5-color: $text-primary-color;
+$h6-color: $text-primary-color;
+
+
 //Buttons
-$button-primary-bg: #257ab3;
-$button-secondary-bg: #797b7e;
+$button-primary-bg: $brand-primary-color;
+$button-secondary-bg: #f8f8f8;
+$button-tertiary-bg: transparent;
 $button-disabled-bg: #ccc;
 
 $button-primary-color: #fff;
-$button-secondary-color: #257ab3;
+$button-secondary-color: $brand-primary-color;
+$button-tertiary-color: $brand-primary-color;
 $button-disabled-color: #fff;
 
 $button-font-size: $font-size-small;
-$button-font-weight: 600;
+$button-small-font-size: $font-size-xsmall;
+$button-large-font-size: $font-size-base;
 
+$button-padding: 7px 18px;
+$button-small-padding: 6px 14px;
+$button-large-padding: 12px 30px; 
+
+$button-font-weight: 600;
 $button-border-radius: 10px;
 $button-margin: 5px;
 
+
 //Borders (?)
 $dark-border-color: #cecece;
-$light-border-color: #e6e6e6;
+$light-border-color: #e2e1e2;
+
 
 //Forms
 $input-bg: #fff;
@@ -62,29 +85,97 @@ $input-border-color: #ccc;
 $input-border-radius: 10px;
 $input-line-height: normal;
 
+$input-padding: 7px 10px;
+$input-small-padding: 5px 8px;
+
+$label-font-size: 14px;
+$label-font-weight: 600;
+
+
 //Nav
-$nav-primary-text-color: #7e7d7d;
+$nav-primary-color: #7e7d7d;
 $nav-primary-hover-color: #1b73b3;
+$nav-primary-padding: 0 35px 20px;
+
+$nav-sub-color: #4f4c4d;
+$nav-sub-hover-color: #257ab3;
+$nav-sub-padding: 15px 10px;
+
+$nav-tertiary-color: #4f4c4d;
+$nav-tertiary-hover-cover: #257ab3;
+$nav-tertiary-padding: 20px 10px 20px 0;
+
+$nav-profile-padding: 0 0 0 12px;
+
 $nav-font-size: $font-size-base;
 
 
 //Modules
 $module-horizontal-padding: 20px;
 $module-vertical-padding: 20px;
-$module-border-radius: 10px;
+$module-border-radius: 5px;
 
 $module-header-bg: transparent;
 $module-header-font-size: 26px;
 $module-header-color: #333;
-$module-footer-bg: #fbfbfb;
+$module-footer-bg: transparent;
+
 
 //Tables
 $table-bg: transparent;
 $table-border-color: #eaeaea;
-$table-cell-padding: 5px 12px;
+$table-cell-padding: 5px 10px;
+$table-header-padding: 10px 10px;
 $table-header-bg: #efefef;
 $table-header-border-color: #e8e8e8;
+
 
 //Responsiveness
 $breakpoint-small: 767px; // Up to 767px
 $breakpoint-medium: 1024px; // Up to 1024px
+
+
+//Hero - Banners
+$hero-title-font-size: 60px;
+$hero-padding: 80px;
+
+
+//Enrollment
+$enrollment-primary-color: #257ab3;
+$enrollment-secondary-color: #fff;
+
+$enrollment-primary-button-background: #257ab3;
+$enrollment-secondary-button-background: #fff;
+
+$enrollment-primary-button-color: #fff;
+$enrollment-secondary-button-color: #257ab3;
+
+$enrollment-dark-border-color: #cecece;
+$enrollment-light-border-color: #e6e6e6;
+
+$enrollment-module-h1-size: 26px;
+$enrollment-module-h1-color: #333;
+$enrollment-module-horizontal-padding: 20px;
+$enrollment-module-vertical-padding: 20px;
+
+
+/* Don't edit below here unless you really, really need to */
+$inputs-list: 'input[type="text"]',
+			  'input[type="password"]',
+			  'input[type="search"]',
+			  'input[type="number"]',
+			  'input[type="datetime"]',
+			  'input[type="datetime-local"]',
+			  'input[type="date"]',
+			  'input[type="month"]',
+			  'input[type="time"]',
+			  'input[type="week"]',
+			  'input[type="email"]',
+			  'input[type="url"]',
+			  'input[type="tel"]',
+			  'input[type="color"]';
+$input-selectors: ();
+
+@each $item in $inputs-list {
+	$input-selectors: join($input-selectors, unquote($item), comma) !global;
+}

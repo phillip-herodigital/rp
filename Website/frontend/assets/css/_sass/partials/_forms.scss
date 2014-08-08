@@ -1,58 +1,37 @@
-$inputs-list: 'input[type="text"]',
-			  'input[type="password"]',
-			  'input[type="search"]',
-			  'input[type="number"]',
-			  'input[type="datetime"]',
-			  'input[type="datetime-local"]',
-			  'input[type="date"]',
-			  'input[type="month"]',
-			  'input[type="time"]',
-			  'input[type="week"]',
-			  'input[type="email"]',
-			  'input[type="url"]',
-			  'input[type="tel"]',
-			  'input[type="color"]';
-$input-selectors: ();
-
-@each $item in $inputs-list {
-	$input-selectors: join($input-selectors, unquote($item), comma) !global;
-}
-
-#{$input-selectors},
-textarea,
-select {
-	@include border-radius($input-border-radius);
-	@include box-shadow(0 1px 1px rgba(0,0,0,.15));
-	@include transition(border linear .2s, box-shadow linear .2s);
+#{$input-selectors}, textarea, select {
 	display: inline-block;
 	width: 50%;
-	padding: 6px 10px;
+	padding: $input-padding;
 	border: 1px solid $input-border-color;
 	background-color: $input-bg;
 	vertical-align: middle;
-	&.dark {
-		background-color: #efefef;
-		border-color: #efefef;
+	@include border-radius($input-border-radius);
+	@include box-shadow(0 1px 1px rgba(0,0,0,.15));
+	@include transition(border linear .2s, box-shadow linear .2s);
+
+	&.input--small {
+		padding: $input-small-padding;
 	}
+
 	&.small {
 		width: 100px;
 	}
 	&.full-width {
 		width: 100%;
 	}
-	@include breakpoint(small) {
-		width: 100%;
-		&.small {
-			width: 100px;
-		}
-	}
 	&:focus {
 		border-color: #66afe9;
 		@include box-shadow(0 0 8px rgba(102, 175, 233, .75));
 		outline: none;
 	}
-	&:disabled {
+	&:disabled, &.disabled {
 		background: #fafafa;
+	}
+	@include breakpoint(small) {
+		width: 100%;
+		&.small {
+			width: 100px;
+		}
 	}
 }
 
@@ -68,7 +47,7 @@ textarea {
 
 select {
 	position: relative;
-	padding-right: 25px;
+	padding-right: 25px !important;
 	@include retina-background("select-arrow.png", "icon");
 	background-color: #fff;
 	background-repeat: no-repeat;
@@ -108,100 +87,14 @@ fieldset {
 legend {
 	text-transform: uppercase;
 	margin-bottom: 5px;
-	font-size: 14px;	
-}
-
-button,
-a.button {
-	@include border-radius($button-border-radius);
-	display: inline-block;
-	height: auto;
-	width: auto;
-	padding: 7px 18px;
-	background-color: $button-primary-bg;
-	background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzQ3YTNjYSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMyMTc0YWYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
-	background-image: -moz-linear-gradient(top, #47a3ca 0%, #2174af 100%); /* FF3.6+ */
-	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#47a3ca), color-stop(100%,#2174af)); /* Chrome,Safari4+ */
-	background-image: -webkit-linear-gradient(top, #47a3ca 0%,#2174af 100%); /* Chrome10+,Safari5.1+ */
-	background-image: -o-linear-gradient(top, #47a3ca 0%,#2174af 100%); /* Opera 11.10+ */
-	background-image: -ms-linear-gradient(top, #47a3ca 0%,#2174af 100%); /* IE10+ */
-	background-image: linear-gradient(to bottom, #47a3ca 0%,#2174af 100%); /* W3C */
-	border: 0;
-	color: $button-primary-color;
-	text-align: center;
-	font-size: $font-size-small;
-	font-weight: $button-font-weight;
-	line-height: $line-height;
-	text-shadow: 0 2px 0 rgba(0, 0, 0, .2);
-	&.secondary {
- 		background-color: $button-secondary-bg;
- 	}
-	&:hover {
-		background-color: #6b6b6b;
-		color: #fff;
-	}
-
-	&:disabled,
-	&.disabled {
-		opacity: .5;
-		cursor: default;
-	}
-	&.social {
-		display: inline-block;
-		width: 190px;
-		position: relative;
-		padding-left: 50px;
-		.icon-holder {
-			position: absolute;
-			top: 0;
-			left: 0;
-			bottom: 0;
-			width: 40px;
-			text-align: center;
-			i {
-				position: absolute;
-				top: 15px;
-				left: 13px;
-			}
-		}
-	}
-	&.facebook {
-		background: #4a6aa9;
-		border: 1px solid #3e5c9b;
-		.icon-holder {
-			border-right: 1px solid #3e5c9b;
-			i {
-				left: 16px;
-			}
-		}
-	}
-	&.twitter {
-		background: #36a5ca;
-		border: 1px solid #2a86a6;
-		.icon-holder {
-			border-right: 1px solid #2a86a6;
-			i {
-				top: 16px;
-			}
-		}
-	}
-	&.linkedin {
-		background: #2386bb;
-		border: 1px solid #1f557e;
-		.icon-holder {
-			border-right: 1px solid #1f557e;
-		}
-	}
-	i {
-		margin: -4px 5px 0 0;
-	}
+	font-size: $label-font-size;	
 }
 
 form, .form {
 	.additional-field-action {
 		text-transform: uppercase;
 		font-weight: 600;
-		font-size: 14px;
+		font-size: $label-font-size;
 		margin: 15px 0 -10px;
 	}
 	.help-text {
@@ -211,18 +104,18 @@ form, .form {
 		line-height: 1.3;
 		padding: 7px 8px 0 0;
 	}
-	div.validationSummary {
+	.validationSummary {
 		margin-bottom: 10px;
 		color: #BE3438;
 		ul {
 			@include layout-list;
 		}
 	}
-    div.validation-summary-valid {
+    .validation-summary-valid {
         display: none;
     }
 	.single-link {
-		font-size: 14px;
+		font-size: $label-font-size;
 	}
 	@include breakpoint(medium-large) {
 		.single-link {
@@ -233,12 +126,11 @@ form, .form {
 	.item {
 		@extend .clearfix;
 		//Make sure to have padding-right by default to match the group-col's padding
-		padding-right: 20px;
 		> label {
 			display: block;
 			margin-bottom: 5px;
-			font-size: 14px;
-			text-transform: uppercase;
+			font-size: $label-font-size;
+			font-weight: 600;
 			span {
 				text-transform: none;
 			}
@@ -256,10 +148,7 @@ form, .form {
 				text-transform: uppercase;
 			}
 		}
-        &.full {
-            padding-right: 0;
-        }
-        span.field-validation-error {
+        .field-validation-error {
             display: block;
         }
         &.error {
@@ -281,10 +170,10 @@ form, .form {
                     color: #c00;  
                 }
             }
-            span.field-validation-error {
+            .field-validation-error {
                 margin-top: 5px;
                 color: #c00; // #E49593
-                font-size: 14px;
+                font-size: $label-font-size;
             }
         }
         @include breakpoint(small) {
@@ -324,6 +213,9 @@ form, .form {
 	.group {
 		@extend .clearfix;
 		@include breakpoint(large) {
+			.item + .item {
+				padding-left: 10px;
+			}
 			&.inline-group {
 				width: auto;
 				.item {
@@ -331,32 +223,26 @@ form, .form {
 						display: inline-block;
 						margin-right: 5px;	
 					}
-					input,
-					select {
+					input, select {
 						width: auto;
 					}
 				}
 			}
 		}
 		@include breakpoint(medium-large) {
-			& .group-col {
-				width: 50%;
-			}
 			.item {
-				@include box-sizing(border-box);
 				float: left;
 				margin-bottom: 0;
-				padding: 0 10px 0 0;
-				&:last-child {
-					padding-right: 0;
-				}
-				#{$input-selectors},
-				textarea,
-				select {
+				padding: 0 0 0 10px;
+				@include box-sizing(border-box);
+				#{$input-selectors}, textarea, select {
 					width: 100%;
 					&.small {
 						width: 100px;
 					}
+				}
+				&:first-child {
+					padding-left: 0;
 				}
 				&.horizontal {
 					#{$input-selectors},
@@ -365,6 +251,9 @@ form, .form {
 						width: auto;
 					}
 				}
+			}
+			& .group-col {
+				width: 50%;
 			}
 		}
 	}
@@ -437,11 +326,6 @@ form, .form {
 			margin-bottom: 0;
 		}	
 	}
-	hr.content-divider { 
-		border: none;
-		border-top: 1px solid #ddd;
-		margin: 25px -15px;
-	}
 	input[type="radio"],
 	input[type="checkbox"] {
 		margin-bottom: 0;
@@ -466,15 +350,16 @@ form, .form {
 	button {
 		background: #fff;
 		color: #555;
-		@include border-radius(10px);
+		@include border-radius($input-border-radius);
 		@include box-shadow(0 1px 1px rgba(0,0,0,.15));
 		@include transition(border linear .2s, box-shadow linear .2s);
 		text-transform: none;
-		padding: 6px 35px 6px 10px;
-		border: 1px solid #bcbcbc;
+		padding-right: 35px;
+		border: 1px solid $input-border-color;
 		text-align: left;
 		position: relative;
 		font-weight: normal;
+		text-shadow: none;
 		.caret {
 			position: absolute;
 			right: 6px;
@@ -576,7 +461,7 @@ form, .form {
     .input-group-btn {
         width: 1%;
         white-space: nowrap;
-        vertical-align: middle; // Match the inputs
+        vertical-align: top; // Match the inputs
     }
 
     .input-group-btn button {
@@ -603,7 +488,7 @@ form, .form {
 
         // Negative margin for spacing, position for bringing hovered/focused/actived
         // element above the siblings.
-        > .btn {
+        > .btn, > button, > .button {
             position: relative;
             + .btn {
                 margin-left: -1px;

@@ -16,9 +16,10 @@ $themes:
 	(name: "darkgrey", primaryColor: #6b6b6b, accentColor: #fff, textColor: #fff);
 
 @each $theme in $themes {
-	button, .button {
+	.marketing button, .marketing .button {
 		&.#{map-get($theme, name)} {
 			background-color: map-get($theme, primaryColor);
+			background-image: none;
 			color: map-get($theme, accentColor);
 		}
 	}
@@ -180,6 +181,7 @@ article.photoLockup {
 			}
 			button, .button {
 				background-color: map-get($theme, accentColor);
+				background-image: none;
 				color: map-get($theme, primaryColor);
 				&:hover {
 					background-color: #6b6b6b;
@@ -200,6 +202,7 @@ article.photoLockup {
 			}
 			button, .button {
 				background-color: map-get($theme, primaryColor);
+				background-image: none;
 				&:hover {
 					background-color: #6b6b6b;
 					color: #fff;
@@ -257,6 +260,7 @@ article.marketingIntro {
 			}
 			button, .button {
 				background-color: map-get($theme, primaryColor);
+				background-image: none;
 				&:hover {
 					background-color: #6b6b6b;
 					color: #fff;
@@ -306,6 +310,7 @@ article.loginHorizontal {
 	}
 	button {
 		background-color: #fff;
+		background-image: none;
 		color: #1773cb;
 		line-height: normal;
 		width: 85px;
@@ -327,9 +332,6 @@ article.loginHorizontal {
 			margin-right: 15px;
 			padding-right: 15px;
 		}
-		.group .item {
-			padding-right: 11px;
-		}
 		.username-item, .password-item {
 			width: 140px;
 		}			
@@ -340,7 +342,6 @@ article.loginHorizontal {
 	}
 	@include breakpoint(large) {
 		.group .item {
-			padding-right: 18px;	
 		}		
 		.username-item, .password-item {
 			width: 240px;
@@ -411,6 +412,7 @@ article.gridPromos {
 				}
 				button, .button {
 					background-color: map-get($theme, primaryColor);
+					background-image: none;
 					white-space: nowrap;
 					&:hover {
 						background-color: #6b6b6b;
@@ -561,6 +563,7 @@ article.philanthropy {
 			margin: 60px 20px 0 0;
 			button {
 				background-color: #77bc1f;
+				background-image: none;
 			}
 		}
 		@include breakpoint(medium) {
@@ -610,6 +613,7 @@ article.full-html {
 			}
 			button, .button {
 				background-color: map-get($theme, accentColor);
+				background-image: none;
 				color: map-get($theme, primaryColor);
 			}
 		}
@@ -621,6 +625,7 @@ article.full-html {
 			}
 			button, .button {
 				background-color: map-get($theme, primaryColor);
+				background-image: none;
 				&:hover {
 					color: #fff;
 					background-color: #6b6b6b;
@@ -710,6 +715,7 @@ article.service-states {
 		button,
 		a.button {
 			background-color: #78bb2f;
+			background-image: none;
 			color: #fff;
 			&.secondary {
 				background-color: #fff;
@@ -972,6 +978,7 @@ article.pay {
 		}
 		button {
 			background-color: #77bc1f;
+			background-image: none;
 			&:hover {
 				color: #000;
 			}
@@ -1201,6 +1208,7 @@ article.contact {
 				}
 				button {
 					background-color: #ebebeb;
+					background-image: none;
 					color: #000;
 				}
 			}
@@ -1337,6 +1345,7 @@ article.contact-state {
 				button,
 				.button {
 					background-color: #ffa409;
+					background-image: none;
 					a {
 						color: #fff;
 					}
@@ -1695,6 +1704,7 @@ article.homelife-services {
 			}
 			.identity .button {
 				background-color: #7e9bb5;
+				background-image: none;
 			}
 			.support {
 				&:after {
@@ -2692,7 +2702,7 @@ article.paperless {
 		float: right;
 		padding-left: 40px;
 		border-left: 1px solid #cfcfcf;
-		div.clearfix {
+		& > div {
 			margin-bottom: 30px;
 			img {
 				float: left;
@@ -2738,6 +2748,7 @@ article.paperless {
 		}
 		.share {
 			margin-top: 100px;
+			margin-bottom: 0;
 			text-align: center;
 		}
 		@include breakpoint(small) {

@@ -5,11 +5,11 @@
                 <div class="group">
                     <div class="item">
                         <label for ="AccountNumber">@Html.Sitecore().Field("Account Number Text")</label>
-                        <select name="AccountNumber" id="AccountNumber" ng-model="currentAccount" ng-options="account.accountNumber for account in accounts track by account.accountNumber" ng-change="currentSubAccount = currentAccount.subAccounts[0]; updateSelectedAccount(currentAccount.accountNumber,currentAccount.subAccountLabel, currentSubAccount)"></select>
+                        <select class="input--small" name="AccountNumber" id="AccountNumber" ng-model="currentAccount" ng-options="account.accountNumber for account in accounts track by account.accountNumber" ng-change="currentSubAccount = currentAccount.subAccounts[0]; updateSelectedAccount(currentAccount.accountNumber,currentAccount.subAccountLabel, currentSubAccount)"></select>
                     </div>
                     <div class="item">
                         <label for="SubAccount">{{ currentAccount.subAccountLabel }}</label>
-                        <select name="SubAccount" id="SubAccount" ng-model="currentSubAccount" ng-options="subAccount.id for subAccount in currentAccount.subAccounts" ng-change="updateSelectedAccount(currentAccount.accountNumber,currentAccount.subAccountLabel, currentSubAccount)"></select>
+                        <select class="input--small" name="SubAccount" id="SubAccount" ng-model="currentSubAccount" ng-options="subAccount.id for subAccount in currentAccount.subAccounts" ng-change="updateSelectedAccount(currentAccount.accountNumber,currentAccount.subAccountLabel, currentSubAccount)"></select>
                     </div>
                 </div>
             </form>

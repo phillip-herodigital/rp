@@ -62,27 +62,27 @@
                             }
                         </li>
                     }
-                    <li><a href="/pay/" class="button">Pay My Bill</a></li>
                     <li>@Html.Raw(languageLink)</li>
                     <li><a href="/manage/">Manage My Account</a></li>
                 </ul>
             </nav>
         </script>
-        <div class="wrapper">
-            <a href="/" class="logo">Logo</a>
-            <div class="utility">
-                @Html.Raw(languageLink) | <a class="account-link" href="/manage/">Manage My Account</a>
+        <div class="shadow-wrapper">
+            <div class="wrapper">
+                <a href="/" class="logo">Logo</a>
+                <div class="utility">
+                    @Html.Raw(languageLink) <a class="account-link" href="/manage/">Manage My Account</a>
+                </div>
+                <a href="" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
+                <nav class="main-nav">
+                        <ul class="wrapper">
+                            @foreach (var item in target)
+                            {
+                                <li class="nav-@item.SubNavNum" ng-mouseover="showSubnav(@item.SubNavNum)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav==@item.SubNavNum }">@Html.Sitecore().Field("Navigation Link", item.Item)<span class="triangle"></span></li>
+                            }
+                        </ul>
+                </nav>
             </div>
-            <a href="" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
-            <nav class="main-nav">
-                <ul class="wrapper">
-                    @foreach (var item in target)
-                    {
-                        <li class="nav-@item.SubNavNum" ng-mouseover="showSubnav(@item.SubNavNum)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav==@item.SubNavNum }">@Html.Sitecore().Field("Navigation Link", item.Item)</li>
-                    }
-                    <li class="pay"><a href="/pay/" class="button">Pay My Bill</a></li>
-                </ul>
-            </nav>
         </div>
         <nav class="sub-nav">
             @foreach (var entry in target)

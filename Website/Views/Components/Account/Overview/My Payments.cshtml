@@ -56,7 +56,7 @@
                             <td ng-show="showColumn('paymentDate')">{{ item.paymentDate }}</td>
                             <td ng-show="showColumn('status')">{{ item.status }}</td>
                             <td ng-show="showColumn('action')">
-                                <button class="secondary" ng-click="expandInnerTable($index)">Details</button>
+                                <button class="secondary small" ng-click="expandInnerTable($index)">Details</button>
                             </td>
                         </tr>
                         <tr class="expand-details" ng-show="expand[$index] == true">

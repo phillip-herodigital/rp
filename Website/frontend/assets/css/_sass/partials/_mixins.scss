@@ -61,6 +61,19 @@
 	padding: 0;
 }
 
+@mixin navigation-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    > li {
+        display:block;
+        float:left;
+        &:last-child{
+            margin-right: 0px;
+        }
+    }
+}
 
 /**
  * Backwards compatitbility for IE8 opacity

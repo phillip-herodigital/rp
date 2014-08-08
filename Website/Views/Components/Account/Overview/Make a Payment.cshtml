@@ -6,7 +6,7 @@
     <div ng-show="ctrl.activeState == 'step1'">
         <form data-val-bind-messages="validations" ng-submit="ctrl.resolvePaymentMethod()">
             <div class="content grid-table-content" loading-indicator>
-                <div class="payment-account stretch">
+                <div class="payment-account">
                     <table grid-table ng-model="ctrl.invoices" class="grid-table">
                         <thead grid-table-header checkboxes="true"></thead>
                         <tbody ng-repeat="item in table.valuesToShow">
@@ -19,7 +19,7 @@
                                 <td ng-show="showColumn('invoiceAmount')">{{ item.invoiceAmount | currency }}</td>
                                 <td ng-show="showColumn('dueDate')">{{ item.dueDate }}</td>
                                 <td ng-show="showColumn('action')">
-                                    <button class="secondary" type="button">@Html.Sitecore().Field("View PDF Text")</button>
+                                    <button class="secondary small" type="button">@Html.Sitecore().Field("View PDF Text")</button>
                                     <div class="request-extension" ng-show="item.canRequestExtension"><a href="#">@Html.Sitecore().Field("Request Extension Text")</a></div>
                                 </td>
                             </tr>
@@ -32,7 +32,7 @@
                                 <td colspan="{{table.columnList.length+2}}">
                                     <p ng-repeat="column in table.columnList | filter:{isVisible: false}" ng-switch on="column.field">
                                         <span ng-switch-when="action">
-                                            <button class="secondary" type="button">@Html.Sitecore().Field("View PDF Text")</button>
+                                            <button class="secondary small" type="button">@Html.Sitecore().Field("View PDF Text")</button>
                                         </span>
                                         <span ng-switch-default>
                                             <strong>{{ column.displayName }}:</strong> {{ item[column.field] }}

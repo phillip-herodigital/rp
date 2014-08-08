@@ -20,7 +20,8 @@ article {
 	@include box-shadow(0 1px 2px rgba(0, 0, 0, 0.15));
 	@include border-radius($module-border-radius);
 	margin-bottom: $module-vertical-padding;
-	border: 1px solid $dark-border-color;
+	border: 1px solid $light-border-color;
+
 	//We don't know which type of element will happen first or last in an article
 	//So always update the border radius on it
 	& > *:first-child {
@@ -29,22 +30,26 @@ article {
 	& > *:last-child {
 		@include border-radius(0px 0px $module-border-radius $module-border-radius);
 	}
+
 	header {
+		@extend .clearfix;
 		background-color: $module-header-bg;
-		padding: $module-vertical-padding $module-horizontal-padding;
+		padding: ($module-vertical-padding / 1.2) $module-horizontal-padding;
+		border-bottom: 1px solid $light-border-color;
 		h1, h2, .module-heading {
-			font-size: $module-header-font-size;
+			font: $h2-font;
 			color: $module-header-color;
 			margin: 0;
-			text-transform: none;
+			float: left;
 		}
 	}
 	footer {
 		background: $module-footer-bg;
 		padding: $module-vertical-padding $module-horizontal-padding;
-		border-top: 1px solid $dark-border-color;
+		border-top: 1px solid $light-border-color;
 		@include border-radius(0 0 $module-border-radius $module-border-radius);
 	}
+
 	.buttons {
 		@extend .clearfix;		
 		.button, button {
@@ -60,7 +65,8 @@ article {
 				}
 			}			
 		}
-	}	
+	}
+
 	.content {
 		padding: $module-vertical-padding $module-horizontal-padding;
 		position: relative;
@@ -73,8 +79,9 @@ article {
 			padding-bottom: 0;
 		}
 	}
+
 	.account-selector {
-		padding: 15px;
+		padding: 15px $module-horizontal-padding;
 		border-bottom: 1px solid #ddd;
 		form div.group {
 			@extend .inline-group;
@@ -94,15 +101,14 @@ article {
 			}
 		}
 	}
-	.filters {
-		background: #fbfbfb;
-		padding: 10px;
+
+	.content .filters {
+		padding: ($module-vertical-padding / 2) ($module-horizontal-padding / 2);
 		border-bottom: 1px solid #ddd;
-		margin: -15px -15px 0 -15px;
+		margin: ($module-vertical-padding * -1) ($module-horizontal-padding * -1) 0;
 		.group {
 			.item {
 				width: auto;
-				margin-top: 8px;
 				label {
 					display: inline-block;
 					margin-right: 5px;
@@ -120,15 +126,36 @@ article {
 			}
 		}
 	}
+
 	.stretch {
-		margin: 0 -15px;
+		margin: 0 ($module-horizontal-padding * -1);
+
+		//Get rid of the left and right borders
+		> table {
+			th:first-child {
+				border-left: none;
+			}
+			th:last-child {
+				border-right: none;
+			}
+			tr {
+				td:first-child, th:first-child {
+					border-left: none;
+				}
+				td:last-child, th:last-child {
+					border-right: none;
+				}
+			}
+		}
 	}
+
 	.pagination {
 		.page-size {
 			float: left;
 			width: 25%; 
 			select {
 				width: auto;
+				padding: $input-small-padding;
 			}
 			@include breakpoint (small) {
 				width: 100%;
@@ -138,7 +165,7 @@ article {
 		.showing {
 			float: left;
 			width: 25%;
-			margin: 10px 0 0 0;
+			margin: 5px 0 0 0;
 			text-align: right;
 			@include breakpoint (small) {
 				width: 100%;
@@ -154,13 +181,15 @@ article {
 				display: inline-block;
 				//padding: 0 3px;
 				vertical-align: middle;
-				margin: 7px 2px 0 2px;
+				margin: 0 2px 0 2px;
 				&.page-number {
 					a {
 						@include border-radius(10px, 10px);
 						display: inline-block;
 						border: 1px solid #d9d9d9;
-						padding: 6px 15px;
+						padding: $input-small-padding;
+						min-width: 32px;
+						text-align: center;
 						background-color: #fff;
 						color: #333;
 						cursor: pointer;
@@ -183,12 +212,20 @@ article {
 			}
 		}
 	}
+
+	hr.content-divider { 
+		border: none;
+		border-top: 1px solid #ddd;
+		margin: ($module-vertical-padding) ($module-horizontal-padding * -1);
+	}
+
 	hr.wide {
 		height: 0px;
 		width: 100%;
 		border: 1px solid #ddd;
 		border-bottom: 0px;
 	}
+
 	dl.module-list {
 		dt {
 			font-weight: bold;
@@ -206,10 +243,8 @@ article {
 			}
 		}			
 	}
-	.label { 
-		//@extend label;
-	}
-	div.text-content-divider {
+
+	.text-content-divider {
 	    overflow: hidden;
 	    text-align: center;
 	    text-transform: uppercase;
@@ -234,38 +269,6 @@ article {
 		    left: 0.5em;
 		    margin-right: -50%;
 		    background-color: #ccc;
-		}
-	}
-}
-article.grey-box {
-	background-color: #f9f9f9;
-	/**margin: 0 20px 20px 20px;
-	padding: 0;**/
-	/**.cols-1 & {
-		padding: 0;
-		margin: 0 20px 20px 20px;
-	}**/
-	header {
-		background-color: #f5f5f5;
-		background-image: none;
-		border-bottom: 1px solid #ddd;
-		h2 {
-			color: $brand-primary-color;
-		}
-	}
-	.account-selector {
-		background-color: #f9f9f9;
-	}
-}
-
-article.white-box {
-	background-color: #fff;
-	header {
-		background-color: #fff;
-		background-image: none;
-		border-bottom: 1px solid #ddd;
-		h2 {
-			color: $brand-primary-color;
 		}
 	}
 }
@@ -370,12 +373,6 @@ article.account {
 
 div.banner + article.message {
 	margin-top: -20px;
-}
-
-div.banner.account {
-	@include breakpoint(large) {
-		border-bottom: 5px solid #259afd;
-	}
 }
 
 article.message {
@@ -715,7 +712,7 @@ article.service-identification {
 	padding-top: 0px;
 	background-color: #fbfbfb;
 	.content {
-		padding: 0px 15px;
+		padding: 0px $module-horizontal-padding;
 	}
 	.service-address p {
 		margin-bottom: 0px;
@@ -862,21 +859,12 @@ article.make-payment {
 	.payment-module {
 		margin-bottom: 0;
 	}
-	.grid-table-content {
-		padding-top: 0;
-	}
 	.notice dl {
 		margin: 0;
 	}
 	.stretch > .grid-table {
 		thead th {
 			border-top: none;
-		}
-		tr td:first-child, tr th:first-child {
-			border-left: none;
-		}
-		tr td:last-child, tr th:last-child {
-			border-right: none;
 		}
 		.details td:first-child {
 			border-left: 2px solid $brand-primary-color;
@@ -939,12 +927,10 @@ article.make-payment {
 }
 article.payment-history {
 	header {
-		margin-bottom: 15px;
-		h2 {
-			display: inline-block;
-		}
 		ul {
 			float: right;
+			padding: 0;
+			margin: 0;
 			@include breakpoint(small) {
 				float: none;
 				padding-left: 0px;
@@ -967,7 +953,6 @@ article.payment-history {
 		}
 	}
 	.content {
-		padding-top: 0px;
 		.filters form .group .actions {
 			@include breakpoint(small) {
 				float: left;
@@ -1009,11 +994,7 @@ article.payment-history {
 	}
 }
 article.my-invoices {
-	header {
-		margin-bottom: 15px;
-	}
 	.content {
-		padding-top: 0px;
 		.icon-homelife-services,
 		.icon-utility {
 			margin: 0 2px 4px 0;
@@ -1720,6 +1701,7 @@ aside {
 		h1 {
 			line-height: 1em;
 			margin: 0;
+			color: #fff;
 		}
 		button, .button {
 			width: 100%;

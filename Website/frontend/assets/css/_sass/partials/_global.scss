@@ -69,7 +69,10 @@ ul, ol {
 
 .actions {
 	float: right;
-	text-transform: uppercase;
+	text-transform: uppercase; 
+	p {
+		margin: 6px 0;
+	}
 }
 
 @include breakpoint(small) {
