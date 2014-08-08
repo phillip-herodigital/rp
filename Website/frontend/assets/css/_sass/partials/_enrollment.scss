@@ -99,7 +99,7 @@
         font-size: $enrollment-module-h1-size;
         color: $enrollment-module-h1-color;
         text-transform: none;
-        margin-top: 15px;
+        margin: 0;
     }
     header, .content, footer {
         padding-left: $enrollment-module-horizontal-padding;
@@ -512,11 +512,13 @@
 .enrollment__cart {
     margin-bottom: 15px;
     line-height: 1.35;
-    header {
-        margin-bottom: 15px;
-    }
     header, .content, footer {
         padding: 0 13px;
+    }
+    header {
+        padding-top: 15px;
+        padding-bottom: 15px;
+        margin-bottom: 15px;
     }
     hr {
         margin: 15px 0;

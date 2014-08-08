@@ -1,4 +1,5 @@
 .site-header {
+	background: #fff;
 	@include transition(left linear .2s); 
 	.wrapper {
 		position: relative;
@@ -7,10 +8,6 @@
 		@include image-replace("bg/logo-desktop.png", "bg2x/logo-desktop.png");
 		float: left;
 		margin-top: 33px;
-	}
-	.shadow-wrapper {
-		@include box-shadow(0 0 3px rgba(0, 0, 0, .2));
-		position: relative;
 	}
 	.utility {
 		position: absolute;
@@ -37,10 +34,11 @@
 		left: 0;
 		width: 100%;
 		z-index: 9000;
+		border-bottom: 1px solid $dark-border-color;
+		@include box-shadow(0 0 3px rgba(0, 0, 0, .1));
 		
 		> .wrapper {
 			background-color: #fff;
-			@include retina-background("header-mobile.png");
 			background-repeat: repeat-x;
 			z-index: 2;
 			height: 57px;
@@ -49,7 +47,7 @@
 			@include image-replace("bg/logo-mobile.png", "bg2x/logo-mobile.png");
 			position: absolute;
 			left: 50%;
-			top: 20px;
+			top: 18px;
 			margin-top: 0;
 			margin-left: image-width("bg/logo-mobile.png") / 2 * -1;
 		}
@@ -87,6 +85,10 @@
 		.cart-toggle {
 			display: none;
 		}
+		.shadow-wrapper {
+			@include box-shadow(0 0 3px rgba(0, 0, 0, .2));
+			position: relative;
+		}
 		&.fixed {
 			background: #fff;
 			height: 75px;
@@ -96,11 +98,12 @@
 				left: 0;
 				width: 100%;
 				background-color: #fff;
-				@include retina-background("header-mobile.png");
 				background-repeat: repeat-x;
 				z-index: 9000;
 				height: 75px;
-				border-bottom: 1px solid #2599fc;
+				border-bottom: 1px solid $dark-border-color;
+				@include box-shadow(0 0 3px rgba(0, 0, 0, .1));
+
 				@include breakpoint(small) {
 					background: #fff;
 				}
@@ -108,7 +111,7 @@
 			.logo {
 				position: absolute;
 				left: 50%;
-				top: 21px;
+				top: 18px;
 				margin-top: 0;
 				margin-left: (image-width("bg/logo-desktop.png") / 2) * -1;
 				@include breakpoint(small) {

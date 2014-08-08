@@ -5,12 +5,15 @@
 	border: 1px solid $input-border-color;
 	background-color: $input-bg;
 	vertical-align: middle;
+	height: 34px;
+	line-height: 20px;
 	@include border-radius($input-border-radius);
 	@include box-shadow(0 1px 1px rgba(0,0,0,.15));
 	@include transition(border linear .2s, box-shadow linear .2s);
 
 	&.input--small {
 		padding: $input-small-padding;
+		height: 30px;
 	}
 
 	&.small {
@@ -56,6 +59,7 @@ select {
 	-moz-appearance: none;
 	text-indent: 0.01px;
     text-overflow: '';
+    line-height: 16px;
 
 	// Webkit
 	-webkit-appearance: none;

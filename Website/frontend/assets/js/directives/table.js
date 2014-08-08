@@ -253,13 +253,13 @@ ngApp.directive('gridTableHeader', [function () {
 		transclude: true,
 		template:	'<thead>' +
 					'	<tr>' +
-					'		<th style="width:30px;" ng-show="hasCheckboxes">' +
+					'		<th style="width:30px;" ng-if="hasCheckboxes">' +
 					'			<input type="checkbox" ng-model="toggleCheckbox" ng-change="toggleCheckboxes()" />' +
 					'		</th>' +
-					'		<th style="width:30px;" ng-show="hasHiddenColumns"></th>' +
 					'		<th ng-repeat="item in table.columnList | filter:{isVisible: true} | orderBy:\'displayOrder\'" ng-click="updateSort(item)">' +
 					'			<span>{{ item.displayName }}</span>' +
 					'		</th>' +
+					'		<th style="width:30px;" ng-if="hasHiddenColumns"></th>' +
 					'	</tr>' +
 					'</thead>',
 		replace: true,

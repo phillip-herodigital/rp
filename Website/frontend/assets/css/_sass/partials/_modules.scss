@@ -155,7 +155,6 @@ article {
 			width: 25%; 
 			select {
 				width: auto;
-				padding: $input-small-padding;
 			}
 			@include breakpoint (small) {
 				width: 100%;

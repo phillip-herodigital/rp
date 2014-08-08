@@ -71,7 +71,7 @@ ul, ol {
 	float: right;
 	text-transform: uppercase; 
 	p {
-		margin: 6px 0;
+		margin: 6px 0 0;
 	}
 }
 
@@ -123,6 +123,10 @@ ul, ol {
 			vertical-align: middle;
 		}
 	}
+}
+
+[loading-indicator] {
+    //min-height: 200px;
 }
 
 //Generic notices

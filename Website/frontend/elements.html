@@ -462,6 +462,7 @@
                                 <input type="text" id="lastname" />
                             </div>
                         </div>
+
                         <h4>Grouped Fields as Columns</h4>
                         <div class="group">
                             <div class="item group-col">
@@ -550,6 +551,29 @@
                                 <button disabled="disabled">Disabled</button>
                             </p>
                         </div>
+
+                        <h4>Small Input Fields</h4>
+                        <div class="group">
+                            <div class="item">
+                                <label for="firstname">First Name</label>
+                                <input class="input--small" type="text" id="firstname" />
+                            </div>
+                            <div class="item">
+                                <label for="lastname">Last Name</label>
+                                <input class="input--small" type="text" id="lastname" />
+                            </div>
+                            <div class="item">
+                                <label for="lastname">Select</label>
+                                <select class="input--small" id="lastname">
+                                    <option>1</option>
+                                </select>
+                            </div>
+                            <div class="item">
+                                <label for="">test</label>
+                                <button class="small">Button</button>
+                            </div>
+                        </div>
+
                     </form>
 
                     <hr>
@@ -689,17 +713,17 @@
                                     <div class="group">
                                         <div class="item">
                                             <label for="ServiceType">Service Type:</label>
-                                            <select id="ServiceType" ng-model="filters.serviceType" ng-options="item.value as item.name for item in filtersList.serviceType" class="ng-pristine ng-valid"><option value="" class="">All</option><option value="0">HomeLife Services</option><option value="1">Utility</option></select>
+                                            <select class="input--small" id="ServiceType" ng-model="filters.serviceType" ng-options="item.value as item.name for item in filtersList.serviceType" class="ng-pristine ng-valid"><option value="" class="">All</option><option value="0">HomeLife Services</option><option value="1">Utility</option></select>
                                         </div>
                                         <div class="item">
                                             <label for="Account">Account:</label>
-                                            <select id="Account" ng-model="filters.accountNumber" ng-options="item.value as item.name for item in filtersList.accountNumber" class="ng-pristine ng-valid"><option value="" class="">All</option><option value="0">1197015532</option><option value="1">219849302</option><option value="2">194829927</option></select>
+                                            <select class="input--small" id="Account" ng-model="filters.accountNumber" ng-options="item.value as item.name for item in filtersList.accountNumber" class="ng-pristine ng-valid"><option value="" class="">All</option><option value="0">1197015532</option><option value="1">219849302</option><option value="2">194829927</option></select>
                                         </div>
                                         <div class="item">
                                             <label for="Status">Status:</label>
-                                            <select id="Status" ng-model="filters.isPaid" ng-options="item.value as item.name for item in filtersList.isPaid" class="ng-pristine ng-valid"><option value="" class="">All</option><option value="0">Paid</option><option value="1">Unpaid</option></select>
+                                            <select class="input--small" id="Status" ng-model="filters.isPaid" ng-options="item.value as item.name for item in filtersList.isPaid" class="ng-pristine ng-valid"><option value="" class="">All</option><option value="0">Paid</option><option value="1">Unpaid</option></select>
                                         </div>
-                                        <div class="actions ng-hide" ng-show="isFiltered()">
+                                        <div class="actions">
                                             <p><a href="" ng-click="resetFilters()">Reset Filters</a></p>
                                         </div>
                                     </div>

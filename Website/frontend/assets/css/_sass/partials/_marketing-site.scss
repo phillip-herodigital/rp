@@ -643,6 +643,7 @@ article.full-html {
 
 article.state-tabs {
 	.tabs-nav {
+		padding: 0;
 		margin: 0 auto;
 		display: table;
 		@include breakpoint(small) {
@@ -1362,24 +1363,22 @@ article.contact-state {
 }
 
 article.faq {
-	background-color: #eaeaea;
 	padding: 20px 0;
 	.wrapper {
 		.panel {
-			@include border-radius(10px);
-			background: #fff;
             // http://stackoverflow.com/questions/15430675/jquery-slidetoggle-and-css-border-radius-propery-show-wired-in-ie10
             display: inline-block;
             width: 100%;
 			p.question {
-				margin: 0 10px 0 55px;
+				margin: 0;
 				a {
 					background-image: url('../i/marketing/collapse.png');
 					background-repeat: no-repeat;
-					background-position: right center;					
+					background-position: left center;					
 					color: #696969;
 					display: block;
-					padding: 15px 40px 15px 0;
+					padding: 15px 0 15px 40px;
+					font-weight: 600;
 				}
 				a.collapsed {
 					background-image: url('../i/marketing/expand.png');
@@ -1390,11 +1389,13 @@ article.faq {
 				font-size: 26px;
 				margin: 10px 0px 0 10px;
 				color: #bbb;
+				display: none;
 			}
 			.panel-content {
-				color: $brand-primary-color;
 				padding-bottom: 10px;
+				padding-left: 40px;
 				.answer-hr {
+					display: none;
 					border: 3px solid #eaeaea;
 					width: 90%;
 					margin-top: 0; //Prevent jumping in the slide animation
@@ -1403,16 +1404,15 @@ article.faq {
 					float: left;
 					font-size: 26px;
 					margin: 5px 0px 0 10px;
+					display: none;
 				}
 				.answer {
-					margin-left: 55px;	
-					padding-right: 45px;
 				}
 			}
 		}
 		.faq-hr {
-			border: 3px solid #f3f3f3;
-			margin: 20px 0;
+			border: 1px solid #f3f3f3;
+			margin: 10px 0;
 		}	
 	}
 }

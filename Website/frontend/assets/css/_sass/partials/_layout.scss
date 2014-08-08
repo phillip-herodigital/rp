@@ -1,6 +1,7 @@
 // Layout Variables
 $sidebar: 275px;
 $mobile-nav: 260px;
+$mobile-nav-margin: 15px;
 
 @include breakpoint(medium-large) {
 	.page-wrapper nav.mobile-nav {
@@ -17,10 +18,8 @@ $mobile-nav: 260px;
 			left: 0;
 			top: 0;
 			bottom: 0;
-			overflow: scroll;
-			// position: absolute;
-			// left: 0;
-			width: $mobile-nav;
+			width: $mobile-nav - ($mobile-nav-margin * 2);
+			margin: 0 $mobile-nav-margin;
 			font-size: 16px;
 			ul {
 				@include layout-list();
@@ -28,36 +27,54 @@ $mobile-nav: 260px;
 					a {
 						text-transform: uppercase;
 						display: block;
-						padding: 15px 45px 15px 15px;
-						border-bottom: 1px solid #d9d9d9;
+						padding: 14px 35px 13px 0;
+						border-top: 1px solid $dark-border-color;
+						color: $text-primary-color;
+						letter-spacing: 1px;
+						&:hover {
+
+						}
+					}
+					&:first-child a {
+						border-top: none;
 					}
 					> span {
 						display: block;
 						position: relative;
 					}
-					span.arrow {
+					.arrow {
 						position: absolute;
 						right: 0;
 						top: 0;
 						bottom: 0;
 						width: 40px;
-						line-height: 40px;
+						line-height: 50px;
 						text-align: center;
-						background: rgba(0,0,0,.05);
 					}
-					&.opened a {
-						background-color: #1e5280;
-						color: #fff;
-						border-bottom: 1px solid #748ea5;
+					&.opened > span > a {
+						margin: 0 -15px;
+						padding-left: 15px;
+						border-color: transparent;
+						background: #dedede;
 					}
 					&.selected span > a,
 					&.selected > a {
-						background-color: #1898ff;
+						background-color: #1c74b4;
 						color: #fff;
 					}
 					li a {
-						padding-left: 30px;
+						font-size: $font-size-xsmall;
+						line-height: normal;
+						padding: 10px 20px;
+						letter-spacing: 0;
+						border: none;
 						text-transform: none;
+						&:hover, &:active, &:focus {
+							background: #1c74b4;
+							margin: 0 -15px;
+							color: #fff;
+							padding-left: 35px;
+						}
 					}
 				}
 			}
@@ -76,6 +93,9 @@ $mobile-nav: 260px;
 			.site-header,
 			.page-content {
 				left: $mobile-nav;
+			}
+			.page-content {
+				@include box-shadow(-1px 0 5px rgba(0, 0, 0, 0.1));
 			}
 		}
 	}
