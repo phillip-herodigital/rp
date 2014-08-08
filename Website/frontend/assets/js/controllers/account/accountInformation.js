@@ -9,20 +9,18 @@ ngApp.controller('AcctAccountInformationCtrl', ['$scope', '$rootScope', '$http',
 	$scope.$watch('selectedAccount.accountNumber', function(newVal) { 
 		if (newVal) {
 			$scope.isLoading = true;
-			$timeout(function () {
-				$http({
-					method  : 'POST',
-					url     : '/api/account/getAccountInformation',
-					data    : { 'accountNumber' : newVal },
-					headers : { 'Content-Type': 'application/JSON' } 
-				})
-					.success(function (data, status, headers, config) {
-						$scope.formData = data;
-						$scope.formDataOriginal = angular.copy($scope.formData);
-						$scope.successMessage = false;
-						$scope.isLoading = false;
-					});
-			}, 800);
+			$http({
+				method  : 'POST',
+				url     : '/api/account/getAccountInformation',
+				data    : { 'accountNumber' : newVal },
+				headers : { 'Content-Type': 'application/JSON' } 
+			})
+				.success(function (data, status, headers, config) {
+					$scope.formData = data;
+					$scope.formDataOriginal = angular.copy($scope.formData);
+					$scope.successMessage = false;
+					$scope.isLoading = false;
+				});
 		}
 	});
 
@@ -47,27 +45,25 @@ ngApp.controller('AcctAccountInformationCtrl', ['$scope', '$rootScope', '$http',
 		$scope.isLoading = true;
 
 		// sent the update
-		$timeout(function() {
-			$http({
-				method  : 'POST',
-				url     : '/api/account/updateAccountInformation',
-				data    : requestData,
-				headers : { 'Content-Type': 'application/JSON' } 
-			})
-				.success(function (data, status, headers, config) {
-					if (data.validations.length) {
-				        // if not successful, bind errors to error variables
-				        $scope.isLoading = false;
-				        $scope.validations = data.validations;
+		$http({
+			method  : 'POST',
+			url     : '/api/account/updateAccountInformation',
+			data    : requestData,
+			headers : { 'Content-Type': 'application/JSON' } 
+		})
+			.success(function (data, status, headers, config) {
+				if (data.validations.length) {
+				    // if not successful, bind errors to error variables
+				    $scope.isLoading = false;
+				    $scope.validations = data.validations;
 
-					} else {
-						// if successful, show the success message
-						$scope.formDataOriginal = angular.copy($scope.formData);
-						$scope.isLoading = false;
-						$scope.successMessage = true;
-					}
-				});
-		}, 800);
+				} else {
+					// if successful, show the success message
+					$scope.formDataOriginal = angular.copy($scope.formData);
+					$scope.isLoading = false;
+					$scope.successMessage = true;
+				}
+			});
 	};
 
 }]);
