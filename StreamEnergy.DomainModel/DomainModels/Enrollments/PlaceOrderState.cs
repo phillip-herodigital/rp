@@ -45,7 +45,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
             if (context.OnlineAccount != null)
             {
-                await membership.CreateUser(context.OnlineAccount.Username, context.OnlineAccount.Password);
+                await membership.CreateUser(context.OnlineAccount.Username, context.OnlineAccount.Password, globalCustomerId: internalContext.GlobalCustomerId);
             }
 
             return await base.InternalProcess(context, internalContext);

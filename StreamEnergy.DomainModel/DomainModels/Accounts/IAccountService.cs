@@ -26,5 +26,7 @@ namespace StreamEnergy.DomainModels.Accounts
 
 
         Task<Guid> CreateStreamConnectCustomer(string username = null, string email = null);
+
+        Task<string> GetEmailByCustomerId(Guid globalCustomerId);
     }
 }

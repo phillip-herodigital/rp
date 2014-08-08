@@ -21,7 +21,7 @@ namespace StreamEnergy.DomainModels.Accounts.Create
             this.accountService = accountService;
         }
 
-        internal async Task<UserProfile> CreateUser(string username, string password, Dictionary<Guid, string> challengeAnswers = null)
+        internal async Task<UserProfile> CreateUser(string username, string password, Dictionary<Guid, string> challengeAnswers = null, Guid? globalCustomerId = null)
         {
             var user = Membership.CreateUser(username, password);
 
@@ -30,13 +30,15 @@ namespace StreamEnergy.DomainModels.Accounts.Create
                 return null;
             }
 
-            // TODO - register user with Stream Connect
-            var globalCustomerId = await accountService.CreateStreamConnectCustomer(username: username);
+            if (!globalCustomerId.HasValue)
+            {
+                globalCustomerId = await accountService.CreateStreamConnectCustomer(username: username);
+            }
 
             var profile = UserProfile.Locate(unityContainer, username);
             profile.ChallengeQuestions = (from entry in challengeAnswers ?? new Dictionary<Guid, string>()
                                           select ChallengeResponse.Create(entry.Key, entry.Value)).ToArray();
-            profile.GlobalCustomerId = globalCustomerId;
+            profile.GlobalCustomerId = globalCustomerId.Value;
 
             profile.Save();
 

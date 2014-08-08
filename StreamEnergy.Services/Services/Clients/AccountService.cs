@@ -261,5 +261,17 @@ namespace StreamEnergy.Services.Clients
                 return Guid.Empty;
             }
         }
+
+        async Task<string> IAccountService.GetEmailByCustomerId(Guid globalCustomerId)
+        {
+            var response = await client.GetAsync("/api/customers/" + globalCustomerId.ToString());
+            if (response.IsSuccessStatusCode)
+            {
+                var data = Json.Read<StreamConnect.CustomerResponse>(await response.Content.ReadAsStringAsync());
+                return data.Customer.EmailAddress;
+            }
+            return null;
+        }
+
     }
 }
