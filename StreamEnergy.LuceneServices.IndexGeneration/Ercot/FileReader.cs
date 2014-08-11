@@ -20,6 +20,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.Ercot
         private readonly static Regex postalCode = new Regex(@"(?<Zip5>[0-9]{5})(-?(?<Plus4>[0-9]{4}))?", RegexOptions.Compiled);
         // From https://www.usps.com/send/official-abbreviations.htm
         private readonly List<Action> onDispose = new List<Action>();
+        private readonly SmartyStreets.SmartyStreetService service;
 
         static FileReader()
         {
@@ -30,7 +31,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.Ercot
             addressLine = new Regex(regex, RegexOptions.Compiled);
         }
 
-        public IEnumerable<Location> ReadZipFile(Stream inputStream, string tdu)
+        public IEnumerable<Tuple<Record, IServiceCapability[]>> ReadZipFile(Stream inputStream, string tdu)
         {
             var zipFile = new ZipFile(inputStream);
             onDispose.Add(((IDisposable)zipFile).Dispose);
@@ -42,7 +43,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.Ercot
             return ReadCsvFile(zipStream, tdu);
         }
 
-        private IEnumerable<Location> ReadCsvFile(Stream inputStream, string tdu)
+        private IEnumerable<Tuple<Record, IServiceCapability[]>> ReadCsvFile(Stream inputStream, string tdu)
         {
             var textReader = new StreamReader(inputStream);
             var csv = new CsvReader(textReader);
@@ -53,7 +54,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.Ercot
             return ReadCsvFile(csv, tdu);
         }
 
-        private IEnumerable<Location> ReadCsvFile(CsvReader csv, string tdu)
+        private IEnumerable<Tuple<Record, IServiceCapability[]>> ReadCsvFile(CsvReader csv, string tdu)
         {
             while (csv.Read())
             {
@@ -77,33 +78,13 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.Ercot
                 record.SettlementAmsIndicator = csv.GetField<string>(16);
                 record.TdspAmsIndicator = csv.GetField<string>(17);
                 record.SwitchHoldIndictor = csv.GetField<string>(18);
-                yield return ToLocation(record, tdu);
+                yield return Tuple.Create(record, GetServiceCapabilities(record, tdu));
             }
         }
 
-        private Location ToLocation(Record record, string tdu)
+        private IServiceCapability[] GetServiceCapabilities(Record record, string tdu)
         {
-            var result = new Location();
-
-            var match = addressLine.Match(record.Address + " " + record.AddressOverflow);
-            Func<string, string> safeGroup = (groupName) => match.Groups[groupName] != null ? match.Groups[groupName].Value : "";
-
-            result.Address = new Address
-            {
-                Line1 = cleanExtraSpaces.Replace(safeGroup("StreetNumber") + " " + safeGroup("StreetName") + " " + safeGroup("StreetSuffix"), " ").Trim(),
-                UnitNumber = cleanExtraSpaces.Replace(safeGroup("Unit"), " ").Trim()
-            };
-
-            match = postalCode.Match(record.Zipcode);
-            result.Address.PostalCode5 = safeGroup("Zip5");
-            result.Address.PostalCodePlus4 = safeGroup("Plus4");
-            result.Address.StateAbbreviation = "TX";
-            result.Address.City = record.City;
-
-            ((ISanitizable)result.Address).Sanitize();
-
-
-            result.Capabilities = new IServiceCapability[]
+            return new IServiceCapability[]
                 {
                     new TexasServiceCapability
                     {
@@ -112,8 +93,6 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.Ercot
                         MeterType = ToAmsIndicator(record.TdspAmsIndicator, record.Metered),
                     }
                 };
-
-            return result;
         }
 
         private TexasMeterType ToAmsIndicator(string tdspAmsIndicator, string metered)

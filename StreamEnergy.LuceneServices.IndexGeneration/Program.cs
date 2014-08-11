@@ -66,7 +66,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
                     using (var fs = System.IO.File.OpenRead(file.FullPath))
                     using (var fr = new Ercot.FileReader())
                     {
-                        foreach (var loc in fr.ReadZipFile(fs, file.Tdu))
+                        foreach (var loc in new ErcotAddressReader(fileReader: fr, fileStream: fs, tdu: file.Tdu).Addresses)
                         {
                             if (!zipCodes.ContainsKey(loc.Address.PostalCode5))
                             {
@@ -76,11 +76,11 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
                             if (taskQueue.Count >= maxTasks)
                             {
                                 while (taskQueue.Any())
-                                    await taskQueue.Dequeue();
+                                    await taskQueue.Dequeue().ConfigureAwait(false);
                             }
                             else if (taskQueue.Count > 0 && taskQueue.Peek().IsCompleted)
                             {
-                                await taskQueue.Dequeue();
+                                await taskQueue.Dequeue().ConfigureAwait(false);
                             }
                             counter++;
                             if (counter % reportEvery == 0)
@@ -88,7 +88,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
                         }
                     }
                     while (taskQueue.Any())
-                        await taskQueue.Dequeue();
+                        await taskQueue.Dequeue().ConfigureAwait(false);
                     isFresh = false;
                 }
                 Console.WriteLine(tdu.Key.PadRight(20) + " " + counter.ToString().PadLeft(11) + " finished!");

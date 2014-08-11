@@ -113,6 +113,11 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.1.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -120,6 +125,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ErcotAddressReader.cs" />
     <Compile Include="Ercot\DirectoryLoader.cs" />
     <Compile Include="Ercot\FileMetadata.cs" />
     <Compile Include="Ercot\FileReader.cs" />
@@ -128,6 +134,11 @@
     <Compile Include="Options.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SmartyStreets\SmartyResponse.cs" />
+    <Compile Include="SmartyStreets\SmartyStreetAddress.cs" />
+    <Compile Include="SmartyStreets\SmartyStreetService.cs" />
+    <Compile Include="SmartyStreets\UncleansedAddress.cs" />
+    <Compile Include="SmartyStreets\UnderscoreMappingResolver.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

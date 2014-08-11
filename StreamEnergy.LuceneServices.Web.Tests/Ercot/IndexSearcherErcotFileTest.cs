@@ -51,7 +51,7 @@ namespace StreamEnergy.LuceneServices.Web.Tests.Ercot
             {
                 var data = target.ReadZipFile(stream, "ONCOR");
 
-                builder.WriteIndex(data, "ONCOR").Wait();
+                //builder.WriteIndex(data, "ONCOR").Wait();
             }
 
             searcher = new IndexSearcher(BuildIndexPath(testContext));
