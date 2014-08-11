@@ -10,15 +10,22 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.SmartyStreets
 {
     public class SmartyStreetService
     {
-        public async Task<DomainModels.Address[]> CleanseAddress(UncleansedAddress[] addresses)
+        public async Task<IEnumerable<DomainModels.Address>> CleanseAddress(UncleansedAddress[] addresses)
         {
             var client = new HttpClient();
             client.DefaultRequestHeaders.Add("x-standardize-only", "true");
 
             var response = await client.PostAsJsonAsync("https://api.smartystreets.com/street-address?auth-id=c0183e05-c426-4f72-8fb8-7f5b912bb8e5&auth-token=8KsO2jTmPR5fIWNE5R48", addresses).ConfigureAwait(false);
 
-            var result = ParseJsonResponse(await response.Content.ReadAsStringAsync().ConfigureAwait(false), addresses.Length);
-            return result;
+            if (response.IsSuccessStatusCode)
+            {
+                var result = ParseJsonResponse(await response.Content.ReadAsStringAsync().ConfigureAwait(false), addresses.Length);
+                return result;
+            }
+            else
+            {
+                return Enumerable.Repeat<DomainModels.Address>(null, addresses.Length);
+            }
         }
 
         public static DomainModels.Address[] ParseJsonResponse(string text, int count)

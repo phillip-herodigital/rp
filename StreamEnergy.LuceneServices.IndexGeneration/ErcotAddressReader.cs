@@ -62,7 +62,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
 
                 foreach (var result in lineGroup.Zip(cleansedAddresses, (record, address) => new DomainModels.Enrollments.Location
                 {
-                    Address = address,
+                    Address = address ?? FromRecord(record.Item1),
                     Capabilities = record.Item2
                 }).Where(loc => loc.Address != null))
                 {
