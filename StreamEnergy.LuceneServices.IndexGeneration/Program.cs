@@ -8,6 +8,9 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
 {
     class Program
     {
+        const int reportEvery = 10000;
+        const int maxTasks = 5000;
+
         static void Main(string[] args)
         {
             var container = StreamEnergy.Unity.Container.Instance.Unity;
@@ -46,8 +49,6 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
             }
         }
 
-        const int reportEvery = 10000;
-        const int maxTasks = 5000;
         private static async Task<Dictionary<string, DomainModels.IServiceCapability>> IndexTdu(IndexBuilder indexBuilder, IGrouping<string, Ercot.FileMetadata> tdu, bool isFresh)
         {
             try
