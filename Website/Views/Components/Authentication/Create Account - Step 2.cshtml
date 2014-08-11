@@ -68,8 +68,8 @@
                 @Html.TextBoxFor(m => m.Username, new { ng_model = "formData.username" })
                 @Html.ValidationMessageFor(model => model.Username)
             </div>
-            <div class="group" @Html.Validation().ErrorClass(model => model.Password)>
-                <div class="item group-col">
+            <div class="group">
+                <div class="item group-col" @Html.Validation().ErrorClass(model => model.Password)>
                     <label for="@Html.IdFor(m => m.Password)">@Html.Sitecore().Field("Password Label")</label>
                     @Html.PasswordFor(m => m.Password, new { ng_model = "formData.password" })
                     @Html.ValidationMessageFor(model => model.Password)
