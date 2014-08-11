@@ -87,6 +87,49 @@ namespace StreamEnergy.Services.Clients
             });
         }
 
+        Task<IEnumerable<Account>> IAccountService.GetAccountBalances(string username)
+        {
+            // TODO - load from Stream Commons
+            return Task.FromResult<IEnumerable<Account>>(new[] {
+                new Account {
+                    AccountNumber = "1234567890", 
+                    Balance = new AccountBalance { Balance = 0.00m, DueDate = DateTime.Today.AddDays(2) },
+                    Capabilities = { 
+                        new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = true } , 
+                        new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } },
+                        new ExternalPaymentAccountCapability { }
+                    }
+                },
+                new Account {
+                    AccountNumber = "5678901234",
+                    Balance = new AccountBalance { Balance =  24.95m, DueDate = DateTime.Today.AddDays(12) },
+                    Capabilities = { 
+                        new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = true } , 
+                        new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } },
+                        new ExternalPaymentAccountCapability { } 
+                    } 
+                },
+                new Account { 
+                    AccountNumber = "2345060992", 
+                    Balance = new AccountBalance { Balance =  54.05m, DueDate = DateTime.Today.AddDays(19) },
+                    Capabilities = { 
+                        new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = false }, 
+                        new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } },
+                        new ExternalPaymentAccountCapability { } 
+                    } 
+                },
+                new Account {
+                    AccountNumber = "3429500293",
+                    Balance = new AccountBalance { Balance =  36.00m, DueDate = DateTime.Today.AddDays(29) },
+                    Capabilities = { 
+                        new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = true } ,
+                        new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } },
+                        new ExternalPaymentAccountCapability { UtilityProvider = "PECO" }
+                    } 
+                },
+            });
+        }
+
         Task<Account> IAccountService.GetCurrentInvoice(string accountNumber)
         {
             // TODO - load from Stream Commons
