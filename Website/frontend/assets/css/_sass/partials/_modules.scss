@@ -427,10 +427,9 @@ article.account {
 				padding-right: 25px;
 			}
 		}
-		.mobile-only {
-			display: none;
-			@include breakpoint(small) {
-				display: block;
+		@include breakpoint(medium-large) {
+			.hide-medium-large {
+				display: none;
 			}
 		}
 	}
@@ -493,6 +492,15 @@ article.plan {
 			p.details {
 				margin-top: 40px;
 			}
+			&.arrow {
+				@include breakpoint(small) {
+					display: block;
+					width: 100%;
+					.details, .details-arrow {
+						display: none;
+					}
+				}
+			}
 			&.center {
 				text-align: center;
 				color: #828282;
@@ -500,6 +508,20 @@ article.plan {
 				p {
 					margin-top: 0px;
 					text-transform: uppercase;
+				}
+				.details, .details-arrow {
+					display: none;
+				}
+				@include breakpoint(small) {
+					display: inline-block;
+					padding: 0 5px 5px 5px;
+					width: 33%;
+					font-size: 10px;
+					vertical-align: top;
+					.details, .details-arrow {
+						display: block;
+						text-transform: none;
+					}
 				}			
 			}
 		}
@@ -567,9 +589,6 @@ article.plan {
 		}
 	}
 	@include breakpoint(small-medium) {
-		table, thead, tbody, th, td, tr {
-			display: block;
-		}
 		table thead {
 			position: absolute;
 			top: -9999px;
@@ -577,11 +596,7 @@ article.plan {
 		}
 		table th {
 			&.vertical {
-				padding: 15px;
-				.fixed {
-					@include rotate(0);
-					filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0);
-				}
+				font-weight: 300;	
 			}
 		}
 		table td {
@@ -1162,6 +1177,11 @@ article.auth {
 	&.auth-forgot-password {
 		.text-content-divider {
 			margin: -10px 0 0 0;
+		}
+	}
+	@include breakpoint(medium-large) {
+		.hide-medium-large {
+			display: none;
 		}
 	}
 	@include breakpoint(small) {

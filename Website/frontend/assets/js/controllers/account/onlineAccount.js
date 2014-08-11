@@ -1,7 +1,7 @@
 /* My Online Account Controller
  *
  */
-ngApp.controller('AcctOnlineAccountCtrl', ['$scope', '$rootScope', '$http', '$timeout', '$window', '$sce', function ($scope, $rootScope, $http, $timeout, $window, $sce) {
+ngApp.controller('AcctOnlineAccountCtrl', ['$scope', '$rootScope', '$http', '$timeout', function ($scope, $rootScope, $http, $timeout) {
 	// create a blank object to hold the form information
 	$scope.formData = {};
 
@@ -63,27 +63,25 @@ ngApp.controller('AcctOnlineAccountCtrl', ['$scope', '$rootScope', '$http', '$ti
 		requestData.languagePreference = $scope.formData.languagePreference;
 
 		// sent the update
-		$timeout(function () {
-			$http({
-				method  : 'POST',
-				url     : '/api/account/updateOnlineAccount',
-				data    : requestData,
-				headers : { 'Content-Type': 'application/JSON' } 
-			})
-				.success(function (data, status, headers, config) {
-					if (data.validations) {
-						// if not successful, bind errors to error variables
-						$scope.isLoading = false;
-						$scope.validations = data.validations;
+		$http({
+			method  : 'POST',
+			url     : '/api/account/updateOnlineAccount',
+			data    : requestData,
+			headers : { 'Content-Type': 'application/JSON' } 
+		})
+			.success(function (data, status, headers, config) {
+				if (data.validations) {
+					// if not successful, bind errors to error variables
+					$scope.isLoading = false;
+					$scope.validations = data.validations;
 
-					} else {
-						// if successful, alert the user
-						$scope.validations = [];
-						$scope.isLoading = false;
-						$scope.successMessage = true;
-					}
-				});
-		}, 800);		
+				} else {
+					// if successful, alert the user
+					$scope.validations = [];
+					$scope.isLoading = false;
+					$scope.successMessage = true;
+				}
+			});
 	};
 	
 }]);
