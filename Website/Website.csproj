@@ -895,7 +895,7 @@
     <Content Include="frontend\assets\js\controllers\enrollment\completeOrder.js" />
     <Content Include="frontend\assets\js\controllers\enrollment\main.js" />
     <Content Include="frontend\assets\js\controllers\enrollment\multipleTdu.js" />
-    <Content Include="frontend\assets\js\controllers\enrollment\OfferOptions-TexasElectricity.js" />
+    <Content Include="frontend\assets\js\controllers\enrollment\OfferOptions-TexasElectricityMoveIn.js" />
     <Content Include="frontend\assets\js\controllers\enrollment\planSelection.js" />
     <Content Include="frontend\assets\js\controllers\enrollment\selectPlan.js" />
     <Content Include="frontend\assets\js\controllers\enrollment\serviceInformation.js" />

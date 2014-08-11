@@ -25,5 +25,9 @@ namespace StreamEnergy.DomainModels.Accounts
         Legacy.CustomerAccount GetCisAccountsByCisAccountNumber(string cisAccountNumber, string customerPin, string cisOfRecord);
 
 
+
+        Task<Guid> CreateStreamConnectCustomer(string username = null, string email = null);
+
+        Task<string> GetEmailByCustomerId(Guid globalCustomerId);
     }
 }

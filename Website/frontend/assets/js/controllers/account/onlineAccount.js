@@ -11,18 +11,16 @@ ngApp.controller('AcctOnlineAccountCtrl', ['$scope', '$rootScope', '$http', '$ti
 	$scope.isLoading = true;
 
 	// get the current data
-	$timeout(function() {
-		$http.get('/api/account/getOnlineAccount').success(function (data, status, headers, config) {
-			while (data.challenges.length < 2) {
-				data.challenges.push({});
-			}
-			$scope.formData = data;
-			$scope.formDataOriginal = angular.copy($scope.formData);
-			$scope.languagePreference = data.languagePreference;
-			$scope.isLoading = false;
-			$scope.selectedIds = [$scope.formData.challenges[0].selectedQuestion.id, $scope.formData.challenges[1].selectedQuestion.id];
-		});
-	}, 800);
+	$http.get('/api/account/getOnlineAccount').success(function (data, status, headers, config) {
+		while (data.challenges.length < 2) {
+			data.challenges.push({});
+		}
+		$scope.formData = data;
+		$scope.formDataOriginal = angular.copy($scope.formData);
+		$scope.languagePreference = data.languagePreference;
+		$scope.isLoading = false;
+		$scope.selectedIds = [$scope.formData.challenges[0].selectedQuestion.id, $scope.formData.challenges[1].selectedQuestion.id];
+	});
 
 	// create a filter so that the same security question can't be selected twice
 	$scope.filter1 = function(item){

@@ -34,10 +34,10 @@ namespace StreamEnergy.MyStream.Tests.Services
             Moq.Mock<StackExchange.Redis.IDatabase> dbMock = new Moq.Mock<StackExchange.Redis.IDatabase>();
             var target = new AzureAccessControlServiceTokenManager(new System.Net.Http.HttpClient(), dbMock.Object, new AzureAcsConfiguration
             {
-                Url = new Uri("https://streamenergy-dev.accesscontrol.windows.net"),
-                Realm = "https://streamenergy-dev.accesscontrol.windows.net",
-                IdentityName = "portal-streamconnect-sa-dev",
-                IdentityKey = "2xbcOGh+C+SPhXxsnzhrlN/uJ3QvStdh4WX8duu6MQ8="
+                Url = new Uri("https://streamenergy-test.accesscontrol.windows.net"),
+                Realm = "https://streamenergy-test.accesscontrol.windows.net",
+                IdentityName = "portal-streamconnect-sa-test",
+                IdentityKey = "RmRZElPYsCqCeDDWEqH5RHiqzgNmZ2OIh4+442l/uns="
             });
 
             using (var handler = new System.Net.Http.WebRequestHandler())
@@ -51,7 +51,10 @@ namespace StreamEnergy.MyStream.Tests.Services
                     Assert.IsNotNull(client.DefaultRequestHeaders.Authorization);
 
                     var response = await client.GetAsync("https://streamconnect-test.cloudapp.net/api/UtilityProviders");
-                    var responseString = await response.Content.ReadAsStringAsync();
+                    if (response.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                    {
+                        Assert.Fail("Invalid token for URL.");
+                    }
                 }
             }
         }

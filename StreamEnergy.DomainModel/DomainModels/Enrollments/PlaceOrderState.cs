@@ -39,18 +39,16 @@ namespace StreamEnergy.DomainModels.Enrollments
             return base.IgnoreValidation(validationResult, context, internalContext);
         }
 
-        protected override Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
+        protected override async Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
         {
             // TODO - place order
 
             if (context.OnlineAccount != null)
             {
-                var profile = membership.CreateUser(context.OnlineAccount.Username, context.OnlineAccount.Password);
-
-                // TODO - link with Stream Connect
+                await membership.CreateUser(context.OnlineAccount.Username, context.OnlineAccount.Password, globalCustomerId: internalContext.GlobalCustomerId);
             }
 
-            return base.InternalProcess(context, internalContext);
+            return await base.InternalProcess(context, internalContext);
         }
     }
 }

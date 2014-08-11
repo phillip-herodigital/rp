@@ -40,5 +40,7 @@ namespace StreamEnergy.DomainModels.Accounts
         {
             return container.Resolve<UserProfile>(new ParameterOverride("username", username));
         }
+
+        public Guid GlobalCustomerId { get; set; }
     }
 }

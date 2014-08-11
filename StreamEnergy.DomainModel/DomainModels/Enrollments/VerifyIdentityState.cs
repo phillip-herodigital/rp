@@ -29,14 +29,37 @@ namespace StreamEnergy.DomainModels.Enrollments
             yield return context => context.OnlineAccount;
         }
 
-        protected override Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
+        protected override async Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
         {
-            internalContext.IdentityCheckResult = enrollmentService.IdentityCheck(context.ContactInfo.Name, context.SocialSecurityNumber, context.DriversLicense, new AdditionalIdentityInformation
+            if (internalContext.IdentityCheck.IsCompleted)
             {
-                PreviousIdentityCheckId = internalContext.IdentityCheckResult.IdentityCheckId,
-                SelectedAnswers = context.SelectedIdentityAnswers
-            });
-            return base.InternalProcess(context, internalContext);
+                internalContext.IdentityCheck = await enrollmentService.BeginIdentityCheck(internalContext.GlobalCustomerId, context.ContactInfo.Name, context.SocialSecurityNumber, context.Services.First().SelectedOffers.First().OfferOption.BillingAddress, new AdditionalIdentityInformation
+                {
+                    PreviousIdentityCheckId = internalContext.IdentityCheck.Data.IdentityCheckId,
+                    SelectedAnswers = context.SelectedIdentityAnswers
+                });
+            }
+            else
+            {
+                internalContext.IdentityCheck = await enrollmentService.EndIdentityCheck(internalContext.IdentityCheck);
+            }
+
+            if (!internalContext.IdentityCheck.IsCompleted)
+            {
+                return this.GetType();
+            }
+            else if (!internalContext.IdentityCheck.Data.HardStop.HasValue)
+            {
+                return await base.InternalProcess(context, internalContext);
+            }
+
+            // TODO - based on the credit check, we may have a hard stop, etc.
+            throw new NotImplementedException();
+        }
+
+        public override bool ForceBreak(UserContext context, InternalContext internalContext)
+        {
+            return !internalContext.IdentityCheck.IsCompleted;
         }
     }
 }

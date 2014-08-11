@@ -9,11 +9,15 @@ namespace StreamEnergy.DomainModels.Enrollments
 {
     public interface IEnrollmentService
     {
-        Dictionary<Location, LocationOfferSet> LoadOffers(IEnumerable<Location> serviceLocations);
+        Task<Dictionary<Location, LocationOfferSet>> LoadOffers(IEnumerable<Location> serviceLocations);
 
-        IConnectDatePolicy LoadConnectDates(Location location);
+        Task<IConnectDatePolicy> LoadConnectDates(Location location);
 
-        IdentityCheckResult IdentityCheck(Name name, string ssn, DriversLicense driversLicense, AdditionalIdentityInformation identityInformation = null);
+        Task<bool> IsBlockedSocialSecurityNumber(string ssn);
+
+        Task<StreamAsync<IdentityCheckResult>> BeginIdentityCheck(Guid streamCustomerId, Name name, string ssn, Address mailingAddress, AdditionalIdentityInformation identityInformation = null);
+
+        Task<StreamAsync<IdentityCheckResult>> EndIdentityCheck(StreamAsync<IdentityCheckResult> asyncResult);
 
         // TODO - will need more inputs
         IEnumerable<LocationOfferDetails<OfferPayment>> LoadOfferPayments(IEnumerable<LocationServices> services);
@@ -22,7 +26,6 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         // TODO - needs customer info, too
         IEnumerable<LocationOfferDetails<PlaceOrderResult>> PlaceOrder(IEnumerable<LocationServices> services);
-
 
     }
 }
