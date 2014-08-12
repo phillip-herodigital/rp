@@ -31,7 +31,7 @@
                             <tr class="details" ng-show="hasHiddenColumns && expand[$index] == true">
                                 <td colspan="{{table.columnList.length+2}}">
                                     <p ng-repeat="column in table.columnList | filter:{isVisible: false}" ng-switch on="column.field">
-                                        <span ng-switch-when="action">
+                                        <span ng-switch-when="actions">
                                             <button class="secondary" type="button">@Html.Sitecore().Field("View PDF Text")</button>
                                         </span>
                                         <span ng-switch-default>
