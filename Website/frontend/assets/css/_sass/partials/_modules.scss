@@ -76,6 +76,27 @@ article {
 			margin-bottom: 0;
 			padding-bottom: 0;
 		}
+		.account-selector {
+			padding: 15px;
+			border-bottom: 1px solid #ddd;
+			form div.group {
+				@extend .inline-group;
+				div.item {
+					@extend .group-col;
+					width: auto;
+					label {
+						display: inline;
+						margin-right: 5px;
+						@include breakpoint(small-medium) {
+							display: block;
+						}
+					}
+					select {
+						width: auto;
+					}
+				}
+			}
+		}
 	}
 	.loadingMessage {
 		position: absolute;
@@ -139,27 +160,6 @@ article {
 			border: 1px solid #7baa59;
 			background-color: #def7d0;
 			@include retina-background("success.png", "icon");
-		}
-	}
-	.account-selector {
-		padding: 15px;
-		border-bottom: 1px solid #ddd;
-		form div.group {
-			@extend .inline-group;
-			.item {
-				@extend .group-col;
-				width: auto;
-				label {
-					display: inline;
-					margin-right: 5px;
-					@include breakpoint(small-medium) {
-						display: block;
-					}
-				}
-				select {
-					width: auto;
-				}
-			}
 		}
 	}
 	.filters {
