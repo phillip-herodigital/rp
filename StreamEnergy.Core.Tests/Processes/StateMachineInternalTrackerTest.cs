@@ -89,6 +89,11 @@ namespace StreamEnergy.Core.Tests.Processes
             {
                 internalData.DeliveryUtility = "Centerpoint";
             }
+
+            public bool ForceBreak(GetOffersContext context, GetOffersInternalContext internalContext)
+            {
+                return false;
+            }
         }
 
         class LoadOffersState : IState<GetOffersContext, GetOffersInternalContext>
@@ -142,6 +147,11 @@ namespace StreamEnergy.Core.Tests.Processes
                 internalData.HasOffers = true;
                 internalData.Offers = new[] { new object() };
             }
+
+            public bool ForceBreak(GetOffersContext context, GetOffersInternalContext internalContext)
+            {
+                return false;
+            }
         }
 
         class DisplayOffersState : IState<GetOffersContext, GetOffersInternalContext>
@@ -188,6 +198,11 @@ namespace StreamEnergy.Core.Tests.Processes
                 }
 
                 return RestoreInternalStateResult.From(true, state);
+            }
+
+            public bool ForceBreak(GetOffersContext context, GetOffersInternalContext internalContext)
+            {
+                return false;
             }
         }
 

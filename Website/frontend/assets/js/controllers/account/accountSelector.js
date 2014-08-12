@@ -1,7 +1,7 @@
 /* Account Selector Controller
  *
  */
-ngApp.controller('AcctAccountSelectorCtrl', ['$scope', '$rootScope', '$http', '$timeout', function ($scope, $rootScope, $http, $timeout) {
+ngApp.controller('AcctAccountSelectorCtrl', ['$scope', '$rootScope', '$http', function ($scope, $rootScope, $http) {
 	// get the current data
 
 	$http.get('/api/account/getAccounts').success(function (data, status, headers, config) {

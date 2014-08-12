@@ -46,7 +46,7 @@
                         @*Selected Offers Section*@
                         <div ng-repeat="offerInformation in item.offerInformationByType">
                             <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
-                                <div ng-include src="'offerOptions/' + offerInformation.key"></div>
+                                <div ng-include src="'offerOptions/' + selectedOffer.optionRules.optionRulesType"></div>
 
                                 <div ng-if="item.location.address.line1" ng-controller="EnrollmentBillingAddressCtrl">
                                     <h3>@Html.Sitecore().Field("Billing Address Header")</h3>
@@ -319,16 +319,26 @@
 <script type="text/ng-template" id="offerOptions/TexasElectricity">
     @using (var offer = Html.ClientRepeater(m => m.Services, "{{$parent.$index}}").ClientRepeater(m => m.SelectedOffers, "{{$index}}"))
     {
-    <div ng-controller="OfferOptions-TexasElectricity">
+    <div @*ng-controller="OfferOptions-TexasElectricity"*@>
         <h2>Electricity</h2>
-        <div class="item group-col datepicker" @offer.Validation().ErrorClass(o => ((TexasElectricityOfferOption)o.OfferOption).ConnectDate)>
-            <label for="@offer.Fix(h => h.IdFor(o => ((TexasElectricityOfferOption)o.OfferOption).ConnectDate))">@Html.Sitecore().Field("Service Start Date Label")</label>
-            <input type="text" class="datepicker-input" id="@offer.Fix(h => h.IdFor(o => ((TexasElectricityOfferOption)o.OfferOption).ConnectDate))" ng-model="selectedOffer.offerOption.connectDate" placeholder="01/29/14"
+        @* No options here since billing address is handled outside of this loop *@
+    </div>
+    }
+</script>
+
+<script type="text/ng-template" id="offerOptions/TexasElectricityMoveIn">
+    @using (var offer = Html.ClientRepeater(m => m.Services, "{{$parent.$index}}").ClientRepeater(m => m.SelectedOffers, "{{$index}}"))
+    {
+    <div ng-controller="OfferOptions-TexasElectricityMoveIn">
+        <h2>Electricity</h2>
+        <div class="item group-col datepicker" @offer.Validation().ErrorClass(o => ((TexasElectricityMoveInOfferOption)o.OfferOption).ConnectDate)>
+            <label for="@offer.Fix(h => h.IdFor(o => ((TexasElectricityMoveInOfferOption)o.OfferOption).ConnectDate))">@Html.Sitecore().Field("Service Start Date Label")</label>
+            <input type="text" class="datepicker-input" id="@offer.Fix(h => h.IdFor(o => ((TexasElectricityMoveInOfferOption)o.OfferOption).ConnectDate))" ng-model="selectedOffer.offerOption.connectDate" placeholder="01/29/14"
                    datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="checkDisabledDate(date, mode)" datepicker-options="{ 'datepickerDateClass': 'checkDateClass(date)', 'datepickerDateClassScope': $id }" />
         </div>
         <div class="item item--no-input">
             <label for="connection-fee">@Html.Sitecore().Field("Connection Fee Label")</label>
-            <strong>{{connectionFee}}</strong>
+            <strong>{{connectionFee | currency}}</strong>
         </div>
     </div>
     }

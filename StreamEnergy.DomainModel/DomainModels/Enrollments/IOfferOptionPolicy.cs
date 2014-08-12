@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
@@ -9,6 +10,6 @@ namespace StreamEnergy.DomainModels.Enrollments
     {
         bool AcceptsOptions(IOfferOption offerOption);
 
-        IOfferOptionRules GetOptionRules(Location location, IOffer offer);
+        Task<IOfferOptionRules> GetOptionRules(Location location, IOffer offer);
     }
 }

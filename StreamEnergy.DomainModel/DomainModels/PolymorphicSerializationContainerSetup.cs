@@ -23,7 +23,8 @@ namespace StreamEnergy.DomainModels
             unityContainer.Resolve<TypeIndicatorJsonConverter>().TypeIndicators.Add(new TypeIndicatorLookup<Enrollments.IOfferOption, Enrollments.SampleOfferOption>(sc => sc.OptionType)
             {
                 SupportedTypes = {
-                    { Enrollments.TexasElectricityOfferOption.Qualifier, typeof(Enrollments.TexasElectricityOfferOption) }
+                    { Enrollments.TexasElectricityOfferOption.Qualifier, typeof(Enrollments.TexasElectricityOfferOption) },
+                    { Enrollments.TexasElectricityMoveInOfferOption.Qualifier, typeof(Enrollments.TexasElectricityMoveInOfferOption) }
                 }
             });
 

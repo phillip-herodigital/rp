@@ -91,5 +91,10 @@ namespace StreamEnergy.Processes
         {
             return Task.FromResult<object>(null);
         }
+
+        public virtual bool ForceBreak(TContext context, TInternalContext internalContext)
+        {
+            return false;
+        }
     }
 }

@@ -17,6 +17,7 @@ using System.Web.SessionState;
 using Microsoft.Practices.Unity;
 using System.Threading.Tasks;
 using ResponsivePath.Validation;
+using Sitecore.Links;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -67,6 +68,34 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             return temperatureService.CachedExample();
         }
+
+        #region Account Balances & Payments
+
+        [HttpGet]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
+        public async Task<GetAccountBalancesResponse> GetAccountBalances()
+        {
+            var accounts = await accountService.GetAccountBalances(User.Identity.Name);
+
+            return new GetAccountBalancesResponse
+            {
+                Accounts = from account in accounts
+                           let paymentScheduling = account.GetCapability<PaymentSchedulingAccountCapability>()
+                           let paymentMethods = account.GetCapability<PaymentMethodAccountCapability>()
+                           let externalPayment = account.GetCapability<ExternalPaymentAccountCapability>()
+                           select new AccountToPay
+                           {
+                               AccountNumber = account.AccountNumber,
+                               AccountBalance = account.Balance.Balance,
+                               DueDate = account.Balance.DueDate.ToShortDateString(),
+                               UtilityProvider = externalPayment.UtilityProvider,
+                               CanMakeOneTimePayment = paymentScheduling.CanMakeOneTimePayment,
+                               AvailablePaymentMethods = paymentMethods.AvailablePaymentMethods.ToArray(),
+                           }
+            };
+        }
+
+        #endregion
 
         #region Utiltiy Providers
 
@@ -418,7 +447,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         #region Online Account Information
 
         [HttpGet]
-        public GetOnlineAccountResponse GetOnlineAccount()
+        public async Task<GetOnlineAccountResponse> GetOnlineAccount()
         {
             var username = User.Identity.Name;
             var profile = UserProfile.Locate(container, username);
@@ -426,10 +455,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var email = new DomainModels.Email();
             var questionsRoot = database.GetItem("/sitecore/content/Data/Taxonomy/Security Questions");
             var languagesRoot = database.GetItem("/sitecore/content/Data/Taxonomy/Languages");
-            
-            // TODO get email address from Stream Connect
-            email.Address = "adam.powell@responsivepath.com";
-            
+
+            email.Address = await accountService.GetEmailByCustomerId(profile.GlobalCustomerId);
             
             return new GetOnlineAccountResponse
             {
@@ -939,6 +966,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             return new AddBankAccountResponse
             {
                 Validations = Enumerable.Empty<TranslatedValidationResult>(),
+                RedirectUri = LinkManager.GetItemUrl(Sitecore.Context.Database.GetItem(new Sitecore.Data.ID(new Guid("{4927A836-7309-4D0C-898B-A06503C37997}")))) + "?success=1234",
             };
         }
 
@@ -959,6 +987,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             return new AddCreditCardResponse
             {
                 Validations = Enumerable.Empty<TranslatedValidationResult>(),
+                RedirectUri = LinkManager.GetItemUrl(Sitecore.Context.Database.GetItem(new Sitecore.Data.ID(new Guid("{4927A836-7309-4D0C-898B-A06503C37997}")))) + "?success=1234",
             };
         }
 
