@@ -20,5 +20,7 @@ namespace StreamEnergy.Processes
         Task<Type> Process(TContext context, TInternalContext internalContext);
 
         Task<RestoreInternalStateResult> RestoreInternalState(IStateMachine<TContext, TInternalContext> stateMachine, Type state);
+
+        bool ForceBreak(TContext context, TInternalContext internalContext);
     }
 }

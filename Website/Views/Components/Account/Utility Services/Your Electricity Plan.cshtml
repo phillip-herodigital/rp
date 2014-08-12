@@ -24,7 +24,16 @@
                         </p>
                         <div class="details-arrow"></div>
                     </td>
-                    <td class="center"><span class="plan-cost">{{ electricityPlan.rate }}&#162;</span><p>@Html.Sitecore().Field("Per KWH Text")</p></td>
+                    <td class="center">
+                        <span class="plan-cost">{{ electricityPlan.rate }}&#162;</span>
+                        <p>@Html.Sitecore().Field("Per KWH Text")</p>
+                        <p class="details">
+                            <a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" class="details-link" href="">
+                                <span ng-if="!isOpen">@Html.Sitecore().Field("View Text")</span><span ng-if="isOpen">@Html.Sitecore().Field("Hide Text")</span> @Html.Sitecore().Field("Details Text")
+                            </a>
+                        </p>
+                        <div class="details-arrow"></div>
+                    </td>
                     <td class="center"><i class="icon-month-to-month" ng-show="electricityPlan.terms = 'Month-to-Month'"></i><p>{{ electricityPlan.terms }}</p></td>
                     <td class="center"><span class="plan-cost">{{ electricityPlan.fees }}</span> <p>@Html.Sitecore().Field("Termination Fee Text")</p></td>
                 </tr>

@@ -25,5 +25,7 @@ namespace StreamEnergy.MyStream.Models.Enrollment
         public Dictionary<string, string> SelectedIdentityAnswers { get; set; }
 
         public bool IsRenewal { get; set; }
+
+        public bool IsLoading { get; set; }
     }
 }

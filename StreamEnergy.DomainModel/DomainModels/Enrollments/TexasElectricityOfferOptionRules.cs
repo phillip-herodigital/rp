@@ -10,8 +10,6 @@ namespace StreamEnergy.DomainModels.Enrollments
     {
         public const string Qualifier = "TexasElectricity";
 
-        public string OptionRulesType { get { return TexasElectricityOfferOptionRules.Qualifier; } }
-
-        public IConnectDatePolicy ConnectDates { get; set; }
+        public virtual string OptionRulesType { get { return TexasElectricityOfferOptionRules.Qualifier; } }
     }
 }

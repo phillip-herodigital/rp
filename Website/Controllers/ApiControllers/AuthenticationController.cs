@@ -35,6 +35,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private readonly Sitecore.Data.Database database;
         private readonly IEmailService emailService;
         private readonly ISettings settings;
+        private readonly IAccountService accountService;
         
         #region Session Helper Classes
         public class CreateAccountSessionHelper : StateMachineSessionHelper<CreateAccountContext, CreateAccountInternalContext>
@@ -54,7 +55,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
         #endregion
 
-        public AuthenticationController(IUnityContainer container, CreateAccountSessionHelper coaSessionHelper, ResetPasswordSessionHelper resetPasswordSessionHelper, ResetPasswordTokenManager resetPasswordTokenManager, IEmailService emailService, ISettings settings)
+        public AuthenticationController(IUnityContainer container, CreateAccountSessionHelper coaSessionHelper, ResetPasswordSessionHelper resetPasswordSessionHelper, ResetPasswordTokenManager resetPasswordTokenManager, IEmailService emailService, ISettings settings, IAccountService accountService)
         {
             this.container = container;
             this.coaSessionHelper = coaSessionHelper;
@@ -64,6 +65,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.database = Sitecore.Context.Database;
             this.item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Components/Authentication");
             this.emailService = emailService;
+            this.accountService = accountService;
             this.settings = settings;
         }
 
@@ -210,6 +212,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             resetPasswordSessionHelper.Context.Username = request.Username;
 
             await resetPasswordSessionHelper.StateMachine.Process(typeof(VerifyUserState));
+            var profile = UserProfile.Locate(container, resetPasswordSessionHelper.Context.DomainPrefix + resetPasswordSessionHelper.Context.Username);
 
             
             var validations = Enumerable.Empty<ValidationResult>();
@@ -217,13 +220,12 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             if (resetPasswordSessionHelper.StateMachine.State == typeof(GetUsernameState))
                 validations = resetPasswordSessionHelper.StateMachine.ValidationResults;
 
-            // TODO - get email address from Stream Commons
-            var email = "matt.dekrey@responsivepath.com";
+            var email = await accountService.GetEmailByCustomerId(profile.GlobalCustomerId);
 
             return new GetUserChallengeQuestionsResponse
             {
                 Username = request.Username,
-                Email = Redact(email),
+                Email = email == null ? null : Redact(email),
                 SecurityQuestions = from challenge in resetPasswordSessionHelper.Context.Answers ?? new Dictionary<Guid, string>()
                                     let questionItem = database.GetItem(new Sitecore.Data.ID(challenge.Key))
                                     select new SecurityQuestion

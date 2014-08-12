@@ -14,12 +14,14 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public Dictionary<Location, LocationOfferSet> AllOffers { get; set; }
 
-        public Service.IdentityCheckResult IdentityCheckResult { get; set; }
+        public StreamAsync<Service.IdentityCheckResult> IdentityCheck { get; set; }
 
         public IEnumerable<Service.LocationOfferDetails<IOfferOptionRules>> OfferOptionRules { get; set; }
 
         public IEnumerable<Service.LocationOfferDetails<OfferPayment>> Deposit { get; set; }
 
         public IEnumerable<Service.LocationOfferDetails<Service.PlaceOrderResult>> PlaceOrderResult { get; set; }
+
+        public Guid GlobalCustomerId { get; set; }
     }
 }

@@ -87,6 +87,49 @@ namespace StreamEnergy.Services.Clients
             });
         }
 
+        Task<IEnumerable<Account>> IAccountService.GetAccountBalances(string username)
+        {
+            // TODO - load from Stream Commons
+            return Task.FromResult<IEnumerable<Account>>(new[] {
+                new Account {
+                    AccountNumber = "1234567890", 
+                    Balance = new AccountBalance { Balance = 0.00m, DueDate = DateTime.Today.AddDays(2) },
+                    Capabilities = { 
+                        new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = true } , 
+                        new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } },
+                        new ExternalPaymentAccountCapability { }
+                    }
+                },
+                new Account {
+                    AccountNumber = "5678901234",
+                    Balance = new AccountBalance { Balance =  24.95m, DueDate = DateTime.Today.AddDays(12) },
+                    Capabilities = { 
+                        new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = true } , 
+                        new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } },
+                        new ExternalPaymentAccountCapability { } 
+                    } 
+                },
+                new Account { 
+                    AccountNumber = "2345060992", 
+                    Balance = new AccountBalance { Balance =  54.05m, DueDate = DateTime.Today.AddDays(19) },
+                    Capabilities = { 
+                        new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = false }, 
+                        new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } },
+                        new ExternalPaymentAccountCapability { } 
+                    } 
+                },
+                new Account {
+                    AccountNumber = "3429500293",
+                    Balance = new AccountBalance { Balance =  36.00m, DueDate = DateTime.Today.AddDays(29) },
+                    Capabilities = { 
+                        new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = true } ,
+                        new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } },
+                        new ExternalPaymentAccountCapability { UtilityProvider = "PECO" }
+                    } 
+                },
+            });
+        }
+
         Task<Account> IAccountService.GetCurrentInvoice(string accountNumber)
         {
             // TODO - load from Stream Commons
@@ -246,5 +289,32 @@ namespace StreamEnergy.Services.Clients
                 },
             };
         }
+
+
+        async Task<Guid> IAccountService.CreateStreamConnectCustomer(string username, string email)
+        {
+            var response = await client.PostAsJsonAsync("/api/customers", new { Customer = new { PortalId = username, EmailAddress = email } });
+            if (response.IsSuccessStatusCode)
+            {
+                var data = Json.Read<StreamConnect.CustomerResponse>(await response.Content.ReadAsStringAsync());
+                return data.Customer.GlobalCustomerId;
+            }
+            else
+            {
+                return Guid.Empty;
+            }
+        }
+
+        async Task<string> IAccountService.GetEmailByCustomerId(Guid globalCustomerId)
+        {
+            var response = await client.GetAsync("/api/customers/" + globalCustomerId.ToString());
+            if (response.IsSuccessStatusCode)
+            {
+                var data = Json.Read<StreamConnect.CustomerResponse>(await response.Content.ReadAsStringAsync());
+                return data.Customer.EmailAddress;
+            }
+            return null;
+        }
+
     }
 }
