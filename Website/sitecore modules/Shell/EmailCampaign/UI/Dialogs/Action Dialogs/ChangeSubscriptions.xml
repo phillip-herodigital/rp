@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <EmailCampaign.ChangeSubscriptions>
+
+    <FormDialog ID="Dialog"
+                Icon="People/32x32/users_into.png"
+                Header="Change Recipient List Subscriptions"
+                Text="Select the recipients lists that the visitor should be subscribed to those that the visitor should be opted out of.">
+
+      <CodeBeside Type="Sitecore.Modules.EmailCampaign.UI.Dialogs.ActionDialogs.ChangeSubscriptions,Sitecore.EmailCampaign"/>
+
+      <style type="text/css">
+        th.scListviewViewDetailsHeader
+        {
+          display:none;
+        }
+
+        #TargetAudiencesTree ul
+        {
+          margin-left:-18px;
+        }
+      </style>
+
+      <script type="text/javascript">
+        document.observe("dom:loaded", function () {
+        try
+        {
+        if (Prototype.Browser.IE){
+        window.dialogWidth = "535px";
+        window.dialogHeight = "570px";
+        }
+        else {
+        window.resizeTo(555, 650);
+        }
+        }
+        catch(e)
+        {
+        alert(e);
+        }
+        })
+      </script>
+
+      <GridPanel Columns="2" Cellspacing="2">
+        <Border>
+          <Label Header="Recipient Lists:" Style="display: block;" />
+          <Space Height="4"/>
+          <Scrollbox Width="244" Style="height: 400px !important" Background="white" Border="1px solid #ADADAD" Padding="0">
+            <FilterableTreeView ID="TargetAudiencesTree" ChildrenOnly="true" Expanded="true" AllowMultiSelect="true"/>
+          </Scrollbox>
+        </Border>
+
+        <GridPanel Columns="2" Cellspacing="2">
+          <Literal />
+          <Label Header="Subscribe To:" />
+
+          <Border GridPanel.VAlign="Top" Style="padding: 3px 2px 0px 2px;">
+            <Border Click="SubscribeIn_Click">
+              <Image Src='${Sitecore.Resources.Images.GetThemedImageSource("Core/16x16/arrow_blue_right.png", ImageDimension.id16x16)}' Height="16" Width="16" Alt="" Style="cursor: pointer; display: block;" />
+            </Border>
+            <Space Height="4"/>
+            <Border Click="SubscribeOut_Click">
+              <Image Src='${Sitecore.Resources.Images.GetThemedImageSource("Core/16x16/arrow_blue_left.png", ImageDimension.id16x16)}' Height="16" Width="16" Alt="" Style="cursor: pointer; display: block;" />
+            </Border>
+          </Border>
+
+          <Scrollbox Width="244"  Style="height: 189px !important" Background="white" Border="1px solid #ADADAD" Padding="0">
+            <Listview ID="SubscribeTo" Height="100%" View="Details" MultiSelect="true" DblClick="SubscribeOut_Click" />
+          </Scrollbox>
+
+          <Literal />
+          <Label Header="Opt-out Of:" />
+
+          <Border GridPanel.VAlign="Top" Style="padding: 3px 2px 0px 2px;">
+            <Border Click="OptOutIn_Click">
+              <Image Src='${Sitecore.Resources.Images.GetThemedImageSource("Core/16x16/arrow_blue_right.png", ImageDimension.id16x16)}' Height="16" Width="16" Alt="" Style="cursor: pointer; display: block;" />
+            </Border>
+            <Space Height="4"/>
+            <Border Click="OptOutOut_Click">
+              <Image Src='${Sitecore.Resources.Images.GetThemedImageSource("Core/16x16/arrow_blue_left.png", ImageDimension.id16x16)}' Height="16" Width="16" Alt="" Style="cursor: pointer; display: block;" />
+            </Border>
+          </Border>
+
+          <Scrollbox Width="244" Style="height: 189px !important" Backgroud="white" Border="1px solid #ADADAD" Padding="0">
+            <Listview ID="OptOutOf" Height="100%" View="Details" MultiSelect="true" DblClick="OptOutOut_Click" />
+          </Scrollbox>
+        </GridPanel>
+      </GridPanel>
+
+      <Space Height="10" />
+
+      <Checkbox ID="SendConfirmationMail" Header="Send confirmation mail"/>
+
+    </FormDialog>
+    
+  </EmailCampaign.ChangeSubscriptions>
+</control>

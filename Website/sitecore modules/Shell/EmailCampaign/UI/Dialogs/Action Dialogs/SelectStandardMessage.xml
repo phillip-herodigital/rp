@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <EmailCampaign.SelectStandardMessage>
+    <FormDialog ID="Dialog" Header="Triggered Message" Text="Select a triggered message." Icon="Network/32x32/mail2.png">
+      <CodeBeside Type="Sitecore.Modules.EmailCampaign.UI.Dialogs.ActionDialogs.SelectStandardMessage,Sitecore.EmailCampaign"/>
+      <style type="text/css">
+        #MessageTree ul {margin-left:-18px;}
+        .scTreeview .nodeNormal_Hover {cursor: pointer;}
+        .scTreeview .nodeSelected, .scTreeview .nodeSelected_Hover{cursor: default;}
+        .scTreeview ul.scTreeItem li div div {padding-right:5px;padding-left:2px;}
+        .scScrollbox {overflow:auto;padding:2px;}
+        .scScrollbox .scScrollbox {border:1px solid #adadad !important;}
+      </style>
+    <Scrollbox Height="100%" Class="scScrollbox scFixSize scFixSize8" >
+        <FilterableTreeView ID="MessageTree" ChildrenOnly="true" AllowMultiSelect="true" DblClick="OnDbClickMessage"/>
+    </Scrollbox>
+    </FormDialog>
+  </EmailCampaign.SelectStandardMessage>
+</control>
