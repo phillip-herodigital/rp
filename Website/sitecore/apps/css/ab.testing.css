@@ -1,0 +1,143 @@
+﻿/*
+-------------------------------
+    AB-TESTING
+-------------------------------
+*/
+
+.ab-testing {
+    background: #fff;
+    width: 768px;
+    height: auto;
+    margin: auto;
+}
+
+.ab-testing .carousel-section   {
+    background: #eee;
+    border-bottom: 1px solid #ccc;
+    width: 100%;
+    height: 80px;
+    margin: 0 0 16px 0;
+}
+
+.ab-testing .messages-section    {
+    width: 100%;
+    height: auto;
+}
+
+.ab-testing .message    {
+    background: #eee;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    position: relative;
+}
+
+.ab-testing .message-title {
+    font: bold 1.2em verdana, arial;
+    height: 48px;
+    line-height: 48px;
+    padding: 0 8px;
+}
+
+.ab-testing .message-label  {
+    font-family: arial;
+    background: #fff;
+    border: 1px solid #f00;
+    padding: 0 5px;
+}
+
+.ab-testing .message-header {
+    display: none;
+}
+
+.ab-testing .popup-menu    {
+    height: 24px;
+    line-height: 24px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding-right: 7px;
+}
+
+.ab-testing .popup-menu .ui-combobox-trigger   {
+    font-size: 0.8em;
+    background: url(img/bg-arrow-down.gif) no-repeat right;
+    text-align: center;
+    width: 80px;
+    height: 20px;
+    line-height: 20px;
+    display: block;
+    float: left;
+}
+
+.ab-testing .popup-menu .separator {
+    color: #ccc;
+    text-align: center;
+    width: 15px;
+    height: 20px;
+    line-height: 20px;
+    display: block;
+    float: left;
+}
+
+.ab-testing .popup-menu .btn-collapse   {
+    width: 16px;
+    height: 20px;
+    display: block;
+    float: left;
+}
+
+.ab-testing .popup-menu .btn-collapse.expanded  {
+    background: url(img/bg-arrow-collapse.gif) no-repeat top;
+}
+
+.ab-testing .popup-menu .btn-collapse.collapsed  {
+    background: url(img/bg-arrow-collapse.gif) no-repeat bottom;
+}
+
+.ab-testing .message-area.expanded   {
+    display: block;
+}
+
+.ab-testing .message-area.collapsed   {
+    display: none;
+}
+
+.ab-testing .field-editor   {
+    margin: 0 10px 10px 10px;
+}
+
+.ab-testing .field-editor fieldset  {
+    border: none;
+    overflow: hidden;
+}
+
+.ab-testing .field-editor .editor {
+    width: auto;
+    height: 22px;
+    margin: 0 2px 0 200px;
+    background: #cce;
+}
+
+.ab-testing .field-editor .editor input[type="text"] {
+    background: #fff;
+    border: 1px solid #000;
+    width: 100%;
+    height: 20px;
+    margin: 0 4px 0 0;
+}
+
+.ab-testing .field-editor label {
+    width: 200px;
+    height: 22px;
+    line-height: 22px;
+    display: block;
+    float: left;
+}
+
+.ab-testing .message-content   {
+    background: #fff;
+    border: 1px solid #000;
+    width: auto;
+    height: 480px;
+    margin: 0 10px;
+}
