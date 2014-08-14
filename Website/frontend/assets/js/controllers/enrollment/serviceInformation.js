@@ -29,9 +29,6 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
         if (!enrollmentCartService.getActiveService() || enrollmentCartService.getActiveService().location != $scope.data.serviceLocation) {
             enrollmentStepsService.setMaxStep('utilityFlowService');
         }
-        else {
-            console.log(enrollmentCartService.getActiveService(), $scope.data);
-        }
 
         if(typeof newValue.serviceLocation != 'string') {
             $scope.errorMessage = false;
@@ -45,7 +42,6 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
      * @return {Boolean}
      */
     $scope.isFormValid = function() {
-        //TODO: Check for a duplicate address in cart as well
         if ($scope.data.serviceLocation !== null && typeof $scope.data.serviceLocation == 'object' && $scope.data.isNewService !== undefined) {
             return true;
         } else {
@@ -65,6 +61,7 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
             return;
         } 
 
+        $scope.data.serviceLocation.capabilities = _.filter($scope.data.serviceLocation.capabilities, function (cap) { return cap.capabilityType != "ServiceStatus"; });
         $scope.data.serviceLocation.capabilities.push({ "capabilityType": "ServiceStatus", "isNewService": $scope.data.isNewService });
 
         var activeService = enrollmentCartService.getActiveService();

@@ -1,7 +1,7 @@
 /* My Payments Controller
  *
  */
-ngApp.controller('AcctMyPaymentsCtrl', ['$scope', '$rootScope', '$http', '$filter', '$timeout', '$sce', 'jQuery', function ($scope, $rootScope, $http, $filter, $timeout, $sce, jQuery) {
+ngApp.controller('AcctMyPaymentsCtrl', ['$scope', '$rootScope', '$http', '$filter', 'jQuery', function ($scope, $rootScope, $http, $filter, jQuery) {
 	// create  blank objects to hold the information
 	$scope.paymentsTable = {};
 	$scope.paymentsTable.columnList = [];
@@ -14,22 +14,20 @@ ngApp.controller('AcctMyPaymentsCtrl', ['$scope', '$rootScope', '$http', '$filte
 	$scope.filtersList.accountNumber = [];
 	$scope.filtersList.status = [];
 
-	$timeout(function() {
-		$http.get('/api/account/getPayments').success(function (data, status, headers, config) {
-			$scope.paymentsTable = data.payments;
-			$scope.paymentsTableOriginal = angular.copy($scope.paymentsTable);
+	$http.get('/api/account/getPayments').success(function (data, status, headers, config) {
+		$scope.paymentsTable = data.payments;
+		$scope.paymentsTableOriginal = angular.copy($scope.paymentsTable);
 
-			// filters
-			$scope.serviceTypes = _.pluck(_.uniq($scope.paymentsTable.values, 'serviceType'),'serviceType');
-			$scope.accountNumbers = _.pluck(_.uniq($scope.paymentsTable.values, 'accountNumber'),'accountNumber');
-			$scope.statuses = _.pluck(_.uniq($scope.paymentsTable.values, 'status'),'status');
-			_.forEach($scope.serviceTypes,function(type) { $scope.filtersList.serviceType.push({ 'name' : type, 'value' : type }) }); 
-			_.forEach($scope.accountNumbers,function(num) { $scope.filtersList.accountNumber.push({ 'name' : num, 'value' : num }) }); 
-			_.forEach($scope.statuses,function(status) { $scope.filtersList.status.push({ 'name' : status, 'value' : status }) }); 
+		// filters
+		$scope.serviceTypes = _.pluck(_.uniq($scope.paymentsTable.values, 'serviceType'),'serviceType');
+		$scope.accountNumbers = _.pluck(_.uniq($scope.paymentsTable.values, 'accountNumber'),'accountNumber');
+		$scope.statuses = _.pluck(_.uniq($scope.paymentsTable.values, 'status'),'status');
+		_.forEach($scope.serviceTypes,function(type) { $scope.filtersList.serviceType.push({ 'name' : type, 'value' : type }) }); 
+		_.forEach($scope.accountNumbers,function(num) { $scope.filtersList.accountNumber.push({ 'name' : num, 'value' : num }) }); 
+		_.forEach($scope.statuses,function(status) { $scope.filtersList.status.push({ 'name' : status, 'value' : status }) }); 
 			
-			$scope.isLoading = false;
-		});
-	}, 800);
+		$scope.isLoading = false;
+	});
 
 	// methods
 	$scope.resetFilters = function() {

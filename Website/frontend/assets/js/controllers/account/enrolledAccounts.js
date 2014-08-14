@@ -1,7 +1,7 @@
 /* Enrolled Accounts Controller
  *
  */
-ngApp.controller('AcctEnrolledAccountsCtrl', ['$scope', '$rootScope', '$http', '$timeout', '$modal', 'jQuery', function ($scope, $rootScope, $http, $timeout, $modal, jQuery) {
+ngApp.controller('AcctEnrolledAccountsCtrl', ['$scope', '$rootScope', '$http', '$modal', 'jQuery', function ($scope, $rootScope, $http, $modal, jQuery) {
 	// create a blank object to hold the form information
 	$scope.formData = {};
 
@@ -9,26 +9,22 @@ ngApp.controller('AcctEnrolledAccountsCtrl', ['$scope', '$rootScope', '$http', '
 	$scope.successMessage = false;
 
 	// get the current data
-	$timeout(function() {
-		$http.get('/api/account/getEnrolledAccounts').success(function (data, status, headers, config) {
-			$scope.formData = data;
-			$scope.formDataOriginal = angular.copy($scope.formData);
-			$scope.isLoading = false;
-		});
-	}, 800);
+	$http.get('/api/account/getEnrolledAccounts').success(function (data, status, headers, config) {
+		$scope.formData = data;
+		$scope.formDataOriginal = angular.copy($scope.formData);
+		$scope.isLoading = false;
+	});
 
 	// when a new account is added, reload the data
 	$scope.$watch('newAccountAdded.added', function(newVal) { 
 		if (newVal) {
 			$scope.isLoading = true;
-			$timeout(function () {
-				$http.get('/api/account/getEnrolledAccounts').success(function (data, status, headers, config) {
-					$scope.formData = data;
-					$scope.formDataOriginal = angular.copy($scope.formData);
-					$scope.newAccountAdded.added = false;
-					$scope.isLoading = false;
-				});
-			}, 800);
+			$http.get('/api/account/getEnrolledAccounts').success(function (data, status, headers, config) {
+				$scope.formData = data;
+				$scope.formDataOriginal = angular.copy($scope.formData);
+				$scope.newAccountAdded.added = false;
+				$scope.isLoading = false;
+			});
 		}
 	});
 

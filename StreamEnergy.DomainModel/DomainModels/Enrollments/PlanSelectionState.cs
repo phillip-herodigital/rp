@@ -57,18 +57,22 @@ namespace StreamEnergy.DomainModels.Enrollments
                  select internalService != null && internalService.Details != null).All(hasOptionRule => hasOptionRule);
         }
 
-        protected override Task LoadInternalState(UserContext context, InternalContext internalContext)
+        protected override async Task LoadInternalState(UserContext context, InternalContext internalContext)
         {
-            internalContext.OfferOptionRules = (from service in context.Services
-                                                where service.SelectedOffers != null
-                                                from offer in service.SelectedOffers
-                                                select new Service.LocationOfferDetails<IOfferOptionRules>
-                                                {
-                                                    Location = service.Location,
-                                                    Offer = offer.Offer,
-                                                    Details = offer.Offer.GetOfferOptionPolicy(container).GetOptionRules(service.Location, offer.Offer)
-                                                }).ToArray();
-            return Task.FromResult<object>(null);
+            var rules = new List<Service.LocationOfferDetails<IOfferOptionRules>>();
+            foreach (var data in from service in context.Services
+                                  where service.SelectedOffers != null
+                                  from offer in service.SelectedOffers
+                                  select new { service, offer })
+            {
+                rules.Add(new Service.LocationOfferDetails<IOfferOptionRules>
+                {
+                    Location = data.service.Location,
+                    Offer = data.offer.Offer,
+                    Details = await data.offer.Offer.GetOfferOptionPolicy(container).GetOptionRules(data.service.Location, data.offer.Offer)
+                });
+            }
+            internalContext.OfferOptionRules = rules.ToArray();
         }
     }
 }

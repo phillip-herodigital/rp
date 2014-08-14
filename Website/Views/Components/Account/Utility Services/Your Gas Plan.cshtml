@@ -15,7 +15,7 @@
         <tbody additional-fields>
             <tr>
                 <th class="vertical"><div class="fixed">{{ gasPlan.planType }}</div></th>
-                <td>
+                <td class="arrow">
                     <h5><strong>{{ gasPlan.planName }}</strong></h5>
                     <p class="details">
                         <a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" class="details-link" href="">
@@ -23,7 +23,16 @@
                         </a>
                     </p>
                 </td>
-                <td class="center"><span class="plan-cost">{{ gasPlan.rate }}&#162;</span><p>@Html.Sitecore().Field("Per CCF Text")</p></td>
+                <td class="center">
+                    <span class="plan-cost">{{ gasPlan.rate }}&#162;</span>
+                    <p>@Html.Sitecore().Field("Per CCF Text")</p>
+                    <p class="details">
+                        <a ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}" class="details-link" href="">
+                            <span ng-if="!isOpen">@Html.Sitecore().Field("View Text")</span><span ng-if="isOpen">@Html.Sitecore().Field("Hide Text")</span> @Html.Sitecore().Field("Details Text")
+                        </a>
+                    </p>
+                    <div class="details-arrow"></div>
+                </td>
                 <td class="center"><i class="icon-month-to-month" ng-show="gasPlan.terms = 'Month-to-Month'"></i><p>{{ gasPlan.terms }}</p></td>
                 <td class="center"><span class="plan-cost">{{ gasPlan.fees }}</span> <p>@Html.Sitecore().Field("Termination Fee Text")</p></td>
             </tr>

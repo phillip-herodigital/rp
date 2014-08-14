@@ -9,7 +9,7 @@ using Microsoft.Practices.Unity;
 
 namespace StreamEnergy.Services.Clients
 {
-    class StreamConnectContainerSetup : Unity.IContainerSetupStrategy
+    public class StreamConnectContainerSetup : Unity.IContainerSetupStrategy
     {
         public const string StreamConnectKey = "StreamConnect";
 
