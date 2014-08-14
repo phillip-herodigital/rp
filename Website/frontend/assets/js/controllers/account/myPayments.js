@@ -25,7 +25,7 @@ ngApp.controller('AcctMyPaymentsCtrl', ['$scope', '$rootScope', '$http', '$filte
 		_.forEach($scope.serviceTypes,function(type) { $scope.filtersList.serviceType.push({ 'name' : type, 'value' : type }) }); 
 		_.forEach($scope.accountNumbers,function(num) { $scope.filtersList.accountNumber.push({ 'name' : num, 'value' : num }) }); 
 		_.forEach($scope.statuses,function(status) { $scope.filtersList.status.push({ 'name' : status, 'value' : status }) }); 
-		
+			
 		$scope.isLoading = false;
 	});
 

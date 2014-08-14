@@ -9,21 +9,19 @@ ngApp.controller('AcctNotificationSettingsCtrl', ['$scope', '$rootScope', '$http
 	$scope.$watch('selectedAccount.accountNumber', function(newVal) { 
 		if (newVal) {
 			$scope.isLoading = true;
-			$timeout(function () {
-				$http({
-					method  : 'POST',
-					url     : '/api/account/getNotificationSettings',
-					data    : { 'accountNumber' : newVal },
-					headers : { 'Content-Type': 'application/JSON' } 
-				})
-					.success(function (data, status, headers, config) {
-						$scope.formData = data;
-						$scope.formDataOriginal = angular.copy($scope.formData);
-						$scope.successMessage = false;
-						$scope.preferenceSuccessMessage = false;
-						$scope.isLoading = false;
-					});
-			}, 800);
+			$http({
+				method  : 'POST',
+				url     : '/api/account/getNotificationSettings',
+				data    : { 'accountNumber' : newVal },
+				headers : { 'Content-Type': 'application/JSON' } 
+			})
+				.success(function (data, status, headers, config) {
+					$scope.formData = data;
+					$scope.formDataOriginal = angular.copy($scope.formData);
+					$scope.successMessage = false;
+					$scope.preferenceSuccessMessage = false;
+					$scope.isLoading = false;
+				});
 		}
 	});
 
@@ -84,7 +82,7 @@ ngApp.controller('AcctNotificationSettingsCtrl', ['$scope', '$rootScope', '$http
 			.success(function (data, status, headers, config) {
 				if (!data.success) {
 					// if not successful, bind errors to error variables
-					
+						
 				} else {
 					// if successful, update the icons
 					angular.copy($scope.formData.newDocumentArrives, $scope.formDataOriginal.newDocumentArrives);

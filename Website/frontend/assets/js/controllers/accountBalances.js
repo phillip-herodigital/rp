@@ -1,4 +1,4 @@
-ngApp.controller('AccountBalances', ['$scope', '$rootScope', '$http', '$filter', '$timeout', function ($scope, $rootScope, $http, $filter, $timeout) {
+ngApp.controller('AccountBalances', ['$scope', '$rootScope', '$http', '$filter', function ($scope, $rootScope, $http, $filter) {
 
 	// $scope.accounts = [
 	// 	{
@@ -20,14 +20,11 @@ ngApp.controller('AccountBalances', ['$scope', '$rootScope', '$http', '$filter',
 	$scope.paymentForm = {};
 	$scope.isLoading = true;
 
-	$timeout(function() {
-
-		$http.get('assets/json/accountBalances.json').success(function(data, status, headers, config) {
-			$scope.accounts = data;
-			loadSelectedAccount($scope.selectedAccount.account);
-			$scope.isLoading = false;
-		});
-	}, 2000);
+	$http.get('assets/json/accountBalances.json').success(function(data, status, headers, config) {
+		$scope.accounts = data;
+		loadSelectedAccount($scope.selectedAccount.account);
+		$scope.isLoading = false;
+	});
 
 	var loadSelectedAccount = function(account) {
 		if (account == null) {

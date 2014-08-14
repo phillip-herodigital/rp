@@ -6,51 +6,51 @@ ngApp.controller('AcctMyEnergyUsageCtrl', ['$scope', '$rootScope', '$http', 'bre
 	var monthNames = ['','January','February','March','April','May','June','July','August','September','October','November','December']
 	var monthAbbreviations = ['','JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
 	var setOptions = function (utilityType) {
-		$scope.options = {
-			lineMode: 'cardinal',
-			tension: 0.7,
-			axes: {
-				x: {type: 'linear', key: 'month', 
-						labelFunction: function (v) {
-							return monthAbbreviations[v];
-						}
-					},
-				y: {type: 'linear', min: 0}//,
-				//y2: {type: 'linear', min: 0, max: 100}
-			},
-			drawLegend: false,
-			drawDots: true,
-			series: [
-				{
-					y: 'usage',
-					label: 'Usage',
-					type: 'column',
-					color: '#77bd43',
-					axis: 'y',
-					visible: true
-				}/*,
-				{
-					y: 'gas',
-					label: 'Gas',
-					color: '#2a93c7',
-					axis: 'y2',
-					type: 'line',
-					thickness: '3px',
-					visible: true
-				}*/
-			],
-			tooltip: {mode: 'scrubber', interpolate: false,
-				formatter: function (x, y, series) {
-					var month = monthNames[x];
+	$scope.options = {
+		lineMode: 'cardinal',
+		tension: 0.7,
+		axes: {
+			x: {type: 'linear', key: 'month', 
+					labelFunction: function (v) {
+						return monthAbbreviations[v];
+					}
+				},
+			y: {type: 'linear', min: 0}//,
+			//y2: {type: 'linear', min: 0, max: 100}
+		},
+		drawLegend: false,
+		drawDots: true,
+		series: [
+			{
+				y: 'usage',
+				label: 'Usage',
+				type: 'column',
+				color: '#77bd43',
+				axis: 'y',
+				visible: true
+			}/*,
+			{
+				y: 'gas',
+				label: 'Gas',
+				color: '#2a93c7',
+				axis: 'y2',
+				type: 'line',
+				thickness: '3px',
+				visible: true
+			}*/
+		],
+		tooltip: {mode: 'scrubber', interpolate: false,
+			formatter: function (x, y, series) {
+				var month = monthNames[x];
 					var units = (utilityType == 'Electric') ? 'kWh' : 'Therms';
 					var tooltip = y + ' ' + units;
 					if (breakpoint.breakpoint.name != 'phone') {
 							tooltip = month + ' ' + series.label + ': ' + tooltip;
 					}
-					return tooltip;
-				}
+				return tooltip;
 			}
-		};
+		}
+	};
 
 	}
 	
