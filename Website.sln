@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.30324.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Website", "Website\Website.csproj", "{FB926363-ED56-4B04-8837-CACBE8F9F222}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -59,6 +59,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LuceneServices", "LuceneServices", "{A2266EAE-FB81-4326-BCE7-7195EFFC6164}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{59B39452-16F0-4170-A74E-F886F54DCBDC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamEnergy.RenderingService", "StreamEnergy.RenderingService\StreamEnergy.RenderingService.csproj", "{2A7F95F1-DB6A-4063-9CD7-B3AAA6FDA18A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WindowsServices", "WindowsServices", "{FC6C8FA8-0ADC-46C6-B79D-409C24C227E5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -148,6 +152,14 @@ Global
 		{37C047F3-940F-4C38-A781-EDF7F4E39AEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37C047F3-940F-4C38-A781-EDF7F4E39AEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37C047F3-940F-4C38-A781-EDF7F4E39AEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A7F95F1-DB6A-4063-9CD7-B3AAA6FDA18A}.Azure-Production Sitecore|Any CPU.ActiveCfg = Release|Any CPU
+		{2A7F95F1-DB6A-4063-9CD7-B3AAA6FDA18A}.Azure-Production Sitecore|Any CPU.Build.0 = Release|Any CPU
+		{2A7F95F1-DB6A-4063-9CD7-B3AAA6FDA18A}.Azure-Production|Any CPU.ActiveCfg = Release|Any CPU
+		{2A7F95F1-DB6A-4063-9CD7-B3AAA6FDA18A}.Azure-Production|Any CPU.Build.0 = Release|Any CPU
+		{2A7F95F1-DB6A-4063-9CD7-B3AAA6FDA18A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A7F95F1-DB6A-4063-9CD7-B3AAA6FDA18A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A7F95F1-DB6A-4063-9CD7-B3AAA6FDA18A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A7F95F1-DB6A-4063-9CD7-B3AAA6FDA18A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -163,5 +175,6 @@ Global
 		{01C2497B-EDA7-4638-BE77-CB9E3C02A684} = {59B39452-16F0-4170-A74E-F886F54DCBDC}
 		{37C047F3-940F-4C38-A781-EDF7F4E39AEB} = {A2266EAE-FB81-4326-BCE7-7195EFFC6164}
 		{59B39452-16F0-4170-A74E-F886F54DCBDC} = {A2266EAE-FB81-4326-BCE7-7195EFFC6164}
+		{2A7F95F1-DB6A-4063-9CD7-B3AAA6FDA18A} = {FC6C8FA8-0ADC-46C6-B79D-409C24C227E5}
 	EndGlobalSection
 EndGlobal
