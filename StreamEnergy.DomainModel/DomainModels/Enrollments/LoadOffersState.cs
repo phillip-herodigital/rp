@@ -29,10 +29,9 @@ namespace StreamEnergy.DomainModels.Enrollments
             return internalContext.AllOffers == null || !context.Services.Select(s => s.Location).All(loc => internalContext.AllOffers.ContainsKey(loc));
         }
 
-        protected override Task LoadInternalState(UserContext data, InternalContext internalContext)
+        protected override async Task LoadInternalState(UserContext data, InternalContext internalContext)
         {
-            internalContext.AllOffers = enrollmentService.LoadOffers(data.Services.Select(s => s.Location));
-            return Task.FromResult<object>(null);
+            internalContext.AllOffers = await enrollmentService.LoadOffers(data.Services.Select(s => s.Location));
         }
     }
 }

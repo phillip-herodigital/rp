@@ -1,7 +1,7 @@
 /* My Invoices Controller
  *
  */
-ngApp.controller('AcctMyInvoicesCtrl', ['$scope', '$rootScope', '$http', '$filter', '$timeout', 'jQuery', function ($scope, $rootScope, $http, $filter, $timeout, jQuery) {
+ngApp.controller('AcctMyInvoicesCtrl', ['$scope', '$rootScope', '$http', '$filter', 'jQuery', function ($scope, $rootScope, $http, $filter, jQuery) {
 	// create a blank object to hold the information
 	$scope.invoicesTable = {};
 	$scope.invoicesTable.columnList = [];

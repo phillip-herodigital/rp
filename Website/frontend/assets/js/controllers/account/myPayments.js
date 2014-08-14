@@ -1,7 +1,7 @@
 /* My Payments Controller
  *
  */
-ngApp.controller('AcctMyPaymentsCtrl', ['$scope', '$rootScope', '$http', '$filter', '$timeout', '$sce', 'jQuery', function ($scope, $rootScope, $http, $filter, $timeout, $sce, jQuery) {
+ngApp.controller('AcctMyPaymentsCtrl', ['$scope', '$rootScope', '$http', '$filter', 'jQuery', function ($scope, $rootScope, $http, $filter, jQuery) {
 	// create  blank objects to hold the information
 	$scope.paymentsTable = {};
 	$scope.paymentsTable.columnList = [];

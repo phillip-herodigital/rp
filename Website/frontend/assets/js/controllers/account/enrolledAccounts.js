@@ -1,7 +1,7 @@
 /* Enrolled Accounts Controller
  *
  */
-ngApp.controller('AcctEnrolledAccountsCtrl', ['$scope', '$rootScope', '$http', '$timeout', '$modal', 'jQuery', function ($scope, $rootScope, $http, $timeout, $modal, jQuery) {
+ngApp.controller('AcctEnrolledAccountsCtrl', ['$scope', '$rootScope', '$http', '$modal', 'jQuery', function ($scope, $rootScope, $http, $modal, jQuery) {
 	// create a blank object to hold the form information
 	$scope.formData = {};
 

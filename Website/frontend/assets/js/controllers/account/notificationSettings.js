@@ -1,7 +1,7 @@
 /* Notification Settings Controller
  *
  */
-ngApp.controller('AcctNotificationSettingsCtrl', ['$scope', '$rootScope', '$http', '$timeout', function ($scope, $rootScope, $http, $timeout) {
+ngApp.controller('AcctNotificationSettingsCtrl', ['$scope', '$rootScope', '$http', function ($scope, $rootScope, $http) {
 	// create a blank object to hold the form information
 	$scope.formData = {};
 

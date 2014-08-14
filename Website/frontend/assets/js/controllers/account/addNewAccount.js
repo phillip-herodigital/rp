@@ -1,7 +1,7 @@
 /* Add New Account Controller
  *
  */
-ngApp.controller('AcctAddNewAccountCtrl', ['$scope', '$rootScope', '$http', '$timeout', function ($scope, $rootScope, $http, $timeout) {
+ngApp.controller('AcctAddNewAccountCtrl', ['$scope', '$rootScope', '$http', function ($scope, $rootScope, $http) {
 	// create a blank object to hold the form information
 	$scope.formData = {};
 

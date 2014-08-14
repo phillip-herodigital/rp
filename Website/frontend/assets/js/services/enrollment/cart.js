@@ -9,7 +9,11 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
 
     var updateOffer = function (offerInformation) {
         _(offerInformation.value.offerSelections).forEach(function (offerSelection) {
+            console.log(offerSelection);
             offerSelection.offer = _(offerInformation.value.availableOffers).where({ id: offerSelection.offerId }).first();
+            if (offerSelection.optionRules && !offerSelection.offerOption) {
+                offerSelection.offerOption = { optionType: offerSelection.optionRules.optionRulesType };
+            }
         });
     };
 

@@ -4,158 +4,290 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Practices.Unity;
+using System.Net.Http;
 
 namespace StreamEnergy.Services.Clients
 {
     class EnrollmentService : IEnrollmentService
     {
-        // TODO - replace with actual implementations
-        [Serializable]
-        class ConnectDatePolicy : IConnectDatePolicy
-        {
+        private HttpClient streamConnectClient;
 
+        public EnrollmentService([Dependency(StreamConnectContainerSetup.StreamConnectKey)] HttpClient client)
+        {
+            this.streamConnectClient = client;
         }
 
-        Dictionary<Location, LocationOfferSet> IEnrollmentService.LoadOffers(IEnumerable<Location> serviceLocations)
+        async Task<Dictionary<Location, LocationOfferSet>> IEnrollmentService.LoadOffers(IEnumerable<Location> serviceLocations)
         {
-            return serviceLocations.ToDictionary(location => location, location =>
+            Dictionary<Location, LocationOfferSet> result = new Dictionary<Location,LocationOfferSet>();
+            foreach (var location in serviceLocations.Distinct())
             {
-                if (location.Capabilities.OfType<DomainModels.TexasServiceCapability>().Count() > 1)
+                if (location.Capabilities.OfType<DomainModels.TexasServiceCapability>().Any())
+                    result.Add(location, await LoadTexasOffers(location));
+                else
                 {
-                    return new LocationOfferSet { OfferSetErrors = { { "TexasElectricity", "MultipleTdu" } } };
+                    // Not implemented!
                 }
-                var offers = new IOffer[] 
-                {
-                    new TexasElectricityOffer
-                    {
-                        Id = "24-month-fixed-rate",
-                        Name= "24 Month Fixed Rate",
-                        RateType= DomainModels.Enrollments.RateType.Fixed,
-                        Rate= 7.18m,
-                        TermMonths= 24,
-                        CancellationFee=150,
-                        Description = "When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services.",
-                        Documents = new Dictionary<string,Uri> 
-                        {
-                            { "ElectricityFactsLabel", new Uri("/", UriKind.Relative) },
-                            { "TermsOfService", new Uri("/", UriKind.Relative) },
-                            { "YourRightsAsACustomer", new Uri("/", UriKind.Relative) },
-                        }
-                    },
-                    new TexasElectricityOffer
-                    {
-                        Id="6-month-fixed-rate",
-                        Name="6 Month Fixed Rate",
-                        RateType= DomainModels.Enrollments.RateType.Fixed,
-                        Rate=7.98m,
-                        TermMonths=6,
-                        CancellationFee=150,
-                        Description="When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services.",
-                        Documents = new Dictionary<string,Uri> 
-                        {
-                            { "ElectricityFactsLabel", new Uri("/", UriKind.Relative) },
-                            { "TermsOfService", new Uri("/", UriKind.Relative) },
-                            { "YourRightsAsACustomer", new Uri("/", UriKind.Relative) },
-                        }
-                    },
-                    new TexasElectricityOffer
-                    {
-                        Id="month-to-month-rate",
-                        Name="Month-To-Month Rate",
-                        RateType= DomainModels.Enrollments.RateType.Variable,
-                        Rate=7.98m,
-                        TermMonths=1,
-                        CancellationFee=0,
-                        Description="When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services.",
-                        Documents = new Dictionary<string,Uri> 
-                        {
-                            { "ElectricityFactsLabel", new Uri("/", UriKind.Relative) },
-                            { "TermsOfService", new Uri("/", UriKind.Relative) },
-                            { "YourRightsAsACustomer", new Uri("/", UriKind.Relative) },
-                        }
-                    },
-                    new TexasElectricityOffer
-                    {
-                        Id="introductory-rate-plan",
-                        Name="Introductory Rate Plan",
-                        RateType= DomainModels.Enrollments.RateType.Variable,
-                        Rate=8.08m,
-                        TermMonths=1,
-                        CancellationFee=0,
-                        Description="When it comes to your family's energy service, you can't afford to compromise. You need assurances that your electric and gas rates are competitive and that your energy provider truly cares when you need help or have a question. You can rest easy, because Stream Energy, a leader among power companies in the United States, is here for you. We are pleased to offer our customers a variety of choices in their selection of their energy services.",
-                        Documents = new Dictionary<string,Uri> 
-                        {
-                            { "ElectricityFactsLabel", new Uri("/", UriKind.Relative) },
-                            { "TermsOfService", new Uri("/", UriKind.Relative) },
-                            { "YourRightsAsACustomer", new Uri("/", UriKind.Relative) },
-                        }
-                    }
-                };
-
-                return new LocationOfferSet { Offers = offers.ToArray() };
-            });
+            }
+            return result;
         }
 
-        IConnectDatePolicy IEnrollmentService.LoadConnectDates(Location location)
+        private async Task<LocationOfferSet> LoadTexasOffers(Location location)
         {
-            return new ConnectDatePolicy();
+            if (location.Capabilities.OfType<DomainModels.TexasServiceCapability>().Count() != 1)
+            {
+                return new LocationOfferSet { OfferSetErrors = { { "TexasElectricity", "MultipleTdu" } } };
+            }
+            else if (location.Capabilities.OfType<DomainModels.Enrollments.ServiceStatusCapability>().Count() != 1)
+            {
+                return new LocationOfferSet { OfferSetErrors = { { "TexasElectricity", "ServiceStatusUnknown" } } };
+            }
+
+            var texasService = location.Capabilities.OfType<DomainModels.TexasServiceCapability>().Single();
+            var serviceStatus = location.Capabilities.OfType<DomainModels.Enrollments.ServiceStatusCapability>().Single();
+
+            // Grab from the HttpUtility because it creates the interna `HttpValueCollection`, which will escape values properly when ToString'd.
+            var parameters = System.Web.HttpUtility.ParseQueryString("");
+            parameters["CustomerType"] = "Residential"; // TODO - commercial? How are we passing that?
+            parameters["EnrollmentType"] = serviceStatus.IsNewService ? "MoveIn" : "Switch"; // TODO - renewal? How are we doing that?
+            parameters["ServiceAddress.City"] = location.Address.City;
+            parameters["ServiceAddress.State"] = location.Address.StateAbbreviation;
+            parameters["ServiceAddress.StreetLine1"] = location.Address.Line1;
+            parameters["ServiceAddress.StreetLine2"] = location.Address.Line2;
+            parameters["ServiceAddress.Zip"] = location.Address.PostalCode5;
+            parameters["UtilityAccountNumber"] = texasService.EsiId;
+            parameters["SystemOfRecord"] = "CIS1";
+
+            var response = await streamConnectClient.GetAsync("/api/products?" + parameters.ToString());
+
+            var streamConnectProducts = Json.Read<IEnumerable<StreamConnect.Product>>(await response.Content.ReadAsStringAsync());
+
+            return new LocationOfferSet
+            {
+                Offers = (from product in streamConnectProducts
+                          // Only supporting $/kwh for Texas enrollments, at least for now. Making sure that our `* 100` below doesn't cause a bug...
+                          where product.Rate.Unit == "$/kwh"
+                          group product by product.ProductCode into products
+                          let product = products.First()
+                          select new TexasElectricityOffer
+                          {
+                              Id = product.ProductCode,
+                              Provider = product.Provider.ToString(),
+
+                              IsNewService = serviceStatus.IsNewService,
+
+                              // TODO - link with Sitecore
+                              Name = product.Name,
+                              Description = product.Description,
+
+                              Rate = product.Rate.Value * 100,
+                              TermMonths = product.Term,
+                              RateType = product.Rate.Type == "Fixed" ? RateType.Fixed : RateType.Variable,
+                              // TODO
+                              CancellationFee = 0,
+                              // TODO
+                              Documents = new Dictionary<string, Uri> 
+                              {
+                                  { "ElectricityFactsLabel", new Uri("/", UriKind.Relative) },
+                                  { "TermsOfService", new Uri("/", UriKind.Relative) },
+                                  { "YourRightsAsACustomer", new Uri("/", UriKind.Relative) },
+                              }
+                          }).ToArray()
+            };
         }
 
-        DomainModels.Enrollments.Service.IdentityCheckResult IEnrollmentService.IdentityCheck(DomainModels.Name name, string ssn, DomainModels.DriversLicense driversLicense, AdditionalIdentityInformation identityInformation)
+        async Task<IConnectDatePolicy> IEnrollmentService.LoadConnectDates(Location location)
+        {
+            if (location.Capabilities.OfType<DomainModels.TexasServiceCapability>().Any())
+                return await LoadTexasConnectDates(location);
+            else
+                throw new NotImplementedException();
+        }
+
+        private async Task<IConnectDatePolicy> LoadTexasConnectDates(Location location)
+        {
+            var texasService = location.Capabilities.OfType<DomainModels.TexasServiceCapability>().Single();
+
+            var parameters = System.Web.HttpUtility.ParseQueryString("");
+            parameters["Address.City"] = location.Address.City;
+            parameters["Address.State"] = location.Address.StateAbbreviation;
+            parameters["Address.StreetLine1"] = location.Address.Line1;
+            parameters["Address.StreetLine2"] = location.Address.Line2;
+            parameters["Address.Zip"] = location.Address.PostalCode5;
+            parameters["UtilityAccountNumber"] = texasService.EsiId;
+            parameters["SystemOfRecord"] = "CIS1";
+
+            var response = await streamConnectClient.GetAsync("/api/MoveInDates?" + parameters);
+
+            var result = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+            //{"MoveInDates":[{"Date":"2014-08-04T00:00:00","Priority":true,"Fees":[{"Name":"Move In Date Fee","Amount":79.27}]}...]}
+
+            return new ConnectDatePolicy()
+            {
+                AvailableConnectDates = (from entry in result["MoveInDates"].ToObject<IEnumerable<StreamConnect.MoveInDate>>()
+                                         select new ConnectDate
+                                         {
+                                             Date = entry.Date,
+                                             Classification = entry.Priority ? ConnectDateClassification.Priority : ConnectDateClassification.Standard,
+                                             Fees = entry.Fees.ToDictionary(fee => ToFeeQualifier(feeName: fee.Name), fee => fee.Amount)
+                                         }).ToArray()
+            };
+        }
+
+        private string ToFeeQualifier(string feeName)
+        {
+            switch (feeName)
+            {
+                case "Move In Date Fee":
+                    return "ConnectFee";
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+        Task<bool> IEnrollmentService.IsBlockedSocialSecurityNumber(string ssn)
+        {
+            if (ssn == "000000000")
+                return Task.FromResult(true);
+            return Task.FromResult(false);
+        }
+
+        async Task<DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>> IEnrollmentService.BeginIdentityCheck(Guid streamCustomerId, DomainModels.Name name, string ssn, DomainModels.Address mailingAddress, AdditionalIdentityInformation identityInformation)
         {
             if (identityInformation == null)
             {
-                return new DomainModels.Enrollments.Service.IdentityCheckResult
+                var response = await streamConnectClient.PostAsJsonAsync("/api/verifications/id/" + streamCustomerId.ToString(), new
                 {
-                    IdentityAccepted = false,
-                    HardStop = null,
-                    IdentityCheckId = "01234",
-                    IdentityQuestions = new[] 
+                    FirstName = name.First,
+                    LastName = name.Last,
+                    SSN = ssn,
+                    Address = new
                     {
-                        new IdentityQuestion
-                        {
-                            QuestionId = "1",
-                            QuestionText = "What is your name?",
-                            Answers = new[] { 
-                                new IdentityAnswer { AnswerId = "1", AnswerText = "King Arthur" },
-                                new IdentityAnswer { AnswerId = "2", AnswerText = "Sir Lancelot" },
-                                new IdentityAnswer { AnswerId = "3", AnswerText = "Sir Robin" },
-                                new IdentityAnswer { AnswerId = "4", AnswerText = "Sir Galahad" },
-                            }
-                        },
-                        new IdentityQuestion
-                        {
-                            QuestionId = "2",
-                            QuestionText = "What is your quest?",
-                            Answers = new[] { 
-                                new IdentityAnswer { AnswerId = "1", AnswerText = "To seek the Holy Grail." },
-                            }
-                        },
-                        new IdentityQuestion
-                        {
-                            QuestionId = "3",
-                            QuestionText = "What is your favorite color?",
-                            Answers = new[] { 
-                                new IdentityAnswer { AnswerId = "1", AnswerText = "Blue." },
-                                new IdentityAnswer { AnswerId = "2", AnswerText = "Green." },
-                                new IdentityAnswer { AnswerId = "3", AnswerText = "Yellow." },
-                                new IdentityAnswer { AnswerId = "4", AnswerText = "Red." },
-                            }
-                        },
+                        StreetLine1 = mailingAddress.Line1,
+                        StreetLine2 = mailingAddress.Line2,
+                        City = mailingAddress.City,
+                        State = mailingAddress.StateAbbreviation,
+                        Zip = mailingAddress.PostalCode5
+                    }
+                });
+                var responseString = await response.Content.ReadAsStringAsync();
+                var result = Json.Read<StreamConnect.IdVerificationChallengeResponse>(responseString);
+
+                return new DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>
+                {
+                    IsCompleted = true,
+                    Data = new DomainModels.Enrollments.Service.IdentityCheckResult
+                    {
+                        HardStop = null,
+                        IdentityCheckId = result.IdVerificationChallenge.CreditServicesSessionId,
+                        IdentityAccepted = false,
+                        IdentityQuestions = (from question in result.IdVerificationChallenge.Questions
+                                             select new IdentityQuestion
+                                             {
+                                                 QuestionId = question.Index.ToString(),
+                                                 QuestionText = question.QuestionText,
+                                                 Answers = (from answer in question.Answers
+                                                            select new IdentityAnswer
+                                                            {
+                                                                AnswerId = answer.Index.ToString(),
+                                                                AnswerText = answer.AnswerText
+                                                            }).ToArray()
+                                             }).ToArray()
                     }
                 };
             }
             else
             {
-                return new DomainModels.Enrollments.Service.IdentityCheckResult
+                var response = await streamConnectClient.PutAsJsonAsync("/api/verifications/id/" + streamCustomerId.ToString(), new
                 {
-                    IdentityCheckId = "01235",
-                    IdentityAccepted = true,
-                    HardStop = null,
-                    IdentityQuestions = new IdentityQuestion[0],
+                    CreditServiceSessionId = identityInformation.PreviousIdentityCheckId,
+                    Questions = (from question in identityInformation.SelectedAnswers
+                                 select new
+                                 {
+                                     Index = int.Parse(question.Key),
+                                     SelectedAnswerIndex = int.Parse(question.Value)
+                                 }).ToArray()
+                });
+                var asyncUrl = response.Headers.Location;
+                return new DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>
+                {
+                    IsCompleted = false,
+                    ResponseLocation = asyncUrl 
                 };
             }
         }
+
+        async Task<DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>> IEnrollmentService.EndIdentityCheck(DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult> asyncResult)
+        {
+            var response = await streamConnectClient.GetAsync(asyncResult.ResponseLocation);
+            if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+            {
+                return asyncResult;
+            }
+            var responseString = await response.Content.ReadAsStringAsync();
+
+            // TODO - do something with the response? 
+
+            asyncResult.IsCompleted = true;
+            asyncResult.Data = new DomainModels.Enrollments.Service.IdentityCheckResult { IdentityAccepted = true, IdentityQuestions = new IdentityQuestion[0] };
+            return asyncResult;
+        }
+
+        //DomainModels.Enrollments.Service.IdentityCheckResult IEnrollmentService.IdentityCheck(DomainModels.Name name, string ssn, DomainModels.DriversLicense driversLicense, AdditionalIdentityInformation identityInformation)
+        //{
+        //    if (identityInformation == null)
+        //    {
+        //        return new DomainModels.Enrollments.Service.IdentityCheckResult
+        //        {
+        //            IdentityAccepted = false,
+        //            HardStop = null,
+        //            IdentityCheckId = "01234",
+        //            IdentityQuestions = new[] 
+        //            {
+        //                new IdentityQuestion
+        //                {
+        //                    QuestionId = "1",
+        //                    QuestionText = "What is your name?",
+        //                    Answers = new[] { 
+        //                        new IdentityAnswer { AnswerId = "1", AnswerText = "King Arthur" },
+        //                        new IdentityAnswer { AnswerId = "2", AnswerText = "Sir Lancelot" },
+        //                        new IdentityAnswer { AnswerId = "3", AnswerText = "Sir Robin" },
+        //                        new IdentityAnswer { AnswerId = "4", AnswerText = "Sir Galahad" },
+        //                    }
+        //                },
+        //                new IdentityQuestion
+        //                {
+        //                    QuestionId = "2",
+        //                    QuestionText = "What is your quest?",
+        //                    Answers = new[] { 
+        //                        new IdentityAnswer { AnswerId = "1", AnswerText = "To seek the Holy Grail." },
+        //                    }
+        //                },
+        //                new IdentityQuestion
+        //                {
+        //                    QuestionId = "3",
+        //                    QuestionText = "What is your favorite color?",
+        //                    Answers = new[] { 
+        //                        new IdentityAnswer { AnswerId = "1", AnswerText = "Blue." },
+        //                        new IdentityAnswer { AnswerId = "2", AnswerText = "Green." },
+        //                        new IdentityAnswer { AnswerId = "3", AnswerText = "Yellow." },
+        //                        new IdentityAnswer { AnswerId = "4", AnswerText = "Red." },
+        //                    }
+        //                },
+        //            }
+        //        };
+        //    }
+        //    else
+        //    {
+        //        return new DomainModels.Enrollments.Service.IdentityCheckResult
+        //        {
+        //            IdentityCheckId = "01235",
+        //            IdentityAccepted = true,
+        //            HardStop = null,
+        //            IdentityQuestions = new IdentityQuestion[0],
+        //        };
+        //    }
+        //}
 
         IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>> IEnrollmentService.LoadOfferPayments(IEnumerable<LocationServices> services)
         {

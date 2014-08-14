@@ -1,7 +1,7 @@
 /* Account Information Controller
  *
  */
-ngApp.controller('AcctAccountInformationCtrl', ['$scope', '$rootScope', '$http', '$timeout', '$window', '$sce', function ($scope, $rootScope, $http, $timeout, $window, $sce) {
+ngApp.controller('AcctAccountInformationCtrl', ['$scope', '$rootScope', '$http', function ($scope, $rootScope, $http) {
 	// create a blank object to hold the form information
 	$scope.formData = {};
 
@@ -53,9 +53,9 @@ ngApp.controller('AcctAccountInformationCtrl', ['$scope', '$rootScope', '$http',
 		})
 			.success(function (data, status, headers, config) {
 				if (data.validations.length) {
-				    // if not successful, bind errors to error variables
-				    $scope.isLoading = false;
-				    $scope.validations = data.validations;
+					// if not successful, bind errors to error variables
+					$scope.isLoading = false;
+					$scope.validations = data.validations;
 
 				} else {
 					// if successful, show the success message

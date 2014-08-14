@@ -12,7 +12,7 @@ using StreamEnergy.Services.Clients.Interceptors;
 
 namespace StreamEnergy.Services.Clients
 {
-    class ClientContainerSetup : Unity.InheritanceSetupStrategy
+    public class ClientContainerSetup : Unity.InheritanceSetupStrategy
     {
         private static readonly ProxyGenerator proxyGenerator = new ProxyGenerator();
         
