@@ -51,7 +51,12 @@ namespace StreamEnergy.LuceneServices.Web.Tests.Ercot
             {
                 var data = target.ReadZipFile(stream, "ONCOR");
 
-                builder.WriteIndex(data, "ONCOR").Wait();
+                builder.WriteIndex(from entry in data
+                                   select new StreamEnergy.DomainModels.Enrollments.Location
+                                   {
+                                       Address = ErcotAddressReader.FromRecord(entry.Item1),
+                                       Capabilities = entry.Item2
+                                   }, "ONCOR").Wait();
             }
 
             searcher = new IndexSearcher(BuildIndexPath(testContext));

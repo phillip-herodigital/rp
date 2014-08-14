@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,9 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
 {
     class Program
     {
+        const int reportEvery = 10000;
+        const int maxTasks = 5000;
+
         static void Main(string[] args)
         {
             var container = StreamEnergy.Unity.Container.Instance.Unity;
@@ -20,12 +24,13 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
             using (var directoryLoader = new Ercot.DirectoryLoader())
             using (var indexBuilder = new IndexBuilder(options.Destination, options.ForceCreate))
             {
+                var streetService = new SmartyStreets.SmartyStreetService(ConfigurationManager.AppSettings["SmartyStreetsAuthId"], ConfigurationManager.AppSettings["SmartyStreetsAuthToken"]);
                 var results = directoryLoader.Load(options.Source, options.StartDate, true);
                 var allTasks = new List<Task<Dictionary<string, DomainModels.IServiceCapability>>>();
                 foreach (var tdu in results.GroupBy(file => file.Tdu))
                 {
                     var copy = tdu; // grab the proper closure, since var tdu is technically outside the loop
-                    allTasks.Add(IndexTdu(indexBuilder, tdu, options.ForceCreate));
+                    allTasks.Add(IndexTdu(streetService, indexBuilder, tdu, options.ForceCreate));
                 }
 
                 var tasks = allTasks.ToArray();
@@ -46,9 +51,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
             }
         }
 
-        const int reportEvery = 10000;
-        const int maxTasks = 5000;
-        private static async Task<Dictionary<string, DomainModels.IServiceCapability>> IndexTdu(IndexBuilder indexBuilder, IGrouping<string, Ercot.FileMetadata> tdu, bool isFresh)
+        private static async Task<Dictionary<string, DomainModels.IServiceCapability>> IndexTdu(SmartyStreets.SmartyStreetService streetService, IndexBuilder indexBuilder, IGrouping<string, Ercot.FileMetadata> tdu, bool isFresh)
         {
             try
             {
@@ -66,7 +69,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
                     using (var fs = System.IO.File.OpenRead(file.FullPath))
                     using (var fr = new Ercot.FileReader())
                     {
-                        foreach (var loc in fr.ReadZipFile(fs, file.Tdu))
+                        foreach (var loc in new ErcotAddressReader(streetService: streetService, fileReader: fr, fileStream: fs, tdu: file.Tdu).Addresses)
                         {
                             if (!zipCodes.ContainsKey(loc.Address.PostalCode5))
                             {
@@ -76,11 +79,11 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
                             if (taskQueue.Count >= maxTasks)
                             {
                                 while (taskQueue.Any())
-                                    await taskQueue.Dequeue();
+                                    await taskQueue.Dequeue().ConfigureAwait(false);
                             }
                             else if (taskQueue.Count > 0 && taskQueue.Peek().IsCompleted)
                             {
-                                await taskQueue.Dequeue();
+                                await taskQueue.Dequeue().ConfigureAwait(false);
                             }
                             counter++;
                             if (counter % reportEvery == 0)
@@ -88,7 +91,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
                         }
                     }
                     while (taskQueue.Any())
-                        await taskQueue.Dequeue();
+                        await taskQueue.Dequeue().ConfigureAwait(false);
                     isFresh = false;
                 }
                 Console.WriteLine(tdu.Key.PadRight(20) + " " + counter.ToString().PadLeft(11) + " finished!");
