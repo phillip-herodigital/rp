@@ -46,7 +46,7 @@
                         @*Selected Offers Section*@
                         <div ng-repeat="offerInformation in item.offerInformationByType">
                             <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
-                                <div ng-include src="'offerOptions/' + offerInformation.key"></div>
+                                <div ng-include src="'offerOptions/' + selectedOffer.optionRules.optionRulesType"></div>
 
                                 <div ng-if="item.location.address.line1" ng-controller="EnrollmentBillingAddressCtrl">
                                     <h3>@Html.Sitecore().Field("Billing Address Header")</h3>
@@ -145,7 +145,7 @@
                             { 
                             <div class="item group-col" @firstPhone.Validation().ErrorClass(m => m.Number)>
                                 <label for="@firstPhone.Fix(h => h.IdFor(m => m.Number))">@Html.Sitecore().Field("Primary Phone Number Label")</label>
-                                @firstPhone.Fix(h => h.TextBoxFor(m => m.Number, new { ng_model = "accountInformation.contactInfo.phone[0].number" }))
+                                @firstPhone.Fix(h => h.TextBoxFor(m => m.Number, new { type="tel", ng_model = "accountInformation.contactInfo.phone[0].number" }))
                                 @firstPhone.ValidationMessageFor(m => m.Number)
                             </div>                        
                             <div class="item group-col" @firstPhone.Validation().ErrorClass(m => m.Category)>
@@ -171,7 +171,7 @@
                                 { 
                                 <div class="item group-col" @secondPhone.Validation().ErrorClass(m => m.Number)>
                                     <label for="@secondPhone.Fix(h => h.IdFor(m => m.Number))">@Html.Sitecore().Field("Secondary Phone Number Label")</label>
-                                    @secondPhone.Fix(h => h.TextBoxFor(m => m.Number, new { ng_model = "accountInformation.contactInfo.phone[1].number", data_val_if="accountInformation.contactInfo.phone.length > 1" }))
+                                    @secondPhone.Fix(h => h.TextBoxFor(m => m.Number, new { type = "tel", ng_model = "accountInformation.contactInfo.phone[1].number", data_val_if = "accountInformation.contactInfo.phone.length > 1" }))
                                     @secondPhone.ValidationMessageFor(m => m.Number)
                                 </div>
                                 <div class="item group-col" @secondPhone.Validation().ErrorClass(m => m.Category)>
@@ -192,7 +192,7 @@
                         <hr class="content-divider">
                         <div class="item" @Html.Validation().ErrorClass(m => m.ContactInfo.Email.Address)>
                             <label for="@Html.IdFor(m => m.ContactInfo.Email.Address)">@Html.Sitecore().Field("Email Address Label")</label>
-                            @Html.TextBoxFor(m => m.ContactInfo.Email.Address, new { ng_model = "accountInformation.contactInfo.email.address" })
+                            @Html.TextBoxFor(m => m.ContactInfo.Email.Address, new { type = "email", ng_model = "accountInformation.contactInfo.email.address" })
                             @Html.ValidationMessageFor(model => model.ContactInfo.Email.Address)
                         </div>      
 
@@ -283,18 +283,18 @@
                         <p>@Html.Sitecore().Field("Online Account Paragraph")</p>
                         <div class="item" @Html.Validation().ErrorClass(m => m.OnlineAccount.Username)>
                             <label for="@Html.IdFor(m => m.OnlineAccount.Username)">@Html.Sitecore().Field("Username Optional Label")</label>
-                            @Html.TextBoxFor(m => m.OnlineAccount.Username, new { data_val_if = "accountInformation.onlineAccount.username", ng_model = "accountInformation.onlineAccount.username" })
+                            @Html.TextBoxFor(m => m.OnlineAccount.Username, new { data_val_if = "accountInformation.onlineAccount.username", ng_model = "accountInformation.onlineAccount.username", autocomplete = "off" })
                             @Html.ValidationMessageFor(m => m.OnlineAccount.Username)
                         </div>
                         <div class="group">
                             <div class="item group-col" @Html.Validation().ErrorClass(m => m.OnlineAccount.Password)>
                                 <label for="@Html.IdFor(m => m.OnlineAccount.Password)">@Html.Sitecore().Field("Password Optional Label")</label>
-                                @Html.PasswordFor(m => m.OnlineAccount.Password, new { data_val_if = "accountInformation.onlineAccount.username", ng_model = "accountInformation.onlineAccount.password" })
+                                @Html.PasswordFor(m => m.OnlineAccount.Password, new { data_val_if = "accountInformation.onlineAccount.username", ng_model = "accountInformation.onlineAccount.password", autocomplete = "off" })
                                 @Html.ValidationMessageFor(m => m.OnlineAccount.Password)
                             </div>
                             <div class="item group-col" @Html.Validation().ErrorClass(m => m.OnlineAccount.ConfirmPassword)>
                                 <label for="@Html.IdFor(m => m.OnlineAccount.ConfirmPassword)">@Html.Sitecore().Field("Verify Password Label")</label>
-                                @Html.PasswordFor(m => m.OnlineAccount.ConfirmPassword, new { data_val_if = "accountInformation.onlineAccount.username", ng_model = "accountInformation.onlineAccount.confirmPassword" })
+                                @Html.PasswordFor(m => m.OnlineAccount.ConfirmPassword, new { data_val_if = "accountInformation.onlineAccount.username", ng_model = "accountInformation.onlineAccount.confirmPassword", autocomplete = "off" })
                                 @Html.ValidationMessageFor(m => m.OnlineAccount.ConfirmPassword)
                             </div>
                         </div>
@@ -319,16 +319,26 @@
 <script type="text/ng-template" id="offerOptions/TexasElectricity">
     @using (var offer = Html.ClientRepeater(m => m.Services, "{{$parent.$index}}").ClientRepeater(m => m.SelectedOffers, "{{$index}}"))
     {
-    <div ng-controller="OfferOptions-TexasElectricity">
+    <div @*ng-controller="OfferOptions-TexasElectricity"*@>
         <h2>Electricity</h2>
-        <div class="item group-col datepicker" @offer.Validation().ErrorClass(o => ((TexasElectricityOfferOption)o.OfferOption).ConnectDate)>
-            <label for="@offer.Fix(h => h.IdFor(o => ((TexasElectricityOfferOption)o.OfferOption).ConnectDate))">@Html.Sitecore().Field("Service Start Date Label")</label>
-            <input type="text" class="datepicker-input" id="@offer.Fix(h => h.IdFor(o => ((TexasElectricityOfferOption)o.OfferOption).ConnectDate))" ng-model="selectedOffer.offerOption.connectDate" placeholder="01/29/14"
+        @* No options here since billing address is handled outside of this loop *@
+    </div>
+    }
+</script>
+
+<script type="text/ng-template" id="offerOptions/TexasElectricityMoveIn">
+    @using (var offer = Html.ClientRepeater(m => m.Services, "{{$parent.$index}}").ClientRepeater(m => m.SelectedOffers, "{{$index}}"))
+    {
+    <div ng-controller="OfferOptions-TexasElectricityMoveIn">
+        <h2>Electricity</h2>
+        <div class="item group-col datepicker" @offer.Validation().ErrorClass(o => ((TexasElectricityMoveInOfferOption)o.OfferOption).ConnectDate)>
+            <label for="@offer.Fix(h => h.IdFor(o => ((TexasElectricityMoveInOfferOption)o.OfferOption).ConnectDate))">@Html.Sitecore().Field("Service Start Date Label")</label>
+            <input type="text" class="datepicker-input" id="@offer.Fix(h => h.IdFor(o => ((TexasElectricityMoveInOfferOption)o.OfferOption).ConnectDate))" ng-model="selectedOffer.offerOption.connectDate" placeholder="01/29/14"
                    datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="checkDisabledDate(date, mode)" datepicker-options="{ 'datepickerDateClass': 'checkDateClass(date)', 'datepickerDateClassScope': $id }" />
         </div>
         <div class="item item--no-input">
             <label for="connection-fee">@Html.Sitecore().Field("Connection Fee Label")</label>
-            <strong>{{connectionFee}}</strong>
+            <strong>{{connectionFee | currency}}</strong>
         </div>
     </div>
     }

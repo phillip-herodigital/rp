@@ -87,7 +87,7 @@ namespace StreamEnergy.MyStream.Tests
             Container.Instance = threadedContainer = new ThreadedContainer();
         }
 
-        public static Container Create()
+        public static Container Create(Action<IUnityContainer> postProcess = null)
         {
             var result = new Container(new Microsoft.Practices.Unity.UnityContainer());
             threadedContainer.SetContainer(result);
@@ -102,6 +102,10 @@ namespace StreamEnergy.MyStream.Tests
                                    select value).ToArray());
             }
             SetupHttpContext(result.Unity);
+            if (postProcess != null)
+            {
+                postProcess(result.Unity);
+            }
             return result;
         }
 

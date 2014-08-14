@@ -12,14 +12,16 @@ namespace StreamEnergy.DomainModels.Accounts.Create
     {
         private readonly MembershipProvider membershipProvider;
         private readonly IUnityContainer unityContainer;
+        private readonly IAccountService accountService;
 
-        public MembershipBuilder(MembershipProvider membershipProvider, IUnityContainer unityContainer)
+        public MembershipBuilder(MembershipProvider membershipProvider, IUnityContainer unityContainer, IAccountService accountService)
         {
             this.membershipProvider = membershipProvider;
             this.unityContainer = unityContainer;
+            this.accountService = accountService;
         }
 
-        internal UserProfile CreateUser(string username, string password, Dictionary<Guid, string> challengeAnswers = null)
+        internal async Task<UserProfile> CreateUser(string username, string password, Dictionary<Guid, string> challengeAnswers = null, Guid? globalCustomerId = null)
         {
             var user = Membership.CreateUser(username, password);
 
@@ -28,9 +30,15 @@ namespace StreamEnergy.DomainModels.Accounts.Create
                 return null;
             }
 
+            if (!globalCustomerId.HasValue)
+            {
+                globalCustomerId = await accountService.CreateStreamConnectCustomer(username: username);
+            }
+
             var profile = UserProfile.Locate(unityContainer, username);
             profile.ChallengeQuestions = (from entry in challengeAnswers ?? new Dictionary<Guid, string>()
                                           select ChallengeResponse.Create(entry.Key, entry.Value)).ToArray();
+            profile.GlobalCustomerId = globalCustomerId.Value;
 
             profile.Save();
 

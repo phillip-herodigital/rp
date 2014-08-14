@@ -40,7 +40,7 @@ namespace StreamEnergy.Services.Clients
 
         public async Task<string> GetSwtToken()
         {
-            string swt = await redisDatabase.StringGetAsync(acsTokenRedisKey);
+            string swt = await redisDatabase.StringGetAsync(acsTokenRedisKey + "_" + config.Url);
             if (swt == null)
             {
                 swt = await AcquireRemoteSwtToken();
@@ -48,7 +48,7 @@ namespace StreamEnergy.Services.Clients
                 var expires = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(expiresEpoch);
                 TimeSpan expireTime = expires - DateTime.UtcNow;
 
-                await redisDatabase.StringSetAsync(acsTokenRedisKey, swt, expireTime);
+                await redisDatabase.StringSetAsync(acsTokenRedisKey + "_" + config.Url, swt, expireTime);
             }
 
             return swt;

@@ -9,7 +9,11 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
 
     var updateOffer = function (offerInformation) {
         _(offerInformation.value.offerSelections).forEach(function (offerSelection) {
+            console.log(offerSelection);
             offerSelection.offer = _(offerInformation.value.availableOffers).where({ id: offerSelection.offerId }).first();
+            if (offerSelection.optionRules && !offerSelection.offerOption) {
+                offerSelection.offerOption = { optionType: offerSelection.optionRules.optionRulesType };
+            }
         });
     };
 
@@ -95,7 +99,6 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
 
         removeOffer: function (service, planToRemove) {
 
-            // TODO - move this logic into the cart service
             var byType = _(service.offerInformationByType).find({ key: planToRemove.offer.offerType });
             var offerSelections = byType.value.offerSelections;
             var i = _(offerSelections).indexOf(planToRemove);

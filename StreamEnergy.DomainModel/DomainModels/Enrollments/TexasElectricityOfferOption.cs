@@ -12,8 +12,6 @@ namespace StreamEnergy.DomainModels.Enrollments
     {
         public const string Qualifier = "TexasElectricity";
 
-        public DateTime ConnectDate { get; set; }
-
         [Required(ErrorMessage = "Billing Address Required")]
         [ValidateObject(ErrorMessagePrefix = "Billing Address ")]
         public Address BillingAddress { get; set; }
@@ -24,7 +22,7 @@ namespace StreamEnergy.DomainModels.Enrollments
                 ((ISanitizable)BillingAddress).Sanitize();
         }
 
-        public string OptionType
+        public virtual string OptionType
         {
             get { return TexasElectricityOfferOption.Qualifier; }
         }

@@ -25,7 +25,6 @@
                     if (typeof modelValue == 'function') {
                         return ctrl.$viewValue;
                     }
-                    // TODO - this should be the value of the token from the server... We should probably convert it to a redacted value
                     return modelValue;
                 }
                 else

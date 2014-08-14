@@ -1,53 +1,144 @@
-﻿<article class="balances-payments" @*ng-controller="AccountBalances"*@>
+﻿@model StreamEnergy.MyStream.Models.Account.MakeOneTimePaymentRequest
+<article class="balances-payments" ng-controller="AcctBalancesAndPaymentsCtrl" ng-init="utilityProviders = @(Html.Action("UtilityProviders", "Data").ToHtmlString());">
     <header>
         <h2>@Html.Sitecore().Field("Account Balances and Payments Text")</h2>
     </header>
-    <div class="account-selector">
-        <form>
-            <div class="group">
-                <div class="item">
-                    <label>@Html.Sitecore().Field("Account Number Text")</label>
-                    <select @*ng-model="selectedAccount.account" ng-options="item.accountNumber for item in accounts"*@>
-                        <option value="Please choose">1197015532</option>
-                        <option value="account1">Account 2</option>
-                    </select>
+    <div>
+        <form data-val-bind-messages="validations" ng-submit="activeState = 'step2'">
+            <div class="account-selector">
+                <div class="group">
+                    <div class="item">
+                        <label for="AccountNumber">@Html.Sitecore().Field("Account Number Text")</label>
+                        @Html.DropDownListFor(m => m.AccountNumber, new SelectListItem[0], new { ng_model = "selectedAccount", ng_options = "item.accountNumber for item in accounts|filter:{canMakeOneTimePayment:true}", ng_change = "resetAccount()" })
+                    </div>
+                </div>
+            </div>
+            <div class="content" ng-show="activeState == 'step1'">
+                <div class="grid border" ng-show="selectedAccount.utilityProvider == null">
+                    <div class="col">
+                        <h4>@Html.Sitecore().Field("Account Balance Text")</h4>
+                        <dl class="clearfix">
+                            <dt>@Html.Sitecore().Field("Account Number Text")</dt>
+                            <dd>{{ selectedAccount.accountNumber }}</dd>
+                            <dt>@Html.Sitecore().Field("Current Amount Due Text")</dt>
+                            <dd>{{ selectedAccount.accountBalance | currency }}</dd>
+                            <dt ng-show="selectedAccount.accountBalance > 0">@Html.Sitecore().Field("Due Date Text")</dt>
+                            <dd ng-show="selectedAccount.accountBalance > 0">{{ selectedAccount.dueDate }}</dd>
+                        </dl>
+                    </div>
+                    <div class="col payment" ng-show="selectedAccount.accountBalance <= 0">
+                        <h4>@Html.Sitecore().Field("No Payment Due Text")</h4>
+                    </div>
+                    <div class="col payment" ng-show="selectedAccount.accountBalance > 0">
+                        <h4>@Html.Sitecore().Field("Make Payment Text")</h4>
+
+                        <div class="group">
+                            <div class="item amount">
+                                <label for="TotalPaymentAmount">@Html.Sitecore().Field("Amount Text")</label>
+                                @Html.TextBoxFor(m => m.TotalPaymentAmount, new { ng_model = "paymentAmount", currency_input = "" })
+                            </div>
+                            <div class="item payment" @Html.Validation().ErrorClass(m => m.PaymentAccount)>
+                                <label for="PaymentAccount">@Html.Sitecore().Field("Payment Method Text")</label>
+                                @Html.DropDownListFor(m => m.PaymentAccount,
+                                    new[] { new SelectListItem { Text = Html.Sitecore().Field("Select Payment Account Text").ToHtmlString() } },
+                                    new { ng_options = "option.displayName for option in paymentMethods", ng_model = "selectedPaymentMethod", data_val_if = "!useNewPaymentMethod" })
+                            </div>
+                        </div>
+                        <div class="buttons">
+                            <button type="submit" class="primary" data-val-submit>@Html.Sitecore().Field("Continue Button Text")</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid border" ng-show="selectedAccount.utilityProvider != null">
+                    <div class="col">
+                        <p>@Html.Sitecore().Field("External Billing Text")</p>
+                        <div class="clearfix">
+                            <div class="logos" ng-repeat="provider in utilityProviders | filter:selectedAccount.utilityProvider track by provider.name">
+                                <a href="{{ provider.link }}" target="_blank"><img ng-src="{{ provider.logo }}" alt="{{ provider.name }}" /></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content" ng-show="activeState == 'step2'">
+                <div class="grid border">
+                    <div class="col">
+                        <h4>@Html.Sitecore().Field("Account Balance Text")</h4>
+                        <dl class="clearfix">
+                            <dt>@Html.Sitecore().Field("Account Number Text")</dt>
+                            <dd>{{ selectedAccount.accountNumber }}</dd>
+                            <dt>@Html.Sitecore().Field("Current Amount Due Text")</dt>
+                            <dd>{{ selectedAccount.accountBalance | currency }}</dd>
+                            <dt>@Html.Sitecore().Field("Due Date Text")</dt>
+                            <dd>{{ selectedAccount.dueDate }}</dd>
+                        </dl>
+                    </div>
+                    <div class="col payment confirm-payment">
+                        <h4>@Html.Sitecore().Field("Confirm Payment Text")</h4>
+                        <dl class="clearfix">
+                            <dt>@Html.Sitecore().Field("Amount Text"):</dt>
+                            <dd>{{ paymentAmount | currency }}</dd>
+                            <dt>@Html.Sitecore().Field("Payment Method Text"):</dt>
+                            <dd>{{ selectedPaymentMethod.displayName }}</dd>
+                        </dl>
+                        <div class="buttons">
+                            <button type="submit" ng-click="makePayment()">@Html.Sitecore().Field("Submit Payment Button Text")</button>
+                            <button class="secondary" type="button" ng-click="activeState = 'step1'">@Html.Sitecore().Field("Back Button Text")</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content" ng-show="activeState == 'step3'">
+                <div class="grid border">
+                    <div class="col">
+                        <h4>@Html.Sitecore().Field("Account Balance Text")</h4>
+                        <dl class="clearfix">
+                            <dt>@Html.Sitecore().Field("Account Number Text")</dt>
+                            <dd>{{ selectedAccount.accountNumber }}</dd>
+                            <dt>@Html.Sitecore().Field("Current Amount Due Text")</dt>
+                            <dd>{{ selectedAccount.accountBalance | currency }}</dd>
+                            <dt>@Html.Sitecore().Field("Due Date Text")</dt>
+                            <dd>{{ selectedAccount.dueDate }}</dd>
+                        </dl>
+                    </div>
+                    <div class="col payment payment-successful">
+                        <h4>@Html.Sitecore().Field("Payment Successful Text")</h4>
+                        <dl class="clearfix">
+                            <dt>@Html.Sitecore().Field("Confirmation Number Text")</dt>
+                            <dd>{{ confirmationNumber }}</dd>
+                            <dt>@Html.Sitecore().Field("Payment Amount Text")</dt>
+                            <dd>{{ paymentAmount | currency }}</dd>
+                        </dl>
+                    </div>
                 </div>
             </div>
         </form>
     </div>
-    <div class="content" @*loading-indicator*@>
-        <div class="grid border">
-            <div class="col">
-                <h4>@Html.Sitecore().Field("Account Balance Text")</h4>
-                <dl class="clearfix">
-                    <dt>@Html.Sitecore().Field("Account Number Text")</dt>
-                    <dd>1197015532</dd>
-                    <dt>@Html.Sitecore().Field("Current Amount Due Text")</dt>
-                    <dd>$87.24</dd>
-                    <dt>@Html.Sitecore().Field("Due Date Text")</dt>
-                    <dd>3/10/2014</dd>
-                </dl>
-            </div>
-            <div class="col payment">
-                <h4>@Html.Sitecore().Field("Make Payment Text")</h4>
-                <form>
-                    <div class="group">
-                        <div class="item amount">
-                            <label for="Amount">@Html.Sitecore().Field("Amount Text")</label>
-                            <input type="text" id="amount" @*ng-model="paymentForm.amount"*@ value="$87.24" />
-                        </div>
-                        <div class="item payment">
-                            <label for="Payment method">@Html.Sitecore().Field("Payment Method Text")</label>
-                            <select ng-model="paymentForm.paymentMethod" ng-options="item.id as item.name for item in paymentMethods">
-                                <option value="">Select</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="buttons">
-                        <button type="submit" class="primary" ng-click="submit()">@Html.Sitecore().Field("Continue Button Text")</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 </article>
+
+<script type="text/ng-template" id="PaymentBlockingAlert/Duplicate">
+    <div class="modal-header">
+        <a href="" ng-click="$dismiss()"></a>
+        <h2>@Html.Sitecore().Field("Duplicate Payment Header Text")</h2>
+    </div>
+    <div class="modal-body">
+        @Html.Sitecore().Field("Duplicate Payment Body Text")
+    </div>
+    <div class="modal-footer">
+        <button class="secondary" type="button" ng-click="$dismiss()">@Html.Sitecore().Field("Cancel Payment Button Text")</button>
+        <button type="button" ng-click="$close()">@Html.Sitecore().Field("Continue Payment Button Text")</button>
+    </div>
+</script>
+<script type="text/ng-template" id="PaymentBlockingAlert/Overpayment">
+    <div class="modal-header">
+        <a href="" ng-click="$dismiss()"></a>
+        <h2>@Html.Sitecore().Field("Overpayment Header Text")</h2>
+    </div>
+    <div class="modal-body">
+        @Html.Sitecore().Field("Overpayment Body Text").Format(new { Payment = "{{paymentAmount|currency}}" })
+    </div>
+    <div class="modal-footer">
+        <button class="secondary" type="button" ng-click="$dismiss()">@Html.Sitecore().Field("Cancel Payment Button Text")</button>
+        <button type="button" ng-click="$close()">@Html.Sitecore().Field("Continue Payment Button Text")</button>
+    </div>
+</script>
