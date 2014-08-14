@@ -16,9 +16,10 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
         private readonly static Regex cleanExtraSpaces = new Regex(@"\s\s+", RegexOptions.Compiled);
         private readonly static Regex postalCode = new Regex(@"(?<Zip5>[0-9]{5})(-?(?<Plus4>[0-9]{4}))?", RegexOptions.Compiled);
 
-        private Ercot.FileReader fileReader;
-        private System.IO.FileStream fileStream;
-        private string tdu;
+        private readonly Ercot.FileReader fileReader;
+        private readonly System.IO.FileStream fileStream;
+        private readonly string tdu;
+        private readonly SmartyStreets.SmartyStreetService streetService;
 
         static ErcotAddressReader()
         {
@@ -31,6 +32,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
 
         public ErcotAddressReader(Ercot.FileReader fileReader, System.IO.FileStream fileStream, string tdu)
         {
+            this.streetService = new SmartyStreets.SmartyStreetService();
             this.fileReader = fileReader;
             this.fileStream = fileStream;
             this.tdu = tdu;
@@ -45,9 +47,8 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
         }
 
 
-        private static IEnumerable<DomainModels.Enrollments.Location> ToLocation(IEnumerable<Tuple<Ercot.Record, DomainModels.IServiceCapability[]>> records)
+        private IEnumerable<DomainModels.Enrollments.Location> ToLocation(IEnumerable<Tuple<Ercot.Record, DomainModels.IServiceCapability[]>> records)
         {
-            var streetService = new SmartyStreets.SmartyStreetService();
             foreach (var lineGroup in TakeBy(records, 100))
             {
 

@@ -10,8 +10,15 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.SmartyStreets
 {
     public class SmartyStreetService
     {
+        private bool disabled;
+
         public async Task<IEnumerable<DomainModels.Address>> CleanseAddress(UncleansedAddress[] addresses)
         {
+            if (disabled)
+            {
+                return Enumerable.Repeat<DomainModels.Address>(null, addresses.Length);
+            }
+
             var client = new HttpClient();
             client.DefaultRequestHeaders.Add("x-standardize-only", "true");
 
@@ -24,6 +31,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.SmartyStreets
             }
             else
             {
+                disabled = true;
                 return Enumerable.Repeat<DomainModels.Address>(null, addresses.Length);
             }
         }
