@@ -48,5 +48,10 @@ namespace StreamEnergy.Processes
         {
             return Task.FromResult(new RestoreInternalStateResult { Success = true, State = state });
         }
+
+        bool IState<TContext, TInternalContext>.ForceBreak(TContext context, TInternalContext internalContext)
+        {
+            return false;
+        }
     }
 }

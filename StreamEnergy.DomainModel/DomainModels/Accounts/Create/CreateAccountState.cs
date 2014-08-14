@@ -21,13 +21,11 @@ namespace StreamEnergy.DomainModels.Accounts.Create
 
         protected override async Task<Type> InternalProcess(CreateAccountContext context, CreateAccountInternalContext internalContext)
         {
-            var profile = membership.CreateUser(context.Username, context.Password, context.Challenges);
+            var profile = await membership.CreateUser(context.Username, context.Password, context.Challenges);
             if (profile == null)
             {
                 return typeof(CreateFailedState);
             }
-
-            // TODO - register user with Stream Connect
 
             return await base.InternalProcess(context, internalContext);
         }

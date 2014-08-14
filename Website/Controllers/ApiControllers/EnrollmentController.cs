@@ -53,7 +53,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         public async Task Initialize()
         {
-            await stateHelper.EnsureInitialized();
+            await stateHelper.EnsureInitialized().ConfigureAwait(false);
             this.stateMachine = stateHelper.StateMachine;
         }
 
@@ -84,7 +84,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     Location = new Location 
                     { 
                         Address = new Address { Line1 = "3620 Huffines Blvd", City = "Carrollton", StateAbbreviation = "TX", PostalCode5 = "75010" },
-                        Capabilities = new [] { new TexasServiceCapability { EsiId = "123FAKE456", Tdu = "ONCOR" } }
+                        Capabilities = new IServiceCapability[] { new TexasServiceCapability { EsiId = "123FAKE456", Tdu = "ONCOR" }, new ServiceStatusCapability { IsNewService = false } }
                     },
                     SelectedOffers = new SelectedOffer[] { }
                 }
@@ -115,8 +115,12 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var validations = TranslatedValidationResult.Translate(from val in standardValidation.Union(supplementalValidation)
                                                                    group val by val.ErrorMessage + ";" + string.Join(",", val.MemberNames) into val
                                                                    select val.First(), translationItem);
+
+            bool isLoading = stateMachine.InternalContext.IdentityCheck != null && !stateMachine.InternalContext.IdentityCheck.IsCompleted;
+
             return new ClientData
             {
+                IsLoading = isLoading,
                 Validations = validations,
                 ExpectedState = expectedState,
                 IsRenewal = stateMachine.Context.IsRenewal,
@@ -155,12 +159,17 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                                      }).ToArray()
                        },
                 SelectedIdentityAnswers = null,
-                IdentityQuestions = stateMachine.InternalContext.IdentityCheckResult != null ? stateMachine.InternalContext.IdentityCheckResult.IdentityQuestions : null,
+                IdentityQuestions = (stateMachine.InternalContext.IdentityCheck != null && stateMachine.InternalContext.IdentityCheck.IsCompleted) ? stateMachine.InternalContext.IdentityCheck.Data.IdentityQuestions : null,
             };
         }
 
         private Models.Enrollment.ExpectedState ExpectedState(out IEnumerable<ValidationResult> supplementalValidation)
         {
+            if (stateMachine.State == typeof(IdentityCheckHardStopState))
+            {
+                supplementalValidation = Enumerable.Empty<ValidationResult>();
+                return Models.Enrollment.ExpectedState.IdentityCheckHardStop;
+            }
             supplementalValidation = Enumerable.Empty<ValidationResult>();
             var validationResults = stateMachine.ValidationResults;
             var members = validationResults.SelectMany(result => result.MemberNames);
@@ -344,6 +353,15 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                                                        OfferOption = offerInfo.OfferOption
                                                                    }).ToArray()
                                              }).ToArray();
+        }
+
+        [HttpPost]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
+        public async Task<ClientData> Resume()
+        {
+            await stateMachine.Process(typeof(DomainModels.Enrollments.CompleteOrderState));
+
+            return ClientData(typeof(DomainModels.Enrollments.PaymentInfoState));
         }
 
         [HttpPost]

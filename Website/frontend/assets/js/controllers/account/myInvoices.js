@@ -1,7 +1,7 @@
 /* My Invoices Controller
  *
  */
-ngApp.controller('AcctMyInvoicesCtrl', ['$scope', '$rootScope', '$http', '$filter', '$timeout', 'jQuery', function ($scope, $rootScope, $http, $filter, $timeout, jQuery) {
+ngApp.controller('AcctMyInvoicesCtrl', ['$scope', '$rootScope', '$http', '$filter', 'jQuery', function ($scope, $rootScope, $http, $filter, jQuery) {
 	// create a blank object to hold the information
 	$scope.invoicesTable = {};
 	$scope.invoicesTable.columnList = [];
@@ -12,22 +12,20 @@ ngApp.controller('AcctMyInvoicesCtrl', ['$scope', '$rootScope', '$http', '$filte
 	$scope.filtersList.serviceType = [];
 	$scope.filtersList.accountNumber = [];
 
-	$timeout(function() {
-		$http.get('/api/account/getInvoices').success(function (data, status, headers, config) {
-			$scope.invoicesTable = data.invoices;
-			$scope.invoicesTableOriginal = angular.copy($scope.invoicesTable);
+	$http.get('/api/account/getInvoices').success(function (data, status, headers, config) {
+		$scope.invoicesTable = data.invoices;
+		$scope.invoicesTableOriginal = angular.copy($scope.invoicesTable);
 
-			// filters
-			$scope.serviceTypes = _.pluck(_.uniq($scope.invoicesTable.values, 'serviceType'),'serviceType');
-			$scope.accountNumbers = _.pluck(_.uniq($scope.invoicesTable.values, 'accountNumber'),'accountNumber');
-			_.forEach($scope.serviceTypes,function(type) { $scope.filtersList.serviceType.push({ 'name' : type, 'value' : type }) }); 
-			_.forEach($scope.accountNumbers,function(num) { $scope.filtersList.accountNumber.push({ 'name' : num, 'value' : num }) }); 
-			$scope.filtersList.isPaid = [{ "name": "Paid", "value": true }, { "name": "Unpaid", "value": false }];
+		// filters
+		$scope.serviceTypes = _.pluck(_.uniq($scope.invoicesTable.values, 'serviceType'),'serviceType');
+		$scope.accountNumbers = _.pluck(_.uniq($scope.invoicesTable.values, 'accountNumber'),'accountNumber');
+		_.forEach($scope.serviceTypes,function(type) { $scope.filtersList.serviceType.push({ 'name' : type, 'value' : type }) }); 
+		_.forEach($scope.accountNumbers,function(num) { $scope.filtersList.accountNumber.push({ 'name' : num, 'value' : num }) }); 
+		$scope.filtersList.isPaid = [{ "name": "Paid", "value": true }, { "name": "Unpaid", "value": false }];
 
-			$scope.isLoading = false;
+		$scope.isLoading = false;
 
-		});
-	}, 800);
+	});
 
 	// methods
 	$scope.resetFilters = function() {
