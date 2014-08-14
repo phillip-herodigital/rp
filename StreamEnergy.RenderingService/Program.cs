@@ -14,7 +14,7 @@ namespace StreamEnergy.RenderingService
     {
         static void Main(string[] args)
         {
-            Uri baseUri = new Uri("http://localhost:59203/");
+            Uri baseUri = new Uri(ConfigurationManager.AppSettings["WebsiteUrl"]);
             if (args.Length == 0)
             {
                 TaskScheduler.UnobservedTaskException += (sender, e) =>
