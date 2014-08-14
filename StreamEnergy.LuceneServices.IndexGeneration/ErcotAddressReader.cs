@@ -10,7 +10,7 @@ using StreamEnergy.LuceneServices.Web.Models;
 
 namespace StreamEnergy.LuceneServices.IndexGeneration
 {
-    class ErcotAddressReader
+    public class ErcotAddressReader
     {
         private readonly static Regex addressLine;
         private readonly static Regex cleanExtraSpaces = new Regex(@"\s\s+", RegexOptions.Compiled);
@@ -90,7 +90,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
             yield return intermediate.AsReadOnly();
         }
 
-        private static Address FromRecord(Ercot.Record record)
+        public static Address FromRecord(Ercot.Record record)
         {
             var match = addressLine.Match(record.Address + " " + record.AddressOverflow);
             Func<string, string> safeGroup = (groupName) => match.Groups[groupName] != null ? match.Groups[groupName].Value : "";
