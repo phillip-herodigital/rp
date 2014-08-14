@@ -11,6 +11,14 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.SmartyStreets
     public class SmartyStreetService
     {
         private bool disabled;
+        private readonly string authId;
+        private readonly string authToken;
+
+        public SmartyStreetService(string authId, string authToken)
+        {
+            this.authId = authId;
+            this.authToken = authToken;
+        }
 
         public async Task<IEnumerable<DomainModels.Address>> CleanseAddress(UncleansedAddress[] addresses)
         {
@@ -22,7 +30,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.SmartyStreets
             var client = new HttpClient();
             client.DefaultRequestHeaders.Add("x-standardize-only", "true");
 
-            var response = await client.PostAsJsonAsync("https://api.smartystreets.com/street-address?auth-id=c0183e05-c426-4f72-8fb8-7f5b912bb8e5&auth-token=8KsO2jTmPR5fIWNE5R48", addresses).ConfigureAwait(false);
+            var response = await client.PostAsJsonAsync("https://api.smartystreets.com/street-address?auth-id=" + authId + "&auth-token=" + authToken, addresses).ConfigureAwait(false);
 
             if (response.IsSuccessStatusCode)
             {

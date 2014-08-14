@@ -30,9 +30,9 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
             addressLine = new Regex(regex, RegexOptions.Compiled);
         }
 
-        public ErcotAddressReader(Ercot.FileReader fileReader, System.IO.FileStream fileStream, string tdu)
+        public ErcotAddressReader(SmartyStreets.SmartyStreetService streetService, Ercot.FileReader fileReader, System.IO.FileStream fileStream, string tdu)
         {
-            this.streetService = new SmartyStreets.SmartyStreetService();
+            this.streetService = streetService;
             this.fileReader = fileReader;
             this.fileStream = fileStream;
             this.tdu = tdu;
