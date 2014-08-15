@@ -348,5 +348,133 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             Assert.IsTrue(response.IsSuccessStatusCode);
             Assert.IsTrue(result["Status"].Value == "Success" || result["Status"].Value == "Error");
         }
+
+        [TestMethod]
+        public void PostVerifyPremiseTest()
+        {
+            // Assign
+            var streamConnectClient = container.Resolve<HttpClient>(StreamEnergy.Services.Clients.StreamConnectContainerSetup.StreamConnectKey);
+
+            // Act
+            var response = streamConnectClient.PostAsJsonAsync("/api/Enrollments/VerifyPremise", new 
+            {
+                ServiceAddress = new
+                {
+                    City = "Carrollton",
+                    State = "TX",
+                    StreetLine1 = "3620 Huffines Blvd",
+                    StreetLine2 = "APT 226",
+                    Zip = "75010"
+                },
+                UtilityAccountNumber = "10443720006102389",
+                EnrollmentType = "MoveIn"
+            }).Result;
+            
+            // Assert
+            Assert.IsTrue(response.IsSuccessStatusCode);
+            var responseString = response.Content.ReadAsStringAsync().Result;
+            dynamic result = JsonConvert.DeserializeObject(responseString);
+            Assert.AreEqual(true, result.IsEligibleField.Value);
+        }
+
+        [TestMethod]
+        public void PostEnrollmentsCommercial()
+        {
+            // Assign
+            var streamConnectClient = container.Resolve<HttpClient>(StreamEnergy.Services.Clients.StreamConnectContainerSetup.StreamConnectKey);
+
+            // Act
+            var response = streamConnectClient.PostAsJsonAsync("/api/Enrollments/commercial", new
+            {
+                CompanyName = "sample string 1",
+                ContactFirstName = "sample string 2",
+                ContactMiddleName = "sample string 3",
+                ContactLastName = "sample string 4",
+                ContactTitle = "sample string 5",
+                ContactAddress = new
+                {
+                    StreetLine1 = "sample string 1",
+                    StreetLine2 = "sample string 2",
+                    City = "sample string 3",
+                    State = "AL",
+                    Zip = "sample string 5"
+                },
+                ContactPhone = "sample string 6",
+                ContactHomePhone = "sample string 7",
+                ContactFax = "sample string 8",
+                ContactCellPhone = "sample string 9",
+                ContactEmail = "sample string 10",
+                SSN = "sample string 11",
+                BillingAddress = new
+                {
+                    StreetLine1 = "sample string 1",
+                    StreetLine2 = "sample string 2",
+                    City = "sample string 3",
+                    State = "AR",
+                    Zip = "sample string 5"
+                },
+                AgentFirstName = "sample string 12",
+                AgentLastName = "sample string 13",
+                AgentID = "sample string 14",
+                PreferredLanguage = "English",
+                PreferredSalesExecutive = "sample string 15",
+                UnderContract = true,
+                SwitchType = "MoveIn",
+                FederalTaxId = "sample string 17",
+                BillingCompanyName = "sample string 18",
+                BillingFirstName = "sample string 19",
+                BillingLastName = "sample string 20",
+                BillingTitle = "sample string 21",
+                BillingPhone = "sample string 22",
+                BillingFax = "sample string 23",
+                BillingCellPhone = "sample string 24",
+                BillingEmail = "sample string 25",
+                DBA = "sample string 26",
+                Premises = new[] 
+                { 
+                    new
+                    {
+                        Provider = new
+                        {
+                            Id = "",
+                            Code = "",
+                            Name = "",
+                            Commodities = new[] { "Electricity" },
+                        },
+                        Commodity = "Electricity",
+                        UtilityAccountNumber = "",
+                        ServiceAddress = new
+                        {
+                            StreetLine1 = "sample string 1",
+                            StreetLine2 = "sample string 2",
+                            City = "sample string 3",
+                            State = "TX",
+                            Zip = "sample string 5"
+                        },
+                        Title = "",
+                        FirstName = "",
+                        MiddleName = "",
+                        LastName = "",
+                        Email = "",
+                        PrimaryPhone = "",
+                        FaxNumber = "",
+                        BillingAddress = new
+                        {
+                            StreetLine1 = "sample string 1",
+                            StreetLine2 = "sample string 2",
+                            City = "sample string 3",
+                            State = "AK",
+                            Zip = "sample string 5"
+                        },
+                    }
+                }
+            }).Result;
+
+            // Assert
+            Assert.IsTrue(response.IsSuccessStatusCode);
+            var responseString = response.Content.ReadAsStringAsync().Result;
+            dynamic result = JsonConvert.DeserializeObject(responseString);
+            Assert.AreEqual("Success", result.Status.Value);
+        }
     }
 }
