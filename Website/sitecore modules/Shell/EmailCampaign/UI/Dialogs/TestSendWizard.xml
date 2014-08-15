@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <EmailCampaign.TestSendWizard>
+    <WizardForm CodeBeside="Sitecore.Modules.EmailCampaign.UI.Dialogs.TestSendWizard,Sitecore.EmailCampaign">
+
+      <WizardFormFirstPage ID="FirstPage" Icon="Network/32x32/Mail.png">
+        <Border Class="scWizardWelcomeTitle">
+          <Literal ID="Welcome" Text="Welcome to the Test Message wizard" />
+        </Border>
+        <Literal Text="This wizard helps you to:" />
+        <ul>
+          <li class="scWizardBullet">
+            <Literal Text="Send a test message." />
+          </li>
+          <li class="scWizardBullet">
+            <Literal Text="Decide the size of the sample to send the message to." />
+          </li>
+          <li class="scWizardBullet">
+            <Literal Text="Measure how long it takes to generate a message." />
+          </li>
+          <li class="scWizardBullet">
+            <Literal Text="Measure how long the entire delivery process takes." />
+          </li>
+        </ul>
+      </WizardFormFirstPage>
+
+      <WizardFormPage ID="TestSettings" Header="Test Message" Text="Specify the address that the test message should be sent to." Icon="Network/32x32/Mail.png">
+        <WizardFormIndent>
+          <GridPanel Width="100%" Height="100%" VAlign="Top">
+
+            <GridPanel CellSpacing="4" Columns="2" Width="100%">
+              <Label Header="Send To:" For="TestAddress" Style="white-space: nowrap;" />
+              <Edit ID="TestAddress" Width="100%" GridPanel.Width="100%" />
+            </GridPanel>
+
+            <Space Height="24" />
+
+            <Checkbox ID="TestPerformance" Header="Test Performance" Click="TestPerformance_Click" />
+
+            <Border ID="TestPerformanceArea" Padding="0px 0px 0px 18px" GridPanel.Height="100%" Height="100%" Style="display: none;">
+              <GridPanel Height="100%">
+                <Border Height="100%" GridPanel.Height="100%">
+                  <GridPanel CellSpacing="4">
+                    <Space Height="1" />
+
+                    <Literal Text="This wizard will monitor the performance of this test and use this sample to generate statistics about the entire dispatch process." />
+                    <Space Height="12" />
+
+                    <Literal Text="A small number of messages will be sent to the address you specified." />
+                    <Space Height="10" />
+
+                    <GridPanel Columns="2">
+                      <Label Header="Sample Size:" For="TestSize" Style="padding-right: 4px;" />
+                      <NumericUpDown ID="TestSize" Width="60px" />
+                    </GridPanel>
+                  </GridPanel>
+                </Border>
+
+                <Border>
+                  <Literal ID="NumThreads" />
+                </Border>
+              </GridPanel>
+            </Border>
+
+          </GridPanel>
+        </WizardFormIndent>
+      </WizardFormPage>
+
+      <WizardFormPage ID="Sending" Header="Dispatching" Text="Sending messages." Icon="Network/32x32/Mail.png">
+        <GridPanel Width="100%">
+          <Space Height="64" />
+          <ThemedImage Src="Network/48x48/Mail.png" Width="48" Height="48" GridPanel.Align="center" />
+          <Space Height="16" />
+          <Border Align="center">
+            <ThemedImage Src="Images/progress.gif" Width="94" Height="17" />
+          </Border>
+          <Space Height="16" />
+          <Border ID="SendingText" Align="center" GridPanel.Align="center">
+            <Literal Text="Sending..." Style="font-weight:bold"/>
+            <br/>
+            <Space Height="30"/>
+            <Border ID="ProcessedArea">
+              <Literal Text="Messages processed:"/>
+              <Literal ID="SendStatus" Style="padding-left: 2px;"/>
+            </Border>
+          </Border>
+        </GridPanel>
+      </WizardFormPage>
+
+      <WizardFormPage ID="StatInfo" Header="Dispatch Statistics" Text="The messages have been sent." Icon="Network/32x32/Mail.png">
+        <WizardFormIndent>
+            <GridPanel Cellpadding="2px" Width="100%" Height="100%">
+              <Literal Text="Result:" Style="font-weight:bold"/>
+              <Border Style="padding-left: 7px;">
+                <GridPanel Columns="2" Cellpadding="2px">
+                  <Literal Text="Messages sent:" GridPanel.Align="right"/>
+                  <Literal ID="SentCount" />
+                  <Literal Text="Messages not sent:" GridPanel.Align="right" />
+                  <Literal ID="UnsentCount"/>
+                </GridPanel>
+              </Border>
+
+              <Space Height="5px"/>
+
+              <Literal Text="Average time required to:" Style="font-weight:bold"/>
+              <Border Style="padding-left: 7px;">
+                <GridPanel Columns="2" Cellpadding="2px">
+                  <Literal Text="Generate a message:" GridPanel.Align="right"/>
+                  <Literal ID="AvgGen" />
+                  <Literal Text="Send a message:" GridPanel.Align="right" />
+                  <Literal ID="AvgSend" />
+                </GridPanel>
+              </Border>
+
+              <Space Height="5px"/>
+
+              <Literal Text="Estimated time required to:" Style="font-weight:bold"/>
+              <Border Style="padding-left: 7px;">
+                <GridPanel Columns="2" Cellpadding="2px">
+                  <Literal Text="Generate messages for this list:" GridPanel.Align="right"/>
+                  <Literal ID="EstimGen" />
+                  <Literal Text="Send messages to this list:" GridPanel.Align="right" />
+                  <Literal ID="EstimSend" />
+                  <Literal Text="Total:" GridPanel.Align="right" />
+                  <Literal ID="EstimTotal" />
+                </GridPanel>
+              </Border>
+
+              <Space Height="2px"/>
+
+              <Border ID="PerformanceErrors" GridPanel.Height="100%" Height="100%" Visible="false">
+                <Literal Text="Error Report:" Style="font-weight:bold"/>
+                <Memo ID="PerformanceErrorReport" ReadOnly="true" Width="100%" Height="145px" Style="font-size: 9pt;" />
+              </Border>
+
+              <Literal Text="The actual time required to dispatch this message to all subscribers may vary depending on server load during the dispatch process." />
+            </GridPanel>
+        </WizardFormIndent>
+      </WizardFormPage>
+
+      <WizardFormLastPage ID="Finish" Icon="Network/32x32/Mail.png">
+        <GridPanel Height="100%" Width="100%" Fixed="true">
+          <Literal ID="WizardResult" GridPanel.Style="padding-bottom: 14px;" />
+
+          <Literal ID="ClickFinish" Text="Click Finish to close the wizard." />
+
+          <Space Height="6"/>
+
+          <Border ID="Errors" Height="100%" GridPanel.Height="100%" GridPanel.Style="padding-bottom: 35px;" Visible="false">
+            <Label Header="Error Report:" For="ErrorReport" />
+            <Memo ID="ErrorReport" ReadOnly="true" Width="100%" Height="100%" Style="font-size: 9pt;" />
+          </Border>
+        </GridPanel>
+      </WizardFormLastPage>
+
+    </WizardForm>
+  </EmailCampaign.TestSendWizard>
+
+</control>

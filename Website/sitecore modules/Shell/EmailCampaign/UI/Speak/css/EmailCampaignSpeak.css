@@ -1,0 +1,984 @@
+.date-time-selector div
+{
+    margin-bottom: 5px;
+}
+.date-time-selector div label
+{
+    float: left;
+    margin-top: 5px;
+    width: 100px;
+}
+.date-time-selector div select
+{
+    width: 70px;
+    margin-right: 7px;
+}
+
+.ecmBreadCrumbs ul li a {
+  text-transform: none !important;  
+}
+
+.ecmBreadCrumbs ul li a span {
+  background-position: left 15% !important;
+  width: auto !important;
+  padding-left: 20px !important;
+}
+
+.abn-button
+{
+    float: left;
+    padding: 3px;
+    text-decoration: none;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    -moz-border-radius: 2px 2px 2px 2px;
+    -webkit-border-radius: 2px 2px 2px 2px;
+    border-radius: 2px 2px 2px 2px;
+    background-color: #ebebeb;
+    background-repeat: repeat-x;
+    background-image: -khtml-gradient(linear, left top, left bottom, from(#fafafa), to(#ebebeb));
+    background-image: -moz-linear-gradient(#fafafa, #ebebeb);
+    background-image: -ms-linear-gradient(#fafafa, #ebebeb);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fafafa), color-stop(100%, #ebebeb));
+    background-image: -webkit-linear-gradient(#fafafa, #ebebeb);
+    background-image: -o-linear-gradient(#fafafa, #ebebeb);
+    background-image: linear-gradient(#fafafa, #ebebeb);
+    -pie-background: linear-gradient(#fafafa, #ebebeb);
+    behavior: url('/sitecore/apps/css/pie.htc');
+    margin-right: -1px;
+}
+.abn-button:hover
+{
+    text-decoration: none;
+}
+.abn-button.abn-button-active
+{
+    background: #b9b9b9;
+    background-color: #b9b9b9;
+    background-repeat: repeat-x;
+    background-image: -khtml-gradient(linear, left top, left bottom, from(#b9b9b9), to(#b9b9b9));
+    background-image: -moz-linear-gradient(#b9b9b9, #b9b9b9);
+    background-image: -ms-linear-gradient(#b9b9b9, #b9b9b9);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #b9b9b9), color-stop(100%, #b9b9b9));
+    background-image: -webkit-linear-gradient(#b9b9b9, #b9b9b9);
+    background-image: -o-linear-gradient(#b9b9b9, #b9b9b9);
+    background-image: linear-gradient(#b9b9b9, #b9b9b9);
+    -pie-background: linear-gradient(#b9b9b9, #b9b9b9);
+    behavior: url('/sitecore/apps/css/pie.htc');
+    border: 1px solid #ababab;
+    border-top: 1px solid #8f8f8f;
+    border-bottom: 1px solid #b9b9b9;
+    -webkit-box-shadow: inset 0px 1px 0px #ababab;
+    -moz-box-shadow: inset 0px 1px 0px #ababab;
+    box-shadow: inset 0px 1px 0px #ababab;
+}
+.abn-button-letter
+{
+    background: none repeat scroll 0 0 #fff;
+    border: 1px solid #c03417;
+    color: #4b4b4b;
+    font: 1.1em/17px Arial;
+    margin: 0;
+    padding: 0 4px;
+    text-align: center;
+}
+.review-top-panel
+{
+    background-color: #F2F2F2;
+    padding: 10px;
+    border-color: #d2d2d2;
+    border-width: 1px;
+    border-style: solid;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+.review-top-panel .select-variant-group
+{
+    float: left;
+    width: 130px;
+}
+.review-top-panel .select-variant-group .variants-panel
+{
+    float: left;
+    width: 100px;
+}
+.review-top-panel .select-variant-group .variants-panel .abn-button-letter
+{
+    width: 17px;
+    height: 17px;
+    padding: 0;
+    text-align: center;
+}
+.review-top-panel .preview-panel
+{
+    float: right;
+    width: 80%;
+    padding-left: 10px;
+    border-left: 2px solid #d8d8d8;
+}
+.review-top-panel .preview-panel input[type="text"]:focus
+{
+    outline: #cbdfef 1px solid;
+    border: #97bfe0 1px solid;
+    -webkit-box-shadow: inset 0px 1px 0px rgba(97, 191, 224, 0.3);
+    -moz-box-shadow: inset 0px 1px 0px rgba(97, 191, 224, 0.3);
+    box-shadow: inset 0px 1px 0px rgba(97, 191, 224, 0.3);
+}
+.review-top-panel .preview-panel .selcted-variant
+{
+    clear: both;
+    padding-top: 16px;
+}
+.review-top-panel .preview-panel .selcted-variant *
+{
+    vertical-align: top;
+}
+.review-top-panel .preview-panel .selcted-variant > div > *
+{
+    display: inline !important;
+}
+.review-top-panel .preview-panel .selcted-variant .abn-button-letter
+{
+    padding: 1px 4px;
+}
+.sc-attachments-block
+{
+    padding: 10px;
+    width: 380px;
+}
+.sc-attachments-block .attachmentsActions .div.ui-combobox-trigger
+{
+    margin-bottom: 5px;
+}
+.sc-ecm-attachments-spinner
+{
+    float: left;
+    margin-top: 4px;
+}
+.managePanel
+{
+    background: #f2f2f2;
+    border: 1px solid #d2d2d2;
+    padding: 15px 10px 1px 15px;
+    margin: 0 2px 10px 2px;
+    height: 40px;
+}
+.managePanel .attachmentsPanel
+{
+    width: 22%;
+    float: left;
+}
+.managePanel .attachmentsPanel .sc-attachments-button
+{
+    border: 1px solid #ccc;
+    background-color: #ebebeb;
+    background-repeat: repeat-x;
+    background-image: -khtml-gradient(linear, left top, left bottom, from(#fafafa), to(#ebebeb));
+    background-image: -moz-linear-gradient(#fafafa, #ebebeb);
+    background-image: -ms-linear-gradient(#fafafa, #ebebeb);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fafafa), color-stop(100%, #ebebeb));
+    background-image: -webkit-linear-gradient(#fafafa, #ebebeb);
+    background-image: -o-linear-gradient(#fafafa, #ebebeb);
+    background-image: linear-gradient(#fafafa, #ebebeb);
+    -pie-background: linear-gradient(#fafafa, #ebebeb);
+    behavior: url('/sitecore/apps/css/pie.htc');
+    -moz-border-radius: 2px 2px 2px 2px;
+    -webkit-border-radius: 2px 2px 2px 2px;
+    border-radius: 2px 2px 2px 2px;
+    padding-left: 10px;
+}
+.managePanel .attachmentsPanel .sc-attachments-button div
+{
+    color: #000;
+    width: 100%;
+}
+.managePanel .attachmentsPanel .sc-attachments-button img
+{
+    margin-right: 10px;
+}
+.managePanel .attachmentsPanel .sc-attachments-button span
+{
+    background: url('/sitecore modules/shell/EmailCampaign/UI/Speak/img/sc-ecm-staple.png') no-repeat left 4px;
+    width: 26px;
+    float: left;
+    height: 24px;
+    display: block;
+    opacity: 0.6;
+}
+.managePanel .attachmentsPanel .sc-attachments-button.ui-state-hover span
+{
+    opacity: 1;
+}
+.managePanel .recipientsPanel
+{
+    width: 70%;
+    float: right;
+    height: 30px;
+}
+.managePanel .recipientsPanel .sc-recipient-button
+{
+    float: right;
+    margin-right: 5px;
+    padding-right: 25px;
+    border: 1px solid #ccc;
+    background-color: #ebebeb;
+    background-repeat: repeat-x;
+    background-image: -khtml-gradient(linear, left top, left bottom, from(#fafafa), to(#ebebeb));
+    background-image: -moz-linear-gradient(#fafafa, #ebebeb);
+    background-image: -ms-linear-gradient(#fafafa, #ebebeb);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fafafa), color-stop(100%, #ebebeb));
+    background-image: -webkit-linear-gradient(#fafafa, #ebebeb);
+    background-image: -o-linear-gradient(#fafafa, #ebebeb);
+    background-image: linear-gradient(#fafafa, #ebebeb);
+    -pie-background: linear-gradient(#fafafa, #ebebeb);
+    behavior: url('/sitecore/apps/css/pie.htc');
+    -moz-border-radius: 2px 2px 2px 2px;
+    -webkit-border-radius: 2px 2px 2px 2px;
+    border-radius: 2px 2px 2px 2px;
+    position: relative;
+}
+.managePanel .recipientsPanel .sc-recipient-button span
+{
+    color: #000;
+    display: block;
+    float: left;
+    height: 24px;
+    margin: 0 5px;
+    padding-left: 15px;
+}
+.managePanel .recipientsPanel .sc-recipient-button div
+{
+    color: #000;
+    padding-right: 5px;
+    height: 24px;
+}
+.managePanel .recipientsPanel .sc-recipient-refresh-button
+{
+    margin: 5px;
+    float: right;
+    cursor: pointer;
+}
+.managePanel .recipientsPanel .sc-recipient-button-title
+{
+    float: right;
+    margin: 5px 10px 5px 5px;
+    color: #a6a6a6;
+}
+.managePanel .sc-combobox-button
+{
+    border: medium none;
+    -moz-border-radius: 2px 2px 2px 2px;
+    -webkit-border-radius: 2px 2px 2px 2px;
+    border-radius: 2px 2px 2px 2px;
+    color: #fff;
+    outline: medium none;
+    height: 24px;
+    line-height: 24px;
+    cursor: pointer;
+    position: relative;
+}
+.managePanel .sc-combobox-button:after
+{
+    content: "";
+    width: 0;
+    height: 0;
+    border-top: 6px solid #585858;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    position: absolute;
+    right: 11px;
+    top: 10px;
+}
+.managePanel .sc-combobox-button.ui-state-hover:hover
+{
+    -webkit-box-shadow: 1px 1px 2px rgba(48, 48, 48, 0.2);
+    -moz-box-shadow: 1px 1px 2px rgba(48, 48, 48, 0.2);
+    box-shadow: 1px 1px 2px rgba(48, 48, 48, 0.2);
+    background-color: #f0f0f0;
+    background-repeat: repeat-x;
+    background-image: -khtml-gradient(linear, left top, left bottom, from(#fafafa), to(#f0f0f0));
+    background-image: -moz-linear-gradient(#fafafa, #f0f0f0);
+    background-image: -ms-linear-gradient(#fafafa, #f0f0f0);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fafafa), color-stop(100%, #f0f0f0));
+    background-image: -webkit-linear-gradient(#fafafa, #f0f0f0);
+    background-image: -o-linear-gradient(#fafafa, #f0f0f0);
+    background-image: linear-gradient(#fafafa, #f0f0f0);
+    -pie-background: linear-gradient(#fafafa, #f0f0f0);
+    behavior: url('/sitecore/apps/css/pie.htc');
+    color: #000;
+    border: 1px solid #cbcbcb;
+}
+.managePanel .sc-combobox-button.ui-state-hover.sc-state-active, .managePanel .sc-combobox-button.ui-state-hover.sc-state-active:hover
+{
+    border: none;
+    background: #aeaeae;
+    color: #fff;
+    -webkit-box-shadow: inset 0px 1px 0px #848484;
+    -moz-box-shadow: inset 0px 1px 0px #848484;
+    box-shadow: inset 0px 1px 0px #848484;
+    border-left: 1px solid #848484;
+    border-right: 1px solid #848484;
+    border-bottom: 1px solid #aeaeae;
+    border-top: 1px solid #323232;
+    behavior: none;
+}
+.ui-combobox input.saveBtn
+{
+    margin-right: 5px;
+    float: right;
+}
+.ui-combobox input.buttons
+{
+    float: right;
+    margin-top: 5px;
+}
+.options-panel
+{
+    width: 95%;
+    height: 250px;
+    margin: 10px;
+    background-color: #F2F2F2;
+    padding: 10px;
+}
+.options-panel .options-detail-text
+{
+    margin-left: 5px;
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #d8d8d8;
+    font-size: 1.3em;
+}
+.options-panel .options-panel-inner
+{
+    overflow: auto;
+    height: 200px;
+    margin: 5px;
+}
+.options-panel .options-panel-inner .option-checkbox
+{
+    margin-left: 2px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    vertical-align: middle;
+}
+.options-panel .options-panel-inner .option-checkbox-text
+{
+    float: left;
+    width: 30%;
+    margin-left: 2px;
+    margin-bottom: 10px;
+    vertical-align: middle;
+    font-size: 1.2em;
+}
+.options-panel .options-panel-inner .option-checkbox-text:nth-child(3n+3)
+{
+    width: 30%;
+}
+.listbox::-webkit-scrollbar
+{
+    width: 12px;
+}
+.listbox::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0px 0px 6px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: inset 0px 0px 6px rgba(0, 0, 0, 0.3);
+    box-shadow: inset 0px 0px 6px rgba(0, 0, 0, 0.3);
+    -moz-border-radius: 10px 10px 10px 10px;
+    -webkit-border-radius: 10px 10px 10px 10px;
+    border-radius: 10px 10px 10px 10px;
+}
+.listbox::-webkit-scrollbar-thumb
+{
+    -moz-border-radius: 10px 10px 10px 10px;
+    -webkit-border-radius: 10px 10px 10px 10px;
+    border-radius: 10px 10px 10px 10px;
+    -webkit-box-shadow: inset 0px 0px 6px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: inset 0px 0px 6px rgba(0, 0, 0, 0.5);
+    box-shadow: inset 0px 0px 6px rgba(0, 0, 0, 0.5);
+}
+.listbox-sort-border
+{
+    height: 10%;
+    padding-left: 30px;
+    background-color: #f2f2f2;
+    border-bottom: 1px solid #d8d8d8;
+    color: #888;
+}
+.listbox-sort-border:hover
+{
+    color: black;
+    cursor: pointer;
+}
+.listbox-items
+{
+    overflow: auto;
+    height: 79%;
+    width: 100%;
+}
+.listbox-items .listbox-row
+{
+    border-bottom: 1px solid #d8d8d8;
+    padding: 3px 30px 3px 3px;
+    text-align: right;
+    cursor: pointer;
+}
+.listbox-items .listbox-row:hover
+{
+    background-color: #ffe3e1;
+}
+.recipients-top-panel
+{
+    background-color: #f2f2f2;
+    border: 1px solid #d2d2d2;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+.recipients-top-panel .recipients-header
+{
+    background-color: #fff;
+    padding: 10px;
+}
+.recipients-top-panel .recipients-body
+{
+    padding: 10px;
+}
+.recipients-top-panel .recipients-body div.recipients-center-label
+{
+    text-align: center;
+    margin: 5px;
+}
+.recipients-top-panel .recipients-body .sc-ecm-simplegroup-droplink
+{
+    float: left;
+    margin: 0 auto 10px auto;
+    float: none;
+}
+.recipients-top-panel .recipients-body .sc-recipient-buttons-group
+{
+    display: table;
+    margin: 0 auto;
+}
+.recipients-top-panel .recipients-body .sc-recipient-buttons-group .sc-recipietn-label-or
+{
+    float: left;
+    margin: 7px 15px 0px 15px;
+}
+.recipients-top-panel .recipients-body .sc-recipient-buttons-group .sc-recipient-buildnew
+{
+    float: left;
+}
+.recipients-top-panel .recipients-body .sc-recipient-buttons-group .sc-recipient-menu-button
+{
+    float: left;
+    margin-bottom: 10px;
+}
+
+
+.abnmessagetest .editor-ro-fieldreadtemplate {
+  float: right;
+}
+
+.abnmessagetest .editor-ro-subjectfieldrenderer {
+    width: 100%;
+    margin-top: 10px;
+    float: right;
+}
+
+.abnmessagetest .editor-ro-abnfieldrenderer {
+  width: 100%;
+  float: right;
+}
+
+.abnmessagetest .editor, .abnmessagetest .editor-ro-fieldreadtemplate
+{
+    width: 100%;
+    margin-top: 10px;
+}
+
+
+.abnmessagetest .title
+{
+    position: absolute;
+    margin-top: -10px;
+}
+.abnmessagetest * div.field
+{
+    padding-bottom: 10px;
+}
+.sc-ecm-grid-progressbar
+{
+    background: #bcd3b2;
+    border: none;
+    height: 12px;
+    -moz-border-radius: 6px 6px 6px 6px;
+    -webkit-border-radius: 6px 6px 6px 6px;
+    border-radius: 6px 6px 6px 6px;
+    -webkit-box-shadow: inset 0px 2px 2px #94b984;
+    -moz-box-shadow: inset 0px 2px 2px #94b984;
+    box-shadow: inset 0px 2px 2px #94b984;
+    overflow: hidden;
+}
+.sc-ecm-grid-progressbar .sc-ecm-grid-progressbar-label
+{
+    height: 100%;
+    margin: -1px;
+    margin: 0 !important;
+    display: none;
+}
+.sc-ecm-grid-progressbar .sc-ecm-grid-progressbar-value
+{
+    background: #6c9f56;
+    height: 12px;
+}
+.spamcheck-header-date
+{
+    padding-left: 15px;
+    padding-top: 10px;
+    font-size: 1.1em;
+}
+.notify-label
+{
+    float: left;
+    width: 100px;
+}
+div.buttonsblock
+{
+    padding-right: 15px;
+}
+div.buttonsblock .button
+{
+    margin-right: 5px;
+    float: right;
+}
+.all-variants-panel
+{
+    float: left;
+    width: 26px;
+}
+.abn-spamcheck-group-header
+{
+    margin-left: 7px;
+    margin-top: 7px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+.sc-recipient-menu-button-importlist
+{
+    margin: 0 auto;
+    float: none;
+}
+.recipients-button div
+{
+    float: left;
+}
+.iconplus
+{
+    font-size: 1.8em;
+    font-weight: bold;
+    margin: 0 10px;
+}
+.title
+{
+    margin-top: 1px;
+}
+.recepient-list-member
+{
+    padding: 15px;
+    width: 100%;
+}
+.recepient-list-member .recepient-list-member td
+{
+    font-weight: bold;
+}
+.sc-ecm-dialog-top-label
+{
+    display: block;
+    margin-top: 8px !important;
+}
+.sc-ecm-dialog-button
+{
+    float: right;
+    margin: 8px 0 8px 8px !important;
+}
+.sc-ecm-base-url-input
+{
+    width: 100%;
+}
+.sc-ecm-dispatch
+{
+    padding-top: 0px;
+}
+.sc-ecm-dispatch h2
+{
+    padding-bottom: 4px;
+}
+.sc-ecm-dispatch .timezone-selector select
+{
+    width: 550px;
+}
+.sc-ecm-dispatch .datetimezone-selector
+{
+    margin-left: 34px;
+}
+.sc-ecm-dispatch .date-time-selector, .sc-ecm-dispatch .timezone-selector, .sc-ecm-dispatch .auto-winner-selector, .sc-ecm-dispatch .ab-variant-selector
+{
+    height: 28px;
+    margin-top: 8px;
+}
+.sc-ecm-dispatch .date-time-selector-title, .sc-ecm-dispatch .timezone-selector-title, .sc-ecm-dispatch .ab-variant-selector-title
+{
+    float: left;
+    margin-top: 6px;
+    width: 120px;
+}
+.sc-ecm-dispatch .ab-variant-selector-title
+{
+    width: 154px;
+}
+.sc-ecm-dispatch .date-time-selector span .ui-datepicker-trigger
+{
+    position: relative;
+    left: 186px;
+    top: 3px;
+}
+.sc-ecm-dispatch .date-time-selector input[type="text"]
+{
+    width: 188px;
+}
+.sc-ecm-dispatch .date-time-selector select, .sc-ecm-dispatch .auto-winner-selector select
+{
+    width: 86px;
+    padding: 4.5px 4px 4.5px 0;
+}
+.sc-ecm-dispatch .auto-winner-selector input[type="text"]
+{
+    width: 50px;
+    text-align: center;
+}
+.sc-ecm-dispatch .select-ab-winner .mode
+{
+    display: inline;
+}
+.sc-ecm-dispatch .select-ab-winner legend
+{
+    display: none;
+}
+.sc-ecm-dispatch .description
+{
+    margin-left: 22px;
+    margin-top: 5px;
+}
+.sc-ecm-dispatch .notify
+{
+    margin-left: 22px;
+}
+.sc-ecm-dispatch .notify i
+{
+    line-height: 200%;
+}
+.sc-ecm-dispatch .notify input, .sc-ecm-dispatch .notify label
+{
+    vertical-align: middle;
+}
+.sc-ecm-dispatch .select-variant-group
+{
+    padding: 7px 0;
+}
+.sc-ecm-dispatch .sc-ecm-manual-winner
+{
+    border: 1px solid #cbcbcb;
+}
+.sc-ecm-dispatch .sc-ecm-manual-winner input.sc-button-light
+{
+    padding:0 8px;
+}
+.sc-ecm-dispatch .select-variant-group .abn-button-letter
+{
+    padding: 1px 0 0 0;
+    height: auto;
+    text-align: center;
+    width: 17px;
+    line-height: 16px;
+}
+.ui-autocomplete
+{
+    max-height: 300px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    z-index: 100;
+}
+.field-editor.sc-ecm-dispatch .field
+{
+    padding-top: 20px;
+    margin-top: -5px;
+}
+.tab .sc-ecm-dispatch .tabs
+{
+    margin-top: 7px;
+    margin-bottom: 0px;
+}
+
+.unselectable .ui-jqgrid tr.ui-state-hover td, .unselectable .ui-jqgrid tr.ui-state-highlight td 
+{ 
+    background-image: url("/sitecore/apps/img/grid-small-separator.png"), none !important;
+}
+.ui-combobox-specialized
+{
+    width: 100%;
+    position: absolute;
+    max-height: 400px;
+    float: left;
+    z-index: 100;
+    background-color: white;
+    margin: 0;
+    -webkit-box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.55); 
+  -moz-box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.55); 
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.55); 
+  padding: 3px 1px;
+}
+
+.ui-combobox-specialized-languageSwitcher 
+{
+    overflow: auto;
+    width: auto !important;
+    height: auto !important;
+    position: absolute;
+    float: left;
+    z-index: 100;
+    background-color: white;
+    margin: 0;
+    -webkit-box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.55); 
+  -moz-box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.55); 
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.55); 
+  padding: 3px 1px;
+    min-width: 200px;
+}
+
+.ui-combobox-specialized-languageSwitcher div {
+    background-color: #F1F2F2;
+    margin: 2px;
+    padding: 1px 4px 4px 4px;
+}
+
+#sc-ecm-funnelContainer
+{
+    background-color: White;
+    border: 0px solid #CCC;
+    padding: 20px;
+    position: relative;
+    color: #606060;
+}
+
+.sc-ecm-funnelContainer
+{
+    padding-top: 20px;
+}
+
+#sc-ecm-funnel
+{
+    background-image: url("/sitecore modules/shell/EmailCampaign/UI/Speak/images/funnelGradient.png");
+    background-repeat: no-repeat;
+    height: 186px;
+    text-align: left;
+    width: 350px;
+    margin: auto;
+}
+#sc-scm-funnelFooter
+{
+    margin: auto;
+    text-align: left;
+    width: 400px;
+}
+#sc-ecm-funnel div
+{
+    height: 13px;
+    padding: 9px 0;
+}
+.sc-ecm-funnelLabelText
+{
+    font-size: 12px;
+    font-weight: normal;
+}
+#sc-ecm-funnelSeparator
+{
+    border-bottom: 1px solid #EAEAEA;
+    margin: 20px 0;
+}
+.sc-ecm-funnelLabelValue
+{
+    text-align: right;
+    font-weight: bold;
+}
+
+.ui-combobox-specialized .collapsible.portlet .ui-accordion-content
+{    
+    border: none;
+    float: left;
+}
+
+.ui-combobox-specialized .ui-jqgrid .ui-jqgrid-bdiv
+{
+    box-shadow: none;    
+}
+
+.ui-combobox-specialized .collapsed-header .ui-accordion-header.ui-state-active + .ui-accordion-content .grid-filter .header-inner
+{
+    border: none; 
+    padding: 7px 0;   
+}
+
+.ui-combobox-specialized .collapsed-header .ui-accordion-header.ui-state-active + .ui-accordion-content .grid-filter .header-inner .filter-controls
+{
+    padding-right: 9px;   
+}
+
+.ui-combobox-specialized .ui-jqgrid .ui-jqgrid-hdiv.ui-state-default
+{
+    background: #f1f2f2;
+}
+
+.ui-combobox-specialized .grid-filter .header
+{
+    background: #f2f2f2;   
+}
+
+.top .sc-action-block {
+    padding: 3px 0 0 0 !important; 
+    float: right;
+}
+
+.sc-languageswitcher-block {
+    min-width:20px !important; 
+    float:right;
+    padding-right:5px !important;
+    padding-left:5px !important;
+    margin-top: 10px; 
+    margin-right:15px;
+}
+
+.sc-attachments-block {
+    padding: 0 5px;
+    width: 390px;
+}
+
+.sc-attachments-block .sc-action-block
+{
+    padding-bottom: 9px;
+}
+
+.sc-attachments-block .sc-action-block .popup-menu
+{
+    margin-top: 7px;
+}
+
+.sc-ecm-taskpage-title 
+{
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.ui-widget-content.ui-combobox-specialized-languageSwitcher .menu .menu-title
+{
+    margin: 0;
+    color: #606060;
+    text-align: left;
+    text-transform: uppercase;
+    font-family : Arial, Helvitica, Verdana, Sans-Serif;
+    font-weight:bold;
+    font-size: 1.2em;
+    letter-spacing:-0.03em;
+    border-bottom:#d6d6d6 1px solid;
+    border-top: none !important;
+    padding: 0 0 3px 0;
+}
+
+.ui-widget-content.ui-combobox-specialized-languageSwitcher .menu li:hover.menu-title
+{
+    background: none;
+}
+
+.ui-widget-content.ui-combobox-specialized-languageSwitcher .menu li:hover 
+{
+    background: #ffffff;
+}
+
+.ui-widget-content.ui-combobox-specialized-languageSwitcher .menu li:hover .menu-item .menu-item-icon
+{
+	opacity: 0;
+}
+
+.ui-widget-content.ui-combobox-specialized-languageSwitcher .menu li:hover .menu-item.menu-item-selected .menu-item-icon
+{
+	opacity: 1;
+}
+
+.dashboardSmall 
+{
+    height: 500px;
+}
+
+.dashboardFull 
+{
+    height: 720px;
+}
+
+.tab,
+div.main-content,
+div.directed,
+.tab fieldset.collapsible.ui-default-view {
+   width: 772px !important;
+}
+.popup-instance fieldset.collapsible.portlet.ui-default-view,
+.ui-widget-content.ui-combobox-specialized fieldset.collapsible.portlet.ui-default-view {
+    width:auto !important;    
+}
+.collapsible.portlet.ui-default-view.collapsed-header .ui-accordion-content {
+    margin: 0;
+}
+.directed .field-editor .field .editor-ro-fieldreadtemplate {
+    width: 610px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-left: 10px;
+    text-align: justify;
+}
+fieldset.collapsible.ui-default-view .field-description .field-text {
+    width: 736px;
+    overflow: hidden;
+}
+.abn-item .field-editor .field .editor-ro-fieldreadtemplate {
+    width: 734px;
+    padding: 9px 0 5px 6px;
+}
+div.dropList,
+fieldset.collapsible.dropList.ui-default-view {
+    width: auto !important;
+    margin: 1px 2px 0 2px;   
+}
+fieldset.collapsible.dropList.ui-default-view legend.ui-accordion-header {
+    display: none;
+}
+fieldset.collapsible.dropList.ui-default-view .ui-accordion-content {
+    margin: 0;
+    border: solid 1px silver;
+}
+fieldset.collapsible.portlet.ui-default-view.collapsed,
+fieldset.collapsible.ui-default-view {
+    margin: 0 0 20px 0;
+}
+.managePanel {
+    margin: 0 0 10px 0 !important;
+}
+.field-editor.sc-ecm-dispatch,
+fieldset.collapsible.portlet.ui-default-view.collapsible-in-collapsible {
+   width: 770px !important;
+}
+.header .page .user-info {
+   text-align: right;
+}
+.ui-accordion-content .tenRowsHeight .ui-jqgrid .ui-jqgrid-view .ui-jqgrid-bdiv {
+    height: 440px;
+    overflow-y: hidden;
+    margin-bottom: 0;
+}
