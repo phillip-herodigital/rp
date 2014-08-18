@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <EmailCampaign.TestSMTPConnection>
+    <FormDialog Icon="Network/32x32/server_connection.png" Header="Test Email Connection" Text="Verify the connection to the email server.">
+      <CodeBeside Type="Sitecore.Modules.EmailCampaign.UI.Dialogs.TestSMTPConnectionPage,Sitecore.EmailCampaign"/>
+
+      <style type="text/css">
+        blockquote
+        {
+        margin: 0px 0px 0px 10px;
+        }
+        .section
+        {
+        padding-top: 8px;
+        }
+        .subsection
+        {
+        padding-left: 10px;
+        }
+        .solution
+        {
+        padding-top: 4px;
+        }
+      </style>
+
+
+
+      <GridPanel ID="TestConnectionPanel" Width="100%"  >
+
+
+
+        <Border ID="ProcessPanel" GridPanel.Align="center" style="display:block;padding-top:10%;position: absolute;left:36%;">
+          <Border>
+            <ThemedImage Src="NetworkV2/32x32/plug.png" Width="32" Height="32" />
+          </Border>
+          <Space Height="16" />
+          <Border>
+            <ThemedImage Src="Images/progress.gif" Width="94" Height="17" />
+          </Border>
+          <Space Height="16" />
+          <Border>
+            <Literal Text="Attempting to connect..." Style="font-weight:bold"/>
+          </Border>
+
+        </Border>
+
+     
+
+        <Border ID="ResultPanel" Padding="0"  Visible="false" GridPanel.Align="top" Height="100%" >      
+          <table width="100%" >
+            <tr>
+              <td >
+                <Border ID="ResultImage" GridPanel.Align="center"/>
+              </td>
+              <td width="80%">
+                <Border >
+                  <Literal ID="Result" />
+                </Border>
+              </td>
+              <td width="20%">
+                <Border ID="VerifyMtaLinkPanel" style="text-align:right;" >
+                  <a href="#" tabindex="-1" style="color:blue;"  onclick="javascript:return scForm.postEvent(this,event,'ShowMtaReport')">
+                    <Literal ID="ShowDetailsLiteral"></Literal>
+                  </a>
+                </Border>
+              </td>
+            </tr>
+          </table>
+
+          <Border ID="VerifyMtaPanel"  GridPanel.Align="left"  style="margin-top:2px;visibility:hidden;display:text-align:left;">
+            <Border  style="overflow:auto;">
+              <Scrollbox ID="ReportBox" Background="transparent" 
+                         GridPanel.Height="100%" 
+                         Style="height: 300px !important; border-width:1px;border-style:solid none solid none;border-color:#ADADAD;font-family: courier new; font-size: 14px;" />
+            </Border>
+            <Space Height="10px"/>
+            <Border Width="100%" >
+              <a href="#" tabindex="-1" onclick="javascript:return scForm.postEvent(this,event,'CopyToClipboard')">
+                <ThemedImage Src="Applications/16x16/Copy.png" Width="16" Height="16" Align="absmiddle" Margin="0 2 0 0" style="padding-right:5px;"/>
+                <Literal Text="Copy to clipboard"></Literal>
+              </a>
+            </Border>
+          </Border>
+
+        </Border>
+
+      </GridPanel>
+
+
+      <script language="javascript">window.setTimeout("scForm.postRequest('', '', '', 'Refresh');", 100);</script>
+    </FormDialog>
+  </EmailCampaign.TestSMTPConnection>
+</control>

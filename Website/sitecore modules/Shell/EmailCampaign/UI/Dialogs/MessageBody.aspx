@@ -1,0 +1,1 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="MessageBody.aspx.cs" Inherits="Sitecore.Modules.EmailCampaign.UI.Dialogs.MessageBody" %>

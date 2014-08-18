@@ -47,7 +47,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
 
                 writer.AddDocument(ToDocument(location, group));
                 return true;
-            });
+            }).ConfigureAwait(false);
         }
 
         public async Task<bool> Optimize()
@@ -56,15 +56,15 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
             {
                 writer.Optimize();
                 return true;
-            });
+            }).ConfigureAwait(false);
         }
 
         public async Task<bool> WriteIndex(IEnumerable<DomainModels.Enrollments.Location> locations, string group)
         {
             foreach (var location in locations)
-                await WriteLocation(location, group, false);
+                await WriteLocation(location, group, false).ConfigureAwait(false);
 
-            return await Optimize();
+            return await Optimize().ConfigureAwait(false);
         }
 
         private Document ToDocument(DomainModels.Enrollments.Location arg, string group)

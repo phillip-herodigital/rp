@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <EmailCampaign.InsertUserProperty>
+    <FormDialog Icon="People/32x32/pawn_view.png" Header="Insert Field"
+      Text="Select the user profile field that you want to insert." OKButton="Insert">
+
+      <CodeBeside Type="Sitecore.Modules.EmailCampaign.UI.Dialogs.InsertUserPropertyPage, Sitecore.EmailCampaign.dll"/>
+
+      <GridPanel Width="100%" Height="100%">
+        <Scrollbox Width="100%" Height="100%" GridPanel.Height="100%" Background="white" Border="1px solid #ADADAD" Padding="0">
+          <Listview ID="UserProperties" Height="100%" DblClick="OnUserPropertiesDblClick" View="Details">
+            <ListviewHeader>
+              <ListviewHeaderItem Name="name" Header="Name" />
+            </ListviewHeader>
+          </Listview>
+        </Scrollbox>
+      </GridPanel>
+
+    </FormDialog>
+  </EmailCampaign.InsertUserProperty>
+</control>

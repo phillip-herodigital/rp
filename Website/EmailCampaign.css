@@ -1,0 +1,73 @@
+/* Subscription Form */
+.subscriptionPanel
+{
+    font-family: Tahoma, Arial, sans-serif;
+    font-size: 8pt;
+    font-weight: normal;
+    text-align: left;
+    padding: 3px;
+}
+.subscriptionPanel input
+{
+    font-family: Tahoma, Arial, sans-serif;
+    font-size: 8pt;
+    vertical-align: middle;
+}
+.subscriptionPanel label
+{
+    vertical-align: middle;
+}
+.subscriptionPanel fieldset p
+{
+    padding: 0;
+    margin: 0;
+}
+.warningMessage
+{
+    color: #B21717;
+    clear: both;
+}
+.subscriptionArea
+{
+    overflow: visible;
+}
+#subscriptionForm .area
+{
+    margin: 4px;
+}
+.right
+{
+    text-align: right;
+}
+.title
+{
+}
+.commonLabel
+{
+    font-weight: bold;
+    vertical-align: middle;
+}
+.commonButton
+{
+    font-family: Tahoma, Arial, sans-serif;
+    font-size: 8pt;
+    color: Black;
+}
+.msCheckBox
+{
+    display: block;
+    margin-top: 6px;
+}
+.msDescription
+{
+    padding: 3px 0px 4px 21px;
+    margin: 0;
+}
+.subscribeImageButton
+{
+    margin-left: -4px;
+}
+.hiddenControl
+{
+    display: none;
+}

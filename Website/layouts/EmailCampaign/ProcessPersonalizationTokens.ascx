@@ -1,0 +1,2 @@
+﻿<%@ Control Language="c#" AutoEventWireup="true" Inherits="Sitecore.Modules.EmailCampaign.Layouts.ProcessPersonalizationTokens"
+    CodeBehind="ProcessPersonalizationTokens.ascx.cs" TargetSchema="http://schemas.microsoft.com/intellisense/ie5" %>

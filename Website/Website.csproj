@@ -45,12 +45,24 @@
     <FilesToIncludeForPublish>AllFilesInTheProject</FilesToIncludeForPublish>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AjaxMin, Version=4.0.202.1, Culture=neutral, PublicKeyToken=24297a69a7eae424, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\AjaxMin.dll</HintPath>
+    </Reference>
+    <Reference Include="AntiXSSLibrary, Version=4.2.0.0, Culture=neutral, PublicKeyToken=d127efab8a9c114f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\AntiXSSLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="ComponentArt.Web.UI, Version=2010.1.2637.35, Culture=neutral, PublicKeyToken=9bc9f846553156bb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\ComponentArt.Web.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="dotless.Core, Version=1.2.1.0, Culture=neutral, PublicKeyToken=96b446c9e63eae34, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\dotless.Core.dll</HintPath>
     </Reference>
     <Reference Include="EcmaScript.NET.modified">
       <HintPath>..\Libraries\Sitecore\EcmaScript.NET.modified.dll</HintPath>
@@ -164,6 +176,10 @@
     <Reference Include="Microsoft.WindowsAzure.Storage, Version=3.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WindowsAzure.Storage.3.0.3.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
     </Reference>
+    <Reference Include="MoreLinq, Version=1.0.11729.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\MoreLinq.dll</HintPath>
+    </Reference>
     <Reference Include="MSCaptcha">
       <HintPath>..\Libraries\Sitecore\MSCaptcha.dll</HintPath>
     </Reference>
@@ -213,6 +229,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\Sitecore.Client.dll</HintPath>
     </Reference>
+    <Reference Include="Sitecore.Client.Extensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.Client.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Client.Extensions.Compiler, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.Client.Extensions.Compiler.dll</HintPath>
+    </Reference>
     <Reference Include="Sitecore.ContentSearch, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\Sitecore.ContentSearch.dll</HintPath>
@@ -232,6 +256,30 @@
     <Reference Include="Sitecore.ContentSearch.LuceneProvider, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\Sitecore.ContentSearch.LuceneProvider.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.EmailCampaign, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.EmailCampaign.App, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.App.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.EmailCampaign.Data, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.EmailCampaign.Domain, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Domain.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.EmailCampaign.Presentation, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Presentation.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.EmailCampaign.Presentation.UI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Presentation.UI.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.Forms.Core">
       <HintPath>..\Libraries\Sitecore\Sitecore.Forms.Core.dll</HintPath>
@@ -314,6 +362,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\Sitecore.Shell.MarketingAutomation.dll</HintPath>
     </Reference>
+    <Reference Include="Sitecore.Speak, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.Speak.dll</HintPath>
+    </Reference>
     <Reference Include="Sitecore.Speak.Charting">
       <HintPath>..\Libraries\Sitecore\Sitecore.Speak.Charting.dll</HintPath>
     </Reference>
@@ -331,6 +383,10 @@
     </Reference>
     <Reference Include="Sitecore.Speak.Web">
       <HintPath>..\Libraries\Sitecore\Sitecore.Speak.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Speak.WebSite, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.Speak.WebSite.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.Update, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -444,6 +500,14 @@
     <Reference Include="Telerik.Web.UI.Skins, Version=2012.2.607.35, Culture=neutral, PublicKeyToken=121fae78165ba3d4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\Telerik.Web.UI.Skins.dll</HintPath>
+    </Reference>
+    <Reference Include="WebFormsMvp, Version=1.4.1.0, Culture=neutral, PublicKeyToken=537f18701145dff0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\WebFormsMvp.dll</HintPath>
+    </Reference>
+    <Reference Include="WebFormsMvp.Unity, Version=1.4.1.0, Culture=neutral, PublicKeyToken=537f18701145dff0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\WebFormsMvp.Unity.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease">
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>

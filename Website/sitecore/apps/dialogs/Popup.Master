@@ -1,0 +1,65 @@
+<%@ Master Language="C#" AutoEventWireup="true" Inherits="Sitecore.Web.UI.PopupMasterPage" MasterPageFile="Empty.Master" %>
+
+
+<%@ Register TagPrefix="sc" Namespace="Sitecore.Web.UI.WebControls" Assembly="Sitecore.Client.Extensions" %>
+<%@ Register TagPrefix="sc" Namespace="Sitecore.Web.UI.WebControls.Specialized" Assembly="Sitecore.Client.Extensions" %>
+
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+   
+        <% if (this.Page.Request.Headers["X-Requested-With"] == null){%>            
+            <style type="text/css"> body { background:none} </style> 
+        <%} %>
+        
+        <asp:ContentPlaceHolder ID="head" runat="server" />
+</asp:Content>
+    
+<asp:Content ID="Content2" runat="server" ContentPlaceHolderID="body">
+
+    <body>
+        <form id="popupform" runat="server">
+    
+        
+            
+                
+           
+        <div class="ui-corner-all ui-widget-content ui-widget ui-dialog" ID="Popup" runat="server">
+            <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
+            
+                <asp:LinkButton ID="CloseButton" runat="server" CssClass="cancel close ui-dialog-titlebar-close ui-corner-all ui-icon ui-icon-closethick" UpdateControls=""> </asp:LinkButton>
+
+                <div class="ui-dialog-title">
+                    <asp:ContentPlaceholder id="title" runat="server">
+                    </asp:ContentPlaceholder> 
+                </div>
+            </div>
+            <div class="ui-dialog-content ui-widget-content" runat="server" id="PopupContent">
+                <div class='ui-dialog-back'>
+                    <div class="button-back close">
+                        <img align="absmiddle" class="arrow-back" src="/sitecore/apps/img/arrow-back.png" />
+                        <asp:Label ID="BackLabel" runat="server"/>
+                    </div>
+                </div>
+                <sc:Messages runat="server" ID="Messages" />
+                <asp:ContentPlaceholder id="top" runat="server">
+                </asp:ContentPlaceholder>
+                
+                    <asp:ContentPlaceholder id="content" runat="server">
+                        
+                    </asp:ContentPlaceholder>
+                
+                <div class="ui-dialog-buttonset">
+                    <asp:ContentPlaceholder id="buttons" runat="server"></asp:ContentPlaceholder>
+                </div>
+                <div class="ui-dialog-footer">
+                    <asp:ContentPlaceholder id="bottom" runat="server"></asp:ContentPlaceholder>
+                </div>
+            </div>
+        </div>
+       
+        
+        </form>
+
+    </body>
+    
+</asp:Content>

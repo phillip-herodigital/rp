@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
+  <EmailCampaign.ExportUsersWizard>
+    <WizardForm CodeBeside="Sitecore.Modules.EmailCampaign.UI.Dialogs.ExportUsersWizard,Sitecore.EmailCampaign">
+      <style type="text/css">
+        th.scListviewViewDetailsHeader
+        {
+        display:none;
+        }
+
+        #RolesBox div
+        {
+        padding-bottom: 2px;
+        }
+
+        #AllTargetAudiencesScrollbox
+        {
+        overflow-y: hidden;
+        }
+
+      </style>
+
+      <WizardFormFirstPage ID="FirstPage" Icon="People/32x32/users_back.png">
+        <Border Class="scWizardWelcomeTitle">
+          <Literal Text="Welcome to the Export Recipients Wizard" />
+        </Border>
+        <Literal Text="This wizard helps you to:" />
+        <ul>
+          <li class="scWizardBullet">
+            <Literal Text="Select the recipient information to export." />
+          </li>
+          <li class="scWizardBullet">
+            <Literal Text="Select the recipient list whose subscribers you want to export." />
+          </li>
+          <li class="scWizardBullet">
+            <Literal Text="Specify where the resulting CSV file should be stored." />
+          </li>
+        </ul>
+      </WizardFormFirstPage>
+
+      <WizardFormPage ID="ProfileProperties" Header="Recipient Information" Text="Select the recipient information that you want to export." Icon="People/32x32/users_back.png">
+        <WizardFormPadding>
+            <GridPanel Columns="3" Cellspacing="2">
+              <Label Header="Recipient Information:" GridPanel.Colspan="3" />
+
+              <Scrollbox Width="246"  Style="height: 250px !important" Background="white" Border="1px solid #ADADAD" Padding="0">
+                <Listview ID="AllProperties" Height="100%" View="Details" MultiSelect="true" DblClick="PropertiesToExport_Click" />
+              </Scrollbox>
+
+              <Border GridPanel.VAlign="Top" Style="padding: 3px 2px 0px 2px;">
+                <Border Click="PropertiesToExport_Click">
+                  <Image Src='${Sitecore.Resources.Images.GetThemedImageSource("Core/16x16/arrow_blue_right.png", ImageDimension.id16x16)}' Height="16" Width="16" Alt="" Style="cursor: pointer; display: block;" />
+                </Border>
+                <Space Height="4"/>
+                <Border Click="PropertiesFromExport_Click">
+                  <Image Src='${Sitecore.Resources.Images.GetThemedImageSource("Core/16x16/arrow_blue_left.png", ImageDimension.id16x16)}' Height="16" Width="16" Alt="" Style="cursor: pointer; display: block;" />
+                </Border>
+              </Border>
+
+              <Scrollbox Width="246" Style="height: 250px !important" Background="white" Border="1px solid #ADADAD" Padding="0">
+                <Listview ID="ExportedProperties" Height="100%" View="Details" MultiSelect="true" DblClick="PropertiesFromExport_Click" />
+              </Scrollbox>
+
+            </GridPanel>
+        </WizardFormPadding>
+      </WizardFormPage>
+
+      <WizardFormPage ID="TargetAudiences" Header="Recipient List" Text="Select the recipient lists whose subscribers you want to export." Icon="People/32x32/users_back.png">
+        <WizardFormPadding>
+            <GridPanel Columns="3" Cellspacing="2">
+              <Label Header="Recipient Lists:" GridPanel.Colspan="2" />
+
+              <Label Header="Selected:" />
+
+              <Scrollbox ID="AllTargetAudiencesScrollbox" Width="246" Style="height: 250px !important" Background="white" Border="1px solid #ADADAD" Padding="0">
+                <Listview ID="AllTargetAudiences" Height="100%" View="Details" MultiSelect="true" DblClick="TargetAudienceToExport_Click" />
+              </Scrollbox>
+
+              <Border GridPanel.VAlign="Top" Style="padding: 3px 2px 0px 2px;">
+                <Border Click="TargetAudienceToExport_Click">
+                  <Image Src='${Sitecore.Resources.Images.GetThemedImageSource("Core/16x16/arrow_blue_right.png", ImageDimension.id16x16)}' Height="16" Width="16" Alt="" Style="cursor: pointer; display: block;" />
+                </Border>
+                <Space Height="4"/>
+                <Border Click="TargetAudienceFromExport_Click">
+                  <Image Src='${Sitecore.Resources.Images.GetThemedImageSource("Core/16x16/arrow_blue_left.png", ImageDimension.id16x16)}' Height="16" Width="16" Alt="" Style="cursor: pointer; display: block;" />
+                </Border>
+              </Border>
+
+              <Scrollbox Width="246" Style="height: 250px !important" Background="white" Border="1px solid #ADADAD" Padding="0">
+                <Listview ID="ExportedTargetAudiences" Height="100%" View="Details" MultiSelect="true" DblClick="TargetAudienceFromExport_Click" />
+              </Scrollbox>
+
+            </GridPanel>
+
+          <Space Height="10" />
+
+          <Border>
+            <Checkbox ID="AdvancedOptions" Header="Advanced Options" Click="Options_Click" />
+
+            <Border Style="padding-left: 20px;">
+              <GridPanel ID="RolesPanel" Columns="2" Cellspacing="4" Style="display: none;">
+                <Label Header="Security Roles:" ToolTip="Export members of this role." GridPanel.Colspan="2"/>
+
+                <Scrollbox Width="415" Style="height: 130px !important" Backgroud="white" Border="1px solid #ADADAD" Padding="0">
+                  <Border ID="RolesBox" Padding="3px" />
+                </Scrollbox>
+
+                <Button Header="Select" Class="" Style="width: 75px;" GridPanel.VAlign="top" Click="SelectRoles_Click"/>
+
+                <Edit ID="RoleList" Visible="false" />
+              </GridPanel>
+            </Border>
+          </Border>
+        </WizardFormPadding>
+      </WizardFormPage>
+
+      <WizardFormPage ID="Exporting" Header="Exporting Recipients" Text="Exporting recipients." Icon="People/32x32/users_back.png">
+        <WizardFormPadding>
+          <GridPanel Width="100%" VAlign="Top">
+            <Space Height="64" />
+            <Border Align="center">
+              <ThemedImage Src="People/32x32/users_back.png" Width="48" Height="48" />
+            </Border>
+            <Space Height="16" />
+            <Border Align="center">
+              <ThemedImage Src="Images/progress.gif" Width="94" Height="17" />
+            </Border>
+            <Space Height="16" />
+            <Border Align="center" >
+              <Literal Text="Exporting..." Style="font-weight:bold"/>
+            </Border>
+          </GridPanel>
+        </WizardFormPadding>
+      </WizardFormPage>
+
+      <WizardFormLastPage ID="Finish" Icon="People/32x32/users_back.png">
+        <GridPanel Width="100%" Height="100%">
+          
+          <GridPanel GridPanel.Height="100%" Width="100%" GridPanel.VAlign="top">
+            <Literal Text="The recipient information has been exported successfully." GridPanel.VAlign="top" />
+
+            <Border>
+              <Space Height="20px" />
+            </Border>
+
+            <Border>
+              <Literal Text="Recipients exported:"/>
+              <Space Width="12px" />
+              <Literal ID="NumExported" />
+            </Border>
+            
+            <Border>
+              <Space Height="20px" />
+            </Border>
+
+            <Border Click="DownloadFile_Click">
+              <Literal Text="Download the CSV file" Style="text-decoration: underline; color:#0000F2; cursor: pointer;" />
+            </Border>
+
+            <Edit ID="Filename" Visible="false" />
+          </GridPanel>
+
+          <Border>
+            <Checkbox ID="DeleteFile" Checked="true" Header="Delete the temporary CSV file after it has been successfully downloaded" Style="float: left;" />
+          </Border>
+
+        </GridPanel>
+      </WizardFormLastPage>
+
+    </WizardForm>
+  </EmailCampaign.ExportUsersWizard>
+</control>

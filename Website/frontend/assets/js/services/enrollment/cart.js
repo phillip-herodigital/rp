@@ -99,7 +99,6 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
 
         removeOffer: function (service, planToRemove) {
 
-            // TODO - move this logic into the cart service
             var byType = _(service.offerInformationByType).find({ key: planToRemove.offer.offerType });
             var offerSelections = byType.value.offerSelections;
             var i = _(offerSelections).indexOf(planToRemove);
