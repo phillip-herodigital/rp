@@ -65,7 +65,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             base.Dispose(disposing);
         }
 
-        [HttpPost]
+        [HttpGet]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public void Reset()
         {
@@ -78,6 +78,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             stateHelper.Reset();
             await stateHelper.EnsureInitialized();
+            stateHelper.State = typeof(ServiceInformationState);
             stateHelper.Context.IsRenewal = true;
             stateHelper.Context.Services = new LocationServices[]
             {

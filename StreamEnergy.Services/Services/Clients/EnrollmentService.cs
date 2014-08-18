@@ -50,7 +50,7 @@ namespace StreamEnergy.Services.Clients
             // Grab from the HttpUtility because it creates the interna `HttpValueCollection`, which will escape values properly when ToString'd.
             var parameters = System.Web.HttpUtility.ParseQueryString("");
             parameters["CustomerType"] = "Residential"; // TODO - commercial? How are we passing that?
-            parameters["EnrollmentType"] = serviceStatus.EnrollmentType == EnrollmentType.MoveIn ? "MoveIn" : "Switch";
+            parameters["EnrollmentType"] = serviceStatus.EnrollmentType.ToString("g");
             parameters["ServiceAddress.City"] = location.Address.City;
             parameters["ServiceAddress.State"] = location.Address.StateAbbreviation;
             parameters["ServiceAddress.StreetLine1"] = location.Address.Line1;
