@@ -130,7 +130,7 @@
  */
 .main-nav {
 	float: right;
-	margin: 70px 0 -1px 10px;
+	margin: 70px 0 -1px 0;
 	> ul {
 		@include inline-block-list();
 		width: 100%;
@@ -349,7 +349,6 @@
 	}
 	@include breakpoint(small) {		
 		.wrapper {
-			height: 200px;
 			padding-top: 100px;
 		}
 		h1 {
@@ -358,7 +357,6 @@
 	}
 	@include breakpoint(medium) {		
 		.wrapper {
-			height: 180px;
 			padding-top: 70px;
 		}
 		h1 {

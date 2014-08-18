@@ -1,15 +1,37 @@
+/* These seem to be styles global to homepage, but
+   possibly not any other pages */
+article.marketing {
+	margin-bottom: 0;
+	.wrapper {
+		padding: 40px 0;
+	}
+	p {
+		margin-bottom: 0;
+	}
+	h2 {
+		color: #10425a;
+		font-size: 36px;
+	}
+	@include breakpoint(small) {
+		.wrapper {
+			padding-left: 0;
+			padding-right: 0;
+		}
+	}
+}
+
+
 article.quote {
 	background: #fafafa;
-	margin-bottom: 0;
 	.quote-author {
 		margin: .5em 0 0 0;
 	}
 	.quote-text {
 		@include retina-background("quote.png", "icon");
-		background-position: right top;
+		background-position: right bottom;
 		background-repeat: no-repeat;
 		min-height: 28px;
-		margin-bottom: 0;
+		padding-right: 40px;
 	}
 	.quote-wrapper {
 		padding-right: 50px;
@@ -19,8 +41,6 @@ article.quote {
 
 	}
 	h2 {
-		font-size: 36px;
-		color: #4f4c4d;
 		font-style: italic;
 		margin-top: 0;
 		margin-bottom: .5em;
@@ -31,6 +51,14 @@ article.quote {
 	}
 	p {
 		padding-left: 50px;
+	}
+	@include breakpoint(small) {
+		.quote-wrapper {
+			padding-right: 0;
+		}
+		h2 {
+			font-size: 24px;
+		}
 	}
 }
 
@@ -53,7 +81,6 @@ article.section-divider {
 
 article.text-callout {
 	text-align: center;
-	margin-bottom: 0;
 	.wrapper {
 		padding: 50px 3%;
 	}
@@ -70,6 +97,11 @@ article.text-callout {
 	p {
 		font-size: 20px;
 		margin-bottom: 0;
+	}
+	@include breakpoint(small) {
+		h1 {
+			font-size: 32px;
+		}
 	}
 }
 
@@ -93,7 +125,7 @@ article.vertical-cta {
 	.image-wrapper {
 		position: absolute;
 		top: 0;
-		height: 215%;
+		height: 215px;
 	}
 	.wrapper {
 		padding-bottom: 40px;
@@ -101,12 +133,30 @@ article.vertical-cta {
 	img {
 		max-width: none;
 	}
-	h2 {
-		color: #10425a;
-		font-size: 36px;
-	}
+
 	p {
 		margin-bottom: 30px;
+	}
+	@include breakpoint(medium) {
+		.col {
+			padding-right: 40px;
+		}
+	}
+	@include breakpoint(small) {
+		.col {
+			padding-right: 0;
+			padding-top: 0;
+		}
+		.col-first .image-wrapper, .col-last .image-wrapper {
+			left: 0;
+			right: 0;
+			top: auto;
+		}
+		.image-wrapper {
+		}
+		h2 {
+			padding-top: 255px;
+		}
 	}
 }
 
@@ -126,12 +176,18 @@ article.horizontal-cta {
 		float: left;
 		width: 50%;
 	}
-	h2 {
-		color: #4f4c4d;
-		font-size: 36px;
+	@include breakpoint(small) {
+		.cta-content, .photo {
+			float: none;
+			width: 100%;
+			padding: 0;
+		}
 	}
 }
 
+
+
+/* Home Page-Specific Modules */
 article.home-page-services {
 	margin-top: -30px;
 	@include background-image(linear-gradient(left top, #fff, #f1f1f1));
@@ -186,6 +242,20 @@ article.home-page-services {
 		margin: 0 0 15px;
 		text-transform: uppercase;
 	}
+	@include breakpoint(medium) {
+		.col {
+			padding: 0 80px 0 15px;
+			.i-wrapper {
+				right: 15px;
+				width: 60px;
+				height: 60px;
+				line-height: 60px;
+			}
+		}
+		.wrapper {
+			padding: 0 30px;
+		}
+	}
 	@include breakpoint(small) {
 		margin-top: 0;
 		.col {
@@ -205,23 +275,6 @@ article.home-page-services {
 }
 
 article.home-page-switch-mobile {
-	h1 {
-		font-size: 48px;
-		color: $text-primary-color;
-		margin-top: 0;
-		margin-bottom: 1.5em;
-		span {
-			color: $brand-primary-color;
-			text-transform: uppercase;
-		}
-	}
-	h2 {
-		color: $text-primary-color;
-		font-size: 36px;
-	}
-	p {
-		margin-bottom: 35px;
-	}
 	.button {
 		min-width: 200px;
 	}
@@ -264,6 +317,19 @@ article.home-page-switch-mobile {
 	.wrapper {
 		padding: 50px 0;
 	}
+	h1 {
+		font-size: 48px;
+		color: $text-primary-color;
+		margin-top: 0;
+		margin-bottom: 1.5em;
+		span {
+			color: $brand-primary-color;
+			text-transform: uppercase;
+		}
+	}
+	p {
+		margin-bottom: 35px;
+	}
 	@include breakpoint(medium) {
 		.col-smartphones {
 			padding-right: 120px;
@@ -276,40 +342,44 @@ article.home-page-switch-mobile {
 		}
 	}
 	@include breakpoint(small) {
-	.col-smartphones {
-		padding-right: 0;
-		margin-bottom: 45px;
-		img {
-			margin-left: 0;
+		.col-smartphones {
+			padding-right: 0;
+			margin-bottom: 45px;
+			img {
+				margin-left: 0;
+			}
 		}
-	}
-	.col-own-phone {
-		padding-left: 0;
-	}
+		.col-own-phone {
+			padding-left: 0;
+		}
 		.text-divider {
 			display: none;
+		}
+		.wrapper {
+			text-align: center;
 		}
 	}
 }
 
 article.nationwide-coverage {
 	background: #eeeeee;
-	margin-bottom: 0;
 	.wrapper {
 		padding: 40px 400px 40px 0;
 		@include retina-background("home-nationwide-coverage.jpg");
 		background-position: 90% center;
 		background-repeat: no-repeat;
 	}
-	h2 { 
-		font-size: 36px; 
-		color: $text-primary-color;
+	@include breakpoint(small) {
+		.wrapper {
+			padding: 65% 0 40px 0;
+			background-position: center 20px;
+			background-size: contain;
+		}
 	}
 }
 
 article.find-coverage {
 	background: #e5e5e5;
-	margin-bottom: 0;
 	.wrapper {
 		padding: 35px 0;
 	}
@@ -327,6 +397,19 @@ article.find-coverage {
 		color: $text-primary-color;
 		margin-right: 25px;
 	}
+	@include breakpoint(small) {
+		.input-group-btn {
+			text-align: center;
+			margin-top: 15px;
+		}
+		.input-group .input-group-btn {
+			padding-left: 0;
+		}
+		i {
+			position: absolute;
+			right: 0;
+		}
+	}
 }
 
 article.homelife-services-promo {
@@ -339,15 +422,43 @@ article.homelife-services-promo {
 	.col-wrapper {
 		max-width: 250px;
 		display: inline-block;
-		text-align: left;
 	}
 	h3 {
 		font-size: 24px;
 		color: #10425a;
 	}
+	h3, p {
+		text-align: left;
+	}
+	@include breakpoint(small) {
+		.col {
+			margin-bottom: 30px;
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+	}
 }
 
-article.home-faq {
-	padding: 0;
-	margin: 0;
+article.home-questions {
+	.contact-specialists {
+		@include retina-background("contact-specialists.png", "icon");
+		background-position: left 6px;
+		background-repeat: no-repeat;
+		font-size: 24px;
+		color: $brand-primary-color;
+		font-style: italic;
+		padding-left: 50px;
+	}
+	.faq {
+		padding-right: 30px;
+	}
+	h2 {
+		font-size: 32px;
+	}
+	@include breakpoint(small) {
+		.faq {
+			padding-right: 0;
+		}
+	}
 }

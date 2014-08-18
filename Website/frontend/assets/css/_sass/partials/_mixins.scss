@@ -75,6 +75,89 @@
     }
 }
 
+@mixin input-group {
+    position: relative; // For dropdowns
+    display: table;
+    border-collapse: separate; // prevent input groups from inheriting border styles from table cells when placed within a table
+	border-spacing: 0;
+
+    .input-group-control input {
+        position: relative;
+        z-index: 2;
+        float: left;
+        width: 100%;
+    }
+
+    .input-group-control + .input-group-btn {
+        padding-left: 5px;
+        padding-right: 0;
+    }
+
+    &.collapsed {
+    	.input-group-control input {
+			@include border-radius(10px 0 0 10px);
+			border-right: none;
+    	}
+        .input-group-control + .input-group-btn {
+            padding-left: 0;
+            padding-right: 0;
+
+            button {
+            	@include border-radius(0 10px 10px 0);
+        	}
+        }
+    }
+
+	// Display as table-cell
+	// -------------------------
+	.input-group-addon,
+	.input-group-btn,
+	.input-group-control {
+	    display: table-cell;
+
+	    &:not(:first-child):not(:last-child) {
+	        border-radius: 0;
+	    }
+	}
+	// Addon and addon wrapper for buttons
+	.input-group-addon,
+	.input-group-btn {
+	    width: 1%;
+	    white-space: nowrap;
+	    vertical-align: top; // Match the inputs
+	}
+
+	.input-group-btn button {
+	    width: auto;
+	}
+
+	// Text input groups
+	// -------------------------
+	.input-group-addon {
+	    font-weight: normal;
+	    line-height: 1;
+	    text-align: center;
+	}
+
+	// Button input groups
+	// -------------------------
+	.input-group-btn {
+	    position: relative;
+	    white-space: nowrap;
+	    padding-right: 5px;
+
+	    > .btn, > button, > .button {
+	        position: relative;
+	        + .btn {
+	            margin-left: -1px;
+	        }
+	        &:hover, &:focus, &:active {
+	            z-index: 2;
+	        }
+	    }
+	}
+}
+
 /**
  * Backwards compatitbility for IE8 opacity
  */

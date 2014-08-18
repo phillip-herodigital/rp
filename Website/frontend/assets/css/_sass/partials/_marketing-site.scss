@@ -26,7 +26,7 @@ $themes:
 }
 
 .banner.marketing {
-	height: 400px;
+	min-height: 400px;
 	background-position: right center;
 	background-size: cover;
 	h1 {
@@ -34,7 +34,7 @@ $themes:
 		margin-bottom: 40px;
 	}
 	@include breakpoint(medium) {
-		height: 300px;
+		min-height: 350px;
 		h1 {
 			font-size: 50px;
 		}
