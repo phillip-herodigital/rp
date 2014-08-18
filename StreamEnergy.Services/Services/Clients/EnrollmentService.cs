@@ -97,6 +97,28 @@ namespace StreamEnergy.Services.Clients
             };
         }
 
+        async Task<bool> IEnrollmentService.VerifyPremise(Location location)
+        {
+            var texasService = location.Capabilities.OfType<DomainModels.TexasServiceCapability>().Single();
+            var serviceStatus = location.Capabilities.OfType<DomainModels.Enrollments.ServiceStatusCapability>().Single();
+
+            var response = await streamConnectClient.PostAsJsonAsync("/api/Enrollments/VerifyPremise", new
+            {
+                ServiceAddress = new
+                {
+                    City = location.Address.City,
+                    State = location.Address.StateAbbreviation,
+                    StreetLine1 = location.Address.Line1,
+                    StreetLine2 = location.Address.Line2,
+                    Zip = location.Address.PostalCode5
+                },
+                UtilityAccountNumber = texasService.EsiId,
+                EnrollmentType = serviceStatus.IsNewService ? "MoveIn" : "Switch"
+            });
+            var result = Json.Read<StreamConnect.VerifyPremiseResponse>(await response.Content.ReadAsStringAsync());
+            return result.IsEligibleField;
+        }
+
         async Task<IConnectDatePolicy> IEnrollmentService.LoadConnectDates(Location location)
         {
             if (location.Capabilities.OfType<DomainModels.TexasServiceCapability>().Any())

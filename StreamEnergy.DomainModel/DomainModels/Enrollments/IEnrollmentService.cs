@@ -11,6 +11,8 @@ namespace StreamEnergy.DomainModels.Enrollments
     {
         Task<Dictionary<Location, LocationOfferSet>> LoadOffers(IEnumerable<Location> serviceLocations);
 
+        Task<bool> VerifyPremise(Location location);
+
         Task<IConnectDatePolicy> LoadConnectDates(Location location);
 
         Task<bool> IsBlockedSocialSecurityNumber(string ssn);
