@@ -13,6 +13,8 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public string CapabilityType { get { return ServiceStatusCapability.Qualifier; } }
 
+        public EnrollmentCustomerType CustomerType { get; set; }
+
         public EnrollmentType EnrollmentType { get; set; }
 
         public override bool Equals(object obj)
