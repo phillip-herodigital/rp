@@ -1,5 +1,70 @@
 .site-footer {
 	margin-top: 30px;
+	.connect-with-stream {
+		li {
+			margin-right: 10px;
+		}
+		a {
+			display: block;
+			width: 40px;
+			height: 40px;
+			text-align: center;
+			line-height: 40px;
+			@include border-radius(100%);
+			background: #fff;
+			@include box-shadow(0 1px 3px rgba( 0, 0, 0, .4));
+		}
+	}
+	.follow-stream-energy {
+		li {
+			margin-top: 6px;
+			width: 95px;
+		}
+	}
+	.gridPromos {
+		.grid {
+			border-collapse: collapse;
+			border-spacing: 0;
+			width: 100%;
+			margin: 0 -25px 30px;
+			@include experimental-value(width, calc(100% + 50px));
+		}
+		.col {
+			padding: 0 25px;
+			border-right: 1px solid $light-border-color;
+			h4 {
+				color: #94969a;
+				font-weight: 600;
+				margin-top: 0;
+				text-transform: uppercase;
+			}
+			&:last-child {
+				border-right: none;
+			}
+			@include breakpoint(small) {
+				margin-bottom: 35px;
+			}
+		}
+		.wrapper {
+			overflow: hidden;
+		}
+	}
+
+	.ie8 .gridPromos {
+		.col {
+			display: inline-block;
+			padding: 0;
+		}
+		.grid {
+			&.three .col {
+				width: 33%;
+			}
+			&.four .col {
+				width: 24.5%;
+			}
+		}
+	}
+
 	.super-footer {
 		background: $brand-primary-color;
 		color: #b4b4b4;

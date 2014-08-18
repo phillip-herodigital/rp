@@ -219,6 +219,12 @@ $mobile-nav-margin: 15px;
 			display: table-cell;
 			width: 50%;
 			vertical-align: top;
+			&.one-third {
+				width: 33.33%;
+			}
+			&.two-third {
+				width: 66.67%;
+			}
 		}
 		&.three .col {
 			width: 33.33%;

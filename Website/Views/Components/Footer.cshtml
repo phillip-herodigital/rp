@@ -1,57 +1,98 @@
-﻿@{
-    var showSuperFooter = true;
-    var hideSuperFooterField = Html.Sitecore().CurrentItem.Fields["Hide Super Footer"];
-    if (hideSuperFooterField == null)
-    {
-        hideSuperFooterField = Sitecore.Context.Item.Fields["Hide Super Footer"];
-    }
-    if (hideSuperFooterField != null && hideSuperFooterField.Value == "1")
-    {
-        showSuperFooter = false;
-    }
+@{
+	var showSuperFooter = true;
+	var hideSuperFooterField = Html.Sitecore().CurrentItem.Fields["Hide Super Footer"];
+	if (hideSuperFooterField == null)
+	{
+		hideSuperFooterField = Sitecore.Context.Item.Fields["Hide Super Footer"];
+	}
+	if (hideSuperFooterField != null && hideSuperFooterField.Value == "1")
+	{
+		showSuperFooter = false;
+	}
 }
 
 <footer class="site-footer">
-    @if (showSuperFooter)
-    {
-    <div class="super-footer">
-        <div class="wrapper clearfix">
-            <div class="grid three">
-                <div class="col badges">
-                    @Html.Sitecore().Field("First Column Links")
-                </div>
-                <div class="col">
-                    
-                </div>
-                <div class="col">
-                    
-                </div>
-                <div class="col">
-                    <h2>@Html.Sitecore().Field("Quick Links Header")</h2>
-                    @Html.Sitecore().Field("Quick Links")
-                </div>
-                <div class="col">
-                    <h2>@Html.Sitecore().Field("Social Header")</h2>
-                    @Html.Sitecore().Field("Social Links")
-                </div>
-            </div>
-        </div>
-    </div>
-    }
-    @if (!string.IsNullOrEmpty(Html.Sitecore().Field("Footnotes", Sitecore.Context.Item).ToString()))
-    {
-        <div class="wrapper clearfix footnotes">
-            @Html.Sitecore().Field("Footnotes", Sitecore.Context.Item)
-        </div>
-    }
-    <div class="wrapper clearfix copyright">
-        <p>@Html.Sitecore().Field("Copyright Content")</p>
-        <ul>
-            <li><a href="http://www.bbb.org/dallas/business-reviews/electric-companies/stream-energy-in-dallas-tx-90018895" target="_blank"><i class="icon-bbb"></i></a></li>
-            <li><a href="http://www.dsa.org/ethics/" target="_blank"><i class="icon-dsa"></i></a></li>
-        </ul>
-    </div>
-    <div class="legal">
-        @Html.Sitecore().Field("Legal Links")
-    </div>
+	<div class="gridPromos">
+		<div class="wrapper">
+			<hr />
+			<div class="grid three">
+				<div class="col">
+					<h4>Get Our Newsletter</h4>
+					<div class="input-group collapsed">
+						<div class="input-group-control">
+							<input class="" placeholder="Email Address" type="text" value="">
+						</div>
+						<div class="input-group-btn">
+							<button type="button" class="plain">Go</button>
+						</div>
+					</div>
+				</div>
+				<div class="col">
+					<h4>Follow Stream Energy</h4>
+					<ul class="follow-stream-energy inline-list">
+						<li>
+							<iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2F1streamenergy&amp;width&amp;layout=button_count&amp;action=like&amp;show_faces=false&amp;share=false&amp;height=21&amp;appId=120713508108869" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:21px;" allowTransparency="true"></iframe>
+						</li>
+						<li>
+							<a href="https://twitter.com/share" class="twitter-share-button" data-url="https://twitter.com/1streamenergy" data-via="	1streamenergy">Tweet</a>
+							<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+						</li>
+					</ul>
+				</div>
+				<div class="col">
+					<h4>Connect with Stream</h4>
+					<ul class="connect-with-stream inline-list">
+						<li><a href=""><i class="icon-facebook-dark"></i></a></li>
+						<li><a href=""><i class="icon-twitter-dark"></i></a></li>
+						<li><a href=""><i class="icon-youtube-dark"></i></a></li>
+						<li><a href=""><i class="icon-pinterest-dark"></i></a></li>
+					</ul>
+
+					@* @Html.Sitecore().Field("Social Links") *@
+				</div>
+			</div>
+		</div>
+	</div>
+	@if (showSuperFooter)
+	{
+	<div class="super-footer">
+		<div class="wrapper clearfix">
+			<div class="grid three">
+				<div class="col badges">
+					@Html.Sitecore().Field("First Column Links")
+				</div>
+				<div class="col">
+					
+				</div>
+				<div class="col">
+					
+				</div>
+				<div class="col">
+					<h2>@Html.Sitecore().Field("Quick Links Header")</h2>
+					@Html.Sitecore().Field("Quick Links")
+				</div>
+				<div class="col">
+					<h2>@Html.Sitecore().Field("Social Header")</h2>
+					@Html.Sitecore().Field("Social Links")
+				</div>
+			</div>
+		</div>
+	</div>
+	}
+	@if (!string.IsNullOrEmpty(Html.Sitecore().Field("Footnotes", Sitecore.Context.Item).ToString()))
+	{
+		<div class="wrapper clearfix footnotes">
+			@Html.Sitecore().Field("Footnotes", Sitecore.Context.Item)
+		</div>
+	}
+	<div class="wrapper clearfix copyright">
+		<p>@Html.Sitecore().Field("Copyright Content")</p>
+		<ul>
+			<li><a href="http://www.bbb.org/dallas/business-reviews/electric-companies/stream-energy-in-dallas-tx-90018895" target="_blank"><i class="icon-bbb"></i></a></li>
+			<li><a href="http://www.dsa.org/ethics/" target="_blank"><i class="icon-dsa"></i></a></li>
+		</ul>
+	</div>
+	<div class="legal">
+		@Html.Sitecore().Field("Legal Links")
+	</div>
 </footer>

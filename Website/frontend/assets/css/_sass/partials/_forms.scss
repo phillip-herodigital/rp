@@ -16,6 +16,11 @@
 		height: 30px;
 	}
 
+	&.input--large {
+		padding: $input-large-padding;
+		height: 46px;
+	}
+
 	&.small {
 		width: 100px;
 	}
@@ -429,6 +434,7 @@ form, .form {
         position: relative; // For dropdowns
         display: table;
         border-collapse: separate; // prevent input groups from inheriting border styles from table cells when placed within a table
+		border-spacing: 0;
 
         .input-group-control input {
             // Ensure that the input is always above the *appended* addon button for
@@ -446,6 +452,21 @@ form, .form {
         .input-group-control + .input-group-btn {
             padding-left: 5px;
             padding-right: 0;
+        }
+
+        &.collapsed {
+        	.input-group-control input {
+				@include border-radius(10px 0 0 10px);
+				border-right: none;
+        	}
+	        .input-group-control + .input-group-btn {
+	            padding-left: 0;
+	            padding-right: 0;
+
+	            button {
+	            	@include border-radius(0 10px 10px 0);
+	        	}
+	        }
         }
     }
 
@@ -469,7 +490,6 @@ form, .form {
     }
 
     .input-group-btn button {
-        line-height: normal;
         width: auto;
     }
 

@@ -75,6 +75,18 @@ ul, ol {
 	}
 }
 
+.text-left {
+	text-align: left;
+}
+
+.text-right {
+	text-align: right;
+}
+
+.text-center {
+	text-align: center;
+}
+
 @include breakpoint(small) {
 	.hide-small {
 		display: none;
@@ -125,8 +137,15 @@ ul, ol {
 	}
 }
 
-[loading-indicator] {
-    //min-height: 200px;
+.inline-list {
+	@extend .clearfix;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	> li {
+		padding: 0;
+		float: left;
+	}
 }
 
 //Generic notices
@@ -165,5 +184,61 @@ ul, ol {
 		border: 1px solid darken($brand-success, 15%);
 		background-color: $brand-success;
 		@include retina-background("success.png", "icon");
+	}
+}
+
+
+.faq {
+	.panel {
+        // http://stackoverflow.com/questions/15430675/jquery-slidetoggle-and-css-border-radius-propery-show-wired-in-ie10
+        display: inline-block;
+        width: 100%;
+		p.question {
+			margin: 0;
+			a {
+				@include retina-background("collapse-filled.png", "icon");
+				background-position: left center;
+				background-repeat: no-repeat;				
+				color: #696969;
+				display: block;
+				padding: 15px 0 15px 30px;
+				font-weight: 600;
+			}
+			a.collapsed {
+				@include retina-background("expand-filled.png", "icon");
+			}
+		}
+		.q {
+			float: left;
+			font-size: 26px;
+			margin: 10px 0px 0 10px;
+			color: #bbb;
+			display: none;
+		}
+		.panel-content {
+			padding-bottom: 10px;
+			padding-left: 30px;
+			.answer-hr {
+				display: none;
+				border: 3px solid #eaeaea;
+				width: 90%;
+				margin-top: 0; //Prevent jumping in the slide animation
+			}
+			.a {
+				float: left;
+				font-size: 26px;
+				margin: 5px 0px 0 10px;
+				display: none;
+			}
+			.answer {
+				p:first-child {
+					margin-top: 0;
+				}
+			}
+		}
+	}
+	.faq-hr {
+		border: 1px solid #f3f3f3;
+		margin: 10px 0;
 	}
 }
