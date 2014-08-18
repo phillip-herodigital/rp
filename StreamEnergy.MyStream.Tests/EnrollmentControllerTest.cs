@@ -111,7 +111,7 @@ namespace StreamEnergy.MyStream.Tests
             generalLocation = new Location
             {
                 Address = new DomainModels.Address { PostalCode5 = "75010" },
-                Capabilities = new IServiceCapability[] { new DomainModels.TexasServiceCapability { Tdu = "Centerpoint" }, new DomainModels.Enrollments.ServiceStatusCapability { IsNewService = true } }
+                Capabilities = new IServiceCapability[] { new DomainModels.TexasServiceCapability { Tdu = "Centerpoint" }, new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = EnrollmentType.MoveIn } }
             };
             offers = new IOffer[] 
             { 
@@ -173,7 +173,7 @@ namespace StreamEnergy.MyStream.Tests
             specificLocation = new Location
             {
                 Address = new DomainModels.Address { Line1 = "3620 Huffines Blvd", UnitNumber = "226", City = "Carrollton", StateAbbreviation = "TX", PostalCode5 = "75010" },
-                Capabilities = new IServiceCapability[] { new DomainModels.TexasServiceCapability { Tdu = "Centerpoint", EsiId = "1234SAMPLE5678" }, new DomainModels.Enrollments.ServiceStatusCapability { IsNewService = true } }
+                Capabilities = new IServiceCapability[] { new DomainModels.TexasServiceCapability { Tdu = "Centerpoint", EsiId = "1234SAMPLE5678" }, new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = EnrollmentType.MoveIn } }
             };
             contactInfo = new DomainModels.CustomerContact
             {

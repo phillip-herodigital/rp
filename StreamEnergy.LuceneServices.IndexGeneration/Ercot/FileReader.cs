@@ -91,6 +91,11 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.Ercot
                         EsiId = record.EsiId,
                         Tdu = tdu,
                         MeterType = ToAmsIndicator(record.TdspAmsIndicator, record.Metered),
+                        Address = record.Address,
+                        AddressOverflow= record.AddressOverflow,
+                        City = record.City,
+                        State = record.State,
+                        Zipcode = record.Zipcode,
                     }
                 };
         }

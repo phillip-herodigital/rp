@@ -86,7 +86,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     Location = new Location 
                     { 
                         Address = new Address { Line1 = "3620 Huffines Blvd", City = "Carrollton", StateAbbreviation = "TX", PostalCode5 = "75010" },
-                        Capabilities = new IServiceCapability[] { new TexasServiceCapability { EsiId = "123FAKE456", Tdu = "ONCOR" }, new ServiceStatusCapability { IsNewService = false } }
+                        Capabilities = new IServiceCapability[] { new TexasServiceCapability { EsiId = "123FAKE456", Tdu = "ONCOR" }, new ServiceStatusCapability { EnrollmentType = EnrollmentType.Renewal } }
                     },
                     SelectedOffers = new SelectedOffer[] { }
                 }

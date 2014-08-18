@@ -13,7 +13,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public string CapabilityType { get { return ServiceStatusCapability.Qualifier; } }
 
-        public bool IsNewService { get; set; }
+        public EnrollmentType EnrollmentType { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -22,12 +22,12 @@ namespace StreamEnergy.DomainModels.Enrollments
                 return false;
             }
 
-            return IsNewService == ((ServiceStatusCapability)obj).IsNewService;
+            return EnrollmentType == ((ServiceStatusCapability)obj).EnrollmentType;
         }
 
         public override int GetHashCode()
         {
-            return CapabilityType.GetHashCode() ^ IsNewService.GetHashCode();
+            return CapabilityType.GetHashCode() ^ EnrollmentType.GetHashCode();
         }
     }
 }

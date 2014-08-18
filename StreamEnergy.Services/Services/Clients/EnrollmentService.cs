@@ -50,7 +50,7 @@ namespace StreamEnergy.Services.Clients
             // Grab from the HttpUtility because it creates the interna `HttpValueCollection`, which will escape values properly when ToString'd.
             var parameters = System.Web.HttpUtility.ParseQueryString("");
             parameters["CustomerType"] = "Residential"; // TODO - commercial? How are we passing that?
-            parameters["EnrollmentType"] = serviceStatus.IsNewService ? "MoveIn" : "Switch"; // TODO - renewal? How are we doing that?
+            parameters["EnrollmentType"] = serviceStatus.EnrollmentType == EnrollmentType.MoveIn ? "MoveIn" : "Switch";
             parameters["ServiceAddress.City"] = location.Address.City;
             parameters["ServiceAddress.State"] = location.Address.StateAbbreviation;
             parameters["ServiceAddress.StreetLine1"] = location.Address.Line1;
@@ -75,7 +75,7 @@ namespace StreamEnergy.Services.Clients
                               Id = product.ProductCode,
                               Provider = product.Provider.ToString(),
 
-                              IsNewService = serviceStatus.IsNewService,
+                              EnrollmentType = serviceStatus.EnrollmentType,
 
                               // TODO - link with Sitecore
                               Name = product.Name,
@@ -113,7 +113,7 @@ namespace StreamEnergy.Services.Clients
                     Zip = location.Address.PostalCode5
                 },
                 UtilityAccountNumber = texasService.EsiId,
-                EnrollmentType = serviceStatus.IsNewService ? "MoveIn" : "Switch"
+                EnrollmentType = serviceStatus.EnrollmentType.ToString("g")
             });
             var result = Json.Read<StreamConnect.VerifyPremiseResponse>(await response.Content.ReadAsStringAsync());
             return result.IsEligibleField;
@@ -254,62 +254,6 @@ namespace StreamEnergy.Services.Clients
             asyncResult.Data = new DomainModels.Enrollments.Service.IdentityCheckResult { IdentityAccepted = true, IdentityQuestions = new IdentityQuestion[0] };
             return asyncResult;
         }
-
-        //DomainModels.Enrollments.Service.IdentityCheckResult IEnrollmentService.IdentityCheck(DomainModels.Name name, string ssn, DomainModels.DriversLicense driversLicense, AdditionalIdentityInformation identityInformation)
-        //{
-        //    if (identityInformation == null)
-        //    {
-        //        return new DomainModels.Enrollments.Service.IdentityCheckResult
-        //        {
-        //            IdentityAccepted = false,
-        //            HardStop = null,
-        //            IdentityCheckId = "01234",
-        //            IdentityQuestions = new[] 
-        //            {
-        //                new IdentityQuestion
-        //                {
-        //                    QuestionId = "1",
-        //                    QuestionText = "What is your name?",
-        //                    Answers = new[] { 
-        //                        new IdentityAnswer { AnswerId = "1", AnswerText = "King Arthur" },
-        //                        new IdentityAnswer { AnswerId = "2", AnswerText = "Sir Lancelot" },
-        //                        new IdentityAnswer { AnswerId = "3", AnswerText = "Sir Robin" },
-        //                        new IdentityAnswer { AnswerId = "4", AnswerText = "Sir Galahad" },
-        //                    }
-        //                },
-        //                new IdentityQuestion
-        //                {
-        //                    QuestionId = "2",
-        //                    QuestionText = "What is your quest?",
-        //                    Answers = new[] { 
-        //                        new IdentityAnswer { AnswerId = "1", AnswerText = "To seek the Holy Grail." },
-        //                    }
-        //                },
-        //                new IdentityQuestion
-        //                {
-        //                    QuestionId = "3",
-        //                    QuestionText = "What is your favorite color?",
-        //                    Answers = new[] { 
-        //                        new IdentityAnswer { AnswerId = "1", AnswerText = "Blue." },
-        //                        new IdentityAnswer { AnswerId = "2", AnswerText = "Green." },
-        //                        new IdentityAnswer { AnswerId = "3", AnswerText = "Yellow." },
-        //                        new IdentityAnswer { AnswerId = "4", AnswerText = "Red." },
-        //                    }
-        //                },
-        //            }
-        //        };
-        //    }
-        //    else
-        //    {
-        //        return new DomainModels.Enrollments.Service.IdentityCheckResult
-        //        {
-        //            IdentityCheckId = "01235",
-        //            IdentityAccepted = true,
-        //            HardStop = null,
-        //            IdentityQuestions = new IdentityQuestion[0],
-        //        };
-        //    }
-        //}
 
         IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>> IEnrollmentService.LoadOfferPayments(IEnumerable<LocationServices> services)
         {
