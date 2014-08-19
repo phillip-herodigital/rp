@@ -36,29 +36,34 @@ namespace StreamEnergy.DomainModels.Enrollments
             return !internalContext.EnrollmentSaveState.IsCompleted;
         }
 
-        protected override async Task LoadInternalState(UserContext context, InternalContext internalContext)
+        protected override async Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
         {
+            if (await enrollmentService.IsBlockedSocialSecurityNumber(ssn: context.SocialSecurityNumber))
+            {
+                internalContext.EnrollmentSaveState = new StreamAsync<Service.EnrollmentSaveResult>
+                {
+                    IsCompleted = true,
+                    Data = new Service.EnrollmentSaveResult
+                    {
+                    }
+                };
+
+            }
+
             if (internalContext.EnrollmentSaveState == null)
             {
-                if (await enrollmentService.IsBlockedSocialSecurityNumber(ssn: context.SocialSecurityNumber))
-                {
-                    internalContext.EnrollmentSaveState = new StreamAsync<Service.EnrollmentSaveResult>
-                    {
-                        IsCompleted = true,
-                        Data = new Service.EnrollmentSaveResult
-                        {
-                        }
-                    };
-                    return;
-                }
-
                 if (internalContext.GlobalCustomerId == Guid.Empty)
                 {
                     internalContext.GlobalCustomerId = await accountService.CreateStreamConnectCustomer(email: context.ContactInfo.Email.Address);
                 }
                 internalContext.EnrollmentSaveState = await enrollmentService.BeginSaveEnrollment(internalContext.GlobalCustomerId, context);
             }
-        }
+            else
+            {
+                await enrollmentService.UpdateEnrollment(internalContext.GlobalCustomerId, internalContext.EnrollmentSaveState, context);
+            }
 
+            return await base.InternalProcess(context, internalContext);
+        }
     }
 }
