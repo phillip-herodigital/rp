@@ -93,6 +93,29 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                 Assert.Inconclusive("No data from Stream Connect");
             }
         }
+        
+        [TestMethod]
+        public void GetProductsUncleansedAddressTest()
+        {
+            // Assign
+            var streamConnectClient = container.Resolve<HttpClient>(StreamEnergy.Services.Clients.StreamConnectContainerSetup.StreamConnectKey);
+
+            // Act
+            var response = streamConnectClient.GetAsync("/api/products?CustomerType=Residential&EnrollmentType=MoveIn&UtilityAccountNumber=10443720006102389&SystemOfRecord=CIS1&ServiceAddress.City=CARROLLTON&ServiceAddress.State=TX&ServiceAddress.StreetLine1=3620+HUFFINES+BLVD+APT+226&ServiceAddress.StreetLine2=&ServiceAddress.Zip=75010").Result;
+            var responseString = response.Content.ReadAsStringAsync().Result;
+            var data = (JArray)JsonConvert.DeserializeObject(responseString);
+
+            // Assert
+            Assert.IsTrue(response.IsSuccessStatusCode);
+            if (data.Count > 0)
+            {
+
+            }
+            else
+            {
+                Assert.Inconclusive("No data from Stream Connect");
+            }
+        }
 
         [TestMethod]
         public void GetMoveInDatesTest()
@@ -475,6 +498,114 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             var responseString = response.Content.ReadAsStringAsync().Result;
             dynamic result = JsonConvert.DeserializeObject(responseString);
             Assert.AreEqual("Success", result.Status.Value);
+        }
+
+        [TestMethod]
+        public void PostEnrollmentsCreate()
+        {
+            // Assign
+            var streamConnectClient = container.Resolve<HttpClient>(StreamEnergy.Services.Clients.StreamConnectContainerSetup.StreamConnectKey);
+            Guid globalCustomerId;
+            {
+                var createCustomerResponse = streamConnectClient.PostAsJsonAsync("/api/customers", new { EmailAddress = "test@example.com" }).Result;
+                Assert.IsTrue(createCustomerResponse.IsSuccessStatusCode);
+                globalCustomerId = Guid.Parse((string)(((dynamic)JsonConvert.DeserializeObject(createCustomerResponse.Content.ReadAsStringAsync().Result))["Customer"]["GlobalCustomerId"].Value));
+            }
+
+            // Act
+            var response = streamConnectClient.PostAsJsonAsync("/api/customers/" + globalCustomerId.ToString() + "/enrollments", new[]
+            {
+                new 
+                {
+                    GlobalCustomerId= globalCustomerId.ToString(),
+                    CustomerType= "Residential",
+                    SystemOfRecord= "CIS1",
+                    FirstName= "sample string 5",
+                    LastName= "sample string 6",
+                    BillingAddress= new {
+                      StreetLine1= "sample string 1",
+                      StreetLine2= "sample string 2",
+                      City= "sample string 3",
+                      State= "sample string 4",
+                      Zip= "sample string 5"
+                    },
+                    PhoneNumbers= new[] {
+                      new {
+                        Number= "sample string 1",
+                        Type= "Home"
+                      },
+                      new {
+                        Number= "sample string 1",
+                        Type= "Home"
+                      }
+                    },
+                    SSN= "sample string 7",
+                    EmailAddress= "sample string 10",
+                    Premise= new {
+                      EnrollmentType= "MoveIn",
+                      SelectedMoveInDate= "2014-08-19T15:29:36.0899745Z",
+                      UtilityProvider= new {
+                        Id= "sample string 1",
+                        Code= "sample string 2",
+                        Name= "sample string 3",
+                        Commodities= new[] { "Electricity" }
+                      },
+                      UtilityAccountNumber= "sample string 2",
+                      Product= new {
+                        ProductCode= "sample string 1",
+                        Name= "sample string 2",
+                        Description= "sample string 3",
+                        Rate= new {
+                          Value= 1.0,
+                          Type= "Fixed",
+                          Unit= "sample string 2"
+                        },
+                        Term= 4
+                      },
+                      ServiceAddress= new {
+                        StreetLine1= "sample string 1",
+                        StreetLine2= "sample string 2",
+                        City= "sample string 3",
+                        State= "sample string 4",
+                        Zip= "sample string 5"
+                      },
+                      ProductType= "Gas",
+                      Deposit= new {
+                        CreateDate= "2014-08-19T15:29:36.1047927Z",
+                        Amount= 2.0,
+                        IsWaived= true
+                      }
+                    }
+                }
+            }).Result;
+
+            // Assert
+            Assert.IsTrue(response.IsSuccessStatusCode);
+            var asyncUrl = response.Headers.Location;
+            Assert.IsNotNull(response.Headers.Location);
+
+            // Act - Step 3 - async response
+            dynamic result;
+            do
+            {
+                {
+                    response = streamConnectClient.GetAsync(asyncUrl).Result;
+                    var responseString = response.Content.ReadAsStringAsync().Result;
+                    result = JsonConvert.DeserializeObject(responseString);
+                }
+                Assert.IsTrue(response.IsSuccessStatusCode);
+            } while (response.StatusCode == System.Net.HttpStatusCode.NoContent);
+
+            // Assert
+            Assert.IsTrue(response.IsSuccessStatusCode);
+            if (result.EnrollmentResponses.Count > 0)
+            {
+
+            }
+            else
+            {
+                Assert.Inconclusive("No data from Stream Connect");
+            }
         }
     }
 }
