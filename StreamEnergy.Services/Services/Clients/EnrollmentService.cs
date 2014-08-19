@@ -281,37 +281,37 @@ namespace StreamEnergy.Services.Clients
             return asyncResult;
         }
 
-        IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>> IEnrollmentService.LoadOfferPayments(IEnumerable<LocationServices> services)
+        Task<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>>> IEnrollmentService.LoadOfferPayments(IEnumerable<LocationServices> services)
         {
             // TODO - actual deposit amounts rather than hard-coded values
-            return (from loc in services
-                    from offer in loc.SelectedOffers
-                    select new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>
-                    {
-                        Location = loc.Location,
-                        Offer = offer.Offer,
-                        Details = new DomainModels.Enrollments.OfferPayment
-                        {
-                            RequiredAmounts = new IOfferPaymentAmount[] 
-                            { 
-                                new DepositOfferPaymentAmount { DollarAmount = (offer.Offer is TexasElectricityOffer && ((TexasElectricityOffer)offer.Offer).TermMonths == 1) ? 0 : 75.25m }
-                            },
-                            OngoingAmounts = new IOfferPaymentAmount[] { }
-                        }
-                    }).ToArray();
+            return Task.FromResult(from loc in services
+                                   from offer in loc.SelectedOffers
+                                   select new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>
+                                   {
+                                       Location = loc.Location,
+                                       Offer = offer.Offer,
+                                       Details = new DomainModels.Enrollments.OfferPayment
+                                       {
+                                           RequiredAmounts = new IOfferPaymentAmount[] 
+                                           { 
+                                               new DepositOfferPaymentAmount { DollarAmount = (offer.Offer is TexasElectricityOffer && ((TexasElectricityOffer)offer.Offer).TermMonths == 1) ? 0 : 75.25m }
+                                           },
+                                           OngoingAmounts = new IOfferPaymentAmount[] { }
+                                       }
+                                   });
         }
 
-        IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>> IEnrollmentService.PlaceOrder(IEnumerable<LocationServices> services)
+        Task<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>> IEnrollmentService.PlaceOrder(IEnumerable<LocationServices> services)
         {
-
-            return (from loc in services
-                    from offer in loc.SelectedOffers
-                    select new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>
-                    {
-                        Location = loc.Location,
-                        Offer = offer.Offer,
-                        Details = new DomainModels.Enrollments.Service.PlaceOrderResult { ConfirmationNumber = "87654321" }
-                    }).ToArray();
+            // TODO - finalize the enrollment
+            return Task.FromResult(from loc in services
+                                   from offer in loc.SelectedOffers
+                                   select new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>
+                                   {
+                                       Location = loc.Location,
+                                       Offer = offer.Offer,
+                                       Details = new DomainModels.Enrollments.Service.PlaceOrderResult { ConfirmationNumber = "87654321" }
+                                   });
         }
 
     }

@@ -28,12 +28,12 @@ namespace StreamEnergy.DomainModels.Enrollments
         Task<StreamAsync<IdentityCheckResult>> EndIdentityCheck(StreamAsync<IdentityCheckResult> asyncResult);
 
         // TODO - will need more inputs
-        IEnumerable<LocationOfferDetails<OfferPayment>> LoadOfferPayments(IEnumerable<LocationServices> services);
+        Task<IEnumerable<LocationOfferDetails<OfferPayment>>> LoadOfferPayments(IEnumerable<LocationServices> services);
 
         // TODO - how do we pay deposits?
 
         // TODO - needs customer info, too
-        IEnumerable<LocationOfferDetails<PlaceOrderResult>> PlaceOrder(IEnumerable<LocationServices> services);
+        Task<IEnumerable<LocationOfferDetails<PlaceOrderResult>>> PlaceOrder(IEnumerable<LocationServices> services);
 
 
     }
