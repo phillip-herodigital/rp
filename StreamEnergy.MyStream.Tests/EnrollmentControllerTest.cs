@@ -40,6 +40,16 @@ namespace StreamEnergy.MyStream.Tests
             });
             var enrollmentService = (IEnrollmentService)container.Resolve<StreamEnergy.Services.Clients.EnrollmentService>();
 
+            mockEnrollmentService.Setup(m => m.BeginSaveEnrollment(It.IsAny<Guid>(), It.IsAny<UserContext>())).Returns(Task.FromResult(new StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>()
+                {
+                    IsCompleted = false
+                }));
+
+            mockEnrollmentService.Setup(m => m.EndSaveEnrollment(It.IsAny<StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>>())).Returns(Task.FromResult(new StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>()
+            {
+                IsCompleted = true
+            }));
+
             mockEnrollmentService.Setup(m => m.BeginIdentityCheck(It.IsAny<Guid>(), It.IsAny<Name>(), It.IsAny<string>(), It.IsAny<Address>(), It.IsAny<AdditionalIdentityInformation>())).Returns(Task.FromResult(new DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>
             {
                 IsCompleted = false,
@@ -435,6 +445,7 @@ namespace StreamEnergy.MyStream.Tests
             {
                 AllOffers = new Dictionary<Location, LocationOfferSet> { { specificLocation, new LocationOfferSet { Offers = offers } } },
                 IdentityCheck = new StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult> { IsCompleted = true, Data = identityCheckResult },
+                EnrollmentSaveState = new StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult> { IsCompleted = true },
             };
             session.State = typeof(DomainModels.Enrollments.VerifyIdentityState);
             var request = new Models.Enrollment.VerifyIdentity
@@ -490,6 +501,7 @@ namespace StreamEnergy.MyStream.Tests
             {
                 AllOffers = new Dictionary<Location, LocationOfferSet> { { specificLocation, new LocationOfferSet { Offers = offers } } },
                 IdentityCheck = new StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult> { IsCompleted = false },
+                EnrollmentSaveState = new StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult> { IsCompleted = true },
             };
             session.State = typeof(DomainModels.Enrollments.VerifyIdentityState);
 
@@ -542,6 +554,7 @@ namespace StreamEnergy.MyStream.Tests
             {
                 AllOffers = new Dictionary<Location, LocationOfferSet> { { specificLocation, new LocationOfferSet { Offers = offers } } },
                 IdentityCheck = new StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult> { IsCompleted = true, Data = identityCheckResult },
+                EnrollmentSaveState = new StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult> { IsCompleted = true },
             };
             session.State = typeof(DomainModels.Enrollments.VerifyIdentityState);
             var request = new Models.Enrollment.VerifyIdentity
@@ -597,6 +610,7 @@ namespace StreamEnergy.MyStream.Tests
             {
                 AllOffers = new Dictionary<Location, LocationOfferSet> { { specificLocation, new LocationOfferSet { Offers = offers } } },
                 IdentityCheck = new StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult> { IsCompleted = false },
+                EnrollmentSaveState = new StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult> { IsCompleted = true },
             };
             session.State = typeof(DomainModels.Enrollments.VerifyIdentityState);
 
@@ -648,6 +662,7 @@ namespace StreamEnergy.MyStream.Tests
             {
                 AllOffers = new Dictionary<Location, LocationOfferSet> { { specificLocation, new LocationOfferSet { Offers = offers } } },
                 IdentityCheck = new StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult> { IsCompleted = true, Data = identityCheckResult },
+                EnrollmentSaveState = new StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult> { IsCompleted = true },
             };
             session.State = typeof(DomainModels.Enrollments.CompleteOrderState);
             var request = new Models.Enrollment.ConfirmOrder
