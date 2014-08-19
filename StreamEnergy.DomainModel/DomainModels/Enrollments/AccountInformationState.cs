@@ -12,7 +12,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         private readonly IEnrollmentService enrollmentService;
 
         public AccountInformationState(IEnrollmentService enrollmentService)
-            : base(previousState: typeof(PlanSelectionState), nextState: typeof(LoadIdentityQuestionsState))
+            : base(previousState: typeof(PlanSelectionState), nextState: typeof(SaveEnrollmentState))
         {
             this.enrollmentService = enrollmentService;
         }

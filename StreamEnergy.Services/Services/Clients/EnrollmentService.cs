@@ -174,6 +174,26 @@ namespace StreamEnergy.Services.Clients
             return Task.FromResult(false);
         }
 
+
+        Task<DomainModels.StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>> IEnrollmentService.BeginSaveEnrollment(Guid globalCustomerId, UserContext context)
+        {
+            // TODO
+            return Task.FromResult(new DomainModels.StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>
+                {
+                    IsCompleted = false,
+                });
+        }
+
+        Task<DomainModels.StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>> IEnrollmentService.EndSaveEnrollment(DomainModels.StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult> streamAsync)
+        {
+            // TODO
+            return Task.FromResult(new DomainModels.StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>
+            {
+                IsCompleted = true,
+            });
+        }
+
+
         async Task<DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>> IEnrollmentService.BeginIdentityCheck(Guid streamCustomerId, DomainModels.Name name, string ssn, DomainModels.Address mailingAddress, AdditionalIdentityInformation identityInformation)
         {
             if (identityInformation == null)
@@ -257,6 +277,7 @@ namespace StreamEnergy.Services.Clients
 
         IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>> IEnrollmentService.LoadOfferPayments(IEnumerable<LocationServices> services)
         {
+            // TODO - actual deposit amounts rather than hard-coded values
             return (from loc in services
                     from offer in loc.SelectedOffers
                     select new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>

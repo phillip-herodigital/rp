@@ -17,6 +17,10 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         Task<bool> IsBlockedSocialSecurityNumber(string ssn);
 
+        Task<StreamAsync<EnrollmentSaveResult>> BeginSaveEnrollment(Guid globalCustomerId, UserContext context);
+
+        Task<StreamAsync<EnrollmentSaveResult>> EndSaveEnrollment(StreamAsync<EnrollmentSaveResult> streamAsync);
+
         Task<StreamAsync<IdentityCheckResult>> BeginIdentityCheck(Guid streamCustomerId, Name name, string ssn, Address mailingAddress, AdditionalIdentityInformation identityInformation = null);
 
         Task<StreamAsync<IdentityCheckResult>> EndIdentityCheck(StreamAsync<IdentityCheckResult> asyncResult);
@@ -28,6 +32,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         // TODO - needs customer info, too
         IEnumerable<LocationOfferDetails<PlaceOrderResult>> PlaceOrder(IEnumerable<LocationServices> services);
+
 
     }
 }
