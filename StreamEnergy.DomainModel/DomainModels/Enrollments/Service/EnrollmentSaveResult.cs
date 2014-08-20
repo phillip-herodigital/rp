@@ -9,6 +9,6 @@ namespace StreamEnergy.DomainModels.Enrollments.Service
     [Serializable]
     public class EnrollmentSaveResult
     {
-        public Guid EnrollmentId { get; set; }
+        public EnrollmentSaveEntry[] Results { get; set; }
     }
 }

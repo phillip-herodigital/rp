@@ -293,12 +293,13 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public async Task<ClientData> AccountInformation([FromBody]AccountInformation request)
         {
-            if (stateMachine.InternalContext.EnrollmentSaveState != null && stateMachine.InternalContext.EnrollmentSaveState.IsCompleted)
+            await Initialize();
+            if (stateHelper.InternalContext.EnrollmentSaveState != null && stateHelper.InternalContext.EnrollmentSaveState.IsCompleted)
             {
                 stateHelper.State = typeof(AccountInformationState);
+                await Initialize();
             }
 
-            await Initialize();
             MapCartToServices(request);
 
             stateMachine.Context.AgreeToTerms = false;

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
 using System.Net.Http;
+using Newtonsoft.Json.Linq;
 
 namespace StreamEnergy.Services.Clients
 {
@@ -101,17 +102,10 @@ namespace StreamEnergy.Services.Clients
         {
             var texasService = location.Capabilities.OfType<DomainModels.TexasServiceCapability>().Single();
             var serviceStatus = location.Capabilities.OfType<DomainModels.Enrollments.ServiceStatusCapability>().Single();
-
+            
             var response = await streamConnectClient.PostAsJsonAsync("/api/Enrollments/VerifyPremise", new
             {
-                ServiceAddress = new
-                {
-                    City = location.Address.City,
-                    State = location.Address.StateAbbreviation,
-                    StreetLine1 = location.Address.Line1,
-                    StreetLine2 = location.Address.Line2,
-                    Zip = location.Address.PostalCode5
-                },
+                ServiceAddress = ToStreamConnectAddress(location.Address),
                 UtilityAccountNumber = texasService.EsiId,
                 EnrollmentType = serviceStatus.EnrollmentType.ToString("g")
             });
@@ -175,22 +169,95 @@ namespace StreamEnergy.Services.Clients
         }
 
 
-        Task<DomainModels.StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>> IEnrollmentService.BeginSaveEnrollment(Guid globalCustomerId, UserContext context)
+        async Task<DomainModels.StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>> IEnrollmentService.BeginSaveEnrollment(Guid globalCustomerId, UserContext context)
         {
             // TODO
-            return Task.FromResult(new DomainModels.StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>
-                {
-                    IsCompleted = false,
-                });
+            var request = (from service in context.Services
+                           from offer in service.SelectedOffers
+                           select ToEnrollmentAccount(globalCustomerId, context, service, offer)).ToArray();
+            var response = await streamConnectClient.PostAsJsonAsync("/api/customers/" + globalCustomerId.ToString() + "/enrollments", request);
+
+            var asyncUrl = response.Headers.Location;
+            return new DomainModels.StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>
+            {
+                IsCompleted = false,
+                ResponseLocation = asyncUrl
+            };
         }
 
-        Task<DomainModels.StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>> IEnrollmentService.EndSaveEnrollment(DomainModels.StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult> streamAsync)
+        private dynamic ToEnrollmentAccount(Guid globalCustomerId, UserContext context, LocationServices service, SelectedOffer offer)
         {
-            // TODO
-            return Task.FromResult(new DomainModels.StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>
+            switch (offer.Offer.OfferType)
             {
-                IsCompleted = true,
-            });
+                case TexasElectricityOffer.Qualifier:
+                    var texasElectricityOffer = offer.Offer as TexasElectricityOffer;
+                    var texasService = service.Location.Capabilities.OfType<DomainModels.TexasServiceCapability>().Single();
+                    var serviceStatus = service.Location.Capabilities.OfType<DomainModels.Enrollments.ServiceStatusCapability>().Single();
+                    return new
+                    {
+                        GlobalCustomerId = globalCustomerId.ToString(),
+                        CustomerType = serviceStatus.CustomerType.ToString("g"),
+                        SystemOfRecord = "CIS1",
+                        FirstName = context.ContactInfo.Name.First,
+                        LastName = context.ContactInfo.Name.Last,
+                        BillingAddress = ToStreamConnectAddress(offer.OfferOption.BillingAddress),
+                        PhoneNumbers = (from DomainModels.TypedPhone phone in context.ContactInfo.Phone
+                                        select new
+                                        {
+                                            Number = phone.Number,
+                                            Type = phone.Category.Value.ToString("g")
+                                        }).ToArray(),
+                        SSN = context.SocialSecurityNumber,
+                        EmailAddress = context.ContactInfo.Email.Address,
+                        Premise = new
+                        {
+                            EnrollmentType = serviceStatus.EnrollmentType.ToString("g"),
+                            SelectedMoveInDate = (offer.OfferOption is TexasElectricityMoveInOfferOption) ? ((TexasElectricityMoveInOfferOption)offer.OfferOption).ConnectDate : DateTime.Now,
+                            UtilityProvider = JObject.Parse(texasElectricityOffer.Provider),
+                            UtilityAccountNumber = texasService.EsiId,
+                            Product = new
+                            {
+                                ProductCode = texasElectricityOffer.Id,
+                                Term = texasElectricityOffer.TermMonths
+                            },
+                            ServiceAddress = ToStreamConnectAddress(service.Location.Address),
+                            ProductType = "Electricity"
+                        }
+                    };
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        async Task<DomainModels.StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>> IEnrollmentService.EndSaveEnrollment(DomainModels.StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult> asyncResult)
+        {
+            var response = await streamConnectClient.GetAsync(asyncResult.ResponseLocation);
+            if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+            {
+                return asyncResult;
+            }
+
+
+            asyncResult.IsCompleted = true;
+
+            var responseObject = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+            if ((string)responseObject["Status"] == "Success")
+            {
+                var enrollmentResponses = responseObject["EnrollmentResponses"].ToObject<IEnumerable<StreamConnect.CreateOrUpdateEnrollmentResponse>>();
+
+                asyncResult.Data = new DomainModels.Enrollments.Service.EnrollmentSaveResult
+                    {
+                        Results = (from entry in enrollmentResponses
+                                   select new DomainModels.Enrollments.Service.EnrollmentSaveEntry
+                                   {
+                                       CisAccountNumber = entry.CisAccountNumber,
+                                       StreamReferenceNumber = entry.StreamReferenceNumber,
+                                       GlobalEnrollmentAccountId = entry.GlobalEnrollmentAccountId,
+                                   }).ToArray()
+                    };
+            }
+
+            return asyncResult;
         }
 
         Task IEnrollmentService.UpdateEnrollment(Guid guid, DomainModels.StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult> streamAsync, UserContext context)
@@ -209,14 +276,7 @@ namespace StreamEnergy.Services.Clients
                     FirstName = name.First,
                     LastName = name.Last,
                     SSN = ssn,
-                    Address = new
-                    {
-                        StreetLine1 = mailingAddress.Line1,
-                        StreetLine2 = mailingAddress.Line2,
-                        City = mailingAddress.City,
-                        State = mailingAddress.StateAbbreviation,
-                        Zip = mailingAddress.PostalCode5
-                    }
+                    Address = ToStreamConnectAddress(mailingAddress)
                 });
                 var responseString = await response.Content.ReadAsStringAsync();
                 var result = Json.Read<StreamConnect.IdVerificationChallengeResponse>(responseString);
@@ -314,5 +374,18 @@ namespace StreamEnergy.Services.Clients
                                    });
         }
 
+
+        private static dynamic ToStreamConnectAddress(DomainModels.Address addr)
+        {
+            dynamic serviceAddress = new
+            {
+                City = addr.City,
+                State = addr.StateAbbreviation,
+                StreetLine1 = addr.Line1,
+                StreetLine2 = addr.Line2,
+                Zip = addr.PostalCode5
+            };
+            return serviceAddress;
+        }
     }
 }

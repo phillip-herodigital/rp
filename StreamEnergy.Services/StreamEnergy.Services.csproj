@@ -190,6 +190,7 @@
     <Compile Include="Services\Clients\StreamConnectContainerSetup.cs" />
     <Compile Include="Services\Clients\StreamConnectClient.cs" />
     <Compile Include="Services\Clients\StreamConnect\Answer.cs" />
+    <Compile Include="Services\Clients\StreamConnect\CreateOrUpdateEnrollmentResponse.cs" />
     <Compile Include="Services\Clients\StreamConnect\Customer.cs" />
     <Compile Include="Services\Clients\StreamConnect\CustomerResponse.cs" />
     <Compile Include="Services\Clients\StreamConnect\Fee.cs" />

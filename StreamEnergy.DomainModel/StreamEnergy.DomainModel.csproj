@@ -178,6 +178,7 @@
     <Compile Include="DomainModels\Enrollments\SaveEnrollmentState.cs" />
     <Compile Include="DomainModels\Enrollments\SavingEnrollmentState.cs" />
     <Compile Include="DomainModels\Enrollments\ServiceStatusCapability.cs" />
+    <Compile Include="DomainModels\Enrollments\Service\EnrollmentSaveEntry.cs" />
     <Compile Include="DomainModels\Enrollments\Service\EnrollmentSaveResult.cs" />
     <Compile Include="DomainModels\Enrollments\Service\IdentityCheckHardStop.cs" />
     <Compile Include="DomainModels\Enrollments\Service\LocationOfferDetails.cs" />
