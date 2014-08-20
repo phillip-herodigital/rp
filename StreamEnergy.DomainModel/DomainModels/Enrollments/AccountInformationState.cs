@@ -31,11 +31,6 @@ namespace StreamEnergy.DomainModels.Enrollments
         public override void Sanitize(UserContext context, InternalContext internalContext)
         {
             var changedAddresses = context.Services.Select(s => s.Location).Where(loc => !internalContext.AllOffers.ContainsKey(loc)).ToArray();
-            if (changedAddresses.Any())
-            {
-                // TODO - check to see how this interacts with changing addresses
-                //internalContext.AllOffers = internalContext.AllOffers.Concat(enrollmentService.LoadOffers(changedAddresses)).ToDictionary(k => k.Key, k => k.Value);
-            }
 
             if (context.Services != null)
             {

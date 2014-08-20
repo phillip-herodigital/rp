@@ -55,7 +55,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         protected override async Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
         {
-            internalContext.PlaceOrderResult = (await enrollmentService.PlaceOrder(context.Services)).ToArray();
+            internalContext.PlaceOrderResult = (await enrollmentService.PlaceOrder(internalContext.GlobalCustomerId, context.Services, internalContext.EnrollmentSaveState.Data)).ToArray();
             
             return await base.InternalProcess(context, internalContext);
         }

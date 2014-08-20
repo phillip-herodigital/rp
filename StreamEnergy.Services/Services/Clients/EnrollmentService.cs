@@ -171,7 +171,6 @@ namespace StreamEnergy.Services.Clients
 
         async Task<DomainModels.StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>> IEnrollmentService.BeginSaveEnrollment(Guid globalCustomerId, UserContext context)
         {
-            // TODO
             var request = (from service in context.Services
                            from offer in service.SelectedOffers
                            select ToEnrollmentAccount(globalCustomerId, context, service, offer)).ToArray();
@@ -361,17 +360,35 @@ namespace StreamEnergy.Services.Clients
                                    });
         }
 
-        Task<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>> IEnrollmentService.PlaceOrder(IEnumerable<LocationServices> services)
+        async Task<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>> IEnrollmentService.PlaceOrder(Guid streamCustomerId, IEnumerable<LocationServices> services, DomainModels.Enrollments.Service.EnrollmentSaveResult originalSaveState)
         {
-            // TODO - finalize the enrollment
-            return Task.FromResult(from loc in services
-                                   from offer in loc.SelectedOffers
-                                   select new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>
-                                   {
-                                       Location = loc.Location,
-                                       Offer = offer.Offer,
-                                       Details = new DomainModels.Enrollments.Service.PlaceOrderResult { ConfirmationNumber = "87654321" }
-                                   });
+            var offers = from service in services
+                         from offer in service.SelectedOffers
+                         select new { service, offer };
+            var enrollmentOffer = offers.Zip(originalSaveState.Results, (data, enrollment) => new { data.service, data.offer, enrollment });
+            var results = new List<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>();
+
+            foreach (var orderEntry in enrollmentOffer)
+            {
+                var finalizeResponse = await streamConnectClient.PutAsJsonAsync("/api/customers/" + streamCustomerId.ToString() + "/enrollments/" + orderEntry.enrollment.GlobalEnrollmentAccountId + "/finalize", new
+                    {
+                        utilityAccountNumber = orderEntry.enrollment.CisAccountNumber,
+                        Authorizations = new object[0],
+                    });
+                var result = Json.Read<JObject>(await finalizeResponse.Content.ReadAsStringAsync());
+
+                if (result["Status"].ToString() == "Status")
+                {
+                    results.Add(new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>
+                                       {
+                                           Location = orderEntry.service.Location,
+                                           Offer = orderEntry.offer.Offer,
+                                           Details = new DomainModels.Enrollments.Service.PlaceOrderResult { ConfirmationNumber = orderEntry.enrollment.StreamReferenceNumber }
+                                       });
+                }
+            }
+
+            return results.ToArray();
         }
 
 
