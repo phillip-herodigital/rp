@@ -2197,7 +2197,6 @@
     <Content Include="Views\Components\Payments\New Credit Card.cshtml" />
     <Content Include="Views\layouts\Raw Layout.cshtml" />
     <Content Include="Views\Components\Payments\New Bank Account.cshtml" />
-    <Content Include="Views\layouts\Email Layout.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -2276,7 +2275,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>0</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:59203/</IISUrl>
+          <IISUrl>http://localhost:55919/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
