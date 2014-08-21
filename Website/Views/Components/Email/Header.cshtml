@@ -2,8 +2,7 @@
     var sc = Html.Sitecore();
     var linkstyle = "text-decoration: none; color: #0971ce";
     var logostyle = "display:block; border:none; outline:none; text-decoration:none;";
-    var id = "''";
-    var lang = "'en'";
+    var lang = Sitecore.Context.Language.Name;
     var desinationId =  !string.IsNullOrEmpty(sc.CurrentItem["Destination"]) ? ((Sitecore.Data.Fields.LinkField)sc.CurrentItem.Fields["Destination"]).TargetItem.ID.ToString() : "";
     Sitecore.Data.Fields.ImageField logo = sc.CurrentItem.Fields["Logo"];
 }
@@ -35,7 +34,7 @@
                                                     {
                                                         if (sc.CurrentItem.IsChecked("Link to Self") ?? true)
                                                         {
-                                                            <a href="/?sc_itemid={../@id}&amp;sc_lang=@lang&amp;sc_pd_view=1" style="@linkstyle">
+                                                            <a href="/?sc_itemid={../}&amp;sc_lang=@lang&amp;sc_pd_view=1" style="@linkstyle">
                                                                 @Html.Sitecore().Field("Link Text")
                                                             </a>
                                                         }
