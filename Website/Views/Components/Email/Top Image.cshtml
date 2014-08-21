@@ -1,0 +1,42 @@
+﻿@{
+    var sc = Html.Sitecore();
+    var imagestyle = "display:block; border:none; outline:none; text-decoration:none;";
+    var link = !string.IsNullOrEmpty(sc.CurrentItem["Link"]) ? ((Sitecore.Data.Fields.LinkField)sc.CurrentItem.Fields["Link"]).TargetItem.ID.ToString() : "";
+}
+<table width="100%" bgcolor="#efefef" cellpadding="0" cellspacing="0" border="0" id="backgroundTable" st-sortable="banner">
+    <tbody>
+        <tr>
+            <td>
+                <table width="600" cellpadding="0" cellspacing="0" border="0" align="center" class="devicewidth">
+                    <tbody>
+                        <tr>
+                            <td width="100%">
+                                <table width="600" align="center" cellspacing="0" cellpadding="0" border="0" class="devicewidth">
+                                    <tbody>
+                                        <tr>
+                                            <!-- start of image -->
+                                            <td align="center" st-image="banner-image">
+                                                <div class="imgpop">
+                                                    <a target="_blank" href="/?sc_itemid=@link">
+                                                        @Html.Sitecore().Field("Image", new { @style = imagestyle, @class = "banner" })
+                                                        @{
+                                                            if (Sitecore.Context.PageMode.IsPageEditor)
+                                                            {
+                                                                <div align="left" style="height:40px; font-size:13px; color:#000; padding: 10px 0px 0px 5px;">[Add an image here]</div>
+                                                            }
+                                                        }
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <!-- end of image -->
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>

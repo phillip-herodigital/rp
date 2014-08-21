@@ -1,0 +1,133 @@
+﻿@{
+    var sc = Html.Sitecore();
+    var linkstyle = "text-decoration: none; color: #0971ce";
+    var logostyle = "display:block; border:none; outline:none; text-decoration:none;";
+    var lang = Sitecore.Context.Language.Name;
+    var desinationId =  !string.IsNullOrEmpty(sc.CurrentItem["Destination"]) ? ((Sitecore.Data.Fields.LinkField)sc.CurrentItem.Fields["Destination"]).TargetItem.ID.ToString() : "";
+    Sitecore.Data.Fields.ImageField logo = sc.CurrentItem.Fields["Logo"];
+}
+<table width="100%" bgcolor="#ffffff" cellpadding="0" cellspacing="0" border="0" class="backgroundTable" st-sortable="header">
+    <tbody>
+        <tr>
+            <td>
+                <table width="600" cellpadding="0" cellspacing="0" border="0" align="center" class="devicewidth">
+                    <tbody>
+                        <tr>
+                            <td width="100%">
+                                <table width="600" cellpadding="0" cellspacing="0" border="0" align="center" class="devicewidth">
+                                    <tbody>
+                                        <!-- spacing -->
+                                        <tr>
+                                            <td width="100%" height="20" class="full" style="min-width: 600px;"></td>
+                                        </tr>
+                                        <!-- spacing -->
+                                        <tr>
+                                            <td width="100%" align="left" valign="middle" style="font-family: Helvetica, arial, sans-serif; font-size: 11px;color: #666666" st-content="preheader">
+                                                @Html.Sitecore().Field("Text")
+                                                @{
+                                                 
+                                                    if (Sitecore.Context.PageMode.IsPageEditorEditing)
+                                                    {
+                                                        @Html.Sitecore().Field("Link Text")
+                                                    }
+                                                    else
+                                                    {
+                                                        if (sc.CurrentItem.IsChecked("Link to Self") ?? true)
+                                                        {
+                                                            <a href="/?sc_itemid={../}&amp;sc_lang=@lang&amp;sc_pd_view=1" style="@linkstyle">
+                                                                @Html.Sitecore().Field("Link Text")
+                                                            </a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a href="/?sc_itemid=@desinationId" style="@linkstyle">
+                                                                @Html.Sitecore().Field("Link Text")
+                                                            </a>
+                                                        }
+                                                    }
+}
+                                                @*<a href="#" style="text-decoration: none; color: #0971ce">@Html.Sitecore().Field("Link Text")</a>*@
+                                            </td>
+                                        </tr>
+                                        <!-- spacing -->
+                                        <tr>
+                                            <td width="100%" height="20"></td>
+                                        </tr>
+                                        <!-- spacing -->
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- start of navigation -->
+<table width="100%" bgcolor="#efefef" cellpadding="0" cellspacing="0" border="0" id="backgroundTable" st-sortable="navigation">
+    <tbody>
+        <tr>
+            <td>
+                <table width="600" cellpadding="0" cellspacing="0" border="0" align="center" class="devicewidth">
+                    <tbody>
+                        <tr>
+                            <td width="100%">
+                                <table width="600" bgcolor="#ffffff" cellpadding="0" cellspacing="0" border="0" align="center" class="devicewidth">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <!-- spacing -->
+                                                <table bgcolor="#ffffff" width="20" align="left" border="0" cellpadding="0" cellspacing="0" class="devicewidth">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td align="center" style="font-size:1px; line-height:1px;">&nbsp;</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <!-- end of spacing -->
+                                                <!-- logo -->
+                                                <table bgcolor="#ffffff" width="120" align="left" border="0" cellpadding="0" cellspacing="0" class="devicewidth">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td width="140" height="70" align="center">
+                                                                <div class="imgpop">
+                                                                    <a target="_blank" href="/">
+                                                                        <img src="@Sitecore.Resources.Media.MediaManager.GetMediaUrl(logo.MediaItem)" alt="" border="0" width="@logo.Width" height="@logo.Height" style="@logostyle">
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <!-- end of logo -->
+                                                <!-- start of menu -->
+                                                <table bgcolor="#ffffff" width="250" height="70" border="0" align="right" valign="middle" cellpadding="0" cellspacing="0" border="0" class="devicewidth">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td height="50" align="center" valign="middle" style="font-family: Helvetica, arial, sans-serif; font-size: 13px;color: #282828" st-content="menu">
+                                                                @Html.Sitecore().Field("Nav Link 1", new { @style = linkstyle })
+                                                                &nbsp;&nbsp;&nbsp;
+                                                                @Html.Sitecore().Field("Nav Link 2", new { @style = linkstyle })
+                                                                &nbsp;&nbsp;&nbsp;
+                                                                @Html.Sitecore().Field("Nav Link 3", new { @style = linkstyle })
+                                                                &nbsp;&nbsp;&nbsp;
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <!-- end of menu -->
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<!-- end of navigation -->

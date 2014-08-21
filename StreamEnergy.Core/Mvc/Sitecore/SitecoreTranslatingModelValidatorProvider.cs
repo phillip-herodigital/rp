@@ -74,7 +74,14 @@ namespace StreamEnergy.Mvc.Sitecore
 
             private string Translate(string original)
             {
-                return ControllerContext.HttpContext.Server.HtmlEncode((prefix + original).RenderFieldFrom(global::Sitecore.Context.Item, false));
+                try
+                {
+                    return ControllerContext.HttpContext.Server.HtmlEncode((prefix + original).RenderFieldFrom(global::Sitecore.Context.Item, false));
+                }
+                catch
+                {
+                    return original;
+                }
             }
         }
     }
