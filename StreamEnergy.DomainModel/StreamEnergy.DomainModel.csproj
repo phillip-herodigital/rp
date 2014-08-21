@@ -158,7 +158,9 @@
     <Compile Include="DomainModels\Enrollments\ConnectDate.cs" />
     <Compile Include="DomainModels\Enrollments\ConnectDateClassification.cs" />
     <Compile Include="DomainModels\Enrollments\ConnectDatePolicy.cs" />
+    <Compile Include="DomainModels\Enrollments\EnrollmentCustomerType.cs" />
     <Compile Include="DomainModels\Enrollments\DepositOfferPaymentAmount.cs" />
+    <Compile Include="DomainModels\Enrollments\EnrollmentType.cs" />
     <Compile Include="DomainModels\Enrollments\IdentityAnswer.cs" />
     <Compile Include="DomainModels\Enrollments\IdentityCheckHardStopState.cs" />
     <Compile Include="DomainModels\Enrollments\IdentityQuestion.cs" />
@@ -173,7 +175,11 @@
     <Compile Include="DomainModels\Enrollments\OnlineAccount.cs" />
     <Compile Include="DomainModels\Enrollments\RateType.cs" />
     <Compile Include="DomainModels\Enrollments\SampleOfferOption.cs" />
+    <Compile Include="DomainModels\Enrollments\SaveEnrollmentState.cs" />
+    <Compile Include="DomainModels\Enrollments\SavingEnrollmentState.cs" />
     <Compile Include="DomainModels\Enrollments\ServiceStatusCapability.cs" />
+    <Compile Include="DomainModels\Enrollments\Service\EnrollmentSaveEntry.cs" />
+    <Compile Include="DomainModels\Enrollments\Service\EnrollmentSaveResult.cs" />
     <Compile Include="DomainModels\Enrollments\Service\IdentityCheckHardStop.cs" />
     <Compile Include="DomainModels\Enrollments\Service\LocationOfferDetails.cs" />
     <Compile Include="DomainModels\Enrollments\TexasElectricityMoveInOfferOption.cs" />

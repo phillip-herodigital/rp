@@ -38,80 +38,12 @@ namespace StreamEnergy.MyStream.Tests
                 uc.RegisterInstance<IEnrollmentService>(mockEnrollmentService.Object);
                 uc.RegisterInstance<DomainModels.Accounts.IAccountService>(mockAccountService.Object);
             });
-            var enrollmentService = (IEnrollmentService)container.Resolve<StreamEnergy.Services.Clients.EnrollmentService>();
 
-            mockEnrollmentService.Setup(m => m.BeginIdentityCheck(It.IsAny<Guid>(), It.IsAny<Name>(), It.IsAny<string>(), It.IsAny<Address>(), It.IsAny<AdditionalIdentityInformation>())).Returns(Task.FromResult(new DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>
-            {
-                IsCompleted = false,
-            }));
-            mockEnrollmentService.Setup(m => m.BeginIdentityCheck(It.IsAny<Guid>(), It.IsAny<Name>(), It.IsAny<string>(), It.IsAny<Address>(), null)).Returns(Task.FromResult(new DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>
-            {
-                IsCompleted = true,
-                Data = new DomainModels.Enrollments.Service.IdentityCheckResult
-                {
-                    IdentityAccepted = false,
-                    HardStop = null,
-                    IdentityCheckId = "01234",
-                    IdentityQuestions = new[] 
-                    {
-                        new IdentityQuestion
-                        {
-                            QuestionId = "1",
-                            QuestionText = "What is your name?",
-                            Answers = new[] { 
-                                new IdentityAnswer { AnswerId = "1", AnswerText = "King Arthur" },
-                                new IdentityAnswer { AnswerId = "2", AnswerText = "Sir Lancelot" },
-                                new IdentityAnswer { AnswerId = "3", AnswerText = "Sir Robin" },
-                                new IdentityAnswer { AnswerId = "4", AnswerText = "Sir Galahad" },
-                            }
-                        },
-                        new IdentityQuestion
-                        {
-                            QuestionId = "2",
-                            QuestionText = "What is your quest?",
-                            Answers = new[] { 
-                                new IdentityAnswer { AnswerId = "1", AnswerText = "To seek the Holy Grail." },
-                            }
-                        },
-                        new IdentityQuestion
-                        {
-                            QuestionId = "3",
-                            QuestionText = "What is your favorite color?",
-                            Answers = new[] { 
-                                new IdentityAnswer { AnswerId = "1", AnswerText = "Blue." },
-                                new IdentityAnswer { AnswerId = "2", AnswerText = "Green." },
-                                new IdentityAnswer { AnswerId = "3", AnswerText = "Yellow." },
-                                new IdentityAnswer { AnswerId = "4", AnswerText = "Red." },
-                            }
-                        },
-                    }
-                }
-            }));
-            mockEnrollmentService.Setup(m => m.EndIdentityCheck(It.IsAny<DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>>())).Returns(Task.FromResult(new DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>
-            {
-                IsCompleted = true,
-                Data = new DomainModels.Enrollments.Service.IdentityCheckResult
-                {
-                    IdentityCheckId = "01235",
-                    IdentityAccepted = true,
-                    HardStop = null,
-                    IdentityQuestions = new IdentityQuestion[0],
-                }
-            }));
-            mockEnrollmentService.Setup(m => m.LoadOfferPayments(It.IsAny<IEnumerable<LocationServices>>())).Returns<IEnumerable<LocationServices>>(loc => enrollmentService.LoadOfferPayments(loc));
-            mockEnrollmentService.Setup(m => m.PlaceOrder(It.IsAny<IEnumerable<LocationServices>>())).Returns<IEnumerable<LocationServices>>(loc => enrollmentService.PlaceOrder(loc));
-
-            mockEnrollmentService.Setup(s => s.LoadOffers(It.IsAny<IEnumerable<Location>>()))
-                .Returns<IEnumerable<Location>>(locations => Task.FromResult(locations.ToDictionary(location => location, location =>
-            {
-                return new LocationOfferSet { Offers = offers.ToArray() };
-            })));
-            mockEnrollmentService.Setup(m => m.LoadConnectDates(It.IsAny<Location>())).Returns(Task.FromResult<IConnectDatePolicy>(new ConnectDatePolicy() { AvailableConnectDates = new ConnectDate[] { } }));
 
             generalLocation = new Location
             {
                 Address = new DomainModels.Address { PostalCode5 = "75010" },
-                Capabilities = new IServiceCapability[] { new DomainModels.TexasServiceCapability { Tdu = "Centerpoint" }, new DomainModels.Enrollments.ServiceStatusCapability { IsNewService = true } }
+                Capabilities = new IServiceCapability[] { new DomainModels.TexasServiceCapability { Tdu = "Centerpoint" }, new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = EnrollmentType.MoveIn } }
             };
             offers = new IOffer[] 
             { 
@@ -173,7 +105,7 @@ namespace StreamEnergy.MyStream.Tests
             specificLocation = new Location
             {
                 Address = new DomainModels.Address { Line1 = "3620 Huffines Blvd", UnitNumber = "226", City = "Carrollton", StateAbbreviation = "TX", PostalCode5 = "75010" },
-                Capabilities = new IServiceCapability[] { new DomainModels.TexasServiceCapability { Tdu = "Centerpoint", EsiId = "1234SAMPLE5678" }, new DomainModels.Enrollments.ServiceStatusCapability { IsNewService = true } }
+                Capabilities = new IServiceCapability[] { new DomainModels.TexasServiceCapability { Tdu = "Centerpoint", EsiId = "1234SAMPLE5678" }, new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = EnrollmentType.MoveIn } }
             };
             contactInfo = new DomainModels.CustomerContact
             {
@@ -182,6 +114,99 @@ namespace StreamEnergy.MyStream.Tests
                 Phone = new[] { new DomainModels.TypedPhone { Number = "214-223-4567", Category = StreamEnergy.DomainModels.PhoneCategory.Home } },
             };
             offerOption = new TexasElectricityMoveInOfferOption { ConnectDate = new DateTime(2014, 5, 1) };
+
+            var enrollmentService = (IEnrollmentService)container.Resolve<StreamEnergy.Services.Clients.EnrollmentService>();
+
+            mockEnrollmentService.Setup(m => m.BeginSaveEnrollment(It.IsAny<Guid>(), It.IsAny<UserContext>())).Returns(Task.FromResult(new StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>()
+                {
+                    IsCompleted = false
+                }));
+
+            mockEnrollmentService.Setup(m => m.EndSaveEnrollment(It.IsAny<StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>>())).Returns(Task.FromResult(new StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>()
+            {
+                IsCompleted = true
+            }));
+
+            mockEnrollmentService.Setup(m => m.BeginIdentityCheck(It.IsAny<Guid>(), It.IsAny<Name>(), It.IsAny<string>(), It.IsAny<Address>(), It.IsAny<AdditionalIdentityInformation>())).Returns(Task.FromResult(new DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>
+            {
+                IsCompleted = false,
+            }));
+            mockEnrollmentService.Setup(m => m.BeginIdentityCheck(It.IsAny<Guid>(), It.IsAny<Name>(), It.IsAny<string>(), It.IsAny<Address>(), null)).Returns(Task.FromResult(new DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>
+            {
+                IsCompleted = true,
+                Data = new DomainModels.Enrollments.Service.IdentityCheckResult
+                {
+                    IdentityAccepted = false,
+                    HardStop = null,
+                    IdentityCheckId = "01234",
+                    IdentityQuestions = new[] 
+                    {
+                        new IdentityQuestion
+                        {
+                            QuestionId = "1",
+                            QuestionText = "What is your name?",
+                            Answers = new[] { 
+                                new IdentityAnswer { AnswerId = "1", AnswerText = "King Arthur" },
+                                new IdentityAnswer { AnswerId = "2", AnswerText = "Sir Lancelot" },
+                                new IdentityAnswer { AnswerId = "3", AnswerText = "Sir Robin" },
+                                new IdentityAnswer { AnswerId = "4", AnswerText = "Sir Galahad" },
+                            }
+                        },
+                        new IdentityQuestion
+                        {
+                            QuestionId = "2",
+                            QuestionText = "What is your quest?",
+                            Answers = new[] { 
+                                new IdentityAnswer { AnswerId = "1", AnswerText = "To seek the Holy Grail." },
+                            }
+                        },
+                        new IdentityQuestion
+                        {
+                            QuestionId = "3",
+                            QuestionText = "What is your favorite color?",
+                            Answers = new[] { 
+                                new IdentityAnswer { AnswerId = "1", AnswerText = "Blue." },
+                                new IdentityAnswer { AnswerId = "2", AnswerText = "Green." },
+                                new IdentityAnswer { AnswerId = "3", AnswerText = "Yellow." },
+                                new IdentityAnswer { AnswerId = "4", AnswerText = "Red." },
+                            }
+                        },
+                    }
+                }
+            }));
+            mockEnrollmentService.Setup(m => m.EndIdentityCheck(It.IsAny<DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>>())).Returns(Task.FromResult(new DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>
+            {
+                IsCompleted = true,
+                Data = new DomainModels.Enrollments.Service.IdentityCheckResult
+                {
+                    IdentityCheckId = "01235",
+                    IdentityAccepted = true,
+                    HardStop = null,
+                    IdentityQuestions = new IdentityQuestion[0],
+                }
+            }));
+            mockEnrollmentService.Setup(m => m.LoadOfferPayments(It.IsAny<IEnumerable<LocationServices>>())).Returns<IEnumerable<LocationServices>>(loc => enrollmentService.LoadOfferPayments(loc));
+            mockEnrollmentService.Setup(m => m.PlaceOrder(It.IsAny<Guid>(), It.IsAny<IEnumerable<LocationServices>>(), It.IsAny<DomainModels.Enrollments.Service.EnrollmentSaveResult>()))
+                .Returns(Task.FromResult<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>>(new[] 
+                {
+                    new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>
+                    {
+                        Offer = offers.First(),
+                        Location = specificLocation,
+                        Details = new DomainModels.Enrollments.Service.PlaceOrderResult
+                        {
+                            ConfirmationNumber = "87654321"
+                        }
+                    }
+                }));
+
+            mockEnrollmentService.Setup(s => s.LoadOffers(It.IsAny<IEnumerable<Location>>()))
+                .Returns<IEnumerable<Location>>(locations => Task.FromResult(locations.ToDictionary(location => location, location =>
+            {
+                return new LocationOfferSet { Offers = offers.ToArray() };
+            })));
+            mockEnrollmentService.Setup(m => m.LoadConnectDates(It.IsAny<Location>())).Returns(Task.FromResult<IConnectDatePolicy>(new ConnectDatePolicy() { AvailableConnectDates = new ConnectDate[] { } }));
+
         }
 
         [TestMethod]
@@ -435,6 +460,7 @@ namespace StreamEnergy.MyStream.Tests
             {
                 AllOffers = new Dictionary<Location, LocationOfferSet> { { specificLocation, new LocationOfferSet { Offers = offers } } },
                 IdentityCheck = new StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult> { IsCompleted = true, Data = identityCheckResult },
+                EnrollmentSaveState = new StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult> { IsCompleted = true },
             };
             session.State = typeof(DomainModels.Enrollments.VerifyIdentityState);
             var request = new Models.Enrollment.VerifyIdentity
@@ -490,6 +516,7 @@ namespace StreamEnergy.MyStream.Tests
             {
                 AllOffers = new Dictionary<Location, LocationOfferSet> { { specificLocation, new LocationOfferSet { Offers = offers } } },
                 IdentityCheck = new StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult> { IsCompleted = false },
+                EnrollmentSaveState = new StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult> { IsCompleted = true },
             };
             session.State = typeof(DomainModels.Enrollments.VerifyIdentityState);
 
@@ -542,6 +569,7 @@ namespace StreamEnergy.MyStream.Tests
             {
                 AllOffers = new Dictionary<Location, LocationOfferSet> { { specificLocation, new LocationOfferSet { Offers = offers } } },
                 IdentityCheck = new StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult> { IsCompleted = true, Data = identityCheckResult },
+                EnrollmentSaveState = new StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult> { IsCompleted = true },
             };
             session.State = typeof(DomainModels.Enrollments.VerifyIdentityState);
             var request = new Models.Enrollment.VerifyIdentity
@@ -597,6 +625,7 @@ namespace StreamEnergy.MyStream.Tests
             {
                 AllOffers = new Dictionary<Location, LocationOfferSet> { { specificLocation, new LocationOfferSet { Offers = offers } } },
                 IdentityCheck = new StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult> { IsCompleted = false },
+                EnrollmentSaveState = new StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult> { IsCompleted = true },
             };
             session.State = typeof(DomainModels.Enrollments.VerifyIdentityState);
 
@@ -648,6 +677,14 @@ namespace StreamEnergy.MyStream.Tests
             {
                 AllOffers = new Dictionary<Location, LocationOfferSet> { { specificLocation, new LocationOfferSet { Offers = offers } } },
                 IdentityCheck = new StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult> { IsCompleted = true, Data = identityCheckResult },
+                EnrollmentSaveState = new StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult> 
+                { 
+                    IsCompleted = true, 
+                    Data = new DomainModels.Enrollments.Service.EnrollmentSaveResult 
+                    { 
+                        Results = new DomainModels.Enrollments.Service.EnrollmentSaveEntry[0] 
+                    } 
+                },
             };
             session.State = typeof(DomainModels.Enrollments.CompleteOrderState);
             var request = new Models.Enrollment.ConfirmOrder
@@ -822,6 +859,14 @@ namespace StreamEnergy.MyStream.Tests
             {
                 AllOffers = new Dictionary<Location, LocationOfferSet> { { specificLocation, new LocationOfferSet { Offers = offers } } },
                 IdentityCheck = new StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult> { IsCompleted = true, Data = identityCheckResult },
+                EnrollmentSaveState = new StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>
+                {
+                    IsCompleted = true,
+                    Data = new DomainModels.Enrollments.Service.EnrollmentSaveResult
+                    {
+                        Results = new DomainModels.Enrollments.Service.EnrollmentSaveEntry[0]
+                    }
+                },
                 Deposit = new[] 
                 { 
                     new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>

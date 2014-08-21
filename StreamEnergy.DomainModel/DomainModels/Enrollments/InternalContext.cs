@@ -16,6 +16,8 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public StreamAsync<Service.IdentityCheckResult> IdentityCheck { get; set; }
 
+        public StreamAsync<Service.EnrollmentSaveResult> EnrollmentSaveState { get; set; }
+
         public IEnumerable<Service.LocationOfferDetails<IOfferOptionRules>> OfferOptionRules { get; set; }
 
         public IEnumerable<Service.LocationOfferDetails<OfferPayment>> Deposit { get; set; }

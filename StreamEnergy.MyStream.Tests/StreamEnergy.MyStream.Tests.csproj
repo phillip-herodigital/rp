@@ -91,6 +91,9 @@
     <Reference Include="Sitecore.Analytics.RobotDetection">
       <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.RobotDetection.dll</HintPath>
     </Reference>
+    <Reference Include="Sitecore.EmailCampaign.Presentation.UI">
+      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Presentation.UI.dll</HintPath>
+    </Reference>
     <Reference Include="StackExchange.Redis, Version=1.0.297.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\StackExchange.Redis.1.0.297\lib\net45\StackExchange.Redis.dll</HintPath>

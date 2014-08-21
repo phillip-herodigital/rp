@@ -11,21 +11,30 @@ namespace StreamEnergy.DomainModels.Enrollments
     {
         Task<Dictionary<Location, LocationOfferSet>> LoadOffers(IEnumerable<Location> serviceLocations);
 
+        Task<bool> VerifyPremise(Location location);
+
         Task<IConnectDatePolicy> LoadConnectDates(Location location);
 
         Task<bool> IsBlockedSocialSecurityNumber(string ssn);
+
+        Task<StreamAsync<EnrollmentSaveResult>> BeginSaveEnrollment(Guid streamCustomerId, UserContext context);
+
+        Task<StreamAsync<EnrollmentSaveResult>> EndSaveEnrollment(StreamAsync<EnrollmentSaveResult> streamAsync);
+
+        Task UpdateEnrollment(Guid guid, StreamAsync<EnrollmentSaveResult> streamAsync, UserContext context);
 
         Task<StreamAsync<IdentityCheckResult>> BeginIdentityCheck(Guid streamCustomerId, Name name, string ssn, Address mailingAddress, AdditionalIdentityInformation identityInformation = null);
 
         Task<StreamAsync<IdentityCheckResult>> EndIdentityCheck(StreamAsync<IdentityCheckResult> asyncResult);
 
         // TODO - will need more inputs
-        IEnumerable<LocationOfferDetails<OfferPayment>> LoadOfferPayments(IEnumerable<LocationServices> services);
+        Task<IEnumerable<LocationOfferDetails<OfferPayment>>> LoadOfferPayments(IEnumerable<LocationServices> services);
 
         // TODO - how do we pay deposits?
 
         // TODO - needs customer info, too
-        IEnumerable<LocationOfferDetails<PlaceOrderResult>> PlaceOrder(IEnumerable<LocationServices> services);
+        Task<IEnumerable<LocationOfferDetails<PlaceOrderResult>>> PlaceOrder(Guid streamCustomerId, IEnumerable<LocationServices> services, EnrollmentSaveResult originalSaveState);
+
 
     }
 }

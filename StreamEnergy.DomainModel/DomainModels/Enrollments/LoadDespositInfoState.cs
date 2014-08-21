@@ -69,11 +69,10 @@ namespace StreamEnergy.DomainModels.Enrollments
             return base.RestoreInternalState(stateMachine, state);
         }
 
-        protected override Task LoadInternalState(UserContext context, InternalContext internalContext)
+        protected override async Task LoadInternalState(UserContext context, InternalContext internalContext)
         {
             var result = enrollmentService.LoadOfferPayments(context.Services);
-            internalContext.Deposit = result.ToArray();
-            return Task.FromResult<object>(null);
+            internalContext.Deposit = (await result).ToArray();
         }
     }
 }

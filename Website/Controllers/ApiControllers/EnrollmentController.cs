@@ -47,12 +47,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.redisDatabase = redisDatabase;
         }
 
-        protected override void Initialize(System.Web.Http.Controllers.HttpControllerContext controllerContext)
-        {
-            Initialize().Wait();
-            base.Initialize(controllerContext);
-        }
-
         public async Task Initialize()
         {
             await stateHelper.EnsureInitialized().ConfigureAwait(false);
@@ -65,7 +59,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             base.Dispose(disposing);
         }
 
-        [HttpPost]
+        [HttpGet]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public void Reset()
         {
@@ -76,8 +70,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public async Task<HttpResponseMessage> DemoSetupRenewal()
         {
+            await Initialize();
             stateHelper.Reset();
             await stateHelper.EnsureInitialized();
+            stateHelper.State = typeof(ServiceInformationState);
             stateHelper.Context.IsRenewal = true;
             stateHelper.Context.Services = new LocationServices[]
             {
@@ -86,7 +82,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     Location = new Location 
                     { 
                         Address = new Address { Line1 = "3620 Huffines Blvd", City = "Carrollton", StateAbbreviation = "TX", PostalCode5 = "75010" },
-                        Capabilities = new IServiceCapability[] { new TexasServiceCapability { EsiId = "123FAKE456", Tdu = "ONCOR" }, new ServiceStatusCapability { IsNewService = false } }
+                        Capabilities = new IServiceCapability[] { new TexasServiceCapability { EsiId = "123FAKE456", Tdu = "ONCOR" }, new ServiceStatusCapability { EnrollmentType = EnrollmentType.Renewal } }
                     },
                     SelectedOffers = new SelectedOffer[] { }
                 }
@@ -118,7 +114,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                                                    group val by val.ErrorMessage + ";" + string.Join(",", val.MemberNames) into val
                                                                    select val.First(), translationItem);
 
-            bool isLoading = stateMachine.InternalContext.IdentityCheck != null && !stateMachine.InternalContext.IdentityCheck.IsCompleted;
+            bool isLoading = (stateMachine.InternalContext.IdentityCheck != null && !stateMachine.InternalContext.IdentityCheck.IsCompleted)
+                || (stateMachine.InternalContext.EnrollmentSaveState != null && !stateMachine.InternalContext.EnrollmentSaveState.IsCompleted);
 
             return new ClientData
             {
@@ -227,6 +224,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public async Task<ClientData> ServiceInformation([FromBody]ServiceInformation value)
         {
+            await Initialize();
             stateMachine.Context.AgreeToTerms = false;
             stateMachine.Context.Services = (from location in value.Locations
                                              join service in (stateMachine.Context.Services ?? Enumerable.Empty<LocationServices>()) on location equals service.Location into services
@@ -249,6 +247,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public async Task<ClientData> SelectedOffers([FromBody]SelectedOffers value)
         {
+            await Initialize();
             stateMachine.Context.AgreeToTerms = false;
             stateMachine.Context.Services = (from newSelection in value.Selection
                                              join oldService in (stateMachine.Context.Services ?? Enumerable.Empty<LocationServices>()) on newSelection.Location equals oldService.Location into oldServices
@@ -294,6 +293,13 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public async Task<ClientData> AccountInformation([FromBody]AccountInformation request)
         {
+            await Initialize();
+            if (stateHelper.InternalContext.EnrollmentSaveState != null && stateHelper.InternalContext.EnrollmentSaveState.IsCompleted)
+            {
+                stateHelper.State = typeof(AccountInformationState);
+                await Initialize();
+            }
+
             MapCartToServices(request);
 
             stateMachine.Context.AgreeToTerms = false;
@@ -361,6 +367,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public async Task<ClientData> Resume()
         {
+            await Initialize();
             await stateMachine.Process(typeof(DomainModels.Enrollments.CompleteOrderState));
 
             return ClientData(typeof(DomainModels.Enrollments.PaymentInfoState));
@@ -370,6 +377,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public async Task<ClientData> VerifyIdentity([FromBody]VerifyIdentity request)
         {
+            await Initialize();
+            
             stateMachine.Context.AgreeToTerms = false;
             stateMachine.Context.SelectedIdentityAnswers = request.SelectedIdentityAnswers;
 
@@ -385,6 +394,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public async Task<ClientData> ConfirmOrder([FromBody]ConfirmOrder request)
         {
+            await Initialize();
+            
             stateMachine.Context.PaymentInfo = request.PaymentInfo;
             stateMachine.Context.AgreeToTerms = request.AgreeToTerms;
 
