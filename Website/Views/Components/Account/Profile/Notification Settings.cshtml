@@ -19,6 +19,51 @@
                 <hr class="content-divider" />
             </div>
             <div class="edit-preferences">
+                <div class="additional-fields">
+                    <div class="preference">
+                        <div class="preference-type">
+                            @Html.Sitecore().Field("Select Notifications Text")
+                            <span class="preference-label">
+                                <i class="icon-notification-email"></i> @Html.Sitecore().Field("Email Text")
+                            </span>
+                        </div>
+                        
+                    </div>
+                    <hr class="content-divider" />
+                    <div class="additional-fields">
+                        <div class="item">
+                            <ul class="checkbox-list notification-list">
+                                <li>
+                                    <label for="@Html.IdFor(m => m.NewDocumentArrives.Email)">@Html.Sitecore().Field("New Document Arrives Text")</label>
+                                    @Html.CheckBoxFor(m => m.NewDocumentArrives.Email, new { ng_model = "formData.newDocumentArrives.email" })
+                                </li>
+                                <li>
+                                    <label for="@Html.IdFor(m => m.OnlinePaymentsMade.Email)">@Html.Sitecore().Field("Online Payments Text")</label>
+                                    @Html.CheckBoxFor(m => m.OnlinePaymentsMade.Email, new { ng_model = "formData.onlinePaymentsMade.email" })
+                                </li>
+                                <li>
+                                    <label for="@Html.IdFor(m => m.RecurringPaymentsMade.Email)">@Html.Sitecore().Field("Recurring Payments Text")</label>
+                                    @Html.CheckBoxFor(m => m.RecurringPaymentsMade.Email, new { ng_model = "formData.recurringPaymentsMade.email" })
+                                </li>
+                                <li>
+                                    <label for="@Html.IdFor(m => m.RecurringProfileExpires.Email)">@Html.Sitecore().Field("Recurring Profile Text")</label>
+                                    @Html.CheckBoxFor(m => m.RecurringProfileExpires.Email, new { ng_model = "formData.recurringProfileExpires.email" })
+                                </li>
+                            </ul>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            @*
+            <div ng-show="preferenceSuccessMessage">
+                <div class="notice success" ng-show="preferenceSuccessMessage">
+                    @Html.Sitecore().Field("Save Preference Success Message Text")
+                </div>
+                <hr class="content-divider" />
+            </div>
+            <div class="edit-preferences">
                 <div class="additional-fields" additional-fields>
                     <div class="preference">
                         <span class="preference-type">
@@ -173,6 +218,8 @@
                     </div>
                 </div>
             </div>
+            *@
+
             <hr class="content-divider" />
             <div class="edit-preferences">
                 <div class="item">
