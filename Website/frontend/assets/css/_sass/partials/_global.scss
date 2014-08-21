@@ -56,6 +56,7 @@ ul, ol {
 		display: table;
 		content: "";
 		line-height: 0;
+		border-spacing: 0;
 	}
 	&:after {
 		clear: both;
@@ -193,7 +194,7 @@ ul, ol {
         // http://stackoverflow.com/questions/15430675/jquery-slidetoggle-and-css-border-radius-propery-show-wired-in-ie10
         display: inline-block;
         width: 100%;
-		p.question {
+		.question {
 			margin: 0;
 			a {
 				@include retina-background("collapse-filled.png", "icon");
@@ -201,7 +202,7 @@ ul, ol {
 				background-repeat: no-repeat;				
 				color: #696969;
 				display: block;
-				padding: 15px 0 15px 30px;
+				padding: 12px 0 12px 30px;
 				font-weight: 600;
 			}
 			a.collapsed {
@@ -241,4 +242,43 @@ ul, ol {
 		border: 1px solid #f3f3f3;
 		margin: 10px 0;
 	}
+}
+
+#state-select {
+    button {
+        border-color: #cfcfcf;
+        text-transform: uppercase;
+        @include box-shadow(none);
+    }
+    .icon {
+        background-position: 10px center;
+        background-repeat: no-repeat;
+        padding-left: 40px;
+    }
+    .texas {
+        @include retina-background('texas-icon.png');
+        
+    }
+    .georgia {
+        @include retina-background('georgia-icon.png');
+    }
+    .pennsylvania {
+        @include retina-background('pennsylvania-icon.png');
+    }
+    .maryland {
+        @include retina-background('maryland-icon.png');
+    }
+    .new-jersey {
+        @include retina-background('newjersey-icon.png');
+    }
+    .new-york {
+        @include retina-background('newyork-icon.png');
+    }
+    .washington-dc {
+        @include retina-background('dc-icon.png');
+    }
+    .dropdown-menu {
+        li {
+        }
+    }
 }

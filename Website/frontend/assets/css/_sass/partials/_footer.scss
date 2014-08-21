@@ -23,15 +23,10 @@
 	}
 	.gridPromos {
 		.grid {
-			border-collapse: collapse;
-			border-spacing: 0;
-			width: 100%;
-			margin: 0 -25px 30px;
-			@include experimental-value(width, calc(100% + 50px));
+			margin-bottom: 30px;
 		}
 		.col {
-			padding: 0 25px;
-			border-right: 1px solid $light-border-color;
+			border-color: $light-border-color;
 			h4 {
 				color: #94969a;
 				font-weight: 600;
@@ -47,6 +42,9 @@
 		}
 		.wrapper {
 			overflow: hidden;
+		}
+		hr {
+			border-color: $light-border-color;
 		}
 	}
 

@@ -769,45 +769,6 @@
     Generic styling for enrollment pages
  */
 .enrollment {
-    #state-select {
-        button {
-            border-color: #cfcfcf;
-            text-transform: uppercase;
-            @include box-shadow(none);
-        }
-        .icon {
-            background-position: 10px center;
-            background-repeat: no-repeat;
-            padding-left: 40px;
-        }
-        .texas {
-            @include retina-background('texas-icon.png');
-            
-        }
-        .georgia {
-            @include retina-background('georgia-icon.png');
-        }
-        .pennsylvania {
-            @include retina-background('pennsylvania-icon.png');
-        }
-        .maryland {
-            @include retina-background('maryland-icon.png');
-        }
-        .new-jersey {
-            @include retina-background('newjersey-icon.png');
-        }
-        .new-york {
-            @include retina-background('newyork-icon.png');
-        }
-        .washington-dc {
-            @include retina-background('dc-icon.png');
-        }
-        .dropdown-menu {
-            li {
-            }
-        }
-    }
-
     .checkbox-list {
         li { 
             margin-bottom : 4px;

@@ -1,16 +1,60 @@
+$home-wrapper-padding: 50px 0;
+
+.home-page {
+	.banner.marketing {
+		.wrapper {
+			padding-top: 60px;
+			padding-bottom: 60px;
+		}
+		h1 { 
+			font-style: normal;
+		}
+		@include breakpoint(small) {
+			display: none;
+		}
+	}
+}
+
 /* These seem to be styles global to homepage, but
    possibly not any other pages */
+.banner.marketing {
+	background-position: right center;
+	background-size: cover;
+	margin-bottom: 0;
+	.button {
+		margin-top: 40px;
+	}
+	h1 {
+		font-size: 52px;
+		font-style: italic;
+		font-weight: 300;
+	}
+	@include breakpoint(medium) {
+		h1 {
+			font-size: 50px;
+		}
+	}
+	@include breakpoint(small) {
+		h1 {
+			font-size: 30px;
+		}
+		br {
+			display: none;
+		}
+	}
+}
+
 article.marketing {
 	margin-bottom: 0;
 	.wrapper {
-		padding: 40px 0;
+		padding: $home-wrapper-padding;
 	}
 	p {
 		margin-bottom: 0;
 	}
 	h2 {
-		color: #10425a;
-		font-size: 36px;
+		color: #4f4c4d;
+		font-size: 32px;
 	}
 	@include breakpoint(small) {
 		.wrapper {
@@ -35,10 +79,6 @@ article.quote {
 	}
 	.quote-wrapper {
 		padding-right: 50px;
-	}
-	.wrapper {
-		padding: 40px 0;
-
 	}
 	h2 {
 		font-style: italic;
@@ -73,6 +113,9 @@ article.section-divider {
 			@include opacity(1);
 		}
 	}
+	.wrapper {
+		padding: 0;
+	}
 	i {
 		margin-top: -2px;
 		margin-right: 3px;
@@ -85,10 +128,10 @@ article.text-callout {
 		padding: 50px 3%;
 	}
 	h1 {
-		font-size: 48px;
+		font-size: 44px;
 		color: #4f4c4d;
 		margin-top: 0;
-		margin-bottom: 1em;
+		margin-bottom: 0;
 		span {
 			color: $brand-primary-color;
 			text-transform: uppercase;
@@ -97,6 +140,9 @@ article.text-callout {
 	p {
 		font-size: 20px;
 		margin-bottom: 0;
+	}
+	h1 + p {
+		margin-top: 32px;
 	}
 	@include breakpoint(small) {
 		h1 {
@@ -107,7 +153,7 @@ article.text-callout {
 
 article.vertical-cta {
 	.col {
-		padding-top: 215px;
+		padding-top: 200px;
 		padding-right: 80px;
 	}
 	.col-first {
@@ -133,7 +179,9 @@ article.vertical-cta {
 	img {
 		max-width: none;
 	}
-
+	h2 {
+		margin-top: 0;
+	}
 	p {
 		margin-bottom: 30px;
 	}
@@ -152,6 +200,9 @@ article.vertical-cta {
 			right: 0;
 			top: auto;
 		}
+		.col-last {
+			margin-top: 50px;
+		}
 		.image-wrapper {
 		}
 		h2 {
@@ -160,36 +211,158 @@ article.vertical-cta {
 	}
 }
 
-article.horizontal-cta {
+article.horizontal-photo-cta {
 	border-top: 1px solid #fcfcfc;
-	@include background-image(linear-gradient(left top, #f9f9f9, #fff));
+	@include background-image(linear-gradient(left top, #f6f6f6, #fff));
 	@include box-shadow(0 3px 6px rgba(0, 0, 0, .1));
-	.wrapper {
-		padding: 40px 0;
+	.layout {
+		display: table;
+		border-spacing: 0;
 	}
 	.cta-content {
-		float: left;
 		padding-left: 50px;
-		width: 50%;
 	}
-	.photo {
-		float: left;
+	.aside, .cta-content {
 		width: 50%;
+		display: table-cell;
+		vertical-align: middle;
+	}
+	&.horizontal-cta-alt {
+		.cta-content {
+			padding-left: 0;
+			padding-right: 50px;
+		}
 	}
 	@include breakpoint(small) {
-		.cta-content, .photo {
-			float: none;
-			width: 100%;
+		.cta-content {
+			display: table-footer-group;
+		}
+		.aside {
+			display: table-header-group;
+		}
+		.cta-content, .aside {
 			padding: 0;
+		}
+	}
+	@include breakpoint(medium-large) {
+		h2 {
+			margin-top: 0;
+		}
+	}
+}
+
+
+// Inherits from horizontal-photo-cta
+article.horizontal-button-cta {
+	.cta-content {
+		padding-right: 50px;
+		width: 70%;
+	}
+	.aside {
+		width: 30%;
+	}
+	@include breakpoint(small) {
+		.cta-content {
+			display: table-header-group;
+		}
+		.aside {
+			display: table-footer-group;
+		}
+		h2 {
+			margin-top: 0;
+		}
+		.button {
+			margin-top: 35px;
 		}
 	}
 }
 
 
 
+article.horizontal-form-layout {
+	background: #e5e5e5;
+	.form-layout {
+		display: table;
+		width: 100%;
+		& > * {
+			display: table-cell;
+			white-space: nowrap;
+			vertical-align: middle;
+			padding-right: 15px;
+		}
+		h3 {
+			font-size: 20px;
+			margin: 0;
+			color: $text-primary-color;
+			padding-right: 40px;
+			font-weight: 400;
+		}
+	}
+	.input-group .input-group-btn {
+		padding-left: 20px;
+	}
+	.wrapper {
+		padding: 35px 0;
+	}
+	@include breakpoint(small) {
+		.input-group-btn {
+			text-align: center;
+			margin-top: 15px;
+		}
+	}
+}
+
+article.choose-state {
+	background: #fff;
+	@include box-shadow(0 4px 6px rgba(0, 0, 0, 0.05));
+	.links {
+		a {
+			display: block;
+			line-height: $line-height;
+		}
+	}
+	button {
+		padding-left: 25px;
+		padding-right: 25px;
+	}
+	@include breakpoint(medium) {
+		.wrapper {
+			label {
+				display: none;
+			}
+		}
+	}
+	@include breakpoint(small) {
+		.input-group {
+			margin-bottom: 10px;
+		}
+		.links {
+			a {
+				display: inline;
+			}
+		}
+		.wrapper {
+			display: block;
+			h3 {
+				margin-bottom: 1em;
+			}
+			.form-layout {
+				display: block;
+				& > * {
+					display: block;
+					line-height: inherit;
+				}
+			}
+		}
+		label { 
+			margin-bottom: 8px;
+		}
+	}
+}
+
+
 /* Home Page-Specific Modules */
 article.home-page-services {
-	margin-top: -30px;
 	@include background-image(linear-gradient(left top, #fff, #f1f1f1));
 	@include box-shadow(0 2px 5px rgba(0, 0, 0, .2));
 	.i-wrapper {
@@ -235,6 +408,9 @@ article.home-page-services {
 		&:first-child {
 			border-left: 1px solid $light-border-color;
 		}
+	}
+	.wrapper {
+		padding: 0;
 	}
 	h4 {
 		color: #4f4c4d;
@@ -314,9 +490,6 @@ article.home-page-switch-mobile {
 			text-transform: uppercase;
 		}
 	}
-	.wrapper {
-		padding: 50px 0;
-	}
 	h1 {
 		font-size: 48px;
 		color: $text-primary-color;
@@ -364,14 +537,17 @@ article.home-page-switch-mobile {
 article.nationwide-coverage {
 	background: #eeeeee;
 	.wrapper {
-		padding: 40px 400px 40px 0;
+		padding: 60px 50% 60px 0;
 		@include retina-background("home-nationwide-coverage.jpg");
 		background-position: 90% center;
 		background-repeat: no-repeat;
 	}
+	h2 {
+		margin-top: 0;
+	}
 	@include breakpoint(small) {
 		.wrapper {
-			padding: 65% 0 40px 0;
+			padding-top: 65%;
 			background-position: center 20px;
 			background-size: contain;
 		}
@@ -416,7 +592,6 @@ article.homelife-services-promo {
 	@include background-image(linear-gradient(left top, #f9f9f9, #fff));
 	border-top: 1px solid #fcfcfc;
 	.wrapper {
-		padding: 40px 0;
 		text-align: center;
 	}
 	.col-wrapper {
@@ -437,6 +612,10 @@ article.homelife-services-promo {
 				margin-bottom: 0;
 			}
 		}
+		.col-wrapper {
+			max-width: none;
+			display: block;
+		}
 	}
 }
 
@@ -453,10 +632,19 @@ article.home-questions {
 	.faq {
 		padding-right: 30px;
 	}
-	h2 {
-		font-size: 32px;
+	.grid .col {
+		border-color: $light-border-color;
+	}
+	.wrapper {
+		padding-bottom: 0;
 	}
 	@include breakpoint(small) {
+		.two-third {
+			margin-bottom: 50px;
+			h2 {
+				margin-top: 0;
+			}
+		}
 		.faq {
 			padding-right: 0;
 		}

@@ -25,24 +25,6 @@ $themes:
 	}
 }
 
-.banner.marketing {
-	min-height: 400px;
-	background-position: right center;
-	background-size: cover;
-	h1 {
-		font-size: 60px;
-		margin-bottom: 40px;
-	}
-	@include breakpoint(medium) {
-		min-height: 350px;
-		h1 {
-			font-size: 50px;
-		}
-	}
-	@include breakpoint(small) {
-		display: none;
-	}
-}
 
 article.marketing {
 	@extend article.plain;
@@ -399,7 +381,7 @@ article.gridPromos {
 			font-size: 14px;
 		}
 		h4 {
-			font-weight: 100;
+			font-weight: 400;
 			strong {
 				font-weight: 500;
 				display: block;

@@ -4,7 +4,7 @@
 <!--[if gt IE 8]><!--> <html ng-app="ngApp" class="no-js"> <!--<![endif]-->
 <head>
 	<meta charset="utf-8" />
-	<title>Marketing Home Page</title>
+	<title>Marketing Sub Page</title>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -105,9 +105,9 @@
     <script src="assets/js/controllers/payments/paymentOneTime.js"></script>
 
     <script type="text/javascript" src="//use.typekit.net/obg4jvp.js"></script>
-    <script type="text/javascript">try { Typekit.load(); } catch (e) { }</script>
+    <script type="text/javascript">try { Typekit.load(); } catch (e) { }</script
 </head>
-<body ng-controller="MainCtrl" class="home-page">
+<body ng-controller="MainCtrl">
 	<div class="page-wrapper" ng-class="{open:sidebarOpen}">
 		<div class="page-content">
             <header class="site-header ng-scope" main-nav="0" data-fixed-fix="">
@@ -252,60 +252,57 @@
 
 
 
-
-
-
-
-
-
-
-
         
-            <carousel>
-                <slide>
-                    <div class="banner marketing" style="background-image: url(assets/i/marketing/banner-home.jpg)">
-                        <div class="wrapper">
-                            <div class="carousel-caption text-left">
-                                <h1>More and more people<br /> are joining Stream<br /> Every Day</h1>
-                                <a href="" class="button large">Shop Services</a>
+            <div class="banner marketing" style="background-image: url(assets/i/marketing/banner-home.jpg)">
+                <div class="wrapper">
+                    <div class="carousel-caption text-left">
+                        <h1>Stream does More than<br /> just Power your home</h1>
+                    </div>
+                </div>
+            </div>
+
+
+            <nav class="tertiary-nav">
+                <div class="wrapper" sub-nav="1">
+                    <ul>
+                        <li class="selected"><a item="Sitecore.Data.Items.Item" selected="False" href="">Overview</a><span class="triangle"></span></li>
+                        <li><a item="Sitecore.Data.Items.Item" selected="False" href="">Electricity</a><span class="triangle"></span></li>
+                        <li><a item="Sitecore.Data.Items.Item" selected="False" href="">Gas</a><span class="triangle"></span></li>
+                        <li><a item="Sitecore.Data.Items.Item" selected="False" href="">Clean Energy</a><span class="triangle"></span></li>
+                        <li><a item="Sitecore.Data.Items.Item" selected="False" href="">Commercial</a><span class="triangle"></span></li>
+                        <li><a item="Sitecore.Data.Items.Item" selected="False" href="">Earn Free Energy</a><span class="triangle"></span></li>
+                        <li><a item="Sitecore.Data.Items.Item" selected="False" href="">FAQs</a><span class="triangle"></span></li>
+                    </ul>
+                </div>
+            </nav>
+
+
+
+            <article class="marketing horizontal-form-layout choose-state">
+                <div class="wrapper">
+                    <div class="form-layout">
+                        <h3>Choose your area to get started</h3>
+                        <label>It looks like you're in</label>
+                        <div class="input-group input-group-mobile">
+                            <div class="input-group-control btn-dropdown" id="state-select">
+                                <button type="button" class="btn btn-primary dropdown-toggle icon texas" ng-disabled="disabled" aria-haspopup="true" aria-expanded="false">Texas <span class="caret"><i class="icon-nav-arrow-collapsed"></i></span></button>
+                                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                    <li class="ng-scope"><a class="icon washington-dc" ng-click="selectItem(item);" href="">Washington, DC</a></li>
+                                    <li class="ng-scope"><a class="icon georgia" ng-click="selectItem(item);" href="">Georgia</a></li>
+                                    <li class="ng-scope"><a class="icon maryland" ng-click="selectItem(item);" href="">Maryland</a></li>
+                                    <li class="ng-scope"><a class="icon new-jersey" ng-click="selectItem(item);" href="">New Jersey</a></li>
+                                    <li class="ng-scope"><a class="icon new-york" ng-click="selectItem(item);" href="">New York</a></li>
+                                    <li class="ng-scope"><a class="icon pennsylvania" ng-click="selectItem(item);" href="">Pennsylvania</a></li>
+                                    <li class="ng-scope"><a class="icon texas" ng-click="selectItem(item);" href="">Texas</a></li>
+                                </ul>
+                            </div>
+                            <div class="input-group-btn">
+                                <button type="button">Get Started</button>
                             </div>
                         </div>
-                    </div>
-                </slide>
-            </carousel>
-
-
-
-
-
-
-
-            <article class="marketing gridPromos home-page-services">
-                <div class="wrapper">
-                    <div class="grid three">
-                        <div class="col">
-                            <h4>Mobile Services</h4>
-                            <p>Phones &amp; Plans lorem ipsem dolor sit amet.</p>
-                            <p><a href="#">Phones &amp; Plans <i class="icon-arrow-right"></i></a></p>
-                            <span class="i-wrapper">
-                                <i class="icon-mobile"></i>
-                            </span>
-                        </div>
-                        <div class="col">
-                            <h4>Utility Services</h4>
-                            <p>Gas &amp; Electricity lorem dolor sit ameolor lorem ips.</p>
-                            <p><a href="">Gas &amp; Electricity <i class="icon-arrow-right"></i></a></p>
-                            <span class="i-wrapper">
-                                <i class="icon-home-utility"></i>
-                            </span>
-                        </div>
-                        <div class="col">
-                            <h4>Homelife Services</h4>
-                            <p>Protection you need lorem dolor sit ameolor lorem ips.</p>
-                            <p><a href="">Protection &amp; Security <i class="icon-arrow-right"></i></a></p>
-                            <span class="i-wrapper">
-                                <i class="icon-homelife"></i>
-                            </span>
+                        <div class="links">
+                            <a href="">View Rates</a>
+                            <a href="">View Details</a>
                         </div>
                     </div>
                 </div>
@@ -313,75 +310,9 @@
 
 
 
-            <article class="marketing home-page-switch-mobile">
-                <div class="wrapper">
-                    <h1 class="text-center">It’s <span>easy</span> to <span>switch</span> to Stream Mobile</h1>
-                    <div class="grid two">
-                        <div class="col col-smartphones">
-                            <img src="assets/i/marketing/home-switch-mobile-left.jpg" alt="">
-                            <h2>Shop our SmartPhones</h2>
-                            <p>Unlimited Voice, Text, and Data on a leading nationwide 4G network starts at $39/month, with other great rate plans to choose from.</p>
-                            <a href="" class="button large">Shop Smart Phones</a>
-                            <div class="text-divider"><span>Or</span></div>
-                        </div>
-                        <div class="col col-own-phone">
-                            <img src="assets/i/marketing/home-switch-mobile-right.jpg" alt="">
-                            <h2>Bring your own Phone</h2>
-                            <p>A simple switch of your SIM card gets you on the Stream Mobile high-speed network, with great rate plans to choose from.</p>
-                            <a href="" class="button large">Get Started</a>
-                        </div>
-                    </div>
-                </div>
-            </article>
 
 
-            <article class="marketing nationwide-coverage">
-                <div class="wrapper">
-                    <h2>Nationwide 4G Coverage</h2>
-                    <p>Unlimited Voice, Text, and Data on a leading nationwide 4G network starts at $39/month, with other great rate plans to choose from.</p>
-                </div>
-            </article>
 
-
-            <article class="marketing find-coverage">
-                <div class="wrapper">
-                    <h3><i class="icon-coverage"></i>Find Coverage Near Me</h3>
-                    <div class="input-group">
-                        <div class="input-group-control">
-                            <input class="input--large" placeholder="Enter Zip Code or Address" type="text" value="">
-                        </div>
-                        <div class="input-group-btn">
-                            <button type="button" class="large">Check Coverage</button>
-                        </div>
-                    </div>
-                </div>
-            </article>
-
-            <article class="marketing quote">
-                <div class="wrapper">
-                    <div class="quote-wrapper">
-                        <h2>Stream Mobile has changed the way we approach data.</h2>
-                        <p class="quote-text">Stream’s coverage is excellent, data speeds are great, and we now communicate better than ever before.</p>
-                        <p class="quote-author">– Jeremy P</p>
-                    </div>
-                </div>
-            </article>
-
-            <article class="marketing section-divider">
-                <div class="wrapper">
-                    <div class="grid three">
-                        <div class="col">
-                            <h4><i class="icon-mobile-small"></i> Mobile Services</h4>
-                        </div>
-                        <div class="col active">
-                            <h4><i class="icon-utility-small"></i> Utility Services</h4>
-                        </div>
-                        <div class="col">
-                            <h4><i class="icon-homelife-small"></i> Homelife Services</h4>
-                        </div>
-                    </div>
-                </div>
-            </article>
 
             <article class="marketing text-callout">
                 <div class="wrapper">
@@ -411,68 +342,38 @@
                 </div>
             </article>
 
-            <article class="marketing quote">
-                <div class="wrapper">
-                    <div class="quote-wrapper">
-                        <h2>We forget just how painfully dim the world was before electricity.</h2>
-                        <p class="quote-text">A candle, a good candle, provides barely a hundredth of the illumination of a single 100 watt light bulb.</p>
-                        <p class="quote-author">– Bill B</p>
+            <article class="marketing horizontal-photo-cta horizontal-cta-alt">
+                <div class="wrapper clearfix">
+                    <div class="layout">
+                        <div class="cta-content">
+                            <h2>Homelife Services</h2>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis </p>
+                            <p><a href="">Learn More <i class="icon-arrow-right"></i></a></p>
+                        </div>
+                        <div class="aside">
+                            <img src="assets/i/marketing/home-bundle-save.jpg" alt="">
+                        </div>
                     </div>
                 </div>
             </article>
 
-            <article class="marketing section-divider">
-                <div class="wrapper">
-                    <div class="grid three">
-                        <div class="col">
-                            <h4><i class="icon-mobile-small"></i> Mobile Services</h4>
-                        </div>
-                        <div class="col">
-                            <h4><i class="icon-utility-small"></i> Utility Services</h4>
-                        </div>
-                        <div class="col active">
-                            <h4><i class="icon-homelife-small"></i> Homelife Services</h4>
-                        </div>
+
+            <article class="marketing horizontal-photo-cta">
+                <div class="wrapper clearfix">
+                    <div class="aside">
+                        <img src="assets/i/marketing/home-bundle-save.jpg" alt="">
+                    </div>
+                    <div class="cta-content">
+                        <h2>Clean Energy</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis </p>
+                         <p><a href="">Learn More <i class="icon-arrow-right"></i></a></p>
                     </div>
                 </div>
             </article>
 
             <article class="marketing text-callout">
                 <div class="wrapper">
-                    <h1>When it comes to <span>improving</span> your <span>life</span>, Stream Energy has you covered.</h1>
-                    <p>With Stream Energy’s new Homelife Services, we now offer all customers the necessary tools to live a safer, easier life. Not only do we give our customers their first month free, but when you bundle more than one service together, you’ll save. These special rates–up to 70% off the regular market value–are our way of saying thanks.</p>
-                </div>
-            </article>
-
-
-            <article class="marketing homelife-services-promo">
-                <div class="wrapper">
-                    <div class="grid three">
-                        <div class="col">
-                            <div class="col-wrapper">
-                                <i class="icon-identity-theft"></i>
-                                <h3>Identity Theft Monitoring</h3>
-                                <p>With Identity theft on the rise, we’ve developed a service to help safeguard your identity.</p>
-                                <p><a href="">Learn More <i class="icon-arrow-right"></i></a></p>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="col-wrapper">
-                                <i class="icon-online-backup"></i>
-                                <h3>Online Backup & Protection</h3>
-                                <p>Keep your computers running smoothly with Stream Energy’s technology support and automatic data backup services.</p>
-                                <p><a href="">Learn More <i class="icon-arrow-right"></i></a></p>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="col-wrapper">
-                                <i class="icon-credit-monitoring"></i>
-                                <h3>Credit Monitoring</h3>
-                                <p>Stream Energy’s credit monitoring allows you to review your past credit history, check your current score, and plan for the future.</p>
-                                <p><a href="">Learn More <i class="icon-arrow-right"></i></a></p>
-                            </div>
-                        </div>
-                    </div>
+                    <h1>When you join Stream Energy, we'll help you <span>save</span> even more with our <span>Free Energy Program</span>!</h1>
                 </div>
             </article>
 
@@ -483,13 +384,38 @@
                             <img src="assets/i/marketing/home-bundle-save.jpg" alt="">
                         </div>
                         <div class="cta-content">
-                            <h2>Bundle &amp; Save</h2>
+                            <h2>Free Energy Program</h2>
                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis </p>
-                            <p><a href="" class="button">Get Started</a></p>
+                            <p><a href="">Learn More <i class="icon-arrow-right"></i></a></p>
                         </div>
                     </div>
                 </div>
             </article>
+
+            <article class="marketing horizontal-photo-cta horizontal-button-cta">
+                <div class="wrapper clearfix">
+                    <div class="layout">
+                        <div class="cta-content">
+                            <h2>Commercial Services</h2>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis </p>
+                        </div>
+                        <div class="aside">
+                            <a href="" class="button green large">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="marketing quote">
+                <div class="wrapper">
+                    <div class="quote-wrapper">
+                        <h2>We forget just how painfully dim the world was before electricity.</h2>
+                        <p class="quote-text">A candle, a good candle, provides barely a hundredth of the illumination of a single 100 watt light bulb.</p>
+                        <p class="quote-author">– Bill B</p>
+                    </div>
+                </div>
+            </article>
+
 
             <article class="marketing home-questions">
                 <div class="wrapper">
@@ -538,6 +464,9 @@
                     </div>
                 </div>
             </article>
+
+
+
 
    
 			<footer class="site-footer">

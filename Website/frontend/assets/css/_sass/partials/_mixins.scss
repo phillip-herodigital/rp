@@ -81,7 +81,7 @@
     border-collapse: separate; // prevent input groups from inheriting border styles from table cells when placed within a table
 	border-spacing: 0;
 
-    .input-group-control input {
+    .input-group-control input, .input-group-control button, .input-group-control select {
         position: relative;
         z-index: 2;
         float: left;

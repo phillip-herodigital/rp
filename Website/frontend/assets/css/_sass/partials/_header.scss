@@ -230,8 +230,6 @@
 .tertiary-nav {
 	background-color: #f1f1f1;
 	min-height: 49px;
-	margin-top: -30px;
-	margin-bottom: 30px;
 	ul {
 		@include inline-block-list();
         display: inline;
@@ -250,6 +248,9 @@
 				.triangle {
 					display: block;
 				}
+				a {
+					color: $brand-primary-color;
+				}
 			}
 		}
 	}
@@ -258,7 +259,7 @@
 		position: absolute;
 		bottom: 0;
 		left: 50%;
-		margin-left: -6px;
+		margin-left: -21px;
 		width: 0;
 		height: 0;
 		border-style: solid;
@@ -320,7 +321,7 @@
 	background-repeat: no-repeat;
 	.wrapper {
 		padding-top: 80px;
-		padding-bottom: 70px;
+		padding-bottom: 80px;
 	}
 	h1 {
 		font-size: 70px;
@@ -329,7 +330,6 @@
 	h1, p {
 		margin: 0;
 		color: #fff;
-		line-height: 1;
 	}
 	p {
 		font-size: 32px;
@@ -347,20 +347,22 @@
 			color: $brand-primary-color;
 		}
 	}
-	@include breakpoint(small) {		
-		.wrapper {
-			padding-top: 100px;
-		}
-		h1 {
-			font-size: 27px;
-		}	
-	}
 	@include breakpoint(medium) {		
 		.wrapper {
-			padding-top: 70px;
+			padding-top: 60px;
+			padding-bottom: 60px;
 		}
 		h1 {
 			font-size: 50px;
+		}	
+	}
+	@include breakpoint(small) {		
+		.wrapper {
+			padding-top: 40px;
+			padding-bottom: 40px;
+		}
+		h1 {
+			font-size: 27px;
 		}	
 	}		
 }
