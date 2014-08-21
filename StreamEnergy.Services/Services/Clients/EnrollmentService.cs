@@ -62,11 +62,12 @@ namespace StreamEnergy.Services.Clients
 
             var response = await streamConnectClient.GetAsync("/api/products?" + parameters.ToString());
 
-            var streamConnectProducts = Json.Read<IEnumerable<StreamConnect.Product>>(await response.Content.ReadAsStringAsync());
+            response.EnsureSuccessStatusCode();
+            var streamConnectProductResponse = Json.Read<StreamConnect.ProductResponse>(await response.Content.ReadAsStringAsync());
 
             return new LocationOfferSet
             {
-                Offers = (from product in streamConnectProducts
+                Offers = (from product in streamConnectProductResponse.Products
                           // Only supporting $/kwh for Texas enrollments, at least for now. Making sure that our `* 100` below doesn't cause a bug...
                           where product.Rate.Unit == "$/kwh"
                           group product by product.ProductCode into products
@@ -107,8 +108,12 @@ namespace StreamEnergy.Services.Clients
             {
                 ServiceAddress = ToStreamConnectAddress(location.Address),
                 UtilityAccountNumber = texasService.EsiId,
+                CustomerType = serviceStatus.CustomerType.ToString("g"),
                 EnrollmentType = serviceStatus.EnrollmentType.ToString("g")
             });
+
+            response.EnsureSuccessStatusCode();
+
             var result = Json.Read<StreamConnect.VerifyPremiseResponse>(await response.Content.ReadAsStringAsync());
             return result.IsEligibleField;
         }
@@ -135,6 +140,7 @@ namespace StreamEnergy.Services.Clients
             parameters["SystemOfRecord"] = "CIS1";
 
             var response = await streamConnectClient.GetAsync("/api/MoveInDates?" + parameters);
+            response.EnsureSuccessStatusCode();
 
             var result = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
             //{"MoveInDates":[{"Date":"2014-08-04T00:00:00","Priority":true,"Fees":[{"Name":"Move In Date Fee","Amount":79.27}]}...]}
@@ -175,6 +181,7 @@ namespace StreamEnergy.Services.Clients
                            from offer in service.SelectedOffers
                            select ToEnrollmentAccount(globalCustomerId, context, service, offer)).ToArray();
             var response = await streamConnectClient.PostAsJsonAsync("/api/customers/" + globalCustomerId.ToString() + "/enrollments", request);
+            response.EnsureSuccessStatusCode();
 
             var asyncUrl = response.Headers.Location;
             return new DomainModels.StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>
@@ -277,6 +284,7 @@ namespace StreamEnergy.Services.Clients
                     SSN = ssn,
                     Address = ToStreamConnectAddress(mailingAddress)
                 });
+                response.EnsureSuccessStatusCode();
                 var responseString = await response.Content.ReadAsStringAsync();
                 var result = Json.Read<StreamConnect.IdVerificationChallengeResponse>(responseString);
 
@@ -286,7 +294,7 @@ namespace StreamEnergy.Services.Clients
                     Data = new DomainModels.Enrollments.Service.IdentityCheckResult
                     {
                         HardStop = null,
-                        IdentityCheckId = result.IdVerificationChallenge.CreditServicesSessionId,
+                        IdentityCheckId = result.IdVerificationChallenge.CreditServiceSessionId,
                         IdentityAccepted = false,
                         IdentityQuestions = (from question in result.IdVerificationChallenge.Questions
                                              select new IdentityQuestion
@@ -375,6 +383,7 @@ namespace StreamEnergy.Services.Clients
                         utilityAccountNumber = orderEntry.enrollment.CisAccountNumber,
                         Authorizations = new object[0],
                     });
+                finalizeResponse.EnsureSuccessStatusCode();
                 var result = Json.Read<JObject>(await finalizeResponse.Content.ReadAsStringAsync());
 
                 if (result["Status"].ToString() == "Status")

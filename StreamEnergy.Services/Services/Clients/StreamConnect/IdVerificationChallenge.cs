@@ -7,7 +7,7 @@ namespace StreamEnergy.Services.Clients.StreamConnect
 {
     class IdVerificationChallenge
     {
-        public string CreditServicesSessionId { get; set; }
+        public string CreditServiceSessionId { get; set; }
         public IEnumerable<IdVerificationQuestion> Questions { get; set; }
     }
 }
