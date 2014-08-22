@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StreamEnergy.DomainModels;
+using StreamEnergy.DomainModels.Enrollments;
 using StreamEnergy.LuceneServices.IndexGeneration.Ercot;
 
 namespace StreamEnergy.LuceneServices.Web.Tests.Ercot

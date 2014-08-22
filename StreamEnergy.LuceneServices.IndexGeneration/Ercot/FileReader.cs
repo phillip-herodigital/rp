@@ -20,7 +20,6 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.Ercot
         private readonly static Regex postalCode = new Regex(@"(?<Zip5>[0-9]{5})(-?(?<Plus4>[0-9]{4}))?", RegexOptions.Compiled);
         // From https://www.usps.com/send/official-abbreviations.htm
         private readonly List<Action> onDispose = new List<Action>();
-        private readonly SmartyStreets.SmartyStreetService service;
 
         static FileReader()
         {

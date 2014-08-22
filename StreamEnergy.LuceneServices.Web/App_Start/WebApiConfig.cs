@@ -21,18 +21,6 @@ namespace StreamEnergy.LuceneServices.Web.App_Start
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-
-
-            MapAddressLookupRoute(config.Routes);
-        }
-
-        public static void MapAddressLookupRoute(HttpRouteCollection httpRouteCollection)
-        {
-            httpRouteCollection.MapHttpRoute(
-                name: "LookupApi",
-                routeTemplate: "api/address/lookup/{state}/{*query}",
-                defaults: new { controller = "address", action = "lookup" }
-            );
         }
     }
 }

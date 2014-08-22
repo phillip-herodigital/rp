@@ -24,7 +24,7 @@ namespace StreamEnergy.Services.Clients
             Dictionary<Location, LocationOfferSet> result = new Dictionary<Location,LocationOfferSet>();
             foreach (var location in serviceLocations.Distinct())
             {
-                if (location.Capabilities.OfType<DomainModels.TexasServiceCapability>().Any())
+                if (location.Capabilities.OfType<DomainModels.Enrollments.TexasServiceCapability>().Any())
                     result.Add(location, await LoadTexasOffers(location));
                 else
                 {
@@ -36,7 +36,7 @@ namespace StreamEnergy.Services.Clients
 
         private async Task<LocationOfferSet> LoadTexasOffers(Location location)
         {
-            if (location.Capabilities.OfType<DomainModels.TexasServiceCapability>().Count() != 1)
+            if (location.Capabilities.OfType<DomainModels.Enrollments.TexasServiceCapability>().Count() != 1)
             {
                 return new LocationOfferSet { OfferSetErrors = { { "TexasElectricity", "MultipleTdu" } } };
             }
@@ -45,7 +45,7 @@ namespace StreamEnergy.Services.Clients
                 return new LocationOfferSet { OfferSetErrors = { { "TexasElectricity", "ServiceStatusUnknown" } } };
             }
 
-            var texasService = location.Capabilities.OfType<DomainModels.TexasServiceCapability>().Single();
+            var texasService = location.Capabilities.OfType<DomainModels.Enrollments.TexasServiceCapability>().Single();
             var serviceStatus = location.Capabilities.OfType<DomainModels.Enrollments.ServiceStatusCapability>().Single();
 
             // Grab from the HttpUtility because it creates the interna `HttpValueCollection`, which will escape values properly when ToString'd.
@@ -101,7 +101,7 @@ namespace StreamEnergy.Services.Clients
 
         async Task<bool> IEnrollmentService.VerifyPremise(Location location)
         {
-            var texasService = location.Capabilities.OfType<DomainModels.TexasServiceCapability>().Single();
+            var texasService = location.Capabilities.OfType<DomainModels.Enrollments.TexasServiceCapability>().Single();
             var serviceStatus = location.Capabilities.OfType<DomainModels.Enrollments.ServiceStatusCapability>().Single();
             
             var response = await streamConnectClient.PostAsJsonAsync("/api/Enrollments/VerifyPremise", new
@@ -120,7 +120,7 @@ namespace StreamEnergy.Services.Clients
 
         async Task<IConnectDatePolicy> IEnrollmentService.LoadConnectDates(Location location)
         {
-            if (location.Capabilities.OfType<DomainModels.TexasServiceCapability>().Any())
+            if (location.Capabilities.OfType<DomainModels.Enrollments.TexasServiceCapability>().Any())
                 return await LoadTexasConnectDates(location);
             else
                 throw new NotImplementedException();
@@ -128,7 +128,7 @@ namespace StreamEnergy.Services.Clients
 
         private async Task<IConnectDatePolicy> LoadTexasConnectDates(Location location)
         {
-            var texasService = location.Capabilities.OfType<DomainModels.TexasServiceCapability>().Single();
+            var texasService = location.Capabilities.OfType<DomainModels.Enrollments.TexasServiceCapability>().Single();
 
             var parameters = System.Web.HttpUtility.ParseQueryString("");
             parameters["Address.City"] = location.Address.City;
@@ -197,7 +197,7 @@ namespace StreamEnergy.Services.Clients
             {
                 case TexasElectricityOffer.Qualifier:
                     var texasElectricityOffer = offer.Offer as TexasElectricityOffer;
-                    var texasService = service.Location.Capabilities.OfType<DomainModels.TexasServiceCapability>().Single();
+                    var texasService = service.Location.Capabilities.OfType<DomainModels.Enrollments.TexasServiceCapability>().Single();
                     var serviceStatus = service.Location.Capabilities.OfType<DomainModels.Enrollments.ServiceStatusCapability>().Single();
                     return new
                     {

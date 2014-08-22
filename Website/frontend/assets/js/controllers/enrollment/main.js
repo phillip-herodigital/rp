@@ -4,6 +4,8 @@
 ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentStepsService', 'enrollmentService', 'scrollService', '$timeout', 'enrollmentCartService', function ($scope, $anchorScroll, enrollmentStepsService, enrollmentService, scrollService, $timeout, enrollmentCartService) {
     $scope.validations = enrollmentService.validations;
     $scope.stepsService = enrollmentStepsService;
+    // TODO - customer type needs to be configurable
+    $scope.customerType = 'residential';
 
     //Go ahead and set the first step to be utility for now
     //Need to determine how the first step will be activated
@@ -26,11 +28,11 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentSt
     /**
     * Get Locations
     *
-    * @param string state       //State abbreviation
-    * @param string val         //Search string value
+    * @param string state        //State abbreviation
+    * @param string val          //Search string value
     */
     $scope.getLocation = function (state, val) {
-        return enrollmentService.getLocations(state, val).then(function (res) {
+        return enrollmentService.getLocations(state, $scope.customerType, val).then(function (res) {
             return _.filter(res.data, function (value) {
                 // This got a bit more complex when I decided that when "editing" an address you should be able to type back in the original address.
                 var match = enrollmentCartService.findMatchingAddress(value.address);
