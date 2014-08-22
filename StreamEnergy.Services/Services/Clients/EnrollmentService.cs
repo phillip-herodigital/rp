@@ -323,6 +323,8 @@ namespace StreamEnergy.Services.Clients
                                      SelectedAnswerIndex = int.Parse(question.Value)
                                  }).ToArray()
                 });
+                response.EnsureSuccessStatusCode();
+                
                 var asyncUrl = response.Headers.Location;
                 return new DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>
                 {

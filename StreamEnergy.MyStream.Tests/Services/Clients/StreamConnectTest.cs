@@ -415,107 +415,81 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         public void PostEnrollmentsCreate()
         {
             // Assign
-            var streamConnectClient = container.Resolve<HttpClient>(StreamEnergy.Services.Clients.StreamConnectContainerSetup.StreamConnectKey);
-            Guid globalCustomerId;
-            {
-                var createCustomerResponse = streamConnectClient.PostAsJsonAsync("/api/customers", new { EmailAddress = "test@example.com" }).Result;
-                Assert.IsTrue(createCustomerResponse.IsSuccessStatusCode);
-                globalCustomerId = Guid.Parse((string)(((dynamic)JsonConvert.DeserializeObject(createCustomerResponse.Content.ReadAsStringAsync().Result))["Customer"]["GlobalCustomerId"].Value));
-            }
+            StreamEnergy.DomainModels.Enrollments.IEnrollmentService enrollmentService = container.Resolve<StreamEnergy.Services.Clients.EnrollmentService>();
+            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
+            var globalCustomerId = accountService.CreateStreamConnectCustomer(email: "test@example.com").Result;
+            var location = new DomainModels.Enrollments.Location
+                    {
+                        Address = new DomainModels.Address { StateAbbreviation = "TX", PostalCode5 = "75010", City = "Carrollton", Line1 = "3620 Huffines Blvd", Line2 = "APT 226" },
+                        Capabilities = new DomainModels.IServiceCapability[]
+                        {
+                            new DomainModels.Enrollments.TexasServiceCapability { Tdu = "ONCOR", EsiId = "10443720006102389" },
+                            new DomainModels.Enrollments.ServiceStatusCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential, EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
+                        }
+                    };
+            var offers = enrollmentService.LoadOffers(new[] { location }).Result;
+            var texasElectricityOffer = offers.First().Value.Offers.First() as DomainModels.Enrollments.TexasElectricityOffer;
 
             // Act
-            var response = streamConnectClient.PostAsJsonAsync("/api/customers/" + globalCustomerId.ToString() + "/enrollments", new[]
+            var saveResult = enrollmentService.BeginSaveEnrollment(globalCustomerId, new DomainModels.Enrollments.UserContext
             {
-                new 
+                ContactInfo = new DomainModels.CustomerContact
                 {
-                    GlobalCustomerId= globalCustomerId.ToString(),
-                    CustomerType= "Residential",
-                    SystemOfRecord= "CIS1",
-                    FirstName= "sample string 5",
-                    LastName= "sample string 6",
-                    BillingAddress= new {
-                      StreetLine1= "sample string 1",
-                      StreetLine2= "sample string 2",
-                      City= "sample string 3",
-                      State= "sample string 4",
-                      Zip= "sample string 5"
+                    Name = new DomainModels.Name
+                    {
+                        First = "ROBERT",
+                        Last = "DELEON"
                     },
-                    PhoneNumbers= new[] {
-                      new {
-                        Number= "sample string 1",
-                        Type= "Home"
-                      },
-                      new {
-                        Number= "sample string 1",
-                        Type= "Home"
-                      }
-                    },
-                    SSN= "sample string 7",
-                    EmailAddress= "sample string 10",
-                    Premise= new {
-                      EnrollmentType= "MoveIn",
-                      SelectedMoveInDate= "2014-08-19T15:29:36.0899745Z",
-                      UtilityProvider= new {
-                        Id= "sample string 1",
-                        Code= "sample string 2",
-                        Name= "sample string 3",
-                        Commodities= new[] { "Electricity" }
-                      },
-                      UtilityAccountNumber= "sample string 2",
-                      Product= new {
-                        ProductCode= "sample string 1",
-                        Name= "sample string 2",
-                        Description= "sample string 3",
-                        Rate= new {
-                          Value= 1.0,
-                          Type= "Fixed",
-                          Unit= "sample string 2"
-                        },
-                        Term= 4
-                      },
-                      ServiceAddress= new {
-                        StreetLine1= "sample string 1",
-                        StreetLine2= "sample string 2",
-                        City= "sample string 3",
-                        State= "sample string 4",
-                        Zip= "sample string 5"
-                      },
-                      ProductType= "Gas",
-                      Deposit= new {
-                        CreateDate= "2014-08-19T15:29:36.1047927Z",
-                        Amount= 2.0,
-                        IsWaived= true
-                      }
+                    Phone = new DomainModels.Phone[] { new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = "2234567890" } },
+                    Email = new DomainModels.Email { Address = "test@example.com" },
+                },
+                SocialSecurityNumber = "529998765",
+                Services = new DomainModels.Enrollments.LocationServices[]
+                {
+                    new DomainModels.Enrollments.LocationServices 
+                    { 
+                        Location = location, 
+                        SelectedOffers = new DomainModels.Enrollments.SelectedOffer[] 
+                        {
+                            new DomainModels.Enrollments.SelectedOffer
+                            {
+                                Offer = texasElectricityOffer,
+                                OfferOption = new DomainModels.Enrollments.TexasElectricityMoveInOfferOption 
+                                { 
+                                    BillingAddress = new DomainModels.Address
+                                    {
+                                        City = "MASSENA",
+                                        StateAbbreviation = "NY",
+                                        Line1 = "100 WILSON HILL RD",
+                                        PostalCode5 = "13662"
+                                    },
+                                    ConnectDate = DateTime.Today.AddDays(3),
+                                }
+                            }
+                        }
                     }
                 }
             }).Result;
 
             // Assert
-            Assert.IsTrue(response.IsSuccessStatusCode);
-            var asyncUrl = response.Headers.Location;
-            Assert.IsNotNull(response.Headers.Location);
+            Assert.IsFalse(saveResult.IsCompleted);
+            Assert.IsNotNull(saveResult.ResponseLocation);
 
             // Act - Step 3 - async response
-            dynamic result;
-            do
+            while (!saveResult.IsCompleted)
             {
-                {
-                    response = streamConnectClient.GetAsync(asyncUrl).Result;
-                    var responseString = response.Content.ReadAsStringAsync().Result;
-                    result = JsonConvert.DeserializeObject(responseString);
-                }
-                Assert.IsTrue(response.IsSuccessStatusCode);
-            } while (response.StatusCode == System.Net.HttpStatusCode.NoContent);
+                saveResult = enrollmentService.EndSaveEnrollment(saveResult).Result;
+            }
 
             // Assert
-            Assert.IsTrue(response.IsSuccessStatusCode);
-            if (result.EnrollmentResponses.Count > 0)
+            Assert.IsTrue(saveResult.IsCompleted);
+            if (saveResult.Data.Results.Length > 0)
             {
 
             }
             else
             {
-                Assert.Inconclusive("No data from Stream Connect");
+                Assert.Fail("No data from Stream Connect");
             }
         }
     }
