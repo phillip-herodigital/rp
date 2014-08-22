@@ -268,8 +268,8 @@ form, .form {
 	}
 	.additional-field-group {
 		background: #fafafa;
-		padding: 25px 15px;
-		margin: 25px -15px -25px;
+		padding: ($module-vertical-padding) ($module-horizontal-padding);
+		margin:  ($module-vertical-padding) ($module-horizontal-padding * -1) ($module-vertical-padding * -1);
 		border-top: 1px solid #ddd;
 		position: relative;
 		&:after, &:before {

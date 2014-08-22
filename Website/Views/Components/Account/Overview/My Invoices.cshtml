@@ -37,9 +37,6 @@
                     <tbody ng-repeat="item in table.valuesToShow">
                         <tr>
                             <!--<td class="align-center" style="width:30px;"><input type="checkbox" ng-model="item.selected" /></td>-->
-                            <td ng-if="hasHiddenColumns" ng-click="expandInnerTable($index)" ng-class="{'opened': expand[$index], 'closed': !expand[$index]}">
-                                <i ng-class="{'icon-arrow-expanded': expand[$index], 'icon-arrow-collapsed': !expand[$index]}"></i>
-                            </td>
                             <td ng-show="showColumn('accountNumber')">{{ item.accountNumber }}</td>
                             <td ng-show="showColumn('serviceType')" ng-switch on="item.serviceType">
                                 <i ng-switch-when="HomeLife Services" class="icon-homelife-services"></i>
@@ -56,6 +53,9 @@
                                 @* SiteCore field needed *@
                                 <button class="tertiary disabled small" ng-show="item.isPaid" disabled="disabled">Paid</button>
                                 <div class="request-extension" ng-show="item.canRequestExtension"><a href="#">@Html.Sitecore().Field("Request Extension Text")</a></div>
+                            </td>
+                            <td ng-if="hasHiddenColumns" ng-click="expandInnerTable($index)" ng-class="{'opened': expand[$index], 'closed': !expand[$index]}">
+                                <i ng-class="{'icon-arrow-expanded': expand[$index], 'icon-arrow-collapsed': !expand[$index]}"></i>
                             </td>
                         </tr>
                         <tr class="details" ng-show="hasHiddenColumns && expand[$index] == true">

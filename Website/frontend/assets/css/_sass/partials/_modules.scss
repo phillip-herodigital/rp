@@ -1139,6 +1139,9 @@ article.payments {
 			padding-top: 1em;
 		}
 	}
+	.account-number {
+		white-space: nowrap;
+	}
 	.arrow-toggle {
 		position: relative;
 		margin: 0;
@@ -1170,14 +1173,12 @@ article.payments {
 		float: right;
 		list-style-type: none;
 		padding-left: 0;
+		margin: 0;
 		li {
 			float: left;
 			margin-left: 10px;
 			padding-left: 10px;
 			border-left: 1px solid #ccc;
-			a {
-				color: #fff;
-			}
 			&:first-child {
 				border-left: none;
 				margin-left: 0;
@@ -1272,7 +1273,10 @@ article.payments {
 		margin: 0px;
 	}
 	.account-selector {
-		margin: -25px -15px 15px -15px;
+		margin: ($module-vertical-padding * -1) ($module-horizontal-padding * -1) $module-vertical-padding ($module-horizontal-padding * -1);
+	}
+	h4 {
+		margin: 0 0 5px;
 	}
 	img {
 		max-width: 100%;
@@ -1819,7 +1823,7 @@ aside {
 					}
 				}
 				dl {
-					margin: -20px 0 -10px 0;
+					margin: 0;
 					dd.temperature {
 						font-size: 30px;
 					}

@@ -45,9 +45,15 @@ $home-wrapper-padding: 50px 0;
 }
 
 article.marketing {
+	@extend article.plain;
 	margin-bottom: 0;
+	position: relative;
+	color: #6b6b6b;
 	.wrapper {
 		padding: $home-wrapper-padding;
+	}
+	img {
+		max-width: 100%;
 	}
 	p {
 		margin-bottom: 0;
@@ -256,10 +262,11 @@ article.horizontal-photo-cta {
 article.horizontal-button-cta {
 	.cta-content {
 		padding-right: 50px;
-		width: 70%;
+		padding-left: 0;
+		width: 80%;
 	}
 	.aside {
-		width: 30%;
+		width: 20%;
 	}
 	@include breakpoint(small) {
 		.cta-content {
@@ -274,6 +281,11 @@ article.horizontal-button-cta {
 		.button {
 			margin-top: 35px;
 		}
+	}
+	@include breakpoint(large) {
+		.aside {
+			text-align: right;
+		}	
 	}
 }
 
@@ -599,8 +611,9 @@ article.homelife-services-promo {
 		display: inline-block;
 	}
 	h3 {
-		font-size: 24px;
+		font-size: 20px;
 		color: #10425a;
+		font-weight: 400;
 	}
 	h3, p {
 		text-align: left;
@@ -635,8 +648,8 @@ article.home-questions {
 	.grid .col {
 		border-color: $light-border-color;
 	}
-	.wrapper {
-		padding-bottom: 0;
+	h2 {
+		margin-top: 0;
 	}
 	@include breakpoint(small) {
 		.two-third {

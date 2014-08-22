@@ -25,17 +25,6 @@ $themes:
 	}
 }
 
-
-article.marketing {
-	@extend article.plain;
-	position: relative;
-	margin-bottom: 20px;
-	color: #6b6b6b;
-	img {
-		max-width: 100%;
-	}
-}
-
 article.photoLockup {
     margin-bottom: 0;
 	background-color: #e8e8e8;
@@ -44,6 +33,7 @@ article.photoLockup {
 	margin-bottom: 20px;
 	.photo {
 		position: absolute;
+		top: 0;
 		width: 50%;
 		height: 100%;
 		overflow: hidden;
@@ -2155,7 +2145,7 @@ article.energy-certificates {
 		.text {
 			width: 335px;
 			float: right;
-			margin: 70px 50px 0 0;
+			margin: 20px 50px 0 0;
 			.button {
 				background-color: #2c3e50;
 				&:hover {
@@ -2178,7 +2168,10 @@ article.energy-certificates {
 
 article.ignite-associate {
 	text-align: center;
-	margin: 50px 0 10px;
+	margin: 0; 
+	.wrapper {
+		padding: 40px 0 10px;
+	}
 	button,
     .button {
 		background-color: #a9222d;
@@ -2188,6 +2181,9 @@ article.ignite-associate {
 		&:hover {
 			background-color: #6b6b6b;
 		}
+	}
+	h3 {
+		margin: 0;
 	}
 }
 
@@ -2419,6 +2415,9 @@ article.manage-free-energy {
 	@include breakpoint(medium-large) {
 		.left-column {
 			padding-left: 20px;
+		}
+		.right-column {
+			margin-top: -50px;
 		}
 	}
 }
