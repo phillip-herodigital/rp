@@ -131,7 +131,18 @@ namespace StreamEnergy.MyStream.Tests
             {
                 IsCompleted = false,
             }));
-            mockEnrollmentService.Setup(m => m.BeginIdentityCheck(It.IsAny<Guid>(), It.IsAny<Name>(), It.IsAny<string>(), It.IsAny<Address>(), null)).Returns(Task.FromResult(new DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>
+            mockEnrollmentService.Setup(m => m.BeginIdentityCheck(It.IsAny<Guid>(), It.IsAny<Name>(), "333224444", It.IsAny<Address>(), null)).Returns(Task.FromResult(new DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>
+            {
+                IsCompleted = true,
+                Data = new DomainModels.Enrollments.Service.IdentityCheckResult
+                {
+                    IdentityAccepted = false,
+                    HardStop = null,
+                    IdentityCheckId = "01234",
+                    IdentityQuestions = new IdentityQuestion[0]
+                }
+            }));
+            mockEnrollmentService.Setup(m => m.BeginIdentityCheck(It.IsAny<Guid>(), It.IsAny<Name>(), It.Is<string>(s => s != "333224444"), It.IsAny<Address>(), null)).Returns(Task.FromResult(new DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>
             {
                 IsCompleted = true,
                 Data = new DomainModels.Enrollments.Service.IdentityCheckResult
@@ -214,7 +225,7 @@ namespace StreamEnergy.MyStream.Tests
         {
             var controller = container.Resolve<EnrollmentController>();
             controller.Initialize().Wait();
-            var clientData = controller.ClientData(null);
+            var clientData = controller.ClientData();
 
             Assert.IsNotNull(clientData);
         }
@@ -425,6 +436,95 @@ namespace StreamEnergy.MyStream.Tests
             Assert.AreEqual("123456789", session.Context.SocialSecurityNumber);
             Assert.AreEqual("en", session.Context.Language);
             Assert.IsNotNull(session.InternalContext.IdentityCheck.Data.IdentityQuestions);
+            Assert.AreEqual(3, session.InternalContext.IdentityCheck.Data.IdentityQuestions.Length);
+        }
+
+        [TestMethod]
+        public async Task PostAccountInformationNoQuestionsTest()
+        {
+            // Arrange
+            var session = container.Resolve<EnrollmentController.SessionHelper>();
+            await session.EnsureInitialized();
+            session.Context = new UserContext
+            {
+                Services = new[] {
+                    new LocationServices
+                    {
+                        Location = generalLocation,
+                        SelectedOffers = new []
+                        { 
+                            new SelectedOffer 
+                            { 
+                                Offer = offers[0]
+                            }
+                        }
+                    }
+                },
+            };
+            session.InternalContext = new InternalContext
+            {
+                AllOffers = new Dictionary<Location, LocationOfferSet> { { generalLocation, new LocationOfferSet { Offers = offers } } }
+            };
+            session.State = typeof(DomainModels.Enrollments.AccountInformationState);
+            var request = new Models.Enrollment.AccountInformation
+            {
+                ContactInfo = contactInfo,
+                DriversLicense = null,
+                Language = "en",
+                SecondaryContactInfo = null,
+                SocialSecurityNumber = "333-22-4444",
+                Cart = new[] {
+                    new Models.Enrollment.CartEntry {
+                        Location = specificLocation,
+                        OfferInformationByType = new Dictionary<string,Models.Enrollment.OfferInformation>
+                        {
+                            {
+                                offers[0].OfferType,
+                                new Models.Enrollment.OfferInformation
+                                {
+                                    OfferSelections = new []
+                                    {
+                                        new Models.Enrollment.OfferSelection
+                                        {
+                                            OfferId = offers[0].Id,
+                                            OfferOption = offerOption
+                                        }
+                                    }
+                                }
+                            }
+                        }.ToArray()
+                    }
+                }
+            };
+
+            using (var controller = container.Resolve<EnrollmentController>())
+            {
+                await controller.Initialize();
+
+                // Act
+                var result = await controller.AccountInformation(request);
+
+                // Assert
+                Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.ReviewOrder, result.ExpectedState);
+                Assert.AreEqual("Test", result.ContactInfo.Name.First);
+                Assert.AreEqual("Person", result.ContactInfo.Name.Last);
+                Assert.AreEqual("test@example.com", result.ContactInfo.Email.Address);
+                Assert.AreEqual("2142234567", result.ContactInfo.Phone[0].Number);
+                Assert.IsNotNull(result.IdentityQuestions);
+                Assert.AreEqual("en", result.Language);
+            }
+
+            Assert.AreEqual(typeof(DomainModels.Enrollments.PaymentInfoState), session.State);
+            Assert.IsTrue(session.InternalContext.AllOffers.ContainsKey(specificLocation));
+            Assert.IsTrue(session.Context.Services.First().SelectedOffers.Any(o => o.Offer.Id == "24-month-fixed-rate"));
+            Assert.AreEqual("Test", session.Context.ContactInfo.Name.First);
+            Assert.AreEqual("Person", session.Context.ContactInfo.Name.Last);
+            Assert.AreEqual("test@example.com", session.Context.ContactInfo.Email.Address);
+            Assert.AreEqual("2142234567", session.Context.ContactInfo.Phone[0].Number);
+            Assert.AreEqual("333224444", session.Context.SocialSecurityNumber);
+            Assert.AreEqual("en", session.Context.Language);
+            Assert.IsNotNull(session.InternalContext.IdentityCheck.Data.IdentityQuestions);
+            Assert.AreEqual(0, session.InternalContext.IdentityCheck.Data.IdentityQuestions.Length);
         }
 
         [TestMethod]

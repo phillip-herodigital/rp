@@ -100,14 +100,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         /// <returns></returns>
         [HttpGet]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
-        public ClientData ClientData(Type currentFinalState)
+        public ClientData ClientData(params Type[] currentFinalStates)
         {
             var services = stateMachine.Context.Services ?? Enumerable.Empty<LocationServices>();
             var offers = stateMachine.InternalContext.AllOffers ?? new Dictionary<Location, LocationOfferSet>();
             var optionRules = stateMachine.InternalContext.OfferOptionRules ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<IOfferOptionRules>>();
             var deposits = stateMachine.InternalContext.Deposit ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>>();
             var confirmations = stateMachine.InternalContext.PlaceOrderResult ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>();
-            var standardValidation = (stateMachine.State == currentFinalState ? Enumerable.Empty<ValidationResult>() : stateMachine.ValidationResults);
+            var standardValidation = (currentFinalStates.Contains(stateMachine.State) ? Enumerable.Empty<ValidationResult>() : stateMachine.ValidationResults);
             IEnumerable<ValidationResult> supplementalValidation;
             var expectedState = ExpectedState(out supplementalValidation);
             var validations = TranslatedValidationResult.Translate(from val in standardValidation.Union(supplementalValidation)
@@ -329,7 +329,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             else if (stateMachine.Context.IsRenewal && stateMachine.State == typeof(DomainModels.Enrollments.LoadDespositInfoState))
                 await stateMachine.Process(typeof(DomainModels.Enrollments.OrderConfirmationState));
 
-            return ClientData(typeof(DomainModels.Enrollments.VerifyIdentityState));
+            return ClientData(typeof(DomainModels.Enrollments.VerifyIdentityState), typeof(DomainModels.Enrollments.PaymentInfoState));
         }
 
         private void EnsureTypedPhones(Phone[] phones)
@@ -403,7 +403,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             await stateMachine.Process();
 
-            var resultData = ClientData(null);
+            var resultData = ClientData();
 
             if (redisDatabase != null)
             {

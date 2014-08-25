@@ -38,6 +38,11 @@ namespace StreamEnergy.DomainModels.Enrollments
             }
             else if (!internalContext.IdentityCheck.Data.HardStop.HasValue)
             {
+                if (internalContext.IdentityCheck.Data.IdentityQuestions.Length == 0)
+                {
+                    context.SelectedIdentityAnswers = new Dictionary<string, string>();
+                    return Task.FromResult(typeof(LoadDespositInfoState));
+                }
                 return base.InternalProcess(context, internalContext);
             }
             else
