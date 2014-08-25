@@ -21,11 +21,30 @@ namespace StreamEnergy.Services.Clients
 
         async Task<Dictionary<Location, LocationOfferSet>> IEnrollmentService.LoadOffers(IEnumerable<Location> serviceLocations)
         {
-            Dictionary<Location, LocationOfferSet> result = new Dictionary<Location,LocationOfferSet>();
+            Dictionary<Location, LocationOfferSet> result = new Dictionary<Location, LocationOfferSet>();
             foreach (var location in serviceLocations.Distinct())
             {
+                if (location.Capabilities.OfType<DomainModels.Enrollments.ServiceStatusCapability>().Count() != 1)
+                {
+                    result.Add(location, new LocationOfferSet { OfferSetErrors = { { "TexasElectricity", "ServiceStatusUnknown" } } });
+                    continue;
+                }
+
+                var serviceStatus = location.Capabilities.OfType<DomainModels.Enrollments.ServiceStatusCapability>().Single();
+
                 if (location.Capabilities.OfType<DomainModels.Enrollments.TexasServiceCapability>().Any())
-                    result.Add(location, await LoadTexasOffers(location));
+                {
+                    if (serviceStatus.CustomerType == EnrollmentCustomerType.Residential)
+                    {
+                        result.Add(location, await LoadTexasOffers(location, serviceStatus));
+                    }
+                    else
+                    {
+                        result.Add(location, new LocationOfferSet { Offers = new[] {
+                            new TexasElectricityCommercialQuote { }
+                        } });
+                    }
+                }
                 else
                 {
                     // Not implemented!
@@ -34,19 +53,14 @@ namespace StreamEnergy.Services.Clients
             return result;
         }
 
-        private async Task<LocationOfferSet> LoadTexasOffers(Location location)
+        private async Task<LocationOfferSet> LoadTexasOffers(Location location, ServiceStatusCapability serviceStatus)
         {
             if (location.Capabilities.OfType<DomainModels.Enrollments.TexasServiceCapability>().Count() != 1)
             {
                 return new LocationOfferSet { OfferSetErrors = { { "TexasElectricity", "MultipleTdu" } } };
             }
-            else if (location.Capabilities.OfType<DomainModels.Enrollments.ServiceStatusCapability>().Count() != 1)
-            {
-                return new LocationOfferSet { OfferSetErrors = { { "TexasElectricity", "ServiceStatusUnknown" } } };
-            }
 
             var texasService = location.Capabilities.OfType<DomainModels.Enrollments.TexasServiceCapability>().Single();
-            var serviceStatus = location.Capabilities.OfType<DomainModels.Enrollments.ServiceStatusCapability>().Single();
 
             // Grab from the HttpUtility because it creates the interna `HttpValueCollection`, which will escape values properly when ToString'd.
             var parameters = System.Web.HttpUtility.ParseQueryString("");
