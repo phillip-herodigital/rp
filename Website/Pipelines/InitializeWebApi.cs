@@ -31,7 +31,10 @@ namespace StreamEnergy.MyStream.Pipelines
             routes.MapHttpRoute("DefaultApiDelete", "Api/{controller}", new { action = "Delete" }, new { httpMethod = new HttpMethodConstraint(HttpMethod.Delete) })
                 .RouteHandler = new SessionRouteHandler();
 
-            GlobalConfiguration.Configuration.EnsureInitialized();
+            if (!global::Sitecore.Context.IsUnitTesting)
+            {
+                GlobalConfiguration.Configuration.EnsureInitialized();
+            }
         }
 
 
