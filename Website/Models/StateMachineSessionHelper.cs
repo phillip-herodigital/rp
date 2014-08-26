@@ -36,6 +36,11 @@ namespace StreamEnergy.MyStream.Models
             StateSessionKey = scope.FullName + " " + typeof(StateMachineSessionHelper<TContext, TInternalContext>).FullName + " State";
         }
 
+        public bool IsNewSession
+        {
+            get { return session.IsNewSession; }
+        }
+
         public TContext Context
         {
             get

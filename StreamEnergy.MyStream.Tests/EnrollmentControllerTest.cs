@@ -156,6 +156,17 @@ namespace StreamEnergy.MyStream.Tests
 
             mockEnrollmentService.Setup(m => m.EndSaveEnrollment(It.IsAny<StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>>())).Returns(Task.FromResult(new StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>()
             {
+                Data = new DomainModels.Enrollments.Service.EnrollmentSaveResult 
+                { 
+                    Results = new[] {
+                        new DomainModels.Enrollments.Service.EnrollmentSaveEntry 
+                        { 
+                            CisAccountNumber = "cis",
+                            StreamReferenceNumber = "stream",
+                            GlobalEnrollmentAccountId = Guid.NewGuid(),
+                        }
+                    }
+                },
                 IsCompleted = true
             }));
 

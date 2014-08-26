@@ -119,6 +119,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             return new ClientData
             {
+                IsTimeout = stateHelper.IsNewSession,
                 IsLoading = isLoading,
                 Validations = validations,
                 ExpectedState = expectedState,
@@ -299,7 +300,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public async Task<ClientData> AccountInformation([FromBody]AccountInformation request)
         {
             await Initialize();
-            if (stateHelper.InternalContext.EnrollmentSaveState != null && stateHelper.InternalContext.EnrollmentSaveState.IsCompleted)
+            if (stateMachine.InternalContext.EnrollmentSaveState != null && stateMachine.InternalContext.EnrollmentSaveState.IsCompleted)
             {
                 stateHelper.State = typeof(AccountInformationState);
                 await Initialize();
