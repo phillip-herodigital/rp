@@ -32,8 +32,6 @@ namespace StreamEnergy.DomainModels.Enrollments
         [RegularExpression(@"^\d{3}\D*\d{2}\D*\d{4}$", ErrorMessage = "Social Security Number Invalid")]
         public string SocialSecurityNumber { get; set; }
 
-        [ValidateObject(ErrorMessagePrefix = "Drivers License ")]
-        public DriversLicense DriversLicense { get; set; }
         /// <summary>
         /// ISO 639-1 codes, such as "en" and "es".
         /// </summary>
@@ -70,8 +68,6 @@ namespace StreamEnergy.DomainModels.Enrollments
                 ((ISanitizable)ContactInfo).Sanitize();
             if (SecondaryContactInfo != null)
                 ((ISanitizable)SecondaryContactInfo).Sanitize();
-            if (DriversLicense != null)
-                ((ISanitizable)DriversLicense).Sanitize();
             if (OnlineAccount != null)
                 ((ISanitizable)OnlineAccount).Sanitize();
             if (MailingAddress != null)

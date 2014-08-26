@@ -125,7 +125,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 ExpectedState = expectedState,
                 IsRenewal = stateMachine.Context.IsRenewal,
                 ContactInfo = stateMachine.Context.ContactInfo,
-                DriversLicense = stateMachine.Context.DriversLicense,
                 Language = stateMachine.Context.Language,
                 SecondaryContactInfo = stateMachine.Context.SecondaryContactInfo,
                 Cart = from service in services
@@ -314,7 +313,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             {
                 EnsureTypedPhones(stateMachine.Context.ContactInfo.Phone);
             }
-            stateMachine.Context.DriversLicense = request.DriversLicense;
             stateMachine.Context.OnlineAccount = request.OnlineAccount;
             if (stateMachine.Context.OnlineAccount != null)
             {

@@ -24,7 +24,6 @@ namespace StreamEnergy.DomainModels.Enrollments
             yield return context => context.Language;
             yield return context => context.SecondaryContactInfo;
             yield return context => context.SocialSecurityNumber;
-            yield return context => context.DriversLicense;
             yield return context => context.OnlineAccount;
             yield return context => context.MailingAddress;
             if (data.Services.SelectMany(svc => svc.Location.Capabilities).OfType<ServiceStatusCapability>().Any(cap => cap.EnrollmentType == EnrollmentType.MoveIn))

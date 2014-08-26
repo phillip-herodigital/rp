@@ -258,25 +258,6 @@
                             <input type="text" id="dba" ng-model="accountInformation.dba" />
                         </div>
                         *@
-                        <div class="group">
-                            <div class="item group-col" @Html.Validation().ErrorClass(m => m.DriversLicense.Number)>
-                                <label for="@Html.IdFor(m => m.DriversLicense.Number)">@Html.Sitecore().Field("Drivers License Number Label")</label>
-                                @Html.TextBoxFor(m => m.DriversLicense.Number, new { data_val_if="accountInformation.driversLicense.number || accountInformation.driversLicense.stateAbbreviation", ng_model="accountInformation.driversLicense.number"  })
-                                @Html.ValidationMessageFor(m => m.DriversLicense.Number)
-                            </div>
-                            <div class="item group-col" @Html.Validation().ErrorClass(m => m.DriversLicense.StateAbbreviation)>
-                                <label for="@Html.IdFor(m => m.DriversLicense.StateAbbreviation)">@Html.Sitecore().Field("Drivers License State Label")</label>
-                                @Html.DropDownListFor(m => m.DriversLicense.StateAbbreviation,
-                                                        new SelectListItem[] { new SelectListItem { Text = Html.Sitecore().Field("Select Option Please Choose").ToString(), Value = "" } },
-                                                        new
-                                                        {
-                                                            data_val_if = "accountInformation.driversLicense.number || accountInformation.driversLicense.stateAbbreviation",
-                                                            ng_model="accountInformation.driversLicense.stateAbbreviation",
-                                                            ng_options="state.abbreviation as state.display for state in usStates"
-                                                        })
-                                @Html.ValidationMessageFor(m => m.DriversLicense.StateAbbreviation)
-                            </div>
-                        </div>
 
                         <div class="additional-field-item item">
                             <ul class="checkbox-list">
@@ -303,7 +284,7 @@
 
 
                 @* User Account Creation *@
-                <article class="form enrollment__box enrollment__box--account-creation" ng-if="!isRenewal">
+                <article class="form enrollment__box enrollment__box--account-creation" ng-if="!isRenewal && false">
                     <header>
                         <h1>@Html.Sitecore().Field("Create Online Account Header")</h1>@*Social box header: Social Box Header*@
                     </header>
