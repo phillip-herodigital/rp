@@ -17,7 +17,7 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
             $scope.data.serviceLocation = newValue.location;
             var target = _(newValue.location.capabilities).find({ capabilityType: "ServiceStatus" });
             if (target) {
-                $scope.data.isNewService = target.isNewService;
+                $scope.data.isNewService = target.enrollmentType == 'moveIn';
             }
             else {
                 $scope.data.isNewService = undefined;
@@ -62,7 +62,7 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
         } 
 
         $scope.data.serviceLocation.capabilities = _.filter($scope.data.serviceLocation.capabilities, function (cap) { return cap.capabilityType != "ServiceStatus"; });
-        $scope.data.serviceLocation.capabilities.push({ "capabilityType": "ServiceStatus", "isNewService": $scope.data.isNewService });
+        $scope.data.serviceLocation.capabilities.push({ "capabilityType": "ServiceStatus", "enrollmentType": $scope.data.isNewService ? 'moveIn' : 'switch', "customerType": $scope.customerType });
 
         var activeService = enrollmentCartService.getActiveService();
         if (activeService) {

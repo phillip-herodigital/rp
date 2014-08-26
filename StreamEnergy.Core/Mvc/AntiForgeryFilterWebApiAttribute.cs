@@ -39,7 +39,7 @@ namespace StreamEnergy.Mvc
 
         public override void OnActionExecuted(System.Web.Http.Filters.HttpActionExecutedContext actionExecutedContext)
         {
-            if (actionExecutedContext.Request.Method == HttpMethod.Get)
+            if (actionExecutedContext.Request.Method == HttpMethod.Get && actionExecutedContext.Response != null)
             {
                 string cookieToken, formToken;
                 AntiForgery.GetTokens(null, out cookieToken, out formToken);

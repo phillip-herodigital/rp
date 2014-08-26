@@ -53,11 +53,11 @@ namespace StreamEnergy.DomainModels.Enrollments
             return base.IgnoreValidation(validationResult, context, internalContext);
         }
 
-        protected override Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
+        protected override async Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
         {
-            internalContext.PlaceOrderResult = enrollmentService.PlaceOrder(context.Services);
-
-            return base.InternalProcess(context, internalContext);
+            internalContext.PlaceOrderResult = (await enrollmentService.PlaceOrder(internalContext.GlobalCustomerId, context.Services, internalContext.EnrollmentSaveState.Data)).ToArray();
+            
+            return await base.InternalProcess(context, internalContext);
         }
 
     }

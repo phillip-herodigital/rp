@@ -249,10 +249,10 @@
      * @param {string} val         Location search string
      * @return {object}            Promise object returned when API call has successfully completed.
      */
-    service.getLocations = function (state, val) {
+    service.getLocations = function (state, customerType, val) {
         var start = new Date().getTime();
 
-        return $http.get('/api/address/lookup/' + state + '/' + val)
+        return $http.get('/api/address/lookup/' + state + '/' + customerType + '/' + val)
             .then(function (data) {
                 return data;
             });
