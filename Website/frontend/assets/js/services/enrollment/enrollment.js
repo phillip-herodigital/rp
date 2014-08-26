@@ -193,6 +193,8 @@
             driversLicense: service.accountInformation.driversLicense,
             secondaryContactInfo: service.accountInformation.secondaryContactInfo,
             onlineAccount: service.accountInformation.onlineAccount,
+            mailingAddress: service.accountInformation.mailingAddress,
+            previousAddress: service.accountInformation.previousAddress
         });
         data.cart = _.map(enrollmentCartService.services, function (cartItem) {
             return {
