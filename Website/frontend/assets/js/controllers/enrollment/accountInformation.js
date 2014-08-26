@@ -6,8 +6,15 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
     $scope.accountInformation = enrollmentService.accountInformation;
     $scope.validations = [];
 
-    // TODO
-    $scope.hasMoveIn = true;
+    $scope.hasMoveIn = false;
+    $scope.$watch(enrollmentCartService.services, function () {
+        $scope.hasMoveIn = _(enrollmentCartService.services)
+            .map(function (l) {
+                return _(l.location.capabilities).filter({ capabilityType: "ServiceStatus" }).first();
+            })
+            .filter({ enrollmentType: "moveIn" })
+            .any();
+    }, true);
 
     /**
      * [utilityAddresses description]
