@@ -46,6 +46,11 @@ namespace StreamEnergy.DomainModels.Enrollments
             }
             else
             {
+                if (internalContext.EnrollmentSaveState.Data == null)
+                {
+                    // some kind of enrollment error
+                    return typeof(EnrollmentErrorState);
+                }
                 return await base.InternalProcess(context, internalContext);
             }
         }

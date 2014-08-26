@@ -160,6 +160,7 @@
     <Compile Include="DomainModels\Enrollments\ConnectDatePolicy.cs" />
     <Compile Include="DomainModels\Enrollments\EnrollmentCustomerType.cs" />
     <Compile Include="DomainModels\Enrollments\DepositOfferPaymentAmount.cs" />
+    <Compile Include="DomainModels\Enrollments\EnrollmentErrorState.cs" />
     <Compile Include="DomainModels\Enrollments\EnrollmentType.cs" />
     <Compile Include="DomainModels\Enrollments\IdentityAnswer.cs" />
     <Compile Include="DomainModels\Enrollments\IdentityCheckHardStopState.cs" />
