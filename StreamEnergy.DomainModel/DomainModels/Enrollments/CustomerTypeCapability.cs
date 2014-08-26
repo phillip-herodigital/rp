@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 namespace StreamEnergy.DomainModels.Enrollments
 {
     [Serializable]
-    public class ServiceStatusCapability : IServiceCapability
+    public class CustomerTypeCapability : IServiceCapability
     {
-        public const string Qualifier = "ServiceStatus";
+        public const string Qualifier = "CustomerType";
 
-        public string CapabilityType { get { return ServiceStatusCapability.Qualifier; } }
+        public string CapabilityType { get { return CustomerTypeCapability.Qualifier; } }
 
-        public EnrollmentType EnrollmentType { get; set; }
+        public EnrollmentCustomerType CustomerType { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -22,12 +22,12 @@ namespace StreamEnergy.DomainModels.Enrollments
                 return false;
             }
 
-            return EnrollmentType == ((ServiceStatusCapability)obj).EnrollmentType;
+            return CustomerType == ((CustomerTypeCapability)obj).CustomerType;
         }
 
         public override int GetHashCode()
         {
-            return CapabilityType.GetHashCode() ^ EnrollmentType.GetHashCode();
+            return CapabilityType.GetHashCode() ^ CustomerType.GetHashCode();
         }
     }
 }
