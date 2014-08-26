@@ -20,7 +20,6 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.Ercot
         private readonly static Regex postalCode = new Regex(@"(?<Zip5>[0-9]{5})(-?(?<Plus4>[0-9]{4}))?", RegexOptions.Compiled);
         // From https://www.usps.com/send/official-abbreviations.htm
         private readonly List<Action> onDispose = new List<Action>();
-        private readonly SmartyStreets.SmartyStreetService service;
 
         static FileReader()
         {
@@ -91,6 +90,11 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.Ercot
                         EsiId = record.EsiId,
                         Tdu = tdu,
                         MeterType = ToAmsIndicator(record.TdspAmsIndicator, record.Metered),
+                        Address = record.Address,
+                        AddressOverflow= record.AddressOverflow,
+                        City = record.City,
+                        State = record.State,
+                        Zipcode = record.Zipcode,
                     }
                 };
         }

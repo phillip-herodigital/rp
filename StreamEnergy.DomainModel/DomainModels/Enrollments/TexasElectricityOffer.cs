@@ -24,7 +24,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public IOfferOptionPolicy GetOfferOptionPolicy(IUnityContainer container)
         {
-            if (IsNewService)
+            if (EnrollmentType == Enrollments.EnrollmentType.MoveIn)
             {
                 return container.Resolve<TexasElectricityMoveInOfferOptionPolicy>();
             }
@@ -34,7 +34,7 @@ namespace StreamEnergy.DomainModels.Enrollments
             }
         }
 
-        public bool IsNewService { get; set; }
+        public EnrollmentType EnrollmentType { get; set; }
 
         public string Name { get; set; }
 

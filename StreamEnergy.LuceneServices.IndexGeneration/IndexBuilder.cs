@@ -9,6 +9,7 @@ using Lucene.Net.Documents;
 using Lucene.Net.Index;
 using Lucene.Net.Search;
 using StreamEnergy.DomainModels;
+using StreamEnergy.DomainModels.Enrollments;
 using StreamEnergy.LuceneServices.Web.Models;
 using LuceneStore = Lucene.Net.Store;
 
@@ -32,7 +33,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
             onDispose.Add(((IDisposable)directory).Dispose);
         }
 
-        public async Task<bool> WriteLocation(DomainModels.Enrollments.Location location, string group, bool isFresh)
+        public async Task<bool> WriteLocation(Location location, EnrollmentCustomerType customerType, string group, bool isFresh)
         {
             
             return await Task.Run<bool>(() =>
@@ -45,7 +46,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
                     writer.DeleteDocuments(query);
                 }
 
-                writer.AddDocument(ToDocument(location, group));
+                writer.AddDocument(ToDocument(location, customerType, group));
                 return true;
             }).ConfigureAwait(false);
         }
@@ -59,15 +60,15 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
             }).ConfigureAwait(false);
         }
 
-        public async Task<bool> WriteIndex(IEnumerable<DomainModels.Enrollments.Location> locations, string group)
+        public async Task<bool> WriteIndex(IEnumerable<Tuple<Location, EnrollmentCustomerType>> locations, string group)
         {
             foreach (var location in locations)
-                await WriteLocation(location, group, false).ConfigureAwait(false);
+                await WriteLocation(location.Item1, location.Item2, group, false).ConfigureAwait(false);
 
             return await Optimize().ConfigureAwait(false);
         }
 
-        private Document ToDocument(DomainModels.Enrollments.Location arg, string group)
+        private Document ToDocument(Location arg, EnrollmentCustomerType customerType, string group)
         {
             Document doc = new Document();
 
@@ -76,6 +77,10 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
             // used for maintenance
             doc.Add(new Field("Group",
                               group,
+                              Field.Store.NO,
+                              Field.Index.NOT_ANALYZED_NO_NORMS));
+            doc.Add(new Field("CustomerType",
+                              customerType.ToString(),
                               Field.Store.NO,
                               Field.Index.NOT_ANALYZED_NO_NORMS));
             doc.Add(new Field("State",
@@ -98,7 +103,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
             return doc;
         }
 
-        private static string GetExact(DomainModels.Enrollments.Location arg)
+        private static string GetExact(Location arg)
         {
             var searchable = arg.Capabilities.OfType<ISearchable>().Select(c => c.GetUniqueField()).Where(s => !string.IsNullOrEmpty(s));
             var isZipCode = arg.Address.ToSingleLine() == arg.Address.PostalCode5;

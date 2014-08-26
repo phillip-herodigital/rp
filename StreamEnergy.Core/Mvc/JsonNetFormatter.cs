@@ -9,8 +9,11 @@ namespace StreamEnergy.Mvc
 {
     public class JsonNetFormatter : MediaTypeFormatter
     {
-        public JsonNetFormatter()
+        private JsonSerializerSettings settings;
+
+        public JsonNetFormatter(JsonSerializerSettings settings = null)
         {
+            this.settings = settings ?? Json.StandardFormatting;
             SupportedMediaTypes.Add(new System.Net.Http.Headers.MediaTypeHeaderValue("application/json"));
         }
 
@@ -28,8 +31,6 @@ namespace StreamEnergy.Mvc
         {
             var task = Task<object>.Factory.StartNew(() =>
             {
-                var settings = Json.StandardFormatting;
-
                 var sr = new StreamReader(readStream);
                 var jreader = new JsonTextReader(sr);
 
@@ -47,8 +48,6 @@ namespace StreamEnergy.Mvc
         {
             var task = Task.Factory.StartNew(() =>
             {
-                var settings = Json.StandardFormatting;
-
                 string json = JsonConvert.SerializeObject(value, settings);
 
                 byte[] buf = System.Text.Encoding.Default.GetBytes(json);

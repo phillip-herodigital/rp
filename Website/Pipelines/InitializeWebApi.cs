@@ -18,6 +18,8 @@ namespace StreamEnergy.MyStream.Pipelines
         {
             var routes = System.Web.Routing.RouteTable.Routes;
 
+            GlobalConfiguration.Configuration.MapHttpAttributeRoutes();
+
             routes.MapHttpRoute("DefaultApiWithAction", "Api/{controller}/{action}/{id}", new { id = RouteParameter.Optional })
                 .RouteHandler = new SessionRouteHandler();
             routes.MapHttpRoute("DefaultApiGet", "Api/{controller}", new { action = "Get" }, new { httpMethod = new HttpMethodConstraint(HttpMethod.Get) })
@@ -28,6 +30,11 @@ namespace StreamEnergy.MyStream.Pipelines
                 .RouteHandler = new SessionRouteHandler();
             routes.MapHttpRoute("DefaultApiDelete", "Api/{controller}", new { action = "Delete" }, new { httpMethod = new HttpMethodConstraint(HttpMethod.Delete) })
                 .RouteHandler = new SessionRouteHandler();
+
+            if (!global::Sitecore.Context.IsUnitTesting)
+            {
+                GlobalConfiguration.Configuration.EnsureInitialized();
+            }
         }
 
 

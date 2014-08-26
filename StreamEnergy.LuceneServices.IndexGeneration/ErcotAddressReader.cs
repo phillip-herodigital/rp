@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -20,6 +21,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
         private readonly System.IO.FileStream fileStream;
         private readonly string tdu;
         private readonly SmartyStreets.SmartyStreetService streetService;
+        private static Dictionary<string, IList<EnrollmentCustomerType>> premiseTypes;
 
         static ErcotAddressReader()
         {
@@ -28,6 +30,12 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
                 @"(?<StreetSuffix>(" + string.Join("|", AddressConstants.StreetSuffixes) + @"|[0-9]+)(\s+[NESW])?)(\s+" +
                 @"(?<Unit>[a-zA-Z]+(\s+\w+)?)?)?)?$";
             addressLine = new Regex(regex, RegexOptions.Compiled);
+
+            premiseTypes = (from EnrollmentCustomerType customerType in Enum.GetValues(typeof(EnrollmentCustomerType))
+                            from key in ConfigurationManager.AppSettings.AllKeys
+                            where key.StartsWith(customerType.ToString("g"))
+                            group customerType by ConfigurationManager.AppSettings[key])
+                            .ToDictionary(group => group.Key, group => (IList<EnrollmentCustomerType>)group.ToList().AsReadOnly());
         }
 
         public ErcotAddressReader(SmartyStreets.SmartyStreetService streetService, Ercot.FileReader fileReader, System.IO.FileStream fileStream, string tdu)
@@ -38,7 +46,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
             this.tdu = tdu;
         }
 
-        public IEnumerable<Location> Addresses
+        public IEnumerable<Tuple<Location, EnrollmentCustomerType>> Addresses
         {
             get
             {
@@ -47,7 +55,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
         }
 
 
-        private IEnumerable<DomainModels.Enrollments.Location> ToLocation(IEnumerable<Tuple<Ercot.Record, DomainModels.IServiceCapability[]>> records)
+        private IEnumerable<Tuple<Location, EnrollmentCustomerType>> ToLocation(IEnumerable<Tuple<Ercot.Record, DomainModels.IServiceCapability[]>> records)
         {
             foreach (var lineGroup in TakeBy(records, 100))
             {
@@ -61,13 +69,26 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
                                                                           State = "TX",
                                                                       }).ToArray()).Result;
 
-                foreach (var result in lineGroup.Zip(cleansedAddresses, (record, address) => new DomainModels.Enrollments.Location
+                foreach (var result in lineGroup.Zip(cleansedAddresses, (record, address) => new {
+                    location = new DomainModels.Enrollments.Location
+                    {
+                        Address = address ?? FromRecord(record.Item1),
+                        Capabilities = record.Item2
+                    },
+                    record = record.Item1
+                }).Where(entry => entry.location.Address != null))
                 {
-                    Address = address ?? FromRecord(record.Item1),
-                    Capabilities = record.Item2
-                }).Where(loc => loc.Address != null))
-                {
-                    yield return result;
+                    if (premiseTypes.ContainsKey(result.record.PremiseType))
+                    {
+                        foreach (var value in premiseTypes[result.record.PremiseType])
+                        {
+                            yield return Tuple.Create(result.location, value);
+                        }
+                    }
+                    else
+                    {
+
+                    }
                 }
             }
         }

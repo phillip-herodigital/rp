@@ -626,7 +626,6 @@
     <Compile Include="Models\TranslatedValidationResult.cs" />
     <Compile Include="Pipelines\InitializeWebApi.cs" />
     <Compile Include="Models\Marketing\HomeLifeServices.cs" />
-    <Compile Include="Pipelines\SetupAddressTypeahead.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validators\CannotApproveYourOwnChangesValidator.cs" />
   </ItemGroup>

@@ -15,7 +15,7 @@ namespace StreamEnergy.DomainModels
             unityContainer.Resolve<TypeIndicatorJsonConverter>().TypeIndicators.Add(new TypeIndicatorLookup<IServiceCapability, SampleServiceCapability>(sc => sc.CapabilityType)
             {
                 SupportedTypes = {
-                    { TexasServiceCapability.Qualifier, typeof(TexasServiceCapability) },
+                    { Enrollments.TexasServiceCapability.Qualifier, typeof(Enrollments.TexasServiceCapability) },
                     { Enrollments.ServiceStatusCapability.Qualifier, typeof(Enrollments.ServiceStatusCapability) }
                 }
             });

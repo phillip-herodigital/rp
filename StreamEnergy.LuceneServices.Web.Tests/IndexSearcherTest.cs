@@ -16,12 +16,14 @@ namespace StreamEnergy.LuceneServices.Web.Tests
     public class IndexSearcherTest
     {
         private TestContext testContextInstance;
-        private static readonly Location[] data = new[] {
-                new Location
-                {
-                    Address = new DomainModels.Address { Line1 = "3620 Huffines Blvd", UnitNumber = "226", City = "Carrollton", StateAbbreviation = "TX", PostalCode5 = "75010" },
-                    Capabilities = new[] { new DomainModels.TexasServiceCapability { Tdu = "Centerpoint", EsiId = "1234SAMPLE5678" } }
-                }
+        private static readonly Tuple<Location, EnrollmentCustomerType>[] data = new[] {
+                Tuple.Create(
+                    new Location
+                    {
+                        Address = new DomainModels.Address { Line1 = "3620 Huffines Blvd", UnitNumber = "226", City = "Carrollton", StateAbbreviation = "TX", PostalCode5 = "75010" },
+                        Capabilities = new[] { new DomainModels.Enrollments.TexasServiceCapability { Tdu = "Centerpoint", EsiId = "1234SAMPLE5678" } }
+                    },
+                    EnrollmentCustomerType.Residential)
             };
 
         /// <summary>
@@ -81,8 +83,8 @@ namespace StreamEnergy.LuceneServices.Web.Tests
         {
             using (var searcher = new IndexSearcher(BuildIndexPath(TestContext)))
             {
-                var results = searcher.Search("TX", "3620").ToArray();
-                Assert.AreEqual(data.First().Address, results.First().Address);
+                var results = searcher.Search("TX", EnrollmentCustomerType.Residential, "3620").ToArray();
+                Assert.AreEqual(data.First().Item1.Address, results.First().Address);
             }
         }
 
@@ -91,8 +93,8 @@ namespace StreamEnergy.LuceneServices.Web.Tests
         {
             using (var searcher = new IndexSearcher(BuildIndexPath(TestContext)))
             {
-                var results = searcher.Search("TX", "Huffines").ToArray();
-                Assert.AreEqual(data.First().Address, results.First().Address);
+                var results = searcher.Search("TX", EnrollmentCustomerType.Residential, "Huffines").ToArray();
+                Assert.AreEqual(data.First().Item1.Address, results.First().Address);
             }
         }
 
@@ -101,8 +103,8 @@ namespace StreamEnergy.LuceneServices.Web.Tests
         {
             using (var searcher = new IndexSearcher(BuildIndexPath(TestContext)))
             {
-                var results = searcher.Search("TX", "3620 Huffines").ToArray();
-                Assert.AreEqual(data.First().Address, results.First().Address);
+                var results = searcher.Search("TX", EnrollmentCustomerType.Residential, "3620 Huffines").ToArray();
+                Assert.AreEqual(data.First().Item1.Address, results.First().Address);
             }
         }
 
@@ -111,8 +113,8 @@ namespace StreamEnergy.LuceneServices.Web.Tests
         {
             using (var searcher = new IndexSearcher(BuildIndexPath(TestContext)))
             {
-                var results = searcher.Search("TX", "3620 Hufines").ToArray();
-                Assert.AreEqual(data.First().Address, results.First().Address);
+                var results = searcher.Search("TX", EnrollmentCustomerType.Residential, "3620 Hufines").ToArray();
+                Assert.AreEqual(data.First().Item1.Address, results.First().Address);
             }
         }
 
@@ -121,8 +123,28 @@ namespace StreamEnergy.LuceneServices.Web.Tests
         {
             using (var searcher = new IndexSearcher(BuildIndexPath(TestContext)))
             {
-                var results = searcher.Search("TX", "1234SAMPLE5678").ToArray();
-                Assert.AreEqual(data.First().Address, results.First().Address);
+                var results = searcher.Search("TX", EnrollmentCustomerType.Residential, "1234SAMPLE5678").ToArray();
+                Assert.AreEqual(data.First().Item1.Address, results.First().Address);
+            }
+        }
+
+        [TestMethod]
+        public void WrongState()
+        {
+            using (var searcher = new IndexSearcher(BuildIndexPath(TestContext)))
+            {
+                var results = searcher.Search("GA", EnrollmentCustomerType.Residential, "3620").ToArray();
+                Assert.IsFalse(results.Any());
+            }
+        }
+
+        [TestMethod]
+        public void WrongCustomerType()
+        {
+            using (var searcher = new IndexSearcher(BuildIndexPath(TestContext)))
+            {
+                var results = searcher.Search("TX", EnrollmentCustomerType.Commercial, "3620").ToArray();
+                Assert.IsFalse(results.Any());
             }
         }
     }

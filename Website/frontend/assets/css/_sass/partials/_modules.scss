@@ -836,14 +836,37 @@ article.notification-settings {
 			}
 		}
 		.notification-list {
-			font-weight: 600;
+			//font-weight: 600;
+			li {
+				margin-bottom: 20px;
+			}
+			label {
+				display: inline-block;
+				font-size: 18px;
+				font-weight: 300;
+				@include breakpoint(small) {
+					max-width: 80%;
+				}
+			}
+			input {
+				margin-left: 10px;
+				@include breakpoint (medium-large) {
+					float: right;
+				}
+			}
 		}
 		.preference-type {
 			display: block;
-			margin-right: 50px;
+			//margin-right: 50px;
+			.preference-label {
+				display: inline-block;
+				float: right;
+				font-weight: 600;
+			}
 		}
 		i {
 			margin-right: 4px;
+			margin-bottom: 3px;
 		}
 	}
 }

@@ -39,11 +39,12 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
                 var zipTasks = (from task in tasks
                                 from zip in task.Result
                                 group zip.Value by zip.Key into zipCapabilities
+                                from enrollmentType in new[] { DomainModels.Enrollments.EnrollmentCustomerType.Residential, DomainModels.Enrollments.EnrollmentCustomerType.Commercial }
                                 select indexBuilder.WriteLocation(new DomainModels.Enrollments.Location
                                          {
                                              Address = new DomainModels.Address { PostalCode5 = zipCapabilities.Key, StateAbbreviation = "TX" },
                                              Capabilities = zipCapabilities.ToArray(),
-                                         }, "ZIP", options.ForceCreate)).ToArray();
+                                         }, enrollmentType, "ZIP", options.ForceCreate)).ToArray();
                 Task.WaitAll(zipTasks);
 
                 Console.WriteLine("Optimizing");
@@ -71,11 +72,11 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
                     {
                         foreach (var loc in new ErcotAddressReader(streetService: streetService, fileReader: fr, fileStream: fs, tdu: file.Tdu).Addresses)
                         {
-                            if (!zipCodes.ContainsKey(loc.Address.PostalCode5))
+                            if (!zipCodes.ContainsKey(loc.Item1.Address.PostalCode5))
                             {
-                                zipCodes.Add(loc.Address.PostalCode5, new DomainModels.TexasServiceCapability { Tdu = tdu.Key, MeterType = DomainModels.TexasMeterType.Other });
+                                zipCodes.Add(loc.Item1.Address.PostalCode5, new DomainModels.Enrollments.TexasServiceCapability { Tdu = tdu.Key, MeterType = DomainModels.Enrollments.TexasMeterType.Other });
                             }
-                            taskQueue.Enqueue(indexBuilder.WriteLocation(loc, tdu.Key, isFresh));
+                            taskQueue.Enqueue(indexBuilder.WriteLocation(loc.Item1, loc.Item2, tdu.Key, isFresh));
                             if (taskQueue.Count >= maxTasks)
                             {
                                 while (taskQueue.Any())

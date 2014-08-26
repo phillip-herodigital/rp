@@ -5,6 +5,7 @@ using System.Web;
 using Lucene.Net.Index;
 using Lucene.Net.Search;
 using Lucene.Net.Search.Spans;
+using StreamEnergy.DomainModels.Enrollments;
 using LuceneStore = Lucene.Net.Store;
 
 namespace StreamEnergy.LuceneServices.Web.Models
@@ -26,10 +27,11 @@ namespace StreamEnergy.LuceneServices.Web.Models
             analyzer = AddressConstants.BuildLuceneAnalyzer();
         }
 
-        public IEnumerable<StreamEnergy.DomainModels.Enrollments.Location> Search(string state, string queryString)
+        public IEnumerable<StreamEnergy.DomainModels.Enrollments.Location> Search(string state, EnrollmentCustomerType customerType, string queryString)
         {
             var query = new BooleanQuery();
             query.Add(new TermQuery(new Term("State", state)), Occur.MUST);
+            query.Add(new TermQuery(new Term("CustomerType", customerType.ToString())), Occur.MUST);
             var exactOrSearchQuery = new BooleanQuery();
             query.Add(exactOrSearchQuery, Occur.MUST);
 

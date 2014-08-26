@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -21,7 +22,17 @@ namespace StreamEnergy.Services.Clients
         {
             request.Headers.Authorization = await tokenManager.GetAuthorization();
 
-            return await base.SendAsync(request, cancellationToken);
+#if DEBUG
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+#endif
+            var result = await base.SendAsync(request, cancellationToken);
+#if DEBUG
+            stopwatch.Stop();
+            Trace.WriteLine(request.RequestUri + " - " + stopwatch.ElapsedMilliseconds + "ms");
+#endif
+
+            return result;
         }
     }
 }
