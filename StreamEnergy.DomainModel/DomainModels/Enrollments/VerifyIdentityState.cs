@@ -17,7 +17,7 @@ namespace StreamEnergy.DomainModels.Enrollments
             this.enrollmentService = enrollmentService;
         }
 
-        public override IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
+        public override IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations(UserContext data, InternalContext internalContext)
         {
             yield return context => context.Services;
             yield return context => context.ContactInfo;
@@ -33,7 +33,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         {
             if (internalContext.IdentityCheck.IsCompleted)
             {
-                internalContext.IdentityCheck = await enrollmentService.BeginIdentityCheck(internalContext.GlobalCustomerId, context.ContactInfo.Name, context.SocialSecurityNumber, context.Services.First().SelectedOffers.First().OfferOption.BillingAddress, new AdditionalIdentityInformation
+                internalContext.IdentityCheck = await enrollmentService.BeginIdentityCheck(internalContext.GlobalCustomerId, context.ContactInfo.Name, context.SocialSecurityNumber, context.MailingAddress, new AdditionalIdentityInformation
                 {
                     PreviousIdentityCheckId = internalContext.IdentityCheck.Data.IdentityCheckId,
                     SelectedAnswers = context.SelectedIdentityAnswers

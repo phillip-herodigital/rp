@@ -517,19 +517,19 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                                     Offer = texasElectricityOffer,
                                     OfferOption = new DomainModels.Enrollments.TexasElectricityMoveInOfferOption 
                                     { 
-                                        BillingAddress = new DomainModels.Address
-                                        {
-                                            City = "MASSENA",
-                                            StateAbbreviation = "NY",
-                                            Line1 = "100 WILSON HILL RD",
-                                            PostalCode5 = "13662"
-                                        },
                                         ConnectDate = DateTime.Today.AddDays(3),
                                     }
                                 }
                             }
                         }
-                    }
+                    },
+                    MailingAddress = new DomainModels.Address
+                    {
+                        City = "MASSENA",
+                        StateAbbreviation = "NY",
+                        Line1 = "100 WILSON HILL RD",
+                        PostalCode5 = "13662"
+                    },
                 }).Result;
 
                 // Assert

@@ -317,6 +317,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             stateMachine.Context.Language = request.Language;
             stateMachine.Context.SecondaryContactInfo = request.SecondaryContactInfo;
             stateMachine.Context.SocialSecurityNumber = request.SocialSecurityNumber;
+            stateMachine.Context.PreviousAddress = request.PreviousAddress;
+            stateMachine.Context.MailingAddress = request.MailingAddress;
 
             await stateMachine.ContextUpdated();
 

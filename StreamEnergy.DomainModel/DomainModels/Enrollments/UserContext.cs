@@ -50,6 +50,14 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         [ValidateObject]
         public OnlineAccount OnlineAccount { get; set; }
+        
+        [Required(ErrorMessage = "Mailing Address Required")]
+        [ValidateObject(ErrorMessagePrefix = "Mailing Address ")]
+        public Address MailingAddress { get; set; }
+
+        [Required(ErrorMessage = "Previous Address Required")]
+        [ValidateObject(ErrorMessagePrefix = "Previous Address ")]
+        public Address PreviousAddress { get; set; }
 
         void ISanitizable.Sanitize()
         {
@@ -66,7 +74,11 @@ namespace StreamEnergy.DomainModels.Enrollments
                 ((ISanitizable)DriversLicense).Sanitize();
             if (OnlineAccount != null)
                 ((ISanitizable)OnlineAccount).Sanitize();
-        }
+            if (MailingAddress != null)
+                ((ISanitizable)MailingAddress).Sanitize();
+            if (PreviousAddress != null)
+                ((ISanitizable)PreviousAddress).Sanitize();
 
+        }
     }
 }

@@ -17,7 +17,7 @@ namespace StreamEnergy.DomainModels.Enrollments
             this.enrollmentService = enrollmentService;
         }
 
-        public override IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
+        public override IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations(UserContext data, InternalContext internalContext)
         {
             yield return context => context.Services;
             yield return context => context.ContactInfo;
@@ -26,6 +26,11 @@ namespace StreamEnergy.DomainModels.Enrollments
             yield return context => context.SocialSecurityNumber;
             yield return context => context.DriversLicense;
             yield return context => context.OnlineAccount;
+            yield return context => context.MailingAddress;
+            if (data.Services.SelectMany(svc => svc.Location.Capabilities).OfType<ServiceStatusCapability>().Any(cap => cap.EnrollmentType == EnrollmentType.MoveIn))
+            {
+                yield return context => context.PreviousAddress;
+            }
         }
 
         protected override async Task<Type> InternalProcess(UserContext context, InternalContext internalContext)

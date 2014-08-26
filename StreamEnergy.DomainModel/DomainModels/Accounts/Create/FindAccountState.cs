@@ -18,7 +18,7 @@ namespace StreamEnergy.DomainModels.Accounts.Create
             this.service = service;
         }
 
-        public override IEnumerable<System.Linq.Expressions.Expression<Func<CreateAccountContext, object>>> PreconditionValidations()
+        public override IEnumerable<System.Linq.Expressions.Expression<Func<CreateAccountContext, object>>> PreconditionValidations(CreateAccountContext data, CreateAccountInternalContext internalContext)
         {
             yield return context => context.AccountNumber;
             yield return context => context.SsnLastFour;

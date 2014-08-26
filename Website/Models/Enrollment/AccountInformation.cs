@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using StreamEnergy.DomainModels;
 using StreamEnergy.DomainModels.Enrollments;
 
 namespace StreamEnergy.MyStream.Models.Enrollment
@@ -21,5 +22,9 @@ namespace StreamEnergy.MyStream.Models.Enrollment
         public IEnumerable<CartEntry> Cart { get; set; }
 
         public OnlineAccount OnlineAccount { get; set; }
+
+        public Address MailingAddress { get; set; }
+
+        public Address PreviousAddress { get; set; }
     }
 }

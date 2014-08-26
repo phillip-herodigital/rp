@@ -19,7 +19,7 @@ namespace StreamEnergy.Processes
             this.nextState = nextState;
         }
 
-        public virtual IEnumerable<System.Linq.Expressions.Expression<Func<TContext, object>>> PreconditionValidations()
+        public virtual IEnumerable<System.Linq.Expressions.Expression<Func<TContext, object>>> PreconditionValidations(TContext data, TInternalContext internalData)
         {
             yield return context => context;
         }

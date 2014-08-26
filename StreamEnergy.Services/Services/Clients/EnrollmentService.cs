@@ -220,7 +220,7 @@ namespace StreamEnergy.Services.Clients
                         SystemOfRecord = "CIS1",
                         FirstName = context.ContactInfo.Name.First,
                         LastName = context.ContactInfo.Name.Last,
-                        BillingAddress = ToStreamConnectAddress(offer.OfferOption.BillingAddress),
+                        BillingAddress = ToStreamConnectAddress(context.MailingAddress),
                         PhoneNumbers = (from DomainModels.TypedPhone phone in context.ContactInfo.Phone
                                         select new
                                         {
