@@ -5,6 +5,10 @@
 ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$filter', 'enrollmentService', 'enrollmentCartService', 'enrollmentStepsService', function ($scope, $location, $filter, enrollmentService, enrollmentCartService, enrollmentStepsService) {
     // TODO - chose state by geoIP
     $scope.data = { serviceState: 'TX' };
+    $scope.cartCount = enrollmentCartService.getCartCount();
+
+    var maxResidentialItems = 3;
+    var maxCommercialItems = 70;
 
     //Checking to see when the active service address has been updated
     //So we can reinitialize all service information for this page
@@ -42,6 +46,7 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
      * @return {Boolean}
      */
     $scope.isFormValid = function() {
+        var isCartFull = $scope.isCartFull();
         if ($scope.data.serviceLocation !== null && typeof $scope.data.serviceLocation == 'object' && $scope.data.isNewService !== undefined) {
             return true;
         } else {
@@ -72,6 +77,14 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
         else {
             enrollmentCartService.addService({ location: $scope.data.serviceLocation });
             enrollmentService.setServiceInformation();
+        }
+    };
+
+    $scope.isCartFull = function() {
+        if (($scope.customerType == 'residental' && $scope.cartCount == maxResidentialItems) || ($scope.customerType == 'commercial' && $scope.cartCount == maxCommercialItems)) {
+            return true;
+        } else {
+            return false;
         }
     };
 }]);

@@ -132,6 +132,26 @@ $enrollment-module-vertical-padding: 20px;
         border-top: 3px solid #eaeaea;
         margin: 25px 0;
     }
+    .customer-type {
+        label {
+            display: inline-block;
+            margin-right: 5px;
+        }
+        select {
+            width: auto;
+        }
+    }
+    .service-address {
+        label {
+            display: block;
+        }
+        .input-group-btn {
+            vertical-align: bottom;
+        }
+    }
+    .warning {
+        font-size: 13px;
+    }
 }
 
 /* Commenting out the social login

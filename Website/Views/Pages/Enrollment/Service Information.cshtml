@@ -30,37 +30,43 @@
                         @* TODO - replace "0" with the angular variable for the 'current' service location index being updated *@
                         @using (var currentService = Html.ClientRepeater(m => m.Services, "0"))
                         {
-                        @*
-                        <div class="item">
-                            <label for="service-interest">@Html.Sitecore().Field("Interest Label")</label>
-                            <select id="service-interest" ng-model="enrollmentFields.serviceInformation.serviceInterest">
-                                <option value="">Please Choose</option>
-                                <option value="">Residential Utilities</option>
-                                <option value="">Commercial Utilities</option>
-                                <option value="">Homelife Services</option>
+                            
+                        <div class="item customer-type">
+                            <label for="customer-type">@Html.Sitecore().Field("Interest Label")</label>
+                            <select id="customer-type" name="customer-type" ng-model="$parent.customerType">
+                                <option value="residential">Residential Utilities</option>
+                                <option value="commercial">Commercial Utilities</option>
                             </select>
                         </div>
-                        *@
-                        <div class="item full">
+                        
+                        <div class="item full service-address">
                             <div class="input-group">
-                                <div class="input-group-control">@currentService.TextBoxFor(s => s.Location, new
-                                {
-                                    @class = "typeahead state-select-typeahead",
-                                    ng_model = "data.serviceLocation",
-                                    placeholder = @Html.Sitecore().Field("Address Placeholder"),
-                                    typeahead = "location as location.address|address for location in getLocation(data.serviceState, $viewValue)",
-                                    ng_disabled = "data.serviceState == ''",
-                                    typeahead_loading = "loadingServiceAddress",
-                                    ng_class = "{'loading' : loadingServiceAddress}",
-                                    autocomplete = "off"
-                                })</div>
+                                <div class="input-group-control">
+                                    <label for="@currentService.IdFor(s => s.Location)" ng-switch on="data.serviceState">
+                                        <span ng-switch-when="TX">@Html.Sitecore().Field("TX Address Label")</span><span ng-switch-when="GA">@Html.Sitecore().Field("GA Address Label")</span><span ng-switch-default>@Html.Sitecore().Field("Zip Only Label")</span>:
+                                    </label>
+                                    @currentService.TextBoxFor(s => s.Location, new
+                                    {
+                                        @class = "typeahead state-select-typeahead",
+                                        ng_model = "data.serviceLocation",
+                                        placeholder = @Html.Sitecore().Field("Address Placeholder"),
+                                        typeahead = "location as location.address|address for location in getLocation(data.serviceState, $viewValue)",
+                                        ng_disabled = "data.serviceState == ''",
+                                        typeahead_loading = "loadingServiceAddress",
+                                        ng_class = "{'loading' : loadingServiceAddress}",
+                                        autocomplete = "off"
+                                    })
+                                </div>
                                 <div class="input-group-btn" id="state-select" dropdown-select dropdown-items="supportedUtilityStates" value="data.serviceState" data-alignment="right">
                                 </div>
                                 @currentService.ValidationMessageFor(s => s.Location)
                             </div><!-- /input-group -->
                         </div>
+                        <div class="item warning" ng-show="isCartFull()">
+                            @Html.Sitecore().Field("Maximum Addresses Message Text")
+                        </div>
                         <hr>
-                        <div class="item">
+                        <div class="item" ng-if="data.serviceState == 'TX' || data.serviceState == 'GA'">
                             <label>@Html.Sitecore().Field("Options Label")</label>
                             <ul class="checkbox-list">
                                 <li>
