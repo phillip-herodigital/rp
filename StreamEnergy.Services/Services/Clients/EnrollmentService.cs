@@ -310,6 +310,16 @@ namespace StreamEnergy.Services.Clients
                 var responseString = await response.Content.ReadAsStringAsync();
                 var result = Json.Read<StreamConnect.IdVerificationChallengeResponse>(responseString);
 
+                if (result.Status != "Success")
+                {
+                    // TODO - this block is probably wrong, but I don't know that for certain.
+                    return new DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>
+                    {
+                        IsCompleted = true,
+                        Data = new DomainModels.Enrollments.Service.IdentityCheckResult { IdentityAccepted = true, IdentityQuestions = new IdentityQuestion[0], HardStop = null }
+                    };
+                }
+
                 return new DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>
                 {
                     IsCompleted = true,
@@ -404,13 +414,13 @@ namespace StreamEnergy.Services.Clients
             {
                 var finalizeResponse = await streamConnectClient.PutAsJsonAsync("/api/customers/" + streamCustomerId.ToString() + "/enrollments/" + orderEntry.enrollment.GlobalEnrollmentAccountId + "/finalize", new
                     {
-                        utilityAccountNumber = orderEntry.enrollment.CisAccountNumber,
-                        Authorizations = new object[0],
+                        utilityAccountNumber = GetUtilityAccountNumber(orderEntry.service, orderEntry.offer),
+                        authorizations = additionalAuthorizations.Select(ConvertAuthorization).Where(auth => auth != null),
                     });
                 finalizeResponse.EnsureSuccessStatusCode();
                 var result = Json.Read<JObject>(await finalizeResponse.Content.ReadAsStringAsync());
 
-                if (result["Status"].ToString() == "Status")
+                if (result["Status"].ToString() == "Success")
                 {
                     results.Add(new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>
                                        {
@@ -422,6 +432,32 @@ namespace StreamEnergy.Services.Clients
             }
 
             return results.ToArray();
+        }
+
+        private string GetUtilityAccountNumber(LocationServices locationServices, SelectedOffer selectedOffer)
+        {
+            if (locationServices.Location.Capabilities.OfType<TexasServiceCapability>().Any())
+            {
+                return locationServices.Location.Capabilities.OfType<TexasServiceCapability>().First().EsiId;
+            }
+
+            return null;
+        }
+
+        private StreamConnect.CustomerAuthorization ConvertAuthorization(KeyValuePair<AdditionalAuthorization, bool> arg)
+        {
+            switch (arg.Key)
+            {
+                case AdditionalAuthorization.Tcpa:
+                    return new StreamConnect.CustomerAuthorization 
+                    {
+                        AuthorizationType = StreamConnect.AuthorizationType.TCPA,
+                        Accepted = arg.Value,
+                        AcceptedDate = DateTime.Today
+                    };
+                default:
+                    return null;
+            }
         }
 
 

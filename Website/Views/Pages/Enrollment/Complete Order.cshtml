@@ -88,7 +88,7 @@
                     <div class="item" @Html.Validation().ErrorClass(m => m.AdditionalAuthorizations[StreamEnergy.DomainModels.Enrollments.AdditionalAuthorization.Tcpa])>
                         <ul class="checkbox-list">
                             <li>
-                                @Html.CheckBoxFor(m => m.AdditionalAuthorizations[StreamEnergy.DomainModels.Enrollments.AdditionalAuthorization.Tcpa], new { ng_model = "completeOrder.additionalAuthorizations.tcpa" })
+                                <input type="checkbox" ng-model="completeOrder.additionalAuthorizations.tcpa" />
                                 <label for="@Html.IdFor(m => m.AdditionalAuthorizations[StreamEnergy.DomainModels.Enrollments.AdditionalAuthorization.Tcpa])">
                                     @Html.Raw(Html.Sitecore().CurrentItem["TCPA - I Agree Text"].Format(new { LinkAttributes = "ng-click=\"showTerms('Tcpa')\"" }))
                                 </label>
