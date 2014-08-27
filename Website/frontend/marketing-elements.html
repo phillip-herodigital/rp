@@ -57,6 +57,7 @@
     <script src="assets/js/directives/tokenize-card.js"></script>
     <script src="assets/js/directives/typeahead-popup-fix.js"></script>
     <script src="assets/js/directives/value.js"></script>
+    <script src="assets/js/directives/togglePane.js"></script>
     <script src="assets/js/controllers/accountBalances.js"></script>
     <script src="assets/js/controllers/frontendElements.js"></script>
     <script src="assets/js/controllers/homelifeservices.js"></script>
@@ -106,6 +107,58 @@
 
     <script type="text/javascript" src="//use.typekit.net/obg4jvp.js"></script>
     <script type="text/javascript">try { Typekit.load(); } catch (e) { }</script>
+
+    <script type="text/javascript">
+        ngApp.controller('stateSelectCtrl', ['$scope', function($scope) {
+            $scope.data = {
+                dropdownState: 'TX',
+                serviceState: ''
+            };
+            
+            $scope.dropdownItems = [
+                {
+                    "name": "Washington, DC",
+                    "value": "DC",
+                    "class": "icon washington-dc"
+                },
+                {
+                    "name": "Georgia",
+                    "value": "GA",
+                    "class": "icon georgia"
+                },
+                {
+                    "name": "Maryland",
+                    "value": "MD",
+                    "class": "icon maryland"
+                },
+                {
+                    "name": "New Jersey",
+                    "value": "NJ",
+                    "class": "icon new-jersey"
+                },
+                {
+                    "name": "New York",
+                    "value": "NY",
+                    "class": "icon new-york"
+                },
+                {
+                    "name": "Pennsylvania",
+                    "value": "PA",
+                    "class": "icon pennsylvania"
+                },
+                {
+                    "name": "Texas",
+                    "value": "TX",
+                    "class": "icon texas"
+                },
+                {
+                    "name": "OTHER",
+                    "value": "OO",
+                    "class": "icon texas"
+                }
+            ];
+        }]);
+    </script>
 </head>
 <body ng-controller="MainCtrl" class="home-page">
 	<div class="page-wrapper" ng-class="{open:sidebarOpen}">
@@ -472,25 +525,16 @@
             </div>
 
             <article class="marketing horizontal-form-layout choose-state">
-                <div class="wrapper">
+                <div class="wrapper" ng-controller="stateSelectCtrl">
                     <div class="form-layout">
                         <h3>Choose your area to get started</h3>
                         <label>It looks like you're in</label>
                         <div class="input-group input-group-mobile">
-                            <div class="input-group-control btn-dropdown" id="state-select">
-                                <button type="button" class="btn btn-primary dropdown-toggle icon texas" ng-disabled="disabled" aria-haspopup="true" aria-expanded="false">Texas <span class="caret"><i class="icon-nav-arrow-collapsed"></i></span></button>
-                                <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                    <li class="ng-scope"><a class="icon washington-dc" ng-click="selectItem(item);" href="">Washington, DC</a></li>
-                                    <li class="ng-scope"><a class="icon georgia" ng-click="selectItem(item);" href="">Georgia</a></li>
-                                    <li class="ng-scope"><a class="icon maryland" ng-click="selectItem(item);" href="">Maryland</a></li>
-                                    <li class="ng-scope"><a class="icon new-jersey" ng-click="selectItem(item);" href="">New Jersey</a></li>
-                                    <li class="ng-scope"><a class="icon new-york" ng-click="selectItem(item);" href="">New York</a></li>
-                                    <li class="ng-scope"><a class="icon pennsylvania" ng-click="selectItem(item);" href="">Pennsylvania</a></li>
-                                    <li class="ng-scope"><a class="icon texas" ng-click="selectItem(item);" href="">Texas</a></li>
-                                </ul>
+                            <div class="input-group-control" id="state-select">
+                                <div id="state-select" dropdown-select dropdown-items="dropdownItems" value="data.dropdownState"></div>
                             </div>
                             <div class="input-group-btn">
-                                <button type="button">Get Started</button>
+                                <button type="button" ng-click="data.serviceState = data.dropdownState">Get Started</button>
                             </div>
                         </div>
                         <div class="links">
@@ -498,6 +542,46 @@
                             <a href="">View Details</a>
                         </div>
                     </div>
+                    <toggle-pane value="data.serviceState" name="DC">
+                        <h2>Washington, DC</h2>
+                        <hr>
+                        <h3>Energy Plan Options</h3>
+
+
+                        <p>Stream Energy’s residential energy prices are designed to help you fully maximize your energy savings. We know comparing rates with other utility companies in Texas can be confusing. Our pricing and rates are both simple and easy to understand.</p>
+
+                        <p>
+                            <a href="#">View Electricity Rates</a>
+                            <a href="#">View Historical Rates Snapshot</a>
+                        </p>
+
+                        <hr>
+
+                        <div class="grid">
+
+                        </div>
+                    </toggle-pane>
+                    <toggle-pane value="data.serviceState" name="GA">
+                        Georgia
+                    </toggle-pane>
+                    <toggle-pane value="data.serviceState" name="MD">
+                        Maryland
+                    </toggle-pane>
+                    <toggle-pane value="data.serviceState" name="NJ">
+                        New Jersey
+                    </toggle-pane>
+                    <toggle-pane value="data.serviceState" name="NY">
+                        New York
+                    </toggle-pane>
+                    <toggle-pane value="data.serviceState" name="PA">
+                        Pennsylvania
+                    </toggle-pane>
+                    <toggle-pane value="data.serviceState" name="TX">
+                        Texas
+                    </toggle-pane>
+                    <toggle-pane value="data.serviceState" name="OO">
+                        Other
+                    </toggle-pane>
                 </div>
             </article>
 

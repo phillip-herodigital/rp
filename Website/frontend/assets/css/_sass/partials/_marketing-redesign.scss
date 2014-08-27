@@ -55,8 +55,13 @@ article.marketing {
 	img {
 		max-width: 100%;
 	}
+	/* Bottom margins are messing with module spacing */
 	p {
 		margin-bottom: 0;
+	}
+	/* Go ahead and add a margin-top just in case there's a link with no surrounding <p> */
+	p + a {
+		margin-top: 15px;
 	}
 	h2 {
 		color: #4f4c4d;
@@ -67,6 +72,17 @@ article.marketing {
 			padding-left: 0;
 			padding-right: 0;
 		}
+	}
+}
+
+article.toggle-container {
+	.wrapper {
+		padding: 0;
+	}
+	.pane-item-close {
+		float: right;
+		font-weight: 600;
+		cursor: pointer;
 	}
 }
 
@@ -145,14 +161,13 @@ article.text-callout {
 	}
 	p {
 		font-size: 20px;
-		margin-bottom: 0;
 	}
 	h1 + p {
 		margin-top: 32px;
 	}
 	@include breakpoint(small) {
 		h1 {
-			font-size: 32px;
+			font-size: 34px;
 		}
 	}
 }
@@ -333,9 +348,17 @@ article.choose-state {
 			line-height: $line-height;
 		}
 	}
-	button {
+	.input-group-btn button {
 		padding-left: 25px;
 		padding-right: 25px;
+	}
+	.btn-dropdown {
+		display: block;
+		position: relative;
+	}
+	.dropdown-menu {
+		left: 0;
+		right: 0;
 	}
 	@include breakpoint(medium) {
 		.wrapper {
@@ -410,8 +433,9 @@ article.home-page-services {
 		margin: 30px -30px;
 		@include experimental-value(width, calc(100% + 60px));
 	}
-	.col {
+	.grid .col {
 		position: relative;
+		text-align: left;
 		font-size: $font-size-xsmall;
 		text-align: left;
 		padding: 8px 130px 8px 30px;
@@ -431,7 +455,7 @@ article.home-page-services {
 		text-transform: uppercase;
 	}
 	@include breakpoint(medium) {
-		.col {
+		.grid .col {
 			padding: 0 80px 0 15px;
 			.i-wrapper {
 				right: 15px;
@@ -446,7 +470,7 @@ article.home-page-services {
 	}
 	@include breakpoint(small) {
 		margin-top: 0;
-		.col {
+		.grid .col {
 			padding: 15px 80px 15px 0;
 			border: none;
 			.i-wrapper {

@@ -103,9 +103,63 @@
     <script src="assets/js/controllers/payments/bankAccountPayment.js"></script>
     <script src="assets/js/controllers/payments/creditCardPayment.js"></script>
     <script src="assets/js/controllers/payments/paymentOneTime.js"></script>
+    <script src="assets/js/directives/togglePane.js"></script>
+
 
     <script type="text/javascript" src="//use.typekit.net/obg4jvp.js"></script>
-    <script type="text/javascript">try { Typekit.load(); } catch (e) { }</script
+    <script type="text/javascript">try { Typekit.load(); } catch (e) { }</script>
+
+    <script type="text/javascript">
+        ngApp.controller('stateSelectCtrl', ['$scope', function($scope) {
+            $scope.data = {
+                dropdownState: 'TX',
+                serviceState: ''
+            };
+            
+            $scope.dropdownItems = [
+                {
+                    "name": "Washington, DC",
+                    "value": "DC",
+                    "class": "icon washington-dc"
+                },
+                {
+                    "name": "Georgia",
+                    "value": "GA",
+                    "class": "icon georgia"
+                },
+                {
+                    "name": "Maryland",
+                    "value": "MD",
+                    "class": "icon maryland"
+                },
+                {
+                    "name": "New Jersey",
+                    "value": "NJ",
+                    "class": "icon new-jersey"
+                },
+                {
+                    "name": "New York",
+                    "value": "NY",
+                    "class": "icon new-york"
+                },
+                {
+                    "name": "Pennsylvania",
+                    "value": "PA",
+                    "class": "icon pennsylvania"
+                },
+                {
+                    "name": "Texas",
+                    "value": "TX",
+                    "class": "icon texas"
+                },
+                {
+                    "name": "OTHER",
+                    "value": "OO",
+                    "class": "icon texas"
+                }
+            ];
+        }]);
+    </script>
 </head>
 <body ng-controller="MainCtrl">
 	<div class="page-wrapper" ng-class="{open:sidebarOpen}">
@@ -277,193 +331,270 @@
             </nav>
 
 
-
-            <article class="marketing horizontal-form-layout choose-state">
-                <div class="wrapper">
-                    <div class="form-layout">
-                        <h3>Choose your area to get started</h3>
-                        <label>It looks like you're in</label>
-                        <div class="input-group input-group-mobile">
-                            <div class="input-group-control btn-dropdown" id="state-select">
-                                <button type="button" class="btn btn-primary dropdown-toggle icon texas" ng-disabled="disabled" aria-haspopup="true" aria-expanded="false">Texas <span class="caret"><i class="icon-nav-arrow-collapsed"></i></span></button>
-                                <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                    <li class="ng-scope"><a class="icon washington-dc" ng-click="selectItem(item);" href="">Washington, DC</a></li>
-                                    <li class="ng-scope"><a class="icon georgia" ng-click="selectItem(item);" href="">Georgia</a></li>
-                                    <li class="ng-scope"><a class="icon maryland" ng-click="selectItem(item);" href="">Maryland</a></li>
-                                    <li class="ng-scope"><a class="icon new-jersey" ng-click="selectItem(item);" href="">New Jersey</a></li>
-                                    <li class="ng-scope"><a class="icon new-york" ng-click="selectItem(item);" href="">New York</a></li>
-                                    <li class="ng-scope"><a class="icon pennsylvania" ng-click="selectItem(item);" href="">Pennsylvania</a></li>
-                                    <li class="ng-scope"><a class="icon texas" ng-click="selectItem(item);" href="">Texas</a></li>
-                                </ul>
-                            </div>
-                            <div class="input-group-btn">
-                                <button type="button">Get Started</button>
-                            </div>
-                        </div>
-                        <div class="links">
-                            <a href="">View Rates</a>
-                            <a href="">View Details</a>
-                        </div>
-                    </div>
-                </div>
-            </article>
-
-
-
-
-
-
-
-            <article class="marketing text-callout">
-                <div class="wrapper">
-                    <h1>Electricity and Gas that <span>fit</span> your <span>lifestyle</span> </h1>
-                    <p>Electricity isn’t a luxury, it’s a necessity. Everyone needs it, every single day. Stream Energy offers competitive energy products to make life a little easier and can provide for all your electricity needs. From keeping your lights on to cooling your house, powering your technology and your power tools, Stream Energy can power your home or business.</p>
-                </div>
-            </article>
-
-            <article class="marketing vertical-cta">
-                <div class="wrapper">
-                    <div class="grid two">
-                        <div class="col col-first">
-                            <div class="image-wrapper" style="background: url(assets/i/marketing/home-shop-electricity.jpg) right top no-repeat">
-                            </div>
-                            <h2>Shop Electricity</h2>
-                            <p>From keeping your lights on to turning up the air conditioning and powering your tools, electricity is an essential service for every home and business.</p>
-                            <a href="" class="button large">Shop Electricity</a>
-                        </div>
-                        <div class="col col-last">
-                            <div class="image-wrapper" style="background: url(assets/i/marketing/home-shop-gas.jpg) left top no-repeat">
-                            </div>
-                            <h2>Shop Natural Gas</h2>
-                            <p>Whether you’re cooking meals or heating your home, natural gas is a great way to use power at home and at the office.</p>
-                            <a href="" class="button large">Shop Natural Gas</a>
-                        </div>
-                    </div>
-                </div>
-            </article>
-
-            <article class="marketing horizontal-photo-cta horizontal-cta-alt">
-                <div class="wrapper clearfix">
-                    <div class="layout">
-                        <div class="cta-content">
-                            <h2>Homelife Services</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis </p>
-                            <p><a href="">Learn More <i class="icon-arrow-right"></i></a></p>
-                        </div>
-                        <div class="aside">
-                            <img src="assets/i/marketing/home-bundle-save.jpg" alt="">
-                        </div>
-                    </div>
-                </div>
-            </article>
-
-
-            <article class="marketing horizontal-photo-cta">
-                <div class="wrapper clearfix">
-                    <div class="aside">
-                        <img src="assets/i/marketing/home-bundle-save.jpg" alt="">
-                    </div>
-                    <div class="cta-content">
-                        <h2>Clean Energy</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis </p>
-                         <p><a href="">Learn More <i class="icon-arrow-right"></i></a></p>
-                    </div>
-                </div>
-            </article>
-
-            <article class="marketing text-callout">
-                <div class="wrapper">
-                    <h1>When you join Stream Energy, we'll help you <span>save</span> even more with our <span>Free Energy Program</span>!</h1>
-                </div>
-            </article>
-
-            <article class="marketing horizontal-photo-cta">
-                <div class="wrapper clearfix">
-                    <div class="layout">
-                        <div class="aside">
-                            <img src="assets/i/marketing/home-bundle-save.jpg" alt="">
-                        </div>
-                        <div class="cta-content">
-                            <h2>Free Energy Program</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis </p>
-                            <p><a href="">Learn More <i class="icon-arrow-right"></i></a></p>
-                        </div>
-                    </div>
-                </div>
-            </article>
-
-            <article class="marketing horizontal-photo-cta horizontal-button-cta">
-                <div class="wrapper clearfix">
-                    <div class="layout">
-                        <div class="cta-content">
-                            <h2>Commercial Services</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis </p>
-                        </div>
-                        <div class="aside">
-                            <a href="" class="button green large">Get Started</a>
-                        </div>
-                    </div>
-                </div>
-            </article>
-
-            <article class="marketing quote">
-                <div class="wrapper">
-                    <div class="quote-wrapper">
-                        <h2>We forget just how painfully dim the world was before electricity.</h2>
-                        <p class="quote-text">A candle, a good candle, provides barely a hundredth of the illumination of a single 100 watt light bulb.</p>
-                        <p class="quote-author">– Bill B</p>
-                    </div>
-                </div>
-            </article>
-
-
-            <article class="marketing home-questions">
-                <div class="wrapper">
-                    <div class="grid border">
-                        <div class="col two-third">
-                            <h2>Have Questions?</h2>
-                            <div class="faq">
-                                <div class="panel" slide-toggle>
-                                    <p class="question">
-                                        <a ng-click="toggleSlide()" ng-class="{'collapsed': !isOpen}" href="">Lorem Ipsem dolor sit amet consecutor lorm ispem</a>
-                                    </p>
-                                    <div class="panel-content slide-toggle">
-                                        <div class="answer">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis viverra aliquet tempus. Aenean nunc dolor, porttitor a placerat vel, vestibulum nec ligula. Suspendisse vulputate, felis vitae facilisis sollicitudin, ante justo blandit felis, ac posuere odio sapien id elit. 
-                                        </div>
-                                    </div>
+            <div ng-controller="stateSelectCtrl">
+                <article class="marketing horizontal-form-layout choose-state">
+                    <div class="wrapper" >
+                        <div class="form-layout">
+                            <h3>Choose your area to get started</h3>
+                            <label>It looks like you're in</label>
+                            <div class="input-group input-group-mobile">
+                                <div class="input-group-control" id="state-select">
+                                    <div id="state-select" dropdown-select dropdown-items="dropdownItems" value="data.dropdownState"></div>
                                 </div>
-                                <div class="panel" slide-toggle>
-                                    <p class="question">
-                                        <a ng-click="toggleSlide()" ng-class="{'collapsed': !isOpen}" href="">Lorem Ipsem dolor sit amet consecutor lorm ispem</a>
-                                    </p>
-                                    <div class="panel-content slide-toggle">
-                                        <div class="answer">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis viverra aliquet tempus. Aenean nunc dolor, porttitor a placerat vel, vestibulum nec ligula. Suspendisse vulputate, felis vitae facilisis sollicitudin, ante justo blandit felis, ac posuere odio sapien id elit. 
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="panel" slide-toggle>
-                                    <p class="question">
-                                        <a ng-click="toggleSlide()" ng-class="{'collapsed': !isOpen}" href="">Lorem Ipsem dolor sit amet consecutor lorm ispem</a>
-                                    </p>
-                                    <div class="panel-content slide-toggle">
-                                        <div class="answer">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis viverra aliquet tempus. Aenean nunc dolor, porttitor a placerat vel, vestibulum nec ligula. Suspendisse vulputate, felis vitae facilisis sollicitudin, ante justo blandit felis, ac posuere odio sapien id elit. 
-                                        </div>
-                                    </div>
+                                <div class="input-group-btn">
+                                    <button type="button" ng-class="{ 'visually-hidden': data.serviceState == 'OO'}" ng-click="data.serviceState = data.dropdownState">Get Started</button>
                                 </div>
                             </div>
-                            <p><a href="">Show 18 More Questions <i class="icon-arrow-right"></i></a></p>
-                        </div>
-                        <div class="col one-third">
-                            <h2>Still Have Questions?</h2>
-                            <p class="contact-specialists">Contact one of our Specialists today!</p>
-                            <p>Or call customer service:  1-800-STREAM</p>
+                            <div class="links">
+                                <span ng-class="{ 'visually-hidden': data.serviceState == 'OO'}">
+                                    <a href="">View Rates</a>
+                                    <a href="">View Details</a>
+                                </span>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </article>
+                </article>
+
+
+
+                
+                <article class="marketing toggle-container">
+                    <div class="wrapper">
+                        <toggle-pane value="data.serviceState" name="DC">
+                            <h2>Washington, DC <span class="pane-item-close" ng-click="data.serviceState=''"><i class="icon-close"></i></span></h2>
+                            <hr>
+                            <h3>Energy Plan Options</h3>
+
+                            <p>Stream Energy’s residential energy prices are designed to help you fully maximize your energy savings. We know comparing rates with other utility companies in Texas can be confusing. Our pricing and rates are both simple and easy to understand.</p>
+
+                            <p>
+                                <a href="#" class="button large pull-right">Choose a Plan</a>
+                                <a href="#">View Electricity Rates <i class="icon-arrow-right"></i></a><br>
+                                <a href="#">View Historical Rates Snapshot <i class="icon-arrow-right"></i></a>
+                            </p>
+
+                            <hr>
+
+                            <div class="grid two">
+                                <div class="col">
+                                    <h3>New Friend 12-Month Plan</h3>
+                                    <ul class="display-list">
+                                        <li><a href="#">Oncor Service Area</a></li>
+                                        <li><a href="#">Oncor Service Area</a></li>
+                                        <li><a href="#">Oncor Service Area</a></li>
+                                        <li><a href="#">Oncor Service Area</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col">
+                                    <h3>New Friend 24-Month Plan</h3>
+                                    <ul class="display-list">
+                                        <li><a href="#">Oncor Service Area</a></li>
+                                        <li><a href="#">Oncor Service Area</a></li>
+                                        <li><a href="#">Oncor Service Area</a></li>
+                                        <li><a href="#">Oncor Service Area</a></li>
+                                        <li><a href="#">Oncor Service Area</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="grid two">
+                                <div class="col">
+                                    <h3>New Friend 12-Month Plan</h3>
+                                    <ul class="display-list">
+                                        <li><a href="#">Oncor Service Area</a></li>
+                                        <li><a href="#">Oncor Service Area</a></li>
+                                        <li><a href="#">Oncor Service Area</a></li>
+                                        <li><a href="#">Oncor Service Area</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col">
+                                    <h3>New Friend 24-Month Plan</h3>
+                                    <ul class="display-list">
+                                        <li><a href="#">Oncor Service Area</a></li>
+                                        <li><a href="#">Oncor Service Area</a></li>
+                                        <li><a href="#">Oncor Service Area</a></li>
+                                        <li><a href="#">Oncor Service Area</a></li>
+                                        <li><a href="#">Oncor Service Area</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </toggle-pane>
+                        <toggle-pane value="data.serviceState" name="GA">
+                            Georgia
+                        </toggle-pane>
+                        <toggle-pane value="data.serviceState" name="MD">
+                            Maryland
+                        </toggle-pane>
+                        <toggle-pane value="data.serviceState" name="NJ">
+                            New Jersey
+                        </toggle-pane>
+                        <toggle-pane value="data.serviceState" name="NY">
+                            New York
+                        </toggle-pane>
+                        <toggle-pane value="data.serviceState" name="PA">
+                            Pennsylvania
+                        </toggle-pane>
+                        <toggle-pane value="data.serviceState" name="TX">
+                            Texas
+                        </toggle-pane>
+                        <toggle-pane value="data.serviceState" name="OO">
+                            Other
+                        </toggle-pane>
+                    </div>
+                </article>
+
+                <toggle-pane value="data.serviceState" name="">
+                    <article class="marketing text-callout">
+                        <div class="wrapper">
+                            <h1>Electricity and Gas that <span>fit</span> your <span>lifestyle</span> </h1>
+                            <p>Electricity isn’t a luxury, it’s a necessity. Everyone needs it, every single day. Stream Energy offers competitive energy products to make life a little easier and can provide for all your electricity needs. From keeping your lights on to cooling your house, powering your technology and your power tools, Stream Energy can power your home or business.</p>
+                        </div>
+                    </article>
+
+                    <article class="marketing vertical-cta">
+                        <div class="wrapper">
+                            <div class="grid two">
+                                <div class="col col-first">
+                                    <div class="image-wrapper" style="background: url(assets/i/marketing/home-shop-electricity.jpg) right top no-repeat">
+                                    </div>
+                                    <h2>Shop Electricity</h2>
+                                    <p>From keeping your lights on to turning up the air conditioning and powering your tools, electricity is an essential service for every home and business.</p>
+                                    <a href="" class="button large">Shop Electricity</a>
+                                </div>
+                                <div class="col col-last">
+                                    <div class="image-wrapper" style="background: url(assets/i/marketing/home-shop-gas.jpg) left top no-repeat">
+                                    </div>
+                                    <h2>Shop Natural Gas</h2>
+                                    <p>Whether you’re cooking meals or heating your home, natural gas is a great way to use power at home and at the office.</p>
+                                    <a href="" class="button large">Shop Natural Gas</a>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="marketing horizontal-photo-cta horizontal-cta-alt">
+                        <div class="wrapper clearfix">
+                            <div class="layout">
+                                <div class="cta-content">
+                                    <h2>Homelife Services</h2>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis </p>
+                                    <p><a href="">Learn More <i class="icon-arrow-right"></i></a></p>
+                                </div>
+                                <div class="aside">
+                                    <img src="assets/i/marketing/home-bundle-save.jpg" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="marketing horizontal-photo-cta">
+                        <div class="wrapper clearfix">
+                            <div class="aside">
+                                <img src="assets/i/marketing/home-bundle-save.jpg" alt="">
+                            </div>
+                            <div class="cta-content">
+                                <h2>Clean Energy</h2>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis </p>
+                                 <p><a href="">Learn More <i class="icon-arrow-right"></i></a></p>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="marketing text-callout">
+                        <div class="wrapper">
+                            <h1>When you join Stream Energy, we'll help you <span>save</span> even more with our <span>Free Energy Program</span>!</h1>
+                        </div>
+                    </article>
+
+                    <article class="marketing horizontal-photo-cta">
+                        <div class="wrapper clearfix">
+                            <div class="layout">
+                                <div class="aside">
+                                    <img src="assets/i/marketing/home-bundle-save.jpg" alt="">
+                                </div>
+                                <div class="cta-content">
+                                    <h2>Free Energy Program</h2>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis </p>
+                                    <p><a href="">Learn More <i class="icon-arrow-right"></i></a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="marketing horizontal-photo-cta horizontal-button-cta">
+                        <div class="wrapper clearfix">
+                            <div class="layout">
+                                <div class="cta-content">
+                                    <h2>Commercial Services</h2>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis </p>
+                                </div>
+                                <div class="aside">
+                                    <a href="" class="button green large">Get Started</a>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="marketing quote">
+                        <div class="wrapper">
+                            <div class="quote-wrapper">
+                                <h2>We forget just how painfully dim the world was before electricity.</h2>
+                                <p class="quote-text">A candle, a good candle, provides barely a hundredth of the illumination of a single 100 watt light bulb.</p>
+                                <p class="quote-author">– Bill B</p>
+                            </div>
+                        </div>
+                    </article>
+
+
+                    <article class="marketing home-questions">
+                        <div class="wrapper">
+                            <div class="grid border">
+                                <div class="col two-third">
+                                    <h2>Have Questions?</h2>
+                                    <div class="faq">
+                                        <div class="panel" slide-toggle>
+                                            <p class="question">
+                                                <a ng-click="toggleSlide()" ng-class="{'collapsed': !isOpen}" href="">Lorem Ipsem dolor sit amet consecutor lorm ispem</a>
+                                            </p>
+                                            <div class="panel-content slide-toggle">
+                                                <div class="answer">
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis viverra aliquet tempus. Aenean nunc dolor, porttitor a placerat vel, vestibulum nec ligula. Suspendisse vulputate, felis vitae facilisis sollicitudin, ante justo blandit felis, ac posuere odio sapien id elit. 
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel" slide-toggle>
+                                            <p class="question">
+                                                <a ng-click="toggleSlide()" ng-class="{'collapsed': !isOpen}" href="">Lorem Ipsem dolor sit amet consecutor lorm ispem</a>
+                                            </p>
+                                            <div class="panel-content slide-toggle">
+                                                <div class="answer">
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis viverra aliquet tempus. Aenean nunc dolor, porttitor a placerat vel, vestibulum nec ligula. Suspendisse vulputate, felis vitae facilisis sollicitudin, ante justo blandit felis, ac posuere odio sapien id elit. 
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel" slide-toggle>
+                                            <p class="question">
+                                                <a ng-click="toggleSlide()" ng-class="{'collapsed': !isOpen}" href="">Lorem Ipsem dolor sit amet consecutor lorm ispem</a>
+                                            </p>
+                                            <div class="panel-content slide-toggle">
+                                                <div class="answer">
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis viverra aliquet tempus. Aenean nunc dolor, porttitor a placerat vel, vestibulum nec ligula. Suspendisse vulputate, felis vitae facilisis sollicitudin, ante justo blandit felis, ac posuere odio sapien id elit. 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p><a href="">Show 18 More Questions <i class="icon-arrow-right"></i></a></p>
+                                </div>
+                                <div class="col one-third">
+                                    <h2>Still Have Questions?</h2>
+                                    <p class="contact-specialists">Contact one of our Specialists today!</p>
+                                    <p>Or call customer service:  1-800-STREAM</p>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </toggle-pane>
+            </div>
 
 
 

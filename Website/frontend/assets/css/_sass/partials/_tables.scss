@@ -52,3 +52,10 @@ table {
 		padding-bottom: 0;
 	}
 }
+
+
+[grid-table] {
+	tbody:nth-child(odd) tr:first-child {
+		background: #fafafa;
+	}
+}

@@ -219,7 +219,8 @@ article.marketingIntro {
 			@include breakpoint(medium-large) {
 				width: 450px;
 			}
-			margin: 0 auto;
+			margin-left: auto;
+			margin-right: auto;
 			text-align: left;
 			em {
 				text-transform: uppercase;
@@ -263,8 +264,6 @@ article.marketingIntro {
 }
 
 article.loginHorizontal {
- 	margin-top: -20px;
-	padding: 10px 0;
 	background-color: $brand-primary-color;
 	color: #fff;
 	.text {
@@ -1334,13 +1333,6 @@ article.contact-state {
 	}
 	@include breakpoint(small) {
 		padding: 0 20px;
-	}
-}
-
-article.faq {
-	padding: 20px 0;
-	.wrapper {
-	
 	}
 }
 

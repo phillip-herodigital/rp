@@ -88,6 +88,18 @@ ul, ol {
 	text-align: center;
 }
 
+.pull-right {
+	float: right;
+}
+
+.pull-left {
+	float: left;
+}
+
+.visually-hidden {
+	visibility: hidden;
+}
+
 @include breakpoint(small) {
 	.hide-small {
 		display: none;
@@ -146,6 +158,14 @@ ul, ol {
 	> li {
 		padding: 0;
 		float: left;
+	}
+}
+
+.display-list {
+	list-style-type: none;
+	padding: 0;
+	> li {
+		padding: 0;
 	}
 }
 
@@ -247,7 +267,6 @@ ul, ol {
 #state-select {
     button {
         border-color: #cfcfcf;
-        text-transform: uppercase;
         @include box-shadow(none);
     }
     .icon {
