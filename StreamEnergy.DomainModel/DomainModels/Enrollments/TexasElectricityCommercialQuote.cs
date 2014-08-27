@@ -14,7 +14,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         
         public string Id
         {
-            get { return ""; }
+            get { return Qualifier; }
         }
 
         public string OfferType
