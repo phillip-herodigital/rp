@@ -17,7 +17,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public bool AcceptsOptions(IOfferOption offerOption)
         {
-            return offerOption is TexasElectricityOfferOption;
+            return offerOption is TexasElectricityCommercialQuoteOption;
         }
 
         public async Task<IOfferOptionRules> GetOptionRules(Location location, IOffer offer)
