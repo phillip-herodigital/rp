@@ -19,7 +19,7 @@ namespace StreamEnergy.MyStream.Controllers
         public ActionResult ClientData()
         {
             inner.Initialize().Wait();
-            return this.Content(StreamEnergy.Json.Stringify(inner.ClientData(null)));
+            return this.Content(StreamEnergy.Json.Stringify(inner.ClientData()));
         }
 
         public ActionResult EnrollmentSupportedUtilityStates()

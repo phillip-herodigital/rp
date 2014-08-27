@@ -21,10 +21,6 @@
             }
         },
         socialSecurityNumber: '',
-        driversLicense: {
-            number: '',
-            stateAbbreviation: ''
-        },
         secondaryContactInfo: {}
     };
     service.identityQuestions = [];
@@ -63,7 +59,6 @@
         // copy out the account information the server has
         service.accountInformation.contactInfo = result.contactInfo || {};
         service.accountInformation.secondaryContactInfo = result.secondaryContactInfo || {};
-        service.accountInformation.driversLicense = result.driversLicense || {};
         service.accountInformation.language = result.language;
 
         // Default these object to prevent errors
@@ -190,9 +185,10 @@
         var data = angular.copy({
             contactInfo: service.accountInformation.contactInfo,
             socialSecurityNumber: service.accountInformation.socialSecurityNumber,
-            driversLicense: service.accountInformation.driversLicense,
             secondaryContactInfo: service.accountInformation.secondaryContactInfo,
             onlineAccount: service.accountInformation.onlineAccount,
+            mailingAddress: service.accountInformation.mailingAddress,
+            previousAddress: service.accountInformation.previousAddress
         });
         data.cart = _.map(enrollmentCartService.services, function (cartItem) {
             return {
@@ -213,8 +209,6 @@
             };
         });
 
-        if (!data.driversLicense.number && !data.driversLicense.stateAbbreviation)
-            data.driversLicense = null;
         if (!data.secondaryContactInfo.first && !data.secondaryContactInfo.last)
             data.secondaryContactInfo = null;
         if (data.onlineAccount && !data.onlineAccount.username)

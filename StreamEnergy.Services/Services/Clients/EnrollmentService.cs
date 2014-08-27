@@ -26,17 +26,23 @@ namespace StreamEnergy.Services.Clients
             {
                 if (location.Capabilities.OfType<DomainModels.Enrollments.ServiceStatusCapability>().Count() != 1)
                 {
-                    result.Add(location, new LocationOfferSet { OfferSetErrors = { { "TexasElectricity", "ServiceStatusUnknown" } } });
+                    result.Add(location, new LocationOfferSet { OfferSetErrors = { { "Location", "ServiceStatusUnknown" } } });
+                    continue;
+                }
+                else if (location.Capabilities.OfType<DomainModels.Enrollments.CustomerTypeCapability>().Count() != 1)
+                {
+                    result.Add(location, new LocationOfferSet { OfferSetErrors = { { "Location", "CustomerTypeUnknown" } } });
                     continue;
                 }
 
                 var serviceStatus = location.Capabilities.OfType<DomainModels.Enrollments.ServiceStatusCapability>().Single();
+                var customerType = location.Capabilities.OfType<DomainModels.Enrollments.CustomerTypeCapability>().Single();
 
                 if (location.Capabilities.OfType<DomainModels.Enrollments.TexasServiceCapability>().Any())
                 {
-                    if (serviceStatus.CustomerType == EnrollmentCustomerType.Residential)
+                    if (customerType.CustomerType == EnrollmentCustomerType.Residential)
                     {
-                        result.Add(location, await LoadTexasOffers(location, serviceStatus));
+                        result.Add(location, await LoadTexasOffers(location, serviceStatus, customerType));
                     }
                     else
                     {
@@ -53,7 +59,7 @@ namespace StreamEnergy.Services.Clients
             return result;
         }
 
-        private async Task<LocationOfferSet> LoadTexasOffers(Location location, ServiceStatusCapability serviceStatus)
+        private async Task<LocationOfferSet> LoadTexasOffers(Location location, ServiceStatusCapability serviceStatus, CustomerTypeCapability customerType)
         {
             if (location.Capabilities.OfType<DomainModels.Enrollments.TexasServiceCapability>().Count() != 1)
             {
@@ -64,7 +70,7 @@ namespace StreamEnergy.Services.Clients
 
             // Grab from the HttpUtility because it creates the interna `HttpValueCollection`, which will escape values properly when ToString'd.
             var parameters = System.Web.HttpUtility.ParseQueryString("");
-            parameters["CustomerType"] = serviceStatus.CustomerType.ToString("g");
+            parameters["CustomerType"] = customerType.CustomerType.ToString("g");
             parameters["EnrollmentType"] = serviceStatus.EnrollmentType.ToString("g");
             parameters["ServiceAddress.City"] = location.Address.City;
             parameters["ServiceAddress.State"] = location.Address.StateAbbreviation;
@@ -117,12 +123,13 @@ namespace StreamEnergy.Services.Clients
         {
             var texasService = location.Capabilities.OfType<DomainModels.Enrollments.TexasServiceCapability>().Single();
             var serviceStatus = location.Capabilities.OfType<DomainModels.Enrollments.ServiceStatusCapability>().Single();
+            var customerType = location.Capabilities.OfType<DomainModels.Enrollments.CustomerTypeCapability>().Single();
             
             var response = await streamConnectClient.PostAsJsonAsync("/api/Enrollments/VerifyPremise", new
             {
                 ServiceAddress = ToStreamConnectAddress(location.Address),
                 UtilityAccountNumber = texasService.EsiId,
-                CustomerType = serviceStatus.CustomerType.ToString("g"),
+                CustomerType = customerType.CustomerType.ToString("g"),
                 EnrollmentType = serviceStatus.EnrollmentType.ToString("g")
             });
 
@@ -213,14 +220,15 @@ namespace StreamEnergy.Services.Clients
                     var texasElectricityOffer = offer.Offer as TexasElectricityOffer;
                     var texasService = service.Location.Capabilities.OfType<DomainModels.Enrollments.TexasServiceCapability>().Single();
                     var serviceStatus = service.Location.Capabilities.OfType<DomainModels.Enrollments.ServiceStatusCapability>().Single();
+                    var customerType = service.Location.Capabilities.OfType<DomainModels.Enrollments.CustomerTypeCapability>().Single();
                     return new
                     {
                         GlobalCustomerId = globalCustomerId.ToString(),
-                        CustomerType = serviceStatus.CustomerType.ToString("g"),
+                        CustomerType = customerType.CustomerType.ToString("g"),
                         SystemOfRecord = "CIS1",
                         FirstName = context.ContactInfo.Name.First,
                         LastName = context.ContactInfo.Name.Last,
-                        BillingAddress = ToStreamConnectAddress(offer.OfferOption.BillingAddress),
+                        BillingAddress = ToStreamConnectAddress(context.MailingAddress),
                         PhoneNumbers = (from DomainModels.TypedPhone phone in context.ContactInfo.Phone
                                         select new
                                         {

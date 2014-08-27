@@ -63,7 +63,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                         Capabilities = new DomainModels.IServiceCapability[]
                         {
                             new DomainModels.Enrollments.TexasServiceCapability { Tdu = "ONCOR" },
-                            new DomainModels.Enrollments.ServiceStatusCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential, EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
+                            new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
+                            new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
                         }
                     }
                 }).Result;
@@ -98,7 +99,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                         Capabilities = new DomainModels.IServiceCapability[]
                         {
                             new DomainModels.Enrollments.TexasServiceCapability { Tdu = "ONCOR", EsiId = "10443720006102389" },
-                            new DomainModels.Enrollments.ServiceStatusCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential, EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
+                            new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
+                            new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
                         }
                     }
                 }).Result;
@@ -131,7 +133,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                     Capabilities = new DomainModels.IServiceCapability[]
                     {
                         new DomainModels.Enrollments.TexasServiceCapability { Tdu = "ONCOR", EsiId = "10443720006102389" },
-                        new DomainModels.Enrollments.ServiceStatusCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential, EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
+                        new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
+                            new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
                     }
                 }).Result;
             }
@@ -358,7 +361,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                         Capabilities = new DomainModels.IServiceCapability[]
                         {
                             new DomainModels.Enrollments.TexasServiceCapability { Tdu = "ONCOR", EsiId = "10443720006102389" },
-                            new DomainModels.Enrollments.ServiceStatusCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential, EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
+                            new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
+                            new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
                         }
                     }).Result;
 
@@ -483,7 +487,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                         Capabilities = new DomainModels.IServiceCapability[]
                         {
                             new DomainModels.Enrollments.TexasServiceCapability { Tdu = "ONCOR", EsiId = "10443720006102389" },
-                            new DomainModels.Enrollments.ServiceStatusCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential, EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
+                            new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
+                            new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
                         }
                     };
             var offers = enrollmentService.LoadOffers(new[] { location }).Result;
@@ -517,19 +522,19 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                                     Offer = texasElectricityOffer,
                                     OfferOption = new DomainModels.Enrollments.TexasElectricityMoveInOfferOption 
                                     { 
-                                        BillingAddress = new DomainModels.Address
-                                        {
-                                            City = "MASSENA",
-                                            StateAbbreviation = "NY",
-                                            Line1 = "100 WILSON HILL RD",
-                                            PostalCode5 = "13662"
-                                        },
                                         ConnectDate = DateTime.Today.AddDays(3),
                                     }
                                 }
                             }
                         }
-                    }
+                    },
+                    MailingAddress = new DomainModels.Address
+                    {
+                        City = "MASSENA",
+                        StateAbbreviation = "NY",
+                        Line1 = "100 WILSON HILL RD",
+                        PostalCode5 = "13662"
+                    },
                 }).Result;
 
                 // Assert

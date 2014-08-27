@@ -138,6 +138,9 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
             else if (expectedState == 'identityCheckHardStop') {
                 $window.location.href = '/enrollment/please-contact';
             }
+            else if (expectedState == 'errorHardStop') {
+                $window.location.href = '/enrollment/please-contact';
+            }
             else if (flows[currentFlow] && flows[currentFlow][expectedState]) {
                 for (var i = 0; i < flows[currentFlow][expectedState].previous.length; i++) {
                     var stateName = flows[currentFlow][expectedState].previous[i];

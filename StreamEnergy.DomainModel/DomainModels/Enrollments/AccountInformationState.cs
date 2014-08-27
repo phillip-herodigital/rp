@@ -17,15 +17,22 @@ namespace StreamEnergy.DomainModels.Enrollments
             this.enrollmentService = enrollmentService;
         }
 
-        public override IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
+        public override IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations(UserContext data, InternalContext internalContext)
         {
             yield return context => context.Services;
-            yield return context => context.ContactInfo;
-            yield return context => context.Language;
-            yield return context => context.SecondaryContactInfo;
-            yield return context => context.SocialSecurityNumber;
-            yield return context => context.DriversLicense;
-            yield return context => context.OnlineAccount;
+            if (!data.IsRenewal)
+            {
+                yield return context => context.ContactInfo;
+                yield return context => context.Language;
+                yield return context => context.SecondaryContactInfo;
+                yield return context => context.SocialSecurityNumber;
+                yield return context => context.OnlineAccount;
+                yield return context => context.MailingAddress;
+                if (data.Services.SelectMany(svc => svc.Location.Capabilities).OfType<ServiceStatusCapability>().Any(cap => cap.EnrollmentType == EnrollmentType.MoveIn))
+                {
+                    yield return context => context.PreviousAddress;
+                }
+            }
         }
 
         public override void Sanitize(UserContext context, InternalContext internalContext)

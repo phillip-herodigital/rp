@@ -40,7 +40,7 @@ namespace StreamEnergy.Core.Tests.Processes
 
         class GatherDataState : IState<GetOffersContext, GetOffersInternalContext>
         {
-            public IEnumerable<System.Linq.Expressions.Expression<Func<GetOffersContext, object>>> PreconditionValidations()
+            public IEnumerable<System.Linq.Expressions.Expression<Func<GetOffersContext, object>>> PreconditionValidations(GetOffersContext data, GetOffersInternalContext internalData)
             {
                 yield return context => context.Address;
             }
@@ -98,7 +98,7 @@ namespace StreamEnergy.Core.Tests.Processes
 
         class LoadOffersState : IState<GetOffersContext, GetOffersInternalContext>
         {
-            public IEnumerable<System.Linq.Expressions.Expression<Func<GetOffersContext, object>>> PreconditionValidations()
+            public IEnumerable<System.Linq.Expressions.Expression<Func<GetOffersContext, object>>> PreconditionValidations(GetOffersContext data, GetOffersInternalContext internalData)
             {
                 yield return context => context.Address;
             }
@@ -156,7 +156,7 @@ namespace StreamEnergy.Core.Tests.Processes
 
         class DisplayOffersState : IState<GetOffersContext, GetOffersInternalContext>
         {
-            public IEnumerable<System.Linq.Expressions.Expression<Func<GetOffersContext, object>>> PreconditionValidations()
+            public IEnumerable<System.Linq.Expressions.Expression<Func<GetOffersContext, object>>> PreconditionValidations(GetOffersContext data, GetOffersInternalContext internalData)
             {
                 yield return context => context.Address;
                 yield return context => context.ChosenOffer;

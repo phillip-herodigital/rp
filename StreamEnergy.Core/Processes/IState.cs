@@ -11,7 +11,7 @@ namespace StreamEnergy.Processes
         where TContext : class, ISanitizable
         where TInternalContext : class
     {
-        IEnumerable<System.Linq.Expressions.Expression<Func<TContext, object>>> PreconditionValidations();
+        IEnumerable<System.Linq.Expressions.Expression<Func<TContext, object>>> PreconditionValidations(TContext context, TInternalContext internalContext);
         void Sanitize(TContext context, TInternalContext internalContext);
         IEnumerable<ValidationResult> AdditionalValidations(TContext context, TInternalContext internalContext);
         bool IgnoreValidation(ValidationResult validationResult, TContext context, TInternalContext internalContext);

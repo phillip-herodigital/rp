@@ -35,6 +35,13 @@ namespace StreamEnergy.DomainModels.Enrollments
                     return true;
                 if (validationResult.MemberNames.Any(m => m.StartsWith("SelectedIdentityAnswers")))
                     return true;
+                if (validationResult.MemberNames.Any(m => m.StartsWith("MailingAddress")))
+                    return true;
+            }
+            if (context.IsRenewal || !context.Services.SelectMany(svc => svc.Location.Capabilities).OfType<ServiceStatusCapability>().Any(cap => cap.EnrollmentType == EnrollmentType.MoveIn))
+            {
+                if (validationResult.MemberNames.Any(m => m.StartsWith("PreviousAddress")))
+                    return true;
             }
             return base.IgnoreValidation(validationResult, context, internalContext);
         }

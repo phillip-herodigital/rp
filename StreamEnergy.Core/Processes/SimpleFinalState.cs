@@ -10,7 +10,7 @@ namespace StreamEnergy.Processes
         where TContext : class, ISanitizable
         where TInternalContext : class
     {
-        IEnumerable<System.Linq.Expressions.Expression<Func<TContext, object>>> IState<TContext, TInternalContext>.PreconditionValidations()
+        IEnumerable<System.Linq.Expressions.Expression<Func<TContext, object>>> IState<TContext, TInternalContext>.PreconditionValidations(TContext data, TInternalContext internalData)
         {
             return Enumerable.Empty<System.Linq.Expressions.Expression<Func<TContext, object>>>();
         }
