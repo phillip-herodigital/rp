@@ -33,7 +33,7 @@
                             
                         <div class="item customer-type">
                             <label for="customer-type">@Html.Sitecore().Field("Interest Label")</label>
-                            <select id="customer-type" name="customer-type" ng-model="$parent.customerType">
+                            <select id="customer-type" name="customer-type" ng-model="$parent.customerType" ng-change="assignStepNames(@(Html.Action("EnrollmentNav", "Enrollment").ToHtmlString()))">
                                 <option value="residential">Residential Utilities</option>
                                 <option value="commercial">Commercial Utilities</option>
                             </select>

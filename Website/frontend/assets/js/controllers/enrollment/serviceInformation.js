@@ -5,7 +5,6 @@
 ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$filter', 'enrollmentService', 'enrollmentCartService', 'enrollmentStepsService', function ($scope, $location, $filter, enrollmentService, enrollmentCartService, enrollmentStepsService) {
     // TODO - chose state by geoIP
     $scope.data = { serviceState: 'TX' };
-    $scope.cartCount = enrollmentCartService.getCartCount();
 
     var maxResidentialItems = 3;
     var maxCommercialItems = 70;
@@ -46,7 +45,7 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
      * @return {Boolean}
      */
     $scope.isFormValid = function() {
-        var isCartFull = $scope.isCartFull();
+        //var isCartFull = $scope.isCartFull();
         if ($scope.data.serviceLocation !== null && typeof $scope.data.serviceLocation == 'object' && $scope.data.isNewService !== undefined) {
             return true;
         } else {
@@ -69,6 +68,7 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
         $scope.data.serviceLocation.capabilities = _.filter($scope.data.serviceLocation.capabilities, function (cap) { return cap.capabilityType != "ServiceStatus"; });
         $scope.data.serviceLocation.capabilities.push({ "capabilityType": "ServiceStatus", "enrollmentType": $scope.data.isNewService ? 'moveIn' : 'switch', "customerType": $scope.customerType });
 
+
         var activeService = enrollmentCartService.getActiveService();
         if (activeService) {
             activeService.location = $scope.data.serviceLocation;
@@ -81,7 +81,8 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
     };
 
     $scope.isCartFull = function() {
-        if (($scope.customerType == 'residental' && $scope.cartCount == maxResidentialItems) || ($scope.customerType == 'commercial' && $scope.cartCount == maxCommercialItems)) {
+        var cartCount = enrollmentCartService.getCartCount();
+        if (($scope.customerType == 'residental' && cartCount == maxResidentialItems) || ($scope.customerType == 'commercial' && cartCount == maxCommercialItems)) {
             return true;
         } else {
             return false;

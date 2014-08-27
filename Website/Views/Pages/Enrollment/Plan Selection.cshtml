@@ -1,5 +1,5 @@
 @model StreamEnergy.DomainModels.Enrollments.UserContext
-<div id="utilityFlowPlans" class="enrollment" ng-show="stepsService.isStepVisible('utilityFlowPlans')" ng-controller="EnrollmentPlanSelectionCtrl" ng-init="setTimeRemaining('utilityFlowPlans', '@Html.Sitecore().Field("Remaining Minutes Number")');">
+<div id="utilityFlowPlans" class="enrollment" ng-if="customerType == 'residential'" ng-show="stepsService.isStepVisible('utilityFlowPlans')" ng-controller="EnrollmentPlanSelectionCtrl" ng-init="setTimeRemaining('utilityFlowPlans', '@Html.Sitecore().Field("Remaining Minutes Number")');">
     <div class="banner enrollment__banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper clearfix">
             <h1>
@@ -19,16 +19,16 @@
                         <h1>@Html.Sitecore().Field("Choose Header")</h1>
                     </header>
                     <div class="content">
-                            <p>@Html.Sitecore().Field("Choose Paragraph")</p>
+                        <p>@Html.Sitecore().Field("Choose Paragraph")</p>
                         <div class="item item--no-input">
                             <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
                             <strong>{{ currentLocationInfo().location.address | address }}</strong>
                         </div>
                     </div>
                 </article>
-                <article class="enrollment__box" data-ng-repeat="typedOffers in currentLocationInfo().offerInformationByType" ng-include src="'planList/' + typedOffers.key">
-                </article>
+                <article class="enrollment__box" data-ng-repeat="typedOffers in currentLocationInfo().offerInformationByType" ng-include src="'planList/' + typedOffers.key"></article>
                 <div class="buttons">
+                    <button type="submit" class="tertiary" ng-click="reset();" data-val-submit>@Html.Sitecore().Field("Cancel Enrollment Button")</button>
                     <button type="submit" class="primary" ng-click="completeStep();" ng-disabled="!isFormValid()" data-val-submit>@Html.Sitecore().Field("Continue Button")</button>
                     <button type="submit" class="secondary" ng-click="completeStep(true);" ng-disabled="!isFormValid()" ng-if="!isRenewal" data-val-submit>@Html.Sitecore().Field("Add Address Button")</button>
                 </div>
@@ -39,6 +39,52 @@
         </section>
         <aside>
             <div ng-include ng-if="true" src="'cart-template'"></div>
+        </aside>
+    </div>
+</div>
+
+<div id="utilityFlowPlans" class="enrollment" ng-if="customerType == 'commercial'" ng-show="stepsService.isStepVisible('utilityFlowPlans')" ng-controller="EnrollmentPlanSelectionCtrl" ng-init="setTimeRemaining('utilityFlowPlans', '@Html.Sitecore().Field("Remaining Minutes Number")');">
+    <div class="banner enrollment__banner" style="@Html.AsBackgroundStyle("Banner Image")">
+        <div class="wrapper clearfix">
+            <h1>
+                <span class="small block">@Html.Sitecore().Field("Commercial Banner Header Text")</span><br />
+                <span class="block">@Html.Sitecore().Field("Commercial Banner Sub Header Text")</span>
+            </h1>
+        </div>
+    </div>
+    <div class="wrapper layout cols-2">
+        <aside class="enrollment__nav">
+            <div ng-include src="'enrollment-nav-template'" ng-init="name = 'utilityFlowPlans'"></div>
+        </aside>
+        <section>
+            <form data-val-bind-messages="validations">
+                <article class="form enrollment__box">
+                    <header>
+                        <h1>@Html.Sitecore().Field("Quote Header")</h1>
+                    </header>
+                    <div class="content">
+                        <p>@Html.Sitecore().Field("Quote Intro")</p>
+                        <div class="item item--no-input">
+                            <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
+                            <strong>{{ currentLocationInfo().location.address | address }}</strong>
+                        </div>
+                        <div class="item">
+                            @Html.Sitecore().Field("Quote Content")
+                        </div>
+                    </div>
+                </article>
+                <div class="buttons">
+                    <button type="submit" class="tertiary" ng-click="reset();" data-val-submit>@Html.Sitecore().Field("Cancel Enrollment Button")</button>
+                    <button type="submit" class="primary" ng-click="completeStep();" data-val-submit>@Html.Sitecore().Field("Continue Button")</button>
+                    <button type="submit" class="secondary" ng-click="completeStep(true);" ng-if="!isRenewal" data-val-submit>@Html.Sitecore().Field("Add Address Button")</button>
+                </div>
+            </form>
+            <div class="hide-medium-large time-remaining-mobile">
+                <p class="time-remaining">@Html.Sitecore().Field("Time Remaining")</p>
+            </div>
+        </section>
+        <aside>
+            <div ng-include ng-if="true" src="'cart-template'"></div>    
         </aside>
     </div>
 </div>
