@@ -5,6 +5,7 @@
 ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 'enrollmentCartService', '$modal', function ($scope, enrollmentService, enrollmentCartService, $modal) {
 
     $scope.completeOrder = {
+        additionalAuthorizations: {},
         agreeToTerms: false,
         creditCard: {}
     };
@@ -26,6 +27,7 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
                     paymentInfo: paymentInfo
                 });
                 enrollmentService.setConfirmOrder({
+                    additionalAuthorizations: $scope.completeOrder.additionalAuthorizations,
                     agreeToTerms: $scope.completeOrder.agreeToTerms,
                     paymentInfo: paymentInfo
                 });

@@ -403,6 +403,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             await Initialize();
             
             stateMachine.Context.PaymentInfo = request.PaymentInfo;
+            stateMachine.Context.AdditionalAuthorizations = request.AdditionalAuthorizations ?? new Dictionary<AdditionalAuthorization, bool>();
             stateMachine.Context.AgreeToTerms = request.AgreeToTerms;
 
             await stateMachine.ContextUpdated();

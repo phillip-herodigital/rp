@@ -43,6 +43,9 @@ namespace StreamEnergy.DomainModels.Enrollments
         [ValidateObject(ErrorMessagePrefix = "")]
         public DomainModels.Payments.IPaymentInfo PaymentInfo { get; set; }
 
+        [Required(ErrorMessage = "Authorizations Required")]
+        public Dictionary<AdditionalAuthorization, bool> AdditionalAuthorizations { get; set; }
+
         [RequireValue(true, ErrorMessage = "Must Agree To Terms")]
         public bool AgreeToTerms { get; set; }
 

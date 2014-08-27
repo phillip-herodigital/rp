@@ -155,6 +155,7 @@
     <Compile Include="DomainModels\Address.cs" />
     <Compile Include="DomainModels\CustomerContact.cs" />
     <Compile Include="DomainModels\Emails\IEmailService.cs" />
+    <Compile Include="DomainModels\Enrollments\AdditionalAuthorization.cs" />
     <Compile Include="DomainModels\Enrollments\ConnectDate.cs" />
     <Compile Include="DomainModels\Enrollments\ConnectDateClassification.cs" />
     <Compile Include="DomainModels\Enrollments\ConnectDatePolicy.cs" />

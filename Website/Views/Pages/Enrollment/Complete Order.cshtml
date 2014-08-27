@@ -75,12 +75,21 @@
                     </div>
                 </article>
                 <div class="form terms-agreement">
-                    @Html.Raw(Html.Sitecore().CurrentItem["Terms and Conditions Text"].Format(new { LinkAttributes = "ng-click=\"showTerms('Standard')\"" }))
                     <div class="item" @Html.Validation().ErrorClass(m => m.AgreeToTerms)>
                         <ul class="checkbox-list">
                             <li>
                                 @Html.CheckBoxFor(m => m.AgreeToTerms, new { ng_model = "completeOrder.agreeToTerms" })
                                 <label for="@Html.IdFor(m => m.AgreeToTerms)">
+                                    @Html.Raw(Html.Sitecore().CurrentItem["Terms and Conditions Text"].Format(new { LinkAttributes = "ng-click=\"showTerms('Standard')\"" }))
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="item" @Html.Validation().ErrorClass(m => m.AdditionalAuthorizations[StreamEnergy.DomainModels.Enrollments.AdditionalAuthorization.Tcpa])>
+                        <ul class="checkbox-list">
+                            <li>
+                                @Html.CheckBoxFor(m => m.AdditionalAuthorizations[StreamEnergy.DomainModels.Enrollments.AdditionalAuthorization.Tcpa], new { ng_model = "completeOrder.additionalAuthorizations.tcpa" })
+                                <label for="@Html.IdFor(m => m.AdditionalAuthorizations[StreamEnergy.DomainModels.Enrollments.AdditionalAuthorization.Tcpa])">
                                     @Html.Raw(Html.Sitecore().CurrentItem["TCPA - I Agree Text"].Format(new { LinkAttributes = "ng-click=\"showTerms('Tcpa')\"" }))
                                 </label>
                             </li>    
