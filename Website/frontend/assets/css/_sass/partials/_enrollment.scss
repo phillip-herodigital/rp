@@ -7,10 +7,12 @@ $enrollment-primary-color: #257ab3;
 $enrollment-secondary-color: #fff;
 
 $enrollment-primary-button-background: #257ab3;
-$enrollment-secondary-button-background: #fff;
+$enrollment-secondary-button-background: #6b6b6b;
+$enrollment-tertiary-button-background: #fff;
 
 $enrollment-primary-button-color: #fff;
-$enrollment-secondary-button-color: #257ab3;
+$enrollment-secondary-button-color: #fff;
+$enrollment-tertiary-button-color: #257ab3;
 
 $enrollment-dark-border-color: #cecece;
 $enrollment-light-border-color: #e6e6e6;
@@ -131,6 +133,26 @@ $enrollment-module-vertical-padding: 20px;
         border: none;
         border-top: 3px solid #eaeaea;
         margin: 25px 0;
+    }
+    .customer-type {
+        label {
+            display: inline-block;
+            margin-right: 5px;
+        }
+        select {
+            width: auto;
+        }
+    }
+    .service-address {
+        label {
+            display: block;
+        }
+        .input-group-btn {
+            vertical-align: bottom;
+        }
+    }
+    .warning {
+        font-size: 13px;
     }
 }
 
@@ -842,11 +864,19 @@ $enrollment-module-vertical-padding: 20px;
     .buttons .button, .buttons button, .enrollment-btn {
         background-color: $enrollment-primary-button-background;
         color: $enrollment-primary-button-color;
-
+        display: inline-block;
+        float: right;
         &.secondary {
             background-color: $enrollment-secondary-button-background;
             color: $enrollment-secondary-button-color;
+            margin-right: 10px;
+        }
+        &.tertiary {
+            background-color: $enrollment-tertiary-button-background;
+            color: $enrollment-tertiary-button-color;
             text-shadow: none;
+            text-transform: none;
+            float: left;
         }
     }
     

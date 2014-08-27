@@ -6,6 +6,9 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
     // TODO - chose state by geoIP
     $scope.data = { serviceState: 'TX' };
 
+    var maxResidentialItems = 3;
+    var maxCommercialItems = 70;
+
     //Checking to see when the active service address has been updated
     //So we can reinitialize all service information for this page
     //There has to be a better way of doing this
@@ -42,6 +45,7 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
      * @return {Boolean}
      */
     $scope.isFormValid = function() {
+        //var isCartFull = $scope.isCartFull();
         if ($scope.data.serviceLocation !== null && typeof $scope.data.serviceLocation == 'object' && $scope.data.isNewService !== undefined) {
             return true;
         } else {
@@ -65,6 +69,7 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
         $scope.data.serviceLocation.capabilities.push({ "capabilityType": "ServiceStatus", "enrollmentType": $scope.data.isNewService ? 'moveIn' : 'switch' });
         $scope.data.serviceLocation.capabilities.push({ "capabilityType": "CustomerType", "customerType": $scope.customerType });
 
+
         var activeService = enrollmentCartService.getActiveService();
         if (activeService) {
             activeService.location = $scope.data.serviceLocation;
@@ -73,6 +78,15 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
         else {
             enrollmentCartService.addService({ location: $scope.data.serviceLocation });
             enrollmentService.setServiceInformation();
+        }
+    };
+
+    $scope.isCartFull = function() {
+        var cartCount = enrollmentCartService.getCartCount();
+        if (($scope.customerType == 'residental' && cartCount == maxResidentialItems) || ($scope.customerType == 'commercial' && cartCount == maxCommercialItems)) {
+            return true;
+        } else {
+            return false;
         }
     };
 }]);
