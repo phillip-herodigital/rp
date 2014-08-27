@@ -26,5 +26,13 @@ namespace StreamEnergy.MyStream.Models.Enrollment
         public Address MailingAddress { get; set; }
 
         public Address PreviousAddress { get; set; }
+
+        public string ContactTitle { get; set; }
+
+        public string TaxId { get; set; }
+
+        public string DoingBusinessAs { get; set; }
+
+        public string PreferredSalesExecutive { get; set; }
     }
 }

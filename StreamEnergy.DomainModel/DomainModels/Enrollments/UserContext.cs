@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -18,6 +19,8 @@ namespace StreamEnergy.DomainModels.Enrollments
         [ValidateObject(ErrorMessagePrefix = "")]
         public CustomerContact ContactInfo { get; set; }
 
+        public string ContactTitle { get; set; }
+
         [Required(ErrorMessage = "Services Required")]
         [EnumerableRequired(ErrorMessage = "Services Required")]
         [ValidateEnumerable(ErrorMessagePrefix = "Service ")]
@@ -31,6 +34,14 @@ namespace StreamEnergy.DomainModels.Enrollments
         [Required(ErrorMessage = "Social Security Number Required")]
         [RegularExpression(@"^\d{3}\D*\d{2}\D*\d{4}$", ErrorMessage = "Social Security Number Invalid")]
         public string SocialSecurityNumber { get; set; }
+
+        [RegularExpression(@"^\d{2}\D*\d{7}$", ErrorMessage = "Social Security Number Invalid")]
+        public string TaxId { get; set; }
+
+        [DisplayName("DBA")]
+        public string DoingBusinessAs { get; set; }
+
+        public string PreferredSalesExecutive { get; set; }
 
         /// <summary>
         /// ISO 639-1 codes, such as "en" and "es".
@@ -64,6 +75,8 @@ namespace StreamEnergy.DomainModels.Enrollments
         {
             if (SocialSecurityNumber != null)
                 SocialSecurityNumber = System.Text.RegularExpressions.Regex.Replace(SocialSecurityNumber, "[^0-9]", "");
+            if (TaxId != null)
+                TaxId = System.Text.RegularExpressions.Regex.Replace(TaxId, "[^0-9]", "");
             if (Language != null)
                 Language = Language.Trim();
 

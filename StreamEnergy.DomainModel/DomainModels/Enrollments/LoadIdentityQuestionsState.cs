@@ -28,6 +28,10 @@ namespace StreamEnergy.DomainModels.Enrollments
                 yield return context => context.Language;
                 yield return context => context.SecondaryContactInfo;
                 yield return context => context.SocialSecurityNumber;
+                yield return context => context.TaxId;
+                yield return context => context.ContactTitle;
+                yield return context => context.DoingBusinessAs;
+                yield return context => context.PreferredSalesExecutive;
                 yield return context => context.OnlineAccount;
                 yield return context => context.MailingAddress;
                 if (data.Services.SelectMany(svc => svc.Location.Capabilities).OfType<ServiceStatusCapability>().Any(cap => cap.EnrollmentType == EnrollmentType.MoveIn))

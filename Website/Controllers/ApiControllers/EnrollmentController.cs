@@ -309,6 +309,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             stateMachine.Context.AgreeToTerms = false;
             stateMachine.Context.ContactInfo = request.ContactInfo;
+            stateMachine.Context.ContactTitle = request.ContactTitle;
             if (stateMachine.Context.ContactInfo != null && stateMachine.Context.ContactInfo.Phone != null)
             {
                 EnsureTypedPhones(stateMachine.Context.ContactInfo.Phone);
@@ -323,6 +324,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             stateMachine.Context.SocialSecurityNumber = request.SocialSecurityNumber;
             stateMachine.Context.PreviousAddress = request.PreviousAddress;
             stateMachine.Context.MailingAddress = request.MailingAddress;
+
+            stateMachine.Context.TaxId = request.TaxId;
+            stateMachine.Context.DoingBusinessAs = request.DoingBusinessAs;
+            stateMachine.Context.PreferredSalesExecutive = request.PreferredSalesExecutive;
 
             await stateMachine.ContextUpdated();
 
