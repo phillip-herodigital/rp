@@ -375,102 +375,62 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         public void PostEnrollmentsCommercial()
         {
             // Assign
-            var streamConnectClient = container.Resolve<HttpClient>(StreamEnergy.Services.Clients.StreamConnectContainerSetup.StreamConnectKey);
-
+            StreamEnergy.DomainModels.Enrollments.IEnrollmentService enrollmentService = container.Resolve<StreamEnergy.Services.Clients.EnrollmentService>();
+            
             using (new Timer())
             {
                 // Act
-                var response = streamConnectClient.PostAsJsonAsync("/api/Enrollments/commercial", new
-                {
-                    CompanyName = "sample string 1",
-                    ContactFirstName = "sample string 2",
-                    ContactMiddleName = "sample string 3",
-                    ContactLastName = "sample string 4",
-                    ContactTitle = "sample string 5",
-                    ContactAddress = new
+                var result = enrollmentService.PlaceCommercialQuotes(new DomainModels.Enrollments.UserContext
                     {
-                        StreetLine1 = "sample string 1",
-                        StreetLine2 = "sample string 2",
-                        City = "sample string 3",
-                        State = "AL",
-                        Zip = "sample string 5"
-                    },
-                    ContactPhone = "sample string 6",
-                    ContactHomePhone = "sample string 7",
-                    ContactFax = "sample string 8",
-                    ContactCellPhone = "sample string 9",
-                    ContactEmail = "sample string 10",
-                    SSN = "sample string 11",
-                    BillingAddress = new
-                    {
-                        StreetLine1 = "sample string 1",
-                        StreetLine2 = "sample string 2",
-                        City = "sample string 3",
-                        State = "AR",
-                        Zip = "sample string 5"
-                    },
-                    AgentFirstName = "sample string 12",
-                    AgentLastName = "sample string 13",
-                    AgentID = "sample string 14",
-                    PreferredLanguage = "English",
-                    PreferredSalesExecutive = "sample string 15",
-                    UnderContract = true,
-                    SwitchType = "MoveIn",
-                    FederalTaxId = "sample string 17",
-                    BillingCompanyName = "sample string 18",
-                    BillingFirstName = "sample string 19",
-                    BillingLastName = "sample string 20",
-                    BillingTitle = "sample string 21",
-                    BillingPhone = "sample string 22",
-                    BillingFax = "sample string 23",
-                    BillingCellPhone = "sample string 24",
-                    BillingEmail = "sample string 25",
-                    DBA = "sample string 26",
-                    Premises = new[] 
-                    { 
-                        new
+                        ContactInfo = new DomainModels.CustomerContact
                         {
-                            Provider = new
-                            {
-                                Id = "",
-                                Code = "",
-                                Name = "",
-                                Commodities = new[] { "Electricity" },
+                            Name = new DomainModels.Name { First = "Test", Last = "Person" },
+                            Email = new DomainModels.Email { Address = "test@example.com" },
+                            Phone = new[] { 
+                                new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Work, Number = "223-456-7890" }
                             },
-                            Commodity = "Electricity",
-                            UtilityAccountNumber = "",
-                            ServiceAddress = new
-                            {
-                                StreetLine1 = "sample string 1",
-                                StreetLine2 = "sample string 2",
-                                City = "sample string 3",
-                                State = "TX",
-                                Zip = "sample string 5"
-                            },
-                            Title = "",
-                            FirstName = "",
-                            MiddleName = "",
-                            LastName = "",
-                            Email = "",
-                            PrimaryPhone = "",
-                            FaxNumber = "",
-                            BillingAddress = new
-                            {
-                                StreetLine1 = "sample string 1",
-                                StreetLine2 = "sample string 2",
-                                City = "sample string 3",
-                                State = "AK",
-                                Zip = "sample string 5"
-                            },
+                        },
+                        ContactTitle = "Founder",
+                        SocialSecurityNumber = "123456789",
+                        MailingAddress = new DomainModels.Address
+                        {
+                            Line1 = "123 Main St",
+                            City = "Dallas",
+                            StateAbbreviation = "TX",
+                            PostalCode5 = "75201"
+                        },
+                        Language = "en",
+                        PreferredSalesExecutive = "John Smith",
+                        TaxId = "98-7654321",
+                        DoingBusinessAs = "Some Business",
+                        Services = new DomainModels.Enrollments.LocationServices[]
+                        {
+                            new DomainModels.Enrollments.LocationServices 
+                            { 
+                                Location = new DomainModels.Enrollments.Location
+                                {
+                                    Address = new DomainModels.Address { Line1 = "3620 Huffines Blvd", City = "Carrollton", StateAbbreviation = "TX", PostalCode5 = "75010", },
+                                    Capabilities = new DomainModels.IServiceCapability[]
+                                    {
+                                        new DomainModels.Enrollments.TexasServiceCapability 
+                                        { 
+                                            Address = "03620     HUFFINES                    BLVD",
+                                            AddressOverflow = "",
+                                            City = "CARROLLTON",
+                                            EsiId = "10443720006156949",
+                                            MeterType = DomainModels.Enrollments.TexasMeterType.Amsm,
+                                            State = "TX",
+                                            Tdu = "ONCOR ELEC",
+                                            Zipcode = "750106446"
+                                        }
+                                    }
+                                }, 
+                            }
                         }
-                    }
-                }).Result;
+                    }).Result;
 
                 // Assert
-                Assert.IsTrue(response.IsSuccessStatusCode);
-                var responseString = response.Content.ReadAsStringAsync().Result;
-                dynamic result = JsonConvert.DeserializeObject(responseString);
-                Assert.AreEqual("Success", result.Status.Value);
+                Assert.IsTrue(result);
             }
         }
 

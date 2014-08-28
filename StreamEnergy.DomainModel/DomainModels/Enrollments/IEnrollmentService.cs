@@ -21,7 +21,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         Task<StreamAsync<EnrollmentSaveResult>> EndSaveEnrollment(StreamAsync<EnrollmentSaveResult> streamAsync);
 
-        Task UpdateEnrollment(Guid guid, StreamAsync<EnrollmentSaveResult> streamAsync, UserContext context);
+        Task UpdateEnrollment(Guid streamCustomerId, StreamAsync<EnrollmentSaveResult> streamAsync, UserContext context);
 
         Task<StreamAsync<IdentityCheckResult>> BeginIdentityCheck(Guid streamCustomerId, Name name, string ssn, Address mailingAddress, AdditionalIdentityInformation identityInformation = null);
 
@@ -32,8 +32,9 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         // TODO - how do we pay deposits?
 
-        // TODO - needs customer info, too
         Task<IEnumerable<LocationOfferDetails<PlaceOrderResult>>> PlaceOrder(Guid streamCustomerId, IEnumerable<LocationServices> services, EnrollmentSaveResult originalSaveState, Dictionary<AdditionalAuthorization, bool> additionalAuthorizations);
 
+
+        Task<bool> PlaceCommercialQuotes(UserContext context);
     }
 }

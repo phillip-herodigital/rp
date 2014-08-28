@@ -434,6 +434,80 @@ namespace StreamEnergy.Services.Clients
             return results.ToArray();
         }
 
+        async Task<bool> IEnrollmentService.PlaceCommercialQuotes(UserContext context)
+        {
+            var response = await streamConnectClient.PostAsJsonAsync("/api/Enrollments/commercial", new
+            {
+                ContactFirstName = context.ContactInfo.Name.First,
+                ContactLastName = context.ContactInfo.Name.Last,
+                ContactTitle = context.ContactTitle,
+                ContactPhone = context.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Work).Select(p => p.Number).FirstOrDefault(),
+                ContactHomePhone = context.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Home).Select(p => p.Number).FirstOrDefault(),
+                ContactCellPhone = context.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Mobile).Select(p => p.Number).FirstOrDefault(),
+                ContactEmail = context.ContactInfo.Email.Address,
+                SSN = context.SocialSecurityNumber,
+                BillingAddress = new
+                {
+                    StreetLine1 = context.MailingAddress.Line1,
+                    StreetLine2 = context.MailingAddress.Line2,
+                    City = context.MailingAddress.City,
+                    State = context.MailingAddress.StateAbbreviation,
+                    Zip = context.MailingAddress.PostalCode5
+                },
+                PreferredLanguage = context.Language == "en" ? "English" : "Spanish",
+                PreferredSalesExecutive = context.PreferredSalesExecutive,
+                UnderContract = true,
+                SwitchType = "MoveIn",
+                FederalTaxId = context.TaxId,
+                DBA = context.DoingBusinessAs,
+                Premises = (from serviceLocation in context.Services
+                            let location = serviceLocation.Location
+                            select ToCommercialPremise(location)).ToArray()
+            });
+            response.EnsureSuccessStatusCode();
+
+            var result = Json.Read<JObject>(await response.Content.ReadAsStringAsync());
+
+            return result["Status"].ToString() == "Success";
+        }
+
+        private object ToCommercialPremise(Location location)
+        {
+            string commodityType;
+            string utilityAccountNumber;
+
+            if (location.Capabilities.OfType<TexasServiceCapability>().Any())
+            {
+                commodityType = "Electricity";
+                utilityAccountNumber = location.Capabilities.OfType<TexasServiceCapability>().First().EsiId;
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+
+            return new
+            {
+                Provider = new
+                {
+                    Id = "",
+                    Code = "",
+                    Name = "",
+                    Commodities = new[] { "Electricity" },
+                },
+                Commodity = commodityType,
+                UtilityAccountNumber = utilityAccountNumber,
+                ServiceAddress = new
+                {
+                    StreetLine1 = location.Address.Line1,
+                    StreetLine2 = location.Address.Line2,
+                    City = location.Address.City,
+                    State = location.Address.StateAbbreviation,
+                    Zip = location.Address.PostalCode5
+                },
+            };
+        }
+
         private string GetUtilityAccountNumber(LocationServices locationServices, SelectedOffer selectedOffer)
         {
             if (locationServices.Location.Capabilities.OfType<TexasServiceCapability>().Any())
