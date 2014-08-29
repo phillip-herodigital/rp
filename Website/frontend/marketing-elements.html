@@ -109,6 +109,12 @@
     <script type="text/javascript">try { Typekit.load(); } catch (e) { }</script>
 
     <script type="text/javascript">
+        ngApp.controller('homelifeSelectorCtrl', ['$scope', function($scope) {
+            $scope.data = {
+                selectedHomelifeService: 'identity-theft'
+            }
+        }]);
+
         ngApp.controller('stateSelectCtrl', ['$scope', function($scope) {
             $scope.data = {
                 dropdownState: 'TX',
@@ -465,6 +471,57 @@
                 </div>
             </article>
 
+ 
+            <article class="marketing homelife-services-promo homelife-services-promo-selectable" ng-controller="homelifeSelectorCtrl">
+                <div class="wrapper">
+                    <div class="grid three">
+                        <div class="col" ng-click="data.selectedHomelifeService = 'identity-theft'" ng-class="{ 'active' : data.selectedHomelifeService == 'identity-theft' }">
+                            <div class="col-wrapper">
+                                <i class="icon-identity-theft"></i>
+                                <h3>Identity Theft Monitoring</h3>
+                                <p>With Identity theft on the rise, we’ve developed a service to help safeguard your identity.</p>
+                            </div>
+                        </div>
+                        <div class="col"  ng-click="data.selectedHomelifeService = 'online-backup'" ng-class="{ 'active' : data.selectedHomelifeService == 'online-backup' }">
+                            <div class="col-wrapper">
+                                <i class="icon-online-backup"></i>
+                                <h3>Online Backup & Protection</h3>
+                                <p>Keep your computers running smoothly with Stream Energy’s technology support and automatic data backup services.</p>
+                            </div>
+                        </div>
+                        <div class="col"  ng-click="data.selectedHomelifeService = 'credit-monitoring'" ng-class="{ 'active' : data.selectedHomelifeService == 'credit-monitoring' }">
+                            <div class="col-wrapper">
+                                <i class="icon-credit-monitoring"></i>
+                                <h3>Credit Monitoring</h3>
+                                <p>Stream Energy’s credit monitoring allows you to review your past credit history, check your current score, and plan for the future.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <toggle-pane name="credit-monitoring" value="data.selectedHomelifeService">
+                        <h2>Credit Monitoring</h2>
+
+                        <p>Lorem ipsum dolor sit amet, eu sit timeam mnesarchum, assum populo quo at. Eu per doming imperdiet. Nullam epicurei ea mei, inani quidam contentiones et cum. Ea has mollis dolores.
+
+                        Alienum platonem ex nec. Est latine qualisque referrentur ex. Erat doming eum ea. Decore expetenda assueverit in qui, vix et lorem malorum mediocritatem, ad alia bonorum pri.</p>
+                    </toggle-pane>
+                    <toggle-pane name="identity-theft" value="data.selectedHomelifeService">
+                        <h2>With Identity Theft monitoring, you have access to the following</h2>
+
+                        <p>Lorem ipsum dolor sit amet, eu sit timeam mnesarchum, assum populo quo at. Eu per doming imperdiet. Nullam epicurei ea mei, inani quidam contentiones et cum. Ea has mollis dolores.
+
+                        Alienum platonem ex nec. Est latine qualisque referrentur ex. Erat doming eum ea. Decore expetenda assueverit in qui, vix et lorem malorum mediocritatem, ad alia bonorum pri.</p>
+                    </toggle-pane>
+                    <toggle-pane name="online-backup" value="data.selectedHomelifeService">
+                        <h2>Online Backup & Protection</h2>
+
+                        <p>Lorem ipsum dolor sit amet, eu sit timeam mnesarchum, assum populo quo at. Eu per doming imperdiet. Nullam epicurei ea mei, inani quidam contentiones et cum. Ea has mollis dolores.
+
+                        Alienum platonem ex nec. Est latine qualisque referrentur ex. Erat doming eum ea. Decore expetenda assueverit in qui, vix et lorem malorum mediocritatem, ad alia bonorum pri.</p>
+                    </toggle-pane>
+                </div>
+            </article>
+
 
             <div class="wrapper">
                 <h2>Questions Module</h2>
@@ -720,6 +777,36 @@
                     </div>
                 </div>
             </article>
+
+
+
+            <article class="marketing text-callout">
+                <div class="wrapper">
+                    <h1>The History of Deregulated Energy</h1>
+                    <p>Electricity isn’t a luxury, it’s a necessity. Everyone needs it, every single day. Stream Energy offers competitive energy products to make life a little easier and can provide for all your electricity needs. From keeping your lights on to cooling your house, powering your technology and your power tools, Stream Energy can power your home or business.</p>
+                    <div class="grid three">
+                        <div class="col">
+                            <div class="col-wrapper">
+                                <i class="icon-identity-theft"></i>
+                                <p>Texas begins deregulation</p>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="col-wrapper">
+                                <i class="icon-online-backup"></i>
+                                <p>Stream Energy enters the scene</p>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="col-wrapper">
+                                <i class="icon-credit-monitoring"></i>
+                                <p>Stream expands to several more states</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
 
 
 

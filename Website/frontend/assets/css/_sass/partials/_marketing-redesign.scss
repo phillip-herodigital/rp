@@ -656,6 +656,49 @@ article.homelife-services-promo {
 	}
 }
 
+article.homelife-services-promo-selectable {
+	.col {
+		cursor: pointer;
+		background: #fff;
+		border: 1px solid $light-border-color;
+		@include border-radius(20px);
+		padding: 50px 30px 30px;
+		position: relative;
+		
+		&.active {		
+			&:after, &:before {
+				top: 100%;
+				left: 50%;
+				border: solid transparent;
+				content: " ";
+				height: 0;
+				width: 0;
+				position: absolute;
+				pointer-events: none;
+			}
+
+			&:after {
+				border-color: rgba(255, 255, 255, 0);
+				border-top-color: #fff;
+				border-width: 24px;
+				margin-left: -24px;
+			}
+			&:before {
+				border-color: rgba(204, 204, 204, 0);
+				border-top-color: darken($light-border-color, 5%);
+				border-width: 25px;
+				margin-left: -25px;
+			}
+		}
+	}
+	.pane-item {
+		margin-top: 60px;
+	}
+	i {
+		margin-bottom: 20px;
+	}
+}
+
 article.home-questions {
 	.contact-specialists {
 		@include retina-background("contact-specialists.png", "icon");
