@@ -2170,17 +2170,9 @@
     <Content Include="Views\Pages\Portal\Account\Invoices\Utility Providers.cshtml" />
     <Content Include="Views\Pages\Marketing\Rates\TX Rates.cshtml" />
     <Content Include="Views\Pages\Marketing\Rates\GA Rates.cshtml" />
-    <Content Include="Views\Pages\Enrollment\Enrollment Page.cshtml" />
-    <Content Include="Views\Pages\Enrollment\Service Information.cshtml" />
-    <Content Include="Views\Pages\Enrollment\Plan Selection.cshtml" />
-    <Content Include="Views\Pages\Enrollment\Account Information.cshtml" />
-    <Content Include="Views\Pages\Enrollment\Verify Identity.cshtml" />
-    <Content Include="Views\Pages\Enrollment\Complete Order.cshtml" />
     <Content Include="Views\Pages\Marketing\Blog\Blog Landing.cshtml" />
     <Content Include="Views\Pages\Marketing\Blog\Blog Post.cshtml" />
-    <Content Include="Views\Pages\Enrollment\Cart.cshtml" />
     <Content Include="Views\Components\Header Fixed.cshtml" />
-    <Content Include="Views\Pages\Enrollment\Cart.cshtml" />
     <Content Include="Views\Pages\Marketing\Blog\Latest Blog Post Horizontal.cshtml" />
     <Content Include="Views\Pages\Marketing\Paperless\Paperless Page.cshtml" />
     <Content Include="Views\Pages\Marketing\Services\Gas.cshtml" />

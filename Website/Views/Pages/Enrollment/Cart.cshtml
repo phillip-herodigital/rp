@@ -13,6 +13,9 @@
             <p class="alt" ng-if="!getCartCount() && !getCartItems().length">@Html.Sitecore().Field("Empty Cart Text")</p>
             <div class="cart-item" ng-repeat="(id, location) in getCartItems()">
                 <h2>Energy Plan</h2>
+                <div class="delete" ng-click="scrollFix(); deleteUtilityPlan(location, selectedOffer)" ng-if="!isRenewal">
+                    <i class="icon-delete"></i>
+                </div>
                 <address>
                     <h3>@Html.Sitecore().Field("Service Address Text")</h3>
                     {{ location.location.address | address }}<br />
@@ -38,8 +41,18 @@
         <ul class="info">
             <li><i class="icon-home"></i> @Html.Sitecore().Field("Documents Service Address")</li>
             @*<li><i class="icon-bill"></i> @Html.Sitecore().Field("Documents Billing Account Number")</li>*@
-            <li><i class="icon-ssn"></i> @Html.Sitecore().Field("Documents Social Security Number")</li>
+            <li><i class="icon-ssn"></i> Your <a href="">Bill Account Number</a></li>
+            <li><i class="icon-ssn"></i> Your <a href="">Utility Provider</a></li>
             <li><i class="icon-drivers-license"></i> @Html.Sitecore().Field("Documents Drivers License Number")</li>
+        </ul>
+    </article>
+    <article class="enrollment__box">
+        <header>
+            <p><strong>Neet to report an outage?</strong></p>
+        </header>
+        <ul class="info">
+            <li>Call Oncor at 1-800-XXX-XXXX</li>
+            <li>Call Texas New Mexico Power Company at 1-800-XXX-XXXX</li>
         </ul>
     </article>
 </div>
@@ -52,7 +65,7 @@
             <i class="icon-delete"></i>
         </div>
         <div class="description">
-            <span class="plan">{{ selectedOffer.offer.name }}</span><br />
+            <span class="plan"><i class="icon-ssn"></i> {{ selectedOffer.offer.name }}</span><br />
             <a href="" ng-click="changeUtilityPlan(location)">Change Plan</a>
         </div>
         <div class="rate">
