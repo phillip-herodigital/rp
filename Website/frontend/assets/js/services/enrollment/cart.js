@@ -132,6 +132,17 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
         },
 
         /**
+         * Return the number of service locations in the cart
+         * @return {[type]} [description]
+         */
+        getCartLocationsCount: function () {
+
+            //Get the count for all utility products
+            return _(services)
+                .size();
+        },
+
+        /**
 		 * Currently only offering utilityServices so we're simply returning addresses
 		 * Eventually return all products here
 		 * @return {[type]} [description]
