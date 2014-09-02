@@ -382,7 +382,7 @@ namespace StreamEnergy.Services.Clients
             return asyncResult;
         }
 
-        Task<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>>> IEnrollmentService.LoadOfferPayments(IEnumerable<LocationServices> services)
+        Task<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>>> IEnrollmentService.LoadOfferPayments(Guid streamCustomerId, DomainModels.Enrollments.Service.EnrollmentSaveResult streamAsync, IEnumerable<LocationServices> services)
         {
             // TODO - actual deposit amounts rather than hard-coded values
             return Task.FromResult(from loc in services

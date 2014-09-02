@@ -239,7 +239,7 @@ namespace StreamEnergy.MyStream.Tests
                     IdentityQuestions = new IdentityQuestion[0],
                 }
             }));
-            mockEnrollmentService.Setup(m => m.LoadOfferPayments(It.IsAny<IEnumerable<LocationServices>>())).Returns<IEnumerable<LocationServices>>(loc => enrollmentService.LoadOfferPayments(loc));
+            mockEnrollmentService.Setup(m => m.LoadOfferPayments(It.IsAny<Guid>(), It.IsAny<DomainModels.Enrollments.Service.EnrollmentSaveResult>(), It.IsAny<IEnumerable<LocationServices>>())).Returns<Guid, DomainModels.Enrollments.Service.EnrollmentSaveResult, IEnumerable<LocationServices>>((a, b, loc) => enrollmentService.LoadOfferPayments(a, b, loc));
             mockEnrollmentService.Setup(m => m.PlaceOrder(It.IsAny<Guid>(), It.IsAny<IEnumerable<LocationServices>>(), It.IsAny<DomainModels.Enrollments.Service.EnrollmentSaveResult>(), It.IsAny<Dictionary<AdditionalAuthorization,bool>>()))
                 .Returns(Task.FromResult<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>>(new[] 
                 {
@@ -1067,7 +1067,7 @@ namespace StreamEnergy.MyStream.Tests
                 Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.ReviewOrder, result.ExpectedState);
             }
 
-            Assert.AreEqual(typeof(DomainModels.Enrollments.PaymentInfoState), session.State);
+            Assert.AreEqual(typeof(DomainModels.Enrollments.CompleteOrderState), session.State);
             Assert.IsTrue(session.InternalContext.AllOffers.ContainsKey(specificLocation));
             Assert.IsTrue(session.Context.Services.First().SelectedOffers.Any(o => o.Offer.Id == "24-month-fixed-rate"));
         }
@@ -1108,22 +1108,7 @@ namespace StreamEnergy.MyStream.Tests
                         Results = new DomainModels.Enrollments.Service.EnrollmentSaveEntry[0]
                     }
                 },
-                Deposit = new[] 
-                { 
-                    new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>
-                    {
-                        Location = specificLocation,
-                        Offer = offers[0],
-                        Details = new DomainModels.Enrollments.OfferPayment
-                        {
-                            RequiredAmounts = new IOfferPaymentAmount[] 
-                            { 
-                                new DepositOfferPaymentAmount { DollarAmount = 0 }
-                            },
-                            OngoingAmounts = new IOfferPaymentAmount[] { }
-                        }
-                    }
-                },
+                Deposit = new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>[0],
             };
             session.State = typeof(DomainModels.Enrollments.CompleteOrderState);
             var request = new Models.Enrollment.ConfirmOrder
