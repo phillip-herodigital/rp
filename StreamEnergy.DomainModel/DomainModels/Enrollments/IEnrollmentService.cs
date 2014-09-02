@@ -19,7 +19,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         Task<StreamAsync<EnrollmentSaveResult>> BeginSaveEnrollment(Guid streamCustomerId, UserContext context);
 
-        Task<StreamAsync<EnrollmentSaveResult>> EndSaveEnrollment(StreamAsync<EnrollmentSaveResult> streamAsync);
+        Task<StreamAsync<EnrollmentSaveResult>> EndSaveEnrollment(StreamAsync<EnrollmentSaveResult> streamAsync, UserContext context);
 
         Task UpdateEnrollment(Guid streamCustomerId, StreamAsync<EnrollmentSaveResult> streamAsync, UserContext context);
 

@@ -154,16 +154,22 @@ namespace StreamEnergy.MyStream.Tests
                     IsCompleted = false
                 }));
 
-            mockEnrollmentService.Setup(m => m.EndSaveEnrollment(It.IsAny<StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>>())).Returns(Task.FromResult(new StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>()
+            mockEnrollmentService.Setup(m => m.EndSaveEnrollment(It.IsAny<StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>>(), It.IsAny<UserContext>())).Returns(Task.FromResult(new StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>()
             {
                 Data = new DomainModels.Enrollments.Service.EnrollmentSaveResult 
                 { 
-                    Results = new[] {
-                        new DomainModels.Enrollments.Service.EnrollmentSaveEntry 
-                        { 
-                            CisAccountNumber = "cis",
-                            StreamReferenceNumber = "stream",
-                            GlobalEnrollmentAccountId = Guid.NewGuid(),
+                    Results = new[] 
+                    {
+                        new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.EnrollmentSaveEntry>
+                        {
+                            Location = specificLocation,
+                            Offer = offers.First(o => o.Id == "24-month-fixed-rate"),
+                            Details = new DomainModels.Enrollments.Service.EnrollmentSaveEntry 
+                            { 
+                                CisAccountNumber = "cis",
+                                StreamReferenceNumber = "stream",
+                                GlobalEnrollmentAccountId = Guid.NewGuid(),
+                            }
                         }
                     }
                 },
@@ -922,8 +928,8 @@ namespace StreamEnergy.MyStream.Tests
                 { 
                     IsCompleted = true, 
                     Data = new DomainModels.Enrollments.Service.EnrollmentSaveResult 
-                    { 
-                        Results = new DomainModels.Enrollments.Service.EnrollmentSaveEntry[0] 
+                    {
+                        Results = new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.EnrollmentSaveEntry>[0] 
                     } 
                 },
             };
@@ -1105,7 +1111,7 @@ namespace StreamEnergy.MyStream.Tests
                     IsCompleted = true,
                     Data = new DomainModels.Enrollments.Service.EnrollmentSaveResult
                     {
-                        Results = new DomainModels.Enrollments.Service.EnrollmentSaveEntry[0]
+                        Results = new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.EnrollmentSaveEntry>[0]
                     }
                 },
                 Deposit = new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>[0],

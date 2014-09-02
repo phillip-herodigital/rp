@@ -453,11 +453,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                     };
             var offers = enrollmentService.LoadOffers(new[] { location }).Result;
             var texasElectricityOffer = offers.First().Value.Offers.First() as DomainModels.Enrollments.TexasElectricityOffer;
-
-            using (new Timer())
-            {
-                // Act
-                var saveResult = enrollmentService.BeginSaveEnrollment(globalCustomerId, new DomainModels.Enrollments.UserContext
+            var userContext = new DomainModels.Enrollments.UserContext
                 {
                     ContactInfo = new DomainModels.CustomerContact
                     {
@@ -495,7 +491,12 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                         Line1 = "100 WILSON HILL RD",
                         PostalCode5 = "13662"
                     },
-                }).Result;
+                };
+
+            using (new Timer())
+            {
+                // Act
+                var saveResult = enrollmentService.BeginSaveEnrollment(globalCustomerId, userContext).Result;
 
                 // Assert
                 Assert.IsFalse(saveResult.IsCompleted);
@@ -504,7 +505,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                 // Act - Step 3 - async response
                 while (!saveResult.IsCompleted)
                 {
-                    saveResult = enrollmentService.EndSaveEnrollment(saveResult).Result;
+                    saveResult = enrollmentService.EndSaveEnrollment(saveResult, userContext).Result;
                 }
 
                 // Assert
