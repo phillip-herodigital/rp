@@ -4,7 +4,6 @@
 ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentStepsService', 'enrollmentService', 'scrollService', '$timeout', 'enrollmentCartService', function ($scope, $anchorScroll, enrollmentStepsService, enrollmentService, scrollService, $timeout, enrollmentCartService) {
     $scope.validations = enrollmentService.validations;
     $scope.stepsService = enrollmentStepsService;
-    // TODO - customer type needs to be configurable
     $scope.customerType = 'residential';
 
     //Go ahead and set the first step to be utility for now
