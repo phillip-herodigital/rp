@@ -5,6 +5,8 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentSt
     $scope.validations = enrollmentService.validations;
     $scope.stepsService = enrollmentStepsService;
     $scope.customerType = 'residential';
+    $scope.cartLocationsCount = 0;
+    $scope.isCartFull = false;
 
     //Go ahead and set the first step to be utility for now
     //Need to determine how the first step will be activated
@@ -68,6 +70,10 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentSt
         $scope.supportedUtilityStates = _(supportedStates).map(function (entry) { return { name: entry.display, value: entry.abbreviation, 'class': 'icon ' + entry.css } }).value();
     };
 
+    $scope.resetEnrollment = function () {
+        enrollmentService.resetEnrollment();
+    };
+
     /**
     * Size of object
     *
@@ -81,4 +87,5 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentSt
         }
         return Object.keys(obj).length;
     };
+
 }]);

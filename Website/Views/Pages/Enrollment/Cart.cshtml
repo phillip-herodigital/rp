@@ -1,48 +1,60 @@
 ﻿<script type="text/ng-template" id="cart-template">
-<div class="enrollment__cart">
-    <article class="enrollment__box" ng-controller="EnrollmentCartCtrl" scroll-anchor="scrollFix">
-        <header>
-            <div class="cart-items" ng-if="!isCartOpen()">
-                <i class="icon-cart"></i>
-                <div class="item-num" ng-show="getCartCount()">{{ getCartCount() }}</div>
-            </div>
-            <i class="icon-close" ng-click="toggleCart();" ng-if="isCartOpen()"></i>
-            <h1>@Html.Sitecore().Field("Cart Header")</h1>
-        </header>
-        <div class="content">
-            <p class="alt" ng-if="!getCartCount() && !getCartItems().length">@Html.Sitecore().Field("Empty Cart Text")</p>
-            <div class="cart-item" ng-repeat="(id, location) in getCartItems()">
-                <h2>Energy Plan</h2>
-                <address>
-                    <h3>@Html.Sitecore().Field("Service Address Text")</h3>
-                    {{ location.location.address | address }}<br />
-                    <a href="" ng-click="editUtilityAddress(location)" ng-if="!isRenewal">@Html.Sitecore().Field("Edit Address Text")</a>
-                </address>
-                <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
-                    <div ng-include src="'cart/' + offerInformation.key"></div>
+    <div class="enrollment__cart" ng-controller="EnrollmentCartCtrl">
+        <article class="enrollment__box" scroll-anchor="scrollFix">
+            <header>
+                <div class="cart-items" ng-if="!isCartOpen()">
+                    <i class="icon-cart"></i>
+                    <div class="item-num" ng-show="getCartCount()">{{ getCartCount() }}</div>
+                </div>
+                <i class="icon-close" ng-click="toggleCart();" ng-if="isCartOpen()"></i>
+                <h1>@Html.Sitecore().Field("Cart Header")</h1>
+            </header>
+            <div class="content">
+                <p class="alt" ng-if="!getCartCount() && !getCartItems().length">@Html.Sitecore().Field("Empty Cart Text")</p>
+                <div class="cart-item" ng-repeat="(id, location) in getCartItems()">
+                    <h2>@Html.Sitecore().Field("Energy Plan")</h2>
+                    <div class="delete" ng-click="deleteUtilityAddress(location)" ng-if="getCartCount() == 0">
+                        <i class="icon-delete"></i>
+                    </div>
+                    <address>
+                        <h3>@Html.Sitecore().Field("Service Address Text")</h3>
+                        {{ location.location.address | address }}<br />
+                        <a href="" ng-click="editUtilityAddress(location)" ng-if="!isRenewal">@Html.Sitecore().Field("Edit Address Text")</a>
+                    </address>
+                    <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
+                        <div ng-include src="'cart/' + offerInformation.key"></div>
+                    </div>
+                </div>
+                @*<div class="buttons">
+                        <a href="" class="button" ng-show="getCartCount()">Checkout Now</a>
+                    </div>*@
+                <div class="time">
+                    <i class="icon-clock"></i>
+                    @Html.Sitecore().Field("Time Remaining").Format(new { time = "{{time()}}" })
                 </div>
             </div>
-            @*<div class="buttons">
-                <a href="" class="button" ng-show="getCartCount()">Checkout Now</a>
-            </div>*@
-            <div class="time">
-                <i class="icon-clock"></i>
-                @Html.Sitecore().Field("Time Remaining").Format(new { time = "{{time()}}" })
-            </div>
-        </div>
-    </article>
-    <article class="enrollment__box">
-        <header>
-            @Html.Sitecore().Field("Documents Description")
-        </header>
-        <ul class="info">
-            <li><i class="icon-home"></i> @Html.Sitecore().Field("Documents Service Address")</li>
-            @*<li><i class="icon-bill"></i> @Html.Sitecore().Field("Documents Billing Account Number")</li>*@
-            <li><i class="icon-ssn"></i> @Html.Sitecore().Field("Documents Social Security Number")</li>
-            <li><i class="icon-drivers-license"></i> @Html.Sitecore().Field("Documents Drivers License Number")</li>
-        </ul>
-    </article>
-</div>
+        </article>
+        <article class="enrollment__box">
+            <header>
+                @Html.Sitecore().Field("Documents Description")
+            </header>
+            <ul class="info">
+                <li><i class="icon-home"></i> @Html.Sitecore().Field("Documents Service Address")</li>
+                <li><i class="icon-bill"></i>  @Html.Sitecore().Field("Documents Billing Account Number")</a></li>
+                <li><i class="icon-utility-provider"></i> @Html.Sitecore().Field("Documents Utility Provider")</li>
+                <li><i class="icon-ssn"></i> @Html.Sitecore().Field("Documents Social Security Number")</li>
+            </ul>
+        </article>
+        <article class="enrollment__box" ng-if="getCartLocationsCount() > 0">
+            <header>
+                <p><strong>Neet to report an outage?</strong></p>
+            </header>
+            <ul class="info">
+                <li>Call Oncor at 1-800-XXX-XXXX</li>
+                <li>Call Texas New Mexico Power Company at 1-800-XXX-XXXX</li>
+            </ul>
+        </article>
+    </div>
 </script>
 
 
@@ -52,7 +64,7 @@
             <i class="icon-delete"></i>
         </div>
         <div class="description">
-            <span class="plan">{{ selectedOffer.offer.name }}</span><br />
+            <span class="plan"><i class="icon-ssn"></i> {{ selectedOffer.offer.name }}</span><br />
             <a href="" ng-click="changeUtilityPlan(location)">Change Plan</a>
         </div>
         <div class="rate">
@@ -77,6 +89,36 @@
         <div class="modal-footer">
             <button ng-click="$close()">@Html.Sitecore().Field("Continue Button")</button>
             <button class="secondary" ng-click="$dismiss()">@Html.Sitecore().Field("Cancel Button")</button>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="showBillAccountModal">
+    <div>
+        <div class="modal-header">
+            <a href="" ng-click="$dismiss()">Close</a>
+            <h2>@Html.Sitecore().Field("Bill Account Example Header")</h2>
+        </div>
+        <div class="modal-body">
+            @Html.Sitecore().Field("Bill Account Example Body")
+        </div>
+        <div class="modal-footer">
+            <button ng-click="$dismiss()">@Html.Sitecore().Field("Continue Button")</button>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="showUtilityProviderModal">
+    <div>
+        <div class="modal-header">
+            <a href="" ng-click="$dismiss()">Close</a>
+            <h2>@Html.Sitecore().Field("Utility Provider Example Header")</h2>
+        </div>
+        <div class="modal-body">
+            @Html.Sitecore().Field("Utility Provider Example Body")
+        </div>
+        <div class="modal-footer">
+            <button ng-click="$dismiss()">@Html.Sitecore().Field("Continue Button")</button>
         </div>
     </div>
 </script>

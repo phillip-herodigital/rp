@@ -33,9 +33,8 @@
                             
                         <div class="item customer-type">
                             <label for="customer-type">@Html.Sitecore().Field("Interest Label")</label>
-                            <select id="customer-type" name="customer-type" ng-model="$parent.customerType" ng-change="assignStepNames(@(Html.Action("EnrollmentNav", "Enrollment").ToHtmlString()))">
-                                <option value="residential">Residential Utilities</option>
-                                <option value="commercial">Commercial Utilities</option>
+                            <select id="customer-type" name="customer-type" ng-model="$parent.customerType" ng-disabled="cartLocationsCount > 0" ng-change="assignStepNames(@(Html.Action("EnrollmentNav", "Enrollment").ToHtmlString()))">
+                                @Html.Sitecore().Field("Customer Types")
                             </select>
                         </div>
                         
@@ -62,7 +61,8 @@
                                 @currentService.ValidationMessageFor(s => s.Location)
                             </div><!-- /input-group -->
                         </div>
-                        <div class="item warning" ng-show="isCartFull()">
+                        }
+                        <div class="item warning" ng-if="isCartFull">
                             @Html.Sitecore().Field("Maximum Addresses Message Text")
                         </div>
                         <hr>
@@ -95,7 +95,7 @@
                             </ul>
                         </div>
                         *@
-                        }
+                        
                     </div>
                 </article>
                 <div class="buttons">
