@@ -121,16 +121,19 @@ namespace StreamEnergy.Services.Clients
             };
         }
 
-        async Task<bool> IEnrollmentService.VerifyPremise(Location location)
+        async Task<PremiseVerificationResult> IEnrollmentService.VerifyPremise(Location location)
         {
-            var texasService = location.Capabilities.OfType<TexasServiceCapability>().Single();
+            var texasService = location.Capabilities.OfType<TexasServiceCapability>().SingleOrDefault();
             var serviceStatus = location.Capabilities.OfType<ServiceStatusCapability>().Single();
             var customerType = location.Capabilities.OfType<CustomerTypeCapability>().Single();
+
+            if (texasService != null && texasService.EsiId == null)
+                return PremiseVerificationResult.Success;
             
             var response = await streamConnectClient.PostAsJsonAsync("/api/Enrollments/VerifyPremise", new
             {
                 ServiceAddress = ToStreamConnectAddress(location.Address),
-                UtilityAccountNumber = texasService.EsiId,
+                UtilityAccountNumber = texasService != null ? texasService.EsiId : null,
                 CustomerType = customerType.CustomerType.ToString("g"),
                 EnrollmentType = serviceStatus.EnrollmentType.ToString("g")
             });
@@ -138,7 +141,15 @@ namespace StreamEnergy.Services.Clients
             response.EnsureSuccessStatusCode();
 
             var result = Json.Read<StreamConnect.VerifyPremiseResponse>(await response.Content.ReadAsStringAsync());
-            return result.IsEligibleField;
+            if (result.IsEligibleField)
+                return PremiseVerificationResult.Success;
+
+            if (result.FailureReason != null)
+            {
+                if (result.FailureReason.Contains("Esiid is already active.  Switch is not allowed."))
+                    return PremiseVerificationResult.MustMoveIn;
+            }
+            return PremiseVerificationResult.GeneralError;
         }
 
         async Task<IConnectDatePolicy> IEnrollmentService.LoadConnectDates(Location location)

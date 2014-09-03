@@ -10,6 +10,7 @@ namespace StreamEnergy.DomainModels.Enrollments
     {
         public InternalContext()
         {
+            LocationVerifications = new Dictionary<Location, PremiseVerificationResult>();
         }
 
         public Dictionary<Location, LocationOfferSet> AllOffers { get; set; }
@@ -25,5 +26,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         public IEnumerable<Service.LocationOfferDetails<Service.PlaceOrderResult>> PlaceOrderResult { get; set; }
 
         public Guid GlobalCustomerId { get; set; }
+
+        public Dictionary<Location, PremiseVerificationResult> LocationVerifications { get; private set; }
     }
 }

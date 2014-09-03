@@ -367,7 +367,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                     }).Result;
 
                 // Assert
-                Assert.AreEqual(true, result);
+                Assert.AreEqual(DomainModels.Enrollments.PremiseVerificationResult.Success, result);
             }
         }
 

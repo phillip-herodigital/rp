@@ -176,6 +176,7 @@
     <Compile Include="DomainModels\Enrollments\OfferPayment.cs" />
     <Compile Include="DomainModels\Enrollments\IOfferPaymentAmount.cs" />
     <Compile Include="DomainModels\Enrollments\OnlineAccount.cs" />
+    <Compile Include="DomainModels\Enrollments\PremiseVerificationResult.cs" />
     <Compile Include="DomainModels\Enrollments\RateType.cs" />
     <Compile Include="DomainModels\Enrollments\SampleOfferOption.cs" />
     <Compile Include="DomainModels\Enrollments\SaveEnrollmentState.cs" />
