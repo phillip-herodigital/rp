@@ -930,7 +930,6 @@
     <Content Include="frontend\assets\js\app.js" />
     <Content Include="frontend\assets\js\config\datepicker.js" />
     <Content Include="frontend\assets\js\config\validation-exactvalue.js" />
-    <Content Include="frontend\assets\js\config\validation.js" />
     <Content Include="frontend\assets\js\controllers\accountBalances.js" />
     <Content Include="frontend\assets\js\controllers\account\account.js" />
     <Content Include="frontend\assets\js\controllers\account\accountInformation.js" />
