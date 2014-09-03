@@ -13,7 +13,7 @@
                 <p class="alt" ng-if="!getCartCount() && !getCartItems().length">@Html.Sitecore().Field("Empty Cart Text")</p>
                 <div class="cart-item" ng-repeat="(id, location) in getCartItems()">
                     <h2>@Html.Sitecore().Field("Energy Plan")</h2>
-                    <div class="delete" ng-click="deleteUtilityAddress(location)" ng-if="getCartCount() == 0">
+                    <div class="delete" ng-click="deleteUtilityAddress(location)" ng-if="customerType == 'commercial' || getCartCount() == 0">
                         <i class="icon-delete"></i>
                     </div>
                     <address>
@@ -47,7 +47,7 @@
         </article>
         <article class="enrollment__box" ng-if="getCartLocationsCount() > 0">
             <header>
-                <p><strong>Neet to report an outage?</strong></p>
+                <p><strong>@Html.Sitecore().Field("Outage Header")</strong></p>
             </header>
             <ul class="info">
                 <li>Call Oncor at 1-800-XXX-XXXX</li>

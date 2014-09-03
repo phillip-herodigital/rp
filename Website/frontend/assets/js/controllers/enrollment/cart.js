@@ -12,8 +12,9 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     $scope.isRenewal = enrollmentService.isRenewal;
     $scope.isCartOpen = enrollmentCartService.getCartVisibility;
     $scope.getCartCount = enrollmentCartService.getCartCount;
+    $scope.getCartLocationsCount = enrollmentCartService.getCartLocationsCount;
     $scope.getCartItems = enrollmentCartService.getCartItems;
-
+    
     /**
     * Show Bill Account Example Modal
     */
