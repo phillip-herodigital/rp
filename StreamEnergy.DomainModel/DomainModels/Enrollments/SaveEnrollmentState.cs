@@ -71,7 +71,7 @@ namespace StreamEnergy.DomainModels.Enrollments
             }
             else
             {
-                await enrollmentService.UpdateEnrollment(internalContext.GlobalCustomerId, internalContext.EnrollmentSaveState, context);
+                internalContext.EnrollmentSaveState = await enrollmentService.UpdateEnrollment(internalContext.GlobalCustomerId, internalContext.EnrollmentSaveState.Data, context);
             }
 
             return await base.InternalProcess(context, internalContext);
