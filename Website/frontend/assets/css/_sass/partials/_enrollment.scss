@@ -22,6 +22,264 @@ $enrollment-module-h1-color: #333;
 $enrollment-module-horizontal-padding: 20px;
 $enrollment-module-vertical-padding: 20px;
 
+
+/*
+    Generic styling for enrollment pages
+ */
+.enrollment {
+    #state-select {
+        button {
+            border-color: #cfcfcf;
+            text-transform: uppercase;
+            @include box-shadow(none);
+        }
+        .icon {
+            background-position: 10px center;
+            background-repeat: no-repeat;
+            padding-left: 40px;
+        }
+        .texas {
+            @include retina-background('texas-icon.png');
+            
+        }
+        .georgia {
+            @include retina-background('georgia-icon.png');
+        }
+        .pennsylvania {
+            @include retina-background('pennsylvania-icon.png');
+        }
+        .maryland {
+            @include retina-background('maryland-icon.png');
+        }
+        .new-jersey {
+            @include retina-background('newjersey-icon.png');
+        }
+        .new-york {
+            @include retina-background('newyork-icon.png');
+        }
+        .washington-dc {
+            @include retina-background('dc-icon.png');
+        }
+        .dropdown-menu {
+            li {
+            }
+        }
+    }
+
+    .checkbox-list {
+        li { 
+            margin-bottom : 4px;
+        }
+        label {
+            display: inline;
+        }
+    }
+
+    .center {
+        text-align: center;
+    }
+
+    .icon-blue-arrow-up, .icon-blue-arrow-down {
+        margin-top: -2px;
+    }
+
+    .buttons .button, .buttons button, .enrollment-btn {
+        background-color: $enrollment-primary-button-background;
+        color: $enrollment-primary-button-color;
+        display: inline-block;
+        float: right;
+        &.secondary {
+            background-color: $enrollment-secondary-button-background;
+            color: $enrollment-secondary-button-color;
+            margin-right: 10px;
+        }
+        &.tertiary {
+            background-color: $enrollment-tertiary-button-background;
+            color: $enrollment-tertiary-button-color;
+            text-shadow: none;
+            text-transform: none;
+            float: left;
+        }
+    }
+    
+    .error {
+        color: #c84545;
+        input, select {
+            border-color: #c84545;
+        }
+    }
+
+    .warning {
+        font-size: 13px;
+    }
+        
+    .wrapper {
+        position: relative;
+        overflow: visible;
+        padding-bottom: 50px;
+    }
+
+    .footnotes {
+        clear: both;
+        padding-top: 20px;
+    }
+
+    .time-remaining-mobile {
+        text-align: center;
+        .time-remaining {
+            text-transform: uppercase;
+            font-size: 14px;
+            width: 75%;
+            margin: 0 auto;
+        }
+    }
+
+    .item--no-input {
+        label {
+            margin-bottom: 3px;
+        }
+    }
+
+    .terms-agreement {
+        margin-bottom: 20px;
+    }
+
+    .verify-order-table {
+        .sub-charge { 
+            padding-left: 30px;
+        }
+        .rate {
+            text-align: right;
+        }
+        h4 { 
+            margin: 0 0 10px;
+        }
+        th, td {
+            border: none;
+            padding: 0;
+            vertical-align: top;
+        }
+        tr:last-child {
+            td {
+                padding-bottom: 0;
+            }
+        }
+
+        @include breakpoint(small) {
+            h4 {
+                margin-bottom: 0;
+            }
+            td {
+                display: block;
+            }
+            .docs {
+                text-align: left;
+            }
+            .sub-charge {
+                padding-left: 0;
+                margin-bottom: 6px;
+            }
+            .description {
+                margin-bottom: 6px;
+            }
+            .rate {
+                margin-bottom: 15px;
+                text-align: left;
+            }
+        }
+    }
+
+    .total {
+        text-align: right;
+    }
+
+    hr.content-divider {
+        margin: 25px (-$enrollment-module-horizontal-padding);
+    }
+
+    form div.additional-field-group {
+        margin-left: (-$enrollment-module-horizontal-padding);
+        margin-right: (-$enrollment-module-horizontal-padding);
+        padding-left: $enrollment-module-horizontal-padding;
+        padding-right: $enrollment-module-horizontal-padding;
+    }
+
+    @include breakpoint(small) {
+        #state-select {
+            margin-top: 5px;
+        }
+        .buttons {
+            text-align: center;
+            button {
+                min-width: 150px;
+            }
+            button + button {
+                margin-top: 8px;
+            }
+        }
+        .datepicker {
+            position: relative;
+            .pull-right, .pull-left {
+                width: 35px;
+            }
+            table {
+                width: 100%;
+                max-width: 320px;
+                td {
+                    padding: 2px 3px;
+                }
+            }
+        }
+        .datepicker-input {
+            @include retina-background('calendar.png', 'icon'); 
+            background-position: 98% center;
+            background-repeat: no-repeat;
+
+            //Remove the Clear field (X) in IE10+
+            &::-ms-clear {
+                display: none;
+            }
+        }
+        .dropdown-menu {
+            font-size: 13px;
+        }
+        .time-remaining-mobile {
+            margin-top: 10px;
+            .time-remaining {
+                width: 160px;
+                font-size: 11px;
+            }
+        }
+        h1 {
+            font-size: 30px;
+            line-height: 1.1;
+        }
+        .plan-selection-table {
+            tr.details-row {
+                td div {
+                    padding: 0 15px;
+                }
+            }
+            .plan-name {
+                text-align: left;
+            }
+            .plan-actions {
+                border-left: none;
+                button, .button {
+                    float: right;
+                    min-width: 120px;
+                }
+            }
+            .view-details {
+                display: inline;
+                float: left;
+                margin-top: 12px;
+            }
+        }
+
+    }
+}
+
 /*
     Enrollment Banner Styling
  */
@@ -150,9 +408,6 @@ $enrollment-module-vertical-padding: 20px;
         .input-group-btn {
             vertical-align: bottom;
         }
-    }
-    .warning {
-        font-size: 13px;
     }
 }
 
@@ -338,6 +593,7 @@ $enrollment-module-vertical-padding: 20px;
         }        
         button {
             white-space: nowrap;
+            margin-right: 0 !important;
         }
         .vertical {
             padding: 0;
@@ -808,254 +1064,6 @@ $enrollment-module-vertical-padding: 20px;
                 top: 45px;
             }
         }
-    }
-}
-
-/*
-    Generic styling for enrollment pages
- */
-.enrollment {
-    #state-select {
-        button {
-            border-color: #cfcfcf;
-            text-transform: uppercase;
-            @include box-shadow(none);
-        }
-        .icon {
-            background-position: 10px center;
-            background-repeat: no-repeat;
-            padding-left: 40px;
-        }
-        .texas {
-            @include retina-background('texas-icon.png');
-            
-        }
-        .georgia {
-            @include retina-background('georgia-icon.png');
-        }
-        .pennsylvania {
-            @include retina-background('pennsylvania-icon.png');
-        }
-        .maryland {
-            @include retina-background('maryland-icon.png');
-        }
-        .new-jersey {
-            @include retina-background('newjersey-icon.png');
-        }
-        .new-york {
-            @include retina-background('newyork-icon.png');
-        }
-        .washington-dc {
-            @include retina-background('dc-icon.png');
-        }
-        .dropdown-menu {
-            li {
-            }
-        }
-    }
-
-    .checkbox-list {
-        li { 
-            margin-bottom : 4px;
-        }
-        label {
-			display: inline;
-        }
-    }
-
-    .center {
-        text-align: center;
-    }
-
-    .icon-blue-arrow-up, .icon-blue-arrow-down {
-        margin-top: -2px;
-    }
-
-    .buttons .button, .buttons button, .enrollment-btn {
-        background-color: $enrollment-primary-button-background;
-        color: $enrollment-primary-button-color;
-        display: inline-block;
-        float: right;
-        &.secondary {
-            background-color: $enrollment-secondary-button-background;
-            color: $enrollment-secondary-button-color;
-            margin-right: 10px;
-        }
-        &.tertiary {
-            background-color: $enrollment-tertiary-button-background;
-            color: $enrollment-tertiary-button-color;
-            text-shadow: none;
-            text-transform: none;
-            float: left;
-        }
-    }
-    
-    .error {
-        color: #c84545;
-        input, select {
-            border-color: #c84545;
-        }
-    }
-        
-    .wrapper {
-        position: relative;
-        overflow: visible;
-        padding-bottom: 50px;
-    }
-
-    .time-remaining-mobile {
-        text-align: center;
-        .time-remaining {
-            text-transform: uppercase;
-            font-size: 14px;
-            width: 75%;
-            margin: 0 auto;
-        }
-    }
-
-    .item--no-input {
-        label {
-            margin-bottom: 3px;
-        }
-    }
-
-    .terms-agreement {
-        margin-bottom: 20px;
-    }
-
-    .verify-order-table {
-        .sub-charge { 
-            padding-left: 30px;
-        }
-        .rate {
-            text-align: right;
-        }
-        h4 { 
-            margin: 0 0 10px;
-        }
-        th, td {
-            border: none;
-            padding: 0;
-            vertical-align: top;
-        }
-        tr:last-child {
-            td {
-                padding-bottom: 0;
-            }
-        }
-
-        @include breakpoint(small) {
-            h4 {
-                margin-bottom: 0;
-            }
-            td {
-                display: block;
-            }
-            .docs {
-                text-align: left;
-            }
-            .sub-charge {
-                padding-left: 0;
-                margin-bottom: 6px;
-            }
-            .description {
-                margin-bottom: 6px;
-            }
-            .rate {
-                margin-bottom: 15px;
-                text-align: left;
-            }
-        }
-    }
-
-    .total {
-        text-align: right;
-    }
-
-    hr.content-divider {
-        margin: 25px (-$enrollment-module-horizontal-padding);
-    }
-
-    form div.additional-field-group {
-        margin-left: (-$enrollment-module-horizontal-padding);
-        margin-right: (-$enrollment-module-horizontal-padding);
-        padding-left: $enrollment-module-horizontal-padding;
-        padding-right: $enrollment-module-horizontal-padding;
-    }
-
-    @include breakpoint(small) {
-        #state-select {
-            margin-top: 5px;
-        }
-        .buttons {
-            text-align: center;
-            button {
-                min-width: 150px;
-            }
-            button + button {
-                margin-top: 8px;
-            }
-        }
-        .datepicker {
-            position: relative;
-            .pull-right, .pull-left {
-                width: 35px;
-            }
-            table {
-                width: 100%;
-                max-width: 320px;
-                td {
-                    padding: 2px 3px;
-                }
-            }
-        }
-        .datepicker-input {
-            @include retina-background('calendar.png', 'icon'); 
-            background-position: 98% center;
-            background-repeat: no-repeat;
-
-            //Remove the Clear field (X) in IE10+
-            &::-ms-clear {
-                display: none;
-            }
-        }
-        .dropdown-menu {
-            font-size: 13px;
-        }
-        .time-remaining-mobile {
-            margin-top: 10px;
-            .time-remaining {
-                width: 160px;
-                font-size: 11px;
-            }
-        }
-        h1 {
-            font-size: 30px;
-            line-height: 1.1;
-        }
-        .plan-selection-table {
-            tr.details-row {
-                td div {
-                    padding: 0 15px;
-                }
-            }
-            .plan-name {
-                text-align: left;
-            }
-            .plan-actions {
-                border-left: none;
-                button, .button {
-                    float: right;
-                    min-width: 120px;
-                }
-            }
-            .view-details {
-                display: inline;
-                float: left;
-                margin-top: 12px;
-            }
-        }
-
     }
 }
 

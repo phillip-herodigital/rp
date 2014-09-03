@@ -7,11 +7,11 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     /*$scope.enrollmentStepsService = enrollmentStepsService;
     $scope.accountInformationService = accountInformationService;*/
 
+
     $scope.time = function () { return enrollmentStepsService.timeRemaining(); };
     $scope.isRenewal = enrollmentService.isRenewal;
     $scope.isCartOpen = enrollmentCartService.getCartVisibility;
     $scope.getCartCount = enrollmentCartService.getCartCount;
-    $scope.getCartLocationsCount = enrollmentCartService.getCartLocationsCount;
     $scope.getCartItems = enrollmentCartService.getCartItems;
 
     /**

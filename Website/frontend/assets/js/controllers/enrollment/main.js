@@ -4,8 +4,9 @@
 ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentStepsService', 'enrollmentService', 'scrollService', '$timeout', 'enrollmentCartService', function ($scope, $anchorScroll, enrollmentStepsService, enrollmentService, scrollService, $timeout, enrollmentCartService) {
     $scope.validations = enrollmentService.validations;
     $scope.stepsService = enrollmentStepsService;
-    // TODO - customer type needs to be configurable
     $scope.customerType = 'residential';
+    $scope.cartLocationsCount = 0;
+    $scope.isCartFull = false;
 
     //Go ahead and set the first step to be utility for now
     //Need to determine how the first step will be activated
@@ -86,4 +87,5 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentSt
         }
         return Object.keys(obj).length;
     };
+
 }]);
