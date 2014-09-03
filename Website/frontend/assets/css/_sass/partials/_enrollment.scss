@@ -676,6 +676,14 @@
             width: 100%;
         }
     }
+    .content .marketing-empty-cart {
+    	padding: 15px 0 30px;
+    	text-transform: uppercase;
+    	text-align: center;
+    	color: #ccc;
+    	font-weight: 600;
+    	font-size: $font-size-base;
+    }
     @include breakpoint(small) {
         display: none;
     }

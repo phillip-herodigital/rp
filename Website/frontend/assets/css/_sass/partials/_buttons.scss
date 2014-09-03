@@ -73,6 +73,13 @@ button, .button {
 		background-image: none;
 	}
 
+	&.link {
+		background-color: transparent;
+		background-image: none;
+		color: $link-primary-color;
+		text-shadow: none;
+	}
+
 	&.social {
 		display: inline-block;
 		width: 190px;
@@ -123,7 +130,7 @@ button, .button {
 		}
 	}
 
-	i {
+	/*i {
 		margin: -4px 5px 0 0;
-	}
+	}*/
 }

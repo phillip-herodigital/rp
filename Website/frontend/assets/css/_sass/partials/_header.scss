@@ -232,8 +232,10 @@
 	min-height: 49px;
 	ul {
 		@include inline-block-list();
+		position: relative;
         display: inline;
 		font-size: $nav-font-size;
+		left: 0;
 
 		li {
 			position: relative;
@@ -277,6 +279,22 @@
 			left: 50%;
 			margin-left: -8px;
 			margin-top: 4px;
+		}
+	}
+	.wrapper {
+		overflow: hidden;
+	}
+
+	.swipe-nav-wrapper {
+		width: 1000px;
+	}
+
+	@include breakpoint(small-medium, true) {
+		.wrapper {
+			white-space: nowrap;
+			overflow-x: scroll;
+			overflow-y: hidden;
+			-webkit-overflow-scrolling: touch;
 		}
 	}
 }

@@ -1,5 +1,3 @@
-$home-wrapper-padding: 50px 0;
-
 .home-page {
 	.banner.marketing {
 		.wrapper {
@@ -15,8 +13,7 @@ $home-wrapper-padding: 50px 0;
 	}
 }
 
-/* These seem to be styles global to homepage, but
-   possibly not any other pages */
+
 .banner.marketing {
 	background-position: right center;
 	background-size: cover;
@@ -50,7 +47,7 @@ article.marketing {
 	position: relative;
 	color: #6b6b6b;
 	.wrapper {
-		padding: $home-wrapper-padding;
+		padding: $marketing-wrapper-padding;
 	}
 	img {
 		max-width: 100%;
@@ -72,6 +69,9 @@ article.marketing {
 			padding-left: 0;
 			padding-right: 0;
 		}
+		h2 {
+			font-size: 28px;
+		}
 	}
 }
 
@@ -88,7 +88,7 @@ article.toggle-container {
 
 
 article.quote {
-	background: #fafafa;
+	background: #f6f6f6;
 	.quote-author {
 		margin: .5em 0 0 0;
 	}
@@ -224,7 +224,8 @@ article.vertical-cta {
 		.col-last {
 			margin-top: 50px;
 		}
-		.image-wrapper {
+		.wrapper {
+			padding-top: 0;
 		}
 		h2 {
 			padding-top: 255px;
@@ -233,8 +234,8 @@ article.vertical-cta {
 }
 
 article.horizontal-photo-cta {
-	border-top: 1px solid #fcfcfc;
-	@include background-image(linear-gradient(left top, #f6f6f6, #fff));
+	@include background-image($marketing-gradient);
+
 	@include box-shadow(0 3px 6px rgba(0, 0, 0, .1));
 	.layout {
 		display: table;
@@ -303,8 +304,6 @@ article.horizontal-button-cta {
 		}	
 	}
 }
-
-
 
 article.horizontal-form-layout {
 	background: #e5e5e5;
@@ -396,37 +395,87 @@ article.choose-state {
 }
 
 
-/* Home Page-Specific Modules */
+article.state-tabs {
+	@include background-image($marketing-gradient);
+	.tabs-nav {
+		padding: 0;
+		margin: 0 auto;
+		display: table;
+		@include breakpoint(small) {
+			width: 100%;
+		}
+		li {
+			float: none;
+			display: table-cell;
+			width: 138px;
+			@include breakpoint(small) {
+				display: block;
+				width: auto;
+			}
+			a {
+				display: block;
+				padding: 20px 0;
+				text-align: center;
+				@include border-radius(7px 7px 0 0);
+				span {
+					display: block;
+					margin: 0 auto 10px;
+					width: 82px;
+					height: 84px;
+					@include retina-background("state-tabs.png");
+					i {
+						max-height: 84px;
+					}
+				}
+				@include breakpoint(small) {
+					@include border-radius(7px 7px 7px 7px);
+					width: auto;
+				}
+			}
+			/*&.active, &:hover {
+				a {
+					background-color: $brand-primary-color;
+					color: #fff;
+				}
+				span {
+					background: none;
+				}
+			}*/
+		}
+	}
+	.tab-header {
+		padding: 10px 0;
+		background-color: $brand-primary-color;
+		color: #fff;
+		button, a.button{
+			@include breakpoint(small) {
+				display:block;
+				margin: 5px 0;
+			}
+		}
+	}
+	.tab-footer {
+		min-height: 30px;
+		margin: 0;
+		background-color: $brand-primary-color;
+		border-bottom: 5px solid #76bd1d;
+	}
+	h2 {
+		text-align: center;
+		margin-top: 0;
+	}
+}
+
+
+/* Page-Specific Modules */
 article.home-page-services {
 	@include background-image(linear-gradient(left top, #fff, #f1f1f1));
 	@include box-shadow(0 2px 5px rgba(0, 0, 0, .2));
-	.i-wrapper {
+	.ico-wrapper {
 		position: absolute;
 		right: 0;
 		top: 10px;
 		right: 30px;
-		width: 70px;
-		height: 70px;
-		text-align: center;
-		background: $brand-primary-color;
-		line-height: 70px;
-		@include border-radius(100%);
-		i {
-			margin: 0;
-			display: inline-block;
-		}
-		&:after {
-			content: '';
-			width: 70px;
-			height: 70px;
-			background-color: #fff;
-			opacity: .08;
-			display: block;
-			position: absolute;
-			top: 0;
-			@include rotate(45deg);
-			clip: rect(0px 70px 35px 0px);
-		}
 	}
 	.grid {
 		border-spacing: 0;
@@ -457,7 +506,7 @@ article.home-page-services {
 	@include breakpoint(medium) {
 		.grid .col {
 			padding: 0 80px 0 15px;
-			.i-wrapper {
+			.ico-wrapper {
 				right: 15px;
 				width: 60px;
 				height: 60px;
@@ -473,7 +522,7 @@ article.home-page-services {
 		.grid .col {
 			padding: 15px 80px 15px 0;
 			border: none;
-			.i-wrapper {
+			.ico-wrapper {
 				right: 0;
 			}
 			&:first-child {
@@ -562,10 +611,22 @@ article.home-page-switch-mobile {
 			padding-left: 0;
 		}
 		.text-divider {
-			display: none;
+			position: static;
+			height: 60px;
+			margin: 50px 0 0;
+			width: 100%;
+			background: url(../i/marketing/home-switch-mobile-divider-horiz.png) no-repeat center center;
+			span {
+				bottom: auto;
+				left: 50%;
+				margin-left: -30px;
+			}
 		}
 		.wrapper {
 			text-align: center;
+		}
+		h1 {
+			font-size: 40px;
 		}
 	}
 }
@@ -583,7 +644,7 @@ article.nationwide-coverage {
 	}
 	@include breakpoint(small) {
 		.wrapper {
-			padding-top: 65%;
+			padding: 75% 0 50px 0;
 			background-position: center 20px;
 			background-size: contain;
 		}
@@ -625,7 +686,7 @@ article.find-coverage {
 }
 
 article.homelife-services-promo {
-	@include background-image(linear-gradient(left top, #f9f9f9, #fff));
+	@include background-image($marketing-gradient);
 	border-top: 1px solid #fcfcfc;
 	.wrapper {
 		text-align: center;
@@ -699,6 +760,51 @@ article.homelife-services-promo-selectable {
 	}
 }
 
+article.other-services-promo {
+	@include background-image($marketing-gradient);
+	.grid {
+		border-spacing: 20px;
+		margin: -20px;
+	}
+	.col {
+		position: relative;
+		padding: 30px 30px 30px 180px;
+		border: 1px solid $dark-border-color;
+		@include border-radius(10px);
+		@include background-image(linear-gradient(#fff, #f3f3f3));
+		@include box-shadow(0 2px 2px rgba(0, 0, 0, .1));
+	}
+	.ico-wrapper {
+		position: absolute;
+		top: 30px;
+		left: 30px;
+		border: 1px solid #fff;
+		@include box-shadow(0 1px 2px rgba(0, 0, 0, .5));
+	}
+	h3 {
+		text-transform: uppercase;
+		margin-top: 0;
+	}
+	@include breakpoint(small) {
+		.grid {
+			margin: 0;
+		}
+		.col {
+			padding-left: 30px;
+			&:first-child {
+				margin-bottom: 20px;
+			}
+		}
+		.ico-wrapper {
+			position: relative;
+			left: 50%;
+			top: 0;
+			margin-left: -60px;
+			margin-bottom: 30px;
+		}
+	}
+}
+
 article.home-questions {
 	.contact-specialists {
 		@include retina-background("contact-specialists.png", "icon");
@@ -708,12 +814,17 @@ article.home-questions {
 		color: $brand-primary-color;
 		font-style: italic;
 		padding-left: 50px;
+		min-height: 46px;
 	}
 	.faq {
 		padding-right: 30px;
 	}
 	.grid .col {
 		border-color: $light-border-color;
+	}
+	.tel {
+		white-space: nowrap;
+		font-weight: 600;
 	}
 	h2 {
 		margin-top: 0;
@@ -727,6 +838,69 @@ article.home-questions {
 		}
 		.faq {
 			padding-right: 0;
+		}
+	}
+}
+
+article.select-protection-services {
+	.service-icon {
+		float: left;
+		width: 15%;
+		padding-left: 10px;
+		padding-right: 30px;
+		margin-top: 30px;
+	}
+	.service-description {
+		float: left;
+		width: 60%
+	}
+	.service-cta {
+		float: left;
+		width: 25%;
+		text-align: center;
+		.price {
+			font-size: 28px;
+			font-weight: 600;
+			line-height: 1;
+			margin: .75em 0;
+			span {
+				display: block;
+				font-size: $font-size-xxsmall;
+				font-style: italic;
+			}
+		}
+	}
+	h3 {
+		font-weight: 400;
+	}
+	img {
+		max-width: 100%;
+	}
+	@include breakpoint(medium) {
+		.service-icon {
+			padding: 0;
+			width: 12%;
+			padding-right: 20px;
+			margin-top: 25px;
+		}
+		.service-description {
+			width: 55%;
+			padding-right: 10px;
+		}
+		.service-cta {
+			width: 33%;
+		}
+	}
+	@include breakpoint(small) {
+		.service-icon {
+			float: right;
+			width: 60px;
+			padding: 0;
+			margin-top: 20px;
+		}
+		.service-description, .service-cta {
+			float: none;
+			width: 100%;
 		}
 	}
 }

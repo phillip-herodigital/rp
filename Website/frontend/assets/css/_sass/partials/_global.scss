@@ -102,22 +102,22 @@ ul, ol {
 
 @include breakpoint(small) {
 	.hide-small {
-		display: none;
+		display: none !important;
 	}
 }
 @include breakpoint(medium) {
 	.hide-medium {
-		display: none;
+		display: none !important;
 	}
 }
 @include breakpoint(medium-large) {
 	.hide-medium-large {
-		display: none;
+		display: none !important;
 	}
 }
 @include breakpoint(large) {
 	.hide-large {
-		display: none;
+		display: none !important;
 	}
 }
 
@@ -205,6 +205,45 @@ ul, ol {
 		border: 1px solid darken($brand-success, 15%);
 		background-color: $brand-success;
 		@include retina-background("success.png", "icon");
+	}
+}
+
+//Round icon wrappers
+.ico-wrapper {
+	position: relative;
+	display: inline-block;
+	width: 70px;
+	height: 70px;
+	text-align: center;
+	background: $brand-primary-color;
+	line-height: 70px;
+	@include border-radius(100%);
+	i {
+		margin: 0;
+		display: inline-block;
+	}
+	&:after {
+		content: '';
+		width: 70px;
+		height: 70px;
+		background-color: #fff;
+		opacity: .08;
+		display: block;
+		position: absolute;
+		top: 0;
+		@include rotate(45deg);
+		clip: rect(0px 70px 35px 0px);
+	}
+
+	&.large {
+		width: 120px;
+		height: 120px;
+		line-height: 120px;
+		&:after {
+			width: 120px;
+			height: 120px;
+			clip: rect(0px 120px 60px 0px);
+		}
 	}
 }
 

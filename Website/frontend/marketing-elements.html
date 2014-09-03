@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE 8]>         <html ng-app="ngApp" class="no-js ie8 lt-ie10 lt-ie9"> <![endif]-->
 <!--[if IE 9]>         <html ng-app="ngApp" class="no-js ie9 lt-ie10"> <![endif]-->
 <!--[if gt IE 8]><!--> <html ng-app="ngApp" class="no-js"> <!--<![endif]-->
 <head>
 	<meta charset="utf-8" />
-	<title>Marketing Home Page</title>
+	<title>Marketing Modular Elements</title>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -18,12 +18,13 @@
     <script src="assets/js/vendor/jqueryuicustom.js"></script>
     <script src="assets/js/libs/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
     <script src="assets/js/libs/angular/angular.min.js"></script>
+    <script src="assets/js/libs/angular-touch/angular-touch.min.js"></script>
     <script src="assets/js/libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
     <script src="assets/js/libs/angular-ui-slider/src/slider.js"></script>
     <script src="assets/js/libs/d3/d3.js"></script>
     <script src="assets/js/libs/d3/line-chart.js"></script>
     <script src="assets/js/app.js"></script>
-    <script src="http://localhost:59203/Scripts/angular.unobtrusive.validation.min.js" type="text/javascript"></script>
+    <script src="/Scripts/angular.unobtrusive.validation.min.js" type="text/javascript"></script>
     <script src="assets/js/modules/mask-jquery.js"></script>
     <script src="assets/js/config/datepicker.js"></script>
     <script src="assets/js/config/validation-exactvalue.js"></script>
@@ -104,6 +105,7 @@
     <script src="assets/js/controllers/payments/bankAccountPayment.js"></script>
     <script src="assets/js/controllers/payments/creditCardPayment.js"></script>
     <script src="assets/js/controllers/payments/paymentOneTime.js"></script>
+    <script src="assets/js/directives/swipeNav.js"></script>    
 
     <script type="text/javascript" src="//use.typekit.net/obg4jvp.js"></script>
     <script type="text/javascript">try { Typekit.load(); } catch (e) { }</script>
@@ -311,505 +313,648 @@
 
 
 
+            <section class="layout">
 
-
-
-
-
-
-            <div class="wrapper">
-                <h1>Static Modules</h1>
-                <hr>
-                <h2>Carousel/Banner Module</h2>
-            </div>
-        
-            <carousel>
-                <slide>
-                    <div class="banner marketing" style="background-image: url(assets/i/marketing/banner-home.jpg)">
-                        <div class="wrapper">
-                            <div class="carousel-caption text-left">
-                                <h1>More and more people<br /> are joining Stream<br /> Every Day</h1>
-                                <a href="" class="button large">Shop Services</a>
-                            </div>
-                        </div>
-                    </div>
-                </slide>
-            </carousel>
-
-
-
-
-            <div class="wrapper">
-                <h2>Grid Promo Module</h2>
-            </div>
-
-
-            <article class="marketing gridPromos home-page-services">
                 <div class="wrapper">
-                    <div class="grid three">
-                        <div class="col">
-                            <h4>Mobile Services</h4>
-                            <p>Phones &amp; Plans lorem ipsem dolor sit amet.</p>
-                            <p><a href="#">Phones &amp; Plans <i class="icon-arrow-right"></i></a></p>
-                            <span class="i-wrapper">
-                                <i class="icon-mobile"></i>
-                            </span>
-                        </div>
-                        <div class="col">
-                            <h4>Utility Services</h4>
-                            <p>Gas &amp; Electricity lorem dolor sit ameolor lorem ips.</p>
-                            <p><a href="">Gas &amp; Electricity <i class="icon-arrow-right"></i></a></p>
-                            <span class="i-wrapper">
-                                <i class="icon-home-utility"></i>
-                            </span>
-                        </div>
-                        <div class="col">
-                            <h4>Homelife Services</h4>
-                            <p>Protection you need lorem dolor sit ameolor lorem ips.</p>
-                            <p><a href="">Protection &amp; Security <i class="icon-arrow-right"></i></a></p>
-                            <span class="i-wrapper">
-                                <i class="icon-homelife"></i>
-                            </span>
-                        </div>
-                    </div>
+                    <h1>Static Modules</h1>
+                    <hr>
+                    <h2>Carousel/Banner Module</h2>
                 </div>
-            </article>
-
-
-
-
-            <div class="wrapper">
-                <h2>Two Column CTA Module</h2>
-            </div>
-
-
-            <article class="marketing home-page-switch-mobile">
-                <div class="wrapper">
-                    <h1 class="text-center">It’s <span>easy</span> to <span>switch</span> to Stream Mobile</h1>
-                    <div class="grid two">
-                        <div class="col col-smartphones">
-                            <img src="assets/i/marketing/home-switch-mobile-left.jpg" alt="">
-                            <h2>Shop our SmartPhones</h2>
-                            <p>Unlimited Voice, Text, and Data on a leading nationwide 4G network starts at $39/month, with other great rate plans to choose from.</p>
-                            <a href="" class="button large">Shop Smart Phones</a>
-                            <div class="text-divider"><span>Or</span></div>
-                        </div>
-                        <div class="col col-own-phone">
-                            <img src="assets/i/marketing/home-switch-mobile-right.jpg" alt="">
-                            <h2>Bring your own Phone</h2>
-                            <p>A simple switch of your SIM card gets you on the Stream Mobile high-speed network, with great rate plans to choose from.</p>
-                            <a href="" class="button large">Get Started</a>
-                        </div>
-                    </div>
-                </div>
-            </article>
-
-
-            <div class="wrapper">
-                <h2>Nationwide Coverage Module</h2>
-            </div>
-
-
-            <article class="marketing nationwide-coverage">
-                <div class="wrapper">
-                    <h2>Nationwide 4G Coverage</h2>
-                    <p>Unlimited Voice, Text, and Data on a leading nationwide 4G network starts at $39/month, with other great rate plans to choose from.</p>
-                </div>
-            </article>
-
-
-            <div class="wrapper">
-                <h2>Find Coverage Module</h2>
-            </div>
-
-            <article class="marketing find-coverage">
-                <div class="wrapper">
-                    <h3><i class="icon-coverage"></i>Find Coverage Near Me</h3>
-                    <div class="input-group">
-                        <div class="input-group-control">
-                            <input class="input--large" placeholder="Enter Zip Code or Address" type="text" value="">
-                        </div>
-                        <div class="input-group-btn">
-                            <button type="button" class="large">Check Coverage</button>
-                        </div>
-                    </div>
-                </div>
-            </article>
-
-            <div class="wrapper">
-                <h2>Homelife Services Promo</h2>
-            </div>
-
-            <article class="marketing homelife-services-promo">
-                <div class="wrapper">
-                    <div class="grid three">
-                        <div class="col">
-                            <div class="col-wrapper">
-                                <i class="icon-identity-theft"></i>
-                                <h3>Identity Theft Monitoring</h3>
-                                <p>With Identity theft on the rise, we’ve developed a service to help safeguard your identity.</p>
-                                <p><a href="">Learn More <i class="icon-arrow-right"></i></a></p>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="col-wrapper">
-                                <i class="icon-online-backup"></i>
-                                <h3>Online Backup & Protection</h3>
-                                <p>Keep your computers running smoothly with Stream Energy’s technology support and automatic data backup services.</p>
-                                <p><a href="">Learn More <i class="icon-arrow-right"></i></a></p>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="col-wrapper">
-                                <i class="icon-credit-monitoring"></i>
-                                <h3>Credit Monitoring</h3>
-                                <p>Stream Energy’s credit monitoring allows you to review your past credit history, check your current score, and plan for the future.</p>
-                                <p><a href="">Learn More <i class="icon-arrow-right"></i></a></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-
- 
-            <article class="marketing homelife-services-promo homelife-services-promo-selectable" ng-controller="homelifeSelectorCtrl">
-                <div class="wrapper">
-                    <div class="grid three">
-                        <div class="col" ng-click="data.selectedHomelifeService = 'identity-theft'" ng-class="{ 'active' : data.selectedHomelifeService == 'identity-theft' }">
-                            <div class="col-wrapper">
-                                <i class="icon-identity-theft"></i>
-                                <h3>Identity Theft Monitoring</h3>
-                                <p>With Identity theft on the rise, we’ve developed a service to help safeguard your identity.</p>
-                            </div>
-                        </div>
-                        <div class="col"  ng-click="data.selectedHomelifeService = 'online-backup'" ng-class="{ 'active' : data.selectedHomelifeService == 'online-backup' }">
-                            <div class="col-wrapper">
-                                <i class="icon-online-backup"></i>
-                                <h3>Online Backup & Protection</h3>
-                                <p>Keep your computers running smoothly with Stream Energy’s technology support and automatic data backup services.</p>
-                            </div>
-                        </div>
-                        <div class="col"  ng-click="data.selectedHomelifeService = 'credit-monitoring'" ng-class="{ 'active' : data.selectedHomelifeService == 'credit-monitoring' }">
-                            <div class="col-wrapper">
-                                <i class="icon-credit-monitoring"></i>
-                                <h3>Credit Monitoring</h3>
-                                <p>Stream Energy’s credit monitoring allows you to review your past credit history, check your current score, and plan for the future.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <toggle-pane name="credit-monitoring" value="data.selectedHomelifeService">
-                        <h2>Credit Monitoring</h2>
-
-                        <p>Lorem ipsum dolor sit amet, eu sit timeam mnesarchum, assum populo quo at. Eu per doming imperdiet. Nullam epicurei ea mei, inani quidam contentiones et cum. Ea has mollis dolores.
-
-                        Alienum platonem ex nec. Est latine qualisque referrentur ex. Erat doming eum ea. Decore expetenda assueverit in qui, vix et lorem malorum mediocritatem, ad alia bonorum pri.</p>
-                    </toggle-pane>
-                    <toggle-pane name="identity-theft" value="data.selectedHomelifeService">
-                        <h2>With Identity Theft monitoring, you have access to the following</h2>
-
-                        <p>Lorem ipsum dolor sit amet, eu sit timeam mnesarchum, assum populo quo at. Eu per doming imperdiet. Nullam epicurei ea mei, inani quidam contentiones et cum. Ea has mollis dolores.
-
-                        Alienum platonem ex nec. Est latine qualisque referrentur ex. Erat doming eum ea. Decore expetenda assueverit in qui, vix et lorem malorum mediocritatem, ad alia bonorum pri.</p>
-                    </toggle-pane>
-                    <toggle-pane name="online-backup" value="data.selectedHomelifeService">
-                        <h2>Online Backup & Protection</h2>
-
-                        <p>Lorem ipsum dolor sit amet, eu sit timeam mnesarchum, assum populo quo at. Eu per doming imperdiet. Nullam epicurei ea mei, inani quidam contentiones et cum. Ea has mollis dolores.
-
-                        Alienum platonem ex nec. Est latine qualisque referrentur ex. Erat doming eum ea. Decore expetenda assueverit in qui, vix et lorem malorum mediocritatem, ad alia bonorum pri.</p>
-                    </toggle-pane>
-                </div>
-            </article>
-
-
-            <div class="wrapper">
-                <h2>Questions Module</h2>
-            </div>
-
-            <article class="marketing home-questions">
-                <div class="wrapper">
-                    <div class="grid border">
-                        <div class="col two-third">
-                            <h2>Have Questions?</h2>
-                            <div class="faq">
-                                <div class="panel" slide-toggle>
-                                    <p class="question">
-                                        <a ng-click="toggleSlide()" ng-class="{'collapsed': !isOpen}" href="">Lorem Ipsem dolor sit amet consecutor lorm ispem</a>
-                                    </p>
-                                    <div class="panel-content slide-toggle">
-                                        <div class="answer">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis viverra aliquet tempus. Aenean nunc dolor, porttitor a placerat vel, vestibulum nec ligula. Suspendisse vulputate, felis vitae facilisis sollicitudin, ante justo blandit felis, ac posuere odio sapien id elit. 
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="panel" slide-toggle>
-                                    <p class="question">
-                                        <a ng-click="toggleSlide()" ng-class="{'collapsed': !isOpen}" href="">Lorem Ipsem dolor sit amet consecutor lorm ispem</a>
-                                    </p>
-                                    <div class="panel-content slide-toggle">
-                                        <div class="answer">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis viverra aliquet tempus. Aenean nunc dolor, porttitor a placerat vel, vestibulum nec ligula. Suspendisse vulputate, felis vitae facilisis sollicitudin, ante justo blandit felis, ac posuere odio sapien id elit. 
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="panel" slide-toggle>
-                                    <p class="question">
-                                        <a ng-click="toggleSlide()" ng-class="{'collapsed': !isOpen}" href="">Lorem Ipsem dolor sit amet consecutor lorm ispem</a>
-                                    </p>
-                                    <div class="panel-content slide-toggle">
-                                        <div class="answer">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis viverra aliquet tempus. Aenean nunc dolor, porttitor a placerat vel, vestibulum nec ligula. Suspendisse vulputate, felis vitae facilisis sollicitudin, ante justo blandit felis, ac posuere odio sapien id elit. 
-                                        </div>
-                                    </div>
+            
+                <carousel>
+                    <slide>
+                        <div class="banner marketing" style="background-image: url(assets/i/marketing/banner-home.jpg)">
+                            <div class="wrapper">
+                                <div class="carousel-caption text-left">
+                                    <h1>More and more people<br /> are joining Stream<br /> Every Day</h1>
+                                    <a href="" class="button large">Shop Services</a>
                                 </div>
                             </div>
-                            <p><a href="">Show 18 More Questions <i class="icon-arrow-right"></i></a></p>
                         </div>
-                        <div class="col one-third">
-                            <h2>Still Have Questions?</h2>
-                            <p class="contact-specialists">Contact one of our Specialists today!</p>
-                            <p>Or call customer service:  1-800-STREAM</p>
+                    </slide>
+                </carousel>
+
+
+
+
+                <div class="wrapper">
+                    <h2>Grid Promo Module</h2>
+                </div>
+
+
+                <article class="marketing gridPromos home-page-services">
+                    <div class="wrapper">
+                        <div class="grid three">
+                            <div class="col">
+                                <h4>Mobile Services</h4>
+                                <p>Phones &amp; Plans lorem ipsem dolor sit amet.</p>
+                                <p><a href="#">Phones &amp; Plans <i class="icon-arrow-right"></i></a></p>
+                                <span class="ico-wrapper">
+                                    <i class="icon-mobile"></i>
+                                </span>
+                            </div>
+                            <div class="col">
+                                <h4>Utility Services</h4>
+                                <p>Gas &amp; Electricity lorem dolor sit ameolor lorem ips.</p>
+                                <p><a href="">Gas &amp; Electricity <i class="icon-arrow-right"></i></a></p>
+                                <span class="ico-wrapper">
+                                    <i class="icon-home-utility"></i>
+                                </span>
+                            </div>
+                            <div class="col">
+                                <h4>Homelife Services</h4>
+                                <p>Protection you need lorem dolor sit ameolor lorem ips.</p>
+                                <p><a href="">Protection &amp; Security <i class="icon-arrow-right"></i></a></p>
+                                <span class="ico-wrapper">
+                                    <i class="icon-homelife"></i>
+                                </span>
+                            </div>
                         </div>
                     </div>
+                </article>
+
+
+
+
+                <div class="wrapper">
+                    <h2>Two Column CTA Module</h2>
                 </div>
-            </article>
 
 
+                <article class="marketing home-page-switch-mobile">
+                    <div class="wrapper">
+                        <h1 class="text-center">It’s <span>easy</span> to <span>switch</span> to Stream Mobile</h1>
+                        <div class="grid two">
+                            <div class="col col-smartphones">
+                                <img src="assets/i/marketing/home-switch-mobile-left.jpg" alt="">
+                                <h2>Shop our SmartPhones</h2>
+                                <p>Unlimited Voice, Text, and Data on a leading nationwide 4G network starts at $39/month, with other great rate plans to choose from.</p>
+                                <a href="" class="button large">Shop Smart Phones</a>
+                                <div class="text-divider"><span>Or</span></div>
+                            </div>
+                            <div class="col col-own-phone">
+                                <img src="assets/i/marketing/home-switch-mobile-right.jpg" alt="">
+                                <h2>Bring your own Phone</h2>
+                                <p>A simple switch of your SIM card gets you on the Stream Mobile high-speed network, with great rate plans to choose from.</p>
+                                <a href="" class="button large">Get Started</a>
+                            </div>
+                        </div>
+                    </div>
+                </article>
 
-            <div class="wrapper">
-                <h2>State Selection Module</h2>
-            </div>
 
-            <article class="marketing horizontal-form-layout choose-state">
-                <div class="wrapper" ng-controller="stateSelectCtrl">
-                    <div class="form-layout">
-                        <h3>Choose your area to get started</h3>
-                        <label>It looks like you're in</label>
-                        <div class="input-group input-group-mobile">
-                            <div class="input-group-control" id="state-select">
-                                <div id="state-select" dropdown-select dropdown-items="dropdownItems" value="data.dropdownState"></div>
+                <div class="wrapper">
+                    <h2>Nationwide Coverage Module</h2>
+                </div>
+
+
+                <article class="marketing nationwide-coverage">
+                    <div class="wrapper">
+                        <h2>Nationwide 4G Coverage</h2>
+                        <p>Unlimited Voice, Text, and Data on a leading nationwide 4G network starts at $39/month, with other great rate plans to choose from.</p>
+                    </div>
+                </article>
+
+
+                <div class="wrapper">
+                    <h2>Find Coverage Module</h2>
+                </div>
+
+                <article class="marketing find-coverage">
+                    <div class="wrapper">
+                        <h3><i class="icon-coverage"></i>Find Coverage Near Me</h3>
+                        <div class="input-group">
+                            <div class="input-group-control">
+                                <input class="input--large" placeholder="Enter Zip Code or Address" type="text" value="">
                             </div>
                             <div class="input-group-btn">
-                                <button type="button" ng-click="data.serviceState = data.dropdownState">Get Started</button>
+                                <button type="button" class="large">Check Coverage</button>
                             </div>
                         </div>
-                        <div class="links">
-                            <a href="">View Rates</a>
-                            <a href="">View Details</a>
+                    </div>
+                </article>
+
+                <div class="wrapper">
+                    <h2>Homelife Services Promo</h2>
+                </div>
+
+                <article class="marketing homelife-services-promo">
+                    <div class="wrapper">
+                        <div class="grid three">
+                            <div class="col">
+                                <div class="col-wrapper">
+                                    <i class="icon-identity-theft"></i>
+                                    <h3>Identity Theft Monitoring</h3>
+                                    <p>With Identity theft on the rise, we’ve developed a service to help safeguard your identity.</p>
+                                    <p><a href="">Learn More <i class="icon-arrow-right"></i></a></p>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="col-wrapper">
+                                    <i class="icon-online-backup"></i>
+                                    <h3>Online Backup & Protection</h3>
+                                    <p>Keep your computers running smoothly with Stream Energy’s technology support and automatic data backup services.</p>
+                                    <p><a href="">Learn More <i class="icon-arrow-right"></i></a></p>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="col-wrapper">
+                                    <i class="icon-credit-monitoring"></i>
+                                    <h3>Credit Monitoring</h3>
+                                    <p>Stream Energy’s credit monitoring allows you to review your past credit history, check your current score, and plan for the future.</p>
+                                    <p><a href="">Learn More <i class="icon-arrow-right"></i></a></p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <toggle-pane value="data.serviceState" name="DC">
-                        <h2>Washington, DC</h2>
-                        <hr>
-                        <h3>Energy Plan Options</h3>
+                </article>
+
+     
+                <article class="marketing homelife-services-promo homelife-services-promo-selectable" ng-controller="homelifeSelectorCtrl">
+                    <div class="wrapper">
+                        <div class="grid three">
+                            <div class="col" ng-click="data.selectedHomelifeService = 'identity-theft'" ng-class="{ 'active' : data.selectedHomelifeService == 'identity-theft' }">
+                                <div class="col-wrapper">
+                                    <i class="icon-identity-theft"></i>
+                                    <h3>Identity Theft Monitoring</h3>
+                                    <p>With Identity theft on the rise, we’ve developed a service to help safeguard your identity.</p>
+                                </div>
+                            </div>
+                            <div class="col"  ng-click="data.selectedHomelifeService = 'online-backup'" ng-class="{ 'active' : data.selectedHomelifeService == 'online-backup' }">
+                                <div class="col-wrapper">
+                                    <i class="icon-online-backup"></i>
+                                    <h3>Online Backup & Protection</h3>
+                                    <p>Keep your computers running smoothly with Stream Energy’s technology support and automatic data backup services.</p>
+                                </div>
+                            </div>
+                            <div class="col"  ng-click="data.selectedHomelifeService = 'credit-monitoring'" ng-class="{ 'active' : data.selectedHomelifeService == 'credit-monitoring' }">
+                                <div class="col-wrapper">
+                                    <i class="icon-credit-monitoring"></i>
+                                    <h3>Credit Monitoring</h3>
+                                    <p>Stream Energy’s credit monitoring allows you to review your past credit history, check your current score, and plan for the future.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <toggle-pane name="credit-monitoring" value="data.selectedHomelifeService">
+                            <h2>Credit Monitoring</h2>
+
+                            <p>Lorem ipsum dolor sit amet, eu sit timeam mnesarchum, assum populo quo at. Eu per doming imperdiet. Nullam epicurei ea mei, inani quidam contentiones et cum. Ea has mollis dolores.
+
+                            Alienum platonem ex nec. Est latine qualisque referrentur ex. Erat doming eum ea. Decore expetenda assueverit in qui, vix et lorem malorum mediocritatem, ad alia bonorum pri.</p>
+                        </toggle-pane>
+                        <toggle-pane name="identity-theft" value="data.selectedHomelifeService">
+                            <h2>With Identity Theft monitoring, you have access to the following</h2>
+
+                            <p>Lorem ipsum dolor sit amet, eu sit timeam mnesarchum, assum populo quo at. Eu per doming imperdiet. Nullam epicurei ea mei, inani quidam contentiones et cum. Ea has mollis dolores.
+
+                            Alienum platonem ex nec. Est latine qualisque referrentur ex. Erat doming eum ea. Decore expetenda assueverit in qui, vix et lorem malorum mediocritatem, ad alia bonorum pri.</p>
+                        </toggle-pane>
+                        <toggle-pane name="online-backup" value="data.selectedHomelifeService">
+                            <h2>Online Backup & Protection</h2>
+
+                            <p>Lorem ipsum dolor sit amet, eu sit timeam mnesarchum, assum populo quo at. Eu per doming imperdiet. Nullam epicurei ea mei, inani quidam contentiones et cum. Ea has mollis dolores.
+
+                            Alienum platonem ex nec. Est latine qualisque referrentur ex. Erat doming eum ea. Decore expetenda assueverit in qui, vix et lorem malorum mediocritatem, ad alia bonorum pri.</p>
+                        </toggle-pane>
+                    </div>
+                </article>
 
 
-                        <p>Stream Energy’s residential energy prices are designed to help you fully maximize your energy savings. We know comparing rates with other utility companies in Texas can be confusing. Our pricing and rates are both simple and easy to understand.</p>
+                <div class="wrapper">
+                    <h2>Other Services Module</h2>
+                </div>
 
-                        <p>
-                            <a href="#">View Electricity Rates</a>
-                            <a href="#">View Historical Rates Snapshot</a>
-                        </p>
-
-                        <hr>
-
+                <article class="marketing other-services-promo">
+                    <div class="wrapper">
                         <div class="grid">
-
-                        </div>
-                    </toggle-pane>
-                    <toggle-pane value="data.serviceState" name="GA">
-                        Georgia
-                    </toggle-pane>
-                    <toggle-pane value="data.serviceState" name="MD">
-                        Maryland
-                    </toggle-pane>
-                    <toggle-pane value="data.serviceState" name="NJ">
-                        New Jersey
-                    </toggle-pane>
-                    <toggle-pane value="data.serviceState" name="NY">
-                        New York
-                    </toggle-pane>
-                    <toggle-pane value="data.serviceState" name="PA">
-                        Pennsylvania
-                    </toggle-pane>
-                    <toggle-pane value="data.serviceState" name="TX">
-                        Texas
-                    </toggle-pane>
-                    <toggle-pane value="data.serviceState" name="OO">
-                        Other
-                    </toggle-pane>
-                </div>
-            </article>
-
-
-            <div class="wrapper">
-                <hr>
-                <h1>Generic Modules</h1>
-                <hr>
-                <h2>Quote Module</h2>
-            </div>
-
-            <article class="marketing quote">
-                <div class="wrapper">
-                    <div class="quote-wrapper">
-                        <h2>Stream Mobile has changed the way we approach data.</h2>
-                        <p class="quote-text">Stream’s coverage is excellent, data speeds are great, and we now communicate better than ever before.</p>
-                        <p class="quote-author">– Jeremy P</p>
-                    </div>
-                </div>
-            </article>
-
-
-            <div class="wrapper">
-                <h2>Section Divider Module</h2>
-            </div>
-
-            <article class="marketing section-divider">
-                <div class="wrapper">
-                    <div class="grid three">
-                        <div class="col">
-                            <h4><i class="icon-mobile-small"></i> Mobile Services</h4>
-                        </div>
-                        <div class="col active">
-                            <h4><i class="icon-utility-small"></i> Utility Services</h4>
-                        </div>
-                        <div class="col">
-                            <h4><i class="icon-homelife-small"></i> Homelife Services</h4>
-                        </div>
-                    </div>
-                </div>
-            </article>
-
-
-            <div class="wrapper">
-                <h2>Text Callout Module</h2>
-            </div>
-
-            <article class="marketing text-callout">
-                <div class="wrapper">
-                    <h1>Electricity and Gas that <span>fit</span> your <span>lifestyle</span> </h1>
-                    <p>Electricity isn’t a luxury, it’s a necessity. Everyone needs it, every single day. Stream Energy offers competitive energy products to make life a little easier and can provide for all your electricity needs. From keeping your lights on to cooling your house, powering your technology and your power tools, Stream Energy can power your home or business.</p>
-                    <p><a href="" class="button large">Read More</a></p>
-                </div>
-            </article>
-
-
-            <div class="wrapper">
-                <h2>Vertical CTA Module</h2>
-            </div>
-
-            <article class="marketing vertical-cta">
-                <div class="wrapper">
-                    <div class="grid two">
-                        <div class="col col-first">
-                            <div class="image-wrapper" style="background: url(assets/i/marketing/home-shop-electricity.jpg) right top no-repeat">
+                            <div class="col">
+                                <span class="ico-wrapper large">
+                                    <i class="icon-mobile"></i>
+                                </span>
+                                <h3>Homelife Services</h3>
+                                <p>Protection you can trust, and prices you can afford. Get protected today.</p>
+                                <p><a href="#">Shop Homelife Services <i class="icon-arrow-right"></i></a></p>
                             </div>
-                            <h2>Shop Electricity</h2>
-                            <p>From keeping your lights on to turning up the air conditioning and powering your tools, electricity is an essential service for every home and business.</p>
-                            <a href="" class="button large">Shop Electricity</a>
-                        </div>
-                        <div class="col col-last">
-                            <div class="image-wrapper" style="background: url(assets/i/marketing/home-shop-gas.jpg) left top no-repeat">
-                            </div>
-                            <h2>Shop Natural Gas</h2>
-                            <p>Whether you’re cooking meals or heating your home, natural gas is a great way to use power at home and at the office.</p>
-                            <a href="" class="button large">Shop Natural Gas</a>
-                        </div>
-                    </div>
-                </div>
-            </article>
-
-
-
-
-
-
-            <div class="wrapper">
-                <h2>Horizontal Photo CTA Module</h2>
-            </div>
-
-            <article class="marketing horizontal-photo-cta">
-                <div class="wrapper clearfix">
-                    <div class="layout">
-                        <div class="aside">
-                            <img src="assets/i/marketing/home-bundle-save.jpg" alt="">
-                        </div>
-                        <div class="cta-content">
-                            <h2>Bundle &amp; Save</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis </p>
-                            <p><a href="" class="button">Get Started</a></p>
-                        </div>
-                    </div>
-                </div>
-            </article>
-
-            <article class="marketing horizontal-photo-cta horizontal-cta-alt">
-                <div class="wrapper clearfix">
-                    <div class="layout">
-                        <div class="cta-content">
-                            <h2>Bundle &amp; Save</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis </p>
-                            <p><a href="" class="button">Get Started</a></p>
-                        </div>
-                        <div class="aside">
-                            <img src="assets/i/marketing/home-bundle-save.jpg" alt="">
-                        </div>
-                    </div>
-                </div>
-            </article>
-            
-            <div class="wrapper">
-                <h2>Horizontal Button CTA Module</h2>
-            </div>
-
-
-            <article class="marketing horizontal-photo-cta horizontal-button-cta">
-                <div class="wrapper clearfix">
-                    <div class="layout">
-                        <div class="cta-content">
-                            <h2>Commercial Services</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis </p>
-                        </div>
-                        <div class="aside">
-                            <a href="" class="button green large">Learn More</a>
-                        </div>
-                    </div>
-                </div>
-            </article>
-
-
-
-            <article class="marketing text-callout">
-                <div class="wrapper">
-                    <h1>The History of Deregulated Energy</h1>
-                    <p>Electricity isn’t a luxury, it’s a necessity. Everyone needs it, every single day. Stream Energy offers competitive energy products to make life a little easier and can provide for all your electricity needs. From keeping your lights on to cooling your house, powering your technology and your power tools, Stream Energy can power your home or business.</p>
-                    <div class="grid three">
-                        <div class="col">
-                            <div class="col-wrapper">
-                                <i class="icon-identity-theft"></i>
-                                <p>Texas begins deregulation</p>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="col-wrapper">
-                                <i class="icon-online-backup"></i>
-                                <p>Stream Energy enters the scene</p>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="col-wrapper">
-                                <i class="icon-credit-monitoring"></i>
-                                <p>Stream expands to several more states</p>
+                            <div class="col">
+                                <span class="ico-wrapper large">
+                                    <i class="icon-mobile"></i>
+                                </span>
+                                <h3>Mobile Services</h3>
+                                <p>Unlimited talk, text, and data plans starting from just $39.00/month.</p>
+                                <p><a href="#">Shop Mobile Services <i class="icon-arrow-right"></i></a></p>
                             </div>
                         </div>
                     </div>
+                </article>
+
+
+                <div class="wrapper">
+                    <h2>Questions Module</h2>
                 </div>
-            </article>
+
+                <article class="marketing home-questions">
+                    <div class="wrapper">
+                        <div class="grid border">
+                            <div class="col two-third">
+                                <h2>Have Questions?</h2>
+                                <div class="faq">
+                                    <div class="panel" slide-toggle>
+                                        <p class="question">
+                                            <a ng-click="toggleSlide()" ng-class="{'collapsed': !isOpen}" href="">Lorem Ipsem dolor sit amet consecutor lorm ispem</a>
+                                        </p>
+                                        <div class="panel-content slide-toggle">
+                                            <div class="answer">
+                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis viverra aliquet tempus. Aenean nunc dolor, porttitor a placerat vel, vestibulum nec ligula. Suspendisse vulputate, felis vitae facilisis sollicitudin, ante justo blandit felis, ac posuere odio sapien id elit. 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel" slide-toggle>
+                                        <p class="question">
+                                            <a ng-click="toggleSlide()" ng-class="{'collapsed': !isOpen}" href="">Lorem Ipsem dolor sit amet consecutor lorm ispem</a>
+                                        </p>
+                                        <div class="panel-content slide-toggle">
+                                            <div class="answer">
+                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis viverra aliquet tempus. Aenean nunc dolor, porttitor a placerat vel, vestibulum nec ligula. Suspendisse vulputate, felis vitae facilisis sollicitudin, ante justo blandit felis, ac posuere odio sapien id elit. 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel" slide-toggle>
+                                        <p class="question">
+                                            <a ng-click="toggleSlide()" ng-class="{'collapsed': !isOpen}" href="">Lorem Ipsem dolor sit amet consecutor lorm ispem</a>
+                                        </p>
+                                        <div class="panel-content slide-toggle">
+                                            <div class="answer">
+                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis viverra aliquet tempus. Aenean nunc dolor, porttitor a placerat vel, vestibulum nec ligula. Suspendisse vulputate, felis vitae facilisis sollicitudin, ante justo blandit felis, ac posuere odio sapien id elit. 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p><a href="">Show 18 More Questions <i class="icon-arrow-right"></i></a></p>
+                            </div>
+                            <div class="col one-third">
+                                <h2>Still Have Questions?</h2>
+                                <p class="contact-specialists">Contact one of our Specialists today!</p>
+                                <p>Or call customer service: <span class="tel">1-800-STREAM</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+
+
+                <div class="wrapper">
+                    <h2>State Selection Module</h2>
+                </div>
+
+                <article class="marketing horizontal-form-layout choose-state">
+                    <div class="wrapper" ng-controller="stateSelectCtrl">
+                        <div class="form-layout">
+                            <h3>Choose your area to get started</h3>
+                            <label>It looks like you're in</label>
+                            <div class="input-group input-group-mobile">
+                                <div class="input-group-control" id="state-select">
+                                    <div id="state-select" dropdown-select dropdown-items="dropdownItems" value="data.dropdownState"></div>
+                                </div>
+                                <div class="input-group-btn">
+                                    <button type="button" ng-click="data.serviceState = data.dropdownState">Get Started</button>
+                                </div>
+                            </div>
+                            <div class="links">
+                                <a href="">View Rates</a>
+                                <a href="">View Details</a>
+                            </div>
+                        </div>
+                        <toggle-pane value="data.serviceState" name="DC">
+                            <h2>Washington, DC</h2>
+                            <hr>
+                            <h3>Energy Plan Options</h3>
+
+
+                            <p>Stream Energy’s residential energy prices are designed to help you fully maximize your energy savings. We know comparing rates with other utility companies in Texas can be confusing. Our pricing and rates are both simple and easy to understand.</p>
+
+                            <p>
+                                <a href="#">View Electricity Rates</a>
+                                <a href="#">View Historical Rates Snapshot</a>
+                            </p>
+
+                            <hr>
+
+                            <div class="grid">
+
+                            </div>
+                        </toggle-pane>
+                        <toggle-pane value="data.serviceState" name="GA">
+                            Georgia
+                        </toggle-pane>
+                        <toggle-pane value="data.serviceState" name="MD">
+                            Maryland
+                        </toggle-pane>
+                        <toggle-pane value="data.serviceState" name="NJ">
+                            New Jersey
+                        </toggle-pane>
+                        <toggle-pane value="data.serviceState" name="NY">
+                            New York
+                        </toggle-pane>
+                        <toggle-pane value="data.serviceState" name="PA">
+                            Pennsylvania
+                        </toggle-pane>
+                        <toggle-pane value="data.serviceState" name="TX">
+                            Texas
+                        </toggle-pane>
+                        <toggle-pane value="data.serviceState" name="OO">
+                            Other
+                        </toggle-pane>
+                    </div>
+                </article>
+
+
+                <div class="wrapper">
+                    <hr>
+                    <h1>Generic Modules</h1>
+                    <hr>
+                    <h2>Quote Module</h2>
+                </div>
+
+                <article class="marketing quote">
+                    <div class="wrapper">
+                        <div class="quote-wrapper">
+                            <h2>Stream Mobile has changed the way we approach data.</h2>
+                            <p class="quote-text">Stream’s coverage is excellent, data speeds are great, and we now communicate better than ever before.</p>
+                            <p class="quote-author">– Jeremy P</p>
+                        </div>
+                    </div>
+                </article>
+
+
+                <div class="wrapper">
+                    <h2>Section Divider Module</h2>
+                </div>
+
+                <article class="marketing section-divider">
+                    <div class="wrapper">
+                        <div class="grid three">
+                            <div class="col">
+                                <h4><i class="icon-mobile-small"></i> Mobile Services</h4>
+                            </div>
+                            <div class="col active">
+                                <h4><i class="icon-utility-small"></i> Utility Services</h4>
+                            </div>
+                            <div class="col">
+                                <h4><i class="icon-homelife-small"></i> Homelife Services</h4>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+
+                <div class="wrapper">
+                    <h2>Text Callout Module</h2>
+                </div>
+
+                <article class="marketing text-callout">
+                    <div class="wrapper">
+                        <h1>Electricity and Gas that <span>fit</span> your <span>lifestyle</span> </h1>
+                        <p>Electricity isn’t a luxury, it’s a necessity. Everyone needs it, every single day. Stream Energy offers competitive energy products to make life a little easier and can provide for all your electricity needs. From keeping your lights on to cooling your house, powering your technology and your power tools, Stream Energy can power your home or business.</p>
+                        <p><a href="" class="button large">Read More</a></p>
+                    </div>
+                </article>
+
+
+                <div class="wrapper">
+                    <h2>Vertical CTA Module</h2>
+                </div>
+
+                <article class="marketing vertical-cta">
+                    <div class="wrapper">
+                        <div class="grid two">
+                            <div class="col col-first">
+                                <div class="image-wrapper" style="background: url(assets/i/marketing/home-shop-electricity.jpg) right top no-repeat">
+                                </div>
+                                <h2>Shop Electricity</h2>
+                                <p>From keeping your lights on to turning up the air conditioning and powering your tools, electricity is an essential service for every home and business.</p>
+                                <a href="" class="button large">Shop Electricity</a>
+                            </div>
+                            <div class="col col-last">
+                                <div class="image-wrapper" style="background: url(assets/i/marketing/home-shop-gas.jpg) left top no-repeat">
+                                </div>
+                                <h2>Shop Natural Gas</h2>
+                                <p>Whether you’re cooking meals or heating your home, natural gas is a great way to use power at home and at the office.</p>
+                                <a href="" class="button large">Shop Natural Gas</a>
+                            </div>
+                        </div>
+                    </div>
+                </article>
 
 
 
 
+
+
+                <div class="wrapper">
+                    <h2>Horizontal Photo CTA Module</h2>
+                </div>
+
+                <article class="marketing horizontal-photo-cta">
+                    <div class="wrapper clearfix">
+                        <div class="layout">
+                            <div class="aside">
+                                <img src="assets/i/marketing/home-bundle-save.jpg" alt="">
+                            </div>
+                            <div class="cta-content">
+                                <h2>Bundle &amp; Save</h2>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis </p>
+                                <p><a href="" class="button">Get Started</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="marketing horizontal-photo-cta horizontal-cta-alt">
+                    <div class="wrapper clearfix">
+                        <div class="layout">
+                            <div class="cta-content">
+                                <h2>Bundle &amp; Save</h2>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis </p>
+                                <p><a href="" class="button">Get Started</a></p>
+                            </div>
+                            <div class="aside">
+                                <img src="assets/i/marketing/home-bundle-save.jpg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                
+                <div class="wrapper">
+                    <h2>Horizontal Button CTA Module</h2>
+                </div>
+
+
+                <article class="marketing horizontal-photo-cta horizontal-button-cta">
+                    <div class="wrapper clearfix">
+                        <div class="layout">
+                            <div class="cta-content">
+                                <h2>Commercial Services</h2>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis </p>
+                            </div>
+                            <div class="aside">
+                                <a href="" class="button green large">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+
+
+                <article class="marketing text-callout">
+                    <div class="wrapper">
+                        <h1>The History of Deregulated Energy</h1>
+                        <p>Electricity isn’t a luxury, it’s a necessity. Everyone needs it, every single day. Stream Energy offers competitive energy products to make life a little easier and can provide for all your electricity needs. From keeping your lights on to cooling your house, powering your technology and your power tools, Stream Energy can power your home or business.</p>
+                        <div class="grid three">
+                            <div class="col">
+                                <div class="col-wrapper">
+                                    <i class="icon-identity-theft"></i>
+                                    <p>Texas begins deregulation</p>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="col-wrapper">
+                                    <i class="icon-online-backup"></i>
+                                    <p>Stream Energy enters the scene</p>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="col-wrapper">
+                                    <i class="icon-credit-monitoring"></i>
+                                    <p>Stream expands to several more states</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+
+
+                <article class="marketing state-tabs states-enroll">
+                    <div class="wrapper">
+                        <h2>Stream now Offers Energy in the following areas</h2>
+                        <ul class="tabs-nav">
+                            <li>
+                                <a href="">
+                                    <span><i class="icon-state-texas"></i></span>
+                                    Texas
+                                </a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <span><i class="icon-state-pennsylvania"></i></span>
+                                    Pennsylvania
+                                </a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <span><i class="icon-state-maryland"></i></span>
+                                    Maryland
+                                </a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <span><i class="icon-state-newjersey"></i></span>
+                                    New Jersey
+                                </a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <span><i class="icon-state-newyork"></i></span>
+                                    New York
+                                </a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <span><i class="icon-state-washingtondc"></i></span>
+                                    Washington, D.C.
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </article>
+            </section>
+
+
+
+
+
+            <section class="layout cols-2 wrapper">
+                <section>
+                    <article class="select-protection-services">
+                        <header>
+                            <h2>Select Protection Services</h2>
+                        </header>
+                        <div class="content">
+                            <div class="service clearfix">
+                                <div class="service-icon">
+                                    <img src="assets/i/icon/identity-theft.png" alt="">
+                                </div>
+                                <div class="service-description">
+                                    <h3>Identity Theft Monitoring</h3>
+                                    <p>With Identity Theft on the rise, we've developed a service to help safeguard your identity.</p>
+                                    <p><a href="">View additional details <i class="icon-arrow-right"></i></a></p>
+                                </div> 
+                                <div class="service-cta">
+                                    <p class="price">$14.95 <span>per month</span></p>
+                                    <p><a href="" class="button large plain">Add to Cart</a></p>
+                                </div>
+                            </div>
+                            <hr class="content-divider">
+                            <div class="service clearfix">
+                                <div class="service-icon">
+                                    <img src="assets/i/icon/online-backup.png" alt="">
+                                </div>
+                                <div class="service-description">
+                                    <h3>Identity Theft Monitoring</h3>
+                                    <p>With Identity Theft on the rise, we've developed a service to help safeguard your identity.</p>
+                                    <p><a href="">View additional details <i class="icon-arrow-right"></i></a></p>
+                                </div> 
+                                <div class="service-cta">
+                                    <p class="price">$14.95 <span>per month</span></p>
+                                    <p><a href="" class="button large plain">Add to Cart</a></p>
+                                </div>
+                            </div>
+                            <hr class="content-divider">
+                            <div class="service clearfix">
+                                <div class="service-icon">
+                                    <img src="assets/i/icon/credit-monitoring.png" alt="">
+                                </div>
+                                <div class="service-description">
+                                    <h3>Identity Theft Monitoring</h3>
+                                    <p>With Identity Theft on the rise, we've developed a service to help safeguard your identity.</p>
+                                    <p><a href="">View additional details <i class="icon-arrow-right"></i></a></p>
+                                </div> 
+                                <div class="service-cta">
+                                    <p class="price">$14.95 <span>per month</span></p>
+                                    <p><a href="" class="button large plain">Add to Cart</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </section>
+                <aside>
+                    <div class="enrollment__cart">
+                        <article class="enrollment__box">
+                            <header>
+                                <div class="cart-items" ng-if="!isCartOpen()">
+                                    <i class="icon-cart"></i>
+                                    <div class="item-num"></div>
+                                </div>
+                                <h1>Your Cart</h1>
+                            </header>
+                            <div class="content">
+                                <p class="marketing-empty-cart">Your Cart Is Empty</p>
+                            </div>
+                        </article>
+                    </div>
+                </aside>
+            </section>
 
 
 
@@ -826,7 +971,7 @@
                                         <input class="" placeholder="Email Address" type="text" value="">
                                     </div>
                                     <div class="input-group-btn">
-                                        <button type="button" class="plain">Go</button>
+                                        <button type="button" class="plain">Go <i class="icon arrow-right-white"></i></button>
                                     </div>
                                 </div>
                             </div>

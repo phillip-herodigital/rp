@@ -103,6 +103,9 @@
     <script src="assets/js/controllers/payments/bankAccountPayment.js"></script>
     <script src="assets/js/controllers/payments/creditCardPayment.js"></script>
     <script src="assets/js/controllers/payments/paymentOneTime.js"></script>
+
+    <script type="text/javascript" src="//use.typekit.net/obg4jvp.js"></script>
+    <script type="text/javascript">try { Typekit.load(); } catch (e) { }</script>
 </head>
 <body ng-controller="MainCtrl">
 	<div class="page-wrapper" ng-class="{open:sidebarOpen}">
@@ -569,7 +572,7 @@
                                 </select>
                             </div>
                             <div class="item">
-                                <label for="">test</label>
+                                <label for="">Button</label>
                                 <button class="small">Button</button>
                             </div>
                         </div>
@@ -661,10 +664,17 @@
                     <h2>Modules</h2>
 
                     <article>
-                        <header>
+                        <header class="clearfix">
                             <h2>Module Title</h2>
+                            <ul class="actions">
+                                <li><a href="/en/account/payment-accounts/auto-pay">Link</a></li>
+                                <li><a href="/en/account/payment-accounts/auto-pay">Link</a></li>
+                            </ul>
                         </header>
                         <div class="content">
+                            <div class="notice alert inline">
+                                <p>Notice message</p>
+                            </div>
                             <p>Body Content</p>
                         </div>
                         <footer>
@@ -806,7 +816,7 @@
 			<footer class="site-footer">
 				<div class="super-footer">
 					<div class="wrapper">
-						<div class="grid">
+						<div class="grid clearfix">
 							<div class="col">
 								<ul>
 									<li><a href="#"><img src="assets/i/logo-footer.png" alt="Stream Energy | Ignite" width="224" height="54" /></a></li>
@@ -844,6 +854,7 @@
                                 </ul>
 							</div>
 						</div>
+                        <a href="#" class="bottom-footer-logo hide-medium-large"><img src="assets/i/logo-footer.png" alt="Stream Energy | Ignite" width="224" height="54" /></a>
 					</div>
 				</div>
 				<div class="wrapper copyright">

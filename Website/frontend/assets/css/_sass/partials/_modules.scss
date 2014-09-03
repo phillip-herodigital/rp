@@ -42,6 +42,34 @@ article {
 			margin: 0;
 			float: left;
 		}
+		.actions {
+			float: right;
+			text-transform: none;
+			padding: 0;
+			margin: 0;
+			@include breakpoint(small) {
+				float: none;
+				padding-left: 0px;
+			}
+			li {
+				float: left;
+				list-style-type: none;
+				padding-left: 10px;
+				margin-right: 10px;
+				border-left: 1px solid $brand-primary-color;
+				&:first-child {
+					border-left: none;
+				}
+				@include breakpoint(small) {
+					float: none;
+					text-align: center;
+					border-left: 0px;
+				}
+			}
+			select {
+				width: auto;
+			}
+		}
 	}
 	footer {
 		background: $module-footer-bg;
@@ -77,6 +105,16 @@ article {
 		& > :last-child {
 			margin-bottom: 0;
 			padding-bottom: 0;
+		}
+		.notice {
+			&.inline {
+				padding-top: 10px;
+				padding-bottom: 10px;
+				padding-left: 20px;
+				background-image: none;
+				margin: ($module-vertical-padding * -1) ($module-horizontal-padding * -1) 0;
+				@include border-radius(0);
+			}
 		}
 	}
 
@@ -684,7 +722,7 @@ article.balances-payments {
 }
 article.energy-usage {
 	.graph-header {
-		padding: 15px 40px 0px 40px;
+		padding: 15px 40px 0px 30px;
 		@include breakpoint(small) {
 			padding: 15px;
 		}

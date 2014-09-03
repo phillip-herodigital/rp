@@ -43,6 +43,7 @@
 			overflow: hidden;
 		}
 		hr {
+			margin-top: 0;
 			border-color: $light-border-color;
 		}
 	}
@@ -66,7 +67,7 @@
 		background: $brand-primary-color;
 		color: #b4b4b4;
 		font-size: $font-size-xsmall;
-
+		text-align: center;
 		h2 {
 			color: #fff;
 			margin: 0;
@@ -76,32 +77,18 @@
 			margin-bottom: 20px;
 			letter-spacing: 1px;
 		}
-		
+		.bottom-footer-logo {
+			margin-bottom: 30px;
+			display: inline-block;
+		}
 		.grid {
+			text-align: left;
 			margin: 30px 0;
 			a {
 				color: #fff;
 			}
 			.col {
-				padding: 0;
 				width: auto;
-				@include breakpoint(small) {
-					padding: 0;
-					display: block;
-					width: 100%;
-					margin-top: 20px;
-				}
-				@include breakpoint(medium) {
-					padding-right: 10px;
-				}				
-				@include breakpoint(medium-large) {
-					&:nth-child(2),
-					&:nth-child(3),
-					&:nth-child(4),
-					&:nth-child(5) {
-						width: 18%;
-					}
-				}
 			}
 
 			ul {
@@ -110,6 +97,33 @@
 					padding: 0 0 10px;
 					&:last-child {
 						padding-bottom: 0;
+					}
+				}
+			}
+
+			@include breakpoint(small) {
+				border-bottom: 1px solid #3b88bb;
+				.col {
+					float: left;
+					width: 50%;
+					margin-bottom: 30px;
+					&:first-child {
+						display: none;
+					}
+				}
+			}
+			@include breakpoint(medium) {
+				.col {
+					padding-right: 10px;
+				}
+			}				
+			@include breakpoint(medium-large) {
+				.col {
+					&:nth-child(2),
+					&:nth-child(3),
+					&:nth-child(4),
+					&:nth-child(5) {
+						width: 18%;
 					}
 				}
 			}

@@ -135,6 +135,9 @@ $table-header-border-color: #e8e8e8;
 $breakpoint-small: 767px; // Up to 767px
 $breakpoint-medium: 1024px; // Up to 1024px
 
+//Marketing
+$marketing-wrapper-padding: 50px 0;
+$marketing-gradient: linear-gradient(#f3f3f3, #f6f6f6 5%, #fff);
 
 //Hero - Banners
 $hero-title-font-size: 60px;
@@ -180,3 +183,5 @@ $input-selectors: ();
 @each $item in $inputs-list {
 	$input-selectors: join($input-selectors, unquote($item), comma) !global;
 }
+
+
