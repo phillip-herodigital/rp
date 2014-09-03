@@ -186,6 +186,7 @@
     <Compile Include="DomainModels\Enrollments\Service\IdentityCheckHardStop.cs" />
     <Compile Include="DomainModels\Enrollments\Service\LocationOfferDetails.cs" />
     <Compile Include="DomainModels\Enrollments\TexasElectricityCommercialQuote.cs" />
+    <Compile Include="DomainModels\Enrollments\TexasElectricityCommercialQuoteOption.cs" />
     <Compile Include="DomainModels\Enrollments\TexasElectricityCommercialQuoteOptionPolicy.cs" />
     <Compile Include="DomainModels\Enrollments\TexasElectricityCommercialQuoteOptionRules.cs" />
     <Compile Include="DomainModels\Enrollments\TexasElectricityMoveInOfferOption.cs" />

@@ -60,8 +60,15 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         protected override async Task LoadInternalState(UserContext context, InternalContext internalContext)
         {
-            var result = enrollmentService.LoadOfferPayments(context.Services);
-            internalContext.Deposit = (await result).ToArray();
+            if (context.IsRenewal)
+            {
+                internalContext.Deposit = Enumerable.Empty<Service.LocationOfferDetails<OfferPayment>>();
+            }
+            else
+            {
+                var result = enrollmentService.LoadOfferPayments(internalContext.GlobalCustomerId, internalContext.EnrollmentSaveState.Data, context.Services);
+                internalContext.Deposit = (await result).ToArray();
+            }
         }
     }
 }

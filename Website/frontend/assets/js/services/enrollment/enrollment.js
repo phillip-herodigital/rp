@@ -32,7 +32,9 @@
     service.setClientData = function (result) {
         service.isLoading = result.isLoading;
         if (result.isLoading) {
-            makeCall('resume', undefined);
+            $timeout(function () {
+                makeCall('resume', undefined);
+            }, 100, false);
         }
 
         // update our validations - don't make a new array, just copy all the validations over from the returned one. Saves copying back to the scope elsewhere.

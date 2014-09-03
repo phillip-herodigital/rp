@@ -229,12 +229,9 @@ namespace StreamEnergy.Services.Clients
                         FirstName = context.ContactInfo.Name.First,
                         LastName = context.ContactInfo.Name.Last,
                         BillingAddress = ToStreamConnectAddress(context.MailingAddress),
-                        PhoneNumbers = (from DomainModels.TypedPhone phone in context.ContactInfo.Phone
-                                        select new
-                                        {
-                                            Number = phone.Number,
-                                            Type = phone.Category.Value.ToString("g")
-                                        }).ToArray(),
+                        HomePhone = context.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Home).Select(p => p.Number).SingleOrDefault(),
+                        CellPhone = context.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Mobile).Select(p => p.Number).SingleOrDefault(),
+                        WorkPhone = context.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Work).Select(p => p.Number).SingleOrDefault(),
                         SSN = context.SocialSecurityNumber,
                         EmailAddress = context.ContactInfo.Email.Address,
                         Premise = new
@@ -257,7 +254,7 @@ namespace StreamEnergy.Services.Clients
             }
         }
 
-        async Task<DomainModels.StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>> IEnrollmentService.EndSaveEnrollment(DomainModels.StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult> asyncResult)
+        async Task<DomainModels.StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>> IEnrollmentService.EndSaveEnrollment(DomainModels.StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult> asyncResult, UserContext context)
         {
             var response = await streamConnectClient.GetAsync(asyncResult.ResponseLocation);
             if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
@@ -281,7 +278,16 @@ namespace StreamEnergy.Services.Clients
                                        CisAccountNumber = entry.CisAccountNumber,
                                        StreamReferenceNumber = entry.StreamReferenceNumber,
                                        GlobalEnrollmentAccountId = entry.GlobalEnrollmentAccountId,
-                                   }).ToArray()
+                                   })
+                                   .Zip(from service in context.Services
+                                        from offer in service.SelectedOffers
+                                        select new { service, offer }, (enrollResult, serviceOffer) =>
+                                        new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.EnrollmentSaveEntry>
+                                        {
+                                            Details = enrollResult,
+                                            Location = serviceOffer.service.Location,
+                                            Offer = serviceOffer.offer.Offer
+                                        }).ToArray()
                     };
             }
 
@@ -382,7 +388,7 @@ namespace StreamEnergy.Services.Clients
             return asyncResult;
         }
 
-        Task<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>>> IEnrollmentService.LoadOfferPayments(IEnumerable<LocationServices> services)
+        Task<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>>> IEnrollmentService.LoadOfferPayments(Guid streamCustomerId, DomainModels.Enrollments.Service.EnrollmentSaveResult streamAsync, IEnumerable<LocationServices> services)
         {
             // TODO - actual deposit amounts rather than hard-coded values
             return Task.FromResult(from loc in services
@@ -404,44 +410,108 @@ namespace StreamEnergy.Services.Clients
 
         async Task<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>> IEnrollmentService.PlaceOrder(Guid streamCustomerId, IEnumerable<LocationServices> services, DomainModels.Enrollments.Service.EnrollmentSaveResult originalSaveState, Dictionary<AdditionalAuthorization, bool> additionalAuthorizations)
         {
-            var offers = from service in services
-                         from offer in service.SelectedOffers
-                         select new { service, offer };
-            var enrollmentOffer = offers.Zip(originalSaveState.Results, (data, enrollment) => new { data.service, data.offer, enrollment });
-            var results = new List<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>();
-
-            foreach (var orderEntry in enrollmentOffer)
-            {
-                var finalizeResponse = await streamConnectClient.PutAsJsonAsync("/api/customers/" + streamCustomerId.ToString() + "/enrollments/" + orderEntry.enrollment.GlobalEnrollmentAccountId + "/finalize", new
+            var finalizeResponse = await streamConnectClient.PutAsJsonAsync("/api/customers/" + streamCustomerId.ToString() + "/enrollments/finalize", new {
+                GlobalCustomerID = streamCustomerId,
+                FinalizeRequests = from orderEntry in originalSaveState.Results
+                    select new
                     {
-                        utilityAccountNumber = GetUtilityAccountNumber(orderEntry.service, orderEntry.offer),
                         authorizations = additionalAuthorizations.Select(ConvertAuthorization).Where(auth => auth != null),
-                    });
-                finalizeResponse.EnsureSuccessStatusCode();
-                var result = Json.Read<JObject>(await finalizeResponse.Content.ReadAsStringAsync());
+                        EnrollmentAccountID = orderEntry.Details.GlobalEnrollmentAccountId
+                    }
+            });
+            finalizeResponse.EnsureSuccessStatusCode();
+            dynamic result = Json.Read<JObject>(await finalizeResponse.Content.ReadAsStringAsync());
 
-                if (result["Status"].ToString() == "Success")
+            if (result.Status.Value == "Success")
+            {
+                return (from entry in originalSaveState.Results.Zip((IEnumerable<dynamic>)result.EnrollmentResponses, (saved, response) => new { saved, response })
+                        select new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>
                 {
-                    results.Add(new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>
-                                       {
-                                           Location = orderEntry.service.Location,
-                                           Offer = orderEntry.offer.Offer,
-                                           Details = new DomainModels.Enrollments.Service.PlaceOrderResult { ConfirmationNumber = orderEntry.enrollment.StreamReferenceNumber }
-                                       });
-                }
+                    Location = entry.saved.Location,
+                    Offer = entry.saved.Offer,
+                    Details = new DomainModels.Enrollments.Service.PlaceOrderResult 
+                    { 
+                        ConfirmationNumber = entry.response.StreamReferenceNumber, 
+                        IsSuccess = entry.response.Status.Value == "Success" 
+                    }
+                }).ToArray();
             }
 
-            return results.ToArray();
+            return Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>();
         }
 
-        private string GetUtilityAccountNumber(LocationServices locationServices, SelectedOffer selectedOffer)
+        async Task<bool> IEnrollmentService.PlaceCommercialQuotes(UserContext context)
         {
-            if (locationServices.Location.Capabilities.OfType<TexasServiceCapability>().Any())
+            var response = await streamConnectClient.PostAsJsonAsync("/api/Enrollments/commercial", new
             {
-                return locationServices.Location.Capabilities.OfType<TexasServiceCapability>().First().EsiId;
+                ContactFirstName = context.ContactInfo.Name.First,
+                ContactLastName = context.ContactInfo.Name.Last,
+                ContactTitle = context.ContactTitle,
+                ContactPhone = context.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Work).Select(p => p.Number).FirstOrDefault(),
+                ContactHomePhone = context.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Home).Select(p => p.Number).FirstOrDefault(),
+                ContactCellPhone = context.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Mobile).Select(p => p.Number).FirstOrDefault(),
+                ContactEmail = context.ContactInfo.Email.Address,
+                SSN = context.SocialSecurityNumber,
+                BillingAddress = new
+                {
+                    StreetLine1 = context.MailingAddress.Line1,
+                    StreetLine2 = context.MailingAddress.Line2,
+                    City = context.MailingAddress.City,
+                    State = context.MailingAddress.StateAbbreviation,
+                    Zip = context.MailingAddress.PostalCode5
+                },
+                PreferredLanguage = context.Language == "en" ? "English" : "Spanish",
+                PreferredSalesExecutive = context.PreferredSalesExecutive,
+                UnderContract = true,
+                SwitchType = "MoveIn",
+                FederalTaxId = context.TaxId,
+                DBA = context.DoingBusinessAs,
+                Premises = (from serviceLocation in context.Services
+                            let location = serviceLocation.Location
+                            select ToCommercialPremise(location)).ToArray()
+            });
+            response.EnsureSuccessStatusCode();
+
+            var result = Json.Read<JObject>(await response.Content.ReadAsStringAsync());
+
+            return result["Status"].ToString() == "Success";
+        }
+
+        private object ToCommercialPremise(Location location)
+        {
+            string commodityType;
+            string utilityAccountNumber;
+
+            if (location.Capabilities.OfType<TexasServiceCapability>().Any())
+            {
+                commodityType = "Electricity";
+                utilityAccountNumber = location.Capabilities.OfType<TexasServiceCapability>().First().EsiId;
+            }
+            else
+            {
+                throw new NotImplementedException();
             }
 
-            return null;
+            return new
+            {
+                Provider = new
+                {
+                    Id = "",
+                    Code = "",
+                    Name = "",
+                    Commodities = new[] { "Electricity" },
+                },
+                Commodity = commodityType,
+                UtilityAccountNumber = utilityAccountNumber,
+                ServiceAddress = new
+                {
+                    StreetLine1 = location.Address.Line1,
+                    StreetLine2 = location.Address.Line2,
+                    City = location.Address.City,
+                    State = location.Address.StateAbbreviation,
+                    Zip = location.Address.PostalCode5
+                },
+            };
         }
 
         private StreamConnect.CustomerAuthorization ConvertAuthorization(KeyValuePair<AdditionalAuthorization, bool> arg)

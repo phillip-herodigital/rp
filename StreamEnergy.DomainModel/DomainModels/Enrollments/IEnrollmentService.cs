@@ -19,21 +19,21 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         Task<StreamAsync<EnrollmentSaveResult>> BeginSaveEnrollment(Guid streamCustomerId, UserContext context);
 
-        Task<StreamAsync<EnrollmentSaveResult>> EndSaveEnrollment(StreamAsync<EnrollmentSaveResult> streamAsync);
+        Task<StreamAsync<EnrollmentSaveResult>> EndSaveEnrollment(StreamAsync<EnrollmentSaveResult> streamAsync, UserContext context);
 
-        Task UpdateEnrollment(Guid guid, StreamAsync<EnrollmentSaveResult> streamAsync, UserContext context);
+        Task UpdateEnrollment(Guid streamCustomerId, StreamAsync<EnrollmentSaveResult> streamAsync, UserContext context);
 
         Task<StreamAsync<IdentityCheckResult>> BeginIdentityCheck(Guid streamCustomerId, Name name, string ssn, Address mailingAddress, AdditionalIdentityInformation identityInformation = null);
 
         Task<StreamAsync<IdentityCheckResult>> EndIdentityCheck(StreamAsync<IdentityCheckResult> asyncResult);
 
-        // TODO - will need more inputs
-        Task<IEnumerable<LocationOfferDetails<OfferPayment>>> LoadOfferPayments(IEnumerable<LocationServices> services);
+        Task<IEnumerable<LocationOfferDetails<OfferPayment>>> LoadOfferPayments(Guid streamCustomerId, EnrollmentSaveResult streamAsync, IEnumerable<LocationServices> services);
 
         // TODO - how do we pay deposits?
 
-        // TODO - needs customer info, too
         Task<IEnumerable<LocationOfferDetails<PlaceOrderResult>>> PlaceOrder(Guid streamCustomerId, IEnumerable<LocationServices> services, EnrollmentSaveResult originalSaveState, Dictionary<AdditionalAuthorization, bool> additionalAuthorizations);
 
+
+        Task<bool> PlaceCommercialQuotes(UserContext context);
     }
 }

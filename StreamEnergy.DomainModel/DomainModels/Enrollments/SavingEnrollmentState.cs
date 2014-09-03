@@ -40,7 +40,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         {
             if (!internalContext.EnrollmentSaveState.IsCompleted)
             {
-                internalContext.EnrollmentSaveState = await enrollmentService.EndSaveEnrollment(internalContext.EnrollmentSaveState);
+                internalContext.EnrollmentSaveState = await enrollmentService.EndSaveEnrollment(internalContext.EnrollmentSaveState, context);
             }
 
             if (!internalContext.EnrollmentSaveState.IsCompleted)

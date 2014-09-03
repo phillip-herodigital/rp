@@ -30,13 +30,16 @@ namespace StreamEnergy.DomainModels.Enrollments
                 yield return context => context.ContactTitle;
                 yield return context => context.DoingBusinessAs;
                 yield return context => context.PreferredSalesExecutive;
-                yield return context => context.SelectedIdentityAnswers;
-                yield return context => context.OnlineAccount;
                 yield return context => context.MailingAddress;
                 if (data.Services.SelectMany(svc => svc.Location.Capabilities).OfType<ServiceStatusCapability>().Any(cap => cap.EnrollmentType == EnrollmentType.MoveIn))
                 {
                     yield return context => context.PreviousAddress;
                 }
+            }
+            if (!data.IsRenewal && !data.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType == EnrollmentCustomerType.Commercial))
+            {
+                yield return context => context.SelectedIdentityAnswers;
+                yield return context => context.OnlineAccount;
             }
             yield return context => context.AgreeToTerms;
             yield return context => context.PaymentInfo;
@@ -44,9 +47,25 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         protected override async Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
         {
-            internalContext.PlaceOrderResult = (await enrollmentService.PlaceOrder(internalContext.GlobalCustomerId, context.Services, internalContext.EnrollmentSaveState.Data, context.AdditionalAuthorizations)).ToArray();
+            if (!context.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType == EnrollmentCustomerType.Commercial))
+            {
+                internalContext.PlaceOrderResult = (await enrollmentService.PlaceOrder(internalContext.GlobalCustomerId, context.Services, internalContext.EnrollmentSaveState.Data, context.AdditionalAuthorizations)).ToArray();
+            }
+            else
+            {
+                await enrollmentService.PlaceCommercialQuotes(context);
+                internalContext.PlaceOrderResult = Enumerable.Empty<Service.LocationOfferDetails<Service.PlaceOrderResult>>();
+            }
             
             return await base.InternalProcess(context, internalContext);
+        }
+
+        public override Task<RestoreInternalStateResult> RestoreInternalState(IStateMachine<UserContext, InternalContext> stateMachine, Type state)
+        {
+            if (stateMachine.Context.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType == EnrollmentCustomerType.Commercial))
+                previousState = typeof(AccountInformationState);
+
+            return base.RestoreInternalState(stateMachine, state);
         }
 
     }

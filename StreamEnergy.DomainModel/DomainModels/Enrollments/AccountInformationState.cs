@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
@@ -37,6 +38,15 @@ namespace StreamEnergy.DomainModels.Enrollments
                     yield return context => context.PreviousAddress;
                 }
             }
+        }
+
+        protected override System.Threading.Tasks.Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
+        {
+            if (context.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType == EnrollmentCustomerType.Commercial))
+            {
+                return Task.FromResult(typeof(CompleteOrderState));
+            }
+            return base.InternalProcess(context, internalContext);
         }
 
         public override void Sanitize(UserContext context, InternalContext internalContext)
