@@ -299,50 +299,24 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
 
             using (new Timer())
             {
-                // Act
-                HttpResponseMessage response;
-                dynamic result;
-                {
-                    response = streamConnectClient.PostAsJsonAsync("/api/verifications/credit/" + gcid.ToString(), new
-                    {
-                        FirstName = "Mauricio",
-                        LastName = "Solórzano",
-                        SSN = "123456789",
-                        Address = new
-                        {
-                            StreetLine1 = "1212 Aberdeen Avenue",
-                            StreetLine2 = "Ste. 321",
-                            City = "McKinney",
-                            State = "TX",
-                            Zip = "75070"
-                        }
-                    }).Result;
-                    var responseString = response.Content.ReadAsStringAsync().Result;
-                    result = JsonConvert.DeserializeObject(responseString);
-                }
+                // Act - Step 2
+                var creditCheck = enrollmentService.BeginCreditCheck(gcid,
+                    name: new DomainModels.Name { First = "Mauricio", Last = "Solórzano" },
+                    ssn: "123456789",
+                    address: new DomainModels.Address { Line1 = "1212 Aberdeen Avenue", City = "McKinney", StateAbbreviation = "TX", PostalCode5 = "75070" }).Result;
 
                 // Assert
-                Assert.IsTrue(response.IsSuccessStatusCode);
-                var asyncUrl = response.Headers.Location;
-                Assert.IsNotNull(response.Headers.Location);
+                Assert.IsNotNull(creditCheck);
+                Assert.IsFalse(creditCheck.IsCompleted);
 
-                // Since we're really verifying the API, not actually testing our code, there's no reason to follow the AAA test standard.
-                // Don't take this as an example of OK - this should be multiple tests, with either initial setup or in the "assign" section.
-
-                // Act - Step 2 - async response
+                // Act - Step 3 - async response
                 do
                 {
-                    {
-                        response = streamConnectClient.GetAsync(asyncUrl).Result;
-                        var responseString = response.Content.ReadAsStringAsync().Result;
-                        result = JsonConvert.DeserializeObject(responseString);
-                    }
-                    Assert.IsTrue(response.IsSuccessStatusCode);
-                } while (response.StatusCode == System.Net.HttpStatusCode.NoContent);
+                    creditCheck = enrollmentService.EndCreditCheck(creditCheck).Result;
+                } while (!creditCheck.IsCompleted);
 
                 // Assert
-                Assert.IsTrue(response.IsSuccessStatusCode);
-                Assert.IsTrue(result["Status"].Value == "Success" || result["Status"].Value == "Error");
+                Assert.IsTrue(creditCheck.IsCompleted);
             }
         }
 

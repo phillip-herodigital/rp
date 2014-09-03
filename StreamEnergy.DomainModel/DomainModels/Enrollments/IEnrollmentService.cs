@@ -27,6 +27,10 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         Task<StreamAsync<IdentityCheckResult>> EndIdentityCheck(StreamAsync<IdentityCheckResult> asyncResult);
 
+        Task<StreamAsync<CreditCheckResult>> BeginCreditCheck(Guid streamCustomerId, Name name, string ssn, Address address);
+
+        Task<StreamAsync<CreditCheckResult>> EndCreditCheck(StreamAsync<CreditCheckResult> asyncResult);
+
         Task<IEnumerable<LocationOfferDetails<OfferPayment>>> LoadOfferPayments(Guid streamCustomerId, EnrollmentSaveResult streamAsync, IEnumerable<LocationServices> services);
 
         // TODO - how do we pay deposits?

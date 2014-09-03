@@ -413,6 +413,42 @@ namespace StreamEnergy.Services.Clients
             return asyncResult;
         }
 
+        async Task<StreamAsync<CreditCheckResult>> IEnrollmentService.BeginCreditCheck(Guid streamCustomerId, Name name, string ssn, Address address)
+        {
+            var response = await streamConnectClient.PostAsJsonAsync("/api/verifications/credit/" + streamCustomerId.ToString(), new
+            {
+                FirstName = name.First,
+                LastName = name.Last,
+                SSN = ssn,
+                Address = ToStreamConnectAddress(address)
+            });
+
+            response.EnsureSuccessStatusCode();
+
+            var asyncUrl = response.Headers.Location;
+            return new StreamAsync<CreditCheckResult>
+            {
+                IsCompleted = false,
+                ResponseLocation = asyncUrl
+            };
+        }
+
+        async Task<StreamAsync<CreditCheckResult>> IEnrollmentService.EndCreditCheck(StreamAsync<CreditCheckResult> asyncResult)
+        {
+            var response = await streamConnectClient.GetAsync(asyncResult.ResponseLocation);
+            if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+            {
+                return asyncResult;
+            }
+            var responseString = await response.Content.ReadAsStringAsync();
+
+            // TODO - do something with the response? 
+
+            asyncResult.IsCompleted = true;
+            asyncResult.Data = new CreditCheckResult { };
+            return asyncResult;
+        }
+
         Task<IEnumerable<LocationOfferDetails<OfferPayment>>> IEnrollmentService.LoadOfferPayments(Guid streamCustomerId, EnrollmentSaveResult streamAsync, IEnumerable<LocationServices> services)
         {
             // TODO - actual deposit amounts rather than hard-coded values
