@@ -191,6 +191,17 @@ namespace StreamEnergy.MyStream.Tests
                     IdentityQuestions = new IdentityQuestion[0]
                 }
             }));
+
+            var creditCheckResult = new StreamAsync<CreditCheckResult>
+            {
+                IsCompleted = false,
+            };
+            mockEnrollmentService.Setup(m => m.BeginCreditCheck(It.IsAny<Guid>(), It.IsAny<Name>(), It.IsAny<string>(), It.IsAny<Address>())).Returns(Task.FromResult(creditCheckResult));
+            mockEnrollmentService.Setup(m => m.EndCreditCheck(creditCheckResult)).Returns(Task.FromResult(new StreamAsync<CreditCheckResult>
+                {
+                    IsCompleted = true
+                }));
+
             mockEnrollmentService.Setup(m => m.BeginIdentityCheck(It.IsAny<Guid>(), It.IsAny<Name>(), It.Is<string>(s => s != "333224444"), It.IsAny<Address>(), null)).Returns(Task.FromResult(new DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>
             {
                 IsCompleted = true,
@@ -488,6 +499,8 @@ namespace StreamEnergy.MyStream.Tests
             Assert.AreEqual("en", session.Context.Language);
             Assert.IsNotNull(session.InternalContext.IdentityCheck.Data.IdentityQuestions);
             Assert.AreEqual(3, session.InternalContext.IdentityCheck.Data.IdentityQuestions.Length);
+            Assert.IsNotNull(session.InternalContext.CreditCheck);
+            Assert.IsTrue(session.InternalContext.CreditCheck.IsCompleted);
         }
 
         [TestMethod]
@@ -577,6 +590,8 @@ namespace StreamEnergy.MyStream.Tests
             Assert.AreEqual("en", session.Context.Language);
             Assert.IsNotNull(session.InternalContext.IdentityCheck.Data.IdentityQuestions);
             Assert.AreEqual(3, session.InternalContext.IdentityCheck.Data.IdentityQuestions.Length);
+            Assert.IsNotNull(session.InternalContext.CreditCheck);
+            Assert.IsTrue(session.InternalContext.CreditCheck.IsCompleted);
         }
 
         [TestMethod]
@@ -667,6 +682,8 @@ namespace StreamEnergy.MyStream.Tests
             Assert.AreEqual("en", session.Context.Language);
             Assert.IsNotNull(session.InternalContext.IdentityCheck.Data.IdentityQuestions);
             Assert.AreEqual(0, session.InternalContext.IdentityCheck.Data.IdentityQuestions.Length);
+            Assert.IsNotNull(session.InternalContext.CreditCheck);
+            Assert.IsTrue(session.InternalContext.CreditCheck.IsCompleted);
         }
 
         [TestMethod]

@@ -115,6 +115,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                                                    select val.First(), translationItem);
 
             bool isLoading = (stateMachine.InternalContext.IdentityCheck != null && !stateMachine.InternalContext.IdentityCheck.IsCompleted)
+                || (stateMachine.InternalContext.CreditCheck != null && !stateMachine.InternalContext.CreditCheck.IsCompleted)
                 || (stateMachine.InternalContext.EnrollmentSaveState != null && !stateMachine.InternalContext.EnrollmentSaveState.IsCompleted);
 
             return new ClientData
