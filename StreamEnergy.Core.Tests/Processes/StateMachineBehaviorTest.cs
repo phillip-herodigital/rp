@@ -51,7 +51,7 @@ namespace StreamEnergy.Core.Tests.Processes
                 this.called = called ?? delegate { };
             }
 
-            public IEnumerable<System.Linq.Expressions.Expression<Func<CreateAccountContext, object>>> PreconditionValidations()
+            public IEnumerable<System.Linq.Expressions.Expression<Func<CreateAccountContext, object>>> PreconditionValidations(CreateAccountContext data, object internalContext)
             {
                 yield return context => context.Username;
                 yield return context => context.Password;
@@ -103,7 +103,7 @@ namespace StreamEnergy.Core.Tests.Processes
                 this.called = called ?? delegate { };
             }
 
-            public IEnumerable<System.Linq.Expressions.Expression<Func<CreateAccountContext, object>>> PreconditionValidations()
+            public IEnumerable<System.Linq.Expressions.Expression<Func<CreateAccountContext, object>>> PreconditionValidations(CreateAccountContext c, object internalContext)
             {
                 yield return context => context.Username;
                 yield return context => context.Password;

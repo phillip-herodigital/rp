@@ -17,22 +17,30 @@ namespace StreamEnergy.DomainModels.Enrollments
             this.enrollmentService = enrollmentService;
         }
 
-        public override IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
+        public override IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations(UserContext data, InternalContext internalContext)
         {
             yield return context => context.Services;
             yield return context => context.ContactInfo;
             yield return context => context.Language;
             yield return context => context.SecondaryContactInfo;
             yield return context => context.SocialSecurityNumber;
-            yield return context => context.DriversLicense;
+            yield return context => context.TaxId;
+            yield return context => context.ContactTitle;
+            yield return context => context.DoingBusinessAs;
+            yield return context => context.PreferredSalesExecutive;
             yield return context => context.OnlineAccount;
+            yield return context => context.MailingAddress;
+            if (data.Services.SelectMany(svc => svc.Location.Capabilities).OfType<ServiceStatusCapability>().Any(cap => cap.EnrollmentType == EnrollmentType.MoveIn))
+            {
+                yield return context => context.PreviousAddress;
+            }
         }
 
         protected override async Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
         {
             if (!internalContext.EnrollmentSaveState.IsCompleted)
             {
-                internalContext.EnrollmentSaveState = await enrollmentService.EndSaveEnrollment(internalContext.EnrollmentSaveState);
+                internalContext.EnrollmentSaveState = await enrollmentService.EndSaveEnrollment(internalContext.EnrollmentSaveState, context);
             }
 
             if (!internalContext.EnrollmentSaveState.IsCompleted)
@@ -41,6 +49,11 @@ namespace StreamEnergy.DomainModels.Enrollments
             }
             else
             {
+                if (internalContext.EnrollmentSaveState.Data == null)
+                {
+                    // some kind of enrollment error
+                    return typeof(EnrollmentErrorState);
+                }
                 return await base.InternalProcess(context, internalContext);
             }
         }

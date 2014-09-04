@@ -5,8 +5,8 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
-    public interface IOfferOption : ISanitizable
+    [Serializable]
+    public class CreditCheckResult
     {
-        string OptionType { get; }
     }
 }

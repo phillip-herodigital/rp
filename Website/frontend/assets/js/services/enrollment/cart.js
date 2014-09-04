@@ -3,7 +3,9 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
         cart = {
             activeServiceIndex: -1,
             isCartOpen: false
-        };
+        },
+        maxResidentialItems = 3,
+        maxCommercialItems = 70;
 
     var sum = function (sum, item) { return sum + item; }
 
@@ -129,6 +131,26 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                 .pluck('offerInformationByType').flatten().filter()
                 .pluck('value').filter().pluck('offerSelections').flatten().filter()
                 .size();
+        },
+
+        /**
+         * Return the number of service locations in the cart
+         * @return {[type]} [description]
+         */
+        getCartLocationsCount: function () {
+
+            //Get the count for all utility products
+            return _(services)
+                .size();
+        },
+
+        isCartFull: function (customerType) {
+
+            if ((customerType == 'residential' && _(services).size() == maxResidentialItems) || (customerType == 'commercial' && _(services).size() == maxCommercialItems)) {
+                return true;
+            } else {
+                return false;
+            }
         },
 
         /**

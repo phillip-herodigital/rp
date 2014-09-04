@@ -9,5 +9,6 @@ namespace StreamEnergy.MyStream.Models.Enrollment
     {
         public DomainModels.Payments.IPaymentInfo PaymentInfo { get; set; }
         public bool AgreeToTerms { get; set; }
+        public Dictionary<DomainModels.Enrollments.AdditionalAuthorization, bool> AdditionalAuthorizations { get; set; }
     }
 }

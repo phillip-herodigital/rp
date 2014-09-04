@@ -6,6 +6,16 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
     $scope.accountInformation = enrollmentService.accountInformation;
     $scope.validations = [];
 
+    $scope.hasMoveIn = false;
+    $scope.$watch(enrollmentCartService.services, function () {
+        $scope.hasMoveIn = _(enrollmentCartService.services)
+            .map(function (l) {
+                return _(l.location.capabilities).filter({ capabilityType: "ServiceStatus" }).first();
+            })
+            .filter({ enrollmentType: "moveIn" })
+            .any();
+    }, true);
+
     /**
      * [utilityAddresses description]
      * @return {[type]} [description]
@@ -18,12 +28,12 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
         return enrollmentCartService.services;
     };
 
-    $scope.updateSameAddress = function (offerOption) {
-        if (offerOption.billingAddressSame) {
+    $scope.updateSameAddress = function () {
+        if ($scope.accountInformation.mailingAddressSame) {
             if ($scope.utilityAddresses().length == 1)
-                offerOption.billingAddress = $scope.utilityAddresses()[0].location.address;
+                $scope.accountInformation.mailingAddress = $scope.utilityAddresses()[0].location.address;
         } else {
-            offerOption.billingAddress = {};
+            $scope.accountInformation.mailingAddress = {};
         }
     };
 

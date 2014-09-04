@@ -12,14 +12,8 @@ namespace StreamEnergy.DomainModels.Enrollments
     {
         public const string Qualifier = "TexasElectricity";
 
-        [Required(ErrorMessage = "Billing Address Required")]
-        [ValidateObject(ErrorMessagePrefix = "Billing Address ")]
-        public Address BillingAddress { get; set; }
-
         void ISanitizable.Sanitize()
         {
-            if (BillingAddress != null)
-                ((ISanitizable)BillingAddress).Sanitize();
         }
 
         public virtual string OptionType

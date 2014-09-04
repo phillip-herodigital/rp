@@ -6,7 +6,8 @@
     this.save = function () {
         var target = _($scope.currentLocationInfo().location.capabilities).find({ capabilityType: "ServiceStatus" });
 
-        this.selectedLocation.capabilities.push({ "capabilityType": "ServiceStatus", "enrollmentType": target.enrollmentType, "customerType": 'residential' });
+        this.selectedLocation.capabilities.push({ "capabilityType": "ServiceStatus", "enrollmentType": target.enrollmentType });
+        this.selectedLocation.capabilities.push(_($scope.currentLocationInfo().location.capabilities).find({ capabilityType: "CustomerType" }));
         $scope.currentLocationInfo().location = this.selectedLocation;
         $modalInstance.close();
     };

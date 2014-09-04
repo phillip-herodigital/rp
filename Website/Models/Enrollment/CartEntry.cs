@@ -9,6 +9,7 @@ namespace StreamEnergy.MyStream.Models.Enrollment
     public class CartEntry
     {
         public Location Location { get; set; }
+        public PremiseVerificationResult Eligibility { get; set; }
         public KeyValuePair<string, OfferInformation>[] OfferInformationByType { get; set; }
     }
 }

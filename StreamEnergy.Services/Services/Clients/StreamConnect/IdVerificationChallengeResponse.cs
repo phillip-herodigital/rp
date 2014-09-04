@@ -8,6 +8,7 @@ namespace StreamEnergy.Services.Clients.StreamConnect
 {
     class IdVerificationChallengeResponse
     {
+        public string Status { get; set; }
         public IdVerificationChallenge IdVerificationChallenge { get; set; }
     }
 }
