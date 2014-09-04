@@ -15,23 +15,24 @@
         <section>
             <article class="form enrollment__box enrollment__review-order">
                 <header>
-                    <h1>@Html.Sitecore().Field("Add Payment Information")</h1>
+                    <h1>@Html.Sitecore().Field("Complete Order")</h1>
                 </header>
                 <div class="content">
-                    <p>@Html.Sitecore().Field("Payment Due")</p>
+                    <p ng-if="customerType == 'commercial'">@Html.Sitecore().Field("Almost Done")</p>
+                    <p ng-if="getCartTotal() > 0">@Html.Sitecore().Field("Payment Due")</p>
                     <div ng-repeat="(id, location) in getCartItems()">
                         <div class="item item--no-input">
                             <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
                             <strong>{{ location.location.address | address }}</strong>
                         </div>
                         <hr />
-                        <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
+                        <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="customerType != 'commercial' && offerInformation.value.offerSelections.length">
                             <div ng-include src="'completeOrder/' + offerInformation.key"></div>                            
                         </div>
                         <hr class="content-divider" ng-if="getCartItems().length > 1 && !$last">
                     </div>
                     <hr class="content-divider">
-                    <div class="total">
+                    <div class="total" ng-if="getCartTotal() > 0">
                         @Html.Sitecore().Field("Total Due Now") <strong>{{ getCartTotal() | currency }}</strong>
                     </div>
                 </div>
@@ -75,12 +76,25 @@
                     </div>
                 </article>
                 <div class="form terms-agreement">
-                    <div class="item" @Html.Validation().ErrorClass(m => m.AgreeToTerms)>
+                    <div class="item" @Html.Validation().ErrorClass(m => m.AgreeToTerms) ng-if="customerType != 'commercial'">
                         <ul class="checkbox-list">
                             <li>
                                 @Html.CheckBoxFor(m => m.AgreeToTerms, new { ng_model = "completeOrder.agreeToTerms" })
                                 <label for="@Html.IdFor(m => m.AgreeToTerms)">
-                                    @Html.Raw(Html.Sitecore().CurrentItem["Terms and Conditions Text"].Format(new { LinkAttributes = "ng-click=\"showTerms('Standard')\"" }))
+                                    @Html.Sitecore().Field("Terms and Conditions Text")
+                                </label>
+                                <textarea>
+                                    @Html.Sitecore().Field("Terms and Conditions Body Text")
+                                </textarea>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="item" @Html.Validation().ErrorClass(m => m.AdditionalAuthorizations[StreamEnergy.DomainModels.Enrollments.AdditionalAuthorization.HistoricalUsageData]) ng-if="customerType == 'commercial'">
+                        <ul class="checkbox-list">
+                            <li>
+                                <input type="checkbox" ng-model="completeOrder.additionalAuthorizations.historicalUsageData" />
+                                <label for="@Html.IdFor(m => m.AdditionalAuthorizations[StreamEnergy.DomainModels.Enrollments.AdditionalAuthorization.HistoricalUsageData])">
+                                    @Html.Sitecore().Field("Historical Usage Data Text")
                                 </label>
                             </li>
                         </ul>
@@ -97,10 +111,16 @@
                     </div>
                 </div>
                 <div class="buttons">
-                    <button type="submit" class="primary" ng-click="completeStep();" data-val-submit>@Html.Sitecore().Field("Button")</button>
+                    <button type="submit" class="tertiary" ng-click="reset();" data-val-submit>@Html.Sitecore().Field("Cancel Enrollment Button")</button>
+                    <button type="submit" class="primary" ng-if="customerType != 'commercial'" ng-click="completeStep();" data-val-submit>@Html.Sitecore().Field("Button")</button>
+                    <button type="submit" class="primary" ng-if="customerType == 'commercial'" ng-click="completeStep();" data-val-submit>@Html.Sitecore().Field("Commercial Button")</button>
                 </div>
             </form>
         </section>
+        <aside>
+            <div ng-include ng-if="true" src="'cart-template'"></div>
+        </aside>
+        @*
         <aside>
             <div class="enrollment__cart">
                 <article class="enrollment__box" ng-controller="EnrollmentCartCtrl">
@@ -115,7 +135,7 @@
                                     <div ng-include src="'completeOrderCartMonthly/' + offerInformation.key"></div>                            
                                 </div>
                             </div>
-                            @* Add Subtotal *@
+                           
                         </div>
                         <hr> 
                         <div class="billed-monthly">
@@ -125,12 +145,13 @@
                                     <div ng-include src="'completeOrderCartToday/' + offerInformation.key"></div>                            
                                 </div>
                             </div>
-                            @* Add Subtotal *@
+                            
                         </div>
                     </div>
                 </article>
             </div>
         </aside>
+        *@
     </div>
 </div>
 
