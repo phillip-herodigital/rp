@@ -7,7 +7,7 @@ ngApp.directive('dropdownSelect', [function () {
             value: '='
         },
         replace: true,
-        controller: function ($scope) {
+        controller: ["$scope", function ($scope) {
             if ($scope.value) {
                 angular.forEach($scope.dropdownItems, function (item) {
                     if (item.value == $scope.value) {
@@ -26,7 +26,7 @@ ngApp.directive('dropdownSelect', [function () {
                 $scope.status.isopen = false;
                 $scope.value = item.value;
             };
-        },
+        }],
         template: '<div class="btn-dropdown" dropdown is-open="status.isopen">' +
             '<button type="button" class="btn btn-primary dropdown-toggle {{selectedItem.class}}" ng-disabled="disabled">' +
             '{{selectedItem.name}} <span class="caret"><i class="icon-nav-arrow-collapsed"></i></span>' +
