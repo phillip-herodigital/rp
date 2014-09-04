@@ -768,6 +768,14 @@ $enrollment-module-vertical-padding: 20px;
         border: none;
         border-top: 1px solid #ddd;
     }
+    .terms-agreement {
+        .item {
+            margin-right: 0;
+            textarea {
+                margin-top: 10px;
+            }
+        }
+    }
 }
 
 /*
