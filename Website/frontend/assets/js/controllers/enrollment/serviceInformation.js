@@ -11,12 +11,12 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
     //So we can reinitialize all service information for this page
     //There has to be a better way of doing this
     $scope.$watch(enrollmentCartService.getActiveService, function (newValue) {        
+        $scope.cartLocationsCount = enrollmentCartService.getCartLocationsCount();
         if (!newValue) {
             $scope.data.serviceLocation = null;
             $scope.data.isNewService = undefined;
         } else {
             $scope.data.serviceLocation = newValue.location;
-            $scope.cartLocationsCount = enrollmentCartService.getCartLocationsCount();
             $scope.isCartFull = enrollmentCartService.isCartFull($scope.customerType);
             var target = _(newValue.location.capabilities).find({ capabilityType: "ServiceStatus" });
             if (target) {

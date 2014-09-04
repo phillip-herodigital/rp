@@ -7,6 +7,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 {
     public enum AdditionalAuthorization
     {
-        Tcpa
+        Tcpa,
+        HistoricalUsageData,
     }
 }
