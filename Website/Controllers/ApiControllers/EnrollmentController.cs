@@ -132,6 +132,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                        select new CartEntry
                        {
                            Location = service.Location,
+                           Eligibility = stateMachine.InternalContext.LocationVerifications.ContainsKey(service.Location) ? stateMachine.InternalContext.LocationVerifications[service.Location] : PremiseVerificationResult.Success,
                            OfferInformationByType = (from selection in service.SelectedOffers ?? Enumerable.Empty<SelectedOffer>()
                                                      where selection.Offer != null
                                                      select selection.Offer.OfferType).Union(

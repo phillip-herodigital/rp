@@ -11,7 +11,7 @@ namespace StreamEnergy.DomainModels.Enrollments
     {
         Task<Dictionary<Location, LocationOfferSet>> LoadOffers(IEnumerable<Location> serviceLocations);
 
-        Task<bool> VerifyPremise(Location location);
+        Task<PremiseVerificationResult> VerifyPremise(Location location);
 
         Task<IConnectDatePolicy> LoadConnectDates(Location location);
 
@@ -26,6 +26,10 @@ namespace StreamEnergy.DomainModels.Enrollments
         Task<StreamAsync<IdentityCheckResult>> BeginIdentityCheck(Guid streamCustomerId, Name name, string ssn, Address mailingAddress, AdditionalIdentityInformation identityInformation = null);
 
         Task<StreamAsync<IdentityCheckResult>> EndIdentityCheck(StreamAsync<IdentityCheckResult> asyncResult);
+
+        Task<StreamAsync<CreditCheckResult>> BeginCreditCheck(Guid streamCustomerId, Name name, string ssn, Address address);
+
+        Task<StreamAsync<CreditCheckResult>> EndCreditCheck(StreamAsync<CreditCheckResult> asyncResult);
 
         Task<IEnumerable<LocationOfferDetails<OfferPayment>>> LoadOfferPayments(Guid streamCustomerId, EnrollmentSaveResult streamAsync, IEnumerable<LocationServices> services);
 

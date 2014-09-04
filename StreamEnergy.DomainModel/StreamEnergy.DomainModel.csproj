@@ -159,6 +159,7 @@
     <Compile Include="DomainModels\Enrollments\ConnectDate.cs" />
     <Compile Include="DomainModels\Enrollments\ConnectDateClassification.cs" />
     <Compile Include="DomainModels\Enrollments\ConnectDatePolicy.cs" />
+    <Compile Include="DomainModels\Enrollments\CreditCheckResult.cs" />
     <Compile Include="DomainModels\Enrollments\CustomerTypeCapability.cs" />
     <Compile Include="DomainModels\Enrollments\EnrollmentCustomerType.cs" />
     <Compile Include="DomainModels\Enrollments\DepositOfferPaymentAmount.cs" />
@@ -176,6 +177,7 @@
     <Compile Include="DomainModels\Enrollments\OfferPayment.cs" />
     <Compile Include="DomainModels\Enrollments\IOfferPaymentAmount.cs" />
     <Compile Include="DomainModels\Enrollments\OnlineAccount.cs" />
+    <Compile Include="DomainModels\Enrollments\PremiseVerificationResult.cs" />
     <Compile Include="DomainModels\Enrollments\RateType.cs" />
     <Compile Include="DomainModels\Enrollments\SampleOfferOption.cs" />
     <Compile Include="DomainModels\Enrollments\SaveEnrollmentState.cs" />

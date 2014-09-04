@@ -31,7 +31,12 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         protected override async Task LoadInternalState(UserContext data, InternalContext internalContext)
         {
-            internalContext.AllOffers = await enrollmentService.LoadOffers(data.Services.Select(s => s.Location));
+            foreach (var loc in data.Services.Select(s => s.Location))
+            {
+                internalContext.LocationVerifications[loc] = await enrollmentService.VerifyPremise(loc);
+            }
+
+            internalContext.AllOffers = await enrollmentService.LoadOffers(data.Services.Select(s => s.Location).Where(loc => internalContext.LocationVerifications[loc] == PremiseVerificationResult.Success));
         }
     }
 }
