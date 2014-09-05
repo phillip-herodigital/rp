@@ -171,6 +171,7 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Services\Clients\AccountService.cs" />
+    <Compile Include="Services\Clients\HttpMessageLogger.cs" />
     <Compile Include="Services\Clients\StreamConnect\AuthorizationType.cs" />
     <Compile Include="Services\Clients\AzureAccessControlServiceTokenManager.cs" />
     <Compile Include="Services\Clients\AzureAcsConfiguration.cs" />

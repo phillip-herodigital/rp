@@ -14,12 +14,15 @@ namespace StreamEnergy.Services
         static readonly Regex httpResponseHeader = new Regex("^(?<header>[^:]+): (?<value>.*)$", RegexOptions.Compiled);
         static string crlf = "\r\n";
 
-        public static string ToString(System.Net.Http.HttpRequestMessage request)
+        public static async Task<string> ToString(System.Net.Http.HttpRequestMessage request)
         {
+            var content = "";
+            if (request.Content != null)
+                content = await request.Content.ReadAsStringAsync();
             return request.Method + " " + request.RequestUri.PathAndQuery + crlf +
                 "Host " + request.RequestUri.Host + crlf +
-                request.Headers.ToString() + crlf + 
-                ((object)request.Content ?? "").ToString();
+                request.Headers.ToString() + crlf +
+                content;
         }
 
         public static async Task<string> ToString(System.Net.Http.HttpResponseMessage response)
@@ -39,6 +42,46 @@ namespace StreamEnergy.Services
             sb.Append(content);
 
             return sb.ToString();
+        }
+
+        public static async Task<object> ToObject(System.Net.Http.HttpRequestMessage request)
+        {
+            object content = null;
+            if (request.Content != null)
+            {
+                content = await request.Content.ReadAsStringAsync();
+                if (request.Content.Headers.ContentType.MediaType.EndsWith("/json"))
+                {
+                    content = Json.Read<Newtonsoft.Json.Linq.JObject>((string)content);
+                }
+            }
+
+            return new
+            {
+                Method = request.Method,
+                Uri = request.RequestUri,
+                Headers = request.Headers.ToArray(),
+                Content = content
+            };
+        }
+
+        public static async Task<object> ToObject(System.Net.Http.HttpResponseMessage response)
+        {
+            object content = null;
+            if (response.Content != null)
+            {
+                content = await response.Content.ReadAsStringAsync();
+                if (response.Content.Headers.ContentType.MediaType.EndsWith("/json"))
+                {
+                    content = Json.Read<Newtonsoft.Json.Linq.JObject>((string)content);
+                }
+            }
+
+            return new
+            {
+                Headers = response.Headers.ToArray(),
+                Content = content
+            };
         }
 
         public static System.Net.Http.HttpResponseMessage ParseResponse(string responseString)

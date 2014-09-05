@@ -9,6 +9,7 @@ using System.ServiceModel.Security;
 using System.Text;
 using System.Threading.Tasks;
 using StreamEnergy.Services.Clients.Interceptors;
+using System.Net.Http;
 
 namespace StreamEnergy.Services.Clients
 {
@@ -36,7 +37,10 @@ namespace StreamEnergy.Services.Clients
         {
             unityContainer.RegisterType<ServiceInterceptorResolver>(new ContainerControlledLifetimeManager());
 
-            unityContainer.RegisterType<System.Net.Http.HttpClient>(new InjectionFactory(uc => new System.Net.Http.HttpClient(uc.Resolve<HttpMessageInterceptor>(), false)));
+            unityContainer.RegisterType<HttpClient>(new InjectionFactory(uc => new HttpClient(uc.Resolve<HttpMessageHandler>("Cached"), false)));
+            unityContainer.RegisterType<HttpMessageHandler>("Cached", new InjectionFactory(uc => new HttpMessageInterceptor(uc.Resolve<ServiceInterceptorResolver>(), uc.Resolve<HttpMessageHandler>("Logged"))));
+            unityContainer.RegisterType<HttpMessageHandler, HttpMessageLogger>("Logged");
+            unityContainer.RegisterType<HttpMessageHandler, HttpClientHandler>();
 
             RegisterService<Sample.Temperature.TempConvertSoap>(unityContainer, new Sample.Temperature.TempConvertSoapClient(new System.ServiceModel.BasicHttpBinding(), new System.ServiceModel.EndpointAddress("http://www.w3schools.com/webservices/tempconvert.asmx")));
             RegisterService<Sample.Commons.SampleStreamCommonsSoap>(unityContainer, new Sample.Commons.SampleStreamCommonsSoapClient(new System.ServiceModel.BasicHttpBinding(), new System.ServiceModel.EndpointAddress("http://www.example.com/webservices")));

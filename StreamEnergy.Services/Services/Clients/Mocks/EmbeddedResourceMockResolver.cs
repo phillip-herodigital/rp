@@ -70,7 +70,7 @@ namespace StreamEnergy.Services.Clients.Mocks
             try
             {
                 await Task.Yield();
-                var requestString = HttpConverter.ToString(request);
+                var requestString = await HttpConverter.ToString(request);
 
                 if (restEnvelopes.ContainsKey(requestString))
                 {
