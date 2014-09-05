@@ -5,16 +5,19 @@
 ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$filter', 'enrollmentService', 'enrollmentCartService', 'enrollmentStepsService', function ($scope, $location, $filter, enrollmentService, enrollmentCartService, enrollmentStepsService) {
     // TODO - chose state by geoIP
     $scope.data = { serviceState: 'TX' };
-
+    
+    
     //Checking to see when the active service address has been updated
     //So we can reinitialize all service information for this page
     //There has to be a better way of doing this
     $scope.$watch(enrollmentCartService.getActiveService, function (newValue) {        
+        $scope.cartLocationsCount = enrollmentCartService.getCartLocationsCount();
         if (!newValue) {
             $scope.data.serviceLocation = null;
             $scope.data.isNewService = undefined;
         } else {
             $scope.data.serviceLocation = newValue.location;
+            $scope.isCartFull = enrollmentCartService.isCartFull($scope.customerType);
             var target = _(newValue.location.capabilities).find({ capabilityType: "ServiceStatus" });
             if (target) {
                 $scope.data.isNewService = target.enrollmentType == 'moveIn';
@@ -42,7 +45,7 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
      * @return {Boolean}
      */
     $scope.isFormValid = function() {
-        if ($scope.data.serviceLocation !== null && typeof $scope.data.serviceLocation == 'object' && $scope.data.isNewService !== undefined) {
+        if ($scope.data.serviceLocation !== null && typeof $scope.data.serviceLocation == 'object' && $scope.data.isNewService !== undefined && !$scope.isCartFull) {
             return true;
         } else {
             return false;
@@ -61,8 +64,10 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
             return;
         } 
 
-        $scope.data.serviceLocation.capabilities = _.filter($scope.data.serviceLocation.capabilities, function (cap) { return cap.capabilityType != "ServiceStatus"; });
-        $scope.data.serviceLocation.capabilities.push({ "capabilityType": "ServiceStatus", "enrollmentType": $scope.data.isNewService ? 'moveIn' : 'switch', "customerType": $scope.customerType });
+        $scope.data.serviceLocation.capabilities = _.filter($scope.data.serviceLocation.capabilities, function (cap) { return cap.capabilityType != "ServiceStatus" && cap.capabilityType != "CustomerType"; });
+        $scope.data.serviceLocation.capabilities.push({ "capabilityType": "ServiceStatus", "enrollmentType": $scope.data.isNewService ? 'moveIn' : 'switch' });
+        $scope.data.serviceLocation.capabilities.push({ "capabilityType": "CustomerType", "customerType": $scope.customerType });
+
 
         var activeService = enrollmentCartService.getActiveService();
         if (activeService) {
@@ -74,4 +79,5 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
             enrollmentService.setServiceInformation();
         }
     };
+
 }]);

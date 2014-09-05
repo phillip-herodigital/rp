@@ -116,6 +116,23 @@
         border-top: 3px solid #eaeaea;
         margin: 25px 0;
     }
+    .customer-type {
+        label {
+            display: inline-block;
+            margin-right: 5px;
+        }
+        select {
+            width: auto;
+        }
+    }
+    .service-address {
+        label {
+            display: block;
+        }
+        .input-group-btn {
+            vertical-align: bottom;
+        }
+    }
 }
 
 /* Commenting out the social login
@@ -300,6 +317,7 @@
         }        
         button {
             white-space: nowrap;
+            margin-right: 0 !important;
         }
         .vertical {
             padding: 0;
@@ -447,6 +465,21 @@
             left: 0;
             filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
         }
+    }
+}
+
+.enrollment__account-information {
+    .inline-label {
+        label {
+            display: inline-block;
+            min-width: 25%;
+        }
+    }
+    .location {
+        margin-bottom: 10px !important;
+    }
+    .availibility {
+        margin-top: 8px;
     }
 }
 
@@ -637,6 +670,7 @@
     address {
         font-style: normal;
         font-size: 12px;
+        width: 90%;
         h3 {
             font-size: 12px;
             color: #333;

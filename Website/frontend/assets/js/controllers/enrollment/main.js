@@ -4,8 +4,9 @@
 ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentStepsService', 'enrollmentService', 'scrollService', '$timeout', 'enrollmentCartService', function ($scope, $anchorScroll, enrollmentStepsService, enrollmentService, scrollService, $timeout, enrollmentCartService) {
     $scope.validations = enrollmentService.validations;
     $scope.stepsService = enrollmentStepsService;
-    // TODO - customer type needs to be configurable
     $scope.customerType = 'residential';
+    $scope.cartLocationsCount = 0;
+    $scope.isCartFull = false;
 
     //Go ahead and set the first step to be utility for now
     //Need to determine how the first step will be activated
@@ -54,15 +55,23 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentSt
     };
 
     $scope.assignStepNames = function (navTitles) {
+        if ($scope.customerType == 'commercial') {
+            navTitles.utilityFlowPlans = navTitles.utilityFlowPlansCommercial;
+        }
         angular.forEach(navTitles, function (translation, stepId) {
             var step = enrollmentStepsService.getStep(stepId);
-            if (step)
+            if (step){
                 step.name = translation;
+            }
         });
     };
 
     $scope.assignSupportedUtilityStates = function (supportedStates) {
-        $scope.supportedUtilityStates = _(supportedStates).map(function (entry) { return { name: entry.display, value: entry.abbreviation, 'class': 'icon ' + entry.css} }).value();
+        $scope.supportedUtilityStates = _(supportedStates).map(function (entry) { return { name: entry.display, value: entry.abbreviation, 'class': 'icon ' + entry.css } }).value();
+    };
+
+    $scope.resetEnrollment = function () {
+        enrollmentService.resetEnrollment();
     };
 
     /**
@@ -78,4 +87,5 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentSt
         }
         return Object.keys(obj).length;
     };
+
 }]);

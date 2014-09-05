@@ -9,6 +9,6 @@ namespace StreamEnergy.DomainModels.Enrollments.Service
     [Serializable]
     public class EnrollmentSaveResult
     {
-        public EnrollmentSaveEntry[] Results { get; set; }
+        public LocationOfferDetails<EnrollmentSaveEntry>[] Results { get; set; }
     }
 }

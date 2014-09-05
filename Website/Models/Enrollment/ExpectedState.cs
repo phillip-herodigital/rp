@@ -14,6 +14,7 @@ namespace StreamEnergy.MyStream.Models.Enrollment
         VerifyIdentity,
         ReviewOrder,
         OrderConfirmed,
-        IdentityCheckHardStop
+        IdentityCheckHardStop,
+        ErrorHardStop
     }
 }

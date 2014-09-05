@@ -19,30 +19,50 @@ namespace StreamEnergy.DomainModels.Enrollments
             this.accountService = accountService;
         }
 
-        public override IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
+        public override IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations(UserContext data, InternalContext internalContext)
         {
             yield return context => context.Services;
-            yield return context => context.ContactInfo;
-            yield return context => context.Language;
-            yield return context => context.SecondaryContactInfo;
-            yield return context => context.SocialSecurityNumber;
-            yield return context => context.DriversLicense;
-            yield return context => context.OnlineAccount;
+            if (!data.IsRenewal)
+            {
+                yield return context => context.ContactInfo;
+                yield return context => context.Language;
+                yield return context => context.SecondaryContactInfo;
+                yield return context => context.SocialSecurityNumber;
+                yield return context => context.TaxId;
+                yield return context => context.ContactTitle;
+                yield return context => context.DoingBusinessAs;
+                yield return context => context.PreferredSalesExecutive;
+                yield return context => context.OnlineAccount;
+                yield return context => context.MailingAddress;
+                if (data.Services.SelectMany(svc => svc.Location.Capabilities).OfType<ServiceStatusCapability>().Any(cap => cap.EnrollmentType == EnrollmentType.MoveIn))
+                {
+                    yield return context => context.PreviousAddress;
+                }
+            }
         }
 
-        protected override Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
+        protected override async Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
         {
-            if (!internalContext.IdentityCheck.IsCompleted)
+            if (!internalContext.CreditCheck.IsCompleted)
             {
-                return Task.FromResult(this.GetType());
+                internalContext.CreditCheck = await enrollmentService.EndCreditCheck(internalContext.CreditCheck);
+            }
+            if (!internalContext.IdentityCheck.IsCompleted || !internalContext.CreditCheck.IsCompleted)
+            {
+                return this.GetType();
             }
             else if (!internalContext.IdentityCheck.Data.HardStop.HasValue)
             {
-                return base.InternalProcess(context, internalContext);
+                if (internalContext.IdentityCheck.Data.IdentityQuestions.Length == 0)
+                {
+                    context.SelectedIdentityAnswers = new Dictionary<string, string>();
+                    return typeof(LoadDespositInfoState);
+                }
+                return await base.InternalProcess(context, internalContext);
             }
             else
             {
-                return Task.FromResult(typeof(IdentityCheckHardStopState));
+                return typeof(IdentityCheckHardStopState);
             }
         }
 
@@ -72,7 +92,8 @@ namespace StreamEnergy.DomainModels.Enrollments
                 {
                     internalContext.GlobalCustomerId = await accountService.CreateStreamConnectCustomer(email: context.ContactInfo.Email.Address);
                 }
-                internalContext.IdentityCheck = await enrollmentService.BeginIdentityCheck(internalContext.GlobalCustomerId, context.ContactInfo.Name, context.SocialSecurityNumber, context.Services.First().SelectedOffers.First().OfferOption.BillingAddress);
+                internalContext.IdentityCheck = await enrollmentService.BeginIdentityCheck(internalContext.GlobalCustomerId, context.ContactInfo.Name, context.SocialSecurityNumber, context.MailingAddress);
+                internalContext.CreditCheck = await enrollmentService.BeginCreditCheck(internalContext.GlobalCustomerId, context.ContactInfo.Name, context.SocialSecurityNumber, context.PreviousAddress ?? context.MailingAddress);
 
                 if (!internalContext.IdentityCheck.IsCompleted)
                 {

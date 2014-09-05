@@ -8,6 +8,7 @@ namespace StreamEnergy.DomainModels.Enrollments.Service
     [Serializable]
     public class PlaceOrderResult
     {
+        public bool IsSuccess { get; set; }
         public string ConfirmationNumber { get; set; }
     }
 }
