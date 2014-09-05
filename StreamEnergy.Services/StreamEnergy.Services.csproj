@@ -170,6 +170,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Service References\StreamEnergyBilling.IstaTokenization\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Services\Clients\AccountService.cs" />
     <Compile Include="Services\Clients\AzureAccessControlServiceTokenManager.cs" />
     <Compile Include="Services\Clients\AzureAcsConfiguration.cs" />
@@ -206,6 +211,7 @@
     <Compile Include="Services\Clients\ITemperatureService.cs" />
     <Compile Include="Services\HttpConverter.cs" />
     <Compile Include="Services\SoapConverter.cs" />
+    <Compile Include="Services\ThirdPartyServiceContainerSetup.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\StreamEnergy.Core\StreamEnergy.Core.csproj">
@@ -288,12 +294,32 @@
     </None>
     <None Include="Service References\StreamCommons.Account\StreamEnergyCisAccountServicesWebService.wsdl" />
     <EmbeddedResource Include="Services\Clients\Mocks\example.com_Request.rest" />
+    <None Include="Service References\StreamEnergyBilling.IstaTokenization\CIS.Clients.Stream.SelfService.Services.Contracts.Data.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\StreamEnergyBilling.IstaTokenization\CIS.Clients.Stream.SelfService.Services.Contracts.Data1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\StreamEnergyBilling.IstaTokenization\service.wsdl" />
+    <None Include="Service References\StreamEnergyBilling.IstaTokenization\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\StreamEnergyBilling.IstaTokenization\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\StreamEnergyBilling.IstaTokenization\service2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\StreamEnergyBilling.IstaTokenization\service3.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\Dpi\" />
     <WCFMetadataStorage Include="Service References\Sample.Commons\" />
     <WCFMetadataStorage Include="Service References\Sample.Temperature\" />
     <WCFMetadataStorage Include="Service References\StreamCommons.Account\" />
+    <WCFMetadataStorage Include="Service References\StreamEnergyBilling.IstaTokenization\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\Sample.Temperature\configuration91.svcinfo" />
@@ -348,6 +374,18 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Services\Clients\Mocks\example.com_Response.rest" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\StreamEnergyBilling.IstaTokenization\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\StreamEnergyBilling.IstaTokenization\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\StreamEnergyBilling.IstaTokenization\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
