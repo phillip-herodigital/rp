@@ -52,7 +52,7 @@ namespace StreamEnergy.Services
                 content = await request.Content.ReadAsStringAsync();
                 if (request.Content.Headers.ContentType.MediaType.EndsWith("/json"))
                 {
-                    content = Json.Read<Newtonsoft.Json.Linq.JObject>((string)content);
+                    content = Json.Read<Newtonsoft.Json.Linq.JToken>((string)content);
                 }
             }
 
@@ -71,9 +71,9 @@ namespace StreamEnergy.Services
             if (response.Content != null)
             {
                 content = await response.Content.ReadAsStringAsync();
-                if (response.Content.Headers.ContentType.MediaType.EndsWith("/json"))
+                if (response.Content.Headers.ContentType != null && response.Content.Headers.ContentType.MediaType.EndsWith("/json"))
                 {
-                    content = Json.Read<Newtonsoft.Json.Linq.JObject>((string)content);
+                    content = Json.Read<Newtonsoft.Json.Linq.JToken>((string)content);
                 }
             }
 
