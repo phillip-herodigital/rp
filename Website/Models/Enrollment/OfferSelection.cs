@@ -13,6 +13,7 @@ namespace StreamEnergy.MyStream.Models.Enrollment
         public IOfferOption OfferOption { get; set; }
 
         public OfferPayment Payments { get; set; }
+        public bool ConfirmationSuccess { get; set; }
         public string ConfirmationNumber { get; set; }
     }
 }

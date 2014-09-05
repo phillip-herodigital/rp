@@ -28,5 +28,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         public Guid GlobalCustomerId { get; set; }
 
         public Dictionary<Location, PremiseVerificationResult> LocationVerifications { get; private set; }
+
+        public StreamAsync<CreditCheckResult> CreditCheck { get; set; }
     }
 }

@@ -299,7 +299,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
 
             using (new Timer())
             {
-                // Act - Step 2
+                // Act - Step 1
                 var creditCheck = enrollmentService.BeginCreditCheck(gcid,
                     name: new DomainModels.Name { First = "Mauricio", Last = "Solórzano" },
                     ssn: "123456789",
@@ -309,7 +309,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                 Assert.IsNotNull(creditCheck);
                 Assert.IsFalse(creditCheck.IsCompleted);
 
-                // Act - Step 3 - async response
+                // Act - Step 2 - async response
                 do
                 {
                     creditCheck = enrollmentService.EndCreditCheck(creditCheck).Result;
@@ -317,6 +317,92 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
 
                 // Assert
                 Assert.IsTrue(creditCheck.IsCompleted);
+            }
+        }
+
+        [TestMethod]
+        public void LoadOfferPaymentsTest()
+        {
+            // Assign
+            var streamConnectClient = container.Resolve<HttpClient>(StreamEnergy.Services.Clients.StreamConnectContainerSetup.StreamConnectKey);
+            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
+            StreamEnergy.DomainModels.Enrollments.IEnrollmentService enrollmentService = container.Resolve<StreamEnergy.Services.Clients.EnrollmentService>();
+            var gcid = accountService.CreateStreamConnectCustomer(email: "test@example.com").Result;
+            var location = new DomainModels.Enrollments.Location
+            {
+                Address = new DomainModels.Address { StateAbbreviation = "TX", PostalCode5 = "75010", City = "Carrollton", Line1 = "3620 Huffines Blvd", Line2 = "APT 226" },
+                Capabilities = new DomainModels.IServiceCapability[]
+                {
+                    new DomainModels.Enrollments.TexasServiceCapability { Tdu = "ONCOR", EsiId = "10443720006102389" },
+                    new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
+                    new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
+                }
+            };
+            var offers = enrollmentService.LoadOffers(new[] { location }).Result;
+            var texasElectricityOffer = offers.First().Value.Offers.First() as DomainModels.Enrollments.TexasElectricityOffer;
+            var userContext = new DomainModels.Enrollments.UserContext
+            {
+                ContactInfo = new DomainModels.CustomerContact
+                {
+                    Name = new DomainModels.Name
+                    {
+                        First = "ROBERT",
+                        Last = "DELEON"
+                    },
+                    Phone = new DomainModels.Phone[] { new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = "2234567890" } },
+                    Email = new DomainModels.Email { Address = "test@example.com" },
+                },
+                SocialSecurityNumber = "529998765",
+                Services = new DomainModels.Enrollments.LocationServices[]
+                {
+                    new DomainModels.Enrollments.LocationServices 
+                    { 
+                        Location = location, 
+                        SelectedOffers = new DomainModels.Enrollments.SelectedOffer[] 
+                        {
+                            new DomainModels.Enrollments.SelectedOffer
+                            {
+                                Offer = texasElectricityOffer,
+                                OfferOption = new DomainModels.Enrollments.TexasElectricityMoveInOfferOption 
+                                { 
+                                    ConnectDate = DateTime.Today.AddDays(3),
+                                }
+                            }
+                        }
+                    }
+                },
+                MailingAddress = new DomainModels.Address
+                {
+                    City = "MASSENA",
+                    StateAbbreviation = "NY",
+                    Line1 = "100 WILSON HILL RD",
+                    PostalCode5 = "13662"
+                },
+            };
+            var saveResult = enrollmentService.BeginSaveEnrollment(gcid, userContext).Result;
+            while (!saveResult.IsCompleted)
+            {
+                saveResult = enrollmentService.EndSaveEnrollment(saveResult, userContext).Result;
+            }
+
+            var creditCheck = enrollmentService.BeginCreditCheck(gcid,
+                name: new DomainModels.Name { First = "Mauricio", Last = "Solórzano" },
+                ssn: "123456789",
+                address: new DomainModels.Address { Line1 = "1212 Aberdeen Avenue", City = "McKinney", StateAbbreviation = "TX", PostalCode5 = "75070" }).Result;
+            do
+            {
+                creditCheck = enrollmentService.EndCreditCheck(creditCheck).Result;
+            } while (!creditCheck.IsCompleted);
+
+            using (new Timer())
+            {
+                // Act
+                var offerPayments = enrollmentService.LoadOfferPayments(gcid, saveResult.Data, userContext.Services).Result;
+
+                // Assert
+                Assert.IsNotNull(offerPayments);
+                var offerPayment = offerPayments.Single();
+                Assert.IsTrue(offerPayment.Details.RequiredAmounts.OfType<DomainModels.Enrollments.DepositOfferPaymentAmount>().Single().DollarAmount >= 0);
             }
         }
 

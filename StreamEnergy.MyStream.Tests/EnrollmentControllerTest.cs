@@ -191,6 +191,17 @@ namespace StreamEnergy.MyStream.Tests
                     IdentityQuestions = new IdentityQuestion[0]
                 }
             }));
+
+            var creditCheckResult = new StreamAsync<CreditCheckResult>
+            {
+                IsCompleted = false,
+            };
+            mockEnrollmentService.Setup(m => m.BeginCreditCheck(It.IsAny<Guid>(), It.IsAny<Name>(), It.IsAny<string>(), It.IsAny<Address>())).Returns(Task.FromResult(creditCheckResult));
+            mockEnrollmentService.Setup(m => m.EndCreditCheck(creditCheckResult)).Returns(Task.FromResult(new StreamAsync<CreditCheckResult>
+                {
+                    IsCompleted = true
+                }));
+
             mockEnrollmentService.Setup(m => m.BeginIdentityCheck(It.IsAny<Guid>(), It.IsAny<Name>(), It.Is<string>(s => s != "333224444"), It.IsAny<Address>(), null)).Returns(Task.FromResult(new DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>
             {
                 IsCompleted = true,
@@ -245,7 +256,24 @@ namespace StreamEnergy.MyStream.Tests
                     IdentityQuestions = new IdentityQuestion[0],
                 }
             }));
-            mockEnrollmentService.Setup(m => m.LoadOfferPayments(It.IsAny<Guid>(), It.IsAny<DomainModels.Enrollments.Service.EnrollmentSaveResult>(), It.IsAny<IEnumerable<LocationServices>>())).Returns<Guid, DomainModels.Enrollments.Service.EnrollmentSaveResult, IEnumerable<LocationServices>>((a, b, loc) => enrollmentService.LoadOfferPayments(a, b, loc));
+            mockEnrollmentService.Setup(m => m.LoadOfferPayments(It.IsAny<Guid>(), It.IsAny<DomainModels.Enrollments.Service.EnrollmentSaveResult>(), It.IsAny<IEnumerable<LocationServices>>())).Returns<Guid, DomainModels.Enrollments.Service.EnrollmentSaveResult, IEnumerable<LocationServices>>((a, b, services) =>
+                {
+                    return Task.FromResult(from loc in services
+                                           from offer in loc.SelectedOffers
+                                           select new DomainModels.Enrollments.Service.LocationOfferDetails<OfferPayment>
+                                           {
+                                               Location = loc.Location,
+                                               Offer = offer.Offer,
+                                               Details = new OfferPayment
+                                               {
+                                                   RequiredAmounts = new IOfferPaymentAmount[] 
+                                           { 
+                                               new DepositOfferPaymentAmount { DollarAmount = (offer.Offer is TexasElectricityOffer && ((TexasElectricityOffer)offer.Offer).TermMonths == 1) ? 0 : 75.25m }
+                                           },
+                                                   OngoingAmounts = new IOfferPaymentAmount[] { }
+                                               }
+                                           });
+                });
             mockEnrollmentService.Setup(m => m.PlaceOrder(It.IsAny<Guid>(), It.IsAny<IEnumerable<LocationServices>>(), It.IsAny<DomainModels.Enrollments.Service.EnrollmentSaveResult>(), It.IsAny<Dictionary<AdditionalAuthorization,bool>>()))
                 .Returns(Task.FromResult<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>>(new[] 
                 {
@@ -488,6 +516,8 @@ namespace StreamEnergy.MyStream.Tests
             Assert.AreEqual("en", session.Context.Language);
             Assert.IsNotNull(session.InternalContext.IdentityCheck.Data.IdentityQuestions);
             Assert.AreEqual(3, session.InternalContext.IdentityCheck.Data.IdentityQuestions.Length);
+            Assert.IsNotNull(session.InternalContext.CreditCheck);
+            Assert.IsTrue(session.InternalContext.CreditCheck.IsCompleted);
         }
 
         [TestMethod]
@@ -577,6 +607,8 @@ namespace StreamEnergy.MyStream.Tests
             Assert.AreEqual("en", session.Context.Language);
             Assert.IsNotNull(session.InternalContext.IdentityCheck.Data.IdentityQuestions);
             Assert.AreEqual(3, session.InternalContext.IdentityCheck.Data.IdentityQuestions.Length);
+            Assert.IsNotNull(session.InternalContext.CreditCheck);
+            Assert.IsTrue(session.InternalContext.CreditCheck.IsCompleted);
         }
 
         [TestMethod]
@@ -667,6 +699,8 @@ namespace StreamEnergy.MyStream.Tests
             Assert.AreEqual("en", session.Context.Language);
             Assert.IsNotNull(session.InternalContext.IdentityCheck.Data.IdentityQuestions);
             Assert.AreEqual(0, session.InternalContext.IdentityCheck.Data.IdentityQuestions.Length);
+            Assert.IsNotNull(session.InternalContext.CreditCheck);
+            Assert.IsTrue(session.InternalContext.CreditCheck.IsCompleted);
         }
 
         [TestMethod]

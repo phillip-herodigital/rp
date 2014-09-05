@@ -449,24 +449,46 @@ namespace StreamEnergy.Services.Clients
             return asyncResult;
         }
 
-        Task<IEnumerable<LocationOfferDetails<OfferPayment>>> IEnrollmentService.LoadOfferPayments(Guid streamCustomerId, EnrollmentSaveResult streamAsync, IEnumerable<LocationServices> services)
+        async Task<IEnumerable<LocationOfferDetails<OfferPayment>>> IEnrollmentService.LoadOfferPayments(Guid streamCustomerId, EnrollmentSaveResult enrollmentSaveStates, IEnumerable<LocationServices> services)
         {
-            // TODO - actual deposit amounts rather than hard-coded values
-            return Task.FromResult(from loc in services
-                                   from offer in loc.SelectedOffers
-                                   select new LocationOfferDetails<OfferPayment>
-                                   {
-                                       Location = loc.Location,
-                                       Offer = offer.Offer,
-                                       Details = new OfferPayment
-                                       {
-                                           RequiredAmounts = new IOfferPaymentAmount[] 
-                                           { 
-                                               new DepositOfferPaymentAmount { DollarAmount = (offer.Offer is TexasElectricityOffer && ((TexasElectricityOffer)offer.Offer).TermMonths == 1) ? 0 : 75.25m }
-                                           },
-                                           OngoingAmounts = new IOfferPaymentAmount[] { }
-                                       }
-                                   });
+            var response = await streamConnectClient.GetAsync("/api/customers/" + streamCustomerId + "/enrollments");
+            response.EnsureSuccessStatusCode();
+
+            dynamic result = Json.Read<JObject>(await response.Content.ReadAsStringAsync());
+
+            var locationOfferByEnrollmentAccountId = enrollmentSaveStates.Results.ToDictionary(r => r.Details.GlobalEnrollmentAccountId);
+            var offerPaymentResults = new List<LocationOfferDetails<OfferPayment>>();
+
+            foreach (var entry in result.EnrollmentAccounts)
+            {
+                var enrollmentAccountId = Guid.Parse((string)entry.EnrollmentAccountId.Value);
+                if (locationOfferByEnrollmentAccountId.ContainsKey(enrollmentAccountId))
+                {
+                    decimal deposit = 0;
+                    if (entry.Deposit != null)
+                        deposit = entry.Deposit.Amount.Value;
+
+                    offerPaymentResults.Add(new LocationOfferDetails<OfferPayment>
+                        {
+                            Location = locationOfferByEnrollmentAccountId[enrollmentAccountId].Location,
+                            Offer = locationOfferByEnrollmentAccountId[enrollmentAccountId].Offer,
+                            Details = new OfferPayment
+                            {
+                                OngoingAmounts = new IOfferPaymentAmount[] 
+                                {
+                                    // TODO - is there something here?
+                                },
+                                RequiredAmounts = new IOfferPaymentAmount[] 
+                                {
+                                    // TODO future - installation fees
+                                    new DepositOfferPaymentAmount { DollarAmount = deposit }
+                                }
+                            }
+                        });
+                }
+            }
+
+            return offerPaymentResults;
         }
 
         async Task<IEnumerable<LocationOfferDetails<PlaceOrderResult>>> IEnrollmentService.PlaceOrder(Guid streamCustomerId, IEnumerable<LocationServices> services, EnrollmentSaveResult originalSaveState, Dictionary<AdditionalAuthorization, bool> additionalAuthorizations)
