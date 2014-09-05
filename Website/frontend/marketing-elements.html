@@ -18,6 +18,7 @@
     <script src="assets/js/vendor/jqueryuicustom.js"></script>
     <script src="assets/js/libs/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
     <script src="assets/js/libs/angular/angular.min.js"></script>
+    <script src="assets/js/libs/angular-scroll/angular-scroll.js"></script>
     <!-- <script src="assets/js/libs/angular-touch/angular-touch.min.js"></script> -->
     <script src="assets/js/libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
     <script src="assets/js/libs/angular-ui-slider/src/slider.js"></script>
@@ -168,7 +169,7 @@
         }]);
     </script>
 </head>
-<body ng-controller="MainCtrl" class="home-page">
+<body ng-controller="MainCtrl">
 	<div class="page-wrapper" ng-class="{open:sidebarOpen}">
 		<div class="page-content">
             <header class="site-header ng-scope" main-nav="0" data-fixed-fix="">
@@ -1035,7 +1036,7 @@
                 </div>
 				<div class="super-footer">
 					<div class="wrapper">
-						<div class="grid">
+						<div class="grid clearfix">
 							<div class="col">
 								<ul>
 									<li><a href="#"><img src="assets/i/logo-footer.png" alt="Stream Energy | Ignite" width="224" height="54" /></a></li>
@@ -1073,6 +1074,7 @@
                                 </ul>
 							</div>
 						</div>
+                        <a href="#" class="bottom-footer-logo hide-medium-large"><img src="assets/i/logo-footer.png" alt="Stream Energy | Ignite" width="224" height="54" /></a>
 					</div>
 				</div>
 				<div class="wrapper copyright">

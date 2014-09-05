@@ -11,6 +11,11 @@
 			display: none;
 		}
 	}
+	.carousel {
+		@include breakpoint(small) {
+			display: none;
+		}
+	}
 	.home-top-content, footer, header {
 		z-index: 401;
 		position: relative;
@@ -38,6 +43,12 @@
 	#utility-services, #homelife-services {
 		position: relative;
 		top: -69px;
+	}
+
+	@include breakpoint(small) {
+		header {
+			position: absolute;
+		}
 	}
 }
 
