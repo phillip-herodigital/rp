@@ -946,14 +946,63 @@ article.select-protection-services {
 }
 
 article.bundle-protection-services {
+	.content {
+		padding: 0;
+	}
+	.price {
+		font-size: 28px;
+		font-weight: 600;
+		line-height: 1;
+		margin: 1em 0;
+	}
+
 	.service {
-		float: left;
-		width: 150px;
+		display: table-cell;
 		padding: 30px 25px;
-		border-right: 1px solid $light-border-color;
+		border-left: 1px solid $light-border-color;
 		text-align: center;
+		vertical-align: top;
+		&:first-child {
+			border-left: none;
+		}
+	}
+	.service-cta {
+		.description {
+			text-align: left;
+		}
+		p:first-child {
+			margin-top: 0;
+		}
+		.button {
+			width: 100%;
+		}
 	}
 	img {
 		max-width: 100%;
+	}
+	@include breakpoint(medium) {
+		.service {
+			width: 33.3333%;
+		}
+		.service-cta {
+			width: auto;
+			border-top: 1px solid $light-border-color;
+			border-left: none;
+			display: block;
+			.button {
+				width: auto;
+			}
+		}
+	}
+	@include breakpoint(small) {
+		.service {
+			width: auto;
+			display: block;
+			border-left: 0;
+			border-top: 1px solid $light-border-color;
+			&:first-child {
+				border-top: none;
+			}
+		}
 	}
 }
