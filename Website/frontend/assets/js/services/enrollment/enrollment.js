@@ -34,7 +34,7 @@
         if (result.isLoading) {
             $timeout(function () {
                 makeCall('resume', undefined);
-            }, 100, false);
+            }, 250, false);
         }
 
         // update our validations - don't make a new array, just copy all the validations over from the returned one. Saves copying back to the scope elsewhere.
@@ -106,7 +106,7 @@
         return deferred.promise.then(function (result) {
             service.setClientData(result);
 
-            if (!overrideServerStep) {
+            if (!overrideServerStep && !result.isLoading) {
                 $timeout(function () {
                     enrollmentStepsService.setFromServerStep(result.expectedState, overrideServerStep);
                 });

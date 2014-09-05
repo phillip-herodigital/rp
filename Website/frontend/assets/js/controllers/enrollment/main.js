@@ -49,9 +49,11 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentSt
     $scope.setServerData = function (serverData) {
         enrollmentService.setClientData(serverData);
         $scope.isRenewal = enrollmentService.isRenewal;
-        $timeout(function () {
-            enrollmentStepsService.setFromServerStep(serverData.expectedState);
-        });
+        if (!serverData.isLoading) {
+            $timeout(function () {
+                enrollmentStepsService.setFromServerStep(serverData.expectedState);
+            });
+        }
     };
 
     $scope.assignStepNames = function (navTitles) {
