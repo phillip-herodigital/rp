@@ -18,6 +18,7 @@
     <script src="assets/js/vendor/jqueryuicustom.js"></script>
     <script src="assets/js/libs/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
     <script src="assets/js/libs/angular/angular.min.js"></script>
+    <script src="assets/js/libs/angular-scroll/angular-scroll.js"></script>
     <!-- <script src="assets/js/libs/angular-touch/angular-touch.min.js"></script> -->
     <script src="assets/js/libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
     <script src="assets/js/libs/angular-ui-slider/src/slider.js"></script>
@@ -252,16 +253,24 @@
             </header>
 
 
+            <article class="marketing section-divider">
+                <div class="wrapper">
+                    <div class="grid three">
+                        <a href="#mobile-services" class="col" du-scrollspy du-smooth-scroll>
+                            <h4><i class="icon-mobile-small"></i> Mobile Services</h4>
+                        </a>
+                        <a href="#utility-services" class="col" du-scrollspy du-smooth-scroll>
+                            <h4><i class="icon-utility-small"></i> Utility Services</h4>
+                        </a>
+                        <a href="#homelife-services" class="col" du-scrollspy du-smooth-scroll>
+                            <h4><i class="icon-homelife-small"></i> Homelife Services</h4>
+                        </a>
+                    </div>
+                </div>
+            </article>
 
 
-
-
-
-            <section class="layout">
-
-
-
-        
+            <section class="layout home-top-content">
                 <carousel>
                     <slide>
                         <div class="banner marketing" style="background-image: url(assets/i/marketing/banner-home.jpg)">
@@ -285,19 +294,13 @@
                     </slide>
                 </carousel>
 
-
-
-
-
-
-
                 <article class="marketing gridPromos home-page-services">
                     <div class="wrapper">
                         <div class="grid three">
                             <div class="col">
                                 <h4>Mobile Services</h4>
                                 <p>Phones &amp; Plans lorem ipsem dolor sit amet.</p>
-                                <p><a href="#">Phones &amp; Plans <i class="icon-arrow-right"></i></a></p>
+                                <p><a href="#mobile-services" du-smooth-scroll>Phones &amp; Plans <i class="icon-arrow-right"></i></a></p>
                                 <span class="ico-wrapper">
                                     <i class="icon-mobile"></i>
                                 </span>
@@ -305,7 +308,7 @@
                             <div class="col">
                                 <h4>Utility Services</h4>
                                 <p>Gas &amp; Electricity lorem dolor sit ameolor lorem ips.</p>
-                                <p><a href="">Gas &amp; Electricity <i class="icon-arrow-right"></i></a></p>
+                                <p><a href="#utility-services" du-smooth-scroll>Gas &amp; Electricity <i class="icon-arrow-right"></i></a></p>
                                 <span class="ico-wrapper">
                                     <i class="icon-home-utility"></i>
                                 </span>
@@ -313,7 +316,7 @@
                             <div class="col">
                                 <h4>Homelife Services</h4>
                                 <p>Protection you need lorem dolor sit ameolor lorem ips.</p>
-                                <p><a href="">Protection &amp; Security <i class="icon-arrow-right"></i></a></p>
+                                <p><a href="#homelife-services" du-smooth-scroll>Protection &amp; Security <i class="icon-arrow-right"></i></a></p>
                                 <span class="ico-wrapper">
                                     <i class="icon-homelife"></i>
                                 </span>
@@ -321,10 +324,11 @@
                         </div>
                     </div>
                 </article>
+            </section>
 
-
-
+            <section class="layout home-content-layout">
                 <article class="marketing home-page-switch-mobile">
+                    <span id="mobile-services"></span>
                     <div class="wrapper">
                         <h1 class="text-center">It’s <span>easy</span> to <span>switch</span> to Stream Mobile</h1>
                         <div class="grid two">
@@ -378,23 +382,8 @@
                     </div>
                 </article>
 
-                <article class="marketing section-divider">
-                    <div class="wrapper">
-                        <div class="grid three">
-                            <div class="col">
-                                <h4><i class="icon-mobile-small"></i> Mobile Services</h4>
-                            </div>
-                            <div class="col active">
-                                <h4><i class="icon-utility-small"></i> Utility Services</h4>
-                            </div>
-                            <div class="col">
-                                <h4><i class="icon-homelife-small"></i> Homelife Services</h4>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-
                 <article class="marketing text-callout">
+                    <span id="utility-services"></span>
                     <div class="wrapper">
                         <h1>Electricity and Gas that <span>fit</span> your <span>lifestyle</span> </h1>
                         <p>Electricity isn’t a luxury, it’s a necessity. Everyone needs it, every single day. Stream Energy offers competitive energy products to make life a little easier and can provide for all your electricity needs. From keeping your lights on to cooling your house, powering your technology and your power tools, Stream Energy can power your home or business.</p>
@@ -432,29 +421,13 @@
                     </div>
                 </article>
 
-                <article class="marketing section-divider">
-                    <div class="wrapper">
-                        <div class="grid three">
-                            <div class="col">
-                                <h4><i class="icon-mobile-small"></i> Mobile Services</h4>
-                            </div>
-                            <div class="col">
-                                <h4><i class="icon-utility-small"></i> Utility Services</h4>
-                            </div>
-                            <div class="col active">
-                                <h4><i class="icon-homelife-small"></i> Homelife Services</h4>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-
                 <article class="marketing text-callout">
+                    <span id="homelife-services"></span>
                     <div class="wrapper">
                         <h1>When it comes to <span>improving</span> your <span>life</span>, Stream Energy has you covered.</h1>
                         <p>With Stream Energy’s new Homelife Services, we now offer all customers the necessary tools to live a safer, easier life. Not only do we give our customers their first month free, but when you bundle more than one service together, you’ll save. These special rates–up to 70% off the regular market value–are our way of saying thanks.</p>
                     </div>
                 </article>
-
 
                 <article class="marketing homelife-services-promo">
                     <div class="wrapper">
@@ -501,7 +474,9 @@
                         </div>
                     </div>
                 </article>
+            </section>
 
+            <section class="home-top-content">
                 <article class="marketing home-questions">
                     <div class="wrapper">
                         <div class="grid border">

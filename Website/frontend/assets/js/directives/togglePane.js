@@ -10,6 +10,7 @@ ngApp.directive('togglePane', [function() {
             value: '='
         },
         transclude: true,
+        replace: true,
         template: '<div class="pane-item" ng-show="value == name" ng-transclude></div>',
         link: function(scope, element, attrs) {
             scope.name = attrs.name;

@@ -11,6 +11,34 @@
 			display: none;
 		}
 	}
+	.home-top-content, footer, header {
+		z-index: 401;
+		position: relative;
+	}
+	.home-content-layout {
+		z-index: 399;
+	}
+	.section-divider {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		z-index: 400;
+		&.active {
+			display: block;
+		}
+	}
+	.home-question {
+		margin-top: 5px;
+	}
+	#mobile-services {
+		position: relative;
+		top: -174px;
+	}
+	#utility-services, #homelife-services {
+		position: relative;
+		top: -69px;
+	}
 }
 
 
@@ -806,6 +834,7 @@ article.other-services-promo {
 }
 
 article.home-questions {
+	background: #fff;
 	.contact-specialists {
 		@include retina-background("contact-specialists.png", "icon");
 		background-position: left 6px;
@@ -902,5 +931,18 @@ article.select-protection-services {
 			float: none;
 			width: 100%;
 		}
+	}
+}
+
+article.bundle-protection-services {
+	.service {
+		float: left;
+		width: 150px;
+		padding: 30px 25px;
+		border-right: 1px solid $light-border-color;
+		text-align: center;
+	}
+	img {
+		max-width: 100%;
 	}
 }
