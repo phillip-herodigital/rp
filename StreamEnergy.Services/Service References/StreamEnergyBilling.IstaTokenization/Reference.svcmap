@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="0ed90049-1f10-47d2-bc3b-25ada95ce268" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="https://uat.sb.streamenergybilling.com:8741/DPITokenService.svc/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="b71715bc-858e-489d-b692-9b69edf50958" SourceId="1" SourceUrl="https://uat.sb.streamenergybilling.com:8741/DPITokenService.svc/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="e652728b-3b1f-48d2-8ba2-7300b23e2e0a" SourceId="1" SourceUrl="https://uat.sb.streamenergybilling.com:8741/DPITokenService.svc/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="5c67881a-f8eb-4d35-88f1-8d51e1149860" SourceId="1" SourceUrl="https://uat.sb.streamenergybilling.com:8741/DPITokenService.svc/mex" />
+    <MetadataFile FileName="CIS.Clients.Stream.SelfService.Services.Contracts.Data.xsd" MetadataType="Schema" ID="dc1b0e0b-af60-4aa9-b23e-06555fc00ab8" SourceId="1" SourceUrl="https://uat.sb.streamenergybilling.com:8741/DPITokenService.svc/mex" />
+    <MetadataFile FileName="CIS.Clients.Stream.SelfService.Services.Contracts.Data1.xsd" MetadataType="Schema" ID="30d706ab-40b3-4f0f-83fe-ded5d946ba3f" SourceId="1" SourceUrl="https://uat.sb.streamenergybilling.com:8741/DPITokenService.svc/mex" />
+    <MetadataFile FileName="service2.xsd" MetadataType="Schema" ID="a31096be-9a36-4a98-bafe-7ae6fc57177d" SourceId="1" SourceUrl="https://uat.sb.streamenergybilling.com:8741/DPITokenService.svc/mex" />
+    <MetadataFile FileName="service3.xsd" MetadataType="Schema" ID="67880f5a-4da8-44ed-badb-e93b23f468c3" SourceId="1" SourceUrl="https://uat.sb.streamenergybilling.com:8741/DPITokenService.svc/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

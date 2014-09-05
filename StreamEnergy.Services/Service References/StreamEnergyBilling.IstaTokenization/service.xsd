@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="https://uat.sb.streamenergybilling.com:8741/DPITokenService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/CIS.Clients.Stream.SelfService.Services.Contracts.Data" />
+  <xs:element name="GetDpiTokenUrl">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/CIS.Clients.Stream.SelfService.Services.Contracts.Data" minOccurs="0" name="req" nillable="true" type="q1:GetUrlRequest" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDpiTokenUrlResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetDpiTokenUrlResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
