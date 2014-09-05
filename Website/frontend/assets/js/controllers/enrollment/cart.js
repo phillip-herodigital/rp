@@ -7,11 +7,33 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     /*$scope.enrollmentStepsService = enrollmentStepsService;
     $scope.accountInformationService = accountInformationService;*/
 
+
     $scope.time = function () { return enrollmentStepsService.timeRemaining(); };
     $scope.isRenewal = enrollmentService.isRenewal;
     $scope.isCartOpen = enrollmentCartService.getCartVisibility;
     $scope.getCartCount = enrollmentCartService.getCartCount;
+    $scope.getCartLocationsCount = enrollmentCartService.getCartLocationsCount;
     $scope.getCartItems = enrollmentCartService.getCartItems;
+    
+    /**
+    * Show Bill Account Example Modal
+    */
+    $scope.showBillAccountExample = function () {
+        $modal.open({
+            'scope': $scope,
+            'templateUrl': 'showBillAccountModal'
+        })
+    };
+
+    /**
+    * Show Utility Provider Example Modal
+    */
+    $scope.showUtilityProviderExample = function () {
+        $modal.open({
+            'scope': $scope,
+            'templateUrl': 'showUtilityProviderModal'
+        })
+    };
     
     /**
     * Change Plan
@@ -38,7 +60,7 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     };
 
     /**
-    * Delete item from cart
+    * Delete plan from cart
     */
     $scope.deleteUtilityPlan = function (service, selectedOffer) {
         $modal.open({
@@ -49,4 +71,18 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
             enrollmentService.setSelectedOffers(); 
         })
     };
+
+    /**
+    * Delete address from cart
+    */
+    $scope.deleteUtilityAddress = function (service) {
+        $modal.open({
+            'scope': $scope,
+            'templateUrl': 'confirmAddressDeleteModal'
+        }).result.then( function() { 
+            enrollmentCartService.removeService(service);
+            enrollmentStepsService.setFlow('utility', false).setStep('utilityFlowService');
+        })
+    };
+
 }]);

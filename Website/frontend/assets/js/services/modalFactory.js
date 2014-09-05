@@ -1,4 +1,4 @@
-﻿ngApp.factory('modalFactory', function ($modal) {
+﻿ngApp.factory('modalFactory', ['$modal', function ($modal) {
     return {
         open: function (customOpts) {
 
@@ -42,4 +42,4 @@
         }
     }
 
-});
+}]);

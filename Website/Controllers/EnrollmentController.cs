@@ -19,7 +19,7 @@ namespace StreamEnergy.MyStream.Controllers
         public ActionResult ClientData()
         {
             inner.Initialize().Wait();
-            return this.Content(StreamEnergy.Json.Stringify(inner.ClientData(null)));
+            return this.Content(StreamEnergy.Json.Stringify(inner.ClientData()));
         }
 
         public ActionResult EnrollmentSupportedUtilityStates()
@@ -37,6 +37,7 @@ namespace StreamEnergy.MyStream.Controllers
             {
                 utilityFlowService = item["Utility Service 1"],
                 utilityFlowPlans = item["Utility Service 2"],
+                utilityFlowPlansCommercial = item["Utility Service 2 Commercial"],
                 homelifeFlow = "",
                 phoneFlow = "",
                 accountInformation = item["Account Information"],

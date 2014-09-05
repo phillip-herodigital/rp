@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -18,6 +19,8 @@ namespace StreamEnergy.DomainModels.Enrollments
         [ValidateObject(ErrorMessagePrefix = "")]
         public CustomerContact ContactInfo { get; set; }
 
+        public string ContactTitle { get; set; }
+
         [Required(ErrorMessage = "Services Required")]
         [EnumerableRequired(ErrorMessage = "Services Required")]
         [ValidateEnumerable(ErrorMessagePrefix = "Service ")]
@@ -32,8 +35,14 @@ namespace StreamEnergy.DomainModels.Enrollments
         [RegularExpression(@"^\d{3}\D*\d{2}\D*\d{4}$", ErrorMessage = "Social Security Number Invalid")]
         public string SocialSecurityNumber { get; set; }
 
-        [ValidateObject(ErrorMessagePrefix = "Drivers License ")]
-        public DriversLicense DriversLicense { get; set; }
+        [RegularExpression(@"^\d{2}\D*\d{7}$", ErrorMessage = "Social Security Number Invalid")]
+        public string TaxId { get; set; }
+
+        [DisplayName("DBA")]
+        public string DoingBusinessAs { get; set; }
+
+        public string PreferredSalesExecutive { get; set; }
+
         /// <summary>
         /// ISO 639-1 codes, such as "en" and "es".
         /// </summary>
@@ -45,16 +54,29 @@ namespace StreamEnergy.DomainModels.Enrollments
         [ValidateObject(ErrorMessagePrefix = "")]
         public DomainModels.Payments.IPaymentInfo PaymentInfo { get; set; }
 
+        [Required(ErrorMessage = "Authorizations Required")]
+        public Dictionary<AdditionalAuthorization, bool> AdditionalAuthorizations { get; set; }
+
         [RequireValue(true, ErrorMessage = "Must Agree To Terms")]
         public bool AgreeToTerms { get; set; }
 
         [ValidateObject]
         public OnlineAccount OnlineAccount { get; set; }
+        
+        [Required(ErrorMessage = "Mailing Address Required")]
+        [ValidateObject(ErrorMessagePrefix = "Mailing Address ")]
+        public Address MailingAddress { get; set; }
+
+        [Required(ErrorMessage = "Previous Address Required")]
+        [ValidateObject(ErrorMessagePrefix = "Previous Address ")]
+        public Address PreviousAddress { get; set; }
 
         void ISanitizable.Sanitize()
         {
             if (SocialSecurityNumber != null)
                 SocialSecurityNumber = System.Text.RegularExpressions.Regex.Replace(SocialSecurityNumber, "[^0-9]", "");
+            if (TaxId != null)
+                TaxId = System.Text.RegularExpressions.Regex.Replace(TaxId, "[^0-9]", "");
             if (Language != null)
                 Language = Language.Trim();
 
@@ -62,11 +84,13 @@ namespace StreamEnergy.DomainModels.Enrollments
                 ((ISanitizable)ContactInfo).Sanitize();
             if (SecondaryContactInfo != null)
                 ((ISanitizable)SecondaryContactInfo).Sanitize();
-            if (DriversLicense != null)
-                ((ISanitizable)DriversLicense).Sanitize();
             if (OnlineAccount != null)
                 ((ISanitizable)OnlineAccount).Sanitize();
-        }
+            if (MailingAddress != null)
+                ((ISanitizable)MailingAddress).Sanitize();
+            if (PreviousAddress != null)
+                ((ISanitizable)PreviousAddress).Sanitize();
 
+        }
     }
 }

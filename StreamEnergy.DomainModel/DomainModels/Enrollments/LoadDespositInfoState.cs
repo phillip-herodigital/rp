@@ -17,38 +17,27 @@ namespace StreamEnergy.DomainModels.Enrollments
             this.enrollmentService = enrollmentService;
         }
 
-        public override IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
+        public override IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations(UserContext data, InternalContext internalContext)
         {
             yield return context => context.Services;
-            yield return context => context.ContactInfo;
-            yield return context => context.Language;
-            yield return context => context.SecondaryContactInfo;
-            yield return context => context.SocialSecurityNumber;
-            yield return context => context.DriversLicense;
-            yield return context => context.OnlineAccount;
-            yield return context => context.SelectedIdentityAnswers;
-        }
-
-        public override bool IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult, UserContext context, InternalContext internalContext)
-        {
-            if (context.IsRenewal)
+            if (!data.IsRenewal)
             {
-                if (validationResult.MemberNames.Any(m => m.StartsWith("ContactInfo")))
-                    return true;
-                if (validationResult.MemberNames.Any(m => m.StartsWith("Language")))
-                    return true;
-                if (validationResult.MemberNames.Any(m => m.StartsWith("SecondaryContactInfo")))
-                    return true;
-                if (validationResult.MemberNames.Any(m => m.StartsWith("SocialSecurityNumber")))
-                    return true;
-                if (validationResult.MemberNames.Any(m => m.StartsWith("DriversLicense")))
-                    return true;
-                if (validationResult.MemberNames.Any(m => m.StartsWith("OnlineAccount")))
-                    return true;
-                if (validationResult.MemberNames.Any(m => m.StartsWith("SelectedIdentityAnswers")))
-                    return true;
+                yield return context => context.ContactInfo;
+                yield return context => context.Language;
+                yield return context => context.SecondaryContactInfo;
+                yield return context => context.SocialSecurityNumber;
+                yield return context => context.TaxId;
+                yield return context => context.ContactTitle;
+                yield return context => context.DoingBusinessAs;
+                yield return context => context.PreferredSalesExecutive;
+                yield return context => context.OnlineAccount;
+                yield return context => context.SelectedIdentityAnswers;
+                yield return context => context.MailingAddress;
+                if (data.Services.SelectMany(svc => svc.Location.Capabilities).OfType<ServiceStatusCapability>().Any(cap => cap.EnrollmentType == EnrollmentType.MoveIn))
+                {
+                    yield return context => context.PreviousAddress;
+                }
             }
-            return base.IgnoreValidation(validationResult, context, internalContext);
         }
 
         protected override bool NeedRestoreInternalState(UserContext context, InternalContext internalContext)
@@ -71,8 +60,15 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         protected override async Task LoadInternalState(UserContext context, InternalContext internalContext)
         {
-            var result = enrollmentService.LoadOfferPayments(context.Services);
-            internalContext.Deposit = (await result).ToArray();
+            if (context.IsRenewal)
+            {
+                internalContext.Deposit = Enumerable.Empty<Service.LocationOfferDetails<OfferPayment>>();
+            }
+            else
+            {
+                var result = enrollmentService.LoadOfferPayments(internalContext.GlobalCustomerId, internalContext.EnrollmentSaveState.Data, context.Services);
+                internalContext.Deposit = (await result).ToArray();
+            }
         }
     }
 }

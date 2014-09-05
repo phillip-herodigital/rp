@@ -5,8 +5,10 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
-    public interface IOfferOption : ISanitizable
+    public enum PremiseVerificationResult
     {
-        string OptionType { get; }
+        Success,
+        GeneralError,
+        MustMoveIn
     }
 }

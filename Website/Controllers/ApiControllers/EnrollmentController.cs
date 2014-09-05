@@ -100,14 +100,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         /// <returns></returns>
         [HttpGet]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
-        public ClientData ClientData(Type currentFinalState)
+        public ClientData ClientData(params Type[] currentFinalStates)
         {
             var services = stateMachine.Context.Services ?? Enumerable.Empty<LocationServices>();
             var offers = stateMachine.InternalContext.AllOffers ?? new Dictionary<Location, LocationOfferSet>();
             var optionRules = stateMachine.InternalContext.OfferOptionRules ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<IOfferOptionRules>>();
             var deposits = stateMachine.InternalContext.Deposit ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>>();
             var confirmations = stateMachine.InternalContext.PlaceOrderResult ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>();
-            var standardValidation = (stateMachine.State == currentFinalState ? Enumerable.Empty<ValidationResult>() : stateMachine.ValidationResults);
+            var standardValidation = (currentFinalStates.Contains(stateMachine.State) ? Enumerable.Empty<ValidationResult>() : stateMachine.ValidationResults);
             IEnumerable<ValidationResult> supplementalValidation;
             var expectedState = ExpectedState(out supplementalValidation);
             var validations = TranslatedValidationResult.Translate(from val in standardValidation.Union(supplementalValidation)
@@ -115,16 +115,17 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                                                    select val.First(), translationItem);
 
             bool isLoading = (stateMachine.InternalContext.IdentityCheck != null && !stateMachine.InternalContext.IdentityCheck.IsCompleted)
+                || (stateMachine.InternalContext.CreditCheck != null && !stateMachine.InternalContext.CreditCheck.IsCompleted)
                 || (stateMachine.InternalContext.EnrollmentSaveState != null && !stateMachine.InternalContext.EnrollmentSaveState.IsCompleted);
 
             return new ClientData
             {
+                IsTimeout = stateHelper.IsNewSession,
                 IsLoading = isLoading,
                 Validations = validations,
                 ExpectedState = expectedState,
                 IsRenewal = stateMachine.Context.IsRenewal,
                 ContactInfo = stateMachine.Context.ContactInfo,
-                DriversLicense = stateMachine.Context.DriversLicense,
                 Language = stateMachine.Context.Language,
                 SecondaryContactInfo = stateMachine.Context.SecondaryContactInfo,
                 Cart = from service in services
@@ -132,6 +133,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                        select new CartEntry
                        {
                            Location = service.Location,
+                           Eligibility = stateMachine.InternalContext.LocationVerifications.ContainsKey(service.Location) ? stateMachine.InternalContext.LocationVerifications[service.Location] : PremiseVerificationResult.Success,
                            OfferInformationByType = (from selection in service.SelectedOffers ?? Enumerable.Empty<SelectedOffer>()
                                                      where selection.Offer != null
                                                      select selection.Offer.OfferType).Union(
@@ -147,6 +149,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                                                                OfferOption = selectedOffer.OfferOption,
                                                                                OptionRules = optionRules.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details).FirstOrDefault(),
                                                                                Payments = deposits.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details).SingleOrDefault(),
+                                                                               ConfirmationSuccess = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details.IsSuccess).SingleOrDefault(),
                                                                                ConfirmationNumber = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details.ConfirmationNumber).SingleOrDefault()
                                                                            },
                                                          Errors = (from entry in locationOfferSet.OfferSetErrors
@@ -168,6 +171,11 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             {
                 supplementalValidation = Enumerable.Empty<ValidationResult>();
                 return Models.Enrollment.ExpectedState.IdentityCheckHardStop;
+            }
+            else if (stateMachine.State == typeof(EnrollmentErrorState))
+            {
+                supplementalValidation = Enumerable.Empty<ValidationResult>();
+                return Models.Enrollment.ExpectedState.ErrorHardStop;
             }
             supplementalValidation = Enumerable.Empty<ValidationResult>();
             var validationResults = stateMachine.ValidationResults;
@@ -294,7 +302,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public async Task<ClientData> AccountInformation([FromBody]AccountInformation request)
         {
             await Initialize();
-            if (stateHelper.InternalContext.EnrollmentSaveState != null && stateHelper.InternalContext.EnrollmentSaveState.IsCompleted)
+            if (stateMachine.InternalContext.EnrollmentSaveState != null && stateMachine.InternalContext.EnrollmentSaveState.IsCompleted)
             {
                 stateHelper.State = typeof(AccountInformationState);
                 await Initialize();
@@ -304,11 +312,11 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             stateMachine.Context.AgreeToTerms = false;
             stateMachine.Context.ContactInfo = request.ContactInfo;
+            stateMachine.Context.ContactTitle = request.ContactTitle;
             if (stateMachine.Context.ContactInfo != null && stateMachine.Context.ContactInfo.Phone != null)
             {
                 EnsureTypedPhones(stateMachine.Context.ContactInfo.Phone);
             }
-            stateMachine.Context.DriversLicense = request.DriversLicense;
             stateMachine.Context.OnlineAccount = request.OnlineAccount;
             if (stateMachine.Context.OnlineAccount != null)
             {
@@ -317,6 +325,12 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             stateMachine.Context.Language = request.Language;
             stateMachine.Context.SecondaryContactInfo = request.SecondaryContactInfo;
             stateMachine.Context.SocialSecurityNumber = request.SocialSecurityNumber;
+            stateMachine.Context.PreviousAddress = request.PreviousAddress;
+            stateMachine.Context.MailingAddress = request.MailingAddress;
+
+            stateMachine.Context.TaxId = request.TaxId;
+            stateMachine.Context.DoingBusinessAs = request.DoingBusinessAs;
+            stateMachine.Context.PreferredSalesExecutive = request.PreferredSalesExecutive;
 
             await stateMachine.ContextUpdated();
 
@@ -329,7 +343,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             else if (stateMachine.Context.IsRenewal && stateMachine.State == typeof(DomainModels.Enrollments.LoadDespositInfoState))
                 await stateMachine.Process(typeof(DomainModels.Enrollments.OrderConfirmationState));
 
-            return ClientData(typeof(DomainModels.Enrollments.VerifyIdentityState));
+            return ClientData(typeof(DomainModels.Enrollments.VerifyIdentityState), typeof(DomainModels.Enrollments.PaymentInfoState));
         }
 
         private void EnsureTypedPhones(Phone[] phones)
@@ -397,13 +411,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             await Initialize();
             
             stateMachine.Context.PaymentInfo = request.PaymentInfo;
+            stateMachine.Context.AdditionalAuthorizations = request.AdditionalAuthorizations ?? new Dictionary<AdditionalAuthorization, bool>();
             stateMachine.Context.AgreeToTerms = request.AgreeToTerms;
 
             await stateMachine.ContextUpdated();
 
             await stateMachine.Process();
 
-            var resultData = ClientData(null);
+            var resultData = ClientData();
 
             if (redisDatabase != null)
             {

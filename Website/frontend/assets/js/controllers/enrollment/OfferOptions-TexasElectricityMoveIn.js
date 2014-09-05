@@ -2,8 +2,6 @@
     // this is probably not terribly smart... we're pulling based off of $scope variables actually defined by markup ng-repeats...
     var rules = $scope.selectedOffer.optionRules;
 
-    // TODO - use the rules for this stuff.
-
     $scope.minDate = new Date();
     $scope.minDate.setHours(0, 0, 0, 0);
 

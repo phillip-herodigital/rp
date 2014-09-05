@@ -17,47 +17,55 @@ namespace StreamEnergy.DomainModels.Enrollments
             this.enrollmentService = enrollmentService;
         }
 
-        public override IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations()
-        {
+        public override IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations(UserContext data, InternalContext internalContext)
+        {            
             yield return context => context.Services;
-            yield return context => context.ContactInfo;
-            yield return context => context.Language;
-            yield return context => context.SecondaryContactInfo;
-            yield return context => context.SocialSecurityNumber;
-            yield return context => context.DriversLicense;
-            yield return context => context.SelectedIdentityAnswers;
-            yield return context => context.PaymentInfo;
-            yield return context => context.AgreeToTerms;
-            yield return context => context.OnlineAccount;
-        }
-
-        public override bool IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult, UserContext context, InternalContext internalContext)
-        {
-            if (context.IsRenewal)
+            if (!data.IsRenewal)
             {
-                if (validationResult.MemberNames.Any(m => m.StartsWith("ContactInfo")))
-                    return true;
-                if (validationResult.MemberNames.Any(m => m.StartsWith("Language")))
-                    return true;
-                if (validationResult.MemberNames.Any(m => m.StartsWith("SecondaryContactInfo")))
-                    return true;
-                if (validationResult.MemberNames.Any(m => m.StartsWith("SocialSecurityNumber")))
-                    return true;
-                if (validationResult.MemberNames.Any(m => m.StartsWith("DriversLicense")))
-                    return true;
-                if (validationResult.MemberNames.Any(m => m.StartsWith("OnlineAccount")))
-                    return true;
-                if (validationResult.MemberNames.Any(m => m.StartsWith("SelectedIdentityAnswers")))
-                    return true;
+                yield return context => context.ContactInfo;
+                yield return context => context.Language;
+                yield return context => context.SecondaryContactInfo;
+                yield return context => context.SocialSecurityNumber;
+                yield return context => context.TaxId;
+                yield return context => context.ContactTitle;
+                yield return context => context.DoingBusinessAs;
+                yield return context => context.PreferredSalesExecutive;
+                yield return context => context.MailingAddress;
+                if (data.Services.SelectMany(svc => svc.Location.Capabilities).OfType<ServiceStatusCapability>().Any(cap => cap.EnrollmentType == EnrollmentType.MoveIn))
+                {
+                    yield return context => context.PreviousAddress;
+                }
             }
-            return base.IgnoreValidation(validationResult, context, internalContext);
+            if (!data.IsRenewal && !data.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType == EnrollmentCustomerType.Commercial))
+            {
+                yield return context => context.SelectedIdentityAnswers;
+                yield return context => context.OnlineAccount;
+            }
+            yield return context => context.AgreeToTerms;
+            yield return context => context.PaymentInfo;
         }
 
         protected override async Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
         {
-            internalContext.PlaceOrderResult = (await enrollmentService.PlaceOrder(internalContext.GlobalCustomerId, context.Services, internalContext.EnrollmentSaveState.Data)).ToArray();
+            if (!context.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType == EnrollmentCustomerType.Commercial))
+            {
+                internalContext.PlaceOrderResult = (await enrollmentService.PlaceOrder(internalContext.GlobalCustomerId, context.Services, internalContext.EnrollmentSaveState.Data, context.AdditionalAuthorizations)).ToArray();
+            }
+            else
+            {
+                await enrollmentService.PlaceCommercialQuotes(context);
+                internalContext.PlaceOrderResult = Enumerable.Empty<Service.LocationOfferDetails<Service.PlaceOrderResult>>();
+            }
             
             return await base.InternalProcess(context, internalContext);
+        }
+
+        public override Task<RestoreInternalStateResult> RestoreInternalState(IStateMachine<UserContext, InternalContext> stateMachine, Type state)
+        {
+            if (stateMachine.Context.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType == EnrollmentCustomerType.Commercial))
+                previousState = typeof(AccountInformationState);
+
+            return base.RestoreInternalState(stateMachine, state);
         }
 
     }
