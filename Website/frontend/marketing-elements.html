@@ -316,10 +316,13 @@
 
             <section class="layout">
 
-                <div class="wrapper">
+                <div class="wrapper" slide-toggle>
                     <h1>Static Modules</h1>
                     <hr>
-                    <h2>Carousel/Banner Module</h2>
+                    <h2 ng-click="toggleSlide()"><strong>{{isOpen && '&minus;' || '&plus;'}}</strong> Carousel/Banner Module</h2>                    
+                    <div class="slide-toggle">
+                        <script src="https://gist.github.com/justindmyers/2b99a6007ab165735573.js?file=carousel-module.html"></script>
+                    </div>
                 </div>
             
                 <carousel>
@@ -338,8 +341,11 @@
 
 
 
-                <div class="wrapper">
-                    <h2>Grid Promo Module</h2>
+                <div class="wrapper" slide-toggle>
+                    <h2 ng-click="toggleSlide()"><strong>{{isOpen && '&minus;' || '&plus;'}}</strong> Grid Promo Module</h2>                    
+                    <div class="slide-toggle">
+                        <script src="https://gist.github.com/justindmyers/2b99a6007ab165735573.js?file=grid-promo-module.html"></script>
+                    </div>
                 </div>
 
 
@@ -377,10 +383,12 @@
 
 
 
-                <div class="wrapper">
-                    <h2>Two Column CTA Module</h2>
+                <div class="wrapper" slide-toggle>
+                    <h2 ng-click="toggleSlide()"><strong>{{isOpen && '&minus;' || '&plus;'}}</strong> Two Column CTA Module</h2>                    
+                    <div class="slide-toggle">
+                        <script src="https://gist.github.com/justindmyers/2b99a6007ab165735573.js?file=two-column-cta-module.html"></script>
+                    </div>
                 </div>
-
 
                 <article class="marketing home-page-switch-mobile">
                     <div class="wrapper">
@@ -404,8 +412,11 @@
                 </article>
 
 
-                <div class="wrapper">
-                    <h2>Nationwide Coverage Module</h2>
+                <div class="wrapper" slide-toggle>
+                    <h2 ng-click="toggleSlide()"><strong>{{isOpen && '&minus;' || '&plus;'}}</strong> Nationwide Coverage Module</h2>                    
+                    <div class="slide-toggle">
+                        <script src="https://gist.github.com/justindmyers/2b99a6007ab165735573.js?file=nationwide-coverage.html"></script>
+                    </div>
                 </div>
 
 
@@ -417,8 +428,11 @@
                 </article>
 
 
-                <div class="wrapper">
-                    <h2>Find Coverage Module</h2>
+                <div class="wrapper" slide-toggle>
+                    <h2 ng-click="toggleSlide()"><strong>{{isOpen && '&minus;' || '&plus;'}}</strong> Grid Promo Module</h2>                    
+                    <div class="slide-toggle">
+                        <script src="https://gist.github.com/justindmyers/2b99a6007ab165735573.js?file=find-coverage-module.html"></script>
+                    </div>
                 </div>
 
                 <article class="marketing find-coverage">
@@ -435,8 +449,14 @@
                     </div>
                 </article>
 
-                <div class="wrapper">
-                    <h2>Homelife Services Promo</h2>
+
+
+
+                <div class="wrapper" slide-toggle>
+                    <h2 ng-click="toggleSlide()"><strong>{{isOpen && '&minus;' || '&plus;'}}</strong> Homelife Services Promo Module</h2>                    
+                    <div class="slide-toggle">
+                        <script src="https://gist.github.com/justindmyers/2b99a6007ab165735573.js?file=homelife-services-promo.html"></script>
+                    </div>
                 </div>
 
                 <article class="marketing homelife-services-promo">
@@ -470,6 +490,16 @@
                     </div>
                 </article>
 
+
+
+
+
+                <div class="wrapper" slide-toggle>
+                    <h2 ng-click="toggleSlide()"><strong>{{isOpen && '&minus;' || '&plus;'}}</strong> Homelife Services Promo Selectable</h2>                    
+                    <div class="slide-toggle">
+                        <script src="https://gist.github.com/justindmyers/2b99a6007ab165735573.js?file=homelife-services-promo-selectable.html"></script>
+                    </div>
+                </div>
      
                 <article class="marketing homelife-services-promo homelife-services-promo-selectable" ng-controller="homelifeSelectorCtrl">
                     <div class="wrapper">
@@ -522,8 +552,13 @@
                 </article>
 
 
-                <div class="wrapper">
-                    <h2>Other Services Module</h2>
+
+
+                <div class="wrapper" slide-toggle>
+                    <h2 ng-click="toggleSlide()"><strong>{{isOpen && '&minus;' || '&plus;'}}</strong> Other Services Module</h2>                    
+                    <div class="slide-toggle">
+                        <script src="https://gist.github.com/justindmyers/2b99a6007ab165735573.js?file=other-services-module.html"></script>
+                    </div>
                 </div>
 
                 <article class="marketing other-services-promo">
@@ -550,8 +585,11 @@
                 </article>
 
 
-                <div class="wrapper">
-                    <h2>Questions Module</h2>
+                <div class="wrapper" slide-toggle>
+                    <h2 ng-click="toggleSlide()"><strong>{{isOpen && '&minus;' || '&plus;'}}</strong> Questions Module</h2>                    
+                    <div class="slide-toggle">
+                        <script src="https://gist.github.com/justindmyers/2b99a6007ab165735573.js?file=questions-module.html"></script>
+                    </div>
                 </div>
 
                 <article class="marketing home-questions">
@@ -604,77 +642,141 @@
 
 
 
-                <div class="wrapper">
-                    <h2>State Selection Module</h2>
+                <div class="wrapper" slide-toggle>
+                    <h2 ng-click="toggleSlide()"><strong>{{isOpen && '&minus;' || '&plus;'}}</strong> State Selection Module</h2>                    
+                    <div class="slide-toggle">
+                        <script src="https://gist.github.com/justindmyers/2b99a6007ab165735573.js?file=state-selection-module.html"></script>
+                    </div>
                 </div>
 
-                <article class="marketing horizontal-form-layout choose-state">
-                    <div class="wrapper" ng-controller="stateSelectCtrl">
-                        <div class="form-layout">
-                            <h3>Choose your area to get started</h3>
-                            <label>It looks like you're in</label>
-                            <div class="input-group input-group-mobile">
-                                <div class="input-group-control" id="state-select">
-                                    <div id="state-select" dropdown-select dropdown-items="dropdownItems" value="data.dropdownState"></div>
+                <div ng-controller="stateSelectCtrl">
+                    <article class="marketing horizontal-form-layout choose-state">
+                        <div class="wrapper" >
+                            <div class="form-layout">
+                                <h3>Choose your area to get started</h3>
+                                <label>It looks like you're in</label>
+                                <div class="input-group input-group-mobile">
+                                    <div class="input-group-control" id="state-select">
+                                        <div id="state-select" dropdown-select dropdown-items="dropdownItems" value="data.dropdownState"></div>
+                                    </div>
+                                    <div class="input-group-btn">
+                                        <button type="button" ng-class="{ 'visually-hidden': data.serviceState == 'OO'}" ng-click="data.serviceState = data.dropdownState">Get Started</button>
+                                    </div>
                                 </div>
-                                <div class="input-group-btn">
-                                    <button type="button" ng-click="data.serviceState = data.dropdownState">Get Started</button>
+                                <div class="links">
+                                    <span ng-class="{ 'visually-hidden': data.serviceState == 'OO'}">
+                                        <a href="">View Rates</a>
+                                        <a href="">View Details</a>
+                                    </span>
                                 </div>
-                            </div>
-                            <div class="links">
-                                <a href="">View Rates</a>
-                                <a href="">View Details</a>
                             </div>
                         </div>
-                        <toggle-pane value="data.serviceState" name="DC">
-                            <h2>Washington, DC</h2>
-                            <hr>
-                            <h3>Energy Plan Options</h3>
+                    </article>                    
+                    <article class="marketing toggle-container">
+                        <div class="wrapper">
+                            <toggle-pane value="data.serviceState" name="DC">
+                                <h2>Washington, DC <span class="pane-item-close" ng-click="data.serviceState=''"><i class="icon-close"></i></span></h2>
+                                <hr>
+                                <h3>Energy Plan Options</h3>
 
+                                <p>Stream Energy’s residential energy prices are designed to help you fully maximize your energy savings. We know comparing rates with other utility companies in Texas can be confusing. Our pricing and rates are both simple and easy to understand.</p>
 
-                            <p>Stream Energy’s residential energy prices are designed to help you fully maximize your energy savings. We know comparing rates with other utility companies in Texas can be confusing. Our pricing and rates are both simple and easy to understand.</p>
+                                <p>
+                                    <a href="#" class="button large pull-right">Choose a Plan</a>
+                                    <a href="#">View Electricity Rates <i class="icon-arrow-right"></i></a><br>
+                                    <a href="#">View Historical Rates Snapshot <i class="icon-arrow-right"></i></a>
+                                </p>
 
-                            <p>
-                                <a href="#">View Electricity Rates</a>
-                                <a href="#">View Historical Rates Snapshot</a>
-                            </p>
+                                <hr>
 
-                            <hr>
+                                <div class="grid two">
+                                    <div class="col">
+                                        <h3>New Friend 12-Month Plan</h3>
+                                        <ul class="display-list">
+                                            <li><a href="#">Oncor Service Area</a></li>
+                                            <li><a href="#">Oncor Service Area</a></li>
+                                            <li><a href="#">Oncor Service Area</a></li>
+                                            <li><a href="#">Oncor Service Area</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col">
+                                        <h3>New Friend 24-Month Plan</h3>
+                                        <ul class="display-list">
+                                            <li><a href="#">Oncor Service Area</a></li>
+                                            <li><a href="#">Oncor Service Area</a></li>
+                                            <li><a href="#">Oncor Service Area</a></li>
+                                            <li><a href="#">Oncor Service Area</a></li>
+                                            <li><a href="#">Oncor Service Area</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
 
-                            <div class="grid">
+                                <div class="grid two">
+                                    <div class="col">
+                                        <h3>New Friend 12-Month Plan</h3>
+                                        <ul class="display-list">
+                                            <li><a href="#">Oncor Service Area</a></li>
+                                            <li><a href="#">Oncor Service Area</a></li>
+                                            <li><a href="#">Oncor Service Area</a></li>
+                                            <li><a href="#">Oncor Service Area</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col">
+                                        <h3>New Friend 24-Month Plan</h3>
+                                        <ul class="display-list">
+                                            <li><a href="#">Oncor Service Area</a></li>
+                                            <li><a href="#">Oncor Service Area</a></li>
+                                            <li><a href="#">Oncor Service Area</a></li>
+                                            <li><a href="#">Oncor Service Area</a></li>
+                                            <li><a href="#">Oncor Service Area</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </toggle-pane>
+                            <toggle-pane value="data.serviceState" name="GA">
+                                Georgia
+                            </toggle-pane>
+                            <toggle-pane value="data.serviceState" name="MD">
+                                Maryland
+                            </toggle-pane>
+                            <toggle-pane value="data.serviceState" name="NJ">
+                                New Jersey
+                            </toggle-pane>
+                            <toggle-pane value="data.serviceState" name="NY">
+                                New York
+                            </toggle-pane>
+                            <toggle-pane value="data.serviceState" name="PA">
+                                Pennsylvania
+                            </toggle-pane>
+                            <toggle-pane value="data.serviceState" name="TX">
+                                Texas
+                            </toggle-pane>
+                            <toggle-pane value="data.serviceState" name="OO">
+                                Other
+                            </toggle-pane>
+                        </div>
+                    </article>
 
+                    <toggle-pane value="data.serviceState" name="">
+                        <article class="marketing text-callout">
+                            <div class="wrapper">
+                                <h1>Default Content</h1>
                             </div>
-                        </toggle-pane>
-                        <toggle-pane value="data.serviceState" name="GA">
-                            Georgia
-                        </toggle-pane>
-                        <toggle-pane value="data.serviceState" name="MD">
-                            Maryland
-                        </toggle-pane>
-                        <toggle-pane value="data.serviceState" name="NJ">
-                            New Jersey
-                        </toggle-pane>
-                        <toggle-pane value="data.serviceState" name="NY">
-                            New York
-                        </toggle-pane>
-                        <toggle-pane value="data.serviceState" name="PA">
-                            Pennsylvania
-                        </toggle-pane>
-                        <toggle-pane value="data.serviceState" name="TX">
-                            Texas
-                        </toggle-pane>
-                        <toggle-pane value="data.serviceState" name="OO">
-                            Other
-                        </toggle-pane>
-                    </div>
-                </article>
+                        </article>
+                    </toggle-pane>
+                </div>
 
 
-                <div class="wrapper">
+
+
+                <div class="wrapper" slide-toggle>
                     <hr>
                     <h1>Generic Modules</h1>
                     <hr>
-                    <h2>Quote Module</h2>
+                    <h2 ng-click="toggleSlide()"><strong>{{isOpen && '&minus;' || '&plus;'}}</strong> Quote Module</h2>                    
+                    <div class="slide-toggle">
+                        <script src="https://gist.github.com/justindmyers/2b99a6007ab165735573.js?file=quote-module.html"></script>
+                    </div>
                 </div>
 
                 <article class="marketing quote">
@@ -688,8 +790,11 @@
                 </article>
 
 
-                <div class="wrapper">
-                    <h2>Section Divider Module</h2>
+                <div class="wrapper" slide-toggle>
+                    <h2 ng-click="toggleSlide()"><strong>{{isOpen && '&minus;' || '&plus;'}}</strong> Section Divider Module</h2>                    
+                    <div class="slide-toggle">
+                        <script src="https://gist.github.com/justindmyers/2b99a6007ab165735573.js?file=section-divider-module.html"></script>
+                    </div>
                 </div>
 
                 <article class="marketing section-divider">
@@ -709,8 +814,11 @@
                 </article>
 
 
-                <div class="wrapper">
-                    <h2>Text Callout Module</h2>
+                <div class="wrapper" slide-toggle>
+                    <h2 ng-click="toggleSlide()"><strong>{{isOpen && '&minus;' || '&plus;'}}</strong> Text Callout Module</h2>                    
+                    <div class="slide-toggle">
+                        <script src="https://gist.github.com/justindmyers/2b99a6007ab165735573.js?file=state-selection-module.html"></script>
+                    </div>
                 </div>
 
                 <article class="marketing text-callout">
@@ -722,8 +830,11 @@
                 </article>
 
 
-                <div class="wrapper">
-                    <h2>Vertical CTA Module</h2>
+                <div class="wrapper" slide-toggle>
+                    <h2 ng-click="toggleSlide()"><strong>{{isOpen && '&minus;' || '&plus;'}}</strong> Vertical CTA Module</h2>                    
+                    <div class="slide-toggle">
+                        <script src="https://gist.github.com/justindmyers/2b99a6007ab165735573.js?file=vertical-cta-module.html"></script>
+                    </div>
                 </div>
 
                 <article class="marketing vertical-cta">
@@ -752,8 +863,11 @@
 
 
 
-                <div class="wrapper">
-                    <h2>Horizontal Photo CTA Module</h2>
+                <div class="wrapper" slide-toggle>
+                    <h2 ng-click="toggleSlide()"><strong>{{isOpen && '&minus;' || '&plus;'}}</strong> Horizontal Photo CTA Module</h2>                    
+                    <div class="slide-toggle">
+                        <script src="https://gist.github.com/justindmyers/2b99a6007ab165735573.js?file=horizontal-photo-cta-module.html"></script>
+                    </div>
                 </div>
 
                 <article class="marketing horizontal-photo-cta">
@@ -771,6 +885,14 @@
                     </div>
                 </article>
 
+
+                <div class="wrapper" slide-toggle>
+                    <h2 ng-click="toggleSlide()"><strong>{{isOpen && '&minus;' || '&plus;'}}</strong> Horizontal Photo CTA Alt Module</h2>                    
+                    <div class="slide-toggle">
+                        <script src="https://gist.github.com/justindmyers/2b99a6007ab165735573.js?file=horizontal-photo-cta-alt-module.html"></script>
+                    </div>
+                </div>
+
                 <article class="marketing horizontal-photo-cta horizontal-cta-alt">
                     <div class="wrapper clearfix">
                         <div class="layout">
@@ -786,10 +908,14 @@
                     </div>
                 </article>
                 
-                <div class="wrapper">
-                    <h2>Horizontal Button CTA Module</h2>
-                </div>
 
+
+                <div class="wrapper" slide-toggle>
+                    <h2 ng-click="toggleSlide()"><strong>{{isOpen && '&minus;' || '&plus;'}}</strong> Horizontal Button CTA Module</h2>                    
+                    <div class="slide-toggle">
+                        <script src="https://gist.github.com/justindmyers/2b99a6007ab165735573.js?file=horizontal-button-cta-module.html"></script>
+                    </div>
+                </div>
 
                 <article class="marketing horizontal-photo-cta horizontal-button-cta">
                     <div class="wrapper clearfix">
@@ -806,6 +932,13 @@
                 </article>
 
 
+
+                <div class="wrapper">
+                    <hr>
+                    <h1>Sub-page Specific Modules</h1>
+                    <hr>
+                    <h2>Deregulated Energy Module</h2>
+                </div>
 
                 <article class="marketing text-callout">
                     <div class="wrapper">
@@ -837,7 +970,9 @@
                     </div>
                 </article>
 
-
+                <div class="wrapper">
+                    <h2>States Enroll Module</h2>
+                </div>
 
                 <article class="marketing state-tabs states-enroll">
                     <div class="wrapper">
@@ -885,7 +1020,9 @@
             </section>
 
 
-
+            <div class="wrapper">
+                <h2>Protection Services Module</h2>
+            </div>
 
 
             <section class="layout cols-2 wrapper">
@@ -941,6 +1078,7 @@
                             </div>
                         </div>
                     </article>
+
                     <article class="bundle-protection-services">
                         <header>
                             <h2>Bundle &amp; Save on Homelife Services</h2>
