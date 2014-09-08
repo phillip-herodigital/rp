@@ -4,7 +4,8 @@
         <div class="wrapper clearfix">
             <h1>
                 <span class="small block">@Html.Sitecore().Field("Banner Header Text")</span><br />
-                <span class="block">@Html.Sitecore().Field("Banner Sub Header Text")</span>
+                <span class="block" ng-if="customerType != 'commercial'">@Html.Sitecore().Field("Banner Sub Header Text")</span>
+                <span class="block" ng-if="customerType == 'commercial'">@Html.Sitecore().Field("Quote Banner Sub Header Text")</span>
             </h1>
         </div>
     </div>
@@ -15,7 +16,8 @@
         <section>
             <article class="form enrollment__box">
                 <header>
-                    <h1>@Html.Sitecore().Field("Complete Order")</h1>
+                    <h1 ng-if="customerType != 'commercial'">@Html.Sitecore().Field("Complete Order")</h1>
+                    <h1 ng-if="customerType == 'commercial'">@Html.Sitecore().Field("Complete Quote")</h1>
                 </header>
                 <div class="content">
                     <p ng-if="customerType == 'commercial'">@Html.Sitecore().Field("Almost Done")</p>
@@ -31,7 +33,7 @@
                         </div>
                         <hr class="content-divider" ng-if="getCartItems().length > 1 && !$last">
                     </div>
-                    <hr class="content-divider">
+                    <hr class="content-divider" ng-if="getCartTotal() > 0">
                     <div class="total" ng-if="getCartTotal() > 0">
                         @Html.Sitecore().Field("Total Due Now") <strong>{{ getCartTotal() | currency }}</strong>
                     </div>
@@ -197,11 +199,11 @@
     <table class="verify-order-table">
         <tbody>
             <tr class="line-item" ng-repeat-start="selectedOffer in offerInformation.value.offerSelections">
-                <td class="description">
+                @*<td class="description">
                     <h4>{{selectedOffer.offer.name}}</h4>
-                    @*<p>{{selectedOffer.offer.description}}</p>*@
+                    <p>{{selectedOffer.offer.description}}</p>
                 </td>
-                @*<td class="rate">
+                <td class="rate">
                     {{selectedOffer.offer.rate | currency}} kWh
                 </td>*@
             </tr>
