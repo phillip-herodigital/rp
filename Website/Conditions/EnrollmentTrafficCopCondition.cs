@@ -153,6 +153,9 @@ namespace StreamEnergy.MyStream.Conditions
 
             var accountType = (queryString["AccountType"] ?? "").ToUpper();
             var state = (queryString["State"] ?? "").ToUpper();
+            var accountNumber = GetAccountNumber(queryString["SPID"] ?? "");
+
+            dependencies.Context.Items["Enrollment Agent Account Id"] = accountNumber;
 
             var targetDpiUrl = GetTargetDpiUrl(accountType, state, queryString);
 
@@ -279,9 +282,16 @@ namespace StreamEnergy.MyStream.Conditions
         private static string GetAccountNumber(string p)
         {
             // "decryption"
-            var plain = System.Text.Encoding.ASCII.GetString(Convert.FromBase64String(p));
-            var parts = plain.Split('|');
-            return parts[0];
+            try
+            {
+                var plain = System.Text.Encoding.ASCII.GetString(Convert.FromBase64String(p));
+                var parts = plain.Split('|');
+                return parts[0];
+            }
+            catch
+            {
+                return "";
+            }
         }
 
         private static string BuildDpiUrl(string relativePath, string dpiDomain, NameValueCollection queryString)

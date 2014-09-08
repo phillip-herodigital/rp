@@ -47,9 +47,11 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.redisDatabase = redisDatabase;
         }
 
-        public async Task Initialize()
+        public async Task Initialize(string agentAccountId = null)
         {
             await stateHelper.EnsureInitialized().ConfigureAwait(false);
+            if (agentAccountId != null)
+                stateHelper.InternalContext.EnrollmentAgentId = agentAccountId;
             this.stateMachine = stateHelper.StateMachine;
         }
 
