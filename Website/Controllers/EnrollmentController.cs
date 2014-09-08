@@ -18,7 +18,10 @@ namespace StreamEnergy.MyStream.Controllers
 
         public ActionResult ClientData()
         {
-            inner.Initialize().Wait();
+            string agentAccountId = null;
+            if (HttpContext.Items.Contains("Enrollment Agent Account Id"))
+                agentAccountId = (HttpContext.Items["Enrollment Agent Account Id"] ?? "").ToString();
+            inner.Initialize(agentAccountId: agentAccountId).Wait();
             return this.Content(StreamEnergy.Json.Stringify(inner.ClientData()));
         }
 

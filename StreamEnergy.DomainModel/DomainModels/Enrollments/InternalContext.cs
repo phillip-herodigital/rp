@@ -30,5 +30,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         public Dictionary<Location, PremiseVerificationResult> LocationVerifications { get; private set; }
 
         public StreamAsync<CreditCheckResult> CreditCheck { get; set; }
+
+        public string EnrollmentAgentId { get; set; }
     }
 }

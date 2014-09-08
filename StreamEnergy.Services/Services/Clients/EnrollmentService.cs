@@ -9,16 +9,19 @@ using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using StreamEnergy.DomainModels.Enrollments.Service;
 using StreamEnergy.DomainModels;
+using StreamEnergy.Logging;
 
 namespace StreamEnergy.Services.Clients
 {
     class EnrollmentService : IEnrollmentService
     {
         private HttpClient streamConnectClient;
+        private ILogger logger;
 
-        public EnrollmentService([Dependency(StreamConnectContainerSetup.StreamConnectKey)] HttpClient client)
+        public EnrollmentService([Dependency(StreamConnectContainerSetup.StreamConnectKey)] HttpClient client, ILogger logger)
         {
             this.streamConnectClient = client;
+            this.logger = logger;
         }
 
         async Task<Dictionary<Location, LocationOfferSet>> IEnrollmentService.LoadOffers(IEnumerable<Location> serviceLocations)
@@ -303,6 +306,15 @@ namespace StreamEnergy.Services.Clients
                                             Offer = serviceOffer.offer.Offer
                                         }).ToArray()
                     };
+            }
+            else
+            {
+                await logger.Record(new LogEntry
+                    {
+                        Message = "Error from Stream Connect",
+                        Severity = Severity.Error,
+                        Data = { { "Stream Connect Response", responseObject } }
+                    });
             }
 
             return asyncResult;
