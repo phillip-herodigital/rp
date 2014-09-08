@@ -83,7 +83,7 @@
                                     @Html.Sitecore().Field("Terms and Conditions Text")
                                 </label>
                                 <textarea>
-                                    @Html.Raw(Html.Sitecore().CurrentItem["Terms and Conditions Body Text"])
+                                    @Html.Sitecore().Field("Terms and Conditions Body Text")
                                 </textarea>
                             </li>
                         </ul>
@@ -196,7 +196,6 @@
     @*<h3>Electricity</h3>*@
     <table class="verify-order-table">
         <tbody>
-            
             <tr class="line-item" ng-repeat-start="selectedOffer in offerInformation.value.offerSelections">
                 <td class="description">
                     <h4>{{selectedOffer.offer.name}}</h4>
@@ -206,9 +205,14 @@
                     {{selectedOffer.offer.rate | currency}} kWh
                 </td>*@
             </tr>
-            <tr ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0" ng-include src="'paymentsDue/' + payment.offerPaymentAmountType"></tr>
+            <tr>
+                <td colspan="2">
+                    <table ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0" ng-include src="'paymentsDue/' + payment.offerPaymentAmountType"></table>
+                </td>
+            </tr>
             <tr ng-repeat-end></tr>
         </tbody>
+        
     </table>
 </script>
 
@@ -235,19 +239,21 @@
     <tr>
         <td class="sub-charge">
             <input type="radio" name="deposit-waiver" value="false" checked>
-            <h4>@Html.Sitecore().Field("Deposit Due")</h4>
-            <p>{{selectedOffer.offer.name}}</p>
-            <p class="explanation">Based on your credit score....</p>
+            <label for="deposit-waiver">@Html.Sitecore().Field("Deposit Due")</label>
+            <p>
+                {{selectedOffer.offer.name}}<br />
+                <span class="explanation">Based on your credit score....</span>
+            </p>
         </td>
         <td class="rate"><strong>{{ payment.dollarAmount | currency }}</strong></td>
     </tr>
     <tr>
-        <td colspan="2" class="seperator">OR</td>
+        <td colspan="2"><span class="seperator">or</span></td>
     </tr>
     <tr>
-        <td colspan="2">
+        <td class="sub-charge" colspan="2">
             <input type="radio" name="deposit-waiver" value="true">
-            <h4>Deposit Waiver</h4>
+            <label for="deposit-waiver">Deposit Waiver</label>
             <p class="explanation">You'll need to provide the required documentation....</p>
         </td>
     </tr>

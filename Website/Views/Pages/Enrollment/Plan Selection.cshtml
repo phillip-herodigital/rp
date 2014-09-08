@@ -471,3 +471,19 @@
         </div>
     </div>
 </script>
+
+<script type="text/ng-template" id="mustMoveInModal">
+    <div>
+        <div class="modal-header">
+            <a href="" ng-click="$dismiss()">Close</a>
+            <h2>@Html.Sitecore().Field("Must Move In Header")</h2>
+        </div>
+        <div class="modal-body">
+            @Html.Sitecore().Field("Must Move In Body")
+        </div>
+        <div class="modal-footer">
+            <button class="secondary" ng-click="deleteUtilityAddress(location); $dismiss()">@Html.Sitecore().Field("No Button")</button>
+            <button ng-click="$close()">@Html.Sitecore().Field("Yes Button")</button>
+        </div>
+    </div>
+</script>

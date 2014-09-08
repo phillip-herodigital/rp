@@ -10,8 +10,13 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
         $scope.planSelection = { selectedOffers: {} };
         $scope.isCartFull = enrollmentCartService.isCartFull($scope.customerType);
         if (address && address.eligibility == "mustMoveIn") {
-            // TODO - modal for not able to switch to the address.
-            console.log('TODO - "must move in" modal')
+            $modal.open({
+                'scope': $scope,
+                'templateUrl': 'mustMoveInModal'
+            }).result.then(function () { 
+                address.location.capabilities[1].enrollmentType = 'moveIn';
+                enrollmentService.setSelectedOffers();
+            })
         }
         if (address && address.offerInformationByType) {
             angular.forEach(address.offerInformationByType, function (entry) {
@@ -32,6 +37,11 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
             enrollmentCartService.selectOffers(_(selectedOffers).mapValues(function (offer) { if (offer) { return [offer]; } else return []; }).value());
         }
     });
+
+    $scope.deleteUtilityAddress = function (service) {
+        enrollmentCartService.removeService(service);
+        enrollmentStepsService.setFlow('utility', false).setStep('utilityFlowService');
+    };
 
     /**
      * [isFormValid description]
