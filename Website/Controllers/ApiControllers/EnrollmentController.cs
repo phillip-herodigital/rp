@@ -51,7 +51,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             await stateHelper.EnsureInitialized().ConfigureAwait(false);
             if (agentAccountId != null)
-                stateHelper.InternalContext.EnrollmentAgentId = agentAccountId;
+                stateHelper.StateMachine.InternalContext.EnrollmentAgentId = agentAccountId;
             this.stateMachine = stateHelper.StateMachine;
         }
 
