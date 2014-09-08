@@ -198,7 +198,7 @@
                                 </div>
                             }
                         </div>
-                        <div ng-show="hasMoveIn">
+                        <div ng-show="hasMoveIn" class="previous-address">
                             <h3>@Html.Sitecore().Field("Previous Address Header")</h3>
                             @using (var billingAddress = Html.Shortcut(m => m.PreviousAddress))
                             {

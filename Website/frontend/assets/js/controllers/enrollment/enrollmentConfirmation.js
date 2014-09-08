@@ -3,6 +3,7 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
 
     $scope.getCartItems = enrollmentCartService.getCartItems;  
     $scope.getCartTotal = enrollmentCartService.calculateCartTotal;  
+    $scope.customerType = '';
 
     $scope.onPrint = function() {
         window.print();
@@ -18,10 +19,10 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
             };
         }
         else {
-            //get the result, which should include the expected state
+            // get the result, which should include the expected state
             enrollmentService.setClientData(result);
 
-            //set step to make sure we're supposed to be here
+            // set step to make sure we're supposed to be here
             enrollmentStepsService.setFromServerStep(result.expectedState, true);
 
             $scope.isRenewal = enrollmentService.isRenewal;
@@ -29,6 +30,9 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
             // copy out the account information the server has
             $scope.accountInformation.contactInfo = result.contactInfo || {};
             $scope.accountInformation.secondaryContactInfo = result.secondaryContactInfo || {};
+
+            // set the customer type, since we're no longer using the enrollment main controller
+            $scope.customerType = $scope.getCartItems()[0].location.capabilities[2].customerType;
         }
     };
 }]);
