@@ -43,6 +43,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             new StreamEnergy.Caching.RedisCacheContainerSetup().SetupUnity(container);
             new StreamEnergy.Services.Clients.ClientContainerSetup().SetupUnity(container);
             new StreamEnergy.Services.Clients.StreamConnectContainerSetup().SetupUnity(container);
+
+            container.RegisterType<HttpMessageHandler, HttpClientHandler>("Cached");
         }
 
         [TestMethod]

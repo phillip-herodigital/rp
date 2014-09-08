@@ -520,6 +520,7 @@
   <ItemGroup>
     <Compile Include="Conditions\EnrollmentTrafficCopCondition.cs" />
     <Compile Include="Controllers\ApiControllers\AccountController.cs" />
+    <Compile Include="Controllers\ApiControllers\AddressesController.cs" />
     <Compile Include="Controllers\ApiControllers\AuthenticationController.cs" />
     <Compile Include="Controllers\Components\AccountController.cs" />
     <Compile Include="Controllers\Components\AuthenticationController.cs" />

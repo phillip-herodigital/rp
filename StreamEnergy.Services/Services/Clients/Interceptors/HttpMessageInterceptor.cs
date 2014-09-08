@@ -6,11 +6,12 @@ using System.Text;
 
 namespace StreamEnergy.Services.Clients.Interceptors
 {
-    class HttpMessageInterceptor : HttpClientHandler
+    class HttpMessageInterceptor : DelegatingHandler
     {
         private ServiceInterceptorResolver serviceInterceptorResolver;
 
-        public HttpMessageInterceptor(ServiceInterceptorResolver serviceInterceptorResolver)
+        public HttpMessageInterceptor(ServiceInterceptorResolver serviceInterceptorResolver, HttpMessageHandler innerHandler)
+            : base(innerHandler)
         {
             this.serviceInterceptorResolver = serviceInterceptorResolver;
         }

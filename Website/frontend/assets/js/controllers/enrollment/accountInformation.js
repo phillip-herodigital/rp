@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of account information on enrollment page.
  */
-ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentService', 'enrollmentCartService', function ($scope, enrollmentService, enrollmentCartService) {
+ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentService', 'enrollmentCartService', '$modal', function ($scope, enrollmentService, enrollmentCartService, $modal) {
     $scope.accountInformation = enrollmentService.accountInformation;
     $scope.validations = [];
 
@@ -28,14 +28,17 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
         return enrollmentCartService.services;
     };
 
-    $scope.updateSameAddress = function () {
+    if (!$scope.accountInformation.mailingAddress)
+        $scope.accountInformation.mailingAddressSame = true;
+
+    $scope.$watch('accountInformation.mailingAddressSame', function () {
         if ($scope.accountInformation.mailingAddressSame) {
-            if ($scope.utilityAddresses().length == 1)
+            if ($scope.utilityAddresses().length == 1 && !$scope.accountInformation.mailingAddress)
                 $scope.accountInformation.mailingAddress = $scope.utilityAddresses()[0].location.address;
         } else {
             $scope.accountInformation.mailingAddress = {};
         }
-    };
+    });
 
     /**
      * In addition to normal validation, ensure that at least one item is in the shopping cart
@@ -53,10 +56,52 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
     * Complete Enrollment Section
     */
     $scope.completeStep = function () {
+        var addresses = [$scope.accountInformation.mailingAddress];
+        if ($scope.hasMoveIn) {
+            addresses.push($scope.accountInformation.previousAddress);
+        }
 
-        enrollmentService.setAccountInformation().then(function (data) {
-            console.log(data);
-            $scope.validations = data.validations;
+
+        var continueWith = function () {
+            enrollmentService.setAccountInformation().then(function (data) {
+                console.log(data);
+                $scope.validations = data.validations;
+            });
+        }
+        enrollmentService.cleanseAddresses(addresses).then(function (data) {
+            if (data[0].length || (data.length > 1 && data[1].length)) {
+                var addressOptions = { };
+                if (data[0] && data[0].length) {
+                    data[0].unshift($scope.accountInformation.mailingAddress);
+                    addressOptions.mailingAddress = data[0];
+                }
+                if (data[1] && data[1].length) {
+                    data[1].unshift($scope.accountInformation.previousAddress);
+                    addressOptions.previousAddress = data[1];
+                }
+
+                // TODO - do a modal and then use continueWith() after the modal is resolved
+                //var modalInstance = $modal.open({
+                //    templateUrl: '',
+                //    controller: '',
+                //    resolve: {
+                //        'addressOptions': function () { return addressOptions; }
+                //    }
+                //});
+                //modalInstance.result.then(function (selectedOptions) {
+                //    $scope.accountInformation.mailingAddress = selectedOptions.mailingAddress;
+                //    $scope.accountInformation.previousAddress = selectedOptions.previousAddress;
+                //    continueWith();
+                //});
+
+                // TODO - remove this line when the modal is in place
+                continueWith();
+            }
+            else {
+                continueWith();
+            }
         });
+
+        
     };
 }]);

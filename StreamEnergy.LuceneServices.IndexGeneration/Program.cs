@@ -4,6 +4,8 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Practices.Unity;
+using SmartyStreets = StreamEnergy.Services.Clients.SmartyStreets;
 
 namespace StreamEnergy.LuceneServices.IndexGeneration
 {
@@ -21,10 +23,14 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
                 return;
             }
 
+            var unityContainer = new UnityContainer();
+            new CoreContainerSetup().SetupUnity(unityContainer);
+            new StreamEnergy.Services.Clients.ClientContainerSetup().SetupUnity(unityContainer);
+
             using (var directoryLoader = new Ercot.DirectoryLoader())
             using (var indexBuilder = new IndexBuilder(options.Destination, options.ForceCreate))
             {
-                var streetService = new SmartyStreets.SmartyStreetService(ConfigurationManager.AppSettings["SmartyStreetsAuthId"], ConfigurationManager.AppSettings["SmartyStreetsAuthToken"]);
+                var streetService = unityContainer.Resolve<SmartyStreets.SmartyStreetService>();
                 var results = directoryLoader.Load(options.Source, options.StartDate, true);
                 var allTasks = new List<Task<Dictionary<string, DomainModels.IServiceCapability>>>();
                 foreach (var tdu in results.GroupBy(file => file.Tdu))

@@ -8,12 +8,12 @@
             </h1>
         </div>
     </div>
-    <div class="wrapper layout cols-2">
+    <div class="wrapper layout cols-2 enrollment__review-order">
         <aside class="enrollment__nav">
             <div ng-include ng-if="true" src="'enrollment-nav-template'" ng-init="name = 'reviewOrder'"></div>
         </aside>
         <section>
-            <article class="form enrollment__box enrollment__review-order">
+            <article class="form enrollment__box">
                 <header>
                     <h1>@Html.Sitecore().Field("Complete Order")</h1>
                 </header>
@@ -27,7 +27,7 @@
                         </div>
                         <hr />
                         <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="customerType != 'commercial' && offerInformation.value.offerSelections.length">
-                            <div ng-include src="'completeOrder/' + offerInformation.key"></div>                            
+                            <div ng-include src="'completeOrder/' + offerInformation.key"></div>
                         </div>
                         <hr class="content-divider" ng-if="getCartItems().length > 1 && !$last">
                     </div>
@@ -37,41 +37,40 @@
                     </div>
                 </div>
             </article>
-
-                @*
-            <p>@Html.Sitecore().Field("Set Up Card")</p>
-            <h2>@Html.Sitecore().Field("Homelife Services")</h2>
-            <table>
-                <tbody>
-                    <tr class="line-item">
-                        <td class="description">
-                            <h1>@Html.Sitecore().Field("Stream Tech Support")</h1>
-                            <p>@Html.Sitecore().Field("Appear On Bill")</p>
-                        </td>
-                        <td class="rate">
-                            @Html.Sitecore().Field("Tech Support Rate")
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="total" colspan="2">
-                            @Html.Sitecore().Field("Recurring Payments")
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-                *@
+            @*
+                <p>@Html.Sitecore().Field("Set Up Card")</p>
+                <h2>@Html.Sitecore().Field("Homelife Services")</h2>
+                <table>
+                    <tbody>
+                        <tr class="line-item">
+                            <td class="description">
+                                <h1>@Html.Sitecore().Field("Stream Tech Support")</h1>
+                                <p>@Html.Sitecore().Field("Appear On Bill")</p>
+                            </td>
+                            <td class="rate">
+                                @Html.Sitecore().Field("Tech Support Rate")
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="total" colspan="2">
+                                @Html.Sitecore().Field("Recurring Payments")
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            *@
             <form data-val-bind-messages="validations">
                 <article class="enrollment__box" ng-if="getCartTotal() > 0">
                     <header>
-                         <h1>@Html.Sitecore().Field("Card Details")</h1>
+                        <h1>@Html.Sitecore().Field("Card Details")</h1>
                     </header>
                     <div class="content">
                         @*<div class="item">
-                            <label for="payment-method">@Html.Sitecore().Field("Select Payment Method Label")</label>
-                            <select id="payment-method" ng-model="completeOrder.creditCard.paymentMethod">
-                                <option value="">@Html.Sitecore().Field("Select Option")</option>
-                            </select>
-                        </div>*@
+                                <label for="payment-method">@Html.Sitecore().Field("Select Payment Method Label")</label>
+                                <select id="payment-method" ng-model="completeOrder.creditCard.paymentMethod">
+                                    <option value="">@Html.Sitecore().Field("Select Option")</option>
+                                </select>
+                            </div>*@
                         <div class="payment-options" credit-card-payment="completeOrder.creditCard" data-val-if="true"></div>
                     </div>
                 </article>
@@ -106,8 +105,8 @@
                                 <label for="@Html.IdFor(m => m.AdditionalAuthorizations[StreamEnergy.DomainModels.Enrollments.AdditionalAuthorization.Tcpa])">
                                     @Html.Raw(Html.Sitecore().CurrentItem["TCPA - I Agree Text"].Format(new { LinkAttributes = "ng-click=\"showTerms('Tcpa')\"" }))
                                 </label>
-                            </li>    
-                        </ul>                            
+                            </li>
+                        </ul>
                     </div>
                 </div>
                 <div class="buttons">
@@ -121,36 +120,36 @@
             <div ng-include ng-if="true" src="'cart-template'"></div>
         </aside>
         @*
-        <aside>
-            <div class="enrollment__cart">
-                <article class="enrollment__box" ng-controller="EnrollmentCartCtrl">
-                    <header>
-                        <h1>@Html.Sitecore().Field("Order Breakdown Header")</h1>
-                    </header>
-                    <div class="content">
-                        <div class="billed-today">
-                            <p><strong>@Html.Sitecore().Field("Billed Today Text")</strong></p>
-                            <div ng-repeat="(id, location) in getCartItems()">
-                                <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
-                                    <div ng-include src="'completeOrderCartMonthly/' + offerInformation.key"></div>                            
+            <aside>
+                <div class="enrollment__cart">
+                    <article class="enrollment__box" ng-controller="EnrollmentCartCtrl">
+                        <header>
+                            <h1>@Html.Sitecore().Field("Order Breakdown Header")</h1>
+                        </header>
+                        <div class="content">
+                            <div class="billed-today">
+                                <p><strong>@Html.Sitecore().Field("Billed Today Text")</strong></p>
+                                <div ng-repeat="(id, location) in getCartItems()">
+                                    <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
+                                        <div ng-include src="'completeOrderCartMonthly/' + offerInformation.key"></div>
+                                    </div>
                                 </div>
+
                             </div>
-                           
-                        </div>
-                        <hr> 
-                        <div class="billed-monthly">
-                            <p><strong>@Html.Sitecore().Field("Billed Monthly Text")</strong></p>
-                            <div ng-repeat="(id, location) in getCartItems()">
-                                <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
-                                    <div ng-include src="'completeOrderCartToday/' + offerInformation.key"></div>                            
+                            <hr>
+                            <div class="billed-monthly">
+                                <p><strong>@Html.Sitecore().Field("Billed Monthly Text")</strong></p>
+                                <div ng-repeat="(id, location) in getCartItems()">
+                                    <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
+                                        <div ng-include src="'completeOrderCartToday/' + offerInformation.key"></div>
+                                    </div>
                                 </div>
+
                             </div>
-                            
                         </div>
-                    </div>
-                </article>
-            </div>
-        </aside>
+                    </article>
+                </div>
+            </aside>
         *@
     </div>
 </div>
@@ -202,13 +201,18 @@
                     <h4>{{selectedOffer.offer.name}}</h4>
                     @*<p>{{selectedOffer.offer.description}}</p>*@
                 </td>
-                <td class="rate">
+                @*<td class="rate">
                     {{selectedOffer.offer.rate | currency}} kWh
+                </td>*@
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <table ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0" ng-include src="'paymentsDue/' + payment.offerPaymentAmountType"></table>
                 </td>
             </tr>
-            <tr ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0" ng-include src="'paymentsDue/' + payment.offerPaymentAmountType"></tr>
             <tr ng-repeat-end></tr>
         </tbody>
+        
     </table>
 </script>
 
@@ -232,10 +236,28 @@
 </script>
 
 <script type="text/ng-template" id="paymentsDue/Deposit">
-    <td class="sub-charge">
-        <strong>@Html.Sitecore().Field("Deposit Due")</strong><br>
-    </td>
-    <td class="rate">{{ payment.dollarAmount | currency }}</td>
+    <tr>
+        <td class="sub-charge">
+            <input type="radio" name="deposit-waiver" value="false" checked>
+            <label for="deposit-waiver">@Html.Sitecore().Field("Deposit Due")</label>
+            <p>
+                {{selectedOffer.offer.name}}<br />
+                <span class="explanation">Based on your credit score....</span>
+            </p>
+        </td>
+        <td class="rate"><strong>{{ payment.dollarAmount | currency }}</strong></td>
+    </tr>
+    <tr>
+        <td colspan="2"><span class="seperator">or</span></td>
+    </tr>
+    <tr>
+        <td class="sub-charge" colspan="2">
+            <input type="radio" name="deposit-waiver" value="true">
+            <label for="deposit-waiver">Deposit Waiver</label>
+            <p class="explanation">You'll need to provide the required documentation....</p>
+        </td>
+    </tr>
+
 </script>
 
 
