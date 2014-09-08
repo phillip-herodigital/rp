@@ -768,9 +768,38 @@ $enrollment-module-vertical-padding: 20px;
         border: none;
         border-top: 1px solid #ddd;
     }
+    .seperator {
+        overflow: hidden;
+        text-align: center;
+        text-transform: uppercase;
+        margin: 25px -15px;
+        &:before,
+        &:after {
+            background-color: #000;
+            content: "";
+            display: inline-block;
+            height: 1px;
+            position: relative;
+            vertical-align: middle;
+            width: 50%;
+        }
+        &:before {
+            right: 0.5em;
+            margin-left: -50%;
+            background-color: #ccc;
+        }
+        &:after {
+            left: 0.5em;
+            margin-right: -50%;
+            background-color: #ccc;
+        }
+    }
+    .explanation {
+        font-size: 13px;
+    }
     .terms-agreement {
         .item {
-            margin-right: 0;
+            padding-right: 0;
             textarea {
                 margin-top: 10px;
             }
