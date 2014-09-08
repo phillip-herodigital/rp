@@ -28,14 +28,17 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
         return enrollmentCartService.services;
     };
 
-    $scope.updateSameAddress = function () {
+    if (!$scope.accountInformation.mailingAddress)
+        $scope.accountInformation.mailingAddressSame = true;
+
+    $scope.$watch('accountInformation.mailingAddressSame', function () {
         if ($scope.accountInformation.mailingAddressSame) {
-            if ($scope.utilityAddresses().length == 1)
+            if ($scope.utilityAddresses().length == 1 && !$scope.accountInformation.mailingAddress)
                 $scope.accountInformation.mailingAddress = $scope.utilityAddresses()[0].location.address;
         } else {
             $scope.accountInformation.mailingAddress = {};
         }
-    };
+    });
 
     /**
      * In addition to normal validation, ensure that at least one item is in the shopping cart
