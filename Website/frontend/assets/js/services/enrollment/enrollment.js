@@ -178,6 +178,23 @@
         return makeCall('selectedOffers', data, overrideServerStep);
     };
 
+    service.cleanseAddresses = function (addresses) {
+        service.isLoading = true;
+        var deferred = $q.defer();
+
+        $http.post('/api/addresses/cleanse', addresses)
+        .success(function (data) {
+            deferred.resolve(data);
+        })
+        .error(function (data, status) {
+            deferred.resolve([]);
+        });
+        return deferred.promise.then(function (result) {
+            service.isLoading = false;
+            return result;
+        });
+    };
+
     /**
     * Set account information
     * 

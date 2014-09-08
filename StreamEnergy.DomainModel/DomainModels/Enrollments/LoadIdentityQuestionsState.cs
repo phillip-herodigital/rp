@@ -102,5 +102,10 @@ namespace StreamEnergy.DomainModels.Enrollments
                 }
             }
         }
+
+        public override bool ForceBreak(UserContext context, InternalContext internalContext)
+        {
+            return !internalContext.IdentityCheck.IsCompleted || !internalContext.CreditCheck.IsCompleted;
+        }
     }
 }

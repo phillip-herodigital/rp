@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StreamEnergy.LuceneServices.IndexGeneration.SmartyStreets
+namespace StreamEnergy.Services.Clients.SmartyStreets
 {
     public class SmartyStreetAddress
     {

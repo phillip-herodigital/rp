@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using StreamEnergy.Services.Clients.Interceptors;
 using System.Net.Http;
+using System.Configuration;
 
 namespace StreamEnergy.Services.Clients
 {
@@ -50,6 +51,12 @@ namespace StreamEnergy.Services.Clients
             CisAccountServicesPortTypeClient.ChannelFactory.Endpoint.EndpointBehaviors.Add(new AddAuthenticationHeaderBehavior("mystream", "R|38ULt6w1@o55v"));
             RegisterService<StreamCommons.Account.CisAccountServicesPortType>(unityContainer, CisAccountServicesPortTypeClient);
 
+            unityContainer.RegisterInstance("SmartyStreets AuthId", ConfigurationManager.AppSettings["SmartyStreetsAuthId"]);
+            unityContainer.RegisterInstance("SmartyStreets AuthToken", ConfigurationManager.AppSettings["SmartyStreetsAuthToken"]);
+
+            unityContainer.RegisterType<SmartyStreets.ISmartyStreetService, SmartyStreets.SmartyStreetService>();
+
+            // TODO - remove this before production
             System.Net.ServicePointManager.ServerCertificateValidationCallback = ValidateServerCertficate;
         }
 

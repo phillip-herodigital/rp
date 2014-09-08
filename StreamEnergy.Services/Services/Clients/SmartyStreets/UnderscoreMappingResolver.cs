@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Serialization;
 
-namespace StreamEnergy.LuceneServices.IndexGeneration.SmartyStreets
+namespace StreamEnergy.Services.Clients.SmartyStreets
 {
     public class UnderscoreMappingResolver : DefaultContractResolver
     {

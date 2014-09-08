@@ -12,7 +12,7 @@ using StreamEnergy.Logging;
 
 namespace StreamEnergy
 {
-    class CoreContainerSetup : IContainerSetupStrategy
+    public class CoreContainerSetup : IContainerSetupStrategy
     {
         public void SetupUnity(IUnityContainer unityContainer)
         {
