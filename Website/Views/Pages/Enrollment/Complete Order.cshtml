@@ -27,7 +27,7 @@
                             <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
                             <strong>{{ location.location.address | address }}</strong>
                         </div>
-                        <hr />
+                        <hr ng-if="customerType != 'commercial'" />
                         <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="customerType != 'commercial' && offerInformation.value.offerSelections.length">
                             <div ng-include src="'completeOrder/' + offerInformation.key"></div>
                         </div>
