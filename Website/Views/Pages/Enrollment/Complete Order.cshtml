@@ -114,7 +114,7 @@
                 <div class="buttons">
                     <button type="submit" class="tertiary" ng-click="reset();" data-val-submit>@Html.Sitecore().Field("Cancel Enrollment Button")</button>
                     <button type="submit" class="primary" ng-if="customerType != 'commercial'" ng-click="completeStep();" data-val-submit>@Html.Sitecore().Field("Button")</button>
-                    <button type="submit" class="primary" ng-if="customerType == 'commercial'" ng-click="completeStep();" data-val-submit>@Html.Sitecore().Field("Commercial Button")</button>
+                    <button type="submit" class="primary" ng-if="customerType == 'commercial'" ng-click="completeStep();" ng-disabled="!completeOrder.additionalAuthorizations.historicalUsageData" data-val-submit>@Html.Sitecore().Field("Commercial Button")</button>
                 </div>
             </form>
         </section>
