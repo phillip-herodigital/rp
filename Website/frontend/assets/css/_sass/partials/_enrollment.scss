@@ -405,6 +405,9 @@ $enrollment-module-vertical-padding: 20px;
         label {
             display: block;
         }
+        .input-group {
+            width: 100%;
+        }
         .input-group-btn {
             vertical-align: bottom;
         }
