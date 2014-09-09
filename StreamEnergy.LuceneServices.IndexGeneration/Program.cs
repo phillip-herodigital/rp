@@ -26,6 +26,8 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
             var unityContainer = new UnityContainer();
             new CoreContainerSetup().SetupUnity(unityContainer);
             new StreamEnergy.Services.Clients.ClientContainerSetup().SetupUnity(unityContainer);
+            unityContainer.RegisterType<ISettings, NullSettings>();
+
 
             using (var directoryLoader = new Ercot.DirectoryLoader())
             using (var indexBuilder = new IndexBuilder(options.Destination, options.ForceCreate))

@@ -101,6 +101,7 @@ namespace StreamEnergy.Services.Clients
                           group product by product.ProductCode into products
                           let product = products.First()
                           let productData = GetProductData(product)
+                          where productData != null
                           select new TexasElectricityOffer
                           {
                               Id = product.ProductCode,
@@ -116,12 +117,11 @@ namespace StreamEnergy.Services.Clients
                               RateType = product.Rate.Type == "Fixed" ? RateType.Fixed : RateType.Variable,
                               // TODO
                               CancellationFee = 0,
-                              // TODO
                               Documents = new Dictionary<string, Uri> 
                               {
-                                  { "ElectricityFactsLabel", new Uri("/", UriKind.Relative) },
-                                  { "TermsOfService", new Uri("/", UriKind.Relative) },
-                                  { "YourRightsAsACustomer", new Uri("/", UriKind.Relative) },
+                                  { "ElectricityFactsLabel", new Uri(productData["Energy Facts Label"], UriKind.Relative) },
+                                  { "TermsOfService", new Uri(productData["Terms Of Service"], UriKind.Relative) },
+                                  { "YourRightsAsACustomer", new Uri(productData["Your Rights As A Customer"], UriKind.Relative) },
                               }
                           }).ToArray()
             };
@@ -135,19 +135,23 @@ namespace StreamEnergy.Services.Clients
 
                 if (item != null)
                 {
-                    return new NameValueCollection
+                    var providerData = item.Axes.GetChild(product.Provider["Name"].ToString());
+
+                    if (providerData != null)
                     {
-                        { "Name", item["Product Name"] },
-                        { "Description", item["Product Description"] },
-                    };
+                        return new NameValueCollection
+                        {
+                            { "Name", item["Product Name"] },
+                            { "Description", item["Product Description"] },
+                            { "Energy Facts Label", ((Sitecore.Data.Fields.FileField)providerData.Fields["Energy Facts Label"]).Src },
+                            { "Terms Of Service", ((Sitecore.Data.Fields.FileField)providerData.Fields["Terms Of Service"]).Src },
+                            { "Your Rights As A Customer", ((Sitecore.Data.Fields.FileField)providerData.Fields["Your Rights As A Customer"]).Src },
+                        };
+                    }
                 }
             }
 
-            return new NameValueCollection
-            {
-                { "Name", product.Name },
-                { "Description", product.Description },
-            };
+            return null;
         }
 
         async Task<PremiseVerificationResult> IEnrollmentService.VerifyPremise(Location location)
