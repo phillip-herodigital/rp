@@ -7,8 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using StreamEnergy.Logging;
 
 namespace StreamEnergy.MyStream.Tests.Services.Clients
 {
@@ -37,12 +39,16 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
+            Mock<ILogger> mockLogger = new Mock<ILogger>();
             container = new UnityContainer();
 
             new StreamEnergy.CoreContainerSetup().SetupUnity(container);
             new StreamEnergy.Caching.RedisCacheContainerSetup().SetupUnity(container);
             new StreamEnergy.Services.Clients.ClientContainerSetup().SetupUnity(container);
             new StreamEnergy.Services.Clients.StreamConnectContainerSetup().SetupUnity(container);
+
+            container.RegisterInstance<ILogger>(mockLogger.Object);
+            container.RegisterType<global::Sitecore.Data.Items.Item>("Taxonomy", new InjectionFactory(uc => null));
 
             container.RegisterType<HttpMessageHandler, HttpClientHandler>("Cached");
         }

@@ -10,6 +10,7 @@ using Newtonsoft.Json.Linq;
 using StreamEnergy.DomainModels.Enrollments.Service;
 using StreamEnergy.DomainModels;
 using StreamEnergy.Logging;
+using System.Collections.Specialized;
 
 namespace StreamEnergy.Services.Clients
 {
@@ -17,11 +18,13 @@ namespace StreamEnergy.Services.Clients
     {
         private HttpClient streamConnectClient;
         private ILogger logger;
+        private Sitecore.Data.Items.Item taxonomy;
 
-        public EnrollmentService([Dependency(StreamConnectContainerSetup.StreamConnectKey)] HttpClient client, ILogger logger)
+        public EnrollmentService([Dependency(StreamConnectContainerSetup.StreamConnectKey)] HttpClient client, ILogger logger, [Dependency("Taxonomy")] Sitecore.Data.Items.Item taxonomy)
         {
             this.streamConnectClient = client;
             this.logger = logger;
+            this.taxonomy = taxonomy;
         }
 
         async Task<Dictionary<Location, LocationOfferSet>> IEnrollmentService.LoadOffers(IEnumerable<Location> serviceLocations)
@@ -97,6 +100,7 @@ namespace StreamEnergy.Services.Clients
                           where product.Rate.Unit == "$/kwh"
                           group product by product.ProductCode into products
                           let product = products.First()
+                          let productData = GetProductData(product)
                           select new TexasElectricityOffer
                           {
                               Id = product.ProductCode,
@@ -104,9 +108,8 @@ namespace StreamEnergy.Services.Clients
 
                               EnrollmentType = serviceStatus.EnrollmentType,
 
-                              // TODO - link with Sitecore
-                              Name = product.Name,
-                              Description = product.Description,
+                              Name = productData["Name"],
+                              Description = productData["Description"],
 
                               Rate = product.Rate.Value * 100,
                               TermMonths = product.Term,
@@ -121,6 +124,29 @@ namespace StreamEnergy.Services.Clients
                                   { "YourRightsAsACustomer", new Uri("/", UriKind.Relative) },
                               }
                           }).ToArray()
+            };
+        }
+
+        private NameValueCollection GetProductData(StreamConnect.Product product)
+        {
+            if (taxonomy != null)
+            {
+                var item = taxonomy.Axes.GetItem("Products/*/" + product.ProductCode);
+
+                if (item != null)
+                {
+                    return new NameValueCollection
+                    {
+                        { "Name", item["Product Name"] },
+                        { "Description", item["Product Description"] },
+                    };
+                }
+            }
+
+            return new NameValueCollection
+            {
+                { "Name", product.Name },
+                { "Description", product.Description },
             };
         }
 
