@@ -1,4 +1,4 @@
-﻿ngApp.factory('enrollmentService', ['$rootScope', '$http', '$q', 'enrollmentStepsService', 'enrollmentCartService', '$timeout', function ($rootScope, $http, $q, enrollmentStepsService, enrollmentCartService, $timeout) {
+﻿ngApp.factory('enrollmentService', ['$rootScope', '$http', '$q', 'enrollmentStepsService', 'enrollmentCartService', '$timeout', '$window', function ($rootScope, $http, $q, enrollmentStepsService, enrollmentCartService, $timeout, $window) {
 
     var service = {},
         urlPrefix = '/api/enrollment/';
@@ -131,7 +131,10 @@
      * @return {object}            Promise object returned when API call has successfully completed.
      */
     service.resetEnrollment = function () {
-        return makeCall('reset');
+        $http.get(urlPrefix + 'reset')
+        .success(function () {
+            $window.location.reload();
+        })
     };
 
     /**

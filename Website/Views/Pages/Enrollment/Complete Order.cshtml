@@ -93,7 +93,7 @@
                     <div class="item" @Html.Validation().ErrorClass(m => m.AdditionalAuthorizations[StreamEnergy.DomainModels.Enrollments.AdditionalAuthorization.HistoricalUsageData]) ng-if="customerType == 'commercial'">
                         <ul class="checkbox-list">
                             <li>
-                                <input type="checkbox" ng-model="completeOrder.additionalAuthorizations.historicalUsageData" />
+                                <input type="checkbox" ng-model="completeOrder.additionalAuthorizations.historicalUsageData" name="@Html.IdFor(m => m.AdditionalAuthorizations[StreamEnergy.DomainModels.Enrollments.AdditionalAuthorization.HistoricalUsageData]) />
                                 <label for="@Html.IdFor(m => m.AdditionalAuthorizations[StreamEnergy.DomainModels.Enrollments.AdditionalAuthorization.HistoricalUsageData])">
                                     @Html.Sitecore().Field("Historical Usage Data Text")
                                 </label>
@@ -112,7 +112,7 @@
                     </div>
                 </div>
                 <div class="buttons">
-                    <button type="submit" class="tertiary" ng-click="reset();" data-val-submit>@Html.Sitecore().Field("Cancel Enrollment Button")</button>
+                    <button type="submit" class="tertiary" ng-click="resetEnrollment();" data-val-submit>@Html.Sitecore().Field("Cancel Enrollment Button")</button>
                     <button type="submit" class="primary" ng-if="customerType != 'commercial'" ng-click="completeStep();" data-val-submit>@Html.Sitecore().Field("Button")</button>
                     <button type="submit" class="primary" ng-if="customerType == 'commercial'" ng-click="completeStep();" ng-disabled="!completeOrder.additionalAuthorizations.historicalUsageData" data-val-submit>@Html.Sitecore().Field("Commercial Button")</button>
                 </div>
