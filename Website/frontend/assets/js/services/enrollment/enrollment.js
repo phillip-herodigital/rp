@@ -62,6 +62,8 @@
         service.accountInformation.contactInfo = result.contactInfo || {};
         service.accountInformation.secondaryContactInfo = result.secondaryContactInfo || {};
         service.accountInformation.language = result.language;
+        service.accountInformation.mailingAddress = result.mailingAddress;
+        service.accountInformation.previousAddress = result.previousAddress;
 
         // Default these object to prevent errors
         service.accountInformation.contactInfo.phone = service.accountInformation.contactInfo.phone || [{ }];
