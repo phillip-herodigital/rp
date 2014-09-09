@@ -7,8 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using StreamEnergy.Logging;
 
 namespace StreamEnergy.MyStream.Tests.Services.Clients
 {
@@ -37,12 +39,16 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
+            var mockLogger = new Mock<ILogger>();
             container = new UnityContainer();
 
             new StreamEnergy.CoreContainerSetup().SetupUnity(container);
             new StreamEnergy.Caching.RedisCacheContainerSetup().SetupUnity(container);
             new StreamEnergy.Services.Clients.ClientContainerSetup().SetupUnity(container);
             new StreamEnergy.Services.Clients.StreamConnectContainerSetup().SetupUnity(container);
+            new StreamEnergy.Services.ThirdPartyServiceContainerSetup().SetupUnity(container);
+
+            container.RegisterInstance<ILogger>(mockLogger.Object);
 
             container.RegisterType<HttpMessageHandler, HttpClientHandler>("Cached");
         }
@@ -381,7 +387,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                     PostalCode5 = "13662"
                 },
             };
-            var saveResult = enrollmentService.BeginSaveEnrollment(gcid, userContext).Result;
+            var saveResult = enrollmentService.BeginSaveEnrollment(gcid, userContext, null).Result;
             while (!saveResult.IsCompleted)
             {
                 saveResult = enrollmentService.EndSaveEnrollment(saveResult, userContext).Result;
@@ -558,7 +564,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             using (new Timer())
             {
                 // Act
-                var saveResult = enrollmentService.BeginSaveEnrollment(globalCustomerId, userContext).Result;
+                var saveResult = enrollmentService.BeginSaveEnrollment(globalCustomerId, userContext, null).Result;
 
                 // Assert
                 Assert.IsFalse(saveResult.IsCompleted);

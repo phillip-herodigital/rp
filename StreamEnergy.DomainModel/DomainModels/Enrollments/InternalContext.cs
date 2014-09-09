@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 
@@ -31,6 +32,6 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public StreamAsync<CreditCheckResult> CreditCheck { get; set; }
 
-        public string EnrollmentAgentId { get; set; }
+        public NameValueCollection EnrollmentDpiParameters { get; set; }
     }
 }

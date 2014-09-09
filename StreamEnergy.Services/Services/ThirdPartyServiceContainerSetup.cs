@@ -15,6 +15,7 @@ namespace StreamEnergy.Services
             unityContainer.RegisterInstance<string>("DpiEnrollmentFormDomain", ConfigurationManager.AppSettings["DpiEnrollmentFormDomain"]);
 
             unityContainer.RegisterType<StreamEnergyBilling.IstaTokenization.IDpiTokenService>(new InjectionFactory(uc => new StreamEnergyBilling.IstaTokenization.DpiTokenServiceClient()));
+            unityContainer.RegisterType<Interpreters.IDpiEnrollmentParameters, Interpreters.DpiEnrollmentParameters>();
         }
     }
 }
