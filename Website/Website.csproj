@@ -522,6 +522,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Conditions\EnrollmentTrafficCopCondition.cs" />
+    <Compile Include="Conditions\MaintenanceModeCondition.cs" />
     <Compile Include="Controllers\ApiControllers\AccountController.cs" />
     <Compile Include="Controllers\ApiControllers\AddressesController.cs" />
     <Compile Include="Controllers\ApiControllers\AuthenticationController.cs" />

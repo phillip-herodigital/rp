@@ -1,4 +1,4 @@
-﻿ngApp.factory('enrollmentService', ['$rootScope', '$http', '$q', 'enrollmentStepsService', 'enrollmentCartService', '$timeout', function ($rootScope, $http, $q, enrollmentStepsService, enrollmentCartService, $timeout) {
+﻿ngApp.factory('enrollmentService', ['$rootScope', '$http', '$q', 'enrollmentStepsService', 'enrollmentCartService', '$timeout', '$window', function ($rootScope, $http, $q, enrollmentStepsService, enrollmentCartService, $timeout, $window) {
 
     var service = {},
         urlPrefix = '/api/enrollment/';
@@ -62,6 +62,8 @@
         service.accountInformation.contactInfo = result.contactInfo || {};
         service.accountInformation.secondaryContactInfo = result.secondaryContactInfo || {};
         service.accountInformation.language = result.language;
+        service.accountInformation.mailingAddress = result.mailingAddress;
+        service.accountInformation.previousAddress = result.previousAddress;
 
         // Default these object to prevent errors
         service.accountInformation.contactInfo.phone = service.accountInformation.contactInfo.phone || [{ }];
@@ -131,7 +133,10 @@
      * @return {object}            Promise object returned when API call has successfully completed.
      */
     service.resetEnrollment = function () {
-        return makeCall('reset');
+        $http.get(urlPrefix + 'reset')
+        .success(function () {
+            $window.location.reload();
+        })
     };
 
     /**

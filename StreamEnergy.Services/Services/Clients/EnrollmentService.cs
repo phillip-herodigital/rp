@@ -10,6 +10,7 @@ using Newtonsoft.Json.Linq;
 using StreamEnergy.DomainModels.Enrollments.Service;
 using StreamEnergy.DomainModels;
 using StreamEnergy.Logging;
+using System.Collections.Specialized;
 
 namespace StreamEnergy.Services.Clients
 {
@@ -17,11 +18,13 @@ namespace StreamEnergy.Services.Clients
     {
         private HttpClient streamConnectClient;
         private ILogger logger;
+        private Sitecore.Data.Items.Item taxonomy;
 
-        public EnrollmentService([Dependency(StreamConnectContainerSetup.StreamConnectKey)] HttpClient client, ILogger logger)
+        public EnrollmentService([Dependency(StreamConnectContainerSetup.StreamConnectKey)] HttpClient client, ILogger logger, [Dependency("Taxonomy")] Sitecore.Data.Items.Item taxonomy)
         {
             this.streamConnectClient = client;
             this.logger = logger;
+            this.taxonomy = taxonomy;
         }
 
         async Task<Dictionary<Location, LocationOfferSet>> IEnrollmentService.LoadOffers(IEnumerable<Location> serviceLocations)
@@ -73,6 +76,8 @@ namespace StreamEnergy.Services.Clients
 
             var texasService = location.Capabilities.OfType<TexasServiceCapability>().Single();
 
+            var providerName = texasService.Tdu;
+
             // Grab from the HttpUtility because it creates the interna `HttpValueCollection`, which will escape values properly when ToString'd.
             var parameters = System.Web.HttpUtility.ParseQueryString("");
             parameters["CustomerType"] = customerType.CustomerType.ToString("g");
@@ -96,7 +101,9 @@ namespace StreamEnergy.Services.Clients
                           // Only supporting $/kwh for Texas enrollments, at least for now. Making sure that our `* 100` below doesn't cause a bug...
                           where product.Rate.Unit == "$/kwh"
                           group product by product.ProductCode into products
-                          let product = products.First()
+                          let product = products.First(p => p.Provider["Name"].ToString() == providerName)
+                          let productData = GetProductData(product)
+                          where productData != null
                           select new TexasElectricityOffer
                           {
                               Id = product.ProductCode,
@@ -104,24 +111,49 @@ namespace StreamEnergy.Services.Clients
 
                               EnrollmentType = serviceStatus.EnrollmentType,
 
-                              // TODO - link with Sitecore
-                              Name = product.Name,
-                              Description = product.Description,
+                              Name = productData["Name"],
+                              Description = productData["Description"],
 
                               Rate = product.Rate.Value * 100,
                               TermMonths = product.Term,
                               RateType = product.Rate.Type == "Fixed" ? RateType.Fixed : RateType.Variable,
                               // TODO
                               CancellationFee = 0,
-                              // TODO
                               Documents = new Dictionary<string, Uri> 
                               {
-                                  { "ElectricityFactsLabel", new Uri("/", UriKind.Relative) },
-                                  { "TermsOfService", new Uri("/", UriKind.Relative) },
-                                  { "YourRightsAsACustomer", new Uri("/", UriKind.Relative) },
+                                  { "ElectricityFactsLabel", new Uri(productData["Energy Facts Label"], UriKind.Relative) },
+                                  { "TermsOfService", new Uri(productData["Terms Of Service"], UriKind.Relative) },
+                                  { "YourRightsAsACustomer", new Uri(productData["Your Rights As A Customer"], UriKind.Relative) },
                               }
                           }).ToArray()
             };
+        }
+
+        private NameValueCollection GetProductData(StreamConnect.Product product)
+        {
+            if (taxonomy != null)
+            {
+                var item = taxonomy.Axes.GetItem("Products/*/" + product.ProductCode);
+
+                if (item != null)
+                {
+                    var providerData = item.Axes.GetChild(product.Provider["Name"].ToString());
+
+                    if (providerData != null)
+                    {
+                        return new NameValueCollection
+                        {
+                            { "Name", item["Product Name"] },
+                            { "Description", item["Product Description"] },
+                            { "Energy Facts Label", ((Sitecore.Data.Fields.FileField)providerData.Fields["Energy Facts Label"]).Src },
+                            { "Terms Of Service", ((Sitecore.Data.Fields.FileField)providerData.Fields["Terms Of Service"]).Src },
+                            { "Your Rights As A Customer", ((Sitecore.Data.Fields.FileField)providerData.Fields["Your Rights As A Customer"]).Src },
+                        };
+                    }
+                }
+            }
+
+            return null;
         }
 
         async Task<PremiseVerificationResult> IEnrollmentService.VerifyPremise(Location location)
@@ -502,6 +534,28 @@ namespace StreamEnergy.Services.Clients
 
             return offerPaymentResults;
         }
+
+        Task IEnrollmentService.PayDeposit(IEnumerable<LocationOfferDetails<OfferPayment>> depositData, IEnumerable<LocationOfferDetails<EnrollmentSaveEntry>> enrollmentSaveEntries, DomainModels.Payments.IPaymentInfo paymentInfo)
+        {
+            if (paymentInfo == null || paymentInfo.PaymentType == "DepositWaiver")
+                return Task.FromResult<object>(null);
+
+            //var depositAmount = depositData.Sum(o => o.Details.RequiredAmounts.Where(req => req.OfferPaymentAmountType == DepositOfferPaymentAmount.Qualifier).Sum(req => req.DollarAmount));
+
+            //var response = await streamConnectClient.PostAsJsonAsync("/api/payments/deposit", new
+            //{
+            //    GlobalCustomerID = streamCustomerId,
+            //    FinalizeRequests = from orderEntry in originalSaveState.Results
+            //                       select new
+            //                       {
+            //                           authorizations = additionalAuthorizations.Select(ConvertAuthorization).Where(auth => auth != null),
+            //                           EnrollmentAccountID = orderEntry.Details.GlobalEnrollmentAccountId
+            //                       }
+            //});
+
+            throw new NotImplementedException();
+        }
+
 
         async Task<IEnumerable<LocationOfferDetails<PlaceOrderResult>>> IEnrollmentService.PlaceOrder(Guid streamCustomerId, IEnumerable<LocationServices> services, EnrollmentSaveResult originalSaveState, Dictionary<AdditionalAuthorization, bool> additionalAuthorizations)
         {

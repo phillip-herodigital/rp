@@ -6,16 +6,11 @@
             <h1 ng-if="customerType == 'commercial'">@Html.Sitecore().Field("Request Received")</h1>
 
             <p ng-if="customerType != 'commercial'">@Html.Sitecore().Field("Confirmation Paragraph")</p>
-
             <article ng-if="customerType == 'commercial'" class="commercial-next-steps enrollment__box">
                 <div class="content">
-                    <p>Thank you for completing Stream Energy's Request for Commercial Quote process. This is what you can expect to happen next.</p>
+                    @Html.Sitecore().Field("Commercial Next Steps")
                 </div>
             </article>
-
-
-            @* TODO - display the returned confirmation number here *@
-            <p ng-if="customerType != 'commercial'">@Html.Sitecore().Field("Confirmation Number") <strong>929404810483</strong></p>
 
             <article class="verify-order enrollment__box">
                 <div class="form content">
@@ -27,6 +22,7 @@
                         <hr ng-if="customerType != 'commercial'" />
                         <div ng-if="customerType != 'commercial'" ng-repeat="offerInformation in service.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
                             <div ng-include src="'serviceConfirmation/' + offerInformation.key"></div>
+                            @Html.Sitecore().Field("Confirmation Number") <strong>{{ offerInformation.value.offerSelections[0].confirmationNumber }}</strong>
                         </div>
                         <hr class="content-divider" ng-if="getCartItems().length > 1 && !$last">
                     </div>
@@ -55,7 +51,7 @@
                     @Html.Sitecore().Field("Terms Notice")
                 </div>
             </article>
-
+            @*
             <article class="enrollment__box confirm-next-steps">
                 <header>
                     <h1>@Html.Sitecore().Field("Next Steps Header")</h1>
@@ -69,6 +65,7 @@
                     <p><a class="button" href="">@Html.Sitecore().Field("Take Tour")</a></p>
                 </div>
             </article>
+            *@
         </section>
     </div>
 </div>

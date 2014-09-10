@@ -33,14 +33,22 @@ namespace StreamEnergy.Services.Clients.SmartyStreets
             var client = container.Resolve<HttpClient>();
             client.DefaultRequestHeaders.Add("x-standardize-only", "true");
 
-            var response = await client.PostAsJsonAsync("https://api.smartystreets.com/street-address?auth-id=" + authId + "&auth-token=" + authToken, addresses).ConfigureAwait(false);
-
-            if (response.IsSuccessStatusCode)
+            try
             {
-                var result = ParseJsonResponse(await response.Content.ReadAsStringAsync().ConfigureAwait(false), addresses.Length);
-                return result.Select(addrs => addrs.SingleOrDefault()).ToArray();
+                var response = await client.PostAsJsonAsync("https://api.smartystreets.com/street-address?auth-id=" + authId + "&auth-token=" + authToken, addresses).ConfigureAwait(false);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = ParseJsonResponse(await response.Content.ReadAsStringAsync().ConfigureAwait(false), addresses.Length);
+                    return result.Select(addrs => addrs.SingleOrDefault()).ToArray();
+                }
+                else
+                {
+                    disabled = true;
+                    return Enumerable.Repeat<DomainModels.Address>(null, addresses.Length);
+                }
             }
-            else
+            catch
             {
                 disabled = true;
                 return Enumerable.Repeat<DomainModels.Address>(null, addresses.Length);
