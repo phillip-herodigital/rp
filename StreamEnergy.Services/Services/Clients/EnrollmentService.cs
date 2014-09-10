@@ -535,6 +535,28 @@ namespace StreamEnergy.Services.Clients
             return offerPaymentResults;
         }
 
+        Task IEnrollmentService.PayDeposit(IEnumerable<LocationOfferDetails<OfferPayment>> depositData, IEnumerable<LocationOfferDetails<EnrollmentSaveEntry>> enrollmentSaveEntries, DomainModels.Payments.IPaymentInfo paymentInfo)
+        {
+            if (paymentInfo == null || paymentInfo.PaymentType == "DepositWaiver")
+                return Task.FromResult<object>(null);
+
+            //var depositAmount = depositData.Sum(o => o.Details.RequiredAmounts.Where(req => req.OfferPaymentAmountType == DepositOfferPaymentAmount.Qualifier).Sum(req => req.DollarAmount));
+
+            //var response = await streamConnectClient.PostAsJsonAsync("/api/payments/deposit", new
+            //{
+            //    GlobalCustomerID = streamCustomerId,
+            //    FinalizeRequests = from orderEntry in originalSaveState.Results
+            //                       select new
+            //                       {
+            //                           authorizations = additionalAuthorizations.Select(ConvertAuthorization).Where(auth => auth != null),
+            //                           EnrollmentAccountID = orderEntry.Details.GlobalEnrollmentAccountId
+            //                       }
+            //});
+
+            throw new NotImplementedException();
+        }
+
+
         async Task<IEnumerable<LocationOfferDetails<PlaceOrderResult>>> IEnrollmentService.PlaceOrder(Guid streamCustomerId, IEnumerable<LocationServices> services, EnrollmentSaveResult originalSaveState, Dictionary<AdditionalAuthorization, bool> additionalAuthorizations)
         {
             var finalizeResponse = await streamConnectClient.PutAsJsonAsync("/api/customers/" + streamCustomerId.ToString() + "/enrollments/finalize", new {

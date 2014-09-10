@@ -33,11 +33,12 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         Task<IEnumerable<LocationOfferDetails<OfferPayment>>> LoadOfferPayments(Guid streamCustomerId, EnrollmentSaveResult streamAsync, IEnumerable<LocationServices> services);
 
-        // TODO - how do we pay deposits?
+        Task PayDeposit(IEnumerable<LocationOfferDetails<OfferPayment>> depositData, IEnumerable<LocationOfferDetails<EnrollmentSaveEntry>> enrollmentSaveEntries, Payments.IPaymentInfo paymentInfo);
 
         Task<IEnumerable<LocationOfferDetails<PlaceOrderResult>>> PlaceOrder(Guid streamCustomerId, IEnumerable<LocationServices> services, EnrollmentSaveResult originalSaveState, Dictionary<AdditionalAuthorization, bool> additionalAuthorizations);
 
 
         Task<bool> PlaceCommercialQuotes(UserContext context);
+
     }
 }
