@@ -194,6 +194,10 @@ namespace StreamEnergy.MyStream.Controllers
                             customerAccount = accountService.GetCisAccountsByCisAccountNumber(hashValues["ciscustomernumber"], hashValues.ContainsKey("last4ssn") ? hashValues["last4ssn"] : null, "");
                             model.HasFreeMonth = true;
                         }
+                        else if (new string[] { "MyIgnite" }.Contains(hashValues["refsite"]))
+                        {
+                            model.RepId = hashValues["igniteassociate"];
+                        }
                     }
                 }
                 catch (Exception)
