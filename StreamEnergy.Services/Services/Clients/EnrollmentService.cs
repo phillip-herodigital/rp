@@ -76,6 +76,8 @@ namespace StreamEnergy.Services.Clients
 
             var texasService = location.Capabilities.OfType<TexasServiceCapability>().Single();
 
+            var providerName = texasService.Tdu;
+
             // Grab from the HttpUtility because it creates the interna `HttpValueCollection`, which will escape values properly when ToString'd.
             var parameters = System.Web.HttpUtility.ParseQueryString("");
             parameters["CustomerType"] = customerType.CustomerType.ToString("g");
@@ -99,7 +101,7 @@ namespace StreamEnergy.Services.Clients
                           // Only supporting $/kwh for Texas enrollments, at least for now. Making sure that our `* 100` below doesn't cause a bug...
                           where product.Rate.Unit == "$/kwh"
                           group product by product.ProductCode into products
-                          let product = products.First()
+                          let product = products.First(p => p.Provider["Name"].ToString() == providerName)
                           let productData = GetProductData(product)
                           where productData != null
                           select new TexasElectricityOffer

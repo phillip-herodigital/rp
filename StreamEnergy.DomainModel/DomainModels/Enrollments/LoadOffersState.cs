@@ -33,10 +33,17 @@ namespace StreamEnergy.DomainModels.Enrollments
         {
             foreach (var loc in data.Services.Select(s => s.Location))
             {
-                internalContext.LocationVerifications[loc] = await enrollmentService.VerifyPremise(loc);
+                if (loc.Address.Line1 != null)
+                {
+                    internalContext.LocationVerifications[loc] = await enrollmentService.VerifyPremise(loc);
+                }
             }
 
-            internalContext.AllOffers = await enrollmentService.LoadOffers(data.Services.Select(s => s.Location).Where(loc => internalContext.LocationVerifications[loc] == PremiseVerificationResult.Success));
+            internalContext.AllOffers = await enrollmentService.LoadOffers(
+                data.Services
+                    .Select(s => s.Location)
+                    .Where(loc => !internalContext.LocationVerifications.ContainsKey(loc) || internalContext.LocationVerifications[loc] == PremiseVerificationResult.Success)
+                );
         }
     }
 }
