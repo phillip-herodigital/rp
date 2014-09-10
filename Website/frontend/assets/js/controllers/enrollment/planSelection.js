@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of plan selection on enrollment page.
  */
-ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 'scrollService', 'enrollmentStepsService', '$modal', 'enrollmentCartService', function ($scope, enrollmentService, scrollService, enrollmentStepsService, $modal, enrollmentCartService) {
+ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 'scrollService', 'enrollmentStepsService', '$modal', 'enrollmentCartService', '$parse', function ($scope, enrollmentService, scrollService, enrollmentStepsService, $modal, enrollmentCartService, $parse) {
     $scope.currentLocationInfo = enrollmentCartService.getActiveService;
 
     //We need this for the button select model in the ng-repeats
@@ -97,5 +97,19 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
         }, function (data) {
             // error response
         });
+    };
+
+    $scope.sortBy = function (param, reverse) {
+        if (param == undefined)
+        {
+            return function (plan) { return 0; };
+        }
+        console.log(param);
+        var evalFunc = $parse(param);
+        return function (plan) {
+            var value = evalFunc($scope, { plan: plan });
+            console.log(value);
+            return value;
+        }
     };
 }]);
