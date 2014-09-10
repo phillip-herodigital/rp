@@ -11,7 +11,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
 {
     class Program
     {
-        const int reportEvery = 10000;
+        const int reportEvery = 2000;
         const int maxTasks = 5000;
 
         static void Main(string[] args)
@@ -132,6 +132,8 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
                     return "AEP North Texas";
                 case "AEP CENTRAL":
                     return "AEP Central Texas";
+                case "ONCOR ELEC":
+                    return "ONCOR";
                 case "SWEPCO ENERG":
                 case "NUECES ELEC":
                 default:
