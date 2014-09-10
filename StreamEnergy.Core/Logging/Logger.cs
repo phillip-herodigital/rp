@@ -30,15 +30,19 @@ namespace StreamEnergy.Logging
 
         private static void Setup<T>(ISettings settings, string field, IList<T> items, IUnityContainer container)
         {
-            foreach (Item child in settings.GetSettingsItem(field).Children)
+            var target = settings.GetSettingsItem(field);
+            if (target != null)
             {
-                var type = Type.GetType(child["Type"]);
-                if (type == null)
-                    continue;
-                var childContainer = container.CreateChildContainer();
+                foreach (Item child in target.Children)
+                {
+                    var type = Type.GetType(child["Type"]);
+                    if (type == null)
+                        continue;
+                    var childContainer = container.CreateChildContainer();
 
-                childContainer.RegisterInstance<Item>("settings", child);
-                items.Add((T)childContainer.Resolve(type));
+                    childContainer.RegisterInstance<Item>("settings", child);
+                    items.Add((T)childContainer.Resolve(type));
+                }
             }
         }
 

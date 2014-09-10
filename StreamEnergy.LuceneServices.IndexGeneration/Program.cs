@@ -11,7 +11,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
 {
     class Program
     {
-        const int reportEvery = 10000;
+        const int reportEvery = 2000;
         const int maxTasks = 5000;
 
         static void Main(string[] args)
@@ -26,6 +26,8 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
             var unityContainer = new UnityContainer();
             new CoreContainerSetup().SetupUnity(unityContainer);
             new StreamEnergy.Services.Clients.ClientContainerSetup().SetupUnity(unityContainer);
+            unityContainer.RegisterType<ISettings, NullSettings>();
+
 
             using (var directoryLoader = new Ercot.DirectoryLoader())
             using (var indexBuilder = new IndexBuilder(options.Destination, options.ForceCreate))
@@ -68,6 +70,9 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
                 Queue<Task> taskQueue = new Queue<Task>(maxTasks);
                 foreach (var file in tdu)
                 {
+                    var tduName = StandardizeTdu(file.Tdu);
+                    if (tduName == null)
+                        continue;
                     if (file.IsFull && !isFresh)
                     {
                         indexBuilder.ClearGroup(tdu.Key);
@@ -76,11 +81,11 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
                     using (var fs = System.IO.File.OpenRead(file.FullPath))
                     using (var fr = new Ercot.FileReader())
                     {
-                        foreach (var loc in new ErcotAddressReader(streetService: streetService, fileReader: fr, fileStream: fs, tdu: file.Tdu).Addresses)
+                        foreach (var loc in new ErcotAddressReader(streetService: streetService, fileReader: fr, fileStream: fs, tdu: tduName).Addresses)
                         {
                             if (!zipCodes.ContainsKey(loc.Item1.Address.PostalCode5))
                             {
-                                zipCodes.Add(loc.Item1.Address.PostalCode5, new DomainModels.Enrollments.TexasServiceCapability { Tdu = tdu.Key, MeterType = DomainModels.Enrollments.TexasMeterType.Other });
+                                zipCodes.Add(loc.Item1.Address.PostalCode5, new DomainModels.Enrollments.TexasServiceCapability { Tdu = tduName, MeterType = DomainModels.Enrollments.TexasMeterType.Other });
                             }
                             taskQueue.Enqueue(indexBuilder.WriteLocation(loc.Item1, loc.Item2, tdu.Key, isFresh));
                             if (taskQueue.Count >= maxTasks)
@@ -108,6 +113,31 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
             {
                 Console.WriteLine(ex);
                 throw;
+            }
+        }
+
+        private static string StandardizeTdu(string tdu)
+        {
+            switch (tdu)
+            {
+                case "SHARYLAND MCALLEN":
+                    return "Sharyland McAllen";
+                case "SHARYLAND UTILITIES":
+                    return "Sharyland";
+                case "CENTERPOINT":
+                    return "Centerpoint";
+                case "TNMP":
+                    return "TNMP";
+                case "AEP NORTH":
+                    return "AEP North Texas";
+                case "AEP CENTRAL":
+                    return "AEP Central Texas";
+                case "ONCOR ELEC":
+                    return "ONCOR";
+                case "SWEPCO ENERG":
+                case "NUECES ELEC":
+                default:
+                    return null;
             }
         }
     }

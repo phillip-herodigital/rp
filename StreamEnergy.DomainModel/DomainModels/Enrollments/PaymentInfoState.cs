@@ -8,10 +8,12 @@ namespace StreamEnergy.DomainModels.Enrollments
 {
     public class PaymentInfoState : StateBase<UserContext, InternalContext>
     {
-        public PaymentInfoState()
+        private readonly IEnrollmentService enrollmentService;
+
+        public PaymentInfoState(IEnrollmentService enrollmentService)
             : base(previousState: typeof(LoadDespositInfoState), nextState: typeof(CompleteOrderState))
         {
-
+            this.enrollmentService = enrollmentService;
         }
 
         public override IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations(UserContext data, InternalContext internalContext)
@@ -35,6 +37,15 @@ namespace StreamEnergy.DomainModels.Enrollments
                 }
             }
             yield return context => context.PaymentInfo;
+        }
+
+        protected override async System.Threading.Tasks.Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
+        {
+            if (internalContext.Deposit.All(e => e.Details.RequiredAmounts.Sum(d => d.DollarAmount) == 0))
+            {
+                await enrollmentService.PayDeposit(internalContext.Deposit, internalContext.EnrollmentSaveState.Data.Results, context.PaymentInfo);
+            }
+            return await base.InternalProcess(context, internalContext);
         }
 
         public override IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> AdditionalValidations(UserContext context, InternalContext internalContext)
