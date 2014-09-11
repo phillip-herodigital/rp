@@ -5,7 +5,13 @@
 ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$filter', 'enrollmentService', 'enrollmentCartService', 'enrollmentStepsService', function ($scope, $location, $filter, enrollmentService, enrollmentCartService, enrollmentStepsService) {
     // TODO - chose state by geoIP
     $scope.data = { serviceState: 'TX' };
-    
+
+    $scope.getLocation = function (state, val) {
+        return $scope.$parent.getLocation(state, val).then(function (values) {
+            $scope.errorMessage = !values.length;
+            return values;
+        });
+    };    
     
     //Checking to see when the active service address has been updated
     //So we can reinitialize all service information for this page
