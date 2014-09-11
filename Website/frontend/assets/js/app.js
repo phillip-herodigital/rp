@@ -7,4 +7,5 @@ ngApp = angular.module("ngApp", ['ui.bootstrap',
 
 // Init Application
 ngApp.value("appName", "ngApp");
-ngApp.value('duScrollGreedy', true)
+ngApp.value('duScrollGreedy', true);
+ngApp.value('duScrollSpyWait', 10);

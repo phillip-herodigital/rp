@@ -882,6 +882,30 @@ article.home-questions {
 	}
 }
 
+article.degregulated-energy {
+	.col p {
+		font-size: 18px;
+	}
+	.deregulation-today {
+		h2 {
+			text-indent: -50px;
+			color: $h2-color;
+		}
+	}
+	.wrapper {
+		padding-left: 0;
+		padding-right: 0;
+	}
+	h2 {
+		font-size: 45px;
+		margin-bottom: 0;
+		text-transform: uppercase;
+	}
+	img {
+		margin-top: -10px;
+	}
+}
+
 article.select-protection-services {
 	.service-icon {
 		float: left;
@@ -955,15 +979,21 @@ article.bundle-protection-services {
 		line-height: 1;
 		margin: 1em 0;
 	}
-
 	.service {
 		display: table-cell;
 		padding: 30px 25px;
 		border-left: 1px solid $light-border-color;
 		text-align: center;
 		vertical-align: top;
+		min-width: 145px;
 		&:first-child {
 			border-left: none;
+		}
+	}
+	.service-icon {
+		min-height: 55px;
+		img {
+			padding: 0 15px;
 		}
 	}
 	.service-cta {
@@ -976,6 +1006,10 @@ article.bundle-protection-services {
 		.button {
 			width: 100%;
 		}
+	}
+	h4 {
+		font-size: 14px;
+		margin-bottom: 52px;
 	}
 	img {
 		max-width: 100%;
