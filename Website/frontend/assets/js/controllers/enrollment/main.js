@@ -7,6 +7,11 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentSt
     $scope.customerType = 'residential';
     $scope.cartLocationsCount = 0;
     $scope.isCartFull = false;
+    $scope.isLoading = enrollmentService.isLoading;
+
+    $scope.$watch(function () { return enrollmentService.isLoading; }, function (newValue) {
+        $scope.isLoading = newValue;
+    });
 
     //Go ahead and set the first step to be utility for now
     //Need to determine how the first step will be activated
