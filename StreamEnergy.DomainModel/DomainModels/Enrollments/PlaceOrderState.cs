@@ -10,11 +10,14 @@ namespace StreamEnergy.DomainModels.Enrollments
 {
     class PlaceOrderState : StateBase<UserContext, InternalContext>
     {
-        private MembershipBuilder membership;
-        public PlaceOrderState(MembershipBuilder membership)
+        private readonly MembershipBuilder membership;
+        private readonly IEnrollmentService enrollmentService;
+
+        public PlaceOrderState(MembershipBuilder membership, IEnrollmentService enrollmentService)
             : base(previousState: typeof(CompleteOrderState), nextState: typeof(OrderConfirmationState))
         {
             this.membership = membership;
+            this.enrollmentService = enrollmentService;
         }
 
         public override bool IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult, UserContext context, InternalContext internalContext)
@@ -51,8 +54,16 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         protected override async Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
         {
-            // TODO - place order
-
+            if (!context.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType == EnrollmentCustomerType.Commercial))
+            {
+                internalContext.PlaceOrderResult = (await enrollmentService.PlaceOrder(internalContext.GlobalCustomerId, context.Services, internalContext.EnrollmentSaveState.Data, context.AdditionalAuthorizations)).ToArray();
+            }
+            else
+            {
+                await enrollmentService.PlaceCommercialQuotes(context);
+                internalContext.PlaceOrderResult = Enumerable.Empty<Service.LocationOfferDetails<Service.PlaceOrderResult>>();
+            }
+            
             if (context.OnlineAccount != null)
             {
                 await membership.CreateUser(context.OnlineAccount.Username, context.OnlineAccount.Password, globalCustomerId: internalContext.GlobalCustomerId);
