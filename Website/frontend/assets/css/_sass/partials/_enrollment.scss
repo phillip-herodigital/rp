@@ -826,6 +826,23 @@ $enrollment-module-vertical-padding: 20px;
             margin-top: -3px;
         }
     }
+    .next-steps {
+        .step {
+            display: inline-block;
+            width: 32%;
+            vertical-align: top;
+            .step-number {
+                display: table-cell;
+                font-size: 40px;
+                line-height: 1.1;
+            }
+            .step-description {
+                display: table-cell;
+                vertical-align: top;
+                padding-left: 10px;
+            }
+        }
+    }
     .promo-box {
         min-height: 120px;
     }
