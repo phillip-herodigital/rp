@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
@@ -47,11 +48,11 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.redisDatabase = redisDatabase;
         }
 
-        public async Task Initialize(string agentAccountId = null)
+        public async Task Initialize(NameValueCollection enrollmentDpiParameters = null)
         {
             await stateHelper.EnsureInitialized().ConfigureAwait(false);
-            if (agentAccountId != null)
-                stateHelper.StateMachine.InternalContext.EnrollmentAgentId = agentAccountId;
+            if (enrollmentDpiParameters != null)
+                stateHelper.StateMachine.InternalContext.EnrollmentDpiParameters = enrollmentDpiParameters;
             this.stateMachine = stateHelper.StateMachine;
         }
 

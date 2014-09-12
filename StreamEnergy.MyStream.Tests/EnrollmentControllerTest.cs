@@ -10,6 +10,7 @@ using System.Web.Http.Controllers;
 using StreamEnergy.MyStream.Controllers.ApiControllers;
 using System.Threading.Tasks;
 using StreamEnergy.DomainModels;
+using System.Collections.Specialized;
 
 namespace StreamEnergy.MyStream.Tests
 {
@@ -149,7 +150,7 @@ namespace StreamEnergy.MyStream.Tests
 
             var enrollmentService = (IEnrollmentService)container.Resolve<StreamEnergy.Services.Clients.EnrollmentService>();
 
-            mockEnrollmentService.Setup(m => m.BeginSaveEnrollment(It.IsAny<Guid>(), It.IsAny<UserContext>())).Returns(Task.FromResult(new StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>()
+            mockEnrollmentService.Setup(m => m.BeginSaveEnrollment(It.IsAny<Guid>(), It.IsAny<UserContext>(), It.IsAny<NameValueCollection>())).Returns(Task.FromResult(new StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>()
                 {
                     IsCompleted = false
                 }));
