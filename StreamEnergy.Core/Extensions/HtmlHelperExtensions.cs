@@ -71,6 +71,30 @@ namespace StreamEnergy.Extensions
             return Json.Stringify(target);
         }
 
+        public static string JsonStringifyFields(this HtmlHelper htmlHelper, Item item, params string[] fieldNames)
+        {
+            return Json.Stringify(from fieldName in fieldNames
+                                      let field = item.Fields[fieldName]
+                                      where field != null
+                                      select new { Key = fieldName, Value = GetFieldValue(field) });
+        }
+
+        private static object GetFieldValue(Field field)
+        {
+            if (field == null)
+            {
+                return null;
+            }
+
+            switch (field.TypeKey)
+            {
+                case "multi-line text":
+                    return field.Value;
+                default:
+                    return field.Value;
+            }
+        }
+
         public static IHtmlString AllValidationMessagesFor<T, U>(this HtmlHelper<T> html, Expression<Func<T, U>> model)
         {
             var temp = model.RemoveLambdaBody().RemoveCast();

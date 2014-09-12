@@ -5,6 +5,10 @@
 ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 'scrollService', 'enrollmentStepsService', '$modal', 'enrollmentCartService', '$parse', function ($scope, enrollmentService, scrollService, enrollmentStepsService, $modal, enrollmentCartService, $parse) {
     $scope.currentLocationInfo = enrollmentCartService.getActiveService;
 
+    $scope.footnotes = {};
+    $scope.activeFootnotes = [];
+    $scope.footnoteIndices = {};
+
     //We need this for the button select model in the ng-repeats
     $scope.$watch(enrollmentCartService.getActiveService, function (address) {
         $scope.planSelection = { selectedOffers: {} };
@@ -27,7 +31,38 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
                 }
             });
         }
+
+        updateFootnotes();
     });
+
+    $scope.$watch('footnotes', function () {
+        updateFootnotes();
+    }, true);
+
+    function updateFootnotes()
+    {
+        var address = enrollmentCartService.getActiveService();
+        if (address && address.offerInformationByType) {
+            var footnoteParts = _(address.offerInformationByType)
+                .pluck('key')
+                .map(function (item) { return _.map($scope.footnotes[item], function (entry) { entry.type = item; return entry; }); })
+                .flatten()
+                .filter(function (obj) { return obj.value; })
+                .value();
+            $scope.activeFootnotes = footnoteParts;
+            $scope.footnoteIndices = {};
+
+            for (var i = 0; i < address.offerInformationByType.length; i++)
+            {
+                $scope.footnoteIndices[address.offerInformationByType[i].key] = {};
+            }
+            for (var i = 0; i < footnoteParts.length; i++)
+            {
+                $scope.footnoteIndices[footnoteParts[i].type][footnoteParts[i].key] = i + 1;
+            }
+            console.log($scope.footnoteIndices);
+        }
+    }
 
     //Once a plan is selected, check through all available and see if a selection happend
     $scope.$watchCollection('planSelection.selectedOffers', function (selectedOffers) {
