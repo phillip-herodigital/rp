@@ -586,7 +586,8 @@ $enrollment-module-vertical-padding: 20px;
                 text-align: center;
                 padding: 10px 15px;
                 border: none;
-                &:hover {
+                min-width: 85px;
+                &.sortable:hover {
                     cursor: pointer; 
                 }
             }
