@@ -19,13 +19,14 @@ namespace StreamEnergy.Services.Clients
         private readonly HttpClient streamConnectClient;
         private readonly ILogger logger;
         private readonly Interpreters.IDpiEnrollmentParameters dpiEnrollmentParameters;
-        private Sitecore.Data.Items.Item taxonomy;
+        private readonly ISitecoreProductData sitecoreProductData;
 
-        public EnrollmentService([Dependency(StreamConnectContainerSetup.StreamConnectKey)] HttpClient client, ILogger logger, Interpreters.IDpiEnrollmentParameters dpiEnrollmentParameters, [Dependency("Taxonomy")] Sitecore.Data.Items.Item taxonomy)        {
+        public EnrollmentService([Dependency(StreamConnectContainerSetup.StreamConnectKey)] HttpClient client, ILogger logger, Interpreters.IDpiEnrollmentParameters dpiEnrollmentParameters, ISitecoreProductData sitecoreProductData)
+        {
             this.streamConnectClient = client;
             this.logger = logger;
-            this.taxonomy = taxonomy;
             this.dpiEnrollmentParameters = dpiEnrollmentParameters;
+            this.sitecoreProductData = sitecoreProductData;
         }
 
         async Task<Dictionary<Location, LocationOfferSet>> IEnrollmentService.LoadOffers(IEnumerable<Location> serviceLocations)
@@ -103,7 +104,7 @@ namespace StreamEnergy.Services.Clients
                           where product.Rate.Unit == "$/kwh"
                           group product by product.ProductCode into products
                           let product = products.First(p => p.Provider["Name"].ToString() == providerName)
-                          let productData = GetProductData(product)
+                          let productData = sitecoreProductData.GetTexasElectricityProductData(product)
                           where productData != null
                           select new TexasElectricityOffer
                           {
@@ -112,50 +113,26 @@ namespace StreamEnergy.Services.Clients
 
                               EnrollmentType = serviceStatus.EnrollmentType,
 
-                              Name = productData["Name"],
-                              Description = productData["Description"],
+                              Name = productData.Fields["Name"],
+                              Description = productData.Fields["Description"],
 
                               Rate = product.Rate.Value * 100,
                               TermMonths = product.Term,
                               RateType = product.Rate.Type == "Fixed" ? RateType.Fixed : RateType.Variable,
-                              // TODO
                               CancellationFee = product.Fees.Where(fee => fee.Name == "Early Termination Fee").Select(fee => fee.Amount).FirstOrDefault(),
+
+                              Footnotes = productData.Footnotes,
+
                               Documents = new Dictionary<string, Uri> 
                               {
-                                  { "ElectricityFactsLabel", new Uri(productData["Energy Facts Label"], UriKind.Relative) },
-                                  { "TermsOfService", new Uri(productData["Terms Of Service"], UriKind.Relative) },
-                                  { "YourRightsAsACustomer", new Uri(productData["Your Rights As A Customer"], UriKind.Relative) },
+                                  { "ElectricityFactsLabel", new Uri(productData.Fields["Energy Facts Label"], UriKind.Relative) },
+                                  { "TermsOfService", new Uri(productData.Fields["Terms Of Service"], UriKind.Relative) },
+                                  { "YourRightsAsACustomer", new Uri(productData.Fields["Your Rights As A Customer"], UriKind.Relative) },
                               }
                           }).ToArray()
             };
         }
 
-        private NameValueCollection GetProductData(StreamConnect.Product product)
-        {
-            if (taxonomy != null)
-            {
-                var item = taxonomy.Axes.GetItem("Products/*/" + product.ProductCode);
-
-                if (item != null)
-                {
-                    var providerData = item.Axes.GetChild(product.Provider["Name"].ToString());
-
-                    if (providerData != null)
-                    {
-                        return new NameValueCollection
-                        {
-                            { "Name", item["Product Name"] },
-                            { "Description", item["Product Description"] },
-                            { "Energy Facts Label", ((Sitecore.Data.Fields.FileField)providerData.Fields["Energy Facts Label"]).Src },
-                            { "Terms Of Service", ((Sitecore.Data.Fields.FileField)providerData.Fields["Terms Of Service"]).Src },
-                            { "Your Rights As A Customer", ((Sitecore.Data.Fields.FileField)providerData.Fields["Your Rights As A Customer"]).Src },
-                        };
-                    }
-                }
-            }
-
-            return null;
-        }
 
         async Task<PremiseVerificationResult> IEnrollmentService.VerifyPremise(Location location)
         {

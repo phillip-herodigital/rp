@@ -60,9 +60,22 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
             {
                 $scope.footnoteIndices[footnoteParts[i].type][footnoteParts[i].key] = i + 1;
             }
-            console.log($scope.footnoteIndices);
         }
     }
+
+    $scope.calculateFootnotes = function calculateFootnotes(footnotes) {
+        var result = {};
+        result.active = footnotes;
+        result.indices = {};
+
+        for (var i = 0; i < footnotes.length; i++) {
+            result.indices[footnotes[i].key] = $scope.footnoteDisplay[i];
+        }
+
+        return result;
+    }
+
+    $scope.footnoteDisplay = ['*', '†', '‡'];
 
     //Once a plan is selected, check through all available and see if a selection happend
     $scope.$watchCollection('planSelection.selectedOffers', function (selectedOffers) {
