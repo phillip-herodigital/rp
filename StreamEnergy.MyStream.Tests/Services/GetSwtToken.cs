@@ -50,7 +50,7 @@ namespace StreamEnergy.MyStream.Tests.Services
 
                     Assert.IsNotNull(client.DefaultRequestHeaders.Authorization);
 
-                    var response = await client.GetAsync("https://streamconnect-test.cloudapp.net/api/UtilityProviders");
+                    var response = await client.GetAsync("https://streamconnect-test.cloudapp.net/api/v1/UtilityProviders");
                     if (response.StatusCode == System.Net.HttpStatusCode.Forbidden)
                     {
                         Assert.Fail("Invalid token for URL.");

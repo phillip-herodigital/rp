@@ -67,11 +67,11 @@ namespace StreamEnergy.DomainModels.Enrollments
                 {
                     internalContext.GlobalCustomerId = await accountService.CreateStreamConnectCustomer(email: context.ContactInfo.Email.Address);
                 }
-                internalContext.EnrollmentSaveState = await enrollmentService.BeginSaveEnrollment(internalContext.GlobalCustomerId, context);
+                internalContext.EnrollmentSaveState = await enrollmentService.BeginSaveEnrollment(internalContext.GlobalCustomerId, context, internalContext.EnrollmentDpiParameters);
             }
             else
             {
-                internalContext.EnrollmentSaveState = await enrollmentService.UpdateEnrollment(internalContext.GlobalCustomerId, internalContext.EnrollmentSaveState.Data, context);
+                internalContext.EnrollmentSaveState = await enrollmentService.UpdateEnrollment(internalContext.GlobalCustomerId, internalContext.EnrollmentSaveState.Data, context, internalContext.EnrollmentDpiParameters);
             }
 
             return await base.InternalProcess(context, internalContext);

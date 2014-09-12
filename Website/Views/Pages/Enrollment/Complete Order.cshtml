@@ -240,23 +240,23 @@
 <script type="text/ng-template" id="paymentsDue/Deposit">
     <tr>
         <td class="sub-charge">
-            <input type="radio" name="deposit-waiver" value="false" checked>
-            <label for="deposit-waiver">@Html.Sitecore().Field("Deposit Due")</label>
+            <input type="radio" name="deposit-waiver-{{id}}" value="false" checked>
+            <label for="deposit-waiver-{{id}}">@Html.Sitecore().Field("Deposit Due")</label>
             <p>
                 {{selectedOffer.offer.name}}<br />
-                <span class="explanation">Based on your credit score....</span>
+                <span class="explanation">@Html.Sitecore().Field("Deposit Explanation")</span>
             </p>
         </td>
         <td class="rate"><strong>{{ payment.dollarAmount | currency }}</strong></td>
     </tr>
     <tr>
-        <td colspan="2"><span class="seperator">or</span></td>
+        <td colspan="2"><div class="seperator">@Html.Sitecore().Field("Or Text")</div></td>
     </tr>
     <tr>
         <td class="sub-charge" colspan="2">
-            <input type="radio" name="deposit-waiver" value="true">
-            <label for="deposit-waiver">Deposit Waiver</label>
-            <p class="explanation">You'll need to provide the required documentation....</p>
+            <input type="radio" name="deposit-waiver-{{id}}" value="true">
+            <label for="deposit-waiver-{{id}}">@Html.Sitecore().Field("Deposit Waiver")</label>
+            <p class="explanation">@Html.Sitecore().Field("Deposit Waiver Expanation")</p>
         </td>
     </tr>
 

@@ -79,21 +79,22 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
                     data[1].unshift($scope.accountInformation.previousAddress);
                     addressOptions.previousAddress = data[1];
                 }
-
+/*
                 // TODO - do a modal and then use continueWith() after the modal is resolved
-                //var modalInstance = $modal.open({
-                //    templateUrl: '',
-                //    controller: '',
-                //    resolve: {
-                //        'addressOptions': function () { return addressOptions; }
-                //    }
-                //});
-                //modalInstance.result.then(function (selectedOptions) {
-                //    $scope.accountInformation.mailingAddress = selectedOptions.mailingAddress;
-                //    $scope.accountInformation.previousAddress = selectedOptions.previousAddress;
-                //    continueWith();
-                //});
-
+                var modalInstance = $modal.open({
+                    scope: $scope,
+                    templateUrl: 'cleanseAddressesModal',
+                    //controller: '',
+                    resolve: {
+                        'addressOptions': function () { return addressOptions; }
+                    }
+                });
+                
+                modalInstance.result.then(function (selectedOptions) {
+                    $scope.accountInformation.mailingAddress = selectedOptions.mailingAddress;
+                    $scope.accountInformation.previousAddress = selectedOptions.previousAddress;
+                    continueWith();
+                });*/
                 // TODO - remove this line when the modal is in place
                 continueWith();
             }
