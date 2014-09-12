@@ -25,7 +25,7 @@
                     <div class="content">
                         <p>@Html.Sitecore().Field("Fill in Information")</p>
                         @* Service Address *@
-                        <div class="item item--no-input" ng-if="item.location.address.line1">
+                        <div class="item item--no-input" ng-show="item.location.address">
                             <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
                             {{ item.location.address | address }}
                         </div>
@@ -323,7 +323,7 @@
                     </div>
                 </article>
                 <div class="buttons">
-                    <button type="submit" class="tertiary" ng-click="resetEnrollment();" data-val-submit>@Html.Sitecore().Field("Cancel Enrollment Button")</button>
+                    <button type="submit" class="tertiary" ng-click="resetEnrollment();">@Html.Sitecore().Field("Cancel Enrollment Button")</button>
                     <button type="submit" class="primary" ng-disabled="!isFormValid()" data-val-submit>@Html.Sitecore().Field("Button Label")</button>
                 </div>
             </form>
@@ -377,4 +377,19 @@
         <div class="availibility">@Html.Sitecore().Field("Availibility Text")</div>
     </div>
    }
+</script>
+
+<script type="text/ng-template" id="cleanseAddressesModal">
+    <div>
+        <div class="modal-header">
+            <a href="" ng-click="$dismiss()">Close</a>
+            <h2>Verify Addresses</h2>
+        </div>
+        <div class="modal-body">
+            <p>We were unable to verify the address you entered.</p>
+        </div>
+        <div class="modal-footer">
+            <button ng-click="$close()">@Html.Sitecore().Field("Yes Button")</button>
+        </div>
+    </div>
 </script>
