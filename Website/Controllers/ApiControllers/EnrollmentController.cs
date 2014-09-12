@@ -195,8 +195,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
             else if (members.Any(m => m.StartsWith("Services")))
             {
-                if (stateMachine.Context.Services == null || stateMachine.Context.Services.Length == 0 || validation.PartialValidate(stateMachine.Context, ctx => ctx.Services.PartialValidate(s => s.Location.Address.PostalCode5,
-                                                                                                            s => s.Location.Capabilities)).Any())
+                if (stateMachine.Context.Services == null || 
+                    stateMachine.Context.Services.Length == 0 || 
+                    validation.PartialValidate(stateMachine.Context, ctx => ctx.Services.PartialValidate(s => s.Location.Address.PostalCode5, s => s.Location.Capabilities)).Any() ||
+                    stateMachine.InternalContext.AllOffers.Where(o => stateMachine.Context.Services.Any(s => s.Location == o.Key)).Any(o => !o.Value.Offers.Any()))
                 {
                     return Models.Enrollment.ExpectedState.ServiceInformation;
                 }

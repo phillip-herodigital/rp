@@ -1,4 +1,7 @@
 <div ng-controller="EnrollmentMainCtrl" ng-init="setServerData(@(Html.Action("ClientData", "Enrollment").ToHtmlString())); assignStepNames(@(Html.Action("EnrollmentNav", "Enrollment").ToHtmlString())); assignSupportedUtilityStates(@(Html.Action("EnrollmentSupportedUtilityStates", "Enrollment").ToHtmlString()))">
+    <div ng-if="isLoading">
+        @* TODO - loading overlay *@
+    </div>
     <div>
         @Html.Sitecore().Placeholder("enrollment sections")
     </div>

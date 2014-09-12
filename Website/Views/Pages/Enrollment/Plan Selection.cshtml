@@ -103,15 +103,15 @@
         <table class="plan-selection-table" ng-if="typedOffers.value.availableOffers.length" scroll-anchor="scrollFix">
             <thead class="hide-small">
                 <tr>
-                    <th ng-click="typedOffers.sortBy = 'plan.name'" colspan="2">@Html.Sitecore().Field("Electricity Plan Name")</th>
-                    <th ng-click="typedOffers.sortBy = 'plan.rate'">@Html.Sitecore().Field("Electricity Rate")</th>
-                    <th ng-click="typedOffers.sortBy = 'plan.termMonths'">@Html.Sitecore().Field("Electricity Term")</th>
-                    <th ng-click="typedOffers.sortBy = 'plan.cancellationFee'">@Html.Sitecore().Field("Electricity Fees")</th>
+                    <th ng-click="typedOffers.sortBy = 'name'; typedOffers.reverse=false" colspan="2">@Html.Sitecore().Field("Electricity Plan Name")</th>
+                    <th ng-click="typedOffers.sortBy = 'rate'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Electricity Rate")</th>
+                    <th ng-click="typedOffers.sortBy = 'termMonths'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Electricity Term")</th>
+                    <th ng-click="typedOffers.sortBy = 'cancellationFee'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Electricity Fees")</th>
                     <th>@Html.Sitecore().Field("Electricity Select Plan")</th>
                 </tr>
             </thead>
             <tbody>
-                <tr class="hide-medium-large" ng-repeat-start="plan in typedOffers.value.availableOffers | orderBy:sortBy(typedOffers.sortBy)" ng-class="{'open': isOpen}">
+                <tr class="hide-medium-large" ng-repeat-start="plan in typedOffers.value.availableOffers | orderBy:typedOffers.sortBy:typedOffers.reverse" ng-class="{'open': isOpen}">
                     <td class="plan-name" colspan="5">
                         <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id" class="selected-icon">
                             <i class="icon-check"></i>
