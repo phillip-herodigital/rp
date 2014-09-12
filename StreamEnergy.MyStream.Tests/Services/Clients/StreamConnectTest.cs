@@ -229,7 +229,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             dynamic result;
             using (new Timer())
             {
-                response = streamConnectClient.GetAsync("/api/customers/" + gcid.ToString()).Result;
+                response = streamConnectClient.GetAsync("/api/v1/customers/" + gcid.ToString()).Result;
                 var responseString = response.Content.ReadAsStringAsync().Result;
                 result = JsonConvert.DeserializeObject(responseString);
             }
