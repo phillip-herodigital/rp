@@ -41,7 +41,6 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
 
         if (typeof newValue.serviceLocation != 'string') {
             var activeService = enrollmentCartService.getActiveService();
-            console.log(activeService, activeService && activeService.offerInformationByType.length);
             if (activeService && !activeService.offerInformationByType.length) {
                 $scope.errorMessage = true;
             } else {
