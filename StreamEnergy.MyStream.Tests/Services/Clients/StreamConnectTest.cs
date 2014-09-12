@@ -39,7 +39,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
-            Mock<ILogger> mockLogger = new Mock<ILogger>();
+            var mockLogger = new Mock<ILogger>();
+            container = new UnityContainer();
 
             container = ContainerSetup.Create(c =>
                 {
@@ -47,6 +48,12 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                     c.RegisterType<HttpMessageHandler, HttpClientHandler>("Cached");
 
                 });
+
+            new StreamEnergy.Services.ThirdPartyServiceContainerSetup().SetupUnity(container);
+
+            container.RegisterInstance<ILogger>(mockLogger.Object);
+
+            container.RegisterType<HttpMessageHandler, HttpClientHandler>("Cached");
         }
 
         [TestMethod]
@@ -383,7 +390,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                     PostalCode5 = "13662"
                 },
             };
-            var saveResult = enrollmentService.BeginSaveEnrollment(gcid, userContext).Result;
+            var saveResult = enrollmentService.BeginSaveEnrollment(gcid, userContext, null).Result;
             while (!saveResult.IsCompleted)
             {
                 saveResult = enrollmentService.EndSaveEnrollment(saveResult, userContext).Result;
@@ -560,7 +567,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             using (new Timer())
             {
                 // Act
-                var saveResult = enrollmentService.BeginSaveEnrollment(globalCustomerId, userContext).Result;
+                var saveResult = enrollmentService.BeginSaveEnrollment(globalCustomerId, userContext, null).Result;
 
                 // Assert
                 Assert.IsFalse(saveResult.IsCompleted);
