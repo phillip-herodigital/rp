@@ -119,7 +119,7 @@ namespace StreamEnergy.Services.Clients
                               TermMonths = product.Term,
                               RateType = product.Rate.Type == "Fixed" ? RateType.Fixed : RateType.Variable,
                               // TODO
-                              CancellationFee = 0,
+                              CancellationFee = product.Fees.Where(fee => fee.Name == "Early Termination Fee").Select(fee => fee.Amount).FirstOrDefault(),
                               Documents = new Dictionary<string, Uri> 
                               {
                                   { "ElectricityFactsLabel", new Uri(productData["Energy Facts Label"], UriKind.Relative) },

@@ -43,7 +43,12 @@ namespace StreamEnergy.Interpreters
         public Newtonsoft.Json.Linq.JObject ToStreamConnectSalesInfo()
         {
             if (queryString == null)
-                return null;
+                return Newtonsoft.Json.Linq.JObject.FromObject(new
+                {
+                    AgentId = (string)null,
+                    FreeEnergyReferralId = (string)null,
+                    SalesSource = "Other"
+                });
 
             return Newtonsoft.Json.Linq.JObject.FromObject(new
             {

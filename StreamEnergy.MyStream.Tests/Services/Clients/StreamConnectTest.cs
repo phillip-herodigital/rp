@@ -40,7 +40,6 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         public static void ClassInitialize(TestContext context)
         {
             var mockLogger = new Mock<ILogger>();
-            container = new UnityContainer();
 
             container = ContainerSetup.Create(c =>
                 {
@@ -48,12 +47,6 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                     c.RegisterType<HttpMessageHandler, HttpClientHandler>("Cached");
 
                 });
-
-            new StreamEnergy.Services.ThirdPartyServiceContainerSetup().SetupUnity(container);
-
-            container.RegisterInstance<ILogger>(mockLogger.Object);
-
-            container.RegisterType<HttpMessageHandler, HttpClientHandler>("Cached");
         }
 
         [TestMethod]
