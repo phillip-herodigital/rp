@@ -41,6 +41,9 @@
             <div class="hide-medium-large time-remaining-mobile">
                 <p class="time-remaining">@Html.Sitecore().Field("Time Remaining")</p>
             </div>
+            <div>
+                <p ng-repeat="footnote in activeFootnotes"><sup>{{$index + 1}}</sup> {{footnote.value}}</p>
+            </div>
         </section>
         <aside>
             <div ng-include ng-if="true" src="'cart-template'"></div>
@@ -87,6 +90,11 @@
             <div class="hide-medium-large time-remaining-mobile">
                 <p class="time-remaining">@Html.Sitecore().Field("Time Remaining")</p>
             </div>
+            <article>
+                <div>
+                    <p ng-repeat="footnote in activeFootnotes"><sup>{{$index}}</sup> {{footnote.value}}</p>
+                </div>
+            </article>
         </section>
         <aside>
             <div ng-include ng-if="true" src="'cart-template'"></div>    
@@ -95,7 +103,7 @@
 </div>
 
 <script type="text/ng-template" id="planList/TexasElectricity">
-    <header>
+    <header ng-init="footnotes['TexasElectricity'] = @Html.JsonStringifyFields(Html.Sitecore().CurrentItem, "Electricity Rate Footnote", "Electricity Term Footnote")">
         <h1>@Html.Sitecore().Field("Electricity Header")</h1>
     </header>
     <article class="enrollment__utility-plans">
@@ -104,8 +112,8 @@
             <thead class="hide-small">
                 <tr>
                     <th ng-click="typedOffers.sortBy = 'name'; typedOffers.reverse=false" colspan="2">@Html.Sitecore().Field("Electricity Plan Name")</th>
-                    <th ng-click="typedOffers.sortBy = 'rate'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Electricity Rate")</th>
-                    <th ng-click="typedOffers.sortBy = 'termMonths'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Electricity Term")</th>
+                    <th ng-click="typedOffers.sortBy = 'rate'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Electricity Rate")<sup>{{footnoteIndices['TexasElectricity']['Electricity Rate Footnote']}}</sup></th>
+                    <th ng-click="typedOffers.sortBy = 'termMonths'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Electricity Term")<sup>{{footnoteIndices['TexasElectricity']['Electricity Term Footnote']}}</sup></th>
                     <th ng-click="typedOffers.sortBy = 'cancellationFee'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Electricity Fees")</th>
                     <th>@Html.Sitecore().Field("Electricity Select Plan")</th>
                 </tr>
