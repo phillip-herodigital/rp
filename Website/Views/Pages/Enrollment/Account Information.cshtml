@@ -380,16 +380,53 @@
 </script>
 
 <script type="text/ng-template" id="cleanseAddressesModal">
-    <div>
+    <div class="cleanse-address">
         <div class="modal-header">
             <a href="" ng-click="$dismiss()">Close</a>
-            <h2>Verify Addresses</h2>
+            <h2>@Html.Sitecore().Field("Verify Address Header")</h2>
         </div>
         <div class="modal-body">
-            <p>We were unable to verify the address you entered.</p>
+            @Html.Sitecore().Field("Verify Address Body")
+            <div class="item address-group" ng-if="addressOptions.mailingAddress[0]">
+                <label>@Html.Sitecore().Field("Mailing Address Text")</label>
+                <div class="radio-item">
+                    <input type="radio" ng-model="modal.mailingAddress" value="suggested">
+                    <label>@Html.Sitecore().Field("Suggested Address Text")</label>
+                </div>
+                <div class="address">
+                    {{ addressOptions.mailingAddress[1] | address }}
+                </div>
+                <div class="radio-item">
+                    <input type="radio" ng-model="modal.mailingAddress" value="original">
+                    <label>@Html.Sitecore().Field("Original Address Text")</label>
+                </div>
+                <div class="address">
+                    {{ addressOptions.mailingAddress[0] | address }}
+                </div>
+            </div>
+
+            <div class="item address-group" ng-if="addressOptions.previousAddress[0]">
+                <label>@Html.Sitecore().Field("Previous Address Text")</label>
+                <div class="radio-item">
+                    <input type="radio" ng-model="modal.previousAddress" value="suggested">
+                    <label>@Html.Sitecore().Field("Suggested Address Text")</label>
+                </div>
+                <div class="address">
+                    {{ addressOptions.previousAddress[1] | address }}
+                </div>
+                <div class="radio-item">
+                    <input type="radio" ng-model="modal.previousAddress" value="original">
+                    <label>@Html.Sitecore().Field("Original Address Text")</label>
+                </div>
+                <div class="address">
+                    {{ addressOptions.previousAddress[0] | address }}
+                </div>
+            </div>
+
         </div>
         <div class="modal-footer">
-            <button ng-click="$close()">@Html.Sitecore().Field("Yes Button")</button>
+            <button class="secondary" ng-click="$dismiss()">@Html.Sitecore().Field("Cancel Button")</button>
+            <button ng-click="$close()">@Html.Sitecore().Field("Continue Button")</button>
         </div>
     </div>
 </script>
