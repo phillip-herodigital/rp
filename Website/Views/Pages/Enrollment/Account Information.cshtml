@@ -198,45 +198,45 @@
                                 </div>
                             }
                         </div>
-                        <div ng-show="hasMoveIn" class="previous-address">
+                        <div ng-show="hasMoveIn && customerType != 'commercial'" class="previous-address">
                             <h3>@Html.Sitecore().Field("Previous Address Header")</h3>
-                            @using (var billingAddress = Html.Shortcut(m => m.PreviousAddress))
+                            @using (var previousAddress = Html.Shortcut(m => m.PreviousAddress))
                             {
                                 <div>
                                     <div class="group">
-                                        <div class="item group-col" @(billingAddress.Validation().ErrorClass(m => m.Line1))>
-                                            <label for="@billingAddress.Fix(h => h.IdFor(m => m.Line1))">@Html.Sitecore().Field("Address 1 Label")</label>
-                                            @billingAddress.Fix(h => h.TextBoxFor(m => m.Line1, new { data_val_if = "hasMoveIn", ng_model = "accountInformation.previousAddress.line1" }))
-                                            @billingAddress.ValidationMessageFor(m => m.Line1)
+                                        <div class="item group-col" @(previousAddress.Validation().ErrorClass(m => m.Line1))>
+                                            <label for="@previousAddress.Fix(h => h.IdFor(m => m.Line1))">@Html.Sitecore().Field("Address 1 Label")</label>
+                                            @previousAddress.Fix(h => h.TextBoxFor(m => m.Line1, new { data_val_if = "hasMoveIn && customerType != 'commercial'", ng_model = "accountInformation.previousAddress.line1" }))
+                                            @previousAddress.ValidationMessageFor(m => m.Line1)
                                         </div>
-                                        <div class="item group-col" @billingAddress.Validation().ErrorClass(m => m.Line2)>
-                                            <label for="@billingAddress.Fix(h => h.IdFor(m => m.Line2))">@Html.Sitecore().Field("Address 2 Label")</label>
-                                            @billingAddress.Fix(h => h.TextBoxFor(m => m.Line2, new { data_val_if = "hasMoveIn", ng_model = "accountInformation.previousAddress.line2" }))
-                                            @billingAddress.ValidationMessageFor(m => m.Line2)
+                                        <div class="item group-col" @previousAddress.Validation().ErrorClass(m => m.Line2)>
+                                            <label for="@previousAddress.Fix(h => h.IdFor(m => m.Line2))">@Html.Sitecore().Field("Address 2 Label")</label>
+                                            @previousAddress.Fix(h => h.TextBoxFor(m => m.Line2, new { data_val_if = "hasMoveIn && customerType != 'commercial'", ng_model = "accountInformation.previousAddress.line2" }))
+                                            @previousAddress.ValidationMessageFor(m => m.Line2)
                                         </div>
                                     </div>
                                     <div class="group">
-                                        <div class="item group-col" @billingAddress.Validation().ErrorClass(m => m.City)>
-                                            <label for="@billingAddress.Fix(h => h.IdFor(m => m.City))">@Html.Sitecore().Field("City Label")</label>
-                                            @billingAddress.Fix(h => h.TextBoxFor(m => m.City, new { data_val_if = "hasMoveIn", ng_model = "accountInformation.previousAddress.city" }))
-                                            @billingAddress.ValidationMessageFor(m => m.City)
+                                        <div class="item group-col" @previousAddress.Validation().ErrorClass(m => m.City)>
+                                            <label for="@previousAddress.Fix(h => h.IdFor(m => m.City))">@Html.Sitecore().Field("City Label")</label>
+                                            @previousAddress.Fix(h => h.TextBoxFor(m => m.City, new { data_val_if = "hasMoveIn && customerType != 'commercial'", ng_model = "accountInformation.previousAddress.city" }))
+                                            @previousAddress.ValidationMessageFor(m => m.City)
                                         </div>
-                                        <div class="item" @billingAddress.Validation().ErrorClass(m => m.StateAbbreviation)>
-                                            <label for="@billingAddress.Fix(h => h.IdFor(m => m.StateAbbreviation))">@Html.Sitecore().Field("State Label")</label>
-                                            @billingAddress.Fix(h => h.DropDownListFor(m => m.StateAbbreviation,
+                                        <div class="item" @previousAddress.Validation().ErrorClass(m => m.StateAbbreviation)>
+                                            <label for="@previousAddress.Fix(h => h.IdFor(m => m.StateAbbreviation))">@Html.Sitecore().Field("State Label")</label>
+                                            @previousAddress.Fix(h => h.DropDownListFor(m => m.StateAbbreviation,
                                                         new SelectListItem[] { new SelectListItem { Text = Html.Sitecore().Field("Select Option Please Choose").ToString(), Value = "" } },
                                                         new
                                                         {
-                                                            data_val_if = "hasMoveIn",
+                                                            data_val_if = "hasMoveIn && customerType != 'commercial'",
                                                             ng_model = "accountInformation.previousAddress.stateAbbreviation",
                                                             ng_options = "state.abbreviation as state.display for state in usStates"
                                                         }))
-                                            @billingAddress.ValidationMessageFor(m => m.StateAbbreviation)
+                                            @previousAddress.ValidationMessageFor(m => m.StateAbbreviation)
                                         </div>
-                                        <div class="item" @billingAddress.Validation().ErrorClass(m => m.PostalCode5)>
-                                            <label for="@billingAddress.Fix(h => h.IdFor(m => m.PostalCode5))">@Html.Sitecore().Field("Zip Label")</label>
-                                            @billingAddress.Fix(h => h.TextBoxFor(m => m.PostalCode5, new { @class = "small", data_val_if = "hasMoveIn", ng_model = "accountInformation.previousAddress.postalCode5" }))
-                                            @billingAddress.ValidationMessageFor(m => m.PostalCode5)
+                                        <div class="item" @previousAddress.Validation().ErrorClass(m => m.PostalCode5)>
+                                            <label for="@previousAddress.Fix(h => h.IdFor(m => m.PostalCode5))">@Html.Sitecore().Field("Zip Label")</label>
+                                            @previousAddress.Fix(h => h.TextBoxFor(m => m.PostalCode5, new { @class = "small", data_val_if = "hasMoveIn && customerType != 'commercial'", ng_model = "accountInformation.previousAddress.postalCode5" }))
+                                            @previousAddress.ValidationMessageFor(m => m.PostalCode5)
                                         </div>
                                     </div>
                                 </div>

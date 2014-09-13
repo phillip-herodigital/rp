@@ -44,7 +44,7 @@ namespace StreamEnergy.DomainModels.Enrollments
                 if (validationResult.MemberNames.Any(m => m.StartsWith("SelectedIdentityAnswers")))
                     return true;
             }
-            if (context.IsRenewal || !context.Services.SelectMany(svc => svc.Location.Capabilities).OfType<ServiceStatusCapability>().Any(cap => cap.EnrollmentType == EnrollmentType.MoveIn))
+            if (context.IsRenewal || !context.Services.SelectMany(svc => svc.Location.Capabilities).OfType<ServiceStatusCapability>().Any(cap => cap.EnrollmentType == EnrollmentType.MoveIn) || !context.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType != EnrollmentCustomerType.Commercial))
             {
                 if (validationResult.MemberNames.Any(m => m.StartsWith("PreviousAddress")))
                     return true;

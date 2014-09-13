@@ -90,7 +90,7 @@
             <div class="hide-medium-large time-remaining-mobile">
                 <p class="time-remaining">@Html.Sitecore().Field("Time Remaining")</p>
             </div>
-            <article>
+            <article ng-if="activeFootnotes">
                 <div>
                     <p ng-repeat="footnote in activeFootnotes"><sup>{{$index}}</sup> {{footnote.value}}</p>
                 </div>

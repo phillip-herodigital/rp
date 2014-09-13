@@ -59,7 +59,7 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
     */
     $scope.completeStep = function () {
         var addresses = [$scope.accountInformation.mailingAddress];
-        if ($scope.hasMoveIn) {
+        if ($scope.hasMoveIn && $scope.customerType != 'commercial') {
             addresses.push($scope.accountInformation.previousAddress);
         }
 
@@ -71,7 +71,7 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
             });
         }
         enrollmentService.cleanseAddresses(addresses).then(function (data) {
-            if (data[0].length || (data.length > 1 && data[1].length)) {
+            if ((data.length > 1 && data[0].length) || (data.length > 1 && data[1].length)) {
                 var addressOptions = { };
                 if (data[0] && data[0].length) {
                     data[0].unshift($scope.accountInformation.mailingAddress);
