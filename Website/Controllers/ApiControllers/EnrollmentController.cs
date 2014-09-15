@@ -133,6 +133,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 SecondaryContactInfo = stateMachine.Context.SecondaryContactInfo,
                 MailingAddress = stateMachine.Context.MailingAddress,
                 PreviousAddress = stateMachine.Context.PreviousAddress,
+                PreviousProvider = stateMachine.Context.PreviousProvider,
                 Cart = from service in services
                        let locationOfferSet = offers.ContainsKey(service.Location) ? offers[service.Location] : new LocationOfferSet()
                        select new CartEntry
