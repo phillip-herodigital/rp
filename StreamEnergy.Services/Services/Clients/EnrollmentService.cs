@@ -264,6 +264,7 @@ namespace StreamEnergy.Services.Clients
                         CellPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Mobile).Select(p => p.Number).SingleOrDefault(),
                         WorkPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Work).Select(p => p.Number).SingleOrDefault(),
                         SSN = context.SocialSecurityNumber,
+                        CurrentProvider = context.PreviousProvider,
                         EmailAddress = context.ContactInfo.Email.Address,
                         Premise = new
                         {

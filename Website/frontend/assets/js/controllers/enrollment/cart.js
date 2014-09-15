@@ -14,6 +14,7 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     $scope.getCartCount = enrollmentCartService.getCartCount;
     $scope.getCartLocationsCount = enrollmentCartService.getCartLocationsCount;
     $scope.getCartItems = enrollmentCartService.getCartItems;
+    $scope.cartHasTDU = enrollmentCartService.cartHasTDU;
     
     /**
     * Show Bill Account Example Modal

@@ -212,7 +212,9 @@
             secondaryContactInfo: service.accountInformation.secondaryContactInfo,
             onlineAccount: service.accountInformation.onlineAccount,
             mailingAddress: service.accountInformation.mailingAddress,
-            previousAddress: service.accountInformation.previousAddress
+            previousAddress: service.accountInformation.previousAddress,
+            preferredSalesExecutive: service.accountInformation.PreferredSalesExecutive,
+            previousProvider: service.accountInformation.PreviousProvider
         });
         data.cart = _.map(enrollmentCartService.services, function (cartItem) {
             return {
