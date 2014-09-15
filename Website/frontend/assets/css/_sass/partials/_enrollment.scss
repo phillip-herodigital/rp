@@ -968,7 +968,7 @@ $enrollment-module-vertical-padding: 20px;
             list-style-type: none;
             padding: 10px 20px 8px 45px;
             font-size: 13px;
-            position: relative;
+            position: relative;            
             i {
                 position: absolute;
                 top: 10px;
@@ -978,6 +978,9 @@ $enrollment-module-vertical-padding: 20px;
                 border-bottom: none;
             }
         }
+    }
+    .outage-information .info li {
+        padding-left: 13px;
     }
 	button, .button {
 		width: 100%;

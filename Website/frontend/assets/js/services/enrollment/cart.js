@@ -173,6 +173,12 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                 .pluck('dollarAmount').filter()
 		        .reduce(sum, 0);
         },
+        cartHasTDU: function (tdu) {
+            return _(services)
+               .map(function (l) {
+                   return _(l.location.capabilities).filter({ capabilityType: "TexasElectricity" }).first().tdu;
+               }).contains(tdu);
+        }
     };
 
     return enrollmentCartService;
