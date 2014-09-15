@@ -495,8 +495,8 @@ namespace StreamEnergy.Services.Clients
                 if (locationOfferByEnrollmentAccountId.ContainsKey(enrollmentAccountId))
                 {
                     decimal deposit = 0;
-                    if (entry.Deposit != null)
-                        deposit = entry.Deposit.Amount.Value;
+                    if (entry.Premise.Deposit != null)
+                        deposit = (decimal)entry.Premise.Deposit.Amount.Value;
 
                     offerPaymentResults.Add(new LocationOfferDetails<OfferPayment>
                         {
