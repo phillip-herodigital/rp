@@ -18,6 +18,23 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
             .any();
     }, true);
 
+    // create a filter so that the same phone type can't be selected twice
+    $scope.filter1 = function(item){
+        return (!($scope.accountInformation.contactInfo.phone.length > 0 && $scope.accountInformation.contactInfo.phone[0].category) || item.name != $scope.accountInformation.contactInfo.phone[0].category);
+    };
+
+    $scope.filter2 = function(item){
+        return (!($scope.accountInformation.contactInfo.phone.length > 1 && $scope.accountInformation.contactInfo.phone[1].category) || item.name != $scope.accountInformation.contactInfo.phone[1].category);
+    };
+
+    $scope.filterCustomerType = function(item){
+        if ($scope.customerType != 'commercial') {
+            return (item.name != 'work');
+        } else {
+            return (item.name != 'home');
+        }
+    };
+
     /**
      * [utilityAddresses description]
      * @return {[type]} [description]
