@@ -1,7 +1,7 @@
 @model StreamEnergy.DomainModels.Enrollments.UserContext
 @using TypedPhone = StreamEnergy.DomainModels.TypedPhone
 @using StreamEnergy.DomainModels.Enrollments
-<div id="accountInformation" class="enrollment" ng-if="stepsService.isStepVisible('accountInformation')" ng-controller="EnrollmentAccountInformationCtrl" ng-init="usStates = @(Html.Action("States", "Data").ToHtmlString()); phoneTypes = @(Html.Action("PhoneCategories", "Data").ToHtmlString()); setTimeRemaining('accountInformation', '@Html.Sitecore().Field("Remaining Minutes Number")');">
+<div id="accountInformation" class="enrollment" ng-if="stepsService.isStepVisible('accountInformation')" ng-controller="EnrollmentAccountInformationCtrl" ng-init="usStates = @(Html.Action("States", "Data").ToHtmlString()); phoneTypes = @(Html.Action("PhoneCategories", "Data").ToHtmlString()); previousProviders = @(Html.Action("PreviousProviders", "Data").ToHtmlString()); setTimeRemaining('accountInformation', '@Html.Sitecore().Field("Remaining Minutes Number")');">
     <div class="banner enrollment__banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper clearfix">
             <h1>
@@ -250,7 +250,7 @@
                             </ul>
                         </div>
                         <div class="item" ng-if="customerType == 'residential' || accountInformation.ssnOrTaxid == 'ssn'" @Html.Validation().ErrorClass(m => m.SocialSecurityNumber)>
-                            <label for="@Html.IdFor(m => m.SocialSecurityNumber)">@Html.Sitecore().Field("Social Security Number Label")</label>
+                            <label for="@Html.IdFor(m => m.SocialSecurityNumber)">@Html.Sitecore().Field("Social Security Number Label") <a href="#" tooltip="@Html.Sitecore().Field("Social Security Number Tooltip")"><i class="icon-tooltip"></i></a></label>
                             @Html.TextBoxFor(m => m.SocialSecurityNumber, new { ng_model = "accountInformation.socialSecurityNumber" })
                             @Html.ValidationMessageFor(m => m.SocialSecurityNumber)
                         </div>
@@ -284,10 +284,20 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="item" ng-if="customerType == 'commercial'" @Html.Validation().ErrorClass(m => m.PreferredSalesExecutive)>
-                            <label for="@Html.IdFor(m => m.PreferredSalesExecutive)">@Html.Sitecore().Field("Preferred Sales Label")</label>
+                        <div class="item group-col" ng-if="customerType == 'commercial'" @Html.Validation().ErrorClass(m => m.PreferredSalesExecutive)>
+                            <label for="@Html.IdFor(m => m.PreferredSalesExecutive)">@Html.Sitecore().Field("Preferred Sales Executive Label")</label>
                             @Html.TextBoxFor(m => m.PreferredSalesExecutive, new { ng_model = "accountInformation.preferredSalesExecutive" })
                             @Html.ValidationMessageFor(m => m.PreferredSalesExecutive)
+                        </div>
+                        <div class="item group-col" ng-if="hasSwitch" @Html.Validation().ErrorClass(m => m.PreviousProvider)>
+                            <label for="@Html.IdFor(m => m.PreviousProvider)">@Html.Sitecore().Field("Previous Provider Label")</label>
+                            @Html.DropDownListFor(m => m.PreviousProvider,
+                                                new SelectListItem[] { new SelectListItem { Text = Html.Sitecore().Field("Select Option Please Choose").ToString(), Value = "" } },
+                                                new
+                                                {
+                                                    ng_model = "accountInformation.PreviousProvider",
+                                                    ng_options = "type.name as type.display for type in previousProviders"
+                                                })
                         </div>
                     </div>
                 </article>

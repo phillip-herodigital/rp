@@ -41,6 +41,8 @@ namespace StreamEnergy.DomainModels.Enrollments
         [DisplayName("DBA")]
         public string DoingBusinessAs { get; set; }
 
+        public string PreviousProvider { get; set; }
+
         public string PreferredSalesExecutive { get; set; }
 
         /// <summary>

@@ -9,12 +9,19 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
     $scope.modal= {};
 
     $scope.hasMoveIn = false;
+    $scope.hasSwitch = false;
     $scope.$watch(enrollmentCartService.services, function () {
         $scope.hasMoveIn = _(enrollmentCartService.services)
             .map(function (l) {
                 return _(l.location.capabilities).filter({ capabilityType: "ServiceStatus" }).first();
             })
             .filter({ enrollmentType: "moveIn" })
+            .any();
+        $scope.hasSwitch = _(enrollmentCartService.services)
+            .map(function (l) {
+                return _(l.location.capabilities).filter({ capabilityType: "ServiceStatus" }).first();
+            })
+            .filter({ enrollmentType: "switch" })
             .any();
     }, true);
 
@@ -52,7 +59,7 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
 
     $scope.$watch('accountInformation.mailingAddressSame', function () {
         if ($scope.accountInformation.mailingAddressSame) {
-            if ($scope.utilityAddresses().length == 1 && !$scope.accountInformation.mailingAddress)
+            if ($scope.utilityAddresses().length == 1)
                 $scope.accountInformation.mailingAddress = $scope.utilityAddresses()[0].location.address;
         } else {
             $scope.accountInformation.mailingAddress = {};

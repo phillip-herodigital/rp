@@ -68,6 +68,11 @@ namespace StreamEnergy.Interpreters
                         case "TX":
                         case "GA":
                             return () => BuildDpiUrl("/signup_customer.asp");
+                        case "PA":
+                        case "MD":
+                        case "NJ":
+                        case "NY":
+                        case "DC":
                         case "NE":
                             return BuildTokenizedUrl;
                     }
@@ -80,6 +85,11 @@ namespace StreamEnergy.Interpreters
                             return () => BuildDpiUrl("/nr_quote_zip.asp");
                         case "GA":
                             return () => BuildDpiUrl("/signup_customer.asp");
+                        case "PA":
+                        case "MD":
+                        case "NJ":
+                        case "NY":
+                        case "DC":
                         case "NE":
                             return BuildTokenizedUrl;
                     }

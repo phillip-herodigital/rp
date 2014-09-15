@@ -45,14 +45,18 @@
                 <li><i class="icon-ssn"></i> @Html.Sitecore().Field("Documents Social Security Number")</li>
             </ul>
         </article>
-        <article class="enrollment__box" ng-if="getCartLocationsCount() > 0">
+        <article class="enrollment__box outage-information" ng-if="getCartLocationsCount() > 0">
             <header>
                 <p><strong>@Html.Sitecore().Field("Outage Header")</strong></p>
             </header>
             <ul class="info">
-                @* TODO - These phone numbers should come from the location object *@
-                <li>Call Oncor at 1-800-XXX-XXXX</li>
-                <li>Call Texas New Mexico Power Company at 1-800-XXX-XXXX</li>
+                <li ng-if="cartHasTDU('AEP_CENTRAL')">@Html.Sitecore().Field("Aep Central Outage")</li>
+                <li ng-if="cartHasTDU('AEP_NORTH')">@Html.Sitecore().Field("Aep North Outage")</li>
+                <li ng-if="cartHasTDU('TNMP')">@Html.Sitecore().Field("Tnmp Outage")</li>
+                <li ng-if="cartHasTDU('ONCOR')">@Html.Sitecore().Field("Oncor Outage")</li>
+                <li ng-if="cartHasTDU('CENTERPOINT')">@Html.Sitecore().Field("Centerpoint Outage")</li>
+                <li ng-if="cartHasTDU('SHARYLAND_MCALLEN')">@Html.Sitecore().Field("Sharyland Mcallen Outage")</li>
+                <li ng-if="cartHasTDU('SHARYLAND_UTILITIES')">@Html.Sitecore().Field("Sharyland Utilities Outage")</li>
             </ul>
         </article>
     </div>
