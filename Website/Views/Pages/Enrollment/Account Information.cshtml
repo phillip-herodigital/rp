@@ -36,7 +36,6 @@
                                    id="service-address"
                                    class="typeahead"
                                    ng-model="item.tempLocation"
-                                   placeholder="123 Main Street, Dallas, TX 75001"
                                    typeahead="location as location.address|address for location in getLocation(item.location.address.stateAbbreviation, $viewValue)"
                                    typeahead-loading="accountInformation.loadingAccountInformationServiceAddress"
                                    ng-class="{'loading' : accountInformation.loadingAccountInformation}" autocomplete="off" />
@@ -62,12 +61,12 @@
                         <div class="group">
                             <div class="item group-col" @Html.Validation().ErrorClass(m => m.ContactInfo.Name.First)>
                                 <label for="@Html.IdFor(m => m.ContactInfo.Name.First)">@Html.Sitecore().Field("First Name Label")</label>
-                                @Html.TextBoxFor(m => m.ContactInfo.Name.First, new { placeholder = "Jordan", ng_model = "accountInformation.contactInfo.name.first" })
+                                @Html.TextBoxFor(m => m.ContactInfo.Name.First, new { ng_model = "accountInformation.contactInfo.name.first" })
                                 @Html.ValidationMessageFor(model => model.ContactInfo.Name.First)
                             </div>
                             <div class="item group-col" @Html.Validation().ErrorClass(m => m.ContactInfo.Name.Last)>
                                 <label for="@Html.IdFor(m => m.ContactInfo.Name.Last)">@Html.Sitecore().Field("Last Name Label")</label>
-                                @Html.TextBoxFor(m => m.ContactInfo.Name.Last, new { placeholder = "Campbell", ng_model = "accountInformation.contactInfo.name.last" })
+                                @Html.TextBoxFor(m => m.ContactInfo.Name.Last, new { ng_model = "accountInformation.contactInfo.name.last" })
                                 @Html.ValidationMessageFor(model => model.ContactInfo.Name.Last)
                             </div>
                         </div>
@@ -274,12 +273,12 @@
                             <div class="group">
                                 <div class="item group-col" @Html.Validation().ErrorClass(m => m.SecondaryContactInfo.First)>
                                     <label for="@Html.IdFor(m => m.SecondaryContactInfo.First)">@Html.Sitecore().Field("First Name Label")</label>
-                                    @Html.TextBoxFor(m => m.SecondaryContactInfo.First, new { data_val_if = "accountInformation.showSecondaryContact", placeholder = "Jordan", ng_model = "accountInformation.secondaryContactInfo.first" })
+                                    @Html.TextBoxFor(m => m.SecondaryContactInfo.First, new { data_val_if = "accountInformation.showSecondaryContact", ng_model = "accountInformation.secondaryContactInfo.first" })
                                     @Html.ValidationMessageFor(m => m.SecondaryContactInfo.First)
                                 </div>
                                 <div class="item group-col" @Html.Validation().ErrorClass(m => m.SecondaryContactInfo.Last)>
                                     <label for="@Html.IdFor(m => m.SecondaryContactInfo.Last)">@Html.Sitecore().Field("Last Name Label")</label>
-                                    @Html.TextBoxFor(m => m.SecondaryContactInfo.Last, new { data_val_if = "accountInformation.showSecondaryContact", placeholder = "Campbell", ng_model = "accountInformation.secondaryContactInfo.last" })
+                                    @Html.TextBoxFor(m => m.SecondaryContactInfo.Last, new { data_val_if = "accountInformation.showSecondaryContact", ng_model = "accountInformation.secondaryContactInfo.last" })
                                     @Html.ValidationMessageFor(m => m.SecondaryContactInfo.Last)
                                 </div>
                             </div>
@@ -371,7 +370,7 @@
         @*<h2>Electricity</h2>*@
         <div class="item group-col datepicker" @offer.Validation().ErrorClass(o => ((TexasElectricityMoveInOfferOption)o.OfferOption).ConnectDate)>
             <label for="@offer.Fix(h => h.IdFor(o => ((TexasElectricityMoveInOfferOption)o.OfferOption).ConnectDate))">@Html.Sitecore().Field("Service Start Date Label")</label>
-            <input type="text" class="datepicker-input" id="@offer.Fix(h => h.IdFor(o => ((TexasElectricityMoveInOfferOption)o.OfferOption).ConnectDate))" ng-model="selectedOffer.offerOption.connectDate" placeholder="01/29/14"
+            <input type="text" class="datepicker-input" id="@offer.Fix(h => h.IdFor(o => ((TexasElectricityMoveInOfferOption)o.OfferOption).ConnectDate))" ng-model="selectedOffer.offerOption.connectDate"
                    datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="checkDisabledDate(date, mode)" datepicker-options="{ 'datepickerDateClass': 'checkDateClass(date)', 'datepickerDateClassScope': $id }" />
             <div class="availibility">@Html.Sitecore().Field("Availability Text")</div>
         </div>
@@ -389,7 +388,7 @@
     <div ng-controller="OfferOptions-TexasElectricityCommercialQuote">
         <div class="item group-col datepicker" @offer.Validation().ErrorClass(o => ((TexasElectricityCommercialQuoteOption)o.OfferOption).ConnectDate)>
             <label for="@offer.Fix(h => h.IdFor(o => ((TexasElectricityCommercialQuoteOption)o.OfferOption).ConnectDate))">@Html.Sitecore().Field("Commercial Service Start Date Label")</label>
-            <input type="text" class="datepicker-input" id="@offer.Fix(h => h.IdFor(o => ((TexasElectricityCommercialQuoteOption)o.OfferOption).ConnectDate))" ng-model="selectedOffer.offerOption.connectDate" placeholder="01/29/14"
+        <input type="text" class="datepicker-input" id="@offer.Fix(h => h.IdFor(o => ((TexasElectricityCommercialQuoteOption)o.OfferOption).ConnectDate))" ng-model="selectedOffer.offerOption.connectDate"
                    datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="checkDisabledDate(date, mode)" datepicker-options="{ 'datepickerDateClass': 'checkDateClass(date)', 'datepickerDateClassScope': $id }" />
             <div class="availibility">@Html.Sitecore().Field("Availability Text")</div>
         </div>
