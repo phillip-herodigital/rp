@@ -504,6 +504,7 @@ namespace StreamEnergy.Services.Clients
                             Offer = locationOfferByEnrollmentAccountId[enrollmentAccountId].Offer,
                             Details = new OfferPayment
                             {
+                                EnrollmentAccountNumber = entry.EnrollmentAccountNumber,
                                 OngoingAmounts = new IOfferPaymentAmount[] 
                                 {
                                     // TODO - is there something here?
@@ -536,8 +537,7 @@ namespace StreamEnergy.Services.Clients
                     PaymentDate = DateTime.Today,
                     InvoiceType = "Deposit",
                     Amount = depositAmount,
-                    // TODO - get the StreamAccountNumber from somewhere
-                    StreamAccountNumber = (string)null,
+                    StreamAccountNumber = deposit.Details.EnrollmentAccountNumber,
                     CustomerName = context.ContactInfo.Name.First + " " + context.ContactInfo.Name.Last,
                     // We won't want to hard-code this later
                     SystemOfRecord = "Kubra",

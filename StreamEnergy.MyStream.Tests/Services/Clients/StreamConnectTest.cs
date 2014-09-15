@@ -770,7 +770,6 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             } while (!creditCheck.IsCompleted);
             var offerPayments = enrollmentService.LoadOfferPayments(gcid, saveResult.Data, userContext.Services).Result;
             var offerPayment = offerPayments.Single();
-            offerPayment.Details.RequiredAmounts.OfType<DomainModels.Enrollments.DepositOfferPaymentAmount>().Single().DollarAmount = 30;
 
             using (new Timer())
             {
