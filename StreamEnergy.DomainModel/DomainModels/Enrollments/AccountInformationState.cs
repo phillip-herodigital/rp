@@ -40,6 +40,14 @@ namespace StreamEnergy.DomainModels.Enrollments
             }
         }
 
+        public override IEnumerable<ValidationResult> AdditionalValidations(UserContext context, InternalContext internalContext)
+        {
+            if (context.SocialSecurityNumber == null && context.TaxId == null)
+            {
+                yield return new ValidationResult("Tax Id or SSN Required", new[] { "SocialSecurityNumber", "TaxId" });
+            }
+        }
+
         protected override System.Threading.Tasks.Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
         {
             if (context.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType == EnrollmentCustomerType.Commercial))

@@ -11,7 +11,7 @@ using ResponsivePath.Validation;
 namespace StreamEnergy.DomainModels.Enrollments
 {
     [Serializable]
-    public class UserContext : ISanitizable
+    public class UserContext : ISanitizable, IValidatableObject
     {
         public bool IsRenewal { get; set; }
 
@@ -31,11 +31,10 @@ namespace StreamEnergy.DomainModels.Enrollments
         [ValidateObject(ErrorMessagePrefix = "Secondary Contact ")]
         public Name SecondaryContactInfo { get; set; }
 
-        [Required(ErrorMessage = "Social Security Number Required")]
         [RegularExpression(@"^\d{3}\D*\d{2}\D*\d{4}$", ErrorMessage = "Social Security Number Invalid")]
         public string SocialSecurityNumber { get; set; }
 
-        [RegularExpression(@"^\d{2}\D*\d{7}$", ErrorMessage = "Social Security Number Invalid")]
+        [RegularExpression(@"^\d{2}\D*\d{7}$", ErrorMessage = "Tax Id Invalid")]
         public string TaxId { get; set; }
 
         [DisplayName("DBA")]
@@ -93,6 +92,14 @@ namespace StreamEnergy.DomainModels.Enrollments
             if (PreviousAddress != null)
                 ((ISanitizable)PreviousAddress).Sanitize();
 
+        }
+
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        {
+            if (SocialSecurityNumber == null && TaxId == null)
+            {
+                yield return new ValidationResult("Tax Id or SSN Required", new[] { "SocialSecurityNumber", "TaxId" });
+            }
         }
     }
 }
