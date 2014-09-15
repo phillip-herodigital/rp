@@ -242,28 +242,29 @@
                                 </div>
                             }
                         </div>
-                        @*
-                            <!-- Change this ng-hide option when commercial becomes available -->
-                            <div class="item" ng-hide="true">
-                                <label>@Html.Sitecore().Field("Social Security Number or Tax ID Number Label")</label>
-                                <ul class="checkbox-list">
-                                    <li><input type="radio" id="ssn" ng-model="accountInformation.personalInformation.taxid"><label for="ssn">@Html.Sitecore().Field("Checkbox List Social Security Number" )</label></li>
-                                    <li><input type="radio" id="taxid" ng-model="accountInformation.personalInformation.taxid"><label for="taxid">@Html.Sitecore().Field("Checkbox List Tax ID")</label></li>
-                                </ul>
-                            </div>
-                        *@
-                        <div class="item" @Html.Validation().ErrorClass(m => m.SocialSecurityNumber)>
+                        <div class="item" ng-if="customerType == 'commercial'">
+                            <label>@Html.Sitecore().Field("Social Security Number or Tax ID Number Label")</label>
+                            <ul class="checkbox-list">
+                                <li><input type="radio" name="idType" ng-model="accountInformation.ssnOrTaxid" value="ssn" checked><label for="ssn">@Html.Sitecore().Field("Checkbox List Social Security Number" )</label></li>
+                                <li><input type="radio" name="idType" ng-model="accountInformation.ssnOrTaxid" value="taxId"><label for="taxid">@Html.Sitecore().Field("Checkbox List Tax ID")</label></li>
+                            </ul>
+                        </div>
+                        <div class="item" ng-if="customerType == 'residential' || accountInformation.ssnOrTaxid == 'ssn'" @Html.Validation().ErrorClass(m => m.SocialSecurityNumber)>
                             <label for="@Html.IdFor(m => m.SocialSecurityNumber)">@Html.Sitecore().Field("Social Security Number Label")</label>
                             @Html.TextBoxFor(m => m.SocialSecurityNumber, new { ng_model = "accountInformation.socialSecurityNumber" })
                             @Html.ValidationMessageFor(m => m.SocialSecurityNumber)
                         </div>
-                        @*
-                            <!-- Change this ng-hide option when commercial becomes available -->
-                            <div class="item" ng-hide="true">
-                                <label for="dba">@Html.Sitecore().Field("DBA Label")</label>
-                                <input type="text" id="dba" ng-model="accountInformation.dba" />
-                            </div>
-                        *@
+                        <div class="item" ng-if="accountInformation.ssnOrTaxid == 'taxId'" @Html.Validation().ErrorClass(m => m.TaxId)>
+                            <label for="@Html.IdFor(m => m.TaxId)">@Html.Sitecore().Field("Tax ID Label")</label>
+                            @Html.TextBoxFor(m => m.TaxId, new { ng_model = "accountInformation.taxId" })
+                            @Html.ValidationMessageFor(m => m.TaxId)
+                        </div>
+                        <div class="item" ng-if="customerType == 'commercial'" @Html.Validation().ErrorClass(m => m.DoingBusinessAs)>
+                            <label for="@Html.IdFor(m => m.DoingBusinessAs)" ng-if="accountInformation.ssnOrTaxid == 'ssn'">@Html.Sitecore().Field("DBA Label")</label>
+                            <label for="@Html.IdFor(m => m.DoingBusinessAs)" ng-if="accountInformation.ssnOrTaxid == 'taxId'">@Html.Sitecore().Field("Company Name Label")</label>
+                            @Html.TextBoxFor(m => m.DoingBusinessAs, new { ng_model = "accountInformation.doingBusinessAs" })
+                            @Html.ValidationMessageFor(m => m.DoingBusinessAs)
+                        </div>
                         <div class="additional-field-item item">
                             <ul class="checkbox-list">
                                 <li><input type="checkbox" name="secondary-contact" id="secondary-contact" ng-model="additionalInformation.showSecondaryContact"><label for="secondary-contact">@Html.Sitecore().Field("Checkbox Add Secondary Contact")</label></li>
@@ -282,6 +283,11 @@
                                     @Html.ValidationMessageFor(m => m.SecondaryContactInfo.Last)
                                 </div>
                             </div>
+                        </div>
+                        <div class="item" ng-if="customerType == 'commercial'" @Html.Validation().ErrorClass(m => m.PreferredSalesExecutive)>
+                            <label for="@Html.IdFor(m => m.PreferredSalesExecutive)">@Html.Sitecore().Field("Preferred Sales Label")</label>
+                            @Html.TextBoxFor(m => m.PreferredSalesExecutive, new { ng_model = "accountInformation.preferredSalesExecutive" })
+                            @Html.ValidationMessageFor(m => m.PreferredSalesExecutive)
                         </div>
                     </div>
                 </article>
