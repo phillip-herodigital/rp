@@ -586,6 +586,113 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             }
         }
 
+        [TestMethod]
+        public void PostEnrollmentsFinalize()
+        {
+            // Assign
+            StreamEnergy.DomainModels.Enrollments.IEnrollmentService enrollmentService = container.Resolve<StreamEnergy.Services.Clients.EnrollmentService>();
+            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
+            var globalCustomerId = accountService.CreateStreamConnectCustomer(email: "test@example.com").Result;
+            var location = new DomainModels.Enrollments.Location
+            {
+                Address = new DomainModels.Address { StateAbbreviation = "TX", PostalCode5 = "75010", City = "Carrollton", Line1 = "3620 Huffines Blvd", Line2 = "APT 226" },
+                Capabilities = new DomainModels.IServiceCapability[]
+                        {
+                            new DomainModels.Enrollments.TexasServiceCapability { Tdu = "ONCOR", EsiId = "10443720006102389" },
+                            new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
+                            new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
+                        }
+            };
+            var offers = enrollmentService.LoadOffers(new[] { location }).Result;
+            var texasElectricityOffer = offers.First().Value.Offers.First() as DomainModels.Enrollments.TexasElectricityOffer;
+            var userContext = new DomainModels.Enrollments.UserContext
+            {
+                ContactInfo = new DomainModels.CustomerContact
+                {
+                    Name = new DomainModels.Name
+                    {
+                        First = "ROBERT",
+                        Last = "DELEON"
+                    },
+                    Phone = new DomainModels.Phone[] { new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = "2234567890" } },
+                    Email = new DomainModels.Email { Address = "test@example.com" },
+                },
+                SocialSecurityNumber = "529998765",
+                Services = new DomainModels.Enrollments.LocationServices[]
+                    {
+                        new DomainModels.Enrollments.LocationServices 
+                        { 
+                            Location = location, 
+                            SelectedOffers = new DomainModels.Enrollments.SelectedOffer[] 
+                            {
+                                new DomainModels.Enrollments.SelectedOffer
+                                {
+                                    Offer = texasElectricityOffer,
+                                    OfferOption = new DomainModels.Enrollments.TexasElectricityMoveInOfferOption 
+                                    { 
+                                        ConnectDate = DateTime.Today.AddDays(3),
+                                    }
+                                }
+                            }
+                        }
+                    },
+                MailingAddress = new DomainModels.Address
+                {
+                    City = "MASSENA",
+                    StateAbbreviation = "NY",
+                    Line1 = "100 WILSON HILL RD",
+                    PostalCode5 = "13662"
+                },
+            };
+            var saveResult = enrollmentService.BeginSaveEnrollment(globalCustomerId, userContext, null).Result;
+            while (!saveResult.IsCompleted)
+            {
+                saveResult = enrollmentService.EndSaveEnrollment(saveResult, userContext).Result;
+            }
+
+            var creditCheck = enrollmentService.BeginCreditCheck(globalCustomerId,
+                name: new DomainModels.Name { First = "Mauricio", Last = "Solórzano" },
+                ssn: "666865460",
+                address: new DomainModels.Address { Line1 = "1212 Aberdeen Avenue", City = "McKinney", StateAbbreviation = "TX", PostalCode5 = "75070" }).Result;
+            do
+            {
+                creditCheck = enrollmentService.EndCreditCheck(creditCheck).Result;
+            } while (!creditCheck.IsCompleted);
+
+            var firstCheck = enrollmentService.BeginIdentityCheck(globalCustomerId,
+                name: new DomainModels.Name { First = "Mauricio", Last = "Solórzano" },
+                ssn: "666540716",                 
+                mailingAddress: new DomainModels.Address { Line1 = "1212 Aberdeen Avenue", City = "McKinney", StateAbbreviation = "TX", PostalCode5 = "75070" }).Result;
+
+            if (firstCheck.Data.IdentityQuestions.Length > 0)
+            {
+                var secondCheck = enrollmentService.BeginIdentityCheck(globalCustomerId,
+                    name: new DomainModels.Name { First = "Mauricio", Last = "Solórzano" },
+                    ssn: "666540716",
+                    mailingAddress: new DomainModels.Address { Line1 = "1212 Aberdeen Avenue", City = "McKinney", StateAbbreviation = "TX", PostalCode5 = "75070" },
+                    identityInformation: new DomainModels.Enrollments.AdditionalIdentityInformation
+                    {
+                        PreviousIdentityCheckId = firstCheck.Data.IdentityCheckId,
+                        SelectedAnswers = firstCheck.Data.IdentityQuestions.ToDictionary(q => q.QuestionId, q => q.Answers[0].AnswerId)
+                    }).Result;
+
+                do
+                {
+                    secondCheck = enrollmentService.EndIdentityCheck(secondCheck).Result;
+                } while (!secondCheck.IsCompleted);
+            }
+
+            using (new Timer())
+            {
+                // Act
+                var result = enrollmentService.PlaceOrder(globalCustomerId, userContext.Services, saveResult.Data, new Dictionary<DomainModels.Enrollments.AdditionalAuthorization, bool>()).Result;
+
+                // Assert
+                Assert.IsNotNull(result);
+                Assert.IsTrue(result.Any());
+            }
+        }
+
 
         [TestMethod]
         public void PostOneTimePaymentsTest()
