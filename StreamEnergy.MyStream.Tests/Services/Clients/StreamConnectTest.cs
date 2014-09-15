@@ -384,6 +384,20 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                     PostalCode5 = "13662"
                 },
             };
+            Mock<DomainModels.Enrollments.IOfferOptionRules> mockRules = new Mock<DomainModels.Enrollments.IOfferOptionRules>();
+            mockRules.Setup(r => r.GetPostBilledPayments(It.IsAny<DomainModels.Enrollments.IOfferOption>())).Returns(new DomainModels.Enrollments.IOfferPaymentAmount[0]);
+            var internalContext = new DomainModels.Enrollments.InternalContext
+                    {
+                        OfferOptionRules = new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.IOfferOptionRules>[] 
+                        { 
+                            new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.IOfferOptionRules>
+                            {
+                                Location = location,
+                                Offer = texasElectricityOffer,
+                                Details = mockRules.Object
+                            }
+                        }
+                    };
             var saveResult = enrollmentService.BeginSaveEnrollment(gcid, userContext, null).Result;
             while (!saveResult.IsCompleted)
             {
@@ -402,7 +416,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             using (new Timer())
             {
                 // Act
-                var offerPayments = enrollmentService.LoadOfferPayments(gcid, saveResult.Data, userContext.Services).Result;
+                var offerPayments = enrollmentService.LoadOfferPayments(gcid, saveResult.Data, userContext.Services, internalContext).Result;
 
                 // Assert
                 Assert.IsNotNull(offerPayments);
@@ -751,6 +765,20 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                     PostalCode5 = "13662"
                 },
             };
+            Mock<DomainModels.Enrollments.IOfferOptionRules> mockRules = new Mock<DomainModels.Enrollments.IOfferOptionRules>();
+            mockRules.Setup(r => r.GetPostBilledPayments(It.IsAny<DomainModels.Enrollments.IOfferOption>())).Returns(new DomainModels.Enrollments.IOfferPaymentAmount[0]);
+            var internalContext = new DomainModels.Enrollments.InternalContext
+            {
+                OfferOptionRules = new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.IOfferOptionRules>[] 
+                        { 
+                            new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.IOfferOptionRules>
+                            {
+                                Location = location,
+                                Offer = texasElectricityOffer,
+                                Details = mockRules.Object
+                            }
+                        }
+            };
             var saveResult = enrollmentService.BeginSaveEnrollment(gcid, userContext, null).Result;
             while (!saveResult.IsCompleted)
             {
@@ -765,7 +793,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             {
                 creditCheck = enrollmentService.EndCreditCheck(creditCheck).Result;
             } while (!creditCheck.IsCompleted);
-            var offerPayments = enrollmentService.LoadOfferPayments(gcid, saveResult.Data, userContext.Services).Result;
+            var offerPayments = enrollmentService.LoadOfferPayments(gcid, saveResult.Data, userContext.Services, internalContext).Result;
             var offerPayment = offerPayments.Single();
 
             using (new Timer())
