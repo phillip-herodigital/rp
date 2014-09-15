@@ -37,6 +37,8 @@ namespace StreamEnergy.DomainModels.Enrollments
         [RegularExpression(@"^\d{2}\D*\d{7}$", ErrorMessage = "Tax Id Invalid")]
         public string TaxId { get; set; }
 
+        public string CompanyName { get; set; }
+
         [DisplayName("DBA")]
         public string DoingBusinessAs { get; set; }
 

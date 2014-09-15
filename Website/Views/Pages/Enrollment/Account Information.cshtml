@@ -258,11 +258,15 @@
                             @Html.TextBoxFor(m => m.TaxId, new { ng_model = "accountInformation.taxId" })
                             @Html.ValidationMessageFor(m => m.TaxId)
                         </div>
-                        <div class="item" ng-if="customerType == 'commercial'" @Html.Validation().ErrorClass(m => m.DoingBusinessAs)>
-                            <label for="@Html.IdFor(m => m.DoingBusinessAs)" ng-if="accountInformation.ssnOrTaxid == 'ssn'">@Html.Sitecore().Field("DBA Label")</label>
-                            <label for="@Html.IdFor(m => m.DoingBusinessAs)" ng-if="accountInformation.ssnOrTaxid == 'taxId'">@Html.Sitecore().Field("Company Name Label")</label>
+                        <div class="item" ng-if="customerType == 'commercial' && accountInformation.ssnOrTaxid == 'ssn'" @Html.Validation().ErrorClass(m => m.DoingBusinessAs)>
+                            <label for="@Html.IdFor(m => m.DoingBusinessAs)">@Html.Sitecore().Field("DBA Label")</label>
                             @Html.TextBoxFor(m => m.DoingBusinessAs, new { ng_model = "accountInformation.doingBusinessAs" })
                             @Html.ValidationMessageFor(m => m.DoingBusinessAs)
+                        </div>
+                        <div class="item" ng-if="customerType == 'commercial' && accountInformation.ssnOrTaxid == 'taxId'" @Html.Validation().ErrorClass(m => m.CompanyName)>
+                            <label for="@Html.IdFor(m => m.CompanyName)">@Html.Sitecore().Field("Company Name Label")</label>
+                            @Html.TextBoxFor(m => m.CompanyName, new { ng_model = "accountInformation.companyName" })
+                            @Html.ValidationMessageFor(m => m.CompanyName)
                         </div>
                         <div class="additional-field-item item">
                             <ul class="checkbox-list">
@@ -294,7 +298,7 @@
                                                 new SelectListItem[] { new SelectListItem { Text = Html.Sitecore().Field("Select Option Please Choose").ToString(), Value = "" } },
                                                 new
                                                 {
-                                                    ng_model = "accountInformation.PreviousProvider",
+                                                    ng_model = "accountInformation.previousProvider",
                                                     ng_options = "type.name as type.display for type in previousProviders"
                                                 })
                         </div>

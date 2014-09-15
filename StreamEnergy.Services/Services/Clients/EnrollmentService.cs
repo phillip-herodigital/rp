@@ -572,12 +572,8 @@ namespace StreamEnergy.Services.Clients
         {
             var finalizeResponse = await streamConnectClient.PostAsJsonAsync("/api/v1/customers/" + streamCustomerId.ToString() + "/enrollments/finalize", new {
                 GlobalCustomerID = streamCustomerId,
-                FinalizeRequests = from orderEntry in originalSaveState.Results
-                    select new
-                    {
-                        authorizations = additionalAuthorizations.Select(ConvertAuthorization).Where(auth => auth != null),
-                        EnrollmentAccountID = orderEntry.Details.GlobalEnrollmentAccountId
-                    }
+                Authorizations = new[] { new KeyValuePair<string, bool>("TermsAndConditions", true) }.Concat(additionalAuthorizations.SelectMany(ConvertAuthorization)).ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
+                EnrollmentAccountIds = originalSaveState.Results.Select(orderEntry => orderEntry.Details.GlobalEnrollmentAccountId)
             });
             finalizeResponse.EnsureSuccessStatusCode();
             dynamic result = Json.Read<JObject>(await finalizeResponse.Content.ReadAsStringAsync());
@@ -604,6 +600,7 @@ namespace StreamEnergy.Services.Clients
         {
             var response = await streamConnectClient.PostAsJsonAsync("/api/v1/commercial-request-for-quote", new
             {
+                CompanyName = context.CompanyName,
                 ContactFirstName = context.ContactInfo.Name.First,
                 ContactLastName = context.ContactInfo.Name.Last,
                 ContactTitle = context.ContactTitle,
@@ -674,19 +671,25 @@ namespace StreamEnergy.Services.Clients
             };
         }
 
-        private StreamConnect.CustomerAuthorization ConvertAuthorization(KeyValuePair<AdditionalAuthorization, bool> arg)
+        private IEnumerable<KeyValuePair<string, bool>> ConvertAuthorization(KeyValuePair<AdditionalAuthorization, bool> arg)
         {
             switch (arg.Key)
             {
                 case AdditionalAuthorization.Tcpa:
-                    return new StreamConnect.CustomerAuthorization 
+                    if (arg.Value)
                     {
-                        AuthorizationType = StreamConnect.AuthorizationType.TCPA,
-                        Accepted = arg.Value,
-                        AcceptedDate = DateTime.Today
-                    };
+                        return new Dictionary<string, bool>
+                        {
+                            { "TCPA", true },
+                            { "TheWireOptIn", true },
+                        };
+                    }
+                    else
+                    {
+                        return Enumerable.Empty<KeyValuePair<string, bool>>();
+                    }
                 default:
-                    return null;
+                    return Enumerable.Empty<KeyValuePair<string, bool>>();
             }
         }
 

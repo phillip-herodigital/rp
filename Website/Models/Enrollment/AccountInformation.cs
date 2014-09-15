@@ -31,6 +31,8 @@ namespace StreamEnergy.MyStream.Models.Enrollment
 
         public string TaxId { get; set; }
 
+        public string CompanyName { get; set; }
+
         public string DoingBusinessAs { get; set; }
 
         public string PreferredSalesExecutive { get; set; }
