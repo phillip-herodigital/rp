@@ -253,7 +253,7 @@
                             </div>
                         *@
                         <div class="item" @Html.Validation().ErrorClass(m => m.SocialSecurityNumber)>
-                            <label for="@Html.IdFor(m => m.SocialSecurityNumber)">@Html.Sitecore().Field("Social Security Number Label")</label>
+                            <label for="@Html.IdFor(m => m.SocialSecurityNumber)">@Html.Sitecore().Field("Social Security Number Label") <a href="#" tooltip="@Html.Sitecore().Field("Social Security Number Tooltip")"><i class="icon-tooltip"></i></a></label>
                             @Html.TextBoxFor(m => m.SocialSecurityNumber, new { ng_model = "accountInformation.socialSecurityNumber" })
                             @Html.ValidationMessageFor(m => m.SocialSecurityNumber)
                         </div>
