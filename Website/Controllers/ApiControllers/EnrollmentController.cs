@@ -338,6 +338,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             stateMachine.Context.TaxId = request.TaxId;
             stateMachine.Context.DoingBusinessAs = request.DoingBusinessAs;
             stateMachine.Context.PreferredSalesExecutive = request.PreferredSalesExecutive;
+            stateMachine.Context.PreviousProvider = request.PreviousProvider;
 
             await stateMachine.ContextUpdated();
 

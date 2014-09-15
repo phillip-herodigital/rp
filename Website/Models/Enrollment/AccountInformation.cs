@@ -34,5 +34,7 @@ namespace StreamEnergy.MyStream.Models.Enrollment
         public string DoingBusinessAs { get; set; }
 
         public string PreferredSalesExecutive { get; set; }
+
+        public string PreviousProvider { get; set; }
     }
 }
