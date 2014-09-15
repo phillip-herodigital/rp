@@ -101,6 +101,17 @@ $enrollment-module-vertical-padding: 20px;
             float: left;
         }
     }
+
+    .datepicker-input {
+        @include retina-background('calendar.png', 'icon'); 
+        background-position: 98% center;
+        background-repeat: no-repeat;
+
+        //Remove the Clear field (X) in IE10+
+        &::-ms-clear {
+            display: none;
+        }
+    }
     
     .error {
         color: #c84545;
@@ -228,16 +239,6 @@ $enrollment-module-vertical-padding: 20px;
                 td {
                     padding: 2px 3px;
                 }
-            }
-        }
-        .datepicker-input {
-            @include retina-background('calendar.png', 'icon'); 
-            background-position: 98% center;
-            background-repeat: no-repeat;
-
-            //Remove the Clear field (X) in IE10+
-            &::-ms-clear {
-                display: none;
             }
         }
         .dropdown-menu {
