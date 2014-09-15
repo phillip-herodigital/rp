@@ -479,7 +479,7 @@ namespace StreamEnergy.Services.Clients
             return asyncResult;
         }
 
-        async Task<IEnumerable<LocationOfferDetails<OfferPayment>>> IEnrollmentService.LoadOfferPayments(Guid streamCustomerId, EnrollmentSaveResult enrollmentSaveStates, IEnumerable<LocationServices> services)
+        async Task<IEnumerable<LocationOfferDetails<OfferPayment>>> IEnrollmentService.LoadOfferPayments(Guid streamCustomerId, EnrollmentSaveResult enrollmentSaveStates, IEnumerable<LocationServices> services, InternalContext internalContext)
         {
             var response = await streamConnectClient.GetAsync("/api/v1/customers/" + streamCustomerId + "/enrollments");
             response.EnsureSuccessStatusCode();
@@ -498,12 +498,17 @@ namespace StreamEnergy.Services.Clients
                     if (entry.Premise.Deposit != null)
                         deposit = (decimal)entry.Premise.Deposit.Amount.Value;
 
+                    var location = locationOfferByEnrollmentAccountId[enrollmentAccountId].Location;
+                    var offer = locationOfferByEnrollmentAccountId[enrollmentAccountId].Offer;
+                    var option = services.First(s => s.Location == location).SelectedOffers.First(s => s.Offer == offer).OfferOption;
+
                     offerPaymentResults.Add(new LocationOfferDetails<OfferPayment>
                         {
-                            Location = locationOfferByEnrollmentAccountId[enrollmentAccountId].Location,
-                            Offer = locationOfferByEnrollmentAccountId[enrollmentAccountId].Offer,
+                            Location = location,
+                            Offer = offer,
                             Details = new OfferPayment
                             {
+                                EnrollmentAccountNumber = entry.EnrollmentAccountNumber,
                                 OngoingAmounts = new IOfferPaymentAmount[] 
                                 {
                                     // TODO - is there something here?
@@ -512,7 +517,8 @@ namespace StreamEnergy.Services.Clients
                                 {
                                     // TODO future - installation fees
                                     new DepositOfferPaymentAmount { DollarAmount = deposit }
-                                }
+                                },
+                                PostBilledAmounts = internalContext.OfferOptionRules.First(rule => rule.Location == location && rule.Offer == offer).Details.GetPostBilledPayments(option)
                             }
                         });
                 }
@@ -536,8 +542,7 @@ namespace StreamEnergy.Services.Clients
                     PaymentDate = DateTime.Today,
                     InvoiceType = "Deposit",
                     Amount = depositAmount,
-                    // TODO - get the StreamAccountNumber from somewhere
-                    StreamAccountNumber = (string)null,
+                    StreamAccountNumber = deposit.Details.EnrollmentAccountNumber,
                     CustomerName = context.ContactInfo.Name.First + " " + context.ContactInfo.Name.Last,
                     // We won't want to hard-code this later
                     SystemOfRecord = "Kubra",
