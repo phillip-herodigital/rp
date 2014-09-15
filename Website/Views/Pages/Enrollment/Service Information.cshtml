@@ -61,7 +61,7 @@
                             </div><!-- /input-group -->
                         </div>
                         }
-                        <div class="item warning" ng-if="isCartFull">
+                        <div class="item warning" ng-if="isCartFull && isNewServiceAddress">
                             @Html.Sitecore().Field("Maximum Addresses Message Text")
                         </div>
                         <hr>

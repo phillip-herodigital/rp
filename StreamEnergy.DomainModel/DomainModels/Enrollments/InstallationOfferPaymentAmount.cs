@@ -9,7 +9,7 @@ namespace StreamEnergy.DomainModels.Enrollments
     [Serializable]
     public class InstallationOfferPaymentAmount : IOfferPaymentAmount
     {
-        public const string Qualifier = "Installation";
+        public const string Qualifier = "InstallationFee";
 
         public string OfferPaymentAmountType
         {
