@@ -521,25 +521,50 @@ namespace StreamEnergy.Services.Clients
             return offerPaymentResults;
         }
 
-        Task IEnrollmentService.PayDeposit(IEnumerable<LocationOfferDetails<OfferPayment>> depositData, IEnumerable<LocationOfferDetails<EnrollmentSaveEntry>> enrollmentSaveEntries, DomainModels.Payments.IPaymentInfo paymentInfo)
+        async Task<IEnumerable<LocationOfferDetails<DomainModels.Payments.PaymentResult>>> IEnrollmentService.PayDeposit(IEnumerable<LocationOfferDetails<OfferPayment>> depositData, IEnumerable<LocationOfferDetails<EnrollmentSaveEntry>> enrollmentSaveEntries, DomainModels.Payments.IPaymentInfo paymentInfo, UserContext context)
         {
-            if (paymentInfo == null || paymentInfo.PaymentType == "DepositWaiver")
-                return Task.FromResult<object>(null);
+            var card = paymentInfo as DomainModels.Payments.TokenizedCard;
+            if (card == null)
+                return Enumerable.Empty<LocationOfferDetails<DomainModels.Payments.PaymentResult>>();
 
-            //var depositAmount = depositData.Sum(o => o.Details.RequiredAmounts.Where(req => req.OfferPaymentAmountType == DepositOfferPaymentAmount.Qualifier).Sum(req => req.DollarAmount));
+            List<LocationOfferDetails<DomainModels.Payments.PaymentResult>> result = new List<LocationOfferDetails<DomainModels.Payments.PaymentResult>>();
+            foreach (var deposit in depositData)
+            {
+                var depositAmount = deposit.Details.RequiredAmounts.Where(req => req.OfferPaymentAmountType == DepositOfferPaymentAmount.Qualifier).Sum(req => req.DollarAmount);
+                var response = await streamConnectClient.PostAsJsonAsync("/api/v1/payments/one-time", new
+                {
+                    PaymentDate = DateTime.Today,
+                    InvoiceType = "Deposit",
+                    Amount = depositAmount,
+                    // TODO - get the StreamAccountNumber from somewhere
+                    StreamAccountNumber = (string)null,
+                    CustomerName = context.ContactInfo.Name.First + " " + context.ContactInfo.Name.Last,
+                    // We won't want to hard-code this later
+                    SystemOfRecord = "Kubra",
+                    PaymentAccount = new 
+                    { 
+                        Token = card.CardToken,
+                        AccountType = "Unknown",
+                        ExpirationDate = new { Year = card.ExpirationDate.Year, Month = card.ExpirationDate.Month },
+                        Name = context.ContactInfo.Name.First + " " + context.ContactInfo.Name.Last,
+                        Postal = card.BillingZipCode,                        
+                    },
+                    Cvv = card.SecurityCode
+                });
+                dynamic jobject = Json.Read<JObject>(await response.Content.ReadAsStringAsync());
 
-            //var response = await streamConnectClient.PostAsJsonAsync("/api/payments/deposit", new
-            //{
-            //    GlobalCustomerID = streamCustomerId,
-            //    FinalizeRequests = from orderEntry in originalSaveState.Results
-            //                       select new
-            //                       {
-            //                           authorizations = additionalAuthorizations.Select(ConvertAuthorization).Where(auth => auth != null),
-            //                           EnrollmentAccountID = orderEntry.Details.GlobalEnrollmentAccountId
-            //                       }
-            //});
+                result.Add(new LocationOfferDetails<DomainModels.Payments.PaymentResult>
+                    {
+                        Location = deposit.Location,
+                        Offer = deposit.Offer,
+                        Details = new DomainModels.Payments.PaymentResult
+                        {
+                            ConfirmationNumber = jobject.ConfirmationNumber
+                        }
+                    });
+            }
 
-            throw new NotImplementedException();
+            return result.ToArray();
         }
 
 
