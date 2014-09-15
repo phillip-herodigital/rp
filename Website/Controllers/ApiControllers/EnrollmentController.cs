@@ -336,6 +336,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             stateMachine.Context.MailingAddress = request.MailingAddress;
 
             stateMachine.Context.TaxId = request.TaxId;
+            stateMachine.Context.CompanyName = request.CompanyName;
             stateMachine.Context.DoingBusinessAs = request.DoingBusinessAs;
             stateMachine.Context.PreferredSalesExecutive = request.PreferredSalesExecutive;
             stateMachine.Context.PreviousProvider = request.PreviousProvider;

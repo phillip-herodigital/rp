@@ -604,6 +604,7 @@ namespace StreamEnergy.Services.Clients
         {
             var response = await streamConnectClient.PostAsJsonAsync("/api/v1/commercial-request-for-quote", new
             {
+                CompanyName = context.CompanyName,
                 ContactFirstName = context.ContactInfo.Name.First,
                 ContactLastName = context.ContactInfo.Name.Last,
                 ContactTitle = context.ContactTitle,
