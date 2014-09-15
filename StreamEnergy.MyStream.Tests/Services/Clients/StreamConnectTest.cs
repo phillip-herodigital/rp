@@ -328,6 +328,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         public void LoadOfferPaymentsTest()
         {
             // Assign
+            var ssn = "666865460";
             var streamConnectClient = container.Resolve<HttpClient>(StreamEnergy.Services.Clients.StreamConnectContainerSetup.StreamConnectKey);
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
             StreamEnergy.DomainModels.Enrollments.IEnrollmentService enrollmentService = container.Resolve<StreamEnergy.Services.Clients.EnrollmentService>();
@@ -356,7 +357,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                     Phone = new DomainModels.Phone[] { new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = "2234567890" } },
                     Email = new DomainModels.Email { Address = "test@example.com" },
                 },
-                SocialSecurityNumber = "529998765",
+                SocialSecurityNumber = ssn,
                 Services = new DomainModels.Enrollments.LocationServices[]
                 {
                     new DomainModels.Enrollments.LocationServices 
@@ -391,7 +392,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
 
             var creditCheck = enrollmentService.BeginCreditCheck(gcid,
                 name: new DomainModels.Name { First = "Mauricio", Last = "Solórzano" },
-                ssn: "123456789",
+                ssn: ssn,
                 address: new DomainModels.Address { Line1 = "1212 Aberdeen Avenue", City = "McKinney", StateAbbreviation = "TX", PostalCode5 = "75070" }).Result;
             do
             {
