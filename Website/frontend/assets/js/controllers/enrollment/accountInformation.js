@@ -40,7 +40,7 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
 
     $scope.$watch('accountInformation.mailingAddressSame', function () {
         if ($scope.accountInformation.mailingAddressSame) {
-            if ($scope.utilityAddresses().length == 1 && !$scope.accountInformation.mailingAddress)
+            if ($scope.utilityAddresses().length == 1)
                 $scope.accountInformation.mailingAddress = $scope.utilityAddresses()[0].location.address;
         } else {
             $scope.accountInformation.mailingAddress = {};
