@@ -46,6 +46,8 @@
                         <dd>{{ accountInformation.contactInfo.phone[0].number | phone }}</dd>
                         <dt>@Html.Sitecore().Field("Email")</dt>
                         <dd>{{ accountInformation.contactInfo.email.address }}</dd>
+                        <dt>@Html.Sitecore().Field("Mailing Address")</dt>
+                        <dd>{{ accountInformation.mailingAddress | address }}</dd>
                         <dt ng-if="accountInformation.secondaryContactInfo.first">@Html.Sitecore().Field("Secondary Contact")</dt>
                         <dd ng-if="accountInformation.secondaryContactInfo.first">{{ accountInformation.secondaryContactInfo.first }} {{ accountInformation.secondaryContactInfo.last }}</dd>
                     </dl>
