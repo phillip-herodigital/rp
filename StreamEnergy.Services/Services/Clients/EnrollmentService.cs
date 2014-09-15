@@ -159,7 +159,7 @@ namespace StreamEnergy.Services.Clients
 
             if (result.FailureReason != null)
             {
-                if (result.FailureReason.Contains("Esiid is already active.  Switch is not allowed."))
+                if (result.FailureReason.Contains("Switch is not allowed."))
                     return PremiseVerificationResult.MustMoveIn;
             }
             return PremiseVerificationResult.GeneralError;
