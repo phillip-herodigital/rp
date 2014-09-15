@@ -93,7 +93,7 @@
                                                         new
                                                         {
                                                             ng_model = "accountInformation.contactInfo.phone[0].category",
-                                                            ng_options = "type.name as type.display for type in phoneTypes"
+                                                            ng_options = "type.name as type.display for type in phoneTypes|filter:filter2|filter:filterCustomerType"
                                                         }))
                                     @firstPhone.ValidationMessageFor(m => ((TypedPhone)m).Category)
                                 </div>
@@ -119,7 +119,7 @@
                                                         new
                                                         {
                                                             ng_model = "accountInformation.contactInfo.phone[1].category",
-                                                            ng_options = "type.name as type.display for type in phoneTypes",
+                                                            ng_options = "type.name as type.display for type in phoneTypes|filter:filter1|filter:filterCustomerType",
                                                             data_val_if = "accountInformation.contactInfo.phone.length > 1"
                                                         }))
                                         @secondPhone.ValidationMessageFor(m => ((TypedPhone)m).Category)
@@ -198,45 +198,45 @@
                                 </div>
                             }
                         </div>
-                        <div ng-show="hasMoveIn" class="previous-address">
+                        <div ng-show="hasMoveIn && customerType != 'commercial'" class="previous-address">
                             <h3>@Html.Sitecore().Field("Previous Address Header")</h3>
-                            @using (var billingAddress = Html.Shortcut(m => m.PreviousAddress))
+                            @using (var previousAddress = Html.Shortcut(m => m.PreviousAddress))
                             {
                                 <div>
                                     <div class="group">
-                                        <div class="item group-col" @(billingAddress.Validation().ErrorClass(m => m.Line1))>
-                                            <label for="@billingAddress.Fix(h => h.IdFor(m => m.Line1))">@Html.Sitecore().Field("Address 1 Label")</label>
-                                            @billingAddress.Fix(h => h.TextBoxFor(m => m.Line1, new { data_val_if = "hasMoveIn", ng_model = "accountInformation.previousAddress.line1" }))
-                                            @billingAddress.ValidationMessageFor(m => m.Line1)
+                                        <div class="item group-col" @(previousAddress.Validation().ErrorClass(m => m.Line1))>
+                                            <label for="@previousAddress.Fix(h => h.IdFor(m => m.Line1))">@Html.Sitecore().Field("Address 1 Label")</label>
+                                            @previousAddress.Fix(h => h.TextBoxFor(m => m.Line1, new { data_val_if = "hasMoveIn && customerType != 'commercial'", ng_model = "accountInformation.previousAddress.line1" }))
+                                            @previousAddress.ValidationMessageFor(m => m.Line1)
                                         </div>
-                                        <div class="item group-col" @billingAddress.Validation().ErrorClass(m => m.Line2)>
-                                            <label for="@billingAddress.Fix(h => h.IdFor(m => m.Line2))">@Html.Sitecore().Field("Address 2 Label")</label>
-                                            @billingAddress.Fix(h => h.TextBoxFor(m => m.Line2, new { data_val_if = "hasMoveIn", ng_model = "accountInformation.previousAddress.line2" }))
-                                            @billingAddress.ValidationMessageFor(m => m.Line2)
+                                        <div class="item group-col" @previousAddress.Validation().ErrorClass(m => m.Line2)>
+                                            <label for="@previousAddress.Fix(h => h.IdFor(m => m.Line2))">@Html.Sitecore().Field("Address 2 Label")</label>
+                                            @previousAddress.Fix(h => h.TextBoxFor(m => m.Line2, new { data_val_if = "hasMoveIn && customerType != 'commercial'", ng_model = "accountInformation.previousAddress.line2" }))
+                                            @previousAddress.ValidationMessageFor(m => m.Line2)
                                         </div>
                                     </div>
                                     <div class="group">
-                                        <div class="item group-col" @billingAddress.Validation().ErrorClass(m => m.City)>
-                                            <label for="@billingAddress.Fix(h => h.IdFor(m => m.City))">@Html.Sitecore().Field("City Label")</label>
-                                            @billingAddress.Fix(h => h.TextBoxFor(m => m.City, new { data_val_if = "hasMoveIn", ng_model = "accountInformation.previousAddress.city" }))
-                                            @billingAddress.ValidationMessageFor(m => m.City)
+                                        <div class="item group-col" @previousAddress.Validation().ErrorClass(m => m.City)>
+                                            <label for="@previousAddress.Fix(h => h.IdFor(m => m.City))">@Html.Sitecore().Field("City Label")</label>
+                                            @previousAddress.Fix(h => h.TextBoxFor(m => m.City, new { data_val_if = "hasMoveIn && customerType != 'commercial'", ng_model = "accountInformation.previousAddress.city" }))
+                                            @previousAddress.ValidationMessageFor(m => m.City)
                                         </div>
-                                        <div class="item" @billingAddress.Validation().ErrorClass(m => m.StateAbbreviation)>
-                                            <label for="@billingAddress.Fix(h => h.IdFor(m => m.StateAbbreviation))">@Html.Sitecore().Field("State Label")</label>
-                                            @billingAddress.Fix(h => h.DropDownListFor(m => m.StateAbbreviation,
+                                        <div class="item" @previousAddress.Validation().ErrorClass(m => m.StateAbbreviation)>
+                                            <label for="@previousAddress.Fix(h => h.IdFor(m => m.StateAbbreviation))">@Html.Sitecore().Field("State Label")</label>
+                                            @previousAddress.Fix(h => h.DropDownListFor(m => m.StateAbbreviation,
                                                         new SelectListItem[] { new SelectListItem { Text = Html.Sitecore().Field("Select Option Please Choose").ToString(), Value = "" } },
                                                         new
                                                         {
-                                                            data_val_if = "hasMoveIn",
+                                                            data_val_if = "hasMoveIn && customerType != 'commercial'",
                                                             ng_model = "accountInformation.previousAddress.stateAbbreviation",
                                                             ng_options = "state.abbreviation as state.display for state in usStates"
                                                         }))
-                                            @billingAddress.ValidationMessageFor(m => m.StateAbbreviation)
+                                            @previousAddress.ValidationMessageFor(m => m.StateAbbreviation)
                                         </div>
-                                        <div class="item" @billingAddress.Validation().ErrorClass(m => m.PostalCode5)>
-                                            <label for="@billingAddress.Fix(h => h.IdFor(m => m.PostalCode5))">@Html.Sitecore().Field("Zip Label")</label>
-                                            @billingAddress.Fix(h => h.TextBoxFor(m => m.PostalCode5, new { @class = "small", data_val_if = "hasMoveIn", ng_model = "accountInformation.previousAddress.postalCode5" }))
-                                            @billingAddress.ValidationMessageFor(m => m.PostalCode5)
+                                        <div class="item" @previousAddress.Validation().ErrorClass(m => m.PostalCode5)>
+                                            <label for="@previousAddress.Fix(h => h.IdFor(m => m.PostalCode5))">@Html.Sitecore().Field("Zip Label")</label>
+                                            @previousAddress.Fix(h => h.TextBoxFor(m => m.PostalCode5, new { @class = "small", data_val_if = "hasMoveIn && customerType != 'commercial'", ng_model = "accountInformation.previousAddress.postalCode5" }))
+                                            @previousAddress.ValidationMessageFor(m => m.PostalCode5)
                                         </div>
                                     </div>
                                 </div>
@@ -380,16 +380,53 @@
 </script>
 
 <script type="text/ng-template" id="cleanseAddressesModal">
-    <div>
+    <div class="cleanse-address">
         <div class="modal-header">
             <a href="" ng-click="$dismiss()">Close</a>
-            <h2>Verify Addresses</h2>
+            <h2>@Html.Sitecore().Field("Verify Address Header")</h2>
         </div>
         <div class="modal-body">
-            <p>We were unable to verify the address you entered.</p>
+            @Html.Sitecore().Field("Verify Address Body")
+            <div class="item address-group" ng-if="addressOptions.mailingAddress[0]">
+                <label>@Html.Sitecore().Field("Mailing Address Text")</label>
+                <div class="radio-item">
+                    <input type="radio" ng-model="modal.mailingAddress" value="suggested">
+                    <label>@Html.Sitecore().Field("Suggested Address Text")</label>
+                </div>
+                <div class="address">
+                    {{ addressOptions.mailingAddress[1] | address }}
+                </div>
+                <div class="radio-item">
+                    <input type="radio" ng-model="modal.mailingAddress" value="original">
+                    <label>@Html.Sitecore().Field("Original Address Text")</label>
+                </div>
+                <div class="address">
+                    {{ addressOptions.mailingAddress[0] | address }}
+                </div>
+            </div>
+
+            <div class="item address-group" ng-if="addressOptions.previousAddress[0]">
+                <label>@Html.Sitecore().Field("Previous Address Text")</label>
+                <div class="radio-item">
+                    <input type="radio" ng-model="modal.previousAddress" value="suggested">
+                    <label>@Html.Sitecore().Field("Suggested Address Text")</label>
+                </div>
+                <div class="address">
+                    {{ addressOptions.previousAddress[1] | address }}
+                </div>
+                <div class="radio-item">
+                    <input type="radio" ng-model="modal.previousAddress" value="original">
+                    <label>@Html.Sitecore().Field("Original Address Text")</label>
+                </div>
+                <div class="address">
+                    {{ addressOptions.previousAddress[0] | address }}
+                </div>
+            </div>
+
         </div>
         <div class="modal-footer">
-            <button ng-click="$close()">@Html.Sitecore().Field("Yes Button")</button>
+            <button class="secondary" ng-click="$dismiss()">@Html.Sitecore().Field("Cancel Button")</button>
+            <button ng-click="$close()">@Html.Sitecore().Field("Continue Button")</button>
         </div>
     </div>
 </script>

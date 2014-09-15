@@ -281,7 +281,7 @@ $enrollment-module-vertical-padding: 20px;
 }
 
 .enrollment__loadingMessage {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
@@ -800,6 +800,27 @@ $enrollment-module-vertical-padding: 20px;
     }
     .previous-address {
         margin-bottom: 20px;
+    }
+}
+
+.cleanse-address {
+    .address-group {
+        margin: 10px 0;
+        label {
+            display: block;
+            font-weight: 600;
+        }
+        .radio-item {
+            display: inline-block;
+            width: 33%;
+            label {
+                display: inline-block;
+                font-weight: 300;
+            }
+        }
+        .address {
+            display: inline-block;
+        }
     }
 }
 

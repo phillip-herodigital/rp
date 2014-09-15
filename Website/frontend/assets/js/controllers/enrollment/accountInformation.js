@@ -5,6 +5,8 @@
 ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentService', 'enrollmentCartService', '$modal', function ($scope, enrollmentService, enrollmentCartService, $modal) {
     $scope.accountInformation = enrollmentService.accountInformation;
     $scope.validations = [];
+    $scope.addressOptions = {};
+    $scope.modal= {};
 
     $scope.hasMoveIn = false;
     $scope.$watch(enrollmentCartService.services, function () {
@@ -15,6 +17,23 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
             .filter({ enrollmentType: "moveIn" })
             .any();
     }, true);
+
+    // create a filter so that the same phone type can't be selected twice
+    $scope.filter1 = function(item){
+        return (!($scope.accountInformation.contactInfo.phone.length > 0 && $scope.accountInformation.contactInfo.phone[0].category) || item.name != $scope.accountInformation.contactInfo.phone[0].category);
+    };
+
+    $scope.filter2 = function(item){
+        return (!($scope.accountInformation.contactInfo.phone.length > 1 && $scope.accountInformation.contactInfo.phone[1].category) || item.name != $scope.accountInformation.contactInfo.phone[1].category);
+    };
+
+    $scope.filterCustomerType = function(item){
+        if ($scope.customerType != 'commercial') {
+            return (item.name != 'work');
+        } else {
+            return (item.name != 'home');
+        }
+    };
 
     /**
      * [utilityAddresses description]
@@ -57,7 +76,7 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
     */
     $scope.completeStep = function () {
         var addresses = [$scope.accountInformation.mailingAddress];
-        if ($scope.hasMoveIn) {
+        if ($scope.hasMoveIn && $scope.customerType != 'commercial') {
             addresses.push($scope.accountInformation.previousAddress);
         }
 
@@ -69,7 +88,7 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
             });
         }
         enrollmentService.cleanseAddresses(addresses).then(function (data) {
-            if (data[0].length || (data.length > 1 && data[1].length)) {
+            if ((data.length > 1 && data[0].length) || (data.length > 1 && data[1].length)) {
                 var addressOptions = { };
                 if (data[0] && data[0].length) {
                     data[0].unshift($scope.accountInformation.mailingAddress);
@@ -79,23 +98,22 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
                     data[1].unshift($scope.accountInformation.previousAddress);
                     addressOptions.previousAddress = data[1];
                 }
-/*
-                // TODO - do a modal and then use continueWith() after the modal is resolved
-                var modalInstance = $modal.open({
-                    scope: $scope,
-                    templateUrl: 'cleanseAddressesModal',
-                    //controller: '',
-                    resolve: {
-                        'addressOptions': function () { return addressOptions; }
-                    }
-                });
-                
-                modalInstance.result.then(function (selectedOptions) {
-                    $scope.accountInformation.mailingAddress = selectedOptions.mailingAddress;
-                    $scope.accountInformation.previousAddress = selectedOptions.previousAddress;
-                    continueWith();
-                });*/
-                // TODO - remove this line when the modal is in place
+                if (addressOptions.mailingAddress || addressOptions.previousAddress) {
+                    $scope.addressOptions = addressOptions;
+                    var modalInstance = $modal.open({
+                        scope: $scope,
+                        templateUrl: 'cleanseAddressesModal'
+                    });
+                    modalInstance.result.then(function (selectedOptions) {
+                        if (addressOptions.mailingAddress && $scope.modal.mailingAddress != 'original') {
+                            $scope.accountInformation.mailingAddress = $scope.addressOptions.mailingAddress[1];
+                        }
+                        if (addressOptions.previousAddress && $scope.modal.previousAddress != 'original') {
+                            $scope.accountInformation.previousAddress = $scope.addressOptions.previousAddress[1];
+                        }
+                        continueWith();
+                    });
+                }
                 continueWith();
             }
             else {

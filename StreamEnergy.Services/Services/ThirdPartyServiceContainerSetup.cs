@@ -16,6 +16,7 @@ namespace StreamEnergy.Services
 
             unityContainer.RegisterType<StreamEnergyBilling.IstaTokenization.IDpiTokenService>(new InjectionFactory(uc => new StreamEnergyBilling.IstaTokenization.DpiTokenServiceClient()));
             unityContainer.RegisterType<Interpreters.IDpiEnrollmentParameters, Interpreters.DpiEnrollmentParameters>();
+            unityContainer.RegisterType<Clients.ISitecoreProductData, Clients.SitecoreProductData>();
         }
     }
 }
