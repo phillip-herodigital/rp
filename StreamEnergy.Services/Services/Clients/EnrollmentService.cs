@@ -592,7 +592,7 @@ namespace StreamEnergy.Services.Clients
                     Offer = entry.saved.Offer,
                     Details = new PlaceOrderResult 
                     { 
-                        ConfirmationNumber = entry.response.StreamReferenceNumber, 
+                        ConfirmationNumber = entry.response.EnrollmentReferenceNumber, 
                         IsSuccess = entry.response.Status.Value == "Success" 
                     }
                 }).ToArray();

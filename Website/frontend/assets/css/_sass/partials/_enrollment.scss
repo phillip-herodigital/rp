@@ -95,6 +95,12 @@ $enrollment-module-vertical-padding: 20px;
             background-color: $enrollment-secondary-button-background;
             color: $enrollment-secondary-button-color;
             margin-right: 10px;
+            @include breakpoint(small-medium){
+                margin-top: 10px;
+                margin-right: 0;
+                float: right;
+                clear: both;
+            }
         }
         &.tertiary {
             background-color: $enrollment-tertiary-button-background;
@@ -141,6 +147,8 @@ $enrollment-module-vertical-padding: 20px;
 
     .time-remaining-mobile {
         text-align: center;
+        clear: both;
+        padding-top: 20px;
         .time-remaining {
             text-transform: uppercase;
             font-size: 14px;
@@ -595,6 +603,10 @@ $enrollment-module-vertical-padding: 20px;
                 &.sortable:hover {
                     cursor: pointer; 
                 }
+                &.plan-header {
+                    text-align: left;
+                    padding-left: 32px;
+                }
             }
         }
         td, th {
@@ -678,16 +690,34 @@ $enrollment-module-vertical-padding: 20px;
             margin-top: 15px;
             font-size: 12px;}
         .rate {
-            font-size: 22px;
-            line-height: 18px;
+            font-size: 18px;
             font-style: italic;
+            font-weight: 600;
+            span {
+                font-size: 12px;
+                text-transform: none;
+                font-weight: normal;
+            }
+        }
+        .term {
+            font-size: 18px;
+            font-style: italic;
+            font-weight: 600;
+            span {
+                font-size: 12px;
+                text-transform: none;
+                font-weight: normal;
+            }
         }
         .fees {
-            width: 110px;
-            font-size: 19px;
+            width: 140px;
+            font-size: 18px;
             font-style: italic;
+            font-weight: 600;
             span {
-                font-size: 11px;
+                font-size: 12px;
+                text-transform: none;
+                font-weight: normal;
             }
         }
         .select-plan {
@@ -807,6 +837,12 @@ $enrollment-module-vertical-padding: 20px;
     }
     form div.secondary-contact-group {
         margin-bottom: 15px;
+    }
+    .zip-code {
+        @include breakpoint(small-medium) {
+            clear: left;
+            margin-top: 20px;
+        }
     }
 }
 
@@ -1071,12 +1107,29 @@ $enrollment-module-vertical-padding: 20px;
         }
     }
     .description {
+        position: relative;
         float: left;
         width: 60%;
         font-size: 15px;
+        .icon-electricity {
+            position: absolute;
+            top: 4px;
+            left: 0;
+        }
+        .plan-text {
+            margin-left: 30px;
+        }
         a {
             font-size: 13px;
         }
+    }
+    .fees {
+        float: left;
+        width: 50%;
+        font-size: 13px;
+        color: #333;
+        font-weight: 600;
+        margin: 5px 0 0 30px;
     }
     .avatar {
         text-align: center;

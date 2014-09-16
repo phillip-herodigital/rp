@@ -20,6 +20,7 @@
                 newDate = new Date(newDate);
             var target = toISODate(newDate);
             var availableDate = _.find($scope.selectedOffer.optionRules.connectDates.availableConnectDates, { date: target });
+            $scope.selectedOffer.offerOption.connectionFee = availableDate.fees.connectFee;
             $scope.connectionFee = availableDate.fees.connectFee;
         }
     });

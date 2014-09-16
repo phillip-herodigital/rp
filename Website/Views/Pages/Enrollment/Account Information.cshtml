@@ -188,7 +188,7 @@
                                                         }))
                                             @mailingAddress.ValidationMessageFor(m => m.StateAbbreviation)
                                         </div>
-                                        <div class="item" @mailingAddress.Validation().ErrorClass(m => m.PostalCode5)>
+                                        <div class="item zip-code" @mailingAddress.Validation().ErrorClass(m => m.PostalCode5)>
                                             <label for="@mailingAddress.Fix(h => h.IdFor(m => m.PostalCode5))">@Html.Sitecore().Field("Zip Label")</label>
                                             @mailingAddress.Fix(h => h.TextBoxFor(m => m.PostalCode5, new { @class = "small", data_val_if = "!accountInformation.mailingAddressSame", ng_model = "accountInformation.mailingAddress.postalCode5" }))
                                             @mailingAddress.ValidationMessageFor(m => m.PostalCode5)
@@ -232,7 +232,7 @@
                                                         }))
                                             @previousAddress.ValidationMessageFor(m => m.StateAbbreviation)
                                         </div>
-                                        <div class="item" @previousAddress.Validation().ErrorClass(m => m.PostalCode5)>
+                                        <div class="item zip-code" @previousAddress.Validation().ErrorClass(m => m.PostalCode5)>
                                             <label for="@previousAddress.Fix(h => h.IdFor(m => m.PostalCode5))">@Html.Sitecore().Field("Zip Label")</label>
                                             @previousAddress.Fix(h => h.TextBoxFor(m => m.PostalCode5, new { @class = "small", data_val_if = "hasMoveIn && customerType != 'commercial'", ng_model = "accountInformation.previousAddress.postalCode5" }))
                                             @previousAddress.ValidationMessageFor(m => m.PostalCode5)
@@ -250,22 +250,22 @@
                             </div>
                         <div class="item" ng-if="customerType == 'residential' || accountInformation.ssnOrTaxid == 'ssn'" @Html.Validation().ErrorClass(m => m.SocialSecurityNumber)>
                             <label for="@Html.IdFor(m => m.SocialSecurityNumber)">@Html.Sitecore().Field("Social Security Number Label") <a href="#" tooltip="@Html.Sitecore().Field("Social Security Number Tooltip")"><i class="icon-tooltip"></i></a></label>
-                            @Html.TextBoxFor(m => m.SocialSecurityNumber, new { ng_model = "accountInformation.socialSecurityNumber" })
+                            @Html.TextBoxFor(m => m.SocialSecurityNumber, new { ng_model = "accountInformation.socialSecurityNumber", data_val = "true", data_val_required = "" })
                             @Html.ValidationMessageFor(m => m.SocialSecurityNumber)
                         </div>
                         <div class="item" ng-if="accountInformation.ssnOrTaxid == 'taxId'" @Html.Validation().ErrorClass(m => m.TaxId)>
                             <label for="@Html.IdFor(m => m.TaxId)">@Html.Sitecore().Field("Tax ID Label")</label>
-                            @Html.TextBoxFor(m => m.TaxId, new { ng_model = "accountInformation.taxId" })
+                            @Html.TextBoxFor(m => m.TaxId, new { ng_model = "accountInformation.taxId", data_val = "true", data_val_required = "" })
                             @Html.ValidationMessageFor(m => m.TaxId)
                             </div>
                         <div class="item" ng-if="customerType == 'commercial' && accountInformation.ssnOrTaxid == 'ssn'" @Html.Validation().ErrorClass(m => m.DoingBusinessAs)>
                             <label for="@Html.IdFor(m => m.DoingBusinessAs)">@Html.Sitecore().Field("DBA Label")</label>
-                            @Html.TextBoxFor(m => m.DoingBusinessAs, new { ng_model = "accountInformation.doingBusinessAs" })
+                            @Html.TextBoxFor(m => m.DoingBusinessAs, new { ng_model = "accountInformation.doingBusinessAs", data_val = "true", data_val_required = "" })
                             @Html.ValidationMessageFor(m => m.DoingBusinessAs)
                         </div>
                         <div class="item" ng-if="customerType == 'commercial' && accountInformation.ssnOrTaxid == 'taxId'" @Html.Validation().ErrorClass(m => m.CompanyName)>
                             <label for="@Html.IdFor(m => m.CompanyName)">@Html.Sitecore().Field("Company Name Label")</label>
-                            @Html.TextBoxFor(m => m.CompanyName, new { ng_model = "accountInformation.companyName" })
+                            @Html.TextBoxFor(m => m.CompanyName, new { ng_model = "accountInformation.companyName", data_val = "true", data_val_required = "" })
                             @Html.ValidationMessageFor(m => m.CompanyName)
                         </div>
                         <div class="additional-field-item item">
