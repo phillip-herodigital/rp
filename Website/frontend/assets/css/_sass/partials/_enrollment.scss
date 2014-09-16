@@ -137,6 +137,8 @@ $enrollment-module-vertical-padding: 20px;
 
     .time-remaining-mobile {
         text-align: center;
+        clear: both;
+        padding-top: 20px;
         .time-remaining {
             text-transform: uppercase;
             font-size: 14px;
@@ -804,6 +806,12 @@ $enrollment-module-vertical-padding: 20px;
     }
     form div.secondary-contact-group {
         margin-bottom: 15px;
+    }
+    .zip-code {
+        @include breakpoint(small-medium) {
+            clear: left;
+            margin-top: 20px;
+        }
     }
 }
 
