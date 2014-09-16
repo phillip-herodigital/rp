@@ -72,6 +72,9 @@ $enrollment-module-vertical-padding: 20px;
         }
         label {
             display: inline;
+			&.enroll-options {
+				font-weight: 300;
+			}
         }
     }
 
