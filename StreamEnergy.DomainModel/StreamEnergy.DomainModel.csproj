@@ -159,6 +159,7 @@
     <Compile Include="DomainModels\Enrollments\ConnectDate.cs" />
     <Compile Include="DomainModels\Enrollments\ConnectDateClassification.cs" />
     <Compile Include="DomainModels\Enrollments\ConnectDatePolicy.cs" />
+    <Compile Include="DomainModels\Enrollments\ConnectionFeePaymentAmount.cs" />
     <Compile Include="DomainModels\Enrollments\CreditCheckResult.cs" />
     <Compile Include="DomainModels\Enrollments\CustomerTypeCapability.cs" />
     <Compile Include="DomainModels\Enrollments\DepositWaiver.cs" />
