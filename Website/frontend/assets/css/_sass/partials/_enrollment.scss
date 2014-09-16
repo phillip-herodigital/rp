@@ -92,6 +92,12 @@ $enrollment-module-vertical-padding: 20px;
             background-color: $enrollment-secondary-button-background;
             color: $enrollment-secondary-button-color;
             margin-right: 10px;
+            @include breakpoint(small-medium){
+                margin-top: 10px;
+                margin-right: 0;
+                float: right;
+                clear: both;
+            }
         }
         &.tertiary {
             background-color: $enrollment-tertiary-button-background;
