@@ -69,8 +69,11 @@
             <i class="icon-delete"></i>
         </div>
         <div class="description">
-            <span class="plan"><i class="icon-ssn"></i> {{ selectedOffer.offer.name }}</span><br />
-            <a href="" ng-click="changeUtilityPlan(location)">Change Plan</a>
+            <i class="icon-electricity"></i> 
+            <div class="plan-text">
+                <span class="plan">{{ selectedOffer.offer.name }}</span><br />
+                <a href="" ng-click="changeUtilityPlan(location)">Change Plan</a>
+            </div>
         </div>
         <div class="rate">
             {{selectedOffer.offer.rate}}&cent;
