@@ -178,6 +178,11 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                .map(function (l) {
                    return _(l.location.capabilities).filter({ capabilityType: "TexasElectricity" }).first().tdu.toUpperCase();
                }).contains(tdu);
+        },
+        locationHasService: function (location) {
+            return location.offerInformationByType.some(function (o) {
+                return o.value.offerSelections.length;
+            });
         }
     };
 
