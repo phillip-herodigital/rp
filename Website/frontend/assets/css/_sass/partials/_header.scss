@@ -178,16 +178,20 @@
 				left: 50%;
 				top: 21px;
 				margin-top: 0;
-				margin-left: (image-width("bg/logo-desktop.png") / 2) * -1;
-				@include breakpoint(small) {
-					margin-left: (image-width("bg/logo-mobile.png") / 2) * -1;
-				}
+                @include image-replace("bg/logo-desktop-enrollment.png", "bg2x/logo-desktop-enrollment.png");
+				margin-left: (image-width("bg/logo-desktop-enrollment.png") / 2) * -1;
 			}
 			.nav-toggle {
 				margin-top: 22px;
 			}
 		}
 	}
+    @include breakpoint(small) {
+        > .wrapper .logo {
+            @include image-replace("bg/logo-mobile-enrollment.png", "bg2x/logo-mobile-enrollment.png");
+			margin-left: (image-width("bg/logo-mobile-enrollment.png") / 2) * -1;
+        }
+    }
 }
 
 .banner {	
