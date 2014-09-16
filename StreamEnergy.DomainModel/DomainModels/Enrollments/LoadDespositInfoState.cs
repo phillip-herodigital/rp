@@ -66,8 +66,7 @@ namespace StreamEnergy.DomainModels.Enrollments
             }
             else
             {
-                var result = enrollmentService.LoadOfferPayments(internalContext.GlobalCustomerId, internalContext.EnrollmentSaveState.Data, context.Services, internalContext);
-                internalContext.Deposit = (await result).ToArray();
+                internalContext.Deposit = (await enrollmentService.LoadOfferPayments(internalContext.GlobalCustomerId, internalContext.EnrollmentSaveState.Data, context.Services, internalContext)).ToArray();
             }
         }
     }

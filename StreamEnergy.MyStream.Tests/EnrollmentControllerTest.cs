@@ -305,7 +305,7 @@ namespace StreamEnergy.MyStream.Tests
                     IdentityQuestions = new IdentityQuestion[0],
                 }
             }));
-            mockEnrollmentService.Setup(m => m.LoadOfferPayments(It.IsAny<Guid>(), It.IsAny<DomainModels.Enrollments.Service.EnrollmentSaveResult>(), It.IsAny<IEnumerable<LocationServices>>(), It.IsAny<InternalContext>())).Returns<Guid, DomainModels.Enrollments.Service.EnrollmentSaveResult, IEnumerable<LocationServices>>((a, b, services) =>
+            mockEnrollmentService.Setup(m => m.LoadOfferPayments(It.IsAny<Guid>(), It.IsAny<DomainModels.Enrollments.Service.EnrollmentSaveResult>(), It.IsAny<IEnumerable<LocationServices>>(), It.IsAny<InternalContext>())).Returns<Guid, DomainModels.Enrollments.Service.EnrollmentSaveResult, IEnumerable<LocationServices>, InternalContext>((a, b, services, ctx) =>
                 {
                     return Task.FromResult(from loc in services
                                            from offer in loc.SelectedOffers
@@ -316,10 +316,11 @@ namespace StreamEnergy.MyStream.Tests
                                                Details = new OfferPayment
                                                {
                                                    RequiredAmounts = new IOfferPaymentAmount[] 
-                                           { 
-                                               new DepositOfferPaymentAmount { DollarAmount = (offer.Offer is TexasElectricityOffer && ((TexasElectricityOffer)offer.Offer).TermMonths == 1) ? 0 : 75.25m }
-                                           },
-                                                   OngoingAmounts = new IOfferPaymentAmount[] { }
+                                                   { 
+                                                       new DepositOfferPaymentAmount { DollarAmount = (offer.Offer is TexasElectricityOffer && ((TexasElectricityOffer)offer.Offer).TermMonths == 1) ? 0 : 75.25m }
+                                                   },
+                                                   OngoingAmounts = new IOfferPaymentAmount[] { },
+                                                   PostBilledAmounts = new IOfferPaymentAmount[] { },
                                                }
                                            });
                 });
