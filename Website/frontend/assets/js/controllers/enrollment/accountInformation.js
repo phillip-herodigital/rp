@@ -6,7 +6,9 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
     $scope.accountInformation = enrollmentService.accountInformation;
     $scope.validations = [];
     $scope.addressOptions = {};
-    $scope.modal= {};
+    $scope.modal = {};
+
+    $scope.accountInformation.contactInfo.phone[0].category = "mobile";
 
     $scope.hasMoveIn = false;
     $scope.hasSwitch = false;
