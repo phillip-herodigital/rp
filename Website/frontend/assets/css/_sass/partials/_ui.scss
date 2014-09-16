@@ -149,20 +149,28 @@ div.tabbable {
 
 .datepicker {
 	button {
-		padding: 2px 5px;
+        @include border-radius(0);
+		padding: 5px 10px;
 		font-weight: 400;
 		font-size: 14px;
 		color: #333;
 		text-shadow: none;
 		background: transparent;
+        &.priority {
+            background-color: #f9e5aa;
+        }
 		&.btn-info, &.btn-info:hover {
 			background-color: #0971ce;
 			color: #fff;
 		}
 		&:hover {
 			color: #0971ce;
-			background: #eee;
+			background-color: #eee;
 		}
+        &[disabled] {
+            color: #333;
+            background: transparent;
+        }
 	}
 	small {
 		font-size: 90%;
@@ -171,6 +179,7 @@ div.tabbable {
 		width: 320px;
 		height: 185px;
 		border-collapse: separate;
+        outline: none;
 		overflow: hidden;
 		@include border-radius(10px);
 		@include box-shadow(0 2px 6px rgba(0, 0, 0, .25));
@@ -184,7 +193,7 @@ div.tabbable {
 		border: none;
 		border-right: 1px solid #eaeaea;
 		border-bottom: 1px solid #eaeaea;
-		padding: 2px 6px;
+		padding: 0;
 		&:first-child {
 			border-left: none;
 		}

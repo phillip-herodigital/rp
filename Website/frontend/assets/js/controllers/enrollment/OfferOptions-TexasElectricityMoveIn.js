@@ -1,4 +1,4 @@
-﻿ngApp.controller('OfferOptions-TexasElectricityMoveIn', ['$scope', function ($scope) {
+﻿ngApp.controller('OfferOptions-TexasElectricityMoveIn', ['$rootScope', '$scope', function ($rootScope, $scope) {
     // this is probably not terribly smart... we're pulling based off of $scope variables actually defined by markup ng-repeats...
     var rules = $scope.selectedOffer.optionRules;
 
@@ -31,7 +31,7 @@
         if (availableDate) {
             var lastPriorityDate = new Date();
             lastPriorityDate.setDate(new Date().getDate() + 3);
-            return { 'red': availableDate.classification == 'priority' };
+            return { 'priority': availableDate.classification == 'priority' };
         }
         return false;
     };
