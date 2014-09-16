@@ -34,18 +34,18 @@
                 </div>
             </div>
         </article>
-        <article class="enrollment__box" ng-if="customertype == 'commercial'">
+        <article class="enrollment__box" ng-if="customerType != 'commercial'">
             <header>
                 @Html.Sitecore().Field("Documents Description")
             </header>
             <ul class="info">
                 <li><i class="icon-home"></i> @Html.Sitecore().Field("Documents Service Address")</li>
-                <li><i class="icon-bill"></i>  @Html.Sitecore().Field("Documents Billing Account Number")</a></li>
+                <!--<li><i class="icon-bill"></i>  @Html.Sitecore().Field("Documents Billing Account Number")</a></li>-->
                 <li><i class="icon-utility-provider"></i> @Html.Sitecore().Field("Documents Utility Provider")</li>
                 <li><i class="icon-ssn"></i> @Html.Sitecore().Field("Documents Social Security Number")</li>
             </ul>
         </article>
-        <article class="enrollment__box outage-information" ng-if="getCartLocationsCount() > 0">
+        <article class="enrollment__box outage-information" ng-if="customerType != 'commercial' && getCartLocationsCount() > 0">
             <header>
                 <p><strong>@Html.Sitecore().Field("Outage Header")</strong></p>
             </header>
