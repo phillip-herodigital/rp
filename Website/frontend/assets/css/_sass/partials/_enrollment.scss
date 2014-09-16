@@ -807,6 +807,12 @@ $enrollment-module-vertical-padding: 20px;
     form div.secondary-contact-group {
         margin-bottom: 15px;
     }
+    .zip-code {
+        @include breakpoint(small-medium) {
+            clear: left;
+            margin-top: 20px;
+        }
+    }
 }
 
 .cleanse-address {

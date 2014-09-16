@@ -188,7 +188,7 @@
                                                         }))
                                             @mailingAddress.ValidationMessageFor(m => m.StateAbbreviation)
                                         </div>
-                                        <div class="item" @mailingAddress.Validation().ErrorClass(m => m.PostalCode5)>
+                                        <div class="item zip-code" @mailingAddress.Validation().ErrorClass(m => m.PostalCode5)>
                                             <label for="@mailingAddress.Fix(h => h.IdFor(m => m.PostalCode5))">@Html.Sitecore().Field("Zip Label")</label>
                                             @mailingAddress.Fix(h => h.TextBoxFor(m => m.PostalCode5, new { @class = "small", data_val_if = "!accountInformation.mailingAddressSame", ng_model = "accountInformation.mailingAddress.postalCode5" }))
                                             @mailingAddress.ValidationMessageFor(m => m.PostalCode5)
@@ -232,7 +232,7 @@
                                                         }))
                                             @previousAddress.ValidationMessageFor(m => m.StateAbbreviation)
                                         </div>
-                                        <div class="item" @previousAddress.Validation().ErrorClass(m => m.PostalCode5)>
+                                        <div class="item zip-code" @previousAddress.Validation().ErrorClass(m => m.PostalCode5)>
                                             <label for="@previousAddress.Fix(h => h.IdFor(m => m.PostalCode5))">@Html.Sitecore().Field("Zip Label")</label>
                                             @previousAddress.Fix(h => h.TextBoxFor(m => m.PostalCode5, new { @class = "small", data_val_if = "hasMoveIn && customerType != 'commercial'", ng_model = "accountInformation.previousAddress.postalCode5" }))
                                             @previousAddress.ValidationMessageFor(m => m.PostalCode5)
