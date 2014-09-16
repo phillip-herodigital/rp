@@ -8,5 +8,6 @@ namespace StreamEnergy.DomainModels.Enrollments
     public interface IOfferOptionRules
     {
         string OptionRulesType { get; }
+        IOfferPaymentAmount[] GetPostBilledPayments(IOfferOption options);
     }
 }

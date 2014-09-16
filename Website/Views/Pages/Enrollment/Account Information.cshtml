@@ -273,7 +273,7 @@
                                 <li><input type="checkbox" name="secondary-contact" id="secondary-contact" ng-model="additionalInformation.showSecondaryContact"><label for="secondary-contact">@Html.Sitecore().Field("Checkbox Add Secondary Contact")</label></li>
                             </ul>
                         </div>
-                        <div class="additional-field-group" ng-if="additionalInformation.showSecondaryContact">
+                        <div class="additional-field-group secondary-contact-group" ng-if="additionalInformation.showSecondaryContact">
                             <div class="group">
                                 <div class="item group-col" @Html.Validation().ErrorClass(m => m.SecondaryContactInfo.First)>
                                     <label for="@Html.IdFor(m => m.SecondaryContactInfo.First)">@Html.Sitecore().Field("First Name Label")</label>

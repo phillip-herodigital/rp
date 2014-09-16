@@ -305,7 +305,7 @@ namespace StreamEnergy.MyStream.Tests
                     IdentityQuestions = new IdentityQuestion[0],
                 }
             }));
-            mockEnrollmentService.Setup(m => m.LoadOfferPayments(It.IsAny<Guid>(), It.IsAny<DomainModels.Enrollments.Service.EnrollmentSaveResult>(), It.IsAny<IEnumerable<LocationServices>>())).Returns<Guid, DomainModels.Enrollments.Service.EnrollmentSaveResult, IEnumerable<LocationServices>>((a, b, services) =>
+            mockEnrollmentService.Setup(m => m.LoadOfferPayments(It.IsAny<Guid>(), It.IsAny<DomainModels.Enrollments.Service.EnrollmentSaveResult>(), It.IsAny<IEnumerable<LocationServices>>(), It.IsAny<InternalContext>())).Returns<Guid, DomainModels.Enrollments.Service.EnrollmentSaveResult, IEnumerable<LocationServices>>((a, b, services) =>
                 {
                     return Task.FromResult(from loc in services
                                            from offer in loc.SelectedOffers

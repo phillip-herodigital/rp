@@ -12,6 +12,6 @@ namespace StreamEnergy.DomainModels.Enrollments
         public string EnrollmentAccountNumber { get; set; }
         public IEnumerable<IOfferPaymentAmount> RequiredAmounts { get; set; }
         public IEnumerable<IOfferPaymentAmount> OngoingAmounts { get; set; }
-
+        public IEnumerable<IOfferPaymentAmount> PostBilledAmounts { get; set; }
     }
 }

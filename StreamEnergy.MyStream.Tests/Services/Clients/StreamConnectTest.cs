@@ -384,6 +384,20 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                     PostalCode5 = "13662"
                 },
             };
+            Mock<DomainModels.Enrollments.IOfferOptionRules> mockRules = new Mock<DomainModels.Enrollments.IOfferOptionRules>();
+            mockRules.Setup(r => r.GetPostBilledPayments(It.IsAny<DomainModels.Enrollments.IOfferOption>())).Returns(new DomainModels.Enrollments.IOfferPaymentAmount[0]);
+            var internalContext = new DomainModels.Enrollments.InternalContext
+                    {
+                        OfferOptionRules = new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.IOfferOptionRules>[] 
+                        { 
+                            new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.IOfferOptionRules>
+                            {
+                                Location = location,
+                                Offer = texasElectricityOffer,
+                                Details = mockRules.Object
+                            }
+                        }
+                    };
             var saveResult = enrollmentService.BeginSaveEnrollment(gcid, userContext, null).Result;
             while (!saveResult.IsCompleted)
             {
@@ -402,7 +416,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             using (new Timer())
             {
                 // Act
-                var offerPayments = enrollmentService.LoadOfferPayments(gcid, saveResult.Data, userContext.Services).Result;
+                var offerPayments = enrollmentService.LoadOfferPayments(gcid, saveResult.Data, userContext.Services, internalContext).Result;
 
                 // Assert
                 Assert.IsNotNull(offerPayments);
@@ -660,27 +674,24 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             } while (!creditCheck.IsCompleted);
 
             var firstCheck = enrollmentService.BeginIdentityCheck(globalCustomerId,
-                name: new DomainModels.Name { First = "Mauricio", Last = "Solórzano" },
-                ssn: "666540716",                 
-                mailingAddress: new DomainModels.Address { Line1 = "1212 Aberdeen Avenue", City = "McKinney", StateAbbreviation = "TX", PostalCode5 = "75070" }).Result;
-
-            if (firstCheck.Data.IdentityQuestions.Length > 0)
-            {
-                var secondCheck = enrollmentService.BeginIdentityCheck(globalCustomerId,
-                    name: new DomainModels.Name { First = "Mauricio", Last = "Solórzano" },
+                name: new DomainModels.Name { First = "ROBERT", Last = "DELEON" },
                     ssn: "666540716",
-                    mailingAddress: new DomainModels.Address { Line1 = "1212 Aberdeen Avenue", City = "McKinney", StateAbbreviation = "TX", PostalCode5 = "75070" },
-                    identityInformation: new DomainModels.Enrollments.AdditionalIdentityInformation
-                    {
-                        PreviousIdentityCheckId = firstCheck.Data.IdentityCheckId,
-                        SelectedAnswers = firstCheck.Data.IdentityQuestions.ToDictionary(q => q.QuestionId, q => q.Answers[0].AnswerId)
-                    }).Result;
+                    mailingAddress: new DomainModels.Address { Line1 = "100 WILSON HILL RD", City = "MASSENA", StateAbbreviation = "NY", PostalCode5 = "13662" }).Result;
 
-                do
+            var secondCheck = enrollmentService.BeginIdentityCheck(globalCustomerId,
+                name: new DomainModels.Name { First = "ROBERT", Last = "DELEON" },
+                ssn: "666540716",
+                mailingAddress: new DomainModels.Address { Line1 = "100 WILSON HILL RD", City = "MASSENA", StateAbbreviation = "NY", PostalCode5 = "13662" },
+                identityInformation: new DomainModels.Enrollments.AdditionalIdentityInformation
                 {
-                    secondCheck = enrollmentService.EndIdentityCheck(secondCheck).Result;
-                } while (!secondCheck.IsCompleted);
-            }
+                    PreviousIdentityCheckId = firstCheck.Data.IdentityCheckId,
+                    SelectedAnswers = firstCheck.Data.IdentityQuestions.ToDictionary(q => q.QuestionId, q => q.Answers[0].AnswerId)
+                }).Result;
+
+            do
+            {
+                secondCheck = enrollmentService.EndIdentityCheck(secondCheck).Result;
+            } while (!secondCheck.IsCompleted);
 
             using (new Timer())
             {
@@ -754,6 +765,20 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                     PostalCode5 = "13662"
                 },
             };
+            Mock<DomainModels.Enrollments.IOfferOptionRules> mockRules = new Mock<DomainModels.Enrollments.IOfferOptionRules>();
+            mockRules.Setup(r => r.GetPostBilledPayments(It.IsAny<DomainModels.Enrollments.IOfferOption>())).Returns(new DomainModels.Enrollments.IOfferPaymentAmount[0]);
+            var internalContext = new DomainModels.Enrollments.InternalContext
+            {
+                OfferOptionRules = new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.IOfferOptionRules>[] 
+                        { 
+                            new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.IOfferOptionRules>
+                            {
+                                Location = location,
+                                Offer = texasElectricityOffer,
+                                Details = mockRules.Object
+                            }
+                        }
+            };
             var saveResult = enrollmentService.BeginSaveEnrollment(gcid, userContext, null).Result;
             while (!saveResult.IsCompleted)
             {
@@ -768,7 +793,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             {
                 creditCheck = enrollmentService.EndCreditCheck(creditCheck).Result;
             } while (!creditCheck.IsCompleted);
-            var offerPayments = enrollmentService.LoadOfferPayments(gcid, saveResult.Data, userContext.Services).Result;
+            var offerPayments = enrollmentService.LoadOfferPayments(gcid, saveResult.Data, userContext.Services, internalContext).Result;
             var offerPayment = offerPayments.Single();
 
             using (new Timer())
