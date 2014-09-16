@@ -180,6 +180,8 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                }).contains(tdu);
         },
         locationHasService: function (location) {
+            if (!location.offerInformationByType)
+                return false;
             return location.offerInformationByType.some(function (o) {
                 return o.value.offerSelections.length;
             });
