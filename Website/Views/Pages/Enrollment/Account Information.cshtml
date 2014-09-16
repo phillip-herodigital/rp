@@ -242,12 +242,12 @@
                             }
                         </div>
                         <div class="item" ng-if="customerType == 'commercial'">
-                            <label>@Html.Sitecore().Field("Social Security Number or Tax ID Number Label")</label>
-                            <ul class="checkbox-list">
+                                <label>@Html.Sitecore().Field("Social Security Number or Tax ID Number Label")</label>
+                                <ul class="checkbox-list">
                                 <li><input type="radio" name="idType" ng-model="accountInformation.ssnOrTaxid" value="ssn" checked><label for="ssn">@Html.Sitecore().Field("Checkbox List Social Security Number" )</label></li>
                                 <li><input type="radio" name="idType" ng-model="accountInformation.ssnOrTaxid" value="taxId"><label for="taxid">@Html.Sitecore().Field("Checkbox List Tax ID")</label></li>
-                            </ul>
-                        </div>
+                                </ul>
+                            </div>
                         <div class="item" ng-if="customerType == 'residential' || accountInformation.ssnOrTaxid == 'ssn'" @Html.Validation().ErrorClass(m => m.SocialSecurityNumber)>
                             <label for="@Html.IdFor(m => m.SocialSecurityNumber)">@Html.Sitecore().Field("Social Security Number Label") <a href="#" tooltip="@Html.Sitecore().Field("Social Security Number Tooltip")"><i class="icon-tooltip"></i></a></label>
                             @Html.TextBoxFor(m => m.SocialSecurityNumber, new { ng_model = "accountInformation.socialSecurityNumber" })
@@ -257,7 +257,7 @@
                             <label for="@Html.IdFor(m => m.TaxId)">@Html.Sitecore().Field("Tax ID Label")</label>
                             @Html.TextBoxFor(m => m.TaxId, new { ng_model = "accountInformation.taxId" })
                             @Html.ValidationMessageFor(m => m.TaxId)
-                        </div>
+                            </div>
                         <div class="item" ng-if="customerType == 'commercial' && accountInformation.ssnOrTaxid == 'ssn'" @Html.Validation().ErrorClass(m => m.DoingBusinessAs)>
                             <label for="@Html.IdFor(m => m.DoingBusinessAs)">@Html.Sitecore().Field("DBA Label")</label>
                             @Html.TextBoxFor(m => m.DoingBusinessAs, new { ng_model = "accountInformation.doingBusinessAs" })
@@ -367,6 +367,26 @@
     }
 </script>
 
+<script type="text/ng-template" id="template/datepicker/popup.html">
+    <ul class="dropdown-menu" ng-style="{display: (isOpen && 'block') || 'none', top: position.top+'px', left: position.left+'px'}" ng-keydown="keydown($event)">
+        <li ng-transclude></li>
+        <li ng-if="showFooter">
+            <ul class="legend">
+                <li><span class="disabled">24</span> Dates in grey are unavailable</li>
+                <li><span>24</span> Dates in black are available for a standard connect fee</li>
+                <li><span class="priority">24</span> Dates in yellow are available for a priority connect fee</li>
+            </ul>
+        </li>
+        <li ng-if="showButtonBar" style="padding:10px 9px 2px">
+            <span class="btn-group">
+                <button type="button" class="btn btn-sm btn-info" ng-click="select('today')">{{ getText('current') }}</button>
+                <button type="button" class="btn btn-sm btn-danger" ng-click="select(null)">{{ getText('clear') }}</button>
+            </span>
+            <button type="button" class="btn btn-sm btn-success pull-right" ng-click="close()">{{ getText('close') }}</button>
+        </li>
+    </ul>
+</script>
+
 <script type="text/ng-template" id="offerOptions/TexasElectricityMoveIn">
     @using (var offer = Html.ClientRepeater(m => m.Services, "{{$parent.$index}}").ClientRepeater(m => m.SelectedOffers, "{{$index}}"))
     {
@@ -374,8 +394,11 @@
         @*<h2>Electricity</h2>*@
         <div class="item group-col datepicker" @offer.Validation().ErrorClass(o => ((TexasElectricityMoveInOfferOption)o.OfferOption).ConnectDate)>
             <label for="@offer.Fix(h => h.IdFor(o => ((TexasElectricityMoveInOfferOption)o.OfferOption).ConnectDate))">@Html.Sitecore().Field("Service Start Date Label")</label>
-            <input type="text" class="datepicker-input" id="@offer.Fix(h => h.IdFor(o => ((TexasElectricityMoveInOfferOption)o.OfferOption).ConnectDate))" ng-model="selectedOffer.offerOption.connectDate"
-                   datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="checkDisabledDate(date, mode)" datepicker-options="{ 'datepickerDateClass': 'checkDateClass(date)', 'datepickerDateClassScope': $id }" />
+            <span class="calendar">
+                <input type="text" class="datepicker-input" id="@offer.Fix(h => h.IdFor(o => ((TexasElectricityMoveInOfferOption)o.OfferOption).ConnectDate))" ng-model="selectedOffer.offerOption.connectDate"
+                       datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="checkDisabledDate(date, mode)" show-footer="true" datepicker-options="{ 'datepickerDateClass': 'checkDateClass(date)', 'datepickerDateClassScope': $id, 'maxMode': 'day' }" />
+                <span class="icon" ng-click="openDatePicker($event)"><i class="icon-calendar"></i></span>
+            </span>
             <div class="availibility">@Html.Sitecore().Field("Availability Text")</div>
         </div>
         <div class="item item--no-input inline-label">
@@ -390,12 +413,15 @@
     @using (var offer = Html.ClientRepeater(m => m.Services, "{{$parent.$index}}").ClientRepeater(m => m.SelectedOffers, "{{$index}}"))
     {
     <div ng-controller="OfferOptions-TexasElectricityCommercialQuote">
-        <div class="item group-col datepicker" @offer.Validation().ErrorClass(o => ((TexasElectricityCommercialQuoteOption)o.OfferOption).ConnectDate)>
-            <label for="@offer.Fix(h => h.IdFor(o => ((TexasElectricityCommercialQuoteOption)o.OfferOption).ConnectDate))">@Html.Sitecore().Field("Commercial Service Start Date Label")</label>
-        <input type="text" class="datepicker-input" id="@offer.Fix(h => h.IdFor(o => ((TexasElectricityCommercialQuoteOption)o.OfferOption).ConnectDate))" ng-model="selectedOffer.offerOption.connectDate"
-                   datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="checkDisabledDate(date, mode)" datepicker-options="{ 'datepickerDateClass': 'checkDateClass(date)', 'datepickerDateClassScope': $id }" />
+    <div class="item group-col datepicker" @offer.Validation().ErrorClass(o => ((TexasElectricityCommercialQuoteOption)o.OfferOption).ConnectDate)>
+        <label for="@offer.Fix(h => h.IdFor(o => ((TexasElectricityCommercialQuoteOption)o.OfferOption).ConnectDate))">@Html.Sitecore().Field("Commercial Service Start Date Label")</label>
+        <span class="calendar">
+            <input type="text" class="datepicker-input" id="@offer.Fix(h => h.IdFor(o => ((TexasElectricityCommercialQuoteOption)o.OfferOption).ConnectDate))" ng-model="selectedOffer.offerOption.connectDate"
+                   datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="checkDisabledDate(date, mode)" show-footer="true" datepicker-options="{ 'datepickerDateClass': 'checkDateClass(date)', 'datepickerDateClassScope': $id, 'maxMode': 'day' }" />
+            <span class="icon" ng-click="openDatePicker($event)"><i class="icon-calendar"></i></span>
+        </span>
             <div class="availibility">@Html.Sitecore().Field("Availability Text")</div>
-        </div>
+    </div>
     </div>
    }
 </script>
