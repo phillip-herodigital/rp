@@ -72,12 +72,18 @@
             <i class="icon-electricity"></i> 
             <div class="plan-text">
                 <span class="plan">{{ selectedOffer.offer.name }}</span><br />
-                <a href="" ng-click="changeUtilityPlan(location)">Change Plan</a>
+                <a href="" ng-click="changeUtilityPlan(location)">@Html.Sitecore().Field("Change Plan")</a>
             </div>
         </div>
         <div class="rate">
             {{selectedOffer.offer.rate}}&cent;
-            <span>per kWh</span>
+            <span>@Html.Sitecore().Field("Per kWh")</span>
+        </div>
+        <div class="fees" ng-if="selectedOffer.offerOption.connectionFee">
+            @Html.Sitecore().Field("Connection Fee")
+        </div>
+        <div class="rate" ng-if="selectedOffer.offerOption.connectionFee">
+            {{selectedOffer.offerOption.connectionFee | currency}}
         </div>
     </div>
 </script>
