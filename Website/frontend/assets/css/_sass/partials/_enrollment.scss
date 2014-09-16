@@ -1064,12 +1064,29 @@ $enrollment-module-vertical-padding: 20px;
         }
     }
     .description {
+        position: relative;
         float: left;
         width: 60%;
         font-size: 15px;
+        .icon-electricity {
+            position: absolute;
+            top: 4px;
+            left: 0;
+        }
+        .plan-text {
+            margin-left: 30px;
+        }
         a {
             font-size: 13px;
         }
+    }
+    .fees {
+        float: left;
+        width: 50%;
+        font-size: 13px;
+        color: #333;
+        font-weight: 600;
+        margin: 5px 0 0 30px;
     }
     .avatar {
         text-align: center;
