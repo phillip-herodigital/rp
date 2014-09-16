@@ -701,6 +701,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                 // Assert
                 Assert.IsNotNull(result);
                 Assert.IsTrue(result.Any());
+                Assert.IsTrue(result.First().Details.IsSuccess);
+                Assert.IsNotNull(result.First().Details.ConfirmationNumber);
             }
         }
 
