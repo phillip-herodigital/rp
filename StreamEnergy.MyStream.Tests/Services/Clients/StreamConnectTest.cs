@@ -801,7 +801,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                 // Act
                 var result = enrollmentService.PayDeposit(offerPayments, saveResult.Data.Results, new DomainModels.Payments.TokenizedCard
                     {
-                        CardToken = "4444444444444448",
+                        CardToken = "9442268296134448",
                         BillingZipCode = "75201",
                         ExpirationDate = DateTime.Today.AddDays(60),
                         SecurityCode = "123"
