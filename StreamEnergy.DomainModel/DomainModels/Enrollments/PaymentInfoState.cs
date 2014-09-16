@@ -43,7 +43,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         {
             if (!internalContext.Deposit.All(e => e.Details.RequiredAmounts.Sum(d => d.DollarAmount) == 0))
             {
-                await enrollmentService.PayDeposit(internalContext.Deposit, internalContext.EnrollmentSaveState.Data.Results, context.PaymentInfo);
+                await enrollmentService.PayDeposit(internalContext.Deposit, internalContext.EnrollmentSaveState.Data.Results, context.PaymentInfo, context);
             }
             return await base.InternalProcess(context, internalContext);
         }

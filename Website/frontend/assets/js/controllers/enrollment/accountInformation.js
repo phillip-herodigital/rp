@@ -121,7 +121,6 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
                         continueWith();
                     });
                 }
-                continueWith();
             }
             else {
                 continueWith();

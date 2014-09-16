@@ -13,5 +13,14 @@ namespace StreamEnergy.DomainModels.Enrollments
         public override string OptionRulesType { get { return TexasElectricityMoveInOfferOptionRules.Qualifier; } }
 
         public IConnectDatePolicy ConnectDates { get; set; }
+
+        public override IOfferPaymentAmount[] GetPostBilledPayments(IOfferOption options)
+        {
+            var typedOffer = options as TexasElectricityMoveInOfferOption;
+            return new IOfferPaymentAmount[]
+            {
+                new InstallationOfferPaymentAmount { DollarAmount = ConnectDates.AvailableConnectDates.First(d => d.Date == typedOffer.ConnectDate.Date).Fees["ConnectFee"] },
+            };
+        }
     }
 }
