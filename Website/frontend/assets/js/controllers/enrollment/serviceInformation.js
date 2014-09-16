@@ -24,6 +24,7 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
         } else {
             $scope.data.serviceLocation = newValue.location;
             $scope.isCartFull = enrollmentCartService.isCartFull($scope.customerType);
+            $scope.isNewServiceAddress = enrollmentCartService.isNewServiceAddress();
             var target = _(newValue.location.capabilities).find({ capabilityType: "ServiceStatus" });
             if (target) {
                 $scope.data.isNewService = target.enrollmentType == 'moveIn';
@@ -56,7 +57,7 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
      * @return {Boolean}
      */
     $scope.isFormValid = function() {
-        if ($scope.data.serviceLocation !== null && typeof $scope.data.serviceLocation == 'object' && $scope.data.isNewService !== undefined && !$scope.isCartFull) {
+        if ($scope.data.serviceLocation !== null && typeof $scope.data.serviceLocation == 'object' && $scope.data.isNewService !== undefined && (!$scope.isCartFull || !$scope.isNewServiceAddress)) {
             return true;
         } else {
             return false;

@@ -192,7 +192,6 @@
     <Compile Include="Services\Clients\AzureAccessControlServiceTokenManager.cs" />
     <Compile Include="Services\Clients\AzureAcsConfiguration.cs" />
     <Compile Include="Services\Clients\AzureAcsTokenHandler.cs" />
-    <Compile Include="Services\Clients\StreamConnect\CustomerAuthorization.cs" />
     <Compile Include="Services\Clients\EmailService.cs" />
     <Compile Include="Services\Clients\ClientContainerSetup.cs" />
     <Compile Include="Services\Clients\Interceptors\ServiceCacheContainerSetup.cs" />

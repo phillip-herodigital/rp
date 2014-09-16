@@ -241,34 +241,39 @@
                                 </div>
                             }
                         </div>
-                        @*
-                            <!-- Change this ng-hide option when commercial becomes available -->
-                            <div class="item" ng-hide="true">
-                                <label>@Html.Sitecore().Field("Social Security Number or Tax ID Number Label")</label>
-                                <ul class="checkbox-list">
-                                    <li><input type="radio" id="ssn" ng-model="accountInformation.personalInformation.taxid"><label for="ssn">@Html.Sitecore().Field("Checkbox List Social Security Number" )</label></li>
-                                    <li><input type="radio" id="taxid" ng-model="accountInformation.personalInformation.taxid"><label for="taxid">@Html.Sitecore().Field("Checkbox List Tax ID")</label></li>
-                                </ul>
-                            </div>
-                        *@
-                        <div class="item" @Html.Validation().ErrorClass(m => m.SocialSecurityNumber)>
+                        <div class="item" ng-if="customerType == 'commercial'">
+                            <label>@Html.Sitecore().Field("Social Security Number or Tax ID Number Label")</label>
+                            <ul class="checkbox-list">
+                                <li><input type="radio" name="idType" ng-model="accountInformation.ssnOrTaxid" value="ssn" checked><label for="ssn">@Html.Sitecore().Field("Checkbox List Social Security Number" )</label></li>
+                                <li><input type="radio" name="idType" ng-model="accountInformation.ssnOrTaxid" value="taxId"><label for="taxid">@Html.Sitecore().Field("Checkbox List Tax ID")</label></li>
+                            </ul>
+                        </div>
+                        <div class="item" ng-if="customerType == 'residential' || accountInformation.ssnOrTaxid == 'ssn'" @Html.Validation().ErrorClass(m => m.SocialSecurityNumber)>
                             <label for="@Html.IdFor(m => m.SocialSecurityNumber)">@Html.Sitecore().Field("Social Security Number Label") <a href="#" tooltip="@Html.Sitecore().Field("Social Security Number Tooltip")"><i class="icon-tooltip"></i></a></label>
                             @Html.TextBoxFor(m => m.SocialSecurityNumber, new { ng_model = "accountInformation.socialSecurityNumber" })
                             @Html.ValidationMessageFor(m => m.SocialSecurityNumber)
                         </div>
-                        @*
-                            <!-- Change this ng-hide option when commercial becomes available -->
-                            <div class="item" ng-hide="true">
-                                <label for="dba">@Html.Sitecore().Field("DBA Label")</label>
-                                <input type="text" id="dba" ng-model="accountInformation.dba" />
-                            </div>
-                        *@
+                        <div class="item" ng-if="accountInformation.ssnOrTaxid == 'taxId'" @Html.Validation().ErrorClass(m => m.TaxId)>
+                            <label for="@Html.IdFor(m => m.TaxId)">@Html.Sitecore().Field("Tax ID Label")</label>
+                            @Html.TextBoxFor(m => m.TaxId, new { ng_model = "accountInformation.taxId" })
+                            @Html.ValidationMessageFor(m => m.TaxId)
+                        </div>
+                        <div class="item" ng-if="customerType == 'commercial' && accountInformation.ssnOrTaxid == 'ssn'" @Html.Validation().ErrorClass(m => m.DoingBusinessAs)>
+                            <label for="@Html.IdFor(m => m.DoingBusinessAs)">@Html.Sitecore().Field("DBA Label")</label>
+                            @Html.TextBoxFor(m => m.DoingBusinessAs, new { ng_model = "accountInformation.doingBusinessAs" })
+                            @Html.ValidationMessageFor(m => m.DoingBusinessAs)
+                        </div>
+                        <div class="item" ng-if="customerType == 'commercial' && accountInformation.ssnOrTaxid == 'taxId'" @Html.Validation().ErrorClass(m => m.CompanyName)>
+                            <label for="@Html.IdFor(m => m.CompanyName)">@Html.Sitecore().Field("Company Name Label")</label>
+                            @Html.TextBoxFor(m => m.CompanyName, new { ng_model = "accountInformation.companyName" })
+                            @Html.ValidationMessageFor(m => m.CompanyName)
+                        </div>
                         <div class="additional-field-item item">
                             <ul class="checkbox-list">
                                 <li><input type="checkbox" name="secondary-contact" id="secondary-contact" ng-model="additionalInformation.showSecondaryContact"><label for="secondary-contact">@Html.Sitecore().Field("Checkbox Add Secondary Contact")</label></li>
                             </ul>
                         </div>
-                        <div class="additional-field-group" ng-if="additionalInformation.showSecondaryContact">
+                        <div class="additional-field-group secondary-contact-group" ng-if="additionalInformation.showSecondaryContact">
                             <div class="group">
                                 <div class="item group-col" @Html.Validation().ErrorClass(m => m.SecondaryContactInfo.First)>
                                     <label for="@Html.IdFor(m => m.SecondaryContactInfo.First)">@Html.Sitecore().Field("First Name Label")</label>
@@ -284,20 +289,20 @@
                         </div>
                         <div class="item group-col" ng-if="customerType == 'commercial'" @Html.Validation().ErrorClass(m => m.PreferredSalesExecutive)>
                             <label for="@Html.IdFor(m => m.PreferredSalesExecutive)">@Html.Sitecore().Field("Preferred Sales Executive Label")</label>
-                            @Html.TextBoxFor(m => m.PreferredSalesExecutive, new { ng_model = "accountInformation.PreferredSalesExecutive" })
+                            @Html.TextBoxFor(m => m.PreferredSalesExecutive, new { ng_model = "accountInformation.preferredSalesExecutive" })
                             @Html.ValidationMessageFor(m => m.PreferredSalesExecutive)
                         </div>
-
                         <div class="item group-col" ng-if="hasSwitch" @Html.Validation().ErrorClass(m => m.PreviousProvider)>
                             <label for="@Html.IdFor(m => m.PreviousProvider)">@Html.Sitecore().Field("Previous Provider Label")</label>
                             @Html.DropDownListFor(m => m.PreviousProvider,
                                                 new SelectListItem[] { new SelectListItem { Text = Html.Sitecore().Field("Select Option Please Choose").ToString(), Value = "" } },
                                                 new
                                                 {
-                                                    ng_model = "accountInformation.PreviousProvider",
+                                                    ng_model = "accountInformation.previousProvider",
                                                     ng_options = "type.name as type.display for type in previousProviders"
                                                 })
                         </div>
+                    </div>
                 </article>
 
                 @* User Account Creation *@
@@ -371,7 +376,7 @@
             <label for="@offer.Fix(h => h.IdFor(o => ((TexasElectricityMoveInOfferOption)o.OfferOption).ConnectDate))">@Html.Sitecore().Field("Service Start Date Label")</label>
             <input type="text" class="datepicker-input" id="@offer.Fix(h => h.IdFor(o => ((TexasElectricityMoveInOfferOption)o.OfferOption).ConnectDate))" ng-model="selectedOffer.offerOption.connectDate"
                    datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="checkDisabledDate(date, mode)" datepicker-options="{ 'datepickerDateClass': 'checkDateClass(date)', 'datepickerDateClassScope': $id }" />
-            <div class="availibility">@Html.Sitecore().Field("Availibility Text")</div>
+            <div class="availibility">@Html.Sitecore().Field("Availability Text")</div>
         </div>
         <div class="item item--no-input inline-label">
             <label for="connection-fee">@Html.Sitecore().Field("Connection Fee Label")</label>
@@ -384,11 +389,13 @@
 <script type="text/ng-template" id="offerOptions/TexasElectricityCommercialQuote">
     @using (var offer = Html.ClientRepeater(m => m.Services, "{{$parent.$index}}").ClientRepeater(m => m.SelectedOffers, "{{$index}}"))
     {
-    <div class="item group-col datepicker" @offer.Validation().ErrorClass(o => ((TexasElectricityCommercialQuoteOption)o.OfferOption).ConnectDate)>
-        <label for="@offer.Fix(h => h.IdFor(o => ((TexasElectricityCommercialQuoteOption)o.OfferOption).ConnectDate))">@Html.Sitecore().Field("Commercial Service Start Date Label")</label>
+    <div ng-controller="OfferOptions-TexasElectricityCommercialQuote">
+        <div class="item group-col datepicker" @offer.Validation().ErrorClass(o => ((TexasElectricityCommercialQuoteOption)o.OfferOption).ConnectDate)>
+            <label for="@offer.Fix(h => h.IdFor(o => ((TexasElectricityCommercialQuoteOption)o.OfferOption).ConnectDate))">@Html.Sitecore().Field("Commercial Service Start Date Label")</label>
         <input type="text" class="datepicker-input" id="@offer.Fix(h => h.IdFor(o => ((TexasElectricityCommercialQuoteOption)o.OfferOption).ConnectDate))" ng-model="selectedOffer.offerOption.connectDate"
-                datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="checkDisabledDate(date, mode)" datepicker-options="{ 'datepickerDateClass': 'checkDateClass(date)', 'datepickerDateClassScope': $id }" />
-        <div class="availibility">@Html.Sitecore().Field("Availibility Text")</div>
+                   datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="checkDisabledDate(date, mode)" datepicker-options="{ 'datepickerDateClass': 'checkDateClass(date)', 'datepickerDateClassScope': $id }" />
+            <div class="availibility">@Html.Sitecore().Field("Availability Text")</div>
+        </div>
     </div>
    }
 </script>

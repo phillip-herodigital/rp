@@ -22,7 +22,6 @@
                         <hr ng-if="customerType != 'commercial'" />
                         <div ng-if="customerType != 'commercial'" ng-repeat="offerInformation in service.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
                             <div ng-include src="'serviceConfirmation/' + offerInformation.key"></div>
-                            @Html.Sitecore().Field("Confirmation Number") <strong>{{ offerInformation.value.offerSelections[0].confirmationNumber }}</strong>
                         </div>
                         <hr class="content-divider" ng-if="getCartItems().length > 1 && !$last">
                     </div>
@@ -47,6 +46,10 @@
                         <dd>{{ accountInformation.contactInfo.phone[0].number | phone }}</dd>
                         <dt>@Html.Sitecore().Field("Email")</dt>
                         <dd>{{ accountInformation.contactInfo.email.address }}</dd>
+                        <dt>@Html.Sitecore().Field("Mailing Address")</dt>
+                        <dd>{{ accountInformation.mailingAddress | address }}</dd>
+                        <dt ng-if="accountInformation.secondaryContactInfo.first">@Html.Sitecore().Field("Secondary Contact")</dt>
+                        <dd ng-if="accountInformation.secondaryContactInfo.first">{{ accountInformation.secondaryContactInfo.first }} {{ accountInformation.secondaryContactInfo.last }}</dd>
                     </dl>
                     @Html.Sitecore().Field("Terms Notice")
                 </div>
@@ -71,6 +74,15 @@
 </div>
 
 <script type="text/ng-template" id="serviceConfirmation/TexasElectricity">
+    <div ng-if="!selectedOffer.confirmationSuccess" ng-cloak>
+        <div class="notice alert">
+            @Html.Sitecore().Field("Confirmation Error")
+        </div>
+    </div>
+    <dl class="clearfix" ng-if="selectedOffer.confirmationNumber">
+        <dt>@Html.Sitecore().Field("Account Number")</dt>
+        <dd>{{ selectedOffer.confirmationNumber }}</dd>
+    </dl>
     <table class="verify-order-table">
         <tbody>
             <tr class="line-item" ng-repeat-start="selectedOffer in offerInformation.value.offerSelections">
@@ -78,12 +90,10 @@
                 <td class="rate">{{selectedOffer.offer.rate}}&cent;/kWh</td>
             </tr>
             <tr ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0" ng-include src="'payments/' + payment.offerPaymentAmountType"></tr>
-            
             <tr class="plan-documents" ng-repeat-end>
                 <td class="sub-charge"><strong>@Html.Sitecore().Field("Plan Documents Header")</strong></td>
                 <td class="docs">
                     <ul>
-
                         <li><a ng-href="{{selectedOffer.offer.documents.electricityFactsLabel}}">@Html.Sitecore().Field("Electricity Facts Label Document")</a></li>
                         <li><a ng-href="{{selectedOffer.offer.documents.termsOfService}}">@Html.Sitecore().Field("Terms Of Service Document")</a></li>
                         <li><a ng-href="{{selectedOffer.offer.documents.yourRightsAsACustomer}}">@Html.Sitecore().Field("Your Rights As A Customer Document")</a></li>
