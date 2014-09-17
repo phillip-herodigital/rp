@@ -410,36 +410,36 @@
             <div class="item address-group" ng-if="addressOptions.mailingAddress[0]">
                 <label>@Html.Sitecore().Field("Mailing Address Text")</label>
                 <div class="radio-item">
-                    <input type="radio" ng-model="modal.mailingAddress" value="suggested">
-                    <label>@Html.Sitecore().Field("Suggested Address Text")</label>
+                    <input id="mailingAddress-suggested-{{$id}}" type="radio" ng-model="modal.mailingAddress" value="suggested">
+                    <label for="mailingAddress-suggested-{{$id}}">@Html.Sitecore().Field("Suggested Address Text")</label>
                 </div>
                 <div class="address">
-                    {{ addressOptions.mailingAddress[1] | address }}
+                    <label for="mailingAddress-suggested-{{$id}}">{{ addressOptions.mailingAddress[1] | address }}</label>
                 </div>
                 <div class="radio-item">
-                    <input type="radio" ng-model="modal.mailingAddress" value="original">
-                    <label>@Html.Sitecore().Field("Original Address Text")</label>
+                    <input id="mailingAddress-original-{{$id}}" type="radio" ng-model="modal.mailingAddress" value="original">
+                    <label for="mailingAddress-original-{{$id}}">@Html.Sitecore().Field("Original Address Text")</label>
                 </div>
                 <div class="address">
-                    {{ addressOptions.mailingAddress[0] | address }}
+                    <label for="mailingAddress-original-{{$id}}">{{ addressOptions.mailingAddress[0] | address }}</label>
                 </div>
             </div>
 
             <div class="item address-group" ng-if="addressOptions.previousAddress[0]">
                 <label>@Html.Sitecore().Field("Previous Address Text")</label>
                 <div class="radio-item">
-                    <input type="radio" ng-model="modal.previousAddress" value="suggested">
-                    <label>@Html.Sitecore().Field("Suggested Address Text")</label>
+                    <input id="previousAddress-suggested-{{$id}}" type="radio" ng-model="modal.previousAddress" value="suggested">
+                    <label for="previousAddress-suggested-{{$id}}">@Html.Sitecore().Field("Suggested Address Text")</label>
                 </div>
                 <div class="address">
-                    {{ addressOptions.previousAddress[1] | address }}
+                    <label for="previousAddress-suggested-{{$id}}">{{ addressOptions.previousAddress[1] | address }}</label>
                 </div>
                 <div class="radio-item">
-                    <input type="radio" ng-model="modal.previousAddress" value="original">
-                    <label>@Html.Sitecore().Field("Original Address Text")</label>
+                    <input id="previousAddress-original-{{$id}}" type="radio" ng-model="modal.previousAddress" value="original">
+                    <label for="previousAddress-original-{{$id}}">@Html.Sitecore().Field("Original Address Text")</label>
                 </div>
                 <div class="address">
-                    {{ addressOptions.previousAddress[0] | address }}
+                    <label for="previousAddress-original-{{$id}}">{{ addressOptions.previousAddress[0] | address }}</label>
                 </div>
             </div>
 
