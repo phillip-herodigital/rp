@@ -92,6 +92,12 @@ $enrollment-module-vertical-padding: 20px;
             background-color: $enrollment-secondary-button-background;
             color: $enrollment-secondary-button-color;
             margin-right: 10px;
+            @include breakpoint(small-medium){
+                margin-top: 10px;
+                margin-right: 0;
+                float: right;
+                clear: both;
+            }
         }
         &.tertiary {
             background-color: $enrollment-tertiary-button-background;
@@ -593,6 +599,10 @@ $enrollment-module-vertical-padding: 20px;
                 &.sortable:hover {
                     cursor: pointer; 
                 }
+                &.plan-header {
+                    text-align: left;
+                    padding-left: 32px;
+                }
             }
         }
         td, th {
@@ -676,16 +686,34 @@ $enrollment-module-vertical-padding: 20px;
             margin-top: 15px;
             font-size: 12px;}
         .rate {
-            font-size: 22px;
-            line-height: 18px;
+            font-size: 18px;
             font-style: italic;
+            font-weight: 600;
+            span {
+                font-size: 12px;
+                text-transform: none;
+                font-weight: normal;
+            }
+        }
+        .term {
+            font-size: 18px;
+            font-style: italic;
+            font-weight: 600;
+            span {
+                font-size: 12px;
+                text-transform: none;
+                font-weight: normal;
+            }
         }
         .fees {
-            width: 110px;
-            font-size: 19px;
+            width: 140px;
+            font-size: 18px;
             font-style: italic;
+            font-weight: 600;
             span {
-                font-size: 11px;
+                font-size: 12px;
+                text-transform: none;
+                font-weight: normal;
             }
         }
         .select-plan {
