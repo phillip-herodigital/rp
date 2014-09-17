@@ -1,0 +1,1 @@
+// The Visual Studio project is not connected to a Sitecore web site. Right-click the project, select Sitecore and Connect.

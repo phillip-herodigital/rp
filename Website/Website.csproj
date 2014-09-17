@@ -532,6 +532,7 @@
     <Compile Include="Controllers\Components\ComponentController.cs" />
     <Compile Include="Controllers\DataController.cs" />
     <Compile Include="Controllers\EnrollmentController.cs" />
+    <Compile Include="Controllers\MobileEnrollmentController.cs" />
     <Compile Include="Controllers\TempController.cs" />
     <Compile Include="Controllers\MarketingController.cs" />
     <Compile Include="layouts\HTML Layout.aspx.cs">
@@ -628,6 +629,29 @@
     <Compile Include="Models\Enrollment\VerifyIdentity.cs" />
     <Compile Include="Models\Marketing\CommercialQuote.cs" />
     <Compile Include="Models\Marketing\Contact.cs" />
+    <Compile Include="Models\MobileEnrollment\MobileColor.cs" />
+    <Compile Include="Models\MobileEnrollment\MobilePhone.cs">
+      <Generator>SitecoreServerCodeGenerator</Generator>
+      <LastGenOutput>MobilePhone.Designer.cs</LastGenOutput>
+    </Compile>
+    <Compile Include="Models\MobileEnrollment\MobilePhone.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>MobilePhone.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MobileEnrollment\MobilePrice.cs">
+      <Generator>SitecoreServerCodeGenerator</Generator>
+      <LastGenOutput>MobilePrice.Designer.cs</LastGenOutput>
+    </Compile>
+    <Compile Include="Models\MobileEnrollment\MobilePrice.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>MobilePrice.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MobileEnrollment\MobilePhoneModel.cs" />
+    <Compile Include="Models\MobileEnrollment\MobileSize.cs" />
     <Compile Include="Models\RapidPrototyping.cs" />
     <Compile Include="Models\StateMachineSessionHelper.cs" />
     <Compile Include="Models\TranslatedValidationResult.cs" />
