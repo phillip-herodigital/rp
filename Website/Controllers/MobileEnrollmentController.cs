@@ -92,7 +92,7 @@ namespace StreamEnergy.MyStream.Controllers
 
         public static IEnumerable<Item> GetAllPhoneModels(Sitecore.Data.ID phoneID)
         {
-            Item[] allPhoneModels = Sitecore.Context.Database.SelectItems("fast:/sitecore/content/Data/Taxonomy/Modules/Mobile Pricing/*");
+            Item[] allPhoneModels = Sitecore.Context.Database.SelectItems("fast:/sitecore/content/Data/Taxonomy/Modules/Mobile Pricing/*[(@@templatename='Phone Price')]");
             IEnumerable<Item> data = allPhoneModels.Where(item => new Sitecore.Data.ID(item.Fields["Model"].Value) == phoneID);
             return data;
         }
