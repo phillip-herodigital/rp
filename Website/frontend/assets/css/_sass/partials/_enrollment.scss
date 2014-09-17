@@ -969,6 +969,9 @@ $enrollment-module-vertical-padding: 20px;
     .plan-documents {
         .docs {
             text-align: right;
+            @include breakpoint(medium) {
+                width: 40%;
+            }
 			@include breakpoint(small) {
 				text-align: left;
 				margin-bottom: 10px;
