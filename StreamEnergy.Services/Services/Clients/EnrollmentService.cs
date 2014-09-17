@@ -500,7 +500,8 @@ namespace StreamEnergy.Services.Clients
 
                     var location = locationOfferByEnrollmentAccountId[enrollmentAccountId].Location;
                     var offer = locationOfferByEnrollmentAccountId[enrollmentAccountId].Offer;
-                    var option = services.First(s => s.Location == location).SelectedOffers.First(s => s.Offer == offer).OfferOption;
+                    var option = services.First(s => s.Location == location).SelectedOffers.First(s => s.Offer.Id == offer.Id).OfferOption;
+                    var optionRules = internalContext.OfferOptionRules.First(rule => rule.Location == location && rule.Offer.Id == offer.Id).Details;
 
                     offerPaymentResults.Add(new LocationOfferDetails<OfferPayment>
                         {
@@ -518,7 +519,7 @@ namespace StreamEnergy.Services.Clients
                                     // TODO future - installation fees
                                     new DepositOfferPaymentAmount { DollarAmount = deposit }
                                 },
-                                PostBilledAmounts = internalContext.OfferOptionRules.First(rule => rule.Location == location && rule.Offer == offer).Details.GetPostBilledPayments(option)
+                                PostBilledAmounts = optionRules.GetPostBilledPayments(option)
                             }
                         });
                 }
