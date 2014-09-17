@@ -128,11 +128,14 @@ a.button {
 	&.secondary {
  		background-color: #797b7e;
  	}
+	&.plain {
+		background: transparent;
+		color: #333;	
+	}
 	&:hover {
 		background-color: #6b6b6b;
 		color: #fff;
 	}
-
 	&:disabled,
 	&.disabled {
 		opacity: .5;

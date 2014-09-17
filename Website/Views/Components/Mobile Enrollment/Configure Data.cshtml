@@ -1,0 +1,136 @@
+<div class="banner" style="@Html.AsBackgroundStyle("Mobile Banner Image")">
+    <div class="wrapper">
+        <h1>
+            <span class="small block">@Html.Sitecore().Field("3 - Page Title")</span><br />
+        </h1>
+    </div>
+</div>
+
+@* Two-column layout for Configure Data *@
+<section class="wrapper layout cols-2">
+    <section>
+        <article class="enrollment__box enrollment__configure-data">
+        	<header>
+        		<h1>Select Data Amount</h1>
+        	</header>
+        	<div class="content">
+        		<h3>Choose the amount of High Speed Data you would like with your plan:</h3>
+        		
+				<div class="btn-group btn-group-options mobile-plans">
+					<div class="button" ng-model="ctrl.phoneOptions.plan" btn-radio="'plan1'" uncheckable>
+						<p>
+                            <span class="size">500 MB</span>
+						    <span class="price">$39/mo</span></p>
+						</p>
+						<hr>
+                        <p class="details">
+						    <span>Streaming Music<br /><span class="time">2 hours</span></span>
+						    <span>Streaming Movies<br /><span class="time">3 hours</span></span>
+						    <span>Web Browsing<br /><span class="time">12 hours</span></span>
+                        </p>
+					</div>
+                    <div class="button" ng-model="ctrl.phoneOptions.plan" btn-radio="'plan2'" uncheckable>
+                        <p>
+                            <span class="size">2.5 GB</span>
+                            <span class="price">$49/mo</span></p>
+                        </p>
+                        <hr>
+                        <p class="details">
+                            <span>Streaming Music<br /><span class="time">20 hours</span></span>
+                            <span>Streaming Movies<br /><span class="time">8 hours</span></span>
+                            <span>Web Browsing<br /><span class="time">20 hours</span></span>
+                        </p>
+                    </div>
+                    <div class="button" ng-model="ctrl.phoneOptions.plan" btn-radio="'plan3'" uncheckable>
+                        <p>
+                            <span class="size">5 GB</span>
+                            <span class="price">$59/mo</span></p>
+                        </p>
+                        <hr>
+                        <p class="details">
+                            <span>Streaming Music<br /><span class="time">34 hours</span></span>
+                            <span>Streaming Movies<br /><span class="time">14 hours</span></span>
+                            <span>Web Browsing<br /><span class="time">32 hours</span></span>
+                        </p>
+                    </div>
+                    <div class="button" ng-model="ctrl.phoneOptions.plan" btn-radio="'plan4'" uncheckable>
+                        <p>
+                            <span class="size">7.5 GB</span>
+                            <span class="price">$69/mo</span></p>
+                        </p>
+                        <hr>
+                        <p class="details">
+                            <span>Streaming Music<br /><span class="time">50 hours</span></span>
+                            <span>Streaming Movies<br /><span class="time">18 hours</span></span>
+                            <span>Web Browsing<br /><span class="time">40 hours</span></span>
+                        </p>
+                    </div>
+
+				    @*<a ng-repeat="color in item.colors" class="button {{ color.color }}" ng-model="ctrl.phoneOptions.color" btn-radio="'{{ color.color }}'" uncheckable>{{ color.value }}</a>*@
+				</div>
+        	</div>
+        	<footer>
+        		<h3><strong>Need more data?</strong> Get additional for just $10/GB.</h3>
+        		<p>Data usage varies by device. Calculations of data usage are estimates only; actual amount of data used may vary significantly.</p>
+        	</footer>
+        </article>
+        <button type="button" class="plain">Cancel Enrollment</button>
+        <button type="button">Next</button>
+    </section>
+    <aside>
+        @*<div ng-include src="'enrollment-nav-template'"></div>*@
+
+        <div class="enrollment__cart" ng-controller="EnrollmentCartCtrl">
+            <article class="enrollment__box" scroll-anchor="scrollFix">
+                <header>
+                    <div class="cart-items" ng-if="!isCartOpen()">
+                        <i class="icon-cart"></i>
+                        <div class="item-num" ng-show="getCartCount()">{{ getCartCount() }}</div>
+                    </div>
+                    <i class="icon-close" ng-click="toggleCart();" ng-if="isCartOpen()"></i>
+                    <h1>Your Cart</h1>
+                </header>
+                <div class="content">
+                    <p class="alt" ng-if="!getCartCount() && !getCartItems().length">@Html.Sitecore().Field("Empty Cart Text")</p>
+                    <div class="cart-item">
+                        <h2>Mobile Services</h2>
+                        <p>Lorem Ipsum AT&amp;T Network plan</p>
+                        <a href="">Edit Plan</a> | <a href="">Plan Details</a>
+                    </div>
+
+                    <hr>
+                    
+                    Reconditioned
+                    Apple iPhone 5S
+                    16GB, Silver
+                    <a href="">Edit Phone</a>
+
+                    Phone Warranty
+
+                    <hr>
+
+                    <h3>Monthly Plan</h3>
+                    <p>7.5 GB Included Data</p>
+                    <a href="">Edit Plan</a>
+                </div>
+                <footer>
+                    <div class="time">
+                        <i class="icon-clock"></i>
+                        @Html.Sitecore().Field("Time Remaining").Format(new { time = "{{time()}}" })
+                    </div>
+                </footer>
+            </article>
+            <article class="enrollment__box">
+                <header>
+                    @Html.Sitecore().Field("Documents Description")
+                </header>
+                <ul class="info">
+                    <li><i class="icon-home"></i> @Html.Sitecore().Field("Documents Service Address")</li>
+                    <li><i class="icon-bill"></i>  @Html.Sitecore().Field("Documents Billing Account Number")</a></li>
+                    <li><i class="icon-utility-provider"></i> @Html.Sitecore().Field("Documents Utility Provider")</li>
+                    <li><i class="icon-ssn"></i> @Html.Sitecore().Field("Documents Social Security Number")</li>
+                </ul>
+            </article>
+        </div>
+    </aside>
+</section>

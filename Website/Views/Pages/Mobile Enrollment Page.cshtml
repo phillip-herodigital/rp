@@ -1,0 +1,56 @@
+<div class="enrollment mobile-enrollment" ng-controller="MobileEnrollmentCtrl as ctrl" ng-init="ctrl.mobileService.setNetworkData(@(Html.Action("MobileEnrollmentNetworks", "MobileEnrollment").ToHtmlString())); ctrl.mobileService.setPhoneData(@(Html.Action("MobileEnrollmentPhones", "MobileEnrollment").ToHtmlString()));">
+    @Html.Sitecore().Placeholder("mobile enrollment sections")
+</div>
+
+<script type="text/ng-template" id="networkUnlocking/att">
+    <div>
+        <div class="modal-header">
+            <a href="" ng-click="$dismiss()">Close</a>
+            <h2>Unlocking an AT&T Device</h2>
+        </div>
+        <div class="modal-body">
+        	<p>To unlock your AT&T device, follow the instructions below.</p>
+        	<ol>
+        		<li>Visit att.com/deviceunlock from a tablet or PC to submit your Customer Device Unlock Request.</li>
+        		<li>Review the eligibility requirements to unlock your device.</li>
+        		<li>At the bottom of the page, select the checkbox and then select Agree to agree to the requirements to unlock your device.</li>
+        		<li>Complete the Request a Device Unlock form and select Submit:
+					<ol>
+						<li>AT&T will process your unlock request within 2-5 business days.</li>
+						<li>To check the status of your request, visit att.com/deviceunlockstatus from a tablet or PC.</li>
+						<li>If your request is approved, we&rsquo;ll send the unlock code and/or instructions to unlock your device to the email address entered in your unlock request. You can also refer to the AT&T Device Unlock Code Instructions.</li>
+					</ol>
+        		</li>
+        	</ol>
+        	<hr>
+        	<p>If you&rsquo;re a business customer, call 800.331.0500 to request an unlock code for your business device.</p>
+        </div>
+    </div>
+</script>
+
+
+<script type="text/ng-template" id="networkUnlocking/sprint">
+    <div>
+        <div class="modal-header">
+            <a href="" ng-click="$dismiss()">Close</a>
+            <h2>Unlocking a Sprint Device</h2>
+        </div>
+        <div class="modal-body">
+        	<p>To unlock your Sprint device, follow the instructions below.</p>
+        	<ol>
+        		<li>Visit att.com/deviceunlock from a tablet or PC to submit your Customer Device Unlock Request.</li>
+        		<li>Review the eligibility requirements to unlock your device.</li>
+        		<li>At the bottom of the page, select the checkbox and then select Agree to agree to the requirements to unlock your device.</li>
+        		<li>Complete the Request a Device Unlock form and select Submit:
+					<ol>
+						<li>Sprint will process your unlock request within 2-5 business days.</li>
+						<li>To check the status of your request, visit att.com/deviceunlockstatus from a tablet or PC.</li>
+						<li>If your request is approved, we&rsquo;ll send the unlock code and/or instructions to unlock your device to the email address entered in your unlock request. You can also refer to the Sprint Device Unlock Code Instructions.</li>
+					</ol>
+        		</li>
+        	</ol>
+        	<hr>
+        	<p>If you&rsquo;re a business customer, call 800.331.0500 to request an unlock code for your business device.</p>
+        </div>
+    </div>
+</script>

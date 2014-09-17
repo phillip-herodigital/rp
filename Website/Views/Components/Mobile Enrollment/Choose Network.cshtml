@@ -1,0 +1,71 @@
+<div class="banner" style="@Html.AsBackgroundStyle("Mobile Banner Image")">
+    <div class="wrapper">
+        <h1>
+            <span class="small block">@Html.Sitecore().Field("1 - Page Title")</span><br />
+        </h1>
+    </div>
+</div>
+
+@* Single Column Layout for Choose Network *@
+<section class="wrapper layout">
+    <article class="enrollment__box enrollment__choose-network">
+        <header>
+            <h1>@Html.Sitecore().Field("1 - Header - Choose Network") <input type="text" class="small" maxlength="5" ng-model="ctrl.phoneFilters.zipCode"></h1>
+        </header>
+        <div class="content">
+
+        	@* Networks not available *@
+            <div class="no-networks-available" ng-show="!ctrl.phoneFilters.zipCode">
+                <h1>@Html.Sitecore().Field("1 - Header - No Plans Available")</h1>
+
+				<div class="stretch-full">
+				    <h3>@Html.Sitecore().Field("1 - Subheader - Check Out Services")</h3>
+                    <div class="grid">
+                        <div class="col">
+                        	<div class="ico-wrapper">
+                        		<i class="icon-quick-links"></i>
+                        	</div>
+                            <h2>@Html.Sitecore().Field("1 - Header - Utility Services")</h2>
+                            @Html.Sitecore().Field("1 - Text - Utility Description")
+                            <a href="@Html.Sitecore().Field("1 - Link Url - Utility Link")">@Html.Sitecore().Field("1 - Link Text - Utility Link Text") <i class="icon-arrow-right"></i></a>
+                        </div>
+                        <div class="col">
+                        	<div class="ico-wrapper">
+                        		<i class="icon-quick-links"></i>
+                        	</div>
+                            <h2>@Html.Sitecore().Field("1 - Header - Homelife Services")</h2>
+                            @Html.Sitecore().Field("1 - Text - Utility Description")
+                            <a href="@Html.Sitecore().Field("1 - Link Url - Homelife Link")">@Html.Sitecore().Field("1 - Link Text - Homelife Link Text") <i class="icon-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @* Networks are available *@
+            <div class="stretch-full" ng-show="ctrl.phoneFilters.zipCode">
+                <table class="choose-network-table">
+                    <thead>
+                        <tr>
+                            <th>@Html.Sitecore().Field("1 - Table Header - Plans")</th>
+                            <th>@Html.Sitecore().Field("1 - Table Header - Coverage")</th>
+                            <th>@Html.Sitecore().Field("1 - Table Header - Devices")</th>
+                            <th>@Html.Sitecore().Field("1 - Table Header - Select Network")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="network in ctrl.mobileService.getNetworks()">
+                            <td class="plans" ng-bind-html="network.description | unsafe"></td>
+                            <td class="coverage" ng-bind-html="network.coverage | unsafe"></td>
+                            <td class="devices" ng-bind-html="network.devices | unsafe"></td>
+                            <td class="select-network">
+                            	<p><strong>@Html.Sitecore().Field("1 - Select Network").Format(new { network = "{{ network.name }}" })</strong></p>
+                                <button type="button">@Html.Sitecore().Field("1 - Button - Shop Devices")</button>
+                                <button type="button">@Html.Sitecore().Field("1 - Button - Bring My Own Phone")</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </article>
+</section>
