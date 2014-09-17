@@ -34,29 +34,29 @@
                 </div>
             </div>
         </article>
-        <article class="enrollment__box" ng-if="customertype == 'commercial'">
+        <article class="enrollment__box" ng-if="customerType != 'commercial'">
             <header>
                 @Html.Sitecore().Field("Documents Description")
             </header>
             <ul class="info">
                 <li><i class="icon-home"></i> @Html.Sitecore().Field("Documents Service Address")</li>
-                <li><i class="icon-bill"></i>  @Html.Sitecore().Field("Documents Billing Account Number")</a></li>
+                <!--<li><i class="icon-bill"></i>  @Html.Sitecore().Field("Documents Billing Account Number")</a></li>-->
                 <li><i class="icon-utility-provider"></i> @Html.Sitecore().Field("Documents Utility Provider")</li>
                 <li><i class="icon-ssn"></i> @Html.Sitecore().Field("Documents Social Security Number")</li>
             </ul>
         </article>
-        <article class="enrollment__box outage-information" ng-if="getCartLocationsCount() > 0">
+        <article class="enrollment__box outage-information" ng-if="customerType != 'commercial' && getCartLocationsCount() > 0">
             <header>
                 <p><strong>@Html.Sitecore().Field("Outage Header")</strong></p>
             </header>
             <ul class="info">
-                <li ng-if="cartHasTDU('AEP_CENTRAL')">@Html.Sitecore().Field("Aep Central Outage")</li>
-                <li ng-if="cartHasTDU('AEP_NORTH')">@Html.Sitecore().Field("Aep North Outage")</li>
+                <li ng-if="cartHasTDU('AEP Central Texas')">@Html.Sitecore().Field("Aep Central Outage")</li>
+                <li ng-if="cartHasTDU('AEP Central Texas')">@Html.Sitecore().Field("Aep North Outage")</li>
                 <li ng-if="cartHasTDU('TNMP')">@Html.Sitecore().Field("Tnmp Outage")</li>
                 <li ng-if="cartHasTDU('ONCOR')">@Html.Sitecore().Field("Oncor Outage")</li>
-                <li ng-if="cartHasTDU('CENTERPOINT')">@Html.Sitecore().Field("Centerpoint Outage")</li>
-                <li ng-if="cartHasTDU('SHARYLAND_MCALLEN')">@Html.Sitecore().Field("Sharyland Mcallen Outage")</li>
-                <li ng-if="cartHasTDU('SHARYLAND_UTILITIES')">@Html.Sitecore().Field("Sharyland Utilities Outage")</li>
+                <li ng-if="cartHasTDU('Centerpoint')">@Html.Sitecore().Field("Centerpoint Outage")</li>
+                <li ng-if="cartHasTDU('Sharyland McAllen')">@Html.Sitecore().Field("Sharyland Mcallen Outage")</li>
+                <li ng-if="cartHasTDU('Sharyland')">@Html.Sitecore().Field("Sharyland Utilities Outage")</li>
             </ul>
         </article>
     </div>

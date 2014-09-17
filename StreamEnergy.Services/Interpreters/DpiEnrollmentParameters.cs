@@ -12,11 +12,15 @@ namespace StreamEnergy.Interpreters
     {
         private System.Collections.Specialized.NameValueCollection queryString;
         private readonly string dpiEnrollmentFormDomain;
+        private readonly string DpiAuthID;
+        private readonly string DpiAuthPwd;
         private readonly IDpiTokenService dpiTokenService;
 
-        public DpiEnrollmentParameters([Dependency("DpiEnrollmentFormDomain")] string dpiEnrollmentFormDomain, IDpiTokenService dpiTokenService)
+        public DpiEnrollmentParameters([Dependency("DpiEnrollmentFormDomain")] string dpiEnrollmentFormDomain, IDpiTokenService dpiTokenService, [Dependency("DpiAuthID")] string DpiAuthID, [Dependency("DpiAuthPwd")] string DpiAuthPwd)
         {
             this.dpiEnrollmentFormDomain = dpiEnrollmentFormDomain;
+            this.DpiAuthID = DpiAuthID;
+            this.DpiAuthPwd = DpiAuthPwd;
             this.dpiTokenService = dpiTokenService;
         }
 
@@ -117,7 +121,7 @@ namespace StreamEnergy.Interpreters
             }
             catch
             {
-                return "";
+                return "A2";
             }
         }
 
@@ -125,13 +129,15 @@ namespace StreamEnergy.Interpreters
         {
             return dpiTokenService.GetDpiTokenUrl(new GetUrlRequest()
             {
-                // TODO - is AccountName required?
+                AccountName = "Unassigned Customer", // TODO - is this right?
                 AccountNumber = GetAccountNumber(queryString["SPID"]),
                 CustomerType = AccountType,
                 DesignatedCustomer = queryString["GID"],
                 Language = TranslateLanguage(queryString["CO_LA"]),
                 Source = queryString["RefSiteID"] ?? TranslateRefSite(),
                 StateAbbrev = queryString["St"] ?? queryString["State"],
+                AuthId = DpiAuthID,
+                AuthPwd = DpiAuthPwd,
             });
         }
 

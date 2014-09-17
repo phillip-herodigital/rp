@@ -148,32 +148,53 @@ div.tabbable {
 }
 
 .datepicker {
+    .calendar {
+        position: relative;
+    }
+    .icon {
+		position: absolute;
+		top: 50%;
+		margin-top: -12px;
+		right: 10px;
+	}
+    .dropdown-menu {
+        width: 100%;
+    }
 	button {
-		padding: 2px 5px;
+        @include border-radius(0);
+		padding: 5px 10px;
 		font-weight: 400;
 		font-size: 14px;
 		color: #333;
 		text-shadow: none;
-		background: transparent;
+		background-color: transparent;
+        &.priority {
+            background-color: #f9e5aa;
+        }
 		&.btn-info, &.btn-info:hover {
 			background-color: #0971ce;
 			color: #fff;
 		}
 		&:hover {
 			color: #0971ce;
-			background: #eee;
+			background-color: #eee;
 		}
+        &[disabled] {
+            color: #333;
+            background-color: transparent;
+        }
 	}
 	small {
 		font-size: 90%;
 	}
 	table {
-		width: 320px;
-		height: 185px;
+    	//width: 320px;
+		//height: 185px;
 		border-collapse: separate;
+        outline: none;
 		overflow: hidden;
-		@include border-radius(10px);
-		@include box-shadow(0 2px 6px rgba(0, 0, 0, .25));
+		//@include border-radius(10px);
+		//@include box-shadow(0 2px 6px rgba(0, 0, 0, .25));
 		tr:last-child {
 			td { 
 				border-bottom: none; 
@@ -184,7 +205,7 @@ div.tabbable {
 		border: none;
 		border-right: 1px solid #eaeaea;
 		border-bottom: 1px solid #eaeaea;
-		padding: 2px 6px;
+		padding: 0;
 		&:first-child {
 			border-left: none;
 		}
@@ -264,6 +285,33 @@ div.tabbable {
 	tr {
 		background-color: transparent;
 	}
+    ul.legend {
+        @include layout-list();
+        border-top: 1px solid #eaeaea;
+        padding: 15px;
+        font-size: 13px;
+        li {
+            @extend .clearfix;
+            padding-left: 30px;
+            margin-bottom: 5px;
+        }
+        span {
+            float: left;
+            margin-left: -30px;
+            padding: 2px 4px;
+		    //font-weight: 400;
+		    font-size: 9px;
+		    color: #333;
+		    background-color: #fff;
+            border: 1px solid #cdcdcd;
+            &.priority {
+                background-color: #f9e5aa;
+            }
+            &.disabled {
+                @include opacity(.5);
+            }
+	    }
+    }
 }
 
 .typeahead {
