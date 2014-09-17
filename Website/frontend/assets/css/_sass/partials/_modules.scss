@@ -1859,6 +1859,9 @@ aside {
 		p {
 			margin: 0;
 		}
+        img {
+            max-width: 100%;
+        }
 		&.renew {
 			background-image: image-url('renew-promo.png');
 		}
