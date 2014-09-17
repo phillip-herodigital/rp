@@ -21,13 +21,15 @@
 		number: ""
 	};
 
-	this.cart = {
-		network: "",
-		phone: ""
-	};
-
 	this.displayFilters = false;
 
+	//Set the default options when a new phone is selected
+	this.setSelectedPhone = function(item) {
+		this.phoneFilters.selectedPhone = item.name;
+		this.phoneOptions.color = item.colors[0].color;
+		this.phoneOptions.size = item.models[0].size;
+	};
+	
     /* Change the ordering of the phones */
     this.setPhoneOrder = function(value) {
 

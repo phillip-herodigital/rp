@@ -28,6 +28,24 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', function ($rootScope) {
 		}
 	};
 
+	service.getPricesForSize = function(item, size) {
+		return _.where(item.models, { size: size });
+	};
+
+	service.getConditionPrice = function(item, condition) {
+		var models =  _.where(item.models, { condition: condition });
+
+		//Return the lowest price for the condition
+		return _.min(models, function(model){ return model.price; }).price;
+	};
+
+	service.getPhoneSizes = function(item) {
+		var sizes =  _.uniq(_.pluck(item.models, 'size'));
+		return _.sortBy(sizes, function(size) {
+			return size;
+		})
+	};
+
 	service.getItemConditions = function(priceObject) {
 		return _.pluck(priceObject, 'condition');
 	};

@@ -17,7 +17,7 @@
         		<h3>Choose the amount of High Speed Data you would like with your plan:</h3>
         		
 				<div class="btn-group btn-group-options mobile-plans">
-					<div class="button" ng-model="ctrl.phoneOptions.plan" btn-radio="'plan1'" uncheckable>
+					<div class="button" ng-model="ctrl.phoneOptions.plan" btn-radio="'plan1'">
 						<p>
                             <span class="size">500 MB</span>
 						    <span class="price">$39/mo</span></p>
@@ -29,7 +29,7 @@
 						    <span>Web Browsing<br /><span class="time">12 hours</span></span>
                         </p>
 					</div>
-                    <div class="button" ng-model="ctrl.phoneOptions.plan" btn-radio="'plan2'" uncheckable>
+                    <div class="button" ng-model="ctrl.phoneOptions.plan" btn-radio="'plan2'">
                         <p>
                             <span class="size">2.5 GB</span>
                             <span class="price">$49/mo</span></p>
@@ -41,7 +41,7 @@
                             <span>Web Browsing<br /><span class="time">20 hours</span></span>
                         </p>
                     </div>
-                    <div class="button" ng-model="ctrl.phoneOptions.plan" btn-radio="'plan3'" uncheckable>
+                    <div class="button" ng-model="ctrl.phoneOptions.plan" btn-radio="'plan3'">
                         <p>
                             <span class="size">5 GB</span>
                             <span class="price">$59/mo</span></p>
@@ -53,7 +53,7 @@
                             <span>Web Browsing<br /><span class="time">32 hours</span></span>
                         </p>
                     </div>
-                    <div class="button" ng-model="ctrl.phoneOptions.plan" btn-radio="'plan4'" uncheckable>
+                    <div class="button" ng-model="ctrl.phoneOptions.plan" btn-radio="'plan4'">
                         <p>
                             <span class="size">7.5 GB</span>
                             <span class="price">$69/mo</span></p>
@@ -74,8 +74,10 @@
         		<p>Data usage varies by device. Calculations of data usage are estimates only; actual amount of data used may vary significantly.</p>
         	</footer>
         </article>
-        <button type="button" class="plain">Cancel Enrollment</button>
-        <button type="button">Next</button>
+        <div class="clearfix">
+            <button type="button" class="plain">Cancel Enrollment</button>
+            <button type="button" class="pull-right">Next</button>
+        </div>
     </section>
     <aside>
         @*<div ng-include src="'enrollment-nav-template'"></div>*@
@@ -91,34 +93,44 @@
                     <h1>Your Cart</h1>
                 </header>
                 <div class="content">
-                    <p class="alt" ng-if="!getCartCount() && !getCartItems().length">@Html.Sitecore().Field("Empty Cart Text")</p>
+                    @*<p class="alt" ng-if="!getCartCount() && !getCartItems().length">@Html.Sitecore().Field("Empty Cart Text")</p>*@
                     <div class="cart-item">
                         <h2>Mobile Services</h2>
-                        <p>Lorem Ipsum AT&amp;T Network plan</p>
-                        <a href="">Edit Plan</a> | <a href="">Plan Details</a>
+
+                        <div class="mobile-plan">
+                            Lorem Ipsum AT&amp;T Network plan <br />
+                            <a href="">Edit Plan</a> | <a href="">Plan Details</a>
+                        </div>
+
+                        <div class="cart-product clearfix">
+                            <div class="description">
+                                <span class="condition">Reconditioned</span> <br />
+                                <span class="model">Apple iPhone 5S</span> <br />
+                                <span class="options">16GB, Silver</span> <br />
+                                <a href="">Edit Phone</a>
+                            </div>
+                            <div class="rate">$399.00</div>
+
+                            <div class="description">
+                                Phone Warranty
+                            </div>
+                            <div class="rate">$9.95/mo</div>
+                        </div>              
+
+                        <div class="cart-product clearfix">
+                            <h2>Monthly Plan</h2>
+                            <div class="description">
+                                7.5 GB Included Data <br />
+                                <a href="">Edit Plan</a>
+                            </div>
+                            <div class="rate">$39/mo</div>
+                        </div>                           
                     </div>
-
-                    <hr>
-                    
-                    Reconditioned
-                    Apple iPhone 5S
-                    16GB, Silver
-                    <a href="">Edit Phone</a>
-
-                    Phone Warranty
-
-                    <hr>
-
-                    <h3>Monthly Plan</h3>
-                    <p>7.5 GB Included Data</p>
-                    <a href="">Edit Plan</a>
-                </div>
-                <footer>
                     <div class="time">
                         <i class="icon-clock"></i>
                         @Html.Sitecore().Field("Time Remaining").Format(new { time = "{{time()}}" })
                     </div>
-                </footer>
+                </div>
             </article>
             <article class="enrollment__box">
                 <header>

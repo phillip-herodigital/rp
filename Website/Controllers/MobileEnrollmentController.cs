@@ -24,10 +24,6 @@ namespace StreamEnergy.MyStream.Controllers
             var data = item.Children.Select(child => new
             {
                 name = child.Fields["Name"].Value,
-                price = GetAllPrices(((Sitecore.Data.Fields.NameValueListField)child.Fields["Price and Condition"]).NameValues).Select(obj => new {
-                    Condition =  obj.Condition,
-                    Value =  obj.Value
-                }),
                 imageUrl = Sitecore.Resources.Media.MediaManager.GetMediaUrl(((Sitecore.Data.Fields.ImageField)child.Fields["ImageUrl"]).MediaItem, mediaOptions),
                 //imageUrlLarge = Sitecore.Resources.Media.MediaManager.GetMediaUrl(((Sitecore.Data.Fields.ImageField)child.Fields["ImageUrl - Large"]).MediaItem, mediaOptions),
                 brand = child.Fields["Brand"].Value,
@@ -35,10 +31,6 @@ namespace StreamEnergy.MyStream.Controllers
                 description = child.Fields["Description"].Value,
                 colors = GetAllColors(((Sitecore.Data.Fields.NameValueListField)child.Fields["Colors"]).NameValues).Select(obj => new {
                     Color =  obj.Color,
-                    Value =  obj.Value
-                }),
-                sizes = GetAllSizes(((Sitecore.Data.Fields.NameValueListField)child.Fields["Sizes"]).NameValues).Select(obj => new {
-                    Size =  obj.Size,
                     Value =  obj.Value
                 }),
                 models = GetAllPhoneModels(child.ID).Select(obj => new
@@ -92,7 +84,7 @@ namespace StreamEnergy.MyStream.Controllers
 
         public static IEnumerable<Item> GetAllPhoneModels(Sitecore.Data.ID phoneID)
         {
-            Item[] allPhoneModels = Sitecore.Context.Database.SelectItems("fast:/sitecore/content/Data/Taxonomy/Modules/Mobile Pricing/*[(@@templatename='Phone Price')]");
+            Item[] allPhoneModels = Sitecore.Context.Database.SelectItems("fast:/sitecore/content/Data/Taxonomy/Modules/Mobile Pricing//*[(@@templateid='{151B1A5D-FE85-4FEF-8779-1D2E328391C9}')]");
             IEnumerable<Item> data = allPhoneModels.Where(item => new Sitecore.Data.ID(item.Fields["Model"].Value) == phoneID);
             return data;
         }
