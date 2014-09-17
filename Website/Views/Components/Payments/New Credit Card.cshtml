@@ -18,7 +18,7 @@
             <label for="@Html.IdFor(m => m.BillingZipCode)">@Html.Sitecore().Field("Zip Code Label"):</label>
             @Html.TextBoxFor(m => m.BillingZipCode, new { data_val_if="ccCtrl.validate", ng_model="ccCtrl.billingZip" })
         </div>
-        <div class="item" @Html.Validation().ErrorClass(m => m.SecurityCode)>
+        <div class="item security-code" @Html.Validation().ErrorClass(m => m.SecurityCode)>
             <label for="@Html.IdFor(m => m.SecurityCode)">@Html.Sitecore().Field("Security Code Label"):</label>
             @Html.TextBoxFor(m => m.SecurityCode, new { ng_model = "ccCtrl.securityCode", data_val_if="ccCtrl.validate" })
         </div>
