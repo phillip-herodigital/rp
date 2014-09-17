@@ -99,8 +99,7 @@
                             }
                         </div>
                         <div class="additional-field-action">
-                            <a href="" ng-click="accountInformation.contactInfo.phone[1] = {}" ng-hide="accountInformation.contactInfo.phone.length > 1">@Html.Sitecore().Field("Add additional phone number")</a>
-                            <a href="" ng-click="accountInformation.contactInfo.phone.splice(1, 1)" ng-show="accountInformation.contactInfo.phone.length > 1">@Html.Sitecore().Field("Remove additional phone number")</a>
+                            <input type="checkbox" name="additional-phone-number" id="additional-phone-number" ng-model="additionalInformation.showAdditionalPhoneNumber"><label for="additional-phone-number">@Html.Sitecore().Field("Add additional phone number")</label>
                         </div>
                         <div class="additional-field-group" ng-show="accountInformation.contactInfo.phone.length > 1">
                             <div class="group">
