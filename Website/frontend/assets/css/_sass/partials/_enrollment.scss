@@ -108,7 +108,15 @@ $enrollment-module-vertical-padding: 20px;
             text-shadow: none;
             text-transform: none;
             float: left;
-			margin-left: -17px;
+            @include breakpoint(medium-large) {
+                margin-left: -17px;
+            }
+        }
+    }
+
+    .buttons button {
+        @include breakpoint(small) {
+            width: 100%;
         }
     }
 
