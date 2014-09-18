@@ -688,6 +688,9 @@ $enrollment-module-vertical-padding: 20px;
             font-size: 18px;
             text-align: left;
             border-left: none;
+            @include breakpoint(small) {
+                padding-right: 45px;
+            }
         }
         .view-details {
             display: block;
@@ -746,9 +749,6 @@ $enrollment-module-vertical-padding: 20px;
             }
             font-weight: bold;
             margin-left: 20px;
-            @include breakpoint(small) {
-                margin-top: 35px;
-            }
         }
         .details {
             td {
