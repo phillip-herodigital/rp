@@ -250,6 +250,14 @@ $enrollment-module-vertical-padding: 20px;
                 max-width: 320px;
                 td {
                     padding: 2px 3px;
+                    @include breakpoint(small) {
+                        padding: 2px 0;
+                    }
+                    button {
+                        @include breakpoint(small) {
+                            padding: 5px;
+                        }
+                    }
                 }
             }
         }
@@ -833,6 +841,9 @@ $enrollment-module-vertical-padding: 20px;
             display: inline-block;
             min-width: 25%;
         }
+    }
+    .icon-calendar {
+        display: none;
     }
     .location {
         margin-bottom: 10px !important;
