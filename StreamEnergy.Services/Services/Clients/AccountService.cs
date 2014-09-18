@@ -375,5 +375,38 @@ namespace StreamEnergy.Services.Clients
             }
             return false;
         }
+
+
+        async Task<AccountDetails> IAccountService.GetAccountDetails(Guid globalCustomerId, Guid accountId)
+        {
+            var response = await client.GetAsync("/api/v1/customers/" + globalCustomerId.ToString() + "/accounts/" + accountId.ToString());
+
+            if (response.IsSuccessStatusCode)
+            {
+                dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+                if (data.Status == "Success")
+                {
+                    return new AccountDetails
+                        {
+                            ContactInfo = new DomainModels.CustomerContact
+                            {
+                                Name = new DomainModels.Name { First = data.AccountDetails.AccountCustomer.FirstName, Last = data.AccountDetails.AccountCustomer.LastName },
+                                Email = new DomainModels.Email { Address = data.AccountDetails.AccountCustomer.EmailAddress },
+                                // TODO - phone number?
+                            },
+                            BillingAddress = new DomainModels.Address
+                            {
+                                Line1 = data.AccountDetails.BillingAddress.StreetLine1,
+                                Line2 = data.AccountDetails.BillingAddress.StreetLine1,
+                                City = data.AccountDetails.BillingAddress.City,
+                                PostalCode5 = data.AccountDetails.BillingAddress.Zip,
+                                StateAbbreviation = data.AccountDetails.BillingAddress.State,
+                            },
+                            // TODO - are there other parts that belong here?
+                        };
+                }
+            }
+            return null;
+        }
     }
 }
