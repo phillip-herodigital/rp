@@ -952,15 +952,26 @@ $enrollment-module-vertical-padding: 20px;
             display: inline-block;
             width: 32%;
             vertical-align: top;
+			@include breakpoint(small) {
+				display: block;
+				width: 100%;
+				margin-top: 10px;
+			}
             .step-number {
                 display: table-cell;
                 font-size: 40px;
                 line-height: 1.1;
+				&.number-one {
+					padding-right: 11px;
+				}
             }
             .step-description {
                 display: table-cell;
                 vertical-align: top;
                 padding-left: 10px;
+				@include breakpoint(small) {
+					vertical-align: middle;
+				}
             }
         }
     }
