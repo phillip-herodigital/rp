@@ -1309,6 +1309,37 @@ $enrollment-module-vertical-padding: 20px;
     .content .filters {
         margin: -25px ($enrollment-module-horizontal-padding * -1) 25px;  
     }
+    .btn-group-arrow {
+        position: relative;
+        &:after, &:before {
+            display: none;
+            bottom: -28px;
+            left: 50%;
+            border: solid transparent;
+            content: " ";
+            height: 0;
+            width: 0;
+            position: absolute;
+            pointer-events: none;
+        }
+
+        &:after {
+            border-color: rgba(255, 255, 255, 0);
+            border-bottom-color: #fff;
+            border-width: 15px;
+            margin-left: -15px;
+        }
+        &:before {
+            border-color: rgba(200, 200, 200, 0);
+            border-bottom-color: #e1e1e1;
+            border-width: 16px;
+            margin-left: -16px;
+        }
+        &.active:before, &.active:after {
+            display: block;
+            z-index: 1;
+        }
+    }
     .btn-group-options {
         display: table;
         border-spacing: 7px;
@@ -1644,6 +1675,18 @@ $enrollment-module-vertical-padding: 20px;
         select {
             margin-top: -3px;
         }
+    }
+    .btn-phone-number {
+        &:after, &:before {
+            bottom: -26px;
+        }   
+        &:after {
+            border-width: 14px;
+            margin-left: -14px;
+        }  
+    }
+    .phone-number-group {
+        margin-top: 15px;
     }
     .tabbed-header {
         display: table;

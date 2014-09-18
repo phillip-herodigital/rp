@@ -132,7 +132,7 @@
                             <label>Select Size:</label>
 
                             <div class="btn-group btn-group-options">
-                                <a href="" ng-repeat="size in ctrl.mobileService.getPhoneSizes(item)" class="button" ng-model="ctrl.phoneOptions.size" btn-radio="'{{ size }}'" class="size"><span>{{ size }}</span></a>
+                                <a href="" ng-repeat="size in ctrl.mobileService.getPhoneSizes(item)" class="button btn-group-arrow" ng-model="ctrl.phoneOptions.size" btn-radio="'{{ size }}'" class="size"><span>{{ size }}</span></a>
                             </div>
                         </div>
 
@@ -162,12 +162,19 @@
                             </label>
 
                             <div class="btn-group btn-group-options">
-                                <a href="" class="button" ng-model="ctrl.phoneOptions.number" btn-radio="'new'">Assign New Number</a><a href="" class="button" ng-model="ctrl.phoneOptions.number" btn-radio="'existing'">Transfer My Number</a>
+                                <a href="" class="button btn-group-arrow btn-phone-number" ng-model="ctrl.phoneOptions.number" btn-radio="'new'">Assign New Number</a>
+                                <a href="" class="button btn-group-arrow btn-phone-number" ng-model="ctrl.phoneOptions.number" btn-radio="'existing'">Transfer My Number</a>
+                            </div>
 
-                                <div class="btn-group-row">
-                                    <div ng-if="ctrl.phoneOptions.number == 'existing'" class="button button-type-border">
-                                        Enter Existing Number <input type="text" class="small" name="" value=""> <input type="text" class="small" name="" value=""> <input type="text" class="small" name="" value="">
-                                    </div>
+                            <div class="btn-group btn-group-options phone-number-group" ng-if="ctrl.phoneOptions.number == 'existing'">
+                                <div class="button button-type-border">
+                                    Enter Existing Number <input type="text" class="small" name="" value=""> <input type="text" class="small" name="" value=""> <input type="text" class="small" name="" value="">
+                                </div>
+                            </div>
+
+                            <div class="btn-group btn-group-options phone-number-group" ng-if="ctrl.phoneOptions.number == 'new'">
+                                <div class="button button-type-border">
+                                    Enter Area Code <input type="text" class="small" name="" value=""> <input type="text" class="small" name="" value=""> <input type="text" class="small" name="" value="">
                                 </div>
                             </div>
                         </div>
