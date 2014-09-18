@@ -32,7 +32,7 @@ namespace StreamEnergy.DomainModels.Accounts.Create
 
             if (!globalCustomerId.HasValue)
             {
-                globalCustomerId = await accountService.CreateStreamConnectCustomer(username: username);
+                globalCustomerId = await accountService.CreateStreamConnectCustomer(portalId: user.ProviderUserKey.ToString());
             }
 
             var profile = UserProfile.Locate(unityContainer, username);
