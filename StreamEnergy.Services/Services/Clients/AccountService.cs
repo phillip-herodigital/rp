@@ -38,7 +38,7 @@ namespace StreamEnergy.Services.Clients
                        InvoiceNumber = entry.InvoiceNumber,
                        IsPaid = entry.IsPaid,
                    } by new { entry.AccountNumber, entry.ServiceType, entry.CanRequestExtension } into invoicesByAcount
-                   select new Account
+                   select new Account(Guid.Empty)
                    {
                        AccountNumber = invoicesByAcount.Key.AccountNumber,
                        AccountType = invoicesByAcount.Key.ServiceType,
@@ -52,7 +52,7 @@ namespace StreamEnergy.Services.Clients
         {
             // TODO - load from Stream Commons
             return Task.FromResult<IEnumerable<Account>>(new[] {
-                new Account {
+                new Account(Guid.Empty) {
                     AccountNumber = "1234567890", 
                     CurrentInvoice = new Invoice { DueDate = DateTime.Today.AddDays(2), InvoiceAmount = 73.05m, InvoiceNumber="", IsPaid = false },
                     Capabilities = { 
@@ -60,7 +60,7 @@ namespace StreamEnergy.Services.Clients
                         new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } }
                     }
                 },
-                new Account {
+                new Account(Guid.Empty) {
                     AccountNumber = "5678901234",
                     CurrentInvoice = new Invoice { DueDate = DateTime.Today.AddDays(12), InvoiceAmount = 24.95m, InvoiceNumber="", IsPaid = false }, 
                     Capabilities = { 
@@ -68,7 +68,7 @@ namespace StreamEnergy.Services.Clients
                         new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } } 
                     } 
                 },
-                new Account { 
+                new Account(Guid.Empty) { 
                     AccountNumber = "2345060992", 
                     CurrentInvoice = new Invoice { DueDate = DateTime.Today.AddDays(19), InvoiceAmount = 54.05m, InvoiceNumber="", IsPaid = false }, 
                     Capabilities = { 
@@ -76,7 +76,7 @@ namespace StreamEnergy.Services.Clients
                         new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } } 
                     } 
                 },
-                new Account {
+                new Account(Guid.Empty) {
                     AccountNumber = "3429500293",
                     CurrentInvoice = new Invoice { DueDate = DateTime.Today.AddDays(29), InvoiceAmount = 36.00m, InvoiceNumber="", IsPaid = false }, 
                     Capabilities = { 
@@ -91,7 +91,7 @@ namespace StreamEnergy.Services.Clients
         {
             // TODO - load from Stream Commons
             return Task.FromResult<IEnumerable<Account>>(new[] {
-                new Account {
+                new Account(Guid.Empty) {
                     AccountNumber = "1234567890", 
                     Balance = new AccountBalance { Balance = 0.00m, DueDate = DateTime.Today.AddDays(2) },
                     Capabilities = { 
@@ -100,7 +100,7 @@ namespace StreamEnergy.Services.Clients
                         new ExternalPaymentAccountCapability { }
                     }
                 },
-                new Account {
+                new Account(Guid.Empty) {
                     AccountNumber = "5678901234",
                     Balance = new AccountBalance { Balance =  24.95m, DueDate = DateTime.Today.AddDays(12) },
                     Capabilities = { 
@@ -109,7 +109,7 @@ namespace StreamEnergy.Services.Clients
                         new ExternalPaymentAccountCapability { } 
                     } 
                 },
-                new Account { 
+                new Account(Guid.Empty) { 
                     AccountNumber = "2345060992", 
                     Balance = new AccountBalance { Balance =  54.05m, DueDate = DateTime.Today.AddDays(19) },
                     Capabilities = { 
@@ -118,7 +118,7 @@ namespace StreamEnergy.Services.Clients
                         new ExternalPaymentAccountCapability { } 
                     } 
                 },
-                new Account {
+                new Account(Guid.Empty) {
                     AccountNumber = "3429500293",
                     Balance = new AccountBalance { Balance =  36.00m, DueDate = DateTime.Today.AddDays(29) },
                     Capabilities = { 
@@ -134,7 +134,8 @@ namespace StreamEnergy.Services.Clients
         {
             // TODO - load from Stream Commons
             return Task.FromResult<Account>(
-                new Account {
+                new Account(Guid.Empty)
+                {
                     AccountNumber = accountNumber,
                     CurrentInvoice = new Invoice { DueDate = DateTime.Today.AddDays(2), InvoiceAmount = 123.45m, InvoiceNumber="", IsPaid = false },
                     Capabilities = { 
@@ -316,5 +317,63 @@ namespace StreamEnergy.Services.Clients
             return null;
         }
 
+
+        async Task<IEnumerable<Account>> IAccountService.GetAccounts(Guid globalCustomerId)
+        {
+            var response = await client.GetAsync("/api/v1/customers/" + globalCustomerId.ToString() + "/accounts");
+            if (response.IsSuccessStatusCode)
+            {
+                dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+                if (data.Status == "Success")
+                {
+                    var result = new List<Account>();
+                    foreach (var acct in data.Accounts)
+                    {
+                        result.Add(new Account((Guid)acct.GlobalAccountId)
+                            {
+                                AccountNumber = acct.SystemOfRecordAccountNumber,
+                                AccountType = acct.ServiceType,
+                                SystemOfRecord = acct.SystemOfRecord,
+                            });
+                    }
+                    return result.ToArray();
+                }
+            }
+            return null;
+        }
+
+        async Task<Guid> IAccountService.AssociateAccount(Guid globalCustomerId, string accountNumber, string ssnLast4, string accountNickname)
+        {
+            var response = await client.PostAsJsonAsync("/api/v1/customers/" + globalCustomerId.ToString() + "/accounts/associate", new
+                {
+                    AccountNumber = accountNumber,
+                    Last4 = ssnLast4,
+                    Nickname = accountNickname
+                });
+            if (response.IsSuccessStatusCode)
+            {
+                dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+                if (data.Status == "Success")
+                {
+                    return Guid.Parse((string)data.AssociateAccountResponseDetails[0].GlobalAccountId);
+                }
+            }
+            return Guid.Empty;
+        }
+
+        async Task<bool> IAccountService.DisassociateAccount(Guid globalCustomerId, Guid accountId)
+        {
+            var response = await client.DeleteAsync("/api/v1/customers/" + globalCustomerId.ToString() + "/accounts/" + accountId.ToString());
+
+            if (response.IsSuccessStatusCode)
+            {
+                dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+                if (data.Status == "Success")
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
