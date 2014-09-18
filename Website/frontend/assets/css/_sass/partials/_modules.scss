@@ -1859,6 +1859,9 @@ aside {
 		p {
 			margin: 0;
 		}
+        img {
+            max-width: 100%;
+        }
 		&.renew {
 			background-image: image-url('renew-promo.png');
 		}
@@ -1869,6 +1872,27 @@ aside {
 				margin-top: 70px;
 			}
 		}
+	}
+    article.promo.alt { 
+        @include background-image(linear-gradient(to top, #F9F9F9 0%, #FFF 100%));
+		@include box-shadow(0 1px 2px rgba(0, 0, 0, 0.15));
+	    @include border-radius(10px);
+	    border: 1px solid #ddd;
+		padding: 20px 12px;
+		color: #333;
+		h4 {
+			margin-top: 0;
+		}
+		button, .button {
+			width: 100%;
+			margin-top: 15px;
+		}
+		p {
+			margin: 1em 0;
+		}
+        div.action {
+            font-weight: bold;
+        }
 	}
 	article.subnav {
 		ul {
