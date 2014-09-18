@@ -4,6 +4,7 @@
  */
 ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentService', 'enrollmentCartService', '$modal', function ($scope, enrollmentService, enrollmentCartService, $modal) {
     $scope.accountInformation = enrollmentService.accountInformation;
+    $scope.additionalInformation = {};
     $scope.validations = [];
     $scope.addressOptions = {};
     $scope.modal = {};
@@ -66,6 +67,14 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
         } else {
             $scope.accountInformation.mailingAddress = {};
         }
+    });
+
+    $scope.$watch('additionalInformation.showAdditionalPhoneNumber', function (newValue) {
+        if (newValue) {
+            $scope.accountInformation.contactInfo.phone[1] = {};
+        } else {
+            $scope.accountInformation.contactInfo.phone.splice(1, 1);
+        }        
     });
 
     /**

@@ -876,6 +876,17 @@ $enrollment-module-vertical-padding: 20px;
         border: none;
         border-top: 1px solid #ddd;
     }
+    .security-code {
+        @include breakpoint(medium) {
+            clear: left;
+            margin-top: 20px;
+        }
+    }
+    .single-link {
+        @include breakpoint(medium) {
+            margin-top: 52px;
+        }
+    }
     .seperator {
         overflow: hidden;
         text-align: center;
@@ -969,6 +980,9 @@ $enrollment-module-vertical-padding: 20px;
     .plan-documents {
         .docs {
             text-align: right;
+            @include breakpoint(medium) {
+                width: 40%;
+            }
 			@include breakpoint(small) {
 				text-align: left;
 				margin-bottom: 10px;

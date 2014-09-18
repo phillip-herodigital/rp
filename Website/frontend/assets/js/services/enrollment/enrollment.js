@@ -99,11 +99,8 @@
             deferred.resolve(data);
         })
         .error(function (data, status) {
-            $rootScope.$broadcast('connectionFailure');
-            deferred.reject({
-                'status': status,
-                'data': data
-            });
+            // Cannot use $location.path; it's only changing hash-tags.
+            $window.location.href = '/enrollment/please-contact';
         });
 
         return deferred.promise.then(function (result) {
