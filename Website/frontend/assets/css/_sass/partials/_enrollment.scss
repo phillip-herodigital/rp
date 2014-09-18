@@ -1302,7 +1302,8 @@ $enrollment-module-vertical-padding: 20px;
         }
         .wrapper {
             height: auto;
-            padding: 50px 0;
+            padding-top: 50px;
+            padding-bottom: 50px;
         }
     }
     .content .filters {
@@ -1313,6 +1314,7 @@ $enrollment-module-vertical-padding: 20px;
         border-spacing: 7px;
         margin: -7px; 
         .button {
+            position: relative;
             color: #333;
             background: #fff;
             border: 2px solid $enrollment-light-border-color;
@@ -1360,6 +1362,13 @@ $enrollment-module-vertical-padding: 20px;
         }
 
     }
+    button.plain-footer {
+        margin: 7px 0;
+        padding: 0;
+        &:hover, &:active, &:focus {
+            background-color: transparent;
+        }
+    }
     button {
         text-transform: none;
         font-weight: normal;
@@ -1369,6 +1378,14 @@ $enrollment-module-vertical-padding: 20px;
     }
     hr {
         border-width: 1px;
+    }
+    @include breakpoint(small) {
+        .banner h1 {
+            font-size: 30px;
+        }
+        .enrollment__box h1 {
+            font-size: 20px;
+        }
     }
 }
 
@@ -1393,7 +1410,7 @@ $enrollment-module-vertical-padding: 20px;
             top: 10px;
             left: 30px;
         }
-        h1 {
+        .no-plans {
             margin: 40px 0 90px;
             text-align: center;
         }
@@ -1412,6 +1429,7 @@ $enrollment-module-vertical-padding: 20px;
             width: 28%;
         }
         .coverage {
+            text-align: center;
             width: 24%;
         }
         .devices {
@@ -1452,6 +1470,42 @@ $enrollment-module-vertical-padding: 20px;
         }
         tbody tr:last-child td {
             border-bottom: 0;
+        }
+    }
+    @include breakpoint(small) {
+        .no-networks-available {
+            .no-plans {
+                font-size: 18px;
+                margin: 20px 0 60px;
+            }
+            .col {
+                padding: 0 30px;
+                &:first-child {
+                    margin-bottom: 50px;
+                }
+            }
+            .ico-wrapper {
+                float: right;
+                position: static;
+                top: auto;
+                left: auto;
+            }
+            h2 {
+                font-size: 20px;
+            }
+            h3 {
+                padding-left: 30px;
+                padding-right: 30px;
+            }
+        }
+        .choose-network-table {
+            thead { 
+                display: none;
+            }
+            tbody, tr, td {
+                display: block;
+                width: 100% !important;
+            }
         }
     }
 }
@@ -1625,7 +1679,7 @@ $enrollment-module-vertical-padding: 20px;
         }
     }
     .phone-selector {
-        td, .col {
+        .col {
             border: none;
             vertical-align: top;
             padding: 25px 20px;
@@ -1668,24 +1722,63 @@ $enrollment-module-vertical-padding: 20px;
             }
         }
     }
+    @include breakpoint(small) {
+        .phone-selector {
+            .col {
+                width: auto;
+            }
+        }
+    }
 }
 
 .enrollment__configure-data {
+    .mobile-plans-header {
+        margin-bottom: 30px;
+    }
     .mobile-plans {
         text-align: center;
         width: 100%;
         @include experimental-value(width, calc(100% + 14px)); // Better alignment for everything except IE8 with this
+        .button {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        .is-recommended {
+            @include border-radius(0 0 5px 5px);
+        }
+        .recommended {
+            position: absolute;
+            top: -20px;
+            left: -2px;
+            right: -2px;
+            height: 20px;
+            background: #506774;
+            color: #fff;
+            font-weight: 600;
+            font-style: italic;
+            font-size: 12px;
+            line-height: 22px;
+            text-transform: uppercase;
+            @include border-radius(5px 5px 0 0);
+        }
+        .active {
+            .recommended {
+                background: #3189bb;
+            }
+        }
         .size {
             font-size: 24px;
             font-weight: 600;
+            margin-bottom: 10px;
         }
         .price {
             font-size: 20px;
         }
         .details {
+            text-align: left;
             > span {
-                font-size: 12px;
-                color: #666;
+                font-size: 11px;
+                color: #999;
                 margin-top: 12px;
             }
         }
@@ -1699,10 +1792,31 @@ $enrollment-module-vertical-padding: 20px;
     }
     h3 {
         font-weight: 600;
-        margin-bottom: 25px;
+    }
+    hr {
+        margin: 10px 0;
     }
     footer {
         background: #f7f7f7;
+    }
+    @include breakpoint-max(400px) {
+        .btn-group-options {
+            .button {
+                width: 100%%;
+                display: block;
+                margin-bottom: 6px;
+            }
+        }
+    }
+    @include breakpoint-min-max(401px, 650px) {
+        .btn-group-options {
+            .button {
+                width: 48%%;
+                margin: 1%;
+                float: left;
+                display: block;
+            }
+        }
     }
 }
 
@@ -1724,7 +1838,7 @@ $enrollment-module-vertical-padding: 20px;
     }
     .description {
         float: left;
-        width: 80%;
+        width: 70%;
     }
     .line-item {
         margin-top: 20px;
@@ -1799,6 +1913,22 @@ $enrollment-module-vertical-padding: 20px;
     }
 }
 
+.enrollment__order-notice {
+    background: #fff8d7;
+    .content {
+        padding-top: 5px;
+    }
+    header {
+        border-bottom: none;
+        background: transparent;
+    }
+}
+
+.enrollment__order-summary {
+    footer {
+        text-align: left;
+    }
+}
 
 
 

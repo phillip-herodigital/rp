@@ -21,6 +21,10 @@
         number: ""
     };
 
+    this.completeOrder = {
+        creditCard: {}
+    };
+
     this.displayFilters = false;
 
     //Set the default options when a new phone is selected
@@ -82,6 +86,22 @@ ngApp.filter('phoneFilter', function() {
     if(filters.os.length) {
         filteredElements =  _.filter(filteredElements, function(item) {
             return _.contains(filters.os, item.os);
+        });
+    }
+
+    if(filters.condition != "") {
+        filteredElements =  _.filter(filteredElements, function(item) {
+            //This makes sure it meets the first condition
+            if(_.where(item.models, { condition: filters.condition }).length) {
+                //Now we need to only return Refurished phones if New doesn't exist
+                if(filters.condition == 'Reconditioned' && !_.where(item.models, { condition: 'New' }).length) {
+                    return item;    
+                }
+
+                if(filters.condition != 'Reconditioned') {
+                    return item;
+                }              
+            }
         });
     }
 

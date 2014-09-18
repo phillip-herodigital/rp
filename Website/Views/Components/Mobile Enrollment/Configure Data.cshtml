@@ -14,7 +14,7 @@
                 <h1>Select Data Amount</h1>
             </header>
             <div class="content">
-                <h3>Choose the amount of High Speed Data you would like with your plan:</h3>
+                <h3 class="mobile-plans-header">Choose the amount of High Speed Data you would like with your plan:</h3>
                 
                 <div class="btn-group btn-group-options mobile-plans">
                     <div class="button" ng-model="ctrl.phoneOptions.plan" btn-radio="'plan1'">
@@ -29,7 +29,8 @@
                             <span>Web Browsing<br /><span class="time">12 hours</span></span>
                         </p>
                     </div>
-                    <div class="button" ng-model="ctrl.phoneOptions.plan" btn-radio="'plan2'">
+                    <div class="button is-recommended" ng-model="ctrl.phoneOptions.plan" btn-radio="'plan2'">
+                        <span class="recommended">Recommended</span>
                         <p>
                             <span class="size">2.5 GB</span>
                             <span class="price">$49/mo</span></p>
@@ -75,7 +76,7 @@
             </footer>
         </article>
         <div class="clearfix">
-            <button type="button" class="plain">Cancel Enrollment</button>
+            <button type="button" class="plain plain-footer">Cancel Enrollment</button>
             <button type="button" class="pull-right">Next</button>
         </div>
     </section>
@@ -90,16 +91,16 @@
                         <div class="item-num" ng-show="getCartCount()">{{ getCartCount() }}</div>
                     </div>
                     <i class="icon-close" ng-click="toggleCart();" ng-if="isCartOpen()"></i>
-                    <h1>Your Cart</h1>
+                    <h1>@Html.Sitecore().Field("6 - Cart Header")</h1>
                 </header>
                 <div class="content">
                     @*<p class="alt" ng-if="!getCartCount() && !getCartItems().length">@Html.Sitecore().Field("Empty Cart Text")</p>*@
                     <div class="cart-item">
-                        <h2>Mobile Services</h2>
+                        <h2>@Html.Sitecore().Field("6 - Mobile Services Header")</h2>
 
                         <div class="mobile-plan">
                             Lorem Ipsum AT&amp;T Network plan <br />
-                            <a href="">Edit Plan</a> | <a href="">Plan Details</a>
+                            <a href="">@Html.Sitecore().Field("6 - Edit Plan Link Text")</a> | <a href="">@Html.Sitecore().Field("6 - Plan Details Link Text")</a>
                         </div>
 
                         <div class="cart-product clearfix">
@@ -121,7 +122,7 @@
                             <h2>Monthly Plan</h2>
                             <div class="description">
                                 7.5 GB Included Data <br />
-                                <a href="">Edit Plan</a>
+                                <a href="">@Html.Sitecore().Field("6 - Edit Plan Text")</a>
                             </div>
                             <div class="rate">$39/mo</div>
                         </div>                           
@@ -137,10 +138,9 @@
                     @Html.Sitecore().Field("Documents Description")
                 </header>
                 <ul class="info">
-                    <li><i class="icon-home"></i> @Html.Sitecore().Field("Documents Service Address")</li>
-                    <li><i class="icon-bill"></i>  @Html.Sitecore().Field("Documents Billing Account Number")</a></li>
-                    <li><i class="icon-utility-provider"></i> @Html.Sitecore().Field("Documents Utility Provider")</li>
-                    <li><i class="icon-ssn"></i> @Html.Sitecore().Field("Documents Social Security Number")</li>
+                    <li><i class="icon-home"></i> @Html.Sitecore().Field("6 - Credit Card Text")</li>
+                    <li><i class="icon-bill"></i>  @Html.Sitecore().Field("6 - Billing Address Text")</a></li>
+                    <li><i class="icon-utility-provider"></i> @Html.Sitecore().Field("6 - IMEI Number Text") <br /> @Html.Sitecore().Field("6 - Bring Your Own Phone Text")</li>
                 </ul>
             </article>
         </div>

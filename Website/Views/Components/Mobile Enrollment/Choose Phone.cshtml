@@ -30,8 +30,8 @@
                             <div class="item">
                                 <div class="btn-group">
                                     <button type="button" ng-model="ctrl.phoneFilters.condition" btn-radio="''">All</button>
-                                    <button type="button" ng-model="ctrl.phoneFilters.condition" btn-radio="'reconditioned'">Reconditioned</button>
-                                    <button type="button" ng-model="ctrl.phoneFilters.condition" btn-radio="'new'">New</button>
+                                    <button type="button" ng-model="ctrl.phoneFilters.condition" btn-radio="'Reconditioned'">Reconditioned</button>
+                                    <button type="button" ng-model="ctrl.phoneFilters.condition" btn-radio="'New'">New</button>
                                 </div>
                             </div>
                             <div class="pull-right">
@@ -49,7 +49,6 @@
                         </div>
                         <div class="group" ng-if="ctrl.displayFilters">
                             <div class="item group-col">
-                                @* Filters as Check Boxes *@
                                 <label class="block-label">@Html.Sitecore().Field("2 - Filter - Brands")</label>
                                 <span ng-repeat="brand in ctrl.mobileService.getBrands()">
                                     <label class="filter-label"><input type="checkbox" value="{{ brand }}" ng-checked="ctrl.phoneFilters.brand.indexOf(brand) > -1" ng-click="ctrl.toggleBrands(brand)">{{ brand }}</label>
@@ -72,11 +71,16 @@
                                     </div>
                                     <h3>{{ item.name }}</h3>
                                     <div class="price">
-                                        <span>@Html.Sitecore().Field("2 - New From") {{ ctrl.mobileService.getConditionPrice(item, 'New') | currency }}</span>
 
-                                        <span>@Html.Sitecore().Field("2 - Reconditioned From")</span>
-                                        
-                                        {{ ctrl.mobileService.getConditionPrice(item, 'Reconditioned') | currency }}
+                                        <div ng-if="ctrl.mobileService.getConditionPrice(item, 'New')">
+                                            <span>@Html.Sitecore().Field("2 - New From")</span>
+                                            {{ ctrl.mobileService.getConditionPrice(item, 'New') | currency }}
+                                        </div>
+
+                                        <div ng-if="ctrl.mobileService.getConditionPrice(item, 'Reconditioned') && !ctrl.mobileService.getConditionPrice(item, 'New')">
+                                            <span>@Html.Sitecore().Field("2 - Reconditioned From")</span>
+                                            {{ ctrl.mobileService.getConditionPrice(item, 'Reconditioned') | currency }}
+                                        </div>
 
                                         <span>@Html.Sitecore().Field("2 - Lease From") {{ ctrl.mobileService.getConditionPrice(item, 'Lease') | currency }}</span>
                                     </div>
