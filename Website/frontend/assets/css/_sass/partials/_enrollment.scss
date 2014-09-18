@@ -281,6 +281,11 @@ $enrollment-module-vertical-padding: 20px;
                 button, .button {
                     float: right;
                     min-width: 120px;
+                     &.secondary {
+                        @include breakpoint(small) {
+                            margin-top: -31px;
+                        }
+                     }
                 }
             }
             .view-details {
@@ -741,7 +746,9 @@ $enrollment-module-vertical-padding: 20px;
             }
             font-weight: bold;
             margin-left: 20px;
-            margin-top: 35px;
+            @include breakpoint(small) {
+                margin-top: 35px;
+            }
         }
         .details {
             td {
