@@ -10,25 +10,25 @@
 <section class="wrapper layout cols-2">
     <section>
         <article class="enrollment__box enrollment__configure-data">
-        	<header>
-        		<h1>Select Data Amount</h1>
-        	</header>
-        	<div class="content">
-        		<h3>Choose the amount of High Speed Data you would like with your plan:</h3>
-        		
-				<div class="btn-group btn-group-options mobile-plans">
-					<div class="button" ng-model="ctrl.phoneOptions.plan" btn-radio="'plan1'">
-						<p>
+            <header>
+                <h1>Select Data Amount</h1>
+            </header>
+            <div class="content">
+                <h3>Choose the amount of High Speed Data you would like with your plan:</h3>
+                
+                <div class="btn-group btn-group-options mobile-plans">
+                    <div class="button" ng-model="ctrl.phoneOptions.plan" btn-radio="'plan1'">
+                        <p>
                             <span class="size">500 MB</span>
-						    <span class="price">$39/mo</span></p>
-						</p>
-						<hr>
-                        <p class="details">
-						    <span>Streaming Music<br /><span class="time">2 hours</span></span>
-						    <span>Streaming Movies<br /><span class="time">3 hours</span></span>
-						    <span>Web Browsing<br /><span class="time">12 hours</span></span>
+                            <span class="price">$39/mo</span></p>
                         </p>
-					</div>
+                        <hr>
+                        <p class="details">
+                            <span>Streaming Music<br /><span class="time">2 hours</span></span>
+                            <span>Streaming Movies<br /><span class="time">3 hours</span></span>
+                            <span>Web Browsing<br /><span class="time">12 hours</span></span>
+                        </p>
+                    </div>
                     <div class="button" ng-model="ctrl.phoneOptions.plan" btn-radio="'plan2'">
                         <p>
                             <span class="size">2.5 GB</span>
@@ -66,13 +66,13 @@
                         </p>
                     </div>
 
-				    @*<a ng-repeat="color in item.colors" class="button {{ color.color }}" ng-model="ctrl.phoneOptions.color" btn-radio="'{{ color.color }}'" uncheckable>{{ color.value }}</a>*@
-				</div>
-        	</div>
-        	<footer>
-        		<h3><strong>Need more data?</strong> Get additional for just $10/GB.</h3>
-        		<p>Data usage varies by device. Calculations of data usage are estimates only; actual amount of data used may vary significantly.</p>
-        	</footer>
+                    @*<a ng-repeat="color in item.colors" class="button {{ color.color }}" ng-model="ctrl.phoneOptions.color" btn-radio="'{{ color.color }}'" uncheckable>{{ color.value }}</a>*@
+                </div>
+            </div>
+            <footer>
+                <h3><strong>Need more data?</strong> Get additional for just $10/GB.</h3>
+                <p>Data usage varies by device. Calculations of data usage are estimates only; actual amount of data used may vary significantly.</p>
+            </footer>
         </article>
         <div class="clearfix">
             <button type="button" class="plain">Cancel Enrollment</button>

@@ -15,213 +15,213 @@
         <article class="enrollment__box enrollment__choose-device form">
             <header class="tabbed-header clearfix">
                 <div class="tab" ng-class="{ 'active': ctrl.phoneFilters.phoneTypeTab == 'new' }" ng-click="ctrl.phoneFilters.phoneTypeTab = 'new'">
-                	<h1>@Html.Sitecore().Field("2 - Header - Shop Phones")</h1>
+                    <h1>@Html.Sitecore().Field("2 - Header - Shop Phones")</h1>
                 </div>
                 <div class="tab" ng-class="{ 'active': ctrl.phoneFilters.phoneTypeTab == 'existing' }" ng-click="ctrl.phoneFilters.phoneTypeTab = 'existing'; ctrl.clearPhoneSelection()">
-                	<h1>@Html.Sitecore().Field("2 - Header - Bring Your Own Phone")</h1>
+                    <h1>@Html.Sitecore().Field("2 - Header - Bring Your Own Phone")</h1>
                 </div>
             </header>
 
-			@* New Phone Template *@
+            @* New Phone Template *@
             <toggle-pane name="new" value="ctrl.phoneFilters.phoneTypeTab">
                 <div class="content" ng-if="ctrl.phoneFilters.selectedPhone == ''">
                     <div class="filters">
                         <div class="group">
-                        	<div class="item">
-								<div class="btn-group">
-								    <button type="button" ng-model="ctrl.phoneFilters.condition" btn-radio="''">All</button>
-								    <button type="button" ng-model="ctrl.phoneFilters.condition" btn-radio="'reconditioned'">Reconditioned</button>
-								    <button type="button" ng-model="ctrl.phoneFilters.condition" btn-radio="'new'">New</button>
-								</div>
-                        	</div>
-                        	<div class="pull-right">
-	                            <div class="item">
-	                                <label>@Html.Sitecore().Field("2 - Filter - Sort By")</label>
-	                                <select>
-	                                    <option value="">@Html.Sitecore().Field("2 - Filter - Price - HighLow")</option>
-	                                    <option value="">@Html.Sitecore().Field("2 - Filter - Price - LowHigh")</option>
-	                                </select>
-	                            </div>
-	                            <div class="item">
-	                                <button class="plain filter-button" type="button" ng-click="ctrl.displayFilters = !ctrl.displayFilters">@Html.Sitecore().Field("2 - Filter Text")</button>
-	                        	</div>
-                        	</div>
+                            <div class="item">
+                                <div class="btn-group">
+                                    <button type="button" ng-model="ctrl.phoneFilters.condition" btn-radio="''">All</button>
+                                    <button type="button" ng-model="ctrl.phoneFilters.condition" btn-radio="'reconditioned'">Reconditioned</button>
+                                    <button type="button" ng-model="ctrl.phoneFilters.condition" btn-radio="'new'">New</button>
+                                </div>
+                            </div>
+                            <div class="pull-right">
+                                <div class="item">
+                                    <label>@Html.Sitecore().Field("2 - Filter - Sort By")</label>
+                                    <select>
+                                        <option value="">@Html.Sitecore().Field("2 - Filter - Price - HighLow")</option>
+                                        <option value="">@Html.Sitecore().Field("2 - Filter - Price - LowHigh")</option>
+                                    </select>
+                                </div>
+                                <div class="item">
+                                    <button class="plain filter-button" type="button" ng-click="ctrl.displayFilters = !ctrl.displayFilters">@Html.Sitecore().Field("2 - Filter Text")</button>
+                                </div>
+                            </div>
                         </div>
                         <div class="group" ng-if="ctrl.displayFilters">
-                        	<div class="item group-col">
-                        		@* Filters as Check Boxes *@
-                        		<label class="block-label">@Html.Sitecore().Field("2 - Filter - Brands")</label>
-                        		<span ng-repeat="brand in ctrl.mobileService.getBrands()">
-                        			<label class="filter-label"><input type="checkbox" value="{{ brand }}" ng-checked="ctrl.phoneFilters.brand.indexOf(brand) > -1" ng-click="ctrl.toggleBrands(brand)">{{ brand }}</label>
-                        		</span>
+                            <div class="item group-col">
+                                @* Filters as Check Boxes *@
+                                <label class="block-label">@Html.Sitecore().Field("2 - Filter - Brands")</label>
+                                <span ng-repeat="brand in ctrl.mobileService.getBrands()">
+                                    <label class="filter-label"><input type="checkbox" value="{{ brand }}" ng-checked="ctrl.phoneFilters.brand.indexOf(brand) > -1" ng-click="ctrl.toggleBrands(brand)">{{ brand }}</label>
+                                </span>
                             </div>
                             <div class="item group-col">
-                            	<label class="block-label">@Html.Sitecore().Field("2 - Filter - OS")</label>
-                        		<span ng-repeat="os in ctrl.mobileService.getOSs()">
-                        			<label class="filter-label"><input type="checkbox" value="{{ os }}" ng-checked="ctrl.phoneFilters.os.indexOf(os) > -1" ng-click="ctrl.toggleOSs(os)">{{ os }}</label>
-                        		</span>
-                        	</div>
+                                <label class="block-label">@Html.Sitecore().Field("2 - Filter - OS")</label>
+                                <span ng-repeat="os in ctrl.mobileService.getOSs()">
+                                    <label class="filter-label"><input type="checkbox" value="{{ os }}" ng-checked="ctrl.phoneFilters.os.indexOf(os) > -1" ng-click="ctrl.toggleOSs(os)">{{ os }}</label>
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <div class="stretch-full form">
-						<div class="phone-selector">
-							<div class="grid three" ng-repeat="phone in ctrl.mobileService.getPhones() | phoneFilter: ctrl.phoneFilters | partition: 3">
-								<div class="col" ng-repeat="item in phone">
+                        <div class="phone-selector">
+                            <div class="grid three" ng-repeat="phone in ctrl.mobileService.getPhones() | phoneFilter: ctrl.phoneFilters | partition: 3">
+                                <div class="col" ng-repeat="item in phone">
                                     <div class="product-image">
-                                    	<img ng-src="{{ item.imageUrl }}" />
+                                        <img ng-src="{{ item.imageUrl }}" />
                                     </div>
                                     <h3>{{ item.name }}</h3>
                                     <div class="price">
-                                    	<span>@Html.Sitecore().Field("2 - New From") {{ ctrl.mobileService.getConditionPrice(item, 'New') | currency }}</span>
+                                        <span>@Html.Sitecore().Field("2 - New From") {{ ctrl.mobileService.getConditionPrice(item, 'New') | currency }}</span>
 
-                                    	<span>@Html.Sitecore().Field("2 - Reconditioned From")</span>
-                                    	
-                                    	{{ ctrl.mobileService.getConditionPrice(item, 'Reconditioned') | currency }}
+                                        <span>@Html.Sitecore().Field("2 - Reconditioned From")</span>
+                                        
+                                        {{ ctrl.mobileService.getConditionPrice(item, 'Reconditioned') | currency }}
 
-                                    	<span>@Html.Sitecore().Field("2 - Lease From") {{ ctrl.mobileService.getConditionPrice(item, 'Lease') | currency }}</span>
+                                        <span>@Html.Sitecore().Field("2 - Lease From") {{ ctrl.mobileService.getConditionPrice(item, 'Lease') | currency }}</span>
                                     </div>
                                     <button ng-click="ctrl.setSelectedPhone(item)">@Html.Sitecore().Field("2 - Button - Select Phone")</button>
-								
-								
-									@*{{ item.brand }}
-									{{ item.os }}
-									{{ item.description }}
-									{{ item.colors }}
-									{{ item.sizes }}*@
-								</div>
-								<div class="col" ng-if="phone.length % 3 == 2"></div>
-								<div class="col" ng-if="phone.length % 3 == 1"></div>
-								<div class="col" ng-if="phone.length % 3 == 1"></div>
-							</div>
-						</div>
+                                
+                                
+                                    @*{{ item.brand }}
+                                    {{ item.os }}
+                                    {{ item.description }}
+                                    {{ item.colors }}
+                                    {{ item.sizes }}*@
+                                </div>
+                                <div class="col" ng-if="phone.length % 3 == 2"></div>
+                                <div class="col" ng-if="phone.length % 3 == 1"></div>
+                                <div class="col" ng-if="phone.length % 3 == 1"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </toggle-pane>
 
-			@* Phone Details Overlay *@
-			<toggle-pane ng-repeat="item in ctrl.mobileService.getPhones()" name="{{ item.name }}" value="ctrl.phoneFilters.selectedPhone">
-				<div class="content">
-					<div class="clearfix">
-						<i class="icon-close pull-right" ng-click="ctrl.clearPhoneSelection()"></i>
-						<a href="" class="pull-left" ng-click="ctrl.clearPhoneSelection()">&#8592; @Html.Sitecore().Field("2 - Back to All Phones")</a>
-					</div>
+            @* Phone Details Overlay *@
+            <toggle-pane ng-repeat="item in ctrl.mobileService.getPhones()" name="{{ item.name }}" value="ctrl.phoneFilters.selectedPhone">
+                <div class="content">
+                    <div class="clearfix">
+                        <i class="icon-close pull-right" ng-click="ctrl.clearPhoneSelection()"></i>
+                        <a href="" class="pull-left" ng-click="ctrl.clearPhoneSelection()">&#8592; @Html.Sitecore().Field("2 - Back to All Phones")</a>
+                    </div>
 
-					<h1>{{ item.name }}</h1>
-					<div class="description" ng-bind-html="item.description | unsafe"></div>
-					<p><a href="">@Html.Sitecore().Field("2 - More Details") <i class="icon-arrow-right"></i></a></p>
+                    <h1>{{ item.name }}</h1>
+                    <div class="description" ng-bind-html="item.description | unsafe"></div>
+                    <p><a href="">@Html.Sitecore().Field("2 - More Details") <i class="icon-arrow-right"></i></a></p>
 
-					<hr class="content-divider">
-					
-					@* Chrome doesn't support <button> as display: table-cell, so we're using <a> *@
-					<div class="vertical">
-						<div class="item simple-options-item">
-							<label>Select Color:</label>
+                    <hr class="content-divider">
+                    
+                    @* Chrome doesn't support <button> as display: table-cell, so we're using <a> *@
+                    <div class="vertical">
+                        <div class="item simple-options-item">
+                            <label>Select Color:</label>
 
-							<div class="btn-group btn-group-options colors">
-							    <a ng-repeat="color in item.colors">
-							    	<span class="button {{ color.color }}" ng-model="ctrl.phoneOptions.color" btn-radio="'{{ color.color }}'"></span>
-							    	<span class="color-name">{{ color.value }}</span>
-							    </a>
-							</div>
-						</div>
-						<div class="item simple-options-item">
-							<label>Select Size:</label>
+                            <div class="btn-group btn-group-options colors">
+                                <a ng-repeat="color in item.colors">
+                                    <span class="button {{ color.color }}" ng-model="ctrl.phoneOptions.color" btn-radio="'{{ color.color }}'"></span>
+                                    <span class="color-name">{{ color.value }}</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="item simple-options-item">
+                            <label>Select Size:</label>
 
-							<div class="btn-group btn-group-options">
-							    <a href="" ng-repeat="size in ctrl.mobileService.getPhoneSizes(item)" class="button" ng-model="ctrl.phoneOptions.size" btn-radio="'{{ size }}'" class="size"><span>{{ size }}</span></a>
-							</div>
-						</div>
+                            <div class="btn-group btn-group-options">
+                                <a href="" ng-repeat="size in ctrl.mobileService.getPhoneSizes(item)" class="button" ng-model="ctrl.phoneOptions.size" btn-radio="'{{ size }}'" class="size"><span>{{ size }}</span></a>
+                            </div>
+                        </div>
 
-						<hr class="content-divider">
+                        <hr class="content-divider">
 
-						<div class="item">
-							<label>Purchase Options:<br />
-								<span class="label-description">Buy new, reconditioned or with our Finance option for a small monthly fee.</span>
-							</label>
+                        <div class="item">
+                            <label>Purchase Options:<br />
+                                <span class="label-description">Buy new, reconditioned or with our Finance option for a small monthly fee.</span>
+                            </label>
 
-							<div class="btn-group btn-group-options">
-							    <a href="" ng-repeat="model in ctrl.mobileService.getPricesForSize(item, ctrl.phoneOptions.size)" class="button" ng-model="ctrl.phoneOptions.condition" btn-radio="'{{ model.condition }}'">{{ model.condition }}<br /><span>{{ model.price | currency }}</span></a>
-							</div>
-						</div>
-						<div class="item">
-							<label>Warranty:<br />
-								<span class="label-description">Warranty will stay in effect as long as you have service with Stream Energy.</span>
-							</label>
+                            <div class="btn-group btn-group-options">
+                                <a href="" ng-repeat="model in ctrl.mobileService.getPricesForSize(item, ctrl.phoneOptions.size)" class="button" ng-model="ctrl.phoneOptions.condition" btn-radio="'{{ model.condition }}'">{{ model.condition }}<br /><span>{{ model.price | currency }}</span></a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <label>Warranty:<br />
+                                <span class="label-description">Warranty will stay in effect as long as you have service with Stream Energy.</span>
+                            </label>
 
-							<div class="btn-group btn-group-options">
-							    <a href="" class="button" ng-model="ctrl.phoneOptions.warranty" btn-radio="'accept'">Add Warranty<br /> $9.99/mo</a><a href="" class="button" ng-model="ctrl.phoneOptions.warranty" btn-radio="'decline'">Decline Warranty</a>
-							</div>
-						</div>
-						<div class="item">
-							<label>Phone Number:<br />
-								<span class="label-description">You'll be assigned a new phone number or you can transfer an existing number.</span>
-							</label>
+                            <div class="btn-group btn-group-options">
+                                <a href="" class="button" ng-model="ctrl.phoneOptions.warranty" btn-radio="'accept'">Add Warranty<br /> $9.99/mo</a><a href="" class="button" ng-model="ctrl.phoneOptions.warranty" btn-radio="'decline'">Decline Warranty</a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <label>Phone Number:<br />
+                                <span class="label-description">You'll be assigned a new phone number or you can transfer an existing number.</span>
+                            </label>
 
-							<div class="btn-group btn-group-options">
-							    <a href="" class="button" ng-model="ctrl.phoneOptions.number" btn-radio="'new'">Assign New Number</a><a href="" class="button" ng-model="ctrl.phoneOptions.number" btn-radio="'existing'">Transfer My Number</a>
+                            <div class="btn-group btn-group-options">
+                                <a href="" class="button" ng-model="ctrl.phoneOptions.number" btn-radio="'new'">Assign New Number</a><a href="" class="button" ng-model="ctrl.phoneOptions.number" btn-radio="'existing'">Transfer My Number</a>
 
-								<div class="btn-group-row">
-								    <div ng-if="ctrl.phoneOptions.number == 'existing'" class="button button-type-border">
-										Enter Existing Number <input type="text" class="small" name="" value=""> <input type="text" class="small" name="" value=""> <input type="text" class="small" name="" value="">
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<footer>
-            		<button type="button" ng-if="ctrl.phoneFilters.phoneTypeTab == 'new'">Add to Cart</button>
-				</footer>
-			</toggle-pane>
+                                <div class="btn-group-row">
+                                    <div ng-if="ctrl.phoneOptions.number == 'existing'" class="button button-type-border">
+                                        Enter Existing Number <input type="text" class="small" name="" value=""> <input type="text" class="small" name="" value=""> <input type="text" class="small" name="" value="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <footer>
+                    <button type="button" ng-if="ctrl.phoneFilters.phoneTypeTab == 'new'">Add to Cart</button>
+                </footer>
+            </toggle-pane>
 
-			@* Bring Your Own Phone Template *@
-			<toggle-pane name="existing" value="ctrl.phoneFilters.phoneTypeTab">
-            	<div class="content form bring-your-own">
-            		<h2>@Html.Sitecore().Field("2 - Header - Bring Your Own Network Phone").Format(new { network = "{{ ctrl.phoneFilters.selectedNetwork }}" })</h2>
-            		@Html.Sitecore().Field("2 - Bring Your Phone - Description")
-					
-					<hr>
+            @* Bring Your Own Phone Template *@
+            <toggle-pane name="existing" value="ctrl.phoneFilters.phoneTypeTab">
+                <div class="content form bring-your-own">
+                    <h2>@Html.Sitecore().Field("2 - Header - Bring Your Own Network Phone").Format(new { network = "{{ ctrl.phoneFilters.selectedNetwork }}" })</h2>
+                    @Html.Sitecore().Field("2 - Bring Your Phone - Description")
+                    
+                    <hr>
 
-            		@Html.Sitecore().Field("2 - Bring Your Phone - Instructions").Format(new { network = "{{ ctrl.phoneFilters.selectedNetwork }}" })
-            	
-					<h3><strong>To bring your own phone, it must be:</strong></h3>
+                    @Html.Sitecore().Field("2 - Bring Your Phone - Instructions").Format(new { network = "{{ ctrl.phoneFilters.selectedNetwork }}" })
+                
+                    <h3><strong>To bring your own phone, it must be:</strong></h3>
 
-					<ol>
-						<li>An <strong>AT&amp;T Device</strong> or compatible <strong>GSM network</strong> phone<br />
-						Want to bring a Sprint or CDMA network phone? <a href="">Switch Carriers</a></li>
-						<li>The phone must be unlocked. <a href="">How do I unlock my phone?</a></li>
-						<li><strong>In good standing*</strong></li>
-						<li>Compatible with the list of devices below.</li>
-					</ol>
-					
-					<div class="group">
-						<div class="item">
-							<select name="" id="">
-								<option value="">Apple</option>
-							</select>
-							<select name="" id="">
-								<option value="">iPhone</option>
-							</select>
-						</div>
-					</div>
+                    <ol>
+                        <li>An <strong>AT&amp;T Device</strong> or compatible <strong>GSM network</strong> phone<br />
+                        Want to bring a Sprint or CDMA network phone? <a href="">Switch Carriers</a></li>
+                        <li>The phone must be unlocked. <a href="">How do I unlock my phone?</a></li>
+                        <li><strong>In good standing*</strong></li>
+                        <li>Compatible with the list of devices below.</li>
+                    </ol>
+                    
+                    <div class="group">
+                        <div class="item">
+                            <select name="" id="">
+                                <option value="">Apple</option>
+                            </select>
+                            <select name="" id="">
+                                <option value="">iPhone</option>
+                            </select>
+                        </div>
+                    </div>
 
-            		<hr>
+                    <hr>
 
-            		<h3><strong>Enter IMEI Number</strong></h3>
+                    <h3><strong>Enter IMEI Number</strong></h3>
 
-					<ol>
-            			<li>Dial *#06# on your phone's keypad</li>
-						<li>Your phone's <a href="">IMEI number</a> will appear on the screen</li>
-						<li>Enter your phone's <a href="">IMEI number</a> below</li>
-					</ol>
+                    <ol>
+                        <li>Dial *#06# on your phone's keypad</li>
+                        <li>Your phone's <a href="">IMEI number</a> will appear on the screen</li>
+                        <li>Enter your phone's <a href="">IMEI number</a> below</li>
+                    </ol>
 
-					<p><input type="text"></p>
+                    <p><input type="text"></p>
 
-					<p>Based on your phone selection, we'll send you a SIM Starter Kit for your device. The SIM Starter Kit includes both Standard and Micro SIM cards. This will fit most phones that have a SIM slot. Your new SIM will be shipped to you on verification of your order.</p>            		
-            	</div>
-	            <footer>
-	            	<button type="button" ng-if="ctrl.phoneFilters.phoneTypeTab == 'existing'">Add Phone</button>
-	            </footer>
+                    <p>Based on your phone selection, we'll send you a SIM Starter Kit for your device. The SIM Starter Kit includes both Standard and Micro SIM cards. This will fit most phones that have a SIM slot. Your new SIM will be shipped to you on verification of your order.</p>                  
+                </div>
+                <footer>
+                    <button type="button" ng-if="ctrl.phoneFilters.phoneTypeTab == 'existing'">Add Phone</button>
+                </footer>
             </toggle-pane>
         </article>
     </section>

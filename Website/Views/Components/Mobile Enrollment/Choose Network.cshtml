@@ -14,25 +14,25 @@
         </header>
         <div class="content">
 
-        	@* Networks not available *@
+            @* Networks not available *@
             <div class="no-networks-available" ng-show="!ctrl.phoneFilters.zipCode">
                 <h1>@Html.Sitecore().Field("1 - Header - No Plans Available")</h1>
 
-				<div class="stretch-full">
-				    <h3>@Html.Sitecore().Field("1 - Subheader - Check Out Services")</h3>
+                <div class="stretch-full">
+                    <h3>@Html.Sitecore().Field("1 - Subheader - Check Out Services")</h3>
                     <div class="grid">
                         <div class="col">
-                        	<div class="ico-wrapper">
-                        		<i class="icon-home-utility"></i>
-                        	</div>
+                            <div class="ico-wrapper">
+                                <i class="icon-home-utility"></i>
+                            </div>
                             <h2>@Html.Sitecore().Field("1 - Header - Utility Services")</h2>
                             @Html.Sitecore().Field("1 - Text - Utility Description")
                             <a href="@Html.Sitecore().Field("1 - Link Url - Utility Link")">@Html.Sitecore().Field("1 - Link Text - Utility Link Text") <i class="icon-arrow-right"></i></a>
                         </div>
                         <div class="col">
-                        	<div class="ico-wrapper">
-                        		<i class="icon-homelife"></i>
-                        	</div>
+                            <div class="ico-wrapper">
+                                <i class="icon-homelife"></i>
+                            </div>
                             <h2>@Html.Sitecore().Field("1 - Header - Homelife Services")</h2>
                             @Html.Sitecore().Field("1 - Text - Utility Description")
                             <a href="@Html.Sitecore().Field("1 - Link Url - Homelife Link")">@Html.Sitecore().Field("1 - Link Text - Homelife Link Text") <i class="icon-arrow-right"></i></a>
@@ -58,7 +58,7 @@
                             <td class="coverage" ng-bind-html="network.coverage | unsafe"></td>
                             <td class="devices" ng-bind-html="network.devices | unsafe"></td>
                             <td class="select-network">
-                            	<p><strong>@Html.Sitecore().Field("1 - Select Network").Format(new { network = "{{ network.name }}" })</strong></p>
+                                <p><strong>@Html.Sitecore().Field("1 - Select Network").Format(new { network = "{{ network.name }}" })</strong></p>
                                 <button type="button">@Html.Sitecore().Field("1 - Button - Shop Devices")</button>
                                 <button type="button">@Html.Sitecore().Field("1 - Button - Bring My Own Phone")</button>
                             </td>
