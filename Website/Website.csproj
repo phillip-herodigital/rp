@@ -521,6 +521,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Conditions\CookieCryptography.cs" />
     <Compile Include="Conditions\EnrollmentTrafficCopCondition.cs" />
     <Compile Include="Conditions\MaintenanceModeCondition.cs" />
     <Compile Include="Controllers\ApiControllers\AccountController.cs" />
@@ -666,6 +667,11 @@
     <Content Include="Data\license.xml" />
     <Content Include="default.css" />
     <Content Include="default.js" />
+    <Content Include="frontend\assets\js\controllers\account\paymentAccountsListingCtrl.js" />
+    <Content Include="frontend\assets\js\controllers\payments\addBankAccount.js" />
+    <Content Include="frontend\assets\js\controllers\payments\addCreditCard.js" />
+    <Content Include="frontend\assets\js\directives\typeahead-popup-fix.js" />
+    <Content Include="frontend\utility-services.html" />
     <Content Include="frontend\*" />
     <Content Include="frontend\**\*" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />

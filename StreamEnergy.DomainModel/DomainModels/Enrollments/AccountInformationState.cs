@@ -33,10 +33,18 @@ namespace StreamEnergy.DomainModels.Enrollments
                 yield return context => context.PreferredSalesExecutive;
                 yield return context => context.OnlineAccount;
                 yield return context => context.MailingAddress;
-                if (data.Services.SelectMany(svc => svc.Location.Capabilities).OfType<ServiceStatusCapability>().Any(cap => cap.EnrollmentType == EnrollmentType.MoveIn))
+                if (data.Services.SelectMany(svc => svc.Location.Capabilities).OfType<ServiceStatusCapability>().Any(cap => cap.EnrollmentType == EnrollmentType.MoveIn) && data.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType != EnrollmentCustomerType.Commercial))
                 {
                     yield return context => context.PreviousAddress;
                 }
+            }
+        }
+
+        public override IEnumerable<ValidationResult> AdditionalValidations(UserContext context, InternalContext internalContext)
+        {
+            if (context.SocialSecurityNumber == null && context.TaxId == null)
+            {
+                yield return new ValidationResult("Tax Id or SSN Required", new[] { "SocialSecurityNumber", "TaxId" });
             }
         }
 

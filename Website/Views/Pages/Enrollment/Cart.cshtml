@@ -13,7 +13,7 @@
                 <p class="alt" ng-if="!getCartCount() && !getCartItems().length">@Html.Sitecore().Field("Empty Cart Text")</p>
                 <div class="cart-item" ng-repeat="(id, location) in getCartItems()">
                     <h2>@Html.Sitecore().Field("Energy Plan")</h2>
-                    <div class="delete" ng-click="deleteUtilityAddress(location)" ng-if="customerType == 'commercial' || getCartCount() == 0">
+                    <div class="delete" ng-click="deleteUtilityAddress(location)" ng-if="customerType == 'commercial' || !locationHasService(location)">
                         <i class="icon-delete"></i>
                     </div>
                     <address>
@@ -34,25 +34,29 @@
                 </div>
             </div>
         </article>
-        <article class="enrollment__box">
+        <article class="enrollment__box" ng-if="customerType != 'commercial'">
             <header>
                 @Html.Sitecore().Field("Documents Description")
             </header>
             <ul class="info">
                 <li><i class="icon-home"></i> @Html.Sitecore().Field("Documents Service Address")</li>
-                <li><i class="icon-bill"></i>  @Html.Sitecore().Field("Documents Billing Account Number")</a></li>
+                <!--<li><i class="icon-bill"></i>  @Html.Sitecore().Field("Documents Billing Account Number")</a></li>-->
                 <li><i class="icon-utility-provider"></i> @Html.Sitecore().Field("Documents Utility Provider")</li>
                 <li><i class="icon-ssn"></i> @Html.Sitecore().Field("Documents Social Security Number")</li>
             </ul>
         </article>
-        <article class="enrollment__box" ng-if="getCartLocationsCount() > 0">
+        <article class="enrollment__box outage-information" ng-if="customerType != 'commercial' && getCartLocationsCount() > 0">
             <header>
                 <p><strong>@Html.Sitecore().Field("Outage Header")</strong></p>
             </header>
             <ul class="info">
-                @* TODO - These phone numbers should come from the location object *@
-                <li>Call Oncor at 1-800-XXX-XXXX</li>
-                <li>Call Texas New Mexico Power Company at 1-800-XXX-XXXX</li>
+                <li ng-if="cartHasTDU('AEP Central Texas')">@Html.Sitecore().Field("Aep Central Outage")</li>
+                <li ng-if="cartHasTDU('AEP Central Texas')">@Html.Sitecore().Field("Aep North Outage")</li>
+                <li ng-if="cartHasTDU('TNMP')">@Html.Sitecore().Field("Tnmp Outage")</li>
+                <li ng-if="cartHasTDU('ONCOR')">@Html.Sitecore().Field("Oncor Outage")</li>
+                <li ng-if="cartHasTDU('Centerpoint')">@Html.Sitecore().Field("Centerpoint Outage")</li>
+                <li ng-if="cartHasTDU('Sharyland McAllen')">@Html.Sitecore().Field("Sharyland Mcallen Outage")</li>
+                <li ng-if="cartHasTDU('Sharyland')">@Html.Sitecore().Field("Sharyland Utilities Outage")</li>
             </ul>
         </article>
     </div>
@@ -65,12 +69,21 @@
             <i class="icon-delete"></i>
         </div>
         <div class="description">
-            <span class="plan"><i class="icon-ssn"></i> {{ selectedOffer.offer.name }}</span><br />
-            <a href="" ng-click="changeUtilityPlan(location)">Change Plan</a>
+            <i class="icon-electricity"></i> 
+            <div class="plan-text">
+                <span class="plan">{{ selectedOffer.offer.name }}</span><br />
+                <a href="" ng-click="changeUtilityPlan(location)">@Html.Sitecore().Field("Change Plan")</a>
+            </div>
         </div>
         <div class="rate">
             {{selectedOffer.offer.rate}}&cent;
-            <span>per kWh</span>
+            <span>@Html.Sitecore().Field("Per kWh")</span>
+        </div>
+        <div class="fees" ng-if="selectedOffer.offerOption.connectionFee">
+            @Html.Sitecore().Field("Connection Fee")
+        </div>
+        <div class="rate" ng-if="selectedOffer.offerOption.connectionFee">
+            {{selectedOffer.offerOption.connectionFee | currency}}
         </div>
     </div>
 </script>

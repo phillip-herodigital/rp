@@ -31,7 +31,7 @@ namespace StreamEnergy.DomainModels.Enrollments
                 yield return context => context.OnlineAccount;
                 yield return context => context.SelectedIdentityAnswers;
                 yield return context => context.MailingAddress;
-                if (data.Services.SelectMany(svc => svc.Location.Capabilities).OfType<ServiceStatusCapability>().Any(cap => cap.EnrollmentType == EnrollmentType.MoveIn))
+                if (data.Services.SelectMany(svc => svc.Location.Capabilities).OfType<ServiceStatusCapability>().Any(cap => cap.EnrollmentType == EnrollmentType.MoveIn) && data.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType != EnrollmentCustomerType.Commercial))
                 {
                     yield return context => context.PreviousAddress;
                 }
@@ -41,9 +41,9 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         protected override async System.Threading.Tasks.Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
         {
-            if (internalContext.Deposit.All(e => e.Details.RequiredAmounts.Sum(d => d.DollarAmount) == 0))
+            if (!internalContext.Deposit.All(e => e.Details.RequiredAmounts.Sum(d => d.DollarAmount) == 0))
             {
-                await enrollmentService.PayDeposit(internalContext.Deposit, internalContext.EnrollmentSaveState.Data.Results, context.PaymentInfo);
+                await enrollmentService.PayDeposit(internalContext.Deposit, internalContext.EnrollmentSaveState.Data.Results, context.PaymentInfo, context);
             }
             return await base.InternalProcess(context, internalContext);
         }

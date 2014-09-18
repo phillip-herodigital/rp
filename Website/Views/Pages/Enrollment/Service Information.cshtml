@@ -61,20 +61,20 @@
                             </div><!-- /input-group -->
                         </div>
                         }
-                        <div class="item warning" ng-if="isCartFull">
+                        <div class="item warning" ng-if="isCartFull && isNewServiceAddress">
                             @Html.Sitecore().Field("Maximum Addresses Message Text")
                         </div>
                         <hr>
                         <div class="item" ng-if="data.serviceState == 'TX' || data.serviceState == 'GA'">
-                            <label>@Html.Sitecore().Field("Options Label")</label>
+                            <label>@Html.Sitecore().Field("Options Label") <a href="#" tooltip="@Html.Sitecore().Field("Options Tooltip")"><i class="icon-tooltip"></i></a></label>
                             <ul class="checkbox-list">
                                 <li>
                                     <input type="radio" ng-model="data.isNewService" id="switching-electricity-providers" ng-value="false">
-                                    <label for="switching-electricity-providers">Switching electricity providers</label>
+                                    <label for="switching-electricity-providers" class="enroll-options">Switching electricity providers</label>
                                 </li>
                                 <li>
                                     <input type="radio" ng-model="data.isNewService" id="setting-up-new-service" ng-value="true">
-                                    <label for="setting-up-new-service">Setting up new service</label>
+                                    <label for="setting-up-new-service" class="enroll-options">Setting up new service</label>
                                 </li>
                             </ul>
                         </div>

@@ -23,7 +23,11 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [Route("cleanse")]
         public async Task<Address[][]> Cleanse(Address[] addresses)
         {
-            return await service.CleanseAddressOptions(addresses);
+            var results = await service.CleanseAddressOptions(addresses);
+
+            results = (from entry in results.Zip(addresses, (cleansed, original) => new { cleansed, original })
+                       select entry.cleansed.Except(new[] { entry.original }).ToArray()).ToArray();
+            return results;
         }
     }
 }

@@ -64,6 +64,7 @@
         service.accountInformation.language = result.language;
         service.accountInformation.mailingAddress = result.mailingAddress;
         service.accountInformation.previousAddress = result.previousAddress;
+        service.accountInformation.previousProvider = result.previousProvider;
 
         // Default these object to prevent errors
         service.accountInformation.contactInfo.phone = service.accountInformation.contactInfo.phone || [{ }];
@@ -98,11 +99,8 @@
             deferred.resolve(data);
         })
         .error(function (data, status) {
-            $rootScope.$broadcast('connectionFailure');
-            deferred.reject({
-                'status': status,
-                'data': data
-            });
+            // Cannot use $location.path; it's only changing hash-tags.
+            $window.location.href = '/enrollment/please-contact';
         });
 
         return deferred.promise.then(function (result) {
@@ -212,7 +210,9 @@
             secondaryContactInfo: service.accountInformation.secondaryContactInfo,
             onlineAccount: service.accountInformation.onlineAccount,
             mailingAddress: service.accountInformation.mailingAddress,
-            previousAddress: service.accountInformation.previousAddress
+            previousAddress: service.accountInformation.previousAddress,
+            preferredSalesExecutive: service.accountInformation.preferredSalesExecutive,
+            previousProvider: service.accountInformation.previousProvider
         });
         data.cart = _.map(enrollmentCartService.services, function (cartItem) {
             return {

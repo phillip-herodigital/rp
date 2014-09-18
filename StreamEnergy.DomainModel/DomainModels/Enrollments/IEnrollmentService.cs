@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.Specialized;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
@@ -17,11 +18,11 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         Task<bool> IsBlockedSocialSecurityNumber(string ssn);
 
-        Task<StreamAsync<EnrollmentSaveResult>> BeginSaveEnrollment(Guid streamCustomerId, UserContext context);
+        Task<StreamAsync<EnrollmentSaveResult>> BeginSaveEnrollment(Guid streamCustomerId, UserContext context, NameValueCollection dpiParameters);
 
         Task<StreamAsync<EnrollmentSaveResult>> EndSaveEnrollment(StreamAsync<EnrollmentSaveResult> streamAsync, UserContext context);
 
-        Task<StreamAsync<EnrollmentSaveResult>> UpdateEnrollment(Guid streamCustomerId, EnrollmentSaveResult enrollmentSaveResult, UserContext context);
+        Task<StreamAsync<EnrollmentSaveResult>> UpdateEnrollment(Guid streamCustomerId, EnrollmentSaveResult enrollmentSaveResult, UserContext context, NameValueCollection dpiParameters);
 
         Task<StreamAsync<IdentityCheckResult>> BeginIdentityCheck(Guid streamCustomerId, Name name, string ssn, Address mailingAddress, AdditionalIdentityInformation identityInformation = null);
 
@@ -31,9 +32,9 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         Task<StreamAsync<CreditCheckResult>> EndCreditCheck(StreamAsync<CreditCheckResult> asyncResult);
 
-        Task<IEnumerable<LocationOfferDetails<OfferPayment>>> LoadOfferPayments(Guid streamCustomerId, EnrollmentSaveResult streamAsync, IEnumerable<LocationServices> services);
+        Task<IEnumerable<LocationOfferDetails<OfferPayment>>> LoadOfferPayments(Guid streamCustomerId, EnrollmentSaveResult streamAsync, IEnumerable<LocationServices> services, InternalContext internalContext);
 
-        Task PayDeposit(IEnumerable<LocationOfferDetails<OfferPayment>> depositData, IEnumerable<LocationOfferDetails<EnrollmentSaveEntry>> enrollmentSaveEntries, Payments.IPaymentInfo paymentInfo);
+        Task<IEnumerable<LocationOfferDetails<Payments.PaymentResult>>> PayDeposit(IEnumerable<LocationOfferDetails<OfferPayment>> depositData, IEnumerable<LocationOfferDetails<EnrollmentSaveEntry>> enrollmentSaveEntries, Payments.IPaymentInfo paymentInfo, UserContext context);
 
         Task<IEnumerable<LocationOfferDetails<PlaceOrderResult>>> PlaceOrder(Guid streamCustomerId, IEnumerable<LocationServices> services, EnrollmentSaveResult originalSaveState, Dictionary<AdditionalAuthorization, bool> additionalAuthorizations);
 

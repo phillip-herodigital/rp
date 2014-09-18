@@ -72,6 +72,9 @@ $enrollment-module-vertical-padding: 20px;
         }
         label {
             display: inline;
+			&.enroll-options {
+				font-weight: 300;
+			}
         }
     }
 
@@ -92,6 +95,12 @@ $enrollment-module-vertical-padding: 20px;
             background-color: $enrollment-secondary-button-background;
             color: $enrollment-secondary-button-color;
             margin-right: 10px;
+            @include breakpoint(small-medium){
+                margin-top: 10px;
+                margin-right: 0;
+                float: right;
+                clear: both;
+            }
         }
         &.tertiary {
             background-color: $enrollment-tertiary-button-background;
@@ -99,6 +108,18 @@ $enrollment-module-vertical-padding: 20px;
             text-shadow: none;
             text-transform: none;
             float: left;
+			margin-left: -17px;
+        }
+    }
+
+    .datepicker-input {
+        @include retina-background('calendar.png', 'icon'); 
+        background-position: 98% center;
+        background-repeat: no-repeat;
+
+        //Remove the Clear field (X) in IE10+
+        &::-ms-clear {
+            display: none;
         }
     }
     
@@ -126,6 +147,8 @@ $enrollment-module-vertical-padding: 20px;
 
     .time-remaining-mobile {
         text-align: center;
+        clear: both;
+        padding-top: 20px;
         .time-remaining {
             text-transform: uppercase;
             font-size: 14px;
@@ -230,16 +253,6 @@ $enrollment-module-vertical-padding: 20px;
                 }
             }
         }
-        .datepicker-input {
-            @include retina-background('calendar.png', 'icon'); 
-            background-position: 98% center;
-            background-repeat: no-repeat;
-
-            //Remove the Clear field (X) in IE10+
-            &::-ms-clear {
-                display: none;
-            }
-        }
         .dropdown-menu {
             font-size: 13px;
         }
@@ -277,6 +290,40 @@ $enrollment-module-vertical-padding: 20px;
             }
         }
 
+    }
+}
+
+.enrollment__loadingMessage {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: url(../i/white-alpha-90.png) repeat;
+    background: rgba(255, 255, 255, 0.9);
+    z-index: 3;
+    span {
+        $height: 140px;
+        $width: 250px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        display: block;
+        width: $width;
+        height: $height;
+        padding-top: 15px;
+        margin: $height/2*-1 0 0 $width/2*-1;
+        color: $enrollment-primary-color;
+        font-size: 24px;
+        @include box-shadow(0 1px 2px rgba(0, 0, 0, 0.15));
+        @include border-radius(10px);
+        border: 1px solid $enrollment-dark-border-color;
+        background-color: #fefefe;
+        text-align: center;
+        img {
+            margin: 10px 0;
+            vertical-align: middle;
+        }
     }
 }
 
@@ -557,6 +604,14 @@ $enrollment-module-vertical-padding: 20px;
                 text-align: center;
                 padding: 10px 15px;
                 border: none;
+                min-width: 85px;
+                &.sortable:hover {
+                    cursor: pointer; 
+                }
+                &.plan-header {
+                    text-align: left;
+                    padding-left: 32px;
+                }
             }
         }
         td, th {
@@ -640,16 +695,34 @@ $enrollment-module-vertical-padding: 20px;
             margin-top: 15px;
             font-size: 12px;}
         .rate {
-            font-size: 22px;
-            line-height: 18px;
+            font-size: 18px;
             font-style: italic;
+            font-weight: 600;
+            span {
+                font-size: 12px;
+                text-transform: none;
+                font-weight: normal;
+            }
+        }
+        .term {
+            font-size: 18px;
+            font-style: italic;
+            font-weight: 600;
+            span {
+                font-size: 12px;
+                text-transform: none;
+                font-weight: normal;
+            }
         }
         .fees {
-            width: 110px;
-            font-size: 19px;
+            width: 140px;
+            font-size: 18px;
             font-style: italic;
+            font-weight: 600;
             span {
-                font-size: 11px;
+                font-size: 12px;
+                text-transform: none;
+                font-weight: normal;
             }
         }
         .select-plan {
@@ -714,7 +787,6 @@ $enrollment-module-vertical-padding: 20px;
         padding: 0;
         list-style-type: none;
         li {
-            border-right: 1px solid #efefef;
             margin-right: 10px;
             padding-right: 10px;
             white-space: nowrap;
@@ -768,6 +840,36 @@ $enrollment-module-vertical-padding: 20px;
     .previous-address {
         margin-bottom: 20px;
     }
+    form div.secondary-contact-group {
+        margin-bottom: 15px;
+    }
+    .zip-code {
+        @include breakpoint(small-medium) {
+            clear: left;
+            margin-top: 20px;
+        }
+    }
+}
+
+.cleanse-address {
+    .address-group {
+        margin: 10px 0;
+        label {
+            display: block;
+            font-weight: 600;
+        }
+        .radio-item {
+            display: inline-block;
+            width: 33%;
+            label {
+                display: inline-block;
+                font-weight: 300;
+            }
+        }
+        .address {
+            display: inline-block;
+        }
+    }
 }
 
 /*
@@ -779,11 +881,22 @@ $enrollment-module-vertical-padding: 20px;
         border: none;
         border-top: 1px solid #ddd;
     }
+    .security-code {
+        @include breakpoint(medium) {
+            clear: left;
+            margin-top: 20px;
+        }
+    }
+    .single-link {
+        @include breakpoint(medium) {
+            margin-top: 52px;
+        }
+    }
     .seperator {
         overflow: hidden;
         text-align: center;
         text-transform: uppercase;
-        margin: 25px -15px;
+        margin-bottom: 25px;
         &:before,
         &:after {
             background-color: #000;
@@ -811,8 +924,16 @@ $enrollment-module-vertical-padding: 20px;
     .terms-agreement {
         .item {
             padding-right: 0;
-            textarea {
+            div.terms {
                 margin-top: 10px;
+                height: 65px;
+                overflow-y: scroll;
+                padding: 5px;
+                border: 1px solid #e9e9e9;
+                background: #f8f8f8;
+                p:first-child {
+                    margin-top: 0;
+                }
             }
         }
     }
@@ -864,6 +985,13 @@ $enrollment-module-vertical-padding: 20px;
     .plan-documents {
         .docs {
             text-align: right;
+            @include breakpoint(medium) {
+                width: 40%;
+            }
+			@include breakpoint(small) {
+				text-align: left;
+				margin-bottom: 10px;
+			}
             ul {
                 list-style-type: none;
                 margin: 0;
@@ -935,7 +1063,7 @@ $enrollment-module-vertical-padding: 20px;
             list-style-type: none;
             padding: 10px 20px 8px 45px;
             font-size: 13px;
-            position: relative;
+            position: relative;            
             i {
                 position: absolute;
                 top: 10px;
@@ -945,6 +1073,9 @@ $enrollment-module-vertical-padding: 20px;
                 border-bottom: none;
             }
         }
+    }
+    .outage-information .info li {
+        padding-left: 13px;
     }
 	button, .button {
 		width: 100%;
@@ -995,12 +1126,29 @@ $enrollment-module-vertical-padding: 20px;
         }
     }
     .description {
+        position: relative;
         float: left;
         width: 60%;
         font-size: 15px;
+        .icon-electricity {
+            position: absolute;
+            top: 4px;
+            left: 0;
+        }
+        .plan-text {
+            margin-left: 30px;
+        }
         a {
             font-size: 13px;
         }
+    }
+    .fees {
+        float: left;
+        width: 50%;
+        font-size: 13px;
+        color: #333;
+        font-weight: 600;
+        margin: 5px 0 0 30px;
     }
     .avatar {
         text-align: center;

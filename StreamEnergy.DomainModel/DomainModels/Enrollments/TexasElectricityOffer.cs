@@ -47,5 +47,6 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public Dictionary<string, Uri> Documents { get; set; }
 
+        public IEnumerable<KeyValuePair<string, string>> Footnotes { get; set; }
     }
 }

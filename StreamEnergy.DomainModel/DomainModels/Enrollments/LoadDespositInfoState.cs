@@ -33,7 +33,7 @@ namespace StreamEnergy.DomainModels.Enrollments
                 yield return context => context.OnlineAccount;
                 yield return context => context.SelectedIdentityAnswers;
                 yield return context => context.MailingAddress;
-                if (data.Services.SelectMany(svc => svc.Location.Capabilities).OfType<ServiceStatusCapability>().Any(cap => cap.EnrollmentType == EnrollmentType.MoveIn))
+                if (data.Services.SelectMany(svc => svc.Location.Capabilities).OfType<ServiceStatusCapability>().Any(cap => cap.EnrollmentType == EnrollmentType.MoveIn) && data.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType != EnrollmentCustomerType.Commercial))
                 {
                     yield return context => context.PreviousAddress;
                 }
@@ -66,8 +66,7 @@ namespace StreamEnergy.DomainModels.Enrollments
             }
             else
             {
-                var result = enrollmentService.LoadOfferPayments(internalContext.GlobalCustomerId, internalContext.EnrollmentSaveState.Data, context.Services);
-                internalContext.Deposit = (await result).ToArray();
+                internalContext.Deposit = (await enrollmentService.LoadOfferPayments(internalContext.GlobalCustomerId, internalContext.EnrollmentSaveState.Data, context.Services, internalContext)).ToArray();
             }
         }
     }

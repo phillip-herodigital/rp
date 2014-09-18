@@ -13,8 +13,12 @@ namespace StreamEnergy.Services
         public void SetupUnity(Microsoft.Practices.Unity.IUnityContainer unityContainer)
         {
             unityContainer.RegisterInstance<string>("DpiEnrollmentFormDomain", ConfigurationManager.AppSettings["DpiEnrollmentFormDomain"]);
+            unityContainer.RegisterInstance<string>("DpiAuthID", ConfigurationManager.AppSettings["DpiAuthID"]);
+            unityContainer.RegisterInstance<string>("DpiAuthPwd", ConfigurationManager.AppSettings["DpiAuthPwd"]);
 
             unityContainer.RegisterType<StreamEnergyBilling.IstaTokenization.IDpiTokenService>(new InjectionFactory(uc => new StreamEnergyBilling.IstaTokenization.DpiTokenServiceClient()));
+            unityContainer.RegisterType<Interpreters.IDpiEnrollmentParameters, Interpreters.DpiEnrollmentParameters>();
+            unityContainer.RegisterType<Clients.ISitecoreProductData, Clients.SitecoreProductData>();
         }
     }
 }

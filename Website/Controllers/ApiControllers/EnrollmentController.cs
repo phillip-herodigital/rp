@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
@@ -47,11 +48,11 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.redisDatabase = redisDatabase;
         }
 
-        public async Task Initialize(string agentAccountId = null)
+        public async Task Initialize(NameValueCollection enrollmentDpiParameters = null)
         {
             await stateHelper.EnsureInitialized().ConfigureAwait(false);
-            if (agentAccountId != null)
-                stateHelper.StateMachine.InternalContext.EnrollmentAgentId = agentAccountId;
+            if (enrollmentDpiParameters != null)
+                stateHelper.StateMachine.InternalContext.EnrollmentDpiParameters = enrollmentDpiParameters;
             this.stateMachine = stateHelper.StateMachine;
         }
 
@@ -132,6 +133,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 SecondaryContactInfo = stateMachine.Context.SecondaryContactInfo,
                 MailingAddress = stateMachine.Context.MailingAddress,
                 PreviousAddress = stateMachine.Context.PreviousAddress,
+                PreviousProvider = stateMachine.Context.PreviousProvider,
                 Cart = from service in services
                        let locationOfferSet = offers.ContainsKey(service.Location) ? offers[service.Location] : new LocationOfferSet()
                        select new CartEntry
@@ -195,8 +197,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
             else if (members.Any(m => m.StartsWith("Services")))
             {
-                if (stateMachine.Context.Services == null || stateMachine.Context.Services.Length == 0 || validation.PartialValidate(stateMachine.Context, ctx => ctx.Services.PartialValidate(s => s.Location.Address.PostalCode5,
-                                                                                                            s => s.Location.Capabilities)).Any())
+                if (stateMachine.Context.Services == null || 
+                    stateMachine.Context.Services.Length == 0 || 
+                    validation.PartialValidate(stateMachine.Context, ctx => ctx.Services.PartialValidate(s => s.Location.Address.PostalCode5, s => s.Location.Capabilities)).Any() ||
+                    stateMachine.InternalContext.AllOffers.Where(o => stateMachine.Context.Services.Any(s => s.Location == o.Key)).Any(o => !o.Value.Offers.Any()))
                 {
                     return Models.Enrollment.ExpectedState.ServiceInformation;
                 }
@@ -333,8 +337,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             stateMachine.Context.MailingAddress = request.MailingAddress;
 
             stateMachine.Context.TaxId = request.TaxId;
+            stateMachine.Context.CompanyName = request.CompanyName;
             stateMachine.Context.DoingBusinessAs = request.DoingBusinessAs;
             stateMachine.Context.PreferredSalesExecutive = request.PreferredSalesExecutive;
+            stateMachine.Context.PreviousProvider = request.PreviousProvider;
 
             await stateMachine.ContextUpdated();
 

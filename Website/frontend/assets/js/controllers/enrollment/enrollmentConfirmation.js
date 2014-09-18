@@ -30,6 +30,7 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
             // copy out the account information the server has
             $scope.accountInformation.contactInfo = result.contactInfo || {};
             $scope.accountInformation.secondaryContactInfo = result.secondaryContactInfo || {};
+            $scope.accountInformation.mailingAddress = result.mailingAddress || {};
 
             // set the customer type, since we're no longer using the enrollment main controller
             $scope.customerType = $scope.getCartItems()[0].location.capabilities[2].customerType;

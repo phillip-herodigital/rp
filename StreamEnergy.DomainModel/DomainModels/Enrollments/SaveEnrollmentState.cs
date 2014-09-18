@@ -35,7 +35,7 @@ namespace StreamEnergy.DomainModels.Enrollments
                 yield return context => context.PreferredSalesExecutive;
                 yield return context => context.OnlineAccount;
                 yield return context => context.MailingAddress;
-                if (data.Services.SelectMany(svc => svc.Location.Capabilities).OfType<ServiceStatusCapability>().Any(cap => cap.EnrollmentType == EnrollmentType.MoveIn))
+                if (data.Services.SelectMany(svc => svc.Location.Capabilities).OfType<ServiceStatusCapability>().Any(cap => cap.EnrollmentType == EnrollmentType.MoveIn) && data.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType != EnrollmentCustomerType.Commercial))
                 {
                     yield return context => context.PreviousAddress;
                 }
@@ -67,11 +67,11 @@ namespace StreamEnergy.DomainModels.Enrollments
                 {
                     internalContext.GlobalCustomerId = await accountService.CreateStreamConnectCustomer(email: context.ContactInfo.Email.Address);
                 }
-                internalContext.EnrollmentSaveState = await enrollmentService.BeginSaveEnrollment(internalContext.GlobalCustomerId, context);
+                internalContext.EnrollmentSaveState = await enrollmentService.BeginSaveEnrollment(internalContext.GlobalCustomerId, context, internalContext.EnrollmentDpiParameters);
             }
             else
             {
-                internalContext.EnrollmentSaveState = await enrollmentService.UpdateEnrollment(internalContext.GlobalCustomerId, internalContext.EnrollmentSaveState.Data, context);
+                internalContext.EnrollmentSaveState = await enrollmentService.UpdateEnrollment(internalContext.GlobalCustomerId, internalContext.EnrollmentSaveState.Data, context, internalContext.EnrollmentDpiParameters);
             }
 
             return await base.InternalProcess(context, internalContext);
