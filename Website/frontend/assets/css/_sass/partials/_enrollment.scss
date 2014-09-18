@@ -1686,7 +1686,15 @@ $enrollment-module-vertical-padding: 20px;
         }  
     }
     .phone-number-group {
+        line-height: 34px;
         margin-top: 15px;
+        input {
+            width: 55px;
+        }
+        .button {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
     }
     .tabbed-header {
         display: table;
