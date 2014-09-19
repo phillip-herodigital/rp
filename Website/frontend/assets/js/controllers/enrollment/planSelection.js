@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of plan selection on enrollment page.
  */
-ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 'scrollService', 'enrollmentStepsService', '$modal', 'enrollmentCartService', '$parse', function ($scope, enrollmentService, scrollService, enrollmentStepsService, $modal, enrollmentCartService, $parse) {
+ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 'scrollService', 'enrollmentStepsService', '$modal', 'enrollmentCartService', '$parse', '$window', function ($scope, enrollmentService, scrollService, enrollmentStepsService, $modal, enrollmentCartService, $parse, $window) {
     $scope.currentLocationInfo = enrollmentCartService.getActiveService;
 
     $scope.footnotes = {};
@@ -21,6 +21,8 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
                 address.location.capabilities[1].enrollmentType = 'moveIn';
                 enrollmentService.setSelectedOffers();
             })
+        } else if (address && address.eligibility == "generalError") {
+            $window.location.href = '/enrollment/please-contact';
         }
         if (address && address.offerInformationByType) {
             angular.forEach(address.offerInformationByType, function (entry) {
