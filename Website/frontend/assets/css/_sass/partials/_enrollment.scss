@@ -920,11 +920,20 @@ $enrollment-module-vertical-padding: 20px;
             margin-top: 20px;
         }
     }
-    .single-link {
-        @include breakpoint(medium) {
-            margin-top: 52px;
+    .example {
+        @include breakpoint(large) {
+            clear: left;
+        }
+        .single-link {
+            @include breakpoint(large) {
+                margin-top: 20px;
+            }
+            @include breakpoint(medium) {
+                margin-top: 52px;
+            }
         }
     }
+    
     .seperator {
         overflow: hidden;
         text-align: center;

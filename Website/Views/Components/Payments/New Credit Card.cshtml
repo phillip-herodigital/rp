@@ -22,7 +22,7 @@
             <label for="@Html.IdFor(m => m.SecurityCode)">@Html.Sitecore().Field("Security Code Label"):</label>
             @Html.TextBoxFor(m => m.SecurityCode, new { ng_model = "ccCtrl.securityCode", data_val_if="ccCtrl.validate" })
         </div>
-        <div class="item">
+        <div class="item example">
             <a href="" ng-click="showCreditCardExample()" class="single-link">@Html.Sitecore().Field("See Example Link Label")</a>
         </div>
     </div>
