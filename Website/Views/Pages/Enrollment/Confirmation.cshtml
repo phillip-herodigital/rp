@@ -80,7 +80,7 @@
                 @Html.Sitecore().Field("Confirmation Error")
             </div>
         </div>
-        <dl class="clearfix" ng-if="selectedOffer.confirmationNumber">
+        <dl class="clearfix">
             <dt>@Html.Sitecore().Field("Account Number")</dt>
             <dd>{{ selectedOffer.confirmationNumber }}</dd>
         </dl>
@@ -116,6 +116,10 @@
         <strong>@Html.Sitecore().Field("Installation Fee")  ({{selectedOffer.offerOption.connectDate | date:'M/d/yyyy'}})</strong><br>
     </td>
     <td class="rate">{{ selectedOffer.offerOption.connectionFee | currency }}</td>
+    <dl class="clearfix">
+        <dt>@Html.Sitecore().Field("Confirmation Number")</dt>
+        <dd>{{ selectedOffer.confirmationNumber }}</dd>
+    </dl>
 </script>
 
 <script type="text/ng-template" id="payments/Deposit">
