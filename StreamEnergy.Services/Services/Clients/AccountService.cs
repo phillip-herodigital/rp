@@ -149,8 +149,8 @@ namespace StreamEnergy.Services.Clients
         Task<IEnumerable<DomainModels.Payments.SavedPaymentInfo>> IAccountService.GetSavedPaymentMethods(string username)
         {
             return Task.FromResult<IEnumerable<DomainModels.Payments.SavedPaymentInfo>>(new[] { 
-                new DomainModels.Payments.SavedPaymentInfo { DisplayName = "Saved Credit Card", Id="753159", RedactedData= "**** **** **** 1234", UnderlyingPaymentType = DomainModels.Payments.TokenizedCard.Qualifier },
-                new DomainModels.Payments.SavedPaymentInfo { DisplayName = "Saved Bank", Id="456852", RedactedData= "*****1234", UnderlyingPaymentType = DomainModels.Payments.BankPaymentInfo.Qualifier },
+                new DomainModels.Payments.SavedPaymentInfo { DisplayName = "Saved Credit Card", Id= Guid.NewGuid(), RedactedData= "**** **** **** 1234", UnderlyingPaymentType = DomainModels.Payments.TokenizedCard.Qualifier },
+                new DomainModels.Payments.SavedPaymentInfo { DisplayName = "Saved Bank", Id=Guid.NewGuid(), RedactedData= "*****1234", UnderlyingPaymentType = DomainModels.Payments.BankPaymentInfo.Qualifier },
             });
         }
 

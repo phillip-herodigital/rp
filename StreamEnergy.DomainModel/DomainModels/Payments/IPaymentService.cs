@@ -9,7 +9,7 @@ namespace StreamEnergy.DomainModels.Payments
     public interface IPaymentService
     {
         Task<IEnumerable<SavedPaymentInfo>> GetSavedPaymentMethods(Guid globalCustomerId);
-        Task<Guid> SavePaymentMethod(Guid globalCustomerId, IPaymentInfo paymentInfo);
+        Task<Guid> SavePaymentMethod(Guid globalCustomerId, IPaymentInfo paymentInfo, string displayName);
         Task<bool> DeletePaymentMethod(Guid globalCustomerId, Guid paymentMethodId);
     }
 }
