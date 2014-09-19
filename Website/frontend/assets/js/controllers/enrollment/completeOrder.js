@@ -65,4 +65,13 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
             scope: $scope
         });
     };
+
+    $scope.showDepositWaiver = function (stateAbbreviation) {
+
+        $modal.open({
+            templateUrl: 'DepositWaiver/' + stateAbbreviation,
+            scope: $scope,
+            windowClass: 'depositWaiver'
+        });
+    };
 }]);
