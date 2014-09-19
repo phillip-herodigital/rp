@@ -414,7 +414,7 @@
 <script type="text/ng-template" id="offerOptions/TexasElectricityCommercialQuote">
     @using (var offer = Html.ClientRepeater(m => m.Services, "{{$parent.$index}}").ClientRepeater(m => m.SelectedOffers, "{{$index}}"))
     {
-    <div ng-controller="OfferOptions-TexasElectricityCommercialQuote">
+    <div ng-controller="OfferOptions-TexasElectricityCommercialQuote" ng-if="selectedOffer.optionRules.connectDates.availableConnectDates.length > 0">
     <div class="item group-col datepicker" @offer.Validation().ErrorClass(o => ((TexasElectricityCommercialQuoteOption)o.OfferOption).ConnectDate)>
         <label for="@offer.Fix(h => h.IdFor(o => ((TexasElectricityCommercialQuoteOption)o.OfferOption).ConnectDate))">@Html.Sitecore().Field("Commercial Service Start Date Label")</label>
         <span class="calendar">

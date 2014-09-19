@@ -116,7 +116,6 @@ div.tabbable {
 
 .modal-body {
 	position: relative;
-	overflow-y: auto;
 	max-height: 400px;
 	padding: 25px 20px;
 	& :first-child {
@@ -125,6 +124,9 @@ div.tabbable {
 	& :last-child {
 		margin-bottom: 0;
 	}
+    &.scrollable {
+        overflow-y: auto;
+    }
 }
 
 .modal-footer {
