@@ -1,4 +1,4 @@
-﻿ngApp.controller('MobileEnrollmentCtrl', ['$scope', '$filter', 'mobileEnrollmentService', function ($scope, $filter, mobileEnrollmentService) {
+﻿ngApp.controller('MobileEnrollmentCtrl', ['$scope', '$filter', '$modal', 'mobileEnrollmentService', function ($scope, $filter, $modal, mobileEnrollmentService) {
     //Set the data in a service
     this.mobileService = mobileEnrollmentService;
 
@@ -68,6 +68,13 @@
         } else {
             this.phoneFilters.os.push(os);
         }
+    };
+
+    this.showUnlockingModal = function () {
+        $modal.open({
+            'scope': $scope,
+            'templateUrl': 'networkUnlocking/att'
+        })
     };
 
 }]);

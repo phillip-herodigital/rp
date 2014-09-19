@@ -110,10 +110,14 @@
                         <a href="" class="pull-left" ng-click="ctrl.clearPhoneSelection()">&#8592; @Html.Sitecore().Field("2 - Back to All Phones")</a>
                     </div>
 
-                    <h1>{{ item.name }}</h1>
-                    <div class="description" ng-bind-html="item.description | unsafe"></div>
-                    <p><a href="">@Html.Sitecore().Field("2 - More Details") <i class="icon-arrow-right"></i></a></p>
-
+                    <div class="phone-image-large">
+                        <img ng-src="{{ item.imageUrlLarge }}" alt="">
+                    </div>
+                    <div class="phone-details">
+                        <h1>{{ item.name }}</h1>
+                        <div class="description" ng-bind-html="item.description | unsafe"></div>
+                        <p><a href="">@Html.Sitecore().Field("2 - More Details") <i class="icon-arrow-right"></i></a></p>
+                    </div>
                     <hr class="content-divider">
                     
                     @* Chrome doesn't support <button> as display: table-cell, so we're using <a> *@
@@ -171,8 +175,8 @@
                                     @Html.Sitecore().Field("2 - Existing Number") 
                                     <div class="pull-right">
                                         <input type="text" class="small" name="" value="">
-                                        <input type="text" class="small" name="" value="">
-                                        <input type="text" class="small" name="" value="">
+                                        <input type="text" class="small" name="" value="XXX" disabled>
+                                        <input type="text" class="small" name="" value="XXXX" disabled>
                                     </div>
                                 </div>
                             </div>
@@ -210,7 +214,7 @@
                     <ol>
                         <li>An <strong>AT&amp;T Device</strong> or compatible <strong>GSM network</strong> phone<br />
                         Want to bring a Sprint or CDMA network phone? <a href="">Switch Carriers</a></li>
-                        <li>The phone must be unlocked. <a href="">How do I unlock my phone?</a></li>
+                        <li>The phone must be unlocked. <a href="" ng-click="ctrl.showUnlockingModal()">How do I unlock my phone?</a></li>
                         <li><strong>In good standing*</strong></li>
                         <li>Compatible with the list of devices below.</li>
                     </ol>
@@ -220,6 +224,8 @@
                             <select name="" id="">
                                 <option value="">Apple</option>
                             </select>
+                        </div>
+                        <div class="item">
                             <select name="" id="">
                                 <option value="">iPhone</option>
                             </select>

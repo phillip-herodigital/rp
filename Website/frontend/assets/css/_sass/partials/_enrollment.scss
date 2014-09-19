@@ -1420,7 +1420,16 @@ $enrollment-module-vertical-padding: 20px;
     }
 }
 
+.mobile-enrollment-modal {
+    .modal-footer {
+        text-align: left;
+    }
+}
+
 .enrollment__choose-network {
+    .update-link {
+        font-size: 15px;
+    }
     .no-networks-available {
         .stretch-full {
             background: #f7f7f7;
@@ -1676,6 +1685,14 @@ $enrollment-module-vertical-padding: 20px;
             margin-top: -3px;
         }
     }
+    .phone-image-large {
+        float: right;
+        margin-top: 20px;
+        margin-right: 20px;
+    }
+    .phone-details {
+        padding-right: 240px;
+    }
     .btn-phone-number {
         &:after, &:before {
             bottom: -26px;
@@ -1899,7 +1916,14 @@ $enrollment-module-vertical-padding: 20px;
         width: 20%;
         text-align: right;
     }
+    .plan-summary-image, .phone-summary-image {
+        position: absolute;
+        left: 20px;
+        top: 0;
+    }
     .plan-summary, .phone-summary {
+        padding-left: 100px;
+        position: relative;
         & :first-child {
             margin-top: 0;
         }

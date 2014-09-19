@@ -641,18 +641,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>MobilePhone.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models\MobileEnrollment\MobilePrice.cs">
-      <Generator>SitecoreServerCodeGenerator</Generator>
-      <LastGenOutput>MobilePrice.Designer.cs</LastGenOutput>
-    </Compile>
-    <Compile Include="Models\MobileEnrollment\MobilePrice.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>MobilePrice.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MobileEnrollment\MobilePhoneModel.cs" />
-    <Compile Include="Models\MobileEnrollment\MobileSize.cs" />
     <Compile Include="Models\RapidPrototyping.cs" />
     <Compile Include="Models\StateMachineSessionHelper.cs" />
     <Compile Include="Models\TranslatedValidationResult.cs" />

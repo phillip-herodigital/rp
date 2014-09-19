@@ -3,13 +3,13 @@
 </div>
 
 <script type="text/ng-template" id="networkUnlocking/att">
-    <div>
+    <div class="mobile-enrollment-modal">
         <div class="modal-header">
             <a href="" ng-click="$dismiss()">Close</a>
             <h2>Unlocking an AT&T Device</h2>
         </div>
         <div class="modal-body">
-            <p>To unlock your AT&T device, follow the instructions below.</p>
+            <p><strong>To unlock your AT&T device, follow the instructions below.</strong></p>
             <ol>
                 <li>Visit att.com/deviceunlock from a tablet or PC to submit your Customer Device Unlock Request.</li>
                 <li>Review the eligibility requirements to unlock your device.</li>
@@ -22,15 +22,16 @@
                     </ol>
                 </li>
             </ol>
-            <hr>
-            <p>If you&rsquo;re a business customer, call 800.331.0500 to request an unlock code for your business device.</p>
+        </div>
+        <div class="modal-footer">
+            If you&rsquo;re a business customer, call <strong>800.331.0500</strong> to request an unlock code for your business device.
         </div>
     </div>
 </script>
 
 
 <script type="text/ng-template" id="networkUnlocking/sprint">
-    <div>
+    <div class="mobile-enrollment-modal">
         <div class="modal-header">
             <a href="" ng-click="$dismiss()">Close</a>
             <h2>Unlocking a Sprint Device</h2>
@@ -38,7 +39,7 @@
         <div class="modal-body">
             <p>To unlock your Sprint device, follow the instructions below.</p>
             <ol>
-                <li>Visit att.com/deviceunlock from a tablet or PC to submit your Customer Device Unlock Request.</li>
+                <li>Visit <a href="http://att.com/deviceunlock">att.com/deviceunlock</a> from a tablet or PC to submit your Customer Device Unlock Request.</li>
                 <li>Review the eligibility requirements to unlock your device.</li>
                 <li>At the bottom of the page, select the checkbox and then select Agree to agree to the requirements to unlock your device.</li>
                 <li>Complete the Request a Device Unlock form and select Submit:
@@ -49,8 +50,9 @@
                     </ol>
                 </li>
             </ol>
-            <hr>
-            <p>If you&rsquo;re a business customer, call 800.331.0500 to request an unlock code for your business device.</p>
+        </div>
+        <div class="modal-footer">
+            If you&rsquo;re a business customer, call <strong>800.331.0500</strong> to request an unlock code for your business device.
         </div>
     </div>
 </script>

@@ -11,25 +11,28 @@
     <section>
         <article class="enrollment__box enrollment__complete-order">
             <header>
-                <h1>Complete Order</h1>
-                <p>Based on your order, the following payment is necessary for completion.</p>
+                <h1>@Html.Sitecore().Field("4 - Header - Complete Order")</h1>
+                <p>@Html.Sitecore().Field("4 - Complete Order Description")</p>
             </header>
             <div class="content">
                 <div class="plan-summary">
                     <div class="line-item clearfix">
                         <div class="description">
-                            <h2>Monthly Plan Cost</h2>
-                            <p>Plan includes Unlimited Voice, Text, and 7.5GB data</p>
-                            <p><a href="">Plan Details</a> | <a href="">Edit Plan</a> | <a href="">Configure Data</a></p>
+                            <h2>@Html.Sitecore().Field("4 - Header - Monthly Plan Cost")</h2>
+                            <p>@Html.Sitecore().Field("4 - Unlimited Plan Details")</p>
+                            <p><a href="">@Html.Sitecore().Field("4 - Plan Details Link Text")</a> | <a href="">@Html.Sitecore().Field("4 - Edit Plan Link Text")</a> | <a href="">@Html.Sitecore().Field("4 - Configure Data Link Text")</a></p>
                         </div>
                         <div class="rate">$399.00</div>
                     </div>
                     <div class="line-item clearfix">
                         <div class="description">
-                            <h3>Tax and Other Fees*</h3>
-                            <a href="">Show Breakdown</a>
+                            <h3>@Html.Sitecore().Field("4 - Taxes and Other Fees Text")</h3>
+                            <a href="">@Html.Sitecore().Field("4 - Show Breakdown Link Text")</a>
                         </div>
                         <div class="rate">$29</div>
+                    </div>
+                    <div class="plan-summary-image">
+                        <i class="icon-plan-summary"></i>
                     </div>
                 </div>
                 <hr>
@@ -38,106 +41,106 @@
                         <div class="description">
                             <span class="condition">Reconditioned</span>
                             <h2 class="model">Apple iPhone 5S </h2>
-                            <span class="model">16B, Silver</span> <a href="">Edit</a>
+                            <span class="model">16B, Silver</span> <a href="">@Html.Sitecore().Field("4 - Edit Link Text")</a>
                         </div>
                     </div>
-
                     <div class="line-item clearfix">
                         <div class="description">
-                            <h3>Initial Activiation Fee</h3>
-                            <p>This one-time fee lorem ipsum dolor</p>
+                            <h3>@Html.Sitecore().Field("4 - Initial Activiation Fee Text")</h3>
+                            <p>@Html.Sitecore().Field("4 - Activation Fee Description")</p>
                         </div>
                         <div class="rate">$39</div>
                     </div>
-
                     <div class="line-item clearfix">
                         <div class="description">
-                            <h3>Coverage Warranty</h3>
+                            <h3>@Html.Sitecore().Field("4 - Coverage Warranty Text")</h3>
                         </div>
                         <div class="rate">$19.00/mo</div>
                     </div>
-
                     <div class="line-item clearfix">
                         <div class="description">
-                            <h3>Shipping</h3>
+                            <h3>@Html.Sitecore().Field("4 - Shipping Text")</h3>
                         </div>
                         <div class="rate"></div>
+                    </div>
+                    <div class="phone-summary-image">
+                        
                     </div>
                 </div>
             </div>
             <footer>
-                Total Due Now: $439.97
+                @Html.Sitecore().Field("4 - Total Due Now Text") $439.97
             </footer>
         </article>
 
         <form>
             <article class="enrollment__box enrollment__contact-info">
                 <header>
-                    <h1>Contact Information</h1>
+                    <h1>@Html.Sitecore().Field("4 - Header - Contact Information")</h1>
                 </header>
                 <div class="content form">
-                    <h3>Personal Information</h3>
+                    <h3>@Html.Sitecore().Field("4 - Header - Personal Information")</h3>
                     <div class="group">
                         <div class="item group-col">
-                            <label for="">First Name:</label>
+                            <label for="">@Html.Sitecore().Field("4 - First Name")</label>
                             <input type="text">
                         </div>
                         <div class="item group-col">
-                            <label for="">Last Name:</label>
+                            <label for="">@Html.Sitecore().Field("4 - Last Name")</label>
                             <input type="text">
                         </div>
                     </div>
                     <div class="group">
                         <div class="item group-col">
-                            <label for="">Phone Number:</label>
+                            <label for="">@Html.Sitecore().Field("4 - Phone Number")</label>
                             <input type="text">
                         </div>
                         <div class="item group-col">
-                            <label for="">Phone Type:</label>
-                            <input type="text">
-                        </div>
-                    </div>
-                    <div class="group">
-                        <div class="item group-col">
-                            <label for="">Email Address:</label>
-                            <input type="text">
-                        </div>
-                    </div>
-                    <hr>
-                    <h3>Billing Address</h3>
-                    <div class="group">
-                        <div class="item group-col">
-                            <label for="">Address 1:</label>
-                            <input type="text">
-                        </div>
-                        <div class="item group-col">
-                            <label for="">Address 2:</label>
+                            <label for="">@Html.Sitecore().Field("4 - Phone Type")</label>
                             <input type="text">
                         </div>
                     </div>
                     <div class="group">
                         <div class="item group-col">
-                            <label for="">City:</label>
-                            <input type="text">
-                        </div>
-                        <div class="item group-col">
-                            <label for="">State:</label>
-                            <input type="text">
-                        </div>
-                        <div class="item group-col">
-                            <label for="">Zip Code:</label>
+                            <label for="">@Html.Sitecore().Field("4 - Email Address")</label>
                             <input type="text">
                         </div>
                     </div>
                     <hr>
-                    <h3>Shipping Address</h3>
-                    <label><input type="checkbox"> Same as Billing Address</label>
+                    <h3>@Html.Sitecore().Field("4 - Header - Billing Address")</h3>
+                    <div class="group">
+                        <div class="item group-col">
+                            <label for="">@Html.Sitecore().Field("4 - Address 1")</label>
+                            <input type="text">
+                        </div>
+                        <div class="item group-col">
+                            <label for="">@Html.Sitecore().Field("4 - Address 2")</label>
+                            <input type="text">
+                        </div>
+                    </div>
+                    <div class="group">
+                        <div class="item group-col">
+                            <label for="">@Html.Sitecore().Field("4 - City")</label>
+                            <input type="text">
+                        </div>
+                        <div class="item group-col">
+                            <label for="">@Html.Sitecore().Field("4 - State")</label>
+                            <input type="text">
+                        </div>
+                        <div class="item group-col">
+                            <label for="">@Html.Sitecore().Field("4 - Zip Code")</label>
+                            <input type="text">
+                        </div>
+                    </div>
+                    <hr>
+                    <h3>@Html.Sitecore().Field("4 - Header - Shipping Address")</h3>
+                    <label><input type="checkbox"> @Html.Sitecore().Field("4 - Same as Billing Address")</label>
                 </div>
             </article>
 
             <article class="enrollment__box enrollment__payment-info">
                 <header>
-                    <h1>Payment Information</h1>
+                    <h1>@Html.Sitecore().Field("4 - Header - Payment Information")</h1>
                 </header>
                 <div class="content">
                     <div class="payment-options" credit-card-payment="completeOrder.creditCard" data-val-if="true"></div>
@@ -146,18 +149,18 @@
 
             <article class="enrollment__box enrollment__terms-conditions">
                 <header>
-                    <h1>Terms &amp; Conditions</h1>
+                    <h1>@Html.Sitecore().Field("4 - Header - Terms and Conditions")</h1>
                 </header>
                 <div class="content">
-                    <p><label><input type="checkbox"> I agree to Stream's Terms &amp; Conditions</label></p>
+                    <p><label><input type="checkbox"> @Html.Sitecore().Field("4 - I Agree Stream")</label></p>
                     <p><textarea name="" id="" cols="30" rows="10"></textarea></p>
-                    <p><label><input type="checkbox"> I agree to the TCPA, Email Marketing, and The Wire Terms &amp; Conditions</label></p>
+                    <p><label><input type="checkbox"> @Html.Sitecore().Field("4 - I Agree TCPA")</label></p>
                 </div>
             </article>
-            <p>*Fees are estimated based on your state's average charges.</p>
+            @Html.Sitecore().Field("4 - Footnotes")
             <div class="clearfix">
-                <button type="button" class="plain plain-footer">Cancel Enrollment</button>
-                <button type="button" class="pull-right">Next</button>
+                <button type="button" class="plain plain-footer">@Html.Sitecore().Field("4 - Button - Cancel Enrollment")</button>
+                <button type="button" class="pull-right">@Html.Sitecore().Field("4 - Button - Next")</button>
             </div>
         </form>
     </section>

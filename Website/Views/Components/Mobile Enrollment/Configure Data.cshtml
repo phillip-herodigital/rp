@@ -11,10 +11,10 @@
     <section>
         <article class="enrollment__box enrollment__configure-data">
             <header>
-                <h1>Select Data Amount</h1>
+                <h1>@Html.Sitecore().Field("3 - Header - Select Data Amount")</h1>
             </header>
             <div class="content">
-                <h3 class="mobile-plans-header">Choose the amount of High Speed Data you would like with your plan:</h3>
+                <h3 class="mobile-plans-header">@Html.Sitecore().Field("3 - Header - Choose Data Amount")</h3>
                 
                 <div class="btn-group btn-group-options mobile-plans">
                     <div class="button" ng-model="ctrl.phoneOptions.plan" btn-radio="'plan1'">
@@ -24,9 +24,9 @@
                         </p>
                         <hr>
                         <p class="details">
-                            <span>Streaming Music<br /><span class="time">2 hours</span></span>
-                            <span>Streaming Movies<br /><span class="time">3 hours</span></span>
-                            <span>Web Browsing<br /><span class="time">12 hours</span></span>
+                            <span>@Html.Sitecore().Field("3 - Streaming Music Text")<br /><span class="time">2 hours</span></span>
+                            <span>@Html.Sitecore().Field("3 -  Streaming Movies Text")<br /><span class="time">3 hours</span></span>
+                            <span>@Html.Sitecore().Field("3 -  Web Browsing Text")<br /><span class="time">12 hours</span></span>
                         </p>
                     </div>
                     <div class="button is-recommended" ng-model="ctrl.phoneOptions.plan" btn-radio="'plan2'">
@@ -37,9 +37,9 @@
                         </p>
                         <hr>
                         <p class="details">
-                            <span>Streaming Music<br /><span class="time">20 hours</span></span>
-                            <span>Streaming Movies<br /><span class="time">8 hours</span></span>
-                            <span>Web Browsing<br /><span class="time">20 hours</span></span>
+                            <span>@Html.Sitecore().Field("3 - Streaming Music Text")<br /><span class="time">20 hours</span></span>
+                            <span>@Html.Sitecore().Field("3 -  Streaming Movies Text")<br /><span class="time">8 hours</span></span>
+                            <span>@Html.Sitecore().Field("3 -  Web Browsing Text")<br /><span class="time">20 hours</span></span>
                         </p>
                     </div>
                     <div class="button" ng-model="ctrl.phoneOptions.plan" btn-radio="'plan3'">
@@ -49,9 +49,9 @@
                         </p>
                         <hr>
                         <p class="details">
-                            <span>Streaming Music<br /><span class="time">34 hours</span></span>
-                            <span>Streaming Movies<br /><span class="time">14 hours</span></span>
-                            <span>Web Browsing<br /><span class="time">32 hours</span></span>
+                            <span>@Html.Sitecore().Field("3 - Streaming Music Text")<br /><span class="time">34 hours</span></span>
+                            <span>@Html.Sitecore().Field("3 -  Streaming Movies Text")<br /><span class="time">14 hours</span></span>
+                            <span>@Html.Sitecore().Field("3 -  Web Browsing Text")<br /><span class="time">32 hours</span></span>
                         </p>
                     </div>
                     <div class="button" ng-model="ctrl.phoneOptions.plan" btn-radio="'plan4'">
@@ -61,9 +61,9 @@
                         </p>
                         <hr>
                         <p class="details">
-                            <span>Streaming Music<br /><span class="time">50 hours</span></span>
-                            <span>Streaming Movies<br /><span class="time">18 hours</span></span>
-                            <span>Web Browsing<br /><span class="time">40 hours</span></span>
+                            <span>@Html.Sitecore().Field("3 - Streaming Music Text")<br /><span class="time">50 hours</span></span>
+                            <span>@Html.Sitecore().Field("3 -  Streaming Movies Text")<br /><span class="time">18 hours</span></span>
+                            <span>@Html.Sitecore().Field("3 -  Web Browsing Text")<br /><span class="time">40 hours</span></span>
                         </p>
                     </div>
 
@@ -71,13 +71,12 @@
                 </div>
             </div>
             <footer>
-                <h3><strong>Need more data?</strong> Get additional for just $10/GB.</h3>
-                <p>Data usage varies by device. Calculations of data usage are estimates only; actual amount of data used may vary significantly.</p>
+                @Html.Sitecore().Field("3 - Need More Data")
             </footer>
         </article>
         <div class="clearfix">
-            <button type="button" class="plain plain-footer">Cancel Enrollment</button>
-            <button type="button" class="pull-right">Next</button>
+            <button type="button" class="plain plain-footer">@Html.Sitecore().Field("3 - Button - Cancel Enrollment")</button>
+            <button type="button" class="pull-right">@Html.Sitecore().Field("3 - Button - Next")</button>
         </div>
     </section>
     <aside>
@@ -108,18 +107,16 @@
                                 <span class="condition">Reconditioned</span> <br />
                                 <span class="model">Apple iPhone 5S</span> <br />
                                 <span class="options">16GB, Silver</span> <br />
-                                <a href="">Edit Phone</a>
+                                <a href="">@Html.Sitecore().Field("6 - Edit Phone Link Text")</a>
                             </div>
                             <div class="rate">$399.00</div>
 
-                            <div class="description">
-                                Phone Warranty
-                            </div>
+                            <div class="description">@Html.Sitecore().Field("6 - Phone Warranty Text")</div>
                             <div class="rate">$9.95/mo</div>
                         </div>              
 
                         <div class="cart-product clearfix">
-                            <h2>Monthly Plan</h2>
+                            <h2>@Html.Sitecore().Field("6 - Monthly Plan Text")</h2>
                             <div class="description">
                                 7.5 GB Included Data <br />
                                 <a href="">@Html.Sitecore().Field("6 - Edit Plan Text")</a>
@@ -129,13 +126,13 @@
                     </div>
                     <div class="time">
                         <p><i class="icon-clock"></i>
-                        @Html.Sitecore().Field("6 - Time Remaining").Format(new { time = "{{time()}}" })</p>
+                        @Html.Sitecore().Field("6 - Time Remaining Text").Format(new { time = "{{time()}}" })</p>
                     </div>
                 </div>
             </article>
             <article class="enrollment__box">
                 <header>
-                    @Html.Sitecore().Field("6 - Youll Need Header")
+                    <p>@Html.Sitecore().Field("6 - Youll Need Header")</p>
                 </header>
                 <ul class="info">
                     <li><i class="icon-home"></i> @Html.Sitecore().Field("6 - Credit Card Text")</li>
