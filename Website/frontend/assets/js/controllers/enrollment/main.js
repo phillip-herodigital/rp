@@ -59,6 +59,11 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentSt
                 enrollmentStepsService.setFromServerStep(serverData.expectedState);
             });
         }
+        if (_(serverData.cart).some(function (e) {
+            return _(e.location.capabilities).some({ capabilityType: 'CustomerType', customerType: 'commercial' });
+        })) {
+            $scope.customerType = 'commercial';
+        }
     };
 
     $scope.assignStepNames = function (navTitles) {
