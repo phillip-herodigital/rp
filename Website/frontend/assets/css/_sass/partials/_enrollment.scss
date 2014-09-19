@@ -895,6 +895,17 @@ $enrollment-module-vertical-padding: 20px;
 }
 
 /*
+    Verify Identity page
+ */
+.enrollment__verify-identity {
+    .enrollment__box.form {
+        label.security-answer {
+            font-weight: 300;
+        }
+    }
+}
+
+/*
     Review order page
     TODO: Make this <hr> style into a class
  */
