@@ -74,4 +74,12 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
             windowClass: 'depositWaiver'
         });
     };
+
+    $scope.showCreditCardExample = function () {
+
+        $modal.open({
+            templateUrl: 'CreditCardExample',
+            scope: $scope
+        });
+    };
 }]);

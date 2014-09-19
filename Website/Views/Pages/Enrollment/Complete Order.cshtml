@@ -297,7 +297,7 @@
         <a href="" ng-click="$dismiss()"></a>
         <h2>@Html.Sitecore().Field("Deposit Waiver Header Text")</h2>
     </div>
-    <div class="modal-body">
+    <div class="modal-body scrollable">
         @Html.Sitecore().Field("Texas Deposit Waiver Body Text")
     </div>
     <div class="modal-footer">
@@ -310,10 +310,23 @@
         <a href="" ng-click="$dismiss()"></a>
         <h2>@Html.Sitecore().Field("Deposit Waiver Header Text")</h2>
     </div>
-    <div class="modal-body">
+    <div class="modal-body scrollable">
         @Html.Sitecore().Field("Georgia Deposit Waiver Body Text")
     </div>
     <div class="modal-footer">
         <button ng-click="$close()">@Html.Sitecore().Field("Deposit Waiver Button Text")</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="CreditCardExample">
+    <div class="modal-header">
+        <a href="" ng-click="$dismiss()"></a>
+        <h2>@Html.Sitecore().Field("Credit Card Example Header Text")</h2>
+    </div>
+    <div class="modal-body scrollable">
+        @Html.Sitecore().Field("Credit Card Example Body Text")
+    </div>
+    <div class="modal-footer">
+        <button ng-click="$close()">@Html.Sitecore().Field("Credit Card Example Button Text")</button>
     </div>
 </script>
