@@ -11,7 +11,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         private readonly IEnrollmentService enrollmentService;
 
         public PaymentInfoState(IEnrollmentService enrollmentService)
-            : base(previousState: typeof(LoadDespositInfoState), nextState: typeof(CompleteOrderState))
+            : base(previousState: typeof(LoadDespositInfoState), nextState: typeof(PayingDepositState))
         {
             this.enrollmentService = enrollmentService;
         }
@@ -41,7 +41,11 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         protected override async System.Threading.Tasks.Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
         {
-            if (!internalContext.Deposit.All(e => e.Details.RequiredAmounts.Sum(d => d.DollarAmount) == 0))
+            if (AnyIsWaived(context, internalContext))
+            {
+                internalContext.EnrollmentSaveState = await enrollmentService.BeginSaveUpdateEnrollment(internalContext.GlobalCustomerId, internalContext.EnrollmentSaveState.Data, context, internalContext.EnrollmentDpiParameters, internalContext.Deposit);
+            }
+            if (CalculateDeposit(context, internalContext) != 0)
             {
                 await enrollmentService.PayDeposit(internalContext.Deposit, internalContext.EnrollmentSaveState.Data.Results, context.PaymentInfo, context);
             }
@@ -50,7 +54,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public override IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> AdditionalValidations(UserContext context, InternalContext internalContext)
         {
-            if (internalContext.Deposit.Any(e => e.Details.RequiredAmounts.Sum(d => d.DollarAmount) > 0))
+            if (CalculateDeposit(context, internalContext) > 0)
             {
                 if (context.PaymentInfo == null)
                     yield return new System.ComponentModel.DataAnnotations.ValidationResult("Payment Info Required", new[] { "PaymentInfo" });
@@ -60,12 +64,32 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public override bool IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult, UserContext context, InternalContext internalContext)
         {
-            if (internalContext.Deposit.All(e => e.Details.RequiredAmounts.Sum(d => d.DollarAmount) == 0) && validationResult.MemberNames.Any(m => m.StartsWith("PaymentInfo")))
+            if (validationResult.MemberNames.Any(m => m.StartsWith("PaymentInfo")) && CalculateDeposit(context, internalContext) == 0)
             {
                 context.PaymentInfo = null;
                 return true;
             }
             return false;
+        }
+
+        private bool AnyIsWaived(UserContext context, InternalContext internalContext)
+        {
+            return (from entry in internalContext.Deposit
+                    let waiveDeposit = !context.Services.FirstOrDefault(svc => svc.Location == entry.Location).SelectedOffers.FirstOrDefault(o => o.Offer.Id == entry.Offer.Id).WaiveDeposit
+                    from amount in entry.Details.RequiredAmounts
+                    where amount.CanBeWaived && !waiveDeposit
+                    select true).Any(t => t);
+        }
+
+        private static decimal CalculateDeposit(UserContext context, InternalContext internalContext)
+        {
+            return (from entry in internalContext.Deposit
+                    let selectedOffers = context.Services.FirstOrDefault(svc => svc.Location == entry.Location)
+                    let selectedOffer = selectedOffers.SelectedOffers.FirstOrDefault(o => o.Offer.Id == entry.Offer.Id)
+                    let waiveDeposit = selectedOffer.WaiveDeposit
+                    from amount in entry.Details.RequiredAmounts
+                    where !amount.CanBeWaived || !waiveDeposit
+                    select amount.DollarAmount).Sum();
         }
     }
 }
