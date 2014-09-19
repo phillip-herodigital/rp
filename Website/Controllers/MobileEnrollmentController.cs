@@ -16,16 +16,13 @@ namespace StreamEnergy.MyStream.Controllers
         public ActionResult MobileEnrollmentPhones()
         {
             var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Mobile Enrollment");
-
-            //var priceValues = ((Sitecore.Data.Fields.NameValueListField)item.Fields["Price and Condition"]).NameValues;
-            //var prices = priceValues.AllKeys.Select(key => new { price = key, condition = Sitecore.Context.Database.GetItem(priceValues[key]) });
             var mediaOptions = new Sitecore.Resources.Media.MediaUrlOptions();
 
             var data = item.Children.Select(child => new
             {
                 name = child.Fields["Name"].Value,
                 imageUrl = Sitecore.Resources.Media.MediaManager.GetMediaUrl(((Sitecore.Data.Fields.ImageField)child.Fields["ImageUrl"]).MediaItem, mediaOptions),
-                //imageUrlLarge = Sitecore.Resources.Media.MediaManager.GetMediaUrl(((Sitecore.Data.Fields.ImageField)child.Fields["ImageUrl - Large"]).MediaItem, mediaOptions),
+                imageUrlLarge = Sitecore.Resources.Media.MediaManager.GetMediaUrl(((Sitecore.Data.Fields.ImageField)child.Fields["ImageUrl - Large"]).MediaItem, mediaOptions),
                 brand = child.Fields["Brand"].Value,
                 os = child.Fields["OS"].Value,
                 description = child.Fields["Description"].Value,
@@ -59,19 +56,8 @@ namespace StreamEnergy.MyStream.Controllers
             return this.Content(StreamEnergy.Json.Stringify(data));
         }
 
-        public static IEnumerable<MobilePrice> GetAllPrices(NameValueCollection item)
-        {
-            var data = item.AllKeys.Select(key => new MobilePrice { Value = key, Condition = GetConditionString(item[key]) });
-            return data;
-        }
-
         public static IEnumerable<MobileColor> GetAllColors(NameValueCollection item) {
             var data = item.AllKeys.Select(key => new MobileColor { Value = key, Color = item[key] });
-            return data;
-        }
-
-        public static IEnumerable<MobileSize> GetAllSizes(NameValueCollection item) {
-            var data = item.AllKeys.Select(key => new MobileSize { Value = key, Size = item[key] });
             return data;
         }
 
