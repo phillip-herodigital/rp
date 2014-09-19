@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
 using StreamEnergy.StreamEnergyBilling.IstaTokenization;
+using StreamEnergy.Logging;
 
 namespace StreamEnergy.Interpreters
 {
@@ -15,13 +16,15 @@ namespace StreamEnergy.Interpreters
         private readonly string DpiAuthID;
         private readonly string DpiAuthPwd;
         private readonly IDpiTokenService dpiTokenService;
+        private readonly ILogger logger;
 
-        public DpiEnrollmentParameters([Dependency("DpiEnrollmentFormDomain")] string dpiEnrollmentFormDomain, IDpiTokenService dpiTokenService, [Dependency("DpiAuthID")] string DpiAuthID, [Dependency("DpiAuthPwd")] string DpiAuthPwd)
+        public DpiEnrollmentParameters([Dependency("DpiEnrollmentFormDomain")] string dpiEnrollmentFormDomain, IDpiTokenService dpiTokenService, [Dependency("DpiAuthID")] string DpiAuthID, [Dependency("DpiAuthPwd")] string DpiAuthPwd, ILogger logger)
         {
             this.dpiEnrollmentFormDomain = dpiEnrollmentFormDomain;
             this.DpiAuthID = DpiAuthID;
             this.DpiAuthPwd = DpiAuthPwd;
             this.dpiTokenService = dpiTokenService;
+            this.logger = logger;
         }
 
         public void Initialize(System.Collections.Specialized.NameValueCollection queryString)
@@ -127,9 +130,9 @@ namespace StreamEnergy.Interpreters
 
         private string BuildTokenizedUrl()
         {
-            return dpiTokenService.GetDpiTokenUrl(new GetUrlRequest()
+            var request = new GetUrlRequest()
             {
-                AccountName = "Unassigned Customer", // TODO - is this right?
+                AccountName = "Unassigned Customer",
                 AccountNumber = GetAccountNumber(queryString["SPID"]),
                 CustomerType = AccountType,
                 DesignatedCustomer = queryString["GID"],
@@ -138,7 +141,37 @@ namespace StreamEnergy.Interpreters
                 StateAbbrev = queryString["St"] ?? queryString["State"],
                 AuthId = DpiAuthID,
                 AuthPwd = DpiAuthPwd,
-            });
+            };
+            try
+            {
+                var response = dpiTokenService.GetDpiTokenUrl(request);
+                if (!string.IsNullOrEmpty(response))
+                {
+                    return response;
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Record("Error calling GetDpiTokenUrl", ex);
+            }
+            
+
+            request.AccountNumber = "A2";
+
+            try
+            {
+                var response = dpiTokenService.GetDpiTokenUrl(request);
+                if (!string.IsNullOrEmpty(response))
+                {
+                    return response;
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Record("Error calling GetDpiTokenUrl", ex);
+            }
+
+            return "/enrollment/please-contact";
         }
 
         private string TranslateRefSite()

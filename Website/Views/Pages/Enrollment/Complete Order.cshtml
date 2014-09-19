@@ -112,9 +112,12 @@
                     </div>
                 </div>
                 <div class="buttons">
-                    <button type="submit" class="tertiary" ng-click="resetEnrollment();" data-val-submit>@Html.Sitecore().Field("Cancel Enrollment Button")</button>
                     <button type="submit" class="primary" ng-if="customerType != 'commercial'" ng-click="completeStep();" data-val-submit>@Html.Sitecore().Field("Button")</button>
                     <button type="submit" class="primary" ng-if="customerType == 'commercial'" ng-click="completeStep();" ng-disabled="!completeOrder.additionalAuthorizations.historicalUsageData" data-val-submit>@Html.Sitecore().Field("Commercial Button")</button>
+                    <button type="submit" class="tertiary" ng-click="resetEnrollment();">
+                        <span ng-if="customerType != 'commercial'">@Html.Sitecore().Field("Cancel Enrollment Button")</span>
+                        <span ng-if="customerType == 'commercial'">@Html.Sitecore().Field("Cancel Quote Button")</span>
+                    </button>
                 </div>
             </form>
         </section>
@@ -223,7 +226,7 @@
     <table class="verify-order-table">
         <tbody>
             <tr class="line-item" ng-repeat-start="selectedOffer in offerInformation.value.offerSelections">
-                <td class="description">
+                <td class="description">paymentsDue/Deposit
                     <h4>{{selectedOffer.offer.name}}</h4>
                     @*<p>{{selectedOffer.offer.description}}</p>*@
                 </td>
@@ -256,7 +259,7 @@
         <td class="sub-charge" colspan="2">
             <input type="radio" name="deposit-waiver-{{id}}" value="true">
             <label for="deposit-waiver-{{id}}">@Html.Sitecore().Field("Deposit Waiver")</label>
-            <p class="explanation">@Html.Sitecore().Field("Deposit Waiver Expanation")</p>
+            <p class="explanation">@Html.Raw(Html.Sitecore().CurrentItem["Deposit Waiver Expanation"].Format(new { LinkAttributes = "ng-click=\"showDepositWaiver(location.location.address.stateAbbreviation)\"" }))</p>
         </td>
     </tr>
 
@@ -268,7 +271,7 @@
         <a href="" ng-click="$dismiss()"></a>
         <h2>@Html.Sitecore().Field("Terms and Conditions Header Text")</h2>
     </div>
-    <div class="modal-body">
+    <div class="modal-body scrollable">
         @Html.Sitecore().Field("Terms and Conditions Body Text")
     </div>
     <div class="modal-footer">
@@ -281,10 +284,36 @@
         <a href="" ng-click="$dismiss()"></a>
         <h2>@Html.Sitecore().Field("TCPA Terms and Conditions Header Text")</h2>
     </div>
-    <div class="modal-body">
+    <div class="modal-body scrollable">
         @Html.Sitecore().Field("TCPA Terms and Conditions Body Text")
     </div>
     <div class="modal-footer">
         <button ng-click="$close()">@Html.Sitecore().Field("Close TCPA Terms and Conditions Button Text")</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="DepositWaiver/TX">
+    <div class="modal-header">
+        <a href="" ng-click="$dismiss()"></a>
+        <h2>@Html.Sitecore().Field("Deposit Waiver Header Text")</h2>
+    </div>
+    <div class="modal-body">
+        @Html.Sitecore().Field("Texas Deposit Waiver Body Text")
+    </div>
+    <div class="modal-footer">
+        <button ng-click="$close()">@Html.Sitecore().Field("Deposit Waiver Button Text")</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="DepositWaiver/GA">
+    <div class="modal-header">
+        <a href="" ng-click="$dismiss()"></a>
+        <h2>@Html.Sitecore().Field("Deposit Waiver Header Text")</h2>
+    </div>
+    <div class="modal-body">
+        @Html.Sitecore().Field("Georgia Deposit Waiver Body Text")
+    </div>
+    <div class="modal-footer">
+        <button ng-click="$close()">@Html.Sitecore().Field("Deposit Waiver Button Text")</button>
     </div>
 </script>

@@ -28,9 +28,9 @@
                 </article>
                 <article class="enrollment__box" data-ng-repeat="typedOffers in currentLocationInfo().offerInformationByType" ng-include src="'planList/' + typedOffers.key"></article>
                 <div class="buttons">
-                    <button type="submit" class="tertiary" ng-click="resetEnrollment();" data-val-submit>@Html.Sitecore().Field("Cancel Enrollment Button")</button>
                     <button type="submit" class="primary" ng-click="completeStep();" ng-disabled="!isFormValid()" data-val-submit>@Html.Sitecore().Field("Continue Button")</button>
                     <button type="submit" class="secondary" ng-click="completeStep(true);" ng-disabled="!isFormValid() || isCartFull" ng-if="!isRenewal" data-val-submit>@Html.Sitecore().Field("Add Address Button")</button>
+                    <button type="submit" class="tertiary" ng-click="resetEnrollment();" >@Html.Sitecore().Field("Cancel Enrollment Button")</button>
                 </div>
                 <div class="footnotes">
                     <div class="item warning" ng-if="isCartFull">
@@ -82,9 +82,9 @@
                     </div>
                 </article>
                 <div class="buttons">
-                    <button type="submit" class="tertiary" ng-click="resetEnrollment();" data-val-submit>@Html.Sitecore().Field("Cancel Enrollment Button")</button>
                     <button type="submit" class="primary" ng-click="completeStep();" data-val-submit>@Html.Sitecore().Field("Continue Button")</button>
                     <button type="submit" class="secondary" ng-click="completeStep(true);" ng-if="!isRenewal" data-val-submit>@Html.Sitecore().Field("Add Address Button")</button>
+                    <button type="submit" class="tertiary" ng-click="resetEnrollment();">@Html.Sitecore().Field("Cancel Quote Button")</button>
                 </div>
             </form>
             <div class="hide-medium-large time-remaining-mobile">
@@ -465,19 +465,24 @@
             {
                 <div class="item" @currentService.Validation().ErrorClass(s => s.Location)>
                     <label for="@currentService.Fix(h => h.IdFor(s => s.Location))">Address</label>
-                    @currentService.TextBoxFor(s => s.Location, new { @class="typeahead",
-                           ng_model="modal.selectedLocation",
-                           placeholder=@Html.Sitecore().Field("Address Placeholder"),
-                           typeahead="location as location.address|address for location in getLocation(modal.serviceState,  $viewValue)",
-                           ng_disabled="modal.serviceState == ''",
-                           typeahead_loading="modal.loadingServiceAddress",
-                           ng_class="{'loading' : modal.loadingServiceAddress}", autocomplete="off" })
+                    @currentService.TextBoxFor(s => s.Location, new 
+                    { 
+                        @class="typeahead",
+                        ng_model="modal.selectedLocation",
+                        placeholder=@Html.Sitecore().Field("Address Placeholder"),
+                        typeahead = "location as location.address|address for location in getLocation(modal.serviceState,  $viewValue, true)",
+                        ng_disabled="modal.serviceState == ''",
+                        typeahead_loading="modal.loadingServiceAddress",
+                        ng_class="{'loading' : modal.loadingServiceAddress}", 
+                        autocomplete="on",
+                        ng_init = "modal.selectedLocation = ''"
+                    })
                     @currentService.ValidationMessageFor(s => s.Location)
                 </div>
             }
         </div>
         <div class="modal-footer">
-            <button ng-click="modal.save()" ng-disabled="!modal.selectedLocation.address.line1">@Html.Sitecore().Field("Continue Button")</button>
+            <button ng-click="modal.save()" ng-disabled="!modal.selectedLocation.address.line1 && !location.address.length == 1">@Html.Sitecore().Field("Continue Button")</button>
             <button class="secondary" ng-click="$dismiss()">@Html.Sitecore().Field("Cancel Button")</button>
         </div>
     </div>
