@@ -20,6 +20,17 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
     $scope.completeStep = function () {
         console.log('Sending confirm order...');
 
+        $scope.completeOrder.DepositWaivers = _(enrollmentCartService.services).map(function (service) {
+            return _(service.offerInformationByType).pluck('value').flatten().filter().pluck('offerSelections').flatten().filter().map(function (selection) {
+                if (selection.payments != null && _(selection.payments.requiredAmounts).filter({ isWaived: true }).some()) {
+                    return {
+                        location: service.location,
+                        offerId: selection.offerId
+                    };
+                }
+            }).value();
+        }).flatten().filter().value();
+
         if ($scope.getCartTotal() > 0) {
             $scope.completeOrder.creditCard().then(function (paymentInfo) {
                 console.log({
