@@ -37,9 +37,10 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentSt
     * @param string state        //State abbreviation
     * @param string val          //Search string value
     */
-    $scope.getLocation = function (state, val) {
+    $scope.getLocation = function (state, val, zipOnly) {
         return enrollmentService.getLocations(state, $scope.customerType, val).then(function (res) {
             return _.filter(res.data, function (value) {
+                if (zipOnly && value.address.line1 == null) return false;
                 // This got a bit more complex when I decided that when "editing" an address you should be able to type back in the original address.
                 var match = enrollmentCartService.findMatchingAddress(value.address);
                 var isActive = match && enrollmentCartService.getActiveService() == match;

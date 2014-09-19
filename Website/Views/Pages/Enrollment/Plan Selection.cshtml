@@ -470,7 +470,7 @@
                         @class="typeahead",
                         ng_model="modal.selectedLocation",
                         placeholder=@Html.Sitecore().Field("Address Placeholder"),
-                        typeahead = "location as location.address|address for location in getLocation(modal.serviceState,  $viewValue)",
+                        typeahead = "location as location.address|address for location in getLocation(modal.serviceState,  $viewValue, true)",
                         ng_disabled="modal.serviceState == ''",
                         typeahead_loading="modal.loadingServiceAddress",
                         ng_class="{'loading' : modal.loadingServiceAddress}", 

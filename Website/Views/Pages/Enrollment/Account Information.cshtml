@@ -36,7 +36,7 @@
                                    id="service-address"
                                    class="typeahead"
                                    ng-model="item.tempLocation"
-                                   typeahead="location as location.address|address for location in getLocation(item.location.address.stateAbbreviation, $viewValue)"
+                                   typeahead="location as location.address|address for location in getLocation(item.location.address.stateAbbreviation, $viewValue, true)"
                                    typeahead-loading="accountInformation.loadingAccountInformationServiceAddress"
                                    ng-class="{'loading' : accountInformation.loadingAccountInformation}" autocomplete="off" />
                         </div>
