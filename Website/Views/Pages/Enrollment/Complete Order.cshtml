@@ -243,7 +243,7 @@
 <script type="text/ng-template" id="paymentsDue/Deposit">
     <tr>
         <td class="sub-charge">
-            <input type="radio" name="deposit-waiver-{{id}}" value="false" checked>
+            <input type="radio" name="deposit-waiver-{{id}}" ng-model="payment.isWaived" ng-value="false" checked="checked" />
             <label for="deposit-waiver-{{id}}">@Html.Sitecore().Field("Deposit Due")</label>
             <p>
                 {{selectedOffer.offer.name}}<br />
@@ -257,7 +257,7 @@
     </tr>
     <tr>
         <td class="sub-charge" colspan="2">
-            <input type="radio" name="deposit-waiver-{{id}}" value="true">
+            <input type="radio" name="deposit-waiver-{{id}}" ng-model="payment.isWaived" ng-value="true" />
             <label for="deposit-waiver-{{id}}">@Html.Sitecore().Field("Deposit Waiver")</label>
             <p class="explanation">@Html.Raw(Html.Sitecore().CurrentItem["Deposit Waiver Expanation"].Format(new { LinkAttributes = "ng-click=\"showDepositWaiver(location.location.address.stateAbbreviation)\"" }))</p>
         </td>
