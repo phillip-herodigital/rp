@@ -203,6 +203,11 @@ namespace StreamEnergy.MyStream.Tests
                     IsCompleted = false
                 }));
 
+            mockEnrollmentService.Setup(m => m.BeginSaveUpdateEnrollment(It.IsAny<Guid>(), It.IsAny<DomainModels.Enrollments.Service.EnrollmentSaveResult>(), It.IsAny<UserContext>(), It.IsAny<NameValueCollection>(), It.IsAny<IEnumerable<DomainModels.Enrollments.Service.LocationOfferDetails<OfferPayment>>>())).Returns(Task.FromResult(new StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>()
+            {
+                IsCompleted = false
+            }));
+
             mockEnrollmentService.Setup(m => m.EndSaveEnrollment(It.IsAny<StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>>(), It.IsAny<UserContext>())).Returns(Task.FromResult(new StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>()
             {
                 Data = new DomainModels.Enrollments.Service.EnrollmentSaveResult 
@@ -1023,7 +1028,7 @@ namespace StreamEnergy.MyStream.Tests
                     } 
                 },
             };
-            session.State = typeof(DomainModels.Enrollments.CompleteOrderState);
+            session.State = typeof(DomainModels.Enrollments.PaymentInfoState);
             var request = new Models.Enrollment.ConfirmOrder
             {
                 PaymentInfo = new DomainModels.Payments.TokenizedCard
@@ -1033,6 +1038,76 @@ namespace StreamEnergy.MyStream.Tests
                     SecurityCode = "223"
                 },
                 AgreeToTerms = true,
+            };
+
+            using (var controller = container.Resolve<EnrollmentController>())
+            {
+                await controller.Initialize();
+
+                // Act
+                var result = await controller.ConfirmOrder(request);
+
+                // Assert
+                Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.OrderConfirmed, result.ExpectedState);
+                Assert.AreEqual("87654321", result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Single().ConfirmationNumber);
+            }
+
+            Assert.AreEqual(typeof(DomainModels.Enrollments.OrderConfirmationState), session.State);
+        }
+
+        [TestMethod]
+        public async Task PostConfirmOrderWaiveDepositTest()
+        {
+            // Arrange
+            var session = container.Resolve<EnrollmentController.SessionHelper>();
+            await session.EnsureInitialized();
+            session.Context = new UserContext
+            {
+                Services = new[]
+                { 
+                    new LocationServices
+                    {
+                        Location = specificLocation,
+                        SelectedOffers = new [] {
+                            new SelectedOffer 
+                            { 
+                                Offer = offers[0],
+                                OfferOption = offerOption
+                            }
+                        }
+                    }
+                },
+                MailingAddress = mailingAddress,
+                PreviousAddress = previousAddress,
+                ContactInfo = contactInfo,
+                Language = "en",
+                SecondaryContactInfo = null,
+                SelectedIdentityAnswers = new Dictionary<string, string>(),
+                SocialSecurityNumber = "123-45-6789",
+            };
+            session.InternalContext = new InternalContext
+            {
+                AllOffers = new Dictionary<Location, LocationOfferSet> { { specificLocation, new LocationOfferSet { Offers = offers } } },
+                IdentityCheck = new StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult> { IsCompleted = true, Data = identityCheckResult },
+                EnrollmentSaveState = new StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>
+                {
+                    IsCompleted = true,
+                    Data = new DomainModels.Enrollments.Service.EnrollmentSaveResult
+                    {
+                        Results = new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.EnrollmentSaveEntry>[0]
+                    }
+                },
+                Deposit = new[] 
+                { 
+                    new StreamEnergy.DomainModels.Enrollments.Service.LocationOfferDetails<OfferPayment> { Location = specificLocation, Offer = offers[0], Details = new OfferPayment { RequiredAmounts = new [] { new DepositOfferPaymentAmount { DollarAmount = 250 } } } }
+                }
+            };
+            session.State = typeof(DomainModels.Enrollments.PaymentInfoState);
+            var request = new Models.Enrollment.ConfirmOrder
+            {
+                PaymentInfo = null,
+                AgreeToTerms = true,
+                DepositWaivers = new[] { new Models.Enrollment.DepositWaiver { Location = specificLocation, OfferId = offers[0].Id } }
             };
 
             using (var controller = container.Resolve<EnrollmentController>())
@@ -1354,6 +1429,26 @@ namespace StreamEnergy.MyStream.Tests
         {
             // Arrange
             var session = container.Resolve<EnrollmentController.SessionHelper>();
+            mockEnrollmentService.Setup(m => m.LoadOfferPayments(It.IsAny<Guid>(), It.IsAny<DomainModels.Enrollments.Service.EnrollmentSaveResult>(), It.IsAny<IEnumerable<LocationServices>>(), It.IsAny<InternalContext>())).Returns<Guid, DomainModels.Enrollments.Service.EnrollmentSaveResult, IEnumerable<LocationServices>, InternalContext>((a, b, services, ctx) =>
+            {
+                return Task.FromResult(from loc in services
+                                       from offer in loc.SelectedOffers
+                                       select new DomainModels.Enrollments.Service.LocationOfferDetails<OfferPayment>
+                                       {
+                                           Location = loc.Location,
+                                           Offer = offer.Offer,
+                                           Details = new OfferPayment
+                                           {
+                                               RequiredAmounts = new IOfferPaymentAmount[] 
+                                                   { 
+                                                       new DepositOfferPaymentAmount { DollarAmount = 0 }
+                                                   },
+                                               OngoingAmounts = new IOfferPaymentAmount[] { },
+                                               PostBilledAmounts = new IOfferPaymentAmount[] { },
+                                           }
+                                       });
+            });
+
             session.EnsureInitialized().Wait();
             session.Context = new UserContext
             {

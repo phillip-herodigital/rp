@@ -17,6 +17,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         }
 
         public decimal DollarAmount { get; set; }
+        public bool CanBeWaived { get { return false; } }
 
         public bool IsDollarAmountEstimated
         {
