@@ -160,16 +160,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         [HttpGet]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
-        public GetInvoicesResponse GetInvoices()
+        public async Task<GetInvoicesResponse> GetInvoices()
         {
-            // TODO - get the invoices from Stream Connect and format the response
-
             return new GetInvoicesResponse
             {
                 Invoices = new Table<Models.Account.Invoice>
                 {
                     ColumnList = typeof(StreamEnergy.MyStream.Models.Account.Invoice).BuildTableSchema(database.GetItem("/sitecore/content/Data/Components/Account/Overview/My Invoices")),
-                    Values = from account in accountService.GetInvoices(User.Identity.Name)
+                    Values = from account in await accountService.GetInvoices(User.Identity.Name)
                              from invoice in account.Invoices
                              select new StreamEnergy.MyStream.Models.Account.Invoice
                              {

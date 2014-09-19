@@ -25,27 +25,27 @@ namespace StreamEnergy.Services.Clients
             this.client = client;
         }
 
-        IEnumerable<Account> IAccountService.GetInvoices(string username)
+        Task<IEnumerable<Account>> IAccountService.GetInvoices(string username)
         {
             // TODO - load from Stream Commons
             var response = service.GetInvoices(new Sample.Commons.GetInvoicesRequest { Username = username });
 
-            return from entry in response.Invoice
-                   group new DomainModels.Accounts.Invoice
-                   {
-                       DueDate = entry.DueDate,
-                       InvoiceAmount = entry.InvoiceAmount,
-                       InvoiceNumber = entry.InvoiceNumber,
-                       IsPaid = entry.IsPaid,
-                   } by new { entry.AccountNumber, entry.ServiceType, entry.CanRequestExtension } into invoicesByAcount
-                   select new Account(Guid.Empty)
-                   {
-                       AccountNumber = invoicesByAcount.Key.AccountNumber,
-                       AccountType = invoicesByAcount.Key.ServiceType,
-                       Capabilities = { new InvoiceExtensionAccountCapability { CanRequestExtension = invoicesByAcount.Key.CanRequestExtension } },
-                       Invoices = invoicesByAcount.ToArray(),
-                       // TODO - populate the CurrentInvoice?
-                   };
+            return Task.FromResult<IEnumerable<Account>>(from entry in response.Invoice
+                                                         group new DomainModels.Accounts.Invoice
+                                                         {
+                                                             DueDate = entry.DueDate,
+                                                             InvoiceAmount = entry.InvoiceAmount,
+                                                             InvoiceNumber = entry.InvoiceNumber,
+                                                             IsPaid = entry.IsPaid,
+                                                         } by new { entry.AccountNumber, entry.ServiceType, entry.CanRequestExtension } into invoicesByAcount
+                                                         select new Account(Guid.Empty)
+                                                         {
+                                                             AccountNumber = invoicesByAcount.Key.AccountNumber,
+                                                             AccountType = invoicesByAcount.Key.ServiceType,
+                                                             Capabilities = { new InvoiceExtensionAccountCapability { CanRequestExtension = invoicesByAcount.Key.CanRequestExtension } },
+                                                             Invoices = invoicesByAcount.ToArray(),
+                                                             // TODO - populate the CurrentInvoice?
+                                                         });
         }
 
         Task<IEnumerable<Account>> IAccountService.GetCurrentInvoices(string username)
