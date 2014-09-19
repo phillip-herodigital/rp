@@ -369,6 +369,10 @@ $tooltip-arrow-color:         #1386e3;
     &.right  { margin-left:  3px; padding: 0 $tooltip-arrow-width; }
     &.bottom { margin-top:   3px; padding: $tooltip-arrow-width 0; }
     &.left   { margin-left: -3px; padding: 0 $tooltip-arrow-width; }
+
+    @include breakpoint(small) {
+        max-width: 80%;
+    }
 }
 
 // Wrapper for the tooltip content
