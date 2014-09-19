@@ -6,9 +6,9 @@ ngApp.controller('OfferOptions-TexasElectricityCommercialQuote', ['$scope', func
     $scope.minDate.setHours(0, 0, 0, 0);
 
     var connectDate = fromISODate(_($scope.selectedOffer.optionRules.connectDates.availableConnectDates)
-        .filter({ classification: 'standard' })
         .sortBy('date')
-        .first()
+        .first(5)
+        .last()
         .date + 'Z');
     
     $scope.selectedOffer.offerOption.connectDate = $scope.selectedOffer.offerOption.connectDate || connectDate;
