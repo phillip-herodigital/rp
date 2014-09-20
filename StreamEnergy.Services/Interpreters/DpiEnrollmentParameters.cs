@@ -39,12 +39,12 @@ namespace StreamEnergy.Interpreters
 
         public string State
         {
-            get { return (queryString["State"] ?? "").ToUpper(); }
+            get { return (queryString["St"] ?? queryString["State"]).ToUpper(); }
         }
 
         public string AccountNumber
         {
-            get { return GetAccountNumber(queryString["SPID"] ?? ""); }
+            get { return GetAccountNumber(queryString["SPID"] ?? "A2"); }
         }
 
         public Newtonsoft.Json.Linq.JObject ToStreamConnectSalesInfo()

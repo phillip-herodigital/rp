@@ -209,6 +209,8 @@
         var data = angular.copy({
             contactInfo: service.accountInformation.contactInfo,
             contactTitle: service.accountInformation.contactTitle,
+            companyName: service.accountInformation.companyName,
+            doingBusinessAs: service.accountInformation.doingBusinessAs,
             socialSecurityNumber: service.accountInformation.socialSecurityNumber,
             secondaryContactInfo: service.accountInformation.secondaryContactInfo,
             onlineAccount: service.accountInformation.onlineAccount,

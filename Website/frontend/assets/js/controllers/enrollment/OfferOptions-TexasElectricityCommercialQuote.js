@@ -32,7 +32,7 @@ ngApp.controller('OfferOptions-TexasElectricityCommercialQuote', ['$scope', func
         if (availableDate) {
             var lastPriorityDate = new Date();
             lastPriorityDate.setDate(new Date().getDate() + 3);
-            return { 'red': availableDate.classification == 'priority' };
+            return { 'priority': availableDate.classification == 'priority' };
         }
         return false;
     };

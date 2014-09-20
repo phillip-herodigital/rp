@@ -243,7 +243,7 @@
 <script type="text/ng-template" id="paymentsDue/Deposit">
     <tr>
         <td class="sub-charge">
-            <input type="radio" name="deposit-waiver-{{id}}" value="false" checked>
+            <input type="radio" name="deposit-waiver-{{id}}" ng-model="payment.isWaived" ng-value="false" checked="checked" />
             <label for="deposit-waiver-{{id}}">@Html.Sitecore().Field("Deposit Due")</label>
             <p>
                 {{selectedOffer.offer.name}}<br />
@@ -257,7 +257,7 @@
     </tr>
     <tr>
         <td class="sub-charge" colspan="2">
-            <input type="radio" name="deposit-waiver-{{id}}" value="true">
+            <input type="radio" name="deposit-waiver-{{id}}" ng-model="payment.isWaived" ng-value="true" />
             <label for="deposit-waiver-{{id}}">@Html.Sitecore().Field("Deposit Waiver")</label>
             <p class="explanation">@Html.Raw(Html.Sitecore().CurrentItem["Deposit Waiver Expanation"].Format(new { LinkAttributes = "ng-click=\"showDepositWaiver(location.location.address.stateAbbreviation)\"" }))</p>
         </td>
@@ -297,7 +297,7 @@
         <a href="" ng-click="$dismiss()"></a>
         <h2>@Html.Sitecore().Field("Deposit Waiver Header Text")</h2>
     </div>
-    <div class="modal-body">
+    <div class="modal-body scrollable">
         @Html.Sitecore().Field("Texas Deposit Waiver Body Text")
     </div>
     <div class="modal-footer">
@@ -310,10 +310,23 @@
         <a href="" ng-click="$dismiss()"></a>
         <h2>@Html.Sitecore().Field("Deposit Waiver Header Text")</h2>
     </div>
-    <div class="modal-body">
+    <div class="modal-body scrollable">
         @Html.Sitecore().Field("Georgia Deposit Waiver Body Text")
     </div>
     <div class="modal-footer">
         <button ng-click="$close()">@Html.Sitecore().Field("Deposit Waiver Button Text")</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="CreditCardExample">
+    <div class="modal-header">
+        <a href="" ng-click="$dismiss()"></a>
+        <h2>@Html.Sitecore().Field("Credit Card Example Header Text")</h2>
+    </div>
+    <div class="modal-body scrollable">
+        @Html.Sitecore().Field("Credit Card Example Body Text")
+    </div>
+    <div class="modal-footer">
+        <button ng-click="$close()">@Html.Sitecore().Field("Credit Card Example Button Text")</button>
     </div>
 </script>
