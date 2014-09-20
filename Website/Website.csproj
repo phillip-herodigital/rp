@@ -644,14 +644,8 @@
     <Content Include="Data\license.xml" />
     <Content Include="default.css" />
     <Content Include="default.js" />
-    <Content Include="frontend\assets\js\controllers\account\paymentAccountsListingCtrl.js" />
-    <Content Include="frontend\assets\js\controllers\payments\addBankAccount.js" />
-    <Content Include="frontend\assets\js\controllers\payments\addCreditCard.js" />
-    <Content Include="frontend\assets\js\directives\typeahead-popup-fix.js" />
-    <Content Include="frontend\utility-services.html" />
     <Content Include="frontend\*" />
     <Content Include="frontend\**\*" />
-    <Content Include="frontend\assets\css\_sass\partials\_components.scss" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
     <None Include="Scripts\_references.js" />
     <Content Include="Global.asax" />
