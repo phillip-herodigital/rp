@@ -20,7 +20,7 @@
                             <strong>{{ service.location.address | address }}</strong>
                         </div>
                         <hr ng-if="customerType != 'commercial'" />
-                        <div ng-if="customerType != 'commercial'" ng-repeat="offerInformation in service.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
+                        <div ng-repeat="offerInformation in service.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
                             <div ng-include src="'serviceConfirmation/' + offerInformation.key"></div>
                         </div>
                         <hr class="content-divider" ng-if="getCartItems().length > 1 && !$last">
@@ -113,7 +113,10 @@
 </script>
 
 <script type="text/ng-template" id="serviceConfirmation/TexasElectricityCommercialQuote">
-    
+    <dl class="clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <dt>@Html.Sitecore().Field("Confirmation Number")</dt>
+        <dd>{{ selectedOffer.confirmationNumber }}</dd>
+    </dl>
 </script>
 
 <script type="text/ng-template" id="payments/Deposit">

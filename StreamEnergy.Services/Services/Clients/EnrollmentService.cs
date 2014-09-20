@@ -629,7 +629,7 @@ namespace StreamEnergy.Services.Clients
             return Enumerable.Empty<LocationOfferDetails<PlaceOrderResult>>();
         }
 
-        async Task<bool> IEnrollmentService.PlaceCommercialQuotes(UserContext context)
+        async Task<PlaceOrderResult> IEnrollmentService.PlaceCommercialQuotes(UserContext context)
         {
             var response = await streamConnectClient.PostAsJsonAsync("/api/v1/commercial-request-for-quote", new
             {
@@ -664,7 +664,11 @@ namespace StreamEnergy.Services.Clients
 
             var result = Json.Read<JObject>(await response.Content.ReadAsStringAsync());
 
-            return result["Status"].ToString() == "Success";
+            return new PlaceOrderResult()
+            {
+                IsSuccess = result["Status"].ToString() == "Success",
+                ConfirmationNumber = (string)result["ReferenceNumber"],
+            };
         }
 
         private object ToCommercialPremise(Location location)
