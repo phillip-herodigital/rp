@@ -373,7 +373,7 @@ $tooltip-arrow-color:         #1386e3;
     &.left   { margin-left: -3px; padding: 0 $tooltip-arrow-width; }
 
     @include breakpoint(small) {
-        max-width: 80%;
+        left: 0 !important;
     }
 }
 
@@ -395,6 +395,9 @@ $tooltip-arrow-color:         #1386e3;
     height: 0;
     border-color: transparent;
     border-style: solid;
+    @include breakpoint(small) {
+        display: none;
+    }
 }
 .tooltip {
     &.top .tooltip-arrow {

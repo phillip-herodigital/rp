@@ -1,6 +1,6 @@
 ﻿@model StreamEnergy.DomainModels.Payments.TokenizedCard
-<div>
-    <div class="item" data-val-error="PaymentAccount.CreditCardNumber">
+<div class="credit-card">
+    <div class="item card-number" data-val-error="PaymentAccount.CreditCardNumber">
         <label for="credit-card-number">@Html.Sitecore().Field("Credit Card Number Label"):</label>
         <input id="credit-card-number" name="PaymentAccount.CreditCardNumber" data-val="true" data-val-if="ccCtrl.validate" data-val-creditcard="@Html.Sitecore().Field("Credit Card Number Invalid")" data-val-required="@Html.Sitecore().Field("Credit Card Number Required")" tokenize-card="{'tokenizerDomain':'@Html.GetSetting("Tokenizer", "Tokenizer Domain")'}" ng-model="ccCtrl.cardToken" type="text">
     </div>
@@ -22,7 +22,7 @@
             <label for="@Html.IdFor(m => m.SecurityCode)">@Html.Sitecore().Field("Security Code Label"):</label>
             @Html.TextBoxFor(m => m.SecurityCode, new { ng_model = "ccCtrl.securityCode", data_val_if="ccCtrl.validate" })
         </div>
-        <div class="item">
+        <div class="item example">
             <a href="" ng-click="showCreditCardExample()" class="single-link">@Html.Sitecore().Field("See Example Link Label")</a>
         </div>
     </div>
