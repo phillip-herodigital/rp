@@ -44,7 +44,7 @@ namespace StreamEnergy.Interpreters
 
         public string AccountNumber
         {
-            get { return GetAccountNumber(queryString["SPID"] ?? ""); }
+            get { return GetAccountNumber(queryString["SPID"] ?? "A2"); }
         }
 
         public Newtonsoft.Json.Linq.JObject ToStreamConnectSalesInfo()
