@@ -152,6 +152,7 @@
     <Compile Include="DomainModels\Accounts\SampleSubAccount.cs" />
     <Compile Include="DomainModels\Accounts\TexasElectricityAccount.cs" />
     <Compile Include="DomainModels\Accounts\UserProfile.cs" />
+    <Compile Include="DomainModels\Accounts\UserProfileLocator.cs" />
     <Compile Include="DomainModels\Accounts\UtilityPlan.cs" />
     <Compile Include="DomainModels\Address.cs" />
     <Compile Include="DomainModels\CustomerContact.cs" />

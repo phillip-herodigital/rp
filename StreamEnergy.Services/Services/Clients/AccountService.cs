@@ -25,10 +25,10 @@ namespace StreamEnergy.Services.Clients
             this.client = client;
         }
 
-        Task<IEnumerable<Account>> IAccountService.GetInvoices(string username)
+        Task<IEnumerable<Account>> IAccountService.GetInvoices(Guid globalCustomerId)
         {
             // TODO - load from Stream Commons
-            var response = service.GetInvoices(new Sample.Commons.GetInvoicesRequest { Username = username });
+            var response = service.GetInvoices(new Sample.Commons.GetInvoicesRequest { GlobalCustomerId = globalCustomerId });
 
             return Task.FromResult<IEnumerable<Account>>(from entry in response.Invoice
                                                          group new DomainModels.Accounts.Invoice
@@ -48,7 +48,7 @@ namespace StreamEnergy.Services.Clients
                                                          });
         }
 
-        Task<IEnumerable<Account>> IAccountService.GetCurrentInvoices(string username)
+        Task<IEnumerable<Account>> IAccountService.GetCurrentInvoices(Guid globalCustomerId)
         {
             // TODO - load from Stream Commons
             return Task.FromResult<IEnumerable<Account>>(new[] {
@@ -87,7 +87,7 @@ namespace StreamEnergy.Services.Clients
             });
         }
 
-        Task<IEnumerable<Account>> IAccountService.GetAccountBalances(string username)
+        Task<IEnumerable<Account>> IAccountService.GetAccountBalances(Guid globalCustomerId)
         {
             // TODO - load from Stream Commons
             return Task.FromResult<IEnumerable<Account>>(new[] {
@@ -146,7 +146,7 @@ namespace StreamEnergy.Services.Clients
             );
         }
 
-        Task<IEnumerable<DomainModels.Payments.SavedPaymentInfo>> IAccountService.GetSavedPaymentMethods(string username)
+        Task<IEnumerable<DomainModels.Payments.SavedPaymentInfo>> IAccountService.GetSavedPaymentMethods(Guid globalCustomerId)
         {
             return Task.FromResult<IEnumerable<DomainModels.Payments.SavedPaymentInfo>>(new[] { 
                 new DomainModels.Payments.SavedPaymentInfo { DisplayName = "Saved Credit Card", Id= Guid.NewGuid(), RedactedData= "**** **** **** 1234", UnderlyingPaymentType = DomainModels.Payments.TokenizedCard.Qualifier },

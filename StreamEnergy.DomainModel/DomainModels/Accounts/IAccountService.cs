@@ -9,10 +9,10 @@ namespace StreamEnergy.DomainModels.Accounts
 {
     public interface IAccountService
     {
-        Task<IEnumerable<Account>> GetInvoices(string username);
-        Task<IEnumerable<Account>> GetCurrentInvoices(string username);
-        Task<IEnumerable<Account>> GetAccountBalances(string username);
-        Task<IEnumerable<Payments.SavedPaymentInfo>> GetSavedPaymentMethods(string username);
+        Task<IEnumerable<Account>> GetInvoices(Guid globalCustomerId);
+        Task<IEnumerable<Account>> GetCurrentInvoices(Guid globalCustomerId);
+        Task<IEnumerable<Account>> GetAccountBalances(Guid globalCustomerId);
+        Task<IEnumerable<Payments.SavedPaymentInfo>> GetSavedPaymentMethods(Guid globalCustomerId);
         Task<MakePaymentResult> MakePayment(string account, decimal amount, Payments.IPaymentInfo paymentMethod, DateTime paymentDate);
         Task<Account> GetCurrentInvoice(string accountNumber);
 
