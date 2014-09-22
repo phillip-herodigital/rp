@@ -38,7 +38,7 @@ WHERE [Key] = 'SessionID' AND Value = @SessionId
 ORDER BY EntityId ASC";
 
                     SqlParameter parameter = new SqlParameter("@SessionId", SqlDbType.VarChar);
-                    parameter.Value = Request.Params["sessionID"];
+                    parameter.Value = Request.Params["sessionID"] ?? Session.SessionID;
                     command.Parameters.Add(parameter);
 
                     var reader = command.ExecuteReader();

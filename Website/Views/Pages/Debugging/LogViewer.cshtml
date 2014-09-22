@@ -1,5 +1,5 @@
 @model IEnumerable<StreamEnergy.Logging.LogEntry>
-<div ng-controller="LogViewerCtrl" ng-init="setServerData(@Html.JsonStringify(Model), '@Request.Params["sessionID"]');">
+<div ng-controller="LogViewerCtrl" ng-init="setServerData(@Html.JsonStringify(Model), '@(Request.Params["sessionID"] ?? Session.SessionID)');">
     <section>
         <header>
             <h3>Log Viewer</h3>
