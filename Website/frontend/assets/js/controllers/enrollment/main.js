@@ -1,7 +1,7 @@
 ﻿/* Enrollment Main Controller
  * This is the main controller for Enrollments. It will keep track of the enrollment state, as well as all fields that will need to be collected.
  */
-ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentStepsService', 'enrollmentService', 'scrollService', '$timeout', 'enrollmentCartService', function ($scope, $anchorScroll, enrollmentStepsService, enrollmentService, scrollService, $timeout, enrollmentCartService) {
+ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentStepsService', 'enrollmentService', 'scrollService', '$timeout', 'enrollmentCartService', '$filter', function ($scope, $anchorScroll, enrollmentStepsService, enrollmentService, scrollService, $timeout, enrollmentCartService, $filter) {
     $scope.validations = enrollmentService.validations;
     $scope.stepsService = enrollmentStepsService;
     $scope.customerType = 'residential';
@@ -42,11 +42,18 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentSt
             return _.filter(res.data, function (value) {
                 if (zipOnly && value.address.line1 == null) return false;
                 // This got a bit more complex when I decided that when "editing" an address you should be able to type back in the original address.
-                var match = enrollmentCartService.findMatchingAddress(value.address);
-                var isActive = match && enrollmentCartService.getActiveService() == match;
-                return !match || isActive;
+                return true;
             })
         });
+    };
+
+    $scope.isDuplicateAddress = function (address) {
+        var activeService = enrollmentCartService.getActiveService();
+        if (activeService && $filter('address')(address) == $filter('address')(activeService.location.address)) {
+            return false;
+        }
+        
+        return enrollmentCartService.findMatchingAddress(address);
     };
 
     /**
