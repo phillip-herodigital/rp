@@ -22,7 +22,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         Task<StreamAsync<EnrollmentSaveResult>> EndSaveEnrollment(StreamAsync<EnrollmentSaveResult> streamAsync, UserContext context);
 
-        Task<StreamAsync<EnrollmentSaveResult>> UpdateEnrollment(Guid streamCustomerId, EnrollmentSaveResult enrollmentSaveResult, UserContext context, NameValueCollection dpiParameters);
+        Task<StreamAsync<EnrollmentSaveResult>> BeginSaveUpdateEnrollment(Guid streamCustomerId, EnrollmentSaveResult enrollmentSaveResult, UserContext context, NameValueCollection dpiParameters, IEnumerable<LocationOfferDetails<OfferPayment>> offerPayments);
 
         Task<StreamAsync<IdentityCheckResult>> BeginIdentityCheck(Guid streamCustomerId, Name name, string ssn, Address mailingAddress, AdditionalIdentityInformation identityInformation = null);
 
@@ -39,7 +39,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         Task<IEnumerable<LocationOfferDetails<PlaceOrderResult>>> PlaceOrder(Guid streamCustomerId, IEnumerable<LocationServices> services, EnrollmentSaveResult originalSaveState, Dictionary<AdditionalAuthorization, bool> additionalAuthorizations);
 
 
-        Task<bool> PlaceCommercialQuotes(UserContext context);
+        Task<PlaceOrderResult> PlaceCommercialQuotes(UserContext context);
 
     }
 }

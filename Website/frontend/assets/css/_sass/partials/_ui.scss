@@ -116,7 +116,6 @@ div.tabbable {
 
 .modal-body {
 	position: relative;
-	overflow-y: auto;
 	max-height: 400px;
 	padding: 25px 20px;
 	& :first-child {
@@ -125,6 +124,9 @@ div.tabbable {
 	& :last-child {
 		margin-bottom: 0;
 	}
+    &.scrollable {
+        overflow-y: auto;
+    }
 }
 
 .modal-footer {
@@ -369,6 +371,10 @@ $tooltip-arrow-color:         #1386e3;
     &.right  { margin-left:  3px; padding: 0 $tooltip-arrow-width; }
     &.bottom { margin-top:   3px; padding: $tooltip-arrow-width 0; }
     &.left   { margin-left: -3px; padding: 0 $tooltip-arrow-width; }
+
+    @include breakpoint(small) {
+        left: 0 !important;
+    }
 }
 
 // Wrapper for the tooltip content
@@ -389,6 +395,9 @@ $tooltip-arrow-color:         #1386e3;
     height: 0;
     border-color: transparent;
     border-style: solid;
+    @include breakpoint(small) {
+        display: none;
+    }
 }
 .tooltip {
     &.top .tooltip-arrow {

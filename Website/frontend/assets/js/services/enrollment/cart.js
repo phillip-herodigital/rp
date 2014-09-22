@@ -15,6 +15,12 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             if (offerSelection.optionRules && !offerSelection.offerOption) {
                 offerSelection.offerOption = { optionType: offerSelection.optionRules.optionRulesType };
             }
+            if (offerSelection.payments && offerSelection.payments.requiredAmounts)
+            {
+                _(offerSelection.payments.requiredAmounts).forEach(function (payment) {
+                    payment.isWaived = payment.isWaived !== undefined ? payment.isWaived : false;
+                });
+            }
         });
     };
 
@@ -169,7 +175,7 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             return _(services)
                 .pluck('offerInformationByType').flatten().filter()
                 .pluck('value').filter().pluck('offerSelections').flatten().filter()
-                .pluck('payments').filter().pluck('requiredAmounts').flatten().filter()
+                .pluck('payments').filter().pluck('requiredAmounts').flatten().filter({isWaived: false})
                 .pluck('dollarAmount').filter()
 		        .reduce(sum, 0);
         },

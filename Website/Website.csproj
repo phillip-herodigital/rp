@@ -532,6 +532,7 @@
     <Compile Include="Controllers\ApiControllers\EnrollmentController.cs" />
     <Compile Include="Controllers\Components\ComponentController.cs" />
     <Compile Include="Controllers\DataController.cs" />
+    <Compile Include="Controllers\DebuggingController.cs" />
     <Compile Include="Controllers\EnrollmentController.cs" />
     <Compile Include="Controllers\TempController.cs" />
     <Compile Include="Controllers\MarketingController.cs" />
@@ -620,6 +621,7 @@
     <Compile Include="Models\Enrollment\ClientData.cs" />
     <Compile Include="Models\Enrollment\ConfirmOrder.cs" />
     <Compile Include="Models\Enrollment\CartEntry.cs" />
+    <Compile Include="Models\Enrollment\DepositWaiver.cs" />
     <Compile Include="Models\Enrollment\ExpectedState.cs" />
     <Compile Include="Models\Enrollment\OfferInformation.cs" />
     <Compile Include="Models\Enrollment\OfferSelection.cs" />
@@ -643,13 +645,8 @@
     <Content Include="Data\license.xml" />
     <Content Include="default.css" />
     <Content Include="default.js" />
-    <Content Include="frontend\assets\js\controllers\account\paymentAccountsListingCtrl.js" />
-    <Content Include="frontend\assets\js\controllers\payments\addBankAccount.js" />
-    <Content Include="frontend\assets\js\controllers\payments\addCreditCard.js" />
-    <Content Include="frontend\assets\js\directives\typeahead-popup-fix.js" />
-    <Content Include="frontend\utility-services.html" />
     <Content Include="frontend\*" />
-    <Content Include="frontend\**\*" />
+	<Content Include="frontend\**\*" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
     <None Include="Scripts\_references.js" />
     <Content Include="Global.asax" />
@@ -789,6 +786,7 @@
     <Content Include="Views\Components\Payments\New Credit Card.cshtml" />
     <Content Include="Views\layouts\Raw Layout.cshtml" />
     <Content Include="Views\Components\Payments\New Bank Account.cshtml" />
+    <Content Include="Views\Pages\Debugging\LogViewer.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

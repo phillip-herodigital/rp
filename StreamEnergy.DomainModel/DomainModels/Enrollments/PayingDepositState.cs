@@ -1,17 +1,17 @@
-﻿using StreamEnergy.Processes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using StreamEnergy.Processes;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
-    public class PaymentInfoState : StateBase<UserContext, InternalContext>
+    public class PayingDepositState : StateBase<UserContext, InternalContext>
     {
         private readonly IEnrollmentService enrollmentService;
-
-        public PaymentInfoState(IEnrollmentService enrollmentService)
-            : base(previousState: typeof(LoadDespositInfoState), nextState: typeof(PayingDepositState))
+        
+        public PayingDepositState(IEnrollmentService enrollmentService)
+            : base(typeof(PaymentInfoState), typeof(CompleteOrderState))
         {
             this.enrollmentService = enrollmentService;
         }
@@ -41,25 +41,20 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         protected override async System.Threading.Tasks.Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
         {
-            if (AnyIsWaived(context, internalContext))
+            if (internalContext.EnrollmentSaveState != null)
             {
-                internalContext.EnrollmentSaveState = await enrollmentService.BeginSaveUpdateEnrollment(internalContext.GlobalCustomerId, internalContext.EnrollmentSaveState.Data, context, internalContext.EnrollmentDpiParameters, internalContext.Deposit);
-            }
-            if (CalculateDeposit(context, internalContext) != 0)
-            {
-                await enrollmentService.PayDeposit(internalContext.Deposit, internalContext.EnrollmentSaveState.Data.Results, context.PaymentInfo, context);
-            }
-            return await base.InternalProcess(context, internalContext);
-        }
+                if (!internalContext.EnrollmentSaveState.IsCompleted)
+                {
+                    internalContext.EnrollmentSaveState = await enrollmentService.EndSaveEnrollment(internalContext.EnrollmentSaveState, context);
+                }
 
-        public override IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> AdditionalValidations(UserContext context, InternalContext internalContext)
-        {
-            if (CalculateDeposit(context, internalContext) > 0)
-            {
-                if (context.PaymentInfo == null)
-                    yield return new System.ComponentModel.DataAnnotations.ValidationResult("Payment Info Required", new[] { "PaymentInfo" });
+                if (!internalContext.EnrollmentSaveState.IsCompleted)
+                {
+                    return this.GetType();
+                }
             }
-            yield break;
+
+            return await base.InternalProcess(context, internalContext);
         }
 
         public override bool IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult, UserContext context, InternalContext internalContext)
@@ -72,21 +67,10 @@ namespace StreamEnergy.DomainModels.Enrollments
             return false;
         }
 
-        private bool AnyIsWaived(UserContext context, InternalContext internalContext)
-        {
-            return (from entry in internalContext.Deposit
-                    let waiveDeposit = !context.Services.FirstOrDefault(svc => svc.Location == entry.Location).SelectedOffers.FirstOrDefault(o => o.Offer.Id == entry.Offer.Id).WaiveDeposit
-                    from amount in entry.Details.RequiredAmounts
-                    where amount.CanBeWaived && !waiveDeposit
-                    select true).Any(t => t);
-        }
-
         private static decimal CalculateDeposit(UserContext context, InternalContext internalContext)
         {
             return (from entry in internalContext.Deposit
-                    let selectedOffers = context.Services.FirstOrDefault(svc => svc.Location == entry.Location)
-                    let selectedOffer = selectedOffers.SelectedOffers.FirstOrDefault(o => o.Offer.Id == entry.Offer.Id)
-                    let waiveDeposit = selectedOffer.WaiveDeposit
+                    let waiveDeposit = !context.Services.FirstOrDefault(svc => svc.Location == entry.Location).SelectedOffers.FirstOrDefault(o => o.Offer.Id == entry.Offer.Id).WaiveDeposit
                     from amount in entry.Details.RequiredAmounts
                     where !amount.CanBeWaived || !waiveDeposit
                     select amount.DollarAmount).Sum();

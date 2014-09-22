@@ -36,7 +36,7 @@
                                    id="service-address"
                                    class="typeahead"
                                    ng-model="item.tempLocation"
-                                   typeahead="location as location.address|address for location in getLocation(item.location.address.stateAbbreviation, $viewValue)"
+                                   typeahead="location as location.address|address for location in getLocation(item.location.address.stateAbbreviation, $viewValue, true)"
                                    typeahead-loading="accountInformation.loadingAccountInformationServiceAddress"
                                    ng-class="{'loading' : accountInformation.loadingAccountInformation}" autocomplete="off" />
                         </div>
@@ -341,8 +341,11 @@
                     </div>
                 </article>
                 <div class="buttons">
-                    <button type="submit" class="tertiary" ng-click="resetEnrollment();">@Html.Sitecore().Field("Cancel Enrollment Button")</button>
                     <button type="submit" class="primary" ng-disabled="!isFormValid()" data-val-submit>@Html.Sitecore().Field("Button Label")</button>
+                    <button type="submit" class="tertiary" ng-click="resetEnrollment();">
+                        <span ng-if="customerType != 'commercial'">@Html.Sitecore().Field("Cancel Enrollment Button")</span>
+                        <span ng-if="customerType == 'commercial'">@Html.Sitecore().Field("Cancel Quote Button")</span>
+                    </button>
                 </div>
             </form>
             <div class="hide-medium-large time-remaining-mobile">
@@ -411,7 +414,7 @@
 <script type="text/ng-template" id="offerOptions/TexasElectricityCommercialQuote">
     @using (var offer = Html.ClientRepeater(m => m.Services, "{{$parent.$index}}").ClientRepeater(m => m.SelectedOffers, "{{$index}}"))
     {
-    <div ng-controller="OfferOptions-TexasElectricityCommercialQuote">
+    <div ng-controller="OfferOptions-TexasElectricityCommercialQuote" ng-if="selectedOffer.optionRules.connectDates.availableConnectDates.length > 0">
     <div class="item group-col datepicker" @offer.Validation().ErrorClass(o => ((TexasElectricityCommercialQuoteOption)o.OfferOption).ConnectDate)>
         <label for="@offer.Fix(h => h.IdFor(o => ((TexasElectricityCommercialQuoteOption)o.OfferOption).ConnectDate))">@Html.Sitecore().Field("Commercial Service Start Date Label")</label>
         <span class="calendar">

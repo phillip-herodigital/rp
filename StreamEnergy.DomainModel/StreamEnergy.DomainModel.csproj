@@ -164,7 +164,6 @@
     <Compile Include="DomainModels\Enrollments\ConnectionFeePaymentAmount.cs" />
     <Compile Include="DomainModels\Enrollments\CreditCheckResult.cs" />
     <Compile Include="DomainModels\Enrollments\CustomerTypeCapability.cs" />
-    <Compile Include="DomainModels\Enrollments\DepositWaiver.cs" />
     <Compile Include="DomainModels\Enrollments\EnrollmentCustomerType.cs" />
     <Compile Include="DomainModels\Enrollments\DepositOfferPaymentAmount.cs" />
     <Compile Include="DomainModels\Enrollments\EnrollmentErrorState.cs" />
@@ -181,6 +180,7 @@
     <Compile Include="DomainModels\Enrollments\OfferPayment.cs" />
     <Compile Include="DomainModels\Enrollments\IOfferPaymentAmount.cs" />
     <Compile Include="DomainModels\Enrollments\OnlineAccount.cs" />
+    <Compile Include="DomainModels\Enrollments\PayingDepositState.cs" />
     <Compile Include="DomainModels\Enrollments\PremiseVerificationResult.cs" />
     <Compile Include="DomainModels\Enrollments\RateType.cs" />
     <Compile Include="DomainModels\Enrollments\SampleOfferOption.cs" />

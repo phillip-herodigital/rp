@@ -3,6 +3,11 @@
     this.serviceState = $scope.currentLocationInfo().location.address.stateAbbreviation;
     this.loadingServiceAddress = false;
 
+    // create a filter so that the same phone type can't be selected twice
+    this.addressFilter = function(item){
+        return (item.address.line1 != '');
+    };
+
     this.save = function () {
         var target = _($scope.currentLocationInfo().location.capabilities).find({ capabilityType: "ServiceStatus" });
 

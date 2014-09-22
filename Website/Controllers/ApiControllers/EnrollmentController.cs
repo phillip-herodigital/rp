@@ -200,7 +200,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 if (stateMachine.Context.Services == null || 
                     stateMachine.Context.Services.Length == 0 || 
                     validation.PartialValidate(stateMachine.Context, ctx => ctx.Services.PartialValidate(s => s.Location.Address.PostalCode5, s => s.Location.Capabilities)).Any() ||
-                    stateMachine.InternalContext.AllOffers.Where(o => stateMachine.Context.Services.Any(s => s.Location == o.Key)).Any(o => !o.Value.Offers.Any()))
+                    stateMachine.InternalContext.AllOffers.Where(o => stateMachine.Context.Services.Any(s => s.Location == o.Key)).Any(o => !o.Value.Offers.Any() && !o.Value.OfferSetErrors.Any()))
                 {
                     return Models.Enrollment.ExpectedState.ServiceInformation;
                 }
@@ -423,6 +423,22 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             stateMachine.Context.PaymentInfo = request.PaymentInfo;
             stateMachine.Context.AdditionalAuthorizations = request.AdditionalAuthorizations ?? new Dictionary<AdditionalAuthorization, bool>();
             stateMachine.Context.AgreeToTerms = request.AgreeToTerms;
+            foreach (var locationService in stateMachine.Context.Services)
+            {
+                foreach (var offer in locationService.SelectedOffers)
+                {
+                    offer.WaiveDeposit = false;
+                }
+            }
+            foreach (var depositWaiver in request.DepositWaivers ?? Enumerable.Empty<DepositWaiver>())
+            {
+                var locationService = stateMachine.Context.Services.FirstOrDefault(svc => svc.Location == depositWaiver.Location);
+                if (locationService != null)
+                {
+                    var target = locationService.SelectedOffers.FirstOrDefault(sel => sel.Offer.Id == depositWaiver.OfferId);
+                    target.WaiveDeposit = true;
+                }
+            }
 
             await stateMachine.ContextUpdated();
 

@@ -7,6 +7,7 @@
     service.isLoading = false;
 
     service.accountInformation = {
+        contactTitle: '',
         contactInfo: {
             name: {
                 first: '',
@@ -60,6 +61,7 @@
 
         // copy out the account information the server has
         service.accountInformation.contactInfo = result.contactInfo || {};
+        service.contactTitle = result.contactTitle;
         service.accountInformation.secondaryContactInfo = result.secondaryContactInfo || {};
         service.accountInformation.language = result.language;
         service.accountInformation.mailingAddress = result.mailingAddress;
@@ -206,6 +208,9 @@
     service.setAccountInformation = function () {
         var data = angular.copy({
             contactInfo: service.accountInformation.contactInfo,
+            contactTitle: service.accountInformation.contactTitle,
+            companyName: service.accountInformation.companyName,
+            doingBusinessAs: service.accountInformation.doingBusinessAs,
             socialSecurityNumber: service.accountInformation.socialSecurityNumber,
             secondaryContactInfo: service.accountInformation.secondaryContactInfo,
             onlineAccount: service.accountInformation.onlineAccount,

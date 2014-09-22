@@ -509,7 +509,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                     }).Result;
 
                 // Assert
-                Assert.IsTrue(result);
+                Assert.IsTrue(result.IsSuccess);
             }
         }
 

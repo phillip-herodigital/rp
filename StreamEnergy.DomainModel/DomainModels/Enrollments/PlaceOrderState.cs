@@ -60,8 +60,14 @@ namespace StreamEnergy.DomainModels.Enrollments
             }
             else
             {
-                await enrollmentService.PlaceCommercialQuotes(context);
-                internalContext.PlaceOrderResult = Enumerable.Empty<Service.LocationOfferDetails<Service.PlaceOrderResult>>();
+                var results = await enrollmentService.PlaceCommercialQuotes(context);
+                internalContext.PlaceOrderResult = (from service in context.Services
+                                                    select new Service.LocationOfferDetails<Service.PlaceOrderResult>()
+                                                    {
+                                                        Location = service.Location,
+                                                        Details = results,
+                                                        Offer = service.SelectedOffers.First().Offer,
+                                                    }).ToArray();
             }
             
             if (context.OnlineAccount != null)
