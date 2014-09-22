@@ -1,9 +1,8 @@
 @model IEnumerable<StreamEnergy.Logging.LogEntry>
 <div ng-controller="LogViewerCtrl" ng-init="setServerData(@Html.JsonStringify(Model), '@(Request.Params["sessionID"] ?? Session.SessionID)');">
-    <section>
-        <header>
-            <h3>Log Viewer</h3>
-        </header>
+    <article class="marketing">
+        <h3>Log Viewer</h3>
+
         <div class="group">
             <div class="item">
                 <label>Session ID:</label>
@@ -11,8 +10,8 @@
                 <button ng-click="update()">Update</button>
             </div>
         </div>
-    </section>
-    <section>
+    </article>
+    <article class="marketing">
         <table>
             <thead>
                 <tr>
@@ -56,5 +55,5 @@
                 </tr>
             </tbody>
         </table>
-    </section>
+    </article>
 </div>
