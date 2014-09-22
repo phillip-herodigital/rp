@@ -1,7 +1,7 @@
 ﻿/* Enrollment Main Controller
  * This is the main controller for Enrollments. It will keep track of the enrollment state, as well as all fields that will need to be collected.
  */
-ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentStepsService', 'enrollmentService', 'scrollService', '$timeout', 'enrollmentCartService', function ($scope, $anchorScroll, enrollmentStepsService, enrollmentService, scrollService, $timeout, enrollmentCartService) {
+ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentStepsService', 'enrollmentService', 'scrollService', '$timeout', 'enrollmentCartService', '$filter', function ($scope, $anchorScroll, enrollmentStepsService, enrollmentService, scrollService, $timeout, enrollmentCartService, $filter) {
     $scope.validations = enrollmentService.validations;
     $scope.stepsService = enrollmentStepsService;
     $scope.customerType = 'residential';
@@ -49,7 +49,11 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentSt
 
     $scope.isDuplicateAddress = function (address) {
         var activeService = enrollmentCartService.getActiveService();
-        return (!activeService || activeService.location.address != address) && enrollmentCartService.findMatchingAddress(address);
+        if (activeService && $filter('address')(address) == $filter('address')(activeService.location.address)) {
+            return false;
+        }
+        
+        return enrollmentCartService.findMatchingAddress(address);
     };
 
     /**
