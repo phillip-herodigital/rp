@@ -15,9 +15,12 @@ namespace StreamEnergy.MyStream.Controllers
 {
     public class DebuggingController : Controller
     {
-        public DebuggingController()
+        public DebuggingController(EnvironmentCategory environment)
         {
-            
+            if (environment == EnvironmentCategory.Production)
+            {
+                throw new NotSupportedException();
+            }
         }
 
         public ActionResult LogViewer()
