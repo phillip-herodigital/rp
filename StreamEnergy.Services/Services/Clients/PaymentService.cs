@@ -81,5 +81,55 @@ namespace StreamEnergy.Services.Clients
 
             return result.Status == "Success";
         }
+
+        async Task<PaymentResult> IPaymentService.OneTimePayment(DateTime paymentDate, decimal amount, string streamAccountNumber, string customerName, string systemOfRecord, IPaymentInfo paymentInfo)
+        {
+            var response = await streamConnectClient.PostAsJsonAsync("/api/v1/payments/one-time", new
+            {
+                PaymentDate = paymentDate,
+                InvoiceType = "Standard",
+                Amount = amount,
+                StreamAccountNumber = streamAccountNumber,
+                CustomerName = customerName,
+                SystemOfRecord = systemOfRecord,
+                PaymentAccount = ToStreamPaymentAccount(customerName, paymentInfo),
+                Cvv = GetStreamCvvCode(paymentInfo)
+            });
+            dynamic jobject = Json.Read<JObject>(await response.Content.ReadAsStringAsync());
+
+            return new DomainModels.Payments.PaymentResult
+                {
+                    ConfirmationNumber = jobject.ConfirmationNumber,
+                    ConvenienceFee = (decimal)jobject.ConvenienceFee.Value,
+                };
+        }
+
+        private object ToStreamPaymentAccount(string customerName, IPaymentInfo paymentInfo)
+        {
+            var card = paymentInfo as DomainModels.Payments.TokenizedCard;
+            if (card != null)
+            {
+                return new
+                {
+                    Token = card.CardToken,
+                    AccountType = "Unknown",
+                    ExpirationDate = new { Year = card.ExpirationDate.Year, Month = card.ExpirationDate.Month },
+                    Name = customerName,
+                    Postal = card.BillingZipCode,
+                };
+            }
+
+            throw new NotImplementedException();
+        }
+
+        private object GetStreamCvvCode(IPaymentInfo paymentInfo)
+        {
+            var card = paymentInfo as DomainModels.Payments.TokenizedCard;
+            if (card != null)
+            {
+                return card.SecurityCode;
+            }
+            return null;
+        }
     }
 }
