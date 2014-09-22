@@ -108,7 +108,7 @@ namespace StreamEnergy.Services.Clients
                           where productData != null
                           select new TexasElectricityOffer
                           {
-                              Id = product.ProductCode,
+                              Id = product.Provider["Name"].ToString() + "/" + product.ProductCode,
                               Provider = product.Provider.ToString(),
 
                               EnrollmentType = serviceStatus.EnrollmentType,
@@ -274,7 +274,7 @@ namespace StreamEnergy.Services.Clients
                             UtilityAccountNumber = texasService.EsiId,
                             Product = new
                             {
-                                ProductCode = texasElectricityOffer.Id,
+                                ProductCode = texasElectricityOffer.Id.Split(new[]{'/'}, 2)[1],
                                 Term = texasElectricityOffer.TermMonths
                             },
                             ServiceAddress = ToStreamConnectAddress(service.Location.Address),
