@@ -50,8 +50,8 @@ ORDER BY EntityId ASC";
                         var logEntry = new LogEntry()
                         {
                             Timestamp = reader.GetDateTime(0),
-                            Exception = reader.IsDBNull(1) ? null : (Exception)JsonConvert.DeserializeObject(reader.GetString(1)),
                             Message = reader.GetString(2),
+                            Exception = JObjectToException(reader.IsDBNull(1) ? null : (JObject)JsonConvert.DeserializeObject(reader.GetString(1))),
                             Severity = (Severity)Enum.Parse(typeof(Severity), reader.GetString(3), true),
                         };
 
@@ -67,5 +67,20 @@ ORDER BY EntityId ASC";
             }
             return View("~/Views/Pages/Debugging/LogViewer.cshtml", results);
         }
+
+        #region Helpers
+        private Exception JObjectToException(JObject obj)
+        {
+            if (obj == null)
+            {
+                return null;
+            }
+            return new Exception((string)obj["Message"])
+            {
+                Source = (string)obj["Source"],
+                HelpLink = (string)obj["HelpLink"],
+            };
+        }
+        #endregion
     }
 }
