@@ -42,11 +42,14 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', 'enrollmentSt
             return _.filter(res.data, function (value) {
                 if (zipOnly && value.address.line1 == null) return false;
                 // This got a bit more complex when I decided that when "editing" an address you should be able to type back in the original address.
-                var match = enrollmentCartService.findMatchingAddress(value.address);
-                var isActive = match && enrollmentCartService.getActiveService() == match;
-                return !match || isActive;
+                return true;
             })
         });
+    };
+
+    $scope.isDuplicateAddress = function (address) {
+        var activeService = enrollmentCartService.getActiveService();
+        return (!activeService || activeService.location.address != address) && enrollmentCartService.findMatchingAddress(address);
     };
 
     /**
