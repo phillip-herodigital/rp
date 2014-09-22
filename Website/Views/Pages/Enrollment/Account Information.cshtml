@@ -434,7 +434,7 @@
             <a href="" ng-click="$dismiss()">Close</a>
             <h2>@Html.Sitecore().Field("Verify Address Header")</h2>
         </div>
-        <div class="modal-body">
+        <div class="modal-body scrollable">
             @Html.Sitecore().Field("Verify Address Body")
             <div class="item address-group" ng-if="addressOptions.mailingAddress[0]">
                 <label>@Html.Sitecore().Field("Mailing Address Text")</label>
