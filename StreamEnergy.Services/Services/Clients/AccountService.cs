@@ -146,22 +146,6 @@ namespace StreamEnergy.Services.Clients
             );
         }
 
-        Task<IEnumerable<DomainModels.Payments.SavedPaymentInfo>> IAccountService.GetSavedPaymentMethods(Guid globalCustomerId)
-        {
-            return Task.FromResult<IEnumerable<DomainModels.Payments.SavedPaymentInfo>>(new[] { 
-                new DomainModels.Payments.SavedPaymentInfo { DisplayName = "Saved Credit Card", Id= Guid.NewGuid(), RedactedData= "**** **** **** 1234", UnderlyingPaymentType = DomainModels.Payments.TokenizedCard.Qualifier },
-                new DomainModels.Payments.SavedPaymentInfo { DisplayName = "Saved Bank", Id=Guid.NewGuid(), RedactedData= "*****1234", UnderlyingPaymentType = DomainModels.Payments.BankPaymentInfo.Qualifier },
-            });
-        }
-
-        Task<MakePaymentResult> IAccountService.MakePayment(string account, decimal amount, DomainModels.Payments.IPaymentInfo paymentMethod, DateTime paymentDate)
-        {
-            return Task.FromResult(new MakePaymentResult
-                {
-                    ConfirmationNumber = account + "123"
-                });
-        }
-
         string IAccountService.GetIgniteAssociateFromCustomerNumber(string Auth_ID, string Auth_PW, string customerNumber)
         {
             var response = dpiLinkService.Stream_GetSponsor(Auth_ID, Auth_PW, customerNumber);
