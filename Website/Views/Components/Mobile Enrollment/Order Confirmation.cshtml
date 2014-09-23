@@ -1,93 +1,124 @@
-<div class="banner" style="@Html.AsBackgroundStyle("Mobile Banner Image")">
-    <div class="wrapper">
-        <h1>
-            <span class="small block">@Html.Sitecore().Field("5 - Page Title")</span><br />
-        </h1>
+<div ng-if="ctrl.currentStep == 'order-confirmation'">
+    <div class="banner" style="@Html.AsBackgroundStyle("Mobile Banner Image")">
+        <div class="wrapper">
+            <h1>
+                <span class="small block">@Html.Sitecore().Field("5 - Page Title")</span><br />
+            </h1>
+        </div>
     </div>
-</div>
 
-@* Two-column layout for Complete Order *@
-<section class="wrapper layout cols-2">
-    <section>
-        <article class="enrollment__box enrollment__order-notice">
-            <header>
-                <h1>You're Almost There!</h1>
-            </header>
-            <div class="content">
-                <p>Thank you! We've received your request for service, and have sent a copy of your request to <strong>jcampbell@gmail.com</strong>. All That's left now is completing a W9 to verify your orer.</p>
-                <p><a href="" class="button">Complete W9 form</a></p>
-                <p>For questions on your request for service, call 1-800-STREAM.</p>
-            </div>
-        </article>
+    @* Two-column layout for Complete Order *@
+    <section class="wrapper layout cols-2">
+        <section>
+            <article class="enrollment__box enrollment__order-notice">
+                <header>
+                    <h1>You're Almost There!</h1>
+                </header>
+                <div class="content">
+                    <p>Thank you! We've received your request for service, and have sent a copy of your request to <strong>jcampbell@gmail.com</strong>. All That's left now is completing a W9 to verify your orer.</p>
+                    <p><a href="" class="button">Complete W9 form</a></p>
+                    <p>For questions on your request for service, call 1-800-STREAM.</p>
+                </div>
+            </article>
 
-        <article class="enrollment__box enrollment__complete-order enrollment__order-summary">
-            <header>
-                <h1>Order Summary</h1>
-            </header>
-            <div class="content">
-                <div class="plan-summary">
-                    <div class="line-item clearfix">
-                        <div class="description">
-                            <h2>Monthly Plan Cost</h2>
-                            <p>Plan includes Unlimited Voice, Text, and 7.5GB data</p>
+            <article class="enrollment__box enrollment__complete-order enrollment__order-summary">
+                <header>
+                    <h1>Order Summary</h1>
+                </header>
+                <div class="content">
+                    <div class="plan-summary">
+                        <div class="line-item clearfix">
+                            <div class="description">
+                                <h2>Monthly Plan Cost</h2>
+                                <p>Plan includes Unlimited Voice, Text, and 7.5GB data</p>
+                            </div>
+                            <div class="rate">$399.00</div>
                         </div>
-                        <div class="rate">$399.00</div>
-                    </div>
-                    <div class="line-item clearfix">
-                        <div class="description">
-                            <h3>Tax and Other Fees*</h3>
+                        <div class="line-item clearfix">
+                            <div class="description">
+                                <h3>Tax and Other Fees*</h3>
+                            </div>
+                            <div class="rate">$29</div>
                         </div>
-                        <div class="rate">$29</div>
+                        <div class="plan-summary-image">
+                            <i class="icon-plan-summary"></i>
+                        </div>
                     </div>
-                    <div class="plan-summary-image">
-                        <i class="icon-plan-summary"></i>
+                    <hr>
+                    <div class="phone-summary">
+                        <div class="line-item clearfix">
+                            <div class="description">
+                                <span class="condition">Reconditioned</span>
+                                <h2 class="model">Apple iPhone 5S </h2>
+                                <span class="model">16B, Silver</span> <a href="">Edit</a>
+                            </div>
+                        </div>
+
+                        <div class="line-item clearfix">
+                            <div class="description">
+                                <h3>Initial Activiation Fee</h3>
+                            </div>
+                            <div class="rate">$39</div>
+                        </div>
+
+                        <div class="line-item clearfix">
+                            <div class="description">
+                                <h3>Coverage Warranty</h3>
+                            </div>
+                            <div class="rate">$19.00/mo</div>
+                        </div>
+
+                        <div class="line-item clearfix">
+                            <div class="description">
+                                <h3>Shipping</h3>
+                            </div>
+                            <div class="rate"></div>
+                        </div>
+
+                        <hr>
+
+                        <div class="line-item clearfix">
+                            <div class="rate">Order Total: $439.00</div>
+                        </div>
+                        <div class="plan-summary-image">
+                            
+                        </div>
                     </div>
                 </div>
-                <hr>
-                <div class="phone-summary">
-                    <div class="line-item clearfix">
-                        <div class="description">
-                            <span class="condition">Reconditioned</span>
-                            <h2 class="model">Apple iPhone 5S </h2>
-                            <span class="model">16B, Silver</span> <a href="">Edit</a>
-                        </div>
-                    </div>
+                <footer>
+                    <h3>Personal Information</h3>
+                    <p>Jordan Campbell <br />
+                    415-729-4039 <br />
+                    jcampbell@gmail.com</p>
+                </footer>
+            </article>
 
-                    <div class="line-item clearfix">
-                        <div class="description">
-                            <h3>Initial Activiation Fee</h3>
-                        </div>
-                        <div class="rate">$39</div>
-                    </div>
+            <article class="enrollment__box enrollment__complete-order enrollment__order-summary">
+                <header>
+                    <h1>You may also be interested in...</h1>
+                </header>
+                <div class="content">
+                </div>
+            </article>
 
-                    <div class="line-item clearfix">
-                        <div class="description">
-                            <h3>Coverage Warranty</h3>
-                        </div>
-                        <div class="rate">$19.00/mo</div>
-                    </div>
-
-                    <div class="line-item clearfix">
-                        <div class="description">
-                            <h3>Shipping</h3>
-                        </div>
-                        <div class="rate"></div>
-                    </div>
-
-                    <hr>
-
-                    <div class="line-item clearfix">
-                        <div class="rate">Order Total: $439.00</div>
-                    </div>
-                    <div class="plan-summary-image">
+        </section>
+        <aside>
+            <div class="enrollment__cart">
+                <article class="enrollment__box">
+                    <header>
+                        <h1>Buy Accessories</h1>
+                    </header>
+                    <div class="content">
                         
                     </div>
-                </div>
+                </article>
+                <article class="enrollment__box">
+                    <header>
+                        <h1>Questions? 1-800-STREAM</h1>
+                    </header>
+                </article>
             </div>
-            <footer>
-                <h3>Personal Information</h3>
-            </footer>
-        </article>
-
+        </aside>
     </section>
-</section>
+
+</div>

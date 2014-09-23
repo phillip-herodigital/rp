@@ -1,71 +1,80 @@
-<div class="banner" style="@Html.AsBackgroundStyle("Mobile Banner Image")">
-    <div class="wrapper">
-        <h1>
-            <span class="small block">@Html.Sitecore().Field("1 - Page Title")</span><br />
-        </h1>
+@model StreamEnergy.MyStream.Models.MobileEnrollment.ChooseNetwork
+@using StreamEnergy.DomainModels.MobileEnrollment
+
+<div ng-if="ctrl.currentStep == 'choose-network'">
+
+    <div class="banner" style="@Html.AsBackgroundStyle("Mobile Banner Image")">
+        <div class="wrapper">
+            <h1>
+                <span class="small block">@Html.Sitecore().Field("1 - Page Title")</span><br />
+            </h1>
+        </div>
     </div>
-</div>
 
-@* Single Column Layout for Choose Network *@
-<section class="wrapper layout">
-    <article class="enrollment__box enrollment__choose-network">
-        <header>
-            <h1>@Html.Sitecore().Field("1 - Header - Choose Network") <input type="text" class="small" maxlength="5" ng-model="ctrl.phoneFilters.zipCode"> <a href="" class="update-link">Update</a></h1>
-        </header>
-        <div class="content">
+    @* Single Column Layout for Choose Network *@
+    <section class="wrapper layout">
+        <article class="enrollment__box enrollment__choose-network">
+            <header>
+                <h1>@Html.Sitecore().Field("1 - Header - Choose Network") <input type="text" class="small" maxlength="5" ng-model="ctrl.phoneFilters.zipCode"> <button type="button" ng-click="ctrl.updateAvailableNetworks()" class="plain update-link" ng-disabled="!ctrl.isZipCodeValid()">Update</button></h1>
+            </header>
+            <div class="content">
 
-            @* Networks not available *@
-            <div class="no-networks-available" ng-show="!ctrl.phoneFilters.zipCode">
-                <h2 class="no-plans">@Html.Sitecore().Field("1 - Header - No Plans Available")</h2>
+                @* Networks not available *@
+                <div class="no-networks-available" ng-if="!ctrl.availableNetworks.length">
+                    <h2 class="no-plans">@Html.Sitecore().Field("1 - Header - No Plans Available")</h2>
 
-                <div class="stretch-full">
-                    <h3>@Html.Sitecore().Field("1 - Subheader - Check Out Services")</h3>
-                    <div class="grid">
-                        <div class="col">
-                            <div class="ico-wrapper">
-                                <i class="icon-home-utility"></i>
+                    <div class="stretch-full">
+                        <h3>@Html.Sitecore().Field("1 - Subheader - Check Out Services")</h3>
+                        <div class="grid">
+                            <div class="col">
+                                <div class="ico-wrapper">
+                                    <i class="icon-home-utility"></i>
+                                </div>
+                                <h2>@Html.Sitecore().Field("1 - Header - Utility Services")</h2>
+                                @Html.Sitecore().Field("1 - Text - Utility Description")
+                                <a href="@Html.Sitecore().Field("1 - Link Url - Utility Link")">@Html.Sitecore().Field("1 - Link Text - Utility Link Text") <i class="icon-arrow-right"></i></a>
                             </div>
-                            <h2>@Html.Sitecore().Field("1 - Header - Utility Services")</h2>
-                            @Html.Sitecore().Field("1 - Text - Utility Description")
-                            <a href="@Html.Sitecore().Field("1 - Link Url - Utility Link")">@Html.Sitecore().Field("1 - Link Text - Utility Link Text") <i class="icon-arrow-right"></i></a>
-                        </div>
-                        <div class="col">
-                            <div class="ico-wrapper">
-                                <i class="icon-homelife"></i>
+                            <div class="col">
+                                <div class="ico-wrapper">
+                                    <i class="icon-homelife"></i>
+                                </div>
+                                <h2>@Html.Sitecore().Field("1 - Header - Homelife Services")</h2>
+                                @Html.Sitecore().Field("1 - Text - Utility Description")
+                                <a href="@Html.Sitecore().Field("1 - Link Url - Homelife Link")">@Html.Sitecore().Field("1 - Link Text - Homelife Link Text") <i class="icon-arrow-right"></i></a>
                             </div>
-                            <h2>@Html.Sitecore().Field("1 - Header - Homelife Services")</h2>
-                            @Html.Sitecore().Field("1 - Text - Utility Description")
-                            <a href="@Html.Sitecore().Field("1 - Link Url - Homelife Link")">@Html.Sitecore().Field("1 - Link Text - Homelife Link Text") <i class="icon-arrow-right"></i></a>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            @* Networks are available *@
-            <div class="stretch-full" ng-show="ctrl.phoneFilters.zipCode">
-                <table class="choose-network-table">
-                    <thead>
-                        <tr>
-                            <th>@Html.Sitecore().Field("1 - Table Header - Plans")</th>
-                            <th>@Html.Sitecore().Field("1 - Table Header - Coverage")</th>
-                            <th>@Html.Sitecore().Field("1 - Table Header - Devices")</th>
-                            <th>@Html.Sitecore().Field("1 - Table Header - Select Network")</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="network in ctrl.mobileService.getNetworks()">
-                            <td class="plans" ng-bind-html="network.description | unsafe"></td>
-                            <td class="coverage" ng-bind-html="network.coverage | unsafe"></td>
-                            <td class="devices" ng-bind-html="network.devices | unsafe"></td>
-                            <td class="select-network">
-                                <p><strong>@Html.Sitecore().Field("1 - Select Network").Format(new { network = "{{ network.name }}" })</strong></p>
-                                <button type="button">@Html.Sitecore().Field("1 - Button - Shop Devices")</button>
-                                <button type="button">@Html.Sitecore().Field("1 - Button - Bring My Own Phone")</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                @* Networks are available *@
+                <div class="stretch-full" ng-if="ctrl.availableNetworks.length">
+                    <table class="choose-network-table">
+                        <thead>
+                            <tr>
+                                <th>@Html.Sitecore().Field("1 - Table Header - Plans")</th>
+                                <th>@Html.Sitecore().Field("1 - Table Header - Coverage")</th>
+                                <th>@Html.Sitecore().Field("1 - Table Header - Devices")</th>
+                                <th>@Html.Sitecore().Field("1 - Table Header - Select Network")</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var network in Model.MobileNetworks) {
+                            <tr ng-if="ctrl.isAvailableNetwork('@network.Value')">
+                                <td class="plans">@Html.Raw(network.Description)</td>
+                                <td class="coverage">@Html.Raw(network.Coverage)</td>
+                                <td class="devices">@Html.Raw(network.Device)</td>
+                                <td class="select-network">
+                                    <p><strong>@Html.Sitecore().Field("1 - Select Network").Format(new { network = @network.Name })</strong></p>
+                                    <button type="button" ng-click="ctrl.chooseNetwork('@Html.Raw(network.Value)', 'new')">@Html.Sitecore().Field("1 - Button - Shop Devices")</button>
+                                    <button type="button" ng-click="ctrl.chooseNetwork('@Html.Raw(network.Value)', 'existing')">@Html.Sitecore().Field("1 - Button - Bring My Own Phone")</button>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-    </article>
-</section>
+        </article>
+    </section>
+
+</div>

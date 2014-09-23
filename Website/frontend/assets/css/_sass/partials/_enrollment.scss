@@ -1429,6 +1429,10 @@ $enrollment-module-vertical-padding: 20px;
 .enrollment__choose-network {
     .update-link {
         font-size: 15px;
+        color: #257ab3;
+        &:hover {
+            background: transparent;
+        }
     }
     .no-networks-available {
         .stretch-full {

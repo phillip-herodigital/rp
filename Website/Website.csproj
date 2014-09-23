@@ -630,17 +630,9 @@
     <Compile Include="Models\Enrollment\VerifyIdentity.cs" />
     <Compile Include="Models\Marketing\CommercialQuote.cs" />
     <Compile Include="Models\Marketing\Contact.cs" />
-    <Compile Include="Models\MobileEnrollment\MobileColor.cs" />
-    <Compile Include="Models\MobileEnrollment\MobilePhone.cs">
-      <Generator>SitecoreServerCodeGenerator</Generator>
-      <LastGenOutput>MobilePhone.Designer.cs</LastGenOutput>
-    </Compile>
-    <Compile Include="Models\MobileEnrollment\MobilePhone.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>MobilePhone.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Models\MobileEnrollment\ChoosePhone.cs" />
+    <Compile Include="Models\MobileEnrollment\ChooseNetwork.cs" />
+    <Compile Include="Models\MobileEnrollment\AccountInformation.cs" />
     <Compile Include="Models\RapidPrototyping.cs" />
     <Compile Include="Models\StateMachineSessionHelper.cs" />
     <Compile Include="Models\TranslatedValidationResult.cs" />

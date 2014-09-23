@@ -200,6 +200,20 @@
     <Compile Include="DomainModels\Enrollments\TexasElectricityOfferOptionPolicy.cs" />
     <Compile Include="DomainModels\Enrollments\TexasElectricityOfferOptionRules.cs" />
     <Compile Include="DomainModels\ISearchable.cs" />
+    <Compile Include="DomainModels\MobileEnrollment\MobileColor.cs" />
+    <Compile Include="DomainModels\MobileEnrollment\MobileModel.cs" />
+    <Compile Include="DomainModels\MobileEnrollment\MobileNetwork.cs" />
+    <Compile Include="DomainModels\MobileEnrollment\MobilePhone.cs">
+      <Generator>SitecoreServerCodeGenerator</Generator>
+      <LastGenOutput>MobilePhone.Designer.cs</LastGenOutput>
+    </Compile>
+    <Compile Include="DomainModels\MobileEnrollment\MobilePhone.Designer.cs">
+      <DependentUpon>MobilePhone.cs</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="DomainModels\MobileEnrollment\UserContext.cs" />
     <Compile Include="DomainModels\Payments\BankAccountCategory.cs" />
     <Compile Include="DomainModels\Payments\BankPaymentInfo.cs" />
     <Compile Include="DomainModels\Payments\IPaymentInfo.cs" />
