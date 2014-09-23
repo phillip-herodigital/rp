@@ -93,7 +93,7 @@
                     <div class="item" @Html.Validation().ErrorClass(m => m.AdditionalAuthorizations[StreamEnergy.DomainModels.Enrollments.AdditionalAuthorization.HistoricalUsageData]) ng-if="customerType == 'commercial'">
                         <ul class="checkbox-list">
                             <li>
-                                <input type="checkbox" ng-model="completeOrder.additionalAuthorizations.historicalUsageData" name="@Html.IdFor(m => m.AdditionalAuthorizations[StreamEnergy.DomainModels.Enrollments.AdditionalAuthorization.HistoricalUsageData]) />
+                                <input type="checkbox" ng-model="completeOrder.additionalAuthorizations.historicalUsageData" name="@Html.IdFor(m => m.AdditionalAuthorizations[StreamEnergy.DomainModels.Enrollments.AdditionalAuthorization.HistoricalUsageData])" />
                                 <label for="@Html.IdFor(m => m.AdditionalAuthorizations[StreamEnergy.DomainModels.Enrollments.AdditionalAuthorization.HistoricalUsageData])">
                                     @Html.Sitecore().Field("Historical Usage Data Text")
                                 </label>
