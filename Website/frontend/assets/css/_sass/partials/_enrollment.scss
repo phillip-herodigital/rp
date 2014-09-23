@@ -881,15 +881,24 @@ $enrollment-module-vertical-padding: 20px;
             font-weight: 600;
         }
         .radio-item {
-            display: inline-block;
-            width: 33%;
+            @include breakpoint(medium-large) {
+                display: inline-block;
+                width: 33%;
+            }
             label {
                 display: inline-block;
                 font-weight: 300;
             }
         }
-        .address {
-            display: inline-block;
+        @include breakpoint(medium-large) {
+            .address {
+                display: inline-block;
+            }
+        }
+        @include breakpoint(small) {
+            .address {
+                margin-bottom: 10px;
+            }
         }
     }
 }
