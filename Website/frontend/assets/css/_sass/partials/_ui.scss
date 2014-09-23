@@ -79,8 +79,12 @@ div.tabbable {
 	outline: none;
 
 	@include breakpoint(small) {
-		width: 90%;
-		margin-left: -45%;
+		@include border-radius(0);
+        width: 100%;
+        margin-left: -50%;
+        top: 0;
+        bottom:0;
+        overflow-y: auto;
 	}
 }
 
