@@ -15,14 +15,17 @@ namespace StreamEnergy.DomainModels.Accounts
     /// </summary>
     public class Account
     {
-        public Account()
+        public Account(Guid streamConnectAccountId)
         {
+            StreamConnectAccountId = streamConnectAccountId;
             Capabilities = new List<IAccountCapability>();
             Balance = null;
         }
 
+        public Guid StreamConnectAccountId { get; private set; }
         public string AccountNumber { get; set; }
         public string AccountType { get; set; }
+        public string SystemOfRecord { get; set; }
 
         public AccountBalance Balance { get; set; }
 
@@ -72,5 +75,6 @@ namespace StreamEnergy.DomainModels.Accounts
             capability = temp.FirstOrDefault();
             return temp.Any();
         }
+
     }
 }

@@ -9,5 +9,7 @@ namespace StreamEnergy.DomainModels.Payments
     public class PaymentResult
     {
         public string ConfirmationNumber { get; set; }
+
+        public decimal ConvenienceFee { get; set; }
     }
 }
