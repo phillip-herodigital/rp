@@ -259,7 +259,7 @@
                             </div>
                         <div class="item" ng-if="customerType == 'commercial' && accountInformation.ssnOrTaxid == 'ssn'" @Html.Validation().ErrorClass(m => m.DoingBusinessAs)>
                             <label for="@Html.IdFor(m => m.DoingBusinessAs)">@Html.Sitecore().Field("DBA Label")</label>
-                            @Html.TextBoxFor(m => m.DoingBusinessAs, new { ng_model = "accountInformation.doingBusinessAs", data_val = "true", data_val_required = "" })
+                            @Html.TextBoxFor(m => m.DoingBusinessAs, new { ng_model = "accountInformation.doingBusinessAs", data_val = "true" })
                             @Html.ValidationMessageFor(m => m.DoingBusinessAs)
                         </div>
                         <div class="item" ng-if="customerType == 'commercial' && accountInformation.ssnOrTaxid == 'taxId'" @Html.Validation().ErrorClass(m => m.CompanyName)>
