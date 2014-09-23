@@ -46,6 +46,7 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
             });
         } else {
             enrollmentService.setConfirmOrder({
+                additionalAuthorizations: $scope.completeOrder.additionalAuthorizations,
                 agreeToTerms: $scope.completeOrder.agreeToTerms,
                 paymentInfo: null,
                 depositWaivers: depositWaivers
