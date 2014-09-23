@@ -17,7 +17,6 @@ namespace StreamEnergy.DomainModels.Payments
             get { return Qualifier; }
         }
 
-        // TODO - fill the ErrorMessage field
         [Required]
         public Guid Id { get; set; }
 
