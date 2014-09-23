@@ -592,7 +592,8 @@ namespace StreamEnergy.Services.Clients
                         Offer = deposit.Offer,
                         Details = new DomainModels.Payments.PaymentResult
                         {
-                            ConfirmationNumber = jobject.ConfirmationNumber
+                            ConfirmationNumber = jobject.ConfirmationNumber,
+                            ConvenienceFee = (decimal)jobject.ConvenienceFee.Value,
                         }
                     });
             }

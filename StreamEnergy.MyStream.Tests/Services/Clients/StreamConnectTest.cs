@@ -209,7 +209,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             Guid globalCustomerId;
             using (new Timer())
             {
-                globalCustomerId = accountService.CreateStreamConnectCustomer(username: "extranet//tester").Result;
+                globalCustomerId = accountService.CreateStreamConnectCustomer(portalId: "extranet//tester").Result;
             }
 
             // Assert
@@ -222,7 +222,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Assign
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
             var streamConnectClient = container.Resolve<HttpClient>(StreamEnergy.Services.Clients.StreamConnectContainerSetup.StreamConnectKey);
-            var gcid = accountService.CreateStreamConnectCustomer(username: "extranet//tester").Result;
+            var gcid = accountService.CreateStreamConnectCustomer(portalId: "extranet//tester").Result;
 
             // Act
             HttpResponseMessage response;

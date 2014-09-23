@@ -1,254 +1,257 @@
 $inputs-list: 'input[type="text"]',
-			  'input[type="password"]',
-			  'input[type="search"]',
-			  'input[type="number"]',
-			  'input[type="datetime"]',
-			  'input[type="datetime-local"]',
-			  'input[type="date"]',
-			  'input[type="month"]',
-			  'input[type="time"]',
-			  'input[type="week"]',
-			  'input[type="email"]',
-			  'input[type="url"]',
-			  'input[type="tel"]',
-			  'input[type="color"]';
+              'input[type="password"]',
+              'input[type="search"]',
+              'input[type="number"]',
+              'input[type="datetime"]',
+              'input[type="datetime-local"]',
+              'input[type="date"]',
+              'input[type="month"]',
+              'input[type="time"]',
+              'input[type="week"]',
+              'input[type="email"]',
+              'input[type="url"]',
+              'input[type="tel"]',
+              'input[type="color"]';
 $input-selectors: ();
 
 @each $item in $inputs-list {
-	$input-selectors: join($input-selectors, unquote($item), comma) !global;
+    $input-selectors: join($input-selectors, unquote($item), comma) !global;
 }
 
 #{$input-selectors},
 textarea,
 select {
-	@include border-radius(10px);
-	@include box-shadow(0 1px 1px rgba(0,0,0,.15));
-	@include transition(border linear .2s, box-shadow linear .2s);
-	display: inline-block;
-	width: 50%;
-	padding: 6px 10px;
-	border: 1px solid #bcbcbc;
-	background-color: #fff;
-	vertical-align: middle;
-	&.dark {
-		background-color: #efefef;
-		border-color: #efefef;
-	}
-	&.small {
-		width: 100px;
-	}
-	&.full-width {
-		width: 100%;
-	}
-	@include breakpoint(small) {
-		width: 100%;
-		&.small {
-			width: 100px;
-		}
-	}
-	&:focus {
-		border-color: #66afe9;
-		@include box-shadow(0 0 8px rgba(102, 175, 233, .75));
-		outline: none;
-	}
-	&:disabled {
-		background: #fafafa;
-	}
+    @include border-radius(10px);
+    @include box-shadow(0 1px 1px rgba(0,0,0,.15));
+    @include transition(border linear .2s, box-shadow linear .2s);
+    display: inline-block;
+    width: 50%;
+    padding: 6px 10px;
+    border: 1px solid #bcbcbc;
+    background-color: #fff;
+    vertical-align: middle;
+    &.dark {
+        background-color: #efefef;
+        border-color: #efefef;
+    }
+    &.small {
+        width: 100px;
+    }
+    &.full-width {
+        width: 100%;
+    }
+    @include breakpoint(small) {
+        width: 100%;
+        &.small {
+            width: 100px;
+        }
+    }
+    &:focus {
+        border-color: #66afe9;
+        @include box-shadow(0 0 8px rgba(102, 175, 233, .75));
+        outline: none;
+    }
+    &:disabled {
+        background: #fafafa;
+    }
 }
 
 input[type="search"] {
-	padding: 0 25px 0 5px;
-	background: #fff image-url("icon/search.png") 98% 50% no-repeat;
+    padding: 0 25px 0 5px;
+    background: #fff image-url("icon/search.png") 98% 50% no-repeat;
 }
 
 textarea {
-	width: 100%;
-	height: 50px;
+    width: 100%;
+    height: 50px;
 }
 
 select {
-	position: relative;
-	padding-right: 25px;
-	@include retina-background("select-arrow.png", "icon");
-	background-color: #fff;
-	background-repeat: no-repeat;
-	background-position: 100% 50%;
-	// Mozilla
-	-moz-appearance: none;
-	text-indent: 0.01px;
+    position: relative;
+    padding-right: 25px;
+    @include retina-background("select-arrow.png", "icon");
+    background-color: #fff;
+    background-repeat: no-repeat;
+    background-position: 100% 50%;
+    // Mozilla
+    -moz-appearance: none;
+    text-indent: 0.01px;
     text-overflow: '';
 
-	// Webkit
-	-webkit-appearance: none;
+    // Webkit
+    -webkit-appearance: none;
 }
 
 //Remove the select box image for Firefox
 @-moz-document url-prefix() {
-	select {
-		background-image: none;
-	}	
+    select {
+        background-image: none;
+    }   
 }
 
 // IE
 select::-ms-expand {
-	display: none;
+    display: none;
 }
 .lt-ie10 select {
-	padding: 5px;
-	background: white;
+    padding: 5px;
+    background: white;
 }
 
 fieldset {
-	border: none;
-	margin: 0;
-	padding: 0;
+    border: none;
+    margin: 0;
+    padding: 0;
 }
 
 legend {
-	text-transform: uppercase;
-	margin-bottom: 5px;
-	font-size: 14px;	
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    font-size: 14px;    
 }
 
 button,
 a.button {
-	@include border-radius(10px);
-	display: inline-block;
-	height: auto;
-	width: auto;
-	padding: 7px 18px;
-	background-color: #0971cd;
-	border: 0;
-	color: #fff;
-	text-align: center;
-	font-size: 16px;
-	font-weight: 600;
-	line-height: 1.375; //Enforce body line-height on buttons
-	text-transform: uppercase;
-	&.secondary {
- 		background-color: #797b7e;
- 	}
-	&:hover {
-		background-color: #6b6b6b;
-		color: #fff;
-	}
-
-	&:disabled,
-	&.disabled {
-		opacity: .5;
-		cursor: default;
-	}
-	&.social {
-		display: inline-block;
-		width: 190px;
-		position: relative;
-		padding-left: 50px;
-		.icon-holder {
-			position: absolute;
-			top: 0;
-			left: 0;
-			bottom: 0;
-			width: 40px;
-			text-align: center;
-			i {
-				position: absolute;
-				top: 15px;
-				left: 13px;
-			}
-		}
-	}
-	&.facebook {
-		background: #4a6aa9;
-		border: 1px solid #3e5c9b;
-		.icon-holder {
-			border-right: 1px solid #3e5c9b;
-			i {
-				left: 16px;
-			}
-		}
-	}
-	&.twitter {
-		background: #36a5ca;
-		border: 1px solid #2a86a6;
-		.icon-holder {
-			border-right: 1px solid #2a86a6;
-			i {
-				top: 16px;
-			}
-		}
-	}
-	&.linkedin {
-		background: #2386bb;
-		border: 1px solid #1f557e;
-		.icon-holder {
-			border-right: 1px solid #1f557e;
-		}
-	}
-	i {
-		margin: -4px 5px 0 0;
-	}
+    @include border-radius(10px);
+    display: inline-block;
+    height: auto;
+    width: auto;
+    padding: 7px 18px;
+    background-color: #0971cd;
+    border: 0;
+    color: #fff;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.375; //Enforce body line-height on buttons
+    text-transform: uppercase;
+    &.secondary {
+        background-color: #797b7e;
+    }
+    &.plain {
+        background: transparent;
+        color: #333;    
+    }
+    &:hover {
+        background-color: #6b6b6b;
+        color: #fff;
+    }
+    &:disabled,
+    &.disabled {
+        opacity: .5;
+        cursor: default;
+    }
+    &.social {
+        display: inline-block;
+        width: 190px;
+        position: relative;
+        padding-left: 50px;
+        .icon-holder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            text-align: center;
+            i {
+                position: absolute;
+                top: 15px;
+                left: 13px;
+            }
+        }
+    }
+    &.facebook {
+        background: #4a6aa9;
+        border: 1px solid #3e5c9b;
+        .icon-holder {
+            border-right: 1px solid #3e5c9b;
+            i {
+                left: 16px;
+            }
+        }
+    }
+    &.twitter {
+        background: #36a5ca;
+        border: 1px solid #2a86a6;
+        .icon-holder {
+            border-right: 1px solid #2a86a6;
+            i {
+                top: 16px;
+            }
+        }
+    }
+    &.linkedin {
+        background: #2386bb;
+        border: 1px solid #1f557e;
+        .icon-holder {
+            border-right: 1px solid #1f557e;
+        }
+    }
+    i {
+        margin: -4px 5px 0 0;
+    }
 }
 
 form,
 .form {
-	.additional-field-action {
-		text-transform: uppercase;
-		font-weight: 600;
-		font-size: 14px;
-		margin: 15px 0 -10px;
-	}
-	.help-text {
-		display: block;
-		color: #999;
-		font-size: 11px;
-		line-height: 1.3;
-		padding: 7px 8px 0 0;
-	}
-	div.validationSummary {
-		margin-bottom: 10px;
-		color: #BE3438;
-		ul {
-			@include layout-list;
-		}
-	}
+    .additional-field-action {
+        text-transform: uppercase;
+        font-weight: 600;
+        font-size: 14px;
+        margin: 15px 0 -10px;
+    }
+    .help-text {
+        display: block;
+        color: #999;
+        font-size: 11px;
+        line-height: 1.3;
+        padding: 7px 8px 0 0;
+    }
+    div.validationSummary {
+        margin-bottom: 10px;
+        color: #BE3438;
+        ul {
+            @include layout-list;
+        }
+    }
     div.validation-summary-valid {
         display: none;
     }
-	.single-link {
-		font-size: 14px;
-	}
-	@include breakpoint(medium-large) {
-		.single-link {
-			display: inline-block;
-			margin-top: 32px;
-		}
-	}
-	.item {
-		@extend .clearfix;
-		//Make sure to have padding-right by default to match the group-col's padding
-		padding-right: 20px;
-		> label {
-			display: block;
-			margin-bottom: 5px;
-			font-size: 14px;
-			text-transform: uppercase;
-			span {
-				text-transform: none;
-			}
-		}
-		input {
-			vertical-align: baseline;
-		}
-		> ul {
-			@include layout-list;
-		}
-		&.horizontal {
-			> label, .label {
-				display: inline-block;
-				margin-right: 5px;
-				text-transform: uppercase;
-			}
-		}
+    .single-link {
+        font-size: 14px;
+    }
+    @include breakpoint(medium-large) {
+        .single-link {
+            display: inline-block;
+            margin-top: 32px;
+        }
+    }
+    .item {
+        @extend .clearfix;
+        //Make sure to have padding-right by default to match the group-col's padding
+        padding-right: 20px;
+        > label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            text-transform: uppercase;
+            span {
+                text-transform: none;
+            }
+        }
+        input {
+            vertical-align: baseline;
+        }
+        > ul {
+            @include layout-list;
+        }
+        &.horizontal {
+            > label, .label {
+                display: inline-block;
+                margin-right: 5px;
+                text-transform: uppercase;
+            }
+        }
         &.full {
             padding-right: 0;
         }
@@ -281,27 +284,27 @@ form,
             }
         }
         @include breakpoint(small) {
-        	padding-right: 0;
+            padding-right: 0;
         }
-	}
+    }
 
     div.item.fl-enabled {
         position: relative;
         > label, .label {
-			position: absolute;
+            position: absolute;
             top: 10px;
             padding: 0 10px;
             color: #0971ce;
             opacity: 0;
             font-size: 12px;
-		}
+        }
         #{$input-selectors},
         textarea {
             padding-top: 18px;
             padding-bottom: 5px;
-			margin-top: 5px;
+            margin-top: 5px;
         }
-		&.fl-active {
+        &.fl-active {
             > label, .label {
                 top: 5px;
                 opacity: 1;
@@ -314,174 +317,174 @@ form,
         }
     }
 
-	div.group {
-		@extend .clearfix;
-		@include breakpoint(large) {
-			&.inline-group {
-				width: auto;
-				.item {
-					label, .label {
-						display: inline-block;
-						margin-right: 5px;	
-					}
-					input,
-					select {
-						width: auto;
-					}
-				}
-			}
-		}
-		@include breakpoint(medium-large) {
-			& .group-col {
-				width: 50%;
-			}
-			.item {
-				@include box-sizing(border-box);
-				float: left;
-				margin-bottom: 0;
-				padding: 0 10px 0 0;
-				&:last-child {
-					padding-right: 0;
-				}
-				#{$input-selectors},
-				textarea,
-				select {
-					width: 100%;
-					&.small {
-						width: 100px;
-					}
-				}
-				&.horizontal {
-					#{$input-selectors},
-					textarea,
-					select {
-						width: auto;
-					}
-				}
-			}
-		}
-	}
-	div.additional-field-group {
-		background: #fafafa;
-		padding: 25px 15px;
-		margin: 25px -15px -25px;
-		border-top: 1px solid #ddd;
-		position: relative;
-		&:after, &:before {
-			bottom: 100%;
-			left: 12%;
-			border: solid transparent;
-			content: " ";
-			height: 0;
-			width: 0;
-			position: absolute;
-			pointer-events: none;
-		}
-		&:after {
-			border-color: rgba(250, 250, 250, 0);
-			border-bottom-color: #fafafa;
-			border-width: 10px;
-			margin-left: -10px;
-		}
-		&:before {
-			border-color: rgba(222, 222, 222, 0);
-			border-bottom-color: #ddd;
-			border-width: 11px;
-			margin-left: -11px;
-		}
-	}
-	div.vertical {
-		div.item {
-			> label, .label {
-				float: left;
-				width: 33%;
-				text-transform: uppercase;
-			}
-			#{$input-selectors},
-			textarea,
-			select {
-				max-width: 67%;
-			}
-			.radio-list,
-			.checkbox-list {
-				float: left;
-			}
-		}
-		&.fixed {
-			div.item {
-				padding-left: 250px;
-				> label, .label {
-					float: left;
-					width: 250px;
-					margin-left: -250px;
-					text-transform: uppercase;
-				}
-				#{$input-selectors},
-				textarea,
-				select {
-					max-width: auto;
-				}
-			}
-		}
-	}
-	div.item, div.group, div.vertical {
-		margin-bottom: 20px;
-		&:last-child {
-			margin-bottom: 0;
-		}	
-	}
-	hr.content-divider { 
-		border: none;
-		border-top: 1px solid #ddd;
-		margin: 25px -15px;
-	}
-	input[type="radio"],
-	input[type="checkbox"] {
-		margin-bottom: 0;
-		margin-right: 5px;
-	}
-	.radio-list,
-	.checkbox-list {
-		input, label, .label {
-			display: inline-block;
-		}
-		&.inline {
-			li {
-				display: inline-block;
-				margin-right: 10px;
-			}
-		}
-	}
+    div.group {
+        @extend .clearfix;
+        @include breakpoint(large) {
+            &.inline-group {
+                width: auto;
+                .item {
+                    label, .label {
+                        display: inline-block;
+                        margin-right: 5px;  
+                    }
+                    input,
+                    select {
+                        width: auto;
+                    }
+                }
+            }
+        }
+        @include breakpoint(medium-large) {
+            & .group-col {
+                width: 50%;
+            }
+            .item {
+                @include box-sizing(border-box);
+                float: left;
+                margin-bottom: 0;
+                padding: 0 10px 0 0;
+                &:last-child {
+                    padding-right: 0;
+                }
+                #{$input-selectors},
+                textarea,
+                select {
+                    width: 100%;
+                    &.small {
+                        width: 100px;
+                    }
+                }
+                &.horizontal {
+                    #{$input-selectors},
+                    textarea,
+                    select {
+                        width: auto;
+                    }
+                }
+            }
+        }
+    }
+    div.additional-field-group {
+        background: #fafafa;
+        padding: 25px 15px;
+        margin: 25px -15px -25px;
+        border-top: 1px solid #ddd;
+        position: relative;
+        &:after, &:before {
+            bottom: 100%;
+            left: 12%;
+            border: solid transparent;
+            content: " ";
+            height: 0;
+            width: 0;
+            position: absolute;
+            pointer-events: none;
+        }
+        &:after {
+            border-color: rgba(250, 250, 250, 0);
+            border-bottom-color: #fafafa;
+            border-width: 10px;
+            margin-left: -10px;
+        }
+        &:before {
+            border-color: rgba(222, 222, 222, 0);
+            border-bottom-color: #ddd;
+            border-width: 11px;
+            margin-left: -11px;
+        }
+    }
+    div.vertical {
+        div.item {
+            > label, .label {
+                float: left;
+                width: 33%;
+                text-transform: uppercase;
+            }
+            #{$input-selectors},
+            textarea,
+            select {
+                max-width: 67%;
+            }
+            .radio-list,
+            .checkbox-list {
+                float: left;
+            }
+        }
+        &.fixed {
+            div.item {
+                padding-left: 250px;
+                > label, .label {
+                    float: left;
+                    width: 250px;
+                    margin-left: -250px;
+                    text-transform: uppercase;
+                }
+                #{$input-selectors},
+                textarea,
+                select {
+                    max-width: auto;
+                }
+            }
+        }
+    }
+    div.item, div.group, div.vertical {
+        margin-bottom: 20px;
+        &:last-child {
+            margin-bottom: 0;
+        }   
+    }
+    hr.content-divider { 
+        border: none;
+        border-top: 1px solid #ddd;
+        margin: 25px -15px;
+    }
+    input[type="radio"],
+    input[type="checkbox"] {
+        margin-bottom: 0;
+        margin-right: 5px;
+    }
+    .radio-list,
+    .checkbox-list {
+        input, label, .label {
+            display: inline-block;
+        }
+        &.inline {
+            li {
+                display: inline-block;
+                margin-right: 10px;
+            }
+        }
+    }
 } 
 
 .btn-dropdown {
-	display: inline-block;
-	button {
-		background: #fff;
-		color: #555;
-		@include border-radius(10px);
-		@include box-shadow(0 1px 1px rgba(0,0,0,.15));
-		@include transition(border linear .2s, box-shadow linear .2s);
-		text-transform: none;
-		padding: 6px 35px 6px 10px;
-		border: 1px solid #bcbcbc;
-		text-align: left;
-		position: relative;
-		font-weight: normal;
-		.caret {
-			position: absolute;
-			right: 6px;
-			top: 7px;
-		}
-	}
-	.dropdown-menu {
-		display: none;
-	}
-	&.open {
-		.dropdown-menu {
-			display: block;
-		}
-	}
+    display: inline-block;
+    button {
+        background: #fff;
+        color: #555;
+        @include border-radius(10px);
+        @include box-shadow(0 1px 1px rgba(0,0,0,.15));
+        @include transition(border linear .2s, box-shadow linear .2s);
+        text-transform: none;
+        padding: 6px 35px 6px 10px;
+        border: 1px solid #bcbcbc;
+        text-align: left;
+        position: relative;
+        font-weight: normal;
+        .caret {
+            position: absolute;
+            right: 6px;
+            top: 7px;
+        }
+    }
+    .dropdown-menu {
+        display: none;
+    }
+    &.open {
+        .dropdown-menu {
+            display: block;
+        }
+    }
 }
 
 .dropdown-menu {

@@ -32,8 +32,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private readonly Sitecore.Data.Database database;
         private readonly IValidationService validation;
         private readonly StreamEnergy.MyStream.Controllers.ApiControllers.AuthenticationController authentication;
+        private readonly UserProfileLocator profileLocator;
 
-        public AccountController(IUnityContainer container, HttpSessionStateBase session, DomainModels.Accounts.IAccountService accountService, Services.Clients.ITemperatureService temperatureService, IValidationService validation, StreamEnergy.MyStream.Controllers.ApiControllers.AuthenticationController authentication)
+        public AccountController(IUnityContainer container, HttpSessionStateBase session, DomainModels.Accounts.IAccountService accountService, Services.Clients.ITemperatureService temperatureService, IValidationService validation, StreamEnergy.MyStream.Controllers.ApiControllers.AuthenticationController authentication, UserProfileLocator profileLocator)
         {
             this.container = container;
             this.temperatureService = temperatureService;
@@ -43,6 +44,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Components/Account/Profile");
             this.validation = validation;
             this.authentication = authentication;
+            this.profileLocator = profileLocator;
         }
 
         [HttpGet]
@@ -75,7 +77,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public async Task<GetAccountBalancesResponse> GetAccountBalances()
         {
-            var accounts = await accountService.GetAccountBalances(User.Identity.Name);
+            var accounts = await accountService.GetAccountBalances(profileLocator.Locate(User.Identity.Name).GlobalCustomerId);
 
             return new GetAccountBalancesResponse
             {
@@ -160,16 +162,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         [HttpGet]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
-        public GetInvoicesResponse GetInvoices()
+        public async Task<GetInvoicesResponse> GetInvoices()
         {
-            // TODO - get the invoices from Stream Connect and format the response
-
             return new GetInvoicesResponse
             {
                 Invoices = new Table<Models.Account.Invoice>
                 {
                     ColumnList = typeof(StreamEnergy.MyStream.Models.Account.Invoice).BuildTableSchema(database.GetItem("/sitecore/content/Data/Components/Account/Overview/My Invoices")),
-                    Values = from account in accountService.GetInvoices(User.Identity.Name)
+                    Values = from account in await accountService.GetInvoices(profileLocator.Locate(User.Identity.Name).GlobalCustomerId)
                              from invoice in account.Invoices
                              select new StreamEnergy.MyStream.Models.Account.Invoice
                              {
@@ -197,7 +197,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public async Task<GetCurrentInvoicesResponse> GetCurrentInvoices()
         {
-            var accounts = await accountService.GetCurrentInvoices(User.Identity.Name);
+            var accounts = await accountService.GetCurrentInvoices(profileLocator.Locate(User.Identity.Name).GlobalCustomerId);
 
             return new GetCurrentInvoicesResponse
             {
@@ -235,7 +235,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     Validations = TranslatedValidationResult.Translate(ModelState, validationItem),
                 };
             }
-            var accounts = (await accountService.GetCurrentInvoices(User.Identity.Name))
+            var accounts = (await accountService.GetCurrentInvoices(profileLocator.Locate(User.Identity.Name).GlobalCustomerId))
                 .Where(account => request.AccountNumbers.Contains(account.AccountNumber)).ToArray();
 
             Dictionary<Account, decimal> paymentAmounts;
@@ -630,7 +630,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var billingAddress = new DomainModels.Address();
             bool sameAsService = false;
 
-            // TODO get the contact info from Stream Connect
+            // TODO get the contact info from Stream Connect            
             var customerName = new DomainModels.Name
             {
                 First = "John",
@@ -946,7 +946,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public async Task<IEnumerable<DomainModels.Payments.SavedPaymentInfo>> GetSavedPaymentMethods()
         {
-            return await accountService.GetSavedPaymentMethods(User.Identity.Name);
+            return await accountService.GetSavedPaymentMethods(profileLocator.Locate(User.Identity.Name).GlobalCustomerId);
         }
 
         [HttpPost]

@@ -201,13 +201,14 @@ namespace StreamEnergy.Sample.Commons {
     public partial class GetInvoicesRequest {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://www.example.com/webservices/", Order=0)]
-        public string Username;
+        public System.Guid GlobalCustomerId;
         
         public GetInvoicesRequest() {
         }
-        
-        public GetInvoicesRequest(string Username) {
-            this.Username = Username;
+
+        public GetInvoicesRequest(System.Guid GlobalCustomerId)
+        {
+            this.GlobalCustomerId = GlobalCustomerId;
         }
     }
     

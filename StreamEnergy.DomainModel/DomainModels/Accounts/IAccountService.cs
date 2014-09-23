@@ -9,10 +9,10 @@ namespace StreamEnergy.DomainModels.Accounts
 {
     public interface IAccountService
     {
-        IEnumerable<Account> GetInvoices(string username);
-        Task<IEnumerable<Account>> GetCurrentInvoices(string username);
-        Task<IEnumerable<Account>> GetAccountBalances(string username);
-        Task<IEnumerable<Payments.SavedPaymentInfo>> GetSavedPaymentMethods(string username);
+        Task<IEnumerable<Account>> GetInvoices(Guid globalCustomerId);
+        Task<IEnumerable<Account>> GetCurrentInvoices(Guid globalCustomerId);
+        Task<IEnumerable<Account>> GetAccountBalances(Guid globalCustomerId);
+        Task<IEnumerable<Payments.SavedPaymentInfo>> GetSavedPaymentMethods(Guid globalCustomerId);
         Task<MakePaymentResult> MakePayment(string account, decimal amount, Payments.IPaymentInfo paymentMethod, DateTime paymentDate);
         Task<Account> GetCurrentInvoice(string accountNumber);
 
@@ -26,8 +26,13 @@ namespace StreamEnergy.DomainModels.Accounts
 
 
 
-        Task<Guid> CreateStreamConnectCustomer(string username = null, string email = null);
+        Task<Guid> CreateStreamConnectCustomer(string portalId = null, string email = null);
 
         Task<string> GetEmailByCustomerId(Guid globalCustomerId);
+
+        Task<IEnumerable<Account>> GetAccounts(Guid globalCustomerId);
+        Task<Guid> AssociateAccount(Guid globalCustomerId, string accountNumber, string ssnLast4, string accountNickname);
+        Task<bool> DisassociateAccount(Guid globalCustomerId, Guid accountId);
+        Task<AccountDetails> GetAccountDetails(Guid globalCustomerId, Guid accountId);
     }
 }

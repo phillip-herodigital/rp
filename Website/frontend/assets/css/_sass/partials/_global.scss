@@ -55,9 +55,56 @@ dl {
 	visibility: hidden;
 }
 
+.pull-left {
+	float: left;
+}
+
+.pull-right {
+	float: right;
+}
+
 .actions {
 	float: right;
 	text-transform: uppercase;
+}
+
+//Round icon wrappers
+.ico-wrapper {
+	position: relative;
+	display: inline-block;
+	width: 70px;
+	height: 70px;
+	text-align: center;
+	background: #257ab3;
+	line-height: 70px;
+	@include border-radius(100%);
+	i {
+		margin: 0;
+		display: inline-block;
+	}
+	&:after {
+		content: '';
+		width: 70px;
+		height: 70px;
+		background-color: #fff;
+		opacity: .08;
+		display: block;
+		position: absolute;
+		top: 0;
+		@include rotate(45deg);
+		clip: rect(0px 70px 35px 0px);
+	}
+
+	&.large {
+		width: 120px;
+		height: 120px;
+		line-height: 120px;
+		&:after {
+			width: 120px;
+			height: 120px;
+			clip: rect(0px 120px 60px 0px);
+		}
+	}
 }
 
 @include breakpoint(small) {

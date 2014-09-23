@@ -25,6 +25,7 @@ namespace StreamEnergy.Caching
                 catch (Exception ex)
                 {
                     Sitecore.Diagnostics.Log.Warn("redisCache connection could not be made.", ex, this);
+                    throw new InvalidOperationException("Connection to Redis could not be established.");
                 }
             }
         }
@@ -34,8 +35,6 @@ namespace StreamEnergy.Caching
             unityContainer.RegisterType<ConnectionMultiplexer>(new InjectionFactory(container => multiplexer));
             unityContainer.RegisterType<IDatabase>(new InjectionFactory(container =>
             {
-                if (multiplexer == null)
-                    return null;
                 return multiplexer.GetDatabase();
             }));
         }
