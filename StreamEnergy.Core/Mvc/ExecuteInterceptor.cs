@@ -14,11 +14,13 @@ namespace StreamEnergy.Mvc
         [DebuggerNonUserCode]
         void IInterceptor.Intercept(IInvocation invocation)
         {
-            var arg = ((RequestContext)invocation.Arguments[0]);
-            // Intentionally not using the dependency injected HttpContextBase because it won't be the intercepted one from Sitecore.
-            var httpContextBase = arg.HttpContext.CreateHttpContextProxy();
-            invocation.Arguments[0] = new System.Web.Routing.RequestContext(httpContextBase, arg.RouteData);
-
+            if (invocation.Arguments.Length == 1 && invocation.Arguments[0] is RequestContext)
+            {
+                var arg = ((RequestContext)invocation.Arguments[0]);
+                // Intentionally not using the dependency injected HttpContextBase because it won't be the intercepted one from Sitecore.
+                var httpContextBase = arg.HttpContext.CreateHttpContextProxy();
+                invocation.Arguments[0] = new System.Web.Routing.RequestContext(httpContextBase, arg.RouteData);
+            }
             invocation.Proceed();
         }
     }

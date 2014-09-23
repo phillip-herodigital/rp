@@ -71,7 +71,6 @@ article {
         & > :first-child {
             margin-top: 0;
         }
-
         & > :last-child {
             margin-bottom: 0;
             padding-bottom: 0;
@@ -125,43 +124,6 @@ article {
             }
         }
     }
-    .notice {
-        margin-bottom: 15px;
-        border-radius: 15px;
-        padding: 20px 30px 20px 45px;
-        background-repeat: no-repeat;
-        background-position: 15px 24px;
-        position: relative;
-        p {
-            margin: 0px;
-        }
-        .icon-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-        }
-        &.alert {
-            border: 1px solid #ffcc33;
-            background-color: #fff9c9;
-            @include retina-background("alert.png", "icon");
-            background-position: 20px 23px;
-        }
-        &.message {
-            border: 1px solid #a1bbb9;
-            background-color: #ecf9f8;
-            @include retina-background("message.png", "icon");
-        }
-        &.error {
-            border: 1px solid #dd744e;
-            background-color: #fbded4;
-            @include retina-background("error.png", "icon");
-        }
-        &.success {
-            border: 1px solid #7baa59;
-            background-color: #def7d0;
-            @include retina-background("success.png", "icon");
-        }
-    }
     .filters {
         background: #fbfbfb;
         padding: 10px;
@@ -169,6 +131,7 @@ article {
         margin: -15px -15px 0 -15px;
         .group {
             .item {
+                width: auto;
                 margin-top: 8px;
                 label {
                     display: inline-block;
@@ -304,6 +267,47 @@ article {
         }
     }
 }
+
+article, .modal-body {
+    .notice {
+        margin-bottom: 15px;
+        border-radius: 15px;
+        padding: 20px 30px 20px 45px;
+        background-repeat: no-repeat;
+        background-position: 15px 24px;
+        position: relative;
+        p {
+            margin: 0px;
+        }
+        .icon-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        &.alert {
+            border: 1px solid #ffcc33;
+            background-color: #fff9c9;
+            @include retina-background("alert.png", "icon");
+            background-position: 20px 23px;
+        }
+        &.message {
+            border: 1px solid #a1bbb9;
+            background-color: #ecf9f8;
+            @include retina-background("message.png", "icon");
+        }
+        &.error {
+            border: 1px solid #dd744e;
+            background-color: #fbded4;
+            @include retina-background("error.png", "icon");
+        }
+        &.success {
+            border: 1px solid #7baa59;
+            background-color: #def7d0;
+            @include retina-background("success.png", "icon");
+        }
+    }
+}
+
 article.grey-box {
     background-color: #f9f9f9;
     /**margin: 0 20px 20px 20px;

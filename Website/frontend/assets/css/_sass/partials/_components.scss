@@ -1,0 +1,16 @@
+/* This file is where the styling for components will go.  */
+
+.credit-card {
+    .item.card-number {
+        input[type="text"] {
+            width: 100%;
+        }
+    }
+    @include breakpoint(medium-large) {
+        .item.security-code {
+            input[type="text"] {
+                width: 100px;
+            }
+        }
+    }
+}

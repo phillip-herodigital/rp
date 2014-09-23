@@ -36,7 +36,6 @@ namespace StreamEnergy.DomainModels
                     { Payments.TokenizedCard.Qualifier, typeof(Payments.TokenizedCard) },
                     { Payments.BankPaymentInfo.Qualifier, typeof(Payments.BankPaymentInfo) },
                     { Payments.SavedPaymentInfo.Qualifier, typeof(Payments.SavedPaymentInfo) },
-                    { Enrollments.DepositWaiver.Qualifier, typeof(Enrollments.DepositWaiver) },
                 }
             });
 

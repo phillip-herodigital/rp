@@ -6,9 +6,9 @@ ngApp.controller('OfferOptions-TexasElectricityCommercialQuote', ['$scope', func
     $scope.minDate.setHours(0, 0, 0, 0);
 
     var connectDate = fromISODate(_($scope.selectedOffer.optionRules.connectDates.availableConnectDates)
-        .filter({ classification: 'standard' })
         .sortBy('date')
-        .first()
+        .first(5)
+        .last()
         .date + 'Z');
     
     $scope.selectedOffer.offerOption.connectDate = $scope.selectedOffer.offerOption.connectDate || connectDate;
@@ -32,7 +32,7 @@ ngApp.controller('OfferOptions-TexasElectricityCommercialQuote', ['$scope', func
         if (availableDate) {
             var lastPriorityDate = new Date();
             lastPriorityDate.setDate(new Date().getDate() + 3);
-            return { 'red': availableDate.classification == 'priority' };
+            return { 'priority': availableDate.classification == 'priority' };
         }
         return false;
     };
