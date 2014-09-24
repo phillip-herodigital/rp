@@ -44,7 +44,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
             switch (region.ToLower())
             {
                 case "aglc":
-                    return new Aglc.Indexer();
+                    return new Aglc.Indexer(reportEvery, maxTasks);
                 case "ercot":
                     return new Ercot.Indexer(reportEvery, maxTasks);
             }
