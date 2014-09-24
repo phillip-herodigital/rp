@@ -53,7 +53,7 @@
                         <dt ng-if="accountInformation.secondaryContactInfo.first">@Html.Sitecore().Field("Secondary Contact")</dt>
                         <dd ng-if="accountInformation.secondaryContactInfo.first">{{ accountInformation.secondaryContactInfo.first }} {{ accountInformation.secondaryContactInfo.last }}</dd>
                     </dl>
-                    @Html.Sitecore().Field("Terms Notice")
+                    <div ng-if="customerType == 'residential'">@Html.Sitecore().Field("Terms Notice")</div>
                 </div>
             </article>
             @*

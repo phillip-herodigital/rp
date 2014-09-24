@@ -65,14 +65,23 @@
                 <article class="enrollment__box" ng-if="getCartTotal() > 0">
                     <header>
                         <h1>@Html.Sitecore().Field("Card Details")</h1>
+                        <span class="icons">
+                            <i class="icon-visa"></i>
+                            <i class="icon-mastercard"></i>
+                            <i class="icon-discover"></i>
+                            <i class="icon-accel"></i>
+                            <i class="icon-nyce"></i>
+                            <i class="icon-pulse"></i>
+                            <i class="icon-star"></i>
+                        </span>
                     </header>
                     <div class="content">
                         @*<div class="item">
-                        <label for="payment-method">@Html.Sitecore().Field("Select Payment Method Label")</label>
-                        <select id="payment-method" ng-model="completeOrder.creditCard.paymentMethod">
-                            <option value="">@Html.Sitecore().Field("Select Option")</option>
-                        </select>
-                    </div>*@
+                                <label for="payment-method">@Html.Sitecore().Field("Select Payment Method Label")</label>
+                                <select id="payment-method" ng-model="completeOrder.creditCard.paymentMethod">
+                                    <option value="">@Html.Sitecore().Field("Select Option")</option>
+                                </select>
+                            </div>*@
                         <div class="payment-options" credit-card-payment="completeOrder.creditCard" data-val-if="true"></div>
                     </div>
                 </article>
