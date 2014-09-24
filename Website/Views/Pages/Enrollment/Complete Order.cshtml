@@ -62,7 +62,7 @@
                 </table>
             *@
             <form data-val-bind-messages="validations" ng-submit="completeStep();">
-                <article class="enrollment__box" ng-if="getCartTotal() > 0">
+                <article class="enrollment__box card-details" ng-if="getCartTotal() > 0">
                     <header>
                         <h1>@Html.Sitecore().Field("Card Details")</h1>
                         <span class="icons">
