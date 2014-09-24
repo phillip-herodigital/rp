@@ -51,6 +51,10 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
         }
     }, true);
 
+    $scope.$watch('customerType', function() {
+        $scope.data.serviceLocation = null;
+    });
+
     /**
      * Checking if the current form is valid to continue
      * Form level validation is done outside of here, this is checking to ensure

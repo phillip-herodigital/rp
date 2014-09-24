@@ -149,7 +149,7 @@
                         @Html.Sitecore().Field("Electricity Month To Month").Format(new { Sup = "{{plan.calculatedFootnotes.indices['Term Footnote']}}" })
                     </td>
                     <td class="fees">
-                        ${{ plan.cancellationFee }}<span>@Html.Sitecore().Field("Electricity Early Cancellation Fee")<sup>{{plan.calculatedFootnotes.indices['Early Cancellation Fee Footnote']}}</sup></span>
+                        ${{ plan.terminationFee }}<span>@Html.Sitecore().Field("Electricity Early Termination Fee")<sup>{{plan.calculatedFootnotes.indices['Early Termination Fee Footnote']}}</sup></span>
                     </td>
                     <td class="select-plan hide-small">
                         <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id" class="selected-icon">
