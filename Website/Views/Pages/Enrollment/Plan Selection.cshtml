@@ -435,7 +435,7 @@
                 <form>
                     <div class="modal-body form">
                         <div class="item">
-                            <p>@Html.Sitecore().Field("Utility Providers Found") <strong>{{ currentLocationInfo().location.address.postalCode5 }}</strong>@Html.Sitecore().Field("Utility Providers Found 2")</p>
+                            <p>@Html.Sitecore().Field("Utility Providers Found").Format(new { PostalCode = "{{ currentLocationInfo().location.address.postalCode5 }}" })</p>
                             <ul class="checkbox-list">
                                 <li ng-repeat="item in currentLocationInfo().location.capabilities | filter:'TexasElectricity'">                           
                                     <input type="radio" id="{{ item.tdu }}" data-val="true" data-val-required ng-model="vm.selectedTdu" ng-value="item.tdu">

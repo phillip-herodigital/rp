@@ -62,9 +62,18 @@
                 </table>
             *@
             <form data-val-bind-messages="validations">
-                <article class="enrollment__box" ng-if="getCartTotal() > 0">
+                <article class="enrollment__box card-details" ng-if="getCartTotal() > 0">
                     <header>
                         <h1>@Html.Sitecore().Field("Card Details")</h1>
+                        <span class="icons">
+                            <i class="icon-visa"></i>
+                            <i class="icon-mastercard"></i>
+                            <i class="icon-discover"></i>
+                            <i class="icon-accel"></i>
+                            <i class="icon-nyce"></i>
+                            <i class="icon-pulse"></i>
+                            <i class="icon-star"></i>
+                        </span>
                     </header>
                     <div class="content">
                         @*<div class="item">
