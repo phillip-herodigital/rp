@@ -54,6 +54,7 @@ article.photoLockup {
 	border-top: 3px solid #999;
 	margin-bottom: 20px;
 	.photo {
+        @include border-radius(0 0 0 0);
 		position: absolute;
 		width: 50%;
 		height: 100%;
