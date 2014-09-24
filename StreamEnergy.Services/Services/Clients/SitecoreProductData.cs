@@ -42,7 +42,7 @@ namespace StreamEnergy.Services.Clients
                                 { "Terms Of Service", ((Sitecore.Data.Fields.FileField)providerData.Fields["Terms Of Service"]).Src },
                                 { "Your Rights As A Customer", ((Sitecore.Data.Fields.FileField)providerData.Fields["Your Rights As A Customer"]).Src },
                             },
-                            Footnotes = LoadFootnotes(new[] { item, providerData }, new[] { "Rate Footnote", "Term Footnote", "Early Cancellation Fee Footnote" }).ToArray()
+                            Footnotes = LoadFootnotes(new[] { item, providerData }, new[] { "Rate Footnote", "Term Footnote", "Early Termination Fee Footnote" }).ToArray()
                         };
                     }
                 }

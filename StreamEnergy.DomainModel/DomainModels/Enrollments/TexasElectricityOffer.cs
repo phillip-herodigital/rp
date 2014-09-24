@@ -42,7 +42,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         
         public RateType RateType { get; set; }
         public decimal Rate { get; set; }
-        public decimal CancellationFee { get; set; }
+        public decimal TerminationFee { get; set; }
         public int TermMonths { get; set; }
 
         public Dictionary<string, Uri> Documents { get; set; }

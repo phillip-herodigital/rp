@@ -61,7 +61,7 @@
                     </tbody>
                 </table>
             *@
-            <form data-val-bind-messages="validations">
+            <form data-val-bind-messages="validations" ng-submit="completeStep();">
                 <article class="enrollment__box card-details" ng-if="getCartTotal() > 0">
                     <header>
                         <h1>@Html.Sitecore().Field("Card Details")</h1>
@@ -121,8 +121,8 @@
                     </div>
                 </div>
                 <div class="buttons">
-                    <button type="submit" class="primary" ng-if="customerType != 'commercial'" ng-click="completeStep();" data-val-submit>@Html.Sitecore().Field("Button")</button>
-                    <button type="submit" class="primary" ng-if="customerType == 'commercial'" ng-click="completeStep();" ng-disabled="!completeOrder.additionalAuthorizations.historicalUsageData" data-val-submit>@Html.Sitecore().Field("Commercial Button")</button>
+                    <button type="submit" class="primary" ng-if="customerType != 'commercial'" ng-disabled="!completeOrder.agreeToTerms" data-val-submit>@Html.Sitecore().Field("Button")</button>
+                    <button type="submit" class="primary" ng-if="customerType == 'commercial'" ng-disabled="!completeOrder.additionalAuthorizations.historicalUsageData" data-val-submit>@Html.Sitecore().Field("Commercial Button")</button>
                     <button type="submit" class="tertiary" ng-click="resetEnrollment();">
                         <span ng-if="customerType != 'commercial'">@Html.Sitecore().Field("Cancel Enrollment Button")</span>
                         <span ng-if="customerType == 'commercial'">@Html.Sitecore().Field("Cancel Quote Button")</span>

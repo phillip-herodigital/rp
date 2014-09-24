@@ -119,7 +119,7 @@ namespace StreamEnergy.Services.Clients
                               Rate = product.Rate.Value * 100,
                               TermMonths = product.Term,
                               RateType = product.Rate.Type == "Fixed" ? RateType.Fixed : RateType.Variable,
-                              CancellationFee = product.Fees.Where(fee => fee.Name == "Early Termination Fee").Select(fee => fee.Amount).FirstOrDefault(),
+                              TerminationFee = product.Fees.Where(fee => fee.Name == "Early Termination Fee").Select(fee => fee.Amount).FirstOrDefault(),
 
                               Footnotes = productData.Footnotes,
 
