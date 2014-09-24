@@ -44,7 +44,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         protected override bool NeedRestoreInternalState(UserContext context, InternalContext internalContext)
         {
-            return !internalContext.EnrollmentSaveState.IsCompleted;
+            return internalContext.EnrollmentSaveState == null || !internalContext.EnrollmentSaveState.IsCompleted;
         }
 
         protected override async Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
