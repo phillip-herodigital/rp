@@ -1066,6 +1066,25 @@ article.make-payment {
         }
     }
 }
+article.card-details {
+    header {
+        @extend .clearfix;
+        @include breakpoint(medium-large) {
+            h1 {
+                float: left;
+            }
+            span.icons {
+                float: right;
+                margin-top: 15px;
+            }
+        }
+        @include breakpoint(small) {
+            h1 {
+                margin-bottom: 5px;
+            }
+        }
+    }
+}
 article.payment-history {
     header {
         margin-bottom: 15px;
