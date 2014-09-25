@@ -31,7 +31,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         protected override async Task LoadInternalState(UserContext data, InternalContext internalContext)
         {
-            foreach (var loc in data.Services.Select(s => s.Location))
+            foreach (var loc in data.Services.Select(s => s.Location).Except(internalContext.LocationVerifications == null ? Enumerable.Empty<Location>() : internalContext.LocationVerifications.Keys))
             {
                 if (loc.Address.Line1 != null)
                 {
@@ -39,11 +39,21 @@ namespace StreamEnergy.DomainModels.Enrollments
                 }
             }
 
-            internalContext.AllOffers = await enrollmentService.LoadOffers(
+            internalContext.AllOffers = Combine(internalContext.AllOffers, await enrollmentService.LoadOffers(
                 data.Services
                     .Select(s => s.Location)
+                    .Except(internalContext.AllOffers == null ? Enumerable.Empty<Location>() : internalContext.AllOffers.Keys)
                     .Where(loc => !internalContext.LocationVerifications.ContainsKey(loc) || internalContext.LocationVerifications[loc] == PremiseVerificationResult.Success)
-                );
+                ));
+        }
+
+        private Dictionary<Location, LocationOfferSet> Combine(Dictionary<Location, LocationOfferSet> dictionary1, Dictionary<Location, LocationOfferSet> dictionary2)
+        {
+            if (dictionary1 == null || dictionary2 == null)
+            {
+                return dictionary1 ?? dictionary2;
+            }
+            return dictionary1.Concat(dictionary2).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
         }
     }
 }
