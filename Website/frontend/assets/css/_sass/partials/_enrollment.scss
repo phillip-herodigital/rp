@@ -937,19 +937,15 @@ $enrollment-module-vertical-padding: 20px;
         }
     }
     .example {
-        @include breakpoint(large) {
-            clear: left;
+        @include breakpoint(small) {
+            margin-top: -15px;
         }
         .single-link {
-            @include breakpoint(large) {
-                margin-top: 20px;
-            }
             @include breakpoint(medium) {
                 margin-top: 52px;
             }
         }
     }
-    
     .seperator {
         overflow: hidden;
         text-align: center;
