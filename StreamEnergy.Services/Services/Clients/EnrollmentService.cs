@@ -638,7 +638,7 @@ namespace StreamEnergy.Services.Clients
                 ContactFirstName = context.ContactInfo.Name.First,
                 ContactLastName = context.ContactInfo.Name.Last,
                 ContactTitle = context.ContactTitle,
-                ContactPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Work).Select(p => p.Number).FirstOrDefault(),
+                ContactWorkPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Work).Select(p => p.Number).FirstOrDefault(),
                 ContactHomePhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Home).Select(p => p.Number).FirstOrDefault(),
                 ContactCellPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Mobile).Select(p => p.Number).FirstOrDefault(),
                 ContactEmail = context.ContactInfo.Email.Address,
