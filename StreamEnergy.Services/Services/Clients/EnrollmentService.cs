@@ -101,7 +101,7 @@ namespace StreamEnergy.Services.Clients
             {
                 Offers = (from product in streamConnectProductResponse.Products
                           // Only supporting $/kwh for Texas enrollments, at least for now. Making sure that our `* 100` below doesn't cause a bug...
-                          where product.Rate.Unit == "$/kwh"
+                          where product.Rates.All(r => r.Unit == "$/kwh")
                           group product by product.ProductCode into products
                           let product = products.First(p => p.Provider["Name"].ToString() == providerName)
                           let productData = sitecoreProductData.GetTexasElectricityProductData(product)
@@ -109,16 +109,18 @@ namespace StreamEnergy.Services.Clients
                           select new TexasElectricityOffer
                           {
                               Id = product.Provider["Name"].ToString() + "/" + product.ProductCode,
-                              Provider = product.Provider.ToString(),
+                              Provider = product.Provider["Name"].ToString(),
 
                               EnrollmentType = serviceStatus.EnrollmentType,
 
                               Name = productData.Fields["Name"],
                               Description = productData.Fields["Description"],
 
-                              Rate = product.Rate.Value * 100,
+                              Rate = product.Rates.First(r => r.EnergyType == "Average").Value * 100,
+                              StreamEnergyCharge = product.Rates.First(r => r.EnergyType == "Energy").Value * 100,
+                              MinimumUsageFee = productData.Fields["Minimum Usage Fee"],
                               TermMonths = product.Term,
-                              RateType = product.Rate.Type == "Fixed" ? RateType.Fixed : RateType.Variable,
+                              RateType = product.Rates.Any(r => r.Type == "Fixed") ? RateType.Fixed : RateType.Variable,
                               TerminationFee = product.Fees.Where(fee => fee.Name == "Early Termination Fee").Select(fee => fee.Amount).FirstOrDefault(),
 
                               Footnotes = productData.Footnotes,

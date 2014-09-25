@@ -810,6 +810,8 @@ $enrollment-module-vertical-padding: 20px;
         }
     }
     .plan-selection-list {
+        float: left;
+        width: 35%;
         padding: 0;
         list-style-type: none;
         li {
@@ -821,6 +823,18 @@ $enrollment-module-vertical-padding: 20px;
             border-right: none;
             margin: 0;
             padding: 0;
+        }
+    }
+    .plan-selection-fees {
+        width: 64%;
+        float: right;
+        dt {
+            font-weight: 600;
+            width: 40%;
+        }
+        dd {
+            width: 60%;
+            text-align: left;
         }
     }
     @include breakpoint(small-medium) {
