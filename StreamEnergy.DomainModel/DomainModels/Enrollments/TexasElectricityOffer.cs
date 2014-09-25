@@ -44,6 +44,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         public decimal Rate { get; set; }
         public decimal StreamEnergyCharge { get; set; }
         public string MinimumUsageFee { get; set; }
+        public string TduCharges { get; set; }
         public decimal TerminationFee { get; set; }
         public int TermMonths { get; set; }
 

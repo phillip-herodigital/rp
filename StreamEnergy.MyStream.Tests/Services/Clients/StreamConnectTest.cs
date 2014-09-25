@@ -413,6 +413,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                 creditCheck = enrollmentService.EndCreditCheck(creditCheck).Result;
             } while (!creditCheck.IsCompleted);
 
+            internalContext.IdentityCheck = new DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult> { Data = new DomainModels.Enrollments.Service.IdentityCheckResult { IdentityAccepted = true }, IsCompleted = true };
+
             using (new Timer())
             {
                 // Act

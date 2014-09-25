@@ -119,6 +119,7 @@ namespace StreamEnergy.Services.Clients
                               Rate = product.Rates.First(r => r.EnergyType == "Average").Value * 100,
                               StreamEnergyCharge = product.Rates.First(r => r.EnergyType == "Energy").Value * 100,
                               MinimumUsageFee = productData.Fields["Minimum Usage Fee"],
+                              TduCharges = productData.Fields["TDU Charges"],
                               TermMonths = product.Term,
                               RateType = product.Rates.Any(r => r.Type == "Fixed") ? RateType.Fixed : RateType.Variable,
                               TerminationFee = product.Fees.Where(fee => fee.Name == "Early Termination Fee").Select(fee => fee.Amount).FirstOrDefault(),
@@ -399,7 +400,7 @@ namespace StreamEnergy.Services.Clients
                     return new StreamAsync<IdentityCheckResult>
                     {
                         IsCompleted = true,
-                        Data = new IdentityCheckResult { IdentityAccepted = true, IdentityQuestions = new IdentityQuestion[0], HardStop = null }
+                        Data = new IdentityCheckResult { IdentityAccepted = false, IdentityQuestions = new IdentityQuestion[0], HardStop = null }
                     };
                 }
 
@@ -456,12 +457,15 @@ namespace StreamEnergy.Services.Clients
             {
                 return asyncResult;
             }
-            var responseString = await response.Content.ReadAsStringAsync();
-
-            // TODO - do something with the response? 
+            response.EnsureSuccessStatusCode();
+            dynamic result = Json.Read<JObject>(await response.Content.ReadAsStringAsync());
 
             asyncResult.IsCompleted = true;
-            asyncResult.Data = new IdentityCheckResult { IdentityAccepted = true, IdentityQuestions = new IdentityQuestion[0] };
+            asyncResult.Data = new IdentityCheckResult
+            {
+                IdentityAccepted = result.CollectDeposit,
+                IdentityQuestions = new IdentityQuestion[0]
+            };
             return asyncResult;
         }
 
@@ -503,6 +507,12 @@ namespace StreamEnergy.Services.Clients
 
         async Task<IEnumerable<LocationOfferDetails<OfferPayment>>> IEnrollmentService.LoadOfferPayments(Guid streamCustomerId, EnrollmentSaveResult enrollmentSaveStates, IEnumerable<LocationServices> services, InternalContext internalContext)
         {
+            var assessDeposit = false;
+            if (internalContext.IdentityCheck != null && internalContext.IdentityCheck.Data != null)
+            {
+                assessDeposit = internalContext.IdentityCheck.Data.IdentityAccepted;
+            }
+
             var response = await streamConnectClient.GetAsync("/api/v1/customers/" + streamCustomerId + "/enrollments");
             response.EnsureSuccessStatusCode();
 
@@ -517,7 +527,7 @@ namespace StreamEnergy.Services.Clients
                 if (locationOfferByEnrollmentAccountId.ContainsKey(enrollmentAccountId))
                 {
                     decimal deposit = 0;
-                    if (entry.Premise.Deposit != null)
+                    if (assessDeposit && entry.Premise.Deposit != null)
                         deposit = (decimal)entry.Premise.Deposit.Amount.Value;
 
                     var location = locationOfferByEnrollmentAccountId[enrollmentAccountId].Location;
