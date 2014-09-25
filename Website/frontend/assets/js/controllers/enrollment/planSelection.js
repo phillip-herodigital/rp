@@ -21,7 +21,10 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
     $scope.$watch(enrollmentCartService.getActiveService, function (address) {
         $scope.planSelection = { selectedOffers: {} };
         $scope.isCartFull = enrollmentCartService.isCartFull($scope.customerType);
-        $scope.provider = _(address.location.capabilities).filter({ capabilityType: "TexasElectricity" }).first().tdu;
+        if (address)
+        {
+            $scope.provider = _(address.location.capabilities).filter({ capabilityType: "TexasElectricity" }).first().tdu;
+        }
         if (address && address.eligibility == "mustMoveIn") {
             $modal.open({
                 'scope': $scope,

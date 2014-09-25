@@ -119,6 +119,7 @@ namespace StreamEnergy.Services.Clients
                               Rate = product.Rates.First(r => r.EnergyType == "Average").Value * 100,
                               StreamEnergyCharge = product.Rates.First(r => r.EnergyType == "Energy").Value * 100,
                               MinimumUsageFee = productData.Fields["Minimum Usage Fee"],
+                              TduCharges = productData.Fields["TDU Charges"],
                               TermMonths = product.Term,
                               RateType = product.Rates.Any(r => r.Type == "Fixed") ? RateType.Fixed : RateType.Variable,
                               TerminationFee = product.Fees.Where(fee => fee.Name == "Early Termination Fee").Select(fee => fee.Amount).FirstOrDefault(),

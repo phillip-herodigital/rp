@@ -39,6 +39,7 @@ namespace StreamEnergy.Services.Clients
                                 { "Name", item["Product Name"] },
                                 { "Description", item["Product Description"] },
                                 { "Minimum Usage Fee", item["Minimum Usage Fee"] },
+                                { "TDU Charges", item["TDU Charges"] },
                                 { "Energy Facts Label", ((Sitecore.Data.Fields.FileField)providerData.Fields["Energy Facts Label"]).Src },
                                 { "Terms Of Service", ((Sitecore.Data.Fields.FileField)providerData.Fields["Terms Of Service"]).Src },
                                 { "Your Rights As A Customer", ((Sitecore.Data.Fields.FileField)providerData.Fields["Your Rights As A Customer"]).Src },
