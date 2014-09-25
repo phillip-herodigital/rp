@@ -828,6 +828,21 @@ $enrollment-module-vertical-padding: 20px;
     .plan-selection-fees {
         width: 64%;
         float: right;
+        @include breakpoint(small-medium) {
+            width: 100%;
+            float: none;
+            dt, dd {
+                width: auto;
+            }
+        }
+        @include breakpoint(small) {
+            & {
+                clear: both;
+            }
+            dt, dd {
+                float: none;
+            }
+        }
         dt {
             font-weight: 600;
             width: 40%;
