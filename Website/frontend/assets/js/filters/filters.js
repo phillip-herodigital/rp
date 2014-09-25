@@ -108,14 +108,14 @@ ngApp.filter('securityQuestion', function () {
 });
 
 
-ngApp.filter('unsafe', function ($sce) {
+ngApp.filter('unsafe', ['$sce', function ($sce) {
     return function (val) {
         return $sce.trustAsHtml(val);
     };
-});
+}]);
 
 
-ngApp.filter('partition', function($cacheFactory) {
+ngApp.filter('partition', ['$cacheFactory', function($cacheFactory) {
   var arrayCache = $cacheFactory('partition');
   var filter = function(arr, size) {
     if (!arr) { return; }
@@ -133,4 +133,4 @@ ngApp.filter('partition', function($cacheFactory) {
     return newArr;
   };
   return filter;
-});
+}]);
