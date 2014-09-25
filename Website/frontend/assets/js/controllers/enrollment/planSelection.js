@@ -3,6 +3,7 @@
  * This is used to control aspects of plan selection on enrollment page.
  */
 ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 'scrollService', 'enrollmentStepsService', '$modal', 'enrollmentCartService', '$parse', '$window', function ($scope, enrollmentService, scrollService, enrollmentStepsService, $modal, enrollmentCartService, $parse, $window) {
+    var hasSubmitted = false;
     $scope.currentLocationInfo = enrollmentCartService.getActiveService;
 
     $scope.footnotes = {};
@@ -10,6 +11,13 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
     $scope.footnoteIndices = {};
 
     //We need this for the button select model in the ng-repeats
+    $scope.$watch(function () {
+        var temp = enrollmentCartService.getActiveService();
+        return temp && temp.location;
+    }, function (address) {
+        hasSubmitted = false;
+        console.log('hasSubmitted = false;', address);
+    }, true);
     $scope.$watch(enrollmentCartService.getActiveService, function (address) {
         $scope.planSelection = { selectedOffers: {} };
         $scope.isCartFull = enrollmentCartService.isCartFull($scope.customerType);
@@ -136,18 +144,25 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
         }
     };
     var submitStep = function (addAdditional) {
-        var selectedOffersPromise = enrollmentService.setSelectedOffers(addAdditional);
-
-        selectedOffersPromise.then(function (data) {
+        var onComplete = function () {
+            hasSubmitted = true;
             //Move to the next section, this is the last of the utilityAccounts, so
             //If addAdditional, go back to step one else move to the next section
-            if(addAdditional) {
+            if (addAdditional) {
                 enrollmentCartService.setActiveService();
                 enrollmentStepsService.setFlow('utility', true).setFromServerStep('serviceInformation');
-            }  
-        }, function (data) {
-            // error response
-        });
+            }
+        };
+
+        if (!hasSubmitted) {
+            var selectedOffersPromise = enrollmentService.setSelectedOffers(addAdditional);
+
+            selectedOffersPromise.then(onComplete, function (data) {
+                // error response
+            });
+        } else {
+            onComplete();
+        }
     };
 
     $scope.sortBy = function (param, reverse) {
