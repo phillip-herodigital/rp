@@ -14,7 +14,7 @@ namespace StreamEnergy.Services.Clients.StreamConnect
         public string ProductCode { get; set; }
         public string ProductType { get; set; }
         public Newtonsoft.Json.Linq.JToken Provider { get; set; }
-        public Rate Rate { get; set; }
+        public IEnumerable<Rate> Rates { get; set; }
         public string SystemOfRecord { get; set; }
         public int Term { get; set; }
     }
