@@ -6,6 +6,11 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
     // TODO - chose state by geoIP
     $scope.data = { serviceState: 'TX' };
 
+    // If the incoming URI indicates this is a commercial enrollment, change the default dropdown
+    if ($location.absUrl().indexOf('AccountType=C') > 0) {
+        $scope.$parent.customerType = 'commercial';
+    }
+
     $scope.getLocation = function (state, val) {
         return $scope.$parent.getLocation(state, val).then(function (values) {
             $scope.errorMessage = !values.length;
