@@ -41,7 +41,8 @@ namespace StreamEnergy.DomainModels.Enrollments
         public string Description { get; set; }
         
         public RateType RateType { get; set; }
-        public decimal Rate { get; set; }
+        public decimal Average1000kWhRate { get; set; }
+        public decimal EnergyRate { get; set; }
         public decimal TerminationFee { get; set; }
         public int TermMonths { get; set; }
 

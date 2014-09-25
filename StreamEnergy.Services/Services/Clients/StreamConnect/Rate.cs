@@ -9,6 +9,7 @@ namespace StreamEnergy.Services.Clients.StreamConnect
     {
         public string Type { get; set; }
         public string Unit { get; set; }
+        public string EnergyType { get; set; }
         public decimal Value { get; set; }
     }
 }
