@@ -324,7 +324,7 @@ $enrollment-module-vertical-padding: 20px;
     right: 0;
     background: url(../i/white-alpha-90.png) repeat;
     background: rgba(255, 255, 255, 0.9);
-    z-index: 3;
+    z-index: 11000;
     span {
         $height: 140px;
         $width: 250px;
