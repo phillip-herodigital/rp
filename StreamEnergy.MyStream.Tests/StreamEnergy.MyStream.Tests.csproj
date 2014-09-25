@@ -220,6 +220,7 @@
   <ItemGroup>
     <Compile Include="ContainerSetup.cs" />
     <Compile Include="Services\Clients\PaymentServiceTest.cs" />
+    <Compile Include="Services\Clients\AccountServiceTest.cs" />
     <Compile Include="Services\Clients\StreamConnectTest.cs" />
     <Compile Include="Services\GetSwtToken.cs" />
     <Compile Include="Sitecore\GeoIpTest.cs" />
