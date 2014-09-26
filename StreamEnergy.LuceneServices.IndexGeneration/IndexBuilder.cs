@@ -72,6 +72,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration
         {
             Document doc = new Document();
 
+            arg.Capabilities = arg.Capabilities.Except(arg.Capabilities.OfType<CustomerTypeCapability>());
             var exact = GetExact(arg);
 
             // used for maintenance

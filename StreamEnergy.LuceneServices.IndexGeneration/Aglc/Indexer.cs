@@ -32,9 +32,15 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.Aglc
             public static readonly ColumnDefinition PremiseType = new ColumnDefinition { Start = 0, Length = 1 };
             public const string PremiseTypeCommercial = "B";
             public const string PremiseTypeResidential = "I";
-            public static readonly ColumnDefinition AglAccountNumber = new ColumnDefinition { Start = 57, Length = 25 };
-            public static readonly ColumnDefinition ZipCode = new ColumnDefinition { Start = 148, Length = 5 };
+            public static readonly ColumnDefinition AglAccountNumber = new ColumnDefinition { Start = 57, Length = 10 };
+            public static readonly ColumnDefinition ServiceAddressStreetNumber = new ColumnDefinition { Start = 67, Length = 15 };
+            public static readonly ColumnDefinition ServiceAddressStreetCardinalDirection = new ColumnDefinition { Start = 82, Length = 1 };
+            public static readonly ColumnDefinition ServiceAddressStreetName = new ColumnDefinition { Start = 83, Length = 23 };
+            public static readonly ColumnDefinition ServiceAddressThoroughfare = new ColumnDefinition { Start = 106, Length = 4 };
+            public static readonly ColumnDefinition ServiceAddressStreetDirection = new ColumnDefinition { Start = 110, Length = 2 };
+            public static readonly ColumnDefinition ServiceAddressStructure = new ColumnDefinition { Start = 112, Length = 15 };
             public static readonly ColumnDefinition City = new ColumnDefinition { Start = 127, Length = 19 };
+            public static readonly ColumnDefinition ZipCode = new ColumnDefinition { Start = 148, Length = 5 };
         }
 
         public Indexer(int reportEvery, int maxTasks)
@@ -48,11 +54,53 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.Aglc
         {
             var zipCodes = new HashSet<string>();
             int counter = 0;
-            using (var reader = new System.IO.StreamReader(Path.Combine(options.Source, "custdata.txt")))
+            foreach (var resultLocation in Cleanse(ReadLocations(Path.Combine(options.Source, "custdata.txt")), streetService))
+            {
+
+                if (!zipCodes.Contains(resultLocation.Address.PostalCode5))
+                {
+                    await WriteZipCodeLocation(indexBuilder, resultLocation.Address.PostalCode5);
+                    zipCodes.Add(resultLocation.Address.PostalCode5);
+                }
+
+                await indexBuilder.WriteLocation(resultLocation, resultLocation.Capabilities.OfType<CustomerTypeCapability>().Single().CustomerType, "AGLC", true);
+                counter++;
+                if (counter % reportEvery == 0)
+                    Console.WriteLine(counter.ToString().PadLeft(11));
+            }
+        }
+
+        private IEnumerable<Location> Cleanse(IEnumerable<Location> locations, SmartyStreets.SmartyStreetService streetService)
+        {
+            foreach (var locGroup in TakeBy(locations, 100))
+            {
+                var cleansedAddresses = streetService.CleanseAddress((from record in locGroup
+                                                                      select new SmartyStreets.UncleansedAddress
+                                                                      {
+                                                                          Street = record.Address.Line1 + " " + record.Address.Line2,
+                                                                          Zipcode = record.Address.PostalCode5,
+                                                                          City = record.Address.City,
+                                                                          State = record.Address.StateAbbreviation,
+                                                                      }).ToArray()).Result;
+
+                foreach (var result in locGroup.Zip(cleansedAddresses, (record, address) => new DomainModels.Enrollments.Location
+                {
+                    Address = address ?? record.Address,
+                    Capabilities = record.Capabilities
+                }).Where(entry => entry.Address != null))
+                {
+                    yield return result;
+                }
+            }
+        }
+
+        private IEnumerable<Location> ReadLocations(string customerDataPath)
+        {
+            using (var reader = new System.IO.StreamReader(customerDataPath))
             {
                 while (!reader.EndOfStream)
                 {
-                    var entry = await reader.ReadLineAsync();
+                    var entry = reader.ReadLine();
                     if (entry.Length == Configuration.LineLength)
                     {
                         var customerType = GetCustomerType(entry);
@@ -60,50 +108,59 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.Aglc
                             continue;
 
                         var aglAccountNumber = Configuration.AglAccountNumber.GetValue(entry);
+
+                        var streetNumber = Configuration.ServiceAddressStreetNumber.GetValue(entry);
+                        var streetCardinalDirection = Configuration.ServiceAddressStreetCardinalDirection.GetValue(entry);
+                        var streetName = Configuration.ServiceAddressStreetName.GetValue(entry).Replace('-', ' ');
+                        var thoroughfare = Configuration.ServiceAddressThoroughfare.GetValue(entry);
+                        var streetDirection = Configuration.ServiceAddressStreetDirection.GetValue(entry);
+                        var structure = Configuration.ServiceAddressStructure.GetValue(entry);
+
                         var city = Configuration.City.GetValue(entry);
                         var zipCode = Configuration.ZipCode.GetValue(entry);
 
-                        if (!zipCodes.Contains(zipCode))
+                        yield return new Location
                         {
-                            await WriteZipCodeLocation(indexBuilder, customerType.Value, zipCode);
-                            zipCodes.Add(zipCode);
-                        }
-
-                        var resultLocation = new Location
-                        {
-                            Address = new Address 
+                            Address = new Address
                             {
-                                // TODO
+                                Line1 = streetNumber + " " + streetCardinalDirection + " " + streetName + " " + streetDirection,
+                                Line2 = structure,
                                 City = city,
-                                StateAbbreviation = "GA", 
-                                PostalCode5 = zipCode 
+                                StateAbbreviation = "GA",
+                                PostalCode5 = zipCode
                             },
-                            Capabilities = GetServiceCapabilities(aglAccountNumber, zipCode)
+                            Capabilities = GetServiceCapabilities(aglAccountNumber, zipCode, customerType.Value)
                         };
 
-                        await indexBuilder.WriteLocation(resultLocation, customerType.Value, "AGLC", true);
-                        counter++;
-                        if (counter % reportEvery == 0)
-                            Console.WriteLine(counter.ToString().PadLeft(11));
                     }
                 }
             }
         }
 
-        private Task<bool> WriteZipCodeLocation(IndexBuilder indexBuilder, EnrollmentCustomerType customerType, string zipCode)
+        private async Task WriteZipCodeLocation(IndexBuilder indexBuilder, string zipCode)
         {
-            return indexBuilder.WriteLocation(new Location
+            await indexBuilder.WriteLocation(new Location
             {
                 Address = new Address
                 {
                     StateAbbreviation = "GA",
                     PostalCode5 = zipCode
                 },
-                Capabilities = GetServiceCapabilities(null, zipCode)
-            }, customerType, "AGLC", true);
+                Capabilities = GetServiceCapabilities(null, zipCode, EnrollmentCustomerType.Commercial)
+            }, EnrollmentCustomerType.Commercial, "AGLC", true);
+
+            await indexBuilder.WriteLocation(new Location
+            {
+                Address = new Address
+                {
+                    StateAbbreviation = "GA",
+                    PostalCode5 = zipCode
+                },
+                Capabilities = GetServiceCapabilities(null, zipCode, EnrollmentCustomerType.Residential)
+            }, EnrollmentCustomerType.Residential, "AGLC", true);
         }
 
-        private IEnumerable<DomainModels.IServiceCapability> GetServiceCapabilities(string aglAccountNumber, string zipCode)
+        private IEnumerable<DomainModels.IServiceCapability> GetServiceCapabilities(string aglAccountNumber, string zipCode, EnrollmentCustomerType customerType)
         {
             return new IServiceCapability[]
                 {
@@ -111,7 +168,11 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.Aglc
                     {
                         AglAccountNumber = aglAccountNumber,
                         Zipcode = zipCode
-                    }
+                    },
+                    new  CustomerTypeCapability
+                    {
+                        CustomerType = customerType
+                    },
                 };
         }
 
@@ -135,6 +196,24 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.Aglc
                 action();
             }
             onDispose.Clear();
+        }
+
+        private static IEnumerable<IEnumerable<T>> TakeBy<T>(IEnumerable<T> records, int count)
+        {
+            int prev = 0;
+            List<T> intermediate = new List<T>();
+            foreach (var indexed in records.Select((record, index) => new { record, index }))
+            {
+                if (indexed.index / count != prev)
+                {
+                    prev = indexed.index / count;
+                    yield return intermediate.AsReadOnly();
+                    intermediate = new List<T>();
+                }
+
+                intermediate.Add(indexed.record);
+            }
+            yield return intermediate.AsReadOnly();
         }
     }
 }
