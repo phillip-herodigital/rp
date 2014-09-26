@@ -185,9 +185,9 @@
 
                             <dl class="plan-selection-fees">
                                 <dt>@Html.Sitecore().Field("Stream Energy Charge Label")</dt>
-                                <dd>{{ plan.streamEnergyCharge }}&cent;</dd>
+                                <dd>{{ plan.streamEnergyCharge | number:1 }}&cent;</dd>
                                 <dt>@Html.Sitecore().Field("TDU Charges Label")</dt>
-                                <dd ng-if="plan.tduCharges != ''">{{plan.tduCharges}}</dd>
+                                <dd ng-if="plan.tduCharges != ''">{{ plan.tduCharges }}</dd>
                                 <dd ng-if="plan.tduCharges == '' && provider == 'AEP Central Texas'">@Html.Sitecore().Field("Aep Central TDU Charges")</dd>
                                 <dd ng-if="plan.tduCharges == '' && provider == 'AEP North Texas'">@Html.Sitecore().Field("Aep North TDU Charges")</dd>
                                 <dd ng-if="plan.tduCharges == '' && provider == 'TNMP'">@Html.Sitecore().Field("Tnmp TDU Charges")</dd>
@@ -231,7 +231,7 @@
                         <td class="plan-name hide-small">
                             {{plan.name}} <a href="" ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}"><span ng-if="!isOpen">@Html.Sitecore().Field("Gas View Details") <i class="icon-blue-arrow-down"></i></span><span ng-if="isOpen">Hide Details <i class="icon-blue-arrow-up"></i></span> </a>
                         </td>
-                        <td class="rate">{{ plan.rate }}&cent; <span>@Html.Sitecore().Field("Gas Per kWh")</span></td>
+                        <td class="rate">{{ plan.rate | number:1 }}&cent; <span>@Html.Sitecore().Field("Gas Per kWh")</span></td>
                         <td class="term">
                             <span ng-show="plan.termMonths == '24'"><i class="icon-24months"></i></span>
                             <span ng-show="plan.termMonths == '6'"><i class="icon-6months"></i></span>

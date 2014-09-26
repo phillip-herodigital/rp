@@ -101,7 +101,6 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
 
         var continueWith = function () {
             enrollmentService.setAccountInformation().then(function (data) {
-                console.log(data);
                 $scope.validations = data.validations;
             });
         }

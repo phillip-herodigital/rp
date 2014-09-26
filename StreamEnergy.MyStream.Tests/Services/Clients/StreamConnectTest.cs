@@ -602,6 +602,208 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             }
         }
 
+
+        [TestMethod]
+        public void PostEnrollmentsUpdate()
+        {
+            // Assign
+            StreamEnergy.DomainModels.Enrollments.IEnrollmentService enrollmentService = container.Resolve<StreamEnergy.Services.Clients.EnrollmentService>();
+            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
+            var globalCustomerId = accountService.CreateStreamConnectCustomer(email: "test@example.com").Result;
+            var location = new DomainModels.Enrollments.Location
+            {
+                Address = new DomainModels.Address { StateAbbreviation = "TX", PostalCode5 = "75010", City = "Carrollton", Line1 = "3620 Huffines Blvd", Line2 = "APT 226" },
+                Capabilities = new DomainModels.IServiceCapability[]
+                        {
+                            new DomainModels.Enrollments.TexasServiceCapability { Tdu = "ONCOR", EsiId = "10443720006102389" },
+                            new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
+                            new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
+                        }
+            };
+            var offers = enrollmentService.LoadOffers(new[] { location }).Result;
+            var texasElectricityOffer = offers.First().Value.Offers.First() as DomainModels.Enrollments.TexasElectricityOffer;
+            var userContext = new DomainModels.Enrollments.UserContext
+            {
+                ContactInfo = new DomainModels.CustomerContact
+                {
+                    Name = new DomainModels.Name
+                    {
+                        First = "ROBERT",
+                        Last = "DELEON"
+                    },
+                    Phone = new DomainModels.Phone[] { new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = "2234567890" } },
+                    Email = new DomainModels.Email { Address = "test@example.com" },
+                },
+                SocialSecurityNumber = "529998765",
+                Services = new DomainModels.Enrollments.LocationServices[]
+                    {
+                        new DomainModels.Enrollments.LocationServices 
+                        { 
+                            Location = location, 
+                            SelectedOffers = new DomainModels.Enrollments.SelectedOffer[] 
+                            {
+                                new DomainModels.Enrollments.SelectedOffer
+                                {
+                                    Offer = texasElectricityOffer,
+                                    OfferOption = new DomainModels.Enrollments.TexasElectricityMoveInOfferOption 
+                                    { 
+                                        ConnectDate = DateTime.Today.AddDays(3),
+                                    }
+                                }
+                            }
+                        }
+                    },
+                MailingAddress = new DomainModels.Address
+                {
+                    City = "MASSENA",
+                    StateAbbreviation = "NY",
+                    Line1 = "100 WILSON HILL RD",
+                    PostalCode5 = "13662"
+                },
+            };
+
+            var saveResult = enrollmentService.BeginSaveEnrollment(globalCustomerId, userContext, null).Result;
+
+            Assert.IsFalse(saveResult.IsCompleted);
+            Assert.IsNotNull(saveResult.ResponseLocation);
+
+            while (!saveResult.IsCompleted)
+            {
+                saveResult = enrollmentService.EndSaveEnrollment(saveResult, userContext).Result;
+            }
+
+            userContext.ContactInfo = new DomainModels.CustomerContact
+                {
+                    Name = new DomainModels.Name
+                    {
+                        First = "REBECCA",
+                        Last = "DELEON"
+                    },
+                    Phone = new DomainModels.Phone[] { new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = "2230987654" } },
+                    Email = new DomainModels.Email { Address = "test@example.com" },
+                };
+
+            using (new Timer())
+            {
+                // Act
+                saveResult = enrollmentService.BeginSaveUpdateEnrollment(globalCustomerId, saveResult.Data, userContext, null, null).Result;
+
+                // Assert
+                Assert.IsFalse(saveResult.IsCompleted);
+                Assert.IsNotNull(saveResult.ResponseLocation);
+
+                // Act - Step 2 - async response
+                while (!saveResult.IsCompleted)
+                {
+                    saveResult = enrollmentService.EndSaveEnrollment(saveResult, userContext).Result;
+                }
+
+                // Assert
+                Assert.IsTrue(saveResult.IsCompleted);
+                if (saveResult.Data.Results.Length > 0)
+                {
+
+                }
+                else
+                {
+                    Assert.Fail("No data from Stream Connect");
+                }
+            }
+        }
+
+        [TestMethod]
+        public void PostEnrollmentsUpsert()
+        {
+            // Assign
+            StreamEnergy.DomainModels.Enrollments.IEnrollmentService enrollmentService = container.Resolve<StreamEnergy.Services.Clients.EnrollmentService>();
+            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
+            var globalCustomerId = accountService.CreateStreamConnectCustomer(email: "test@example.com").Result;
+            var location = new DomainModels.Enrollments.Location
+            {
+                Address = new DomainModels.Address { StateAbbreviation = "TX", PostalCode5 = "75010", City = "Carrollton", Line1 = "3620 Huffines Blvd", Line2 = "APT 226" },
+                Capabilities = new DomainModels.IServiceCapability[]
+                        {
+                            new DomainModels.Enrollments.TexasServiceCapability { Tdu = "ONCOR", EsiId = "10443720006102389" },
+                            new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
+                            new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
+                        }
+            };
+            var offers = enrollmentService.LoadOffers(new[] { location }).Result;
+            var texasElectricityOffer = offers.First().Value.Offers.First() as DomainModels.Enrollments.TexasElectricityOffer;
+            var userContext = new DomainModels.Enrollments.UserContext
+            {
+                ContactInfo = new DomainModels.CustomerContact
+                {
+                    Name = new DomainModels.Name
+                    {
+                        First = "ROBERT",
+                        Last = "DELEON"
+                    },
+                    Phone = new DomainModels.Phone[] { new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = "2234567890" } },
+                    Email = new DomainModels.Email { Address = "test@example.com" },
+                },
+                SocialSecurityNumber = "529998765",
+                Services = new DomainModels.Enrollments.LocationServices[]
+                    {
+                        new DomainModels.Enrollments.LocationServices 
+                        { 
+                            Location = location, 
+                            SelectedOffers = new DomainModels.Enrollments.SelectedOffer[] 
+                            {
+                                new DomainModels.Enrollments.SelectedOffer
+                                {
+                                    Offer = texasElectricityOffer,
+                                    OfferOption = new DomainModels.Enrollments.TexasElectricityMoveInOfferOption 
+                                    { 
+                                        ConnectDate = DateTime.Today.AddDays(3),
+                                    }
+                                }
+                            }
+                        }
+                    },
+                MailingAddress = new DomainModels.Address
+                {
+                    City = "MASSENA",
+                    StateAbbreviation = "NY",
+                    Line1 = "100 WILSON HILL RD",
+                    PostalCode5 = "13662"
+                },
+            };
+
+            var saveResult = new DomainModels.StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>
+            {
+                Data = new DomainModels.Enrollments.Service.EnrollmentSaveResult { Results = new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.EnrollmentSaveEntry>[0] },
+                IsCompleted = true,
+            };
+
+            using (new Timer())
+            {
+                // Act
+                saveResult = enrollmentService.BeginSaveUpdateEnrollment(globalCustomerId, saveResult.Data, userContext, null, null).Result;
+
+                // Assert
+                Assert.IsFalse(saveResult.IsCompleted);
+                Assert.IsNotNull(saveResult.ResponseLocation);
+
+                // Act - Step 2 - async response
+                while (!saveResult.IsCompleted)
+                {
+                    saveResult = enrollmentService.EndSaveEnrollment(saveResult, userContext).Result;
+                }
+
+                // Assert
+                Assert.IsTrue(saveResult.IsCompleted);
+                if (saveResult.Data.Results.Length > 0)
+                {
+
+                }
+                else
+                {
+                    Assert.Fail("No data from Stream Connect");
+                }
+            }
+        }
+
         [TestMethod]
         public void PostEnrollmentsFinalize()
         {
