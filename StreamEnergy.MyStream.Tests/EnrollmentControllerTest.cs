@@ -590,6 +590,7 @@ namespace StreamEnergy.MyStream.Tests
                         }
                     }
                 },
+                SelectedIdentityAnswers = new Dictionary<string,string>()
             };
             session.InternalContext = new InternalContext
             {
@@ -659,6 +660,7 @@ namespace StreamEnergy.MyStream.Tests
             Assert.AreEqual(3, session.InternalContext.IdentityCheck.Data.IdentityQuestions.Length);
             Assert.IsNotNull(session.InternalContext.CreditCheck);
             Assert.IsTrue(session.InternalContext.CreditCheck.IsCompleted);
+            Assert.IsNull(session.Context.SelectedIdentityAnswers);
         }
 
         [TestMethod]
