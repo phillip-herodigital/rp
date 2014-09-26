@@ -156,7 +156,7 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
             }
         };
 
-        if (!hasSubmitted) {
+        if (!hasSubmitted || !addAdditional) {
             var selectedOffersPromise = enrollmentService.setSelectedOffers(addAdditional);
 
             selectedOffersPromise.then(onComplete, function (data) {
