@@ -16,7 +16,6 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
         return temp && temp.location;
     }, function (address) {
         hasSubmitted = false;
-        console.log('hasSubmitted = false;', address);
     }, true);
     $scope.$watch(enrollmentCartService.getActiveService, function (address) {
         $scope.planSelection = { selectedOffers: {} };
@@ -173,11 +172,9 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
         {
             return function (plan) { return 0; };
         }
-        console.log(param);
         var evalFunc = $parse(param);
         return function (plan) {
             var value = evalFunc($scope, { plan: plan });
-            console.log(value);
             return value;
         }
     };

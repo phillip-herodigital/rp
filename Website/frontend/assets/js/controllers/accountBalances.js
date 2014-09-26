@@ -71,7 +71,7 @@ ngApp.controller('AccountBalances', ['$scope', '$rootScope', '$http', '$filter',
 	}, true);
 
 	$scope.submit = function() {
-		console.log($scope.paymentForm);
+		/*console.log($scope.paymentForm);*/
 	}
 
 }]);
