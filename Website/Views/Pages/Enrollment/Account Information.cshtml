@@ -73,7 +73,7 @@
                         <div class="group" ng-if="customerType == 'commercial'">
                             <div class="item group-col" @Html.Validation().ErrorClass(m => m.ContactTitle)>
                                 <label for="@Html.IdFor(m => m.ContactTitle)">@Html.Sitecore().Field("Title Label")</label>
-                                @Html.TextBoxFor(m => m.ContactTitle, new { ng_model = "accountInformation.contactTitle" })
+                                @Html.TextBoxFor(m => m.ContactTitle, new { ng_model = "accountInformation.contactTitle", data_val = "true", data_val_required = "" })
                                 @Html.ValidationMessageFor(model => model.ContactTitle)
                             </div>
                         </div>
