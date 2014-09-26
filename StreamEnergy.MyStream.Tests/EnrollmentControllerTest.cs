@@ -240,7 +240,6 @@ namespace StreamEnergy.MyStream.Tests
                             Offer = offers.First(o => o.Id == "Centerpoint/24-month-fixed-rate"),
                             Details = new DomainModels.Enrollments.Service.EnrollmentSaveEntry 
                             { 
-                                CisAccountNumber = "cis",
                                 StreamReferenceNumber = "stream",
                                 GlobalEnrollmentAccountId = Guid.NewGuid(),
                             }

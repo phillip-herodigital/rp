@@ -322,8 +322,7 @@ namespace StreamEnergy.Services.Clients
                         Results = (from entry in enrollmentResponses
                                    select new EnrollmentSaveEntry
                                    {
-                                       CisAccountNumber = entry.CisAccountNumber,
-                                       StreamReferenceNumber = entry.StreamReferenceNumber,
+                                       StreamReferenceNumber = entry.EnrollmentReferenceNumber,
                                        GlobalEnrollmentAccountId = entry.GlobalEnrollmentAccountId,
                                    })
                                    .Zip(from service in context.Services
@@ -367,7 +366,7 @@ namespace StreamEnergy.Services.Clients
             var request = (from service in context.Services
                            from offer in service.SelectedOffers
                            let previousSaveId = enrollmentSaveResult.Results.Where(r => r.Offer.Id == offer.Offer.Id && r.Location == service.Location).Select(r => (Guid?)r.Details.GlobalEnrollmentAccountId).FirstOrDefault()
-                           select ToEnrollmentAccount(globalCustomerId, context, service, offer, salesInfo, previousSaveId, findOfferPayment(service, offer))).ToArray();
+                           select ToEnrollmentAccount(globalCustomerId, context, service, offer, salesInfo, previousSaveId ?? Guid.Empty, findOfferPayment(service, offer))).ToArray();
             var response = await streamConnectClient.PutAsJsonAsync("/api/v1/customers/" + globalCustomerId.ToString() + "/enrollments", request);
             response.EnsureSuccessStatusCode();
 
