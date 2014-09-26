@@ -53,6 +53,7 @@ namespace StreamEnergy.DomainModels.Enrollments
             }
             else if (!internalContext.IdentityCheck.Data.HardStop.HasValue)
             {
+                context.SelectedIdentityAnswers = new Dictionary<string, string>();
                 return await base.InternalProcess(context, internalContext);
             }
 

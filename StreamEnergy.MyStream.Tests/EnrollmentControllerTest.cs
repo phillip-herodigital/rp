@@ -958,6 +958,7 @@ namespace StreamEnergy.MyStream.Tests
             }
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.CompleteOrderState), session.State);
+            Assert.AreEqual(0, session.Context.SelectedIdentityAnswers.Count);
         }
 
         [TestMethod]
@@ -1013,6 +1014,7 @@ namespace StreamEnergy.MyStream.Tests
             }
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.PaymentInfoState), session.State);
+            Assert.AreEqual(0, session.Context.SelectedIdentityAnswers.Count);
         }
 
         [TestMethod]
