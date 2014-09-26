@@ -60,7 +60,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
                 foreach (var placeOrderResult in internalContext.PlaceOrderResult)
                 {
-                    if (!internalContext.IdentityCheck.Data.IdentityAccepted)
+                    if (internalContext.IdentityCheck == null || !internalContext.IdentityCheck.Data.IdentityAccepted)
                     {
                         placeOrderResult.Details.IsSuccess = false;
                     }
