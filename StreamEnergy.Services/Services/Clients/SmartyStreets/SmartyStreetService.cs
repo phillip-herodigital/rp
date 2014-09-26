@@ -15,12 +15,20 @@ namespace StreamEnergy.Services.Clients.SmartyStreets
         private readonly string authId;
         private readonly string authToken;
         private readonly IUnityContainer container;
+        private readonly JsonSerializerSettings settings;
+        private readonly System.Net.Http.Formatting.MediaTypeFormatter jsonFormatter;
 
         public SmartyStreetService([Dependency("SmartyStreets AuthId")] string authId, [Dependency("SmartyStreets AuthToken")] string authToken, IUnityContainer container)
         {
             this.authId = authId;
             this.authToken = authToken;
             this.container = container;
+            this.settings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                ContractResolver = new UnderscoreMappingResolver()
+            };
+            this.jsonFormatter = new StreamEnergy.Mvc.JsonNetFormatter(settings);
         }
 
         public async Task<IEnumerable<DomainModels.Address>> CleanseAddress(UncleansedAddress[] addresses)
@@ -35,7 +43,7 @@ namespace StreamEnergy.Services.Clients.SmartyStreets
 
             try
             {
-                var response = await client.PostAsJsonAsync("https://api.smartystreets.com/street-address?auth-id=" + authId + "&auth-token=" + authToken, addresses).ConfigureAwait(false);
+                var response = await client.PostAsync("https://api.smartystreets.com/street-address?auth-id=" + authId + "&auth-token=" + authToken, new ObjectContent(typeof(object), addresses, jsonFormatter)).ConfigureAwait(false);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -65,15 +73,16 @@ namespace StreamEnergy.Services.Clients.SmartyStreets
             var client = container.Resolve<HttpClient>();
 
             var response = await client.PostAsJsonAsync("https://api.smartystreets.com/street-address?auth-id=" + authId + "&auth-token=" + authToken,
-                from addr in addresses
-                select new UncleansedAddress
-                {
-                    Street = addr.Line1,
-                    Street2 = addr.Line2,
-                    City = addr.City,
-                    State = addr.StateAbbreviation,
-                    Zipcode = addr.PostalCode5
-                }).ConfigureAwait(false);
+                new ObjectContent(typeof(IEnumerable<UncleansedAddress>), from addr in addresses
+                                                                          select new UncleansedAddress
+                                                                          {
+                                                                              Street = addr.Line1,
+                                                                              Street2 = addr.Line2,
+                                                                              City = addr.City,
+                                                                              State = addr.StateAbbreviation,
+                                                                              Zipcode = addr.PostalCode5
+                                                                          }, jsonFormatter)
+                ).ConfigureAwait(false);
 
             if (response.IsSuccessStatusCode)
             {
@@ -87,13 +96,9 @@ namespace StreamEnergy.Services.Clients.SmartyStreets
             }
         }
 
-        public static DomainModels.Address[][] ParseJsonResponse(string text, int count)
+        public DomainModels.Address[][] ParseJsonResponse(string text, int count)
         {
-            var result = JsonConvert.DeserializeObject<SmartyResponse[]>(text, new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore,
-                ContractResolver = new UnderscoreMappingResolver()
-            });
+            var result = JsonConvert.DeserializeObject<SmartyResponse[]>(text, settings);
 
             return (from index in Enumerable.Range(0, count)
                     select (from entry in result
