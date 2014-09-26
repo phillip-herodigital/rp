@@ -140,7 +140,7 @@
                         </a>
                     </td>
                     <td class="rate">
-                        {{plan.rate}}&cent;<sup>{{plan.calculatedFootnotes.indices['Rate Footnote']}}</sup> <span>@Html.Sitecore().Field("Electricity Per kWh")</span>
+                        {{ plan.rate | number:1 }}&cent;<sup>{{plan.calculatedFootnotes.indices['Rate Footnote']}}</sup> <span>@Html.Sitecore().Field("Electricity Per kWh")</span>
                     </td>
                     <td class="term" ng-if="plan.termMonths != '1'">
                         @Html.Sitecore().Field("Electricity Term Months").Format(new { Count = "{{plan.termMonths}}", Sup = "{{plan.calculatedFootnotes.indices['Term Footnote']}}" })
