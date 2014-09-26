@@ -71,7 +71,7 @@ namespace StreamEnergy.MyStream.Conditions
             // "cracked door" - allow less than 100% through to our own enrollment.
             redirect = redirect || useRemoteEnrollment;
 
-            if (redirect)
+            if (redirect || dependencies.EnrollmentParameters.AccountType == "C")
             {
                 var targetUrl = targetDpiUrl();
                 if (!string.IsNullOrEmpty(targetUrl))
