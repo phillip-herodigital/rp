@@ -369,6 +369,10 @@
     }
 </script>
 
+<script type="text/ng-template" id="offerOptions/GeorgiaGas">
+   
+</script>
+
 <script type="text/ng-template" id="template/datepicker/popup.html">
     <ul class="dropdown-menu" ng-style="{display: (isOpen && 'block') || 'none', top: position.top+'px', left: position.left+'px'}" ng-keydown="keydown($event)">
         <li ng-transclude></li>
@@ -411,6 +415,28 @@
     }
 </script>
 
+<script type="text/ng-template" id="offerOptions/GeorgiaGasMoveIn">
+    @using (var offer = Html.ClientRepeater(m => m.Services, "{{$parent.$index}}").ClientRepeater(m => m.SelectedOffers, "{{$index}}"))
+    {
+        <div ng-controller="OfferOptions-GeorgiaGasMoveIn">
+            @*<h2>Electricity</h2>*@
+            <div class="item group-col datepicker" @offer.Validation().ErrorClass(o => ((TexasElectricityMoveInOfferOption)o.OfferOption).ConnectDate)>
+                <label for="@offer.Fix(h => h.IdFor(o => ((TexasElectricityMoveInOfferOption)o.OfferOption).ConnectDate))">@Html.Sitecore().Field("Service Start Date Label")</label>
+                <span class="calendar">
+                    <input type="text" class="datepicker-input" id="@offer.Fix(h => h.IdFor(o => ((TexasElectricityMoveInOfferOption)o.OfferOption).ConnectDate))" ng-model="selectedOffer.offerOption.connectDate"
+                           datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="checkDisabledDate(date, mode)" show-footer="true" datepicker-options="{ 'datepickerDateClass': 'checkDateClass(date)', 'datepickerDateClassScope': $id, 'maxMode': 'day' }" />
+                    <span class="icon" ng-click="openDatePicker($event)"><i class="icon-calendar"></i></span>
+                </span>
+                <div class="availibility">@Html.Sitecore().Field("Availability Text")</div>
+            </div>
+            <div class="item item--no-input inline-label">
+                <label for="connection-fee">@Html.Sitecore().Field("Connection Fee Label")</label>
+                {{connectionFee | currency}}
+            </div>
+        </div>
+    }
+</script>
+
 <script type="text/ng-template" id="offerOptions/TexasElectricityCommercialQuote">
     @using (var offer = Html.ClientRepeater(m => m.Services, "{{$parent.$index}}").ClientRepeater(m => m.SelectedOffers, "{{$index}}"))
     {
@@ -426,6 +452,23 @@
     </div>
     </div>
    }
+</script>
+
+<script type="text/ng-template" id="offerOptions/GeorgiaGasCommercialQuote">
+    @using (var offer = Html.ClientRepeater(m => m.Services, "{{$parent.$index}}").ClientRepeater(m => m.SelectedOffers, "{{$index}}"))
+    {
+        <div ng-controller="OfferOptions-TexasElectricityCommercialQuote" ng-if="selectedOffer.optionRules.connectDates.availableConnectDates.length > 0">
+            <div class="item group-col datepicker" @offer.Validation().ErrorClass(o => ((TexasElectricityCommercialQuoteOption)o.OfferOption).ConnectDate)>
+                <label for="@offer.Fix(h => h.IdFor(o => ((TexasElectricityCommercialQuoteOption)o.OfferOption).ConnectDate))">@Html.Sitecore().Field("Commercial Service Start Date Label")</label>
+                <span class="calendar">
+                    <input type="text" class="datepicker-input" id="@offer.Fix(h => h.IdFor(o => ((TexasElectricityCommercialQuoteOption)o.OfferOption).ConnectDate))" ng-model="selectedOffer.offerOption.connectDate"
+                           datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="checkDisabledDate(date, mode)" show-footer="true" datepicker-options="{ 'datepickerDateClass': 'checkDateClass(date)', 'datepickerDateClassScope': $id, 'maxMode': 'day' }" />
+                    <span class="icon" ng-click="openDatePicker($event)"><i class="icon-calendar"></i></span>
+                </span>
+                <div class="availibility">@Html.Sitecore().Field("Availability Text")</div>
+            </div>
+        </div>
+    }
 </script>
 
 <script type="text/ng-template" id="cleanseAddressesModal">
