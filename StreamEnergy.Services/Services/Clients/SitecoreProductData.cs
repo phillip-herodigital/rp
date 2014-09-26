@@ -37,7 +37,7 @@ namespace StreamEnergy.Services.Clients
                             Fields = new NameValueCollection
                             {
                                 { "Name", item["Product Name"] },
-                                { "Description", item["Product Description"] },
+                                { "Description", LoadProductDescription(product, item) },
                                 { "Minimum Usage Fee", item["Minimum Usage Fee"] },
                                 { "TDU Charges", item["TDU Charges"] },
                                 { "Energy Facts Label", ((Sitecore.Data.Fields.FileField)providerData.Fields["Energy Facts Label"]).Src },
@@ -51,6 +51,22 @@ namespace StreamEnergy.Services.Clients
             }
 
             return null;
+        }
+
+        private string LoadProductDescription(StreamConnect.Product product, Sitecore.Data.Items.Item item)
+        {
+            var desc = item["Product Description"];
+            var tdu = product.Provider["Name"].ToString().Replace(" ", "");
+            var rateTiers = Sitecore.Web.WebUtil.ParseUrlParameters(item["Rate Tiers"]);
+
+            foreach(var key in rateTiers.AllKeys)
+            {
+                if (key.StartsWith(tdu))
+                {
+                    desc = desc.Replace("{" + key.Replace(tdu, "") + "}", rateTiers[key]);
+                }
+            }
+            return desc;
         }
 
         private IEnumerable<KeyValuePair<string, string>> LoadFootnotes(Sitecore.Data.Items.Item[] items, string[] fieldNames)
