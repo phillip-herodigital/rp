@@ -625,15 +625,16 @@ namespace StreamEnergy.Services.Clients
 
             if (result.Status.Value == "Success")
             {
-                return (from entry in originalSaveState.Results.Zip((IEnumerable<dynamic>)result.EnrollmentResponses, (saved, response) => new { saved, response })
+                return (from saved in originalSaveState.Results
+                        let response = (dynamic)((IEnumerable<dynamic>)result.EnrollmentResponses).First(r => r.GlobalEnrollmentAccountId == saved.Details.GlobalEnrollmentAccountId)
                         select new LocationOfferDetails<PlaceOrderResult>
                 {
-                    Location = entry.saved.Location,
-                    Offer = entry.saved.Offer,
+                    Location = saved.Location,
+                    Offer = saved.Offer,
                     Details = new PlaceOrderResult 
                     { 
-                        ConfirmationNumber = entry.response.EnrollmentReferenceNumber, 
-                        IsSuccess = entry.response.Status.Value == "Success" 
+                        ConfirmationNumber = response.EnrollmentReferenceNumber, 
+                        IsSuccess = response.Status.Value == "Success" 
                     }
                 }).ToArray();
             }
