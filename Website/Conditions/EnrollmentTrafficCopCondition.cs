@@ -95,6 +95,15 @@ namespace StreamEnergy.MyStream.Conditions
                 queryString = dependencies.Context.Request.QueryString;
             }
 
+            if (Percentage <= 0)
+            {
+                useRemoteEnrollment = true;
+            }
+            else if (Percentage >= 100)
+            {
+                useRemoteEnrollment = false;
+            }
+
             WriteCookie(queryString, useRemoteEnrollment);
         }
 
