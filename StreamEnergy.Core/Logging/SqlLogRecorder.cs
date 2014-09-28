@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
 using Newtonsoft.Json;
 using Sitecore.Data.Items;
+using Newtonsoft.Json.Serialization;
 
 namespace StreamEnergy.Logging
 {
@@ -14,11 +15,17 @@ namespace StreamEnergy.Logging
     {
         private readonly string connectionString;
         private Severity minSeverity;
+        private IList<string> propertiesToIgnore;
 
-        public SqlLogRecorder([Dependency("settings")]Item settingsItem)
+        public SqlLogRecorder([Dependency("settings")]Item settingsItem, EnvironmentCategory environment)
         {
             connectionString = Sitecore.Configuration.Settings.GetConnectionString(settingsItem["ConnectionStringName"]);
             minSeverity = (Severity)Enum.Parse(typeof(Severity), settingsItem["Min Logging Level"]);
+            var propertiesToMaskInProduction = settingsItem["PropertiesToMaskInProduction"];
+            if (!string.IsNullOrEmpty(propertiesToMaskInProduction) && environment == EnvironmentCategory.Production)
+            {
+                propertiesToIgnore = settingsItem["PropertiesToMaskInProduction"].Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+            }
         }
 
         Task ILogRecorder.Save(LogEntry logEntry)
@@ -78,7 +85,33 @@ VALUES (@entryid, @key, @value);
         {
             if (data == null)
                 return null;
-            return JsonConvert.SerializeObject(data);
+            return JsonConvert.SerializeObject(data, new Newtonsoft.Json.JsonSerializerSettings
+            {
+                ContractResolver = new HidePropertiesContractResolver(propertiesToIgnore)
+            });
+        }
+
+        private class HidePropertiesContractResolver : Newtonsoft.Json.Serialization.DefaultContractResolver
+        {
+            private IList<string> _propertiesToIgnore = null;
+
+            public HidePropertiesContractResolver(IList<string> propertiesToIgnore)
+            {
+                _propertiesToIgnore = propertiesToIgnore;
+            }
+
+            protected override IList<JsonProperty> CreateProperties(Type type, Newtonsoft.Json.MemberSerialization memberSerialization)
+            {
+                IList<JsonProperty> properties = base.CreateProperties(type, memberSerialization);
+                if (_propertiesToIgnore != null)
+                {
+                    return properties.Where(p => !_propertiesToIgnore.Contains(p.PropertyName, StringComparer.InvariantCultureIgnoreCase)).ToList();
+                }
+                else
+                {
+                    return properties;
+                }
+            }
         }
     }
 }
