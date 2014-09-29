@@ -653,6 +653,7 @@
     <Content Include="frontend\*" />
     <Content Include="frontend\**\*" />
     <Content Include="Data\typeahead\*" />
+    <Content Include="Data\web.config" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
     <None Include="Scripts\_references.js" />
     <Content Include="Global.asax" />
