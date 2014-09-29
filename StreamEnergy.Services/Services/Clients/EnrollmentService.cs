@@ -48,17 +48,45 @@ namespace StreamEnergy.Services.Clients
                 var serviceStatus = location.Capabilities.OfType<ServiceStatusCapability>().Single();
                 var customerType = location.Capabilities.OfType<CustomerTypeCapability>().Single();
 
+                var parameters = System.Web.HttpUtility.ParseQueryString("");
+                parameters["ServiceAddress.City"] = location.Address.City;
+                parameters["ServiceAddress.State"] = location.Address.StateAbbreviation;
+                parameters["ServiceAddress.StreetLine1"] = location.Address.Line1;
+                parameters["ServiceAddress.StreetLine2"] = location.Address.Line2;
+                parameters["ServiceAddress.Zip"] = location.Address.PostalCode5;
+
+                foreach (var capability in location.Capabilities)
+                {
+                    AddParameters(parameters, capability);
+                }
+
+                var response = await streamConnectClient.GetAsync("/api/v1/products?" + parameters.ToString());
+
+                response.EnsureSuccessStatusCode();
+                var streamConnectProductResponse = Json.Read<StreamConnect.ProductResponse>(await response.Content.ReadAsStringAsync());
+
                 if (location.Capabilities.OfType<TexasServiceCapability>().Any())
                 {
                     if (customerType.CustomerType == EnrollmentCustomerType.Residential)
                     {
-                        result.Add(location, await LoadTexasOffers(location, serviceStatus, customerType));
+                        result.Add(location, LoadTexasOffers(location, streamConnectProductResponse));
                     }
                     else
                     {
                         result.Add(location, new LocationOfferSet { Offers = new[] {
                             new TexasElectricityCommercialQuote { }
                         } });
+                    }
+                }
+                else if (location.Capabilities.OfType<GeorgiaGasServiceCapability>().Any())
+                {
+                    if (customerType.CustomerType == EnrollmentCustomerType.Residential)
+                    {
+                        result.Add(location, LoadGeorgiaOffers(location, streamConnectProductResponse));
+                    }
+                    else
+                    {
+                        // Not Implemented
                     }
                 }
                 else
@@ -69,33 +97,34 @@ namespace StreamEnergy.Services.Clients
             return result;
         }
 
-        private async Task<LocationOfferSet> LoadTexasOffers(Location location, ServiceStatusCapability serviceStatus, CustomerTypeCapability customerType)
+        private void AddParameters(NameValueCollection parameters, IServiceCapability capability)
+        {
+            switch (capability.CapabilityType)
+            {
+                case CustomerTypeCapability.Qualifier:
+                    parameters["CustomerType"] = (capability as CustomerTypeCapability).CustomerType.ToString("g");
+                    break;
+                case ServiceStatusCapability.Qualifier:
+                    parameters["EnrollmentType"] = (capability as ServiceStatusCapability).EnrollmentType.ToString("g");
+                    break;
+                case TexasServiceCapability.Qualifier:
+                    parameters["UtilityAccountNumber"] = (capability as TexasServiceCapability).EsiId;
+                    parameters["SystemOfRecord"] = "CIS1";
+                    break;
+            }
+
+        }
+
+        private LocationOfferSet LoadTexasOffers(Location location, StreamConnect.ProductResponse streamConnectProductResponse)
         {
             if (location.Capabilities.OfType<TexasServiceCapability>().Count() != 1)
             {
                 return new LocationOfferSet { OfferSetErrors = { { "TexasElectricity", "MultipleTdu" } } };
             }
-
             var texasService = location.Capabilities.OfType<TexasServiceCapability>().Single();
+            var serviceStatus = location.Capabilities.OfType<ServiceStatusCapability>().Single();
 
             var providerName = texasService.Tdu;
-
-            // Grab from the HttpUtility because it creates the interna `HttpValueCollection`, which will escape values properly when ToString'd.
-            var parameters = System.Web.HttpUtility.ParseQueryString("");
-            parameters["CustomerType"] = customerType.CustomerType.ToString("g");
-            parameters["EnrollmentType"] = serviceStatus.EnrollmentType.ToString("g");
-            parameters["ServiceAddress.City"] = location.Address.City;
-            parameters["ServiceAddress.State"] = location.Address.StateAbbreviation;
-            parameters["ServiceAddress.StreetLine1"] = location.Address.Line1;
-            parameters["ServiceAddress.StreetLine2"] = location.Address.Line2;
-            parameters["ServiceAddress.Zip"] = location.Address.PostalCode5;
-            parameters["UtilityAccountNumber"] = texasService.EsiId;
-            parameters["SystemOfRecord"] = "CIS1";
-
-            var response = await streamConnectClient.GetAsync("/api/v1/products?" + parameters.ToString());
-
-            response.EnsureSuccessStatusCode();
-            var streamConnectProductResponse = Json.Read<StreamConnect.ProductResponse>(await response.Content.ReadAsStringAsync());
 
             return new LocationOfferSet
             {
@@ -131,6 +160,45 @@ namespace StreamEnergy.Services.Clients
                                   { "ElectricityFactsLabel", new Uri(productData.Fields["Energy Facts Label"], UriKind.Relative) },
                                   { "TermsOfService", new Uri(productData.Fields["Terms Of Service"], UriKind.Relative) },
                                   { "YourRightsAsACustomer", new Uri(productData.Fields["Your Rights As A Customer"], UriKind.Relative) },
+                              }
+                          }).ToArray()
+            };
+        }
+
+        private LocationOfferSet LoadGeorgiaOffers(Location location, StreamConnect.ProductResponse streamConnectProductResponse)
+        {
+            var georgiaService = location.Capabilities.OfType<GeorgiaGasServiceCapability>().Single();
+            var serviceStatus = location.Capabilities.OfType<ServiceStatusCapability>().Single();
+
+
+            return new LocationOfferSet
+            {
+                Offers = (from product in streamConnectProductResponse.Products
+                          where product.Rates.Any(r => r.Unit == "Therm")
+                          group product by product.ProductCode into products
+                          let product = products.First()
+                          let productData = sitecoreProductData.GetGeorgiaGasProductData(product)
+                          where productData != null
+                          select new GeorgiaGasOffer
+                          {
+                              Id = product.Provider["Name"].ToString() + "/" + product.ProductCode,
+                              Provider = product.Provider.ToString(),
+
+                              EnrollmentType = serviceStatus.EnrollmentType,
+
+                              Name = productData.Fields["Name"],
+                              Description = productData.Fields["Description"],
+
+                              Rate = product.Rates.First(r => r.EnergyType == "Average").Value * 100,
+                              TermMonths = product.Term,
+                              RateType = product.Rates.Any(r => r.Type == "Fixed") ? RateType.Fixed : RateType.Variable,
+                              CancellationFee = product.Fees.Where(fee => fee.Name == "Early Termination Fee").Select(fee => fee.Amount).FirstOrDefault(),
+
+                              Footnotes = productData.Footnotes,
+
+                              Documents = new Dictionary<string, Uri> 
+                              {
+                                  // TODO
                               }
                           }).ToArray()
             };
