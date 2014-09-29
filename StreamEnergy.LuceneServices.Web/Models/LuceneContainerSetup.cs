@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Hosting;
 using Microsoft.Practices.Unity;
 using StreamEnergy.Unity;
+using Microsoft.WindowsAzure.ServiceRuntime;
 
 namespace StreamEnergy.LuceneServices.Web.Models
 {
@@ -12,7 +13,17 @@ namespace StreamEnergy.LuceneServices.Web.Models
     {
         void IContainerSetupStrategy.SetupUnity(IUnityContainer unityContainer)
         {
-            unityContainer.RegisterType<IndexSearcher>(new ContainerControlledLifetimeManager(), new InjectionFactory(container => new IndexSearcher(HostingEnvironment.MapPath("~/Data/typeahead"))));
+            string typeaheadStore = null;
+            try
+            {
+                typeaheadStore = RoleEnvironment.GetLocalResource("TypeaheadStore").RootPath;
+            }
+            catch { }
+            if (typeaheadStore == null)
+            {
+                typeaheadStore = HostingEnvironment.MapPath("~/Data/typeahead");
+            }
+            unityContainer.RegisterType<IndexSearcher>(new ContainerControlledLifetimeManager(), new InjectionFactory(container => new IndexSearcher(typeaheadStore)));
         }
     }
 }

@@ -33,6 +33,7 @@
     </Imports>
     <LocalResources>
       <LocalStorage name="DiagnosticStore" sizeInMB="20000" cleanOnRoleRecycle="false" />
+      <LocalStorage name="TypeaheadStore" sizeInMB="10000" cleanOnRoleRecycle="false" />
     </LocalResources>
     <Certificates>
     </Certificates>
