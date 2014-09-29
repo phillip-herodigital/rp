@@ -14,7 +14,6 @@ namespace StreamEnergy.DomainModels.Payments
 
         public string PaymentType { get { return Qualifier; } }
 
-        // TODO - fill the ErrorMessage field
         [Required]
         public string CardToken { get; set; }
 
