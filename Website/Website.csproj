@@ -522,6 +522,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Conditions\CookieCryptography.cs" />
+    <Compile Include="Conditions\EnforceSSLCondition.cs" />
     <Compile Include="Conditions\EnrollmentTrafficCopCondition.cs" />
     <Compile Include="Conditions\MaintenanceModeCondition.cs" />
     <Compile Include="Controllers\ApiControllers\AccountController.cs" />
@@ -650,7 +651,8 @@
     <Content Include="default.css" />
     <Content Include="default.js" />
     <Content Include="frontend\*" />
-	<Content Include="frontend\**\*" />
+    <Content Include="frontend\**\*" />
+    <Content Include="Data\web.config" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
     <None Include="Scripts\_references.js" />
     <Content Include="Global.asax" />
@@ -791,6 +793,12 @@
     <Content Include="Views\layouts\Raw Layout.cshtml" />
     <Content Include="Views\Components\Payments\New Bank Account.cshtml" />
     <Content Include="Views\Pages\Debugging\LogViewer.cshtml" />
+    <Content Include="updateTypeaheadIndex.cmd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="updateTypeaheadIndex.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

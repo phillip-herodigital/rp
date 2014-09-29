@@ -53,6 +53,9 @@ namespace StreamEnergy.Services.Clients
 
             unityContainer.RegisterInstance("SmartyStreets AuthId", ConfigurationManager.AppSettings["SmartyStreetsAuthId"]);
             unityContainer.RegisterInstance("SmartyStreets AuthToken", ConfigurationManager.AppSettings["SmartyStreetsAuthToken"]);
+            var SSLEnabled = false;
+            bool.TryParse(ConfigurationManager.AppSettings["SSLEnabled"], out SSLEnabled);
+            unityContainer.RegisterInstance("SSLEnabled", SSLEnabled);
 
             unityContainer.RegisterType<SmartyStreets.ISmartyStreetService, SmartyStreets.SmartyStreetService>();
 
