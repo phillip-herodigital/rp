@@ -16,7 +16,6 @@ namespace StreamEnergy.DomainModels.Payments
             get { return Qualifier; }
         }
 
-        // TODO - fill the ErrorMessage field
         [Required]
         public BankAccountCategory Category { get; set; }
         [Required]

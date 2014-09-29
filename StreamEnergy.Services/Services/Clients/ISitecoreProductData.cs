@@ -8,5 +8,7 @@ namespace StreamEnergy.Services.Clients
     interface ISitecoreProductData
     {
         SitecoreProductInfo GetTexasElectricityProductData(StreamConnect.Product product);
+
+        SitecoreProductInfo GetGeorgiaGasProductData(StreamConnect.Product product);
     }
 }

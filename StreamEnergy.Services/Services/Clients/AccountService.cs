@@ -15,37 +15,46 @@ namespace StreamEnergy.Services.Clients
         private readonly Sample.Commons.SampleStreamCommonsSoap service;
         private readonly StreamCommons.Account.CisAccountServicesPortType accountService;
         private readonly StreamEnergy.Dpi.DPILinkSoap dpiLinkService;
-        private readonly HttpClient client;
+        private readonly HttpClient streamConnectClient;
 
         public AccountService(Sample.Commons.SampleStreamCommonsSoap service, StreamCommons.Account.CisAccountServicesPortType accountService, StreamEnergy.Dpi.DPILinkSoap dpiLinkService, [Dependency(StreamConnectContainerSetup.StreamConnectKey)] HttpClient client)
         {
             this.service = service;
             this.accountService = accountService;
             this.dpiLinkService = dpiLinkService;
-            this.client = client;
+            this.streamConnectClient = client;
         }
 
-        Task<IEnumerable<Account>> IAccountService.GetInvoices(Guid globalCustomerId)
+        async Task<IEnumerable<Account>> IAccountService.GetInvoices(Guid globalCustomerId)
         {
-            // TODO - load from Stream Commons
-            var response = service.GetInvoices(new Sample.Commons.GetInvoicesRequest { GlobalCustomerId = globalCustomerId });
-
-            return Task.FromResult<IEnumerable<Account>>(from entry in response.Invoice
-                                                         group new DomainModels.Accounts.Invoice
-                                                         {
-                                                             DueDate = entry.DueDate,
-                                                             InvoiceAmount = entry.InvoiceAmount,
-                                                             InvoiceNumber = entry.InvoiceNumber,
-                                                             IsPaid = entry.IsPaid,
-                                                         } by new { entry.AccountNumber, entry.ServiceType, entry.CanRequestExtension } into invoicesByAcount
-                                                         select new Account(Guid.Empty)
-                                                         {
-                                                             AccountNumber = invoicesByAcount.Key.AccountNumber,
-                                                             AccountType = invoicesByAcount.Key.ServiceType,
-                                                             Capabilities = { new InvoiceExtensionAccountCapability { CanRequestExtension = invoicesByAcount.Key.CanRequestExtension } },
-                                                             Invoices = invoicesByAcount.ToArray(),
-                                                             // TODO - populate the CurrentInvoice?
-                                                         });
+            var response = await streamConnectClient.GetAsync("/api/v1/invoices/customer/" + globalCustomerId.ToString());
+            response.EnsureSuccessStatusCode();
+            dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+            if (data.Status == "Success")
+            {
+                var result = new List<Account>();
+                foreach (var acct in ((IEnumerable<dynamic>)data.Invoices).GroupBy(invoice => (Guid)invoice.GlobalAccountId))
+                {
+                    result.Add(new Account(acct.Key)
+                    {
+                        AccountNumber = acct.First().SystemOfRecordAccountNumber,
+                        AccountType = acct.First().ServiceType,
+                        SystemOfRecord = acct.First().SystemOfRecord,
+                        Invoices = (from invoice in acct
+                                    select new Invoice
+                                    {
+                                         InvoiceNumber = invoice.InvoiceId.ToString(),
+                                         DueDate = invoice.DueDate,
+                                         InvoiceAmount = (decimal)invoice.AmountDue.Value,
+                                    }).ToArray()
+                    });
+                }
+                return result.ToArray();
+            }
+            else
+            {
+                return Enumerable.Empty<Account>();
+            }
         }
 
         Task<IEnumerable<Account>> IAccountService.GetCurrentInvoices(Guid globalCustomerId)
@@ -144,22 +153,6 @@ namespace StreamEnergy.Services.Clients
                     }
                 }
             );
-        }
-
-        Task<IEnumerable<DomainModels.Payments.SavedPaymentInfo>> IAccountService.GetSavedPaymentMethods(Guid globalCustomerId)
-        {
-            return Task.FromResult<IEnumerable<DomainModels.Payments.SavedPaymentInfo>>(new[] { 
-                new DomainModels.Payments.SavedPaymentInfo { DisplayName = "Saved Credit Card", Id= Guid.NewGuid(), RedactedData= "**** **** **** 1234", UnderlyingPaymentType = DomainModels.Payments.TokenizedCard.Qualifier },
-                new DomainModels.Payments.SavedPaymentInfo { DisplayName = "Saved Bank", Id=Guid.NewGuid(), RedactedData= "*****1234", UnderlyingPaymentType = DomainModels.Payments.BankPaymentInfo.Qualifier },
-            });
-        }
-
-        Task<MakePaymentResult> IAccountService.MakePayment(string account, decimal amount, DomainModels.Payments.IPaymentInfo paymentMethod, DateTime paymentDate)
-        {
-            return Task.FromResult(new MakePaymentResult
-                {
-                    ConfirmationNumber = account + "123"
-                });
         }
 
         string IAccountService.GetIgniteAssociateFromCustomerNumber(string Auth_ID, string Auth_PW, string customerNumber)
@@ -294,7 +287,7 @@ namespace StreamEnergy.Services.Clients
 
         async Task<Guid> IAccountService.CreateStreamConnectCustomer(string username, string email)
         {
-            var response = await client.PostAsJsonAsync("/api/v1/customers", new { PortalId = username, EmailAddress = email });
+            var response = await streamConnectClient.PostAsJsonAsync("/api/v1/customers", new { PortalId = username, EmailAddress = email });
             if (response.IsSuccessStatusCode)
             {
                 var data = Json.Read<StreamConnect.CustomerResponse>(await response.Content.ReadAsStringAsync());
@@ -308,7 +301,7 @@ namespace StreamEnergy.Services.Clients
 
         async Task<string> IAccountService.GetEmailByCustomerId(Guid globalCustomerId)
         {
-            var response = await client.GetAsync("/api/v1/customers/" + globalCustomerId.ToString());
+            var response = await streamConnectClient.GetAsync("/api/v1/customers/" + globalCustomerId.ToString());
             if (response.IsSuccessStatusCode)
             {
                 var data = Json.Read<StreamConnect.CustomerResponse>(await response.Content.ReadAsStringAsync());
@@ -320,7 +313,7 @@ namespace StreamEnergy.Services.Clients
 
         async Task<IEnumerable<Account>> IAccountService.GetAccounts(Guid globalCustomerId)
         {
-            var response = await client.GetAsync("/api/v1/customers/" + globalCustomerId.ToString() + "/accounts");
+            var response = await streamConnectClient.GetAsync("/api/v1/customers/" + globalCustomerId.ToString() + "/accounts");
             if (response.IsSuccessStatusCode)
             {
                 dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
@@ -344,7 +337,7 @@ namespace StreamEnergy.Services.Clients
 
         async Task<Guid> IAccountService.AssociateAccount(Guid globalCustomerId, string accountNumber, string ssnLast4, string accountNickname)
         {
-            var response = await client.PostAsJsonAsync("/api/v1/customers/" + globalCustomerId.ToString() + "/accounts/associate", new
+            var response = await streamConnectClient.PostAsJsonAsync("/api/v1/customers/" + globalCustomerId.ToString() + "/accounts/associate", new
                 {
                     AccountNumber = accountNumber,
                     Last4 = ssnLast4,
@@ -363,7 +356,7 @@ namespace StreamEnergy.Services.Clients
 
         async Task<bool> IAccountService.DisassociateAccount(Guid globalCustomerId, Guid accountId)
         {
-            var response = await client.DeleteAsync("/api/v1/customers/" + globalCustomerId.ToString() + "/accounts/" + accountId.ToString());
+            var response = await streamConnectClient.DeleteAsync("/api/v1/customers/" + globalCustomerId.ToString() + "/accounts/" + accountId.ToString());
 
             if (response.IsSuccessStatusCode)
             {
@@ -379,7 +372,7 @@ namespace StreamEnergy.Services.Clients
 
         async Task<AccountDetails> IAccountService.GetAccountDetails(Guid globalCustomerId, Guid accountId)
         {
-            var response = await client.GetAsync("/api/v1/customers/" + globalCustomerId.ToString() + "/accounts/" + accountId.ToString());
+            var response = await streamConnectClient.GetAsync("/api/v1/customers/" + globalCustomerId.ToString() + "/accounts/" + accountId.ToString());
 
             if (response.IsSuccessStatusCode)
             {

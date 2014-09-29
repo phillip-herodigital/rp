@@ -28,17 +28,19 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private readonly IUnityContainer container;
         private readonly Services.Clients.ITemperatureService temperatureService;
         private readonly DomainModels.Accounts.IAccountService accountService;
+        private readonly DomainModels.Payments.IPaymentService paymentService;
         private readonly Sitecore.Security.Domains.Domain domain;
         private readonly Sitecore.Data.Database database;
         private readonly IValidationService validation;
         private readonly StreamEnergy.MyStream.Controllers.ApiControllers.AuthenticationController authentication;
         private readonly UserProfileLocator profileLocator;
 
-        public AccountController(IUnityContainer container, HttpSessionStateBase session, DomainModels.Accounts.IAccountService accountService, Services.Clients.ITemperatureService temperatureService, IValidationService validation, StreamEnergy.MyStream.Controllers.ApiControllers.AuthenticationController authentication, UserProfileLocator profileLocator)
+        public AccountController(IUnityContainer container, HttpSessionStateBase session, DomainModels.Accounts.IAccountService accountService, DomainModels.Payments.IPaymentService paymentService, Services.Clients.ITemperatureService temperatureService, IValidationService validation, StreamEnergy.MyStream.Controllers.ApiControllers.AuthenticationController authentication, UserProfileLocator profileLocator)
         {
             this.container = container;
             this.temperatureService = temperatureService;
             this.accountService = accountService;
+            this.paymentService = paymentService;
             this.domain = Sitecore.Context.Site.Domain;
             this.database = Sitecore.Context.Database;
             this.item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Components/Account/Profile");
@@ -287,8 +289,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 .Select(entry => new 
                 { 
                     account = entry.Key, 
-                    amount = entry.Value, 
-                    task = accountService.MakePayment(account: entry.Key.AccountNumber, amount: entry.Value, paymentMethod: request.PaymentAccount, paymentDate: request.PaymentDate) 
+                    amount = entry.Value,
+                    // TODO - customer name?
+                    task = paymentService.OneTimePayment(request.PaymentDate, entry.Value, entry.Key.AccountNumber, null, entry.Key.SystemOfRecord, request.PaymentAccount) 
                 }).ToArray();
             await Task.WhenAll(temp.Select(e => e.task));
 
@@ -925,7 +928,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 }
             }
 
-            var confirmation = await accountService.MakePayment(account: account.AccountNumber, amount: request.TotalPaymentAmount, paymentMethod: request.PaymentAccount, paymentDate: DateTime.Today);
+            var confirmation = await paymentService.OneTimePayment(DateTime.Today, request.TotalPaymentAmount, account.AccountNumber, null, account.SystemOfRecord, request.PaymentAccount);
 
             return new MakeOneTimePaymentResponse
             {
@@ -946,7 +949,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public async Task<IEnumerable<DomainModels.Payments.SavedPaymentInfo>> GetSavedPaymentMethods()
         {
-            return await accountService.GetSavedPaymentMethods(profileLocator.Locate(User.Identity.Name).GlobalCustomerId);
+            return await paymentService.GetSavedPaymentMethods(profileLocator.Locate(User.Identity.Name).GlobalCustomerId);
         }
 
         [HttpPost]
@@ -961,8 +964,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 };
             }
 
-            // TODO
-            await Task.Yield();
+            var result = await paymentService.SavePaymentMethod(profileLocator.Locate(User.Identity.Name).GlobalCustomerId, request.BankAccount, request.Nickname);
+
             return new AddBankAccountResponse
             {
                 Validations = Enumerable.Empty<TranslatedValidationResult>(),
@@ -982,8 +985,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 };
             }
 
-            // TODO
-            await Task.Yield();
+            var result = await paymentService.SavePaymentMethod(profileLocator.Locate(User.Identity.Name).GlobalCustomerId, request.Card, request.Nickname);
+
             return new AddCreditCardResponse
             {
                 Validations = Enumerable.Empty<TranslatedValidationResult>(),

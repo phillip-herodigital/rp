@@ -69,6 +69,31 @@ namespace StreamEnergy.Services.Clients
             return desc;
         }
 
+        public SitecoreProductInfo GetGeorgiaGasProductData(StreamConnect.Product product)
+        {
+
+            if (taxonomy != null)
+            {
+                var item = taxonomy.Axes.GetItem("Products/*/" + product.ProductCode);
+
+                if (item != null)
+                {
+                    return new SitecoreProductInfo
+                    {
+                        // TODO
+                        Fields = new NameValueCollection
+                        {
+                            { "Name", item["Product Name"] },
+                            { "Description", item["Product Description"] },
+                        },
+                        Footnotes = LoadFootnotes(new[] { item }, new string[] { }).ToArray()
+                    };
+                }
+            }
+
+            return null;
+        }
+
         private IEnumerable<KeyValuePair<string, string>> LoadFootnotes(Sitecore.Data.Items.Item[] items, string[] fieldNames)
         {
             foreach (var fieldName in fieldNames)

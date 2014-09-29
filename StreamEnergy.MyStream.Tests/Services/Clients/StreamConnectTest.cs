@@ -86,6 +86,42 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         }
 
         [TestMethod]
+        public void GetProductsGeorgiaZipTest()
+        {
+            // Assign
+            StreamEnergy.DomainModels.Enrollments.IEnrollmentService enrollmentService = container.Resolve<StreamEnergy.Services.Clients.EnrollmentService>();
+
+            // Act
+            Dictionary<DomainModels.Enrollments.Location, DomainModels.Enrollments.LocationOfferSet> result;
+            using (new Timer())
+            {
+                result = enrollmentService.LoadOffers(new[] 
+                { 
+                    new DomainModels.Enrollments.Location
+                    {
+                        Address = new DomainModels.Address { StateAbbreviation = "GA", PostalCode5 = "30080", },
+                        Capabilities = new DomainModels.IServiceCapability[]
+                        {
+                            new DomainModels.Enrollments.GeorgiaGasServiceCapability { Zipcode = "30080" },
+                            new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
+                            new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
+                        }
+                    }
+                }).Result;
+            }
+
+            // Assert
+            if (result.First().Value.Offers.Any())
+            {
+
+            }
+            else
+            {
+                Assert.Inconclusive("No data from Stream Connect");
+            }
+        }
+
+        [TestMethod]
         public void GetProductsAddressTest()
         {
             // Assign
@@ -437,11 +473,36 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             {
                 // Act
                 var result = enrollmentService.VerifyPremise(new DomainModels.Enrollments.Location
-                    {
-                        Address = new DomainModels.Address { StateAbbreviation = "TX", PostalCode5 = "75010", City = "Carrollton", Line1 = "3620 Huffines Blvd", Line2 = "APT 226" },
-                        Capabilities = new DomainModels.IServiceCapability[]
+                {
+                    Address = new DomainModels.Address { StateAbbreviation = "TX", PostalCode5 = "75010", City = "Carrollton", Line1 = "3620 Huffines Blvd", Line2 = "APT 226" },
+                    Capabilities = new DomainModels.IServiceCapability[]
                         {
                             new DomainModels.Enrollments.TexasServiceCapability { Tdu = "ONCOR", EsiId = "10443720006102389" },
+                            new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
+                            new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
+                        }
+                }).Result;
+
+                // Assert
+                Assert.AreEqual(DomainModels.Enrollments.PremiseVerificationResult.Success, result);
+            }
+        }
+
+        [TestMethod]
+        public void PostVerifyPremiseGeorgiaTest()
+        {
+            // Assign
+            StreamEnergy.DomainModels.Enrollments.IEnrollmentService enrollmentService = container.Resolve<StreamEnergy.Services.Clients.EnrollmentService>();
+
+            using (new Timer())
+            {
+                // Act
+                var result = enrollmentService.VerifyPremise(new DomainModels.Enrollments.Location
+                    {
+                        Address = new DomainModels.Address {Line1="3 The Croft",UnitNumber="3 Lot",City="Atlanta",StateAbbreviation="GA",PostalCode5="30342",PostalCodePlus4="2438"},
+                        Capabilities = new DomainModels.IServiceCapability[]
+                        {
+                            new DomainModels.Enrollments.GeorgiaGasServiceCapability { AglAccountNumber = "0715818330", Zipcode = "30342" },
                             new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
                             new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
                         }

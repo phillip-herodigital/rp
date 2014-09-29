@@ -22,7 +22,6 @@ namespace StreamEnergy.DomainModels.Enrollments
         [Newtonsoft.Json.JsonProperty(DefaultValueHandling = Newtonsoft.Json.DefaultValueHandling.IgnoreAndPopulate)]
         [System.ComponentModel.DefaultValue(TexasMeterType.Other)]
         public TexasMeterType MeterType { get; set; }
-        // TODO - dwelling type?
 
         string ISearchable.GetUniqueField()
         {
