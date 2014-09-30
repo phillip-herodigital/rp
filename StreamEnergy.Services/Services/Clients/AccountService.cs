@@ -27,7 +27,7 @@ namespace StreamEnergy.Services.Clients
 
         async Task<IEnumerable<Account>> IAccountService.GetInvoices(Guid globalCustomerId)
         {
-            var response = await streamConnectClient.GetAsync("/api/v1/invoices/customer/" + globalCustomerId.ToString());
+            var response = await streamConnectClient.GetAsync("/api/v1/customers/" + globalCustomerId.ToString() + "/invoices");
             response.EnsureSuccessStatusCode();
             dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
             if (data.Status == "Success")
@@ -55,6 +55,15 @@ namespace StreamEnergy.Services.Clients
             {
                 return Enumerable.Empty<Account>();
             }
+        }
+
+        async Task<Uri> IAccountService.GetInvoicePdf(Guid globalCustomerId, Guid globalAccountId, string invoiceId)
+        {
+            var response = await streamConnectClient.GetAsync("/api/v1/customers/" + globalCustomerId.ToString() + "/accounts/" + globalAccountId.ToString() + "/invoices/" + invoiceId);
+            response.EnsureSuccessStatusCode();
+            dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+
+            return new Uri((string)data.Uri);
         }
 
         Task<IEnumerable<Account>> IAccountService.GetCurrentInvoices(Guid globalCustomerId)

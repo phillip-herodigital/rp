@@ -110,5 +110,24 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Assert
             Assert.Inconclusive();
         }
+
+        [TestMethod]
+        public void GetAccountInvoiceUrl()
+        {
+            // Arrange
+            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
+            var gcid = accountService.CreateStreamConnectCustomer().Result;
+            var acctId = accountService.AssociateAccount(gcid, "3001311049", "3192", "Sample").Result;
+            var invoiceAccounts = accountService.GetInvoices(gcid).Result;
+            var targetInvoice = invoiceAccounts.First(acct => acct.Invoices.Any()).Invoices.First();
+
+            // Act
+            var url = accountService.GetInvoicePdf(gcid, acctId, targetInvoice.InvoiceNumber).Result;
+
+            // Assert
+            var client = new HttpClient();
+            var pdf = client.GetAsync(url).Result;
+            pdf.EnsureSuccessStatusCode();
+        }
     }
 }

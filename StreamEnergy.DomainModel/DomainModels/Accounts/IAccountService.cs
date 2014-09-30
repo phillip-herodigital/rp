@@ -11,6 +11,7 @@ namespace StreamEnergy.DomainModels.Accounts
     {
         Task<IEnumerable<Account>> GetInvoices(Guid globalCustomerId);
         Task<IEnumerable<Account>> GetCurrentInvoices(Guid globalCustomerId);
+        Task<Uri> GetInvoicePdf(Guid globalCustomerId, Guid globalAccountId, string invoiceId);
         Task<IEnumerable<Account>> GetAccountBalances(Guid globalCustomerId);
         Task<Account> GetCurrentInvoice(string accountNumber);
 
