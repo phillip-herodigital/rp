@@ -348,7 +348,7 @@ namespace StreamEnergy.Services.Clients
                 dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
                 if (data.Status == "Success")
                 {
-                    return Guid.Parse((string)data.AssociateAccountResponseDetails[0].GlobalAccountId);
+                    return Guid.Parse((string)data.AssociateAccountResults[0].GlobalAccountId);
                 }
             }
             return Guid.Empty;
