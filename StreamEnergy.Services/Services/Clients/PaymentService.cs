@@ -111,10 +111,11 @@ namespace StreamEnergy.Services.Clients
             response.EnsureSuccessStatusCode();
             dynamic result = Json.Read<JObject>(await response.Content.ReadAsStringAsync());
 
-            return from dynamic entry in (JArray)result.PaymentMethods
+            return from dynamic entry in (JArray)result.PastPayments
                    select new PastPayment
                    {
-                       ConfirmationCode = entry.ConfermationCode,
+                       // TODO - populate global account id
+                       GlobalAccountId = Guid.Empty,
                        PaidDate = entry.PaidDate,
                        PaymentAmount = (decimal)entry.PaymentAmount.Value,
                    };
