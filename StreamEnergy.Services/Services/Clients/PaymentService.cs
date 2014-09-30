@@ -150,13 +150,13 @@ namespace StreamEnergy.Services.Clients
         }
 
 
-        Task<AutoPaySetting> IPaymentService.GetAutoPayStatus(Guid globalCustomerId, Guid globalAccountId)
+        Task<AutoPaySetting> IPaymentService.GetAutoPayStatus(DomainModels.Accounts.Account account)
         {
             // TODO - implement service when it is ready
             throw new NotImplementedException();
         }
 
-        Task<bool> IPaymentService.SetAutoPayStatus(Guid globalCustomerId, Guid globalAccountId, AutoPaySetting autoPaySetting)
+        Task<bool> IPaymentService.SetAutoPayStatus(DomainModels.Accounts.Account account, AutoPaySetting autoPaySetting)
         {
             // TODO - implement service when it is ready
             throw new NotImplementedException();
