@@ -220,6 +220,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="DomainModels\MobileEnrollment\UserContext.cs" />
+    <Compile Include="DomainModels\Payments\AutoPaySetting.cs" />
     <Compile Include="DomainModels\Payments\BankAccountCategory.cs" />
     <Compile Include="DomainModels\Payments\BankPaymentInfo.cs" />
     <Compile Include="DomainModels\Payments\IPaymentInfo.cs" />

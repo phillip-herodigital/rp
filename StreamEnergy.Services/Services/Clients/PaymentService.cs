@@ -149,5 +149,17 @@ namespace StreamEnergy.Services.Clients
             return null;
         }
 
+
+        Task<AutoPaySetting> IPaymentService.GetAutoPayStatus(Guid globalCustomerId, Guid globalAccountId)
+        {
+            // TODO - implement service when it is ready
+            throw new NotImplementedException();
+        }
+
+        Task<bool> IPaymentService.SetAutoPayStatus(Guid globalCustomerId, Guid globalAccountId, AutoPaySetting autoPaySetting)
+        {
+            // TODO - implement service when it is ready
+            throw new NotImplementedException();
+        }
     }
 }
