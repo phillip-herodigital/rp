@@ -151,7 +151,13 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var validations = Enumerable.Empty<ValidationResult>();
             // don't give validations for the next step
             if (coaSessionHelper.StateMachine.State == typeof(FindAccountState))
+            {
                 validations = coaSessionHelper.StateMachine.ValidationResults;
+                if (!validations.Any())
+                {
+                    validations = Enumerable.Repeat(new ValidationResult("Account Number Invalid", new[] { "AccountNumber" }), 1);
+                }
+            }
                 
             var questionsRoot = database.GetItem("/sitecore/content/Data/Taxonomy/Security Questions");
             return new FindAccountResponse
