@@ -14,5 +14,9 @@ namespace StreamEnergy.DomainModels.Payments
         Task<bool> DeletePaymentMethod(Guid globalCustomerId, Guid paymentMethodId);
 
         Task<IEnumerable<PastPayment>> PaymentHistory(Guid globalCustomerId);
+
+        Task<AutoPaySetting> GetAutoPayStatus(Accounts.Account account);
+        Task<bool> SetAutoPayStatus(Accounts.Account account, AutoPaySetting autoPaySetting);
+
     }
 }

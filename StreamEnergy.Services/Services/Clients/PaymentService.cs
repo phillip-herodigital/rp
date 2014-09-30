@@ -111,10 +111,11 @@ namespace StreamEnergy.Services.Clients
             response.EnsureSuccessStatusCode();
             dynamic result = Json.Read<JObject>(await response.Content.ReadAsStringAsync());
 
-            return from dynamic entry in (JArray)result.PaymentMethods
+            return from dynamic entry in (JArray)result.PastPayments
                    select new PastPayment
                    {
-                       ConfirmationCode = entry.ConfermationCode,
+                       // TODO - populate global account id
+                       GlobalAccountId = Guid.Empty,
                        PaidDate = entry.PaidDate,
                        PaymentAmount = (decimal)entry.PaymentAmount.Value,
                    };
@@ -148,5 +149,17 @@ namespace StreamEnergy.Services.Clients
             return null;
         }
 
+
+        Task<AutoPaySetting> IPaymentService.GetAutoPayStatus(DomainModels.Accounts.Account account)
+        {
+            // TODO - implement service when it is ready
+            throw new NotImplementedException();
+        }
+
+        Task<bool> IPaymentService.SetAutoPayStatus(DomainModels.Accounts.Account account, AutoPaySetting autoPaySetting)
+        {
+            // TODO - implement service when it is ready
+            throw new NotImplementedException();
+        }
     }
 }

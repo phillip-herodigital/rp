@@ -9,8 +9,9 @@ namespace StreamEnergy.DomainModels.Accounts
 {
     public interface IAccountService
     {
-        Task<IEnumerable<Account>> GetInvoices(Guid globalCustomerId);
+        Task<IEnumerable<Account>> GetInvoices(Guid globalCustomerId, IEnumerable<Account> existingAccountObjects = null);
         Task<IEnumerable<Account>> GetCurrentInvoices(Guid globalCustomerId);
+        Task<Uri> GetInvoicePdf(Account account, Invoice invoice);
         Task<IEnumerable<Account>> GetAccountBalances(Guid globalCustomerId);
         Task<Account> GetCurrentInvoice(string accountNumber);
 
@@ -29,8 +30,8 @@ namespace StreamEnergy.DomainModels.Accounts
         Task<string> GetEmailByCustomerId(Guid globalCustomerId);
 
         Task<IEnumerable<Account>> GetAccounts(Guid globalCustomerId);
-        Task<Guid> AssociateAccount(Guid globalCustomerId, string accountNumber, string ssnLast4, string accountNickname);
-        Task<bool> DisassociateAccount(Guid globalCustomerId, Guid accountId);
-        Task<AccountDetails> GetAccountDetails(Guid globalCustomerId, Guid accountId);
+        Task<Account> AssociateAccount(Guid globalCustomerId, string accountNumber, string ssnLast4, string accountNickname);
+        Task<bool> DisassociateAccount(Account account);
+        Task<bool> GetAccountDetails(Account account, bool forceRefresh = false);
     }
 }

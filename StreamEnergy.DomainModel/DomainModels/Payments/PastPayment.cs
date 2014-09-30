@@ -7,7 +7,7 @@ namespace StreamEnergy.DomainModels.Payments
 {
     public class PastPayment
     {
-        public string ConfirmationCode { get; set; }
+        public Guid GlobalAccountId { get; set; }
         public decimal PaymentAmount { get; set; }
         public DateTime PaidDate { get; set; }
     }
