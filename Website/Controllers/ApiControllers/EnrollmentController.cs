@@ -241,6 +241,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public async Task<ClientData> ServiceInformation([FromBody]ServiceInformation value)
         {
             await Initialize();
+            await ResetPreAccountInformation();
             stateMachine.Context.AgreeToTerms = false;
             stateMachine.Context.Services = (from location in value.Locations
                                              join service in (stateMachine.Context.Services ?? Enumerable.Empty<LocationServices>()) on location equals service.Location into services
@@ -268,6 +269,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             stateMachine.Context.Services = (from newSelection in value.Selection
                                              join oldService in (stateMachine.Context.Services ?? Enumerable.Empty<LocationServices>()) on newSelection.Location equals oldService.Location into oldServices
                                              select Combine(newSelection, oldServices.SingleOrDefault(), stateMachine.InternalContext.AllOffers)).ToArray();
+            await ResetPreAccountInformation();
 
             await stateMachine.ContextUpdated();
 
@@ -284,6 +286,30 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 await stateMachine.ContextUpdated();
 
             return ClientData(typeof(DomainModels.Enrollments.AccountInformationState));
+        }
+
+        private async Task ResetPreAccountInformation()
+        {
+            if (stateHelper.Context.IsRenewal)
+                return;
+            if (stateHelper.InternalContext != null)
+            {
+                stateHelper.InternalContext.IdentityCheck = null;
+                stateHelper.InternalContext.CreditCheck = null;
+                stateHelper.InternalContext.Deposit = null;
+            }
+            if (stateHelper.State != typeof(DomainModels.Enrollments.ServiceInformationState) && stateHelper.State != typeof(DomainModels.Enrollments.PlanSelectionState)
+                && stateHelper.State != typeof(DomainModels.Enrollments.AccountInformationState))
+            {
+                var context = stateHelper.Context;
+                var internalContext = stateHelper.InternalContext;
+                stateHelper.Reset();
+                stateHelper.Context = context;
+                stateHelper.InternalContext = internalContext;
+                stateHelper.State = typeof(DomainModels.Enrollments.AccountInformationState);
+
+                await stateHelper.EnsureInitialized();
+            }
         }
 
         private LocationServices Combine(SelectedOfferSet newSelection, LocationServices oldService, Dictionary<Location, LocationOfferSet> allOffers)
@@ -315,6 +341,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 stateHelper.State = typeof(AccountInformationState);
                 await Initialize();
             }
+            await ResetPreAccountInformation();
 
             MapCartToServices(request);
 

@@ -19,8 +19,8 @@
                         <h1>@Html.Sitecore().Field("Verify Header")</h1>
                     </header>
                     <div class="content">
-                        <p>@Html.Sitecore().Field("Verify Paragraph")</p>
-                        <p><strong>@Html.Sitecore().Field("Skip This Step")</strong></p>
+                        <!--<p>@Html.Sitecore().Field("Verify Paragraph")</p>-->
+                        <p>@Html.Sitecore().Field("Skip This Step")</p>
                         <div class="form">
                             @using (var idQuestion = Html.ClientRepeater(m => m.SelectedIdentityAnswers, "{{$index}}"))
                             {

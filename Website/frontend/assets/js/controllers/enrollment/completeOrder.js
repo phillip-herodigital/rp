@@ -18,8 +18,6 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
     * Complete Enrollment Section
     */
     $scope.completeStep = function () {
-        console.log('Sending confirm order...');
-
         var depositWaivers = _(enrollmentCartService.services).map(function (service) {
             return _(service.offerInformationByType).pluck('value').flatten().filter().pluck('offerSelections').flatten().filter().map(function (selection) {
                 if (selection.payments != null && _(selection.payments.requiredAmounts).filter({ isWaived: true }).some()) {
@@ -33,10 +31,6 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
 
         if ($scope.getCartTotal() > 0) {
             $scope.completeOrder.creditCard().then(function (paymentInfo) {
-                console.log({
-                    agreeToTerms: $scope.completeOrder.agreeToTerms,
-                    paymentInfo: paymentInfo
-                });
                 enrollmentService.setConfirmOrder({
                     additionalAuthorizations: $scope.completeOrder.additionalAuthorizations,
                     agreeToTerms: $scope.completeOrder.agreeToTerms,

@@ -33,6 +33,7 @@ namespace StreamEnergy.MyStream.Tests
         private DomainModels.CustomerContact contactInfo;
         private TexasElectricityOfferOption offerOption;
         private DomainModels.Enrollments.Service.IdentityCheckResult finalIdentityCheckResult;
+        private DomainModels.Enrollments.Service.IdentityCheckResult finalFailedIdentityCheckResult;        
         private Mock<IEnrollmentService> mockEnrollmentService;
         private Address mailingAddress;
         private Address previousAddress;
@@ -152,6 +153,14 @@ namespace StreamEnergy.MyStream.Tests
             };
             finalIdentityCheckResult = new DomainModels.Enrollments.Service.IdentityCheckResult
             {
+                IdentityAccepted = true,
+                IdentityCheckId = "01235",
+                HardStop = null,
+                IdentityQuestions = new IdentityQuestion[0],
+            };
+            finalFailedIdentityCheckResult = new DomainModels.Enrollments.Service.IdentityCheckResult
+            {
+                IdentityAccepted = false,
                 IdentityCheckId = "01235",
                 HardStop = null,
                 IdentityQuestions = new IdentityQuestion[0],
@@ -240,7 +249,6 @@ namespace StreamEnergy.MyStream.Tests
                             Offer = offers.First(o => o.Id == "Centerpoint/24-month-fixed-rate"),
                             Details = new DomainModels.Enrollments.Service.EnrollmentSaveEntry 
                             { 
-                                CisAccountNumber = "cis",
                                 StreamReferenceNumber = "stream",
                                 GlobalEnrollmentAccountId = Guid.NewGuid(),
                             }
@@ -342,7 +350,7 @@ namespace StreamEnergy.MyStream.Tests
                                                {
                                                    RequiredAmounts = new IOfferPaymentAmount[] 
                                                    { 
-                                                       new DepositOfferPaymentAmount { DollarAmount = (offer.Offer is TexasElectricityOffer && ((TexasElectricityOffer)offer.Offer).TermMonths == 1) ? 0 : 75.25m }
+                                                       new DepositOfferPaymentAmount { DollarAmount = (!ctx.IdentityCheck.Data.IdentityAccepted || (offer.Offer is TexasElectricityOffer && ((TexasElectricityOffer)offer.Offer).TermMonths == 1)) ? 0 : 75.25m }
                                                    },
                                                    OngoingAmounts = new IOfferPaymentAmount[] { },
                                                    PostBilledAmounts = new IOfferPaymentAmount[] { },
@@ -358,7 +366,8 @@ namespace StreamEnergy.MyStream.Tests
                         Location = specificLocation,
                         Details = new DomainModels.Enrollments.Service.PlaceOrderResult
                         {
-                            ConfirmationNumber = "87654321"
+                            ConfirmationNumber = "87654321",
+                            IsSuccess = true
                         }
                     }
                 }));
@@ -366,7 +375,8 @@ namespace StreamEnergy.MyStream.Tests
                 {
                     return Task.FromResult(new DomainModels.Enrollments.Service.PlaceOrderResult 
                     {
-                        ConfirmationNumber = "87654321"
+                        ConfirmationNumber = "87654321",
+                        IsSuccess = true
                     });
                 });
 
@@ -819,7 +829,7 @@ namespace StreamEnergy.MyStream.Tests
                 Assert.AreEqual("en", result.Language);
             }
 
-            Assert.AreEqual(typeof(DomainModels.Enrollments.PaymentInfoState), session.State);
+            Assert.AreEqual(typeof(DomainModels.Enrollments.CompleteOrderState), session.State);
             Assert.IsTrue(session.InternalContext.AllOffers.ContainsKey(specificLocation));
             Assert.IsTrue(session.Context.Services.First().SelectedOffers.Any(o => o.Offer.Id == "Centerpoint/24-month-fixed-rate"));
             Assert.AreEqual("Test", session.Context.ContactInfo.Name.First);
@@ -888,7 +898,67 @@ namespace StreamEnergy.MyStream.Tests
                 Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.VerifyIdentity, result.ExpectedState);
             }
         }
+        
+        [TestMethod]
+        public void ResumePostIdentityQuestionsFailedTest()
+        {
+            // Arrange
+            var session = container.Resolve<EnrollmentController.SessionHelper>();
+            session.EnsureInitialized().Wait();
+            session.Context = new UserContext
+            {
+                Services = new[]
+                {
+                    new LocationServices
+                    {
+                        Location = specificLocation,
+                        SelectedOffers = new []
+                        { 
+                            new SelectedOffer 
+                            { 
+                                Offer = offers[0],
+                                OfferOption = offerOption
+                            }
+                        }
+                    }
+                },
+                MailingAddress = mailingAddress,
+                PreviousAddress = previousAddress,
+                ContactInfo = contactInfo,
+                Language = "en",
+                SecondaryContactInfo = null,
+                SocialSecurityNumber = "123-45-6789",
+                SelectedIdentityAnswers = new Dictionary<string, string> { { "1", "2" }, { "2", "1" }, { "3", "1" } }
+            };
+            session.InternalContext = new InternalContext
+            {
+                AllOffers = new Dictionary<Location, LocationOfferSet> { { specificLocation, new LocationOfferSet { Offers = offers } } },
+                IdentityCheck = new StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult> { IsCompleted = false },
+                EnrollmentSaveState = new StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult> { IsCompleted = true },
+            };
+            session.State = typeof(DomainModels.Enrollments.VerifyIdentityState);
 
+            mockEnrollmentService.Setup(m => m.EndIdentityCheck(It.IsAny<DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>>())).Returns(Task.FromResult(new DomainModels.StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult>
+            {
+                IsCompleted = true,
+                Data = finalFailedIdentityCheckResult
+            }));
+
+            using (var controller = container.Resolve<EnrollmentController>())
+            {
+                controller.Initialize().Wait();
+                
+                // Act
+                var result = controller.Resume().Result;
+
+                // Assert
+                Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.ReviewOrder, result.ExpectedState);
+                Assert.IsFalse(result.IdentityQuestions.Any());
+                Assert.AreEqual(0, result.Cart.Sum(l => l.OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Sum(sel => sel.Payments.RequiredAmounts.Sum(p => p.DollarAmount))));
+            }
+
+            Assert.AreEqual(typeof(DomainModels.Enrollments.CompleteOrderState), session.State);
+        }
 
         [TestMethod]
         public void ResumePostIdentityQuestionsTest()
@@ -1088,7 +1158,7 @@ namespace StreamEnergy.MyStream.Tests
             session.InternalContext = new InternalContext
             {
                 AllOffers = new Dictionary<Location, LocationOfferSet> { { specificLocation, new LocationOfferSet { Offers = offers } } },
-                IdentityCheck = new StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult> { IsCompleted = true, Data = identityCheckResult },
+                IdentityCheck = new StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult> { IsCompleted = true, Data = finalIdentityCheckResult },
                 EnrollmentSaveState = new StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult> 
                 { 
                     IsCompleted = true, 
@@ -1120,6 +1190,7 @@ namespace StreamEnergy.MyStream.Tests
                 // Assert
                 Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.OrderConfirmed, result.ExpectedState);
                 Assert.AreEqual("87654321", result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Single().ConfirmationNumber);
+                Assert.AreEqual(true, result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Single().ConfirmationSuccess);
             }
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.OrderConfirmationState), session.State);
@@ -1158,7 +1229,7 @@ namespace StreamEnergy.MyStream.Tests
             session.InternalContext = new InternalContext
             {
                 AllOffers = new Dictionary<Location, LocationOfferSet> { { specificLocation, new LocationOfferSet { Offers = offers } } },
-                IdentityCheck = new StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult> { IsCompleted = true, Data = identityCheckResult },
+                IdentityCheck = new StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult> { IsCompleted = true, Data = finalIdentityCheckResult },
                 EnrollmentSaveState = new StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>
                 {
                     IsCompleted = true,
@@ -1190,6 +1261,7 @@ namespace StreamEnergy.MyStream.Tests
                 // Assert
                 Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.OrderConfirmed, result.ExpectedState);
                 Assert.AreEqual("87654321", result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Single().ConfirmationNumber);
+                Assert.AreEqual(false, result.Cart.Single().OfferInformationByType.First(e => e.Key == TexasElectricityOffer.Qualifier).Value.OfferSelections.Single().ConfirmationSuccess);
             }
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.OrderConfirmationState), session.State);
@@ -1407,7 +1479,7 @@ namespace StreamEnergy.MyStream.Tests
             session.InternalContext = new InternalContext
             {
                 AllOffers = new Dictionary<Location, LocationOfferSet> { { specificCommercialLocation, new LocationOfferSet { Offers = offers } } },
-                IdentityCheck = new StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult> { IsCompleted = true, Data = identityCheckResult },
+                IdentityCheck = null,
                 EnrollmentSaveState = new StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>
                 {
                     IsCompleted = true,
@@ -1611,7 +1683,7 @@ namespace StreamEnergy.MyStream.Tests
             session.InternalContext = new InternalContext
             {
                 AllOffers = new Dictionary<Location, LocationOfferSet> { { specificLocation, new LocationOfferSet { Offers = offers } } },
-                IdentityCheck = new StreamAsync<DomainModels.Enrollments.Service.IdentityCheckResult> { IsCompleted = true, Data = identityCheckResult },
+                IdentityCheck = null,
                 EnrollmentSaveState = new StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>
                 {
                     IsCompleted = true,

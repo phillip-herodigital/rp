@@ -167,6 +167,11 @@
     <Compile Include="DomainModels\Enrollments\DepositOfferPaymentAmount.cs" />
     <Compile Include="DomainModels\Enrollments\EnrollmentErrorState.cs" />
     <Compile Include="DomainModels\Enrollments\EnrollmentType.cs" />
+    <Compile Include="DomainModels\Enrollments\GeorgiaGasOffer.cs" />
+    <Compile Include="DomainModels\Enrollments\GeorgiaGasOfferOption.cs" />
+    <Compile Include="DomainModels\Enrollments\GeorgiaGasOfferOptionPolicy.cs" />
+    <Compile Include="DomainModels\Enrollments\GeorgiaGasOfferOptionRules.cs" />
+    <Compile Include="DomainModels\Enrollments\GeorgiaGasServiceCapability.cs" />
     <Compile Include="DomainModels\Enrollments\IdentityAnswer.cs" />
     <Compile Include="DomainModels\Enrollments\IdentityCheckHardStopState.cs" />
     <Compile Include="DomainModels\Enrollments\IdentityQuestion.cs" />
@@ -244,6 +249,7 @@
     <Compile Include="DomainModels\Enrollments\AccountInformationState.cs" />
     <Compile Include="DomainModels\Enrollments\PlanSelectionState.cs" />
     <Compile Include="DomainModels\Payments\IPaymentService.cs" />
+    <Compile Include="DomainModels\Payments\PastPayment.cs" />
     <Compile Include="DomainModels\Payments\PaymentResult.cs" />
     <Compile Include="DomainModels\Payments\SamplePaymentInfo.cs" />
     <Compile Include="DomainModels\Payments\SavedPaymentInfo.cs" />

@@ -149,7 +149,7 @@
                         @Html.Sitecore().Field("Electricity Month To Month").Format(new { Sup = "{{plan.calculatedFootnotes.indices['Term Footnote']}}" })
                     </td>
                     <td class="fees">
-                        ${{ plan.cancellationFee }}<span>@Html.Sitecore().Field("Electricity Early Cancellation Fee")<sup>{{plan.calculatedFootnotes.indices['Early Cancellation Fee Footnote']}}</sup></span>
+                        ${{ plan.terminationFee }}<span>@Html.Sitecore().Field("Electricity Early Termination Fee")<sup>{{plan.calculatedFootnotes.indices['Early Termination Fee Footnote']}}</sup></span>
                     </td>
                     <td class="select-plan hide-small">
                         <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id" class="selected-icon">
@@ -182,6 +182,23 @@
                                 <li><a ng-href="{{plan.documents.termsOfService}}">@Html.Sitecore().Field("Terms Of Service Document")</a></li>
                                 <li><a ng-href="{{plan.documents.yourRightsAsACustomer}}">@Html.Sitecore().Field("Your Rights As A Customer Document")</a></li>
                             </ul>
+
+                            <dl class="plan-selection-fees">
+                                <dt>@Html.Sitecore().Field("Stream Energy Charge Label")</dt>
+                                <dd>{{ plan.streamEnergyCharge | number:1 }}&cent;</dd>
+                                <dt>@Html.Sitecore().Field("TDU Charges Label")</dt>
+                                <dd ng-if="plan.tduCharges != ''">{{ plan.tduCharges }}</dd>
+                                <dd ng-if="plan.tduCharges == '' && provider == 'AEP Central Texas'">@Html.Sitecore().Field("Aep Central TDU Charges")</dd>
+                                <dd ng-if="plan.tduCharges == '' && provider == 'AEP North Texas'">@Html.Sitecore().Field("Aep North TDU Charges")</dd>
+                                <dd ng-if="plan.tduCharges == '' && provider == 'TNMP'">@Html.Sitecore().Field("Tnmp TDU Charges")</dd>
+                                <dd ng-if="plan.tduCharges == '' && provider == 'ONCOR'">@Html.Sitecore().Field("Oncor TDU Charges")</dd>
+                                <dd ng-if="plan.tduCharges == '' && provider == 'Centerpoint'">@Html.Sitecore().Field("Centerpoint TDU Charges")</dd>
+                                <dd ng-if="plan.tduCharges == '' && provider == 'Sharyland McAllen'">@Html.Sitecore().Field("Sharyland Mcallen TDU Charges")</dd>
+                                <dd ng-if="plan.tduCharges == '' && provider == 'Sharyland'">@Html.Sitecore().Field("Sharyland Utilities TDU Charges")</dd>
+                                <dt>@Html.Sitecore().Field("Minimum Usage Fee Label")</dt>
+                                <dd ng-bind-html="plan.minimumUsageFee | unsafe"></dd>
+                            </dl>
+
                             <p ng-repeat="footnote in plan.calculatedFootnotes.active"><sup>{{footnoteDisplay[$index]}}</sup> {{footnote.value}}</p>
                         </div>
                     </td>
@@ -191,51 +208,51 @@
     </article>
 </script>
 
-<script type="text/ng-template" id="planList/UntestedGas">
-    <div ng-show="enrollment.uiModel.offers[enrollment.currentAddress.id]">
-        <h2>@Html.Sitecore().Field("Gas Header")</h2>
-        <article class="enrollment__utility-plans">
-            <table>
-                <thead class="hide-small">
-                    <tr>
-                        <th colspan="2">@Html.Sitecore().Field("Gas Plan Name")</th>
-                        <th>@Html.Sitecore().Field("Gas Rate")</th>
-                        <th>@Html.Sitecore().Field("Gas Term")</th>
-                        <th>@Html.Sitecore().Field("Gas Fees")</th>
-                        <th>@Html.Sitecore().Field("Gas Select Plan")</th>
-                    </tr>
-                </thead>
-                <tbody additional-fields ng-class="{'open': isOpen}" ng-repeat="plan in enrollment.uiModel.offers[enrollment.currentAddress.id] | serviceTypeGas:plan">
-                    <tr>
-                        <th class="vertical">
-                            <div ng-show="plan.rateType == 'fixed'" class="fixed">@Html.Sitecore().Field("Gas Fixed")</div>
-                            <div class="variable" ng-show="plan.rateType == 'variable'">@Html.Sitecore().Field("Gas Variable")</div>
-                        </th>
-                        <td class="plan-name hide-small">
-                            {{plan.name}} <a href="" ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}"><span ng-if="!isOpen">@Html.Sitecore().Field("Gas View Details") <i class="icon-blue-arrow-down"></i></span><span ng-if="isOpen">Hide Details <i class="icon-blue-arrow-up"></i></span> </a>
-                        </td>
-                        <td class="rate">{{ plan.rate }}&cent; <span>@Html.Sitecore().Field("Gas Per kWh")</span></td>
-                        <td class="term">
-                            <span ng-show="plan.termMonths == '24'"><i class="icon-24months"></i></span>
-                            <span ng-show="plan.termMonths == '6'"><i class="icon-6months"></i></span>
-                            <span ng-show="plan.termMonths == '1'"><i class="icon-month-to-month"></i> @Html.Sitecore().Field("Gas Month To Month")</span>
-                        </td>
-                        <td class="fees">
-                            ${{ plan.cancellationFee }}<span>@Html.Sitecore().Field("Gas Early Cancellation Fee")</span>
-                        </td>
-                        <td>
-                            <a class="button" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-model="selectedOffers.gasPlan" href="">@Html.Sitecore().Field("Gas Button")</a>
-                        </td>
-                    </tr>
-                    <tr class="details-row additional-fields">
-                        <td colspan="6">
-                            <p>{{ plan.description }}</p>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </article>
-    </div>
+<script type="text/ng-template" id="planList/GeorgiaGas">
+    <header>
+        <h1>@Html.Sitecore().Field("Gas Header")</h1>
+    </header>
+    <article class="enrollment__utility-plans">
+        <table>
+            <thead class="hide-small">
+                <tr>
+                    <th colspan="2">@Html.Sitecore().Field("Gas Plan Name")</th>
+                    <th>@Html.Sitecore().Field("Gas Rate")</th>
+                    <th>@Html.Sitecore().Field("Gas Term")</th>
+                    <th>@Html.Sitecore().Field("Gas Fees")</th>
+                    <th>@Html.Sitecore().Field("Gas Select Plan")</th>
+                </tr>
+            </thead>
+            <tbody additional-fields ng-class="{'open': isOpen}" ng-repeat="plan in enrollment.uiModel.offers[enrollment.currentAddress.id] | serviceTypeGas:plan">
+                <tr>
+                    <th class="vertical">
+                        <div ng-show="plan.rateType == 'fixed'" class="fixed">@Html.Sitecore().Field("Gas Fixed")</div>
+                        <div class="variable" ng-show="plan.rateType == 'variable'">@Html.Sitecore().Field("Gas Variable")</div>
+                    </th>
+                    <td class="plan-name hide-small">
+                        {{plan.name}} <a href="" ng-click="toggleFields()" ng-class="{'collapsed': !isOpen}"><span ng-if="!isOpen">@Html.Sitecore().Field("Gas View Details") <i class="icon-blue-arrow-down"></i></span><span ng-if="isOpen">Hide Details <i class="icon-blue-arrow-up"></i></span> </a>
+                    </td>
+                    <td class="rate">{{ plan.rate | number:1 }}&cent; <span>@Html.Sitecore().Field("Gas Per kWh")</span></td>
+                    <td class="term">
+                        <span ng-show="plan.termMonths == '24'"><i class="icon-24months"></i></span>
+                        <span ng-show="plan.termMonths == '6'"><i class="icon-6months"></i></span>
+                        <span ng-show="plan.termMonths == '1'"><i class="icon-month-to-month"></i> @Html.Sitecore().Field("Gas Month To Month")</span>
+                    </td>
+                    <td class="fees">
+                        ${{ plan.cancellationFee }}<span>@Html.Sitecore().Field("Gas Early Cancellation Fee")</span>
+                    </td>
+                    <td>
+                        <a class="button" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-model="selectedOffers.gasPlan" href="">@Html.Sitecore().Field("Gas Button")</a>
+                    </td>
+                </tr>
+                <tr class="details-row additional-fields">
+                    <td colspan="6">
+                        <p>{{ plan.description }}</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </article>
 </script>
 
 
@@ -435,7 +452,7 @@
                 <form>
                     <div class="modal-body form">
                         <div class="item">
-                            <p>@Html.Sitecore().Field("Utility Providers Found") <strong>{{ currentLocationInfo().location.address.postalCode5 }}</strong>@Html.Sitecore().Field("Utility Providers Found 2")</p>
+                            <p>@Html.Sitecore().Field("Utility Providers Found").Format(new { PostalCode = "{{ currentLocationInfo().location.address.postalCode5 }}" })</p>
                             <ul class="checkbox-list">
                                 <li ng-repeat="item in currentLocationInfo().location.capabilities | filter:'TexasElectricity'">                           
                                     <input type="radio" id="{{ item.tdu }}" data-val="true" data-val-required ng-model="vm.selectedTdu" ng-value="item.tdu">

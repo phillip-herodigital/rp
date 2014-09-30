@@ -287,8 +287,9 @@ article, .modal-body {
         &.alert {
             border: 1px solid #ffcc33;
             background-color: #fff9c9;
-            @include retina-background("alert.png", "icon");
-            background-position: 20px 23px;
+            /*@include retina-background("alert.png", "icon");
+            background-position: 20px 23px;*/
+            padding-left: 30px;
         }
         &.message {
             border: 1px solid #a1bbb9;
@@ -1062,6 +1063,25 @@ article.make-payment {
                 img {
                     max-width: 100%;
                 }
+            }
+        }
+    }
+}
+article.card-details {
+    header {
+        @extend .clearfix;
+        @include breakpoint(medium-large) {
+            h1 {
+                float: left;
+            }
+            span.icons {
+                float: right;
+                margin-top: 15px;
+            }
+        }
+        @include breakpoint(small) {
+            h1 {
+                margin-bottom: 5px;
             }
         }
     }

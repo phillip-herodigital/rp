@@ -37,14 +37,57 @@ namespace StreamEnergy.Services.Clients
                             Fields = new NameValueCollection
                             {
                                 { "Name", item["Product Name"] },
-                                { "Description", item["Product Description"] },
+                                { "Description", LoadProductDescription(product, item) },
+                                { "Minimum Usage Fee", item["Minimum Usage Fee"] },
+                                { "TDU Charges", item["TDU Charges"] },
                                 { "Energy Facts Label", ((Sitecore.Data.Fields.FileField)providerData.Fields["Energy Facts Label"]).Src },
                                 { "Terms Of Service", ((Sitecore.Data.Fields.FileField)providerData.Fields["Terms Of Service"]).Src },
                                 { "Your Rights As A Customer", ((Sitecore.Data.Fields.FileField)providerData.Fields["Your Rights As A Customer"]).Src },
                             },
-                            Footnotes = LoadFootnotes(new[] { item, providerData }, new[] { "Rate Footnote", "Term Footnote", "Early Cancellation Fee Footnote" }).ToArray()
+                            Footnotes = LoadFootnotes(new[] { item, providerData }, new[] { "Rate Footnote", "Term Footnote", "Early Termination Fee Footnote" }).ToArray()
                         };
                     }
+                }
+            }
+
+            return null;
+        }
+
+        private string LoadProductDescription(StreamConnect.Product product, Sitecore.Data.Items.Item item)
+        {
+            var desc = item["Product Description"];
+            var tdu = product.Provider["Name"].ToString().Replace(" ", "");
+            var rateTiers = Sitecore.Web.WebUtil.ParseUrlParameters(item["Rate Tiers"]);
+
+            foreach(var key in rateTiers.AllKeys)
+            {
+                if (key.StartsWith(tdu))
+                {
+                    desc = desc.Replace("{" + key.Replace(tdu, "") + "}", rateTiers[key]);
+                }
+            }
+            return desc;
+        }
+
+        public SitecoreProductInfo GetGeorgiaGasProductData(StreamConnect.Product product)
+        {
+
+            if (taxonomy != null)
+            {
+                var item = taxonomy.Axes.GetItem("Products/*/" + product.ProductCode);
+
+                if (item != null)
+                {
+                    return new SitecoreProductInfo
+                    {
+                        // TODO
+                        Fields = new NameValueCollection
+                        {
+                            { "Name", item["Product Name"] },
+                            { "Description", item["Product Description"] },
+                        },
+                        Footnotes = LoadFootnotes(new[] { item }, new string[] { }).ToArray()
+                    };
                 }
             }
 

@@ -4,6 +4,7 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
     $scope.getCartItems = enrollmentCartService.getCartItems;  
     $scope.getCartTotal = enrollmentCartService.calculateCartTotal;  
     $scope.customerType = '';
+    $scope.confirmationSuccess = false;
 
     $scope.onPrint = function() {
         window.print();
@@ -34,6 +35,15 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
 
             // set the customer type, since we're no longer using the enrollment main controller
             $scope.customerType = $scope.getCartItems()[0].location.capabilities[2].customerType;
+
+            // find out if we got a successful confirmation
+            $scope.confirmationSuccess = $scope.getCartItems()[0].offerInformationByType[0].value.offerSelections[0].confirmationSuccess;
+
+            // if it's a commercial enrollment, and we don't get a success message, redirect to the error page
+            if ($scope.customerType == 'commercial' && !$scope.confirmationSuccess) {
+                $window.location.href = '/enrollment/please-contact';
+            }
+
         }
     };
 }]);
