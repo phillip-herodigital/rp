@@ -55,13 +55,14 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Assign
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
             var gcid = accountService.CreateStreamConnectCustomer().Result;
-            var acctId = accountService.AssociateAccount(gcid, "3001311049", "3192", "Sample").Result;
+            var acct = accountService.AssociateAccount(gcid, "3001311049", "3192", "Sample").Result;
 
             // Act
             var accounts = accountService.GetAccounts(gcid).Result;
             
             // Assert
-            Assert.AreEqual(acctId, accounts.Single().StreamConnectAccountId);
+            Assert.AreEqual(gcid, accounts.Single().StreamConnectCustomerId);
+            Assert.AreEqual(acct.StreamConnectAccountId, accounts.Single().StreamConnectAccountId);
         }
 
         [TestMethod]
@@ -70,10 +71,10 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Arrange
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
             var gcid = accountService.CreateStreamConnectCustomer().Result;
-            var acctId = accountService.AssociateAccount(gcid, "3001311049", "3192", "Sample").Result;
+            var acct = accountService.AssociateAccount(gcid, "3001311049", "3192", "Sample").Result;
 
             // Act
-            var result = accountService.DisassociateAccount(gcid, acctId).Result;
+            var result = accountService.DisassociateAccount(acct).Result;
 
             // Assert
             var accounts = accountService.GetAccounts(gcid).Result;
@@ -86,10 +87,10 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Arrange
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
             var gcid = accountService.CreateStreamConnectCustomer().Result;
-            var acctId = accountService.AssociateAccount(gcid, "3001311049", "3192", "Sample").Result;
+            var acct = accountService.AssociateAccount(gcid, "3001311049", "3192", "Sample").Result;
 
             // Act
-            var details = accountService.GetAccountDetails(gcid, acctId).Result;
+            var details = accountService.GetAccountDetails(acct).Result;
 
             // Assert
             Assert.IsNotNull(details);
@@ -117,12 +118,12 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Arrange
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
             var gcid = accountService.CreateStreamConnectCustomer().Result;
-            var acctId = accountService.AssociateAccount(gcid, "3001311049", "3192", "Sample").Result;
-            var invoiceAccounts = accountService.GetInvoices(gcid).Result;
-            var targetInvoice = invoiceAccounts.First(acct => acct.Invoices.Any()).Invoices.First();
+            var acct = accountService.AssociateAccount(gcid, "3001311049", "3192", "Sample").Result;
+            var invoiceAccounts = accountService.GetInvoices(gcid, new[] { acct }).Result;
+            var targetInvoice = acct.Invoices.First();
 
             // Act
-            var url = accountService.GetInvoicePdf(gcid, acctId, targetInvoice.InvoiceNumber).Result;
+            var url = accountService.GetInvoicePdf(acct, targetInvoice).Result;
 
             // Assert
             var client = new HttpClient();
