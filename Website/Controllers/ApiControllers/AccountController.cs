@@ -432,7 +432,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 PlanName = "Flex Choice Intro Plan",
                 Rate = "4.98",
                 Terms = "Month-to-Month",
-                Fees = "$0",
                 PlanDetails = "The Stream Intro/Variable Price Plan is for new customers only and is the applied rate for the first invoice. I understand that, under this plan, I will receive a guaranteed introductory rate on my first invoice. All subsequent months will be billed at Stream Energy's then-current Variable Price Rate. Early Termination Fees shall NOT apply and that my current rate may fluctuate based on market conditions. Please see the Terms of Services for more information on this product.",
                 PricingEffectiveDate = "11/21/2013",
                 MinimumUsageFee = "$0.00",
