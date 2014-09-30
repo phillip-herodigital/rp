@@ -99,5 +99,21 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             var paymentMethods = paymentService.GetSavedPaymentMethods(customerId).Result;
             Assert.IsFalse(paymentMethods.Any(pm => pm.Id == paymentMethodId));
         }
+
+        [TestMethod]
+        public void GetPaymentHistory()
+        {
+            // Arrange
+            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
+            StreamEnergy.DomainModels.Payments.IPaymentService paymentService = container.Resolve<StreamEnergy.Services.Clients.PaymentService>();
+            var gcid = accountService.CreateStreamConnectCustomer().Result;
+            var acctId = accountService.AssociateAccount(gcid, "3001311049", "3192", "Sample").Result;
+
+            // Act
+            var payments = paymentService.PaymentHistory(gcid).Result;
+
+            // Assert
+            Assert.Inconclusive();
+        }
     }
 }

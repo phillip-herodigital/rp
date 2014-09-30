@@ -104,6 +104,23 @@ namespace StreamEnergy.Services.Clients
                 };
         }
 
+        async Task<IEnumerable<PastPayment>> IPaymentService.PaymentHistory(Guid globalCustomerId)
+        {
+            var response = await streamConnectClient.GetAsync("/api/v1/payments/history/" + globalCustomerId.ToString());
+
+            response.EnsureSuccessStatusCode();
+            dynamic result = Json.Read<JObject>(await response.Content.ReadAsStringAsync());
+
+            return from dynamic entry in (JArray)result.PastPayments
+                   select new PastPayment
+                   {
+                       // TODO - populate global account id
+                       GlobalAccountId = Guid.Empty,
+                       PaidDate = entry.PaidDate,
+                       PaymentAmount = (decimal)entry.PaymentAmount.Value,
+                   };
+        }
+
         private object ToStreamPaymentAccount(string customerName, IPaymentInfo paymentInfo)
         {
             var card = paymentInfo as DomainModels.Payments.TokenizedCard;
@@ -131,5 +148,6 @@ namespace StreamEnergy.Services.Clients
             }
             return null;
         }
+
     }
 }

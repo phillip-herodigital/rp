@@ -12,5 +12,7 @@ namespace StreamEnergy.DomainModels.Payments
         Task<IEnumerable<SavedPaymentInfo>> GetSavedPaymentMethods(Guid globalCustomerId);
         Task<Guid> SavePaymentMethod(Guid globalCustomerId, IPaymentInfo paymentInfo, string displayName);
         Task<bool> DeletePaymentMethod(Guid globalCustomerId, Guid paymentMethodId);
+
+        Task<IEnumerable<PastPayment>> PaymentHistory(Guid globalCustomerId);
     }
 }
