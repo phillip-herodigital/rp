@@ -93,7 +93,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             var details = accountService.GetAccountDetails(acct).Result;
 
             // Assert
-            Assert.IsNotNull(details);
+            Assert.IsTrue(details);
+            Assert.IsNotNull(acct.Details);
             Assert.Inconclusive();
         }
 
