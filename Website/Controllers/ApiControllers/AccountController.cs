@@ -33,9 +33,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private readonly Sitecore.Data.Database database;
         private readonly IValidationService validation;
         private readonly StreamEnergy.MyStream.Controllers.ApiControllers.AuthenticationController authentication;
-        private readonly UserProfileLocator profileLocator;
+        private readonly ICurrentUser currentUser;
 
-        public AccountController(IUnityContainer container, HttpSessionStateBase session, DomainModels.Accounts.IAccountService accountService, DomainModels.Payments.IPaymentService paymentService, Services.Clients.ITemperatureService temperatureService, IValidationService validation, StreamEnergy.MyStream.Controllers.ApiControllers.AuthenticationController authentication, UserProfileLocator profileLocator)
+        public AccountController(IUnityContainer container, HttpSessionStateBase session, DomainModels.Accounts.IAccountService accountService, DomainModels.Payments.IPaymentService paymentService, Services.Clients.ITemperatureService temperatureService, IValidationService validation, StreamEnergy.MyStream.Controllers.ApiControllers.AuthenticationController authentication, ICurrentUser currentUser)
         {
             this.container = container;
             this.temperatureService = temperatureService;
@@ -46,7 +46,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Components/Account/Profile");
             this.validation = validation;
             this.authentication = authentication;
-            this.profileLocator = profileLocator;
+            this.currentUser = currentUser;
+
         }
 
         [HttpGet]
@@ -79,11 +80,11 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public async Task<GetAccountBalancesResponse> GetAccountBalances()
         {
-            var accounts = await accountService.GetAccountBalances(profileLocator.Locate(User.Identity.Name).GlobalCustomerId);
+            currentUser.Accounts = await accountService.GetAccountBalances(currentUser.StreamConnectCustomerId);
 
             return new GetAccountBalancesResponse
             {
-                Accounts = from account in accounts
+                Accounts = from account in currentUser.Accounts
                            let paymentScheduling = account.GetCapability<PaymentSchedulingAccountCapability>()
                            let paymentMethods = account.GetCapability<PaymentMethodAccountCapability>()
                            let externalPayment = account.GetCapability<ExternalPaymentAccountCapability>()
@@ -171,7 +172,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 Invoices = new Table<Models.Account.Invoice>
                 {
                     ColumnList = typeof(StreamEnergy.MyStream.Models.Account.Invoice).BuildTableSchema(database.GetItem("/sitecore/content/Data/Components/Account/Overview/My Invoices")),
-                    Values = from account in await accountService.GetInvoices(profileLocator.Locate(User.Identity.Name).GlobalCustomerId)
+                    Values = from account in currentUser.Accounts = await accountService.GetInvoices(currentUser.StreamConnectCustomerId, currentUser.Accounts)
+                             where account.Invoices != null
                              from invoice in account.Invoices
                              select new StreamEnergy.MyStream.Models.Account.Invoice
                              {
@@ -198,7 +200,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public async Task<GetCurrentInvoicesResponse> GetCurrentInvoices()
         {
-            var accounts = await accountService.GetCurrentInvoices(profileLocator.Locate(User.Identity.Name).GlobalCustomerId);
+            var accounts = await accountService.GetCurrentInvoices(currentUser.StreamConnectCustomerId);
 
             return new GetCurrentInvoicesResponse
             {
@@ -236,7 +238,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     Validations = TranslatedValidationResult.Translate(ModelState, validationItem),
                 };
             }
-            var accounts = (await accountService.GetCurrentInvoices(profileLocator.Locate(User.Identity.Name).GlobalCustomerId))
+            var accounts = (await accountService.GetCurrentInvoices(currentUser.StreamConnectCustomerId))
                 .Where(account => request.AccountNumbers.Contains(account.AccountNumber)).ToArray();
 
             Dictionary<Account, decimal> paymentAmounts;
@@ -948,7 +950,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public async Task<IEnumerable<DomainModels.Payments.SavedPaymentInfo>> GetSavedPaymentMethods()
         {
-            return await paymentService.GetSavedPaymentMethods(profileLocator.Locate(User.Identity.Name).GlobalCustomerId);
+            return await paymentService.GetSavedPaymentMethods(currentUser.StreamConnectCustomerId);
         }
 
         [HttpPost]
@@ -963,7 +965,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 };
             }
 
-            var result = await paymentService.SavePaymentMethod(profileLocator.Locate(User.Identity.Name).GlobalCustomerId, request.BankAccount, request.Nickname);
+            var result = await paymentService.SavePaymentMethod(currentUser.StreamConnectCustomerId, request.BankAccount, request.Nickname);
 
             return new AddBankAccountResponse
             {
@@ -984,7 +986,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 };
             }
 
-            var result = await paymentService.SavePaymentMethod(profileLocator.Locate(User.Identity.Name).GlobalCustomerId, request.Card, request.Nickname);
+            var result = await paymentService.SavePaymentMethod(currentUser.StreamConnectCustomerId, request.Card, request.Nickname);
 
             return new AddCreditCardResponse
             {

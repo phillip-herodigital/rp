@@ -5,6 +5,7 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels.Payments
 {
+    [Serializable]
     public class PastPayment
     {
         public decimal PaymentAmount { get; set; }

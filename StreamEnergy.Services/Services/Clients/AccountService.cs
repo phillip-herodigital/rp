@@ -51,7 +51,18 @@ namespace StreamEnergy.Services.Clients
                         AccountType = invoice.ServiceType,
                         SystemOfRecord = invoice.SystemOfRecord
                     },
-                    (account, invoices) => account.Invoices = invoices.ToArray());
+                    (account, invoices) => {
+                        InvoiceExtensionAccountCapability capability;
+                        account.Invoices = invoices.ToArray();
+                        if (account.TryGetCapability(out capability))
+                        {
+                            capability.CanRequestExtension = false;
+                        }
+                        else
+                        {
+                            account.Capabilities.Add(new InvoiceExtensionAccountCapability { CanRequestExtension = false });
+                        }
+                    });
             }
             else
             {

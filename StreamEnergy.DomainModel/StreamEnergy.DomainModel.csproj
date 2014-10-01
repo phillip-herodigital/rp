@@ -119,7 +119,9 @@
     <Compile Include="DomainModels\Accounts\AccountBalance.cs" />
     <Compile Include="DomainModels\Accounts\AccountDetails.cs" />
     <Compile Include="DomainModels\Accounts\AvailablePaymentMethod.cs" />
+    <Compile Include="DomainModels\Accounts\CurrentUser.cs" />
     <Compile Include="DomainModels\Accounts\ExternalPaymentAccountCapability.cs" />
+    <Compile Include="DomainModels\Accounts\ICurrentUser.cs" />
     <Compile Include="DomainModels\Accounts\PaymentMethodAccountCapability.cs" />
     <Compile Include="DomainModels\Accounts\PaymentSchedulingAccountCapability.cs" />
     <Compile Include="DomainModels\Accounts\SampleAccountCapability.cs" />

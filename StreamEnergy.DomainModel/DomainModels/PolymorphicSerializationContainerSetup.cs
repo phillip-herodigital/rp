@@ -60,6 +60,7 @@ namespace StreamEnergy.DomainModels
                 }
             });
 
+            unityContainer.RegisterType<Accounts.ICurrentUser, Accounts.CurrentUser>(new ContainerControlledLifetimeManager());
         }
     }
 }

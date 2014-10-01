@@ -13,6 +13,7 @@ namespace StreamEnergy.DomainModels.Accounts
     /// As such, there is also a <seealso cref="Account<TSubAccount>"/> that handles typed account data, such as sub accounts and possibly other 
     /// specific account-type things.
     /// </summary>
+    [Serializable]
     public class Account
     {
         public Account(Guid streamConnectCustomerId, Guid streamConnectAccountId)
@@ -33,9 +34,9 @@ namespace StreamEnergy.DomainModels.Accounts
 
         public Invoice CurrentInvoice { get; set; }
 
-        public IEnumerable<Invoice> Invoices { get; set; }
+        public Invoice[] Invoices { get; set; }
 
-        public IEnumerable<ISubAccount> SubAccounts { get; set; }
+        public ISubAccount[] SubAccounts { get; set; }
 
         /// <summary>
         /// Capabilities on accounts, since they might not be loaded, do not indicate anything simply by presence; the absence would simply mean
