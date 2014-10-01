@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace StreamEnergy.MyStream.Models.Temp
 {
+    [Serializable]
     public class GenerateW9
     {
         public IEnumerable<TranslatedValidationResult> Validations { get; set; }
