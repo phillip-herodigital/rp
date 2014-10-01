@@ -59,6 +59,8 @@ namespace StreamEnergy.Services.Clients
 
             unityContainer.RegisterType<SmartyStreets.ISmartyStreetService, SmartyStreets.SmartyStreetService>();
 
+            unityContainer.RegisterType<IPdfGenerationService, PdfGenerationService>();
+
             // TODO - remove this before production
             System.Net.ServicePointManager.ServerCertificateValidationCallback = ValidateServerCertficate;
         }

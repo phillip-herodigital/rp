@@ -180,7 +180,9 @@
     <Compile Include="Services\Clients\AccountService.cs" />
     <Compile Include="Services\Clients\HttpMessageLogger.cs" />
     <Compile Include="Services\Clients\ISitecoreProductData.cs" />
+    <Compile Include="Services\Clients\IPdfGenerationService.cs" />
     <Compile Include="Services\Clients\PaymentService.cs" />
+    <Compile Include="Services\Clients\PdfBusinessTypes.cs" />
     <Compile Include="Services\Clients\SitecoreProductData.cs" />
     <Compile Include="Services\Clients\SitecoreProductInfo.cs" />
     <Compile Include="Services\Clients\SmartyStreets\ISmartyStreetService.cs" />
@@ -221,6 +223,7 @@
     <Compile Include="Services\Clients\StreamConnect\ProductResponse.cs" />
     <Compile Include="Services\Clients\StreamConnect\Rate.cs" />
     <Compile Include="Services\Clients\StreamConnect\VerifyPremiseResponse.cs" />
+    <Compile Include="Services\Clients\PdfGenerationService.cs" />
     <Compile Include="Services\Clients\TemperatureService.cs" />
     <Compile Include="Services\Clients\ITemperatureService.cs" />
     <Compile Include="Services\HttpConverter.cs" />
@@ -400,6 +403,17 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="ASPPDFLib">
+      <Guid>{414FEE4B-2879-4090-957E-423567FFCFC6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
