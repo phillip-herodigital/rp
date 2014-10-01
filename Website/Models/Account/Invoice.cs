@@ -31,7 +31,6 @@ namespace StreamEnergy.MyStream.Models.Account
         [ColumnSchema("Action")]
         public Dictionary<string, string> Actions { get; private set; }
 
-        public bool IsPaid { get; set; }
         public bool CanRequestExtension { get; set; }
     }
 }

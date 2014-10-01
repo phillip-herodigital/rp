@@ -180,7 +180,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                  InvoiceNumber = invoice.InvoiceNumber,
                                  InvoiceAmount = invoice.InvoiceAmount.ToString("0.00"),
                                  DueDate = invoice.DueDate.ToShortDateString(),
-                                 IsPaid = invoice.IsPaid,
                                  CanRequestExtension = account.GetCapability<InvoiceExtensionAccountCapability>().CanRequestExtension,
                                  Actions = 
                                  {

@@ -13,7 +13,5 @@ namespace StreamEnergy.DomainModels.Accounts
         public decimal InvoiceAmount { get; set; }
 
         public DateTime DueDate { get; set; }
-
-        public bool IsPaid { get; set; }
     }
 }

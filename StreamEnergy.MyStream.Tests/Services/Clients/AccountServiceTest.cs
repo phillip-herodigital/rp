@@ -95,6 +95,32 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Assert
             Assert.IsTrue(details);
             Assert.IsNotNull(acct.Details);
+            Assert.IsNotNull(acct.Details.ContactInfo);
+            Assert.IsNotNull(acct.Details.ContactInfo.Email);
+            Assert.IsNotNull(acct.Details.ContactInfo.Name);
+            Assert.IsNotNull(acct.Details.ContactInfo.Phone);
+            Assert.IsTrue(acct.Details.ContactInfo.Phone.Length > 0);
+        }
+
+        [TestMethod]
+        public void UpdateAccountDetails()
+        {
+            // Arrange
+            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
+            var gcid = accountService.CreateStreamConnectCustomer().Result;
+            var acct = accountService.AssociateAccount(gcid, "3001311049", "3192", "Sample").Result;
+            accountService.GetAccountDetails(acct).Wait();
+
+            // Act
+            var expected = "2" + new Random().Next(0, 1000000000).ToString().PadLeft(9, '0');
+            acct.Details.ContactInfo.Phone = new[] { new StreamEnergy.DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = expected } };
+            var result = accountService.SetAccountDetails(acct, acct.Details).Result;
+
+            // Assert
+            Assert.IsTrue(result);
+            result = accountService.GetAccountDetails(acct, forceRefresh: true).Result;
+            Assert.AreEqual(expected, acct.Details.ContactInfo.Phone.Single().Number);
+            Assert.IsNotNull(acct.Details);
             Assert.Inconclusive();
         }
 
@@ -110,7 +136,10 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             var details = accountService.GetInvoices(gcid).Result;
 
             // Assert
-            Assert.Inconclusive();
+            Assert.IsTrue(details.Any());
+            Assert.IsTrue(details.First().Invoices.Any());
+            Assert.IsTrue(details.First().Invoices.First().InvoiceAmount > 0);
+            Assert.IsNotNull(details.First().Invoices.First().InvoiceNumber);
         }
 
         [TestMethod]
@@ -128,7 +157,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
 
             // Assert
             var client = new HttpClient();
-            var pdf = client.GetAsync(url).Result;
+            var pdf = client.GetAsync(url.ToString()).Result;
             pdf.EnsureSuccessStatusCode();
         }
     }

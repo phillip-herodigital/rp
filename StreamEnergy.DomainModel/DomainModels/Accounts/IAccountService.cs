@@ -33,5 +33,7 @@ namespace StreamEnergy.DomainModels.Accounts
         Task<Account> AssociateAccount(Guid globalCustomerId, string accountNumber, string ssnLast4, string accountNickname);
         Task<bool> DisassociateAccount(Account account);
         Task<bool> GetAccountDetails(Account account, bool forceRefresh = false);
+
+        Task<bool> SetAccountDetails(Account acct, AccountDetails accountDetails);
     }
 }

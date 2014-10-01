@@ -16,13 +16,15 @@ namespace StreamEnergy.Services.Clients
         private readonly StreamCommons.Account.CisAccountServicesPortType accountService;
         private readonly StreamEnergy.Dpi.DPILinkSoap dpiLinkService;
         private readonly HttpClient streamConnectClient;
+        private readonly string sharedAccessSignature;
 
-        public AccountService(Sample.Commons.SampleStreamCommonsSoap service, StreamCommons.Account.CisAccountServicesPortType accountService, StreamEnergy.Dpi.DPILinkSoap dpiLinkService, [Dependency(StreamConnectContainerSetup.StreamConnectKey)] HttpClient client)
+        public AccountService(Sample.Commons.SampleStreamCommonsSoap service, StreamCommons.Account.CisAccountServicesPortType accountService, StreamEnergy.Dpi.DPILinkSoap dpiLinkService, [Dependency(StreamConnectContainerSetup.StreamConnectKey)] HttpClient client, [Dependency(StreamConnectContainerSetup.StreamConnectSharedAccessSignature)] string sharedAccessSignature)
         {
             this.service = service;
             this.accountService = accountService;
             this.dpiLinkService = dpiLinkService;
             this.streamConnectClient = client;
+            this.sharedAccessSignature = sharedAccessSignature;
         }
 
         async Task<IEnumerable<Account>> IAccountService.GetInvoices(Guid globalCustomerId, IEnumerable<Account> existingAccountObjects)
@@ -73,7 +75,7 @@ namespace StreamEnergy.Services.Clients
             response.EnsureSuccessStatusCode();
             dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
 
-            return new Uri((string)data.Uri);
+            return new Uri((string)data.Uri + "?" + sharedAccessSignature);
         }
 
         Task<IEnumerable<Account>> IAccountService.GetCurrentInvoices(Guid globalCustomerId)
@@ -82,7 +84,7 @@ namespace StreamEnergy.Services.Clients
             return Task.FromResult<IEnumerable<Account>>(new[] {
                 new Account(globalCustomerId, Guid.Empty) {
                     AccountNumber = "1234567890", 
-                    CurrentInvoice = new Invoice { DueDate = DateTime.Today.AddDays(2), InvoiceAmount = 73.05m, InvoiceNumber="", IsPaid = false },
+                    CurrentInvoice = new Invoice { DueDate = DateTime.Today.AddDays(2), InvoiceAmount = 73.05m, InvoiceNumber="" },
                     Capabilities = { 
                         new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = true }  , 
                         new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } }
@@ -90,7 +92,7 @@ namespace StreamEnergy.Services.Clients
                 },
                 new Account(globalCustomerId, Guid.Empty) {
                     AccountNumber = "5678901234",
-                    CurrentInvoice = new Invoice { DueDate = DateTime.Today.AddDays(12), InvoiceAmount = 24.95m, InvoiceNumber="", IsPaid = false }, 
+                    CurrentInvoice = new Invoice { DueDate = DateTime.Today.AddDays(12), InvoiceAmount = 24.95m, InvoiceNumber="" }, 
                     Capabilities = { 
                         new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = true } , 
                         new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } } 
@@ -98,7 +100,7 @@ namespace StreamEnergy.Services.Clients
                 },
                 new Account(globalCustomerId, Guid.Empty) { 
                     AccountNumber = "2345060992", 
-                    CurrentInvoice = new Invoice { DueDate = DateTime.Today.AddDays(19), InvoiceAmount = 54.05m, InvoiceNumber="", IsPaid = false }, 
+                    CurrentInvoice = new Invoice { DueDate = DateTime.Today.AddDays(19), InvoiceAmount = 54.05m, InvoiceNumber="" }, 
                     Capabilities = { 
                         new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = false }, 
                         new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } } 
@@ -106,7 +108,7 @@ namespace StreamEnergy.Services.Clients
                 },
                 new Account(globalCustomerId, Guid.Empty) {
                     AccountNumber = "3429500293",
-                    CurrentInvoice = new Invoice { DueDate = DateTime.Today.AddDays(29), InvoiceAmount = 36.00m, InvoiceNumber="", IsPaid = false }, 
+                    CurrentInvoice = new Invoice { DueDate = DateTime.Today.AddDays(29), InvoiceAmount = 36.00m, InvoiceNumber="" }, 
                     Capabilities = { 
                         new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = true } ,
                         new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } } 
@@ -165,7 +167,7 @@ namespace StreamEnergy.Services.Clients
                 new Account(Guid.Empty, Guid.Empty)
                 {
                     AccountNumber = accountNumber,
-                    CurrentInvoice = new Invoice { DueDate = DateTime.Today.AddDays(2), InvoiceAmount = 123.45m, InvoiceNumber="", IsPaid = false },
+                    CurrentInvoice = new Invoice { DueDate = DateTime.Today.AddDays(2), InvoiceAmount = 123.45m, InvoiceNumber="" },
                     Capabilities = { 
                         new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = true }, 
                         new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } }
@@ -409,7 +411,11 @@ namespace StreamEnergy.Services.Clients
                                 {
                                     Name = new DomainModels.Name { First = data.AccountDetails.AccountCustomer.FirstName, Last = data.AccountDetails.AccountCustomer.LastName },
                                     Email = new DomainModels.Email { Address = data.AccountDetails.AccountCustomer.EmailAddress },
-                                    // TODO - phone number?
+                                    Phone = new DomainModels.Phone[] 
+                                    { 
+                                        (data.AccountDetails.AccountCustomer.HomePhone.Value.ToString() == null ? null : new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = data.AccountDetails.AccountCustomer.HomePhone.Value.ToString() }),
+                                        (data.AccountDetails.AccountCustomer.MobilePhone.Value.ToString() == null ? null : new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Mobile, Number = data.AccountDetails.AccountCustomer.HomePhone.Value.ToString() }),
+                                    }.Where(p => p != null).ToArray()
                                 },
                                 BillingAddress = new DomainModels.Address
                                 {
@@ -427,6 +433,44 @@ namespace StreamEnergy.Services.Clients
                 }
             }
             return true;
+        }
+
+        Task<bool> IAccountService.SetAccountDetails(Account account, AccountDetails details)
+        {
+            throw new NotImplementedException();
+            //var response = await streamConnectClient.PostAsJsonAsync("/api/v1/accounts/update/" + account.StreamConnectAccountId.ToString() + "/accounts/" + account.StreamConnectCustomerId.ToString(),
+            //    new
+            //    {
+            //        PrimaryPhoneNumber = 
+            //    });
+
+            //if (response.IsSuccessStatusCode)
+            //{
+            //    dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+            //    if (data.Status == "Success")
+            //    {
+            //        account.Details = new AccountDetails
+            //        {
+            //            ContactInfo = new DomainModels.CustomerContact
+            //            {
+            //                Name = new DomainModels.Name { First = data.AccountDetails.AccountCustomer.FirstName, Last = data.AccountDetails.AccountCustomer.LastName },
+            //                Email = new DomainModels.Email { Address = data.AccountDetails.AccountCustomer.EmailAddress },
+            //                // TODO - phone number?
+            //            },
+            //            BillingAddress = new DomainModels.Address
+            //            {
+            //                Line1 = data.AccountDetails.BillingAddress.StreetLine1,
+            //                Line2 = data.AccountDetails.BillingAddress.StreetLine1,
+            //                City = data.AccountDetails.BillingAddress.City,
+            //                PostalCode5 = data.AccountDetails.BillingAddress.Zip,
+            //                StateAbbreviation = data.AccountDetails.BillingAddress.State,
+            //            },
+            //            // TODO - are there other parts that belong here?
+            //        };
+            //        return true;
+            //    }
+            //}
+            //return false;
         }
     }
 }
