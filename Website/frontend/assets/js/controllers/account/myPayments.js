@@ -20,6 +20,14 @@ ngApp.controller('AcctMyPaymentsCtrl', ['$scope', '$rootScope', '$http', '$filte
         $scope.paymentsTable = data.payments;
         $scope.paymentsTableOriginal = angular.copy($scope.paymentsTable);
 
+        // make the columns responsive
+        _.find($scope.paymentsTable.columnList, { 'field': 'isRecurring' }).hide = ['phone', 'tablet'];
+        _.find($scope.paymentsTable.columnList, { 'field': 'accountNumber' }).hide = ['phone'];
+        _.find($scope.paymentsTable.columnList, { 'field': 'confirmCode' }).hide = ['phone', 'tablet'];
+        _.find($scope.paymentsTable.columnList, { 'field': 'paymentDate' }).hide = ['phone', 'tablet'];
+        _.find($scope.paymentsTable.columnList, { 'field': 'status' }).hide = ['phone', 'tablet'];
+        _.find($scope.paymentsTable.columnList, { 'field': 'actions' }).hide = ['phone'];
+
         // filters
         $scope.serviceTypes = _.pluck(_.uniq($scope.paymentsTable.values, 'serviceType'),'serviceType');
         $scope.accountNumbers = _.pluck(_.uniq($scope.paymentsTable.values, 'accountNumber'),'accountNumber');
@@ -28,14 +36,14 @@ ngApp.controller('AcctMyPaymentsCtrl', ['$scope', '$rootScope', '$http', '$filte
         _.forEach($scope.accountNumbers,function(num) { $scope.filtersList.accountNumber.push({ 'name' : num, 'value' : num }) }); 
         _.forEach($scope.statuses,function(status) { $scope.filtersList.status.push({ 'name' : status, 'value' : status }) }); 
         
-        //  check to see if we need to hide columns
+        //  check to see if we need to hide columns for unsupported systems
         $scope.hasConfirmation = _.every($scope.paymentsTable.values, function(val) { return _.has(val, 'confirmCode') });
         $scope.hasPaymentStatus = _.every($scope.paymentsTable.values, function(val) { return _.has(val, 'status') });
         if (!$scope.hasConfirmation) {
-            $scope.paymentsTable.columnList = _.reject($scope.paymentsTable.columnList, {'field': 'confirmCode'})
+            $scope.paymentsTable.columnList = _.reject($scope.paymentsTable.columnList, {'field': 'confirmCode'});
         }
         if (!$scope.hasPaymentStatus) {
-            $scope.paymentsTable.columnList = _.reject($scope.paymentsTable.columnList, {'field': 'status'})
+            $scope.paymentsTable.columnList = _.reject($scope.paymentsTable.columnList, {'field': 'status'});       
         }
         
         $scope.isLoading = false;
