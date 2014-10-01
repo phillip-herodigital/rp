@@ -336,19 +336,20 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 }
             };
 
+            // Pretend this one's coming from ISTA, so it doesn't have some of the data
             var row2 = new StreamEnergy.MyStream.Models.Account.Payment
             {
                 AccountNumber = "219849302",
                 ServiceType = "Utility",
-                ConfirmCode = "1020453546012",
+                //ConfirmCode = "1020453546012",
                 PaymentAmount = "$93.72",
                 PaymentDate = "03/13/14",
-                Status = "APPROVED",
+                //Status = "APPROVED",
                 IsRecurring = false,
                 PaymentID = "1234567890",
-                PaymentMode = "ACH",
-                PaymentAccount = "*********7844",
-                RoutingNumber = "1234567890",
+                //PaymentMode = "ACH",
+                //PaymentAccount = "*********7844",
+                //RoutingNumber = "1234567890",
                 PaymentMadeBy = "Jordan Campbell",
                 Actions = 
                 {
