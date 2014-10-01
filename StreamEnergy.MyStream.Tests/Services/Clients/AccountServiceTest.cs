@@ -130,13 +130,15 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Arrange
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
             var gcid = accountService.CreateStreamConnectCustomer().Result;
-            var acctId = accountService.AssociateAccount(gcid, "3001311049", "3192", "Sample").Result;
+            var acct = accountService.AssociateAccount(gcid, "3001311049", "3192", "Sample").Result;
 
             // Act
             var details = accountService.GetInvoices(gcid).Result;
 
             // Assert
             Assert.IsTrue(details.Any());
+            Assert.AreEqual(gcid, details.First().StreamConnectCustomerId);
+            Assert.AreEqual(acct.StreamConnectAccountId, details.First().StreamConnectAccountId);
             Assert.IsTrue(details.First().Invoices.Any());
             Assert.IsTrue(details.First().Invoices.First().InvoiceAmount > 0);
             Assert.IsNotNull(details.First().Invoices.First().InvoiceNumber);
@@ -150,7 +152,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             var gcid = accountService.CreateStreamConnectCustomer().Result;
             var acct = accountService.AssociateAccount(gcid, "3001311049", "3192", "Sample").Result;
             var invoiceAccounts = accountService.GetInvoices(gcid, new[] { acct }).Result;
-            var targetInvoice = acct.Invoices.First();
+            var targetInvoice = invoiceAccounts.First(t => t.Invoices != null).Invoices.First();
 
             // Act
             var url = accountService.GetInvoicePdf(acct, targetInvoice).Result;
