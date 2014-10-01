@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace StreamEnergy.DomainModels.Accounts
 {
-    [Serializable]
-    public class AccountBalance
+    public interface ICurrentUser
     {
-        public decimal Balance { get; set; }
-        public DateTime DueDate { get; set; }
+
+        Guid StreamConnectCustomerId { get; }
+        IEnumerable<Account> Accounts { get; set; }
     }
 }
