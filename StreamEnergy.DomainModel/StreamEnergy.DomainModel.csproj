@@ -249,6 +249,7 @@
     <Compile Include="DomainModels\Payments\SamplePaymentInfo.cs" />
     <Compile Include="DomainModels\Payments\SavedPaymentInfo.cs" />
     <Compile Include="DomainModels\Payments\TokenizedCard.cs" />
+    <Compile Include="DomainModels\PdfBusinessClassification.cs" />
     <Compile Include="DomainModels\PhoneCategory.cs" />
     <Compile Include="DomainModels\PhoneSubtypeLookup.cs" />
     <Compile Include="DomainModels\PolymorphicSerializationContainerSetup.cs" />

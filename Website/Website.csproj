@@ -525,6 +525,7 @@
     <Compile Include="Conditions\EnforceSSLCondition.cs" />
     <Compile Include="Conditions\EnrollmentTrafficCopCondition.cs" />
     <Compile Include="Conditions\MaintenanceModeCondition.cs" />
+    <Compile Include="Controllers\ApiControllers\TempController.cs" />
     <Compile Include="Controllers\ApiControllers\AccountController.cs" />
     <Compile Include="Controllers\ApiControllers\AddressesController.cs" />
     <Compile Include="Controllers\ApiControllers\AuthenticationController.cs" />
@@ -638,6 +639,7 @@
     <Compile Include="Models\MobileEnrollment\AccountInformation.cs" />
     <Compile Include="Models\RapidPrototyping.cs" />
     <Compile Include="Models\StateMachineSessionHelper.cs" />
+    <Compile Include="Models\Temp\GenerateW9.cs" />
     <Compile Include="Models\TranslatedValidationResult.cs" />
     <Compile Include="Pipelines\InitializeWebApi.cs" />
     <Compile Include="Models\Marketing\HomeLifeServices.cs" />
@@ -799,6 +801,7 @@
     <Content Include="updateTypeaheadIndex.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Views\Pages\Temp\Generate W9.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
