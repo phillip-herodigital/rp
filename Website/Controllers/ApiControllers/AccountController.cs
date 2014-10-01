@@ -335,19 +335,20 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 }
             };
 
+            // Pretend this one's coming from ISTA, so it doesn't have some of the data
             var row2 = new StreamEnergy.MyStream.Models.Account.Payment
             {
                 AccountNumber = "219849302",
                 ServiceType = "Utility",
-                ConfirmCode = "1020453546012",
+                //ConfirmCode = "1020453546012",
                 PaymentAmount = "$93.72",
                 PaymentDate = "03/13/14",
-                Status = "APPROVED",
+                //Status = "APPROVED",
                 IsRecurring = false,
                 PaymentID = "1234567890",
-                PaymentMode = "ACH",
-                PaymentAccount = "*********7844",
-                RoutingNumber = "1234567890",
+                //PaymentMode = "ACH",
+                //PaymentAccount = "*********7844",
+                //RoutingNumber = "1234567890",
                 PaymentMadeBy = "Jordan Campbell",
                 Actions = 
                 {
@@ -431,7 +432,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 PlanName = "Flex Choice Intro Plan",
                 Rate = "4.98",
                 Terms = "Month-to-Month",
-                Fees = "$0",
                 PlanDetails = "The Stream Intro/Variable Price Plan is for new customers only and is the applied rate for the first invoice. I understand that, under this plan, I will receive a guaranteed introductory rate on my first invoice. All subsequent months will be billed at Stream Energy's then-current Variable Price Rate. Early Termination Fees shall NOT apply and that my current rate may fluctuate based on market conditions. Please see the Terms of Services for more information on this product.",
                 PricingEffectiveDate = "11/21/2013",
                 MinimumUsageFee = "$0.00",

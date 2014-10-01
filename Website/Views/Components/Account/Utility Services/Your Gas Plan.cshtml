@@ -9,7 +9,7 @@
                 <th>@Html.Sitecore().Field("Plan Name Text")</th>
                 <th>@Html.Sitecore().Field("Rate Text")</th>
                 <th>@Html.Sitecore().Field("Term Text")</th>
-                <th>@Html.Sitecore().Field("Fees Text")</th>
+                <th ng-if="gasPlan.fees">@Html.Sitecore().Field("Fees Text")</th>
             </tr>
         </thead>
         <tbody additional-fields>
@@ -34,7 +34,7 @@
                     <div class="details-arrow"></div>
                 </td>
                 <td class="center"><i class="icon-month-to-month" ng-show="gasPlan.terms = 'Month-to-Month'"></i><p>{{ gasPlan.terms }}</p></td>
-                <td class="center"><span class="plan-cost">{{ gasPlan.fees }}</span> <p>@Html.Sitecore().Field("Termination Fee Text")</p></td>
+                <td class="center" ng-if="gasPlan.fees"><span class="plan-cost">{{ gasPlan.fees }}</span> <p>@Html.Sitecore().Field("Termination Fee Text")</p></td>
             </tr>
             <tr class="expand-details additional-fields">
                 <td colspan="5">
