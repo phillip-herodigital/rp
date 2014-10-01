@@ -12,17 +12,24 @@ namespace StreamEnergy.DomainModels.Accounts.Create
     public class CreateAccountState : StateBase<CreateAccountContext, CreateAccountInternalContext>
     {
         private readonly MembershipBuilder membership;
+        private readonly IAccountService accountService;
 
-        public CreateAccountState(MembershipBuilder membership)
+        public CreateAccountState(MembershipBuilder membership, IAccountService accountService)
             :base(typeof(AccountInformationState), typeof(CompleteState))
         {
             this.membership = membership;
+            this.accountService = accountService;
         }
 
         protected override async Task<Type> InternalProcess(CreateAccountContext context, CreateAccountInternalContext internalContext)
         {
             var profile = await membership.CreateUser(context.Username, context.Password, context.Challenges);
             if (profile == null)
+            {
+                return typeof(CreateFailedState);
+            }
+
+            if (await accountService.AssociateAccount(profile.GlobalCustomerId, context.AccountNumber, context.SsnLastFour, "") == null)
             {
                 return typeof(CreateFailedState);
             }

@@ -26,30 +26,30 @@ namespace StreamEnergy.DomainModels.Accounts.Create
 
         public override IEnumerable<ValidationResult> AdditionalValidations(CreateAccountContext context, CreateAccountInternalContext internalContext)
         {
-            // TODO - replace this test to verify that an online account doesn't already exist
-            if (context.AccountNumber == "1234")
-            {
-                yield return new ValidationResult("Online Account Already Exists", new[] { "AccountNumber" });
-            }
+            // No blockers for online account already exists
+            yield break;
+            //if (context.AccountNumber == "1234")
+            //{
+            //    yield return new ValidationResult("Online Account Already Exists", new[] { "AccountNumber" });
+            //}
         }
 
-        protected override Task<Type> InternalProcess(CreateAccountContext context, CreateAccountInternalContext internalContext)
+        protected override async Task<Type> InternalProcess(CreateAccountContext context, CreateAccountInternalContext internalContext)
         {
-            // TODO - load from service
-            context.Customer = new CustomerContact
+            internalContext.GlobalCustomerId = await service.CreateStreamConnectCustomer();
+            internalContext.Account = await service.AssociateAccount(internalContext.GlobalCustomerId, context.AccountNumber, context.SsnLastFour, "First Account");
+
+            if (internalContext.Account == null)
             {
-                Name = new Name { First = "John", Last = "Smith" },
-                Phone = new Phone[] { /*new Phone { Number = "555-555-4545" }*/ },
-                Email = new Email { Address = "test@example.com" }
-            };
-            context.Address = new Address
-            {
-                Line1 = "123 Test Ave",
-                City = "Dallas",
-                StateAbbreviation = "TX",
-                PostalCode5 = "75201"
-            };
-            return base.InternalProcess(context, internalContext);
+                // account not found
+                return this.GetType();
+            }
+
+            await service.GetAccountDetails(internalContext.Account);
+
+            context.Customer = internalContext.Account.Details.ContactInfo;            
+            context.Address = internalContext.Account.Details.BillingAddress;
+            return await base.InternalProcess(context, internalContext);
         }
     }
 }

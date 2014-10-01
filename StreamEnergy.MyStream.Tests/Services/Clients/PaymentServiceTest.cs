@@ -50,6 +50,21 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         }
 
         [TestMethod]
+        public void GetPaymentMethods()
+        {
+            // Arrange
+            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
+            StreamEnergy.DomainModels.Payments.IPaymentService paymentService = container.Resolve<StreamEnergy.Services.Clients.PaymentService>();
+            var customerId = accountService.CreateStreamConnectCustomer().Result;
+
+            // Act
+            var paymentMethods = paymentService.GetSavedPaymentMethods(customerId).Result;
+
+            // Assert
+            Assert.Inconclusive();
+        }
+
+        [TestMethod]
         public void SavePaymentMethod()
         {
             // Arrange
