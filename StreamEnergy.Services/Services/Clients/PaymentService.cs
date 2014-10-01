@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
 using Newtonsoft.Json.Linq;
+using StreamEnergy.DomainModels.Accounts;
 using StreamEnergy.DomainModels.Payments;
 using StreamEnergy.Logging;
 
@@ -15,11 +16,13 @@ namespace StreamEnergy.Services.Clients
     {
         private readonly HttpClient streamConnectClient;
         private readonly ILogger logger;
+        private readonly AccountFactory accountFactory;
 
-        public PaymentService([Dependency(StreamConnectContainerSetup.StreamConnectKey)] HttpClient client, ILogger logger)
+        public PaymentService([Dependency(StreamConnectContainerSetup.StreamConnectKey)] HttpClient client, ILogger logger, AccountFactory accountFactory)
         {
             this.streamConnectClient = client;
             this.logger = logger;
+            this.accountFactory = accountFactory;
         }
 
         async Task<IEnumerable<SavedPaymentInfo>> IPaymentService.GetSavedPaymentMethods(Guid globalCustomerId)
@@ -104,21 +107,29 @@ namespace StreamEnergy.Services.Clients
                 };
         }
 
-        async Task<IEnumerable<PastPayment>> IPaymentService.PaymentHistory(Guid globalCustomerId)
+        async Task<IEnumerable<Account>> IPaymentService.PaymentHistory(Guid globalCustomerId, IEnumerable<Account> existingAccountObjects)
         {
             var response = await streamConnectClient.GetAsync("/api/v1/payments/history/" + globalCustomerId.ToString());
 
             response.EnsureSuccessStatusCode();
-            dynamic result = Json.Read<JObject>(await response.Content.ReadAsStringAsync());
+            dynamic jobject = Json.Read<JObject>(await response.Content.ReadAsStringAsync());
 
-            return from dynamic entry in (JArray)result.PastPayments
-                   select new PastPayment
-                   {
-                       // TODO - populate global account id
-                       GlobalAccountId = Guid.Empty,
-                       PaidDate = entry.PaidDate,
-                       PaymentAmount = (decimal)entry.PaymentAmount.Value,
-                   };
+            return accountFactory.Merge(existingAccountObjects,
+                from pastPayment in ((IEnumerable<dynamic>)jobject.PastPayments)
+                group new PastPayment
+                {
+                    PaidDate = pastPayment.PaidDate,
+                    PaymentAmount = (decimal)pastPayment.PaymentAmount.Value,
+                } by new AccountFactory.AccountKey
+                {
+                    StreamConnectCustomerId = globalCustomerId,
+                    StreamConnectAccountId = (Guid)pastPayment.GlobalAccountId,
+                    AccountNumber = pastPayment.SystemOfRecordAccountNumber,
+                    AccountType = pastPayment.ServiceType,
+                    SystemOfRecord = pastPayment.SystemOfRecord
+                },
+                (account, paymentHistory) => account.PaymentHistory = paymentHistory.ToArray()
+            );
         }
 
         private object ToStreamPaymentAccount(string customerName, IPaymentInfo paymentInfo)

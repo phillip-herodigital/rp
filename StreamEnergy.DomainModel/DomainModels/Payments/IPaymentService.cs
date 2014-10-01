@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using StreamEnergy.DomainModels.Accounts;
 
 namespace StreamEnergy.DomainModels.Payments
 {
@@ -13,7 +14,7 @@ namespace StreamEnergy.DomainModels.Payments
         Task<Guid> SavePaymentMethod(Guid globalCustomerId, IPaymentInfo paymentInfo, string displayName);
         Task<bool> DeletePaymentMethod(Guid globalCustomerId, Guid paymentMethodId);
 
-        Task<IEnumerable<PastPayment>> PaymentHistory(Guid globalCustomerId);
+        Task<IEnumerable<Account>> PaymentHistory(Guid globalCustomerId, IEnumerable<Account> existingAccountObjects = null);
 
         Task<AutoPaySetting> GetAutoPayStatus(Accounts.Account account);
         Task<bool> SetAutoPayStatus(Accounts.Account account, AutoPaySetting autoPaySetting);

@@ -17,51 +17,41 @@ namespace StreamEnergy.Services.Clients
         private readonly StreamEnergy.Dpi.DPILinkSoap dpiLinkService;
         private readonly HttpClient streamConnectClient;
         private readonly string sharedAccessSignature;
+        private readonly AccountFactory accountFactory;
 
-        public AccountService(Sample.Commons.SampleStreamCommonsSoap service, StreamCommons.Account.CisAccountServicesPortType accountService, StreamEnergy.Dpi.DPILinkSoap dpiLinkService, [Dependency(StreamConnectContainerSetup.StreamConnectKey)] HttpClient client, [Dependency(StreamConnectContainerSetup.StreamConnectSharedAccessSignature)] string sharedAccessSignature)
+        public AccountService(Sample.Commons.SampleStreamCommonsSoap service, StreamCommons.Account.CisAccountServicesPortType accountService, StreamEnergy.Dpi.DPILinkSoap dpiLinkService, [Dependency(StreamConnectContainerSetup.StreamConnectKey)] HttpClient client, [Dependency(StreamConnectContainerSetup.StreamConnectSharedAccessSignature)] string sharedAccessSignature, AccountFactory accountFactory)
         {
             this.service = service;
             this.accountService = accountService;
             this.dpiLinkService = dpiLinkService;
             this.streamConnectClient = client;
             this.sharedAccessSignature = sharedAccessSignature;
+            this.accountFactory = accountFactory;
         }
 
         async Task<IEnumerable<Account>> IAccountService.GetInvoices(Guid globalCustomerId, IEnumerable<Account> existingAccountObjects)
         {
-            existingAccountObjects = existingAccountObjects ?? Enumerable.Empty<Account>();
             var response = await streamConnectClient.GetAsync("/api/v1/customers/" + globalCustomerId.ToString() + "/invoices");
             response.EnsureSuccessStatusCode();
             dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
             if (data.Status == "Success")
             {
-                var result = new List<Account>(existingAccountObjects);
-                foreach (var acct in ((IEnumerable<dynamic>)data.Invoices).GroupBy(invoice => (Guid)invoice.GlobalAccountId))
-                {
-                    var invoices = (from invoice in acct
-                                    select new Invoice
-                                    {
-                                        InvoiceNumber = invoice.InvoiceId.ToString(),
-                                        DueDate = invoice.DueDate,
-                                        InvoiceAmount = (decimal)invoice.AmountDue.Value,
-                                    }).ToArray();
-                    var existing = existingAccountObjects.FirstOrDefault(account => account.StreamConnectCustomerId == acct.Key);
-                    if (existing == null)
+                return accountFactory.Merge(existingAccountObjects,
+                    from invoice in ((IEnumerable<dynamic>)data.Invoices)
+                    group new Invoice
                     {
-                        result.Add(new Account(globalCustomerId, acct.Key)
-                        {
-                            AccountNumber = acct.First().SystemOfRecordAccountNumber,
-                            AccountType = acct.First().ServiceType,
-                            SystemOfRecord = acct.First().SystemOfRecord,
-                            Invoices = invoices
-                        });
-                    }
-                    else
+                        InvoiceNumber = invoice.InvoiceId.ToString(),
+                        DueDate = invoice.DueDate,
+                        InvoiceAmount = (decimal)invoice.AmountDue.Value,
+                    } by new AccountFactory.AccountKey
                     {
-                        existing.Invoices = invoices;
-                    }
-                }
-                return result.ToArray();
+                        StreamConnectCustomerId = globalCustomerId,
+                        StreamConnectAccountId = (Guid)invoice.GlobalAccountId,
+                        AccountNumber = invoice.SystemOfRecordAccountNumber,
+                        AccountType = invoice.ServiceType,
+                        SystemOfRecord = invoice.SystemOfRecord
+                    },
+                    (account, invoices) => account.Invoices = invoices.ToArray());
             }
             else
             {

@@ -128,7 +128,10 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             var payments = paymentService.PaymentHistory(gcid).Result;
 
             // Assert
-            Assert.Inconclusive();
+            Assert.IsNotNull(payments);
+            Assert.IsTrue(payments.Any());
+            Assert.IsTrue(payments.First().PaymentHistory.Any());
+            Assert.IsTrue(payments.First().PaymentHistory.All(h => h.PaymentAmount > 0));
         }
     }
 }

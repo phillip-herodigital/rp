@@ -43,6 +43,10 @@ namespace StreamEnergy.DomainModels.Accounts
         /// </summary>
         public List<IAccountCapability> Capabilities { get; private set; }
 
+        public AccountDetails Details { get; set; }
+
+        public Payments.PastPayment[] PaymentHistory { get; set; }
+
         /// <summary>
         /// Gets the capability of the specified type, or throws an exception if it is not found.
         /// </summary>
@@ -78,7 +82,5 @@ namespace StreamEnergy.DomainModels.Accounts
             return temp.Any();
         }
 
-
-        public AccountDetails Details { get; set; }
     }
 }
