@@ -1,4 +1,4 @@
-﻿using ASPPDFLib;
+﻿using Persits.PDF;
 using StreamEnergy.DomainModels;
 using System;
 using System.Collections.Generic;
@@ -17,16 +17,15 @@ namespace StreamEnergy.Services.Clients
         byte[] IPdfGenerationService.GenerateW9(string name, string businessName, PdfBusinessClassification businessType, string businessTypeAdditional, bool isExempt, string address, string city, string state, string zip, string socialSecurityNumber, string employerIdentificationNumber, string signature, DateTime date)
         {
             var objPDF = new PdfManager();
-            objPDF.RegKey = "IWezpalWK7pmJwdV21Ccrs1n1G0y1yap+CsGNqvV4IJrWt+0593iKMx0qkSWkS069jolVHhic9oF";
             var objDoc = objPDF.OpenDocument("C:/pdfs/fw9.pdf");
 
             // Obtain page 1 of the document
-            IPdfPage objPage = objDoc.Pages[1];
+            PdfPage objPage = objDoc.Pages[1];
 
             // Create empty param object to be used throughout the app
-            IPdfParam objParam = objPDF.CreateParam(Missing.Value);
+            PdfParam objParam = objPDF.CreateParam(null);
 
-            IPdfFont objFont = objDoc.Fonts["Helvetica-Bold", Missing.Value]; // a standard font
+            PdfFont objFont = objDoc.Fonts["Helvetica-Bold"]; // a standard font
 
             ((dynamic)objPage.Annots[1]).FieldValue = name;
             ((dynamic)objPage.Annots[2]).FieldValue = businessName;
@@ -99,10 +98,10 @@ namespace StreamEnergy.Services.Clients
             }
 
             // Date
-            objPage.Canvas.DrawText(objPDF.FormatDate(date, "%b %d, %Y"), "x=432, y=270", objFont);
+            objPage.Canvas.DrawText(date.ToString("MMM d, yyyy"), "x=412, y=265", objFont);
 
             // Signature - taken from a .gif file (image itself) and .bmp (mask)
-            IPdfImage objSignatureImg = objDoc.OpenImageBinary(Convert.FromBase64String(signature), Missing.Value);
+            PdfImage objSignatureImg = objDoc.OpenImage(Convert.FromBase64String(signature));
 
             objPage.Canvas.DrawImage(objSignatureImg, "x=164; y=248; scalex=.15, scaley=.15");
             /*var img = objPage.ToImage();

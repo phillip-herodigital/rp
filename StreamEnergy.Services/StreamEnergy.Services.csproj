@@ -79,6 +79,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Persits.PDF">
+      <HintPath>..\Libraries\AspPDF\Persits.PDF.dll</HintPath>
+    </Reference>
     <Reference Include="ResponsivePath.Validation">
       <HintPath>..\packages\ResponsivePath.Validation.1.0.2.20136\lib\net45\ResponsivePath.Validation.dll</HintPath>
     </Reference>
@@ -402,17 +405,6 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <COMFileReference Include="../Libraries/AspPDF/asppdf.dll">
-      <Guid>{414FEE4B-2879-4090-957E-423567FFCFC6}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMFileReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
