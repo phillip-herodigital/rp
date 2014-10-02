@@ -99,6 +99,11 @@ namespace StreamEnergy.MyStream.Controllers
         {
             return View(form);
         }
+
+        public ActionResult GenerateW9()
+        {
+            return View("~/Views/Pages/Temp/Generate W9.cshtml");
+        }
 	}
 
     public class ValidationController : System.Web.Http.ApiController

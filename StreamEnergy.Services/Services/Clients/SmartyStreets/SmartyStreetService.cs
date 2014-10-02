@@ -43,7 +43,7 @@ namespace StreamEnergy.Services.Clients.SmartyStreets
 
             try
             {
-                var response = await client.PostAsync("https://api.smartystreets.com/street-address?auth-id=" + authId + "&auth-token=" + authToken, new ObjectContent(typeof(object), addresses, jsonFormatter)).ConfigureAwait(false);
+                var response = await client.PostAsync("https://api.smartystreets.com/street-address?auth-id=" + authId + "&auth-token=" + authToken, addresses, jsonFormatter).ConfigureAwait(false);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -72,17 +72,16 @@ namespace StreamEnergy.Services.Clients.SmartyStreets
 
             var client = container.Resolve<HttpClient>();
 
-            var response = await client.PostAsJsonAsync("https://api.smartystreets.com/street-address?auth-id=" + authId + "&auth-token=" + authToken,
-                new ObjectContent(typeof(IEnumerable<UncleansedAddress>), from addr in addresses
-                                                                          select new UncleansedAddress
-                                                                          {
-                                                                              Street = addr.Line1,
-                                                                              Street2 = addr.Line2,
-                                                                              City = addr.City,
-                                                                              State = addr.StateAbbreviation,
-                                                                              Zipcode = addr.PostalCode5
-                                                                          }, jsonFormatter)
-                ).ConfigureAwait(false);
+            var response = await client.PostAsync("https://api.smartystreets.com/street-address?auth-id=" + authId + "&auth-token=" + authToken,
+                from addr in addresses
+                select new UncleansedAddress
+                {
+                    Street = addr.Line1,
+                    Street2 = addr.Line2,
+                    City = addr.City,
+                    State = addr.StateAbbreviation,
+                    Zipcode = addr.PostalCode5
+                }, jsonFormatter).ConfigureAwait(false);
 
             if (response.IsSuccessStatusCode)
             {

@@ -13,6 +13,7 @@
           </Variable>
         </Environment>
       </Task>
+      <Task commandLine="updateTypeaheadIndex.cmd " executionContext="elevated" taskType="simple" />
     </Startup>
     <Sites>
       <Site name="Web">
@@ -33,6 +34,7 @@
     </Imports>
     <LocalResources>
       <LocalStorage name="DiagnosticStore" sizeInMB="20000" cleanOnRoleRecycle="false" />
+      <LocalStorage name="TypeaheadStore" sizeInMB="10000" cleanOnRoleRecycle="false" />
     </LocalResources>
     <Certificates>
     </Certificates>

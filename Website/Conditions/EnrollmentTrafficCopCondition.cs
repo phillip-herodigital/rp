@@ -71,7 +71,7 @@ namespace StreamEnergy.MyStream.Conditions
             // "cracked door" - allow less than 100% through to our own enrollment.
             redirect = redirect || useRemoteEnrollment;
 
-            if (redirect)
+            if (redirect || dependencies.EnrollmentParameters.AccountType == "C")
             {
                 var targetUrl = targetDpiUrl();
                 if (!string.IsNullOrEmpty(targetUrl))
@@ -93,6 +93,15 @@ namespace StreamEnergy.MyStream.Conditions
             else if (dependencies.Context.Request.QueryString.Keys.Count > 0)
             {
                 queryString = dependencies.Context.Request.QueryString;
+            }
+
+            if (Percentage <= 0)
+            {
+                useRemoteEnrollment = true;
+            }
+            else if (Percentage >= 100)
+            {
+                useRemoteEnrollment = false;
             }
 
             WriteCookie(queryString, useRemoteEnrollment);

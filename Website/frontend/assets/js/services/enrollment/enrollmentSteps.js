@@ -151,8 +151,10 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
                     }
                 }
                 service.setStep(flows[currentFlow][expectedState].name);
+                service.setMaxStep(flows[currentFlow][expectedState].name);
             } else {
                 service.setStep(expectedState);
+                service.setMaxStep(expectedState);
             }
         },
 
