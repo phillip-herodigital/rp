@@ -53,8 +53,13 @@ namespace StreamEnergy.Services.Clients
 
             unityContainer.RegisterInstance("SmartyStreets AuthId", ConfigurationManager.AppSettings["SmartyStreetsAuthId"]);
             unityContainer.RegisterInstance("SmartyStreets AuthToken", ConfigurationManager.AppSettings["SmartyStreetsAuthToken"]);
+            var SSLEnabled = false;
+            bool.TryParse(ConfigurationManager.AppSettings["SSLEnabled"], out SSLEnabled);
+            unityContainer.RegisterInstance("SSLEnabled", SSLEnabled);
 
             unityContainer.RegisterType<SmartyStreets.ISmartyStreetService, SmartyStreets.SmartyStreetService>();
+
+            unityContainer.RegisterType<IPdfGenerationService, PdfGenerationService>();
 
             // TODO - remove this before production
             System.Net.ServicePointManager.ServerCertificateValidationCallback = ValidateServerCertficate;

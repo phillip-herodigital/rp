@@ -12,7 +12,7 @@ namespace StreamEnergy.DomainModels.Accounts
         Task<IEnumerable<Account>> GetInvoices(Guid globalCustomerId, IEnumerable<Account> existingAccountObjects = null);
         Task<IEnumerable<Account>> GetCurrentInvoices(Guid globalCustomerId);
         Task<Uri> GetInvoicePdf(Account account, Invoice invoice);
-        Task<IEnumerable<Account>> GetAccountBalances(Guid globalCustomerId);
+        Task<IEnumerable<Account>> GetAccountBalances(Guid globalCustomerId, IEnumerable<Account> existingAccountObjects = null, bool forceRefresh = false);
         Task<Account> GetCurrentInvoice(string accountNumber);
 
         string GetIgniteAssociateFromCustomerNumber(string Auth_ID, string Auth_PW, string customerNumber);
@@ -33,6 +33,7 @@ namespace StreamEnergy.DomainModels.Accounts
         Task<Account> AssociateAccount(Guid globalCustomerId, string accountNumber, string ssnLast4, string accountNickname);
         Task<bool> DisassociateAccount(Account account);
         Task<bool> GetAccountDetails(Account account, bool forceRefresh = false);
+        Task<Account> GetAccountDetails(string accountNumber);
 
         Task<bool> SetAccountDetails(Account acct, AccountDetails accountDetails);
     }

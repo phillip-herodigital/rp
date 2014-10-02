@@ -40,7 +40,7 @@ namespace StreamEnergy.Services.Clients
             return result.ToArray();
         }
 
-        private Account CreateAccount(AccountKey accountKey)
+        public Account CreateAccount(AccountKey accountKey)
         {
             // TODO - typed account
             return new Account(accountKey.StreamConnectCustomerId, accountKey.StreamConnectAccountId)

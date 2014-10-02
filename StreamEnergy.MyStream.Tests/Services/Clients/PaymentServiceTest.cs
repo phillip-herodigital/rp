@@ -50,6 +50,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         }
 
         [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Payments")]
         public void GetPaymentMethods()
         {
             // Arrange
@@ -65,6 +67,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         }
 
         [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Payments")]
         public void SavePaymentMethod()
         {
             // Arrange
@@ -91,6 +95,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
 
 
         [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Payments")]
         public void DeletePaymentMethod()
         {
             // Arrange
@@ -116,6 +122,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         }
 
         [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Accounts")]
         public void GetPaymentHistory()
         {
             // Arrange

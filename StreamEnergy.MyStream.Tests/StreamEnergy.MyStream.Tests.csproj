@@ -221,7 +221,9 @@
     <Compile Include="ContainerSetup.cs" />
     <Compile Include="Services\Clients\PaymentServiceTest.cs" />
     <Compile Include="Services\Clients\AccountServiceTest.cs" />
-    <Compile Include="Services\Clients\StreamConnectTest.cs" />
+    <Compile Include="Services\Clients\EnrollmentServiceTest.cs" />
+    <Compile Include="Services\Clients\GeorgiaEnrollmentServiceTest.cs" />
+    <Compile Include="Services\PdfGeneration.cs" />
     <Compile Include="Services\GetSwtToken.cs" />
     <Compile Include="Sitecore\GeoIpTest.cs" />
     <Compile Include="Sitecore\SettingsTest.cs" />

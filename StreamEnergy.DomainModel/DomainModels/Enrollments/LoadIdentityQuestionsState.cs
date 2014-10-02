@@ -94,6 +94,7 @@ namespace StreamEnergy.DomainModels.Enrollments
                 }
                 internalContext.IdentityCheck = await enrollmentService.BeginIdentityCheck(internalContext.GlobalCustomerId, context.ContactInfo.Name, context.SocialSecurityNumber, context.MailingAddress);
                 internalContext.CreditCheck = await enrollmentService.BeginCreditCheck(internalContext.GlobalCustomerId, context.ContactInfo.Name, context.SocialSecurityNumber, context.PreviousAddress ?? context.MailingAddress);
+                context.SelectedIdentityAnswers = null;
 
                 if (!internalContext.IdentityCheck.IsCompleted)
                 {

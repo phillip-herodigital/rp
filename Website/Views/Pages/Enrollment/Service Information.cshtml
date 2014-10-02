@@ -37,12 +37,12 @@
                         @using (var currentService = Html.ClientRepeater(m => m.Services, "0"))
                         {
                             
-                        <div class="item customer-type">
+                        <!--<div class="item customer-type">
                             <label for="customer-type">@Html.Sitecore().Field("Interest Label")</label>
                             <select id="customer-type" name="customer-type" ng-model="$parent.customerType" ng-disabled="cartLocationsCount > 0" ng-change="assignStepNames(@(Html.Action("EnrollmentNav", "Enrollment").ToHtmlString()))">
                                 @Html.Sitecore().Field("Customer Types")
                             </select>
-                        </div>
+                        </div>-->
                         
                         <div class="item full service-address">
                             <div class="input-group">
