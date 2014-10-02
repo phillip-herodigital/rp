@@ -118,47 +118,12 @@ namespace StreamEnergy.Services.Clients
             });
         }
 
-        Task<IEnumerable<Account>> IAccountService.GetAccountBalances(Guid globalCustomerId)
+        async Task<IEnumerable<Account>> IAccountService.GetAccountBalances(Guid globalCustomerId, IEnumerable<Account> existingAccountObjects, bool forceRefresh)
         {
-            // TODO - load from Stream Commons
-            return Task.FromResult<IEnumerable<Account>>(new[] {
-                new Account(globalCustomerId, Guid.Empty) {
-                    AccountNumber = "1234567890", 
-                    Balance = new AccountBalance { Balance = 0.00m, DueDate = DateTime.Today.AddDays(2) },
-                    Capabilities = { 
-                        new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = true } , 
-                        new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } },
-                        new ExternalPaymentAccountCapability { }
-                    }
-                },
-                new Account(globalCustomerId, Guid.Empty) {
-                    AccountNumber = "5678901234",
-                    Balance = new AccountBalance { Balance =  24.95m, DueDate = DateTime.Today.AddDays(12) },
-                    Capabilities = { 
-                        new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = true } , 
-                        new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } },
-                        new ExternalPaymentAccountCapability { } 
-                    } 
-                },
-                new Account(globalCustomerId, Guid.Empty) { 
-                    AccountNumber = "2345060992", 
-                    Balance = new AccountBalance { Balance =  54.05m, DueDate = DateTime.Today.AddDays(19) },
-                    Capabilities = { 
-                        new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = false }, 
-                        new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } },
-                        new ExternalPaymentAccountCapability { } 
-                    } 
-                },
-                new Account(globalCustomerId, Guid.Empty) {
-                    AccountNumber = "3429500293",
-                    Balance = new AccountBalance { Balance =  36.00m, DueDate = DateTime.Today.AddDays(29) },
-                    Capabilities = { 
-                        new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = true } ,
-                        new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } },
-                        new ExternalPaymentAccountCapability { UtilityProvider = "PECO" }
-                    } 
-                },
-            });
+            var service = ((IAccountService)this);
+            return await Task.WhenAll((from account in existingAccountObjects ?? await service.GetAccounts(globalCustomerId)
+                                       where account.Balance == null || forceRefresh
+                                       select service.GetAccountDetails(account, true).ContinueWith(t => account)).ToArray());
         }
 
         Task<Account> IAccountService.GetCurrentInvoice(string accountNumber)
@@ -457,6 +422,11 @@ namespace StreamEnergy.Services.Clients
                     StateAbbreviation = data.AccountDetails.BillingAddress.State,
                 },
                 // TODO - are there other parts that belong here?
+            };
+            account.Balance = new AccountBalance
+            {
+                Balance = (decimal)data.AccountDetails.PastDueBalance.Value
+                // TODO - due date
             };
         }
 
