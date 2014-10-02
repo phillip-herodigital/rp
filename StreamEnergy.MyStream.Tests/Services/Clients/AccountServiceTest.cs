@@ -50,6 +50,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         }
 
         [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Accounts")]
         public void GetAccounts()
         {
             // Assign
@@ -66,6 +68,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         }
 
         [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Accounts")]
         public void DisassociateAccount()
         {
             // Arrange
@@ -82,6 +86,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         }
 
         [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Accounts")]
         public void GetAccountDetails()
         {
             // Arrange
@@ -103,6 +109,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         }
 
         [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Accounts")]
         public void UpdateAccountDetails()
         {
             // Arrange
@@ -125,6 +133,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         }
 
         [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Accounts")]
         public void GetAccountInvoices()
         {
             // Arrange
@@ -145,6 +155,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         }
 
         [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Accounts")]
         public void GetAccountInvoiceUrl()
         {
             // Arrange

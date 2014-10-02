@@ -15,7 +15,7 @@ using StreamEnergy.Logging;
 namespace StreamEnergy.MyStream.Tests.Services.Clients
 {
     [TestClass]
-    public class StreamConnectTest
+    public class EnrollmentServiceTest
     {
         private static Unity.Container container;
 
@@ -50,6 +50,9 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         }
 
         [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Enrollments")]
+        [TestCategory("StreamConnect Texas Enrollments")]
         public void GetProductsZipTest()
         {
             // Assign
@@ -86,6 +89,9 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         }
 
         [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Enrollments")]
+        [TestCategory("StreamConnect Georgia Enrollments")]
         public void GetProductsGeorgiaZipTest()
         {
             // Assign
@@ -122,6 +128,9 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         }
 
         [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Enrollments")]
+        [TestCategory("StreamConnect Texas Enrollments")]
         public void GetProductsAddressTest()
         {
             // Assign
@@ -156,8 +165,11 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                 Assert.Inconclusive("No data from Stream Connect");
             }
         }
-        
+
         [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Enrollments")]
+        [TestCategory("StreamConnect Texas Enrollments")]
         public void GetMoveInDatesTest()
         {
             // Assign
@@ -184,6 +196,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         }
 
         [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Accounts")]
         public void PostCustomersEmptyTest()
         {
             // Assign
@@ -201,6 +215,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         }
 
         [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Accounts")]
         public void PostCustomersEmailTest()
         {
             // Assign
@@ -218,6 +234,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         }
 
         [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Accounts")]
         public void GetCustomersEmailTest()
         {
             // Assign
@@ -236,6 +254,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         }
 
         [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Accounts")]
         public void PostCustomersPortalIdTest()
         {
             // Assign
@@ -253,6 +273,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         }
 
         [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Accounts")]
         public void GetCustomersPortalIdTest()
         {
             // Assign
@@ -278,6 +300,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         }
 
         [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Enrollments")]
         public void PostVerificationsIdTest()
         {
             // Assign
@@ -329,6 +353,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         }
 
         [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Enrollments")]
         public void PostVerificationsCreditTest()
         {
             // Assign
@@ -361,6 +387,9 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         }
 
         [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Enrollments")]
+        [TestCategory("StreamConnect Texas Enrollments")]
         public void LoadOfferPaymentsTest()
         {
             // Assign
@@ -464,6 +493,9 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         }
 
         [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Enrollments")]
+        [TestCategory("StreamConnect Texas Enrollments")]
         public void PostVerifyPremiseTest()
         {
             // Assign
@@ -489,6 +521,9 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         }
 
         [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Enrollments")]
+        [TestCategory("StreamConnect Georgia Enrollments")]
         public void PostVerifyPremiseGeorgiaTest()
         {
             // Assign
@@ -514,6 +549,9 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         }
 
         [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Enrollments")]
+        [TestCategory("StreamConnect Commercial Enrollments")]
         public void PostEnrollmentsCommercial()
         {
             // Assign
@@ -577,6 +615,9 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         }
 
         [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Enrollments")]
+        [TestCategory("StreamConnect Texas Enrollments")]
         public void PostEnrollmentsCreate()
         {
             // Assign
@@ -665,6 +706,9 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
 
 
         [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Enrollments")]
+        [TestCategory("StreamConnect Texas Enrollments")]
         public void PostEnrollmentsUpdate()
         {
             // Assign
@@ -773,6 +817,9 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         }
 
         [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Enrollments")]
+        [TestCategory("StreamConnect Texas Enrollments")]
         public void PostEnrollmentsUpsert()
         {
             // Assign
@@ -866,6 +913,9 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         }
 
         [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Enrollments")]
+        [TestCategory("StreamConnect Texas Enrollments")]
         public void PostEnrollmentsFinalize()
         {
             // Assign
@@ -973,7 +1023,10 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
 
 
         [TestMethod]
-        public void PostOneTimePaymentsTest()
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Enrollments")]
+        [TestCategory("StreamConnect Texas Enrollments")]
+        public void PostDepositsTest()
         {
             // Assign
             var ssn = "666865460";
