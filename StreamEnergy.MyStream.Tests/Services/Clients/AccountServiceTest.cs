@@ -309,5 +309,24 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             var pdf = client.GetAsync(url.ToString()).Result;
             pdf.EnsureSuccessStatusCode();
         }
+
+        [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Accounts")]
+        public void GetAccountBalance()
+        {
+            // Arrange
+            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
+            var gcid = accountService.CreateStreamConnectCustomer().Result;
+            accountService.AssociateAccount(gcid, "3001311049", "3192", "Sample").Wait();
+
+            // Act
+            var accounts = accountService.GetAccountBalances(gcid).Result;
+
+            // Assert
+            Assert.IsNotNull(accounts.First().Balance);
+            Assert.IsTrue(accounts.First().Balance.Balance >= 0);
+            Assert.AreNotEqual(DateTime.MinValue, accounts.First().Balance.DueDate);
+        }
     }
 }
