@@ -28,7 +28,7 @@ ngApp.controller('AcctEnrolledAccountsCtrl', ['$scope', '$rootScope', '$http', '
 		}
 	});
 
-	$scope.open = function (accountNumber) {
+	$scope.open = function (accountNumber, accountId) {
 		$scope.currentAccount = accountNumber;
 
 		var modalInstance = $modal.open({
@@ -37,15 +37,15 @@ ngApp.controller('AcctEnrolledAccountsCtrl', ['$scope', '$rootScope', '$http', '
 		});	
 
 		modalInstance.result.then( function() {
-			removeEnrolledAccount(accountNumber);
+			removeEnrolledAccount(accountId);
 		})
 	};
 
 	// remove an enrolled account
-	var removeEnrolledAccount = function (accountNumber) {
+	var removeEnrolledAccount = function (accountId) {
 		// format the request data
 		var requestData = {};
-		requestData.accountNumber = accountNumber;
+		requestData.accountId = accountId;
 
 		$http({
 			method  : 'POST',
@@ -59,7 +59,7 @@ ngApp.controller('AcctEnrolledAccountsCtrl', ['$scope', '$rootScope', '$http', '
 
 				} else {
 					// if successful, remove the row
-					var index = _.findIndex($scope.formData.enrolledAccounts, { 'accountNumber' : accountNumber });
+					var index = _.findIndex($scope.formData.enrolledAccounts, { 'streamConnectAccountId' : accountId });
 					$scope.formData.enrolledAccounts.splice(index, 1);
 				}
 			});

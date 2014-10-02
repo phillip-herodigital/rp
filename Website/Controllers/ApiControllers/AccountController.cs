@@ -785,45 +785,38 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         #region Enrolled Accounts
 
         [HttpGet]
-        public GetEnrolledAccountsResponse GetEnrolledAccounts()
+        public async Task<GetEnrolledAccountsResponse> GetEnrolledAccounts()
         {
-            // TODO get enrolled accounts from Stream Connect
-            var account1 = new EnrolledAccount
-            {
-                AccountNumber = "1234567890",
-                DateAdded = Convert.ToDateTime("12/28/2013  17:33:15"),
-                SendLetter = true
-            };
-            var account2 = new EnrolledAccount
-            {
-                AccountNumber = "0987654321",
-                DateAdded = Convert.ToDateTime("06/12/2014  11:40:55"),
-                SendLetter = false
-            };
-            IEnumerable<EnrolledAccount> enrolledAccounts = new EnrolledAccount[] {account1, account2};
-            //var accounts = accountService.GetAccounts(currentUser.StreamConnectCustomerId).Result;
+            currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
+            var summary = currentUser.Accounts.Select(acct => new AccountSummary(acct));
 
             return new GetEnrolledAccountsResponse
             {
-                EnrolledAccounts = enrolledAccounts
+                EnrolledAccounts = summary
             };
         }
 
         [HttpPost]
-        public AddNewAccountResponse AddNewAccount(AddNewAccountRequest request)
+        public async Task<AddNewAccountResponse> AddNewAccount(AddNewAccountRequest request)
         {
             bool success = false;
             var validations = validation.CompleteValidate(request);
 
-            var accountNumber = request.AccountNumber;
-            var ssnLastFour = request.SsnLastFour;
-            
-            // TODO add the new account with Stream Connect
-            var account = accountService.AssociateAccount(currentUser.StreamConnectCustomerId, accountNumber, ssnLastFour, "");
-            
-            if (!validations.Any() && !String.IsNullOrEmpty(account.ToString()))
+            // make sure the account isn't already associated
+            var existingAccount = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
+            if (existingAccount != null)
             {
-                success = true;
+                var val = new ValidationResult("Account Already Associated", new[] { "AccountNumber" });
+                validations = validations.Concat(new[] { val });
+            }
+
+            if (!validations.Any())
+            {
+                var account = await accountService.AssociateAccount(currentUser.StreamConnectCustomerId, request.AccountNumber, request.SsnLast4, request.AccountNickname);
+                if (account != null)
+                {
+                    success = true;
+                }
             }
 
             return new AddNewAccountResponse
@@ -834,17 +827,11 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
 
         [HttpPost]
-        public RemoveAccountResponse RemoveEnrolledAccount(RemoveAccountRequest request)
+        public async Task<RemoveAccountResponse> RemoveEnrolledAccount(RemoveAccountRequest request)
         {
-            bool response = false;
-            // TODO remove enrolled account with Stream Connect
-            
-            var accounts = accountService.GetAccounts(currentUser.StreamConnectCustomerId).Result;
-            var accountId = request.AccountId;
-            var acct = accountService.AssociateAccount(currentUser.StreamConnectCustomerId, "3001311049", "3192", "Sample").Result;
+            var account = currentUser.Accounts.FirstOrDefault(acct => acct.StreamConnectAccountId == request.AccountId);
 
-            response = accountService.DisassociateAccount(acct).Result;
-            
+            bool response = await accountService.DisassociateAccount(account);
 
             return new RemoveAccountResponse
             {
