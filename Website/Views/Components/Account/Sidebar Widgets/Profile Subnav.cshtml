@@ -10,7 +10,7 @@
     <ul>
         <li @(currentID == onlineAccount.TargetItem.ID ? "class=active" : "")>@Html.Sitecore().Field("Online Account Information Link")</li>
         <li @(currentID == accountInfo.TargetItem.ID ? "class=active" : "")>@Html.Sitecore().Field("Account Information Link")</li>
-        <li @(currentID == notifications.TargetItem.ID ? "class=active" : "")>@Html.Sitecore().Field("Notifications and Reminders Link")</li>
+        @*li @(currentID == notifications.TargetItem.ID ? "class=active" : "")>@Html.Sitecore().Field("Notifications and Reminders Link")</li>*@
         <li @(currentID == enrolledAccounts.TargetItem.ID ? "class=active" : "")>@Html.Sitecore().Field("Enrolled Accounts Link")</li>
     </ul>
 </article>
