@@ -216,7 +216,7 @@ namespace StreamEnergy.Services.Clients
             
             var response = await streamConnectClient.PostAsJsonAsync("/api/v1/enrollments/verify-premise", new
             {
-                ServiceAddress = ToStreamConnectAddress(location.Address),
+                ServiceAddress = StreamConnectUtilities.ToStreamConnectAddress(location.Address),
                 UtilityAccountNumber = texasService != null ? texasService.EsiId : null,
                 CustomerType = customerType.CustomerType.ToString("g"),
                 EnrollmentType = serviceStatus.EnrollmentType.ToString("g")
@@ -330,7 +330,7 @@ namespace StreamEnergy.Services.Clients
                         SystemOfRecord = "CIS1",
                         FirstName = context.ContactInfo.Name.First,
                         LastName = context.ContactInfo.Name.Last,
-                        BillingAddress = ToStreamConnectAddress(context.MailingAddress),
+                        BillingAddress = StreamConnectUtilities.ToStreamConnectAddress(context.MailingAddress),
                         HomePhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Home).Select(p => p.Number).SingleOrDefault(),
                         CellPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Mobile).Select(p => p.Number).SingleOrDefault(),
                         WorkPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Work).Select(p => p.Number).SingleOrDefault(),
@@ -348,7 +348,7 @@ namespace StreamEnergy.Services.Clients
                                 ProductCode = texasElectricityOffer.Id.Split(new[]{'/'}, 2)[1],
                                 Term = texasElectricityOffer.TermMonths
                             },
-                            ServiceAddress = ToStreamConnectAddress(service.Location.Address),
+                            ServiceAddress = StreamConnectUtilities.ToStreamConnectAddress(service.Location.Address),
                             ProductType = "Electricity",
                             Deposit = BuildDepositObject(offer, offerPayment)
                         }
@@ -455,7 +455,7 @@ namespace StreamEnergy.Services.Clients
                     FirstName = name.First,
                     LastName = name.Last,
                     SSN = ssn,
-                    Address = ToStreamConnectAddress(mailingAddress)
+                    Address = StreamConnectUtilities.ToStreamConnectAddress(mailingAddress)
                 });
                 response.EnsureSuccessStatusCode();
                 var responseString = await response.Content.ReadAsStringAsync();
@@ -543,7 +543,7 @@ namespace StreamEnergy.Services.Clients
                 FirstName = name.First,
                 LastName = name.Last,
                 SSN = ssn,
-                Address = ToStreamConnectAddress(address)
+                Address = StreamConnectUtilities.ToStreamConnectAddress(address)
             });
 
             response.EnsureSuccessStatusCode();
@@ -809,20 +809,6 @@ namespace StreamEnergy.Services.Clients
                 default:
                     return Enumerable.Empty<KeyValuePair<string, bool>>();
             }
-        }
-
-
-        private static dynamic ToStreamConnectAddress(Address addr)
-        {
-            dynamic serviceAddress = new
-            {
-                City = addr.City,
-                State = addr.StateAbbreviation,
-                StreetLine1 = addr.Line1,
-                StreetLine2 = addr.Line2,
-                Zip = addr.PostalCode5
-            };
-            return serviceAddress;
         }
     }
 }

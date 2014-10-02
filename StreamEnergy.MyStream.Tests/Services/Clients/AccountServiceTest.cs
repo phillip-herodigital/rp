@@ -242,18 +242,29 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             var gcid = accountService.CreateStreamConnectCustomer().Result;
             var acct = accountService.AssociateAccount(gcid, "3001311049", "3192", "Sample").Result;
             accountService.GetAccountDetails(acct).Wait();
+            var rand = new Random();
+            var expectedHome = "2" + rand.Next(0, 1000000000).ToString().PadLeft(9, '0');
+            var expectedMobile = "2" + rand.Next(0, 1000000000).ToString().PadLeft(9, '0');
+            var expectedEmail = System.IO.Path.GetFileNameWithoutExtension(System.IO.Path.GetRandomFileName()) + "@example.com";
+            var expectedStreetAddress = rand.Next(1, 999).ToString() + " Main St";
 
             // Act
-            var expected = "2" + new Random().Next(0, 1000000000).ToString().PadLeft(9, '0');
-            acct.Details.ContactInfo.Phone = new[] { new StreamEnergy.DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = expected } };
+            acct.Details.ContactInfo.Phone = new[] 
+            { 
+                new StreamEnergy.DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = expectedHome },
+                new StreamEnergy.DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Mobile, Number = expectedMobile },
+            };
+            acct.Details.ContactInfo.Email = new DomainModels.Email { Address = expectedEmail };
+            acct.Details.BillingAddress.Line1 = expectedStreetAddress;
             var result = accountService.SetAccountDetails(acct, acct.Details).Result;
 
             // Assert
             Assert.IsTrue(result);
             result = accountService.GetAccountDetails(acct, forceRefresh: true).Result;
-            Assert.AreEqual(expected, acct.Details.ContactInfo.Phone.Single().Number);
-            Assert.IsNotNull(acct.Details);
-            Assert.Inconclusive();
+            Assert.AreEqual(expectedHome, acct.Details.ContactInfo.Phone.OfType<StreamEnergy.DomainModels.TypedPhone>().Single(p => p.Category == DomainModels.PhoneCategory.Home));
+            Assert.AreEqual(expectedMobile, acct.Details.ContactInfo.Phone.OfType<StreamEnergy.DomainModels.TypedPhone>().Single(p => p.Category == DomainModels.PhoneCategory.Mobile));
+            Assert.AreEqual(expectedEmail, acct.Details.ContactInfo.Email.Address);
+            Assert.AreEqual(expectedStreetAddress, acct.Details.BillingAddress.Line1);
         }
 
         [TestMethod]

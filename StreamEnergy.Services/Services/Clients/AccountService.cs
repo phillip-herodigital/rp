@@ -451,7 +451,7 @@ namespace StreamEnergy.Services.Clients
                 BillingAddress = new DomainModels.Address
                 {
                     Line1 = data.AccountDetails.BillingAddress.StreetLine1,
-                    Line2 = data.AccountDetails.BillingAddress.StreetLine1,
+                    Line2 = data.AccountDetails.BillingAddress.StreetLine2,
                     City = data.AccountDetails.BillingAddress.City,
                     PostalCode5 = data.AccountDetails.BillingAddress.Zip,
                     StateAbbreviation = data.AccountDetails.BillingAddress.State,
@@ -462,42 +462,26 @@ namespace StreamEnergy.Services.Clients
 
         #endregion
 
-        Task<bool> IAccountService.SetAccountDetails(Account account, AccountDetails details)
+        async Task<bool> IAccountService.SetAccountDetails(Account account, AccountDetails details)
         {
-            throw new NotImplementedException();
-            //var response = await streamConnectClient.PostAsJsonAsync("/api/v1/accounts/update/" + account.StreamConnectAccountId.ToString() + "/accounts/" + account.StreamConnectCustomerId.ToString(),
-            //    new
-            //    {
-            //        PrimaryPhoneNumber = 
-            //    });
+            var response = await streamConnectClient.PostAsJsonAsync("/api/v1/accounts/update/" + account.StreamConnectAccountId.ToString() + "/customer/" + account.StreamConnectCustomerId.ToString(),
+                new
+                {
+                    HomePhone = details.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Home).Select(p => p.Number).FirstOrDefault(),
+                    MobilePhone = details.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Mobile).Select(p => p.Number).FirstOrDefault(),
+                    AccountEmailAddress = details.ContactInfo.Email != null ? details.ContactInfo.Email.Address : null,
+                    Address = StreamConnectUtilities.ToStreamConnectAddress(details.BillingAddress)
+                });
 
-            //if (response.IsSuccessStatusCode)
-            //{
-            //    dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
-            //    if (data.Status == "Success")
-            //    {
-            //        account.Details = new AccountDetails
-            //        {
-            //            ContactInfo = new DomainModels.CustomerContact
-            //            {
-            //                Name = new DomainModels.Name { First = data.AccountDetails.AccountCustomer.FirstName, Last = data.AccountDetails.AccountCustomer.LastName },
-            //                Email = new DomainModels.Email { Address = data.AccountDetails.AccountCustomer.EmailAddress },
-            //                // TODO - phone number?
-            //            },
-            //            BillingAddress = new DomainModels.Address
-            //            {
-            //                Line1 = data.AccountDetails.BillingAddress.StreetLine1,
-            //                Line2 = data.AccountDetails.BillingAddress.StreetLine1,
-            //                City = data.AccountDetails.BillingAddress.City,
-            //                PostalCode5 = data.AccountDetails.BillingAddress.Zip,
-            //                StateAbbreviation = data.AccountDetails.BillingAddress.State,
-            //            },
-            //            // TODO - are there other parts that belong here?
-            //        };
-            //        return true;
-            //    }
-            //}
-            //return false;
+            if (response.IsSuccessStatusCode)
+            {
+                dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+                if (data.Status == "Success")
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
