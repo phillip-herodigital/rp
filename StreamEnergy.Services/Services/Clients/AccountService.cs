@@ -394,6 +394,7 @@ namespace StreamEnergy.Services.Clients
             return false;
         }
 
+        #region GetAccountDetails
 
         async Task<bool> IAccountService.GetAccountDetails(Account account, bool forceRefresh)
         {
@@ -406,28 +407,7 @@ namespace StreamEnergy.Services.Clients
                     dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
                     if (data.Status == "Success")
                     {
-                        account.Details = new AccountDetails
-                            {
-                                ContactInfo = new DomainModels.CustomerContact
-                                {
-                                    Name = new DomainModels.Name { First = data.AccountDetails.AccountCustomer.FirstName, Last = data.AccountDetails.AccountCustomer.LastName },
-                                    Email = new DomainModels.Email { Address = data.AccountDetails.AccountCustomer.EmailAddress },
-                                    Phone = new DomainModels.Phone[] 
-                                    { 
-                                        (data.AccountDetails.AccountCustomer.HomePhone.Value.ToString() == null ? null : new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = data.AccountDetails.AccountCustomer.HomePhone.Value.ToString() }),
-                                        (data.AccountDetails.AccountCustomer.MobilePhone.Value.ToString() == null ? null : new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Mobile, Number = data.AccountDetails.AccountCustomer.HomePhone.Value.ToString() }),
-                                    }.Where(p => p != null).ToArray()
-                                },
-                                BillingAddress = new DomainModels.Address
-                                {
-                                    Line1 = data.AccountDetails.BillingAddress.StreetLine1,
-                                    Line2 = data.AccountDetails.BillingAddress.StreetLine1,
-                                    City = data.AccountDetails.BillingAddress.City,
-                                    PostalCode5 = data.AccountDetails.BillingAddress.Zip,
-                                    StateAbbreviation = data.AccountDetails.BillingAddress.State,
-                                },
-                                // TODO - are there other parts that belong here?
-                            };
+                        LoadAccountDetailsFromStreamConnect(account, data);
                         return true;
                     }
                     return false;
@@ -435,6 +415,52 @@ namespace StreamEnergy.Services.Clients
             }
             return true;
         }
+
+        async Task<Account> IAccountService.GetAccountDetails(string accountNumber)
+        {
+            var response = await streamConnectClient.GetAsync("/api/v1/accounts/find?cisAccountNumber=" + accountNumber);
+
+            if (response.IsSuccessStatusCode)
+            {
+                dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+                if (data.Status == "Success")
+                {
+                    var account = accountFactory.CreateAccount(new AccountFactory.AccountKey());
+                    LoadAccountDetailsFromStreamConnect(account, data);
+
+                    return account;
+                }
+            }
+            return null;
+        }
+
+        private static void LoadAccountDetailsFromStreamConnect(Account account, dynamic data)
+        {
+            account.Details = new AccountDetails
+            {
+                ContactInfo = new DomainModels.CustomerContact
+                {
+                    Name = new DomainModels.Name { First = data.AccountDetails.AccountCustomer.FirstName, Last = data.AccountDetails.AccountCustomer.LastName },
+                    Email = new DomainModels.Email { Address = data.AccountDetails.AccountCustomer.EmailAddress },
+                    Phone = new DomainModels.Phone[] 
+                                    { 
+                                        (data.AccountDetails.AccountCustomer.HomePhone.Value.ToString() == null ? null : new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = data.AccountDetails.AccountCustomer.HomePhone.Value.ToString() }),
+                                        (data.AccountDetails.AccountCustomer.MobilePhone.Value.ToString() == null ? null : new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Mobile, Number = data.AccountDetails.AccountCustomer.HomePhone.Value.ToString() }),
+                                    }.Where(p => p != null).ToArray()
+                },
+                BillingAddress = new DomainModels.Address
+                {
+                    Line1 = data.AccountDetails.BillingAddress.StreetLine1,
+                    Line2 = data.AccountDetails.BillingAddress.StreetLine1,
+                    City = data.AccountDetails.BillingAddress.City,
+                    PostalCode5 = data.AccountDetails.BillingAddress.Zip,
+                    StateAbbreviation = data.AccountDetails.BillingAddress.State,
+                },
+                // TODO - are there other parts that belong here?
+            };
+        }
+
+        #endregion
 
         Task<bool> IAccountService.SetAccountDetails(Account account, AccountDetails details)
         {

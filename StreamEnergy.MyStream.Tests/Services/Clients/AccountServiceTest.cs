@@ -214,6 +214,27 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         [TestMethod]
         [TestCategory("StreamConnect")]
         [TestCategory("StreamConnect Accounts")]
+        public void GetAccountDetailsWithoutGlobalCustomer()
+        {
+            // Arrange
+            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
+
+            // Act
+            var acct = accountService.GetAccountDetails("3001311049").Result;
+
+            // Assert
+            Assert.IsNotNull(acct);
+            Assert.IsNotNull(acct.Details);
+            Assert.IsNotNull(acct.Details.ContactInfo);
+            Assert.IsNotNull(acct.Details.ContactInfo.Email);
+            Assert.IsNotNull(acct.Details.ContactInfo.Name);
+            Assert.IsNotNull(acct.Details.ContactInfo.Phone);
+            Assert.IsTrue(acct.Details.ContactInfo.Phone.Length > 0);
+        }
+
+        [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Accounts")]
         public void UpdateAccountDetails()
         {
             // Arrange
