@@ -91,45 +91,6 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         [TestMethod]
         [TestCategory("StreamConnect")]
         [TestCategory("StreamConnect Enrollments")]
-        [TestCategory("StreamConnect Georgia Enrollments")]
-        public void GetProductsGeorgiaZipTest()
-        {
-            // Assign
-            StreamEnergy.DomainModels.Enrollments.IEnrollmentService enrollmentService = container.Resolve<StreamEnergy.Services.Clients.EnrollmentService>();
-
-            // Act
-            Dictionary<DomainModels.Enrollments.Location, DomainModels.Enrollments.LocationOfferSet> result;
-            using (new Timer())
-            {
-                result = enrollmentService.LoadOffers(new[] 
-                { 
-                    new DomainModels.Enrollments.Location
-                    {
-                        Address = new DomainModels.Address { StateAbbreviation = "GA", PostalCode5 = "30080", },
-                        Capabilities = new DomainModels.IServiceCapability[]
-                        {
-                            new DomainModels.Enrollments.GeorgiaGasServiceCapability { Zipcode = "30080" },
-                            new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
-                            new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
-                        }
-                    }
-                }).Result;
-            }
-
-            // Assert
-            if (result.First().Value.Offers.Any())
-            {
-
-            }
-            else
-            {
-                Assert.Inconclusive("No data from Stream Connect");
-            }
-        }
-
-        [TestMethod]
-        [TestCategory("StreamConnect")]
-        [TestCategory("StreamConnect Enrollments")]
         [TestCategory("StreamConnect Texas Enrollments")]
         public void GetProductsAddressTest()
         {
@@ -193,110 +154,6 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
 
             // Assert
             Assert.IsTrue(connectDates.AvailableConnectDates.Any());
-        }
-
-        [TestMethod]
-        [TestCategory("StreamConnect")]
-        [TestCategory("StreamConnect Accounts")]
-        public void PostCustomersEmptyTest()
-        {
-            // Assign
-            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
-
-            // Act
-            Guid globalCustomerId;
-            using (new Timer())
-            {
-                globalCustomerId = accountService.CreateStreamConnectCustomer().Result;
-            }
-
-            // Assert
-            Assert.AreNotEqual(Guid.Empty, globalCustomerId);
-        }
-
-        [TestMethod]
-        [TestCategory("StreamConnect")]
-        [TestCategory("StreamConnect Accounts")]
-        public void PostCustomersEmailTest()
-        {
-            // Assign
-            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
-
-            // Act
-            Guid globalCustomerId;
-            using (new Timer())
-            {
-                globalCustomerId = accountService.CreateStreamConnectCustomer(email: "test@example.com").Result;
-            }
-
-            // Assert
-            Assert.AreNotEqual(Guid.Empty, globalCustomerId);
-        }
-
-        [TestMethod]
-        [TestCategory("StreamConnect")]
-        [TestCategory("StreamConnect Accounts")]
-        public void GetCustomersEmailTest()
-        {
-            // Assign
-            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
-            var gcid = accountService.CreateStreamConnectCustomer(email: "test@example.com").Result;
-
-            // Act
-            string email;
-            using (new Timer())
-            {
-                email = accountService.GetEmailByCustomerId(gcid).Result;
-            }
-            
-            // Assert
-            Assert.AreEqual("test@example.com", email);
-        }
-
-        [TestMethod]
-        [TestCategory("StreamConnect")]
-        [TestCategory("StreamConnect Accounts")]
-        public void PostCustomersPortalIdTest()
-        {
-            // Assign
-            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
-
-            // Act
-            Guid globalCustomerId;
-            using (new Timer())
-            {
-                globalCustomerId = accountService.CreateStreamConnectCustomer(portalId: "extranet//tester").Result;
-            }
-
-            // Assert
-            Assert.AreNotEqual(Guid.Empty, globalCustomerId);
-        }
-
-        [TestMethod]
-        [TestCategory("StreamConnect")]
-        [TestCategory("StreamConnect Accounts")]
-        public void GetCustomersPortalIdTest()
-        {
-            // Assign
-            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
-            var streamConnectClient = container.Resolve<HttpClient>(StreamEnergy.Services.Clients.StreamConnectContainerSetup.StreamConnectKey);
-            var gcid = accountService.CreateStreamConnectCustomer(portalId: "extranet//tester").Result;
-
-            // Act
-            HttpResponseMessage response;
-            dynamic result;
-            using (new Timer())
-            {
-                response = streamConnectClient.GetAsync("/api/v1/customers/" + gcid.ToString()).Result;
-                var responseString = response.Content.ReadAsStringAsync().Result;
-                result = JsonConvert.DeserializeObject(responseString);
-            }
-
-            // Assert
-            Assert.IsTrue(response.IsSuccessStatusCode);
-            Assert.AreEqual(gcid, Guid.Parse((string)(result["Customer"]["GlobalCustomerId"].Value)));
-            Assert.AreEqual("extranet//tester", result["Customer"]["PortalId"].Value);
-
         }
 
         [TestMethod]
@@ -514,34 +371,6 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                             new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
                         }
                 }).Result;
-
-                // Assert
-                Assert.AreEqual(DomainModels.Enrollments.PremiseVerificationResult.Success, result);
-            }
-        }
-
-        [TestMethod]
-        [TestCategory("StreamConnect")]
-        [TestCategory("StreamConnect Enrollments")]
-        [TestCategory("StreamConnect Georgia Enrollments")]
-        public void PostVerifyPremiseGeorgiaTest()
-        {
-            // Assign
-            StreamEnergy.DomainModels.Enrollments.IEnrollmentService enrollmentService = container.Resolve<StreamEnergy.Services.Clients.EnrollmentService>();
-
-            using (new Timer())
-            {
-                // Act
-                var result = enrollmentService.VerifyPremise(new DomainModels.Enrollments.Location
-                    {
-                        Address = new DomainModels.Address {Line1="3 The Croft",UnitNumber="3 Lot",City="Atlanta",StateAbbreviation="GA",PostalCode5="30342",PostalCodePlus4="2438"},
-                        Capabilities = new DomainModels.IServiceCapability[]
-                        {
-                            new DomainModels.Enrollments.GeorgiaGasServiceCapability { AglAccountNumber = "0715818330", Zipcode = "30342" },
-                            new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
-                            new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
-                        }
-                    }).Result;
 
                 // Assert
                 Assert.AreEqual(DomainModels.Enrollments.PremiseVerificationResult.Success, result);

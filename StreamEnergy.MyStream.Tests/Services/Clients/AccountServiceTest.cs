@@ -52,6 +52,109 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         [TestMethod]
         [TestCategory("StreamConnect")]
         [TestCategory("StreamConnect Accounts")]
+        public void PostCustomersEmptyTest()
+        {
+            // Assign
+            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
+
+            // Act
+            Guid globalCustomerId;
+            using (new Timer())
+            {
+                globalCustomerId = accountService.CreateStreamConnectCustomer().Result;
+            }
+
+            // Assert
+            Assert.AreNotEqual(Guid.Empty, globalCustomerId);
+        }
+
+        [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Accounts")]
+        public void PostCustomersEmailTest()
+        {
+            // Assign
+            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
+
+            // Act
+            Guid globalCustomerId;
+            using (new Timer())
+            {
+                globalCustomerId = accountService.CreateStreamConnectCustomer(email: "test@example.com").Result;
+            }
+
+            // Assert
+            Assert.AreNotEqual(Guid.Empty, globalCustomerId);
+        }
+
+        [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Accounts")]
+        public void GetCustomersEmailTest()
+        {
+            // Assign
+            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
+            var gcid = accountService.CreateStreamConnectCustomer(email: "test@example.com").Result;
+
+            // Act
+            string email;
+            using (new Timer())
+            {
+                email = accountService.GetEmailByCustomerId(gcid).Result;
+            }
+
+            // Assert
+            Assert.AreEqual("test@example.com", email);
+        }
+
+        [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Accounts")]
+        public void PostCustomersPortalIdTest()
+        {
+            // Assign
+            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
+
+            // Act
+            Guid globalCustomerId;
+            using (new Timer())
+            {
+                globalCustomerId = accountService.CreateStreamConnectCustomer(portalId: "extranet//tester").Result;
+            }
+
+            // Assert
+            Assert.AreNotEqual(Guid.Empty, globalCustomerId);
+        }
+
+        [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Accounts")]
+        public void GetCustomersPortalIdTest()
+        {
+            // Assign
+            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
+            var streamConnectClient = container.Resolve<HttpClient>(StreamEnergy.Services.Clients.StreamConnectContainerSetup.StreamConnectKey);
+            var gcid = accountService.CreateStreamConnectCustomer(portalId: "extranet//tester").Result;
+
+            // Act
+            HttpResponseMessage response;
+            dynamic result;
+            using (new Timer())
+            {
+                response = streamConnectClient.GetAsync("/api/v1/customers/" + gcid.ToString()).Result;
+                var responseString = response.Content.ReadAsStringAsync().Result;
+                result = JsonConvert.DeserializeObject(responseString);
+            }
+
+            // Assert
+            Assert.IsTrue(response.IsSuccessStatusCode);
+            Assert.AreEqual(gcid, Guid.Parse((string)(result["Customer"]["GlobalCustomerId"].Value)));
+            Assert.AreEqual("extranet//tester", result["Customer"]["PortalId"].Value);
+
+        }
+        [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Accounts")]
         public void GetAccounts()
         {
             // Assign
