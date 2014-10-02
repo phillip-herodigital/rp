@@ -3,6 +3,8 @@ using StreamEnergy.MyStream.Models;
 using StreamEnergy.MyStream.Models.Account;
 using StreamEnergy.MyStream.Models.Angular.GridTable;
 using StreamEnergy.MyStream.Models.Authentication;
+using StreamEnergy.Processes;
+using StreamEnergy.Services.Clients;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -799,6 +801,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 SendLetter = false
             };
             IEnumerable<EnrolledAccount> enrolledAccounts = new EnrolledAccount[] {account1, account2};
+            //var accounts = accountService.GetAccounts(currentUser.StreamConnectCustomerId).Result;
 
             return new GetEnrolledAccountsResponse
             {
@@ -814,9 +817,11 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             var accountNumber = request.AccountNumber;
             var ssnLastFour = request.SsnLastFour;
-
+            
             // TODO add the new account with Stream Connect
-            if (!validations.Any())
+            var account = accountService.AssociateAccount(currentUser.StreamConnectCustomerId, accountNumber, ssnLastFour, "");
+            
+            if (!validations.Any() && !String.IsNullOrEmpty(account.ToString()))
             {
                 success = true;
             }
@@ -831,19 +836,19 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [HttpPost]
         public RemoveAccountResponse RemoveEnrolledAccount(RemoveAccountRequest request)
         {
-            bool success = false;
-
-            var accountNumber = request.AccountNumber;
-
+            bool response = false;
             // TODO remove enrolled account with Stream Connect
-            if (true)
-            {
-                success = true;
-            }
+            
+            var accounts = accountService.GetAccounts(currentUser.StreamConnectCustomerId).Result;
+            var accountId = request.AccountId;
+            var acct = accountService.AssociateAccount(currentUser.StreamConnectCustomerId, "3001311049", "3192", "Sample").Result;
+
+            response = accountService.DisassociateAccount(acct).Result;
+            
 
             return new RemoveAccountResponse
             {
-                Success = success
+                Success = response
             };
         }
 
