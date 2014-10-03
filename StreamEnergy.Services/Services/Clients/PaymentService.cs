@@ -118,8 +118,10 @@ namespace StreamEnergy.Services.Clients
                 from pastPayment in ((IEnumerable<dynamic>)jobject.PastPayments)
                 group new PastPayment
                 {
+                    CustomerName = pastPayment.CustomerName,
                     PaidDate = pastPayment.PaidDate,
                     PaymentAmount = (decimal)pastPayment.PaymentAmount.Value,
+                    PaymentId = pastPayment.PaymentId,
                 } by new AccountFactory.AccountKey
                 {
                     StreamConnectCustomerId = globalCustomerId,
