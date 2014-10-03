@@ -7,8 +7,6 @@ namespace StreamEnergy.DomainModels.Accounts.Create
 {
     public class CreateAccountInternalContext
     {
-        public Guid GlobalCustomerId { get; set; }
-
         public Account Account { get; set; }
     }
 }

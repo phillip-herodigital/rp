@@ -36,8 +36,11 @@ namespace StreamEnergy.DomainModels.Accounts.Create
 
         protected override async Task<Type> InternalProcess(CreateAccountContext context, CreateAccountInternalContext internalContext)
         {
-            internalContext.GlobalCustomerId = await service.CreateStreamConnectCustomer();
-            internalContext.Account = await service.AssociateAccount(internalContext.GlobalCustomerId, context.AccountNumber, context.SsnLastFour, "First Account");
+            internalContext.Account = await service.GetAccountDetails(context.AccountNumber);
+            if (internalContext.Account != null && internalContext.Account.Details.SsnLastFour != context.SsnLastFour)
+            {
+                internalContext.Account = null;
+            }
 
             if (internalContext.Account == null)
             {
@@ -50,6 +53,16 @@ namespace StreamEnergy.DomainModels.Accounts.Create
             context.Customer = internalContext.Account.Details.ContactInfo;            
             context.Address = internalContext.Account.Details.BillingAddress;
             return await base.InternalProcess(context, internalContext);
+        }
+
+        public override bool ForceBreak(CreateAccountContext context, CreateAccountInternalContext internalContext)
+        {
+            if (internalContext.Account == null)
+            {
+                // account not found
+                return true;
+            }
+            return base.ForceBreak(context, internalContext);
         }
     }
 }

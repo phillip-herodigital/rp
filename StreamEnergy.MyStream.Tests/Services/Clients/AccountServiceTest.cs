@@ -160,7 +160,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Assign
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
             var gcid = accountService.CreateStreamConnectCustomer().Result;
-            var acct = accountService.AssociateAccount(gcid, "3001311049", "3192", "Sample").Result;
+            var acct = accountService.AssociateAccount(gcid, "3001311049", "3192", "").Result;
 
             // Act
             var accounts = accountService.GetAccounts(gcid).Result;
@@ -178,7 +178,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Arrange
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
             var gcid = accountService.CreateStreamConnectCustomer().Result;
-            var acct = accountService.AssociateAccount(gcid, "3001311049", "3192", "Sample").Result;
+            var acct = accountService.AssociateAccount(gcid, "3001311049", "3192", "").Result;
 
             // Act
             var result = accountService.DisassociateAccount(acct).Result;
@@ -196,7 +196,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Arrange
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
             var gcid = accountService.CreateStreamConnectCustomer().Result;
-            var acct = accountService.AssociateAccount(gcid, "3001311049", "3192", "Sample").Result;
+            var acct = accountService.AssociateAccount(gcid, "3001311049", "3192", "").Result;
 
             // Act
             var details = accountService.GetAccountDetails(acct).Result;
@@ -242,7 +242,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Arrange
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
             var gcid = accountService.CreateStreamConnectCustomer().Result;
-            var acct = accountService.AssociateAccount(gcid, "3001311049", "3192", "Sample").Result;
+            var acct = accountService.AssociateAccount(gcid, "3001311049", "3192", "").Result;
             accountService.GetAccountDetails(acct).Wait();
             var rand = new Random();
             var expectedHome = "2" + rand.Next(0, 1000000000).ToString().PadLeft(9, '0');
@@ -277,7 +277,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Arrange
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
             var gcid = accountService.CreateStreamConnectCustomer().Result;
-            var acct = accountService.AssociateAccount(gcid, "3001311049", "3192", "Sample").Result;
+            var acct = accountService.AssociateAccount(gcid, "3001311049", "3192", "").Result;
 
             // Act
             var details = accountService.GetInvoices(gcid).Result;
@@ -299,7 +299,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Arrange
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
             var gcid = accountService.CreateStreamConnectCustomer().Result;
-            var acct = accountService.AssociateAccount(gcid, "3001311049", "3192", "Sample").Result;
+            var acct = accountService.AssociateAccount(gcid, "3001311049", "3192", "").Result;
             var invoiceAccounts = accountService.GetInvoices(gcid, new[] { acct }).Result;
             var targetInvoice = invoiceAccounts.First(t => t.Invoices != null).Invoices.First();
 
@@ -320,7 +320,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Arrange
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
             var gcid = accountService.CreateStreamConnectCustomer().Result;
-            accountService.AssociateAccount(gcid, "3001311049", "3192", "Sample").Wait();
+            accountService.AssociateAccount(gcid, "3001311049", "3192", "").Wait();
 
             // Act
             var accounts = accountService.GetAccountBalances(gcid).Result;

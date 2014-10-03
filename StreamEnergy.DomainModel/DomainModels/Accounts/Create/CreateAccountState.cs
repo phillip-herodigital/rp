@@ -29,7 +29,7 @@ namespace StreamEnergy.DomainModels.Accounts.Create
                 return typeof(CreateFailedState);
             }
 
-            if (await accountService.AssociateAccount(profile.GlobalCustomerId, context.AccountNumber, context.SsnLastFour, "First") == null)
+            if (await accountService.AssociateAccount(profile.GlobalCustomerId, context.AccountNumber, context.SsnLastFour, "") == null)
             {
                 return typeof(CreateFailedState);
             }
