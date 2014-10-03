@@ -618,7 +618,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             {
                 AccountNumber = "07644559",
                 SubAccountLabel = "Meter ID:",
-                SubAccounts = new ISubAccount[] { new GeorgiaElectricityAccount { Id = "9A743339875", ServiceAddress = serviceAddress3 }, new GeorgiaElectricityAccount { Id = "88-443672486", ServiceAddress = serviceAddress4 } }
+                SubAccounts = new ISubAccount[] { new GeorgiaGasAccount { Id = "9A743339875", ServiceAddress = serviceAddress3 }, new GeorgiaGasAccount { Id = "88-443672486", ServiceAddress = serviceAddress4 } }
             };
 
             return new AccountGrouping [] { account1, account2 } ;

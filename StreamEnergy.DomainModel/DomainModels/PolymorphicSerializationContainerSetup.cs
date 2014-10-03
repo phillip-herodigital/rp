@@ -47,7 +47,7 @@ namespace StreamEnergy.DomainModels
             {
                 SupportedTypes = {
                     { Accounts.TexasElectricityAccount.Qualifier, typeof(Accounts.TexasElectricityAccount) },
-                    { Accounts.GeorgiaElectricityAccount.Qualifier, typeof(Accounts.GeorgiaElectricityAccount) }
+                    { Accounts.GeorgiaGasAccount.Qualifier, typeof(Accounts.GeorgiaGasAccount) }
                 }
             };
             unityContainer.Resolve<TypeIndicatorJsonConverter>().TypeIndicators.Add(subAccountLookup);

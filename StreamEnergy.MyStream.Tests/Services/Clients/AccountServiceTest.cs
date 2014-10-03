@@ -204,6 +204,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Assert
             Assert.IsTrue(details);
             Assert.IsNotNull(acct.Details);
+            Assert.AreEqual("3192", acct.Details.SsnLastFour);
             Assert.IsNotNull(acct.Details.ContactInfo);
             Assert.IsNotNull(acct.Details.ContactInfo.Email);
             Assert.IsNotNull(acct.Details.ContactInfo.Name);
@@ -225,6 +226,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Assert
             Assert.IsNotNull(acct);
             Assert.IsNotNull(acct.Details);
+            Assert.AreEqual("3192", acct.Details.SsnLastFour);
             Assert.IsNotNull(acct.Details.ContactInfo);
             Assert.IsNotNull(acct.Details.ContactInfo.Email);
             Assert.IsNotNull(acct.Details.ContactInfo.Name);

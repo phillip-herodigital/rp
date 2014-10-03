@@ -421,6 +421,7 @@ namespace StreamEnergy.Services.Clients
                     PostalCode5 = data.AccountDetails.BillingAddress.Zip,
                     StateAbbreviation = data.AccountDetails.BillingAddress.State,
                 },
+                SsnLastFour = ((object)data.AccountDetails.AccountCustomer.CustomerLast4).ToString().PadLeft(4, '0')
                 // TODO - are there other parts that belong here?
             };
             account.Balance = new AccountBalance
@@ -428,6 +429,43 @@ namespace StreamEnergy.Services.Clients
                 Balance = (decimal)data.AccountDetails.BalanceDue.Value,
                 DueDate = (DateTime)data.AccountDetails.BalanceDueDate.Value,
             };
+            account.SubAccounts = new ISubAccount[]
+            {
+                // TODO - should support multiple
+                CreateSubAccount(data.AccountDetails)
+            };
+        }
+
+        private static ISubAccount CreateSubAccount(dynamic details)
+        {
+            var serviceAddress = new DomainModels.Address
+                            {
+                                Line1 = details.ServiceAddress.StreetLine1,
+                                Line2 = details.ServiceAddress.StreetLine2,
+                                City = details.ServiceAddress.City,
+                                PostalCode5 = details.ServiceAddress.Zip,
+                                StateAbbreviation = details.ServiceAddress.State,
+                            };
+            switch ((string)details.ProductType)
+            {
+                case "Gas":
+                    if (serviceAddress.StateAbbreviation == "GA")
+                    {
+                        return new GeorgiaGasAccount
+                        {
+                            Id = details.UtilityAccountNumber,
+                            ServiceAddress = serviceAddress
+                        };
+                    }
+                    else
+                    {
+                        return null;
+                    }
+
+                case "Electricity":
+                default:
+                    return null;
+            }
         }
 
         #endregion

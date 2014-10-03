@@ -9,9 +9,9 @@ using ResponsivePath.Validation;
 namespace StreamEnergy.DomainModels.Accounts
 {
     [Serializable]
-    public class GeorgiaElectricityAccount : ISubAccount
+    public class GeorgiaGasAccount : ISubAccount
     {
-        public const string Qualifier = "GeorgiaElectricity";
+        public const string Qualifier = "GeorgiaGas";
         
         public const string Classification = "Utility";
 
@@ -29,12 +29,12 @@ namespace StreamEnergy.DomainModels.Accounts
 
         public string SubAccountType
         {
-            get { return GeorgiaElectricityAccount.Qualifier; }
+            get { return GeorgiaGasAccount.Qualifier; }
         }
 
         public string Key
         {
-            get { return GeorgiaElectricityAccount.Classification; }
+            get { return GeorgiaGasAccount.Classification; }
         }
 
     }

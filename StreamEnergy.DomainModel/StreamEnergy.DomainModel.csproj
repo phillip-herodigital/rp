@@ -137,7 +137,7 @@
     <Compile Include="DomainModels\Accounts\Create\CreateFailedState.cs" />
     <Compile Include="DomainModels\Accounts\Create\FindAccountState.cs" />
     <Compile Include="DomainModels\Accounts\Create\MembershipBuilder.cs" />
-    <Compile Include="DomainModels\Accounts\GeorgiaElectricityAccount.cs" />
+    <Compile Include="DomainModels\Accounts\GeorgiaGasAccount.cs" />
     <Compile Include="DomainModels\Accounts\IAccountCapability.cs" />
     <Compile Include="DomainModels\Accounts\IAccountService.cs" />
     <Compile Include="DomainModels\Accounts\InvoiceExtensionAccountCapability.cs" />

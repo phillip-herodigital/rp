@@ -11,5 +11,7 @@ namespace StreamEnergy.DomainModels.Accounts
         public CustomerContact ContactInfo { get; set; }
 
         public Address BillingAddress { get; set; }
+
+        public string SsnLastFour { get; set; }
     }
 }
