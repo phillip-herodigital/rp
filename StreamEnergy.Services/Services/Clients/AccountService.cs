@@ -491,5 +491,48 @@ namespace StreamEnergy.Services.Clients
             }
             return false;
         }
+
+
+        async Task<bool> IAccountService.CheckRenewalEligibility(Account account, bool forceRefresh)
+        {
+            if (account.Capabilities.OfType<RenewalAccountCapability>().Any() && !forceRefresh)
+            {
+                return true;
+            }
+
+            if (account.Details == null)
+            {
+                await ((IAccountService)this).GetAccountDetails(account, false);
+            }
+
+            var response = await streamConnectClient.PostAsJsonAsync("/api/v1/renewals/eligibility/",
+                new
+                {
+                    UtilityAccountNumber = account.AccountNumber,
+                    ProductType = "Gas", // TODO - fill this in from somewhere
+                    ProviderId = "AGLC", // TODO - fill this in from somewhere
+                    CustomerLast4 = account.Details.SsnLastFour
+                });
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return false;
+            }
+
+            dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+            account.Capabilities.RemoveAll(c => c is RenewalAccountCapability);
+            if (data.Status != "Success")
+            {
+                return false;
+            }
+
+            account.Capabilities.Add(new RenewalAccountCapability
+            {
+                IsEligible = data.IsEligible,
+                RenewalDate = (DateTime)data.EligibilityDate,
+                EligibilityWindowInDays = (int)data.EligibilityWindow,
+            });
+            return true;
+        }
     }
 }
