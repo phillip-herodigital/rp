@@ -58,9 +58,14 @@ ngApp.controller('AcctEnrolledAccountsCtrl', ['$scope', '$rootScope', '$http', '
 					// if not successful, show an error
 
 				} else {
-					// if successful, remove the row
-					var index = _.findIndex($scope.formData.enrolledAccounts, { 'streamConnectAccountId' : accountId });
-					$scope.formData.enrolledAccounts.splice(index, 1);
+					// if successful, refresh the list
+					$scope.isLoading = true;
+					$http.get('/api/account/getEnrolledAccounts').success(function (data, status, headers, config) {
+						$scope.formData = data;
+						$scope.formDataOriginal = angular.copy($scope.formData);
+						$scope.newAccountAdded.added = false;
+						$scope.isLoading = false;
+					});
 				}
 			});
 	};

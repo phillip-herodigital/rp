@@ -573,55 +573,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         #region Account Selector
 
         [HttpGet]
-        public IEnumerable<AccountGrouping> GetAccounts()
+        public async Task<IEnumerable<AccountSummary>> GetAccounts()
         {
-            var serviceAddress = new DomainModels.Address
-            {
-                Line1 = "123 Main Street",
-                City = "Dallas",
-                StateAbbreviation = "TX",
-                PostalCode5 = "75001"
-            };
+            // TODO add sub accounts here
 
-            var serviceAddress2 = new DomainModels.Address
-            {
-                Line1 = "456 Main Street",
-                City = "Dallas",
-                StateAbbreviation = "TX",
-                PostalCode5 = "75001"
-            };
+            currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
+            var summary = currentUser.Accounts.Select(acct => new AccountSummary(acct));
 
-            var serviceAddress3 = new DomainModels.Address
-            {
-                Line1 = "1 Georgia Dome Dr NW3",
-                City = "Atlanta",
-                StateAbbreviation = "GA",
-                PostalCode5 = "30313"
-            };
-
-            var serviceAddress4 = new DomainModels.Address
-            {
-                Line1 = "2604 Washington Rd",
-                City = "Augusta",
-                StateAbbreviation = "GA",
-                PostalCode5 = "30904"
-            };
-
-            var account1 = new AccountGrouping 
-            {
-                AccountNumber = "1197015532",
-                SubAccountLabel = "ESI ID:",
-                SubAccounts = new ISubAccount[] { new TexasElectricityAccount { Id = "109437200008913264", ServiceAddress = serviceAddress }, new TexasElectricityAccount { Id = "109437200008975832", ServiceAddress = serviceAddress2 } }
-            };
-
-            var account2 = new AccountGrouping
-            {
-                AccountNumber = "07644559",
-                SubAccountLabel = "Meter ID:",
-                SubAccounts = new ISubAccount[] { new GeorgiaGasAccount { Id = "9A743339875", ServiceAddress = serviceAddress3 }, new GeorgiaGasAccount { Id = "88-443672486", ServiceAddress = serviceAddress4 } }
-            };
-
-            return new AccountGrouping [] { account1, account2 } ;
+            return summary;
         }
 
         #endregion
@@ -629,46 +588,35 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         #region Account Information
 
         [HttpPost]
-        public GetAccountInformationResponse GetAccountInformation(GetAccountInformationRequest request)
+        public async Task<GetAccountInformationResponse> GetAccountInformation(GetAccountInformationRequest request)
         {
-            var accountNumber = request.AccountNumber;
             var serviceAddress = new DomainModels.Address();
-            var billingAddress = new DomainModels.Address();
             bool sameAsService = false;
 
-            // TODO get the contact info from Stream Connect            
-            var customerName = new DomainModels.Name
-            {
-                First = "John",
-                Last = "Smith"
-            };
-
-            var primaryPhone =  new DomainModels.TypedPhone { Number = "214-223-4567", Category = StreamEnergy.DomainModels.PhoneCategory.Home };
-            var secondaryPhone = new DomainModels.TypedPhone { Number = "214-223-7323", Category = StreamEnergy.DomainModels.PhoneCategory.Mobile };
-
+            // TODO - get service address from sub-account
             serviceAddress.Line1 = "123 Main St.";
             serviceAddress.City = "Dallas";
             serviceAddress.StateAbbreviation = "TX";
             serviceAddress.PostalCode5 = "75001";
 
-            billingAddress.Line1 = "123 Main St.";
-            billingAddress.City = "Dallas";
-            billingAddress.StateAbbreviation = "TX";
-            billingAddress.PostalCode5 = "75001";
-
-            if (serviceAddress.Equals(billingAddress))
+            var account = await accountService.GetAccountDetails(request.AccountNumber);
+            var mobilePhone = account.Details.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Mobile).FirstOrDefault();
+            var homePhone = account.Details.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Home).FirstOrDefault();
+            
+            if (serviceAddress.Equals(account.Details.BillingAddress))
             {
                 sameAsService = true;
             }
 
             return new GetAccountInformationResponse
             {
-                CustomerName = customerName,
-                PrimaryPhone = primaryPhone,
-                SecondaryPhone = secondaryPhone,
+                CustomerName = account.Details.ContactInfo.Name,
+                MobilePhone = mobilePhone,
+                HomePhone = homePhone,
+                Email = account.Details.ContactInfo.Email,
                 ServiceAddress = serviceAddress,
                 SameAsService = sameAsService,
-                BillingAddress = billingAddress
+                BillingAddress = account.Details.BillingAddress
             };
         }
 

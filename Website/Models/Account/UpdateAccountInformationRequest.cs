@@ -13,12 +13,16 @@ namespace StreamEnergy.MyStream.Models.Account
 
         [Required]
         [ValidateObject(ErrorMessagePrefix = "Phone ")]
-        public DomainModels.TypedPhone PrimaryPhone { get; set; }
+        public DomainModels.Phone MobilePhone { get; set; }
 
         [ValidateObject(ErrorMessagePrefix = "Phone ")]
-        public DomainModels.TypedPhone SecondaryPhone { get; set; }
+        public DomainModels.Phone HomePhone { get; set; }
+
+        [ValidateObject(ErrorMessagePrefix = "Email ")]
+        public DomainModels.Email Email { get; set; }
 
         [Required]
         public DomainModels.Address BillingAddress { get; set; }
+
     }
 }

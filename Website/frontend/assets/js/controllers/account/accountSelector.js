@@ -8,7 +8,7 @@ ngApp.controller('AcctAccountSelectorCtrl', ['$scope', '$rootScope', '$http', fu
 		$scope.accounts = data;
 		// initialize the current account
 		$scope.currentAccount = $scope.accounts[0];
-		$scope.currentSubAccount = $scope.currentAccount.subAccounts[0];
+		//$scope.currentSubAccount = $scope.currentAccount.subAccounts[0];
 		$scope.updateSelectedAccount($scope.currentAccount.accountNumber, $scope.currentAccount.subAccountLabel, $scope.currentSubAccount);
 
 	});
