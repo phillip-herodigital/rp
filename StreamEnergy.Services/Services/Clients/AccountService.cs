@@ -425,8 +425,8 @@ namespace StreamEnergy.Services.Clients
             };
             account.Balance = new AccountBalance
             {
-                Balance = (decimal)data.AccountDetails.PastDueBalance.Value
-                // TODO - due date
+                Balance = (decimal)data.AccountDetails.BalanceDue.Value,
+                DueDate = (DateTime)data.AccountDetails.BalanceDueDate.Value,
             };
         }
 
