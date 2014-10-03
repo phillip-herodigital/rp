@@ -524,7 +524,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                 Assert.IsTrue(saveResult.IsCompleted);
                 if (saveResult.Data.Results.Length > 0)
                 {
-
+                    Assert.IsTrue(saveResult.Data.Results.All(r => !string.IsNullOrEmpty(r.Details.StreamReferenceNumber)));
                 }
                 else
                 {

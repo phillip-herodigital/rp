@@ -317,42 +317,84 @@ namespace StreamEnergy.Services.Clients
             switch (offer.Offer.OfferType)
             {
                 case TexasElectricityOffer.Qualifier:
-                    var texasElectricityOffer = offer.Offer as TexasElectricityOffer;
-                    var texasService = service.Location.Capabilities.OfType<TexasServiceCapability>().Single();
-                    var serviceStatus = service.Location.Capabilities.OfType<ServiceStatusCapability>().Single();
-                    var customerType = service.Location.Capabilities.OfType<CustomerTypeCapability>().Single();
-                    return new
                     {
-                        GlobalCustomerId = globalCustomerId.ToString(),
-                        SalesInfo = salesInfo,
-                        CustomerType = customerType.CustomerType.ToString("g"),
-                        EnrollmentAccountId = enrollmentAccountId ?? Guid.Empty,
-                        SystemOfRecord = "CIS1",
-                        FirstName = context.ContactInfo.Name.First,
-                        LastName = context.ContactInfo.Name.Last,
-                        BillingAddress = StreamConnectUtilities.ToStreamConnectAddress(context.MailingAddress),
-                        HomePhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Home).Select(p => p.Number).SingleOrDefault(),
-                        CellPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Mobile).Select(p => p.Number).SingleOrDefault(),
-                        WorkPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Work).Select(p => p.Number).SingleOrDefault(),
-                        SSN = context.SocialSecurityNumber,
-                        CurrentProvider = context.PreviousProvider,
-                        EmailAddress = context.ContactInfo.Email.Address,
-                        Premise = new
+                        var texasElectricityOffer = offer.Offer as TexasElectricityOffer;
+                        var texasService = service.Location.Capabilities.OfType<TexasServiceCapability>().Single();
+                        var serviceStatus = service.Location.Capabilities.OfType<ServiceStatusCapability>().Single();
+                        var customerType = service.Location.Capabilities.OfType<CustomerTypeCapability>().Single();
+                        return new
                         {
-                            EnrollmentType = serviceStatus.EnrollmentType.ToString("g"),
-                            SelectedMoveInDate = (offer.OfferOption is TexasElectricityMoveInOfferOption) ? ((TexasElectricityMoveInOfferOption)offer.OfferOption).ConnectDate : DateTime.Now,
-                            UtilityProvider = JObject.Parse(texasElectricityOffer.Provider),
-                            UtilityAccountNumber = texasService.EsiId,
-                            Product = new
+                            GlobalCustomerId = globalCustomerId.ToString(),
+                            SalesInfo = salesInfo,
+                            CustomerType = customerType.CustomerType.ToString("g"),
+                            EnrollmentAccountId = enrollmentAccountId ?? Guid.Empty,
+                            SystemOfRecord = "CIS1",
+                            FirstName = context.ContactInfo.Name.First,
+                            LastName = context.ContactInfo.Name.Last,
+                            BillingAddress = StreamConnectUtilities.ToStreamConnectAddress(context.MailingAddress),
+                            HomePhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Home).Select(p => p.Number).SingleOrDefault(),
+                            CellPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Mobile).Select(p => p.Number).SingleOrDefault(),
+                            WorkPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Work).Select(p => p.Number).SingleOrDefault(),
+                            SSN = context.SocialSecurityNumber,
+                            CurrentProvider = context.PreviousProvider,
+                            EmailAddress = context.ContactInfo.Email.Address,
+                            Premise = new
                             {
-                                ProductCode = texasElectricityOffer.Id.Split(new[]{'/'}, 2)[1],
-                                Term = texasElectricityOffer.TermMonths
-                            },
-                            ServiceAddress = StreamConnectUtilities.ToStreamConnectAddress(service.Location.Address),
-                            ProductType = "Electricity",
-                            Deposit = BuildDepositObject(offer, offerPayment)
-                        }
-                    };
+                                EnrollmentType = serviceStatus.EnrollmentType.ToString("g"),
+                                SelectedMoveInDate = (offer.OfferOption is TexasElectricityMoveInOfferOption) ? ((TexasElectricityMoveInOfferOption)offer.OfferOption).ConnectDate : DateTime.Now,
+                                UtilityProvider = JObject.Parse(texasElectricityOffer.Provider),
+                                UtilityAccountNumber = texasService.EsiId,
+                                Product = new
+                                {
+                                    ProductCode = texasElectricityOffer.Id.Split(new[] { '/' }, 2)[1],
+                                    Term = texasElectricityOffer.TermMonths
+                                },
+                                ServiceAddress = StreamConnectUtilities.ToStreamConnectAddress(service.Location.Address),
+                                ProductType = "Electricity",
+                                Deposit = BuildDepositObject(offer, offerPayment)
+                            }
+                        };
+                    }
+                case GeorgiaGasOffer.Qualifier:
+                    {
+                        var georgiaGasOffer = offer.Offer as GeorgiaGasOffer;
+                        var georgiaGasService = service.Location.Capabilities.OfType<GeorgiaGasServiceCapability>().Single();
+                        var serviceStatus = service.Location.Capabilities.OfType<ServiceStatusCapability>().Single();
+                        var customerType = service.Location.Capabilities.OfType<CustomerTypeCapability>().Single();
+
+                        return new
+                        {
+                            GlobalCustomerId = globalCustomerId.ToString(),
+                            SalesInfo = salesInfo,
+                            CustomerType = customerType.CustomerType.ToString("g"),
+                            EnrollmentAccountId = enrollmentAccountId ?? Guid.Empty,
+                            SystemOfRecord = "CIS1",
+                            FirstName = context.ContactInfo.Name.First,
+                            LastName = context.ContactInfo.Name.Last,
+                            BillingAddress = StreamConnectUtilities.ToStreamConnectAddress(context.MailingAddress),
+                            HomePhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Home).Select(p => p.Number).SingleOrDefault(),
+                            CellPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Mobile).Select(p => p.Number).SingleOrDefault(),
+                            WorkPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Work).Select(p => p.Number).SingleOrDefault(),
+                            SSN = context.SocialSecurityNumber,
+                            CurrentProvider = context.PreviousProvider,
+                            EmailAddress = context.ContactInfo.Email.Address,
+                            Premise = new
+                            {
+                                EnrollmentType = serviceStatus.EnrollmentType.ToString("g"),
+                                SelectedMoveInDate = (offer.OfferOption is TexasElectricityMoveInOfferOption) ? ((TexasElectricityMoveInOfferOption)offer.OfferOption).ConnectDate : DateTime.Now,
+                                UtilityProvider = JObject.Parse(georgiaGasOffer.Provider),
+                                UtilityAccountNumber = georgiaGasService.AglAccountNumber,
+                                Product = new
+                                {
+                                    ProductCode = georgiaGasOffer.Id.Split(new[] { '/' }, 2)[1],
+                                    Term = georgiaGasOffer.TermMonths
+                                },
+                                ServiceAddress = StreamConnectUtilities.ToStreamConnectAddress(service.Location.Address),
+                                ProductType = "Electricity",
+                                Deposit = BuildDepositObject(offer, offerPayment)
+                            }
+                        };
+                    }
                 default:
                     throw new NotImplementedException();
             }
