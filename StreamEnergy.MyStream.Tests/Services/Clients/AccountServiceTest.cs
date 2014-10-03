@@ -261,8 +261,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Assert
             Assert.IsTrue(result);
             result = accountService.GetAccountDetails(acct, forceRefresh: true).Result;
-            Assert.AreEqual(expectedHome, acct.Details.ContactInfo.Phone.OfType<StreamEnergy.DomainModels.TypedPhone>().Single(p => p.Category == DomainModels.PhoneCategory.Home));
-            Assert.AreEqual(expectedMobile, acct.Details.ContactInfo.Phone.OfType<StreamEnergy.DomainModels.TypedPhone>().Single(p => p.Category == DomainModels.PhoneCategory.Mobile));
+            Assert.AreEqual(expectedHome, acct.Details.ContactInfo.Phone.OfType<StreamEnergy.DomainModels.TypedPhone>().Single(p => p.Category == DomainModels.PhoneCategory.Home).Number);
+            Assert.AreEqual(expectedMobile, acct.Details.ContactInfo.Phone.OfType<StreamEnergy.DomainModels.TypedPhone>().Single(p => p.Category == DomainModels.PhoneCategory.Mobile).Number);
             Assert.AreEqual(expectedEmail, acct.Details.ContactInfo.Email.Address);
             Assert.AreEqual(expectedStreetAddress, acct.Details.BillingAddress.Line1);
         }
