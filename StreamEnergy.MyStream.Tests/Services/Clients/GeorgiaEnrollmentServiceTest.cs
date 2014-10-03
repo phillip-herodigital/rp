@@ -19,23 +19,6 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
     {
         private static Unity.Container container;
 
-        class Timer : IDisposable
-        {
-            private readonly Stopwatch sw;
-
-            public Timer()
-            {
-                sw = new Stopwatch();
-                sw.Start();
-            }
-
-            void IDisposable.Dispose()
-            {
-                sw.Stop();
-                Trace.WriteLine(sw.ElapsedMilliseconds);
-            }
-        }
-
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
