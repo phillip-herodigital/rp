@@ -944,6 +944,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             } while (!creditCheck.IsCompleted);
             var offerPayments = enrollmentService.LoadOfferPayments(gcid, saveResult.Data, userContext.Services, internalContext).Result;
             var offerPayment = offerPayments.Single();
+            if (offerPayment.Details.RequiredAmounts.OfType<DomainModels.Enrollments.DepositOfferPaymentAmount>().First().DollarAmount == 0)
+                Assert.Inconclusive("No deposit assessed.");
 
             using (new Timer())
             {

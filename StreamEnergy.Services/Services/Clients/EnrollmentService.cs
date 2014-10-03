@@ -301,7 +301,7 @@ namespace StreamEnergy.Services.Clients
             var request = (from service in context.Services
                            from offer in service.SelectedOffers
                            select ToEnrollmentAccount(globalCustomerId, context, service, offer, salesInfo)).ToArray();
-            var response = await streamConnectClient.PostAsJsonAsync("/api/v1/customers/" + globalCustomerId.ToString() + "/enrollments", request);
+            var response = await streamConnectClient.PutAsJsonAsync("/api/v1/customers/" + globalCustomerId.ToString() + "/enrollments", request);
             response.EnsureSuccessStatusCode();
 
             var asyncUrl = response.Headers.Location;
@@ -326,7 +326,7 @@ namespace StreamEnergy.Services.Clients
                         GlobalCustomerId = globalCustomerId.ToString(),
                         SalesInfo = salesInfo,
                         CustomerType = customerType.CustomerType.ToString("g"),
-                        EnrollmentAccountId = enrollmentAccountId,
+                        EnrollmentAccountId = enrollmentAccountId ?? Guid.Empty,
                         SystemOfRecord = "CIS1",
                         FirstName = context.ContactInfo.Name.First,
                         LastName = context.ContactInfo.Name.Last,
