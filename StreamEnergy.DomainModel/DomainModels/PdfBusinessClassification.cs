@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StreamEnergy.Services.Clients
+namespace StreamEnergy.DomainModels
 {
-    enum PdfBusinessTypes
+    public enum PdfBusinessClassification
     {
         IndividualSoleProprietor,
         CCorporation,
