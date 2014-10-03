@@ -12,20 +12,31 @@
                 </div>
                 <hr class="content-divider" />
             </div>
+            <div ng-show="errorMessage">
+                <div class="notice error">
+                    @Html.Sitecore().Field("Error Message Text")
+                </div>
+                <hr class="content-divider" />
+            </div>
             <p>@Html.Sitecore().Field("New Account Instructions Text")</p>
-            <div class="group">
-                <div class="item group-col" @Html.Validation().ErrorClass(model => model.AccountNumber) float-label>
+
+                <div class="item" @Html.Validation().ErrorClass(model => model.AccountNumber) float-label>
                     <label for="@Html.IdFor(m => m.AccountNumber)">@Html.Sitecore().Field("Account Number Text")</label>
                     @Html.TextBoxFor(m => m.AccountNumber, new { ng_model = "formData.accountNumber", data_val_if="formData.accountNumber" })
                     @Html.ValidationMessageFor(model => model.AccountNumber)
                 </div>
-                <div class="item group-col" @Html.Validation().ErrorClass(model => model.SsnLastFour) float-label>
-                    <label for="@Html.IdFor(m => m.SsnLastFour)">@Html.Sitecore().Field("Last 4 Text")</label>
-                    @Html.TextBoxFor(m => m.SsnLastFour, new { ng_model = "formData.ssnLastFour", data_val_if="formData.ssnLastFour" })
-                    @Html.ValidationMessageFor(model => model.SsnLastFour)
+                <div class="item" @Html.Validation().ErrorClass(model => model.SsnLast4) float-label>
+                    <label for="@Html.IdFor(m => m.SsnLast4)">@Html.Sitecore().Field("Last 4 Text")</label>
+                    @Html.TextBoxFor(m => m.SsnLast4, new { ng_model = "formData.ssnLast4", data_val_if="formData.ssnLast4" })
+                    @Html.ValidationMessageFor(model => model.SsnLast4)
+                </div>
+                <div class="item" @Html.Validation().ErrorClass(model => model.AccountNickname) float-label>
+                    <label for="@Html.IdFor(m => m.AccountNickname)">@Html.Sitecore().Field("Account Nickname Text")</label>
+                    @Html.TextBoxFor(m => m.AccountNickname, new { ng_model = "formData.accountNickname", data_val_if = "formData.accountNickname" })
+                    @Html.ValidationMessageFor(model => model.AccountNickname)
                 </div>
             </div>
-        </div>
+
         <footer>
             <div class="buttons">
                 <button type="submit" data-val-submit>@Html.Sitecore().Field("Save Button Text")</button>

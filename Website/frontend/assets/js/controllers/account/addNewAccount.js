@@ -18,14 +18,17 @@ ngApp.controller('AcctAddNewAccountCtrl', ['$scope', '$rootScope', '$http', func
 			headers : { 'Content-Type': 'application/JSON' } 
 		})
 			.success(function (data, status, headers, config) {
-				if (data.validations.length) {
+				if (!data.success) {
 					// if not successful, bind errors to error variables
 					$scope.validations = data.validations;
+					$scope.isLoading = false;
+					$scope.errorMessage = true;
 
 				} else {
 					// if successful, clear the fields 
 					$scope.formData = {};
 					$scope.isLoading = false;
+					$scope.errorMessage = false;
 					$scope.successMessage = true;
 					$scope.newAccountAdded.added = true;
 				}
