@@ -381,7 +381,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var accountNumber = request.AccountNumber;
 
             // TODO get the plan info from Stream Connect
-            var account = await accountService.GetAccountDetails(request.AccountNumber);
+            currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
+            var account = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
+            var accountDetails = await accountService.GetAccountDetails(account, false);
 
             var gasPlan = new UtilityPlan
             {
@@ -551,7 +553,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             serviceAddress.StateAbbreviation = "TX";
             serviceAddress.PostalCode5 = "75001";
 
-            var account = await accountService.GetAccountDetails(request.AccountNumber);
+            currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
+            var account = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
             var mobilePhone = account.Details.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Mobile).FirstOrDefault();
             var homePhone = account.Details.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Home).FirstOrDefault();
             
