@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace StreamEnergy.DomainModels.Enrollments
+namespace StreamEnergy.DomainModels.Enrollments.TexasElectricity
 {
     [Serializable]
-    class TexasElectricityOfferOptionRules : IOfferOptionRules
+    class OfferOptionRules : IOfferOptionRules
     {
         public const string Qualifier = "TexasElectricity";
 
-        public virtual string OptionRulesType { get { return TexasElectricityOfferOptionRules.Qualifier; } }
+        public virtual string OptionRulesType { get { return OfferOptionRules.Qualifier; } }
 
         public virtual IOfferPaymentAmount[] GetPostBilledPayments(IOfferOption options)
         {

@@ -21,7 +21,7 @@ namespace StreamEnergy.LuceneServices.Web.Tests
                     new Location
                     {
                         Address = new DomainModels.Address { Line1 = "3620 Huffines Blvd", UnitNumber = "226", City = "Carrollton", StateAbbreviation = "TX", PostalCode5 = "75010" },
-                        Capabilities = new[] { new DomainModels.Enrollments.TexasServiceCapability { Tdu = "Centerpoint", EsiId = "1234SAMPLE5678" } }
+                        Capabilities = new[] { new DomainModels.Enrollments.TexasElectricity.ServiceCapability { Tdu = "Centerpoint", EsiId = "1234SAMPLE5678" } }
                     },
                     EnrollmentCustomerType.Residential)
             };

@@ -1,6 +1,8 @@
 @model StreamEnergy.DomainModels.Enrollments.UserContext
 @using TypedPhone = StreamEnergy.DomainModels.TypedPhone
 @using StreamEnergy.DomainModels.Enrollments
+@using TexasElectricity = StreamEnergy.DomainModels.Enrollments.TexasElectricity
+@using GeorgiaGas = StreamEnergy.DomainModels.Enrollments.GeorgiaGas
 <div id="accountInformation" class="enrollment" ng-if="stepsService.isStepVisible('accountInformation')" ng-controller="EnrollmentAccountInformationCtrl" ng-init="usStates = @(Html.Action("States", "Data").ToHtmlString()); phoneTypes = @(Html.Action("PhoneCategories", "Data").ToHtmlString()); previousProviders = @(Html.Action("PreviousProviders", "Data").ToHtmlString()); setTimeRemaining('accountInformation', '@Html.Sitecore().Field("Remaining Minutes Number")');">
     <div class="banner enrollment__banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper clearfix">
@@ -398,10 +400,10 @@
     {
     <div ng-controller="OfferOptions-TexasElectricityMoveIn">
         @*<h2>Electricity</h2>*@
-        <div class="item group-col datepicker" @offer.Validation().ErrorClass(o => ((TexasElectricityMoveInOfferOption)o.OfferOption).ConnectDate)>
-            <label for="@offer.Fix(h => h.IdFor(o => ((TexasElectricityMoveInOfferOption)o.OfferOption).ConnectDate))">@Html.Sitecore().Field("Service Start Date Label")</label>
+        <div class="item group-col datepicker" @offer.Validation().ErrorClass(o => ((TexasElectricity.MoveInOfferOption)o.OfferOption).ConnectDate)>
+            <label for="@offer.Fix(h => h.IdFor(o => ((TexasElectricity.MoveInOfferOption)o.OfferOption).ConnectDate))">@Html.Sitecore().Field("Service Start Date Label")</label>
             <span class="calendar">
-                <input type="text" class="datepicker-input" id="@offer.Fix(h => h.IdFor(o => ((TexasElectricityMoveInOfferOption)o.OfferOption).ConnectDate))" ng-model="selectedOffer.offerOption.connectDate"
+                <input type="text" class="datepicker-input" id="@offer.Fix(h => h.IdFor(o => ((TexasElectricity.MoveInOfferOption)o.OfferOption).ConnectDate))" ng-model="selectedOffer.offerOption.connectDate"
                        datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="checkDisabledDate(date, mode)" show-footer="true" datepicker-options="{ 'datepickerDateClass': 'checkDateClass(date)', 'datepickerDateClassScope': $id, 'maxMode': 'day' }" />
                 <span class="icon" ng-click="openDatePicker($event)"><i class="icon-calendar"></i></span>
             </span>
@@ -420,10 +422,10 @@
     {
         <div ng-controller="OfferOptions-GeorgiaGasMoveIn">
             @*<h2>Electricity</h2>*@
-            <div class="item group-col datepicker" @offer.Validation().ErrorClass(o => ((TexasElectricityMoveInOfferOption)o.OfferOption).ConnectDate)>
-                <label for="@offer.Fix(h => h.IdFor(o => ((TexasElectricityMoveInOfferOption)o.OfferOption).ConnectDate))">@Html.Sitecore().Field("Service Start Date Label")</label>
+            <div class="item group-col datepicker" @offer.Validation().ErrorClass(o => ((TexasElectricity.MoveInOfferOption)o.OfferOption).ConnectDate)>
+                <label for="@offer.Fix(h => h.IdFor(o => ((TexasElectricity.MoveInOfferOption)o.OfferOption).ConnectDate))">@Html.Sitecore().Field("Service Start Date Label")</label>
                 <span class="calendar">
-                    <input type="text" class="datepicker-input" id="@offer.Fix(h => h.IdFor(o => ((TexasElectricityMoveInOfferOption)o.OfferOption).ConnectDate))" ng-model="selectedOffer.offerOption.connectDate"
+                    <input type="text" class="datepicker-input" id="@offer.Fix(h => h.IdFor(o => ((TexasElectricity.MoveInOfferOption)o.OfferOption).ConnectDate))" ng-model="selectedOffer.offerOption.connectDate"
                            datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="checkDisabledDate(date, mode)" show-footer="true" datepicker-options="{ 'datepickerDateClass': 'checkDateClass(date)', 'datepickerDateClassScope': $id, 'maxMode': 'day' }" />
                     <span class="icon" ng-click="openDatePicker($event)"><i class="icon-calendar"></i></span>
                 </span>
@@ -441,10 +443,10 @@
     @using (var offer = Html.ClientRepeater(m => m.Services, "{{$parent.$index}}").ClientRepeater(m => m.SelectedOffers, "{{$index}}"))
     {
     <div ng-controller="OfferOptions-TexasElectricityCommercialQuote" ng-if="selectedOffer.optionRules.connectDates.availableConnectDates.length > 0">
-    <div class="item group-col datepicker" @offer.Validation().ErrorClass(o => ((TexasElectricityCommercialQuoteOption)o.OfferOption).ConnectDate)>
-        <label for="@offer.Fix(h => h.IdFor(o => ((TexasElectricityCommercialQuoteOption)o.OfferOption).ConnectDate))">@Html.Sitecore().Field("Commercial Service Start Date Label")</label>
+    <div class="item group-col datepicker" @offer.Validation().ErrorClass(o => ((TexasElectricity.CommercialQuoteOption)o.OfferOption).ConnectDate)>
+        <label for="@offer.Fix(h => h.IdFor(o => ((TexasElectricity.CommercialQuoteOption)o.OfferOption).ConnectDate))">@Html.Sitecore().Field("Commercial Service Start Date Label")</label>
         <span class="calendar">
-            <input type="text" class="datepicker-input" id="@offer.Fix(h => h.IdFor(o => ((TexasElectricityCommercialQuoteOption)o.OfferOption).ConnectDate))" ng-model="selectedOffer.offerOption.connectDate"
+            <input type="text" class="datepicker-input" id="@offer.Fix(h => h.IdFor(o => ((TexasElectricity.CommercialQuoteOption)o.OfferOption).ConnectDate))" ng-model="selectedOffer.offerOption.connectDate"
                    datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="checkDisabledDate(date, mode)" show-footer="true" datepicker-options="{ 'datepickerDateClass': 'checkDateClass(date)', 'datepickerDateClassScope': $id, 'maxMode': 'day' }" />
             <span class="icon" ng-click="openDatePicker($event)"><i class="icon-calendar"></i></span>
         </span>
@@ -458,10 +460,10 @@
     @using (var offer = Html.ClientRepeater(m => m.Services, "{{$parent.$index}}").ClientRepeater(m => m.SelectedOffers, "{{$index}}"))
     {
         <div ng-controller="OfferOptions-TexasElectricityCommercialQuote" ng-if="selectedOffer.optionRules.connectDates.availableConnectDates.length > 0">
-            <div class="item group-col datepicker" @offer.Validation().ErrorClass(o => ((TexasElectricityCommercialQuoteOption)o.OfferOption).ConnectDate)>
-                <label for="@offer.Fix(h => h.IdFor(o => ((TexasElectricityCommercialQuoteOption)o.OfferOption).ConnectDate))">@Html.Sitecore().Field("Commercial Service Start Date Label")</label>
+            <div class="item group-col datepicker" @offer.Validation().ErrorClass(o => ((TexasElectricity.CommercialQuoteOption)o.OfferOption).ConnectDate)>
+                <label for="@offer.Fix(h => h.IdFor(o => ((TexasElectricity.CommercialQuoteOption)o.OfferOption).ConnectDate))">@Html.Sitecore().Field("Commercial Service Start Date Label")</label>
                 <span class="calendar">
-                    <input type="text" class="datepicker-input" id="@offer.Fix(h => h.IdFor(o => ((TexasElectricityCommercialQuoteOption)o.OfferOption).ConnectDate))" ng-model="selectedOffer.offerOption.connectDate"
+                    <input type="text" class="datepicker-input" id="@offer.Fix(h => h.IdFor(o => ((TexasElectricity.CommercialQuoteOption)o.OfferOption).ConnectDate))" ng-model="selectedOffer.offerOption.connectDate"
                            datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="checkDisabledDate(date, mode)" show-footer="true" datepicker-options="{ 'datepickerDateClass': 'checkDateClass(date)', 'datepickerDateClassScope': $id, 'maxMode': 'day' }" />
                     <span class="icon" ng-click="openDatePicker($event)"><i class="icon-calendar"></i></span>
                 </span>

@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
 
-namespace StreamEnergy.DomainModels.Enrollments
+namespace StreamEnergy.DomainModels.Enrollments.GeorgiaGas
 {
     [Serializable]
-    public class GeorgiaGasOffer : IOffer
+    public class Offer : IOffer
     {
         public const string Qualifier = "GeorgiaGas";
 
@@ -19,12 +19,12 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public string OfferType
         {
-            get { return GeorgiaGasOffer.Qualifier; }
+            get { return Offer.Qualifier; }
         }
 
         public IOfferOptionPolicy GetOfferOptionPolicy(IUnityContainer container)
         {
-            return container.Resolve<GeorgiaGasOfferOptionPolicy>();
+            return container.Resolve<OfferOptionPolicy>();
         }
 
         public EnrollmentType EnrollmentType { get; set; }

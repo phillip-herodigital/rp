@@ -9,6 +9,8 @@ using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using StreamEnergy.DomainModels.Enrollments.Service;
 using StreamEnergy.DomainModels;
+using TexasElectricity = StreamEnergy.DomainModels.Enrollments.TexasElectricity;
+using GeorgiaGas = StreamEnergy.DomainModels.Enrollments.GeorgiaGas;
 using StreamEnergy.Logging;
 using System.Collections.Specialized;
 
@@ -65,7 +67,7 @@ namespace StreamEnergy.Services.Clients
                 response.EnsureSuccessStatusCode();
                 var streamConnectProductResponse = Json.Read<StreamConnect.ProductResponse>(await response.Content.ReadAsStringAsync());
 
-                if (location.Capabilities.OfType<TexasServiceCapability>().Any())
+                if (location.Capabilities.OfType<TexasElectricity.ServiceCapability>().Any())
                 {
                     if (customerType.CustomerType == EnrollmentCustomerType.Residential)
                     {
@@ -74,11 +76,11 @@ namespace StreamEnergy.Services.Clients
                     else
                     {
                         result.Add(location, new LocationOfferSet { Offers = new[] {
-                            new TexasElectricityCommercialQuote { }
+                            new TexasElectricity.CommercialQuote { }
                         } });
                     }
                 }
-                else if (location.Capabilities.OfType<GeorgiaGasServiceCapability>().Any())
+                else if (location.Capabilities.OfType<GeorgiaGas.ServiceCapability>().Any())
                 {
                     if (customerType.CustomerType == EnrollmentCustomerType.Residential)
                     {
@@ -107,8 +109,8 @@ namespace StreamEnergy.Services.Clients
                 case ServiceStatusCapability.Qualifier:
                     parameters["EnrollmentType"] = (capability as ServiceStatusCapability).EnrollmentType.ToString("g");
                     break;
-                case TexasServiceCapability.Qualifier:
-                    parameters["UtilityAccountNumber"] = (capability as TexasServiceCapability).EsiId;
+                case TexasElectricity.ServiceCapability.Qualifier:
+                    parameters["UtilityAccountNumber"] = (capability as TexasElectricity.ServiceCapability).EsiId;
                     parameters["SystemOfRecord"] = "CIS1";
                     break;
             }
@@ -117,11 +119,11 @@ namespace StreamEnergy.Services.Clients
 
         private LocationOfferSet LoadTexasOffers(Location location, StreamConnect.ProductResponse streamConnectProductResponse)
         {
-            if (location.Capabilities.OfType<TexasServiceCapability>().Count() != 1)
+            if (location.Capabilities.OfType<TexasElectricity.ServiceCapability>().Count() != 1)
             {
                 return new LocationOfferSet { OfferSetErrors = { { "TexasElectricity", "MultipleTdu" } } };
             }
-            var texasService = location.Capabilities.OfType<TexasServiceCapability>().Single();
+            var texasService = location.Capabilities.OfType<TexasElectricity.ServiceCapability>().Single();
             var serviceStatus = location.Capabilities.OfType<ServiceStatusCapability>().Single();
 
             var providerName = texasService.Tdu;
@@ -135,7 +137,7 @@ namespace StreamEnergy.Services.Clients
                           let product = products.First(p => p.Provider["Name"].ToString() == providerName)
                           let productData = sitecoreProductData.GetTexasElectricityProductData(product)
                           where productData != null
-                          select new TexasElectricityOffer
+                          select new TexasElectricity.Offer
                           {
                               Id = product.Provider["Name"].ToString() + "/" + product.ProductCode,
                               Provider = product.Provider.ToString(),
@@ -167,7 +169,7 @@ namespace StreamEnergy.Services.Clients
 
         private LocationOfferSet LoadGeorgiaOffers(Location location, StreamConnect.ProductResponse streamConnectProductResponse)
         {
-            var georgiaService = location.Capabilities.OfType<GeorgiaGasServiceCapability>().Single();
+            var georgiaService = location.Capabilities.OfType<GeorgiaGas.ServiceCapability>().Single();
             var serviceStatus = location.Capabilities.OfType<ServiceStatusCapability>().Single();
 
 
@@ -179,7 +181,7 @@ namespace StreamEnergy.Services.Clients
                           let product = products.First()
                           let productData = sitecoreProductData.GetGeorgiaGasProductData(product)
                           where productData != null
-                          select new GeorgiaGasOffer
+                          select new GeorgiaGas.Offer
                           {
                               Id = product.Provider["Name"].ToString() + "/" + product.ProductCode,
                               Provider = product.Provider.ToString(),
@@ -207,10 +209,13 @@ namespace StreamEnergy.Services.Clients
 
         async Task<PremiseVerificationResult> IEnrollmentService.VerifyPremise(Location location)
         {
-            var texasService = location.Capabilities.OfType<TexasServiceCapability>().SingleOrDefault();
             var serviceStatus = location.Capabilities.OfType<ServiceStatusCapability>().Single();
-            var customerType = location.Capabilities.OfType<CustomerTypeCapability>().Single();
+            if (serviceStatus.EnrollmentType == EnrollmentType.Renewal)
+                return PremiseVerificationResult.Success;
 
+            var texasService = location.Capabilities.OfType<TexasElectricity.ServiceCapability>().SingleOrDefault();
+            var customerType = location.Capabilities.OfType<CustomerTypeCapability>().Single();
+            
             if (texasService != null && texasService.EsiId == null)
                 return PremiseVerificationResult.Success;
             
@@ -238,7 +243,7 @@ namespace StreamEnergy.Services.Clients
 
         async Task<IConnectDatePolicy> IEnrollmentService.LoadConnectDates(Location location)
         {
-            if (location.Capabilities.OfType<TexasServiceCapability>().Any())
+            if (location.Capabilities.OfType<TexasElectricity.ServiceCapability>().Any())
                 return await LoadTexasConnectDates(location);
             else
                 throw new NotImplementedException();
@@ -246,7 +251,7 @@ namespace StreamEnergy.Services.Clients
 
         private async Task<IConnectDatePolicy> LoadTexasConnectDates(Location location)
         {
-            var texasService = location.Capabilities.OfType<TexasServiceCapability>().Single();
+            var texasService = location.Capabilities.OfType<TexasElectricity.ServiceCapability>().Single();
 
             var parameters = System.Web.HttpUtility.ParseQueryString("");
             parameters["Address.City"] = location.Address.City;
@@ -316,10 +321,10 @@ namespace StreamEnergy.Services.Clients
         {
             switch (offer.Offer.OfferType)
             {
-                case TexasElectricityOffer.Qualifier:
+                case TexasElectricity.Offer.Qualifier:
                     {
-                        var texasElectricityOffer = offer.Offer as TexasElectricityOffer;
-                        var texasService = service.Location.Capabilities.OfType<TexasServiceCapability>().Single();
+                        var texasElectricityOffer = offer.Offer as TexasElectricity.Offer;
+                        var texasService = service.Location.Capabilities.OfType<TexasElectricity.ServiceCapability>().Single();
                         var serviceStatus = service.Location.Capabilities.OfType<ServiceStatusCapability>().Single();
                         var customerType = service.Location.Capabilities.OfType<CustomerTypeCapability>().Single();
                         return new
@@ -341,7 +346,7 @@ namespace StreamEnergy.Services.Clients
                             Premise = new
                             {
                                 EnrollmentType = serviceStatus.EnrollmentType.ToString("g"),
-                                SelectedMoveInDate = (offer.OfferOption is TexasElectricityMoveInOfferOption) ? ((TexasElectricityMoveInOfferOption)offer.OfferOption).ConnectDate : DateTime.Now,
+                                SelectedMoveInDate = (offer.OfferOption is TexasElectricity.MoveInOfferOption) ? ((TexasElectricity.MoveInOfferOption)offer.OfferOption).ConnectDate : DateTime.Now,
                                 UtilityProvider = JObject.Parse(texasElectricityOffer.Provider),
                                 UtilityAccountNumber = texasService.EsiId,
                                 Product = new
@@ -355,10 +360,10 @@ namespace StreamEnergy.Services.Clients
                             }
                         };
                     }
-                case GeorgiaGasOffer.Qualifier:
+                case GeorgiaGas.Offer.Qualifier:
                     {
-                        var georgiaGasOffer = offer.Offer as GeorgiaGasOffer;
-                        var georgiaGasService = service.Location.Capabilities.OfType<GeorgiaGasServiceCapability>().Single();
+                        var georgiaGasOffer = offer.Offer as GeorgiaGas.Offer;
+                        var georgiaGasService = service.Location.Capabilities.OfType<GeorgiaGas.ServiceCapability>().Single();
                         var serviceStatus = service.Location.Capabilities.OfType<ServiceStatusCapability>().Single();
                         var customerType = service.Location.Capabilities.OfType<CustomerTypeCapability>().Single();
 
@@ -381,7 +386,7 @@ namespace StreamEnergy.Services.Clients
                             Premise = new
                             {
                                 EnrollmentType = serviceStatus.EnrollmentType.ToString("g"),
-                                SelectedMoveInDate = (offer.OfferOption is TexasElectricityMoveInOfferOption) ? ((TexasElectricityMoveInOfferOption)offer.OfferOption).ConnectDate : DateTime.Now,
+                                SelectedMoveInDate = (offer.OfferOption is TexasElectricity.MoveInOfferOption) ? ((TexasElectricity.MoveInOfferOption)offer.OfferOption).ConnectDate : DateTime.Now,
                                 UtilityProvider = JObject.Parse(georgiaGasOffer.Provider),
                                 UtilityAccountNumber = georgiaGasService.AglAccountNumber,
                                 Product = new
@@ -799,10 +804,10 @@ namespace StreamEnergy.Services.Clients
             string commodityType;
             string utilityAccountNumber;
 
-            if (location.Capabilities.OfType<TexasServiceCapability>().Any())
+            if (location.Capabilities.OfType<TexasElectricity.ServiceCapability>().Any())
             {
                 commodityType = "Electricity";
-                utilityAccountNumber = location.Capabilities.OfType<TexasServiceCapability>().First().EsiId;
+                utilityAccountNumber = location.Capabilities.OfType<TexasElectricity.ServiceCapability>().First().EsiId;
             }
             else
             {
@@ -851,6 +856,54 @@ namespace StreamEnergy.Services.Clients
                 default:
                     return Enumerable.Empty<KeyValuePair<string, bool>>();
             }
+        }
+
+
+        async Task<StreamAsync<RenewalResult>> IEnrollmentService.BeginRenewal(DomainModels.Accounts.Account account, DomainModels.Enrollments.Renewal.OfferOption renewalOptions)
+        {
+            var response = await streamConnectClient.PostAsJsonAsync("/api/v1/renewals", new
+                {
+                    SystemOfRecordAccountNumber = account.AccountNumber,
+                    ProductCode = (string)null, // TODO
+                    StartDate = renewalOptions.RenewalDate,
+                    CustomerLast4 = account.Details.SsnLastFour,
+                    SystemOfRecord = account.SystemOfRecord,
+                    ProductType = account.Details.ProductType,
+                    UtilityAccountNumber = (string)null, // TODO
+                    EmailAddress = account.Details.ContactInfo.Email == null ? null : account.Details.ContactInfo.Email.Address,
+                    ProviderId = (string)null, // TODO
+                });
+            response.EnsureSuccessStatusCode();
+
+            var asyncUrl = response.Headers.Location;
+            return new StreamAsync<RenewalResult>
+            {
+                IsCompleted = false,
+                ResponseLocation = asyncUrl
+            };
+        }
+
+        async Task<StreamAsync<RenewalResult>> IEnrollmentService.EndRenewal(StreamAsync<RenewalResult> asyncResult)
+        {
+            var response = await streamConnectClient.GetAsync(asyncResult.ResponseLocation);
+            if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+            {
+                return asyncResult;
+            }
+
+
+            asyncResult.IsCompleted = true;
+
+            dynamic jobject = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+
+            asyncResult.Data = new RenewalResult
+            {
+                IsSuccess = (string)jobject.RenewalDate == "Success",
+                RenewalDate = (DateTime)jobject.RenewalDate,
+                ContractStartDate = (DateTime)jobject.ContractStartDate,
+                ContractEndDate = (DateTime)jobject.ContractEndDate,
+            };
+            return asyncResult;
         }
     }
 }

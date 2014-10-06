@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StreamEnergy.DomainModels.Enrollments
+namespace StreamEnergy.DomainModels.Enrollments.TexasElectricity
 {
     [Serializable]
-    public class TexasElectricityOffer : IOffer
+    public class Offer : IOffer
     {
         public const string Qualifier = "TexasElectricity";
 
@@ -19,18 +19,18 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public string OfferType
         {
-            get { return TexasElectricityOffer.Qualifier; }
+            get { return Offer.Qualifier; }
         }
 
         public IOfferOptionPolicy GetOfferOptionPolicy(IUnityContainer container)
         {
             if (EnrollmentType == Enrollments.EnrollmentType.MoveIn)
             {
-                return container.Resolve<TexasElectricityMoveInOfferOptionPolicy>();
+                return container.Resolve<MoveInOfferOptionPolicy>();
             }
             else
             {
-                return container.Resolve<TexasElectricityOfferOptionPolicy>();
+                return container.Resolve<OfferOptionPolicy>();
             }
         }
 

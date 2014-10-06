@@ -15,8 +15,8 @@ namespace StreamEnergy.DomainModels
             unityContainer.Resolve<TypeIndicatorJsonConverter>().TypeIndicators.Add(new TypeIndicatorLookup<IServiceCapability, SampleServiceCapability>(sc => sc.CapabilityType)
             {
                 SupportedTypes = {
-                    { Enrollments.TexasServiceCapability.Qualifier, typeof(Enrollments.TexasServiceCapability) },
-                    { Enrollments.GeorgiaGasServiceCapability.Qualifier, typeof(Enrollments.GeorgiaGasServiceCapability) },
+                    { Enrollments.TexasElectricity.ServiceCapability.Qualifier, typeof(Enrollments.TexasElectricity.ServiceCapability) },
+                    { Enrollments.GeorgiaGas.ServiceCapability.Qualifier, typeof(Enrollments.GeorgiaGas.ServiceCapability) },
                     { Enrollments.ServiceStatusCapability.Qualifier, typeof(Enrollments.ServiceStatusCapability) },
                     { Enrollments.CustomerTypeCapability.Qualifier, typeof(Enrollments.CustomerTypeCapability) },
                 }
@@ -25,10 +25,11 @@ namespace StreamEnergy.DomainModels
             unityContainer.Resolve<TypeIndicatorJsonConverter>().TypeIndicators.Add(new TypeIndicatorLookup<Enrollments.IOfferOption, Enrollments.SampleOfferOption>(sc => sc.OptionType)
             {
                 SupportedTypes = {
-                    { Enrollments.TexasElectricityOfferOption.Qualifier, typeof(Enrollments.TexasElectricityOfferOption) },
-                    { Enrollments.TexasElectricityMoveInOfferOption.Qualifier, typeof(Enrollments.TexasElectricityMoveInOfferOption) },
-                    { Enrollments.TexasElectricityCommercialQuoteOptionRules.Qualifier, typeof(Enrollments.TexasElectricityCommercialQuoteOption) },
-                    { Enrollments.GeorgiaGasOfferOption.Qualifier, typeof(Enrollments.GeorgiaGasOfferOption) },
+                    { Enrollments.TexasElectricity.OfferOption.Qualifier, typeof(Enrollments.TexasElectricity.OfferOption) },
+                    { Enrollments.TexasElectricity.MoveInOfferOption.Qualifier, typeof(Enrollments.TexasElectricity.MoveInOfferOption) },
+                    { Enrollments.TexasElectricity.CommercialQuoteOptionRules.Qualifier, typeof(Enrollments.TexasElectricity.CommercialQuoteOption) },
+                    { Enrollments.GeorgiaGas.OfferOption.Qualifier, typeof(Enrollments.GeorgiaGas.OfferOption) },
+                    { Enrollments.Renewal.OfferOption.Qualifier, typeof(Enrollments.Renewal.OfferOption) },
                 }
             });
 

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using StreamEnergy.DomainModels;
 using StreamEnergy.DomainModels.Enrollments;
+using StreamEnergy.DomainModels.Enrollments.GeorgiaGas;
 using SmartyStreets = StreamEnergy.Services.Clients.SmartyStreets;
 
 namespace StreamEnergy.LuceneServices.IndexGeneration.Aglc
@@ -164,7 +165,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.Aglc
         {
             return new IServiceCapability[]
                 {
-                    new GeorgiaGasServiceCapability
+                    new ServiceCapability
                     {
                         AglAccountNumber = aglAccountNumber,
                         Zipcode = zipCode

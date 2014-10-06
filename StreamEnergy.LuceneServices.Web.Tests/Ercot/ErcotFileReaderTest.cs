@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StreamEnergy.DomainModels;
 using StreamEnergy.DomainModels.Enrollments;
+using StreamEnergy.DomainModels.Enrollments.TexasElectricity;
 using StreamEnergy.LuceneServices.IndexGeneration.Ercot;
 
 namespace StreamEnergy.LuceneServices.Web.Tests.Ercot
@@ -22,7 +23,7 @@ namespace StreamEnergy.LuceneServices.Web.Tests.Ercot
             {
                 // Act
                 var results = target.ReadZipFile(stream, "ONCOR");
-                var lookup = results.ToDictionary(loc => loc.Item2.OfType<TexasServiceCapability>().Single().EsiId, loc => StreamEnergy.LuceneServices.IndexGeneration.ErcotAddressReader.FromRecord(loc.Item1));
+                var lookup = results.ToDictionary(loc => loc.Item2.OfType<ServiceCapability>().Single().EsiId, loc => StreamEnergy.LuceneServices.IndexGeneration.ErcotAddressReader.FromRecord(loc.Item1));
 
                 // Assert
                 Assert.AreEqual(new Address { Line1 = "115 W ILLINOIS AVE", City = "DALLAS", StateAbbreviation = "TX", PostalCode5 = "75224", PostalCodePlus4 = "2216" }.ToSingleLine(), lookup["10443720001551003"].ToSingleLine());

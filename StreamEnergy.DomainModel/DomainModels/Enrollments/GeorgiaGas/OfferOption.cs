@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StreamEnergy.DomainModels.Enrollments
+namespace StreamEnergy.DomainModels.Enrollments.GeorgiaGas
 {
     [Serializable]
-    public class GeorgiaGasOfferOption : IOfferOption
+    public class OfferOption : IOfferOption
     {
         public const string Qualifier = "GeorgiaGas";
 
@@ -17,7 +17,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public virtual string OptionType
         {
-            get { return GeorgiaGasOfferOption.Qualifier; }
+            get { return OfferOption.Qualifier; }
         }
 
     }

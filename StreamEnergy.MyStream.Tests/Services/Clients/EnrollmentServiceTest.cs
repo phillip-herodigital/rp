@@ -52,7 +52,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                         Address = new DomainModels.Address { StateAbbreviation = "TX", PostalCode5 = "75010", },
                         Capabilities = new DomainModels.IServiceCapability[]
                         {
-                            new DomainModels.Enrollments.TexasServiceCapability { Tdu = "ONCOR" },
+                            new DomainModels.Enrollments.TexasElectricity.ServiceCapability { Tdu = "ONCOR" },
                             new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
                             new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
                         }
@@ -91,7 +91,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                         Address = new DomainModels.Address { StateAbbreviation = "TX", PostalCode5 = "75010", City = "Carrollton", Line1 = "3620 Huffines Blvd", Line2 = "APT 226" },
                         Capabilities = new DomainModels.IServiceCapability[]
                         {
-                            new DomainModels.Enrollments.TexasServiceCapability { Tdu = "ONCOR", EsiId = "10443720006102389" },
+                            new DomainModels.Enrollments.TexasElectricity.ServiceCapability { Tdu = "ONCOR", EsiId = "10443720006102389" },
                             new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
                             new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
                         }
@@ -128,7 +128,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                     Address = new DomainModels.Address { StateAbbreviation = "TX", PostalCode5 = "75010", City = "Carrollton", Line1 = "3620 Huffines Blvd", Line2 = "APT 226" },
                     Capabilities = new DomainModels.IServiceCapability[]
                     {
-                        new DomainModels.Enrollments.TexasServiceCapability { Tdu = "ONCOR", EsiId = "10443720006102389" },
+                        new DomainModels.Enrollments.TexasElectricity.ServiceCapability { Tdu = "ONCOR", EsiId = "10443720006102389" },
                         new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
                             new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
                     }
@@ -243,13 +243,13 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                 Address = new DomainModels.Address { StateAbbreviation = "TX", PostalCode5 = "75010", City = "Carrollton", Line1 = "3620 Huffines Blvd", Line2 = "APT 226" },
                 Capabilities = new DomainModels.IServiceCapability[]
                 {
-                    new DomainModels.Enrollments.TexasServiceCapability { Tdu = "ONCOR", EsiId = "10443720006102389" },
+                    new DomainModels.Enrollments.TexasElectricity.ServiceCapability { Tdu = "ONCOR", EsiId = "10443720006102389" },
                     new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
                     new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
                 }
             };
             var offers = enrollmentService.LoadOffers(new[] { location }).Result;
-            var texasElectricityOffer = offers.First().Value.Offers.First() as DomainModels.Enrollments.TexasElectricityOffer;
+            var texasElectricityOffer = offers.First().Value.Offers.First() as DomainModels.Enrollments.TexasElectricity.Offer;
             var userContext = new DomainModels.Enrollments.UserContext
             {
                 ContactInfo = new DomainModels.CustomerContact
@@ -273,7 +273,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                             new DomainModels.Enrollments.SelectedOffer
                             {
                                 Offer = texasElectricityOffer,
-                                OfferOption = new DomainModels.Enrollments.TexasElectricityMoveInOfferOption 
+                                OfferOption = new DomainModels.Enrollments.TexasElectricity.MoveInOfferOption 
                                 { 
                                     ConnectDate = DateTime.Today.AddDays(3),
                                 }
@@ -349,7 +349,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                     Address = new DomainModels.Address { StateAbbreviation = "TX", PostalCode5 = "75010", City = "Carrollton", Line1 = "3620 Huffines Blvd", Line2 = "APT 226" },
                     Capabilities = new DomainModels.IServiceCapability[]
                         {
-                            new DomainModels.Enrollments.TexasServiceCapability { Tdu = "ONCOR", EsiId = "10443720006102389" },
+                            new DomainModels.Enrollments.TexasElectricity.ServiceCapability { Tdu = "ONCOR", EsiId = "10443720006102389" },
                             new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
                             new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
                         }
@@ -404,13 +404,13 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                                     Address = new DomainModels.Address { Line1 = "3620 Huffines Blvd", City = "Carrollton", StateAbbreviation = "TX", PostalCode5 = "75010", },
                                     Capabilities = new DomainModels.IServiceCapability[]
                                     {
-                                        new DomainModels.Enrollments.TexasServiceCapability 
+                                        new DomainModels.Enrollments.TexasElectricity.ServiceCapability 
                                         { 
                                             Address = "03620     HUFFINES                    BLVD",
                                             AddressOverflow = "",
                                             City = "CARROLLTON",
                                             EsiId = "10443720006156949",
-                                            MeterType = DomainModels.Enrollments.TexasMeterType.Amsm,
+                                            MeterType = DomainModels.Enrollments.TexasElectricity.MeterType.Amsm,
                                             State = "TX",
                                             Tdu = "ONCOR ELEC",
                                             Zipcode = "750106446"
@@ -441,13 +441,13 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                         Address = new DomainModels.Address { StateAbbreviation = "TX", PostalCode5 = "75010", City = "Carrollton", Line1 = "3620 Huffines Blvd", Line2 = "APT 226" },
                         Capabilities = new DomainModels.IServiceCapability[]
                         {
-                            new DomainModels.Enrollments.TexasServiceCapability { Tdu = "ONCOR", EsiId = "10443720006102389" },
+                            new DomainModels.Enrollments.TexasElectricity.ServiceCapability { Tdu = "ONCOR", EsiId = "10443720006102389" },
                             new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
                             new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
                         }
                     };
             var offers = enrollmentService.LoadOffers(new[] { location }).Result;
-            var texasElectricityOffer = offers.First().Value.Offers.First() as DomainModels.Enrollments.TexasElectricityOffer;
+            var texasElectricityOffer = offers.First().Value.Offers.First() as DomainModels.Enrollments.TexasElectricity.Offer;
             var userContext = new DomainModels.Enrollments.UserContext
                 {
                     ContactInfo = new DomainModels.CustomerContact
@@ -471,7 +471,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                                 new DomainModels.Enrollments.SelectedOffer
                                 {
                                     Offer = texasElectricityOffer,
-                                    OfferOption = new DomainModels.Enrollments.TexasElectricityMoveInOfferOption 
+                                    OfferOption = new DomainModels.Enrollments.TexasElectricity.MoveInOfferOption 
                                     { 
                                         ConnectDate = DateTime.Today.AddDays(3),
                                     }
@@ -532,13 +532,13 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                 Address = new DomainModels.Address { StateAbbreviation = "TX", PostalCode5 = "75010", City = "Carrollton", Line1 = "3620 Huffines Blvd", Line2 = "APT 226" },
                 Capabilities = new DomainModels.IServiceCapability[]
                         {
-                            new DomainModels.Enrollments.TexasServiceCapability { Tdu = "ONCOR", EsiId = "10443720006102389" },
+                            new DomainModels.Enrollments.TexasElectricity.ServiceCapability { Tdu = "ONCOR", EsiId = "10443720006102389" },
                             new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
                             new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
                         }
             };
             var offers = enrollmentService.LoadOffers(new[] { location }).Result;
-            var texasElectricityOffer = offers.First().Value.Offers.First() as DomainModels.Enrollments.TexasElectricityOffer;
+            var texasElectricityOffer = offers.First().Value.Offers.First() as DomainModels.Enrollments.TexasElectricity.Offer;
             var userContext = new DomainModels.Enrollments.UserContext
             {
                 ContactInfo = new DomainModels.CustomerContact
@@ -562,7 +562,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                                 new DomainModels.Enrollments.SelectedOffer
                                 {
                                     Offer = texasElectricityOffer,
-                                    OfferOption = new DomainModels.Enrollments.TexasElectricityMoveInOfferOption 
+                                    OfferOption = new DomainModels.Enrollments.TexasElectricity.MoveInOfferOption 
                                     { 
                                         ConnectDate = DateTime.Today.AddDays(3),
                                     }
@@ -643,13 +643,13 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                 Address = new DomainModels.Address { StateAbbreviation = "TX", PostalCode5 = "75010", City = "Carrollton", Line1 = "3620 Huffines Blvd", Line2 = "APT 226" },
                 Capabilities = new DomainModels.IServiceCapability[]
                         {
-                            new DomainModels.Enrollments.TexasServiceCapability { Tdu = "ONCOR", EsiId = "10443720006102389" },
+                            new DomainModels.Enrollments.TexasElectricity.ServiceCapability { Tdu = "ONCOR", EsiId = "10443720006102389" },
                             new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
                             new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
                         }
             };
             var offers = enrollmentService.LoadOffers(new[] { location }).Result;
-            var texasElectricityOffer = offers.First().Value.Offers.First() as DomainModels.Enrollments.TexasElectricityOffer;
+            var texasElectricityOffer = offers.First().Value.Offers.First() as DomainModels.Enrollments.TexasElectricity.Offer;
             var userContext = new DomainModels.Enrollments.UserContext
             {
                 ContactInfo = new DomainModels.CustomerContact
@@ -673,7 +673,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                                 new DomainModels.Enrollments.SelectedOffer
                                 {
                                     Offer = texasElectricityOffer,
-                                    OfferOption = new DomainModels.Enrollments.TexasElectricityMoveInOfferOption 
+                                    OfferOption = new DomainModels.Enrollments.TexasElectricity.MoveInOfferOption 
                                     { 
                                         ConnectDate = DateTime.Today.AddDays(3),
                                     }
@@ -739,13 +739,13 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                 Address = new DomainModels.Address { StateAbbreviation = "TX", PostalCode5 = "75010", City = "Carrollton", Line1 = "3620 Huffines Blvd", Line2 = "APT 226" },
                 Capabilities = new DomainModels.IServiceCapability[]
                         {
-                            new DomainModels.Enrollments.TexasServiceCapability { Tdu = "ONCOR", EsiId = "10443720006102389" },
+                            new DomainModels.Enrollments.TexasElectricity.ServiceCapability { Tdu = "ONCOR", EsiId = "10443720006102389" },
                             new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
                             new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
                         }
             };
             var offers = enrollmentService.LoadOffers(new[] { location }).Result;
-            var texasElectricityOffer = offers.First().Value.Offers.First() as DomainModels.Enrollments.TexasElectricityOffer;
+            var texasElectricityOffer = offers.First().Value.Offers.First() as DomainModels.Enrollments.TexasElectricity.Offer;
             var userContext = new DomainModels.Enrollments.UserContext
             {
                 ContactInfo = new DomainModels.CustomerContact
@@ -769,7 +769,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                                 new DomainModels.Enrollments.SelectedOffer
                                 {
                                     Offer = texasElectricityOffer,
-                                    OfferOption = new DomainModels.Enrollments.TexasElectricityMoveInOfferOption 
+                                    OfferOption = new DomainModels.Enrollments.TexasElectricity.MoveInOfferOption 
                                     { 
                                         ConnectDate = DateTime.Today.AddDays(3),
                                     }
@@ -851,13 +851,13 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                 Address = new DomainModels.Address { StateAbbreviation = "TX", PostalCode5 = "75010", City = "Carrollton", Line1 = "3620 Huffines Blvd", Line2 = "APT 226" },
                 Capabilities = new DomainModels.IServiceCapability[]
                 {
-                    new DomainModels.Enrollments.TexasServiceCapability { Tdu = "ONCOR", EsiId = "10443720006102389" },
+                    new DomainModels.Enrollments.TexasElectricity.ServiceCapability { Tdu = "ONCOR", EsiId = "10443720006102389" },
                     new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
                     new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
                 }
             };
             var offers = enrollmentService.LoadOffers(new[] { location }).Result;
-            var texasElectricityOffer = offers.First().Value.Offers.First() as DomainModels.Enrollments.TexasElectricityOffer;
+            var texasElectricityOffer = offers.First().Value.Offers.First() as DomainModels.Enrollments.TexasElectricity.Offer;
             var userContext = new DomainModels.Enrollments.UserContext
             {
                 ContactInfo = new DomainModels.CustomerContact
@@ -881,7 +881,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                             new DomainModels.Enrollments.SelectedOffer
                             {
                                 Offer = texasElectricityOffer,
-                                OfferOption = new DomainModels.Enrollments.TexasElectricityMoveInOfferOption 
+                                OfferOption = new DomainModels.Enrollments.TexasElectricity.MoveInOfferOption 
                                 { 
                                     ConnectDate = DateTime.Today.AddDays(3),
                                 }
