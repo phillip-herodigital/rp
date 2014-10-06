@@ -6,6 +6,7 @@ ngApp.controller('AcctYourElectricityPlanCtrl', ['$scope', '$rootScope', '$http'
 	$scope.electricityPlan = {};
 
 	// when the account selector changes, reload the data
+	/*
 	$scope.$watch('selectedAccount.accountNumber', function(newVal) { 
 		if (newVal) {
 			$http({
@@ -19,5 +20,6 @@ ngApp.controller('AcctYourElectricityPlanCtrl', ['$scope', '$rootScope', '$http'
 				});
 		}
 	});
+	*/
 
 }]);

@@ -372,14 +372,16 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             {
                 ElectricityPlan = accountNumber == "1197015532" ? electricityPlan : null
             };
+
         }
 
         [HttpPost]
-        public GetGasPlanResponse GetGasPlan(GetUtiltiyPlansRequest request)
+        public async Task<GetGasPlanResponse> GetGasPlan(GetUtiltiyPlansRequest request)
         {
             var accountNumber = request.AccountNumber;
 
             // TODO get the plan info from Stream Connect
+            var account = await accountService.GetAccountDetails(request.AccountNumber);
 
             var gasPlan = new UtilityPlan
             {
@@ -396,7 +398,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             return new GetGasPlanResponse
             {
-                GasPlan = accountNumber == "07644559" ? gasPlan : null
+                GasPlan =  gasPlan
             };
         }
 
@@ -527,8 +529,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [HttpGet]
         public async Task<IEnumerable<AccountSummary>> GetAccounts()
         {
-            // TODO add sub accounts here
-
             currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
             var summary = currentUser.Accounts.Select(acct => new AccountSummary(acct));
 
