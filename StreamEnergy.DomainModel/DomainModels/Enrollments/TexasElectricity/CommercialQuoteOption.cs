@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace StreamEnergy.DomainModels.Enrollments
+namespace StreamEnergy.DomainModels.Enrollments.TexasElectricity
 {
     [Serializable]
-    public class TexasElectricityCommercialQuoteOption : TexasElectricityOfferOption
+    public class CommercialQuoteOption : OfferOption
     {
         public new const string Qualifier = "TexasElectricityCommercialQuote";
 
@@ -19,7 +19,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         {
             get
             {
-                return TexasElectricityCommercialQuoteOption.Qualifier;
+                return CommercialQuoteOption.Qualifier;
             }
         }
     }

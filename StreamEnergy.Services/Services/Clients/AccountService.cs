@@ -421,7 +421,8 @@ namespace StreamEnergy.Services.Clients
                     PostalCode5 = data.AccountDetails.BillingAddress.Zip,
                     StateAbbreviation = data.AccountDetails.BillingAddress.State,
                 },
-                SsnLastFour = ((object)data.AccountDetails.AccountCustomer.CustomerLast4).ToString().PadLeft(4, '0')
+                SsnLastFour = ((object)data.AccountDetails.AccountCustomer.CustomerLast4).ToString().PadLeft(4, '0'),
+                ProductType = data.AccountDetails.ProductType,
                 // TODO - are there other parts that belong here?
             };
             account.Balance = new AccountBalance
@@ -454,7 +455,7 @@ namespace StreamEnergy.Services.Clients
                         return new GeorgiaGasAccount
                         {
                             Id = details.UtilityAccountNumber,
-                            ServiceAddress = serviceAddress
+                            ServiceAddress = serviceAddress,
                         };
                     }
                     else

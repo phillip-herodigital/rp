@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StreamEnergy.DomainModels.Enrollments
+namespace StreamEnergy.DomainModels.Enrollments.GeorgiaGas
 {
     [Serializable]
-    public class GeorgiaGasServiceCapability : IServiceCapability, ISearchable
+    public class ServiceCapability : IServiceCapability, ISearchable
     {
         public const string Qualifier = "GeorgiaGas";
 
@@ -27,7 +27,7 @@ namespace StreamEnergy.DomainModels.Enrollments
                 return false;
             }
 
-            return AglAccountNumber == ((GeorgiaGasServiceCapability)obj).AglAccountNumber;
+            return AglAccountNumber == ((ServiceCapability)obj).AglAccountNumber;
         }
 
         public override int GetHashCode()

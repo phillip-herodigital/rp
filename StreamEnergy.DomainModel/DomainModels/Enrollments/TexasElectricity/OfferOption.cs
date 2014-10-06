@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using ResponsivePath.Validation;
 
-namespace StreamEnergy.DomainModels.Enrollments
+namespace StreamEnergy.DomainModels.Enrollments.TexasElectricity
 {
     [Serializable]
-    public class TexasElectricityOfferOption : IOfferOption
+    public class OfferOption : IOfferOption
     {
         public const string Qualifier = "TexasElectricity";
 
@@ -18,7 +18,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public virtual string OptionType
         {
-            get { return TexasElectricityOfferOption.Qualifier; }
+            get { return OfferOption.Qualifier; }
         }
 
     }

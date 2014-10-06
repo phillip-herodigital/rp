@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using StreamEnergy.DomainModels.Enrollments.TexasElectricity;
 using SmartyStreets = StreamEnergy.Services.Clients.SmartyStreets;
 
 namespace StreamEnergy.LuceneServices.IndexGeneration.Ercot
@@ -72,7 +73,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.Ercot
                         {
                             if (!zipCodes.ContainsKey(loc.Item1.Address.PostalCode5))
                             {
-                                zipCodes.Add(loc.Item1.Address.PostalCode5, new DomainModels.Enrollments.TexasServiceCapability { Tdu = tduName, MeterType = DomainModels.Enrollments.TexasMeterType.Other });
+                                zipCodes.Add(loc.Item1.Address.PostalCode5, new ServiceCapability { Tdu = tduName, MeterType = MeterType.Other });
                             }
                             taskQueue.Enqueue(indexBuilder.WriteLocation(loc.Item1, loc.Item2, tdu.Key, isFresh));
                             if (taskQueue.Count >= maxTasks)

@@ -4,20 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StreamEnergy.DomainModels.Enrollments
+namespace StreamEnergy.DomainModels.Enrollments.TexasElectricity
 {
-    class TexasElectricityCommercialQuoteOptionPolicy : IOfferOptionPolicy
+    class CommercialQuoteOptionPolicy : IOfferOptionPolicy
     {
         private readonly IEnrollmentService enrollmentService;
 
-        public TexasElectricityCommercialQuoteOptionPolicy(IEnrollmentService enrollmentService)
+        public CommercialQuoteOptionPolicy(IEnrollmentService enrollmentService)
         {
             this.enrollmentService = enrollmentService;
         }
 
         public bool AcceptsOptions(IOfferOption offerOption)
         {
-            return offerOption is TexasElectricityCommercialQuoteOption;
+            return offerOption is CommercialQuoteOption;
         }
 
         public async Task<IOfferOptionRules> GetOptionRules(Location location, IOffer offer)
@@ -29,7 +29,7 @@ namespace StreamEnergy.DomainModels.Enrollments
                 policy = await enrollmentService.LoadConnectDates(location);
             }
 
-            return new TexasElectricityCommercialQuoteOptionRules
+            return new CommercialQuoteOptionRules
             {
                 ConnectDates = policy,
             };

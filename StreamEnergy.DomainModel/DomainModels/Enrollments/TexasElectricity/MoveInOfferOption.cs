@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StreamEnergy.DomainModels.Enrollments
+namespace StreamEnergy.DomainModels.Enrollments.TexasElectricity
 {
     [Serializable]
-    public class TexasElectricityMoveInOfferOption : TexasElectricityOfferOption
+    public class MoveInOfferOption : OfferOption
     {
         public new const string Qualifier = "TexasElectricityMoveIn";
         
@@ -18,7 +18,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public override string OptionType
         {
-            get { return TexasElectricityMoveInOfferOption.Qualifier; }
+            get { return MoveInOfferOption.Qualifier; }
         }
 
     }

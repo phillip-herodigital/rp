@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StreamEnergy.DomainModels;
 using StreamEnergy.DomainModels.Enrollments;
+using StreamEnergy.DomainModels.Enrollments.TexasElectricity;
 using StreamEnergy.LuceneServices.IndexGeneration;
 using StreamEnergy.LuceneServices.IndexGeneration.Ercot;
 using StreamEnergy.LuceneServices.Web.Models;
@@ -73,7 +74,7 @@ namespace StreamEnergy.LuceneServices.Web.Tests.Ercot
 
         private static Dictionary<string, string> PerformSearch(string query)
         {
-            return searcher.Search("TX", EnrollmentCustomerType.Residential, query).ToDictionary(loc => loc.Capabilities.OfType<TexasServiceCapability>().Single().EsiId, loc => loc.Address.ToSingleLine());
+            return searcher.Search("TX", EnrollmentCustomerType.Residential, query).ToDictionary(loc => loc.Capabilities.OfType<ServiceCapability>().Single().EsiId, loc => loc.Address.ToSingleLine());
         }
 
         [TestMethod]

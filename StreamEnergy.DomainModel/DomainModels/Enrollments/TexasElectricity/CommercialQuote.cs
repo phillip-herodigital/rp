@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
 
-namespace StreamEnergy.DomainModels.Enrollments
+namespace StreamEnergy.DomainModels.Enrollments.TexasElectricity
 {
     [Serializable]
-    public class TexasElectricityCommercialQuote : IOffer
+    public class CommercialQuote : IOffer
     {
         public const string Qualifier = "TexasElectricityCommercialQuote";
         
@@ -34,7 +34,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public IOfferOptionPolicy GetOfferOptionPolicy(IUnityContainer container)
         {
-            return container.Resolve<TexasElectricityCommercialQuoteOptionPolicy>();
+            return container.Resolve<CommercialQuoteOptionPolicy>();
         }
     }
 }

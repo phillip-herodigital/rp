@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StreamEnergy.DomainModels.Enrollments
+namespace StreamEnergy.DomainModels.Enrollments.TexasElectricity
 {
     [Serializable]
-    public class TexasServiceCapability : IServiceCapability, ISearchable
+    public class ServiceCapability : IServiceCapability, ISearchable
     {
         public const string Qualifier = "TexasElectricity";
 
@@ -20,8 +20,8 @@ namespace StreamEnergy.DomainModels.Enrollments
         public string Tdu { get; set; }
 
         [Newtonsoft.Json.JsonProperty(DefaultValueHandling = Newtonsoft.Json.DefaultValueHandling.IgnoreAndPopulate)]
-        [System.ComponentModel.DefaultValue(TexasMeterType.Other)]
-        public TexasMeterType MeterType { get; set; }
+        [System.ComponentModel.DefaultValue(MeterType.Other)]
+        public MeterType MeterType { get; set; }
 
         string ISearchable.GetUniqueField()
         {
@@ -35,7 +35,7 @@ namespace StreamEnergy.DomainModels.Enrollments
                 return false;
             }
 
-            return EsiId == ((TexasServiceCapability)obj).EsiId && Tdu == ((TexasServiceCapability)obj).Tdu;
+            return EsiId == ((ServiceCapability)obj).EsiId && Tdu == ((ServiceCapability)obj).Tdu;
         }
 
         public override int GetHashCode()
