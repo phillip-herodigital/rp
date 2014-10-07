@@ -569,6 +569,8 @@
     <Compile Include="Models\Account\GetCurrentInvoicesResponse.cs" />
     <Compile Include="Models\Account\GetEnrolledAccountsResponse.cs" />
     <Compile Include="Models\Account\GetGasPlanResponse.cs" />
+    <Compile Include="Models\Account\GetInvoicePdfRequest.cs" />
+    <Compile Include="Models\Account\GetInvoicePdfResponse.cs" />
     <Compile Include="Models\Account\GetInvoicesResponse.cs" />
     <Compile Include="Models\Account\GetNotificationSettingsRequest.cs" />
     <Compile Include="Models\Account\GetNotificationSettingsResponse.cs" />

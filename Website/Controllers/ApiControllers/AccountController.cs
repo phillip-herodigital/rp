@@ -187,11 +187,25 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                  CanRequestExtension = account.GetCapability<InvoiceExtensionAccountCapability>().CanRequestExtension,
                                  Actions = 
                                  {
-                                     { "viewPdf", "http://.../" }
+                                     { "viewPdf", "" }
                                  }
                              }
                 }
             };
+        }
+
+        [HttpPost]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
+        public async Task<GetInvoicePdfResponse> GetInvoicePdf (GetInvoicePdfRequest request)
+        {
+            var account = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
+            var invoice = account.Invoices.FirstOrDefault(inv => inv.InvoiceNumber == request.InvoiceNumber);
+            var url = await accountService.GetInvoicePdf(account, invoice);
+            return new GetInvoicePdfResponse
+            {
+                InvoicePdfUrl = url.OriginalString
+            };
+                
         }
 
         #endregion
@@ -372,14 +386,18 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             {
                 ElectricityPlan = accountNumber == "1197015532" ? electricityPlan : null
             };
+
         }
 
         [HttpPost]
-        public GetGasPlanResponse GetGasPlan(GetUtiltiyPlansRequest request)
+        public async Task<GetGasPlanResponse> GetGasPlan(GetUtiltiyPlansRequest request)
         {
             var accountNumber = request.AccountNumber;
 
             // TODO get the plan info from Stream Connect
+            currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
+            var account = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
+            var accountDetails = await accountService.GetAccountDetails(account, false);
 
             var gasPlan = new UtilityPlan
             {
@@ -396,7 +414,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             return new GetGasPlanResponse
             {
-                GasPlan = accountNumber == "07644559" ? gasPlan : null
+                GasPlan =  gasPlan
             };
         }
 
@@ -527,8 +545,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [HttpGet]
         public async Task<IEnumerable<AccountSummary>> GetAccounts()
         {
-            // TODO add sub accounts here
-
             currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
             var summary = currentUser.Accounts.Select(acct => new AccountSummary(acct));
 
@@ -551,7 +567,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             serviceAddress.StateAbbreviation = "TX";
             serviceAddress.PostalCode5 = "75001";
 
-            var account = await accountService.GetAccountDetails(request.AccountNumber);
+            currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
+            var account = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
+            var accountDetails = await accountService.GetAccountDetails(account, false);
             var mobilePhone = account.Details.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Mobile).FirstOrDefault();
             var homePhone = account.Details.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Home).FirstOrDefault();
             

@@ -1,7 +1,7 @@
 /* My Invoices Controller
  *
  */
-ngApp.controller('AcctMyInvoicesCtrl', ['$scope', '$rootScope', '$http', '$filter', 'jQuery', function ($scope, $rootScope, $http, $filter, jQuery) {
+ngApp.controller('AcctMyInvoicesCtrl', ['$scope', '$rootScope', '$http', '$filter', '$window', 'jQuery', function ($scope, $rootScope, $http, $filter, $window, jQuery) {
     // create a blank object to hold the information
     $scope.invoicesTable = {};
     $scope.invoicesTable.columnList = [];
@@ -39,6 +39,17 @@ ngApp.controller('AcctMyInvoicesCtrl', ['$scope', '$rootScope', '$http', '$filte
 
     $scope.isFiltered = function() {
         return !jQuery.isEmptyObject($scope.filters);
+    }
+
+    $scope.getInvoicePdf = function(accountNumber, invoiceNumber) {
+        $http.post('/api/account/getInvoicePdf', {
+            accountNumber: accountNumber,
+            invoiceNumber: invoiceNumber
+        }).success(function (data) {
+            if (data) {
+                $window.location.href = data.invoicePdfUrl;
+            } 
+        });
     }
 
     // watches

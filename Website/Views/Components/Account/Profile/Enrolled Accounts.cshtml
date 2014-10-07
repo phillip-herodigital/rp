@@ -20,7 +20,7 @@
                 <tr ng-repeat="account in formData.enrolledAccounts">
                     <td data-title="Account">{{ account.accountNumber }}</td>
                     <td>
-                        <button class="secondary" ng-click="open(account.accountNumber, account.streamConnectAccountId)">@Html.Sitecore().Field("Remove Button Text")</button>
+                        <button ng-if="formData.enrolledAccounts.length > 1" class="secondary" ng-click="open(account.accountNumber, account.streamConnectAccountId)">@Html.Sitecore().Field("Remove Button Text")</button>
                         @*<button class="secondary" ng-show="account.sendLetter" ng-click="sendLetter(account.accountNumber)">@Html.Sitecore().Field("Send Letter Button Text")</button>*@
                     </td>
                 </tr>
