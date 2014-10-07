@@ -21,36 +21,39 @@ namespace StreamEnergy.DomainModels.Enrollments
         public override IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations(UserContext data, InternalContext internalContext)
         {
             yield return context => context.Services;
-            yield return context => context.ContactInfo;
-            yield return context => context.Language;
-            yield return context => context.SecondaryContactInfo;
-            yield return context => context.SocialSecurityNumber;
-            yield return context => context.TaxId;
-            yield return context => context.ContactTitle;
-            yield return context => context.DoingBusinessAs;
-            yield return context => context.PreferredSalesExecutive;
-            yield return context => context.OnlineAccount;
-            yield return context => context.MailingAddress;
-            if (data.Services.SelectMany(svc => svc.Location.Capabilities).OfType<ServiceStatusCapability>().Any(cap => cap.EnrollmentType == EnrollmentType.MoveIn) && data.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType != EnrollmentCustomerType.Commercial))
+            if (!data.IsRenewal)
             {
-                yield return context => context.PreviousAddress;
+                yield return context => context.ContactInfo;
+                yield return context => context.Language;
+                yield return context => context.SecondaryContactInfo;
+                yield return context => context.SocialSecurityNumber;
+                yield return context => context.TaxId;
+                yield return context => context.ContactTitle;
+                yield return context => context.DoingBusinessAs;
+                yield return context => context.PreferredSalesExecutive;
+                yield return context => context.OnlineAccount;
+                yield return context => context.MailingAddress;
+                if (data.Services.SelectMany(svc => svc.Location.Capabilities).OfType<ServiceStatusCapability>().Any(cap => cap.EnrollmentType == EnrollmentType.MoveIn) && data.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType != EnrollmentCustomerType.Commercial))
+                {
+                    yield return context => context.PreviousAddress;
+                }
             }
         }
 
         protected override async Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
         {
-            if (!internalContext.EnrollmentSaveState.IsCompleted)
+            if (!context.IsRenewal && !internalContext.EnrollmentSaveState.IsCompleted)
             {
                 internalContext.EnrollmentSaveState = await enrollmentService.EndSaveEnrollment(internalContext.EnrollmentSaveState, context);
             }
 
-            if (!internalContext.EnrollmentSaveState.IsCompleted)
+            if (!context.IsRenewal && !internalContext.EnrollmentSaveState.IsCompleted)
             {
                 return this.GetType();
             }
             else
             {
-                if (internalContext.EnrollmentSaveState.Data == null)
+                if (!context.IsRenewal && internalContext.EnrollmentSaveState.Data == null)
                 {
                     // some kind of enrollment error
                     return typeof(EnrollmentErrorState);
@@ -61,7 +64,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public override bool ForceBreak(UserContext context, InternalContext internalContext)
         {
-            return !internalContext.EnrollmentSaveState.IsCompleted;
+            return !context.IsRenewal && !internalContext.EnrollmentSaveState.IsCompleted;
         }
     }
 }

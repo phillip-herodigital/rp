@@ -1603,7 +1603,7 @@ namespace StreamEnergy.MyStream.Tests
                     }
                 }
             };
-            session.State = typeof(DomainModels.Enrollments.LoadDespositInfoState);
+            session.State = typeof(DomainModels.Enrollments.AccountInformationState);
             var request = new Models.Enrollment.AccountInformation
             {
                 Cart = new[] 

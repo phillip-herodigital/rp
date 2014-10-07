@@ -33,5 +33,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         public StreamAsync<CreditCheckResult> CreditCheck { get; set; }
 
         public NameValueCollection EnrollmentDpiParameters { get; set; }
+
+        public StreamAsync<RenewalResult> RenewalResult { get; set; }
     }
 }

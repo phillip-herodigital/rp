@@ -54,7 +54,24 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         protected override async Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
         {
-            if (!context.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType == EnrollmentCustomerType.Commercial))
+            if (context.IsRenewal)
+            {
+                var svc = context.Services.Single().SelectedOffers.Single();
+                if (internalContext.RenewalResult == null)
+                {
+                    internalContext.RenewalResult = await enrollmentService.BeginRenewal((svc.Offer as Enrollments.Renewal.Offer).RenewingAccount, (svc.OfferOption as Enrollments.Renewal.OfferOption));
+                    return this.GetType();
+                }
+                else
+                {
+                    internalContext.RenewalResult = await enrollmentService.EndRenewal(internalContext.RenewalResult);
+                    if (!internalContext.RenewalResult.IsCompleted)
+                    {
+                        return this.GetType();
+                    }
+                }
+            }
+            else if (!context.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType == EnrollmentCustomerType.Commercial))
             {
                 internalContext.PlaceOrderResult = (await enrollmentService.PlaceOrder(internalContext.GlobalCustomerId, context.Services, internalContext.EnrollmentSaveState.Data, context.AdditionalAuthorizations)).ToArray();
 
@@ -88,6 +105,16 @@ namespace StreamEnergy.DomainModels.Enrollments
             }
 
             return await base.InternalProcess(context, internalContext);
+        }
+
+        public override bool ForceBreak(UserContext context, InternalContext internalContext)
+        {
+            if (context.IsRenewal && !internalContext.RenewalResult.IsCompleted)
+            {
+                return true;
+            }
+
+            return base.ForceBreak(context, internalContext);
         }
     }
 }

@@ -61,17 +61,24 @@ namespace StreamEnergy.DomainModels.Enrollments
 
             }
 
-            if (internalContext.EnrollmentSaveState == null)
+            if (context.IsRenewal)
             {
-                if (internalContext.GlobalCustomerId == Guid.Empty)
-                {
-                    internalContext.GlobalCustomerId = await accountService.CreateStreamConnectCustomer(email: context.ContactInfo.Email.Address);
-                }
-                internalContext.EnrollmentSaveState = await enrollmentService.BeginSaveEnrollment(internalContext.GlobalCustomerId, context, internalContext.EnrollmentDpiParameters);
+                // no need to save this here
             }
             else
             {
-                internalContext.EnrollmentSaveState = await enrollmentService.BeginSaveUpdateEnrollment(internalContext.GlobalCustomerId, internalContext.EnrollmentSaveState.Data, context, internalContext.EnrollmentDpiParameters, internalContext.Deposit);
+                if (internalContext.EnrollmentSaveState == null)
+                {
+                    if (internalContext.GlobalCustomerId == Guid.Empty)
+                    {
+                        internalContext.GlobalCustomerId = await accountService.CreateStreamConnectCustomer(email: context.ContactInfo.Email.Address);
+                    }
+                    internalContext.EnrollmentSaveState = await enrollmentService.BeginSaveEnrollment(internalContext.GlobalCustomerId, context, internalContext.EnrollmentDpiParameters);
+                }
+                else
+                {
+                    internalContext.EnrollmentSaveState = await enrollmentService.BeginSaveUpdateEnrollment(internalContext.GlobalCustomerId, internalContext.EnrollmentSaveState.Data, context, internalContext.EnrollmentDpiParameters, internalContext.Deposit);
+                }
             }
 
             return await base.InternalProcess(context, internalContext);
