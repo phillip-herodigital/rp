@@ -24,7 +24,14 @@ namespace StreamEnergy.DomainModels.Enrollments.GeorgiaGas
 
         public IOfferOptionPolicy GetOfferOptionPolicy(IUnityContainer container)
         {
-            return container.Resolve<OfferOptionPolicy>();
+            if (EnrollmentType == Enrollments.EnrollmentType.MoveIn)
+            {
+                return container.Resolve<MoveInOfferOptionPolicy>();
+            }
+            else
+            {
+                return container.Resolve<OfferOptionPolicy>();
+            }
         }
 
         public EnrollmentType EnrollmentType { get; set; }
