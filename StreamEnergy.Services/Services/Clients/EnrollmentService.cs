@@ -363,9 +363,12 @@ namespace StreamEnergy.Services.Clients
                     return null;
                 };
 
+            // Note - updates are being applied to the same location if the offer types match.
+            // If there is an offer type where we can have multiple at a single location,
+            // this logic will need to change again.
             var request = (from service in context.Services
                            from offer in service.SelectedOffers
-                           let previousSaveId = enrollmentSaveResult.Results.Where(r => r.Offer.Id == offer.Offer.Id && r.Location == service.Location).Select(r => (Guid?)r.Details.GlobalEnrollmentAccountId).FirstOrDefault()
+                           let previousSaveId = enrollmentSaveResult.Results.Where(r => r.Location == service.Location && r.Offer.GetType() == offer.Offer.GetType()).Select(r => (Guid?)r.Details.GlobalEnrollmentAccountId).FirstOrDefault()
                            select ToEnrollmentAccount(globalCustomerId, context, service, offer, salesInfo, previousSaveId ?? Guid.Empty, findOfferPayment(service, offer))).ToArray();
             var response = await streamConnectClient.PutAsJsonAsync("/api/v1/customers/" + globalCustomerId.ToString() + "/enrollments", request);
             response.EnsureSuccessStatusCode();
