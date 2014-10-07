@@ -182,7 +182,9 @@
     </Compile>
     <Compile Include="Services\Clients\AccountFactory.cs" />
     <Compile Include="Services\Clients\AccountService.cs" />
+    <Compile Include="Services\Clients\GeorgiaEnrollmentAdapter.cs" />
     <Compile Include="Services\Clients\HttpMessageLogger.cs" />
+    <Compile Include="Services\Clients\IEnrollmentLocationAdapter.cs" />
     <Compile Include="Services\Clients\ISitecoreProductData.cs" />
     <Compile Include="Services\Clients\IPdfGenerationService.cs" />
     <Compile Include="Services\Clients\PaymentService.cs" />
@@ -229,6 +231,7 @@
     <Compile Include="Services\Clients\PdfGenerationService.cs" />
     <Compile Include="Services\Clients\TemperatureService.cs" />
     <Compile Include="Services\Clients\ITemperatureService.cs" />
+    <Compile Include="Services\Clients\TexasEnrollmentAdapter.cs" />
     <Compile Include="Services\HttpConverter.cs" />
     <Compile Include="Services\SoapConverter.cs" />
     <Compile Include="Services\ThirdPartyServiceContainerSetup.cs" />

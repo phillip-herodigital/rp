@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
+using StreamEnergy.Services.Clients;
 
 namespace StreamEnergy.Services
 {
@@ -19,6 +20,12 @@ namespace StreamEnergy.Services
             unityContainer.RegisterType<StreamEnergyBilling.IstaTokenization.IDpiTokenService>(new InjectionFactory(uc => new StreamEnergyBilling.IstaTokenization.DpiTokenServiceClient()));
             unityContainer.RegisterType<Interpreters.IDpiEnrollmentParameters, Interpreters.DpiEnrollmentParameters>();
             unityContainer.RegisterType<Clients.ISitecoreProductData, Clients.SitecoreProductData>();
+
+            unityContainer.RegisterType<ISet<IEnrollmentLocationAdapter>>(new ContainerControlledLifetimeManager(), new InjectionFactory(uc => new HashSet<IEnrollmentLocationAdapter>
+                {
+                    uc.Resolve<TexasEnrollmentAdapter>(),
+                    uc.Resolve<GeorgiaEnrollmentAdapter>(),
+                }));
         }
     }
 }
