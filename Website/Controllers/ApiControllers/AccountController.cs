@@ -187,11 +187,25 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                  CanRequestExtension = account.GetCapability<InvoiceExtensionAccountCapability>().CanRequestExtension,
                                  Actions = 
                                  {
-                                     { "viewPdf", "http://.../" }
+                                     { "viewPdf", "" }
                                  }
                              }
                 }
             };
+        }
+
+        [HttpPost]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
+        public async Task<GetInvoicePdfResponse> GetInvoicePdf (GetInvoicePdfRequest request)
+        {
+            var account = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
+            var invoice = account.Invoices.FirstOrDefault(inv => inv.InvoiceNumber == request.InvoiceNumber);
+            var url = await accountService.GetInvoicePdf(account, invoice);
+            return new GetInvoicePdfResponse
+            {
+                InvoicePdfUrl = url.OriginalString
+            };
+                
         }
 
         #endregion
