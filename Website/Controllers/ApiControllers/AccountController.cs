@@ -187,25 +187,41 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                  CanRequestExtension = account.GetCapability<InvoiceExtensionAccountCapability>().CanRequestExtension,
                                  Actions = 
                                  {
-                                     { "viewPdf", "" }
+                                     { "viewPdf", "/api/account/invoicePdf?account="+account.AccountNumber+"&invoice=" + invoice.InvoiceNumber }
                                  }
                              }
                 }
             };
         }
 
-        [HttpPost]
+        [Authorize]
+        [HttpGet]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
-        public async Task<GetInvoicePdfResponse> GetInvoicePdf (GetInvoicePdfRequest request)
+        public async Task<HttpResponseMessage> InvoicePdf(string account, string invoice)
         {
-            var account = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
-            var invoice = account.Invoices.FirstOrDefault(inv => inv.InvoiceNumber == request.InvoiceNumber);
-            var url = await accountService.GetInvoicePdf(account, invoice);
-            return new GetInvoicePdfResponse
+            currentUser.Accounts = await accountService.GetInvoices(currentUser.StreamConnectCustomerId, currentUser.Accounts);
+
+            var chosenAccount = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == account);
+            var chosenInvoice = chosenAccount.Invoices.FirstOrDefault(inv => inv.InvoiceNumber == invoice);
+            var url = await accountService.GetInvoicePdf(chosenAccount, chosenInvoice);
+
+            HttpClient client = new HttpClient();
+            var response = await client.GetAsync(url);
+
+            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+            result.Content = new StreamContent(await response.Content.ReadAsStreamAsync())
             {
-                InvoicePdfUrl = url.OriginalString
+                Headers = 
+                {
+                    ContentType = response.Content.Headers.ContentType,
+                    ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment")
+                    {
+                        FileName = "invoice" + invoice + ".pdf"
+                    }
+                }
             };
-                
+
+            return result;                
         }
 
         #endregion

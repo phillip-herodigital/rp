@@ -35,7 +35,7 @@ namespace StreamEnergy.Services.Clients
             return from dynamic entry in (JArray)result.PaymentMethods
                    select new SavedPaymentInfo
                    {
-                       Id = new Guid(entry.GlobalPaymentMethodId),
+                       Id = Guid.Parse(entry.GlobalPaymentMethodId.ToString()),
                        DisplayName = entry.PaymentMethodNickname,
                        UnderlyingPaymentType = entry.PaymentAccountType,
                    };
@@ -54,7 +54,7 @@ namespace StreamEnergy.Services.Clients
 
             if (result.Status == "Success")
             {
-                return new Guid(result.GlobalPaymentMethodId);
+                return Guid.Parse(result.GlobalPaymentMethodId.ToString());
             }
             return Guid.Empty;
         }

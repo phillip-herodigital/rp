@@ -41,17 +41,6 @@ ngApp.controller('AcctMyInvoicesCtrl', ['$scope', '$rootScope', '$http', '$filte
         return !jQuery.isEmptyObject($scope.filters);
     }
 
-    $scope.getInvoicePdf = function(accountNumber, invoiceNumber) {
-        $http.post('/api/account/getInvoicePdf', {
-            accountNumber: accountNumber,
-            invoiceNumber: invoiceNumber
-        }).success(function (data) {
-            if (data) {
-                $window.location.href = data.invoicePdfUrl;
-            } 
-        });
-    }
-
     // watches
     $scope.$watch('filters', function(newVal, oldVal) {
         $scope.filters = $filter('removeNullProps')($scope.filters);

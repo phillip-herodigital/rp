@@ -50,7 +50,7 @@
                             <td ng-show="showColumn('invoiceAmount')">{{ item.invoiceAmount }}</td>
                             <td ng-show="showColumn('dueDate')">{{ item.dueDate }}</td>
                             <td ng-show="showColumn('action')">
-                                <button class="secondary" ng-click="getInvoicePdf(item.accountNumber, item.invoiceNumber)">@Html.Sitecore().Field("View PDF Text")</button>
+                                <a class="button secondary" ng-if="item.actions.viewPdf" ng-href="{{item.actions.viewPdf}}">@Html.Sitecore().Field("View PDF Text")</a>
                                 <button class="submit" ng-show="!item.isPaid">@Html.Sitecore().Field("Pay Text")</button>
                                 <div class="request-extension" ng-show="item.canRequestExtension"><a href="#">@Html.Sitecore().Field("Request Extension Text")</a></div>
                             </td>
