@@ -187,6 +187,12 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                    }
                }).contains(tdu);
         },
+        cartHasTxLocation: function () {
+            return _(services)
+               .map(function (l) {
+                   return l.location.address.stateAbbreviation;
+               }).contains('TX');
+        },
         locationHasService: function (location) {
             if (!location.offerInformationByType)
                 return false;
