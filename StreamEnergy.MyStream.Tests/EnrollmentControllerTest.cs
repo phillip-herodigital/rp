@@ -401,6 +401,22 @@ namespace StreamEnergy.MyStream.Tests
             })));
             mockEnrollmentService.Setup(m => m.LoadConnectDates(It.IsAny<Location>())).Returns(Task.FromResult<IConnectDatePolicy>(new ConnectDatePolicy() { AvailableConnectDates = new ConnectDate[] { } }));
 
+            mockEnrollmentService.Setup(m => m.BeginRenewal(It.IsAny<DomainModels.Accounts.Account>(), It.IsAny<DomainModels.Enrollments.Renewal.OfferOption>()))
+                .Returns(Task.FromResult(new StreamAsync<DomainModels.Enrollments.RenewalResult>()
+                {
+                    IsCompleted = false
+                }));
+            mockEnrollmentService.Setup(m => m.EndRenewal(It.IsAny<StreamAsync<DomainModels.Enrollments.RenewalResult>>()))
+                .Returns(Task.FromResult(new StreamAsync<DomainModels.Enrollments.RenewalResult>()
+                {
+                    Data = new DomainModels.Enrollments.RenewalResult
+                    {
+                        ConfirmationNumber = "88664422",
+                        IsSuccess = true
+                    },
+                    IsCompleted = true
+                }));
+            
         }
 
         #region General
@@ -1718,7 +1734,7 @@ namespace StreamEnergy.MyStream.Tests
 
                 // Assert
                 Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.OrderConfirmed, result.ExpectedState);
-                Assert.AreEqual("87654321", result.Cart.Single().OfferInformationByType.First(e => e.Key == Renewal.Offer.Qualifier).Value.OfferSelections.Single().ConfirmationNumber);
+                Assert.AreEqual("88664422", result.Cart.Single().OfferInformationByType.First(e => e.Key == Renewal.Offer.Qualifier).Value.OfferSelections.Single().ConfirmationNumber);
             }
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.OrderConfirmationState), session.State);

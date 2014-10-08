@@ -15,5 +15,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         public DateTime ContractStartDate { get; set; }
 
         public DateTime ContractEndDate { get; set; }
+
+        public string ConfirmationNumber { get; set; }
     }
 }
