@@ -42,7 +42,8 @@ namespace StreamEnergy.DomainModels.Enrollments.GeorgiaGas
 
         public RateType RateType { get; set; }
         public decimal Rate { get; set; }
-        public decimal CancellationFee { get; set; }
+        public string CancellationFee { get; set; }
+        public string MonthlyServiceCharge { get; set; }
         public int TermMonths { get; set; }
 
         public Dictionary<string, Uri> Documents { get; set; }

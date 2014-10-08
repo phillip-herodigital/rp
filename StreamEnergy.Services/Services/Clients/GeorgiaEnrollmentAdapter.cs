@@ -91,13 +91,16 @@ namespace StreamEnergy.Services.Clients
                               Rate = product.Rates.First(r => r.EnergyType == "Average").Value * 100,
                               TermMonths = product.Term,
                               RateType = product.Rates.Any(r => r.Type == "Fixed") ? RateType.Fixed : RateType.Variable,
-                              CancellationFee = product.Fees.Where(fee => fee.Name == "Early Termination Fee").Select(fee => fee.Amount).FirstOrDefault(),
+                              CancellationFee = productData.Fields["Early Termination Fee"],
+                              MonthlyServiceCharge = productData.Fields["Monthly Service Charge"],
 
                               Footnotes = productData.Footnotes,
 
                               Documents = new Dictionary<string, Uri>
                               {
-                                  // TODO
+                                  { "GasFactsLabel", new Uri(productData.Fields["Energy Facts Label"], UriKind.Relative) },
+                                  { "TermsOfService", new Uri(productData.Fields["Terms Of Service"], UriKind.Relative) },
+                                  { "YourRightsAsACustomer", new Uri(productData.Fields["Your Rights As A Customer"], UriKind.Relative) },
                               }
                           }).ToArray()
             };

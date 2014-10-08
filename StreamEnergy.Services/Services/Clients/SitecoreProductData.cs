@@ -80,13 +80,17 @@ namespace StreamEnergy.Services.Clients
                 {
                     return new SitecoreProductInfo
                     {
-                        // TODO
                         Fields = new NameValueCollection
                         {
                             { "Name", item["Product Name"] },
                             { "Description", item["Product Description"] },
+                            { "Monthly Service Charge", item["Monthly Service Charge"] },
+                            { "Early Termination Fee", item["Early Termination Fee"] },
+                            { "Energy Facts Label", ((Sitecore.Data.Fields.FileField)item.Fields["Energy Facts Label"]).Src },
+                            { "Terms Of Service", ((Sitecore.Data.Fields.FileField)item.Fields["Terms Of Service"]).Src },
+                            { "Your Rights As A Customer", ((Sitecore.Data.Fields.FileField)item.Fields["Your Rights As A Customer"]).Src },
                         },
-                        Footnotes = LoadFootnotes(new[] { item }, new string[] { }).ToArray()
+                        Footnotes = LoadFootnotes(new[] { item }, new[] { "Rate Footnote", "Term Footnote", "Early Termination Fee Footnote" }).ToArray()
                     };
                 }
             }

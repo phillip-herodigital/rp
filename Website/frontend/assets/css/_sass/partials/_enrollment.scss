@@ -663,7 +663,10 @@ $enrollment-module-vertical-padding: 20px;
                     }
                     p {
                         font-size: 15px;
-                    }   
+                    }
+                    .plan-footnote {
+                        clear: both;
+                    }
                 }
             }
             &.isOpen {
