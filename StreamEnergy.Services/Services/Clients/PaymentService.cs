@@ -32,13 +32,14 @@ namespace StreamEnergy.Services.Clients
             response.EnsureSuccessStatusCode();
             dynamic result = Json.Read<JObject>(await response.Content.ReadAsStringAsync());
 
-            return from dynamic entry in (JArray)result.PaymentMethods
-                   select new SavedPaymentInfo
-                   {
-                       Id = Guid.Parse(entry.GlobalPaymentMethodId.ToString()),
-                       DisplayName = entry.PaymentMethodNickname,
-                       UnderlyingPaymentType = entry.PaymentAccountType,
-                   };
+            return (from dynamic entry in (JArray)result.PaymentMethods
+                    select new SavedPaymentInfo
+                    {
+                        Id = Guid.Parse(entry.GlobalPaymentMethodId.ToString()),
+                        RedactedData = "********" + entry.PaymentAccountNumberLast4,
+                        DisplayName = entry.PaymentMethodNickname,
+                        UnderlyingPaymentType = entry.PaymentAccountType,
+                    }).ToArray();
         }
 
         async Task<Guid> IPaymentService.SavePaymentMethod(Guid globalCustomerId, IPaymentInfo paymentInfo, string displayName)

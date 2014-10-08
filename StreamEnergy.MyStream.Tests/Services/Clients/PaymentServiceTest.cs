@@ -41,12 +41,22 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
             StreamEnergy.DomainModels.Payments.IPaymentService paymentService = container.Resolve<StreamEnergy.Services.Clients.PaymentService>();
             var customerId = accountService.CreateStreamConnectCustomer().Result;
+            var result = paymentService.SavePaymentMethod(customerId, new DomainModels.Payments.TokenizedCard
+            {
+                CardToken = "9442268296134448",
+                BillingZipCode = "75201",
+                ExpirationDate = DateTime.Today.AddDays(60),
+                SecurityCode = "123"
+            }, "Test Card").Result;
 
             // Act
             var paymentMethods = paymentService.GetSavedPaymentMethods(customerId).Result;
 
             // Assert
-            Assert.Inconclusive();
+            Assert.IsTrue(paymentMethods.Any());
+            Assert.IsTrue(paymentMethods.Single().RedactedData.StartsWith("***"));
+            Assert.AreEqual("Test Card", paymentMethods.Single().DisplayName);
+            Assert.IsTrue(paymentMethods.Single().RedactedData.Reverse().Take(4).All(c => c >= '0' && c <= '9'));
         }
 
         [TestMethod]
