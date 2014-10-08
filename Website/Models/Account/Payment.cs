@@ -29,7 +29,7 @@ namespace StreamEnergy.MyStream.Models.Account
         public string PaymentAmount { get; set; }
 
         [ColumnSchema("Payment Date")]
-        public string PaymentDate { get; set; }
+        public DateTime PaymentDate { get; set; }
 
         [ColumnSchema("Status")]
         public string Status { get; set; }
