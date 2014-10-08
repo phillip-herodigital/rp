@@ -8,7 +8,7 @@ using StreamEnergy.DomainModels.Accounts.Create;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
-    class PlaceOrderState : StateBase<UserContext, InternalContext>
+    public class PlaceOrderState : StateBase<UserContext, InternalContext>
     {
         private readonly MembershipBuilder membership;
         private readonly IEnrollmentService enrollmentService;

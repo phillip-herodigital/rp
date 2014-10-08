@@ -117,7 +117,9 @@ namespace StreamEnergy.Processes
             state.Sanitize(Context, InternalContext);
             var validations = new HashSet<ValidationResult>(validationService.PartialValidate(Context, state.PreconditionValidations(Context, InternalContext).ToArray()));
 
-            return validations.Concat(state.AdditionalValidations(Context, InternalContext)).Where(v => !state.IgnoreValidation(v, Context, InternalContext)).ToArray();
+            var result = validations.Concat(state.AdditionalValidations(Context, InternalContext)).Where(v => !state.IgnoreValidation(v, Context, InternalContext)).ToArray();
+
+            return result;
         }
 
     }

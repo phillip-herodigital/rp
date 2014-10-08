@@ -113,6 +113,35 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         [TestMethod]
         [TestCategory("StreamConnect")]
         [TestCategory("StreamConnect Enrollments")]
+        [TestCategory("StreamConnect Georgia Enrollments")]
+        public void GetMoveInDatesTest()
+        {
+            // Assign
+            StreamEnergy.DomainModels.Enrollments.IEnrollmentService enrollmentService = container.Resolve<StreamEnergy.Services.Clients.EnrollmentService>();
+
+            // Act
+            DomainModels.Enrollments.IConnectDatePolicy connectDates;
+            using (new Timer())
+            {
+                connectDates = enrollmentService.LoadConnectDates(new DomainModels.Enrollments.Location
+                {
+                    Address = new DomainModels.Address { StateAbbreviation = "GA", PostalCode5 = "30342", City = "Atlanta", Line1 = "3 The Croft", Line2 = "3 Lot" },
+                    Capabilities = new DomainModels.IServiceCapability[]
+                        {
+                            new DomainModels.Enrollments.GeorgiaGas.ServiceCapability { Zipcode = "30342", AglAccountNumber = "0715818330" },
+                            new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
+                            new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
+                        }
+                }).Result;
+            }
+
+            // Assert
+            Assert.IsTrue(connectDates.AvailableConnectDates.Any());
+        }
+
+        [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Enrollments")]
         public void PostVerificationsIdTest()
         {
             // Assign

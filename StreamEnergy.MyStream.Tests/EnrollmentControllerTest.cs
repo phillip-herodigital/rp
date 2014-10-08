@@ -1709,15 +1709,8 @@ namespace StreamEnergy.MyStream.Tests
             {
                 AllOffers = offers,
                 IdentityCheck = null,
-                EnrollmentSaveState = new StreamAsync<DomainModels.Enrollments.Service.EnrollmentSaveResult>
-                {
-                    IsCompleted = true,
-                    Data = new DomainModels.Enrollments.Service.EnrollmentSaveResult
-                    {
-                        Results = new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.EnrollmentSaveEntry>[0]
-                    }
-                },
-                Deposit = new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>[0],
+                EnrollmentSaveState = null,
+                Deposit = null,
             };
             session.State = typeof(DomainModels.Enrollments.CompleteOrderState);
             var request = new Models.Enrollment.ConfirmOrder
@@ -1733,13 +1726,84 @@ namespace StreamEnergy.MyStream.Tests
                 var result = controller.ConfirmOrder(request).Result;
 
                 // Assert
+                Assert.AreEqual(true, result.IsLoading);
+            }
+
+            Assert.IsNotNull(session.InternalContext.RenewalResult);
+            Assert.IsFalse(session.InternalContext.RenewalResult.IsCompleted);
+            Assert.AreEqual(typeof(DomainModels.Enrollments.PlaceOrderState), session.State);
+        }
+
+        [TestMethod]
+        public void PostRenewalResumeConfirmOrderTest()
+        {
+            // Arrange
+            var offers = new Dictionary<Location, LocationOfferSet> 
+                { 
+                    { 
+                        specificRenewalLocation, new LocationOfferSet 
+                        { 
+                            Offers = new IOffer[]
+                            {
+                                new DomainModels.Enrollments.Renewal.Offer 
+                                { 
+                                    RenewingAccount = new DomainModels.Accounts.Account(Guid.Empty, Guid.Empty)
+                                } 
+                            }
+                        } 
+                    }
+                };
+            var session = container.Resolve<EnrollmentController.SessionHelper>();
+            session.EnsureInitialized().Wait();
+            session.Context = new UserContext
+            {
+                AdditionalAuthorizations = new Dictionary<AdditionalAuthorization,bool>(),
+                IsRenewal = true,
+                Services = new[]
+                { 
+                    new LocationServices
+                    {
+                        Location = specificRenewalLocation,
+                        SelectedOffers = new SelectedOffer[] 
+                        { 
+                            new SelectedOffer 
+                            { 
+                                Offer = offers[specificRenewalLocation].Offers.First(),
+                                OfferOption = renewalOption
+                            }
+                        }
+                    }
+                },
+                AgreeToTerms = true
+            };
+            session.InternalContext = new InternalContext
+            {
+                AllOffers = offers,
+                IdentityCheck = null,
+                EnrollmentSaveState = null,
+                Deposit = null,
+                RenewalResult = new StreamAsync<RenewalResult>
+                {
+                    IsCompleted = false
+                }
+            };
+            session.State = typeof(DomainModels.Enrollments.PlaceOrderState);
+
+            using (var controller = container.Resolve<EnrollmentController>())
+            {
+                controller.Initialize().Wait();
+
+                // Act
+                var result = controller.Resume().Result;
+
+                // Assert
+                Assert.AreEqual(false, result.IsLoading);
                 Assert.AreEqual(MyStream.Models.Enrollment.ExpectedState.OrderConfirmed, result.ExpectedState);
                 Assert.AreEqual("88664422", result.Cart.Single().OfferInformationByType.First(e => e.Key == Renewal.Offer.Qualifier).Value.OfferSelections.Single().ConfirmationNumber);
             }
 
             Assert.AreEqual(typeof(DomainModels.Enrollments.OrderConfirmationState), session.State);
         }
-
         #endregion
     }
 }

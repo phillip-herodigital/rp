@@ -79,67 +79,18 @@ namespace StreamEnergy.Services.Clients
             return new Uri((string)data.Uri + "?" + sharedAccessSignature);
         }
 
-        Task<IEnumerable<Account>> IAccountService.GetCurrentInvoices(Guid globalCustomerId)
-        {
-            // TODO - load from Stream Commons
-            return Task.FromResult<IEnumerable<Account>>(new[] {
-                new Account(globalCustomerId, Guid.Empty) {
-                    AccountNumber = "1234567890", 
-                    CurrentInvoice = new Invoice { DueDate = DateTime.Today.AddDays(2), InvoiceAmount = 73.05m, InvoiceNumber="" },
-                    Capabilities = { 
-                        new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = true }  , 
-                        new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } }
-                    }
-                },
-                new Account(globalCustomerId, Guid.Empty) {
-                    AccountNumber = "5678901234",
-                    CurrentInvoice = new Invoice { DueDate = DateTime.Today.AddDays(12), InvoiceAmount = 24.95m, InvoiceNumber="" }, 
-                    Capabilities = { 
-                        new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = true } , 
-                        new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } } 
-                    } 
-                },
-                new Account(globalCustomerId, Guid.Empty) { 
-                    AccountNumber = "2345060992", 
-                    CurrentInvoice = new Invoice { DueDate = DateTime.Today.AddDays(19), InvoiceAmount = 54.05m, InvoiceNumber="" }, 
-                    Capabilities = { 
-                        new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = false }, 
-                        new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } } 
-                    } 
-                },
-                new Account(globalCustomerId, Guid.Empty) {
-                    AccountNumber = "3429500293",
-                    CurrentInvoice = new Invoice { DueDate = DateTime.Today.AddDays(29), InvoiceAmount = 36.00m, InvoiceNumber="" }, 
-                    Capabilities = { 
-                        new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = true } ,
-                        new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } } 
-                    } 
-                },
-            });
-        }
-
         async Task<IEnumerable<Account>> IAccountService.GetAccountBalances(Guid globalCustomerId, IEnumerable<Account> existingAccountObjects, bool forceRefresh)
         {
             var service = ((IAccountService)this);
-            return await Task.WhenAll((from account in existingAccountObjects ?? await service.GetAccounts(globalCustomerId)
-                                       where account.Balance == null || forceRefresh
-                                       select service.GetAccountDetails(account, true).ContinueWith(t => account)).ToArray());
-        }
-
-        Task<Account> IAccountService.GetCurrentInvoice(string accountNumber)
-        {
-            // TODO - load from Stream Commons
-            return Task.FromResult<Account>(
-                new Account(Guid.Empty, Guid.Empty)
-                {
-                    AccountNumber = accountNumber,
-                    CurrentInvoice = new Invoice { DueDate = DateTime.Today.AddDays(2), InvoiceAmount = 123.45m, InvoiceNumber="" },
-                    Capabilities = { 
-                        new PaymentSchedulingAccountCapability { CanMakeOneTimePayment = true }, 
-                        new PaymentMethodAccountCapability { AvailablePaymentMethods = { new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } } }
-                    }
-                }
-            );
+            List<Account> results = new List<Account>();
+            foreach (var entry in from account in existingAccountObjects ?? await service.GetAccounts(globalCustomerId)
+                                  where account.Balance == null || forceRefresh
+                                  select new { service, account })
+            {
+                await service.GetAccountDetails(entry.account, true).ConfigureAwait(false);
+                results.Add(entry.account);
+            }
+            return results.ToArray();
         }
 
         string IAccountService.GetIgniteAssociateFromCustomerNumber(string Auth_ID, string Auth_PW, string customerNumber)
@@ -435,6 +386,21 @@ namespace StreamEnergy.Services.Clients
                 // TODO - should support multiple
                 CreateSubAccount(data.AccountDetails)
             };
+            account.Capabilities.RemoveAll(cap => cap is ExternalPaymentAccountCapability || cap is PaymentMethodAccountCapability || cap is PaymentSchedulingAccountCapability);
+            account.Capabilities.Add(new ExternalPaymentAccountCapability
+            {
+                UtilityProvider = data.AccountDetails.ProviderId,
+            });
+            account.Capabilities.Add(new PaymentMethodAccountCapability
+            {
+                // TODO
+                AvailablePaymentMethods = { }
+            });
+            account.Capabilities.Add(new PaymentSchedulingAccountCapability
+            {
+                // TODO
+                CanMakeOneTimePayment = true
+            });
         }
 
         private static ISubAccount CreateSubAccount(dynamic details)

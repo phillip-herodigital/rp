@@ -19,9 +19,9 @@ namespace StreamEnergy.MyStream.Controllers.Components
         #region Child Actions
 
         [ChildActionOnly]
-        public ActionResult GetCurrentInvoices()
+        public ActionResult GetAccountBalances()
         {
-            return this.Content(StreamEnergy.Json.Stringify(inner.GetCurrentInvoices().Result));
+            return this.Content(StreamEnergy.Json.Stringify(inner.GetAccountBalances().Result));
         }
 
         [ChildActionOnly]
