@@ -30,11 +30,13 @@
                     @Html.TextBoxFor(m => m.SsnLast4, new { ng_model = "formData.ssnLast4", data_val_if="formData.ssnLast4" })
                     @Html.ValidationMessageFor(model => model.SsnLast4)
                 </div>
+                @*
                 <div class="item" @Html.Validation().ErrorClass(model => model.AccountNickname) float-label>
                     <label for="@Html.IdFor(m => m.AccountNickname)">@Html.Sitecore().Field("Account Nickname Text")</label>
                     @Html.TextBoxFor(m => m.AccountNickname, new { ng_model = "formData.accountNickname", data_val_if = "formData.accountNickname" })
                     @Html.ValidationMessageFor(model => model.AccountNickname)
                 </div>
+                *@
             </div>
 
         <footer>
