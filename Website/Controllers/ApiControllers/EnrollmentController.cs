@@ -121,6 +121,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var optionRules = stateMachine.InternalContext.OfferOptionRules ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<IOfferOptionRules>>();
             var deposits = stateMachine.InternalContext.Deposit ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>>();
             var confirmations = stateMachine.InternalContext.PlaceOrderResult ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>();
+            var renewalConfirmations = stateMachine.InternalContext.RenewalResult != null ? stateMachine.InternalContext.RenewalResult.Data : new RenewalResult();
             var standardValidation = (currentFinalStates.Contains(stateMachine.State) ? Enumerable.Empty<ValidationResult>() : stateMachine.ValidationResults);
             IEnumerable<ValidationResult> supplementalValidation;
             var expectedState = ExpectedState(out supplementalValidation);
@@ -130,7 +131,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             bool isLoading = (stateMachine.InternalContext.IdentityCheck != null && !stateMachine.InternalContext.IdentityCheck.IsCompleted)
                 || (stateMachine.InternalContext.CreditCheck != null && !stateMachine.InternalContext.CreditCheck.IsCompleted)
-                || (stateMachine.InternalContext.EnrollmentSaveState != null && !stateMachine.InternalContext.EnrollmentSaveState.IsCompleted);
+                || (stateMachine.InternalContext.EnrollmentSaveState != null && !stateMachine.InternalContext.EnrollmentSaveState.IsCompleted)
+                || (stateMachine.InternalContext.RenewalResult != null && !stateMachine.InternalContext.RenewalResult.IsCompleted);
 
             return new ClientData
             {
@@ -166,8 +168,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                                                                OfferOption = selectedOffer.OfferOption,
                                                                                OptionRules = optionRules.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details).FirstOrDefault(),
                                                                                Payments = deposits.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details).SingleOrDefault(),
-                                                                               ConfirmationSuccess = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details.IsSuccess).SingleOrDefault(),
+                                                                               ConfirmationSuccess = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details.IsSuccess).SingleOrDefault()
+                                                                                    || renewalConfirmations.IsSuccess,
                                                                                ConfirmationNumber = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details.ConfirmationNumber).SingleOrDefault()
+                                                                                    ?? renewalConfirmations.ConfirmationNumber
                                                                            },
                                                          Errors = (from entry in locationOfferSet.OfferSetErrors
                                                                    where entry.Key == offerType
