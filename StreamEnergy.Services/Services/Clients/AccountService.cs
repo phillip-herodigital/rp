@@ -87,7 +87,7 @@ namespace StreamEnergy.Services.Clients
                                   where account.Balance == null || forceRefresh
                                   select new { service, account })
             {
-                await service.GetAccountDetails(entry.account, true).ConfigureAwait(false);
+                await service.GetAccountDetails(entry.account, true);
                 results.Add(entry.account);
             }
             return results.ToArray();

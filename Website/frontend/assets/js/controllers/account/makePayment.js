@@ -4,11 +4,20 @@
 ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', '$q', function ($scope, $rootScope, $http, $modal, $q) {
 
     var ctrl = this;
-    this.invoices = null;
-    this.paymentMethods = null;
     this.selectedAccounts = [];
     this.total = 0;
     this.overriddenWarnings = [];
+    this.loading = 2;
+
+    $http.get('/api/account/getAccountBalances').success(function (data) {
+        ctrl.loading--;
+        ctrl.invoices = data.accounts;
+        console.log(ctrl.invoices);
+    });
+    $http.get('/api/account/getSavedPaymentMethods').success(function (data) {
+        ctrl.loading--;
+        ctrl.paymentMethods = data;
+    });
 
     this.paymentMethod = function () {
         if (ctrl.useNewPaymentMethod) {
@@ -59,7 +68,9 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
         });
     };
 
-    $scope.$watch(function () { return _.pluck(ctrl.invoices.values, 'selected'); }, function (newValue) {
+    $scope.$watch(function () { return ctrl.invoices ? _.pluck(ctrl.invoices.values, 'selected') : null; }, function (newValue) {
+        if (!ctrl.invoices)
+            return false;
         ctrl.selectedAccounts = _.where(ctrl.invoices.values, { 'selected': true, 'canMakeOneTimePayment': true });
         ctrl.total = _.reduce(ctrl.selectedAccounts, function (a, b) { return a + parseFloat(b.invoiceAmount); }, 0);
         ctrl.paymentAmount = ctrl.total;
