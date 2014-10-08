@@ -183,7 +183,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                  ServiceType = account.AccountType,
                                  InvoiceNumber = invoice.InvoiceNumber,
                                  InvoiceAmount = invoice.InvoiceAmount.ToString("0.00"),
-                                 DueDate = invoice.DueDate.ToShortDateString(),
+                                 DueDate = invoice.DueDate,
                                  CanRequestExtension = account.GetCapability<InvoiceExtensionAccountCapability>().CanRequestExtension,
                                  Actions = 
                                  {
@@ -361,7 +361,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                 ServiceType = account.AccountType,
                                 PaymentMadeBy = payment.CustomerName,
                                 PaymentAmount = payment.PaymentAmount.ToString("0.00"),
-                                PaymentDate = payment.PaidDate.ToShortDateString(),
+                                PaymentDate = payment.PaidDate,
                                 PaymentID = payment.PaymentId,
                                 Actions = 
                                 {

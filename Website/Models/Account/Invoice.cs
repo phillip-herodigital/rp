@@ -26,7 +26,7 @@ namespace StreamEnergy.MyStream.Models.Account
         public string InvoiceAmount { get; set; }
 
         [ColumnSchema("Due Date")]
-        public string DueDate { get; set; }
+        public DateTime DueDate { get; set; }
 
         [ColumnSchema("Action")]
         public Dictionary<string, string> Actions { get; private set; }
