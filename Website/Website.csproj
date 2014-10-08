@@ -566,7 +566,6 @@
     <Compile Include="Models\Account\GetAccountInformationResponse.cs" />
     <Compile Include="Models\Account\GetEnergyUsageRequest.cs" />
     <Compile Include="Models\Account\GetEnergyUsageResponse.cs" />
-    <Compile Include="Models\Account\GetCurrentInvoicesResponse.cs" />
     <Compile Include="Models\Account\GetEnrolledAccountsResponse.cs" />
     <Compile Include="Models\Account\GetGasPlanResponse.cs" />
     <Compile Include="Models\Account\GetInvoicePdfRequest.cs" />

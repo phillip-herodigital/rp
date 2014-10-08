@@ -10,10 +10,8 @@ namespace StreamEnergy.DomainModels.Accounts
     public interface IAccountService
     {
         Task<IEnumerable<Account>> GetInvoices(Guid globalCustomerId, IEnumerable<Account> existingAccountObjects = null);
-        Task<IEnumerable<Account>> GetCurrentInvoices(Guid globalCustomerId);
         Task<Uri> GetInvoicePdf(Account account, Invoice invoice);
         Task<IEnumerable<Account>> GetAccountBalances(Guid globalCustomerId, IEnumerable<Account> existingAccountObjects = null, bool forceRefresh = false);
-        Task<Account> GetCurrentInvoice(string accountNumber);
 
         string GetIgniteAssociateFromCustomerNumber(string Auth_ID, string Auth_PW, string customerNumber);
 

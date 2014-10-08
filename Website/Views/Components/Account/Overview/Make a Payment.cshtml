@@ -1,5 +1,5 @@
 ﻿@model StreamEnergy.MyStream.Models.Account.MakeMultiplePaymentsRequest
-<article class="grey-box make-payment" ng-controller="MakePaymentCtrl as ctrl" ng-init="ctrl.invoices = (@(Html.Action("GetCurrentInvoices", "Account").ToHtmlString())).accounts; ctrl.paymentMethods = @(Html.Action("GetSavedPaymentMethods", "Account").ToHtmlString());">  
+<article class="grey-box make-payment" ng-controller="MakePaymentCtrl as ctrl" ng-init="ctrl.invoices = (@(Html.Action("GetAccountBalances", "Account").ToHtmlString())).accounts; ctrl.paymentMethods = @(Html.Action("GetSavedPaymentMethods", "Account").ToHtmlString());">  
     <header>
         <h2>@Html.Sitecore().Field("Make Payment Text")</h2>
     </header>

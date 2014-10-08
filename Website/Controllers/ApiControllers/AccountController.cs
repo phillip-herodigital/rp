@@ -82,23 +82,27 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public async Task<GetAccountBalancesResponse> GetAccountBalances()
         {
-            currentUser.Accounts = await accountService.GetAccountBalances(currentUser.StreamConnectCustomerId);
+            currentUser.Accounts = await accountService.GetAccountBalances(currentUser.StreamConnectCustomerId).ConfigureAwait(false);
 
             return new GetAccountBalancesResponse
             {
-                Accounts = from account in currentUser.Accounts
-                           let paymentScheduling = account.GetCapability<PaymentSchedulingAccountCapability>()
-                           let paymentMethods = account.GetCapability<PaymentMethodAccountCapability>()
-                           let externalPayment = account.GetCapability<ExternalPaymentAccountCapability>()
-                           select new AccountToPay
-                           {
-                               AccountNumber = account.AccountNumber,
-                               AccountBalance = account.Balance.Balance,
-                               DueDate = account.Balance.DueDate.ToShortDateString(),
-                               UtilityProvider = externalPayment.UtilityProvider,
-                               CanMakeOneTimePayment = paymentScheduling.CanMakeOneTimePayment,
-                               AvailablePaymentMethods = paymentMethods.AvailablePaymentMethods.ToArray(),
-                           }
+                Accounts = new Table<AccountToPay>
+                {
+                    ColumnList = typeof(AccountToPay).BuildTableSchema(database.GetItem("/sitecore/content/Data/Components/Account/Overview/Make a Payment")),
+                    Values = from account in currentUser.Accounts
+                             let paymentScheduling = account.GetCapability<PaymentSchedulingAccountCapability>()
+                             let paymentMethods = account.GetCapability<PaymentMethodAccountCapability>()
+                             let externalPayment = account.GetCapability<ExternalPaymentAccountCapability>()
+                             select new AccountToPay
+                             {
+                                 AccountNumber = account.AccountNumber,
+                                 AccountBalance = account.Balance.Balance,
+                                 DueDate = account.Balance.DueDate.ToShortDateString(),
+                                 UtilityProvider = externalPayment.UtilityProvider,
+                                 CanMakeOneTimePayment = paymentScheduling.CanMakeOneTimePayment,
+                                 AvailablePaymentMethods = paymentMethods.AvailablePaymentMethods.ToArray(),
+                             }
+                }
             };
         }
 
@@ -228,36 +232,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         #region Make a Payment section
 
-        [HttpGet]
-        [Caching.CacheControl(MaxAgeInMinutes = 0)]
-        public async Task<GetCurrentInvoicesResponse> GetCurrentInvoices()
-        {
-            var accounts = await accountService.GetCurrentInvoices(currentUser.StreamConnectCustomerId);
-
-            return new GetCurrentInvoicesResponse
-            {
-                Accounts = new Table<AccountToPay>
-                {
-                    ColumnList = typeof(AccountToPay).BuildTableSchema(database.GetItem("/sitecore/content/Data/Components/Account/Overview/Make a Payment")),
-                    Values = from account in accounts
-                             let paymentScheduling = account.GetCapability<PaymentSchedulingAccountCapability>()
-                             let paymentMethods = account.GetCapability<PaymentMethodAccountCapability>()
-                             select new AccountToPay
-                             {
-                                 AccountNumber = account.AccountNumber,
-                                 InvoiceAmount = account.CurrentInvoice.InvoiceAmount.ToString("0.00"),
-                                 DueDate = account.CurrentInvoice.DueDate.ToShortDateString(),
-                                 CanMakeOneTimePayment = paymentScheduling.CanMakeOneTimePayment,
-                                 // TODO - scheduling restrictions
-                                 AvailablePaymentMethods = paymentMethods.AvailablePaymentMethods.ToArray(),
-                                 Actions = 
-                                 {
-                                     { "viewPdf", "http://.../" }
-                                 }
-                             }
-                }
-            };
-        }
 
         [HttpPost]
         public async Task<MakeMultiplePaymentsResponse> MakeMultiplePayments(MakeMultiplePaymentsRequest request)
@@ -270,13 +244,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     Validations = TranslatedValidationResult.Translate(ModelState, validationItem),
                 };
             }
-            var accounts = (await accountService.GetCurrentInvoices(currentUser.StreamConnectCustomerId))
+            currentUser.Accounts = await accountService.GetAccountBalances(currentUser.StreamConnectCustomerId, currentUser.Accounts);
+            var accounts = currentUser.Accounts
                 .Where(account => request.AccountNumbers.Contains(account.AccountNumber)).ToArray();
 
             Dictionary<Account, decimal> paymentAmounts;
             if (accounts.Length > 1)
             {
-                if (accounts.Sum(account => account.CurrentInvoice.InvoiceAmount) != request.TotalPaymentAmount)
+                if (accounts.Sum(account => account.Balance.Balance) != request.TotalPaymentAmount)
                 {
                     return new MakeMultiplePaymentsResponse
                     {
@@ -284,13 +259,13 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         Validations = new[] { new TranslatedValidationResult { MemberName = "TotalPaymentAmount", Text = "TODO" } }
                     };
                 }
-                paymentAmounts = accounts.ToDictionary(acct => acct, acct => acct.CurrentInvoice.InvoiceAmount);
+                paymentAmounts = accounts.ToDictionary(acct => acct, acct => acct.Balance.Balance);
             }
             else
             {
                 // one account
                 var account = accounts.Single();
-                if (account.CurrentInvoice.InvoiceAmount * 3 <= request.TotalPaymentAmount && !request.OverrideWarnings.Contains("Overpayment"))
+                if (account.Balance.Balance * 3 <= request.TotalPaymentAmount && !request.OverrideWarnings.Contains("Overpayment"))
                 {
                     return new MakeMultiplePaymentsResponse
                     {
@@ -826,11 +801,11 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     Validations = TranslatedValidationResult.Translate(ModelState, validationItem),
                 };
             }
-            Account account = await accountService.GetCurrentInvoice(accountNumber: request.AccountNumber);
+            Account account = await accountService.GetAccountDetails(accountNumber: request.AccountNumber);
 
             Dictionary<Account, decimal> paymentAmounts;
             
-            if (account.CurrentInvoice.InvoiceAmount * 3 <= request.TotalPaymentAmount && !request.OverrideWarnings.Contains("Overpayment"))
+            if (account.Balance.Balance * 3 <= request.TotalPaymentAmount && !request.OverrideWarnings.Contains("Overpayment"))
             {
                 return new MakeOneTimePaymentResponse
                 {

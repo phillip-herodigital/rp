@@ -32,8 +32,6 @@ namespace StreamEnergy.DomainModels.Accounts
 
         public AccountBalance Balance { get; set; }
 
-        public Invoice CurrentInvoice { get; set; }
-
         public Invoice[] Invoices { get; set; }
 
         public ISubAccount[] SubAccounts { get; set; }
