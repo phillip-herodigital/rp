@@ -29,7 +29,7 @@ namespace StreamEnergy.DomainModels
                     { Enrollments.TexasElectricity.MoveInOfferOption.Qualifier, typeof(Enrollments.TexasElectricity.MoveInOfferOption) },
                     { Enrollments.TexasElectricity.CommercialQuoteOptionRules.Qualifier, typeof(Enrollments.TexasElectricity.CommercialQuoteOption) },
                     { Enrollments.GeorgiaGas.OfferOption.Qualifier, typeof(Enrollments.GeorgiaGas.OfferOption) },
-                    { Enrollments.GeorgiaGas.MoveInOfferOption.Qualifier, typeof(Enrollments.GeorgiaGas.OfferOption) },
+                    { Enrollments.GeorgiaGas.MoveInOfferOption.Qualifier, typeof(Enrollments.GeorgiaGas.MoveInOfferOption) },
                     { Enrollments.GeorgiaGas.CommercialQuoteOptionRules.Qualifier, typeof(Enrollments.TexasElectricity.CommercialQuoteOption) },
                     { Enrollments.Renewal.OfferOption.Qualifier, typeof(Enrollments.Renewal.OfferOption) },
                 }
