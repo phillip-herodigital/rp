@@ -69,8 +69,10 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
         });
     };
 
-    $scope.$watch(function () { return _.pluck($scope.accountsTable, 'selected'); }, function (newValue) {
-        $scope.selectedAccounts = _.where($scope.accountsTable, { 'selected': true, 'canMakeOneTimePayment': true });
+    $scope.$watch('accountsTable.values', function(newVal) {
+        if (!$scope.accountsTable)
+            return false;
+        $scope.selectedAccounts = _.where($scope.accountsTable.values, { 'selected': true, 'canMakeOneTimePayment': true });
         $scope.total = _.reduce($scope.selectedAccounts, function (a, b) { return a + parseFloat(b.paymentAmount); }, 0);
         $scope.paymentAmount = $scope.total;
     }, true);
