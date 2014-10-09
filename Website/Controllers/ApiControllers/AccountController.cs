@@ -274,36 +274,24 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 };
             }
             currentUser.Accounts = await accountService.GetAccountBalances(currentUser.StreamConnectCustomerId, currentUser.Accounts);
-            var accounts = currentUser.Accounts
-                .Where(account => request.AccountNumbers.Contains(account.AccountNumber)).ToArray();
+            var accounts = (from paymentSettings in request.Accounts
+                            join account in currentUser.Accounts on paymentSettings.AccountNumber equals account.AccountNumber
+                            select new { account, paymentMethod = paymentSettings.PaymentAccount, paymentAmount = paymentSettings.PaymentAmount }).ToArray();
 
-            Dictionary<Account, decimal> paymentAmounts;
-            if (accounts.Length > 1)
+            if (!request.OverrideWarnings.Contains("Overpayment"))
             {
-                if (accounts.Sum(account => account.Balance.Balance) != request.TotalPaymentAmount)
+                foreach (var entry in accounts)
                 {
-                    return new MakeMultiplePaymentsResponse
+                    if (entry.account.Balance.Balance * 3 <= entry.paymentAmount)
                     {
-                        // Can't support different TotalPaymentAmount than InvoiceAmount when multiple accounts are selected
-                        Validations = new[] { new TranslatedValidationResult { MemberName = "TotalPaymentAmount", Text = "TODO" } }
-                    };
-                }
-                paymentAmounts = accounts.ToDictionary(acct => acct, acct => acct.Balance.Balance);
-            }
-            else
-            {
-                // one account
-                var account = accounts.Single();
-                if (account.Balance.Balance * 3 <= request.TotalPaymentAmount && !request.OverrideWarnings.Contains("Overpayment"))
-                {
-                    return new MakeMultiplePaymentsResponse
-                    {
-                        Validations = Enumerable.Empty<TranslatedValidationResult>(),
-                        BlockingAlertType = "Overpayment",
-                    };
-                }
+                        return new MakeMultiplePaymentsResponse
+                        {
+                            Validations = Enumerable.Empty<TranslatedValidationResult>(),
+                            BlockingAlertType = "Overpayment",
+                        };
+                    }
 
-                paymentAmounts = new Dictionary<Account, decimal> { { account, request.TotalPaymentAmount } };
+                }
             }
 
             if (!request.OverrideWarnings.Contains("Duplicate"))
@@ -321,14 +309,13 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
 
             // TODO - remove the Take(1) when we aren't testing error states.
-            var temp = paymentAmounts
-                .Take(1)
+            var temp = accounts
                 .Select(entry => new 
                 { 
-                    account = entry.Key, 
-                    amount = entry.Value,
+                    entry.account,
+                    entry.paymentAmount,
                     // TODO - customer name?
-                    task = paymentService.OneTimePayment(request.PaymentDate, entry.Value, entry.Key.AccountNumber, null, entry.Key.SystemOfRecord, request.PaymentAccount) 
+                    task = paymentService.OneTimePayment(request.PaymentDate, entry.paymentAmount, entry.account.AccountNumber, null, entry.account.SystemOfRecord, entry.paymentMethod) 
                 }).ToArray();
             await Task.WhenAll(temp.Select(e => e.task));
 

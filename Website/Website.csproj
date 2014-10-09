@@ -551,6 +551,7 @@
     <Compile Include="layouts\BaseLayout.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Models\Account\AccountPayment.cs" />
     <Compile Include="Models\Account\AccountToPay.cs" />
     <Compile Include="Models\Account\AddBankAccountRequest.cs" />
     <Compile Include="Models\Account\AddBankAccountResponse.cs" />
