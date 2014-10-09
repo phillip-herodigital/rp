@@ -106,7 +106,7 @@ ngApp.directive('gridTable', ['$filter', 'breakpoint', 'jQuery', function ($filt
 			};
 
 			scope.$watch('table.pageNum', function (newVal) {
-			    if (newVal < scope.table.pagingOptions.currentPage) {
+			    if (newVal && newVal < scope.table.pagingOptions.currentPage) {
 			        scope.table.pagingOptions.currentPage = scope.table.pageNum;
 			        if (isAjax) {
 			            updateAjaxCallback();

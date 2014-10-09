@@ -1027,6 +1027,11 @@ article.make-payment {
         .details td:first-child {
             border-left: 2px solid #0971ce;
         }
+        .item-payment {
+            @include breakpoint(medium-large) {
+                margin: 5px 52px 5px 42px;
+            }
+        }
     }
     div.payment-details {
         .date-amount {      

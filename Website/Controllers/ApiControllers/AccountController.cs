@@ -96,8 +96,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                              select new AccountToPay
                              {
                                  AccountNumber = account.AccountNumber,
-                                 AccountBalance = account.Balance.Balance,
-                                 DueDate = account.Balance.DueDate.ToShortDateString(),
+                                 AmountDue = account.Balance.Balance,
+                                 DueDate = account.Balance.DueDate,
                                  UtilityProvider = externalPayment.UtilityProvider,
                                  CanMakeOneTimePayment = paymentScheduling.CanMakeOneTimePayment,
                                  AvailablePaymentMethods = paymentMethods.AvailablePaymentMethods.ToArray(),
@@ -191,7 +191,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                  CanRequestExtension = account.GetCapability<InvoiceExtensionAccountCapability>().CanRequestExtension,
                                  Actions = 
                                  {
-                                     { "viewPdf", "/api/account/invoicePdf?account="+account.AccountNumber+"&invoice=" + invoice.InvoiceNumber }
+                                     { "viewPdf", "/api/account/invoicePdf?account=" + account.AccountNumber + "&invoice=" + invoice.InvoiceNumber }
                                  }
                              }
                 }
@@ -232,6 +232,35 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         #region Make a Payment section
 
+        [HttpGet]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
+        public async Task<GetAccountBalancesResponse> GetAccountBalancesTable()
+        {
+            return new GetAccountBalancesResponse
+            {
+                Accounts = new Table<AccountToPay>
+                {
+                    ColumnList = typeof(AccountToPay).BuildTableSchema(database.GetItem("/sitecore/content/Data/Components/Account/Overview/Make a Payment")),
+                    Values = from account in currentUser.Accounts = await accountService.GetAccountBalances(currentUser.StreamConnectCustomerId, currentUser.Accounts)
+                             let paymentScheduling = account.GetCapability<PaymentSchedulingAccountCapability>()
+                             let paymentMethods = account.GetCapability<PaymentMethodAccountCapability>()
+                             let externalPayment = account.GetCapability<ExternalPaymentAccountCapability>()
+                             select new AccountToPay
+                             {
+                                 AccountNumber = account.AccountNumber,
+                                 AmountDue = account.Balance.Balance,
+                                 DueDate = account.Balance.DueDate,
+                                 UtilityProvider = externalPayment.UtilityProvider,
+                                 CanMakeOneTimePayment = paymentScheduling.CanMakeOneTimePayment,
+                                 AvailablePaymentMethods = paymentMethods.AvailablePaymentMethods.ToArray(),
+                                 Actions = 
+                                 {
+                                    { "viewPdf", "/api/account/invoicePdf?account=" + account.AccountNumber + "&invoice=" }
+                                 }
+                             }
+                }
+            };
+        }
 
         [HttpPost]
         public async Task<MakeMultiplePaymentsResponse> MakeMultiplePayments(MakeMultiplePaymentsRequest request)
@@ -781,7 +810,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     {
                         AccountNumber = request.AccountNumber,
                         CanMakeOneTimePayment = true,
-                        InvoiceAmount = "123.45",
+                        AmountDue = new decimal(123.45),
                         AvailablePaymentMethods = new[] 
                         { 
                             new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } 
