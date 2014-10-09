@@ -14,6 +14,7 @@
         </Environment>
       </Task>
       <Task commandLine="updateTypeaheadIndex.cmd " executionContext="elevated" taskType="simple" />
+      <Task commandLine="installStreamEnergy.RenderingService.cmd " executionContext="elevated" taskType="simple" />
     </Startup>
     <Sites>
       <Site name="Web">
@@ -37,9 +38,14 @@
       <LocalStorage name="TypeaheadStore" sizeInMB="10000" cleanOnRoleRecycle="false" />
     </LocalResources>
     <Certificates>
+      <Certificate name="StreamCertificate" storeLocation="LocalMachine" storeName="My"/>
     </Certificates>
     <ConfigurationSettings>
       <Setting name="NewRelic.LicenseKey" />
+      <Setting name="Install.StreamEnergy.Services" />
+      <Setting name="StreamEnergy.Services.WebsiteUrl" />
+      <Setting name="StreamEnergy.Services.redisCache" />
+      <Setting name="StreamEnergy.Services.azureStorage" />
     </ConfigurationSettings>
   </WebRole>
 </ServiceDefinition>

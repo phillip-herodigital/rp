@@ -10,6 +10,10 @@
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" value="2015-06-25T23:59:59.0000000-07:00" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
       <Setting name="NewRelic.LicenseKey" value="67196c59717a0482df7fb03066bf89c506464a02" />
+      <Setting name="Install.StreamEnergy.Services" value="false" />
+      <Setting name="StreamEnergy.Services.WebsiteUrl" value="" />
+      <Setting name="StreamEnergy.Services.redisCache" value="" />
+      <Setting name="StreamEnergy.Services.azureStorage" value="" />
     </ConfigurationSettings>
     <Certificates>
       <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="DA883DD8482B1E989AC800A2BFCF005152C40DE7" thumbprintAlgorithm="sha1" />
