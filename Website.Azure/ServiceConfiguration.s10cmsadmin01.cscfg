@@ -3,21 +3,34 @@
   <Role name="Website">
     <Instances count="1" />
     <ConfigurationSettings>
-      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=devtestvhds81c8a9a1cb4c;AccountKey=Mg0cvcP4tVsVpMaX1YnU0dXR2oeai8WHx4n8PHA0+UWdUQPbD3Tb2o6dE1x7azYFJCGScsVk59a+ZwtIuZihhw==" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled" value="true" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountUsername" value="mystream" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" value="MIIBpQYJKoZIhvcNAQcDoIIBljCCAZICAQAxggFOMIIBSgIBADAyMB4xHDAaBgNVBAMME1dpbmRvd3MgQXp1cmUgVG9vbHMCEH4ENfDCwtKSRu1ssw7JNCowDQYJKoZIhvcNAQEBBQAEggEAZMAyyona/2il7bLPAWCx0amxgtTvsM3dNEYqVoSuZRG7ukcEKSO669jQmHEJS/Ko4LkcqJc0mNbYAbNgm7ToLcO+4lwX2XGlRyAgtBandZ0ksmUwBjCDRbERS66kEg1NlkrMcBn6Q1qWxuKzFCbgMGB59N2ECgrSwJgDd+MY0Z7aNlqKUjSKEQ8cxe4Z1VYu3zgL6TMWNzmTb4tqozuCIP3ipERErRTr4CY7yQdU2x9uKUCSD4qA9rUUvmfO/ce5L9bkf9wRwpOcpYKtsZbqEpsB+HPFSDnn3tLkrKTJMinHaJjkfM/QyEzPFg7PwdMcRPx4rFOocrS/3CQl/nbTvDA7BgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECFVycsBC7nLQgBhgpSfpJyuwEgX+aX9RaR/n4lgCStmdCD0=" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" value="2015-06-25T23:59:59.0000000-07:00" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
       <Setting name="NewRelic.LicenseKey" value="67196c59717a0482df7fb03066bf89c506464a02" />
-      <Setting name="Install.StreamEnergy.Services" value="false" />
-      <Setting name="StreamEnergy.Services.WebsiteUrl" value="" />
-      <Setting name="StreamEnergy.Services.redisCache" value="" />
-      <Setting name="StreamEnergy.Services.azureStorage" value="" />
+      <Setting name="Install.StreamEnergy.Services" value="true" />
+      <Setting name="StreamEnergy.Services.WebsiteUrl" value="https://mystream.com/" />
+      <Setting name="StreamEnergy.Services.redisCache" value="s10cmscache01.redis.cache.windows.net,ssl=true,password=r6fADRfz6SEt/CsE2O8QKUy47/y/gN2vg1ag8Yok6Ls=" />
+      <Setting name="StreamEnergy.Services.azureStorage" value="DefaultEndpointsProtocol=https;AccountName=s10cmsdocs01;AccountKey=rotn9v6uA0YUs+9VVWfRY6soj5YAkUqcuK9d1R6AakeoxG6EpodIVvuthx6CuUrgcjUmIyiB+2d6+DsJuoEGjg==" />
     </ConfigurationSettings>
     <Certificates>
       <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="DA883DD8482B1E989AC800A2BFCF005152C40DE7" thumbprintAlgorithm="sha1" />
-      <Certificate name="StreamCertificate" thumbprint="" thumbprintAlgorithm="sha1" />
+      <Certificate name="StreamCertificate" thumbprint="47F23842A876E9ABCA7202FA52EED200F01E95AD" thumbprintAlgorithm="sha1" />
     </Certificates>
   </Role>
+  <NetworkConfiguration>
+    <VirtualNetworkSite name="s10dmz01" />
+    <AddressAssignments>
+      <InstanceAddress roleName="Website">
+        <Subnets>
+          <Subnet name="Sitecore_Web" />
+        </Subnets>
+      </InstanceAddress>
+      <ReservedIPs>
+        <ReservedIP name="s10cmsweb01_public02" />
+      </ReservedIPs>
+    </AddressAssignments>
+  </NetworkConfiguration>
 </ServiceConfiguration>
