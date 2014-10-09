@@ -133,17 +133,17 @@ namespace StreamEnergy.Services.Clients
             var response = await streamConnectClient.GetAsync("/api/v1/utility-providers/move-in-dates?" + parameters);
             response.EnsureSuccessStatusCode();
 
-            var result = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+            dynamic result = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
             //{"MoveInDates":[{"Date":"2014-08-04T00:00:00","Priority":true,"Fees":[{"Name":"Move In Date Fee","Amount":79.27}]}...]}
 
             return new ConnectDatePolicy()
             {
-                AvailableConnectDates = (from entry in result["MoveInDates"].ToObject<IEnumerable<StreamConnect.MoveInDate>>()
+                AvailableConnectDates = (from entry in (IEnumerable<dynamic>)result.MoveInDates
                                          select new ConnectDate
                                          {
-                                             Date = entry.Date,
-                                             Classification = entry.Priority ? ConnectDateClassification.Priority : ConnectDateClassification.Standard,
-                                             Fees = entry.Fees.ToDictionary(fee => ToFeeQualifier(feeName: fee.Name), fee => fee.Amount)
+                                             Date = ((DateTimeOffset)entry.Date).Date,
+                                             Classification = entry.Priority.Value ? ConnectDateClassification.Priority : ConnectDateClassification.Standard,
+                                             Fees = ((IEnumerable<dynamic>)entry.Fees).ToDictionary(fee => (string)ToFeeQualifier(feeName: fee.Name.Value), fee => (decimal)fee.Amount.Value)
                                          }).ToArray()
             };
         }
@@ -152,11 +152,11 @@ namespace StreamEnergy.Services.Clients
         {
             var customerType = location.Capabilities.OfType<CustomerTypeCapability>().Single();
             var parameters = System.Web.HttpUtility.ParseQueryString("");
-            parameters["Address.City"] = location.Address.City;
-            parameters["Address.State"] = location.Address.StateAbbreviation;
-            parameters["Address.StreetLine1"] = location.Address.Line1;
-            parameters["Address.StreetLine2"] = location.Address.Line2;
-            parameters["Address.Zip"] = location.Address.PostalCode5;
+            parameters["ServiceAddress.City"] = location.Address.City;
+            parameters["ServiceAddress.State"] = location.Address.StateAbbreviation;
+            parameters["ServiceAddress.StreetLine1"] = location.Address.Line1;
+            parameters["ServiceAddress.StreetLine2"] = location.Address.Line2;
+            parameters["ServiceAddress.Zip"] = location.Address.PostalCode5;
             parameters["CustomerType"] = customerType.CustomerType == EnrollmentCustomerType.Residential ? "Residential" : "Commercial";
 
             var response = await streamConnectClient.GetAsync("/api/v1/utility-providers?" + parameters);
@@ -561,6 +561,13 @@ namespace StreamEnergy.Services.Clients
 
         async Task<PlaceOrderResult> IEnrollmentService.PlaceCommercialQuotes(UserContext context)
         {
+            List<object> premises = new List<object>();
+            foreach (var serviceLocation in context.Services)
+            {
+                var location = serviceLocation.Location;
+                premises.Add(await ToCommercialPremise(location));
+            }
+
             var response = await streamConnectClient.PostAsJsonAsync("/api/v1/commercial-request-for-quote", new
             {
                 CompanyName = context.CompanyName,
@@ -586,9 +593,7 @@ namespace StreamEnergy.Services.Clients
                 SwitchType = "MoveIn",
                 FederalTaxId = context.TaxId,
                 DBA = context.DoingBusinessAs,
-                Premises = (from serviceLocation in context.Services
-                            let location = serviceLocation.Location
-                            select ToCommercialPremise(location)).ToArray()
+                Premises = premises.ToArray()
             });
             response.EnsureSuccessStatusCode();
 
@@ -601,22 +606,18 @@ namespace StreamEnergy.Services.Clients
             };
         }
 
-        private object ToCommercialPremise(Location location)
+        private async Task<object> ToCommercialPremise(Location location)
         {
             var locAdapter = enrollmentLocationAdapters.First(adapter => adapter.IsFor(location.Capabilities));
 
             string commodityType = locAdapter.GetCommodityType();
             string utilityAccountNumber = locAdapter.GetUtilityAccountNumber(location.Capabilities);
 
+            var provider = await LoadProvider(location);
+
             return new
             {
-                Provider = new
-                {
-                    Id = "",
-                    Code = "",
-                    Name = "",
-                    Commodities = new[] { commodityType },
-                },
+                Provider = provider,
                 Commodity = commodityType,
                 UtilityAccountNumber = utilityAccountNumber,
                 ServiceAddress = new

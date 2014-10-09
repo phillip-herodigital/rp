@@ -416,7 +416,9 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                                             State = "TX",
                                             Tdu = "ONCOR ELEC",
                                             Zipcode = "750106446"
-                                        }
+                                        },
+                                        new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
+                                        new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Commercial },
                                     }
                                 }, 
                             }

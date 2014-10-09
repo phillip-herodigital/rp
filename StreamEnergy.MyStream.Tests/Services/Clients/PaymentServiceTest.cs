@@ -134,5 +134,94 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             Assert.IsTrue(payments.First().PaymentHistory.Any());
             Assert.IsTrue(payments.First().PaymentHistory.All(h => h.PaymentAmount > 0));
         }
+
+        [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect AutoPay")]
+        public void GetAutoPayTest()
+        {
+            // Arrange
+            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
+            StreamEnergy.DomainModels.Payments.IPaymentService paymentService = container.Resolve<StreamEnergy.Services.Clients.PaymentService>();
+            var gcid = accountService.CreateStreamConnectCustomer().Result;
+            var acct = accountService.AssociateAccount(gcid, "3001311049", "3192", "Sample").Result;
+
+            // Act
+            var autoPayStatus = paymentService.GetAutoPayStatus(acct).Result;
+
+            // Assert
+            Assert.IsNotNull(autoPayStatus);
+        }
+
+        [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect AutoPay")]
+        public void SetAutoPayTest()
+        {
+            // Arrange
+            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
+            StreamEnergy.DomainModels.Payments.IPaymentService paymentService = container.Resolve<StreamEnergy.Services.Clients.PaymentService>();
+            var gcid = accountService.CreateStreamConnectCustomer().Result;
+            var acct = accountService.AssociateAccount(gcid, "3001311049", "3192", "Sample").Result;
+            var paymentMethodId = paymentService.SavePaymentMethod(gcid, new DomainModels.Payments.TokenizedCard
+            {
+                CardToken = "9442268296134448",
+                BillingZipCode = "75201",
+                ExpirationDate = DateTime.Today.AddDays(60),
+                SecurityCode = "123"
+            }, "Test Card").Result;
+
+            // Act
+            var result = paymentService.SetAutoPayStatus(acct, new DomainModels.Payments.AutoPaySetting
+                {
+                    IsEnabled = true,
+                    PaymentMethodId = paymentMethodId
+                }).Result;
+
+            // Assert
+            Assert.IsTrue(result);
+            var autoPayStatus = paymentService.GetAutoPayStatus(acct).Result;
+            Assert.IsNotNull(autoPayStatus);
+            Assert.IsTrue(autoPayStatus.IsEnabled);
+            Assert.AreEqual(paymentMethodId, autoPayStatus.PaymentMethodId);
+        }
+
+        [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect AutoPay")]
+        public void ClearAutoPayTest()
+        {
+            // Arrange
+            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
+            StreamEnergy.DomainModels.Payments.IPaymentService paymentService = container.Resolve<StreamEnergy.Services.Clients.PaymentService>();
+            var gcid = accountService.CreateStreamConnectCustomer().Result;
+            var acct = accountService.AssociateAccount(gcid, "3001311049", "3192", "Sample").Result;
+            var paymentMethodId = paymentService.SavePaymentMethod(gcid, new DomainModels.Payments.TokenizedCard
+            {
+                CardToken = "9442268296134448",
+                BillingZipCode = "75201",
+                ExpirationDate = DateTime.Today.AddDays(60),
+                SecurityCode = "123"
+            }, "Test Card").Result;
+            paymentService.SetAutoPayStatus(acct, new DomainModels.Payments.AutoPaySetting
+            {
+                IsEnabled = true,
+                PaymentMethodId = paymentMethodId
+            }).Wait();
+
+            // Act
+            var result = paymentService.SetAutoPayStatus(acct, new DomainModels.Payments.AutoPaySetting
+            {
+                IsEnabled = false,
+                PaymentMethodId = Guid.Empty
+            }).Result;
+
+            // Assert
+            Assert.IsTrue(result);
+            var autoPayStatus = paymentService.GetAutoPayStatus(acct).Result;
+            Assert.IsNotNull(autoPayStatus);
+            Assert.IsFalse(autoPayStatus.IsEnabled);
+            Assert.AreEqual(Guid.Empty, autoPayStatus.PaymentMethodId);
+        }
     }
 }

@@ -164,16 +164,48 @@ namespace StreamEnergy.Services.Clients
         }
 
 
-        Task<AutoPaySetting> IPaymentService.GetAutoPayStatus(DomainModels.Accounts.Account account)
+        async Task<AutoPaySetting> IPaymentService.GetAutoPayStatus(DomainModels.Accounts.Account account)
         {
-            // TODO - implement service when it is ready
-            throw new NotImplementedException();
+            var response = await streamConnectClient.GetAsync("/api/v1/autopay/account/" + account.StreamConnectAccountId.ToString() + "/customer/" + account.StreamConnectCustomerId.ToString());
+            response.EnsureSuccessStatusCode();
+
+            dynamic jobject = Json.Read<JObject>(await response.Content.ReadAsStringAsync());
+
+            var methodId = Guid.Parse(jobject.AutoPayGlobalPaymentMethodId.ToString());
+
+            return new AutoPaySetting 
+            { 
+                IsEnabled = methodId != Guid.Empty, 
+                PaymentMethodId = methodId 
+            };
         }
 
-        Task<bool> IPaymentService.SetAutoPayStatus(DomainModels.Accounts.Account account, AutoPaySetting autoPaySetting)
+        async Task<bool> IPaymentService.SetAutoPayStatus(DomainModels.Accounts.Account account, AutoPaySetting autoPaySetting)
         {
-            // TODO - implement service when it is ready
-            throw new NotImplementedException();
+            if (autoPaySetting.IsEnabled)
+            {
+                var response = await streamConnectClient.PostAsJsonAsync("/api/autopay",
+                    new 
+                    {
+                        GlobalCustomerId = account.StreamConnectCustomerId,
+                        GlobalAccountId = account.StreamConnectAccountId,
+                        GlobalPaymentMethodId = autoPaySetting.PaymentMethodId
+                    });
+                response.EnsureSuccessStatusCode();
+
+                dynamic jobject = Json.Read<JObject>(await response.Content.ReadAsStringAsync());
+
+                return jobject.Status.ToString() == "Success";
+            }
+            else
+            {
+                var response = await streamConnectClient.DeleteAsync("/api/v1/autopay/account/" + account.StreamConnectAccountId.ToString() + "/customer/" + account.StreamConnectCustomerId.ToString());
+                response.EnsureSuccessStatusCode();
+
+                dynamic jobject = Json.Read<JObject>(await response.Content.ReadAsStringAsync());
+
+                return jobject.Status.ToString() == "Success";
+            }
         }
     }
 }
