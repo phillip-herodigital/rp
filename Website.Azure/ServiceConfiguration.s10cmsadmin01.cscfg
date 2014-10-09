@@ -29,7 +29,7 @@
         </Subnets>
       </InstanceAddress>
       <ReservedIPs>
-        <ReservedIP name="s10cmsadmin01_public02" />
+        <ReservedIP name="s10cmsweb01_public02" />
       </ReservedIPs>
     </AddressAssignments>
   </NetworkConfiguration>
