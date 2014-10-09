@@ -117,22 +117,24 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         public void GetMoveInDatesTest()
         {
             // Assign
-            StreamEnergy.DomainModels.Enrollments.IEnrollmentService enrollmentService = container.Resolve<StreamEnergy.Services.Clients.EnrollmentService>();
-
-            // Act
-            DomainModels.Enrollments.IConnectDatePolicy connectDates;
-            using (new Timer())
-            {
-                connectDates = enrollmentService.LoadConnectDates(new DomainModels.Enrollments.Location
+            var location = new DomainModels.Enrollments.Location
                 {
                     Address = new DomainModels.Address { StateAbbreviation = "TX", PostalCode5 = "75010", City = "Carrollton", Line1 = "3620 Huffines Blvd", Line2 = "APT 226" },
                     Capabilities = new DomainModels.IServiceCapability[]
                     {
                         new DomainModels.Enrollments.TexasElectricity.ServiceCapability { Tdu = "ONCOR", EsiId = "10443720006102389" },
                         new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
-                            new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
+                        new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
                     }
-                }).Result;
+                };
+            StreamEnergy.DomainModels.Enrollments.IEnrollmentService enrollmentService = container.Resolve<StreamEnergy.Services.Clients.EnrollmentService>();
+            var offers = enrollmentService.LoadOffers(new[] { location }).Result;
+
+            // Act
+            DomainModels.Enrollments.IConnectDatePolicy connectDates;
+            using (new Timer())
+            {
+                connectDates = enrollmentService.LoadConnectDates(location, offers.Single().Value.Offers.First()).Result;
             }
 
             // Assert

@@ -117,13 +117,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         public void GetMoveInDatesTest()
         {
             // Assign
-            StreamEnergy.DomainModels.Enrollments.IEnrollmentService enrollmentService = container.Resolve<StreamEnergy.Services.Clients.EnrollmentService>();
-
-            // Act
-            DomainModels.Enrollments.IConnectDatePolicy connectDates;
-            using (new Timer())
-            {
-                connectDates = enrollmentService.LoadConnectDates(new DomainModels.Enrollments.Location
+            var location = new DomainModels.Enrollments.Location
                 {
                     Address = new DomainModels.Address { StateAbbreviation = "GA", PostalCode5 = "30342", City = "Atlanta", Line1 = "3 The Croft", Line2 = "3 Lot" },
                     Capabilities = new DomainModels.IServiceCapability[]
@@ -132,7 +126,15 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                             new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
                             new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
                         }
-                }).Result;
+                };
+            StreamEnergy.DomainModels.Enrollments.IEnrollmentService enrollmentService = container.Resolve<StreamEnergy.Services.Clients.EnrollmentService>();
+            var offers = enrollmentService.LoadOffers(new[] { location }).Result;
+
+            // Act
+            DomainModels.Enrollments.IConnectDatePolicy connectDates;
+            using (new Timer())
+            {
+                connectDates = enrollmentService.LoadConnectDates(location, offers.Single().Value.Offers.First()).Result;
             }
 
             // Assert

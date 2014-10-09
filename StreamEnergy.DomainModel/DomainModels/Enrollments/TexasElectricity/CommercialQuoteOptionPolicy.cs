@@ -26,7 +26,7 @@ namespace StreamEnergy.DomainModels.Enrollments.TexasElectricity
             IConnectDatePolicy policy = null;
             if (serviceStatus != null && serviceStatus.EnrollmentType == EnrollmentType.MoveIn)
             {
-                policy = await enrollmentService.LoadConnectDates(location);
+                policy = await enrollmentService.LoadConnectDates(location, offer);
             }
 
             return new CommercialQuoteOptionRules

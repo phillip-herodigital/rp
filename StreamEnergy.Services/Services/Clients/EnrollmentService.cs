@@ -111,7 +111,7 @@ namespace StreamEnergy.Services.Clients
             return PremiseVerificationResult.GeneralError;
         }
 
-        async Task<IConnectDatePolicy> IEnrollmentService.LoadConnectDates(Location location)
+        async Task<IConnectDatePolicy> IEnrollmentService.LoadConnectDates(Location location, IOffer offer)
         {
             var locAdapter = enrollmentLocationAdapters.First(adapter => adapter.IsFor(location.Capabilities));
 
@@ -123,6 +123,12 @@ namespace StreamEnergy.Services.Clients
             parameters["Address.Zip"] = location.Address.PostalCode5;
             parameters["UtilityAccountNumber"] = locAdapter.GetUtilityAccountNumber(location.Capabilities);
             parameters["SystemOfRecord"] = locAdapter.GetSystemOfRecord(location.Capabilities);
+            if (locAdapter.NeedProvider(location))
+            {
+                var provider = locAdapter.Provider(offer);
+                parameters["Provider.Id"] = provider["Id"].ToString();
+
+            }
 
             var response = await streamConnectClient.GetAsync("/api/v1/utility-providers/move-in-dates?" + parameters);
             response.EnsureSuccessStatusCode();
@@ -142,10 +148,30 @@ namespace StreamEnergy.Services.Clients
             };
         }
 
+        private async Task<JObject> LoadProvider(Location location)
+        {
+            var customerType = location.Capabilities.OfType<CustomerTypeCapability>().Single();
+            var parameters = System.Web.HttpUtility.ParseQueryString("");
+            parameters["Address.City"] = location.Address.City;
+            parameters["Address.State"] = location.Address.StateAbbreviation;
+            parameters["Address.StreetLine1"] = location.Address.Line1;
+            parameters["Address.StreetLine2"] = location.Address.Line2;
+            parameters["Address.Zip"] = location.Address.PostalCode5;
+            parameters["CustomerType"] = customerType.CustomerType == EnrollmentCustomerType.Residential ? "Residential" : "Commercial";
+
+            var response = await streamConnectClient.GetAsync("/api/v1/utility-providers?" + parameters);
+            response.EnsureSuccessStatusCode();
+
+            var result = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+
+            return (JObject)result["Providers"].First();
+        }
+
         private string ToFeeQualifier(string feeName)
         {
             switch (feeName)
             {
+                case "Connection Fee":
                 case "Move In Date Fee":
                     return "ConnectFee";
                 default:

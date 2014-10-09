@@ -14,7 +14,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         Task<PremiseVerificationResult> VerifyPremise(Location location);
 
-        Task<IConnectDatePolicy> LoadConnectDates(Location location);
+        Task<IConnectDatePolicy> LoadConnectDates(Location location, IOffer offer);
 
         Task<bool> IsBlockedSocialSecurityNumber(string ssn);
 

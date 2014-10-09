@@ -399,7 +399,7 @@ namespace StreamEnergy.MyStream.Tests
                 var tdus = location.Capabilities.OfType<TexasElectricity.ServiceCapability>().Select(c => c.Tdu);
                 return new LocationOfferSet { Offers = offers.Where(offer => tdus.Any(tdu => offer.Id.StartsWith(tdu + "/"))).ToArray() };
             })));
-            mockEnrollmentService.Setup(m => m.LoadConnectDates(It.IsAny<Location>())).Returns(Task.FromResult<IConnectDatePolicy>(new ConnectDatePolicy() { AvailableConnectDates = new ConnectDate[] { } }));
+            mockEnrollmentService.Setup(m => m.LoadConnectDates(It.IsAny<Location>(), It.IsAny<IOffer>())).Returns(Task.FromResult<IConnectDatePolicy>(new ConnectDatePolicy() { AvailableConnectDates = new ConnectDate[] { } }));
 
             mockEnrollmentService.Setup(m => m.BeginRenewal(It.IsAny<DomainModels.Accounts.Account>(), It.IsAny<DomainModels.Enrollments.Renewal.OfferOption>()))
                 .Returns(Task.FromResult(new StreamAsync<DomainModels.Enrollments.RenewalResult>()
