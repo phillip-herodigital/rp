@@ -3,47 +3,48 @@
  */
 ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', '$q', function ($scope, $rootScope, $http, $modal, $q) {
 
-    var ctrl = this;
-    this.selectedAccounts = [];
-    this.total = 0;
-    this.overriddenWarnings = [];
-    this.loading = 2;
+    $scope.paymentMethods = null;
+    $scope.selectedAccounts = [];
+    $scope.total = 0;
+    $scope.overriddenWarnings = [];
+    $scope.isLoading = true;
+    $scope.activeState = 'step1';
 
-    $http.get('/api/account/getAccountBalances').success(function (data) {
-        ctrl.loading--;
-        ctrl.invoices = data.accounts;
-        console.log(ctrl.invoices);
+    $http.get('/api/account/getAccountBalancesTable').success(function (data, status, headers, config) {
+        $scope.accountsTable = data.accounts;
+        $scope.accountsTableOriginal = angular.copy($scope.accountsTable);
+        $scope.isLoading = false;
     });
-    $http.get('/api/account/getSavedPaymentMethods').success(function (data) {
-        ctrl.loading--;
-        ctrl.paymentMethods = data;
+    /*
+    $http.get('/api/account/getSavedPaymentMethods').success(function (data, status, headers, config) { 
+        $scope.paymentMethods = data; 
     });
-
+    */
     this.paymentMethod = function () {
-        if (ctrl.useNewPaymentMethod) {
-            return ctrl.newPaymentMethod[ctrl.newPaymentMethodType]();
+        if ($scope.useNewPaymentMethod) {
+            return $scope.newPaymentMethod[$scope.newPaymentMethodType]();
         } else {
             var deferred = $q.defer();
-            deferred.resolve(ctrl.selectedPaymentMethod);
+            deferred.resolve($scope.selectedPaymentMethod);
             return deferred.promise;
         }
     }
 
     this.resolvePaymentMethod = function () {
-        ctrl.paymentMethod().then(function (data) {
-            ctrl.evaluatedPaymentMethod = data;
-            ctrl.activeState = 'step2';
+        $scope.paymentMethod().then(function (data) {
+            $scope.evaluatedPaymentMethod = data;
+            $scope.activeState = 'step2';
         });
     };
 
     this.makePayment = function () {
 
         $http.post('/api/account/makeMultiplePayments', {
-            paymentAccount: ctrl.evaluatedPaymentMethod,
-            accountNumbers: _.pluck(ctrl.selectedAccounts, 'accountNumber'),
-            totalPaymentAmount: ctrl.paymentAmount,
-            paymentDate: ctrl.selectedDate,
-            overrideWarnings: ctrl.overriddenWarnings
+            paymentAccount: $scope.evaluatedPaymentMethod,
+            accountNumbers: _.pluck($scope.selectedAccounts, 'accountNumber'),
+            totalPaymentAmount: $scope.paymentAmount,
+            paymentDate: $scope.selectedDate,
+            overrideWarnings: $scope.overriddenWarnings
         }).success(function (data) {
             if (data.blockingAlertType) {
 
@@ -51,37 +52,36 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
                     templateUrl: 'PaymentBlockingAlert/' + data.blockingAlertType,
                     scope: $scope
                 }).result.then(function () {
-                    ctrl.overriddenWarnings.push(data.blockingAlertType);
-                    ctrl.makePayment();
+                    $scope.overriddenWarnings.push(data.blockingAlertType);
+                    $scope.makePayment();
                 });
 
             } else {
-                ctrl.activeState = 'step3';
-                if (ctrl.selectedAccounts.length != 1) {
-                    ctrl.paymentAmount = 0.00;
+                $scope.activeState = 'step3';
+                if ($scope.selectedAccounts.length != 1) {
+                    $scope.paymentAmount = 0.00;
                 }
                 _.forEach(data.confirmations, function (account) {
-                    _.find(ctrl.selectedAccounts, { accountNumber: account.accountNumber }).confirmationNumber = account.paymentConfirmationNumber
-                    ctrl.paymentAmount += ctrl.selectedAccounts.length != 1 ? _.find(ctrl.selectedAccounts, { accountNumber: account.accountNumber }).invoiceAmount : 0;
+                    _.find($scope.selectedAccounts, { accountNumber: account.accountNumber }).confirmationNumber = account.paymentConfirmationNumber
+                    $scope.paymentAmount += $scope.selectedAccounts.length != 1 ? _.find($scope.selectedAccounts, { accountNumber: account.accountNumber }).invoiceAmount : 0;
                 });
             }
         });
     };
 
-    $scope.$watch(function () { return ctrl.invoices ? _.pluck(ctrl.invoices.values, 'selected') : null; }, function (newValue) {
-        if (!ctrl.invoices)
-            return false;
-        ctrl.selectedAccounts = _.where(ctrl.invoices.values, { 'selected': true, 'canMakeOneTimePayment': true });
-        ctrl.total = _.reduce(ctrl.selectedAccounts, function (a, b) { return a + parseFloat(b.invoiceAmount); }, 0);
-        ctrl.paymentAmount = ctrl.total;
+    $scope.$watch(function () { return _.pluck($scope.accountsTable, 'selected'); }, function (newValue) {
+        $scope.selectedAccounts = _.where($scope.accountsTable, { 'selected': true, 'canMakeOneTimePayment': true });
+        $scope.total = _.reduce($scope.selectedAccounts, function (a, b) { return a + parseFloat(b.paymentAmount); }, 0);
+        $scope.paymentAmount = $scope.total;
     }, true);
 
     // Disable weekends selection
     $scope.disableWeekends = function (date, mode) {
         return (mode === 'day' && (date.getDay() === 0 || date.getDay() === 6));
     };
-    ctrl.selectedDate = $scope.minDate = new Date();
 
-    ctrl.activeState = 'step1';
+    $scope.selectedDate = $scope.minDate = new Date();
+
+    
 
 }]);
