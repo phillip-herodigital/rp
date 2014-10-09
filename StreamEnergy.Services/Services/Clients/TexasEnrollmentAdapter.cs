@@ -29,6 +29,11 @@ namespace StreamEnergy.Services.Clients
             return offer.OfferType == TexasElectricity.Offer.Qualifier;
         }
 
+        bool IEnrollmentLocationAdapter.NeedProvider(Location location)
+        {
+            return false;
+        }
+
         string IEnrollmentLocationAdapter.GetUtilityAccountNumber(IEnumerable<IServiceCapability> capabilities)
         {
             var capability = capabilities.OfType<TexasElectricity.ServiceCapability>().Single();
@@ -162,6 +167,11 @@ namespace StreamEnergy.Services.Clients
                     Deposit = depositObject
                 }
             };
+        }
+
+        JObject IEnrollmentLocationAdapter.Provider(IOffer offer)
+        {
+            return null;
         }
     }
 }

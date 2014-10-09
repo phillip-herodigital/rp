@@ -30,6 +30,11 @@ namespace StreamEnergy.Services.Clients
             return offer.OfferType == GeorgiaGas.Offer.Qualifier;
         }
 
+        bool IEnrollmentLocationAdapter.NeedProvider(Location location)
+        {
+            return true;
+        }
+
         string IEnrollmentLocationAdapter.GetUtilityAccountNumber(IEnumerable<IServiceCapability> capabilities)
         {
             var capability = capabilities.OfType<GeorgiaGas.ServiceCapability>().Single();
@@ -153,6 +158,15 @@ namespace StreamEnergy.Services.Clients
                     Deposit = depositObject
                 }
             };
+        }
+
+        JObject IEnrollmentLocationAdapter.Provider(IOffer offer)
+        {
+            if (offer is GeorgiaGas.Offer)
+            {
+                return JObject.Parse(((GeorgiaGas.Offer)offer).Provider);
+            }
+            return null;
         }
     }
 }
