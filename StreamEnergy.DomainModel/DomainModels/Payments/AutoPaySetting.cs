@@ -5,6 +5,7 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels.Payments
 {
+    [Serializable]
     public class AutoPaySetting
     {
         public bool IsEnabled { get; set; }

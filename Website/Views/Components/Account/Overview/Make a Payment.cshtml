@@ -37,7 +37,7 @@
                                         </div>
                                         <div class="item">
                                             <label for="PaymentAccount">@Html.Sitecore().Field("Payment Account Text")</label>
-                                            @Html.DropDownListFor(m => m.PaymentAccount,
+                                            @Html.DropDownListFor(m => m.Accounts[0].PaymentAccount,
                                             new[] { new SelectListItem { Text = Html.Sitecore().Field("Select Payment Account Text").ToHtmlString() } },
                                             new { ng_options = "option.displayName for option in item.availablePaymentMethods", ng_model = "item.selectedPaymentMethod" })
                                         </div>
