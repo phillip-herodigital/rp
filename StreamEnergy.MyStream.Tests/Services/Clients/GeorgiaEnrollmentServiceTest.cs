@@ -364,6 +364,64 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         [TestMethod]
         [TestCategory("StreamConnect")]
         [TestCategory("StreamConnect Enrollments")]
+        [TestCategory("StreamConnect Commercial Enrollments")]
+        public void PostEnrollmentsCommercial()
+        {
+            // Assign
+            StreamEnergy.DomainModels.Enrollments.IEnrollmentService enrollmentService = container.Resolve<StreamEnergy.Services.Clients.EnrollmentService>();
+            
+            using (new Timer())
+            {
+                // Act
+                var result = enrollmentService.PlaceCommercialQuotes(new DomainModels.Enrollments.UserContext
+                    {
+                        ContactInfo = new DomainModels.CustomerContact
+                        {
+                            Name = new DomainModels.Name { First = "Test", Last = "Person" },
+                            Email = new DomainModels.Email { Address = "test@example.com" },
+                            Phone = new[] { 
+                                new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Work, Number = "223-456-7890" }
+                            },
+                        },
+                        ContactTitle = "Founder",
+                        SocialSecurityNumber = "123456789",
+                        MailingAddress = new DomainModels.Address
+                        {
+                            Line1 = "123 Main St",
+                            City = "Dallas",
+                            StateAbbreviation = "TX",
+                            PostalCode5 = "75201"
+                        },
+                        Language = "en",
+                        PreferredSalesExecutive = "John Smith",
+                        TaxId = "98-7654321",
+                        DoingBusinessAs = "Some Business",
+                        Services = new DomainModels.Enrollments.LocationServices[]
+                        {
+                            new DomainModels.Enrollments.LocationServices 
+                            { 
+                                Location = new DomainModels.Enrollments.Location
+                                {
+                                    Address = new DomainModels.Address { Line1 = "3 The Croft", UnitNumber = "3 Lot", City = "Atlanta", StateAbbreviation = "GA", PostalCode5 = "30342", PostalCodePlus4 = "2438" },
+                                    Capabilities = new DomainModels.IServiceCapability[]
+                                        {
+                                            new DomainModels.Enrollments.GeorgiaGas.ServiceCapability { AglAccountNumber = "0715818330", Zipcode = "30342" },
+                                            new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
+                                            new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Commercial },
+                                        }
+                                }, 
+                            }
+                        }
+                    }).Result;
+
+                // Assert
+                Assert.IsTrue(result.IsSuccess);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Enrollments")]
         [TestCategory("StreamConnect Georgia Enrollments")]
         public void PostEnrollmentsCreate()
         {
