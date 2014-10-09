@@ -386,6 +386,14 @@ namespace StreamEnergy.Services.Clients
                 // TODO - should support multiple
                 CreateSubAccount(data.AccountDetails)
             };
+
+            var methodId = data.AutoPayGlobalPaymentMethodId == null ? Guid.Empty : Guid.Parse(data.AutoPayGlobalPaymentMethodId.ToString());
+            account.AutoPay = new DomainModels.Payments.AutoPaySetting
+            {
+                IsEnabled = methodId != Guid.Empty,
+                PaymentMethodId = methodId
+            };
+
             account.Capabilities.RemoveAll(cap => cap is ExternalPaymentAccountCapability || cap is PaymentMethodAccountCapability || cap is PaymentSchedulingAccountCapability);
             account.Capabilities.Add(new ExternalPaymentAccountCapability
             {

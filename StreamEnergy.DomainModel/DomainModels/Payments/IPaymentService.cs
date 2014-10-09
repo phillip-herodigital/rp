@@ -16,7 +16,7 @@ namespace StreamEnergy.DomainModels.Payments
 
         Task<IEnumerable<Account>> PaymentHistory(Guid globalCustomerId, IEnumerable<Account> existingAccountObjects = null);
 
-        Task<AutoPaySetting> GetAutoPayStatus(Accounts.Account account);
+        Task<AutoPaySetting> GetAutoPayStatus(Accounts.Account account, bool forceRefresh = false);
         Task<bool> SetAutoPayStatus(Accounts.Account account, AutoPaySetting autoPaySetting);
 
     }

@@ -46,6 +46,8 @@ namespace StreamEnergy.DomainModels.Accounts
 
         public Payments.PastPayment[] PaymentHistory { get; set; }
 
+        public Payments.AutoPaySetting AutoPay { get; set; }
+
         /// <summary>
         /// Gets the capability of the specified type, or throws an exception if it is not found.
         /// </summary>
@@ -80,6 +82,7 @@ namespace StreamEnergy.DomainModels.Accounts
             capability = temp.FirstOrDefault();
             return temp.Any();
         }
+
 
     }
 }

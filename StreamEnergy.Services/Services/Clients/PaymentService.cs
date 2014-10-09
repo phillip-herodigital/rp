@@ -164,20 +164,24 @@ namespace StreamEnergy.Services.Clients
         }
 
 
-        async Task<AutoPaySetting> IPaymentService.GetAutoPayStatus(DomainModels.Accounts.Account account)
+        async Task<AutoPaySetting> IPaymentService.GetAutoPayStatus(DomainModels.Accounts.Account account, bool forceRefresh)
         {
-            var response = await streamConnectClient.GetAsync("/api/v1/autopay/account/" + account.StreamConnectAccountId.ToString() + "/customer/" + account.StreamConnectCustomerId.ToString());
-            response.EnsureSuccessStatusCode();
+            if (forceRefresh || account.AutoPay == null)
+            {
+                var response = await streamConnectClient.GetAsync("/api/v1/autopay/account/" + account.StreamConnectAccountId.ToString() + "/customer/" + account.StreamConnectCustomerId.ToString());
+                response.EnsureSuccessStatusCode();
 
-            dynamic jobject = Json.Read<JObject>(await response.Content.ReadAsStringAsync());
+                dynamic jobject = Json.Read<JObject>(await response.Content.ReadAsStringAsync());
 
-            var methodId = Guid.Parse(jobject.AutoPayGlobalPaymentMethodId.ToString());
+                var methodId = jobject.AutoPayGlobalPaymentMethodId == null ? Guid.Empty : Guid.Parse(jobject.AutoPayGlobalPaymentMethodId.ToString());
 
-            return new AutoPaySetting 
-            { 
-                IsEnabled = methodId != Guid.Empty, 
-                PaymentMethodId = methodId 
-            };
+                account.AutoPay = new AutoPaySetting
+                {
+                    IsEnabled = methodId != Guid.Empty,
+                    PaymentMethodId = methodId
+                };
+            }
+            return account.AutoPay;
         }
 
         async Task<bool> IPaymentService.SetAutoPayStatus(DomainModels.Accounts.Account account, AutoPaySetting autoPaySetting)
