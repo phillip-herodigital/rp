@@ -1,0 +1,125 @@
+@model StreamEnergy.MyStream.Models.Temp.GenerateW9
+<div ng-controller="TempGenerateW9Ctrl">
+    <div class="wrapper layout cols-2">
+        <section>
+            <form data-val-bind-messages="validations" ng-submit="completeStep()">
+
+                @* Loop through utility addresses *@
+                <article class="form">
+                    <header>
+                        <h1>W-9 Information</h1>
+                    </header>
+                    <div class="content">
+                        <p>@Html.Sitecore().Field("Fill in Information")</p>
+                        
+                        <div class="group">
+                            <div class="item group-col" @Html.Validation().ErrorClass(m => m.Name)>
+                                <label for="@Html.IdFor(m => m.Name)">Name</label>
+                                @Html.TextBoxFor(m => m.Name, new { ng_model = "formInformation.name", data_val = "true", data_val_required = "" })
+                                @Html.ValidationMessageFor(model => model.Name)
+                            </div>
+                        </div>
+
+                        <div class="group">
+                            <div class="item group-col" @Html.Validation().ErrorClass(m => m.BusinessName)>
+                                <label for="@Html.IdFor(m => m.BusinessName)">Business Name</label>
+                                @Html.TextBoxFor(m => m.BusinessName, new { ng_model = "formInformation.businessName", data_val = "true", data_val_required = "" })
+                                @Html.ValidationMessageFor(model => model.BusinessName)
+                            </div>
+                        </div>
+
+                        <div class="group">
+                            <div class="item group-col">
+                                <label for="BusinessType">Business Type</label>
+                                <select ng-model="formInformation.businessType" id="BusinessType">
+                                    <option value="individualsoleproprietor">individualsoleproprietor</option>
+                                    <option value="ccorporation">ccorporation</option>
+                                    <option value="scorporation">scorporation</option>
+                                    <option value="partnership">partnership</option>
+                                    <option value="trustestate">trustestate</option>
+                                    <option value="llc">llc</option>
+                                    <option value="other">other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="group">
+                            <div class="item group-col" @Html.Validation().ErrorClass(m => m.BusinessTypeAdditional)>
+                                <label for="@Html.IdFor(m => m.BusinessTypeAdditional)">Business Type Additional</label>
+                                @Html.TextBoxFor(m => m.BusinessTypeAdditional, new { ng_model = "formInformation.businessTypeAdditional", data_val = "true", data_val_required = "" })
+                                @Html.ValidationMessageFor(model => model.BusinessTypeAdditional)
+                            </div>
+                        </div>
+                        
+                        <div class="group">
+                            <div class="item group-col">
+                                <label for="IsExempt">Is Exempt</label>
+                                <input type="checkbox" ng-model="formInformation.isExempt" />
+                            </div>
+                        </div>
+
+                        <div class="group">
+                            <div class="item group-col" @Html.Validation().ErrorClass(m => m.Address)>
+                                <label for="@Html.IdFor(m => m.Address)">Address</label>
+                                @Html.TextBoxFor(m => m.Address, new { ng_model = "formInformation.address", data_val = "true", data_val_required = "" })
+                                @Html.ValidationMessageFor(model => model.Address)
+                            </div>
+                        </div>
+
+                        <div class="group">
+                            <div class="item group-col" @Html.Validation().ErrorClass(m => m.City)>
+                                <label for="@Html.IdFor(m => m.City)">City</label>
+                                @Html.TextBoxFor(m => m.City, new { ng_model = "formInformation.city", data_val = "true", data_val_required = "" })
+                                @Html.ValidationMessageFor(model => model.City)
+                            </div>
+                        </div>
+
+                        <div class="group">
+                            <div class="item group-col" @Html.Validation().ErrorClass(m => m.State)>
+                                <label for="@Html.IdFor(m => m.State)">State</label>
+                                @Html.TextBoxFor(m => m.State, new { ng_model = "formInformation.state", data_val = "true", data_val_required = "" })
+                                @Html.ValidationMessageFor(model => model.State)
+                            </div>
+                        </div>
+
+                        <div class="group">
+                            <div class="item group-col" @Html.Validation().ErrorClass(m => m.Zip)>
+                                <label for="@Html.IdFor(m => m.Zip)">Zip</label>
+                                @Html.TextBoxFor(m => m.Zip, new { ng_model = "formInformation.zip", data_val = "true", data_val_required = "" })
+                                @Html.ValidationMessageFor(model => model.Zip)
+                            </div>
+                        </div>
+
+                        <div class="group">
+                            <div class="item group-col" @Html.Validation().ErrorClass(m => m.SocialSecurityNumber)>
+                                <label for="@Html.IdFor(m => m.SocialSecurityNumber)">Social Security Number</label>
+                                @Html.TextBoxFor(m => m.SocialSecurityNumber, new { ng_model = "formInformation.socialSecurityNumber", data_val = "true", data_val_required = "" })
+                                @Html.ValidationMessageFor(model => model.SocialSecurityNumber)
+                            </div>
+                        </div>
+
+                        <div class="group">
+                            <div class="item group-col" @Html.Validation().ErrorClass(m => m.EmployerIdentificationNumber)>
+                                <label for="@Html.IdFor(m => m.EmployerIdentificationNumber)">Employer Identification Number</label>
+                                @Html.TextBoxFor(m => m.EmployerIdentificationNumber, new { ng_model = "formInformation.employerIdentificationNumber", data_val = "true", data_val_required = "" })
+                                @Html.ValidationMessageFor(model => model.EmployerIdentificationNumber)
+                            </div>
+                        </div>
+
+                        <div id="signature"></div>
+                        <div class="buttons">
+                            <button type="button" ng-click="resetSignature()">Reset Signature</button>
+                        </div>
+                    </div>
+                </article>
+                
+                <div class="buttons">
+                    <button type="submit" class="primary" data-val-submit>Create W-9</button>
+                </div>
+            </form>
+        </section>
+        <aside>
+            
+        </aside>
+    </div>       
+</div>

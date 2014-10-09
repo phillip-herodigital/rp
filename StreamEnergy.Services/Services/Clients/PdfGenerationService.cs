@@ -1,4 +1,5 @@
-﻿using ASPPDFLib;
+﻿using Persits.PDF;
+using StreamEnergy.DomainModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,19 +14,18 @@ namespace StreamEnergy.Services.Clients
 {
     class PdfGenerationService : IPdfGenerationService
     {
-        byte[] IPdfGenerationService.GenerateW9(string name, string businessName, PdfBusinessTypes businessType, string businessTypeAdditional, bool isExempt, string address, string city, string state, string zip, string socialSecurityNumber, string employerIdentificationNumber, byte[] signature, DateTime date)
+        byte[] IPdfGenerationService.GenerateW9(string name, string businessName, PdfBusinessClassification businessType, string businessTypeAdditional, bool isExempt, string address, string city, string state, string zip, string socialSecurityNumber, string employerIdentificationNumber, string signature, DateTime date)
         {
             var objPDF = new PdfManager();
-            objPDF.RegKey = "IWezpalWK7pmJwdV21Ccrs1n1G0y1yap+CsGNqvV4IJrWt+0593iKMx0qkSWkS069jolVHhic9oF";
             var objDoc = objPDF.OpenDocument("C:/pdfs/fw9.pdf");
 
             // Obtain page 1 of the document
-            IPdfPage objPage = objDoc.Pages[1];
+            PdfPage objPage = objDoc.Pages[1];
 
             // Create empty param object to be used throughout the app
-            IPdfParam objParam = objPDF.CreateParam(Missing.Value);
+            PdfParam objParam = objPDF.CreateParam(null);
 
-            IPdfFont objFont = objDoc.Fonts["Helvetica-Bold", Missing.Value]; // a standard font
+            PdfFont objFont = objDoc.Fonts["Helvetica-Bold"]; // a standard font
 
             ((dynamic)objPage.Annots[1]).FieldValue = name;
             ((dynamic)objPage.Annots[2]).FieldValue = businessName;
@@ -49,34 +49,34 @@ namespace StreamEnergy.Services.Clients
 
             switch(businessType)
             {
-                case PdfBusinessTypes.IndividualSoleProprietor:
+                case PdfBusinessClassification.IndividualSoleProprietor:
                     ((dynamic)objPage.Annots[3]).FieldActiveState = "On";
                     break;
-                case PdfBusinessTypes.CCorporation:
+                case PdfBusinessClassification.CCorporation:
                     ((dynamic)objPage.Annots[4]).FieldActiveState = "On";
                     break;
-                case PdfBusinessTypes.SCorporation:
+                case PdfBusinessClassification.SCorporation:
                     ((dynamic)objPage.Annots[5]).FieldActiveState = "On";
                     break;
-                case PdfBusinessTypes.Partnership:
+                case PdfBusinessClassification.Partnership:
                     ((dynamic)objPage.Annots[6]).FieldActiveState = "On";
                     break;
-                case PdfBusinessTypes.TrustEstate:
+                case PdfBusinessClassification.TrustEstate:
                     ((dynamic)objPage.Annots[7]).FieldActiveState = "On";
                     break;
-                case PdfBusinessTypes.LLC:
+                case PdfBusinessClassification.LLC:
                     ((dynamic)objPage.Annots[8]).FieldActiveState = "On";
                     break;
-                case PdfBusinessTypes.Other:
+                case PdfBusinessClassification.Other:
                     ((dynamic)objPage.Annots[10]).FieldActiveState = "On";
                     break;
             }
 
-            if (businessType == PdfBusinessTypes.LLC && !string.IsNullOrEmpty(businessTypeAdditional))
+            if (businessType == PdfBusinessClassification.LLC && !string.IsNullOrEmpty(businessTypeAdditional))
             {
                 textFields.llcTaxClassification.FieldValue = businessTypeAdditional;
             }
-            if (businessType == PdfBusinessTypes.Other && !string.IsNullOrEmpty(businessTypeAdditional))
+            if (businessType == PdfBusinessClassification.Other && !string.IsNullOrEmpty(businessTypeAdditional))
             {
                 textFields.otherBusinessType.FieldValue = businessTypeAdditional;
             }
@@ -84,17 +84,29 @@ namespace StreamEnergy.Services.Clients
             textFields.address.FieldValue = address;
             textFields.cityStateZip.FieldValue = string.Format("{0}, {1} {2}", city, state, zip);
 
-            textFields.ssn1.FieldValue = socialSecurityNumber.Substring(0, 3);
-            textFields.ssn2.FieldValue = socialSecurityNumber.Substring(3, 2);
-            textFields.ssn3.FieldValue = socialSecurityNumber.Substring(5);
+            if (!string.IsNullOrEmpty(socialSecurityNumber))
+            {
+                textFields.ssn1.FieldValue = socialSecurityNumber.Substring(0, 3);
+                textFields.ssn2.FieldValue = socialSecurityNumber.Substring(3, 2);
+                textFields.ssn3.FieldValue = socialSecurityNumber.Substring(5);
+            }
 
-            textFields.employerIdentificationNumber1.FieldValue = employerIdentificationNumber.Substring(0, 2);
-            textFields.employerIdentificationNumber2.FieldValue = employerIdentificationNumber.Substring(2);
+            if (!string.IsNullOrEmpty(employerIdentificationNumber))
+            {
+                textFields.employerIdentificationNumber1.FieldValue = employerIdentificationNumber.Substring(0, 2);
+                textFields.employerIdentificationNumber2.FieldValue = employerIdentificationNumber.Substring(2);
+            }
 
             // Date
-            objPage.Canvas.DrawText(objPDF.FormatDate(date, "%b %d, %Y"), "x=432, y=337", objFont);
-            
-            //objDoc.Save("C:/pdfs/savedw9.pdf", true);
+            objPage.Canvas.DrawText(date.ToString("MMM d, yyyy"), "x=412, y=265", objFont);
+
+            // Signature - taken from a .gif file (image itself) and .bmp (mask)
+            PdfImage objSignatureImg = objDoc.OpenImage(Convert.FromBase64String(signature));
+
+            objPage.Canvas.DrawImage(objSignatureImg, "x=164; y=248; scalex=.15, scaley=.15");
+            /*var img = objPage.ToImage();
+            IPdfImage page1Img = objDoc.OpenImageBinary(img.SaveToMemory());
+            objPage.Canvas.DrawImage(page1Img, "x=0; y=0; scalex=1, scaley=1");*/
             byte[] pdf = objDoc.SaveToMemory();
             //File.WriteAllBytes("C:/pdfs/saved" + DateTime.Now.Ticks.ToString() + ".pdf", pdf);
             
