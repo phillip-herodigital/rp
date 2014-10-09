@@ -19,9 +19,9 @@ namespace StreamEnergy.Services.Clients
         private readonly HttpClient streamConnectClient;
         private readonly ILogger logger;
         private readonly Interpreters.IDpiEnrollmentParameters dpiEnrollmentParameters;
-        private readonly ISet<IEnrollmentLocationAdapter> enrollmentLocationAdapters;
+        private readonly ISet<ILocationAdapter> enrollmentLocationAdapters;
 
-        public EnrollmentService([Dependency(StreamConnectContainerSetup.StreamConnectKey)] HttpClient client, ILogger logger, Interpreters.IDpiEnrollmentParameters dpiEnrollmentParameters, ISet<IEnrollmentLocationAdapter> enrollmentLocationAdapters)
+        public EnrollmentService([Dependency(StreamConnectContainerSetup.StreamConnectKey)] HttpClient client, ILogger logger, Interpreters.IDpiEnrollmentParameters dpiEnrollmentParameters, ISet<ILocationAdapter> enrollmentLocationAdapters)
         {
             this.streamConnectClient = client;
             this.logger = logger;

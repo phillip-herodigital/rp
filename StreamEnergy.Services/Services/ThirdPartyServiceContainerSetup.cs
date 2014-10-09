@@ -21,10 +21,10 @@ namespace StreamEnergy.Services
             unityContainer.RegisterType<Interpreters.IDpiEnrollmentParameters, Interpreters.DpiEnrollmentParameters>();
             unityContainer.RegisterType<Clients.ISitecoreProductData, Clients.SitecoreProductData>();
 
-            unityContainer.RegisterType<ISet<IEnrollmentLocationAdapter>>(new ContainerControlledLifetimeManager(), new InjectionFactory(uc => new HashSet<IEnrollmentLocationAdapter>
+            unityContainer.RegisterType<ISet<ILocationAdapter>>(new ContainerControlledLifetimeManager(), new InjectionFactory(uc => new HashSet<ILocationAdapter>
                 {
-                    uc.Resolve<TexasEnrollmentAdapter>(),
-                    uc.Resolve<GeorgiaEnrollmentAdapter>(),
+                    uc.Resolve<TexasAdapter>(),
+                    uc.Resolve<GeorgiaAdapter>(),
                 }));
         }
     }

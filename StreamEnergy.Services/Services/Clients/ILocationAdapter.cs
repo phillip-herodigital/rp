@@ -8,7 +8,7 @@ using StreamEnergy.DomainModels.Enrollments;
 
 namespace StreamEnergy.Services.Clients
 {
-    interface IEnrollmentLocationAdapter
+    interface ILocationAdapter
     {
         bool IsFor(IEnumerable<IServiceCapability> capabilities);
         bool IsFor(IEnumerable<IServiceCapability> capabilities, IOffer offer);
