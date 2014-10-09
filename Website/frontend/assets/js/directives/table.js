@@ -16,9 +16,7 @@ ngApp.directive('gridTable', ['$filter', 'breakpoint', 'jQuery', function ($filt
 
 			var isAjax = (attrs.ajax != undefined) ? true : false;
 
-			scope.$watch(function () {
-				return model.$modelValue;
-			}, function(newVal, oldVal) {
+			scope.$watch(attrs.ngModel, function (newVal, oldVal) {
 				init(newVal);
 			}, true);
 
@@ -106,7 +104,9 @@ ngApp.directive('gridTable', ['$filter', 'breakpoint', 'jQuery', function ($filt
 			};
 
 			scope.$watch('table.pageNum', function (newVal) {
-			    if (newVal && newVal < scope.table.pagingOptions.currentPage) {
+			    if (!scope.table)
+			        return;
+			    if (newVal < scope.table.pagingOptions.currentPage) {
 			        scope.table.pagingOptions.currentPage = scope.table.pageNum;
 			        if (isAjax) {
 			            updateAjaxCallback();

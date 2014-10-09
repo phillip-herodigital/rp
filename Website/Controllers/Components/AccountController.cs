@@ -16,21 +16,6 @@ namespace StreamEnergy.MyStream.Controllers.Components
             this.inner = inner;
         }
 
-        #region Child Actions
-
-        [ChildActionOnly]
-        public ActionResult GetAccountBalances()
-        {
-            return this.Content(StreamEnergy.Json.Stringify(inner.GetAccountBalances().Result));
-        }
-
-        [ChildActionOnly]
-        public ActionResult GetSavedPaymentMethods()
-        {
-            return this.Content(StreamEnergy.Json.Stringify(inner.GetSavedPaymentMethods().Result));
-        }
-        #endregion
-
         public ActionResult AccountBalancesIndex()
         {
             return View("~/Views/Components/Account/Overview/Account Balances and Payments.cshtml");

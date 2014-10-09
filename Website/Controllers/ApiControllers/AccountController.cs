@@ -82,7 +82,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public async Task<GetAccountBalancesResponse> GetAccountBalances()
         {
-            currentUser.Accounts = await accountService.GetAccountBalances(currentUser.StreamConnectCustomerId).ConfigureAwait(false);
+            currentUser.Accounts = await accountService.GetAccountBalances(currentUser.StreamConnectCustomerId);
 
             return new GetAccountBalancesResponse
             {
