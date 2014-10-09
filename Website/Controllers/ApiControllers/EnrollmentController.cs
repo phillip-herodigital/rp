@@ -121,7 +121,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var optionRules = stateMachine.InternalContext.OfferOptionRules ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<IOfferOptionRules>>();
             var deposits = stateMachine.InternalContext.Deposit ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.OfferPayment>>();
             var confirmations = stateMachine.InternalContext.PlaceOrderResult ?? Enumerable.Empty<DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.Service.PlaceOrderResult>>();
-            var renewalConfirmations = stateMachine.InternalContext.RenewalResult != null ? stateMachine.InternalContext.RenewalResult.Data : new RenewalResult();
+            var renewalConfirmations = (stateMachine.InternalContext.RenewalResult != null ? stateMachine.InternalContext.RenewalResult.Data : null) ?? new RenewalResult();
             var standardValidation = (currentFinalStates.Contains(stateMachine.State) ? Enumerable.Empty<ValidationResult>() : stateMachine.ValidationResults);
             IEnumerable<ValidationResult> supplementalValidation;
             var expectedState = ExpectedState(out supplementalValidation);
