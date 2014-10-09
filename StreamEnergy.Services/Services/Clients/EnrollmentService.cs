@@ -133,17 +133,17 @@ namespace StreamEnergy.Services.Clients
             var response = await streamConnectClient.GetAsync("/api/v1/utility-providers/move-in-dates?" + parameters);
             response.EnsureSuccessStatusCode();
 
-            var result = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+            dynamic result = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
             //{"MoveInDates":[{"Date":"2014-08-04T00:00:00","Priority":true,"Fees":[{"Name":"Move In Date Fee","Amount":79.27}]}...]}
 
             return new ConnectDatePolicy()
             {
-                AvailableConnectDates = (from entry in result["MoveInDates"].ToObject<IEnumerable<StreamConnect.MoveInDate>>()
+                AvailableConnectDates = (from entry in (IEnumerable<dynamic>)result.MoveInDates
                                          select new ConnectDate
                                          {
-                                             Date = entry.Date,
-                                             Classification = entry.Priority ? ConnectDateClassification.Priority : ConnectDateClassification.Standard,
-                                             Fees = entry.Fees.ToDictionary(fee => ToFeeQualifier(feeName: fee.Name), fee => fee.Amount)
+                                             Date = ((DateTimeOffset)entry.Date).Date,
+                                             Classification = entry.Priority.Value ? ConnectDateClassification.Priority : ConnectDateClassification.Standard,
+                                             Fees = ((IEnumerable<dynamic>)entry.Fees).ToDictionary(fee => (string)ToFeeQualifier(feeName: fee.Name.Value), fee => (decimal)fee.Amount.Value)
                                          }).ToArray()
             };
         }
