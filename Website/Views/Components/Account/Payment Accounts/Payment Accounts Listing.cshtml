@@ -8,25 +8,26 @@
     </header>
 
     @Html.Sitecore().Field("Body Text")
-    <table class="payment-accounts-table">
-        <thead>
-            <tr>
-                <th class="nickname">@Html.Sitecore().Field("Nickname Text")</th>
-                <th class="account-number">@Html.Sitecore().Field("Account Number Text")</th>
-                <th class="type">@Html.Sitecore().Field("Type Text")</th>
-                <th class="action">@Html.Sitecore().Field("Action Text")</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="item in paymentAccounts">
-                <td data-title="@Html.Sitecore().Field("Nickname Text")">{{item.displayName}}</td>
-                <td data-title="@Html.Sitecore().Field("Account Number Text")">{{item.redactedData}}</td>
-                <td data-title="@Html.Sitecore().Field("Type Text")">{{item.underlyingPaymentType}}</td>
-                <td class="row-actions" data-title="@Html.Sitecore().Field("Action Text")">
-                    <a href="" class="button secondary">@Html.Sitecore().Field("Edit Button Text")</a>
-                    <a href="" class="button">@Html.Sitecore().Field("Delete Button Text")</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="content" loading-indicator>
+        <table class="payment-accounts-table">
+            <thead>
+                <tr>
+                    <th class="nickname">@Html.Sitecore().Field("Nickname Text")</th>
+                    <th class="account-number">@Html.Sitecore().Field("Account Number Text")</th>
+                    <th class="type">@Html.Sitecore().Field("Type Text")</th>
+                    <th class="action">@Html.Sitecore().Field("Action Text")</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in paymentAccounts">
+                    <td data-title="@Html.Sitecore().Field("Nickname Text")">{{item.displayName}}</td>
+                    <td data-title="@Html.Sitecore().Field("Account Number Text")">{{item.redactedData}}</td>
+                    <td data-title="@Html.Sitecore().Field("Type Text")">{{item.underlyingPaymentType}}</td>
+                    <td class="row-actions" data-title="@Html.Sitecore().Field("Action Text")">
+                        <a href="" class="button">@Html.Sitecore().Field("Delete Button Text")</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </article>

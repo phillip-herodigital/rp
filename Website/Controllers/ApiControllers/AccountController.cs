@@ -598,23 +598,28 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
 
         [HttpPost]
-        public UpdateAccountInformationResponse UpdateAccountInformation(UpdateAccountInformationRequest request)
+        public async Task<UpdateAccountInformationResponse> UpdateAccountInformation(UpdateAccountInformationRequest request)
         {
             bool success = false;
             var validations = validation.CompleteValidate(request);
-           
-            var accountNumber = request.AccountNumber;
 
-            // update the account information with Stream Connect
             if (!validations.Any())
             {
-                success = true;
+                var account = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
+                account.Details.ContactInfo.Phone = new[] 
+                { 
+                    new StreamEnergy.DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = request.HomePhone.Number },
+                    new StreamEnergy.DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Mobile, Number = request.MobilePhone.Number },
+                };
+                account.Details.ContactInfo.Email = new DomainModels.Email { Address = request.Email.Address };
+                account.Details.BillingAddress = request.BillingAddress;
+                success = await accountService.SetAccountDetails(account, account.Details);
             }
 
             return new UpdateAccountInformationResponse
             {
                 Success = success,
-                Validations = TranslatedValidationResult.Translate(validations, GetAuthItem("Change Password"))
+                Validations = TranslatedValidationResult.Translate(validations, GetAuthItem("Update Account Information"))
             };
         }
 

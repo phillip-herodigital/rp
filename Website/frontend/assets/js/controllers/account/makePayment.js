@@ -15,11 +15,9 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
         $scope.accountsTableOriginal = angular.copy($scope.accountsTable);
         $scope.isLoading = false;
     });
-    /*
     $http.get('/api/account/getSavedPaymentMethods').success(function (data, status, headers, config) { 
         $scope.paymentMethods = data; 
     });
-    */
     this.paymentMethod = function () {
         if ($scope.useNewPaymentMethod) {
             return $scope.newPaymentMethod[$scope.newPaymentMethodType]();
