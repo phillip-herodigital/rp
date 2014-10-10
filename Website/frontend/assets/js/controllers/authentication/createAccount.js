@@ -3,6 +3,7 @@
  */
 ngApp.controller('AuthCreateAccountCtrl', ['$scope', '$rootScope', '$http', '$window', '$sce', function ($scope, $rootScope, $http, $window, $sce) {
 	$scope.activeState = 'step1';
+	$scope.isLoading = false;
 
 	// create a blank object to hold the form information
 	$scope.formData = {};
@@ -21,6 +22,7 @@ ngApp.controller('AuthCreateAccountCtrl', ['$scope', '$rootScope', '$http', '$wi
 
 	// process the findAccount form
 	$scope.findAccount = function() {
+		$scope.isLoading = true;
 		$http({
 			method  : 'POST',
 			url     : '/api/authentication/findAccount',
@@ -28,6 +30,7 @@ ngApp.controller('AuthCreateAccountCtrl', ['$scope', '$rootScope', '$http', '$wi
 			headers : { 'Content-Type': 'application/JSON' } 
 		})
 			.success(function (data, status, headers, config) {
+				$scope.isLoading = false;
 			    $scope.validations = data.validations;
 				if (!data.customer) {
 					// if not successful, bind errors to error variables
@@ -47,7 +50,7 @@ ngApp.controller('AuthCreateAccountCtrl', ['$scope', '$rootScope', '$http', '$wi
 
 	// process the createLogin form
 	$scope.createLogin = function() {
-
+		$scope.isLoading = true;
 		$http({
 			method  : 'POST',
 			url     : '/api/authentication/createLogin',
@@ -55,6 +58,7 @@ ngApp.controller('AuthCreateAccountCtrl', ['$scope', '$rootScope', '$http', '$wi
 			headers : { 'Content-Type': 'application/JSON' } 
 		})
 			.success(function (data, status, headers, config) {
+				$scope.isLoading = false;
 			    $scope.validations = data.validations;
 			    if (!data.success) {
 					// if not successful, bind errors to error variables
