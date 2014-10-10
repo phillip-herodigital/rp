@@ -13,7 +13,6 @@ namespace StreamEnergy.MyStream.Models.Account
         public IEnumerable<SecurityQuestion> AvailableSecurityQuestions { get; set; }
         public IEnumerable<AnsweredSecurityQuestion> Challenges { get; set; }
         public IEnumerable<LanguagePreference> AvailableLanguages { get; set; }
-        public string LanguagePreference { get; set; }
 
     }
 }

@@ -481,7 +481,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                        Id = languageItem.ID.Guid,
                        Text = languageItem["Language"]
                    },
-                // TODO get Language Preference from StreamConnect
                 LanguagePreference = "English"
             };
         }
@@ -540,8 +539,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     profile.Save();
                 }
 
-                // TODO update the language preference with Stream Connect;
-                
                 return response;
             }
             else 
@@ -803,22 +800,20 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         #region One-time Payment
 
         [HttpPost]
-        public Task<FindAccountForOneTimePaymentResponse> FindAccountForOneTimePayment(FindAccountForOneTimePaymentRequest request)
+        public async Task<FindAccountForOneTimePaymentResponse> FindAccountForOneTimePayment(FindAccountForOneTimePaymentRequest request)
         {
-            // TODO
-            return Task.FromResult(new FindAccountForOneTimePaymentResponse
+            var details = await accountService.GetAccountDetails(request.AccountNumber);
+
+            return new FindAccountForOneTimePaymentResponse
                 {
                     Account = new AccountToPay
                     {
-                        AccountNumber = request.AccountNumber,
+                        AccountNumber = details.AccountNumber,
                         CanMakeOneTimePayment = true,
-                        AmountDue = new decimal(123.45),
-                        AvailablePaymentMethods = new[] 
-                        { 
-                            new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } 
-                        }
+                        AmountDue = details.Balance.Balance,
+                        AvailablePaymentMethods = details.GetCapability<PaymentMethodAccountCapability>().AvailablePaymentMethods.ToArray()
                     }
-                });
+                };
         }
 
         [HttpPost]
@@ -847,10 +842,18 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             paymentAmounts = new Dictionary<Account, decimal> { { account, request.TotalPaymentAmount } };
 
+            var paymentRecords = new[] {
+                new DomainModels.Payments.PaymentRecord
+                                  {
+                                      AccountNumber = request.AccountNumber,
+                                      Amount = request.TotalPaymentAmount,
+                                      Method = request.PaymentAccount,
+                                      Date = DateTime.Today,
+                                  }
+            };
             if (!request.OverrideWarnings.Contains("Duplicate"))
             {
-                // TODO - detect duplicate payment
-                bool isDuplicate = true;
+                bool isDuplicate = await paymentService.DetectDuplicatePayments(paymentRecords);
                 if (isDuplicate)
                 {
                     return new MakeOneTimePaymentResponse
