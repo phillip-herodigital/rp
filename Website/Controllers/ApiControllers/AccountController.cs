@@ -308,14 +308,13 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 }
             }
 
-            // TODO - remove the Take(1) when we aren't testing error states.
             var temp = accounts
                 .Select(entry => new 
                 { 
                     entry.account,
                     entry.paymentAmount,
                     // TODO - customer name?
-                    task = paymentService.OneTimePayment(request.PaymentDate, entry.paymentAmount, entry.account.AccountNumber, null, entry.account.SystemOfRecord, entry.paymentMethod) 
+                    task = paymentService.OneTimePayment(request.PaymentDate, entry.paymentAmount, null, entry.account, entry.paymentMethod) 
                 }).ToArray();
             await Task.WhenAll(temp.Select(e => e.task));
 

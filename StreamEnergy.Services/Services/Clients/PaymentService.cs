@@ -88,6 +88,10 @@ namespace StreamEnergy.Services.Clients
 
         async Task<PaymentResult> IPaymentService.OneTimePayment(DateTime paymentDate, decimal amount, string streamAccountNumber, string customerName, string systemOfRecord, IPaymentInfo paymentInfo)
         {
+            if (paymentInfo is SavedPaymentInfo)
+            {
+                throw new NotImplementedException();
+            }
             var response = await streamConnectClient.PostAsJsonAsync("/api/v1/payments/one-time", new
             {
                 PaymentDate = paymentDate,
@@ -101,11 +105,78 @@ namespace StreamEnergy.Services.Clients
             });
             dynamic jobject = Json.Read<JObject>(await response.Content.ReadAsStringAsync());
 
-            return new DomainModels.Payments.PaymentResult
+            if (jobject.Status == "Success")
+            {
+                return new DomainModels.Payments.PaymentResult
                 {
                     ConfirmationNumber = jobject.ConfirmationNumber,
                     ConvenienceFee = (decimal)jobject.ConvenienceFee.Value,
                 };
+            }
+            else
+            {
+                return new DomainModels.Payments.PaymentResult { };
+            }
+        }
+
+        async Task<PaymentResult> IPaymentService.OneTimePayment(DateTime paymentDate, decimal amount, string customerName, DomainModels.Accounts.Account account, IPaymentInfo paymentInfo)
+        {
+            if (paymentInfo is SavedPaymentInfo)
+            {
+                var savedInfo = paymentInfo as SavedPaymentInfo;
+                var response = await streamConnectClient.PostAsJsonAsync("/api/v1/payments/balance/savedmethod", new
+                {
+                    GlobalPaymentMethodId = savedInfo.Id,
+                    GlobalCustomerId = account.StreamConnectCustomerId,
+                    AccountNumber = account.AccountNumber,
+                    SystemOfRecord = account.SystemOfRecord,
+                    PaymentAmount = amount,
+                    Cvv = GetStreamCvvCode(paymentInfo)
+                });
+                dynamic jobject = Json.Read<JObject>(await response.Content.ReadAsStringAsync());
+
+                
+                if (jobject.Status == "Success")
+                {
+                    return new DomainModels.Payments.PaymentResult
+                    {
+                        ConfirmationNumber = jobject.ConfirmationNumber,
+                        ConvenienceFee = (decimal)jobject.ConvenienceFee.Value,
+                    };
+                }
+                else
+                {
+                    return new DomainModels.Payments.PaymentResult { };
+                }
+            }
+            else
+            {
+                var response = await streamConnectClient.PostAsJsonAsync("/api/v1/payments/one-time", new
+                {
+                    PaymentDate = paymentDate,
+                    InvoiceType = "Standard",
+                    Amount = amount,
+                    StreamAccountNumber = account.AccountNumber,
+                    CustomerName = customerName,
+                    SystemOfRecord = account.SystemOfRecord,
+                    PaymentAccount = ToStreamPaymentAccount(customerName, paymentInfo),
+                    Cvv = GetStreamCvvCode(paymentInfo)
+                });
+                dynamic jobject = Json.Read<JObject>(await response.Content.ReadAsStringAsync());
+
+                if (jobject.Status == "Success")
+                {
+                    return new DomainModels.Payments.PaymentResult
+                        {
+                            ConfirmationNumber = jobject.ConfirmationNumber,
+                            ConvenienceFee = (decimal)jobject.ConvenienceFee.Value,
+                        };
+                }
+                else
+                {
+                    return new DomainModels.Payments.PaymentResult { };
+                }
+            }
         }
 
         async Task<IEnumerable<Account>> IPaymentService.PaymentHistory(Guid globalCustomerId, IEnumerable<Account> existingAccountObjects)
