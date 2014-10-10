@@ -447,7 +447,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             var email = new DomainModels.Email();
             var questionsRoot = database.GetItem("/sitecore/content/Data/Taxonomy/Security Questions");
-            var languagesRoot = database.GetItem("/sitecore/content/Data/Taxonomy/Languages");
 
             email.Address = await accountService.GetEmailByCustomerId(profile.GlobalCustomerId);
             
@@ -473,14 +472,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                             Text = questionItem != null ? questionItem["Question"] : ""
                         }
                     },
-                   
-                AvailableLanguages =
-                   from languageItem in (languagesRoot != null ? languagesRoot.Children : Enumerable.Empty<Sitecore.Data.Items.Item>())
-                   select new LanguagePreference
-                   {
-                       Id = languageItem.ID.Guid,
-                       Text = languageItem["Language"]
-                   },
             };
         }
 
