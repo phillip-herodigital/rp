@@ -69,12 +69,12 @@ namespace StreamEnergy.Services.Clients
             return desc;
         }
 
-        public SitecoreProductInfo GetGeorgiaGasProductData(StreamConnect.Product product)
+        public SitecoreProductInfo GetGeorgiaGasProductData(string productCode)
         {
 
-            if (taxonomy != null)
+            if (taxonomy != null && !string.IsNullOrEmpty(productCode))
             {
-                var item = taxonomy.Axes.GetItem("Products/*/" + product.ProductCode);
+                var item = taxonomy.Axes.GetItem("Products/*/" + productCode);
 
                 if (item != null)
                 {

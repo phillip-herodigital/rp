@@ -91,7 +91,7 @@ namespace StreamEnergy.Services.Clients
                           where product.Rates.Any(r => r.Unit == "Therm")
                           group product by product.ProductCode into products
                           let product = products.First()
-                          let productData = sitecoreProductData.GetGeorgiaGasProductData(product)
+                          let productData = sitecoreProductData.GetGeorgiaGasProductData(product.ProductCode)
                           where productData != null
                           select new GeorgiaGas.Offer
                           {
@@ -188,6 +188,11 @@ namespace StreamEnergy.Services.Clients
 
         DomainModels.Accounts.ISubAccount ILocationAdapter.BuildSubAccount(Address serviceAddress, dynamic details)
         {
+            var productData = sitecoreProductData.GetGeorgiaGasProductData((string)details.AccountPlanDetails.Id) ?? new SitecoreProductInfo
+                {
+                    Fields = new System.Collections.Specialized.NameValueCollection()
+                };
+
             return new DomainModels.Accounts.GeorgiaGasAccount
             {
                 Id = details.UtilityAccountNumber,
@@ -197,6 +202,9 @@ namespace StreamEnergy.Services.Clients
                 RateType = (details.AccountPlanDetails.Type == "Fixed") ? RateType.Fixed : RateType.Variable,
                 TermMonths = details.AccountPlanDetails.Term,
                 ProductId = details.AccountPlanDetails.Id,
+                ProductName = productData.Fields["Name"] ?? details.AccountPlanDetails.Name,
+                ProductDescription = productData.Fields["Description"] ?? details.AccountPlanDetails.Description,
+                EarlyTerminationFee = productData.Fields["Early Termination Fee"]
             };
         }
     }

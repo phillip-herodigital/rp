@@ -43,5 +43,9 @@ namespace StreamEnergy.DomainModels.Accounts
         public decimal Rate { get; set; }
         public int TermMonths { get; set; }
         public string ProductId { get; set; }
+        public string ProductName { get; set; }
+        public string ProductDescription { get; set; }
+
+        public string EarlyTerminationFee { get; set; }
     }
 }
