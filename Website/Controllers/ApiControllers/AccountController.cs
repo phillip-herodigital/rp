@@ -481,7 +481,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                        Id = languageItem.ID.Guid,
                        Text = languageItem["Language"]
                    },
-                LanguagePreference = "English"
             };
         }
 
