@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ResponsivePath.Validation;
+using StreamEnergy.DomainModels.Enrollments;
 
 namespace StreamEnergy.DomainModels.Accounts
 {
@@ -38,5 +39,9 @@ namespace StreamEnergy.DomainModels.Accounts
         }
 
         public string ProviderId { get; set; }
+        public RateType RateType { get; set; }
+        public decimal Rate { get; set; }
+        public int TermMonths { get; set; }
+        public string ProductId { get; set; }
     }
 }

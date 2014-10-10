@@ -10,6 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using StreamEnergy.DomainModels.Accounts;
 using StreamEnergy.Logging;
 
 namespace StreamEnergy.MyStream.Tests.Services.Clients
@@ -204,17 +205,28 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
 
             // Act
-            var acct = accountService.GetAccountDetails("3001311049").Result;
+            var acct = accountService.GetAccountDetails("3001517376").Result;
 
             // Assert
             Assert.IsNotNull(acct);
             Assert.IsNotNull(acct.Details);
-            Assert.AreEqual("3192", acct.Details.SsnLastFour);
+            Assert.AreEqual("0402", acct.Details.SsnLastFour);
             Assert.IsNotNull(acct.Details.ContactInfo);
             Assert.IsNotNull(acct.Details.ContactInfo.Email);
             Assert.IsNotNull(acct.Details.ContactInfo.Name);
             Assert.IsNotNull(acct.Details.ContactInfo.Phone);
             Assert.IsTrue(acct.Details.ContactInfo.Phone.Length > 0);
+            Assert.IsNotNull(acct.SubAccounts);
+            Assert.IsNotNull(acct.GetCapability<ExternalPaymentAccountCapability>());
+            Assert.IsNotNull(acct.GetCapability<PaymentMethodAccountCapability>());
+            Assert.IsNotNull(acct.GetCapability<PaymentSchedulingAccountCapability>());
+            Assert.IsTrue(acct.SubAccounts.First() is GeorgiaGasAccount);
+            var gasAccount = acct.SubAccounts.First() as GeorgiaGasAccount;
+            Assert.AreEqual("74", gasAccount.ProviderId);
+            Assert.AreEqual(StreamEnergy.DomainModels.Enrollments.RateType.Fixed, gasAccount.RateType);
+            Assert.AreEqual(12, gasAccount.TermMonths);
+            Assert.IsTrue(gasAccount.Rate > 0);
+            Assert.IsNotNull(gasAccount.ProductId);
         }
 
         [TestMethod]

@@ -192,7 +192,11 @@ namespace StreamEnergy.Services.Clients
             {
                 Id = details.UtilityAccountNumber,
                 ServiceAddress = serviceAddress,
-                ProviderId = details.AccountPlanDetails.ProviderId
+                ProviderId = details.AccountPlanDetails.ProviderId,
+                Rate = (decimal)details.AccountPlanDetails.RateValue.Value,
+                RateType = (details.AccountPlanDetails.Type == "Fixed") ? RateType.Fixed : RateType.Variable,
+                TermMonths = details.AccountPlanDetails.Term,
+                ProductId = details.AccountPlanDetails.Id,
             };
         }
     }
