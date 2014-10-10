@@ -45,6 +45,10 @@ ngApp.controller('AcctMyPaymentsCtrl', ['$scope', '$rootScope', '$http', '$filte
         if (!$scope.hasPaymentStatus) {
             $scope.paymentsTable.columnList = _.reject($scope.paymentsTable.columnList, {'field': 'status'});       
         }
+
+        // default sort
+        //$scope.sortFieldName = 'paymentDate';
+        //$scope.sortOrder = true;
         
         $scope.isLoading = false;
     });
