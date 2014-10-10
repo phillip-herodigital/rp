@@ -36,7 +36,6 @@ namespace StreamEnergy.Services.Clients
 
         bool ILocationAdapter.IsFor(DomainModels.Accounts.ISubAccount subAccount)
         {
-            // TODO
             return false;
         }
 
@@ -195,5 +194,14 @@ namespace StreamEnergy.Services.Clients
             return null;
         }
 
+        string ILocationAdapter.GetProductCode(DomainModels.Accounts.ISubAccount subAccount)
+        {
+            return null;
+        }
+
+        string ILocationAdapter.GetUtilityAccountNumber(DomainModels.Accounts.ISubAccount subAccount)
+        {
+            return null;
+        }
     }
 }

@@ -312,7 +312,6 @@ namespace StreamEnergy.Services.Clients
 
                 if (result.Status != "Success")
                 {
-                    // TODO - this block is probably wrong, but I don't know that for certain.
                     return new StreamAsync<IdentityCheckResult>
                     {
                         IsCompleted = true,
@@ -414,8 +413,6 @@ namespace StreamEnergy.Services.Clients
             }
             var responseString = await response.Content.ReadAsStringAsync();
 
-            // TODO - do something with the response? 
-
             asyncResult.IsCompleted = true;
             asyncResult.Data = new CreditCheckResult { };
             return asyncResult;
@@ -460,7 +457,6 @@ namespace StreamEnergy.Services.Clients
                                 EnrollmentAccountNumber = entry.EnrollmentAccountNumber,
                                 OngoingAmounts = new IOfferPaymentAmount[] 
                                 {
-                                    // TODO - is there something here?
                                 },
                                 RequiredAmounts = new IOfferPaymentAmount[] 
                                 {
@@ -656,17 +652,20 @@ namespace StreamEnergy.Services.Clients
 
         async Task<StreamAsync<RenewalResult>> IEnrollmentService.BeginRenewal(DomainModels.Accounts.Account account, DomainModels.Enrollments.Renewal.OfferOption renewalOptions)
         {
+            var subAccount = account.SubAccounts.First();
+            var locAdapter = enrollmentLocationAdapters.First(adapter => adapter.IsFor(subAccount));
+
             var response = await streamConnectClient.PostAsJsonAsync("/api/v1/renewals", new
                 {
                     SystemOfRecordAccountNumber = account.AccountNumber,
-                    ProductCode = (string)null, // TODO
+                    ProductCode = locAdapter.GetProductCode(subAccount),
                     StartDate = renewalOptions.RenewalDate,
                     CustomerLast4 = account.Details.SsnLastFour,
                     SystemOfRecord = account.SystemOfRecord,
                     ProductType = account.Details.ProductType,
-                    UtilityAccountNumber = (string)null, // TODO
+                    UtilityAccountNumber = locAdapter.GetUtilityAccountNumber(subAccount),
                     EmailAddress = account.Details.ContactInfo.Email == null ? null : account.Details.ContactInfo.Email.Address,
-                    ProviderId = (string)null, // TODO
+                    ProviderId = locAdapter.GetProvider(subAccount),
                 });
             response.EnsureSuccessStatusCode();
 

@@ -207,5 +207,17 @@ namespace StreamEnergy.Services.Clients
                 EarlyTerminationFee = productData.Fields["Early Termination Fee"]
             };
         }
+
+        string ILocationAdapter.GetProductCode(DomainModels.Accounts.ISubAccount subAccount)
+        {
+            var account = subAccount as DomainModels.Accounts.GeorgiaGasAccount;
+            return account.ProductId;
+        }
+
+        string ILocationAdapter.GetUtilityAccountNumber(DomainModels.Accounts.ISubAccount subAccount)
+        {
+            var account = subAccount as DomainModels.Accounts.GeorgiaGasAccount;
+            return account.Id;
+        }
     }
 }
