@@ -12,18 +12,24 @@ namespace StreamEnergy.Services.Clients
     {
         bool IsFor(IEnumerable<IServiceCapability> capabilities);
         bool IsFor(IEnumerable<IServiceCapability> capabilities, IOffer offer);
+        bool IsFor(Address serviceAddress, string productType);
+        bool IsFor(DomainModels.Accounts.ISubAccount subAccount);
         bool NeedProvider(Location location);
 
         string GetUtilityAccountNumber(IEnumerable<IServiceCapability> capabilities);
         string GetSystemOfRecord(IEnumerable<IServiceCapability> capabilities);
         string GetCommodityType();
-        Newtonsoft.Json.Linq.JObject Provider(IOffer offer);
+        Newtonsoft.Json.Linq.JObject GetProvider(IOffer offer);
+        string GetProvider(DomainModels.Accounts.ISubAccount subAccount);
 
         LocationOfferSet LoadOffers(Location location, StreamConnect.ProductResponse streamConnectProductResponse);
 
         bool SkipPremiseVerification(Location location);
 
         dynamic ToEnrollmentAccount(Guid globalCustomerId, UserContext context, LocationServices service, SelectedOffer offer, Newtonsoft.Json.Linq.JObject salesInfo, Guid? enrollmentAccountId = null, object depositObject = null);
+
+        DomainModels.Accounts.ISubAccount BuildSubAccount(Address serviceAddress, dynamic details);
+
 
 
     }

@@ -37,5 +37,6 @@ namespace StreamEnergy.DomainModels.Accounts
             get { return GeorgiaGasAccount.Classification; }
         }
 
+        public string ProviderId { get; set; }
     }
 }

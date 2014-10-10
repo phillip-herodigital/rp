@@ -30,6 +30,16 @@ namespace StreamEnergy.Services.Clients
             return offer.OfferType == GeorgiaGas.Offer.Qualifier;
         }
 
+        bool ILocationAdapter.IsFor(Address serviceAddress, string productType)
+        {
+            return serviceAddress.StateAbbreviation == "GA" && productType == "Gas";
+        }
+
+        bool ILocationAdapter.IsFor(DomainModels.Accounts.ISubAccount subAccount)
+        {
+            return subAccount is DomainModels.Accounts.GeorgiaGasAccount;
+        }
+
         bool ILocationAdapter.NeedProvider(Location location)
         {
             return true;
@@ -160,13 +170,30 @@ namespace StreamEnergy.Services.Clients
             };
         }
 
-        JObject ILocationAdapter.Provider(IOffer offer)
+        JObject ILocationAdapter.GetProvider(IOffer offer)
         {
             if (offer is GeorgiaGas.Offer)
             {
                 return JObject.Parse(((GeorgiaGas.Offer)offer).Provider);
             }
             return null;
+        }
+
+        string ILocationAdapter.GetProvider(DomainModels.Accounts.ISubAccount subAccount)
+        {
+            var account = subAccount as DomainModels.Accounts.GeorgiaGasAccount;
+
+            return account.ProviderId;
+        }
+
+        DomainModels.Accounts.ISubAccount ILocationAdapter.BuildSubAccount(Address serviceAddress, dynamic details)
+        {
+            return new DomainModels.Accounts.GeorgiaGasAccount
+            {
+                Id = details.UtilityAccountNumber,
+                ServiceAddress = serviceAddress,
+                ProviderId = details.AccountPlanDetails.ProviderId
+            };
         }
     }
 }

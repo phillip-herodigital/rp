@@ -29,6 +29,17 @@ namespace StreamEnergy.Services.Clients
             return offer.OfferType == TexasElectricity.Offer.Qualifier;
         }
 
+        bool ILocationAdapter.IsFor(Address serviceAddress, string productType)
+        {
+            return serviceAddress.StateAbbreviation == "TX" && productType == "Electricity";
+        }
+
+        bool ILocationAdapter.IsFor(DomainModels.Accounts.ISubAccount subAccount)
+        {
+            // TODO
+            return false;
+        }
+
         bool ILocationAdapter.NeedProvider(Location location)
         {
             return false;
@@ -169,9 +180,20 @@ namespace StreamEnergy.Services.Clients
             };
         }
 
-        JObject ILocationAdapter.Provider(IOffer offer)
+        JObject ILocationAdapter.GetProvider(IOffer offer)
         {
             return null;
         }
+
+        string ILocationAdapter.GetProvider(DomainModels.Accounts.ISubAccount subAccount)
+        {
+            return null;
+        }
+
+        DomainModels.Accounts.ISubAccount ILocationAdapter.BuildSubAccount(Address serviceAddress, dynamic details)
+        {
+            return null;
+        }
+
     }
 }

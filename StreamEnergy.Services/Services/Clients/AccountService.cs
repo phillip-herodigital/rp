@@ -18,8 +18,9 @@ namespace StreamEnergy.Services.Clients
         private readonly HttpClient streamConnectClient;
         private readonly string sharedAccessSignature;
         private readonly AccountFactory accountFactory;
+        private readonly ISet<ILocationAdapter> locationAdapters;
 
-        public AccountService(Sample.Commons.SampleStreamCommonsSoap service, StreamCommons.Account.CisAccountServicesPortType accountService, StreamEnergy.Dpi.DPILinkSoap dpiLinkService, [Dependency(StreamConnectContainerSetup.StreamConnectKey)] HttpClient client, [Dependency(StreamConnectContainerSetup.StreamConnectSharedAccessSignature)] string sharedAccessSignature, AccountFactory accountFactory)
+        public AccountService(Sample.Commons.SampleStreamCommonsSoap service, StreamCommons.Account.CisAccountServicesPortType accountService, StreamEnergy.Dpi.DPILinkSoap dpiLinkService, [Dependency(StreamConnectContainerSetup.StreamConnectKey)] HttpClient client, [Dependency(StreamConnectContainerSetup.StreamConnectSharedAccessSignature)] string sharedAccessSignature, AccountFactory accountFactory, ISet<ILocationAdapter> locationAdapters)
         {
             this.service = service;
             this.accountService = accountService;
@@ -27,6 +28,7 @@ namespace StreamEnergy.Services.Clients
             this.streamConnectClient = client;
             this.sharedAccessSignature = sharedAccessSignature;
             this.accountFactory = accountFactory;
+            this.locationAdapters = locationAdapters;
         }
 
         async Task<IEnumerable<Account>> IAccountService.GetInvoices(Guid globalCustomerId, IEnumerable<Account> existingAccountObjects)
@@ -350,7 +352,7 @@ namespace StreamEnergy.Services.Clients
             return null;
         }
 
-        private static void LoadAccountDetailsFromStreamConnect(Account account, dynamic data)
+        private void LoadAccountDetailsFromStreamConnect(Account account, dynamic data)
         {
             account.Details = new AccountDetails
             {
@@ -411,7 +413,7 @@ namespace StreamEnergy.Services.Clients
             });
         }
 
-        private static ISubAccount CreateSubAccount(dynamic details)
+        private ISubAccount CreateSubAccount(dynamic details)
         {
             var serviceAddress = new DomainModels.Address
                             {
@@ -421,26 +423,13 @@ namespace StreamEnergy.Services.Clients
                                 PostalCode5 = details.ServiceAddress.Zip,
                                 StateAbbreviation = details.ServiceAddress.State,
                             };
-            switch ((string)details.ProductType)
-            {
-                case "Gas":
-                    if (serviceAddress.StateAbbreviation == "GA")
-                    {
-                        return new GeorgiaGasAccount
-                        {
-                            Id = details.UtilityAccountNumber,
-                            ServiceAddress = serviceAddress,
-                        };
-                    }
-                    else
-                    {
-                        return null;
-                    }
 
-                case "Electricity":
-                default:
-                    return null;
-            }
+            var locAdapter = locationAdapters.FirstOrDefault(adapter => adapter.IsFor(serviceAddress, (string)details.ProductType));
+
+            if (locAdapter == null)
+                return null;
+
+            return locAdapter.BuildSubAccount(serviceAddress, details);
         }
 
         #endregion
@@ -480,12 +469,14 @@ namespace StreamEnergy.Services.Clients
                 await ((IAccountService)this).GetAccountDetails(account, false);
             }
 
+            var locAdapter = locationAdapters.FirstOrDefault(adapter => adapter.IsFor(account.SubAccounts.First()));
+
             var response = await streamConnectClient.PostAsJsonAsync("/api/v1/renewals/eligibility/",
                 new
                 {
                     UtilityAccountNumber = account.AccountNumber,
-                    ProductType = "Gas", // TODO - fill this in from somewhere
-                    ProviderId = "AGLC", // TODO - fill this in from somewhere
+                    ProductType = locAdapter.GetCommodityType(),
+                    ProviderId = locAdapter.GetProvider(account.SubAccounts.First()),
                     CustomerLast4 = account.Details.SsnLastFour
                 });
 

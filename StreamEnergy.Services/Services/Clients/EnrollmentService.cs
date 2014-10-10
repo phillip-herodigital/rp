@@ -125,7 +125,7 @@ namespace StreamEnergy.Services.Clients
             parameters["SystemOfRecord"] = locAdapter.GetSystemOfRecord(location.Capabilities);
             if (locAdapter.NeedProvider(location))
             {
-                var provider = locAdapter.Provider(offer);
+                var provider = locAdapter.GetProvider(offer);
                 parameters["Provider.Id"] = provider["Id"].ToString();
 
             }
