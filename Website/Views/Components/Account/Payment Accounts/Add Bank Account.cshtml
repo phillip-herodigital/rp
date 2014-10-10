@@ -10,14 +10,7 @@
                 @Html.TextBoxFor(m => m.Nickname, new { ng_model = "formData.nickname" })
                 <span class="help-text">@Html.Sitecore().Field("Account Nickname Help Text")</span>
             </div>
-
             <div bank-account-payment="formData.bankAccount" data-val-if="true"></div>
-
-            <div class="item" @Html.Validation().ErrorClass(m => m.Description)>
-                <label for="@Html.IdFor(m => m.Description)">@Html.Sitecore().Field("Description Label")</label>
-                @Html.TextAreaFor(m => m.Description, new { ng_model = "formData.description" })
-            </div>
-
         </div>
         <footer>
             <div class="buttons">
