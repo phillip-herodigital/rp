@@ -10,8 +10,8 @@
                     paymentType: 'BankPaymentMethod',
                     category: ctrl.category,
                     routingNumber: ctrl.routingNumber,
-                    accountNumber: ctrl.accountNumber,
-                    redactedData: "*******" + (ctrl.accountNumber || '0').slice(-4)
+                    accountNumber: ctrl.accountNumber(),
+                    redactedData: ctrl.accountNumber.redacted
                 });
                 return deferred.promise;
             };

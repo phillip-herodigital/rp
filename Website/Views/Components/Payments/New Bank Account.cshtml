@@ -11,7 +11,7 @@
         </div>
         <div class="item group-col" @Html.Validation().ErrorClass(m => m.AccountNumber)>
             <label for="@Html.IdFor(m => m.AccountNumber)">@Html.Sitecore().Field("Account Number Label")</label>
-            @Html.TextBoxFor(m => m.AccountNumber, new { data_val_if = "bankCtrl.validate", ng_model = "bankCtrl.accountNumber" })
+            @Html.TextBoxFor(m => m.AccountNumber, new { data_val_if = "bankCtrl.validate", ng_model = "bankCtrl.accountNumber", tokenize_field = "{'type':'bank','tokenizerDomain':'" + @Html.GetSetting("Tokenizer", "Tokenizer Domain") + "'}" })
         </div>
     </div>
     <p class="example-image">

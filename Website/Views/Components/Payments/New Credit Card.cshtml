@@ -2,7 +2,7 @@
 <div class="credit-card">
     <div class="item card-number" data-val-error="PaymentAccount.CreditCardNumber">
         <label for="credit-card-number">@Html.Sitecore().Field("Credit Card Number Label"):</label>
-        <input id="credit-card-number" name="PaymentAccount.CreditCardNumber" data-val="true" data-val-if="ccCtrl.validate" data-val-creditcard="@Html.Sitecore().Field("Credit Card Number Invalid")" data-val-required="@Html.Sitecore().Field("Credit Card Number Required")" tokenize-card="{'tokenizerDomain':'@Html.GetSetting("Tokenizer", "Tokenizer Domain")'}" ng-model="ccCtrl.cardToken" type="text">
+        <input id="credit-card-number" name="PaymentAccount.CreditCardNumber" data-val="true" data-val-if="ccCtrl.validate" data-val-creditcard="@Html.Sitecore().Field("Credit Card Number Invalid")" data-val-required="@Html.Sitecore().Field("Credit Card Number Required")" tokenize-field="{'type':'card','tokenizerDomain':'@Html.GetSetting("Tokenizer", "Tokenizer Domain")'}" ng-model="ccCtrl.cardToken" type="text">
     </div>
     <div class="group">
         <div class="item" @Html.Validation().ErrorClass(m => m.ExpirationDate)>
