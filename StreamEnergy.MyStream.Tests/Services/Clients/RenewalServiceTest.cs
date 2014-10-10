@@ -19,7 +19,6 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
     {
         private static Unity.Container container;
         private const string renewalAccountNumber = "3001311049";
-        private const string renewalAccountSsnLast4 = "3192";
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
@@ -42,6 +41,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Arrange
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
             var gcid = accountService.CreateStreamConnectCustomer().Result;
+            var renewalAccountSsnLast4 = accountService.GetAccountDetails(renewalAccountNumber).Result.Details.SsnLastFour;
             var acct = accountService.AssociateAccount(gcid, renewalAccountNumber, renewalAccountSsnLast4, "").Result;
 
             // Act
