@@ -294,10 +294,17 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 }
             }
 
+            var paymentRecords = (from entry in accounts
+                                  select new DomainModels.Payments.PaymentRecord
+                                  {
+                                      AccountNumber = entry.account.AccountNumber,
+                                      Amount = entry.paymentAmount,
+                                      Method = entry.paymentMethod,
+                                      Date = request.PaymentDate,
+                                  }).ToArray();
             if (!request.OverrideWarnings.Contains("Duplicate"))
             {
-                // TODO - detect duplicate payment
-                bool isDuplicate = true;
+                bool isDuplicate = await paymentService.DetectDuplicatePayments(paymentRecords);
                 if (isDuplicate)
                 {
                     return new MakeMultiplePaymentsResponse
@@ -317,6 +324,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     task = paymentService.OneTimePayment(request.PaymentDate, entry.paymentAmount, null, entry.account, entry.paymentMethod) 
                 }).ToArray();
             await Task.WhenAll(temp.Select(e => e.task));
+            await paymentService.RecordForDuplicatePayments((from entry in paymentRecords
+                                                             join acct in temp on entry.AccountNumber equals acct.account.AccountNumber
+                                                             where acct.task.Result.ConfirmationNumber != null
+                                                             select entry).ToArray());
 
             return new MakeMultiplePaymentsResponse
             {

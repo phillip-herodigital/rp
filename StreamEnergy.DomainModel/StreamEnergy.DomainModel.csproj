@@ -267,6 +267,7 @@
     <Compile Include="DomainModels\Enrollments\PlanSelectionState.cs" />
     <Compile Include="DomainModels\Payments\IPaymentService.cs" />
     <Compile Include="DomainModels\Payments\PastPayment.cs" />
+    <Compile Include="DomainModels\Payments\PaymentRecord.cs" />
     <Compile Include="DomainModels\Payments\PaymentResult.cs" />
     <Compile Include="DomainModels\Payments\SamplePaymentInfo.cs" />
     <Compile Include="DomainModels\Payments\SavedPaymentInfo.cs" />

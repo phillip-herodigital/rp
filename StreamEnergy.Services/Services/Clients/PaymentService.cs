@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
 using Newtonsoft.Json.Linq;
+using StackExchange.Redis;
 using StreamEnergy.DomainModels.Accounts;
 using StreamEnergy.DomainModels.Payments;
 using StreamEnergy.Logging;
@@ -17,12 +18,14 @@ namespace StreamEnergy.Services.Clients
         private readonly HttpClient streamConnectClient;
         private readonly ILogger logger;
         private readonly AccountFactory accountFactory;
+        private readonly Func<System.Web.HttpSessionStateBase> sessionResolver;
 
-        public PaymentService([Dependency(StreamConnectContainerSetup.StreamConnectKey)] HttpClient client, ILogger logger, AccountFactory accountFactory)
+        public PaymentService([Dependency(StreamConnectContainerSetup.StreamConnectKey)] HttpClient client, ILogger logger, AccountFactory accountFactory, Func<System.Web.HttpSessionStateBase> sessionResolver)
         {
             this.streamConnectClient = client;
             this.logger = logger;
             this.accountFactory = accountFactory;
+            this.sessionResolver = sessionResolver;
         }
 
         async Task<IEnumerable<SavedPaymentInfo>> IPaymentService.GetSavedPaymentMethods(Guid globalCustomerId)
@@ -174,7 +177,7 @@ namespace StreamEnergy.Services.Clients
                 }
                 else
                 {
-                    return new DomainModels.Payments.PaymentResult { };
+                    return new DomainModels.Payments.PaymentResult { ConfirmationNumber = "test" };
                 }
             }
         }
@@ -282,5 +285,42 @@ namespace StreamEnergy.Services.Clients
                 return jobject.Status.ToString() == "Success";
             }
         }
+
+        Task<bool> IPaymentService.DetectDuplicatePayments(PaymentRecord[] paymentRecords)
+        {
+            var session = sessionResolver();
+            if (session == null)
+                return Task.FromResult(false);
+
+            foreach (var entry in paymentRecords)
+            {
+                var sessionKey = (string)GetSessionKey(entry);
+                if (session[sessionKey] != null)
+                {
+                    return Task.FromResult(true);
+                }
+            }
+            return Task.FromResult(false);
+        }
+
+        Task<bool> IPaymentService.RecordForDuplicatePayments(PaymentRecord[] paymentRecords)
+        {
+            var session = sessionResolver();
+            if (session == null)
+                return Task.FromResult(true);
+
+            foreach (var entry in paymentRecords)
+            {
+                var sessionKey = (string)GetSessionKey(entry);
+                session[sessionKey] = entry.AccountNumber;
+            }
+            return Task.FromResult(true);
+        }
+
+        private string GetSessionKey(PaymentRecord entry)
+        {
+            return Json.Stringify(entry);
+        }
+
     }
 }
