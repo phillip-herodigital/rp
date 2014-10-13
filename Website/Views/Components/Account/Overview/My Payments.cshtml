@@ -52,7 +52,7 @@
                                 {{ item.serviceType }}
                             </td>
                             <td ng-if="hasConfirmation" ng-show="showColumn('confirmCode')">{{ item.confirmCode }}</td>
-                            <td ng-show="showColumn('paymentAmount')">{{ item.paymentAmount }}</td>
+                            <td ng-show="showColumn('paymentAmount')">{{ item.paymentAmount | currency }}</td>
                             <td ng-show="showColumn('paymentDate')">{{ item.paymentDate | date:'MM/dd/yyyy' }}</td>
                             <td ng-if="hasPaymentStatus" ng-show="showColumn('status')">{{ item.status }}</td>
                             <td ng-show="showColumn('action')">

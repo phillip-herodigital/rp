@@ -186,7 +186,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                  AccountNumber = account.AccountNumber,
                                  ServiceType = account.AccountType,
                                  InvoiceNumber = invoice.InvoiceNumber,
-                                 InvoiceAmount = invoice.InvoiceAmount.ToString("0.00"),
+                                 InvoiceAmount = invoice.InvoiceAmount,
                                  DueDate = invoice.DueDate,
                                  CanRequestExtension = account.GetCapability<InvoiceExtensionAccountCapability>().CanRequestExtension,
                                  Actions = 
@@ -544,7 +544,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var mobilePhone = account.Details.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Mobile).FirstOrDefault();
             var homePhone = account.Details.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Home).FirstOrDefault();
 
-            if ((account.SubAccounts[0]).SubAccountType == "GeorgiaGas")
+            if ((account.SubAccounts[0]) != null && (account.SubAccounts[0]).SubAccountType == "GeorgiaGas")
             {
                 serviceAddress = ((StreamEnergy.DomainModels.Accounts.GeorgiaGasAccount)(account.SubAccounts[0])).ServiceAddress;
             }
