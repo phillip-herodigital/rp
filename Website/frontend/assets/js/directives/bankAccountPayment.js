@@ -8,10 +8,10 @@
                 var accountToken = ctrl.accountNumber;
                 return accountToken().then(function (value) {
                     return {
-                        paymentType: 'BankPaymentMethod',
+                        paymentType: 'TokenizedBank',
                         category: ctrl.category,
                         routingNumber: ctrl.routingNumber,
-                        accountNumber: value,
+                        accountToken: value,
                         redactedData: accountToken.redacted
                     }
                 });

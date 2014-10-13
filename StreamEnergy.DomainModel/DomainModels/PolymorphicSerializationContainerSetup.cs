@@ -39,7 +39,7 @@ namespace StreamEnergy.DomainModels
             {
                 SupportedTypes = {
                     { Payments.TokenizedCard.Qualifier, typeof(Payments.TokenizedCard) },
-                    { Payments.BankPaymentInfo.Qualifier, typeof(Payments.BankPaymentInfo) },
+                    { Payments.TokenizedBank.Qualifier, typeof(Payments.TokenizedBank) },
                     { Payments.SavedPaymentInfo.Qualifier, typeof(Payments.SavedPaymentInfo) },
                 }
             });

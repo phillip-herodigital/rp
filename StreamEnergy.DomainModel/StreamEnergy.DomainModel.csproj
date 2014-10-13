@@ -238,7 +238,7 @@
     <Compile Include="DomainModels\MobileEnrollment\UserContext.cs" />
     <Compile Include="DomainModels\Payments\AutoPaySetting.cs" />
     <Compile Include="DomainModels\Payments\BankAccountCategory.cs" />
-    <Compile Include="DomainModels\Payments\BankPaymentInfo.cs" />
+    <Compile Include="DomainModels\Payments\TokenizedBank.cs" />
     <Compile Include="DomainModels\Payments\IPaymentInfo.cs" />
     <Compile Include="DomainModels\Name.cs" />
     <Compile Include="DomainModels\DriversLicense.cs" />

@@ -107,7 +107,7 @@
                         <dt>@Html.Sitecore().Field("Card Number Text")</dt>
                         <dd>{{evaluatedPaymentMethod.redactedData}}</dd>
                     </dl>
-                    <dl class="clearfix module-list payment-module" ng-switch-when="BankPaymentMethod">
+                    <dl class="clearfix module-list payment-module" ng-switch-when="TokenizedBank">
                         <dt>@Html.Sitecore().Field("Payment Method Text")</dt>
                         <dd>@Html.Sitecore().Field("Bank Account Text")</dd>
                         <dt>@Html.Sitecore().Field("Bank Account Number Text")</dt>
@@ -160,7 +160,7 @@
                         <dt>@Html.Sitecore().Field("Card Number Text")</dt>
                         <dd>{{evaluatedPaymentMethod.redactedData}}</dd>
                     </dl>
-                    <dl class="clearfix module-list payment-module" ng-switch-when="BankPaymentMethod">
+                    <dl class="clearfix module-list payment-module" ng-switch-when="TokenizedBank">
                         <dt>@Html.Sitecore().Field("Payment Method Text")</dt>
                         <dd>@Html.Sitecore().Field("Bank Account Text")</dd>
                         <dt>@Html.Sitecore().Field("Bank Account Number Text")</dt>

@@ -41,15 +41,28 @@ namespace StreamEnergy.Services.Clients
                         Id = Guid.Parse(entry.GlobalPaymentMethodId.ToString()),
                         RedactedData = "********" + entry.PaymentAccountNumberLast4,
                         DisplayName = entry.PaymentMethodNickname,
-                        UnderlyingPaymentType = entry.PaymentAccountType,
+                        UnderlyingPaymentType = ToPortalPaymentType(entry.PaymentAccountType.ToString()),
                     }).ToArray();
+        }
+
+        private string ToPortalPaymentType(string streamConnectPaymentType)
+        {
+            switch (streamConnectPaymentType)
+            {
+                case "Savings":
+                case "Checking":
+                    return TokenizedBank.Qualifier;
+                default:
+                case "Unknown":
+                    return TokenizedCard.Qualifier;
+            }
         }
 
         async Task<Guid> IPaymentService.SavePaymentMethod(Guid globalCustomerId, IPaymentInfo paymentInfo, string displayName)
         {
             var response = await streamConnectClient.PostAsJsonAsync("/api/v1/customers/" + globalCustomerId.ToString() + "/payment-methods", new
                 {
-                    PaymentAccount = BuildPaymentAccount(paymentInfo),
+                    PaymentAccount = ToStreamPaymentAccount(paymentInfo),
                     PaymentMethodNickname = displayName
                 });
 
@@ -61,22 +74,6 @@ namespace StreamEnergy.Services.Clients
                 return Guid.Parse(result.GlobalPaymentMethodId.ToString());
             }
             return Guid.Empty;
-        }
-
-        private object BuildPaymentAccount(IPaymentInfo paymentInfo)
-        {
-            if (paymentInfo is TokenizedCard)
-            {
-                var card = paymentInfo as TokenizedCard;
-                return new
-                {
-                    Token = card.CardToken,
-                    AccountType = "Unknown",
-                    ExpirationDate = new { Month = card.ExpirationDate.Month, Year = card.ExpirationDate.Year },
-                    Postal = card.BillingZipCode,                    
-                };
-            }
-            throw new NotImplementedException();
         }
 
         async Task<bool> IPaymentService.DeletePaymentMethod(Guid globalCustomerId, Guid paymentMethodId)
@@ -103,7 +100,7 @@ namespace StreamEnergy.Services.Clients
                 StreamAccountNumber = streamAccountNumber,
                 CustomerName = customerName,
                 SystemOfRecord = systemOfRecord,
-                PaymentAccount = ToStreamPaymentAccount(customerName, paymentInfo),
+                PaymentAccount = ToStreamPaymentAccount(paymentInfo, customerName),
                 Cvv = GetStreamCvvCode(paymentInfo)
             });
             dynamic jobject = Json.Read<JObject>(await response.Content.ReadAsStringAsync());
@@ -162,7 +159,7 @@ namespace StreamEnergy.Services.Clients
                     StreamAccountNumber = account.AccountNumber,
                     CustomerName = customerName,
                     SystemOfRecord = account.SystemOfRecord,
-                    PaymentAccount = ToStreamPaymentAccount(customerName, paymentInfo),
+                    PaymentAccount = ToStreamPaymentAccount(paymentInfo, customerName),
                     Cvv = GetStreamCvvCode(paymentInfo)
                 });
                 dynamic jobject = Json.Read<JObject>(await response.Content.ReadAsStringAsync());
@@ -209,9 +206,12 @@ namespace StreamEnergy.Services.Clients
             );
         }
 
-        private object ToStreamPaymentAccount(string customerName, IPaymentInfo paymentInfo)
+
+        private object ToStreamPaymentAccount(IPaymentInfo paymentInfo, string customerName = null)
         {
+            // TODO - since Name is stored and passed here, should it be part of the payment info objects?
             var card = paymentInfo as DomainModels.Payments.TokenizedCard;
+            var bank = paymentInfo as DomainModels.Payments.TokenizedBank;
             if (card != null)
             {
                 return new
@@ -221,6 +221,16 @@ namespace StreamEnergy.Services.Clients
                     ExpirationDate = new { Year = card.ExpirationDate.Year, Month = card.ExpirationDate.Month },
                     Name = customerName,
                     Postal = card.BillingZipCode,
+                };
+            }
+            else if (bank != null)
+            {
+                return new
+                {
+                    Name = customerName,
+                    Token = bank.AccountToken,
+                    AccountType = bank.Category.ToString("g"),
+                    BankRoutingNumber = bank.RoutingNumber
                 };
             }
 
