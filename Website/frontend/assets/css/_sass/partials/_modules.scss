@@ -75,6 +75,9 @@ article {
             margin-bottom: 0;
             padding-bottom: 0;
         }
+        &.full-table {
+            padding: 0;
+        }
         .account-selector {
             padding: 15px;
             border-bottom: 1px solid #ddd;

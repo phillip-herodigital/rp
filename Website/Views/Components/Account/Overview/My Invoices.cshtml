@@ -47,7 +47,7 @@
                                 {{ item.serviceType }}
                             </td>
                             <td ng-show="showColumn('invoiceNumber')">{{ item.invoiceNumber }}</td>
-                            <td ng-show="showColumn('invoiceAmount')">{{ item.invoiceAmount }}</td>
+                            <td ng-show="showColumn('invoiceAmount')">{{ item.invoiceAmount | currency }}</td>
                             <td ng-show="showColumn('dueDate')">{{ item.dueDate | date:'MM/dd/yyyy' }}</td>
                             <td ng-show="showColumn('action')">
                                 <a class="button secondary" ng-if="item.actions.viewPdf" ng-href="{{item.actions.viewPdf}}">@Html.Sitecore().Field("View PDF Text")</a>

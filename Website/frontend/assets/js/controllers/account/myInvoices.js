@@ -28,6 +28,10 @@ ngApp.controller('AcctMyInvoicesCtrl', ['$scope', '$rootScope', '$http', '$filte
         _.forEach($scope.accountNumbers,function(num) { $scope.filtersList.accountNumber.push({ 'name' : num, 'value' : num }) }); 
         $scope.filtersList.isPaid = [{ "name": "Paid", "value": true }, { "name": "Unpaid", "value": false }];
 
+        // initial sort
+        _.find($scope.invoicesTable.columnList, { 'field': 'dueDate' }).sortOrder = true;
+        _.find($scope.invoicesTable.columnList, { 'field': 'dueDate' }).initialSort = true;
+
         $scope.isLoading = false;
 
     });

@@ -27,10 +27,22 @@ ngApp.directive('gridTable', ['$filter', 'breakpoint', 'jQuery', function ($filt
 					}
 				}, true);
 				scope.$watch('table.pagingOptions.pageSize', updateAjaxCallback);
-            }
+			}
+
+			// Initial sort
+			scope.$watch('table.columnList.length', function(newVal, oldVal) {
+				if (newVal !== oldVal) {
+					var initialSort = _.find(scope.table.columnList, function(col) {
+						return _.has(col,'initialSort');
+					});
+					if (initialSort) {
+						scope.updateSort(initialSort);
+					}
+				}
+			}, true);
 
 			var init = function(data) {
-                
+				
 				if (typeof data != "object" || jQuery.isEmptyObject(data)) {
 					// Maybe want to hide the table, or something?
 					// Also, might want to make this a better check... Just because it's an object, doesn't mean it's in the right format. :)
@@ -104,14 +116,14 @@ ngApp.directive('gridTable', ['$filter', 'breakpoint', 'jQuery', function ($filt
 			};
 
 			scope.$watch('table.pageNum', function (newVal) {
-			    if (!scope.table)
-			        return;
-			    if (newVal < scope.table.pagingOptions.currentPage) {
-			        scope.table.pagingOptions.currentPage = scope.table.pageNum;
-			        if (isAjax) {
-			            updateAjaxCallback();
-			        }
-			    }
+				if (!scope.table)
+					return;
+				if (newVal < scope.table.pagingOptions.currentPage) {
+					scope.table.pagingOptions.currentPage = scope.table.pageNum;
+					if (isAjax) {
+						updateAjaxCallback();
+					}
+				}
 			});
 
 			scope.$watch('table.pagingOptions', function(newVal, oldVal) {
@@ -229,18 +241,18 @@ ngApp.directive('gridTable', ['$filter', 'breakpoint', 'jQuery', function ($filt
 			// Responsive Tables
 
 			scope.toggleResponsiveColumns = function(breakpoint) {
-			    angular.forEach(scope.table.columnList, function (col) {
-			        col.isVisible = jQuery.inArray(breakpoint, col.hide) === -1;
+				angular.forEach(scope.table.columnList, function (col) {
+					col.isVisible = jQuery.inArray(breakpoint, col.hide) === -1;
 				});
 				checkForHiddenColumns();
 			};
 
 			scope.$watch(function () {
-			    return breakpoint.breakpoint.name
+				return breakpoint.breakpoint.name
 			}, function (newValue, oldValue) {
-			    if (newValue !== oldValue) {
-			        scope.toggleResponsiveColumns(newValue);
-			    }
+				if (newValue !== oldValue) {
+					scope.toggleResponsiveColumns(newValue);
+				}
 			}, true);
 
 		}

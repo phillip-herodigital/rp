@@ -11,7 +11,7 @@
 		<h2>@Html.Sitecore().Field("Header Text")</h2>
 	</header>
     <form ng-submit="createLogin()" data-val-bind-messages="validations">
-        <div class="content">
+        <div class="content" loading-indicator>
             @Html.ValidationSummary()
             <h3>@Html.Sitecore().Field("Personal Header Text")</h3>
             @Html.Sitecore().Field("Body Text")
@@ -34,28 +34,28 @@
             <hr class="content-divider">
 
             <!--NOT SUPPORTING SOCIAL SIGN IN AT FIRST
-            <h3>@Html.Sitecore().Field("Social Header Text")</h3>
+        <h3>@Html.Sitecore().Field("Social Header Text")</h3>
 
-            <ul class="social-login clearfix">
-                <li>
-                    <a href="#" class="button social facebook">
-                        <span class="icon-holder"><i class="icon-facebook"></i></span> Facebook
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="button social twitter">
-                        <span class="icon-holder"><i class="icon-twitter"></i></span> Twitter
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="button social linkedin">
-                        <span class="icon-holder"><i class="icon-linkedin"></i></span> LinkedIn
-                    </a>
-                </li>
-            </ul>
+        <ul class="social-login clearfix">
+            <li>
+                <a href="#" class="button social facebook">
+                    <span class="icon-holder"><i class="icon-facebook"></i></span> Facebook
+                </a>
+            </li>
+            <li>
+                <a href="#" class="button social twitter">
+                    <span class="icon-holder"><i class="icon-twitter"></i></span> Twitter
+                </a>
+            </li>
+            <li>
+                <a href="#" class="button social linkedin">
+                    <span class="icon-holder"><i class="icon-linkedin"></i></span> LinkedIn
+                </a>
+            </li>
+        </ul>
 
-            <div class="text-content-divider">@Html.Sitecore().Field("And Divider Text")</div>
-            -->
+        <div class="text-content-divider">@Html.Sitecore().Field("And Divider Text")</div>
+        -->
             <h3>@Html.Sitecore().Field("Create Header Text")</h3>
             <div class="item" @Html.Validation().ErrorClass(model => model.Username)>
                 <label for="@Html.IdFor(m => m.Username)">@Html.Sitecore().Field("Username Label")</label>

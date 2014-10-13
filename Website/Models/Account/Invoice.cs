@@ -23,7 +23,7 @@ namespace StreamEnergy.MyStream.Models.Account
         public string InvoiceNumber { get; set; }
 
         [ColumnSchema("Invoice Amount")]
-        public string InvoiceAmount { get; set; }
+        public decimal InvoiceAmount { get; set; }
 
         [ColumnSchema("Due Date")]
         public DateTime DueDate { get; set; }

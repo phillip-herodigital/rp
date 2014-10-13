@@ -10,8 +10,8 @@
         <h2>@Html.Sitecore().Field("Header Text")</h2>
     </header>
     <form ng-submit="findAccount()" data-val-bind-messages="validations">
-        <div class="content">
-            @Html.Sitecore().Field("Body Text")    
+        <div class="content" loading-indicator>
+            @Html.Sitecore().Field("Body Text")
             @Html.ValidationSummary()
             <div class="item" @Html.Validation().ErrorClass(model => model.AccountNumber)>
                 <label for="@Html.IdFor(m => m.AccountNumber)">@Html.Sitecore().Field("Account Label")</label>

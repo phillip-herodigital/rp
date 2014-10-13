@@ -6,8 +6,8 @@ using StreamEnergy.DomainModels.Accounts;
 
 namespace StreamEnergy.MyStream.Models.Account
 {
-    public class GetGasPlanResponse
+    public class GetUtilityPlanResponse
     {
-        public UtilityPlan GasPlan { get; set; }
+        public UtilityPlan UtilityPlan { get; set; }
     }
 }
