@@ -890,7 +890,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 };
             }
 
-            var result = await paymentService.SavePaymentMethod(currentUser.StreamConnectCustomerId, request.BankAccount, request.Nickname);
+            await paymentService.SavePaymentMethod(currentUser.StreamConnectCustomerId, request.BankAccount, request.Nickname);
 
             return new AddBankAccountResponse
             {

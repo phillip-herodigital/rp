@@ -18,7 +18,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
     public class RenewalServiceTest
     {
         private static Unity.Container container;
-        private const string renewalAccountNumber = "3001311049";
+        private const string renewalAccountNumber = "3001517376";
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)

@@ -36,6 +36,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private readonly IEmailService emailService;
         private readonly ISettings settings;
         private readonly IAccountService accountService;
+        private readonly ImpersonationUtility impersonation;
         
         #region Session Helper Classes
         public class CreateAccountSessionHelper : StateMachineSessionHelper<CreateAccountContext, CreateAccountInternalContext>
@@ -55,7 +56,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
         #endregion
 
-        public AuthenticationController(IUnityContainer container, CreateAccountSessionHelper coaSessionHelper, ResetPasswordSessionHelper resetPasswordSessionHelper, ResetPasswordTokenManager resetPasswordTokenManager, IEmailService emailService, ISettings settings, IAccountService accountService)
+        public AuthenticationController(IUnityContainer container, CreateAccountSessionHelper coaSessionHelper, ResetPasswordSessionHelper resetPasswordSessionHelper, ResetPasswordTokenManager resetPasswordTokenManager, IEmailService emailService, ISettings settings, IAccountService accountService, ImpersonationUtility impersonation)
         {
             this.container = container;
             this.coaSessionHelper = coaSessionHelper;
@@ -67,6 +68,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.emailService = emailService;
             this.accountService = accountService;
             this.settings = settings;
+            this.impersonation = impersonation;
         }
 
         protected override void Initialize(System.Web.Http.Controllers.HttpControllerContext controllerContext)
@@ -396,6 +398,25 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     return command.ExecuteNonQuery() > 0;
                 }
             }
+        }
+
+        #endregion
+
+        #region Impersonation
+
+        [HttpGet]
+        public async Task<HttpResponseMessage> Impersonate(string accountNumber, string expiry, string token)
+        {
+            if (!impersonation.Verify(accountNumber, expiry, token))
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+
+
+            var response = Request.CreateResponse(HttpStatusCode.Moved);
+            response.Headers.Location = new Uri("/account", UriKind.Relative);
+            response.Headers.AddCookies(new[] { await impersonation.CreateAuthenticationCookie(accountNumber) });
+            return response;
         }
 
         #endregion

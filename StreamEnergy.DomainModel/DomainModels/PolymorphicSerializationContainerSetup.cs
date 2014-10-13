@@ -67,6 +67,7 @@ namespace StreamEnergy.DomainModels
                 }
             });
 
+            unityContainer.RegisterInstance<string>(Accounts.ImpersonationUtility.SharedSecretKey, System.Configuration.ConfigurationManager.AppSettings["Impersonation Shared Secret"]);
             unityContainer.RegisterType<Accounts.ICurrentUser, Accounts.CurrentUser>(new ContainerControlledLifetimeManager());
         }
     }
