@@ -20,5 +20,7 @@ namespace StreamEnergy.DomainModels.Payments
         Task<AutoPaySetting> GetAutoPayStatus(Accounts.Account account, bool forceRefresh = false);
         Task<bool> SetAutoPayStatus(Accounts.Account account, AutoPaySetting autoPaySetting);
 
+        Task<bool> DetectDuplicatePayments(PaymentRecord[] paymentRecords);
+        Task<bool> RecordForDuplicatePayments(PaymentRecord[] paymentRecords);
     }
 }

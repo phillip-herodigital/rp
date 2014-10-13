@@ -14,7 +14,7 @@ namespace StreamEnergy.MyStream.Models.Account
 
         [Required]
         [ValidateObject]
-        public DomainModels.Payments.BankPaymentInfo BankAccount { get; set; }
+        public DomainModels.Payments.TokenizedBank BankAccount { get; set; }
 
         public string Description { get; set; }
     }

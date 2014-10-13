@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
 using Newtonsoft.Json.Linq;
+using StackExchange.Redis;
 using StreamEnergy.DomainModels.Accounts;
 using StreamEnergy.DomainModels.Payments;
 using StreamEnergy.Logging;
@@ -17,12 +18,14 @@ namespace StreamEnergy.Services.Clients
         private readonly HttpClient streamConnectClient;
         private readonly ILogger logger;
         private readonly AccountFactory accountFactory;
+        private readonly Func<System.Web.HttpSessionStateBase> sessionResolver;
 
-        public PaymentService([Dependency(StreamConnectContainerSetup.StreamConnectKey)] HttpClient client, ILogger logger, AccountFactory accountFactory)
+        public PaymentService([Dependency(StreamConnectContainerSetup.StreamConnectKey)] HttpClient client, ILogger logger, AccountFactory accountFactory, Func<System.Web.HttpSessionStateBase> sessionResolver)
         {
             this.streamConnectClient = client;
             this.logger = logger;
             this.accountFactory = accountFactory;
+            this.sessionResolver = sessionResolver;
         }
 
         async Task<IEnumerable<SavedPaymentInfo>> IPaymentService.GetSavedPaymentMethods(Guid globalCustomerId)
@@ -38,15 +41,28 @@ namespace StreamEnergy.Services.Clients
                         Id = Guid.Parse(entry.GlobalPaymentMethodId.ToString()),
                         RedactedData = "********" + entry.PaymentAccountNumberLast4,
                         DisplayName = entry.PaymentMethodNickname,
-                        UnderlyingPaymentType = entry.PaymentAccountType,
+                        UnderlyingPaymentType = ToPortalPaymentType(entry.PaymentAccountType.ToString()),
                     }).ToArray();
+        }
+
+        private string ToPortalPaymentType(string streamConnectPaymentType)
+        {
+            switch (streamConnectPaymentType)
+            {
+                case "Savings":
+                case "Checking":
+                    return TokenizedBank.Qualifier;
+                default:
+                case "Unknown":
+                    return TokenizedCard.Qualifier;
+            }
         }
 
         async Task<Guid> IPaymentService.SavePaymentMethod(Guid globalCustomerId, IPaymentInfo paymentInfo, string displayName)
         {
             var response = await streamConnectClient.PostAsJsonAsync("/api/v1/customers/" + globalCustomerId.ToString() + "/payment-methods", new
                 {
-                    PaymentAccount = BuildPaymentAccount(paymentInfo),
+                    PaymentAccount = ToStreamPaymentAccount(paymentInfo),
                     PaymentMethodNickname = displayName
                 });
 
@@ -58,22 +74,6 @@ namespace StreamEnergy.Services.Clients
                 return Guid.Parse(result.GlobalPaymentMethodId.ToString());
             }
             return Guid.Empty;
-        }
-
-        private object BuildPaymentAccount(IPaymentInfo paymentInfo)
-        {
-            if (paymentInfo is TokenizedCard)
-            {
-                var card = paymentInfo as TokenizedCard;
-                return new
-                {
-                    Token = card.CardToken,
-                    AccountType = "Unknown",
-                    ExpirationDate = new { Month = card.ExpirationDate.Month, Year = card.ExpirationDate.Year },
-                    Postal = card.BillingZipCode,                    
-                };
-            }
-            throw new NotImplementedException();
         }
 
         async Task<bool> IPaymentService.DeletePaymentMethod(Guid globalCustomerId, Guid paymentMethodId)
@@ -100,7 +100,7 @@ namespace StreamEnergy.Services.Clients
                 StreamAccountNumber = streamAccountNumber,
                 CustomerName = customerName,
                 SystemOfRecord = systemOfRecord,
-                PaymentAccount = ToStreamPaymentAccount(customerName, paymentInfo),
+                PaymentAccount = ToStreamPaymentAccount(paymentInfo, customerName),
                 Cvv = GetStreamCvvCode(paymentInfo)
             });
             dynamic jobject = Json.Read<JObject>(await response.Content.ReadAsStringAsync());
@@ -159,7 +159,7 @@ namespace StreamEnergy.Services.Clients
                     StreamAccountNumber = account.AccountNumber,
                     CustomerName = customerName,
                     SystemOfRecord = account.SystemOfRecord,
-                    PaymentAccount = ToStreamPaymentAccount(customerName, paymentInfo),
+                    PaymentAccount = ToStreamPaymentAccount(paymentInfo, customerName),
                     Cvv = GetStreamCvvCode(paymentInfo)
                 });
                 dynamic jobject = Json.Read<JObject>(await response.Content.ReadAsStringAsync());
@@ -174,7 +174,7 @@ namespace StreamEnergy.Services.Clients
                 }
                 else
                 {
-                    return new DomainModels.Payments.PaymentResult { };
+                    return new DomainModels.Payments.PaymentResult { ConfirmationNumber = "test" };
                 }
             }
         }
@@ -206,9 +206,12 @@ namespace StreamEnergy.Services.Clients
             );
         }
 
-        private object ToStreamPaymentAccount(string customerName, IPaymentInfo paymentInfo)
+
+        private object ToStreamPaymentAccount(IPaymentInfo paymentInfo, string customerName = null)
         {
+            // TODO - since Name is stored and passed here, should it be part of the payment info objects?
             var card = paymentInfo as DomainModels.Payments.TokenizedCard;
+            var bank = paymentInfo as DomainModels.Payments.TokenizedBank;
             if (card != null)
             {
                 return new
@@ -218,6 +221,16 @@ namespace StreamEnergy.Services.Clients
                     ExpirationDate = new { Year = card.ExpirationDate.Year, Month = card.ExpirationDate.Month },
                     Name = customerName,
                     Postal = card.BillingZipCode,
+                };
+            }
+            else if (bank != null)
+            {
+                return new
+                {
+                    Name = customerName,
+                    Token = bank.AccountToken,
+                    AccountType = bank.Category.ToString("g"),
+                    BankRoutingNumber = bank.RoutingNumber
                 };
             }
 
@@ -282,5 +295,42 @@ namespace StreamEnergy.Services.Clients
                 return jobject.Status.ToString() == "Success";
             }
         }
+
+        Task<bool> IPaymentService.DetectDuplicatePayments(PaymentRecord[] paymentRecords)
+        {
+            var session = sessionResolver();
+            if (session == null)
+                return Task.FromResult(false);
+
+            foreach (var entry in paymentRecords)
+            {
+                var sessionKey = (string)GetSessionKey(entry);
+                if (session[sessionKey] != null)
+                {
+                    return Task.FromResult(true);
+                }
+            }
+            return Task.FromResult(false);
+        }
+
+        Task<bool> IPaymentService.RecordForDuplicatePayments(PaymentRecord[] paymentRecords)
+        {
+            var session = sessionResolver();
+            if (session == null)
+                return Task.FromResult(true);
+
+            foreach (var entry in paymentRecords)
+            {
+                var sessionKey = (string)GetSessionKey(entry);
+                session[sessionKey] = entry.AccountNumber;
+            }
+            return Task.FromResult(true);
+        }
+
+        private string GetSessionKey(PaymentRecord entry)
+        {
+            return Json.Stringify(entry);
+        }
+
     }
 }

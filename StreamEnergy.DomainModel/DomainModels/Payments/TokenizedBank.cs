@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace StreamEnergy.DomainModels.Payments
 {
-    public class BankPaymentInfo : IPaymentInfo
+    public class TokenizedBank : IPaymentInfo
     {
-        public const string Qualifier = "BankPaymentMethod";
+        public const string Qualifier = "TokenizedBank";
 
         public string PaymentType
         {
@@ -22,7 +22,6 @@ namespace StreamEnergy.DomainModels.Payments
         [RegularExpression("^[0-9]{9}$")]
         public string RoutingNumber { get; set; }
         [Required]
-        [RegularExpression("^[0-9]+$")]
-        public string AccountNumber { get; set; }
+        public string AccountToken { get; set; }
     }
 }

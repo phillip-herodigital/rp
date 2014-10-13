@@ -62,7 +62,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         [TestMethod]
         [TestCategory("StreamConnect")]
         [TestCategory("StreamConnect Payments")]
-        public void SavePaymentMethod()
+        public void SaveCardPaymentMethod()
         {
             // Arrange
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
@@ -84,6 +84,34 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             Assert.IsTrue(paymentMethods.Any(pm => pm.Id == result));
             var paymentMethod = paymentMethods.First(pm => pm.Id == result);
             Assert.AreEqual("Test Card", paymentMethod.DisplayName);
+            Assert.AreEqual(DomainModels.Payments.TokenizedCard.Qualifier, paymentMethod.UnderlyingPaymentType);
+        }
+
+        [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Payments")]
+        public void SaveBankPaymentMethod()
+        {
+            // Arrange
+            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
+            StreamEnergy.DomainModels.Payments.IPaymentService paymentService = container.Resolve<StreamEnergy.Services.Clients.PaymentService>();
+            var customerId = accountService.CreateStreamConnectCustomer().Result;
+
+            // Act
+            var result = paymentService.SavePaymentMethod(customerId, new DomainModels.Payments.TokenizedBank
+            {
+                AccountToken = "9442268296134448",
+                RoutingNumber = "123456789",
+                Category = DomainModels.Payments.BankAccountCategory.Checking
+            }, "Test Card").Result;
+
+            // Assert
+            Assert.AreNotEqual(Guid.Empty, result);
+            var paymentMethods = paymentService.GetSavedPaymentMethods(customerId).Result;
+            Assert.IsTrue(paymentMethods.Any(pm => pm.Id == result));
+            var paymentMethod = paymentMethods.First(pm => pm.Id == result);
+            Assert.AreEqual("Test Card", paymentMethod.DisplayName);
+            Assert.AreEqual(DomainModels.Payments.TokenizedBank.Qualifier, paymentMethod.UnderlyingPaymentType);
         }
 
 

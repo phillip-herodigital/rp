@@ -21,7 +21,15 @@ namespace StreamEnergy.DomainModels.Accounts
 
         Guid ICurrentUser.StreamConnectCustomerId
         {
-            get { return profileLocator.Locate(contextLocator().User.Identity.Name).GlobalCustomerId; }
+            get 
+            {
+                var username = contextLocator().User.Identity.Name;
+                if (username.StartsWith(ImpersonationUtility.DomainPrefix))
+                {
+                    return new Guid(username.Substring(ImpersonationUtility.DomainPrefix.Length));
+                }
+                return profileLocator.Locate(username).GlobalCustomerId; 
+            }
         }
 
         IEnumerable<Account> ICurrentUser.Accounts

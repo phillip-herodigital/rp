@@ -294,10 +294,17 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 }
             }
 
+            var paymentRecords = (from entry in accounts
+                                  select new DomainModels.Payments.PaymentRecord
+                                  {
+                                      AccountNumber = entry.account.AccountNumber,
+                                      Amount = entry.paymentAmount,
+                                      Method = entry.paymentMethod,
+                                      Date = request.PaymentDate,
+                                  }).ToArray();
             if (!request.OverrideWarnings.Contains("Duplicate"))
             {
-                // TODO - detect duplicate payment
-                bool isDuplicate = true;
+                bool isDuplicate = await paymentService.DetectDuplicatePayments(paymentRecords);
                 if (isDuplicate)
                 {
                     return new MakeMultiplePaymentsResponse
@@ -317,6 +324,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     task = paymentService.OneTimePayment(request.PaymentDate, entry.paymentAmount, null, entry.account, entry.paymentMethod) 
                 }).ToArray();
             await Task.WhenAll(temp.Select(e => e.task));
+            await paymentService.RecordForDuplicatePayments((from entry in paymentRecords
+                                                             join acct in temp on entry.AccountNumber equals acct.account.AccountNumber
+                                                             where acct.task.Result.ConfirmationNumber != null
+                                                             select entry).ToArray());
 
             return new MakeMultiplePaymentsResponse
             {
@@ -407,7 +418,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             var email = new DomainModels.Email();
             var questionsRoot = database.GetItem("/sitecore/content/Data/Taxonomy/Security Questions");
-            var languagesRoot = database.GetItem("/sitecore/content/Data/Taxonomy/Languages");
 
             email.Address = await accountService.GetEmailByCustomerId(profile.GlobalCustomerId);
             
@@ -433,16 +443,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                             Text = questionItem != null ? questionItem["Question"] : ""
                         }
                     },
-                   
-                AvailableLanguages =
-                   from languageItem in (languagesRoot != null ? languagesRoot.Children : Enumerable.Empty<Sitecore.Data.Items.Item>())
-                   select new LanguagePreference
-                   {
-                       Id = languageItem.ID.Guid,
-                       Text = languageItem["Language"]
-                   },
-                // TODO get Language Preference from StreamConnect
-                LanguagePreference = "English"
             };
         }
 
@@ -500,8 +500,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     profile.Save();
                 }
 
-                // TODO update the language preference with Stream Connect;
-                
                 return response;
             }
             else 
@@ -762,22 +760,20 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         #region One-time Payment
 
         [HttpPost]
-        public Task<FindAccountForOneTimePaymentResponse> FindAccountForOneTimePayment(FindAccountForOneTimePaymentRequest request)
+        public async Task<FindAccountForOneTimePaymentResponse> FindAccountForOneTimePayment(FindAccountForOneTimePaymentRequest request)
         {
-            // TODO
-            return Task.FromResult(new FindAccountForOneTimePaymentResponse
+            var details = await accountService.GetAccountDetails(request.AccountNumber);
+
+            return new FindAccountForOneTimePaymentResponse
                 {
                     Account = new AccountToPay
                     {
-                        AccountNumber = request.AccountNumber,
+                        AccountNumber = details.AccountNumber,
                         CanMakeOneTimePayment = true,
-                        AmountDue = new decimal(123.45),
-                        AvailablePaymentMethods = new[] 
-                        { 
-                            new AvailablePaymentMethod { PaymentMethodType = StreamEnergy.DomainModels.Payments.TokenizedCard.Qualifier } 
-                        }
+                        AmountDue = details.Balance.Balance,
+                        AvailablePaymentMethods = details.GetCapability<PaymentMethodAccountCapability>().AvailablePaymentMethods.ToArray()
                     }
-                });
+                };
         }
 
         [HttpPost]
@@ -806,10 +802,18 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             paymentAmounts = new Dictionary<Account, decimal> { { account, request.TotalPaymentAmount } };
 
+            var paymentRecords = new[] {
+                new DomainModels.Payments.PaymentRecord
+                                  {
+                                      AccountNumber = request.AccountNumber,
+                                      Amount = request.TotalPaymentAmount,
+                                      Method = request.PaymentAccount,
+                                      Date = DateTime.Today,
+                                  }
+            };
             if (!request.OverrideWarnings.Contains("Duplicate"))
             {
-                // TODO - detect duplicate payment
-                bool isDuplicate = true;
+                bool isDuplicate = await paymentService.DetectDuplicatePayments(paymentRecords);
                 if (isDuplicate)
                 {
                     return new MakeOneTimePaymentResponse
@@ -856,7 +860,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 };
             }
 
-            var result = await paymentService.SavePaymentMethod(currentUser.StreamConnectCustomerId, request.BankAccount, request.Nickname);
+            await paymentService.SavePaymentMethod(currentUser.StreamConnectCustomerId, request.BankAccount, request.Nickname);
 
             return new AddBankAccountResponse
             {

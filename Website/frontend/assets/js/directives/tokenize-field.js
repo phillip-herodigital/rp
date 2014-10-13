@@ -1,10 +1,10 @@
-﻿ngApp.directive('tokenizeCard', ['$http', '$q', '$parse', '$window', function ($http, $q, $parse, $window) {
+﻿ngApp.directive('tokenizeField', ['$http', '$q', '$parse', '$window', function ($http, $q, $parse, $window) {
     return {
         require: 'ngModel',
         link: function ($scope, element, attrs, ctrl) {
-            var attributes = $scope.$eval(attrs.tokenizeCard)
+            var attributes = $scope.$eval(attrs.tokenizeField)
             ctrl.$parsers.push(function (inputValue) {
-                var rawCard = inputValue;
+                var rawField = inputValue;
                 var result = function () {
                     var deferred = $q.defer();
                     
@@ -16,14 +16,15 @@
                             deferred.reject();
                         }
                     };
-                    $http.jsonp(attributes.tokenizerDomain + "/cardsecure/cs?action=CE&data=" + rawCard + "&type=json")
+                    var action = attributes.type == "card" ? "CE" : "AE";
+                    $http.jsonp(attributes.tokenizerDomain + "/cardsecure/cs?action=" + action + "&data=" + rawField + "&type=json")
                     .error(function (data, status, headers, config) {
                         deferred.reject();
                     });
 
                     return deferred.promise;
                 };
-                result.redacted = "************" + rawCard.slice(-4)
+                result.redacted = "************" + rawField.slice(-4)
 
                 return result;
             });
