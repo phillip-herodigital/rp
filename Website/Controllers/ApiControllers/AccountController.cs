@@ -36,8 +36,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private readonly IValidationService validation;
         private readonly StreamEnergy.MyStream.Controllers.ApiControllers.AuthenticationController authentication;
         private readonly ICurrentUser currentUser;
+        private readonly EnrollmentController enrollmentController;
 
-        public AccountController(IUnityContainer container, HttpSessionStateBase session, DomainModels.Accounts.IAccountService accountService, DomainModels.Payments.IPaymentService paymentService, Services.Clients.ITemperatureService temperatureService, IValidationService validation, StreamEnergy.MyStream.Controllers.ApiControllers.AuthenticationController authentication, ICurrentUser currentUser)
+        public AccountController(IUnityContainer container, HttpSessionStateBase session, DomainModels.Accounts.IAccountService accountService, DomainModels.Payments.IPaymentService paymentService, Services.Clients.ITemperatureService temperatureService, IValidationService validation, StreamEnergy.MyStream.Controllers.ApiControllers.AuthenticationController authentication, ICurrentUser currentUser, EnrollmentController enrollmentController)
         {
             this.container = container;
             this.temperatureService = temperatureService;
@@ -49,7 +50,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.validation = validation;
             this.authentication = authentication;
             this.currentUser = currentUser;
-
+            this.enrollmentController = enrollmentController;
         }
 
         [HttpGet]
@@ -917,6 +918,27 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             {
                 Validations = Enumerable.Empty<TranslatedValidationResult>(),
                 RedirectUri = LinkManager.GetItemUrl(Sitecore.Context.Database.GetItem(new Sitecore.Data.ID(new Guid("{4927A836-7309-4D0C-898B-A06503C37997}")))) + "?success=1234",
+            };
+        }
+
+        #endregion
+
+        #region Renewal
+
+        [HttpPost]
+        public async Task<SetupRenewalResponse> SetupRenewal(SetupRenewalRequest request)
+        {
+            if (currentUser.Accounts != null)
+            {
+                currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
+            }
+            var target = currentUser.Accounts.First(acct => acct.StreamConnectAccountId == request.AccountId);
+
+            await enrollmentController.Initialize(null);
+
+            return new SetupRenewalResponse
+            {
+                IsSuccess = await enrollmentController.SetupRenewal(target)
             };
         }
 
