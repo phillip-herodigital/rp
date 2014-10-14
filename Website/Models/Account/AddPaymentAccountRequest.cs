@@ -7,15 +7,13 @@ using ResponsivePath.Validation;
 
 namespace StreamEnergy.MyStream.Models.Account
 {
-    public class AddBankAccountRequest
+    public class AddPaymentAccountRequest
     {
         [Required]
         public string Nickname { get; set; }
 
         [Required]
         [ValidateObject]
-        public DomainModels.Payments.TokenizedBank BankAccount { get; set; }
-
-        public string Description { get; set; }
+        public DomainModels.Payments.IPaymentInfo PaymentAccount { get; set; }
     }
 }

@@ -850,20 +850,25 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
 
         [HttpPost]
-        public async Task<AddBankAccountResponse> AddBankAccount(AddBankAccountRequest request)
+        public async Task<AddPaymentAccountResponse> AddPaymentAccount(AddPaymentAccountRequest request)
         {
-            var validationItem = database.GetItem("/sitecore/content/Data/Components/Account/Payment Accounts/Add Bank Account");
             if (!ModelState.IsValid)
             {
-                return new AddBankAccountResponse
+                Sitecore.Data.Items.Item validationItem;
+                if (request.PaymentAccount is DomainModels.Payments.TokenizedBank)
+                    validationItem = database.GetItem("/sitecore/content/Data/Components/Account/Payment Accounts/Add Bank Account");
+                else
+                    validationItem = database.GetItem("/sitecore/content/Data/Components/Account/Payment Accounts/Add Credit Card");
+
+                return new AddPaymentAccountResponse
                 {
                     Validations = TranslatedValidationResult.Translate(ModelState, validationItem),
                 };
             }
 
-            await paymentService.SavePaymentMethod(currentUser.StreamConnectCustomerId, request.BankAccount, request.Nickname);
+            await paymentService.SavePaymentMethod(currentUser.StreamConnectCustomerId, request.PaymentAccount, request.Nickname);
 
-            return new AddBankAccountResponse
+            return new AddPaymentAccountResponse
             {
                 Validations = Enumerable.Empty<TranslatedValidationResult>(),
                 RedirectUri = LinkManager.GetItemUrl(Sitecore.Context.Database.GetItem(new Sitecore.Data.ID(new Guid("{4927A836-7309-4D0C-898B-A06503C37997}")))) + "?success=1234",
@@ -871,23 +876,23 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
 
         [HttpPost]
-        public async Task<AddCreditCardResponse> AddCreditCard(AddCreditCardRequest request)
+        public async Task<DeletePaymentAccountResponse> DeletePaymentAccount(DeletePaymentAccountRequest request)
         {
-            var validationItem = database.GetItem("/sitecore/content/Data/Components/Account/Payment Accounts/Add Credit Card");
             if (!ModelState.IsValid)
             {
-                return new AddCreditCardResponse
+                var validationItem = database.GetItem("/sitecore/content/Data/Components/Account/Payment Accounts/Add Bank Account");
+
+                return new DeletePaymentAccountResponse
                 {
                     Validations = TranslatedValidationResult.Translate(ModelState, validationItem),
                 };
             }
 
-            var result = await paymentService.SavePaymentMethod(currentUser.StreamConnectCustomerId, request.Card, request.Nickname);
+            await paymentService.DeletePaymentMethod(currentUser.StreamConnectCustomerId, request.PaymentAccountId);
 
-            return new AddCreditCardResponse
+            return new DeletePaymentAccountResponse
             {
                 Validations = Enumerable.Empty<TranslatedValidationResult>(),
-                RedirectUri = LinkManager.GetItemUrl(Sitecore.Context.Database.GetItem(new Sitecore.Data.ID(new Guid("{4927A836-7309-4D0C-898B-A06503C37997}")))) + "?success=1234",
             };
         }
 

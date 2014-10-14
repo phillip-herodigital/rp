@@ -553,12 +553,12 @@
     </Compile>
     <Compile Include="Models\Account\AccountPayment.cs" />
     <Compile Include="Models\Account\AccountToPay.cs" />
-    <Compile Include="Models\Account\AddBankAccountRequest.cs" />
-    <Compile Include="Models\Account\AddBankAccountResponse.cs" />
-    <Compile Include="Models\Account\AddCreditCardRequest.cs" />
-    <Compile Include="Models\Account\AddCreditCardResponse.cs" />
+    <Compile Include="Models\Account\AddPaymentAccountRequest.cs" />
+    <Compile Include="Models\Account\AddPaymentAccountResponse.cs" />
     <Compile Include="Models\Account\AddNewAccountRequest.cs" />
     <Compile Include="Models\Account\AddNewAccountResponse.cs" />
+    <Compile Include="Models\Account\DeletePaymentAccountRequest.cs" />
+    <Compile Include="Models\Account\DeletePaymentAccountResponse.cs" />
     <Compile Include="Models\Account\EnrolledAccount.cs" />
     <Compile Include="Models\Account\FindAccountForOneTimePaymentRequest.cs" />
     <Compile Include="Models\Account\FindAccountForOneTimePaymentResponse.cs" />

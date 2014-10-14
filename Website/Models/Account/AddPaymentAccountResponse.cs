@@ -5,7 +5,7 @@ using System.Web;
 
 namespace StreamEnergy.MyStream.Models.Account
 {
-    public class AddCreditCardResponse
+    public class AddPaymentAccountResponse
     {
         public IEnumerable<TranslatedValidationResult> Validations { get; set; }
         public string RedirectUri { get; set; }
