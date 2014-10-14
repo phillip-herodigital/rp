@@ -793,7 +793,6 @@
     <Content Include="Views\Components\Account\Sidebar Widgets\Promo.cshtml" />
     <Content Include="Views\Components\Account\Sidebar Widgets\Thermostat.cshtml" />
     <Content Include="Views\Components\Account\Two Column Layout.cshtml" />
-    <Content Include="Views\Components\Account\Utility Services\Your Electricity Plan.cshtml" />
     <Content Include="Views\Components\Account\Utility Services\Your Utility Plan.cshtml" />
     <Content Include="Views\Components\Authentication\Change Password.cshtml" />
     <Content Include="Views\Components\Authentication\Create Account - Step 1.cshtml" />
