@@ -1,4 +1,4 @@
-﻿@model StreamEnergy.DomainModels.Payments.BankPaymentInfo
+﻿@model StreamEnergy.DomainModels.Payments.TokenizedBank
 <div ng-init="bankTypes = @(Html.Action("BankCategories", "Data").ToHtmlString());">
     <div class="item" @Html.Validation().ErrorClass(m => m.Category)>
         <label for="@Html.IdFor(m => m.Category)">@Html.Sitecore().Field("Account Type Label")</label>
@@ -9,9 +9,9 @@
             <label for="@Html.IdFor(m => m.RoutingNumber)">@Html.Sitecore().Field("Routing Number Label")</label>
             @Html.TextBoxFor(m => m.RoutingNumber, new { data_val_if = "bankCtrl.validate", ng_model = "bankCtrl.routingNumber" })
         </div>
-        <div class="item group-col" @Html.Validation().ErrorClass(m => m.AccountNumber)>
-            <label for="@Html.IdFor(m => m.AccountNumber)">@Html.Sitecore().Field("Account Number Label")</label>
-            @Html.TextBoxFor(m => m.AccountNumber, new { data_val_if = "bankCtrl.validate", ng_model = "bankCtrl.accountNumber", tokenize_field = "{'type':'bank','tokenizerDomain':'" + @Html.GetSetting("Tokenizer", "Tokenizer Domain") + "'}" })
+        <div class="item group-col" data-val-error="PaymentAccount.AccountNumber">
+            <label for="credit-card-number">@Html.Sitecore().Field("Account Number Label"):</label>
+            <input id="credit-card-number" name="PaymentAccount.AccountNumber" data-val="true" data-val-if="bankCtrl.validate" data-val-creditcard="@Html.Sitecore().Field("Credit Card Number Invalid")" data-val-required="@Html.Sitecore().Field("Account Number Required")" tokenize-field="{'type':'bank','tokenizerDomain':'@Html.GetSetting("Tokenizer", "Tokenizer Domain")'}" ng-model="bankCtrl.accountToken" type="text">
         </div>
     </div>
     <p class="example-image">

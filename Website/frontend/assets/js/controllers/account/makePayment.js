@@ -9,16 +9,30 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
     $scope.overriddenWarnings = [];
     $scope.isLoading = true;
     $scope.activeState = 'step1';
+    $scope.accountNickname = '';
+    $scope.newPaymentMethod = [];
 
     $http.get('/api/account/getAccountBalancesTable').success(function (data, status, headers, config) {
         $scope.accountsTable = data.accounts;
         $scope.accountsTableOriginal = angular.copy($scope.accountsTable);
         $scope.isLoading = false;
     });
+
     $http.get('/api/account/getSavedPaymentMethods').success(function (data, status, headers, config) { 
-        $scope.paymentMethods = data; 
+        $scope.paymentAccounts = data;
     });
-    this.paymentMethod = function () {
+
+    $scope.addAccount = function (item) {
+        if (item == 'addAccount') {
+            // open the add account modal
+            $modal.open({
+                templateUrl: 'AddPaymentAccount',
+                scope: $scope
+            });
+        }
+    }
+
+    $scope.paymentMethod = function () {
         if ($scope.useNewPaymentMethod) {
             return $scope.newPaymentMethod[$scope.newPaymentMethodType]();
         } else {
@@ -28,9 +42,9 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
         }
     }
 
-    this.resolvePaymentMethod = function () {
+    $scope.resolvePayments = function () {
         $scope.paymentMethod().then(function (data) {
-            $scope.evaluatedPaymentMethod = data;
+            //$scope.evaluatedPaymentMethod = data;
             $scope.activeState = 'step2';
         });
     };
