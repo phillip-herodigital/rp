@@ -591,6 +591,8 @@
     <Compile Include="Models\Account\RemoveAccountResponse.cs" />
     <Compile Include="Models\Account\SendLetterRequest.cs" />
     <Compile Include="Models\Account\SendLetterResponse.cs" />
+    <Compile Include="Models\Account\SetupRenewalRequest.cs" />
+    <Compile Include="Models\Account\SetupRenewalResponse.cs" />
     <Compile Include="Models\Account\UpdateAccountInformationRequest.cs" />
     <Compile Include="Models\Account\UpdateAccountInformationResponse.cs" />
     <Compile Include="Models\Account\UpdateNotificationRequest.cs" />

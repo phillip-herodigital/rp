@@ -108,6 +108,39 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             return response;
         }
 
+        [NonAction]
+        public async Task<bool> SetupRenewal(DomainModels.Accounts.Account account)
+        {
+            stateHelper.Reset();
+            await stateHelper.EnsureInitialized();
+            stateHelper.State = typeof(ServiceInformationState);
+            stateHelper.Context.IsRenewal = true;
+            stateHelper.Context.Services = new LocationServices[]
+            {
+                new LocationServices 
+                { 
+                    Location = new Location 
+                    { 
+                        Address = account.SubAccounts.First().ServiceAddress,
+                        Capabilities = new IServiceCapability[] { new ServiceStatusCapability { EnrollmentType = EnrollmentType.Renewal } }
+                    },
+                    SelectedOffers = new SelectedOffer[] 
+                    { 
+                        new SelectedOffer 
+                        { 
+                            Offer = new DomainModels.Enrollments.Renewal.Offer 
+                            { 
+                                RenewingAccount = account
+                            } 
+                        }
+                    }
+                }
+            };
+            await stateHelper.StateMachine.Process();
+
+            return true;
+        }
+
         /// <summary>
         /// Gets all the client data, such as for a page refresh
         /// </summary>
