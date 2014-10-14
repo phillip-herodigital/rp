@@ -1070,15 +1070,49 @@ article.make-payment {
                 padding: 15px 0 0 0;
             }
         }
-        .new-account {
-            margin-top: 10px;
-            .payment-options {
-                margin: 15px 0 25px 18px;
-                img {
-                    max-width: 100%;
+    }
+}
+div.new-account-modal {
+    max-height: none;
+    .payment-selection {
+        label {
+            margin-left: 5px;
+        }
+    }
+    .content {
+        margin-top: 15px;
+        .nickname {
+            margin-bottom: 10px;
+        }
+        .zip-code {
+            width: 20%;
+            @include breakpoint(small) {
+                width: auto;
+            }
+        }
+        .security-code {
+            @include breakpoint(medium) {
+                clear: left;
+                margin-top: 20px;
+            }
+        }
+        .example {
+            @include breakpoint(small) {
+                margin-top: -15px;
+            }
+            .single-link {
+                margin-top: 30px;
+                @include breakpoint(medium) {
+                    margin-top: 52px;
+                }
+                @include breakpoint(small) {
+                    margin-top: 0;
                 }
             }
         }
+    }
+    footer {
+        margin-top: 15px;
     }
 }
 article.card-details {

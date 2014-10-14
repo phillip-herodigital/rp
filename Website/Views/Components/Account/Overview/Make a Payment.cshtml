@@ -40,25 +40,15 @@
                                             </div>
                                             <div class="item" @(account.Validation().ErrorClass(m => m.PaymentAccount))>
                                                 <label for="@account.Fix(h => h.IdFor(e => e.PaymentAccount)))">@Html.Sitecore().Field("Payment Account Text")</label>
-                                                @*
-                                                <select id="@account.Fix(h => h.IdFor(e => e.PaymentAccount))" name="@account.Fix(h => h.NameFor(e => e.PaymentAccount))" ng-model="item.selectedPaymentMethod" data-val-if="item.selected" ng-change="addAccount(item.selectedPaymentMethod)">
+                                               
+                                                <select id="@account.Fix(h => h.IdFor(e => e.PaymentAccount))" name="@account.Fix(h => h.NameFor(e => e.PaymentAccount))"
+                                                        data-val="true" data-val-required data-val-if="item.selected" data-val-regex="" data-val-regex-pattern="^[A-Fa-f0-9]{32}$|({|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(}|\))?$|^({)?[0xA-Fa-f0-9]{3,10}(, {0,1}[0xA-Fa-f0-9]{3,6}){2}, {0,1}({)([0xA-Fa-f0-9]{3,4}, {0,1}){7}[0xA-Fa-f0-9]{3,4}(}})$"
+                                                        ng-model="item.selectedPaymentMethod" ng-change="addAccount(item.selectedPaymentMethod)">
                                                     <option value="" ng-selected="selected">@Html.Sitecore().Field("Select Payment Account Text")</option>
                                                     <option ng-repeat="option in paymentAccounts" value="{{ option.id }}">{{ option.displayName }}</option>
                                                     <option value="addAccount">@Html.Sitecore().Field("Add Account Text")</option>
                                                 </select>
-                                                *@
-                                                @account.Fix(h => h.DropDownListFor(m => m.PaymentAccount,
-                                                     new SelectListItem[] { new SelectListItem { Text = Html.Sitecore().Field("Select Payment Account Text").ToString(), Value = "" } },
-                                                        new
-                                                        {
-                                                            data_val_if = "item.selected",
-                                                            ng_model = "item.selectedPaymentMethod",
-                                                            ng_options = "option.displayName for option in paymentAccounts track by option.id",
-                                                            ng_init = "addExtraOption()"
-                                                            
-                                                        }))
                                                 @account.ValidationMessageFor(m => m.PaymentAccount)
-
                                             </div>
                                         </div>
                                     }
@@ -113,16 +103,14 @@
                     <dt>@Html.Sitecore().Field("Payment Amount Text")</dt>
                     <dd>{{ account.paymentAmount | currency }}</dd>
                     <dt>@Html.Sitecore().Field("Payment Method Text")</dt>
-                    <dd>{{ account.selectedPaymentMethod }}</dd>
+                    <dd>{{ getPaymentMethod(account.selectedPaymentMethod) }}</dd>
                 </dl>
-
                 <dl class="clearfix module-list">
                     <dt>@Html.Sitecore().Field("Payment Date Text")</dt>
                     <dd>{{ selectedDate | date:'MM/dd/yyyy' }}</dd>
                     <dt>@Html.Sitecore().Field("Total Payment Text")</dt>
                     <dd>{{ paymentAmount | currency }}</dd>
                 </dl>
-
             </div>
             <footer>
                 <div class="buttons">
@@ -219,57 +207,55 @@
 <script type="text/ng-template" id="AddPaymentAccount">
     <div class="modal-header">
         <a href="" ng-click="$dismiss()"></a>
-        <h2>Add Payment Account</h2>
+        <h2>@Html.Sitecore().Field("Add Account Header Text")</h2>
     </div>
-    <div class="modal-body">
-        <div class="new-account">
-            <fieldset>
-                <legend>@Html.Sitecore().Field("Payment Type Text")</legend>
-                <div class="payment-type-selection" ng-init="newPaymentMethod = {}">
-                    <div class="payment-selection">
-                        <label><input type="radio" name="payment-type" ng-model="newPaymentMethodType" value="TokenizedCard">@Html.Sitecore().Field("Credit Card Text")</label>
-                    </div>
-                    <div ng-show="newPaymentMethodType == 'TokenizedCard'" class="payment-options" ng-controller="AddCreditCardCtrl">
-                        <form data-val-bind-messages="validations" ng-submit="addPaymentAccount()">
-                            <div class="content">
-                                <div class="item">
-                                    <label for="Nickname">Nickname:</label>
-                                    <input type="text" ng_model="accountNickname" />
-                                    <span class="help-text">@Html.Sitecore().Field("Account Nickname Help Text")</span>
-                                </div>
-                                <div credit-card-payment="formData.card" data-val-if="newPaymentMethodType == 'TokenizedCard'"></div>
-                            </div>
-                            <footer>
-                                <div class="buttons">
-                                    <button type="submit" data-val-submit>@Html.Sitecore().Field("Submit Button Text")</button>
-                                    @Html.Sitecore().Field("Cancel Button Text")
-                                </div>
-                            </footer>
-                        </form>
-                    </div>
-                    <div class="payment-selection">
-                        <input type="radio" id="bank-account" name="payment-type" ng-model="newPaymentMethodType" value="BankPaymentMethod"><label for="bank-account">@Html.Sitecore().Field("Bank Account Text")</label>
-                    </div>
-                    <div ng-show="newPaymentMethodType == 'BankPaymentMethod'" class="payment-options" data-val-if="newPaymentMethodType == 'BankPaymentMethod'">
-                        <form data-val-bind-messages="validations" ng-submit="addPaymentAccount()">
-                            <div class="content">
-                                <div class="item">
-                                    <label for="Nickname">Nickname:</label>
-                                    <input type="text" ng_model = "accountNickname" />
-                                    <span class="help-text">@Html.Sitecore().Field("Account Nickname Help Text")</span>
-                                </div>
-                                <div bank-account-payment="newPaymentMethod['BankPaymentMethod']" data-val-if="newPaymentMethodType == 'BankPaymentMethod'"></div>
-                            </div>
-                            <footer>
-                                <div class="buttons">
-                                    <button type="submit" data-val-submit>@Html.Sitecore().Field("Submit Button Text")</button>
-                                    @Html.Sitecore().Field("Cancel Button Link")
-                                </div>
-                            </footer>
-                        </form>
-                    </div>
+    <div class="modal-body new-account-modal">
+        <fieldset>
+            <legend>@Html.Sitecore().Field("Payment Type Text")</legend>
+            <div class="payment-type-selection">
+                <div class="payment-selection">
+                    <input type="radio" id="credit-card" name="payment-type" ng-model="newPaymentMethodType" value="TokenizedCard"><label for="credit-card">@Html.Sitecore().Field("Credit Card Text")</label>
                 </div>
-            </fieldset>
-        </div>
+                <div class="payment-selection">
+                    <input type="radio" id="bank-account" name="payment-type" ng-model="newPaymentMethodType" value="TokenizedBank"><label for="bank-account">@Html.Sitecore().Field("Bank Account Text")</label>
+                </div>
+                <div ng-show="newPaymentMethodType == 'TokenizedCard'" class="payment-options" ng-controller="AddCreditCardCtrl">
+                    <form data-val-bind-messages="validations" ng-submit="modalAddPaymentAccount()">
+                        <div class="content">
+                            <div class="item nickname" data-val-error="cc-nickname">
+                                <label for="cc-nickname">@Html.Sitecore().Field("Account Nickname Label")</label>
+                                <input id="cc-nickname" name="cc-nickname" type="text" data-val="true" data-val-required data-val-if="newPaymentMethodType == 'TokenizedCard'" ng_model="formData.nickname" />
+                                <span class="help-text">@Html.Sitecore().Field("Account Nickname Help Text")</span>
+                            </div>
+                            <div credit-card-payment="formData.card" data-val-if="newPaymentMethodType == 'TokenizedCard'"></div>
+                        </div>
+                        <footer>
+                            <div class="buttons">
+                                <button type="submit" data-val-submit>@Html.Sitecore().Field("Submit Button Text")</button>
+                                <button class="secondary" ng-click="$dismiss()">@Html.Sitecore().Field("Cancel Button Text")</button>
+                            </div>
+                        </footer>
+                    </form>
+                </div>
+                <div ng-show="newPaymentMethodType == 'TokenizedBank'" class="payment-options" data-val-if="newPaymentMethodType == 'TokenizedBank'">
+                    <form data-val-bind-messages="validations" ng-submit="modalAddPaymentAccount()">
+                        <div class="content">
+                            <div class="item nickname" data-val-error="bank-nickname">
+                                <label for="bank-nickname">@Html.Sitecore().Field("Account Nickname Label")</label>
+                                <input id="bank-nickname" name="bank-nickname" type="text" data-val="true" data-val-required data-val-if="newPaymentMethodType == 'TokenizedBank'" ng_model="formData.nickname" />
+                                <span class="help-text">@Html.Sitecore().Field("Account Nickname Help Text")</span>
+                            </div>
+                            <div bank-account-payment="formData.card" data-val-if="newPaymentMethodType == 'TokenizedBank'"></div>
+                        </div>
+                        <footer>
+                            <div class="buttons">
+                                <button type="submit" data-val-submit>@Html.Sitecore().Field("Submit Button Text")</button>
+                                <button class="secondary" ng-click="$dismiss()">@Html.Sitecore().Field("Cancel Button Text")</button>
+                            </div>
+                        </footer>
+                    </form>
+                </div>
+            </div>
+        </fieldset>
     </div>
 </script>

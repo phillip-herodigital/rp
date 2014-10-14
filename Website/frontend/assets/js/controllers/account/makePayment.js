@@ -9,12 +9,20 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
     $scope.overriddenWarnings = [];
     $scope.isLoading = true;
     $scope.activeState = 'step1';
-    $scope.accountNickname = '';
-    $scope.newPaymentMethod = [];
+    $scope.formData = {
+        nickname: '',
+        card: {},
+        bank: {}
+    };
 
     $http.get('/api/account/getAccountBalancesTable').success(function (data, status, headers, config) {
         $scope.accountsTable = data.accounts;
         $scope.accountsTableOriginal = angular.copy($scope.accountsTable);
+
+        // initial sort
+        _.find($scope.accountsTable.columnList, { 'field': 'dueDate' }).sortOrder = true;
+        _.find($scope.accountsTable.columnList, { 'field': 'dueDate' }).initialSort = true;
+
         $scope.isLoading = false;
     });
 
@@ -32,25 +40,43 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
         }
     }
 
-    $scope.paymentMethod = function () {
-        if ($scope.useNewPaymentMethod) {
-            return $scope.newPaymentMethod[$scope.newPaymentMethodType]();
-        } else {
-            var deferred = $q.defer();
-            deferred.resolve($scope.selectedPaymentMethod);
-            return deferred.promise;
+    $scope.getPaymentMethod = function (paymentId) {
+        if (paymentId && paymentId !== 'addAccount') {
+            return _.find($scope.paymentAccounts, { 'id': paymentId }).displayName;
         }
     }
 
     $scope.resolvePayments = function () {
-        $scope.paymentMethod().then(function (data) {
-            //$scope.evaluatedPaymentMethod = data;
-            $scope.activeState = 'step2';
-        });
+        // any additional validation can go here
+        $scope.activeState = 'step2';
     };
 
-    this.makePayment = function () {
+    $scope.modalAddPaymentAccount = function () {
+        
+        if ($scope.formData.card()) {
+            $scope.formData.card().then(function (paymentInfo) {
+                var formData = {
+                    nickname: $scope.formData.nickname,
+                    card: paymentInfo
+                };
 
+                $http.post('/api/account/AddPaymentAccount', formData).success(function (response) {
+                    if (response.validations.length) {
+                        $scope.validations = response.validations;
+                    } else {
+                        // if successful, clear the fields, close the modal and update the accounts model
+                        $scope.newPaymentMethod = {};
+                       
+                        $scope.newAccountAdded.added = true;
+                    }
+                });
+            });
+        }
+
+        // TODO: add bank account here
+    };
+
+    $scope.makePayment = function () {
         $http.post('/api/account/makeMultiplePayments', {
             paymentAccount: $scope.evaluatedPaymentMethod,
             accountNumbers: _.pluck($scope.selectedAccounts, 'accountNumber'),
@@ -95,7 +121,5 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
     };
 
     $scope.selectedDate = $scope.minDate = new Date();
-
-    
 
 }]);

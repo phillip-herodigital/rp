@@ -14,7 +14,7 @@
                 <option value="">@Html.Sitecore().Field("Select Year")</option>
             </select>
         </div>
-        <div class="item" @Html.Validation().ErrorClass(m => m.BillingZipCode)>
+        <div class="item zip-code" @Html.Validation().ErrorClass(m => m.BillingZipCode)>
             <label for="@Html.IdFor(m => m.BillingZipCode)">@Html.Sitecore().Field("Zip Code Label"):</label>
             @Html.TextBoxFor(m => m.BillingZipCode, new { data_val_if="ccCtrl.validate", ng_model="ccCtrl.billingZip" })
         </div>
