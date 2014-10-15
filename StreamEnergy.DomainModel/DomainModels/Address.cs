@@ -80,13 +80,13 @@ namespace StreamEnergy.DomainModels
 
         public bool Equals(Address other)
         {
-            return (this.City ?? "") == (other.City ?? "")
-                && (this.Line1 ?? "") == (other.Line1 ?? "")
-                && (this.Line2 ?? "") == (other.Line2 ?? "")
-                && (this.PostalCode5 ?? "") == (other.PostalCode5 ?? "")
-                && (this.PostalCodePlus4 ?? "") == (other.PostalCodePlus4 ?? "")
-                && (this.StateAbbreviation ?? "") == (other.StateAbbreviation ?? "")
-                && (this.UnitNumber ?? "") == (other.UnitNumber ?? "");
+            return (this.City ?? "").ToLower() == (other.City ?? "").ToLower()
+                && (this.Line1 ?? "").ToLower() == (other.Line1 ?? "").ToLower()
+                && (this.Line2 ?? "").ToLower() == (other.Line2 ?? "").ToLower()
+                && (this.PostalCode5 ?? "").ToLower() == (other.PostalCode5 ?? "").ToLower()
+                && (this.PostalCodePlus4 ?? "").ToLower() == (other.PostalCodePlus4 ?? "").ToLower()
+                && (this.StateAbbreviation ?? "").ToLower() == (other.StateAbbreviation ?? "").ToLower()
+                && (this.UnitNumber ?? "").ToLower() == (other.UnitNumber ?? "").ToLower();
         }
 
         public static bool operator ==(Address lhs, Address rhs)
