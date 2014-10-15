@@ -190,7 +190,7 @@ namespace StreamEnergy.Services.Clients
 
         DomainModels.Accounts.ISubAccount ILocationAdapter.BuildSubAccount(Address serviceAddress, dynamic details)
         {
-            var productData = sitecoreProductData.GetGeorgiaGasProductData((string)details.AccountPlanDetails.Id) ?? new SitecoreProductInfo
+            var productData = sitecoreProductData.GetGeorgiaGasProductData((string)details.AccountPlanDetails.ProductCode) ?? new SitecoreProductInfo
                 {
                     Fields = new System.Collections.Specialized.NameValueCollection()
                 };
@@ -203,7 +203,8 @@ namespace StreamEnergy.Services.Clients
                 Rate = (decimal)details.AccountPlanDetails.RateValue.Value,
                 RateType = (details.AccountPlanDetails.Type == "Fixed") ? RateType.Fixed : RateType.Variable,
                 TermMonths = details.AccountPlanDetails.Term,
-                ProductId = details.AccountPlanDetails.Id,
+                ProductId = details.AccountPlanDetails.ProductId,
+                ProductCode = details.AccountPlanDetails.ProductCode,
                 ProductName = productData.Fields["Name"] ?? details.AccountPlanDetails.Name,
                 ProductDescription = productData.Fields["Description"] ?? details.AccountPlanDetails.Description,
                 EarlyTerminationFee = productData.Fields["Early Termination Fee"]
