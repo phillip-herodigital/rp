@@ -388,22 +388,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var account = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
             var accountDetails = await accountService.GetAccountDetails(account, false);
 
-            var utilityPlan = new UtilityPlan
-            {
-                UtilityType = "Gas",
-                PlanType = "Fixed",
-                PlanName = "Flex Choice Intro Plan",
-                Rate = "4.98",
-                Terms = "Month-to-Month",
-                PlanDetails = "The Stream Intro/Variable Price Plan is for new customers only and is the applied rate for the first invoice. I understand that, under this plan, I will receive a guaranteed introductory rate on my first invoice. All subsequent months will be billed at Stream Energy's then-current Variable Price Rate. Early Termination Fees shall NOT apply and that my current rate may fluctuate based on market conditions. Please see the Terms of Services for more information on this product.",
-                PricingEffectiveDate = "11/21/2013",
-                MinimumUsageFee = "$0.00",
-                IsRenewable = false
-            };
-
             return new GetUtilityPlanResponse
             {
-                UtilityPlan =  utilityPlan
+                SubAccounts = account.SubAccounts
             };
         }
 

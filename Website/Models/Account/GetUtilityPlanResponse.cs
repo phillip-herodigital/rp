@@ -8,6 +8,6 @@ namespace StreamEnergy.MyStream.Models.Account
 {
     public class GetUtilityPlanResponse
     {
-        public UtilityPlan UtilityPlan { get; set; }
+        public ISubAccount[] SubAccounts { get; set; }
     }
 }
