@@ -34,7 +34,11 @@
                     @Html.TextBoxFor(m => m.ContactAddress.City, new { ng_model = "city", placeholder = Html.Sitecore().Field("City Placeholder Text") })
                 </div>
                 <div class="item" @Html.Validation().ErrorClass(model => model.ContactAddress.StateAbbreviation)>
-                    @Html.DropDownListFor(m => m.ContactAddress.StateAbbreviation, new [] { new SelectListItem { Text = Html.Sitecore().Field("State Options").ToString() } }, new { ng_model = "state", ng_options = "state.abbreviation as state.display for state in usStates" })
+                    @Html.DropDownListFor(m => m.ContactAddress.StateAbbreviation, 
+                        from  item in Html.Sitecore().Field("State Options").ToString().Split('\n')
+                        let parts = item.Split('|')
+                        select new SelectListItem() { Value = parts[0], Text = parts[1] }
+                    , new { ng_model = "state" })
                 </div>
                 <div class="item" @Html.Validation().ErrorClass(model => model.ContactAddress.PostalCode5)>
                     @Html.TextBoxFor(m => m.ContactAddress.PostalCode5, new { ng_model = "zipCode", placeholder = Html.Sitecore().Field("Zip Code Placeholder Text") })
