@@ -2,8 +2,7 @@
     //Currently set autoPay status to false, will eventually set according to the account
     $scope.formData = {
         nickname: '',
-        bankAccount: {},
-        description: ''
+        paymentAccount: {}
     };
 
     $scope.validations = [];
@@ -12,11 +11,10 @@
         $scope.formData.bankAccount().then(function (paymentInfo) {
             var formData = {
                 nickname: $scope.formData.nickname,
-                bankAccount: paymentInfo,
-                description: $scope.formData.description
+                paymentAccount: paymentInfo,
             };
 
-            $http.post('/api/account/AddBankAccount', formData).success(function (response) {
+            $http.post('/api/account/addPaymentAccount', formData).success(function (response) {
                 if (response.validations.length) {
                     $scope.validations = response.validations;
                 } else {
