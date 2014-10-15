@@ -125,10 +125,15 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
     };
 
     $scope.makePayment = function () {
+        var payments = _.map($scope.selectedAccounts, function(acct) { 
+            return {
+                'paymentAccount': _.find($scope.paymentAccounts, { 'id': acct.selectedPaymentMethod }),
+                'accountNumber': acct.accountNumber,
+                'paymentAmount': acct.paymentAmount
+            }
+        });
         $http.post('/api/account/makeMultiplePayments', {
-            paymentAccount: $scope.evaluatedPaymentMethod,
-            accountNumbers: _.pluck($scope.selectedAccounts, 'accountNumber'),
-            totalPaymentAmount: $scope.paymentAmount,
+            accounts: payments,
             paymentDate: $scope.selectedDate,
             overrideWarnings: $scope.overriddenWarnings
         }).success(function (data) {
@@ -144,9 +149,6 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
 
             } else {
                 $scope.activeState = 'step3';
-                if ($scope.selectedAccounts.length != 1) {
-                    $scope.paymentAmount = 0.00;
-                }
                 _.forEach(data.confirmations, function (account) {
                     _.find($scope.selectedAccounts, { accountNumber: account.accountNumber }).confirmationNumber = account.paymentConfirmationNumber
                     $scope.paymentAmount += $scope.selectedAccounts.length != 1 ? _.find($scope.selectedAccounts, { accountNumber: account.accountNumber }).invoiceAmount : 0;
