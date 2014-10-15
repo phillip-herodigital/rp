@@ -1,7 +1,7 @@
 /* Make a Payment Controller
  *
  */
-ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', '$q', function ($scope, $rootScope, $http, $modal, $q) {
+ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', '$q', '$timeout', function ($scope, $rootScope, $http, $modal, $q, $timeout) {
 
     $scope.paymentMethods = null;
     $scope.selectedAccounts = [];
@@ -9,10 +9,11 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
     $scope.overriddenWarnings = [];
     $scope.isLoading = true;
     $scope.activeState = 'step1';
+    $scope.modalInstance = {};
+    $scope.newAccount = '';
     $scope.formData = {
         nickname: '',
-        card: {},
-        bank: {}
+        paymentAccount: {}
     };
 
     $http.get('/api/account/getAccountBalancesTable').success(function (data, status, headers, config) {
@@ -31,12 +32,31 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
     });
 
     $scope.addAccount = function (item) {
-        if (item == 'addAccount') {
+        if (item.selectedPaymentMethod == 'addAccount') {
+
             // open the add account modal
-            $modal.open({
-                templateUrl: 'AddPaymentAccount',
-                scope: $scope
+            $scope.modalInstance = $modal.open({
+                scope: $scope,
+                templateUrl: 'AddPaymentAccount'
             });
+
+            // run these finishing steps when the modal closes
+            $scope.modalInstance.result.then(function () {
+                // refresh the account data
+                $http.get('/api/account/getSavedPaymentMethods').success(function (data) { 
+                    $scope.paymentAccounts = data;
+                    // select the newly added account
+                    $timeout(function() {
+                        item.selectedPaymentMethod = _.find($scope.paymentAccounts, { 'displayName': $scope.newAccount }).id;
+                    }, 50);
+                    $scope.isLoading = false;
+                });
+            }); 
+
+            // reset the dropdown if the modal is dismissed
+            if ($scope.newAccount == '') {
+                item.selectedPaymentMethod = '';
+            };
         }
     }
 
@@ -51,29 +71,57 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
         $scope.activeState = 'step2';
     };
 
-    $scope.modalAddPaymentAccount = function () {
-        
-        if ($scope.formData.card()) {
+    $scope.modalAddPaymentAccount = function (newPaymentMethodType) {
+        $scope.isLoading = true;
+        if (newPaymentMethodType == 'TokenizedCard') {
             $scope.formData.card().then(function (paymentInfo) {
                 var formData = {
                     nickname: $scope.formData.nickname,
-                    card: paymentInfo
+                    paymentAccount: paymentInfo
                 };
 
-                $http.post('/api/account/AddPaymentAccount', formData).success(function (response) {
+                $http.post('/api/account/addPaymentAccount', formData).success(function (response) {
                     if (response.validations.length) {
                         $scope.validations = response.validations;
                     } else {
-                        // if successful, clear the fields, close the modal and update the accounts model
-                        $scope.newPaymentMethod = {};
-                       
-                        $scope.newAccountAdded.added = true;
+                        // if successful, clear the fields
+                        $scope.formData = { nickname: '', paymentAccount: {} };
+
+                        // set the newly added account so it can be selected
+                        $scope.newAccount = formData.nickname;
+                        
+                        // close the modal
+                        $scope.modalInstance.close();
                     }
                 });
             });
         }
 
-        // TODO: add bank account here
+        if (newPaymentMethodType == 'TokenizedBank') {
+            $scope.formData.bankAccount().then(function (paymentInfo) {
+                var formData = {
+                    nickname: $scope.formData.nickname,
+                    paymentAccount: paymentInfo
+                };
+
+                $http.post('/api/account/addPaymentAccount', formData).success(function (response) {
+                    if (response.validations.length) {
+                        $scope.validations = response.validations;
+                    } else {
+                        // if successful, clear the fields
+                        $scope.formData = { nickname: '', paymentAccount: {} };
+
+                        // refresh the account data
+                        $http.get('/api/account/getSavedPaymentMethods').success(function (data) { 
+                            $scope.paymentAccounts = data;
+                        });
+
+                        // close the modal
+                        $close();
+                    }
+                });
+            });
+        }
     };
 
     $scope.makePayment = function () {
