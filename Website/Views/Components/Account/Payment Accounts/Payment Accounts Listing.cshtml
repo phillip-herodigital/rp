@@ -24,7 +24,7 @@
                     <td data-title="@Html.Sitecore().Field("Account Number Text")">{{item.redactedData}}</td>
                     <td data-title="@Html.Sitecore().Field("Type Text")">{{item.underlyingPaymentType}}</td>
                     <td class="row-actions" data-title="@Html.Sitecore().Field("Action Text")">
-                        <a href="" class="button">@Html.Sitecore().Field("Delete Button Text")</a>
+                        <button ng-click="deletePaymentAccount(item.id)">@Html.Sitecore().Field("Delete Button Text")</button>
                     </td>
                 </tr>
             </tbody>

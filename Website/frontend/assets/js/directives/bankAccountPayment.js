@@ -5,7 +5,7 @@
         controller: ['$scope', function ($scope) {
             var ctrl = this;
             this.bankAccount = function () {
-                var accountToken = ctrl.accountNumber;
+                var accountToken = ctrl.accountToken;
                 return accountToken().then(function (value) {
                     return {
                         paymentType: 'TokenizedBank',
