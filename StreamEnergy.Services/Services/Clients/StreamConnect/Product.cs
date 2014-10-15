@@ -12,6 +12,7 @@ namespace StreamEnergy.Services.Clients.StreamConnect
         public IEnumerable<Fee> Fees { get; set; }
         public string Name { get; set; }
         public string ProductCode { get; set; }
+        public string ProductId { get; set; }
         public string ProductType { get; set; }
         public Newtonsoft.Json.Linq.JToken Provider { get; set; }
         public IEnumerable<Rate> Rates { get; set; }

@@ -95,8 +95,9 @@ namespace StreamEnergy.Services.Clients
                           where productData != null
                           select new GeorgiaGas.Offer
                           {
-                              Id = product.Provider["Name"].ToString() + "/" + product.ProductCode,
+                              Id = product.Provider["Name"].ToString() + "/" + product.ProductId,
                               Provider = product.Provider.ToString(),
+                              Code = product.ProductCode,
 
                               EnrollmentType = serviceStatus.EnrollmentType,
 
@@ -160,7 +161,8 @@ namespace StreamEnergy.Services.Clients
                     UtilityAccountNumber = georgiaGasService.AglAccountNumber,
                     Product = new
                     {
-                        ProductCode = georgiaGasOffer.Id.Split(new[] { '/' }, 2)[1],
+                        ProductId = georgiaGasOffer.Id.Split(new[] { '/' }, 2)[1],
+                        ProductCode = georgiaGasOffer.Code,
                         Term = georgiaGasOffer.TermMonths
                     },
                     ServiceAddress = StreamConnectUtilities.ToStreamConnectAddress(service.Location.Address),
@@ -208,7 +210,7 @@ namespace StreamEnergy.Services.Clients
             };
         }
 
-        string ILocationAdapter.GetProductCode(DomainModels.Accounts.ISubAccount subAccount)
+        string ILocationAdapter.GetProductId(DomainModels.Accounts.ISubAccount subAccount)
         {
             var account = subAccount as DomainModels.Accounts.GeorgiaGasAccount;
             return account.ProductId;

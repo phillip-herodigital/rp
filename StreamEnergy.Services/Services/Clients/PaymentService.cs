@@ -124,7 +124,7 @@ namespace StreamEnergy.Services.Clients
             if (paymentInfo is SavedPaymentInfo)
             {
                 var savedInfo = paymentInfo as SavedPaymentInfo;
-                var response = await streamConnectClient.PostAsJsonAsync("/api/v1/payments/balance/savedmethod", new
+                var response = await streamConnectClient.PostAsJsonAsync("/api/v1/payments/saved-method", new
                 {
                     GlobalPaymentMethodId = savedInfo.Id,
                     GlobalCustomerId = account.StreamConnectCustomerId,
@@ -181,7 +181,7 @@ namespace StreamEnergy.Services.Clients
 
         async Task<IEnumerable<Account>> IPaymentService.PaymentHistory(Guid globalCustomerId, IEnumerable<Account> existingAccountObjects)
         {
-            var response = await streamConnectClient.GetAsync("/api/v1/payments/history/" + globalCustomerId.ToString());
+            var response = await streamConnectClient.GetAsync("/api/v1/customers/" + globalCustomerId.ToString() + "/payments");
 
             response.EnsureSuccessStatusCode();
             dynamic jobject = Json.Read<JObject>(await response.Content.ReadAsStringAsync());
@@ -252,7 +252,7 @@ namespace StreamEnergy.Services.Clients
         {
             if (forceRefresh || account.AutoPay == null)
             {
-                var response = await streamConnectClient.GetAsync("/api/v1/autopay/account/" + account.StreamConnectAccountId.ToString() + "/customer/" + account.StreamConnectCustomerId.ToString());
+                var response = await streamConnectClient.GetAsync("/api/v1/customers/" + account.StreamConnectCustomerId.ToString() + "/accounts/" + account.StreamConnectAccountId.ToString() + "/autopay");
                 response.EnsureSuccessStatusCode();
 
                 dynamic jobject = Json.Read<JObject>(await response.Content.ReadAsStringAsync());
@@ -272,11 +272,9 @@ namespace StreamEnergy.Services.Clients
         {
             if (autoPaySetting.IsEnabled)
             {
-                var response = await streamConnectClient.PostAsJsonAsync("/api/autopay",
+                var response = await streamConnectClient.PostAsJsonAsync("/api/customers/" + account.StreamConnectCustomerId.ToString() + "/accounts/" + account.StreamConnectAccountId.ToString() + "/autopay",
                     new 
                     {
-                        GlobalCustomerId = account.StreamConnectCustomerId,
-                        GlobalAccountId = account.StreamConnectAccountId,
                         GlobalPaymentMethodId = autoPaySetting.PaymentMethodId
                     });
                 response.EnsureSuccessStatusCode();
@@ -287,7 +285,7 @@ namespace StreamEnergy.Services.Clients
             }
             else
             {
-                var response = await streamConnectClient.DeleteAsync("/api/v1/autopay/account/" + account.StreamConnectAccountId.ToString() + "/customer/" + account.StreamConnectCustomerId.ToString());
+                var response = await streamConnectClient.DeleteAsync("/api/v1/customers/" + account.StreamConnectCustomerId.ToString() + "/accounts/" + account.StreamConnectAccountId.ToString() + "/autopay");
                 response.EnsureSuccessStatusCode();
 
                 dynamic jobject = Json.Read<JObject>(await response.Content.ReadAsStringAsync());

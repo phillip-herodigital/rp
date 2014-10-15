@@ -658,7 +658,7 @@ namespace StreamEnergy.Services.Clients
             var response = await streamConnectClient.PostAsJsonAsync("/api/v1/renewals", new
                 {
                     SystemOfRecordAccountNumber = account.AccountNumber,
-                    ProductCode = locAdapter.GetProductCode(subAccount),
+                    ProductId = locAdapter.GetProductId(subAccount),
                     StartDate = renewalOptions.RenewalDate,
                     CustomerLast4 = account.Details.SsnLastFour,
                     SystemOfRecord = account.SystemOfRecord,

@@ -13,6 +13,7 @@ namespace StreamEnergy.DomainModels.Enrollments.GeorgiaGas
         public const string Qualifier = "GeorgiaGas";
 
         public string Id { get; set; }
+        public string Code { get; set; }
 
         // A value from Stream Connect that, as of yet, has no value to us other than passing it back in.
         public string Provider { get; set; }
@@ -49,5 +50,6 @@ namespace StreamEnergy.DomainModels.Enrollments.GeorgiaGas
         public Dictionary<string, Uri> Documents { get; set; }
 
         public IEnumerable<KeyValuePair<string, string>> Footnotes { get; set; }
+
     }
 }
