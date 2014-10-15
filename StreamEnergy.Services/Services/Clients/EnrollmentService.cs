@@ -294,6 +294,15 @@ namespace StreamEnergy.Services.Clients
                 ResponseLocation = asyncUrl
             };
         }
+
+        async Task<bool> IEnrollmentService.DeleteEnrollment(Guid globalCustomerId, Guid enrollmentAccountId)
+        {
+            var response = await streamConnectClient.DeleteAsync("/api/v1/customers/" + globalCustomerId.ToString() + "/enrollments/" + enrollmentAccountId);
+            response.EnsureSuccessStatusCode();
+            dynamic responseObject = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+
+            return ((string)responseObject.Status) == "Success";
+        }
         
         async Task<StreamAsync<IdentityCheckResult>> IEnrollmentService.BeginIdentityCheck(Guid streamCustomerId, Name name, string ssn, Address mailingAddress, AdditionalIdentityInformation identityInformation)
         {

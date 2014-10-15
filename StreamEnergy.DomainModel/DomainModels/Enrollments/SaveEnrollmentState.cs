@@ -77,6 +77,13 @@ namespace StreamEnergy.DomainModels.Enrollments
                 }
                 else
                 {
+                    foreach (var oldEnrollmentAccountId in from oldResult in internalContext.EnrollmentSaveState.Data.Results
+                                                           where !context.Services.Any(svcLoc => svcLoc.Location == oldResult.Location && svcLoc.SelectedOffers.Any(o => o.Offer.Id == oldResult.Offer.Id))
+                                                           select oldResult.Details.GlobalEnrollmentAccountId)
+                    {
+                        await enrollmentService.DeleteEnrollment(internalContext.GlobalCustomerId, oldEnrollmentAccountId);
+                    }
+
                     internalContext.EnrollmentSaveState = await enrollmentService.BeginSaveUpdateEnrollment(internalContext.GlobalCustomerId, internalContext.EnrollmentSaveState.Data, context, internalContext.EnrollmentDpiParameters, internalContext.Deposit);
                 }
             }

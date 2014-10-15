@@ -512,6 +512,10 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                 if (saveResult.Data.Results.Length > 0)
                 {
                     Assert.IsTrue(saveResult.Data.Results.All(r => !string.IsNullOrEmpty(r.Details.StreamReferenceNumber)));
+                    foreach (var r in saveResult.Data.Results)
+                    {
+                        enrollmentService.DeleteEnrollment(globalCustomerId, r.Details.GlobalEnrollmentAccountId).Wait();
+                    }
                 }
                 else
                 {

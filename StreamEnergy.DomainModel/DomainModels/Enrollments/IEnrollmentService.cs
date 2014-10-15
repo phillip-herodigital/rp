@@ -24,6 +24,8 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         Task<StreamAsync<EnrollmentSaveResult>> BeginSaveUpdateEnrollment(Guid streamCustomerId, EnrollmentSaveResult enrollmentSaveResult, UserContext context, NameValueCollection dpiParameters, IEnumerable<LocationOfferDetails<OfferPayment>> offerPayments);
 
+        Task<bool> DeleteEnrollment(Guid globalCustomerId, Guid enrollmentAccountId);
+
         Task<StreamAsync<IdentityCheckResult>> BeginIdentityCheck(Guid streamCustomerId, Name name, string ssn, Address mailingAddress, AdditionalIdentityInformation identityInformation = null);
 
         Task<StreamAsync<IdentityCheckResult>> EndIdentityCheck(StreamAsync<IdentityCheckResult> asyncResult);
@@ -43,5 +45,6 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         Task<StreamAsync<RenewalResult>> BeginRenewal(Accounts.Account account, Enrollments.Renewal.OfferOption renewalOptions);
         Task<StreamAsync<RenewalResult>> EndRenewal(StreamAsync<RenewalResult> asyncResult);
+
     }
 }
