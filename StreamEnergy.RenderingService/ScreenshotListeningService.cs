@@ -35,10 +35,33 @@ namespace StreamEnergy.RenderingService
             this.CanShutdown = false;
             this.CanStop = true;
 
-            var connString = ConfigurationManager.ConnectionStrings["redisCache"];
-            var multiplexer = ConnectionMultiplexer.Connect(connString.ConnectionString);
+            var redisConnectionString = ConfigurationManager.ConnectionStrings["redisCache"].ConnectionString;
+            try
+            {
+                var cloudSetting = Microsoft.WindowsAzure.CloudConfigurationManager.GetSetting("StreamEnergy.Services.redisCache");
+
+                if (cloudSetting != null)
+                {
+                    redisConnectionString = cloudSetting;
+                }
+            }
+            catch { } //just eat it
+            
+            var multiplexer = ConnectionMultiplexer.Connect(redisConnectionString);
             var redisDb = multiplexer.GetDatabase();
-            var cloudStorageAccount = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["azureStorage"].ConnectionString);
+
+            var azureStorageConnectionString = ConfigurationManager.ConnectionStrings["azureStorage"].ConnectionString;
+            try
+            {
+                var cloudSetting = Microsoft.WindowsAzure.CloudConfigurationManager.GetSetting("StreamEnergy.Services.azureStorage");
+
+                if (cloudSetting != null)
+                {
+                    azureStorageConnectionString = cloudSetting;
+                }
+            }
+            catch { } //just eat it
+            var cloudStorageAccount = CloudStorageAccount.Parse(azureStorageConnectionString);
 
             var dir = Path.GetDirectoryName(typeof(ScreenshotListeningService).Assembly.Location);
             rasterizer = new Rasterizer(dir, baseUri);

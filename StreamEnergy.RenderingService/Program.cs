@@ -14,7 +14,19 @@ namespace StreamEnergy.RenderingService
     {
         static void Main(string[] args)
         {
-            Uri baseUri = new Uri(ConfigurationManager.AppSettings["WebsiteUrl"]);
+            var websiteUrl = ConfigurationManager.AppSettings["WebsiteUrl"];
+            try
+            {
+                var cloudSetting = Microsoft.WindowsAzure.CloudConfigurationManager.GetSetting("StreamEnergy.Services.WebsiteUrl");
+
+                if (cloudSetting != null)
+                {
+                    websiteUrl = cloudSetting;
+                }
+            }
+            catch {} //just eat it
+
+            Uri baseUri = new Uri(websiteUrl);
             if (args.Length == 0)
             {
                 TaskScheduler.UnobservedTaskException += (sender, e) =>
