@@ -166,7 +166,7 @@ namespace StreamEnergy.Services.Clients
                         Term = georgiaGasOffer.TermMonths
                     },
                     ServiceAddress = StreamConnectUtilities.ToStreamConnectAddress(service.Location.Address),
-                    ProductType = "Electricity",
+                    ProductType = "Gas",
                     Deposit = depositObject
                 }
             };
