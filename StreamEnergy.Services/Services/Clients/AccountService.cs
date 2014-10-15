@@ -336,7 +336,7 @@ namespace StreamEnergy.Services.Clients
 
         async Task<Account> IAccountService.GetAccountDetails(string accountNumber)
         {
-            var response = await streamConnectClient.GetAsync("/api/v1/accounts/find?cisAccountNumber=" + accountNumber);
+            var response = await streamConnectClient.GetAsync("/api/v1/accounts/find?systemOfRecordAccountNumber=" + accountNumber);
 
             if (response.IsSuccessStatusCode)
             {
@@ -376,6 +376,7 @@ namespace StreamEnergy.Services.Clients
                 },
                 SsnLastFour = ((object)data.AccountDetails.AccountCustomer.CustomerLast4).ToString().PadLeft(4, '0'),
                 ProductType = data.AccountDetails.ProductType,
+                TcpaPreference = (data.TCPAPreference == "NA" ? (bool?)null : (bool?)(data.TCPAPreference == "Yes"))
                 // TODO - are there other parts that belong here?
             };
             account.Balance = new AccountBalance
@@ -436,13 +437,14 @@ namespace StreamEnergy.Services.Clients
 
         async Task<bool> IAccountService.SetAccountDetails(Account account, AccountDetails details)
         {
-            var response = await streamConnectClient.PostAsJsonAsync("/api/v1/accounts/update/" + account.StreamConnectAccountId.ToString() + "/customer/" + account.StreamConnectCustomerId.ToString(),
+            var response = await streamConnectClient.PutAsJsonAsync("/api/v1/customers/" + account.StreamConnectCustomerId.ToString() + "/accounts/" + account.StreamConnectAccountId.ToString(),
                 new
                 {
                     HomePhone = details.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Home).Select(p => p.Number).FirstOrDefault(),
                     MobilePhone = details.ContactInfo.Phone.OfType<DomainModels.TypedPhone>().Where(p => p.Category == DomainModels.PhoneCategory.Mobile).Select(p => p.Number).FirstOrDefault(),
                     AccountEmailAddress = details.ContactInfo.Email != null ? details.ContactInfo.Email.Address : null,
-                    Address = StreamConnectUtilities.ToStreamConnectAddress(details.BillingAddress)
+                    Address = StreamConnectUtilities.ToStreamConnectAddress(details.BillingAddress),
+                    TCPAPreference = details.TcpaPreference == null ? "NA" : (details.TcpaPreference.Value ? "Yes" : "No")
                 });
 
             if (response.IsSuccessStatusCode)

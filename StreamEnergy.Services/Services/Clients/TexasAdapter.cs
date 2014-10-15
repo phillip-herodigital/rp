@@ -103,7 +103,7 @@ namespace StreamEnergy.Services.Clients
                           where productData != null
                           select new TexasElectricity.Offer
                           {
-                              Id = product.Provider["Name"].ToString() + "/" + product.ProductCode,
+                              Id = product.Provider["Name"].ToString() + "/" + product.ProductId,
                               Provider = product.Provider.ToString(),
 
                               EnrollmentType = serviceStatus.EnrollmentType,
@@ -169,6 +169,7 @@ namespace StreamEnergy.Services.Clients
                     UtilityAccountNumber = texasService.EsiId,
                     Product = new
                     {
+                        ProductId = texasElectricityOffer.Id.Split(new[] { '/' }, 2)[1],
                         ProductCode = texasElectricityOffer.Id.Split(new[] { '/' }, 2)[1],
                         Term = texasElectricityOffer.TermMonths
                     },
@@ -194,7 +195,7 @@ namespace StreamEnergy.Services.Clients
             return null;
         }
 
-        string ILocationAdapter.GetProductCode(DomainModels.Accounts.ISubAccount subAccount)
+        string ILocationAdapter.GetProductId(DomainModels.Accounts.ISubAccount subAccount)
         {
             return null;
         }

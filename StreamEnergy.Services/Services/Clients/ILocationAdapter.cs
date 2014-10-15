@@ -33,7 +33,7 @@ namespace StreamEnergy.Services.Clients
 
 
 
-        string GetProductCode(DomainModels.Accounts.ISubAccount subAccount);
+        string GetProductId(DomainModels.Accounts.ISubAccount subAccount);
 
         string GetUtilityAccountNumber(DomainModels.Accounts.ISubAccount subAccount);
     }

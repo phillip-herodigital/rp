@@ -166,7 +166,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
 
             // Act
             var result = accountService.DisassociateAccount(acct).Result;
-
+            
             // Assert
             var accounts = accountService.GetAccounts(gcid).Result;
             Assert.IsNull(accounts);
