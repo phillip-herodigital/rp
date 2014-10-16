@@ -407,7 +407,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var email = new DomainModels.Email();
             var questionsRoot = database.GetItem("/sitecore/content/Data/Taxonomy/Security Questions");
 
-            email.Address = await accountService.GetEmailByCustomerId(profile.GlobalCustomerId);
+            var customer = await accountService.GetCustomerByCustomerId(profile.GlobalCustomerId);
+            email.Address = customer.EmailAddress;
             
             return new GetOnlineAccountResponse
             {

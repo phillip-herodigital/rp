@@ -228,12 +228,12 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             if (resetPasswordSessionHelper.StateMachine.State == typeof(GetUsernameState))
                 validations = resetPasswordSessionHelper.StateMachine.ValidationResults;
 
-            var email = await accountService.GetEmailByCustomerId(profile.GlobalCustomerId);
+            var customer = await accountService.GetCustomerByCustomerId(profile.GlobalCustomerId);
 
             return new GetUserChallengeQuestionsResponse
             {
                 Username = request.Username,
-                Email = email == null ? null : Redact(email),
+                Email = customer.EmailAddress == null ? null : Redact(customer.EmailAddress),
                 SecurityQuestions = from challenge in resetPasswordSessionHelper.Context.Answers ?? new Dictionary<Guid, string>()
                                     let questionItem = database.GetItem(new Sitecore.Data.ID(challenge.Key))
                                     select new SecurityQuestion

@@ -45,7 +45,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             Guid globalCustomerId;
             using (new Timer())
             {
-                globalCustomerId = accountService.CreateStreamConnectCustomer().Result;
+                globalCustomerId = accountService.CreateStreamConnectCustomer().Result.GlobalCustomerId;
             }
 
             // Assert
@@ -64,7 +64,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             Guid globalCustomerId;
             using (new Timer())
             {
-                globalCustomerId = accountService.CreateStreamConnectCustomer(email: "test@example.com").Result;
+                globalCustomerId = accountService.CreateStreamConnectCustomer(email: "test@example.com").Result.GlobalCustomerId;
             }
 
             // Assert
@@ -78,17 +78,17 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         {
             // Assign
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
-            var gcid = accountService.CreateStreamConnectCustomer(email: "test@example.com").Result;
+            var gcid = accountService.CreateStreamConnectCustomer(email: "test@example.com").Result.GlobalCustomerId;
 
             // Act
-            string email;
+            Customer customer;
             using (new Timer())
             {
-                email = accountService.GetEmailByCustomerId(gcid).Result;
+                customer = accountService.GetCustomerByCustomerId(gcid).Result;
             }
 
             // Assert
-            Assert.AreEqual("test@example.com", email);
+            Assert.AreEqual("test@example.com", customer.EmailAddress);
         }
 
         [TestMethod]
@@ -103,7 +103,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             Guid globalCustomerId;
             using (new Timer())
             {
-                globalCustomerId = accountService.CreateStreamConnectCustomer(portalId: "extranet//tester").Result;
+                globalCustomerId = accountService.CreateStreamConnectCustomer(providerKey: Guid.NewGuid().ToString(), username: "extranet//tester").Result.GlobalCustomerId;
             }
 
             // Assert
@@ -118,24 +118,78 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Assign
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
             var streamConnectClient = container.Resolve<HttpClient>(StreamEnergy.Services.Clients.StreamConnectContainerSetup.StreamConnectKey);
-            var gcid = accountService.CreateStreamConnectCustomer(portalId: "extranet//tester").Result;
+            string providerKey = Guid.NewGuid().ToString();
+            var gcid = accountService.CreateStreamConnectCustomer(providerKey: providerKey, username: "extranet//tester").Result.GlobalCustomerId;
 
             // Act
-            HttpResponseMessage response;
-            dynamic result;
+            Customer customer;
             using (new Timer())
             {
-                response = streamConnectClient.GetAsync("/api/v1/customers/" + gcid.ToString()).Result;
-                var responseString = response.Content.ReadAsStringAsync().Result;
-                result = JsonConvert.DeserializeObject(responseString);
+                customer = accountService.GetCustomerByCustomerId(gcid).Result;
             }
 
             // Assert
-            Assert.IsTrue(response.IsSuccessStatusCode);
-            Assert.AreEqual(gcid, Guid.Parse((string)(result["Customer"]["GlobalCustomerId"].Value)));
-            Assert.AreEqual("extranet//tester", result["Customer"]["PortalId"].Value);
-
+            Assert.AreEqual(providerKey, customer.AspNetUserProviderKey);
+            Assert.AreEqual("extranet//tester", customer.Username);
         }
+
+        [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Accounts")]
+        public void UpdateCustomerTest()
+        {
+            // Assign
+            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
+            var streamConnectClient = container.Resolve<HttpClient>(StreamEnergy.Services.Clients.StreamConnectContainerSetup.StreamConnectKey);
+            string providerKey = Guid.NewGuid().ToString();
+            var customer = accountService.CreateStreamConnectCustomer().Result;
+
+            // Act
+            bool result;
+            using (new Timer())
+            {
+                customer.AspNetUserProviderKey = providerKey;
+                customer.EmailAddress = "test@example.com";
+                customer.Username = "extranet//tester";
+                result = accountService.UpdateCustomer(customer).Result;
+            }
+
+            // Assert
+            Assert.IsTrue(result);
+            customer = accountService.GetCustomerByCustomerId(customer.GlobalCustomerId).Result;
+            Assert.AreEqual(providerKey, customer.AspNetUserProviderKey);
+            Assert.AreEqual("extranet//tester", customer.Username);
+            Assert.AreEqual("test@example.com", customer.EmailAddress);
+        }
+
+        [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Accounts")]
+        public void UpdateCustomerChangesTest()
+        {
+            // Assign
+            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
+            var streamConnectClient = container.Resolve<HttpClient>(StreamEnergy.Services.Clients.StreamConnectContainerSetup.StreamConnectKey);
+            string providerKey = Guid.NewGuid().ToString();
+            var customer = accountService.CreateStreamConnectCustomer(providerKey: providerKey, email: "test2@example.com", username: "extranet//tester2").Result;
+
+            // Act
+            bool result;
+            using (new Timer())
+            {
+                customer.EmailAddress = "test2@example.com";
+                customer.Username = "extranet//tester2";
+                result = accountService.UpdateCustomer(customer).Result;
+            }
+
+            // Assert
+            Assert.IsTrue(result);
+            customer = accountService.GetCustomerByCustomerId(customer.GlobalCustomerId).Result;
+            Assert.AreEqual(providerKey, customer.AspNetUserProviderKey);
+            Assert.AreEqual("extranet//tester2", customer.Username);
+            Assert.AreEqual("test2@example.com", customer.EmailAddress);
+        }
+
         [TestMethod]
         [TestCategory("StreamConnect")]
         [TestCategory("StreamConnect Accounts")]
@@ -143,7 +197,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         {
             // Assign
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
-            var gcid = accountService.CreateStreamConnectCustomer().Result;
+            var gcid = accountService.CreateStreamConnectCustomer().Result.GlobalCustomerId;
             var acct = accountService.AssociateAccount(gcid, "3001311049", "3192", "").Result;
 
             // Act
@@ -161,7 +215,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         {
             // Arrange
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
-            var gcid = accountService.CreateStreamConnectCustomer().Result;
+            var gcid = accountService.CreateStreamConnectCustomer().Result.GlobalCustomerId;
             var acct = accountService.AssociateAccount(gcid, "3001311049", "3192", "").Result;
 
             // Act
@@ -179,7 +233,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         {
             // Arrange
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
-            var gcid = accountService.CreateStreamConnectCustomer().Result;
+            var gcid = accountService.CreateStreamConnectCustomer().Result.GlobalCustomerId;
             var acct = accountService.AssociateAccount(gcid, "3001311049", "3192", "").Result;
 
             // Act
@@ -241,7 +295,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         {
             // Arrange
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
-            var gcid = accountService.CreateStreamConnectCustomer().Result;
+            var gcid = accountService.CreateStreamConnectCustomer().Result.GlobalCustomerId;
             var acct = accountService.AssociateAccount(gcid, "3001311049", "3192", "").Result;
             accountService.GetAccountDetails(acct).Wait();
             var rand = new Random();
@@ -276,7 +330,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         {
             // Arrange
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
-            var gcid = accountService.CreateStreamConnectCustomer().Result;
+            var gcid = accountService.CreateStreamConnectCustomer().Result.GlobalCustomerId;
             var acct = accountService.AssociateAccount(gcid, "3001311049", "3192", "").Result;
 
             // Act
@@ -298,7 +352,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         {
             // Arrange
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
-            var gcid = accountService.CreateStreamConnectCustomer().Result;
+            var gcid = accountService.CreateStreamConnectCustomer().Result.GlobalCustomerId;
             var acct = accountService.AssociateAccount(gcid, "3001311049", "3192", "").Result;
             var invoiceAccounts = accountService.GetInvoices(gcid, new[] { acct }).Result;
             var targetInvoice = invoiceAccounts.First(t => t.Invoices != null).Invoices.First();
@@ -319,7 +373,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         {
             // Arrange
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
-            var gcid = accountService.CreateStreamConnectCustomer().Result;
+            var gcid = accountService.CreateStreamConnectCustomer().Result.GlobalCustomerId;
             accountService.AssociateAccount(gcid, "3001311049", "3192", "").Wait();
 
             // Act

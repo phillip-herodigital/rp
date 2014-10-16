@@ -71,7 +71,8 @@ namespace StreamEnergy.DomainModels.Enrollments
                 {
                     if (internalContext.GlobalCustomerId == Guid.Empty)
                     {
-                        internalContext.GlobalCustomerId = await accountService.CreateStreamConnectCustomer(email: context.ContactInfo.Email.Address);
+                        var customer = await accountService.CreateStreamConnectCustomer(email: context.ContactInfo.Email.Address);
+                        internalContext.GlobalCustomerId = customer.GlobalCustomerId;
                     }
                     internalContext.EnrollmentSaveState = await enrollmentService.BeginSaveEnrollment(internalContext.GlobalCustomerId, context, internalContext.EnrollmentDpiParameters);
                 }

@@ -93,7 +93,8 @@ namespace StreamEnergy.DomainModels.Enrollments
 
                 if (internalContext.GlobalCustomerId == Guid.Empty)
                 {
-                    internalContext.GlobalCustomerId = await accountService.CreateStreamConnectCustomer(email: context.ContactInfo.Email.Address);
+                    var customer = await accountService.CreateStreamConnectCustomer(email: context.ContactInfo.Email.Address);
+                    internalContext.GlobalCustomerId = customer.GlobalCustomerId;
                 }
                 internalContext.IdentityCheck = await enrollmentService.BeginIdentityCheck(internalContext.GlobalCustomerId, context.ContactInfo.Name, context.SocialSecurityNumber, context.MailingAddress);
                 internalContext.CreditCheck = await enrollmentService.BeginCreditCheck(internalContext.GlobalCustomerId, context.ContactInfo.Name, context.SocialSecurityNumber, context.PreviousAddress ?? context.MailingAddress);

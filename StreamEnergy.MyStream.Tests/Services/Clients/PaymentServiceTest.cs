@@ -40,9 +40,9 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Arrange
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
             StreamEnergy.DomainModels.Payments.IPaymentService paymentService = container.Resolve<StreamEnergy.Services.Clients.PaymentService>();
-            var customerId = accountService.CreateStreamConnectCustomer().Result;
-            var acct = accountService.AssociateAccount(customerId, "3001311049", "3192", "").Result;
-            var result = paymentService.SavePaymentMethod(customerId, new DomainModels.Payments.TokenizedCard
+            var customer = accountService.CreateStreamConnectCustomer().Result;
+            var acct = accountService.AssociateAccount(customer.GlobalCustomerId, "3001311049", "3192", "").Result;
+            var result = paymentService.SavePaymentMethod(customer.GlobalCustomerId, new DomainModels.Payments.TokenizedCard
             {
                 CardToken = "9442268296134448",
                 BillingZipCode = "75201",
@@ -51,7 +51,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             }, "Test Card").Result;
 
             // Act
-            var paymentMethods = paymentService.GetSavedPaymentMethods(customerId).Result;
+            var paymentMethods = paymentService.GetSavedPaymentMethods(customer.GlobalCustomerId).Result;
 
             // Assert
             Assert.IsTrue(paymentMethods.Any());
@@ -76,7 +76,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Arrange
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
             StreamEnergy.DomainModels.Payments.IPaymentService paymentService = container.Resolve<StreamEnergy.Services.Clients.PaymentService>();
-            var customerId = accountService.CreateStreamConnectCustomer().Result;
+            var customerId = accountService.CreateStreamConnectCustomer().Result.GlobalCustomerId;
             var acct = accountService.AssociateAccount(customerId, "3001311049", "3192", "").Result;
 
             // Act
@@ -105,7 +105,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Arrange
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
             StreamEnergy.DomainModels.Payments.IPaymentService paymentService = container.Resolve<StreamEnergy.Services.Clients.PaymentService>();
-            var customerId = accountService.CreateStreamConnectCustomer().Result;
+            var customerId = accountService.CreateStreamConnectCustomer().Result.GlobalCustomerId;
             var acct = accountService.AssociateAccount(customerId, "3001311049", "3192", "").Result;
 
             // Act
@@ -134,7 +134,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Arrange
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
             StreamEnergy.DomainModels.Payments.IPaymentService paymentService = container.Resolve<StreamEnergy.Services.Clients.PaymentService>();
-            var customerId = accountService.CreateStreamConnectCustomer().Result;
+            var customerId = accountService.CreateStreamConnectCustomer().Result.GlobalCustomerId;
             var acct = accountService.AssociateAccount(customerId, "3001311049", "3192", "").Result;
             var paymentMethodId = paymentService.SavePaymentMethod(customerId, new DomainModels.Payments.TokenizedCard
             {
@@ -162,7 +162,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Arrange
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
             StreamEnergy.DomainModels.Payments.IPaymentService paymentService = container.Resolve<StreamEnergy.Services.Clients.PaymentService>();
-            var gcid = accountService.CreateStreamConnectCustomer().Result;
+            var gcid = accountService.CreateStreamConnectCustomer().Result.GlobalCustomerId;
             var acctId = accountService.AssociateAccount(gcid, "3001311049", "3192", "Sample").Result;
 
             // Act
@@ -183,7 +183,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Arrange
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
             StreamEnergy.DomainModels.Payments.IPaymentService paymentService = container.Resolve<StreamEnergy.Services.Clients.PaymentService>();
-            var gcid = accountService.CreateStreamConnectCustomer().Result;
+            var gcid = accountService.CreateStreamConnectCustomer().Result.GlobalCustomerId;
             var acct = accountService.AssociateAccount(gcid, "3001311049", "3192", "Sample").Result;
 
             // Act
@@ -201,7 +201,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Arrange
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
             StreamEnergy.DomainModels.Payments.IPaymentService paymentService = container.Resolve<StreamEnergy.Services.Clients.PaymentService>();
-            var gcid = accountService.CreateStreamConnectCustomer().Result;
+            var gcid = accountService.CreateStreamConnectCustomer().Result.GlobalCustomerId;
             var acct = accountService.AssociateAccount(gcid, "3001311049", "3192", "Sample").Result;
             var paymentMethodId = paymentService.SavePaymentMethod(gcid, new DomainModels.Payments.TokenizedCard
             {
@@ -234,7 +234,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Arrange
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
             StreamEnergy.DomainModels.Payments.IPaymentService paymentService = container.Resolve<StreamEnergy.Services.Clients.PaymentService>();
-            var gcid = accountService.CreateStreamConnectCustomer().Result;
+            var gcid = accountService.CreateStreamConnectCustomer().Result.GlobalCustomerId;
             var acct = accountService.AssociateAccount(gcid, "3001311049", "3192", "Sample").Result;
             var paymentMethodId = paymentService.SavePaymentMethod(gcid, new DomainModels.Payments.TokenizedCard
             {

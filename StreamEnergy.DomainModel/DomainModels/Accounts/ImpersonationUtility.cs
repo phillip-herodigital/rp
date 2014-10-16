@@ -35,11 +35,11 @@ namespace StreamEnergy.DomainModels.Accounts
 
         public async Task<System.Net.Http.Headers.CookieHeaderValue> CreateAuthenticationCookie(string accountNumber)
         {
-            var globalCustomerId = await accountService.CreateStreamConnectCustomer();
+            var customer = await accountService.CreateStreamConnectCustomer();
             var details = await accountService.GetAccountDetails(accountNumber);
-            await accountService.AssociateAccount(globalCustomerId, accountNumber, details.Details.SsnLastFour, "");
+            await accountService.AssociateAccount(customer.GlobalCustomerId, accountNumber, details.Details.SsnLastFour, "");
 
-            var cookie = FormsAuthentication.GetAuthCookie(DomainPrefix + globalCustomerId, false, "/");
+            var cookie = FormsAuthentication.GetAuthCookie(DomainPrefix + customer.GlobalCustomerId, false, "/");
             return new System.Net.Http.Headers.CookieHeaderValue(cookie.Name, cookie.Value)
             {
                 Domain = cookie.Domain,

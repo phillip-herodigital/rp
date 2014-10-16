@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace StreamEnergy.Services.Clients.StreamConnect
+namespace StreamEnergy.DomainModels.Accounts
 {
-    class Customer
+    public class Customer
     {
         public Guid GlobalCustomerId { get; set; }
-        public string PortalId { get; set; }
+        public string AspNetUserProviderKey { get; set; }
+        public string Username { get; set; }
         public string EmailAddress { get; set; }
-        public string UserName { get; set; }
     }
 }

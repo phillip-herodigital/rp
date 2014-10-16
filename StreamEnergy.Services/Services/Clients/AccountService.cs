@@ -225,31 +225,57 @@ namespace StreamEnergy.Services.Clients
         }
 
 
-        async Task<Guid> IAccountService.CreateStreamConnectCustomer(string username, string email)
+        async Task<Customer> IAccountService.CreateStreamConnectCustomer(string providerKey, string email, string username)
         {
-            var response = await streamConnectClient.PostAsJsonAsync("/api/v1/customers", new { PortalId = username, EmailAddress = email });
+            var response = await streamConnectClient.PostAsJsonAsync("/api/v1/customers", new { PortalId = providerKey, EmailAddress = email, UserName = username });
             if (response.IsSuccessStatusCode)
             {
                 var data = Json.Read<StreamConnect.CustomerResponse>(await response.Content.ReadAsStringAsync());
-                return data.Customer.GlobalCustomerId;
+                return new Customer
+                {
+                    GlobalCustomerId = data.Customer.GlobalCustomerId,
+                    EmailAddress = data.Customer.EmailAddress,
+                    AspNetUserProviderKey = data.Customer.PortalId,
+                    Username = data.Customer.UserName,
+                };
             }
             else
             {
-                return Guid.Empty;
+                return null;
             }
         }
 
-        async Task<string> IAccountService.GetEmailByCustomerId(Guid globalCustomerId)
+        async Task<Customer> IAccountService.GetCustomerByCustomerId(Guid globalCustomerId)
         {
             var response = await streamConnectClient.GetAsync("/api/v1/customers/" + globalCustomerId.ToString());
             if (response.IsSuccessStatusCode)
             {
                 var data = Json.Read<StreamConnect.CustomerResponse>(await response.Content.ReadAsStringAsync());
-                return data.Customer.EmailAddress;
+                return new Customer
+                {
+                    GlobalCustomerId = globalCustomerId,
+                    EmailAddress = data.Customer.EmailAddress,
+                    AspNetUserProviderKey = data.Customer.PortalId,
+                    Username = data.Customer.UserName,
+                };
             }
             return null;
         }
 
+        async Task<bool> IAccountService.UpdateCustomer(Customer customer)
+        {
+            var response = await streamConnectClient.PutAsJsonAsync("/api/v1/customers/" + customer.GlobalCustomerId.ToString(),
+                new
+                {
+                    EmailAddress = customer.EmailAddress,
+                    UserName = customer.Username,
+                    PortalId = customer.AspNetUserProviderKey,
+                    TCPAPreference = "NA"
+                });
+            dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+
+            return ((string)data.Status.ToString()) == "Success";
+        }
 
         async Task<IEnumerable<Account>> IAccountService.GetAccounts(Guid globalCustomerId)
         {
@@ -311,6 +337,8 @@ namespace StreamEnergy.Services.Clients
             }
             return false;
         }
+
+        
 
         #region GetAccountDetails
 

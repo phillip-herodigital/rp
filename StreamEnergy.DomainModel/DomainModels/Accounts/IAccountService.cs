@@ -23,9 +23,9 @@ namespace StreamEnergy.DomainModels.Accounts
 
 
 
-        Task<Guid> CreateStreamConnectCustomer(string portalId = null, string email = null);
-
-        Task<string> GetEmailByCustomerId(Guid globalCustomerId);
+        Task<Customer> CreateStreamConnectCustomer(string providerKey = null, string email = null, string username = null);
+        Task<Customer> GetCustomerByCustomerId(Guid globalCustomerId);
+        Task<bool> UpdateCustomer(Customer customer);
 
         Task<IEnumerable<Account>> GetAccounts(Guid globalCustomerId);
         Task<Account> AssociateAccount(Guid globalCustomerId, string accountNumber, string ssnLast4, string accountNickname);

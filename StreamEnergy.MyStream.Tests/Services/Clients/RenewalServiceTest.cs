@@ -40,7 +40,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         {
             // Arrange
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
-            var gcid = accountService.CreateStreamConnectCustomer().Result;
+            var gcid = accountService.CreateStreamConnectCustomer().Result.GlobalCustomerId;
             var renewalAccountSsnLast4 = accountService.GetAccountDetails(renewalAccountNumber).Result.Details.SsnLastFour;
             var acct = accountService.AssociateAccount(gcid, renewalAccountNumber, renewalAccountSsnLast4, "").Result;
 
