@@ -1,11 +1,18 @@
 /* 
 	Authentication - Login Controller
  */
-ngApp.controller('AuthLoginCtrl', ['$scope', '$rootScope', '$http', '$window', '$sce', function ($scope, $rootScope, $http, $window, $sce) {
+ngApp.controller('AuthLoginCtrl', ['$scope', '$rootScope', '$http', '$window', '$sce', '$location', function ($scope, $rootScope, $http, $window, $sce, $location) {
 	// create a blank object to hold the form information
 	$scope.formData = {};
 	$scope.isLoading = false;
-
+	var url = $location.absUrl();
+	if (url.indexOf('error=true') > 0) {
+	    $scope.loginError = $sce.trustAsHtml("<strong>Error</strong><br>Invalid username or password. Please try again.")
+	    var indexOfUsername = url.indexOf("username=");
+	    if (indexOfUsername > 0){
+	        $scope.formData.username = url.substring(indexOfUsername + 9);
+	    }
+	}
 	// process the form
 	$scope.login = function() {
 		$scope.formData.rememberMe = !!$scope.formData.rememberMe;

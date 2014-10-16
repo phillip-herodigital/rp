@@ -4,7 +4,11 @@
  */
 ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$filter', 'enrollmentService', 'enrollmentCartService', 'enrollmentStepsService', function ($scope, $location, $filter, enrollmentService, enrollmentCartService, enrollmentStepsService) {
     // TODO - chose state by geoIP
-    $scope.data = { serviceState: 'TX' };
+    if ($location.absUrl().indexOf('State=GA') > 0) {
+        $scope.data = { serviceState: 'GA' };
+    } else {
+        $scope.data = { serviceState: 'TX' };
+    }
 
     // If the incoming URI indicates this is a commercial enrollment, change the default dropdown
     if ($location.absUrl().indexOf('AccountType=C') > 0) {
