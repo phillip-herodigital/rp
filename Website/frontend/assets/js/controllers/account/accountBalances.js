@@ -23,6 +23,7 @@ ngApp.controller('AcctBalancesAndPaymentsCtrl', ['$scope', '$rootScope', '$http'
 		$scope.accounts = data.accounts; 
 		$scope.selectedAccount = $scope.accounts[0];
 		$scope.paymentAmount = $scope.selectedAccount.amountDue;
+        $scope.accountsCount = $scope.accounts.length;
         $scope.isLoading = false;
 	});
 	$http.get('/api/account/getSavedPaymentMethods').success(function (data, status, headers, config) { 

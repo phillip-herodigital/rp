@@ -83,7 +83,6 @@ article {
         }
     }
     .account-selector {
-        background: #fbfbfb;
         padding: 15px;
         border-bottom: 1px solid #ddd;
         form div.group {
@@ -689,6 +688,7 @@ article.utility-providers {
 
 article.balances-payments {
     .account-selector {
+        background: #fbfbfb;
         .group {
             .item {
                 width: 50%;
