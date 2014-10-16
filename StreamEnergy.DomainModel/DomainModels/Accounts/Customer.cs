@@ -5,6 +5,7 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels.Accounts
 {
+    [Serializable]
     public class Customer
     {
         public Guid GlobalCustomerId { get; set; }
