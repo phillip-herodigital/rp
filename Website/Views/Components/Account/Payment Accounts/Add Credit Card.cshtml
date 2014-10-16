@@ -3,7 +3,7 @@
     <header>
         <h2>@Html.Sitecore().Field("Header Text")</h2>
     </header>
-    <form data-val-bind-messages="validations" ng-submit="addPaymentAccount()">
+    <form data-val-bind-messages="validations" ng-submit="addPaymentAccount()" loading-indicator>
         <div class="content">
 
             <div class="item" @Html.Validation().ErrorClass(m => m.Nickname)>
