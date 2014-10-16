@@ -256,11 +256,42 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                  AvailablePaymentMethods = paymentMethods.AvailablePaymentMethods.ToArray(),
                                  Actions = 
                                  {
-                                    { "viewPdf", "/api/account/invoicePdf?account=" + account.AccountNumber + "&invoice=" }
+                                    { "viewPdf", "/api/account/accountInvoicePdf?account=" + account.AccountNumber }
                                  }
                              }
                 }
             };
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Caching.CacheControl(MaxAgeInMinutes = 0)]
+        public async Task<HttpResponseMessage> AccountInvoicePdf(string account)
+        {
+            currentUser.Accounts = await accountService.GetInvoices(currentUser.StreamConnectCustomerId, currentUser.Accounts);
+            var chosenAccount = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == account);
+            var acocuntInvoices = await accountService.GetInvoices(currentUser.StreamConnectCustomerId, currentUser.Accounts);
+            var targetInvoice = acocuntInvoices.First(t => t.AccountNumber == account && t.Invoices != null).Invoices.Last();
+
+            var url = await accountService.GetInvoicePdf(chosenAccount, targetInvoice);
+
+            HttpClient client = new HttpClient();
+            var response = await client.GetAsync(url);
+
+            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+            result.Content = new StreamContent(await response.Content.ReadAsStreamAsync())
+            {
+                Headers =
+                {
+                    ContentType = response.Content.Headers.ContentType,
+                    ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment")
+                    {
+                        FileName = "invoice" + targetInvoice.InvoiceNumber + ".pdf"
+                    }
+                }
+            };
+
+            return result;
         }
 
         [HttpPost]
