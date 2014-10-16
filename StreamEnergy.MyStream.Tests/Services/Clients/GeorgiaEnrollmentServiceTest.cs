@@ -819,10 +819,33 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                 secondCheck = enrollmentService.EndIdentityCheck(secondCheck).Result;
             } while (!secondCheck.IsCompleted);
 
+            Mock<DomainModels.Enrollments.IOfferOptionRules> mockRules = new Mock<DomainModels.Enrollments.IOfferOptionRules>();
+            mockRules.Setup(r => r.GetPostBilledPayments(It.IsAny<DomainModels.Enrollments.IOfferOption>())).Returns(new DomainModels.Enrollments.IOfferPaymentAmount[0]);
+            var deposits = enrollmentService.LoadOfferPayments(globalCustomerId, saveResult.Data, userContext.Services, new DomainModels.Enrollments.InternalContext
+                    {
+                        GlobalCustomerId = globalCustomerId,
+                        EnrollmentSaveState = saveResult,
+                        IdentityCheck = secondCheck,
+                        OfferOptionRules = new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.IOfferOptionRules>[] 
+                        { 
+                            new DomainModels.Enrollments.Service.LocationOfferDetails<DomainModels.Enrollments.IOfferOptionRules>
+                            {
+                                Location = location,
+                                Offer = texasElectricityOffer,
+                                Details = mockRules.Object
+                            }
+                        }
+                    }).Result;
+
             using (new Timer())
             {
                 // Act
-                var result = enrollmentService.PlaceOrder(globalCustomerId, userContext.Services, saveResult.Data, new Dictionary<DomainModels.Enrollments.AdditionalAuthorization, bool>()).Result;
+                var result = enrollmentService.PlaceOrder(userContext.Services, new Dictionary<DomainModels.Enrollments.AdditionalAuthorization, bool>(), new DomainModels.Enrollments.InternalContext
+                    {
+                        GlobalCustomerId = globalCustomerId,
+                        EnrollmentSaveState = saveResult,
+                        Deposit = deposits,
+                    }).Result;
 
                 // Assert
                 Assert.IsNotNull(result);
