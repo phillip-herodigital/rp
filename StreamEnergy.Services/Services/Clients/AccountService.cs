@@ -86,10 +86,12 @@ namespace StreamEnergy.Services.Clients
             var service = ((IAccountService)this);
             List<Account> results = new List<Account>();
             foreach (var entry in from account in existingAccountObjects ?? await service.GetAccounts(globalCustomerId)
-                                  where account.Balance == null || forceRefresh
                                   select new { service, account })
             {
-                await service.GetAccountDetails(entry.account, true);
+                if (entry.account.Balance == null || forceRefresh)
+                {
+                    await service.GetAccountDetails(entry.account, true);
+                }
                 results.Add(entry.account);
             }
             return results.ToArray();
@@ -412,11 +414,14 @@ namespace StreamEnergy.Services.Clients
                 Balance = (decimal)data.AccountDetails.BalanceDue.Value,
                 DueDate = (DateTime)data.AccountDetails.BalanceDueDate.Value,
             };
-            account.SubAccounts = new ISubAccount[]
+            if (data.AccountDetails.ServiceAddress != null)
             {
-                // TODO - should support multiple
-                CreateSubAccount(data.AccountDetails)
-            };
+                account.SubAccounts = new ISubAccount[]
+                {
+                    // TODO - should support multiple
+                    CreateSubAccount(data.AccountDetails)
+                };
+            }
 
             var methodId = data.AutoPayGlobalPaymentMethodId == null ? Guid.Empty : Guid.Parse(data.AutoPayGlobalPaymentMethodId.ToString());
             account.AutoPay = new DomainModels.Payments.AutoPaySetting

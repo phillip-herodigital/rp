@@ -538,12 +538,26 @@ namespace StreamEnergy.Services.Clients
         }
 
 
-        async Task<IEnumerable<LocationOfferDetails<PlaceOrderResult>>> IEnrollmentService.PlaceOrder(Guid streamCustomerId, IEnumerable<LocationServices> services, EnrollmentSaveResult originalSaveState, Dictionary<AdditionalAuthorization, bool> additionalAuthorizations)
+        async Task<IEnumerable<LocationOfferDetails<PlaceOrderResult>>> IEnrollmentService.PlaceOrder(IEnumerable<LocationServices> services, Dictionary<AdditionalAuthorization, bool> additionalAuthorizations, InternalContext internalContext)
         {
+            var streamCustomerId = internalContext.GlobalCustomerId;
+            var originalSaveState = internalContext.EnrollmentSaveState.Data;
+            var depositInfo = internalContext.Deposit;
             var finalizeResponse = await streamConnectClient.PostAsJsonAsync("/api/v1/customers/" + streamCustomerId.ToString() + "/enrollments/finalize", new {
                 GlobalCustomerID = streamCustomerId,
                 Authorizations = new[] { new KeyValuePair<string, bool>("TermsAndConditions", true) }.Concat(additionalAuthorizations.SelectMany(ConvertAuthorization)).ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
-                EnrollmentAccountIds = originalSaveState.Results.Select(orderEntry => orderEntry.Details.GlobalEnrollmentAccountId)
+                EnrollmentAccounts = from orderEntry in originalSaveState.Results
+                                     join depositAmounts in depositInfo on new { orderEntry.Location, orderEntry.Offer.Id } equals new { depositAmounts.Location, depositAmounts.Offer.Id }
+                                     let deposit = depositAmounts.Details.RequiredAmounts.Any(amt => amt is DepositOfferPaymentAmount && amt.DollarAmount > 0)
+                                     join locationService in services on orderEntry.Location equals locationService.Location
+                                     let offer = locationService.SelectedOffers.FirstOrDefault(o => o.Offer.Id == orderEntry.Offer.Id)
+                                     where offer != null
+                                     select new
+                                     {
+                                         EnrollmentAccountId = orderEntry.Details.GlobalEnrollmentAccountId,
+                                         DepositWaiverRequested = offer.WaiveDeposit,
+                                         DepositPaymentMade = deposit && !offer.WaiveDeposit
+                                     }
             });
             finalizeResponse.EnsureSuccessStatusCode();
             dynamic result = Json.Read<JObject>(await finalizeResponse.Content.ReadAsStringAsync());

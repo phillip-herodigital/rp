@@ -10,6 +10,7 @@ namespace StreamEnergy.DomainModels.Accounts
     {
 
         Guid StreamConnectCustomerId { get; }
+        Customer Customer { get; set; }
         IEnumerable<Account> Accounts { get; set; }
     }
 }

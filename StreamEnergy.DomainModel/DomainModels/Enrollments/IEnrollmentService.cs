@@ -38,7 +38,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         Task<IEnumerable<LocationOfferDetails<Payments.PaymentResult>>> PayDeposit(IEnumerable<LocationOfferDetails<OfferPayment>> depositData, IEnumerable<LocationOfferDetails<EnrollmentSaveEntry>> enrollmentSaveEntries, Payments.IPaymentInfo paymentInfo, UserContext context);
 
-        Task<IEnumerable<LocationOfferDetails<PlaceOrderResult>>> PlaceOrder(Guid streamCustomerId, IEnumerable<LocationServices> services, EnrollmentSaveResult originalSaveState, Dictionary<AdditionalAuthorization, bool> additionalAuthorizations);
+        Task<IEnumerable<LocationOfferDetails<PlaceOrderResult>>> PlaceOrder(IEnumerable<LocationServices> services, Dictionary<AdditionalAuthorization, bool> additionalAuthorizations, InternalContext internalContext);
 
 
         Task<PlaceOrderResult> PlaceCommercialQuotes(UserContext context);

@@ -10,6 +10,7 @@ namespace StreamEnergy.DomainModels.Accounts
     class CurrentUser : ICurrentUser
     {
         private const string accountsList = "CurrentUser_Accounts";
+        private const string customerKey = "CurrentUser_Customer";
         private readonly Func<HttpContextBase> contextLocator;
         private readonly UserProfileLocator profileLocator;
 
@@ -19,7 +20,7 @@ namespace StreamEnergy.DomainModels.Accounts
             this.profileLocator = profileLocator;
         }
 
-        Guid ICurrentUser.StreamConnectCustomerId
+        public Guid StreamConnectCustomerId
         {
             get 
             {
@@ -32,11 +33,30 @@ namespace StreamEnergy.DomainModels.Accounts
             }
         }
 
+        Customer ICurrentUser.Customer
+        {
+            get
+            {
+                var gcid = StreamConnectCustomerId;
+
+
+                var customer = contextLocator().Session[customerKey] as Customer;
+                if (customer != null)
+                    return customer;
+
+                return null;
+            }
+            set
+            {
+                contextLocator().Session[customerKey] = value;
+            }
+        }
+
         IEnumerable<Account> ICurrentUser.Accounts
         {
             get
             {
-                var gcid = profileLocator.Locate(contextLocator().User.Identity.Name).GlobalCustomerId;
+                var gcid = StreamConnectCustomerId;
 
 
                 var accounts = contextLocator().Session[accountsList] as IEnumerable<Account>;

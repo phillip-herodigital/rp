@@ -24,10 +24,23 @@
                     <td data-title="@Html.Sitecore().Field("Account Number Text")">{{item.redactedData}}</td>
                     <td data-title="@Html.Sitecore().Field("Type Text")">{{item.underlyingPaymentType}}</td>
                     <td class="row-actions" data-title="@Html.Sitecore().Field("Action Text")">
-                        <button ng-click="deletePaymentAccount(item.id)">@Html.Sitecore().Field("Delete Button Text")</button>
+                        <button ng-click="deletePaymentAccount(item)">@Html.Sitecore().Field("Delete Button Text")</button>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
 </article>
+<script type="text/ng-template" id="removePaymentAccount.html">
+    <div class="modal-header">
+        <a href="" ng-click="$dismiss()"></a>
+        <h2>@Html.Sitecore().Field("Remove Payment Account Header Text")</h2>
+    </div>
+    <div class="modal-body">
+        @Html.Sitecore().Field("Remove Payment Account Confirmation Text") {{ paymentAccount.redactedData }}?
+    </div>
+    <div class="modal-footer">
+        <button class="secondary" ng-click="$dismiss()">@Html.Sitecore().Field("Remove Payment Account Cancel Button Text")</button>
+        <button ng-click="$close()">@Html.Sitecore().Field("Remove Payment Account Remove Button Text")</button>
+    </div>
+</script>

@@ -438,7 +438,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var email = new DomainModels.Email();
             var questionsRoot = database.GetItem("/sitecore/content/Data/Taxonomy/Security Questions");
 
-            var customer = await accountService.GetCustomerByCustomerId(profile.GlobalCustomerId);
+            var customer = this.currentUser.Customer ?? await accountService.GetCustomerByCustomerId(profile.GlobalCustomerId);
             email.Address = customer.EmailAddress;
             
             return new GetOnlineAccountResponse
@@ -467,7 +467,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
 
         [HttpPost]
-        public HttpResponseMessage UpdateOnlineAccount(UpdateOnlineAccountRequest request)
+        public async Task<HttpResponseMessage> UpdateOnlineAccount(UpdateOnlineAccountRequest request)
         {
             var currentUser = Membership.GetUser(User.Identity.Name);
             var currentUsername = currentUser.UserName;
@@ -495,10 +495,21 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     {
                         // update the cookie
                         authentication.AddAuthenticationCookie(response, newUsername);
+
+                        var newIdentity = new System.Security.Principal.GenericIdentity(request.Username);
+                        var newPrincipal = new System.Security.Principal.GenericPrincipal(newIdentity, new string[] { });
+                        User = newPrincipal;
                     }
                 }
 
-                // TODO update the email address with Stream Connect
+                // update the email address (and/or username) with Stream Connect
+                var customer = this.currentUser.Customer = this.currentUser.Customer ?? await accountService.GetCustomerByCustomerId(this.currentUser.StreamConnectCustomerId);
+                if (customer.EmailAddress != request.Email.Address || !string.IsNullOrEmpty(request.Username))
+                {
+                    customer.Username = request.Username;
+                    customer.EmailAddress = request.Email.Address;
+                    await accountService.UpdateCustomer(customer);
+                }                
 
                 // update the password if it has been set
                 if (!string.IsNullOrEmpty(request.CurrentPassword))
