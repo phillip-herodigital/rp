@@ -412,11 +412,14 @@ namespace StreamEnergy.Services.Clients
                 Balance = (decimal)data.AccountDetails.BalanceDue.Value,
                 DueDate = (DateTime)data.AccountDetails.BalanceDueDate.Value,
             };
-            account.SubAccounts = new ISubAccount[]
+            if (data.AccountDetails.ServiceAddress != null)
             {
-                // TODO - should support multiple
-                CreateSubAccount(data.AccountDetails)
-            };
+                account.SubAccounts = new ISubAccount[]
+                {
+                    // TODO - should support multiple
+                    CreateSubAccount(data.AccountDetails)
+                };
+            }
 
             var methodId = data.AutoPayGlobalPaymentMethodId == null ? Guid.Empty : Guid.Parse(data.AutoPayGlobalPaymentMethodId.ToString());
             account.AutoPay = new DomainModels.Payments.AutoPaySetting
