@@ -151,7 +151,6 @@ namespace StreamEnergy.Services.Clients
                 SalesInfo = salesInfo,
                 CustomerType = customerType.CustomerType.ToString("g"),
                 EnrollmentAccountId = enrollmentAccountId ?? Guid.Empty,
-                SystemOfRecord = "CIS1",
                 FirstName = context.ContactInfo.Name.First,
                 LastName = context.ContactInfo.Name.Last,
                 BillingAddress = StreamConnectUtilities.ToStreamConnectAddress(context.MailingAddress),
