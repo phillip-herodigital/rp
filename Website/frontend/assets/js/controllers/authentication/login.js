@@ -19,8 +19,8 @@ ngApp.controller('AuthLoginCtrl', ['$scope', '$rootScope', '$http', '$window', '
 			headers : { 'Content-Type': 'application/JSON' } 
 		})
 			.success(function (data, status, headers, config) {
-				$scope.isLoading = false;
-				if (!data.success) {
+			    if (!data.success) {
+			        $scope.isLoading = false;
 					// if not successful, bind errors to error variables
 					$scope.loginError = $sce.trustAsHtml(data.validations[0].text);
 

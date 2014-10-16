@@ -48,12 +48,12 @@ namespace StreamEnergy.Services.Clients
                 var serviceStatus = location.Capabilities.OfType<ServiceStatusCapability>().Single();
                 var customerType = location.Capabilities.OfType<CustomerTypeCapability>().Single();
 
-                var parameters = System.Web.HttpUtility.ParseQueryString("");
-                parameters["ServiceAddress.City"] = location.Address.City;
-                parameters["ServiceAddress.State"] = location.Address.StateAbbreviation;
-                parameters["ServiceAddress.StreetLine1"] = location.Address.Line1;
-                parameters["ServiceAddress.StreetLine2"] = location.Address.Line2;
-                parameters["ServiceAddress.Zip"] = location.Address.PostalCode5;
+            var parameters = System.Web.HttpUtility.ParseQueryString("");
+            parameters["ServiceAddress.City"] = location.Address.City;
+            parameters["ServiceAddress.State"] = location.Address.StateAbbreviation;
+            parameters["ServiceAddress.StreetLine1"] = location.Address.Line1;
+            parameters["ServiceAddress.StreetLine2"] = location.Address.Line2;
+            parameters["ServiceAddress.Zip"] = location.Address.PostalCode5;
 
                 parameters["CustomerType"] = customerType.CustomerType.ToString("g");
                 parameters["EnrollmentType"] = serviceStatus.EnrollmentType.ToString("g");
@@ -62,17 +62,17 @@ namespace StreamEnergy.Services.Clients
                 parameters["UtilityAccountNumber"] = locAdapter.GetUtilityAccountNumber(location.Capabilities);
                 parameters["SystemOfRecord"] = locAdapter.GetSystemOfRecord(location.Capabilities);
 
-                var response = await streamConnectClient.GetAsync("/api/v1/products?" + parameters.ToString());
+            var response = await streamConnectClient.GetAsync("/api/v1/products?" + parameters.ToString());
 
-                response.EnsureSuccessStatusCode();
-                var streamConnectProductResponse = Json.Read<StreamConnect.ProductResponse>(await response.Content.ReadAsStringAsync());
+            response.EnsureSuccessStatusCode();
+            var streamConnectProductResponse = Json.Read<StreamConnect.ProductResponse>(await response.Content.ReadAsStringAsync());
 
                 var entry = locAdapter.LoadOffers(location, streamConnectProductResponse);
                 if (entry != null)
-                {
+            {
                     result.Add(location, entry);
-                }
-            }
+                              }
+        }
             return result;
         }
 
@@ -279,6 +279,9 @@ namespace StreamEnergy.Services.Clients
                     return null;
                 };
 
+            // Note - updates are being applied to the same location if the offer types match.
+            // If there is an offer type where we can have multiple at a single location,
+            // this logic will need to change again.
             var request = (from service in context.Services
                            from offer in service.SelectedOffers
                            let previousSaveId = enrollmentSaveResult.Results.Where(r => r.Offer.Id == offer.Offer.Id && r.Location == service.Location).Select(r => (Guid?)r.Details.GlobalEnrollmentAccountId).FirstOrDefault()
@@ -294,7 +297,7 @@ namespace StreamEnergy.Services.Clients
                 ResponseLocation = asyncUrl
             };
         }
-
+        
         async Task<bool> IEnrollmentService.DeleteEnrollment(Guid globalCustomerId, Guid enrollmentAccountId)
         {
             var response = await streamConnectClient.DeleteAsync("/api/v1/customers/" + globalCustomerId.ToString() + "/enrollments/" + enrollmentAccountId);
@@ -690,7 +693,7 @@ namespace StreamEnergy.Services.Clients
         {
             var response = await streamConnectClient.GetAsync(asyncResult.ResponseLocation);
             if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
-            {
+        {
                 return asyncResult;
             }
 

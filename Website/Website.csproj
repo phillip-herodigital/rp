@@ -928,6 +928,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Pages\Temp\Generate W9.cshtml" />
+    <Content Include="installStreamEnergy.RenderingService.cmd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -986,6 +989,10 @@
     <ProjectReference Include="..\StreamEnergy.LuceneServices.Web\StreamEnergy.LuceneServices.Web.csproj">
       <Project>{7151c4c7-1ccf-42e4-b979-b0b6cb446bac}</Project>
       <Name>StreamEnergy.LuceneServices.Web</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StreamEnergy.RenderingService\StreamEnergy.RenderingService.csproj">
+      <Project>{2a7f95f1-db6a-4063-9cd7-b3aaa6fda18a}</Project>
+      <Name>StreamEnergy.RenderingService</Name>
     </ProjectReference>
     <ProjectReference Include="..\StreamEnergy.Services\StreamEnergy.Services.csproj">
       <Project>{c1c6ce03-d27a-4dff-a5e5-822e8a29bfa9}</Project>

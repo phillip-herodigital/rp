@@ -24,15 +24,12 @@
             </thead>
             <tbody ng-repeat="item in logs">
                 <tr>
-                    <td style="width:30px;" ng-click="expandInnerTable($index)" ng-class="{'opened': expand[$index], 'closed': !expand[$index]}">
-                        <i ng-class="{'icon-arrow-expanded': expand[$index], 'icon-arrow-collapsed': !expand[$index]}"></i>
-                    </td>
                     <td>{{item.timestamp}}</td>
                     <td>{{item.data.httpClient.duration}}</td>
                     <td>{{item.severity}}</td>
                     <td>{{item.message}}</td>
                 </tr>
-                <tr class="expand-details" ng-show="expand[$index] == true">
+                <tr class="expand-details">
                     <td colspan="4">
                         <div ng-if="item.data.httpClient != null">
                             <p><strong>Request URI:</strong></p>
