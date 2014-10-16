@@ -3,7 +3,7 @@
  */
 ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', '$q', '$timeout', function ($scope, $rootScope, $http, $modal, $q, $timeout) {
 
-    $scope.paymentMethods = null;
+    $scope.paymentAccounts = null;
     $scope.selectedAccounts = [];
     $scope.total = 0;
     $scope.overriddenWarnings = [];
@@ -58,13 +58,13 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
                 item.selectedPaymentMethod = '';
             };
         }
-    }
+    };
 
     $scope.getPaymentMethod = function (paymentId) {
         if (paymentId && paymentId !== 'addAccount') {
             return _.find($scope.paymentAccounts, { 'id': paymentId }).displayName;
         }
-    }
+    };
 
     $scope.resolvePayments = function () {
         // any additional validation can go here
@@ -125,6 +125,7 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
     };
 
     $scope.makePayment = function () {
+        $scope.isLoading = true;
         var payments = _.map($scope.selectedAccounts, function(acct) { 
             return {
                 'paymentAccount': _.find($scope.paymentAccounts, { 'id': acct.selectedPaymentMethod }),
@@ -137,6 +138,7 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
             paymentDate: $scope.selectedDate,
             overrideWarnings: $scope.overriddenWarnings
         }).success(function (data) {
+            $scope.isLoading = false;
             if (data.blockingAlertType) {
 
                 $modal.open({

@@ -95,7 +95,7 @@
 
     <div ng-show="activeState == 'step2'">
         <form>
-            <div class="content">
+            <div class="content" loading-indicator>
                 <dl class="clearfix module-list" ng-repeat="account in selectedAccounts">
                     <dt>@Html.Sitecore().Field("Account Number Text")</dt>
                     <dd>{{ account.accountNumber }}</dd>
@@ -129,15 +129,13 @@
                     <div ng-if="account.confirmationNumber" class="notice success">
                         <dl class="clearfix module-list">
                             <dt>@Html.Sitecore().Field("Confirmation Number Text")</dt>
-                            <dd>{{account.confirmationNumber}}</dd>
+                            <dd>{{ account.confirmationNumber }}</dd>
                             <dt>@Html.Sitecore().Field("Payment Amount Text")</dt>
-                            <dd>{{ (selectedAccounts.length != 1 ? account.invoiceAmount : paymentAmount) | currency }}</dd>
+                            <dd>{{ paymentAmount | currency }}</dd>
                         </dl>
                     </div>
                     <div ng-if="!account.confirmationNumber" class="notice error">
-                        <p>@Html.Sitecore().Field("Processing Payment Error Text").Format(new { Payment = "{{ (selectedAccounts.length != 1 ? account.invoiceAmount : paymentAmount) | currency }}" })</p>
-                        @* TODO - Sitecore *@
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi consectetur, tellus semper porta ornare, nisl tortor adipiscing nibh, eu pretium ligula purus sed arcu.</p>
+                        <p>@Html.Sitecore().Field("Processing Payment Error Text").Format(new { Payment = "{{ paymentAmount | currency }}" })</p>
                     </div>
                     <hr class="content-divider">
                 </div>
