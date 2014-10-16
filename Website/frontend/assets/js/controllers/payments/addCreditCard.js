@@ -6,8 +6,9 @@
     };
 
     $scope.validations = [];
-
+    $scope.isLoading = false;
     $scope.addPaymentAccount = function () {
+        $scope.isLoading = true;
         $scope.formData.card().then(function (paymentInfo) {
             var formData = {
                 nickname: $scope.formData.nickname,
@@ -16,6 +17,7 @@
 
             $http.post('/api/account/addPaymentAccount', formData).success(function (response) {
                 if (response.validations.length) {
+                    $scope.isLoading = false;
                     $scope.validations = response.validations;
                 } else {
                     $window.location.href = response.redirectUri;

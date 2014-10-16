@@ -245,6 +245,9 @@ article {
 }
 
 article, .modal-body {
+    [loading-indicator] {
+        position: relative;
+    }
     .notice {
         margin-bottom: 15px;
         border-radius: 15px;
