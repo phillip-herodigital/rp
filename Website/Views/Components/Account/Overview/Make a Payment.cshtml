@@ -95,7 +95,7 @@
 
     <div ng-show="activeState == 'step2'">
         <form>
-            <div class="content">
+            <div class="content" loading-indicator>
                 <dl class="clearfix module-list" ng-repeat="account in selectedAccounts">
                     <dt>@Html.Sitecore().Field("Account Number Text")</dt>
                     <dd>{{ account.accountNumber }}</dd>

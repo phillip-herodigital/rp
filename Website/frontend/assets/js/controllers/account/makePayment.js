@@ -125,6 +125,7 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
     };
 
     $scope.makePayment = function () {
+        $scope.isLoading = true;
         var payments = _.map($scope.selectedAccounts, function(acct) { 
             return {
                 'paymentAccount': _.find($scope.paymentAccounts, { 'id': acct.selectedPaymentMethod }),
@@ -137,6 +138,7 @@ ngApp.controller('MakePaymentCtrl', ['$scope', '$rootScope', '$http', '$modal', 
             paymentDate: $scope.selectedDate,
             overrideWarnings: $scope.overriddenWarnings
         }).success(function (data) {
+            $scope.isLoading = false;
             if (data.blockingAlertType) {
 
                 $modal.open({
