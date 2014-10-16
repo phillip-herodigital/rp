@@ -87,23 +87,23 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             return new GetAccountBalancesResponse
             {
-                Accounts = new Table<AccountToPay>
-                {
-                    ColumnList = typeof(AccountToPay).BuildTableSchema(database.GetItem("/sitecore/content/Data/Components/Account/Overview/Make a Payment")),
-                    Values = from account in currentUser.Accounts
-                             let paymentScheduling = account.GetCapability<PaymentSchedulingAccountCapability>()
-                             let paymentMethods = account.GetCapability<PaymentMethodAccountCapability>()
-                             let externalPayment = account.GetCapability<ExternalPaymentAccountCapability>()
-                             select new AccountToPay
-                             {
-                                 AccountNumber = account.AccountNumber,
-                                 AmountDue = account.Balance.Balance,
-                                 DueDate = account.Balance.DueDate,
-                                 UtilityProvider = externalPayment.UtilityProvider,
-                                 CanMakeOneTimePayment = paymentScheduling.CanMakeOneTimePayment,
-                                 AvailablePaymentMethods = paymentMethods.AvailablePaymentMethods.ToArray(),
-                             }
-                }
+                Accounts =  from account in currentUser.Accounts
+                            let paymentScheduling = account.GetCapability<PaymentSchedulingAccountCapability>()
+                            let paymentMethods = account.GetCapability<PaymentMethodAccountCapability>()
+                            let externalPayment = account.GetCapability<ExternalPaymentAccountCapability>()
+                            select new AccountToPay
+                            {
+                                AccountNumber = account.AccountNumber,
+                                AmountDue = account.Balance.Balance,
+                                DueDate = account.Balance.DueDate,
+                                UtilityProvider = externalPayment.UtilityProvider,
+                                CanMakeOneTimePayment = paymentScheduling.CanMakeOneTimePayment,
+                                AvailablePaymentMethods = paymentMethods.AvailablePaymentMethods.ToArray(),
+                                Actions = 
+                                 {
+                                    { "viewPdf", "/api/account/accountInvoicePdf?account=" + account.AccountNumber }
+                                 }
+                            }
             };
         }
 
@@ -235,9 +235,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         [HttpGet]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
-        public async Task<GetAccountBalancesResponse> GetAccountBalancesTable()
+        public async Task<GetAccountBalancesTableResponse> GetAccountBalancesTable()
         {
-            return new GetAccountBalancesResponse
+            return new GetAccountBalancesTableResponse
             {
                 Accounts = new Table<AccountToPay>
                 {

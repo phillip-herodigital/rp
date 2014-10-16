@@ -563,6 +563,7 @@
     <Compile Include="Models\Account\FindAccountForOneTimePaymentRequest.cs" />
     <Compile Include="Models\Account\FindAccountForOneTimePaymentResponse.cs" />
     <Compile Include="Models\Account\GetAccountBalancesResponse.cs" />
+    <Compile Include="Models\Account\GetAccountBalancesTableResponse.cs" />
     <Compile Include="Models\Account\GetAccountInformationRequest.cs" />
     <Compile Include="Models\Account\GetAccountInformationResponse.cs" />
     <Compile Include="Models\Account\GetEnergyUsageRequest.cs" />
