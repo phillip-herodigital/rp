@@ -10,7 +10,7 @@
                     
                     // The tokenizer does not provide a way to customize the callback, so we have no option but to declare a global variable
                     $window.processToken = function (data) {
-                        if (data.action == "CE") {
+                        if (data.action == "CE" || data.action == "AE") {
                             deferred.resolve(data.data);
                         } else {
                             deferred.reject();
