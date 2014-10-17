@@ -928,6 +928,38 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         #endregion
 
+        #region AutoPay
+
+        [HttpPost]
+        public async Task<GetAutoPayStatusResponse> GetAutoPayStatus(GetAutoPayStatusRequest request)
+        {
+            currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
+            var account = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
+            var autoPayStatus = await paymentService.GetAutoPayStatus(account);
+
+            return new GetAutoPayStatusResponse
+            {
+                AccountNumber = request.AccountNumber,
+                AutoPay = autoPayStatus
+            };
+        }
+
+        [HttpPost]
+        public async Task<SetAutoPayResponse> SetAutoPay(SetAutoPayRequest request)
+        {
+            var account = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
+            return new SetAutoPayResponse
+            {
+                IsSuccess = await paymentService.SetAutoPayStatus(account, new DomainModels.Payments.AutoPaySetting
+                    {
+                        IsEnabled = request.AutoPay.IsEnabled,
+                        PaymentMethodId = request.AutoPay.IsEnabled ? request.AutoPay.PaymentMethodId : Guid.Empty
+                    })
+            };
+        }
+        
+        #endregion
+
         #region Renewal
 
         [HttpPost]

@@ -1465,6 +1465,9 @@ article.payments {
     .account-selector {
         margin: -25px -15px 15px -15px;
     }
+    .account-number {
+        min-width: 25%;
+    }
     img {
         max-width: 100%;
     }
