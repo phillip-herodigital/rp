@@ -59,5 +59,19 @@ namespace StreamEnergy.MyStream.Controllers
             return this.Content(StreamEnergy.Json.Stringify(data));
         }
 
+        public ActionResult GeorgiaProducts()
+        {
+            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Products/Georgia");
+
+            var data = item.Children.Select(child => new
+            {
+                code = child.Name,
+                name = child.Fields["Product Name"].Value,
+                description = child.Fields["Product Description"].Value
+            });
+
+            return this.Content(StreamEnergy.Json.Stringify(data));
+        }
+
     }
 }
