@@ -248,6 +248,7 @@ article {
 }
 
 article, .modal-body {
+    &[loading-indicator],
     [loading-indicator] {
         position: relative;
     }

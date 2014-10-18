@@ -16,9 +16,10 @@ ngApp.controller('OneTimePaymentCtrl', ['$scope', '$http', '$timeout', function 
 			this.activeStep--;
 		}
 	};
-
+	$scope.isLoading = false;
 	//Step 1
-	this.lookupAccount = function() {
+	this.lookupAccount = function () {
+	    $scope.isLoading = true;
 		$http({
 			method  : 'POST',
 			url     : '/api/account/findAccountForOneTimePayment',
@@ -26,6 +27,7 @@ ngApp.controller('OneTimePaymentCtrl', ['$scope', '$http', '$timeout', function 
 			headers : { 'Content-Type': 'application/JSON' } 
 		})
 			.success(function (data, status, headers, config) {
+			    $scope.isLoading = false;
 				ctrl.account = data.account;
 				ctrl.totalPaymentAmount = ctrl.account.invoiceAmount;
 				ctrl.activeStep = 2;
@@ -43,6 +45,7 @@ ngApp.controller('OneTimePaymentCtrl', ['$scope', '$http', '$timeout', function 
 
 	//Step 3
 	this.submitPaymentInfo = function () {
+	    $scope.isLoading = true;
 	    $http({
 	        method: 'POST',
 	        url: '/api/account/makeOneTimePayment',
@@ -59,6 +62,7 @@ ngApp.controller('OneTimePaymentCtrl', ['$scope', '$http', '$timeout', function 
 	        headers: { 'Content-Type': 'application/JSON' }
 	    })
         .success(function (data) {
+            $scope.isLoading = false;
             if (data.blockingAlertType) {
                 // TODO - either display the alerts or change server-side code to not check for them.
                 ctrl.overrideWarnings.push(data.blockingAlertType);

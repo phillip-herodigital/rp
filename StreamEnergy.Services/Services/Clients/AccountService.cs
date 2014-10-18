@@ -409,6 +409,8 @@ namespace StreamEnergy.Services.Clients
                 TcpaPreference = (data.TCPAPreference == "NA" ? (bool?)null : (bool?)(data.TCPAPreference == "Yes"))
                 // TODO - are there other parts that belong here?
             };
+            account.SystemOfRecord = data.AccountDetails.SystemOfRecord;
+            account.AccountNumber = data.AccountDetails.SystemOfRecordAccountNumber;
             account.Balance = new AccountBalance
             {
                 Balance = (decimal)data.AccountDetails.BalanceDue.Value,

@@ -855,7 +855,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 }
             }
 
-            var confirmation = await paymentService.OneTimePayment(DateTime.Today, request.TotalPaymentAmount, account.AccountNumber, null, account.SystemOfRecord, request.PaymentAccount);
+            var confirmation = await paymentService.OneTimePayment(DateTime.Today, request.TotalPaymentAmount, account.AccountNumber, request.CustomerName, account.SystemOfRecord, request.PaymentAccount);
 
             return new MakeOneTimePaymentResponse
             {
