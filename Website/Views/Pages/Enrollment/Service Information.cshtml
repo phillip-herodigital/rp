@@ -20,8 +20,11 @@
                     </header>
                     <div class="content">
                         <div ng-if="errorMessage" ng-cloak>
-                            <div class="notice error">
+                            <div class="notice error" ng-if="data.serviceState == 'TX'">
                                 @Html.Sitecore().Field("Invalid Address Message Text")
+                            </div>
+                            <div class="notice error" ng-if="data.serviceState == 'GA'">
+                                @Html.Sitecore().Field("GA Invalid Address Message Text")
                             </div>
                             <hr class="content-divider" />
                         </div>
