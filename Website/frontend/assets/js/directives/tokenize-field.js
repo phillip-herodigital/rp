@@ -5,18 +5,22 @@
             var attributes = $scope.$eval(attrs.tokenizeField)
             ctrl.$parsers.push(function (inputValue) {
                 var rawField = inputValue;
-                var result = function () {
+                var result = function (opts) {
                     var deferred = $q.defer();
                     
                     // The tokenizer does not provide a way to customize the callback, so we have no option but to declare a global variable
                     $window.processToken = function (data) {
-                        if (data.action == "CE" || data.action == "AE") {
+                        if (data.action == "CE") {
                             deferred.resolve(data.data);
                         } else {
                             deferred.reject();
                         }
                     };
-                    var action = attributes.type == "card" ? "CE" : "AE";
+                    var action = "CE";
+                    if (opts && opts.routingNumber)
+                    {
+                        rawField = opts.routingNumber + "/" + rawField;
+                    }
                     $http.jsonp(attributes.tokenizerDomain + "/cardsecure/cs?action=" + action + "&data=" + rawField + "&type=json")
                     .error(function (data, status, headers, config) {
                         deferred.reject();

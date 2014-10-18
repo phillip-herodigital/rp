@@ -6,7 +6,7 @@
             var ctrl = this;
             this.bankAccount = function () {
                 var accountToken = ctrl.accountToken;
-                return accountToken().then(function (value) {
+                return accountToken({ routingNumber: ctrl.routingNumber }).then(function (value) {
                     return {
                         paymentType: 'TokenizedBank',
                         category: ctrl.category,
