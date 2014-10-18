@@ -211,22 +211,12 @@
                 <toggle-pane name="existing" value="ctrl.phoneFilters.phoneTypeTab">
                     <div class="content form bring-your-own">
                         <h2>@Html.Sitecore().Field("2 - Header - Bring Your Own Network Phone").Format(new { network = "{{ ctrl.phoneFilters.selectedNetwork }}" })</h2>
-                        @Html.Sitecore().Field("2 - Bring Your Phone - Description")
+                        @Html.Sitecore().Field("2 - Bring Your Phone - Description").Format(new { network = "{{ ctrl.phoneFilters.selectedNetwork }}" })
                         
                         <hr>
 
                         @Html.Sitecore().Field("2 - Bring Your Phone - Instructions").Format(new { network = "{{ ctrl.phoneFilters.selectedNetwork }}" })
                     
-                        <h3><strong>To bring your own phone, it must be:</strong></h3>
-
-                        <ol>
-                            <li>An <strong>AT&amp;T Device</strong> or compatible <strong>GSM network</strong> phone<br />
-                            Want to bring a Sprint or CDMA network phone? <a href="">Switch Carriers</a></li>
-                            <li>The phone must be unlocked. <a href="" ng-click="ctrl.showUnlockingModal()">How do I unlock my phone?</a></li>
-                            <li><strong>In good standing*</strong></li>
-                            <li>Compatible with the list of devices below.</li>
-                        </ol>
-                        
                         <div class="group">
                             <div class="item">
                                 <select name="" id="">

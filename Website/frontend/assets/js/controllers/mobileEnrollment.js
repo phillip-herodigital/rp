@@ -1,13 +1,16 @@
 ﻿ngApp.controller('MobileEnrollmentCtrl', ['$scope', '$filter', '$modal', 'mobileEnrollmentService', function ($scope, $filter, $modal, mobileEnrollmentService) {
+
+    var _this = this;
+
     //Set the data in a service
     this.mobileService = mobileEnrollmentService;
     this.accountInformation = mobileEnrollmentService.accountInformation;
 
     this.availableNetworks = [];
+    this.excludedStates = ['AK', 'HI'];
 
     this.phoneFilters = {
         phoneTypeTab: "new",
-        zipCode: undefined,
         selectedPhone: undefined,
         selectedNetwork: "att",
         condition: undefined,
@@ -36,9 +39,13 @@
      * [updateAvailableNetworks description]
      * @return {[type]} [description]
      */
-    this.updateAvailableNetworks = function() {
+    this.updateAvailableNetworks = function(state) {
         //Grab the available networks here, for now return the only two we have
-        this.availableNetworks = ['att', 'sprint'];
+        if (_.contains(_this.excludedStates, state.abbreviation)) {
+            this.availableNetworks = [];
+        } else {
+            this.availableNetworks = ['att', 'sprint'];
+        }
     };
 
     /**
@@ -56,10 +63,6 @@
     this.isAvailableNetwork = function(network) {
         return _.indexOf(this.availableNetworks, network) > -1;
     };
-
-    this.isZipCodeValid = function() {
-        return this.phoneFilters.zipCode && this.phoneFilters.zipCode.match(/^\d{5}$/);
-    }
 
     /** 
      * Set the default options when a new phone is selected
@@ -157,6 +160,12 @@
             'templateUrl': 'networkUnlocking/' + this.phoneFilters.selectedNetwork
         })
     };
+
+    $scope.$watch('ctrl.phoneFilters.state', function (newValue, oldValue) {
+        if (newValue !== oldValue) {
+            _this.updateAvailableNetworks(newValue);
+        }
+    });
 
 }]);
 

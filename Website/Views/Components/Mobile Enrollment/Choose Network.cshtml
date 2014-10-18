@@ -15,7 +15,8 @@
     <section class="wrapper layout">
         <article class="enrollment__box enrollment__choose-network">
             <header>
-                <h1>@Html.Sitecore().Field("1 - Header - Choose Network") <input type="text" class="small" maxlength="5" ng-model="ctrl.phoneFilters.zipCode"> <button type="button" ng-click="ctrl.updateAvailableNetworks()" class="plain update-link" ng-disabled="!ctrl.isZipCodeValid()">Update</button></h1>
+                <h1>@Html.Sitecore().Field("1 - Header - Choose Network") 
+                <select ng-model="ctrl.phoneFilters.state" ng-options="state.display for state in usStates"></select></h1>
             </header>
             <div class="content">
 
@@ -57,8 +58,8 @@
                                 <th>@Html.Sitecore().Field("1 - Table Header - Select Network")</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @foreach (var network in Model.MobileNetworks) {
+                        @foreach (var network in Model.MobileNetworks) {
+                        <tbody class="@Html.Raw(network.Value)">
                             <tr ng-if="ctrl.isAvailableNetwork('@network.Value')">
                                 <td class="plans">@Html.Raw(network.Description)</td>
                                 <td class="coverage">@Html.Raw(network.Coverage)</td>
@@ -69,8 +70,8 @@
                                     <button type="button" ng-click="ctrl.chooseNetwork('@Html.Raw(network.Value)', 'existing')">@Html.Sitecore().Field("1 - Button - Bring My Own Phone")</button>
                                 </td>
                             </tr>
-                            }
                         </tbody>
+                        }
                     </table>
                 </div>
             </div>
