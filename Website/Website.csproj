@@ -566,6 +566,8 @@
     <Compile Include="Models\Account\GetAccountBalancesTableResponse.cs" />
     <Compile Include="Models\Account\GetAccountInformationRequest.cs" />
     <Compile Include="Models\Account\GetAccountInformationResponse.cs" />
+    <Compile Include="Models\Account\GetAutoPayStatusRequest.cs" />
+    <Compile Include="Models\Account\GetAutoPayStatusResponse.cs" />
     <Compile Include="Models\Account\GetEnergyUsageRequest.cs" />
     <Compile Include="Models\Account\GetEnergyUsageResponse.cs" />
     <Compile Include="Models\Account\GetEnrolledAccountsResponse.cs" />
@@ -592,6 +594,8 @@
     <Compile Include="Models\Account\RemoveAccountResponse.cs" />
     <Compile Include="Models\Account\SendLetterRequest.cs" />
     <Compile Include="Models\Account\SendLetterResponse.cs" />
+    <Compile Include="Models\Account\SetAutoPayRequest.cs" />
+    <Compile Include="Models\Account\SetAutoPayResponse.cs" />
     <Compile Include="Models\Account\SetupRenewalRequest.cs" />
     <Compile Include="Models\Account\SetupRenewalResponse.cs" />
     <Compile Include="Models\Account\UpdateAccountInformationRequest.cs" />

@@ -219,7 +219,7 @@
                     <th colspan="2" class="plan-header">@Html.Sitecore().Field("Gas Plan Name")</th>
                     <th class="sortable" ng-click="typedOffers.sortBy = 'rate'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Gas Rate")<sup>{{footnoteIndices['GeorgiaGas']['Gas Rate Footnote']}}</sup> <i ng-show="typedOffers.sortBy == 'rate'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
                     <th class="sortable" ng-click="typedOffers.sortBy = 'termMonths'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Gas Term")<sup>{{footnoteIndices['GeorgiaGas']['Gas Term Footnote']}}</sup> <i ng-show="typedOffers.sortBy == 'termMonths'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
-                    <th class="sortable" ng-click="typedOffers.sortBy = 'terminationFee'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Gas Fees") <i ng-show="typedOffers.sortBy == 'terminationFee'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
+                    <th class="sortable" ng-click="typedOffers.sortBy = 'cancellationFee'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Gas Fees") <i ng-show="typedOffers.sortBy == 'cancellationFee'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
                     <th>@Html.Sitecore().Field("Gas Select Plan")</th>
                 </tr>
             </thead>

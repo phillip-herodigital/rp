@@ -1,62 +1,64 @@
+@model StreamEnergy.MyStream.Models.Account.SetAutoPayRequest
 <article class="grey-box payments" ng-controller="AutoPayCtrl">
     <header>
         <h2>@Html.Sitecore().Field("Header Text")</h2>
     </header>
-    <form>
-		<div class="content">
-            <div class="account-selector">
-                <div class="group">
-                    <div class="item">
-                        <label>@Html.Sitecore().Field("Account Number Label")</label>
-                        <select @*ng-model="selectedAccount.account" ng-options="item.accountNumber for item in accounts"*@>
-                            <option value="Please choose">1197015532</option>
-                            <option value="account1">Account 2</option>
-                        </select>
-                    </div>
-                    <div class="item auto-pay-address">
-                        <p>@Html.Sitecore().Field("Services Address Label")</p>
-                        <p>123 Main Street, Dallas, TX 75001</p>
-                    </div>
+    <form data-val-bind-messages="validations" ng-submit="setAutoPay()">
+        <div class="content" loading-indicator>
+            <div ng-show="successMessage">
+                <div class="notice success">
+                    @Html.Sitecore().Field("Success Message Text")
                 </div>
+                <hr class="content-divider" />
+            </div>
+            <div ng-show="errorMessage">
+                <div class="notice error">
+                    @Html.Sitecore().Field("Error Message Text")
+                </div>
+                <hr class="content-divider" />
             </div>
             <div class="notice message">
                 @Html.Sitecore().Field("Notice Text")
-            </div>	
-			<div class="payment-selection additional-fields">
-				<input type="radio" id="autopay-on" name="payment-type" ng-model="autoPay.status" ng-value="autoPayOn">
-				<label for="autopay-on">@Html.Sitecore().Field("AutoPay On Label")</label>
-
-                    <div class="additional-field-group" ng-show="autoPay.status == 'autoPayOn'">
-                        <h4>@Html.Sitecore().Field("AutoPay On Account Number Label")</h4>
-                        <div class="group">@Html.Sitecore().Field("Account Number") <strong>1197015532</strong></div>
-                        <div class="group">
-                            <div class="item account-number">
-                                <label for="">@Html.Sitecore().Field("Payment Account Label")</label>
-                                <select>
-                                    <option value="Please choose">@Html.Sitecore().Field("Select Account Label")</option>
-                                    <option value="payment1">Payment Method 1</option>
-                                    <option value="payment2">Payment Method 2</option>
-                                </select>
-                            </div>
-                            <div class="item">
-                                <a class="single-link" href="">@Html.Sitecore().Field("Add Payment Account")</a>
-                            </div>
+            </div>
+            <div class="payment-selection additional-fields">
+                <input type="radio" id="autopay-on" name="payment-type" ng-model="account.autoPay.isEnabled" ng-value="true">
+                <label for="autopay-on">@Html.Sitecore().Field("AutoPay On Label")</label>
+                <div class="additional-field-group" ng-show="account.autoPay.isEnabled">
+                    <div class="group notice alert">
+                        @Html.Sitecore().Field("Alert Text")
+                    </div>
+                    <div class="group">
+                        <div class="item account-number">
+                            <label for="@Html.IdFor(m => m.AccountNumber)">@Html.Sitecore().Field("AutoPay On Account Number Label")</label>
+                            <strong>{{ account.accountNumber }}</strong>
                         </div>
-                        <div>
-                            <p class="arrow-toggle" ng-class="{'collapsed': !autoPay.isOpen}" ng-click="autoPay.isOpen = !autoPay.isOpen" tabindex="0">
-                                <span></span>@Html.Sitecore().Field("Advanced Settings Text")
+                        <div class="item" @Html.Validation().ErrorClass(m => m.AutoPay.PaymentMethodId)>
+                            <label for="@Html.IdFor(m => m.AutoPay.PaymentMethodId)">@Html.Sitecore().Field("Payment Account Label")</label>
+                            <select id="@Html.IdFor(m => m.AutoPay.PaymentMethodId)" name="@Html.NameFor(m => m.AutoPay.PaymentMethodId)"
+                                    data-val="true" data-val-required data-val-if="true" data-val-regex="" data-val-regex-pattern="^[A-Fa-f0-9]{32}$|({|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(}|\))?$|^({)?[0xA-Fa-f0-9]{3,10}(, {0,1}[0xA-Fa-f0-9]{3,6}){2}, {0,1}({)([0xA-Fa-f0-9]{3,4}, {0,1}){7}[0xA-Fa-f0-9]{3,4}(}})$"
+                                    ng-model="account.autoPay.paymentMethodId" ng-change="addAccount()">
+                                <option value="" ng-selected="selected">@Html.Sitecore().Field("Select Account Label")</option>
+                                <option ng-repeat="option in paymentAccounts" value="{{ option.id }}">{{ option.displayName }}</option>
+                                <option value="addAccount">@Html.Sitecore().Field("Add Account Text")</option>
+                            </select>
+                            @Html.ValidationMessageFor(m => m.AutoPay.PaymentMethodId)
+                        </div>
+                    </div>
+                    <div ng-if="false">
+                        <p class="arrow-toggle" ng-class="{'collapsed': !autoPay.isOpen}" ng-click="autoPay.isOpen = !autoPay.isOpen" tabindex="0">
+                            <span>@Html.Sitecore().Field("Advanced Settings Text")</span>
+                        </p>
+                        <div class="advanced-settings slide-toggle" slide-down-show="autoPay.isOpen">
+                            <p class="datepicker">
+                                @Html.Sitecore().Field("Recurring Pay Text 1")
+                                <input type="text" class="small" ng-model="autoPay.dt" datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="disableWeekends(date, mode)" datepicker-close-on-resize>
+                                @Html.Sitecore().Field("Recurring Pay Text 2")
+                                <select>
+                                    <option>until further notice</option>
+                                </select>
                             </p>
-                            <div class="advanced-settings slide-toggle" slide-down-show="autoPay.isOpen">
-                                <p class="datepicker">
-                                    @Html.Sitecore().Field("Recurring Pay Text 1")
-                                    <input type="text" class="small" ng-model="autoPay.dt" datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="disableWeekends(date, mode)" datepicker-close-on-resize>
-                                    @Html.Sitecore().Field("Recurring Pay Text 2")
-                                    <select>
-                                        <option>until further notice</option>
-                                    </select>
-                                </p>
-                                <p>
-                                    @Html.Sitecore().Field("Schedule Pay Text 1")
+                            <p>
+                                @Html.Sitecore().Field("Schedule Pay Text 1")
                                 <select>
                                     <option>automatic</option>
                                 </select>
@@ -68,17 +70,64 @@
                         </div>
                     </div>
                 </div>
-			</div>
+            </div>
             <hr class="content-divider" />
-			<div class="payment-selection">
-				<input type="radio" id="autopay-off" name="payment-type" ng-model="autoPay.status" ng-value="autoPayOff">
-				<label for="autopay-off">@Html.Sitecore().Field("AutoPay Off Label")</label>
-			</div>
-		</div>
-		<footer>
-			<div class="buttons">
-				<button type="submit" ng-click="save()">@Html.Sitecore().Field("Save Button Text")</button>
-			</div>
-		</footer>
-	</form>
+            <div class="payment-selection">
+                <input type="radio" id="autopay-off" name="payment-type" ng-model="account.autoPay.isEnabled" ng-value="false">
+                <label for="autopay-off">@Html.Sitecore().Field("AutoPay Off Label")</label>
+            </div>
+        </div>
+        <footer>
+            <div class="buttons">
+                <button type="submit" data-val-submit>@Html.Sitecore().Field("Save Button Text")</button>
+            </div>
+        </footer>
+    </form>
 </article>
+
+<script type="text/ng-template" id="AddPaymentAccount">
+    <div class="modal-header">
+        <a href="" ng-click="$dismiss()"></a>
+        <h2>@Html.Sitecore().Field("Add Account Header Text")</h2>
+    </div>
+    <form data-val-bind-messages="validations" ng-submit="modalAddPaymentAccount(newPaymentMethodType)">
+        <div class="modal-body new-account-modal" loading-indicator>
+            <fieldset>
+                <legend>@Html.Sitecore().Field("Payment Type Text")</legend>
+                <div class="payment-type-selection">
+                    <div class="payment-selection">
+                        <input type="radio" id="credit-card" name="payment-type" ng-model="newPaymentMethodType" value="TokenizedCard"><label for="credit-card">@Html.Sitecore().Field("Credit Card Text")</label>
+                    </div>
+                    <div class="payment-selection">
+                        <input type="radio" id="bank-account" name="payment-type" ng-model="newPaymentMethodType" value="TokenizedBank"><label for="bank-account">@Html.Sitecore().Field("Bank Account Text")</label>
+                    </div>
+                    <div ng-show="newPaymentMethodType == 'TokenizedCard'" class="payment-options">
+                        <div class="content">
+                            <div class="item nickname" data-val-error="cc-nickname">
+                                <label for="cc-nickname">@Html.Sitecore().Field("Account Nickname Label")</label>
+                                <input id="cc-nickname" name="cc-nickname" type="text" data-val="true" data-val-required data-val-if="newPaymentMethodType == 'TokenizedCard'" ng-model="formData.nickname" />
+                                <span class="help-text">@Html.Sitecore().Field("Account Nickname Help Text")</span>
+                            </div>
+                            <div credit-card-payment="formData.card" data-val-if="true"></div>
+                        </div>
+                    </div>
+
+                    <div ng-show="newPaymentMethodType == 'TokenizedBank'" class="payment-options" data-val-if="newPaymentMethodType == 'TokenizedBank'">
+                        <div class="content">
+                            <div class="item nickname" data-val-error="bank-nickname">
+                                <label for="bank-nickname">@Html.Sitecore().Field("Account Nickname Label")</label>
+                                <input id="bank-nickname" name="bank-nickname" type="text" data-val="true" data-val-required data-val-if="newPaymentMethodType == 'TokenizedBank'" ng-model="formData.nickname" />
+                                <span class="help-text">@Html.Sitecore().Field("Account Nickname Help Text")</span>
+                            </div>
+                            <div bank-account-payment="formData.bank" data-val-if="newPaymentMethodType == 'TokenizedBank'"></div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="modal-footer" ng-show="newPaymentMethodType">
+            <button type="button" class="secondary" ng-click="$dismiss()">@Html.Sitecore().Field("Cancel Button Text")</button>
+            <button type="submit" data-val-submit>@Html.Sitecore().Field("Submit Button Text")</button>
+        </div>
+    </form>
+</script>

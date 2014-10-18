@@ -438,9 +438,13 @@
                 </span>
                 <div class="availibility">@Html.Sitecore().Field("Availability Text")</div>
             </div>
+            <div class="item item--no-input inline-label utility-connect">
+                <label for="utiltiy-connect-fee">@Html.Sitecore().Field("Utility Connect Fee Label")</label>
+                @Html.Sitecore().Field("GA Utility Connect Fee")
+            </div>
             <div class="item item--no-input inline-label">
-                <label for="connection-fee">@Html.Sitecore().Field("Connection Fee Label")</label>
-                {{connectionFee | currency}}
+                <label for="stream-connect-fee">@Html.Sitecore().Field("Stream Connect Fee Label")</label>
+                @Html.Sitecore().Field("GA Stream Connect Fee")
             </div>
         </div>
     }

@@ -272,7 +272,7 @@ namespace StreamEnergy.Services.Clients
         {
             if (autoPaySetting.IsEnabled)
             {
-                var response = await streamConnectClient.PostAsJsonAsync("/api/customers/" + account.StreamConnectCustomerId.ToString() + "/accounts/" + account.StreamConnectAccountId.ToString() + "/autopay",
+                var response = await streamConnectClient.PostAsJsonAsync("/api/v1/customers/" + account.StreamConnectCustomerId.ToString() + "/accounts/" + account.StreamConnectAccountId.ToString() + "/autopay",
                     new 
                     {
                         GlobalPaymentMethodId = autoPaySetting.PaymentMethodId
