@@ -56,6 +56,9 @@
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="ChilkatDotNet2">
+      <HintPath>..\Libraries\Sitecore\ChilkatDotNet2.dll</HintPath>
+    </Reference>
     <Reference Include="ComponentArt.Web.UI, Version=2010.1.2637.35, Culture=neutral, PublicKeyToken=9bc9f846553156bb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\ComponentArt.Web.UI.dll</HintPath>
