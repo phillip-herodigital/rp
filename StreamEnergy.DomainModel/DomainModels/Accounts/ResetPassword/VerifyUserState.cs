@@ -23,8 +23,9 @@ namespace StreamEnergy.DomainModels.Accounts.ResetPassword
         private readonly ISettings settings;
         private readonly UserProfileLocator userProfileLocator;
         private readonly IAccountService accountService;
+        private readonly Func<HttpContextBase> getContext;
 
-        public VerifyUserState(IUnityContainer container, ResetPasswordTokenManager tokenManager, IEmailService emailService, ISettings settings, UserProfileLocator userProfileLocator, IAccountService accountService)
+        public VerifyUserState(IUnityContainer container, ResetPasswordTokenManager tokenManager, IEmailService emailService, ISettings settings, UserProfileLocator userProfileLocator, IAccountService accountService, Func<HttpContextBase> getContext)
             : base(typeof(GetUsernameState), typeof(SentEmailState))
         {
             this.container = container;
@@ -33,6 +34,7 @@ namespace StreamEnergy.DomainModels.Accounts.ResetPassword
             this.settings = settings;
             this.userProfileLocator = userProfileLocator;
             this.accountService = accountService;
+            this.getContext = getContext;
         }
 
         public override IEnumerable<ValidationResult> AdditionalValidations(ResetPasswordContext context, object internalContext)
@@ -64,8 +66,7 @@ namespace StreamEnergy.DomainModels.Accounts.ResetPassword
                 var profile = userProfileLocator.Locate(context.DomainPrefix + context.Username);
                 var customer = await accountService.GetCustomerByCustomerId(profile.GlobalCustomerId);
                 var toEmail = customer.EmailAddress;
-                // TODO get base URL from Sitecore
-                var url = "http://dev.streamenergy.responsivepath.com/auth/change-password?token={token}&username={username}".Format(new { token = passwordResetToken, username = context.Username });
+                var url = new Uri(getContext().Request.Url, "/auth/change-password?token={token}&username={username}".Format(new { token = passwordResetToken, username = context.Username })).ToString();
 
                 // Send the email
                 emailService.SendEmail(new MailMessage()
