@@ -245,6 +245,23 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         [TestMethod]
         [TestCategory("StreamConnect")]
         [TestCategory("StreamConnect Accounts")]
+        public void FindAccountByEmail()
+        {
+            // Arrange
+            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
+            var gcid = accountService.CreateStreamConnectCustomer().Result.GlobalCustomerId;
+
+            // Act
+            var customers = accountService.FindCustomers("test@example.com").Result;
+
+            // Assert
+            Assert.IsNotNull(customers);
+            Assert.IsTrue(customers.Any());
+        }
+
+        [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Accounts")]
         public void GetAccountDetails()
         {
             // Arrange

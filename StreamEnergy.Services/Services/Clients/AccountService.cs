@@ -279,6 +279,25 @@ namespace StreamEnergy.Services.Clients
             return ((string)data.Status.ToString()) == "Success";
         }
 
+        async Task<IEnumerable<Customer>> IAccountService.FindCustomers(string emailAddress)
+        {
+            var response = await streamConnectClient.GetAsync("/api/v1/customers?EmailAddress=" + emailAddress);
+            dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+
+            if (data.Status != "Success")
+                return null;
+
+            return from entry in (IEnumerable<dynamic>)data.Customers
+                   select new Customer
+                   {
+                       GlobalCustomerId = entry.GlobalCustomerId,
+                       EmailAddress = entry.EmailAddress,
+                       AspNetUserProviderKey = entry.PortalId,
+                       Username = entry.UserName,
+                   };
+        }
+
+
         async Task<IEnumerable<Account>> IAccountService.GetAccounts(Guid globalCustomerId)
         {
             var response = await streamConnectClient.GetAsync("/api/v1/customers/" + globalCustomerId.ToString() + "/accounts");
