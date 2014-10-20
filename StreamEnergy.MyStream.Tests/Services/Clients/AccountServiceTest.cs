@@ -414,7 +414,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
 
             // Assert
             Assert.IsNotNull(accounts.First().Balance);
-            Assert.IsTrue(accounts.First().Balance.Balance >= 0);
+            Assert.AreNotEqual(0, accounts.First().Balance.Balance);
             Assert.AreNotEqual(DateTime.MinValue, accounts.First().Balance.DueDate);
         }
     }

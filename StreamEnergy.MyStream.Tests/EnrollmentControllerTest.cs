@@ -291,6 +291,8 @@ namespace StreamEnergy.MyStream.Tests
             {
                 IsCompleted = false,
             };
+            mockAccountService.Setup(m => m.CreateStreamConnectCustomer(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(Task.FromResult(new StreamEnergy.DomainModels.Accounts.Customer { GlobalCustomerId = Guid.NewGuid() }));
             mockEnrollmentService.Setup(m => m.BeginCreditCheck(It.IsAny<Guid>(), It.IsAny<Name>(), It.IsAny<string>(), It.IsAny<Address>())).Returns(Task.FromResult(creditCheckResult));
             mockEnrollmentService.Setup(m => m.EndCreditCheck(creditCheckResult)).Returns(Task.FromResult(new StreamAsync<CreditCheckResult>
                 {
