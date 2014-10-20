@@ -335,29 +335,34 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         #region Recover Username
 
         [HttpPost]
-        public RecoverUsernameResponse RecoverUsername(RecoverUsernameRequest request)
+        public async Task<RecoverUsernameResponse> RecoverUsername(RecoverUsernameRequest request)
         {
             Sitecore.Context.Database = database;
             var success = false;
             if (ModelState.IsValid)
             {
-                // TODO - call out to Stream Connect to get a list of usernames
-                IEnumerable<string> usernames = new[] { "mdekrey", "mdekrey2", "mdekrey3" };
+                var customers = await accountService.FindCustomers(request.Email.Address);
+                var usernames = (from customer in customers
+                                                where !string.IsNullOrEmpty(customer.Username)
+                                                select customer.Username).ToArray();
 
-                var toEmail = request.Email.Address;
-
-                // Send the email
-                emailService.SendEmail(new MailMessage()
+                if (usernames.Length > 0)
                 {
-                    From = new MailAddress(settings.GetSettingsValue("Authorization Email Addresses", "Send From Email Address")),
-                    To = { toEmail },
-                    // TODO get subject and body template from Sitecore
-                    Subject = "Stream Energy Username Recovery",
-                    IsBodyHtml = true,
-                    Body = "The follwing usernames are associated with this account: " + string.Join(", ", usernames)
-                });
+                    var toEmail = request.Email.Address;
 
-                success = true;
+                    // Send the email
+                    emailService.SendEmail(new MailMessage()
+                    {
+                        From = new MailAddress(settings.GetSettingsValue("Authorization Email Addresses", "Send From Email Address")),
+                        To = { toEmail },
+                        // TODO get subject and body template from Sitecore
+                        Subject = "Stream Energy Username Recovery",
+                        IsBodyHtml = true,
+                        Body = "The follwing usernames are associated with this account: " + string.Join(", ", usernames)
+                    });
+
+                    success = true;
+                }
             }
             return new RecoverUsernameResponse
             {
