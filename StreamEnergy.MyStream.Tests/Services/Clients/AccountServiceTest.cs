@@ -211,6 +211,22 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         [TestMethod]
         [TestCategory("StreamConnect")]
         [TestCategory("StreamConnect Accounts")]
+        public void AssociateAccountWrongSsn()
+        {
+            // Arrange
+            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
+            var gcid = accountService.CreateStreamConnectCustomer().Result.GlobalCustomerId;
+
+            // Act
+            var acct = accountService.AssociateAccount(gcid, "3001311049", "0000", "").Result;
+
+            // Assert
+            Assert.IsNull(acct);
+        }
+
+        [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Accounts")]
         public void DisassociateAccount()
         {
             // Arrange
