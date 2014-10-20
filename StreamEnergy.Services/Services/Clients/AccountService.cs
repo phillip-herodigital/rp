@@ -439,12 +439,14 @@ namespace StreamEnergy.Services.Clients
             });
             account.Capabilities.Add(new PaymentMethodAccountCapability
             {
-                // TODO
-                AvailablePaymentMethods = { }
+                AvailablePaymentMethods = 
+                { 
+                    new AvailablePaymentMethod { PaymentMethodType = DomainModels.Payments.TokenizedBank.Qualifier }, 
+                    new AvailablePaymentMethod { PaymentMethodType = DomainModels.Payments.TokenizedCard.Qualifier }
+                }
             });
             account.Capabilities.Add(new PaymentSchedulingAccountCapability
             {
-                // TODO
                 CanMakeOneTimePayment = true
             });
         }
