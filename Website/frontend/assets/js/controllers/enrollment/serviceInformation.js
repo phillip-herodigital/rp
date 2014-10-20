@@ -9,6 +9,7 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
     } else {
         $scope.data = { serviceState: 'TX' };
     }
+    $scope.getActiveServiceIndex = enrollmentCartService.getActiveServiceIndex;
 
     // If the incoming URI indicates this is a commercial enrollment, change the default dropdown
     if ($location.absUrl().indexOf('AccountType=C') > 0) {

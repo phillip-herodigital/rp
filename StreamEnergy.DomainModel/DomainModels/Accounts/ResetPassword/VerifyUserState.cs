@@ -21,14 +21,20 @@ namespace StreamEnergy.DomainModels.Accounts.ResetPassword
         private readonly ResetPasswordTokenManager tokenManager;
         private readonly IEmailService emailService;
         private readonly ISettings settings;
+        private readonly UserProfileLocator userProfileLocator;
+        private readonly IAccountService accountService;
+        private readonly Func<HttpContextBase> getContext;
 
-        public VerifyUserState(IUnityContainer container, ResetPasswordTokenManager tokenManager, IEmailService emailService, ISettings settings)
+        public VerifyUserState(IUnityContainer container, ResetPasswordTokenManager tokenManager, IEmailService emailService, ISettings settings, UserProfileLocator userProfileLocator, IAccountService accountService, Func<HttpContextBase> getContext)
             : base(typeof(GetUsernameState), typeof(SentEmailState))
         {
             this.container = container;
             this.tokenManager = tokenManager;
             this.emailService = emailService;
             this.settings = settings;
+            this.userProfileLocator = userProfileLocator;
+            this.accountService = accountService;
+            this.getContext = getContext;
         }
 
         public override IEnumerable<ValidationResult> AdditionalValidations(ResetPasswordContext context, object internalContext)
@@ -51,15 +57,16 @@ namespace StreamEnergy.DomainModels.Accounts.ResetPassword
             }
         }
 
-        protected override Task<Type> InternalProcess(ResetPasswordContext context, object internalContext)
+        protected override async Task<Type> InternalProcess(ResetPasswordContext context, object internalContext)
         {
             if (context.SendEmail)
             {
                 var passwordResetToken = tokenManager.GetPasswordResetToken(context.Username);
-                // TODO - get email address from Stream Commons
-                var toEmail = "adam.powell@responsivepath.com, adam.brill@responsivepath.com, matt.dekrey@responsivepath.com";
-                // TODO get base URL from Sitecore
-                var url = "http://dev.streamenergy.responsivepath.com/auth/change-password?token={token}&username={username}".Format(new { token = passwordResetToken, username = context.Username });
+
+                var profile = userProfileLocator.Locate(context.DomainPrefix + context.Username);
+                var customer = await accountService.GetCustomerByCustomerId(profile.GlobalCustomerId);
+                var toEmail = customer.EmailAddress;
+                var url = new Uri(getContext().Request.Url, "/auth/change-password?token={token}&username={username}".Format(new { token = passwordResetToken, username = context.Username })).ToString();
 
                 // Send the email
                 emailService.SendEmail(new MailMessage()
@@ -72,11 +79,11 @@ namespace StreamEnergy.DomainModels.Accounts.ResetPassword
                     Body = @"Click the following link to reset the password on your Stream Energy account: <a href=""{url}"">Reset Password</a>".Format(new { url = url })
                 });
 
-                return Task.FromResult(typeof(SentEmailState));
+                return typeof(SentEmailState);
             }
             else
             {
-                return Task.FromResult(typeof(VerifiedChallengeQuestionsState));
+                return typeof(VerifiedChallengeQuestionsState);
             }
         }
     }

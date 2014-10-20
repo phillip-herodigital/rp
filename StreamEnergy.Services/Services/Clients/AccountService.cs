@@ -279,6 +279,25 @@ namespace StreamEnergy.Services.Clients
             return ((string)data.Status.ToString()) == "Success";
         }
 
+        async Task<IEnumerable<Customer>> IAccountService.FindCustomers(string emailAddress)
+        {
+            var response = await streamConnectClient.GetAsync("/api/v1/customers?EmailAddress=" + emailAddress);
+            dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+
+            if (data.Status != "Success")
+                return null;
+
+            return from entry in (IEnumerable<dynamic>)data.Customers
+                   select new Customer
+                   {
+                       GlobalCustomerId = entry.GlobalCustomerId,
+                       EmailAddress = entry.EmailAddress,
+                       AspNetUserProviderKey = entry.PortalId,
+                       Username = entry.UserName,
+                   };
+        }
+
+
         async Task<IEnumerable<Account>> IAccountService.GetAccounts(Guid globalCustomerId)
         {
             var response = await streamConnectClient.GetAsync("/api/v1/customers/" + globalCustomerId.ToString() + "/accounts");
@@ -314,7 +333,7 @@ namespace StreamEnergy.Services.Clients
             if (response.IsSuccessStatusCode)
             {
                 dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
-                if (data.Status == "Success")
+                if (data.Status == "Success" && data.AssociateAccountResults.Success == "Success")
                 {
                     return new Account(globalCustomerId, Guid.Parse((string)data.AssociateAccountResults[0].GlobalAccountId))
                         {
@@ -439,12 +458,14 @@ namespace StreamEnergy.Services.Clients
             });
             account.Capabilities.Add(new PaymentMethodAccountCapability
             {
-                // TODO
-                AvailablePaymentMethods = { }
+                AvailablePaymentMethods = 
+                { 
+                    new AvailablePaymentMethod { PaymentMethodType = DomainModels.Payments.TokenizedBank.Qualifier }, 
+                    new AvailablePaymentMethod { PaymentMethodType = DomainModels.Payments.TokenizedCard.Qualifier }
+                }
             });
             account.Capabilities.Add(new PaymentSchedulingAccountCapability
             {
-                // TODO
                 CanMakeOneTimePayment = true
             });
         }

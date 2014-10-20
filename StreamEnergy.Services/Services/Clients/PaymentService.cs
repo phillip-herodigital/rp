@@ -151,31 +151,7 @@ namespace StreamEnergy.Services.Clients
             }
             else
             {
-                var response = await streamConnectClient.PostAsJsonAsync("/api/v1/payments/one-time", new
-                {
-                    PaymentDate = paymentDate,
-                    InvoiceType = "Standard",
-                    Amount = amount,
-                    StreamAccountNumber = account.AccountNumber,
-                    CustomerName = customerName,
-                    SystemOfRecord = account.SystemOfRecord,
-                    PaymentAccount = ToStreamPaymentAccount(paymentInfo, customerName),
-                    Cvv = GetStreamCvvCode(paymentInfo)
-                });
-                dynamic jobject = Json.Read<JObject>(await response.Content.ReadAsStringAsync());
-
-                if (jobject.Status == "Success")
-                {
-                    return new DomainModels.Payments.PaymentResult
-                        {
-                            ConfirmationNumber = jobject.ConfirmationNumber,
-                            ConvenienceFee = (decimal)jobject.ConvenienceFee.Value,
-                        };
-                }
-                else
-                {
-                    return new DomainModels.Payments.PaymentResult { ConfirmationNumber = "test" };
-                }
+                return await ((IPaymentService)this).OneTimePayment(paymentDate, amount, account.AccountNumber, customerName, account.SystemOfRecord, paymentInfo);
             }
         }
 
