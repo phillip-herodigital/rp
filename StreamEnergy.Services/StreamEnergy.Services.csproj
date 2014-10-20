@@ -92,6 +92,9 @@
     <Reference Include="SendGridMail">
       <HintPath>..\packages\SendGrid.2.1.1\lib\SendGridMail.dll</HintPath>
     </Reference>
+    <Reference Include="Sitecore.EmailCampaign">
+      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.dll</HintPath>
+    </Reference>
     <Reference Include="Sitecore.Kernel, Version=7.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\Sitecore.Kernel.dll</HintPath>
@@ -124,6 +127,7 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.Helpers.dll</HintPath>
@@ -186,6 +190,8 @@
     </Compile>
     <Compile Include="Services\Clients\AccountFactory.cs" />
     <Compile Include="Services\Clients\AccountService.cs" />
+    <Compile Include="Services\Clients\AsyncSendingManager.cs" />
+    <Compile Include="Services\Clients\EmailContact.cs" />
     <Compile Include="Services\Clients\GeorgiaAdapter.cs" />
     <Compile Include="Services\Clients\HttpMessageLogger.cs" />
     <Compile Include="Services\Clients\ILocationAdapter.cs" />

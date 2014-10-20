@@ -12,6 +12,7 @@ using StreamEnergy.DomainModels;
 using StreamEnergy.DomainModels.Emails;
 using StreamEnergy.Extensions;
 using System.Web;
+using System.Collections.Specialized;
 
 namespace StreamEnergy.DomainModels.Accounts.ResetPassword
 {
@@ -68,15 +69,9 @@ namespace StreamEnergy.DomainModels.Accounts.ResetPassword
                 var toEmail = customer.EmailAddress;
                 var url = new Uri(getContext().Request.Url, "/auth/change-password?token={token}&username={username}".Format(new { token = passwordResetToken, username = context.Username })).ToString();
 
-                // Send the email
-                emailService.SendEmail(new MailMessage()
-                {
-                    From = new MailAddress(settings.GetSettingsValue("Authorization Email Addresses", "Send From Email Address")),
-                    To = { toEmail },
-                    // TODO get subject and body template from Sitecore
-                    Subject = "Stream Energy Reset Password",
-                    IsBodyHtml = true,
-                    Body = @"Click the following link to reset the password on your Stream Energy account: <a href=""{url}"">Reset Password</a>".Format(new { url = url })
+                // TODO - replace with appropriate email id
+                await emailService.SendEmail(new Guid(), toEmail, new NameValueCollection() {
+                    {"url", url}
                 });
 
                 return typeof(SentEmailState);

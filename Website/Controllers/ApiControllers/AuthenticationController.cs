@@ -21,6 +21,7 @@ using StreamEnergy.Services.Clients;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
+using EmailFactory = Sitecore.Modules.EmailCampaign.Factory;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -348,20 +349,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
                 if (usernames.Length > 0)
                 {
-                    var toEmail = request.Email.Address;
-
-                    // Send the email
-                    emailService.SendEmail(new MailMessage()
-                    {
-                        From = new MailAddress(settings.GetSettingsValue("Authorization Email Addresses", "Send From Email Address")),
-                        To = { toEmail },
-                        // TODO get subject and body template from Sitecore
-                        Subject = "Stream Energy Username Recovery",
-                        IsBodyHtml = true,
-                        Body = "The follwing usernames are associated with this account: " + string.Join(", ", usernames)
-                    });
-
-                    success = true;
+                    // TODO - replace with appropriate email id
+                    success = await emailService.SendEmail(new Guid("{DC691926-0D4C-4732-837E-6CC8D53F4735}"), to: request.Email.Address);
                 }
             }
             return new RecoverUsernameResponse
