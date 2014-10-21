@@ -10,6 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using StreamEnergy.DomainModels.Payments;
 using StreamEnergy.Logging;
 
 namespace StreamEnergy.MyStream.Tests.Services.Clients
@@ -18,6 +19,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
     public class PaymentServiceTest
     {
         private static Unity.Container container;
+        private static Random rand = new Random();
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
@@ -262,6 +264,82 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             Assert.IsNotNull(autoPayStatus);
             Assert.IsFalse(autoPayStatus.IsEnabled);
             Assert.AreEqual(Guid.Empty, autoPayStatus.PaymentMethodId);
+        }
+
+        [TestMethod]
+        public void MakeCardPaymentTest()
+        {
+            // Arrange
+            var acctNumber = "3001311049";
+            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
+            StreamEnergy.DomainModels.Payments.IPaymentService paymentService = container.Resolve<StreamEnergy.Services.Clients.PaymentService>();
+
+            var acct = accountService.GetAccountDetails(acctNumber).Result;
+
+            // Act
+            var result = paymentService.OneTimePayment(DateTime.Today, rand.Next(0, 500) / 100.0m, acctNumber, acct.Details.ContactInfo.Name.First + " " + acct.Details.ContactInfo.Name.Last, acct.SystemOfRecord, new TokenizedCard
+            {
+                CardToken = "9442268296134448",
+                BillingZipCode = "75201",
+                ExpirationDate = DateTime.Today.AddDays(60),
+                SecurityCode = "123"
+            }).Result;
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.ConfirmationNumber);
+        }
+
+        [TestMethod]
+        public void MakeBankPaymentTest()
+        {
+            // Arrange
+            var acctNumber = "3001311049";
+            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
+            StreamEnergy.DomainModels.Payments.IPaymentService paymentService = container.Resolve<StreamEnergy.Services.Clients.PaymentService>();
+
+            var acct = accountService.GetAccountDetails(acctNumber).Result;
+
+            // Act
+            var result = paymentService.OneTimePayment(DateTime.Today, rand.Next(0, 500) / 100.0m, acctNumber, acct.Details.ContactInfo.Name.First + " " + acct.Details.ContactInfo.Name.Last, acct.SystemOfRecord, new TokenizedBank
+            {
+                AccountToken = "9442268296134448",
+                RoutingNumber = "123456789",
+                Category = BankAccountCategory.Checking,
+            }).Result;
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.ConfirmationNumber);
+        }
+
+        [TestMethod]
+        public void MakeSavedPaymentTest()
+        {
+            // Arrange
+            var acctNumber = "3001311049";
+            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
+            StreamEnergy.DomainModels.Payments.IPaymentService paymentService = container.Resolve<StreamEnergy.Services.Clients.PaymentService>();
+            var customerId = accountService.CreateStreamConnectCustomer().Result.GlobalCustomerId;
+            var acct = accountService.AssociateAccount(customerId, acctNumber, "3192", "").Result;
+            accountService.GetAccountDetails(acct).Wait();
+            var paymentMethodId = paymentService.SavePaymentMethod(customerId, new DomainModels.Payments.TokenizedBank
+            {
+                AccountToken = "9442268296134448",
+                RoutingNumber = "123456789",
+                Category = DomainModels.Payments.BankAccountCategory.Checking
+            }, "Test Card").Result;
+
+            // Act
+            var result = paymentService.OneTimePayment(DateTime.Today, rand.Next(0, 500) / 100.0m, acct.Details.ContactInfo.Name.First + " " + acct.Details.ContactInfo.Name.Last, acct, new SavedPaymentInfo
+            {
+                Id = paymentMethodId,
+                UnderlyingPaymentType = TokenizedBank.Qualifier
+            }).Result;
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.ConfirmationNumber);
         }
     }
 }

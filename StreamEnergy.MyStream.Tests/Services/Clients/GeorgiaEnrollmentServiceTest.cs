@@ -91,7 +91,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                         Address = new DomainModels.Address { StateAbbreviation = "GA", PostalCode5 = "30342", City = "Atlanta", Line1 = "3 The Croft", Line2 = "3 Lot" },
                         Capabilities = new DomainModels.IServiceCapability[]
                         {
-                            new DomainModels.Enrollments.GeorgiaGas.ServiceCapability { Zipcode = "30342", AglAccountNumber = GetAglAccountNumber() },
+                            new DomainModels.Enrollments.GeorgiaGas.ServiceCapability { Zipcode = "30342", AglcPremisesNumber = GetAglAccountNumber() },
                             new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
                             new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
                         }
@@ -128,7 +128,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                     Address = new DomainModels.Address { StateAbbreviation = "GA", PostalCode5 = "30342", City = "Atlanta", Line1 = "3 The Croft", Line2 = "3 Lot" },
                     Capabilities = new DomainModels.IServiceCapability[]
                         {
-                            new DomainModels.Enrollments.GeorgiaGas.ServiceCapability { Zipcode = "30342", AglAccountNumber = GetAglAccountNumber() },
+                            new DomainModels.Enrollments.GeorgiaGas.ServiceCapability { Zipcode = "30342", AglcPremisesNumber = GetAglAccountNumber() },
                             new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
                             new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
                         }
@@ -251,7 +251,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                 Address = new DomainModels.Address { Line1 = "3 The Croft", UnitNumber = "3 Lot", City = "Atlanta", StateAbbreviation = "GA", PostalCode5 = "30342", PostalCodePlus4 = "2438" },
                 Capabilities = new DomainModels.IServiceCapability[]
                         {
-                            new DomainModels.Enrollments.GeorgiaGas.ServiceCapability { AglAccountNumber = GetAglAccountNumber(), Zipcode = "30342" },
+                            new DomainModels.Enrollments.GeorgiaGas.ServiceCapability { AglcPremisesNumber = GetAglAccountNumber(), Zipcode = "30342" },
                             new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
                             new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
                         }
@@ -281,8 +281,9 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                             new DomainModels.Enrollments.SelectedOffer
                             {
                                 Offer = texasElectricityOffer,
-                                OfferOption = new DomainModels.Enrollments.GeorgiaGas.OfferOption 
-                                { 
+                                OfferOption = new DomainModels.Enrollments.GeorgiaGas.SwitchOfferOption 
+                                {
+                                    AglcNumber = "123",
                                 }
                             }
                         }
@@ -356,7 +357,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                     Address = new DomainModels.Address { Line1 = "3 The Croft", UnitNumber = "3 Lot", City = "Atlanta", StateAbbreviation = "GA", PostalCode5 = "30342", PostalCodePlus4 = "2438" },
                     Capabilities = new DomainModels.IServiceCapability[]
                         {
-                            new DomainModels.Enrollments.GeorgiaGas.ServiceCapability { AglAccountNumber = GetAglAccountNumber(), Zipcode = "30342" },
+                            new DomainModels.Enrollments.GeorgiaGas.ServiceCapability { AglcPremisesNumber = GetAglAccountNumber(), Zipcode = "30342" },
                             new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
                             new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
                         }
@@ -411,7 +412,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                                     Address = new DomainModels.Address { Line1 = "3 The Croft", UnitNumber = "3 Lot", City = "Atlanta", StateAbbreviation = "GA", PostalCode5 = "30342", PostalCodePlus4 = "2438" },
                                     Capabilities = new DomainModels.IServiceCapability[]
                                         {
-                                            new DomainModels.Enrollments.GeorgiaGas.ServiceCapability { AglAccountNumber = GetAglAccountNumber(), Zipcode = "30342" },
+                                            new DomainModels.Enrollments.GeorgiaGas.ServiceCapability { AglcPremisesNumber = GetAglAccountNumber(), Zipcode = "30342" },
                                             new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
                                             new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Commercial },
                                         }
@@ -440,7 +441,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                 Address = new DomainModels.Address { Line1 = "3 The Croft", UnitNumber = "3 Lot", City = "Atlanta", StateAbbreviation = "GA", PostalCode5 = "30342", PostalCodePlus4 = "2438" },
                 Capabilities = new DomainModels.IServiceCapability[]
                         {
-                            new DomainModels.Enrollments.GeorgiaGas.ServiceCapability { AglAccountNumber = GetAglAccountNumber(), Zipcode = "30342" },
+                            new DomainModels.Enrollments.GeorgiaGas.ServiceCapability { AglcPremisesNumber = GetAglAccountNumber(), Zipcode = "30342" },
                             new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
                             new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
                         }
@@ -470,8 +471,9 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                                 new DomainModels.Enrollments.SelectedOffer
                                 {
                                     Offer = texasElectricityOffer,
-                                    OfferOption = new DomainModels.Enrollments.GeorgiaGas.OfferOption 
+                                    OfferOption = new DomainModels.Enrollments.GeorgiaGas.SwitchOfferOption 
                                     { 
+                                        AglcNumber = "123",
                                     }
                                 }
                             }
@@ -534,7 +536,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                 Address = new DomainModels.Address { Line1 = "3 The Croft", UnitNumber = "3 Lot", City = "Atlanta", StateAbbreviation = "GA", PostalCode5 = "30342", PostalCodePlus4 = "2438" },
                 Capabilities = new DomainModels.IServiceCapability[]
                         {
-                            new DomainModels.Enrollments.GeorgiaGas.ServiceCapability { AglAccountNumber = GetAglAccountNumber(), Zipcode = "30342" },
+                            new DomainModels.Enrollments.GeorgiaGas.ServiceCapability { AglcPremisesNumber = GetAglAccountNumber(), Zipcode = "30342" },
                             new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
                             new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
                         }
@@ -564,8 +566,9 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                                 new DomainModels.Enrollments.SelectedOffer
                                 {
                                     Offer = texasElectricityOffer,
-                                    OfferOption = new DomainModels.Enrollments.GeorgiaGas.OfferOption 
+                                    OfferOption = new DomainModels.Enrollments.GeorgiaGas.SwitchOfferOption 
                                     { 
+                                        AglcNumber = "123",
                                     }
                                 }
                             }
@@ -644,7 +647,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                 Address = new DomainModels.Address { Line1 = "3 The Croft", UnitNumber = "3 Lot", City = "Atlanta", StateAbbreviation = "GA", PostalCode5 = "30342", PostalCodePlus4 = "2438" },
                 Capabilities = new DomainModels.IServiceCapability[]
                         {
-                            new DomainModels.Enrollments.GeorgiaGas.ServiceCapability { AglAccountNumber = GetAglAccountNumber(), Zipcode = "30342" },
+                            new DomainModels.Enrollments.GeorgiaGas.ServiceCapability { AglcPremisesNumber = GetAglAccountNumber(), Zipcode = "30342" },
                             new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
                             new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
                         }
@@ -674,8 +677,9 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                                 new DomainModels.Enrollments.SelectedOffer
                                 {
                                     Offer = texasElectricityOffer,
-                                    OfferOption = new DomainModels.Enrollments.GeorgiaGas.OfferOption 
+                                    OfferOption = new DomainModels.Enrollments.GeorgiaGas.SwitchOfferOption 
                                     { 
+                                        AglcNumber = "123",
                                     }
                                 }
                             }
@@ -739,7 +743,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                 Address = new DomainModels.Address { Line1 = "3 The Croft", UnitNumber = "3 Lot", City = "Atlanta", StateAbbreviation = "GA", PostalCode5 = "30342", PostalCodePlus4 = "2438" },
                 Capabilities = new DomainModels.IServiceCapability[]
                         {
-                            new DomainModels.Enrollments.GeorgiaGas.ServiceCapability { AglAccountNumber = GetAglAccountNumber(), Zipcode = "30342" },
+                            new DomainModels.Enrollments.GeorgiaGas.ServiceCapability { AglcPremisesNumber = GetAglAccountNumber(), Zipcode = "30342" },
                             new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
                             new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
                         }
@@ -769,8 +773,9 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                                 new DomainModels.Enrollments.SelectedOffer
                                 {
                                     Offer = texasElectricityOffer,
-                                    OfferOption = new DomainModels.Enrollments.GeorgiaGas.OfferOption 
+                                    OfferOption = new DomainModels.Enrollments.GeorgiaGas.SwitchOfferOption 
                                     { 
+                                        AglcNumber = "123",
                                     }
                                 }
                             }
@@ -873,7 +878,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                 Address = new DomainModels.Address { Line1 = "3 The Croft", UnitNumber = "3 Lot", City = "Atlanta", StateAbbreviation = "GA", PostalCode5 = "30342", PostalCodePlus4 = "2438" },
                 Capabilities = new DomainModels.IServiceCapability[]
                         {
-                            new DomainModels.Enrollments.GeorgiaGas.ServiceCapability { AglAccountNumber = GetAglAccountNumber(), Zipcode = "30342" },
+                            new DomainModels.Enrollments.GeorgiaGas.ServiceCapability { AglcPremisesNumber = GetAglAccountNumber(), Zipcode = "30342" },
                             new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.MoveIn },
                             new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
                         }
@@ -903,8 +908,9 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                             new DomainModels.Enrollments.SelectedOffer
                             {
                                 Offer = texasElectricityOffer,
-                                OfferOption = new DomainModels.Enrollments.GeorgiaGas.OfferOption 
+                                OfferOption = new DomainModels.Enrollments.GeorgiaGas.SwitchOfferOption 
                                 { 
+                                    AglcNumber = "123",
                                 }
                             }
                         }

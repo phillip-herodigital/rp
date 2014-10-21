@@ -8,7 +8,7 @@ namespace StreamEnergy.DomainModels.Enrollments.GeorgiaGas
     [Serializable]
     public class CommercialQuoteOption : OfferOption
     {
-        public new const string Qualifier = "GeorgiaGasCommercialQuote";
+        public const string Qualifier = "GeorgiaGasCommercialQuote";
 
         public DateTime ConnectDate { get; set; }
 

@@ -9,7 +9,7 @@ namespace StreamEnergy.DomainModels.Enrollments.GeorgiaGas
     [Serializable]
     public class MoveInOfferOption : OfferOption
     {
-        public new const string Qualifier = "GeorgiaGasMoveIn";
+        public const string Qualifier = "GeorgiaGasMoveIn";
 
         public DateTime ConnectDate { get; set; }
 

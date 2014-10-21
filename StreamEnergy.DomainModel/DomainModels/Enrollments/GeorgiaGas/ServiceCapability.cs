@@ -13,11 +13,11 @@ namespace StreamEnergy.DomainModels.Enrollments.GeorgiaGas
 
         public string CapabilityType { get { return Qualifier; } }
 
-        public string AglAccountNumber { get; set; }
+        public string AglcPremisesNumber { get; set; }
 
         string ISearchable.GetUniqueField()
         {
-            return AglAccountNumber;
+            return AglcPremisesNumber;
         }
 
         public override bool Equals(object obj)
@@ -27,12 +27,12 @@ namespace StreamEnergy.DomainModels.Enrollments.GeorgiaGas
                 return false;
             }
 
-            return AglAccountNumber == ((ServiceCapability)obj).AglAccountNumber;
+            return AglcPremisesNumber == ((ServiceCapability)obj).AglcPremisesNumber;
         }
 
         public override int GetHashCode()
         {
-            return Qualifier.GetHashCode() ^ (AglAccountNumber ?? "").GetHashCode();
+            return Qualifier.GetHashCode() ^ (AglcPremisesNumber ?? "").GetHashCode();
         }
 
         public string Zipcode { get; set; }
