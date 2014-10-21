@@ -8,7 +8,7 @@ namespace StreamEnergy.DomainModels.Enrollments.GeorgiaGas
     [Serializable]
     class CommercialQuoteOptionRules : OfferOptionRules
     {
-        public new const string Qualifier = "GeorgiaGasCommercialQuote";
+        public const string Qualifier = "GeorgiaGasCommercialQuote";
 
         public override string OptionRulesType { get { return CommercialQuoteOptionRules.Qualifier; } }
 

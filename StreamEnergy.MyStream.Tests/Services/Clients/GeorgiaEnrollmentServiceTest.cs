@@ -281,8 +281,9 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                             new DomainModels.Enrollments.SelectedOffer
                             {
                                 Offer = texasElectricityOffer,
-                                OfferOption = new DomainModels.Enrollments.GeorgiaGas.OfferOption 
-                                { 
+                                OfferOption = new DomainModels.Enrollments.GeorgiaGas.SwitchOfferOption 
+                                {
+                                    AglcNumber = "123",
                                 }
                             }
                         }
@@ -470,8 +471,9 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                                 new DomainModels.Enrollments.SelectedOffer
                                 {
                                     Offer = texasElectricityOffer,
-                                    OfferOption = new DomainModels.Enrollments.GeorgiaGas.OfferOption 
+                                    OfferOption = new DomainModels.Enrollments.GeorgiaGas.SwitchOfferOption 
                                     { 
+                                        AglcNumber = "123",
                                     }
                                 }
                             }
@@ -564,8 +566,9 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                                 new DomainModels.Enrollments.SelectedOffer
                                 {
                                     Offer = texasElectricityOffer,
-                                    OfferOption = new DomainModels.Enrollments.GeorgiaGas.OfferOption 
+                                    OfferOption = new DomainModels.Enrollments.GeorgiaGas.SwitchOfferOption 
                                     { 
+                                        AglcNumber = "123",
                                     }
                                 }
                             }
@@ -674,8 +677,9 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                                 new DomainModels.Enrollments.SelectedOffer
                                 {
                                     Offer = texasElectricityOffer,
-                                    OfferOption = new DomainModels.Enrollments.GeorgiaGas.OfferOption 
+                                    OfferOption = new DomainModels.Enrollments.GeorgiaGas.SwitchOfferOption 
                                     { 
+                                        AglcNumber = "123",
                                     }
                                 }
                             }
@@ -769,8 +773,9 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                                 new DomainModels.Enrollments.SelectedOffer
                                 {
                                     Offer = texasElectricityOffer,
-                                    OfferOption = new DomainModels.Enrollments.GeorgiaGas.OfferOption 
+                                    OfferOption = new DomainModels.Enrollments.GeorgiaGas.SwitchOfferOption 
                                     { 
+                                        AglcNumber = "123",
                                     }
                                 }
                             }
@@ -903,8 +908,9 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
                             new DomainModels.Enrollments.SelectedOffer
                             {
                                 Offer = texasElectricityOffer,
-                                OfferOption = new DomainModels.Enrollments.GeorgiaGas.OfferOption 
+                                OfferOption = new DomainModels.Enrollments.GeorgiaGas.SwitchOfferOption 
                                 { 
+                                    AglcNumber = "123",
                                 }
                             }
                         }

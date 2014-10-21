@@ -31,7 +31,7 @@ namespace StreamEnergy.DomainModels.Enrollments.GeorgiaGas
             }
             else
             {
-                return container.Resolve<OfferOptionPolicy>();
+                return container.Resolve<SwitchOfferOptionPolicy>();
             }
         }
 

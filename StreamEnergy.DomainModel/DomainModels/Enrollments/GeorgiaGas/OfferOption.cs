@@ -7,17 +7,21 @@ using System.Threading.Tasks;
 namespace StreamEnergy.DomainModels.Enrollments.GeorgiaGas
 {
     [Serializable]
-    public class OfferOption : IOfferOption
+    public abstract class OfferOption : IOfferOption
     {
-        public const string Qualifier = "GeorgiaGas";
-
         void ISanitizable.Sanitize()
         {
+            Sanitize();
         }
 
-        public virtual string OptionType
+        protected virtual void Sanitize()
         {
-            get { return OfferOption.Qualifier; }
+            throw new NotImplementedException();
+        }
+
+        public abstract string OptionType
+        {
+            get;
         }
 
     }

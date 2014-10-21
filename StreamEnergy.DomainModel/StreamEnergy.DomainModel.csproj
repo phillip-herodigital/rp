@@ -187,9 +187,11 @@
     <Compile Include="DomainModels\Enrollments\GeorgiaGas\MoveInOfferOptionRules.cs" />
     <Compile Include="DomainModels\Enrollments\GeorgiaGas\Offer.cs" />
     <Compile Include="DomainModels\Enrollments\GeorgiaGas\OfferOption.cs" />
-    <Compile Include="DomainModels\Enrollments\GeorgiaGas\OfferOptionPolicy.cs" />
+    <Compile Include="DomainModels\Enrollments\GeorgiaGas\SwitchOfferOptionPolicy.cs" />
     <Compile Include="DomainModels\Enrollments\GeorgiaGas\OfferOptionRules.cs" />
     <Compile Include="DomainModels\Enrollments\GeorgiaGas\ServiceCapability.cs" />
+    <Compile Include="DomainModels\Enrollments\GeorgiaGas\SwitchOfferOption.cs" />
+    <Compile Include="DomainModels\Enrollments\GeorgiaGas\SwitchOfferOptionRules.cs" />
     <Compile Include="DomainModels\Enrollments\IdentityAnswer.cs" />
     <Compile Include="DomainModels\Enrollments\IdentityCheckHardStopState.cs" />
     <Compile Include="DomainModels\Enrollments\IdentityQuestion.cs" />

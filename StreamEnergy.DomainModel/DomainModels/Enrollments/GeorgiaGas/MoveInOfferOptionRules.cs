@@ -8,7 +8,7 @@ namespace StreamEnergy.DomainModels.Enrollments.GeorgiaGas
     [Serializable]
     class MoveInOfferOptionRules : OfferOptionRules
     {
-        public new const string Qualifier = "GeorgiaGasMoveIn";
+        public const string Qualifier = "GeorgiaGasMoveIn";
 
         public override string OptionRulesType { get { return MoveInOfferOptionRules.Qualifier; } }
 
