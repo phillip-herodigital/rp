@@ -13,6 +13,7 @@ using System.Web;
 using System.Web.Mvc;
 using StreamEnergy.DomainModels.Emails;
 using Legacy = StreamEnergy.DomainModels.Accounts.Legacy;
+using System.Threading.Tasks;
 
 namespace StreamEnergy.MyStream.Controllers
 {
@@ -39,7 +40,7 @@ namespace StreamEnergy.MyStream.Controllers
 
         [HttpPost]
         [Mvc.ErrorSitecoreTranslation]
-        public ActionResult ContactIndex(StreamEnergy.MyStream.Models.Marketing.Contact contact)
+        public async Task<ActionResult> ContactIndex(StreamEnergy.MyStream.Models.Marketing.Contact contact)
         {
             // Validate form data
             if (ModelState.IsValid)
@@ -81,7 +82,7 @@ namespace StreamEnergy.MyStream.Controllers
                     "<br />Reason: " + Reason +
                     "<br /> Comments: " + Comment;
 
-                this.emailService.SendEmail(Message);
+                await this.emailService.SendEmail(Message);
 
                 // Send the success message back to the page
                 var ReturnURL = new RedirectResult(Request.Url.AbsolutePath + "?success=true##success-message");
@@ -105,7 +106,7 @@ namespace StreamEnergy.MyStream.Controllers
         }
 
         [HttpPost]
-        public ActionResult EnrollCommercialIndex(StreamEnergy.MyStream.Models.Marketing.CommercialQuote contact)
+        public async Task<ActionResult> EnrollCommercialIndex(StreamEnergy.MyStream.Models.Marketing.CommercialQuote contact)
         {
             // Validate form data
             if (ModelState.IsValid)
@@ -140,7 +141,7 @@ namespace StreamEnergy.MyStream.Controllers
                     "<br />Phone: " + Phone +
                     "<br />Email: " + Email;
 
-                this.emailService.SendEmail(Message);
+                await this.emailService.SendEmail(Message);
 
                 // Send the success message back to the page
                 var ReturnURL = new RedirectResult(Request.Url.AbsolutePath + "?success=true##success-message");

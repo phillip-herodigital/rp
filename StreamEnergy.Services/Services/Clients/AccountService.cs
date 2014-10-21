@@ -333,7 +333,7 @@ namespace StreamEnergy.Services.Clients
             if (response.IsSuccessStatusCode)
             {
                 dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
-                if (data.Status == "Success" && data.AssociateAccountResults.Success == "Success")
+                if (data.Status == "Success" && data.AssociateAccountResults[0].Status == "Success")
                 {
                     return new Account(globalCustomerId, Guid.Parse((string)data.AssociateAccountResults[0].GlobalAccountId))
                         {
