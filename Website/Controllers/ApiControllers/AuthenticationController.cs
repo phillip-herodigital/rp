@@ -43,7 +43,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public class CreateAccountSessionHelper : StateMachineSessionHelper<CreateAccountContext, CreateAccountInternalContext>
         {
             public CreateAccountSessionHelper(HttpSessionStateBase session, IUnityContainer container)
-                : base(session, container, typeof(AuthenticationController), typeof(FindAccountState), storeInternal: false)
+                : base(session, container, typeof(AuthenticationController), typeof(FindAccountState), storeInternal: true)
             {
             }
         }

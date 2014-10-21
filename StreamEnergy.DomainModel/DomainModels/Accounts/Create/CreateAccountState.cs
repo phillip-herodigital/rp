@@ -23,7 +23,7 @@ namespace StreamEnergy.DomainModels.Accounts.Create
 
         protected override async Task<Type> InternalProcess(CreateAccountContext context, CreateAccountInternalContext internalContext)
         {
-            var profile = await membership.CreateUser(context.Username, context.Password, context.Challenges);
+            var profile = await membership.CreateUser(context.Username, context.Password, context.Challenges, email: internalContext.Account.Details.ContactInfo.Email == null ? null : internalContext.Account.Details.ContactInfo.Email.Address);
             if (profile == null)
             {
                 return typeof(CreateFailedState);
