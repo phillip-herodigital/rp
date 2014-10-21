@@ -11,7 +11,7 @@
 		</header>
         <form ng-submit="recoverUsername()" val-bind-messages="validations">
             @Html.ValidationSummary()
-            <div class="content">
+            <div class="content" loading-indicator>
                 @Html.Sitecore().Field("Step 1 Body Text")
                 <div class="alert alert-error" ng-show="recoverUsernameError" ng-bind-html="recoverUsernameError">@Html.Sitecore().Field("Step 1 Error Text")</div>
                 <div class="item" @Html.Validation().ErrorClass(model => model.Email.Address)>
