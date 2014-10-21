@@ -44,6 +44,7 @@ dl {
 		display: table;
 		content: "";
 		line-height: 0;
+        border-spacing: 0; /* This is needed when it's used inside an element with display: table */
 	}
 	&:after {
 		clear: both;

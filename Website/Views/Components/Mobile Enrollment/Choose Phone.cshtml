@@ -210,42 +210,79 @@
                 @* Bring Your Own Phone Template *@
                 <toggle-pane name="existing" value="ctrl.phoneFilters.phoneTypeTab">
                     <div class="content form bring-your-own">
-                        <h2>@Html.Sitecore().Field("2 - Header - Bring Your Own Network Phone").Format(new { network = "{{ ctrl.phoneFilters.selectedNetwork }}" })</h2>
-                        @Html.Sitecore().Field("2 - Bring Your Phone - Description").Format(new { network = "{{ ctrl.phoneFilters.selectedNetwork }}" })
+                        <h2>@Html.Sitecore().Field("Header - Bring Your Own Network Phone").Format(new { network = "{{ ctrl.phoneFilters.selectedNetwork }}" })</h2>
+                        @Html.Sitecore().Field("Bring Your Phone - Description").Format(new { network = "{{ ctrl.phoneFilters.selectedNetwork }}" })
+                        @Html.Sitecore().Field("Bring Your Phone - Instructions").Format(new { network = "{{ ctrl.phoneFilters.selectedNetwork }}" })
                         
-                        <hr>
-
-                        @Html.Sitecore().Field("2 - Bring Your Phone - Instructions").Format(new { network = "{{ ctrl.phoneFilters.selectedNetwork }}" })
-                    
-                        <div class="group">
-                            <div class="item">
-                                <select name="" id="">
-                                    <option value="">Apple</option>
-                                </select>
+                        <div class="grid">
+                            <div class="col">
+                                <h3>@Html.Sitecore().Field("Header - Select Device")</h3>
                             </div>
-                            <div class="item">
-                                <select name="" id="">
-                                    <option value="">iPhone</option>
-                                </select>
+                            <div class="col">
+                                <div class="group">
+                                    <div class="item">
+                                        <select name="" id="">
+                                            <option value="">Apple</option>
+                                        </select>
+                                    </div>
+                                    <div class="item">
+                                        <select name="" id="">
+                                            <option value="">iPhone</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <hr>
+                        <hr />
 
-                        <h3><strong>Enter IMEI Number</strong></h3>
+                        <div class="grid">
+                            <div class="col">
+                                <h3>@Html.Sitecore().Field("Header - IMEI Number")</h3>
+                            </div>
+                            <div class="col">
+                                <p>@Html.Sitecore().Field("Text - IMEI Number")</p>
+                                <input type="text" />
+                                <p class="note"><a href="#">@Html.Sitecore().Field("Text - IMEI Number Instructions Link")</a></p>
+                            </div>
+                        </div>
 
-                        <ol>
-                            <li>Dial *#06# on your phone's keypad</li>
-                            <li>Your phone's <a href="">IMEI number</a> will appear on the screen</li>
-                            <li>Enter your phone's <a href="">IMEI number</a> below</li>
-                        </ol>
+                        <hr />
 
-                        <p><input type="text"></p>
+                        <div class="grid">
+                            <div class="col">
+                                <h3>@Html.Sitecore().Field("Header - SIM Card Number")</h3>
+                                <p class="note">@Html.Sitecore().Field("Text - SIM Card Number Note")</p>
+                            </div>
+                            <div class="col">
+                                <p>@Html.Sitecore().Field("Text - SIM Card Number")</p>
+                                <input type="text" />
+                                <p class="note"><a href="#">@Html.Sitecore().Field("Text - SIM Card Number Instructions Link")</a></p>
+                            </div>
+                        </div>
 
-                        <p>Based on your phone selection, we'll send you a SIM Starter Kit for your device. The SIM Starter Kit includes both Standard and Micro SIM cards. This will fit most phones that have a SIM slot. Your new SIM will be shipped to you on verification of your order.</p>                  
+                        <hr />
+
+                        <div class="grid">
+                            <div class="col">
+                                <h3>@Html.Sitecore().Field("Header - Phone Number")</h3>
+                                <p class="note">@Html.Sitecore().Field("Text - Phone Number Note")</p>
+                            </div>
+                            <div class="col">
+                                <ul>
+                                    <li>
+                                        <a href="#">@Html.Sitecore().Field("Button - Assign New Number")</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">@Html.Sitecore().Field("Button - Transfer My Number")</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
                     </div>
                     <footer>
-                        <button type="submit" ng-if="ctrl.phoneFilters.phoneTypeTab == 'existing'">Add Phone</button>
+                        <button type="submit" ng-if="ctrl.phoneFilters.phoneTypeTab == 'existing'">@Html.Sitecore().Field("Button - Add Device")</button>
                     </footer>
                 </toggle-pane>
             </article>

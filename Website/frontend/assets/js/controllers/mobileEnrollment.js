@@ -15,7 +15,8 @@
         selectedNetwork: "att",
         condition: undefined,
         brand: [],
-        os: []
+        os: [],
+        state: 'TX' // Need to set this with MaxMind...
     };
 
     this.phoneOptions = {
@@ -41,7 +42,7 @@
      */
     this.updateAvailableNetworks = function(state) {
         //Grab the available networks here, for now return the only two we have
-        if (_.contains(_this.excludedStates, state.abbreviation)) {
+        if (_.contains(_this.excludedStates, state)) {
             this.availableNetworks = [];
         } else {
             this.availableNetworks = ['att', 'sprint'];
@@ -162,9 +163,7 @@
     };
 
     $scope.$watch('ctrl.phoneFilters.state', function (newValue, oldValue) {
-        if (newValue !== oldValue) {
-            _this.updateAvailableNetworks(newValue);
-        }
+        _this.updateAvailableNetworks(newValue);
     });
 
 }]);

@@ -1571,11 +1571,18 @@ $enrollment-module-vertical-padding: 20px;
     }
     .choose-network-table {
         .plans {
-            width: 28%;
+            width: 33%;
+            ul {
+                padding-left: 10px;
+            }
+            .footnotes {
+                padding-top: 0;
+                font-size: 10px;
+            }
         }
         .coverage {
             text-align: center;
-            width: 24%;
+            width: 19%;
         }
         .devices {
             text-align: center;
@@ -1583,6 +1590,13 @@ $enrollment-module-vertical-padding: 20px;
         }
         .select-network {
             width: 24%;
+            text-align: center;
+            .starting-price {
+                font-size: 16px;
+            }
+            .price {
+                font-size: 24px;
+            }
         }
         button {
             text-transform: none;
@@ -1591,6 +1605,7 @@ $enrollment-module-vertical-padding: 20px;
         }
         h2 {
             font-size: 20px;
+            font-weight: bold;
             text-transform: none;
             color: #333;
         }
@@ -1605,6 +1620,7 @@ $enrollment-module-vertical-padding: 20px;
             font-weight: normal;
             text-transform: uppercase;
             border-top: none;
+            text-align: center;
         }
         td, th {
             border-left: none;
@@ -1893,6 +1909,19 @@ $enrollment-module-vertical-padding: 20px;
             table, thead, tbody, th, td, tr { 
                 display: block; 
             }
+        }
+    }
+    .bring-your-own {
+        .grid {
+            .col:first-child {
+                width: 33%;
+            }
+            .col:last-child {
+                width: 67%;
+            }
+        }
+        .note{
+            font-size: 14px;
         }
     }
     @include breakpoint(small) {
