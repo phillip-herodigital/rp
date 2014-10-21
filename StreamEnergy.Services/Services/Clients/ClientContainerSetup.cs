@@ -61,8 +61,11 @@ namespace StreamEnergy.Services.Clients
 
             unityContainer.RegisterType<IPdfGenerationService, PdfGenerationService>();
 
-            // TODO - remove this before production
-            System.Net.ServicePointManager.ServerCertificateValidationCallback = ValidateServerCertficate;
+            if (!SSLEnabled)
+            {
+                // if we don't have SSL enabled, we can skip verifying Stream Connect SSL.
+                System.Net.ServicePointManager.ServerCertificateValidationCallback = ValidateServerCertficate;
+            }
         }
 
         private class AddAuthenticationHeaderBehavior : System.ServiceModel.Description.IEndpointBehavior
