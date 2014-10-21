@@ -48,7 +48,7 @@ namespace StreamEnergy.Services.Clients
         string ILocationAdapter.GetUtilityAccountNumber(IEnumerable<IServiceCapability> capabilities)
         {
             var capability = capabilities.OfType<GeorgiaGas.ServiceCapability>().Single();
-            return capability.AglAccountNumber;
+            return capability.AglcPremisesNumber;
         }
 
         string ILocationAdapter.GetSystemOfRecord(IEnumerable<IServiceCapability> capabilities)
@@ -127,7 +127,7 @@ namespace StreamEnergy.Services.Clients
         bool ILocationAdapter.SkipPremiseVerification(Location location)
         {
             var capability = location.Capabilities.OfType<GeorgiaGas.ServiceCapability>().Single();
-            return capability.AglAccountNumber == null;
+            return capability.AglcPremisesNumber == null;
         }
 
         dynamic ILocationAdapter.ToEnrollmentAccount(Guid globalCustomerId, UserContext context, LocationServices service, SelectedOffer offer, Newtonsoft.Json.Linq.JObject salesInfo, Guid? enrollmentAccountId, object depositObject)
@@ -157,7 +157,7 @@ namespace StreamEnergy.Services.Clients
                     EnrollmentType = serviceStatus.EnrollmentType.ToString("g"),
                     SelectedMoveInDate = (offer.OfferOption is GeorgiaGas.MoveInOfferOption) ? ((GeorgiaGas.MoveInOfferOption)offer.OfferOption).ConnectDate : DateTime.Now,
                     UtilityProvider = JObject.Parse(georgiaGasOffer.Provider),
-                    UtilityAccountNumber = georgiaGasService.AglAccountNumber,
+                    UtilityAccountNumber = georgiaGasService.AglcPremisesNumber,
                     Product = new
                     {
                         ProductId = georgiaGasOffer.Id.Split(new[] { '/' }, 2)[1],

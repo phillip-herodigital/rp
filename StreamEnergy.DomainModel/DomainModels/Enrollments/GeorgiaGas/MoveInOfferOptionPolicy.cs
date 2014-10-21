@@ -22,7 +22,7 @@ namespace StreamEnergy.DomainModels.Enrollments.GeorgiaGas
 
         public async Task<IOfferOptionRules> GetOptionRules(Location location, IOffer offer)
         {
-            if (location.Capabilities.OfType<ServiceCapability>().Single().AglAccountNumber == null)
+            if (location.Capabilities.OfType<ServiceCapability>().Single().AglcPremisesNumber == null)
             {
                 return new MoveInOfferOptionRules { ConnectDates = null };
             }

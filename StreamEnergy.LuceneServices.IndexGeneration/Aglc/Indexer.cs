@@ -33,7 +33,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.Aglc
             public static readonly ColumnDefinition PremiseType = new ColumnDefinition { Start = 0, Length = 1 };
             public const string PremiseTypeCommercial = "B";
             public const string PremiseTypeResidential = "I";
-            public static readonly ColumnDefinition AglAccountNumber = new ColumnDefinition { Start = 57, Length = 10 };
+            public static readonly ColumnDefinition AglcPremisesNumber = new ColumnDefinition { Start = 373, Length = 9 };
             public static readonly ColumnDefinition ServiceAddressStreetNumber = new ColumnDefinition { Start = 67, Length = 15 };
             public static readonly ColumnDefinition ServiceAddressStreetCardinalDirection = new ColumnDefinition { Start = 82, Length = 1 };
             public static readonly ColumnDefinition ServiceAddressStreetName = new ColumnDefinition { Start = 83, Length = 23 };
@@ -108,7 +108,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.Aglc
                         if (!customerType.HasValue)
                             continue;
 
-                        var aglAccountNumber = Configuration.AglAccountNumber.GetValue(entry);
+                        var aglcPremisesNumber = Configuration.AglcPremisesNumber.GetValue(entry);
 
                         var streetNumber = Configuration.ServiceAddressStreetNumber.GetValue(entry);
                         var streetCardinalDirection = Configuration.ServiceAddressStreetCardinalDirection.GetValue(entry);
@@ -130,7 +130,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.Aglc
                                 StateAbbreviation = "GA",
                                 PostalCode5 = zipCode
                             },
-                            Capabilities = GetServiceCapabilities(aglAccountNumber, zipCode, customerType.Value)
+                            Capabilities = GetServiceCapabilities(aglcPremisesNumber, zipCode, customerType.Value)
                         };
 
                     }
@@ -161,13 +161,13 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.Aglc
             }, EnrollmentCustomerType.Residential, "AGLC", true);
         }
 
-        private IEnumerable<DomainModels.IServiceCapability> GetServiceCapabilities(string aglAccountNumber, string zipCode, EnrollmentCustomerType customerType)
+        private IEnumerable<DomainModels.IServiceCapability> GetServiceCapabilities(string aglcPremisesNumber, string zipCode, EnrollmentCustomerType customerType)
         {
             return new IServiceCapability[]
                 {
                     new ServiceCapability
                     {
-                        AglAccountNumber = aglAccountNumber,
+                        AglcPremisesNumber = aglcPremisesNumber,
                         Zipcode = zipCode
                     },
                     new  CustomerTypeCapability
