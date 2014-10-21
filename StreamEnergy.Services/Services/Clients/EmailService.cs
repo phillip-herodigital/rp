@@ -95,7 +95,7 @@ namespace StreamEnergy.Services.Clients
                     if (contact2.IsAnonymousSubscriber)
                     {
                         contact = contact2;
-                        if (contact2.InnerUser.Domain.Name.Equals(commonDomain, StringComparison.OrdinalIgnoreCase))
+                        if (Sitecore.Security.Domains.Domain.ExtractDomainName(membershipUser.UserName).Equals(commonDomain, StringComparison.OrdinalIgnoreCase))
                         {
                             break;
                         }

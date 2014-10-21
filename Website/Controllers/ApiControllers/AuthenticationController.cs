@@ -349,8 +349,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
                 if (usernames.Length > 0)
                 {
-                    // TODO - replace with appropriate email id
-                    success = await emailService.SendEmail(new Guid("{DC691926-0D4C-4732-837E-6CC8D53F4735}"), to: request.Email.Address);
+                    var parameters = new System.Collections.Specialized.NameValueCollection();
+                    parameters.Add("usernames", string.Join(", ", usernames));
+                    success = await emailService.SendEmail(new Guid("{AA8CAFBB-AE0C-4B5C-A748-3AE702FA4C4C}"), request.Email.Address, parameters);
                 }
             }
             return new RecoverUsernameResponse
