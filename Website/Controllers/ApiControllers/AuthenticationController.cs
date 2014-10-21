@@ -22,6 +22,7 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
 using EmailFactory = Sitecore.Modules.EmailCampaign.Factory;
+using System.Collections.Specialized;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -252,14 +253,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
 
         [HttpPost]
-        public VerifyUserChallengeQuestionsResponse VerifyUserChallengeQuestions(VerifyUserChallengeQuestionsRequest request)
+        public async Task<VerifyUserChallengeQuestionsResponse> VerifyUserChallengeQuestions(VerifyUserChallengeQuestionsRequest request)
         {
             Sitecore.Context.Database = database;
             resetPasswordSessionHelper.Context.Answers = request.Answers.ToDictionary(a => a.Key, a => a.Value);
             resetPasswordSessionHelper.Context.SendEmail = false;
 
             if (resetPasswordSessionHelper.StateMachine.State == typeof(VerifyUserState))
-                resetPasswordSessionHelper.StateMachine.Process();
+                await resetPasswordSessionHelper.StateMachine.Process();
 
             var validations = Enumerable.Empty<ValidationResult>();
             // don't give validations for the next step
@@ -276,13 +277,13 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
 
         [HttpPost]
-        public SendResetPasswordEmailResponse SendResetPasswordEmail(SendResetPasswordEmailRequest request)
+        public async Task<SendResetPasswordEmailResponse> SendResetPasswordEmail(SendResetPasswordEmailRequest request)
         {
             Sitecore.Context.Database = database;
             resetPasswordSessionHelper.Context.SendEmail = true;
 
             if (resetPasswordSessionHelper.StateMachine.State == typeof(VerifyUserState))
-                resetPasswordSessionHelper.StateMachine.Process();
+                await resetPasswordSessionHelper.StateMachine.Process();
 
             var validations = Enumerable.Empty<ValidationResult>();
             // don't give validations for the next step
@@ -352,9 +353,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
                 if (usernames.Length > 0)
                 {
-                    var parameters = new System.Collections.Specialized.NameValueCollection();
-                    parameters.Add("usernames", string.Join(", ", usernames));
-                    success = await emailService.SendEmail(new Guid("{AA8CAFBB-AE0C-4B5C-A748-3AE702FA4C4C}"), request.Email.Address, parameters);
+                    success = await emailService.SendEmail(new Guid("{AA8CAFBB-AE0C-4B5C-A748-3AE702FA4C4C}"), request.Email.Address, new NameValueCollection() {
+                        {"usernames", string.Join(", ", usernames)}
+                    });
                 }
             }
             return new RecoverUsernameResponse
