@@ -3,7 +3,7 @@
 @using StreamEnergy.DomainModels.Enrollments
 @using TexasElectricity = StreamEnergy.DomainModels.Enrollments.TexasElectricity
 @using GeorgiaGas = StreamEnergy.DomainModels.Enrollments.GeorgiaGas
-<div id="accountInformation" class="enrollment" ng-if="stepsService.isStepVisible('accountInformation')" ng-controller="EnrollmentAccountInformationCtrl" ng-init="usStates = @(Html.Action("States", "Data").ToHtmlString()); phoneTypes = @(Html.Action("PhoneCategories", "Data").ToHtmlString()); previousProviders = @(Html.Action("PreviousProviders", "Data").ToHtmlString()); setTimeRemaining('accountInformation', '@Html.Sitecore().Field("Remaining Minutes Number")');">
+<div id="accountInformation" class="enrollment" ng-if="stepsService.isStepVisible('accountInformation')" ng-controller="EnrollmentAccountInformationCtrl" ng-init="usStates = @(Html.Action("States", "Data").ToHtmlString()); phoneTypes = @(Html.Action("PhoneCategories", "Data").ToHtmlString()); previousProviders = @(Html.Action("PreviousProviders", "Data").ToHtmlString()); previousProvidersGeorgia = @(Html.Action("PreviousProvidersGeorgia", "Data").ToHtmlString()); setTimeRemaining('accountInformation', '@Html.Sitecore().Field("Remaining Minutes Number")');">
     <div class="banner enrollment__banner" style="@Html.AsBackgroundStyle("Banner Image")">
         <div class="wrapper clearfix">
             <h1>
@@ -308,7 +308,7 @@
                                                 new
                                                 {
                                                     ng_model = "accountInformation.previousProvider",
-                                                    ng_options = "type.name as type.display for type in previousProviders"
+                                                    ng_options = "type.name as type.display for type in getPreviousProviders()"
                                                 })
                         </div>
                     </div>
@@ -390,7 +390,7 @@
             <ul class="legend">
                 <li><span class="disabled">24</span> Dates in grey are unavailable</li>
                 <li><span>24</span> Dates in black are available for a standard connect fee</li>
-                <li><span class="priority">24</span> Dates in yellow are available for a priority connect fee</li>
+                <li ng-show="hasAnyPriority()"><span class="priority">24</span> Dates in yellow are available for a priority connect fee</li>
             </ul>
         </li>
         <li ng-if="showButtonBar" style="padding:10px 9px 2px">

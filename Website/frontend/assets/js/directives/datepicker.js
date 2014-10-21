@@ -24,7 +24,7 @@ ngApp.directive('datepickerPopupWrap', [function () {
             
             // Probably not ideal, but not sure of a better way to get access...
             scope.showFooter = scope.$parent.showFooter;
-
+            scope.hasAnyPriority = scope.$parent.hasAnyPriority || function () { return true; };
         }
     };
 }]);

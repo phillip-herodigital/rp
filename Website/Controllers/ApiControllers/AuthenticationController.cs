@@ -43,7 +43,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public class CreateAccountSessionHelper : StateMachineSessionHelper<CreateAccountContext, CreateAccountInternalContext>
         {
             public CreateAccountSessionHelper(HttpSessionStateBase session, IUnityContainer container)
-                : base(session, container, typeof(AuthenticationController), typeof(FindAccountState), storeInternal: false)
+                : base(session, container, typeof(AuthenticationController), typeof(FindAccountState), storeInternal: true)
             {
             }
         }
@@ -344,8 +344,11 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             {
                 var customers = await accountService.FindCustomers(request.Email.Address);
                 var usernames = (from customer in customers
-                                                where !string.IsNullOrEmpty(customer.Username)
-                                                select customer.Username).ToArray();
+                                 where !string.IsNullOrEmpty(customer.Username)
+                                 where customer.Username.StartsWith(domain.AccountPrefix)
+                                 let username = customer.Username.Substring(domain.AccountPrefix.Length)
+                                 orderby username
+                                 select username).ToArray();
 
                 if (usernames.Length > 0)
                 {
