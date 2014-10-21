@@ -426,7 +426,6 @@ namespace StreamEnergy.Services.Clients
                 SsnLastFour = ((object)data.AccountDetails.AccountCustomer.CustomerLast4).ToString().PadLeft(4, '0'),
                 ProductType = data.AccountDetails.ProductType,
                 TcpaPreference = (data.TCPAPreference == "NA" ? (bool?)null : (bool?)(data.TCPAPreference == "Yes"))
-                // TODO - are there other parts that belong here?
             };
             account.SystemOfRecord = data.AccountDetails.SystemOfRecord;
             account.AccountNumber = data.AccountDetails.SystemOfRecordAccountNumber;
@@ -439,7 +438,6 @@ namespace StreamEnergy.Services.Clients
             {
                 account.SubAccounts = new ISubAccount[]
                 {
-                    // TODO - should support multiple
                     CreateSubAccount(data.AccountDetails)
                 };
             }

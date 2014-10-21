@@ -42,7 +42,6 @@ namespace StreamEnergy.Services.Clients
 
         public Account CreateAccount(AccountKey accountKey)
         {
-            // TODO - typed account
             return new Account(accountKey.StreamConnectCustomerId, accountKey.StreamConnectAccountId)
                     {
                         AccountNumber = accountKey.AccountNumber,
