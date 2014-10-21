@@ -43,6 +43,10 @@ ngApp.controller('OfferOptions-GeorgiaGasMoveIn', ['$rootScope', '$scope', funct
 
         return !availableDate;
     }
+
+    $scope.hasAnyPriority = function () {
+        return _($scope.selectedOffer.optionRules.connectDates.availableConnectDates).filter({ classification: "priority" }).any();
+    }
     
     function toISODate(date) {
         var curr_date = date.getDate() + '';
