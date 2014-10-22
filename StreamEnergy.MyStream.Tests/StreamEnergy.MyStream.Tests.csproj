@@ -224,6 +224,7 @@
     <Compile Include="Services\Clients\EnrollmentServiceTest.cs" />
     <Compile Include="Services\Clients\GeorgiaEnrollmentServiceTest.cs" />
     <Compile Include="Services\Clients\RenewalServiceTest.cs" />
+    <Compile Include="Services\Clients\TestData.cs" />
     <Compile Include="Services\Clients\Timer.cs" />
     <Compile Include="Services\PdfGeneration.cs" />
     <Compile Include="Services\GetSwtToken.cs" />

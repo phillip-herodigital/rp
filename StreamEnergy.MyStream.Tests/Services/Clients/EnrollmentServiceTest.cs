@@ -155,9 +155,9 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             {
                 // Act
                 var firstCheck = enrollmentService.BeginIdentityCheck(gcid,
-                    name: new DomainModels.Name { First = "ROBERT", Last = "DELEON" },
-                    ssn: "666540716",
-                    mailingAddress: new DomainModels.Address { Line1 = "100 WILSON HILL RD", City = "MASSENA", StateAbbreviation = "NY", PostalCode5 = "13662" }).Result;
+                    name: TestData.IdentityCheckName(),
+                    ssn: TestData.IdentityCheckSsn,
+                    mailingAddress: TestData.IdentityCheckMailingAddress()).Result;
 
                 // Assert
                 Assert.IsNotNull(firstCheck);
@@ -169,9 +169,9 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
 
                 // Act - Step 2
                 var secondCheck = enrollmentService.BeginIdentityCheck(gcid,
-                    name: new DomainModels.Name { First = "ROBERT", Last = "DELEON" },
-                    ssn: "666540716",
-                    mailingAddress: new DomainModels.Address { Line1 = "100 WILSON HILL RD", City = "MASSENA", StateAbbreviation = "NY", PostalCode5 = "13662" },
+                    name: TestData.IdentityCheckName(),
+                    ssn: TestData.IdentityCheckSsn,
+                    mailingAddress: TestData.IdentityCheckMailingAddress(),
                     identityInformation: new DomainModels.Enrollments.AdditionalIdentityInformation
                     {
                         PreviousIdentityCheckId = firstCheck.Data.IdentityCheckId,
@@ -209,9 +209,9 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             {
                 // Act - Step 1
                 var creditCheck = enrollmentService.BeginCreditCheck(gcid,
-                    name: new DomainModels.Name { First = "Mauricio", Last = "Solórzano" },
+                    name: TestData.CreditCheckContactInfo().Name,
                     ssn: "123456789",
-                    address: new DomainModels.Address { Line1 = "1212 Aberdeen Avenue", City = "McKinney", StateAbbreviation = "TX", PostalCode5 = "75070" }).Result;
+                    address: TestData.CreditCheckAddress()).Result;
 
                 // Assert
                 Assert.IsNotNull(creditCheck);
@@ -235,7 +235,6 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         public void LoadOfferPaymentsTest()
         {
             // Assign
-            var ssn = "666865460";
             var streamConnectClient = container.Resolve<HttpClient>(StreamEnergy.Services.Clients.StreamConnectContainerSetup.StreamConnectKey);
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
             StreamEnergy.DomainModels.Enrollments.IEnrollmentService enrollmentService = container.Resolve<StreamEnergy.Services.Clients.EnrollmentService>();
@@ -254,17 +253,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             var texasElectricityOffer = offers.First().Value.Offers.First() as DomainModels.Enrollments.TexasElectricity.Offer;
             var userContext = new DomainModels.Enrollments.UserContext
             {
-                ContactInfo = new DomainModels.CustomerContact
-                {
-                    Name = new DomainModels.Name
-                    {
-                        First = "ROBERT",
-                        Last = "DELEON"
-                    },
-                    Phone = new DomainModels.Phone[] { new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = "2234567890" } },
-                    Email = new DomainModels.Email { Address = "test@example.com" },
-                },
-                SocialSecurityNumber = ssn,
+                ContactInfo = TestData.CreditCheckContactInfo(),
+                SocialSecurityNumber = TestData.CreditCheckSsn,
                 Services = new DomainModels.Enrollments.LocationServices[]
                 {
                     new DomainModels.Enrollments.LocationServices 
@@ -312,9 +302,9 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             }
 
             var creditCheck = enrollmentService.BeginCreditCheck(gcid,
-                name: new DomainModels.Name { First = "Mauricio", Last = "Solórzano" },
-                ssn: ssn,
-                address: new DomainModels.Address { Line1 = "1212 Aberdeen Avenue", City = "McKinney", StateAbbreviation = "TX", PostalCode5 = "75070" }).Result;
+                name: TestData.CreditCheckContactInfo().Name,
+                ssn: TestData.CreditCheckSsn,
+                address: TestData.CreditCheckAddress()).Result;
             do
             {
                 creditCheck = enrollmentService.EndCreditCheck(creditCheck).Result;
@@ -454,17 +444,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             var texasElectricityOffer = offers.First().Value.Offers.First() as DomainModels.Enrollments.TexasElectricity.Offer;
             var userContext = new DomainModels.Enrollments.UserContext
                 {
-                    ContactInfo = new DomainModels.CustomerContact
-                    {
-                        Name = new DomainModels.Name
-                        {
-                            First = "ROBERT",
-                            Last = "DELEON"
-                        },
-                        Phone = new DomainModels.Phone[] { new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = "2234567890" } },
-                        Email = new DomainModels.Email { Address = "test@example.com" },
-                    },
-                    SocialSecurityNumber = "529998765",
+                    ContactInfo = TestData.CreditCheckContactInfo(),
+                    SocialSecurityNumber = TestData.CreditCheckSsn,
                     Services = new DomainModels.Enrollments.LocationServices[]
                     {
                         new DomainModels.Enrollments.LocationServices 
@@ -549,17 +530,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             var texasElectricityOffer = offers.First().Value.Offers.First() as DomainModels.Enrollments.TexasElectricity.Offer;
             var userContext = new DomainModels.Enrollments.UserContext
             {
-                ContactInfo = new DomainModels.CustomerContact
-                {
-                    Name = new DomainModels.Name
-                    {
-                        First = "ROBERT",
-                        Last = "DELEON"
-                    },
-                    Phone = new DomainModels.Phone[] { new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = "2234567890" } },
-                    Email = new DomainModels.Email { Address = "test@example.com" },
-                },
-                SocialSecurityNumber = "529998765",
+                ContactInfo = TestData.CreditCheckContactInfo(),
+                SocialSecurityNumber = TestData.CreditCheckSsn,
                 Services = new DomainModels.Enrollments.LocationServices[]
                     {
                         new DomainModels.Enrollments.LocationServices 
@@ -660,17 +632,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             var texasElectricityOffer = offers.First().Value.Offers.First() as DomainModels.Enrollments.TexasElectricity.Offer;
             var userContext = new DomainModels.Enrollments.UserContext
             {
-                ContactInfo = new DomainModels.CustomerContact
-                {
-                    Name = new DomainModels.Name
-                    {
-                        First = "ROBERT",
-                        Last = "DELEON"
-                    },
-                    Phone = new DomainModels.Phone[] { new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = "2234567890" } },
-                    Email = new DomainModels.Email { Address = "test@example.com" },
-                },
-                SocialSecurityNumber = "529998765",
+                ContactInfo = TestData.CreditCheckContactInfo(),
+                SocialSecurityNumber = TestData.CreditCheckSsn,
                 Services = new DomainModels.Enrollments.LocationServices[]
                     {
                         new DomainModels.Enrollments.LocationServices 
@@ -756,17 +719,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             var texasElectricityOffer = offers.First().Value.Offers.First() as DomainModels.Enrollments.TexasElectricity.Offer;
             var userContext = new DomainModels.Enrollments.UserContext
             {
-                ContactInfo = new DomainModels.CustomerContact
-                {
-                    Name = new DomainModels.Name
-                    {
-                        First = "ROBERT",
-                        Last = "DELEON"
-                    },
-                    Phone = new DomainModels.Phone[] { new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = "2234567890" } },
-                    Email = new DomainModels.Email { Address = "test@example.com" },
-                },
-                SocialSecurityNumber = "529998765",
+                ContactInfo = TestData.CreditCheckContactInfo(),
+                SocialSecurityNumber = TestData.CreditCheckSsn,
                 Services = new DomainModels.Enrollments.LocationServices[]
                     {
                         new DomainModels.Enrollments.LocationServices 
@@ -800,23 +754,23 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             }
 
             var creditCheck = enrollmentService.BeginCreditCheck(globalCustomerId,
-                name: new DomainModels.Name { First = "Mauricio", Last = "Solórzano" },
-                ssn: "666865460",
-                address: new DomainModels.Address { Line1 = "1212 Aberdeen Avenue", City = "McKinney", StateAbbreviation = "TX", PostalCode5 = "75070" }).Result;
+                name: TestData.CreditCheckContactInfo().Name,
+                ssn: TestData.CreditCheckSsn,
+                address: TestData.CreditCheckAddress()).Result;
             do
             {
                 creditCheck = enrollmentService.EndCreditCheck(creditCheck).Result;
             } while (!creditCheck.IsCompleted);
 
             var firstCheck = enrollmentService.BeginIdentityCheck(globalCustomerId,
-                name: new DomainModels.Name { First = "ROBERT", Last = "DELEON" },
-                    ssn: "666540716",
-                    mailingAddress: new DomainModels.Address { Line1 = "100 WILSON HILL RD", City = "MASSENA", StateAbbreviation = "NY", PostalCode5 = "13662" }).Result;
+                name: TestData.IdentityCheckName(),
+                ssn: TestData.IdentityCheckSsn,
+                mailingAddress: TestData.IdentityCheckMailingAddress()).Result;
 
             var secondCheck = enrollmentService.BeginIdentityCheck(globalCustomerId,
-                name: new DomainModels.Name { First = "ROBERT", Last = "DELEON" },
-                ssn: "666540716",
-                mailingAddress: new DomainModels.Address { Line1 = "100 WILSON HILL RD", City = "MASSENA", StateAbbreviation = "NY", PostalCode5 = "13662" },
+                name: TestData.IdentityCheckName(),
+                ssn: TestData.IdentityCheckSsn,
+                mailingAddress: TestData.IdentityCheckMailingAddress(),
                 identityInformation: new DomainModels.Enrollments.AdditionalIdentityInformation
                 {
                     PreviousIdentityCheckId = firstCheck.Data.IdentityCheckId,
@@ -872,7 +826,6 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         public void PostDepositsTest()
         {
             // Assign
-            var ssn = "666865460";
             var streamConnectClient = container.Resolve<HttpClient>(StreamEnergy.Services.Clients.StreamConnectContainerSetup.StreamConnectKey);
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
             StreamEnergy.DomainModels.Enrollments.IEnrollmentService enrollmentService = container.Resolve<StreamEnergy.Services.Clients.EnrollmentService>();
@@ -891,17 +844,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             var texasElectricityOffer = offers.First().Value.Offers.First() as DomainModels.Enrollments.TexasElectricity.Offer;
             var userContext = new DomainModels.Enrollments.UserContext
             {
-                ContactInfo = new DomainModels.CustomerContact
-                {
-                    Name = new DomainModels.Name
-                    {
-                        First = "ROBERT",
-                        Last = "DELEON"
-                    },
-                    Phone = new DomainModels.Phone[] { new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = "2234567890" } },
-                    Email = new DomainModels.Email { Address = "test@example.com" },
-                },
-                SocialSecurityNumber = ssn,
+                ContactInfo = TestData.CreditCheckContactInfo(),
+                SocialSecurityNumber = TestData.CreditCheckSsn,
                 Services = new DomainModels.Enrollments.LocationServices[]
                 {
                     new DomainModels.Enrollments.LocationServices 
@@ -949,9 +893,9 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             }
 
             var creditCheck = enrollmentService.BeginCreditCheck(gcid,
-                name: new DomainModels.Name { First = "Mauricio", Last = "Solórzano" },
-                ssn: ssn,
-                address: new DomainModels.Address { Line1 = "1212 Aberdeen Avenue", City = "McKinney", StateAbbreviation = "TX", PostalCode5 = "75070" }).Result;
+                name: TestData.CreditCheckContactInfo().Name,
+                ssn: TestData.CreditCheckSsn,
+                address: TestData.CreditCheckAddress()).Result;
             do
             {
                 creditCheck = enrollmentService.EndCreditCheck(creditCheck).Result;

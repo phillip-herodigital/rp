@@ -198,7 +198,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Assign
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
             var gcid = accountService.CreateStreamConnectCustomer().Result.GlobalCustomerId;
-            var acct = accountService.AssociateAccount(gcid, "3001311049", "3192", "").Result;
+            var acct = accountService.AssociateAccount(gcid, TestData.IstaAccountNumber, TestData.IstaAccountSsnLast4, "").Result;
 
             // Act
             var accounts = accountService.GetAccounts(gcid).Result;
@@ -218,7 +218,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             var gcid = accountService.CreateStreamConnectCustomer().Result.GlobalCustomerId;
 
             // Act
-            var acct = accountService.AssociateAccount(gcid, "3001311049", "0000", "").Result;
+            var acct = accountService.AssociateAccount(gcid, TestData.IstaAccountNumber, "0000", "").Result;
 
             // Assert
             Assert.IsNull(acct);
@@ -232,7 +232,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Arrange
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
             var gcid = accountService.CreateStreamConnectCustomer().Result.GlobalCustomerId;
-            var acct = accountService.AssociateAccount(gcid, "3001311049", "3192", "").Result;
+            var acct = accountService.AssociateAccount(gcid, TestData.IstaAccountNumber, TestData.IstaAccountSsnLast4, "").Result;
 
             // Act
             var result = accountService.DisassociateAccount(acct).Result;
@@ -267,7 +267,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Arrange
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
             var gcid = accountService.CreateStreamConnectCustomer().Result.GlobalCustomerId;
-            var acct = accountService.AssociateAccount(gcid, "3001311049", "3192", "").Result;
+            var acct = accountService.AssociateAccount(gcid, TestData.IstaAccountNumber, TestData.IstaAccountSsnLast4, "").Result;
 
             // Act
             var details = accountService.GetAccountDetails(acct).Result;
@@ -275,7 +275,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Assert
             Assert.IsTrue(details);
             Assert.IsNotNull(acct.Details);
-            Assert.AreEqual("3192", acct.Details.SsnLastFour);
+            Assert.AreEqual(TestData.IstaAccountSsnLast4, acct.Details.SsnLastFour);
             Assert.IsNotNull(acct.Details.ContactInfo);
             Assert.IsNotNull(acct.Details.ContactInfo.Email);
             Assert.IsNotNull(acct.Details.ContactInfo.Name);
@@ -292,12 +292,12 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
 
             // Act
-            var acct = accountService.GetAccountDetails("3001408465").Result;
+            var acct = accountService.GetAccountDetails(TestData.IstaAccountNumber).Result;
 
             // Assert
             Assert.IsNotNull(acct);
             Assert.IsNotNull(acct.Details);
-            Assert.AreEqual("8511", acct.Details.SsnLastFour);
+            Assert.AreEqual(TestData.IstaAccountSsnLast4, acct.Details.SsnLastFour);
             Assert.IsNotNull(acct.Details.ContactInfo);
             Assert.IsNotNull(acct.Details.ContactInfo.Email);
             Assert.IsNotNull(acct.Details.ContactInfo.Name);
@@ -311,7 +311,6 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             var gasAccount = acct.SubAccounts.First() as GeorgiaGasAccount;
             Assert.AreEqual("74", gasAccount.ProviderId);
             Assert.AreEqual(StreamEnergy.DomainModels.Enrollments.RateType.Fixed, gasAccount.RateType);
-            Assert.AreEqual(12, gasAccount.TermMonths);
             Assert.IsNotNull(gasAccount.ProductId);
             Assert.IsNotNull(gasAccount.ProductCode);
             if (gasAccount.Rate == 0)
@@ -329,7 +328,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Arrange
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
             var gcid = accountService.CreateStreamConnectCustomer().Result.GlobalCustomerId;
-            var acct = accountService.AssociateAccount(gcid, "3001311049", "3192", "").Result;
+            var acct = accountService.AssociateAccount(gcid, TestData.IstaAccountNumber, TestData.IstaAccountSsnLast4, "").Result;
             accountService.GetAccountDetails(acct).Wait();
             var rand = new Random();
             var expectedHome = "2" + rand.Next(0, 1000000000).ToString().PadLeft(9, '0');
@@ -364,7 +363,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Arrange
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
             var gcid = accountService.CreateStreamConnectCustomer().Result.GlobalCustomerId;
-            var acct = accountService.AssociateAccount(gcid, "3001311049", "3192", "").Result;
+            var acct = accountService.AssociateAccount(gcid, TestData.IstaAccountNumber, TestData.IstaAccountSsnLast4, "").Result;
 
             // Act
             var details = accountService.GetInvoices(gcid).Result;
@@ -386,7 +385,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Arrange
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
             var gcid = accountService.CreateStreamConnectCustomer().Result.GlobalCustomerId;
-            var acct = accountService.AssociateAccount(gcid, "3001311049", "3192", "").Result;
+            var acct = accountService.AssociateAccount(gcid, TestData.IstaAccountNumber, TestData.IstaAccountSsnLast4, "").Result;
             var invoiceAccounts = accountService.GetInvoices(gcid, new[] { acct }).Result;
             var targetInvoice = invoiceAccounts.First(t => t.Invoices != null).Invoices.First();
 
@@ -407,7 +406,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Arrange
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
             var gcid = accountService.CreateStreamConnectCustomer().Result.GlobalCustomerId;
-            accountService.AssociateAccount(gcid, "3001311049", "3192", "").Wait();
+            accountService.AssociateAccount(gcid, TestData.IstaAccountNumber, TestData.IstaAccountSsnLast4, "").Wait();
 
             // Act
             var accounts = accountService.GetAccountBalances(gcid).Result;
