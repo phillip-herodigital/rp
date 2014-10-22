@@ -6,8 +6,12 @@
     this.mobileService = mobileEnrollmentService;
     this.accountInformation = mobileEnrollmentService.accountInformation;
 
-    this.availableNetworks = [];
-    this.excludedStates = ['AK', 'HI'];
+    //this.availableNetworks = [];
+    //this.excludedStates = ['AK', 'HI'];
+
+    $scope.mobileFields = {
+        state: 'TX'
+    };
 
     this.phoneFilters = {
         phoneTypeTab: "new",
@@ -18,6 +22,8 @@
         os: [],
         state: 'TX' // Need to set this with MaxMind...
     };
+
+    this.phoneNumberType = '';
 
     this.phoneOptions = {
         color: undefined,
@@ -37,17 +43,24 @@
     this.currentStep = 'choose-network';
 
     /**
+     * Sets the phoneNumberType
+     */
+    this.setPhoneNumberType = function(type) {
+        this.phoneNumberType = type;
+    }
+
+    /**
      * [updateAvailableNetworks description]
      * @return {[type]} [description]
      */
-    this.updateAvailableNetworks = function(state) {
+    /*this.updateAvailableNetworks = function(state) {
         //Grab the available networks here, for now return the only two we have
         if (_.contains(_this.excludedStates, state)) {
             this.availableNetworks = [];
         } else {
             this.availableNetworks = ['att', 'sprint'];
         }
-    };
+    };*/
 
     /**
      * [chooseNetwork description]
@@ -55,7 +68,7 @@
      * @param  {[type]} phoneType [description]
      * @return {[type]}           [description]
      */
-    this.chooseNetwork = function(network, phoneType) {
+    /*this.chooseNetwork = function(network, phoneType) {
         this.phoneFilters.selectedNetwork = network;
         this.phoneFilters.phoneTypeTab = phoneType;
         this.currentStep = 'choose-phone';
@@ -63,7 +76,7 @@
 
     this.isAvailableNetwork = function(network) {
         return _.indexOf(this.availableNetworks, network) > -1;
-    };
+    };*/
 
     /** 
      * Set the default options when a new phone is selected
@@ -162,9 +175,9 @@
         })
     };
 
-    $scope.$watch('ctrl.phoneFilters.state', function (newValue, oldValue) {
+    /*$scope.$watch('ctrl.phoneFilters.state', function (newValue, oldValue) {
         _this.updateAvailableNetworks(newValue);
-    });
+    });*/
 
 }]);
 

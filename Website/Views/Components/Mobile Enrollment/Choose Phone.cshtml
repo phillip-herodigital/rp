@@ -14,6 +14,7 @@
     <section class="wrapper layout cols-2">
         <section>
             <article class="enrollment__box enrollment__choose-device form">
+                @* Commenting out tabs for Nov 15, so can't get to Shop Devices screen
                 <header class="tabbed-header clearfix">
                     <div class="tab" ng-class="{ 'active': ctrl.phoneFilters.phoneTypeTab == 'new' }" ng-click="ctrl.phoneFilters.phoneTypeTab = 'new'">
                         <h1>@Html.Sitecore().Field("2 - Header - Shop Phones")</h1>
@@ -21,6 +22,10 @@
                     <div class="tab" ng-class="{ 'active': ctrl.phoneFilters.phoneTypeTab == 'existing' }" ng-click="ctrl.phoneFilters.phoneTypeTab = 'existing'; ctrl.clearPhoneSelection()">
                         <h1>@Html.Sitecore().Field("2 - Header - Bring Your Own Phone")</h1>
                     </div>
+                </header>
+                *@
+                <header>
+                    <h1>@Html.Sitecore().Field("2 - Header - Bring Your Own Phone")</h1>
                 </header>
 
                 @* New Phone Template *@
@@ -210,7 +215,7 @@
                 @* Bring Your Own Phone Template *@
                 <toggle-pane name="existing" value="ctrl.phoneFilters.phoneTypeTab">
                     <div class="content form bring-your-own">
-                        <h2>@Html.Sitecore().Field("Header - Bring Your Own Network Phone").Format(new { network = "{{ ctrl.phoneFilters.selectedNetwork }}" })</h2>
+                        @* <h2>@Html.Sitecore().Field("Header - Bring Your Own Network Phone").Format(new { network = "{{ ctrl.phoneFilters.selectedNetwork }}" })</h2> *@
                         @Html.Sitecore().Field("Bring Your Phone - Description").Format(new { network = "{{ ctrl.phoneFilters.selectedNetwork }}" })
                         @Html.Sitecore().Field("Bring Your Phone - Instructions").Format(new { network = "{{ ctrl.phoneFilters.selectedNetwork }}" })
                         
@@ -219,6 +224,7 @@
                                 <h3>@Html.Sitecore().Field("Header - Select Device")</h3>
                             </div>
                             <div class="col">
+                                <label>@Html.Sitecore().Field("Label - Select Device")</label>
                                 <div class="group">
                                     <div class="item">
                                         <select name="" id="">
@@ -231,6 +237,7 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="info">@Html.Sitecore().Field("Text - Select Device Info")</div>
                             </div>
                         </div>
 
@@ -241,7 +248,7 @@
                                 <h3>@Html.Sitecore().Field("Header - IMEI Number")</h3>
                             </div>
                             <div class="col">
-                                <p>@Html.Sitecore().Field("Text - IMEI Number")</p>
+                                <label>@Html.Sitecore().Field("Label - IMEI Number")</label>
                                 <input type="text" />
                                 <p class="note"><a href="#">@Html.Sitecore().Field("Text - IMEI Number Instructions Link")</a></p>
                             </div>
@@ -255,7 +262,7 @@
                                 <p class="note">@Html.Sitecore().Field("Text - SIM Card Number Note")</p>
                             </div>
                             <div class="col">
-                                <p>@Html.Sitecore().Field("Text - SIM Card Number")</p>
+                                <label>@Html.Sitecore().Field("Label - SIM Card Number")</label>
                                 <input type="text" />
                                 <p class="note"><a href="#">@Html.Sitecore().Field("Text - SIM Card Number Instructions Link")</a></p>
                             </div>
@@ -269,23 +276,32 @@
                                 <p class="note">@Html.Sitecore().Field("Text - Phone Number Note")</p>
                             </div>
                             <div class="col">
-                                <ul>
-                                    <li>
-                                        <a href="#">@Html.Sitecore().Field("Button - Assign New Number")</a>
+                                <ul class="phone-number">
+                                    <li ng-class="{selected:ctrl.phoneNumberType=='new'}">
+                                        <a href="#" ng-click="ctrl.setPhoneNumberType('new')">@Html.Sitecore().Field("Button - Assign New Number")</a>
                                     </li>
-                                    <li>
-                                        <a href="#">@Html.Sitecore().Field("Button - Transfer My Number")</a>
+                                    <li ng-class="{selected:ctrl.phoneNumberType=='transfer'}">
+                                        <a href="#" ng-click="ctrl.setPhoneNumberType('transfer')">@Html.Sitecore().Field("Button - Transfer My Number")</a>
                                     </li>
                                 </ul>
+                                <toggle-pane name="new" value="ctrl.phoneNumberType" class="phone-number-field new">
+                                    @Html.Sitecore().Field("Label - Enter Existing Number")
+                                    <input type="text" />
+                                </toggle-pane>
+                                <toggle-pane name="transfer" value="ctrl.phoneNumberType" class="phone-number-field transfer">
+                                    @Html.Sitecore().Field("Label - Enter Area Code")
+                                    <input type="text" />
+                                </toggle-pane>
                             </div>
                         </div>
 
                     </div>
                     <footer>
-                        <button type="submit" ng-if="ctrl.phoneFilters.phoneTypeTab == 'existing'">@Html.Sitecore().Field("Button - Add Device")</button>
+                        <button type="submit" ng-click="ctrl.setDataPlan()" ng-if="ctrl.phoneFilters.phoneTypeTab == 'existing'">@Html.Sitecore().Field("Button - Add Device")</button>
                     </footer>
                 </toggle-pane>
             </article>
+            <p class="footnotes">@Html.Sitecore().Field("Footnotes")</p>
         </section>
         <aside>
             <div ng-include src="'mobile-enrollment-cart'"></div>
