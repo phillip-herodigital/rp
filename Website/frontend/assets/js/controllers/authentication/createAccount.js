@@ -43,6 +43,8 @@ ngApp.controller('AuthCreateAccountCtrl', ['$scope', '$rootScope', '$http', '$wi
 					$scope.accountNumber = data.accountNumber;
 					$scope.ssnLastFour = data.ssnLastFour;
 					$scope.availableSecurityQuestions = data.availableSecurityQuestions;
+					// initialize the username to the email address
+					$scope.formData.username = $scope.customer.email.address || '';
 					$scope.activeState = 'step2';
 				}
 			});
