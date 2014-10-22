@@ -1,4 +1,4 @@
-﻿ngApp.controller('MobileEnrollmentSelectNetworkCtrl', ['$scope', '$filter', '$modal', 'mobileEnrollmentService', function ($scope, $filter, $modal, mobileEnrollmentService) {
+﻿ngApp.controller('MobileEnrollmentChooseNetworkCtrl', ['$scope', '$filter', '$modal', 'mobileEnrollmentService', function ($scope, $filter, $modal, mobileEnrollmentService) {
 
     $scope.availableNetworks = [];
     var excludedStates = ['AK', 'HI'];
@@ -15,7 +15,7 @@
     $scope.chooseNetwork = function(network, phoneType) {
         $scope.phoneFilters.selectedNetwork = network;
         $scope.phoneFilters.phoneTypeTab = phoneType;
-        $scope.currentStep = 'choose-phone';
+        $scope.setCurrentStep('choose-phone');
     };
 
     $scope.isAvailableNetwork = function(network) {
@@ -23,7 +23,6 @@
     };
 
     $scope.$watch('mobileFields.state', function (newValue, oldValue) {
-        console.log(newValue);
         $scope.updateAvailableNetworks(newValue);
     });
 

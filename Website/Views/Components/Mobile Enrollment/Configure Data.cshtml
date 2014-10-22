@@ -1,5 +1,4 @@
-<div ng-if="ctrl.currentStep == 'configure-data'">
-
+<div ng-if="mobileEnrollment.currentStep == 'configure-data'" ng-controller="MobileEnrollmentConfigureDataCtrl">
     <div class="banner" style="@Html.AsBackgroundStyle("Mobile Banner Image")">
         <div class="wrapper">
             <h1>
@@ -7,7 +6,6 @@
             </h1>
         </div>
     </div>
-
     @* Two-column layout for Configure Data *@
     <section class="wrapper layout cols-2">
         <section>
@@ -17,25 +15,26 @@
                 </header>
                 <div class="content">
                     <h3 class="mobile-plans-header">@Html.Sitecore().Field("3 - Header - Choose Data Amount")</h3>
-                    
+
                     <div class="btn-group btn-group-options mobile-plans">
-                        <div class="button" ng-model="ctrl.phoneOptions.plan" btn-radio="'plan1'">
+                        <div class="button" ng-model="phoneOptions.plan" btn-radio="'plan1'">
                             <p>
                                 <span class="size">500 MB</span>
-                                <span class="price">$39/mo</span></p>
+                                <span class="price">$39/mo</span>
                             </p>
-                            <hr>
-                            <p class="details">
-                                <span>@Html.Sitecore().Field("3 - Streaming Music Text")<br /><span class="time">2 hours</span></span>
-                                <span>@Html.Sitecore().Field("3 - Streaming Movies Text")<br /><span class="time">3 hours</span></span>
-                                <span>@Html.Sitecore().Field("3 - Web Browsing Text")<br /><span class="time">12 hours</span></span>
-                            </p>
+                            <hr />
+                            <ul class="details">
+                                <li><i class="icon-streaming-music"></i><span>@Html.Sitecore().Field("3 - Streaming Music Text")<br /><span class="time">2 hours</span></span></li>
+                                <li><i class="icon-streaming-movies"></i><span>@Html.Sitecore().Field("3 - Streaming Movies Text")<br /><span class="time">3 hours</span></span></li>
+                                <li><i class="icon-web-browsing"></i><span>@Html.Sitecore().Field("3 - Web Browsing Text")<br /><span class="time">12 hours</span></span></li>
+                            </ul>
                         </div>
-                        <div class="button is-recommended" ng-model="ctrl.phoneOptions.plan" btn-radio="'plan2'">
+                        <div class="button is-recommended" ng-model="phoneOptions.plan" btn-radio="'plan2'">
                             <span class="recommended">Recommended</span>
                             <p>
                                 <span class="size">2.5 GB</span>
-                                <span class="price">$49/mo</span></p>
+                                <span class="price">$49/mo</span>
+                            </p>
                             </p>
                             <hr>
                             <p class="details">
@@ -44,10 +43,11 @@
                                 <span>@Html.Sitecore().Field("3 - Web Browsing Text")<br /><span class="time">20 hours</span></span>
                             </p>
                         </div>
-                        <div class="button" ng-model="ctrl.phoneOptions.plan" btn-radio="'plan3'">
+                        <div class="button" ng-model="phoneOptions.plan" btn-radio="'plan3'">
                             <p>
                                 <span class="size">5 GB</span>
-                                <span class="price">$59/mo</span></p>
+                                <span class="price">$59/mo</span>
+                            </p>
                             </p>
                             <hr>
                             <p class="details">
@@ -56,10 +56,11 @@
                                 <span>@Html.Sitecore().Field("3 - Web Browsing Text")<br /><span class="time">32 hours</span></span>
                             </p>
                         </div>
-                        <div class="button" ng-model="ctrl.phoneOptions.plan" btn-radio="'plan4'">
+                        <div class="button" ng-model="phoneOptions.plan" btn-radio="'plan4'">
                             <p>
                                 <span class="size">7.5 GB</span>
-                                <span class="price">$69/mo</span></p>
+                                <span class="price">$69/mo</span>
+                            </p>
                             </p>
                             <hr>
                             <p class="details">
@@ -68,8 +69,7 @@
                                 <span>@Html.Sitecore().Field("3 -  Web Browsing Text")<br /><span class="time">40 hours</span></span>
                             </p>
                         </div>
-
-                        @*<a ng-repeat="color in item.colors" class="button {{ color.color }}" ng-model="ctrl.phoneOptions.color" btn-radio="'{{ color.color }}'" uncheckable>{{ color.value }}</a>*@
+                        @*<a ng-repeat="color in item.colors" class="button {{ color.color }}" ng-model="phoneOptions.color" btn-radio="'{{ color.color }}'" uncheckable>{{ color.value }}</a>*@
                     </div>
                 </div>
                 <footer>
@@ -78,12 +78,11 @@
             </article>
             <div class="clearfix">
                 <button type="button" class="plain plain-footer">@Html.Sitecore().Field("3 - Button - Cancel Enrollment")</button>
-                <button type="submit" class="pull-right" ng-click="ctrl.setDataPlan()">@Html.Sitecore().Field("3 - Button - Next")</button>
+                <button type="submit" class="pull-right" ng-click="setCurrentStep('complete-order');">@Html.Sitecore().Field("3 - Button - Next")</button>
             </div>
         </section>
         <aside>
             <div ng-include src="'mobile-enrollment-cart'"></div>
         </aside>
     </section>
-
 </div>

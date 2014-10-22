@@ -2050,11 +2050,18 @@ $enrollment-module-vertical-padding: 20px;
             font-size: 20px;
         }
         .details {
+            @include layout-list();
             text-align: left;
-            > span {
-                font-size: 11px;
-                color: #999;
-                margin-top: 12px;
+            li {
+                padding-left: 20px;
+                [class*="icon-"] {
+                    float: left;
+                    margin-left: -20px;
+                }
+                > span {
+                    font-size: 11px;
+                    color: #999;
+                }
             }
         }
         .time {
@@ -2062,7 +2069,7 @@ $enrollment-module-vertical-padding: 20px;
             font-size: 14px;
         }
         span {
-            display: block;
+            display: inline-block;
         }
     }
     h3 {

@@ -2,8 +2,7 @@
 @using TypedPhone = StreamEnergy.DomainModels.TypedPhone
 @using StreamEnergy.DomainModels.MobileEnrollment
 
-<div ng-if="ctrl.currentStep == 'complete-order'">
-
+<div ng-if="mobileEnrollment.currentStep == 'complete-order'" ng-controller="MobileEnrollmentCompleteOrderCtrl">
 
     <div class="banner" style="@Html.AsBackgroundStyle("Mobile Banner Image")">
         <div class="wrapper">
@@ -12,7 +11,6 @@
             </h1>
         </div>
     </div>
-
     @* Two-column layout for Complete Order *@
     <section class="wrapper layout cols-2">
         <section>
@@ -71,7 +69,7 @@
                             <div class="rate"></div>
                         </div>
                         <div class="phone-summary-image">
-                            
+
                         </div>
                     </div>
                 </div>
@@ -79,75 +77,69 @@
                     @Html.Sitecore().Field("4 - Total Due Now Text") $439.97
                 </footer>
             </article>
-
             <form data-val-bind-messages="validations" ng-submit="completeStep()">
                 <article class="enrollment__box enrollment__contact-info">
                     <header>
                         <h1>@Html.Sitecore().Field("4 - Header - Contact Information")</h1>
                     </header>
                     @*<div class="content form">
-                        <h3>@Html.Sitecore().Field("4 - Header - Personal Information")</h3>
-                        <div class="group">
-                            <div class="item group-col">
-                                <label for="">@Html.Sitecore().Field("4 - First Name")</label>
-                                <input type="text">
+                            <h3>@Html.Sitecore().Field("4 - Header - Personal Information")</h3>
+                            <div class="group">
+                                <div class="item group-col">
+                                    <label for="">@Html.Sitecore().Field("4 - First Name")</label>
+                                    <input type="text">
+                                </div>
+                                <div class="item group-col">
+                                    <label for="">@Html.Sitecore().Field("4 - Last Name")</label>
+                                    <input type="text">
+                                </div>
                             </div>
-                            <div class="item group-col">
-                                <label for="">@Html.Sitecore().Field("4 - Last Name")</label>
-                                <input type="text">
+                            <div class="group">
+                                <div class="item group-col">
+                                    <label for="">@Html.Sitecore().Field("4 - Phone Number")</label>
+                                    <input type="text">
+                                </div>
+                                <div class="item group-col">
+                                    <label for="">@Html.Sitecore().Field("4 - Phone Type")</label>
+                                    <input type="text">
+                                </div>
                             </div>
-                        </div>
-                        <div class="group">
-                            <div class="item group-col">
-                                <label for="">@Html.Sitecore().Field("4 - Phone Number")</label>
-                                <input type="text">
+                            <div class="group">
+                                <div class="item group-col">
+                                    <label for="">@Html.Sitecore().Field("4 - Email Address")</label>
+                                    <input type="text">
+                                </div>
                             </div>
-                            <div class="item group-col">
-                                <label for="">@Html.Sitecore().Field("4 - Phone Type")</label>
-                                <input type="text">
+                            <hr>
+                            <h3>@Html.Sitecore().Field("4 - Header - Billing Address")</h3>
+                            <div class="group">
+                                <div class="item group-col">
+                                    <label for="">@Html.Sitecore().Field("4 - Address 1")</label>
+                                    <input type="text">
+                                </div>
+                                <div class="item group-col">
+                                    <label for="">@Html.Sitecore().Field("4 - Address 2")</label>
+                                    <input type="text">
+                                </div>
                             </div>
-                        </div>
-                        <div class="group">
-                            <div class="item group-col">
-                                <label for="">@Html.Sitecore().Field("4 - Email Address")</label>
-                                <input type="text">
+                            <div class="group">
+                                <div class="item group-col">
+                                    <label for="">@Html.Sitecore().Field("4 - City")</label>
+                                    <input type="text">
+                                </div>
+                                <div class="item group-col">
+                                    <label for="">@Html.Sitecore().Field("4 - State")</label>
+                                    <input type="text">
+                                </div>
+                                <div class="item group-col">
+                                    <label for="">@Html.Sitecore().Field("4 - Zip Code")</label>
+                                    <input type="text">
+                                </div>
                             </div>
-                        </div>
-                        <hr>
-                        <h3>@Html.Sitecore().Field("4 - Header - Billing Address")</h3>
-                        <div class="group">
-                            <div class="item group-col">
-                                <label for="">@Html.Sitecore().Field("4 - Address 1")</label>
-                                <input type="text">
-                            </div>
-                            <div class="item group-col">
-                                <label for="">@Html.Sitecore().Field("4 - Address 2")</label>
-                                <input type="text">
-                            </div>
-                        </div>
-                        <div class="group">
-                            <div class="item group-col">
-                                <label for="">@Html.Sitecore().Field("4 - City")</label>
-                                <input type="text">
-                            </div>
-                            <div class="item group-col">
-                                <label for="">@Html.Sitecore().Field("4 - State")</label>
-                                <input type="text">
-                            </div>
-                            <div class="item group-col">
-                                <label for="">@Html.Sitecore().Field("4 - Zip Code")</label>
-                                <input type="text">
-                            </div>
-                        </div>
-                        <hr>
-                        <h3>@Html.Sitecore().Field("4 - Header - Shipping Address")</h3>
-                        <label><input type="checkbox"> @Html.Sitecore().Field("4 - Same as Billing Address")</label>
-                    </div>*@
-
-
-
-
-
+                            <hr>
+                            <h3>@Html.Sitecore().Field("4 - Header - Shipping Address")</h3>
+                            <label><input type="checkbox"> @Html.Sitecore().Field("4 - Same as Billing Address")</label>
+                        </div>*@
 
 
 
@@ -192,7 +184,6 @@
                             @Html.TextBoxFor(m => m.ContactInfo.Email.Address, new { type = "email", ng_model = "ctrl.accountInformation.contactInfo.email.address" })
                             @Html.ValidationMessageFor(model => model.ContactInfo.Email.Address)
                         </div>
-
                         <hr>
                         <h3>@Html.Sitecore().Field("4 - Header - Billing Address")</h3>
                         <div>
@@ -238,32 +229,27 @@
                                 </div>
                             }
                         </div>
-
                         @*<div class="additional-field-item item">
-                            <ul class="checkbox-list">
-                                <li><input type="checkbox" name="secondary-contact" id="secondary-contact" ng-model="additionalInformation.showSecondaryContact"><label for="secondary-contact">@Html.Sitecore().Field("Checkbox Add Secondary Contact")</label></li>
-                            </ul>
-                        </div>
-                        <div class="additional-field-group secondary-contact-group" ng-if="additionalInformation.showSecondaryContact">
-                            <div class="group">
-                                <div class="item group-col" @Html.Validation().ErrorClass(m => m.SecondaryContactInfo.First)>
-                                    <label for="@Html.IdFor(m => m.SecondaryContactInfo.First)">@Html.Sitecore().Field("First Name Label")</label>
-                                    @Html.TextBoxFor(m => m.SecondaryContactInfo.First, new { data_val_if = "ctrl.accountInformation.showSecondaryContact", ng_model = "ctrl.accountInformation.secondaryContactInfo.first" })
-                                    @Html.ValidationMessageFor(m => m.SecondaryContactInfo.First)
-                                </div>
-                                <div class="item group-col" @Html.Validation().ErrorClass(m => m.SecondaryContactInfo.Last)>
-                                    <label for="@Html.IdFor(m => m.SecondaryContactInfo.Last)">@Html.Sitecore().Field("Last Name Label")</label>
-                                    @Html.TextBoxFor(m => m.SecondaryContactInfo.Last, new { data_val_if = "ctrl.accountInformation.showSecondaryContact", ng_model = "ctrl.accountInformation.secondaryContactInfo.last" })
-                                    @Html.ValidationMessageFor(m => m.SecondaryContactInfo.Last)
-                                </div>
+                                <ul class="checkbox-list">
+                                    <li><input type="checkbox" name="secondary-contact" id="secondary-contact" ng-model="additionalInformation.showSecondaryContact"><label for="secondary-contact">@Html.Sitecore().Field("Checkbox Add Secondary Contact")</label></li>
+                                </ul>
                             </div>
-                        </div>*@
+                            <div class="additional-field-group secondary-contact-group" ng-if="additionalInformation.showSecondaryContact">
+                                <div class="group">
+                                    <div class="item group-col" @Html.Validation().ErrorClass(m => m.SecondaryContactInfo.First)>
+                                        <label for="@Html.IdFor(m => m.SecondaryContactInfo.First)">@Html.Sitecore().Field("First Name Label")</label>
+                                        @Html.TextBoxFor(m => m.SecondaryContactInfo.First, new { data_val_if = "ctrl.accountInformation.showSecondaryContact", ng_model = "ctrl.accountInformation.secondaryContactInfo.first" })
+                                        @Html.ValidationMessageFor(m => m.SecondaryContactInfo.First)
+                                    </div>
+                                    <div class="item group-col" @Html.Validation().ErrorClass(m => m.SecondaryContactInfo.Last)>
+                                        <label for="@Html.IdFor(m => m.SecondaryContactInfo.Last)">@Html.Sitecore().Field("Last Name Label")</label>
+                                        @Html.TextBoxFor(m => m.SecondaryContactInfo.Last, new { data_val_if = "ctrl.accountInformation.showSecondaryContact", ng_model = "ctrl.accountInformation.secondaryContactInfo.last" })
+                                        @Html.ValidationMessageFor(m => m.SecondaryContactInfo.Last)
+                                    </div>
+                                </div>
+                            </div>*@
                     </div>
                 </article>
-
-
-
-
 
 
 
@@ -276,7 +262,6 @@
                         <div class="payment-options" credit-card-payment="completeOrder.creditCard" data-val-if="true"></div>
                     </div>
                 </article>
-
                 <article class="enrollment__box enrollment__terms-conditions">
                     <header>
                         <h1>@Html.Sitecore().Field("4 - Header - Terms and Conditions")</h1>
@@ -290,7 +275,7 @@
                 @Html.Sitecore().Field("4 - Footnotes")
                 <div class="clearfix">
                     <button type="button" class="plain plain-footer">@Html.Sitecore().Field("4 - Button - Cancel Enrollment")</button>
-                    <button type="submit" class="pull-right" ng-click="ctrl.completeOrder()">@Html.Sitecore().Field("4 - Button - Next")</button>
+                    <button type="submit" class="pull-right" ng-click="setCurrentStep('order-confirmation');">@Html.Sitecore().Field("4 - Button - Next")</button>
                 </div>
             </form>
         </section>
@@ -298,5 +283,4 @@
             <div ng-include src="'mobile-enrollment-cart'"></div>
         </aside>
     </section>
-
 </div>

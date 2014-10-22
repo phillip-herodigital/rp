@@ -1,4 +1,4 @@
-<div ng-if="ctrl.currentStep == 'order-confirmation'">
+<div ng-if="mobileEnrollment.currentStep == 'order-confirmation'">
     <div class="banner" style="@Html.AsBackgroundStyle("Mobile Banner Image")">
         <div class="wrapper">
             <h1>
@@ -6,7 +6,6 @@
             </h1>
         </div>
     </div>
-
     @* Two-column layout for Complete Order *@
     <section class="wrapper layout cols-2">
         <section>
@@ -20,7 +19,6 @@
                     <p>For questions on your request for service, call 1-800-STREAM.</p>
                 </div>
             </article>
-
             <article class="enrollment__box enrollment__complete-order enrollment__order-summary">
                 <header>
                     <h1>Order Summary</h1>
@@ -53,46 +51,42 @@
                                 <span class="model">16B, Silver</span> <a href="">Edit</a>
                             </div>
                         </div>
-
                         <div class="line-item clearfix">
                             <div class="description">
                                 <h3>Initial Activiation Fee</h3>
                             </div>
                             <div class="rate">$39</div>
                         </div>
-
                         <div class="line-item clearfix">
                             <div class="description">
                                 <h3>Coverage Warranty</h3>
                             </div>
                             <div class="rate">$19.00/mo</div>
                         </div>
-
                         <div class="line-item clearfix">
                             <div class="description">
                                 <h3>Shipping</h3>
                             </div>
                             <div class="rate"></div>
                         </div>
-
                         <hr>
-
                         <div class="line-item clearfix">
                             <div class="rate">Order Total: $439.00</div>
                         </div>
                         <div class="plan-summary-image">
-                            
+
                         </div>
                     </div>
                 </div>
                 <footer>
                     <h3>Personal Information</h3>
-                    <p>Jordan Campbell <br />
-                    415-729-4039 <br />
-                    jcampbell@gmail.com</p>
+                    <p>
+                        Jordan Campbell <br />
+                        415-729-4039 <br />
+                        jcampbell@gmail.com
+                    </p>
                 </footer>
             </article>
-
             <article class="enrollment__box enrollment__complete-order enrollment__order-summary">
                 <header>
                     <h1>You may also be interested in...</h1>
@@ -100,7 +94,6 @@
                 <div class="content">
                 </div>
             </article>
-
         </section>
         <aside>
             <div class="enrollment__cart">
@@ -109,7 +102,7 @@
                         <h1>Buy Accessories</h1>
                     </header>
                     <div class="content">
-                        
+
                     </div>
                 </article>
                 <article class="enrollment__box">
@@ -120,5 +113,4 @@
             </div>
         </aside>
     </section>
-
 </div>

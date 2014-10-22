@@ -1,4 +1,4 @@
-<div class="enrollment mobile-enrollment" ng-controller="MobileEnrollmentCtrl as ctrl" ng-init="ctrl.mobileService.setPhoneData(@(Html.Action("MobileEnrollmentPhones", "MobileEnrollment").ToHtmlString())); usStates = @(Html.Action("States", "Data").ToHtmlString()); phoneTypes = @(Html.Action("PhoneCategories", "Data").ToHtmlString());">
+<div class="enrollment mobile-enrollment" ng-controller="MobileEnrollmentCtrl" ng-init="ctrl.mobileService.setPhoneData(@(Html.Action("MobileEnrollmentPhones", "MobileEnrollment").ToHtmlString())); usStates = @(Html.Action("States", "Data").ToHtmlString()); phoneTypes = @(Html.Action("PhoneCategories", "Data").ToHtmlString());">
     @Html.Sitecore().Placeholder("mobile enrollment sections")
 </div>
 

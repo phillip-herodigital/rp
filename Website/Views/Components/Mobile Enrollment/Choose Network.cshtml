@@ -1,7 +1,7 @@
 @model StreamEnergy.MyStream.Models.MobileEnrollment.ChooseNetwork
 @using StreamEnergy.DomainModels.MobileEnrollment
 
-<div ng-if="ctrl.currentStep == 'choose-network'" ng-controller="MobileEnrollmentSelectNetworkCtrl">
+<div ng-if="mobileEnrollment.currentStep == 'choose-network'" ng-controller="MobileEnrollmentChooseNetworkCtrl">
     <div class="banner" style="@Html.AsBackgroundStyle("Mobile Banner Image")">
         <div class="wrapper">
             <h1>
