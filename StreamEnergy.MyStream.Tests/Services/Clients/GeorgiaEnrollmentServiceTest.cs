@@ -113,7 +113,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         static Random rand = new Random();
         private static string GetAglAccountNumber()
         {
-            return rand.Next(100000).ToString().PadLeft(5, '0') + rand.Next(100000).ToString().PadLeft(5, '0');
+            return rand.Next(100000).ToString().PadLeft(5, '0') + rand.Next(10000).ToString().PadLeft(4, '0');
         }
 
         [TestMethod]

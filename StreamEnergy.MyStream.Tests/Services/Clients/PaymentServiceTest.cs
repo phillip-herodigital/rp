@@ -269,6 +269,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         }
 
         [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Payments")]
         public void MakeCardPaymentTest()
         {
             // Arrange
@@ -292,6 +294,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         }
 
         [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Payments")]
         public void MakeBankPaymentTest()
         {
             // Arrange
@@ -314,6 +318,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         }
 
         [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Payments")]
         public void MakeSavedPaymentTest()
         {
             // Arrange
