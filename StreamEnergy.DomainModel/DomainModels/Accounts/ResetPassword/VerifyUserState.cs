@@ -69,8 +69,7 @@ namespace StreamEnergy.DomainModels.Accounts.ResetPassword
                 var toEmail = customer.EmailAddress;
                 var url = new Uri(getContext().Request.Url, "/auth/change-password?token={token}&username={username}".Format(new { token = passwordResetToken, username = context.Username })).ToString();
 
-                // TODO - replace with appropriate email id
-                await emailService.SendEmail(new Guid(), toEmail, new NameValueCollection() {
+                await emailService.SendEmail(new Guid("{82785A09-611A-449A-B186-B283A3DF65C5}"), toEmail, new NameValueCollection() {
                     {"url", url}
                 });
 
