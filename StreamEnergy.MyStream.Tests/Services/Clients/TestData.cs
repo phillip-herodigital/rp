@@ -9,6 +9,38 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
     class TestData
     {
         public const string IstaAccountNumber = "3001311049";
-        public const string IstaAccountSsn = "3192";
+        public const string IstaAccountSsnLast4 = "3192";
+        public const string CreditCheckSsn = "666361452";
+        public const string IdentityCheckSsn = "666540716";
+
+        public static DomainModels.CustomerContact CreditCheckContactInfo()
+        {
+            return new DomainModels.CustomerContact
+            {
+                Name = new DomainModels.Name
+                {
+                    First = "ROBERT",
+                    Last = "DELEON"
+                },
+                Phone = new DomainModels.Phone[] { new DomainModels.TypedPhone { Category = DomainModels.PhoneCategory.Home, Number = "2234567890" } },
+                Email = new DomainModels.Email { Address = "test@example.com" },
+            };
+        }
+
+        internal static DomainModels.Address CreditCheckAddress()
+        {
+            return new DomainModels.Address { Line1 = "1212 Aberdeen Avenue", City = "McKinney", StateAbbreviation = "TX", PostalCode5 = "75070" };
+        }
+
+
+        internal static DomainModels.Name IdentityCheckName()
+        {
+            return new DomainModels.Name { First = "ROBERT", Last = "DELEON" };
+        }
+
+        internal static DomainModels.Address IdentityCheckMailingAddress()
+        {
+            return new DomainModels.Address { Line1 = "100 WILSON HILL RD", City = "MASSENA", StateAbbreviation = "NY", PostalCode5 = "13662" };
+        }
     }
 }
