@@ -65,7 +65,7 @@
             <div class="group">
                 <div class="item group-col" @Html.Validation().ErrorClass(model => model.Password)>
                     <label for="@Html.IdFor(m => m.Password)">@Html.Sitecore().Field("Password Label")</label>
-                    @Html.PasswordFor(m => m.Password, new { ng_model = "formData.password", dat_val_notequalto = "", dat_val_notequalto_other = "@Html.NameFor(m => m.Username)" })
+                    @Html.PasswordFor(m => m.Password, new { ng_model = "formData.password" })
                     @Html.ValidationMessageFor(model => model.Password)
                     <span class="help-text">@Html.Sitecore().Field("Password Help Text")</span>
                 </div>
