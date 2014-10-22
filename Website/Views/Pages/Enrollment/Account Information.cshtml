@@ -151,9 +151,11 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="item" ng-show="accountInformation.mailingAddressSame && utilityAddresses().length > 1">
+                            <div class="item" ng-show="accountInformation.mailingAddressSame && utilityAddresses().length > 1" @Html.Validation().ErrorClass(m => m.MailingAddress)>
                                 <label for="service-address-mailing">@Html.Sitecore().Field("Select Service Address Label")</label>
                                 <select id="service-address-mailing"
+                                        name="@Html.NameFor(m => m.MailingAddress)"
+                                        data-val="true" data-val-required
                                         ng-model="accountInformation.mailingAddress"
                                         ng-change="updateBillingAddress()"
                                         ng-options="entry.location.address as entry.location.address | address for entry in utilityAddresses()">
