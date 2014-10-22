@@ -8,8 +8,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
 {
     class TestData
     {
-        public const string IstaAccountNumber = "3001311049";
-        public const string IstaAccountSsnLast4 = "3192";
+        public const string IstaAccountNumber = "3001609043";
+        public const string IstaAccountSsnLast4 = "1376";
         public const string CreditCheckSsn = "666361452";
         public const string IdentityCheckSsn = "666540716";
 

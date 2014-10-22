@@ -275,7 +275,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Assert
             Assert.IsTrue(details);
             Assert.IsNotNull(acct.Details);
-            Assert.AreEqual("3192", acct.Details.SsnLastFour);
+            Assert.AreEqual(TestData.IstaAccountSsnLast4, acct.Details.SsnLastFour);
             Assert.IsNotNull(acct.Details.ContactInfo);
             Assert.IsNotNull(acct.Details.ContactInfo.Email);
             Assert.IsNotNull(acct.Details.ContactInfo.Name);
@@ -292,12 +292,12 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
 
             // Act
-            var acct = accountService.GetAccountDetails("3001408465").Result;
+            var acct = accountService.GetAccountDetails(TestData.IstaAccountNumber).Result;
 
             // Assert
             Assert.IsNotNull(acct);
             Assert.IsNotNull(acct.Details);
-            Assert.AreEqual("8511", acct.Details.SsnLastFour);
+            Assert.AreEqual(TestData.IstaAccountSsnLast4, acct.Details.SsnLastFour);
             Assert.IsNotNull(acct.Details.ContactInfo);
             Assert.IsNotNull(acct.Details.ContactInfo.Email);
             Assert.IsNotNull(acct.Details.ContactInfo.Name);
@@ -311,7 +311,6 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             var gasAccount = acct.SubAccounts.First() as GeorgiaGasAccount;
             Assert.AreEqual("74", gasAccount.ProviderId);
             Assert.AreEqual(StreamEnergy.DomainModels.Enrollments.RateType.Fixed, gasAccount.RateType);
-            Assert.AreEqual(12, gasAccount.TermMonths);
             Assert.IsNotNull(gasAccount.ProductId);
             Assert.IsNotNull(gasAccount.ProductCode);
             if (gasAccount.Rate == 0)
