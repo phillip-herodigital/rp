@@ -6,7 +6,7 @@ ngApp.controller('AcctPaymentAccountsListingCtrl', ['$scope', '$http', '$modal',
     $scope.paymentAccounts = [];
     $scope.isLoading = true;
 
-    $http.get('/api/account/getSavedPaymentMethods').success(function (data, status, headers, config) {
+    $http.get('/api/account/getSavedPaymentMethods?includeAutoPayFlag=true').success(function (data, status, headers, config) {
         $scope.paymentAccounts = data;
         $scope.isLoading = false;
     });
@@ -28,7 +28,7 @@ ngApp.controller('AcctPaymentAccountsListingCtrl', ['$scope', '$http', '$modal',
                     $scope.validations = response.validations;
                 } else {
                     // refresh the table
-                    $http.get('/api/account/getSavedPaymentMethods').success(function (data, status, headers, config) {
+                    $http.get('/api/account/getSavedPaymentMethods?includeAutoPayFlag=true').success(function (data, status, headers, config) {
                         $scope.paymentAccounts = data;
                     });
                 }

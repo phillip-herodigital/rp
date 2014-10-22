@@ -57,10 +57,10 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
 
             // Assert
             Assert.IsTrue(paymentMethods.Any());
-            Assert.IsTrue(paymentMethods.Single().RedactedData.StartsWith("***"));
-            Assert.AreEqual("Test Card", paymentMethods.Single().DisplayName);
-            
-            if (paymentMethods.Single().RedactedData.Reverse().Take(4).All(c => c >= '0' && c <= '9'))
+            Assert.IsTrue(paymentMethods.Single().PaymentMethod.RedactedData.StartsWith("***"));
+            Assert.AreEqual("Test Card", paymentMethods.Single().PaymentMethod.DisplayName);
+
+            if (paymentMethods.Single().PaymentMethod.RedactedData.Reverse().Take(4).All(c => c >= '0' && c <= '9'))
             {
 
             }
@@ -93,8 +93,9 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Assert
             Assert.AreNotEqual(Guid.Empty, result);
             var paymentMethods = paymentService.GetSavedPaymentMethods(customerId).Result;
-            Assert.IsTrue(paymentMethods.Any(pm => pm.Id == result));
-            var paymentMethod = paymentMethods.First(pm => pm.Id == result);
+            Assert.IsTrue(paymentMethods.Any(pm => pm.PaymentMethod.Id == result));
+            Assert.IsFalse(paymentMethods.First(pm => pm.PaymentMethod.Id == result).UsedInAutoPay);
+            var paymentMethod = paymentMethods.First(pm => pm.PaymentMethod.Id == result).PaymentMethod;
             Assert.AreEqual("Test Card", paymentMethod.DisplayName);
             Assert.AreEqual(DomainModels.Payments.TokenizedCard.Qualifier, paymentMethod.UnderlyingPaymentType);
         }
@@ -121,8 +122,9 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Assert
             Assert.AreNotEqual(Guid.Empty, result);
             var paymentMethods = paymentService.GetSavedPaymentMethods(customerId).Result;
-            Assert.IsTrue(paymentMethods.Any(pm => pm.Id == result));
-            var paymentMethod = paymentMethods.First(pm => pm.Id == result);
+            Assert.IsTrue(paymentMethods.Any(pm => pm.PaymentMethod.Id == result));
+            Assert.IsFalse(paymentMethods.First(pm => pm.PaymentMethod.Id == result).UsedInAutoPay);
+            var paymentMethod = paymentMethods.First(pm => pm.PaymentMethod.Id == result).PaymentMethod;
             Assert.AreEqual("Test Card", paymentMethod.DisplayName);
             Assert.AreEqual(DomainModels.Payments.TokenizedBank.Qualifier, paymentMethod.UnderlyingPaymentType);
         }
@@ -153,7 +155,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             Assert.AreNotEqual(Guid.Empty, paymentMethodId);
             Assert.IsTrue(result);
             var paymentMethods = paymentService.GetSavedPaymentMethods(customerId).Result;
-            Assert.IsFalse(paymentMethods.Any(pm => pm.Id == paymentMethodId));
+            Assert.IsFalse(paymentMethods.Any(pm => pm.PaymentMethod.Id == paymentMethodId));
         }
 
         [TestMethod]

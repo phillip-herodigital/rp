@@ -11,7 +11,7 @@ namespace StreamEnergy.DomainModels.Payments
     {
         Task<PaymentResult> OneTimePayment(DateTime paymentDate, decimal amount, string streamAccountNumber, string customerName, string systemOfRecord, IPaymentInfo paymentAccount);
         Task<PaymentResult> OneTimePayment(DateTime paymentDate, decimal amount, string customerName, Accounts.Account account, IPaymentInfo paymentAccount);
-        Task<IEnumerable<SavedPaymentInfo>> GetSavedPaymentMethods(Guid globalCustomerId);
+        Task<IEnumerable<SavedPaymentRecord>> GetSavedPaymentMethods(Guid globalCustomerId);
         Task<Guid> SavePaymentMethod(Guid globalCustomerId, IPaymentInfo paymentInfo, string displayName);
         Task<bool> DeletePaymentMethod(Guid globalCustomerId, Guid paymentMethodId);
 

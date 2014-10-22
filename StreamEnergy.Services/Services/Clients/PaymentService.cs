@@ -28,7 +28,7 @@ namespace StreamEnergy.Services.Clients
             this.sessionResolver = sessionResolver;
         }
 
-        async Task<IEnumerable<SavedPaymentInfo>> IPaymentService.GetSavedPaymentMethods(Guid globalCustomerId)
+        async Task<IEnumerable<SavedPaymentRecord>> IPaymentService.GetSavedPaymentMethods(Guid globalCustomerId)
         {
             var response = await streamConnectClient.GetAsync("/api/v1/customers/" + globalCustomerId.ToString() + "/payment-methods");
 
@@ -36,12 +36,16 @@ namespace StreamEnergy.Services.Clients
             dynamic result = Json.Read<JObject>(await response.Content.ReadAsStringAsync());
 
             return (from dynamic entry in (JArray)result.PaymentMethods
-                    select new SavedPaymentInfo
+                    select new SavedPaymentRecord
                     {
-                        Id = Guid.Parse(entry.GlobalPaymentMethodId.ToString()),
-                        RedactedData = "********" + entry.PaymentAccountNumberLast4,
-                        DisplayName = entry.PaymentMethodNickname,
-                        UnderlyingPaymentType = ToPortalPaymentType(entry.PaymentAccountType.ToString()),
+                        UsedInAutoPay = ((JArray)entry.CustomerAccounts).Count != 0,
+                        PaymentMethod = new SavedPaymentInfo
+                            {
+                                Id = Guid.Parse(entry.GlobalPaymentMethodId.ToString()),
+                                RedactedData = "********" + entry.PaymentAccountNumberLast4,
+                                DisplayName = entry.PaymentMethodNickname,
+                                UnderlyingPaymentType = ToPortalPaymentType(entry.PaymentAccountType.ToString()),
+                            }
                     }).ToArray();
         }
 

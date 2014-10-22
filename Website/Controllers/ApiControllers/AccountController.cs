@@ -874,9 +874,17 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         [HttpGet]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
-        public async Task<IEnumerable<DomainModels.Payments.SavedPaymentInfo>> GetSavedPaymentMethods()
+        public async Task<IHttpActionResult> GetSavedPaymentMethods(bool includeAutoPayFlag = false)
         {
-            return await paymentService.GetSavedPaymentMethods(currentUser.StreamConnectCustomerId);
+            if (includeAutoPayFlag)
+            {
+                return Ok(await paymentService.GetSavedPaymentMethods(currentUser.StreamConnectCustomerId));
+            }
+            else
+            {
+                return Ok(from record in await paymentService.GetSavedPaymentMethods(currentUser.StreamConnectCustomerId)
+                          select record.PaymentMethod);
+            }
         }
 
         [HttpPost]
