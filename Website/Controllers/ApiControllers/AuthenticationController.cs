@@ -446,11 +446,12 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     customers = userCustomers;
                 }
             }
-
-            var response = Request.CreateResponse(HttpStatusCode.Moved);
-            response.Headers.Location = new Uri("/account", UriKind.Relative);
-            response.Headers.AddCookies(new[] { await impersonation.CreateAuthenticationCookie(customers.First().GlobalCustomerId) });
-            return response;
+            {
+                var response = Request.CreateResponse(HttpStatusCode.Moved);
+                response.Headers.Location = new Uri("/account", UriKind.Relative);
+                response.Headers.AddCookies(new[] { await impersonation.CreateAuthenticationCookie(customers.First().GlobalCustomerId) });
+                return response;
+            }
         }
 
         #endregion
