@@ -51,7 +51,7 @@ namespace StreamEnergy.Services.Clients
             // Send the email.
             try
             {
-                await transportWeb.DeliverAsync(emailMessage);
+                await transportWeb.DeliverAsync(emailMessage).ConfigureAwait(false);
                 return true;
             }
             catch

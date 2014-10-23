@@ -27,6 +27,7 @@ namespace StreamEnergy.DomainModels.Accounts
         Task<Customer> GetCustomerByCustomerId(Guid globalCustomerId);
         Task<bool> UpdateCustomer(Customer customer);
         Task<IEnumerable<Customer>> FindCustomers(string emailAddress);
+        Task<IEnumerable<Customer>> FindCustomersByCisAccount(string accountNumber);
 
         Task<IEnumerable<Account>> GetAccounts(Guid globalCustomerId);
         Task<Account> AssociateAccount(Guid globalCustomerId, string accountNumber, string ssnLast4, string accountNickname);
