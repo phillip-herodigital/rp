@@ -11,7 +11,27 @@ namespace StreamEnergy.Logging
     {
         Task IDataAccumulator.AccumulateData(LogEntry logEntry)
         {
-            logEntry.Data["StackTrace"] = Environment.StackTrace;
+            if (logEntry.Exception == null)
+            {
+                logEntry.Data["StackTrace"] = Environment.StackTrace;
+            }
+            else
+            {
+                StringBuilder stackTrace = new StringBuilder();
+                Stack<Exception> stack = new Stack<Exception>();
+                var ex = logEntry.Exception;
+                while (ex != null)
+                {
+                    stack.Push(ex);
+                    ex = ex.InnerException;
+                }
+                do
+                {
+                    ex = stack.Pop();
+                    stackTrace.AppendLine(ex.StackTrace);
+                } while (stack.Count > 0);
+                logEntry.Data["StackTrace"] = stackTrace.ToString();
+            }
             return Task.FromResult<object>(null);
         }
 
