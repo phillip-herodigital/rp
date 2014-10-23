@@ -77,6 +77,14 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
         }        
     });
 
+    $scope.showAglcExample = function () {
+
+        $modal.open({
+            templateUrl: 'AglcExample',
+            scope: $scope
+        });
+    };
+
     $scope.getPreviousProviders = function () {
         if (_(enrollmentCartService.services)
             .map(function (l) {
