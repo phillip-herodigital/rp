@@ -59,7 +59,7 @@
             <h3>@Html.Sitecore().Field("Create Header Text")</h3>
             <div class="item" @Html.Validation().ErrorClass(model => model.Username)>
                 <label for="@Html.IdFor(m => m.Username)">@Html.Sitecore().Field("Username Label")</label>
-                @Html.TextBoxFor(m => m.Username, new { ng_model = "formData.username" })
+                <input type="text" id="Username" name="Username" ng-model="formData.username" data-val="true" data-val-required data-val-notequalto data-val-notequalto-other="@Html.NameFor(m => m.Password)">
                 @Html.ValidationMessageFor(model => model.Username)
             </div>
             <div class="group">
@@ -79,7 +79,7 @@
             <div class="group">
                 <div class="item group-col" @Html.Validation().ErrorClass(model => model.Challenges)>
                     <label for="question-1">@Html.Sitecore().Field("Question 1 Label")</label>
-                    <select id="question-1" ng-model="formData.challenges[0].selectedQuestion" ng-options="question.text for question in availableSecurityQuestions|filter:filter2 track by question.id">
+                    <select id="question-1" ng-model="formData.challenges[0].selectedQuestion" ng-options="question.text for question in availableSecurityQuestions|filter:filter2 track by question.id" data-val="true" data-val-required>
                         <option value="">@Html.Sitecore().Field("Select Question Text")</option>
                     </select>
                     @Html.ValidationMessageFor(model => model.Challenges)
@@ -87,7 +87,7 @@
                 </div>
                 <div class="item group-col" @Html.Validation().ErrorClass(model => model.Challenges)>
                     <label for="answer-1">@Html.Sitecore().Field("Question 1 Answer Label")</label>
-                    <input type="text" name="answer-1" id="answer-1" ng-model="formData.challenges[0].answer">
+                    <input type="text" name="answer-1" id="answer-1" ng-model="formData.challenges[0].answer" data-val="true" data-val-required data-val-length="" data-val-length-min="4">
                     <span class="help-text">@Html.Sitecore().Field("Question 1 Help Text")</span>
                     @Html.ValidationMessageFor(model => model.Challenges)
                 </div>
@@ -95,7 +95,7 @@
             <div class="group">
                 <div class="item group-col" @Html.Validation().ErrorClass(model => model.Challenges)>
                     <label for="question-2">@Html.Sitecore().Field("Question 2 Label")</label>
-                    <select id="question-2" ng-model="formData.challenges[1].selectedQuestion" ng-options="question.text for question in availableSecurityQuestions|filter:filter1 track by question.id">
+                    <select id="question-2" ng-model="formData.challenges[1].selectedQuestion" ng-options="question.text for question in availableSecurityQuestions|filter:filter1 track by question.id" data-val="true" data-val-required >
                         <option value="">@Html.Sitecore().Field("Select Question Text")</option>
                     </select>
                     @Html.ValidationMessageFor(model => model.Challenges)
@@ -103,7 +103,7 @@
                 </div>
                 <div class="item group-col" @Html.Validation().ErrorClass(model => model.Challenges)>
                     <label for="answer-2">@Html.Sitecore().Field("Question 2 Answer Label")</label>
-                    <input type="text" name="answer-2" id="answer-2" ng-model="formData.challenges[1].answer">
+                    <input type="text" name="answer-2" id="answer-2" ng-model="formData.challenges[1].answer" data-val="true" data-val-required data-val-length="" data-val-length-min="4">
                     <span class="help-text">@Html.Sitecore().Field("Question 2 Help Text")</span>
                     @Html.ValidationMessageFor(model => model.Challenges)
                 </div>
