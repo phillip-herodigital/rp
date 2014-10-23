@@ -105,10 +105,12 @@
                     <dd>{{ getPaymentMethod(account.selectedPaymentMethod) }}</dd>
                 </dl>
                 <dl class="clearfix module-list">
-                    <dt>@Html.Sitecore().Field("Payment Date Text")</dt>
-                    <dd>{{ selectedDate | date:'MM/dd/yyyy' }}</dd>
+                    <dt>@Html.Sitecore().Field("Convenience Fee Text")</dt>
+                    <dd>$2.95</dd>
                     <dt>@Html.Sitecore().Field("Total Payment Text")</dt>
                     <dd>{{ paymentAmount | currency }}</dd>
+                    <dt>@Html.Sitecore().Field("Payment Date Text")</dt>
+                    <dd>{{ selectedDate | date:'MM/dd/yyyy' }}</dd>
                 </dl>
             </div>
             <footer>
@@ -131,7 +133,15 @@
                             <dt>@Html.Sitecore().Field("Confirmation Number Text")</dt>
                             <dd>{{ account.confirmationNumber }}</dd>
                             <dt>@Html.Sitecore().Field("Payment Amount Text")</dt>
-                            <dd>{{ paymentAmount | currency }}</dd>
+                            <dd>{{ account.paymentAmount | currency }}</dd>
+                            <dt>@Html.Sitecore().Field("Payment Method Text")</dt>
+                            <dd>{{ account.paymentAccount.displayName }}</dd>
+                            <dt ng-if="account.paymentAccount.underlyingPaymentType == 'TokenizedCard'">@Html.Sitecore().Field("Card Number Text")</dt>
+                            <dd ng-if="account.paymentAccount.underlyingPaymentType == 'TokenizedCard'">{{ account.paymentAccount.redactedData }}</dd>
+                            <dt ng-if="account.paymentAccount.underlyingPaymentType == 'TokenizedBank'">@Html.Sitecore().Field("Bank Account Number Text")</dt>
+                            <dd ng-if="account.paymentAccount.underlyingPaymentType == 'TokenizedBank'">{{ account.paymentAccount.redactedData }}</dd>
+                            <dt>@Html.Sitecore().Field("Convenience Fee Text")</dt>
+                            <dd>{{ account.convenienceFee | currency }}</dd>
                         </dl>
                     </div>
                     <div ng-if="!account.confirmationNumber" class="notice error">
@@ -141,10 +151,10 @@
                 </div>
 
                 <dl class="clearfix module-list">
-                    <dt>@Html.Sitecore().Field("Payment Date Text")</dt>
-                    <dd>{{ selectedDate | date:'MM/dd/yyyy' }}</dd>
                     <dt>@Html.Sitecore().Field("Total Payment Text")</dt>
                     <dd>{{ paymentAmount | currency }}</dd>
+                    <dt>@Html.Sitecore().Field("Payment Date Text")</dt>
+                    <dd>{{ selectedDate | date:'MM/dd/yyyy' }}</dd>
                 </dl>
 
                 <div ng-switch="evaluatedPaymentMethod.underlyingPaymentType || evaluatedPaymentMethod.paymentType">
