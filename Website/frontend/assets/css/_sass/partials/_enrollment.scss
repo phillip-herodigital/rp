@@ -910,6 +910,12 @@ $enrollment-module-vertical-padding: 20px;
     .previous-address {
         margin-bottom: 20px;
     }
+    .aglc-example {
+        @include breakpoint(large) {
+            display: inline-block;
+            margin-left: 10px;
+        }
+    }
     form div.secondary-contact-group {
         margin-bottom: 15px;
     }

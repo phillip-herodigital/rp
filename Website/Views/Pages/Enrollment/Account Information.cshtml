@@ -44,13 +44,13 @@
                         </div>
                         @* ESI ID *@
                         <div ng-if="item.location.capabilities[0].esiId" class="item item--no-input inline-label location">
-                            <label for="location-id">ESI ID:</label>
+                            <label for="location-id">@Html.Sitecore().Field("ESI ID Label")</label>
                             {{ item.location.capabilities[0].esiId }}
                         </div>
 
                         @* SEP Code *@
                         <div ng-if="item.location.capabilities[0].aglAccountNumber" class="item item--no-input inline-label location">
-                            <label for="location-id">SEP Code:</label>
+                            <label for="location-id">@Html.Sitecore().Field("SEP Number Label")</label>
                             {{ item.location.capabilities[0].aglAccountNumber }}
                         </div>
 
@@ -382,7 +382,16 @@
 </script>
 
 <script type="text/ng-template" id="offerOptions/GeorgiaGasSwitch">
-   
+    @using (var offer = Html.ClientRepeater(m => m.Services, "{{$parent.$index}}").ClientRepeater(m => m.SelectedOffers, "{{$index}}"))
+    {
+
+        <div class="item group-col" @offer.Validation().ErrorClass(o => ((GeorgiaGas.SwitchOfferOption)o.OfferOption).AglcNumber)>
+            <label for="@offer.Fix(h => h.IdFor(o => ((GeorgiaGas.SwitchOfferOption)o.OfferOption).AglcNumber))">@Html.Sitecore().Field("AGLC Number Label")</label>
+            @offer.Fix(h => h.TextBoxFor(o => ((GeorgiaGas.SwitchOfferOption)o.OfferOption).AglcNumber, new { ng_model = "selectedOffer.offerOption.aglcNumber" }))
+            <a href="" ng-click="showAglcExample()" class="aglc-example">@Html.Sitecore().Field("See Example Link Label")</a>
+            @offer.ValidationMessageFor(o => ((GeorgiaGas.SwitchOfferOption)o.OfferOption).AglcNumber)
+        </div>
+    }
 </script>
 
 <script type="text/ng-template" id="template/datepicker/popup.html">
@@ -535,5 +544,18 @@
             <button class="secondary" ng-click="$dismiss()">@Html.Sitecore().Field("Cancel Button")</button>
             <button ng-click="$close()">@Html.Sitecore().Field("Continue Button")</button>
         </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="AglcExample">
+    <div class="modal-header">
+        <a href="" ng-click="$dismiss()"></a>
+        <h2>@Html.Sitecore().Field("AGLC Example Header Text")</h2>
+    </div>
+    <div class="modal-body scrollable">
+        @Html.Sitecore().Field("AGLC Example Body Text")
+    </div>
+    <div class="modal-footer">
+        <button ng-click="$close()">@Html.Sitecore().Field("AGLC Example Button Text")</button>
     </div>
 </script>
