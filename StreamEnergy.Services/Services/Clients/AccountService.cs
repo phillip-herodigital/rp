@@ -297,6 +297,12 @@ namespace StreamEnergy.Services.Clients
                    };
         }
 
+        Task<IEnumerable<Customer>> IAccountService.FindCustomersByCisAccount(string accountNumber)
+        {
+            // TODO - make an actual call.
+            return Task.FromResult(Enumerable.Empty<Customer>());
+        }
+
 
         async Task<IEnumerable<Account>> IAccountService.GetAccounts(Guid globalCustomerId)
         {
