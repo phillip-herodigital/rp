@@ -104,7 +104,7 @@ namespace StreamEnergy.Services.Clients
                               Name = productData.Fields["Name"],
                               Description = productData.Fields["Description"],
 
-                              Rate = product.Rates.First(r => r.EnergyType == "Average").Value * 100,
+                              Rate = product.Rates.First(r => r.EnergyType == "Average").Value,
                               TermMonths = product.Term,
                               RateType = product.Rates.Any(r => r.Type == "Fixed") ? RateType.Fixed : RateType.Variable,
                               CancellationFee = productData.Fields["Early Termination Fee"],
@@ -114,9 +114,8 @@ namespace StreamEnergy.Services.Clients
 
                               Documents = new Dictionary<string, Uri>
                               {
-                                  { "GasFactsLabel", new Uri(productData.Fields["Energy Facts Label"], UriKind.Relative) },
-                                  { "TermsOfService", new Uri(productData.Fields["Terms Of Service"], UriKind.Relative) },
-                                  { "YourRightsAsACustomer", new Uri(productData.Fields["Your Rights As A Customer"], UriKind.Relative) },
+                                  { "LetterOfAgency", new Uri(productData.Fields["Letter of Agency"], UriKind.Relative) },
+                                  { "TermsAndDisclosures", new Uri(productData.Fields["Terms and Disclosures"], UriKind.Relative) },
                               }
                           }).ToArray()
             };
