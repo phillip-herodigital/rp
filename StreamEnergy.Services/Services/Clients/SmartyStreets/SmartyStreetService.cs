@@ -11,7 +11,6 @@ namespace StreamEnergy.Services.Clients.SmartyStreets
 {
     public class SmartyStreetService : StreamEnergy.Services.Clients.SmartyStreets.ISmartyStreetService
     {
-        private bool disabled;
         private readonly string authId;
         private readonly string authToken;
         private readonly IUnityContainer container;
@@ -33,11 +32,6 @@ namespace StreamEnergy.Services.Clients.SmartyStreets
 
         public async Task<IEnumerable<DomainModels.Address>> CleanseAddress(UncleansedAddress[] addresses)
         {
-            if (disabled)
-            {
-                return Enumerable.Repeat<DomainModels.Address>(null, addresses.Length);
-            }
-
             var client = container.Resolve<HttpClient>();
             client.DefaultRequestHeaders.Add("x-standardize-only", "true");
 
@@ -52,24 +46,17 @@ namespace StreamEnergy.Services.Clients.SmartyStreets
                 }
                 else
                 {
-                    disabled = true;
                     return Enumerable.Repeat<DomainModels.Address>(null, addresses.Length);
                 }
             }
             catch
             {
-                disabled = true;
                 return Enumerable.Repeat<DomainModels.Address>(null, addresses.Length);
             }
         }
 
         public async Task<DomainModels.Address[][]> CleanseAddressOptions(DomainModels.Address[] addresses)
         {
-            if (disabled)
-            {
-                return Enumerable.Repeat(new DomainModels.Address[0], addresses.Length).ToArray();
-            }
-
             var client = container.Resolve<HttpClient>();
 
             var response = await client.PostAsync("https://api.smartystreets.com/street-address?auth-id=" + authId + "&auth-token=" + authToken,
@@ -90,7 +77,6 @@ namespace StreamEnergy.Services.Clients.SmartyStreets
             }
             else
             {
-                disabled = true;
                 return Enumerable.Repeat(new DomainModels.Address[0], addresses.Length).ToArray();
             }
         }
