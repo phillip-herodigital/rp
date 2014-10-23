@@ -91,7 +91,7 @@ namespace StreamEnergy.Interpreters
                         case "TX":
                             return () => BuildDpiUrl("/nr_quote_zip.asp");
                         case "GA":
-                            return () => BuildDpiUrl("/signup_customer.asp");
+                            return () => BuildCommercialRFQUrl();
                         case "PA":
                         case "MD":
                         case "NJ":
@@ -103,6 +103,11 @@ namespace StreamEnergy.Interpreters
                     break;
             }
             return null;
+        }
+
+        private string BuildCommercialRFQUrl()
+        {
+            return "/services/enroll/commercial?" + queryString.ToString();
         }
 
         private string BuildDpiUrl(string relativePath)

@@ -106,7 +106,7 @@ namespace StreamEnergy.MyStream.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> EnrollCommercialIndex(StreamEnergy.MyStream.Models.Marketing.CommercialQuote contact)
+        public ActionResult EnrollCommercialIndex(StreamEnergy.MyStream.Models.Marketing.CommercialQuote contact)
         {
             // Validate form data
             if (ModelState.IsValid)
@@ -122,6 +122,14 @@ namespace StreamEnergy.MyStream.Controllers
                 var Phone = contact.ContactPhone.Number;
                 var Email = contact.ContactEmail.Address;
                 var Name = FirstName + ' ' + LastName;
+                var AgentId = "A2";
+                try
+                {
+                    var plain = System.Text.Encoding.ASCII.GetString(Convert.FromBase64String(Request.QueryString["SPID"]));
+                    var parts = plain.Split('|');
+                    AgentId = parts[0];
+                }
+                catch (Exception) { };
 
                 // Get the To address(es) from Sitecore;
                 var settings = StreamEnergy.Unity.Container.Instance.Resolve<ISettings>();
@@ -139,9 +147,11 @@ namespace StreamEnergy.MyStream.Controllers
                     "<br />Address: " + AddressLine1 +
                     "<br />" + City + ", " + StateAbbreviation + " " + PostalCode5 +
                     "<br />Phone: " + Phone +
-                    "<br />Email: " + Email;
+                    "<br />Email: " + Email +
+                    "<br />Agent ID: " + AgentId;
 
-                await this.emailService.SendEmail(Message);
+                // Intentionally letting the Task go - this sends async to the user's request.
+                this.emailService.SendEmail(Message);
 
                 // Send the success message back to the page
                 var ReturnURL = new RedirectResult(Request.Url.AbsolutePath + "?success=true##success-message");

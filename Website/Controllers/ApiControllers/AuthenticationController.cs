@@ -411,10 +411,36 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 return Request.CreateResponse(HttpStatusCode.NotFound);
             }
 
+            var customers = await accountService.FindCustomersByCisAccount(accountNumber);
+            if (!customers.Any())
+            {
+                var details = await accountService.GetAccountDetails(accountNumber);
+                if (details == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound);
+                }
+                var customer = await accountService.CreateStreamConnectCustomer();
+                await accountService.AssociateAccount(customer.GlobalCustomerId, accountNumber, details.Details.SsnLastFour, "");
+
+                customers = new[] { customer };
+            }
+            else
+            {
+                var userCustomers = customers.Where(c => c.Username != null);
+                if (userCustomers.Any())
+                {
+                    if (userCustomers.Skip(1).Any())
+                    {
+                        // TODO - more than 1 customer with username
+                        throw new NotImplementedException();
+                    }
+                    customers = userCustomers;
+                }
+            }
 
             var response = Request.CreateResponse(HttpStatusCode.Moved);
             response.Headers.Location = new Uri("/account", UriKind.Relative);
-            response.Headers.AddCookies(new[] { await impersonation.CreateAuthenticationCookie(accountNumber) });
+            response.Headers.AddCookies(new[] { await impersonation.CreateAuthenticationCookie(customers.First().GlobalCustomerId) });
             return response;
         }
 

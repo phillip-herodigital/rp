@@ -33,21 +33,17 @@ namespace StreamEnergy.DomainModels.Accounts
             return token == expectedToken;
         }
 
-        public async Task<System.Net.Http.Headers.CookieHeaderValue> CreateAuthenticationCookie(string accountNumber)
+        public Task<System.Net.Http.Headers.CookieHeaderValue> CreateAuthenticationCookie(Guid globalCustomerId)
         {
-            var customer = await accountService.CreateStreamConnectCustomer();
-            var details = await accountService.GetAccountDetails(accountNumber);
-            await accountService.AssociateAccount(customer.GlobalCustomerId, accountNumber, details.Details.SsnLastFour, "");
-
-            var cookie = FormsAuthentication.GetAuthCookie(DomainPrefix + customer.GlobalCustomerId, false, "/");
-            return new System.Net.Http.Headers.CookieHeaderValue(cookie.Name, cookie.Value)
+            var cookie = FormsAuthentication.GetAuthCookie(DomainPrefix + globalCustomerId, false, "/");
+            return Task.FromResult(new System.Net.Http.Headers.CookieHeaderValue(cookie.Name, cookie.Value)
             {
                 Domain = cookie.Domain,
                 Expires = cookie.Expires == DateTime.MinValue ? null : (DateTime?)cookie.Expires,
                 HttpOnly = cookie.HttpOnly,
                 Path = cookie.Path,
                 Secure = cookie.Secure
-            };
+            });
         }
     }
 }
