@@ -4,18 +4,22 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using StackExchange.Redis;
 using StreamEnergy.Processes;
 
 namespace StreamEnergy.DomainModels.Accounts.Create
 {
     public class FindAccountState : StateBase<CreateAccountContext, CreateAccountInternalContext>
     {
-        private IAccountService service;
+        private readonly IAccountService service;
+        private readonly IDatabase redis;
+        private const string redisPrefix = "CreateOnlineAccount_FindAccount_";
 
-        public FindAccountState(IAccountService service)
+        public FindAccountState(IAccountService service, IDatabase redis)
             : base(null, typeof(AccountInformationState))
         {
             this.service = service;
+            this.redis = redis;
         }
 
         public override IEnumerable<System.Linq.Expressions.Expression<Func<CreateAccountContext, object>>> PreconditionValidations(CreateAccountContext data, CreateAccountInternalContext internalContext)
@@ -36,10 +40,18 @@ namespace StreamEnergy.DomainModels.Accounts.Create
 
         protected override async Task<Type> InternalProcess(CreateAccountContext context, CreateAccountInternalContext internalContext)
         {
+            var value = (int?)await redis.StringGetAsync(redisPrefix + context.AccountNumber);
+            if (value != null && value >= 5)
+            {
+                // locked out after 5 tries
+                return this.GetType();
+            }
             internalContext.Account = await service.GetAccountDetails(context.AccountNumber);
             if (internalContext.Account != null && internalContext.Account.Details.SsnLastFour != context.SsnLastFour)
             {
                 internalContext.Account = null;
+                await redis.StringIncrementAsync(redisPrefix + context.AccountNumber);
+                await redis.KeyExpireAsync(redisPrefix + context.AccountNumber, TimeSpan.FromMinutes(30));
             }
 
             if (internalContext.Account == null)
