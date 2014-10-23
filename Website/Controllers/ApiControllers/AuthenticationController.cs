@@ -404,7 +404,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         #region Impersonation
 
         [HttpGet]
-        public async Task<HttpResponseMessage> Impersonate(string accountNumber, string expiry, string token)
+        public async Task<HttpResponseMessage> Impersonate(string accountNumber, string expiry, string token, string username = null)
         {
             if (!impersonation.Verify(accountNumber, expiry, token))
             {
@@ -431,8 +431,17 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 {
                     if (userCustomers.Skip(1).Any())
                     {
-                        // TODO - more than 1 customer with username
-                        throw new NotImplementedException();
+                        if (username == null)
+                        {
+                            var response = Request.CreateResponse(HttpStatusCode.Moved);
+                            response.Headers.Location = new Uri("/impersonate-users?" + HttpContext.Current.Request.QueryString.ToString(), UriKind.Relative);
+                            response.Headers.AddCookies(new[] { await impersonation.CreateAuthenticationCookie(customers.First().GlobalCustomerId) });
+                            return response;
+                        }
+                        else
+                        {
+                            userCustomers = customers.Where(c => c.Username == username);
+                        }
                     }
                     customers = userCustomers;
                 }
