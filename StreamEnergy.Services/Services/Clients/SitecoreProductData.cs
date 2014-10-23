@@ -86,9 +86,8 @@ namespace StreamEnergy.Services.Clients
                             { "Description", item["Product Description"] },
                             { "Monthly Service Charge", item["Monthly Service Charge"] },
                             { "Early Termination Fee", item["Early Termination Fee"] },
-                            { "Energy Facts Label", ((Sitecore.Data.Fields.FileField)item.Fields["Energy Facts Label"]).Src },
-                            { "Terms Of Service", ((Sitecore.Data.Fields.FileField)item.Fields["Terms Of Service"]).Src },
-                            { "Your Rights As A Customer", ((Sitecore.Data.Fields.FileField)item.Fields["Your Rights As A Customer"]).Src },
+                            { "Letter of Agency", ((Sitecore.Data.Fields.FileField)item.Fields["Letter of Agency"]).Src },
+                            { "Terms and Disclosures", ((Sitecore.Data.Fields.FileField)item.Fields["Terms and Disclosures"]).Src },
                         },
                         Footnotes = LoadFootnotes(new[] { item }, new[] { "Rate Footnote", "Term Footnote", "Early Termination Fee Footnote" }).ToArray()
                     };
