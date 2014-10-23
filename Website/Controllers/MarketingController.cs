@@ -106,7 +106,7 @@ namespace StreamEnergy.MyStream.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> EnrollCommercialIndex(StreamEnergy.MyStream.Models.Marketing.CommercialQuote contact)
+        public ActionResult EnrollCommercialIndex(StreamEnergy.MyStream.Models.Marketing.CommercialQuote contact)
         {
             // Validate form data
             if (ModelState.IsValid)
@@ -141,7 +141,8 @@ namespace StreamEnergy.MyStream.Controllers
                     "<br />Phone: " + Phone +
                     "<br />Email: " + Email;
 
-                await this.emailService.SendEmail(Message);
+                // Intentionally letting the Task go - this sends async to the user's request.
+                this.emailService.SendEmail(Message);
 
                 // Send the success message back to the page
                 var ReturnURL = new RedirectResult(Request.Url.AbsolutePath + "?success=true##success-message");
