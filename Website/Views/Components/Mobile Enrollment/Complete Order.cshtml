@@ -7,7 +7,7 @@
     <div class="banner" style="@Html.AsBackgroundStyle("Mobile Banner Image")">
         <div class="wrapper">
             <h1>
-                <span class="small block">@Html.Sitecore().Field("4 - Page Title")</span><br />
+                <span class="small block">@Html.Sitecore().Field("Page Title")</span><br />
             </h1>
         </div>
     </div>
@@ -16,144 +16,104 @@
         <section>
             <article class="enrollment__box enrollment__complete-order">
                 <header>
-                    <h1>@Html.Sitecore().Field("4 - Header - Complete Order")</h1>
-                    <p>@Html.Sitecore().Field("4 - Complete Order Description")</p>
+                    <h1>@Html.Sitecore().Field("Header - Complete Order")</h1>
+                    <p>@Html.Sitecore().Field("Complete Order Description")</p>
                 </header>
                 <div class="content">
-                    <div class="plan-summary">
-                        <div class="line-item clearfix">
-                            <div class="description">
-                                <h2>@Html.Sitecore().Field("4 - Header - Monthly Plan Cost")</h2>
-                                <p>@Html.Sitecore().Field("4 - Unlimited Plan Details")</p>
-                                <p><a href="">@Html.Sitecore().Field("4 - Plan Details Link Text")</a> | <a href="">@Html.Sitecore().Field("4 - Edit Plan Link Text")</a> | <a href="">@Html.Sitecore().Field("4 - Configure Data Link Text")</a></p>
-                            </div>
-                            <div class="rate">$399.00</div>
-                        </div>
-                        <div class="line-item clearfix">
-                            <div class="description">
-                                <h3>@Html.Sitecore().Field("4 - Taxes and Other Fees Text")</h3>
-                                <a href="">@Html.Sitecore().Field("4 - Show Breakdown Link Text")</a>
-                            </div>
-                            <div class="rate">$29</div>
-                        </div>
-                        <div class="plan-summary-image">
-                            <i class="icon-plan-summary"></i>
-                        </div>
-                    </div>
-                    <hr>
                     <div class="phone-summary">
                         <div class="line-item clearfix">
                             <div class="description">
-                                <span class="condition">Reconditioned</span>
-                                <h2 class="model">Apple iPhone 5S </h2>
-                                <span class="model">16B, Silver</span> <a href="">@Html.Sitecore().Field("4 - Edit Link Text")</a>
+                                @*<span class="condition">Reconditioned</span>*@
+                                <h2>Bring Your Own Device</h2>
+                                <span class="model">Apple iPhone 4S</span> <a href="">@Html.Sitecore().Field("Edit Link Text")</a>
                             </div>
                         </div>
                         <div class="line-item clearfix">
                             <div class="description">
-                                <h3>@Html.Sitecore().Field("4 - Initial Activiation Fee Text")</h3>
-                                <p>@Html.Sitecore().Field("4 - Activation Fee Description")</p>
+                                <h3>@Html.Sitecore().Field("Initial Activation Fee Text")</h3>
+                                <p class="note">@Html.Sitecore().Field("Activation Fee Description")</p>
                             </div>
-                            <div class="rate">$39</div>
+                            <div class="rate">$29.95</div>
                         </div>
+                        @*
                         <div class="line-item clearfix">
                             <div class="description">
-                                <h3>@Html.Sitecore().Field("4 - Coverage Warranty Text")</h3>
+                                <h3>@Html.Sitecore().Field("Coverage Warranty Text")</h3>
                             </div>
                             <div class="rate">$19.00/mo</div>
                         </div>
                         <div class="line-item clearfix">
                             <div class="description">
-                                <h3>@Html.Sitecore().Field("4 - Shipping Text")</h3>
+                                <h3>@Html.Sitecore().Field("Shipping Text")</h3>
                             </div>
                             <div class="rate"></div>
                         </div>
+                        *@
                         <div class="phone-summary-image">
 
                         </div>
                     </div>
+                    <hr />
+                    <div class="plan-summary">
+                        <div class="line-item clearfix">
+                            <div class="description">
+                                <h2>@Html.Sitecore().Field("Header - Monthly Plan Cost")</h2>
+                                <p>@Html.Sitecore().Field("Unlimited Plan Details")</p>
+                                <p><a href="">@Html.Sitecore().Field("Edit Plan Link Text")</a></p>
+                            </div>
+                            <div class="rate">$23.33</div>
+                        </div>
+                        <div class="plan-summary-image">
+                            <i class="icon-plan-summary"></i>
+                        </div>
+                    </div>
                 </div>
                 <footer>
-                    @Html.Sitecore().Field("4 - Total Due Now Text") $439.97
+                    @Html.Sitecore().Field("Total Due Now Text") $439.97
                 </footer>
             </article>
+
+            <article class="enrollment__box enrollment__complete-order">
+                <div class="content">
+                    <div class="plan-summary">
+                        <div class="line-item clearfix">
+                            <div class="description">
+                                <h2>@Html.Sitecore().Field("Header - Estimated Monthly Plan")</h2>
+                                <p>@Html.Sitecore().Field("Text - Monthly Plan Details")</p>
+                                <p><a href="">@Html.Sitecore().Field("Edit Plan Link Text")</a></p>
+                            </div>
+                            <div class="rate">$35/mo</div>
+                        </div>
+                        <div class="line-item clearfix">
+                            <div class="description">
+                                <h3>@Html.Sitecore().Field("Tax and Other Fees Text")</h3>
+                                <a href="">@Html.Sitecore().Field("Show Breakdown Link Text")</a>
+                            </div>
+                            <div class="rate">$7.98</div>
+                        </div>
+                    </div>
+                </div>
+                <footer>
+                    @Html.Sitecore().Field("Text - Estimated Monthly Bill") $77.98
+                </footer>
+            </article>
+
             <form data-val-bind-messages="validations" ng-submit="completeStep()">
                 <article class="enrollment__box enrollment__contact-info">
                     <header>
-                        <h1>@Html.Sitecore().Field("4 - Header - Contact Information")</h1>
+                        <h1>@Html.Sitecore().Field("Header - Contact Information")</h1>
                     </header>
-                    @*<div class="content form">
-                            <h3>@Html.Sitecore().Field("4 - Header - Personal Information")</h3>
-                            <div class="group">
-                                <div class="item group-col">
-                                    <label for="">@Html.Sitecore().Field("4 - First Name")</label>
-                                    <input type="text">
-                                </div>
-                                <div class="item group-col">
-                                    <label for="">@Html.Sitecore().Field("4 - Last Name")</label>
-                                    <input type="text">
-                                </div>
-                            </div>
-                            <div class="group">
-                                <div class="item group-col">
-                                    <label for="">@Html.Sitecore().Field("4 - Phone Number")</label>
-                                    <input type="text">
-                                </div>
-                                <div class="item group-col">
-                                    <label for="">@Html.Sitecore().Field("4 - Phone Type")</label>
-                                    <input type="text">
-                                </div>
-                            </div>
-                            <div class="group">
-                                <div class="item group-col">
-                                    <label for="">@Html.Sitecore().Field("4 - Email Address")</label>
-                                    <input type="text">
-                                </div>
-                            </div>
-                            <hr>
-                            <h3>@Html.Sitecore().Field("4 - Header - Billing Address")</h3>
-                            <div class="group">
-                                <div class="item group-col">
-                                    <label for="">@Html.Sitecore().Field("4 - Address 1")</label>
-                                    <input type="text">
-                                </div>
-                                <div class="item group-col">
-                                    <label for="">@Html.Sitecore().Field("4 - Address 2")</label>
-                                    <input type="text">
-                                </div>
-                            </div>
-                            <div class="group">
-                                <div class="item group-col">
-                                    <label for="">@Html.Sitecore().Field("4 - City")</label>
-                                    <input type="text">
-                                </div>
-                                <div class="item group-col">
-                                    <label for="">@Html.Sitecore().Field("4 - State")</label>
-                                    <input type="text">
-                                </div>
-                                <div class="item group-col">
-                                    <label for="">@Html.Sitecore().Field("4 - Zip Code")</label>
-                                    <input type="text">
-                                </div>
-                            </div>
-                            <hr>
-                            <h3>@Html.Sitecore().Field("4 - Header - Shipping Address")</h3>
-                            <label><input type="checkbox"> @Html.Sitecore().Field("4 - Same as Billing Address")</label>
-                        </div>*@
-
-
-
-
+                    
                     <div class="content">
-                        <h3>@Html.Sitecore().Field("4 - Header - Personal Information")</h3>
+                        <h3>@Html.Sitecore().Field("Header - Personal Information")</h3>
                         <div class="group">
                             <div class="item group-col" @Html.Validation().ErrorClass(m => m.ContactInfo.Name.First)>
-                                <label for="@Html.IdFor(m => m.ContactInfo.Name.First)">@Html.Sitecore().Field("4 - First Name")</label>
+                                <label for="@Html.IdFor(m => m.ContactInfo.Name.First)">@Html.Sitecore().Field("First Name")</label>
                                 @Html.TextBoxFor(m => m.ContactInfo.Name.First, new { ng_model = "ctrl.accountInformation.contactInfo.name.first" })
                                 @Html.ValidationMessageFor(model => model.ContactInfo.Name.First)
                             </div>
                             <div class="item group-col" @Html.Validation().ErrorClass(m => m.ContactInfo.Name.Last)>
-                                <label for="@Html.IdFor(m => m.ContactInfo.Name.Last)">@Html.Sitecore().Field("4 - Last Name")</label>
+                                <label for="@Html.IdFor(m => m.ContactInfo.Name.Last)">@Html.Sitecore().Field("Last Name")</label>
                                 @Html.TextBoxFor(m => m.ContactInfo.Name.Last, new { ng_model = "ctrl.accountInformation.contactInfo.name.last" })
                                 @Html.ValidationMessageFor(model => model.ContactInfo.Name.Last)
                             </div>
@@ -162,12 +122,12 @@
                             @using (var firstPhone = Html.ClientRepeater(m => m.ContactInfo.Phone, "0").Shortcut(m => (TypedPhone)m))
                             {
                                 <div class="item group-col" @firstPhone.Validation().ErrorClass(m => m.Number)>
-                                    <label for="@firstPhone.Fix(h => h.IdFor(m => m.Number))">@Html.Sitecore().Field("4 - Phone Number")</label>
+                                    <label for="@firstPhone.Fix(h => h.IdFor(m => m.Number))">@Html.Sitecore().Field("Phone Number")</label>
                                     @firstPhone.Fix(h => h.TextBoxFor(m => m.Number, new { type = "tel", ng_model = "ctrl.accountInformation.contactInfo.phone[0].number" }))
                                     @firstPhone.ValidationMessageFor(m => m.Number)
                                 </div>
                                 <div class="item group-col" @firstPhone.Validation().ErrorClass(m => m.Category)>
-                                    <label for="@firstPhone.Fix(h => h.IdFor(m => m.Category))">@Html.Sitecore().Field("4 - Phone Type")</label>
+                                    <label for="@firstPhone.Fix(h => h.IdFor(m => m.Category))">@Html.Sitecore().Field("Phone Type")</label>
                                     @firstPhone.Fix(h => h.DropDownListFor(m => m.Category,
                                                         new SelectListItem[] { new SelectListItem { Text = Html.Sitecore().Field("Select Option Please Choose").ToString(), Value = "" } },
                                                         new
@@ -180,36 +140,38 @@
                             }
                         </div>
                         <div class="item" @Html.Validation().ErrorClass(m => m.ContactInfo.Email.Address)>
-                            <label for="@Html.IdFor(m => m.ContactInfo.Email.Address)">@Html.Sitecore().Field("4 - Email Address")</label>
+                            <label for="@Html.IdFor(m => m.ContactInfo.Email.Address)">@Html.Sitecore().Field("Email Address")</label>
                             @Html.TextBoxFor(m => m.ContactInfo.Email.Address, new { type = "email", ng_model = "ctrl.accountInformation.contactInfo.email.address" })
                             @Html.ValidationMessageFor(model => model.ContactInfo.Email.Address)
                         </div>
-                        <hr>
-                        <h3>@Html.Sitecore().Field("4 - Header - Billing Address")</h3>
+
+                        <hr />
+                        
+                        <h3>@Html.Sitecore().Field("Header - Billing Address")</h3>
                         <div>
                             @using (var billingAddress = Html.Shortcut(m => m.BillingAddress))
                             {
                                 <div>
                                     <div class="group">
                                         <div class="item group-col" @(billingAddress.Validation().ErrorClass(m => m.Line1))>
-                                            <label for="@billingAddress.Fix(h => h.IdFor(m => m.Line1))">@Html.Sitecore().Field("4 - Address 1")</label>
+                                            <label for="@billingAddress.Fix(h => h.IdFor(m => m.Line1))">@Html.Sitecore().Field("Address 1")</label>
                                             @billingAddress.Fix(h => h.TextBoxFor(m => m.Line1, new { data_val_if = "!ctrl.accountInformation.billingAddressSame", ng_model = "ctrl.accountInformation.billingAddress.line1" }))
                                             @billingAddress.ValidationMessageFor(m => m.Line1)
                                         </div>
                                         <div class="item group-col" @billingAddress.Validation().ErrorClass(m => m.Line2)>
-                                            <label for="@billingAddress.Fix(h => h.IdFor(m => m.Line2))">@Html.Sitecore().Field("4 - Address 2")</label>
+                                            <label for="@billingAddress.Fix(h => h.IdFor(m => m.Line2))">@Html.Sitecore().Field("Address 2")</label>
                                             @billingAddress.Fix(h => h.TextBoxFor(m => m.Line2, new { data_val_if = "!ctrl.accountInformation.billingAddressSame", ng_model = "ctrl.accountInformation.billingAddress.line2" }))
                                             @billingAddress.ValidationMessageFor(m => m.Line2)
                                         </div>
                                     </div>
                                     <div class="group">
                                         <div class="item group-col" @billingAddress.Validation().ErrorClass(m => m.City)>
-                                            <label for="@billingAddress.Fix(h => h.IdFor(m => m.City))">@Html.Sitecore().Field("4 - City")</label>
+                                            <label for="@billingAddress.Fix(h => h.IdFor(m => m.City))">@Html.Sitecore().Field("City")</label>
                                             @billingAddress.Fix(h => h.TextBoxFor(m => m.City, new { data_val_if = "!ctrl.accountInformation.billingAddressSame", ng_model = "ctrl.accountInformation.billingAddress.city" }))
                                             @billingAddress.ValidationMessageFor(m => m.City)
                                         </div>
                                         <div class="item" @billingAddress.Validation().ErrorClass(m => m.StateAbbreviation)>
-                                            <label for="@billingAddress.Fix(h => h.IdFor(m => m.StateAbbreviation))">@Html.Sitecore().Field("4 - State")</label>
+                                            <label for="@billingAddress.Fix(h => h.IdFor(m => m.StateAbbreviation))">@Html.Sitecore().Field("State")</label>
                                             @billingAddress.Fix(h => h.DropDownListFor(m => m.StateAbbreviation,
                                                         new SelectListItem[] { new SelectListItem { Text = Html.Sitecore().Field("Select Option Please Choose").ToString(), Value = "" } },
                                                         new
@@ -221,7 +183,7 @@
                                             @billingAddress.ValidationMessageFor(m => m.StateAbbreviation)
                                         </div>
                                         <div class="item zip-code" @billingAddress.Validation().ErrorClass(m => m.PostalCode5)>
-                                            <label for="@billingAddress.Fix(h => h.IdFor(m => m.PostalCode5))">@Html.Sitecore().Field("4 - Zip Code")</label>
+                                            <label for="@billingAddress.Fix(h => h.IdFor(m => m.PostalCode5))">@Html.Sitecore().Field("Zip Code")</label>
                                             @billingAddress.Fix(h => h.TextBoxFor(m => m.PostalCode5, new { @class = "small", data_val_if = "!ctrl.accountInformation.billingAddressSame", ng_model = "ctrl.accountInformation.billingAddress.postalCode5" }))
                                             @billingAddress.ValidationMessageFor(m => m.PostalCode5)
                                         </div>
@@ -229,53 +191,254 @@
                                 </div>
                             }
                         </div>
-                        @*<div class="additional-field-item item">
-                                <ul class="checkbox-list">
-                                    <li><input type="checkbox" name="secondary-contact" id="secondary-contact" ng-model="additionalInformation.showSecondaryContact"><label for="secondary-contact">@Html.Sitecore().Field("Checkbox Add Secondary Contact")</label></li>
-                                </ul>
-                            </div>
-                            <div class="additional-field-group secondary-contact-group" ng-if="additionalInformation.showSecondaryContact">
+                        
+                        <hr />
+
+                        <h3>@Html.Sitecore().Field("Header - Shipping Address")</h3>
+                        <div class="item">
+                            <ul class="checkbox-list">
+                                <li>
+                                    <input type="checkbox" name="same-address-mailing" id="same-address-mailing" ng-model="accountInformation.shippingAddressSame" />
+                                    <label for="same-address-mailing">@Html.Sitecore().Field("Same as Billing Address")</label>
+                                </li>
+                            </ul>
+                        </div>
+                        @using (var shippingAddress = Html.Shortcut(m => m.ShippingAddress))
+                        {
+                            <div ng-hide="accountInformation.shippingAddressSame">
                                 <div class="group">
-                                    <div class="item group-col" @Html.Validation().ErrorClass(m => m.SecondaryContactInfo.First)>
-                                        <label for="@Html.IdFor(m => m.SecondaryContactInfo.First)">@Html.Sitecore().Field("First Name Label")</label>
-                                        @Html.TextBoxFor(m => m.SecondaryContactInfo.First, new { data_val_if = "ctrl.accountInformation.showSecondaryContact", ng_model = "ctrl.accountInformation.secondaryContactInfo.first" })
-                                        @Html.ValidationMessageFor(m => m.SecondaryContactInfo.First)
+                                    <div class="item group-col" @(shippingAddress.Validation().ErrorClass(m => m.Line1))>
+                                        <label for="@shippingAddress.Fix(h => h.IdFor(m => m.Line1))">@Html.Sitecore().Field("Address 1")</label>
+                                        @shippingAddress.Fix(h => h.TextBoxFor(m => m.Line1, new { data_val_if = "!accountInformation.shippingAddressSame", ng_model = "accountInformation.shippingAddress.line1" }))
+                                        @shippingAddress.ValidationMessageFor(m => m.Line1)
                                     </div>
-                                    <div class="item group-col" @Html.Validation().ErrorClass(m => m.SecondaryContactInfo.Last)>
-                                        <label for="@Html.IdFor(m => m.SecondaryContactInfo.Last)">@Html.Sitecore().Field("Last Name Label")</label>
-                                        @Html.TextBoxFor(m => m.SecondaryContactInfo.Last, new { data_val_if = "ctrl.accountInformation.showSecondaryContact", ng_model = "ctrl.accountInformation.secondaryContactInfo.last" })
-                                        @Html.ValidationMessageFor(m => m.SecondaryContactInfo.Last)
+                                    <div class="item group-col" @shippingAddress.Validation().ErrorClass(m => m.Line2)>
+                                        <label for="@shippingAddress.Fix(h => h.IdFor(m => m.Line2))">@Html.Sitecore().Field("Address 2")</label>
+                                        @shippingAddress.Fix(h => h.TextBoxFor(m => m.Line2, new { data_val_if = "!accountInformation.shippingAddressSame", ng_model = "accountInformation.shippingAddress.line2" }))
+                                        @shippingAddress.ValidationMessageFor(m => m.Line2)
                                     </div>
                                 </div>
-                            </div>*@
+                                <div class="group">
+                                    <div class="item group-col" @shippingAddress.Validation().ErrorClass(m => m.City)>
+                                        <label for="@shippingAddress.Fix(h => h.IdFor(m => m.City))">@Html.Sitecore().Field("City")</label>
+                                        @shippingAddress.Fix(h => h.TextBoxFor(m => m.City, new { data_val_if = "!accountInformation.shippingAddressSame", ng_model = "accountInformation.shippingAddress.city" }))
+                                        @shippingAddress.ValidationMessageFor(m => m.City)
+                                    </div>
+                                    <div class="item" @shippingAddress.Validation().ErrorClass(m => m.StateAbbreviation)>
+                                        <label for="@shippingAddress.Fix(h => h.IdFor(m => m.StateAbbreviation))">@Html.Sitecore().Field("State")</label>
+                                        @shippingAddress.Fix(h => h.DropDownListFor(m => m.StateAbbreviation,
+                                                        new SelectListItem[] { new SelectListItem { Text = Html.Sitecore().Field("Select Option Please Choose").ToString(), Value = "" } },
+                                                        new
+                                                        {
+                                                            data_val_if = "!accountInformation.shippingAddressSame",
+                                                            ng_model = "accountInformation.shippingAddress.stateAbbreviation",
+                                                            ng_options = "state.abbreviation as state.display for state in usStates"
+                                                        }))
+                                        @shippingAddress.ValidationMessageFor(m => m.StateAbbreviation)
+                                    </div>
+                                    <div class="item zip-code" @shippingAddress.Validation().ErrorClass(m => m.PostalCode5)>
+                                        <label for="@shippingAddress.Fix(h => h.IdFor(m => m.PostalCode5))">@Html.Sitecore().Field("Zip")</label>
+                                        @shippingAddress.Fix(h => h.TextBoxFor(m => m.PostalCode5, new { @class = "small", data_val_if = "!accountInformation.shippingAddressSame", ng_model = "accountInformation.shippingAddress.postalCode5" }))
+                                        @shippingAddress.ValidationMessageFor(m => m.PostalCode5)
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
                     </div>
                 </article>
 
+                <article class="enrollment__box enrollment__businesss-info">
+                    <header>
+                        <h1>@Html.Sitecore().Field("Header - Business Information")</h1>
+                    </header>
+                    <div class="content">
+                        <p>@Html.Sitecore().Field("Text - Business Information")</p>
+                        <div class="group">
+                            <div class="item group-col">
+                                <label>@Html.Sitecore().Field("Label - Name")</label>
+                                <input type="text" />
+                                <span class="note">@Html.Sitecore().Field("Note - Name")</span>
+                            </div>
+                            <div class="item group-col">
+                                <label>@Html.Sitecore().Field("Label - Business Name")</label>
+                                <input type="text" />
+                                <span class="note">@Html.Sitecore().Field("Note - Business Name")</span>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="item">
+                            <label>@Html.Sitecore().Field("Federal Tax Classification")</label>
+                            <ul class="checkbox-list">
+                                <li>
+                                    <input type="checkbox" name="taxClassification" /> <label>@Html.Sitecore().Field("Label - Individual")</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="taxClassification" /> <label>@Html.Sitecore().Field("Label - C Corporation")</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="taxClassification" /> <label>@Html.Sitecore().Field("Label - S Corporation")</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="taxClassification" /> <label>@Html.Sitecore().Field("Label - Partnership")</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="taxClassification" /> <label>@Html.Sitecore().Field("Label - Trust Estate")</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="taxClassification" /> <label>@Html.Sitecore().Field("Label - Limited Liability Company")</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="taxClassification" /> <label>@Html.Sitecore().Field("Label - Other")</label>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="item">
+                            <label>@Html.Sitecore().Field("Text - Exemptions")</label>
+                            <ul class="checkbox-list">
+                                <li>
+                                    <input type="checkbox" name="exemptions" /> <label>@Html.Sitecore().Field("Label - Exempt Payee Code")</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="exemptions" /> <label>@Html.Sitecore().Field("Label - Exempt From FATCA")</label>
+                                </li>
+                            </ul>
+                        </div>
+                        <hr />
 
+                        <h3>@Html.Sitecore().Field("Header - Business Address")</h3>
+                        <div class="item">
+                            <ul class="checkbox-list">
+                                <li>
+                                    <input type="checkbox" name="same-address-business" id="same-address-business" ng-model="accountInformation.businessAddressSame" />
+                                    <label for="same-address-business">@Html.Sitecore().Field("Same as Billing Address")</label>
+                                </li>
+                            </ul>
+                        </div>
+                        @using (var businessAddress = Html.Shortcut(m => m.BusinessAddress))
+                        {
+                            <div ng-hide="accountInformation.businessAddressSame">
+                                <div class="group">
+                                    <div class="item group-col" @(businessAddress.Validation().ErrorClass(m => m.Line1))>
+                                        <label for="@businessAddress.Fix(h => h.IdFor(m => m.Line1))">@Html.Sitecore().Field("Address 1")</label>
+                                        @businessAddress.Fix(h => h.TextBoxFor(m => m.Line1, new { data_val_if = "!accountInformation.businessAddressSame", ng_model = "accountInformation.businessAddress.line1" }))
+                                        @businessAddress.ValidationMessageFor(m => m.Line1)
+                                    </div>
+                                    <div class="item group-col" @businessAddress.Validation().ErrorClass(m => m.Line2)>
+                                        <label for="@businessAddress.Fix(h => h.IdFor(m => m.Line2))">@Html.Sitecore().Field("Address 2")</label>
+                                        @businessAddress.Fix(h => h.TextBoxFor(m => m.Line2, new { data_val_if = "!accountInformation.businessAddressSame", ng_model = "accountInformation.businessAddress.line2" }))
+                                        @businessAddress.ValidationMessageFor(m => m.Line2)
+                                    </div>
+                                </div>
+                                <div class="group">
+                                    <div class="item group-col" @businessAddress.Validation().ErrorClass(m => m.City)>
+                                        <label for="@businessAddress.Fix(h => h.IdFor(m => m.City))">@Html.Sitecore().Field("City")</label>
+                                        @businessAddress.Fix(h => h.TextBoxFor(m => m.City, new { data_val_if = "!accountInformation.businessAddressSame", ng_model = "accountInformation.businessAddress.city" }))
+                                        @businessAddress.ValidationMessageFor(m => m.City)
+                                    </div>
+                                    <div class="item" @businessAddress.Validation().ErrorClass(m => m.StateAbbreviation)>
+                                        <label for="@businessAddress.Fix(h => h.IdFor(m => m.StateAbbreviation))">@Html.Sitecore().Field("State")</label>
+                                        @businessAddress.Fix(h => h.DropDownListFor(m => m.StateAbbreviation,
+                                                        new SelectListItem[] { new SelectListItem { Text = Html.Sitecore().Field("Select Option Please Choose").ToString(), Value = "" } },
+                                                        new
+                                                        {
+                                                            data_val_if = "!accountInformation.businessAddressSame",
+                                                            ng_model = "accountInformation.businessAddress.stateAbbreviation",
+                                                            ng_options = "state.abbreviation as state.display for state in usStates"
+                                                        }))
+                                        @businessAddress.ValidationMessageFor(m => m.StateAbbreviation)
+                                    </div>
+                                    <div class="item zip-code" @businessAddress.Validation().ErrorClass(m => m.PostalCode5)>
+                                        <label for="@businessAddress.Fix(h => h.IdFor(m => m.PostalCode5))">@Html.Sitecore().Field("Zip")</label>
+                                        @businessAddress.Fix(h => h.TextBoxFor(m => m.PostalCode5, new { @class = "small", data_val_if = "!accountInformation.businessAddressSame", ng_model = "accountInformation.businessAddress.postalCode5" }))
+                                        @businessAddress.ValidationMessageFor(m => m.PostalCode5)
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <div class="item">
+                            <label>@Html.Sitecore().Field("Label - List Account Numbers")</label>
+                            <input type="text" />
+                        </div>
 
+                        <hr />
+                        
+                        <h3>@Html.Sitecore().Field("Header - Taxpayer Identification Number")</h3>
+                        @Html.Sitecore().Field("Text - Taxpayer Identification Number")
+                        <div class="group">
+                            <div class="item group-col">
+                                <input type="radio" name="tin" id="tin-ein" />
+                                <label for="tin-ein">@Html.Sitecore().Field("Label - Employer Identification Number")</label>
+                                <input type="text" />
+                                <span class="note">@Html.Sitecore().Field("Note - Employer Identification Number")</span>
+                            </div>
+                            <div class="item group-col">
+                                <input type="radio" name="tin" id="tin-ssn" />
+                                <label for="tin-ssn">@Html.Sitecore().Field("Label - Social Security Number")</label>
+                                <input type="text" />
+                                <span class="note">@Html.Sitecore().Field("Note - Social Security Number")</span>
+                            </div>
+                        </div>
+                        <hr />
+                        <h3>@Html.Sitecore().Field("Header - Certification")</h3>
+                        <div class="terms-agreement">
+                            <div class="item">
+                                <ul class="checkbox-list">
+                                    <li>
+                                        <input type="checkbox" id="certification" /> <label for="certification">@Html.Sitecore().Field("Label - Certification")</label>
+                                    </li>
+                                </ul>
+                                <div class="terms">
+                                    @Html.Sitecore().Field("Text - Certification")
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="group">
+                            <div class="item group-col">
+                                <label>@Html.Sitecore().Field("Label - Signature")</label>
+                                <input type="text" />
+                                <ul class="checkbox-list">
+                                    <li>
+                                        <input type="checkbox" id="signatory" /> <label for="signatory">@Html.Sitecore().Field("Label - Signatory")</label>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="item group-col">
+                                <label>@Html.Sitecore().Field("Label - Date")</label>
+                                Oct 14, 2014
+                            </div>
+                        </div>
+                    </div>
+                </article>
 
+                @*
                 <article class="enrollment__box enrollment__payment-info">
                     <header>
-                        <h1>@Html.Sitecore().Field("4 - Header - Payment Information")</h1>
+                        <h1>@Html.Sitecore().Field("Header - Payment Information")</h1>
                     </header>
                     <div class="content">
                         <div class="payment-options" credit-card-payment="completeOrder.creditCard" data-val-if="true"></div>
                     </div>
                 </article>
+                *@
+
                 <article class="enrollment__box enrollment__terms-conditions">
                     <header>
-                        <h1>@Html.Sitecore().Field("4 - Header - Terms and Conditions")</h1>
+                        <h1>@Html.Sitecore().Field("Header - Terms and Conditions")</h1>
                     </header>
                     <div class="content">
-                        <p><label><input type="checkbox"> @Html.Sitecore().Field("4 - I Agree Stream")</label></p>
+                        <p><label><input type="checkbox"> @Html.Sitecore().Field("I Agree Stream")</label></p>
                         <p><textarea name="" id="" cols="30" rows="10"></textarea></p>
-                        <p><label><input type="checkbox"> @Html.Sitecore().Field("4 - I Agree TCPA")</label></p>
+                        <p><label><input type="checkbox"> @Html.Sitecore().Field("I Agree TCPA")</label></p>
                     </div>
                 </article>
-                @Html.Sitecore().Field("4 - Footnotes")
+                
+                <p</p>@Html.Sitecore().Field("Footnotes")
+                
                 <div class="clearfix">
-                    <button type="button" class="plain plain-footer">@Html.Sitecore().Field("4 - Button - Cancel Enrollment")</button>
-                    <button type="submit" class="pull-right" ng-click="setCurrentStep('order-confirmation');">@Html.Sitecore().Field("4 - Button - Next")</button>
+                    <button type="button" class="plain plain-footer">@Html.Sitecore().Field("Button - Cancel Enrollment")</button>
+                    <button type="submit" class="pull-right" ng-click="setCurrentStep('order-confirmation');">@Html.Sitecore().Field("Button - Next")</button>
                 </div>
             </form>
         </section>

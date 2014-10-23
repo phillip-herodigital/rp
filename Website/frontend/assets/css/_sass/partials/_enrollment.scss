@@ -173,6 +173,17 @@ $enrollment-module-vertical-padding: 20px;
 
     .terms-agreement {
         margin-bottom: 20px;
+        div.terms {
+            margin-top: 10px;
+            height: 65px;
+            overflow-y: scroll;
+            padding: 5px;
+            border: 1px solid #e9e9e9;
+            background: #f8f8f8;
+            p:first-child {
+                margin-top: 0;
+            }
+        }
     }
 
     .verify-order-table {
@@ -1007,17 +1018,6 @@ $enrollment-module-vertical-padding: 20px;
     .terms-agreement {
         .item {
             padding-right: 0;
-            div.terms {
-                margin-top: 10px;
-                height: 65px;
-                overflow-y: scroll;
-                padding: 5px;
-                border: 1px solid #e9e9e9;
-                background: #f8f8f8;
-                p:first-child {
-                    margin-top: 0;
-                }
-            }
         }
     }
 }
@@ -2053,6 +2053,7 @@ $enrollment-module-vertical-padding: 20px;
             @include layout-list();
             text-align: left;
             li {
+                margin-bottom: 10px;
                 padding-left: 20px;
                 [class*="icon-"] {
                     float: left;

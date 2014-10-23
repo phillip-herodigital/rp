@@ -1,7 +1,7 @@
 ﻿ngApp.controller('MobileEnrollmentCtrl', ['$scope', '$filter', '$modal', 'mobileEnrollmentService', function ($scope, $filter, $modal, mobileEnrollmentService) {
 
     $scope.mobileEnrollment = {
-        currentStep: 'configure-data'
+        currentStep: 'complete-order'
     };
 
     $scope.mobileFields = {

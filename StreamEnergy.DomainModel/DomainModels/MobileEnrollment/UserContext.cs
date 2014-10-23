@@ -25,6 +25,10 @@ namespace StreamEnergy.DomainModels.MobileEnrollment
         [ValidateObject(ErrorMessagePrefix = "Shipping Address ")]
         public Address ShippingAddress { get; set; }
 
+        [Required(ErrorMessage = "Business Address Required")]
+        [ValidateObject(ErrorMessagePrefix = "Business Address ")]
+        public Address BusinessAddress { get; set; }
+
         [ValidateObject(ErrorMessagePrefix = "")]
         public DomainModels.Payments.IPaymentInfo PaymentInfo { get; set; }
 
@@ -39,6 +43,8 @@ namespace StreamEnergy.DomainModels.MobileEnrollment
                 ((ISanitizable)BillingAddress).Sanitize();
             if (ShippingAddress != null)
                 ((ISanitizable)ShippingAddress).Sanitize();
+            if (BusinessAddress != null)
+                ((ISanitizable)BusinessAddress).Sanitize();
 
         }
 
