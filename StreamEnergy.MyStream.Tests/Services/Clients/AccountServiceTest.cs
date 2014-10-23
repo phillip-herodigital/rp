@@ -69,6 +69,10 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
 
             // Assert
             Assert.AreNotEqual(Guid.Empty, globalCustomerId);
+
+            var customer = accountService.GetCustomerByCustomerId(globalCustomerId).Result;
+            customer.EmailAddress = null;
+            accountService.UpdateCustomer(customer).Wait();
         }
 
         [TestMethod]
@@ -89,6 +93,10 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
 
             // Assert
             Assert.AreEqual("test@example.com", customer.EmailAddress);
+
+            customer = accountService.GetCustomerByCustomerId(gcid).Result;
+            customer.EmailAddress = null;
+            accountService.UpdateCustomer(customer).Wait();
         }
 
         [TestMethod]
@@ -160,6 +168,10 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             Assert.AreEqual(providerKey, customer.AspNetUserProviderKey);
             Assert.AreEqual("extranet//tester", customer.Username);
             Assert.AreEqual("test@example.com", customer.EmailAddress);
+
+            customer = accountService.GetCustomerByCustomerId(customer.GlobalCustomerId).Result;
+            customer.EmailAddress = null;
+            accountService.UpdateCustomer(customer).Wait();
         }
 
         [TestMethod]
@@ -248,15 +260,21 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         public void FindAccountByEmail()
         {
             // Arrange
+            var rand = new Random();
+            var email = "test"+ rand.Next(1000000)+ "@example.com";
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
-            var gcid = accountService.CreateStreamConnectCustomer().Result.GlobalCustomerId;
+            var gcid = accountService.CreateStreamConnectCustomer(email: email).Result.GlobalCustomerId;
 
             // Act
-            var customers = accountService.FindCustomers("test@example.com").Result;
+            var customers = accountService.FindCustomers(email).Result;
 
             // Assert
             Assert.IsNotNull(customers);
             Assert.IsTrue(customers.Any());
+
+            var customer = accountService.GetCustomerByCustomerId(gcid).Result;
+            customer.EmailAddress = null;
+            accountService.UpdateCustomer(customer).Wait();
         }
 
         [TestMethod]
