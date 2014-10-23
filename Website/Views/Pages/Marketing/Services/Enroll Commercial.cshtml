@@ -9,7 +9,7 @@
         <div class="inner">
             <h2>@Html.Sitecore().Field("Form Title")</h2>
             @Html.Sitecore().Field("Form Intro Text")
-            <form action="@Request.Url.AbsolutePath" method="post">
+            <form action="@Request.Url.ToString()" method="post">
                 @Html.ValidationSummary()
 
                 <div class="item" @Html.Validation().ErrorClass(model => model.ContactName.First)>
