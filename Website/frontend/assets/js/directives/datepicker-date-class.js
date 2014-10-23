@@ -20,7 +20,7 @@ ngApp.directive('datepickerDateClass', [function () {
                         values = temp(value);
                     if (attr['datepickerDateClass']) {
                         var customClass = importantScope.$eval(attr['datepickerDateClass'], { date: date });
-                        if (customClass != null) {
+                        if (customClass && customClass != null) {
                             values = angular.extend(customClass, values);
                         }
                     }

@@ -855,6 +855,12 @@ $enrollment-module-vertical-padding: 20px;
             text-align: left;
         }
     }
+    .ga-plan-selection-fees {
+        width: 50%;
+        dt, dd {
+            width: 50%;
+        }
+    }
     @include breakpoint(small-medium) {
         .plan-selection-table {
             th, td {
