@@ -19,12 +19,12 @@
                                 <option value="">All</option>
                             </select>
                         </div>
-                        <div class="item">
+                        @*<div class="item">
                             <label for="Status">@Html.Sitecore().Field("Status Text")</label>
                             <select id="Status" ng-model="filters.isPaid" ng-options="item.value as item.name for item in filtersList.isPaid">
                                 <option value="">All</option>
                             </select>
-                        </div>
+                        </div>*@
                         <div class="actions" ng-show="isFiltered()">
                             <p><a href="" ng-click="resetFilters()">@Html.Sitecore().Field("Reset Filters Text")</a></p>
                         </div>
