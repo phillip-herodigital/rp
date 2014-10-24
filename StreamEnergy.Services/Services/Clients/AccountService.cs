@@ -284,6 +284,19 @@ namespace StreamEnergy.Services.Clients
             var response = await streamConnectClient.GetAsync("/api/v1/customers?EmailAddress=" + emailAddress);
             dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
 
+            return ParseFindCustomers(data);
+        }
+
+        async Task<IEnumerable<Customer>> IAccountService.FindCustomersByCisAccount(string accountNumber)
+        {
+            var response = await streamConnectClient.GetAsync("/api/v1/customers?SystemOfRecordAccountNumber=" + accountNumber);
+            dynamic data = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
+
+            return ParseFindCustomers(data);
+        }
+
+        private static IEnumerable<Customer> ParseFindCustomers(dynamic data)
+        {
             if (data.Status != "Success")
                 return null;
 
@@ -295,12 +308,6 @@ namespace StreamEnergy.Services.Clients
                        AspNetUserProviderKey = entry.PortalId,
                        Username = entry.UserName,
                    };
-        }
-
-        Task<IEnumerable<Customer>> IAccountService.FindCustomersByCisAccount(string accountNumber)
-        {
-            // TODO - make an actual call.
-            return Task.FromResult(Enumerable.Empty<Customer>());
         }
 
 

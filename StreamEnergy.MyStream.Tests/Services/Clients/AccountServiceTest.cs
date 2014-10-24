@@ -280,6 +280,32 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         [TestMethod]
         [TestCategory("StreamConnect")]
         [TestCategory("StreamConnect Accounts")]
+        public void FindAccountByAccountNumber()
+        {
+            // Arrange
+            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
+            var gcid = accountService.CreateStreamConnectCustomer().Result.GlobalCustomerId;
+            var acct = accountService.AssociateAccount(gcid, TestData.IstaAccountNumber, TestData.IstaAccountSsnLast4, "").Result;
+
+            // Act
+            var customers = accountService.FindCustomersByCisAccount(TestData.IstaAccountNumber).Result;
+
+            // Assert
+            Assert.IsNotNull(customers);
+            Assert.IsTrue(customers.Any());
+
+            foreach (var customer in customers.Where(c => c.Username == null))
+            {
+                foreach (var entry in accountService.GetAccounts(customer.GlobalCustomerId).Result)
+                {
+                    accountService.DisassociateAccount(entry).Wait();
+                }
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Accounts")]
         public void GetAccountDetails()
         {
             // Arrange
