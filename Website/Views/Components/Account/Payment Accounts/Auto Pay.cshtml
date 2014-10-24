@@ -108,7 +108,7 @@
                                 <input id="cc-nickname" name="cc-nickname" type="text" data-val="true" data-val-required data-val-if="newPaymentMethodType == 'TokenizedCard'" ng-model="formData.nickname" />
                                 <span class="help-text">@Html.Sitecore().Field("Account Nickname Help Text")</span>
                             </div>
-                            <div credit-card-payment="formData.card" data-val-if="true"></div>
+                            <div credit-card-payment="formData.card" data-val-if="newPaymentMethodType == 'TokenizedCard'"></div>
                         </div>
                     </div>
 
