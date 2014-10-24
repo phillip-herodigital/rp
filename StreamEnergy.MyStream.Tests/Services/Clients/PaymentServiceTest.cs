@@ -46,7 +46,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             var acct = accountService.AssociateAccount(customer.GlobalCustomerId, TestData.IstaAccountNumber, TestData.IstaAccountSsnLast4, "").Result;
             var result = paymentService.SavePaymentMethod(customer.GlobalCustomerId, new DomainModels.Payments.TokenizedCard
             {
-                CardToken = "9442268296134448",
+                CardToken = TestData.CardToken,
                 BillingZipCode = "75201",
                 ExpirationDate = DateTime.Today.AddDays(60),
                 SecurityCode = "123"
@@ -84,7 +84,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Act
             var result = paymentService.SavePaymentMethod(customerId, new DomainModels.Payments.TokenizedCard
             {
-                CardToken = "9442268296134448",
+                CardToken = TestData.CardToken,
                 BillingZipCode = "75201",
                 ExpirationDate = DateTime.Today.AddDays(60),
                 SecurityCode = "123"
@@ -114,8 +114,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Act
             var result = paymentService.SavePaymentMethod(customerId, new DomainModels.Payments.TokenizedBank
             {
-                AccountToken = "9442268296134448",
-                RoutingNumber = "123456789",
+                AccountToken = TestData.BankToken,
+                RoutingNumber = TestData.BankRoutingNumber,
                 Category = DomainModels.Payments.BankAccountCategory.Checking
             }, "Test Card").Result;
 
@@ -142,7 +142,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             var acct = accountService.AssociateAccount(customerId, TestData.IstaAccountNumber, TestData.IstaAccountSsnLast4, "").Result;
             var paymentMethodId = paymentService.SavePaymentMethod(customerId, new DomainModels.Payments.TokenizedCard
             {
-                CardToken = "9442268296134448",
+                CardToken = TestData.CardToken,
                 BillingZipCode = "75201",
                 ExpirationDate = DateTime.Today.AddDays(60),
                 SecurityCode = "123"
@@ -176,7 +176,6 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             Assert.IsNotNull(payments);
             Assert.IsTrue(payments.Any());
             Assert.IsTrue(payments.First().PaymentHistory.Any());
-            Assert.IsTrue(payments.First().PaymentHistory.All(h => h.PaymentAmount > 0));
         }
 
         [TestMethod]
@@ -209,7 +208,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             var acct = accountService.AssociateAccount(gcid, TestData.IstaAccountNumber, TestData.IstaAccountSsnLast4, "Sample").Result;
             var paymentMethodId = paymentService.SavePaymentMethod(gcid, new DomainModels.Payments.TokenizedCard
             {
-                CardToken = "9442268296134448",
+                CardToken = TestData.CardToken,
                 BillingZipCode = "75201",
                 ExpirationDate = DateTime.Today.AddDays(60),
                 SecurityCode = "123"
@@ -242,7 +241,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             var acct = accountService.AssociateAccount(gcid, TestData.IstaAccountNumber, TestData.IstaAccountSsnLast4, "Sample").Result;
             var paymentMethodId = paymentService.SavePaymentMethod(gcid, new DomainModels.Payments.TokenizedCard
             {
-                CardToken = "9442268296134448",
+                CardToken = TestData.CardToken,
                 BillingZipCode = "75201",
                 ExpirationDate = DateTime.Today.AddDays(60),
                 SecurityCode = "123"
@@ -282,10 +281,41 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Act
             var result = paymentService.OneTimePayment(DateTime.Today, rand.Next(0, 500) / 100.0m, TestData.IstaAccountNumber, acct.Details.ContactInfo.Name.First + " " + acct.Details.ContactInfo.Name.Last, acct.SystemOfRecord, new TokenizedCard
             {
-                CardToken = "9442268296134448",
+                CardToken = TestData.CardToken,
                 BillingZipCode = "75201",
                 ExpirationDate = DateTime.Today.AddDays(60),
                 SecurityCode = "123"
+            }).Result;
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.ConfirmationNumber);
+        }
+
+        [TestMethod]
+        [TestCategory("StreamConnect")]
+        [TestCategory("StreamConnect Payments")]
+        public void MakeSavedCardPaymentTest()
+        {
+            // Arrange
+            StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
+            StreamEnergy.DomainModels.Payments.IPaymentService paymentService = container.Resolve<StreamEnergy.Services.Clients.PaymentService>();
+            var customerId = accountService.CreateStreamConnectCustomer().Result.GlobalCustomerId;
+            var acct = accountService.AssociateAccount(customerId, TestData.IstaAccountNumber, TestData.IstaAccountSsnLast4, "").Result;
+            accountService.GetAccountDetails(acct).Wait();
+            var paymentMethodId = paymentService.SavePaymentMethod(customerId, new TokenizedCard
+            {
+                CardToken = TestData.CardToken,
+                BillingZipCode = "75201",
+                ExpirationDate = DateTime.Today.AddDays(60),
+                SecurityCode = "123"
+            }, "Test Card").Result;
+
+            // Act
+            var result = paymentService.OneTimePayment(DateTime.Today, rand.Next(0, 500) / 100.0m, acct.Details.ContactInfo.Name.First + " " + acct.Details.ContactInfo.Name.Last, acct, new SavedPaymentInfo
+            {
+                Id = paymentMethodId,
+                UnderlyingPaymentType = TokenizedBank.Qualifier
             }).Result;
 
             // Assert
@@ -307,8 +337,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             // Act
             var result = paymentService.OneTimePayment(DateTime.Today, rand.Next(0, 500) / 100.0m, TestData.IstaAccountNumber, acct.Details.ContactInfo.Name.First + " " + acct.Details.ContactInfo.Name.Last, acct.SystemOfRecord, new TokenizedBank
             {
-                AccountToken = "9442268296134448",
-                RoutingNumber = "123456789",
+                AccountToken = TestData.BankToken,
+                RoutingNumber = TestData.BankRoutingNumber,
                 Category = BankAccountCategory.Checking,
             }).Result;
 
@@ -320,7 +350,7 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         [TestMethod]
         [TestCategory("StreamConnect")]
         [TestCategory("StreamConnect Payments")]
-        public void MakeSavedPaymentTest()
+        public void MakeSavedBankPaymentTest()
         {
             // Arrange
             StreamEnergy.DomainModels.Accounts.IAccountService accountService = container.Resolve<StreamEnergy.Services.Clients.AccountService>();
@@ -330,8 +360,8 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
             accountService.GetAccountDetails(acct).Wait();
             var paymentMethodId = paymentService.SavePaymentMethod(customerId, new DomainModels.Payments.TokenizedBank
             {
-                AccountToken = "9442268296134448",
-                RoutingNumber = "123456789",
+                AccountToken = TestData.BankToken,
+                RoutingNumber = TestData.BankRoutingNumber,
                 Category = DomainModels.Payments.BankAccountCategory.Checking
             }, "Test Card").Result;
 

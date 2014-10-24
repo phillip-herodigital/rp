@@ -481,7 +481,7 @@ namespace StreamEnergy.Services.Clients
                                 RequiredAmounts = new IOfferPaymentAmount[] 
                                 {
                                     // TODO future - installation fees
-                                    new DepositOfferPaymentAmount { DollarAmount = deposit }
+                                    new DepositOfferPaymentAmount { DollarAmount = deposit, SystemOfRecord = entry.SystemOfRecord, DepositAccount = entry.SystemOfRecordAccountNumber }
                                 },
                                 PostBilledAmounts = optionRules.GetPostBilledPayments(option)
                             }
@@ -499,11 +499,13 @@ namespace StreamEnergy.Services.Clients
                 return Enumerable.Empty<LocationOfferDetails<DomainModels.Payments.PaymentResult>>();
 
             List<LocationOfferDetails<DomainModels.Payments.PaymentResult>> result = new List<LocationOfferDetails<DomainModels.Payments.PaymentResult>>();
-            foreach (var deposit in depositData)
+            foreach (var deposit in from deposit in depositData
+                                    let amt = deposit.Details.RequiredAmounts.OfType<DepositOfferPaymentAmount>().SingleOrDefault()
+                                    where amt != null
+                                    where !context.Services.FirstOrDefault(svc => svc.Location == deposit.Location).SelectedOffers.FirstOrDefault(o => o.Offer.Id == deposit.Offer.Id).WaiveDeposit || !amt.CanBeWaived
+                                    group new { deposit.Location, deposit.Offer, amt.DollarAmount } by new { amt.SystemOfRecord, amt.DepositAccount })
             {
-                var waiveDeposit = context.Services.FirstOrDefault(svc => svc.Location == deposit.Location).SelectedOffers.FirstOrDefault(o => o.Offer.Id == deposit.Offer.Id).WaiveDeposit;
-                var depositAmount = deposit.Details.RequiredAmounts.Where(req => req.OfferPaymentAmountType == DepositOfferPaymentAmount.Qualifier && (!waiveDeposit || !req.CanBeWaived)).Sum(req => req.DollarAmount);
-
+                var depositAmount = deposit.Sum(d => d.DollarAmount);
                 if (depositAmount == 0)
                 {
                     continue;
@@ -514,32 +516,34 @@ namespace StreamEnergy.Services.Clients
                     PaymentDate = DateTime.Today,
                     InvoiceType = "Deposit",
                     Amount = depositAmount,
-                    StreamAccountNumber = deposit.Details.EnrollmentAccountNumber,
+                    StreamAccountNumber = deposit.Key.DepositAccount,
                     CustomerName = context.ContactInfo.Name.First + " " + context.ContactInfo.Name.Last,
-                    // We won't want to hard-code this later
-                    SystemOfRecord = "Kubra",
-                    PaymentAccount = new 
-                    { 
+                    SystemOfRecord = deposit.Key.SystemOfRecord,
+                    PaymentAccount = new
+                    {
                         Token = card.CardToken,
                         AccountType = "Unknown",
                         ExpirationDate = new { Year = card.ExpirationDate.Year, Month = card.ExpirationDate.Month },
                         Name = context.ContactInfo.Name.First + " " + context.ContactInfo.Name.Last,
-                        Postal = card.BillingZipCode,                        
+                        Postal = card.BillingZipCode,
                     },
                     Cvv = card.SecurityCode
                 });
                 dynamic jobject = Json.Read<JObject>(await response.Content.ReadAsStringAsync());
 
-                result.Add(new LocationOfferDetails<DomainModels.Payments.PaymentResult>
-                    {
-                        Location = deposit.Location,
-                        Offer = deposit.Offer,
-                        Details = new DomainModels.Payments.PaymentResult
+                foreach (var entry in deposit)
+                {
+                    result.Add(new LocationOfferDetails<DomainModels.Payments.PaymentResult>
                         {
-                            ConfirmationNumber = jobject.ConfirmationNumber,
-                            ConvenienceFee = (decimal)jobject.ConvenienceFee.Value,
-                        }
-                    });
+                            Location = entry.Location,
+                            Offer = entry.Offer,
+                            Details = new DomainModels.Payments.PaymentResult
+                            {
+                                ConfirmationNumber = jobject.ConfirmationNumber,
+                                ConvenienceFee = (decimal)jobject.ConvenienceFee.Value,
+                            }
+                        });
+                }
             }
 
             return result.ToArray();

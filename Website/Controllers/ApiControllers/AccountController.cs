@@ -182,21 +182,29 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     Values = from account in currentUser.Accounts = await accountService.GetInvoices(currentUser.StreamConnectCustomerId, currentUser.Accounts)
                              where account.Invoices != null
                              from invoice in account.Invoices
-                             select new StreamEnergy.MyStream.Models.Account.Invoice
-                             {
-                                 AccountNumber = account.AccountNumber,
-                                 ServiceType = account.AccountType,
-                                 InvoiceNumber = invoice.InvoiceNumber,
-                                 InvoiceAmount = invoice.InvoiceAmount,
-                                 DueDate = invoice.DueDate,
-                                 CanRequestExtension = account.GetCapability<InvoiceExtensionAccountCapability>().CanRequestExtension,
-                                 Actions = 
-                                 {
-                                     { "viewPdf", "/api/account/invoicePdf?account=" + account.AccountNumber + "&invoice=" + invoice.InvoiceNumber }
-                                 }
-                             }
+                             select CreateViewInvoice(account, invoice)
                 }
             };
+        }
+
+        private static Models.Account.Invoice CreateViewInvoice(Account account, DomainModels.Accounts.Invoice invoice)
+        {
+            var result = new StreamEnergy.MyStream.Models.Account.Invoice
+            {
+                AccountNumber = account.AccountNumber,
+                ServiceType = account.AccountType,
+                InvoiceNumber = invoice.InvoiceNumber,
+                InvoiceAmount = invoice.InvoiceAmount,
+                DueDate = invoice.DueDate,
+                CanRequestExtension = account.GetCapability<InvoiceExtensionAccountCapability>().CanRequestExtension,
+            };
+            
+            if (invoice.PdfAvailable)
+            {
+                result.Actions.Add("viewPdf", "/api/account/invoicePdf?account=" + account.AccountNumber + "&invoice=" + invoice.InvoiceNumber);
+            }
+
+            return result;
         }
 
         [Authorize]
