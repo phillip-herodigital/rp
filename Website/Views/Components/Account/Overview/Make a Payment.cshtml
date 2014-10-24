@@ -106,7 +106,7 @@
                 </dl>
                 <dl class="clearfix module-list">
                     <dt>@Html.Sitecore().Field("Convenience Fee Text")</dt>
-                    <dd>$2.95</dd>
+                    <dd>@Html.Sitecore().Field("GA Convenience Fee Amount")</dd>
                     <dt>@Html.Sitecore().Field("Total Payment Text")</dt>
                     <dd>{{ paymentAmount | currency }}</dd>
                     <dt>@Html.Sitecore().Field("Payment Date Text")</dt>
