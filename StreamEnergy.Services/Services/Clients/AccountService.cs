@@ -45,6 +45,7 @@ namespace StreamEnergy.Services.Clients
                         InvoiceNumber = invoice.InvoiceId.ToString(),
                         DueDate = invoice.DueDate,
                         InvoiceAmount = (decimal)invoice.AmountDue.Value,
+                        PdfAvailable = invoice.PdfAvailable
                     } by new AccountFactory.AccountKey
                     {
                         StreamConnectCustomerId = globalCustomerId,
