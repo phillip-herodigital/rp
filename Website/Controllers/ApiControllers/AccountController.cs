@@ -352,8 +352,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 { 
                     entry.account,
                     entry.paymentAmount,
-                    // TODO - customer name?
-                    task = paymentService.OneTimePayment(request.PaymentDate, entry.paymentAmount, null, entry.account, entry.paymentMethod) 
+                    task = paymentService.OneTimePayment(request.PaymentDate, entry.paymentAmount, entry.account.Details.ContactInfo.Name.First + " " + entry.account.Details.ContactInfo.Name.Last, entry.account, entry.paymentMethod) 
                 }).ToArray();
             await Task.WhenAll(temp.Select(e => e.task));
             await paymentService.RecordForDuplicatePayments((from entry in paymentRecords
