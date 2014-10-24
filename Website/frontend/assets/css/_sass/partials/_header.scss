@@ -24,6 +24,16 @@
 		a {
 			text-transform: uppercase;
 		}
+		.welcome {
+			text-transform: none;
+			.username {
+				margin-right: 10px;
+			}
+			a {
+				text-transform: none;
+				margin: 0 5px;
+			}
+		}
 	}
 	nav.main-nav {
 		float: right;

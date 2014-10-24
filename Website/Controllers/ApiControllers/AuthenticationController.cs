@@ -135,6 +135,19 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         #endregion
 
+        #region Logout
+
+        [HttpGet]
+        public HttpResponseMessage Logout()
+        {
+            Dispose(true);
+            var response = Request.CreateResponse(HttpStatusCode.Found);
+            response.Headers.Location = new Uri(Request.RequestUri, "/auth/login");
+            return response;
+        }
+
+        #endregion
+
         #region Create Online Account
 
         [HttpPost]
