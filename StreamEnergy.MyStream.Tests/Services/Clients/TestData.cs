@@ -12,6 +12,9 @@ namespace StreamEnergy.MyStream.Tests.Services.Clients
         public const string IstaAccountSsnLast4 = "1376";
         public const string CreditCheckSsn = "666361452";
         public const string IdentityCheckSsn = "666540716";
+        public const string CardToken = "9411068799444113";
+        public const string BankToken = "9411068799444113";
+        public const string BankRoutingNumber = "031202084";
 
         public static DomainModels.CustomerContact CreditCheckContactInfo()
         {
