@@ -414,7 +414,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         {
             var accountNumber = request.AccountNumber;
 
-            // TODO get the plan info from Stream Connect
             currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
             var account = currentUser.Accounts.FirstOrDefault(acct => acct.AccountNumber == request.AccountNumber);
             var accountDetails = await accountService.GetAccountDetails(account, false);
