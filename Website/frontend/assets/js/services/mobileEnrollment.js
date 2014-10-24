@@ -1,22 +1,77 @@
 ngApp.factory('mobileEnrollmentService', ['$rootScope', function ($rootScope) {
-    var service = {},
-        mobileNetworks = [],
-        phones = [],
-        cart = {
-            phone: undefined,
-            warranty: false,
-            color: {
-                name: undefined,
-                value: undefined
-            },
-            plan: undefined,
-            number: {
-                type: undefined,
-                value: undefined
+    var service = {
+        state: "TX",
+        selectedNetwork: undefined,
+        cart: {
+            items: [
+                /*{
+                    id: undefined,
+                    type: undefined, // New or Existing
+                    name: undefined,
+                    make: undefined,
+                    model: undefined,
+                    imeiNumber: undefined,
+                    simNumber: undefined,
+                    warranty: false,
+                    color: {
+                        name: undefined,
+                        value: undefined
+                    },
+                    //plan: undefined,
+                    number: {
+                        type: undefined,
+                        value: undefined
+                    }
+                }*/
+            ],
+            dataPlan: {
+                /*price: undefined,
+                includedData: {
+                    amount: undefined,
+                    cost: undefined
+                },
+                additionalData: {
+                    amount: undefined,
+                    cost: undefined
+                }*/
             }
-        };
+        },
+        accountInformation: {
+            contactInfo: {
+                name: {
+                    first: '',
+                    last: ''
+                },
+                phone: [{
+                    number: '',
+                    category: ''
+                }],
+                email: {
+                    address: ''
+                }
+            },
+            socialSecurityNumber: '',
+            secondaryContactInfo: {}
+        }
+    },
+    mobileNetworks = [],
+    phones = [];
+    /*,
+    cart = {
+        phone: undefined,
+        warranty: false,
+        color: {
+            name: undefined,
+            value: undefined
+        },
+        plan: undefined,
+        number: {
+            type: undefined,
+            value: undefined
+        }
+    };*/
 
-    service.accountInformation = {
+    /*service.accountInformation = {
         contactInfo: {
             name: {
                 first: '',
@@ -32,10 +87,14 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', function ($rootScope) {
         },
         socialSecurityNumber: '',
         secondaryContactInfo: {}
-    };
+    };*/
 
     service.setNetworkData = function (data) {
         mobileNetworks = data;
+    };
+
+    service.getNetworks = function() {
+        return mobileNetworks;
     };
 
     service.setPhoneData = function (data) {
@@ -44,11 +103,7 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', function ($rootScope) {
 
     service.getPhones = function() {
         return phones;
-    }
-
-    service.getNetworks = function() {
-        return mobileNetworks;
-    }
+    };
 
     service.getItemPrice = function(priceObject) {
         //I'm assuming we always want the new price if it exists
@@ -98,15 +153,13 @@ ngApp.factory('mobileEnrollmentService', ['$rootScope', function ($rootScope) {
      * @param {[type]} value [description]
      */
     service.getCart = function(phoneName) {
-        return cart;
+        return service.cart;
     };
 
-    service.setSelectedPhone = function(phoneObject) {
-        cart.phone = _.where(phones, { name: phoneObject.phone })[0];
-        cart.warranty = phoneObject.options.warranty;
-        cart.number = phoneObject.options.number;
-        cart.color = _.where(cart.phone.colors, { color: phoneObject.options.color})[0];
-        cart.model = _.where(cart.phone.models, { size: phoneObject.options.size, condition: phoneObject.options.condition })[0];
+    service.addItemToCart = function(item) {
+        
+        service.cart.items.push(item);
+
     };
 
     return service;

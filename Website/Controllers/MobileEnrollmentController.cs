@@ -145,5 +145,10 @@ namespace StreamEnergy.MyStream.Controllers
             return View("~/Views/Components/Mobile Enrollment/Order Confirmation.cshtml");
         }
 
+        public ActionResult Cart()
+        {
+            return View("~/Views/Components/Mobile Enrollment/Cart.cshtml");
+        }
+
     }
 }

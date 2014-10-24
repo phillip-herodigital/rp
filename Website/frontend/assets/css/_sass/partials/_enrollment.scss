@@ -1572,6 +1572,32 @@ $enrollment-module-vertical-padding: 20px;
             font-weight: 400;
         }
     }
+    .choose-network-table-wrapper {
+        position: relative;
+        div.overlay {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #fff;
+            @include opacity(.95);
+        }
+        span.text {
+            display: block;
+            width: 100%;
+            position: absolute;
+            top: 50%;
+            height: 1.5em;
+            margin-top: -.75em;
+            text-align: center;
+            color: #555;
+            font-size: 40px;
+        }
+        &.sprint {
+            border-top: 1px solid #eaeaea;
+        }
+    }
     .choose-network-table {
         .plans {
             width: 33%;
@@ -1923,7 +1949,10 @@ $enrollment-module-vertical-padding: 20px;
         input[type="text"] {
             width: 100%;
         }
-        @include breakpoint(medium-large) {
+        .note {
+            font-size: 14px;
+        }
+        /*@include breakpoint(medium-large) {
             .grid {
                 .col:first-child {
                     width: 33%;
@@ -1998,15 +2027,15 @@ $enrollment-module-vertical-padding: 20px;
             &.transfer:after, &.transfer:before {
                 left: 75%;
             }
-        }
+        }*/
     }
-    @include breakpoint(small) {
+    /*@include breakpoint(small) {
         .phone-selector {
             .col {
                 width: auto;
             }
         }
-    }
+    }*/
 }
 
 .enrollment__configure-data {

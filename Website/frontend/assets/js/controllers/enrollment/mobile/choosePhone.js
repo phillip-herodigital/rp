@@ -1,5 +1,22 @@
 ﻿ngApp.controller('MobileEnrollmentChoosePhoneCtrl', ['$scope', '$filter', '$modal', 'mobileEnrollmentService', function ($scope, $filter, $modal, mobileEnrollmentService) {
 
+    $scope.mobileEnrollmentService = mobileEnrollmentService;
+
+    $scope.phoneFilters = {
+        condition: undefined,
+        brand: [],
+        os: []
+    };
+
+    $scope.selectedPhone = undefined;
+    $scope.phoneOptions = {
+        color: undefined,
+        size: undefined,
+        condition: undefined,
+        warranty: undefined,
+        number: undefined
+    };
+
     $scope.phoneNumberType = ''; // set phone number type to new number or transfer existing number
     $scope.displayFilters = false; // Display the extra phone filters
 
@@ -13,12 +30,12 @@
     $scope.setSelectedPhone = function(id) {
         var item = _.where(mobileEnrollmentService.getPhones(), { id: id })[0];
 
-        $scope.phoneFilters.selectedPhone = item.name;
+        $scope.selectedPhone = item;
         $scope.phoneOptions.color = item.colors[0].color;
         $scope.phoneOptions.size = item.models[0].size;
     };
 
-    $scope.isPhoneOptionsValid = function() {
+    $scope.phoneOptionsValid = function() {
         //check $scope.phoneOptions
         return _.isNotEmpty($scope.phoneOptions);
     };
@@ -28,7 +45,7 @@
      * to different phone options
      */
     $scope.clearPhoneSelection = function() {
-        $scope.phoneFilters.selectedPhone = undefined;
+        $scope.selectedPhone = undefined;
         $scope.phoneOptions = {
             color: undefined,
             size: undefined,
@@ -39,20 +56,36 @@
     };
 
     /**
-     * Get the currently selected phone details
-     */
-    $scope.getSelectedPhone = function() {
-        return mobileEnrollmentService.getSelectedPhone($scope.phoneFilters.selectedPhone);
-    };
-
-    /**
      * Adds the currently selected phone to the cart
      */
-    $scope.addPhoneToCart = function() {
-        mobileEnrollmentService.setSelectedPhone({
-            phone: $scope.phoneFilters.selectedPhone,
-            options: $scope.phoneOptions
-        });
+    $scope.addDeviceToCart = function() {
+
+        var item = {},
+        device;
+
+        if ($scope.mobileEnrollment.phoneTypeTab == "new") { 
+            device = $scope.selectedPhone;
+            item = {
+                type: $scope.mobileEnrollment.phoneTypeTab,
+                device: device,
+                id: device.id,
+                buyingOption: _.where(device.models, { size: $scope.phoneOptions.size, condition: $scope.phoneOptions.condition })[0],
+                color: _.where(device.colors, { color: $scope.phoneOptions.color})[0],
+                warranty: $scope.phoneOptions.warranty
+            };
+        }
+        else {
+            item = {
+                type: $scope.mobileEnrollment.phoneTypeTab,
+                make: $scope.phoneOptions.make,
+                model: $scope.phoneOptions.model,
+                imeiNumber: $scope.phoneOptions.imeiNumber,
+                simNumber: $scope.phoneOptions.simNumber,
+                number: $scope.phoneOptions.number
+            };
+        }
+
+        mobileEnrollmentService.addItemToCart(item);
         $scope.setCurrentStep('configure-data');
     };
 
@@ -92,7 +125,7 @@
     $scope.showUnlockingModal = function () {
         $modal.open({
             'scope': $scope,
-            'templateUrl': 'networkUnlocking/' + $scope.phoneFilters.selectedNetwork
+            'templateUrl': 'networkUnlocking/' + mobileEnrollmentService.selectedNetwork
         })
     };
 

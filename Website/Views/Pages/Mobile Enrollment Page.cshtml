@@ -1,6 +1,8 @@
-<div class="enrollment mobile-enrollment" ng-controller="MobileEnrollmentCtrl" ng-init="ctrl.mobileService.setPhoneData(@(Html.Action("MobileEnrollmentPhones", "MobileEnrollment").ToHtmlString())); usStates = @(Html.Action("States", "Data").ToHtmlString()); phoneTypes = @(Html.Action("PhoneCategories", "Data").ToHtmlString());">
+<div class="enrollment mobile-enrollment" ng-controller="MobileEnrollmentCtrl" ng-init="mobileEnrollmentService.setPhoneData(@(Html.Action("MobileEnrollmentPhones", "MobileEnrollment").ToHtmlString())); usStates = @(Html.Action("States", "Data").ToHtmlString()); phoneTypes = @(Html.Action("PhoneCategories", "Data").ToHtmlString());">
     @Html.Sitecore().Placeholder("mobile enrollment sections")
 </div>
+
+@Html.Sitecore().Placeholder("mobile enrollment sidebar")
 
 <script type="text/ng-template" id="networkUnlocking/att">
     <div class="mobile-enrollment-modal">
@@ -15,11 +17,11 @@
                 <li>Review the eligibility requirements to unlock your device.</li>
                 <li>At the bottom of the page, select the checkbox and then select Agree to agree to the requirements to unlock your device.</li>
                 <li>Complete the Request a Device Unlock form and select Submit:
-                    <ol>
+                    <ul>
                         <li>AT&T will process your unlock request within 2-5 business days.</li>
                         <li>To check the status of your request, visit att.com/deviceunlockstatus from a tablet or PC.</li>
                         <li>If your request is approved, we&rsquo;ll send the unlock code and/or instructions to unlock your device to the email address entered in your unlock request. You can also refer to the AT&T Device Unlock Code Instructions.</li>
-                    </ol>
+                    </ul>
                 </li>
             </ol>
         </div>
@@ -54,70 +56,6 @@
         <div class="modal-footer">
             If you&rsquo;re a business customer, call <strong>800.331.0500</strong> to request an unlock code for your business device.
         </div>
-    </div>
-</script>
-
-<script type="text/ng-template" id="mobile-enrollment-cart">
-    <div class="enrollment__cart" ng-controller="EnrollmentCartCtrl">
-        <article class="enrollment__box" scroll-anchor="scrollFix">
-            <header>
-                <div class="cart-items" ng-if="!isCartOpen()">
-                    <i class="icon-cart"></i>
-                    <div class="item-num" ng-show="getCartCount()">{{ getCartCount() }}</div>
-                </div>
-                <i class="icon-close" ng-click="toggleCart();" ng-if="isCartOpen()"></i>
-                <h1>@Html.Sitecore().Field("6 - Cart Header")</h1>
-            </header>
-            <div class="content">
-                @*<p class="alt" ng-if="!getCartCount() && !getCartItems().length">@Html.Sitecore().Field("Empty Cart Text")</p>*@
-                <div class="cart-item">
-                    <h2>@Html.Sitecore().Field("6 - Mobile Services Header")</h2>
-
-                    <div class="mobile-plan">
-                        Lorem Ipsum AT&amp;T Network plan <br />
-                        <a href="">Edit Network</a> | <a href="">@Html.Sitecore().Field("6 - Edit Plan Link Text")</a> | <a href="">@Html.Sitecore().Field("6 - Plan Details Link Text")</a>
-                    </div>
-
-                    <div class="cart-product clearfix" ng-if="ctrl.mobileService.getCart().phone">
-                        <div class="description">
-                            <span class="condition">{{ ctrl.mobileService.getCart().model.condition }}</span> <br />
-                            <span class="model">{{ ctrl.mobileService.getCart().phone.name }}</span> <br />
-                            <span class="options">{{ ctrl.mobileService.getCart().model.size }}, {{ ctrl.mobileService.getCart().color.value }}</span> <br />
-                            <a href="">@Html.Sitecore().Field("6 - Edit Phone Link Text")</a>
-                        </div>
-                        <div class="rate">{{ ctrl.mobileService.getCart().model.price | currency }}</div>
-
-                        <div ng-if="ctrl.mobileService.getCart().warranty != ''">
-                            <div class="description">@Html.Sitecore().Field("6 - Phone Warranty Text")</div>
-                            <div class="rate">$9.95/mo</div>
-                        </div>
-                    </div>              
-
-                    <div class="cart-product clearfix" ng-if="ctrl.mobileService.getCart().plan">
-                        <h2>@Html.Sitecore().Field("6 - Monthly Plan Text")</h2>
-                        <div class="description">
-                            7.5 GB Included Data <br />
-                            <a href="">@Html.Sitecore().Field("6 - Edit Plan Text")</a>
-                        </div>
-                        <div class="rate">$39/mo</div>
-                    </div>                           
-                </div>
-                <div class="time">
-                    <p><i class="icon-clock"></i>
-                    @Html.Sitecore().Field("6 - Time Remaining Text").Format(new { time = "{{time()}}" })</p>
-                </div>
-            </div>
-        </article>
-        <article class="enrollment__box">
-            <header>
-                <p>@Html.Sitecore().Field("6 - Youll Need Header")</p>
-            </header>
-            <ul class="info">
-                <li><i class="icon-credit-card"></i> @Html.Sitecore().Field("6 - Credit Card Text")</li>
-                <li><i class="icon-billing-address"></i>  @Html.Sitecore().Field("6 - Billing Address Text")</a></li>
-                <li><i class="icon-imei"></i> @Html.Sitecore().Field("6 - IMEI Number Text") <br /> @Html.Sitecore().Field("6 - Bring Your Own Phone Text")</li>
-            </ul>
-        </article>
     </div>
 </script>
 

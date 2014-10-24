@@ -14,10 +14,10 @@
             <article class="enrollment__box enrollment__choose-device form">
                 @* Commenting out tabs for Nov 15, so can't get to Shop Devices screen
                     <header class="tabbed-header clearfix">
-                        <div class="tab" ng-class="{ 'active': phoneFilters.phoneTypeTab == 'new' }" ng-click="phoneFilters.phoneTypeTab = 'new'">
+                        <div class="tab" ng-class="{ 'active': mobileEnrollment.phoneTypeTab == 'new' }" ng-click="mobileEnrollment.phoneTypeTab = 'new'">
                             <h1>@Html.Sitecore().Field("Header - Shop Phones")</h1>
                         </div>
-                        <div class="tab" ng-class="{ 'active': phoneFilters.phoneTypeTab == 'existing' }" ng-click="phoneFilters.phoneTypeTab = 'existing'; clearPhoneSelection()">
+                        <div class="tab" ng-class="{ 'active': mobileEnrollment.phoneTypeTab == 'existing' }" ng-click="mobileEnrollment.phoneTypeTab = 'existing'; clearPhoneSelection()">
                             <h1>@Html.Sitecore().Field("Header - Bring Your Own Phone")</h1>
                         </div>
                     </header>
@@ -26,8 +26,8 @@
                     <h1>@Html.Sitecore().Field("Header - Bring Your Own Phone")</h1>
                 </header>
                 @* New Phone Template *@
-                <toggle-pane name="new" value="phoneFilters.phoneTypeTab">
-                    <div class="content" ng-if="!phoneFilters.selectedPhone">
+                <toggle-pane name="new" value="mobileEnrollment.phoneTypeTab">
+                    <div class="content" ng-if="!selectedPhone">
                         <div class="filters">
                             <div class="group">
                                 <div class="item">
@@ -53,13 +53,13 @@
                             <div class="group" ng-if="displayFilters">
                                 <div class="item group-col">
                                     <label class="block-label">@Html.Sitecore().Field("Filter - Brands")</label>
-                                    <span ng-repeat="brand in mobileService.getBrands()">
+                                    <span ng-repeat="brand in mobileEnrollmentService.getBrands()">
                                         <label class="filter-label"><input type="checkbox" value="{{ brand }}" ng-checked="phoneFilters.brand.indexOf(brand) > -1" ng-click="toggleBrands(brand)">{{ brand }}</label>
                                     </span>
                                 </div>
                                 <div class="item group-col">
                                     <label class="block-label">@Html.Sitecore().Field("Filter - OS")</label>
-                                    <span ng-repeat="os in mobileService.getOSs()">
+                                    <span ng-repeat="os in mobileEnrollmentService.getOSs()">
                                         <label class="filter-label"><input type="checkbox" value="{{ os }}" ng-checked="phoneFilters.os.indexOf(os) > -1" ng-click="toggleOSs(os)">{{ os }}</label>
                                     </span>
                                 </div>
@@ -68,22 +68,22 @@
                         <div class="stretch-full form">
                             <div class="phone-selector">
                                 @* Would like to change this out for using the model, but getting rid of ng-repeat will take some extra work *@
-                                <div class="grid three" ng-repeat="phone in mobileService.getPhones() | phoneFilter: phoneFilters | partition: 3">
+                                <div class="grid three" ng-repeat="phone in mobileEnrollmentService.getPhones() | phoneFilter: phoneFilters | partition: 3">
                                     <div class="col" ng-repeat="item in phone">
                                         <div class="product-image">
                                             <img ng-src="{{ item.imageUrl }}" />
                                         </div>
                                         <h3>{{ item.name }}</h3>
                                         <div class="price">
-                                            <div ng-if="mobileService.getConditionPrice(item.id, 'New')">
+                                            <div ng-if="mobileEnrollmentService.getConditionPrice(item.id, 'New')">
                                                 <span>@Html.Sitecore().Field("New From")</span>
-                                                {{ mobileService.getConditionPrice(item.id, 'New') | currency }}
+                                                {{ mobileEnrollmentService.getConditionPrice(item.id, 'New') | currency }}
                                             </div>
-                                            <div ng-if="mobileService.getConditionPrice(item.id, 'Reconditioned') && !mobileService.getConditionPrice(item.id, 'New')">
+                                            <div ng-if="mobileEnrollmentService.getConditionPrice(item.id, 'Reconditioned') && !mobileEnrollmentService.getConditionPrice(item.id, 'New')">
                                                 <span>@Html.Sitecore().Field("Reconditioned From")</span>
-                                                {{ mobileService.getConditionPrice(item.id, 'Reconditioned') | currency }}
+                                                {{ mobileEnrollmentService.getConditionPrice(item.id, 'Reconditioned') | currency }}
                                             </div>
-                                            <span>@Html.Sitecore().Field("Lease From") {{ mobileService.getConditionPrice(item.id, 'Lease') | currency }}</span>
+                                            <span>@Html.Sitecore().Field("Lease From") {{ mobileEnrollmentService.getConditionPrice(item.id, 'Lease') | currency }}</span>
                                         </div>
                                         <button ng-click="setSelectedPhone(item.id)">@Html.Sitecore().Field("Button - Select Phone")</button>
                                     </div>
@@ -101,7 +101,7 @@
                 @* Phone Details Overlay *@
                 @foreach (var phone in Model.MobilePhones)
                 {
-                    <toggle-pane name="@Html.Raw(phone.Name)" value="phoneFilters.selectedPhone">
+                    <toggle-pane name="@Html.Raw(phone.Name)" value="selectedPhone.name">
                         <div class="content">
                             <div class="clearfix">
                                 <i class="icon-close pull-right" ng-click="clearPhoneSelection()"></i>
@@ -136,7 +136,7 @@
                                 <div class="item simple-options-item">
                                     <label>@Html.Sitecore().Field("Select Size")</label>
                                     <div class="btn-group btn-group-options">
-                                        <a href="" ng-repeat="size in mobileService.getPhoneSizes('@phone.Id')" class="button btn-group-arrow" ng-model="phoneOptions.size" btn-radio="'{{ size }}'" class="size">
+                                        <a href="" ng-repeat="size in mobileEnrollmentService.getPhoneSizes('@phone.Id')" class="button btn-group-arrow" ng-model="phoneOptions.size" btn-radio="'{{ size }}'" class="size">
                                             <span>{{ size }}</span>
                                         </a>
                                     </div>
@@ -148,7 +148,7 @@
                                         <span class="label-description">@Html.Sitecore().Field("Purchase Options Description")</span>
                                     </label>
                                     <div class="btn-group btn-group-options">
-                                        <a href="" ng-repeat="model in mobileService.getPricesForSize('@phone.Id', phoneOptions.size)" class="button" ng-model="phoneOptions.condition" btn-radio="'{{ model.condition }}'">{{ model.condition }}<br /><span>{{ model.price | currency }}</span></a>
+                                        <a href="" ng-repeat="model in mobileEnrollmentService.getPricesForSize('@phone.Id', phoneOptions.size)" class="button" ng-model="phoneOptions.condition" btn-radio="'{{ model.condition }}'">{{ model.condition }}<br /><span>{{ model.price | currency }}</span></a>
                                     </div>
                                 </div>
                                 <div class="item">
@@ -166,26 +166,22 @@
                                         <span class="label-description">@Html.Sitecore().Field("Phone Number Description")</span>
                                     </label>
                                     <div class="btn-group btn-group-options">
-                                        <a href="" class="button btn-group-arrow btn-phone-number" ng-model="phoneOptions.number" btn-radio="'new'">@Html.Sitecore().Field("Assign New Number")</a>
-                                        <a href="" class="button btn-group-arrow btn-phone-number" ng-model="phoneOptions.number" btn-radio="'existing'">@Html.Sitecore().Field("Transfer My Number")</a>
+                                        <a href="" class="button btn-group-arrow btn-phone-number" ng-model="phoneOptions.number.type" btn-radio="'new'">@Html.Sitecore().Field("Assign New Number")</a>
+                                        <a href="" class="button btn-group-arrow btn-phone-number" ng-model="phoneOptions.number.type" btn-radio="'existing'">@Html.Sitecore().Field("Transfer My Number")</a>
                                     </div>
-                                    <div class="btn-group btn-group-options phone-number-group" ng-if="phoneOptions.number == 'existing'">
+                                    <div class="btn-group btn-group-options phone-number-group" ng-if="phoneOptions.number.type == 'existing'">
                                         <div class="button button-type-border">
-                                            @Html.Sitecore().Field("Existing Number")
+                                            @Html.Sitecore().Field("Label - Enter Existing Number")
                                             <div class="pull-right">
-                                                <input type="text" class="small" name="" value="" maxlength="3">
-                                                <input type="text" class="small" name="" value="XXX" disabled>
-                                                <input type="text" class="small" name="" value="XXXX" disabled>
+                                                <input type="text" ng-model="phoneOptions.number.value" />
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="btn-group btn-group-options phone-number-group" ng-if="phoneOptions.number == 'new'">
+                                    <div class="btn-group btn-group-options phone-number-group" ng-if="phoneOptions.number.type == 'new'">
                                         <div class="button button-type-border">
-                                            @Html.Sitecore().Field("Area Code")
+                                            @Html.Sitecore().Field("Label - Enter Area Code")
                                             <div class="pull-right">
-                                                <input type="text" class="small" name="" value="" maxlength="3">
-                                                <input type="text" class="small" name="" value="" maxlength="3">
-                                                <input type="text" class="small" name="" value="" maxlength="4">
+                                                <input type="text" ng-model="phoneOptions.number.value" />
                                             </div>
                                         </div>
                                     </div>
@@ -193,89 +189,89 @@
                             </div>
                         </div>
                         <footer>
-                            <button type="submit" ng-if="phoneFilters.phoneTypeTab == 'new'" ng-click="addPhoneToCart()" ng-disabled="!isPhoneOptionsValid()">@Html.Sitecore().Field("Button - Add to Cart")</button>
+                            <button type="submit" ng-if="mobileEnrollment.phoneTypeTab == 'new'" ng-click="addDeviceToCart()" ng-disabled="!phoneOptionsValid()">@Html.Sitecore().Field("Button - Add to Cart")</button>
                         </footer>
                     </toggle-pane>
                 }
                 @* Bring Your Own Phone Template *@
-                <toggle-pane name="existing" value="phoneFilters.phoneTypeTab">
+                <toggle-pane name="existing" value="mobileEnrollment.phoneTypeTab">
                     <div class="content form bring-your-own">
-                        @* <h2>@Html.Sitecore().Field("Header - Bring Your Own Network Phone").Format(new { network = "{{ phoneFilters.selectedNetwork }}" })</h2> *@
-                        @Html.Sitecore().Field("Bring Your Phone - Description").Format(new { network = "{{ phoneFilters.selectedNetwork }}" })
-                        @Html.Sitecore().Field("Bring Your Phone - Instructions").Format(new { network = "{{ phoneFilters.selectedNetwork }}" })
+                        @* <h2>@Html.Sitecore().Field("Header - Bring Your Own Network Phone").Format(new { network = "{{ mobileEnrollment.mobileEnrollmentService.selectedNetwork }}" })</h2> *@
+                        @Html.Sitecore().Field("Bring Your Phone - Description").Format(new { network = "{{ mobileEnrollment.mobileEnrollmentService.selectedNetwork }}" })
+                        @Html.Sitecore().Field("Bring Your Phone - Instructions").Format(new { network = "{{ mobileEnrollment.mobileEnrollmentService.selectedNetwork }}" })
 
-                        <div class="grid">
-                            <div class="col">
-                                <h3>@Html.Sitecore().Field("Header - Select Device")</h3>
-                            </div>
-                            <div class="col">
-                                <label>@Html.Sitecore().Field("Label - Select Device")</label>
-                                <div class="group">
-                                    <div class="item">
-                                        <select name="" id="">
-                                            <option value="">Apple</option>
-                                        </select>
+                        <div class="vertical">
+                            <div class="item">
+                                <label>@Html.Sitecore().Field("Header - Select Device")</label>
+                                <div class="btn-group-options">
+                                    <label>@Html.Sitecore().Field("Label - Select Device")</label>
+                                    <div class="group">
+                                        <div class="item">
+                                            <select ng-model="phoneOptions.make">
+                                                <option value="apple">Apple</option>
+                                            </select>
+                                        </div>
+                                        <div class="item">
+                                            <select ng-model="phoneOptions.model">
+                                                <option value="iphone">iPhone</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="item">
-                                        <select name="" id="">
-                                            <option value="">iPhone</option>
-                                        </select>
+                                    <div class="info">@Html.Sitecore().Field("Text - Select Device Info")</div>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="item">
+                                <label>@Html.Sitecore().Field("Header - IMEI Number")</label>
+                                <div class="btn-group-options">
+                                    <label>@Html.Sitecore().Field("Label - IMEI Number")</label>
+                                    <input type="text" ng-model="phoneOptions.imeiNumber" />
+                                    <p class="note"><a href="#">@Html.Sitecore().Field("Text - IMEI Number Instructions Link")</a></p>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="item">
+                                <label>
+                                    @Html.Sitecore().Field("Header - SIM Card Number")
+                                    <span class="label-description">@Html.Sitecore().Field("Text - SIM Card Number Note")</span>
+                                </label>
+                                <div class="btn-group-options">
+                                    <label>@Html.Sitecore().Field("Label - SIM Card Number")</label>
+                                    <input type="text" ng-model="phoneOptions.simNumber" />
+                                    <p class="note"><a href="#">@Html.Sitecore().Field("Text - SIM Card Number Instructions Link")</a></p>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="item">
+                                <label>
+                                    @Html.Sitecore().Field("Phone Number")<br />
+                                    <span class="label-description">@Html.Sitecore().Field("Phone Number Description")</span>
+                                </label>
+                                <div class="btn-group btn-group-options">
+                                    <a href="" class="button btn-group-arrow btn-phone-number" ng-model="phoneOptions.number.type" btn-radio="'new'">@Html.Sitecore().Field("Assign New Number")</a>
+                                    <a href="" class="button btn-group-arrow btn-phone-number" ng-model="phoneOptions.number.type" btn-radio="'existing'">@Html.Sitecore().Field("Transfer My Number")</a>
+                                </div>
+                                <div class="btn-group btn-group-options phone-number-group" ng-if="phoneOptions.number.type == 'existing'">
+                                    <div class="button button-type-border">
+                                        @Html.Sitecore().Field("Label - Enter Existing Number")
+                                        <div class="pull-right">
+                                            <input type="text" ng-model="phoneOptions.number.value" />
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="info">@Html.Sitecore().Field("Text - Select Device Info")</div>
-                            </div>
-                        </div>
-                        <hr />
-                        <div class="grid">
-                            <div class="col">
-                                <h3>@Html.Sitecore().Field("Header - IMEI Number")</h3>
-                            </div>
-                            <div class="col">
-                                <label>@Html.Sitecore().Field("Label - IMEI Number")</label>
-                                <input type="text" />
-                                <p class="note"><a href="#">@Html.Sitecore().Field("Text - IMEI Number Instructions Link")</a></p>
-                            </div>
-                        </div>
-                        <hr />
-                        <div class="grid">
-                            <div class="col">
-                                <h3>@Html.Sitecore().Field("Header - SIM Card Number")</h3>
-                                <p class="note">@Html.Sitecore().Field("Text - SIM Card Number Note")</p>
-                            </div>
-                            <div class="col">
-                                <label>@Html.Sitecore().Field("Label - SIM Card Number")</label>
-                                <input type="text" />
-                                <p class="note"><a href="#">@Html.Sitecore().Field("Text - SIM Card Number Instructions Link")</a></p>
-                            </div>
-                        </div>
-                        <hr />
-                        <div class="grid">
-                            <div class="col">
-                                <h3>@Html.Sitecore().Field("Header - Phone Number")</h3>
-                                <p class="note">@Html.Sitecore().Field("Text - Phone Number Note")</p>
-                            </div>
-                            <div class="col">
-                                <ul class="phone-number">
-                                    <li ng-class="{selected:phoneNumberType=='new'}">
-                                        <a href="#" ng-click="setPhoneNumberType('new')">@Html.Sitecore().Field("Button - Assign New Number")</a>
-                                    </li>
-                                    <li ng-class="{selected:phoneNumberType=='transfer'}">
-                                        <a href="#" ng-click="setPhoneNumberType('transfer')">@Html.Sitecore().Field("Button - Transfer My Number")</a>
-                                    </li>
-                                </ul>
-                                <toggle-pane name="new" value="phoneNumberType" class="phone-number-field new">
-                                    @Html.Sitecore().Field("Label - Enter Existing Number")
-                                    <input type="text" />
-                                </toggle-pane>
-                                <toggle-pane name="transfer" value="phoneNumberType" class="phone-number-field transfer">
-                                    @Html.Sitecore().Field("Label - Enter Area Code")
-                                    <input type="text" />
-                                </toggle-pane>
+                                <div class="btn-group btn-group-options phone-number-group" ng-if="phoneOptions.number.type == 'new'">
+                                    <div class="button button-type-border">
+                                        @Html.Sitecore().Field("Label - Enter Area Code")
+                                        <div class="pull-right">
+                                            <input type="text" ng-model="phoneOptions.number.value" />
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <footer>
-                        <button type="submit" ng-click="setCurrentStep('configure-data');" ng-if="phoneFilters.phoneTypeTab == 'existing'">@Html.Sitecore().Field("Button - Add Device")</button>
+                        <button type="submit" ng-click="addDeviceToCart()">@Html.Sitecore().Field("Button - Add Device")</button>
                     </footer>
                 </toggle-pane>
             </article>

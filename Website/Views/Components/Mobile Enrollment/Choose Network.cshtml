@@ -15,7 +15,7 @@
             <header>
                 <h1>
                     @Html.Sitecore().Field("Header - Choose Network")
-                    <select ng-model="mobileFields.state" ng-options="state.abbreviation as state.display for state in usStates"></select>
+                    <select ng-model="mobileEnrollmentService.state" ng-options="state.abbreviation as state.display for state in usStates"></select>
                 </h1>
             </header>
             <div class="content">
@@ -49,31 +49,43 @@
                     <table class="choose-network-table">
                         <thead>
                             <tr>
-                                <th>@Html.Sitecore().Field("Table Header - Plans")</th>
-                                <th>@Html.Sitecore().Field("Table Header - Coverage")</th>
-                                <th>@Html.Sitecore().Field("Table Header - Devices")</th>
-                                <th>@Html.Sitecore().Field("Table Header - Get Started")</th>
+                                <th class="plans">@Html.Sitecore().Field("Table Header - Plans")</th>
+                                <th class="coverage">@Html.Sitecore().Field("Table Header - Coverage")</th>
+                                <th class="devices">@Html.Sitecore().Field("Table Header - Devices")</th>
+                                <th class="select-network">@Html.Sitecore().Field("Table Header - Get Started")</th>
                             </tr>
                         </thead>
-                        @foreach (var network in Model.MobileNetworks)
-                        {
-                            <tbody class="@Html.Raw(network.Value)">
-                                <tr ng-if="isAvailableNetwork('@network.Value')">
-                                    <td class="plans">@Html.Raw(network.Description)</td>
-                                    <td class="coverage">@Html.Raw(network.Coverage)</td>
-                                    <td class="devices">@Html.Raw(network.Device)</td>
-                                    <td class="select-network">
-                                        @Html.Sitecore().Field("Text - Get Started").Format(new { price = @network.StartingPrice })
-                                        <!--<button type="button" ng-click="ctrl.chooseNetwork('@Html.Raw(network.Value)', 'new')">@Html.Sitecore().Field("Button - Shop Devices")</button>
-                                        <button type="button" ng-click="ctrl.chooseNetwork('@Html.Raw(network.Value)', 'existing')">@Html.Sitecore().Field("Button - Bring My Own Phone")</button>-->
-                                        <button type="button" ng-click="chooseNetwork('@Html.Raw(network.Value)', 'existing')">
-                                            @Html.Sitecore().Field("Button - Get Started")
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        }
                     </table>
+                    @foreach (var network in Model.MobileNetworks)
+                    {
+                        @* Using idividual tabls and the wrapper so we can put the "Coming Soon" overlay over the Sprint table. Should combine back into one table when both networks launch. *@
+                        <div class="choose-network-table-wrapper @Html.Raw(network.Value)">
+                            <table class="choose-network-table">
+                                <tbody>
+                                    <tr ng-if="isAvailableNetwork('@network.Value')">
+                                        <td class="plans">@Html.Raw(network.Description)</td>
+                                        <td class="coverage">@Html.Raw(network.Coverage)</td>
+                                        <td class="devices">@Html.Raw(network.Device)</td>
+                                        <td class="select-network">
+                                            @Html.Sitecore().Field("Text - Get Started").Format(new { price = @network.StartingPrice })
+                                            <!--<button type="button" ng-click="chooseNetwork('@Html.Raw(network.Value)', 'new')">@Html.Sitecore().Field("Button - Shop Devices")</button>
+                                            <button type="button" ng-click="chooseNetwork('@Html.Raw(network.Value)', 'existing')">@Html.Sitecore().Field("Button - Bring My Own Phone")</button>-->
+
+                                            <button type="button" ng-click="chooseNetwork('@Html.Raw(network.Value)', 'new')">@Html.Sitecore().Field("Button - Shop Devices")</button>
+                                            <button type="button" ng-click="chooseNetwork('@Html.Raw(network.Value)', 'existing')">
+                                                @Html.Sitecore().Field("Button - Get Started")
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            @if (network.Value == "sprint")
+                            {
+                                <div class="overlay"></div>
+                                <span class="text">Coming Soon</span>
+                            }
+                        </div>
+                    }
                 </div>
             </div>
         </article>
