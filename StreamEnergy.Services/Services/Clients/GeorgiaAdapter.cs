@@ -188,25 +188,30 @@ namespace StreamEnergy.Services.Clients
 
         DomainModels.Accounts.ISubAccount ILocationAdapter.BuildSubAccount(Address serviceAddress, dynamic details)
         {
-            var productData = sitecoreProductData.GetGeorgiaGasProductData((string)details.AccountPlanDetails.ProductCode) ?? new SitecoreProductInfo
+            var result = new DomainModels.Accounts.GeorgiaGasAccount
+            {
+                Id = details.UtilityAccountNumber,
+                ServiceAddress = serviceAddress,
+            };
+
+            if (details.AccountPlanDetails != null)
+            {
+                var productData = sitecoreProductData.GetGeorgiaGasProductData((string)details.AccountPlanDetails.ProductCode) ?? new SitecoreProductInfo
                 {
                     Fields = new System.Collections.Specialized.NameValueCollection()
                 };
 
-            return new DomainModels.Accounts.GeorgiaGasAccount
-            {
-                Id = details.UtilityAccountNumber,
-                ServiceAddress = serviceAddress,
-                ProviderId = details.AccountPlanDetails.ProviderId,
-                Rate = (decimal)details.AccountPlanDetails.RateValue.Value,
-                RateType = (details.AccountPlanDetails.Type == "Fixed") ? RateType.Fixed : RateType.Variable,
-                TermMonths = details.AccountPlanDetails.Term,
-                ProductId = details.AccountPlanDetails.ProductId,
-                ProductCode = details.AccountPlanDetails.ProductCode,
-                ProductName = productData.Fields["Name"] ?? details.AccountPlanDetails.Name,
-                ProductDescription = productData.Fields["Description"] ?? details.AccountPlanDetails.Description,
-                EarlyTerminationFee = productData.Fields["Early Termination Fee"]
-            };
+                result.ProviderId = details.AccountPlanDetails.ProviderId;
+                result.Rate = (decimal)details.AccountPlanDetails.RateValue.Value;
+                result.RateType = (details.AccountPlanDetails.Type == "Fixed") ? RateType.Fixed : RateType.Variable;
+                result.TermMonths = details.AccountPlanDetails.Term;
+                result.ProductId = details.AccountPlanDetails.ProductId;
+                result.ProductCode = details.AccountPlanDetails.ProductCode;
+                result.ProductName = productData.Fields["Name"] ?? details.AccountPlanDetails.Name;
+                result.ProductDescription = productData.Fields["Description"] ?? details.AccountPlanDetails.Description;
+                result.EarlyTerminationFee = productData.Fields["Early Termination Fee"];
+            }
+            return result;
         }
 
         string ILocationAdapter.GetProductId(DomainModels.Accounts.ISubAccount subAccount)
